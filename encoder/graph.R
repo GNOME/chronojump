@@ -801,8 +801,18 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		abline(v=maxSpeedT, col=cols[1])
 		points(maxSpeedT, max(speed$y),col=cols[1])
 		mtext(text=paste(round(max(speed$y),2),"m/s",sep=""),side=3,
-		      at=maxSpeedT,cex=.8,col=cols[1], line=.2)
+		      at=maxSpeedT,cex=.8,col=cols[1], line=.5)
 		mtext(text=maxSpeedT,side=1,at=maxSpeedT,cex=.8,col=cols[1],line=-.2)
+
+		if(eccon != "c") {
+			minSpeedT=min(which(speed$y == min(speed$y)))
+			
+			abline(v=minSpeedT, col=cols[1])
+			points(minSpeedT, min(speed$y),col=cols[1])
+			mtext(text=paste(round(min(speed$y),2),"m/s",sep=""),side=3,
+			      at=minSpeedT,cex=.8,col=cols[1], line=.5)
+			mtext(text=minSpeedT,side=1,at=minSpeedT,cex=.8,col=cols[1],line=-.2)
+		}
 	}
 
 
@@ -875,8 +885,12 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			      side=1,at=min(isometric),adj=1,cex=.8,col=cols[1])
 			mtext(text=paste(" ", round(max(isometric),1),sep=""), 
 			      side=1,at=max(isometric),adj=0,cex=.8,col=cols[1])
-			mtext(text=paste(translate("eccentric")," ",sep=""),side=3,at=max(eccentric),cex=.8,adj=1,col=cols[1],line=.5)
-			mtext(text=paste(" ",translate("concentric"),sep=""),side=3,at=min(concentric),cex=.8,adj=0,col=cols[1],line=.5)
+
+			#don't need to show eccentric and concentric. It's pretty clear
+			#mtext(text=paste(translate("eccentric")," ",sep=""),side=3,at=max(eccentric),cex=.8,adj=1,col=cols[1],line=.5)
+			#mtext(text=paste(" ",translate("concentric"),sep=""),side=3,at=min(concentric),cex=.8,adj=0,col=cols[1],line=.5)
+			mtext(text="ecc ",side=3,at=max(eccentric),cex=.8,adj=1,col=cols[1],line=.5)
+			mtext(text=" con",side=3,at=min(concentric),cex=.8,adj=0,col=cols[1],line=.5)
 		}
 	}
 	
@@ -1157,8 +1171,20 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	if(draw & !superpose & showPower) {
 		abline(v=peakPowerT, col=cols[3])
 		points(peakPowerT, max(powerTemp),col=cols[3])
-		mtext(text=paste(round(max(powerTemp),1),"W",sep=""),side=3,at=peakPowerT,adj=0.5,cex=.8,col=cols[3],line=-.2)
+		mtext(text=paste(round(max(powerTemp),1),"W",sep=""),side=3,
+		      at=peakPowerT,cex=.8,col=cols[3],line=-.2)
 		mtext(text=peakPowerT,side=1,at=peakPowerT,cex=.8,col=cols[3],line=.2)
+		
+		#don't show min power on repetitions where power it's in abs (like inertial)
+		if(eccon != "c" && min(power) < 0) {
+			minPowerT <- min(which(power == min(powerTemp)))
+
+			abline(v=minPowerT, col=cols[3])
+			points(minPowerT, min(powerTemp),col=cols[3])
+			mtext(text=paste(round(min(powerTemp),1),"W",sep=""),side=3,
+			      at=minPowerT,cex=.8,col=cols[3],line=-.2)
+			mtext(text=minPowerT,side=1,at=minPowerT,cex=.8,col=cols[3],line=.2)
+		}
 	}
 	
 	#time to arrive to peak power negative on con-ecc

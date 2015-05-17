@@ -776,7 +776,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	speed <- getSpeed(displacement, smoothing)
        	
 	if(draw & showSpeed) {
-		ylim=c(-max(abs(range(displacement))),max(abs(range(displacement))))	#put 0 in the middle 
+		ylimHeight = max(abs(range(speed$y)))
+		ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
 		if(knRanges[1] != "undefined")
 			ylim = knRanges$speedy
 		par(new=T)
@@ -941,7 +942,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	}
 
 	if(draw) {
-		ylim=c(-max(abs(range(accel$y))),max(abs(range(accel$y))))	 #put 0 in the middle
+		ylimHeight = max(abs(range(accel$y)))
+		ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
 		if(knRanges[1] != "undefined")
 			ylim = knRanges$accely
 
@@ -1009,7 +1011,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 
 
 	if(draw & showForce) {
-		ylim=c(-max(abs(range(force))),max(abs(range(force))))	 #put 0 in the middle
+		ylimHeight = max(abs(range(force)))
+		ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
 		if(knRanges[1] != "undefined")
 			ylim = knRanges$force
 		par(new=T)
@@ -1098,7 +1101,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 
 
 	if(draw & showPower) {
-		ylim=c(-max(abs(range(power))),max(abs(range(power))))	#put 0 in the middle
+		ylimHeight = max(abs(range(power)))
+		ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
 		if(knRanges[1] != "undefined")
 			ylim = knRanges$power
 		par(new=T);

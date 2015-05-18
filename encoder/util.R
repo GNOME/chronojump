@@ -146,7 +146,34 @@ extrema <- function(y, ndata = length(y), ndatam1 = ndata - 1) {
 			}
 			ncross <- nrow(cross)        
 		}
-	} 
+	}
+
+	#extrema cross working:
+	#a=c(-3,-2,-1,0,1,2,1)
+	#extrema(a)$cross
+	#     [,1] [,2]
+	#[1,]    4    4
+	#extrema(a)$ncross
+	#[1] 1
+	#
+	#But, if there's no change of direction, cross does not find anything:
+	#a=c(-3,-2,-1,0,1,2)
+	#extrema(a)$cross
+	#NULL
+	#extrema(a)$ncross
+	#[1] 0
+	#
+	#then find a cross in this situation. Find just one cross.
+	if(ncross == 0)	{
+		positiveAtStart = (y[1] >= 0)
+		for(i in 1:length(y)) {
+			if( (y[i] >= 0) != positiveAtStart) { #if there's a sign change
+				cross = rbind(cross, c(i-1,i))
+				ncross = 1
+				break
+			}
+		}
+	}
 
 	list(minindex=minindex, maxindex=maxindex, nextreme=nextreme, cross=cross, ncross=ncross)
 }

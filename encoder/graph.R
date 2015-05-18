@@ -149,7 +149,7 @@ translateVector <- function(englishVector) {
 #this is equal to runEncoderCaptureCsharp()
 #but note getDisplacement hapens before this function, so no need getDisplacement here
 #also don't need byteReadedRaw, and encoderReadedRaw. encoderReaded is 'displacement' here
-findCurvesNew <- function(displacement, eccon, min_height, draw, title) 
+findCurvesNew <- function(displacement, eccon, isInertial, min_height, draw, title) 
 {
 	#---- 1) declare variables ----
 	
@@ -355,6 +355,26 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 			endStored[count] = endStoredOld[(i+1)]
 			startHStored[count] = startHStoredOld[i]
 			count = count +1
+		}
+
+		#be careful on ec inertial to send an startStored of 1220.5 because can use the 1220 that can be a positive displacement
+		#and then the 1221 can be negative and also the rest
+		#then is better to take the second number (do ceiling) to avoid a change of direction on the beginning of the movement
+		#
+		#    AB          C
+		#    /\          /\
+		#   /  \        /
+		#  /    \      /
+		# /      \    /
+		#         \__/
+		#
+		# On this example a ec can go from B to C. If it uses A,
+		#then there will be a change of direction that will make getSpeed to produce a mistaken spline
+
+		if(isInertial) {
+			for(i in 1:length(startStored)) {
+				startStored[i] = ceiling(startStored[i])
+			}
 		}
 	}
 
@@ -573,10 +593,10 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				
 				#get max speed at "c"
 				print("calling speed 1")
-				print("unique(concentric)")
-				print(unique(concentric))
-				print("concentric")
-				print(concentric)
+				#print("unique(concentric)")
+				#print(unique(concentric))
+				#print("concentric")
+				#print(concentric)
 				
 				speed <- getSpeed(concentric, smoothingOneC)
 				print("called")
@@ -774,7 +794,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 
 	#speed
 	speed <- getSpeed(displacement, smoothing)
-       	
+
 	if(draw & showSpeed) {
 		ylimHeight = max(abs(range(speed$y)))
 		ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
@@ -2341,7 +2361,8 @@ doProcess <- function(options)
 		#print(c("displacement",displacement))
 		
 		#curves=findCurvesOld(displacement, op$Eccon, op$MinHeight, curvesPlot, op$Title)
-		curves=findCurvesNew(displacement, op$Eccon, op$MinHeight, curvesPlot, op$Title)
+		curves=findCurvesNew(displacement, op$Eccon, isInertial(op$EncoderConfigurationName), 
+				     op$MinHeight, curvesPlot, op$Title)
 		
 		if(op$Analysis == "curves")
 			curvesPlot = TRUE
@@ -2484,7 +2505,8 @@ doProcess <- function(options)
 			smoothingPos <- 1
 			if(op$Jump %in% rownames(curves))
 				smoothingPos <- which(rownames(curves) == op$Jump)
-
+		
+			
 			paint(displacement, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
 			      1,curves[op$Jump,3],SmoothingsEC[smoothingPos],op$SmoothingOneC,myMassBody,myMassExtra,
 			      myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,

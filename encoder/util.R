@@ -485,6 +485,7 @@ findECPhases <- function(displacement,speed) {
 	#print("speed.ext-Cross")
 	#print(speed.ext$cross[,1])
 	#print("search min cross: crossMinRow")
+
 	crossMinRow=which(speed.ext$cross[,1] > searchMinSpeedEnd & speed.ext$cross[,1] < searchMaxSpeedIni)
 	#print(crossMinRow)
 			
@@ -797,7 +798,7 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 		position = angle * diameterMeters / 2
 		position = position * 1000	#m -> mm
 		#this is to make "inverted cumsum"
-		displacement = c(0,diff(position)) #this displacement is going to be used now
+		displacement = c(position[1],diff(position)) #this displacement is going to be used now
 	} else if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
               encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL"){
 	  displacement = displacement * diameter / diameterExt #displacement of the axis
@@ -814,7 +815,7 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 	  position = angle * diameterMeters / 2
 	  position = position * 500	#m -> mm and the rope moves twice as the body
 	  #this is to make "inverted cumsum"
-	  displacement = c(0,diff(position)) #this displacement is going to be used now
+	  displacement = c(position[1],diff(position)) #this displacement is going to be used now
 	}
 	
 	
@@ -876,7 +877,7 @@ getDisplacementInertialBody <- function(positionStart, displacement, draw, title
 	#don't use it
 	#displacementPerson = c(positionStart,diff(positionPerson))
 	#better have it starting with 0 and then speed calculations... will be correct
-	displacementPerson = c(0,diff(positionPerson))
+	displacementPerson = c(positionPerson[1],diff(positionPerson))
 
 	#write(displacementPerson,stderr())
 	

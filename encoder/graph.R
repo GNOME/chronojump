@@ -1114,7 +1114,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		else {
 			#1 get force only in concentric phase
 			forceConcentric = force[concentric]
-			print(c("forceConcentric",forceConcentric))
+			#print(c("forceConcentric",forceConcentric))
 
 			#2 get takeoff using maxSpeedT but relative to concentric, not all the ecc-con
 			
@@ -1673,8 +1673,8 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 	if(varX == "Inertia")
 		x = x * 10000
 
-	print("seriesName")
-	print(seriesName)
+	#print("seriesName")
+	#print(seriesName)
 
 	colBalls = NULL
 	bgBalls = NULL
@@ -2417,9 +2417,6 @@ doProcess <- function(options)
 		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, op$Eccon, op$SmoothingOneC)
 		print(c("SmoothingsEC:",SmoothingsEC))
 		
-		print("curves after findSmoothingsEC")
-		print(curves)
-
 		if(curvesPlot) {
 			#/10 mm -> cm
 			for(i in 1:length(curves[,1])) { 

@@ -957,7 +957,7 @@ getInertialDiametersPerTick <- function(d_vector)
   d.approx <- predict(d.smoothed, 0:d[length(d[,1]), 1],0)
   return(d.approx$y)
 }
-#Returns the instant diameter every milisecond
+#Returns the instant diameter every milisecond, depending on the displacement of the movement
 getInertialDiametersPerMs <- function(displacement, diametersPerTick)
 {
   if (length(diametersPerTick) == 1) {

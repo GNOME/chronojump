@@ -544,12 +544,20 @@ findCurvesOld <- function(displacement, eccon, min_height, draw, title) {
 	return(as.data.frame(cbind(start,end,startH)))
 }
 
-
-
+findSmoothingsECGetPower <- function(speed)
+{
+	acceleration <- getAcceleration(speed)
+	acceleration$y <- acceleration$y * 1000
+	force <- 50 * (acceleration$y + 9.81) #Do always with 50Kg right now. TODO: See if there's a need of real mass value
+	power <- force * speed$y
+	return(power)
+}
 #called on "ec" and "ce" to have a smoothingOneEC for every curve
 #this smoothingOneEC has produce same speeds than smoothing "c"
 findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingOneC) 
 {
+	#print(c("findSmoothingsEC: eccon smoothingOneC", eccon, smoothingOneC))
+
 	smoothings = NULL
 	n=length(curves[,1])
 
@@ -600,19 +608,32 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				
 				speed <- getSpeed(concentric, smoothingOneC)
 				print("called")
-				maxSpeedC=max(speed$y)
+				#maxSpeedC=max(speed$y)
+				powerC <- findSmoothingsECGetPower(speed)
+				maxPowerC <- max(powerC) 
 
 				#find max speed at "ec" that's similar to maxSpeedC
 				smoothingOneEC = smoothingOneC
-				for(j in seq(as.numeric(smoothingOneC),0,by=-.01)) {
+				for(j in seq(as.numeric(smoothingOneC),0,by=-.01)) 
+				{
 					print("calling speed 2")
 					#write("calling speed 2", stderr())
 					speed <- getSpeed(eccentric.concentric, j)
 					print("called")
+					
 					smoothingOneEC = j
-					maxSpeedEC=max(speed$y)
+					
+					#don't do it base on speed because difference is very tiny
+					#do it based on power
+					#maxSpeedEC=max(speed$y)
 					#write(c("j",j,"maxC",round(maxSpeedC,3),"maxEC",round(maxSpeedEC,3)),stderr())
-					if(maxSpeedEC >= maxSpeedC)
+					#if(maxSpeedEC >= maxSpeedC)
+					#	break
+
+					powerEC <- findSmoothingsECGetPower(speed)
+					maxPowerEC <- max(powerEC) 
+					
+					if(maxPowerEC >= maxPowerC)
 						break
 				}
 
@@ -1493,13 +1514,13 @@ findInertialCurves <- function(paf) {
 	write("findInertialCurves",stderr())
 
 	im = paf[,findPosInPaf("Inertia", "")]
-	write(im,stderr())
+	#write(im,stderr())
 
 	if(length(im) < 1)
 		return (FALSE)
 
 	for(i in 1:length(im)) {
-		write(c("im: ", im[i]),stderr())
+		#write(c("im: ", im[i]),stderr())
 		if(im[i] > 0) {
 			return (TRUE)
 		}

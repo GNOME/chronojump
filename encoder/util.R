@@ -367,8 +367,8 @@ reduceCurveBySpeed <- function(eccon, row, startT, startH, displacement, smoothi
 #eccon="ecS" means ecSeparated. two times each curve: one for "e", one for "c"
 kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWeight,
 			encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
-			smoothingOneEC, smoothingOneC, g, eccon, isPropulsive) {
-
+			smoothingOneEC, smoothingOneC, g, eccon, isPropulsive)
+{
 	smoothing = 0
 	if(eccon == "c" || eccon == "e")
 		smoothing = smoothingOneC
@@ -376,7 +376,7 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 		smoothing = smoothingOneEC
 	
 
-	#print(c(" smoothing:",smoothing))
+	print(c("eccon, smoothing:",eccon, smoothing))
 
 	#x vector should contain at least 4 different values
 	if(length(displacement) >= 4)
@@ -455,6 +455,8 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 
 	if(inertiaMomentum > 0 && (eccon == "e" || eccon == "ec") && accel$y[1] < 0)
 		start <- min(which(accel$y > 0))
+
+	#print(c("kinematicsF start end",start,end))
 
 	return(list(
 		    speedy = speed$y[start:end], 

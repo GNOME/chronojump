@@ -594,21 +594,21 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					start = 0
 					end = mean(which(position == max(position)))
 				}
-				print("start, end")
-				print(c(start, end))
+				#print("start, end")
+				#print(c(start, end))
 
 				concentric=displacement[(curves[i,1]+start):(curves[i,1]+end)]
 				
 				#get max speed at "c"
-				print("calling speed 1")
+				#print("calling speed 1")
 				#print("unique(concentric)")
 				#print(unique(concentric))
 				#print("concentric")
 				#print(concentric)
 				
 				speed <- getSpeed(concentric, smoothingOneC)
-				print("called")
 				#maxSpeedC=max(speed$y)
+				
 				powerC <- findSmoothingsECGetPower(speed)
 				maxPowerC <- max(powerC) 
 
@@ -616,10 +616,8 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				smoothingOneEC = smoothingOneC
 				for(j in seq(as.numeric(smoothingOneC),0,by=-.01)) 
 				{
-					print("calling speed 2")
 					#write("calling speed 2", stderr())
 					speed <- getSpeed(eccentric.concentric, j)
-					print("called")
 					
 					smoothingOneEC = j
 					

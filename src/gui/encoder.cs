@@ -2717,15 +2717,22 @@ public partial class ChronoJumpWindow
 	}
 	
 	/*
-	 * if we are analyzing current set and it's concentric
-	 * separate phases button has to be unsensitive
+	 * 1) neurmuscular should be separated
+	 * 2) if we are analyzing current set and it's concentric separate phases button has to be unsensitive
+	 * 3) single and side are together
 	 */
 	private void block_check_encoder_analyze_eccon_together_if_needed() 
 	{
-		if(
-				check_encoder_analyze_signal_or_curves.Active &&
-				findEccon(false) == "c") 
-		{
+		if(radiobutton_encoder_analyze_neuromuscular_profile.Active) { // 1)
+			//separated, mandatory
+			check_encoder_analyze_eccon_together.Sensitive = false;
+			check_encoder_analyze_eccon_together.Active = false;
+		}
+		else if( 
+				( check_encoder_analyze_signal_or_curves.Active && findEccon(false) == "c" ) || // 2)
+				radiobutton_encoder_analyze_single.Active || radiobutton_encoder_analyze_side.Active // 3)
+		  ) {
+			//together, mandatory
 			check_encoder_analyze_eccon_together.Sensitive = false;
 			check_encoder_analyze_eccon_together.Active = true;
 		}

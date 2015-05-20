@@ -30,7 +30,7 @@ findSmoothingsECGetPower <- function(speed)
 
 #---- read data ----
 
-d <- scan(file=as.vector("ec-ecS-smooth-comparison.R"),sep=",")
+d <- scan(file=as.vector("ec-ecS-smooth-comparison-signal.txt"),sep=",")
 #Read 11564 items
 
 plot(d)

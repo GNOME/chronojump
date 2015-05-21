@@ -31,7 +31,6 @@ using System.Collections.Generic; //List
 public partial class ChronoJumpWindow 
 {
 	//RFID
-	[Widget] Gtk.Button button_encoder_maximize;
 	[Widget] Gtk.Box hbox_rfid;
 	[Widget] Gtk.Label label_rfid;
 
@@ -60,8 +59,6 @@ public partial class ChronoJumpWindow
 		if(linuxType == linuxTypeEnum.RASPBERRY || linuxType == linuxTypeEnum.NETWORKS) {
 			alignment_video_encoder.Visible = false;
 			//TODO: put the no connect video here.
-	
-			button_encoder_maximize.Visible = true;
 		}
 
 		if(linuxType == linuxTypeEnum.NETWORKS) {
@@ -86,10 +83,10 @@ public partial class ChronoJumpWindow
 		}
 
 		//si es rapsberry o si es networks cal desactivar camera
-	}
-
-	void on_button_encoder_maximize_clicked (object o, EventArgs args) {
-		app1.Maximize();
+		
+		//maximize now, at the end of tweaks
+		if(linuxType == linuxTypeEnum.RASPBERRY || linuxType == linuxTypeEnum.NETWORKS)
+			app1.Maximize();
 	}
 
 	//rfid

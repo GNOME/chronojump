@@ -800,7 +800,8 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 		position = angle * diameterMeters / 2
 		position = position * 1000	#m -> mm
 		#this is to make "inverted cumsum"
-		displacement = c(position[1],diff(position)) #this displacement is going to be used now
+		displacement = diff(position) #this displacement is going to be used now
+		displacement = c(displacement[1],displacement) #this is to recuperate the lost 1st value in the diff operation
 	} else if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
               encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL"){
 	  displacement = displacement * diameter / diameterExt #displacement of the axis
@@ -817,7 +818,8 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 	  position = angle * diameterMeters / 2
 	  position = position * 500	#m -> mm and the rope moves twice as the body
 	  #this is to make "inverted cumsum"
-	  displacement = c(position[1],diff(position)) #this displacement is going to be used now
+	  displacement = diff(position) #this displacement is going to be used now
+	  displacement = c(displacement[1],displacement) #this is to recuperate the lost 1st value in the diff operation
 	}
 	
 	
@@ -879,7 +881,12 @@ getDisplacementInertialBody <- function(positionStart, displacement, draw, title
 	#don't use it
 	#displacementPerson = c(positionStart,diff(positionPerson))
 	#better have it starting with 0 and then speed calculations... will be correct
-	displacementPerson = c(positionPerson[1],diff(positionPerson))
+	#displacementPerson = c(positionPerson[1],diff(positionPerson))
+	#displacementPerson = diff(positionPerson)
+	#displacementPerson = c(displacementPerson[1],displacementPerson) #this is to recuperate the lost 1st value in the diff operation
+
+	#Important: In this case, as written aboce, the first 0 should be a 0, don't touch it!
+	displacementPerson = c(0,diff(positionPerson))
 
 	#write(displacementPerson,stderr())
 	

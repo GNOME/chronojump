@@ -198,7 +198,8 @@ public partial class ChronoJumpWindow
 	private ArrayList encoderCompareInterperson;	//personID:personName
 	private ArrayList encoderCompareIntersession;	//sessionID:sessionDate
 
-	private static double [] encoderReaded;		//data coming from encoder and converted (can be double)
+	//private static double [] encoderReaded;		//data coming from encoder and converted (can be double)
+	private static int [] encoderReaded;		//data coming from encoder and converted
 	private static int encoderCaptureCountdown;
 	private static Gdk.Point [] encoderCapturePoints;		//stored to be realtime displayed
 	private static int encoderCapturePointsCaptured;		//stored to be realtime displayed
@@ -2021,15 +2022,10 @@ public partial class ChronoJumpWindow
 		//int recordingTime = es.Ep.Time * 1000;
 		int recordingTime = time * 1000;
 		
-		//this is what's readed from encoder, as it's linear (non-inverted, not inertial, ...)
-		//it's stored in file like this
-		int byteReadedRaw;
-		//this it's converted applying encoderConfigurationConversions: inverted, inertial, diameter, gearedDown, ...
-		double byteReaded;
+		int byteReaded;
 		
 		//initialize
-		int [] encoderReadedRaw = new int[recordingTime]; //stored to file in this method
-		encoderReaded = new double[recordingTime];
+		encoderReaded = new int[recordingTime];
 	
 		double sum = 0;
 		string dataString = "";
@@ -2068,11 +2064,6 @@ public partial class ChronoJumpWindow
 		int previousEnd = 0;
 		int lastNonZero = 0;
 		
-		//used to send the heightAtCurveStart to R
-		//this is need on inertial to convert on direction curve (recorded by encoder) to a con-ecc curve (done by the person)
-		double heightAtCurveStart = 0;
-		double heightAccumulated = 0;
-
 		//this will be used to stop encoder automatically	
 		int consecutiveZeros = -1;		
 		int consecutiveZerosMax = (int) encoderCaptureOptionsWin.spin_encoder_capture_inactivity_end_time.Value * 1000;
@@ -2097,7 +2088,7 @@ public partial class ChronoJumpWindow
 
 		do {
 			try {
-				byteReadedRaw = sp.ReadByte();
+				byteReaded = sp.ReadByte();
 			} catch {
 				LogB.Error("Maybe encoder cable is disconnected");
 				encoderProcessCancel = true;
@@ -2105,13 +2096,12 @@ public partial class ChronoJumpWindow
 			}
 
 
-			if(byteReadedRaw > 128)
-				byteReadedRaw = byteReadedRaw - 256;
+			if(byteReaded > 128)
+				byteReaded = byteReaded - 256;
 
 			if(inertialCaptureDirectionInverted)
-				byteReadedRaw *= -1;
+				byteReaded *= -1;
 
-			byteReaded = UtilEncoder.GetDisplacement(byteReadedRaw, encoderConfigurationCurrent);
 
 			i=i+1;
 			if(i >= 0) {
@@ -2140,7 +2130,6 @@ public partial class ChronoJumpWindow
 
 				sum += byteReaded;
 				encoderReaded[i] = byteReaded;
-				encoderReadedRaw[i] = byteReadedRaw;
 
 				encoderCapturePoints[i] = new Gdk.Point(
 						Convert.ToInt32(widthG * i / recordingTime),
@@ -2178,7 +2167,6 @@ public partial class ChronoJumpWindow
 						sum *= -1;
 						for(int j=0; j <= i; j ++) {
 							encoderReaded[j] *= -1;
-							encoderReadedRaw[j] *= -1;
 						}
 						double sum2=0;
 						for(int j=0; j <= i; j ++) {
@@ -2266,22 +2254,15 @@ public partial class ChronoJumpWindow
 						LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Length);
 						if(ecc.endFrame - ecc.startFrame > 0 ) 
 						{
-							heightAtCurveStart = heightAccumulated;
-
-							double heightCurve = 0;
 							double [] curve = new double[ecc.endFrame - ecc.startFrame];
 							for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
-								heightCurve += encoderReaded[j];
 								curve[k]=encoderReaded[j];
 								k++;
 							}
 
 							previousEnd = ecc.endFrame;
 
-							heightAccumulated += heightCurve;
-
-							heightCurve = Math.Abs(heightCurve / 10); //mm -> cm
-							LogB.Information(" height: " + heightCurve.ToString());
+							//22-may-2015: This is done in R now
 
 							//1) check heightCurve in a fast way first to discard curves soon
 							//   only process curves with height >= min_height
@@ -2325,30 +2306,26 @@ public partial class ChronoJumpWindow
 
 							if(! inertiaMomentCalculation) {	
 								bool sendCurve = true;
-								if(heightCurve >= encoderSelectedMinimumHeight) 	//1
-								{
-									if(encoderConfigurationCurrent.has_inertia) {
-										if(capturingFirstPhase)
-											sendCurve = false;
-									} else { // ! encoderConfigurationCurrent.has_inertia
-										if( eccon == "c" && ! ecc.up )
-											sendCurve = false;
-										if( (eccon == "ec" || eccon == "ecS") && ecc.up && capturingFirstPhase ) //3
-											sendCurve = false;
-										if( 
-												(eccon == "ec" || eccon == "ecS") && 
-												ecca.curvesAccepted > 0 &&
-												lastDirectionStoredIsUp == ecc.up ) //4
-											sendCurve = false;
-									}
-									capturingFirstPhase = false;
-								} else {
-									sendCurve = false;
+								
+								if(encoderConfigurationCurrent.has_inertia) {
+									//22 may 2015: send'it because we need to know the heigth change in order to do the cuts
+									//if(capturingFirstPhase)
+									//	sendCurve = false;
+								} else { // ! encoderConfigurationCurrent.has_inertia
+									if( eccon == "c" && ! ecc.up )
+										sendCurve = false;
+									if( (eccon == "ec" || eccon == "ecS") && ecc.up && capturingFirstPhase ) //3
+										sendCurve = false;
+									if( 
+											(eccon == "ec" || eccon == "ecS") && 
+											ecca.curvesAccepted > 0 &&
+											lastDirectionStoredIsUp == ecc.up ) //4
+										sendCurve = false;
 								}
+								capturingFirstPhase = false;
 
 								if(sendCurve) {
 									encoderRProcCapture.SendCurve(
-											heightAtCurveStart, 
 											UtilEncoder.CompressData(curve, 25)	//compressed
 											);
 
@@ -2394,7 +2371,7 @@ public partial class ChronoJumpWindow
 
 		sep = "";
 		for(int j=0; j < i ; j ++) {
-			writer.Write(sep + encoderReadedRaw[j]); //store the raw file (before encoderConfigurationConversions)
+			writer.Write(sep + encoderReaded[j]); //store the raw file (before encoderConfigurationConversions)
 			sep = ", ";
 		}
 

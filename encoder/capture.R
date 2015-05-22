@@ -39,6 +39,9 @@ calcule <- function(displacement, op, curveNum)
 	if(length(displacement) < 4)
 		return (curveNum)
 
+	if(abs(sum(displacement)) < op$MinHeight)
+		return (curveNum)
+
 
 	#read AnalysisOptions
 	#if is propulsive and rotatory inertial is: "p;ri" 
@@ -91,15 +94,6 @@ calcule <- function(displacement, op, curveNum)
 	return(curveNum +1)
 }
 		
-getPositionStart <- function(input) 
-{
-	inputVector = unlist(strsplit(input, " "))
-	if( length(inputVector) == 2 && inputVector[1] == "ps" )
-		return (as.numeric(inputVector[2]))
-	else
-		return (0)
-}
-
 
 #converts data: "0*5 1 0 -1*3 2"
 #into: 0  0  0  0  0  1  0 -1 -1 -1  2
@@ -119,6 +113,7 @@ uncompress <- function(curveSent)
 	}
 	return (as.numeric(ints))
 }
+	
 
 doProcess <- function(options) 
 {
@@ -131,6 +126,10 @@ doProcess <- function(options)
 	#print (op)
 
 	curveNum = 0
+	inertialPositionCurveSentStart = 0
+	inertialPositionCurveSentEnd = 0
+	inertialCapturingFirstPhase = TRUE
+	
 	input <- readLines(f, n = 1L)
 	while(input[1] != "Q") {
 		if(debug) {
@@ -148,6 +147,9 @@ doProcess <- function(options)
 			op <- assignOptions(options)
 
 			curveNum = 0
+			inertialPositionCurveSentStart = 0
+			inertialPositionCurveSentEnd = 0
+			inertialCapturingFirstPhase = TRUE
 			input <- readLines(f, n = 1L)
 	
 			if(input[1] == "Q")
@@ -157,13 +159,8 @@ doProcess <- function(options)
 		#Sys.sleep(4) #just to test how Chronojump reacts if process takes too long
 		#cat(paste("input is:", input, "\n"))
 
-		#from Chronojump first it's send the eg: "ps -1000", meaning curve starts at -1000
-		#then it's send the displacement
-		positionStart = getPositionStart(input)
-
 		#-- read the curve (from some lines that finally end on an 'E')
 		readingCurve = TRUE
-		input = NULL
 		while(readingCurve) {
 			inputLine <- readLines(f, n = 1L)
 			if(inputLine[1] == "E")
@@ -172,6 +169,7 @@ doProcess <- function(options)
 				input = c(input, inputLine)
 		}
 		#-- curve readed
+
 		
 		if(debug)
 			write("doProcess input", stderr())
@@ -186,15 +184,19 @@ doProcess <- function(options)
 		#this removes all NAs
 		displacement  = displacement[!is.na(displacement)]
 
-
 		if(debug)
 			write("doProcess 2", stderr())
+			
 		if(isInertial(op$EncoderConfigurationName))
 		{
 		  diametersPerTick = getInertialDiametersPerMs(displacement, op$diameter)
 			displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, diametersPerTick, op$diameterExt)
 
-			displacement = getDisplacementInertialBody(positionStart, displacement, FALSE, op$Title) #draw: FALSE
+			#need to do this before getDisplacementInertialBody cuts the curve:  /|\
+			positionTemp = cumsum(displacement)
+			inertialPositionCurveSentEnd = inertialPositionCurveSentStart + positionTemp[length(positionTemp)]
+
+			displacement = getDisplacementInertialBody(inertialPositionCurveSentStart, displacement, FALSE, op$Title) #draw: FALSE
 		} else {
 			displacement = getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt)
 		}
@@ -223,25 +225,32 @@ doProcess <- function(options)
 		#if isInertial: getDisplacementInertialBody separate phases using initial height of full extended person
 		#so now there will be two different curves to process
 
+		position = cumsum(displacement)
+
 		if(isInertial(op$EncoderConfigurationName)) 
 		{
-			position = cumsum(displacement)
-			positionTop <- floor(mean(which(position == max(position))))
-			displacement1 = displacement[1:positionTop]
-			displacement2 = displacement[(positionTop+1):length(displacement)]
+			if(abs(max(position) - min(position)) >= op$MinHeight) {
+				if(inertialCapturingFirstPhase)
+					inertialCapturingFirstPhase = FALSE
+				else {
+					positionTop <- floor(mean(which(position == max(position))))
+					displacement1 = displacement[1:positionTop]
+					displacement2 = displacement[(positionTop+1):length(displacement)]
 
-			if(op$Eccon == "c")
-				curveNum <- calcule(displacement1, op, curveNum)
-			else {
-				curveNum <- calcule(displacement1, op, curveNum)
-				curveNum <- calcule(displacement2, op, curveNum)
+					if(op$Eccon == "c") {
+						curveNum <- calcule(displacement1, op, curveNum)
+					} else {
+						curveNum <- calcule(displacement1, op, curveNum)
+						curveNum <- calcule(displacement2, op, curveNum)
+					}
+				}
 			}
+		} else {
+			curveNum <- calcule(displacement, op, curveNum)
+		}
+			
+		inertialPositionCurveSentStart = inertialPositionCurveSentEnd
 
-			#write(c("positionTop", positionTop), stderr())
-			#write(c("length(displacement)", length(displacement)), stderr())
-		} else
-				curveNum <- calcule(displacement, op, curveNum)
-		
 		if(debug)
 			write("doProcess 4", stderr())
 

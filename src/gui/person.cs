@@ -802,6 +802,8 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.TextView textview_description;
 	[Widget] Gtk.TextView textview_ps_comments;
 	
+	[Widget] Gtk.Box vbox_photo;
+	
 	[Widget] Gtk.Label label_date;
 	//[Widget] Gtk.Button button_change_date;
 	[Widget] Gtk.Button button_calendar;
@@ -876,7 +878,8 @@ public class PersonAddModifyWindow
 	//
 	//if we are adding a person, currentPerson.UniqueID it's -1
 	//if we are modifying a person, currentPerson.UniqueID is obviously it's ID
-	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson) {
+	//hidePhotoStuff is true on raspberry to not use camera
+	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, bool hidePhotoStuff) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
@@ -908,25 +911,29 @@ public class PersonAddModifyWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
 		image_zoom.Pixbuf = pixbuf;
 
-		string photoFile = Util.GetPhotoFileName(true, currentPerson.UniqueID);
-		if(File.Exists(photoFile)) {
-			try {
-				pixbuf = new Pixbuf (photoFile); //from a file
-				image_photo_mini.Pixbuf = pixbuf;
-			} catch {
-				//on windows there are problem using the fileNames that are not on temp
-				string tempFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
-					Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
-				File.Copy(photoFile, tempFileName, true);
-				pixbuf = new Pixbuf (tempFileName);
-				image_photo_mini.Pixbuf = pixbuf;
+		if(hidePhotoStuff)
+			vbox_photo.Visible = false;
+		else {
+			string photoFile = Util.GetPhotoFileName(true, currentPerson.UniqueID);
+			if(File.Exists(photoFile)) {
+				try {
+					pixbuf = new Pixbuf (photoFile); //from a file
+					image_photo_mini.Pixbuf = pixbuf;
+				} catch {
+					//on windows there are problem using the fileNames that are not on temp
+					string tempFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
+							Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
+					File.Copy(photoFile, tempFileName, true);
+					pixbuf = new Pixbuf (tempFileName);
+					image_photo_mini.Pixbuf = pixbuf;
+				}
 			}
+			//show zoom button only if big image exists
+			if(File.Exists(Util.GetPhotoFileName(false, currentPerson.UniqueID)))
+				button_zoom.Sensitive = true;
+			else
+				button_zoom.Sensitive = false;
 		}
-		//show zoom button only if big image exists
-		if(File.Exists(Util.GetPhotoFileName(false, currentPerson.UniqueID)))
-			button_zoom.Sensitive = true;
-		else
-			button_zoom.Sensitive = false;
 			
 		fakeButtonAccept = new Gtk.Button();
 
@@ -1090,10 +1097,10 @@ public class PersonAddModifyWindow
 	
 	static public PersonAddModifyWindow Show (Gtk.Window parent, 
 			Session mySession, Person currentPerson, int pDN, 
-			Gtk.CheckButton app1_checkbutton_video)
+			Gtk.CheckButton app1_checkbutton_video, bool hidePhotoStuff)
 	{
 		if (PersonAddModifyWindowBox == null) {
-			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson);
+			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, hidePhotoStuff);
 		}
 
 		PersonAddModifyWindowBox.pDN = pDN;

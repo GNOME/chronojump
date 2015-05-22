@@ -755,46 +755,5 @@ public class UtilEncoder
 		return list;
 	}
 
-	/* -------- EncoderConfiguration, kinematics and Dynamics ---- 
-	 *
-	 *  		this is the same than graph.R
-	 * -------------------------------------------------------- */
-
-	/*
-	 * in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
-	 * we use 'data' variable because can be position or displacement
-	 */
-
-	public static double GetDisplacement(int byteReaded, EncoderConfiguration ec) {
-		/* no change:
-		 * WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
-		 * WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
-		 * LINEARONPLANE, LINEARONPLANEWEIGHTDIFFANGLE, ROTARYFRICTIONSIDE, WEIGHTEDMOVPULLEYROTARYFRICTION
-		 */
-
-		double data = byteReaded;
-		if(
-				ec.name == Constants.EncoderConfigurationNames.LINEARINVERTED ||
-				ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1INV ||
-				ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2INV ) {
-			data *= -1;
-		} else if(ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYONLINEARENCODER) {
-			//default is: gearedDown = 2. Future maybe this will be a parameter
-			data *= 2;
-		} else if(ec.name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXIS) {
-			data = data * ec.D / ec.d;
-		} else if(
-				ec.name == Constants.EncoderConfigurationNames.ROTARYAXIS || 
-				ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYAXIS) 
-		{
-			int ticksRotaryEncoder = 200; //our rotary axis encoder send 200 ticks by turn
-			//diameter m -> mm
-			data = ( data / ticksRotaryEncoder ) * 2 * Math.PI * ( ec.d * 1000 / 2 );
-		}
-		return data;
-	}
-
-
-	/* ----end of EncoderConfiguration, kinematics and Dynamics ---- */ 
 
 }

@@ -227,20 +227,14 @@ public class EncoderRProcCapture : EncoderRProc
 	}
 	
 	//here curve is sent compressed (string. eg: "0*5 1 0 -1*3 2")
-	public void SendCurve(double heightAtStart, string curveCompressed)
+	public void SendCurve(string curveCompressed)
 	{
 		LogB.Debug("writing line 1 -->");
 		
-		string curveSend = "ps " + Util.ConvertToPoint(heightAtStart);
-		LogB.Debug("curveSend [heightAtStart]",curveSend);
-		p.StandardInput.WriteLine(curveSend);
-								
-		curveSend = curveCompressed;
-		
 		//TODO convert comma to point in this doubles
 
-		LogB.Debug("curveSend [displacement array]",curveSend);
-		p.StandardInput.WriteLine(curveSend); 	//this will send some lines because compressed data comes with '\n's
+		LogB.Debug("curveSend [displacement array]",curveCompressed);
+		p.StandardInput.WriteLine(curveCompressed); 	//this will send some lines because compressed data comes with '\n's
 		p.StandardInput.WriteLine("E");		//this will mean the 'E'nd of the curve. Then data can be uncompressed on R
 		
 		LogB.Debug("<-- writen line 1");

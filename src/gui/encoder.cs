@@ -4368,7 +4368,7 @@ public partial class ChronoJumpWindow
 				
 				treeview_encoder_capture_curves.Sensitive = true;
 
-				prepareEncoderGraphs();
+				prepareEncoderGraphs(true);
 				eccaCreated = false;
 
 				if(action == encoderActions.CAPTURE) {
@@ -4436,7 +4436,7 @@ public partial class ChronoJumpWindow
 				image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
 				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
 
-				prepareEncoderGraphs();
+				prepareEncoderGraphs(true);
 				
 				
 				//_______ 2) run stuff
@@ -4456,7 +4456,7 @@ public partial class ChronoJumpWindow
 			} else { //CURVES_AC
 				//______ 1) prepareEncoderGraphs
 				//don't call directly to prepareEncoderGraphs() here because it's called from a Non-GTK thread
-				needToCallPrepareEncoderGraphs = true;
+				needToCallPrepareEncoderGraphs = true; //needToCallPrepareEncoderGraphs will not erase them
 				
 				//this is defined on capture process
 				//image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
@@ -4490,10 +4490,13 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	void prepareEncoderGraphs() {
+	void prepareEncoderGraphs(bool eraseFirst) {
 		LogB.Debug("prepareEncoderGraphs() start (should be on first thread: GTK)");
-		UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
-		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+		
+		if(eraseFirst) {
+			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
+			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+		}
 
 		layout_encoder_capture_signal = new Pango.Layout (encoder_capture_signal_drawingarea.PangoContext);
 		layout_encoder_capture_signal.FontDescription = Pango.FontDescription.FromString ("Courier 10");
@@ -4700,7 +4703,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 				
-	static bool needToCallPrepareEncoderGraphs;
+	static bool needToCallPrepareEncoderGraphs; //this will not erase them
 	private bool pulseGTKEncoderCaptureAndCurves ()
 	{
 		if(needToCallPrepareEncoderGraphs) 
@@ -4708,7 +4711,7 @@ public partial class ChronoJumpWindow
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
 				
-			prepareEncoderGraphs();
+			prepareEncoderGraphs(false); //do not erase them
 			needToCallPrepareEncoderGraphs = false;
 		}
 			

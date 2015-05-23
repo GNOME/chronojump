@@ -539,8 +539,11 @@ public partial class ChronoJumpWindow
 					//cells[3]: massBody
 					//cells[4]: massExtra
 
-					totalMass = Convert.ToDouble(cells[3]) * getExercisePercentBodyWeightFromName (exerciseName) / 100.0
-						+ Convert.ToDouble(cells[4]);
+					totalMass = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[3])) * 
+						getExercisePercentBodyWeightFromName (exerciseName) / 100.0
+						+ Convert.ToDouble(Util.ChangeDecimalSeparator(cells[4]));
+					
+					LogB.Debug("totalMass:" + totalMass.ToString());
 				}
 
 				encoderAnalyzeCurves.Add (new EncoderCurve (
@@ -548,7 +551,7 @@ public partial class ChronoJumpWindow
 							cells[1],	//seriesName 
 							exerciseName,
 							cells[21],	//laterality
-							Convert.ToDouble(cells[4]),
+							Convert.ToDouble(Util.ChangeDecimalSeparator(cells[4])),
 							totalMass,
 							cells[5], cells[6], cells[7], 
 							cells[8], cells[9], cells[10], 
@@ -890,6 +893,7 @@ public partial class ChronoJumpWindow
 	private void RenderDisplacedWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		
 		(cell as Gtk.CellRendererText).Text = 
 			String.Format(UtilGtk.TVNumPrint(curve.DisplacedWeight.ToString(),3,0),Convert.ToInt32(curve.DisplacedWeight));
 	}

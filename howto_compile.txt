@@ -25,6 +25,8 @@ cerbero-cj shell
 
 cd chronojump
 
+git pull
+
 sh autogen.sh --prefix=/Users/chronojump/ChronojumpBuild/
 
 compile with make && make install (like Linux and windows)
@@ -97,6 +99,7 @@ WINDOWS
 
 chronojump-shell
 cd chronojump
+git pull
 sh autogen.sh --prefix ~/chronojump-build/dist/windows_x86
 make
 make install

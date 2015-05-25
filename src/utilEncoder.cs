@@ -755,5 +755,17 @@ public class UtilEncoder
 		return list;
 	}
 
+	public static int CalculeInertiaTotal (EncoderConfiguration econf) {
+		//LogB.Debug(econf.ToString(":",false,false));
+		int n = econf.extraWeightN;
+		double weightInKg = econf.extraWeightGrams / 1000.0;
+		double length = econf.extraWeightLength;
+
+		//IM of all the weights = n * (weight * length^2) Kg*cm^2
+		int im_weights = Convert.ToInt32(n * ( weightInKg * Math.Pow(length,2) ));
+
+		return econf.inertiaMachine + im_weights;
+	}
+		
 
 }

@@ -909,8 +909,16 @@ public class EncoderConfiguration {
 	public double D;	//external disc or pulley
 	public int anglePush;
 	public int angleWeight;
-	public int inertia;
+	
+	public int inertiaMachine; //this is the inertia without the disc
+	
 	public int gearedDown;	//demultiplication
+	
+	public int inertiaTotal; //this is the inertia used by R
+	public int extraWeightN; //how much extra weights
+	public int extraWeightGrams; //weight of each extra weight
+	public double extraWeightLength; //length from center to center (cm)
+
 
 	public string textDefault = Catalog.GetString("Linear encoder attached to a barbell.") + "\n" + 
 		Catalog.GetString("Also common gym tests like jumps or chin-ups.");
@@ -932,8 +940,12 @@ public class EncoderConfiguration {
 		D = -1;
 		anglePush = -1;
 		angleWeight = -1;
-		inertia = -1;
+		inertiaMachine = -1;
 		gearedDown = 1;
+		inertiaTotal = -1;
+		extraWeightN = 0;
+		extraWeightGrams = 0;
+		extraWeightLength = 1;
 	}
 
 	// note: if this changes, change also in:
@@ -1223,8 +1235,21 @@ public class EncoderConfiguration {
 		this.D = 	   Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[2]));
 		this.anglePush =   Convert.ToInt32(strFull[3]);
 		this.angleWeight = Convert.ToInt32(strFull[4]);
-		this.inertia = 	   Convert.ToInt32(strFull[5]);
+		this.inertiaMachine = 	Convert.ToInt32(strFull[5]);
 		this.gearedDown =  Convert.ToInt32(strFull[6]);
+	
+		//this params started at 1.5.1
+		if(strFull.Length > 7) {
+			this.inertiaTotal = 	Convert.ToInt32(strFull[7]);
+			this.extraWeightN = 	Convert.ToInt32(strFull[8]);
+			this.extraWeightGrams = Convert.ToInt32(strFull[9]);
+			this.extraWeightLength = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[10]));
+		} else {
+			this.inertiaTotal = 	inertiaMachine;
+			this.extraWeightN = 	0;
+			this.extraWeightGrams = 0;
+			this.extraWeightLength = 1;
+		}
 	}
 	
 	//decimalPointForR: ensure decimal is point in order to work in R
@@ -1246,18 +1271,22 @@ public class EncoderConfiguration {
 				"#str_D" + sep + 	str_D + sep + 
 				"#anglePush" + sep + 	anglePush.ToString() + sep + 
 				"#angleWeight" + sep + 	angleWeight.ToString() + sep +
-				"#inertia" + sep + 	inertia.ToString() + sep + 
+				"#inertiaTotal" + sep + inertiaTotal.ToString() + sep + 
 				"#gearedDown" + sep + 	gearedDown.ToString()
 				;
-		else
+		else	//for SQL
 			return 
 				name + sep + 
 				str_d + sep + 
 				str_D + sep + 
 				anglePush.ToString() + sep + 
 				angleWeight.ToString() + sep +
-				inertia.ToString() + sep + 
-				gearedDown.ToString()
+				inertiaMachine.ToString() + sep + 
+				gearedDown.ToString() + sep + 
+				inertiaTotal.ToString() + sep + 
+				extraWeightN.ToString() + sep + 
+				extraWeightGrams.ToString() + sep +
+				extraWeightLength.ToString()
 				;
 	}
 
@@ -1282,8 +1311,8 @@ public class EncoderConfiguration {
 			str_angleWeight = sep + "weight angle=" + angleWeight.ToString();
 
 		string str_inertia = "";
-		if(inertia != -1)
-			str_inertia = sep + "inertia=" + inertia.ToString();
+		if(has_inertia && inertiaTotal != -1)
+			str_inertia = sep + "inertia total=" + inertiaTotal.ToString();
 
 		string str_gearedDown = "";
 		if(gearedDown != 1)	//1 is the default

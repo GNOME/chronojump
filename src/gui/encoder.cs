@@ -4774,6 +4774,10 @@ public partial class ChronoJumpWindow
 			//stop video		
 			encoderStopVideoRecord();
 
+			//don't allow to press cancel or finish
+			button_encoder_capture_cancel.Sensitive = false;
+			button_encoder_capture_finish.Sensitive = false;
+
 			capturingCsharp = encoderCaptureProcess.STOPPED;
 		} else {	//STOPPED	
 			LogB.Debug("at pulseGTKEncoderCaptureAndCurves stopped");		

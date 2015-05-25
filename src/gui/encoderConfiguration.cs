@@ -43,27 +43,29 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.Box hbox_angle_push;
 	[Widget] Gtk.Box hbox_angle_weight;
 	[Widget] Gtk.Box hbox_inertia;
-	[Widget] Gtk.Box hbox_inertia2;
+	[Widget] Gtk.Box hbox_inertia_mass;
+	[Widget] Gtk.Box hbox_inertia_length;
+	[Widget] Gtk.Box hbox_inertia_calcule;
 
 	[Widget] Gtk.SpinButton spin_d;
 	[Widget] Gtk.SpinButton spin_D;
 	[Widget] Gtk.SpinButton spin_angle_push;
 	[Widget] Gtk.SpinButton spin_angle_weight;
-	[Widget] Gtk.SpinButton spin_inertia;
+	[Widget] Gtk.SpinButton spin_inertia_machine;
+	[Widget] Gtk.SpinButton spin_inertia_mass; //mass of each of the extra load (weights)
+	[Widget] Gtk.SpinButton spin_inertia_length;
 		
 	[Widget] Gtk.Box vbox_select_encoder;
 	[Widget] Gtk.VSeparator vseparator_im;
 	[Widget] Gtk.Box vbox_calcule_im;
-	[Widget] Gtk.SpinButton spin_im_weight;
-	[Widget] Gtk.SpinButton spin_im_length;
-	//[Widget] Gtk.SpinButton spin_im_duration;
+	[Widget] Gtk.SpinButton spin_im_weight_calcule;
+	[Widget] Gtk.SpinButton spin_im_length_calcule;
+	//[Widget] Gtk.SpinButton spin_im_duration_calcule;
 	[Widget] Gtk.Label label_im_result_disc;
 	[Widget] Gtk.Label label_im_result_weights;
 	[Widget] Gtk.Label label_im_result_total;
 	[Widget] Gtk.Table table_im_machine_result;
 	[Widget] Gtk.Box vbox_im_weights_and_total;
-	[Widget] Gtk.SpinButton spin_im_weights_n;
-	[Widget] Gtk.SpinButton spin_im_weights_weight;
 	[Widget] Gtk.Table table_im_weights_and_total_result;
 	[Widget] Gtk.Label label_im_feedback;
 	[Widget] Gtk.Button button_encoder_capture_inertial_do;
@@ -117,7 +119,9 @@ public class EncoderConfigurationWindow {
 
 		EncoderConfigurationWindowBox.initializeList(ec.type, ec.position);
 		
-		EncoderConfigurationWindowBox.putValuesStoredPreviously(ec.d, ec.D, ec.anglePush, ec.angleWeight, ec.inertia);
+		EncoderConfigurationWindowBox.putValuesStoredPreviously(
+				ec.d, ec.D, ec.anglePush, ec.angleWeight, 
+				ec.inertiaMachine, ec.extraWeightGrams, ec.extraWeightLength);
 	
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
 		return EncoderConfigurationWindowBox;
@@ -174,7 +178,9 @@ public class EncoderConfigurationWindow {
 		hbox_angle_push.Visible = ec.has_angle_push;
 		hbox_angle_weight.Visible = ec.has_angle_weight;
 		hbox_inertia.Visible = ec.has_inertia;
-		hbox_inertia2.Visible = ec.has_inertia;
+		hbox_inertia_mass.Visible = ec.has_inertia;
+		hbox_inertia_length.Visible = ec.has_inertia;
+		hbox_inertia_calcule.Visible = ec.has_inertia;
 		
 		label_count.Text = (listCurrent + 1).ToString() + " / " + list.Count.ToString();
 	
@@ -183,7 +189,9 @@ public class EncoderConfigurationWindow {
 			on_button_encoder_capture_inertial_show_clicked (new object(), new EventArgs());
 	}
 	
-	private void putValuesStoredPreviously(double d, double D, int anglePush, int angleWeight, int inertia) {
+	private void putValuesStoredPreviously(double d, double D, int anglePush, int angleWeight, 
+			int inertia, int extraWeightGrams, double extraWeightLength) 
+	{
 		if(d != -1)
 			spin_d.Value = d;
 		if(D != -1)
@@ -193,7 +201,10 @@ public class EncoderConfigurationWindow {
 		if(angleWeight != -1)
 			spin_angle_weight.Value = angleWeight;
 		if(inertia != -1)
-			spin_inertia.Value = inertia;
+			spin_inertia_machine.Value = inertia;
+			
+		spin_inertia_mass.Value = extraWeightGrams;
+		spin_inertia_length.Value = extraWeightLength;
 	}
 	
 	/*
@@ -210,7 +221,7 @@ public class EncoderConfigurationWindow {
 		ec.D = -1;
 		ec.anglePush = -1;
 		ec.angleWeight = -1;
-		ec.inertia = -1;
+		ec.inertiaMachine = -1;
 		
 		if(ec.has_d)
 			ec.d = (double) spin_d.Value; 
@@ -224,8 +235,12 @@ public class EncoderConfigurationWindow {
 		if(ec.has_angle_weight)
 			ec.angleWeight = (int) spin_angle_weight.Value; 
 
-		if(ec.has_inertia)
-			ec.inertia = (int) spin_inertia.Value; 
+		if(ec.has_inertia) {
+			ec.inertiaMachine = (int) spin_inertia_machine.Value; 
+			ec.inertiaTotal = (int) spin_inertia_machine.Value; 
+			ec.extraWeightGrams = (int) spin_inertia_mass.Value;
+			ec.extraWeightLength = (double) spin_inertia_length.Value;
+		}
 
 		return ec;
 	}
@@ -285,12 +300,12 @@ public class EncoderConfigurationWindow {
 		if(imResult == 0) {
 			label_im_feedback.Text = "<b>" + message + "</b>";
 			label_im_feedback.UseMarkup = true; 
-			spin_inertia.Value = imResult;
+			spin_inertia_machine.Value = imResult;
 		} else {
 			//label_im_result_disc.Text = Util.TrimDecimals(imResult, 2);
 			//as int now
 			label_im_result_disc.Text = Convert.ToInt32(imResult).ToString();
-			spin_inertia.Value = imResult;
+			spin_inertia_machine.Value = imResult;
 			label_im_feedback.Text = "";
 
 			table_im_machine_result.Visible = true;
@@ -311,22 +326,6 @@ public class EncoderConfigurationWindow {
 	}
 	*/
 	
-	void on_button_encoder_calcule_inertial_weights_clicked (object o, EventArgs args) {
-		int n = Convert.ToInt32(spin_im_weights_n.Value);
-		double weightInKg = spin_im_weights_weight.Value / 1000.0;
-		double length = spin_im_length.Value;
-
-		//IM of all the weights = n * (weight * length^2) Kg*cm^2
-		double im_weights = n * ( weightInKg * Math.Pow(length,2) );
-		
-		label_im_result_weights.Text = Util.TrimDecimals(im_weights, 2);
-		double im_total = Convert.ToDouble(label_im_result_disc.Text) + im_weights;
-		label_im_result_total.Text = Util.TrimDecimals(im_total, 2);
-		spin_inertia.Value = im_total;
-		
-		table_im_weights_and_total_result.Visible = true;
-	}
-		
 	private void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		EncoderConfigurationWindowBox.encoder_configuration.Hide();
@@ -365,15 +364,15 @@ public class EncoderConfigurationWindow {
 	
 	
 	public double Spin_im_weight {
-		get { return spin_im_weight.Value; }
+		get { return spin_im_weight_calcule.Value; }
 	}
 	
 	public double Spin_im_length {
-		get { return spin_im_length.Value; }
+		get { return spin_im_length_calcule.Value; }
 	}
 	
 	public int Spin_im_duration {
-		//get { return (int) spin_im_duration.Value; }
+		//get { return (int) spin_im_duration_calcule.Value; }
 		//
 		//do 60 seconds and it will end automatically when ended
 		get { return 60; }

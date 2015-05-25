@@ -39,8 +39,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
 	[Widget] Gtk.Label label_encoder_displaced_weight;
 	[Widget] Gtk.Label label_encoder_1RM_percent;
-	[Widget] Gtk.Label label_encoder_im_machine;
 	[Widget] Gtk.Label label_encoder_im_total;
+	[Widget] Gtk.SpinButton spin_encoder_im_weights_n;
 
 	[Widget] Gtk.Label label_encoder_selected;	
 	
@@ -372,13 +372,25 @@ public partial class ChronoJumpWindow
 		
 		encoderConfigurationCurrent = encoder_configuration_win.GetAcceptedValues();
 				
-		if(encoderConfigurationCurrent.has_inertia)
+		if(encoderConfigurationCurrent.has_inertia) {
 			notebook_encoder_capture_load.CurrentPage = 1;
-		else
+
+			encoderConfigurationCurrent.extraWeightN = (int) spin_encoder_im_weights_n.Value; 
+			encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
+			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
+		} else
 			notebook_encoder_capture_load.CurrentPage = 0;
 
 		label_encoder_selected.Text = encoderConfigurationCurrent.code;
 	}
+	
+	void on_spin_encoder_im_weights_n_changed (object o, EventArgs args) {
+		encoderConfigurationCurrent.extraWeightN = (int) spin_encoder_im_weights_n.Value; 
+		encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
+		label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
+	}
+	
+
 	
 	void on_encoder_configuration_win_capture_inertial_do (object o, EventArgs args) 
 	{
@@ -1274,8 +1286,12 @@ public partial class ChronoJumpWindow
 			
 				encoderConfigurationCurrent = eSQL.encoderConfiguration;
 			
-				if(encoderConfigurationCurrent.has_inertia)
+				if(encoderConfigurationCurrent.has_inertia) {
 					notebook_encoder_capture_load.CurrentPage = 1;
+
+					spin_encoder_im_weights_n.Value = encoderConfigurationCurrent.extraWeightN;
+					label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
+				}
 				else
 					notebook_encoder_capture_load.CurrentPage = 0;
 
@@ -1299,7 +1315,7 @@ public partial class ChronoJumpWindow
 			encoderButtonsSensitive(encoderSensEnumStored);
 		}
 	}
-	
+
 	protected void on_encoder_load_signal_row_edit (object o, EventArgs args) {
 		LogB.Information("row edit at load signal");
 		LogB.Information(genericWin.TreeviewSelectedUniqueID.ToString());

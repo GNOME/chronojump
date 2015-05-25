@@ -2039,7 +2039,12 @@ public partial class ChronoJumpWindow
 		LogB.Debug("runEncoderCaptureCsharp pre start");
 		int widthG = encoder_capture_signal_drawingarea.Allocation.Width;
 		int heightG = encoder_capture_signal_drawingarea.Allocation.Height;
-		double realHeightG = 1000 * 2 * encoderCaptureOptionsWin.spin_encoder_capture_curves_height_range.Value;
+
+		double realHeightG;
+		if(encoderConfigurationCurrent.has_inertia)
+			realHeightG = 2 * 5000 ; //5 meters up / 5 meters down
+		else
+			realHeightG = 2 * 1000 ; //1 meter up / 1 meter down
 		
 		LogB.Debug("runEncoderCaptureCsharp start port:", port);
 		SerialPort sp = new SerialPort(port);
@@ -2210,6 +2215,24 @@ public partial class ChronoJumpWindow
 						encoderCapturePointsCaptured = i;
 						encoderCapturePointsPainted = -1; //mark meaning screen should be erased
 					}
+				}
+
+				//adaptative displayed height
+				//if points go outside the graph, duplicate size of graph
+				if(encoderCapturePoints[i].Y > heightG || encoderCapturePoints[i].Y < 0) 
+				{
+					realHeightG *= 2;
+						
+					double sum2=0;
+					for(int j=0; j <= i; j ++) {
+						sum2 += encoderReaded[j];
+						encoderCapturePoints[j] = new Gdk.Point(
+								Convert.ToInt32(widthG * j / recordingTime),
+								Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
+								);
+					}
+					encoderCapturePointsCaptured = i;
+					encoderCapturePointsPainted = -1; //mark meaning screen should be erased
 				}
 
 				/*
@@ -5365,7 +5388,6 @@ public class EncoderCaptureOptionsWindow {
 	[Widget] public Gtk.SpinButton spin_encoder_capture_time;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_min_height;
-	[Widget] public Gtk.SpinButton spin_encoder_capture_curves_height_range;
 	[Widget] Gtk.Box hbox_combo_main_variable;
 	[Widget] Gtk.ComboBox combo_main_variable;
 	[Widget] public Gtk.CheckButton check_show_start_and_duration;

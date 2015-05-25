@@ -2041,7 +2041,10 @@ public partial class ChronoJumpWindow
 		int heightG = encoder_capture_signal_drawingarea.Allocation.Height;
 
 		double realHeightG;
-		if(encoderConfigurationCurrent.has_inertia)
+							
+		if(inertiaMomentCalculation)
+			realHeightG = 2 * 500 ; //.5 meter up / .5 meter down
+		else if(encoderConfigurationCurrent.has_inertia)
 			realHeightG = 2 * 5000 ; //5 meters up / 5 meters down
 		else
 			realHeightG = 2 * 1000 ; //1 meter up / 1 meter down

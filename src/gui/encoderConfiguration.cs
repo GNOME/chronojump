@@ -64,9 +64,6 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.Label label_im_result_disc;
 	[Widget] Gtk.Label label_im_result_weights;
 	[Widget] Gtk.Label label_im_result_total;
-	[Widget] Gtk.Table table_im_machine_result;
-	[Widget] Gtk.Box vbox_im_weights_and_total;
-	[Widget] Gtk.Table table_im_weights_and_total_result;
 	[Widget] Gtk.Label label_im_feedback;
 	[Widget] Gtk.Button button_encoder_capture_inertial_do;
 	[Widget] Gtk.Button button_encoder_capture_inertial_cancel;
@@ -307,9 +304,6 @@ public class EncoderConfigurationWindow {
 			label_im_result_disc.Text = Convert.ToInt32(imResult).ToString();
 			spin_inertia_machine.Value = imResult;
 			label_im_feedback.Text = "";
-
-			table_im_machine_result.Visible = true;
-			vbox_im_weights_and_total.Visible = true;
 		}
 		capturing = false;
 	}

@@ -35,9 +35,12 @@ using LongoMatch.Gui;
 public partial class ChronoJumpWindow 
 {
 
+	[Widget] Gtk.Notebook notebook_encoder_capture_load;
 	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
 	[Widget] Gtk.Label label_encoder_displaced_weight;
 	[Widget] Gtk.Label label_encoder_1RM_percent;
+	[Widget] Gtk.Label label_encoder_im_machine;
+	[Widget] Gtk.Label label_encoder_im_total;
 
 	[Widget] Gtk.Label label_encoder_selected;	
 	
@@ -368,6 +371,12 @@ public partial class ChronoJumpWindow
 		encoder_configuration_win.Button_accept.Clicked -= new EventHandler(on_encoder_configuration_win_accepted);
 		
 		encoderConfigurationCurrent = encoder_configuration_win.GetAcceptedValues();
+				
+		if(encoderConfigurationCurrent.has_inertia)
+			notebook_encoder_capture_load.CurrentPage = 1;
+		else
+			notebook_encoder_capture_load.CurrentPage = 0;
+
 		label_encoder_selected.Text = encoderConfigurationCurrent.code;
 	}
 	
@@ -1264,8 +1273,14 @@ public partial class ChronoJumpWindow
 				radiobutton_video_encoder_play.Active = true;
 			
 				encoderConfigurationCurrent = eSQL.encoderConfiguration;
+			
+				if(encoderConfigurationCurrent.has_inertia)
+					notebook_encoder_capture_load.CurrentPage = 1;
+				else
+					notebook_encoder_capture_load.CurrentPage = 0;
 
-				label_encoder_selected.Text = encoderConfigurationCurrent.code; 
+				label_encoder_selected.Text = encoderConfigurationCurrent.code;
+
 			}
 		}
 

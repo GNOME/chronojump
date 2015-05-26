@@ -915,9 +915,9 @@ public class EncoderConfiguration {
 	public int gearedDown;	//demultiplication
 	
 	public int inertiaTotal; //this is the inertia used by R
-	public int extraWeightN; //how much extra weights
-	public int extraWeightGrams; //weight of each extra weight
-	public double extraWeightLength; //length from center to center (cm)
+	public int extraWeightN; //how much extra weights (inertia)
+	public int extraWeightGrams; //weight of each extra weight (inertia)
+	public double extraWeightLength; //length from center to center (cm) (inertia)
 
 
 	public string textDefault = Catalog.GetString("Linear encoder attached to a barbell.") + "\n" + 

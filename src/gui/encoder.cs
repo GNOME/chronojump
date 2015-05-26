@@ -3054,13 +3054,18 @@ public partial class ChronoJumpWindow
 	*/
 
 	//BODY and EXTRA are at EncoderParams and sent to graph.R	
-	private double findMass(Constants.MassType massType) {
+	private double findMass(Constants.MassType massType) 
+	{
+		double extraWeight = spin_encoder_extra_weight.Value;
+		if(encoderConfigurationCurrent.has_inertia)
+			extraWeight = 0;
+
 		if(massType == Constants.MassType.BODY)
 			return currentPersonSession.Weight;
 		else if(massType == Constants.MassType.EXTRA)
-			return spin_encoder_extra_weight.Value;
+			return extraWeight;
 		else //(massType == Constants.MassType.DISPLACED)
-			return spin_encoder_extra_weight.Value + 
+			return extraWeight + 
 				( currentPersonSession.Weight * getExercisePercentBodyWeightFromCombo() ) / 100.0;
 	}
 
@@ -3936,7 +3941,7 @@ public partial class ChronoJumpWindow
 		encoder_capture_signal_pixmap.DrawPoints(pen_black_encoder_capture, paintPoints);
 
 		layout_encoder_capture_signal.SetMarkup(currentPerson.Name + " (" + 
-				spin_encoder_extra_weight.Value.ToString() + "Kg)");
+				findMass(Constants.MassType.EXTRA).ToString() + "Kg)");
 		encoder_capture_signal_pixmap.DrawLayout(pen_blue_encoder_capture, 5, 5, layout_encoder_capture_signal);
 
 		if(refreshAreaOnly) {

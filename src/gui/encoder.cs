@@ -198,6 +198,8 @@ public partial class ChronoJumpWindow
 	private string encoderTimeStamp;
 	private string encoderSignalUniqueID;
 
+	private ArrayList array1RM;
+
 	private ArrayList encoderCompareInterperson;	//personID:personName
 	private ArrayList encoderCompareIntersession;	//sessionID:sessionDate
 
@@ -346,6 +348,8 @@ public partial class ChronoJumpWindow
 		textview_encoder_signal_comment.Buffer.Changed += new EventHandler(on_textview_encoder_signal_comment_key_press_event);
 
 		raspberryOrNetworksInit();
+	
+		array1RM = new ArrayList();
 	}
 
 
@@ -472,20 +476,24 @@ public partial class ChronoJumpWindow
 
 
 	void on_combo_encoder_exercise_changed (object o, EventArgs args) {
-		if(UtilGtk.ComboGetActive(combo_encoder_exercise) != "") //needed because encoder_exercise_edit updates this combo and can be without values in the changing process
+		if(UtilGtk.ComboGetActive(combo_encoder_exercise) != "") { //needed because encoder_exercise_edit updates this combo and can be without values in the changing process
+			array1RMUpdate(false);
 			encoder_change_displaced_weight_and_1RM ();
+		}
 	}
 	void on_spin_encoder_extra_weight_value_changed (object o, EventArgs args) {
+		//don't need to:
+		//array1RMUpdate(false);
+		//because then we will be calling SQL at each spinbutton increment
+		
 		encoder_change_displaced_weight_and_1RM ();
 	}
 
-	void encoder_change_displaced_weight_and_1RM () {
+	void encoder_change_displaced_weight_and_1RM () 
+	{
 		//displaced weight
 		label_encoder_displaced_weight.Text = (findMass(Constants.MassType.DISPLACED)).ToString();
 
-		//1RM
-		ArrayList array1RM = SqliteEncoder.Select1RM(
-				false, currentPerson.UniqueID, currentSession.UniqueID, getExerciseIDFromCombo(), false); 
 		double load1RM = 0;
 		if(array1RM.Count > 0)
 			load1RM = ((Encoder1RM) array1RM[0]).load1RM; //take only the first in array (will be the last uniqueID)
@@ -497,9 +505,17 @@ public partial class ChronoJumpWindow
 					(100 * findMass(Constants.MassType.EXTRA) / ( load1RM * 1.0 )).ToString(), 2);
 	}
 
-	void on_button_encoder_1RM_win_clicked (object o, EventArgs args) {
-		ArrayList array1RM = SqliteEncoder.Select1RM(
-				false, currentPerson.UniqueID, currentSession.UniqueID, getExerciseIDFromCombo(), true); 
+	//array1RM variable is not local because we need to perform calculations at each change on displaced_weight
+	void array1RMUpdate (bool returnPersonNameAndExerciseName) 
+	{
+		array1RM = SqliteEncoder.Select1RM(
+				false, currentPerson.UniqueID, currentSession.UniqueID, 
+				getExerciseIDFromCombo(), returnPersonNameAndExerciseName); 
+	}
+
+	void on_button_encoder_1RM_win_clicked (object o, EventArgs args) 
+	{
+		array1RMUpdate(true);
 		
 		ArrayList dataPrint = new ArrayList();
 		foreach(Encoder1RM e1RM in array1RM) {
@@ -3039,19 +3055,6 @@ public partial class ChronoJumpWindow
 		return false;
 	}
 
-	/*
-	private double findMassFromCombo(bool includePerson) {
-		double mass = spin_encoder_extra_weight.Value;
-		if(includePerson) {
-			//TODO: maybe better have a currentEncoderExercise global variable
-			if(currentPersonSession.Weight > 0 && getExercisePercentBodyWeightFromCombo() > 0)
-				mass += currentPersonSession.Weight * 
-					getExercisePercentBodyWeightFromCombo() / 100.0;
-		}
-
-		return mass;
-	}
-	*/
 
 	//BODY and EXTRA are at EncoderParams and sent to graph.R	
 	private double findMass(Constants.MassType massType) 
@@ -3422,6 +3425,7 @@ public partial class ChronoJumpWindow
 				string.Format(Catalog.GetString("Saved 1RM without displaced body weight: {0} Kg."), 
 						load1RMWithoutPerson);
 		
+		array1RMUpdate(false);
 		encoder_change_displaced_weight_and_1RM ();
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
@@ -3751,6 +3755,7 @@ public partial class ChronoJumpWindow
 		//put some data just in case user doesn't click on compare button
 		encoderCompareInitialize();
 		
+		array1RMUpdate(false);
 		encoder_change_displaced_weight_and_1RM ();
 	}
 

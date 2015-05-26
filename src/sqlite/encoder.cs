@@ -89,7 +89,7 @@ class SqliteEncoder : Sqlite
 			es.time + ", " + es.minHeight + ", '" + es.description + 
 			"', '" + es.status + "', '" + 
 			removeURLpath(es.videoURL) + "', '" + 
-			es.encoderConfiguration.ToString(":",true,false) + "', '" + //last bool is: forROptions
+			es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "', '" +
 			Util.ConvertToPoint(es.future1) + "', '" + es.future2 + "', '" + es.future3 + "')";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -139,7 +139,7 @@ class SqliteEncoder : Sqlite
 				", description = '" + es.description + 
 				"', status = '" + es.status + 
 				"', videoURL = '" + removeURLpath(es.videoURL) + 
-				"', encoderConfiguration = '" + es.encoderConfiguration.ToString(":",true,false) + //last bool is: forROptions 
+				"', encoderConfiguration = '" + es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) +
 				"', future1 = '" + Util.ConvertToPoint(es.future1) + 
 				"', future2 = '" + es.future2 + 
 				"', future3 = '" + es.future3 + 

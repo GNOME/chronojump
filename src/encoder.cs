@@ -102,7 +102,7 @@ public class EncoderParams
 			"#analysis\n" + 	analysis + "\n" + 
 			"#analysisVariables\n" + analysisVariables + "\n" + 
 			"#analysisOptions\n" + analysisOptions + "\n" + 
-			encoderConfiguration.ToString("\n", true, true) + "\n" + //last bool is: forROptions
+			encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.ROPTIONS) + "\n" +
 			"#smoothCon\n" + 	smoothCon + "\n" + 
 			"#curve\n" + 		curve + "\n" + 
 			"#width\n" + 		width + "\n" + 
@@ -1251,20 +1251,19 @@ public class EncoderConfiguration {
 			this.extraWeightLength = 1;
 		}
 	}
-	
-	//decimalPointForR: ensure decimal is point in order to work in R
-	public string ToString(string sep, bool decimalPointForR, bool forROptions) {
-		string str_d = "";
-		string str_D = "";
-		if(decimalPointForR) {
-			str_d = Util.ConvertToPoint(d);
-			str_D = Util.ConvertToPoint(D);
-		} else {
-			str_d = d.ToString();
-			str_D = D.ToString();
-		}
 
-		if(forROptions)
+	public enum Outputs { ROPTIONS, RCSV, SQL} 
+	
+	public string ToStringOutput(Outputs o) 
+	{
+		//for R and SQL		
+		string str_d = Util.ConvertToPoint(d);
+		string str_D = Util.ConvertToPoint(D);
+		
+		string sep = "";
+
+		if(o == Outputs.ROPTIONS) {
+			sep = "\n";
 			return 
 				"#name" + sep + 	name + sep + 
 				"#str_d" + sep + 	str_d + sep + 
@@ -1274,7 +1273,22 @@ public class EncoderConfiguration {
 				"#inertiaTotal" + sep + inertiaTotal.ToString() + sep + 
 				"#gearedDown" + sep + 	gearedDown.ToString()
 				;
-		else	//for SQL
+		}
+		else if (o == Outputs.RCSV) { //not single curve
+			sep = ",";
+			//do not need inertiaMachine, extraWeightN, extraWeightGrams, extraWeightLength (unneded for the R calculations)
+			return 
+				name + sep + 
+				str_d + sep + 
+				str_D + sep + 
+				anglePush.ToString() + sep + 
+				angleWeight.ToString() + sep +
+				inertiaTotal.ToString() + sep + 
+				gearedDown.ToString()
+				;
+		}
+		else { //(o == Outputs.SQL) 
+			sep = ":";
 			return 
 				name + sep + 
 				str_d + sep + 
@@ -1288,8 +1302,9 @@ public class EncoderConfiguration {
 				extraWeightGrams.ToString() + sep +
 				extraWeightLength.ToString()
 				;
+		}
 	}
-
+	
 	//just to show on a treeview	
 	public string ToStringPretty() {
 		string sep = "; ";

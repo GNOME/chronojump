@@ -45,7 +45,7 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.Box hbox_inertia;
 	[Widget] Gtk.Box hbox_inertia_mass;
 	[Widget] Gtk.Box hbox_inertia_length;
-	[Widget] Gtk.Box hbox_inertia_calcule;
+	[Widget] Gtk.Box vbox_inertia_calcule;
 
 	[Widget] Gtk.SpinButton spin_d;
 	[Widget] Gtk.SpinButton spin_D;
@@ -177,7 +177,7 @@ public class EncoderConfigurationWindow {
 		hbox_inertia.Visible = ec.has_inertia;
 		hbox_inertia_mass.Visible = ec.has_inertia;
 		hbox_inertia_length.Visible = ec.has_inertia;
-		hbox_inertia_calcule.Visible = ec.has_inertia;
+		vbox_inertia_calcule.Visible = ec.has_inertia;
 		
 		label_count.Text = (listCurrent + 1).ToString() + " / " + list.Count.ToString();
 	

@@ -1479,7 +1479,7 @@ class Sqlite
 						es.signalOrCurve + "', '" + es.filename + "', '" +
 						es.url + "', " + es.time + ", " + es.minHeight + ", '" + es.description + "', '" + 
 						es.status + "', '" + es.videoURL + "', '" + 
-						econf.ToString(":",true,false) + "', '" + //in this conversion put this as default for all SQL rows. last bool is: forROptions
+						econf.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "', '" + //in this conversion put this as default for all SQL rows.
 						es.future1 + "', '" + es.future2 + "', '" + es.future3 + "')";
 					LogB.SQL(dbcmd.CommandText.ToString());
 					dbcmd.ExecuteNonQuery();

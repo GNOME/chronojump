@@ -2027,10 +2027,6 @@ public partial class ChronoJumpWindow
 	{
 		string exerciseNameShown = UtilGtk.ComboGetActive(combo_encoder_exercise);
 		bool capturedOk = runEncoderCaptureCsharp( 
-				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "----" + 
-				Util.ChangeSpaceAndMinusForUnderscore(exerciseNameShown) + "----(" + 
-				Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)) + "Kg)",
-				//es, 
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
 				UtilEncoder.GetEncoderDataTempFileName(),
 				chronopicWin.GetEncoderPort(),
@@ -2055,7 +2051,7 @@ public partial class ChronoJumpWindow
 	//I suppose reading gtk is ok, changing will be the problem
 	private void encoderDoCaptureCsharpIM () 
 	{
-		bool capturedOk = runEncoderCaptureCsharp("Capturing Inertia Moment", 
+		bool capturedOk = runEncoderCaptureCsharp( 
 				encoder_configuration_win.Spin_im_duration,
 				UtilEncoder.GetEncoderDataTempFileName(),
 				chronopicWin.GetEncoderPort(),
@@ -2094,7 +2090,7 @@ public partial class ChronoJumpWindow
 	int encoderSelectedMinimumHeight;
 
 	//on inertial moment calculation don't need to send curves to R
-	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port, bool inertiaMomentCalculation) 
+	private bool runEncoderCaptureCsharp(int time, string outputData1, string port, bool inertiaMomentCalculation) 
 	{
 		LogB.Debug("runEncoderCaptureCsharp pre start");
 		int widthG = encoder_capture_signal_drawingarea.Allocation.Width;
@@ -3947,7 +3943,7 @@ public partial class ChronoJumpWindow
 	 * update encoder capture graph stuff
 	 */
 
-	private void updateEncoderCaptureGraphPaint() 
+	private void updateEncoderCaptureGraphPaint(bool calculatingInertia) 
 	{
 		if(encoderCapturePoints == null)
 			return;
@@ -3989,8 +3985,20 @@ public partial class ChronoJumpWindow
 
 		encoder_capture_signal_pixmap.DrawPoints(pen_black_encoder_capture, paintPoints);
 
-		layout_encoder_capture_signal.SetMarkup(currentPerson.Name + " (" + 
-				findMass(Constants.MassType.EXTRA).ToString() + "Kg)");
+		//write title
+		string title = "";
+		if(calculatingInertia)
+			title = Catalog.GetString("Inertia M.");
+		else {
+			title = currentPerson.Name + " (";
+			if(encoderConfigurationCurrent.has_inertia)
+				title += encoderConfigurationCurrent.inertiaTotal.ToString() + " " + Catalog.GetString("Inertia M.") + ")";
+			else	
+				title += findMass(Constants.MassType.EXTRA).ToString() + "Kg)";
+		}
+		layout_encoder_capture_signal.SetMarkup(title);
+		
+
 		encoder_capture_signal_pixmap.DrawLayout(pen_blue_encoder_capture, 5, 5, layout_encoder_capture_signal);
 
 		if(refreshAreaOnly) {
@@ -4823,7 +4831,7 @@ public partial class ChronoJumpWindow
 			//capturingSendCurveToR(); //unused, done while capturing
 			readingCurveFromR();
 
-			updateEncoderCaptureGraphPaint();
+			updateEncoderCaptureGraphPaint(false); //not calculing inertia
 
 			if(needToRefreshTreeviewCapture) 
 			{
@@ -4881,7 +4889,7 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 		updatePulsebar(encoderActions.CAPTURE_IM); //activity on pulsebar
-		updateEncoderCaptureGraphPaint();
+		updateEncoderCaptureGraphPaint(true); //calculing inertia
 
 		Thread.Sleep (25);
 		LogB.Debug(" CapIM:", encoderThread.ThreadState.ToString());

@@ -285,6 +285,7 @@ public class UtilEncoder
 		string operatingSystem = "Linux";
 			
 		title = Util.RemoveBackSlash(title);
+		title = Util.RemoveChar(title, '\''); 
 		
 		if (UtilAll.IsWindows()) {
 			//convert accents to Unicode in order to be plotted correctly on R windows

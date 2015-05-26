@@ -33,6 +33,12 @@ public partial class ChronoJumpWindow
 	//RFID
 	[Widget] Gtk.Box hbox_rfid;
 	[Widget] Gtk.Label label_rfid;
+	
+	//better raspberry controls
+	[Widget] Gtk.Entry entry_raspberry_extra_weight;
+	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_no_raspberry;
+	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_raspberry;
+
 
 	private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
 	private linuxTypeEnum linuxType;
@@ -56,7 +62,11 @@ public partial class ChronoJumpWindow
 	private void raspberryOrNetworksInit() {
 		linuxType = getLinuxTypes();
 	
-		if(linuxType == linuxTypeEnum.RASPBERRY || linuxType == linuxTypeEnum.NETWORKS) {
+		if(linuxType == linuxTypeEnum.RASPBERRY || linuxType == linuxTypeEnum.NETWORKS) 
+		{
+			hbox_encoder_capture_extra_mass_no_raspberry.Visible = false;
+			hbox_encoder_capture_extra_mass_raspberry.Visible = true;
+
 			alignment_video_encoder.Visible = false;
 			//TODO: put the no connect video here.
 		}

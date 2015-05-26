@@ -800,11 +800,17 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderStatusTempBaseFileName(),
 				UtilEncoder.GetEncoderSpecialDataTempFileName(),
 				ep);
-	
+
+
+		string title = Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" +
+			Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise));
+		if(encoderConfigurationCurrent.has_inertia)
+			title += "-(" + encoderConfigurationCurrent.inertiaTotal.ToString() + " " + Catalog.GetString("Inertia M.") + ")";
+		else
+			title += "-(" + Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)) + "Kg)";
+
 		encoderRProcAnalyze.SendData(
-				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
-				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
-				"-(" + Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)) + "Kg)",
+				title,
 				false,	//do not use neuromuscularProfile script
 				preferences.RGraphsTranslate
 				); 

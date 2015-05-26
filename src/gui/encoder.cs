@@ -35,13 +35,14 @@ using LongoMatch.Gui;
 public partial class ChronoJumpWindow 
 {
 
-	[Widget] Gtk.Notebook notebook_encoder_capture_load;
+	[Widget] Gtk.Notebook notebook_encoder_capture_extra_mass;
+
 	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
 	[Widget] Gtk.Label label_encoder_displaced_weight;
 	[Widget] Gtk.Label label_encoder_1RM_percent;
 	[Widget] Gtk.Label label_encoder_im_total;
 	[Widget] Gtk.SpinButton spin_encoder_im_weights_n;
-
+	
 	[Widget] Gtk.Label label_encoder_selected;	
 	
 	//this is Kg*cm^2 because there's limitation of Glade on 3 decimals. 
@@ -377,13 +378,13 @@ public partial class ChronoJumpWindow
 		encoderConfigurationCurrent = encoder_configuration_win.GetAcceptedValues();
 				
 		if(encoderConfigurationCurrent.has_inertia) {
-			notebook_encoder_capture_load.CurrentPage = 1;
+			notebook_encoder_capture_extra_mass.CurrentPage = 1;
 
 			encoderConfigurationCurrent.extraWeightN = (int) spin_encoder_im_weights_n.Value; 
 			encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
 		} else
-			notebook_encoder_capture_load.CurrentPage = 0;
+			notebook_encoder_capture_extra_mass.CurrentPage = 0;
 
 		label_encoder_selected.Text = encoderConfigurationCurrent.code;
 	}
@@ -481,12 +482,51 @@ public partial class ChronoJumpWindow
 			encoder_change_displaced_weight_and_1RM ();
 		}
 	}
-	void on_spin_encoder_extra_weight_value_changed (object o, EventArgs args) {
+
+	// ---- change extra weight start ----
+	
+	void on_button_encoder_raspberry_extra_weight_minus_10_clicked (object o, EventArgs args) {
+		rapsberryChangeExtraWeight(-10);
+	}
+	void on_button_encoder_raspberry_extra_weight_minus_1_clicked (object o, EventArgs args) {
+		rapsberryChangeExtraWeight(-1);
+	}
+	void on_button_encoder_raspberry_extra_weight_plus_10_clicked (object o, EventArgs args) {
+		rapsberryChangeExtraWeight(+10);
+	}
+	void on_button_encoder_raspberry_extra_weight_plus_1_clicked (object o, EventArgs args) {
+		rapsberryChangeExtraWeight(+1);
+	}
+	void rapsberryChangeExtraWeight(int change) {
+		spin_encoder_extra_weight.Value += change;
+	}
+
+	bool extra_weight_signals_on = true;
+
+	void on_spin_encoder_extra_weight_value_changed (object o, EventArgs args) 
+	{
 		//don't need to:
 		//array1RMUpdate(false);
 		//because then we will be calling SQL at each spinbutton increment
-		
+
+		//change raspberry controls but taking care not get into circular changes
+		extra_weight_signals_on = false;
+		entry_raspberry_extra_weight.Text = spin_encoder_extra_weight.Value.ToString();
+		extra_weight_signals_on = true;
+
 		encoder_change_displaced_weight_and_1RM ();
+	}
+	void on_entry_raspberry_extra_weight_changed (object o, EventArgs args) 
+	{
+		if(! extra_weight_signals_on)
+			return;
+
+		if(entry_raspberry_extra_weight.Text == "" || entry_raspberry_extra_weight.Text == "00")
+			entry_raspberry_extra_weight.Text = "0";
+		else if(Util.IsNumber(entry_raspberry_extra_weight.Text, false)) //cannot be decimal
+			spin_encoder_extra_weight.Value = Convert.ToInt32(entry_raspberry_extra_weight.Text);
+		else
+			entry_raspberry_extra_weight.Text = spin_encoder_extra_weight.Value.ToString();
 	}
 
 	void encoder_change_displaced_weight_and_1RM () 
@@ -502,8 +542,12 @@ public partial class ChronoJumpWindow
 			label_encoder_1RM_percent.Text = "";
 		else
 			label_encoder_1RM_percent.Text = Util.TrimDecimals(
-					(100 * findMass(Constants.MassType.EXTRA) / ( load1RM * 1.0 )).ToString(), 2);
+					(100 * findMass(Constants.MassType.EXTRA) / ( load1RM * 1.0 )).ToString(), 1);
 	}
+	
+	// ---- end of change extra weight ----
+	
+
 
 	//array1RM variable is not local because we need to perform calculations at each change on displaced_weight
 	void array1RMUpdate (bool returnPersonNameAndExerciseName) 
@@ -1303,13 +1347,13 @@ public partial class ChronoJumpWindow
 				encoderConfigurationCurrent = eSQL.encoderConfiguration;
 			
 				if(encoderConfigurationCurrent.has_inertia) {
-					notebook_encoder_capture_load.CurrentPage = 1;
+					notebook_encoder_capture_extra_mass.CurrentPage = 1;
 
 					spin_encoder_im_weights_n.Value = encoderConfigurationCurrent.extraWeightN;
 					label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
 				}
 				else
-					notebook_encoder_capture_load.CurrentPage = 0;
+					notebook_encoder_capture_extra_mass.CurrentPage = 0;
 
 				label_encoder_selected.Text = encoderConfigurationCurrent.code;
 

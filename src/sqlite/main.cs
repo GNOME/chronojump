@@ -73,7 +73,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.22";
+	static string lastChronojumpDatabaseVersion = "1.23";
 
 	public Sqlite() {
 	}
@@ -1783,6 +1783,16 @@ class Sqlite
 
 				currentVersion = "1.22";
 			}
+			if(currentVersion == "1.22") {
+				LogB.SQL("Added encoder configuration");
+				
+				Sqlite.Open();
+				SqlitePreferences.Insert ("encoderConfiguration", new EncoderConfiguration().ToStringOutput(EncoderConfiguration.Outputs.SQL)); 
+				SqlitePreferences.Update ("databaseVersion", "1.23", true); 
+				Sqlite.Close();
+
+				currentVersion = "1.23";
+			}
 	
 		}
 
@@ -1927,6 +1937,7 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
+		//1.22 - 1.23 Converted DB to 1.23 Added encoder configuration
 		//1.21 - 1.22 Converted DB to 1.22 Encoder laterality in english again
 		//1.20 - 1.21 Converted DB to 1.21 Fixing loosing of encoder videoURL after recalculate
 		//1.19 - 1.20 Converted DB to 1.20 Preferences: added user email

@@ -269,7 +269,7 @@ class SqliteEncoder : Sqlite
 			EncoderConfiguration econf = new EncoderConfiguration(
 				(Constants.EncoderConfigurationNames) 
 				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
-			econf.FromSQL(strFull);
+			econf.ReadParamsFromSQL(strFull);
 			
 			//if there's no video, will be "".
 			//if there's video, will be with full path
@@ -884,4 +884,30 @@ class SqliteEncoder : Sqlite
 		return -1;
 	}
 
+	/*
+	 * EncoderConfiguration
+	 */
+
+	//called on startup to load last encoderConfiguration
+	public static EncoderConfiguration LoadEncoderConfiguration()
+	{
+		string ecStr = SqlitePreferences.Select("encoderConfiguration", false);
+		
+		//1.5.1 and previous don't store encoderConfiguration on SqlitePreferences
+		if(ecStr == null || ecStr.Length == 0 || ecStr == "0" || ecStr == "")
+			return new EncoderConfiguration(); 
+
+		string [] ecStrFull = ecStr.Split(new char[] {':'});
+
+		//create object
+		EncoderConfiguration ec = new EncoderConfiguration(
+				(Constants.EncoderConfigurationNames) 
+				Enum.Parse(typeof(Constants.EncoderConfigurationNames), ecStrFull[0]) );
+
+		//assign the rest of params
+		ec.ReadParamsFromSQL(ecStrFull);
+
+		return ec;
+	}
+	
 }

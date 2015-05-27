@@ -538,7 +538,7 @@ public class EncoderSQL
 		this.status = status;
 		this.videoURL = videoURL;
 		this.encoderConfiguration = encoderConfiguration;
-		this.future1 = future1;	//on signals: meanPower
+		this.future1 = future1;	//on curves: meanPower
 		this.future2 = future2;
 		this.future3 = future3;
 		this.exerciseName = exerciseName;

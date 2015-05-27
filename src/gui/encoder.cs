@@ -389,7 +389,7 @@ public partial class ChronoJumpWindow
 		label_encoder_selected.Text = encoderConfigurationCurrent.code;
 	}
 	
-	void on_spin_encoder_im_weights_n_changed (object o, EventArgs args) {
+	void on_spin_encoder_im_weights_n_value_changed (object o, EventArgs args) {
 		encoderConfigurationCurrent.extraWeightN = (int) spin_encoder_im_weights_n.Value; 
 		encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
 		label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();

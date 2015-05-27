@@ -310,9 +310,9 @@ public partial class ChronoJumpWindow
 		encoder_pulsebar_analyze.Fraction = 1;
 		encoder_pulsebar_analyze.Text = "";
 
-		//default values	
-		encoderConfigurationCurrent = new EncoderConfiguration();
-		label_encoder_selected.Text = encoderConfigurationCurrent.code; 
+		//read from SQL
+		encoderConfigurationCurrent = SqliteEncoder.LoadEncoderConfiguration();
+		encoderConfigurationGUIUpdate();
 		
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 
@@ -450,6 +450,8 @@ public partial class ChronoJumpWindow
 		sensitiveGuiEventDoing();
 
 		LogB.Debug("Calling encoderThreadStart for capture");
+
+		encoderConfigurationCurrent.SQLUpdate(); //record this encoderConfiguration to SQL for next Chronojump open
 
 		needToCallPrepareEncoderGraphs = false;
 		encoderProcessFinish = false;
@@ -656,6 +658,7 @@ public partial class ChronoJumpWindow
 	}
 
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args) {
+		encoderConfigurationCurrent.SQLUpdate(); //record this encoderConfiguration to SQL for next Chronojump open
 		encoderCalculeCurves(encoderActions.CURVES);
 	}
 
@@ -1351,18 +1354,8 @@ public partial class ChronoJumpWindow
 				radiobutton_video_encoder_play.Active = true;
 			
 				encoderConfigurationCurrent = eSQL.encoderConfiguration;
-			
-				if(encoderConfigurationCurrent.has_inertia) {
-					notebook_encoder_capture_extra_mass.CurrentPage = 1;
 
-					spin_encoder_im_weights_n.Value = encoderConfigurationCurrent.extraWeightN;
-					label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
-				}
-				else
-					notebook_encoder_capture_extra_mass.CurrentPage = 0;
-
-				label_encoder_selected.Text = encoderConfigurationCurrent.code;
-
+				encoderConfigurationGUIUpdate();
 			}
 		}
 
@@ -1373,6 +1366,8 @@ public partial class ChronoJumpWindow
 		//LogB.Information(UtilEncoder.CompressSignal(UtilEncoder.GetEncoderDataTempFileName()));
 
 		if(success) {	
+			encoderConfigurationCurrent.SQLUpdate(); //record this encoderConfiguration to SQL for next Chronojump open
+
 			//force a recalculate but not save the curve (we are loading)
 			encoderCalculeCurves(encoderActions.LOAD);
 		
@@ -1447,6 +1442,20 @@ public partial class ChronoJumpWindow
 			genericWin.SetButtonAcceptSensitive(false);
 		}
 		genericWin.Delete_row_accepted();
+	}
+				
+	void encoderConfigurationGUIUpdate()
+	{
+		if(encoderConfigurationCurrent.has_inertia) {
+			notebook_encoder_capture_extra_mass.CurrentPage = 1;
+
+			spin_encoder_im_weights_n.Value = encoderConfigurationCurrent.extraWeightN;
+			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
+		}
+		else
+			notebook_encoder_capture_extra_mass.CurrentPage = 0;
+
+		label_encoder_selected.Text = encoderConfigurationCurrent.code;
 	}
 
 	void encoderSignalDelete (string signalURL, int signalID) 

@@ -88,6 +88,9 @@ class SqlitePreferences : Sqlite
 				Insert ("useHeightsOnJumpIndexes", "True", dbcmdTr);
 				Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString(), dbcmdTr); 
 				Insert ("email", "", dbcmdTr);
+				
+				//last encoderConfiguration, to be used on next session
+				Insert ("encoderConfiguration", new EncoderConfiguration().ToStringOutput(EncoderConfiguration.Outputs.SQL), dbcmdTr);
 			}
 			tr.Commit();
 		}

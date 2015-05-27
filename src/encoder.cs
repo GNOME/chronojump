@@ -1229,7 +1229,8 @@ public class EncoderConfiguration {
 		}
 	}
 
-	public void FromSQL (string [] strFull) {
+	public void ReadParamsFromSQL (string [] strFull) 
+	{
 		//adds other params
 		this.d = 	   Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
 		this.D = 	   Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[2]));
@@ -1250,6 +1251,12 @@ public class EncoderConfiguration {
 			this.extraWeightGrams = 0;
 			this.extraWeightLength = 1;
 		}
+	}
+
+	//called on capture, recalculate, load
+	public void SQLUpdate()
+	{
+		SqlitePreferences.Update("encoderConfiguration", this.ToStringOutput(Outputs.SQL), false);
 	}
 
 	public enum Outputs { ROPTIONS, RCSV, SQL} 

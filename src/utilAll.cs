@@ -28,6 +28,8 @@ using System.Reflection; // Read Version
 //we do not use util.cs in mini because it has lot of calls to other files
 public class UtilAll
 {
+	static bool printedOS = false;
+
 	public static string ReadVersion() {
 		Version version = Assembly.GetExecutingAssembly().GetName().Version;
 		return version.ToString();
@@ -56,7 +58,12 @@ public class UtilAll
 			platform = "Unix (MacOSX)";
 
 		string osString =  string.Format("{0}, {1}", platform, os.Version);
-		LogB.Information("GetOS: " + osString);
+
+		if(! printedOS) {
+			LogB.Information("GetOS: " + osString);
+			printedOS = true;
+		}
+		
 		return osString;
 	}
 

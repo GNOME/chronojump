@@ -92,15 +92,15 @@ class Sqlite
 	public static void Open()
 	{
 		try {
-			LogB.SQL("SQL ON");
+			LogB.SQLon();
 			dbcon.Open();
 		} catch {
 			LogB.SQL("-- catched --");
 
-			LogB.SQL("SQL OFF");
+			LogB.SQLoff();
 			dbcon.Close();
 			
-			LogB.SQL("SQL ON");
+			LogB.SQLon();
 			dbcon.Open();
 			
 			LogB.SQL("-- end of catched --");
@@ -108,7 +108,7 @@ class Sqlite
 	}
 	public static void Close()
 	{
-		LogB.SQL("SQL OFF");
+		LogB.SQLoff();
 		dbcon.Close();
 	}
 

@@ -58,7 +58,7 @@ public enum LogEntryType
 	Warning,
 	Error,
 	Information,
-	SQL,
+	SQL, SQLon, SQLoff,
 	ThreadStart, ThreadEnding, ThreadEnded
 }
 
@@ -147,11 +147,25 @@ public static class LogB
 				case LogEntryType.SQL:
 					ConsoleCrayon.ForegroundColor = ConsoleColor.Cyan;
 					break;
+				case LogEntryType.SQLon:
+					ConsoleCrayon.BackgroundColor = ConsoleColor.DarkCyan;
+					ConsoleCrayon.ForegroundColor = ConsoleColor.White;
+					break;
+				case LogEntryType.SQLoff:
+					ConsoleCrayon.BackgroundColor = ConsoleColor.DarkCyan;
+					ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
+					break;
 				case LogEntryType.ThreadStart:
+					ConsoleCrayon.BackgroundColor = ConsoleColor.Green;
+					ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
+					break;
 				case LogEntryType.ThreadEnding:
-				case LogEntryType.ThreadEnded:
-					ConsoleCrayon.ForegroundColor = ConsoleColor.DarkBlue;
 					ConsoleCrayon.BackgroundColor = ConsoleColor.Yellow;
+					ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
+					break;
+				case LogEntryType.ThreadEnded:
+					ConsoleCrayon.BackgroundColor = ConsoleColor.Red;
+					ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
 					break;
 			}
 
@@ -198,6 +212,10 @@ public static class LogB
 				return "Info ";
 			case LogEntryType.SQL:
 				return "SQL ";
+			case LogEntryType.SQLon:
+				return "SQL ON";
+			case LogEntryType.SQLoff:
+				return "SQL OFF";
 			case LogEntryType.ThreadStart:
 				return "Thread Start -------------------------->";
 			case LogEntryType.ThreadEnding:
@@ -458,6 +476,17 @@ public static class LogB
 	public static void SQLFormat(string format, params object [] args)
 	{
 		SQL(String.Format(format, args));
+	}
+	
+
+	public static void SQLon()
+	{
+		Commit(LogEntryType.SQLon, null, null, false);
+	}
+
+	public static void SQLoff()
+	{
+		Commit(LogEntryType.SQLoff, null, null, false);
 	}
 
 #endregion

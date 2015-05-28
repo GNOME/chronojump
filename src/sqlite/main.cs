@@ -1207,7 +1207,7 @@ class Sqlite
 
 				//delete all it's runs
 				Sqlite.Open();
-				dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable +
+				dbcmd.CommandText = "DELETE FROM " + Constants.RunIntervalTable +
 					" WHERE type == 'RSA 8-4-R3-5'";
 				LogB.SQL(dbcmd.CommandText.ToString());
 				dbcmd.ExecuteNonQuery();
@@ -2153,7 +2153,7 @@ class Sqlite
 
 		Sqlite.Open();
 		//dbcmd.CommandText = "Delete FROM tempJumpRj";
-		dbcmd.CommandText = "Delete FROM " + tableName;
+		dbcmd.CommandText = "DELETE FROM " + tableName;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
@@ -2803,7 +2803,7 @@ LogB.SQL("5" + tableName);
 			cond2 = cond2Pre + columnNameCondition2 + " == '" + searchValueCondition2 + "'"; 
 		}
 
-		dbcmd.CommandText = "Update " + tableName +
+		dbcmd.CommandText = "UPDATE " + tableName +
 			" SET " + columnName + " = '" + newValue + "'" +  
 			cond1 +
 			cond2
@@ -2820,7 +2820,7 @@ LogB.SQL("5" + tableName);
 		if( ! dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = "Delete FROM " + tableName +
+		dbcmd.CommandText = "DELETE FROM " + tableName +
 			" WHERE uniqueID == " + uniqueID.ToString();
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -2834,7 +2834,7 @@ LogB.SQL("5" + tableName);
 		if( ! dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = "Delete FROM " + tableName +
+		dbcmd.CommandText = "DELETE FROM " + tableName +
 			" WHERE " + fieldName + " == " + id;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -2849,7 +2849,7 @@ LogB.SQL("5" + tableName);
 		if( ! dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = "Delete FROM " + tableName +
+		dbcmd.CommandText = "DELETE FROM " + tableName +
 			" WHERE name == '" + name + "'";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -2863,7 +2863,7 @@ LogB.SQL("5" + tableName);
 		if( ! dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = "Delete FROM " + tableName +
+		dbcmd.CommandText = "DELETE FROM " + tableName +
 			" WHERE " + colName + " == " + id;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

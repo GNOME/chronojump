@@ -6262,7 +6262,7 @@ LogB.Debug("X");
 			List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName());
 			encoderUpdateTreeViewCapture(contents); //this updates encoderCaptureCurves
 			
-			findAndMarkSavedCurves();
+			findAndMarkSavedCurves(false, false); //SQL closed; don't update curve SQL records (like future1: meanPower)
 			
 			//also update the bars plot (to show colors depending on bells changes)
 			if(captureCurvesBarsData.Count > 0) {

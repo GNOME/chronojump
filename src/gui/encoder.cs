@@ -5157,15 +5157,16 @@ public partial class ChronoJumpWindow
 					/*
 					 * (0) open Sqlite
 					 * (1) if found curves of this signal
-					 * 	(1a) this curves are with different eccon
+					 * 	(1a) this curves are with different eccon, or with different encoderConfiguration.name
 					 * 		(1a1) delete the curves (files)
 					 * 		(1a2) delete the curves (encoder table)
 					 * 		(1a3) and also delete from (encoderSignalCurves table)
-					 * 	(1b) or different exercise, or different laterality or different extraWeight
+					 * 	(1b) or different exercise, or different laterality or different extraWeight, 
+					 * 		or different encoderConfiguration (but the name is the same)
 					 * 		(1b1) update curves with new data
-					 * 			but delete the future1 (power) because maybe has changed (in exerciseID or extraWeight change)
 					 * (2) update analyze labels and combos
-					 * (3) close Sqlite
+					 * (3) update meanPower on SQL encoder
+					 * (4) close Sqlite
 					 */
 
 					Sqlite.Open(); // (0)
@@ -5185,43 +5186,49 @@ public partial class ChronoJumpWindow
 					{
 						if(currentSignalSQL.GetDate(false) == eSQL.GetDate(false)) 		// (1)
 						{
-							if(findEccon(true) != eSQL.eccon) {				// (1a)
+							// (1a)
+							if(findEccon(true) != eSQL.eccon || 
+									encoderConfigurationCurrent.name != eSQL.encoderConfiguration.name)
+							{
 								Util.FileDelete(eSQL.GetFullURL(false));					// (1a1)
 								Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));	// (1a2)
 								SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID)); // (1a3)
 								deletedUserCurves = true;
 							} else {							// (1b)
-								if(
-										currentSignalSQL.exerciseID != eSQL.exerciseID ||
-										currentSignalSQL.extraWeight != eSQL.extraWeight ) 
-								{
-									if(currentSignalSQL.exerciseID != eSQL.exerciseID)
-										Sqlite.Update(true, Constants.EncoderTable, "exerciseID",
-												"", currentSignalSQL.exerciseID.ToString(),
-												"uniqueID", eSQL.uniqueID.ToString());
-									
-									if(currentSignalSQL.extraWeight != eSQL.extraWeight)
-										Sqlite.Update(true, Constants.EncoderTable, "extraWeight",
-												"", currentSignalSQL.extraWeight,
-												"uniqueID", eSQL.uniqueID.ToString());
-
-									Sqlite.Update(true, Constants.EncoderTable, "future1",
-											"", "0",
+								if(currentSignalSQL.exerciseID != eSQL.exerciseID)
+									Sqlite.Update(true, Constants.EncoderTable, "exerciseID",
+											"", currentSignalSQL.exerciseID.ToString(),
 											"uniqueID", eSQL.uniqueID.ToString());
-								}
+
+								if(currentSignalSQL.extraWeight != eSQL.extraWeight)
+									Sqlite.Update(true, Constants.EncoderTable, "extraWeight",
+											"", currentSignalSQL.extraWeight,
+											"uniqueID", eSQL.uniqueID.ToString());
+
 								if(currentSignalSQL.laterality != eSQL.laterality)
 									Sqlite.Update(true, Constants.EncoderTable, "laterality",
 											"", currentSignalSQL.laterality,
 											"uniqueID", eSQL.uniqueID.ToString());
+								
+								if( currentSignalSQL.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) !=
+										eSQL.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) )
+								{
+									Sqlite.Update(true, Constants.EncoderTable, "encoderConfiguration",
+											"", currentSignalSQL.encoderConfiguration.ToStringOutput(
+												EncoderConfiguration.Outputs.SQL),
+											"uniqueID", eSQL.uniqueID.ToString());
+								}
 							}
 						}
 					}
 					if(deletedUserCurves)
 						updateUserCurvesLabelsAndCombo(true); 	// (2)
 
-					Sqlite.Close(); 					// (3)
+					// (3) update meanPower on SQL encoder
+					findAndMarkSavedCurves(true, true); //SQL opened; update curve SQL records (like future1: meanPower)
+					
+					Sqlite.Close(); 					// (4)
 
-					findAndMarkSavedCurves();
 				}
 				
 				playVideoEncoderPrepare(false); //do not play
@@ -5336,9 +5343,21 @@ public partial class ChronoJumpWindow
 		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt");
 	}
 
-	private void findAndMarkSavedCurves() {
+	/*
+	 * on capture treeview finds which rows are related to saved SQL curves
+	 * mark their rows (meaning saved)
+	 * also if updateSQLRecords, then update SQL meanPower of the curve
+	 *
+	 * This method is called by on_repetitive_conditions_closed, and finishPulseBar
+	 */
+	private void findAndMarkSavedCurves(bool dbconOpened, bool updateSQLRecords) 
+	{
+		//run this method with SQL opened to not be closing and opening a lot on the following foreachs
+		if(! dbconOpened)
+			Sqlite.Open();
+
 		//find the saved curves
-		ArrayList linkedCurves = SqliteEncoder.SelectSignalCurve(false, 
+		ArrayList linkedCurves = SqliteEncoder.SelectSignalCurve(true, 
 				Convert.ToInt32(encoderSignalUniqueID), //signal
 				-1, -1, -1);				//curve, msStart,msEnd
 		//LogB.Information("SAVED CURVES FOUND");
@@ -5367,11 +5386,22 @@ public partial class ChronoJumpWindow
 				{
 					LogB.Information(curve.Start + " is saved");
 					encoderCaptureSelectBySavedCurves(esc.msCentral, true);
+
+					if(updateSQLRecords) {
+						//update the future1
+						Sqlite.Update(true, Constants.EncoderTable, "future1",
+								"", curve.MeanPower,
+								"uniqueID", esc.curveID.ToString());
+					}
+					
 					break;
 				}
 			}
 			curveCount ++;
 		}
+
+		if(! dbconOpened)
+			Sqlite.Close();
 	}
 
 	

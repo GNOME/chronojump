@@ -59,6 +59,9 @@ DEB.B) every time
 export DEBFULLNAME="Xavier de Blas"
 export DEBEMAIL="info@chronojump.org"
 ./deb-pkg.sh 1
+
+read carefully screen messages. Once says: successfully uploaded, need to wait 1h 30' aprox, then an email will be sent from launchpad telling if ok or not.
+
 if there are problems, remove build-deb and repeat process
 
 DEB.C) upload deb on raspbian

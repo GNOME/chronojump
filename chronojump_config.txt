@@ -1,16 +1,39 @@
+# 1 ------- HELP -------
+
 #Comments start with sharp sign
 #Options are key/values with an = separating them
 #DO NOT write comments in the same line than key/value pairs
+#DO NOT WRITE SPACES BEFORE OR AFTER THE '=' SIGN
 #Whitelines are allowed
 #This file is in .local/share/Chronojump (on Linux)
 
-Maximized=True
+#Recommendations for Raspberry 2
+#Maximized=TRUE
+#CustomButtons=TRUE
+#UseVideo=FALSE
+#AutodetectPort=ACTIVE
+#RunScriptOnExit=
+
+#Recommendations for PIPO tablet (Windows)
+#Maximized=TRUE
+#CustomButtons=TRUE
+#UseVideo=TRUE
+#AutodetectPort=DISCARDFIRST
+#RunScriptOnExit=
+
+# 2 ------- OPTIONS -------
+
+Maximized=TRUE
 
 #Bigger / different buttons at some parts
-CustomButtons=True
+CustomButtons=TRUE
 
-#PIPO table has COM1 and COM5, this is for trying COM5, because at COM1 it doesn't work
-Port=COM5
+#To disable video on Raspberry change to FALSE
+UseVideo=TRUE
+
+#options are ACTIVE, DISCARDFIRST and INACTIVE
+#PIPO windows tablet has COM1 and usually COM5. At COM1 it doesn't work, use DISCARDFIRST to use the other
+AutodetectPort=DISCARDFIRST
 
 #To sync data
 RunScriptOnExit=

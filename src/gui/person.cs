@@ -878,8 +878,8 @@ public class PersonAddModifyWindow
 	//
 	//if we are adding a person, currentPerson.UniqueID it's -1
 	//if we are modifying a person, currentPerson.UniqueID is obviously it's ID
-	//hidePhotoStuff is true on raspberry to not use camera
-	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, bool hidePhotoStuff) {
+	//showPhotoStuff is false on raspberry to not use camera
+	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, bool showPhotoStuff) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
@@ -911,9 +911,7 @@ public class PersonAddModifyWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
 		image_zoom.Pixbuf = pixbuf;
 
-		if(hidePhotoStuff)
-			vbox_photo.Visible = false;
-		else {
+		if(showPhotoStuff) {
 			string photoFile = Util.GetPhotoFileName(true, currentPerson.UniqueID);
 			if(File.Exists(photoFile)) {
 				try {
@@ -934,6 +932,8 @@ public class PersonAddModifyWindow
 			else
 				button_zoom.Sensitive = false;
 		}
+		else
+			vbox_photo.Visible = false;
 			
 		fakeButtonAccept = new Gtk.Button();
 
@@ -1097,10 +1097,10 @@ public class PersonAddModifyWindow
 	
 	static public PersonAddModifyWindow Show (Gtk.Window parent, 
 			Session mySession, Person currentPerson, int pDN, 
-			Gtk.CheckButton app1_checkbutton_video, bool hidePhotoStuff)
+			Gtk.CheckButton app1_checkbutton_video, bool showPhotoStuff)
 	{
 		if (PersonAddModifyWindowBox == null) {
-			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, hidePhotoStuff);
+			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, showPhotoStuff);
 		}
 
 		PersonAddModifyWindowBox.pDN = pDN;

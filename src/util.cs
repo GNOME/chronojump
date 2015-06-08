@@ -804,18 +804,14 @@ public class Util
 	}
 
 	/********** end of database paths ************/
-	
+
+	/*	
 	public static string GetChronojumpNetworksFile() {
 		return Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
 				"Chronojump" + Path.DirectorySeparatorChar + "chronojump_networks.txt");
 	}
-	public static string GetChronojumpRaspberryFile() {
-		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump" + Path.DirectorySeparatorChar + "chronojump_raspberry.txt");
-	}
-	
+	*/
 	
 
 	/********** start of multimedia paths ************/

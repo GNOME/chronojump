@@ -100,6 +100,11 @@ public class UtilAll
 				"Chronojump");
 	}
 	
+	public static string GetConfigFileName() {
+		return Path.Combine(GetApplicationDataDir() +  Path.DirectorySeparatorChar + Constants.FileNameConfig);
+	}
+	
+	
 	public static string DetectPortsLinux(bool formatting) {
 		string startStr = "";
 		string midStr = "\n";

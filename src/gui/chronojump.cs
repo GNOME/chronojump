@@ -3896,14 +3896,7 @@ public partial class ChronoJumpWindow
 							Catalog.GetString("Sorry, video cannot be stored."));
 
 			myTreeViewJumps.PersonWeight = currentPersonSession.Weight;
-			if(preferences.weightStatsPercent)
-				myTreeViewJumps.Add(currentPerson.Name, currentJump);
-			else {
-				Jump myJump = new Jump();
-				myJump = currentJump;
-				myJump.Weight = Util.WeightFromPercentToKg(currentJump.Weight, currentPersonSession.Weight);
-				myTreeViewJumps.Add(currentPerson.Name, myJump);
-			}
+			myTreeViewJumps.Add(currentPerson.Name, currentJump);
 			
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			showHideActionEventButtons(true, "Jump"); //show
@@ -4069,14 +4062,7 @@ public partial class ChronoJumpWindow
 			}
 
 			myTreeViewJumpsRj.PersonWeight = currentPersonSession.Weight;
-			if(preferences.weightStatsPercent)
-				myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
-			else {
-				JumpRj myJump = new JumpRj();
-				myJump = currentJumpRj;
-				myJump.Weight = Util.WeightFromPercentToKg(currentJumpRj.Weight, currentPersonSession.Weight);
-				myTreeViewJumpsRj.Add(currentPerson.Name, myJump);
-			}
+			myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
 			
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			showHideActionEventButtons(true, "JumpRj"); //show

@@ -197,17 +197,18 @@ public class TreeViewJumps : TreeViewEvent
 		myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);
 
 		
+		//we calculate weightInKg again because can be changed in edit jump, and then treeview is no re-done
+		//but we do not calculate again person weight, because if it changes treeview is created again
+		//
+		//Also this is needed on Add (where personWeight is passed using PersonWeight, but not weightInKg)
+		weightInKg = Util.WeightFromPercentToKg(
+				Convert.ToDouble(newJump.Weight.ToString()),
+				personWeight);
 
 		if (preferences.showPower)  {
 			//takeoff has no tv. power should not be calculated
 			//calculate jumps with tf
 			if(newJump.Tv > 0) {	
-				//we calculate weightInKg again because can be changed in edit jump, and then treeview is no re-done
-				//but we do not calculate again person weight, because if it changes treeview is created again
-				weightInKg = Util.WeightFromPercentToKg(
-						Convert.ToDouble(newJump.Weight.ToString()),
-						personWeight);
-				
 				if(newJump.Tc > 0) 	//if it's Dj (has tf, and tc)
 					myData[count++] = Util.TrimDecimals(
 							Util.GetDjPower(newJump.Tc, newJump.Tv, (personWeight + weightInKg), newJump.Fall).ToString(), 1);
@@ -294,6 +295,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 				Convert.ToDouble(myStringOfData[8]), 
 				personWeight);
 
+		LogB.Warning("gofs personWeight = " + personWeight.ToString());
+		LogB.Warning("gofs jump Weight % = " + myStringOfData[8].ToString());
+		LogB.Warning("gofs weightInKg = " + weightInKg.ToString());
+
 		//we create the jump with a weight of percent or kk
 		if(preferences.weightStatsPercent)
 			myJumpRj.Weight = Convert.ToDouble(myStringOfData[8].ToString());
@@ -370,6 +375,16 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = ""; 
 		myData[count++] = ""; 
 		myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(thisTv), pDN);
+		
+		//This is needed on Add (where personWeight is passed using PersonWeight, but not weightInKg)
+		weightInKg = Util.WeightFromPercentToKg(
+				Convert.ToDouble(newJumpRj.Weight.ToString()),
+				personWeight);
+		
+		LogB.Error("personWeight = " + personWeight.ToString());
+		LogB.Error("newJumpRj.Weight = " + newJumpRj.Weight.ToString());
+		LogB.Error("weightInKg = " + weightInKg.ToString());
+
 		if (preferences.showPower) {
 			double myFall;
 			if(lineCount == 0)
@@ -386,6 +401,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 						Util.GetPower(Convert.ToDouble(thisTv), personWeight, weightInKg).ToString(), 1);
 		}
 		if (preferences.showStiffness) {
+			LogB.Warning("AT TREEVIEWJUMP.CS");
 			//use directly Util.GetStiffness because we want to get from this specific subjump, not all the reactive jump.
 			if(Convert.ToDouble(thisTc) > 0) {
 				//show as integer in treeview, but let the other parts of the software (export) to show it as double

@@ -4068,6 +4068,7 @@ public partial class ChronoJumpWindow
 				}
 			}
 
+			myTreeViewJumpsRj.PersonWeight = currentPersonSession.Weight;
 			if(preferences.weightStatsPercent)
 				myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
 			else {

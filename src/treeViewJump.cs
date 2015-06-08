@@ -160,18 +160,11 @@ public class TreeViewJumps : TreeViewEvent
 		myJump.Description = myStringOfData[9].ToString();
 		myJump.Simulated = Convert.ToInt32(myStringOfData[11].ToString());
 
+		myJump.Weight = Convert.ToDouble(myStringOfData[8].ToString());
+
 		//to calculate potency
 		personWeight = Convert.ToDouble(myStringOfData[12]);
-		weightInKg = Util.WeightFromPercentToKg(
-				Convert.ToDouble(myStringOfData[8]), 
-				personWeight);
-
-		//we create the jump with a weight of percent or kk
-		if(preferences.weightStatsPercent)
-			myJump.Weight = Convert.ToDouble(myStringOfData[8].ToString());
-		else
-			myJump.Weight = weightInKg;
-
+		weightInKg = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
 
 		return myJump;
 	}
@@ -191,12 +184,6 @@ public class TreeViewJumps : TreeViewEvent
 		myData[count++] = Util.TrimDecimals(newJump.Tc.ToString(), pDN);
 		myData[count++] = Util.TrimDecimals(newJump.Tv.ToString(), pDN);
 		
-		myData[count++] = Util.TrimDecimals(newJump.Weight.ToString(), pDN);
-
-		myData[count++] = Util.TrimDecimals(newJump.Fall.ToString(), pDN);
-		myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);
-
-		
 		//we calculate weightInKg again because can be changed in edit jump, and then treeview is no re-done
 		//but we do not calculate again person weight, because if it changes treeview is created again
 		//
@@ -204,6 +191,13 @@ public class TreeViewJumps : TreeViewEvent
 		weightInKg = Util.WeightFromPercentToKg(
 				Convert.ToDouble(newJump.Weight.ToString()),
 				personWeight);
+		
+		myData[count++] = Util.TrimDecimals(weightInKg.ToString(), pDN);
+
+		myData[count++] = Util.TrimDecimals(newJump.Fall.ToString(), pDN);
+		myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);
+
+		
 
 		if (preferences.showPower)  {
 			//takeoff has no tv. power should not be calculated
@@ -290,20 +284,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myJumpRj.Description = myStringOfData[9].ToString();
 		myJumpRj.Simulated = Convert.ToInt32(myStringOfData[18].ToString());
 		
+		myJumpRj.Weight = Convert.ToDouble(myStringOfData[8].ToString());
+
 		personWeight = Convert.ToDouble(myStringOfData[19]);
-		weightInKg = Util.WeightFromPercentToKg(
-				Convert.ToDouble(myStringOfData[8]), 
-				personWeight);
-
-		LogB.Warning("gofs personWeight = " + personWeight.ToString());
-		LogB.Warning("gofs jump Weight % = " + myStringOfData[8].ToString());
-		LogB.Warning("gofs weightInKg = " + weightInKg.ToString());
-
-		//we create the jump with a weight of percent or kk
-		if(preferences.weightStatsPercent)
-			myJumpRj.Weight = Convert.ToDouble(myStringOfData[8].ToString());
-		else
-			myJumpRj.Weight = Util.WeightFromPercentToKg(Convert.ToDouble(myStringOfData[8]), Convert.ToDouble(myStringOfData[19]));
+		weightInKg = Util.WeightFromPercentToKg(myJumpRj.Weight, personWeight);
 
 		return myJumpRj;
 	}
@@ -328,7 +312,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = "";
 		myData[count++] = "";
 		
-		myData[count++] = Util.TrimDecimals(newJumpRj.Weight.ToString(), pDN);
+		weightInKg = Util.WeightFromPercentToKg(
+				Convert.ToDouble(newJumpRj.Weight.ToString()),
+				personWeight);
+		myData[count++] = Util.TrimDecimals(weightInKg.ToString(), pDN);
 
 		myData[count++] = Util.TrimDecimals(newJumpRj.Fall.ToString(), pDN);
 		myData[count++] = ""; //height
@@ -381,10 +368,6 @@ public class TreeViewJumpsRj : TreeViewJumps
 				Convert.ToDouble(newJumpRj.Weight.ToString()),
 				personWeight);
 		
-		LogB.Error("personWeight = " + personWeight.ToString());
-		LogB.Error("newJumpRj.Weight = " + newJumpRj.Weight.ToString());
-		LogB.Error("weightInKg = " + weightInKg.ToString());
-
 		if (preferences.showPower) {
 			double myFall;
 			if(lineCount == 0)
@@ -401,7 +384,6 @@ public class TreeViewJumpsRj : TreeViewJumps
 						Util.GetPower(Convert.ToDouble(thisTv), personWeight, weightInKg).ToString(), 1);
 		}
 		if (preferences.showStiffness) {
-			LogB.Warning("AT TREEVIEWJUMP.CS");
 			//use directly Util.GetStiffness because we want to get from this specific subjump, not all the reactive jump.
 			if(Convert.ToDouble(thisTc) > 0) {
 				//show as integer in treeview, but let the other parts of the software (export) to show it as double

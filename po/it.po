@@ -34,7 +34,7 @@ msgid "Device disconnected. The capture will be paused"
 msgstr "Periferica disconnessa. La registrazione verrà messa in pausa"
 
 #: ../CesarPlayer/Gui/CapturerBin.cs:383
-msgid "Device reconnected.Do you want to restart the capture?"
+msgid "Device reconnected. Do you want to restart the capture?"
 msgstr "Periferica riconnessa. Riprendere la registrazione?"
 
 #: ../CesarPlayer/Utils/Device.cs:83

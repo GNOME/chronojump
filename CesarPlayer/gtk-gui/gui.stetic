@@ -423,7 +423,7 @@
                     <property name="CanFocus">True</property>
                     <property name="Type">TextAndIcon</property>
                     <property name="Icon">stock:stock_about Button</property>
-                    <property name="Label" translatable="yes">Take _snaphot</property>
+                    <property name="Label" translatable="yes">Take _snapshot</property>
                     <property name="UseUnderline">True</property>
                     <signal name="Clicked" handler="OnSnapshotbuttonClicked" />
                   </widget>

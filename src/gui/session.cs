@@ -433,7 +433,7 @@ public class SessionAddEditWindow {
 				
 		//if it's sedentary, put sport to none
 		/*
-		 * Now undone because sedentary has renamed to "sedentary/Ocasional practice"
+		 * Now undone because sedentary has renamed to "sedentary/Occasional practice"
 		if(UtilGtk.ComboGetActive(combo_levels) == "0:" + Catalog.GetString(Constants.LevelSedentary))
 			combo_sports.Active = UtilGtk.ComboMakeActive(sports, "2:" + Catalog.GetString(Constants.SportNone));
 		*/
@@ -464,9 +464,9 @@ public class SessionAddEditWindow {
 
 				if(label_speciallity.Visible) {
 					if(radiobutton_diff_speciallities.Active)
-						speciallityString = "\n" + Catalog.GetString("Different speciallities.");
+						speciallityString = "\n" + Catalog.GetString("Different specialties.");
 					else {
-						speciallityString = "\n" + Catalog.GetString("This speciallity:");
+						speciallityString = "\n" + Catalog.GetString("This specialty:");
 						if(UtilGtk.ComboGetActive(combo_speciallities) == Catalog.GetString(Constants.SpeciallityUndefined))
 							speciallityString += "<tt>" + pleaseDefineItString + "</tt>";
 						else
@@ -724,7 +724,7 @@ public class SessionLoadWindow {
 		tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Persons"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Sport"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Speciallity"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Specialty"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Level"), new CellRendererText(), "text", count++);
 		if(showContacts) {
 			tv.AppendColumn ( Catalog.GetString ("Jumps simple"), new CellRendererText(), "text", count++);

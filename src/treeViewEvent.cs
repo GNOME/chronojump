@@ -37,7 +37,7 @@ public class TreeViewEvent
 	protected int dataLineNamePosition; //position of name in the data to be printed
 	protected int dataLineTypePosition; //position of type in the data to be printed
 	protected string allEventsName; //Constants.AllJumpsName or Constants.AllRunsName orConstants.AllPulsesName
-	protected int eventIDColumn; //column where the uniqueID of event will be (and will be hidded)
+	protected int eventIDColumn; //column where the uniqueID of event will be (and will be hidden)
 	protected string descriptionName = Catalog.GetString("Description");
 	
 	protected bool weightPercentPreferred;

@@ -145,7 +145,7 @@ namespace LongoMatch.Gui
 			//w31.Add (w32);
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Label w34 = new global::Gtk.Label ();
-			w34.LabelProp = global::Mono.Unix.Catalog.GetString ("Take _snaphot");
+			w34.LabelProp = global::Mono.Unix.Catalog.GetString ("Take _snapshot");
 			w34.UseUnderline = true;
 			w31.Add (w34);
 			w30.Add (w31);

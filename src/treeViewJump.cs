@@ -76,7 +76,7 @@ public class TreeViewJumps : TreeViewEvent
 		columnsString = obtainColumnsString(columnsStringPre);
 	
 
-		eventIDColumn = columnsString.Length ; //column where the uniqueID of event will be (and will be hidded). 
+		eventIDColumn = columnsString.Length ; //column where the uniqueID of event will be (and will be hidden). 
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -272,7 +272,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 	       	};
 		columnsString = obtainColumnsString(columnsStringPre);
 
-		eventIDColumn = columnsString.Length ; //column where the uniqueID of event will be (and will be hidded). 
+		eventIDColumn = columnsString.Length ; //column where the uniqueID of event will be (and will be hidden). 
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);

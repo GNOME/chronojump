@@ -44,7 +44,7 @@ public class PulseType : EventType
 			imageFileName = "pulse_free.png";
 			description = Catalog.GetString("Pulse free");
 			longDescription = 
-				Catalog.GetString("User executes a pulse without a predefined tempo. <i>Difference</i> will show the difference between a pulse and it's preceeding pulse.");
+				Catalog.GetString("User executes a pulse without a predefined tempo. <i>Difference</i> will show the difference between a pulse and it's preceding pulse.");
 
 		} else if(name == "Custom") {
 			fixedPulse = -1;

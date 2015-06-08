@@ -44,7 +44,7 @@ public class TreeViewRuns : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllRunsName;
-		eventIDColumn = 5; //column where the uniqueID of event will be (and will be hidded)
+		eventIDColumn = 5; //column where the uniqueID of event will be (and will be hidden)
 	
 		string runnerName = Catalog.GetString("Runner");
 		string speedName = Catalog.GetString("Speed");
@@ -136,7 +136,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllRunsName;
-		eventIDColumn = 5; //column where the uniqueID of event will be (and will be hidded)
+		eventIDColumn = 5; //column where the uniqueID of event will be (and will be hidden)
 		
 		columnsString = new string[]{runnerName, speedName, lapTimeName, splitTimeName, descriptionName};
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col

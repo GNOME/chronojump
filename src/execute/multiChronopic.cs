@@ -389,7 +389,7 @@ public class MultiChronopicExecute : EventExecute
 		syncStates syncing = syncStates.DONE;
 		if(syncFirst) {
 			syncing = syncStates.NOTHING;
-			feedbackMessage = Catalog.GetString("Press and mantain Test button in all Chronopics simultaneously.");
+			feedbackMessage = Catalog.GetString("Press and maintain Test button in all Chronopics simultaneously.");
 			needShowFeedbackMessage = true;
 		}
 

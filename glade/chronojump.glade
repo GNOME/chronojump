@@ -37266,7 +37266,7 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Speciallity</property>
+                            <property name="label" translatable="yes">Specialty</property>
                             <property name="use_markup">True</property>
                           </widget>
                           <packing>
@@ -40092,7 +40092,7 @@ show elevation as:</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Speciallity</property>
+                        <property name="label" translatable="yes">Specialty</property>
                       </widget>
                       <packing>
                         <property name="left_attach">1</property>
@@ -47133,7 +47133,7 @@ suitable for agility tests and RSA)</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Speciallity</property>
+                            <property name="label" translatable="yes">Specialty</property>
                           </widget>
                           <packing>
                             <property name="top_attach">1</property>

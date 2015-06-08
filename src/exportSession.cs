@@ -222,7 +222,7 @@ public class ExportSession
 				Catalog.GetString ("Sex") + ":" + Catalog.GetString ("Date of Birth") + ":" +
 				Catalog.GetString ("Description") + ":" + 
 				Catalog.GetString ("Height") + ":" + Catalog.GetString("Weight") + ":" +
-				Catalog.GetString ("Sport") + ":" + Catalog.GetString("Speciallity") + ":" +
+				Catalog.GetString ("Sport") + ":" + Catalog.GetString("Specialty") + ":" +
 				Catalog.GetString ("Level") + ":" + Catalog.GetString ("Comments")
 			   );
 

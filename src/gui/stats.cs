@@ -749,7 +749,7 @@ public partial class ChronoJumpWindow {
 		} 
 		
 		/*
-		   if is RjEvolution, or runInervallic show mark consecutives, graph only with lines and transposed
+		   if is RjEvolution, or runIntervallic show mark consecutives, graph only with lines and transposed
 		   */
 		if ( UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("Evolution") ||
 				UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeRunsIntervallic ) {

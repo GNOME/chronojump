@@ -1432,7 +1432,7 @@ public class PersonAddModifyWindow
 				
 		//if it's sedentary, put sport to none
 		/*
-		 * Now undone because sedentary has renamed to "sedentary/Ocasional practice"
+		 * Now undone because sedentary has renamed to "sedentary/Occasional practice"
 		if(UtilGtk.ComboGetActive(combo_levels) == "0:" + Catalog.GetString(Constants.LevelSedentary))
 			combo_sports.Active = UtilGtk.ComboMakeActive(sports, "2:" + Catalog.GetString(Constants.SportNone));
 		*/
@@ -1973,7 +1973,7 @@ public class PersonAddMultipleWindow {
 		label_csv_help.Text =
 			"<b>" + Catalog.GetString("Import persons from an spreadsheet. Eg. Excel, LibreOffice, Google Drive.") + "</b>\n\n" +
 			Catalog.GetString("Open the spreadsheet with the persons data to be added.") + "\n" +
-			Catalog.GetString("Spreadsheed structure need to have this structure:");
+			Catalog.GetString("Spreadsheet structure need to have this structure:");
 		label_csv_help.UseMarkup = true;
 
 		notebook.CurrentPage = 1;
@@ -2069,7 +2069,7 @@ public class PersonAddMultipleWindow {
 		if(currentSession.PersonsSportID != Constants.SportUndefinedID)
 			sportStuffString += Catalog.GetString("Sport") + ":<i>" + Catalog.GetString(SqliteSport.Select(false, currentSession.PersonsSportID).Name) + "</i>.";
 		if(currentSession.PersonsSpeciallityID != Constants.SpeciallityUndefinedID)
-			sportStuffString += " " + Catalog.GetString("Speciallity") + ":<i>" + SqliteSpeciallity.Select(false, currentSession.PersonsSpeciallityID) + "</i>.";
+			sportStuffString += " " + Catalog.GetString("Specialty") + ":<i>" + SqliteSpeciallity.Select(false, currentSession.PersonsSpeciallityID) + "</i>.";
 		if(currentSession.PersonsPractice != Constants.LevelUndefinedID)
 			sportStuffString += " " + Catalog.GetString("Level") + ":<i>" + Util.FindLevelName(currentSession.PersonsPractice) + "</i>.";
 

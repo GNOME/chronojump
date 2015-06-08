@@ -288,21 +288,21 @@ public class Constants
 	public static string PotencyLaraMaleApplicantsSCFormulaShort = 
 		Catalog.GetString("Peak power") + " (Lara, 2006, m)";
 	public static string PotencyLaraMaleApplicantsSCFormula = PotencyLaraMaleApplicantsSCFormulaShort + 
-		" (" + Catalog.GetString("Male applicants to a Faculty of Sport Sciencies") + ") \n" +
+		" (" + Catalog.GetString("Male applicants to a Faculty of Sport Sciences") + ") \n" +
 		"(62.5*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (50.3*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2184.7";
 	
 	public static string PotencyLaraFemaleEliteVoleiFormulaShort = 
 		Catalog.GetString("Peak power") + " (Lara, 2006, fev)"; 
 	public static string PotencyLaraFemaleEliteVoleiFormula = PotencyLaraFemaleEliteVoleiFormulaShort + 
-		" (" + Catalog.GetString("Female elite volleybol") + ") \n" +
+		" (" + Catalog.GetString("Female elite volleyball") + ") \n" +
 		"(83.1*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (42*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2488";
 	
 	public static string PotencyLaraFemaleMediumVoleiFormulaShort = 
 		Catalog.GetString("Peak power") + " (Lara, 2006, fmv)";
 	public static string PotencyLaraFemaleMediumVoleiFormula = PotencyLaraFemaleMediumVoleiFormulaShort +
-		" (" + Catalog.GetString("Female medium volleybol") + ") \n" +
+		" (" + Catalog.GetString("Female medium volleyball") + ") \n" +
 		"(53.6*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (67.5*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2624.1";
 	
@@ -567,8 +567,8 @@ public class Constants
 	public static string LevelUndefined = "Undefined"; 
 	private static string dumbVariableForTranslatingLevelUndefined = Catalog.GetString("Undefined");
 	public static int LevelSedentaryID = 0; 
-	public static string LevelSedentary = "Sedentary/Ocasional practice"; 
-	private static string dumbVariableForTranslatingLevelSedentary = Catalog.GetString("Sedentary/Ocasional practice");
+	public static string LevelSedentary = "Sedentary/Occasional practice"; 
+	private static string dumbVariableForTranslatingLevelSedentary = Catalog.GetString("Sedentary/Occasional practice");
 	public static string [] Levels = {
 		LevelUndefinedID.ToString() + ":" + Catalog.GetString(LevelUndefined), 
 		LevelSedentaryID.ToString() + ":" + Catalog.GetString(LevelSedentary), 

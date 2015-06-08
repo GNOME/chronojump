@@ -391,7 +391,7 @@ public class RunType : EventType
 				"\n\n" +
 				Catalog.GetString("The stopwatches were activated on the word 'go' and the button that saved the time intervals was pressed also after the following stages: when the subject stood up and kicked the ball; when the ball passed the 8 m line; and when the subject returned to the seated position in the same chair (42 cm height from the seat to the ground). The total time needed to perform the test provided a quantitative evaluation of performance. A qualitative evaluation was performed by the completion of an AQ. This AQ assesses 6 items with a Likert scale from 0 to 3, where 0 is the equivalent to needing help in order to perform the task, and 3 is equivalent to performing the task unaided with no mistakes. The maximum points that can be attained are 18. The items assessed were: (1) standing up from the chair, (2) kicking the ball, (3) walking whilst counting backwards from 15 to 0, (4) walking around the cone, (5) walking whilst stepping into the circles, and (6) sitting back down again.") + "\n\n" + 
 				"<b>" + Catalog.GetString("Assessment questionnaire") + "</b>\n" +
-				Catalog.GetString("Once the test finishes proceed to edit and you will be able to complete the assesment questionnaire.") +
+				Catalog.GetString("Once the test finishes proceed to edit and you will be able to complete the assessment questionnaire.") +
 				"\n\n" +
 				"<b>" + Catalog.GetString("Reference:") + "</b>\n" + 
 				"\nGiné-Garriga, M., Guerra, M., Marí-Dell’Olmo, M., Martin, C., & Unnithan, V.B. (2008). Sensitivity of a modified version of the ‘Timed Get Up and Go’ Test to predict fall risk in the elderly: a pilot study. Archives of Gerontology and Geriatrics, doi:10.1016/j.archger.2008.08.014. \n" +

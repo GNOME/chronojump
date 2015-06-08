@@ -348,7 +348,7 @@ public partial class ChronoJumpWindow
 		//done here because in Glade we cannot use the TextBuffer.Changed
 		textview_encoder_signal_comment.Buffer.Changed += new EventHandler(on_textview_encoder_signal_comment_key_press_event);
 
-		raspberryOrNetworksInit();
+		configInit();
 	
 		array1RM = new ArrayList();
 	}

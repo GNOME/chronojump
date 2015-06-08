@@ -2616,8 +2616,7 @@ public partial class ChronoJumpWindow
 	private void on_person_add_single_activate (object o, EventArgs args) {
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, 
 				currentSession, new Person(-1), 
-				preferences.digitsNumber, checkbutton_video,
-				(linuxType == linuxTypeEnum.RASPBERRY || linuxType == linuxTypeEnum.NETWORKS)
+				preferences.digitsNumber, checkbutton_video, useVideo
 				);
 		//-1 means we are adding a new person
 		//if we were modifying it will be it's uniqueID
@@ -2701,8 +2700,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("modify person");
 
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, 
-				preferences.digitsNumber, checkbutton_video,
-				(linuxType == linuxTypeEnum.RASPBERRY || linuxType == linuxTypeEnum.NETWORKS)
+				preferences.digitsNumber, checkbutton_video, useVideo
 				); 
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}

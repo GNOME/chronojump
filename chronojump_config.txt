@@ -1,0 +1,16 @@
+#Comments start with sharp sign
+#Options are key/values with an = separating them
+#DO NOT write comments in the same line than key/value pairs
+#Whitelines are allowed
+#This file is in .local/share/Chronojump (on Linux)
+
+Maximized=True
+
+#Bigger / different buttons at some parts
+CustomButtons=True
+
+#PIPO table has COM1 and COM5, this is for trying COM5, because at COM1 it doesn't work
+Port=COM5
+
+#To sync data
+RunScriptOnExit=

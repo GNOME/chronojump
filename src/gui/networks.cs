@@ -40,6 +40,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_raspberry;
 
 	private bool useVideo = true;
+	private Config.AutodetectPortEnum configAutodetectPort = Config.AutodetectPortEnum.ACTIVE;
+
 	private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
 	private linuxTypeEnum linuxType;
 
@@ -61,6 +63,8 @@ public partial class ChronoJumpWindow
 			useVideo = false;
 			alignment_video_encoder.Visible = false;
 		}
+
+		configAutodetectPort = config.AutodetectPort;
 
 		//TODO
 		//AutodetectPort
@@ -104,69 +108,3 @@ public partial class ChronoJumpWindow
 
 }
 
-public class Config
-{
-	public enum AutodetectPortEnum { ACTIVE, DISCARDFIRST, INACTIVE }
-
-	public bool Maximized;
-	public bool CustomButtons;
-	public bool UseVideo;
-	public AutodetectPortEnum AutodetectPort;
-	public string RunScriptOnExit;
-
-	public Config()
-	{
-		Maximized = false;
-		CustomButtons = false;
-		UseVideo = true;
-		AutodetectPort = AutodetectPortEnum.ACTIVE;
-		RunScriptOnExit = "";
-	}
-
-	public void Read()
-	{
-		string contents = Util.ReadFile(UtilAll.GetConfigFileName(), false);
-		if (contents != null && contents != "") 
-		{
-			string line;
-			using (StringReader reader = new StringReader (contents)) {
-				do {
-					line = reader.ReadLine ();
-
-					if (line == null)
-						break;
-					if (line == "" || line[0] == '#')
-						continue;
-
-					string [] parts = line.Split(new char[] {'='});
-					if(parts.Length != 2)
-						continue;
-
-					if(parts[0] == "Maximized" && Util.StringToBool(parts[1]))
-						Maximized = true;
-					else if(parts[0] == "CustomButtons" && Util.StringToBool(parts[1]))
-						CustomButtons = true;
-					else if(parts[0] == "UseVideo" && ! Util.StringToBool(parts[1]))
-						UseVideo = false;
-					else if(parts[0] == "AutodetectPort" && Enum.IsDefined(typeof(AutodetectPortEnum), parts[1]))
-						AutodetectPort = (AutodetectPortEnum) 
-							Enum.Parse(typeof(AutodetectPortEnum), parts[1]);
-					else if(parts[0] == "RunScriptOnExit" && parts[1] != "")
-						RunScriptOnExit = parts[1];
-				} while(true);
-			}
-		}
-	}
-
-	public override string ToString() {
-		return(
-				"Maximized = " + Maximized.ToString() + "\n" +
-				"CustomButtons = " + CustomButtons.ToString() + "\n" +
-				"UseVideo = " + UseVideo.ToString() + "\n" +
-				"AutodetectPort = " + AutodetectPort.ToString() + "\n" +
-				"RunScriptOnExit = " + RunScriptOnExit.ToString() + "\n"
-		      );
-	}
-
-	~Config() {}
-}

@@ -2931,7 +2931,8 @@ public partial class ChronoJumpWindow
 					chronopicWin.SP,
 					progressbar_chronopic_encoder_detecting, 
 					button_chronopic_encoder_detecting_cancel,
-					button_chronopic_encoder_detecting_info
+					button_chronopic_encoder_detecting_info,
+					configAutodetectPort
 					);
 			
 			cpDetect.Detect("ENCODER");
@@ -2952,7 +2953,8 @@ public partial class ChronoJumpWindow
 					chronopicWin.SP,
 					progressbar_chronopic_detecting, 
 					button_chronopic_detecting_cancel,
-					button_chronopic_detecting_info
+					button_chronopic_detecting_info,
+					configAutodetectPort
 					);
 			
 			cpDetect.Detect("NORMAL");

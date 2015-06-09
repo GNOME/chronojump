@@ -117,6 +117,7 @@ SOURCES = \
 	../chronojump_server/ChronojumpServer.cs\
 	AssemblyInfo.cs\
 	chronojump.cs\
+	config.cs\
 	encoder.cs\
 	encoderRProc.cs\
 	executeAuto.cs\

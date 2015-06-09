@@ -310,7 +310,7 @@ public class Constants
 		Catalog.GetString("Peak power") + " (Lara, 2006, fsc)";
 	public static string PotencyLaraFemaleSCStudentsFormula = PotencyLaraFemaleSCStudentsFormulaShort +
 		" (" + Catalog.GetString("Peak power") + " (Lara, 2006, " + 
-		Catalog.GetString("Female sports sciencies students") + ") \n" +
+		Catalog.GetString("Female sports sciences students") + ") \n" +
 		"(56.7*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (47.2*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1772.6";
 	

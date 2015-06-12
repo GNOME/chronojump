@@ -18,7 +18,6 @@
  * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
-/*
 using System;
 using System.IO; 
 using Gtk;
@@ -28,20 +27,30 @@ using System.Collections;
 using System.Threading;
 using Mono.Unix;
 
+using WebKit;
 
 public partial class ChronoJumpWindow 
 {
 	//presentation
+	[Widget] Gtk.Box vbox_presentation;
 	[Widget] Gtk.ScrolledWindow scrolledwindow_presentation;
 	[Widget] Gtk.Button button_presentation_fullscreen;
 	[Widget] Gtk.Button button_presentation_restore_screen;
+	[Widget] Gtk.Image image_presentation_logo;
+	[Widget] Gtk.Label label_presentation_current;
 
 	static WebKit.WebView presentation;
 	Thread presentationThread;
 
+	bool presentationInitialized = false;
+
+	void on_menuitem_presentation_activate (object o, EventArgs args) {
+		vbox_presentation.Visible = ! vbox_presentation.Visible;
+	}
+
  
 	private void presentationInit() {
-		button_presentation_restore_screen.Sensitive = false;
+		//button_presentation_restore_screen.Sensitive = false;
 
 		presentation = new WebKit.WebView();
 		scrolledwindow_presentation.Add(presentation);
@@ -49,22 +58,85 @@ public partial class ChronoJumpWindow
 		loadInitialPresentation();
 
 		presentation.ShowAll();
+	
+		presentationInitialized = true;
 	}
+	
 	void on_button_presentation_screen_clicked (object o, EventArgs args) {
+	/*
 		Gtk.Button button = (Gtk.Button) o;
-		main_menu.Visible =	( button != button_presentation_fullscreen);
+
+		//main_menu.Visible =	( button != button_presentation_fullscreen);
 		vbox_persons.Visible =	( button != button_presentation_fullscreen);
 		notebook_sup.ShowTabs =	( button != button_presentation_fullscreen);
-		button_presentation_fullscreen.Sensitive =	( button != button_presentation_fullscreen);
-		button_presentation_restore_screen.Sensitive =	( button == button_presentation_fullscreen);
+		//button_presentation_fullscreen.Sensitive =	( button != button_presentation_fullscreen);
+		//button_presentation_restore_screen.Sensitive =	( button == button_presentation_fullscreen);
+	*/
 	}
 
-	void on_button_presentation_reload_clicked (object o, EventArgs args) {
-		loadInitialPresentation();
+	void on_button_presentation_reload_clicked (object o, EventArgs args) 
+	{
+		if(! presentationInitialized)
+			presentationInit();
+		else
+			loadInitialPresentation();
 	}
 
-	private void loadInitialPresentation(){
-		//presentationOpenStatic("file:///home/xavier/Documents/academic/investigacio/tesi_chronojump/presentacio_tesi_defensa_blanquerna/shells/embedder_meu.html#file:///home/xavier/Documents/academic/investigacio/tesi_chronojump/presentacio_tesi_defensa_blanquerna/tesi_chronojump.html");
+	//TODO: in the future read the divs on the HTML
+	int presentation_slide_current = 0;
+	int presentation_slide_max = 10;
+
+	void on_button_presentation_previous_clicked (object o, EventArgs args)
+	{
+		if(! presentationInitialized)
+			presentationInit();
+		else {
+			presentation_slide_current --;
+			presentationSlideChange();
+		}
+	}
+	void on_button_presentation_next_clicked (object o, EventArgs args)
+	{
+		if(! presentationInitialized)
+			presentationInit();
+		else {
+			presentation_slide_current ++;
+			presentationSlideChange();
+		}
+	}
+	void presentationSlideChange() 
+	{
+		if (presentation_slide_current < 0)
+			presentation_slide_current = 0;
+		else if (presentation_slide_current > presentation_slide_max)
+			presentation_slide_current = presentation_slide_max;
+
+		openPresentation();
+		updatePresentationLabel();
+	}
+
+	void openPresentation() {
+		//presentationOpenStatic("file:///home/...html#" + presentation_slide_current.ToString());
+		string file = Path.Combine(UtilAll.GetApplicationDataDir() +  Path.DirectorySeparatorChar + "Chronojump-Boscosystem.html");
+		if(File.Exists(file))
+			presentationOpenStatic("file://" + file + "#" + presentation_slide_current.ToString());
+	}
+
+	void updatePresentationLabel() {	
+		label_presentation_current.Text = 
+			(presentation_slide_current +1).ToString() + " / " + 
+			(presentation_slide_max +1).ToString();
+	}
+	
+	private void loadInitialPresentation()
+	{
+		LogB.Information("Loading");
+		
+		presentation_slide_current = 0;
+		openPresentation();
+		updatePresentationLabel();
+		
+		LogB.Information("Loaded");
 	}
 
 	private static void presentationOpenStatic(string url) {
@@ -72,4 +144,3 @@ public partial class ChronoJumpWindow
 	}
 	
 }
-*/

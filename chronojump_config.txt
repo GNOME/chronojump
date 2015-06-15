@@ -40,6 +40,10 @@ AutodetectPort=DISCARDFIRST
 #Only Encoder. When connected to a machine and there's always encoder mode
 OnlyEncoder=TRUE
 
+#EncoderConfiguration if exists, this will be used and cannot be changed
+#name:d:D:anglePush:angleWeight:inertiaMachine:gearedDown:inertiaTotal:extraWeightN:extraWeightGrams:extraWeightLenght
+EncoderConfiguration=ROTARYAXISINERTIAL:4:-1:-1:-1:42:1:71:2:300:7
+
 #Session modes:
 #STANDARD: default mode where sessions are created by user
 #UNIQUE: there's only one session called "session". Menubar is hidden (use it only with OnlyEncoder = TRUE)

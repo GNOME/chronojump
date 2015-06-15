@@ -12,6 +12,7 @@
 #CustomButtons=TRUE
 #UseVideo=FALSE
 #AutodetectPort=ACTIVE
+#OnlyEncoder=TRUE
 #RunScriptOnExit=
 
 #Recommendations for PIPO tablet (Windows)
@@ -19,6 +20,7 @@
 #CustomButtons=TRUE
 #UseVideo=TRUE
 #AutodetectPort=DISCARDFIRST
+#OnlyEncoder=TRUE
 #RunScriptOnExit=
 
 # 2 ------- OPTIONS -------
@@ -34,6 +36,14 @@ UseVideo=TRUE
 #options are ACTIVE, DISCARDFIRST and INACTIVE
 #PIPO windows tablet has COM1 and usually COM5. At COM1 it doesn't work, use DISCARDFIRST to use the other
 AutodetectPort=DISCARDFIRST
+
+#Only Encoder. When connected to a machine and there's always encoder mode
+OnlyEncoder=TRUE
+
+#Session modes:
+#STANDARD: default mode where sessions are created by user
+#UNIQUE: there's only one session called "session". Menubar is hidden (use it only with OnlyEncoder = TRUE)
+SessionMode=UNIQUE
 
 #To sync data
 RunScriptOnExit=

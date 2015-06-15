@@ -62,6 +62,7 @@ public partial class Session {
 	}
 
 	//typical constructor with personsSport stuff
+	//this inserts the session in SQL
 	public Session(string newName, string newPlace, DateTime newDate, 
 			int personsSportID, int personsSpeciallityID, int personsPractice,
 			string comments, int serverUniqueID) 

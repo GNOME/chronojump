@@ -2492,16 +2492,22 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	private void on_open_activate (object o, EventArgs args) {
+	private void on_open_activate (object o, EventArgs args) 
+	{
 		LogB.Information("open session");
 		sessionLoadWin = SessionLoadWindow.Show(app1);
-		sessionLoadWin.Button_accept.Clicked += new EventHandler(on_load_session_accepted);
-		//on_load_session_accepted(o, args);
+		sessionLoadWin.Button_accept.Clicked += new EventHandler(on_load_session_accepted_from_open);
 	}
 	
-	private void on_load_session_accepted (object o, EventArgs args) {
+	//from open session
+	private void on_load_session_accepted_from_open (object o, EventArgs args) 
+	{
 		currentSession = sessionLoadWin.CurrentSession;
-		//currentSession = SqliteSession.Select("1");
+		on_load_session_accepted();
+	}
+	//called from open session OR from gui/networks configInit when config.SessionMode == Config.SessionModeEnum.UNIQUE
+	private void on_load_session_accepted () 
+	{
 		app1.Title = progName + " - " + currentSession.Name;
 		
 		if(createdStatsWin) {

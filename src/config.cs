@@ -25,11 +25,14 @@ using System.IO;
 public class Config
 {
 	public enum AutodetectPortEnum { ACTIVE, DISCARDFIRST, INACTIVE }
+	public enum SessionModeEnum { STANDARD, UNIQUE }
 
 	public bool Maximized;
 	public bool CustomButtons;
 	public bool UseVideo;
 	public AutodetectPortEnum AutodetectPort;
+	public bool OnlyEncoder;
+	public SessionModeEnum SessionMode;
 	public string RunScriptOnExit;
 
 	public Config()
@@ -38,6 +41,8 @@ public class Config
 		CustomButtons = false;
 		UseVideo = true;
 		AutodetectPort = AutodetectPortEnum.ACTIVE;
+		OnlyEncoder = false;
+		SessionMode = SessionModeEnum.STANDARD;
 		RunScriptOnExit = "";
 	}
 
@@ -69,6 +74,11 @@ public class Config
 					else if(parts[0] == "AutodetectPort" && Enum.IsDefined(typeof(AutodetectPortEnum), parts[1]))
 						AutodetectPort = (AutodetectPortEnum) 
 							Enum.Parse(typeof(AutodetectPortEnum), parts[1]);
+					else if(parts[0] == "OnlyEncoder" && Util.StringToBool(parts[1]))
+						OnlyEncoder = true;
+					else if(parts[0] == "SessionMode" && Enum.IsDefined(typeof(SessionModeEnum), parts[1]))
+						SessionMode = (SessionModeEnum) 
+							Enum.Parse(typeof(SessionModeEnum), parts[1]);
 					else if(parts[0] == "RunScriptOnExit" && parts[1] != "")
 						RunScriptOnExit = parts[1];
 				} while(true);
@@ -82,6 +92,8 @@ public class Config
 				"CustomButtons = " + CustomButtons.ToString() + "\n" +
 				"UseVideo = " + UseVideo.ToString() + "\n" +
 				"AutodetectPort = " + AutodetectPort.ToString() + "\n" +
+				"OnlyEncoder = " + OnlyEncoder.ToString() + "\n" +
+				"SessionMode = " + SessionMode.ToString() + "\n" +
 				"RunScriptOnExit = " + RunScriptOnExit.ToString() + "\n"
 		      );
 	}

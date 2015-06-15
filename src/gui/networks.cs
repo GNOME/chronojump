@@ -63,11 +63,30 @@ public partial class ChronoJumpWindow
 			useVideo = false;
 			alignment_video_encoder.Visible = false;
 		}
-
+		
 		configAutodetectPort = config.AutodetectPort;
+		
+		//show only power
+		if(config.OnlyEncoder)
+			select_menuitem_mode_toggled(menuitem_modes.POWER);
+		
+		if(config.SessionMode == Config.SessionModeEnum.UNIQUE)	
+		{
+			main_menu.Visible = false;
+
+			if(! Sqlite.Exists(false, Constants.SessionTable, "session")) {
+				//this creates the session and inserts at DB
+				currentSession = new Session(
+						"session", "", DateTime.Today,	//name, place, dateTime
+						Constants.SportUndefinedID, Constants.SpeciallityUndefinedID, Constants.LevelUndefinedID,
+						"", Constants.ServerUndefinedID); //comments, serverID
+			} else
+				currentSession = SqliteSession.SelectByName("session");
+			
+			on_load_session_accepted();
+		}
 
 		//TODO
-		//AutodetectPort
 		//RunScriptOnExit
 
 		/*

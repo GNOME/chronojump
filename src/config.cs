@@ -32,6 +32,7 @@ public class Config
 	public bool UseVideo;
 	public AutodetectPortEnum AutodetectPort;
 	public bool OnlyEncoder;
+	public EncoderConfiguration Econf;
 	public SessionModeEnum SessionMode;
 	public string RunScriptOnExit;
 
@@ -42,6 +43,7 @@ public class Config
 		UseVideo = true;
 		AutodetectPort = AutodetectPortEnum.ACTIVE;
 		OnlyEncoder = false;
+		Econf = null; 
 		SessionMode = SessionModeEnum.STANDARD;
 		RunScriptOnExit = "";
 	}
@@ -76,6 +78,19 @@ public class Config
 							Enum.Parse(typeof(AutodetectPortEnum), parts[1]);
 					else if(parts[0] == "OnlyEncoder" && Util.StringToBool(parts[1]))
 						OnlyEncoder = true;
+					else if(parts[0] == "EncoderConfiguration")
+					{
+						string [] ecFull = parts[1].Split(new char[] {':'});
+						if(Enum.IsDefined(typeof(Constants.EncoderConfigurationNames), ecFull[0])) 
+						{ 
+							//create object
+							Econf = new EncoderConfiguration(
+									(Constants.EncoderConfigurationNames) 
+									Enum.Parse(typeof(Constants.EncoderConfigurationNames), ecFull[0]) );
+							//assign the rest of params
+							Econf.ReadParamsFromSQL(ecFull);
+						}
+					}
 					else if(parts[0] == "SessionMode" && Enum.IsDefined(typeof(SessionModeEnum), parts[1]))
 						SessionMode = (SessionModeEnum) 
 							Enum.Parse(typeof(SessionModeEnum), parts[1]);
@@ -86,13 +101,19 @@ public class Config
 		}
 	}
 
-	public override string ToString() {
+	public override string ToString() 
+	{
+		string econfStr = "";
+		if(Econf != null)
+			econfStr = Econf.ToStringPretty();
+
 		return(
 				"Maximized = " + Maximized.ToString() + "\n" +
 				"CustomButtons = " + CustomButtons.ToString() + "\n" +
 				"UseVideo = " + UseVideo.ToString() + "\n" +
 				"AutodetectPort = " + AutodetectPort.ToString() + "\n" +
 				"OnlyEncoder = " + OnlyEncoder.ToString() + "\n" +
+				"Econf = " + econfStr + "\n" +
 				"SessionMode = " + SessionMode.ToString() + "\n" +
 				"RunScriptOnExit = " + RunScriptOnExit.ToString() + "\n"
 		      );

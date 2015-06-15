@@ -70,6 +70,12 @@ public partial class ChronoJumpWindow
 		if(config.OnlyEncoder)
 			select_menuitem_mode_toggled(menuitem_modes.POWER);
 		
+		if(config.Econf != null) {
+			encoderConfigurationCurrent = config.Econf;
+			encoderConfigurationGUIUpdate();
+			//TODO: allow to see full data, but don't allow to change it (Open window content as unsensitive)
+		}
+		
 		if(config.SessionMode == Config.SessionModeEnum.UNIQUE)	
 		{
 			main_menu.Visible = false;

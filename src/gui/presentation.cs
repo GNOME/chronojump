@@ -27,7 +27,7 @@ using System.Collections;
 using System.Threading;
 using Mono.Unix;
 
-using WebKit;
+//using WebKit;
 
 public partial class ChronoJumpWindow 
 {
@@ -39,7 +39,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_presentation_logo;
 	[Widget] Gtk.Label label_presentation_current;
 
-	static WebKit.WebView presentation;
+	//static WebKit.WebView presentation;
 	Thread presentationThread;
 
 	bool presentationInitialized = false;
@@ -52,6 +52,9 @@ public partial class ChronoJumpWindow
 	private void presentationInit() {
 		//button_presentation_restore_screen.Sensitive = false;
 
+		/*
+		 * needs webKit
+		 *
 		presentation = new WebKit.WebView();
 		scrolledwindow_presentation.Add(presentation);
 		
@@ -60,6 +63,7 @@ public partial class ChronoJumpWindow
 		presentation.ShowAll();
 	
 		presentationInitialized = true;
+		*/
 	}
 	
 	void on_button_presentation_screen_clicked (object o, EventArgs args) {
@@ -140,7 +144,11 @@ public partial class ChronoJumpWindow
 	}
 
 	private static void presentationOpenStatic(string url) {
+		/*
+		 * needs WebKit
+		 *
 		presentation.Open(url);
+		*/
 	}
 	
 }

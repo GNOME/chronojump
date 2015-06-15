@@ -114,8 +114,21 @@ class SqliteSession : Sqlite
 			Sqlite.Close();
 	}
 
-	
+
+	//by name (only in gui/networks.cs configInit
+	//be careful because name is not unique
+	public static Session SelectByName(string name)
+	{
+		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE name == '" + name + "'"; 
+		return SelectDo(dbcmd);
+	}
+	//by ID (default
 	public static Session Select(string myUniqueID)
+	{
+		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE uniqueID == " + myUniqueID ; 
+		return SelectDo(dbcmd);
+	}
+	public static Session SelectDo(SqliteCommand mydbcmd)
 	{
 		try {
 			Sqlite.Open();
@@ -126,11 +139,10 @@ class SqliteSession : Sqlite
 			Sqlite.Open();
 			LogB.SQL("reopened again");
 		}
-		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE uniqueID == " + myUniqueID ; 
-		LogB.SQL(dbcmd.CommandText.ToString());
+		LogB.SQL(mydbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
+		reader = mydbcmd.ExecuteReader();
 	
 		string [] values = new string[9];
 		

@@ -32,6 +32,7 @@ public class Config
 	public bool UseVideo;
 	public AutodetectPortEnum AutodetectPort;
 	public bool OnlyEncoder;
+	public bool EncoderNameAndCapture;
 	public EncoderConfiguration Econf;
 	public SessionModeEnum SessionMode;
 	public string RunScriptOnExit;
@@ -43,6 +44,7 @@ public class Config
 		UseVideo = true;
 		AutodetectPort = AutodetectPortEnum.ACTIVE;
 		OnlyEncoder = false;
+		EncoderNameAndCapture = false;
 		Econf = null; 
 		SessionMode = SessionModeEnum.STANDARD;
 		RunScriptOnExit = "";
@@ -78,6 +80,8 @@ public class Config
 							Enum.Parse(typeof(AutodetectPortEnum), parts[1]);
 					else if(parts[0] == "OnlyEncoder" && Util.StringToBool(parts[1]))
 						OnlyEncoder = true;
+					else if(parts[0] == "EncoderNameAndCapture" && Util.StringToBool(parts[1]))
+						EncoderNameAndCapture = true;
 					else if(parts[0] == "EncoderConfiguration")
 					{
 						string [] ecFull = parts[1].Split(new char[] {':'});
@@ -113,6 +117,7 @@ public class Config
 				"UseVideo = " + UseVideo.ToString() + "\n" +
 				"AutodetectPort = " + AutodetectPort.ToString() + "\n" +
 				"OnlyEncoder = " + OnlyEncoder.ToString() + "\n" +
+				"EncoderNameAndCapture = " + EncoderNameAndCapture.ToString() + "\n" +
 				"Econf = " + econfStr + "\n" +
 				"SessionMode = " + SessionMode.ToString() + "\n" +
 				"RunScriptOnExit = " + RunScriptOnExit.ToString() + "\n"

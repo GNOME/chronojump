@@ -1091,13 +1091,19 @@ public partial class ChronoJumpWindow
 			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
 			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
 			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
-			label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
-			label_current_person.UseMarkup = true; 
+			label_person_change();
 		
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	void label_person_change() {
+		label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
+		label_current_person.UseMarkup = true; 
+		label_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>"; 
+		label_encoder_person_name.UseMarkup = true; 
 	}
 	
 	private void treeview_persons_storeReset() {
@@ -1116,8 +1122,7 @@ public partial class ChronoJumpWindow
 		
 			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
 			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
-			label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
-			label_current_person.UseMarkup = true; 
+			label_person_change();
 		
 			encoderPersonChanged();
 		}
@@ -2584,8 +2589,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("here!!!");
 		currentPerson = personRecuperateWin.CurrentPerson;
 		currentPersonSession = personRecuperateWin.CurrentPersonSession;
-		label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
-		label_current_person.UseMarkup = true; 
+		label_person_change();
 		
 		myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
 
@@ -2607,8 +2611,7 @@ public partial class ChronoJumpWindow
 	private void on_recuperate_persons_from_session_accepted (object o, EventArgs args) {
 		currentPerson = personsRecuperateFromOtherSessionWin.CurrentPerson;
 		currentPersonSession = personsRecuperateFromOtherSessionWin.CurrentPersonSession;
-		label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
-		label_current_person.UseMarkup = true; 
+		label_person_change();
 
 		treeview_persons_storeReset();
 		fillTreeView_persons();
@@ -2637,8 +2640,7 @@ public partial class ChronoJumpWindow
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;
 			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
-			label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
-			label_current_person.UseMarkup = true; 
+			label_person_change();
 			myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
 
 			//when adding new person, photos cannot be recorded as currentPerson.UniqueID
@@ -2682,8 +2684,7 @@ public partial class ChronoJumpWindow
 		{
 			currentPerson = personAddMultipleWin.CurrentPerson;
 			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
-			label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
-			label_current_person.UseMarkup = true; 
+			label_person_change();
 			treeview_persons_storeReset();
 			fillTreeView_persons();
 			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
@@ -2718,8 +2719,7 @@ public partial class ChronoJumpWindow
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;
 			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
-			label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
-			label_current_person.UseMarkup = true; 
+			label_person_change();
 			treeview_persons_storeReset();
 			fillTreeView_persons();
 			

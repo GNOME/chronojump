@@ -38,6 +38,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Entry entry_raspberry_extra_weight;
 	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_no_raspberry;
 	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_raspberry;
+	
+	//config.EncoderNameAndCapture
+	[Widget] Gtk.Box hbox_encoder_person;
+	[Widget] Gtk.Label label_encoder_person_name;
+	[Widget] Gtk.Button button_encoder_person_change;
+
 
 	private bool useVideo = true;
 	private Config.AutodetectPortEnum configAutodetectPort = Config.AutodetectPortEnum.ACTIVE;
@@ -69,6 +75,12 @@ public partial class ChronoJumpWindow
 		//show only power
 		if(config.OnlyEncoder)
 			select_menuitem_mode_toggled(menuitem_modes.POWER);
+		
+		if(config.EncoderNameAndCapture) {
+			vbox_persons.Visible = false;
+			hbox_encoder_sup_capture_analyze_two_buttons.Visible = false;
+			hbox_encoder_person.Visible = true;
+		}
 		
 		if(config.Econf != null) {
 			encoderConfigurationCurrent = config.Econf;

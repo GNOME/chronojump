@@ -318,12 +318,19 @@ public abstract class ChronopicAuto
 
 		if (sp == null) 
 			return false;
-		
-		if (sp != null) 
-			if (sp.IsOpen)
-				sp.Close(); //close to ensure no bytes are comming
+	
+		LogB.Information("opening port... ");
+		try {	
+			if (sp != null) 
+				if (sp.IsOpen)
+					sp.Close(); //close to ensure no bytes are comming
 
-		sp.Open();
+			sp.Open();
+		} catch {
+			LogB.Warning("catched!");
+			return false;
+		}
+		LogB.Information("opened");
 			
 		if(IsEncoder)
 			setEncoderBauds();

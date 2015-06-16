@@ -15395,6 +15395,7 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
+                                                    <signal name="clicked" handler="on_button_encoder_person_change_clicked" swapped="no"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -36717,6 +36718,50 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
       </widget>
     </child>
   </widget>
+  <widget class="GtkWindow" id="person_select_window">
+    <property name="width_request">800</property>
+    <property name="height_request">600</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="border_width">10</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="type_hint">dialog</property>
+    <signal name="delete_event" handler="on_delete_event" swapped="no"/>
+    <child>
+      <widget class="GtkScrolledWindow" id="scrolledwindow1">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="hscrollbar_policy">never</property>
+        <property name="vscrollbar_policy">automatic</property>
+        <child>
+          <widget class="GtkViewport" id="viewport1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <widget class="GtkTable" id="table1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="n_columns">4</property>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </widget>
+            </child>
+          </widget>
+        </child>
+      </widget>
+    </child>
+  </widget>
   <widget class="GtkWindow" id="person_show_all_events">
     <property name="width_request">520</property>
     <property name="height_request">350</property>
@@ -49204,12 +49249,6 @@ times</property>
           </packing>
         </child>
       </widget>
-    </child>
-  </widget>
-  <widget class="GtkWindow" id="window1">
-    <property name="can_focus">False</property>
-    <child>
-      <placeholder/>
     </child>
   </widget>
 </glade-interface>

@@ -40,6 +40,11 @@ AutodetectPort=DISCARDFIRST
 #Only Encoder. When connected to a machine and there's always encoder mode
 OnlyEncoder=TRUE
 
+#EncoderNameAndCapture = TRUE means no atletes vbox, and no analysis (capture is the tab selected but is not shown).
+#To change person need to select person with a button at left of capture
+#This options is thought for gyms
+EncoderNameAndCapture=TRUE
+
 #EncoderConfiguration if exists, this will be used and cannot be changed
 #name:d:D:anglePush:angleWeight:inertiaMachine:gearedDown:inertiaTotal:extraWeightN:extraWeightGrams:extraWeightLenght
 EncoderConfiguration=ROTARYAXISINERTIAL:4:-1:-1:-1:42:1:71:2:300:7
@@ -47,7 +52,7 @@ EncoderConfiguration=ROTARYAXISINERTIAL:4:-1:-1:-1:42:1:71:2:300:7
 #Session modes:
 #STANDARD: default mode where sessions are created by user
 #UNIQUE: there's only one session called "session". Menubar is hidden (use it only with OnlyEncoder = TRUE)
-SessionMode=UNIQUE
+SessionMode=STANDARD
 
 #To sync data
 RunScriptOnExit=

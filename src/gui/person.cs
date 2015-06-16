@@ -1889,8 +1889,21 @@ public class PersonAddMultipleWindow {
 		fc.Filter.AddPattern("*.CSV");
 
 		ArrayList array = new ArrayList();
-		if (fc.Run() == (int)ResponseType.Accept) { 
-			System.IO.FileStream file=System.IO.File.OpenRead(fc.Filename); 
+		if (fc.Run() == (int)ResponseType.Accept) 
+		{
+			LogB.Warning("Opening CSV...");
+			System.IO.FileStream file;
+			try {
+				file = System.IO.File.OpenRead(fc.Filename); 
+			} catch {
+				LogB.Warning("Catched, maybe is used by another program");
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						Catalog.GetString("Sorry, video cannot be stored.") + "\n\n" +
+						Catalog.GetString("Maybe this file is opened by an SpreadSheet software like Excel. Please, close that program.")
+						);
+				fc.Destroy();
+				return;
+			}
 
 			List<string> columns = new List<string>();
 			using (var reader = new CsvFileReader(fc.Filename))

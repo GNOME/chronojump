@@ -2782,6 +2782,15 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	PersonSelectWindow personSelectWin;
+	private void on_button_encoder_person_change_clicked (object o, EventArgs args) {
+		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+				currentSession.UniqueID, 
+				false); //means: do not returnPersonAndPSlist
+
+		personSelectWin = PersonSelectWindow.Show(app1, myPersons);
+	}
+
 
 
 	/* ---------------------------------------------------------
@@ -6310,6 +6319,8 @@ LogB.Debug("X");
 		button_person_add_multiple.Sensitive = false;
 		button_edit_current_person.Sensitive = false;
 		button_delete_current_person.Sensitive = false;
+	
+		button_encoder_person_change.Sensitive = false;
 		
 		//notebooks
 		notebook_execute.Sensitive = false;
@@ -6352,6 +6363,8 @@ LogB.Debug("X");
 		
 		encoderButtonsSensitive(encoderSensEnum.NOPERSON);
 		encoderPersonChanged();
+		
+		button_encoder_person_change.Sensitive = false;
 
 		notebook_execute.Sensitive = false;
 		//hbox_chronopics.Sensitive = false;
@@ -6371,6 +6384,8 @@ LogB.Debug("X");
 
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		encoderPersonChanged();
+		
+		button_encoder_person_change.Sensitive = true;
 
 		notebook_execute.Sensitive = true;
 		//hbox_chronopics.Sensitive = true;
@@ -6408,6 +6423,8 @@ LogB.Debug("X");
 		frame_persons.Sensitive = false;
 		
 		button_execute_test.Sensitive = false;
+		
+		button_encoder_person_change.Sensitive = false;
 
 		encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
 		
@@ -6439,6 +6456,8 @@ LogB.Debug("X");
 		frame_persons.Sensitive = true;
 
 		button_execute_test.Sensitive = true;
+		
+		button_encoder_person_change.Sensitive = true;
 	
 		if(encoderCaptureCurves != null && encoderCaptureCurves.Count > 0)
 			encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);

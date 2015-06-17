@@ -24,6 +24,7 @@ SOURCES = \
 	gui/pulse.cs\
 	gui/multiChronopic.cs\
 	gui/person.cs\
+	gui/personSelect.cs\
 	gui/preferences.cs\
 	gui/session.cs\
 	gui/stats.cs\

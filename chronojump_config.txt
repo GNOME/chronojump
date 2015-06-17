@@ -28,31 +28,39 @@
 Maximized=TRUE
 
 #Bigger / different buttons at some parts
+#default: CustomButtons=FALSE
 CustomButtons=TRUE
 
 #To disable video on Raspberry change to FALSE
+#default: UseVideo=TRUE
 UseVideo=TRUE
 
 #options are ACTIVE, DISCARDFIRST and INACTIVE
 #PIPO windows tablet has COM1 and usually COM5. At COM1 it doesn't work, use DISCARDFIRST to use the other
+#default: AutodetectPort=ACTIVE
 AutodetectPort=DISCARDFIRST
 
 #Only Encoder. When connected to a machine and there's always encoder mode
+#default: OnlyEncoder=FALSE
 OnlyEncoder=TRUE
 
-#EncoderNameAndCapture = TRUE means no atletes vbox, and no analysis (capture is the tab selected but is not shown).
-#To change person need to select person with a button at left of capture
-#This options is thought for gyms
-EncoderNameAndCapture=TRUE
+#Hide left person box. Select person by a label and button on the top
+#default: PersonWinHide=FALSE
+PersonWinHide=TRUE
+
+#default: EncoderAnalyzeHide=FALSE
+EncoderAnalyzeHide=FALSE
 
 #EncoderConfiguration if exists, this will be used and cannot be changed
 #name:d:D:anglePush:angleWeight:inertiaMachine:gearedDown:inertiaTotal:extraWeightN:extraWeightGrams:extraWeightLenght
+#default: EncoderConfiguration=
 EncoderConfiguration=ROTARYAXISINERTIAL:4:-1:-1:-1:42:1:71:2:300:7
 
 #Session modes:
 #STANDARD: default mode where sessions are created by user
 #UNIQUE: there's only one session called "session". Menubar is hidden (use it only with OnlyEncoder = TRUE)
-SessionMode=STANDARD
+#default: SessionMode=STANDARD
+SessionMode=UNIQUE
 
 #To sync data
 RunScriptOnExit=

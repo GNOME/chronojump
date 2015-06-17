@@ -407,6 +407,7 @@ public partial class ChronoJumpWindow
 	PersonsRecuperateFromOtherSessionWindow personsRecuperateFromOtherSessionWin; 
 	PersonAddModifyWindow personAddModifyWin; 
 	PersonAddMultipleWindow personAddMultipleWin; 
+	PersonSelectWindow personSelectWin;
 	JumpsMoreWindow jumpsMoreWin;
 	JumpsRjMoreWindow jumpsRjMoreWin;
 	EditJumpWindow editJumpWin;
@@ -2782,13 +2783,22 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	PersonSelectWindow personSelectWin;
-	private void on_button_encoder_person_change_clicked (object o, EventArgs args) {
+	private void on_button_encoder_person_change_clicked (object o, EventArgs args) 
+	{
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID, 
 				false); //means: do not returnPersonAndPSlist
 
 		personSelectWin = PersonSelectWindow.Show(app1, myPersons);
+		personSelectWin.FakeButtonDone.Clicked += new EventHandler(on_button_encoder_person_change_done);
+	}
+	private void on_button_encoder_person_change_done(object o, EventArgs args) 
+	{
+		currentPerson = personSelectWin.SelectedPerson; 
+		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+		label_person_change();
+
+		encoderPersonChanged();
 	}
 
 

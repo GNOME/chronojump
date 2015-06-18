@@ -715,16 +715,22 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     angle = position.m * 2 / diameter.m
     angleSpeed = speed * 2 / diameter.m
     angleAccel = accel * 2 / diameter.m
-    force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * (accel + g)
-    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g) * speed
+    force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * (accel + g * sin(anglePush * pi / 180))
+    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g * sin(anglePush * pi / 180)) * speed
   } else if(encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY" ||
               encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALMOVPULLEY" ||
               encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALMOVPULLEY"){
+    #With a moving pulley, the displacement of the body is half of the displacement of the rope in the inertial machine side
+    #So, the multiplier is 4 instead of 2 to get the rotational kinematics.
     angle = position.m * 4 / diameter.m
     angleSpeed = speed * 4 / diameter.m
     angleAccel = accel * 4 / diameter.m
-    force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * (accel + g)
-    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g) * speed
+    
+    #The configuration covers horizontal, vertical and inclinated movements
+    #If the movement is vertical g*sin(alpha) = g
+    #If the movement is horizontal g*sin(alpha) = 0
+    force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * (accel + g * sin(anglePush * pi / 180))
+    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g * sin(anglePush * pi / 180)) * speed
   } else if(encoderConfigurationName == "ROTARYAXISINERTIALLATERAL" ||
               encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALLATERAL" ||
               encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL"){

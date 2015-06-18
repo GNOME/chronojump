@@ -175,28 +175,33 @@ public class EncoderConfigurationWindow
 	private void initializeList(Constants.EncoderType type, bool inertial, int position) {
 		list = UtilEncoder.EncoderConfigurationList(type, inertial);
 
-		button_previous.Sensitive = (list.Count > 1);
-		button_next.Sensitive = (list.Count > 1);
-			
 		listCurrent = position; //current item on list
 		
+		buttons_previous_next_sensitive();
 		selectedModeChanged();
 	}
 	
 	private void on_button_previous_clicked (object o, EventArgs args) {
 		listCurrent --;
 		if(listCurrent < 0)
-			listCurrent = list.Count -1;
+			listCurrent = 0;
 		
+		buttons_previous_next_sensitive();
 		selectedModeChanged();
 	}
 
 	private void on_button_next_clicked (object o, EventArgs args) {
 		listCurrent ++;
 		if(listCurrent > list.Count -1)
-			listCurrent = 0;
-
+			listCurrent = list.Count -1;
+		
+		buttons_previous_next_sensitive();
 		selectedModeChanged();
+	}
+
+	private void buttons_previous_next_sensitive() {
+		button_previous.Sensitive = (listCurrent > 0);
+		button_next.Sensitive = (listCurrent < list.Count -1);
 	}
 
 	private void selectedModeChanged() {

@@ -715,6 +715,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     angle = position.m * 2 / diameter.m
     angleSpeed = speed * 2 / diameter.m
     angleAccel = accel * 2 / diameter.m
+    anglePush = 90 #TODO: send from C#
     force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * (accel + g * sin(anglePush * pi / 180))
     power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g * sin(anglePush * pi / 180)) * speed
   } else if(encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY" ||
@@ -725,7 +726,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     angle = position.m * 4 / diameter.m
     angleSpeed = speed * 4 / diameter.m
     angleAccel = accel * 4 / diameter.m
-    
+    anglePush = 90 #TODO: send from C#
     #The configuration covers horizontal, vertical and inclinated movements
     #If the movement is vertical g*sin(alpha) = g
     #If the movement is horizontal g*sin(alpha) = 0
@@ -737,6 +738,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     angle = position.m * 2 / diameter.m
     angleSpeed = speed * 2 / diameter.m
     angleAccel = accel * 2 / diameter.m
+    anglePush = 0 #TODO: send from C#
     force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * accel
     power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * accel * speed
   }

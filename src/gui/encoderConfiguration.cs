@@ -26,7 +26,8 @@ using Glade;
 using Mono.Unix;
 
 
-public class EncoderConfigurationWindow {
+public class EncoderConfigurationWindow 
+{
 	[Widget] Gtk.Window encoder_configuration;
 	[Widget] Gtk.Image image_encoder_linear;
 	[Widget] Gtk.Image image_encoder_rotary_friction;
@@ -36,7 +37,14 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.RadioButton radio_linear;
 	[Widget] Gtk.RadioButton radio_rotary_friction;
 	[Widget] Gtk.RadioButton radio_rotary_axis;
+	
+	[Widget] Gtk.RadioButton radio_gravity;
+	[Widget] Gtk.RadioButton radio_inertia;
+	
+	[Widget] Gtk.Button button_previous;
+	[Widget] Gtk.Button button_next;
 	[Widget] Gtk.Label label_count;
+
 	[Widget] Gtk.TextView textview;
 	[Widget] Gtk.Box hbox_d;
 	[Widget] Gtk.Box hbox_D;
@@ -113,8 +121,13 @@ public class EncoderConfigurationWindow {
 		else	//linear
 			EncoderConfigurationWindowBox.radio_linear.Active = true;
 
+		if(! ec.has_inertia)
+			EncoderConfigurationWindowBox.radio_gravity.Active = true;
+		else
+			EncoderConfigurationWindowBox.radio_inertia.Active = true;
 
-		EncoderConfigurationWindowBox.initializeList(ec.type, ec.position);
+
+		EncoderConfigurationWindowBox.initializeList(ec.type, ec.has_inertia, ec.position);
 		
 		EncoderConfigurationWindowBox.putValuesStoredPreviously(
 				ec.d, ec.D, ec.anglePush, ec.angleWeight, 
@@ -126,19 +139,45 @@ public class EncoderConfigurationWindow {
 	
 	private void on_radio_encoder_type_linear_toggled (object obj, EventArgs args) {
 		if(radio_linear.Active)
-			initializeList(Constants.EncoderType.LINEAR, 0);
+			initializeList(Constants.EncoderType.LINEAR, radio_inertia.Active, 0);
 	}
 	private void on_radio_encoder_type_rotary_friction_toggled (object obj, EventArgs args) {
 		if(radio_rotary_friction.Active)
-			initializeList(Constants.EncoderType.ROTARYFRICTION, 0);
+			initializeList(Constants.EncoderType.ROTARYFRICTION, radio_inertia.Active, 0);
 	}
 	private void on_radio_encoder_type_rotary_axis_toggled (object obj, EventArgs args) {
 		if(radio_rotary_axis.Active)
-			initializeList(Constants.EncoderType.ROTARYAXIS, 0);
+			initializeList(Constants.EncoderType.ROTARYAXIS, radio_inertia.Active, 0);
 	}
 	
-	private void initializeList(Constants.EncoderType type, int position) {
-		list = UtilEncoder.EncoderConfigurationList(type);
+	private void on_radio_gravity_toggled (object obj, EventArgs args) {
+		if(radio_gravity.Active) {
+			if(radio_linear.Active)
+				initializeList(Constants.EncoderType.LINEAR, false, 0);
+			else if(radio_rotary_friction.Active)
+				initializeList(Constants.EncoderType.ROTARYFRICTION, false, 0);
+			else //(radio_rotary_axis.Active)
+				initializeList(Constants.EncoderType.ROTARYAXIS, false, 0);
+		}
+	}
+	private void on_radio_inertia_toggled (object obj, EventArgs args) {
+		if(radio_inertia.Active) {
+			if(radio_linear.Active)
+				initializeList(Constants.EncoderType.LINEAR, true, 0);
+			else if(radio_rotary_friction.Active)
+				initializeList(Constants.EncoderType.ROTARYFRICTION, true, 0);
+			else //(radio_rotary_axis.Active)
+				initializeList(Constants.EncoderType.ROTARYAXIS, true, 0);
+		}
+	}
+	
+
+	private void initializeList(Constants.EncoderType type, bool inertial, int position) {
+		list = UtilEncoder.EncoderConfigurationList(type, inertial);
+
+		button_previous.Sensitive = (list.Count > 1);
+		button_next.Sensitive = (list.Count > 1);
+			
 		listCurrent = position; //current item on list
 		
 		selectedModeChanged();

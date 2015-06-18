@@ -896,7 +896,7 @@ public class EncoderBarsData {
 public class EncoderConfiguration {
 	public Constants.EncoderConfigurationNames name;
 	public Constants.EncoderType type;
-	public int position;
+	public int position; //used to find values on the EncoderConfigurationList. Numeration changes on every encoder and on not inertial/inertial
 	public string image;
 	public string code;	//this code will be stored untranslated but will be translated just to be shown
 	public string text;
@@ -961,6 +961,7 @@ public class EncoderConfiguration {
 		gearedDown = 1;
 
 		// ---- LINEAR ----
+		// ---- not inertial
 		if(name == Constants.EncoderConfigurationNames.LINEAR) {
 			type = Constants.EncoderType.LINEAR;
 			position = 0;
@@ -975,22 +976,9 @@ public class EncoderConfiguration {
 			code = "Linear inv - barbell";
 			text = Catalog.GetString("Linear encoder inverted attached to a barbell.");
 		}
-		else if(name == Constants.EncoderConfigurationNames.LINEARINERTIAL) {
-			type = Constants.EncoderType.LINEAR;
-			position = 2;
-			image = Constants.FileNameEncoderLinearInertial;
-			code = "Linear - inertial machine";
-			text = Catalog.GetString("Linear encoder on inertia machine.") + "\n" + 
-				Catalog.GetString("Configuration NOT Recommended! Please use a rotary encoder.") + "\n" +
-				"*" + Catalog.GetString("Person has to start fully extended (on the toes).") + "*" + "\n" + 
-				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled");
-			
-			has_d = true;
-			has_inertia = true;
-		}
 		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1) {
 			type = Constants.EncoderType.LINEAR;
-			position = 3;
+			position = 2;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson1;
 			code = "Linear - barbell - moving pulley";
 			text = Catalog.GetString("Linear encoder attached to a barbell.") + " " + 
@@ -1001,7 +989,7 @@ public class EncoderConfiguration {
 		}
 		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1INV) {
 			type = Constants.EncoderType.LINEAR;
-			position = 4;
+			position = 3;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson1Inv;
 			code = "Linear inv - barbell - moving pulley";
 			text = Catalog.GetString("Linear encoder inverted attached to a barbell.") + " " + 
@@ -1012,7 +1000,7 @@ public class EncoderConfiguration {
 		}
 		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2) {
 			type = Constants.EncoderType.LINEAR;
-			position = 5;
+			position = 4;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson2;
 			code = "Linear - barbell - pulley - moving pulley";
 			text = Catalog.GetString("Linear encoder attached to a barbell.") + " " + 
@@ -1023,7 +1011,7 @@ public class EncoderConfiguration {
 		}
 		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2INV) {
 			type = Constants.EncoderType.LINEAR;
-			position = 6;
+			position = 5;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson2Inv;
 			code = "Linear inv - barbell - pulley - moving pulley";
 			text = Catalog.GetString("Linear encoder inverted attached to a barbell.") + " " + 
@@ -1034,7 +1022,7 @@ public class EncoderConfiguration {
 		}
 		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYONLINEARENCODER) {
 			type = Constants.EncoderType.LINEAR;
-			position = 7;
+			position = 6;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnLinearEncoder;
 			code = "Linear - moving pulley";
 			text = Catalog.GetString("Linear encoder attached to a weighted moving pulley.")
@@ -1044,7 +1032,7 @@ public class EncoderConfiguration {
 		}
 		else if(name == Constants.EncoderConfigurationNames.LINEARONPLANE) {
 			type = Constants.EncoderType.LINEAR;
-			position = 8;
+			position = 7;
 			image = Constants.FileNameEncoderLinearOnPlane;
 			code = "Linear - inclinated plane";
 			text = Catalog.GetString("Linear encoder on a inclinated plane.");
@@ -1054,7 +1042,7 @@ public class EncoderConfiguration {
 		}
 		else if(name == Constants.EncoderConfigurationNames.LINEARONPLANEWEIGHTDIFFANGLE) {
 			type = Constants.EncoderType.LINEAR;
-			position = 9;
+			position = 8;
 			image = Constants.FileNameEncoderLinearOnPlaneWeightDiffAngle;
 			code = "Linear - inclinated plane different angle";
 			text = Catalog.GetString("Linear encoder on a inclinated plane moving a weight in different angle.");
@@ -1062,7 +1050,22 @@ public class EncoderConfiguration {
 			has_angle_push = true;
 			has_angle_weight = true;
 		}
+		// ---- inertial
+		else if(name == Constants.EncoderConfigurationNames.LINEARINERTIAL) {
+			type = Constants.EncoderType.LINEAR;
+			position = 0;
+			image = Constants.FileNameEncoderLinearInertial;
+			code = "Linear - inertial machine";
+			text = Catalog.GetString("Linear encoder on inertia machine.") + "\n" + 
+				Catalog.GetString("Configuration NOT Recommended! Please use a rotary encoder.") + "\n" +
+				"*" + Catalog.GetString("Person has to start fully extended (on the toes).") + "*" + "\n" + 
+				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled");
+			
+			has_d = true;
+			has_inertia = true;
+		}
 		// ---- ROTARY FRICTION ----
+		// ---- not inertial
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDE) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 0;
@@ -1087,9 +1090,10 @@ public class EncoderConfiguration {
 			code = "Rotary friction - moving pulley";
 			text = Catalog.GetString("Rotary friction encoder on weighted moving pulley.");
 		}
+		// ---- inertial
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIAL) {
 			type = Constants.EncoderType.ROTARYFRICTION;
-			position = 3;
+			position = 0;
 			image = Constants.FileNameEncoderFrictionSideInertial;
 			code = "Rotary friction - inertial machine side";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine side.") + "\n" +
@@ -1102,7 +1106,7 @@ public class EncoderConfiguration {
 		}
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIAL) {
 			type = Constants.EncoderType.ROTARYFRICTION;
-			position = 4;
+			position = 1;
 			image = Constants.FileNameEncoderFrictionAxisInertial;
 			code = "Rotary friction axis - inertial machine axis";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine axis.") + "\n" +
@@ -1114,7 +1118,7 @@ public class EncoderConfiguration {
 		}
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALLATERAL) {
 			type = Constants.EncoderType.ROTARYFRICTION;
-			position = 5;
+			position = 2;
 			image = Constants.FileNameEncoderFrictionSideInertialLateral;
 			code = "Rotary friction - inertial machine side - lateral movement";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine when person is moving laterally.") + "\n" +
@@ -1127,7 +1131,7 @@ public class EncoderConfiguration {
 		}
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALLATERAL) {
 			type = Constants.EncoderType.ROTARYFRICTION;
-			position = 6;
+			position = 3;
 			image = Constants.FileNameEncoderFrictionAxisInertialLateral;
 			code = "Rotary friction - inertial machine axis - lateral movement";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine when person is moving laterally.") + "\n" +
@@ -1139,7 +1143,7 @@ public class EncoderConfiguration {
 		}
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALMOVPULLEY) {
 			type = Constants.EncoderType.ROTARYFRICTION;
-			position = 7;
+			position = 4;
 			image = Constants.FileNameEncoderFrictionSideInertialMovPulley;
 			code = "Rotary friction - inertial machine side geared up";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine geared up.") + "\n" +
@@ -1155,7 +1159,7 @@ public class EncoderConfiguration {
 		}
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALMOVPULLEY) {
 			type = Constants.EncoderType.ROTARYFRICTION;
-			position = 8;
+			position = 5;
 			image = Constants.FileNameEncoderFrictionAxisInertialMovPulley;
 			code = "Rotary friction - inertial machine axis geared up";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine geared up.") + "\n" +
@@ -1169,6 +1173,7 @@ public class EncoderConfiguration {
 			gearedDown = -2; //gearedDown is not used in inertial machines. It's hardcoded
 		}
 		// ---- ROTARY AXIS ----
+		// ---- not inertial
 		else if(name == Constants.EncoderConfigurationNames.ROTARYAXIS) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 0;
@@ -1188,9 +1193,10 @@ public class EncoderConfiguration {
 			
 			gearedDown = 2;
 		}
+		// ---- inertial
 		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL) {
 			type = Constants.EncoderType.ROTARYAXIS;
-			position = 2;
+			position = 0;
 			image = Constants.FileNameEncoderAxisInertial;
 			code = "Rotary axis - inertial machine";
 			text = Catalog.GetString("Rotary axis encoder on inertial machine.") + "\n" +
@@ -1202,7 +1208,7 @@ public class EncoderConfiguration {
 		}
 		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALLATERAL) {
 			type = Constants.EncoderType.ROTARYAXIS;
-			position = 3;
+			position = 1;
 			image = Constants.FileNameEncoderAxisInertialLateral;
 			code = "Rotary axis - inertial machine - lateral movement";
 			text = Catalog.GetString("Rotary axis encoder on inertial machine when person is moving laterally.") + "\n" +
@@ -1214,7 +1220,7 @@ public class EncoderConfiguration {
 		}
 		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALMOVPULLEY) {
 			type = Constants.EncoderType.ROTARYAXIS;
-			position = 4;
+			position = 2;
 			image = Constants.FileNameEncoderAxisInertialMovPulley;
 			code = "Rotary axis - inertial machine geared up";
 			text = Catalog.GetString("Rotary axis encoder on inertial machine geared up.") + "\n" +

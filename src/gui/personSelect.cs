@@ -109,8 +109,8 @@ public class PersonSelectWindow
 				b.Show();
 				
 				table1.Attach (b, (uint) col_i, (uint) col_i +1, (uint) row_i, (uint) row_i +1, 
-						Gtk.AttachOptions.Fill | Gtk.AttachOptions.Expand, 
-						Gtk.AttachOptions.Fill | Gtk.AttachOptions.Expand, 
+						Gtk.AttachOptions.Fill, 
+						Gtk.AttachOptions.Fill, 
 						padding, padding);
 			}
 		}

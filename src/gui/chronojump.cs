@@ -6377,6 +6377,8 @@ LogB.Debug("X");
 		button_person_add_single.Sensitive = true;
 		button_person_add_multiple.Sensitive = true;
 		
+		button_encoder_person_change.Sensitive = true;
+		
 		menuSessionSensitive(true);
 		vbox_stats.Sensitive = true;
 		frame_share_data.Sensitive = true;
@@ -6393,8 +6395,6 @@ LogB.Debug("X");
 		encoderButtonsSensitive(encoderSensEnum.NOPERSON);
 		encoderPersonChanged();
 		
-		button_encoder_person_change.Sensitive = false;
-
 		notebook_execute.Sensitive = false;
 		//hbox_chronopics.Sensitive = false;
 		notebook_results.Sensitive = false;
@@ -6414,8 +6414,6 @@ LogB.Debug("X");
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		encoderPersonChanged();
 		
-		button_encoder_person_change.Sensitive = true;
-
 		notebook_execute.Sensitive = true;
 		//hbox_chronopics.Sensitive = true;
 		notebook_results.Sensitive = true;

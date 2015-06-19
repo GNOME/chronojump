@@ -2624,8 +2624,14 @@ public partial class ChronoJumpWindow
 			sensitiveGuiYesPerson();
 		}
 	}
-		
-	private void on_person_add_single_activate (object o, EventArgs args) {
+	
+	bool person_add_single_called_from_person_select_window;
+	private void on_person_add_single_from_main_gui (object o, EventArgs args) {
+		person_add_single_called_from_person_select_window = false;
+		person_add_single();
+	}
+
+	private void person_add_single () {
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, 
 				currentSession, new Person(-1), 
 				preferences.digitsNumber, checkbutton_video, useVideo
@@ -2670,6 +2676,13 @@ public partial class ChronoJumpWindow
 						rowToSelect);
 				sensitiveGuiYesPerson();
 				//appbar2.Push( 1, Catalog.GetString("Successfully added") + " " + currentPerson.Name );
+			}
+			
+			if(person_add_single_called_from_person_select_window) {
+				ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+						currentSession.UniqueID, 
+						false); //means: do not returnPersonAndPSlist
+				personSelectWin.Update(myPersons);
 			}
 		}
 	}
@@ -2790,7 +2803,13 @@ public partial class ChronoJumpWindow
 				false); //means: do not returnPersonAndPSlist
 
 		personSelectWin = PersonSelectWindow.Show(app1, myPersons);
+		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_encoder_person_add_person);
 		personSelectWin.FakeButtonDone.Clicked += new EventHandler(on_button_encoder_person_change_done);
+	}
+	private void on_button_encoder_person_add_person(object o, EventArgs args)
+	{
+		person_add_single_called_from_person_select_window = true;
+		person_add_single();
 	}
 	private void on_button_encoder_person_change_done(object o, EventArgs args) 
 	{

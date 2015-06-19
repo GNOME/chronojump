@@ -35,6 +35,7 @@ public class PersonSelectWindow
 	
 	private ArrayList persons;
 	public Person SelectedPerson;
+	public Gtk.Button FakeButtonAddPerson;
 	public Gtk.Button FakeButtonDone;
 
 	
@@ -46,6 +47,7 @@ public class PersonSelectWindow
 		//put an icon to window
 		UtilGtk.IconWindow(person_select_window);
 		
+		FakeButtonAddPerson = new Gtk.Button();
 		FakeButtonDone = new Gtk.Button();
 	}
 	
@@ -65,8 +67,28 @@ public class PersonSelectWindow
 		return PersonSelectWindowBox;
 	}
 
+	public void Update(ArrayList persons) {
+		this.persons = persons;
+		
+		LogB.Debug("Removing table");
+		table1.Visible = false;
+		removeTable();
+
+		LogB.Debug("Recreating table");
+		createTable();
+		table1.Visible = true;
+	}
+	
+	private void removeTable() 
+	{
+		Array buttons = table1.Children;
+		foreach(Gtk.Button b in buttons)
+			table1.Remove(b);
+	}
+
 	private void createTable() 
 	{
+		LogB.Debug("Persons count" + persons.Count.ToString());
 		uint padding = 8;	
 		uint cols = 4; //each row has 4 columns
 		uint rows = Convert.ToUInt32(Math.Floor(persons.Count / (1.0 * cols) ) +1);
@@ -83,7 +105,7 @@ public class PersonSelectWindow
 				PersonPhotoButton ppb = new PersonPhotoButton(p);
 				Gtk.Button b = ppb.CreateButton();
 				
-				b.Clicked += new EventHandler(on_button_clicked);
+				b.Clicked += new EventHandler(on_button_select_portrait_clicked);
 				b.Show();
 				
 				table1.Attach (b, (uint) col_i, (uint) col_i +1, (uint) row_i, (uint) row_i +1, 
@@ -94,7 +116,7 @@ public class PersonSelectWindow
 		}
 	}
 	
-	private void on_button_clicked (object o, EventArgs args)
+	private void on_button_select_portrait_clicked (object o, EventArgs args)
 	{
 		LogB.Information("Clicked");
 
@@ -112,6 +134,10 @@ public class PersonSelectWindow
 				FakeButtonDone.Click();
 				close_window();
 			}
+	}
+	
+	protected virtual void on_button_add_clicked (object o, EventArgs args) {
+		FakeButtonAddPerson.Click();
 	}
 
 	private void close_window() {	

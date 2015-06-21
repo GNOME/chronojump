@@ -69,7 +69,13 @@ class SqlitePreferences : Sqlite
 				Insert ("evaluatorServerID", "-1", dbcmdTr);
 				Insert ("versionAvailable", "", dbcmdTr);
 				Insert ("runSpeedStartArrival", "True", dbcmdTr);
-				Insert ("runISpeedStartArrival", "True", dbcmdTr);
+
+				Insert ("runDoubleContactsMode", 
+						Constants.DoubleContact.LAST.ToString(), dbcmdTr); 
+				Insert ("runDoubleContactsMS", "1000", dbcmdTr);
+				Insert ("runIDoubleContactsMode", 
+						Constants.DoubleContact.AVERAGE.ToString(), dbcmdTr); 
+				Insert ("runIDoubleContactsMS", "1000", dbcmdTr);
 
 				Random rnd = new Random();
 				string machineID = rnd.Next().ToString();
@@ -175,6 +181,9 @@ class SqlitePreferences : Sqlite
 		Preferences preferences = new Preferences();
 
 		while(reader.Read()) {
+			//LogB.Debug("Reading preferences");
+			//LogB.Information(reader[0].ToString() + ":" + reader[1].ToString());
+
 	 		//these are sent to preferences window
 			if(reader[0].ToString() == "digitsNumber")
 				preferences.digitsNumber = Convert.ToInt32(reader[1].ToString());
@@ -230,8 +239,18 @@ class SqlitePreferences : Sqlite
 				preferences.versionAvailable = reader[1].ToString();
 			else if(reader[0].ToString() == "runSpeedStartArrival")
 				preferences.runSpeedStartArrival = reader[1].ToString() == "True";
-			else if(reader[0].ToString() == "runISpeedStartArrival")
-				preferences.runISpeedStartArrival = reader[1].ToString() == "True";
+			
+			else if(reader[0].ToString() == "runDoubleContactsMode")
+				preferences.runDoubleContactsMode = (Constants.DoubleContact) 
+					Enum.Parse(typeof(Constants.DoubleContact), reader[1].ToString()); 
+			else if(reader[0].ToString() == "runDoubleContactsMS")
+				preferences.runDoubleContactsMS = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == "runIDoubleContactsMode")
+				preferences.runIDoubleContactsMode = (Constants.DoubleContact) 
+					Enum.Parse(typeof(Constants.DoubleContact), reader[1].ToString()); 
+			else if(reader[0].ToString() == "runIDoubleContactsMS")
+				preferences.runIDoubleContactsMS = Convert.ToInt32(reader[1].ToString());
+
 			else if(reader[0].ToString() == "machineID")
 				preferences.machineID = reader[1].ToString();
 			else if(reader[0].ToString() == "multimediaStorage")

@@ -43,9 +43,8 @@ public class RunExecute : EventExecute
 	}
 	protected static runPhases runPhase;
 		
-	protected bool checkDoubleContact;
-	protected int checkDoubleContactTime;
 	protected Constants.DoubleContact checkDoubleContactMode;
+	protected int checkDoubleContactTime;
 	
 	protected bool speedStartArrival;	
 	
@@ -57,8 +56,7 @@ public class RunExecute : EventExecute
 			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, 
 			int pDN, bool metersSecondsPreferred, bool volumeOn,
 			double progressbarLimit, ExecutingGraphData egd,
-			bool checkDoubleContact, int checkDoubleContactTime, 
-			Constants.DoubleContact checkDoubleContactMode,
+			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime, 
 			bool speedStartArrival
 			)
 	{
@@ -76,9 +74,8 @@ public class RunExecute : EventExecute
 		this.volumeOn = volumeOn;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
-		this.checkDoubleContact = checkDoubleContact;
-		this.checkDoubleContactTime = checkDoubleContactTime;
 		this.checkDoubleContactMode = checkDoubleContactMode;
+		this.checkDoubleContactTime = checkDoubleContactTime;
 		this.speedStartArrival = speedStartArrival;	
 		
 		fakeButtonUpdateGraph = new Gtk.Button();
@@ -231,7 +228,7 @@ public class RunExecute : EventExecute
 							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 
 						//prevent double contact stuff
-						if(checkDoubleContact) {
+						if(checkDoubleContactMode != Constants.DoubleContact.NONE) {
 							if(timestamp <= checkDoubleContactTime) {
 								/*
 								   when checking double contact
@@ -268,7 +265,7 @@ public class RunExecute : EventExecute
 							}
 						}
 						
-						if(! checkDoubleContact)
+						if(checkDoubleContactMode == Constants.DoubleContact.NONE)
 							success = true;
 
 						if(success) {
@@ -300,7 +297,7 @@ public class RunExecute : EventExecute
 					//change the automata state
 					loggedState = States.OFF;
 
-					if(checkDoubleContact && timestampDCn > 0)
+					if(checkDoubleContactMode != Constants.DoubleContact.NONE && timestampDCn > 0)
 						timestampDCContactTimes += timestamp;
 					else {
 						if(runPhase == runPhases.PLATFORM_INI_YES_TIME)
@@ -473,8 +470,7 @@ public class RunIntervalExecute : RunExecute
 			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN, bool metersSecondsPreferred, 
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin,
 			double progressbarLimit, ExecutingGraphData egd ,
-			bool checkDoubleContact, int checkDoubleContactTime, 
-			Constants.DoubleContact checkDoubleContactMode,
+			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime, 
 			bool speedStartArrival
 			)
 	{
@@ -511,9 +507,8 @@ public class RunIntervalExecute : RunExecute
 		this.repetitiveConditionsWin = repetitiveConditionsWin;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
-		this.checkDoubleContact = checkDoubleContact;
-		this.checkDoubleContactTime = checkDoubleContactTime;
 		this.checkDoubleContactMode = checkDoubleContactMode;
+		this.checkDoubleContactTime = checkDoubleContactTime;
 		this.speedStartArrival = speedStartArrival;	
 	
 		fakeButtonUpdateGraph = new Gtk.Button();
@@ -594,7 +589,7 @@ public class RunIntervalExecute : RunExecute
 						if(simulated)
 							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 
-						if(checkDoubleContact) {
+						if(checkDoubleContactMode != Constants.DoubleContact.NONE) {
 							if(timestamp <= checkDoubleContactTime) {
 								/*
 								   when checking double contact
@@ -715,7 +710,7 @@ public class RunIntervalExecute : RunExecute
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
 					} else {
-						if(checkDoubleContact && timestampDCn > 0)
+						if(checkDoubleContactMode != Constants.DoubleContact.NONE && timestampDCn > 0)
 							timestampDCContactTimes += timestamp;
 						else 
 							  lastTc = timestamp/1000.0;

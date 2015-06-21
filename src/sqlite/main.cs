@@ -65,6 +65,7 @@ class Sqlite
 
 	//for db conversion
 	static string currentVersion = "0";
+	
 	static int conversionRate;
 	static int conversionRateTotal;
 	protected static int conversionSubRate;
@@ -73,7 +74,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.23";
+	static string lastChronojumpDatabaseVersion = "1.24";
 
 	public Sqlite() {
 	}
@@ -1793,7 +1794,43 @@ class Sqlite
 
 				currentVersion = "1.23";
 			}
+
+			// ----------------------------------------------
+			// IMPORTANT HERE IS DEFINED sqliteOpened == true
+			// this is useful to not do more than 50 SQL open close
+			// that crashes mac (Linux 100)
+			// ----------------------------------------------
+			LogB.SQL("Leaving Sqlite opened before DB updates");
+			bool sqliteOpened = true;
+			string newVersion = "";
 	
+			Sqlite.Open(); //------------------------------------------------
+
+
+			if(currentVersion == "1.23") {
+				LogB.SQL("Delete runISpeedStartArrival and add 4 double contacts configs");
+
+				DeleteFromName(true, Constants.PreferencesTable, "runISpeedStartArrival");
+				SqlitePreferences.Insert ("runDoubleContactsMode", Constants.DoubleContact.LAST.ToString()); 
+				SqlitePreferences.Insert ("runDoubleContactsMS", "1000");
+				SqlitePreferences.Insert ("runIDoubleContactsMode", Constants.DoubleContact.AVERAGE.ToString()); 
+				SqlitePreferences.Insert ("runIDoubleContactsMS", "1000");
+
+				newVersion = "1.24";
+				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
+				currentVersion = newVersion;
+			}
+
+			// --- add more updates here
+		
+
+			
+			// --- end of update, close DB
+
+			LogB.SQL("Closing Sqlite after DB updates");
+			sqliteOpened = false;
+
+			Sqlite.Close(); //------------------------------------------------
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1937,6 +1974,7 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
+		//1.23 - 1.24 Converted DB to 1.24 Delete runISpeedStartArrival and add 4 double contacts configs
 		//1.22 - 1.23 Converted DB to 1.23 Added encoder configuration
 		//1.21 - 1.22 Converted DB to 1.22 Encoder laterality in english again
 		//1.20 - 1.21 Converted DB to 1.21 Fixing loosing of encoder videoURL after recalculate

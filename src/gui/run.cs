@@ -894,15 +894,6 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_runs_label_distance_units;
 	[Widget] Gtk.Label extra_window_label_runs_no_options;
 	
-	[Widget] Gtk.Box vbox_runs_prevent_double_contact;
-	[Widget] Gtk.CheckButton checkbutton_runs_prevent_double_contact;
-	[Widget] Gtk.SpinButton spinbutton_runs_prevent_double_contact;
-	[Widget] Gtk.RadioButton radio_runs_prevent_double_contact_first;
-	[Widget] Gtk.RadioButton radio_runs_prevent_double_contact_average;
-	[Widget] Gtk.RadioButton radio_runs_prevent_double_contact_last;
-	[Widget] Gtk.RadioButton radio_runs_speed_start_arrival;
-	[Widget] Gtk.RadioButton radio_runs_speed_start_leaving;
-	
 	//options runs interval
 	[Widget] Gtk.Label extra_window_runs_interval_label_distance;
 	[Widget] Gtk.SpinButton extra_window_runs_interval_spinbutton_distance;
@@ -911,15 +902,6 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton extra_window_runs_interval_spinbutton_limit;
 	[Widget] Gtk.Label extra_window_runs_interval_label_limit_units;
 	[Widget] Gtk.Label extra_window_label_runs_interval_no_options;
-	
-	[Widget] Gtk.Box vbox_runs_i_prevent_double_contact;
-	[Widget] Gtk.CheckButton checkbutton_runs_i_prevent_double_contact;
-	[Widget] Gtk.SpinButton spinbutton_runs_i_prevent_double_contact;
-	[Widget] Gtk.RadioButton radio_runs_i_prevent_double_contact_first;
-	[Widget] Gtk.RadioButton radio_runs_i_prevent_double_contact_average;
-	[Widget] Gtk.RadioButton radio_runs_i_prevent_double_contact_last;
-	[Widget] Gtk.RadioButton radio_runs_i_speed_start_arrival;
-	[Widget] Gtk.RadioButton radio_runs_i_speed_start_leaving;
 	
 
 	double extra_window_runs_distance = 100;
@@ -1143,31 +1125,6 @@ partial class ChronoJumpWindow
 			extra_window_label_runs_no_options.Visible = ! hasOptions;
 	}
 
-	protected void on_checkbutton_runs_prevent_double_contact_toggled (object o, EventArgs args) {
-		vbox_runs_prevent_double_contact.Visible = checkbutton_runs_prevent_double_contact.Active;
-	}
-	protected void on_checkbutton_runs_i_prevent_double_contact_toggled (object o, EventArgs args) {
-		vbox_runs_i_prevent_double_contact.Visible = checkbutton_runs_i_prevent_double_contact.Active;
-	}
-
-
-	bool update_sqlite_at_runs_speed_radios = false;
-	private void on_radio_runs_speed_start_toggled (object o, EventArgs args) {
-		if(update_sqlite_at_runs_speed_radios) {
-			if(radio_runs_speed_start_arrival.Active)
-				SqlitePreferences.Update("runSpeedStartArrival", "True", false);
-			else
-				SqlitePreferences.Update("runSpeedStartArrival", "False", false);
-		}
-	}
-	private void on_radio_runs_i_speed_start_toggled (object o, EventArgs args) {
-		if(update_sqlite_at_runs_speed_radios) {
-			if(radio_runs_i_speed_start_arrival.Active)
-				SqlitePreferences.Update("runISpeedStartArrival", "True", false);
-			else
-				SqlitePreferences.Update("runISpeedStartArrival", "False", false);
-		}
-	}
 }
 
 

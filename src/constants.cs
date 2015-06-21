@@ -825,7 +825,7 @@ public class Constants
 	public enum EncoderAutoSaveCurve { ALL, NONE, BESTMEANPOWER }
 
 	public enum DoubleContact {
-		FIRST, AVERAGE, LAST
+		NONE, FIRST, AVERAGE, LAST
 	}
 	
 	//DISPLACED means: total

@@ -38,6 +38,13 @@ public class Preferences
 	public bool weightStatsPercent;		//AKA weightPercentPreferred
 	public bool heightPreferred;
 	public bool metersSecondsPreferred;
+	public bool runSpeedStartArrival;
+
+	public Constants.DoubleContact runDoubleContactsMode; //default LAST
+	public int runDoubleContactsMS; //milliseconds
+	public Constants.DoubleContact runIDoubleContactsMode; //default AVERAGE
+	public int runIDoubleContactsMS; //milliseconds
+	
 	public bool encoderPropulsive;
 	public double encoderSmoothCon;
 	public int videoDeviceNum; 		//AKA videoDevice
@@ -56,8 +63,6 @@ public class Preferences
 	public bool videoOn;
 	public int evaluatorServerID;
 	public string versionAvailable;
-	public bool runSpeedStartArrival;
-	public bool runISpeedStartArrival;
 	public string machineID;
 	public Constants.MultimediaStorage multimediaStorage;
 	public string databaseVersion;

@@ -34,6 +34,8 @@ public class PreferencesWindow {
 	
 	[Widget] Gtk.Window preferences_win;
 
+
+	//database tab
 	[Widget] Gtk.Label label_database;
 	[Widget] Gtk.Label label_database_temp;
 	
@@ -50,55 +52,72 @@ public class PreferencesWindow {
 	[Widget] Gtk.Box hbox_backup_doing;
 	[Widget] Gtk.ProgressBar pulsebar;
 
-	[Widget] Gtk.ComboBox combo_decimals;
+	
+	//jumps tab	
 	[Widget] Gtk.CheckButton checkbutton_power;
 	[Widget] Gtk.CheckButton checkbutton_stiffness;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
 	[Widget] Gtk.CheckButton checkbutton_angle;
-	
 	[Widget] Gtk.CheckButton checkbutton_show_tv_tc_index;
 	[Widget] Gtk.Box hbox_indexes;
 	[Widget] Gtk.RadioButton radiobutton_show_q_index;
 	[Widget] Gtk.RadioButton radiobutton_show_dj_index;
-	
-	[Widget] Gtk.CheckButton checkbutton_ask_deletion;
-
 	[Widget] Gtk.RadioButton radio_elevation_height;
 	[Widget] Gtk.RadioButton radio_elevation_tf;
-	[Widget] Gtk.RadioButton radio_speed_ms;
-	[Widget] Gtk.RadioButton radio_speed_km;
 	[Widget] Gtk.RadioButton radio_weight_percent;
 	[Widget] Gtk.RadioButton radio_weight_kg;
+	[Widget] Gtk.RadioButton radio_use_heights_on_jump_indexes;
+	[Widget] Gtk.RadioButton radio_do_not_use_heights_on_jump_indexes;
+			
+	//runs tab	
+	[Widget] Gtk.RadioButton radio_speed_ms;
+	[Widget] Gtk.RadioButton radio_speed_km;
+	[Widget] Gtk.RadioButton radio_runs_speed_start_arrival; 
+	[Widget] Gtk.RadioButton radio_runs_speed_start_leaving; 
+	[Widget] Gtk.Box vbox_runs_prevent_double_contact;
+	[Widget] Gtk.CheckButton checkbutton_runs_prevent_double_contact;
+	[Widget] Gtk.SpinButton spinbutton_runs_prevent_double_contact;
+	[Widget] Gtk.RadioButton radio_runs_prevent_double_contact_first;
+	[Widget] Gtk.RadioButton radio_runs_prevent_double_contact_average;
+	[Widget] Gtk.RadioButton radio_runs_prevent_double_contact_last;
+	[Widget] Gtk.Box vbox_runs_i_prevent_double_contact;
+	[Widget] Gtk.CheckButton checkbutton_runs_i_prevent_double_contact;
+	[Widget] Gtk.SpinButton spinbutton_runs_i_prevent_double_contact;
+	[Widget] Gtk.RadioButton radio_runs_i_prevent_double_contact_first;
+	[Widget] Gtk.RadioButton radio_runs_i_prevent_double_contact_average;
+	[Widget] Gtk.RadioButton radio_runs_i_prevent_double_contact_last;
 	
+	//encoder tab	
 	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
 	[Widget] Gtk.SpinButton spin_encoder_smooth_con;
 	[Widget] Gtk.Label label_encoder_con;
-			
 	[Widget] Gtk.RadioButton radio_encoder_1RM_nonweighted;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted2;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted3;
-			
-	[Widget] Gtk.RadioButton radio_export_latin;
-	[Widget] Gtk.RadioButton radio_export_non_latin;
-	
-	[Widget] Gtk.RadioButton radio_graphs_translate;
-	[Widget] Gtk.RadioButton radio_graphs_no_translate;
-
-	[Widget] Gtk.RadioButton radio_use_heights_on_jump_indexes;
-	[Widget] Gtk.RadioButton radio_do_not_use_heights_on_jump_indexes;
-	
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_bestmeanpower;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_all;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_none;
+
+	//camera tab
+	[Widget] Gtk.Box hbox_combo_camera;
+	[Widget] Gtk.ComboBox combo_camera;
+	
+	//other tab
+	[Widget] Gtk.ComboBox combo_decimals;
+	[Widget] Gtk.CheckButton checkbutton_ask_deletion;
+	[Widget] Gtk.RadioButton radio_export_latin;
+	[Widget] Gtk.RadioButton radio_export_non_latin;
+	[Widget] Gtk.RadioButton radio_graphs_translate;
+	[Widget] Gtk.RadioButton radio_graphs_no_translate;
+
+	
 
 
 //	[Widget] Gtk.Box hbox_language_row;
 //	[Widget] Gtk.Box hbox_combo_language;
 //	[Widget] Gtk.ComboBox combo_language;
 
-	[Widget] Gtk.Box hbox_combo_camera;
-	[Widget] Gtk.ComboBox combo_camera;
 
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
@@ -209,6 +228,42 @@ public class PreferencesWindow {
 			PreferencesWindowBox.radio_speed_km.Active = true; 
 
 
+		if(preferences.runSpeedStartArrival)  
+			PreferencesWindowBox.radio_runs_speed_start_arrival.Active = true; 
+		else 
+			PreferencesWindowBox.radio_runs_speed_start_leaving.Active = true; 
+
+
+		//start of double contacts stuff ----
+		PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active = 
+			(preferences.runDoubleContactsMode != Constants.DoubleContact.NONE);
+		PreferencesWindowBox.checkbutton_runs_i_prevent_double_contact.Active = 
+			(preferences.runIDoubleContactsMode != Constants.DoubleContact.NONE);
+
+		PreferencesWindowBox.spinbutton_runs_prevent_double_contact.Value = 
+			preferences.runDoubleContactsMS;
+		PreferencesWindowBox.spinbutton_runs_i_prevent_double_contact.Value = 
+			preferences.runIDoubleContactsMS;
+			
+		if(preferences.runDoubleContactsMode != Constants.DoubleContact.NONE) {
+			if(preferences.runDoubleContactsMode == Constants.DoubleContact.FIRST)
+				PreferencesWindowBox.radio_runs_prevent_double_contact_first.Active = true;
+			else if(preferences.runDoubleContactsMode == Constants.DoubleContact.AVERAGE)
+				PreferencesWindowBox.radio_runs_prevent_double_contact_average.Active = true;
+			else // Constants.DoubleContact.LAST  DEFAULT
+				PreferencesWindowBox.radio_runs_prevent_double_contact_last.Active = true;
+		}
+		if(preferences.runIDoubleContactsMode != Constants.DoubleContact.NONE) {
+			if(preferences.runIDoubleContactsMode == Constants.DoubleContact.FIRST)
+				PreferencesWindowBox.radio_runs_i_prevent_double_contact_first.Active = true;
+			else if(preferences.runIDoubleContactsMode == Constants.DoubleContact.LAST)
+				PreferencesWindowBox.radio_runs_i_prevent_double_contact_last.Active = true;
+			else //Constants.DoubleContact.AVERAGE  DEFAULT
+				PreferencesWindowBox.radio_runs_i_prevent_double_contact_average.Active = true;
+		}
+		//---- end of double contacts stuff		
+
+
 		if(preferences.CSVExportDecimalSeparator == "COMMA")
 			PreferencesWindowBox.radio_export_latin.Active = true; 
 		else
@@ -306,6 +361,14 @@ public class PreferencesWindow {
 		else
 			hbox_indexes.Hide();
 	}
+	
+	private void on_checkbutton_runs_prevent_double_contact_toggled (object o, EventArgs args) {
+		vbox_runs_prevent_double_contact.Visible = checkbutton_runs_prevent_double_contact.Active;
+	}
+	private void on_checkbutton_runs_i_prevent_double_contact_toggled (object o, EventArgs args) {
+		vbox_runs_i_prevent_double_contact.Visible = checkbutton_runs_i_prevent_double_contact.Active;
+	}
+
 		
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
@@ -594,7 +657,85 @@ public class PreferencesWindow {
 			SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.radio_speed_ms.Active.ToString(), true);
 			preferences.metersSecondsPreferred = PreferencesWindowBox.radio_speed_ms.Active;
 		}
+		
+		if( preferences.runSpeedStartArrival != PreferencesWindowBox.radio_runs_speed_start_arrival.Active ) {
+			SqlitePreferences.Update("runSpeedStartArrival", PreferencesWindowBox.radio_runs_speed_start_arrival.Active.ToString(), true);
+			preferences.runSpeedStartArrival = PreferencesWindowBox.radio_runs_speed_start_arrival.Active;
+		}
+		
+		//start of double contacts stuff ----
 
+		//1 simple runs ----
+		
+		//1.1 was FIRST or AVERAGE or LAST and now will be NONE
+		if( (preferences.runDoubleContactsMode != Constants.DoubleContact.NONE) && 
+				! PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active) 
+		{
+				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.NONE.ToString(), true);
+				preferences.runDoubleContactsMode = Constants.DoubleContact.NONE;
+		}
+		else if(PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active) 
+		{
+			//1.2 mode has changed between FIRST, AVERAGE or LAST
+			if( PreferencesWindowBox.radio_runs_prevent_double_contact_first.Active &&
+					(preferences.runDoubleContactsMode != Constants.DoubleContact.FIRST) ) {
+				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.FIRST.ToString(), true);
+				preferences.runDoubleContactsMode = Constants.DoubleContact.FIRST;
+			}
+			else if( PreferencesWindowBox.radio_runs_prevent_double_contact_average.Active &&
+					(preferences.runDoubleContactsMode != Constants.DoubleContact.AVERAGE) ) {
+				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.AVERAGE.ToString(), true);
+				preferences.runDoubleContactsMode = Constants.DoubleContact.AVERAGE;
+			}
+			else if( PreferencesWindowBox.radio_runs_prevent_double_contact_last.Active &&
+					(preferences.runDoubleContactsMode != Constants.DoubleContact.LAST) ) {
+				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.LAST.ToString(), true);
+				preferences.runDoubleContactsMode = Constants.DoubleContact.LAST;
+			}
+
+			if(preferences.runDoubleContactsMS != (int) PreferencesWindowBox.spinbutton_runs_prevent_double_contact.Value) {
+				SqlitePreferences.Update("runDoubleContactsMS", 
+						PreferencesWindowBox.spinbutton_runs_prevent_double_contact.Value.ToString(), true); //saved as string
+				preferences.runDoubleContactsMS = (int) spinbutton_runs_prevent_double_contact.Value;
+			}
+		}
+
+		//2 intervallic runs ----
+		
+		//2.1 was FIRST or AVERAGE or LAST and now will be NONE
+		if( (preferences.runIDoubleContactsMode != Constants.DoubleContact.NONE) && 
+				! PreferencesWindowBox.checkbutton_runs_i_prevent_double_contact.Active) 
+		{
+				SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.NONE.ToString(), true);
+				preferences.runIDoubleContactsMode = Constants.DoubleContact.NONE;
+		}
+		else if(PreferencesWindowBox.checkbutton_runs_i_prevent_double_contact.Active) 
+		{
+			//2.2 mode has changed between FIRST, AVERAGE or LAST
+			if( PreferencesWindowBox.radio_runs_i_prevent_double_contact_first.Active &&
+					(preferences.runIDoubleContactsMode != Constants.DoubleContact.FIRST) ) {
+				SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.FIRST.ToString(), true);
+				preferences.runIDoubleContactsMode = Constants.DoubleContact.FIRST;
+			}
+			else if( PreferencesWindowBox.radio_runs_i_prevent_double_contact_average.Active &&
+					(preferences.runIDoubleContactsMode != Constants.DoubleContact.AVERAGE) ) {
+				SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.AVERAGE.ToString(), true);
+				preferences.runIDoubleContactsMode = Constants.DoubleContact.AVERAGE;
+			}
+			else if( PreferencesWindowBox.radio_runs_i_prevent_double_contact_last.Active &&
+					(preferences.runIDoubleContactsMode != Constants.DoubleContact.LAST) ) {
+				SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.LAST.ToString(), true);
+				preferences.runIDoubleContactsMode = Constants.DoubleContact.LAST;
+			}
+			
+			if(preferences.runIDoubleContactsMS != (int) PreferencesWindowBox.spinbutton_runs_i_prevent_double_contact.Value) {
+				SqlitePreferences.Update("runIDoubleContactsMS", 
+						PreferencesWindowBox.spinbutton_runs_i_prevent_double_contact.Value.ToString(), true); //saved as string
+				preferences.runIDoubleContactsMS = (int) spinbutton_runs_i_prevent_double_contact.Value;
+			}
+		}
+
+		//---- end of double contacts stuff
 		
 		
 		if( preferences.encoderPropulsive != PreferencesWindowBox.checkbutton_encoder_propulsive.Active ) {

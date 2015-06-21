@@ -572,14 +572,6 @@ public partial class ChronoJumpWindow
 		on_extra_window_jumps_test_changed(new object(), new EventArgs());
 		//changeTestImage("", "", "LOGO");
 
-		//don't know why Glade is not doing this
-		spinbutton_runs_prevent_double_contact.Value=1000;
-		spinbutton_runs_i_prevent_double_contact.Value=1000;
-			
-		radio_runs_prevent_double_contact_last.Active = true;
-		radio_runs_i_prevent_double_contact_average.Active = true;
-
-
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
 		definedSession = false;
@@ -872,22 +864,6 @@ public partial class ChronoJumpWindow
 		checkbutton_video_encoder.Clicked += new EventHandler(on_checkbutton_video_encoder_clicked);
 		
 		changeVideoButtons(preferences.videoOn);
-
-		//load preferences, update radios, but not update database
-		update_sqlite_at_runs_speed_radios = false;
-
-		if (preferences.runSpeedStartArrival) 
-			radio_runs_speed_start_arrival.Active = true;
-		else
-			radio_runs_speed_start_leaving.Active = true;
-
-		if (preferences.runISpeedStartArrival) 
-			radio_runs_i_speed_start_arrival.Active = true;
-		else
-			radio_runs_i_speed_start_leaving.Active = true;
-		
-		update_sqlite_at_runs_speed_radios = true;
-
 
 		//change language works on windows. On Linux let's change the locale
 		//if(UtilAll.IsWindows())
@@ -4139,24 +4115,6 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 
-	private Constants.DoubleContact getDoubleContactModes(bool runSimple) {
-		if(runSimple) {
-			if(radio_runs_prevent_double_contact_first.Active)
-				return Constants.DoubleContact.FIRST;
-			else if(radio_runs_prevent_double_contact_average.Active)
-				return Constants.DoubleContact.AVERAGE;
-			else
-				return Constants.DoubleContact.LAST;
-		} else {	//runInterval
-			if(radio_runs_i_prevent_double_contact_first.Active)
-				return Constants.DoubleContact.FIRST;
-			else if(radio_runs_i_prevent_double_contact_average.Active)
-				return Constants.DoubleContact.AVERAGE;
-			else
-				return Constants.DoubleContact.LAST;
-		}
-	}
-	
 	//suitable for all runs not repetitive
 	private void on_normal_run_activate (object o, EventArgs args) 
 	{
@@ -4209,10 +4167,9 @@ public partial class ChronoJumpWindow
 				chronopicWin.CP, event_execute_label_message, app1,
 				preferences.digitsNumber, preferences.metersSecondsPreferred, preferences.volumeOn, 
 				progressbarLimit, egd,
-				checkbutton_runs_prevent_double_contact.Active, 
-				(int) spinbutton_runs_prevent_double_contact.Value,
-				getDoubleContactModes(true),	//true: runSimple
-				radio_runs_speed_start_arrival.Active
+				preferences.runDoubleContactsMode,
+				preferences.runDoubleContactsMS,
+				preferences.runSpeedStartArrival
 				);
 		
 		if (!chronopicWin.Connected) 
@@ -4333,10 +4290,9 @@ public partial class ChronoJumpWindow
 				chronopicWin.CP, event_execute_label_message, app1,
 				preferences.digitsNumber, preferences.metersSecondsPreferred, preferences.volumeOn, repetitiveConditionsWin, 
 				progressbarLimit, egd,
-				checkbutton_runs_i_prevent_double_contact.Active, 
-				(int) spinbutton_runs_i_prevent_double_contact.Value,
-				getDoubleContactModes(false),	//false: not runSimple
-				radio_runs_i_speed_start_arrival.Active
+				preferences.runIDoubleContactsMode,
+				preferences.runIDoubleContactsMS,
+				preferences.runSpeedStartArrival
 				);
 		
 		

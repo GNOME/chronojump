@@ -127,14 +127,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_extra_window_radio_pulses_custom;
 	[Widget] Gtk.Label label_extra_window_radio_pulses_free;
 	
-	[Widget] Gtk.VBox extra_window_pulses_vbox;
+	[Widget] Gtk.HBox hbox_extra_window_pulses;
 	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_pulse_step;
 	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_ppm;
 	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_total_pulses;
 	[Widget] Gtk.CheckButton extra_window_pulses_checkbutton_unlimited;
 	[Widget] Gtk.HBox extra_window_pulses_hbox_total_pulses;
 	
-	[Widget] Gtk.Label extra_window_label_pulses_no_options;
 
 	double extra_window_pulseStep = 1.000;
 	bool extra_window_unlimited = true;
@@ -164,8 +163,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void extra_window_pulses_showNoOptions(bool hasOptions) {
-		extra_window_label_pulses_no_options.Visible = ! hasOptions;
-		extra_window_pulses_vbox.Visible = hasOptions;
+		hbox_extra_window_pulses.Visible = hasOptions;
 	}
 	
 

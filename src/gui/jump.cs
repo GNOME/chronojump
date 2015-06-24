@@ -973,7 +973,7 @@ partial class ChronoJumpWindow
 {
 	//options jumps
 	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_weight;
-	[Widget] Gtk.Box extra_window_jumps_vbox_fall;
+	[Widget] Gtk.Box extra_window_jumps_hbox_fall;
 	[Widget] Gtk.RadioButton extra_window_jumps_radio_dj_fall_predefined;
 	[Widget] Gtk.RadioButton extra_window_jumps_radio_dj_fall_calculate;
 	[Widget] Gtk.Label extra_window_jumps_label_dj_start_inside;
@@ -983,9 +983,7 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_weight;
 	[Widget] Gtk.Label extra_window_jumps_label_weight;
 	[Widget] Gtk.Label extra_window_jumps_label_cm;
-	[Widget] Gtk.Label extra_window_jumps_label_dj_arms;
 	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_arms;
-	[Widget] Gtk.Label extra_window_label_jumps_no_options;
 
 	//slCMJ	
 	[Widget] Gtk.Box vbox_extra_window_jumps_single_leg;
@@ -1014,7 +1012,6 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_jumps_rj_label_weight;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_fall;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_cm;
-	[Widget] Gtk.Label extra_window_label_jumps_rj_no_options;
 	[Widget] Gtk.CheckButton checkbutton_allow_finish_rj_after_time;
 
 	
@@ -1155,8 +1152,6 @@ partial class ChronoJumpWindow
 			extra_window_jumps_spin_single_leg_distance.Value = 0;
 			extra_window_jumps_spin_single_leg_angle.Value = 90;
 		}
-
-		extra_window_jumps_showNoOptions(myJumpType, hasOptions);
 	}
 	
 	private void extra_window_jumps_rj_initialize(JumpType myJumpType) 
@@ -1208,8 +1203,6 @@ partial class ChronoJumpWindow
 		} else {
 			extra_window_jumps_rj_radiobutton_weight.Active = true;
 		}
-
-		extra_window_jumps_showNoOptions(myJumpType, hasOptions);
 	}
 
 	private void on_extra_window_jumps_check_dj_arms_clicked(object o, EventArgs args)
@@ -1297,10 +1290,7 @@ partial class ChronoJumpWindow
 	}
 	
 	private void extra_window_showTechniqueArmsData (bool show, bool sensitive) {
-		extra_window_jumps_label_dj_arms.Visible = show;
 		extra_window_jumps_check_dj_arms.Visible = show;
-		
-		extra_window_jumps_label_dj_arms.Sensitive = sensitive;
 		extra_window_jumps_check_dj_arms.Sensitive = sensitive;
 	}
 	
@@ -1311,9 +1301,9 @@ partial class ChronoJumpWindow
 			extra_window_jumps_rj_label_cm.Visible = show;
 		
 			//only on simple jumps	
-			extra_window_jumps_vbox_fall.Visible = false;
+			extra_window_jumps_hbox_fall.Visible = false;
 		} else 
-			extra_window_jumps_vbox_fall.Visible = show;
+			extra_window_jumps_hbox_fall.Visible = show;
 	}
 	
 	private void extra_window_showLimitData (bool show) {
@@ -1326,15 +1316,6 @@ partial class ChronoJumpWindow
 		vbox_extra_window_jumps_single_leg.Visible = show;
 	}
 			
-	private void extra_window_jumps_showNoOptions(JumpType myJumpType, bool hasOptions) {
-		if(myJumpType.IsRepetitive) 
-			extra_window_label_jumps_rj_no_options.Visible = ! hasOptions;
-		else 
-			extra_window_label_jumps_no_options.Visible = ! hasOptions;
-	}
-
-
-
 	private void on_extra_window_jumps_radiobutton_kg_toggled (object o, EventArgs args)
 	{
 		extra_window_jumps_option = "Kg";

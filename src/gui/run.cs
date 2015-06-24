@@ -892,7 +892,6 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_runs_label_distance;
 	[Widget] Gtk.SpinButton extra_window_runs_spinbutton_distance;
 	[Widget] Gtk.Label extra_window_runs_label_distance_units;
-	[Widget] Gtk.Label extra_window_label_runs_no_options;
 	
 	//options runs interval
 	[Widget] Gtk.Label extra_window_runs_interval_label_distance;
@@ -901,7 +900,6 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_runs_interval_label_limit;
 	[Widget] Gtk.SpinButton extra_window_runs_interval_spinbutton_limit;
 	[Widget] Gtk.Label extra_window_runs_interval_label_limit_units;
-	[Widget] Gtk.Label extra_window_label_runs_interval_no_options;
 	
 
 	double extra_window_runs_distance = 100;
@@ -970,7 +968,6 @@ partial class ChronoJumpWindow
 	{
 		currentEventType = myRunType;
 		changeTestImage(EventType.Types.RUN.ToString(), myRunType.Name, myRunType.ImageFileName);
-		bool hasOptions = false;
 
 		extra_window_runs_label_distance.Text = Catalog.GetString("Track distance (between platforms)");
 		extra_window_runs_label_distance_units.Text = Catalog.GetString("meters");
@@ -990,24 +987,19 @@ partial class ChronoJumpWindow
 
 		}
 
-		hasOptions = true;
-		extra_window_runs_showNoOptions(myRunType, hasOptions);
 	}
 	
 	private void extra_window_runs_interval_initialize(RunType myRunType) 
 	{
 		currentEventType = myRunType;
 		changeTestImage(EventType.Types.RUN.ToString(), myRunType.Name, myRunType.ImageFileName);
-		bool hasOptions = false;
 
 		if(myRunType.Distance > 0) {
 			extra_window_runs_interval_spinbutton_distance.Value = myRunType.Distance;
 			extra_window_showDistanceData(myRunType, true, false);	//visible, sensitive
-			hasOptions = true;
 		} else if(myRunType.Distance == 0) {
 			extra_window_runs_interval_spinbutton_distance.Value = extra_window_runs_interval_distance; 
 			extra_window_showDistanceData(myRunType, true, true);	//visible, sensitive
-			hasOptions = true;
 		} else { //variableDistancesString (eg. MTGUG) don't show anything
 			extra_window_showDistanceData(myRunType, false, false);	//visible, sensitive
 		}
@@ -1027,12 +1019,9 @@ partial class ChronoJumpWindow
 				extra_window_runs_interval_spinbutton_limit.Value = extra_window_runs_interval_limit;
 				extra_window_showLimitData(true, true);	//visible, sensitive
 			}
-			hasOptions = true;
 		} else {
 			extra_window_showLimitData(false, false);	//visible, sensitive
 		}
-
-		extra_window_runs_showNoOptions(myRunType, hasOptions);
 	}
 
 	private void on_more_runs_update_test (object o, EventArgs args) {
@@ -1116,13 +1105,6 @@ partial class ChronoJumpWindow
 		extra_window_runs_interval_label_limit.Sensitive = sensitive;
 		extra_window_runs_interval_spinbutton_limit.Sensitive = sensitive;
 		extra_window_runs_interval_label_limit_units.Sensitive = sensitive;
-	}
-	
-	private void extra_window_runs_showNoOptions(RunType myRunType, bool hasOptions) {
-		if(myRunType.HasIntervals) 
-			extra_window_label_runs_interval_no_options.Visible = ! hasOptions;
-		else 
-			extra_window_label_runs_no_options.Visible = ! hasOptions;
 	}
 
 }

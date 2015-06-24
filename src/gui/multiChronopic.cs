@@ -42,7 +42,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton extra_window_check_multichronopic_delete_first;
 
 	//run analysis
-	[Widget] Gtk.VBox extra_window_vbox_run_analysis_total_distance;
+	[Widget] Gtk.HBox extra_window_hbox_run_analysis_total_distance;
 	[Widget] Gtk.SpinButton extra_window_spin_run_analysis_distance;
 	[Widget] Gtk.TextView extra_window_textview_run_analysis_cps_order;
 	
@@ -93,7 +93,7 @@ public partial class ChronoJumpWindow
 		
 		extra_window_check_multichronopic_sync.Sensitive = can_do;
 		extra_window_check_multichronopic_delete_first.Sensitive = can_do;
-		extra_window_vbox_run_analysis_total_distance.Sensitive = can_do;
+		extra_window_hbox_run_analysis_total_distance.Sensitive = can_do;
 	}
 
 	private void extra_window_multichronopic_showSyncAndDeleteFirst(bool show) {
@@ -101,7 +101,7 @@ public partial class ChronoJumpWindow
 		extra_window_check_multichronopic_delete_first.Visible = show;
 	}
 	private void extra_window_multichronopic_showRunDistance(bool show) {
-		extra_window_vbox_run_analysis_total_distance.Visible = show;
+		extra_window_hbox_run_analysis_total_distance.Visible = show;
 		extra_window_textview_run_analysis_cps_order.Visible = show;
 	}
 

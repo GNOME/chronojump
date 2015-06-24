@@ -91,7 +91,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_persons_open_plus;
 
 	[Widget] Gtk.Box vbox_persons;
-	[Widget] Gtk.Frame frame_test_options;
 
 	[Widget] Gtk.TreeView treeview_persons;
 	[Widget] Gtk.TreeView treeview_jumps;
@@ -284,6 +283,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Notebook notebook_execute;
 	[Widget] Gtk.Notebook notebook_results;
+	[Widget] Gtk.Notebook notebook_options_top;
 	[Widget] Gtk.Notebook notebook_options;
 		
 	[Widget] Gtk.Frame frame_share_data;
@@ -6056,26 +6056,37 @@ LogB.Debug("X");
 	 * ----------------  SOME MORE CALLBACKS---------------------
 	 *  --------------------------------------------------------
 	 */
-	
+
 	//changed by chronojump when it's needed
 	private void notebooks_change(int desiredPage) {
 		LogB.Information("notebooks_change");
 		//LogB.Debug(new StackFrame(1).GetMethod().Name);
+
+		//LogB.Information("currentPage" + notebook_execute.CurrentPage.ToString());
+		//LogB.Information("desiredPage" + desiredPage.ToString());
 
 		while(notebook_execute.CurrentPage < desiredPage) 
 			notebook_execute.NextPage();
 		while(notebook_execute.CurrentPage > desiredPage) 
 			notebook_execute.PrevPage();
 
+
 		while(notebook_results.CurrentPage < desiredPage) 
 			notebook_results.NextPage();
 		while(notebook_results.CurrentPage > desiredPage) 
 			notebook_results.PrevPage();
-		
+
+		while(notebook_options_top.CurrentPage < desiredPage) 
+			notebook_options_top.NextPage();
+		while(notebook_options_top.CurrentPage > desiredPage) 
+			notebook_options_top.PrevPage();
+/*		
 		while(notebook_options.CurrentPage < desiredPage) 
 			notebook_options.NextPage();
 		while(notebook_options.CurrentPage > desiredPage) 
 			notebook_options.PrevPage();
+			*/
+		
 	
 		//change test image according to notebook_execute	
 		if(notebook_execute.CurrentPage == 0)
@@ -6311,6 +6322,7 @@ LogB.Debug("X");
 		notebook_execute.Sensitive = false;
 		//hbox_chronopics.Sensitive = false;
 		notebook_results.Sensitive = false;
+		notebook_options_top.Sensitive = false;
 		notebook_options.Sensitive = false;
 		notebook_encoder_sup.Sensitive = false;
 		vbox_stats.Sensitive = false;
@@ -6354,6 +6366,7 @@ LogB.Debug("X");
 		notebook_execute.Sensitive = false;
 		//hbox_chronopics.Sensitive = false;
 		notebook_results.Sensitive = false;
+		notebook_options_top.Sensitive = false;
 		notebook_options.Sensitive = false;
 		notebook_encoder_sup.Sensitive = false;
 		treeview_persons.Sensitive = false;
@@ -6373,6 +6386,7 @@ LogB.Debug("X");
 		notebook_execute.Sensitive = true;
 		//hbox_chronopics.Sensitive = true;
 		notebook_results.Sensitive = true;
+		notebook_options_top.Sensitive = true;
 		notebook_options.Sensitive = true;
 		notebook_encoder_sup.Sensitive = true;
 		treeview_persons.Sensitive = true;
@@ -6423,6 +6437,7 @@ LogB.Debug("X");
 		
 		button_upload_session.Sensitive = false;
 		button_activate_chronopics.Sensitive = false;
+		notebook_options_top.Sensitive = false;
 		notebook_options.Sensitive = false;
 		event_execute_button_update.Sensitive = false;
 		
@@ -6460,6 +6475,7 @@ LogB.Debug("X");
 		
 		button_upload_session.Sensitive = true;
 		button_activate_chronopics.Sensitive = true;
+		notebook_options_top.Sensitive = true;
 		notebook_options.Sensitive = true;
 		event_execute_button_update.Sensitive = true;
 
@@ -6511,6 +6527,7 @@ LogB.Debug("X");
 		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
 		button_activate_chronopics.Sensitive 	= ! execute;
 		button_execute_test.Sensitive 		= ! execute;
+		notebook_options_top.Sensitive 		= ! execute;
 		notebook_options.Sensitive 		= ! execute;
 		vbox_this_test_buttons.Sensitive 	= ! execute;
 	}

@@ -39,7 +39,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_discriminative;
 
 	[Widget] Gtk.Notebook notebook_reaction_time_experimental;
-	[Widget] Gtk.Label label_reaction_time_no_options;
 	[Widget] Gtk.Label label_reaction_time_experimental;
 	
 	private void on_extra_window_reaction_times_test_changed(object o, EventArgs args)
@@ -47,11 +46,9 @@ public partial class ChronoJumpWindow
 		if(extra_window_radio_reaction_time.Active) {
 			currentReactionTimeType = new ReactionTimeType("reactionTime");
 
-			label_reaction_time_no_options.Visible = true;
 			label_reaction_time_experimental.Visible = false;
 			notebook_reaction_time_experimental.Visible = false;
 		} else {
-			label_reaction_time_no_options.Visible = false;
 			label_reaction_time_experimental.Visible = true;
 		
 			if(extra_window_radio_reaction_time_animation_lights.Active)

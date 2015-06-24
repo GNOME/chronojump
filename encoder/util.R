@@ -739,11 +739,26 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     angleSpeed = speed * 2 / diameter.m
     angleAccel = accel * 2 / diameter.m
     anglePush = 0 #TODO: send from C#
+    #1.5.1
     force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * accel
     power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * accel * speed
+    #1.5.2
+    #force = inertiaMomentum * angleAccel * (2 / diameter.m) + mass * accel
+    #power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * accel * speed
+    
+    #TODO: WIP    
+    forceDisc = inertiaMomentum * angleAccel * (2 / diameter.m)
+    forceBody = mass * accel
+    print("PRINT FORCE")
+    xmin=9815
+    xmax=11727
+    print(force[xmin:xmax])
+
+    print(max(speed[xmin:xmax]))
+    print(max(accel[xmin:xmax]))
   }
 
-	return(list(displacement=displacement, mass=mass, force=force, power=power))
+	return(list(displacement=displacement, mass=mass, force=force, power=power, forceDisc=forceDisc, forceBody=forceBody, accelHere = accel))
 }
 
 

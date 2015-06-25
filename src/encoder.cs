@@ -270,7 +270,8 @@ public class EncoderCurve
 			string start, string duration, string height,
 			string meanSpeed, string maxSpeed, string maxSpeedT,
 			string meanPower, string peakPower, string peakPowerT, 
-			string PP_PPT)
+			string PP_PPT,
+			string meanForce, string maxForce, string maxForceT)
 	{
 		this.N = n;
 		this.Series = series;
@@ -288,6 +289,9 @@ public class EncoderCurve
 		this.PeakPower = peakPower;
 		this.PeakPowerT = peakPowerT;
 		this.PP_PPT = PP_PPT;	//PeakPower / PeakPowerTime
+		this.MeanForce = meanForce;
+		this.MaxForce = maxForce;
+		this.MaxForceT = maxForceT;
 	}
 
 	public string ToCSV(string decimalSeparator) {
@@ -301,7 +305,8 @@ public class EncoderCurve
 			Start + sep + Duration + sep + Height + sep + 
 			MeanSpeed + sep + MaxSpeed + sep + MaxSpeedT + sep + 
 			MeanPower + sep + PeakPower + sep + PeakPowerT + sep + 
-			PP_PPT;
+			PP_PPT + sep +
+			MeanForce + sep + MaxForce + sep + MaxForceT;
 		
 		if(decimalSeparator == "COMMA")
 			str = Util.ConvertToComma(str);

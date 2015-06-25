@@ -75,7 +75,7 @@ public partial class ChronoJumpWindow
 			curvesCount ++;
 
 			string [] cells = line.Split(new char[] {','});
-			cells = fixDecimals(cells, true); //useForce
+			cells = fixDecimals(cells);
 			LogB.Error(Util.StringArrayToString(cells, ":"));
 
 			encoderCaptureCurves.Add (new EncoderCurve (
@@ -487,7 +487,10 @@ public partial class ChronoJumpWindow
 		"p" + "\n (W)",
 		"pmax" + "\n (W)",
 		"t->pmax" + "\n (s)",
-		"pmax/t->pmax" + "\n (W/s)"
+		"pmax/t->pmax" + "\n (W/s)",
+		"F" + "\n (N)",
+		"Fmax" + "\n (N)",
+		"t->Fmax" + "\n (s)"
 	};
 
 	bool lastTreeviewEncoderAnalyzeIsNeuromuscular = false;
@@ -525,7 +528,7 @@ public partial class ChronoJumpWindow
 				curvesCount ++;
 
 				string [] cells = line.Split(new char[] {','});
-				cells = fixDecimals(cells, false); //not useForce
+				cells = fixDecimals(cells);
 				
 				
 				if(! check_encoder_analyze_signal_or_curves.Active) {	//user curves
@@ -556,7 +559,8 @@ public partial class ChronoJumpWindow
 							cells[5], cells[6], cells[7], 
 							cells[8], cells[9], cells[10], 
 							cells[11], cells[12], cells[13],
-							cells[14]
+							cells[14],
+							cells[15], cells[16], cells[17] //meanForce, maxSForce maxForceT
 							));
 
 			} while(true);
@@ -631,6 +635,15 @@ public partial class ChronoJumpWindow
 					break;
 				case 15:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
+					break;
+				case 16:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanForce));
+					break;
+				case 17:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce));
+					break;
+				case 18:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForceT));
 					break;
 			}
 			
@@ -1187,7 +1200,7 @@ public partial class ChronoJumpWindow
 	/* end of rendering neuromuscular cols */
 	
 	
-	private string [] fixDecimals(string [] cells, bool useForce) {
+	private string [] fixDecimals(string [] cells) {
 		//start, width, height
 		for(int i=5; i <= 7; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),1);
@@ -1200,9 +1213,8 @@ public partial class ChronoJumpWindow
 		int pp_ppt = 14;
 		cells[pp_ppt] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[pp_ppt])),1); 
 
-		if(useForce)
-			for(int i=15; i <= 17; i++)
-				cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
+		for(int i=15; i <= 17; i++)
+			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
 
 		//18, 19, 20 ara mass, massBody, massExtra. They are unneded because this parameters are also in cells [3],[4]
 		//21: laterality

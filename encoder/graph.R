@@ -617,7 +617,7 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				for(j in seq(as.numeric(smoothingOneC),0,by=-.01)) 
 				{
 					#write("calling speed 2", stderr())
-					speed <- getSpeed(eccentric.concentric, j)
+					speed <- getSpeed(concentric, j)
 					
 					smoothingOneEC = j
 					

@@ -398,6 +398,7 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 	accel$y <- accel$y * 1000 
 	errorSearching = FALSE
 
+	eccentric = 0
 	concentric = 0
 	propulsiveEnd = 0
 
@@ -453,8 +454,22 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 	if( isPropulsive && ( eccon== "c" || eccon == "ec" ) )
 		end <- propulsiveEnd
 
-	if(inertiaMomentum > 0 && (eccon == "e" || eccon == "ec") && accel$y[1] < 0)
-		start <- min(which(accel$y > 0))
+	#as acceleration can oscillate, start at the eccentric part where there are not negative values
+	#print(c(inertiaMomentum, eccon, length(eccentric), min(accel$y[eccentric])))
+	if(inertiaMomentum > 0 && (eccon == "e" || eccon == "ec")) 
+	{
+		if(eccon=="e") {
+			eccentric=1:length(displacement)
+		}
+		
+		#if there is eccentric data and there are negative vlaues
+	   	if(length(eccentric) > 0 && min(accel$y[eccentric]) < 0)
+		{ 
+			start = max(which(accel$y[eccentric] < 0)) +1
+			#print("------------ start -----------")
+			#print(start)
+		}
+	}
 
 	#print(c("kinematicsF start end",start,end))
 
@@ -749,16 +764,17 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     #TODO: WIP    
     forceDisc = inertiaMomentum * angleAccel * (2 / diameter.m)
     forceBody = mass * accel
-    print("PRINT FORCE")
-    xmin=9815
-    xmax=11727
-    print(force[xmin:xmax])
+    #print("PRINT FORCE")
+    #xmin=9815
+    #xmax=11727
+    #print(force[xmin:xmax])
 
-    print(max(speed[xmin:xmax]))
-    print(max(accel[xmin:xmax]))
+    #print(max(speed[xmin:xmax]))
+    #print(max(accel[xmin:xmax]))
   }
 
-	return(list(displacement=displacement, mass=mass, force=force, power=power, forceDisc=forceDisc, forceBody=forceBody, accelHere = accel))
+	#return(list(displacement=displacement, mass=mass, force=force, power=power, forceDisc=forceDisc, forceBody=forceBody, accelHere = accel))
+	return(list(displacement=displacement, mass=mass, force=force, power=power))
 }
 
 

@@ -970,11 +970,17 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	inertialECstart = 1
 	if(length(eccentric) > 0)
 		inertialECstart = min(eccentric)
-
-	if(inertiaMomentum > 0 && eccon == "ec" && accel$y[1] < 0) {
-		inertialECstart <- min(which(accel$y > 0))
+	
+	#as acceleration can oscillate, start at the eccentric part where there are not negative values
+	if(inertiaMomentum > 0 && eccon == "ec" && 
+	   length(eccentric) > 0 && min(accel$y[eccentric]) < 0) #if there is eccentric data and there are negative vlaues
+	{ 
+		inertialECstart = max(which(accel$y[eccentric] < 0)) +1
 		abline(v=inertialECstart,lty=3,col="black") 
 	}
+	#print("------------ inercialECstart -----------")
+	#print(inertialECstart)
+
 
 
 	meanSpeedC = mean(speed$y[min(concentric):max(concentric)])

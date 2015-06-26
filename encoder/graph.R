@@ -813,50 +813,14 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 
 	#speed
 	speed <- getSpeed(displacement, smoothing)
-
-	if(draw & showSpeed) {
-		ylimHeight = max(abs(range(speed$y)))
-		ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
-		if(knRanges[1] != "undefined")
-			ylim = knRanges$speedy
-		par(new=T)
 	
-		speedPlot=speed$y
-		#on rotatory inertial, concentric-eccentric, plot speed as ABS)
-		#if(inertialType == "ri" && eccon == "ce")
-		#	speedPlot=abs(speed$y)
-
-		if(highlight==FALSE)
-			plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
-			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col=cols[1],lty=lty[1],lwd=1,axes=F)
-		else
-			plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
-			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
-	}
-	
-	#time to arrive to max speed
-	maxSpeedT=min(which(speed$y == max(speed$y)))
-	if(draw & showSpeed & !superpose) {
-		abline(v=maxSpeedT, col=cols[1])
-		points(maxSpeedT, max(speed$y),col=cols[1])
-		mtext(text=paste(round(max(speed$y),2),"m/s",sep=""),side=3,
-		      at=maxSpeedT,cex=.8,col=cols[1], line=.5)
-		mtext(text=maxSpeedT,side=1,at=maxSpeedT,cex=.8,col=cols[1],line=-.2)
-
-		if(eccon != "c") {
-			minSpeedT=min(which(speed$y == min(speed$y)))
-			
-			abline(v=minSpeedT, col=cols[1])
-			points(minSpeedT, min(speed$y),col=cols[1])
-			mtext(text=paste(round(min(speed$y),2),"m/s",sep=""),side=3,
-			      at=minSpeedT,cex=.8,col=cols[1], line=.5)
-			mtext(text=minSpeedT,side=1,at=minSpeedT,cex=.8,col=cols[1],line=-.2)
-		}
-	}
-
-
 	#show extrema values in speed
 	speed.ext=extrema(speed$y)
+	
+	#accel (calculated here to use it on fixing inertialECstart and before plot speed
+	accel <- getAcceleration(speed)
+	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
+	accel$y <- accel$y * 1000
 
 
 	#if(draw & !superpose) 
@@ -933,24 +897,13 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		}
 	}
 	
+	#time to arrive to max speed
+	maxSpeedT=min(which(speed$y == max(speed$y)))
+
 	maxSpeedTInConcentric = maxSpeedT
 	if(eccon != "c")
 		maxSpeedTInConcentric = maxSpeedT - (length(eccentric) + length(isometric))
 		
-	#on rotatory inertial, concentric-eccentric, use speed as ABS)
-	#if(inertialType == "ri" && eccon == "ce")
-	#	speed$y=abs(speed$y)
-
-	accel <- getAcceleration(speed)
-	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
-	accel$y <- accel$y * 1000
-	
-	#print(accel$y)
-	#alternative R method (same result)
-	#accel2 <- D1ss( 1:length(speed$y), speed$y )
-	#accel2 <- accel2 * 1000
-	#print(accel2)
-
 	#define a propulsiveEnd value because it's used also in non-propulsive curves
 	propulsiveEnd = length(displacement)
 
@@ -965,6 +918,9 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 
 	print(c("propulsiveEnd at paint", propulsiveEnd))
 
+
+	# ---- start of inertialECstart ----
+
 	#on inertial ec. If the accel starts as negative, calcule avg values and peak values starting when the accel is positive
 	#because the acceleration done on the disc can only be positive
 	inertialECstart = 1
@@ -976,11 +932,54 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	   length(eccentric) > 0 && min(accel$y[eccentric]) < 0) #if there is eccentric data and there are negative vlaues
 	{ 
 		inertialECstart = max(which(accel$y[eccentric] < 0)) +1
-		abline(v=inertialECstart,lty=3,col="black") 
+		#abline(v=inertialECstart,lty=3,col="black") 
 	}
-	#print("------------ inercialECstart -----------")
-	#print(inertialECstart)
+	#print(c("inertialECstart", inertialECstart))
 
+	startX = inertialECstart
+
+	# ---- end of inertialECstart ----
+	
+	
+	if(draw & showSpeed) {
+		ylimHeight = max(abs(range(speed$y)))
+		ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
+		if(knRanges[1] != "undefined")
+			ylim = knRanges$speedy
+		par(new=T)
+	
+		speedPlot=speed$y
+		#on rotatory inertial, concentric-eccentric, plot speed as ABS)
+		#if(inertialType == "ri" && eccon == "ce")
+		#	speedPlot=abs(speed$y)
+
+		if(highlight==FALSE)
+			plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
+			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col=cols[1],lty=lty[1],lwd=1,axes=F)
+		else
+			plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
+			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
+	}
+	
+	if(draw & showSpeed & !superpose) {
+		abline(v=maxSpeedT, col=cols[1])
+		points(maxSpeedT, max(speed$y),col=cols[1])
+		mtext(text=paste(round(max(speed$y),2),"m/s",sep=""),side=3,
+		      at=maxSpeedT,cex=.8,col=cols[1], line=.5)
+		mtext(text=maxSpeedT,side=1,at=maxSpeedT,cex=.8,col=cols[1],line=-.2)
+
+		if(eccon != "c") {
+			minSpeedT=min(which(speed$y == min(speed$y)))
+			
+			abline(v=minSpeedT, col=cols[1])
+			points(minSpeedT, min(speed$y),col=cols[1])
+			mtext(text=paste(round(min(speed$y),2),"m/s",sep=""),side=3,
+			      at=minSpeedT,cex=.8,col=cols[1], line=.5)
+			mtext(text=minSpeedT,side=1,at=minSpeedT,cex=.8,col=cols[1],line=-.2)
+		}
+	}
+
+	
 
 
 	meanSpeedC = mean(speed$y[min(concentric):max(concentric)])
@@ -993,9 +992,9 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
 		}
 	} else {
-		meanSpeedE = mean(speed$y[inertialECstart:max(eccentric)])
+		meanSpeedE = mean(speed$y[startX:max(eccentric)])
 		if(showSpeed) {
-			arrows(x0=inertialECstart,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
+			arrows(x0=startX,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
 			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
 		}
 	}
@@ -1181,8 +1180,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		if(eccon == "c") {
 			arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
 		} else {
-			meanPowerE = mean(power[inertialECstart:max(eccentric)])
-			arrows(x0=inertialECstart,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
+			meanPowerE = mean(power[startX:max(eccentric)])
+			arrows(x0=startX,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
 			arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
 		}
 
@@ -1211,7 +1210,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	}
 	
 	#time to arrive to peak power
-	powerTemp <- power[inertialECstart:length(power)]
+	powerTemp <- power[startX:length(power)]
 	peakPowerT <- min(which(power == max(powerTemp)))
 	if(draw & !superpose & showPower) {
 		abline(v=peakPowerT, col=cols[3])

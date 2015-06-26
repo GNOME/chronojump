@@ -1110,7 +1110,7 @@ public partial class ChronoJumpWindow
 		Gtk.MenuItem myItem;
 
 		myItem = new MenuItem ( Catalog.GetString("Edit") + " " + myPerson.Name);
-		myItem.Activated += on_edit_current_person_clicked;
+		myItem.Activated += on_edit_current_person_clicked_from_main_gui;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
 		myItem = new MenuItem ( Catalog.GetString("Show all tests of") + " " + myPerson.Name);
@@ -2695,7 +2695,13 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	private void on_edit_current_person_clicked (object o, EventArgs args) {
+	bool person_edit_single_called_from_person_select_window;
+	private void on_edit_current_person_clicked_from_main_gui (object o, EventArgs args) {
+		person_edit_single_called_from_person_select_window = false;
+		person_edit_single();
+	}
+
+	private void person_edit_single() {
 		LogB.Information("modify person");
 
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, 
@@ -2732,6 +2738,13 @@ public partial class ChronoJumpWindow
 			}
 
 //			personAddModifyWin.Destroy();
+			
+			if(person_edit_single_called_from_person_select_window) {
+				ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+						currentSession.UniqueID, 
+						false); //means: do not returnPersonAndPSlist
+				personSelectWin.Update(myPersons);
+			}
 		}
 	}
 
@@ -2780,12 +2793,20 @@ public partial class ChronoJumpWindow
 
 		personSelectWin = PersonSelectWindow.Show(app1, myPersons);
 		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_encoder_person_add_person);
+		personSelectWin.FakeButtonEditPerson.Clicked += new EventHandler(on_button_encoder_person_edit_person);
 		personSelectWin.FakeButtonDone.Clicked += new EventHandler(on_button_encoder_person_change_done);
 	}
 	private void on_button_encoder_person_add_person(object o, EventArgs args)
 	{
 		person_add_single_called_from_person_select_window = true;
 		person_add_single();
+	}
+	private void on_button_encoder_person_edit_person(object o, EventArgs args)
+	{
+		currentPerson = personSelectWin.SelectedPerson; 
+		
+		person_edit_single_called_from_person_select_window = true;
+		person_edit_single();
 	}
 	private void on_button_encoder_person_change_done(object o, EventArgs args) 
 	{

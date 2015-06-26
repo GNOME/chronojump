@@ -29,6 +29,9 @@ public class PersonSelectWindow
 {
 	[Widget] Gtk.Window person_select_window;
 	[Widget] Gtk.Table table1;
+	[Widget] Gtk.Button button_select;
+	[Widget] Gtk.Button button_edit;
+	[Widget] Gtk.Label label_selected_person_name;
 	
 	static PersonSelectWindow PersonSelectWindowBox;
 	Gtk.Window parent;
@@ -36,6 +39,7 @@ public class PersonSelectWindow
 	private ArrayList persons;
 	public Person SelectedPerson;
 	public Gtk.Button FakeButtonAddPerson;
+	public Gtk.Button FakeButtonEditPerson;
 	public Gtk.Button FakeButtonDone;
 
 	
@@ -48,6 +52,7 @@ public class PersonSelectWindow
 		UtilGtk.IconWindow(person_select_window);
 		
 		FakeButtonAddPerson = new Gtk.Button();
+		FakeButtonEditPerson = new Gtk.Button();
 		FakeButtonDone = new Gtk.Button();
 	}
 	
@@ -77,6 +82,9 @@ public class PersonSelectWindow
 		LogB.Debug("Recreating table");
 		createTable();
 		table1.Visible = true;
+				
+		button_select.Sensitive = false;
+		button_edit.Sensitive = false;
 	}
 	
 	private void removeTable() 
@@ -89,10 +97,13 @@ public class PersonSelectWindow
 	private void createTable() 
 	{
 		LogB.Debug("Persons count" + persons.Count.ToString());
-		uint padding = 8;	
+		uint padding = 4;	
 		uint cols = 4; //each row has 4 columns
 		uint rows = Convert.ToUInt32(Math.Floor(persons.Count / (1.0 * cols) ) +1);
 		int count = 0;
+		
+		button_select.Sensitive = false;
+		button_edit.Sensitive = false;
 		
 		for (int row_i = 0; row_i < rows; row_i ++) {
 			for (int col_i = 0; col_i < cols; col_i ++) 
@@ -104,19 +115,23 @@ public class PersonSelectWindow
 
 				PersonPhotoButton ppb = new PersonPhotoButton(p);
 				Gtk.Button b = ppb.CreateButton();
-				
-				b.Clicked += new EventHandler(on_button_select_portrait_clicked);
 				b.Show();
+			
+				b.Clicked += new EventHandler(on_button_portrait_clicked);
+				b.CanFocus=true;
 				
 				table1.Attach (b, (uint) col_i, (uint) col_i +1, (uint) row_i, (uint) row_i +1, 
 						Gtk.AttachOptions.Fill, 
 						Gtk.AttachOptions.Fill, 
 						padding, padding);
+				
 			}
 		}
+				
+		table1.ShowAll();
 	}
 	
-	private void on_button_select_portrait_clicked (object o, EventArgs args)
+	private void on_button_portrait_clicked (object o, EventArgs args)
 	{
 		LogB.Information("Clicked");
 
@@ -126,18 +141,28 @@ public class PersonSelectWindow
 		int personID = PersonPhotoButton.GetPersonID(b);
 
 		LogB.Information("UniqueID: " + personID.ToString());
-
+				
 		//TODO: now need to process the signal and close
 		foreach(Person p in persons)
 			if(p.UniqueID == personID) {
 				SelectedPerson = p;
-				FakeButtonDone.Click();
-				close_window();
+				label_selected_person_name.Text = p.Name;
+
+				button_select.Sensitive = true;
+				button_edit.Sensitive = true;
 			}
+	}
+	
+	protected virtual void on_button_select_clicked (object o, EventArgs args) {
+		FakeButtonDone.Click();
+		close_window();
 	}
 	
 	protected virtual void on_button_add_clicked (object o, EventArgs args) {
 		FakeButtonAddPerson.Click();
+	}
+	protected virtual void on_button_edit_clicked (object o, EventArgs args) {
+		FakeButtonEditPerson.Click();
 	}
 
 	private void close_window() {	
@@ -146,7 +171,7 @@ public class PersonSelectWindow
 	}
 	
 	//ESC is enabled
-	protected virtual void on_button_close_clicked (object o, EventArgs args) {
+	protected virtual void on_button_cancel_clicked (object o, EventArgs args) {
 		close_window();
 	}
 	
@@ -191,11 +216,12 @@ public class PersonPhotoButton
 
 		vbox.PackStart(image);
 		vbox.PackStart(label_id);
-		vbox.PackStart(label_name);
+		vbox.PackEnd(label_name, false, false, 1);
 
 		vbox.Show();
 
 		Button b = new Button(vbox);
+		b.WidthRequest=150;
 
 		return b;
 	}

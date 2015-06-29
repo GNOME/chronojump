@@ -3318,11 +3318,11 @@
                                                           <widget class="GtkHBox" id="hbox170">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">10</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="extra_window_jumps_hbox_fall">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="extra_window_jumps_radio_dj_fall_calculate">
                                                             <property name="visible">True</property>
@@ -3340,7 +3340,7 @@
                                                             <property name="label" translatable="yes">Calculate falling height using a previous jump</property>
                                                             <property name="wrap">True</property>
                                                             <property name="ellipsize">start</property>
-                                                            <property name="max_width_chars">20</property>
+                                                            <property name="max_width_chars">18</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -3372,7 +3372,7 @@
                                                             <property name="label" translatable="yes">Fall from a predefined height</property>
                                                             <property name="wrap">True</property>
                                                             <property name="ellipsize">start</property>
-                                                            <property name="max_width_chars">20</property>
+                                                            <property name="max_width_chars">18</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -3437,8 +3437,8 @@
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -3446,9 +3446,9 @@
                                                             <widget class="GtkHBox" id="hbox171">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_jumps_label_weight">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Additional weight</property>
@@ -3464,9 +3464,9 @@
                                                             <widget class="GtkHBox" id="hbox24">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <widget class="GtkSpinButton" id="extra_window_jumps_spinbutton_weight">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="invisible_char_set">True</property>
@@ -3482,7 +3482,6 @@
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="padding">12</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -3490,7 +3489,6 @@
                                                             <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_weight">
                                                             <property name="label" translatable="yes">% body 
 weight</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="use_underline">True</property>
@@ -3501,14 +3499,12 @@ weight</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="padding">6</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_kg">
                                                             <property name="label">Kg</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="use_underline">True</property>
@@ -3531,24 +3527,288 @@ weight</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkCheckButton" id="extra_window_jumps_check_dj_arms">
                                                             <property name="label" translatable="yes">Using arms</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">True</property>
                                                             <signal name="clicked" handler="on_extra_window_jumps_check_dj_arms_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_extra_window_jumps_single_leg_radios">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox172">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label101">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Type</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox97">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_mode_vertical">
+                                                            <property name="label">V</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Vertical</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_mode_horizontal">
+                                                            <property name="label">H</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Horizontal</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_mode_vertical</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_mode_lateral">
+                                                            <property name="label" translatable="yes">L</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Lateral</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_mode_vertical</property>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox173">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label100">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Dominance</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox99">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_dominance_unknown">
+                                                            <property name="label">Unknown</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Unknown</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_dominance_this_limb">
+                                                            <property name="label" translatable="yes">This</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">This limb</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_dominance_unknown</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_dominance_opposite">
+                                                            <property name="label" translatable="yes">Opposite</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_dominance_unknown</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox174">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label102">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Fall</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox100">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_fall_both">
+                                                            <property name="label" translatable="yes">Both</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_fall_this_limb">
+                                                            <property name="label" translatable="yes">This</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">This limb</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_fall_both</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_fall_opposite">
+                                                            <property name="label" translatable="yes">Opposite</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_fall_both</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                           </widget>
@@ -3581,7 +3841,6 @@ weight</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_jumps_rj_label_limit">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Limited by</property>
@@ -3598,7 +3857,6 @@ weight</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkSpinButton" id="extra_window_jumps_rj_spinbutton_limit">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="invisible_char_set">True</property>
@@ -3652,7 +3910,6 @@ weight</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_jumps_rj_label_fall">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Falling height</property>
@@ -3669,7 +3926,6 @@ weight</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkSpinButton" id="extra_window_jumps_rj_spinbutton_fall">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="invisible_char_set">True</property>
@@ -3691,7 +3947,6 @@ weight</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_jumps_rj_label_cm">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label">cm</property>
@@ -3722,7 +3977,6 @@ weight</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_jumps_rj_label_weight">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Additional weight</property>
@@ -3740,7 +3994,6 @@ weight</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkSpinButton" id="extra_window_jumps_rj_spinbutton_weight">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="invisible_char_set">True</property>
@@ -3764,7 +4017,6 @@ weight</property>
                                                             <widget class="GtkRadioButton" id="extra_window_jumps_rj_radiobutton_weight">
                                                             <property name="label" translatable="yes">% body 
 weight</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="use_underline">True</property>
@@ -3781,7 +4033,6 @@ weight</property>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="extra_window_jumps_rj_radiobutton_kg">
                                                             <property name="label">Kg</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="use_underline">True</property>
@@ -3853,7 +4104,6 @@ weight</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_runs_label_distance">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             </widget>
@@ -3870,7 +4120,6 @@ weight</property>
                                                             <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkSpinButton" id="extra_window_runs_spinbutton_distance">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="invisible_char_set">True</property>
@@ -3893,7 +4142,6 @@ weight</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_runs_label_distance_units">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             </widget>
@@ -3944,7 +4192,6 @@ weight</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_runs_interval_label_distance">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Track distance 
@@ -3962,7 +4209,6 @@ weight</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkSpinButton" id="extra_window_runs_interval_spinbutton_distance">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="invisible_char_set">True</property>
@@ -3985,7 +4231,6 @@ weight</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_runs_interval_label_distance_units">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">m</property>
@@ -4016,7 +4261,6 @@ weight</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_runs_interval_label_limit">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Limited by</property>
@@ -4033,7 +4277,6 @@ weight</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkSpinButton" id="extra_window_runs_interval_spinbutton_limit">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="invisible_char_set">True</property>
@@ -4124,7 +4367,6 @@ weight</property>
                                                         <property name="can_focus">False</property>
                                                         <child>
                                                           <widget class="GtkHBox" id="hbox_extra_window_pulses">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox166">
@@ -4348,7 +4590,6 @@ weight</property>
                                                         <child>
                                                           <widget class="GtkTextView" id="extra_window_textview_multichronopic_need_two">
                                                             <property name="width_request">200</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="editable">False</property>
                                                             <property name="wrap_mode">word</property>
@@ -4367,7 +4608,6 @@ weight</property>
                                                         <child>
                                                           <widget class="GtkCheckButton" id="extra_window_check_multichronopic_delete_first">
                                                             <property name="label" translatable="yes">Delete first</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="has_tooltip">True</property>
@@ -4385,7 +4625,6 @@ weight</property>
                                                         <child>
                                                           <widget class="GtkCheckButton" id="extra_window_check_multichronopic_sync">
                                                             <property name="label" translatable="yes">Synchronize</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="has_tooltip">True</property>
@@ -4403,7 +4642,6 @@ weight</property>
                                                         <child>
                                                           <widget class="GtkTextView" id="extra_window_textview_run_analysis_cps_order">
                                                             <property name="width_request">300</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="editable">False</property>
                                                             <property name="wrap_mode">word</property>
@@ -4421,7 +4659,6 @@ Second Chronopic to platforms.</property>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkHBox" id="extra_window_hbox_run_analysis_total_distance">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label696">
@@ -4603,284 +4840,6 @@ Second Chronopic to platforms.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox_extra_window_jumps_single_leg_radios">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <widget class="GtkVBox" id="vbox82">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label101">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Type</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkAlignment" id="alignment26">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox97">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_mode_vertical">
-                                                            <property name="label" translatable="yes">Vertical</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="active">True</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_mode_horizontal">
-                                                            <property name="label" translatable="yes">Horizontal</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_mode_vertical</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_mode_lateral">
-                                                            <property name="label" translatable="yes">Lateral</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_mode_vertical</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkVBox" id="vbox81">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label100">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Dominance</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkAlignment" id="alignment23">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox99">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_dominance_unknown">
-                                                            <property name="label" translatable="yes">Unknown</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="active">True</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_dominance_this_limb">
-                                                            <property name="label" translatable="yes">This limb</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_dominance_unknown</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_dominance_opposite">
-                                                            <property name="label" translatable="yes">Opposite</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_dominance_unknown</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkVBox" id="vbox83">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label102">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Fall</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkAlignment" id="alignment27">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox100">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_fall_both">
-                                                            <property name="label" translatable="yes">Both</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="active">True</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_fall_this_limb">
-                                                            <property name="label" translatable="yes">This limb</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_fall_both</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_fall_opposite">
-                                                            <property name="label" translatable="yes">Opposite</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_fall_both</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkFrame" id="frame_extra_window_jumps_single_leg_input">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -5048,7 +5007,7 @@ Second Chronopic to platforms.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -7367,6 +7326,12 @@ Second Chronopic to platforms.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">True</property>
@@ -7955,6 +7920,12 @@ Second Chronopic to platforms.</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -9703,6 +9674,12 @@ Second Chronopic to platforms.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">2</property>
@@ -10184,6 +10161,12 @@ Second Chronopic to platforms.</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -21955,6 +21938,12 @@ by you</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -22344,6 +22333,12 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -24127,6 +24122,12 @@ by you</property>
               <placeholder/>
             </child>
             <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
               <widget class="GtkButton" id="button_video_url">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -24149,6 +24150,12 @@ by you</property>
                 <property name="x_options"/>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -35402,6 +35409,42 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -36593,6 +36636,30 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="n_columns">4</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                     <child>
                       <placeholder/>
                     </child>
@@ -38029,6 +38096,12 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                 <child>
                                   <placeholder/>
                                 </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -38444,6 +38517,12 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -42243,6 +42322,12 @@ It starts before and arrives there with some speed.</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -42269,6 +42354,12 @@ It starts before and arrives there with some speed.</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -42815,6 +42906,12 @@ It starts before and arrives there with some speed.</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

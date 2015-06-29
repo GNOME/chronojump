@@ -987,7 +987,7 @@ partial class ChronoJumpWindow
 
 	//slCMJ	
 	[Widget] Gtk.Box vbox_extra_window_jumps_single_leg;
-	[Widget] Gtk.Box vbox_extra_window_jumps_single_leg_radios;
+	[Widget] Gtk.Box hbox_extra_window_jumps_single_leg_radios;
 	[Widget] Gtk.Frame frame_extra_window_jumps_single_leg_input;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_vertical;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_horizontal;
@@ -1314,6 +1314,7 @@ partial class ChronoJumpWindow
 	
 	private void extra_window_showSingleLegStuff(bool show) {
 		vbox_extra_window_jumps_single_leg.Visible = show;
+		hbox_extra_window_jumps_single_leg_radios.Visible = show;
 	}
 			
 	private void on_extra_window_jumps_radiobutton_kg_toggled (object o, EventArgs args)
@@ -1386,7 +1387,7 @@ partial class ChronoJumpWindow
 		myTreeViewJumps.Update(currentJump);
 		
 		//sensitive slCMJ options 
-		vbox_extra_window_jumps_single_leg_radios.Sensitive = true;
+		hbox_extra_window_jumps_single_leg_radios.Sensitive = true;
 	}
 
 }

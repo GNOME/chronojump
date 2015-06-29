@@ -3924,7 +3924,7 @@ public partial class ChronoJumpWindow
 					currentJump.Description += " 0 90";
 					
 					//unsensitive slCMJ options 
-					vbox_extra_window_jumps_single_leg_radios.Sensitive = false;
+					hbox_extra_window_jumps_single_leg_radios.Sensitive = false;
 					//but sensitive the input cm
 					frame_extra_window_jumps_single_leg_input.Sensitive = true;
 				}

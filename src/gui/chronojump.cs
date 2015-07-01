@@ -171,6 +171,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_delete_selected_jump_rj;
 	[Widget] Gtk.Button button_repair_selected_jump_rj;
 
+	[Widget] Gtk.Image extra_windows_jumps_image_dj_fall_calculate;
+	[Widget] Gtk.Image extra_windows_jumps_image_dj_fall_predefined;
+	[Widget] Gtk.HBox hbox_extra_window_jumps_fall_height;
+
 	[Widget] Gtk.Button button_jumps_result_help_power;
 	[Widget] Gtk.Button button_jumps_result_help_stiffness;
 	[Widget] Gtk.Button button_jumps_rj_result_help_power;
@@ -668,6 +672,12 @@ public partial class ChronoJumpWindow
 		image_mode_pulses_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameMultiChronopic);
 		image_mode_multi_chronopic_small.Pixbuf = pixbuf;
+		
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsFallCalculate);
+		extra_windows_jumps_image_dj_fall_calculate.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsFallPredefined);
+		extra_windows_jumps_image_dj_fall_predefined.Pixbuf = pixbuf;
 		
 
 		//reaction times changes

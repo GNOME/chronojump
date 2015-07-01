@@ -1055,12 +1055,20 @@ partial class ChronoJumpWindow
 
 
 	private void on_extra_window_jumps_radio_dj_fall_calculate_toggled (object o, EventArgs args) {
-		extra_window_jumps_label_dj_start_inside.Visible = true;
-		extra_window_jumps_label_dj_start_outside.Visible = false;
+		if(extra_window_jumps_radio_dj_fall_calculate.Active) {
+			extra_window_jumps_label_dj_start_inside.Visible = true;
+			extra_window_jumps_label_dj_start_outside.Visible = false;
+
+			hbox_extra_window_jumps_fall_height.Visible = false;
+		}
 	}
 	private void on_extra_window_jumps_radio_dj_fall_predefined_toggled (object o, EventArgs args) {
-		extra_window_jumps_label_dj_start_inside.Visible = false;
-		extra_window_jumps_label_dj_start_outside.Visible = true;
+		if(extra_window_jumps_radio_dj_fall_predefined.Active) {
+			extra_window_jumps_label_dj_start_inside.Visible = false;
+			extra_window_jumps_label_dj_start_outside.Visible = true;
+
+			hbox_extra_window_jumps_fall_height.Visible = true;
+		}
 	}
 	
 	private void on_extra_window_jumps_test_changed(object o, EventArgs args)

@@ -398,6 +398,9 @@ public class Constants
 	public static string FileNamePulse = "pulse_menu.png";
 	public static string FileNameMultiChronopic = "multichronopic_menu.png";
 	
+	public static string FileNameJumpsFallCalculate = "dj-from-in.png";
+	public static string FileNameJumpsFallPredefined = "dj-from-out.png";
+	
 	public static string FileNameChronopic1 = "chronopic1.jpg";
 	public static string FileNameChronopic2 = "chronopic2.jpg";
 	public static string FileNameChronopic3 = "chronopic3.jpg";

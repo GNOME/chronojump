@@ -239,6 +239,8 @@ RESOURCES = \
 	../images/mini/pulse_custom.png,mini/pulse_custom.png \
 	../images/reaction_time.png,reaction_time.png \
 	../images/mini/reaction_time.png,mini/reaction_time.png \
+	../images/dj-from-out.png,dj-from-out.png \
+	../images/dj-from-in.png,dj-from-in.png \
 	../images/mtgug.png,mtgug.png \
 	../images/mini/mtgug.png,mini/mtgug.png \
 	../images/take_off.png,take_off.png \

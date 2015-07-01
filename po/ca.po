@@ -1107,7 +1107,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:233
 msgid "X axis font size"
-msgstr "Font de l'eix X"
+msgstr "Mida del tipus de lletra de l'eix X"
 
 #: ../glade/chronojump.glade.h:234
 msgid "Graph and report"
@@ -5632,7 +5632,7 @@ msgstr "El port del Chronopic no està configurat."
 
 #: ../src/gui/encoder.cs:5371
 msgid "R tasks done"
-msgstr "Tasques d'R finalitzades"
+msgstr "Tasques del R finalitzades"
 
 #: ../src/gui/encoder.cs:5375
 msgid "Repetitions processed"
@@ -5644,7 +5644,7 @@ msgstr "Iniciar procés"
 
 #: ../src/gui/encoder.cs:5383
 msgid "Loading libraries"
-msgstr "Carregant llibreries"
+msgstr "S'estan carregant les biblioteques"
 
 #: ../src/gui/encoder.cs:5387
 msgid "Starting R"
@@ -5656,7 +5656,7 @@ msgstr "Ho sentim. Error dibuixant la gràfica."
 
 #: ../src/gui/encoder.cs:5435
 msgid "Maybe R or EMD are not installed."
-msgstr "Potser no s'ha instal·lat l'R o l'EMD."
+msgstr "Potser no s'ha instal·lat el R o l'EMD."
 
 #. signal is raised and managed in gui/encoder.cs
 #: ../src/gui/encoder.cs:5442 ../src/gui/encoder.cs:5647
@@ -6092,7 +6092,7 @@ msgstr "Si us plau, completeu el pes de la persona."
 #: ../src/gui/person.cs:1539
 #, csharp-format
 msgid "Person: '{0}' exists. Please, use another name"
-msgstr "L'atleta: '{0} ja existeix. Si us plau. Feu servir un altre nom"
+msgstr "L'atleta: '{0}' ja existeix. Si us plau. Feu servir un altre nom"
 
 #: ../src/gui/person.cs:1755
 msgid "Table has already been created."
@@ -7214,7 +7214,7 @@ msgstr "Cap Verd"
 
 #: ../src/sqlite/country.cs:202
 msgid "Central African Republic"
-msgstr "República Centrafricana"
+msgstr "República Centreafricana"
 
 #: ../src/sqlite/country.cs:203
 msgid "Chad"
@@ -7710,7 +7710,7 @@ msgstr "França"
 
 #: ../src/sqlite/country.cs:326
 msgid "Germany"
-msgstr "Alemània"
+msgstr "Alemanya"
 
 #: ../src/sqlite/country.cs:327
 msgid "Gibraltar"
@@ -8623,7 +8623,7 @@ msgstr "Dispersió"
 
 #: ../src/stats/main.cs:1516
 msgid "Maybe R is not installed."
-msgstr "Potser l'R no està instal·lat,."
+msgstr "Potser el R no està instal·lat."
 
 #: ../src/stats/main.cs:1519
 msgid "Chronojump Graph"

@@ -985,7 +985,6 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_arms;
 
 	//slCMJ	
-	[Widget] Gtk.Box vbox_extra_window_jumps_single_leg;
 	[Widget] Gtk.Box hbox_extra_window_jumps_single_leg_radios;
 	[Widget] Gtk.Frame frame_extra_window_jumps_single_leg_input;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_vertical;
@@ -1319,7 +1318,6 @@ partial class ChronoJumpWindow
 	}
 	
 	private void extra_window_showSingleLegStuff(bool show) {
-		vbox_extra_window_jumps_single_leg.Visible = show;
 		hbox_extra_window_jumps_single_leg_radios.Visible = show;
 	}
 			

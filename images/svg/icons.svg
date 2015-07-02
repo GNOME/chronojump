@@ -22,6 +22,30 @@
   <defs
      id="defs4">
     <marker
+       inkscape:stockid="TriangleOutS"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="TriangleOutS"
+       style="overflow:visible">
+      <path
+         id="path5919"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         transform="scale(0.2)" />
+    </marker>
+    <linearGradient
+       id="linearGradient5294">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop5296" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0.2;"
+         offset="1"
+         id="stop5298" />
+    </linearGradient>
+    <marker
        inkscape:stockid="TriangleOutM"
        orient="auto"
        refY="0"
@@ -5211,6 +5235,100 @@
        y1="171.28"
        x2="309.56"
        y2="167.34" />
+    <linearGradient
+       id="linearGradient5294-5">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop5296-6" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0.2;"
+         offset="1"
+         id="stop5298-7" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient5294-3">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop5296-1" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0.2;"
+         offset="1"
+         id="stop5298-8" />
+    </linearGradient>
+    <marker
+       inkscape:stockid="TriangleOutS"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="TriangleOutS-8"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path5919-1"
+         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="scale(0.2,0.2)" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5294"
+       id="linearGradient6730"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(2,0)"
+       x1="63.14085"
+       y1="1190.7301"
+       x2="62.605453"
+       y2="1190.7495" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5294-3"
+       id="linearGradient6732"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(18.141829,0.08397587)"
+       x1="63.14085"
+       y1="1190.7301"
+       x2="62.605453"
+       y2="1190.7495" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5294"
+       id="linearGradient15905"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(2,0)"
+       x1="63.14085"
+       y1="1190.7301"
+       x2="62.605453"
+       y2="1190.7495" />
+    <marker
+       inkscape:stockid="TriangleOutS"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="TriangleOutS-9"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path5919-3"
+         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="scale(0.2,0.2)" />
+    </marker>
+    <marker
+       inkscape:stockid="TriangleOutS"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="TriangleOutS-0"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path5919-8"
+         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="scale(0.2,0.2)" />
+    </marker>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -5219,23 +5337,24 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.6388146"
-     inkscape:cx="145.14997"
-     inkscape:cy="173.29598"
+     inkscape:zoom="11.566045"
+     inkscape:cx="226.85353"
+     inkscape:cy="275.74355"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
      inkscape:window-width="1366"
-     inkscape:window-height="711"
+     inkscape:window-height="714"
      inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-y="25"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     showguides="false"
-     inkscape:guide-bbox="true">
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:snap-global="false">
     <sodipodi:guide
        orientation="0,1"
        position="117.90375,196.78693"
@@ -5256,6 +5375,30 @@
        orientation="1,0"
        position="152.34678,184.66878"
        id="guide4885" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="170.88722,123.48872"
+       id="guide4402" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="171.12782,112.54135"
+       id="guide4404" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="161.80451,120.90226"
+       id="guide4406" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="174.31579,117.41353"
+       id="guide4408" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="164.41304,99.172331"
+       id="guide6718" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="180.81203,118.19549"
+       id="guide6720" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -8203,5 +8346,80 @@
        height="57.184448"
        x="99.074821"
        y="1159.3739" />
+    <text
+       xml:space="preserve"
+       style="font-size:6.40506649px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="76.398582"
+       y="1048.9115"
+       id="text5579"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5581"
+         x="76.398582"
+         y="1048.9115">dj-from-out.png 16x16px</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:6.40506649px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="78.383598"
+       y="1012.819"
+       id="text5579-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5581-1"
+         x="78.383598"
+         y="1012.819">dj-from-in.png 16x16px</tspan></text>
+    <g
+       id="g16051">
+      <rect
+         y="991.28235"
+         x="118.51299"
+         height="11.499177"
+         width="11.499177"
+         id="rect15989-0"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <rect
+         y="1000.9247"
+         x="119.56591"
+         height="1.6118824"
+         width="7.7737932"
+         id="rect16031"
+         style="fill:#001aff;fill-opacity:1;stroke:none" />
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path3792-0-1-3"
+         d="m 121.1628,1001.6481 c 1.05928,-5.62007 2.73875,-5.37307 4.23542,0 0.77778,-1.3172 1.06468,-8.06537 1.06468,-8.06537"
+         style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#TriangleOutS)" />
+    </g>
+    <g
+       id="g16066">
+      <rect
+         y="1037.5801"
+         x="120.37041"
+         height="1.6118824"
+         width="7.0095878"
+         id="rect16031-5"
+         style="fill:#001aff;fill-opacity:1;stroke:none" />
+      <g
+         transform="translate(-22.794056,1.576678)"
+         inkscape:export-ydpi="125.23"
+         inkscape:export-xdpi="125.23"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/dj-from-out.png"
+         id="g16021">
+        <rect
+           style="fill:#ffffff;fill-opacity:0;stroke:none"
+           id="rect15989"
+           width="11.499177"
+           height="11.499177"
+           x="139.76294"
+           y="1026.3796" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#TriangleOutS)"
+           d="m 142.39258,1032.7342 c 1.60137,0.028 2.7791,-0.01 4.27576,4.0112 0.77779,-1.3172 1.06469,-8.0653 1.06469,-8.0653"
+           id="path3792-0-1-9-9"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="ccc" />
+      </g>
+    </g>
   </g>
 </svg>

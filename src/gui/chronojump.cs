@@ -3837,10 +3837,10 @@ public partial class ChronoJumpWindow
 		}
 		double myFall = 0;
 		if(currentJumpType.HasFall) {
-			if(extra_window_jumps_radio_dj_fall_predefined.Active)
-				myFall = (double) extra_window_jumps_spinbutton_fall.Value;
-			else
+			if(extra_window_jumps_check_dj_fall_calculate.Active)
 				myFall = -1;
+			else
+				myFall = (double) extra_window_jumps_spinbutton_fall.Value;
 		}
 
 		string description = "";

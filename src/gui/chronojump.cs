@@ -288,7 +288,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_execute;
 	[Widget] Gtk.Notebook notebook_results;
 	[Widget] Gtk.Notebook notebook_options_top;
-	[Widget] Gtk.Notebook notebook_options;
 		
 	[Widget] Gtk.Frame frame_share_data;
 	
@@ -6041,12 +6040,6 @@ LogB.Debug("X");
 			notebook_options_top.NextPage();
 		while(notebook_options_top.CurrentPage > desiredPage) 
 			notebook_options_top.PrevPage();
-/*		
-		while(notebook_options.CurrentPage < desiredPage) 
-			notebook_options.NextPage();
-		while(notebook_options.CurrentPage > desiredPage) 
-			notebook_options.PrevPage();
-			*/
 		
 	
 		//change test image according to notebook_execute	
@@ -6284,7 +6277,6 @@ LogB.Debug("X");
 		//hbox_chronopics.Sensitive = false;
 		notebook_results.Sensitive = false;
 		notebook_options_top.Sensitive = false;
-		notebook_options.Sensitive = false;
 		notebook_encoder_sup.Sensitive = false;
 		vbox_stats.Sensitive = false;
 		frame_share_data.Sensitive = false;
@@ -6328,7 +6320,6 @@ LogB.Debug("X");
 		//hbox_chronopics.Sensitive = false;
 		notebook_results.Sensitive = false;
 		notebook_options_top.Sensitive = false;
-		notebook_options.Sensitive = false;
 		notebook_encoder_sup.Sensitive = false;
 		treeview_persons.Sensitive = false;
 		
@@ -6348,7 +6339,6 @@ LogB.Debug("X");
 		//hbox_chronopics.Sensitive = true;
 		notebook_results.Sensitive = true;
 		notebook_options_top.Sensitive = true;
-		notebook_options.Sensitive = true;
 		notebook_encoder_sup.Sensitive = true;
 		treeview_persons.Sensitive = true;
 		
@@ -6399,7 +6389,6 @@ LogB.Debug("X");
 		button_upload_session.Sensitive = false;
 		button_activate_chronopics.Sensitive = false;
 		notebook_options_top.Sensitive = false;
-		notebook_options.Sensitive = false;
 		event_execute_button_update.Sensitive = false;
 		
 		//hbox_multi_chronopic_buttons.Sensitive = false;
@@ -6437,7 +6426,6 @@ LogB.Debug("X");
 		button_upload_session.Sensitive = true;
 		button_activate_chronopics.Sensitive = true;
 		notebook_options_top.Sensitive = true;
-		notebook_options.Sensitive = true;
 		event_execute_button_update.Sensitive = true;
 
 		//allow repeat last jump or run (check also if it wasn't cancelled)
@@ -6489,7 +6477,6 @@ LogB.Debug("X");
 		button_activate_chronopics.Sensitive 	= ! execute;
 		button_execute_test.Sensitive 		= ! execute;
 		notebook_options_top.Sensitive 		= ! execute;
-		notebook_options.Sensitive 		= ! execute;
 		vbox_this_test_buttons.Sensitive 	= ! execute;
 	}
 

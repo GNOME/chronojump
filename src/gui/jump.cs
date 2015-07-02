@@ -974,8 +974,7 @@ partial class ChronoJumpWindow
 	//options jumps
 	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_weight;
 	[Widget] Gtk.Box extra_window_jumps_hbox_fall;
-	[Widget] Gtk.RadioButton extra_window_jumps_radio_dj_fall_predefined;
-	[Widget] Gtk.RadioButton extra_window_jumps_radio_dj_fall_calculate;
+	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_fall_calculate;
 	[Widget] Gtk.Label extra_window_jumps_label_dj_start_inside;
 	[Widget] Gtk.Label extra_window_jumps_label_dj_start_outside;
 	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_fall;
@@ -1054,21 +1053,20 @@ partial class ChronoJumpWindow
 	}
 
 
-	private void on_extra_window_jumps_radio_dj_fall_calculate_toggled (object o, EventArgs args) {
-		if(extra_window_jumps_radio_dj_fall_calculate.Active) {
-			extra_window_jumps_label_dj_start_inside.Visible = true;
-			extra_window_jumps_label_dj_start_outside.Visible = false;
+	/*
+	 * when pre-jump from inside, dj fall is calculated
+	 * when fall down from outside, the dj fall is predefined
+	 */
+	private void on_extra_window_jumps_check_dj_fall_calculate_toggled (object o, EventArgs args) 
+	{
+		bool calculate = extra_window_jumps_check_dj_fall_calculate.Active;
 
-			hbox_extra_window_jumps_fall_height.Visible = false;
-		}
-	}
-	private void on_extra_window_jumps_radio_dj_fall_predefined_toggled (object o, EventArgs args) {
-		if(extra_window_jumps_radio_dj_fall_predefined.Active) {
-			extra_window_jumps_label_dj_start_inside.Visible = false;
-			extra_window_jumps_label_dj_start_outside.Visible = true;
-
-			hbox_extra_window_jumps_fall_height.Visible = true;
-		}
+		extra_windows_jumps_image_dj_fall_calculate.Visible = calculate;
+		extra_window_jumps_label_dj_start_inside.Visible = calculate;
+		
+		extra_windows_jumps_image_dj_fall_predefined.Visible = ! calculate;
+		extra_window_jumps_label_dj_start_outside.Visible = ! calculate;
+		hbox_extra_window_jumps_fall_height.Visible = ! calculate;
 	}
 	
 	private void on_extra_window_jumps_test_changed(object o, EventArgs args)

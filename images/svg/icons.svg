@@ -5337,9 +5337,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.566045"
+     inkscape:zoom="5.7830226"
      inkscape:cx="226.85353"
-     inkscape:cy="275.74355"
+     inkscape:cy="275.5274"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
@@ -8369,7 +8369,10 @@
          x="78.383598"
          y="1012.819">dj-from-in.png 16x16px</tspan></text>
     <g
-       id="g16051">
+       id="g16051"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/dj-from-in.png"
+       inkscape:export-xdpi="125.23"
+       inkscape:export-ydpi="125.23">
       <rect
          y="991.28235"
          x="118.51299"
@@ -8392,7 +8395,10 @@
          style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#TriangleOutS)" />
     </g>
     <g
-       id="g16066">
+       id="g16066"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/dj-from-out.png"
+       inkscape:export-xdpi="125.23"
+       inkscape:export-ydpi="125.23">
       <rect
          y="1037.5801"
          x="120.37041"

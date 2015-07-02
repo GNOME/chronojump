@@ -29,6 +29,14 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
+	[Widget] Gtk.HBox hbox_animation_lights;
+	[Widget] Gtk.HBox hbox_flicker_lights;
+	[Widget] Gtk.HBox hbox_discriminative_lights;
+	
+	[Widget] Gtk.Label label_animation_lights_interval;
+	[Widget] Gtk.Label label_flicker_lights_cycle;
+	[Widget] Gtk.Label label_flicker_lights_frequency;
+
 	[Widget] Gtk.Label label_extra_window_radio_reaction_time;
 	[Widget] Gtk.RadioButton extra_window_radio_reaction_time;
 	[Widget] Gtk.Label label_extra_window_radio_reaction_time_animation_lights;
@@ -38,31 +46,183 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_extra_window_radio_reaction_time_discriminative;
 	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_discriminative;
 
-	[Widget] Gtk.Notebook notebook_reaction_time_experimental;
-	[Widget] Gtk.Label label_reaction_time_experimental;
 	
 	private void on_extra_window_reaction_times_test_changed(object o, EventArgs args)
 	{
+		hbox_animation_lights.Visible = false;
+		hbox_flicker_lights.Visible = false;
+		hbox_discriminative_lights.Visible = false;
+
 		if(extra_window_radio_reaction_time.Active) {
 			currentReactionTimeType = new ReactionTimeType("reactionTime");
-
-			label_reaction_time_experimental.Visible = false;
-			notebook_reaction_time_experimental.Visible = false;
 		} else {
-			label_reaction_time_experimental.Visible = true;
-		
 			if(extra_window_radio_reaction_time_animation_lights.Active)
-				notebook_reaction_time_experimental.CurrentPage = 0;
+				hbox_animation_lights.Visible = true;
 			else if(extra_window_radio_reaction_time_flicker.Active)
-				notebook_reaction_time_experimental.CurrentPage = 1;
+				hbox_flicker_lights.Visible = true;
 			else if(extra_window_radio_reaction_time_discriminative.Active)
-				notebook_reaction_time_experimental.CurrentPage = 2;
-				
-			notebook_reaction_time_experimental.Visible = true;
+				hbox_discriminative_lights.Visible = true;
+
 		}
 
 		currentEventType = currentReactionTimeType;
 	}
+
+	// ---- animation lights
+
+	private void on_spinbutton_animation_lights_speed_value_changed (object o, EventArgs args) {
+		switch(Convert.ToInt32(spinbutton_animation_lights_speed.Value)) {
+			case 7:
+				label_animation_lights_interval.Text = "2 s";
+				break;
+			case 6:
+				label_animation_lights_interval.Text = "1 s";
+				break;
+			case 5:
+				label_animation_lights_interval.Text = "500 ms";
+				break;
+			case 4:
+				label_animation_lights_interval.Text = "250 ms";
+				break;
+			case 3:
+				label_animation_lights_interval.Text = "125 ms";
+				break;
+			case 2:
+				label_animation_lights_interval.Text = "62.5 ms";
+				break;
+			case 1:
+				label_animation_lights_interval.Text = "31.25 ms";
+				break;
+			case 0:
+				label_animation_lights_interval.Text = "15.625 ms";
+				break;
+		}
+	}
+	
+	private void on_button_animation_lights_help_clicked (object o, EventArgs args) {
+	}
+
+	// ---- flicker
+	
+	private void on_spinbutton_flicker_lights_speed_value_changed (object o, EventArgs args) {
+		switch(Convert.ToInt32(spinbutton_flicker_lights_speed.Value)) {
+			case 7:
+				label_flicker_lights_cycle.Text = "800 ms";
+				label_flicker_lights_frequency.Text = "1.25 Hz";
+				break;
+			case 6:
+				label_flicker_lights_cycle.Text = "400 ms";
+				label_flicker_lights_frequency.Text = "2.5 Hz";
+				break;
+			case 5:
+				label_flicker_lights_cycle.Text = "200 ms";
+				label_flicker_lights_frequency.Text = "5 Hz";
+				break;
+			case 4:
+				label_flicker_lights_cycle.Text = "100 ms";
+				label_flicker_lights_frequency.Text = "10 Hz";
+				break;
+			case 3:
+				label_flicker_lights_cycle.Text = "50 ms";
+				label_flicker_lights_frequency.Text = "20 Hz";
+				break;
+			case 2:
+				label_flicker_lights_cycle.Text = "25 ms";
+				label_flicker_lights_frequency.Text = "40 Hz";
+				break;
+			case 1:
+				label_flicker_lights_cycle.Text = "12.5 ms";
+				label_flicker_lights_frequency.Text = "80 Hz";
+				break;
+			case 0:
+				label_flicker_lights_cycle.Text = "6.25 ms";
+				label_flicker_lights_frequency.Text = "160 Hz";
+				break;
+		}
+	}
+
+	private void on_button_flicker_lights_help_clicked (object o, EventArgs args) {
+	}
+
+
+	// ---- discriminative
+
+	private void on_spinbutton_discriminative_lights_minimum_value_changed (object o, EventArgs args) {
+		if(spinbutton_discriminative_lights_maximum.Value <= spinbutton_discriminative_lights_minimum.Value)
+			spinbutton_discriminative_lights_maximum.Value = spinbutton_discriminative_lights_minimum.Value +1;
+	}
+	private void on_spinbutton_discriminative_lights_maximum_value_changed (object o, EventArgs args) {
+		if(spinbutton_discriminative_lights_minimum.Value >= spinbutton_discriminative_lights_maximum.Value)
+			spinbutton_discriminative_lights_minimum.Value = spinbutton_discriminative_lights_maximum.Value -1;
+	}
+
+	// ---- start buttons
+
+	private void on_button_animation_lights_start_clicked (object o, EventArgs args) {
+		int speed = Convert.ToInt32(spinbutton_animation_lights_speed.Value);
+		ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
+		cs.CharToSend = "l";
+		cs.Write(chronopicWin.SP,speed);
+	}
+	
+	private void on_button_flicker_lights_start_clicked (object o, EventArgs args) {
+		int speed = Convert.ToInt32(spinbutton_flicker_lights_speed.Value);
+		ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
+		cs.CharToSend = "f";
+		cs.Write(chronopicWin.SP,speed);
+	}
+
+	private void on_button_discriminative_lights_start_clicked (object o, EventArgs args) {
+		//int speed = Convert.ToInt32(spinbutton_flicker_lights_speed.Value); //TODO
+		ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
+		if(radiobutton_reaction_time_disc_lr.Active == true)
+			cs.CharToSend = "d";
+		else if(radiobutton_reaction_time_disc_ly.Active == true)
+			cs.CharToSend = "D";
+		else if(radiobutton_reaction_time_disc_lg.Active == true)
+			cs.CharToSend = "i";
+		else if(radiobutton_reaction_time_disc_bz.Active == true)
+			cs.CharToSend = "I";
+		cs.Write(chronopicWin.SP,0); //TODO
+	}
+
+	//---- unused
+	
+	/*
+	private void on_button_rt_3_on_clicked (object o, EventArgs args) {
+		ChronopicAuto cs = new ChronopicStartReactionTime();
+		cs.CharToSend = "r";
+		cs.Write(chronopicWin.SP,0);
+	}
+	private void on_button_rt_3_off_clicked (object o, EventArgs args) {
+		ChronopicAuto cs = new ChronopicStartReactionTime();
+		cs.CharToSend = "R";
+		cs.Write(chronopicWin.SP,0);
+	}
+
+	private void on_button_rt_6_on_clicked (object o, EventArgs args) {
+		ChronopicAuto cs = new ChronopicStartReactionTime();
+		cs.CharToSend = "s";
+		cs.Write(chronopicWin.SP,0);
+	}
+	private void on_button_rt_6_off_clicked (object o, EventArgs args) {
+		ChronopicAuto cs = new ChronopicStartReactionTime();
+		cs.CharToSend = "S";
+		cs.Write(chronopicWin.SP,0);
+	}
+
+	private void on_button_rt_7_on_clicked (object o, EventArgs args) {
+		ChronopicAuto cs = new ChronopicStartReactionTime();
+		cs.CharToSend = "t";
+		cs.Write(chronopicWin.SP,0);
+	}
+	private void on_button_rt_7_off_clicked (object o, EventArgs args) {
+		ChronopicAuto cs = new ChronopicStartReactionTime();
+		cs.CharToSend = "T";
+		cs.Write(chronopicWin.SP,0);
+	}
+	*/
+	
 }
 
 //--------------------------------------------------------

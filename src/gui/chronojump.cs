@@ -53,6 +53,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_start; //use to display the start images to select different modes
 	[Widget] Gtk.Notebook notebook_sup;
 	[Widget] Gtk.Notebook notebook_sup_contacts;
+	[Widget] Gtk.Notebook notebook_capture_graph_table;
+	
+	[Widget] Gtk.RadioButton radio_capture_graph;
+	[Widget] Gtk.RadioButton radio_capture_table;
 
 	[Widget] Gtk.Label label_version;
 	[Widget] Gtk.Image image_logo;
@@ -212,7 +216,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_delete_selected_pulse;
 	[Widget] Gtk.Button button_repair_selected_pulse;
 
-	[Widget] Gtk.Box hbox_execute_test;
+	[Widget] Gtk.Box vbox_execute_test;
 	[Widget] Gtk.Button button_execute_test;
 	[Widget] Gtk.Viewport viewport_chronopics;
 	[Widget] Gtk.Box hbox_chronopics;
@@ -968,6 +972,16 @@ public partial class ChronoJumpWindow
 	public void on_radio_mode_encoder_analyze_small_toggled (object obj, EventArgs args) {
 		if(radio_mode_encoder_analyze_small.Active) 
 			notebook_encoder_sup.CurrentPage = 1;
+	}
+
+	
+	public void on_radio_capture_graph_toggled (object obj, EventArgs args) {
+		if(radio_capture_graph.Active)
+			notebook_capture_graph_table.CurrentPage = 0;
+	}
+	public void on_radio_capture_table_toggled (object obj, EventArgs args) {
+		if(radio_capture_table.Active)
+			notebook_capture_graph_table.CurrentPage = 1;
 	}
 
 
@@ -6282,7 +6296,7 @@ LogB.Debug("X");
 		frame_share_data.Sensitive = false;
 		
 		vbox_this_test_buttons.Sensitive = false;
-		hbox_execute_test.Sensitive = false;
+		vbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
 
 		encoderButtonsSensitive(encoderSensEnum.NOSESSION);
@@ -6324,7 +6338,7 @@ LogB.Debug("X");
 		treeview_persons.Sensitive = false;
 		
 		menuPersonSelectedSensitive(false);
-		hbox_execute_test.Sensitive = false;
+		vbox_execute_test.Sensitive = false;
 	}
 	
 	private void sensitiveGuiYesPerson () {
@@ -6357,7 +6371,7 @@ LogB.Debug("X");
 		combo_result_runs_interval.Sensitive = true;
 		combo_pulses.Sensitive = true;
 		
-		hbox_execute_test.Sensitive = true;
+		vbox_execute_test.Sensitive = true;
 	}
 	
 	private void sensitiveGuiYesEvent () {

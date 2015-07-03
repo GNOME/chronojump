@@ -83,7 +83,6 @@ public partial class ChronoJumpWindow {
 	[Widget] Gtk.Image image_stats_win_graph2;
 	[Widget] Gtk.Image image_stats_win_graph3;
 	[Widget] Gtk.Image image_stats_win_report_open;
-	[Widget] Gtk.Image image_results;
 		
 	[Widget] Gtk.Box hbox_graph_options;
 	
@@ -303,7 +302,6 @@ public partial class ChronoJumpWindow {
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "report_view.png");
 		image_stats_win_report_open.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "spreadsheet.png");
-		image_results.Pixbuf = pixbuf;
 	}
 
 	

@@ -1149,17 +1149,44 @@ public class Util
 		if(volumeOn) {
 			//TODO: this try/catch still doesn't work in my laptop with sound problems
 			try {
-				switch(mySound) {
-					case Constants.SoundTypes.CAN_START:
-						System.Media.SystemSounds.Question.Play();
-						break;
-					case Constants.SoundTypes.GOOD:
-						System.Media.SystemSounds.Asterisk.Play();
-						break;
-					case Constants.SoundTypes.BAD:
-						//System.Media.SystemSounds.Beep.Play();
-						System.Media.SystemSounds.Hand.Play();
-						break;
+				//TODO: write nicer
+				if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX) 
+				{
+					string fileName = "/home/xavier/Baixades/123804__kendallbear__kendallklap1.wav";
+					//author: kendallbear
+					//https://www.freesound.org/people/kendallbear/sounds/123804/
+
+					if(! File.Exists(fileName)) {
+						LogB.Warning("Cannot found this sound file: " + fileName);
+						return;
+					}
+					
+					ProcessStartInfo pinfo = new ProcessStartInfo();
+					string pBin="gst-launch-0.10";
+		
+					pinfo.FileName=pBin;
+					pinfo.Arguments = "playbin " + @"uri=file://" + fileName;
+					LogB.Information("Arguments:", pinfo.Arguments);
+					pinfo.CreateNoWindow = true;
+					pinfo.UseShellExecute = false;
+
+					Process p = new Process();
+					p.StartInfo = pinfo;
+					p.Start();
+				}
+				else {
+					switch(mySound) {
+						case Constants.SoundTypes.CAN_START:
+							System.Media.SystemSounds.Question.Play();
+							break;
+						case Constants.SoundTypes.GOOD:
+							System.Media.SystemSounds.Asterisk.Play();
+							break;
+						case Constants.SoundTypes.BAD:
+							//System.Media.SystemSounds.Beep.Play();
+							System.Media.SystemSounds.Hand.Play();
+							break;
+					}
 				}
 			} catch {}
 		}

@@ -1109,16 +1109,13 @@ partial class ChronoJumpWindow
 	{
 		currentEventType = myJumpType;
 		changeTestImage(EventType.Types.JUMP.ToString(), myJumpType.Name, myJumpType.ImageFileName);
-		bool hasOptions = false;
 	
 		if(myJumpType.HasWeight) {
-			hasOptions = true;
 			extra_window_showWeightData(myJumpType, true);	
 		} else 
 			extra_window_showWeightData(myJumpType, false);	
 
 		if(myJumpType.HasFall) {
-			hasOptions = true;
 			extra_window_showFallData(myJumpType, true);
 		} else
 			extra_window_showFallData(myJumpType, false);	
@@ -1130,11 +1127,9 @@ partial class ChronoJumpWindow
 			else //myJumpType.Name == "DJna"
 				extra_window_jumps_check_dj_arms.Active = false;
 
-			hasOptions = true;
 			extra_window_showTechniqueArmsData(true, false); //visible, sensitive
 		} else if(myJumpType.Name == "DJ") { 
 			//user has pressed DJ button
-			hasOptions = true;
 			extra_window_jumps_check_dj_arms.Active = extra_window_jumps_arms;
 
 			on_extra_window_jumps_check_dj_arms_clicked(new object(), new EventArgs());
@@ -1152,7 +1147,6 @@ partial class ChronoJumpWindow
 
 		extra_window_showSingleLegStuff(myJumpType.Name == "slCMJleft" || myJumpType.Name == "slCMJright");
 		if(myJumpType.Name == "slCMJleft" || myJumpType.Name == "slCMJright") {
-			hasOptions = true;
 			frame_extra_window_jumps_single_leg_input.Sensitive = false;
 			extra_window_jumps_spin_single_leg_distance.Value = 0;
 			extra_window_jumps_spin_single_leg_angle.Value = 90;
@@ -1163,11 +1157,9 @@ partial class ChronoJumpWindow
 	{
 		currentEventType = myJumpType;
 		changeTestImage(EventType.Types.JUMP.ToString(), myJumpType.Name, myJumpType.ImageFileName);
-		bool hasOptions = false;
 		checkbutton_allow_finish_rj_after_time.Visible = false;
 	
 		if(myJumpType.FixedValue >= 0) {
-			hasOptions = true;
 			string jumpsName = Catalog.GetString("jumps");
 			string secondsName = Catalog.GetString("seconds");
 			if(myJumpType.JumpsLimited) {
@@ -1190,14 +1182,12 @@ partial class ChronoJumpWindow
 			extra_window_showLimitData (false);
 
 		if(myJumpType.HasWeight) {
-			hasOptions = true;
 			extra_window_showWeightData(myJumpType, true);	
 		} else 
 			extra_window_showWeightData(myJumpType, false);	
 
 		if(myJumpType.HasFall || myJumpType.Name == Constants.RunAnalysisName) {
 			extra_window_showFallData(myJumpType, true);	
-			hasOptions = true;
 		} else
 			extra_window_showFallData(myJumpType, false);
 		

@@ -68,7 +68,6 @@ public partial class ChronoJumpWindow
 		currentEventType = myMultiChronopicType;
 		changeTestImage(EventType.Types.MULTICHRONOPIC.ToString(), 
 				myMultiChronopicType.Name, myMultiChronopicType.ImageFileName);
-		bool hasOptions = false;
 
 		extra_window_spin_run_analysis_distance.Value = extra_window_multichronopic_distance;
 		bool showSyncAndDeleteFirst = false;

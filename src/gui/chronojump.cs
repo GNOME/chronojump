@@ -296,12 +296,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Frame frame_share_data;
 	
 	[Widget] Gtk.EventBox eventbox_image_test;
-	[Widget] Gtk.Box vbox_image_test;
-	[Widget] Gtk.Box hbox_image_test;
 	[Widget] Gtk.Image image_test;
 	[Widget] Gtk.Button button_image_test_zoom;
 	[Widget] Gtk.Image image_test_zoom;
-	[Widget] Gtk.Label label_image_test;
 	[Widget] Gtk.Box vbox_this_test_buttons;
 	[Widget] Gtk.Button button_video_play_this_test;
 	[Widget] Gtk.Button button_delete_this_test;
@@ -3768,9 +3765,6 @@ public partial class ChronoJumpWindow
 
 	//changes the image about the text on the bottom left of main screen	
 	private void changeTestImage(string eventTypeString, string eventName, string fileNameString) {
-		label_image_test.Text = "<b>" + eventName + "</b>"; 
-		label_image_test.UseMarkup = true; 
-
 		Pixbuf pixbuf; //main image
 		Pixbuf pixbufZoom; //icon of zoom image (if shown can have two different images)
 
@@ -6275,7 +6269,7 @@ LogB.Debug("X");
 		menuSessionSensitive(false);
 		menuPersonSelectedSensitive(false);
 		
-		vbox_image_test.Sensitive = false;
+		button_image_test_zoom.Sensitive = false;
 		frame_persons.Sensitive = false;
 		button_recuperate_person.Sensitive = false;
 		button_recuperate_persons_from_session.Sensitive = false;
@@ -6305,7 +6299,7 @@ LogB.Debug("X");
 	}
 	
 	private void sensitiveGuiYesSession () {
-		vbox_image_test.Sensitive = true;
+		button_image_test_zoom.Sensitive = true;
 		frame_persons.Sensitive = true;
 		button_recuperate_person.Sensitive = true;
 		button_recuperate_persons_from_session.Sensitive = true;

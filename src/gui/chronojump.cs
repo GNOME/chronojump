@@ -3854,7 +3854,6 @@ public partial class ChronoJumpWindow
 		if(currentJumpType.Name == "slCMJleft" || currentJumpType.Name == "slCMJright") {
 			description = slCMJString(); 
 
-			frame_extra_window_jumps_single_leg_input.Sensitive = false;
 			extra_window_jumps_spin_single_leg_distance.Value = 0;
 			extra_window_jumps_spin_single_leg_angle.Value = 90;
 		}
@@ -3942,8 +3941,8 @@ public partial class ChronoJumpWindow
 					
 					//unsensitive slCMJ options 
 					hbox_extra_window_jumps_single_leg_radios.Sensitive = false;
-					//but sensitive the input cm
-					frame_extra_window_jumps_single_leg_input.Sensitive = true;
+					//but show the input cm
+					notebook_options_after_execute.CurrentPage = 1;
 				}
 				SqliteJump.UpdateDescription(Constants.JumpTable, 
 						currentJump.UniqueID, currentJump.Description);

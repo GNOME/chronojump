@@ -229,12 +229,27 @@ findTakeOff <- function(forceConcentric, maxSpeedTInConcentric)
 
 	return(takeoff)
 }
+	
 
+getSpeedSafe <- function(displacement, smoothing) {
+	#x vector should contain at least 4 different values
+	if(length(displacement) >= 4)
+		return(getSpeed(displacement, smoothing))
+	else
+		return(list(y=rep(0,length(displacement))))
+}
 getSpeed <- function(displacement, smoothing) {
 	#no change affected by encoderConfiguration
 	return (smooth.spline( 1:length(displacement), displacement, spar=smoothing))
 }
 
+getAccelerationSafe <- function(speed) {
+	#x vector should contain at least 4 different values
+	if(length(displacement) >= 4)
+		return(getAcceleration(speed))
+	else
+		return(list(y=rep(0,length(displacement))))
+}
 getAcceleration <- function(speed) {
 	#no change affected by encoderConfiguration
 	return (predict( speed, deriv=1 ))
@@ -378,16 +393,9 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 
 	print(c("eccon, smoothing:",eccon, smoothing))
 
-	#x vector should contain at least 4 different values
-	if(length(displacement) >= 4)
-		speed <- getSpeed(displacement, smoothing)
-	else
-		speed=list(y=rep(0,length(displacement)))
+	speed <- getSpeedSafe(displacement, smoothing)
 	
-	if(length(displacement) >= 4)
-		accel <- getAcceleration(speed)
-	else
-		accel=list(y=rep(0,length(displacement)))
+	accel <- getAccelerationSafe(speed)
 
 	#print(c(" ms",round(mean(speed$y),5)," ma",round(mean(accel$y),5)))
 	#print(c(" Ms",round(max(speed$y),5)," Ma",round(max(accel$y),5)))

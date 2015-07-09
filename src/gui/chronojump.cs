@@ -701,7 +701,8 @@ public partial class ChronoJumpWindow
 		//open buttons (this is shown better in windows than the default open icon)
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameOpen);
 		image_session_open.Pixbuf = pixbuf;
-		image_encoder_capture_open.Pixbuf = pixbuf;
+		//not changed because it's small. TODO: do bigger
+		//image_encoder_capture_open.Pixbuf = pixbuf;
 
 		//persons buttons
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameNew1);

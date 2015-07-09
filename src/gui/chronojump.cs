@@ -94,7 +94,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_persons_open_1;
 	[Widget] Gtk.Image image_persons_open_plus;
 
-	[Widget] Gtk.Box vbox_persons;
+	[Widget] Gtk.Notebook notebook_session_person;
+	//[Widget] Gtk.Box vbox_persons;
 
 	[Widget] Gtk.TreeView treeview_persons;
 	[Widget] Gtk.TreeView treeview_jumps;
@@ -6262,6 +6263,8 @@ LogB.Debug("X");
 
 	private void sensitiveGuiNoSession () 
 	{
+		notebook_session_person.CurrentPage = 0;
+
 		treeview_persons.Sensitive = false;
 		
 		//menuitems
@@ -6297,7 +6300,10 @@ LogB.Debug("X");
 		eventExecuteHideAllTables();
 	}
 	
-	private void sensitiveGuiYesSession () {
+	private void sensitiveGuiYesSession () 
+	{
+		notebook_session_person.CurrentPage = 1;
+
 		button_image_test_zoom.Sensitive = true;
 		frame_persons.Sensitive = true;
 		button_recuperate_person.Sensitive = true;

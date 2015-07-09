@@ -127,6 +127,8 @@ public class EncoderConfigurationWindow
 			EncoderConfigurationWindowBox.radio_gravity.Active = true;
 		else
 			EncoderConfigurationWindowBox.radio_inertia.Active = true;
+		
+		EncoderConfigurationWindowBox.check_rotary_friction_inertia_on_axis.Active = ec.rotaryFrictionOnAxis;
 
 
 		EncoderConfigurationWindowBox.initializeList(ec.type, ec.has_inertia, ec.rotaryFrictionOnAxis, ec.position);

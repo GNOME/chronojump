@@ -77,7 +77,8 @@ public partial class ChronoJumpWindow
 			select_menuitem_mode_toggled(menuitem_modes.POWER);
 		
 		if(config.PersonWinHide) {
-			vbox_persons.Visible = false;
+			//vbox_persons.Visible = false;
+			notebook_session_person.Visible = false;
 			hbox_encoder_person.Visible = true;
 		}
 		
@@ -119,7 +120,7 @@ public partial class ChronoJumpWindow
 			main_menu.Visible = false;
 			
 			//no mostrar persones
-			vbox_persons.Visible = false;
+			//vbox_persons.Visible = false;
 			//TODO: rfid can be here, also machine, maybe weight, other features
 			//time, gym, ...
 

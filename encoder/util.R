@@ -245,10 +245,10 @@ getSpeed <- function(displacement, smoothing) {
 
 getAccelerationSafe <- function(speed) {
 	#x vector should contain at least 4 different values
-	if(length(displacement) >= 4)
+	if(length(speed) >= 4)
 		return(getAcceleration(speed))
 	else
-		return(list(y=rep(0,length(displacement))))
+		return(list(y=rep(0,length(speed))))
 }
 getAcceleration <- function(speed) {
 	#no change affected by encoderConfiguration

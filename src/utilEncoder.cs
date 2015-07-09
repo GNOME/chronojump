@@ -699,7 +699,7 @@ public class UtilEncoder
 		return fileCurve;
 	}
 
-	public static ArrayList EncoderConfigurationList(Constants.EncoderType encoderType, bool inertial) {
+	public static ArrayList EncoderConfigurationList(Constants.EncoderType encoderType, bool inertial, bool rotaryFrictionOnAxis) {
 		ArrayList list = new ArrayList();
 		if(encoderType == Constants.EncoderType.LINEAR) {
 			if(! inertial) {
@@ -735,18 +735,21 @@ public class UtilEncoder
 							Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYFRICTION));
 			}
 			else {
-				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIAL));
-				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIAL));
-				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALLATERAL));
-				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALLATERAL));
-				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALMOVPULLEY));
-				list.Add(new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALMOVPULLEY));
+				if(! rotaryFrictionOnAxis) {
+					list.Add(new EncoderConfiguration(
+								Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIAL));
+					list.Add(new EncoderConfiguration(
+								Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALLATERAL));
+					list.Add(new EncoderConfiguration(
+								Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALMOVPULLEY));
+				} else {
+					list.Add(new EncoderConfiguration(
+								Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIAL));
+					list.Add(new EncoderConfiguration(
+								Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALLATERAL));
+					list.Add(new EncoderConfiguration(
+								Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALMOVPULLEY));
+				}
 			}
 		} else if(encoderType == Constants.EncoderType.ROTARYAXIS) {
 			if(! inertial) {

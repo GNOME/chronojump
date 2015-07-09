@@ -56,7 +56,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_encoder_capture_options;
 	
 	[Widget] Gtk.Box hbox_encoder_capture_wait;
-	[Widget] Gtk.Box hbox_encoder_capture_doing;
+	[Widget] Gtk.Box vbox_encoder_capture_doing;
 	[Widget] Gtk.Button button_encoder_capture;
 	[Widget] Gtk.Image image_encoder_bell;
 	[Widget] Gtk.Button button_encoder_capture_cancel;
@@ -73,7 +73,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box vbox_encoder_signal_comment;
 	[Widget] Gtk.TextView textview_encoder_signal_comment;
 	[Widget] Gtk.Button button_encoder_signal_save_comment;
-	[Widget] Gtk.Button button_encoder_export_all_curves;
+	[Widget] Gtk.MenuItem menuitem_export_encoder_signal;
 	[Widget] Gtk.Label label_encoder_curve_action;
 	[Widget] Gtk.Button button_encoder_delete_signal;
 	
@@ -3823,7 +3823,7 @@ public partial class ChronoJumpWindow
 		//	hbox_encoder_configuration, hbox_encoder_capture_options
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
-		//c3 hbox_encoder_capture_curves_save_all_none, button_encoder_export_all_curves,
+		//c3 hbox_encoder_capture_curves_save_all_none, menuitem_export_encoder_signal 
 		//	button_encoder_delete_signal, vbox_encoder_signal_comment,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
 		//UNUSED c4 button_encoder_save_curve, entry_encoder_curve_comment
@@ -3889,7 +3889,7 @@ public partial class ChronoJumpWindow
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
 		
 		hbox_encoder_capture_curves_save_all_none.Sensitive = Util.IntToBool(table[3]);
-		button_encoder_export_all_curves.Sensitive = Util.IntToBool(table[3]);
+		menuitem_export_encoder_signal.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_delete_signal.Sensitive = Util.IntToBool(table[3]);
 		vbox_encoder_signal_comment.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_capture.Sensitive = Util.IntToBool(table[3]);
@@ -4518,8 +4518,7 @@ public partial class ChronoJumpWindow
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureIM));
 				}
 				
-				hbox_encoder_capture_wait.Visible = false;
-				hbox_encoder_capture_doing.Visible = true;
+				encoderShowCaptureDoingButtons(true);
 
 				LogB.Information("encoderThreadStart middle");
 				encoderButtonsSensitive(encoderSensEnum.PROCESSINGCAPTURE);
@@ -4603,6 +4602,12 @@ public partial class ChronoJumpWindow
 			LogB.ThreadStart();
 			encoderThread.Start(); 
 		}
+	}
+
+	//while capturing, some buttons are hidden, others are shown
+	void encoderShowCaptureDoingButtons(bool show) {
+		hbox_encoder_capture_wait.Visible = ! show;
+		vbox_encoder_capture_doing.Visible = show;
 	}
 
 	void prepareEncoderGraphs(bool eraseFirst) {
@@ -5286,8 +5291,7 @@ public partial class ChronoJumpWindow
 			button_encoder_analyze_table_save.Sensitive = false;
 			button_encoder_analyze_1RM_save.Sensitive = false;
 		
-			hbox_encoder_capture_wait.Visible = true;
-			hbox_encoder_capture_doing.Visible = false;
+			encoderShowCaptureDoingButtons(false);
 
 		} else { //ANALYZE
 			if(encoderProcessCancel) {

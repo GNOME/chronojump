@@ -964,6 +964,12 @@ public class Util
 	public static string GetCssDir(){
 		return GetDataDir();
 	}
+
+	//currently sounds are inside images folder	
+	public static string GetSoundsDir(){
+		return GetImagesDir();
+	}
+	
 	
 	public static void BackupDirCreateIfNeeded () {
 		string backupDir = GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
@@ -1149,12 +1155,28 @@ public class Util
 		if(volumeOn) {
 			//TODO: this try/catch still doesn't work in my laptop with sound problems
 			try {
-				//TODO: write nicer
 				if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX) 
 				{
-					string fileName = "/home/xavier/Baixades/123804__kendallbear__kendallklap1.wav";
-					//author: kendallbear
-					//https://www.freesound.org/people/kendallbear/sounds/123804/
+					string fileName = "";
+					switch(mySound) {
+						case Constants.SoundTypes.CAN_START:
+							fileName = "123804__kendallbear__kendallklap1.wav";
+							//author: kendallbear
+							//https://www.freesound.org/people/kendallbear/sounds/123804/
+							break;
+						case Constants.SoundTypes.GOOD:
+							fileName = "135936__bradwesson__collectcoin.wav";
+							//author: bradwesson
+							//https://www.freesound.org/people/bradwesson/sounds/135936/
+							break;
+						case Constants.SoundTypes.BAD:
+							fileName = "142608__autistic-lucario__error.wav";
+							//author: Autistic Lucario
+							//https://www.freesound.org/people/Autistic%20Lucario/sounds/142608/
+							break;
+					}
+							
+					fileName = Util.GetSoundsDir() + Path.DirectorySeparatorChar + fileName;
 
 					if(! File.Exists(fileName)) {
 						LogB.Warning("Cannot found this sound file: " + fileName);

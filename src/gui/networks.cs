@@ -43,6 +43,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_encoder_person;
 	[Widget] Gtk.Label label_encoder_person_name;
 	[Widget] Gtk.Button button_encoder_person_change;
+	
+	//shown when menu is hidden
+	[Widget] Gtk.Button button_preferences_not_menu;
 
 
 	private bool useVideo = true;
@@ -95,6 +98,7 @@ public partial class ChronoJumpWindow
 		if(config.SessionMode == Config.SessionModeEnum.UNIQUE)	
 		{
 			main_menu.Visible = false;
+			button_preferences_not_menu.Visible = true;
 
 			if(! Sqlite.Exists(false, Constants.SessionTable, "session")) {
 				//this creates the session and inserts at DB

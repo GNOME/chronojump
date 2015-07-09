@@ -58,9 +58,9 @@ EncoderConfiguration=ROTARYAXISINERTIAL:4:-1:-1:-1:42:1:71:2:300:7
 
 #Session modes:
 #STANDARD: default mode where sessions are created by user
-#UNIQUE: there's only one session called "session". Menubar is hidden (use it only with OnlyEncoder = TRUE)
+#UNIQUE: there's only one session called "session". Menubar is hidden (use it only with OnlyEncoder = TRUE). To access preferences, a preferences button is shown in topleft
 #default: SessionMode=STANDARD
-SessionMode=UNIQUE
+#SessionMode=UNIQUE
 
 #To sync data
 RunScriptOnExit=

@@ -42,6 +42,8 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.RadioButton radio_inertia;
 		
 	[Widget] Gtk.CheckButton check_rotary_friction_inertia_on_axis;
+	[Widget] Gtk.HBox hbox_encoder_types;
+	[Widget] Gtk.Alignment alignment_options;
 	
 	[Widget] Gtk.Button button_previous;
 	[Widget] Gtk.Button button_next;
@@ -87,11 +89,14 @@ public class EncoderConfigurationWindow
 	ArrayList list;
 	int listCurrent = 0; //current item on list
 	Pixbuf pixbuf;
+	bool definedInConfig;
 
-	EncoderConfigurationWindow () {
+	EncoderConfigurationWindow (bool definedInConfig) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "encoder_configuration", "chronojump");
 		gladeXML.Autoconnect(this);
+		
+		this.definedInConfig = definedInConfig;
 		
 		//three encoder types	
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeLinear);
@@ -110,11 +115,11 @@ public class EncoderConfigurationWindow
 		UtilGtk.IconWindow(encoder_configuration);
 	}
 	
-	static public EncoderConfigurationWindow View (EncoderConfiguration ec) {
+	static public EncoderConfigurationWindow View (EncoderConfiguration ec, bool definedInConfig) {
 		if (EncoderConfigurationWindowBox == null) {
-			EncoderConfigurationWindowBox = new EncoderConfigurationWindow ();
+			EncoderConfigurationWindowBox = new EncoderConfigurationWindow (definedInConfig);
 		}
-		
+
 		//activate default radiobutton
 		if(ec.type == Constants.EncoderType.ROTARYFRICTION)
 			EncoderConfigurationWindowBox.radio_rotary_friction.Active = true;
@@ -136,6 +141,15 @@ public class EncoderConfigurationWindow
 		EncoderConfigurationWindowBox.putValuesStoredPreviously(
 				ec.d, ec.D, ec.anglePush, ec.angleWeight, 
 				ec.inertiaMachine, ec.extraWeightGrams, ec.extraWeightLength);
+		
+
+		//id definedInConfig then only few things can change
+		if(definedInConfig) {
+			EncoderConfigurationWindowBox.hbox_encoder_types.Visible = false;
+			EncoderConfigurationWindowBox.check_rotary_friction_inertia_on_axis.Visible = false;
+			EncoderConfigurationWindowBox.alignment_options.Visible = false;
+			EncoderConfigurationWindowBox.vbox_inertia_calcule.Visible = false;
+		}
 	
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
 		return EncoderConfigurationWindowBox;
@@ -241,7 +255,7 @@ public class EncoderConfigurationWindow
 		hbox_inertia.Visible = ec.has_inertia;
 		hbox_inertia_mass.Visible = ec.has_inertia;
 		hbox_inertia_length.Visible = ec.has_inertia;
-		vbox_inertia_calcule.Visible = ec.has_inertia;
+		vbox_inertia_calcule.Visible = (ec.has_inertia && ! definedInConfig);
 		
 		label_count.Text = (listCurrent + 1).ToString() + " / " + list.Count.ToString();
 	

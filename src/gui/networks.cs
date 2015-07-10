@@ -53,6 +53,7 @@ public partial class ChronoJumpWindow
 
 	private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
 	private linuxTypeEnum linuxType;
+	private bool encoderConfigurationDefinedFromFile = false;
 
 
 	private void configInit() 
@@ -90,6 +91,7 @@ public partial class ChronoJumpWindow
 		}
 		
 		if(config.Econf != null) {
+			encoderConfigurationDefinedFromFile = true;
 			encoderConfigurationCurrent = config.Econf;
 			encoderConfigurationGUIUpdate();
 			//TODO: allow to see full data, but don't allow to change it (Open window content as unsensitive)

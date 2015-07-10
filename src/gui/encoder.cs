@@ -355,7 +355,10 @@ public partial class ChronoJumpWindow
 
 
 	void on_button_encoder_select_clicked (object o, EventArgs args) {
-		encoder_configuration_win = EncoderConfigurationWindow.View(encoderConfigurationCurrent);
+		encoder_configuration_win = EncoderConfigurationWindow.View(
+				encoderConfigurationCurrent, 
+				encoderConfigurationDefinedFromFile  //defined at chronojump_config.txt and only few changes can be done
+				);
 		encoder_configuration_win.Button_accept.Clicked += new EventHandler(on_encoder_configuration_win_accepted);
 
 		//unregister eventHandler first, then register. This avoids to have registered twice
@@ -368,8 +371,6 @@ public partial class ChronoJumpWindow
 
 		encoder_configuration_win.Button_encoder_capture_inertial_cancel.Clicked += 
 			new EventHandler(on_button_encoder_cancel_clicked);
-		//encoder_configuration_win.Button_encoder_capture_inertial_finish.Clicked += 
-		//	new EventHandler(on_button_encoder_capture_finish_clicked);
 	}
 
 	void on_encoder_configuration_win_accepted (object o, EventArgs args) {

@@ -36551,7 +36551,7 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
     <property name="height_request">550</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="border_width">10</property>
+    <property name="border_width">5</property>
     <property name="title" translatable="yes">Select person</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
@@ -36967,7 +36967,6 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
               <widget class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="border_width">4</property>
                 <property name="spacing">20</property>
                 <child>
                   <widget class="GtkLabel" id="label_selected_person_name">
@@ -37314,7 +37313,7 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
     </child>
   </widget>
   <widget class="GtkWindow" id="person_win">
-    <property name="width_request">400</property>
+    <property name="width_request">425</property>
     <property name="height_request">450</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>

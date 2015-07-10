@@ -27144,13 +27144,15 @@ comments</property>
                                             <child>
                                               <widget class="GtkHBox" id="hbox_inertia_length">
                                                 <property name="can_focus">False</property>
+                                                <property name="tooltip" translatable="yes">Distance from the center of the axis
+to the center of the loads.</property>
                                                 <property name="spacing">4</property>
                                                 <child>
                                                   <widget class="GtkLabel" id="label20">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label" translatable="yes">Length of each load</property>
+                                                    <property name="label" translatable="yes">Distance: center-loads</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>

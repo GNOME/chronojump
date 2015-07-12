@@ -376,7 +376,11 @@ public partial class ChronoJumpWindow
 	void on_encoder_configuration_win_accepted (object o, EventArgs args) {
 		encoder_configuration_win.Button_accept.Clicked -= new EventHandler(on_encoder_configuration_win_accepted);
 		
-		encoderConfigurationCurrent = encoder_configuration_win.GetAcceptedValues();
+		EncoderConfiguration eConfNew = encoder_configuration_win.GetAcceptedValues();
+		if(encoderConfigurationCurrent == eConfNew)
+			return;
+
+		encoderConfigurationCurrent = eConfNew;
 				
 		if(encoderConfigurationCurrent.has_inertia) {
 			notebook_encoder_capture_extra_mass.CurrentPage = 1;
@@ -388,6 +392,10 @@ public partial class ChronoJumpWindow
 			notebook_encoder_capture_extra_mass.CurrentPage = 0;
 
 		label_encoder_selected.Text = encoderConfigurationCurrent.code;
+
+		//if there's a chronojump_config.txt, update it
+		if(encoderConfigurationDefinedFromFile)
+			Config.UpdateEncoderConfiguration(encoderConfigurationCurrent);
 	}
 	
 	void on_spin_encoder_im_weights_n_value_changed (object o, EventArgs args) {

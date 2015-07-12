@@ -108,6 +108,34 @@ public class Config
 			}
 		}
 	}
+	
+	public static void UpdateEncoderConfiguration(EncoderConfiguration EconfNew)
+	{
+		//adapted from
+		//http://stackoverflow.com/a/2401873
+
+		try {
+			string tempfile = Path.GetTempFileName();
+			using (var writer = new StreamWriter(tempfile))
+				using (var reader = new StreamReader(UtilAll.GetConfigFileName()))
+				{
+					while (! reader.EndOfStream) {
+						string line = reader.ReadLine();
+						if (line != "" && line[0] != '#') 
+						{
+							string [] parts = line.Split(new char[] {'='});
+							if(parts.Length == 2 && parts[0] == "EncoderConfiguration")
+								line = "EncoderConfiguration=" + EconfNew.ToStringOutput(EncoderConfiguration.Outputs.SQL);
+						}
+
+						writer.WriteLine(line);
+					}
+				}
+			File.Copy(tempfile, UtilAll.GetConfigFileName(), true);
+		} catch {
+			LogB.Warning("Cannot write EncoderConfiguration at Config.UpdateEncoderConfiguration");
+		}
+	}
 
 	public override string ToString() 
 	{

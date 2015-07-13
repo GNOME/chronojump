@@ -1066,6 +1066,18 @@ partial class ChronoJumpWindow
 		extra_windows_jumps_image_dj_fall_predefined.Visible = ! calculate;
 		extra_window_jumps_label_dj_start_outside.Visible = ! calculate;
 		hbox_extra_window_jumps_fall_height.Visible = ! calculate;
+
+		if(calculate) {
+			if(extra_window_jumps_check_dj_arms.Active) 
+				changeTestImage("","", "jump_dj_a_inside.png");
+			else
+				changeTestImage("","", "jump_dj_inside.png");
+		} else {
+			if(extra_window_jumps_check_dj_arms.Active) 
+				changeTestImage("","", "jump_dj_a.png");
+			else
+				changeTestImage("","", "jump_dj.png");
+		}
 	}
 	
 	private void on_extra_window_jumps_test_changed(object o, EventArgs args)
@@ -1109,7 +1121,7 @@ partial class ChronoJumpWindow
 	{
 		currentEventType = myJumpType;
 		changeTestImage(EventType.Types.JUMP.ToString(), myJumpType.Name, myJumpType.ImageFileName);
-	
+
 		if(myJumpType.HasWeight) {
 			extra_window_showWeightData(myJumpType, true);	
 		} else 
@@ -1128,6 +1140,13 @@ partial class ChronoJumpWindow
 				extra_window_jumps_check_dj_arms.Active = false;
 
 			extra_window_showTechniqueArmsData(true, false); //visible, sensitive
+		
+			if(extra_window_jumps_check_dj_fall_calculate.Active) {
+				if(extra_window_jumps_check_dj_arms.Active) 
+					changeTestImage("","", "jump_dj_a_inside.png");
+				else
+					changeTestImage("","", "jump_dj_inside.png");
+			}
 		} else if(myJumpType.Name == "DJ") { 
 			//user has pressed DJ button
 			extra_window_jumps_check_dj_arms.Active = extra_window_jumps_arms;

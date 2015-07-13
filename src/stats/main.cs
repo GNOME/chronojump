@@ -1516,7 +1516,7 @@ public class Stat
 						"\n" + Catalog.GetString("Maybe R is not installed.") + 
 						"\n\nhttp://www.r-project.org/");
 			else
-				new DialogImageTest(Catalog.GetString("Chronojump Graph"), fileName);
+				new DialogImageTest(Catalog.GetString("Chronojump Graph"), fileName, DialogImageTest.ArchiveType.FILE);
 		}
 
 		return true;

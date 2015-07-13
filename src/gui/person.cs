@@ -953,7 +953,7 @@ public class PersonAddModifyWindow
 			File.Copy(fileName, tempFileName, true);
 		}
 
-		new DialogImageTest(currentPerson.Name, tempFileName);
+		new DialogImageTest(currentPerson.Name, tempFileName, DialogImageTest.ArchiveType.FILE);
 	}
 
 	Gtk.Window capturerWindow;

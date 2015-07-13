@@ -606,8 +606,8 @@ public class Util
 
 	public static double GetStiffness(double personMassInKg, double extraMass, double tv, double tc) 
 	{
-		LogB.Warning("AT GetStiffness");
-		LogB.Warning("1: " + personMassInKg.ToString() +  " 2: " + extraMass.ToString() + " 3: " + tv.ToString() + " 4: " + tc.ToString());
+		//LogB.Warning("AT GetStiffness");
+		//LogB.Warning("1: " + personMassInKg.ToString() +  " 2: " + extraMass.ToString() + " 3: " + tv.ToString() + " 4: " + tc.ToString());
 		double totalMass = personMassInKg + extraMass;
 		
 		//return if mass is zero or there's no contact time

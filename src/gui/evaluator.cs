@@ -319,22 +319,22 @@ public class EvaluatorWindow
 	}
 	
 	private void on_button_cp1_zoom_clicked(object o, EventArgs args) {
-		new DialogImageTest("Chronopic 1", Util.GetImagePath(false) + Constants.FileNameChronopic1);
+		new DialogImageTest("Chronopic 1", Util.GetImagePath(false) + Constants.FileNameChronopic1, DialogImageTest.ArchiveType.FILE);
 	}
 	private void on_button_cp2_zoom_clicked(object o, EventArgs args) {
-		new DialogImageTest("Chronopic 2", Util.GetImagePath(false) + Constants.FileNameChronopic2);
+		new DialogImageTest("Chronopic 2", Util.GetImagePath(false) + Constants.FileNameChronopic2, DialogImageTest.ArchiveType.FILE);
 	}
 	private void on_button_cp3_zoom_clicked(object o, EventArgs args) {
-		new DialogImageTest("Chronopic 3", Util.GetImagePath(false) + Constants.FileNameChronopic3);
+		new DialogImageTest("Chronopic 3", Util.GetImagePath(false) + Constants.FileNameChronopic3, DialogImageTest.ArchiveType.FILE);
 	}
 	private void on_button_contact_steel_zoom_clicked(object o, EventArgs args) {
-		new DialogImageTest("Contact platform (tempered steel)", Util.GetImagePath(false) + Constants.FileNameContactPlatformSteel);
+		new DialogImageTest("Contact platform (tempered steel)", Util.GetImagePath(false) + Constants.FileNameContactPlatformSteel, DialogImageTest.ArchiveType.FILE);
 	}
 	private void on_button_contact_modular_zoom_clicked(object o, EventArgs args) {
-		new DialogImageTest("Contact platform (modular circuit board)", Util.GetImagePath(false) + Constants.FileNameContactPlatformModular);
+		new DialogImageTest("Contact platform (modular circuit board)", Util.GetImagePath(false) + Constants.FileNameContactPlatformModular, DialogImageTest.ArchiveType.FILE);
 	}
 	private void on_button_infrared_zoom_clicked(object o, EventArgs args) {
-		new DialogImageTest("Infrared", Util.GetImagePath(false) + Constants.FileNameInfrared);
+		new DialogImageTest("Infrared", Util.GetImagePath(false) + Constants.FileNameInfrared, DialogImageTest.ArchiveType.FILE);
 	}
 
 	void on_button_change_date_clicked (object o, EventArgs args)

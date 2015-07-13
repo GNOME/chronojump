@@ -36,9 +36,6 @@ public class PreferencesWindow {
 
 
 	//database tab
-	[Widget] Gtk.Label label_database;
-	[Widget] Gtk.Label label_database_temp;
-	
 	[Widget] Gtk.Button button_db_folder_open;
 
 	//this three are unneded because cannot be unchecked
@@ -121,6 +118,7 @@ public class PreferencesWindow {
 
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
+	public Gtk.Button FakeButtonImported;
 	
 	static PreferencesWindow PreferencesWindowBox;
 	
@@ -130,6 +128,9 @@ public class PreferencesWindow {
 	//language when window is called. If changes, then change data in sql and show 
 	//dialogMessage
 	//private string languageIni;
+	
+	string databaseURL;
+	string databaseTempURL;
 
 
 	PreferencesWindow () {
@@ -140,12 +141,11 @@ public class PreferencesWindow {
 		//put an icon to window
 		UtilGtk.IconWindow(preferences_win);
 
-		label_database.Visible = false;
-		label_database_temp.Visible = false;
-
 		//database and log files stuff
-		label_database.Text = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
-		label_database_temp.Text = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
+		databaseURL = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
+		databaseTempURL = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
+		
+		FakeButtonImported = new Gtk.Button();
 	}
 	
 	static public PreferencesWindow Show (Preferences preferences)
@@ -389,8 +389,8 @@ public class PreferencesWindow {
 	
 	void on_button_db_folder_open_clicked (object o, EventArgs args)
 	{
-		System.IO.FileInfo file1 = new System.IO.FileInfo(label_database.Text); //potser cal una arrobar abans (a windows)
-		System.IO.FileInfo file2 = new System.IO.FileInfo(label_database_temp.Text); //potser cal una arrobar abans (a windows)
+		System.IO.FileInfo file1 = new System.IO.FileInfo(databaseURL); //potser cal una arrobar abans (a windows)
+		System.IO.FileInfo file2 = new System.IO.FileInfo(databaseTempURL); //potser cal una arrobar abans (a windows)
 
 		if(file1.Exists)
 			System.Diagnostics.Process.Start(Util.GetDatabaseDir()); 
@@ -439,8 +439,8 @@ public class PreferencesWindow {
 	Gtk.FileChooserDialog fc;
 	void on_button_db_backup_clicked (object o, EventArgs args)
 	{
-		System.IO.FileInfo file1 = new System.IO.FileInfo(label_database.Text); //potser cal una arrobar abans (a windows)
-		System.IO.FileInfo file2 = new System.IO.FileInfo(label_database_temp.Text); //potser cal una arrobar abans (a windows)
+		System.IO.FileInfo file1 = new System.IO.FileInfo(databaseURL); //potser cal una arrobar abans (a windows)
+		System.IO.FileInfo file2 = new System.IO.FileInfo(databaseTempURL); //potser cal una arrobar abans (a windows)
 		fileDB = "";
 
 		long length1 = 0;
@@ -453,9 +453,9 @@ public class PreferencesWindow {
 		if(length1 == 0 && length2 == 0) 
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error. Cannot find database."));
 		else if(length1 > length2)
-			fileDB = label_database.Text;
+			fileDB = databaseURL;
 		else
-			fileDB = label_database_temp.Text;
+			fileDB = databaseTempURL;
 
 		fc = new Gtk.FileChooserDialog(Catalog.GetString("Copy database to:"),
 				preferences_win,
@@ -526,6 +526,43 @@ public class PreferencesWindow {
 		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
 		fc.Destroy();
 		
+	}
+	
+	void on_button_import_configuration_clicked (object o, EventArgs args)
+	{
+		fc = new Gtk.FileChooserDialog(Catalog.GetString("Import configuration file"),
+				preferences_win,
+				FileChooserAction.Open,
+				Catalog.GetString("Cancel"),ResponseType.Cancel,
+				Catalog.GetString("Import"),ResponseType.Accept
+				);
+		
+		fc.Filter = new FileFilter();
+		//it can handle future archives like: chronojump_config_SOME_VENDOR.txt
+		//and it will be copied to chronojump_config.txt
+		fc.Filter.AddPattern("chronojump_config*.txt");
+	
+		bool success = false;	
+		if (fc.Run() == (int)ResponseType.Accept) 
+		{
+			try {
+				File.Copy(fc.Filename, UtilAll.GetConfigFileName(), true);
+				LogB.Information("Imported configuration");
+
+				//will launch configInit() from gui/chronojump.cs
+				FakeButtonImported.Click();
+
+				success = true;
+			} catch {
+				LogB.Warning("Catched! Configuration cannot be imported");
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error importing data."));
+			}
+		}
+		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		fc.Destroy();
+
+		if(success)
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Successfulluy imported."));
 	}
 	
 	private void on_overwrite_file_accepted(object o, EventArgs args)

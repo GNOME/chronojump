@@ -4554,7 +4554,11 @@ public partial class ChronoJumpWindow
 				
 				//image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
 				//make graph half width of Chronojump window
-				image_encoder_width = Convert.ToInt32(UtilGtk.WidgetWidth(app1) / 2);
+				//but if video is disabled, then make it wider because thegraph will be much taller
+				if(useVideo)
+					image_encoder_width = Convert.ToInt32(UtilGtk.WidgetWidth(app1) / 2);
+				else
+					image_encoder_width = Convert.ToInt32(UtilGtk.WidgetWidth(app1));
 				
 				//-2 to accomadate the width slider without needing a height slider
 				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture) -2;

@@ -488,8 +488,13 @@ public partial class ChronoJumpWindow
 			myType = currentPulseType;
 		else //if(radio_mode_multi_chronopic_small.Active) 
 			myType = currentMultiChronopicType;
-
-		new DialogImageTest(myType);
+			
+		if(myType.Name == "DJa" && extra_window_jumps_check_dj_fall_calculate.Active)
+			new DialogImageTest("", Util.GetImagePath(false) + "jump_dj_a_inside.png", DialogImageTest.ArchiveType.ASSEMBLY);
+		else if(myType.Name == "DJna" && extra_window_jumps_check_dj_fall_calculate.Active)
+			new DialogImageTest("", Util.GetImagePath(false) + "jump_dj_inside.png", DialogImageTest.ArchiveType.ASSEMBLY);
+		else
+			new DialogImageTest(myType);
 	}
 	
 	

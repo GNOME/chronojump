@@ -55,9 +55,10 @@ public class DialogImageTest
                 image_test.Pixbuf = pixbuf;
 	}
 
+	public enum ArchiveType { FILE, ASSEMBLY }
 	//useful to show only an image	
 	//in a future do a DialogImage class (with this). And the inherit to DialogImageTest
-	public DialogImageTest (string title, string imagePath)
+	public DialogImageTest (string title, string imagePath, ArchiveType archiveType)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_image_test", "chronojump");
@@ -70,12 +71,17 @@ public class DialogImageTest
 		UtilGtk.IconWindow(dialog_image_test);
 
 		scrolledwindow28.Hide();
-
-		if(File.Exists(imagePath)) {
-	                Pixbuf pixbuf = new Pixbuf (imagePath);
-        	        image_test.Pixbuf = pixbuf;
-		} else 
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.MultimediaFileNoExists);
+	
+		if(archiveType == ArchiveType.FILE) {
+			if(File.Exists(imagePath)) {
+				Pixbuf pixbuf = new Pixbuf (imagePath);
+				image_test.Pixbuf = pixbuf;
+			} else 
+				new DialogMessage(Constants.MessageTypes.WARNING, Constants.MultimediaFileNoExists);
+		} else { //ASSEMBLY
+			Pixbuf pixbuf = new Pixbuf (null, imagePath);
+			image_test.Pixbuf = pixbuf;
+		}
 
 	}
 				

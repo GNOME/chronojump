@@ -562,7 +562,7 @@ public class PreferencesWindow {
 		fc.Destroy();
 
 		if(success)
-			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Successfulluy imported."));
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Successfully imported."));
 	}
 	
 	private void on_overwrite_file_accepted(object o, EventArgs args)

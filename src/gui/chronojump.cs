@@ -2856,7 +2856,15 @@ public partial class ChronoJumpWindow
 	{
 		preferencesWin = PreferencesWindow.Show(preferences);
 		
+		preferencesWin.FakeButtonImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
+	}
+		
+	private void on_preferences_import_configuration (object o, EventArgs args) {
+		preferencesWin.FakeButtonImported.Clicked -= new EventHandler(on_preferences_import_configuration);
+		
+		configInit();
+		LogB.Information("Initialized configuration");
 	}
 
 	private void on_preferences_accepted (object o, EventArgs args) 

@@ -15,10 +15,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-07-13 08:42+0000\n"
-"PO-Revision-Date: 2015-07-13 \n"
+"PO-Revision-Date: 2015-07-14 11:47+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -97,7 +96,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:10
 msgid "Export current encoder set (to raw data)"
-msgstr "Exportar la configuración del codificador actual (a datos en bruto)"
+msgstr "Exportar la serie del codificador actual (a datos en bruto)"
 
 #: ../glade/chronojump.glade.h:11
 msgid "Export set to CSV (Spreadsheet)"
@@ -4467,8 +4466,8 @@ msgid ""
 "On inertial machines, 'd' means the average diameter where the pull-push "
 "string is rolled"
 msgstr ""
-"En las máquinas inerciales, «d» se refiere al diámetro medio donde se enrolla "
-"la cuerda de tirón-empuje."
+"En las máquinas inerciales, «d» se refiere al diámetro medio donde se "
+"enrolla la cuerda de tirón-empuje."
 
 #: ../src/encoder.cs:1082
 msgid "Rotary friction encoder on pulley."
@@ -6130,7 +6129,8 @@ msgid ""
 "Double clic any cell to edit it (decimal separator: '{0}')"
 msgstr ""
 "Use esta ventana para reparar esta prueba.\n"
-"Pulse dos veces en cualquier celda para editar (separador de decimales: «{0}»)"
+"Pulse dos veces en cualquier celda para editar (separador de decimales: "
+"«{0}»)"
 
 #: ../src/gui/jump.cs:647
 #, csharp-format
@@ -6933,8 +6933,8 @@ msgid ""
 "You have to walk on this bar as fast as possible 'like this', if you touch "
 "the ground just continue."
 msgstr ""
-"Tiene que caminar en esta barra tan rápido como le sea posible «tal que así», "
-"si toca el suelo, simplemente continúe."
+"Tiene que caminar en esta barra tan rápido como le sea posible «tal que "
+"así», si toca el suelo, simplemente continúe."
 
 #: ../src/runType.cs:164
 msgid ""
@@ -7062,8 +7062,8 @@ msgstr ""
 "hasta que vuelve a pisar dicha marcas  (o sea, el tiempo que ha necesitado "
 "para recorrer los 5m de ida y vuelta - 10m en total). Se registra el mejor "
 "de dos intentos. Se debe registrar la capacidad en el giro con cada pierna. "
-"Se le anima al atleta a no «pisar demasiado» la línea, ya que esto aumentaría "
-"el tiempo."
+"Se le anima al atleta a no «pisar demasiado» la línea, ya que esto "
+"aumentaría el tiempo."
 
 #: ../src/runType.cs:215
 msgid ""
@@ -7100,10 +7100,10 @@ msgid ""
 "which the timing is stopped."
 msgstr ""
 "Los atletas se tumbarán boca abajo (con la cabeza en la línea de salida) y "
-"las manos en sus hombros. A la señal de «Salida» se inicia el cronómetro y el "
-"atleta se levanta tan rápido como puede y corre la carrera en la dirección "
-"indicada, sin tirar ningún cono, hasta la línea de final, momento en que se "
-"para el reloj."
+"las manos en sus hombros. A la señal de «Salida» se inicia el cronómetro y "
+"el atleta se levanta tan rápido como puede y corre la carrera en la "
+"dirección indicada, sin tirar ningún cono, hasta la línea de final, momento "
+"en que se para el reloj."
 
 #: ../src/runType.cs:234
 msgid "Results"

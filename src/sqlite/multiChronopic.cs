@@ -113,15 +113,17 @@ class SqliteMultiChronopic : Sqlite
 	}
 
 	//if all persons, put -1 in personID
-	public static string[] SelectTests(int sessionID, int personID) 
+	public static string[] SelectTests(bool dbconOpened, int sessionID, int personID) 
 	{
+		if(!dbconOpened)
+			Sqlite.Open();
+
 		string tp = Constants.PersonTable;
 
 		string filterPersonString = "";
 		if(personID != -1)
 			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
 
-		Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, multiChronopic.* " +
 			" FROM " + tp + ", multiChronopic " +
 			" WHERE " + tp + ".uniqueID == multiChronopic.personID" + 
@@ -168,7 +170,9 @@ class SqliteMultiChronopic : Sqlite
 		}
 
 		reader.Close();
-		Sqlite.Close();
+		
+		if(!dbconOpened)
+			Sqlite.Close();
 
 		string [] myEvents = new string[count];
 		count =0;

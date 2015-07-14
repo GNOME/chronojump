@@ -87,15 +87,17 @@ class SqlitePulse : Sqlite
 	
 
 	//if all persons, put -1 in personID
-	public static string[] SelectPulses(int sessionID, int personID) 
+	public static string[] SelectPulses(bool dbconOpened, int sessionID, int personID) 
 	{
+		if(!dbconOpened)
+			Sqlite.Open();
+
 		string tp = Constants.PersonTable;
 
 		string filterPersonString = "";
 		if(personID != -1)
 			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
 
-		Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, pulse.* " +
 			" FROM " + tp + ", pulse " +
 			" WHERE " + tp + ".uniqueID == pulse.personID" + 
@@ -130,7 +132,9 @@ class SqlitePulse : Sqlite
 		}
 
 		reader.Close();
-		Sqlite.Close();
+		
+		if(!dbconOpened)
+			Sqlite.Close();
 
 		string [] myPulses = new string[count];
 		count =0;

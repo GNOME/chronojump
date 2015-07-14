@@ -1845,7 +1845,7 @@ public class JumpsRjMoreWindow : EventMoreWindow
 	}
 	
 	protected override string [] findTestTypesInSessions() {
-		return SqliteJumpRj.SelectJumps(-1, -1, "", selectedEventName); 
+		return SqliteJumpRj.SelectJumps(false, -1, -1, "", selectedEventName); 
 	}
 	
 	void on_button_cancel_clicked (object o, EventArgs args)

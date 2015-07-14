@@ -91,8 +91,11 @@ class SqliteJumpRj : SqliteJump
 		return myLast;
 	}
 
-	public new static string[] SelectJumps(int sessionID, int personID, string filterWeight, string filterType) 
+	public new static string[] SelectJumps(bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType) 
 	{
+		if(!dbconOpened)
+			Sqlite.Open();
+
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
 
@@ -112,7 +115,6 @@ class SqliteJumpRj : SqliteJump
 		if(filterType != "")
 			filterTypeString = " AND jumpRj.type == '" + filterType + "' ";
 
-		Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, jumpRj.*, " + tps + ".weight " +
 			" FROM " + tp + ", jumpRj, " + tps + " " +
 			" WHERE " + tp + ".uniqueID == jumpRj.personID" + 
@@ -161,7 +163,9 @@ class SqliteJumpRj : SqliteJump
 		}
 
 		reader.Close();
-		Sqlite.Close();
+		
+		if(!dbconOpened)
+			Sqlite.Close();
 
 		string [] myJumps = new string[count];
 		count =0;

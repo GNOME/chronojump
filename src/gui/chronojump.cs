@@ -1422,33 +1422,40 @@ public partial class ChronoJumpWindow
 			fillTreeView_persons();
 		}
 
+		//Leave SQL opened in all this process
+		Sqlite.Open(); // ------------------------------
+
 		//load the jumps treeview
 		treeview_jumps_storeReset();
-		fillTreeView_jumps(Constants.AllJumpsName);
+		fillTreeView_jumps(Constants.AllJumpsName, true);
 
 		//load the jumps_rj treeview_rj
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(Constants.AllJumpsName);
+		fillTreeView_jumps_rj(Constants.AllJumpsName, true);
 
 		//load the runs treeview
 		treeview_runs_storeReset();
-		fillTreeView_runs(Constants.AllRunsName);
+		fillTreeView_runs(Constants.AllRunsName, true);
 
 		//load the runs_interval treeview
 		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(Constants.AllRunsName);
+		fillTreeView_runs_interval(Constants.AllRunsName, true);
 
 		//load the pulses treeview
 		treeview_pulses_storeReset();
-		fillTreeView_pulses(Constants.AllPulsesName);
+		fillTreeView_pulses(Constants.AllPulsesName, true);
 
 		//load the reaction_times treeview
 		treeview_reaction_times_storeReset();
-		fillTreeView_reaction_times();
+		fillTreeView_reaction_times(true);
 
 		//load the multiChronopic treeview
 		treeview_multi_chronopic_storeReset();
-		fillTreeView_multi_chronopic();
+		fillTreeView_multi_chronopic(true);
+		
+
+		//close SQL opened in all this process
+		Sqlite.Close(); // ------------------------------
 	}
 
 
@@ -1470,9 +1477,12 @@ public partial class ChronoJumpWindow
 	}
 
 	private void fillTreeView_jumps (string filter) {
+		fillTreeView_jumps(filter, false);
+	}
+	private void fillTreeView_jumps (string filter, bool dbconOpened) {
 		string [] myJumps;
 	
-		myJumps = SqliteJump.SelectJumps(false, currentSession.UniqueID, -1, "", "");
+		myJumps = SqliteJump.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "");
 		myTreeViewJumps.Fill(myJumps, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumps, treeview_jumps);
@@ -1552,8 +1562,11 @@ public partial class ChronoJumpWindow
 	}
 
 	private void fillTreeView_jumps_rj (string filter) {
+		fillTreeView_jumps_rj (filter, false);
+	}
+	private void fillTreeView_jumps_rj (string filter, bool dbconOpened) {
 		string [] myJumps;
-		myJumps = SqliteJumpRj.SelectJumps(currentSession.UniqueID, -1, "", "");
+		myJumps = SqliteJumpRj.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "");
 		myTreeViewJumpsRj.Fill(myJumps, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumpsRj, treeview_jumps_rj);
@@ -1639,11 +1652,13 @@ public partial class ChronoJumpWindow
 	}
 
 	private void fillTreeView_runs (string filter) {
-		string [] myRuns = SqliteRun.SelectRuns(false, currentSession.UniqueID, -1, "");
+		fillTreeView_runs (filter, false);
+	}
+	private void fillTreeView_runs (string filter, bool dbconOpened) {
+		string [] myRuns = SqliteRun.SelectRuns(dbconOpened, currentSession.UniqueID, -1, "");
 		myTreeViewRuns.Fill(myRuns, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRuns, treeview_runs);
-
 	}
 	
 	private void on_button_runs_zoom_clicked (object o, EventArgs args) {
@@ -1715,7 +1730,10 @@ public partial class ChronoJumpWindow
 	}
 
 	private void fillTreeView_runs_interval (string filter) {
-		string [] myRuns = SqliteRunInterval.SelectRuns(currentSession.UniqueID, -1, "");
+		fillTreeView_runs_interval (filter, false);
+	}
+	private void fillTreeView_runs_interval (string filter, bool dbconOpened) {
+		string [] myRuns = SqliteRunInterval.SelectRuns(dbconOpened, currentSession.UniqueID, -1, "");
 		myTreeViewRunsInterval.Fill(myRuns, filter);
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRunsInterval, treeview_runs_interval);
 	}
@@ -1799,9 +1817,11 @@ public partial class ChronoJumpWindow
 		tv.CursorChanged += on_treeview_reaction_times_cursor_changed; 
 	}
 
-	//private void fillTreeView_reaction_times (string filter) {
 	private void fillTreeView_reaction_times () {
-		string [] myRTs = SqliteReactionTime.SelectReactionTimes(false, currentSession.UniqueID, -1);
+		fillTreeView_reaction_times (false);
+	}
+	private void fillTreeView_reaction_times (bool dbconOpened) {
+		string [] myRTs = SqliteReactionTime.SelectReactionTimes(dbconOpened, currentSession.UniqueID, -1);
 		myTreeViewReactionTimes.Fill(myRTs, "");
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewReactionTimes, treeview_reaction_times);
 	}
@@ -1876,7 +1896,10 @@ public partial class ChronoJumpWindow
 	}
 
 	private void fillTreeView_pulses (string filter) {
-		string [] myPulses = SqlitePulse.SelectPulses(currentSession.UniqueID, -1);
+		fillTreeView_pulses (filter, false);
+	}
+	private void fillTreeView_pulses (string filter, bool dbconOpened) {
+		string [] myPulses = SqlitePulse.SelectPulses(dbconOpened, currentSession.UniqueID, -1);
 		myTreeViewPulses.Fill(myPulses, filter);
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewPulses, treeview_pulses);
 	}
@@ -1965,7 +1988,10 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void fillTreeView_multi_chronopic () {
-		string [] mcs = SqliteMultiChronopic.SelectTests(currentSession.UniqueID, -1);
+		fillTreeView_multi_chronopic (false);
+	}
+	private void fillTreeView_multi_chronopic (bool dbconOpened) {
+		string [] mcs = SqliteMultiChronopic.SelectTests(dbconOpened, currentSession.UniqueID, -1);
 		myTreeViewMultiChronopic.Fill(mcs, "");
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewMultiChronopic, treeview_multi_chronopic);
 	}
@@ -2513,7 +2539,7 @@ public partial class ChronoJumpWindow
 	private void on_load_session_accepted () 
 	{
 		app1.Title = progName + " - " + currentSession.Name;
-		
+	
 		if(createdStatsWin) {
 			stats_win_initializeSession();
 		}

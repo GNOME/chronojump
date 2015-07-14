@@ -150,13 +150,19 @@ public class ExportSession
 	protected virtual void getData() 
 	{
 		myPersonsAndPS = SqlitePersonSession.SelectCurrentSessionPersons(mySession.UniqueID, true);
-		myJumps= SqliteJump.SelectJumps(false, mySession.UniqueID, -1, "", "");
-		myJumpsRj = SqliteJumpRj.SelectJumps(mySession.UniqueID, -1, "", "");
-		myRuns= SqliteRun.SelectRuns(false, mySession.UniqueID, -1, "");
-		myRunsInterval = SqliteRunInterval.SelectRuns(mySession.UniqueID, -1, "");
-		myReactionTimes = SqliteReactionTime.SelectReactionTimes(false, mySession.UniqueID, -1);
-		myPulses = SqlitePulse.SelectPulses(mySession.UniqueID, -1);
-		myMCs = SqliteMultiChronopic.SelectTests(mySession.UniqueID, -1);
+
+		//Leave SQL opened in all this process
+		Sqlite.Open(); // ------------------------------
+		
+		myJumps= SqliteJump.SelectJumps(true, mySession.UniqueID, -1, "", "");
+		myJumpsRj = SqliteJumpRj.SelectJumps(true, mySession.UniqueID, -1, "", "");
+		myRuns= SqliteRun.SelectRuns(true, mySession.UniqueID, -1, "");
+		myRunsInterval = SqliteRunInterval.SelectRuns(true, mySession.UniqueID, -1, "");
+		myReactionTimes = SqliteReactionTime.SelectReactionTimes(true, mySession.UniqueID, -1);
+		myPulses = SqlitePulse.SelectPulses(true, mySession.UniqueID, -1);
+		myMCs = SqliteMultiChronopic.SelectTests(true, mySession.UniqueID, -1);
+		
+		Sqlite.Close(); // ------------------------------
 	}
 
 	protected virtual void printTitles(string title) {

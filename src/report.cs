@@ -98,24 +98,30 @@ public class Report : ExportSession
 		if(ShowCurrentSessionJumpers) {
 			myPersonsAndPS = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
 		}
+		
+		//Leave SQL opened in all this process
+		Sqlite.Open(); // ------------------------------
+		
 		if(ShowSimpleJumps) {
-			myJumps= SqliteJump.SelectJumps(false, sessionID, -1, "", "");
+			myJumps= SqliteJump.SelectJumps(true, sessionID, -1, "", "");
 		}
 		if(ShowReactiveJumps) {
-			myJumpsRj = SqliteJumpRj.SelectJumps(sessionID, -1, "", "");
+			myJumpsRj = SqliteJumpRj.SelectJumps(true, sessionID, -1, "", "");
 		}
 		if(ShowSimpleRuns) {
-			myRuns= SqliteRun.SelectRuns(false, sessionID, -1, "");
+			myRuns= SqliteRun.SelectRuns(true, sessionID, -1, "");
 		}
 		if (ShowIntervalRuns) {
-			myRunsInterval = SqliteRunInterval.SelectRuns(sessionID, -1, "");
+			myRunsInterval = SqliteRunInterval.SelectRuns(true, sessionID, -1, "");
 		}
 		if(ShowReactionTimes) {
-			myReactionTimes= SqliteReactionTime.SelectReactionTimes(false, sessionID, -1);
+			myReactionTimes= SqliteReactionTime.SelectReactionTimes(true, sessionID, -1);
 		}
 		if(ShowPulses) {
-			myPulses= SqlitePulse.SelectPulses(sessionID, -1);
+			myPulses= SqlitePulse.SelectPulses(true, sessionID, -1);
 		}
+		
+		Sqlite.Close(); // ------------------------------
 	}
 	
 	protected override void printTitles(string title) {

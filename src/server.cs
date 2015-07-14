@@ -323,7 +323,7 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] jumpsRj = SqliteJumpRj.SelectJumps(currentSession.UniqueID, person.UniqueID, "", "");
+				string [] jumpsRj = SqliteJumpRj.SelectJumps(false, currentSession.UniqueID, person.UniqueID, "", "");
 				Sqlite.Open();
 				foreach(string myJump in jumpsRj) {
 					string [] js = myJump.Split(new char[] {':'});
@@ -411,7 +411,7 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] runsI = SqliteRunInterval.SelectRuns(currentSession.UniqueID, person.UniqueID, "");
+				string [] runsI = SqliteRunInterval.SelectRuns(false, currentSession.UniqueID, person.UniqueID, "");
 				Sqlite.Open();
 				foreach(string myRun in runsI) {
 					string [] js = myRun.Split(new char[] {':'});
@@ -485,7 +485,7 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] pulses = SqlitePulse.SelectPulses(currentSession.UniqueID, person.UniqueID);
+				string [] pulses = SqlitePulse.SelectPulses(false, currentSession.UniqueID, person.UniqueID);
 				Sqlite.Open();
 				foreach(string myPulse in pulses) {
 					string [] js = myPulse.Split(new char[] {':'});
@@ -516,7 +516,7 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] mcs = SqliteMultiChronopic.SelectTests(currentSession.UniqueID, person.UniqueID);
+				string [] mcs = SqliteMultiChronopic.SelectTests(false, currentSession.UniqueID, person.UniqueID);
 				Sqlite.Open();
 				foreach(string mc in mcs) {
 					string [] js = mc.Split(new char[] {':'});

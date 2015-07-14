@@ -1523,7 +1523,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	}
 
 	protected override string [] findTestTypesInSessions() {
-		return SqliteRunInterval.SelectRuns(-1, -1, selectedEventName); 
+		return SqliteRunInterval.SelectRuns(false, -1, -1, selectedEventName); 
 	}
 	
 	

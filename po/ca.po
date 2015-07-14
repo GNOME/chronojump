@@ -11,10 +11,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-04-10 17:10+0000\n"
-"PO-Revision-Date: 2015-03-10 18:07+0100\n"
+"PO-Revision-Date: 2015-07-14 12:05+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1138,10 +1137,9 @@ msgid "Contacts (platform or photocell)"
 msgstr "Contactes (plataforma o fotocèl·lula) "
 
 #: ../glade/chronojump.glade.h:241 ../src/constants.cs:493
-#, fuzzy
 #| msgid "no tables, creating ..."
 msgid "Detecting ..."
-msgstr "no s'hi han trobat bases de dades, creant taules..."
+msgstr "Detectant ..."
 
 #: ../glade/chronojump.glade.h:242 ../src/gui/chronojump.cs:4728
 msgid "Encoder disconnected"
@@ -1244,10 +1242,9 @@ msgid "capture"
 msgstr "Captura"
 
 #: ../glade/chronojump.glade.h:266
-#, fuzzy
 #| msgid "Recording time"
 msgid "Record"
-msgstr "Temps de gravació"
+msgstr "Gravar"
 
 #: ../glade/chronojump.glade.h:267
 msgid "Play"
@@ -1262,20 +1259,18 @@ msgid "Record video on capture"
 msgstr "Grava vídeo en la captura"
 
 #: ../glade/chronojump.glade.h:270
-#, fuzzy
 #| msgid "Full name"
 msgid "Filename"
-msgstr "Nom complet"
+msgstr "Nom d'arxiu"
 
 #: ../glade/chronojump.glade.h:271
 msgid "Folder"
-msgstr ""
+msgstr "Carpeta"
 
 #: ../glade/chronojump.glade.h:272
-#, fuzzy
 #| msgid "Open logs folder"
 msgid "Open Folder"
-msgstr "Obrir la carpeta de registres"
+msgstr "Obrir la carpeta"
 
 #: ../glade/chronojump.glade.h:273
 msgid "Save"
@@ -2860,16 +2855,14 @@ msgid "<b>Height</b> (cm)"
 msgstr "<b>Alçada</b> (kg)"
 
 #: ../glade/chronojump.glade.h:658
-#, fuzzy
 #| msgid "<b>Mean power</b> (W)"
 msgid "<b>Mean force</b> (N)"
-msgstr "<b>Potència mitjana</b> (W)"
+msgstr "<b>Força mitjana</b> (W)"
 
 #: ../glade/chronojump.glade.h:659
-#, fuzzy
 #| msgid "<b>Mean power</b> (W)"
 msgid "<b>Max force</b> (N)"
-msgstr "<b>Potència mitjana</b> (W)"
+msgstr "<b>Pic de força</b> (W)"
 
 #: ../glade/chronojump.glade.h:660
 msgid "<b>Mean speed</b> (m/s)"
@@ -3205,8 +3198,7 @@ msgstr ""
 #, c-format
 msgid "The playback of this movie requires a %s plugin which is not installed."
 msgstr ""
-"La reproducció d'aquest vído requereix el plugin %s, que no està "
-"instal·lat."
+"La reproducció d'aquest vído requereix el plugin %s, que no està instal·lat."
 
 #: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2174
 #, c-format
@@ -3262,8 +3254,8 @@ msgid ""
 "Failed to create a GStreamer play object. Please check your GStreamer "
 "installation."
 msgstr ""
-"No s'ha pogut crear l'objecte de reproducció GStreamer. Si us plau, comproveu "
-"la instal·lació de GStreamer."
+"No s'ha pogut crear l'objecte de reproducció GStreamer. Si us plau, "
+"comproveu la instal·lació de GStreamer."
 
 #: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4669
 #: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4798
@@ -3272,8 +3264,9 @@ msgid ""
 "Failed to open video output. It may not be available. Please select another "
 "video output in the Multimedia Systems Selector."
 msgstr ""
-"No s'ha pogut obrir la font de vídeo. Podria no estar disponible. Si us plau, "
-"seleccioneu una altra font de vídeo en el selector de Sistemes Multimèdia."
+"No s'ha pogut obrir la font de vídeo. Podria no estar disponible. Si us "
+"plau, seleccioneu una altra font de vídeo en el selector de Sistemes "
+"Multimèdia."
 
 #: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4683
 #, c-format
@@ -3386,8 +3379,8 @@ msgid ""
 "Failed database conversion, ensure you have libsqlite3-0 installed. \n"
 "If problems persist ask in chronojump-list"
 msgstr ""
-"Ha fallat la conversió a la base de dades, assegureu-vos que teniu instal·lat "
-"libsqlite3-0. \n"
+"Ha fallat la conversió a la base de dades, assegureu-vos que teniu "
+"instal·lat libsqlite3-0. \n"
 "Si el problema persisteix, pregunteu a la llista de chronojump"
 
 #: ../src/chronojump.cs:300
@@ -3881,13 +3874,12 @@ msgstr "Segur que Chronopic es troba connectat?"
 
 #: ../src/constants.cs:494
 msgid "Touch device."
-msgstr ""
+msgstr "Toqueu el dispositiu."
 
 #: ../src/constants.cs:496
-#, fuzzy
 #| msgid "Too old version of GStreamer installed."
 msgid "Chronopic driver has to be installed."
-msgstr "Versió de GStreamer instal·lada massa antiga"
+msgstr "Cal instal·lar el driver del Chronopic."
 
 #: ../src/constants.cs:497
 msgid ""
@@ -3900,10 +3892,9 @@ msgstr ""
 "Install Chronopic Driver'"
 
 #: ../src/constants.cs:498
-#, fuzzy
 #| msgid "Use Chronojump faster"
 msgid "Check Chronojump software website."
-msgstr "Utilitzi el Chronojump més de pressa"
+msgstr "Revisi la pàgina web de Chronojump"
 
 #: ../src/constants.cs:527
 msgid "--Undefined"
@@ -5177,8 +5168,8 @@ msgstr "S'ha desconnectat un o més Chronopics."
 #: ../src/gui/chronopic.cs:400
 msgid "Please connect again, and configure on Chronopic window."
 msgstr ""
-"Si us plau, connecteu el Chronopic altre cop i configureu-lo a la Finestra de "
-"Chronopic."
+"Si us plau, connecteu el Chronopic altre cop i configureu-lo a la Finestra "
+"de Chronopic."
 
 #: ../src/gui/chronopic.cs:557
 msgid ""
@@ -5432,7 +5423,7 @@ msgstr "Sobre el Perfil Neuromuscular"
 
 #: ../src/gui/encoder.cs:2967
 msgid "Load = Average eccentric RFD (Ratio of Force Development)"
-msgstr ""
+msgstr "Load = RFD (Taxa de desenvolupament de força) excèntrica mitjana."
 
 #: ../src/gui/encoder.cs:2968
 msgid "Explode = Average relative concentric RFD"
@@ -5476,12 +5467,13 @@ msgid ""
 "Load: Perform exercises that develop maximum force (eccentric, isometric or "
 "concentric)."
 msgstr ""
+"Load: Realitzeu exercicis que desenvolupin la força màxima (excèntrica, "
+"isomètrica o concèntrica)"
 
 #: ../src/gui/encoder.cs:2977
 msgid "Then switch to exercises that develop eccentric force in short time."
 msgstr ""
-"Aleshores canvieu a exercicis que desenvolupin força excèntrica en poc "
-"temps."
+"Aleshores canvieu a exercicis que desenvolupin força excèntrica en poc temps."
 
 #: ../src/gui/encoder.cs:2979
 msgid ""
@@ -5698,8 +5690,8 @@ msgid ""
 "diameter as a variable."
 msgstr ""
 "El càlcul de les variables dinàmiques com la potència en les màquines "
-"còniques no és gaire acurat perquè no s'utilitza la variació del "
-"diàmetre del con."
+"còniques no és gaire acurat perquè no s'utilitza la variació del diàmetre "
+"del con."
 
 #: ../src/gui/encoderConfiguration.cs:236
 msgid ""
@@ -5896,8 +5888,8 @@ msgid ""
 "If it doesn't work, try to force to COM1 - COM4, as it's explained on parent "
 "window."
 msgstr ""
-"Si no funciona per a vostè, provi de forçar a COM1 - COM4, tal com "
-"s'explica a la finestra anterior."
+"Si no funciona per a vostè, provi de forçar a COM1 - COM4, tal com s'explica "
+"a la finestra anterior."
 
 #: ../src/gui/helpPorts.cs:118
 msgid "Find the port as explained at <i>Check Chronopic port</i>."
@@ -6601,9 +6593,9 @@ msgid ""
 "with a fixed number of pulsations. <i>Difference</i> will show the "
 "difference between a a pulse and the predefined pulse."
 msgstr ""
-"L'usuari executa un pols tractant de seguir un ritme predeterminat i de manera "
-"opcional amb un nombre fix de pulsacions. El camp <i>Diferència</i> mostra "
-"la diferència entre un pols i el pols predeterminat."
+"L'usuari executa un pols tractant de seguir un ritme predeterminat i de "
+"manera opcional amb un nombre fix de pulsacions. El camp <i>Diferència</i> "
+"mostra la diferència entre un pols i el pols predeterminat."
 
 #: ../src/report.cs:151
 msgid "without subjumps"
@@ -6722,8 +6714,8 @@ msgid ""
 "You have to walk on this bar as fast as possible 'like this', if you touch "
 "the ground just continue."
 msgstr ""
-"Heu de caminar sobre aquesta barra tan de pressa com sigui possible 'com això', "
-"si toqueu el terra, continueu."
+"Heu de caminar sobre aquesta barra tan de pressa com sigui possible 'com "
+"això', si toqueu el terra, continueu."
 
 #: ../src/runType.cs:164
 msgid ""
@@ -6867,8 +6859,8 @@ msgstr ""
 "La longitud de la cursa és de 10 metres i l'amplada (distància entre els "
 "punts d'inici i final) és de 5 metres. S'usen quatre cons per a marcar la "
 "sortida, final i els dos punts de gir. Uns altres quatre cons es posen al "
-"centre i separats a igual distància. Cada con central està separat de la resta "
-"3,3 metres."
+"centre i separats a igual distància. Cada con central està separat de la "
+"resta 3,3 metres."
 
 #: ../src/runType.cs:232
 msgid ""
@@ -6879,9 +6871,9 @@ msgid ""
 "which the timing is stopped."
 msgstr ""
 "Els subjectes s'estiraran cap per avall (amb el cap a la línia de sortida) "
-"and hands by their shoulders. Al senyal de 'Sortida' s'inicia el "
-"cronòmetre i l'atleta s'aixeca tan de pressa com pugui i corre la cursa en la "
-"direcció indicada, sense tirar cap con, fins a la línia de final, moment en què "
+"and hands by their shoulders. Al senyal de 'Sortida' s'inicia el cronòmetre "
+"i l'atleta s'aixeca tan de pressa com pugui i corre la cursa en la direcció "
+"indicada, sense tirar cap con, fins a la línia de final, moment en què "
 "s'atura el rellotge."
 
 #: ../src/runType.cs:235
@@ -6989,13 +6981,13 @@ msgid ""
 "second block, then runs with it back across the line."
 msgstr ""
 "Aquest test requereix que el subjecte corri endavant i enrere entre dues "
-"línies paral·leles tan de pressa com sigui possible. Ubiqui dues línies de cons "
-"separades 30 metres o marqui les línies, i posi dos blocs de fusta o un "
+"línies paral·leles tan de pressa com sigui possible. Ubiqui dues línies de "
+"cons separades 30 metres o marqui les línies, i posi dos blocs de fusta o un "
 "objecte similar damunt d'una d'elles. Iniciant a la línia oposada a la dels "
-"blocs, al senyal de 'Preparat? Sortida!' el participant corre cap a "
-"l'altra línia, recull un bloc i torna per a posar-lo damunt de la línia "
-"inicial, llavors retorna per a recollir el segon bloc, i corre de tornada "
-"amb aquest fins a creuar la línia."
+"blocs, al senyal de 'Preparat? Sortida!' el participant corre cap a l'altra "
+"línia, recull un bloc i torna per a posar-lo damunt de la línia inicial, "
+"llavors retorna per a recollir el segon bloc, i corre de tornada amb aquest "
+"fins a creuar la línia."
 
 #: ../src/runType.cs:274
 msgid ""
@@ -7017,8 +7009,8 @@ msgid ""
 "from the turning points."
 msgstr ""
 "El procediment del test pot variar canviant el nombre de trams executats,  "
-"la distància entre trams (alguns usen 10 metres en lloc de 30 peus) i traient "
-"la necessitat que el subjecte hagi de recollir i portar objectes en "
+"la distància entre trams (alguns usen 10 metres en lloc de 30 peus) i "
+"traient la necessitat que el subjecte hagi de recollir i portar objectes en "
 "els punts de gir."
 
 #: ../src/runType.cs:281
@@ -7026,8 +7018,8 @@ msgid ""
 "This test can be conducted on large groups relatively quickly with minimal "
 "equipment required."
 msgstr ""
-"Aquest test pot fer-se en grans grups de manera relativament ràpida i "
-"amb un equipament mínim."
+"Aquest test pot fer-se en grans grups de manera relativament ràpida i amb un "
+"equipament mínim."
 
 #: ../src/runType.cs:284
 msgid ""
@@ -7035,8 +7027,8 @@ msgid ""
 "sure the participants run through the finish line to maximize their score."
 msgstr ""
 "Els blocs han de ser situats a la línia, no llançats cap a ella. A més, "
-"inciti que els participants corrin cap a la línia d'arribada per a "
-"augmentar la puntuació."
+"inciti que els participants corrin cap a la línia d'arribada per a augmentar "
+"la puntuació."
 
 #: ../src/runType.cs:296
 msgid "ZigZag Agility test"

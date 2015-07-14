@@ -546,7 +546,7 @@ public partial class ChronoJumpWindow
 		createTreeView_runs_interval (treeview_runs_interval);
 		createTreeView_reaction_times (treeview_reaction_times);
 		createTreeView_pulses (treeview_pulses);
-		createTreeView_multi_chronopic (treeview_multi_chronopic);
+		createTreeView_multi_chronopic (false, treeview_multi_chronopic);
 
 		createComboSelectJumps(true);
 		createComboSelectJumpsRj(true);
@@ -1450,7 +1450,7 @@ public partial class ChronoJumpWindow
 		fillTreeView_reaction_times(true);
 
 		//load the multiChronopic treeview
-		treeview_multi_chronopic_storeReset();
+		treeview_multi_chronopic_storeReset(true);
 		fillTreeView_multi_chronopic(true);
 		
 
@@ -1974,11 +1974,11 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 
-	private void createTreeView_multi_chronopic (Gtk.TreeView tv) {
+	private void createTreeView_multi_chronopic (bool dbconOpened, Gtk.TreeView tv) {
 		//myTreeViewMultiChronopic is a TreeViewMultiChronopic instance
 		if(definedSession)
 			myTreeViewMultiChronopic = new TreeViewMultiChronopic( tv, preferences.digitsNumber, 
-					TreeViewEvent.ExpandStates.MINIMIZED, SqliteMultiChronopic.MaxCPs(currentSession.UniqueID) );
+					TreeViewEvent.ExpandStates.MINIMIZED, SqliteMultiChronopic.MaxCPs(dbconOpened, currentSession.UniqueID) );
 		else
 			myTreeViewMultiChronopic = new TreeViewMultiChronopic( tv, preferences.digitsNumber, 
 					TreeViewEvent.ExpandStates.MINIMIZED, 2);
@@ -2007,11 +2007,11 @@ public partial class ChronoJumpWindow
 			treeview_multi_chronopic.ExpandAll();
 	}
 	
-	private void treeview_multi_chronopic_storeReset() {
+	private void treeview_multi_chronopic_storeReset(bool dbconOpened) {
 		myTreeViewMultiChronopic.RemoveColumns();
 		if(definedSession)
 			myTreeViewMultiChronopic = new TreeViewMultiChronopic( treeview_multi_chronopic, preferences.digitsNumber, 
-					myTreeViewMultiChronopic.ExpandState, SqliteMultiChronopic.MaxCPs(currentSession.UniqueID) );
+					myTreeViewMultiChronopic.ExpandState, SqliteMultiChronopic.MaxCPs(dbconOpened, currentSession.UniqueID) );
 		else
 			myTreeViewMultiChronopic = new TreeViewMultiChronopic( treeview_multi_chronopic, preferences.digitsNumber, 
 					myTreeViewMultiChronopic.ExpandState, 2);
@@ -2933,7 +2933,7 @@ public partial class ChronoJumpWindow
 			createTreeView_runs_interval (treeview_runs_interval);
 			createTreeView_pulses(treeview_pulses);
 			createTreeView_reaction_times(treeview_reaction_times);
-			createTreeView_multi_chronopic(treeview_multi_chronopic);
+			createTreeView_multi_chronopic(false, treeview_multi_chronopic);
 			
 			on_combo_result_jumps_changed(combo_result_jumps, args);
 			on_combo_result_jumps_rj_changed(combo_result_jumps_rj, args);
@@ -2946,7 +2946,7 @@ public partial class ChronoJumpWindow
 			fillTreeView_reaction_times();
 
 			//currently no combo_multi_chronopic
-			treeview_multi_chronopic_storeReset();
+			treeview_multi_chronopic_storeReset(false);
 			fillTreeView_multi_chronopic();
 		}
 		catch 
@@ -3695,7 +3695,7 @@ public partial class ChronoJumpWindow
 
 			//if this multichronopic has more chronopics than other in session, then reload treeview, else simply add
 			if(currentMultiChronopic.CPs() != SqliteMultiChronopic.MaxCPs(currentSession.UniqueID)) {
-				treeview_multi_chronopic_storeReset();
+				treeview_multi_chronopic_storeReset(false);
 				fillTreeView_multi_chronopic();
 			} else
 				myTreeViewMultiChronopic.Add(currentPerson.Name, currentMultiChronopic);
@@ -4920,8 +4920,8 @@ LogB.Debug("W");
 LogB.Debug("W2");
 			
 			//if this multichronopic has more chronopics than other in session, then reload treeview, else simply add
-			if(currentMultiChronopic.CPs() != SqliteMultiChronopic.MaxCPs(currentSession.UniqueID)) {
-				treeview_multi_chronopic_storeReset();
+			if(currentMultiChronopic.CPs() != SqliteMultiChronopic.MaxCPs(false, currentSession.UniqueID)) {
+				treeview_multi_chronopic_storeReset(false);
 				fillTreeView_multi_chronopic();
 			} else
 				myTreeViewMultiChronopic.Add(currentPerson.Name, currentMultiChronopic);
@@ -5244,7 +5244,7 @@ LogB.Debug("X");
 		if(eventOldPerson == mc.PersonID) 
 			myTreeViewMultiChronopic.Update(mc);
 		else {
-			treeview_multi_chronopic_storeReset();
+			treeview_multi_chronopic_storeReset(false);
 			fillTreeView_multi_chronopic();
 		}
 	}

@@ -206,9 +206,11 @@ class SqliteMultiChronopic : Sqlite
 		return mc;
 	}
 
-	public static int MaxCPs(int sessionID)
+	public static int MaxCPs(bool dbconOpened, int sessionID)
 	{
-		Sqlite.Open();
+		if(!dbconOpened)
+			Sqlite.Open();
+
 		int maxCPs = 2;
 
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.MultiChronopicTable + 
@@ -232,7 +234,10 @@ class SqliteMultiChronopic : Sqlite
 		}
 		
 		reader.Close();
-		Sqlite.Close();
+		
+		if(!dbconOpened)
+			Sqlite.Close();
+
 		return maxCPs;
 	}
 

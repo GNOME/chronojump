@@ -740,7 +740,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     angleAccel = accel * 2 / diameter.m
     anglePush = 90 #TODO: send from C#
     force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * (accel + g * sin(anglePush * pi / 180))
-    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g * sin(anglePush * pi / 180)) * speed
+    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + abs(mass * (accel + g * sin(anglePush * pi / 180)) * speed)
   } else if(encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY" ||
               encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALMOVPULLEY" ||
               encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALMOVPULLEY"){
@@ -754,7 +754,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     #If the movement is vertical g*sin(alpha) = g
     #If the movement is horizontal g*sin(alpha) = 0
     force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * (accel + g * sin(anglePush * pi / 180))
-    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g * sin(anglePush * pi / 180)) * speed
+    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + abs(mass * (accel + g * sin(anglePush * pi / 180)) * speed)
   } else if(encoderConfigurationName == "ROTARYAXISINERTIALLATERAL" ||
               encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALLATERAL" ||
               encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL"){

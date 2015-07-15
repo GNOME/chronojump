@@ -764,7 +764,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     anglePush = 0 #TODO: send from C#
     #1.5.1
     force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * accel
-    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * accel * speed
+    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + abs(mass * accel * speed)
     #1.5.2
     #force = inertiaMomentum * angleAccel * (2 / diameter.m) + mass * accel
     #power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * accel * speed

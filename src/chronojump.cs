@@ -296,6 +296,7 @@ public class ChronoJump
 					LogB.Error(errorMessage);
 					messageToShowOnBoot += errorMessage;
 					chronojumpHasToExit = true;
+					return;
 				}
 				Sqlite.Connect();
 			}

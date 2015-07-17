@@ -625,11 +625,13 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 	#here paf is generated
 	#mass is not used by pafGenerate, but used by Kg/W (loadVSPower)
 	#meanForce and maxForce are not used by pafGenerate, but used by F/S (forceVSSpeed)
+	mass = kinematics$mass
+	#names will be used on graph.R writeCurves
 	return(data.frame(
 			  meanSpeed, maxSpeed, maxSpeedT,
 			  meanPower, peakPower, peakPowerT, pp_ppt,
 			  meanForce, maxForce, maxForceT,
-			  kinematics$mass, massBody, massExtra,		#kinematics$mass is Load
+			  mass, massBody, massExtra,		#kinematics$mass is Load
 			  laterality, inertiaMomentum)) 
 }
 

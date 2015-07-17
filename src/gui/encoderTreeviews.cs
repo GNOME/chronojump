@@ -89,7 +89,7 @@ public partial class ChronoJumpWindow
 						cells[8], cells[9], cells[10], 	//meanSpeed, maxSpeed, maxSpeedT
 						cells[11], cells[12], cells[13],//meanPower, peakPower, peakPowerT
 						cells[14],			//peakPower / peakPowerT
-						cells[15], cells[16], cells[17] //meanForce, maxSForce maxForceT
+						cells[15], cells[16], cells[17] //meanForce, maxForce maxForceT
 						));
 
 		}
@@ -1215,9 +1215,6 @@ public partial class ChronoJumpWindow
 
 		for(int i=15; i <= 17; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
-
-		//18, 19, 20 ara mass, massBody, massExtra. They are unneded because this parameters are also in cells [3],[4]
-		//21: laterality
 
 		return cells;
 	}

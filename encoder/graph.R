@@ -2892,36 +2892,39 @@ doProcess <- function(options)
 		}
 		
 		if(op$Analysis == "curves" || writeCurves) {
+			#this columns are going to be removed from paf:
+			pafCurves <- subset( paf, select = -c(mass, massBody, massExtra, laterality, inertiaMomentum) )
+
 			if(singleFile)
-				paf = cbind(
+				pafCurves = cbind(
 					  "1",			#seriesName
 					  "exerciseName",
 					  op$MassBody,
 					  op$MassExtra,
 					  curves[,1],
-					  curves[,2]-curves[,1],position[curves[,2]]-curves[,3],paf)
+					  curves[,2]-curves[,1],position[curves[,2]]-curves[,3],pafCurves)
 			else {
 				if(discardingCurves)
 					curvesHeight = curvesHeight[-discardedCurves]
 
-				paf = cbind(
+				pafCurves = cbind(
 					  curves[,9],		#seriesName
 					  curves[,4],		#exerciseName
 					  curves[,5],		#massBody
 					  curves[,6],		#massExtra
 					  curves[,1],		
-					  curves[,2]-curves[,1],curvesHeight,paf)
+					  curves[,2]-curves[,1],curvesHeight,pafCurves)
 			}
 
-			colnames(paf)=c("series","exercise","massBody","massExtra",
+			colnames(pafCurves) = c("series","exercise","massBody","massExtra",
 					"start","width","height",
 					"meanSpeed","maxSpeed","maxSpeedT",
 					"meanPower","peakPower","peakPowerT",
 					"pp_ppt",
-					"meanForce", "maxForce", "maxForceT",
-			  		"mass", "massBody", "massExtra", #unneded
-					"laterality","Inertia")
-			write.csv(paf, op$OutputData1, quote=FALSE)
+					"meanForce", "maxForce", "maxForceT"
+					)
+
+			write.csv(pafCurves, op$OutputData1, quote=FALSE)
 			#print("curves written")
 		}
 	}

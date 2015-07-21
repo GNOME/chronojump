@@ -553,7 +553,7 @@ public partial class ChronoJumpWindow
 							cells[0], 
 							cells[1],	//seriesName 
 							exerciseName,
-							cells[21],	//laterality
+							cells[18],	//laterality
 							Convert.ToDouble(Util.ChangeDecimalSeparator(cells[4])),
 							totalMass,
 							cells[5], cells[6], cells[7], 
@@ -1213,8 +1213,11 @@ public partial class ChronoJumpWindow
 		int pp_ppt = 14;
 		cells[pp_ppt] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[pp_ppt])),1); 
 
+		//meanForce, maxForce, maxForceT
 		for(int i=15; i <= 17; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
+
+		//cells[18] laterality
 
 		return cells;
 	}

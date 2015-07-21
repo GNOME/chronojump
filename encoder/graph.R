@@ -2893,7 +2893,8 @@ doProcess <- function(options)
 		
 		if(op$Analysis == "curves" || writeCurves) {
 			#this columns are going to be removed from paf:
-			pafCurves <- subset( paf, select = -c(mass, massBody, massExtra, laterality, inertiaMomentum) )
+			pafCurves <- subset( paf, select = -c(mass, massBody, massExtra, inertiaMomentum) )
+
 
 			if(singleFile)
 				pafCurves = cbind(
@@ -2921,7 +2922,8 @@ doProcess <- function(options)
 					"meanSpeed","maxSpeed","maxSpeedT",
 					"meanPower","peakPower","peakPowerT",
 					"pp_ppt",
-					"meanForce", "maxForce", "maxForceT"
+					"meanForce", "maxForce", "maxForceT",
+					"laterality"
 					)
 
 			write.csv(pafCurves, op$OutputData1, quote=FALSE)

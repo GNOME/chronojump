@@ -41,7 +41,7 @@ public class ChronoJump
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 	private string messageToShowOnBoot = "";
-	private string messageChrashedBefore = "";
+	private string messageCrashedBefore = "";
 	private bool chronojumpHasToExit = false;
 		
 	[Widget] Gtk.Button fakeSplashButton; //raised when splash win ended
@@ -418,7 +418,7 @@ public class ChronoJump
 				messageToShowOnBoot += "\n" + Catalog.GetString("Chronojump crashed before.") + "\n" +
 				       Catalog.GetString("Please, update to new version: ") + versionAvailableKnown + "\n";
 			else {
-				messageToShowOnBoot += messageChrashedBefore;
+				messageToShowOnBoot += messageCrashedBefore;
 				//SqlitePreferences.Update("videoOn", "False", true);
 			}
 		}
@@ -653,21 +653,21 @@ public class ChronoJump
 	/* ---------------------
 	 * other support methods 
 	 * ---------------------*/
-		
-	private void chronojumpCrashedBefore() {
-
+	
+	private void chronojumpCrashedBefore() 
+	{
 		/*
-		string windowsTextLog = "";
-			
-		string crashLogFile = Log.GetLast().Replace(".txt", "-crash.txt");
+		  string windowsTextLog = "";
+		  
+		  string crashLogFile = Log.GetLast().Replace(".txt", "-crash.txt");
 		//on vista there's no crash file because redirection is forbidden
 		if(UtilAll.IsWindows() && File.Exists(crashLogFile)) 
-			windowsTextLog = "\n" + crashLogFile;
-			*/
-
+		windowsTextLog = "\n" + crashLogFile;
+		*/
+			
 		//if there's a copy on temp...
-		if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db")) {
-
+		if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db")) 
+		{
 			// if exist also a file in default db location (improbable but done for solve eventual problems
 			if(File.Exists(Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db")) {
 				Util.BackupDatabase();//copy it to backup
@@ -676,26 +676,23 @@ public class ChronoJump
 
 			//move temp dir to default db location dir
 			File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",
-				Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
+					Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
 		}
 
-
-		messageChrashedBefore = "\n" +
+		messageCrashedBefore = "\n" +
 			string.Format(Catalog.GetString("Chronojump {0} crashed before."), progVersion) + "\n\n" +
 			Catalog.GetString("Please, fill your email and click on 'Send error log' in order to fix this fast and contact you if appropriate.") + "\n\n" +
 			Catalog.GetString("Your help is needed.") + "\n";
 
-	
-		//messageChrashedBefore += "\n" + Catalog.GetString("Experimental webcam record has been disabled.") + "\n";
 
+		//messageCrashedBefore += "\n" + Catalog.GetString("Experimental webcam record has been disabled.") + "\n";
 
 		/*
 		 * This are the only outputs to Console. Other's use Log that prints to console and to log file
 		 * this doesn't go to log because it talks about log
 		 */
-		LogB.Warning(messageChrashedBefore);
-		
-		return;
+		LogB.Warning(messageCrashedBefore);
+			return;
 	}
 
 	//recuperate temp jumpRj or RunI if chronojump hangs

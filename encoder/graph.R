@@ -356,7 +356,11 @@ findCurvesNew <- function(displacement, eccon, isInertial, min_height, draw, tit
 			startHStored[count] = startHStoredOld[i]
 			count = count +1
 		}
+	}
 
+
+	if( isInertial && (eccon == "ec" || eccon == "ecS") ) 
+	{
 		#be careful on ec inertial to send an startStored of 1220.5 because can use the 1220 that can be a positive displacement
 		#and then the 1221 can be negative and also the rest
 		#then is better to take the second number (do ceiling) to avoid a change of direction on the beginning of the movement
@@ -371,10 +375,8 @@ findCurvesNew <- function(displacement, eccon, isInertial, min_height, draw, tit
 		# On this example a ec can go from B to C. If it uses A,
 		#then there will be a change of direction that will make getSpeed to produce a mistaken spline
 
-		if(isInertial) {
-			for(i in 1:length(startStored)) {
-				startStored[i] = ceiling(startStored[i])
-			}
+		for(i in 1:length(startStored)) {
+			startStored[i] = ceiling(startStored[i])
 		}
 	}
 

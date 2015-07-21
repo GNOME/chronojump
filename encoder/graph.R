@@ -813,6 +813,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 
 	}
 
+	print(c("smoothing at paint=",smoothing))
 	#speed
 	speed <- getSpeed(displacement, smoothing)
 	
@@ -925,20 +926,22 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 
 	#on inertial ec. If the accel starts as negative, calcule avg values and peak values starting when the accel is positive
 	#because the acceleration done on the disc can only be positive
-	inertialECstart = 1
-	if(length(eccentric) > 0)
-		inertialECstart = min(eccentric)
+	#inertialECstart = 1
+	#if(length(eccentric) > 0)
+	#	inertialECstart = min(eccentric)
 	
 	#as acceleration can oscillate, start at the eccentric part where there are not negative values
-	if(inertiaMomentum > 0 && eccon == "ec" && 
-	   length(eccentric) > 0 && min(accel$y[eccentric]) < 0) #if there is eccentric data and there are negative vlaues
-	{ 
-		inertialECstart = max(which(accel$y[eccentric] < 0)) +1
-		#abline(v=inertialECstart,lty=3,col="black") 
-	}
+	#if(inertiaMomentum > 0 && eccon == "ec" && 
+	#   length(eccentric) > 0 && min(accel$y[eccentric]) < 0) #if there is eccentric data and there are negative vlaues
+	#{ 
+	#	inertialECstart = max(which(accel$y[eccentric] < 0)) +1
+	#	#abline(v=inertialECstart,lty=3,col="black") 
+	#}
 	#print(c("inertialECstart", inertialECstart))
+	#print(c("accel$y[eccentric]", accel$y[eccentric]))
+	#print(displacement[eccentric])
 
-	startX = inertialECstart
+	#startX = inertialECstart #deactivated
 
 	# ---- end of inertialECstart ----
 	
@@ -2736,6 +2739,9 @@ doProcess <- function(options)
 			       else
 				       myEcconKn = "e"
 			}
+			print("start integer before kinematicsF __________")
+			print(c(curves[i,1], displacement[curves[i,1]]))
+
 			paf = rbind(paf,(pafGenerate(
 						     myEccon,
 						     kinematicsF(displacement[curves[i,1]:curves[i,2]], 
@@ -2895,7 +2901,11 @@ doProcess <- function(options)
 		
 		if(op$Analysis == "curves" || writeCurves) {
 			#this columns are going to be removed from paf:
+
+			write("paf and pafCurves", stderr())
+			write(paf$meanSpeed, stderr())
 			pafCurves <- subset( paf, select = -c(mass, massBody, massExtra, inertiaMomentum) )
+			write(pafCurves$meanSpeed, stderr())
 
 
 			if(singleFile)

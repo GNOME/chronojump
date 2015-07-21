@@ -384,6 +384,8 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 			encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
 			smoothingOneEC, smoothingOneC, g, eccon, isPropulsive)
 {
+	print("at kinematicsF")
+
 	smoothing = 0
 	if(eccon == "c" || eccon == "e")
 		smoothing = smoothingOneC
@@ -396,7 +398,7 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 	speed <- getSpeedSafe(displacement, smoothing)
 	
 	accel <- getAccelerationSafe(speed)
-
+	
 	#print(c(" ms",round(mean(speed$y),5)," ma",round(mean(accel$y),5)))
 	#print(c(" Ms",round(max(speed$y),5)," Ma",round(max(accel$y),5)))
 	#print(c(" |ms|",round(mean(abs(speed$y)),5)," |ma|:",round(mean(abs(accel$y)),5)))
@@ -470,16 +472,31 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 			eccentric=1:length(displacement)
 		}
 		
-		#if there is eccentric data and there are negative vlaues
+		#if there is eccentric data and there are negative values
 	   	if(length(eccentric) > 0 && min(accel$y[eccentric]) < 0)
 		{ 
-			start = max(which(accel$y[eccentric] < 0)) +1
+			#print(c("length(eccentric)",length(eccentric)))
+			#print("min accel y eccentric ++++++++++++")
+			#print(c("min(accel$y[eccentric])",min(accel$y[eccentric])))
+	
+			#print(c("accel$y[eccentric]", accel$y[eccentric]))
+			#print("displacement eccentric")
+			#print(displacement[eccentric])
+
+
+
+			#deactivated:
+			#start = max(which(accel$y[eccentric] < 0)) +1
 			#print("------------ start -----------")
 			#print(start)
 		}
 	}
 
 	#print(c("kinematicsF start end",start,end))
+			
+	write("kinematicsF speed length and mean,", stderr())
+	write(length(speed$y[start:end]), stderr())
+	write(mean(speed$y[start:end]), stderr())
 
 	return(list(
 		    speedy = speed$y[start:end], 
@@ -597,6 +614,7 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 	#print(kinematics$speedy)
 
 	meanSpeed <- mean(kinematics$speedy)
+
 	#max speed and max speed time can be at eccentric or concentric
 	maxSpeed <- max(abs(kinematics$speedy))
 	maxSpeedT <- min(which(abs(kinematics$speedy) == maxSpeed))

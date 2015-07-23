@@ -54,6 +54,10 @@ public class ChronoJump
 	private static string baseDirectory;
 
 
+#if OSTYPE_WINDOWS
+	[DllImport("libglib-2.0-0.dll") /* willfully unmapped */ ]
+	static extern bool g_setenv (String env, String val, bool overwrite);
+#endif
 	public static void Main(string [] args) 
 	{/*
 		bool timeLogPassedOk = Log.Start(args);
@@ -65,7 +69,6 @@ public class ChronoJump
 		//1.4.10
 		Log.Start();
 		LogB.Debugging = true; //now LogB.Debug will be shown. Also there will be thread info on Warning, Error, Information
-	
 
 		var envPath = Environment.GetEnvironmentVariable ("PATH");
 		var rBinPath = "";
@@ -140,10 +143,16 @@ public class ChronoJump
 			Environment.Exit(1);
 		}
 
+//string language = "es_ES"; 	//works
+//string language = "es";	//works
+string language = "cs";
+Environment.SetEnvironmentVariable ("LANGUAGE", language); //works
+#if OSTYPE_WINDOWS
+g_setenv ("LANGUAGE", language, true);
+#endif
 
-		Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
-					
-			
+Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
+
 		new ChronoJump(args);
 		
 	}

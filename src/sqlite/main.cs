@@ -71,6 +71,8 @@ class Sqlite
 	protected static int conversionSubRate;
 	protected static int conversionSubRateTotal;
 
+	public static bool IsOpened = false;
+
 	/*
 	 * Important, change this if there's any update to database
 	 */
@@ -106,11 +108,15 @@ class Sqlite
 			
 			LogB.SQL("-- end of catched --");
 		}
+
+		IsOpened = true;
 	}
 	public static void Close()
 	{
 		LogB.SQLoff();
 		dbcon.Close();
+		
+		IsOpened = false;
 	}
 
 	public static bool Connect()

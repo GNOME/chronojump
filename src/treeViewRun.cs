@@ -158,7 +158,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myRunI.Simulated = Convert.ToInt32(myStringOfData[12].ToString());
 		//speed is not needed to define
 			
-		runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(myRunI.Type, false);
+		runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(myRunI.Type, Sqlite.IsOpened);
 		
 		return myRunI;
 	}
@@ -198,7 +198,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		int count = 0;
 
 		if(newRunI.DistanceInterval == -1) {
-			runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(newRunI.Type, false);
+			runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(newRunI.Type, Sqlite.IsOpened);
 			myData[count++] = (lineCount + 1).ToString() +  
 				" (" + Util.GetRunIVariableDistancesStringRow(runType.DistancesString, lineCount).ToString() + "m)";
 			

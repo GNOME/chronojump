@@ -85,6 +85,7 @@ case "$host" in
   *-*-mingw*|*-*-cygwin*)
     ostype=Windows
     AC_DEFINE(OSTYPE_WINDOWS)
+    GMCS_FLAGS="$GMCS_FLAGS -define:OSTYPE_WINDOWS"
     ;;
   *-*-darwin*)
     AC_DEFINE(OSTYPE_OS_X)

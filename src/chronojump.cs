@@ -29,6 +29,8 @@ using System.Diagnostics; //Process
 
 using System.Collections; //ArrayList
 
+using System.Runtime.InteropServices;
+
 
 public class ChronoJump 
 {
@@ -58,6 +60,7 @@ public class ChronoJump
 	[DllImport("libglib-2.0-0.dll") /* willfully unmapped */ ]
 	static extern bool g_setenv (String env, String val, bool overwrite);
 #endif
+
 	public static void Main(string [] args) 
 	{/*
 		bool timeLogPassedOk = Log.Start(args);

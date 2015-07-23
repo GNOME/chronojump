@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-04-10 17:10+0000\n"
-"PO-Revision-Date: 2015-07-14 12:05+0100\n"
+"PO-Revision-Date: 2015-07-23 17:08+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1739,14 +1739,16 @@ msgstr ""
 #: ../glade/chronojump.glade.h:387
 msgid "Able to stand up without using hands in a steady and controlled action."
 msgstr ""
+"Capaç d'aixecar-se sense usar les mans i amb un moviment estable i controlat."
 
 #: ../glade/chronojump.glade.h:388
 msgid "Able to stand up using hands in a steady and controlled action."
 msgstr ""
+"Capaç d'aixecar-se fent servir les mans amb una acció estable i controlada."
 
 #: ../glade/chronojump.glade.h:389
 msgid "Able to stand up using hands after multiple attempts."
-msgstr ""
+msgstr "Capaç d'aixecar-se fent servir les mans després de múltiples intents."
 
 # No entenc la frase en anglès
 #: ../glade/chronojump.glade.h:390
@@ -1767,15 +1769,16 @@ msgstr "Xuta la pilota"
 
 #: ../glade/chronojump.glade.h:394
 msgid "Able to kick ball without losing balance."
-msgstr ""
+msgstr "Capaç de xutar la pilota sense perdre l'equilibri."
 
 #: ../glade/chronojump.glade.h:395
 msgid "Able to kick ball but needs to take a step to get back on balance."
 msgstr ""
+"Capaç de xutar la pilota però necessita un pas per recuperar l'equilibri."
 
 #: ../glade/chronojump.glade.h:396
 msgid "Able to kick ball with difficulty finding balance."
-msgstr ""
+msgstr "Capaç de xutar la pilota amb dificultat de trobar l'equilibri."
 
 #: ../glade/chronojump.glade.h:397
 msgid "Walk whilst counting backwards from 15 to 0"
@@ -1783,11 +1786,11 @@ msgstr "Caminar mentre es compta enrere des de 15 fins a 0"
 
 #: ../glade/chronojump.glade.h:398
 msgid "Able to coordinate walking with counting without making a mistake."
-msgstr ""
+msgstr "Capaç de caminar coordinadament mentre es compte sense cap error"
 
 #: ../glade/chronojump.glade.h:399
 msgid "Able to coordinate walking with counting with one mistake."
-msgstr ""
+msgstr "Capaç de caminar coordinadament mentre es compte amb un error"
 
 #: ../glade/chronojump.glade.h:400
 msgid ""
@@ -1807,16 +1810,20 @@ msgid ""
 "Able to go around the cone without touching it, without going outside the "
 "marked area, but slowing down the pace."
 msgstr ""
+"Capaç de caminar al voltant del con sense tocar-lo, sense sortir de l'àrea "
+"marcada però reduint el pas."
 
 #: ../glade/chronojump.glade.h:404
 msgid "Able to go around with obvious signs of insecurity."
-msgstr ""
+msgstr "Capaç de caminar al voltant però amb evidents signes d'inseguretat."
 
 #: ../glade/chronojump.glade.h:405
 msgid ""
 "Able to go around the cone without touching it, without going outside the  "
 "marked area, and keeping up the pace."
 msgstr ""
+"Capaç de caminar al voltant del con sense tocar-lo, sense sortir de l'àrea "
+"marcada i mantenint el pas."
 
 #: ../glade/chronojump.glade.h:406
 msgid "Step into circles"
@@ -1827,18 +1834,24 @@ msgid ""
 "Able to walk, stepping one foot into each circle without touching them and "
 "without losing balance."
 msgstr ""
+"Capaç de caminar, trepitjant amb un peu dintre de cada cercle, sense tocar-"
+"los i sense perdre l'equilibri."
 
 #: ../glade/chronojump.glade.h:408
 msgid ""
 "Able to walk, stepping one foot into each circle, touching one or needing to "
 "take an extra step outside the rings to regain balance."
 msgstr ""
+"Capaç de caminar, trepitjant amb un peu a cada cercle, tocant-ne un o amb "
+"necessitat de un pas extra fora dels cercles per recuperar l'equilibri."
 
 #: ../glade/chronojump.glade.h:409
 msgid ""
 "Able to walk stepping one foot in each circle, touching more than one, or "
 "needing more than one extra step to regain balance."
 msgstr ""
+"Capaç de caminar trepitjant amb un peu a cada cercle, tocant-ne més d'un o "
+"amb necessitat d'un pas extra per recuperar l'equilibri."
 
 #: ../glade/chronojump.glade.h:410
 msgid "Sit back down"
@@ -1846,15 +1859,15 @@ msgstr "Tornar a seure"
 
 #: ../glade/chronojump.glade.h:411
 msgid "Able to sit down smoothly without using hands."
-msgstr ""
+msgstr "Capaç de seure suaument sense usar les mans."
 
 #: ../glade/chronojump.glade.h:412
 msgid "Able to sit down sharply without using hands."
-msgstr ""
+msgstr "Capaç de seure bruscament sense usar les mans."
 
 #: ../glade/chronojump.glade.h:413
 msgid "Able to sit down using hands."
-msgstr ""
+msgstr "Capaç de seure sense usar les mans."
 
 #: ../glade/chronojump.glade.h:414
 msgid "slCMJ"
@@ -2728,7 +2741,7 @@ msgstr "Traduir"
 
 #: ../glade/chronojump.glade.h:626
 msgid "Do not translate"
-msgstr ""
+msgstr "No ho traduïu"
 
 #: ../glade/chronojump.glade.h:627
 msgid "Query to server"
@@ -4055,7 +4068,7 @@ msgstr "Calcula les energies potencials durant la caiguda i després del salt."
 
 #: ../src/constants.cs:644
 msgid "Divide them by time during force is applied."
-msgstr ""
+msgstr "Dividiu-lo pel temps que la força és aplicada."
 
 #. P = mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tt;
 #: ../src/constants.cs:647
@@ -7111,6 +7124,15 @@ msgid ""
 "touching it, and go back to your seat, stepping into the circles, trying not "
 "to touch any of them. Finally, sit down again, trying not to use your arms\"."
 msgstr ""
+"Les instruccions per executar el test son les següents:\"Asseieu-vos amb "
+"l'esquena reposant sobre el respatller de la cadira i amb els dos braços "
+"sobre les cames. Quan sentiu la paraula \"ja\", aixequeu-vos sense usar els "
+"braços, xuteu la pilota enfront vostre tant fort com sigui possible, usant "
+"l' empenya del peu amb el que us sentiu més segur. Seguidament camineu al "
+"vostre ritme normal comptant enrere des de 15 fins a 0 en veu alta. Gireu al "
+"voltant del con, sense tocar-lo, torneu al vostre seient, trepitjant dintre "
+"dels cercles intentant no tocar-ne cap. Finalment, torneu a seure intentant "
+"no usar els braços."
 
 #: ../src/runType.cs:392
 msgid ""
@@ -7132,7 +7154,7 @@ msgstr ""
 
 #: ../src/runType.cs:393
 msgid "Assessment questionnaire"
-msgstr ""
+msgstr "Qüestionari d'avaluació"
 
 #: ../src/runType.cs:394
 msgid ""

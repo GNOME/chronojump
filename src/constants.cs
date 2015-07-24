@@ -452,32 +452,7 @@ public class Constants
 		"LightGray", "LightGreen", "LightPink", "LightSalmon", "LightYellow", 
 		"MediumBlue", "MediumOrchid", "MediumPurple", "MediumTurquoise", "MediumVioletRed", "YellowGreen" 
 	};
-	
-	//for windows, on linux it takes language ok from the locale
-	public static string LanguageDefault = "en-GB:English (United Kingdom)";
-	public static string [] Languages = {
-		"ca-ES:Catalan", 
-		"zh-CN:Chinese", 
-		LanguageDefault, 
-		"dz-BT:Dzongkha",
-		"fi-FI:Finnish", 
-		"fr-FR:French", 
-		"oc-OC:Occitan",
-		"pt-BR:Portuguese (Brazil)", 
-		"pt-PT:Portuguese (Portugal)", 
-		"es-ES:Spanish (Spain)", 
-		"sv-SE:Swedish", 
-		"vi-VN:Vietnamese", 
-	};
 
-	/* *** ATTENTIOn ***: dz-BT deactivated on Windows compilation...
-	 * in the next release, do it better
-	 */
-
-	//TODO: add:
-	//ar (when there ara not fuzzy lines)
-	//see in both langs how to write as xx_XX
-	
 
 	public static string PortNamesWindows = 
 		string.Format(Catalog.GetString("Typical serial and USB-serial ports on Windows:") + 

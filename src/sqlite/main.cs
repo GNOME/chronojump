@@ -76,7 +76,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.24";
+	static string lastChronojumpDatabaseVersion = "1.25";
 
 	public Sqlite() {
 	}
@@ -1826,6 +1826,14 @@ class Sqlite
 				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
 				currentVersion = newVersion;
 			}
+			if(currentVersion == "1.24") {
+				LogB.SQL("Language defaults to (empty string), means detected");
+				SqlitePreferences.Update("language", "", true);
+				
+				newVersion = "1.25";
+				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
+				currentVersion = newVersion;
+			}
 
 			// --- add more updates here
 		
@@ -1980,6 +1988,7 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
+		//1.24 - 1.25 Converted DB to 1.25 Language defaults to (empty string), means detected
 		//1.23 - 1.24 Converted DB to 1.24 Delete runISpeedStartArrival and add 4 double contacts configs
 		//1.22 - 1.23 Converted DB to 1.23 Added encoder configuration
 		//1.21 - 1.22 Converted DB to 1.22 Encoder laterality in english again

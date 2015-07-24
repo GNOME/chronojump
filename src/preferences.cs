@@ -50,6 +50,7 @@ public class Preferences
 	public int videoDeviceNum; 		//AKA videoDevice
 	public Constants.Encoder1RMMethod encoder1RMMethod;
 	public string CSVExportDecimalSeparator;
+	public string language;
 	public bool RGraphsTranslate;
 	public bool useHeightsOnJumpIndexes;
 	public Constants.EncoderAutoSaveCurve encoderAutoSaveCurve;
@@ -73,7 +74,6 @@ public class Preferences
 	
 	//public string chronopicPort;
 	//public bool simulated;
-	//public string language;
 	//public double encoderSmoothEccCon; 	//unused
 	//public double inertialmomentum; 	//unused
 

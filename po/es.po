@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-07-13 08:42+0000\n"
-"PO-Revision-Date: 2015-07-14 11:47+0100\n"
+"PO-Revision-Date: 2015-07-24 13:12+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3556,7 +3556,7 @@ msgstr ""
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
 msgstr ""
-"Lo siento, esta versión de Chronojump ({0}) esta demasiada antigua para su "
+"Lo siento, esta versión de Chronojump ({0}) es demasiado antigua para su "
 "base de datos."
 
 #: ../src/chronojump.cs:317

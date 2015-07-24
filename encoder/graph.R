@@ -1089,6 +1089,16 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			axis(4, col=cols[2], lty=lty[2], line=axisLineRight, lwd=1, padj=-.5)
 			axisLineRight = axisLineRight +2
 		}
+		
+		if(isInertial(encoderConfigurationName) && debug) {
+			#print("dynamics$forceDisc")
+			#print(dynamics$forceDisc)
+			par(new=T)
+			plot(dynamics$forceDisc, col="blue", xlab="", ylab="", xlim=c(1,length(displacement)),ylim=ylim, type="p", pch=1, axes=F);
+
+			par(new=T)
+			plot(dynamics$forceBody, col="blue", xlab="", ylab="", xlim=c(1,length(displacement)),ylim=ylim, type="p", pch=3, axes=F);
+		}
 	}
 
 	#mark when it's air and land
@@ -1175,6 +1185,15 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		else
 			plot(startX:length(power),power[startX:length(power)],type="l",
 			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
+	
+
+		if(isInertial(encoderConfigurationName) && debug) {
+			par(new=T)
+			plot(dynamics$powerDisc, col="orangered3", xlab="", ylab="", xlim=c(1,length(displacement)),ylim=ylim, type="p", pch=1, axes=F);
+
+			par(new=T)
+			plot(dynamics$powerBody, col="orangered3", xlab="", ylab="", xlim=c(1,length(displacement)),ylim=ylim, type="p", pch=3, axes=F);
+		}
 
 
 		meanPowerC = mean(power[min(concentric):max(concentric)])
@@ -2761,13 +2780,6 @@ doProcess <- function(options)
 
 		rownames(paf)=rownames(curves)
 		
-		if(debug) {
-			#print("--------CURVES (propulsive is not calculated yet) --------------")
-			#print(curves)
-			#print("----------PAF---------------")
-			#print(paf)
-		}
-
 		if(op$Analysis == "powerBars") {
 			if(! singleFile) 
 				paintPowerPeakPowerBars(singleFile, op$Title, paf, 

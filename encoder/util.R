@@ -361,7 +361,6 @@ reduceCurveBySpeed <- function(eccon, row, startT, startH, displacement, smoothi
 				x.end = i
 	}
 
-	#debug
 	#print(speed.ext$cross[,2])
 	#print(ext.cross.len)
 	#print(c("time1,time2",time1,time2))
@@ -750,6 +749,11 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
 
 	position.m = abs(cumsum(displacement)) / 1000 #m
 	diameter.m = diameter / 100 #cm -> m
+    
+	forceDisc = 0
+	forceBody = 0
+	powerDisc = 0
+	powerBody = 0
   
   if(encoderConfigurationName == "ROTARYAXISINERTIAL" ||
        encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
@@ -759,8 +763,12 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     angleSpeed = speed * 2 / diameter.m
     angleAccel = accel * 2 / diameter.m
     anglePush = 90 #TODO: send from C#
-    force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * (accel + g * sin(anglePush * pi / 180))
-    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + abs(mass * (accel + g * sin(anglePush * pi / 180)) * speed)
+
+    forceDisc = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) 
+    forceBody = mass * (accel + g * sin(anglePush * pi / 180))
+    powerDisc = abs((inertiaMomentum * angleAccel) * angleSpeed)
+    powerBody = abs(mass * (accel + g * sin(anglePush * pi / 180)) * speed)
+
   } else if(encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY" ||
               encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALMOVPULLEY" ||
               encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALMOVPULLEY"){
@@ -773,8 +781,13 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     #The configuration covers horizontal, vertical and inclinated movements
     #If the movement is vertical g*sin(alpha) = g
     #If the movement is horizontal g*sin(alpha) = 0
-    force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * (accel + g * sin(anglePush * pi / 180))
-    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + abs(mass * (accel + g * sin(anglePush * pi / 180)) * speed)
+
+    forceDisc = abs(inertiaMomentum * angleAccel) * (2 / diameter.m)
+    forceBody = mass * (accel + g * sin(anglePush * pi / 180))
+    powerDisc = abs((inertiaMomentum * angleAccel) * angleSpeed)
+    powerBody = abs(mass * (accel + g * sin(anglePush * pi / 180)) * speed)
+
+
   } else if(encoderConfigurationName == "ROTARYAXISINERTIALLATERAL" ||
               encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALLATERAL" ||
               encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL"){
@@ -782,27 +795,19 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     angleSpeed = speed * 2 / diameter.m
     angleAccel = accel * 2 / diameter.m
     anglePush = 0 #TODO: send from C#
-    #1.5.1
-    force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * accel
-    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + abs(mass * accel * speed)
-    #1.5.2
-    #force = inertiaMomentum * angleAccel * (2 / diameter.m) + mass * accel
-    #power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * accel * speed
     
-    #TODO: WIP    
-    forceDisc = inertiaMomentum * angleAccel * (2 / diameter.m)
+    forceDisc = abs(inertiaMomentum * angleAccel) * (2 / diameter.m)
     forceBody = mass * accel
-    #print("PRINT FORCE")
-    #xmin=9815
-    #xmax=11727
-    #print(force[xmin:xmax])
+    powerDisc = abs((inertiaMomentum * angleAccel) * angleSpeed)
+    powerBody = abs(mass * accel * speed)
 
-    #print(max(speed[xmin:xmax]))
-    #print(max(accel[xmin:xmax]))
   }
 
-	#return(list(displacement=displacement, mass=mass, force=force, power=power, forceDisc=forceDisc, forceBody=forceBody, accelHere = accel))
-	return(list(displacement=displacement, mass=mass, force=force, power=power))
+  force = forceDisc + forceBody
+  power = powerDisc + powerBody
+
+	#return(list(displacement=displacement, mass=mass, force=force, power=power))
+	return(list(displacement=displacement, mass=mass, force=force, power=power, forceDisc=forceDisc, forceBody=forceBody, powerDisc=powerDisc, powerBody=powerBody))
 }
 
 

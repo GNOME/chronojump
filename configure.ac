@@ -99,6 +99,7 @@ esac
 AM_CONDITIONAL(OSTYPE_WINDOWS, test x$ostype = xWindows)
 AM_CONDITIONAL(OSTYPE_OS_X, test x$ostype = xOS_X)
 AM_CONDITIONAL(OSTYPE_LINUX, test x$ostype = xLinux)
+AC_SUBST(GMCS_FLAGS, ["$GMCS_FLAGS"])
 AC_MSG_RESULT($ostype)
 
 

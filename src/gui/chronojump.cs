@@ -404,9 +404,7 @@ public partial class ChronoJumpWindow
 
 	//windows needed
 	PreferencesWindow preferencesWin;
-	//LanguageWindow languageWin;
 	SessionAddEditWindow sessionAddEditWin;
-	//SessionEditWindow sessionEditWin;
 	SessionLoadWindow sessionLoadWin;
 	PersonRecuperateWindow personRecuperateWin; 
 	PersonsRecuperateFromOtherSessionWindow personsRecuperateFromOtherSessionWin; 

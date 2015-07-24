@@ -29,6 +29,8 @@ using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using Mono.Unix;
 using System.Threading;
+using System.Globalization; //CultureInfo stuff
+
 
 public class PreferencesWindow {
 	
@@ -109,11 +111,10 @@ public class PreferencesWindow {
 	[Widget] Gtk.RadioButton radio_graphs_no_translate;
 
 	
-
-
-//	[Widget] Gtk.Box hbox_language_row;
-//	[Widget] Gtk.Box hbox_combo_language;
-//	[Widget] Gtk.ComboBox combo_language;
+	[Widget] Gtk.Box hbox_combo_language;
+	[Widget] Gtk.ComboBox combo_language;
+	[Widget] Gtk.RadioButton radio_language_detected;
+	[Widget] Gtk.RadioButton radio_language_force;
 
 
 	[Widget] Gtk.Button button_accept;
@@ -125,12 +126,10 @@ public class PreferencesWindow {
 	private Preferences preferences; //stored to update SQL if anything changed
 	private Thread thread;
 
-	//language when window is called. If changes, then change data in sql and show 
-	//dialogMessage
-	//private string languageIni;
-	
 	string databaseURL;
 	string databaseTempURL;
+	
+	ListStore langsStore;
 
 
 	PreferencesWindow () {
@@ -156,13 +155,9 @@ public class PreferencesWindow {
 
 		PreferencesWindowBox.preferences = preferences;
 
-		//PreferencesWindowBox.languageIni = language;
-		//if(UtilAll.IsWindows())
-		//	PreferencesWindowBox.createComboLanguage(language);
-		//else 
-			PreferencesWindowBox.hideLanguageStuff();
+		PreferencesWindowBox.createComboLanguage();
 
-			PreferencesWindowBox.createComboCamera(UtilVideo.GetVideoDevices(), preferences.videoDeviceNum);
+		PreferencesWindowBox.createComboCamera(UtilVideo.GetVideoDevices(), preferences.videoDeviceNum);
 		
 		string [] decs = {"1", "2", "3"};
 		PreferencesWindowBox.combo_decimals.Active = UtilGtk.ComboMakeActive(
@@ -285,7 +280,12 @@ public class PreferencesWindow {
 
 		//done here and not in glade to be shown with the decimal point of user language	
 		PreferencesWindowBox.label_encoder_con.Text = (0.7).ToString();
-		
+	
+		if(preferences.language == "")
+			PreferencesWindowBox.radio_language_detected.Active = true;
+		else
+			PreferencesWindowBox.radio_language_force.Active = true;
+
 		if(preferences.RGraphsTranslate)
 			PreferencesWindowBox.radio_graphs_translate.Active = true;
 		else
@@ -322,39 +322,56 @@ public class PreferencesWindow {
 		combo_camera.Active = UtilGtk.ComboMakeActive(devices, devices[current]);
 	}
 
-	private void createComboLanguage(string myLanguageCode) {
-		/*
-		combo_language = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_language, Util.GetLanguagesNames(), "");
+	// ---- Language stuff
+	
+	//private void createComboLanguage(string myLanguageCode) {
+	private void createComboLanguage() {
 		
-		//combo_language.Entry.Changed += new EventHandler (on_combo_language_changed);
+		combo_language = ComboBox.NewText ();
+		fillLanguages();
 
 		hbox_combo_language.PackStart(combo_language, false, false, 0);
 		hbox_combo_language.ShowAll();
-		
-		bool found = false;
-		int count = 0;
-		foreach (string lang in Constants.Languages) {
-			if (myLanguageCode == Util.GetLanguageCode(lang)) {
-				combo_language.Active = count;
-				found = true;
-			}
-			count ++;
+	}
+
+	//from Longomatch ;)
+	//(C) Andoni Morales Alastruey
+	void fillLanguages () {
+		int index = 0, active = 0;
+
+		langsStore = new ListStore(typeof(string), typeof(CultureInfo));
+
+		foreach (CultureInfo lang in UtilLanguage.Languages) {
+			langsStore.AppendValues(lang.DisplayName, lang);
+			if (preferences.language != "" && lang.Name == preferences.language)
+				active = index;
+			index ++;
 		}
-		if(!found)
-			combo_language.Active = UtilGtk.ComboMakeActive(Constants.Languages, Util.GetLanguageName(Constants.LanguageDefault));
-		
-		//if(UtilAll.IsWindows())
-		//	combo_language.Sensitive = true;
-		//else 
-			combo_language.Sensitive = false;
-			*/
+		combo_language.Model = langsStore;
+		combo_language.Active = active;
 	}
+
+	private void on_radio_language_toggled (object obj, EventArgs args) {
+		hbox_combo_language.Sensitive = radio_language_force.Active;
+	}
+
+	string getSelectedLanguage()
+	{
+		TreeIter iter;
+		CultureInfo info;
+
+		combo_language.GetActiveIter (out iter);
+		info = (CultureInfo) langsStore.GetValue (iter, 1);
+		if (info == null) {
+			return "";
+		} else {
+			return info.Name;
+		}
+	}
+
+	// ---- end of Language stuff
+
 			
-	private void hideLanguageStuff() {
-		//hbox_language_row.Hide();
-	}
-	
 	private void on_checkbutton_show_tv_tc_index_clicked (object o, EventArgs args) {
 		if(checkbutton_show_tv_tc_index.Active)
 			hbox_indexes.Show();
@@ -802,6 +819,19 @@ public class PreferencesWindow {
 			preferences.CSVExportDecimalSeparator = "POINT";
 		}
 	
+		string selectedLanguage = getSelectedLanguage();
+
+		//if there was a language on SQL but now "detected" is selected, put "" in language on SQL
+		if(preferences.language != "" && radio_language_detected.Active) {
+			SqlitePreferences.Update("language", "", true);
+			preferences.language = "";
+		}
+		//if force a language, and SQL language is != than selected language, change language on SQL
+		else if(radio_language_force.Active && preferences.language != selectedLanguage) {
+			SqlitePreferences.Update("language", selectedLanguage, true);
+			preferences.language = selectedLanguage;
+		}
+
 
 		if( preferences.RGraphsTranslate != PreferencesWindowBox.radio_graphs_translate.Active ) {
 			SqlitePreferences.Update("RGraphsTranslate", 
@@ -842,24 +872,6 @@ public class PreferencesWindow {
 		preferences.encoder1RMMethod = encoder1RMMethod;
 
 		Sqlite.Close();
-
-		/*
-		   if(UtilAll.IsWindows()) {
-		//if language has changed
-		if(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language) != languageIni) {
-		string myLanguage = SqlitePreferences.Select("language");
-		if ( myLanguage != null && myLanguage != "" && myLanguage != "0") {
-		//if language exists in sqlite preferences update it
-		SqlitePreferences.Update("language", Util.GetLanguageCodeFromName(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language)));
-		} else {
-		//else: create it
-		SqlitePreferences.Insert("language", Util.GetLanguageCodeFromName(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language)));
-		}
-
-		new DialogMessage(Catalog.GetString("Restart Chronojump to operate completely on your language."), true);
-		}
-		}
-		*/
 
 		PreferencesWindowBox.preferences_win.Hide();
 		PreferencesWindowBox = null;

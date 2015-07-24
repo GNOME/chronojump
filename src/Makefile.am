@@ -35,7 +35,6 @@ SOURCES = \
 	gui/dialogMessage.cs\
 	gui/dialogCalendar.cs\
 	gui/dialogImageTest.cs\
-	gui/language.cs\
 	gui/repetitiveConditions.cs\
 	gui/convertWeight.cs\
 	gui/genericWindow.cs\
@@ -155,6 +154,7 @@ SOURCES = \
 	utilDate.cs\
 	utilEncoder.cs\
 	utilGtk.cs\
+	utilLanguage.cs\
 	utilVideo.cs\
 	constants.cs\
 	report.cs\

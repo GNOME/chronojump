@@ -146,18 +146,29 @@ public class ChronoJump
 			Environment.Exit(1);
 		}
 
-//string language = "es_ES"; 	//works
-//string language = "es";	//works
-string language = "cs";
-Environment.SetEnvironmentVariable ("LANGUAGE", language); //works
+
+	string language = "";
+	if(File.Exists(System.IO.Path.Combine(Util.GetDatabaseDir(), "chronojump.db"))) {
+		try {
+			Sqlite.Connect();
+			language = SqlitePreferences.Select("language", false);
+			Sqlite.DisConnect();
+	
+			if(language != "") {
+				Environment.SetEnvironmentVariable ("LANGUAGE", language); //works
 #if OSTYPE_WINDOWS
-g_setenv ("LANGUAGE", language, true);
+				g_setenv ("LANGUAGE", language, true);
 #endif
+			}
+		}
+		catch {
+			LogB.Warning("Problem reading language on start");
+		}
+	}
 
-Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
+	Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
 
-		new ChronoJump(args);
-		
+	new ChronoJump(args);
 	}
 
 	bool createdSplashWin = false;

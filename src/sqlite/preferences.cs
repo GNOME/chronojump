@@ -62,7 +62,7 @@ class SqlitePreferences : Sqlite
 				Insert ("askDeletion", "True", dbcmdTr);
 				Insert ("heightPreferred", "False", dbcmdTr);
 				Insert ("metersSecondsPreferred", "True", dbcmdTr);
-				Insert ("language", "es-ES", dbcmdTr); 
+				Insert ("language", "", dbcmdTr); 
 				Insert ("allowFinishRjAfterTime", "True", dbcmdTr); 
 				Insert ("volumeOn", "True", dbcmdTr); 
 				Insert ("videoOn", "True", dbcmdTr); 
@@ -216,6 +216,8 @@ class SqlitePreferences : Sqlite
 				preferences.videoDeviceNum = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "CSVExportDecimalSeparator")
 				preferences.CSVExportDecimalSeparator = reader[1].ToString();
+			else if(reader[0].ToString() == "language")
+				preferences.language = reader[1].ToString();
 			else if(reader[0].ToString() == "RGraphsTranslate")
 				preferences.RGraphsTranslate = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "useHeightsOnJumpIndexes")

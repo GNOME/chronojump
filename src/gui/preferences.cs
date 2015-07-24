@@ -291,6 +291,9 @@ public class PreferencesWindow {
 			PreferencesWindowBox.radio_graphs_translate.Active = true;
 		else
 			PreferencesWindowBox.radio_graphs_no_translate.Active = true;
+			
+		//allow signal to be called
+		PreferencesWindowBox.hbox_language_signalOn = true;
 		
 		if(preferences.useHeightsOnJumpIndexes)
 			PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active = true;
@@ -337,6 +340,7 @@ public class PreferencesWindow {
 
 	//from Longomatch ;)
 	//(C) Andoni Morales Alastruey
+	bool hbox_language_signalOn = false;
 	void fillLanguages () {
 		int index = 0, active = 0;
 
@@ -356,13 +360,16 @@ public class PreferencesWindow {
 	private void on_radio_language_toggled (object obj, EventArgs args) {
 		hbox_combo_language.Sensitive = radio_language_force.Active;
 
-		hbox_need_restart.Visible = true;
+		if(hbox_language_signalOn)
+			hbox_need_restart.Visible = true;
 	}
 	private void on_radio_translate_toggled (object obj, EventArgs args) {
-		hbox_need_restart.Visible = true;
+		if(hbox_language_signalOn)
+			hbox_need_restart.Visible = true;
 	}
 	private	void combo_language_changed (object obj, EventArgs args) {
-		hbox_need_restart.Visible = true;
+		if(hbox_language_signalOn)
+			hbox_need_restart.Visible = true;
 	}
 
 

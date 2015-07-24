@@ -964,6 +964,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		else
 			plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
 			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
+		
 	}
 	
 	if(draw & showSpeed & !superpose) {
@@ -1071,6 +1072,28 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	mass = dynamics$mass
 	force = dynamics$force
 	power = dynamics$power
+
+
+	if(draw && isInertial(encoderConfigurationName) && debug) 
+	{
+		#start blank graph with ylim of position
+		ylim = yrange
+		if(ylim[1] == "undefined") { 
+			ylim = NULL 
+			ylim = c(min(position-min(position)), max(position-min(position)))
+		}
+		par(new=T)
+		plot(0,0,type="n",axes=F,xlab="",ylab="", ylim=ylim)
+		
+		abline(h=100*dynamics$loopsAblines, col="yellow") #m -> cm
+		print("dynamics$loopsAblines")
+		print(dynamics$loopsAblines)
+		
+		print("ylim")
+		print(ylim)
+
+		#TODO: add here angleSpeed graph when diameter is variable (version 1.5.3)
+	}
 
 
 	if(draw & showForce) {

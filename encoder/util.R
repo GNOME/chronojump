@@ -743,6 +743,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
 	position.m = abs(cumsum(displacement)) / 1000 #m
 	diameter.m = diameter / 100 #cm -> m
     
+	angleSpeed = 0
 	forceDisc = 0
 	forceBody = 0
 	powerDisc = 0
@@ -799,8 +800,12 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
   force = forceDisc + forceBody
   power = powerDisc + powerBody
 
-	#return(list(displacement=displacement, mass=mass, force=force, power=power))
-	return(list(displacement=displacement, mass=mass, force=force, power=power, forceDisc=forceDisc, forceBody=forceBody, powerDisc=powerDisc, powerBody=powerBody))
+  loopsMax = diameter.m * max(angle)
+  loopsAblines = seq(from=0, to=loopsMax, by=diameter.m*pi)
+
+	return(list(displacement=displacement, mass=mass, force=force, power=power, 
+		    loopsAblines=loopsAblines, angleSpeed=angleSpeed,
+		    forceDisc=forceDisc, forceBody=forceBody, powerDisc=powerDisc, powerBody=powerBody))
 }
 
 

@@ -101,20 +101,21 @@ public class PreferencesWindow {
 	//camera tab
 	[Widget] Gtk.Box hbox_combo_camera;
 	[Widget] Gtk.ComboBox combo_camera;
-	
+
+	//language tab
+	[Widget] Gtk.Box hbox_combo_language;
+	[Widget] Gtk.ComboBox combo_language;
+	[Widget] Gtk.RadioButton radio_language_detected;
+	[Widget] Gtk.RadioButton radio_language_force;
+	[Widget] Gtk.RadioButton radio_graphs_translate;
+	[Widget] Gtk.RadioButton radio_graphs_no_translate;
+	[Widget] Gtk.Box hbox_need_restart;
+		
 	//other tab
 	[Widget] Gtk.ComboBox combo_decimals;
 	[Widget] Gtk.CheckButton checkbutton_ask_deletion;
 	[Widget] Gtk.RadioButton radio_export_latin;
 	[Widget] Gtk.RadioButton radio_export_non_latin;
-	[Widget] Gtk.RadioButton radio_graphs_translate;
-	[Widget] Gtk.RadioButton radio_graphs_no_translate;
-
-	
-	[Widget] Gtk.Box hbox_combo_language;
-	[Widget] Gtk.ComboBox combo_language;
-	[Widget] Gtk.RadioButton radio_language_detected;
-	[Widget] Gtk.RadioButton radio_language_force;
 
 
 	[Widget] Gtk.Button button_accept;
@@ -349,11 +350,21 @@ public class PreferencesWindow {
 		}
 		combo_language.Model = langsStore;
 		combo_language.Active = active;
+		combo_language.Changed += combo_language_changed;
 	}
 
 	private void on_radio_language_toggled (object obj, EventArgs args) {
 		hbox_combo_language.Sensitive = radio_language_force.Active;
+
+		hbox_need_restart.Visible = true;
 	}
+	private void on_radio_translate_toggled (object obj, EventArgs args) {
+		hbox_need_restart.Visible = true;
+	}
+	private	void combo_language_changed (object obj, EventArgs args) {
+		hbox_need_restart.Visible = true;
+	}
+
 
 	string getSelectedLanguage()
 	{

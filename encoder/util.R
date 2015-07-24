@@ -405,7 +405,6 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	accel$y <- accel$y * 1000 
-	errorSearching = FALSE
 
 	eccentric = 0
 	concentric = 0
@@ -530,12 +529,6 @@ findECPhases <- function(displacement,speed) {
 	crossMinRow=which(speed.ext$cross[,1] > searchMinSpeedEnd & speed.ext$cross[,1] < searchMaxSpeedIni)
 	#print(crossMinRow)
 			
-	#if (length(crossMinRow) > 0) {
-	#	print(crossMinRow)
-	#} else {
-	#	propulsiveEnd = length(displacement)
-	#	errorSearching = TRUE
-	#}
 	
 	eccentric = 0
 	isometric = 0

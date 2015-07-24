@@ -434,6 +434,27 @@ public class PreferencesWindow {
 		else
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DatabaseNotFound);
 	}
+	
+	void on_button_db_restore_clicked (object o, EventArgs args)
+	{
+		/*
+		 * TODO: problem is database stored is a chronojump.db or a folder (if images and videos were saved).
+		 * FileChooserAction only lets you use one type
+		 * In the future backup db as tgz or similar
+		 */
+
+		/*
+		fc = new Gtk.FileChooserDialog(Catalog.GetString("Restore database from:"),
+				preferences_win,
+				FileChooserAction.SelectFolder,
+				Catalog.GetString("Cancel"),ResponseType.Cancel,
+				Catalog.GetString("Restore"),ResponseType.Accept
+				);
+
+		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to restore?"));
+		confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
+		*/
+	}
 
 	void on_check_backup_multimedia_clicked(object o, EventArgs args) {
 		check_backup_encoder_tests.Active = check_backup_multimedia.Active;

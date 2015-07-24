@@ -1117,8 +1117,8 @@ public class EncoderConfiguration {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 1;
 			image = Constants.FileNameEncoderFrictionSideInertialLateral;
-			code = "Rotary friction - inertial machine side - lateral movement";
-			text = Catalog.GetString("Rotary friction encoder on inertial machine when person is moving laterally.") + "\n" +
+			code = "Rotary friction - inertial machine side - horizontal movement";
+			text = Catalog.GetString("Rotary friction encoder on inertial machine when person is moving horizontally.") + "\n" +
 				"*" + Catalog.GetString("Start capture with the string completely unwrapped.") + "*" + "\n" +
 				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled");
 
@@ -1161,8 +1161,8 @@ public class EncoderConfiguration {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 1;
 			image = Constants.FileNameEncoderFrictionAxisInertialLateral;
-			code = "Rotary friction - inertial machine axis - lateral movement";
-			text = Catalog.GetString("Rotary friction encoder on inertial machine when person is moving laterally.") + "\n" +
+			code = "Rotary friction - inertial machine axis - horizontal movement";
+			text = Catalog.GetString("Rotary friction encoder on inertial machine when person is moving horizontally.") + "\n" +
 				"*" + Catalog.GetString("Start capture with the string completely unwrapped.") + "*" + "\n" +
 				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled");
 
@@ -1225,8 +1225,8 @@ public class EncoderConfiguration {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 1;
 			image = Constants.FileNameEncoderAxisInertialLateral;
-			code = "Rotary axis - inertial machine - lateral movement";
-			text = Catalog.GetString("Rotary axis encoder on inertial machine when person is moving laterally.") + "\n" +
+			code = "Rotary axis - inertial machine - horizontal movement";
+			text = Catalog.GetString("Rotary axis encoder on inertial machine when person is moving horizontally.") + "\n" +
 				"*" + Catalog.GetString("Start capture with the string completely unwrapped.") + "*" + "\n" +
 				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled");
 

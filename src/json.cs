@@ -72,6 +72,7 @@ public class Json
 		try {
 			dataStream = request.GetRequestStream ();
 		} catch {
+			LogB.Warning("Error sending datastream");
 			this.ResultMessage = Catalog.GetString("Could not send file.") + "\n" + 
 				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
 						serverUrl);
@@ -83,9 +84,18 @@ public class Json
 
 		// Close the Stream object.
 		dataStream.Close ();
-
+        
 		// Get the response.
-		WebResponse response = request.GetResponse ();
+		WebResponse response;
+		try {
+			response = request.GetResponse ();
+		} catch {
+			LogB.Warning("Error getting response");
+			this.ResultMessage = Catalog.GetString("Could not send file.") + "\n" + 
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
+						serverUrl);
+			return false;
+		}
 
 		// Display the status.
 		LogB.Information(((HttpWebResponse)response).StatusDescription);

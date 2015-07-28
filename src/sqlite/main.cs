@@ -101,20 +101,27 @@ class Sqlite
 			LogB.SQL("-- catched --");
 
 			LogB.SQLoff();
+			dbcmd.Dispose(); //this seems critical in multiple open/close SQL
 			dbcon.Close();
-			
+			GC.Collect();
+			dbcmd = dbcon.CreateCommand();
+
+			LogB.Warning(" going to open ");
 			LogB.SQLon();
 			dbcon.Open();
 			
 			LogB.SQL("-- end of catched --");
 		}
-
+		
 		IsOpened = true;
 	}
 	public static void Close()
 	{
 		LogB.SQLoff();
+		dbcmd.Dispose(); //this seems critical in multiple open/close SQL
 		dbcon.Close();
+		GC.Collect();
+		dbcmd = dbcon.CreateCommand();
 		
 		IsOpened = false;
 	}

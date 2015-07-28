@@ -132,7 +132,8 @@ public class Json
 	}
 
 
-	public bool GetLastVersion() 
+	//public bool ChronojumpUpdated = true;
+	public bool GetLastVersion(string currentVersion) 
 	{
 		// Create a request using a URL that can receive a post. 
 		WebRequest request = WebRequest.Create (serverUrl + "/version");
@@ -159,7 +160,27 @@ public class Json
 		{
 			responseFromServer = sr.ReadToEnd();
 		}
-		this.ResultMessage = "Last version published: " + responseFromServer;
+
+		//this prints:
+		// {"stable": "1.4.9"}
+		//this.ResultMessage = "Last version published: " + responseFromServer;
+		
+		string [] strFull = responseFromServer.Split(new char[] {':'});
+		int startPos = strFull[1].IndexOf('"') +1;
+		int endPos = strFull[1].LastIndexOf('"') -2;
+
+		string lastVersionPublished = strFull[1].Substring(startPos,endPos); //1.4.9
+			
+		string updateStr = "";
+		if(currentVersion != lastVersionPublished)
+			updateStr = "\n\n" + Catalog.GetString("Update software at ") + "www.chronojump.org";
+			
+		this.ResultMessage =		
+			Catalog.GetString("Installed version is: ") + currentVersion + "\n" + 
+			Catalog.GetString("Last version published: ") + lastVersionPublished +
+			updateStr;
+		
+		//ChronojumpUpdated = (currentVersion == ResultMessage);
 
 		return true;
 	}

@@ -32,7 +32,8 @@ using LongoMatch.Gui;
 using LongoMatch.Video.Capturer;
 using LongoMatch.Video.Common;
 using LongoMatch.Video.Utils;
-//using System.Diagnostics;
+
+using System.Diagnostics;  //StopWatch
 
 public partial class ChronoJumpWindow 
 {
@@ -6212,21 +6213,48 @@ LogB.Debug("X");
 		*/
 	}
 	
-	private void on_menuitem_SQL_stress_test_short_activate (object o, EventArgs args) {
+	// ---- start SQL stress tests ---->
+
+	private void on_menuitem_SQL_stress_test_safe_short_activate (object o, EventArgs args) {
+		LogB.Information("start safe short stress test ---->");
 		sql_stress_test(1000);
 	}
-	private void on_menuitem_SQL_stress_test_long_activate (object o, EventArgs args) {
+	private void on_menuitem_SQL_stress_test_safe_long_activate (object o, EventArgs args) {
+		LogB.Information("start safe long stress test ---->");
 		sql_stress_test(4000);
 	}
+	private void on_menuitem_SQL_stress_test_not_safe_short_activate (object o, EventArgs args) {
+		LogB.Information("start not safe short stress test ---->");
+		Sqlite.SafeClose = false;
+		sql_stress_test(1000);
+		Sqlite.SafeClose = true;
+	}
+	private void on_menuitem_SQL_stress_test_not_safe_long_activate (object o, EventArgs args) {
+		LogB.Information("start not safe long stress test ---->");
+		Sqlite.SafeClose = false;
+		sql_stress_test(4000);
+		Sqlite.SafeClose = true;
+	}
 	private void sql_stress_test (int times) {
+		Stopwatch sw = new Stopwatch();
+
+		sw.Start();
+
 		//trying if new way of Sqlite.Close disposing dbcmd fixes problems when multiple open / close connection
 		for(int i=0 ; i < times; i++) {
 			LogB.Debug (" i=" + i.ToString());
 			LogB.Debug(SqlitePreferences.Select("databaseVersion"));
 		}
-			
-		new DialogMessage(Constants.MessageTypes.INFO, "SQL test successfull!" + "\n\n" + "Done " + times + " times.");
+		sw.Stop();
+
+		string message = "SQL test successfull!" + "\n\n" + 
+			"Done " + times + " times." + "\n\n" + 
+			"Elapsed " + sw.ElapsedMilliseconds + " milliseconds.";
+		LogB.Information(message);
+		new DialogMessage(Constants.MessageTypes.INFO, message);
 	}
+
+	// <---- end SQL stress tests ----
 
 
 	private void on_about1_activate (object o, EventArgs args) {

@@ -43,9 +43,11 @@ public class ErrorWindow
 	[Widget] Gtk.TextView textview_comments;
 	[Widget] Gtk.Button button_send_log;
 	[Widget] Gtk.Label label_send_log_message;
+	
 
 	string table;
 	static ErrorWindow ErrorWindowBox;
+	string progVersion = "";
 	
 	public ErrorWindow (string text1)
 	{
@@ -134,6 +136,28 @@ public class ErrorWindow
 
 		label_send_log_message.Text = js.ResultMessage;
 	}
+	
+	private void on_button_check_last_version_clicked (object o, EventArgs args)
+	{
+		Json js = new Json();
+		bool success = js.GetLastVersion(progVersion);
+
+		if(success) {
+			LogB.Information(js.ResultMessage);
+			new DialogMessage(
+					"Chronojump",
+					Constants.MessageTypes.INFO, 
+					js.ResultMessage
+					);
+		}
+		else {
+			LogB.Error(js.ResultMessage);
+			new DialogMessage(
+					"Chronojump",
+					Constants.MessageTypes.WARNING, 
+					js.ResultMessage);
+		}
+	}
 
 	public void Show_button_open_database_folder () {
 		button_open_database_folder.Show();
@@ -193,7 +217,11 @@ public class ErrorWindow
 
 	public Button Button_abort {
 		get { return button_abort; }
-	} 	
+	} 
+
+	public string ProgVersion {
+		set { progVersion = value; }
+	}
 	
 	public void HideAndNull() {
 		ErrorWindowBox.error_window.Hide();

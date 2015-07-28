@@ -535,6 +535,7 @@ public class ChronoJump
 			} else { 
 				errorWin = ErrorWindow.Show(messageToShowOnBoot);
 				errorWin.Show_send_log();
+				errorWin.ProgVersion = progVersion;
 				errorWin.Button_accept_label(Catalog.GetString("Open Chronojump"));
 				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_continue);
 			}

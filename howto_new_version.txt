@@ -104,16 +104,13 @@ chmod +rx Chrono...exe
 signal-ftp-sync
 wait 5'
 
-server stuff
-------------
-ssh to chronojump server, sqlite-3 chronojump_server.db
-update preferences set value="0.9.3.0" where name="versionAvailable";
-
-API:
+API (GetLastVersion)
+--------------------
 ssh to chronojump server
+su
 vi /etc/chronojump.conf
 
-Update: chronojump_stable_version
+Update: chronojump_stable_version (4 numbers, eg. 1.4.9.0)
 
 /etc/init.d/gunicorn restart
 verify:
@@ -130,3 +127,11 @@ twitters again with photos, changes, ...
 other stuff
 -----------
 Update manual/s to chronojump site if changed
+
+_____________ OLD _____________
+
+server stuff
+------------
+ssh to chronojump server, sqlite-3 chronojump_server.db
+update preferences set value="0.9.3.0" where name="versionAvailable";
+

@@ -6211,6 +6211,22 @@ LogB.Debug("X");
 				"Temporarily Disabled");
 		*/
 	}
+	
+	private void on_menuitem_SQL_stress_test_short_activate (object o, EventArgs args) {
+		sql_stress_test(1000);
+	}
+	private void on_menuitem_SQL_stress_test_long_activate (object o, EventArgs args) {
+		sql_stress_test(4000);
+	}
+	private void sql_stress_test (int times) {
+		//trying if new way of Sqlite.Close disposing dbcmd fixes problems when multiple open / close connection
+		for(int i=0 ; i < times; i++) {
+			LogB.Debug (" i=" + i.ToString());
+			LogB.Debug(SqlitePreferences.Select("databaseVersion"));
+		}
+			
+		new DialogMessage(Constants.MessageTypes.INFO, "SQL test successfull!" + "\n\n" + "Done " + times + " times.");
+	}
 
 
 	private void on_about1_activate (object o, EventArgs args) {

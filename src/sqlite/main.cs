@@ -72,6 +72,7 @@ class Sqlite
 	protected static int conversionSubRateTotal;
 
 	public static bool IsOpened = false;
+	public static bool SafeClose = true;
 
 	/*
 	 * Important, change this if there's any update to database
@@ -100,11 +101,7 @@ class Sqlite
 		} catch {
 			LogB.SQL("-- catched --");
 
-			LogB.SQLoff();
-			dbcmd.Dispose(); //this seems critical in multiple open/close SQL
-			dbcon.Close();
-			GC.Collect();
-			dbcmd = dbcon.CreateCommand();
+			Close();
 
 			LogB.Warning(" going to open ");
 			LogB.SQLon();
@@ -118,10 +115,17 @@ class Sqlite
 	public static void Close()
 	{
 		LogB.SQLoff();
-		dbcmd.Dispose(); //this seems critical in multiple open/close SQL
+			
+		if(SafeClose) {
+			dbcmd.Dispose(); //this seems critical in multiple open/close SQL
+		}
+
 		dbcon.Close();
-		GC.Collect();
-		dbcmd = dbcon.CreateCommand();
+		
+		if(SafeClose) {
+			//GC.Collect(); don't need and very slow
+			dbcmd = dbcon.CreateCommand();
+		}
 		
 		IsOpened = false;
 	}

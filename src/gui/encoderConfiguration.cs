@@ -50,7 +50,22 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.Label label_count;
 
 	[Widget] Gtk.TextView textview;
-	[Widget] Gtk.Box hbox_d;
+
+	[Widget] Gtk.Box hbox_d; //TODO: this will be deprecated
+	[Widget] Gtk.Box vbox_d;
+	[Widget] Gtk.Box hbox_list_d;
+	[Widget] Gtk.ComboBox combo_d_num;
+	[Widget] Gtk.SpinButton spin_d_0;
+	[Widget] Gtk.SpinButton spin_d_1;
+	[Widget] Gtk.SpinButton spin_d_2;
+	[Widget] Gtk.SpinButton spin_d_3;
+	[Widget] Gtk.SpinButton spin_d_4;
+	[Widget] Gtk.SpinButton spin_d_5;
+	[Widget] Gtk.SpinButton spin_d_6;
+	[Widget] Gtk.SpinButton spin_d_7;
+	[Widget] Gtk.SpinButton spin_d_8;
+	[Widget] Gtk.SpinButton spin_d_9;
+
 	[Widget] Gtk.Box hbox_D;
 	[Widget] Gtk.Box hbox_angle_push;
 	[Widget] Gtk.Box hbox_angle_weight;
@@ -59,7 +74,7 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.Box hbox_inertia_length;
 	[Widget] Gtk.Box vbox_inertia_calcule;
 
-	[Widget] Gtk.SpinButton spin_d;
+	[Widget] Gtk.SpinButton spin_d; //TODO: this will be deprecated
 	[Widget] Gtk.SpinButton spin_D;
 	[Widget] Gtk.SpinButton spin_angle_push;
 	[Widget] Gtk.SpinButton spin_angle_weight;
@@ -137,6 +152,8 @@ public class EncoderConfigurationWindow
 
 
 		EncoderConfigurationWindowBox.initializeList(ec.type, ec.has_inertia, ec.rotaryFrictionOnAxis, ec.position);
+	
+		EncoderConfigurationWindowBox.create_list_d_spinbutton();
 		
 		EncoderConfigurationWindowBox.putValuesStoredPreviously(
 				ec.d, ec.D, ec.anglePush, ec.angleWeight, 
@@ -249,6 +266,7 @@ public class EncoderConfigurationWindow
 		textview.Buffer = tb1;
 		
 		hbox_d.Visible = ec.has_d;
+		vbox_d.Visible = ec.has_d;
 		hbox_D.Visible = ec.has_D;
 		hbox_angle_push.Visible = ec.has_angle_push;
 		hbox_angle_weight.Visible = ec.has_angle_weight;
@@ -280,6 +298,78 @@ public class EncoderConfigurationWindow
 			
 		spin_inertia_mass.Value = extraWeightGrams;
 		spin_inertia_length.Value = extraWeightLength;
+	}
+	
+	private void create_list_d_spinbutton () {
+		/*
+		 * adjustment definition:
+		 * initial value
+		 * minimum value
+		 * maximum value
+		 * increment for a single step (e.g. one click on an arrow)
+		 * increment for a page-up or page-down keypress
+		 * page size (using any value other than 0 for this parameter is deprecated) 
+		 * 
+		 * spinbutton creation (adjustment, climb rate, decimals)
+		 */
+		spin_d_0 = new Gtk.SpinButton(new Adjustment(4, .5f, 80.0f, .01f, 10.0f, 0f), 1, 2);
+		spin_d_1 = new Gtk.SpinButton(new Adjustment(4, .5f, 80.0f, .01f, 10.0f, 0f), 1, 2);
+		spin_d_2 = new Gtk.SpinButton(new Adjustment(4, .5f, 80.0f, .01f, 10.0f, 0f), 1, 2);
+		spin_d_3 = new Gtk.SpinButton(new Adjustment(4, .5f, 80.0f, .01f, 10.0f, 0f), 1, 2);
+		spin_d_4 = new Gtk.SpinButton(new Adjustment(4, .5f, 80.0f, .01f, 10.0f, 0f), 1, 2);
+		spin_d_5 = new Gtk.SpinButton(new Adjustment(4, .5f, 80.0f, .01f, 10.0f, 0f), 1, 2);
+		spin_d_6 = new Gtk.SpinButton(new Adjustment(4, .5f, 80.0f, .01f, 10.0f, 0f), 1, 2);
+		spin_d_7 = new Gtk.SpinButton(new Adjustment(4, .5f, 80.0f, .01f, 10.0f, 0f), 1, 2);
+		spin_d_8 = new Gtk.SpinButton(new Adjustment(4, .5f, 80.0f, .01f, 10.0f, 0f), 1, 2);
+		spin_d_9 = new Gtk.SpinButton(new Adjustment(4, .5f, 80.0f, .01f, 10.0f, 0f), 1, 2);
+		
+		reset_hbox_list_d (1);
+	}
+
+	private void on_combo_d_num_changed (object o, EventArgs args) {
+		reset_hbox_list_d(Convert.ToInt32(UtilGtk.ComboGetActive(combo_d_num)));
+	}
+	
+	void reset_hbox_list_d (int colsNum) 
+	{
+		foreach(Gtk.SpinButton sp in hbox_list_d.Children)
+			hbox_list_d.Remove(sp);
+
+		for (int i = 0; i < colsNum; i ++) {
+			switch(i) {
+				case 0: 
+					hbox_list_d.PackStart(spin_d_0, false, false, 0);
+					break;
+				case 1: 
+					hbox_list_d.PackStart(spin_d_1, false, false, 0);
+					break;
+				case 2: 
+					hbox_list_d.PackStart(spin_d_2, false, false, 0);
+					break;
+				case 3: 
+					hbox_list_d.PackStart(spin_d_3, false, false, 0);
+					break;
+				case 4: 
+					hbox_list_d.PackStart(spin_d_4, false, false, 0);
+					break;
+				case 5: 
+					hbox_list_d.PackStart(spin_d_5, false, false, 0);
+					break;
+				case 6: 
+					hbox_list_d.PackStart(spin_d_6, false, false, 0);
+					break;
+				case 7: 
+					hbox_list_d.PackStart(spin_d_7, false, false, 0);
+					break;
+				case 8: 
+					hbox_list_d.PackStart(spin_d_8, false, false, 0);
+					break;
+				case 9: 
+					hbox_list_d.PackStart(spin_d_9, false, false, 0);
+					break;
+			}
+		}
+		hbox_list_d.ShowAll();
 	}
 	
 	/*

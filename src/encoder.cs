@@ -23,6 +23,7 @@ using System.Data;
 using System.Text; //StringBuilder
 using System.IO;   //for Path
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
 public class EncoderParams
@@ -924,6 +925,8 @@ public class EncoderConfiguration {
 	public int extraWeightN; //how much extra weights (inertia)
 	public int extraWeightGrams; //weight of each extra weight (inertia)
 	public double extraWeightLength; //length from center to center (cm) (inertia)
+	
+	public List<double> list_d;	//list of diameters depending on the anchorage position 
 
 
 	public string textDefault = Catalog.GetString("Linear encoder attached to a barbell.") + "\n" + 
@@ -953,6 +956,7 @@ public class EncoderConfiguration {
 		extraWeightN = 0;
 		extraWeightGrams = 0;
 		extraWeightLength = 1;
+		list_d = new List<double>(); 
 	}
 
 	// note: if this changes, change also in:
@@ -967,6 +971,7 @@ public class EncoderConfiguration {
 		has_inertia = false;
 		rotaryFrictionOnAxis = false;
 		gearedDown = 1;
+		list_d = new List<double>(); 
 
 		// ---- LINEAR ----
 		// ---- not inertial
@@ -1266,12 +1271,25 @@ public class EncoderConfiguration {
 			this.extraWeightN = 	Convert.ToInt32(strFull[8]);
 			this.extraWeightGrams = Convert.ToInt32(strFull[9]);
 			this.extraWeightLength = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[10]));
+			if(strFull.Length > 11) //this param starts at 1.5.3
+				list_d = readList_d(strFull[11]);
 		} else {
 			this.inertiaTotal = 	inertiaMachine;
 			this.extraWeightN = 	0;
 			this.extraWeightGrams = 0;
 			this.extraWeightLength = 1;
 		}
+	}
+	//list_d contains the different diameters (byt eh anchorages). They are stored as '='
+	private List<double> readList_d(string listFromSQL) 
+	{
+		List<double> l = new List<double>(); 
+		string [] strFull = listFromSQL.Split(new char[] {'='});
+		foreach (string s in strFull) {
+			double d = Convert.ToDouble(Util.ChangeDecimalSeparator(s));
+			l.Add(d);
+		}
+		return l;
 	}
 
 	//called on capture, recalculate, load
@@ -1328,9 +1346,19 @@ public class EncoderConfiguration {
 				inertiaTotal.ToString() + sep + 
 				extraWeightN.ToString() + sep + 
 				extraWeightGrams.ToString() + sep +
-				extraWeightLength.ToString()
+				extraWeightLength.ToString() + sep +
+				writeList_d(list_d)
 				;
 		}
+	}
+	private string writeList_d(List<double> l) {
+		string str = "";
+		string sep = "";
+		foreach(double d in l) {
+			str += sep + Util.ConvertToPoint(d);
+			sep = "=";
+		}
+		return str;
 	}
 	
 	//just to show on a treeview	

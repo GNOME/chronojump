@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-29 14:09+0200\n"
-"PO-Revision-Date: 2015-07-29 15:17+0100\n"
+"PO-Revision-Date: 2015-07-29 16:57+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5549,7 +5549,7 @@ msgstr "Velocitat, Potència / Càrrega"
 #: ../src/gui/encoder.cs:1997 ../src/gui/encoder.cs:2015
 #: ../src/gui/encoder.cs:3255
 msgid "1RM Bench Press"
-msgstr "1RM de pres de banc"
+msgstr "1RM de premsa de banc"
 
 #: ../src/gui/encoder.cs:1999 ../src/gui/encoder.cs:2017
 #: ../src/gui/encoder.cs:3255
@@ -8365,7 +8365,7 @@ msgstr "Veneçuela"
 #. written just to have the names translated
 #: ../src/sqlite/encoder.cs:563
 msgid "Bench press"
-msgstr "Pres de banc"
+msgstr "Premsa de banc"
 
 #: ../src/sqlite/encoder.cs:564
 msgid "Squat"

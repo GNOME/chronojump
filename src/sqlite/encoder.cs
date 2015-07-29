@@ -558,6 +558,10 @@ class SqliteEncoder : Sqlite
 		addEncoderJumpExercise();
 		addEncoderInclinatedExercises();
 	}
+
+	//written just to have the names translated
+	private string ExerciseTranslatedBenchPress = Catalog.GetString("Bench press");
+	private string ExerciseTranslatedSquat = Catalog.GetString("Squat");
 	
 	protected internal static void addEncoderFreeExercise()
 	{

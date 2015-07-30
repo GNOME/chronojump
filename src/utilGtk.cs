@@ -21,6 +21,7 @@
 using System;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using System.IO;
 using Gtk;
 using Gdk;
@@ -149,6 +150,15 @@ public class UtilGtk
 		//2nd put new values
 		foreach (string str in array)
 			myCombo.AppendText (str);
+	}
+	
+	public static void ComboUpdate(ComboBox myCombo, List<double> list) {
+		//1stdelete combo values
+		comboDelAll(myCombo);
+
+		//2nd put new values
+		foreach (double l in list)
+			myCombo.AppendText (l.ToString());
 	}
 	
 	public static void ComboAdd(ComboBox myCombo, string str) {

@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic; //List<T>
 using Gtk;
 using Gdk;
 using Glade;
@@ -160,7 +161,7 @@ public class EncoderConfigurationWindow
 		EncoderConfigurationWindowBox.create_list_d_spinbutton();
 		
 		EncoderConfigurationWindowBox.putValuesStoredPreviously(
-				ec.d, ec.D, ec.anglePush, ec.angleWeight, 
+				ec.d, ec.list_d, ec.D, ec.anglePush, ec.angleWeight, 
 				ec.inertiaMachine, ec.extraWeightGrams, ec.extraWeightLength);
 		
 
@@ -287,11 +288,20 @@ public class EncoderConfigurationWindow
 			on_button_encoder_capture_inertial_show_clicked (new object(), new EventArgs());
 	}
 	
-	private void putValuesStoredPreviously(double d, double D, int anglePush, int angleWeight, 
+	private void putValuesStoredPreviously(double d, List<double> list_d, double D, int anglePush, int angleWeight, 
 			int inertia, int extraWeightGrams, double extraWeightLength) 
 	{
 		if(d != -1)
 			spin_d.Value = d;
+		if(list_d != null && list_d.Count > 0) {
+			//when there's 1 value in list_d, first value (0) in combo should be selected
+			combo_d_num.Active = list_d.Count -1; //this will perform a reset on spinbuttons
+		
+			int i = 0;
+			foreach(Gtk.SpinButton sp in hbox_list_d.Children)
+				sp.Value = list_d[i ++];
+		}
+
 		if(D != -1)
 			spin_D.Value = D;
 		if(anglePush != -1)
@@ -379,6 +389,16 @@ public class EncoderConfigurationWindow
 		hbox_list_d.ShowAll();
 	}
 	
+	private List<double> get_list_d	() {
+		List<double> l = new List<double>(); 
+		double d = new double();
+		foreach(Gtk.SpinButton sp in hbox_list_d.Children) {
+			d = (double) sp.Value;
+			l.Add(d);
+		}
+		return l;
+	}
+	
 	/*
 	 * Use this to retrieve values after accept
 	 * do not use to know current encoder configuration
@@ -390,13 +410,20 @@ public class EncoderConfigurationWindow
 		EncoderConfiguration ec = (EncoderConfiguration) list[listCurrent];
 		
 		ec.d = -1;
+		ec.list_d = new List<double>(); 
 		ec.D = -1;
 		ec.anglePush = -1;
 		ec.angleWeight = -1;
 		ec.inertiaMachine = -1;
 		
-		if(ec.has_d)
-			ec.d = (double) spin_d.Value; 
+		if(ec.has_d) {
+			if(ec.has_inertia) {
+				ec.list_d = get_list_d();
+				ec.d = ec.list_d[0]; //selected value is the first
+			}
+			else
+				ec.d = (double) spin_d.Value; 
+		}
 
 		if(ec.has_D)
 			ec.D = (double) spin_D.Value; 

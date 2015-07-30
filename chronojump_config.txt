@@ -44,6 +44,11 @@ AutodetectPort=DISCARDFIRST
 #default: OnlyEncoder=FALSE
 OnlyEncoder=TRUE
 
+#On encoder capture hide below table and side vpaned_encoder_capture_video_and_set_graph
+#Note if this is true, then video will not be shown
+#default: EncoderCaptureShowOnlyBars=FALSE
+EncoderCaptureShowOnlyBars=FALSE
+
 #Hide left person box. Select person by a label and button on the top
 #default: PersonWinHide=FALSE
 PersonWinHide=TRUE

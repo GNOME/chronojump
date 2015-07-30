@@ -79,6 +79,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_encoder_curve_action;
 	[Widget] Gtk.Button button_encoder_delete_signal;
 	
+	[Widget] Gtk.VPaned vpaned_encoder_capture_video_and_set_graph;
 		
 	//encoder video
 	[Widget] Gtk.Alignment alignment_video_encoder;
@@ -178,10 +179,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_analyze;
 	
+	[Widget] Gtk.Alignment alignment_treeview_encoder_capture_curves;
 	[Widget] Gtk.TreeView treeview_encoder_capture_curves;
 	[Widget] Gtk.TreeView treeview_encoder_analyze_curves;
 	
 	[Widget] Gtk.DrawingArea encoder_capture_signal_drawingarea;
+
 	[Widget] Gtk.DrawingArea encoder_capture_curves_bars_drawingarea;
 	Gdk.Pixmap encoder_capture_signal_pixmap = null;
 	Gdk.Pixmap encoder_capture_curves_bars_pixmap = null;

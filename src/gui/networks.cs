@@ -80,6 +80,11 @@ public partial class ChronoJumpWindow
 		if(config.OnlyEncoder)
 			select_menuitem_mode_toggled(menuitem_modes.POWER);
 		
+		if(config.EncoderCaptureShowOnlyBars) {
+			vpaned_encoder_capture_video_and_set_graph.Visible = false;
+			alignment_treeview_encoder_capture_curves.Visible = false;
+		}
+		
 		if(config.PersonWinHide) {
 			//vbox_persons.Visible = false;
 			notebook_session_person.Visible = false;

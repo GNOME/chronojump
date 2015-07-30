@@ -32,6 +32,7 @@ public class Config
 	public bool UseVideo;
 	public AutodetectPortEnum AutodetectPort;
 	public bool OnlyEncoder;
+	public bool EncoderCaptureShowOnlyBars;
 	public bool PersonWinHide;
 	public bool EncoderAnalyzeHide;
 	public EncoderConfiguration Econf;
@@ -45,6 +46,7 @@ public class Config
 		UseVideo = true;
 		AutodetectPort = AutodetectPortEnum.ACTIVE;
 		OnlyEncoder = false;
+		EncoderCaptureShowOnlyBars = false;
 		PersonWinHide = false;
 		EncoderAnalyzeHide = false;
 		Econf = null; 
@@ -82,6 +84,8 @@ public class Config
 							Enum.Parse(typeof(AutodetectPortEnum), parts[1]);
 					else if(parts[0] == "OnlyEncoder" && Util.StringToBool(parts[1]))
 						OnlyEncoder = true;
+					else if(parts[0] == "EncoderCaptureShowOnlyBars" && Util.StringToBool(parts[1]))
+						EncoderCaptureShowOnlyBars = true;
 					else if(parts[0] == "PersonWinHide" && Util.StringToBool(parts[1]))
 						PersonWinHide = true;
 					else if(parts[0] == "EncoderAnalyzeHide" && Util.StringToBool(parts[1]))
@@ -149,6 +153,7 @@ public class Config
 				"UseVideo = " + UseVideo.ToString() + "\n" +
 				"AutodetectPort = " + AutodetectPort.ToString() + "\n" +
 				"OnlyEncoder = " + OnlyEncoder.ToString() + "\n" +
+				"EncoderCaptureShowOnlyBars = " + EncoderCaptureShowOnlyBars.ToString() + "\n" +
 				"PersonWinHide = " + PersonWinHide.ToString() + "\n" +
 				"EncoderAnalyzeHide = " + EncoderAnalyzeHide.ToString() + "\n" +
 				"Econf = " + econfStr + "\n" +

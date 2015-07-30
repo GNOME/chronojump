@@ -42,6 +42,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_encoder_1RM_percent;
 	[Widget] Gtk.Label label_encoder_im_total;
 	[Widget] Gtk.SpinButton spin_encoder_im_weights_n;
+	[Widget] Gtk.HBox hbox_combo_encoder_anchorage;
+	[Widget] Gtk.ComboBox combo_encoder_anchorage;
 	
 	[Widget] Gtk.Label label_encoder_selected;	
 	
@@ -312,7 +314,6 @@ public partial class ChronoJumpWindow
 
 		//read from SQL
 		encoderConfigurationCurrent = SqliteEncoder.LoadEncoderConfiguration();
-		encoderConfigurationGUIUpdate();
 		
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 
@@ -321,6 +322,8 @@ public partial class ChronoJumpWindow
 		//changed, now unselectable because there are the checkboxes
 
 		createEncoderCombos();
+		
+		encoderConfigurationGUIUpdate();
 		
 		//on start it's concentric and powerbars. Eccon-together should be unsensitive	
 		check_encoder_analyze_eccon_together.Sensitive = false;
@@ -379,12 +382,22 @@ public partial class ChronoJumpWindow
 		EncoderConfiguration eConfNew = encoder_configuration_win.GetAcceptedValues();
 		if(encoderConfigurationCurrent == eConfNew)
 			return;
+			
+		bool combo_encoder_anchorage_should_update = (encoderConfigurationCurrent.list_d != eConfNew.list_d);
+
 
 		encoderConfigurationCurrent = eConfNew;
-				
+		LogB.Information("EncoderConfigurationCurrent = " + encoderConfigurationCurrent.ToStringOutput(EncoderConfiguration.Outputs.SQL));
+		
+
 		if(encoderConfigurationCurrent.has_inertia) {
 			notebook_encoder_capture_extra_mass.CurrentPage = 1;
 
+			if(combo_encoder_anchorage_should_update) {
+				UtilGtk.ComboUpdate(combo_encoder_anchorage, encoderConfigurationCurrent.list_d);
+				combo_encoder_anchorage.Active = 0;
+			}
+			
 			encoderConfigurationCurrent.extraWeightN = (int) spin_encoder_im_weights_n.Value; 
 			encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
@@ -398,6 +411,12 @@ public partial class ChronoJumpWindow
 			Config.UpdateEncoderConfiguration(encoderConfigurationCurrent);
 	}
 	
+	void on_combo_encoder_anchorage_changed (object o, EventArgs args) {
+		string selected = UtilGtk.ComboGetActive(combo_encoder_anchorage);
+		if(selected != "" && Util.IsNumber(selected, true))
+			encoderConfigurationCurrent.d = Convert.ToDouble(selected);
+	}
+
 	void on_spin_encoder_im_weights_n_value_changed (object o, EventArgs args) {
 		encoderConfigurationCurrent.extraWeightN = (int) spin_encoder_im_weights_n.Value; 
 		encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
@@ -1457,6 +1476,15 @@ public partial class ChronoJumpWindow
 	{
 		if(encoderConfigurationCurrent.has_inertia) {
 			notebook_encoder_capture_extra_mass.CurrentPage = 1;
+			
+			if(encoderConfigurationCurrent.list_d != null && encoderConfigurationCurrent.list_d.Count > 0) 
+			{
+				UtilGtk.ComboUpdate(combo_encoder_anchorage, encoderConfigurationCurrent.list_d);
+				combo_encoder_anchorage.Active = UtilGtk.ComboMakeActive(
+						combo_encoder_anchorage, 
+						encoderConfigurationCurrent.d.ToString()
+						);
+			}
 
 			spin_encoder_im_weights_n.Value = encoderConfigurationCurrent.extraWeightN;
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
@@ -3222,6 +3250,11 @@ public partial class ChronoJumpWindow
 		combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, 
 				Catalog.GetString(comboLateralityOptions[0]));
 
+		//create combo encoder anchorage
+		combo_encoder_anchorage = Gtk.ComboBox.NewText();
+		combo_encoder_anchorage.Changed += 
+			new EventHandler(on_combo_encoder_anchorage_changed );
+
 
 		//create combo analyze data compare (variables)
 		string [] comboDataCompareOptions = { 
@@ -3284,6 +3317,10 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_laterality.ShowAll();
 		combo_encoder_laterality.Sensitive = true;
 		
+		hbox_combo_encoder_anchorage.PackStart(combo_encoder_anchorage, false, true, 0);
+		hbox_combo_encoder_anchorage.ShowAll();
+		combo_encoder_anchorage.Sensitive = true;
+
 		hbox_encoder_analyze_data_compare.PackStart(combo_encoder_analyze_data_compare, true, true, 0);
 		hbox_encoder_analyze_data_compare.ShowAll();
 		combo_encoder_analyze_data_compare.Sensitive = true;

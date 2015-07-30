@@ -51,8 +51,12 @@ public class EncoderConfigurationWindow
 
 	[Widget] Gtk.TextView textview;
 
-	[Widget] Gtk.Box hbox_d; //TODO: this will be deprecated
-	[Widget] Gtk.Box vbox_d;
+	//diameter when there's no inertia
+	[Widget] Gtk.Box hbox_d; 
+	[Widget] Gtk.SpinButton spin_d;
+
+	//diameters whent there's inertia (is plural because there can be many anchorages)
+	[Widget] Gtk.Box vbox_d; 
 	[Widget] Gtk.Box hbox_list_d;
 	[Widget] Gtk.ComboBox combo_d_num;
 	[Widget] Gtk.SpinButton spin_d_0;
@@ -66,6 +70,7 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.SpinButton spin_d_8;
 	[Widget] Gtk.SpinButton spin_d_9;
 
+
 	[Widget] Gtk.Box hbox_D;
 	[Widget] Gtk.Box hbox_angle_push;
 	[Widget] Gtk.Box hbox_angle_weight;
@@ -74,7 +79,6 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.Box hbox_inertia_length;
 	[Widget] Gtk.Box vbox_inertia_calcule;
 
-	[Widget] Gtk.SpinButton spin_d; //TODO: this will be deprecated
 	[Widget] Gtk.SpinButton spin_D;
 	[Widget] Gtk.SpinButton spin_angle_push;
 	[Widget] Gtk.SpinButton spin_angle_weight;
@@ -265,8 +269,9 @@ public class EncoderConfigurationWindow
 		tb1.Text = "[" + ec.code + "]\n" + ec.text;
 		textview.Buffer = tb1;
 		
-		hbox_d.Visible = ec.has_d;
-		vbox_d.Visible = ec.has_d;
+		hbox_d.Visible = (ec.has_d && ! ec.has_inertia);
+		vbox_d.Visible = (ec.has_d && ec.has_inertia);
+
 		hbox_D.Visible = ec.has_D;
 		hbox_angle_push.Visible = ec.has_angle_push;
 		hbox_angle_weight.Visible = ec.has_angle_weight;
@@ -322,6 +327,8 @@ public class EncoderConfigurationWindow
 		spin_d_7 = new Gtk.SpinButton(new Adjustment(4, .5f, 80.0f, .01f, 10.0f, 0f), 1, 2);
 		spin_d_8 = new Gtk.SpinButton(new Adjustment(4, .5f, 80.0f, .01f, 10.0f, 0f), 1, 2);
 		spin_d_9 = new Gtk.SpinButton(new Adjustment(4, .5f, 80.0f, .01f, 10.0f, 0f), 1, 2);
+
+		combo_d_num.Active = 0;
 		
 		reset_hbox_list_d (1);
 	}

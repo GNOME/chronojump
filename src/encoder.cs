@@ -1124,7 +1124,7 @@ public class EncoderConfiguration {
 			image = Constants.FileNameEncoderFrictionSideInertialLateral;
 			code = "Rotary friction - inertial machine side - horizontal movement";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine when person is moving horizontally.") + "\n" +
-				"*" + Catalog.GetString("Start capture with the string completely unwrapped.") + "*" + "\n" +
+				"*" + Catalog.GetString("Start capture with the rope completely unwrapped.") + "*" + "\n" +
 				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled");
 
 			has_d = true;
@@ -1168,7 +1168,7 @@ public class EncoderConfiguration {
 			image = Constants.FileNameEncoderFrictionAxisInertialLateral;
 			code = "Rotary friction - inertial machine axis - horizontal movement";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine when person is moving horizontally.") + "\n" +
-				"*" + Catalog.GetString("Start capture with the string completely unwrapped.") + "*" + "\n" +
+				"*" + Catalog.GetString("Start capture with the rope completely unwrapped.") + "*" + "\n" +
 				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled");
 
 			has_d = true;
@@ -1232,7 +1232,7 @@ public class EncoderConfiguration {
 			image = Constants.FileNameEncoderAxisInertialLateral;
 			code = "Rotary axis - inertial machine - horizontal movement";
 			text = Catalog.GetString("Rotary axis encoder on inertial machine when person is moving horizontally.") + "\n" +
-				"*" + Catalog.GetString("Start capture with the string completely unwrapped.") + "*" + "\n" +
+				"*" + Catalog.GetString("Start capture with the rope completely unwrapped.") + "*" + "\n" +
 				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled");
 
 			has_d = true;

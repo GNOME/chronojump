@@ -38,6 +38,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Entry entry_raspberry_extra_weight;
 	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_no_raspberry;
 	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_raspberry;
+	[Widget] Gtk.HBox hbox_encoder_im_weights_n;
 	
 	//config.EncoderNameAndCapture
 	[Widget] Gtk.Box hbox_encoder_person;
@@ -68,6 +69,14 @@ public partial class ChronoJumpWindow
 		if(config.CustomButtons) {
 			hbox_encoder_capture_extra_mass_no_raspberry.Visible = false;
 			hbox_encoder_capture_extra_mass_raspberry.Visible = true;
+		
+			button_encoder_select.HeightRequest = 40;
+			//this will make all encoder capture controls taller	
+			button_encoder_capture.SetSizeRequest(150,100);
+			//button_encoder_capture.HeightRequest = 100;
+
+			spin_encoder_im_weights_n.Visible = false;
+			hbox_encoder_im_weights_n.Visible = true;
 		}
 		if(! config.UseVideo) {
 			useVideo = false;

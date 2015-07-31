@@ -37,11 +37,13 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Notebook notebook_encoder_capture_extra_mass;
 
+	[Widget] Gtk.Button button_encoder_select;
 	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
 	[Widget] Gtk.Label label_encoder_displaced_weight;
 	[Widget] Gtk.Label label_encoder_1RM_percent;
 	[Widget] Gtk.Label label_encoder_im_total;
 	[Widget] Gtk.SpinButton spin_encoder_im_weights_n;
+	[Widget] Gtk.Entry entry_encoder_im_weights_n;
 	[Widget] Gtk.HBox hbox_combo_encoder_anchorage;
 	[Widget] Gtk.ComboBox combo_encoder_anchorage;
 	
@@ -420,11 +422,46 @@ public partial class ChronoJumpWindow
 			encoderConfigurationCurrent.d = Convert.ToDouble(selected);
 	}
 
+
+	// ---- start of spin_encoder_im_weights_n ---->
+	/*
+	 * when spin is seen the others (-1, entry, +1) are not seen
+	 * -1, 1 change the entry
+	 * entry changes de spin
+	 * spin does not change anything
+	 */
+	
+	void on_button_encoder_im_weights_n_minus_clicked (object o, EventArgs args) {
+		changeImWeights(-1);
+	}
+	void on_button_encoder_im_weights_n_plus_clicked (object o, EventArgs args) {
+		changeImWeights(+1);
+	}
+	private void changeImWeights(int change) {
+		int newValue = Convert.ToInt32(entry_encoder_im_weights_n.Text) + change;
+
+		double min, max;
+		spin_encoder_im_weights_n.GetRange(out min, out max);
+		if(newValue >= Convert.ToDouble(min) && newValue <= Convert.ToDouble(max))
+			entry_encoder_im_weights_n.Text = newValue.ToString();
+	}
+
 	void on_spin_encoder_im_weights_n_value_changed (object o, EventArgs args) {
 		encoderConfigurationCurrent.extraWeightN = (int) spin_encoder_im_weights_n.Value; 
 		encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
 		label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
 	}
+	void on_entry_encoder_im_weights_n_changed (object o, EventArgs args) 
+	{
+		if(entry_encoder_im_weights_n.Text == "" || entry_encoder_im_weights_n.Text == "00")
+			entry_encoder_im_weights_n.Text = "0";
+		else if(Util.IsNumber(entry_encoder_im_weights_n.Text, false)) //cannot be decimal
+			spin_encoder_im_weights_n.Value = Convert.ToInt32(entry_encoder_im_weights_n.Text);
+		else
+			entry_encoder_im_weights_n.Text = spin_encoder_im_weights_n.Value.ToString();
+	}
+
+	// <---- end of spin_encoder_im_weights_n ----
 	
 
 	
@@ -517,6 +554,12 @@ public partial class ChronoJumpWindow
 	}
 
 	// ---- change extra weight start ----
+	/*
+	 * when spin is seen the others (-10, -1, entry, +1, +10) are not seen
+	 * -10, -1, 1, +10 change the entry
+	 * entry changes de spin
+	 * spin does not change anything
+	 */
 	
 	void on_button_encoder_raspberry_extra_weight_minus_10_clicked (object o, EventArgs args) {
 		rapsberryChangeExtraWeight(-10);
@@ -531,10 +574,18 @@ public partial class ChronoJumpWindow
 		rapsberryChangeExtraWeight(+1);
 	}
 	void rapsberryChangeExtraWeight(int change) {
-		spin_encoder_extra_weight.Value += change;
-	}
+		/*
+		 * don't change spin to avoid circular problems
+		 * spin_encoder_extra_weight.Value += change;
+		 * change the entry
+		 * */
+		int newValue = Convert.ToInt32(entry_raspberry_extra_weight.Text) + change;
 
-	bool extra_weight_signals_on = true;
+		double min, max;
+		spin_encoder_extra_weight.GetRange(out min, out max);
+		if(newValue >= Convert.ToDouble(min) && newValue <= Convert.ToDouble(max))
+			entry_raspberry_extra_weight.Text = newValue.ToString();
+	}
 
 	void on_spin_encoder_extra_weight_value_changed (object o, EventArgs args) 
 	{
@@ -542,18 +593,10 @@ public partial class ChronoJumpWindow
 		//array1RMUpdate(false);
 		//because then we will be calling SQL at each spinbutton increment
 
-		//change raspberry controls but taking care not get into circular changes
-		extra_weight_signals_on = false;
-		entry_raspberry_extra_weight.Text = spin_encoder_extra_weight.Value.ToString();
-		extra_weight_signals_on = true;
-
 		encoder_change_displaced_weight_and_1RM ();
 	}
 	void on_entry_raspberry_extra_weight_changed (object o, EventArgs args) 
 	{
-		if(! extra_weight_signals_on)
-			return;
-
 		if(entry_raspberry_extra_weight.Text == "" || entry_raspberry_extra_weight.Text == "00")
 			entry_raspberry_extra_weight.Text = "0";
 		else if(Util.IsNumber(entry_raspberry_extra_weight.Text, false)) //cannot be decimal

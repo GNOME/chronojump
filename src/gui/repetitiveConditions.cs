@@ -32,6 +32,8 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Frame frame_best_and_worst;
 	[Widget] Gtk.Box hbox_jump_best_worst;
 	[Widget] Gtk.Box hbox_run_best_worst;
+	
+	[Widget] Gtk.Frame frame_conditions;
 
 	/* jumps */	
 	[Widget] Gtk.Box hbox_jump_conditions;
@@ -68,7 +70,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spinbutton_time_lower;
 
 	/* encoder */
-	[Widget] Gtk.Box hbox_encoder_conditions;
+	[Widget] Gtk.Notebook notebook_encoder_conditions;
 	[Widget] Gtk.CheckButton checkbutton_encoder_height_higher;
 	[Widget] Gtk.CheckButton checkbutton_encoder_height_lower;
 	[Widget] Gtk.CheckButton checkbutton_encoder_mean_speed_higher;
@@ -188,22 +190,26 @@ public class RepetitiveConditionsWindow
 
 	void showWidgets(Constants.BellModes bellMode) {
 		frame_best_and_worst.Hide();
+		frame_conditions.Hide();
 		hbox_jump_best_worst.Hide();
 		hbox_run_best_worst.Hide();
 		hbox_jump_conditions.Hide();
 		hbox_run_conditions.Hide();
-		hbox_encoder_conditions.Hide();
+		notebook_encoder_conditions.Hide();
 
 		if(bellMode == Constants.BellModes.JUMPS) {
 			frame_best_and_worst.Show();
 			hbox_jump_best_worst.Show();
 			hbox_jump_conditions.Show();
+			frame_conditions.Show();
 		} else if(bellMode == Constants.BellModes.RUNS) {
 			frame_best_and_worst.Show();
 			hbox_run_best_worst.Show();
 			hbox_run_conditions.Show();
+			frame_conditions.Show();
 		} else { //encoder
-			hbox_encoder_conditions.Show();
+			notebook_encoder_conditions.CurrentPage = 4; //power
+			notebook_encoder_conditions.Show();
 		}
 	}
 

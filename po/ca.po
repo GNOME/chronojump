@@ -1150,7 +1150,7 @@ msgstr "Tipus de contracció"
 
 #: ../glade/chronojump.glade.h:248
 msgid "Right, Left or both (RL)"
-msgstr "Dreta, esquerro o ambdues (DE)"
+msgstr "Dreta, esquerra o ambdues (DE)"
 
 #: ../glade/chronojump.glade.h:249
 msgid "Extra mass"

@@ -30,6 +30,9 @@ using System.Collections.Generic; //List
 	
 public partial class ChronoJumpWindow 
 {
+	//custom buttons
+	[Widget] Gtk.HBox hbox_encoder_analyze_signal_or_curves;
+	
 	//RFID
 	[Widget] Gtk.Box hbox_rfid;
 	[Widget] Gtk.Label label_rfid;
@@ -79,6 +82,9 @@ public partial class ChronoJumpWindow
 		if(config.Maximized)
 			app1.Maximize();
 		if(config.CustomButtons) {
+			
+			//---- capture tab ----
+			
 			hbox_encoder_capture_extra_mass_no_raspberry.Visible = false;
 			hbox_encoder_capture_extra_mass_raspberry.Visible = true;
 		
@@ -90,6 +96,11 @@ public partial class ChronoJumpWindow
 
 			spin_encoder_im_weights_n.Visible = false;
 			hbox_encoder_im_weights_n.Visible = true;
+			
+			//---- analyze tab ----
+
+			hbox_encoder_analyze_signal_or_curves.HeightRequest = 40;
+			button_encoder_analyze.SetSizeRequest(120,40);
 		}
 		if(! config.UseVideo) {
 			useVideo = false;

@@ -127,7 +127,7 @@ public class Config
 						string line = reader.ReadLine();
 						if (line != "" && line[0] != '#') 
 						{
-							string [] parts = line.Split(new char[] {'='});
+							string [] parts = line.Split(new char[] {'_'});
 							if(parts.Length == 2 && parts[0] == "EncoderConfiguration")
 								line = "EncoderConfiguration=" + EconfNew.ToStringOutput(EncoderConfiguration.Outputs.SQL);
 						}

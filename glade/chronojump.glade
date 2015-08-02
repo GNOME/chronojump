@@ -472,7 +472,6 @@
                     </child>
                     <child>
                       <widget class="GtkMenuItem" id="menuitem_SQL_stress_test_not_safe_short">
-                        <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label">SQL stress test NOT SAFE short</property>
                         <signal name="activate" handler="on_menuitem_SQL_stress_test_not_safe_short_activate" swapped="no"/>
@@ -480,7 +479,6 @@
                     </child>
                     <child>
                       <widget class="GtkMenuItem" id="menuitem_SQL_stress_test_not_safe_long">
-                        <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label">SQL stress test NOT SAFE long</property>
                         <signal name="activate" handler="on_menuitem_SQL_stress_test_not_safe_long_activate" swapped="no"/>

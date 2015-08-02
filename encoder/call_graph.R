@@ -75,6 +75,6 @@ while(TRUE) {
 	if(input[1] == "Q")
 		quit("no")
 			
-	write("received a continue signal", stderr())
+	write("call_graph.R received a continue signal", stderr())
 	options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 }

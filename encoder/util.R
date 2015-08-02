@@ -492,9 +492,9 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 
 	#print(c("kinematicsF start end",start,end))
 			
-	write("kinematicsF speed length and mean,", stderr())
-	write(length(speed$y[start:end]), stderr())
-	write(mean(speed$y[start:end]), stderr())
+	#write("kinematicsF speed length and mean,", stderr())
+	#write(length(speed$y[start:end]), stderr())
+	#write(mean(speed$y[start:end]), stderr())
 
 	return(list(
 		    speedy = speed$y[start:end], 

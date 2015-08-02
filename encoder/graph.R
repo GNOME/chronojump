@@ -2937,10 +2937,10 @@ doProcess <- function(options)
 		if(op$Analysis == "curves" || writeCurves) {
 			#this columns are going to be removed from paf:
 
-			write("paf and pafCurves", stderr())
-			write(paf$meanSpeed, stderr())
+			#write("paf and pafCurves", stderr())
+			#write(paf$meanSpeed, stderr())
 			pafCurves <- subset( paf, select = -c(mass, massBody, massExtra, inertiaMomentum) )
-			write(pafCurves$meanSpeed, stderr())
+			#write(pafCurves$meanSpeed, stderr())
 
 
 			if(singleFile)

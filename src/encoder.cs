@@ -1288,11 +1288,11 @@ public class EncoderConfiguration {
 			this.list_d[0] = this.d;
 		}
 	}
-	//list_d contains the different diameters (byt eh anchorages). They are stored as '='
+	//list_d contains the different diameters (byt eh anchorages). They are stored as '_'
 	private List<double> readList_d(string listFromSQL) 
 	{
 		List<double> l = new List<double>(); 
-		string [] strFull = listFromSQL.Split(new char[] {'='});
+		string [] strFull = listFromSQL.Split(new char[] {'_'});
 		foreach (string s in strFull) {
 			double d = Convert.ToDouble(Util.ChangeDecimalSeparator(s));
 			l.Add(d);
@@ -1364,7 +1364,7 @@ public class EncoderConfiguration {
 		string sep = "";
 		foreach(double d in l) {
 			str += sep + Util.ConvertToPoint(d);
-			sep = "=";
+			sep = "_";
 		}
 		return str;
 	}

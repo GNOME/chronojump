@@ -270,6 +270,8 @@ class SqliteEncoder : Sqlite
 				(Constants.EncoderConfigurationNames) 
 				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
 			econf.ReadParamsFromSQL(strFull);
+
+			LogB.Debug("EncoderConfiguration = " + econf.ToStringOutput(EncoderConfiguration.Outputs.SQL));
 			
 			//if there's no video, will be "".
 			//if there's video, will be with full path

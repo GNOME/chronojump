@@ -1272,12 +1272,20 @@ public class EncoderConfiguration {
 			this.extraWeightGrams = Convert.ToInt32(strFull[9]);
 			this.extraWeightLength = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[10]));
 			if(strFull.Length > 11) //this param starts at 1.5.3
-				list_d = readList_d(strFull[11]);
+				this.list_d = readList_d(strFull[11]);
 		} else {
 			this.inertiaTotal = 	inertiaMachine;
 			this.extraWeightN = 	0;
 			this.extraWeightGrams = 0;
 			this.extraWeightLength = 1;
+		}
+
+		//if we load a signal previous to 1.5.3, put d in list_d to have something to be sent to R
+		if(this.list_d.Count == 0)
+			this.list_d.Add(d);
+		else if (this.list_d.Count == 1 && this.list_d[0] == 0) {
+			//check if diameter is zero is safest because some tests have been done while list_d has been completely implemented
+			this.list_d[0] = this.d;
 		}
 	}
 	//list_d contains the different diameters (byt eh anchorages). They are stored as '='

@@ -44,6 +44,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_encoder_person;
 	[Widget] Gtk.Label label_encoder_person_name;
 	[Widget] Gtk.Button button_encoder_person_change;
+
+	//config.EncoderCaptureShowOnlyBars
+	[Widget] Gtk.Notebook notebook_encoder_capture_main;
+	[Widget] Gtk.VBox vbox_treeview_encoder_at_second_page;
 	
 	//shown when menu is hidden
 	[Widget] Gtk.Button button_preferences_not_menu;
@@ -63,6 +67,14 @@ public partial class ChronoJumpWindow
 		Config config = new Config();
 		config.Read();
 		LogB.Information("Config:\n" + config.ToString());
+			
+		/*
+		 * TODO: do an else to any option
+		 * is good to do the else here because user can import a configuration at any time 
+		 * and things need to be restored to default position in glade
+		 *
+		 * But note this has to be executed only if it has changed!!
+		 */
 
 		if(config.Maximized)
 			app1.Maximize();
@@ -92,7 +104,22 @@ public partial class ChronoJumpWindow
 		
 		if(config.EncoderCaptureShowOnlyBars) {
 			vpaned_encoder_capture_video_and_set_graph.Visible = false;
-			alignment_treeview_encoder_capture_curves.Visible = false;
+			
+			vpaned_encoder_main.Remove(alignment_treeview_encoder_capture_curves);
+			vbox_treeview_encoder_at_second_page.PackStart(alignment_treeview_encoder_capture_curves);
+			notebook_encoder_capture_main.ShowTabs = true;
+		} else {
+			/*
+			 * is good to do the else here because user can import a configuration at any time 
+			 * and things need to be restored to default position in glade
+			 *
+			 * But note this has to be executed only if it has changed!!
+			 */
+			/*
+			notebook_encoder_capture_main.ShowTabs = false;
+			vbox_treeview_encoder_at_second_page.Remove(alignment_treeview_encoder_capture_curves);
+			vpaned_encoder_main.PackStart(alignment_treeview_encoder_capture_curves);
+			*/
 		}
 		
 		if(config.PersonWinHide) {

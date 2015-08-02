@@ -953,7 +953,7 @@ public partial class ChronoJumpWindow
 		//add exercises to the combo (only the exercises done, and only unique)
 		ArrayList encoderExercisesNames = new ArrayList();
 		foreach(EncoderSQL es in data) {
-			encoderExercisesNames = Util.AddToArrayListIfNotExist(encoderExercisesNames, es.exerciseName);
+			encoderExercisesNames = Util.AddToArrayListIfNotExist(encoderExercisesNames, Catalog.GetString(es.exerciseName));
 		}
 		
 		genericWin = GenericWindow.Show(false,	//don't show now

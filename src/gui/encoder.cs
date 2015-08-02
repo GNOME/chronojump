@@ -407,6 +407,9 @@ public partial class ChronoJumpWindow
 			encoderConfigurationCurrent.extraWeightN = (int) spin_encoder_im_weights_n.Value; 
 			encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
+
+			//if inertial, select ecc-con
+			combo_encoder_eccon.Active = 1;
 		} else
 			notebook_encoder_capture_extra_mass.CurrentPage = 0;
 
@@ -1535,6 +1538,9 @@ public partial class ChronoJumpWindow
 
 			spin_encoder_im_weights_n.Value = encoderConfigurationCurrent.extraWeightN;
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
+
+			//if inertial, select ecc-con
+			combo_encoder_eccon.Active = 1;
 		}
 		else
 			notebook_encoder_capture_extra_mass.CurrentPage = 0;

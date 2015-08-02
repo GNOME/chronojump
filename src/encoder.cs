@@ -603,8 +603,8 @@ public class EncoderSQL
 			str[i++] = "";	//checkboxes
 	
 		str[i++] = count.ToString();
-		str[i++] = exerciseName;
-		str[i++] = laterality;
+		str[i++] = Catalog.GetString(exerciseName);
+		str[i++] = Catalog.GetString(laterality);
 		str[i++] = extraWeight;
 		
 		if(showMeanPower)

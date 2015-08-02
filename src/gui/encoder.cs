@@ -1536,7 +1536,9 @@ public partial class ChronoJumpWindow
 						);
 			}
 
-			spin_encoder_im_weights_n.Value = encoderConfigurationCurrent.extraWeightN;
+			//this will update also spin_encoder_im_weights_n
+			entry_encoder_im_weights_n.Text = encoderConfigurationCurrent.extraWeightN.ToString();
+
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
 
 			//if inertial, select ecc-con

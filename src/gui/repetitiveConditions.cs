@@ -208,7 +208,7 @@ public class RepetitiveConditionsWindow
 			hbox_run_conditions.Show();
 			frame_conditions.Show();
 		} else { //encoder
-			notebook_encoder_conditions.CurrentPage = 4; //power
+			notebook_encoder_conditions.CurrentPage = 3; //power
 			notebook_encoder_conditions.Show();
 		}
 	}

@@ -45,7 +45,7 @@ public abstract class EncoderRProc
 
 		bool ok = true;
 			
-		if(isRunning()) {
+		if(isRunning() && isResponsive(p)) {
 			LogB.Debug("calling continue");
 			ok = continueProcess();
 		} else {
@@ -96,7 +96,6 @@ public abstract class EncoderRProc
 
 		return true;
 	}
-
 	/*
 	 * don't use this because in linux R script can be called by:
 	 * "/usr/lib/R/bin/exec/R"
@@ -113,6 +112,50 @@ public abstract class EncoderRProc
 		return false;
 	}
 	*/
+	
+	/*
+	 * The process.Responding only works on GUI processes
+	 * So, here we send a "ping" expecting to see the result in short time
+	 *
+	 * TODO: maybe is good to kill the unresponsive processes
+	 */
+	private bool isResponsive(Process process)
+	{
+		Random rnd = new Random();
+		int randomInt = rnd.Next(); //eg. 1234
+		
+		string randomPingStr = "PING" + Path.Combine(Path.GetTempPath(), "chronojump" + randomInt.ToString() + ".txt"); 
+		//eg Linux: 'PING/tmp/chronojump1234.txt'
+		//eg Windows: 'PINGC:\Temp...\chronojump1234.txt'
+
+		if (UtilAll.IsWindows()) {
+			//On win32 R understands backlash as an escape character and 
+			//a file path uses Unix-like path separator '/'		
+			randomPingStr = randomPingStr.Replace("\\","/");
+		}
+		//eg Windows: 'PINGC:/Temp.../chronojump1234.txt'
+
+		LogB.Information("Sending ping: " + randomPingStr);
+		try {
+			process.StandardInput.WriteLine(randomPingStr);
+		} catch {
+			LogB.Warning("Catched waiting response");
+			return false;
+		}
+
+		//wait 250ms the response
+		System.Threading.Thread.Sleep(250);
+
+		//On Linux will be '/' on Windows '\'	
+		if(File.Exists(Path.Combine(Path.GetTempPath(), "chronojump" + randomInt.ToString() + ".txt"))) {
+			LogB.Information("Process is responding");
+			return true;
+		}
+
+		LogB.Warning("Process is NOT responding");
+		return false;
+	}
+
 		
 	protected virtual void writeOptionsFile()
 	{
@@ -121,9 +164,10 @@ public abstract class EncoderRProc
 	protected virtual bool startProcess() {
 		return true;
 	}
-	
+
 	protected virtual bool continueProcess() 
 	{
+		/*
 		LogB.Debug("sending continue process");
 		//try/catch because sometimes the stdin write gots broken
 		try {
@@ -132,6 +176,12 @@ public abstract class EncoderRProc
 			LogB.Debug("calling start because continue process was problematic");
 			return startProcess();
 		}
+		*/
+		
+		//1.5.3 has the isResponding call.
+		//in capture, if answers it starts automatically. Don't send a "C"
+		//in graph is different because we need to prepare the outputFileCheck files. So there "C" is needed
+		LogB.Debug("continuing process");
 
 		return true;
 	}

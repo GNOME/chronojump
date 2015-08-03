@@ -2519,6 +2519,9 @@ doProcess <- function(options)
 		}
 	}
 
+	
+	write("starting analysis...", stderr())
+
 	#make some check here, because this file is being readed in chronojump
 
 	#write(paste("(4/5)",translate("Repetitions processed")), op$OutputData2)
@@ -3084,6 +3087,7 @@ doProcess <- function(options)
 	print("Creating (op$OutputData2)5.txt with touch method...")
 	file.create(paste(op$OutputData2,"5.txt",sep=""))
 	print("Created")
+	write("created ...5.txt", stderr())
 
 	warnings()
 }

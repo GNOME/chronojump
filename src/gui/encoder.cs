@@ -4578,6 +4578,7 @@ public partial class ChronoJumpWindow
 				image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
 				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
 				
+				//don't need to be false because ItemToggled is deactivated during capture
 				treeview_encoder_capture_curves.Sensitive = true;
 
 				prepareEncoderGraphs(true);

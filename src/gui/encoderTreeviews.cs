@@ -238,8 +238,9 @@ public partial class ChronoJumpWindow
 
 	void ItemToggled(object o, ToggledArgs args) 
 	{
-		//cannot toggle item while capturing
-		if(capturingCsharp == encoderCaptureProcess.CAPTURING)
+		//cannot toggle item while capturing or recalculating
+		if(capturingCsharp == encoderCaptureProcess.CAPTURING ||
+				encoderRProcAnalyze.status == EncoderRProc.Status.RUNNING)
 			return;
 
 		TreeIter iter;

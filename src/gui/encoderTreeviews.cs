@@ -38,6 +38,8 @@ public partial class ChronoJumpWindow
 	//capture has single and multiple selection in order to save curves... Analyze only shows data.
 	private int createTreeViewEncoderCapture(List<string> contents) 
 	{
+		LogB.Debug("At createTreeViewEncoderCapture");
+
 		bool showStartAndDuration = encoderCaptureOptionsWin.check_show_start_and_duration.Active;
 
 		string [] columnsString = {
@@ -63,7 +65,13 @@ public partial class ChronoJumpWindow
 		bool headers = true;
 		foreach(string line in contents)
 		{
-			LogB.Debug(line);
+			/*
+			 * don't print this because on capture, if 100 repetitions are captured
+			 * it will be printing 97 lines, 98, 99, 100 (with a small time)
+			 * can be too much for certain computers
+			 */
+			//LogB.Debug(line);
+
 			if(headers) {
 				headers = false;
 				continue;
@@ -76,7 +84,13 @@ public partial class ChronoJumpWindow
 
 			string [] cells = line.Split(new char[] {','});
 			cells = fixDecimals(cells);
-			LogB.Error(Util.StringArrayToString(cells, ":"));
+			
+			/*
+			 * don't print this because on capture, if 100 repetitions are captured
+			 * it will be printing 97 lines, 98, 99, 100 (with a small time)
+			 * can be too much for certain computers
+			 */
+			//LogB.Error(Util.StringArrayToString(cells, ":"));
 
 			encoderCaptureCurves.Add (new EncoderCurve (
 						false,				//user need to mark to save them

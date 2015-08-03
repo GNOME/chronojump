@@ -140,8 +140,16 @@ doProcess <- function(options)
 		
 		#if should continue with another capture
 		#then read options again
-		while(input[1] == "C") {
+		while(substring(input,1,4) == "PING") {
 			write("capture.R received a continue signal", stderr())
+
+			#answer the ping
+			#eg. input = 'PINGC:/Temp.../1234.txt'
+
+			input=substring(input,5,) #input = 'C:/Temp.../1234.txt'
+			file.create(input)
+			print(paste(input, "created from capture.R"))
+			write("created from capture.R", stderr())
 			
 			options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 			op <- assignOptions(options)

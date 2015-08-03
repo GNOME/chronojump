@@ -76,5 +76,18 @@ while(TRUE) {
 		quit("no")
 			
 	write("call_graph.R received a continue signal", stderr())
+			
+	#answer the ping
+	#eg. input = 'PINGC:/Temp.../1234.txt'
+
+	input=substring(input,5,) #input = 'C:/Temp.../1234.txt'
+	file.create(input)
+	print(paste(input, "created from call_graph.R"))
+	write("created from call_graph.R", stderr())
+	
+	#Wait to the Continue "C"
+	#Needed to prepare outputFileCheck files
+	input <- readLines(f, n = 1L)
+			
 	options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 }

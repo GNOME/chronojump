@@ -36,8 +36,29 @@ public partial class ChronoJumpWindow
 
 	//returns curves num
 	//capture has single and multiple selection in order to save curves... Analyze only shows data.
+	//TODO: do not create this for every repetition while we are executing. Just add the new row
 	private int createTreeViewEncoderCapture(List<string> contents) 
 	{
+		int curvesCount = 0;
+		bool headers = true;
+		if(! encoderUpdateTreeViewWhileCapturing && capturingCsharp == encoderCaptureProcess.CAPTURING) {
+			//just count how much curves and return
+			foreach(string line in contents)
+			{
+				if(headers) {
+					headers = false;
+					continue;
+				}
+			
+				if (line == null)
+					break;
+			
+				curvesCount ++;
+			}
+			return curvesCount;
+		}
+
+
 		LogB.Debug("At createTreeViewEncoderCapture");
 
 		bool showStartAndDuration = encoderCaptureOptionsWin.check_show_start_and_duration.Active;
@@ -61,8 +82,7 @@ public partial class ChronoJumpWindow
 
 		encoderCaptureCurves = new ArrayList ();
 
-		int curvesCount = 0;
-		bool headers = true;
+		headers = true;
 		foreach(string line in contents)
 		{
 			/*

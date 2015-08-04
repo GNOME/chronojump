@@ -62,6 +62,7 @@ public partial class ChronoJumpWindow
 	private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
 	private linuxTypeEnum linuxType;
 	private bool encoderConfigurationDefinedFromFile = false;
+	private bool encoderUpdateTreeViewWhileCapturing = true;
 
 
 	private void configInit() 
@@ -132,6 +133,8 @@ public partial class ChronoJumpWindow
 			vpaned_encoder_main.PackStart(alignment_treeview_encoder_capture_curves);
 			*/
 		}
+		
+		encoderUpdateTreeViewWhileCapturing = config.EncoderUpdateTreeViewWhileCapturing;
 		
 		if(config.PersonWinHide) {
 			//vbox_persons.Visible = false;

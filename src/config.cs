@@ -33,6 +33,8 @@ public class Config
 	public AutodetectPortEnum AutodetectPort;
 	public bool OnlyEncoder;
 	public bool EncoderCaptureShowOnlyBars;
+	public bool EncoderUpdateTreeViewWhileCapturing; //recomended: false. Make it false if EncoderCaptureShowOnlyBars == true
+							//because treeview will be in 2n page of notebook
 	public bool PersonWinHide;
 	public bool EncoderAnalyzeHide;
 	public EncoderConfiguration Econf;
@@ -47,6 +49,7 @@ public class Config
 		AutodetectPort = AutodetectPortEnum.ACTIVE;
 		OnlyEncoder = false;
 		EncoderCaptureShowOnlyBars = false;
+		EncoderUpdateTreeViewWhileCapturing = true;
 		PersonWinHide = false;
 		EncoderAnalyzeHide = false;
 		Econf = null; 
@@ -86,6 +89,8 @@ public class Config
 						OnlyEncoder = true;
 					else if(parts[0] == "EncoderCaptureShowOnlyBars" && Util.StringToBool(parts[1]))
 						EncoderCaptureShowOnlyBars = true;
+					else if(parts[0] == "EncoderUpdateTreeViewWhileCapturing" && ! Util.StringToBool(parts[1]))
+						EncoderUpdateTreeViewWhileCapturing = false;
 					else if(parts[0] == "PersonWinHide" && Util.StringToBool(parts[1]))
 						PersonWinHide = true;
 					else if(parts[0] == "EncoderAnalyzeHide" && Util.StringToBool(parts[1]))
@@ -154,6 +159,7 @@ public class Config
 				"AutodetectPort = " + AutodetectPort.ToString() + "\n" +
 				"OnlyEncoder = " + OnlyEncoder.ToString() + "\n" +
 				"EncoderCaptureShowOnlyBars = " + EncoderCaptureShowOnlyBars.ToString() + "\n" +
+				"EncoderUpdateTreeViewWhileCapturing = " + EncoderUpdateTreeViewWhileCapturing.ToString() + "\n" +
 				"PersonWinHide = " + PersonWinHide.ToString() + "\n" +
 				"EncoderAnalyzeHide = " + EncoderAnalyzeHide.ToString() + "\n" +
 				"Econf = " + econfStr + "\n" +

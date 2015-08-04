@@ -27571,9 +27571,9 @@ comments</property>
                                                       <widget class="GtkLabel" id="label22">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="tooltip" translatable="yes">Average diameter (cm) of wrapped rope on each anchorage.</property>
+                                                        <property name="tooltip" translatable="yes">Average diameter (cm) of the cone or axis where the rope is wrapped on each anchorage.</property>
                                                         <property name="xalign">0</property>
-                                                        <property name="label" translatable="yes">Average diameter (cm) of wrapped rope on each anchorage.</property>
+                                                        <property name="label" translatable="yes">Average diameter (cm) of the cone or axis where the rope is wrapped on each anchorage.</property>
                                                         <property name="ellipsize">end</property>
                                                         <property name="max_width_chars">18</property>
                                                       </widget>

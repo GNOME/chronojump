@@ -5181,7 +5181,7 @@ public partial class ChronoJumpWindow
 				if(encoderProcessProblems) {
 					new DialogMessage(Constants.MessageTypes.WARNING, 
 							Catalog.GetString("Sorry. Error doing graph.") + 
-							"\n" + Catalog.GetString("Maybe R or EMD are not installed.") + 
+							"\n" + Catalog.GetString("Maybe R is not installed.") + 
 							"\n\nhttp://www.r-project.org/");
 					encoderProcessProblems = false;
 				} else {

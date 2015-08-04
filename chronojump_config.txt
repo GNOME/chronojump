@@ -49,6 +49,11 @@ OnlyEncoder=TRUE
 #default: EncoderCaptureShowOnlyBars=FALSE
 EncoderCaptureShowOnlyBars=FALSE
 
+#If EncoderCaptureShowOnlyBars is TRUE then TreeView is in notebook 2nd page. Don't need to update it at each repetition during capture
+#Just update it at the end. In this case it's good to be FALSE. In the rest of cases: TRUE
+#default: EncoderUpdateTreeViewWhileCapturing=TRUE
+EncoderUpdateTreeViewWhileCapturing=FALSE
+
 #Hide left person box. Select person by a label and button on the top
 #default: PersonWinHide=FALSE
 PersonWinHide=TRUE

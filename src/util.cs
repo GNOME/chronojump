@@ -1149,70 +1149,99 @@ public class Util
 		} catch {}
 	}
 */
-	
-	//public static void PlaySound (System.Media.SystemSounds mySound, bool volumeOn) {
+
+
+	/*
+	 * ------------- sound stuff -----------
+	 */
+
 	public static void PlaySound (Constants.SoundTypes mySound, bool volumeOn) {
-		if(volumeOn) {
-			//TODO: this try/catch still doesn't work in my laptop with sound problems
-			try {
-				if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX) 
-				{
-					string fileName = "";
-					switch(mySound) {
-						case Constants.SoundTypes.CAN_START:
-							fileName = "123804__kendallbear__kendallklap1.wav";
-							//author: kendallbear
-							//https://www.freesound.org/people/kendallbear/sounds/123804/
-							break;
-						case Constants.SoundTypes.GOOD:
-							fileName = "135936__bradwesson__collectcoin.wav";
-							//author: bradwesson
-							//https://www.freesound.org/people/bradwesson/sounds/135936/
-							break;
-						case Constants.SoundTypes.BAD:
-							fileName = "142608__autistic-lucario__error.wav";
-							//author: Autistic Lucario
-							//https://www.freesound.org/people/Autistic%20Lucario/sounds/142608/
-							break;
-					}
-							
-					fileName = Util.GetSoundsDir() + Path.DirectorySeparatorChar + fileName;
-
-					if(! File.Exists(fileName)) {
-						LogB.Warning("Cannot found this sound file: " + fileName);
-						return;
-					}
-					
-					ProcessStartInfo pinfo = new ProcessStartInfo();
-					string pBin="gst-launch-0.10";
+		if ( ! volumeOn )
+			return;
 		
-					pinfo.FileName=pBin;
-					pinfo.Arguments = "playbin " + @"uri=file://" + fileName;
-					LogB.Information("Arguments:", pinfo.Arguments);
-					pinfo.CreateNoWindow = true;
-					pinfo.UseShellExecute = false;
+		/*
+		 * Using GstreamerMethod because .Net method makes crash some Linux ALSA,
+		 * and some MacOSX users have 300% CPU
+		 */
 
-					Process p = new Process();
-					p.StartInfo = pinfo;
-					p.Start();
-				}
-				else {
-					switch(mySound) {
-						case Constants.SoundTypes.CAN_START:
-							System.Media.SystemSounds.Question.Play();
-							break;
-						case Constants.SoundTypes.GOOD:
-							System.Media.SystemSounds.Asterisk.Play();
-							break;
-						case Constants.SoundTypes.BAD:
-							//System.Media.SystemSounds.Beep.Play();
-							System.Media.SystemSounds.Hand.Play();
-							break;
-					}
-				}
-			} catch {}
+		if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX ||
+				UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX )
+			playSoundGstreamer(mySound);
+		else //Windows
+			playSoundWindows(mySound);
+	}
+	
+	private static void playSoundGstreamer (Constants.SoundTypes mySound) 
+	{
+		string fileName = "";
+		switch(mySound) {
+			case Constants.SoundTypes.CAN_START:
+				fileName = "123804__kendallbear__kendallklap1.wav";
+				//author: kendallbear
+				//https://www.freesound.org/people/kendallbear/sounds/123804/
+				break;
+			case Constants.SoundTypes.GOOD:
+				fileName = "135936__bradwesson__collectcoin.wav";
+				//author: bradwesson
+				//https://www.freesound.org/people/bradwesson/sounds/135936/
+				break;
+			case Constants.SoundTypes.BAD:
+				fileName = "142608__autistic-lucario__error.wav";
+				//author: Autistic Lucario
+				//https://www.freesound.org/people/Autistic%20Lucario/sounds/142608/
+				break;
+		}
+
+		fileName = Util.GetSoundsDir() + Path.DirectorySeparatorChar + fileName;
+
+		if(! File.Exists(fileName)) {
+			LogB.Warning("Cannot found this sound file: " + fileName);
+			return;
+		}
+
+		try {
+			ProcessStartInfo pinfo = new ProcessStartInfo();
+			string pBin="gst-launch-0.10";
+
+			pinfo.FileName=pBin;
+			pinfo.Arguments = "playbin " + @"uri=file://" + fileName;
+			LogB.Information("Arguments:", pinfo.Arguments);
+			pinfo.CreateNoWindow = true;
+			pinfo.UseShellExecute = false;
+
+			Process p = new Process();
+			p.StartInfo = pinfo;
+			p.Start();
+		} catch {
+			LogB.Error("Cannot playSoundGstreamer");
 		}
 	}
+
+	//maybe in the future this method will be deprecated and it only will be used the Gstreamer method
+	private static void playSoundWindows (Constants.SoundTypes mySound) 
+	{
+		try {
+			switch(mySound) {
+				case Constants.SoundTypes.CAN_START:
+					System.Media.SystemSounds.Question.Play();
+					break;
+				case Constants.SoundTypes.GOOD:
+					System.Media.SystemSounds.Asterisk.Play();
+					break;
+				case Constants.SoundTypes.BAD:
+					//System.Media.SystemSounds.Beep.Play();
+					System.Media.SystemSounds.Hand.Play();
+					break;
+			}
+		} catch {
+			LogB.Error("Cannot playSoundWindows");
+		}
+	}
+	
+	/*
+	 * ------------- end of sound stuff -----------
+	 */
+
 
 
 	public static string GetImagePath(bool mini) {

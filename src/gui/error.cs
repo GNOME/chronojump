@@ -224,8 +224,10 @@ public class ErrorWindow
 	}
 	
 	public void HideAndNull() {
-		ErrorWindowBox.error_window.Hide();
-		ErrorWindowBox = null;
+		if(ErrorWindowBox != null) {
+			ErrorWindowBox.error_window.Hide();
+			ErrorWindowBox = null;
+		}
 	}
 
 	~ErrorWindow() {}

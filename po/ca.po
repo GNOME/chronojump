@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-04 10:43+0200\n"
-"PO-Revision-Date: 2015-08-04 10:50+0100\n"
+"POT-Creation-Date: 2015-09-03 12:35+0200\n"
+"PO-Revision-Date: 2015-09-03 12:44+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: \n"
 "Language: Catalan\n"
@@ -5564,7 +5564,7 @@ msgstr "Velocitat, Potència / Càrrega"
 #: ../src/gui/encoder.cs:2080 ../src/gui/encoder.cs:2098
 #: ../src/gui/encoder.cs:3343
 msgid "1RM Bench Press"
-msgstr "1RM de premsa de banc"
+msgstr "1RM de pressió sobre banc"
 
 #: ../src/gui/encoder.cs:2082 ../src/gui/encoder.cs:2100
 #: ../src/gui/encoder.cs:3343
@@ -8380,11 +8380,11 @@ msgstr "Veneçuela"
 #. written just to have the names translated
 #: ../src/sqlite/encoder.cs:565
 msgid "Bench press"
-msgstr "Premsa de banc"
+msgstr "Pressió sobre banc"
 
 #: ../src/sqlite/encoder.cs:566
 msgid "Squat"
-msgstr "Sentadeta"
+msgstr "Esquat"
 
 #. "-1:" + Constants.SpeciallityUndefined + ":" + Catalog.GetString(Constants.SpeciallityUndefined),
 #: ../src/sqlite/speciallity.cs:166

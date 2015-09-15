@@ -123,8 +123,8 @@ unsigned char i = 0, j = 0;
 unsigned char option = 0;     // option: 0 button enable, 1 encoder enable
 unsigned char command_port_scanning = 'J';	// for port scanning, it will return 'J'
 unsigned char command_get_version = 'V';	// for getting version, it will return '2.1'
-unsigned char command_get_debounce_time = 'a';	// for setting debounce time, pc send two unsigned char, 'Sx' -- x:0~255
-unsigned char command_set_debounce_time = 'b';	// for getting debounce time, it will return x:0~255(HEX)
+unsigned char command_get_debounce_time = 'a';	// for getting debounce time, it will return x:0~255(HEX)
+unsigned char command_set_debounce_time = 'b';	// for setting debounce time, pc send two unsigned char, 'Sx' -- x:0~255
 unsigned char command_reaction_time_rb3_on = 'R';
 unsigned char command_reaction_time_rb6_on = 'S';
 unsigned char command_reaction_time_rb7_on = 'T';

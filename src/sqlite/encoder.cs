@@ -189,6 +189,9 @@ class SqliteEncoder : Sqlite
 	
 	//pass uniqueID value and then will return one record. do like this:
 	//EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, myUniqueID, 0, 0, 0, "", EncoderSQL.Eccons.ALL, false, true)[0];
+	
+	//WARNING because SqliteEncoder.Select may not return nothing, and then cannot be assigned to eSQL
+	//see: delete_encoder_curve(bool dbconOpened, int uniqueID)
 	//don't care for the 0, 0, 0  because selection will be based on the myUniqueID and only one row will be returned
 	//or
 	//pass uniqueID==-1 and personID, sessionID, signalOrCurve values, and will return some records

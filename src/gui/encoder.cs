@@ -1094,18 +1094,32 @@ public partial class ChronoJumpWindow
 
 	void delete_encoder_curve(bool dbconOpened, int uniqueID) {
 		LogB.Information(uniqueID.ToString());
+		bool eSQLfound = true;
 
-		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(dbconOpened, uniqueID, 0, 0, -1, "", EncoderSQL.Eccons.ALL, false, true)[0];
+		//EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(dbconOpened, uniqueID, 0, 0, -1, "", EncoderSQL.Eccons.ALL, false, true)[0];
+		//WARNING because SqliteEncoder.Select may not return nothing, and then cannot be assigned to eSQL
+		//do this:
+		
+		EncoderSQL eSQL = new EncoderSQL();
+		try {
+			eSQL = (EncoderSQL) SqliteEncoder.Select(dbconOpened, uniqueID, 0, 0, -1, "", EncoderSQL.Eccons.ALL, false, true)[0];
+		} catch {
+			eSQLfound = false;
+			LogB.Warning("Catched! seems it's already deleted");
+		}
+
 		//remove the file
-		bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
+		if(eSQLfound)
+			Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
 
 		Sqlite.Delete(dbconOpened, Constants.EncoderTable, Convert.ToInt32(uniqueID));
 
 		ArrayList escArray = SqliteEncoder.SelectSignalCurve(dbconOpened, 
 				-1, Convert.ToInt32(uniqueID),	//signal, curve
 				-1, -1); 			//msStart, msEnd
-		SqliteEncoder.DeleteSignalCurveWithCurveID(dbconOpened, 
-				Convert.ToInt32(eSQL.uniqueID)); //delete by curveID on SignalCurve table
+		if(eSQLfound)
+			SqliteEncoder.DeleteSignalCurveWithCurveID(dbconOpened, 
+					Convert.ToInt32(eSQL.uniqueID)); //delete by curveID on SignalCurve table
 		//if deleted curve is from current signal, uncheck it in encoderCaptureCurves
 		if(escArray.Count > 0) {
 			EncoderSignalCurve esc = (EncoderSignalCurve) escArray[0];

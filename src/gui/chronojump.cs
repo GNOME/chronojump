@@ -6519,6 +6519,20 @@ LogB.Debug("X");
 	 * sensitive GUI on executeAuto methods 
 	 */
 
+	private void on_autodetect_help_clicked (object o, EventArgs args) {
+		new DialogMessage(
+				Catalog.GetString("Help on auto-detect"),
+				Constants.MessageTypes.INFO, 
+				Catalog.GetString("Modes:") + "\n\n" +
+				"- <b>" + Catalog.GetString("Active") + "</b>:  " +
+					Catalog.GetString("Auto-detection on hardware is active.") + " " + Catalog.GetString("Default mode") + ".\n\n" +
+				"- <b>" + Catalog.GetString("Inactive") + "</b>:  " + 
+					Catalog.GetString("Auto-detection on hardware is inactive.") + " " + Catalog.GetString("Use it if you have problems at start or at capture.") + "\n\n" +
+				"- <b>" + Catalog.GetString("Discard first port") + "</b>:  " + 
+					Catalog.GetString("Use this option on computers where first port fails.")
+				);
+	}
+
 	//start/end auto mode
 	private void sensitiveGuiAutoStartEnd (bool start) {
 		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work

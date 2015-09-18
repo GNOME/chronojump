@@ -32,6 +32,11 @@ public partial class ChronoJumpWindow
 {
 	//custom buttons
 	[Widget] Gtk.HBox hbox_encoder_analyze_signal_or_curves;
+			
+	//Auto-detect
+	[Widget] Gtk.RadioButton radio_autodetect_active;
+	[Widget] Gtk.RadioButton radio_autodetect_inactive;
+	[Widget] Gtk.RadioButton radio_autodetect_discard_first;
 	
 	//RFID
 	[Widget] Gtk.Box hbox_rfid;
@@ -63,6 +68,8 @@ public partial class ChronoJumpWindow
 	private linuxTypeEnum linuxType;
 	private bool encoderConfigurationDefinedFromFile = false;
 	private bool encoderUpdateTreeViewWhileCapturing = true;
+		
+	private bool autodetectSignalEnabled = true;
 
 
 	private void configInit() 
@@ -108,8 +115,21 @@ public partial class ChronoJumpWindow
 			alignment_video_encoder.Visible = false;
 		}
 		
+		//Auto-detect stuff
 		configAutodetectPort = config.AutodetectPort;
+
+		autodetectSignalEnabled = false; //do not raise signals that could rewrite the config file (loop)
 		
+		if(configAutodetectPort == Config.AutodetectPortEnum.ACTIVE)
+			radio_autodetect_active.Active = true;
+		else if(configAutodetectPort == Config.AutodetectPortEnum.INACTIVE)
+			radio_autodetect_inactive.Active = true;
+		else // (configAutodetectPort == Config.AutodetectPortEnum.DISCARDFIRST)
+			radio_autodetect_discard_first.Active = true;
+
+		autodetectSignalEnabled = true; //activate signals again
+		
+
 		//show only power
 		if(config.OnlyEncoder)
 			select_menuitem_mode_toggled(menuitem_modes.POWER);
@@ -195,6 +215,31 @@ public partial class ChronoJumpWindow
 			notebook_encoder_sup.Sensitive = false;
 		}
 		*/
+	}
+
+	public void on_radio_autodetect_active_toggled (object obj, EventArgs args) 
+	{
+		if(autodetectSignalEnabled && radio_autodetect_active.Active) 
+		{
+			configAutodetectPort = Config.AutodetectPortEnum.ACTIVE;
+			Config.UpdateField("AutodetectPort", configAutodetectPort.ToString());
+		}
+	}
+	public void on_radio_autodetect_inactive_toggled (object obj, EventArgs args) 
+	{
+		if(autodetectSignalEnabled && radio_autodetect_inactive.Active) 
+		{
+			configAutodetectPort = Config.AutodetectPortEnum.INACTIVE;
+			Config.UpdateField("AutodetectPort", configAutodetectPort.ToString());
+		}
+	}
+	public void on_radio_autodetect_discard_first_toggled (object obj, EventArgs args) 
+	{
+		if(autodetectSignalEnabled && radio_autodetect_discard_first.Active) 
+		{
+			configAutodetectPort = Config.AutodetectPortEnum.DISCARDFIRST;
+			Config.UpdateField("AutodetectPort", configAutodetectPort.ToString());
+		}
 	}
 
 	//rfid

@@ -417,7 +417,10 @@ public partial class ChronoJumpWindow
 
 		//if there's a chronojump_config.txt, update it
 		if(encoderConfigurationDefinedFromFile)
-			Config.UpdateEncoderConfiguration(encoderConfigurationCurrent);
+			Config.UpdateField(
+					"EncoderConfiguration",
+					encoderConfigurationCurrent.ToStringOutput(EncoderConfiguration.Outputs.SQL)
+					);
 	}
 	
 	void on_combo_encoder_anchorage_changed (object o, EventArgs args) {

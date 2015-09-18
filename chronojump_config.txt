@@ -63,7 +63,7 @@ EncoderAnalyzeHide=FALSE
 
 #EncoderConfiguration if exists, this will be used and cannot be changed
 #name:d:D:anglePush:angleWeight:inertiaMachine:gearedDown:inertiaTotal:extraWeightN:extraWeightGrams:extraWeightLenght:list_d
-#list_d is list of anchorages in centimeters. each value separated by '_'
+#list_d is list of anchorages in centimeters. each value separated by '_' . Decimal separator is '.'
 #default: EncoderConfiguration=
 EncoderConfiguration=ROTARYAXISINERTIAL:4:-1:-1:-1:42:1:71:2:300:7:4_8_12
 

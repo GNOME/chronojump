@@ -2961,13 +2961,8 @@ public partial class ChronoJumpWindow
 	private void on_menuitem_mode_main_menu_activate (object o, EventArgs args) {
 		notebook_start.CurrentPage = 0;
 		
-		session_menuitem.Visible = false;
-		menuitem_mode.Visible = false;
-		
-		menuitem_mode_selected_jumps.Visible = false;
-		menuitem_mode_selected_runs.Visible = false;
-		menuitem_mode_selected_power.Visible = false;
-		menuitem_mode_selected_other.Visible = false;
+		//don't show menu bar on start page
+		main_menu.Visible = false;
 	}	
 	
 	enum menuitem_modes { JUMPS, RUNS, POWER, OTHER }
@@ -3004,8 +2999,7 @@ public partial class ChronoJumpWindow
 		notebook_start.CurrentPage = 1;
 
 		//it's not visible at startup
-		session_menuitem.Visible = true;
-		menuitem_mode.Visible = true;
+		main_menu.Visible = true;
 
 		//do not perform autoDetect if we are on contacts and already detected
 		if(chronopicWin.Connected && m != menuitem_modes.POWER)

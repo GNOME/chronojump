@@ -44,8 +44,7 @@ public class PreferencesWindow {
 	//[Widget] Gtk.CheckButton check_backup_sessions;
 	//[Widget] Gtk.CheckButton check_backup_persons;
 	//[Widget] Gtk.CheckButton check_backup_contact_tests;
-	[Widget] Gtk.CheckButton check_backup_encoder_tests;
-	[Widget] Gtk.CheckButton check_backup_multimedia;
+	[Widget] Gtk.CheckButton check_backup_multimedia_and_encoder;
 	
 	[Widget] Gtk.Button button_db_backup;
 	[Widget] Gtk.Box hbox_backup_doing;
@@ -456,13 +455,6 @@ public class PreferencesWindow {
 		*/
 	}
 
-	void on_check_backup_multimedia_clicked(object o, EventArgs args) {
-		check_backup_encoder_tests.Active = check_backup_multimedia.Active;
-	}	
-	void on_check_backup_encoder_tests_clicked(object o, EventArgs args) {
-		check_backup_multimedia.Active = check_backup_encoder_tests.Active;
-	}	
-	
 	
 	void on_button_logs_folder_open_clicked (object o, EventArgs args)
 	{
@@ -522,8 +514,8 @@ public class PreferencesWindow {
 
 		if (fc.Run() == (int)ResponseType.Accept) 
 		{
-			//if encoder_tests or multimedia, then copy the folder. If not checked, then copy only the db file
-			if(check_backup_encoder_tests.Active || check_backup_multimedia.Active)
+			//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
+			if(check_backup_multimedia_and_encoder.Active)
 				fileCopy = fc.Filename + Path.DirectorySeparatorChar + "chronojump";
 			else
 				fileCopy = fc.Filename + Path.DirectorySeparatorChar + "chronojump_copy.db";
@@ -532,7 +524,7 @@ public class PreferencesWindow {
 				fc.Hide ();
 			
 				bool exists = false;
-				if(check_backup_encoder_tests.Active || check_backup_multimedia.Active) {
+				if(check_backup_multimedia_and_encoder.Active) {
 					if(Directory.Exists(fileCopy)) {
 						LogB.Information(string.Format("Directory {0} exists, created at {1}", 
 									fileCopy, Directory.GetCreationTime(fileCopy)));
@@ -551,8 +543,8 @@ public class PreferencesWindow {
 					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite: "), "", fileCopy);
 					confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
 				} else {
-					//if encoder_tests or multimedia, then copy the folder. If not checked, then copy only the db file
-					if(check_backup_encoder_tests.Active || check_backup_multimedia.Active) 
+					//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
+					if(check_backup_multimedia_and_encoder.Active)
 					{
 						thread = new Thread(new ThreadStart(copyRecursive));
 						GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
@@ -624,8 +616,8 @@ public class PreferencesWindow {
 	private void on_overwrite_file_accepted(object o, EventArgs args)
 	{
 		try {
-			//if encoder_tests or multimedia, then copy the folder. If not checked, then copy only the db file
-			if(check_backup_encoder_tests.Active || check_backup_multimedia.Active) {
+			//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
+			if(check_backup_multimedia_and_encoder.Active) {
 				Directory.Delete(fileCopy, true);
 				thread = new Thread(new ThreadStart(copyRecursive));
 				GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));

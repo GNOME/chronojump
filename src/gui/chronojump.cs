@@ -6520,10 +6520,10 @@ LogB.Debug("X");
 				Catalog.GetString("Modes:") + "\n\n" +
 				"- <b>" + Catalog.GetString("Active") + "</b>:  " +
 					Catalog.GetString("Auto-detection on hardware is active.") + " " + Catalog.GetString("Default mode") + ".\n\n" +
+				"- <b>" + Catalog.GetString("Active discarding first port") + "</b>:  " + 
+					Catalog.GetString("Use this option on computers where first port fails.") + "\n\n" +
 				"- <b>" + Catalog.GetString("Inactive") + "</b>:  " + 
-					Catalog.GetString("Auto-detection on hardware is inactive.") + " " + Catalog.GetString("Use it if you have problems at start or at capture.") + "\n\n" +
-				"- <b>" + Catalog.GetString("Discard first port") + "</b>:  " + 
-					Catalog.GetString("Use this option on computers where first port fails.")
+					Catalog.GetString("Auto-detection on hardware is inactive.") + " " + Catalog.GetString("Use it if you have problems at start or at capture.")
 				);
 	}
 

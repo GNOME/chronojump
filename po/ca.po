@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-21 12:59+0200\n"
-"PO-Revision-Date: 2015-09-21 13:06+0100\n"
+"PO-Revision-Date: 2015-09-21 13:46+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: \n"
 "Language: Catalan\n"
@@ -5345,7 +5345,7 @@ msgstr "Modes:"
 
 #: ../src/gui/chronojump.cs:6522
 msgid "Auto-detection on hardware is active."
-msgstr "La detecció automàtica està desactivada"
+msgstr "La detecció automàtica està activada"
 
 #: ../src/gui/chronojump.cs:6522
 msgid "Default mode"

@@ -702,7 +702,7 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel,
   if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
     force <- massBody*(accel + g*sin(anglePush * pi / 180)) + massExtra*(g*sin(angleWeight * pi / 180) + accel)
   } else if(encoderConfigurationName == "LINEARONPLANE"){
-    force <- (massBody + massExtra)*(a + g*sin(anglePush * pi / 180))
+    force <- (massBody + massExtra)*(accel + g*sin(anglePush * pi / 180))
   } else {
   	force <- massTotal*(accel+g)	#g:9.81 (used when movement is against gravity)
   }

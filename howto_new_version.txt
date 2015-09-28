@@ -58,6 +58,16 @@ gpg --gen-key
 (use the values on DEBFULLNAME and DEBEMAIL, see below)
 
 DEB.B) every time
+
+on Debian Jessie need to disable GNOME-Keyring http://wiki.gnupg.org/GnomeKeyring
+
+sudo dpkg-divert --local --rename --divert /etc/xdg/autostart/gnome-keyring-gpg.desktop-disable --add /etc/xdg/autostart/gnome-keyring-gpg.desktop
+(maybe need to restart)
+
+If you later decide to reenable it, then you can use:
+sudo dpkg-divert --rename --remove /etc/xdg/autostart/gnome-keyring-gpg.desktop
+(maybe need to restart)
+
 export DEBFULLNAME="Xavier de Blas"
 export DEBEMAIL="info@chronojump.org"
 ./deb-pkg.sh 1
@@ -66,7 +76,24 @@ read carefully screen messages. Once says: successfully uploaded, need to wait 1
 
 if there are problems, remove build-deb and repeat process
 
-DEB.C) upload deb on raspbian
+DEB.C..a) On Debian Jessie:
+needs this ~/.dput.cf
+
+[chronojump-ppa]
+fqdn = ppa.launchpad.net
+method = ftp
+incoming = ~u-info-x/ubuntu/chronojump-ppa/
+login = anonymous
+allow_unsigned_uploads = 0
+
+debian/control needs to change: python-wxgtk2.8 to python-wxgtk3.0
+BUT this does not work for Ubuntu Launchpad, so continue with python-wxgtk-2.8
+
+And upload like this:
+dput chronojump-ppa build-deb/chronojump..._source.changes
+
+
+DEB.C.b ) On raspbian
 needs this ~/.dput.cf
 
 [chronojump-ppa]
@@ -79,7 +106,6 @@ allow_unsigned_uploads = 0
 and upload like this:
 dput chronojump-ppa build-deb/chronojump..._source.changes
 
---- end of upload deb package on raspbian ---
 
 
 macosx stuff

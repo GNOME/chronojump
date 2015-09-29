@@ -1048,7 +1048,8 @@ public class EncoderConfiguration {
 			position = 7;
 			image = Constants.FileNameEncoderLinearOnPlane;
 			code = "Linear - inclinated plane";
-			text = Catalog.GetString("Linear encoder on a inclinated plane.");
+			text = Catalog.GetString("Linear encoder on a inclinated plane.") + "\n" + 
+				Catalog.GetString("Suitable also for horizontal movement. Just set a 0 push angle.");
 			
 			has_angle_push = true;
 			has_angle_weight = false;
@@ -1058,7 +1059,8 @@ public class EncoderConfiguration {
 			position = 8;
 			image = Constants.FileNameEncoderLinearOnPlaneWeightDiffAngle;
 			code = "Linear - inclinated plane different angle";
-			text = Catalog.GetString("Linear encoder on a inclinated plane moving a weight in different angle.");
+			text = Catalog.GetString("Linear encoder on a inclinated plane moving a weight in different angle.") + "\n" +
+				Catalog.GetString("Suitable also for horizontal movement. Just set a 0 push angle.");
 			
 			has_angle_push = true;
 			has_angle_weight = true;

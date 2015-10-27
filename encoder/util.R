@@ -876,9 +876,9 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
               encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL"){
 	  displacement = displacement * diameter / diameterExt #displacement of the axis
 	} else if(encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALMOVPULLEY"){
-	  displacement = 2 * displacement #twice the displacement of the axis
+	  displacement = displacement / 2 #Half the displacement of the axis
 	} else if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALMOVPULLEY"){
-	  displacement = 2 * displacement * diameter / diameterExt #twice the displacement of the axis
+	  displacement = displacement * diameter /(2 * diameterExt) #Half the displacement of the axis
 	} else if(encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY"){
 	  displacementMeters = displacement / 1000 #mm -> m
 	  diameterMeters = diameter / 100 #cm -> m

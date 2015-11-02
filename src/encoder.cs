@@ -772,8 +772,8 @@ public class EncoderExercise
 				name == "Squat" ||
 				name == "Free" ||
 				name == "Jump" ||
-				name == "Inclinated plane" ||
-				name == "Inclinated plane BW" )
+				name == "Inclined plane" ||
+				name == "Inclined plane BW" )
 			return true;
 		else 
 			return false;
@@ -1047,8 +1047,8 @@ public class EncoderConfiguration {
 			type = Constants.EncoderType.LINEAR;
 			position = 7;
 			image = Constants.FileNameEncoderLinearOnPlane;
-			code = "Linear - inclinated plane";
-			text = Catalog.GetString("Linear encoder on a inclinated plane.") + "\n" + 
+			code = "Linear - inclined plane";
+			text = Catalog.GetString("Linear encoder on a inclined plane.") + "\n" + 
 				Catalog.GetString("Suitable also for horizontal movement. Just set a 0 push angle.");
 			
 			has_angle_push = true;
@@ -1058,8 +1058,8 @@ public class EncoderConfiguration {
 			type = Constants.EncoderType.LINEAR;
 			position = 8;
 			image = Constants.FileNameEncoderLinearOnPlaneWeightDiffAngle;
-			code = "Linear - inclinated plane different angle";
-			text = Catalog.GetString("Linear encoder on a inclinated plane moving a weight in different angle.") + "\n" +
+			code = "Linear - inclined plane different angle";
+			text = Catalog.GetString("Linear encoder on a inclined plane moving a weight in different angle.") + "\n" +
 				Catalog.GetString("Suitable also for horizontal movement. Just set a 0 push angle.");
 			
 			has_angle_push = true;

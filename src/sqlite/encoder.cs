@@ -561,7 +561,7 @@ class SqliteEncoder : Sqlite
 
 		addEncoderFreeExercise();
 		addEncoderJumpExercise();
-		addEncoderInclinatedExercises();
+		addEncoderInclinedExercises();
 	}
 
 	//written just to have the names translated
@@ -580,12 +580,12 @@ class SqliteEncoder : Sqlite
 		if(! exists)
 			InsertExercise(true, "Jump", 100, "", "", "");
 	}
-	protected internal static void addEncoderInclinatedExercises()
+	protected internal static void addEncoderInclinedExercises()
 	{
 		string [] iniEncoderExercises = {
 			//name:percentBodyWeight:ressistance:description:speed1RM:bodyAngle:weightAngle
-			"Inclinated plane:0:machine::::",
-			"Inclinated plane BW:100:machine::::",
+			"Inclined plane:0:machine::::",
+			"Inclined plane BW:100:machine::::",
 		};
 		
 		foreach(string line in iniEncoderExercises) {

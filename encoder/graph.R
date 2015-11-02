@@ -2965,6 +2965,7 @@ doProcess <- function(options)
 					  curves[,6],		#massExtra
 					  curves[,1],		
 					  curves[,2]-curves[,1],curvesHeight,pafCurves)
+
 			}
 
 			colnames(pafCurves) = c("series","exercise","massBody","massExtra",
@@ -2975,6 +2976,46 @@ doProcess <- function(options)
 					"meanForce", "maxForce", "maxForceT",
 					"laterality"
 					)
+		
+
+			#Add "AVG" and "SD" when analyzing, not on "curves"
+			if(op$Analysis != "curves") {
+				addSD = FALSE
+				if(length(pafCurves[,1]) > 1)
+					addSD = TRUE
+
+				if(typeof(pafCurves) == "list") {
+					#1) AVG
+					pafCurves = rbind(pafCurves, 
+							  c("","", mean(pafCurves$massBody), mean(pafCurves$massExtra),
+							    mean(pafCurves$start),mean(pafCurves$width),mean(pafCurves$height),
+							    mean(pafCurves$meanSpeed),mean(pafCurves$maxSpeed),mean(pafCurves$maxSpeedT),
+							    mean(pafCurves$meanPower),mean(pafCurves$peakPower),mean(pafCurves$peakPowerT),
+							    mean(pafCurves$pp_ppt),
+							    mean(pafCurves$meanForce), mean(pafCurves$maxForce), mean(pafCurves$maxForceT),
+							    ""
+							    )
+							  )
+					rownames(pafCurves)[length(pafCurves[,1])] = "AVG"
+
+					#2) Add SD if there's more than one data row.
+					if(addSD) {	
+						pafCurves = rbind(pafCurves, 
+								  c("","", sd(pafCurves$massBody), sd(pafCurves$massExtra),
+								    sd(pafCurves$start),sd(pafCurves$width),sd(pafCurves$height),
+								    sd(pafCurves$meanSpeed),sd(pafCurves$maxSpeed),sd(pafCurves$maxSpeedT),
+								    sd(pafCurves$meanPower),sd(pafCurves$peakPower),sd(pafCurves$peakPowerT),
+								    sd(pafCurves$pp_ppt),
+								    sd(pafCurves$meanForce), sd(pafCurves$maxForce), sd(pafCurves$maxForceT),
+								    ""
+								    )
+								  )
+						rownames(pafCurves)[length(pafCurves[,1])] = "SD"
+					}
+				}
+			}
+
+			print(pafCurves)
 
 			write.csv(pafCurves, op$OutputData1, quote=FALSE)
 			#print("curves written")

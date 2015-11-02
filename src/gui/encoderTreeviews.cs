@@ -891,7 +891,7 @@ public partial class ChronoJumpWindow
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 			
 		if(curve.N == "AVG" || curve.N == "SD") {
-			(cell as Gtk.CellRendererText).Markup = "<b>" + curve.N + "</b>";
+			(cell as Gtk.CellRendererText).Markup = "<b>" + Catalog.GetString(curve.N) + "</b>";
 			return;
 		}
 		
@@ -948,40 +948,46 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Text = curve.Laterality;
 	}
 
-	private void RenderExtraWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void renderBoldIfNeeded(Gtk.CellRenderer cell, EncoderCurve curve, string str)
 	{
-		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-
-		string str = String.Format(UtilGtk.TVNumPrint(curve.ExtraWeight.ToString(),3,0),Convert.ToInt32(curve.ExtraWeight));
-		
 		if(curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Markup = "<b>" + str + "</b>";
 		else
 			(cell as Gtk.CellRendererText).Text = str;
 	}
 
+	private void RenderExtraWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+
+		string str = String.Format(UtilGtk.TVNumPrint(curve.ExtraWeight.ToString(),3,0),Convert.ToInt32(curve.ExtraWeight));
+
+		renderBoldIfNeeded(cell, curve, str);
+	}
+
 	private void RenderDisplacedWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+			
+		string str = String.Format(UtilGtk.TVNumPrint(curve.DisplacedWeight.ToString(),3,0),Convert.ToInt32(curve.DisplacedWeight));
 		
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.DisplacedWeight.ToString(),3,0),Convert.ToInt32(curve.DisplacedWeight));
+		renderBoldIfNeeded(cell, curve, str);
 	}
 
 	private void RenderStart (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double myStart = Convert.ToDouble(curve.Start)/1000; //ms->s
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(myStart.ToString(),6,3),myStart); 
+		string str = String.Format(UtilGtk.TVNumPrint(myStart.ToString(),6,3),myStart); 
+		renderBoldIfNeeded(cell, curve, str);
 	}
 	
 	private void RenderDuration (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double myDuration = Convert.ToDouble(curve.Duration)/1000; //ms->s
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(myDuration.ToString(),5,3),myDuration); 
+		string str = String.Format(UtilGtk.TVNumPrint(myDuration.ToString(),5,3),myDuration); 
+		renderBoldIfNeeded(cell, curve, str);
 	}
 	
 	private void RenderHeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -999,8 +1005,8 @@ public partial class ChronoJumpWindow
 		else
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(heightToCm,5,1),Convert.ToDouble(heightToCm));
+		string str = String.Format(UtilGtk.TVNumPrint(heightToCm,5,1),Convert.ToDouble(heightToCm));
+		renderBoldIfNeeded(cell, curve, str);
 	}
 	
 	private void RenderMeanSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -1018,8 +1024,8 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 
 		//no need of UtilGtk.TVNumPrint, always has 1 digit on left of decimal
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format("{0,8:0.000}",Convert.ToDouble(curve.MeanSpeed));
+		string str = String.Format("{0,8:0.000}",Convert.ToDouble(curve.MeanSpeed));
+		renderBoldIfNeeded(cell, curve, str);
 	}
 
 	private void RenderMaxSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -1037,16 +1043,16 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 
 		//no need of UtilGtk.TVNumPrint, always has 1 digit on left of decimal
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format("{0,8:0.000}",Convert.ToDouble(curve.MaxSpeed));
+		string str = String.Format("{0,8:0.000}",Convert.ToDouble(curve.MaxSpeed));
+		renderBoldIfNeeded(cell, curve, str);
 	}
 	
 	private void RenderMaxSpeedT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double time = Convert.ToDouble(curve.MaxSpeedT)/1000; //ms->s
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(time.ToString(),5,3),time);
+		string str = String.Format(UtilGtk.TVNumPrint(time.ToString(),5,3),time);
+		renderBoldIfNeeded(cell, curve, str);
 	}
 
 	private void RenderMeanPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -1063,8 +1069,8 @@ public partial class ChronoJumpWindow
 		else
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.MeanPower,7,1),Convert.ToDouble(curve.MeanPower));
+		string str = String.Format(UtilGtk.TVNumPrint(curve.MeanPower,7,1),Convert.ToDouble(curve.MeanPower));
+		renderBoldIfNeeded(cell, curve, str);
 	}
 
 	private void RenderPeakPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -1081,23 +1087,23 @@ public partial class ChronoJumpWindow
 		else
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.PeakPower,7,1),Convert.ToDouble(curve.PeakPower));
+		string str = String.Format(UtilGtk.TVNumPrint(curve.PeakPower,7,1),Convert.ToDouble(curve.PeakPower));
+		renderBoldIfNeeded(cell, curve, str);
 	}
 
 	private void RenderPeakPowerT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double myPPT = Convert.ToDouble(curve.PeakPowerT)/1000; //ms->s
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(myPPT.ToString(),5,3),myPPT);
+		string str = String.Format(UtilGtk.TVNumPrint(myPPT.ToString(),5,3),myPPT);
+		renderBoldIfNeeded(cell, curve, str);
 	}
 
 	private void RenderPP_PPT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.PP_PPT,6,1),Convert.ToDouble(curve.PP_PPT));
+		string str = String.Format(UtilGtk.TVNumPrint(curve.PP_PPT,6,1),Convert.ToDouble(curve.PP_PPT));
+		renderBoldIfNeeded(cell, curve, str);
 	}
 	
 	/* end of rendering analyze cols. Following gols are only on capture */
@@ -1116,8 +1122,8 @@ public partial class ChronoJumpWindow
 		else
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.MeanForce,7,1),Convert.ToDouble(curve.MeanForce));
+		string str = String.Format(UtilGtk.TVNumPrint(curve.MeanForce,7,1),Convert.ToDouble(curve.MeanForce));
+		renderBoldIfNeeded(cell, curve, str);
 	}
 
 	private void RenderMaxForce (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -1134,16 +1140,16 @@ public partial class ChronoJumpWindow
 		else
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.MaxForce,7,1),Convert.ToDouble(curve.MaxForce));
+		string str = String.Format(UtilGtk.TVNumPrint(curve.MaxForce,7,1),Convert.ToDouble(curve.MaxForce));
+		renderBoldIfNeeded(cell, curve, str);
 	}
 	
 	private void RenderMaxForceT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double time = Convert.ToDouble(curve.MaxForceT)/1000; //ms->s
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(time.ToString(),5,3),time);
+		string str = String.Format(UtilGtk.TVNumPrint(time.ToString(),5,3),time);
+		renderBoldIfNeeded(cell, curve, str);
 	}
 
 	

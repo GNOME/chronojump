@@ -889,6 +889,11 @@ public partial class ChronoJumpWindow
 	private void RenderNAnalyze (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+
+		if(curve.N == "AVG" || curve.N == "SD") {
+			(cell as Gtk.CellRendererText).Text = curve.N;
+			return;
+		}
 		
 		if(check_encoder_analyze_signal_or_curves.Active && findEccon(false) == "ecS") 
 		{
@@ -916,19 +921,31 @@ public partial class ChronoJumpWindow
 	private void RenderSeries (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = curve.Series;
+
+		if(curve.Series == "NA")
+			(cell as Gtk.CellRendererText).Text = "";
+		else 
+			(cell as Gtk.CellRendererText).Text = curve.Series;
 	}
 
 	private void RenderExercise (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = curve.Exercise;
+		
+		if(curve.Exercise == "NA")
+			(cell as Gtk.CellRendererText).Text = "";
+		else 
+			(cell as Gtk.CellRendererText).Text = curve.Exercise;
 	}
 
 	private void RenderLaterality (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = curve.Laterality;
+		
+		if(curve.Laterality == "NA")
+			(cell as Gtk.CellRendererText).Text = "";
+		else 
+			(cell as Gtk.CellRendererText).Text = curve.Laterality;
 	}
 
 	private void RenderExtraWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)

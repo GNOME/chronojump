@@ -889,9 +889,9 @@ public partial class ChronoJumpWindow
 	private void RenderNAnalyze (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-
+			
 		if(curve.N == "AVG" || curve.N == "SD") {
-			(cell as Gtk.CellRendererText).Text = curve.N;
+			(cell as Gtk.CellRendererText).Markup = "<b>" + curve.N + "</b>";
 			return;
 		}
 		
@@ -951,8 +951,13 @@ public partial class ChronoJumpWindow
 	private void RenderExtraWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.ExtraWeight.ToString(),3,0),Convert.ToInt32(curve.ExtraWeight));
+
+		string str = String.Format(UtilGtk.TVNumPrint(curve.ExtraWeight.ToString(),3,0),Convert.ToInt32(curve.ExtraWeight));
+		
+		if(curve.N == "AVG" || curve.N == "SD")
+			(cell as Gtk.CellRendererText).Markup = "<b>" + str + "</b>";
+		else
+			(cell as Gtk.CellRendererText).Text = str;
 	}
 
 	private void RenderDisplacedWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)

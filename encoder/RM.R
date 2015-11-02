@@ -1,5 +1,5 @@
  
-RMIndirect <- function(Q, nrep, n){
+RMIndirect <- function(Q, nrep, nRM) {
 #Q = load in Kg
 #nrep = number of maximum repetitions
 #n = the number of nRM you want to know
@@ -14,8 +14,9 @@ RMIndirect <- function(Q, nrep, n){
         rm[1,5] = (100 * Q) / (52.2 + (41.9 * exp(-0.055 * nrep)))          #Mayhew
         rm[1,6] = Q * (1 + 0.025 * nrep)                                    #O'Conner
         rm[1,7] = (100 * Q) / (48.8 + (53.8 * exp(-0.075 * nrep)))          #Wathan
-        if(n==1) return(rm)
-        for(i in 2:n){
+
+	if(nRM < 2) return(rm)
+        for(i in 2:nRM){
                 rm[i,1] = rm[1,1] * (37 - i) / 36                           #Brzycki
                 rm[i,2] = rm[1,2] / (1 + (i / 30))                          #Epley
                 rm[i,3] = rm[1,3] * (101.3 - 2.67123 * i) / 100             #Lander

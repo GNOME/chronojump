@@ -772,7 +772,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     angleSpeed = speed * 4 / diameter.m
     angleAccel = accel * 4 / diameter.m
     anglePush = 90 #TODO: send from C#
-    #The configuration covers horizontal, vertical and inclinated movements
+    #The configuration covers horizontal, vertical and inclined movements
     #If the movement is vertical g*sin(alpha) = g
     #If the movement is horizontal g*sin(alpha) = 0
 

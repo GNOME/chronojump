@@ -77,7 +77,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.25";
+	static string lastChronojumpDatabaseVersion = "1.26";
 
 	public Sqlite() {
 	}
@@ -1419,9 +1419,9 @@ class Sqlite
 
 				SqliteEncoder.putEncoderExerciseAnglesAt90();
 				SqliteEncoder.addEncoderJumpExercise();
-				SqliteEncoder.addEncoderInclinatedExercises();
+				SqliteEncoder.addEncoderInclinedExercises();
 
-				LogB.SQL("Added Free and inclinatedExercises");
+				LogB.SQL("Added Free and inclinedExercises");
 				SqlitePreferences.Update ("databaseVersion", "1.00", true); 
 				Sqlite.Close();
 
@@ -1845,6 +1845,16 @@ class Sqlite
 				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
 				currentVersion = newVersion;
 			}
+			if(currentVersion == "1.25") {
+				LogB.SQL("Changed Inclinated to Inclined");
+				Update(true, Constants.EncoderExerciseTable, "name", "Inclinated plane", "Inclined plane", "", "");
+				Update(true, Constants.EncoderExerciseTable, "name", "Inclinated plane BW", "Inclined plane BW", "", "");
+				
+				newVersion = "1.26";
+				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
+				currentVersion = newVersion;
+			}
+
 
 			// --- add more updates here
 		
@@ -1999,6 +2009,7 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
+		//1.25 - 1.26 Converted DB to 1.26 Changed Inclinated to Inclined
 		//1.24 - 1.25 Converted DB to 1.25 Language defaults to (empty string), means detected
 		//1.23 - 1.24 Converted DB to 1.24 Delete runISpeedStartArrival and add 4 double contacts configs
 		//1.22 - 1.23 Converted DB to 1.23 Added encoder configuration
@@ -2024,7 +2035,7 @@ class Sqlite
 		//1.02 - 1.03 Converted DB to 1.03 Updated encoder exercise, angle is now on encoder configuration
 		//1.01 - 1.02 Converted DB to 1.02 Added Agility Tests: Agility-T-Test, Agility-3L3R
 		//1.00 - 1.01 Converted DB to 1.01 Added export to CSV configuration on preferences
-		//0.99 - 1.00 Converted DB to 1.00 Encoder added Free and Inclinated Exercises
+		//0.99 - 1.00 Converted DB to 1.00 Encoder added Free and Inclined Exercises
 		//0.98 - 0.99 Converted DB to 0.99 Encoder table improved 
 		//0.97 - 0.98 Converted DB to 0.98 Fixed encoder laterality
 		//0.96 - 0.97 Converted DB to 0.97 Added inertialmomentum in preferences

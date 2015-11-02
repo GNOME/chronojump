@@ -577,9 +577,15 @@ public partial class ChronoJumpWindow
 					//cells[3]: massBody
 					//cells[4]: massExtra
 
-					totalMass = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[3])) * 
-						getExercisePercentBodyWeightFromName (exerciseName) / 100.0
-						+ Convert.ToDouble(Util.ChangeDecimalSeparator(cells[4]));
+		
+					//don't show the DisplacedWeight on AVG or SD because there can be many exercises 
+					//(with different exercisePercentBodyWeight) and persons
+					if(cells[0] == "AVG" || cells[0] == "SD")
+						totalMass  = -1; //mark to not be shown
+					else
+						totalMass = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[3])) * 
+							getExercisePercentBodyWeightFromName (exerciseName) / 100.0
+							+ Convert.ToDouble(Util.ChangeDecimalSeparator(cells[4]));
 					
 					LogB.Debug("totalMass:" + totalMass.ToString());
 				}
@@ -968,8 +974,15 @@ public partial class ChronoJumpWindow
 	private void RenderDisplacedWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		
+		string str = "";
 			
-		string str = String.Format(UtilGtk.TVNumPrint(curve.DisplacedWeight.ToString(),3,0),Convert.ToInt32(curve.DisplacedWeight));
+		//don't show the DisplacedWeight on AVG or SD because there can be many exercises 
+		//(with different exercisePercentBodyWeight) and persons
+		if(curve.DisplacedWeight == -1)	
+			str = "";
+		else
+		       	str = String.Format(UtilGtk.TVNumPrint(curve.DisplacedWeight.ToString(),3,0),Convert.ToInt32(curve.DisplacedWeight));
 		
 		renderBoldIfNeeded(cell, curve, str);
 	}

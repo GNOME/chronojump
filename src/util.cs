@@ -660,7 +660,7 @@ public class Util
 		double tt = tc + tf; //totalTime
 		fallHeight = fallHeight / 100.0; //cm -> m
 		
-		return mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tt;
+		return mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tc;
 	}
 				
 	//only Lewis now

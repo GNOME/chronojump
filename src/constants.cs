@@ -628,7 +628,7 @@ public class Constants
 		//P = mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tt;
 		"P = " + Catalog.GetString("mass") + " * g * ( " + 
 		Catalog.GetString("falling height") + " + 1.226 * " + Catalog.GetString("flight time") + " ^ 2 ) / " + 
-		Catalog.GetString("total_time") +
+		Catalog.GetString("contact time") +
 		"\n\n" +
 		Catalog.GetString("Jumps without TC: Lewis Peak Power 1974 (W)") + 
 		"\n\n" +

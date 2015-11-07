@@ -5516,7 +5516,7 @@ msgid ""
 "repetitions"
 msgstr ""
 "Repeticions\n"
-"esborrades"
+"seleccionades"
 
 #: ../src/gui/encoder.cs:1194 ../src/gui/encoder.cs:1287
 msgid ""

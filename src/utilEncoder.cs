@@ -316,7 +316,15 @@ public class UtilEncoder
 				temp = Util.ChangeChars(Catalog.GetString(etw), ";", ",");
 				temp = Util.RemoveNewLine(temp, true);
 				temp = Util.RemoveChar(temp, '#'); //needed to distinguish comments '#' than normal lines like the EncoderTranslatedWords
+		
+				if (UtilAll.IsWindows()) {
+					LogB.Debug(" (1) Unicoding:", temp);
+					temp = Util.ConvertToUnicode(temp);
+					LogB.Debug(" (2) Unicoded:", temp);
+				}
+
 				encoderTranslatedWordsOK[count++] = temp;
+
 			}
 		} else
 			encoderTranslatedWordsOK = Constants.EncoderEnglishWords;

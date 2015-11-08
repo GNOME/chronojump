@@ -1761,7 +1761,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 	
 		pchVector = createPchVector(ecconVector)
 
-		laterality = translateVector(as.vector(paf[,findPosInPaf("Laterality","")]))
+		laterality = as.vector(paf[,findPosInPaf("Laterality","")])
 		#bgBallsVector = rep(bgBalls, length(x))	
 		#bgBallsVector[laterality=="L"] <- "red"
 		#bgBallsVector[laterality=="R"] <- "blue"
@@ -1770,6 +1770,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
 		points(x[laterality=="L"], y[laterality=="L"], type="p", cex=1, col=colBalls, pch=3) # font=5, pch=220) #172, 220 don't looks good
 		points(x[laterality=="R"], y[laterality=="R"], type="p", cex=1, col=colBalls, pch=4) # font=5, pch=222) #174, 222 don't looks good
+		
 
 		for(i in 1:length(x)) {
 			name = i

@@ -82,8 +82,16 @@ cols=c(colSpeed,colForce,colPower); lty=rep(1,3)
 translate <- function(englishWord) {
 	if(length(Translated[which(English == englishWord)]) == 0)
 		return (englishWord) #not found, return english word
-	else
-		return(Translated[which(English == englishWord)])
+	else {
+		myWord = Translated[which(English == englishWord)]
+	
+		#Needed conversion for Windows:
+		#unicoded titles arrive here like this "\\", convert to "\", as this is difficult, do like this:
+		#http://stackoverflow.com/a/17787736
+		myWord = parse(text = paste0("'", myWord, "'"))
+	
+		return(myWord)
+	}
 }
 
 translateVector <- function(englishVector) {
@@ -2144,7 +2152,7 @@ doProcess <- function(options)
 	op <- assignOptions(options)
 	
 	print(c("1 Title=",op$Title))
-	#unicoded titles arrive here like this "\\", convert to "\", as this is difficoult, do like this:
+	#unicoded titles arrive here like this "\\", convert to "\", as this is difficult, do like this:
 	#http://stackoverflow.com/a/17787736
 	op$Title=parse(text = paste0("'", op$Title, "'"))
 	print(c("1 Title=",op$Title))

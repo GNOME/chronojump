@@ -78,8 +78,10 @@ colSpeed="springgreen3"; colForce="blue2"; colPower="tomato2"	#colors
 cols=c(colSpeed,colForce,colPower); lty=rep(1,3)	
 
 
-#translate
-translate <- function(englishWord) {
+#translateToPrint An expression is returned andcan only be printed. Don't do operations
+#Important: An expression is returned because is the best way to ahndle unicode on windows
+#take care not to do operations with this. Just print it
+translateToPrint <- function(englishWord) {
 	if(length(Translated[which(English == englishWord)]) == 0)
 		return (englishWord) #not found, return english word
 	else {
@@ -97,7 +99,7 @@ translate <- function(englishWord) {
 translateVector <- function(englishVector) {
 	translatedVector <- englishVector
 	for(i in 1:length(englishVector)) {
-		translatedVector[i] <- translate(englishVector[i])
+		translatedVector[i] <- translateToPrint(englishVector[i])
 	}
 
 	return(translatedVector)
@@ -399,8 +401,8 @@ findCurvesNew <- function(displacement, eccon, isInertial, min_height, draw, tit
 		     lty=lty,col=col) 
 
 		title(title, cex.main=1, font.main=1)
-		mtext(paste(translate("time"),"(s)"),side=1,adj=1,line=-1)
-		mtext(paste(translate("displacement"),"(cm)"),side=2,adj=1,line=-1)
+		mtext(paste(translateToPrint("time"),"(s)"),side=1,adj=1,line=-1)
+		mtext(paste(translateToPrint("displacement"),"(cm)"),side=2,adj=1,line=-1)
 	}
 	
 	return(as.data.frame(cbind(startStored,endStored,startHStored)))
@@ -548,8 +550,8 @@ findCurvesOld <- function(displacement, eccon, min_height, draw, title) {
 		     lty=lty,col=col) 
 
 		title(title, cex.main=1, font.main=1)
-		mtext(paste(translate("time"),"(s)"),side=1,adj=1,line=-1)
-		mtext(paste(translate("displacement"),"(cm)"),side=2,adj=1,line=-1)
+		mtext(paste(translateToPrint("time"),"(s)"),side=1,adj=1,line=-1)
+		mtext(paste(translateToPrint("displacement"),"(cm)"),side=2,adj=1,line=-1)
 	}
 	return(as.data.frame(cbind(start,end,startH)))
 }
@@ -901,8 +903,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			      side=1,at=max(isometric),adj=0,cex=.8,col=cols[1])
 
 			#don't need to show eccentric and concentric. It's pretty clear
-			#mtext(text=paste(translate("eccentric")," ",sep=""),side=3,at=max(eccentric),cex=.8,adj=1,col=cols[1],line=.5)
-			#mtext(text=paste(" ",translate("concentric"),sep=""),side=3,at=min(concentric),cex=.8,adj=0,col=cols[1],line=.5)
+			#mtext(text=paste(translateToPrint("eccentric")," ",sep=""),side=3,at=max(eccentric),cex=.8,adj=1,col=cols[1],line=.5)
+			#mtext(text=paste(" ",translateToPrint("concentric"),sep=""),side=3,at=min(concentric),cex=.8,adj=0,col=cols[1],line=.5)
 			mtext(text="ecc ",side=3,at=max(eccentric),cex=.8,adj=1,col=cols[1],line=.5)
 			mtext(text=" con",side=3,at=min(concentric),cex=.8,adj=0,col=cols[1],line=.5)
 		}
@@ -1139,7 +1141,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	if(draw & (!superpose || (superpose & highlight)) & exercisePercentBodyWeight == 100) {
 		weight=mass*g
 		abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
-		text(x=length(force),y=weight,labels=paste(translate("Weight"),"(N)"),cex=.8,adj=c(.5,0),col=cols[2])
+		text(x=length(force),y=weight,labels=paste(translateToPrint("Weight"),"(N)"),cex=.8,adj=c(.5,0),col=cols[2])
 
 		#define like this, because if eccentric == 0, length(eccentric) == 1
 		#and if eccentric is NULL, then length(eccentric) == 0, but max(eccentric) produces error
@@ -1174,8 +1176,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			print(c("takeoff",takeoff))
 			
 			abline(v=takeoff,lty=1,col=cols[2]) 
-			mtext(text=paste(translate("land")," ",sep=""),side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
-			mtext(text=paste(" ", translate("air"), " ",sep=""),side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
+			mtext(text=paste(translateToPrint("land")," ",sep=""),side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
+			mtext(text=paste(" ", translateToPrint("air"), " ",sep=""),side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
 		}
 
 		if(eccon=="ec") {
@@ -1187,14 +1189,14 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			else {
 				landing = max(which(force[eccentric]<=weight))
 				abline(v=landing,lty=1,col=cols[2]) 
-				mtext(text=paste(translate("air")," ",sep=""),side=3,at=landing,cex=.8,adj=1,col=cols[2])
-				mtext(text=paste(" ",translate("land")," ",sep=""),side=3,at=landing,cex=.8,adj=0,col=cols[2])
+				mtext(text=paste(translateToPrint("air")," ",sep=""),side=3,at=landing,cex=.8,adj=1,col=cols[2])
+				mtext(text=paste(" ",translateToPrint("land")," ",sep=""),side=3,at=landing,cex=.8,adj=0,col=cols[2])
 			}
 		}
 
 		print(c(is.numeric(takeoff), takeoff))
 		if(is.numeric(takeoff) && takeoff != -1) {
-			mtext(text=paste(translate("jump height"),"=", 
+			mtext(text=paste(translateToPrint("jump height"),"=", 
 					 (position[concentric[length(concentric)]] - 
 					  position[concentric[(takeoff - length_eccentric - length_isometric)]])/10,
 					 "cm",sep=" "),
@@ -1306,35 +1308,35 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	#legend, axes and title
 	if(draw) {
 		if(legend & showAxes) {
-			legendText=c(paste(translate("Distance"),"(mm)"))
+			legendText=c(paste(translateToPrint("Distance"),"(mm)"))
 			lty=c(1)
 			lwd=c(2)
 			colors=c("black") 
 			ncol=1
 
 			if(showSpeed) {
-				legendText=c(legendText, paste(translate("Speed"),"(m/s)"))
+				legendText=c(legendText, paste(translateToPrint("Speed"),"(m/s)"))
 				lty=c(lty,1)
 				lwd=c(lwd,2)
 				colors=c(colors,cols[1]) 
 				ncol=ncol+1
 			}
 			if(showAccel) {
-				legendText=c(legendText, paste(translate("Accel."),"(m/s²)"))
+				legendText=c(legendText, paste(translateToPrint("Accel."),"(m/s²)"))
 				lty=c(lty,1)
 				lwd=c(lwd,2)
 				colors=c(colors,"magenta") 
 				ncol=ncol+1
 			}
 			if(showForce) {
-				legendText=c(legendText, paste(translate("Force"),"(N)"))
+				legendText=c(legendText, paste(translateToPrint("Force"),"(N)"))
 				lty=c(lty,1)
 				lwd=c(lwd,2)
 				colors=c(colors,cols[2]) 
 				ncol=ncol+1
 			}
 			if(showPower) {
-				legendText=c(legendText, paste(translate("Power"),"(W)"))
+				legendText=c(legendText, paste(translateToPrint("Power"),"(W)"))
 				lty=c(lty,1)
 				lwd=c(lwd,2)
 				colors=c(colors,cols[3]) 
@@ -1357,8 +1359,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			       cex=1, bg="white", ncol=ncol, bty="n", plot=T, xpd=NA)
 		}
 		if(showLabels) {
-			mtext(paste(translate("time"),"(ms)"),side=1,adj=1,line=-1,cex=.9)
-			mtext(paste(translate("displacement"),"(mm)"),side=2,adj=1,line=-1,cex=.9)
+			mtext(paste(translateToPrint("time"),"(ms)"),side=1,adj=1,line=-1,cex=.9)
+			mtext(paste(translateToPrint("displacement"),"(mm)"),side=2,adj=1,line=-1,cex=.9)
 		}
 	}
 }
@@ -1403,12 +1405,12 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 	#when eccon != c show always ABS power
 	#peakPower is always ABS
 	if(Eccon == "c") {
-		powerName = translate("Power")
-		peakPowerName = translate("Peak Power")
+		powerName = translateToPrint("Power")
+		peakPowerName = translateToPrint("Peak Power")
 	}
 	else {
-		powerName = translate("Power")
-		peakPowerName = translate("Peak Power")
+		powerName = translateToPrint("Power")
+		peakPowerName = translateToPrint("Peak Power")
 	}
 
 	print("powerData")
@@ -1437,7 +1439,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 
 	bp <- barplot(powerData,beside=T,col=pafColors[1:2],width=c(1.4,.6),
 			names.arg=paste(myNums," ",laterality,"\n",load,sep=""),xlim=c(1,n*3+.5),cex.name=0.8,
-			xlab="",ylab=paste(translate("Power"),"(W)"), 
+			xlab="",ylab=paste(translateToPrint("Power"),"(W)"), 
 			ylim=c(lowerY,max(powerData)), xpd=FALSE,	#ylim, xpd = F,  makes barplot starts high (compare between them)
 			angle=bpAngle, density=bpDensity
 			) 
@@ -1448,8 +1450,8 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 	if(findInertialCurves(paf))
 		loadWord = "Inertia M."
 
-	mtext(paste(translate("Repetition")," \n",translate(loadWord)," ",sep=""),side=1,at=1,adj=1,line=1,cex=.9)
-	#mtext(translate("Laterality"),side=1,adj=1,line=0,cex=.9)
+	mtext(paste(translateToPrint("Repetition")," \n",translateToPrint(loadWord)," ",sep=""),side=1,at=1,adj=1,line=1,cex=.9)
+	#mtext(translateToPrint("Laterality"),side=1,adj=1,line=0,cex=.9)
 
 	axisLineRight=0
 
@@ -1467,7 +1469,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 			     axes=F,xlab="",ylab="",col=pafColors[3])
 
 		axis(4, col=pafColors[3], line=axisLineRight,padj=-.5)
-		mtext(paste(translate("Time to Peak Power"),"(ms)"), side=4, line=(axisLineRight-1))
+		mtext(paste(translateToPrint("Time to Peak Power"),"(ms)"), side=4, line=(axisLineRight-1))
 		axisLineRight = axisLineRight +3
 	}
 
@@ -1480,7 +1482,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 		abline(h=min(height),lty=2, col="green")
 		#text(max(bp[,2]),max(height),max(height),adj=c(0,.5),cex=0.8)
 		axis(4, col="green", line=axisLineRight, padj=-.5)
-		mtext(paste(translate("Range"),"(cm)"), side=4, line=(axisLineRight-1))
+		mtext(paste(translateToPrint("Range"),"(cm)"), side=4, line=(axisLineRight-1))
 		axisLineRight = axisLineRight +3
 
 		for(i in unique(load)) { 
@@ -1509,14 +1511,14 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 	graphColors=c(pafColors[1],pafColors[2])
 
 	if(showTTPP) {
-		legendText = c(legendText, paste(translate("Time to Peak Power"),"    ",sep=""))
+		legendText = c(legendText, paste(translateToPrint("Time to Peak Power"),"    ",sep=""))
 		lty=c(lty,1)
 		lwd=c(lwd,2)
 		pch=c(pch,NA)
 		graphColors=c(graphColors,pafColors[3])
 	}
 	if(showRange) {
-		legendText = c(legendText, translate("Range"))
+		legendText = c(legendText, translateToPrint("Range"))
 		lty=c(lty,1)
 		lwd=c(lwd,2)
 		pch=c(pch,NA)
@@ -1589,15 +1591,15 @@ findInertialCurves <- function(paf) {
 
 addUnitsAndTranslate <- function (var) {
 	if(var == "Speed")
-		return (paste(translate("Speed"),"(m/s)"))
+		return (paste(translateToPrint("Speed"),"(m/s)"))
 	else if(var == "Power")
-		return (paste(translate("Power"),"(W)"))
+		return (paste(translateToPrint("Power"),"(W)"))
 	else if(var == "Load") #or Mass
-		return (paste(translate("Mass"),"(Kg)"))
+		return (paste(translateToPrint("Mass"),"(Kg)"))
 	else if(var == "Inertia")
-		return (paste(translate("Inertia M."),"(Kg*cm^2)"))
+		return (paste(translateToPrint("Inertia M."),"(Kg*cm^2)"))
 	else if(var == "Force")
-		return (paste(translate("Force"),"(N)"))
+		return (paste(translateToPrint("Force"),"(N)"))
 
 	return(var)
 }
@@ -1829,7 +1831,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 
 			if(is.na(c.x)) {
 				plot(0,0,type="n",axes=F,xlab="",ylab="")
-				text(x=0,y=0,translate("Not enough data."),cex=1.5)
+				text(x=0,y=0,translateToPrint("Not enough data."),cex=1.5)
 				dev.off()
 				write("1RM;-1", SpecialData)
 				write("", outputData1)
@@ -1921,11 +1923,11 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		#don't write legend on 'speed,power / load' because it doesn't fits with the formulas and regressions
 		if(isAlone == "ALONE") {
 			#show legend
-			legendText = c(translate("concentric"),
-				       translate("eccentric"),
-				       paste(translate("eccentric"),translate("concentric"),sep="-"),
-				       translate("L"),
-				       translate("R")
+			legendText = c(translateToPrint("concentric"),
+				       translateToPrint("eccentric"),
+				       paste(translateToPrint("eccentric"),translateToPrint("concentric"),sep="-"),
+				       translateToPrint("L"),
+				       translateToPrint("R")
 				       )
 			rng=par("usr")
 			lg = legend(rng[1],rng[4], 
@@ -2026,7 +2028,7 @@ paint1RMBadillo2010 <- function (paf, title, outputData1) {
 
 	if(length(curvesSpeedInIntervalPos) == 0) {
 		plot(0,0,type="n",axes=F,xlab="",ylab="")
-		text(x=0,y=0,translate("Not enough data."),cex=1.5)
+		text(x=0,y=0,translateToPrint("Not enough data."),cex=1.5)
 		dev.off()
 		write("1RM;-1", SpecialData)
 		write("", outputData1)
@@ -2036,16 +2038,16 @@ paint1RMBadillo2010 <- function (paf, title, outputData1) {
 	par(mar=c(6,5,3,4))
 
 	plot(curvesLoad,curvesSpeed, type="p",
-	     main=paste(title, "1RM", translate("prediction")),
-	     sub=paste("\n",translate("Concentric mean speed on bench press 1RM =")," 0.185m/s.",
-		      translate("Estimated percentual load ="),
-		      " 8.4326 * ", translate("speed"), " ^2 - 73.501 * ", translate("speed"), " + 112.33\n",
-		      translate("Adapted from")," Gonzalez-Badillo, Sanchez-Medina (2010)"),
+	     main=paste(title, "1RM", translateToPrint("prediction")),
+	     sub=paste("\n",translateToPrint("Concentric mean speed on bench press 1RM =")," 0.185m/s.",
+		      translateToPrint("Estimated percentual load ="),
+		      " 8.4326 * ", translateToPrint("speed"), " ^2 - 73.501 * ", translateToPrint("speed"), " + 112.33\n",
+		      translateToPrint("Adapted from")," Gonzalez-Badillo, Sanchez-Medina (2010)"),
 	     xlim=c(min(curvesLoad),max(loadCalc[curvesSpeedInIntervalPos])),
 	     ylim=c(miny,maxy), xlab="", ylab="",axes=T)
 
 	mtext(side=1,line=2,"Kg")
-	mtext(side=2,line=3,paste(translate("Mean speed in concentric propulsive phase"),"(m/s)"))
+	mtext(side=2,line=3,paste(translateToPrint("Mean speed in concentric propulsive phase"),"(m/s)"))
 	mtext(side=4,line=2,"1RM (%)")
 
 	abline(h=msp, lty=2, col="gray")
@@ -2134,7 +2136,7 @@ quitIfNoData <- function(n, curves, outputData1) {
 	#if not found curves with this data, plot a "sorry" message and exit
 	if(n == 1 & curves[1,1] == 0 & curves[1,2] == 0) {
 		plot(0,0,type="n",axes=F,xlab="",ylab="")
-		text(x=0,y=0,translate("Sorry, no curves matched your criteria."),cex=1.5)
+		text(x=0,y=0,translateToPrint("Sorry, no curves matched your criteria."),cex=1.5)
 		dev.off()
 		write("", outputData1)
 		quit()
@@ -2273,7 +2275,7 @@ doProcess <- function(options)
 		#but meanwhile we can check like this:
 		if(length(inputMultiData[,1]) == 0) {
 			plot(0,0,type="n",axes=F,xlab="",ylab="")
-			text(x=0,y=0,translate("Not enough data."),
+			text(x=0,y=0,translateToPrint("Not enough data."),
 			     cex=1.5)
 			dev.off()
 			write("", op$OutputData1)
@@ -2429,7 +2431,7 @@ doProcess <- function(options)
 		#TODO: is this needed at all?
 		if(length(displacement)==0) {
 			plot(0,0,type="n",axes=F,xlab="",ylab="")
-			text(x=0,y=0,translate("Encoder is not connected."),cex=1.5)
+			text(x=0,y=0,translateToPrint("Encoder is not connected."),cex=1.5)
 			dev.off()
 			write("", op$OutputData1)
 			quit()
@@ -2520,9 +2522,9 @@ doProcess <- function(options)
 		     		xlab="",ylab="",axes=F)
 			
 			if(isInertial(op$EncoderConfigurationName))
-				mtext(translate("body speed"),side=4,adj=1,line=-1,col="green2",cex=.8)
+				mtext(translateToPrint("body speed"),side=4,adj=1,line=-1,col="green2",cex=.8)
 			else
-				mtext(translate("speed"),side=4,adj=1,line=-1,col="green2")
+				mtext(translateToPrint("speed"),side=4,adj=1,line=-1,col="green2")
 
 			abline(h=0,lty=2,col="gray")
 		}
@@ -2533,7 +2535,7 @@ doProcess <- function(options)
 
 	#make some check here, because this file is being readed in chronojump
 
-	#write(paste("(4/5)",translate("Repetitions processed")), op$OutputData2)
+	#write(paste("(4/5)",translateToPrint("Repetitions processed")), op$OutputData2)
 	print("Creating (op$OutputData2)4.txt with touch method...")
 	file.create(paste(op$OutputData2,"4.txt",sep=""))
 	print("Created")
@@ -2573,7 +2575,7 @@ doProcess <- function(options)
 				myGearedDown = curves[op$Jump,17]
 				myLaterality = curves[op$Jump,18]
 			}
-			myCurveStr = paste(translate("Repetition"),"=", op$Jump, " ", myLaterality, " ", myMassExtra, "Kg", sep="")
+			myCurveStr = paste(translateToPrint("Repetition"),"=", op$Jump, " ", myLaterality, " ", myMassExtra, "Kg", sep="")
 		
 			#don't do this, because on inertial machines string will be rolled to machine and not connected to the body
 			#if(inertialType == "li") {
@@ -2900,8 +2902,8 @@ doProcess <- function(options)
 
 			if(is.double(npj) && npj == -1) {
 				plot(0,0,type="n",axes=F,xlab="",ylab="")
-				text(x=0,y=0,paste(translate("Not enough data."), "\n",
-						   translate("Need at least three jumps")),
+				text(x=0,y=0,paste(translateToPrint("Not enough data."), "\n",
+						   translateToPrint("Need at least three jumps")),
 						   cex=1.5)
 				dev.off()
 				write("", op$OutputData1)
@@ -3133,7 +3135,7 @@ doProcess <- function(options)
 		dev.off()
 
 	#make some check here, because this file is being readed in chronojump
-	#write(paste("(5/5)",translate("R tasks done")), op$OutputData2)
+	#write(paste("(5/5)",translateToPrint("R tasks done")), op$OutputData2)
 	print("Creating (op$OutputData2)5.txt with touch method...")
 	file.create(paste(op$OutputData2,"5.txt",sep=""))
 	print("Created")

@@ -1,3 +1,23 @@
+# 
+#  This file is part of ChronoJump
+# 
+#  ChronoJump is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or   
+#     (at your option) any later version.
+#     
+#  ChronoJump is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+#     GNU General Public License for more details.
+# 
+#  You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 
+#   Copyright (C) 2004-2015  	Xavier de Blas <xaviblas@gmail.com> 
+#   Copyright (C) 2015   	Xavier Padullés <x.padulles@gmail.com>
+# 
  
 RMIndirect <- function(Q, nrep, nRM) {
 #Q = load in Kg
@@ -29,3 +49,35 @@ RMIndirect <- function(Q, nrep, nRM) {
                 }
         return(rm)
 }
+
+plotRMIndirect <- function (RMIMatrix) 
+{
+	nrep = length(RMIMatrix[,1])
+
+	ntests = length(RMIMatrix[1,]) -1 #-1 because we don't count the AVG
+	uniqueColors=rainbow(ntests)
+
+	#a) create an empty plot; b) create grid; c) draw all points except AVG; d) draw AVG line
+
+	plot(1, xlim=c(1,nrep),ylim=c(min(RMIMatrix),max(RMIMatrix)), type="n",
+	     xlab="Repetitions", ylab="Mass (Kg)")					#a)
+
+	abline(h=seq(0,max(RMIMatrix),by=5), lty=2, col="gray")				#b)
+
+	for(i in 1:ntests)
+		lines(RMIMatrix[,i], type="p", pch=19, col=uniqueColors[i])		#c)
+
+	lines(RMIMatrix$AVG, type="l", lwd=2)						#d)
+
+	#AVGs on top. Note ntests is the AVG column
+	for(i in 1:nrep)
+		mtext(round(RMIMatrix[i,(ntests+1)],1), side=3, at=i, adj=0.5, cex=.8)
+	mtext("AVG", side=3, at=0, adj=.5, cex=.8)
+
+	legend("topright", legend=names(x), col=c(uniqueColors,"Black"), lwd=1, 
+	       lty=c(rep(0,ntests),1), pch=c(rep(19,ntests),NA), cex=.8, bg="White") #legend
+}
+
+#Example
+plotRMIndirect(RMIndirect(80,3,10))
+

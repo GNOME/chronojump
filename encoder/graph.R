@@ -2719,6 +2719,9 @@ doProcess <- function(options)
 	#since Chronojump 1.3.6, encoder analyze has a treeview that can show the curves
 	#when an analysis is done, curves file has to be written
 	writeCurves = TRUE
+	#but don't writeCurves on exportCSV because outputfile is the same 
+	if(op$Analysis == "exportCSV")
+		writeCurves = FALSE
 
 	if(
 	   op$Analysis == "powerBars" || op$Analysis == "cross" || 
@@ -3034,6 +3037,8 @@ doProcess <- function(options)
 	}
 	if(op$Analysis=="exportCSV") {
 		print("Starting export...")
+		write("starting export", stderr())
+
 		curvesNum = length(curves[,1])
 
 		maxLength = 0

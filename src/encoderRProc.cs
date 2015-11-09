@@ -317,6 +317,12 @@ public class EncoderRProcAnalyze : EncoderRProc
 	private bool neuromuscularProfileDo;
 	private bool translate;
 
+	/*
+	 * to avoid problems on some windows. R exports csv to Util.GetEncoderExportTempFileName()
+	 * then C# copies it to exportFileName
+	 */
+	public string ExportFileName;
+
 	public bool CancelRScript;
 
 	public EncoderRProcAnalyze() {
@@ -431,6 +437,11 @@ public class EncoderRProcAnalyze : EncoderRProc
 				while ( ! ( fileWritten(outputFileCheck) || CancelRScript) );
 			else
 				while ( ! ( (fileWritten(outputFileCheck) && fileWritten(outputFileCheck2)) || CancelRScript ) );
+
+			//copy export from temp file to the file that user has selected
+			if(es.Ep.Analysis == "exportCSV" && ! CancelRScript)
+				copyExportedFile();
+	
 		} catch {
 			LogB.Warning("catched at startProcess");
 			return false;
@@ -478,9 +489,23 @@ public class EncoderRProcAnalyze : EncoderRProc
 			while ( ! ( fileWritten(outputFileCheck) || CancelRScript) );
 		else
 			while ( ! ( (fileWritten(outputFileCheck) && fileWritten(outputFileCheck2)) || CancelRScript ) );
+			
+		//copy export from temp file to the file that user has selected
+		if(es.Ep.Analysis == "exportCSV" && ! CancelRScript)
+			copyExportedFile();
+		
 		LogB.Debug("files written");
 		
 		return true;
+	}
+
+	//copy export from temp file to the file that user has selected
+	private void copyExportedFile() {
+		//wait first this status mark that is created when file is fully exported
+		while ( ! Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt") ) 
+			;
+		//copy the file
+		File.Copy(es.OutputData1, ExportFileName, true);
 	}
 	
 	

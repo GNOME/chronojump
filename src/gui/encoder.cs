@@ -1634,10 +1634,12 @@ public partial class ChronoJumpWindow
 		EncoderStruct encoderStruct = new EncoderStruct(
 				dataFileName, 
 				UtilEncoder.GetEncoderGraphTempFileName(),
-				selectedFileName, 
+				Util.GetEncoderExportTempFileName(), 
 				UtilEncoder.GetEncoderStatusTempBaseFileName(),
 				UtilEncoder.GetEncoderSpecialDataTempFileName(),
 				ep);
+
+		encoderRProcAnalyze.ExportFileName = selectedFileName;
 
 		encoderRProcAnalyze.SendData(
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 

@@ -1891,8 +1891,8 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 					    round.scientific(coef.b), " * ", varXplot, " ", plotSign(coef.c), " ", 
 					    round.scientific(coef.c), sep=""), side=3, line=1, at=functionAt, adj=functionAdj, cex = .9)
 				mtext(paste(
-					    "R² = ", round(summary(fit)$r.squared,4),
-					    "; R² (adjusted) = ", round(summary(fit)$adj.r.squared,4),
+					    "R^2 = ", round(summary(fit)$r.squared,4),
+					    "; R^2 (adjusted) = ", round(summary(fit)$adj.r.squared,4),
 					    "; p = ", getModelPValueWithStars(fit)
 					    , sep=""), side =3, line=0, at=functionAt, adj=functionAdj, cex=.9)
 				#end of plot the function expression, R^2 and p

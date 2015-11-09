@@ -407,11 +407,15 @@ public class EncoderRProcAnalyze : EncoderRProc
 		deleteFile(outputFileCheck);
 		if(outputFileCheck2 != "")
 			deleteFile(outputFileCheck2);
+		
+		//delete status-5 mark used on export csv
+		if(es.Ep.Analysis == "exportCSV")
+			Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt");
 
-			
 		//delete 1RM data if exists
 		if (File.Exists(es.SpecialData))
 			File.Delete(es.SpecialData);
+
 
 		try {	
 			p = new Process();
@@ -474,6 +478,16 @@ public class EncoderRProcAnalyze : EncoderRProc
 		deleteFile(outputFileCheck);
 		if(outputFileCheck2 != "")
 			deleteFile(outputFileCheck2);
+		
+		//delete status-5 mark used on export csv
+		if(es.Ep.Analysis == "exportCSV")
+			Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt");
+		
+		//delete 1RM data if exists
+		if (File.Exists(es.SpecialData))
+			File.Delete(es.SpecialData);
+
+
 
 		LogB.Debug("sending continue process");
 		//try/catch because sometimes the stdin write gots broken

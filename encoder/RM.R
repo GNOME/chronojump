@@ -74,7 +74,7 @@ plotRMIndirect <- function (RMIMatrix)
 		mtext(round(RMIMatrix[i,(ntests+1)],1), side=3, at=i, adj=0.5, cex=.8)
 	mtext("AVG", side=3, at=0, adj=.5, cex=.8)
 
-	legend("topright", legend=names(x), col=c(uniqueColors,"Black"), lwd=1, 
+	legend("topright", legend=names(RMIMatrix), col=c(uniqueColors,"Black"), lwd=1, 
 	       lty=c(rep(0,ntests),1), pch=c(rep(19,ntests),NA), cex=.8, bg="White") #legend
 }
 

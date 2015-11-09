@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-09-29 10:39+0000\n"
-"PO-Revision-Date: 2015-10-30 00:31+0100\n"
+"POT-Creation-Date: 2015-11-07 11:53+0000\n"
+"PO-Revision-Date: 2015-11-09 12:19+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -235,7 +235,6 @@ msgid "Active discarding first port"
 msgstr "Aktivní s vynecháním prvního portu"
 
 #: ../glade/chronojump.glade.h:44 ../src/gui/chronojump.cs:6525
-#| msgid "Reactive"
 msgid "Inactive"
 msgstr "Neaktivní"
 
@@ -741,11 +740,11 @@ msgstr "Aktualizovat"
 #: ../glade/chronojump.glade.h:162 ../src/execute/jump.cs:445
 #: ../src/exportSession.cs:287 ../src/exportSession.cs:462
 #: ../src/gui/convertWeight.cs:122 ../src/gui/jump.cs:688
-#: ../src/stats/djIndex.cs:35 ../src/stats/djPower.cs:35
-#: ../src/stats/djQ.cs:35 ../src/stats/graphs/rjEvolution.cs:104
-#: ../src/stats/rjEvolution.cs:72 ../src/stats/rjEvolution.cs:77
-#: ../src/stats/rjIndex.cs:34 ../src/stats/rjPotencyBosco.cs:34
-#: ../src/treeViewJump.cs:70 ../src/treeViewJump.cs:263
+#: ../src/stats/djIndex.cs:35 ../src/stats/djPower.cs:35 ../src/stats/djQ.cs:35
+#: ../src/stats/graphs/rjEvolution.cs:104 ../src/stats/rjEvolution.cs:72
+#: ../src/stats/rjEvolution.cs:77 ../src/stats/rjIndex.cs:34
+#: ../src/stats/rjPotencyBosco.cs:34 ../src/treeViewJump.cs:70
+#: ../src/treeViewJump.cs:263
 msgid "TC"
 msgstr "ČK"
 
@@ -769,10 +768,10 @@ msgstr "ČL"
 
 #: ../glade/chronojump.glade.h:165 ../src/exportSession.cs:230
 #: ../src/exportSession.cs:291 ../src/exportSession.cs:464
-#: ../src/stats/djIndex.cs:33 ../src/stats/djPower.cs:33
-#: ../src/stats/djQ.cs:33 ../src/stats/potency.cs:63
-#: ../src/stats/sjCmjAbk.cs:53 ../src/stats/sjCmjAbkPlus.cs:63
-#: ../src/treeViewJump.cs:33 ../src/treeViewMultiChronopic.cs:228
+#: ../src/stats/djIndex.cs:33 ../src/stats/djPower.cs:33 ../src/stats/djQ.cs:33
+#: ../src/stats/potency.cs:63 ../src/stats/sjCmjAbk.cs:53
+#: ../src/stats/sjCmjAbkPlus.cs:63 ../src/treeViewJump.cs:33
+#: ../src/treeViewMultiChronopic.cs:228
 msgid "Height"
 msgstr "Výška"
 
@@ -2581,7 +2580,6 @@ msgid "Advanced"
 msgstr "Pokročilé"
 
 #: ../glade/chronojump.glade.h:586
-#| msgid "Show data of encoder tests"
 msgid "Multimedia and encoder tests"
 msgstr "Testy multimédií a snímačů"
 
@@ -4202,8 +4200,8 @@ msgid "flight time"
 msgstr "čas letu"
 
 #: ../src/constants.cs:631
-msgid "total_time"
-msgstr "celkový čas"
+msgid "contact time"
+msgstr "čas kontaktu"
 
 #: ../src/constants.cs:633
 msgid "Jumps without TC: Lewis Peak Power 1974 (W)"
@@ -4411,7 +4409,7 @@ msgid "Linear encoder attached to a weighted moving pulley."
 msgstr "Lineární snímač připojený k zatížené volné kladce."
 
 #: ../src/encoder.cs:1051
-msgid "Linear encoder on a inclinated plane."
+msgid "Linear encoder on a inclined plane."
 msgstr "Lineární snímač na nakloněné rovině."
 
 #: ../src/encoder.cs:1052 ../src/encoder.cs:1063
@@ -4419,8 +4417,7 @@ msgid "Suitable also for horizontal movement. Just set a 0 push angle."
 msgstr "Vhodné také pro vodorovný pohyb. Stačí nastavit úhel působení na 0."
 
 #: ../src/encoder.cs:1062
-msgid ""
-"Linear encoder on a inclinated plane moving a weight in different angle."
+msgid "Linear encoder on a inclined plane moving a weight in different angle."
 msgstr ""
 "Lineární snímač na nakloněné rovině přenášející zátěž pod různými úhly."
 
@@ -5333,17 +5330,14 @@ msgid "Help on auto-detect"
 msgstr "Nápověda k autodetekci"
 
 #: ../src/gui/chronojump.cs:6520
-#| msgid "Mode:"
 msgid "Modes:"
 msgstr "Režimy:"
 
 #: ../src/gui/chronojump.cs:6522
-#| msgid "Auto-Detection currently disabled"
 msgid "Auto-detection on hardware is active."
 msgstr "Automatické vyhledání hardwaru je aktivní."
 
 #: ../src/gui/chronojump.cs:6522
-#| msgid "Default device"
 msgid "Default mode"
 msgstr "Výchozí režim"
 
@@ -5352,7 +5346,6 @@ msgid "Use this option on computers where first port fails."
 msgstr "Použijte tuto volbu u počítačů, kde první port selhal."
 
 #: ../src/gui/chronojump.cs:6526
-#| msgid "Auto-Detection currently disabled"
 msgid "Auto-detection on hardware is inactive."
 msgstr "Automatické vyhledání hardwaru je neaktivní."
 
@@ -8815,9 +8808,8 @@ msgstr "{0} pro některé skoky a statistiky v {1}{2}"
 #: ../src/stats/graphs/potency.cs:55 ../src/stats/graphs/rjAVGSD.cs:55
 #: ../src/stats/graphs/rjEvolution.cs:65 ../src/stats/graphs/rjIndex.cs:53
 #: ../src/stats/graphs/rjPotencyBosco.cs:55
-#: ../src/stats/graphs/runIntervallic.cs:65
-#: ../src/stats/graphs/runSimple.cs:51 ../src/stats/graphs/sjCmjAbk.cs:50
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:51
+#: ../src/stats/graphs/runIntervallic.cs:65 ../src/stats/graphs/runSimple.cs:51
+#: ../src/stats/graphs/sjCmjAbk.cs:50 ../src/stats/graphs/sjCmjAbkPlus.cs:51
 msgid "ChronoJump graph"
 msgstr "Graf ChronoJump"
 
@@ -8974,12 +8966,3 @@ msgstr "Čas překrytí"
 #: ../src/treeViewRun.cs:133
 msgid "Split time"
 msgstr "Čas rozdělení"
-
-#~ msgid "Please, select mode:"
-#~ msgstr "Vyberte prosím režim:"
-
-#~ msgid "Encoder tests"
-#~ msgstr "Testy se snímačem"
-
-#~ msgid "Images and Videos"
-#~ msgstr "Obrázky a videa"

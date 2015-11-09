@@ -932,7 +932,15 @@ public class Util
 	}
 
 	/********** end of multimedia paths ************/
+	
 
+	/********** start of encoder paths ************/
+
+	public static string GetEncoderExportTempFileName() {
+		return Path.Combine(Path.GetTempPath(), "encoder_export.csv");
+	}
+
+	/********** end of encoder paths ************/
 
 
 	public static string GetManualDir() {

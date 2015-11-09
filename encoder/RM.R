@@ -57,6 +57,8 @@ plotRMIndirect <- function (RMIMatrix)
 	ntests = length(RMIMatrix[1,]) -1 #-1 because we don't count the AVG
 	uniqueColors=rainbow(ntests)
 
+	par(mar=c(5,4,6,2)) #more space on the top
+
 	#a) create an empty plot; b) create grid; c) draw all points except AVG; d) draw AVG line
 
 	plot(1, xlim=c(1,nrep),ylim=c(min(RMIMatrix),max(RMIMatrix)), type="n",
@@ -70,12 +72,18 @@ plotRMIndirect <- function (RMIMatrix)
 	lines(RMIMatrix$AVG, type="l", lwd=2)						#d)
 
 	#AVGs on top. Note ntests is the AVG column
-	for(i in 1:nrep)
-		mtext(round(RMIMatrix[i,(ntests+1)],1), side=3, at=i, adj=0.5, cex=.8)
-	mtext("AVG", side=3, at=0, adj=.5, cex=.8)
+	font = 2 #first column will be bold
+	for(i in 1:nrep) {
+		mtext(paste(i,"RM",sep=""), side=3, at=i, adj=0.5, cex=.8, line=3, font=font)
+		mtext(round(RMIMatrix[i,(ntests+1)],1), side=3, at=i, adj=0.5, cex=.8, line=2, font=font)
+		font = 1 #rest of the columns will not be bold
+	}
+	mtext("AVG", side=3, at=0, adj=.5, cex=.8, line=2)
 
 	legend("topright", legend=names(RMIMatrix), col=c(uniqueColors,"Black"), lwd=1, 
 	       lty=c(rep(0,ntests),1), pch=c(rep(19,ntests),NA), cex=.8, bg="White") #legend
+	
+	par(mar=c(5,4,4,2))
 }
 
 #Example

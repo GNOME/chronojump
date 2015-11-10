@@ -50,35 +50,49 @@ RMIndirect <- function(Q, nrep, nRM) {
         return(rm)
 }
 
-plotRMIndirect <- function (RMIMatrix) 
+plotRMIndirect <- function (RMIMatrix, Q, nrep) 
 {
-	nrep = length(RMIMatrix[,1])
+	nRM = length(RMIMatrix[,1])
 
 	ntests = length(RMIMatrix[1,]) -1 #-1 because we don't count the AVG
 	uniqueColors=rainbow(ntests)
 
-	par(mar=c(5,4,6,2)) #more space on the top
+	par(mar=c(5,4,7,2)) #more space on the top
 
-	#a) create an empty plot; b) create grid; c) draw all points except AVG; d) draw AVG line
+	#Create an empty plot
+	plot(1, xlim=c(1,nRM),ylim=c(min(RMIMatrix),max(RMIMatrix)), type="n",
+	     xlab="Repetitions", ylab="Mass (Kg)", xaxt="n")
+	axis(1,1:10) #plot xaxis ensuring 1:10 is written
 
-	plot(1, xlim=c(1,nrep),ylim=c(min(RMIMatrix),max(RMIMatrix)), type="n",
-	     xlab="Repetitions", ylab="Mass (Kg)")					#a)
+	#Draw grid
+	abline(h=seq(0,max(RMIMatrix),by=5), lty=2, col="gray")
+	abline(v=nrep, lty=2, col="gray")	
 
-	abline(h=seq(0,max(RMIMatrix),by=5), lty=2, col="gray")				#b)
+	#Draw all points except AVG (all the tests)
+	#	Note: this is fine tuned to have points at X:
+	#	-0.12, -0.8, -0.4, 0, 0.4, 0.8, 0.12
+	#	if there are more tests than 7, this need to be adjusted
+	xmov = -0.12
+	for(i in 1:ntests) {
+		points((1:10)+xmov, RMIMatrix[,i], type="p", pch=19, col=uniqueColors[i])
+		xmov = xmov +.04
+	}
 
-	for(i in 1:ntests)
-		lines(RMIMatrix[,i], type="p", pch=19, col=uniqueColors[i])		#c)
+	#Draw AVG line
+	lines(RMIMatrix$AVG, type="l", lwd=2)
 
-	lines(RMIMatrix$AVG, type="l", lwd=2)						#d)
+	#Title
+	mtext(paste("Indirect RM prediction with", nrep, "repetitions and", Q,  "Kg"), 
+	      side=3, at=5, adj=0.5, cex=1, line=5, font=2)
 
 	#AVGs on top. Note ntests is the AVG column
 	font = 2 #first column will be bold
-	for(i in 1:nrep) {
-		mtext(paste(i,"RM",sep=""), side=3, at=i, adj=0.5, cex=.8, line=3, font=font)
-		mtext(round(RMIMatrix[i,(ntests+1)],1), side=3, at=i, adj=0.5, cex=.8, line=2, font=font)
+	for(i in 1:nRM) {
+		mtext(paste(i,"RM",sep=""), side=3, at=i, adj=0.5, cex=.8, line=2.5, font=font)
+		mtext(round(RMIMatrix[i,(ntests+1)],1), side=3, at=i, adj=0.5, cex=.8, line=1.5, font=font)
 		font = 1 #rest of the columns will not be bold
 	}
-	mtext("AVG", side=3, at=0, adj=.5, cex=.8, line=2)
+	mtext("AVG", side=3, at=0, adj=.5, cex=.8, line=1.5)
 
 	legend("topright", legend=names(RMIMatrix), col=c(uniqueColors,"Black"), lwd=1, 
 	       lty=c(rep(0,ntests),1), pch=c(rep(19,ntests),NA), cex=.8, bg="White") #legend
@@ -87,5 +101,7 @@ plotRMIndirect <- function (RMIMatrix)
 }
 
 #Example
-plotRMIndirect(RMIndirect(80,3,10))
+Q <- 80
+nrep <- 3
+plotRMIndirect( RMIndirect(Q, nrep, 10), Q, nrep )
 

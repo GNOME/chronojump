@@ -156,6 +156,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_delete_session;
 	[Widget] Gtk.MenuItem menuitem_export_csv;
 	[Widget] Gtk.MenuItem menuitem_export_xml;
+	[Widget] Gtk.MenuItem menuitem_encoder_session_overview;
 	[Widget] Gtk.Image image_session_open;
 		
 	//menu person
@@ -6298,6 +6299,7 @@ LogB.Debug("X");
 		menuitem_delete_session.Sensitive = option;
 		menuitem_export_csv.Sensitive = option;
 		//menuitem_export_xml.Sensitive = option; not implemented yet
+		menuitem_encoder_session_overview.Sensitive = option;
 	}
 	
 	private void menuPersonSelectedSensitive(bool option)

@@ -1602,6 +1602,44 @@ public partial class ChronoJumpWindow
 	{
 		checkFile(Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL);
 	}
+
+	/*
+	 * encoder session overview
+	 */
+
+	void on_menuitem_encoder_session_overview_activate (object o, EventArgs args) 
+	{
+		ArrayList dataPrint = SqliteEncoder.SelectSessionOverview(false, currentSession.UniqueID);
+
+		string [] columnsString = {
+			"Unused count",
+			Catalog.GetString("Person"),
+			Catalog.GetString("Exercise"),
+			Catalog.GetString("Displaced mass"),
+			Catalog.GetString("Sets")
+		};
+		
+		ArrayList bigArray = new ArrayList();
+		ArrayList a1 = new ArrayList();
+
+		//0 is the widgget to show; 1 is the editable; 2 id default value
+		a1.Add(Constants.GenericWindowShow.TREEVIEW); a1.Add(true); a1.Add("");
+		bigArray.Add(a1);
+	
+		genericWin = GenericWindow.Show(false,	//don't show now
+				"Sets captured on this session",
+				bigArray);
+			
+		ArrayList nonSensitiveRows = new ArrayList();
+		for(int i=0; i < dataPrint.Count; i ++)
+			nonSensitiveRows.Add(i);
+
+		genericWin.SetTreeview(columnsString, false, dataPrint, nonSensitiveRows, Constants.ContextMenu.NONE, false);
+		genericWin.ShowButtonCancel(false);
+		genericWin.SetButtonAcceptSensitive(true);
+		genericWin.ShowNow();
+		genericWin.SetButtonAcceptSensitive(true);
+	}
 	
 	void on_button_encoder_export_all_curves_file_selected (string selectedFileName) 
 	{

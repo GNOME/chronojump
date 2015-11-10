@@ -374,6 +374,43 @@ class SqliteEncoder : Sqlite
 
 		return array;
 	}
+	
+	public static ArrayList SelectSessionOverview (bool dbconOpened, int sessionID)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+	
+		dbcmd.CommandText = 
+			"SELECT person77.name, encoderExercise.name, (personSession77.weight * encoderExercise.percentBodyWeight/100) + encoder.extraWeight, COUNT(*)" + 
+			" FROM person77, personSession77, encoderExercise, encoder" + 
+			" WHERE person77.uniqueID == encoder.personID AND personSession77.personID == encoder.personID AND personSession77.sessionID == encoder.sessionID AND encoderExercise.uniqueID==encoder.exerciseID AND signalOrCurve == 'signal' AND encoder.sessionID == " + sessionID + 
+			" GROUP BY encoder.personID, exerciseID, extraWeight" +
+			" ORDER BY person77.name";
+		
+		LogB.SQL(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList array = new ArrayList();
+		int count = 0;
+		while(reader.Read()) { 
+			string [] s = { 
+				(count++).ToString(),	//not displayed but needed on genericWin.SetTreeView
+				reader[0].ToString(), 	//person name
+				reader[1].ToString(), 	//encoder exercise name
+				reader[2].ToString(),	//displaced mass (includes percentBodyeight)
+				reader[3].ToString()	//sets count
+				};
+			array.Add (s);
+		}
+
+		reader.Close();
+		if(! dbconOpened)
+			Sqlite.Close();
+
+		return array;
+	}
 
 	/*
 	 * EncoderSignalCurve

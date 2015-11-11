@@ -856,8 +856,11 @@ public class Constants
 	 * written here in order to be translated
 	 * Attention: this will be separated by ';', then no ';' sign can be here
 	 * No "\n" can be here also
+	 * No "'" can be here also. eg d'inèrcia on catalan
 	 * if translators add one, it will be converted to ','
 	 * if translators add a "\n", it will be converted to " "
+	 * if translators add a "'", it will be converted to ' '
+	 *
 	 * check that this list has same elements than above list
 	 */
 	public static string [] EncoderTranslatedWords = {

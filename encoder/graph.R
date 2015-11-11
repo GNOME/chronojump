@@ -2067,6 +2067,91 @@ paint1RMBadillo2010 <- function (paf, title, outputData1) {
 	write(paste("1RM;",round(predicted1RM,2),sep=""), SpecialData)
 }
 
+#---- RM Indirect start ----
+
+RMIndirect <- function(Q, nrep, nRM) {
+#Q = load in Kg
+#nrep = number of maximum repetitions
+#n = the number of nRM you want to know
+
+        rm = matrix(rep(c(0,0,0,0,0,0,0,0), nRM), ncol=8)
+        colnames(rm) = c("Brzycki", "Epley", "Lander", "Lombardi", "Mayhew", "Oconner", "Wathan", "AVG")
+        rm = as.data.frame(rm)
+        rm[1,1] = Q * (36 / (37 - nrep))                                    #Brzycki
+        rm[1,2] = Q * (1 + 0.0333  *  nrep)                                 #Epley
+        rm[1,3] = (100 * Q) / (101.3 - 2.67123 * nrep)                      #Lander   
+        rm[1,4] = Q * nrep^0.1                                              #Lombardi
+        rm[1,5] = (100 * Q) / (52.2 + (41.9 * exp(-0.055 * nrep)))          #Mayhew
+        rm[1,6] = Q * (1 + 0.025 * nrep)                                    #O'Conner
+        rm[1,7] = (100 * Q) / (48.8 + (53.8 * exp(-0.075 * nrep)))          #Wathan
+	rm[1,8] = mean(as.numeric(rm[1,1:7]))
+
+	if(nRM < 2) return(rm)
+        for(i in 2:nRM) {
+                rm[i,1] = rm[1,1] * (37 - i) / 36                           #Brzycki
+                rm[i,2] = rm[1,2] / (1 + (i / 30))                          #Epley
+                rm[i,3] = rm[1,3] * (101.3 - 2.67123 * i) / 100             #Lander
+                rm[i,4] = rm[1,4] / (i ^ (1 / 10))                          #Lombardi
+                rm[i,5] = rm[1,5] * (52.2 + (41.9 * exp(-1 * (i * 0.055)))) / 100       #Mayhew
+                rm[i,6] = rm[1,6] / (1 + i * 0.025)                         #O'Conner
+                rm[i,7] = rm[1,7]* (48.8 + (53.8 * exp(-1 * (i * 0.075)))) / 100        #Wathan
+		rm[i,8] = mean(as.numeric(rm[i,1:7]))
+                }
+        return(rm)
+}
+plotRMIndirect <- function (RMIMatrix, Q, nrep) 
+{
+	nRM = length(RMIMatrix[,1])
+
+	ntests = length(RMIMatrix[1,]) -1 #-1 because we don't count the AVG
+	uniqueColors=rainbow(ntests)
+
+	par(mar=c(5,4,7,2)) #more space on the top
+
+	#Create an empty plot
+	plot(1, xlim=c(1,nRM),ylim=c(min(RMIMatrix),max(RMIMatrix)), type="n",
+	     xlab="Repetitions", ylab="Mass (Kg)", xaxt="n")
+	axis(1,1:10) #plot xaxis ensuring 1:10 is written
+
+	#Draw grid
+	abline(h=seq(0,max(RMIMatrix),by=5), lty=2, col="gray")
+	abline(v=nrep, lty=2, col="gray")	
+
+	#Draw all points except AVG (all the tests)
+	#	Note: this is fine tuned to have points at X:
+	#	-0.12, -0.8, -0.4, 0, 0.4, 0.8, 0.12
+	#	if there are more tests than 7, this need to be adjusted
+	xmov = -0.12
+	for(i in 1:ntests) {
+		points((1:10)+xmov, RMIMatrix[,i], type="p", pch=19, col=uniqueColors[i])
+		xmov = xmov +.04
+	}
+
+	#Draw AVG line
+	lines(RMIMatrix$AVG, type="l", lwd=2)
+
+	#Title
+	mtext(paste("Indirect RM prediction with", nrep, "repetitions and", Q,  "Kg"), 
+	      side=3, at=5, adj=0.5, cex=1, line=5, font=2)
+
+	#AVGs on top. Note ntests is the AVG column
+	font = 2 #first column will be bold
+	for(i in 1:nRM) {
+		mtext(paste(i,"RM",sep=""), side=3, at=i, adj=0.5, cex=.8, line=2.5, font=font)
+		mtext(round(RMIMatrix[i,(ntests+1)],1), side=3, at=i, adj=0.5, cex=.8, line=1.5, font=font)
+		font = 1 #rest of the columns will not be bold
+	}
+	mtext("AVG", side=3, at=0, adj=.5, cex=.8, line=1.5)
+
+	legend("topright", legend=names(RMIMatrix), col=c(uniqueColors,"Black"), lwd=1, 
+	       lty=c(rep(0,ntests),1), pch=c(rep(19,ntests),NA), cex=.8, bg="White") #legend
+	
+	par(mar=c(5,4,4,2))
+	
+	write(paste("1RM;",round(RMIMatrix[1,(ntests+1)],2),sep=""), SpecialData)
+}
+
+#---- RM Indirect end ----
 			
 find.mfrow <- function(n) {
 	if(n<=3) return(c(1,n))
@@ -2720,7 +2805,7 @@ doProcess <- function(options)
 	#when an analysis is done, curves file has to be written
 	writeCurves = TRUE
 	#but don't writeCurves on exportCSV because outputfile is the same 
-	if(op$Analysis == "exportCSV")
+	if(op$Analysis == "exportCSV" || op$Analysis=="1RMIndirect")
 		writeCurves = FALSE
 
 	if(
@@ -3035,6 +3120,16 @@ doProcess <- function(options)
 			#print("curves written")
 		}
 	}
+
+	if(op$Analysis=="1RMIndirect") {
+		Q <- 80
+		nrep <- 3
+		plotRMIndirect( RMIndirect(Q, nrep, 10), Q, nrep )
+		
+		#write this file to allow C# process finish
+		write("", op$OutputData1)
+	}
+
 	if(op$Analysis=="exportCSV") {
 		print("Starting export...")
 		write("starting export", stderr())

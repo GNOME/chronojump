@@ -2137,6 +2137,7 @@ public partial class ChronoJumpWindow
 					 crossNameTemp == Catalog.GetString("1RM Bench Press") ||
 					 crossNameTemp == "1RM Any exercise" || 
 					 crossNameTemp == Catalog.GetString("1RM Any exercise")
+					 //no 1RM Indirect because cannot be done with saved curves
 					)) {
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 						Catalog.GetString("Sorry, this graph is not supported yet.") +
@@ -2144,6 +2145,7 @@ public partial class ChronoJumpWindow
 						"\n- Speed,Power / Load" +
 						"\n- 1RM Bench Press" +
 						"\n- 1RM Any exercise"
+					 	//no 1RM Indirect because cannot be done with saved curves
 						);
 
 				return;
@@ -2155,6 +2157,7 @@ public partial class ChronoJumpWindow
 						crossNameTemp == Catalog.GetString("1RM Bench Press") ||
 						crossNameTemp == "1RM Any exercise" || 
 						crossNameTemp == Catalog.GetString("1RM Any exercise")
+					 	//no 1RM Indirect because cannot be done with saved curves
 						)) 
 			{
 				bool differentExercises = false;
@@ -2686,7 +2689,11 @@ public partial class ChronoJumpWindow
 			if(crossName == "1RM Bench Press") {
 				sendAnalysis = "1RMBadillo2010";
 				analysisOptions = "p";
-			} else {
+			} else if(
+					crossName == "Speed / Load" || crossName == "Force / Load" || 
+					crossName == "Power / Load" || crossName == "Speed,Power / Load" || 
+					crossName == "Force / Speed" || crossName == "Power / Speed") 
+			{
 				//convert: "Force / Speed" in: "cross.Force.Speed.mean"
 				string [] crossNameFull = crossName.Split(new char[] {' '});
 				analysisVariables = crossNameFull[0] + ";" + crossNameFull[2]; //[1]=="/"
@@ -2908,15 +2915,20 @@ public partial class ChronoJumpWindow
 			Sqlite.Close();	
 
 		} else {	//current signal
-			if(encoderAnalysis == "cross" && crossName == "1RM Any exercise") {
-				//get speed1RM (from combo)
-				EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
-						false, getExerciseIDFromCombo(), false)[0];
-				
-				sendAnalysis = "1RMAnyExercise";
-			        analysisVariables = Util.ConvertToPoint(ex.speed1RM) + ";" + 
-					SqlitePreferences.Select("encoder1RMMethod");
-				analysisOptions = "p";
+			if(encoderAnalysis == "cross") {
+				if(crossName == "1RM Any exercise") {
+					//get speed1RM (from combo)
+					EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
+							false, getExerciseIDFromCombo(), false)[0];
+
+					sendAnalysis = "1RMAnyExercise";
+					analysisVariables = Util.ConvertToPoint(ex.speed1RM) + ";" + 
+						SqlitePreferences.Select("encoder1RMMethod");
+					analysisOptions = "p";
+				}
+				else if(crossName == "1RM Indirect") {
+					sendAnalysis = "1RMIndirect";
+				}
 			}
 
 			ep = new EncoderParams(
@@ -3392,15 +3404,16 @@ public partial class ChronoJumpWindow
 		//create combo analyze cross (variables)
 		string [] comboAnalyzeCrossOptions = { 
 			"Speed / Load", "Force / Load", "Power / Load", "Speed,Power / Load", "Force / Speed", "Power / Speed", 
-			"1RM Bench Press", "1RM Any exercise"};
+			"1RM Bench Press", "1RM Any exercise", "1RM Indirect"};
 		string [] comboAnalyzeCrossOptionsTranslated = { 
 			Catalog.GetString("Speed / Load"), Catalog.GetString("Force / Load"), 
 			Catalog.GetString("Power / Load"), Catalog.GetString("Speed,Power / Load"), 
 			Catalog.GetString("Force / Speed"), Catalog.GetString("Power / Speed"), 
-			Catalog.GetString("1RM Bench Press"), Catalog.GetString("1RM Any exercise")
+			Catalog.GetString("1RM Bench Press"), Catalog.GetString("1RM Any exercise"),
+			Catalog.GetString("1RM Indirect")
 		}; //if added more, change the int in the 'for' below
 		encoderAnalyzeCrossTranslation = new String [comboAnalyzeCrossOptions.Length];
-		for(int j=0; j < 8 ; j++)
+		for(int j=0; j < 9 ; j++)
 			encoderAnalyzeCrossTranslation[j] = 
 				comboAnalyzeCrossOptions[j] + ":" + comboAnalyzeCrossOptionsTranslated[j];
 		combo_encoder_analyze_cross = ComboBox.NewText ();
@@ -3519,7 +3532,10 @@ public partial class ChronoJumpWindow
 		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
 					encoderAnalyzeCrossTranslation) == "1RM Bench Press" ||
 				Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
-					encoderAnalyzeCrossTranslation) == "1RM Any exercise" ) {
+					encoderAnalyzeCrossTranslation) == "1RM Any exercise" ||
+				Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
+					encoderAnalyzeCrossTranslation) == "1RM Indirect" )
+		{
 			check_encoder_analyze_mean_or_max.Active = true;
 			check_encoder_analyze_mean_or_max.Sensitive = false;
 			check_encoder_analyze_eccon_together.Active = false;
@@ -3529,6 +3545,17 @@ public partial class ChronoJumpWindow
 			check_encoder_analyze_eccon_together.Sensitive = true;
 			block_check_encoder_analyze_eccon_together_if_needed();
 		}
+			
+		//1RM Indirect can only be used with current signal	
+		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
+					encoderAnalyzeCrossTranslation) == "1RM Indirect" &&
+				! check_encoder_analyze_signal_or_curves.Active) { 	//saved curves 
+			button_encoder_analyze.Sensitive = false;
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					"1RM Indirect prediction can only be done with current set.");
+		}
+	
+		button_encoder_analyze_sensitiveness();
 	}
 	
 	void on_button_encoder_analyze_image_save_clicked (object o, EventArgs args)
@@ -4105,6 +4132,13 @@ public partial class ChronoJumpWindow
 				analyze_sensitive = curvesNumOkToSideCompare();
 				label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
 			}
+
+			//1RM Indirect only works on current set
+			if(
+					radiobutton_encoder_analyze_cross.Active &&
+					Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
+						encoderAnalyzeCrossTranslation) == "1RM Indirect")
+				analyze_sensitive = false;
 		}
 		button_encoder_analyze.Sensitive = analyze_sensitive;
 	}
@@ -5497,7 +5531,17 @@ public partial class ChronoJumpWindow
 						encoderAnalyzeCrossTranslation);
 			button_encoder_analyze_1RM_save.Sensitive = 
 				(radiobutton_encoder_analyze_cross.Active &&
-				(crossName == "1RM Bench Press" || crossName == "1RM Any exercise") );
+				(crossName == "1RM Bench Press" || crossName == "1RM Any exercise") ); 
+			// || crossName == "1RM Indirect") ); 
+			/*
+			 * TODO: currently disabled because 
+			 * on_button_encoder_analyze_1RM_save_clicked () reads getExerciseNameFromTable()
+			 * and encoderAnalyzeListStore is not created because "1RM Indirect" 
+			 * currently prints no data on OutputData1
+			 *
+			 * Solution will be to print data there with a new format 
+			 * (new columns) like neuromuscular has done
+			 */
 		}
 
 		treeview_encoder_capture_curves.Sensitive = true;

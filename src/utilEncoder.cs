@@ -314,6 +314,7 @@ public class UtilEncoder
 		if(translate) {
 			foreach(string etw in Constants.EncoderTranslatedWords) {
 				temp = Util.ChangeChars(Catalog.GetString(etw), ";", ",");
+				temp = Util.RemoveChar(temp, '\'');
 				temp = Util.RemoveNewLine(temp, true);
 				temp = Util.RemoveChar(temp, '#'); //needed to distinguish comments '#' than normal lines like the EncoderTranslatedWords
 		

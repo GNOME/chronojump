@@ -2101,6 +2101,9 @@ RMIndirect <- function(Q, nrep, nRM) {
 }
 plotRMIndirect <- function (RMIMatrix, Q, nrep) 
 {
+	plotMode = "BALLS"
+	#plotMode = "PCHS"
+
 	nRM = length(RMIMatrix[,1])
 
 	ntests = length(RMIMatrix[1,]) -1 #-1 because we don't count the AVG
@@ -2118,13 +2121,18 @@ plotRMIndirect <- function (RMIMatrix, Q, nrep)
 	abline(v=nrep, lty=2, col="gray")	
 
 	#Draw all points except AVG (all the tests)
-	#	Note: this is fine tuned to have points at X:
-	#	-0.12, -0.8, -0.4, 0, 0.4, 0.8, 0.12
-	#	if there are more tests than 7, this need to be adjusted
-	xmov = -0.12
-	for(i in 1:ntests) {
-		points((1:10)+xmov, RMIMatrix[,i], type="p", pch=19, col=uniqueColors[i])
-		xmov = xmov +.04
+	if(plotMode == "BALLS") {
+		# Note: this is fine tuned to have points at X:
+		# -0.12, -0.8, -0.4, 0, 0.4, 0.8, 0.12
+		# if there are more tests than 7, this need to be adjusted
+		xmov = -0.12
+		for(i in 1:ntests) {
+			points((1:10)+xmov, RMIMatrix[,i], type="p", pch=19, col=uniqueColors[i])
+			xmov = xmov +.04
+		}
+	} else { # "PCHS"
+		for(i in 1:ntests)
+			points(RMIMatrix[,i], type="p", pch=i, col=uniqueColors[i])
 	}
 
 	#Draw AVG line
@@ -2143,8 +2151,12 @@ plotRMIndirect <- function (RMIMatrix, Q, nrep)
 	}
 	mtext("AVG", side=3, at=0, adj=.5, cex=.8, line=1.5)
 
-	legend("topright", legend=names(RMIMatrix), col=c(uniqueColors,"Black"), lwd=1, 
-	       lty=c(rep(0,ntests),1), pch=c(rep(19,ntests),NA), cex=.8, bg="White") #legend
+	if(plotMode == "BALLS")
+		legend("topright", legend=names(RMIMatrix), col=c(uniqueColors,"Black"), lwd=1, 
+		       lty=c(rep(0,ntests),1), pch=c(rep(19,ntests),NA), cex=.8, bg="White") #legend
+	else #PCHS
+		legend("topright", legend=names(RMIMatrix), col=c(uniqueColors,"Black"), lwd=1, 
+		       lty=c(rep(0,ntests),1), pch=c(rep(1:7),NA), cex=.8, bg="White") #legend
 	
 	par(mar=c(5,4,4,2))
 	

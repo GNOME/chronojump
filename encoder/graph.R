@@ -1719,6 +1719,19 @@ stroverlapArray <- function(newPoint, points) {
 	return (FALSE)
 }
 
+fitLine <- function(x, y, col, lwd) {
+	fit = lm(y ~ x + I(x^2))
+
+	coef.a <- fit$coefficient[3]
+	coef.b <- fit$coefficient[2]
+	coef.c <- fit$coefficient[1]
+
+	x1 <- seq(min(x),max(x), (max(x) - min(x))/1000)
+	y1 <- coef.a *x1^2 + coef.b * x1 + coef.c
+	lines(x1, y1, col=col, lwd=lwd)
+
+	return (fit)
+}
 
 #option: mean or max
 paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, ecconVector, seriesName, do1RM, do1RMMethod, outputData1) 
@@ -1861,16 +1874,12 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			#lines(10:100 ,fit2line, col="red") #puts line on plot
 		}
 		else {
-			if(length(unique(x)) >= 3) {
-				fit = lm(y ~ x + I(x^2))
-		
+			if(length(unique(x)) >= 3) 
+			{
+				fit = fitLine(x,y, "black", 1)
 				coef.a <- fit$coefficient[3]
 				coef.b <- fit$coefficient[2]
 				coef.c <- fit$coefficient[1]
-
-				x1 <- seq(min(x),max(x), (max(x) - min(x))/1000)
-				y1 <- coef.a *x1^2 + coef.b * x1 + coef.c
-				lines(x1,y1)
 
 				#start plot the function expression, R^2 and p
 				varXplot = varX
@@ -1959,8 +1968,12 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		
 		for(i in 1:length(seriesName)) {
 			thisSerie = which(seriesName == unique(seriesName)[i])
-			if(length(unique(x[thisSerie])) >= 4)
-				lines(smooth.spline(x[thisSerie],y[thisSerie],df=4),col=uniqueColors[i],lwd=2)
+			
+			#old filtering
+			#if(length(unique(x[thisSerie])) >= 4)
+				#lines(smooth.spline(x[thisSerie],y[thisSerie],df=4),col=uniqueColors[i],lwd=2)
+			if(length(unique(x[thisSerie])) >= 3)
+				fitLine(x[thisSerie],y[thisSerie], uniqueColors[i], 2)
 		}
 	
 		#difficult to create a title in series graphs

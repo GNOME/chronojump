@@ -1627,9 +1627,9 @@ getModelPValueWithStars <- function(model) {
 		stars = "***"
 	else if(p.value <= 0.001)
 		stars = "**"
-	else if(p.value <= 0.05)
-		stars = "*"
 	else if(p.value <= 0.01)
+		stars = "*"
+	else if(p.value <= 0.05)
 		stars = "."
 	return(paste(round.scientific(p.value), " ", stars, sep=""))
 }

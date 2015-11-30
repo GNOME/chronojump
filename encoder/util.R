@@ -459,6 +459,26 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 	start <- 1
 	end <- length(speed$y)
 
+
+	#on "e", "ec", start on ground
+	if(! isInertial(encoderConfigurationName) && (eccon == "e" || eccon == "ec")) {
+		#if eccentric is undefined, find it
+		if(eccentric == 0) {
+			if(eccon == "e")
+				eccentric = 1:length(displacement)
+			else {  #(eccon=="ec")
+				phases=findECPhases(displacement,speed$y)
+				eccentric = phases$eccentric
+			}
+		}
+		
+		weight = mass * g
+		if(length(which(force[eccentric] <= weight)) > 0) {
+			landing = max(which(force[eccentric]<=weight))
+			start = landing
+		}
+	}
+
 	if( isPropulsive && ( eccon== "c" || eccon == "ec" ) )
 		end <- propulsiveEnd
 

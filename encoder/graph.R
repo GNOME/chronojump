@@ -999,6 +999,138 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	
 
 
+	dynamics = getDynamics(encoderConfigurationName,
+			speed$y, accel$y, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
+			displacement, diameter, inertiaMomentum, smoothing)
+	mass = dynamics$mass
+	force = dynamics$force
+	power = dynamics$power
+
+
+	if(draw && isInertial(encoderConfigurationName) && debug) 
+	{
+		#start blank graph with ylim of position
+		ylim = yrange
+		if(ylim[1] == "undefined") { 
+			ylim = NULL 
+			ylim = c(min(position-min(position)), max(position-min(position)))
+		}
+		par(new=T)
+		plot(0,0,type="n",axes=F,xlab="",ylab="", ylim=ylim)
+		
+		abline(h=100*dynamics$loopsAblines, col="yellow") #m -> cm
+		print("dynamics$loopsAblines")
+		print(dynamics$loopsAblines)
+		
+		print("ylim")
+		print(ylim)
+
+		#TODO: add here angleSpeed graph when diameter is variable (version 1.5.3)
+	}
+
+
+	if(draw & showForce) {
+		ylimHeight = max(abs(range(force)))
+		ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
+		if(knRanges[1] != "undefined")
+			ylim = knRanges$force
+		par(new=T)
+		if(highlight==FALSE)
+			plot(startX:length(force),force[startX:length(force)],type="l",
+			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col=cols[2],lty=lty[2],lwd=1,axes=F)
+		else
+			plot(startX:length(force),force[startX:length(force)],type="l",
+			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+		if(showAxes) {
+			axis(4, col=cols[2], lty=lty[2], line=axisLineRight, lwd=1, padj=-.5)
+			axisLineRight = axisLineRight +2
+		}
+		
+		if(isInertial(encoderConfigurationName) && debug) {
+			#print("dynamics$forceDisc")
+			#print(dynamics$forceDisc)
+			par(new=T)
+			plot(dynamics$forceDisc, col="blue", xlab="", ylab="", xlim=c(1,length(displacement)),ylim=ylim, type="p", pch=1, axes=F);
+
+			par(new=T)
+			plot(dynamics$forceBody, col="blue", xlab="", ylab="", xlim=c(1,length(displacement)),ylim=ylim, type="p", pch=3, axes=F);
+		}
+	}
+	
+	#used to define the beginning of the ground phase	
+	landing = -1
+
+	#mark when it's air and land
+	#if it was a eccon concentric-eccentric, will be useful to calculate flight time
+	#but this eccon will be not done
+	#if(draw & (!superpose || (superpose & highlight)) & isJump) 
+	if(draw & (!superpose || (superpose & highlight)) & exercisePercentBodyWeight == 100) {
+		weight=mass*g
+		abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
+		text(x=length(force),y=weight,labels=paste(translateToPrint("Weight"),"(N)"),cex=.8,adj=c(.5,0),col=cols[2])
+
+		#define like this, because if eccentric == 0, length(eccentric) == 1
+		#and if eccentric is NULL, then length(eccentric) == 0, but max(eccentric) produces error
+		if(length(eccentric) == 0)
+			length_eccentric = 0
+		else
+			length_eccentric = length(eccentric)
+
+		if(length(isometric) == 0)
+			length_isometric = 0
+		else
+			length_isometric = length(isometric)
+
+
+		#takeoff = max(which(force>=weight))
+		#takeoff = min(which(force[concentric]<=weight)) + length_eccentric + length_isometric
+
+		takeoff = -1
+		if(! canJump(encoderConfigurationName) || length(which(force[concentric] <= 0)) == 0)
+			takeoff = -1
+		else {
+			#1 get force only in concentric phase
+			forceConcentric = force[concentric]
+			#print(c("forceConcentric",forceConcentric))
+
+			#2 get takeoff using maxSpeedT but relative to concentric, not all the ecc-con
+			
+			takeoff = findTakeOff(forceConcentric, maxSpeedTInConcentric)
+
+			#3 add eccentric and isometric
+			takeoff = takeoff + length_eccentric + length_isometric
+			print(c("takeoff",takeoff))
+			
+			abline(v=takeoff,lty=1,col=cols[2]) 
+			mtext(text=paste(translateToPrint("land")," ",sep=""),side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
+			mtext(text=paste(" ", translateToPrint("air"), " ",sep=""),side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
+		}
+
+		if(eccon=="ec") {
+			#landing = min(which(force>=weight))
+		
+			if(length(which(force[eccentric] <= weight)) == 0)
+				landing = -1
+			else {
+				landing = max(which(force[eccentric]<=weight))
+				abline(v=landing,lty=1,col=cols[2]) 
+				mtext(text=paste(translateToPrint("air")," ",sep=""),side=3,at=landing,cex=.8,adj=1,col=cols[2])
+				mtext(text=paste(" ",translateToPrint("land")," ",sep=""),side=3,at=landing,cex=.8,adj=0,col=cols[2])
+			}
+		}
+
+		print(c(is.numeric(takeoff), takeoff))
+		if(is.numeric(takeoff) && takeoff != -1) {
+			mtext(text=paste(translateToPrint("jump height"),"=", 
+					 (position[concentric[length(concentric)]] - 
+					  position[concentric[(takeoff - length_eccentric - length_isometric)]])/10,
+					 "cm",sep=" "),
+			      side=3, at=( takeoff + (length_eccentric + length(concentric)) )/2,
+			      cex=.8,adj=0.5,col=cols[2])
+		}
+	}
+	
+	#speed (done here because of landing)
 	meanSpeedC = mean(speed$y[min(concentric):max(concentric)])
 	if(isPropulsive) {
 		meanSpeedC = mean(speed$y[min(concentric):propulsiveEnd])
@@ -1009,9 +1141,17 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
 		}
 	} else {
-		meanSpeedE = mean(speed$y[startX:max(eccentric)])
+		if(landing == -1)
+			meanSpeedE = mean(speed$y[startX:max(eccentric)])
+		else
+			meanSpeedE = mean(speed$y[landing:max(eccentric)])
+
 		if(showSpeed) {
-			arrows(x0=startX,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
+			if(landing == -1)
+				arrows(x0=startX,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
+			else
+				arrows(x0=landing,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
+
 			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
 		}
 	}
@@ -1077,134 +1217,6 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		#mtext(text=paste("max accel:",round(max(accel$y),3)),side=3,at=which(accel$y == max(accel$y)),cex=.8,col=cols[1],line=2)
 	}
 
-	dynamics = getDynamics(encoderConfigurationName,
-			speed$y, accel$y, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
-			displacement, diameter, inertiaMomentum, smoothing)
-	mass = dynamics$mass
-	force = dynamics$force
-	power = dynamics$power
-
-
-	if(draw && isInertial(encoderConfigurationName) && debug) 
-	{
-		#start blank graph with ylim of position
-		ylim = yrange
-		if(ylim[1] == "undefined") { 
-			ylim = NULL 
-			ylim = c(min(position-min(position)), max(position-min(position)))
-		}
-		par(new=T)
-		plot(0,0,type="n",axes=F,xlab="",ylab="", ylim=ylim)
-		
-		abline(h=100*dynamics$loopsAblines, col="yellow") #m -> cm
-		print("dynamics$loopsAblines")
-		print(dynamics$loopsAblines)
-		
-		print("ylim")
-		print(ylim)
-
-		#TODO: add here angleSpeed graph when diameter is variable (version 1.5.3)
-	}
-
-
-	if(draw & showForce) {
-		ylimHeight = max(abs(range(force)))
-		ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
-		if(knRanges[1] != "undefined")
-			ylim = knRanges$force
-		par(new=T)
-		if(highlight==FALSE)
-			plot(startX:length(force),force[startX:length(force)],type="l",
-			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col=cols[2],lty=lty[2],lwd=1,axes=F)
-		else
-			plot(startX:length(force),force[startX:length(force)],type="l",
-			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
-		if(showAxes) {
-			axis(4, col=cols[2], lty=lty[2], line=axisLineRight, lwd=1, padj=-.5)
-			axisLineRight = axisLineRight +2
-		}
-		
-		if(isInertial(encoderConfigurationName) && debug) {
-			#print("dynamics$forceDisc")
-			#print(dynamics$forceDisc)
-			par(new=T)
-			plot(dynamics$forceDisc, col="blue", xlab="", ylab="", xlim=c(1,length(displacement)),ylim=ylim, type="p", pch=1, axes=F);
-
-			par(new=T)
-			plot(dynamics$forceBody, col="blue", xlab="", ylab="", xlim=c(1,length(displacement)),ylim=ylim, type="p", pch=3, axes=F);
-		}
-	}
-
-	#mark when it's air and land
-	#if it was a eccon concentric-eccentric, will be useful to calculate flight time
-	#but this eccon will be not done
-	#if(draw & (!superpose || (superpose & highlight)) & isJump) 
-	if(draw & (!superpose || (superpose & highlight)) & exercisePercentBodyWeight == 100) {
-		weight=mass*g
-		abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
-		text(x=length(force),y=weight,labels=paste(translateToPrint("Weight"),"(N)"),cex=.8,adj=c(.5,0),col=cols[2])
-
-		#define like this, because if eccentric == 0, length(eccentric) == 1
-		#and if eccentric is NULL, then length(eccentric) == 0, but max(eccentric) produces error
-		if(length(eccentric) == 0)
-			length_eccentric = 0
-		else
-			length_eccentric = length(eccentric)
-
-		if(length(isometric) == 0)
-			length_isometric = 0
-		else
-			length_isometric = length(isometric)
-
-
-		#takeoff = max(which(force>=weight))
-		#takeoff = min(which(force[concentric]<=weight)) + length_eccentric + length_isometric
-
-		takeoff = -1
-		if(! canJump(encoderConfigurationName) || length(which(force[concentric] <= 0)) == 0)
-			takeoff = -1
-		else {
-			#1 get force only in concentric phase
-			forceConcentric = force[concentric]
-			#print(c("forceConcentric",forceConcentric))
-
-			#2 get takeoff using maxSpeedT but relative to concentric, not all the ecc-con
-			
-			takeoff = findTakeOff(forceConcentric, maxSpeedTInConcentric)
-
-			#3 add eccentric and isometric
-			takeoff = takeoff + length_eccentric + length_isometric
-			print(c("takeoff",takeoff))
-			
-			abline(v=takeoff,lty=1,col=cols[2]) 
-			mtext(text=paste(translateToPrint("land")," ",sep=""),side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
-			mtext(text=paste(" ", translateToPrint("air"), " ",sep=""),side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
-		}
-
-		if(eccon=="ec") {
-			landing = -1
-			#landing = min(which(force>=weight))
-		
-			if(length(which(force[eccentric] <= weight)) == 0)
-				landing = -1
-			else {
-				landing = max(which(force[eccentric]<=weight))
-				abline(v=landing,lty=1,col=cols[2]) 
-				mtext(text=paste(translateToPrint("air")," ",sep=""),side=3,at=landing,cex=.8,adj=1,col=cols[2])
-				mtext(text=paste(" ",translateToPrint("land")," ",sep=""),side=3,at=landing,cex=.8,adj=0,col=cols[2])
-			}
-		}
-
-		print(c(is.numeric(takeoff), takeoff))
-		if(is.numeric(takeoff) && takeoff != -1) {
-			mtext(text=paste(translateToPrint("jump height"),"=", 
-					 (position[concentric[length(concentric)]] - 
-					  position[concentric[(takeoff - length_eccentric - length_isometric)]])/10,
-					 "cm",sep=" "),
-			      side=3, at=( takeoff + (length_eccentric + length(concentric)) )/2,
-			      cex=.8,adj=0.5,col=cols[2])
-		}
-	}
 
 
 	if(draw & showPower) {
@@ -1238,8 +1250,15 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		if(eccon == "c") {
 			arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
 		} else {
-			meanPowerE = mean(power[startX:max(eccentric)])
-			arrows(x0=startX,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
+			if(landing == -1) {
+				meanPowerE = mean(power[startX:max(eccentric)])
+				arrows(x0=startX,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
+			}
+			else {
+				meanPowerE = mean(power[landing:max(eccentric)])
+				arrows(x0=landing,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
+			}
+
 			arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
 		}
 

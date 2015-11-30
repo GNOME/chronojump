@@ -1739,18 +1739,24 @@ stroverlapArray <- function(newPoint, points) {
 	return (FALSE)
 }
 
-fitLine <- function(x, y, col, lwd) {
-	fit = lm(y ~ x + I(x^2))
+fitLine <- function(mode, x, y, col, lwd) {
+	if(mode == "LINE") {
+		fit = lm(y ~ x)
+		abline(fit, col=col, lwd=lwd)
+	}
+	if(mode == "CURVE") {
+		fit = lm(y ~ x + I(x^2))
 
-	coef.a <- fit$coefficient[3]
-	coef.b <- fit$coefficient[2]
-	coef.c <- fit$coefficient[1]
+		coef.a <- fit$coefficient[3]
+		coef.b <- fit$coefficient[2]
+		coef.c <- fit$coefficient[1]
 
-	x1 <- seq(min(x),max(x), (max(x) - min(x))/1000)
-	y1 <- coef.a *x1^2 + coef.b * x1 + coef.c
-	lines(x1, y1, col=col, lwd=lwd)
+		x1 <- seq(min(x),max(x), (max(x) - min(x))/1000)
+		y1 <- coef.a *x1^2 + coef.b * x1 + coef.c
+		lines(x1, y1, col=col, lwd=lwd)
 
-	return (fit)
+		return (fit)
+	}
 }
 
 #option: mean or max
@@ -1896,35 +1902,40 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		else {
 			if(length(unique(x)) >= 3) 
 			{
-				fit = fitLine(x,y, "black", 1)
-				coef.a <- fit$coefficient[3]
-				coef.b <- fit$coefficient[2]
-				coef.c <- fit$coefficient[1]
+				if(varY == "Speed")
+					fitLine("LINE", x,y, "black", 1)
+				else {
+					fit = fitLine("CURVE", x,y, "black", 1)
 
-				#start plot the function expression, R^2 and p
-				varXplot = varX
-				if(varXplot == "Load")
-					varXplot = "Mass"
+					coef.a <- fit$coefficient[3]
+					coef.b <- fit$coefficient[2]
+					coef.c <- fit$coefficient[1]
 
-				#for Speed,Power graph
-				functionAt = max(x)
-				functionAdj = 1
-				if(isAlone == "LEFT") {
-					functionAt = min(x)
-					functionAdj = 0
+					#start plot the function expression, R^2 and p
+					varXplot = varX
+					if(varXplot == "Load")
+						varXplot = "Mass"
+
+					#for Speed,Power graph
+					functionAt = max(x)
+					functionAdj = 1
+					if(isAlone == "LEFT") {
+						functionAt = min(x)
+						functionAdj = 0
+					}
+
+					mtext(paste(
+						    varYut, " = ", 
+						    round.scientific(coef.a), " * ", varXplot, "^2 ", plotSign(coef.b), " ",  
+						    round.scientific(coef.b), " * ", varXplot, " ", plotSign(coef.c), " ", 
+						    round.scientific(coef.c), sep=""), side=3, line=1, at=functionAt, adj=functionAdj, cex = .9)
+					mtext(paste(
+						    "R^2 = ", round(summary(fit)$r.squared,4),
+						    "; R^2 (adjusted) = ", round(summary(fit)$adj.r.squared,4),
+						    "; p = ", getModelPValueWithStars(fit)
+						    , sep=""), side =3, line=0, at=functionAt, adj=functionAdj, cex=.9)
+					#end of plot the function expression, R^2 and p
 				}
-
-				mtext(paste(
-					    varYut, " = ", 
-					    round.scientific(coef.a), " * ", varXplot, "^2 ", plotSign(coef.b), " ",  
-					    round.scientific(coef.b), " * ", varXplot, " ", plotSign(coef.c), " ", 
-					    round.scientific(coef.c), sep=""), side=3, line=1, at=functionAt, adj=functionAdj, cex = .9)
-				mtext(paste(
-					    "R^2 = ", round(summary(fit)$r.squared,4),
-					    "; R^2 (adjusted) = ", round(summary(fit)$adj.r.squared,4),
-					    "; p = ", getModelPValueWithStars(fit)
-					    , sep=""), side =3, line=0, at=functionAt, adj=functionAdj, cex=.9)
-				#end of plot the function expression, R^2 and p
 	
 				if(isPowerLoad) {
 					#xmax <-  -b / 2a
@@ -1992,8 +2003,12 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			#old filtering
 			#if(length(unique(x[thisSerie])) >= 4)
 				#lines(smooth.spline(x[thisSerie],y[thisSerie],df=4),col=uniqueColors[i],lwd=2)
-			if(length(unique(x[thisSerie])) >= 3)
-				fitLine(x[thisSerie],y[thisSerie], uniqueColors[i], 2)
+			if(length(unique(x[thisSerie])) >= 3) {
+				if(varY == "Speed")
+					fitLine("LINE", x[thisSerie],y[thisSerie], uniqueColors[i], 2)
+				else
+					fitLine("CURVE", x[thisSerie],y[thisSerie], uniqueColors[i], 2)
+			}
 		}
 	
 		#difficult to create a title in series graphs

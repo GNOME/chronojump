@@ -1425,11 +1425,11 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 	#when eccon != c show always ABS power
 	#peakPower is always ABS
 	if(Eccon == "c") {
-		powerName = translateToPrint("Power")
+		powerName = translateToPrint("Average Power")
 		peakPowerName = translateToPrint("Peak Power")
 	}
 	else {
-		powerName = translateToPrint("Power")
+		powerName = translateToPrint("Average Power")
 		peakPowerName = translateToPrint("Peak Power")
 	}
 

@@ -2117,10 +2117,16 @@ paint1RMBadillo2010 <- function (paf, title, outputData1) {
 
 #---- RM Indirect start ----
 
-RMIndirect <- function(Q, nrep, nRM) {
+RMIndirect <- function(Q, nrep) {
 #Q = load in Kg
 #nrep = number of maximum repetitions
-#n = the number of nRM you want to know
+
+	#nRM = the number of nRM you want to know
+	#minimum 10, or more to match nrep
+	if(nrep < 10)
+		nRM = 10
+	else
+		nRM = nrep
 
         rm = matrix(rep(c(0,0,0,0,0,0,0,0), nRM), ncol=8)
         colnames(rm) = c("Brzycki", "Epley", "Lander", "Lombardi", "Mayhew", "Oconner", "Wathan", "AVG")
@@ -2149,8 +2155,8 @@ RMIndirect <- function(Q, nrep, nRM) {
 }
 plotRMIndirect <- function (RMIMatrix, Q, nrep) 
 {
-	plotMode = "BALLS"
-	#plotMode = "PCHS"
+	#plotMode = "BALLS"
+	plotMode = "PCHS"
 
 	nRM = length(RMIMatrix[,1])
 
@@ -2162,7 +2168,7 @@ plotRMIndirect <- function (RMIMatrix, Q, nrep)
 	#Create an empty plot
 	plot(1, xlim=c(1,nRM),ylim=c(min(RMIMatrix),max(RMIMatrix)), type="n",
 	     xlab="Repetitions", ylab="Mass (Kg)", xaxt="n")
-	axis(1,1:10) #plot xaxis ensuring 1:10 is written
+	axis(1,1:nRM) #plot xaxis ensuring 1:nRM is written
 
 	#Draw grid
 	abline(h=seq(0,max(RMIMatrix),by=5), lty=2, col="gray")
@@ -2175,7 +2181,7 @@ plotRMIndirect <- function (RMIMatrix, Q, nrep)
 		# if there are more tests than 7, this need to be adjusted
 		xmov = -0.12
 		for(i in 1:ntests) {
-			points((1:10)+xmov, RMIMatrix[,i], type="p", pch=19, col=uniqueColors[i])
+			points((1:nRM)+xmov, RMIMatrix[,i], type="p", pch=19, col=uniqueColors[i])
 			xmov = xmov +.04
 		}
 	} else { # "PCHS"
@@ -3182,9 +3188,13 @@ doProcess <- function(options)
 	}
 
 	if(op$Analysis=="1RMIndirect") {
-		Q <- 80
-		nrep <- 3
-		plotRMIndirect( RMIndirect(Q, nrep, 10), Q, nrep )
+		Q <- getMassBodyByExercise(op$MassBody, op$ExercisePercentBodyWeight) + op$MassExtra
+
+		nrep <- length(curves[,1])
+		if(op$Eccon != "c")
+			nrep = abs(nrep/2) #only concentric
+
+		plotRMIndirect( RMIndirect(Q, nrep), Q, nrep )
 		
 		#write this file to allow C# process finish
 		write("", op$OutputData1)

@@ -306,7 +306,8 @@ findCurvesNew <- function(displacement, eccon, isInertial, min_height, draw, tit
 						 directionToStoreIsCon == directionStoredIsCon )
 						      sendCurve = FALSE
 
-					      capturingFirstPhase = FALSE
+					      if(sendCurve)
+						      capturingFirstPhase = FALSE
 				      } else {
 					      sendCurve = FALSE
 				      }

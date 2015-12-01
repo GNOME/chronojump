@@ -46,7 +46,13 @@ public class Config
 		Maximized = false;
 		CustomButtons = false;
 		UseVideo = true;
-		AutodetectPort = AutodetectPortEnum.ACTIVE;
+		
+		//currently disabled AutodetectPort by default on MACOSX
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+			AutodetectPort = AutodetectPortEnum.INACTIVE;
+		else
+			AutodetectPort = AutodetectPortEnum.ACTIVE;
+
 		OnlyEncoder = false;
 		EncoderCaptureShowOnlyBars = false;
 		EncoderUpdateTreeViewWhileCapturing = true;

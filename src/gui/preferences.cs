@@ -346,7 +346,7 @@ public class PreferencesWindow {
 		langsStore = new ListStore(typeof(string), typeof(CultureInfo));
 
 		foreach (CultureInfo lang in UtilLanguage.Languages) {
-			langsStore.AppendValues(lang.DisplayName, lang);
+			langsStore.AppendValues(lang.NativeName, lang);
 			if (preferences.language != "" && lang.Name == preferences.language)
 				active = index;
 			index ++;

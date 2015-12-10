@@ -53,6 +53,11 @@ public class UtilLanguage
 					}
 				} 
 			}
+
+			langs.Sort((p1, p2) => string.Compare(p1.NativeName, p2.NativeName, false));
+			foreach(CultureInfo myLang in langs)
+				LogB.Debug(myLang.NativeName);
+			
 			return langs;
 		}
 	}

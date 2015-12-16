@@ -728,6 +728,8 @@ public class Util
 	//ATTENTTION ONLY WORKS FOR POSITIVES
 	//before changing this method, better create another method for all numbers, 
 	//and call that method on possible negative numbers
+	//
+	//On EncoderCurve class there's the method IsNumber that's better, but does not check if the decimal point is a different character
 	public static bool IsNumber(string myString, bool canBeDecimal) {
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;

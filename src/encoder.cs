@@ -295,6 +295,20 @@ public class EncoderCurve
 		this.MaxForceT = maxForceT;
 	}
 
+	//http://stackoverflow.com/questions/894263/how-to-identify-if-a-string-is-a-number
+	//this does not check if decimal point is a different character (eg '.' or ',')
+	public bool IsNumberN() {
+		int num;
+		return int.TryParse(N, out num);
+	}
+	//at least for RenderNAnalyze
+	public bool IsValidN() {
+		if (N == "AVG" || N == "SD" || IsNumberN())
+			return true;
+		return false;
+	}
+
+
 	public string ToCSV(string decimalSeparator) {
 		//latin:	2,3 ; 2,5
 		//non-latin:	2.3 , 2.5

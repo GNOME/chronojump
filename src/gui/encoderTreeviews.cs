@@ -916,6 +916,10 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Markup = "<b>" + Catalog.GetString(curve.N) + "</b>";
 			return;
 		}
+		else if(curve.IsNumberNandEorC()) { //maybe from R comes and '21c' or '15e'. Just write it
+			(cell as Gtk.CellRendererText).Text = curve.N;
+			return;
+		}
 		
 		if(check_encoder_analyze_signal_or_curves.Active && findEccon(false) == "ecS") 
 		{

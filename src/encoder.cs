@@ -301,9 +301,32 @@ public class EncoderCurve
 		int num;
 		return int.TryParse(N, out num);
 	}
+
+	//check if last char is 'e' or 'c'
+	private bool isValidLastCharN() {
+		if(N.Length <= 1)
+			return false;
+		
+		char lastChar = N[N.Length-1];
+		if(lastChar == 'e' || lastChar == 'c')
+			return true;
+		
+		return false;
+	}
+	//check if it's "21c" or "15e"
+	public bool IsNumberNandEorC() {
+		if(N.Length <= 1)
+			return false;
+
+		int num;
+		if(int.TryParse(N.Substring(0, N.Length-1), out num) && isValidLastCharN())
+			return true;
+
+		return false;
+	}
 	//at least for RenderNAnalyze
 	public bool IsValidN() {
-		if (N == "AVG" || N == "SD" || IsNumberN())
+		if (N == "AVG" || N == "SD" || IsNumberN() || IsNumberNandEorC())
 			return true;
 		return false;
 	}

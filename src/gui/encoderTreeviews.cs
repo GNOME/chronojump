@@ -863,6 +863,15 @@ public partial class ChronoJumpWindow
 			ecconLast = findEccon(false);
 
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+	
+		//Check if it's number
+		if(! curve.IsNumberN()) {
+			(cell as Gtk.CellRendererText).Text = "";
+			LogB.Error("Curve is not number at RenderN:" + curve.ToCSV("COMMA"));
+			return;
+		}
+		
+
 		if(ecconLast == "c")
 			(cell as Gtk.CellRendererText).Text = 
 				String.Format(UtilGtk.TVNumPrint(curve.N,1,0),Convert.ToInt32(curve.N));
@@ -895,6 +904,13 @@ public partial class ChronoJumpWindow
 	private void RenderNAnalyze (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+
+		//Check if it's valid
+		if(! curve.IsValidN()) {
+			(cell as Gtk.CellRendererText).Text = "";
+			LogB.Error("Curve is not valid at RenderNAnalyze:" + curve.ToCSV("COMMA"));
+			return;
+		}
 			
 		if(curve.N == "AVG" || curve.N == "SD") {
 			(cell as Gtk.CellRendererText).Markup = "<b>" + Catalog.GetString(curve.N) + "</b>";

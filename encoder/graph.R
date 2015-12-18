@@ -84,7 +84,7 @@ checkUnicodeWorks <- function()
 {
 	tryCatch (
 		  {
-			  plot(1,1, xlab="some unicode stuff")
+			  plot(1,1, xlab="unicode stuff: \U00ED \U00E1")
 			  return(TRUE)
 		  }, 
 		  error=function(cond) { 

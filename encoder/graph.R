@@ -389,6 +389,50 @@ findCurvesNew <- function(displacement, eccon, isInertial, min_height, draw, tit
 		for(i in 1:length(startStored)) {
 			startStored[i] = ceiling(startStored[i])
 		}
+
+		#When we have this
+		#        _
+		#       / \ 
+		#      /   \
+		#     /     \
+		#- - - - - - - - -
+		#   /         \
+		#  /           \
+		# /             \
+		#getDisplacementInertialBody converts it to:
+		#
+		#
+		#
+		#   AB      CD
+		#- - - - - - - - -
+		#   / \     / \
+		#  /   \   /   \
+		# /     \_/     \
+		#
+		#AB are two points of same position.
+		#note that first ascending phase will be cutted by findCurvesNew in B
+		#and then this will mean a big change in direction at the end (going up to a pixel-change-to-horizontal)
+		#splines are very problematic if there are pixel changes at the end
+		#so, make end in A
+
+		for(i in 1:length(endStored)) {
+			#endStored[i] = floor(endStored[i])
+
+			#this if does not work because sometimes the difference is very tiny
+			#	print(position[endStored[i]])
+			#	[1] -0.29
+			#	print(position[(endStored[i] -1)])
+			#	[1] -0.29
+			#	position[endStored[i]] == position[(endStored[i] -1)]
+			#	FALSE
+			#	print(position[endStored[i]] - position[(endStored[i] -1)])
+			#	[1] 1.965095e-14
+			#
+			#if(position[endStored[i]] == position[(endStored[i] -1)]) {
+			#	endStored[i] = endStored[i] -1
+			#}
+			endStored[i] = endStored[i] -1
+		}
 	}
 
 	if(draw) {

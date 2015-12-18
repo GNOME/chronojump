@@ -77,23 +77,42 @@ colSpeed="springgreen3"; colForce="blue2"; colPower="tomato2"	#colors
 #colSpeed="black"; colForce="black"; colPower="black"		#black & white
 cols=c(colSpeed,colForce,colPower); lty=rep(1,3)	
 
+unicodeWorks = FALSE
+
+#needed for some windows machines
+checkUnicodeWorks <- function()
+{
+	tryCatch (
+		  {
+			  plot(1,1, xlab="some unicode stuff")
+			  return(TRUE)
+		  }, 
+		  error=function(cond) { 
+			  message(cond)
+			  return(FALSE) }
+		  )
+}
+
 
 #translateToPrint An expression is returned andcan only be printed. Don't do operations
 #Important: An expression is returned because is the best way to ahndle unicode on windows
 #take care not to do operations with this. Just print it
-translateToPrint <- function(englishWord) {
+translateToPrint <- function(englishWord) 
+{
+	if(! unicodeWorks)
+		return (englishWord) #unicode is not working, return english word
+
 	if(length(Translated[which(English == englishWord)]) == 0)
 		return (englishWord) #not found, return english word
-	else {
-		myWord = Translated[which(English == englishWord)]
-	
-		#Needed conversion for Windows:
-		#unicoded titles arrive here like this "\\", convert to "\", as this is difficult, do like this:
-		#http://stackoverflow.com/a/17787736
-		myWord = parse(text = paste0("'", myWord, "'"))
-	
-		return(myWord)
-	}
+		
+	myWord = Translated[which(English == englishWord)]
+
+	#Needed conversion for Windows:
+	#unicoded titles arrive here like this "\\", convert to "\", as this is difficult, do like this:
+	#http://stackoverflow.com/a/17787736
+	myWord = parse(text = paste0("'", myWord, "'"))
+
+	return(myWord)
 }
 
 translateVector <- function(englishVector) {
@@ -2201,6 +2220,10 @@ loadLibraries <- function(os) {
 doProcess <- function(options) 
 {
 	op <- assignOptions(options)
+
+	#if unicodeWorks, then translations will be done
+	#<<- to assign to a global variable
+	unicodeWorks <<- checkUnicodeWorks()
 	
 	print(c("1 Title=",op$Title))
 	#unicoded titles arrive here like this "\\", convert to "\", as this is difficult, do like this:

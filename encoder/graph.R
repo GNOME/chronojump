@@ -473,7 +473,7 @@ findCurvesNew <- function(displacement, eccon, isInertial, min_height, draw, tit
 }
 
 
-findSmoothingsECGetPower <- function(speed)
+findSmoothingsECGetPowerNotInertial <- function(speed)
 {
 	acceleration <- getAcceleration(speed)
 	acceleration$y <- acceleration$y * 1000
@@ -481,9 +481,15 @@ findSmoothingsECGetPower <- function(speed)
 	power <- force * speed$y
 	return(power)
 }
+findSmoothingsECGetPowerInertial <- function(displacement, encoderConfigurationName, diameter, massTotal, inertiaMomentum, smoothing)
+{
+	dynamics = getDynamicsInertial(encoderConfigurationName, displacement, diameter, massTotal, inertiaMomentum, smoothing)
+	return(dynamics$power)
+}
+
 #called on "ec" and "ce" to have a smoothingOneEC for every curve
 #this smoothingOneEC has produce same speeds than smoothing "c"
-findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingOneC) 
+findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingOneC)
 {
 	#print(c("findSmoothingsEC: eccon smoothingOneC", eccon, smoothingOneC))
 
@@ -538,15 +544,28 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				speed <- getSpeed(concentric, smoothingOneC)
 				#maxSpeedC=max(speed$y)
 				
-				powerC <- findSmoothingsECGetPower(speed)
+				if(! isInertial(curves[i,11]) ) #encoderConfigurationName
+					powerC <- findSmoothingsECGetPowerNotInertial(speed)
+				else
+					powerC <- findSmoothingsECGetPowerInertial(
+										   concentric,
+										   curves[i,11], #encoderConfigurationName
+										   curves[i,12], #diameter
+										   100, 
+										   curves[i,16], #inertiaMomentum
+										   smoothingOneC)
+
 				maxPowerC <- max(powerC) 
 
 				#find max speed at "ec" that's similar to maxSpeedC
 				smoothingOneEC = smoothingOneC
-				for(j in seq(as.numeric(smoothingOneC),0,by=-.01)) 
+
+				#for(j in seq(as.numeric(smoothingOneC),0,by=-.001)) 
+				j = as.numeric(smoothingOneC)
+				while(TRUE)
 				{
 					#write("calling speed 2", stderr())
-					speed <- getSpeed(concentric, j)
+					speed <- getSpeed(eccentric.concentric, j)
 					
 					smoothingOneEC = j
 					
@@ -557,10 +576,33 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					#if(maxSpeedEC >= maxSpeedC)
 					#	break
 
-					powerEC <- findSmoothingsECGetPower(speed)
+					if(! isInertial(curves[i,11]) ) #encoderConfigurationName
+						powerEC <- findSmoothingsECGetPowerNotInertial(speed)
+					else
+						powerEC <- findSmoothingsECGetPowerInertial(
+										   eccentric.concentric,
+										   curves[i,11], #encoderConfigurationName
+										   curves[i,12], #diameter
+										   100, 
+										   curves[i,16], #inertiaMomentum
+										   smoothingOneEC)
+
 					maxPowerEC <- max(powerEC) 
+
+					print(c("maxpowers", j, maxPowerEC, maxPowerC))
 					
 					if(maxPowerEC >= maxPowerC)
+						break
+
+					#if we are far away to the desired value, make j go faster
+					if( (maxPowerEC +10) < maxPowerC )
+						j = j - 0.01
+					else if( (maxPowerEC +5) < maxPowerC )
+						j = j - 0.005
+					else
+						j = j - 0.001
+					
+					if(j <= 0)
 						break
 				}
 
@@ -2480,6 +2522,7 @@ doProcess <- function(options)
 	
 		#find SmoothingsEC
 		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, op$Eccon, op$SmoothingOneC)
+		print(c("SmoothingsEC:",SmoothingsEC))
 	} else {	#singleFile == True. reads a signal file
 		displacement=scan(file=op$File,sep=",")
 		#if data file ends with comma. Last character will be an NA. remove it

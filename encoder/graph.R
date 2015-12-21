@@ -600,8 +600,6 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 
 					maxPowerEC <- max(powerEC) 
 
-					print(c("maxpowers", j, maxPowerEC, maxPowerC))
-					
 					if(maxPowerEC >= maxPowerC)
 						break
 
@@ -616,6 +614,8 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					if(j <= 0)
 						break
 				}
+					
+				print(c("maxpowers", j, maxPowerEC, maxPowerC))
 
 				#use smoothingOneEC
 				smoothings[i] = smoothingOneEC

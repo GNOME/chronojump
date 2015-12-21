@@ -178,7 +178,7 @@ translateVector <- function(englishVector) {
 #this is equal to runEncoderCaptureCsharp()
 #but note getDisplacement hapens before this function, so no need getDisplacement here
 #also don't need byteReadedRaw, and encoderReadedRaw. encoderReaded is 'displacement' here
-findCurvesNew <- function(displacement, eccon, isInertial, min_height, draw, title) 
+findCurvesNew <- function(displacement, eccon, inertial, min_height, draw, title) 
 {
 	#---- 1) declare variables ----
 	
@@ -389,7 +389,7 @@ findCurvesNew <- function(displacement, eccon, isInertial, min_height, draw, tit
 	}
 
 
-	if( isInertial && (eccon == "ec" || eccon == "ecS") ) 
+	if( inertial && (eccon == "ec" || eccon == "ecS") ) 
 	{
 		#be careful on ec inertial to send an startStored of 1220.5 because can use the 1220 that can be a positive displacement
 		#and then the 1221 can be negative and also the rest
@@ -489,7 +489,8 @@ findSmoothingsECGetPowerInertial <- function(displacement, encoderConfigurationN
 
 #called on "ec" and "ce" to have a smoothingOneEC for every curve
 #this smoothingOneEC has produce same speeds than smoothing "c"
-findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingOneC)
+findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingOneC,
+			     singleFileEncoderConfigurationName, singleFileDiameter, singleFileInertiaMomentum)
 {
 	#print(c("findSmoothingsEC: eccon smoothingOneC", eccon, smoothingOneC))
 
@@ -543,16 +544,26 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				
 				speed <- getSpeed(concentric, smoothingOneC)
 				#maxSpeedC=max(speed$y)
+
+				#assign values from Roptions.txt (singleFile), or from curves
+				myEncoderConfigurationName = singleFileEncoderConfigurationName;
+				myDiameter = singleFileDiameter;
+				myInertiaMomentum = singleFileInertiaMomentum;
+				if(! singleFile) {
+					myEncoderConfigurationName = curves[i,11];
+					myDiameter = curves[i,12];
+					myInertiaMomentum = curves[i,16];
+				}
 				
-				if(! isInertial(curves[i,11]) ) #encoderConfigurationName
+				if(! isInertial(myEncoderConfigurationName) )
 					powerC <- findSmoothingsECGetPowerNotInertial(speed)
 				else
 					powerC <- findSmoothingsECGetPowerInertial(
 										   concentric,
-										   curves[i,11], #encoderConfigurationName
-										   curves[i,12], #diameter
+										   myEncoderConfigurationName,
+										   myDiameter,
 										   100, 
-										   curves[i,16], #inertiaMomentum
+										   myInertiaMomentum,
 										   smoothingOneC)
 
 				maxPowerC <- max(powerC) 
@@ -576,15 +587,15 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					#if(maxSpeedEC >= maxSpeedC)
 					#	break
 
-					if(! isInertial(curves[i,11]) ) #encoderConfigurationName
+					if(! isInertial(myEncoderConfigurationName) )
 						powerEC <- findSmoothingsECGetPowerNotInertial(speed)
 					else
 						powerEC <- findSmoothingsECGetPowerInertial(
 										   eccentric.concentric,
-										   curves[i,11], #encoderConfigurationName
-										   curves[i,12], #diameter
+										   myEncoderConfigurationName,
+										   myDiameter,
 										   100, 
-										   curves[i,16], #inertiaMomentum
+										   myInertiaMomentum,
 										   smoothingOneEC)
 
 					maxPowerEC <- max(powerEC) 
@@ -2521,7 +2532,8 @@ doProcess <- function(options)
 		#print(curves, stderr())
 	
 		#find SmoothingsEC
-		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, op$Eccon, op$SmoothingOneC)
+		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, op$Eccon, op$SmoothingOneC,
+						NULL, NULL, NULL) #needed for singleFile (signal)
 		print(c("SmoothingsEC:",SmoothingsEC))
 	} else {	#singleFile == True. reads a signal file
 		displacement=scan(file=op$File,sep=",")
@@ -2588,7 +2600,10 @@ doProcess <- function(options)
 		print(curves)
 		
 		#find SmoothingsEC
-		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, op$Eccon, op$SmoothingOneC)
+		SmoothingsEC = findSmoothingsEC(
+						singleFile, displacement, curves, op$Eccon, op$SmoothingOneC,
+						op$EncoderConfigurationName, op$diameter, op$inertiaMomentum 
+						) #second row is needed for singleFile (signal)
 		print(c("SmoothingsEC:",SmoothingsEC))
 		
 		if(curvesPlot) {

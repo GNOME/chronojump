@@ -1078,7 +1078,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		if(eccon=="ec") {
 			#landing = min(which(force>=weight))
 		
-			if(length(which(force[eccentric] <= weight)) == 0)
+			if(! canJump(encoderConfigurationName) || length(which(force[eccentric] <= weight)) == 0)
 				landing = -1
 			else {
 				landing = max(which(force[eccentric]<=weight))

@@ -1918,7 +1918,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 
 					#this check is to not have title overlaps on 'speed,power / load' graph
 					if(title != "")
-					   title = paste(title, " (pmax = ", round(pmax,1), " W with ", round(xmax,1), " Kg)", sep="")
+					   title = paste(title, " (pmax = ", round(pmax,1), " W with ", round(xmax,1), " Kg*cm^2)", sep="")
 				}
 			}
 		}

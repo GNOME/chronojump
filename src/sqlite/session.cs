@@ -219,14 +219,20 @@ class SqliteSession : Sqlite
 	}
 
 
-	public static string[] SelectAllSessions() 
+	public static string[] SelectAllSessions(string filterName) 
 	{
 		Sqlite.Open();
+
+		string filterNameString = "";
+		if(filterName != "")
+			filterNameString = " AND LOWER(session.name) LIKE LOWER ('%" + filterName  + "%') ";
+
 		dbcmd.CommandText = 
 			"SELECT session.*, sport.name, speciallity.name" +
 			" FROM session, sport, speciallity " +
 			" WHERE session.personsSportID == sport.uniqueID " + 
 			" AND session.personsSpeciallityID == speciallity.UniqueID " +
+			filterNameString + 
 			" ORDER BY session.uniqueID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

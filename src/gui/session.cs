@@ -641,6 +641,7 @@ public class SessionLoadWindow {
 	private string selected;
 	[Widget] Gtk.TreeView treeview_session_load;
 	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Entry entry_search_filter;
 	[Widget] Gtk.CheckButton checkbutton_show_data_jump_run;
 	[Widget] Gtk.CheckButton checkbutton_show_data_encoder;
 
@@ -664,6 +665,8 @@ public class SessionLoadWindow {
 		fillTreeView(treeview_session_load, store, false, false);
 
 		button_accept.Sensitive = false;
+		entry_search_filter.CanFocus = true;
+		entry_search_filter.IsFocus = true;
 
 		treeview_session_load.Selection.Changed += onSelectionEntry;
 	}
@@ -742,30 +745,18 @@ public class SessionLoadWindow {
 		tv.AppendColumn ( Catalog.GetString ("Comments"), new CellRendererText(), "text", count++);
 	}
 	
+	protected void on_entry_search_filter_changed (object o, EventArgs args) {
+		recreateTreeView("changed search filter");
+	}
 	void on_checkbutton_show_data_jump_run_toggled (object o, EventArgs args) {
-		LogB.Information("jump run " + checkbutton_show_data_jump_run.Active.ToString());
-		recreateTreeView();
-
-		/*
-		 * after clicking on this checkbutton, treeview row gets unselected
-		 * call onSelectionEntry to see if there's a row selected
-		 * and it will sensitive on/off button_accept as needed
-		 */
-		onSelectionEntry (treeview_session_load.Selection, new EventArgs ());
+		recreateTreeView("jump run " + checkbutton_show_data_jump_run.Active.ToString());
 	}
 	void on_checkbutton_show_data_encoder_toggled (object o, EventArgs args) {
-		LogB.Information("encoder " + checkbutton_show_data_encoder.Active.ToString());
-		recreateTreeView();	
-
-		/*
-		 * after clicking on this checkbutton, treeview row gets unselected
-		 * call onSelectionEntry to see if there's a row selected
-		 * and it will sensitive on/off button_accept as needed
-		 */
-		onSelectionEntry (treeview_session_load.Selection, new EventArgs ());
+		recreateTreeView("encoder " + checkbutton_show_data_encoder.Active.ToString());
 	}
+	void recreateTreeView(string message) {
+		LogB.Information(message);
 
-	void recreateTreeView() {
 		UtilGtk.RemoveColumns(treeview_session_load);
 		
 		createTreeView(treeview_session_load, 
@@ -775,11 +766,22 @@ public class SessionLoadWindow {
 		treeview_session_load.Model = store;
 		fillTreeView(treeview_session_load, store,
 				checkbutton_show_data_jump_run.Active, checkbutton_show_data_encoder.Active);
+		
+		/*
+		 * after clicking on checkbuttons, treeview row gets unselected
+		 * call onSelectionEntry to see if there's a row selected
+		 * and it will sensitive on/off button_accept as needed
+		 */
+		onSelectionEntry (treeview_session_load.Selection, new EventArgs ());
 	}
 
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store, bool showContacts, bool showEncoder) 
 	{
-		string [] mySessions = SqliteSession.SelectAllSessions(); //returns a string of values separated by ':'
+		string filterName = "";
+		if(entry_search_filter.Text.ToString().Length > 0) 
+			filterName = entry_search_filter.Text.ToString();
+		
+		string [] mySessions = SqliteSession.SelectAllSessions(filterName); //returns a string of values separated by ':'
 		foreach (string session in mySessions) {
 			string [] myStringFull = session.Split(new char[] {':'});
 		

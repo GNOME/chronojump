@@ -937,6 +937,9 @@ public class PersonAddModifyWindow
 			
 		fakeButtonAccept = new Gtk.Button();
 
+		entry1.CanFocus = true;
+		entry1.IsFocus = true;
+
 		if(adding) {
 			person_win.Title = Catalog.GetString ("New jumper");
 			//button_accept.Sensitive = false;

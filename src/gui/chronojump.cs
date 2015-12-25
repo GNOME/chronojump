@@ -2987,6 +2987,17 @@ public partial class ChronoJumpWindow
 			menuitem_mode_selected_runs.Visible = true;
 			radio_mode_runs_small.Active = true;
 		} else if(m == menuitem_modes.POWER) {
+			//on OSX R is not installed by default. Check if it's installed. Needed for encoder
+			if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX &&
+					! Util.FileExists(Constants.ROSX) )
+			{
+				new DialogMessage(Constants.MessageTypes.WARNING,
+						Catalog.GetString("Sorry, R software is not installed.") +
+						"\n" + Catalog.GetString("Please, install it from here:") +
+						"\n\nhttp://cran.cnr.berkeley.edu/bin/macosx/R-latest.pkg");
+				return;
+			}
+
 			notebook_sup.CurrentPage = 1;
 			menuitem_mode_selected_power.Visible = true;
 		} else {	//m == menuitem_modes.OTHER (contacts / other)

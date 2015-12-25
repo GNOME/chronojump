@@ -5273,7 +5273,8 @@ public partial class ChronoJumpWindow
 					new DialogMessage(Constants.MessageTypes.WARNING, 
 							Catalog.GetString("Sorry. Error doing graph.") + 
 							"\n" + Catalog.GetString("Maybe R is not installed.") + 
-							"\n\nhttp://www.r-project.org/");
+							"\n" + Catalog.GetString("Please, install it from here:") +
+							"\n\nhttp://cran.cnr.berkeley.edu/bin/macosx/R-latest.pkg");
 					encoderProcessProblems = false;
 				} else {
 					if(action == encoderActions.CAPTURE_IM)

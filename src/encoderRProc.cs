@@ -164,7 +164,7 @@ public abstract class EncoderRProc
 			//on Windows we need the \"str\" to call without problems in path with spaces
 			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
 		}
-		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystem.MACOSX)
+		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
 		{
 			/*
 			 * The installer as from R 3.2.2 puts links to R and Rscript

@@ -156,6 +156,28 @@ public abstract class EncoderRProc
 		return false;
 	}
 
+	protected string pBinURL()
+	{
+		string pBin="Rscript";
+		if (UtilAll.IsWindows())
+		{
+			//on Windows we need the \"str\" to call without problems in path with spaces
+			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
+		}
+		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystem.MACOSX)
+		{
+			/*
+			 * The installer as from R 3.2.2 puts links to R and Rscript
+			 * in /usr/bin (Mavericks, Yosemite) or /usr/local/bin (El Capitan and later).
+			 * If these are missing, you can run directly the versions in /Library/Frameworks/R.framework/Resources/.
+			 * https://cran.r-project.org/doc/manuals/r-devel/R-admin.pdf
+			 */
+			pBin = "/Library/Frameworks/R.framework/Resources/Rscript.exe";
+		}
+
+		LogB.Information("pBin:", pBin);
+		return pBin;
+	}
 		
 	protected virtual void writeOptionsFile()
 	{
@@ -223,16 +245,9 @@ public class EncoderRProcCapture : EncoderRProc
 		//If output file is not given, R will try to write in the running folder
 		//in which we may haven't got permissions
 
-		string pBin="";
+		string pBin = pBinURL();
+
 		pinfo = new ProcessStartInfo();
-
-		pBin="Rscript";
-		if (UtilAll.IsWindows()) {
-			//on Windows we need the \"str\" to call without problems in path with spaces
-			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
-			LogB.Information("pBin:", pBin);
-		}
-
 
 		//on Windows we need the \"str\" to call without problems in path with spaces
 		//pinfo.Arguments = "\"" + "passToR.R" + "\" " + optionsFile;
@@ -341,15 +356,9 @@ public class EncoderRProcAnalyze : EncoderRProc
 		//If output file is not given, R will try to write in the running folder
 		//in which we may haven't got permissions
 	
-		string pBin="";
 		pinfo = new ProcessStartInfo();
 
-		pBin="Rscript";
-		if (UtilAll.IsWindows()) {
-			//on Windows we need the \"str\" to call without problems in path with spaces
-			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
-			LogB.Information("pBin:", pBin);
-		}
+		string pBin = pBinURL();
 		
 		if (UtilAll.IsWindows()) {
 			//On win32 R understands backlash as an escape character and 

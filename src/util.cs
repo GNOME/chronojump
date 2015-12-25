@@ -1128,6 +1128,8 @@ public class Util
  
 		if (UtilAll.IsWindows())
 			rBin=System.IO.Path.Combine(GetPrefixDir(), "bin/R.exe");
+		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+			rBin = Constants.ROSX;
 
 		pinfo = new ProcessStartInfo();
 		pinfo.FileName=rBin;

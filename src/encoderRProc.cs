@@ -166,13 +166,7 @@ public abstract class EncoderRProc
 		}
 		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
 		{
-			/*
-			 * The installer as from R 3.2.2 puts links to R and Rscript
-			 * in /usr/bin (Mavericks, Yosemite) or /usr/local/bin (El Capitan and later).
-			 * If these are missing, you can run directly the versions in /Library/Frameworks/R.framework/Resources/.
-			 * https://cran.r-project.org/doc/manuals/r-devel/R-admin.pdf
-			 */
-			pBin = "/Library/Frameworks/R.framework/Resources/Rscript.exe";
+			pBin = Constants.RScriptOSX;
 		}
 
 		LogB.Information("pBin:", pBin);

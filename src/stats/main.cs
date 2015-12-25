@@ -1514,7 +1514,8 @@ public class Stat
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 						Catalog.GetString("Sorry. Error doing graph.") + 
 						"\n" + Catalog.GetString("Maybe R is not installed.") + 
-						"\n\nhttp://www.r-project.org/");
+						"\n" + Catalog.GetString("Please, install it from here:") +
+						"\n\nhttp://cran.cnr.berkeley.edu/bin/macosx/R-latest.pkg");
 			else
 				new DialogImageTest(Catalog.GetString("Chronojump Graph"), fileName, DialogImageTest.ArchiveType.FILE);
 		}

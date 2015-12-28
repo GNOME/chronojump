@@ -108,7 +108,7 @@ speed <- getSpeedByPosition(position)
 plot(speed$y, type="l")
 
 #Testing the smoothing in the whole signal
-signal <- scan(file="chronojump/encoder/tests/signal_inertial.txt", sep=",")
+signal <- scan(file="signal_inertial.txt", sep=",")
 speed.smoothed <- list(s01=smooth.spline(signal,spar=0.1), s02=smooth.spline(signal,spar=0.2), s03=smooth.spline(signal,spar=0.3), s04=smooth.spline(signal,spar=0.4), s05=smooth.spline(signal,spar=0.5), s06=smooth.spline(signal,spar=0.6), s07=smooth.spline(signal,spar=0.7), s08=smooth.spline(signal,spar=0.8), s09=smooth.spline(signal,spar=0.9))
 accel.smoothed <- list(s01 = getAcceleration(speed.smoothed$s01), s02 = getAcceleration(speed.smoothed$s02), s03 = getAcceleration(speed.smoothed$s03), s04 = getAcceleration(speed.smoothed$s04), s05 = getAcceleration(speed.smoothed$s05), s06 = getAcceleration(speed.smoothed$s06), s07 = getAcceleration(speed.smoothed$s07), s08 = getAcceleration(speed.smoothed$s08), s09 = getAcceleration(speed.smoothed$s09))
 accel.mean <- c(sum(abs(accel.smoothed$s01$y)), sum(abs(accel.smoothed$s02$y)), sum(abs(accel.smoothed$s03$y)), sum(abs(accel.smoothed$s04$y)), sum(abs(accel.smoothed$s05$y)), sum(abs(accel.smoothed$s06$y)), sum(abs(accel.smoothed$s07$y)), sum(abs(accel.smoothed$s08$y)), sum(abs(accel.smoothed$s09$y)))

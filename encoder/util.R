@@ -238,9 +238,28 @@ getSpeedSafe <- function(displacement, smoothing) {
 	else
 		return(list(y=rep(0,length(displacement))))
 }
+#unused since 1.6.0 because first and last displacement values make change too much the initial and end curve
+#getSpeedOld <- function(displacement, smoothing) {
+#	#no change affected by encoderConfiguration
+#	return (smooth.spline( 1:length(displacement), displacement, spar=smoothing))
+#}
 getSpeed <- function(displacement, smoothing) {
 	#no change affected by encoderConfiguration
-	return (smooth.spline( 1:length(displacement), displacement, spar=smoothing))
+	
+	#use position because this does not make erronously change the initial and end of the curve
+	#do spline with displacement is buggy because data is too similar -2, -1, 0, 1, 2, ...
+	position <- cumsum(displacement)
+	positionSpline <- smooth.spline( 1:length(position), position, spar=smoothing)
+	
+	#get speed converting from position to displacement, but repeat first value because it's missing on the diff process
+	#do not hijack spline like this because this works for speed, but then acceleration has big error
+	#speedSpline = positionSpline
+	#speedSpline$y = c(diff(positionSpline$y)[1],diff(positionSpline$y))
+
+	speed = c(diff(positionSpline$y)[1],diff(positionSpline$y))
+	speedSpline <- smooth.spline( 1:length(speed), speed, spar=0) #don't do smoothing, just convert speed to an spline
+
+	return (speedSpline)
 }
 
 getAccelerationSafe <- function(speed) {

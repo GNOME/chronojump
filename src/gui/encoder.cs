@@ -2133,18 +2133,18 @@ public partial class ChronoJumpWindow
 					(
 					 crossNameTemp == "Speed,Power / Load" || 
 					 crossNameTemp == Catalog.GetString("Speed,Power / Load") ||
-					 crossNameTemp == "1RM Bench Press" || 
-					 crossNameTemp == Catalog.GetString("1RM Bench Press") ||
 					 crossNameTemp == "1RM Any exercise" || 
-					 crossNameTemp == Catalog.GetString("1RM Any exercise")
+					 crossNameTemp == Catalog.GetString("1RM Any exercise") ||
+					 crossNameTemp == "1RM Bench Press" || 
+					 crossNameTemp == Catalog.GetString("1RM Bench Press")
 					 //no 1RM Indirect because cannot be done with saved curves
 					)) {
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 						Catalog.GetString("Sorry, this graph is not supported yet.") +
 						"\n\nSaved repetitions - compare - cross variables" +
 						"\n- Speed,Power / Load" +
-						"\n- 1RM Bench Press" +
-						"\n- 1RM Any exercise"
+						"\n- 1RM Any exercise" +
+						"\n- 1RM Bench Press"
 					 	//no 1RM Indirect because cannot be done with saved curves
 						);
 
@@ -2153,10 +2153,10 @@ public partial class ChronoJumpWindow
 				
 			//cannot do 1RM with different exercises
 			if(encoderAnalysis == "cross" && (
-						crossNameTemp == "1RM Bench Press" || 
-						crossNameTemp == Catalog.GetString("1RM Bench Press") ||
 						crossNameTemp == "1RM Any exercise" || 
-						crossNameTemp == Catalog.GetString("1RM Any exercise")
+						crossNameTemp == Catalog.GetString("1RM Any exercise") ||
+						crossNameTemp == "1RM Bench Press" || 
+						crossNameTemp == Catalog.GetString("1RM Bench Press")
 					 	//no 1RM Indirect because cannot be done with saved curves
 						)) 
 			{
@@ -3403,13 +3403,13 @@ public partial class ChronoJumpWindow
 		
 		//create combo analyze cross (variables)
 		string [] comboAnalyzeCrossOptions = { 
-			"Speed / Load", "Force / Load", "Power / Load", "Speed,Power / Load", "Force / Speed", "Power / Speed", 
-			"1RM Bench Press", "1RM Any exercise", "1RM Indirect"};
+			"Power / Load", "Speed / Load", "Force / Load", "Speed,Power / Load", "Force / Speed", "Power / Speed", 
+			"1RM Any exercise", "1RM Bench Press", "1RM Indirect"};
 		string [] comboAnalyzeCrossOptionsTranslated = { 
-			Catalog.GetString("Speed / Load"), Catalog.GetString("Force / Load"), 
-			Catalog.GetString("Power / Load"), Catalog.GetString("Speed,Power / Load"), 
+			Catalog.GetString("Power / Load"), Catalog.GetString("Speed / Load"), 
+			Catalog.GetString("Force / Load"), Catalog.GetString("Speed,Power / Load"), 
 			Catalog.GetString("Force / Speed"), Catalog.GetString("Power / Speed"), 
-			Catalog.GetString("1RM Bench Press"), Catalog.GetString("1RM Any exercise"),
+			Catalog.GetString("1RM Any exercise"), Catalog.GetString("1RM Bench Press"), 
 			Catalog.GetString("1RM Indirect")
 		}; //if added more, change the int in the 'for' below
 		encoderAnalyzeCrossTranslation = new String [comboAnalyzeCrossOptions.Length];

@@ -5339,7 +5339,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.5102801"
      inkscape:cx="145.14997"
-     inkscape:cy="173.14667"
+     inkscape:cy="171.16029"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
@@ -5408,7 +5408,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -8429,7 +8429,10 @@
     </g>
     <g
        id="g5441"
-       transform="translate(45.514245,23.458884)">
+       transform="translate(45.514245,23.458884)"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-analyze-1RM.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <rect
          y="964.81171"
          x="-83.72406"

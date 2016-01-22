@@ -112,6 +112,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_combo_encoder_analyze_cross;
 	[Widget] Gtk.ComboBox combo_encoder_analyze_cross;
 	
+	[Widget] Gtk.Box hbox_combo_encoder_analyze_1RM;
+	[Widget] Gtk.ComboBox combo_encoder_analyze_1RM;
+	
 	[Widget] Gtk.Box hbox_encoder_analyze_show_powerbars;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_time_to_peak_power;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_range;
@@ -144,11 +147,13 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_cross;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_1RM;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_side;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_neuromuscular_profile;
 	[Widget] Gtk.Image image_encoder_analyze_powerbars;
 	[Widget] Gtk.Image image_encoder_analyze_cross;
+	[Widget] Gtk.Image image_encoder_analyze_1RM;
 	[Widget] Gtk.Image image_encoder_analyze_side;
 	[Widget] Gtk.Image image_encoder_analyze_single;
 	[Widget] Gtk.Image image_encoder_analyze_nmp;
@@ -2121,65 +2126,81 @@ public partial class ChronoJumpWindow
 				return;
 			}
 		
-			//check on unsupported graph
-			string crossNameTemp = 
-				Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
+			//cannot do inter/intra person with some cross graphs
+			if(encoderAnalysis == "cross") 
+			{
+				string nameTemp = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
 						encoderAnalyzeCrossTranslation);
 
-			//cannot do inter/intra person with some cross graphs
-			if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
-						encoderDataCompareTranslation) != "No compare" && 
-					encoderAnalysis == "cross" &&
-					(
-					 crossNameTemp == "Speed,Power / Load" || 
-					 crossNameTemp == Catalog.GetString("Speed,Power / Load") ||
-					 crossNameTemp == "1RM Any exercise" || 
-					 crossNameTemp == Catalog.GetString("1RM Any exercise") ||
-					 crossNameTemp == "1RM Bench Press" || 
-					 crossNameTemp == Catalog.GetString("1RM Bench Press")
-					 //no 1RM Indirect because cannot be done with saved curves
-					)) {
-				new DialogMessage(Constants.MessageTypes.WARNING, 
-						Catalog.GetString("Sorry, this graph is not supported yet.") +
-						"\n\nSaved repetitions - compare - cross variables" +
-						"\n- Speed,Power / Load" +
-						"\n- 1RM Any exercise" +
-						"\n- 1RM Bench Press"
-					 	//no 1RM Indirect because cannot be done with saved curves
-						);
-
-				return;
-			}
-				
-			//cannot do 1RM with different exercises
-			if(encoderAnalysis == "cross" && (
-						crossNameTemp == "1RM Any exercise" || 
-						crossNameTemp == Catalog.GetString("1RM Any exercise") ||
-						crossNameTemp == "1RM Bench Press" || 
-						crossNameTemp == Catalog.GetString("1RM Bench Press")
-					 	//no 1RM Indirect because cannot be done with saved curves
-						)) 
-			{
-				bool differentExercises = false;
-				string oldExName = "";
-				foreach(EncoderSQL eSQL in data) 
-				{
-					if(eSQL.status == "inactive")
-						continue;
-
-					string exName = eSQL.exerciseName;
-					if(oldExName != "" && exName != oldExName)
-						differentExercises = true;
-					oldExName = exName;
-				}
-				if(differentExercises) {
+				if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
+							encoderDataCompareTranslation) != "No compare" && 
+						(
+						 nameTemp == "Speed,Power / Load" || 
+						 nameTemp == Catalog.GetString("Speed,Power / Load")
+						)) {
 					new DialogMessage(Constants.MessageTypes.WARNING, 
-							Catalog.GetString("Sorry, cannot calculate 1RM of different exercises.") + "\n" + 
-							Catalog.GetString("Please select repetitions of only one exercise type."));
+							Catalog.GetString("Sorry, this graph is not supported yet.") +
+							"\n\nSaved repetitions - compare - cross variables" +
+							"\n- Speed,Power / Load"
+							);
+
 					return;
 				}
 			}
+			
+			//cannot do inter/intra person with some 1RM graphs
+			if(encoderAnalysis == "1RM") 
+			{
+				string nameTemp = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
+						encoderAnalyze1RMTranslation);
 
+				if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
+							encoderDataCompareTranslation) != "No compare" && 
+						(
+						 nameTemp == "1RM Any exercise" || 
+						 nameTemp == Catalog.GetString("1RM Any exercise") ||
+						 nameTemp == "1RM Bench Press" || 
+						 nameTemp == Catalog.GetString("1RM Bench Press")
+						 //no 1RM Indirect because cannot be done with saved curves
+						)) {
+					new DialogMessage(Constants.MessageTypes.WARNING, 
+							Catalog.GetString("Sorry, this graph is not supported yet.") +
+							"\n- 1RM Any exercise" +
+							"\n- 1RM Bench Press"
+							//no 1RM Indirect because cannot be done with saved curves
+							);
+
+					return;
+				}
+				
+				//cannot do 1RM with different exercises
+				if(
+						nameTemp == "1RM Any exercise" || 
+						nameTemp == Catalog.GetString("1RM Any exercise") ||
+						nameTemp == "1RM Bench Press" || 
+						nameTemp == Catalog.GetString("1RM Bench Press")
+						//no 1RM Indirect because cannot be done with saved curves
+				  ) {
+					bool differentExercises = false;
+					string oldExName = "";
+					foreach(EncoderSQL eSQL in data) 
+					{
+						if(eSQL.status == "inactive")
+							continue;
+
+						string exName = eSQL.exerciseName;
+						if(oldExName != "" && exName != oldExName)
+							differentExercises = true;
+						oldExName = exName;
+					}
+					if(differentExercises) {
+						new DialogMessage(Constants.MessageTypes.WARNING, 
+								Catalog.GetString("Sorry, cannot calculate 1RM of different exercises.") + "\n" + 
+								Catalog.GetString("Please select repetitions of only one exercise type."));
+						return;
+					}
+				}
+			}
 		}
 	
 		button_encoder_analyze.Visible = false;
@@ -2673,8 +2694,9 @@ public partial class ChronoJumpWindow
 		string analysisOptions = getEncoderAnalysisOptions();
 
 		//use this send because we change it to send it to R
-		//but we don't want to change encoderAnalysis because we want to know again if == "cross" 
-		//encoderAnalysis can be "cross" and sendAnalysis be "1RMBadillo1010"
+		//but we don't want to change encoderAnalysis because we want to know again if == "cross" (or "1RM")
+		//encoderAnalysis can be "cross" and sendAnalysis be "Speed / Load"
+		//encoderAnalysis can be "1RM" and sendAnalysis be "1RMBadillo1010"
 		string sendAnalysis = encoderAnalysis;
 
 		//see doProcess at encoder/graph.R
@@ -2685,11 +2707,7 @@ public partial class ChronoJumpWindow
 			crossName = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
 						encoderAnalyzeCrossTranslation);
 			
-			//(crossName == "1RM Any exercise") done below different for curve and signal
-			if(crossName == "1RM Bench Press") {
-				sendAnalysis = "1RMBadillo2010";
-				analysisOptions = "p";
-			} else if(
+			if(
 					crossName == "Speed / Load" || crossName == "Force / Load" || 
 					crossName == "Power / Load" || crossName == "Speed,Power / Load" || 
 					crossName == "Force / Speed" || crossName == "Power / Speed") 
@@ -2702,6 +2720,18 @@ public partial class ChronoJumpWindow
 				else
 					analysisVariables += ";max";
 			}
+		}
+		
+		string my1RMName = "";
+		if(sendAnalysis == "1RM") {
+			my1RMName = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
+						encoderAnalyze1RMTranslation);
+			
+			//(my1RMName == "1RM Any exercise") done below different for curve and signal
+			if(my1RMName == "1RM Bench Press") {
+				sendAnalysis = "1RMBadillo2010";
+				analysisOptions = "p";
+			} 
 		}
 		
 		if(sendAnalysis == "powerBars" || sendAnalysis == "single" || sendAnalysis == "side")
@@ -2780,8 +2810,8 @@ public partial class ChronoJumpWindow
 			//cannot be curves of different exercises
 			//because is 1RM of a person on an exercise
 			//this is checked at: "on_button_encoder_analyze_clicked()"
-			if(encoderAnalysis == "cross" &&
-					(crossName == "1RM Bench Press" || crossName == "1RM Any exercise") )
+			if(encoderAnalysis == "1RM" &&
+					(my1RMName == "1RM Bench Press" || my1RMName == "1RM Any exercise") )
 			{
 				//get exercise ID
 				int exID = -1;
@@ -2792,7 +2822,7 @@ public partial class ChronoJumpWindow
 					}
 				}
 
-				if(crossName == "1RM Any exercise") {
+				if(my1RMName == "1RM Any exercise") {
 					//get speed1RM (from exercise of curve on SQL, not from combo)
 					EncoderExercise exTemp = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
 						false , exID, false)[0];
@@ -2915,8 +2945,8 @@ public partial class ChronoJumpWindow
 			Sqlite.Close();	
 
 		} else {	//current signal
-			if(encoderAnalysis == "cross") {
-				if(crossName == "1RM Any exercise") {
+			if(encoderAnalysis == "1RM") {
+				if(my1RMName == "1RM Any exercise") {
 					//get speed1RM (from combo)
 					EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
 							false, getExerciseIDFromCombo(), false)[0];
@@ -2926,7 +2956,7 @@ public partial class ChronoJumpWindow
 						SqlitePreferences.Select("encoder1RMMethod");
 					analysisOptions = "p";
 				}
-				else if(crossName == "1RM Indirect") {
+				else if(my1RMName == "1RM Indirect") {
 					sendAnalysis = "1RMIndirect";
 				}
 			}
@@ -3090,6 +3120,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_curve_num.Visible=true;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
 		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
@@ -3114,6 +3145,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_curve_num.Visible=true;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
 		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
@@ -3135,6 +3167,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
@@ -3156,6 +3189,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=true;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
@@ -3178,6 +3212,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=true;
+		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=true;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
@@ -3196,10 +3231,34 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_sensitiveness();
 	}
 	
+	private void on_radiobutton_encoder_analyze_1RM_toggled (object obj, EventArgs args) {
+		hbox_encoder_analyze_curve_num.Visible=false;
+		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
+		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_combo_encoder_analyze_1RM.Visible=true;
+		check_encoder_analyze_mean_or_max.Visible=true;
+		hbox_encoder_analyze_show_powerbars.Visible=false;
+		hbox_encoder_analyze_show_SAFE.Visible=false;
+		encoderAnalysis="1RM";
+		
+		check_encoder_analyze_eccon_together.Sensitive=true;
+		
+		//block_check_encoder_analyze_eccon_together_if_needed();
+		//done here:
+		on_combo_encoder_analyze_1RM_changed (obj, args);
+
+		button_encoder_analyze_help.Visible = false;
+		label_encoder_analyze_side_max.Visible = false;
+
+		encoderButtonsSensitive(encoderSensEnumStored);
+		button_encoder_analyze_sensitiveness();
+	}
+	
 	private void on_radiobutton_encoder_analyze_neuromuscular_profile_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
@@ -3330,8 +3389,10 @@ public partial class ChronoJumpWindow
 	string [] encoderLateralityTranslation;
 	string [] encoderDataCompareTranslation;
 	string [] encoderAnalyzeCrossTranslation;
+	string [] encoderAnalyze1RMTranslation;
 	
 	protected void createEncoderCombos() {
+LogB.Information("1");
 		//create combo exercises
 		combo_encoder_exercise = ComboBox.NewText ();
 		createEncoderComboExercise();
@@ -3401,19 +3462,18 @@ public partial class ChronoJumpWindow
 			new EventHandler(on_combo_encoder_analyze_data_compare_changed );
 
 		
+LogB.Information("2");
 		//create combo analyze cross (variables)
 		string [] comboAnalyzeCrossOptions = { 
-			"Power / Load", "Speed / Load", "Force / Load", "Speed,Power / Load", "Force / Speed", "Power / Speed", 
-			"1RM Any exercise", "1RM Bench Press", "1RM Indirect"};
+			"Power / Load", "Speed / Load", "Force / Load", "Speed,Power / Load", "Force / Speed", "Power / Speed"
+		};
 		string [] comboAnalyzeCrossOptionsTranslated = { 
 			Catalog.GetString("Power / Load"), Catalog.GetString("Speed / Load"), 
 			Catalog.GetString("Force / Load"), Catalog.GetString("Speed,Power / Load"), 
-			Catalog.GetString("Force / Speed"), Catalog.GetString("Power / Speed"), 
-			Catalog.GetString("1RM Any exercise"), Catalog.GetString("1RM Bench Press"), 
-			Catalog.GetString("1RM Indirect")
+			Catalog.GetString("Force / Speed"), Catalog.GetString("Power / Speed")
 		}; //if added more, change the int in the 'for' below
 		encoderAnalyzeCrossTranslation = new String [comboAnalyzeCrossOptions.Length];
-		for(int j=0; j < 9 ; j++)
+		for(int j=0; j < 6 ; j++)
 			encoderAnalyzeCrossTranslation[j] = 
 				comboAnalyzeCrossOptions[j] + ":" + comboAnalyzeCrossOptionsTranslated[j];
 		combo_encoder_analyze_cross = ComboBox.NewText ();
@@ -3422,6 +3482,26 @@ public partial class ChronoJumpWindow
 				Catalog.GetString(comboAnalyzeCrossOptions[0]));
 		combo_encoder_analyze_cross.Changed += new EventHandler (on_combo_encoder_analyze_cross_changed);
 
+
+LogB.Information("3");
+		//create combo analyze 1RM
+		string [] comboAnalyze1RMOptions = { "1RM Any exercise", "1RM Bench Press", "1RM Indirect" };
+		string [] comboAnalyze1RMOptionsTranslated = { 
+			Catalog.GetString("1RM Any exercise"), Catalog.GetString("1RM Bench Press"), 
+			Catalog.GetString("1RM Indirect")
+		}; //if added more, change the int in the 'for' below
+		encoderAnalyze1RMTranslation = new String [comboAnalyze1RMOptions.Length];
+		for(int j=0; j < 3 ; j++)
+			encoderAnalyze1RMTranslation[j] = 
+				comboAnalyze1RMOptions[j] + ":" + comboAnalyze1RMOptionsTranslated[j];
+		combo_encoder_analyze_1RM = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_encoder_analyze_1RM, comboAnalyze1RMOptionsTranslated, "");
+		combo_encoder_analyze_1RM.Active = UtilGtk.ComboMakeActive(combo_encoder_analyze_1RM, 
+				Catalog.GetString(comboAnalyze1RMOptions[0]));
+		combo_encoder_analyze_1RM.Changed += new EventHandler (on_combo_encoder_analyze_1RM_changed);
+
+
+LogB.Information("4");
 		//create combo analyze curve num combo
 		//is not an spinbutton because values can be separated: "3,4,7,21"
 		combo_encoder_analyze_curve_num_combo = ComboBox.NewText ();
@@ -3455,10 +3535,16 @@ public partial class ChronoJumpWindow
 		combo_encoder_analyze_cross.Sensitive = true;
 		hbox_combo_encoder_analyze_cross.Visible = false; //do not show hbox at start
 	
+		hbox_combo_encoder_analyze_1RM.PackStart(combo_encoder_analyze_1RM, true, true, 0);
+		hbox_combo_encoder_analyze_1RM.ShowAll(); 
+		combo_encoder_analyze_1RM.Sensitive = true;
+		hbox_combo_encoder_analyze_1RM.Visible = false; //do not show hbox at start
+	
 		hbox_combo_encoder_analyze_curve_num_combo.PackStart(combo_encoder_analyze_curve_num_combo, true, true, 0);
 		hbox_combo_encoder_analyze_curve_num_combo.ShowAll(); 
 		combo_encoder_analyze_curve_num_combo.Sensitive = true;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false; //do not show hbox at start
+LogB.Information("5");
 	}
 	
 	//this is called also when an exercise is deleted to update the combo and the string []
@@ -3512,6 +3598,7 @@ public partial class ChronoJumpWindow
 			radiobutton_encoder_analyze_single.Sensitive = false;
 			radiobutton_encoder_analyze_side.Sensitive = false;
 			radiobutton_encoder_analyze_cross.Active = true;
+			radiobutton_encoder_analyze_1RM.Active = true;
 			button_encoder_analyze_data_compare.Visible = true;
 
 			//put some data just in case user doesn't click on compare button
@@ -3529,26 +3616,23 @@ public partial class ChronoJumpWindow
 
 	void on_combo_encoder_analyze_cross_changed (object o, EventArgs args)
 	{
-		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
-					encoderAnalyzeCrossTranslation) == "1RM Bench Press" ||
-				Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
-					encoderAnalyzeCrossTranslation) == "1RM Any exercise" ||
-				Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
-					encoderAnalyzeCrossTranslation) == "1RM Indirect" )
-		{
-			check_encoder_analyze_mean_or_max.Active = true;
-			check_encoder_analyze_mean_or_max.Sensitive = false;
-			check_encoder_analyze_eccon_together.Active = false;
-			check_encoder_analyze_eccon_together.Sensitive = false;
-		} else {
-			check_encoder_analyze_mean_or_max.Sensitive = true;
-			check_encoder_analyze_eccon_together.Sensitive = true;
-			block_check_encoder_analyze_eccon_together_if_needed();
-		}
+		check_encoder_analyze_mean_or_max.Sensitive = true;
+		check_encoder_analyze_eccon_together.Sensitive = true;
+		block_check_encoder_analyze_eccon_together_if_needed();
+			
+		button_encoder_analyze_sensitiveness();
+	}
+	
+	void on_combo_encoder_analyze_1RM_changed (object o, EventArgs args)
+	{
+		check_encoder_analyze_mean_or_max.Active = true;
+		check_encoder_analyze_mean_or_max.Sensitive = false;
+		check_encoder_analyze_eccon_together.Active = false;
+		check_encoder_analyze_eccon_together.Sensitive = false;
 			
 		//1RM Indirect can only be used with current signal	
-		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
-					encoderAnalyzeCrossTranslation) == "1RM Indirect" &&
+		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
+					encoderAnalyze1RMTranslation) == "1RM Indirect" &&
 				! check_encoder_analyze_signal_or_curves.Active) { 	//saved curves 
 			button_encoder_analyze.Sensitive = false;
 			new DialogMessage(Constants.MessageTypes.WARNING, 
@@ -4135,9 +4219,9 @@ public partial class ChronoJumpWindow
 
 			//1RM Indirect only works on current set
 			if(
-					radiobutton_encoder_analyze_cross.Active &&
-					Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
-						encoderAnalyzeCrossTranslation) == "1RM Indirect")
+					radiobutton_encoder_analyze_1RM.Active &&
+					Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
+						encoderAnalyze1RMTranslation) == "1RM Indirect")
 				analyze_sensitive = false;
 		}
 		button_encoder_analyze.Sensitive = analyze_sensitive;
@@ -5528,12 +5612,12 @@ public partial class ChronoJumpWindow
 			button_encoder_analyze_image_save.Sensitive = true;
 			button_encoder_analyze_table_save.Sensitive = true;
 			
-			string crossName = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
-						encoderAnalyzeCrossTranslation);
+			string my1RMName = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
+						encoderAnalyze1RMTranslation);
 			button_encoder_analyze_1RM_save.Sensitive = 
 				(radiobutton_encoder_analyze_cross.Active &&
-				(crossName == "1RM Bench Press" || crossName == "1RM Any exercise") ); 
-			// || crossName == "1RM Indirect") ); 
+				(my1RMName == "1RM Bench Press" || my1RMName == "1RM Any exercise") ); 
+			// || my1RMName == "1RM Indirect") ); 
 			/*
 			 * TODO: currently disabled because 
 			 * on_button_encoder_analyze_1RM_save_clicked () reads getExerciseNameFromTable()

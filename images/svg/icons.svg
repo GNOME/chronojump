@@ -14,7 +14,7 @@
    height="342.32059"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.48.5 r10040"
    sodipodi:docname="icons.svg"
    inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/together.png"
    inkscape:export-xdpi="90"
@@ -5337,16 +5337,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.7830226"
-     inkscape:cx="226.85353"
-     inkscape:cy="275.5274"
+     inkscape:zoom="1.5102801"
+     inkscape:cx="145.14997"
+     inkscape:cy="173.14667"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
      inkscape:window-width="1366"
-     inkscape:window-height="714"
+     inkscape:window-height="702"
      inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -5408,7 +5408,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -5464,7 +5464,7 @@
        inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-analyze-powerbars.png"
        inkscape:export-xdpi="89.989998"
        inkscape:export-ydpi="89.989998"
-       transform="translate(0,-13.226589)">
+       transform="translate(-30,-13.226589)">
       <rect
          y="1003.4709"
          x="-58.672874"
@@ -5559,25 +5559,25 @@
     <text
        xml:space="preserve"
        style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="-61.635895"
+       x="-97.635895"
        y="978.15656"
        id="text3938-3-5"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3940-6-4"
-         x="-61.635895"
+         x="-97.635895"
          y="978.15656"
          style="font-size:2px">encoder-analyze-powerbars.png</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="-42.645142"
+       x="-70.645142"
        y="981.80341"
        id="text3938-3-5-7"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3940-6-4-1"
-         x="-42.645142"
+         x="-70.645142"
          y="981.80341"
          style="font-size:2px">encoder-analyze-cross.png</tspan></text>
     <text
@@ -5621,7 +5621,7 @@
        inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-analyze-side.png"
        inkscape:export-xdpi="89.989998"
        inkscape:export-ydpi="89.989998"
-       transform="translate(0,-13.72549)">
+       transform="translate(1.663137,-15.738761)">
       <rect
          y="1003.9698"
          x="-10.833775"
@@ -5894,7 +5894,7 @@
        inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-analyze-cross.png"
        inkscape:export-xdpi="89.989998"
        inkscape:export-ydpi="89.989998"
-       transform="translate(6.5575725,-13.143517)">
+       transform="translate(-29.442427,-13.143517)">
       <rect
          y="1003.9698"
          x="-35.875648"
@@ -8427,5 +8427,52 @@
            sodipodi:nodetypes="ccc" />
       </g>
     </g>
+    <g
+       id="g5441"
+       transform="translate(45.514245,23.458884)">
+      <rect
+         y="964.81171"
+         x="-83.72406"
+         height="16"
+         width="16"
+         id="rect2985-7-4"
+         style="fill:none;stroke:none" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4179-0-0-60-0"
+         y="973.81305"
+         x="-79.852623"
+         style="font-size:7.04184055px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.70263833;stroke-linecap:butt;stroke-miterlimit:100;stroke-opacity:1;stroke-dasharray:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:11.16211224px;font-weight:bold;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.70263833;stroke-linecap:butt;stroke-miterlimit:100;stroke-opacity:1;stroke-dasharray:none;-inkscape-font-specification:Sans Bold"
+           y="973.81305"
+           x="-79.852623"
+           id="tspan4181-7-7-6-1"
+           sodipodi:role="line">1</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4179-0-0-6-6-2-5"
+         y="980.05963"
+         x="-81.655014"
+         style="font-size:9.29928875px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.33619124;stroke-linecap:butt;stroke-miterlimit:100;stroke-opacity:1;stroke-dasharray:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-size:6.72382355px;font-weight:bold;fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.33619124;stroke-linecap:butt;stroke-miterlimit:100;stroke-opacity:1;stroke-dasharray:none;-inkscape-font-specification:Sans Bold"
+           y="980.05963"
+           x="-81.655014"
+           id="tspan4181-7-7-4-8-8-7"
+           sodipodi:role="line">RM</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="-42.132053"
+       y="981.16022"
+       id="text3938-3-5-7-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3940-6-4-1-8"
+         x="-42.132053"
+         y="981.16022"
+         style="font-size:2px">encoder-analyze-1RM.png</tspan></text>
   </g>
 </svg>

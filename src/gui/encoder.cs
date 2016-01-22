@@ -3391,8 +3391,8 @@ public partial class ChronoJumpWindow
 	string [] encoderAnalyzeCrossTranslation;
 	string [] encoderAnalyze1RMTranslation;
 	
-	protected void createEncoderCombos() {
-LogB.Information("1");
+	protected void createEncoderCombos() 
+	{
 		//create combo exercises
 		combo_encoder_exercise = ComboBox.NewText ();
 		createEncoderComboExercise();
@@ -3462,7 +3462,6 @@ LogB.Information("1");
 			new EventHandler(on_combo_encoder_analyze_data_compare_changed );
 
 		
-LogB.Information("2");
 		//create combo analyze cross (variables)
 		string [] comboAnalyzeCrossOptions = { 
 			"Power / Load", "Speed / Load", "Force / Load", "Speed,Power / Load", "Force / Speed", "Power / Speed"
@@ -3483,7 +3482,6 @@ LogB.Information("2");
 		combo_encoder_analyze_cross.Changed += new EventHandler (on_combo_encoder_analyze_cross_changed);
 
 
-LogB.Information("3");
 		//create combo analyze 1RM
 		string [] comboAnalyze1RMOptions = { "1RM Any exercise", "1RM Bench Press", "1RM Indirect" };
 		string [] comboAnalyze1RMOptionsTranslated = { 
@@ -3501,7 +3499,6 @@ LogB.Information("3");
 		combo_encoder_analyze_1RM.Changed += new EventHandler (on_combo_encoder_analyze_1RM_changed);
 
 
-LogB.Information("4");
 		//create combo analyze curve num combo
 		//is not an spinbutton because values can be separated: "3,4,7,21"
 		combo_encoder_analyze_curve_num_combo = ComboBox.NewText ();
@@ -3544,7 +3541,6 @@ LogB.Information("4");
 		hbox_combo_encoder_analyze_curve_num_combo.ShowAll(); 
 		combo_encoder_analyze_curve_num_combo.Sensitive = true;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false; //do not show hbox at start
-LogB.Information("5");
 	}
 	
 	//this is called also when an exercise is deleted to update the combo and the string []
@@ -3616,6 +3612,9 @@ LogB.Information("5");
 
 	void on_combo_encoder_analyze_cross_changed (object o, EventArgs args)
 	{
+		if (! radiobutton_encoder_analyze_cross.Active)
+			return;
+
 		check_encoder_analyze_mean_or_max.Sensitive = true;
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
@@ -3625,6 +3624,9 @@ LogB.Information("5");
 	
 	void on_combo_encoder_analyze_1RM_changed (object o, EventArgs args)
 	{
+		if (! radiobutton_encoder_analyze_1RM.Active)
+			return;
+
 		check_encoder_analyze_mean_or_max.Active = true;
 		check_encoder_analyze_mean_or_max.Sensitive = false;
 		check_encoder_analyze_eccon_together.Active = false;
@@ -5612,10 +5614,10 @@ LogB.Information("5");
 			button_encoder_analyze_image_save.Sensitive = true;
 			button_encoder_analyze_table_save.Sensitive = true;
 			
-			string my1RMName = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
+			string my1RMName = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
 						encoderAnalyze1RMTranslation);
 			button_encoder_analyze_1RM_save.Sensitive = 
-				(radiobutton_encoder_analyze_cross.Active &&
+				(radiobutton_encoder_analyze_1RM.Active &&
 				(my1RMName == "1RM Bench Press" || my1RMName == "1RM Any exercise") ); 
 			// || my1RMName == "1RM Indirect") ); 
 			/*

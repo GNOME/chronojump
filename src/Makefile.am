@@ -306,6 +306,7 @@ RESOURCES = \
 	../images/encoder-analyze-saved-curves.png,encoder-analyze-saved-curves.png \
 	../images/encoder-analyze-powerbars.png,encoder-analyze-powerbars.png \
 	../images/encoder-analyze-cross.png,encoder-analyze-cross.png \
+	../images/encoder-analyze-1RM.png,encoder-analyze-1RM.png \
 	../images/encoder-analyze-side.png,encoder-analyze-side.png \
 	../images/encoder-analyze-single.png,encoder-analyze-single.png \
 	../images/encoder-analyze-nmp.png,encoder-analyze-nmp.png \

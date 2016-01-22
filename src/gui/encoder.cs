@@ -3759,12 +3759,22 @@ public partial class ChronoJumpWindow
 
 
 	int getExerciseIDFromName (string name) {
+		LogB.Information("getExerciseIDFromName for: " + name);
+
+		//first try translated
 		string idFound = Util.FindOnArray(':', 2, 0, name, 
 				encoderExercisesTranslationAndBodyPWeight);
 		if(Util.IsNumber(idFound, false))
 			return Convert.ToInt32(idFound);
-		else
-			return -1;
+		
+		//second try english
+		idFound = Util.FindOnArray(':', 1, 0, name, 
+				encoderExercisesTranslationAndBodyPWeight);
+		if(Util.IsNumber(idFound, false))
+			return Convert.ToInt32(idFound);
+		
+		//third, send error value
+		return -1;
 	}
 	int getExerciseIDFromCombo () {
 		return getExerciseIDFromName (UtilGtk.ComboGetActive(combo_encoder_exercise));

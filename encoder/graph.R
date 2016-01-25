@@ -700,10 +700,34 @@ canJump <- function(encoderConfigurationName)
 }
   
 
+#find at what pixel (X) of final graph we have a millisecond
+#time is the time in ms where we search the pixel
+#this function will be moved to C# code
+calculatePixelXByTime <- function (time, xstart, xend, width)
+{
+	write("sending coordinates",stderr())
+	write(c(xstart,xend),stderr())
+	write(c("usr",par("usr")),stderr())
+	write(c("plt",par("plt")),stderr())
+
+	#1) calculate the pixels in plot area
+	pxPlotArea <- width * (par("plt")[2]-par("plt")[1])
+
+	#2) calculate the ms in plot area
+	msPlotArea <- par("usr")[2]-par("usr")[1]
+
+	#3) rule of three
+	px <- (time - par("usr")[1]) * pxPlotArea / msPlotArea
+
+	#4) fix margin
+	px <- px + par("plt")[1]*width
+	write(c("px",px),stderr())
+}
+
 paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
 	startX, startH, smoothingOneEC, smoothingOneC, massBody, massExtra, 
 	encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown, #encoderConfiguration stuff
-	title, subtitle, draw, showLabels, marShrink, showAxes, legend,
+	title, subtitle, draw, width, showLabels, marShrink, showAxes, legend,
 	Analysis, isPropulsive, inertialType, exercisePercentBodyWeight,
         showSpeed, showAccel, showForce, showPower	
 	) {
@@ -790,7 +814,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 
 		#abline(v=seq(from=0,to=length(position),by=500),lty=3,col="gray")
 
-
+		calculatePixelXByTime(100, startX, length(position), width)
 	}
 
 	print(c("smoothing at paint=",smoothing))
@@ -2723,6 +2747,7 @@ doProcess <- function(options)
 			      paste(op$Title, " ", op$Analysis, " ", myEccon, ". ", myCurveStr, sep=""),
 			      "", #subtitle
 			      TRUE,	#draw
+			      op$Width,
 			      TRUE,	#showLabels
 			      FALSE,	#marShrink
 			      TRUE,	#showAxes
@@ -2792,6 +2817,7 @@ doProcess <- function(options)
 			      myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
 			      myTitle,mySubtitle,
 			      TRUE,	#draw
+			      op$Width,
 			      FALSE,	#showLabels
 			      TRUE,	#marShrink
 			      FALSE,	#showAxes

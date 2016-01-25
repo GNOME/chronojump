@@ -1895,9 +1895,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		else {
 			if(length(unique(x)) >= 3) 
 			{
-				if(varY == "Speed")
-					fitLine("LINE", x,y, "black", 1)
-				else {
+				if(varY == "Power") {
 					fit = fitLine("CURVE", x,y, "black", 1)
 
 					coef.a <- fit$coefficient[3]
@@ -1928,22 +1926,24 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 						    "; p = ", getModelPValueWithStars(fit)
 						    , sep=""), side =3, line=0, at=functionAt, adj=functionAdj, cex=.9)
 					#end of plot the function expression, R^2 and p
-				}
 	
-				if(isPowerLoad) {
-					#xmax <-  -b / 2a
-					xmax <- - coef.b / (2 * coef.a)
+					if(isPowerLoad) {
+						#xmax <-  -b / 2a
+						xmax <- - coef.b / (2 * coef.a)
 
-					#pmax <- ax^2 +bx +c
-					pmax <- xmax^2 * coef.a + xmax * coef.b + coef.c
+						#pmax <- ax^2 +bx +c
+						pmax <- xmax^2 * coef.a + xmax * coef.b + coef.c
 
-					abline(v=xmax,lty=3)
-					points(xmax, pmax, pch=1, cex=3)
+						abline(v=xmax,lty=3)
+						points(xmax, pmax, pch=1, cex=3)
 
-					#this check is to not have title overlaps on 'speed,power / load' graph
-					if(title != "")
-					   title = paste(title, " (pmax = ", round(pmax,1), " W with ", round(xmax,1), " Kg*cm^2)", sep="")
+						#this check is to not have title overlaps on 'speed,power / load' graph
+						if(title != "")
+							title = paste(title, " (pmax = ", round(pmax,1), " W with ", round(xmax,1), " Kg*cm^2)", sep="")
+					}
 				}
+				else
+					fitLine("LINE", x,y, "black", 1)
 			}
 		}
 		
@@ -1997,10 +1997,10 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			#if(length(unique(x[thisSerie])) >= 4)
 				#lines(smooth.spline(x[thisSerie],y[thisSerie],df=4),col=uniqueColors[i],lwd=2)
 			if(length(unique(x[thisSerie])) >= 3) {
-				if(varY == "Speed")
-					fitLine("LINE", x[thisSerie],y[thisSerie], uniqueColors[i], 2)
-				else
+				if(varY == "Power")
 					fitLine("CURVE", x[thisSerie],y[thisSerie], uniqueColors[i], 2)
+				else
+					fitLine("LINE", x[thisSerie],y[thisSerie], uniqueColors[i], 2)
 			}
 		}
 	

@@ -46,8 +46,8 @@ class SqliteOldConvert : Sqlite
 	{
 		dbcmd.CommandText = "SELECT eSignal.uniqueID, eCurve.videoURL " + 
 			"FROM encoder AS eSignal, encoder AS eCurve, encoderSignalCurve " + 
-			"WHERE eSignal.signalOrCurve = 'signal' AND eCurve.signalOrCurve = 'curve' " + 
-			"AND eSignal.videoURL = '' AND eCurve.videoURL != '' " + 
+			"WHERE eSignal.signalOrCurve = \"signal\" AND eCurve.signalOrCurve = \"curve\" " + 
+			"AND eSignal.videoURL = \"\" AND eCurve.videoURL != \"\" " + 
 			"AND encoderSignalCurve.signalID = eSignal.uniqueID " +
 			"AND encoderSignalCurve.curveID = eCurve.uniqueID";
 
@@ -65,7 +65,7 @@ class SqliteOldConvert : Sqlite
 
 		foreach(IDName idname in idnamelist.l) 
 		{
-			dbcmd.CommandText = "UPDATE encoder SET videoURL = '" + idname.Name + "' " + 
+			dbcmd.CommandText = "UPDATE encoder SET videoURL = \"" + idname.Name + "\" " + 
 				"WHERE uniqueID = " + idname.UniqueID.ToString();
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();
@@ -90,8 +90,8 @@ class SqliteOldConvert : Sqlite
 		//eg. dbcmd.CommandText = "UPDATE encoder SET videoURL = replace( videoURL, '/home/user/.local/share/Chronojump/', '' ) " + 
 		//	"WHERE videoURL LIKE '/home/user/.local/share/Chronojump/%'";
 
-		dbcmd.CommandText = "UPDATE " + table + " SET " + column + " = replace( " + column + ", '" + parentDir + "', '' ) " + 
-			"WHERE " + column + " LIKE '" + parentDir + "%'";
+		dbcmd.CommandText = "UPDATE " + table + " SET " + column + " = replace( " + column + ", \"" + parentDir + "\", \"\" ) " + 
+			"WHERE " + column + " LIKE \"" + parentDir + "%\"";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -110,19 +110,19 @@ class SqliteOldConvert : Sqlite
 
 
 		//changes on jump table
-		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET type = 'slCMJleft' WHERE description LIKE '%Left%'";
+		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET type = \"slCMJleft\" WHERE description LIKE \"%Left%\"";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET type = 'slCMJright' WHERE description LIKE '%Right%'";
+		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET type = \"slCMJright\" WHERE description LIKE \"%Right%\"";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET description=replace(description, ' Left', '')";
+		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET description=replace(description, \" Left\", \"\")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET description=replace(description, ' Right', '')";
+		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET description=replace(description, \" Right\", \"\")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -155,7 +155,7 @@ class SqliteOldConvert : Sqlite
 			if(signalOrCurve == "all")
 				selectStr = personIDStr + sessionIDStr;
 			else
-				selectStr = personIDStr + sessionIDStr + " signalOrCurve = '" + signalOrCurve + "'";
+				selectStr = personIDStr + sessionIDStr + " signalOrCurve = \"" + signalOrCurve + "\"";
 		}
 
 		string andString = "";
@@ -164,7 +164,7 @@ class SqliteOldConvert : Sqlite
 
 		string onlyActiveString = "";
 		if(onlyActive)
-			onlyActiveString = " AND " + Constants.EncoderTable + ".status = 'active' ";
+			onlyActiveString = " AND " + Constants.EncoderTable + ".status = \"active\" ";
 
 		dbcmd.CommandText = "SELECT " + 
 			Constants.EncoderTable + ".*, " + Constants.EncoderExerciseTable + ".name FROM " + 
@@ -302,7 +302,7 @@ class SqliteOldConvert : Sqlite
 			if(signalOrCurve == "all")
 				selectStr = personIDStr + sessionIDStr;
 			else
-				selectStr = personIDStr + sessionIDStr + " signalOrCurve = '" + signalOrCurve + "'";
+				selectStr = personIDStr + sessionIDStr + " signalOrCurve = \"" + signalOrCurve + "\"";
 		}
 
 		string andString = "";
@@ -311,7 +311,7 @@ class SqliteOldConvert : Sqlite
 
 		string onlyActiveString = "";
 		if(onlyActive)
-			onlyActiveString = " AND " + Constants.EncoderTable + ".future1 = 'active' ";
+			onlyActiveString = " AND " + Constants.EncoderTable + ".future1 = \"active\" ";
 
 		dbcmd.CommandText = "SELECT " + 
 			Constants.EncoderTable + ".*, " + Constants.EncoderExerciseTable + ".name FROM " + 

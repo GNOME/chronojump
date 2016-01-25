@@ -70,9 +70,9 @@ class SqlitePulseType : Sqlite
 		}
 		dbcmd.CommandText = "INSERT INTO " + Constants.PulseTypeTable +  
 				" (uniqueID, name, fixedPulse, totalPulsesNum, description)" +
-				" VALUES (NULL, '"
-				+ myStr[0] + "', " + myStr[1] + ", " +	//name, fixedPulse
-				myStr[2] + ", '" + myStr[3] + "')" ;	//totalPulsesNum, description
+				" VALUES (NULL, \""
+				+ myStr[0] + "\", " + myStr[1] + ", " +	//name, fixedPulse
+				myStr[2] + ", \"" + myStr[3] + "\")" ;	//totalPulsesNum, description
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(! dbconOpened) {
@@ -142,8 +142,8 @@ class SqlitePulseType : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.PulseTypeTable +
-			" WHERE name  = '" + typeName +
-			"' ORDER BY uniqueID";
+			" WHERE name  = \"" + typeName +
+			"\" ORDER BY uniqueID";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

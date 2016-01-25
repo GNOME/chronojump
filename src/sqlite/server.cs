@@ -73,9 +73,9 @@ class SqliteServer : Sqlite
 
 		string myString = "INSERT INTO " + Constants.ServerPingTable + 
 			" (uniqueID, evaluatorID, cjVersion, osVersion, IP, date) VALUES (" + 
-			uniqueID + ", " + evaluatorID + ", '" + 
-			cjVersion + "', '" + osVersion + "', '" +
-			ip + "', '" + UtilDate.ToSql(date) + "')" ;
+			uniqueID + ", " + evaluatorID + ", \"" + 
+			cjVersion + "\", \"" + osVersion + "\", \"" +
+			ip + "\", \"" + UtilDate.ToSql(date) + "\")" ;
 		
 		dbcmd.CommandText = myString;
 		
@@ -105,11 +105,11 @@ class SqliteServer : Sqlite
 
 		string myString = "INSERT INTO " + Constants.ServerEvaluatorTable + 
 			" (uniqueID, code, name, email, dateBorn, countryID, chronometer, device, comments, confiable) VALUES (" + 
-			uniqueID + ", '" + 
-			code + "', '" + name + "', '" + 
-			email + "', '" + UtilDate.ToSql(dateBorn) + "', " +
-			countryID + ", '" + chronometer + "', '" + 
-			device + "', '" + comments + "', " +
+			uniqueID + ", \"" + 
+			code + "\", \"" + name + "\", \"" + 
+			email + "\", \"" + UtilDate.ToSql(dateBorn) + "\", " +
+			countryID + ", \"" + chronometer + "\", \"" + 
+			device + "\", \"" + comments + "\", " +
 			//Util.BoolToInt(confiable) + 
 			Util.BoolToInt(false) + //security: cannot directly insert a confiable person
 			")" ;
@@ -139,16 +139,16 @@ class SqliteServer : Sqlite
 		if(! dbconOpened)
 			Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.ServerEvaluatorTable + " " +
-			" SET code = '" + code +
-			"' , name = '" + name +
-			"' , email = '" + email +
-			"' , dateBorn = '" + UtilDate.ToSql(dateBorn) +
-			"' , countryID = " + countryID +
-			", chronometer = '" + chronometer +
-			"', device = '" + device +
-			"', comments = '" + comments +
-			//"', confiable = " + Util.BoolToInt(confiable) + //security: update cannot change confiable
-			"' WHERE uniqueID == " + uniqueID;
+			" SET code = \"" + code +
+			"\" , name = \"" + name +
+			"\" , email = \"" + email +
+			"\" , dateBorn = \"" + UtilDate.ToSql(dateBorn) +
+			"\" , countryID = " + countryID +
+			", chronometer = \"" + chronometer +
+			"\", device = \"" + device +
+			"\", comments = \"" + comments +
+			//"\", confiable = " + Util.BoolToInt(confiable) + //security: update cannot change confiable
+			"\" WHERE uniqueID == " + uniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

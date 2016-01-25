@@ -67,9 +67,9 @@ class SqlitePulse : Sqlite
 
 		dbcmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, personID, sessionID, type, fixedPulse, totalPulsesNum, timeString, description, simulated)" +
-				" VALUES (" + uniqueID + ", " + personID + ", " + sessionID + ", '" + type + "', "
-				+ Util.ConvertToPoint(fixedPulse) + ", " + totalPulsesNum + ", '"
-				+ timeString + "', '" + description + "', " + simulated + ")" ;
+				" VALUES (" + uniqueID + ", " + personID + ", " + sessionID + ", \"" + type + "\", "
+				+ Util.ConvertToPoint(fixedPulse) + ", " + totalPulsesNum + ", \""
+				+ timeString + "\", \"" + description + "\", " + simulated + ")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -172,8 +172,8 @@ class SqlitePulse : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PulseTable + 
 			" SET personID = " + personID + 
-			", description = '" + description +
-			"' WHERE uniqueID == " + pulseID ;
+			", description = \"" + description +
+			"\" WHERE uniqueID == " + pulseID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

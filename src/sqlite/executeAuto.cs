@@ -66,12 +66,12 @@ class SqliteExecuteAuto : Sqlite
 			" (uniqueID, name, mode, description, " +
 			" serie1IDs, serie2IDs, serie3IDs, " + 
 			" future1, future2, future3)" +
-			" VALUES ( NULL, '" +
-			eaSQL.name + "', '" + eaSQL.Mode.ToString() + "', '" + eaSQL.Description + "', '" +
-			eaSQL.SerieIDsToStr(eaSQL.Serie1IDs) + "', '" + 
-			eaSQL.SerieIDsToStr(eaSQL.Serie2IDs) + "', '" + 
-			eaSQL.SerieIDsToStr(eaSQL.Serie3IDs) + "', " + 
-			"'', '', '')"; //future1, future2, future3
+			" VALUES ( NULL, \"" +
+			eaSQL.name + "\", \"" + eaSQL.Mode.ToString() + "\", \"" + eaSQL.Description + "\", \"" +
+			eaSQL.SerieIDsToStr(eaSQL.Serie1IDs) + "\", \"" + 
+			eaSQL.SerieIDsToStr(eaSQL.Serie2IDs) + "\", \"" + 
+			eaSQL.SerieIDsToStr(eaSQL.Serie3IDs) + "\", " + 
+			"\"\", \"\", \"\")"; //future1, future2, future3
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

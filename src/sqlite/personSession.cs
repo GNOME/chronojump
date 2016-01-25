@@ -71,8 +71,8 @@ class SqlitePersonSession : Sqlite
 		        " VALUES ("
 			+ uniqueID + ", " + personID + ", " + sessionID + ", " + 
 			Util.ConvertToPoint(height) + ", " + Util.ConvertToPoint(weight) + ", " +
-			sportID + ", " + speciallityID + ", " + practice + ", '" + 
-			comments + "', '', '')"; 
+			sportID + ", " + speciallityID + ", " + practice + ", \"" + 
+			comments + "\", \"\", \"\")"; 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -151,8 +151,8 @@ class SqlitePersonSession : Sqlite
 			", sportID = " + ps.SportID + 
 			", speciallityID = " + ps.SpeciallityID + 
 			", practice = " + ps.Practice + 
-			", comments = '" + ps.Comments + 
-			"' WHERE uniqueID == " + ps.UniqueID;
+			", comments = \"" + ps.Comments + 
+			"\" WHERE uniqueID == " + ps.UniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

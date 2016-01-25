@@ -122,12 +122,12 @@ class SqliteRunType : Sqlite
 		}
 		mycmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, name, distance, description)" +
-				" VALUES (NULL, '" +
+				" VALUES (NULL, \"" +
 				/*
-				myStr[0] + "', " + myStr[1] + ", '" +	//name, distance
-				myStr[2] + "')" ;	//description
+				myStr[0] + "\", " + myStr[1] + ", \"" +	//name, distance
+				myStr[2] + "\")" ;	//description
 				*/
-				t.Name + "', " + Util.ConvertToPoint(t.Distance) + ", '" + t.Description +	"')" ;	
+				t.Name + "\", " + Util.ConvertToPoint(t.Distance) + ", \"" + t.Description +	"\")" ;	
 		LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();
 
@@ -149,8 +149,8 @@ class SqliteRunType : Sqlite
 			Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.RunTypeTable +
-			" WHERE name  = '" + typeName +
-			"' ORDER BY uniqueID";
+			" WHERE name  = \"" + typeName +
+			"\" ORDER BY uniqueID";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -239,7 +239,7 @@ class SqliteRunType : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT distance " +
 			" FROM " + Constants.RunTypeTable +
-			" WHERE name == '" + typeName + "'";
+			" WHERE name == \"" + typeName + "\"";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -298,7 +298,7 @@ class SqliteRunType : Sqlite
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "Delete FROM " + Constants.RunTypeTable +
-			" WHERE name == '" + name + "'";
+			" WHERE name == \"" + name + "\"";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
@@ -443,9 +443,9 @@ class SqliteRunIntervalType : SqliteRunType
 		}
 		mycmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, name, distance, tracksLimited, fixedValue, unlimited, description, distancesString)" +
-				" VALUES (NULL, '" +
-				t.Name + 	"', " + t.Distance + ", " + Util.BoolToInt(t.TracksLimited) + 	", " + t.FixedValue + ", " +
-				Util.BoolToInt(t.Unlimited) + 	", '" + t.Description +	"', '" + t.DistancesString + 	"')" ;	
+				" VALUES (NULL, \"" +
+				t.Name + 	"\", " + t.Distance + ", " + Util.BoolToInt(t.TracksLimited) + 	", " + t.FixedValue + ", " +
+				Util.BoolToInt(t.Unlimited) + 	", \"" + t.Description +	"\", \"" + t.DistancesString + 	"\")" ;	
 		LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();
 		
@@ -522,8 +522,8 @@ class SqliteRunIntervalType : SqliteRunType
 			Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.RunIntervalTypeTable +
-			" WHERE name  = '" + typeName +
-			"' ORDER BY uniqueID";
+			" WHERE name  = \"" + typeName +
+			"\" ORDER BY uniqueID";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -581,7 +581,7 @@ class SqliteRunIntervalType : SqliteRunType
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTypeTable +
-			" WHERE name == '" + name + "'";
+			" WHERE name == \"" + name + "\"";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

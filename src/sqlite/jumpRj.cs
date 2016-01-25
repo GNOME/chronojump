@@ -70,12 +70,12 @@ class SqliteJumpRj : SqliteJump
 				" (uniqueID, personID, sessionID, type, tvMax, tcMax, fall, weight, description, " +
 				"tvAvg, tcAvg, tvString, tcString, jumps, time, limited, angleString, simulated )" +
 				"VALUES (" + uniqueID + ", " +
-				personID + ", " + sessionID + ", '" + type + "', " +
-				Util.ConvertToPoint(tvMax) + ", " + Util.ConvertToPoint(tcMax) + ", '" + 
-				Util.ConvertToPoint(fall) + "', '" + Util.ConvertToPoint(weight) + "', '" + description + "', " +
-				Util.ConvertToPoint(tvAvg) + ", " + Util.ConvertToPoint(tcAvg) + ", '" + 
-				Util.ConvertToPoint(tvString) + "', '" + Util.ConvertToPoint(tcString) + "', " +
-				jumps + ", " + Util.ConvertToPoint(time) + ", '" + limited + "', '" + angleString + "', " + simulated +")" ;
+				personID + ", " + sessionID + ", \"" + type + "\", " +
+				Util.ConvertToPoint(tvMax) + ", " + Util.ConvertToPoint(tcMax) + ", \"" + 
+				Util.ConvertToPoint(fall) + "\", \"" + Util.ConvertToPoint(weight) + "\", \"" + description + "\", " +
+				Util.ConvertToPoint(tvAvg) + ", " + Util.ConvertToPoint(tcAvg) + ", \"" + 
+				Util.ConvertToPoint(tvString) + "\", \"" + Util.ConvertToPoint(tcString) + "\", " +
+				jumps + ", " + Util.ConvertToPoint(time) + ", \"" + limited + "\", \"" + angleString + "\", " + simulated +")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -113,7 +113,7 @@ class SqliteJumpRj : SqliteJump
 
 		string filterTypeString = "";
 		if(filterType != "")
-			filterTypeString = " AND jumpRj.type == '" + filterType + "' ";
+			filterTypeString = " AND jumpRj.type == \"" + filterType + "\" ";
 
 		dbcmd.CommandText = "SELECT " + tp + ".name, jumpRj.*, " + tps + ".weight " +
 			" FROM " + tp + ", jumpRj, " + tps + " " +
@@ -206,8 +206,8 @@ class SqliteJumpRj : SqliteJump
 		dbcmd.CommandText = "UPDATE jumpRj SET personID = " + personID + 
 			", fall = " + Util.ConvertToPoint(Convert.ToDouble(fall)) + 
 			", weight = " + Util.ConvertToPoint(weight) + 
-			", description = '" + description +
-			"' WHERE uniqueID == " + jumpID ;
+			", description = \"" + description +
+			"\" WHERE uniqueID == " + jumpID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

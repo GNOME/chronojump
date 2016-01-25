@@ -66,9 +66,9 @@ class SqlitePerson : Sqlite
 		//ATTENTION: if this changes, change the Person.ToSQLInsertString()
 		// -----------------------
 		string myString = "INSERT INTO " + Constants.PersonTable + 
-			" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID) VALUES (" + uniqueID + ", '" +
-			name + "', '" + sex + "', '" + UtilDate.ToSql(dateBorn) + "', " + 
-			race + ", " + countryID + ", '" + description + "', '', '', " + serverUniqueID + ")";
+			" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID) VALUES (" + uniqueID + ", \"" +
+			name + "\", \"" + sex + "\", \"" + UtilDate.ToSql(dateBorn) + "\", " + 
+			race + ", " + countryID + ", \"" + description + "\", \"\", \"\", " + serverUniqueID + ")";
 		
 		dbcmd.CommandText = myString;
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -213,7 +213,7 @@ class SqlitePerson : Sqlite
 		if(inSession == -1) {
 			string nameLike = "";
 			if(searchFilterName != "")
-				nameLike = " WHERE LOWER(" + tp + ".name) LIKE LOWER ('%" + searchFilterName + "%') ";
+				nameLike = " WHERE LOWER(" + tp + ".name) LIKE LOWER (\"%" + searchFilterName + "%\") ";
 
 			dbcmd.CommandText = 
 				"SELECT * FROM " + tp + 
@@ -384,7 +384,7 @@ finishForeach:
 		//EncS (encoder signal)
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.EncoderTable + 
 		       " WHERE personID == " + personID +
-		       " AND signalOrCurve == 'signal' " +
+		       " AND signalOrCurve == \"signal\" " +
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
@@ -397,7 +397,7 @@ finishForeach:
 		//EncC (encoder curve)
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.EncoderTable + 
 		       " WHERE personID == " + personID +
-		       " AND signalOrCurve == 'curve' " +
+		       " AND signalOrCurve == \"curve\" " +
 			" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
@@ -540,7 +540,7 @@ finishForeach:
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonTable +
-			" WHERE LOWER(" + Constants.PersonTable + ".name) == LOWER('" + personName + "')" +
+			" WHERE LOWER(" + Constants.PersonTable + ".name) == LOWER(\"" + personName + "\")" +
 			" AND uniqueID != " + uniqueID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
@@ -566,13 +566,13 @@ finishForeach:
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PersonTable + 
-			" SET name = '" + myPerson.Name + 
-			"', sex = '" + myPerson.Sex +
-			"', dateborn = '" + UtilDate.ToSql(myPerson.DateBorn) +
-			"', race = " + myPerson.Race +
+			" SET name = \"" + myPerson.Name + 
+			"\", sex = \"" + myPerson.Sex +
+			"\", dateborn = \"" + UtilDate.ToSql(myPerson.DateBorn) +
+			"\", race = " + myPerson.Race +
 			", countryID = " + myPerson.CountryID +
-			", description = '" + myPerson.Description +
-			"', serverUniqueID = " + myPerson.ServerUniqueID +
+			", description = \"" + myPerson.Description +
+			"\", serverUniqueID = " + myPerson.ServerUniqueID +
 			" WHERE uniqueID == " + myPerson.UniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

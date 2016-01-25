@@ -66,8 +66,8 @@ class SqliteReactionTime : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + tableName +  
 				" (uniqueID, personID, sessionID, type, time, description, simulated)" +
 				" VALUES (" + uniqueID + ", "
-				+ personID + ", " + sessionID + ", '" + type + "', "
-				+ Util.ConvertToPoint(time) + ", '" + description + "', " + simulated + ")" ;
+				+ personID + ", " + sessionID + ", \"" + type + "\", "
+				+ Util.ConvertToPoint(time) + ", \"" + description + "\", " + simulated + ")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -167,10 +167,10 @@ class SqliteReactionTime : Sqlite
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.ReactionTimeTable + " SET personID = " + personID + 
-			", type = '" + type +
-			"', time = " + Util.ConvertToPoint(time) +
-			", description = '" + description +
-			"' WHERE uniqueID == " + eventID ;
+			", type = \"" + type +
+			"\", time = " + Util.ConvertToPoint(time) +
+			", description = \"" + description +
+			"\" WHERE uniqueID == " + eventID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

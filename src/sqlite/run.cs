@@ -68,9 +68,9 @@ class SqliteRun : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, personID, sessionID, type, distance, time, description, simulated, initialSpeed)" +
 				" VALUES (" + uniqueID + ", " +
-				+ personID + ", " + sessionID + ", '" + type + "', "
-				+ Util.ConvertToPoint(distance) + ", " + Util.ConvertToPoint(time) + ", '" + 
-				description + "', " + simulated + ", " + Util.BoolToInt(initialSpeed) + ")" ;
+				+ personID + ", " + sessionID + ", \"" + type + "\", "
+				+ Util.ConvertToPoint(distance) + ", " + Util.ConvertToPoint(time) + ", \"" + 
+				description + "\", " + simulated + ", " + Util.BoolToInt(initialSpeed) + ")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -106,7 +106,7 @@ class SqliteRun : Sqlite
 
 		string filterTypeString = "";
 		if(filterType != "")
-			filterTypeString = " AND run.type == '" + filterType + "' " ;
+			filterTypeString = " AND run.type == \"" + filterType + "\" " ;
 
 		dbcmd.CommandText = "SELECT " + tp + ".name, run.* " +
 			" FROM " + tp + ", run " +
@@ -184,11 +184,11 @@ class SqliteRun : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.RunTable + 
 			" SET personID = " + personID + 
-			", type = '" + type +
-			"', distance = " + Util.ConvertToPoint(Convert.ToDouble(distance)) + 
+			", type = \"" + type +
+			"\", distance = " + Util.ConvertToPoint(Convert.ToDouble(distance)) + 
 			", time = " + Util.ConvertToPoint(Convert.ToDouble(time)) + 
-			", description = '" + description +
-			"' WHERE uniqueID == " + runID ;
+			", description = \"" + description +
+			"\" WHERE uniqueID == " + runID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

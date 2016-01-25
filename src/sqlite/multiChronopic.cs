@@ -88,15 +88,15 @@ class SqliteMultiChronopic : Sqlite
 			" cp1InStr, cp1OutStr, cp2InStr, cp2OutStr, cp3InStr, cp3OutStr, cp4InStr, cp4OutStr, " +
 			" vars, description, simulated)" +
 			" VALUES (" + uniqueID + ", " +
-			personID + ", " + sessionID + ", '" + type + "', " +
+			personID + ", " + sessionID + ", \"" + type + "\", " +
 			cp1StartedIn + ", " + cp2StartedIn + ", " +
-			cp3StartedIn + ", " + cp4StartedIn + ", '" +
-			cp1InStr + "', '" + cp1OutStr + "', '" +
-			cp2InStr + "', '" + cp2OutStr + "', '" +
-			cp3InStr + "', '" + cp3OutStr + "', '" +
-			cp4InStr + "', '" + cp4OutStr + "', '" +
-			vars + "', '" +
-			description + "', " + simulated + ")" ;
+			cp3StartedIn + ", " + cp4StartedIn + ", \"" +
+			cp1InStr + "\", \"" + cp1OutStr + "\", \"" +
+			cp2InStr + "\", \"" + cp2OutStr + "\", \"" +
+			cp3InStr + "\", \"" + cp3OutStr + "\", \"" +
+			cp4InStr + "\", \"" + cp4OutStr + "\", \"" +
+			vars + "\", \"" +
+			description + "\", " + simulated + ")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
@@ -245,9 +245,9 @@ class SqliteMultiChronopic : Sqlite
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.MultiChronopicTable + " SET personID = " + personID + 
-			", vars = '" + vars + 		//vars is distance on runAnalysis
-			"', description = '" + description +
-			"' WHERE uniqueID == " + eventID ;
+			", vars = \"" + vars + 		//vars is distance on runAnalysis
+			"\", description = \"" + description +
+			"\" WHERE uniqueID == " + eventID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

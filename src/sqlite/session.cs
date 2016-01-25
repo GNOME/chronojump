@@ -62,10 +62,10 @@ class SqliteSession : Sqlite
 			uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO " + tableName + " (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments, serverUniqueID)" +
-			" VALUES (" + uniqueID + ", '"
-			+ name + "', '" + place + "', '" + UtilDate.ToSql(date) + "', " + 
+			" VALUES (" + uniqueID + ", \""
+			+ name + "\", \"" + place + "\", \"" + UtilDate.ToSql(date) + "\", " + 
 			personsSportID + ", " + personsSpeciallityID + ", " + 
-			personsPractice + ", '" + comments + "', " +
+			personsPractice + ", \"" + comments + "\", " +
 			serverUniqueID + ")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -87,14 +87,14 @@ class SqliteSession : Sqlite
 		//TODO: serverUniqueID (but cannot be changed in gui/edit, then not need now)
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " " +
-			" SET name = '" + name +
-			"' , date = '" + UtilDate.ToSql(date) +
-			"' , place = '" + place +
-			"' , personsSportID = " + personsSportID +
+			" SET name = \"" + name +
+			"\" , date = \"" + UtilDate.ToSql(date) +
+			"\" , place = \"" + place +
+			"\" , personsSportID = " + personsSportID +
 			", personsSpeciallityID = " + personsSpeciallityID +
 			", personsPractice = " + personsPractice +
-			", comments = '" + comments +
-			"' WHERE uniqueID == " + uniqueID;
+			", comments = \"" + comments +
+			"\" WHERE uniqueID == " + uniqueID;
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}
@@ -119,7 +119,7 @@ class SqliteSession : Sqlite
 	//be careful because name is not unique
 	public static Session SelectByName(string name)
 	{
-		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE name == '" + name + "'"; 
+		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE name == \"" + name + "\""; 
 		return SelectDo(dbcmd);
 	}
 	//by ID (default
@@ -225,7 +225,7 @@ class SqliteSession : Sqlite
 
 		string filterNameString = "";
 		if(filterName != "")
-			filterNameString = " AND LOWER(session.name) LIKE LOWER ('%" + filterName  + "%') ";
+			filterNameString = " AND LOWER(session.name) LIKE LOWER (\"%" + filterName  + "%\") ";
 
 		dbcmd.CommandText = 
 			"SELECT session.*, sport.name, speciallity.name" +
@@ -392,7 +392,7 @@ class SqliteSession : Sqlite
 	
 		//select encoder signal of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.EncoderTable + 
-			" WHERE signalOrCurve == 'signal' GROUP BY sessionID ORDER BY sessionID";
+			" WHERE signalOrCurve == \"signal\" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -407,7 +407,7 @@ class SqliteSession : Sqlite
 	
 		//select encoder curve of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.EncoderTable + 
-			" WHERE signalOrCurve == 'curve' GROUP BY sessionID ORDER BY sessionID";
+			" WHERE signalOrCurve == \"curve\" GROUP BY sessionID ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -570,7 +570,7 @@ class SqliteSession : Sqlite
 		dbcmd.CommandText = "SELECT AVG(" + valueToSelect + ")" +
 			" FROM " + table +				
 			" WHERE sessionID == " + sessionID + 
-			" AND type == '" + type + "' " +
+			" AND type == \"" + type + "\" " +
 			personIDString; 
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -719,13 +719,13 @@ class SqliteServerSession : SqliteSession
 		string uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO " + tableName + " (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments, serverUniqueID, evaluatorID, evaluatorCJVersion, evaluatorOS, uploadedDate, uploadingState)" +
-			" VALUES (" + uniqueID + ", '"
-			+ name + "', '" + place + "', '" + UtilDate.ToSql(date) + "', " + 
+			" VALUES (" + uniqueID + ", \""
+			+ name + "\", \"" + place + "\", \"" + UtilDate.ToSql(date) + "\", " + 
 			personsSportID + ", " + personsSpeciallityID + ", " + 
-			personsPractice + ", '" + comments + "', " +
-			serverUniqueID + ", " + evaluatorID + ", '" +
-			evaluatorCJVersion + "', '" + evaluatorOS + "', '" +
-			UtilDate.ToSql(uploadedDate) + "', " + uploadingState +
+			personsPractice + ", \"" + comments + "\", " +
+			serverUniqueID + ", " + evaluatorID + ", \"" +
+			evaluatorCJVersion + "\", \"" + evaluatorOS + "\", \"" +
+			UtilDate.ToSql(uploadedDate) + "\", " + uploadingState +
 			")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

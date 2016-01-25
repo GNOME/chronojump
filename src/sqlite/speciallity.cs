@@ -71,7 +71,7 @@ class SqliteSpeciallity : Sqlite
 			Sqlite.Open();
 
 		string myString = "INSERT INTO " + Constants.SpeciallityTable + 
-			" (uniqueID, sportID, name) VALUES (NULL, " + sportID + ", '" + speciallityName + "')"; 
+			" (uniqueID, sportID, name) VALUES (NULL, " + sportID + ", \"" + speciallityName + "\")"; 
 		
 		mycmd.CommandText = myString;
 		LogB.SQL(mycmd.CommandText.ToString());

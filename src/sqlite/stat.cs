@@ -50,7 +50,7 @@ class SqliteStat : Sqlite
 		moreSelect = ini + "jump.tv" + end;
 		
 		string fromString = " FROM jump, " + tp + " ";
-		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
+		string jumpTypeString = " AND jump.type == \"" + jumpType + "\" ";
 
 		//if we use AVG or MAX, then we have to group by the results
 		//if there's more than one session, it sends the avg or max
@@ -135,7 +135,7 @@ class SqliteStat : Sqlite
 
 		//manage allJumps
 		string fromString = " FROM jump, " + tp + ", " + tps + " ";
-		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
+		string jumpTypeString = " AND jump.type == \"" + jumpType + "\" ";
 		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jump.type ";
 			fromString = " FROM jump, " + tp + ", " + tps + ", jumpType ";
@@ -296,7 +296,7 @@ class SqliteStat : Sqlite
 		
 		//manage allJumps
 		string fromString = " FROM jump, " + tp + sep + tps + " ";
-		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
+		string jumpTypeString = " AND jump.type == \"" + jumpType + "\" ";
 		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jump.type ";
 			fromString = " FROM jump, " + tp + sep + tps + ", jumpType ";
@@ -403,7 +403,7 @@ class SqliteStat : Sqlite
 
 		//manage allJumps
 		string fromString = " FROM jumpRj, " + tp + " ";
-		string jumpTypeString = " AND jumpRj.type == '" + jumpType + "' ";
+		string jumpTypeString = " AND jumpRj.type == \"" + jumpType + "\" ";
 		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jumpRj.type ";
 			fromString = " FROM jumpRj, " + tp + ", jumpRjType ";
@@ -500,7 +500,7 @@ class SqliteStat : Sqlite
 
 		//manage allJumps
 		string fromString = " FROM jumpRj, " + tp + " ";
-		string jumpTypeString = " AND jumpRj.type == '" + jumpType + "' ";
+		string jumpTypeString = " AND jumpRj.type == \"" + jumpType + "\" ";
 		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jumpRj.type ";
 			fromString = " FROM jumpRj, " + tp + ", jumpRjType ";
@@ -686,7 +686,7 @@ class SqliteStat : Sqlite
 
 		//manage allJumps
 		string fromString = " FROM jumpRj, " + tp + " ";
-		string jumpTypeString = " AND jumpRj.type == '" + jumpType + "' ";
+		string jumpTypeString = " AND jumpRj.type == \"" + jumpType + "\" ";
 		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jumpRj.type ";
 			fromString = " FROM jumpRj, " + tp + ", jumpRjType ";
@@ -793,7 +793,7 @@ class SqliteStat : Sqlite
 		//manage allRuns
 		string fromString = " FROM " + Constants.RunIntervalTable + ", " + 
 			tp + ", " + Constants.RunIntervalTypeTable + " ";
-		string runTypeString = " AND " + Constants.RunIntervalTable + ".type == '" + runType + "' ";
+		string runTypeString = " AND " + Constants.RunIntervalTable + ".type == \"" + runType + "\" ";
 		if(runType == Constants.AllRunsName) {
 			moreSelect = moreSelect + ", " + Constants.RunIntervalTable + ".type ";
 			runTypeString = ""; 
@@ -911,8 +911,8 @@ LogB.SQL(intervalSpeeds);
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, j1.sessionID, " + moreSelect +
 			" FROM jump AS j1, jump AS j2, " + tp + " " +
 			sessionString +
-			" AND j1.type == '" + jump1 + "' " +
-			" AND j2.type == '" + jump2 + "' " +
+			" AND j1.type == \"" + jump1 + "\" " +
+			" AND j2.type == \"" + jump2 + "\" " +
 			" AND j1.personID == " + tp + ".uniqueID " +
 			" AND j2.personID == " + tp + ".uniqueID " +
 			groupByString +
@@ -988,8 +988,8 @@ LogB.SQL(intervalSpeeds);
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, j1.sessionID, " + moreSelect +
 			" FROM jump AS j1, jump AS j2, " + tp + " " +
 			sessionString +
-			" AND j1.type == '" + jump1 + "' " +
-			" AND j2.type == '" + jump2 + "' " +
+			" AND j1.type == \"" + jump1 + "\" " +
+			" AND j2.type == \"" + jump2 + "\" " +
 			" AND j1.personID == " + tp + ".uniqueID " +
 			" AND j2.personID == " + tp + ".uniqueID " +
 			groupByString +
@@ -1066,8 +1066,8 @@ LogB.SQL(intervalSpeeds);
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, j1.sessionID, " + moreSelect +
 			" FROM jump AS j1, jump AS j2, " + tp + " " +
 			sessionString +
-			" AND j1.type == '" + jump1 + "' " +
-			" AND j2.type == '" + jump2 + "' " +
+			" AND j1.type == \"" + jump1 + "\" " +
+			" AND j2.type == \"" + jump2 + "\" " +
 			//weight of SJ+ jump is 100% or equals de person weight
 			//the || is "the || concatenation operator which gives a string result." 
 			//http://sqlite.org/lang_expr.html
@@ -1202,7 +1202,7 @@ LogB.SQL(intervalSpeeds);
 		//TODO: check if ini,end is needed here
 
 		string fromString = " FROM jump, " + tp + ", " + tps + " ";
-		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
+		string jumpTypeString = " AND jump.type == \"" + jumpType + "\" ";
 
 
 		//if we use AVG or MAX, then we have to group by the results
@@ -1310,7 +1310,7 @@ LogB.SQL(intervalSpeeds);
 		moreSelect = ini + "run.distance / run.time" + end + " AS speed, " + ini + "run.distance" + end + ", " + ini + "run.time" + end;
 		
 		string fromString = " FROM run, " + tp + " ";
-		string runTypeString = " AND run.type == '" + runType + "' ";
+		string runTypeString = " AND run.type == \"" + runType + "\" ";
 		if(runType == Constants.AllRunsName) {
 			moreSelect = moreSelect + ", run.type ";
 			fromString = " FROM run, " + tp + ", runType ";
@@ -1403,13 +1403,13 @@ LogB.SQL(intervalSpeeds);
 		IDDoubleList listFMax = fillIDDoubleList( 
 				"SELECT personID, MAX(jump.tv * jump.tv * 1.226) " +
 				" FROM jump " +
-				" WHERE type == 'SJl' AND jump.weight == 100 " +
+				" WHERE type == \"SJl\" AND jump.weight == 100 " +
 				" AND sessionID == " + sessionID + " GROUP BY personID");
 	
 		IDDoubleList listFExpl = fillIDDoubleList( 
 				"SELECT j1.personID, MAX(j1.tv * j1.tv * 1.226) - MAX(j2.tv * j2.tv * 1.226) AS myIndex " +
 				" FROM jump AS j1, jump AS j2 " +
-				" WHERE j1.type == 'SJ' AND j2.type == 'SJl' AND j2.weight=100 " +
+				" WHERE j1.type == \"SJ\" AND j2.type == \"SJl\" AND j2.weight=100 " +
 				" AND j1.personID == j2.personID " +
 				" AND j1.sessionID == " + sessionID + " AND j2.sessionID == " + sessionID + 
 				" GROUP BY j1.personID");
@@ -1417,7 +1417,7 @@ LogB.SQL(intervalSpeeds);
 		IDDoubleList listCElast = fillIDDoubleList( 
 				"SELECT j1.personID, MAX(j1.tv * j1.tv * 1.226) - MAX(j2.tv * j2.tv * 1.226) AS myIndex " +
 				" FROM jump AS j1, jump AS j2 " +
-				" WHERE j1.type == 'CMJ' AND j2.type == 'SJ' " +
+				" WHERE j1.type == \"CMJ\" AND j2.type == \"SJ\" " +
 				" AND j1.personID == j2.personID " +
 				" AND j1.sessionID == " + sessionID + " AND j2.sessionID == " + sessionID + 
 				" GROUP BY j1.personID");
@@ -1425,14 +1425,14 @@ LogB.SQL(intervalSpeeds);
 		IDDoubleList listCArms = fillIDDoubleList( 
 				"SELECT j1.personID, MAX(j1.tv * j1.tv * 1.226) - MAX(j2.tv * j2.tv * 1.226) AS myIndex " +
 				" FROM jump AS j1, jump AS j2 " +
-				" WHERE j1.type == 'ABK' AND j2.type == 'CMJ' " +
+				" WHERE j1.type == \"ABK\" AND j2.type == \"CMJ\" " +
 				" AND j1.personID == j2.personID " +
 				" AND j1.sessionID == " + sessionID + " AND j2.sessionID == " + sessionID + 
 				" GROUP BY j1.personID");
 
 		IDDoubleList listFReact = fillIDDoubleList( 
 				"SELECT personID, MAX(jump.tv * jump.tv * 1.226) " +
-				" FROM jump WHERE type == 'DJa' " +
+				" FROM jump WHERE type == \"DJa\" " +
 				" AND sessionID == " + sessionID + " GROUP BY personID");
 	
 		

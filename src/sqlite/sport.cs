@@ -83,8 +83,8 @@ class SqliteSport : Sqlite
 			uniqueID = "NULL";
 
 		string myString = "INSERT INTO " + Constants.SportTable + 
-			" (uniqueID, name, userDefined, hasSpeciallities, graphLink) VALUES (" + uniqueID + ", '" + name + "', " + 
-			Util.BoolToInt(userDefined) + ", " + Util.BoolToInt(hasSpeciallities) + ", '" + graphLink + "')";
+			" (uniqueID, name, userDefined, hasSpeciallities, graphLink) VALUES (" + uniqueID + ", \"" + name + "\", " + 
+			Util.BoolToInt(userDefined) + ", " + Util.BoolToInt(hasSpeciallities) + ", \"" + graphLink + "\")";
 		
 		mycmd.CommandText = myString;
 		LogB.SQL(mycmd.CommandText.ToString());
@@ -137,7 +137,7 @@ class SqliteSport : Sqlite
 	{
 		//Sqlite.Open();
 		
-		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.SportTable + " WHERE name == '" + name + "'";
+		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.SportTable + " WHERE name == \"" + name + "\"";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

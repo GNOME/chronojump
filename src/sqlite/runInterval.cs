@@ -65,13 +65,13 @@ class SqliteRunInterval : SqliteRun
 		dbcmd.CommandText = "INSERT INTO "+ tableName + 
 				" (uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited, simulated, initialSpeed)" +
 				"VALUES (" + uniqueID + ", " +
-				personID + ", " + sessionID + ", '" + type + "', " +
+				personID + ", " + sessionID + ", \"" + type + "\", " +
 				Util.ConvertToPoint(distanceTotal) + ", " + 
 				Util.ConvertToPoint(timeTotal) + ", " + 
-				Util.ConvertToPoint(distanceInterval) + ", '" + 
-				Util.ConvertToPoint(intervalTimesString) + "', " +
-				Util.ConvertToPoint(tracks) + ", '" + 
-				description + "', '" + limited + "', " + simulated + ", " +
+				Util.ConvertToPoint(distanceInterval) + ", \"" + 
+				Util.ConvertToPoint(intervalTimesString) + "\", " +
+				Util.ConvertToPoint(tracks) + ", \"" + 
+				description + "\", \"" + limited + "\", " + simulated + ", " +
 				Util.BoolToInt(initialSpeed) + ")" ;
 				
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -106,7 +106,7 @@ class SqliteRunInterval : SqliteRun
 
 		string filterTypeString = "";
 		if(filterType != "")
-			filterTypeString = " AND runInterval.type == '" + filterType + "' " ;
+			filterTypeString = " AND runInterval.type == \"" + filterType + "\" " ;
 
 		dbcmd.CommandText = "SELECT " + tp + ".name, runInterval.* " +
 			" FROM " + tp + ", runInterval " +
@@ -189,8 +189,8 @@ class SqliteRunInterval : SqliteRun
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.RunIntervalTable +
 			" SET personID = " + personID + 
-			", description = '" + description +
-			"' WHERE uniqueID == " + runID ;
+			", description = \"" + description +
+			"\" WHERE uniqueID == " + runID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

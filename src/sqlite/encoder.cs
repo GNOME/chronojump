@@ -82,15 +82,15 @@ class SqliteEncoder : Sqlite
 			"videoURL, encoderConfiguration, future1, future2, future3)" +
 			" VALUES (" + es.uniqueID + ", " +
 			es.personID + ", " + es.sessionID + ", " +
-			es.exerciseID + ", '" + es.eccon + "', '" +
-			es.LateralityToEnglish() + "', '" + es.extraWeight + "', '" +
-			es.signalOrCurve + "', '" + es.filename + "', '" +
-			removeURLpath(es.url) + "', " + 
-			es.time + ", " + es.minHeight + ", '" + es.description + 
-			"', '" + es.status + "', '" + 
-			removeURLpath(es.videoURL) + "', '" + 
-			es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "', '" +
-			Util.ConvertToPoint(es.future1) + "', '" + es.future2 + "', '" + es.future3 + "')";
+			es.exerciseID + ", \"" + es.eccon + "\", \"" +
+			es.LateralityToEnglish() + "\", \"" + es.extraWeight + "\", \"" +
+			es.signalOrCurve + "\", \"" + es.filename + "\", \"" +
+			removeURLpath(es.url) + "\", " + 
+			es.time + ", " + es.minHeight + ", \"" + es.description + 
+			"\", \"" + es.status + "\", \"" + 
+			removeURLpath(es.videoURL) + "\", \"" + 
+			es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "\", \"" +
+			Util.ConvertToPoint(es.future1) + "\", \"" + es.future2 + "\", \"" + es.future3 + "\")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -128,22 +128,22 @@ class SqliteEncoder : Sqlite
 				" personID = " + es.personID +
 				", sessionID = " + es.sessionID +
 				", exerciseID = " + es.exerciseID +
-				", eccon = '" + es.eccon +
-				"', laterality = '" + es.LateralityToEnglish() +
-				"', extraWeight = '" + es.extraWeight +
-				"', signalOrCurve = '" + es.signalOrCurve +
-				"', filename = '" + es.filename +
-				"', url = '" + removeURLpath(es.url) +
-				"', time = " + es.time +
+				", eccon = \"" + es.eccon +
+				"\", laterality = \"" + es.LateralityToEnglish() +
+				"\", extraWeight = \"" + es.extraWeight +
+				"\", signalOrCurve = \"" + es.signalOrCurve +
+				"\", filename = \"" + es.filename +
+				"\", url = \"" + removeURLpath(es.url) +
+				"\", time = " + es.time +
 				", minHeight = " + es.minHeight +
-				", description = '" + es.description + 
-				"', status = '" + es.status + 
-				"', videoURL = '" + removeURLpath(es.videoURL) + 
-				"', encoderConfiguration = '" + es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) +
-				"', future1 = '" + Util.ConvertToPoint(es.future1) + 
-				"', future2 = '" + es.future2 + 
-				"', future3 = '" + es.future3 + 
-				"' WHERE uniqueID == " + es.uniqueID ;
+				", description = \"" + es.description + 
+				"\", status = \"" + es.status + 
+				"\", videoURL = \"" + removeURLpath(es.videoURL) + 
+				"\", encoderConfiguration = \"" + es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) +
+				"\", future1 = \"" + Util.ConvertToPoint(es.future1) + 
+				"\", future2 = \"" + es.future2 + 
+				"\", future3 = \"" + es.future3 + 
+				"\" WHERE uniqueID == " + es.uniqueID ;
 
 		LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();
@@ -230,10 +230,10 @@ class SqliteEncoder : Sqlite
 			if(signalOrCurve == "all")
 				selectStr = personIDStr + sessionIDStr + exerciseIDStr;
 			else
-				selectStr = personIDStr + sessionIDStr + exerciseIDStr + " signalOrCurve = '" + signalOrCurve + "'";
+				selectStr = personIDStr + sessionIDStr + exerciseIDStr + " signalOrCurve = \"" + signalOrCurve + "\"";
 		
 			if(ecconSelect != EncoderSQL.Eccons.ALL)
-				selectStr += " AND " + Constants.EncoderTable + ".eccon = '" + EncoderSQL.Eccons.ecS.ToString() + "'";
+				selectStr += " AND " + Constants.EncoderTable + ".eccon = \"" + EncoderSQL.Eccons.ecS.ToString() + "\"";
 		}
 			
 
@@ -243,7 +243,7 @@ class SqliteEncoder : Sqlite
 
 		string onlyActiveString = "";
 		if(onlyActive)
-			onlyActiveString = " AND " + Constants.EncoderTable + ".status = 'active' ";
+			onlyActiveString = " AND " + Constants.EncoderTable + ".status = \"active\" ";
 
 		string orderIDstr = "";
 		if(! orderIDascendent)
@@ -332,10 +332,10 @@ class SqliteEncoder : Sqlite
 		//returns a row for each session where there are active or inactive
 		dbcmd.CommandText = 
 			"SELECT encoder.sessionID, session.name, session.date, " +
-			" SUM(CASE WHEN encoder.status = 'active' THEN 1 END) as active, " +
-			" SUM(CASE WHEN encoder.status = 'inactive' THEN 1 END) as inactive " + 
+			" SUM(CASE WHEN encoder.status = \"active\" THEN 1 END) as active, " +
+			" SUM(CASE WHEN encoder.status = \"inactive\" THEN 1 END) as inactive " + 
 			" FROM encoder, session, person77 " +
-			" WHERE encoder.personID == " + personID + " AND signalOrCurve == 'curve' AND " +
+			" WHERE encoder.personID == " + personID + " AND signalOrCurve == \"curve\" AND " +
 			" encoder.personID == person77.uniqueID AND encoder.sessionID == session.uniqueID " +
 			" GROUP BY encoder.sessionID ORDER BY encoder.sessionID, encoder.status";
 	
@@ -383,7 +383,7 @@ class SqliteEncoder : Sqlite
 		dbcmd.CommandText = 
 			"SELECT person77.name, encoderExercise.name, (personSession77.weight * encoderExercise.percentBodyWeight/100) + encoder.extraWeight, COUNT(*)" + 
 			" FROM person77, personSession77, encoderExercise, encoder" + 
-			" WHERE person77.uniqueID == encoder.personID AND personSession77.personID == encoder.personID AND personSession77.sessionID == encoder.sessionID AND encoderExercise.uniqueID==encoder.exerciseID AND signalOrCurve == 'signal' AND encoder.sessionID == " + sessionID + 
+			" WHERE person77.uniqueID == encoder.personID AND personSession77.personID == encoder.personID AND personSession77.sessionID == encoder.sessionID AND encoderExercise.uniqueID==encoder.exerciseID AND signalOrCurve == \"signal\" AND encoder.sessionID == " + sessionID + 
 			" GROUP BY encoder.personID, exerciseID, extraWeight" +
 			" ORDER BY person77.name";
 		
@@ -435,7 +435,7 @@ class SqliteEncoder : Sqlite
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderSignalCurveTable +  
 			" (uniqueID, signalID, curveID, msCentral, future1) " + 
-			"VALUES (NULL, " + signalID + ", " + curveID + ", " + msCentral + ", '')";
+			"VALUES (NULL, " + signalID + ", " + curveID + ", " + msCentral + ", \"\")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
@@ -571,8 +571,8 @@ class SqliteEncoder : Sqlite
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderExerciseTable +  
 				" (uniqueID, name, percentBodyWeight, ressistance, description, future1, future2, future3)" +
-				" VALUES (NULL, '" + name + "', " + percentBodyWeight + ", '" + 
-				ressistance + "', '" + description + "', '" + speed1RM + "', '', '')";
+				" VALUES (NULL, \"" + name + "\", " + percentBodyWeight + ", \"" + 
+				ressistance + "\", \"" + description + "\", \"" + speed1RM + "\", '', '')";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -638,12 +638,12 @@ class SqliteEncoder : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText = "UPDATE " + Constants.EncoderExerciseTable + " SET " +
-				" name = '" + name +
-				"', percentBodyWeight = " + percentBodyWeight +
-				", ressistance = '" + ressistance +
-				"', description = '" + description +
-				"', future1 = '" + speed1RM +
-				"' WHERE name = '" + nameOld + "'" ;
+				" name = \"" + name +
+				"\", percentBodyWeight = " + percentBodyWeight +
+				", ressistance = \"" + ressistance +
+				"\", description = \"" + description +
+				"\", future1 = \"" + speed1RM +
+				"\" WHERE name = \"" + nameOld + "\"" ;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -760,7 +760,7 @@ class SqliteEncoder : Sqlite
 	//conversion from DB 1.02 to 1.03
 	protected internal static void removeEncoderExerciseAngles() {
 		dbcmd.CommandText = "UPDATE " + Constants.EncoderExerciseTable + 
-			" SET future2 = '', future3 = ''";
+			" SET future2 = \"\", future3 = \"\"";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -793,7 +793,7 @@ class SqliteEncoder : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + Constants.Encoder1RMTable +  
 				" (uniqueID, personID, sessionID, exerciseID, load1RM, future1, future2, future3)" +
 				" VALUES (NULL, " + personID + ", " + sessionID + ", " + 
-				exerciseID + ", " + Util.ConvertToPoint(load1RM) + ", '','','')";
+				exerciseID + ", " + Util.ConvertToPoint(load1RM) + ", \"\",\"\",\"\")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

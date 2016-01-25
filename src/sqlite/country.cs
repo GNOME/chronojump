@@ -103,7 +103,7 @@ class SqliteCountry : Sqlite
 	{
 		Sqlite.Open();
 		
-		dbcmd.CommandText = "SELECT uniqueID, name FROM " + Constants.CountryTable + " WHERE continent == '" + continent + "'";
+		dbcmd.CommandText = "SELECT uniqueID, name FROM " + Constants.CountryTable + " WHERE continent == \"" + continent + "\"";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -160,7 +160,7 @@ class SqliteCountry : Sqlite
 
 	//useful to convert DB from 0.57 to 0.58 (strip republic and kingdom stuff)
 	public static bool TableHasOldRepublicStuff() {
-		dbcmd.CommandText = "SELECT name FROM " + Constants.CountryTable + " WHERE code == 'DZA'";
+		dbcmd.CommandText = "SELECT name FROM " + Constants.CountryTable + " WHERE code == \"DZA\"";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

@@ -75,9 +75,9 @@ class SqliteJump : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + tableName +  
 				" (uniqueID, personID, sessionID, type, tv, tc, fall, weight, description, angle, simulated)" +
 				" VALUES (" + uniqueID + ", "
-				+ personID + ", " + sessionID + ", '" + type + "', "
-				+ Util.ConvertToPoint(tv) + ", " + Util.ConvertToPoint(tc) + ", " + Util.ConvertToPoint(fall) + ", '" 
-				+ Util.ConvertToPoint(weight) + "', '" + description + "', "
+				+ personID + ", " + sessionID + ", \"" + type + "\", "
+				+ Util.ConvertToPoint(tv) + ", " + Util.ConvertToPoint(tc) + ", " + Util.ConvertToPoint(fall) + ", \"" 
+				+ Util.ConvertToPoint(weight) + "\", \"" + description + "\", "
 				+ Util.ConvertToPoint(angle) + ", " + simulated +")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -119,7 +119,7 @@ class SqliteJump : Sqlite
 
 		string filterTypeString = "";
 		if(filterType != "")
-			filterTypeString = " AND jump.type == '" + filterType + "' ";
+			filterTypeString = " AND jump.type == \"" + filterType + "\" ";
 
 		dbcmd.CommandText = "SELECT " + tp + ".name, jump.*, " + tps + ".weight " +
 			" FROM " + tp + ", jump, " + tps + 
@@ -206,13 +206,13 @@ class SqliteJump : Sqlite
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE jump SET personID = " + personID + 
-			", type = '" + type +
-			"', tv = " + Util.ConvertToPoint(tv) +
+			", type = \"" + type +
+			"\", tv = " + Util.ConvertToPoint(tv) +
 			", tc = " + Util.ConvertToPoint(tc) +
 			", fall = " + Util.ConvertToPoint(fall) +
 			", weight = " + Util.ConvertToPoint(weight) + 
-			", description = '" + description +
-			"', angle = " + Util.ConvertToPoint(angle) +
+			", description = \"" + description +
+			"\", angle = " + Util.ConvertToPoint(angle) +
 			" WHERE uniqueID == " + jumpID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -232,8 +232,8 @@ class SqliteJump : Sqlite
 	public static void UpdateDescription(string tableName, int uniqueID, string description)
 	{
 		Sqlite.Open();
-		dbcmd.CommandText = "UPDATE " + tableName + " SET description = '" + description + 
-			"' WHERE uniqueID == " + uniqueID ;
+		dbcmd.CommandText = "UPDATE " + tableName + " SET description = \"" + description + 
+			"\" WHERE uniqueID == " + uniqueID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
@@ -242,15 +242,15 @@ class SqliteJump : Sqlite
 	//onle for change SJ+ CMJ+ and ABK+ to SJl...
 	public static void ChangeWeightToL()
 	{
-		dbcmd.CommandText = "UPDATE jump SET type = 'SJl' WHERE type == 'SJ+'";
+		dbcmd.CommandText = "UPDATE jump SET type = \"SJl\" WHERE type == \"SJ+\"";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		dbcmd.CommandText = "UPDATE jump SET type = 'CMJl' WHERE type == 'CMJ+'";
+		dbcmd.CommandText = "UPDATE jump SET type = \"CMJl\" WHERE type == \"CMJ+\"";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
-		dbcmd.CommandText = "UPDATE jump SET type = 'ABKl' WHERE type == 'ABK+'";
+		dbcmd.CommandText = "UPDATE jump SET type = \"ABKl\" WHERE type == \"ABK+\"";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}

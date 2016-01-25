@@ -61,7 +61,7 @@ class SqliteEvent : Sqlite
 		}
 		mycmd.CommandText = "INSERT INTO graphLinkTable" + 
 				"(uniqueID, tableName, eventName, graphFileName, other1, other2)" +
-				" VALUES (NULL, '" + tableName + "', '" + eventName + "', '" + graphFileName + "', '', '')" ;
+				" VALUES (NULL, \"" + tableName + "\", \"" + eventName + "\", \"" + graphFileName + "\", \"\", \"\")" ;
 		LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();
 		//int myLast = dbcon.LastInsertRowId;
@@ -81,7 +81,7 @@ class SqliteEvent : Sqlite
 	{
 		Sqlite.Open();
 
-		dbcmd.CommandText = "SELECT graphFileName FROM graphLinkTable WHERE tableName == '" + tableName + "' AND eventName =='" + eventName + "'";
+		dbcmd.CommandText = "SELECT graphFileName FROM graphLinkTable WHERE tableName == \"" + tableName + "\" AND eventName ==\"" + eventName + "\"";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

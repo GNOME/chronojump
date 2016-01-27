@@ -1439,3 +1439,47 @@ public class EncoderConfiguration {
 		return code + str_d + str_D + str_anglePush + str_angleWeight + str_inertia + str_gearedDown;
 	}
 }
+
+public class EncoderAnalyzeInstant 
+{
+	public List<double> speed;
+	public List<double> accel;
+	public List<double> force;
+	public List<double> power;
+
+	public EncoderAnalyzeInstant() {
+		speed = new List<double>(); 
+		accel = new List<double>(); 
+		force = new List<double>(); 
+		power = new List<double>();
+	}
+	
+	public void ReadFile(string filename)
+	{
+		List<string> lines = Util.ReadFileAsStringList(filename);
+		if(lines == null)
+			return;
+		if(lines.Count <= 1) //return if there's only the header
+			return;
+
+		bool headerLine = true;
+		foreach(string l in lines) {
+			if(headerLine) {
+				headerLine = false;
+				continue;
+			}
+
+			string [] lsplit = l.Split(new char[] {','});
+			speed.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[1])));
+			accel.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[2])));
+			force.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[3])));
+			power.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[4])));
+		}
+	}
+
+	public void PrintDebug() {
+		LogB.Information("Printing speed");
+		foreach(double s in speed)
+			LogB.Debug(s.ToString());
+	}
+}

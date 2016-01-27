@@ -2760,6 +2760,20 @@ doProcess <- function(options)
 			      (op$AnalysisVariables[3] == "Force"), #show force
 			      (op$AnalysisVariables[4] == "Power")  #show power
 			      )
+		
+
+			#record array of data	
+			write("going to create array of data", stderr())
+			kn <- kinematicsF(displacement[curves[op$Jump,1]:curves[op$Jump,2]],
+					  repOp,
+					  SmoothingsEC[smoothingPos], op$SmoothingOneC, g, isPropulsive)
+
+			df=data.frame(cbind(kn$speedy, kn$accely, kn$force, kn$power))
+			colnames(df)=c("speed","acceleration","force","power")
+
+			write("going to write it to file", stderr())
+			write.csv(df, op$SpecialData, quote=FALSE)
+			write("done!", stderr())
 		}
 	}
 

@@ -5611,6 +5611,14 @@ public partial class ChronoJumpWindow
 						createTreeViewEncoderAnalyze(contents);
 					}
 				}
+
+				if(encoderAnalysis == "single") {
+					EncoderAnalyzeInstant eai = new EncoderAnalyzeInstant();
+					eai.ReadFile(
+							UtilEncoder.GetEncoderSpecialDataTempFileName());
+					//eai.PrintDebug();
+				}
+
 			}
 		
 			button_encoder_analyze.Visible = true;

@@ -33,7 +33,7 @@ assignOptions <- function(options) {
 		    OutputGraph		= options[2],
 		    OutputData1		= options[3],
 		    OutputData2		= options[4], #currently used to display processing feedback
-		    SpecialData		= options[5], #currently used to write 1RM. variable;result (eg. "1RM;82.78")
+		    SpecialData		= options[5], #currently used to write 1RM. variable;result (eg. "1RM;82.78"). Or to write data on op$Analysis=="single" speed, accel, force, power for each ms
 		    MinHeight		= as.numeric(options[6])*10, #from cm to mm
 		    ExercisePercentBodyWeight = as.numeric(options[7]),        #was isJump=as.logical(options[6])
 		    MassBody		= as.numeric(options[8]),
@@ -395,23 +395,25 @@ reduceCurveBySpeed <- function(eccon, row, startT, startH, displacement, smoothi
 }
 
 #go here with every single curve
-#eccon="c" one time each curve
-#eccon="ec" one time each curve
-#eccon="ecS" means ecSeparated. two times each curve: one for "e", one for "c"
-kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWeight,
-			encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
-			smoothingOneEC, smoothingOneC, g, eccon, isPropulsive)
+#repOp has the options for this repetition
+#repOp$eccon="c" one time each curve
+#repOp$eccon="ec" one time each curve
+#repOp$eccon="ecS" means ecSeparated. two times each curve: one for "e", one for "c"
+#kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWeight,
+#			encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
+#			smoothingOneEC, smoothingOneC, g, eccon, isPropulsive)
+kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, isPropulsive)
 {
 	print("at kinematicsF")
 
 	smoothing = 0
-	if(eccon == "c" || eccon == "e")
+	if(repOp$eccon == "c" || repOp$eccon == "e")
 		smoothing = smoothingOneC
 	else
 		smoothing = smoothingOneEC
 	
 
-	print(c("eccon, smoothing:",eccon, smoothing))
+	print(c("repOp$eccon, smoothing:", repOp$eccon, smoothing))
 
 	speed <- getSpeedSafe(displacement, smoothing)
 	
@@ -429,20 +431,20 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 	concentric = 0
 	propulsiveEnd = 0
 
-	#print(c("at kinematicsF eccon: ", eccon, " length(displacement): ",length(displacement)))
+	#print(c("at kinematicsF eccon: ", repOp$eccon, " length(displacement): ",length(displacement)))
 
 	#search propulsiveEnd
 	if(isPropulsive) {
-		if(eccon=="c") {
+		if(repOp$eccon=="c") {
 			concentric=1:length(displacement)
 			
 			maxSpeedT <- min(which(speed$y == max(speed$y)))
 			maxSpeedTInConcentric = maxSpeedT
 			
-			propulsiveEnd = findPropulsiveEnd(accel$y,concentric,maxSpeedTInConcentric,
-							  encoderConfigurationName, anglePush, angleWeight, 
-							  massBody, massExtra, exercisePercentBodyWeight)
-		} else if(eccon=="ec") {
+			propulsiveEnd = findPropulsiveEnd(accel$y, concentric, maxSpeedTInConcentric,
+							  repOp$econfName, repOp$anglePush, repOp$angleWeight, 
+							  repOp$massBody, repOp$massExtra, repOp$exPercentBodyWeight)
+		} else if(repOp$eccon=="ec") {
 			phases=findECPhases(displacement,speed$y)
 			eccentric = phases$eccentric
 			isometric = phases$isometric
@@ -456,21 +458,22 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 				maxSpeedTInConcentric = maxSpeedT - (length(eccentric) + length(isometric))
 
 				propulsiveEnd = length(eccentric) + length(isometric) + 
-						findPropulsiveEnd(accel$y,concentric,maxSpeedTInConcentric, 
-								  encoderConfigurationName, anglePush, angleWeight, 
-								  massBody, massExtra, exercisePercentBodyWeight)
+						findPropulsiveEnd(accel$y, concentric, maxSpeedTInConcentric, 
+								  repOp$econfName, repOp$anglePush, repOp$angleWeight, 
+								  repOp$massBody, repOp$massExtra, repOp$exPercentBodyWeight)
 				#print(c("lengths: ", length(eccentric), length(isometric), findPropulsiveEnd(accel$y,concentric), propulsiveEnd))
 			}
-		} else if(eccon=="e") {
-			#not eccon="e" because not propulsive calculations on eccentric
+		} else if(repOp$eccon=="e") {
+			#not repOp$eccon="e" because not propulsive calculations on eccentric
 		} else { #ecS
 			#print("WARNING ECS\n\n\n\n\n")
 		}
 	}
 
-	dynamics = getDynamics(encoderConfigurationName,
-			speed$y, accel$y, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
-			displacement, diameter, inertiaMomentum, smoothing)
+	dynamics = getDynamics(repOp$econfName,
+			speed$y, accel$y, repOp$massBody, repOp$massExtra, repOp$exPercentBodyWeight, 
+			repOp$gearedDown, repOp$anglePush, repOp$angleWeight,
+			displacement, repOp$diameter, repOp$inertiaM, smoothing)
 	mass = dynamics$mass
 	force = dynamics$force
 	power = dynamics$power
@@ -480,12 +483,12 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 
 
 	#on "e", "ec", start on ground
-	if(! isInertial(encoderConfigurationName) && (eccon == "e" || eccon == "ec")) {
+	if(! isInertial(repOp$econfName) && (repOp$eccon == "e" || repOp$eccon == "ec")) {
 		#if eccentric is undefined, find it
 		if(eccentric == 0) {
-			if(eccon == "e")
+			if(repOp$eccon == "e")
 				eccentric = 1:length(displacement)
-			else {  #(eccon=="ec")
+			else {  #(repOp$eccon=="ec")
 				phases=findECPhases(displacement,speed$y)
 				eccentric = phases$eccentric
 			}
@@ -498,14 +501,14 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 		}
 	}
 
-	if( isPropulsive && ( eccon== "c" || eccon == "ec" ) )
+	if( isPropulsive && ( repOp$eccon== "c" || repOp$eccon == "ec" ) )
 		end <- propulsiveEnd
 
 	#as acceleration can oscillate, start at the eccentric part where there are not negative values
-	#print(c(inertiaMomentum, eccon, length(eccentric), min(accel$y[eccentric])))
-	if(inertiaMomentum > 0 && (eccon == "e" || eccon == "ec")) 
+	#print(c(inertiaMomentum, repOp$eccon, length(eccentric), min(accel$y[eccentric])))
+	if(repOp$inertiaM > 0 && (repOp$eccon == "e" || repOp$eccon == "ec")) 
 	{
-		if(eccon=="e") {
+		if(repOp$eccon=="e") {
 			eccentric=1:length(displacement)
 		}
 		

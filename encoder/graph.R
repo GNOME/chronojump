@@ -628,7 +628,48 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 	return(smoothings)
 }
 
-
+#if single file all repetitions have Roptions, but if not, each one has different values
+assignRepOptions <- function(
+			      singleFile, curves, i,
+			      massBody, massExtra, eccon, exPercentBodyWeight, 
+			      econfName, diameter, diameterExt, 
+			      anglePush, angleWeight, inertiaM, gearedDown,
+			      laterality) 
+{
+	if(singleFile) {
+		return(list(
+			      massBody = massBody, 
+			      massExtra = massExtra, 
+			      eccon = eccon, 
+			      exPercentBodyWeight = exPercentBodyWeight, 
+			      
+			      econfName = econfName, 
+			      diameter = diameter, 
+			      diameterExt = diameterExt, 
+			      anglePush = anglePush, 
+			      angleWeight = angleWeight, 
+			      inertiaM = inertiaM, 
+			      gearedDown = gearedDown,
+			      laterality = laterality
+			    ))
+	} else {
+		return(list(
+			      massBody = curves[i,5], 
+			      massExtra = curves[i,6], 
+			      eccon = curves[i,8], 
+			      exPercentBodyWeight = curves[i,10], 
+			      
+			      econfName = curves[i,11], 
+			      diameter = curves[i,12], 
+			      diameterExt = curves[i,13], 
+			      anglePush = curves[i,14], 
+			      angleWeight = curves[i,15], 
+			      inertiaM = curves[i,16], 
+			      gearedDown = curves[i,17],
+			      laterality = curves[i,18] 
+			    ))
+	}
+}
 
 
 kinematicRanges <- function(singleFile, displacement, curves,
@@ -638,41 +679,22 @@ kinematicRanges <- function(singleFile, displacement, curves,
 
 	n=length(curves[,1])
 	maxSpeedy=0; maxAccely=0; maxForce=0; maxPower=0
-	myEccon = eccon
 
 	for(i in 1:n) { 
-		myMassBody = massBody
-		myMassExtra = massExtra
-		myExPercentBodyWeight = exercisePercentBodyWeight
-			
-		#encoderConfiguration
-		myEncoderConfigurationName = encoderConfigurationName
-		myDiameter = diameter
-		myDiameterExt = diameterExt
-		myAnglePush = anglePush
-		myAngleWeight = angleWeight
-		myInertiaMomentum = inertiaMomentum
-		myGearedDown = gearedDown
-		if(! singleFile) {
-			myMassBody = curves[i,5]
-			myMassExtra = curves[i,6]
-			myEccon = curves[i,8]
-			myExPercentBodyWeight = curves[i,10]
-
-			#encoderConfiguration
-			myEncoderConfigurationName = curves[i,11]
-			myDiameter = curves[i,12]
-			myDiameterExt = curves[i,13]
-			myAnglePush = curves[i,14]
-			myAngleWeight = curves[i,15]
-			myInertiaMomentum = curves[i,16]
-			myGearedDown = curves[i,17]
-		}
+		repOp <- assignRepOptions(
+					       singleFile, curves, i,
+					       massBody, massExtra, eccon, exercisePercentBodyWeight, 
+					       encoderConfigurationName, diameter, diameterExt, 
+					       anglePush, angleWeight, inertiaMomentum, gearedDown,
+					       "") #laterality 
 	
-		kn=kinematicsF(displacement[curves[i,1]:curves[i,2]],
-			       myMassBody, myMassExtra, myExPercentBodyWeight,
-			       myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
-			       smoothingsEC[i], smoothingOneC, g, myEccon, isPropulsive)
+		kn <- kinematicsF(displacement[curves[i,1]:curves[i,2]],
+			       #myMassBody, myMassExtra, myExPercentBodyWeight,
+			       #myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
+			       repOp,
+			       
+			       #smoothingsEC[i], smoothingOneC, g, myEccon, isPropulsive)
+			       smoothingsEC[i], smoothingOneC, g, isPropulsive)
 
 		if(max(abs(kn$speedy)) > maxSpeedy)
 			maxSpeedy = max(abs(kn$speedy))
@@ -2695,44 +2717,24 @@ doProcess <- function(options)
 
 	if(op$Analysis=="single") {
 		if(op$Jump>0) {
-			myMassBody = op$MassBody
-			myMassExtra = op$MassExtra
-			myEccon = op$Eccon
 			myStart = curves[op$Jump,1]
 			myEnd = curves[op$Jump,2]
-			myExPercentBodyWeight = op$ExercisePercentBodyWeight
 			
-			#encoderConfiguration
-			myEncoderConfigurationName = op$EncoderConfigurationName
-			myDiameter = op$diameter
-			myDiameterExt = op$diameterExt
-			myAnglePush = op$anglePush
-			myAngleWeight = op$angleWeight
-			myInertiaMomentum = op$inertiaMomentum
-			myGearedDown = op$gearedDown
-			myLaterality = ""
-			if(! singleFile) {
-				myMassBody = curves[op$Jump,5]
-				myMassExtra = curves[op$Jump,6]
-				myEccon = curves[op$Jump,8]
-				myExPercentBodyWeight = curves[op$Jump,10]
+			repOp <- assignRepOptions(
+						  singleFile, curves, op$Jump,
+						  op$MassBody, op$MassExtra, op$Eccon, op$ExercisePercentBodyWeight, 
+						  op$EncoderConfigurationName, op$diameter, op$diameterExt, 
+						  op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
+						  "") #laterality 
 
-				#encoderConfiguration
-				myEncoderConfigurationName = curves[op$Jump,11]
-				myDiameter = curves[op$Jump,12]
-				myDiameterExt = curves[op$Jump,13]
-				myAnglePush = curves[op$Jump,14]
-				myAngleWeight = curves[op$Jump,15]
-				myInertiaMomentum = curves[op$Jump,16]
-				myGearedDown = curves[op$Jump,17]
-				myLaterality = curves[op$Jump,18]
-			}
-			myCurveStr = paste(translateToPrint("Repetition"),"=", op$Jump, " ", myLaterality, " ", myMassExtra, "Kg", sep="")
+
+
+			myCurveStr = paste(translateToPrint("Repetition"),"=", op$Jump, " ", repOp$laterality, " ", repOp$massExtra, "Kg", sep="")
 		
 			#don't do this, because on inertial machines string will be rolled to machine and not connected to the body
 			#if(inertialType == "li") {
 			#	displacement[myStart:myEnd] = fixRawdataLI(displacement[myStart:myEnd])
-			#	myEccon="c"
+			#	repOp$eccon="c"
 			#}
 
 			#find which SmoothingsEC is needed
@@ -2741,10 +2743,10 @@ doProcess <- function(options)
 				smoothingPos <- which(rownames(curves) == op$Jump)
 		
 			
-			paint(displacement, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
-			      1,curves[op$Jump,3],SmoothingsEC[smoothingPos],op$SmoothingOneC,myMassBody,myMassExtra,
-			      myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
-			      paste(op$Title, " ", op$Analysis, " ", myEccon, ". ", myCurveStr, sep=""),
+			paint(displacement, repOp$eccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
+			      1,curves[op$Jump,3],SmoothingsEC[smoothingPos],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
+			      repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
+			      paste(op$Title, " ", op$Analysis, " ", repOp$eccon, ". ", myCurveStr, sep=""),
 			      "", #subtitle
 			      TRUE,	#draw
 			      op$Width,
@@ -2752,12 +2754,12 @@ doProcess <- function(options)
 			      FALSE,	#marShrink
 			      TRUE,	#showAxes
 			      TRUE,	#legend
-			      op$Analysis, isPropulsive, inertialType, myExPercentBodyWeight,
+			      op$Analysis, isPropulsive, inertialType, repOp$exPercentBodyWeight,
 			      (op$AnalysisVariables[1] == "Speed"), #show speed
 			      (op$AnalysisVariables[2] == "Accel"), #show accel
 			      (op$AnalysisVariables[3] == "Force"), #show force
 			      (op$AnalysisVariables[4] == "Power")  #show power
-			      )	
+			      )
 		}
 	}
 
@@ -2770,51 +2772,28 @@ doProcess <- function(options)
 		#if !singleFile kinematicRanges takes the 'curves' values
 		knRanges=kinematicRanges(singleFile, displacement, curves, 
 					 op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, 
-			    		 op$EncoderConfigurationName,op$diameter,op$diameterExt,op$anglePush,op$angleWeight,op$inertiaMomentum,op$gearedDown,
+			    		 op$EncoderConfigurationName,op$diameter,op$diameterExt,
+					 op$anglePush,op$angleWeight,op$inertiaMomentum,op$gearedDown,
 					 SmoothingsEC, op$SmoothingOneC, 
 					 g, op$Eccon, isPropulsive)
 
 		for(i in 1:n) {
-			myMassBody = op$MassBody
-			myMassExtra = op$MassExtra
-			myEccon = op$Eccon
-			myExPercentBodyWeight = op$ExercisePercentBodyWeight
-			
-			#encoderConfiguration
-			myEncoderConfigurationName = op$EncoderConfigurationName
-			myDiameter = op$diameter
-			myDiameterExt = op$diameterExt
-			myAnglePush = op$anglePush
-			myAngleWeight = op$angleWeight
-			myInertiaMomentum = op$inertiaMomentum
-			myGearedDown = op$gearedDown
-			myLaterality = ""
-			if(! singleFile) {
-				myMassBody = curves[i,5]
-				myMassExtra = curves[i,6]
-				myEccon = curves[i,8]
-				myExPercentBodyWeight = curves[i,10]
-
-				#encoderConfiguration
-				myEncoderConfigurationName = curves[i,11]
-				myDiameter = curves[i,12]
-				myDiameterExt = curves[i,13]
-				myAnglePush = curves[i,14]
-				myAngleWeight = curves[i,15]
-				myInertiaMomentum = curves[i,16]
-				myGearedDown = curves[i,17]
-				myLaterality = curves[i,18]
-			}
+			repOp <- assignRepOptions(
+						  singleFile, curves, i,
+						  op$MassBody, op$MassExtra, op$Eccon, op$ExercisePercentBodyWeight, 
+						  op$EncoderConfigurationName, op$diameter, op$diameterExt, 
+						  op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
+						  "") #laterality 
 
 			myTitle = ""
 			if(i == 1)
 				myTitle = paste(op$Title)
 			
-			mySubtitle = paste("curve=", rownames(curves)[i], ", ", myLaterality, " ", myMassExtra, "Kg", sep="")
+			mySubtitle = paste("curve=", rownames(curves)[i], ", ", repOp$laterality, " ", repOp$massExtra, "Kg", sep="")
 
-			paint(displacement, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
-			      1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,myMassBody,myMassExtra,
-			      myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
+			paint(displacement, repOp$eccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
+			      1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
+			      repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
 			      myTitle,mySubtitle,
 			      TRUE,	#draw
 			      op$Width,
@@ -2822,7 +2801,7 @@ doProcess <- function(options)
 			      TRUE,	#marShrink
 			      FALSE,	#showAxes
 			      FALSE,	#legend
-			      op$Analysis, isPropulsive, inertialType, myExPercentBodyWeight,
+			      op$Analysis, isPropulsive, inertialType, repOp$exPercentBodyWeight,
 			      (op$AnalysisVariables[1] == "Speed"), #show speed
 			      (op$AnalysisVariables[2] == "Accel"), #show accel
 			      (op$AnalysisVariables[3] == "Force"), #show force
@@ -2887,49 +2866,27 @@ doProcess <- function(options)
 		discardedCurves = NULL
 		discardingCurves = FALSE
 		for(i in 1:n) { 
-			myMassBody = op$MassBody
-			myMassExtra = op$MassExtra
-			myEccon = op$Eccon
-			myExPercentBodyWeight = op$ExercisePercentBodyWeight
-			
-			#encoderConfiguration
-			myEncoderConfigurationName = op$EncoderConfigurationName
-			myDiameter = op$diameter
-			myDiameterExt = op$diameterExt
-			myAnglePush = op$anglePush
-			myAngleWeight = op$angleWeight
-			myInertiaMomentum = op$inertiaMomentum
-			myGearedDown = op$gearedDown
-			myLaterality = ""
+			repOp <- assignRepOptions(
+						  singleFile, curves, i,
+						  op$MassBody, op$MassExtra, op$Eccon, op$ExercisePercentBodyWeight, 
+						  op$EncoderConfigurationName, op$diameter, op$diameterExt, 
+						  op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
+						  "") #laterality 
+
 			if(! singleFile) {
-				myMassBody = curves[i,5]
-				myMassExtra = curves[i,6]
-				myEccon = curves[i,8]
-				myExPercentBodyWeight = curves[i,10]
-
-				#encoderConfiguration
-				myEncoderConfigurationName = curves[i,11]
-				myDiameter = curves[i,12]
-				myDiameterExt = curves[i,13]
-				myAnglePush = curves[i,14]
-				myAngleWeight = curves[i,15]
-				myInertiaMomentum = curves[i,16]
-				myGearedDown = curves[i,17]
-				myLaterality = curves[i,18]
-
 				#only use concentric data	
-				if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise") & myEccon == "e") {
+				if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise") & repOp$eccon == "e") {
 					discardedCurves = c(i,discardedCurves)
 					discardingCurves = TRUE
 					next;
 				}
 			} else {
-				if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise") & op$Eccon == "ecS" & i%%2 == 1) {
+				if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise") & repOp$eccon == "ecS" & i%%2 == 1) {
 					discardedCurves = c(i,discardedCurves)
 					discardingCurves = TRUE
 					next;
 				}
-				else if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise") & op$Eccon == "ceS" & i%%2 == 0) {
+				else if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise") & repOp$eccon == "ceS" & i%%2 == 0) {
 					discardedCurves = c(i,discardedCurves)
 					discardingCurves = TRUE
 					next;
@@ -2939,31 +2896,32 @@ doProcess <- function(options)
 			#print(c("i, curves[i,1], curves[i,2]", i, curves[i,1],curves[i,2]))
 
 			#if ecS go kinematics first time with "e" and second with "c"
-			myEcconKn = myEccon
-			if(myEccon=="ecS") {
+			repOpSeparated = repOp
+			if(repOp$eccon=="ecS") {
 			       if(i%%2 == 1)
-				       myEcconKn = "e"
+				       repOpSeparated$eccon = "e"
 			       else
-				       myEcconKn = "c"
+				       repOpSeparated$eccon = "c"
 			}
-			else if(op$Eccon=="ceS") {
+			else if(repOp$eccon=="ceS") {
 			       if(i%%2 == 1)
-				       myEcconKn = "c"
+				       repOpSeparated$eccon = "c"
 			       else
-				       myEcconKn = "e"
+				       repOpSeparated$eccon = "e"
 			}
 			print("start integer before kinematicsF __________")
 			print(c(curves[i,1], displacement[curves[i,1]]))
 
 			paf = rbind(paf,(pafGenerate(
-						     myEccon,
+						     repOp$eccon,
 						     kinematicsF(displacement[curves[i,1]:curves[i,2]], 
-								 myMassBody, myMassExtra, myExPercentBodyWeight,
-								 myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,
-								 myInertiaMomentum,myGearedDown,
+								 #myMassBody, myMassExtra, myExPercentBodyWeight,
+								 #myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,
+								 #myInertiaMomentum,myGearedDown,
+								 repOpSeparated,
 								 SmoothingsEC[i],op$SmoothingOneC, 
-								 g, myEcconKn, isPropulsive),
-						     myMassBody, myMassExtra, myLaterality, myInertiaMomentum
+								 g, isPropulsive),
+						     repOp$massBody, repOp$massExtra, repOp$laterality, repOp$inertiaM
 						     )))
 		}
 
@@ -3225,6 +3183,7 @@ doProcess <- function(options)
 		namesNums=paste(namesNums, units)
 
 		for(i in 1:curvesNum) { 
+			#exportCSV exports a signal, for this reason op$MassBody, op$MassExtra are ok. Don't need to check parameters of different signals
 			kn = kinematicsF (displacement[curves[i,1]:curves[i,2]], 
 					  op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
 					  op$EncoderConfigurationName,op$diameter,op$diameterExt,op$anglePush,op$angleWeight,op$inertiaMomentum,op$gearedDown,

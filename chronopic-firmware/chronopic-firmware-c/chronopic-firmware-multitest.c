@@ -585,7 +585,16 @@ static void asm_ledon()
     MOVWF PORTC
     __endasm;
 }
-			
+		
+//2016: right now seems to be a delay of 10ms.
+//320*61 should be 1000 ms, but we found 1010 passed
+//640*61 should be 2000 ms, but we found 2020 passed
+//this delay can be caused by the num of operations done in the firmware
+//Initial correction all this should fix it. Need testing:
+//.5 seconds: from: 160*61 to: 159*61 
+//1 second: from: 320*61 to: 319*61 
+//2 second: from: 640*61 to: 638*61
+//BUT maybe counting goes backwards and numbers should be different 
 static void animation_light_convert(char sentData)
 {
 	switch(sentData) {

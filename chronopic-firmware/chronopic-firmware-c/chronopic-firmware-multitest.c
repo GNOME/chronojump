@@ -1,5 +1,5 @@
 /*
- * Version 2015.x
+ * Version 2016.x
  *
   2005 Original Firmware from Juan González <juan@iearobotics.com>
   2010 Translated comments to english by Xavi de Blas <xaviblas@gmail.com>
@@ -9,6 +9,7 @@
   	implementation of new outputs
 	anticipation in an animated "led-wheel", using pauses on Timer2
 	fast blinking led (flickr)
+  2016 Ferran Suarez & Xavier de Blas: Validation of led-wheel
 
 
  *
@@ -147,7 +148,8 @@ unsigned int timer2Times;
 //then max value will be 255 == 0,8 seconds
 //min 1 == 0.003125
 //TODO: maybe n_times have to be done 4 times to have reasonable values (between 0.0125 and 3.2 seconds)
-unsigned int animation_tick = 61; 
+//2016 - With 1000 fps camera validation, found animation_tick=63 the best value
+unsigned int animation_tick = 63;
 unsigned int animation_tick_n_times = 160;
 
 unsigned char animation_light_should_run = 0; //0 until and 'l' is sent from Chronojump
@@ -421,9 +423,6 @@ void timer2_delay_long(unsigned char t2ini)
 
 void timer2_start() {
 	TMR2=animation_tick;
-	//TODO: we are counting 61 (50ms) 160 times.
-	//It will be much better to count a higher value, less times
-	//need to check what's the maximum value allowed
 
 	//-- Flag de interrupcion a cero
 	TMR2IF=0;
@@ -586,15 +585,6 @@ static void asm_ledon()
     __endasm;
 }
 		
-//2016: right now seems to be a delay of 10ms.
-//320*61 should be 1000 ms, but we found 1010 passed
-//640*61 should be 2000 ms, but we found 2020 passed
-//this delay can be caused by the num of operations done in the firmware
-//Initial correction all this should fix it. Need testing:
-//.5 seconds: from: 160*61 to: 159*61 
-//1 second: from: 320*61 to: 319*61 
-//2 second: from: 640*61 to: 638*61
-//BUT maybe counting goes backwards and numbers should be different 
 static void animation_light_convert(char sentData)
 {
 	switch(sentData) {
@@ -614,7 +604,7 @@ static void animation_light_convert(char sentData)
 			animation_tick_n_times = 80;
 			break;
 		case 5:
-			animation_tick_n_times = 160; //160[default] * 61 = ,5 seconds
+			animation_tick_n_times = 160; //160[default] * 63 = ,5 seconds
 			break;
 		case 6:
 			animation_tick_n_times = 320; //1 second

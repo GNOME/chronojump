@@ -1,3 +1,11 @@
+2016 (debian)
+-----
+apt-get install gputils
+dpkg -i sdcc-libraries_2.8.0.dfsg-1_all.deb sdcc_2.8.0.dfsg-1_amd64.deb
+
+
+
+
 sdcc -mpic14 -p16f876a -Wl-m -Wl-ainhx8m chronopic-firmware-4MHz.c
 sdcc -mpic14 -p16f876a -Wl-m -Wl-ainhx8m chronopic-firmware-20MHz.c
 

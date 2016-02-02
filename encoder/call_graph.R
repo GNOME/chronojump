@@ -3,7 +3,7 @@
 #   Copyright (C) 2014-2015  	Xavier de Blas <xaviblas@gmail.com> 
 # 
 
-#Is A LOT faster to call this file from C#, and this file will do a source(scriptGraphR)
+#Is A LOT faster to call this file from C#, and this file will do a source("graph.R")
 #than calling that file directly
 
 
@@ -19,24 +19,16 @@ options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 #this code should be the same as utilEncoder.cs RunEncoderGraphRDotNet
 #---------------------------------------------------------------------
 
-OutputData2 <- options[4] #currently used to display processing feedback
-SpecialData <- options[5]
+FeedbackFileBase <- paste(options[5], "/chronojump-encoder-status-", sep="")
+SpecialData <- paste(options[5], "/chronojump-special-data.txt", sep="")
 OperatingSystem <- options[27]
 EncoderConfigurationName <- ""
 
-English = unlist(strsplit(options[30], "\\;"))
-Translated = unlist(strsplit(options[31], "\\;"))
+English = unlist(strsplit(options[28], "\\;"))
+Translated = unlist(strsplit(options[29], "\\;"))
 
-#TODO: now that there's a start and continue of each process from R,
-#instead of pass and script from R,
-#pass the directory
-#and R will source() the needed files (maybe all the first time)
-#and it will not do again when the process is continued (see encoderRProc.cs)
+source(paste(options[4], "/util.R", sep=""))
 
-scriptUtilR = options[28]
-source(scriptUtilR)
-
-scriptGraphR = options[32]
 
 #Note:
 #We just touch this files because in the past we created a unique status file from here
@@ -44,24 +36,18 @@ scriptGraphR = options[32]
 #but we read it at the same time from chronojump and this produces some crashes on windows
 #now we just touch here, and in chronojump we just read if exist
 
-#write(paste("(1/5)",translateToPrint("Starting R")), OutputData2)
-print("Creating (OutputData2)1.txt with touch method...")
-file.create(paste(OutputData2,"1.txt",sep=""))
-print("Created")
+print("Creating (FeedbackFileBase)1.txt with touch method...")
+file.create(paste(FeedbackFileBase,"1.txt",sep=""))
 
-source(scriptGraphR)
+source(paste(options[4], "/graph.R", sep=""))
 
-#write(paste("(2/5)",translateToPrint("Loading libraries")), OutputData2)
-print("Creating (OutputData2)2.txt with touch method...")
-file.create(paste(OutputData2,"2.txt",sep=""))
-print("Created")
+print("Creating (FeedbackFileBase)2.txt with touch method...")
+file.create(paste(FeedbackFileBase,"2.txt",sep=""))
 
 loadLibraries(OperatingSystem)
 	
-#write(paste("(3/5)",translateToPrint("Starting process")), OutputData2)
-print("Creating (OutputData2)3.txt with touch method...")
-file.create(paste(OutputData2,"3.txt",sep=""))
-print("Created")
+print("Creating (FeedbackFileBase)3.txt with touch method...")
+file.create(paste(FeedbackFileBase,"3.txt",sep=""))
 	
 #open stdin connection
 f <- file("stdin")

@@ -14,9 +14,7 @@ optionsFile <- args[1]
 
 options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 
-
-scriptUtilR = options[28]
-source(scriptUtilR)
+source(paste(options[4], "/util.R", sep=""))
 
 scriptCaptureR = options[1]
 

@@ -12,7 +12,7 @@ getMovement <- function(
         # If the encoder and the rope are attached to the same point diameterRope=diameterEncoder) 
 {
         # On LINEAR encoder movement = R * (signal/200) * (2*pi) = signal * D * pi / 200
-        # We asume D / (200 / pi) = D / d ----> d= 200 / pi
+        # We asume D / (200 / pi) = D / d ----> d = 200 / pi
         
         # It should be assignet in the interface if encoderType = "LINEAR"
         if(encoderType == "LINEAR"){

@@ -67,11 +67,17 @@ calcule <- function(displacement, op, curveNum)
 
 	if(debug)
 		write("At calcule calling kinematics", stderr())
-	kinematicsResult <- kinematicsF(displacement, 
-		    op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
-		    op$EncoderConfigurationName, op$diameter, op$diameterExt, op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
-		    SmoothingsEC, op$SmoothingOneC, 
-		    g, myEcconKn, isPropulsive)
+	
+
+	kinematicsResult <- kinematicsF(
+				displacement, 
+				assignRepOptions(
+						 TRUE, NULL, NULL,
+						 op$MassBody, op$MassExtra, myEcconKn, op$ExercisePercentBodyWeight,
+						 op$EncoderConfigurationName, op$diameter, op$diameterExt, 
+						 op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
+						 ""), #laterality 
+				SmoothingsEC, op$SmoothingOneC, g, isPropulsive)
 
 	paf = data.frame()
 	myLaterality = "" #TODO

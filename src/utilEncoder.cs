@@ -117,6 +117,15 @@ public class UtilEncoder
 	public static string GetEncoderSpecialDataTempFileName() {
 		return Path.Combine(Path.GetTempPath(), Constants.EncoderSpecialDataTemp);
 	}
+	public static string GetEncoderTempPathWithoutLastSep() {
+		string s = Path.GetTempPath(); //is just temp path
+
+		//but send it without the final '\' or '/' (if found)
+		if(s.EndsWith("/") || s.EndsWith("\\"))
+			s = s.Substring(0, s.Length -1);
+
+		return s;
+	}
 
 
 //	public static void MoveTempToEncoderData(int sessionID, int uniqueID) 
@@ -207,6 +216,17 @@ public class UtilEncoder
 				Util.GetDataDir(), "encoder", Constants.EncoderScriptUtilR);
 	}
 	
+	public static string GetEncoderScriptsPathWithoutLastSep() {
+		string s = System.IO.Path.Combine(Util.GetDataDir(), "encoder");
+
+		//but send it without the final '\' or '/' (if found)
+		if(s.EndsWith("/") || s.EndsWith("\\"))
+			s = s.Substring(0, s.Length -1);
+
+		return s;
+	}
+
+	
 	
 	/********** end of encoder paths ************/
 
@@ -274,14 +294,6 @@ public class UtilEncoder
 	
 	public static EncoderGraphROptions PrepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate) 
 	{
-		string scriptUtilR = GetEncoderScriptUtilR();
-
-		string scriptNeuromuscularProfile = "none"; //cannot be blank
-		if(neuromuscularProfileDo)
-			scriptNeuromuscularProfile = GetEncoderScriptNeuromuscularProfile();
-
-		string scriptGraphR = GetEncoderScriptGraph();
-		
 		string operatingSystem = "Linux";
 			
 		title = Util.RemoveBackSlash(title);
@@ -296,11 +308,9 @@ public class UtilEncoder
 			es.InputData = es.InputData.Replace("\\","/");
 			es.OutputGraph = es.OutputGraph.Replace("\\","/");
 			es.OutputData1 = es.OutputData1.Replace("\\","/");
-			es.OutputData2 = es.OutputData2.Replace("\\","/");
-			es.SpecialData = es.SpecialData.Replace("\\","/");
-			scriptUtilR = scriptUtilR.Replace("\\","/");
-			scriptNeuromuscularProfile = scriptNeuromuscularProfile.Replace("\\","/");
-			scriptGraphR = scriptGraphR.Replace("\\","/");
+			//es.OutputData2 = es.OutputData2.Replace("\\","/");
+			//es.SpecialData = es.SpecialData.Replace("\\","/");
+			es.EncoderTempPath = es.EncoderTempPath.Replace("\\","/");
 			operatingSystem = "Windows";
 		}
 		
@@ -332,13 +342,12 @@ public class UtilEncoder
 
 		return new EncoderGraphROptions( 
 				es.InputData, es.OutputGraph, es.OutputData1, 
-				es.OutputData2, es.SpecialData, 
+				//es.OutputData2, es.SpecialData, 
+				es.EncoderRPath, es.EncoderTempPath,
 				es.Ep,
 				title, operatingSystem,
-				scriptUtilR, scriptNeuromuscularProfile,
 				Util.StringArrayToString(Constants.EncoderEnglishWords,";"),
-				Util.StringArrayToString(encoderTranslatedWordsOK,";"), 
-				scriptGraphR);
+				Util.StringArrayToString(encoderTranslatedWordsOK,";"));
 	}
 
 

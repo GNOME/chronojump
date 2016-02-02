@@ -628,49 +628,6 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 	return(smoothings)
 }
 
-#if single file all repetitions have Roptions, but if not, each one has different values
-assignRepOptions <- function(
-			      singleFile, curves, i,
-			      massBody, massExtra, eccon, exPercentBodyWeight, 
-			      econfName, diameter, diameterExt, 
-			      anglePush, angleWeight, inertiaM, gearedDown,
-			      laterality) 
-{
-	if(singleFile) {
-		return(list(
-			      massBody = massBody, 
-			      massExtra = massExtra, 
-			      eccon = eccon, 
-			      exPercentBodyWeight = exPercentBodyWeight, 
-			      
-			      econfName = econfName, 
-			      diameter = diameter, 
-			      diameterExt = diameterExt, 
-			      anglePush = anglePush, 
-			      angleWeight = angleWeight, 
-			      inertiaM = inertiaM, 
-			      gearedDown = gearedDown,
-			      laterality = laterality
-			    ))
-	} else {
-		return(list(
-			      massBody = curves[i,5], 
-			      massExtra = curves[i,6], 
-			      eccon = curves[i,8], 
-			      exPercentBodyWeight = curves[i,10], 
-			      
-			      econfName = curves[i,11], 
-			      diameter = curves[i,12], 
-			      diameterExt = curves[i,13], 
-			      anglePush = curves[i,14], 
-			      angleWeight = curves[i,15], 
-			      inertiaM = curves[i,16], 
-			      gearedDown = curves[i,17],
-			      laterality = curves[i,18] 
-			    ))
-	}
-}
-
 
 kinematicRanges <- function(singleFile, displacement, curves,
 			    massBody, massExtra, exercisePercentBodyWeight,
@@ -689,12 +646,7 @@ kinematicRanges <- function(singleFile, displacement, curves,
 					       "") #laterality 
 	
 		kn <- kinematicsF(displacement[curves[i,1]:curves[i,2]],
-			       #myMassBody, myMassExtra, myExPercentBodyWeight,
-			       #myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
-			       repOp,
-			       
-			       #smoothingsEC[i], smoothingOneC, g, myEccon, isPropulsive)
-			       smoothingsEC[i], smoothingOneC, g, isPropulsive)
+			       repOp, smoothingsEC[i], smoothingOneC, g, isPropulsive)
 
 		if(max(abs(kn$speedy)) > maxSpeedy)
 			maxSpeedy = max(abs(kn$speedy))
@@ -725,10 +677,9 @@ canJump <- function(encoderConfigurationName)
 #find at what pixel (X) of final graph we have a millisecond
 #time is the time in ms where we search the pixel
 #this function will be moved to C# code
-calculatePixelXByTime <- function (time, xstart, xend, width)
+calculatePixelXByTime <- function (time, width)
 {
 	write("sending coordinates",stderr())
-	write(c(xstart,xend),stderr())
 	write(c("usr",par("usr")),stderr())
 	write(c("plt",par("plt")),stderr())
 
@@ -835,8 +786,6 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		abline(h=0,lty=3,col="black")
 
 		#abline(v=seq(from=0,to=length(position),by=500),lty=3,col="gray")
-
-		calculatePixelXByTime(100, startX, length(position), width)
 	}
 
 	print(c("smoothing at paint=",smoothing))
@@ -2330,22 +2279,19 @@ doProcess <- function(options)
 	op$Title=parse(text = paste0("'", op$Title, "'"))
 	print(c("1 Title=",op$Title))
 	
-	#options 30 and 31 is assigned on the top of the file to be available in all functions
+	#options 29 and 30 is assigned on the top of the file to be available in all functions
+	#print(options[29])
 	#print(options[30])
-	#print(options[31])
-	#options 32 is this graph.R file and it's used in call_graph.R to call this as source (in RDotNet)
 
 	#--- include files ---
-	#if(op$scriptOne != "none")
-	#	source(op$scriptOne)
-	if(op$scriptTwo != "none")
-		source(op$scriptTwo)
+	if(op$Analysis == "neuromuscularProfile")
+		source(paste(op$EncoderRScriptsPath, "/neuromuscularProfile.R", sep=""))
 
 
 	print(op$File)
 	print(op$OutputGraph)
 	print(op$OutputData1)
-	print(op$OutputData2)
+	print(op$FeedbackFileBase)
 	print(op$SpecialData)
 
 	#read AnalysisOptions
@@ -2709,9 +2655,9 @@ doProcess <- function(options)
 
 	#make some check here, because this file is being readed in chronojump
 
-	#write(paste("(4/5)",translateToPrint("Repetitions processed")), op$OutputData2)
-	print("Creating (op$OutputData2)4.txt with touch method...")
-	file.create(paste(op$OutputData2,"4.txt",sep=""))
+	#write(paste("(4/5)",translateToPrint("Repetitions processed")), op$FeedbackFileBase)
+	print("Creating (op$FeedbackFileBase)4.txt with touch method...")
+	file.create(paste(op$FeedbackFileBase,"4.txt",sep=""))
 	print("Created")
 	#print(curves)
 
@@ -2761,6 +2707,9 @@ doProcess <- function(options)
 			      (op$AnalysisVariables[4] == "Power")  #show power
 			      )
 		
+	
+			#calculatePixelXByTime(100, width)
+			write(c(op$Width, par("usr"), par("plt")), op$SpecialData)
 
 			#record array of data	
 			write("going to create array of data", stderr())
@@ -2772,7 +2721,9 @@ doProcess <- function(options)
 			colnames(df)=c("speed","acceleration","force","power")
 
 			write("going to write it to file", stderr())
-			write.csv(df, op$SpecialData, quote=FALSE)
+			write.csv(df, op$SpecialData, append=TRUE, quote=FALSE) #append #TODO: append no va, sempre sobreescriu. Val, ho diu l'ajuda q no ho fa perque no seria un csv correcte. Aixi que cal dos arxius diferents. Un pel csv i l'altra per aquestes dades de calculatePixelXByTime
+			#TODO: el millor es enviar el path a tmp i que aqui es generin els arxius, enlloc de enviar de C# a R el SpecialData...
+
 			write("done!", stderr())
 		}
 	}
@@ -3198,10 +3149,15 @@ doProcess <- function(options)
 
 		for(i in 1:curvesNum) { 
 			#exportCSV exports a signal, for this reason op$MassBody, op$MassExtra are ok. Don't need to check parameters of different signals
-			kn = kinematicsF (displacement[curves[i,1]:curves[i,2]], 
-					  op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
-					  op$EncoderConfigurationName,op$diameter,op$diameterExt,op$anglePush,op$angleWeight,op$inertiaMomentum,op$gearedDown,
-					  SmoothingsEC[i], op$SmoothingOneC, g, op$Eccon, isPropulsive)
+			repOp <- assignRepOptions(
+						  TRUE, NULL, NULL,
+						  op$MassBody, op$MassExtra, op$Eccon, op$ExercisePercentBodyWeight,
+						  op$EncoderConfigurationName,op$diameter,op$diameterExt,
+						  op$anglePush,op$angleWeight,op$inertiaMomentum,op$gearedDown,
+						  "") #laterality 
+
+			kn <- kinematicsF(displacement[curves[i,1]:curves[i,2]],
+					  repOp, smoothingsEC[i], op$smoothingOneC, g, isPropulsive)
 
 			#fill with NAs in order to have the same length
 			col1 = displacement[curves[i,1]:curves[i,2]]
@@ -3281,9 +3237,9 @@ doProcess <- function(options)
 		dev.off()
 
 	#make some check here, because this file is being readed in chronojump
-	#write(paste("(5/5)",translateToPrint("R tasks done")), op$OutputData2)
-	print("Creating (op$OutputData2)5.txt with touch method...")
-	file.create(paste(op$OutputData2,"5.txt",sep=""))
+	#write(paste("(5/5)",translateToPrint("R tasks done")), op$FeedbackFileBase)
+	print("Creating (op$FeedbackFileBase)5.txt with touch method...")
+	file.create(paste(op$FeedbackFileBase,"5.txt",sep=""))
 	print("Created")
 	write("created ...5.txt", stderr())
 

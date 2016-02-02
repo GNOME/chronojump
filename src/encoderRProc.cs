@@ -416,8 +416,9 @@ public class EncoderRProcAnalyze : EncoderRProc
 			Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt");
 
 		//delete 1RM data if exists
-		if (File.Exists(es.SpecialData))
-			File.Delete(es.SpecialData);
+		string specialData = UtilEncoder.GetEncoderSpecialDataTempFileName();
+		if (File.Exists(specialData))
+			File.Delete(specialData);
 
 
 		try {	
@@ -487,8 +488,9 @@ public class EncoderRProcAnalyze : EncoderRProc
 			Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt");
 		
 		//delete 1RM data if exists
-		if (File.Exists(es.SpecialData))
-			File.Delete(es.SpecialData);
+		string specialData = UtilEncoder.GetEncoderSpecialDataTempFileName();
+		if (File.Exists(specialData))
+			File.Delete(specialData);
 
 
 

@@ -32,10 +32,12 @@ assignOptions <- function(options) {
 		    File		= options[1],        
 		    OutputGraph		= options[2],
 		    OutputData1		= options[3],
-		    OutputData2		= options[4], #currently used to display processing feedback
-		    SpecialData		= options[5], #currently used to write 1RM. variable;result (eg. "1RM;82.78"). Or to write data on op$Analysis=="single" speed, accel, force, power for each ms
+		    EncoderRScriptsPath = options[4],
+		    EncoderTempPath 	= options[5],
+		    FeedbackFileBase 	= paste(options[5], "/chronojump-encoder-status-", sep=""),
+		    SpecialData 	= paste(options[5], "/chronojump-special-data.txt", sep=""),
 		    MinHeight		= as.numeric(options[6])*10, #from cm to mm
-		    ExercisePercentBodyWeight = as.numeric(options[7]),        #was isJump=as.logical(options[6])
+		    ExercisePercentBodyWeight = as.numeric(options[7]),
 		    MassBody		= as.numeric(options[8]),
 		    MassExtra		= as.numeric(options[9]),
 		    Eccon		= options[10],
@@ -57,7 +59,7 @@ assignOptions <- function(options) {
 		    EncoderConfigurationName =	options[14],	#just the name of the EncoderConfiguration	
 		    diameter		= as.numeric(unlist(strsplit(options[15], "\\;"))), #comes in cm, will be converted to m. Since 1.5.1 can be different diameters separated by ;
 		    #diameter    = getInertialDiametersPerTick(as.numeric(unlist(strsplit("1.5; 1.75; 2.65; 3.32; 3.95; 4.07; 4.28; 4.46; 4.54; 4.77; 4.96; 5.13; 5.3; 5.55", "\\;")))),
-        diameterExt		= as.numeric(options[16]),	#comes in cm, will be converted to m
+		    diameterExt		= as.numeric(options[16]),	#comes in cm, will be converted to m
 		    anglePush 		= as.numeric(options[17]),
 		    angleWeight 	= as.numeric(options[18]),
 		    inertiaMomentum	= (as.numeric(options[19])/10000.0),	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
@@ -69,11 +71,8 @@ assignOptions <- function(options) {
 		    Height		= as.numeric(options[24]),
 		    DecimalSeparator	= options[25],
 		    Title		= options[26],
-		    OperatingSystem	= options[27],	#if this changes, change it also at start of this R file
+		    OperatingSystem	= options[27]#,	#if this changes, change it also at start of this R file
 		    #IMPORTANT, if this grows, change the readLines value on getOptionsFromFile
-
-		    scriptOne 		= options[28], #util.R
-		    scriptTwo 		= options[29] #neuromuscularProfile.R
 		    ))
 }
 
@@ -393,6 +392,53 @@ reduceCurveBySpeed <- function(eccon, row, startT, startH, displacement, smoothi
 
 	return(c(startT + x.ini, startT + x.end, startH))
 }
+
+
+#for graph.R, if single file all repetitions have Roptions, but if not, each one has different values
+#for capture.R pass singleFile as TRUE, curves as NULL, and i as NULL
+assignRepOptions <- function(
+			      singleFile, curves, i,
+			      massBody, massExtra, eccon, exPercentBodyWeight, 
+			      econfName, diameter, diameterExt, 
+			      anglePush, angleWeight, inertiaM, gearedDown,
+			      laterality) 
+{
+	if(singleFile) {
+		return(list(
+			      massBody = massBody, 
+			      massExtra = massExtra, 
+			      eccon = eccon, 
+			      exPercentBodyWeight = exPercentBodyWeight, 
+			      
+			      econfName = econfName, 
+			      diameter = diameter, 
+			      diameterExt = diameterExt, 
+			      anglePush = anglePush, 
+			      angleWeight = angleWeight, 
+			      inertiaM = inertiaM, 
+			      gearedDown = gearedDown,
+			      laterality = laterality
+			    ))
+	} else {
+		return(list(
+			      massBody = curves[i,5], 
+			      massExtra = curves[i,6], 
+			      eccon = curves[i,8], 
+			      exPercentBodyWeight = curves[i,10], 
+			      
+			      econfName = curves[i,11], 
+			      diameter = curves[i,12], 
+			      diameterExt = curves[i,13], 
+			      anglePush = curves[i,14], 
+			      angleWeight = curves[i,15], 
+			      inertiaM = curves[i,16], 
+			      gearedDown = curves[i,17],
+			      laterality = curves[i,18] 
+			    ))
+	}
+}
+
+
 
 #go here with every single curve
 #repOp has the options for this repetition

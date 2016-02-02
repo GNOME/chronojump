@@ -886,8 +886,8 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderDataTempFileName(), 
 				UtilEncoder.GetEncoderGraphTempFileName(),
 				UtilEncoder.GetEncoderCurvesTempFileName(), 
-				UtilEncoder.GetEncoderStatusTempBaseFileName(),
-				UtilEncoder.GetEncoderSpecialDataTempFileName(),
+				UtilEncoder.GetEncoderScriptsPathWithoutLastSep(),
+				UtilEncoder.GetEncoderTempPathWithoutLastSep(),
 				ep);
 
 
@@ -1678,8 +1678,8 @@ public partial class ChronoJumpWindow
 				dataFileName, 
 				UtilEncoder.GetEncoderGraphTempFileName(),
 				Util.GetEncoderExportTempFileName(), 
-				UtilEncoder.GetEncoderStatusTempBaseFileName(),
-				UtilEncoder.GetEncoderSpecialDataTempFileName(),
+				UtilEncoder.GetEncoderScriptsPathWithoutLastSep(),
+				UtilEncoder.GetEncoderTempPathWithoutLastSep(),
 				ep);
 
 		encoderRProcAnalyze.ExportFileName = selectedFileName;
@@ -2985,8 +2985,8 @@ public partial class ChronoJumpWindow
 				dataFileName, 
 				UtilEncoder.GetEncoderGraphTempFileName(),
 				UtilEncoder.GetEncoderAnalyzeTableTempFileName(),
-				UtilEncoder.GetEncoderStatusTempBaseFileName(),
-				UtilEncoder.GetEncoderSpecialDataTempFileName(),
+				UtilEncoder.GetEncoderScriptsPathWithoutLastSep(),
+				UtilEncoder.GetEncoderTempPathWithoutLastSep(),
 				ep);
 
 		//show mass in title except if it's curves because then can be different mass
@@ -4988,8 +4988,8 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderScriptCaptureNoRdotNet(),//1st option used here to allow to call the main capture script
 				UtilEncoder.GetEncoderCaptureTempFileName(),   //2nd option used here to print the captured data file
 				"none", //UtilEncoder.GetEncoderCurvesTempFileName(), 
-				"none", //UtilEncoder.GetEncoderStatusTempBaseFileName(),
-				"none",	//SpecialData
+				UtilEncoder.GetEncoderScriptsPathWithoutLastSep(),
+				UtilEncoder.GetEncoderTempPathWithoutLastSep(),
 				ep);
 
 		encoderRProcCapture.StartOrContinue(es);

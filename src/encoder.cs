@@ -131,18 +131,21 @@ public class EncoderStruct
 	public string InputData;
 	public string OutputGraph;
 	public string OutputData1;
-	public string OutputData2;
-	public string SpecialData;
+	public string EncoderRPath; //to load other R scripts
+	public string EncoderTempPath; //use for Status, Special, GraphParams....
 	public EncoderParams Ep;
 
-	public EncoderStruct(string InputData, string OutputGraph, string OutputData1, string OutputData2,
-			string SpecialData, EncoderParams Ep)
+	//pass this to R
+	public EncoderStruct(string InputData, string OutputGraph, 
+			string OutputData1, 
+			string EncoderRPath, string EncoderTempPath,
+			EncoderParams Ep)
 	{
 		this.InputData = InputData;
 		this.OutputGraph = OutputGraph;
 		this.OutputData1 = OutputData1;
-		this.OutputData2 = OutputData2;
-		this.SpecialData = SpecialData;
+		this.EncoderRPath = EncoderRPath;
+		this.EncoderTempPath = EncoderTempPath;
 		this.Ep = Ep;
 	}
 
@@ -154,39 +157,31 @@ public class EncoderGraphROptions
 	public string inputData;
 	public string outputGraph;
 	public string outputData1;
-	public string outputData2;
-	public string specialData;
+	public string encoderRPath;
+	public string encoderTempPath;
 	public EncoderParams ep;
 	public string title;
 	public string operatingSystem;
-	public string scriptUtilR;
-	public string scriptNeuromuscularProfile;
 	public string englishWords;
 	public string translatedWords;
-	public string scriptGraphR;
 	
 	public EncoderGraphROptions(
 			string inputData, string outputGraph, string outputData1, 
-			string outputData2, string specialData, 
+			string encoderRPath, string encoderTempPath,
 			EncoderParams ep,
 			string title, string operatingSystem,
-			string scriptUtilR, string scriptNeuromuscularProfile,
-			string englishWords, string translatedWords,
-			string scriptGraphR) 
+			string englishWords, string translatedWords)
 	{
 		this.inputData = inputData;
 		this.outputGraph = outputGraph;
 		this.outputData1 = outputData1;
-		this.outputData2 = outputData2;
-		this.specialData = specialData;
+		this.encoderRPath = encoderRPath;
+		this.encoderTempPath = encoderTempPath;
 		this.ep = ep;
 		this.title = title;
 		this.operatingSystem = operatingSystem;
-		this.scriptUtilR = scriptUtilR;
-		this.scriptNeuromuscularProfile = scriptNeuromuscularProfile;
 		this.englishWords = englishWords;
 		this.translatedWords = translatedWords;
-		this.scriptGraphR = scriptGraphR;
 	}
 
 	public override string ToString() {
@@ -194,17 +189,15 @@ public class EncoderGraphROptions
 			"#inputdata\n" + 	inputData + "\n" + 
 			"#outputgraph\n" + 	outputGraph + "\n" + 
 			"#outputdata1\n" + 	outputData1 + "\n" + 
-			"#outputdata2\n" + 	outputData2 + "\n" + 
-			"#specialdata\n" + 	specialData + "\n" + 
+			"#encoderRPath\n" + 	encoderRPath + "\n" + 
+			"#encoderTempPath\n" + 	encoderTempPath + "\n" + 
 			ep.ToStringROptions() + "\n" + 
 			"#title\n" + 		title + "\n" + 
 			"#operatingsystem\n" + 	operatingSystem + "\n" +
-			"#scriptUtilR\n" + 	scriptUtilR + "\n" + 
-			"#scriptNeuromuscularProfile\n" + scriptNeuromuscularProfile + "\n" +
 			"#englishWords\n" + 	englishWords + "\n" +
-			"#translatedWords\n" + 	translatedWords + "\n" + 
-			"#scriptGraphR\n" + 	scriptGraphR + "\n";
+			"#translatedWords\n" + 	translatedWords + "\n";
 	}
+	
 
 	~EncoderGraphROptions() {}
 }
@@ -1453,7 +1446,9 @@ public class EncoderAnalyzeInstant
 		force = new List<double>(); 
 		power = new List<double>();
 	}
-	
+
+	//file has a first line with headers
+	//2nd.... full data
 	public void ReadFile(string filename)
 	{
 		List<string> lines = Util.ReadFileAsStringList(filename);

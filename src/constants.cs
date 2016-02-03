@@ -723,6 +723,7 @@ public class Constants
 	
 	public static string EncoderExportTemp = "chronojump-export.csv";
 	public static string EncoderSpecialDataTemp = "chronojump-special-data.txt"; //variable;result (eg. "1RM;82.78")
+	public static string EncoderInstantDataTemp = "chronojump-analysis-instant.csv";
 
 	//note next has 40 chars, and its used also in encoder/graph.R to detect how a file will be treated
 	//if this name changes, change it in encoder/graph.R

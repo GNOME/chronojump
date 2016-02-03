@@ -117,6 +117,9 @@ public class UtilEncoder
 	public static string GetEncoderSpecialDataTempFileName() {
 		return Path.Combine(Path.GetTempPath(), Constants.EncoderSpecialDataTemp);
 	}
+	public static string GetEncoderInstantDataTempFileName() {
+		return Path.Combine(Path.GetTempPath(), Constants.EncoderInstantDataTemp);
+	}
 	public static string GetEncoderTempPathWithoutLastSep() {
 		string s = Path.GetTempPath(); //is just temp path
 

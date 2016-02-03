@@ -1459,10 +1459,10 @@ public class EncoderAnalyzeInstant
 
 		bool headerLine = true;
 		foreach(string l in lines) {
-			if(headerLine) {
-				headerLine = false;
-				continue;
-			}
+				if(headerLine) {
+					headerLine = false;
+					continue;
+				}
 
 			string [] lsplit = l.Split(new char[] {','});
 			speed.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[1])));
@@ -1471,6 +1471,11 @@ public class EncoderAnalyzeInstant
 			power.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[4])));
 		}
 	}
+
+	public double GetSpeed(int ms) { return(speed[ms]); }
+	public double GetAccel(int ms) { return(accel[ms]); }
+	public double GetForce(int ms) { return(force[ms]); }
+	public double GetPower(int ms) { return(power[ms]); }
 
 	public void PrintDebug() {
 		LogB.Information("Printing speed");

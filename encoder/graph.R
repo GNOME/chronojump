@@ -2721,7 +2721,7 @@ doProcess <- function(options)
 			colnames(df)=c("speed","acceleration","force","power")
 
 			write("going to write it to file", stderr())
-			write.csv(df, op$SpecialData, append=TRUE, quote=FALSE) #append #TODO: append no va, sempre sobreescriu. Val, ho diu l'ajuda q no ho fa perque no seria un csv correcte. Aixi que cal dos arxius diferents. Un pel csv i l'altra per aquestes dades de calculatePixelXByTime
+			write.csv(df, paste(op$EncoderTempPath,"/chronojump-analysis-instant.csv",sep=""), append=TRUE, quote=FALSE)
 			#TODO: el millor es enviar el path a tmp i que aqui es generin els arxius, enlloc de enviar de C# a R el SpecialData...
 
 			write("done!", stderr())

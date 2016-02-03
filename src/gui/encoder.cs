@@ -135,6 +135,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_encoder_analyze_data_compare;
 	[Widget] Gtk.Button button_encoder_analyze_data_compare;
 	
+	[Widget] Gtk.HScale hscale_encoder_analyze_1;
+	[Widget] Gtk.Label label_encoder_analyze_speed_1;
+	[Widget] Gtk.Label label_encoder_analyze_accel_1;
+	[Widget] Gtk.Label label_encoder_analyze_force_1;
+	[Widget] Gtk.Label label_encoder_analyze_power_1;
+
 	[Widget] Gtk.Button button_encoder_analyze_image_save;
 	[Widget] Gtk.Button button_encoder_analyze_table_save;
 	[Widget] Gtk.Button button_encoder_analyze_1RM_save;
@@ -184,6 +190,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_encoder_analyze_mean_or_max;
 	
 	[Widget] Gtk.Viewport viewport_image_encoder_analyze;
+	[Widget] Gtk.Notebook notebook_encoder_analyze;
 	[Widget] Gtk.Image image_encoder_analyze;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_analyze;
 	
@@ -211,6 +218,8 @@ public partial class ChronoJumpWindow
 	private string ecconLast;
 	private string encoderTimeStamp;
 	private string encoderSignalUniqueID;
+
+	private EncoderAnalyzeInstant eai;
 
 	private ArrayList array1RM;
 
@@ -4877,8 +4886,14 @@ public partial class ChronoJumpWindow
 			}
 		} else { //encoderActions.ANALYZE
 			//the -3 is because image is inside (is smaller than) viewport
-			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-5; 
-			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-5;
+			if(encoderAnalysis == "single") {
+				image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-5; 
+				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)/2; //to allow hslides and table
+				//TODO: improve this
+			} else {
+				image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-5; 
+				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-5;
+			}
 
 			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
 			encoderRProcAnalyze.status = EncoderRProc.Status.WAITING;
@@ -5345,6 +5360,52 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
+
+	// -------------- drawingarea_encoder_analyze_instant
+	
+	Pixbuf drawingarea_encoder_analyze_cairo_pixbuf;
+	
+	[Widget] Gtk.DrawingArea drawingarea_encoder_analyze_instant;
+	void on_hscale_encoder_analyze_1_value_changed (object o, EventArgs args) {
+		if(eai != null) {
+			int ms = Convert.ToInt32(hscale_encoder_analyze_1.Value);
+			label_encoder_analyze_speed_1.Text = Util.TrimDecimals(eai.GetSpeed(ms), 2);
+			label_encoder_analyze_accel_1.Text = Util.TrimDecimals(eai.GetAccel(ms), 2);
+			label_encoder_analyze_force_1.Text = Util.TrimDecimals(eai.GetForce(ms), 2);
+			label_encoder_analyze_power_1.Text = Util.TrimDecimals(eai.GetPower(ms), 2);
+		
+			drawingarea_encoder_analyze_instant.QueueDraw(); //will fire ExposeEvent
+		}
+	}
+
+	public void on_drawingarea_encoder_analyze_instant_expose_event(object o, ExposeEventArgs args)
+	{
+		if(drawingarea_encoder_analyze_cairo_pixbuf == null)
+			return;
+
+		DrawingArea area = (DrawingArea) o;
+		using (Cairo.Context g = Gdk.CairoHelper.Create (area.GdkWindow)) 
+		{
+			//add image
+			Gdk.CairoHelper.SetSourcePixbuf (g, drawingarea_encoder_analyze_cairo_pixbuf, 0, 0);
+			g.Paint();
+
+			//add rectangle
+			g.SetSourceRGBA(0.906, 0.745, 0.098, 1); //Chronojump yellow
+			
+			int xpos = Convert.ToInt32(hscale_encoder_analyze_1.Value);
+			g.MoveTo(xpos, 0);
+			g.LineTo(xpos, drawingarea_encoder_analyze_cairo_pixbuf.Height);
+			
+			g.Stroke();
+
+			g.GetTarget ().Dispose ();
+		}
+	}
+	
+	// -------------- end of drawingarea_encoder_analyze_instant
+
+
 	private void finishPulsebar(encoderActions action) {
 		if(
 				action == encoderActions.CAPTURE || 
@@ -5594,10 +5655,22 @@ public partial class ChronoJumpWindow
 				//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom),
 				//o si es una sola i fa alguna edicio
 				
-				//maybe image is still not readable
-				image_encoder_analyze = UtilGtk.OpenImageSafe(
-						UtilEncoder.GetEncoderGraphTempFileName(),
-						image_encoder_analyze);
+				if(encoderAnalysis == "single") {
+					drawingarea_encoder_analyze_cairo_pixbuf = UtilGtk.OpenPixbufSafe(
+							UtilEncoder.GetEncoderGraphTempFileName(),
+							drawingarea_encoder_analyze_cairo_pixbuf);
+
+					//TODO: define properties ot the hscales
+					
+					notebook_encoder_analyze.CurrentPage = 1;
+				} else {
+					//maybe image is still not readable
+					image_encoder_analyze = UtilGtk.OpenImageSafe(
+							UtilEncoder.GetEncoderGraphTempFileName(),
+							image_encoder_analyze);
+					
+					notebook_encoder_analyze.CurrentPage = 0;
+				}
 
 				encoder_pulsebar_analyze.Text = "";
 
@@ -5613,9 +5686,9 @@ public partial class ChronoJumpWindow
 				}
 
 				if(encoderAnalysis == "single") {
-					EncoderAnalyzeInstant eai = new EncoderAnalyzeInstant();
+					eai = new EncoderAnalyzeInstant();
 					eai.ReadFile(
-							UtilEncoder.GetEncoderSpecialDataTempFileName());
+							UtilEncoder.GetEncoderInstantDataTempFileName());
 					//eai.PrintDebug();
 				}
 

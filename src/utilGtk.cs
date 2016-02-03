@@ -549,8 +549,9 @@ public class UtilGtk
 	/*
 	 * OpenImageSafe checks if it's created and if it has size and can be opened
 	 * this is used when one process takes an image from another process and maybe is not finished
+	 * Now we use imageFileWaitUntilCreated()
 	 */
-	public static Gtk.Image OpenImageSafe(string filename, Gtk.Image image) 
+	private static void imageFileWaitUntilCreated(string filename) 
 	{
 		while( ! File.Exists(filename) );
 
@@ -562,7 +563,12 @@ public class UtilGtk
 			else
 				System.Threading.Thread.Sleep(50);
 		} while( ! hasSize );
+	}
 
+	public static Gtk.Image OpenImageSafe(string filename, Gtk.Image image) 
+	{
+		imageFileWaitUntilCreated(filename);
+		
 		bool readedOk;
 		do {
 			readedOk = true;
@@ -577,6 +583,25 @@ public class UtilGtk
 		} while( ! readedOk );
 
 		return image;
+	}
+
+	public static Gdk.Pixbuf OpenPixbufSafe(string filename, Gdk.Pixbuf pixbuf) 
+	{
+		imageFileWaitUntilCreated(filename);
+		
+		bool readedOk;
+		do {
+			readedOk = true;
+			try {
+				pixbuf = new Pixbuf (filename); //from a file
+			} catch {
+				LogB.Warning("File is still not ready. Wait a bit");
+				System.Threading.Thread.Sleep(50);
+				readedOk = false;
+			}
+		} while( ! readedOk );
+
+		return pixbuf;
 	}
 
 

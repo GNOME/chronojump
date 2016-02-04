@@ -1516,6 +1516,8 @@ public class EncoderAnalyzeInstant
 	//gets an instant value
 	public double GetParam(string param, int ms) 
 	{
+		ms --; //converts from starting at 1 (graph) to starting at 0 (data)
+
 		if(ms > speed.Count)
 			return -1;
 
@@ -1536,6 +1538,9 @@ public class EncoderAnalyzeInstant
 	//calculates from a range
 	public bool CalculateRangeParams(int msa, int msb)
 	{
+		msa --; //converts from starting at 1 (graph) to starting at 0 (data)
+		msb --; //converts from starting at 1 (graph) to starting at 0 (data)
+		
 		//if msb < msa invert them
 		if(msb < msa) {
 			int temp = msa;
@@ -1553,7 +1558,7 @@ public class EncoderAnalyzeInstant
 		
 		return true;
 	}
-	public void getAverageAndMax(List<double> dlist, int ini, int end, out double listAVG, out double listMAX) {
+	private void getAverageAndMax(List<double> dlist, int ini, int end, out double listAVG, out double listMAX) {
 		if(ini == end) {
 			listAVG = dlist[ini];
 			listMAX = dlist[ini];

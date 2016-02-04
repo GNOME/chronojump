@@ -139,6 +139,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HScale hscale_encoder_analyze_a;
 	[Widget] Gtk.CheckButton checkbutton_encoder_analyze_b;
 	[Widget] Gtk.HScale hscale_encoder_analyze_b;
+	[Widget] Gtk.HBox hbox_buttons_scale_encoder_analyze_b;
 	[Widget] Gtk.Label label_encoder_analyze_time_a;
 	[Widget] Gtk.Label label_encoder_analyze_speed_a;
 	[Widget] Gtk.Label label_encoder_analyze_accel_a;
@@ -207,8 +208,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_encoder_analyze_side_max;
 
 	[Widget] Gtk.CheckButton check_encoder_analyze_mean_or_max;
-	
-	[Widget] Gtk.Viewport viewport_image_encoder_analyze;
+
+	[Widget] Gtk.ScrolledWindow scrolledwindow_image_encoder_analyze;
+//	[Widget] Gtk.Viewport viewport_image_encoder_analyze;
 	[Widget] Gtk.Notebook notebook_encoder_analyze;
 	[Widget] Gtk.Image image_encoder_analyze;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_analyze;
@@ -4906,11 +4908,10 @@ public partial class ChronoJumpWindow
 		} else { //encoderActions.ANALYZE
 			
 			//the -5 is because image is inside (is smaller than) viewport
-			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-5; 
-			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-5;
+			image_encoder_width = UtilGtk.WidgetWidth(scrolledwindow_image_encoder_analyze)-10;
+			image_encoder_height = UtilGtk.WidgetHeight(scrolledwindow_image_encoder_analyze)-10;
 			if(encoderAnalysis == "single") {
-				Gdk.Rectangle allocation = table_encoder_analyze_instant.Allocation;
-				image_encoder_height -= allocation.Height; //to allow hslides and table
+				image_encoder_height -= UtilGtk.WidgetHeight(table_encoder_analyze_instant); //to allow hslides and table
 			}
 
 			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
@@ -5390,8 +5391,8 @@ public partial class ChronoJumpWindow
 			label_encoder_analyze_time_a.Text = ms.ToString();
 			label_encoder_analyze_speed_a.Text = Util.TrimDecimals(eai.GetParam("speed",ms), 2);
 			label_encoder_analyze_accel_a.Text = Util.TrimDecimals(eai.GetParam("accel",ms), 2);
-			label_encoder_analyze_force_a.Text = Util.TrimDecimals(eai.GetParam("force",ms), 2);
-			label_encoder_analyze_power_a.Text = Util.TrimDecimals(eai.GetParam("power",ms), 2);
+			label_encoder_analyze_force_a.Text = Util.TrimDecimals(eai.GetParam("force",ms), 1);
+			label_encoder_analyze_power_a.Text = Util.TrimDecimals(eai.GetParam("power",ms), 1);
 			
 			if(checkbutton_encoder_analyze_b.Active)
 				encoder_analyze_instant_calculate_params();
@@ -5406,13 +5407,26 @@ public partial class ChronoJumpWindow
 			label_encoder_analyze_time_b.Text = msb.ToString();
 			label_encoder_analyze_speed_b.Text = Util.TrimDecimals(eai.GetParam("speed",msb), 2);
 			label_encoder_analyze_accel_b.Text = Util.TrimDecimals(eai.GetParam("accel",msb), 2);
-			label_encoder_analyze_force_b.Text = Util.TrimDecimals(eai.GetParam("force",msb), 2);
-			label_encoder_analyze_power_b.Text = Util.TrimDecimals(eai.GetParam("power",msb), 2);
+			label_encoder_analyze_force_b.Text = Util.TrimDecimals(eai.GetParam("force",msb), 1);
+			label_encoder_analyze_power_b.Text = Util.TrimDecimals(eai.GetParam("power",msb), 1);
 
 			encoder_analyze_instant_calculate_params();
 		
 			drawingarea_encoder_analyze_instant.QueueDraw(); //will fire ExposeEvent
 		}
+	}
+
+	void on_button_hscale_encoder_analyze_a_pre_clicked(object o, EventArgs args) {
+		hscale_encoder_analyze_a.Value -= 1;
+	}
+	void on_button_hscale_encoder_analyze_a_post_clicked(object o, EventArgs args) {
+		hscale_encoder_analyze_a.Value += 1;
+	}
+	void on_button_hscale_encoder_analyze_b_pre_clicked(object o, EventArgs args) {
+		hscale_encoder_analyze_b.Value -= 1;
+	}
+	void on_button_hscale_encoder_analyze_b_post_clicked(object o, EventArgs args) {
+		hscale_encoder_analyze_b.Value += 1;
 	}
 
 	void encoder_analyze_instant_calculate_params() {
@@ -5422,13 +5436,13 @@ public partial class ChronoJumpWindow
 		if(success) {
 			label_encoder_analyze_speed_average.Text = Util.TrimDecimals(eai.speedAverageLast, 2);
 			label_encoder_analyze_accel_average.Text = Util.TrimDecimals(eai.accelAverageLast, 2);
-			label_encoder_analyze_force_average.Text = Util.TrimDecimals(eai.forceAverageLast, 2);
-			label_encoder_analyze_power_average.Text = Util.TrimDecimals(eai.powerAverageLast, 2);
+			label_encoder_analyze_force_average.Text = Util.TrimDecimals(eai.forceAverageLast, 1);
+			label_encoder_analyze_power_average.Text = Util.TrimDecimals(eai.powerAverageLast, 1);
 
 			label_encoder_analyze_speed_max.Text = Util.TrimDecimals(eai.speedMaxLast, 2);
 			label_encoder_analyze_accel_max.Text = Util.TrimDecimals(eai.accelMaxLast, 2);
-			label_encoder_analyze_force_max.Text = Util.TrimDecimals(eai.forceMaxLast, 2);
-			label_encoder_analyze_power_max.Text = Util.TrimDecimals(eai.powerMaxLast, 2);
+			label_encoder_analyze_force_max.Text = Util.TrimDecimals(eai.forceMaxLast, 1);
+			label_encoder_analyze_power_max.Text = Util.TrimDecimals(eai.powerMaxLast, 1);
 		}
 	}
 
@@ -5436,6 +5450,7 @@ public partial class ChronoJumpWindow
 		bool visible = checkbutton_encoder_analyze_b.Active;
 
 		hscale_encoder_analyze_b.Visible = visible;
+		hbox_buttons_scale_encoder_analyze_b.Visible = visible;
 		label_encoder_analyze_time_b.Visible = visible;
 		label_encoder_analyze_speed_b.Visible = visible;
 		label_encoder_analyze_accel_b.Visible = visible;
@@ -5476,12 +5491,12 @@ public partial class ChronoJumpWindow
 		
 			if(checkbutton_encoder_analyze_b.Active) {
 				int xposb = eai.GetVerticalLinePosition(Convert.ToInt32(hscale_encoder_analyze_b.Value));
-				g.MoveTo(xposb, 0);
-				g.LineTo(xposb, drawingarea_encoder_analyze_cairo_pixbuf.Height);
 
-				g.SetSourceRGBA(0.945, 0.84, 0.518, .5); //lighter yellow, half transp
-				g.Rectangle(xposa ,0, xposb-xposa, drawingarea_encoder_analyze_cairo_pixbuf.Height);
-				g.Fill();
+				if(xposb != xposa) {
+					g.SetSourceRGBA(0.945, 0.84, 0.518, .5); //lighter yellow, half transp
+					g.Rectangle(xposa ,0, xposb-xposa, drawingarea_encoder_analyze_cairo_pixbuf.Height);
+					g.Fill();
+				}
 			}
 			
 			g.Stroke();
@@ -5747,7 +5762,7 @@ public partial class ChronoJumpWindow
 							UtilEncoder.GetEncoderGraphTempFileName(),
 							drawingarea_encoder_analyze_cairo_pixbuf);
 
-					//TODO: define properties ot the hscales
+					drawingarea_encoder_analyze_instant.QueueDraw(); //will fire ExposeEvent
 					
 					notebook_encoder_analyze.CurrentPage = 1;
 				} else {
@@ -5778,8 +5793,8 @@ public partial class ChronoJumpWindow
 					eai.ReadGraphParams(UtilEncoder.GetEncoderSpecialDataTempFileName());
 
 					//ranges should have max value the number of the lines of csv file minus the header
-					hscale_encoder_analyze_a.SetRange(0, eai.speed.Count -1);
-					hscale_encoder_analyze_b.SetRange(0, eai.speed.Count -1);
+					hscale_encoder_analyze_a.SetRange(1, eai.speed.Count);
+					hscale_encoder_analyze_b.SetRange(1, eai.speed.Count);
 					//eai.PrintDebug();
 				}
 

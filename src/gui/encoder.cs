@@ -5470,14 +5470,18 @@ public partial class ChronoJumpWindow
 			//add rectangle
 			g.SetSourceRGBA(0.906, 0.745, 0.098, 1); //Chronojump yellow
 			
-			int xpos = eai.GetVerticalLinePosition(Convert.ToInt32(hscale_encoder_analyze_a.Value));
-			g.MoveTo(xpos, 0);
-			g.LineTo(xpos, drawingarea_encoder_analyze_cairo_pixbuf.Height);
+			int xposa = eai.GetVerticalLinePosition(Convert.ToInt32(hscale_encoder_analyze_a.Value));
+			g.MoveTo(xposa, 0);
+			g.LineTo(xposa, drawingarea_encoder_analyze_cairo_pixbuf.Height);
 		
 			if(checkbutton_encoder_analyze_b.Active) {
-				xpos = eai.GetVerticalLinePosition(Convert.ToInt32(hscale_encoder_analyze_b.Value));
-				g.MoveTo(xpos, 0);
-				g.LineTo(xpos, drawingarea_encoder_analyze_cairo_pixbuf.Height);
+				int xposb = eai.GetVerticalLinePosition(Convert.ToInt32(hscale_encoder_analyze_b.Value));
+				g.MoveTo(xposb, 0);
+				g.LineTo(xposb, drawingarea_encoder_analyze_cairo_pixbuf.Height);
+
+				g.SetSourceRGBA(0.945, 0.84, 0.518, .5); //lighter yellow, half transp
+				g.Rectangle(xposa ,0, xposb-xposa, drawingarea_encoder_analyze_cairo_pixbuf.Height);
+				g.Fill();
 			}
 			
 			g.Stroke();

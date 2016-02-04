@@ -448,7 +448,10 @@ assignRepOptions <- function(
 #kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWeight,
 #			encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
 #			smoothingOneEC, smoothingOneC, g, eccon, isPropulsive)
-kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, isPropulsive)
+#eccModesStartOnGround is default mode for calculations on e, ec starting when person lands,
+#	but on single analysis instant array, disable it in order to see the full repetition
+#	also think what to do on export CSV
+kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, isPropulsive, eccModesStartOnGround)
 {
 	print("at kinematicsF")
 
@@ -529,7 +532,8 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 
 
 	#on "e", "ec", start on ground
-	if(! isInertial(repOp$econfName) && (repOp$eccon == "e" || repOp$eccon == "ec")) {
+	if(eccModesStartOnGround && ! isInertial(repOp$econfName) && 
+	   (repOp$eccon == "e" || repOp$eccon == "ec")) {
 		#if eccentric is undefined, find it
 		if(eccentric == 0) {
 			if(repOp$eccon == "e")

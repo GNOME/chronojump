@@ -77,7 +77,7 @@ calcule <- function(displacement, op, curveNum)
 						 op$EncoderConfigurationName, op$diameter, op$diameterExt, 
 						 op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
 						 ""), #laterality 
-				SmoothingsEC, op$SmoothingOneC, g, isPropulsive)
+				SmoothingsEC, op$SmoothingOneC, g, isPropulsive, TRUE)
 
 	paf = data.frame()
 	myLaterality = "" #TODO

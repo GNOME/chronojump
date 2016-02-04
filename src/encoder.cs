@@ -1440,16 +1440,38 @@ public class EncoderAnalyzeInstant
 	public List<double> force;
 	public List<double> power;
 
+	public int graphWidth;
+	
+	private Rx1y2 usr;
+	private Rx1y2 plt;
+		
+	private double pxPlotArea;
+	private double msPlotArea;
+	
+	//last calculated values on last range of msa and msb
+	public double speedAverageLast;
+	public double speedMaxLast;
+	public double accelAverageLast;
+	public double accelMaxLast;
+	public double forceAverageLast;
+	public double forceMaxLast;
+	public double powerAverageLast;
+	public double powerMaxLast;
+
 	public EncoderAnalyzeInstant() {
 		speed = new List<double>(); 
 		accel = new List<double>(); 
 		force = new List<double>(); 
 		power = new List<double>();
+		
+		graphWidth = 0;
+		pxPlotArea = 0;
+		msPlotArea = 0;
 	}
 
 	//file has a first line with headers
 	//2nd.... full data
-	public void ReadFile(string filename)
+	public void ReadArrayFile(string filename)
 	{
 		List<string> lines = Util.ReadFileAsStringList(filename);
 		if(lines == null)
@@ -1471,15 +1493,120 @@ public class EncoderAnalyzeInstant
 			power.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[4])));
 		}
 	}
+	
+	public void ReadGraphParams(string filename)
+	{
+		List<string> lines = Util.ReadFileAsStringList(filename);
+		if(lines == null)
+			return;
+		if(lines.Count < 3)
+			return;
 
-	public double GetSpeed(int ms) { return(speed[ms]); }
-	public double GetAccel(int ms) { return(accel[ms]); }
-	public double GetForce(int ms) { return(force[ms]); }
-	public double GetPower(int ms) { return(power[ms]); }
+		graphWidth = Convert.ToInt32(lines[0]);
+		usr = new Rx1y2(lines[1]);
+		plt = new Rx1y2(lines[2]);
 
+		// calculate the pixels in plot area
+		pxPlotArea = graphWidth * (plt.x2 - plt.x1);
+
+		//calculate the ms in plot area
+		msPlotArea = usr.x2 - usr.x1;
+	}
+	
+	//gets an instant value
+	public double GetParam(string param, int ms) 
+	{
+		if(ms > speed.Count)
+			return -1;
+
+		else {
+			if(param == "speed")
+				return speed[ms];
+			else if(param == "accel")
+				return accel[ms];
+			else if(param == "force")
+				return force[ms];
+			else if(param == "power")
+				return power[ms];
+			else
+				return -2;
+		}
+	}
+	
+	//calculates from a range
+	public bool CalculateRangeParams(int msa, int msb)
+	{
+		//if msb < msa invert them
+		if(msb < msa) {
+			int temp = msa;
+			msa = msb;
+			msb = temp;
+		}
+
+		if(msa > speed.Count || msb > speed.Count)
+			return false;
+
+		getAverageAndMax(speed, msa, msb, out speedAverageLast, out speedMaxLast);
+		getAverageAndMax(accel, msa, msb, out accelAverageLast, out accelMaxLast);
+		getAverageAndMax(force, msa, msb, out forceAverageLast, out forceMaxLast);
+		getAverageAndMax(power, msa, msb, out powerAverageLast, out powerMaxLast);
+		
+		return true;
+	}
+	public void getAverageAndMax(List<double> dlist, int ini, int end, out double listAVG, out double listMAX) {
+		if(ini == end) {
+			listAVG = dlist[ini];
+			listMAX = dlist[ini];
+		}
+
+		double sum = 0;
+		double max = - 1000000;
+		for(int i = ini; i <= end; i ++) {
+			sum += dlist[i];
+			if(dlist[i] > max)
+				max = dlist[i];
+		}
+
+		listAVG = sum / (end - ini + 1); //+1 because count starts at 0
+		listMAX = max;
+	}
+
+
+	public int GetVerticalLinePosition(int ms) 
+	{
+		//this can be called on expose event before calculating needed parameters
+		if(graphWidth == 0 || pxPlotArea == 0 || msPlotArea == 0)
+			return 0;
+
+		// rule of three
+		double px = (ms - usr.x1) * pxPlotArea / msPlotArea;
+
+		// fix margin
+		px = px + plt.x1 * graphWidth;
+
+		return Convert.ToInt32(px);
+	}
+		
 	public void PrintDebug() {
 		LogB.Information("Printing speed");
 		foreach(double s in speed)
 			LogB.Debug(s.ToString());
+	}
+}
+
+//for objects coming from R that have "x1 x2 y1 y2" like usr or par
+public class Rx1y2 
+{
+	public double x1;
+	public double x2;
+	public double y1;
+	public double y2;
+
+	public Rx1y2 (string s) {
+		string [] sFull = s.Split(new char[] {' '});
+		x1 = Convert.ToDouble(Util.ChangeDecimalSeparator(sFull[0]));
+		x2 = Convert.ToDouble(Util.ChangeDecimalSeparator(sFull[1]));
+		y1 = Convert.ToDouble(Util.ChangeDecimalSeparator(sFull[2]));
+		y2 = Convert.ToDouble(Util.ChangeDecimalSeparator(sFull[3]));
 	}
 }

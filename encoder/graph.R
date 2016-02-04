@@ -674,29 +674,6 @@ canJump <- function(encoderConfigurationName)
 }
   
 
-#find at what pixel (X) of final graph we have a millisecond
-#time is the time in ms where we search the pixel
-#this function will be moved to C# code
-calculatePixelXByTime <- function (time, width)
-{
-	write("sending coordinates",stderr())
-	write(c("usr",par("usr")),stderr())
-	write(c("plt",par("plt")),stderr())
-
-	#1) calculate the pixels in plot area
-	pxPlotArea <- width * (par("plt")[2]-par("plt")[1])
-
-	#2) calculate the ms in plot area
-	msPlotArea <- par("usr")[2]-par("usr")[1]
-
-	#3) rule of three
-	px <- (time - par("usr")[1]) * pxPlotArea / msPlotArea
-
-	#4) fix margin
-	px <- px + par("plt")[1]*width
-	write(c("px",px),stderr())
-}
-
 paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
 	startX, startH, smoothingOneEC, smoothingOneC, massBody, massExtra, 
 	encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown, #encoderConfiguration stuff
@@ -2708,8 +2685,9 @@ doProcess <- function(options)
 			      )
 		
 	
-			#calculatePixelXByTime(100, width)
-			write(c(op$Width, par("usr"), par("plt")), op$SpecialData)
+			write(op$Width, op$SpecialData)
+			write(par("usr"), op$SpecialData, append=TRUE)
+			write(par("plt"),  op$SpecialData, append=TRUE)
 
 			#record array of data	
 			write("going to create array of data", stderr())

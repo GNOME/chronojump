@@ -65,9 +65,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_selector_start_runs;
 	[Widget] Gtk.Image image_selector_start_encoder;
 	
-	[Widget] Gtk.DrawingArea drawingarea_cairo_prova;
-	[Widget] Gtk.HScale hscale_cairo_prova;
-
 	//gui for small screens
 	[Widget] Gtk.RadioButton radio_mode_jumps_small;
 	[Widget] Gtk.RadioButton radio_mode_jumps_reactive_small;
@@ -467,39 +464,6 @@ public partial class ChronoJumpWindow
 	//int chronopicCancelledTimes = 0;
 
 
-	Pixbuf cairo_pixbuf;
-	public void on_drawingarea_cairo_prova_expose_event(object o, ExposeEventArgs args)
-	{
-		DrawingArea area = (DrawingArea) o;
-		using (Cairo.Context g = Gdk.CairoHelper.Create (area.GdkWindow)) 
-		{
-			//add image
-			Gdk.CairoHelper.SetSourcePixbuf (g, cairo_pixbuf, 0, 0);
-			g.Paint();
-
-			//add rectangle
-			g.SetSourceRGBA(1, 0, 0, 1); //red
-			
-			int xpos = Convert.ToInt32(hscale_cairo_prova.Value);
-			g.MoveTo(xpos, 0);
-			g.LineTo(xpos, cairo_pixbuf.Height);
-			
-			g.Stroke();
-
-			g.GetTarget ().Dispose ();
-		}
-	}
-	public void on_drawingarea_cairo_prova_configure_event(object o, ConfigureEventArgs args)
-	{
-	}
-	
-	public void on_hscale_cairo_prova_value_changed(object o, EventArgs args)
-	{
-		LogB.Information("changed!");
-		LogB.Information(hscale_cairo_prova.Value.ToString());
-		drawingarea_cairo_prova.QueueDraw(); //will fire ExposeEvent
-	}
-
 	//only called the first time the software runs
 	//and only on windows
 	private void on_language_clicked(object o, EventArgs args) {
@@ -538,8 +502,6 @@ public partial class ChronoJumpWindow
 		this.progVersion = progVersion;
 		this.progName = progName;
 		this.runningFileName = runningFileName;
-		
-		cairo_pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
 		
 
 		Glade.XML gxml;

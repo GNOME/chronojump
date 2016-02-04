@@ -646,7 +646,7 @@ kinematicRanges <- function(singleFile, displacement, curves,
 					       "") #laterality 
 	
 		kn <- kinematicsF(displacement[curves[i,1]:curves[i,2]],
-			       repOp, smoothingsEC[i], smoothingOneC, g, isPropulsive)
+			       repOp, smoothingsEC[i], smoothingOneC, g, isPropulsive, TRUE)
 
 		if(max(abs(kn$speedy)) > maxSpeedy)
 			maxSpeedy = max(abs(kn$speedy))
@@ -2693,14 +2693,20 @@ doProcess <- function(options)
 			write("going to create array of data", stderr())
 			kn <- kinematicsF(displacement[curves[op$Jump,1]:curves[op$Jump,2]],
 					  repOp,
-					  SmoothingsEC[smoothingPos], op$SmoothingOneC, g, isPropulsive)
+					  #SmoothingsEC[smoothingPos], op$SmoothingOneC, g, isPropulsive)
+					  SmoothingsEC[smoothingPos], op$SmoothingOneC, g, 
+					  FALSE,	#create array of data with all curve and not only propulsive phase
+					  FALSE		#show all the repetition, not only ground phase on ecc
+					  ) 
 
 			df=data.frame(cbind(kn$speedy, kn$accely, kn$force, kn$power))
 			colnames(df)=c("speed","acceleration","force","power")
 
 			write("going to write it to file", stderr())
+			#write(paste("length", curves[op$Jump,2] - curves[op$Jump,1] ), stderr())
+			#write(paste("df", length(df[,1])), stderr())
+			#write(paste("eccon", repOp$eccon), stderr())
 			write.csv(df, paste(op$EncoderTempPath,"/chronojump-analysis-instant.csv",sep=""), append=TRUE, quote=FALSE)
-			#TODO: el millor es enviar el path a tmp i que aqui es generin els arxius, enlloc de enviar de C# a R el SpecialData...
 
 			write("done!", stderr())
 		}
@@ -2863,7 +2869,7 @@ doProcess <- function(options)
 								 #myInertiaMomentum,myGearedDown,
 								 repOpSeparated,
 								 SmoothingsEC[i],op$SmoothingOneC, 
-								 g, isPropulsive),
+								 g, isPropulsive, TRUE),
 						     repOp$massBody, repOp$massExtra, repOp$laterality, repOp$inertiaM
 						     )))
 		}
@@ -3135,7 +3141,9 @@ doProcess <- function(options)
 						  "") #laterality 
 
 			kn <- kinematicsF(displacement[curves[i,1]:curves[i,2]],
-					  repOp, smoothingsEC[i], op$smoothingOneC, g, isPropulsive)
+					  repOp, SmoothingsEC[i], op$smoothingOneC, g, isPropulsive, 
+					  TRUE #TODO: think if it's more appropiate to be FALSE in order to export full ecc phase
+					  )
 
 			#fill with NAs in order to have the same length
 			col1 = displacement[curves[i,1]:curves[i,2]]

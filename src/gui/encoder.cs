@@ -152,6 +152,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_encoder_analyze_accel_b;
 	[Widget] Gtk.Label label_encoder_analyze_force_b;
 	[Widget] Gtk.Label label_encoder_analyze_power_b;
+	[Widget] Gtk.Label label_encoder_analyze_displ_diff;
+	[Widget] Gtk.Label label_encoder_analyze_speed_diff;
+	[Widget] Gtk.Label label_encoder_analyze_accel_diff;
+	[Widget] Gtk.Label label_encoder_analyze_force_diff;
+	[Widget] Gtk.Label label_encoder_analyze_power_diff;
 	[Widget] Gtk.Label label_encoder_analyze_displ_average;
 	[Widget] Gtk.Label label_encoder_analyze_speed_average;
 	[Widget] Gtk.Label label_encoder_analyze_accel_average;
@@ -162,6 +167,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_encoder_analyze_accel_max;
 	[Widget] Gtk.Label label_encoder_analyze_force_max;
 	[Widget] Gtk.Label label_encoder_analyze_power_max;
+	[Widget] Gtk.Label label_encoder_analyze_diff;
 	[Widget] Gtk.Label label_encoder_analyze_average;
 	[Widget] Gtk.Label label_encoder_analyze_max;
 
@@ -5440,6 +5446,12 @@ public partial class ChronoJumpWindow
 		int msb = Convert.ToInt32(hscale_encoder_analyze_b.Value);
 		bool success = eai.CalculateRangeParams(msa, msb);
 		if(success) {
+			label_encoder_analyze_displ_diff.Text = Util.TrimDecimals(eai.GetParam("displ",msb) - eai.GetParam("displ",msa), 1);
+			label_encoder_analyze_speed_diff.Text = Util.TrimDecimals(eai.GetParam("speed",msb) - eai.GetParam("speed",msa), 2);
+			label_encoder_analyze_accel_diff.Text = Util.TrimDecimals(eai.GetParam("accel",msb) - eai.GetParam("accel",msa), 2);
+			label_encoder_analyze_force_diff.Text = Util.TrimDecimals(eai.GetParam("force",msb) - eai.GetParam("force",msa), 1);
+			label_encoder_analyze_power_diff.Text = Util.TrimDecimals(eai.GetParam("power",msb) - eai.GetParam("power",msa), 1);
+
 			label_encoder_analyze_displ_average.Text = Util.TrimDecimals(eai.displAverageLast, 1);
 			label_encoder_analyze_speed_average.Text = Util.TrimDecimals(eai.speedAverageLast, 2);
 			label_encoder_analyze_accel_average.Text = Util.TrimDecimals(eai.accelAverageLast, 2);
@@ -5465,6 +5477,11 @@ public partial class ChronoJumpWindow
 		label_encoder_analyze_accel_b.Visible = visible;
 		label_encoder_analyze_force_b.Visible = visible;
 		label_encoder_analyze_power_b.Visible = visible;
+		label_encoder_analyze_displ_diff.Visible = visible;
+		label_encoder_analyze_speed_diff.Visible = visible;
+		label_encoder_analyze_accel_diff.Visible = visible;
+		label_encoder_analyze_force_diff.Visible = visible;
+		label_encoder_analyze_power_diff.Visible = visible;
 		label_encoder_analyze_displ_average.Visible = visible;
 		label_encoder_analyze_speed_average.Visible = visible;
 		label_encoder_analyze_accel_average.Visible = visible;
@@ -5475,6 +5492,7 @@ public partial class ChronoJumpWindow
 		label_encoder_analyze_accel_max.Visible = visible;
 		label_encoder_analyze_force_max.Visible = visible;
 		label_encoder_analyze_power_max.Visible = visible;
+		label_encoder_analyze_diff.Visible = visible;
 		label_encoder_analyze_average.Visible = visible;
 		label_encoder_analyze_max.Visible = visible;
 

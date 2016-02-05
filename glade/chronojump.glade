@@ -7949,6 +7949,9 @@ after time</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             <child>
@@ -9432,6 +9435,9 @@ after time</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">2</property>
@@ -9913,6 +9919,9 @@ after time</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -17973,7 +17982,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="n_rows">5</property>
-                                                            <property name="n_columns">6</property>
+                                                            <property name="n_columns">7</property>
                                                             <property name="column_spacing">8</property>
                                                             <property name="row_spacing">4</property>
                                                             <child>
@@ -17983,8 +17992,8 @@ on current Chronojump version.</property>
                                                             <property name="label" translatable="yes">Speed</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">2</property>
-                                                            <property name="right_attach">3</property>
+                                                            <property name="left_attach">3</property>
+                                                            <property name="right_attach">4</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
@@ -17996,8 +18005,8 @@ on current Chronojump version.</property>
                                                             <property name="label" translatable="yes">Acceleration</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">3</property>
-                                                            <property name="right_attach">4</property>
+                                                            <property name="left_attach">4</property>
+                                                            <property name="right_attach">5</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
@@ -18009,8 +18018,8 @@ on current Chronojump version.</property>
                                                             <property name="label" translatable="yes">Force</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">4</property>
-                                                            <property name="right_attach">5</property>
+                                                            <property name="left_attach">5</property>
+                                                            <property name="right_attach">6</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
@@ -18022,8 +18031,8 @@ on current Chronojump version.</property>
                                                             <property name="label" translatable="yes">Power</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">5</property>
-                                                            <property name="right_attach">6</property>
+                                                            <property name="left_attach">6</property>
+                                                            <property name="right_attach">7</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
@@ -18035,8 +18044,8 @@ on current Chronojump version.</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">2</property>
-                                                            <property name="right_attach">3</property>
+                                                            <property name="left_attach">3</property>
+                                                            <property name="right_attach">4</property>
                                                             <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
                                                             <property name="x_options"/>
@@ -18050,8 +18059,8 @@ on current Chronojump version.</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">3</property>
-                                                            <property name="right_attach">4</property>
+                                                            <property name="left_attach">4</property>
+                                                            <property name="right_attach">5</property>
                                                             <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
                                                             <property name="x_options"/>
@@ -18065,8 +18074,8 @@ on current Chronojump version.</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">4</property>
-                                                            <property name="right_attach">5</property>
+                                                            <property name="left_attach">5</property>
+                                                            <property name="right_attach">6</property>
                                                             <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
                                                             <property name="x_options"/>
@@ -18079,8 +18088,8 @@ on current Chronojump version.</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">5</property>
-                                                            <property name="right_attach">6</property>
+                                                            <property name="left_attach">6</property>
+                                                            <property name="right_attach">7</property>
                                                             <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
                                                             <property name="x_options"/>
@@ -18089,21 +18098,6 @@ on current Chronojump version.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_encoder_analyze_speed_b">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="width_chars">8</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="left_attach">2</property>
-                                                            <property name="right_attach">3</property>
-                                                            <property name="top_attach">2</property>
-                                                            <property name="bottom_attach">3</property>
-                                                            <property name="x_options"/>
-                                                            <property name="y_options"/>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_encoder_analyze_accel_b">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
@@ -18118,7 +18112,7 @@ on current Chronojump version.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_encoder_analyze_force_b">
+                                                            <widget class="GtkLabel" id="label_encoder_analyze_accel_b">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
@@ -18133,7 +18127,7 @@ on current Chronojump version.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_encoder_analyze_power_b">
+                                                            <widget class="GtkLabel" id="label_encoder_analyze_force_b">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
@@ -18141,6 +18135,21 @@ on current Chronojump version.</property>
                                                             <packing>
                                                             <property name="left_attach">5</property>
                                                             <property name="right_attach">6</property>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_analyze_power_b">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="width_chars">8</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">6</property>
+                                                            <property name="right_attach">7</property>
                                                             <property name="top_attach">2</property>
                                                             <property name="bottom_attach">3</property>
                                                             <property name="x_options"/>
@@ -18437,8 +18446,8 @@ on current Chronojump version.</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">2</property>
-                                                            <property name="right_attach">3</property>
+                                                            <property name="left_attach">3</property>
+                                                            <property name="right_attach">4</property>
                                                             <property name="top_attach">3</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options"/>
@@ -18452,8 +18461,8 @@ on current Chronojump version.</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">3</property>
-                                                            <property name="right_attach">4</property>
+                                                            <property name="left_attach">4</property>
+                                                            <property name="right_attach">5</property>
                                                             <property name="top_attach">3</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options"/>
@@ -18467,8 +18476,8 @@ on current Chronojump version.</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">4</property>
-                                                            <property name="right_attach">5</property>
+                                                            <property name="left_attach">5</property>
+                                                            <property name="right_attach">6</property>
                                                             <property name="top_attach">3</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options"/>
@@ -18482,8 +18491,8 @@ on current Chronojump version.</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">5</property>
-                                                            <property name="right_attach">6</property>
+                                                            <property name="left_attach">6</property>
+                                                            <property name="right_attach">7</property>
                                                             <property name="top_attach">3</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options"/>
@@ -18492,21 +18501,6 @@ on current Chronojump version.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_encoder_analyze_speed_max">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="width_chars">8</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="left_attach">2</property>
-                                                            <property name="right_attach">3</property>
-                                                            <property name="top_attach">4</property>
-                                                            <property name="bottom_attach">5</property>
-                                                            <property name="x_options"/>
-                                                            <property name="y_options"/>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_encoder_analyze_accel_max">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
@@ -18521,7 +18515,7 @@ on current Chronojump version.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_encoder_analyze_force_max">
+                                                            <widget class="GtkLabel" id="label_encoder_analyze_accel_max">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
@@ -18536,7 +18530,7 @@ on current Chronojump version.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_encoder_analyze_power_max">
+                                                            <widget class="GtkLabel" id="label_encoder_analyze_force_max">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
@@ -18544,6 +18538,21 @@ on current Chronojump version.</property>
                                                             <packing>
                                                             <property name="left_attach">5</property>
                                                             <property name="right_attach">6</property>
+                                                            <property name="top_attach">4</property>
+                                                            <property name="bottom_attach">5</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_analyze_power_max">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="width_chars">8</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">6</property>
+                                                            <property name="right_attach">7</property>
                                                             <property name="top_attach">4</property>
                                                             <property name="bottom_attach">5</property>
                                                             <property name="x_options"/>
@@ -18576,6 +18585,82 @@ on current Chronojump version.</property>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label150">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Displacement</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_analyze_displ_a">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="width_chars">8</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_analyze_displ_b">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="width_chars">8</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_analyze_displ_average">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="width_chars">8</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_analyze_displ_max">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="width_chars">8</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="top_attach">4</property>
+                                                            <property name="bottom_attach">5</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
                                                             </child>
                                                             </widget>
                                                             <packing>
@@ -23016,6 +23101,9 @@ by you</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -23405,6 +23493,9 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -25554,6 +25645,9 @@ by you</property>
               <placeholder/>
             </child>
             <child>
+              <placeholder/>
+            </child>
+            <child>
               <widget class="GtkButton" id="button_video_url">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -25576,6 +25670,9 @@ by you</property>
                 <property name="x_options"/>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -38166,6 +38263,24 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -39357,6 +39472,18 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="n_columns">4</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                     <child>
                       <placeholder/>
                     </child>
@@ -41498,9 +41625,6 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                       <placeholder/>
                                     </child>
                                     <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
                                       <widget class="GtkLabel" id="label218">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
@@ -41871,6 +41995,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                         <property name="left_attach">2</property>
                                         <property name="right_attach">3</property>
                                       </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
                                     </child>
                                     <child>
                                       <placeholder/>
@@ -46318,6 +46445,9 @@ It starts before and arrives there with some speed.</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -46344,6 +46474,9 @@ It starts before and arrives there with some speed.</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -47073,6 +47206,9 @@ It starts before and arrives there with some speed.</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

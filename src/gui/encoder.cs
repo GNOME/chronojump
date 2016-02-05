@@ -141,19 +141,23 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HScale hscale_encoder_analyze_b;
 	[Widget] Gtk.HBox hbox_buttons_scale_encoder_analyze_b;
 	[Widget] Gtk.Label label_encoder_analyze_time_a;
+	[Widget] Gtk.Label label_encoder_analyze_displ_a;
 	[Widget] Gtk.Label label_encoder_analyze_speed_a;
 	[Widget] Gtk.Label label_encoder_analyze_accel_a;
 	[Widget] Gtk.Label label_encoder_analyze_force_a;
 	[Widget] Gtk.Label label_encoder_analyze_power_a;
 	[Widget] Gtk.Label label_encoder_analyze_time_b;
+	[Widget] Gtk.Label label_encoder_analyze_displ_b;
 	[Widget] Gtk.Label label_encoder_analyze_speed_b;
 	[Widget] Gtk.Label label_encoder_analyze_accel_b;
 	[Widget] Gtk.Label label_encoder_analyze_force_b;
 	[Widget] Gtk.Label label_encoder_analyze_power_b;
+	[Widget] Gtk.Label label_encoder_analyze_displ_average;
 	[Widget] Gtk.Label label_encoder_analyze_speed_average;
 	[Widget] Gtk.Label label_encoder_analyze_accel_average;
 	[Widget] Gtk.Label label_encoder_analyze_force_average;
 	[Widget] Gtk.Label label_encoder_analyze_power_average;
+	[Widget] Gtk.Label label_encoder_analyze_displ_max;
 	[Widget] Gtk.Label label_encoder_analyze_speed_max;
 	[Widget] Gtk.Label label_encoder_analyze_accel_max;
 	[Widget] Gtk.Label label_encoder_analyze_force_max;
@@ -5389,6 +5393,7 @@ public partial class ChronoJumpWindow
 		if(eai != null) {
 			int ms = Convert.ToInt32(hscale_encoder_analyze_a.Value);
 			label_encoder_analyze_time_a.Text = ms.ToString();
+			label_encoder_analyze_displ_a.Text = Util.TrimDecimals(eai.GetParam("displ",ms), 1); //mm
 			label_encoder_analyze_speed_a.Text = Util.TrimDecimals(eai.GetParam("speed",ms), 2);
 			label_encoder_analyze_accel_a.Text = Util.TrimDecimals(eai.GetParam("accel",ms), 2);
 			label_encoder_analyze_force_a.Text = Util.TrimDecimals(eai.GetParam("force",ms), 1);
@@ -5405,6 +5410,7 @@ public partial class ChronoJumpWindow
 		if(eai != null) {
 			int msb = Convert.ToInt32(hscale_encoder_analyze_b.Value);
 			label_encoder_analyze_time_b.Text = msb.ToString();
+			label_encoder_analyze_displ_b.Text = Util.TrimDecimals(eai.GetParam("displ",msb), 1); //mm
 			label_encoder_analyze_speed_b.Text = Util.TrimDecimals(eai.GetParam("speed",msb), 2);
 			label_encoder_analyze_accel_b.Text = Util.TrimDecimals(eai.GetParam("accel",msb), 2);
 			label_encoder_analyze_force_b.Text = Util.TrimDecimals(eai.GetParam("force",msb), 1);
@@ -5434,11 +5440,13 @@ public partial class ChronoJumpWindow
 		int msb = Convert.ToInt32(hscale_encoder_analyze_b.Value);
 		bool success = eai.CalculateRangeParams(msa, msb);
 		if(success) {
+			label_encoder_analyze_displ_average.Text = Util.TrimDecimals(eai.displAverageLast, 1);
 			label_encoder_analyze_speed_average.Text = Util.TrimDecimals(eai.speedAverageLast, 2);
 			label_encoder_analyze_accel_average.Text = Util.TrimDecimals(eai.accelAverageLast, 2);
 			label_encoder_analyze_force_average.Text = Util.TrimDecimals(eai.forceAverageLast, 1);
 			label_encoder_analyze_power_average.Text = Util.TrimDecimals(eai.powerAverageLast, 1);
 
+			label_encoder_analyze_displ_max.Text = Util.TrimDecimals(eai.displMaxLast, 1);
 			label_encoder_analyze_speed_max.Text = Util.TrimDecimals(eai.speedMaxLast, 2);
 			label_encoder_analyze_accel_max.Text = Util.TrimDecimals(eai.accelMaxLast, 2);
 			label_encoder_analyze_force_max.Text = Util.TrimDecimals(eai.forceMaxLast, 1);
@@ -5452,14 +5460,17 @@ public partial class ChronoJumpWindow
 		hscale_encoder_analyze_b.Visible = visible;
 		hbox_buttons_scale_encoder_analyze_b.Visible = visible;
 		label_encoder_analyze_time_b.Visible = visible;
+		label_encoder_analyze_displ_b.Visible = visible;
 		label_encoder_analyze_speed_b.Visible = visible;
 		label_encoder_analyze_accel_b.Visible = visible;
 		label_encoder_analyze_force_b.Visible = visible;
 		label_encoder_analyze_power_b.Visible = visible;
+		label_encoder_analyze_displ_average.Visible = visible;
 		label_encoder_analyze_speed_average.Visible = visible;
 		label_encoder_analyze_accel_average.Visible = visible;
 		label_encoder_analyze_force_average.Visible = visible;
 		label_encoder_analyze_power_average.Visible = visible;
+		label_encoder_analyze_displ_max.Visible = visible;
 		label_encoder_analyze_speed_max.Visible = visible;
 		label_encoder_analyze_accel_max.Visible = visible;
 		label_encoder_analyze_force_max.Visible = visible;

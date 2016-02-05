@@ -261,6 +261,19 @@ getSpeed <- function(displacement, smoothing) {
 	return (speedSpline)
 }
 
+#same smoothing than getSped
+getPositionSmoothed <- function(displacement, smoothing) {
+	#no change affected by encoderConfiguration
+	
+	#use position because this does not make erronously change the initial and end of the curve
+	#do spline with displacement is buggy because data is too similar -2, -1, 0, 1, 2, ...
+	position <- cumsum(displacement)
+	positionSpline <- smooth.spline( 1:length(position), position, spar=smoothing)
+	
+	return (positionSpline$y)
+}
+
+
 getAccelerationSafe <- function(speed) {
 	#x vector should contain at least 4 different values
 	if(length(speed) >= 4)
@@ -589,6 +602,7 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 	#write(mean(speed$y[start:end]), stderr())
 
 	return(list(
+		    displ = displacement[start:end], 
 		    speedy = speed$y[start:end], 
 		    accely = accel$y[start:end], 
 		    force = force[start:end], 

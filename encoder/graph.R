@@ -2699,8 +2699,15 @@ doProcess <- function(options)
 					  FALSE		#show all the repetition, not only ground phase on ecc
 					  ) 
 
-			df=data.frame(cbind(kn$speedy, kn$accely, kn$force, kn$power))
-			colnames(df)=c("speed","acceleration","force","power")
+			#smoothing for displamenet
+			smoothingTemp = 0
+			if(repOp$eccon == "c" || repOp$eccon == "e")
+				smoothingTemp = op$SmoothingOneC
+			else
+				smoothingTemp = SmoothingsEC[smoothingPos]
+
+			df=data.frame(cbind(getPositionSmoothed(kn$displ,smoothingTemp), kn$speedy, kn$accely, kn$force, kn$power))
+			colnames(df)=c("displacement","speed","acceleration","force","power")
 
 			write("going to write it to file", stderr())
 			#write(paste("length", curves[op$Jump,2] - curves[op$Jump,1] ), stderr())

@@ -152,6 +152,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_encoder_analyze_accel_b;
 	[Widget] Gtk.Label label_encoder_analyze_force_b;
 	[Widget] Gtk.Label label_encoder_analyze_power_b;
+	[Widget] Gtk.Label label_encoder_analyze_time_diff;
 	[Widget] Gtk.Label label_encoder_analyze_displ_diff;
 	[Widget] Gtk.Label label_encoder_analyze_speed_diff;
 	[Widget] Gtk.Label label_encoder_analyze_accel_diff;
@@ -5446,6 +5447,7 @@ public partial class ChronoJumpWindow
 		int msb = Convert.ToInt32(hscale_encoder_analyze_b.Value);
 		bool success = eai.CalculateRangeParams(msa, msb);
 		if(success) {
+			label_encoder_analyze_time_diff.Text = (msb - msa).ToString();
 			label_encoder_analyze_displ_diff.Text = Util.TrimDecimals(eai.GetParam("displ",msb) - eai.GetParam("displ",msa), 1);
 			label_encoder_analyze_speed_diff.Text = Util.TrimDecimals(eai.GetParam("speed",msb) - eai.GetParam("speed",msa), 2);
 			label_encoder_analyze_accel_diff.Text = Util.TrimDecimals(eai.GetParam("accel",msb) - eai.GetParam("accel",msa), 2);
@@ -5477,6 +5479,7 @@ public partial class ChronoJumpWindow
 		label_encoder_analyze_accel_b.Visible = visible;
 		label_encoder_analyze_force_b.Visible = visible;
 		label_encoder_analyze_power_b.Visible = visible;
+		label_encoder_analyze_time_diff.Visible = visible;
 		label_encoder_analyze_displ_diff.Visible = visible;
 		label_encoder_analyze_speed_diff.Visible = visible;
 		label_encoder_analyze_accel_diff.Visible = visible;
@@ -5522,7 +5525,7 @@ public partial class ChronoJumpWindow
 				int xposb = eai.GetVerticalLinePosition(Convert.ToInt32(hscale_encoder_analyze_b.Value));
 
 				if(xposb != xposa) {
-					g.SetSourceRGBA(0.945, 0.84, 0.518, .5); //lighter yellow, half transp
+					g.SetSourceRGBA(0.906, 0.745, 0.098, .5); //Chronojump yellow, half transp
 					g.Rectangle(xposa ,0, xposb-xposa, drawingarea_encoder_analyze_cairo_pixbuf.Height);
 					g.Fill();
 				}

@@ -4127,7 +4127,7 @@ public partial class ChronoJumpWindow
 		treeview_encoder_analyze_curves.Sensitive = false;
 		button_encoder_analyze_image_save.Sensitive = false;
 		button_encoder_analyze_table_save.Sensitive = false;
-		button_encoder_analyze_1RM_save.Sensitive = false;
+		button_encoder_analyze_1RM_save.Visible = false;
 
 		//put some data just in case user doesn't click on compare button
 		encoderCompareInitialize();
@@ -4935,7 +4935,7 @@ public partial class ChronoJumpWindow
 			treeview_encoder_analyze_curves.Sensitive = false;
 			button_encoder_analyze_image_save.Sensitive = false;
 			button_encoder_analyze_table_save.Sensitive = false;
-			button_encoder_analyze_1RM_save.Sensitive = false;
+			button_encoder_analyze_1RM_save.Visible = false;
 
 			LogB.ThreadStart();
 			encoderThread.Start(); 
@@ -5778,7 +5778,7 @@ public partial class ChronoJumpWindow
 			treeview_encoder_analyze_curves.Sensitive = false;
 			button_encoder_analyze_image_save.Sensitive = false;
 			button_encoder_analyze_table_save.Sensitive = false;
-			button_encoder_analyze_1RM_save.Sensitive = false;
+			button_encoder_analyze_1RM_save.Visible = false;
 		
 			encoderShowCaptureDoingButtons(false);
 
@@ -5845,7 +5845,7 @@ public partial class ChronoJumpWindow
 			
 			string my1RMName = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
 						encoderAnalyze1RMTranslation);
-			button_encoder_analyze_1RM_save.Sensitive = 
+			button_encoder_analyze_1RM_save.Visible = 
 				(radiobutton_encoder_analyze_1RM.Active &&
 				(my1RMName == "1RM Bench Press" || my1RMName == "1RM Any exercise") ); 
 			// || my1RMName == "1RM Indirect") ); 

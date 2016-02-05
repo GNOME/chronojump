@@ -1435,6 +1435,7 @@ public class EncoderConfiguration {
 
 public class EncoderAnalyzeInstant 
 {
+	public List<double> displ;
 	public List<double> speed;
 	public List<double> accel;
 	public List<double> force;
@@ -1449,6 +1450,8 @@ public class EncoderAnalyzeInstant
 	private double msPlotArea;
 	
 	//last calculated values on last range of msa and msb
+	public double displAverageLast;
+	public double displMaxLast;
 	public double speedAverageLast;
 	public double speedMaxLast;
 	public double accelAverageLast;
@@ -1459,6 +1462,7 @@ public class EncoderAnalyzeInstant
 	public double powerMaxLast;
 
 	public EncoderAnalyzeInstant() {
+		displ = new List<double>(); 
 		speed = new List<double>(); 
 		accel = new List<double>(); 
 		force = new List<double>(); 
@@ -1487,10 +1491,11 @@ public class EncoderAnalyzeInstant
 				}
 
 			string [] lsplit = l.Split(new char[] {','});
-			speed.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[1])));
-			accel.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[2])));
-			force.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[3])));
-			power.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[4])));
+			displ.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[1])));
+			speed.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[2])));
+			accel.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[3])));
+			force.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[4])));
+			power.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(lsplit[5])));
 		}
 	}
 	
@@ -1518,11 +1523,13 @@ public class EncoderAnalyzeInstant
 	{
 		ms --; //converts from starting at 1 (graph) to starting at 0 (data)
 
-		if(ms > speed.Count)
+		if(ms > displ.Count)
 			return -1;
 
 		else {
-			if(param == "speed")
+			if(param == "displ")
+				return displ[ms];
+			else if(param == "speed")
 				return speed[ms];
 			else if(param == "accel")
 				return accel[ms];
@@ -1548,9 +1555,10 @@ public class EncoderAnalyzeInstant
 			msb = temp;
 		}
 
-		if(msa > speed.Count || msb > speed.Count)
+		if(msa > displ.Count || msb > displ.Count)
 			return false;
 
+		getAverageAndMax(displ, msa, msb, out displAverageLast, out displMaxLast);
 		getAverageAndMax(speed, msa, msb, out speedAverageLast, out speedMaxLast);
 		getAverageAndMax(accel, msa, msb, out accelAverageLast, out accelMaxLast);
 		getAverageAndMax(force, msa, msb, out forceAverageLast, out forceMaxLast);

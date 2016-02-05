@@ -341,7 +341,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture_zoom;
 	//[Widget] Gtk.Image image_encoder_analyze_zoom;
 	[Widget] Gtk.Image image_encoder_analyze_stats;
+	[Widget] Gtk.Image image_encoder_analyze_image_save;
+	[Widget] Gtk.Image image_encoder_analyze_1RM_save;
+	[Widget] Gtk.Image image_encoder_analyze_table_save;
 	[Widget] Gtk.Image image_encoder_signal_delete;
+
 
 	Random rand;
 
@@ -776,8 +780,12 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
 		image_encoder_analyze_stats.Pixbuf = pixbuf;
+		image_encoder_analyze_image_save.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_encoder_signal_delete.Pixbuf = pixbuf;
+	
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "spreadsheet.png");
+		image_encoder_analyze_table_save.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeCurrentSignalIcon);
 		image_encoder_analyze_current_signal.Pixbuf = pixbuf;
@@ -790,6 +798,8 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_cross.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyze1RMIcon);
 		image_encoder_analyze_1RM.Pixbuf = pixbuf;
+		image_encoder_analyze_1RM_save.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSideIcon);
 		image_encoder_analyze_side.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSingleIcon);

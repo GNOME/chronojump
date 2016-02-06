@@ -52,6 +52,15 @@ public class Util
 		myStringBuilder.Replace(".", ",");
 		return myStringBuilder.ToString();
 	}
+	
+	public static string DoubleToCSV(double d, string CSVsepString) {
+		string s = d.ToString();
+		if(CSVsepString == "COMMA")
+			return ConvertToComma(s);
+		else
+			return ConvertToPoint(s);
+	}
+		
 
 
 	//when we do a query to the server, it returns avg as "0,54" because it's latin localized
@@ -939,7 +948,7 @@ public class Util
 	/********** start of encoder paths ************/
 
 	public static string GetEncoderExportTempFileName() {
-		return Path.Combine(Path.GetTempPath(), "encoder_export.csv");
+		return Path.Combine(Path.GetTempPath(), "encoder_set_export.csv");
 	}
 
 	/********** end of encoder paths ************/

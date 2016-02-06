@@ -1599,7 +1599,91 @@ public class EncoderAnalyzeInstant
 
 		return Convert.ToInt32(px);
 	}
+	
+	public void ExportToCSV(int msa, int msb, string selectedFileName, string sepString) 
+	{
+		//if msb < msa invert them
+		if(msb < msa) {
+			int temp = msa;
+			msa = msb;
+			msb = temp;
+		}
+
+		//this overwrites if needed
+		TextWriter writer = File.CreateText(selectedFileName);
+
+		string sep = " ";
+		if (sepString == "COMMA")
+			sep = ";";
+		else
+			sep = ",";
+
+		string header = 
+			"" + sep +
+			Catalog.GetString("Time") + sep + 
+			Catalog.GetString("Displacement") + sep +
+			Catalog.GetString("Speed") + sep +
+			Catalog.GetString("Acceleration") + sep +
+			Catalog.GetString("Force") + sep +
+			Catalog.GetString("Power");
+			
+		//write header
+		writer.WriteLine(header);
+
+		//write statistics
+		writer.WriteLine(
+				Catalog.GetString("Difference") + sep +
+				(msb-msa).ToString() + sep +
+				Util.DoubleToCSV( (GetParam("displ",msb) - GetParam("displ",msa)), sepString ) + sep +
+				Util.DoubleToCSV( (GetParam("speed",msb) - GetParam("speed",msa)), sepString ) + sep +
+				Util.DoubleToCSV( (GetParam("accel",msb) - GetParam("accel",msa)), sepString ) + sep +
+				Util.DoubleToCSV( (GetParam("force",msb) - GetParam("force",msa)), sepString ) + sep +
+				Util.DoubleToCSV( (GetParam("power",msb) - GetParam("power",msa)), sepString ) );
 		
+		//done here because GetParam does the same again, and if we put it in the top of this method, it will be done two times
+		msa --; //converts from starting at 1 (graph) to starting at 0 (data)
+		msb --; //converts from starting at 1 (graph) to starting at 0 (data)
+		
+		writer.WriteLine(
+				Catalog.GetString("Average") + sep +
+				"" + sep +
+				Util.DoubleToCSV(displAverageLast, sepString) + sep +
+				Util.DoubleToCSV(speedAverageLast, sepString) + sep +
+				Util.DoubleToCSV(accelAverageLast, sepString) + sep +
+				Util.DoubleToCSV(forceAverageLast, sepString) + sep +
+				Util.DoubleToCSV(powerAverageLast, sepString) );
+		
+		writer.WriteLine(
+				Catalog.GetString("Maximum") + sep +
+				"" + sep +
+				Util.DoubleToCSV(displMaxLast, sepString) + sep +
+				Util.DoubleToCSV(speedMaxLast, sepString) + sep +
+				Util.DoubleToCSV(accelMaxLast, sepString) + sep +
+				Util.DoubleToCSV(forceMaxLast, sepString) + sep +
+				Util.DoubleToCSV(powerMaxLast, sepString) );
+
+		//blank line
+		writer.WriteLine();
+
+		//write header
+		writer.WriteLine(header);
+
+		//write data
+		for(int i = msa; i <= msb; i ++)
+			writer.WriteLine(
+					"" + sep +
+					(i+1).ToString() + sep +
+					Util.DoubleToCSV(displ[i], sepString) + sep +
+					Util.DoubleToCSV(speed[i], sepString) + sep +
+					Util.DoubleToCSV(accel[i], sepString) + sep +
+					Util.DoubleToCSV(force[i], sepString) + sep +
+					Util.DoubleToCSV(power[i], sepString) );
+
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+	}
+
 	public void PrintDebug() {
 		LogB.Information("Printing speed");
 		foreach(double s in speed)

@@ -5,17 +5,18 @@ getMovement <- function(
         inverted,  # The encoder is inverted if in concentric movement the signal is negative
         #-1 (encoder inverted) or 1 (encoder NOT inverted). 
         gearedDown, # speed of person divided by speed of machine. Used in machines with moving pulleys
-        encoderOnMachine,  # TRUE if the encoder measures directly the movement of the body. FALSE the encoder measures the movememt of the load
+        encoderOnMachine,  # 1 if the encoder measures directly the movement of the machine. 0 if the encoder measures the movememt of the body
         encoderType, 
         diameterRope, # diameter where the rope of the machine is wrapped.
-        diameterEncoder) # In encoders "LINEAR" or "ROTARYAXIS", diameter where the encoder are measuring.
-        # If the encoder and the rope are attached to the same point diameterRope=diameterEncoder) 
+        diameterEncoder)        # In encoders "LINEAR" or "ROTARYAXISFRICTION", diameter where the encoder are measuring.
+                                # If the encoder and the rope are attached to the same point diameterRope=diameterEncoder or
+                                # If gravitatory, in most cases diameterRope = diameterEncoder
 {
-        # On LINEAR encoder movement = R * (signal/200) * (2*pi) = signal * D * pi / 200
+        # On AXIS encoder movement  is R * (signal/200) * (2*pi) = signal * D * pi / 200
         # We asume D / (200 / pi) = D / d ----> d = 200 / pi
         
-        # It should be assignet in the interface if encoderType = "LINEAR"
-        if(encoderType == "LINEAR"){
+        # It should be assignet in the interface if encoderType = "ROTARYAXIS"
+        if(encoderType == "ROTARYAXIS"){
                 diameterEncoder == 200 / pi
         }
         movementBody = (

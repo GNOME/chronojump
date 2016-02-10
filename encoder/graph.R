@@ -473,7 +473,7 @@ findCurvesNew <- function(displacement, eccon, inertial, min_height, draw, title
 }
 
 
-findSmoothingsECGetPowerNotInertial <- function(speed)
+findSmoothingsECGetPowerNI <- function(speed)
 {
 	acceleration <- getAcceleration(speed)
 	acceleration$y <- acceleration$y * 1000
@@ -481,10 +481,55 @@ findSmoothingsECGetPowerNotInertial <- function(speed)
 	power <- force * speed$y
 	return(power)
 }
-findSmoothingsECGetPowerInertial <- function(displacement, encoderConfigurationName, diameter, massTotal, inertiaMomentum, smoothing)
+findSmoothingsECGetPowerI <- function(displacement, encoderConfigurationName, diameter, massTotal, inertiaMomentum, smoothing)
 {
 	dynamics = getDynamicsInertial(encoderConfigurationName, displacement, diameter, massTotal, inertiaMomentum, smoothing)
 	return(dynamics$power)
+}
+splinesPredict <- function(x,y)
+{
+	smodel = smooth.spline(y,x)
+	#plot(x,y)
+	for (i in seq(y[1], y[length(y)], length.out=30)) {
+		predicted <- predict(smodel,i)
+		#points(predicted$y, predicted$x, col="red")
+	}
+	return(smodel)
+
+}
+findSmoothingsECYPoints <- function(eccentric.concentric, conStart, conEnd, x, maxPowerConAtCon, 
+		       encoderConfigurationName, diameter, massTotal, inertiaMomentum)
+{
+	y <- NULL 
+	count <- 1
+	for(j in x)
+	{
+		speed <- getSpeed(eccentric.concentric, j)
+		smoothingOneEC = j
+
+		powerTemp = NULL
+		if(! isInertial(encoderConfigurationName) )
+			powerTemp <- findSmoothingsECGetPowerNI(speed)
+		else
+			powerTemp <- findSmoothingsECGetPowerI(eccentric.concentric, encoderConfigurationName, 
+							       diameter, massTotal, inertiaMomentum, smoothingOneEC)
+		
+		#find the max power in concentric phase of this ecc-con movement
+		maxPowerConAtFullrep <- max(powerTemp[conStart:conEnd])
+		y[count] = maxPowerConAtFullrep
+
+		#write("kkYPoints", stderr())
+		#write(paste("smoothingOneEC, maxPowerConAtFullrep, maxPowerConAtCon, diff", 
+		#	    smoothingOneEC,
+		#	    round(maxPowerConAtFullrep,2), 
+		#	    round(maxPowerConAtCon,2),
+		#	    round( (maxPowerConAtFullrep - maxPowerConAtCon),2 ))
+		#, stderr())
+		
+		count <- count +1
+	}
+
+	return(y)
 }
 
 #called on "ec" and "ce" to have a smoothingOneEC for every curve
@@ -492,6 +537,10 @@ findSmoothingsECGetPowerInertial <- function(displacement, encoderConfigurationN
 findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingOneC,
 			     singleFileEncoderConfigurationName, singleFileDiameter, singleFileInertiaMomentum)
 {
+	ptm <- as.vector(proc.time()[3])
+	write("time start", stderr())
+	write(ptm, stderr())
+
 	#print(c("findSmoothingsEC: eccon smoothingOneC", eccon, smoothingOneC))
 
 	smoothings = NULL
@@ -511,6 +560,7 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 			if( (singleFile && eccon == "c") || (! singleFile && curves[i,8] == "c") )
 				smoothings[i] = 0
 			else {
+#0 find concentric
 				eccentric.concentric = displacement[curves[i,1]:curves[i,2]]
 
 				#get the position
@@ -519,31 +569,23 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				#analyze the "c" phase
 				#Note dividing phases can be done using the speed,
 				#but there's no need of this small difference here 
-				start = 0
-				end = 0
+				conStart = 0
+				conEnd = 0
 				if(eccon=="ec") {
-					start = mean(which(position == min(position)))
-					end = length(position) -1
+					conStart = mean(which(position == min(position)))
+					conEnd = length(position) -1
 					#the -1 is because the line below: "concentric=" will fail in curves[i,1]+end
 					#and will add an NA
 				} else { #(eccon=="ce")
-					start = 0
-					end = mean(which(position == max(position)))
+					conStart = 0
+					conEnd = mean(which(position == max(position)))
 				}
-				#print("start, end")
-				#print(c(start, end))
 
-				concentric=displacement[(curves[i,1]+start):(curves[i,1]+end)]
+				concentric=displacement[(curves[i,1]+conStart):(curves[i,1]+conEnd)]
 				
-				#get max speed at "c"
-				#print("calling speed 1")
-				#print("unique(concentric)")
-				#print(unique(concentric))
-				#print("concentric")
-				#print(concentric)
-				
+#1 get max power concentric at concentric phase with current smoothing
+
 				speed <- getSpeed(concentric, smoothingOneC)
-				#maxSpeedC=max(speed$y)
 
 				#assign values from Roptions.txt (singleFile), or from curves
 				myEncoderConfigurationName = singleFileEncoderConfigurationName;
@@ -554,76 +596,117 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					myDiameter = curves[i,12];
 					myInertiaMomentum = curves[i,16];
 				}
+			
+				powerTemp = NULL	
+				if(! isInertial(myEncoderConfigurationName) )
+					powerTemp <- findSmoothingsECGetPowerNI(speed)
+				else
+					powerTemp <- findSmoothingsECGetPowerI(concentric, myEncoderConfigurationName,
+									       myDiameter, 100, myInertiaMomentum, smoothingOneC)
+				
+				maxPowerConAtCon <- max(powerTemp)
+
+#2 get max power concentric (y) at eccentric-concentric phase with current smoothing of an interval of possible smoothings (x)
+				
+				x <- seq(from = as.numeric(smoothingOneC), 
+						    to = as.numeric(smoothingOneC)/2, 
+						    length.out = 5)
+				y <- findSmoothingsECYPoints(eccentric.concentric, conStart, conEnd, x, maxPowerConAtCon, 
+						myEncoderConfigurationName, myDiameter, 100, myInertiaMomentum)
+				#write(paste("x, y", x, y), stderr())
+
+
+				smodel <- splinesPredict(x,y)
+				smoothingOneEC <- predict(smodel, maxPowerConAtCon)$y
+				write(paste("smoothingOneEC", smoothingOneEC), stderr())
+					
+				#check how it worked
+
+				speed <- getSpeed(eccentric.concentric, smoothingOneEC)
 				
 				if(! isInertial(myEncoderConfigurationName) )
-					powerC <- findSmoothingsECGetPowerNotInertial(speed)
+					powerTemp <- findSmoothingsECGetPowerNI(speed)
 				else
-					powerC <- findSmoothingsECGetPowerInertial(
-										   concentric,
-										   myEncoderConfigurationName,
-										   myDiameter,
-										   100, 
-										   myInertiaMomentum,
-										   smoothingOneC)
+					powerTemp <- findSmoothingsECGetPowerI( eccentric.concentric, myEncoderConfigurationName,
+									       myDiameter, 100, myInertiaMomentum, smoothingOneEC)
+				
+				#find the max power in concentric phase of this ecc-con movement
+				maxPowerConAtFullrep <- max(powerTemp[conStart:conEnd])
 
-				maxPowerC <- max(powerC) 
+#3 check if first aproximation is OK
 
-				#find max speed at "ec" that's similar to maxSpeedC
-				smoothingOneEC = smoothingOneC
+				#write(paste("MID i, smoothingOneEC, maxPowerConAtFullrep, maxPowerConAtCon, diff", 
+				#	    i, smoothingOneEC,
+				#	    round(maxPowerConAtFullrep,2), 
+				#	    round(maxPowerConAtCon,2),
+				#	    round( (maxPowerConAtFullrep - maxPowerConAtCon),2 ))
+				#, stderr())
 
-				#for(j in seq(as.numeric(smoothingOneC),0,by=-.001)) 
-				j = as.numeric(smoothingOneC)
-				while(TRUE)
-				{
-					#write("calling speed 2", stderr())
-					speed <- getSpeed(eccentric.concentric, j)
-					
-					smoothingOneEC = j
-					
-					#don't do it base on speed because difference is very tiny
-					#do it based on power
-					#maxSpeedEC=max(speed$y)
-					#write(c("j",j,"maxC",round(maxSpeedC,3),"maxEC",round(maxSpeedEC,3)),stderr())
-					#if(maxSpeedEC >= maxSpeedC)
-					#	break
+#4 create new x values closer
 
-					if(! isInertial(myEncoderConfigurationName) )
-						powerEC <- findSmoothingsECGetPowerNotInertial(speed)
-					else
-						powerEC <- findSmoothingsECGetPowerInertial(
-										   eccentric.concentric,
-										   myEncoderConfigurationName,
-										   myDiameter,
-										   100, 
-										   myInertiaMomentum,
-										   smoothingOneEC)
+				#eg 
+				#x:   .7,     .6125,     .525,     .4375,     .35
+				#y: 1156, 1190     , 1340    , 1736     , 2354
+				#lowerValue ald it's lowerPos are reffered to the x vector. 1 means the first (0.7)
+				#A) if we find the x for an y = 1900, x should be between .4375 (lowerValue) and .35 (upperValue)
+				#B) if we find the x for an y = 2500, x should be between .35 (lowerValue) and (right of .35) (upperValue)
+				#C) if we find the x for an y = 1000, x should be between (left of .7) (lowerValue) and .7 (upperValue)
 
-					maxPowerEC <- max(powerEC) 
+				xUpperValue = NULL
+				xLowerValue = NULL
 
-					if(maxPowerEC >= maxPowerC)
-						break
-
-					#if we are far away to the desired value, make j go faster
-					if( (maxPowerEC +10) < maxPowerC )
-						j = j - 0.01
-					else if( (maxPowerEC +5) < maxPowerC )
-						j = j - 0.005
-					else
-						j = j - 0.001
-					
-					if(j <= 0)
-						break
+				upperPos <- min(which(y > maxPowerConAtCon)) #A: 5, C:1
+				if(is.infinite(upperPos)) {	
+					xUpperValue <- x[length(x)] - (x[length(x) -1] - x[length(x)])	#B: .35 - (.4375-.35) = .2625
+					xLowerValue <- x[length(x)]					#B: .35
 				}
+				else {
+					xUpperValue <- x[upperPos]	#A: .35
+					lowerPos <- upperPos -1
 					
-				print(c("maxpowers", j, maxPowerEC, maxPowerC))
+					if(lowerPos >= 1)
+						xLowerValue <- x[lowerPos]	#A: .4375
+					else
+						xLowerValue <- x[1] + (x[1] - x[2]) #C: .7 + (.7-.6125) = .7875
+				}
 
-				#use smoothingOneEC
-				smoothings[i] = smoothingOneEC
 
-				print(smoothings[i])
+#5 get max power concentric (y) at eccentric-concentric phase with current smoothing of an interval of possible smoothings (x)
+				
+				x <- seq(
+					 from = xUpperValue, 
+					 to = xLowerValue,
+					 length.out = 5)
+				y <- findSmoothingsECYPoints(eccentric.concentric, conStart, conEnd, x, maxPowerConAtCon, 
+						myEncoderConfigurationName, myDiameter, 100, myInertiaMomentum)
+				
+				
+				smodel <- splinesPredict(x,y)
+				smoothingOneEC <- predict(smodel, maxPowerConAtCon)$y
+					
+#6 check if aproximation is OK
+				
+				if(! isInertial(myEncoderConfigurationName) )
+					powerTemp <- findSmoothingsECGetPowerNI(speed)
+				else
+					powerTemp <- findSmoothingsECGetPowerI( eccentric.concentric, myEncoderConfigurationName,
+									       myDiameter, 100, myInertiaMomentum, smoothingOneEC)
+				
+				#find the max power in concentric phase of this ecc-con movement
+				maxPowerConAtFullrep <- max(powerTemp[conStart:conEnd])
+				
+				write(paste("FINAL smooth EC: i, smoothingOneEC, maxPowerConAtFullrep, maxPowerConAtCon, diff", 
+					    i, smoothingOneEC,
+					    round(maxPowerConAtFullrep,2), 
+					    round(maxPowerConAtCon,2),
+					    round( (maxPowerConAtFullrep - maxPowerConAtCon),2 ))
+				, stderr())
 			}
 		}
 	}
+	
+	write("time end", stderr())
+	write(as.vector(proc.time()[3]) - ptm, stderr())
 		
 	return(smoothings)
 }

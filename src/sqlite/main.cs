@@ -77,7 +77,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.26";
+	static string lastChronojumpDatabaseVersion = "1.27";
 
 	public Sqlite() {
 	}
@@ -1854,6 +1854,15 @@ class Sqlite
 				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
 				currentVersion = newVersion;
 			}
+			if(currentVersion == "1.26") {
+				LogB.SQL("Changing runDoubleContactsMS and runIDoubleContactsMS from 1000ms to 300ms");
+				SqlitePreferences.Update("runDoubleContactsMS", "300", true);
+				SqlitePreferences.Update("runIDoubleContactsMS", "300", true);
+				
+				newVersion = "1.27";
+				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
+				currentVersion = newVersion;
+			}
 
 
 			// --- add more updates here
@@ -2009,6 +2018,7 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
+		//1.26 - 1.27 Converted DB to 1.27 Changing runDoubleContactsMS and runIDoubleContactsMS from 1000ms to 300ms
 		//1.25 - 1.26 Converted DB to 1.26 Changed Inclinated to Inclined
 		//1.24 - 1.25 Converted DB to 1.25 Language defaults to (empty string), means detected
 		//1.23 - 1.24 Converted DB to 1.24 Delete runISpeedStartArrival and add 4 double contacts configs

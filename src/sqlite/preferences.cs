@@ -72,10 +72,10 @@ class SqlitePreferences : Sqlite
 
 				Insert ("runDoubleContactsMode", 
 						Constants.DoubleContact.LAST.ToString(), dbcmdTr); 
-				Insert ("runDoubleContactsMS", "1000", dbcmdTr);
+				Insert ("runDoubleContactsMS", "300", dbcmdTr);
 				Insert ("runIDoubleContactsMode", 
 						Constants.DoubleContact.AVERAGE.ToString(), dbcmdTr); 
-				Insert ("runIDoubleContactsMS", "1000", dbcmdTr);
+				Insert ("runIDoubleContactsMS", "300", dbcmdTr);
 
 				Random rnd = new Random();
 				string machineID = rnd.Next().ToString();

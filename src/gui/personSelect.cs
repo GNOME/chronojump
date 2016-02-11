@@ -31,7 +31,10 @@ public class PersonSelectWindow
 	[Widget] Gtk.Table table1;
 	[Widget] Gtk.Button button_select;
 	[Widget] Gtk.Button button_edit;
+	[Widget] Gtk.Button button_delete;
+	[Widget] Gtk.VBox vbox_button_delete_confirm;
 	[Widget] Gtk.Label label_selected_person_name;
+	[Widget] Gtk.Button button_add;
 	
 	static PersonSelectWindow PersonSelectWindowBox;
 	Gtk.Window parent;
@@ -40,6 +43,7 @@ public class PersonSelectWindow
 	public Person SelectedPerson;
 	public Gtk.Button FakeButtonAddPerson;
 	public Gtk.Button FakeButtonEditPerson;
+	public Gtk.Button FakeButtonDeletePerson;
 	public Gtk.Button FakeButtonDone;
 
 	
@@ -53,6 +57,7 @@ public class PersonSelectWindow
 		
 		FakeButtonAddPerson = new Gtk.Button();
 		FakeButtonEditPerson = new Gtk.Button();
+		FakeButtonDeletePerson = new Gtk.Button();
 		FakeButtonDone = new Gtk.Button();
 	}
 	
@@ -82,11 +87,8 @@ public class PersonSelectWindow
 		LogB.Debug("Recreating table");
 		createTable();
 		table1.Visible = true;
-				
-		button_select.Sensitive = false;
-		button_edit.Sensitive = false;
 	}
-	
+
 	private void removeTable() 
 	{
 		Array buttons = table1.Children;
@@ -102,8 +104,10 @@ public class PersonSelectWindow
 		uint rows = Convert.ToUInt32(Math.Floor(persons.Count / (1.0 * cols) ) +1);
 		int count = 0;
 		
-		button_select.Sensitive = false;
-		button_edit.Sensitive = false;
+		label_selected_person_name.Text = "";
+		SelectedPerson = null;
+		personButtonsSensitive(false);
+		vbox_button_delete_confirm.Visible = false;
 		
 		for (int row_i = 0; row_i < rows; row_i ++) {
 			for (int col_i = 0; col_i < cols; col_i ++) 
@@ -148,22 +152,49 @@ public class PersonSelectWindow
 				SelectedPerson = p;
 				label_selected_person_name.Text = p.Name;
 
-				button_select.Sensitive = true;
-				button_edit.Sensitive = true;
+				personButtonsSensitive(true);
 			}
 	}
 	
-	protected virtual void on_button_select_clicked (object o, EventArgs args) {
+	private void personButtonsSensitive(bool sensitive) {
+		button_select.Sensitive = sensitive;
+		button_edit.Sensitive = sensitive;
+		button_delete.Sensitive = sensitive;
+	}
+	
+	
+	private void on_button_select_clicked (object o, EventArgs args) {
 		FakeButtonDone.Click();
 		close_window();
 	}
 	
-	protected virtual void on_button_add_clicked (object o, EventArgs args) {
+	private void on_button_add_clicked (object o, EventArgs args) {
 		FakeButtonAddPerson.Click();
 	}
-	protected virtual void on_button_edit_clicked (object o, EventArgs args) {
+	private void on_button_edit_clicked (object o, EventArgs args) {
 		FakeButtonEditPerson.Click();
 	}
+
+
+	//delete person stuff	
+	private void on_button_delete_clicked (object o, EventArgs args) {
+		Button_delete_confirm_focus(true, false);
+	}
+	private void on_button_delete_no_clicked (object o, EventArgs args) {
+		Button_delete_confirm_focus(false, true);
+	}
+	private void on_button_delete_yes_clicked (object o, EventArgs args) {
+		FakeButtonDeletePerson.Click();
+	}
+	public void Button_delete_confirm_focus(bool doFocus, bool sensitivePersonButtons) {
+		vbox_button_delete_confirm.Visible = doFocus;
+		table1.Sensitive = ! doFocus;
+		button_add.Sensitive = ! doFocus;
+		
+		personButtonsSensitive(sensitivePersonButtons);
+	}
+	//end of delete person stuff	
+
 
 	private void close_window() {	
 		PersonSelectWindowBox.person_select_window.Hide();
@@ -171,7 +202,7 @@ public class PersonSelectWindow
 	}
 	
 	//ESC is enabled
-	protected virtual void on_button_cancel_clicked (object o, EventArgs args) {
+	private void on_button_cancel_clicked (object o, EventArgs args) {
 		close_window();
 	}
 	

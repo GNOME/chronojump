@@ -2855,6 +2855,7 @@ public partial class ChronoJumpWindow
 		personSelectWin = PersonSelectWindow.Show(app1, myPersons);
 		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_encoder_person_add_person);
 		personSelectWin.FakeButtonEditPerson.Clicked += new EventHandler(on_button_encoder_person_edit_person);
+		personSelectWin.FakeButtonDeletePerson.Clicked += new EventHandler(on_button_encoder_person_delete_person);
 		personSelectWin.FakeButtonDone.Clicked += new EventHandler(on_button_encoder_person_change_done);
 	}
 	private void on_button_encoder_person_add_person(object o, EventArgs args)
@@ -2868,6 +2869,19 @@ public partial class ChronoJumpWindow
 		
 		person_edit_single_called_from_person_select_window = true;
 		person_edit_single();
+	}
+	private void on_button_encoder_person_delete_person(object o, EventArgs args)
+	{
+		currentPerson = personSelectWin.SelectedPerson;
+		
+		//without confirm, because it's already confirmed on PersonSelect
+		on_delete_current_person_from_session_accepted (o, args);
+				
+		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+				currentSession.UniqueID, 
+				false); //means: do not returnPersonAndPSlist
+		personSelectWin.Update(myPersons);
+		personSelectWin.Button_delete_confirm_focus(false, false);
 	}
 	private void on_button_encoder_person_change_done(object o, EventArgs args) 
 	{
@@ -6412,6 +6426,8 @@ LogB.Debug("X");
 		
 		menuPersonSelectedSensitive(false);
 		vbox_execute_test.Sensitive = false;
+
+		label_encoder_person_name.Text = "";
 	}
 	
 	private void sensitiveGuiYesPerson () {

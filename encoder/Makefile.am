@@ -5,6 +5,7 @@ dist_encoderdata_DATA = pyserial_pyper.py \
 	     call_graph.R \
 	     capture.R \
 	     graph.R \
+	     graphSmoothingEC.R \
 	     inertia-momentum.R \
 	     neuromuscularProfile.R \
 	     util.R

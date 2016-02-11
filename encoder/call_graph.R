@@ -28,6 +28,7 @@ English = unlist(strsplit(options[28], "\\;"))
 Translated = unlist(strsplit(options[29], "\\;"))
 
 source(paste(options[4], "/util.R", sep=""))
+source(paste(options[4], "/graphSmoothingEC.R", sep=""))
 
 
 #Note:

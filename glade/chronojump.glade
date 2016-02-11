@@ -18853,56 +18853,14 @@ on current Chronojump version.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkVBox" id="vbox63">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkVBox" id="vbox89">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">8</property>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_encoder_analyze_AB_save">
-                                                            <property name="sensitive">False</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="tooltip" translatable="yes">Export repetition from A to B</property>
-                                                            <signal name="clicked" handler="on_button_encoder_analyze_AB_save_clicked" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkVBox" id="vbox68">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label82">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label">AB</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_encoder_analyze_image_save_2">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-save</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_analyze_image_save">
                                                             <property name="visible">True</property>
@@ -18912,7 +18870,7 @@ on current Chronojump version.</property>
                                                             <property name="tooltip" translatable="yes">Save image</property>
                                                             <signal name="clicked" handler="on_button_encoder_analyze_image_save_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox63">
+                                                            <widget class="GtkVBox" id="vbox68">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -18946,7 +18904,6 @@ on current Chronojump version.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="pack_type">end</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -18992,14 +18949,67 @@ on current Chronojump version.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="pack_type">end</property>
                                                             <property name="position">1</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_encoder_analyze_AB_save">
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="tooltip" translatable="yes">Export repetition from A to B</property>
+                                                            <signal name="clicked" handler="on_button_encoder_analyze_AB_save_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox71">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label82">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">AB</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_analyze_image_save_2">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-save</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>

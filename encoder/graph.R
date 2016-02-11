@@ -701,6 +701,9 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					    round(maxPowerConAtCon,2),
 					    round( (maxPowerConAtFullrep - maxPowerConAtCon),2 ))
 				, stderr())
+
+				#use smoothingOneEC
+				smoothings[i] = smoothingOneEC
 			}
 		}
 	}

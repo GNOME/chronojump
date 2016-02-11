@@ -67,6 +67,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_capture_finish;
 	[Widget] Gtk.Button button_encoder_recalculate;
 	[Widget] Gtk.Button button_encoder_load_signal;
+	[Widget] Gtk.Button button_encoder_load_signal_on_analyze;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_capture_open;
@@ -180,7 +181,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_encoder_analyze_signal_or_curves;
 	[Widget] Gtk.Image image_encoder_analyze_current_signal;
 	[Widget] Gtk.Image image_encoder_analyze_saved_curves;
-	[Widget] Gtk.Label label_encoder_analyze_current_signal;
+	[Widget] Gtk.HBox hbox_encoder_analyze_current_signal;
 	[Widget] Gtk.Label label_encoder_analyze_saved_curves;
 	
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
@@ -3137,7 +3138,7 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_sensitiveness();
 
 		image_encoder_analyze_current_signal.Visible 	= signal;
-		label_encoder_analyze_current_signal.Visible	= signal;
+		hbox_encoder_analyze_current_signal.Visible	= signal;
 		image_encoder_analyze_saved_curves.Visible	= ! signal;
 		label_encoder_analyze_saved_curves.Visible	= ! signal;
 	}
@@ -4238,6 +4239,7 @@ public partial class ChronoJumpWindow
 		button_encoder_recalculate.Sensitive = Util.IntToBool(table[1]);
 		
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
+		button_encoder_load_signal_on_analyze.Sensitive = Util.IntToBool(table[2]);
 		
 		hbox_encoder_capture_curves_save_all_none.Sensitive = Util.IntToBool(table[3]);
 		menuitem_export_encoder_signal.Sensitive = Util.IntToBool(table[3]);

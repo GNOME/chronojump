@@ -1425,7 +1425,10 @@ textBox <- function(x,y,text,frontCol,bgCol,xpad=.1,ypad=1){
 paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, showTTPP, showRange) 
 {
 	#if there's one or more inertial curves: show inertia instead of mass
+	hasInertia <- FALSE
+
 	if(findInertialCurves(paf)) {
+		hasInertia <- TRUE
 		load = paf[,findPosInPaf("Inertia","")]
 		load = load * 10000
 	} else
@@ -1494,7 +1497,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 	box()
 	
 	loadWord = "Mass"
-	if(findInertialCurves(paf))
+	if(hasInertia)
 		loadWord = "Inertia M."
 
 	mtext(paste(translateToPrint("Repetition")," \n",translateToPrint(loadWord)," ",sep=""),side=1,at=1,adj=1,line=1,cex=.9)
@@ -1789,8 +1792,12 @@ fitLine <- function(mode, x, y, col, lwd) {
 #option: mean or max
 paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, ecconVector, seriesName, do1RM, do1RMMethod, outputData1) 
 {
+	hasInertia <- FALSE
+	if(findInertialCurves(paf))
+		hasInertia <- TRUE
+
 	#if there's one or more inertial curves: show inertia instead of mass
-	if(varX == "Load" && findInertialCurves(paf))
+	if(varX == "Load" && hasInertia)
 		varX = "Inertia"
 
 	x = (paf[,findPosInPaf(varX, option)])
@@ -1971,9 +1978,14 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 						abline(v=xmax,lty=3)
 						points(xmax, pmax, pch=1, cex=3)
 
+						massUnit <- "Kg"
+						if(hasInertia)
+							massUnit <- "Kg*cm^2"
+
 						#this check is to not have title overlaps on 'speed,power / load' graph
 						if(title != "")
-							title = paste(title, " (pmax = ", round(pmax,1), " W with ", round(xmax,1), " Kg*cm^2)", sep="")
+							title = paste(title, " (pmax = ", round(pmax,1), " W with ", 
+								      round(xmax,1), " ", massUnit, sep="")
 					}
 				}
 				else

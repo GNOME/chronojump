@@ -206,11 +206,13 @@ drawAll <- function(data, n){
         absAccel = absAccel / 1000
         position = getAbsPosition(data)
         lim = c(-max(abs(absAccel)), max(abs(absAccel)))
+        
         plot3d(c(0,i[1,1]), c(0,i[1,2]), c(0,i[1,3]), xlim = lim, , ylim = lim , zlim = lim, type="l")
         plot3d(c(0,i[2,1]), c(0,i[2,2]), c(0,i[2,3]), xlim = lim, , ylim = lim , zlim = lim, xlab = "X", ylab="Y", zlab="Z", type="l")
         #plot3d(c(0,i[3,1]), c(0,i[3,2]), c(0,i[3,3]), xlim = lim, , ylim = lim , zlim = lim, xlab = "X", ylab="Y", zlab="Z", type="l")
         drawPosition(position)
-        
+       
+        #steps	
         p = length(position[,1]) %/% n
         
         #drawBasis(position[1,], localBasis[[1]])
@@ -251,11 +253,14 @@ correctSignal <- function(signal, s){
 #   return(q)
 # }
 
-drawRelative2D <- function(data)
+drawRelative2D <- function(data, toFile)
 {
         data <- data *0.00981 #miliG to ms^2
         
-        png("drawRelative2D.png",width=600, height=400)
+	if(toFile) {
+		png("drawRelative2D.png",width=600, height=400)
+	}
+
         plot(data$ACC_X, ylim=c(-11, 11), type ="l", col="red",
              xlab="Temps (ms)", ylab="Acceleració (m/s^2)",
              main="Acceleracions 3D relatives al llarg del temps")
@@ -268,11 +273,18 @@ drawRelative2D <- function(data)
         mtext("C",side=3, at=350)
         mtext("D",side=3, at=500)
         mtext("E",side=3, at=700)
-        dev.off()
+	
+	if(toFile) {
+        	dev.off()
+	}
 }
 
-setwd("ownCloud/Xavier/Chronojump/Accelerometre/")
+library("rgl") #installing on Debian needs packages: mesa-common-dev, libglu1-mesa-dev
+library("onion")
+
+#setwd("ownCloud/Xavier/Chronojump/Accelerometre/")
 data = read.csv("captures/0.981m.csv", sep = ",", dec = ",")
 
-drawRelative2D(data)
+drawRelative2D(data, TRUE) #toFile = TRUE
+drawAll(data, 30) #100 nicer
 getwd()

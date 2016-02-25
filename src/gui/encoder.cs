@@ -1605,9 +1605,6 @@ public partial class ChronoJumpWindow
 			entry_encoder_im_weights_n.Text = encoderConfigurationCurrent.extraWeightN.ToString();
 
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
-
-			//if inertial, select ecc-con
-			combo_encoder_eccon.Active = 1;
 		}
 		else
 			notebook_encoder_capture_extra_mass.CurrentPage = 0;

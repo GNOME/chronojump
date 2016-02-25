@@ -1526,10 +1526,10 @@ stroverlapArray <- function(newPoint, points) {
 	return (FALSE)
 }
 
-fitLine <- function(mode, x, y, col, lwd) {
+fitLine <- function(mode, x, y, col, lwd, lty) {
 	if(mode == "LINE") {
 		fit = lm(y ~ x)
-		abline(fit, col=col, lwd=lwd)
+		abline(fit, col=col, lwd=lwd, lty=lty)
 	}
 	if(mode == "CURVE") {
 		fit = lm(y ~ x + I(x^2))
@@ -1540,7 +1540,7 @@ fitLine <- function(mode, x, y, col, lwd) {
 
 		x1 <- seq(min(x),max(x), (max(x) - min(x))/1000)
 		y1 <- coef.a *x1^2 + coef.b * x1 + coef.c
-		lines(x1, y1, col=col, lwd=lwd)
+		lines(x1, y1, col=col, lwd=lwd, lty=lty)
 
 		return (fit)
 	}
@@ -1694,7 +1694,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			if(length(unique(x)) >= 3) 
 			{
 				if(varY == "Power") {
-					fit = fitLine("CURVE", x,y, "black", 1)
+					fit = fitLine("CURVE", x,y, "black", 1, 1)
 
 					coef.a <- fit$coefficient[3]
 					coef.b <- fit$coefficient[2]
@@ -1744,9 +1744,30 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 							title = paste(title, " (pmax = ", round(pmax,1), " W with ", 
 								      round(xmax,1), " ", massUnit, sep="")
 					}
+					
+					if(length(unique(laterality)) > 1) 
+					{
+						if(length(laterality[laterality == "R"]) > 0)
+							fitLine("CURVE", x[laterality=="R"],y[laterality=="R"], "black", 1, 2)
+						if(length(laterality[laterality == "L"]) > 0)
+							fitLine("CURVE", x[laterality=="L"],y[laterality=="L"], "black", 1, 3)
+						if(length(laterality[laterality == "RL"]) > 0)
+							fitLine("CURVE", x[laterality=="RL"],y[laterality=="RL"], "black", 1, 4)
+					}
 				}
-				else
-					fitLine("LINE", x,y, "black", 1)
+				else {
+					fitLine("LINE", x,y, "black", 1, 1)
+					
+					if(length(unique(laterality)) > 1) 
+					{
+						if(length(laterality[laterality == "R"]) > 0)
+							fitLine("LINE", x[laterality=="R"],y[laterality=="R"], "black", 1, 2)
+						if(length(laterality[laterality == "L"]) > 0)
+							fitLine("LINE", x[laterality=="L"],y[laterality=="L"], "black", 1, 3)
+						if(length(laterality[laterality == "RL"]) > 0)
+							fitLine("LINE", x[laterality=="RL"],y[laterality=="RL"], "black", 1, 4)
+					}
+				}
 			}
 		}
 		
@@ -1801,9 +1822,9 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 				#lines(smooth.spline(x[thisSerie],y[thisSerie],df=4),col=uniqueColors[i],lwd=2)
 			if(length(unique(x[thisSerie])) >= 3) {
 				if(varY == "Power")
-					fitLine("CURVE", x[thisSerie],y[thisSerie], uniqueColors[i], 2)
+					fitLine("CURVE", x[thisSerie],y[thisSerie], uniqueColors[i], 2, 1)
 				else
-					fitLine("LINE", x[thisSerie],y[thisSerie], uniqueColors[i], 2)
+					fitLine("LINE", x[thisSerie],y[thisSerie], uniqueColors[i], 2, 1)
 			}
 		}
 	

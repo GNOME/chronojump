@@ -1747,11 +1747,11 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 					
 					if(length(unique(laterality)) > 1) 
 					{
-						if(length(laterality[laterality == "R"]) > 0)
+						if(length(laterality[laterality == "R"]) >= 3)
 							fitLine("CURVE", x[laterality=="R"],y[laterality=="R"], "black", 1, 2)
-						if(length(laterality[laterality == "L"]) > 0)
+						if(length(laterality[laterality == "L"]) >= 3)
 							fitLine("CURVE", x[laterality=="L"],y[laterality=="L"], "black", 1, 3)
-						if(length(laterality[laterality == "RL"]) > 0)
+						if(length(laterality[laterality == "RL"]) >= 3)
 							fitLine("CURVE", x[laterality=="RL"],y[laterality=="RL"], "black", 1, 4)
 					}
 				}
@@ -1760,11 +1760,11 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 					
 					if(length(unique(laterality)) > 1) 
 					{
-						if(length(laterality[laterality == "R"]) > 0)
+						if(length(laterality[laterality == "R"]) >= 3)
 							fitLine("LINE", x[laterality=="R"],y[laterality=="R"], "black", 1, 2)
-						if(length(laterality[laterality == "L"]) > 0)
+						if(length(laterality[laterality == "L"]) >= 3)
 							fitLine("LINE", x[laterality=="L"],y[laterality=="L"], "black", 1, 3)
-						if(length(laterality[laterality == "RL"]) > 0)
+						if(length(laterality[laterality == "RL"]) >= 3)
 							fitLine("LINE", x[laterality=="RL"],y[laterality=="RL"], "black", 1, 4)
 					}
 				}

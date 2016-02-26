@@ -2102,7 +2102,7 @@ createPchVector <- function(ecconVector) {
 
 quitIfNoData <- function(n, curves, outputData1) {
 	#if not found curves with this data, plot a "sorry" message and exit
-	if(n == 1 & curves[1,1] == 0 & curves[1,2] == 0) {
+	if(n == 1 & curves[1,1] == 0 & curves[1,2] <= 0) { #bad curves[1,2] on inertial returns -1
 		plot(0,0,type="n",axes=F,xlab="",ylab="")
 		text(x=0,y=0,translateToPrint("Sorry, no curves matched your criteria."),cex=1.5)
 		dev.off()

@@ -41,7 +41,7 @@ public class EncoderConfigurationWindow
 	
 	[Widget] Gtk.RadioButton radio_gravity;
 	[Widget] Gtk.RadioButton radio_inertia;
-		
+	
 	[Widget] Gtk.CheckButton check_rotary_friction_inertia_on_axis;
 	[Widget] Gtk.HBox hbox_encoder_types;
 	[Widget] Gtk.Alignment alignment_options;
@@ -86,6 +86,9 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.SpinButton spin_inertia_machine;
 	[Widget] Gtk.SpinButton spin_inertia_mass; //mass of each of the extra load (weights)
 	[Widget] Gtk.SpinButton spin_inertia_length;
+	
+	[Widget] Gtk.HBox hbox_gearedUp;
+	[Widget] Gtk.ComboBox combo_gearedUp;
 		
 	[Widget] Gtk.Box vbox_select_encoder;
 	[Widget] Gtk.VSeparator vseparator_im;
@@ -162,7 +165,8 @@ public class EncoderConfigurationWindow
 		
 		EncoderConfigurationWindowBox.putValuesStoredPreviously(
 				ec.d, ec.list_d, ec.D, ec.anglePush, ec.angleWeight, 
-				ec.inertiaMachine, ec.extraWeightGrams, ec.extraWeightLength);
+				ec.inertiaMachine, ec.extraWeightGrams, ec.extraWeightLength, 
+				ec.has_gearedDown, ec.GearedUpDisplay());
 		
 
 		//id definedInConfig then only few things can change
@@ -281,6 +285,10 @@ public class EncoderConfigurationWindow
 		hbox_inertia_length.Visible = ec.has_inertia;
 		vbox_inertia_calcule.Visible = (ec.has_inertia && ! definedInConfig);
 		
+		hbox_gearedUp.Visible = ec.has_gearedDown;
+		if(ec.has_gearedDown)
+			combo_gearedUp.Active = UtilGtk.ComboMakeActive(combo_gearedUp, "2");
+		
 		label_count.Text = (listCurrent + 1).ToString() + " / " + list.Count.ToString();
 	
 		//hide inertia moment calculation options when change mode
@@ -289,7 +297,8 @@ public class EncoderConfigurationWindow
 	}
 	
 	private void putValuesStoredPreviously(double d, List<double> list_d, double D, int anglePush, int angleWeight, 
-			int inertia, int extraWeightGrams, double extraWeightLength) 
+			int inertia, int extraWeightGrams, double extraWeightLength, 
+			bool has_gearedDown, string gearedUpDisplay) 
 	{
 		if(d != -1)
 			spin_d.Value = d;
@@ -310,7 +319,9 @@ public class EncoderConfigurationWindow
 			spin_angle_weight.Value = angleWeight;
 		if(inertia != -1)
 			spin_inertia_machine.Value = inertia;
-			
+		if(has_gearedDown)
+			combo_gearedUp.Active = UtilGtk.ComboMakeActive(combo_gearedUp, gearedUpDisplay);
+
 		spin_inertia_mass.Value = extraWeightGrams;
 		spin_inertia_length.Value = extraWeightLength;
 	}
@@ -439,6 +450,10 @@ public class EncoderConfigurationWindow
 			ec.inertiaTotal = (int) spin_inertia_machine.Value; 
 			ec.extraWeightGrams = (int) spin_inertia_mass.Value;
 			ec.extraWeightLength = (double) spin_inertia_length.Value;
+		}
+
+		if(ec.has_gearedDown) {
+			ec.SetGearedDownFromDisplay(UtilGtk.ComboGetActive(combo_gearedUp));
 		}
 
 		return ec;

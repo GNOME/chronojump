@@ -204,7 +204,8 @@ doProcess <- function(options)
 		if(isInertial(op$EncoderConfigurationName))
 		{
 		  diametersPerTick = getInertialDiametersPerMs(displacement, op$diameter)
-			displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, diametersPerTick, op$diameterExt)
+			displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, 
+							       diametersPerTick, op$diameterExt, op$gearedDown)
 
 			#need to do this before getDisplacementInertialBody cuts the curve:  /|\
 			positionTemp = cumsum(displacement)

@@ -941,6 +941,7 @@ public class EncoderConfiguration {
 	public bool has_angle_push;
 	public bool has_angle_weight;
 	public bool has_inertia;
+	public bool has_gearedDown;
 	public bool rotaryFrictionOnAxis;
 	public double d;	//axis
 	public double D;	//external disc or pulley
@@ -949,6 +950,7 @@ public class EncoderConfiguration {
 	
 	public int inertiaMachine; //this is the inertia without the disc
 	
+	// see methods: GearedUpDisplay() SetGearedDownFromDisplay(string gearedUpStr) 
 	public int gearedDown;	//demultiplication
 	
 	public int inertiaTotal; //this is the inertia used by R
@@ -975,6 +977,7 @@ public class EncoderConfiguration {
 		has_angle_push = false;
 		has_angle_weight = false;
 		has_inertia = false;
+		has_gearedDown = false; //gearedDown can be changed by user
 		rotaryFrictionOnAxis = false;
 		d = -1;
 		D = -1;
@@ -999,6 +1002,7 @@ public class EncoderConfiguration {
 		has_angle_push = false;
 		has_angle_weight = false;
 		has_inertia = false;
+		has_gearedDown = false; //gearedDown can be changed by user
 		rotaryFrictionOnAxis = false;
 		gearedDown = 1;
 		list_d = new List<double>(); 
@@ -1176,8 +1180,7 @@ public class EncoderConfiguration {
 			has_d = true;
 			has_D = true;
 			has_inertia = true;
-			
-			gearedDown = -2; //gearedDown is not used in inertial machines. It's hardcoded
+			has_gearedDown = true;
 		}
 
 		// ---- rotary friction on axis
@@ -1220,8 +1223,7 @@ public class EncoderConfiguration {
 			has_d = true;
 			has_inertia = true;
 			rotaryFrictionOnAxis = true;
-			
-			gearedDown = -2; //gearedDown is not used in inertial machines. It's hardcoded
+			has_gearedDown = true;
 		}
 
 		// ---- ROTARY AXIS ----
@@ -1282,8 +1284,7 @@ public class EncoderConfiguration {
 
 			has_d = true;
 			has_inertia = true;
-			
-			gearedDown = -2; //gearedDown is not used in inertial machines. It's hardcoded
+			has_gearedDown = true;
 		}
 	}
 
@@ -1431,6 +1432,75 @@ public class EncoderConfiguration {
 
 		return code + str_d + str_D + str_anglePush + str_angleWeight + str_inertia + str_gearedDown;
 	}
+
+	/*
+	 * IMPORTANT: on GUI is gearedDown is shown as UP (for clarity: 4, 3, 2, 1, 1/2, 1/3, 1/4)
+	 * on C#, R, SQL we use "gearedDown" for historical reasons. So a conversion is done on displaying data to user
+	 * gearedDown is stored as integer on database and is converted to this gearedUp for GUI
+	 * R will do another conversion and will use the double
+	 *   4   ,    3    ,  2  , 1, 1/2, 1/3, 1/4		#gearedUp string (GUI)
+	 *  -4   ,   -3    , -2  , 1,   2,   3,   4		#gearedDown
+	 *   0.25,    0.333,  0.5, 1,   2,   3,   4		#gearedDown on R (see readFromFile.gearedDown() on util.cs)
+	 */
+	public string GearedUpDisplay() 
+	{
+		switch(gearedDown) {
+			case -4:
+				return "4";
+				break;
+			case -3:
+				return "3";
+				break;
+			case -2:
+				return "2";
+				break;
+			case 1:
+				return "1";
+				break;
+			case 2:
+				return "1/2";
+				break;
+			case 3:
+				return "1/3";
+				break;
+			case 4:
+				return "1/4";
+				break;
+			default:
+				return "1";
+				break;
+		}
+	}
+	public void SetGearedDownFromDisplay(string gearedUpStr) 
+	{
+		switch(gearedUpStr) {
+			case "4":
+				gearedDown = -4;
+				break;
+			case "3":
+				gearedDown = -3;
+				break;
+			case "2":
+				gearedDown = -2;
+				break;
+			case "1":
+				gearedDown = 1;
+				break;
+			case "1/2":
+				gearedDown = 2;
+				break;
+			case "1/3":
+				gearedDown = 3;
+				break;
+			case "1/4":
+				gearedDown = 4;
+				break;
+			default:
+				gearedDown = 1;
+				break;
+		}
+	}
+
 }
 
 public class EncoderAnalyzeInstant 

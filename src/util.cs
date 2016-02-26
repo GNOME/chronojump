@@ -1185,10 +1185,11 @@ public class Util
 		 * and some MacOSX users have 300% CPU
 		 */
 
-		if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX ||
-				UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX )
+		//if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX ||
+		//		UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX )
+		if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX )
 			playSoundGstreamer(mySound);
-		else //Windows
+		else //Windows //or mac experimental
 			playSoundWindows(mySound);
 	}
 	

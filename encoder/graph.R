@@ -2270,7 +2270,8 @@ doProcess <- function(options)
 			if(isInertial(inputMultiData$econfName[i])) {
 				dataTempFile = getDisplacementInertial(
 								       dataTempFile, inputMultiData$econfName[i], 
-								       inputMultiData$econfd[i], inputMultiData$econfD[i])
+								       inputMultiData$econfd[i], inputMultiData$econfD[i], 
+								       inputMultiData$gearedDown[i] )
 				#getDisplacementInertialBody is not needed because it's done on curve save
 			} else {
 				dataTempFile = getDisplacement(inputMultiData$econfName[i], dataTempFile, op$diameter, op$diameterExt)
@@ -2319,7 +2320,7 @@ doProcess <- function(options)
 				econfAnglePush[(i+newLines)] = inputMultiData$econfAnglePush[i]
 				econfAngleWeight[(i+newLines)] = inputMultiData$econfAngleWeight[i]
 				econfInertia[(i+newLines)] = inputMultiData$econfInertia[i]/10000.0 #comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
-				econfGearedDown[(i+newLines)] = inputMultiData$econfGearedDown[i]
+				econfGearedDown[(i+newLines)] = readFromFile.gearedDown(inputMultiData$econfGearedDown[i])
 
 				curvesHeight[(i+newLines)] = sum(dataTempPhase)
 
@@ -2389,7 +2390,9 @@ doProcess <- function(options)
 		if(isInertial(op$EncoderConfigurationName)) 
 		{
 			diametersPerMs = getInertialDiametersPerMs(displacement, op$diameter)
-			displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, diametersPerMs, op$diameterExt)
+			displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, 
+							       diametersPerMs, op$diameterExt, op$gearedDown)
+
 		
 			displacement = getDisplacementInertialBody(0, displacement, curvesPlot, op$Title)
 			#positionStart is 0 in graph.R. It is different on capture.R because depends on the start of every repetition
@@ -2475,8 +2478,10 @@ doProcess <- function(options)
 				}
 				text(x=((curves[i,1]+curves[i,2])/2/1000),	#/1000 ms -> s
 				     y=myY,labels=myLabel, adj=c(0.5,adjVert),cex=.9,col="blue")
+
 				arrows(x0=(curves[i,1]/1000),y0=myY,x1=(curves[i,2]/1000),	#/1000 ms -> s
 				       y1=myY, col="blue",code=0,length=0.1)
+				
 				#mtext(at=((curves[i,1]+curves[i,2])/2/1000),	#/1000 ms -> s
 				#     side=1,text=myLabel, cex=.8, col="blue")
 				abline(v=c(curves[i,1],curves[i,2])/1000, lty=3, col="gray")

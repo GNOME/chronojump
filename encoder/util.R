@@ -27,7 +27,7 @@
 #it can be printed safely to stderr. See end capture.R
 
 #used in graph.R and capture.R
-assignOptions <- function(options) {    
+assignOptions <- function(options) {
 	return(list(
 		    File		= options[1],        
 		    OutputGraph		= options[2],
@@ -63,7 +63,7 @@ assignOptions <- function(options) {
 		    anglePush 		= as.numeric(options[17]),
 		    angleWeight 	= as.numeric(options[18]),
 		    inertiaMomentum	= (as.numeric(options[19])/10000.0),	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
-		    gearedDown 		= as.numeric(options[20]),
+		    gearedDown 		= readFromFile.gearedDown(as.numeric(options[20])),
 
 		    SmoothingOneC	= as.numeric(options[21]),
 		    Jump		= options[22],
@@ -74,6 +74,18 @@ assignOptions <- function(options) {
 		    OperatingSystem	= options[27]#,	#if this changes, change it also at start of this R file
 		    #IMPORTANT, if this grows, change the readLines value on getOptionsFromFile
 		    ))
+}
+
+#gearedDown comes as:
+#4 and should be converted to 4
+#-4 and should be converted to 1/4 : 0.25
+#more info at GearedUpDisplay() on EncoderConfiguration C# class
+
+readFromFile.gearedDown <- function(gd) {
+	if(gd > 0)
+		return(gd)
+
+	return( abs( 1 / gd ) )
 }
 
 
@@ -960,7 +972,7 @@ getDisplacement <- function(encoderConfigurationName, displacement, diameter, di
 #This function converts angular information from rotary encoder to linear information like linear encoder
 #This is NOT the displacement of the person because con-ec phases roll in the same direction
 #This is solved by the function getDisplacementInertialBody
-getDisplacementInertial <- function(displacement, encoderConfigurationName, diameter, diameterExt)
+getDisplacementInertial <- function(displacement, encoderConfigurationName, diameter, diameterExt, gearedDown)
 {
 	write("at getDisplacementInertial", stderr())
 
@@ -982,9 +994,9 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
               encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL"){
 	  displacement = displacement * diameter / diameterExt #displacement of the axis
 	} else if(encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALMOVPULLEY"){
-	  displacement = displacement / 2 #Half the displacement of the axis
+	  displacement = displacement / gearedDown #if gearedDown = 2 : Half the displacement of the axis
 	} else if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALMOVPULLEY"){
-	  displacement = displacement * diameter /(2 * diameterExt) #Half the displacement of the axis
+	  displacement = displacement * diameter /(gearedDown * diameterExt) #if gearedDown = 2 : Half the displacement of the axis
 	} else if(encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY"){
 	  displacementMeters = displacement / 1000 #mm -> m
 	  diameterMeters = diameter / 100 #cm -> m
@@ -992,7 +1004,7 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 	  #angle in radians
 	  angle = cumsum(displacementMeters * 1000) * 2 * pi / ticksRotaryEncoder
 	  position = angle * diameterMeters / 2
-	  position = position * 500	#m -> mm and the rope moves twice as the body
+	  position = position * 1000 / gearedDown 	#m -> mm	if gearedDown = 2 : Half the displacement of the axis
 	  #this is to make "inverted cumsum"
 	  displacement = diff(position) #this displacement is going to be used now
 	  displacement = c(displacement[1],displacement) #this is to recuperate the lost 1st value in the diff operation

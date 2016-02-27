@@ -56,9 +56,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_sup_contacts;
 	[Widget] Gtk.Notebook notebook_capture_graph_table;
 	
-	[Widget] Gtk.RadioButton radio_capture_graph;
-	[Widget] Gtk.RadioButton radio_capture_table;
-
 	[Widget] Gtk.Label label_version;
 	[Widget] Gtk.Image image_logo;
 	[Widget] Gtk.Image image_selector_start_jumps;
@@ -987,16 +984,6 @@ public partial class ChronoJumpWindow
 	}
 
 	
-	public void on_radio_capture_graph_toggled (object obj, EventArgs args) {
-		if(radio_capture_graph.Active)
-			notebook_capture_graph_table.CurrentPage = 0;
-	}
-	public void on_radio_capture_table_toggled (object obj, EventArgs args) {
-		if(radio_capture_table.Active)
-			notebook_capture_graph_table.CurrentPage = 1;
-	}
-
-
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW (generic) --------------------
 	 *  --------------------------------------------------------

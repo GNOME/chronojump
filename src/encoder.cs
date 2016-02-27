@@ -1438,9 +1438,9 @@ public class EncoderConfiguration {
 	 * on C#, R, SQL we use "gearedDown" for historical reasons. So a conversion is done on displaying data to user
 	 * gearedDown is stored as integer on database and is converted to this gearedUp for GUI
 	 * R will do another conversion and will use the double
-	 *   4   ,    3    ,  2  , 1, 1/2, 1/3, 1/4		#gearedUp string (GUI)
-	 *  -4   ,   -3    , -2  , 1,   2,   3,   4		#gearedDown
-	 *   0.25,    0.333,  0.5, 1,   2,   3,   4		#gearedDown on R (see readFromFile.gearedDown() on util.cs)
+	 *   4   ,    3    ,  2  , 1/2, 1/3, 1/4		#gearedUp string (GUI)
+	 *  -4   ,   -3    , -2  ,   2,   3,   4		#gearedDown
+	 *   0.25,    0.333,  0.5,   2,   3,   4		#gearedDown on R (see readFromFile.gearedDown() on util.cs)
 	 */
 	public string GearedUpDisplay() 
 	{
@@ -1454,9 +1454,6 @@ public class EncoderConfiguration {
 			case -2:
 				return "2";
 				break;
-			case 1:
-				return "1";
-				break;
 			case 2:
 				return "1/2";
 				break;
@@ -1467,7 +1464,7 @@ public class EncoderConfiguration {
 				return "1/4";
 				break;
 			default:
-				return "1";
+				return "2";
 				break;
 		}
 	}
@@ -1483,9 +1480,6 @@ public class EncoderConfiguration {
 			case "2":
 				gearedDown = -2;
 				break;
-			case "1":
-				gearedDown = 1;
-				break;
 			case "1/2":
 				gearedDown = 2;
 				break;
@@ -1496,7 +1490,7 @@ public class EncoderConfiguration {
 				gearedDown = 4;
 				break;
 			default:
-				gearedDown = 1;
+				gearedDown = -2;
 				break;
 		}
 	}

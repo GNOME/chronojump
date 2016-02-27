@@ -2493,7 +2493,6 @@
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="top_padding">8</property>
-                                                        <property name="left_padding">8</property>
                                                         <child>
                                                           <widget class="GtkVBox" id="vbox2">
                                                             <property name="visible">True</property>
@@ -3723,7 +3722,6 @@
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="top_padding">4</property>
-                                                <property name="left_padding">8</property>
                                                 <child>
                                                   <widget class="GtkVBox" id="vbox_execute_test">
                                                     <property name="visible">True</property>

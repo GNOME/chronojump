@@ -232,6 +232,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TreeView treeview_encoder_capture_curves;
 	[Widget] Gtk.TreeView treeview_encoder_analyze_curves;
 	
+	[Widget] Gtk.Notebook notebook_encoder_capture_or_instructions;
+	
 	[Widget] Gtk.DrawingArea encoder_capture_signal_drawingarea;
 
 	[Widget] Gtk.DrawingArea encoder_capture_curves_bars_drawingarea;
@@ -563,6 +565,9 @@ public partial class ChronoJumpWindow
 	{
 		if(! encoderCheckPort())
 			return;
+
+		if(encoderConfigurationCurrent.has_inertia)
+			notebook_encoder_capture_or_instructions.Page = 1; //show inertia instructions
 
 		//This notebook has capture (signal plotting), and curves (shows R graph)	
 		if(notebook_encoder_capture.CurrentPage == 1)
@@ -5134,6 +5139,11 @@ public partial class ChronoJumpWindow
 			StreamReader reader = File.OpenText(filename);
 			line = reader.ReadLine(); //just read first line
 			reader.Close();
+			
+			//at first readed curve, hide inertia capture instructions
+			if(encoderCaptureReadedLines == 0 && encoderConfigurationCurrent.has_inertia)
+				notebook_encoder_capture_or_instructions.Page = 0;
+
 			encoderCaptureReadedLines ++;
 		}
 		catch {
@@ -5211,6 +5221,10 @@ public partial class ChronoJumpWindow
 				//stop video		
 				encoderStopVideoRecord();
 			}
+
+			//if on inertia and already showing instructions, return to page 0
+			if(notebook_encoder_capture_or_instructions.Page == 1)
+				notebook_encoder_capture_or_instructions.Page = 0;
 
 			LogB.ThreadEnded(); 
 			return false;

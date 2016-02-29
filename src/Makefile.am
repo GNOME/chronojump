@@ -349,6 +349,7 @@ RESOURCES = \
 	../images/encoder-rotary-axis-inertial-mov-pulley.png,encoder-rotary-axis-inertial-mov-pulley.png \
 	../images/encoder-calcule-im.png,encoder-calcule-im.png \
 	../images/encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png \
+	../images/inertial-start.png,inertial-start.png \
 	../images/123804__kendallbear__kendallklap1.wav,sound_can_start.wav \
 	../images/135936__bradwesson__collectcoin.wav,135936__bradwesson__collectcoin.wav \
 	../images/142608__autistic-lucario__error.wav,sound_bad.wav

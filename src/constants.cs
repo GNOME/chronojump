@@ -430,6 +430,7 @@ public class Constants
 	public static string FileNameEncoderAnalyzeMaxIcon = "encoder-analyze-max.png";
 	public static string FileNameEncoderAnalyzeRangeIcon = "encoder-analyze-range.png";
 	public static string FileNameEncoderAnalyzeTimeToPPIcon = "encoder-analyze-time-to-pp.png";
+	public static string FileNameEncoderInertialInstructions = "inertial-start.png";
 	
 	public static string FileNameAutoPersonSkipIcon = "auto-person-skip.png";
 	public static string FileNameAutoPersonRemoveIcon = "auto-person-remove.png";

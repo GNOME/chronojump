@@ -342,6 +342,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze_1RM_save;
 	[Widget] Gtk.Image image_encoder_analyze_table_save;
 	[Widget] Gtk.Image image_encoder_signal_delete;
+	[Widget] Gtk.Image image_encoder_inertial_instructions;
 
 
 	Random rand;
@@ -826,6 +827,8 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_range.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeTimeToPPIcon);
 		image_encoder_analyze_time_to_pp.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderInertialInstructions);
+		image_encoder_inertial_instructions.Pixbuf = pixbuf;
 		
 		//auto mode
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameAutoPersonSkipIcon);

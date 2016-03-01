@@ -1780,12 +1780,17 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		#don't write legend on 'speed,power / load' because it doesn't fits with the formulas and regressions
 		if(isAlone == "ALONE") {
 			#show legend
-			legendText = c(translateToPrint("concentric"),
-				       translateToPrint("eccentric"),
-				       paste(translateToPrint("eccentric"),translateToPrint("concentric"),sep="-"),
-				       translateToPrint("L"),
-				       translateToPrint("R")
-				       )
+			
+			#disabled translation because some OSX cannot show accents on this expression,
+			#and some parallels on this OSX hang when try to show this
+			#legendText = c(translateToPrint("concentric"),
+			#	       translateToPrint("eccentric"),
+			#	       paste(translateToPrint("eccentric"),translateToPrint("concentric"),sep="-"),
+			#	       translateToPrint("L"),
+			#	       translateToPrint("R")
+			#	       )
+			legendText = c("concentric", "eccentric", paste("eccentric","concentric",sep="-"), "L", "R")
+			
 			rng=par("usr")
 			lg = legend(rng[1],rng[4], 
 				    legend=legendText, pch=c(24,25,21,3,4), col="black", pt.bg="white",

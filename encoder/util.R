@@ -1093,8 +1093,12 @@ getDisplacementInertialBody <- function(positionStart, displacement, draw, title
 		lines((1:length(position))/1000,positionPerson/10,lty=1,lwd=2)
 
 		title(title, cex.main=1, font.main=1)
-		mtext(paste(translateToPrint("time"),"(s)"),side=1,adj=1,line=-1)
-		mtext(paste(translateToPrint("displacement"),"(cm)"),side=2,adj=1,line=-1)
+		
+		#disabled because translateToPrint is on graph.R (not called by capture.R)
+		#mtext(paste(translateToPrint("time"),"(s)"),side=1,adj=1,line=-1)
+		#mtext(paste(translateToPrint("displacement"),"(cm)"),side=2,adj=1,line=-1)
+		mtext("time (s)", side=1, adj=1, line=-1)
+		mtext("displacement (cm)", side=2, adj=1, line=-1)
 	}
 	return(displacementPerson)
 }

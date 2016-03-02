@@ -214,6 +214,7 @@ public class EncoderCurve
 	public string Laterality;	//only on analyze
 	public double ExtraWeight;
 	public double DisplacedWeight;
+	public int Inertia;
 	public string Start;
 	public string Duration;
 	public string Height;
@@ -261,6 +262,7 @@ public class EncoderCurve
 	public EncoderCurve (string n, string series, string exercise, 
 			string laterality,
 			double extraWeight, double displacedWeight,
+			int inertia,
 			string start, string duration, string height,
 			string meanSpeed, string maxSpeed, string maxSpeedT,
 			string meanPower, string peakPower, string peakPowerT, 
@@ -273,6 +275,7 @@ public class EncoderCurve
 		this.Laterality = laterality;
 		this.ExtraWeight = extraWeight;
 		this.DisplacedWeight = displacedWeight;
+		this.Inertia = inertia;
 		this.Start = start;
 		this.Duration = duration;
 		this.Height = height;
@@ -319,25 +322,30 @@ public class EncoderCurve
 	}
 	//at least for RenderNAnalyze
 	public bool IsValidN() {
-		if (N == "AVG" || N == "SD" || IsNumberN() || IsNumberNandEorC())
+		if (N == "MAX" || N == "AVG" || N == "SD" || IsNumberN() || IsNumberNandEorC())
 			return true;
 		return false;
 	}
 
 
-	public string ToCSV(string decimalSeparator) {
+	public string ToCSV(bool captureOrAnalyze, string decimalSeparator) {
+
 		//latin:	2,3 ; 2,5
 		//non-latin:	2.3 , 2.5
 
 		string sep = ":::";
-		string str = 
-			N + sep + Series + sep + Exercise + sep + Laterality + sep +
-			ExtraWeight + sep + DisplacedWeight + sep + 
-			Start + sep + Duration + sep + Height + sep + 
-			MeanSpeed + sep + MaxSpeed + sep + MaxSpeedT + sep + 
-			MeanPower + sep + PeakPower + sep + PeakPowerT + sep + 
-			PP_PPT + sep +
-			MeanForce + sep + MaxForce + sep + MaxForceT;
+		
+		string str = "";
+		//TODO: if capture not shown because some variables like Inertia are not defined
+		if(! captureOrAnalyze)
+			str = 
+				N + sep + Series + sep + Exercise + sep + Laterality + sep +
+				ExtraWeight + sep + DisplacedWeight + sep + Inertia + sep + 
+				Start + sep + Duration + sep + Height + sep + 
+				MeanSpeed + sep + MaxSpeed + sep + MaxSpeedT + sep + 
+				MeanPower + sep + PeakPower + sep + PeakPowerT + sep + 
+				PP_PPT + sep +
+				MeanForce + sep + MaxForce + sep + MaxForceT;
 		
 		if(decimalSeparator == "COMMA")
 			str = Util.ConvertToComma(str);

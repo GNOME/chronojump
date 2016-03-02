@@ -513,6 +513,7 @@ public partial class ChronoJumpWindow
 		Catalog.GetString("Laterality") + "\n",
 		Catalog.GetString("Extra weight") + "\n (Kg)",
 		Catalog.GetString("Total weight") + "\n (Kg)",
+		Catalog.GetString("Inertia M.") + "\n (Kg*cm^2)",
 		Catalog.GetString("Start") + "\n (s)",
 		Catalog.GetString("Duration") + "\n (s)",
 		Catalog.GetString("Distance") + "\n (cm)",
@@ -580,7 +581,7 @@ public partial class ChronoJumpWindow
 		
 					//don't show the DisplacedWeight on AVG or SD because there can be many exercises 
 					//(with different exercisePercentBodyWeight) and persons
-					if(cells[0] == "AVG" || cells[0] == "SD")
+					if(cells[0] == "MAX" || cells[0] == "AVG" || cells[0] == "SD")
 						totalMass  = -1; //mark to not be shown
 					else
 						totalMass = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[3])) * 
@@ -597,6 +598,7 @@ public partial class ChronoJumpWindow
 							cells[18],	//laterality
 							Convert.ToDouble(Util.ChangeDecimalSeparator(cells[4])),
 							totalMass,
+							Convert.ToInt32(cells[19]),
 							cells[5], cells[6], cells[7], 
 							cells[8], cells[9], cells[10], 
 							cells[11], cells[12], cells[13],
@@ -648,42 +650,45 @@ public partial class ChronoJumpWindow
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDisplacedWeight));
 					break;
 				case 6:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderInertia));
 					break;
 				case 7:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDuration));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
 					break;
 				case 8:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDuration));
 					break;
 				case 9:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
 					break;
 				case 10:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
 					break;
 				case 11:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeedT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
 					break;
 				case 12:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeedT));
 					break;
 				case 13:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
 					break;
 				case 14:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
 					break;
 				case 15:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
 					break;
 				case 16:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanForce));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
 					break;
 				case 17:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanForce));
 					break;
 				case 18:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce));
+					break;
+				case 19:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForceT));
 					break;
 			}
@@ -867,7 +872,7 @@ public partial class ChronoJumpWindow
 		//Check if it's number
 		if(! curve.IsNumberN()) {
 			(cell as Gtk.CellRendererText).Text = "";
-			LogB.Error("Curve is not number at RenderN:" + curve.ToCSV("COMMA"));
+			LogB.Error("Curve is not number at RenderN:" + curve.ToCSV(true, "COMMA"));
 			return;
 		}
 		
@@ -908,11 +913,11 @@ public partial class ChronoJumpWindow
 		//Check if it's valid
 		if(! curve.IsValidN()) {
 			(cell as Gtk.CellRendererText).Text = "";
-			LogB.Error("Curve is not valid at RenderNAnalyze:" + curve.ToCSV("COMMA"));
+			LogB.Error("Curve is not valid at RenderNAnalyze:" + curve.ToCSV(false, "COMMA"));
 			return;
 		}
 			
-		if(curve.N == "AVG" || curve.N == "SD") {
+		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD") {
 			(cell as Gtk.CellRendererText).Markup = "<b>" + Catalog.GetString(curve.N) + "</b>";
 			return;
 		}
@@ -976,7 +981,7 @@ public partial class ChronoJumpWindow
 
 	private void renderBoldIfNeeded(Gtk.CellRenderer cell, EncoderCurve curve, string str)
 	{
-		if(curve.N == "AVG" || curve.N == "SD")
+		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Markup = "<b>" + str + "</b>";
 		else
 			(cell as Gtk.CellRendererText).Text = str;
@@ -1006,6 +1011,16 @@ public partial class ChronoJumpWindow
 		
 		renderBoldIfNeeded(cell, curve, str);
 	}
+	
+	private void RenderInertia (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+
+		string str = String.Format(UtilGtk.TVNumPrint(curve.Inertia.ToString(),3,0),Convert.ToInt32(curve.Inertia));
+
+		renderBoldIfNeeded(cell, curve, str);
+	}
+
 
 	private void RenderStart (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
@@ -1314,6 +1329,10 @@ public partial class ChronoJumpWindow
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
 
 		//cells[18] laterality
+
+		//inertia comes as Kg*m^2, convert it to Kg*cm^2
+		double inertiaInM = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[19]));
+		cells[19] = (Convert.ToInt32(inertiaInM * 10000)).ToString();
 
 		return cells;
 	}

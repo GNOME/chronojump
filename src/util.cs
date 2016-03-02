@@ -1185,11 +1185,10 @@ public class Util
 		 * and some MacOSX users have 300% CPU
 		 */
 
-		//if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX ||
-		//		UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX )
-		if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX )
+		if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX ||
+				UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX )
 			playSoundGstreamer(mySound);
-		else //Windows //or mac experimental
+		else //Windows
 			playSoundWindows(mySound);
 	}
 	
@@ -1226,7 +1225,7 @@ public class Util
 			string pBin="gst-launch-0.10";
 
 			pinfo.FileName=pBin;
-			pinfo.Arguments = "playbin " + @"uri=file://" + fileName;
+			pinfo.Arguments = "playbin2 " + @"uri=file://" + fileName;
 			LogB.Information("Arguments:", pinfo.Arguments);
 			pinfo.CreateNoWindow = true;
 			pinfo.UseShellExecute = false;

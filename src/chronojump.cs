@@ -111,6 +111,12 @@ public class ChronoJump
 					LogB.Information("environments");
 					LogB.Information(Environment.GetEnvironmentVariable("R_HOME"));
 					LogB.Information(Environment.GetEnvironmentVariable("PATH"));
+
+					//Gstreamer stuff
+					string prefix="/Applications/Chronojump.app/Contents/Home/";
+					Environment.SetEnvironmentVariable ("GST_PLUGIN_PATH", prefix + "lib/gstreamer-0.10");
+					Environment.SetEnvironmentVariable ("GST_PLUGIN_SYSTEM_PATH", prefix + "lib/gstreamer-0.10");
+					Environment.SetEnvironmentVariable ("GST_PLUGIN_SCANNER_PATH", prefix + "lib/gstreamer-0.10/gst-plugin-scanner");
 					break;
 				case UtilAll.OperatingSystems.LINUX:
 					rBinPath = @"/usr/lib/R/lib";

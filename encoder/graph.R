@@ -2906,13 +2906,18 @@ doProcess <- function(options)
 		}
 		
 		if(op$Analysis == "curves" || writeCurves) {
-			#this columns are going to be removed from paf:
+			#create pafCurves to be printed on CSV. This columns are going to be removed:
+
+			#print("---- 1 ----")
+			#print(paf)
 
 			#write("paf and pafCurves", stderr())
 			#write(paf$meanSpeed, stderr())
-			pafCurves <- subset( paf, select = -c(mass, massBody, massExtra, inertiaMomentum) )
+			pafCurves <- subset( paf, select = -c(mass, massBody, massExtra) )
 			#write(pafCurves$meanSpeed, stderr())
 
+			#print("---- 2 ----")
+			#print(pafCurves)
 
 			if(singleFile)
 				pafCurves = cbind(
@@ -2942,47 +2947,63 @@ doProcess <- function(options)
 					"meanPower","peakPower","peakPowerT",
 					"pp_ppt",
 					"meanForce", "maxForce", "maxForceT",
-					"laterality"
+					"laterality", "inertiaM"
 					)
 		
 
-			#Add "AVG" and "SD" when analyzing, not on "curves"
+			#Add "Max", "AVG" and "SD" when analyzing, not on "curves"
 			if(op$Analysis != "curves") {
 				addSD = FALSE
 				if(length(pafCurves[,1]) > 1)
 					addSD = TRUE
 
 				if(typeof(pafCurves) == "list") {
-					#1) AVG
-					pafCurves = rbind(pafCurves, 
-							  c("","", mean(pafCurves$massBody), mean(pafCurves$massExtra),
+					#1) MAX
+					pafCurvesMax = c("","", max(pafCurves$massBody), max(pafCurves$massExtra),
+							    max(pafCurves$start),max(pafCurves$width),max(pafCurves$height),
+							    mean(pafCurves$meanSpeed),max(pafCurves$maxSpeed),max(pafCurves$maxSpeedT),
+							    mean(pafCurves$meanPower),max(pafCurves$peakPower),max(pafCurves$peakPowerT),
+							    mean(pafCurves$pp_ppt),
+							    max(pafCurves$meanForce), max(pafCurves$maxForce), max(pafCurves$maxForceT),
+							    "", max(pafCurves$inertiaM)
+							    )
+					
+					#2) AVG
+					pafCurvesAVG = c("","", mean(pafCurves$massBody), mean(pafCurves$massExtra),
 							    mean(pafCurves$start),mean(pafCurves$width),mean(pafCurves$height),
 							    mean(pafCurves$meanSpeed),mean(pafCurves$maxSpeed),mean(pafCurves$maxSpeedT),
 							    mean(pafCurves$meanPower),mean(pafCurves$peakPower),mean(pafCurves$peakPowerT),
 							    mean(pafCurves$pp_ppt),
 							    mean(pafCurves$meanForce), mean(pafCurves$maxForce), mean(pafCurves$maxForceT),
-							    ""
+							    "", mean(pafCurves$inertiaM)
 							    )
-							  )
-					rownames(pafCurves)[length(pafCurves[,1])] = "AVG"
 
-					#2) Add SD if there's more than one data row.
-					if(addSD) {	
-						pafCurves = rbind(pafCurves, 
-								  c("","", sd(pafCurves$massBody), sd(pafCurves$massExtra),
+					#3) Add SD if there's more than one data row.
+					if(addSD)
+						pafCurvesSD = c("","", sd(pafCurves$massBody), sd(pafCurves$massExtra),
 								    sd(pafCurves$start),sd(pafCurves$width),sd(pafCurves$height),
 								    sd(pafCurves$meanSpeed),sd(pafCurves$maxSpeed),sd(pafCurves$maxSpeedT),
 								    sd(pafCurves$meanPower),sd(pafCurves$peakPower),sd(pafCurves$peakPowerT),
 								    sd(pafCurves$pp_ppt),
 								    sd(pafCurves$meanForce), sd(pafCurves$maxForce), sd(pafCurves$maxForceT),
-								    ""
+								    "", sd(pafCurves$inertiaM)
 								    )
-								  )
+
+
+					pafCurves = rbind(pafCurves, pafCurvesMax)
+					rownames(pafCurves)[length(pafCurves[,1])] = "MAX"
+
+					pafCurves = rbind(pafCurves, pafCurvesAVG)
+					rownames(pafCurves)[length(pafCurves[,1])] = "AVG"
+					
+					if(addSD) {
+						pafCurves = rbind(pafCurves, pafCurvesSD)
 						rownames(pafCurves)[length(pafCurves[,1])] = "SD"
 					}
 				}
 			}
 
+			print("---- 3 ----")
 			print(pafCurves)
 
 			write.csv(pafCurves, op$OutputData1, quote=FALSE)

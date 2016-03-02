@@ -40,10 +40,6 @@ public class PreferencesWindow {
 	//database tab
 	[Widget] Gtk.Button button_db_folder_open;
 
-	//this three are unneded because cannot be unchecked
-	//[Widget] Gtk.CheckButton check_backup_sessions;
-	//[Widget] Gtk.CheckButton check_backup_persons;
-	//[Widget] Gtk.CheckButton check_backup_contact_tests;
 	[Widget] Gtk.CheckButton check_backup_multimedia_and_encoder;
 	
 	[Widget] Gtk.Button button_db_backup;

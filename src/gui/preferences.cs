@@ -635,11 +635,63 @@ public class PreferencesWindow {
 			new DialogMessage(Constants.MessageTypes.WARNING, myString);
 		}
 	}
-	
+
+	/*
+	 * deprecated since 1.6.0. Use backup method below
+	*/
 	private void copyRecursive() {
 		Util.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(fileCopy));
 	}
-	
+
+	//from Longomatch
+	//https://raw.githubusercontent.com/ylatuya/longomatch/master/LongoMatch.DB/CouchbaseStorage.cs
+	private bool backup(string path)
+	{
+		try {   
+			string storageName = path + Path.DirectorySeparatorChar + "chronojump_backup-" + DateTime.UtcNow.ToString() + ".tar.gz";
+			using (FileStream fs = new FileStream (outputFilename, FileMode.Create, FileAccess.Write, FileShare.None)) {
+				using (Stream gzipStream = new GZipOutputStream (fs)) {
+					using (TarArchive tarArchive = TarArchive.CreateOutputTarArchive (gzipStream)) {
+						/*
+						foreach (string n in new string[] {"", "-wal", "-shm"}) {
+							TarEntry tarEntry = TarEntry.CreateEntryFromFile (
+									Path.Combine (Config.DBDir, storageName + ".cblite" + n));
+							tarArchive.WriteEntry (tarEntry, true);
+						}
+						*/
+						//AddDirectoryFilesToTar (tarArchive, Path.Combine (Config.DBDir, storageName + " attachments"), true);
+						AddDirectoryFilesToTar (tarArchive, Util.GetParentDir(false), true);
+					}
+				}
+			}
+			//LastBackup = DateTime.UtcNow;
+		} catch (Exception ex) {
+			LogB.Error (ex);
+			return false;
+		}
+		return true;
+	}
+
+	//from Longomatch
+	//https://raw.githubusercontent.com/ylatuya/longomatch/master/LongoMatch.DB/CouchbaseStorage.cs
+	void AddDirectoryFilesToTar (TarArchive tarArchive, string sourceDirectory, bool recurse)
+	{
+		// Recursively add sub-folders
+		if (recurse) {
+			string[] directories = Directory.GetDirectories (sourceDirectory);
+			foreach (string directory in directories)
+				AddDirectoryFilesToTar (tarArchive, directory, recurse);
+		}
+
+		// Add files
+		string[] filenames = Directory.GetFiles (sourceDirectory);
+		foreach (string filename in filenames) {
+			TarEntry tarEntry = TarEntry.CreateEntryFromFile (filename);
+			tarArchive.WriteEntry (tarEntry, true);
+		}
+	}
+
+
 	private bool PulseGTK ()
 	{
 		if ( ! thread.IsAlive ) {

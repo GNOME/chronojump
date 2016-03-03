@@ -125,56 +125,6 @@ translateVector <- function(englishVector) {
 }
 
 
-# This function converts top curve into bottom curve
-#
-#          /\
-#         /  \        /
-# _     B/    \C     /
-#  \    /      \    /D
-#  A\  /        \  /
-#    \/          \/
-#
-# _     b        
-#  \    /\    /\    /\
-#   \  /  \  /  \  /  \
-#    \/    \/    \/
-#    ab    bc
-#
-# eg: in to curve, 'B' is a movement of disc rolling to right (or left),
-# but in this movement, person has gone up/down. Up phase is ab-b. Down phase is b-bc.
-# his function produces this transformation
-# all displacement will be negative because we start on the top
-#fixRawdataInertial <- function(displacement) {
-#	#do not do this:
-#	#position=cumsum(displacement)
-#	#displacement[which(position >= 0)] = displacement[which(position >= 0)]*-1
-#	
-#	#do this: work with cumsum, do ABS on cumsum, then *-1
-#	#then to obtain displacement again just do diff (and add first number)
-#
-#	position = abs(cumsum(displacement))*-1
-#
-#	#this is to make "inverted cumsum"
-#	displacement = c(0,diff(position))
-#
-#	print(displacement)
-#
-#	return(displacement)
-#}
-
-#don't do this, because on inertial machines string will be rolled to machine and not connected to the body
-#fixRawdataLI <- function(displacement) {
-#	position = cumsum(displacement)
-#	meanMax=mean(which(position == max(position)))
-#
-#	#this is to make "inverted cumsum"
-#	displacement = c(0,diff(position))
-#	
-#	displacement[meanMax:length(displacement)] = displacement[meanMax:length(displacement)] * -1
-#
-#	return(displacement)
-#}
-
 #this is equal to runEncoderCaptureCsharp()
 #but note getDisplacement hapens before this function, so no need getDisplacement here
 #also don't need byteReadedRaw, and encoderReadedRaw. encoderReaded is 'displacement' here

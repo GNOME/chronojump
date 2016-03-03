@@ -31,6 +31,11 @@ using Mono.Unix;
 using System.Threading;
 using System.Globalization; //CultureInfo stuff
 
+/*
+using ICSharpCode.SharpZipLib.Tar;
+using ICSharpCode.SharpZipLib.GZip;
+using ICSharpCode.SharpZipLib;
+*/
 
 public class PreferencesWindow {
 	
@@ -643,6 +648,9 @@ public class PreferencesWindow {
 		Util.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(fileCopy));
 	}
 
+	/*
+	 * Temprarily disabled
+	 *
 	//from Longomatch
 	//https://raw.githubusercontent.com/ylatuya/longomatch/master/LongoMatch.DB/CouchbaseStorage.cs
 	private bool backup(string path)
@@ -652,13 +660,11 @@ public class PreferencesWindow {
 			using (FileStream fs = new FileStream (outputFilename, FileMode.Create, FileAccess.Write, FileShare.None)) {
 				using (Stream gzipStream = new GZipOutputStream (fs)) {
 					using (TarArchive tarArchive = TarArchive.CreateOutputTarArchive (gzipStream)) {
-						/*
-						foreach (string n in new string[] {"", "-wal", "-shm"}) {
-							TarEntry tarEntry = TarEntry.CreateEntryFromFile (
-									Path.Combine (Config.DBDir, storageName + ".cblite" + n));
-							tarArchive.WriteEntry (tarEntry, true);
-						}
-						*/
+						//foreach (string n in new string[] {"", "-wal", "-shm"}) {
+						//	TarEntry tarEntry = TarEntry.CreateEntryFromFile (
+						//			Path.Combine (Config.DBDir, storageName + ".cblite" + n));
+						//	tarArchive.WriteEntry (tarEntry, true);
+						//}
 						//AddDirectoryFilesToTar (tarArchive, Path.Combine (Config.DBDir, storageName + " attachments"), true);
 						AddDirectoryFilesToTar (tarArchive, Util.GetParentDir(false), true);
 					}
@@ -671,6 +677,7 @@ public class PreferencesWindow {
 		}
 		return true;
 	}
+
 
 	//from Longomatch
 	//https://raw.githubusercontent.com/ylatuya/longomatch/master/LongoMatch.DB/CouchbaseStorage.cs
@@ -690,6 +697,7 @@ public class PreferencesWindow {
 			tarArchive.WriteEntry (tarEntry, true);
 		}
 	}
+	*/
 
 
 	private bool PulseGTK ()

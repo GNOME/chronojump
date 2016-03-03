@@ -1496,6 +1496,13 @@ public class Util
 		else
 			return 0;
 	}
+	
+	public static string BoolToRBool (bool myBool) {
+		if(myBool)
+			return "TRUE";
+		else
+			return "FALSE";
+	}
 
 	//used by simulated, since cj 0.8.1.2, db: 0.60
 	//-1 simulated test

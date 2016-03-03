@@ -164,13 +164,15 @@ public class EncoderGraphROptions
 	public string operatingSystem;
 	public string englishWords;
 	public string translatedWords;
+	public bool debug;
 	
 	public EncoderGraphROptions(
 			string inputData, string outputGraph, string outputData1, 
 			string encoderRPath, string encoderTempPath,
 			EncoderParams ep,
 			string title, string operatingSystem,
-			string englishWords, string translatedWords)
+			string englishWords, string translatedWords,
+			bool debug)
 	{
 		this.inputData = inputData;
 		this.outputGraph = outputGraph;
@@ -182,6 +184,7 @@ public class EncoderGraphROptions
 		this.operatingSystem = operatingSystem;
 		this.englishWords = englishWords;
 		this.translatedWords = translatedWords;
+		this.debug = debug;
 	}
 
 	public override string ToString() {
@@ -195,7 +198,8 @@ public class EncoderGraphROptions
 			"#title\n" + 		title + "\n" + 
 			"#operatingsystem\n" + 	operatingSystem + "\n" +
 			"#englishWords\n" + 	englishWords + "\n" +
-			"#translatedWords\n" + 	translatedWords + "\n";
+			"#translatedWords\n" + 	translatedWords + "\n" +
+			"#debug\n" +		Util.BoolToRBool(debug) + "\n";
 	}
 	
 

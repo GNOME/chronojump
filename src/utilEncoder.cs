@@ -295,7 +295,7 @@ public class UtilEncoder
 	}
 	*/
 	
-	public static EncoderGraphROptions PrepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate) 
+	public static EncoderGraphROptions PrepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate, bool debug) 
 	{
 		string operatingSystem = "Linux";
 			
@@ -350,7 +350,9 @@ public class UtilEncoder
 				es.Ep,
 				title, operatingSystem,
 				Util.StringArrayToString(Constants.EncoderEnglishWords,";"),
-				Util.StringArrayToString(encoderTranslatedWordsOK,";"));
+				Util.StringArrayToString(encoderTranslatedWordsOK,";"),
+				debug
+				);
 	}
 
 

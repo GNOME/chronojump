@@ -1170,8 +1170,8 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 		peakPowerName = translateToPrint("Peak Power")
 	}
 
-	print("powerData")
-	print(powerData)
+	#print("powerData")
+	#print(powerData)
 
 	#put lowerY on power, but definetively, leave it at 0
 	#lowerY=min(powerData)-100
@@ -1251,8 +1251,6 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 			textBox(mean(bp[2,which(load == i)]),
 				mean(height[which(load == i)]),
 				myLabel, "darkgreen", "white", ypad=1)
-			
-			#print(paste("mean",i,mean(height[which(load == i)])))
 			
 			segments(
 				 bp[2,min(which(load == i))],mean(height[which(load == i)]),
@@ -1407,7 +1405,6 @@ getModelPValue <- function(model) {
 #> round(-0.0002,4)
 #[1] -2e-04
 round.scientific <- function(x) {
-	print(c("at round.scientic",x))
 	if(x == 0)
 		return(0)
 
@@ -1435,7 +1432,6 @@ round.scientific <- function(x) {
 #http://stackoverflow.com/a/6234664
 #see if two labels overlap
 stroverlap <- function(x1,y1,s1, x2,y2,s2) {
-	#print(c(x1,y1,s1, x2,y2,s2))
 	sh1 <- strheight(s1)
 	sw1 <- strwidth(s1)
 	sh2 <- strheight(s2)
@@ -1458,7 +1454,6 @@ stroverlap <- function(x1,y1,s1, x2,y2,s2) {
 stroverlapArray <- function(newPoint, points) {
 	overlap = FALSE
 
-	#print(c("at Array newPoint, points",newPoint, points))
 	if(length(points$x) == 1)	#if there's only one row
 		return (stroverlap(
 			      as.numeric(newPoint[1]), as.numeric(newPoint[2]), newPoint[3],
@@ -1513,9 +1508,6 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 	if(varX == "Inertia")
 		x = x * 10000
 
-	#print("seriesName")
-	#print(seriesName)
-
 	colBalls = NULL
 	bgBalls = NULL
 
@@ -1526,7 +1518,6 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 	varXut = addUnitsAndTranslate(varX)
 	varYut = addUnitsAndTranslate(varY)
 	
-	#nums.print.df = NULL
 	nums.print = NULL
 
 	#if only one series
@@ -1584,9 +1575,6 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		if(do1RM != FALSE & do1RM != "0") {	
 			speed1RM = as.numeric(do1RM)
 
-			print("speed1RM")
-			print(speed1RM)
-			
 			#lineal stuff
 			fit = lm(y ~ x) #declare
 			if(do1RMMethod == "NONWEIGHTED")  {
@@ -1595,15 +1583,12 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			} else if(do1RMMethod == "WEIGHTED")  {
 				#weights x
 				fit = lm(y ~ x, weights=x/max(x)) 
-				print(x/max(x))
 			} else if(do1RMMethod == "WEIGHTED2")  {
 				#weights x^2
 				fit = lm(y ~ x, weights=x^2/max(x^2)) 
-				print(x^2/max(x^2))
 			} else if(do1RMMethod == "WEIGHTED3")  {
 				#weights x^3 (as higher then more important are the right values) 
 				fit = lm(y ~ x, weights=x^3/max(x^3)) 
-				print(x^3/max(x^3))
 			}
 
 			c.intercept = coef(fit)[[1]]
@@ -2368,9 +2353,6 @@ doProcess <- function(options)
 			
 		position=cumsum(displacement)
 
-		#print(c("position",position))
-		#print(c("displacement",displacement))
-		
 		curves=findCurvesNew(displacement, op$Eccon, isInertial(op$EncoderConfigurationName), 
 				     op$MinHeight, curvesPlot, op$Title)
 		
@@ -2380,8 +2362,8 @@ doProcess <- function(options)
 		n=length(curves[,1])
 		quitIfNoData(n, curves, op$OutputData1)
 		
-		print("curves before reduceCurveBySpeed")
-		print(curves)
+		#print("curves before reduceCurveBySpeed")
+		#print(curves)
 	
 		#reduceCurveBySpeed, don't do in inertial because it doesn't do a good right adjust on changing phase
 		#what reduceCurveBySpeed is doing in inertial is adding a value at right, and this value is a descending value
@@ -2399,8 +2381,8 @@ doProcess <- function(options)
 			}
 		}
 		
-		print("curves after reduceCurveBySpeed")
-		print(curves)
+		#print("curves after reduceCurveBySpeed")
+		#print(curves)
 		
 		#find SmoothingsEC
 		SmoothingsEC = findSmoothingsEC(
@@ -2471,7 +2453,6 @@ doProcess <- function(options)
 	#write(paste("(4/5)",translateToPrint("Repetitions processed")), op$FeedbackFileBase)
 	print("Creating (op$FeedbackFileBase)4.txt with touch method...")
 	file.create(paste(op$FeedbackFileBase,"4.txt",sep=""))
-	print("Created")
 	#print(curves)
 
 	if(op$Analysis=="single") {
@@ -2701,8 +2682,6 @@ doProcess <- function(options)
 			       else
 				       repOpSeparated$eccon = "e"
 			}
-			print("start integer before kinematicsF __________")
-			print(c(curves[i,1], displacement[curves[i,1]]))
 
 			paf = rbind(paf,(pafGenerate(
 						     repOp$eccon,
@@ -2748,11 +2727,6 @@ doProcess <- function(options)
 				mySeries = curves[,9]
 
 			ecconVector = createEcconVector(singleFile, op$Eccon, length(curves[,1]), curves[,8])
-
-			#print("AnalysisVariables:")
-			#print(op$AnalysisVariables[1])
-			#print(op$AnalysisVariables[2])
-			#print(op$AnalysisVariables[3])
 
 			if(op$AnalysisVariables[1] == "Speed,Power") {
 				par(mar=c(5,4,5,5))
@@ -3090,7 +3064,6 @@ doProcess <- function(options)
 	#write(paste("(5/5)",translateToPrint("R tasks done")), op$FeedbackFileBase)
 	print("Creating (op$FeedbackFileBase)5.txt with touch method...")
 	file.create(paste(op$FeedbackFileBase,"5.txt",sep=""))
-	print("Created")
 	write("created ...5.txt", stderr())
 
 	warnings()

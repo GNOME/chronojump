@@ -1110,3 +1110,57 @@ getInertialDiametersPerMs <- function(displacement, diametersPerTick)
   return(diameter)
 }
 
+
+
+#----------- Begin debug file output -------------
+
+debugParameters <- function (outlist, outfile, currentFunction) {
+        write(paste("Parameters of the", currentFunction, "function are:\n"), outfile, append=FALSE)
+        
+        #based on http://stackoverflow.com/a/34996874
+        for (i in 1:length(outlist)) {
+                if ((is.character(outlist[[i]]) || is.numeric(outlist[[i]])) &
+                    !is.data.frame(outlist[[i]]) &
+                    !is.matrix(outlist[[i]])) {
+                        write(paste("---------", names(outlist)[i], ":", "---------", sep = ""), outfile, append=TRUE) 
+                        write(paste(outlist[[i]],collapse = " "), outfile, append=TRUE)
+                }
+                if (is.data.frame(outlist[[i]])) {
+                        write(paste("---------", names(outlist)[i], ":", "---------", sep =""), outfile, append=TRUE)
+                        write.table(outlist[[i]], outfile, append=TRUE, quote=FALSE, sep="\t", col.names = TRUE)
+                }
+                else if (is.POSIXlt(outlist[[i]])) {
+                        write(paste("---------",names(outlist)[i], ":", "---------", sep =""), outfile, append=TRUE)
+                        write(as.character(outlist[[i]]), outfile, append=TRUE)
+                }
+                else if  (is.list(outlist[[i]])) {
+                        write(paste("---------",names(outlist)[i], ":", "---------", sep =""), outfile, append=TRUE)
+                        write_list(outlist = outlist[[i]], outfile, append = TRUE)
+                }
+                else if (is.matrix(outlist[[i]])) {
+                        write(paste("---------", names(outlist)[i], ":", "---------", sep =""), outfile, append=TRUE) 
+                        write.table(outlist[[i]], outfile, append=TRUE, quote=FALSE, col.names = TRUE)
+                }
+        }
+}
+
+is.POSIXlt <- function (ts) {
+        isPOS=c("POSIXlt", "POSIXt")
+        identical (class(ts),isPOS)
+}
+
+test_debugParameters <- function(outfile){
+        numVariable = c(1,2,3,4)
+        charVariable = c("Hello", "how", "are", "you")
+        dataframeVariable = as.data.frame(matrix(c(10,20,40,50), ncol = 2))
+        matrixVariable = matrix(c(100,200,400,500), ncol = 2)
+        testData = list(numVariable = numVariable,
+                        charVariable = charVariable,
+                        dataframeVariable = dataframeVariable,
+                        matrixVariable = matrixVariable)
+        
+        debugParameters(dades, outfile, "testFunction")
+}
+
+
+#----------- End debug file output -------------

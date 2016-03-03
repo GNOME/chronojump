@@ -124,8 +124,9 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					conStart = 0
 					conEnd = mean(which(position == max(position)))
 				}
+			
+				concentric=displacement[(curves[i,1]+conStart):(curves[i,1]+conEnd)]	
 
-				
 				#1 get max power concentric at concentric phase with current smoothing
 
 				speed <- getSpeed(concentric, smoothingOneC)

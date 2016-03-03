@@ -229,14 +229,9 @@ findTakeOff <- function(forceConcentric, maxSpeedTInConcentric)
 	#2 create df2 with only the rows where force is below or equal zero
 	df2 = subset(df,subset=df$belowZero)
 
-	#print("df2")
-	#print(df2)
-
 	#3 find takeoff as the df2 row with less distance to maxSpeedT
 	df2row = min(which(df2$dist == min(df2$dist)))
 	takeoff = as.integer(rownames(df2)[df2row])
-
-	#print(c("takeoff",takeoff))
 
 	return(takeoff)
 }
@@ -404,16 +399,10 @@ reduceCurveBySpeed <- function(eccon, row, startT, startH, displacement, smoothi
 				x.end = i
 	}
 
-	#print(speed.ext$cross[,2])
-	#print(ext.cross.len)
-	#print(c("time1,time2",time1,time2))
-	#print(c("x.ini x.end",x.ini,x.end))
-
 	#to know the new startH
 	#calculate displacement from original start to the new: x.ini
 	startH.old = startH
 	startH = startH + sum(displacement[1:x.ini])
-	#print(c("old startH:", startH.old, "; new startH:", startH))
 
 	return(c(startT + x.ini, startT + x.end, startH))
 }
@@ -493,19 +482,12 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 	
 	accel <- getAccelerationSafe(speed)
 	
-	#print(c(" ms",round(mean(speed$y),5)," ma",round(mean(accel$y),5)))
-	#print(c(" Ms",round(max(speed$y),5)," Ma",round(max(accel$y),5)))
-	#print(c(" |ms|",round(mean(abs(speed$y)),5)," |ma|:",round(mean(abs(accel$y)),5)))
-	#print(c(" |Ms|",round(max(abs(speed$y)),5)," |Ma|",round(max(abs(accel$y)),5)))
-
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	accel$y <- accel$y * 1000 
 
 	eccentric = 0
 	concentric = 0
 	propulsiveEnd = 0
-
-	#print(c("at kinematicsF eccon: ", repOp$eccon, " length(displacement): ",length(displacement)))
 
 	#search propulsiveEnd
 	if(isPropulsive) {
@@ -535,7 +517,6 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 						findPropulsiveEnd(accel$y, concentric, maxSpeedTInConcentric, 
 								  repOp$econfName, repOp$anglePush, repOp$angleWeight, 
 								  repOp$massBody, repOp$massExtra, repOp$exPercentBodyWeight)
-				#print(c("lengths: ", length(eccentric), length(isometric), findPropulsiveEnd(accel$y,concentric), propulsiveEnd))
 			}
 		} else if(repOp$eccon=="e") {
 			#not repOp$eccon="e" because not propulsive calculations on eccentric
@@ -580,7 +561,6 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 		end <- propulsiveEnd
 
 	#as acceleration can oscillate, start at the eccentric part where there are not negative values
-	#print(c(inertiaMomentum, repOp$eccon, length(eccentric), min(accel$y[eccentric])))
 	if(repOp$inertiaM > 0 && (repOp$eccon == "e" || repOp$eccon == "ec")) 
 	{
 		if(repOp$eccon=="e") {
@@ -590,16 +570,6 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 		#if there is eccentric data and there are negative values
 	   	if(length(eccentric) > 0 && min(accel$y[eccentric]) < 0)
 		{ 
-			#print(c("length(eccentric)",length(eccentric)))
-			#print("min accel y eccentric ++++++++++++")
-			#print(c("min(accel$y[eccentric])",min(accel$y[eccentric])))
-	
-			#print(c("accel$y[eccentric]", accel$y[eccentric]))
-			#print("displacement eccentric")
-			#print(displacement[eccentric])
-
-
-
 			#deactivated:
 			#start = max(which(accel$y[eccentric] < 0)) +1
 			#print("------------ start -----------")
@@ -608,7 +578,6 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 	}
 
 	#print(c("kinematicsF start end",start,end))
-			
 	#write("kinematicsF speed length and mean,", stderr())
 	#write(length(speed$y[start:end]), stderr())
 	#write(mean(speed$y[start:end]), stderr())
@@ -624,28 +593,17 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 
 findECPhases <- function(displacement,speed) {
 	speed.ext=extrema(speed)
-	#print(speed.ext)
-	#print(speed)
 	
 	#In all the extrema minindex values, search which range (row) has the min values,
 	#and in this range search last value
-	#print("searchMinSpeedEnd")
 	searchMinSpeedEnd = max(which(speed == min(speed)))
-	#print(searchMinSpeedEnd)
 	
 	#In all the extrema maxindex values, search which range (row) has the max values,
 	#and in this range search first value
-	#print("searchMaxSpeedIni")
 	searchMaxSpeedIni = min(which(speed == max(speed)))
-	#print(searchMaxSpeedIni)
 	
 	#find the cross between both
-	#print("speed.ext-Cross")
-	#print(speed.ext$cross[,1])
-	#print("search min cross: crossMinRow")
-
 	crossMinRow=which(speed.ext$cross[,1] > searchMinSpeedEnd & speed.ext$cross[,1] < searchMaxSpeedIni)
-	#print(crossMinRow)
 			
 	
 	eccentric = 0
@@ -661,8 +619,6 @@ findECPhases <- function(displacement,speed) {
 
 
 	isometricUse = TRUE
-
-	#print("at findECPhases")
 
 	if(isometricUse) {
 		eccentric=1:min(speed.ext$cross[crossMinRow,1])
@@ -719,10 +675,8 @@ findPropulsiveEnd <- function(accel, concentric, maxSpeedTInConcentric,
 return (propulsiveEnd)
 }
 
-pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, inertiaMomentum) {
-	#print("speed$y")
-	#print(kinematics$speedy)
-
+pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, inertiaMomentum) 
+{
 	meanSpeed <- mean(kinematics$speedy)
 
 	#max speed and max speed time can be at eccentric or concentric
@@ -736,15 +690,9 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 		meanPower <- mean(abs(kinematics$power))
 	}
 
-	#print(c("eccon meanPowerSigned meanPowerABS",eccon, mean(kinematics$power), mean(abs(kinematics$power))))
-	#print("kinematics$power")
-	#print(abs(kinematics$power))
-
 	peakPower <- max(abs(kinematics$power))
 	peakPowerT <- min(which(abs(kinematics$power) == peakPower))
 	
-	#print(which(abs(kinematics$power) == peakPower))
-
 	pp_ppt <- peakPower / (peakPowerT/1000)	# ms->s
 	meanForce <- mean(kinematics$force)
 	maxForce <- max(abs(kinematics$force))
@@ -996,26 +944,12 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 {
 	write("at getDisplacementInertial", stderr())
 	
-	print("encoderConfigurationName")
-	print(encoderConfigurationName)
-	
-	print("diameter")
-	print(diameter)
-	print("diameterExt")
-	print(diameterExt)
-	print("gearedDown")
-	print(gearedDown)
-
-	print("displacement at beginning of getDisplacementInertial")
-	print(displacement)
-
 	#scanned displacement is ticks of rotary axis encoder
 	#now convert it to mm of body displacement
 	if(encoderConfigurationName == "ROTARYAXISINERTIAL" ||
 	     encoderConfigurationName == "ROTARYAXISINERTIALLATERAL" ||
 	     encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY") {
 	        ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks per revolution
-#	        diameterMeters = diameter / 100 #cm -> m
 	        
 	        #Number of revolutions that the flywheel rotates every millisecond
 	        revolutionsPerMs = displacement / ticksRotaryEncoder # One revolution every ticksRotaryEncoder ticks
@@ -1041,9 +975,6 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 	  
 	}
 	
-	print("displacement at end of getDisplacementInertial")
-	print(displacement)
-	
 	return (displacement)
 }
 
@@ -1065,7 +996,6 @@ getDisplacementInertialBody <- function(positionStart, displacement, draw, title
 	position.ext=extrema(position)
 
 	#print("at findCurvesInertial")
-	#print(position.ext)
 
 	#do if extrema(position)$nextreme == 0... then do not use extrema
 	#TODO: check if started backwards on realtime capture (extrema is null)

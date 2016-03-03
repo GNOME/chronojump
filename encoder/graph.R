@@ -2276,7 +2276,7 @@ doProcess <- function(options)
 				dataTempFile = getDisplacementInertial(
 								       dataTempFile, inputMultiData$econfName[i], 
 								       inputMultiData$econfd[i], inputMultiData$econfD[i], 
-								       inputMultiData$gearedDown[i] )
+								       inputMultiData$econfGearedDown[i] )
 				#getDisplacementInertialBody is not needed because it's done on curve save
 			} else {
 				dataTempFile = getDisplacement(inputMultiData$econfName[i], dataTempFile, op$diameter, op$diameterExt)

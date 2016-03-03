@@ -83,6 +83,26 @@ findSmoothingsECYPoints <- function(eccentric.concentric, conStart, conEnd, x, m
 findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingOneC,
 			     singleFileEncoderConfigurationName, singleFileDiameter, singleFileInertiaMomentum, singleFileGearedDown)
 {
+print("singleFile")
+print(singleFile)
+print("displacement")
+print(displacement)
+print("curves")
+print(curves)
+print("eccon")
+print(eccon)
+print("smoothingOneC")
+print(smoothingOneC)
+print("singleFileEncoderConfigurationName")
+print(singleFileEncoderConfigurationName)
+print("singleFileDiameter")
+print(singleFileDiameter)
+print("singleFileInertiaMomentum")
+print(singleFileInertiaMomentum)
+print("singleFileGearedDown")
+print(singleFileGearedDown)
+
+
 	ptm <- as.vector(proc.time()[3])
 	write("time start", stderr())
 	write(ptm, stderr())
@@ -127,6 +147,21 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					conEnd = mean(which(position == max(position)))
 				}
 
+print("position")
+print(position)
+print("which(position == min(position))")
+print(which(position == min(position)))
+print("i conStart, conEnd, curves[i,1] curves[i,2] 1st part, 2nd part")
+print(i)
+print(conStart)
+print(conEnd)
+print(curves[i,1])
+print(curves[i,2])
+print((curves[i,1]+conStart))
+print((curves[i,1]+conStart))
+print((curves[i,1]+conEnd))
+print("displacement[(curves[i,1]+conStart):(curves[i,1]+conEnd)]")
+print(displacement[(curves[i,1]+conStart):(curves[i,1]+conEnd)])
 				concentric=displacement[(curves[i,1]+conStart):(curves[i,1]+conEnd)]
 				
 #1 get max power concentric at concentric phase with current smoothing

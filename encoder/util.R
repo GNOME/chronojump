@@ -975,6 +975,19 @@ getDisplacement <- function(encoderConfigurationName, displacement, diameter, di
 getDisplacementInertial <- function(displacement, encoderConfigurationName, diameter, diameterExt, gearedDown)
 {
 	write("at getDisplacementInertial", stderr())
+	
+	print("encoderConfigurationName")
+	print(encoderConfigurationName)
+	
+	print("diameter")
+	print(diameter)
+	print("diameterExt")
+	print(diameterExt)
+	print("gearedDown")
+	print(gearedDown)
+
+	print("displacement at beginning of getDisplacementInertial")
+	print(displacement)
 
 	#scanned displacement is ticks of rotary axis encoder
 	#now convert it to mm of body displacement
@@ -982,7 +995,7 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 	     encoderConfigurationName == "ROTARYAXISINERTIALLATERAL" ||
 	     encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY") {
 	        ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks per revolution
-	        diameterMeters = diameter / 100 #cm -> m
+#	        diameterMeters = diameter / 100 #cm -> m
 	        
 	        #Number of revolutions that the flywheel rotates every millisecond
 	        revolutionsPerMs = displacement / ticksRotaryEncoder # One revolution every ticksRotaryEncoder ticks
@@ -1007,6 +1020,9 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 	        displacement = displacement * diameter /(gearedDown * diameterExt)
 	  
 	}
+	
+	print("displacement at end of getDisplacementInertial")
+	print(displacement)
 	
 	return (displacement)
 }

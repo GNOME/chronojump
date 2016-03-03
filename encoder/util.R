@@ -791,26 +791,6 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel,
 
 getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter, mass, inertiaMomentum, gearedDown, smoothing)
 {
-        print("encoderConfigurationName")
-        print(encoderConfigurationName)
-        
-        print("displacement")
-        print(displacement)
-        
-        print("diameter")
-        print(diameter)
-        
-        print("mass")
-        print(mass)
-        
-        print("inertiaMomentum")
-        print(inertiaMomentum)
-        
-        print("gearedDown")
-        print(gearedDown)
-        
-        print("smoothing")
-        print(smoothing)
 	speed = getSpeed(displacement, smoothing) #mm/ms == m/s 
 
 	# accel will be:

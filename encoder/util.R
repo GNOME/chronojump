@@ -804,7 +804,7 @@ getDynamics <- function(encoderConfigurationName,
   massTotal = massBody + massExtra
   
   if(isInertial(encoderConfigurationName))
-    return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, massTotal, inertiaMomentum, smoothing))
+    return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, massTotal, inertiaMomentum, gearedDown, smoothing))
   else 
     return (getDynamicsNotInertial (encoderConfigurationName, speed, accel, 
                                     massBody, massExtra, massTotal, 
@@ -841,7 +841,7 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel,
 #  ROTARYAXISINERTIAL Rotary axis encoder  connected to inertial machine on the axis
 #  ROTARYAXISINERTIALMOVPULLEY Rotari axis encoder connected to inertial machine on the axis and the subject pulling from a moving pulley
 
-getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter, mass, inertiaMomentum, smoothing)
+getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter, mass, inertiaMomentum, gearedDown, smoothing)
 {
 	speed = getSpeed(displacement, smoothing) #mm/ms == m/s 
 

@@ -14,7 +14,7 @@ write("Arriving at capture.R", stderr())
 
 g = 9.81
 
-debug = FALSE
+#debug = FALSE
 		    
 filenameCompose <- function(curveNum)
 {
@@ -29,8 +29,9 @@ filenameCompose <- function(curveNum)
 #calcule <- function(displacement, start, end, op, curveNum)
 calcule <- function(displacement, op, curveNum)
 {
-	if(debug)
-		write("At calcule", stderr())
+	#if(debug)
+	#	write("At calcule", stderr())
+	debugParameters(listN(displacement, op, curveNum), "calcule")
 
 	#check displacement1/2 lengths because if it was bad executed,
 	#getDisplacementInertialBody maybe returned really small curves that will fail in smooth.spline
@@ -65,8 +66,8 @@ calcule <- function(displacement, op, curveNum)
 	}
 
 
-	if(debug)
-		write("At calcule calling kinematics", stderr())
+	#if(debug)
+	#	write("At calcule calling kinematics", stderr())
 	
 
 	kinematicsResult <- kinematicsF(
@@ -94,8 +95,8 @@ calcule <- function(displacement, op, curveNum)
 		  paf$meanForce, paf$maxForce, paf$maxForceT,
 		  sep=", "), file = con)
 	close(con)
-	if(debug)
-		write("ended calcule", stderr())
+	#if(debug)
+	#	write("ended calcule", stderr())
 
 	return(curveNum +1)
 }
@@ -123,10 +124,11 @@ uncompress <- function(curveSent)
 
 doProcess <- function(options) 
 {
-	if(debug)
-		write("doProcess", stderr())
+	#if(debug)
+	#	write("doProcess", stderr())
 	op <- assignOptions(options)
-
+			
+	DEBUG <<- op$Debug
 
 	#print ("----op----")
 	#print (op)
@@ -138,10 +140,10 @@ doProcess <- function(options)
 	
 	input <- readLines(f, n = 1L)
 	while(input[1] != "Q") {
-		if(debug) {
-			write("doProcess main while", stderr())
-			write(c("input = ", input), stderr())
-		}
+		#if(debug) {
+		#	write("doProcess main while", stderr())
+		#	write(c("input = ", input), stderr())
+		#}
 			
 		
 		#if should continue with another capture
@@ -159,6 +161,8 @@ doProcess <- function(options)
 			
 			options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 			op <- assignOptions(options)
+			DEBUG <<- op$Debug
+
 
 			curveNum = 0
 			inertialPositionCurveSentStart = 0
@@ -185,8 +189,8 @@ doProcess <- function(options)
 		#-- curve readed
 
 		
-		if(debug)
-			write("doProcess input", stderr())
+		#if(debug)
+		#	write("doProcess input", stderr())
 		#write(input, stderr())
 
 		#when data is sent uncompressed
@@ -198,8 +202,8 @@ doProcess <- function(options)
 		#this removes all NAs
 		displacement  = displacement[!is.na(displacement)]
 
-		if(debug)
-			write("doProcess 2", stderr())
+		#if(debug)
+		#	write("doProcess 2", stderr())
 			
 		if(isInertial(op$EncoderConfigurationName))
 		{
@@ -234,8 +238,8 @@ doProcess <- function(options)
 
 			displacement = displacement[start:end]
 		}
-		if(debug)
-			write("doProcess 3", stderr())
+		#if(debug)
+		#	write("doProcess 3", stderr())
 
 		#if isInertial: getDisplacementInertialBody separate phases using initial height of full extended person
 		#so now there will be two different curves to process
@@ -266,8 +270,8 @@ doProcess <- function(options)
 			
 		inertialPositionCurveSentStart = inertialPositionCurveSentEnd
 
-		if(debug)
-			write("doProcess 4", stderr())
+		#if(debug)
+		#	write("doProcess 4", stderr())
 
 		input <- readLines(f, n = 1L)
 	}

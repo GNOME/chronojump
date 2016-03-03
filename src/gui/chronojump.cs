@@ -463,6 +463,8 @@ public partial class ChronoJumpWindow
 
 	private bool normalGUI; //false means small gui
 
+	private bool debugMode; //currently only for encoder R
+
 	//int chronopicCancelledTimes = 0;
 
 
@@ -6273,6 +6275,13 @@ LogB.Debug("X");
 	}
 
 	// <---- end SQL stress tests ----
+	
+	private void on_menuitem_debug_mode_activate (object o, EventArgs args) {
+		encoderRProcCapture.Debug = true;
+		encoderRProcAnalyze.Debug = true;
+			
+		new DialogMessage(Constants.MessageTypes.INFO, "Activated debug mode while Chronojump is running.");
+	}
 
 
 	private void on_about1_activate (object o, EventArgs args) {

@@ -64,7 +64,7 @@
 #
 #
 
-debug = FALSE
+debugOld = FALSE #this will be deprecated and DEBUG will be used
 
 #concentric, eccentric-concentric, repetitions of eccentric-concentric
 #currently only used "c" and "ec". no need of ec-rep because c and ec are repetitive
@@ -741,7 +741,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	power = dynamics$power
 
 
-	if(draw && isInertial(encoderConfigurationName) && debug) 
+	if(draw && isInertial(encoderConfigurationName) && debugOld) 
 	{
 		#start blank graph with ylim of position
 		ylim = yrange
@@ -780,7 +780,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			axisLineRight = axisLineRight +2
 		}
 		
-		if(isInertial(encoderConfigurationName) && debug) {
+		if(isInertial(encoderConfigurationName) && debugOld) {
 			#print("dynamics$forceDisc")
 			#print(dynamics$forceDisc)
 			par(new=T)
@@ -967,7 +967,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
 	
 
-		if(isInertial(encoderConfigurationName) && debug) {
+		if(isInertial(encoderConfigurationName) && debugOld) {
 			par(new=T)
 			plot(dynamics$powerDisc, col="orangered3", xlab="", ylab="", xlim=c(1,length(displacement)),ylim=ylim, type="p", pch=1, axes=F);
 
@@ -2065,6 +2065,8 @@ doProcess <- function(options)
 	#if unicodeWorks, then translations will be done
 	#<<- to assign to a global variable
 	unicodeWorks <<- checkUnicodeWorks()
+
+	DEBUG <<- op$Debug
 	
 	print(c("1 Title=",op$Title))
 	#unicoded titles arrive here like this "\\", convert to "\", as this is difficult, do like this:
@@ -2927,8 +2929,8 @@ doProcess <- function(options)
 				}
 			}
 
-			print("---- 3 ----")
-			print(pafCurves)
+			#print("---- 3 ----")
+			#print(pafCurves)
 
 			write.csv(pafCurves, op$OutputData1, quote=FALSE)
 			#print("curves written")

@@ -71,8 +71,11 @@ assignOptions <- function(options) {
 		    Height		= as.numeric(options[24]),
 		    DecimalSeparator	= options[25],
 		    Title		= options[26],
-		    OperatingSystem	= options[27]#,	#if this changes, change it also at start of this R file
-		    #IMPORTANT, if this grows, change the readLines value on getOptionsFromFile
+		    OperatingSystem	= options[27],	#if this changes, change it also at start of this R file
+		    Debug		= options[30]
+		    #Unassigned here:
+		    #	englishWords [28]
+		    #	translatedWords [29]
 		    ))
 }
 
@@ -736,42 +739,47 @@ getDynamics <- function(encoderConfigurationName,
 			speed, accel, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
 			displacement, diameter, inertiaMomentum, smoothing)
 {
-  massBody = getMassBodyByExercise(massBody,exercisePercentBodyWeight)
-  
-  if(
-    encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1" ||
-      encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
-      encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2" ||
-      encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV" ||
-      encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYFRICTION" ||
-      encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS" ) 
-  {
-    massExtra = getMass(massExtra, gearedDown, anglePush)
-  } 
-  
-  massTotal = massBody + massExtra
-  
-  if(isInertial(encoderConfigurationName))
-    return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, massTotal, inertiaMomentum, gearedDown, smoothing))
-  else 
-    return (getDynamicsNotInertial (encoderConfigurationName, speed, accel, 
-                                    massBody, massExtra, massTotal, 
-                                    exercisePercentBodyWeight, gearedDown, anglePush, angleWeight))
+	debugParameters(listN(encoderConfigurationName,
+			     speed, accel, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
+			     displacement, diameter, inertiaMomentum, smoothing), "getDynamics")
+	
+
+	massBody = getMassBodyByExercise(massBody,exercisePercentBodyWeight)
+
+	if(
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1" ||
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2" ||
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV" ||
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYFRICTION" ||
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS" ) 
+	{
+		massExtra = getMass(massExtra, gearedDown, anglePush)
+	} 
+
+	massTotal = massBody + massExtra
+
+	if(isInertial(encoderConfigurationName))
+		return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, massTotal, inertiaMomentum, gearedDown, smoothing))
+	else 
+		return (getDynamicsNotInertial (encoderConfigurationName, speed, accel, 
+						massBody, massExtra, massTotal, 
+						exercisePercentBodyWeight, gearedDown, anglePush, angleWeight))
 }
 
 #mass extra can be connected to body or connected to a pulley depending on encoderConfiguration
 getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel, 
-                                   massBody, massExtra, massTotal,
-                                   exercisePercentBodyWeight, gearedDown, anglePush, angleWeight) 
+				   massBody, massExtra, massTotal,
+				   exercisePercentBodyWeight, gearedDown, anglePush, angleWeight) 
 { 
-  force = NULL
-  if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
-    force <- massBody*(accel + g*sin(anglePush * pi / 180)) + massExtra*(g*sin(angleWeight * pi / 180) + accel)
-  } else if(encoderConfigurationName == "LINEARONPLANE"){
-    force <- (massBody + massExtra)*(accel + g*sin(anglePush * pi / 180))
-  } else {
-  	force <- massTotal*(accel+g)	#g:9.81 (used when movement is against gravity)
-  }
+	force = NULL
+	if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
+		force <- massBody*(accel + g*sin(anglePush * pi / 180)) + massExtra*(g*sin(angleWeight * pi / 180) + accel)
+	} else if(encoderConfigurationName == "LINEARONPLANE"){
+		force <- (massBody + massExtra)*(accel + g*sin(anglePush * pi / 180))
+	} else {
+		force <- massTotal*(accel+g)	#g:9.81 (used when movement is against gravity)
+	}
 
 	power <- force*speed
 
@@ -1113,35 +1121,41 @@ getInertialDiametersPerMs <- function(displacement, diametersPerTick)
 
 
 #----------- Begin debug file output -------------
+debugParameters <- function (parameterList, currentFunction) 
+{
+	if(is.null(DEBUG) || DEBUG == FALSE || is.null(DebugFileName) || DebugFileName == "")
+		return()
 
-debugParameters <- function (outlist, outfile, currentFunction) {
-        write(paste("Parameters of the", currentFunction, "function are:\n"), outfile, append=FALSE)
+        write(paste("Parameters of the", currentFunction, "function are:\n"), DebugFileName, append=FALSE)
         
         #based on http://stackoverflow.com/a/34996874
-        for (i in 1:length(outlist)) {
-                if ((is.character(outlist[[i]]) || is.numeric(outlist[[i]])) &
-                    !is.data.frame(outlist[[i]]) &
-                    !is.matrix(outlist[[i]])) {
-                        write(paste("---------", names(outlist)[i], ":", "---------", sep = ""), outfile, append=TRUE) 
-                        write(paste(outlist[[i]],collapse = " "), outfile, append=TRUE)
+        for (i in 1:length(parameterList)) {
+                if ( (is.character(parameterList[[i]]) || is.numeric(parameterList[[i]])) &&
+                    ! is.data.frame(parameterList[[i]]) && ! is.matrix(parameterList[[i]]) ) {
+			writedebugParameters(parameterList, i)
+                        write(paste(parameterList[[i]],collapse = " "), DebugFileName, append=TRUE)
                 }
-                if (is.data.frame(outlist[[i]])) {
-                        write(paste("---------", names(outlist)[i], ":", "---------", sep =""), outfile, append=TRUE)
-                        write.table(outlist[[i]], outfile, append=TRUE, quote=FALSE, sep="\t", col.names = TRUE)
+                if (is.data.frame(parameterList[[i]])) {
+			writedebugParameters(parameterList, i)
+                        write.table(parameterList[[i]], DebugFileName, append=TRUE, quote=FALSE, sep="\t", col.names = TRUE)
                 }
-                else if (is.POSIXlt(outlist[[i]])) {
-                        write(paste("---------",names(outlist)[i], ":", "---------", sep =""), outfile, append=TRUE)
-                        write(as.character(outlist[[i]]), outfile, append=TRUE)
+                else if (is.POSIXlt(parameterList[[i]])) {
+			writedebugParameters(parameterList, i)
+                        write(as.character(parameterList[[i]]), DebugFileName, append=TRUE)
                 }
-                else if  (is.list(outlist[[i]])) {
-                        write(paste("---------",names(outlist)[i], ":", "---------", sep =""), outfile, append=TRUE)
-                        write_list(outlist = outlist[[i]], outfile, append = TRUE)
+                else if  (is.list(parameterList[[i]])) {
+			writedebugParameters(parameterList, i)
+                        write_list(parameterList = parameterList[[i]], DebugFileName, append = TRUE)
                 }
-                else if (is.matrix(outlist[[i]])) {
-                        write(paste("---------", names(outlist)[i], ":", "---------", sep =""), outfile, append=TRUE) 
-                        write.table(outlist[[i]], outfile, append=TRUE, quote=FALSE, col.names = TRUE)
+                else if (is.matrix(parameterList[[i]])) {
+			writedebugParameters(parameterList, i)
+                        write.table(parameterList[[i]], DebugFileName, append=TRUE, quote=FALSE, col.names = TRUE)
                 }
         }
+}
+
+writedebugParameters <- function(parameterList, i) {
+	write(paste("---------", names(parameterList)[i], ":", "---------", sep = ""), DebugFileName, append=TRUE) 
 }
 
 is.POSIXlt <- function (ts) {
@@ -1149,18 +1163,26 @@ is.POSIXlt <- function (ts) {
         identical (class(ts),isPOS)
 }
 
-test_debugParameters <- function(outfile){
+test_debugParameters <- function() {
         numVariable = c(1,2,3,4)
         charVariable = c("Hello", "how", "are", "you")
         dataframeVariable = as.data.frame(matrix(c(10,20,40,50), ncol = 2))
         matrixVariable = matrix(c(100,200,400,500), ncol = 2)
-        testData = list(numVariable = numVariable,
-                        charVariable = charVariable,
-                        dataframeVariable = dataframeVariable,
-                        matrixVariable = matrixVariable)
+
+	l = list(numVariable = numVariable,
+		 charVariable = charVariable,
+		 dataframeVariable = dataframeVariable,
+		 matrixVariable = matrixVariable)
         
-        debugParameters(dades, outfile, "testFunction")
+        debugParameters(l, "test_debugParameters")
 }
 
+#create a list assigning names
+#http://stackoverflow.com/a/21059868
+listN <- function(...){
+	anonList <- list(...)
+	names(anonList) <- as.character(substitute(list(...)))[-1]
+	anonList
+}
 
 #----------- End debug file output -------------

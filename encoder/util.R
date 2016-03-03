@@ -915,7 +915,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
 
   }
 
-  force = forceDisc + forceBody
+  force = forceDisc / gearedDown + forceBody
   power = powerDisc + powerBody
 
   loopsMax = diameter.m * max(angle)
@@ -979,55 +979,34 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 	#scanned displacement is ticks of rotary axis encoder
 	#now convert it to mm of body displacement
 	if(encoderConfigurationName == "ROTARYAXISINERTIAL" ||
-	     encoderConfigurationName == "ROTARYAXISINERTIALLATERAL") {
-		displacementMeters = displacement / 1000 #mm -> m
-		diameterMeters = diameter / 100 #cm -> m
-		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks per turn
-		#angle in radians
-		angle = cumsum(displacementMeters * 1000) * 2 * pi / ticksRotaryEncoder
-		position = angle * diameterMeters / 2
-		position = position * 1000	#m -> mm
-		#this is to make "inverted cumsum"
-		displacement = diff(position) #this displacement is going to be used now
-		displacement = c(displacement[1],displacement) #this is to recuperate the lost 1st value in the diff operation
+	     encoderConfigurationName == "ROTARYAXISINERTIALLATERAL" ||
+	     encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY") {
+	        ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks per revolution
+	        diameterMeters = diameter / 100 #cm -> m
+	        
+	        #Number of revolutions that the flywheel rotates every millisecond
+	        revolutionsPerMs = displacement / ticksRotaryEncoder # One revolution every ticksRotaryEncoder ticks
+	        
+	        #The person is gearedDown from the machine point of view 
+	        #If force multiplier is 2 (gearedDown = 0.5) the displacement of the body is 
+	        #half the the displacement at the perimeter of the axis
+	        displacement = revolutionsPerMs * pi * diameter * 10 * gearedDown # Revolutions * perimeter * gearedDown  and converted cm -> mm
+	        
 	} else if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
-              encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL"){
-	  displacement = displacement * diameter / diameterExt #displacement of the axis
+                encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL"){
+	        displacement = displacement * diameter / diameterExt #displacement of the axis
+	        
 	} else if(encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALMOVPULLEY"){
-	  displacement = displacement / gearedDown #if gearedDown = 2 : Half the displacement of the axis
+	        #If force multiplier is 2 (gearedDown = 0.5) the displacement of the body is 
+	        #half the the displacement at the perimeter of the axis
+	        displacement = displacement / gearedDown #if gearedDown = 0.5 : Half the displacement of the axis
+	        
 	} else if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALMOVPULLEY"){
-	  displacement = displacement * diameter /(gearedDown * diameterExt) #if gearedDown = 2 : Half the displacement of the axis
-	} else if(encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY"){
-	  ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks per revolution
-	  
-	  ####### Old code #########
-	  diameterMeters = diameter / 100 #cm -> m
-	  #displacementMeters = displacement / 1000 #mm -> m
-	  #position = angle * diameterMeters / 2
-	  #position = position * 1000 / gearedDown 	#m -> mm	if gearedDown = 2 : Half the displacement of the axis
-	  #angle = cumsum(displacementMeters * 1000) * 2 * pi / ticksRotaryEncoder
-	  #this is to make "inverted cumsum"
-	  #displacement = diff(position) #this displacement is going to be used now
-	  #displacement = c(displacement[1],displacement) #this is to recuperate the lost 1st value in the diff operation
-	  
-	  print("Encoder signal")
-	  print(displacement)
-	  #Number of revolutions that the flywheel rotates every millisecond
-	  revolutionsPerMs = displacement / ticksRotaryEncoder # One revolution every ticksRotaryEncoder ticks
-	  print("revolutionPerMs")
-	  print(revolutionsPerMs)
-	  
-	  #The person is gearedDown from the machine point of view 
-	  #If force multiplier is 2 (gearedDown = 0.5) the displacement of the body is 
-	  #half the the displacement at the perimeter of the axis
-	  displacement = revolutionsPerMs * pi * diameter * 10 * gearedDown # Revolutions * perimeter * gearedDown  and converted cm -> mm
-	  print("gearedDown:")
-	  print(gearedDown)
-	  print("Displacement")
-	  print(displacement)
+	        #If force multiplier is 2 (gearedDown = 0.5) the displacement of the body is 
+	        #half the the displacement at the perimeter of the axis
+	        displacement = displacement * diameter /(gearedDown * diameterExt)
 	  
 	}
-	
 	
 	return (displacement)
 }

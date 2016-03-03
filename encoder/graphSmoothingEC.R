@@ -27,9 +27,9 @@ findSmoothingsECGetPowerNI <- function(speed)
 	power <- force * speed$y
 	return(power)
 }
-findSmoothingsECGetPowerI <- function(displacement, encoderConfigurationName, diameter, massTotal, inertiaMomentum, smoothing)
+findSmoothingsECGetPowerI <- function(displacement, encoderConfigurationName, diameter, massTotal, inertiaMomentum, gearedDown, smoothing)
 {
-	dynamics = getDynamicsInertial(encoderConfigurationName, displacement, diameter, massTotal, inertiaMomentum, smoothing)
+	dynamics = getDynamicsInertial(encoderConfigurationName, displacement, diameter, massTotal, inertiaMomentum, gearedDown, smoothing)
 	return(dynamics$power)
 }
 #splinesPredictGraph <- function(x,y)
@@ -44,7 +44,7 @@ findSmoothingsECGetPowerI <- function(displacement, encoderConfigurationName, di
 #
 #}
 findSmoothingsECYPoints <- function(eccentric.concentric, conStart, conEnd, x, maxPowerConAtCon, 
-		       encoderConfigurationName, diameter, massTotal, inertiaMomentum)
+		       encoderConfigurationName, diameter, massTotal, inertiaMomentum, gearedDown)
 {
 	y <- NULL 
 	count <- 1
@@ -58,7 +58,7 @@ findSmoothingsECYPoints <- function(eccentric.concentric, conStart, conEnd, x, m
 			powerTemp <- findSmoothingsECGetPowerNI(speed)
 		else
 			powerTemp <- findSmoothingsECGetPowerI(eccentric.concentric, encoderConfigurationName, 
-							       diameter, massTotal, inertiaMomentum, smoothingOneEC)
+							       diameter, massTotal, inertiaMomentum, gearedDown, smoothingOneEC)
 		
 		#find the max power in concentric phase of this ecc-con movement
 		maxPowerConAtFullrep <- max(powerTemp[conStart:conEnd])
@@ -81,7 +81,7 @@ findSmoothingsECYPoints <- function(eccentric.concentric, conStart, conEnd, x, m
 #called on "ec" and "ce" to have a smoothingOneEC for every curve
 #this smoothingOneEC has produce same speeds than smoothing "c"
 findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingOneC,
-			     singleFileEncoderConfigurationName, singleFileDiameter, singleFileInertiaMomentum)
+			     singleFileEncoderConfigurationName, singleFileDiameter, singleFileInertiaMomentum, singleFileGearedDown)
 {
 	ptm <- as.vector(proc.time()[3])
 	write("time start", stderr())
@@ -137,10 +137,12 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				myEncoderConfigurationName = singleFileEncoderConfigurationName;
 				myDiameter = singleFileDiameter;
 				myInertiaMomentum = singleFileInertiaMomentum;
+				myGearedDown = singleFileGearedDown;
 				if(! singleFile) {
 					myEncoderConfigurationName = curves[i,11];
 					myDiameter = curves[i,12];
 					myInertiaMomentum = curves[i,16];
+					myGearedDown = curves[i,17];
 				}
 			
 				powerTemp = NULL	
@@ -148,7 +150,7 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					powerTemp <- findSmoothingsECGetPowerNI(speed)
 				else
 					powerTemp <- findSmoothingsECGetPowerI(concentric, myEncoderConfigurationName,
-									       myDiameter, 100, myInertiaMomentum, smoothingOneC)
+									       myDiameter, 100, myInertiaMomentum, myGearedDown, smoothingOneC)
 				
 				maxPowerConAtCon <- max(powerTemp)
 
@@ -158,7 +160,7 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 						    to = as.numeric(smoothingOneC)/2, 
 						    length.out = 5)
 				y <- findSmoothingsECYPoints(eccentric.concentric, conStart, conEnd, x, maxPowerConAtCon, 
-						myEncoderConfigurationName, myDiameter, 100, myInertiaMomentum)
+						myEncoderConfigurationName, myDiameter, 100, myInertiaMomentum, myGearedDown)
 				#write(paste("x, y", x, y), stderr())
 
 
@@ -174,7 +176,7 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					powerTemp <- findSmoothingsECGetPowerNI(speed)
 				else
 					powerTemp <- findSmoothingsECGetPowerI( eccentric.concentric, myEncoderConfigurationName,
-									       myDiameter, 100, myInertiaMomentum, smoothingOneEC)
+									       myDiameter, 100, myInertiaMomentum, myGearedDown, smoothingOneEC)
 				
 				#find the max power in concentric phase of this ecc-con movement
 				maxPowerConAtFullrep <- max(powerTemp[conStart:conEnd])
@@ -224,7 +226,7 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					 to = xLowerValue,
 					 length.out = 5)
 				y <- findSmoothingsECYPoints(eccentric.concentric, conStart, conEnd, x, maxPowerConAtCon, 
-						myEncoderConfigurationName, myDiameter, 100, myInertiaMomentum)
+						myEncoderConfigurationName, myDiameter, 100, myInertiaMomentum, myGearedDown)
 				
 				
 				smodel <- smooth.spline(y,x)
@@ -236,7 +238,7 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					powerTemp <- findSmoothingsECGetPowerNI(speed)
 				else
 					powerTemp <- findSmoothingsECGetPowerI( eccentric.concentric, myEncoderConfigurationName,
-									       myDiameter, 100, myInertiaMomentum, smoothingOneEC)
+									       myDiameter, 100, myInertiaMomentum, myGearedDown, smoothingOneEC)
 				
 				#find the max power in concentric phase of this ecc-con movement
 				maxPowerConAtFullrep <- max(powerTemp[conStart:conEnd])

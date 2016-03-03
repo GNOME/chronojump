@@ -2384,7 +2384,7 @@ doProcess <- function(options)
 	
 		#find SmoothingsEC
 		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, op$Eccon, op$SmoothingOneC,
-						NULL, NULL, NULL) #needed for singleFile (signal)
+						NULL, NULL, NULL, NULL) #this row is only needed for singleFile (signal)
 		print(c("SmoothingsEC:",SmoothingsEC))
 	} else {	#singleFile == True. reads a signal file
 		displacement=scan(file=op$File,sep=",")
@@ -2455,7 +2455,7 @@ doProcess <- function(options)
 		#find SmoothingsEC
 		SmoothingsEC = findSmoothingsEC(
 						singleFile, displacement, curves, op$Eccon, op$SmoothingOneC,
-						op$EncoderConfigurationName, op$diameter, op$inertiaMomentum 
+						op$EncoderConfigurationName, op$diameter, op$inertiaMomentum, op$gearedDown 
 						) #second row is needed for singleFile (signal)
 		print(c("SmoothingsEC:",SmoothingsEC))
 		

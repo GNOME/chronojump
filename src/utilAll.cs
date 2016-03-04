@@ -158,5 +158,15 @@ public class UtilAll
 	public static string GetLogFileOld() {
 		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + Constants.FileNameLogOld);
 	}
+	
+	public static string GetTempDir() {
+		string path = Path.GetTempPath();
+
+		path = path.TrimEnd(Path.DirectorySeparatorChar);
+		//on Linux folder cannot be opened either with '/' at the end, or without it
+
+		return path;
+	}
+
 
 }

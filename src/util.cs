@@ -813,7 +813,7 @@ public class Util
 	public static string GetDatabaseTempDir() {
 		return Path.Combine(Path.GetTempPath(), "Chronojump");
 	}
-
+	
 	/********** end of database paths ************/
 
 	/*	

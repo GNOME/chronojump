@@ -31,6 +31,9 @@ using Mono.Unix;
 using System.Threading;
 using System.Globalization; //CultureInfo stuff
 
+using System.Diagnostics;  //Stopwatch
+
+
 /*
 using ICSharpCode.SharpZipLib.Tar;
 using ICSharpCode.SharpZipLib.GZip;
@@ -42,7 +45,7 @@ public class PreferencesWindow {
 	[Widget] Gtk.Window preferences_win;
 
 
-	//database tab
+	//main tab
 	[Widget] Gtk.Button button_data_folder_open;
 
 	[Widget] Gtk.CheckButton check_backup_multimedia_and_encoder;
@@ -111,16 +114,18 @@ public class PreferencesWindow {
 	[Widget] Gtk.RadioButton radio_graphs_no_translate;
 	[Widget] Gtk.Box hbox_need_restart;
 		
-	//other tab
+	//advanced tab
 	[Widget] Gtk.ComboBox combo_decimals;
 	[Widget] Gtk.CheckButton checkbutton_ask_deletion;
 	[Widget] Gtk.RadioButton radio_export_latin;
 	[Widget] Gtk.RadioButton radio_export_non_latin;
+	[Widget] Gtk.Label label_advanced_feedback;
 
 
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
 	public Gtk.Button FakeButtonImported;
+	public Gtk.Button FakeButtonDebugModeStart;
 	
 	static PreferencesWindow PreferencesWindowBox;
 	
@@ -146,6 +151,7 @@ public class PreferencesWindow {
 		databaseTempURL = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 		
 		FakeButtonImported = new Gtk.Button();
+		FakeButtonDebugModeStart = new Gtk.Button();
 	}
 	
 	static public PreferencesWindow Show (Preferences preferences)
@@ -480,6 +486,22 @@ public class PreferencesWindow {
 					Constants.DirectoryCannotOpen + "\n\n" + dir);
 		}
 	}
+	
+	void on_button_tmp_folder_open_clicked (object o, EventArgs args)
+	{
+		string dir = UtilAll.GetTempDir(); //potser cal una arrobar abans (a windows)
+		System.IO.FileInfo fInfo = new System.IO.FileInfo(dir);
+
+		try {
+			if(fInfo.Exists)
+				System.Diagnostics.Process.Start(dir);
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					Constants.DirectoryCannotOpen + "\n\n" + dir);
+		}
+
+		LogB.Warning(dir);
+	}
 
 
 
@@ -698,7 +720,59 @@ public class PreferencesWindow {
 		}
 	}
 	*/
+	
+	
+	// ---- start SQL stress tests ---->
 
+	private void on_SQL_stress_test_safe_short_clicked (object o, EventArgs args) {
+		LogB.Information("start safe short stress test ---->");
+		sql_stress_test(1000);
+	}
+	private void on_SQL_stress_test_safe_long_clicked (object o, EventArgs args) {
+		LogB.Information("start safe long stress test ---->");
+		sql_stress_test(4000);
+	}
+	private void on_SQL_stress_test_not_safe_short_clicked (object o, EventArgs args) {
+		LogB.Information("start not safe short stress test ---->");
+		Sqlite.SafeClose = false;
+		sql_stress_test(1000);
+		Sqlite.SafeClose = true;
+	}
+	private void on_SQL_stress_test_not_safe_long_clicked (object o, EventArgs args) {
+		LogB.Information("start not safe long stress test ---->");
+		Sqlite.SafeClose = false;
+		sql_stress_test(4000);
+		Sqlite.SafeClose = true;
+	}
+	private void sql_stress_test (int times) {
+		Stopwatch sw = new Stopwatch();
+
+		sw.Start();
+
+		//trying if new way of Sqlite.Close disposing dbcmd fixes problems when multiple open / close connection
+		for(int i=0 ; i < times; i++) {
+			LogB.Debug (" i=" + i.ToString());
+			LogB.Debug(SqlitePreferences.Select("databaseVersion"));
+		}
+		sw.Stop();
+
+		string message = "Success!" + 
+			" Done " + times + " times." + 
+			" Elapsed " + sw.ElapsedMilliseconds + " ms";
+		LogB.Information(message);
+	
+		label_advanced_feedback.Text = message;
+	}
+
+	// <---- end SQL stress tests ----
+
+	private void on_debug_mode_clicked (object o, EventArgs args) {
+		//will be managed from gui/chronojump.cs
+		FakeButtonDebugModeStart.Click();
+	}
+	public void DebugActivated() {
+		label_advanced_feedback.Text = "Debug mode on while Chronojump is running.";
+	}
 
 	private bool PulseGTK ()
 	{

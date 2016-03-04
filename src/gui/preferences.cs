@@ -43,7 +43,7 @@ public class PreferencesWindow {
 
 
 	//database tab
-	[Widget] Gtk.Button button_db_folder_open;
+	[Widget] Gtk.Button button_data_folder_open;
 
 	[Widget] Gtk.CheckButton check_backup_multimedia_and_encoder;
 	
@@ -422,13 +422,13 @@ public class PreferencesWindow {
 		}
 	}
 	
-	void on_button_db_folder_open_clicked (object o, EventArgs args)
+	void on_button_data_folder_open_clicked (object o, EventArgs args)
 	{
 		System.IO.FileInfo file1 = new System.IO.FileInfo(databaseURL); //potser cal una arrobar abans (a windows)
 		System.IO.FileInfo file2 = new System.IO.FileInfo(databaseTempURL); //potser cal una arrobar abans (a windows)
 
 		if(file1.Exists)
-			System.Diagnostics.Process.Start(Util.GetDatabaseDir()); 
+			System.Diagnostics.Process.Start(Util.GetParentDir(false)); 
 		else if(file2.Exists)
 			System.Diagnostics.Process.Start(Util.GetDatabaseTempDir()); 
 		else
@@ -729,7 +729,7 @@ public class PreferencesWindow {
 		hbox_backup_doing.Visible = start;
 	
 		button_db_backup.Sensitive = ! start;
-		button_db_folder_open.Sensitive = ! start;
+		button_data_folder_open.Sensitive = ! start;
 		
 		button_cancel.Sensitive = ! start;
 		button_accept.Sensitive = ! start;

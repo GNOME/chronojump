@@ -103,7 +103,7 @@ public partial class ChronoJumpWindow
 			curvesCount ++;
 
 			string [] cells = line.Split(new char[] {','});
-			cells = fixDecimals(cells);
+			cells = fixDecimals(true, cells);
 			
 			/*
 			 * don't print this because on capture, if 100 repetitions are captured
@@ -564,7 +564,7 @@ public partial class ChronoJumpWindow
 				curvesCount ++;
 
 				string [] cells = line.Split(new char[] {','});
-				cells = fixDecimals(cells);
+				cells = fixDecimals(false, cells);
 				
 				
 				if(! check_encoder_analyze_signal_or_curves.Active) {	//user curves
@@ -1310,8 +1310,9 @@ public partial class ChronoJumpWindow
 
 	/* end of rendering neuromuscular cols */
 	
-	
-	private string [] fixDecimals(string [] cells) {
+	//captureOrAnalyze is true on capture, false on analyze
+	private string [] fixDecimals(bool captureOrAnalyze, string [] cells) 
+	{
 		//start, width, height
 		for(int i=5; i <= 7; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),1);
@@ -1330,9 +1331,12 @@ public partial class ChronoJumpWindow
 
 		//cells[18] laterality
 
-		//inertia comes as Kg*m^2, convert it to Kg*cm^2
-		double inertiaInM = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[19]));
-		cells[19] = (Convert.ToInt32(inertiaInM * 10000)).ToString();
+		//capture does not return inerta
+		//analyze returns inertia (can be different on "saved curves") comes as Kg*m^2, convert it to Kg*cm^2
+		if(! captureOrAnalyze) {
+			double inertiaInM = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[19]));
+			cells[19] = (Convert.ToInt32(inertiaInM * 10000)).ToString();
+		}
 
 		return cells;
 	}

@@ -904,7 +904,7 @@ public partial class ChronoJumpWindow
 				"", 	//fileSaved,	//to know date do: select substr(name,-23,19) from encoder;
 				"",	//path,			//url
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
-				(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
+				encoderCaptureOptionsWin.GetMinHeight(encoderConfigurationCurrent.has_inertia), 
 				Util.RemoveTildeAndColonAndDot(textview_encoder_signal_comment.Buffer.Text), //desc,
 				"", videoURL,		//status, videoURL
 				encoderConfigurationCurrent,
@@ -915,7 +915,7 @@ public partial class ChronoJumpWindow
 
 
 		EncoderParams ep = new EncoderParams(
-				(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
+				encoderCaptureOptionsWin.GetMinHeight(encoderConfigurationCurrent.has_inertia), 
 				getExercisePercentBodyWeightFromCombo (),
 				Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
 				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
@@ -1492,7 +1492,9 @@ public partial class ChronoJumpWindow
 				combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, eSQL.laterality);
 				spin_encoder_extra_weight.Value = Convert.ToInt32(eSQL.extraWeight);
 
-				encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value = eSQL.minHeight;
+				encoderCaptureOptionsWin.SetMinHeight(
+						eSQL.encoderConfiguration.has_inertia, eSQL.minHeight);
+
 				textview_encoder_signal_comment.Buffer.Text = eSQL.description;
 				encoderTimeStamp = eSQL.GetDate(false); 
 				encoderSignalUniqueID = eSQL.uniqueID;
@@ -3034,7 +3036,7 @@ public partial class ChronoJumpWindow
 			}
 
 			ep = new EncoderParams(
-					(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
+					encoderCaptureOptionsWin.GetMinHeight(encoderConfigurationCurrent.has_inertia),
 					getExercisePercentBodyWeightFromCombo (),
 					Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
 					Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
@@ -4871,7 +4873,9 @@ public partial class ChronoJumpWindow
 					captureCurvesBarsData = new ArrayList();
 
 					needToRefreshTreeviewCapture = false;
-					encoderSelectedMinimumHeight =(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value;
+
+					encoderSelectedMinimumHeight = encoderCaptureOptionsWin.GetMinHeight(
+							encoderConfigurationCurrent.has_inertia);
 	
 					encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
@@ -5048,7 +5052,7 @@ public partial class ChronoJumpWindow
 	private void runEncoderCaptureNoRDotNetInitialize() 
 	{
 		EncoderParams ep = new EncoderParams(
-				(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
+				encoderCaptureOptionsWin.GetMinHeight(encoderConfigurationCurrent.has_inertia),
 				getExercisePercentBodyWeightFromCombo (),
 				Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
 				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
@@ -6083,7 +6087,8 @@ public class EncoderCaptureOptionsWindow {
 	[Widget] public Gtk.RadioButton radiobutton_encoder_capture_external;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_time;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
-	[Widget] public Gtk.SpinButton spin_encoder_capture_min_height;
+	[Widget] private Gtk.SpinButton spin_encoder_capture_min_height_inertial;
+	[Widget] private Gtk.SpinButton spin_encoder_capture_min_height_not_inertial;
 	[Widget] Gtk.Box hbox_combo_main_variable;
 	[Widget] Gtk.ComboBox combo_main_variable;
 	[Widget] public Gtk.CheckButton check_show_start_and_duration;
@@ -6185,6 +6190,19 @@ public class EncoderCaptureOptionsWindow {
 		}
 			
 		return -1;
+	}
+
+	public int GetMinHeight (bool inertial) {
+		if(inertial)
+			return (int) spin_encoder_capture_min_height_inertial.Value;
+		else
+			return (int) spin_encoder_capture_min_height_not_inertial.Value;
+	}
+	public void SetMinHeight (bool inertial, int height) {
+		if(inertial)
+			spin_encoder_capture_min_height_inertial.Value = height;
+		else
+			spin_encoder_capture_min_height_not_inertial.Value = height;
 	}
 	
 	private void on_button_inactivity_help_clicked (object o, EventArgs args)

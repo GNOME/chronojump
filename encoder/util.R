@@ -948,18 +948,15 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 	        displacement = revolutionsPerMs * pi * diameter * 10 * gearedDown # Revolutions * perimeter * gearedDown  and converted cm -> mm
 	        
 	} else if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
-                encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL"){
-	        displacement = displacement * diameter / diameterExt #displacement of the axis
+                encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL" ||
+                encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALMOVPULLEY"){
+	        
+	        displacement = displacement * diameter * gearedDown / diameterExt #displacement of the axis
 	        
 	} else if(encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALMOVPULLEY"){
 	        #If force multiplier is 2 (gearedDown = 0.5) the displacement of the body is 
 	        #half the the displacement at the perimeter of the axis
-	        displacement = displacement / gearedDown #if gearedDown = 0.5 : Half the displacement of the axis
-	        
-	} else if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALMOVPULLEY"){
-	        #If force multiplier is 2 (gearedDown = 0.5) the displacement of the body is 
-	        #half the the displacement at the perimeter of the axis
-	        displacement = displacement * diameter /(gearedDown * diameterExt)
+	        displacement = displacement * gearedDown
 	  
 	}
 	

@@ -1,7 +1,7 @@
 # 
 #  This file is part of ChronoJump
 # 
-#   Copyright (C) 2014-2015  	Xavier de Blas <xaviblas@gmail.com> 
+#   Copyright (C) 2014-2016  	Xavier de Blas <xaviblas@gmail.com> 
 # 
 
 

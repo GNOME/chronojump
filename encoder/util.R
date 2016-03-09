@@ -1123,7 +1123,7 @@ debugParameters <- function (parameterList, currentFunction)
 	if(is.null(DEBUG) || DEBUG == FALSE || is.null(DebugFileName) || DebugFileName == "")
 		return()
 
-        write(paste("Parameters of the", currentFunction, "function are:\n"), DebugFileName, append=FALSE)
+        write(paste("Parameters of the", currentFunction, "function are:\n"), DebugFileName, append=TRUE)
         
         #based on http://stackoverflow.com/a/34996874
         for (i in 1:length(parameterList)) {

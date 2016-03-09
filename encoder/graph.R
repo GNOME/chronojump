@@ -2206,6 +2206,9 @@ doProcess <- function(options)
 				countLines=countLines+1;
 				next;
 			}
+
+			#fix gearedDown
+			inputMultiData$econfGearedDown[i] = readFromFile.gearedDown(inputMultiData$econfGearedDown[i])
 			
 			dataTempFile=scan(file=as.vector(inputMultiData$fullURL[i]),sep=",")
 
@@ -2266,7 +2269,7 @@ doProcess <- function(options)
 				econfAnglePush[(i+newLines)] = inputMultiData$econfAnglePush[i]
 				econfAngleWeight[(i+newLines)] = inputMultiData$econfAngleWeight[i]
 				econfInertia[(i+newLines)] = inputMultiData$econfInertia[i]/10000.0 #comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
-				econfGearedDown[(i+newLines)] = readFromFile.gearedDown(inputMultiData$econfGearedDown[i])
+				econfGearedDown[(i+newLines)] = inputMultiData$econfGearedDown[i]
 
 				curvesHeight[(i+newLines)] = sum(dataTempPhase)
 

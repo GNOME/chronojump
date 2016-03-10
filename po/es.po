@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-04 13:44+0100\n"
-"PO-Revision-Date: 2016-03-04 14:16+0100\n"
+"POT-Creation-Date: 2016-03-10 16:43+0100\n"
+"PO-Revision-Date: 2016-03-10 16:44+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -150,7 +150,7 @@ msgid "Runs"
 msgstr "Carreras"
 
 #: ../glade/chronojump.glade.h:23 ../src/constants.cs:886
-#: ../src/encoder.cs:1704 ../src/exportSession.cs:292
+#: ../src/encoder.cs:1723 ../src/exportSession.cs:292
 #: ../src/exportSession.cs:465 ../src/stats/djPower.cs:32
 #: ../src/treeViewJump.cs:34
 msgid "Power"
@@ -692,7 +692,7 @@ msgstr "Cancelar"
 msgid "Phases"
 msgstr "Fases"
 
-#: ../glade/chronojump.glade.h:152 ../src/encoder.cs:1699
+#: ../glade/chronojump.glade.h:152 ../src/encoder.cs:1718
 #: ../src/execute/run.cs:946 ../src/exportSession.cs:395
 #: ../src/exportSession.cs:535 ../src/exportSession.cs:686
 #: ../src/exportSession.cs:747 ../src/exportSession.cs:832
@@ -840,7 +840,7 @@ msgid "AVG"
 msgstr "Promedio"
 
 #: ../glade/chronojump.glade.h:173 ../src/constants.cs:883
-#: ../src/encoder.cs:1701 ../src/exportSession.cs:536
+#: ../src/encoder.cs:1720 ../src/exportSession.cs:536
 #: ../src/stats/runIntervallic.cs:65 ../src/stats/runIntervallic.cs:70
 #: ../src/stats/runIntervallic.cs:74 ../src/stats/runSimple.cs:52
 #: ../src/treeViewRun.cs:50 ../src/treeViewRun.cs:126
@@ -1273,8 +1273,7 @@ msgstr "Estire"
 msgid "Roll de machine to wrap the rope."
 msgstr "Gire el disco para enrollar la cuerda"
 
-#: ../glade/chronojump.glade.h:275 ../src/encoder.cs:1175
-#: ../src/encoder.cs:1218 ../src/encoder.cs:1281
+#: ../glade/chronojump.glade.h:275
 msgid "Start capture with the rope completely unwrapped."
 msgstr "Iniciar captura con la cuerda completamente desenrollada"
 
@@ -1428,30 +1427,30 @@ msgstr "Mostrar la fuerza"
 msgid "Show power"
 msgstr "Mostrar potencia"
 
-#: ../glade/chronojump.glade.h:313 ../src/encoder.cs:1702
+#: ../glade/chronojump.glade.h:313 ../src/encoder.cs:1721
 msgid "Acceleration"
 msgstr "Aceleración"
 
 #: ../glade/chronojump.glade.h:314 ../src/constants.cs:885
-#: ../src/encoder.cs:1703
+#: ../src/encoder.cs:1722
 msgid "Force"
 msgstr "Fuerza"
 
-#: ../glade/chronojump.glade.h:315 ../src/encoder.cs:1700
+#: ../glade/chronojump.glade.h:315 ../src/encoder.cs:1719
 msgid "Displacement"
 msgstr "Desplazamiento"
 
-#: ../glade/chronojump.glade.h:316 ../src/encoder.cs:1711
+#: ../glade/chronojump.glade.h:316 ../src/encoder.cs:1730
 #: ../src/treeViewPulse.cs:48 ../src/treeViewPulse.cs:49
 msgid "Difference"
 msgstr "Diferencia"
 
-#: ../glade/chronojump.glade.h:317 ../src/encoder.cs:1724
+#: ../glade/chronojump.glade.h:317 ../src/encoder.cs:1743
 #: ../src/runType.cs:239
 msgid "Average"
 msgstr "Medio"
 
-#: ../glade/chronojump.glade.h:318 ../src/encoder.cs:1733
+#: ../glade/chronojump.glade.h:318 ../src/encoder.cs:1752
 msgid "Maximum"
 msgstr "Máximo"
 
@@ -1752,7 +1751,7 @@ msgid "Video available"
 msgstr "Vídeo disponible"
 
 #: ../glade/chronojump.glade.h:393 ../src/constants.cs:600
-#: ../src/encoder.cs:665 ../src/gui/jump.cs:1475 ../src/gui/jump.cs:1480
+#: ../src/encoder.cs:694 ../src/gui/jump.cs:1475 ../src/gui/jump.cs:1480
 #: ../src/gui/jump.cs:1517 ../src/gui/jump.cs:1520 ../src/gui/jump.cs:1549
 #: ../src/gui/jump.cs:1552 ../src/gui/jump.cs:1692 ../src/gui/jump.cs:1697
 #: ../src/gui/jump.cs:1776 ../src/gui/jump.cs:1779 ../src/gui/jump.cs:1826
@@ -1761,7 +1760,7 @@ msgid "Yes"
 msgstr "Sí"
 
 #: ../glade/chronojump.glade.h:394 ../src/constants.cs:599
-#: ../src/encoder.cs:667 ../src/gui/jump.cs:1477 ../src/gui/jump.cs:1482
+#: ../src/encoder.cs:696 ../src/gui/jump.cs:1477 ../src/gui/jump.cs:1482
 #: ../src/gui/jump.cs:1694 ../src/gui/jump.cs:1699
 msgid "No"
 msgstr "No"
@@ -2833,8 +2832,8 @@ msgid "On inertial machines this option is not used."
 msgstr "Esta opción no se usa en máquinas inerciales."
 
 #: ../glade/chronojump.glade.h:643
-msgid "Save the repetition with best mean power"
-msgstr "Guardar la repetición con la mejor potencia media"
+msgid "Save the best repetition"
+msgstr "Guardar la mejor repetición"
 
 #: ../glade/chronojump.glade.h:644
 msgid "Save all"
@@ -4464,15 +4463,15 @@ msgstr "RL"
 msgid "R"
 msgstr "R"
 
-#: ../src/encoder.cs:595
+#: ../src/encoder.cs:624
 msgid "Concentric"
 msgstr "Concéntrico"
 
-#: ../src/encoder.cs:597
+#: ../src/encoder.cs:626
 msgid "Eccentric-concentric"
 msgstr "Excéntrico-concéntrico"
 
-#: ../src/encoder.cs:599
+#: ../src/encoder.cs:628
 msgid "Concentric-eccentric"
 msgstr "Concéntrico-excéntrico"
 
@@ -4484,28 +4483,28 @@ msgstr "Concéntrico-excéntrico"
 #. weight of each extra weight (inertia)
 #. length from center to center (cm) (inertia)
 #. list of diameters depending on the anchorage position
-#: ../src/encoder.cs:976 ../src/encoder.cs:1043 ../src/encoder.cs:1065
+#: ../src/encoder.cs:1005 ../src/encoder.cs:1072 ../src/encoder.cs:1094
 msgid "Linear encoder attached to a barbell."
 msgstr "Codificador lineal conectado a la barra."
 
-#: ../src/encoder.cs:977
+#: ../src/encoder.cs:1006
 msgid "Also common gym tests like jumps or chin-ups."
 msgstr "También pruebas comunes de gimnasio como dominadas o saltos."
 
-#: ../src/encoder.cs:1036 ../src/encoder.cs:1054 ../src/encoder.cs:1076
+#: ../src/encoder.cs:1065 ../src/encoder.cs:1083 ../src/encoder.cs:1105
 msgid "Linear encoder inverted attached to a barbell."
 msgstr "Codificador lineal invertido conectado a la barra."
 
-#: ../src/encoder.cs:1044 ../src/encoder.cs:1055
+#: ../src/encoder.cs:1073 ../src/encoder.cs:1084
 msgid "Barbell is connected to a weighted moving pulley."
 msgstr "La barra se conecta a una polea móvil ponderada."
 
-#: ../src/encoder.cs:1045 ../src/encoder.cs:1056 ../src/encoder.cs:1067
-#: ../src/encoder.cs:1078 ../src/encoder.cs:1088 ../src/encoder.cs:1258
+#: ../src/encoder.cs:1074 ../src/encoder.cs:1085 ../src/encoder.cs:1096
+#: ../src/encoder.cs:1107 ../src/encoder.cs:1117 ../src/encoder.cs:1280
 msgid "Mass is geared down by 2."
 msgstr "La masa se divide por dos."
 
-#: ../src/encoder.cs:1066 ../src/encoder.cs:1077
+#: ../src/encoder.cs:1095 ../src/encoder.cs:1106
 msgid ""
 "Barbell is connected to a fixed pulley that is connected to a weighted "
 "moving pulley."
@@ -4513,44 +4512,38 @@ msgstr ""
 "La barra se conecta a una polea fija que está conectada a una pesa móvil "
 "ponderada."
 
-#: ../src/encoder.cs:1087
+#: ../src/encoder.cs:1116
 msgid "Linear encoder attached to a weighted moving pulley."
 msgstr "Codificador lineal acoplado a una polea móvil ponderada."
 
-#: ../src/encoder.cs:1097
+#: ../src/encoder.cs:1126
 msgid "Linear encoder on a inclined plane."
 msgstr "Codificador lineal en un plano inclinado."
 
-#: ../src/encoder.cs:1098 ../src/encoder.cs:1109
+#: ../src/encoder.cs:1127 ../src/encoder.cs:1138
 msgid "Suitable also for horizontal movement. Just set a 0 push angle."
 msgstr ""
 "También es adecuado para movimiento horizontal. Simplemente establezca un "
 "ángulo de empuje 0."
 
-#: ../src/encoder.cs:1108
+#: ../src/encoder.cs:1137
 msgid "Linear encoder on a inclined plane moving a weight in different angle."
 msgstr ""
 "Codificador lineal en un plano inclinado moviendo un peso en un ángulo "
 "diferente."
 
-#: ../src/encoder.cs:1120
+#: ../src/encoder.cs:1149
 msgid "Linear encoder on inertia machine."
 msgstr "Codificador lineal en la máquina de inercia."
 
-#: ../src/encoder.cs:1121
+#: ../src/encoder.cs:1150
 msgid "Configuration NOT Recommended! Please use a rotary encoder."
 msgstr "Configuración no recomendada. Use un codificador rotatorio."
 
-#: ../src/encoder.cs:1122 ../src/encoder.cs:1162 ../src/encoder.cs:1188
-#: ../src/encoder.cs:1205 ../src/encoder.cs:1231 ../src/encoder.cs:1269
-#: ../src/encoder.cs:1293
-msgid "Person has to start fully extended (on the toes)."
-msgstr "El atleta debe estar en extensión completa (de puntillas)."
-
-#: ../src/encoder.cs:1123 ../src/encoder.cs:1163 ../src/encoder.cs:1176
-#: ../src/encoder.cs:1189 ../src/encoder.cs:1206 ../src/encoder.cs:1219
-#: ../src/encoder.cs:1232 ../src/encoder.cs:1270 ../src/encoder.cs:1282
-#: ../src/encoder.cs:1294
+#: ../src/encoder.cs:1151 ../src/encoder.cs:1190 ../src/encoder.cs:1202
+#: ../src/encoder.cs:1214 ../src/encoder.cs:1230 ../src/encoder.cs:1242
+#: ../src/encoder.cs:1254 ../src/encoder.cs:1291 ../src/encoder.cs:1302
+#: ../src/encoder.cs:1313
 msgid ""
 "On inertial machines, 'd' means the average diameter where the pull-push "
 "string is rolled"
@@ -4558,23 +4551,23 @@ msgstr ""
 "En las máquinas inerciales, «d» se refiere al diámetro medio donde se "
 "enrolla la cuerda de tirón-empuje."
 
-#: ../src/encoder.cs:1135
+#: ../src/encoder.cs:1163
 msgid "Rotary friction encoder on pulley."
 msgstr "Codificador de fricción por rotación de la polea."
 
-#: ../src/encoder.cs:1142
+#: ../src/encoder.cs:1170
 msgid "Rotary friction encoder on pulley axis."
 msgstr "Codificador de fricción de rotación en el eje de la polea."
 
-#: ../src/encoder.cs:1152
+#: ../src/encoder.cs:1180
 msgid "Rotary friction encoder on weighted moving pulley."
 msgstr "Codificador de fricción de rotación en la polea móvil ponderada."
 
-#: ../src/encoder.cs:1161
+#: ../src/encoder.cs:1189
 msgid "Rotary friction encoder on inertial machine side."
 msgstr "Codificador de fricción de rotación en la máquina de inercia."
 
-#: ../src/encoder.cs:1174 ../src/encoder.cs:1217
+#: ../src/encoder.cs:1201 ../src/encoder.cs:1241
 msgid ""
 "Rotary friction encoder on inertial machine when person is moving "
 "horizontally."
@@ -4582,40 +4575,40 @@ msgstr ""
 "Codificador rotatorio de fricción de rotación en máquina inercial cuando el "
 "atleta se mueve horizontalmente."
 
-#: ../src/encoder.cs:1187 ../src/encoder.cs:1230
+#: ../src/encoder.cs:1213 ../src/encoder.cs:1253
 msgid "Rotary friction encoder on inertial machine geared up."
 msgstr ""
 "Codificador de fricción de rotación en la máquina de inercia preparada."
 
-#: ../src/encoder.cs:1190 ../src/encoder.cs:1233 ../src/encoder.cs:1295
+#: ../src/encoder.cs:1215 ../src/encoder.cs:1255 ../src/encoder.cs:1314
 msgid "Inertial machine rolls twice faster than body."
 msgstr "La máquina de inercia gira dos veces más rápidamente que el cuerpo."
 
-#: ../src/encoder.cs:1204
+#: ../src/encoder.cs:1229
 msgid "Rotary friction encoder on inertial machine axis."
 msgstr ""
 "Codificador de fricción por rotación sobre el eje de la máquina de inercia."
 
-#: ../src/encoder.cs:1248
+#: ../src/encoder.cs:1270
 msgid "Rotary axis encoder on pulley axis."
 msgstr "Codificador de eje rotatorio en el eje de la polea."
 
-#: ../src/encoder.cs:1257
+#: ../src/encoder.cs:1279
 msgid "Rotary axis encoder on weighted moving pulley."
 msgstr "Codificador de eje giratorio en la polea móvil ponderada."
 
-#: ../src/encoder.cs:1268
+#: ../src/encoder.cs:1290
 msgid "Rotary axis encoder on inertial machine."
 msgstr "Codificador del eje de rotación de la máquina de inercia."
 
-#: ../src/encoder.cs:1280
+#: ../src/encoder.cs:1301
 msgid ""
 "Rotary axis encoder on inertial machine when person is moving horizontally."
 msgstr ""
 "Codificador rotatorio de eje en máquina inercial cuando el atleta se mueve "
 "horizontalmente."
 
-#: ../src/encoder.cs:1292
+#: ../src/encoder.cs:1312
 msgid "Rotary axis encoder on inertial machine geared up."
 msgstr "Codificador del eje de rotación en la máquina de inercia preparada."
 
@@ -5991,7 +5984,7 @@ msgid "Maybe R is not installed."
 msgstr "Puede que R no esté instalado."
 
 #. signal is raised and managed in gui/encoder.cs
-#: ../src/gui/encoder.cs:5627 ../src/gui/encoder.cs:5841
+#: ../src/gui/encoder.cs:5627 ../src/gui/encoder.cs:5842
 #: ../src/gui/encoderConfiguration.cs:530
 msgid "Cancelled"
 msgstr "Cancelado"
@@ -6000,18 +5993,18 @@ msgstr "Cancelado"
 msgid "Finished"
 msgstr "Terminado"
 
-#: ../src/gui/encoder.cs:6046
+#: ../src/gui/encoder.cs:6047
 msgid "Sorry, file not found"
 msgstr "Archivo no encontrado"
 
-#: ../src/gui/encoder.cs:6211
+#: ../src/gui/encoder.cs:6212
 msgid ""
 "If a repetition has been found, test will end at selected inactivity seconds."
 msgstr ""
 "Si se ha encontrado la repetición, la prueba terminará al pasar los segundos "
 "de inactividad."
 
-#: ../src/gui/encoder.cs:6212
+#: ../src/gui/encoder.cs:6213
 msgid ""
 "If a repetition has not been found, test will end at selected inactivity "
 "seconds (x2)."
@@ -6019,7 +6012,7 @@ msgstr ""
 "Si no se ha encontrado la repetición, la prueba terminará al pasar los "
 "segundos de inactividad (x2)."
 
-#: ../src/gui/encoder.cs:6213
+#: ../src/gui/encoder.cs:6214
 msgid "This will let the person to have more time to start movement."
 msgstr "Esto permitirá al atleta tener más tiempo para empezar el movimiento."
 
@@ -9140,6 +9133,12 @@ msgstr "Tiempo de tramo"
 #: ../src/treeViewRun.cs:133
 msgid "Split time"
 msgstr "Tiempo acumulado"
+
+#~ msgid "Save the repetition with best mean power"
+#~ msgstr "Guardar la repetición con la mejor potencia media"
+
+#~ msgid "Person has to start fully extended (on the toes)."
+#~ msgstr "El atleta debe estar en extensión completa (de puntillas)."
 
 #~ msgid "Current set"
 #~ msgstr "Serie actual"

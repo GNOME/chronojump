@@ -45582,7 +45582,7 @@ It starts before and arrives there with some speed.</property>
                                     <property name="border_width">8</property>
                                     <property name="spacing">8</property>
                                     <child>
-                                      <widget class="GtkRadioButton" id="radio_encoder_auto_save_curve_bestmeanpower">
+                                      <widget class="GtkRadioButton" id="radio_encoder_auto_save_curve_best">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -45597,7 +45597,7 @@ It starts before and arrives there with some speed.</property>
                                               <widget class="GtkLabel" id="label40">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">Save the repetition with best mean power</property>
+                                                <property name="label" translatable="yes">Save the best repetition</property>
                                               </widget>
                                               <packing>
                                                 <property name="expand">True</property>
@@ -45674,7 +45674,7 @@ It starts before and arrives there with some speed.</property>
                                             <property name="receives_default">False</property>
                                             <property name="active">True</property>
                                             <property name="draw_indicator">True</property>
-                                            <property name="group">radio_encoder_auto_save_curve_bestmeanpower</property>
+                                            <property name="group">radio_encoder_auto_save_curve_best</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">True</property>
@@ -45690,7 +45690,7 @@ It starts before and arrives there with some speed.</property>
                                             <property name="receives_default">False</property>
                                             <property name="active">True</property>
                                             <property name="draw_indicator">True</property>
-                                            <property name="group">radio_encoder_auto_save_curve_bestmeanpower</property>
+                                            <property name="group">radio_encoder_auto_save_curve_best</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">True</property>

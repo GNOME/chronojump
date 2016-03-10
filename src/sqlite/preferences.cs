@@ -92,7 +92,7 @@ class SqlitePreferences : Sqlite
 				Insert ("CSVExportDecimalSeparator", Util.GetDecimalSeparatorFromLocale(), dbcmdTr);
 				Insert ("RGraphsTranslate", "True", dbcmdTr);
 				Insert ("useHeightsOnJumpIndexes", "True", dbcmdTr);
-				Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString(), dbcmdTr); 
+				Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString(), dbcmdTr); 
 				Insert ("email", "", dbcmdTr);
 				
 				//last encoderConfiguration, to be used on next session

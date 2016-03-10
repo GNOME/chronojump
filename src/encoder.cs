@@ -331,6 +331,31 @@ public class EncoderCurve
 		return false;
 	}
 
+	public double GetParameter(string parameter) {
+		switch(parameter) {
+			case Constants.MeanSpeed:
+				return Convert.ToDouble(MeanSpeed);
+				break;
+			case Constants.MaxSpeed:
+				return Convert.ToDouble(MaxSpeed);
+				break;
+			case Constants.MeanForce:
+				return Convert.ToDouble(MeanForce);
+				break;
+			case Constants.MaxForce:
+				return Convert.ToDouble(MaxForce);
+				break;
+			case Constants.MeanPower:
+				return Convert.ToDouble(MeanPower);
+				break;
+			case Constants.PeakPower:
+				return Convert.ToDouble(PeakPower);
+				break;
+			default:
+				return Convert.ToDouble(MeanPower);
+				break;
+		}
+	}
 
 	public string ToCSV(bool captureOrAnalyze, string decimalSeparator) {
 
@@ -376,18 +401,22 @@ public class EncoderSignal
 	}
 
 	//this can be an eccentric or concentric curve
-	public int FindPosOfBestMeanPower() {
-		double bestMeanPower = 0;
-		int bestMeanPowerPos = 0;
+	public int FindPosOfBest(string variable) {
+		//TODO: change for the rest of stuff
+		double bestValue = 0;
+		int bestValuePos = 0;
 		int i = 0;
-		foreach(EncoderCurve curve in curves) {
-			if(Convert.ToDouble(curve.MeanPower) > bestMeanPower) {
-				bestMeanPower = Convert.ToDouble(curve.MeanPower);
-				bestMeanPowerPos = i;
+		
+		foreach(EncoderCurve curve in curves) 
+		{
+			if(curve.GetParameter(variable) > bestValue) {
+				bestValue = curve.GetParameter(variable);
+				bestValuePos = i;
 			}
+
 			i++;
 		}
-		return bestMeanPowerPos;
+		return bestValuePos;
 	}
 	
 	~EncoderSignal() {}

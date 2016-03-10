@@ -3646,13 +3646,13 @@ public partial class ChronoJumpWindow
 	}
 
 	void on_button_encoder_capture_curves_all_clicked (object o, EventArgs args) {
-		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.ALL);
+		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.ALL, encoderCaptureOptionsWin.GetMainVariable());
 	}
 	void on_button_encoder_capture_curves_best_clicked (object o, EventArgs args) {
-		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.BESTMEANPOWER);
+		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.BEST, encoderCaptureOptionsWin.GetMainVariable());
 	}
 	void on_button_encoder_capture_curves_none_clicked (object o, EventArgs args) {
-		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.NONE);
+		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.NONE, encoderCaptureOptionsWin.GetMainVariable());
 	}
 
 	void on_combo_encoder_analyze_data_compare_changed (object o, EventArgs args)
@@ -5676,13 +5676,14 @@ public partial class ChronoJumpWindow
 					if(
 							encoderSignalUniqueID == "-1" &&	//if we just captured
 							(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL ||
-							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BESTMEANPOWER) )
+							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BEST) )
 						needToAutoSaveCurve = true;
 
 					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve(false, "signal", 0); //this updates encoderSignalUniqueID
 
 					if(needToAutoSaveCurve)
-						encoderCaptureSaveCurvesAllNoneBest(preferences.encoderAutoSaveCurve);
+						encoderCaptureSaveCurvesAllNoneBest(
+								preferences.encoderAutoSaveCurve, encoderCaptureOptionsWin.GetMainVariable());
 
 				} else
 					encoder_pulsebar_capture.Text = "";

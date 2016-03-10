@@ -802,17 +802,17 @@ public class Constants
 		LINEAR, ROTARYFRICTION, ROTARYAXIS
 	}	
 
-	public static string MeanSpeed = "Mean speed";
-	public static string MaxSpeed = "Max speed";
-	public static string MeanForce = "Mean force";
-	public static string MaxForce = "Max force";
-	public static string MeanPower = "Mean power";
-	public static string PeakPower = "Peak power";
+	public const string MeanSpeed = "Mean speed";
+	public const string MaxSpeed = "Max speed";
+	public const string MeanForce = "Mean force";
+	public const string MaxForce = "Max force";
+	public const string MeanPower = "Mean power";
+	public const string PeakPower = "Peak power";
 		
 	public enum Encoder1RMMethod { NONWEIGHTED, WEIGHTED, WEIGHTED2, WEIGHTED3 }
 	public enum ContextMenu { NONE, EDITDELETE, DELETE }
 	
-	public enum EncoderAutoSaveCurve { ALL, NONE, BESTMEANPOWER }
+	public enum EncoderAutoSaveCurve { ALL, NONE, BEST }
 
 	public enum DoubleContact {
 		NONE, FIRST, AVERAGE, LAST

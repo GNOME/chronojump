@@ -77,7 +77,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.27";
+	static string lastChronojumpDatabaseVersion = "1.28";
 
 	public Sqlite() {
 	}
@@ -1664,7 +1664,7 @@ class Sqlite
 			
 				LogB.SQL("Added option on autosave curves on capture (all/bestmeanpower/none)");
 				
-				SqlitePreferences.Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString()); 
+				SqlitePreferences.Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString()); 
 				SqlitePreferences.Update ("databaseVersion", "1.11", true); 
 				Sqlite.Close();
 
@@ -1863,6 +1863,14 @@ class Sqlite
 				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
 				currentVersion = newVersion;
 			}
+			if(currentVersion == "1.27") {
+				LogB.SQL("Changed encoderAutoSaveCurve BESTMEANPOWER to BEST");
+				Update(true, Constants.PreferencesTable, "value", "BESTMEANPOWER", "BEST", "name", "encoderAutoSaveCurve");
+				
+				newVersion = "1.28";
+				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
+				currentVersion = newVersion;
+			}
 
 
 			// --- add more updates here
@@ -2018,6 +2026,7 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
+		//1.27 - 1.28 Converted DB to 1.28 Changed encoderAutoSaveCurve BESTMEANPOWER to BEST
 		//1.26 - 1.27 Converted DB to 1.27 Changing runDoubleContactsMS and runIDoubleContactsMS from 1000ms to 300ms
 		//1.25 - 1.26 Converted DB to 1.26 Changed Inclinated to Inclined
 		//1.24 - 1.25 Converted DB to 1.25 Language defaults to (empty string), means detected

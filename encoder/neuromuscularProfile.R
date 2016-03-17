@@ -49,7 +49,7 @@ neuromuscularProfileJump <- function(l.context, e1, c, mass, smoothingC)
 	#from max(abs(speed$y)) at e1, to end of e1
 	e1.speed <- getSpeedSafe(e1, smoothingC)
 	e1.maxspeed.pos <- mean(which(abs(e1.speed$y) == max(abs(e1.speed$y))))
-	e1f <- e1[e1.maxspeed.pos:length(e1)]
+	e1f <- e1[e1.maxspeed.pos:length(e1)] #TODO: check if has to be determined by minimum acceleration instead of maxspeed
 
 	print(c("e max speed.t",e1.maxspeed.pos))
 	print(c("length e1",length(e1)))

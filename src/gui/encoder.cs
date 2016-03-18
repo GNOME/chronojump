@@ -5419,14 +5419,14 @@ public partial class ChronoJumpWindow
 				if(fraction == -1)
 					encoder_pulsebar_capture.Pulse();
 				else
-					encoder_pulsebar_capture.Fraction = fraction;
+					encoder_pulsebar_capture.Fraction = Util.DivideSafeFraction(fraction, 5); 
 				
 				encoder_pulsebar_capture.Text = contents;
 			} else {
 				if(fraction == -1)
 					encoder_pulsebar_analyze.Pulse();
 				else
-					encoder_pulsebar_analyze.Fraction = fraction;
+					encoder_pulsebar_analyze.Fraction = Util.DivideSafeFraction(fraction, 5);
 
 				encoder_pulsebar_analyze.Text = contents;
 			}

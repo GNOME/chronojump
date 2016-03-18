@@ -3667,23 +3667,25 @@ public partial class ChronoJumpWindow
 
 	void on_combo_encoder_analyze_data_compare_changed (object o, EventArgs args)
 	{
-		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
-					encoderDataCompareTranslation) == "No compare") {
-			radiobutton_encoder_analyze_powerbars.Sensitive = true;
-			radiobutton_encoder_analyze_single.Sensitive = true;
-			radiobutton_encoder_analyze_side.Sensitive = true;
-			button_encoder_analyze_data_compare.Visible = false;
-		} else {
-			radiobutton_encoder_analyze_powerbars.Sensitive = false;
-			radiobutton_encoder_analyze_single.Sensitive = false;
-			radiobutton_encoder_analyze_side.Sensitive = false;
+		bool compare = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
+					encoderDataCompareTranslation) != "No compare";
+		
+		//this analysis can be done always. It's always sensitive (don't need to change), but is active if compare
+		if(compare)
 			radiobutton_encoder_analyze_cross.Active = true;
-			radiobutton_encoder_analyze_1RM.Active = true;
-			button_encoder_analyze_data_compare.Visible = true;
 
-			//put some data just in case user doesn't click on compare button
-			encoderCompareInitialize();
-		}
+		//this analysis only when not comparing
+		radiobutton_encoder_analyze_powerbars.Sensitive = ! compare;
+		radiobutton_encoder_analyze_1RM.Sensitive = ! compare;
+		radiobutton_encoder_analyze_single.Sensitive = ! compare;
+		radiobutton_encoder_analyze_side.Sensitive = ! compare;
+		radiobutton_encoder_analyze_neuromuscular_profile.Sensitive = ! compare;
+
+		//compare button only visible when comparing
+		button_encoder_analyze_data_compare.Visible = compare;
+
+		if(compare)
+			encoderCompareInitialize(); //put some data just in case user doesn't click on compare button
 	}
 
 	//put some data just in case user doesn't click on compare button

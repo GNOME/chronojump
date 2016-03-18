@@ -1492,7 +1492,9 @@ fitLine <- function(mode, x, y, col, lwd, lty) {
 }
 
 #option: mean or max
-paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, ecconVector, seriesName, do1RM, do1RMMethod, outputData1) 
+paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, ecconVector, seriesName, 
+				 diameter, gearedDown,
+				 do1RM, do1RMMethod, outputData1) 
 {
 	hasInertia <- FALSE
 	if(findInertialCurves(paf))
@@ -1514,9 +1516,17 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 	isPowerLoad = FALSE
 	if( (varX == "Load" || varX == "Inertia") && varY == "Power" )
 		isPowerLoad = TRUE
-
+	
 	varXut = addUnitsAndTranslate(varX)
 	varYut = addUnitsAndTranslate(varY)
+	
+	
+	#if diameter or gearedDown changes in this data, the use resistant momentum 
+	if(length(unique(diameter)) > 1 || length(unique(gearedDown)) > 1) {
+		x = x * gearedDown / diameter
+		varX = "Resistant torque"
+		varXut = "Resistant torque (Kg*cm)"
+	}
 	
 	nums.print = NULL
 
@@ -2746,6 +2756,7 @@ doProcess <- function(options)
 						    op$Eccon,
 						    ecconVector,
 						    mySeries, 
+						    repOp$diameter, repOp$gearedDown,
 						    FALSE, FALSE, op$OutputData1) 
 				par(new=T)
 				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[2], 
@@ -2754,6 +2765,7 @@ doProcess <- function(options)
 						    op$Eccon,
 						    ecconVector,
 						    mySeries, 
+						    repOp$diameter, repOp$gearedDown,
 						    FALSE, FALSE, op$OutputData1) 
 			} else {
 				par(mar=c(5,4,5,2))
@@ -2763,6 +2775,7 @@ doProcess <- function(options)
 						    op$Eccon,
 						    ecconVector,
 						    mySeries, 
+						    repOp$diameter, repOp$gearedDown,
 						    FALSE, FALSE, op$OutputData1) 
 			}
 		}
@@ -2779,6 +2792,7 @@ doProcess <- function(options)
 					    op$Eccon,
 					    ecconVector,
 					    mySeries, 
+					    repOp$diameter, repOp$gearedDown,
 					    op$AnalysisVariables[1], op$AnalysisVariables[2], #speed1RM, method
 					    op$OutputData1) 
 		}

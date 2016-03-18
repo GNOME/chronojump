@@ -2043,6 +2043,7 @@ createPchVector <- function(ecconVector) {
 	return (as.numeric(pchVector))
 }
 
+
 #-------------------- EncoderConfiguration conversions --------------------------
 
 
@@ -2095,7 +2096,6 @@ doProcess <- function(options)
 	#--- include files ---
 	if(op$Analysis == "neuromuscularProfile")
 		source(paste(op$EncoderRScriptsPath, "/neuromuscularProfile.R", sep=""))
-
 
 	print(op$File)
 	print(op$OutputGraph)
@@ -2474,7 +2474,11 @@ doProcess <- function(options)
 	file.create(paste(op$FeedbackFileBase,"4.txt",sep=""))
 	#print(curves)
 
-	if(op$Analysis=="single") {
+
+	if(op$Analysis=="single") 
+	{
+		df = NULL
+
 		if(op$Jump>0) {
 			myStart = curves[op$Jump,1]
 			myEnd = curves[op$Jump,2]
@@ -2521,10 +2525,6 @@ doProcess <- function(options)
 			      )
 		
 	
-			write(op$Width, op$SpecialData)
-			write(par("usr"), op$SpecialData, append=TRUE)
-			write(par("plt"),  op$SpecialData, append=TRUE)
-
 			#record array of data	
 			write("going to create array of data", stderr())
 			kn <- kinematicsF(displacement[curves[op$Jump,1]:curves[op$Jump,2]],
@@ -2542,19 +2542,114 @@ doProcess <- function(options)
 			else
 				smoothingTemp = SmoothingsEC[smoothingPos]
 
+			#prepare dataframe (will be written later)
 			df=data.frame(cbind(getPositionSmoothed(kn$displ,smoothingTemp), kn$speedy, kn$accely, kn$force, kn$power))
-			colnames(df)=c("displacement","speed","acceleration","force","power")
+		} else {
+			#1) find maxPowerAtAnyRep
+			maxPowerAtAnyRep <- 0
+			for(i in 1:n) {
+				i.displ <- displacement[curves[i,1]:curves[i,2]]	
+				speed <- getSpeedSafe(i.displ, op$SmoothingOneC)
+				accel <- getAccelerationSafe(speed)
+				#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
+				accel$y <- accel$y * 1000 
 
-			write("going to write it to file", stderr())
-			#write(paste("length", curves[op$Jump,2] - curves[op$Jump,1] ), stderr())
-			#write(paste("df", length(df[,1])), stderr())
-			#write(paste("eccon", repOp$eccon), stderr())
-			write.csv(df, paste(op$EncoderTempPath,"/chronojump-analysis-instant.csv",sep=""), append=TRUE, quote=FALSE)
+				dynamics <- getDynamics ("LINEAR",
+							 speed$y, accel$y, 
+							 op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
+							 1, -1, -1,	#gearedDown, anglePush, angleWeight,
+							 i.displ, op$diameter, 
+							 -1, op$SmoothingOneC		#inertiaMomentum, smoothing
+							 )
+				if(max(dynamics$power) > maxPowerAtAnyRep)
+					maxPowerAtAnyRep <- max(dynamics$power)
+			}
 
-			write("done!", stderr())
+			#2.a) find max power (y) for some smoothings(x)
+			x <- seq(from = op$SmoothingOneC, to = 0, length.out = 30)
+			y <- smoothAllSerieYPoints(x, displacement, op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, op$diameter)
+
+			#2.b) create a model with x,y to find optimal x
+			smodel <- smooth.spline(y,x)
+			smoothingAll <- predict(smodel, maxPowerAtAnyRep)$y
+
+			debugParameters(listN(x, y, maxPowerAtAnyRep, smoothingAll), "paint all smoothing 1")
+
+			#2.c) find x values close to previous model
+			temp.list <- findXValuesClose(x, y, maxPowerAtAnyRep)
+			xUpperValue <- temp.list[[1]]
+			xLowerValue <- temp.list[[2]]
+
+			debugParameters(listN(xUpperValue, xLowerValue), "paint all smoothing 2")
+
+			#3.a) find max power (y) for some smoothings(x) (closer)
+			x <- seq(from = xUpperValue, to = xLowerValue, length.out = 5)
+			y <- smoothAllSerieYPoints(x, displacement, op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, op$diameter)
+
+			#3.b) create a model with x,y to find optimal x (in closer values)
+			smodel <- smooth.spline(y,x)
+			smoothingAll <- predict(smodel, maxPowerAtAnyRep)$y
+
+			debugParameters(listN(x, y, maxPowerAtAnyRep, smoothingAll), "paint all smoothing 3")
+
+			#4) create dynamics data for this smoothing
+			speed <- getSpeedSafe(displacement, smoothingAll)
+			accel <- getAccelerationSafe(speed)
+			#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
+			accel$y <- accel$y * 1000 
+
+			dynamics <- getDynamics ("LINEAR",
+						 speed$y, accel$y, 
+						 op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
+						 1, -1, -1,	#gearedDown, anglePush, angleWeight,
+						 i.displ, op$diameter, 
+						 -1, smoothingAll		#inertiaMomentum, smoothing
+						 )
+
+
+			#5) prepare dataframe (will be written later)
+			df=data.frame(cbind(getPositionSmoothed(displacement,smoothingAll), speed$y, accel$y, dynamics$force, dynamics$power))
+
+			#6) paint
+			plot((1:length(position))/1000			#ms -> s
+			     ,position/10,				#mm -> cm
+			     type="l", xlab="",ylab="",axes=T, lty=1,col="black",
+			     main="Seing all serie (only works with LINEAR configurations right now)") 
+
+			if (op$AnalysisVariables[1] == "Speed") { #show speed
+				par(new=T)	
+				plot(speed$y, col=cols[1], type="l", xlab="",ylab="",axes=F)
+			}
+
+			if (op$AnalysisVariables[2] == "Accel") { #show accel
+				par(new=T)	
+				plot(accel$y, col="magenta", type="l", xlab="",ylab="",axes=F)
+			}
+
+			if (op$AnalysisVariables[3] == "Force") { #show force
+				par(new=T)	
+				plot(dynamics$force, col=cols[2], type="l", xlab="",ylab="",axes=F)
+			}
+
+			if (op$AnalysisVariables[4] == "Power") {  #show power
+				par(new=T)	
+				plot(dynamics$power, col=cols[3], type="l", lwd=2, xlab="",ylab="",axes=F)
+			}
+
 		}
+	
+		#needed to align the AB vertical lines on C#
+		write(op$Width, op$SpecialData)
+		write(par("usr"), op$SpecialData, append=TRUE)
+		write(par("plt"),  op$SpecialData, append=TRUE)
+		
+		#write dataframe to file	
+		colnames(df)=c("displacement","speed","acceleration","force","power")
+		write("going to write it to file", stderr())
+		write.csv(df, paste(op$EncoderTempPath,"/chronojump-analysis-instant.csv",sep=""), append=TRUE, quote=FALSE)
+		write("done!", stderr())
 	}
-
+	
 	if(op$Analysis=="side") {
 		#comparar 6 salts, falta que xlim i ylim sigui el mateix
 		par(mfrow=find.mfrow(n))

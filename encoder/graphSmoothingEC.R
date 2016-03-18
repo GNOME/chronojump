@@ -77,6 +77,8 @@ findSmoothingsECYPoints <- function(eccentric.concentric, conStart, conEnd, x, m
 
 	return(y)
 }
+				
+
 
 #called on "ec" and "ce" to have a smoothingOneEC for every curve
 #this smoothingOneEC has produce same speeds than smoothing "c"
@@ -190,32 +192,9 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 
 				#4 create new x values closer
 
-				#eg 
-				#x:   .7,     .6125,     .525,     .4375,     .35
-				#y: 1156, 1190     , 1340    , 1736     , 2354
-				#lowerValue ald it's lowerPos are reffered to the x vector. 1 means the first (0.7)
-				#A) if we find the x for an y = 1900, x should be between .4375 (lowerValue) and .35 (upperValue)
-				#B) if we find the x for an y = 2500, x should be between .35 (lowerValue) and (right of .35) (upperValue)
-				#C) if we find the x for an y = 1000, x should be between (left of .7) (lowerValue) and .7 (upperValue)
-
-				xUpperValue = NULL
-				xLowerValue = NULL
-
-				upperPos <- min(which(y > maxPowerConAtCon)) #A: 5, C:1
-				if(is.infinite(upperPos)) {	
-					xUpperValue <- x[length(x)] - (x[length(x) -1] - x[length(x)])	#B: .35 - (.4375-.35) = .2625
-					xLowerValue <- x[length(x)]					#B: .35
-				}
-				else {
-					xUpperValue <- x[upperPos]	#A: .35
-					lowerPos <- upperPos -1
-					
-					if(lowerPos >= 1)
-						xLowerValue <- x[lowerPos]	#A: .4375
-					else
-						xLowerValue <- x[1] + (x[1] - x[2]) #C: .7 + (.7-.6125) = .7875
-				}
-
+				temp.list <- findXValuesClose(x, y, maxPowerConAtCon)
+				xUpperValue <- temp.list[[1]]
+				xLowerValue <- temp.list[[2]]
 
 				#5 get max power concentric (y) at eccentric-concentric phase with current smoothing of an interval of possible smoothings (x)
 				
@@ -258,4 +237,59 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 	write(as.vector(proc.time()[3]) - ptm, stderr())
 		
 	return(smoothings)
+}
+
+smoothAllSerieYPoints <- function(smooth.seq, displacement, massBody, massExtra, exPercentBodyWeight, diameter)
+{
+	y <- NULL 
+	count <- 1
+	for (i in smooth.seq) {
+		#print(c("i",i))
+		speed <- getSpeedSafe(displacement, i)
+		accel <- getAccelerationSafe(speed)
+		#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
+		accel$y <- accel$y * 1000 
+
+		dynamics <- getDynamics ("LINEAR",
+					 speed$y, accel$y, 
+					 massBody, massExtra, exPercentBodyWeight, 
+					 1, -1, -1,	#gearedDown, anglePush, angleWeight,
+					 displacement, diameter, 
+					 -1, i		#inertiaMomentum, smoothing
+					 )
+		y[count] = max(dynamics$power)
+		count <- count +1
+	}
+	return(y)
+}
+
+#Attention: x should be from high to low!
+#eg 
+#x:   .7,     .6125,     .525,     .4375,     .35
+#y: 1156, 1190     , 1340    , 1736     , 2354
+#lowerValue ald it's lowerPos are reffered to the x vector. 1 means the first (0.7)
+#A) if we find the x for an y = 1900, x should be between .4375 (lowerValue) and .35 (upperValue)
+#B) if we find the x for an y = 2500, x should be between .35 (lowerValue) and (right of .35) (upperValue)
+#C) if we find the x for an y = 1000, x should be between (left of .7) (lowerValue) and .7 (upperValue)
+
+findXValuesClose <- function(x, y, y.searched)
+{
+	xUpperValue = NULL
+	xLowerValue = NULL
+
+	upperPos <- min(which(y > y.searched)) #A: 5, C:1
+	if(is.infinite(upperPos)) {	
+		xUpperValue <- x[length(x)] - (x[length(x) -1] - x[length(x)])	#B: .35 - (.4375-.35) = .2625
+		xLowerValue <- x[length(x)]					#B: .35
+	}
+	else {
+		xUpperValue <- x[upperPos]	#A: .35
+		lowerPos <- upperPos -1
+
+		if(lowerPos >= 1)
+			xLowerValue <- x[lowerPos]	#A: .4375
+		else
+			xLowerValue <- x[1] + (x[1] - x[2]) #C: .7 + (.7-.6125) = .7875
+	}
+	return(list(xUpperValue, xLowerValue))
 }

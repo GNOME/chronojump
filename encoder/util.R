@@ -739,9 +739,9 @@ getDynamics <- function(encoderConfigurationName,
 			speed, accel, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
 			displacement, diameter, inertiaMomentum, smoothing)
 {
-	debugParameters(listN(encoderConfigurationName,
-			     speed, accel, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
-			     displacement, diameter, inertiaMomentum, smoothing), "getDynamics")
+	#debugParameters(listN(encoderConfigurationName,
+	#		     speed, accel, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
+	#		     displacement, diameter, inertiaMomentum, smoothing), "getDynamics")
 	
 
 	massBody = getMassBodyByExercise(massBody,exercisePercentBodyWeight)

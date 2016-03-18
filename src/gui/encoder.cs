@@ -828,12 +828,13 @@ public partial class ChronoJumpWindow
 						encoderEcconTranslation) != Constants.Concentric) 
 					curvesNum = curvesNum / 2;
 			
-				string [] activeCurvesList = new String[curvesNum];
-				for(int i=0; i < curvesNum; i++)
-					activeCurvesList[i] = (i+1).ToString();
+				string [] activeCurvesList = new String[curvesNum +1];
+				activeCurvesList[0] = Catalog.GetString("All");
+				for(int i=1; i <= curvesNum; i++)
+					activeCurvesList[i] = i.ToString();
 				UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
 				combo_encoder_analyze_curve_num_combo.Active = 
-					UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
+					UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[1]);
 				
 				encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 			}
@@ -1079,9 +1080,10 @@ public partial class ChronoJumpWindow
 		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
 
 		string [] activeCurvesList = getActiveCheckboxesList(checkboxes, activeCurvesNum);
+		activeCurvesList = Util.AddArrayString(activeCurvesList, Catalog.GetString("All"), true); //Add "All" first
 		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
 		combo_encoder_analyze_curve_num_combo.Active = 
-			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
+			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[1]);
 
 		genericWin.HideAndNull();
 		
@@ -1949,7 +1951,7 @@ public partial class ChronoJumpWindow
 		if(check_encoder_analyze_signal_or_curves.Active)
 			updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
 		else
-			updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
+			updateComboEncoderAnalyzeCurveNumSavedReps(data, activeCurvesNum);	
 	
 		button_encoder_analyze_sensitiveness();
 	}
@@ -1976,21 +1978,24 @@ public partial class ChronoJumpWindow
 		if(ecconLast != "c")
 			rows = rows / 2;
 
+		int defaultValue = 0;
 		string [] activeCurvesList;
 		if(rows == 0)
 			activeCurvesList = Util.StringToStringArray("");
 		else {
-			activeCurvesList = new String[rows];
-			for(int i=0; i < rows; i++)
-				activeCurvesList[i] = (i+1).ToString();
+			activeCurvesList = new String[rows +1];
+			activeCurvesList[0] = Catalog.GetString("All");
+			for(int i=1; i <= rows; i++)
+				activeCurvesList[i] = i.ToString();
+			defaultValue = 1;
 		}
 
 		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
 		combo_encoder_analyze_curve_num_combo.Active = 
-			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
+			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[defaultValue]);
 	}
 	//saved repetitions
-	private void updateComboEncoderAnalyzeCurveNum (ArrayList data, int activeCurvesNum) 
+	private void updateComboEncoderAnalyzeCurveNumSavedReps (ArrayList data, int activeCurvesNum) 
 	{
 		string [] checkboxes = new string[data.Count]; //to store active or inactive status of curves
 		int count = 0;
@@ -3034,6 +3039,11 @@ public partial class ChronoJumpWindow
 					sendAnalysis = "1RMIndirect";
 				}
 			}
+			
+			//if combo_encoder_analyze_curve_num_combo "All" is selected, then use a 0, else get the number
+			int curveNum = 0; //all
+			if(Util.IsNumber(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo), false))
+				curveNum = Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo));
 
 			ep = new EncoderParams(
 					encoderCaptureOptionsWin.GetMinHeight(encoderConfigurationCurrent.has_inertia),
@@ -3046,7 +3056,7 @@ public partial class ChronoJumpWindow
 					analysisOptions,
 					encoderConfigurationCurrent,
 					Util.ConvertToPoint(preferences.encoderSmoothCon),	//R decimal: '.'
-					Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
+					curveNum,
 					image_encoder_width,
 					image_encoder_height,
 					preferences.CSVExportDecimalSeparator 
@@ -3126,7 +3136,7 @@ public partial class ChronoJumpWindow
 						"curve", EncoderSQL.Eccons.ALL,
 					       	false, true);
 				int activeCurvesNum = getActiveCurvesNum(data);
-				updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
+				updateComboEncoderAnalyzeCurveNumSavedReps(data, activeCurvesNum);	
 			}
 
 			hbox_encoder_user_curves.Visible = currentPerson != null;
@@ -4147,7 +4157,7 @@ public partial class ChronoJumpWindow
 			//then combo_encoder_analyze_curve_num_combo has to be empty
 			UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, new string [] {}, "");
 		} else {	//saved repetitions
-			updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
+			updateComboEncoderAnalyzeCurveNumSavedReps(data, activeCurvesNum);	
 		}
 	
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);

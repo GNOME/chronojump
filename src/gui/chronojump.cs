@@ -6234,6 +6234,9 @@ LogB.Debug("X");
 	
 	
 	private void on_preferences_debug_mode_start (object o, EventArgs args) {
+		//first delete debug file
+		Util.FileDelete(Path.GetTempPath() + "chronojump-debug.txt");
+
 		encoderRProcCapture.Debug = true;
 		encoderRProcAnalyze.Debug = true;
 			

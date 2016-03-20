@@ -1062,61 +1062,66 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	#legend, axes and title
 	if(draw) {
 		if(legend & showAxes) {
-			legendText=c(paste(translateToPrint("Distance"),"(mm)"))
-			lty=c(1)
-			lwd=c(2)
-			colors=c("black") 
-			ncol=1
-
-			if(showSpeed) {
-				legendText=c(legendText, paste(translateToPrint("Speed"),"(m/s)"))
-				lty=c(lty,1)
-				lwd=c(lwd,2)
-				colors=c(colors,cols[1]) 
-				ncol=ncol+1
-			}
-			if(showAccel) {
-				legendText=c(legendText, paste(translateToPrint("Accel."),"(m/s²)"))
-				lty=c(lty,1)
-				lwd=c(lwd,2)
-				colors=c(colors,"magenta") 
-				ncol=ncol+1
-			}
-			if(showForce) {
-				legendText=c(legendText, paste(translateToPrint("Force"),"(N)"))
-				lty=c(lty,1)
-				lwd=c(lwd,2)
-				colors=c(colors,cols[2]) 
-				ncol=ncol+1
-			}
-			if(showPower) {
-				legendText=c(legendText, paste(translateToPrint("Power"),"(W)"))
-				lty=c(lty,1)
-				lwd=c(lwd,2)
-				colors=c(colors,cols[3]) 
-				ncol=ncol+1
-			}
-
-
-			#plot legend on top exactly out
-			#http://stackoverflow.com/a/7322792
-			rng=par("usr")
-			lg = legend(0,rng[2], 
-				    legend=legendText, 
-				    lty=lty, lwd=lwd, 
-				    col=colors, 
-				    cex=1, bg="white", ncol=ncol, bty="n", plot=F)
-			legend(0,rng[4]+1.4*lg$rect$h, 
-			       legend=legendText, 
-			       lty=lty, lwd=lwd, 
-			       col=colors, 
-			       cex=1, bg="white", ncol=ncol, bty="n", plot=T, xpd=NA)
+			paintVariablesLegend(showSpeed, showAccel, showForce, showPower)
 		}
 		if(showLabels) {
 			mtext(paste(translateToPrint("time"),"(ms)"),side=1,adj=1,line=-1,cex=.9)
 			mtext(paste(translateToPrint("displacement"),"(mm)"),side=2,adj=1,line=-1,cex=.9)
 		}
 	}
+}
+
+paintVariablesLegend <- function(showSpeed, showAccel, showForce, showPower) 
+{
+	legendText=c(paste(translateToPrint("Distance"),"(mm)"))
+	lty=c(1)
+	lwd=c(2)
+	colors=c("black") 
+	ncol=1
+
+	if(showSpeed) {
+		legendText=c(legendText, paste(translateToPrint("Speed"),"(m/s)"))
+		lty=c(lty,1)
+		lwd=c(lwd,2)
+		colors=c(colors,cols[1]) 
+		ncol=ncol+1
+	}
+	if(showAccel) {
+		legendText=c(legendText, paste(translateToPrint("Accel."),"(m/s²)"))
+		lty=c(lty,1)
+		lwd=c(lwd,2)
+		colors=c(colors,"magenta") 
+		ncol=ncol+1
+	}
+	if(showForce) {
+		legendText=c(legendText, paste(translateToPrint("Force"),"(N)"))
+		lty=c(lty,1)
+		lwd=c(lwd,2)
+		colors=c(colors,cols[2]) 
+		ncol=ncol+1
+	}
+	if(showPower) {
+		legendText=c(legendText, paste(translateToPrint("Power"),"(W)"))
+		lty=c(lty,1)
+		lwd=c(lwd,2)
+		colors=c(colors,cols[3]) 
+		ncol=ncol+1
+	}
+
+
+	#plot legend on top exactly out
+	#http://stackoverflow.com/a/7322792
+	rng=par("usr")
+	lg = legend(0,rng[2], 
+		    legend=legendText, 
+		    lty=lty, lwd=lwd, 
+		    col=colors, 
+		    cex=1, bg="white", ncol=ncol, bty="n", plot=F)
+	legend(0,rng[4]+1.4*lg$rect$h, 
+	       legend=legendText, 
+	       lty=lty, lwd=lwd, 
+	       col=colors, 
+	       cex=1, bg="white", ncol=ncol, bty="n", plot=T, xpd=NA)
 }
 
 textBox <- function(x,y,text,frontCol,bgCol,xpad=.1,ypad=1){
@@ -2477,6 +2482,10 @@ doProcess <- function(options)
 
 	if(op$Analysis=="single") 
 	{
+		showSpeed <- (op$AnalysisVariables[1] == "Speed")
+		showAccel <- (op$AnalysisVariables[2] == "Accel")
+		showForce <- (op$AnalysisVariables[3] == "Force")
+		showPower <- (op$AnalysisVariables[4] == "Power")
 		df = NULL
 
 		if(op$Jump>0) {
@@ -2518,10 +2527,7 @@ doProcess <- function(options)
 			      TRUE,	#showAxes
 			      TRUE,	#legend
 			      op$Analysis, isPropulsive, inertialType, repOp$exPercentBodyWeight,
-			      (op$AnalysisVariables[1] == "Speed"), #show speed
-			      (op$AnalysisVariables[2] == "Accel"), #show accel
-			      (op$AnalysisVariables[3] == "Force"), #show force
-			      (op$AnalysisVariables[4] == "Power")  #show power
+			      showSpeed, showAccel, showForce, showPower
 			      )
 		
 	
@@ -2611,31 +2617,63 @@ doProcess <- function(options)
 			df=data.frame(cbind(getPositionSmoothed(displacement,smoothingAll), speed$y, accel$y, dynamics$force, dynamics$power))
 
 			#6) paint
-			plot((1:length(position))/1000			#ms -> s
-			     ,position/10,				#mm -> cm
-			     type="l", xlab="",ylab="",axes=T, lty=1,col="black",
-			     main="Seing all serie (only works with LINEAR configurations right now)") 
+	
+			axisLineRight = 0
+			marginRight = 8.5
+			if(! showSpeed)
+				marginRight = marginRight -2
+			if(! showAccel)
+				marginRight = marginRight -2
+			if(! showForce)
+				marginRight = marginRight -2
+			if(! showPower)
+				marginRight = marginRight -2
+			
+		
+			par(mar=c(3, 3.5, 5, marginRight))
+			plot((1:length(position))/1000		#ms -> s
+			     ,position,				#mm
+			     type="l", xlab="", ylab="",axes=T, lty=1,col="black") 
+			title(main="Seing all serie (only works with LINEAR configurations right now)",line=-2,outer=T)
+		
+			mtext(paste(translateToPrint("time"),"(s)"),side=1,adj=1,line=-1)
+			mtext(paste(translateToPrint("displacement"),"(mm)"),side=2,adj=1,line=-1)
+			
+			#show vertical lines for every curve
+			for(i in 1:n) {
+				abline(v=c(curves[i,1]/1000, curves[i,2]/1000), lty=2)
+				mtext(i, side=3, at=(curves[i,1]/1000 + curves[i,2]/1000)/2)
+			}
 
-			if (op$AnalysisVariables[1] == "Speed") { #show speed
+			if (showSpeed) {
 				par(new=T)	
 				plot(speed$y, col=cols[1], type="l", xlab="",ylab="",axes=F)
+				axis(4, col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
+				axisLineRight = axisLineRight +2
 			}
 
-			if (op$AnalysisVariables[2] == "Accel") { #show accel
+			if (showAccel) {
 				par(new=T)	
 				plot(accel$y, col="magenta", type="l", xlab="",ylab="",axes=F)
+				axis(4, col="magenta", lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
+				axisLineRight = axisLineRight +2
 			}
 
-			if (op$AnalysisVariables[3] == "Force") { #show force
+			if (showForce) {
 				par(new=T)	
 				plot(dynamics$force, col=cols[2], type="l", xlab="",ylab="",axes=F)
+				axis(4, col=cols[2], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
+				axisLineRight = axisLineRight +2
 			}
 
-			if (op$AnalysisVariables[4] == "Power") {  #show power
+			if (showPower) {
 				par(new=T)	
 				plot(dynamics$power, col=cols[3], type="l", lwd=2, xlab="",ylab="",axes=F)
+				axis(4, col=cols[3], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
+				axisLineRight = axisLineRight +2
 			}
-
+			
+			paintVariablesLegend(showSpeed, showAccel, showForce, showPower)
 		}
 	
 		#needed to align the AB vertical lines on C#

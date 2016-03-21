@@ -2575,26 +2575,33 @@ doProcess <- function(options)
 			x <- seq(from = op$SmoothingOneC, to = 0, length.out = 30)
 			y <- smoothAllSerieYPoints(x, displacement, op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, op$diameter)
 
-			#2.b) create a model with x,y to find optimal x
-			smodel <- smooth.spline(y,x)
-			smoothingAll <- predict(smodel, maxPowerAtAnyRep)$y
+			smoothProblems = FALSE
+			#if we cannot find the max repetition power on the full set (at any spar value), use spar = 0
+			if(max(y) < maxPowerAtAnyRep) {
+				smoothingAll <- 0
+				smoothProblems = TRUE
+			} else {
+				#2.b) create a model with x,y to find optimal x
+				smodel <- smooth.spline(y,x)
+				smoothingAll <- predict(smodel, maxPowerAtAnyRep)$y
 
-			debugParameters(listN(x, y, maxPowerAtAnyRep, smoothingAll), "paint all smoothing 1")
+				debugParameters(listN(x, y, maxPowerAtAnyRep, smoothingAll), "paint all smoothing 1")
 
-			#2.c) find x values close to previous model
-			temp.list <- findXValuesClose(x, y, maxPowerAtAnyRep)
-			xUpperValue <- temp.list[[1]]
-			xLowerValue <- temp.list[[2]]
+				#2.c) find x values close to previous model
+				temp.list <- findXValuesClose(x, y, maxPowerAtAnyRep)
+				xUpperValue <- temp.list[[1]]
+				xLowerValue <- temp.list[[2]]
 
-			debugParameters(listN(xUpperValue, xLowerValue), "paint all smoothing 2")
+				debugParameters(listN(xUpperValue, xLowerValue), "paint all smoothing 2")
 
-			#3.a) find max power (y) for some smoothings(x) (closer)
-			x <- seq(from = xUpperValue, to = xLowerValue, length.out = 5)
-			y <- smoothAllSerieYPoints(x, displacement, op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, op$diameter)
+				#3.a) find max power (y) for some smoothings(x) (closer)
+				x <- seq(from = xUpperValue, to = xLowerValue, length.out = 5)
+				y <- smoothAllSerieYPoints(x, displacement, op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, op$diameter)
 
-			#3.b) create a model with x,y to find optimal x (in closer values)
-			smodel <- smooth.spline(y,x)
-			smoothingAll <- predict(smodel, maxPowerAtAnyRep)$y
+				#3.b) create a model with x,y to find optimal x (in closer values)
+				smodel <- smooth.spline(y,x)
+				smoothingAll <- predict(smodel, maxPowerAtAnyRep)$y
+			}
 
 			debugParameters(listN(x, y, maxPowerAtAnyRep, smoothingAll), "paint all smoothing 3")
 
@@ -2638,6 +2645,9 @@ doProcess <- function(options)
 		
 			mtext(paste(translateToPrint("time"),"(s)"),side=1,adj=1,line=-1)
 			mtext(paste(translateToPrint("displacement"),"(mm)"),side=2,adj=1,line=-1)
+				
+			if(smoothProblems)
+				mtext("Caution! smoothing is not accurate on this set. Maximum values shown here are too small.",side=3,adj=.5,line=-1)
 			
 			#show vertical lines for every curve
 			for(i in 1:n) {

@@ -2659,29 +2659,37 @@ doProcess <- function(options)
 			}
 
 			if (showSpeed) {
-				par(new=T)	
-				plot(speed$y, col=cols[1], type="l", xlab="",ylab="",axes=F)
+				par(new=T)
+				ylimHeight = max(abs(range(speed$y)))
+				ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
+				plot(speed$y, col=cols[1], ylim=ylim, type="l", xlab="",ylab="",axes=F)
 				axis(4, col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
 				axisLineRight = axisLineRight +2
 			}
 
 			if (showAccel) {
 				par(new=T)	
-				plot(accel$y, col="magenta", type="l", xlab="",ylab="",axes=F)
+				ylimHeight = max(abs(range(accel$y)))
+				ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
+				plot(accel$y, col="magenta", ylim=ylim, type="l", xlab="",ylab="",axes=F)
 				axis(4, col="magenta", lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
 				axisLineRight = axisLineRight +2
 			}
 
 			if (showForce) {
 				par(new=T)	
-				plot(dynamics$force, col=cols[2], type="l", xlab="",ylab="",axes=F)
+				ylimHeight = max(abs(range(dynamics$force)))
+				ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
+				plot(dynamics$force, col=cols[2], ylim=ylim, type="l", xlab="",ylab="",axes=F)
 				axis(4, col=cols[2], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
 				axisLineRight = axisLineRight +2
 			}
 
 			if (showPower) {
 				par(new=T)	
-				plot(dynamics$power, col=cols[3], type="l", lwd=2, xlab="",ylab="",axes=F)
+				ylimHeight = max(abs(range(dynamics$power)))
+				ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
+				plot(dynamics$power, col=cols[3], ylim=ylim, type="l", lwd=2, xlab="",ylab="",axes=F)
 				axis(4, col=cols[3], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
 				axisLineRight = axisLineRight +2
 			}

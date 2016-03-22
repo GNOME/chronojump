@@ -239,7 +239,10 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 	return(smoothings)
 }
 
-smoothAllSerieYPoints <- function(smooth.seq, displacement, massBody, massExtra, exPercentBodyWeight, diameter)
+smoothAllSetYPoints <- function(smooth.seq, displacement, 
+				  econfName, massBody, massExtra, exPercentBodyWeight, 
+				  gearedDown, anglePush, angleWeight,
+				  diameter, inertiaMomentum)
 {
 	y <- NULL 
 	count <- 1
@@ -250,12 +253,12 @@ smoothAllSerieYPoints <- function(smooth.seq, displacement, massBody, massExtra,
 		#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 		accel$y <- accel$y * 1000 
 
-		dynamics <- getDynamics ("LINEAR",
+		dynamics <- getDynamics (econfName,
 					 speed$y, accel$y, 
 					 massBody, massExtra, exPercentBodyWeight, 
-					 1, -1, -1,	#gearedDown, anglePush, angleWeight,
+					 gearedDown, anglePush, angleWeight,
 					 displacement, diameter, 
-					 -1, i		#inertiaMomentum, smoothing
+					 inertiaMomentum, i	#smoothing
 					 )
 		y[count] = max(dynamics$power)
 		count <- count +1

@@ -2560,12 +2560,12 @@ doProcess <- function(options)
 				#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 				accel$y <- accel$y * 1000 
 
-				dynamics <- getDynamics ("LINEAR",
+				dynamics <- getDynamics (op$EncoderConfigurationName,
 							 speed$y, accel$y, 
 							 op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
-							 1, -1, -1,	#gearedDown, anglePush, angleWeight,
+							 op$gearedDown, op$anglePush, op$angleWeight,
 							 i.displ, op$diameter, 
-							 -1, op$SmoothingOneC		#inertiaMomentum, smoothing
+							 op$inertiaMomentum, op$SmoothingOneC
 							 )
 				if(max(dynamics$power) > maxPowerAtAnyRep)
 					maxPowerAtAnyRep <- max(dynamics$power)
@@ -2573,7 +2573,9 @@ doProcess <- function(options)
 
 			#2.a) find max power (y) for some smoothings(x)
 			x <- seq(from = op$SmoothingOneC, to = 0, length.out = 30)
-			y <- smoothAllSerieYPoints(x, displacement, op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, op$diameter)
+			y <- smoothAllSetYPoints(x, displacement, 
+						 op$EncoderConfigurationName, op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, 
+						 op$gearedDown, op$anglePush, op$angleWeight, op$diameter, op$inertiaMomentum)
 
 			smoothProblems = FALSE
 			#if we cannot find the max repetition power on the full set (at any spar value), use spar = 0
@@ -2596,7 +2598,9 @@ doProcess <- function(options)
 
 				#3.a) find max power (y) for some smoothings(x) (closer)
 				x <- seq(from = xUpperValue, to = xLowerValue, length.out = 5)
-				y <- smoothAllSerieYPoints(x, displacement, op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, op$diameter)
+				y <- smoothAllSetYPoints(x, displacement, 
+							 op$EncoderConfigurationName, op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, 
+							 op$gearedDown, op$anglePush, op$angleWeight, op$diameter, op$inertiaMomentum)
 
 				#3.b) create a model with x,y to find optimal x (in closer values)
 				smodel <- smooth.spline(y,x)
@@ -2611,12 +2615,12 @@ doProcess <- function(options)
 			#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 			accel$y <- accel$y * 1000 
 
-			dynamics <- getDynamics ("LINEAR",
+			dynamics <- getDynamics (op$EncoderConfigurationName,
 						 speed$y, accel$y, 
 						 op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
-						 1, -1, -1,	#gearedDown, anglePush, angleWeight,
-						 i.displ, op$diameter, 
-						 -1, smoothingAll		#inertiaMomentum, smoothing
+						 op$gearedDown, op$anglePush, op$angleWeight,
+						 displacement, op$diameter, 
+						 op$inertiaMomentum, smoothingAll		#inertiaMomentum, smoothing
 						 )
 
 
@@ -2638,21 +2642,20 @@ doProcess <- function(options)
 			
 		
 			par(mar=c(3, 3.5, 5, marginRight))
-			plot((1:length(position))/1000		#ms -> s
-			     ,position,				#mm
+			plot(position,	#mm
 			     type="l", xlab="", ylab="",axes=T, lty=1,col="black") 
-			title(main="Seing all serie (only works with LINEAR configurations right now)",line=-2,outer=T)
+			title(main="All set (experimental!)",line=-2,outer=T)
 		
-			mtext(paste(translateToPrint("time"),"(s)"),side=1,adj=1,line=-1)
-			mtext(paste(translateToPrint("displacement"),"(mm)"),side=2,adj=1,line=-1)
+			mtext(paste(translateToPrint("time"),"(ms)"),side=1,adj=1,line=-1)
+			#mtext(paste(translateToPrint("displacement"),"(mm)"),side=2,adj=1,line=-1)
 				
 			if(smoothProblems)
 				mtext("Caution! smoothing is not accurate on this set. Maximum values shown here are too small.",side=3,adj=.5,line=-1)
 			
 			#show vertical lines for every curve
 			for(i in 1:n) {
-				abline(v=c(curves[i,1]/1000, curves[i,2]/1000), lty=2)
-				mtext(i, side=3, at=(curves[i,1]/1000 + curves[i,2]/1000)/2)
+				abline(v=c(curves[i,1], curves[i,2]), lty=2)
+				mtext(i, side=3, at=(curves[i,1] + curves[i,2])/2)
 			}
 
 			if (showSpeed) {

@@ -1096,7 +1096,7 @@
                                     </child>
                                     <child>
                                       <widget class="GtkRadioButton" id="radio_autodetect_discard_first">
-                                        <property name="label" translatable="yes">Active discarding first port</property>
+                                        <property name="label" translatable="yes">Active, discarding first port</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>

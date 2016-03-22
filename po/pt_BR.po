@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=chrono"
 "jump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-20 16:17+0000\n"
-"PO-Revision-Date: 2016-03-21 10:36-0200\n"
+"POT-Creation-Date: 2016-03-22 22:16+0000\n"
+"PO-Revision-Date: 2016-03-22 19:32-0200\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -241,7 +241,8 @@ msgid "default"
 msgstr "padrão"
 
 #: ../glade/chronojump.glade.h:44 ../src/gui/chronojump.cs:6524
-msgid "Active discarding first port"
+#| msgid "Active discarding first port"
+msgid "Active, discarding first port"
 msgstr "Ativo, descartando a primeira porta"
 
 #: ../glade/chronojump.glade.h:45 ../src/gui/chronojump.cs:6526

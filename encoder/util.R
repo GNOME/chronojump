@@ -974,7 +974,7 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 #positionStart is the height at the start of the curve. It's used only on realtime capture.
 #displacementPerson has to be adjusted for every repetition using the positionStart relative to the start of the movement
 #Eg, at start of the capture position is always 0, then goes down (first eccentric phase), and then starts con-ecc, con-ecc, con-ecc, ...
-#To divide the con-ecc in two phases (because for the encoder is only one phsae because it rotates in the same direction), we need to know the positionAtStart
+#To divide the con-ecc in two phases (because for the encoder is only one phase because it rotates in the same direction), we need to know the positionAtStart
 getDisplacementInertialBody <- function(positionStart, displacement, draw, title) 
 {
 	position=cumsum(displacement)
@@ -995,7 +995,7 @@ getDisplacementInertialBody <- function(positionStart, displacement, draw, title
 		   ( position[position.ext$maxindex[1]] >= ( max(abs(position)) *.2 ) ) ) {
 			displacement = displacement * -1
 			position=cumsum(displacement)
-			position.ext=extrema(position)
+			#position.ext=extrema(position)
 		}
 
 		#unused

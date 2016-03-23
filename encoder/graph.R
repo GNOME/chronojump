@@ -2350,6 +2350,7 @@ doProcess <- function(options)
 		#if data file ends with comma. Last character will be an NA. remove it
 		#this removes all NAs
 		displacement  = displacement[!is.na(displacement)]
+		displacementInertialNotBody <- NULL
 
 		if(isInertial(op$EncoderConfigurationName)) 
 		{
@@ -2358,6 +2359,7 @@ doProcess <- function(options)
 							       diametersPerMs, op$diameterExt, op$gearedDown)
 
 		
+			displacementInertialNotBody <- displacement #store a copy to be used on "single" (all set) to have a better set smooth
 			displacement = getDisplacementInertialBody(0, displacement, curvesPlot, op$Title)
 			#positionStart is 0 in graph.R. It is different on capture.R because depends on the start of every repetition
 
@@ -2571,9 +2573,14 @@ doProcess <- function(options)
 					maxPowerAtAnyRep <- max(dynamics$power)
 			}
 
+			#if is inertial, then use displacement of the machine (not the body) to have a better smooth
+			displacementAllSet <- displacement
+			if(isInertial(op$EncoderConfigurationName))
+				displacementAllSet <- displacementInertialNotBody
+
 			#2.a) find max power (y) for some smoothings(x)
 			x <- seq(from = op$SmoothingOneC, to = 0, length.out = 30)
-			y <- smoothAllSetYPoints(x, displacement, 
+			y <- smoothAllSetYPoints(x, displacementAllSet, 
 						 op$EncoderConfigurationName, op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, 
 						 op$gearedDown, op$anglePush, op$angleWeight, op$diameter, op$inertiaMomentum)
 
@@ -2598,7 +2605,7 @@ doProcess <- function(options)
 
 				#3.a) find max power (y) for some smoothings(x) (closer)
 				x <- seq(from = xUpperValue, to = xLowerValue, length.out = 5)
-				y <- smoothAllSetYPoints(x, displacement, 
+				y <- smoothAllSetYPoints(x, displacementAllSet, 
 							 op$EncoderConfigurationName, op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, 
 							 op$gearedDown, op$anglePush, op$angleWeight, op$diameter, op$inertiaMomentum)
 
@@ -2610,7 +2617,7 @@ doProcess <- function(options)
 			debugParameters(listN(x, y, maxPowerAtAnyRep, smoothingAll), "paint all smoothing 3")
 
 			#4) create dynamics data for this smoothing
-			speed <- getSpeedSafe(displacement, smoothingAll)
+			speed <- getSpeedSafe(displacementAllSet, smoothingAll)
 			accel <- getAccelerationSafe(speed)
 			#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 			accel$y <- accel$y * 1000 
@@ -2619,7 +2626,7 @@ doProcess <- function(options)
 						 speed$y, accel$y, 
 						 op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
 						 op$gearedDown, op$anglePush, op$angleWeight,
-						 displacement, op$diameter, 
+						 displacementAllSet, op$diameter, 
 						 op$inertiaMomentum, smoothingAll		#inertiaMomentum, smoothing
 						 )
 

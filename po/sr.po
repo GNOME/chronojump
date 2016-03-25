@@ -1,18 +1,17 @@
 # Serbian translation for chronojump.
 # Copyright (C) 2016 COPYRIGHT HOLDER
 # This file is distributed under the same license as the chronojump package.
-#
-# Translators: 
+# Translators:
 # Мирослав Николић <miroslavnikolic@rocketmail.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=chronoj"
 "ump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-03-10 15:22+0000\n"
-"PO-Revision-Date: 2016-03-14 20:33+0200\n"
+"POT-Creation-Date: 2016-03-22 22:16+0000\n"
+"PO-Revision-Date: 2016-03-25 11:42+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: Serbian <(nothing)>\n"
+"Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -224,8 +223,8 @@ msgstr "Остали тестови"
 msgid "Auto-detect hardware"
 msgstr "Сам откриј хардвер"
 
-#: ../glade/chronojump.glade.h:42 ../src/gui/chronojump.cs:6519
-#: ../src/gui/encoder.cs:985
+#: ../glade/chronojump.glade.h:42 ../src/gui/chronojump.cs:6522
+#: ../src/gui/encoder.cs:986
 msgid "Active"
 msgstr "Радни"
 
@@ -233,11 +232,12 @@ msgstr "Радни"
 msgid "default"
 msgstr "основно"
 
-#: ../glade/chronojump.glade.h:44 ../src/gui/chronojump.cs:6521
-msgid "Active discarding first port"
-msgstr "Радни одбацује први прикључник"
+#: ../glade/chronojump.glade.h:44 ../src/gui/chronojump.cs:6524
+#| msgid "Active discarding first port"
+msgid "Active, discarding first port"
+msgstr "Радни, одбацује први прикључник"
 
-#: ../glade/chronojump.glade.h:45 ../src/gui/chronojump.cs:6523
+#: ../glade/chronojump.glade.h:45 ../src/gui/chronojump.cs:6526
 msgid "Inactive"
 msgstr "Нерадан"
 
@@ -527,7 +527,7 @@ msgid "Horizontal"
 msgstr "Водоравнo"
 
 #: ../glade/chronojump.glade.h:116 ../src/constants.cs:911
-#: ../src/gui/encoder.cs:3502 ../src/sqlite/main.cs:1796
+#: ../src/gui/encoder.cs:3512 ../src/sqlite/main.cs:1796
 #: ../src/sqlite/main.cs:1797
 msgid "L"
 msgstr "С"
@@ -781,7 +781,7 @@ msgstr "Просек особе на овом тесту"
 
 #. column where the uniqueID of event will be (and will be hidden)
 #: ../glade/chronojump.glade.h:167 ../src/gui/encoder.cs:707
-#: ../src/gui/encoder.cs:1668 ../src/gui/encoder.cs:4096
+#: ../src/gui/encoder.cs:1670 ../src/gui/encoder.cs:4108
 #: ../src/gui/executeAuto.cs:505 ../src/stats/runIntervallic.cs:64
 #: ../src/treeViewMultiChronopic.cs:30 ../src/treeViewPulse.cs:46
 #: ../src/treeViewReactionTime.cs:30
@@ -793,7 +793,7 @@ msgid "Session average on this test"
 msgstr "Просек сесије на овом тесту"
 
 #: ../glade/chronojump.glade.h:169 ../src/exportSession.cs:175
-#: ../src/gui/encoder.cs:4097 ../src/report.cs:138
+#: ../src/gui/encoder.cs:4109 ../src/report.cs:138
 msgid "Session"
 msgstr "Сесија"
 
@@ -967,10 +967,12 @@ msgstr "Изабрано"
 msgid "select"
 msgstr "изабери"
 
-#: ../glade/chronojump.glade.h:204 ../src/gui/genericWindow.cs:360
-#: ../src/gui/genericWindow.cs:405 ../src/gui/person.cs:306
-#: ../src/gui/person.cs:433 ../src/gui/stats.cs:217 ../src/gui/stats.cs:963
-#: ../src/gui/stats.cs:1319 ../src/report.cs:272 ../src/stats/main.cs:239
+#: ../glade/chronojump.glade.h:204 ../src/gui/encoder.cs:832
+#: ../src/gui/encoder.cs:1083 ../src/gui/encoder.cs:1987
+#: ../src/gui/genericWindow.cs:360 ../src/gui/genericWindow.cs:405
+#: ../src/gui/person.cs:306 ../src/gui/person.cs:433 ../src/gui/stats.cs:217
+#: ../src/gui/stats.cs:963 ../src/gui/stats.cs:1319 ../src/report.cs:272
+#: ../src/stats/main.cs:239
 msgid "All"
 msgstr "Све"
 
@@ -1144,8 +1146,8 @@ msgid "Select encoder"
 msgstr "Изабери енкодер"
 
 #: ../glade/chronojump.glade.h:247 ../src/gui/encoder.cs:708
-#: ../src/gui/encoder.cs:987 ../src/gui/encoder.cs:1413
-#: ../src/gui/encoder.cs:1669 ../src/gui/encoderTreeviews.cs:512
+#: ../src/gui/encoder.cs:988 ../src/gui/encoder.cs:1415
+#: ../src/gui/encoder.cs:1671 ../src/gui/encoderTreeviews.cs:512
 msgid "Exercise"
 msgstr "Вежба"
 
@@ -1227,7 +1229,7 @@ msgstr "Откажи процес"
 
 #. not capturing
 #: ../glade/chronojump.glade.h:267 ../src/gui/encoder.cs:800
-#: ../src/gui/encoder.cs:5669
+#: ../src/gui/encoder.cs:5681
 msgid "Save comment"
 msgstr "Сачувај напомену"
 
@@ -1236,7 +1238,7 @@ msgid "Select them to save"
 msgstr "Изаберите их за чување"
 
 #. not shown, unused
-#: ../glade/chronojump.glade.h:269 ../src/gui/encoder.cs:4096
+#: ../glade/chronojump.glade.h:269 ../src/gui/encoder.cs:4108
 msgid "Repetitions"
 msgstr "Понављања"
 
@@ -1284,7 +1286,7 @@ msgstr "Сними"
 msgid "Play"
 msgstr "Пусти"
 
-#: ../glade/chronojump.glade.h:280 ../src/gui/encoder.cs:1419
+#: ../glade/chronojump.glade.h:280 ../src/gui/encoder.cs:1421
 msgid "Video"
 msgstr "Видео"
 
@@ -1304,7 +1306,7 @@ msgstr "Фасцикла"
 msgid "Open Folder"
 msgstr "Отвори фасциклу"
 
-#: ../glade/chronojump.glade.h:285 ../src/gui/encoder.cs:1412
+#: ../glade/chronojump.glade.h:285 ../src/gui/encoder.cs:1414
 msgid "Set"
 msgstr "Подеси"
 
@@ -1442,7 +1444,7 @@ msgstr "Просечно"
 msgid "Maximum"
 msgstr "Највише"
 
-#: ../glade/chronojump.glade.h:319 ../src/gui/encoder.cs:1762
+#: ../glade/chronojump.glade.h:319 ../src/gui/encoder.cs:1764
 msgid "Save image"
 msgstr "Сачувај слику"
 
@@ -1454,12 +1456,12 @@ msgstr "Сачувај 1РМ вредност"
 msgid "Export repetition from A to B"
 msgstr "Извези понављање од A до B"
 
-#: ../glade/chronojump.glade.h:322 ../src/gui/encoder.cs:1766
+#: ../glade/chronojump.glade.h:322 ../src/gui/encoder.cs:1768
 msgid "Save table"
 msgstr "Сачувај табелу"
 
-#: ../glade/chronojump.glade.h:323 ../src/gui/encoder.cs:991
-#: ../src/gui/encoder.cs:1416
+#: ../glade/chronojump.glade.h:323 ../src/gui/encoder.cs:992
+#: ../src/gui/encoder.cs:1418
 msgid "Encoder"
 msgstr "Енкодер"
 
@@ -1699,8 +1701,8 @@ msgstr "Уреди"
 msgid "Flight time"
 msgstr "Време лета"
 
-#: ../glade/chronojump.glade.h:385 ../src/gui/encoder.cs:989
-#: ../src/gui/encoder.cs:1415 ../src/gui/encoderTreeviews.cs:514
+#: ../glade/chronojump.glade.h:385 ../src/gui/encoder.cs:990
+#: ../src/gui/encoder.cs:1417 ../src/gui/encoderTreeviews.cs:514
 #: ../src/gui/jump.cs:1459 ../src/gui/jump.cs:1676
 #: ../src/stats/sjCmjAbkPlus.cs:57 ../src/treeViewJump.cs:31
 msgid "Extra weight"
@@ -1968,8 +1970,8 @@ msgstr "Трење окретања"
 msgid "Rotary axis"
 msgstr "Оса окретања"
 
-#: ../glade/chronojump.glade.h:443 ../src/gui/encoder.cs:3938
-#: ../src/gui/encoder.cs:3993
+#: ../glade/chronojump.glade.h:443 ../src/gui/encoder.cs:3950
+#: ../src/gui/encoder.cs:4005
 msgid "Resistance"
 msgstr "Издржљивост"
 
@@ -2010,8 +2012,8 @@ msgid "Inertia momentum without extra weight"
 msgstr "Момент инерције без додатног терета"
 
 #: ../glade/chronojump.glade.h:452 ../src/constants.cs:912
-#: ../src/gui/encoder.cs:945 ../src/gui/encoder.cs:4370
-#: ../src/gui/encoder.cs:4374 ../src/gui/encoderTreeviews.cs:516
+#: ../src/gui/encoder.cs:946 ../src/gui/encoder.cs:4382
+#: ../src/gui/encoder.cs:4386 ../src/gui/encoderTreeviews.cs:516
 msgid "Inertia M."
 msgstr "М инерције."
 
@@ -2329,8 +2331,8 @@ msgstr "Стопе"
 msgid "Inches"
 msgstr "Палчеви"
 
-#: ../glade/chronojump.glade.h:530 ../src/gui/encoder.cs:994
-#: ../src/gui/encoder.cs:1420 ../src/gui/report.cs:145
+#: ../glade/chronojump.glade.h:530 ../src/gui/encoder.cs:995
+#: ../src/gui/encoder.cs:1422 ../src/gui/report.cs:145
 msgid "Comment"
 msgstr "Напомена"
 
@@ -2351,8 +2353,8 @@ msgstr "Направите нову врсту скока у бази подат
 #: ../src/exportSession.cs:295 ../src/exportSession.cs:397
 #: ../src/exportSession.cs:537 ../src/exportSession.cs:593
 #: ../src/exportSession.cs:687 ../src/exportSession.cs:729
-#: ../src/exportSession.cs:789 ../src/gui/encoder.cs:3939
-#: ../src/gui/encoder.cs:3994 ../src/gui/executeAuto.cs:194
+#: ../src/exportSession.cs:789 ../src/gui/encoder.cs:3951
+#: ../src/gui/encoder.cs:4006 ../src/gui/executeAuto.cs:194
 #: ../src/gui/jump.cs:1460 ../src/gui/jump.cs:1677 ../src/gui/person.cs:120
 #: ../src/gui/run.cs:1160 ../src/gui/run.cs:1349 ../src/runType.cs:192
 #: ../src/runType.cs:228 ../src/runType.cs:269 ../src/runType.cs:298
@@ -2537,7 +2539,7 @@ msgstr "Провери"
 msgid "Search filter"
 msgstr "Филтер претраге"
 
-#: ../glade/chronojump.glade.h:577 ../src/gui/encoder.cs:1459
+#: ../glade/chronojump.glade.h:577 ../src/gui/encoder.cs:1461
 #: ../src/gui/person.cs:1887
 msgid "Load"
 msgstr "Учитај"
@@ -2559,7 +2561,7 @@ msgid "Add new person"
 msgstr "Додај нову особу"
 
 #: ../glade/chronojump.glade.h:582 ../src/exportSession.cs:75
-#: ../src/gui/encoder.cs:1782 ../src/gui/person.cs:1886
+#: ../src/gui/encoder.cs:1784 ../src/gui/person.cs:1886
 #: ../src/gui/preferences.cs:534 ../src/gui/preferences.cs:607
 msgid "Cancel"
 msgstr "Откажи"
@@ -2657,8 +2659,8 @@ msgstr "Направи резерву базе података"
 msgid "Make a copy of the database"
 msgstr "Направите умножак базе података"
 
-#: ../glade/chronojump.glade.h:605 ../src/gui/encoder.cs:4965
-#: ../src/gui/encoder.cs:5380
+#: ../glade/chronojump.glade.h:605 ../src/gui/encoder.cs:4977
+#: ../src/gui/encoder.cs:5392
 msgid "Please, wait."
 msgstr "Сачекајте."
 
@@ -2813,7 +2815,6 @@ msgid "On inertial machines this option is not used."
 msgstr "На машинама инерције ова опција се не користи."
 
 #: ../glade/chronojump.glade.h:643
-#| msgid "Saved repetitions"
 msgid "Save the best repetition"
 msgstr "Сачувај најбоље понављање"
 
@@ -3250,8 +3251,8 @@ msgid "Place"
 msgstr "Место"
 
 #: ../glade/chronojump.glade.h:751 ../src/exportSession.cs:214
-#: ../src/gui/encoder.cs:993 ../src/gui/encoder.cs:1418
-#: ../src/gui/encoder.cs:4097 ../src/gui/session.cs:727
+#: ../src/gui/encoder.cs:994 ../src/gui/encoder.cs:1420
+#: ../src/gui/encoder.cs:4109 ../src/gui/session.cs:727
 #: ../src/gui/session.cs:978 ../src/report.cs:227
 msgid "Date"
 msgstr "Датум"
@@ -4398,13 +4399,13 @@ msgid "jump height"
 msgstr "висина скока"
 
 #. checkboxes
-#: ../src/constants.cs:901 ../src/gui/encoder.cs:986
+#: ../src/constants.cs:901 ../src/gui/encoder.cs:987
 #: ../src/gui/encoderTreeviews.cs:510
 msgid "Repetition"
 msgstr "Понављање"
 
-#: ../src/constants.cs:902 ../src/gui/encoder.cs:3802
-#: ../src/gui/encoder.cs:3810
+#: ../src/constants.cs:902 ../src/gui/encoder.cs:3814
+#: ../src/gui/encoder.cs:3822
 msgid "Not enough data."
 msgstr "Нема довољно података."
 
@@ -4444,12 +4445,12 @@ msgstr "Потребна су најмање три скока"
 msgid "Laterality"
 msgstr "Настраност"
 
-#: ../src/constants.cs:911 ../src/gui/encoder.cs:3502
+#: ../src/constants.cs:911 ../src/gui/encoder.cs:3512
 #: ../src/sqlite/main.cs:1790 ../src/sqlite/main.cs:1791
 msgid "RL"
 msgstr "ДЛ"
 
-#: ../src/constants.cs:911 ../src/gui/encoder.cs:3502
+#: ../src/constants.cs:911 ../src/gui/encoder.cs:3512
 #: ../src/sqlite/main.cs:1793 ../src/sqlite/main.cs:1794
 msgid "R"
 msgstr "Д"
@@ -4736,14 +4737,14 @@ msgstr "Извези сесију у запису "
 msgid "Export"
 msgstr "Извези"
 
-#: ../src/exportSession.cs:94 ../src/gui/encoder.cs:1806
+#: ../src/exportSession.cs:94 ../src/gui/encoder.cs:1808
 msgid "Are you sure you want to overwrite file: "
 msgstr "Да ли сигурно желите да препишете датотеку: "
 
 #: ../src/exportSession.cs:102 ../src/exportSession.cs:134
-#: ../src/gui/encoder.cs:1832 ../src/gui/encoder.cs:1862
-#: ../src/gui/encoder.cs:1870 ../src/gui/encoder.cs:1877
-#: ../src/gui/encoder.cs:1885
+#: ../src/gui/encoder.cs:1834 ../src/gui/encoder.cs:1864
+#: ../src/gui/encoder.cs:1872 ../src/gui/encoder.cs:1879
+#: ../src/gui/encoder.cs:1887
 #, csharp-format
 msgid "Saved to {0}"
 msgstr "Сачувана у „{0}“"
@@ -4754,7 +4755,7 @@ msgid "Cannot export to file {0} "
 msgstr "Не могу да извезем у датотеку „{0}“ "
 
 #. report does not currently send the appBar reference
-#: ../src/exportSession.cs:115 ../src/gui/encoder.cs:1848
+#: ../src/exportSession.cs:115 ../src/gui/encoder.cs:1850
 msgid "Cancelled."
 msgstr "Отказано."
 
@@ -4783,8 +4784,8 @@ msgid "SessionID"
 msgstr "ИБ сесије"
 
 #: ../src/exportSession.cs:227 ../src/gui/convertWeight.cs:106
-#: ../src/gui/encoder.cs:984 ../src/gui/encoder.cs:1243
-#: ../src/gui/encoder.cs:1335 ../src/gui/encoder.cs:1411
+#: ../src/gui/encoder.cs:985 ../src/gui/encoder.cs:1245
+#: ../src/gui/encoder.cs:1337 ../src/gui/encoder.cs:1413
 #: ../src/gui/person.cs:116
 msgid "ID"
 msgstr "ИБ"
@@ -4800,7 +4801,7 @@ msgstr "ИБ особе"
 #: ../src/exportSession.cs:284 ../src/exportSession.cs:381
 #: ../src/exportSession.cs:531 ../src/exportSession.cs:584
 #: ../src/exportSession.cs:684 ../src/exportSession.cs:725
-#: ../src/exportSession.cs:786 ../src/gui/encoder.cs:1245
+#: ../src/exportSession.cs:786 ../src/gui/encoder.cs:1247
 msgid "Person name"
 msgstr "Име особе"
 
@@ -5239,7 +5240,7 @@ msgstr "Обрисах особу и све његове/њене тестове
 msgid "Sorry, R software is not installed."
 msgstr "Извините, Р софтвер није инсталиран."
 
-#: ../src/gui/chronojump.cs:3014 ../src/gui/encoder.cs:5620
+#: ../src/gui/chronojump.cs:3014 ../src/gui/encoder.cs:5632
 #: ../src/stats/main.cs:1517
 msgid "Please, install it from here:"
 msgstr "Инсталирајте га одавде:"
@@ -5284,7 +5285,7 @@ msgstr "Извините, ОБТ тестови не могу бити симу�
 #: ../src/gui/chronojump.cs:3996 ../src/gui/chronojump.cs:4151
 #: ../src/gui/chronojump.cs:4279 ../src/gui/chronojump.cs:4405
 #: ../src/gui/chronojump.cs:4518 ../src/gui/chronojump.cs:4638
-#: ../src/gui/chronojump.cs:4938 ../src/gui/encoder.cs:2165
+#: ../src/gui/chronojump.cs:4938 ../src/gui/encoder.cs:2170
 #: ../src/gui/person.cs:1904
 msgid "Sorry, video cannot be stored."
 msgstr "Извините, видео не може бити сачуван."
@@ -5415,42 +5416,42 @@ msgstr "Обриши изабрани тест"
 msgid "Repair selected test"
 msgstr "Поправи изабрани тест"
 
-#: ../src/gui/chronojump.cs:6245
+#: ../src/gui/chronojump.cs:6248
 msgid "translator-credits"
 msgstr ""
 "Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "\n"
 "http://prevod.org — превод на српски језик"
 
-#: ../src/gui/chronojump.cs:6516
+#: ../src/gui/chronojump.cs:6519
 msgid "Help on auto-detect"
 msgstr "Помоћ на само-откривању"
 
-#: ../src/gui/chronojump.cs:6518
+#: ../src/gui/chronojump.cs:6521
 msgid "Modes:"
 msgstr "Режими:"
 
-#: ../src/gui/chronojump.cs:6520
+#: ../src/gui/chronojump.cs:6523
 msgid "Auto-detection on hardware is active."
 msgstr "Само-откривање хардвера је активно."
 
-#: ../src/gui/chronojump.cs:6520
+#: ../src/gui/chronojump.cs:6523
 msgid "Default mode"
 msgstr "Основни режим"
 
-#: ../src/gui/chronojump.cs:6522
+#: ../src/gui/chronojump.cs:6525
 msgid "Use this option on computers where first port fails."
 msgstr "Користите ову опцију на рачунарима на којима први прикључник не успе."
 
-#: ../src/gui/chronojump.cs:6524
+#: ../src/gui/chronojump.cs:6527
 msgid "Auto-detection on hardware is inactive."
 msgstr "Само-откривање хардвера није активно."
 
-#: ../src/gui/chronojump.cs:6524
+#: ../src/gui/chronojump.cs:6527
 msgid "Use it if you have problems at start or at capture."
 msgstr "Користите ако имате проблема при покретању или при снимању."
 
-#: ../src/gui/chronojump.cs:6684
+#: ../src/gui/chronojump.cs:6687
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Урађено за сврхе тестирања. Времескочко неће изаћи како треба."
 
@@ -5540,8 +5541,8 @@ msgstr ""
 "Ако има више од једне вредности за вежбу,\n"
 "коришћена вредност је она горе."
 
-#: ../src/gui/encoder.cs:740 ../src/gui/encoder.cs:1047
-#: ../src/gui/encoder.cs:1460 ../src/gui/executeAuto.cs:309
+#: ../src/gui/encoder.cs:740 ../src/gui/encoder.cs:1048
+#: ../src/gui/encoder.cs:1462 ../src/gui/executeAuto.cs:309
 #: ../src/gui/genericWindow.cs:724
 msgid "Close"
 msgstr "Затвори"
@@ -5554,46 +5555,46 @@ msgstr "Недостају подаци."
 msgid "Saved comment."
 msgstr "Сачувана напомена."
 
-#: ../src/gui/encoder.cs:990
+#: ../src/gui/encoder.cs:991
 msgid "Mean Power"
 msgstr "Средња снага"
 
-#: ../src/gui/encoder.cs:992 ../src/gui/encoder.cs:1417
+#: ../src/gui/encoder.cs:993 ../src/gui/encoder.cs:1419
 msgid "Contraction"
 msgstr "Скупљање"
 
 #. don't show now
-#: ../src/gui/encoder.cs:1019
+#: ../src/gui/encoder.cs:1020
 #, csharp-format
 msgid "Saved repetitions of athlete {0} on this session."
 msgstr "Сачувана понављања спортисте „{0}“ у овој сесији."
 
-#: ../src/gui/encoder.cs:1021
+#: ../src/gui/encoder.cs:1022
 msgid "Activate the repetitions you want to use clicking on first column."
 msgstr ""
 "Активирајте понављања која желите да користите притиском на прву колону."
 
-#: ../src/gui/encoder.cs:1022 ../src/gui/encoder.cs:1436
+#: ../src/gui/encoder.cs:1023 ../src/gui/encoder.cs:1438
 msgid "If you want to edit or delete a row, right click on it."
 msgstr "Ако желите да уредите или да обришете ред, десни притисак на њега."
 
-#: ../src/gui/encoder.cs:1040
+#: ../src/gui/encoder.cs:1041
 msgid "Change the owner of selected repetition"
 msgstr "Измените власника изабраног понављања"
 
-#: ../src/gui/encoder.cs:1041 ../src/gui/encoder.cs:1450
+#: ../src/gui/encoder.cs:1042 ../src/gui/encoder.cs:1452
 msgid "code"
 msgstr "код"
 
-#: ../src/gui/encoder.cs:1041 ../src/gui/encoder.cs:1450
+#: ../src/gui/encoder.cs:1042 ../src/gui/encoder.cs:1452
 msgid "name"
 msgstr "назив"
 
-#: ../src/gui/encoder.cs:1135
+#: ../src/gui/encoder.cs:1137
 msgid "Are you sure you want to delete this repetition?"
 msgstr "Да ли сигурно желите да обришете ово понављање?"
 
-#: ../src/gui/encoder.cs:1246 ../src/gui/encoder.cs:1339
+#: ../src/gui/encoder.cs:1248 ../src/gui/encoder.cs:1341
 msgid ""
 "Selected\n"
 "repetitions"
@@ -5601,7 +5602,7 @@ msgstr ""
 "Изабрана\n"
 "понављања"
 
-#: ../src/gui/encoder.cs:1247 ../src/gui/encoder.cs:1340
+#: ../src/gui/encoder.cs:1249 ../src/gui/encoder.cs:1342
 msgid ""
 "All\n"
 "repetitions"
@@ -5610,135 +5611,135 @@ msgstr ""
 "понављања"
 
 #. don't show now
-#: ../src/gui/encoder.cs:1262
+#: ../src/gui/encoder.cs:1264
 #, csharp-format
 msgid "Select persons to compare to {0}."
 msgstr "Изаберите особе за поређење са {0}."
 
 #. checkboxes
-#: ../src/gui/encoder.cs:1337 ../src/gui/person.cs:2395
+#: ../src/gui/encoder.cs:1339 ../src/gui/person.cs:2395
 msgid "Session name"
 msgstr "Назив сесије"
 
-#: ../src/gui/encoder.cs:1338
+#: ../src/gui/encoder.cs:1340
 msgid "Session date"
 msgstr "Датум сесије"
 
 #. don't show now
-#: ../src/gui/encoder.cs:1355
+#: ../src/gui/encoder.cs:1357
 #, csharp-format
 msgid ""
 "Compare repetitions of {0} from this session with the following sessions."
 msgstr "Упоредите понављања {0} из ове сесије са следећим сесијама."
 
 #. don't show now
-#: ../src/gui/encoder.cs:1434
+#: ../src/gui/encoder.cs:1436
 #, csharp-format
 msgid "Select set of athlete {0} on this session."
 msgstr "Изаберите скуп спортиста {0} у овој сесији."
 
-#: ../src/gui/encoder.cs:1449
+#: ../src/gui/encoder.cs:1451
 msgid "Change the owner of selected set"
 msgstr "Измени власника изабраног скупа"
 
-#: ../src/gui/encoder.cs:1569 ../src/gui/encoder.cs:1894
+#: ../src/gui/encoder.cs:1571 ../src/gui/encoder.cs:1896
 msgid "Are you sure you want to delete this set?"
 msgstr "Да ли сигурно желите да обришете овај скуп?"
 
-#: ../src/gui/encoder.cs:1569 ../src/gui/encoder.cs:1894
+#: ../src/gui/encoder.cs:1571 ../src/gui/encoder.cs:1896
 msgid "Saved repetitions related to this set will also be deleted."
 msgstr "Сачувана понављања односна на овај скуп биће такође обрисана."
 
-#: ../src/gui/encoder.cs:1670
+#: ../src/gui/encoder.cs:1672
 msgid "Displaced mass"
 msgstr "Премештена маса"
 
-#: ../src/gui/encoder.cs:1671
+#: ../src/gui/encoder.cs:1673
 msgid "Sets"
 msgstr "Скупови"
 
-#: ../src/gui/encoder.cs:1760
+#: ../src/gui/encoder.cs:1762
 msgid "Export set in CSV format"
 msgstr "Извези скуп у ЦСВ запис"
 
-#: ../src/gui/encoder.cs:1764
+#: ../src/gui/encoder.cs:1766
 msgid "Export repetition in CSV format"
 msgstr "Извези понављање у ЦСВ запис"
 
-#: ../src/gui/encoder.cs:1783 ../src/gui/executeAuto.cs:544
+#: ../src/gui/encoder.cs:1785 ../src/gui/executeAuto.cs:544
 msgid "Accept"
 msgstr "Прихвати"
 
-#: ../src/gui/encoder.cs:1841 ../src/gui/encoder.cs:3738
-#: ../src/gui/encoder.cs:3791
+#: ../src/gui/encoder.cs:1843 ../src/gui/encoder.cs:3750
+#: ../src/gui/encoder.cs:3803
 #, csharp-format
 msgid "Cannot save file {0} "
 msgstr "Не могу да сачувам датотеку „{0}“ "
 
-#: ../src/gui/encoder.cs:1910
+#: ../src/gui/encoder.cs:1912
 msgid "Set deleted"
 msgstr "Скуп је обрисан"
 
-#: ../src/gui/encoder.cs:2021 ../src/gui/encoderTreeviews.cs:165
+#: ../src/gui/encoder.cs:2026 ../src/gui/encoderTreeviews.cs:165
 #: ../src/gui/executeAuto.cs:456
 msgid "Saved"
 msgstr "Сачувано"
 
-#: ../src/gui/encoder.cs:2143
+#: ../src/gui/encoder.cs:2148
 msgid "Set saved"
 msgstr "Скуп је сачуван"
 
-#: ../src/gui/encoder.cs:2177
+#: ../src/gui/encoder.cs:2182
 msgid "Set updated"
 msgstr "Скуп је ажуриран"
 
-#: ../src/gui/encoder.cs:2199
+#: ../src/gui/encoder.cs:2204
 msgid "Sorry, no repetitions selected."
 msgstr "Извините, нису изабрана понављања."
 
-#: ../src/gui/encoder.cs:2213 ../src/gui/encoder.cs:3545
+#: ../src/gui/encoder.cs:2218 ../src/gui/encoder.cs:3555
 msgid "Speed,Power / Load"
 msgstr "Брзина,Снага / Оптерећење"
 
-#: ../src/gui/encoder.cs:2216 ../src/gui/encoder.cs:2241
+#: ../src/gui/encoder.cs:2221 ../src/gui/encoder.cs:2246
 msgid "Sorry, this graph is not supported yet."
 msgstr "Извините, овај график још није подржан."
 
-#: ../src/gui/encoder.cs:2235 ../src/gui/encoder.cs:2253
-#: ../src/gui/encoder.cs:3562
+#: ../src/gui/encoder.cs:2240 ../src/gui/encoder.cs:2258
+#: ../src/gui/encoder.cs:3572
 msgid "1RM Any exercise"
 msgstr "1РМ било која вежба"
 
-#: ../src/gui/encoder.cs:2237 ../src/gui/encoder.cs:2255
-#: ../src/gui/encoder.cs:3562
+#: ../src/gui/encoder.cs:2242 ../src/gui/encoder.cs:2260
+#: ../src/gui/encoder.cs:3572
 msgid "1RM Bench Press"
 msgstr "1РМ дизања са клупе"
 
-#: ../src/gui/encoder.cs:2272
+#: ../src/gui/encoder.cs:2277
 msgid "Sorry, cannot calculate 1RM of different exercises."
 msgstr "Извините, не могу да израчунам 1РМ различитих вежби."
 
-#: ../src/gui/encoder.cs:2273
+#: ../src/gui/encoder.cs:2278
 msgid "Please select repetitions of only one exercise type."
 msgstr "Изаберите понављања само једне врсте вежбе."
 
-#: ../src/gui/encoder.cs:3370
+#: ../src/gui/encoder.cs:3380
 msgid "About Neuromuscular Profile"
 msgstr "О нервномишићном профилу"
 
-#: ../src/gui/encoder.cs:3371
+#: ../src/gui/encoder.cs:3381
 msgid "Load = Average eccentric RFD (Ratio of Force Development)"
 msgstr "Оптерећење = Просечан вансредишни ОРС (Однос развоја снаге)"
 
-#: ../src/gui/encoder.cs:3372
+#: ../src/gui/encoder.cs:3382
 msgid "Explode = Average relative concentric RFD"
 msgstr "Експлозивност = Просечан релативан средишни ОРС"
 
-#: ../src/gui/encoder.cs:3373
+#: ../src/gui/encoder.cs:3383
 msgid "Drive = Average relative concentric Impulse"
 msgstr "Вођено = Просечан релативни средишни импулс"
 
-#: ../src/gui/encoder.cs:3374
+#: ../src/gui/encoder.cs:3384
 msgid ""
 "General trends to try to develop an 'equilibrated' neuromuscular profile "
 "(always add individual considerations as previous or actual injuries, sport "
@@ -5748,7 +5749,7 @@ msgstr ""
 "(увек додајте појединачна разматрања као претходне или актуелне повреде, "
 "посебности спорта, мишићне ланце, итд.)."
 
-#: ../src/gui/encoder.cs:3375
+#: ../src/gui/encoder.cs:3385
 msgid ""
 "If one of the metrics is under developed (weak) compared with the other two, "
 "prescribe exercises that emphasize its development."
@@ -5756,7 +5757,7 @@ msgstr ""
 "Ако је једна од метрика недовољно развијена (слаба) у односу на друге две, "
 "пропишите вежбе које наглашавају њен развој."
 
-#: ../src/gui/encoder.cs:3376
+#: ../src/gui/encoder.cs:3386
 msgid ""
 "If one of the metrics is over developed (extreme) compared with the other "
 "two, prescribe exercises to emphasize those, but paying attention to "
@@ -5766,11 +5767,11 @@ msgstr ""
 "пропишите вежбе које је наглашавају, али обратите пажњу на гипкост и "
 "опуштање превише заморених мишића."
 
-#: ../src/gui/encoder.cs:3378
+#: ../src/gui/encoder.cs:3388
 msgid "General guidelines to improve the neuromuscular profile:"
 msgstr "Опште вођице за побољшање нервномишићног профила:"
 
-#: ../src/gui/encoder.cs:3380
+#: ../src/gui/encoder.cs:3390
 msgid ""
 "Load: Perform exercises that develop maximum force (eccentric, isometric or "
 "concentric)."
@@ -5778,13 +5779,13 @@ msgstr ""
 "Оптерећење: Изводите вежбе које развијају највећу снагу (вансредишне, "
 "изометричке или средишне)."
 
-#: ../src/gui/encoder.cs:3381
+#: ../src/gui/encoder.cs:3391
 msgid "Then switch to exercises that develop eccentric force in short time."
 msgstr ""
 "Затим се пребаците на вежбе које развијају вансредишну снагу у кратком "
 "времену."
 
-#: ../src/gui/encoder.cs:3383
+#: ../src/gui/encoder.cs:3393
 msgid ""
 "Explode: Perform exercises that develop force in short time, and maximum "
 "force."
@@ -5792,87 +5793,87 @@ msgstr ""
 "Експлозивност: Изводите вежбе које развијају снагу у кратком времену, и "
 "највећу снагу."
 
-#: ../src/gui/encoder.cs:3384
+#: ../src/gui/encoder.cs:3394
 msgid "Drive: Perform exercises where force is developed during more time."
 msgstr "Вођено: Изводите вежбе у којима се снага развија у току дужег времена."
 
-#: ../src/gui/encoder.cs:3386
+#: ../src/gui/encoder.cs:3396
 msgid "Analysis uses the best three jumps using 'jump height' criterion."
 msgstr "Анализа користи најбоља три скока користећи мерило „висина скока“."
 
-#: ../src/gui/encoder.cs:3387
+#: ../src/gui/encoder.cs:3397
 msgid "Lapuente and De Blas. Adapted from Wagner:"
 msgstr "Лапуенте и Д Блас. Прилагођено из Вагнера:"
 
-#: ../src/gui/encoder.cs:3522
+#: ../src/gui/encoder.cs:3532
 msgid "No compare"
 msgstr "Без поређења"
 
-#: ../src/gui/encoder.cs:3523
+#: ../src/gui/encoder.cs:3533
 msgid "Between persons"
 msgstr "Између особа"
 
-#: ../src/gui/encoder.cs:3524
+#: ../src/gui/encoder.cs:3534
 msgid "Between sessions"
 msgstr "Између сесија"
 
-#: ../src/gui/encoder.cs:3544
+#: ../src/gui/encoder.cs:3554
 msgid "Power / Load"
 msgstr "Снага / Оптерећење"
 
-#: ../src/gui/encoder.cs:3544
+#: ../src/gui/encoder.cs:3554
 msgid "Speed / Load"
 msgstr "Брзина / Оптерећење"
 
-#: ../src/gui/encoder.cs:3545
+#: ../src/gui/encoder.cs:3555
 msgid "Force / Load"
 msgstr "Сила / Оптерећење"
 
-#: ../src/gui/encoder.cs:3546
+#: ../src/gui/encoder.cs:3556
 msgid "Force / Speed"
 msgstr "Сила / Брзина"
 
-#: ../src/gui/encoder.cs:3546
+#: ../src/gui/encoder.cs:3556
 msgid "Power / Speed"
 msgstr "Снага / Брзина"
 
-#: ../src/gui/encoder.cs:3563
+#: ../src/gui/encoder.cs:3573
 msgid "1RM Indirect"
 msgstr "1РМ непосредно"
 
-#: ../src/gui/encoder.cs:3820
+#: ../src/gui/encoder.cs:3832
 msgid "Saved."
 msgstr "Сачувано."
 
-#: ../src/gui/encoder.cs:3822
+#: ../src/gui/encoder.cs:3834
 #, csharp-format
 msgid "1RM found: {0} Kg."
 msgstr "Нађох 1РМ: {0} kg."
 
-#: ../src/gui/encoder.cs:3823
+#: ../src/gui/encoder.cs:3835
 #, csharp-format
 msgid "Displaced body weight in this exercise: {0}%."
 msgstr "Премештена телесна тежина у овој вежби: {0}%."
 
-#: ../src/gui/encoder.cs:3825
+#: ../src/gui/encoder.cs:3837
 #, csharp-format
 msgid "Saved 1RM without displaced body weight: {0} Kg."
 msgstr "Сачувах 1РМ без премештене телесне тежине: {0} Kg."
 
-#: ../src/gui/encoder.cs:3931
+#: ../src/gui/encoder.cs:3943
 msgid "Encoder exercise name:"
 msgstr "Назив вежбе енкодера:"
 
-#: ../src/gui/encoder.cs:3932 ../src/gui/encoder.cs:3991
+#: ../src/gui/encoder.cs:3944 ../src/gui/encoder.cs:4003
 msgid "Displaced body weight"
 msgstr "Премештена телесна тежина"
 
-#: ../src/gui/encoder.cs:3940 ../src/gui/encoder.cs:3995
+#: ../src/gui/encoder.cs:3952 ../src/gui/encoder.cs:4007
 msgid "Speed at 1RM"
 msgstr "Брзина при 1РМ"
 
 #. don't show now
-#: ../src/gui/encoder.cs:3990
+#: ../src/gui/encoder.cs:4002
 msgid "Write the name of the encoder exercise:"
 msgstr "Упишите назив вежбе енкодера:"
 
@@ -5885,93 +5886,93 @@ msgstr "Упишите назив вежбе енкодера:"
 #. genericWin.SetSpin3Range(0,90);
 #. genericWin.SetSpin3Value(90);
 #.
-#: ../src/gui/encoder.cs:4006
+#: ../src/gui/encoder.cs:4018
 msgid "Add"
 msgstr "Додај"
 
-#: ../src/gui/encoder.cs:4033
+#: ../src/gui/encoder.cs:4045
 msgid "Error: Missing name of exercise."
 msgstr "Грешка: Недостаје назив вежбе."
 
-#: ../src/gui/encoder.cs:4036
+#: ../src/gui/encoder.cs:4048
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Грешка: Вежба под називом „{0}“ већ постоји."
 
-#: ../src/gui/encoder.cs:4077
+#: ../src/gui/encoder.cs:4089
 msgid "Sorry, predefined exercises cannot be deleted."
 msgstr "Извините, унапред дефинисана вежба не може бити обрисана."
 
-#: ../src/gui/encoder.cs:4086
+#: ../src/gui/encoder.cs:4098
 msgid "Sorry, this exercise cannot be deleted."
 msgstr "Извините, ова вежба не може бити обрисана."
 
-#: ../src/gui/encoder.cs:4087
+#: ../src/gui/encoder.cs:4099
 msgid "Please delete first the following repetitions:"
 msgstr "Као прво обришите следећа понављања:"
 
-#: ../src/gui/encoder.cs:4119
+#: ../src/gui/encoder.cs:4131
 msgid "Exercise deleted."
 msgstr "Вежба је обрисана."
 
-#: ../src/gui/encoder.cs:4674
+#: ../src/gui/encoder.cs:4686
 msgid "saved"
 msgstr "сачувано"
 
-#: ../src/gui/encoder.cs:4897
+#: ../src/gui/encoder.cs:4909
 msgid "Chronopic port is not configured."
 msgstr "Прикључник Хронопика није подешен."
 
-#: ../src/gui/encoder.cs:5399
+#: ../src/gui/encoder.cs:5411
 msgid "R tasks done"
 msgstr "Задатак Р је урађен"
 
-#: ../src/gui/encoder.cs:5403
+#: ../src/gui/encoder.cs:5415
 msgid "Repetitions processed"
 msgstr "Понављања су обрађена"
 
-#: ../src/gui/encoder.cs:5407
+#: ../src/gui/encoder.cs:5419
 msgid "Starting process"
 msgstr "Покрећем процес"
 
-#: ../src/gui/encoder.cs:5411
+#: ../src/gui/encoder.cs:5423
 msgid "Loading libraries"
 msgstr "Учитавам библиотеке"
 
-#: ../src/gui/encoder.cs:5415
+#: ../src/gui/encoder.cs:5427
 msgid "Starting R"
 msgstr "Покрећем Р"
 
-#: ../src/gui/encoder.cs:5618 ../src/stats/main.cs:1515
+#: ../src/gui/encoder.cs:5630 ../src/stats/main.cs:1515
 msgid "Sorry. Error doing graph."
 msgstr "Извините. Грешка прављења графика."
 
-#: ../src/gui/encoder.cs:5619 ../src/stats/main.cs:1516
+#: ../src/gui/encoder.cs:5631 ../src/stats/main.cs:1516
 msgid "Maybe R is not installed."
 msgstr "Можда Р није инсталиран."
 
 #. signal is raised and managed in gui/encoder.cs
-#: ../src/gui/encoder.cs:5627 ../src/gui/encoder.cs:5842
+#: ../src/gui/encoder.cs:5639 ../src/gui/encoder.cs:5854
 #: ../src/gui/encoderConfiguration.cs:530
 msgid "Cancelled"
 msgstr "Отказано"
 
-#: ../src/gui/encoder.cs:5632
+#: ../src/gui/encoder.cs:5644
 msgid "Finished"
 msgstr "Завршено"
 
-#: ../src/gui/encoder.cs:6047
+#: ../src/gui/encoder.cs:6059
 msgid "Sorry, file not found"
 msgstr "Извините, нисам нашао датотеку"
 
-#: ../src/gui/encoder.cs:6212
+#: ../src/gui/encoder.cs:6224
 msgid ""
 "If a repetition has been found, test will end at selected inactivity seconds."
 msgstr ""
 "Ако је пронађено понављање, тест ће се завршити након секунди изабране "
 "неактивности."
 
-#: ../src/gui/encoder.cs:6213
+#: ../src/gui/encoder.cs:6225
 msgid ""
 "If a repetition has not been found, test will end at selected inactivity "
 "seconds (x2)."
@@ -5979,7 +5980,7 @@ msgstr ""
 "Ако понављање није пронађено, тест ће се завршити након секунди изабране "
 "неактивности (х2)."
 
-#: ../src/gui/encoder.cs:6214
+#: ../src/gui/encoder.cs:6226
 msgid "This will let the person to have more time to start movement."
 msgstr "Ово ће дати особи више времена да почне кретање."
 

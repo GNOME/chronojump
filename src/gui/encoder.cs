@@ -4163,7 +4163,11 @@ public partial class ChronoJumpWindow
 		}
 	
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
+		
+		//blank the encoderCaptureListStore
+		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 		button_encoder_analyze_sensitiveness();
+		
 		treeviewEncoderCaptureRemoveColumns();
 		if(encoder_capture_curves_bars_pixmap != null) 
 			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);

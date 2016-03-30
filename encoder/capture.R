@@ -136,7 +136,9 @@ doProcess <- function(options)
 	curveNum = 0
 	inertialPositionCurveSentStart = 0
 	inertialPositionCurveSentEnd = 0
-	inertialCapturingFirstPhase = TRUE
+
+	#Don't measure on first phase (initial eccentric) 
+	#inertialCapturingFirstPhase = TRUE
 	
 	input <- readLines(f, n = 1L)
 	while(input[1] != "Q") {
@@ -167,7 +169,7 @@ doProcess <- function(options)
 			curveNum = 0
 			inertialPositionCurveSentStart = 0
 			inertialPositionCurveSentEnd = 0
-			inertialCapturingFirstPhase = TRUE
+			#inertialCapturingFirstPhase = TRUE
 			input <- readLines(f, n = 1L)
 	
 			if(input[1] == "Q")
@@ -207,7 +209,7 @@ doProcess <- function(options)
 			
 		if(isInertial(op$EncoderConfigurationName))
 		{
-		  diametersPerTick = getInertialDiametersPerMs(displacement, op$diameter)
+			diametersPerTick = getInertialDiametersPerMs(displacement, op$diameter)
 			displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, 
 							       diametersPerTick, op$diameterExt, op$gearedDown)
 
@@ -215,7 +217,8 @@ doProcess <- function(options)
 			positionTemp = cumsum(displacement)
 			inertialPositionCurveSentEnd = inertialPositionCurveSentStart + positionTemp[length(positionTemp)]
 
-			displacement = getDisplacementInertialBody(inertialPositionCurveSentStart, displacement, FALSE, op$Title) #draw: FALSE
+			#since 1.6.1 sign change from con to ecc is done in C#
+			#displacement = getDisplacementInertialBody(inertialPositionCurveSentStart, displacement, FALSE, op$Title) #draw: FALSE
 		} else {
 			displacement = getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt)
 		}
@@ -243,31 +246,47 @@ doProcess <- function(options)
 
 		#if isInertial: getDisplacementInertialBody separate phases using initial height of full extended person
 		#so now there will be two different curves to process
+		#Update. Since 1.6.1 on inertial at C# two curves are sent "e" and "c"
 
+#		position = cumsum(displacement)
+#
+#		if(isInertial(op$EncoderConfigurationName)) 
+#		{
+#			if(abs(max(position) - min(position)) >= op$MinHeight) {
+#				if(inertialCapturingFirstPhase)
+#					inertialCapturingFirstPhase = FALSE
+#				else {
+#					positionTop <- floor(mean(which(position == max(position))))
+#					displacement1 = displacement[1:positionTop]
+#					displacement2 = displacement[(positionTop+1):length(displacement)]
+#
+#					if(op$Eccon == "c") {
+#						curveNum <- calcule(displacement1, op, curveNum)
+#					} else {
+#						curveNum <- calcule(displacement1, op, curveNum)
+#						curveNum <- calcule(displacement2, op, curveNum)
+#					}
+#				}
+#			}
+#		} else {
+#			curveNum <- calcule(displacement, op, curveNum)
+#		}
+	
 		position = cumsum(displacement)
 
 		if(isInertial(op$EncoderConfigurationName)) 
 		{
 			if(abs(max(position) - min(position)) >= op$MinHeight) {
-				if(inertialCapturingFirstPhase)
-					inertialCapturingFirstPhase = FALSE
-				else {
-					positionTop <- floor(mean(which(position == max(position))))
-					displacement1 = displacement[1:positionTop]
-					displacement2 = displacement[(positionTop+1):length(displacement)]
-
-					if(op$Eccon == "c") {
-						curveNum <- calcule(displacement1, op, curveNum)
-					} else {
-						curveNum <- calcule(displacement1, op, curveNum)
-						curveNum <- calcule(displacement2, op, curveNum)
-					}
-				}
+				#if(inertialCapturingFirstPhase)
+				#	inertialCapturingFirstPhase = FALSE
+				#else
+					curveNum <- calcule(displacement, op, curveNum)
 			}
 		} else {
 			curveNum <- calcule(displacement, op, curveNum)
 		}
-			
+		
+
 		inertialPositionCurveSentStart = inertialPositionCurveSentEnd
 
 		#if(debug)

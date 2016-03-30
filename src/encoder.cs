@@ -906,13 +906,12 @@ public class EncoderCaptureCurve {
 	public int startFrame;
         public int endFrame;
 
-	public EncoderCaptureCurve(bool up, int startFrame, int endFrame)
+	public EncoderCaptureCurve(int startFrame, int endFrame)
 	{
-		this.up = up;
 		this.startFrame = startFrame;
 		this.endFrame = endFrame;
 	}
-
+	
 	public string DirectionAsString() {
 		if(up)
 			return "UP";

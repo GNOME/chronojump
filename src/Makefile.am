@@ -119,6 +119,7 @@ SOURCES = \
 	chronojump.cs\
 	config.cs\
 	encoder.cs\
+	encoderCapture.cs\
 	encoderRProc.cs\
 	executeAuto.cs\
 	event.cs\

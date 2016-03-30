@@ -20,7 +20,7 @@
 
 using System;
 using System.IO; 
-using System.IO.Ports;
+//using System.IO.Ports;
 using Gtk;
 using Gdk;
 using Glade;
@@ -263,15 +263,16 @@ public partial class ChronoJumpWindow
 	private ArrayList encoderCompareIntersession;	//sessionID:sessionDate
 
 	//private static double [] encoderReaded;		//data coming from encoder and converted (can be double)
-	private static int [] encoderReaded;		//data coming from encoder and converted
-	private static int encoderCaptureCountdown;
-	private static Gdk.Point [] encoderCapturePoints;		//stored to be realtime displayed
-	private static int encoderCapturePointsCaptured;		//stored to be realtime displayed
-	private static int encoderCapturePointsPainted;			//stored to be realtime displayed
+	//private static int [] encoderReaded;		//data coming from encoder and converted
+	//private static int encoderCaptureCountdown;
+	//private static Gdk.Point [] encoderCapturePoints;		//stored to be realtime displayed
+	//private static int encoderCapturePointsCaptured;		//stored to be realtime displayed
+	//private static int encoderCapturePointsPainted;			//stored to be realtime displayed
+	EncoderCapture eCapture;
 	
 	//Contains curves captured to be analyzed by R
-	private static EncoderCaptureCurveArray ecca;
-	private static bool eccaCreated = false;
+	//private static EncoderCaptureCurveArray ecca;
+	//private static bool eccaCreated = false;
 
 	private static bool encoderProcessCancel;
 	private static bool encoderProcessProblems;
@@ -332,7 +333,8 @@ public partial class ChronoJumpWindow
 
  
 	Gdk.GC pen_black_encoder_capture;
-	
+	Gdk.GC pen_encoder_capture_inertial_disc;
+
 	Gdk.GC pen_red_encoder_capture;
 	Gdk.GC pen_red_dark_encoder_capture;
 	Gdk.GC pen_red_light_encoder_capture;
@@ -783,11 +785,12 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_cancel_clicked (object o, EventArgs args) 
 	{
-		encoderProcessCancel = true;
+		eCapture.Cancel();
 	}
 
 	void on_button_encoder_capture_finish_clicked (object o, EventArgs args) 
 	{
+		eCapture.Finish();
 		encoderProcessFinish = true;
 	}
 
@@ -2293,11 +2296,23 @@ public partial class ChronoJumpWindow
 	private void encoderDoCaptureCsharp () 
 	{
 		string exerciseNameShown = UtilGtk.ComboGetActive(combo_encoder_exercise);
-		bool capturedOk = runEncoderCaptureCsharp( 
+
+		if(encoderConfigurationCurrent.has_inertia)
+			eCapture = new EncoderCaptureInertial();
+		else
+			eCapture = new EncoderCaptureGravitatory();
+		
+		eCapture.InitGlobal( 
+				encoder_capture_signal_drawingarea.Allocation.Width,
+				encoder_capture_signal_drawingarea.Allocation.Height,
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
+				(int) encoderCaptureOptionsWin.spin_encoder_capture_inactivity_end_time.Value,
+				findEccon(true),
+				chronopicWin.GetEncoderPort()
+				);
+		bool capturedOk = eCapture.Capture(
 				UtilEncoder.GetEncoderDataTempFileName(),
-				chronopicWin.GetEncoderPort(),
-				false //inertiaMomentCalculation
+				encoderRProcCapture
 				);
 
 		//wait to ensure capture thread has ended
@@ -2310,7 +2325,8 @@ public partial class ChronoJumpWindow
 		if(capturedOk) {
 			LogB.Debug("Going to encoderCalculeCurves");		
 			encoderCalculeCurves(encoderActions.CURVES_AC);
-		}
+		} else
+			encoderProcessCancel = true;
 	}
 	
 	//this is called by non gtk thread. Don't do gtk stuff here
@@ -2318,11 +2334,18 @@ public partial class ChronoJumpWindow
 	//I suppose reading gtk is ok, changing will be the problem
 	private void encoderDoCaptureCsharpIM () 
 	{
-		bool capturedOk = runEncoderCaptureCsharp( 
+		eCapture = new EncoderCaptureIMCalc();
+		eCapture.InitGlobal( 
+				encoder_capture_signal_drawingarea.Allocation.Width,
+				encoder_capture_signal_drawingarea.Allocation.Height,
 				encoder_configuration_win.Spin_im_duration,
+				(int) encoderCaptureOptionsWin.spin_encoder_capture_inactivity_end_time.Value,
+				findEccon(true),
+				chronopicWin.GetEncoderPort()
+				);
+		bool capturedOk = eCapture.Capture(
 				UtilEncoder.GetEncoderDataTempFileName(),
-				chronopicWin.GetEncoderPort(),
-				true //inertiaMomentCalculation
+				encoderRProcCapture
 				);
 
 		//wait to ensure capture thread has ended
@@ -2334,434 +2357,10 @@ public partial class ChronoJumpWindow
 					encoder_configuration_win.Spin_im_length,
 					encoderRProcAnalyze
 					);
-	}
-	
-	private bool runEncoderCaptureCsharpCheckPort(string port) {
-		LogB.Information("testing encoder port: ", port);
-		SerialPort sp = new SerialPort(port);
-		sp.BaudRate = 115200;
-		LogB.Information("testing 1: sp created");
-		try {
-			sp.Open();
-			LogB.Information("testing 2: sp opened");
-			sp.Close();
-			LogB.Information("testing 3: sp closed. Success!");
-		} catch {
-			LogB.Error("testing encoder port failed");
-			return false;
-		}
-		return true;
-	}
-
-
-	int encoderSelectedMinimumHeight;
-
-	//on inertial moment calculation don't need to send curves to R
-	private bool runEncoderCaptureCsharp(int time, string outputData1, string port, bool inertiaMomentCalculation) 
-	{
-		LogB.Debug("runEncoderCaptureCsharp pre start");
-		int widthG = encoder_capture_signal_drawingarea.Allocation.Width;
-		int heightG = encoder_capture_signal_drawingarea.Allocation.Height;
-
-		double realHeightG;
-							
-		if(inertiaMomentCalculation)
-			realHeightG = 2 * 500 ; //.5 meter up / .5 meter down
-		else if(encoderConfigurationCurrent.has_inertia)
-			realHeightG = 2 * 5000 ; //5 meters up / 5 meters down
 		else
-			realHeightG = 2 * 1000 ; //1 meter up / 1 meter down
-		
-		LogB.Debug("runEncoderCaptureCsharp start port:", port);
-		SerialPort sp = new SerialPort(port);
-		sp.BaudRate = 115200;
-		LogB.Information("sp created");
-		sp.Open();
-		LogB.Information("sp opened");
-
-
-		encoderCaptureCountdown = time;
-		//int recordingTime = es.Ep.Time * 1000;
-		int recordingTime = time * 1000;
-		
-		int byteReaded;
-		
-		//initialize
-		encoderReaded = new int[recordingTime];
-	
-		double sum = 0;
-		string dataString = "";
-		string sep = "";
-		
-		int i =-20; //delete first records because there's encoder bug
-		int msCount = 0;
-		encoderCapturePoints = new Gdk.Point[recordingTime];
-		encoderCapturePointsCaptured = 0;
-		encoderCapturePointsPainted = 0; 	//-1 means delete screen
-				
-		/*
-		 * calculate params with R explanation	
-		 */
-
-		/*               3
-		 *              / \
-		 *             /   B
-		 *            /     \
-		 * --1       /
-		 *    \     /
-		 *     \   A
-		 *      \2/
-		 *
-		 * Record the signal, when arrive to A, then store the descending phase (1-2) and calculate params (power, ...)
-		 * When arrive to B, then store the ascending phase (2-3)
-		 */
-
-		int directionChangePeriod = 25; //how long (ms) to recognize as change direction. (from 2 to A in ms)
-						//it's in ms and not in cm, because it's easier to calculate
-		int directionChangeCount = 0; //counter for this period
-		int directionNow = 1;		// +1 or -1
-		int directionLastMSecond = 1;	// +1 or -1 (direction on last millisecond)
-		int directionCompleted = -1;	// +1 or -1
-		int previousFrameChange = 0;
-		int previousEnd = 0;
-		int lastNonZero = 0;
-		
-		//this will be used to stop encoder automatically	
-		int consecutiveZeros = -1;		
-		int consecutiveZerosMax = (int) encoderCaptureOptionsWin.spin_encoder_capture_inactivity_end_time.Value * 1000;
-						
-		bool inertialCaptureDirectionChecked = false;
-		bool inertialCaptureDirectionInverted = false;
-
-		//useful to don't send to R the first phase of the movement in these situations: 
-		//going down on inertial, going up in ec, ecs
-		bool capturingFirstPhase = true; 
-
-		//just a default value, unused until a curve has been accepted
-		bool lastDirectionStoredIsUp = true;
-
-
-		//create ecca if needed
-		if(! eccaCreated) {
-			ecca = new EncoderCaptureCurveArray();
-			eccaCreated = true;
-		}
-
-
-		do {
-			try {
-				byteReaded = sp.ReadByte();
-			} catch {
-				LogB.Error("Maybe encoder cable is disconnected");
-				encoderProcessCancel = true;
-				break;
-			}
-
-
-			if(byteReaded > 128)
-				byteReaded = byteReaded - 256;
-
-			if(inertialCaptureDirectionInverted)
-				byteReaded *= -1;
-
-
-			i=i+1;
-			if(i >= 0) {
-				
-				if(byteReaded == 0)
-					consecutiveZeros ++;
-				else
-					consecutiveZeros = -1;
-					       
-				//stop if n seconds of inactivity
-				//but it has to be moved a little bit first, just to give time to the people
-				//if(consecutiveZeros >= consecutiveZerosMax && sum > 0) #Not OK becuase sum maybe is 0: +1,+1,-1,-1
-				//if(consecutiveZeros >= consecutiveZerosMax && ecca.ecc.Count > 0) #Not ok because when ecca is created, ecc.Count == 1
-				//
-				//process ends 
-				//when a curve has been found and then there are n seconds of inactivity, or
-				//when a curve has not been found and then there are 2*n seconds of inactivity
-				if(
-						(ecca.curvesAccepted > 0 && consecutiveZeros >= consecutiveZerosMax) ||
-						(ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax)) )
-				{
-					encoderProcessFinish = true;
-					LogB.Information("SHOULD FINISH");
-				}
-
-
-				sum += byteReaded;
-				encoderReaded[i] = byteReaded;
-
-				encoderCapturePoints[i] = new Gdk.Point(
-						Convert.ToInt32(widthG * i / recordingTime),
-						Convert.ToInt32( (heightG/2) - ( sum * heightG / realHeightG) )
-						);
-				encoderCapturePointsCaptured = i;
-
-				//this slows the process
-				//Do not create a large string
-				//At end write the data without creating big string
-				/*
-				dataString += sep + b.ToString();
-				sep = ", ";
-				*/
-	
-				/*
-				 * on inertial, when we start we should go down (because exercise starts in full extension)
-				 * if at the beginning we detect movement as positive means that the encoder is connected backwards or
-				 * the disc is in a position that makes the start in that direction
-				 * we use the '20' to detect when 'some' movement has been done
-				 * Just -1 all the past and future values of this capture
-				 * (we use the 'sum > 0' to know that it's going upwards)
-				 */
-				if(
-						! inertialCaptureDirectionChecked &&
-						encoderConfigurationCurrent.has_inertia && 
-						Math.Abs(sum) > 20
-				  ) {
-					inertialCaptureDirectionChecked = true;
-
-					if(sum > 0) {
-						inertialCaptureDirectionInverted = true;
-						directionNow *= -1;
-						directionLastMSecond *= -1;
-						sum *= -1;
-						for(int j=0; j <= i; j ++) {
-							encoderReaded[j] *= -1;
-						}
-						double sum2=0;
-						for(int j=0; j <= i; j ++) {
-							sum2 += encoderReaded[j];
-							encoderCapturePoints[j] = new Gdk.Point(
-									Convert.ToInt32(widthG * j / recordingTime),
-									Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
-									);
-						}
-						encoderCapturePointsCaptured = i;
-						encoderCapturePointsPainted = -1; //mark meaning screen should be erased
-					}
-				}
-
-				//adaptative displayed height
-				//if points go outside the graph, duplicate size of graph
-				if(encoderCapturePoints[i].Y > heightG || encoderCapturePoints[i].Y < 0) 
-				{
-					realHeightG *= 2;
-						
-					double sum2=0;
-					for(int j=0; j <= i; j ++) {
-						sum2 += encoderReaded[j];
-						encoderCapturePoints[j] = new Gdk.Point(
-								Convert.ToInt32(widthG * j / recordingTime),
-								Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
-								);
-					}
-					encoderCapturePointsCaptured = i;
-					encoderCapturePointsPainted = -1; //mark meaning screen should be erased
-				}
-
-				/*
-				 * calculate params with R (see explanation above)	
-				 */
-			
-				//if string goes up or down
-				if(byteReaded != 0) {
-					//store the direction
-					directionNow = (int) byteReaded / (int) Math.Abs(byteReaded); //1 (up) or -1 (down)
-				}
-					
-				//if we don't have changed the direction, store the last non-zero that we can find
-				if(directionChangeCount == 0 && directionNow == directionLastMSecond) {
-					//check which is the last non-zero value
-					//this is suitable to find where starts the only-zeros previous to the change
-					if(byteReaded != 0)
-						lastNonZero = i;
-				}
-						
-
-				//if it's different than the last direction, mark the start of change
-				if(directionNow != directionLastMSecond) {
-					directionLastMSecond = directionNow;
-					directionChangeCount = 0;
-				} 
-				else if(directionNow != directionCompleted) {
-					//we are in a different direction than the last completed
-					
-					//we cannot add byteReaded because then is difficult to come back n frames to know the max point
-					//directionChangeCount += byteReaded
-					directionChangeCount ++;
-
-					if(directionChangeCount > directionChangePeriod)	//count >= than change_period
-					{
-						//int startFrame = previousFrameChange - directionChangeCount;	//startFrame
-								/*
-								 * at startFrame we do the "-directionChangePeriod" because
-								 * we want data a little bit earlier, because we want some zeros
-								 * that will be removed by reduceCurveBySpeed
-								 * if not done, then the data:
-								 * 0 0 0 0 0 0 0 0 0 1
-								 * will start at 10th digit (the 1)
-								 * if done, then at speed will be like this:
-								 * 0 0 0 0.01 0.04 0.06 0.07 0.08 0.09 1
-								 * and will start at fourth digit
-								 */
-
-						//this is better, takes a lot of time before, and then reduceCurveBySpeed will cut it
-						int startFrame = previousEnd;	//startFrame
-						LogB.Debug("startFrame",startFrame.ToString());
-						if(startFrame < 0)
-							startFrame = 0;
-
-						bool previousWasUp = ! Util.IntToBool(directionNow); //if we go now UP, then record previous DOWN phase
-						EncoderCaptureCurve ecc = new EncoderCaptureCurve(
-								previousWasUp,
-								startFrame,
-								(i - directionChangeCount + lastNonZero)/2 	//endFrame
-								//to find endFrame, first substract directionChangePeriod from i
-								//then find the middle point between that and lastNonZero
-								//this means that the end is in central point at displacements == 0
-								);
-		
-							
-						//on 1.4.9 secundary thread was capturing
-						//while main thread was calculing with RDotNet and updating GUI
-						//
-						//on 1.5.0 secundary thread is capturing and sending data to R process
-						//while main thread is reading data coming from R and updating GUI
-
-						string eccon = findEccon(true);
-						LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Length);
-						if(ecc.endFrame - ecc.startFrame > 0 ) 
-						{
-							double [] curve = new double[ecc.endFrame - ecc.startFrame];
-							for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
-								curve[k]=encoderReaded[j];
-								k++;
-							}
-
-							previousEnd = ecc.endFrame;
-
-							//22-may-2015: This is done in R now
-
-							//1) check heightCurve in a fast way first to discard curves soon
-							//   only process curves with height >= min_height
-							//2) if it's concentric, only take the concentric curves, 
-							//   but if it's concentric and inertial: take both.
-							//   
-							//   When capturing on inertial, we have the first graph
-							//   that will be converted to the second.
-							//   we need the eccentric phase in order to detect the Ci2
-
-							/*               
-							 *             /\
-							 *            /  \
-							 *           /    \
-							 *____      C1     \      ___
-							 *    \    /        \    /
-							 *     \  /          \  C2
-							 *      \/            \/
-							 *
-							 * C1, C2: two concentric phases
-							 */
-
-							/*               
-							 *____                    ___
-							 *    \    /\      /\    /
-							 *     \ Ci1 \   Ci2 \ Ci3
-							 *      \/    \  /    \/
-							 *             \/
-							 *
-							 * Ci1, Ci2, Ci3: three concentric phases on inertial
-							 */
-
-							//3) if it's ecc-con, don't record first curve if first curve is concentric
-							//
-							//4) on ec, ecS don't have store two curves in the same direction
-
-							/*
-							 * on inertiaMomentCalculation we don't need to send data to R and get curves
-							 * we will call R at the end
-							 */
-
-							if(! inertiaMomentCalculation) {	
-								bool sendCurve = true;
-								
-								if(encoderConfigurationCurrent.has_inertia) {
-									//22 may 2015: send'it because we need to know the heigth change in order to do the cuts
-									//if(capturingFirstPhase)
-									//	sendCurve = false;
-								} else { // ! encoderConfigurationCurrent.has_inertia
-									if( eccon == "c" && ! ecc.up )
-										sendCurve = false;
-									if( (eccon == "ec" || eccon == "ecS") && ecc.up && capturingFirstPhase ) //3
-										sendCurve = false;
-									if( 
-											(eccon == "ec" || eccon == "ecS") && 
-											ecca.curvesAccepted > 0 &&
-											lastDirectionStoredIsUp == ecc.up ) //4
-										sendCurve = false;
-								}
-								capturingFirstPhase = false;
-
-								if(sendCurve) {
-									encoderRProcCapture.SendCurve(
-											UtilEncoder.CompressData(curve, 25)	//compressed
-											);
-
-									ecca.curvesAccepted ++;
-									ecca.ecc.Add(ecc);
-
-									lastDirectionStoredIsUp = ecc.up;
-								}
-							}
-						}
-						
-
-						LogB.Debug("i", i.ToString());
-						LogB.Debug("directionChangeCount", directionChangeCount.ToString());
-
-						previousFrameChange = i - directionChangeCount;
-
-						LogB.Debug("previousFrameChange", previousFrameChange.ToString());
-
-						directionChangeCount = 0;
-						directionCompleted = directionNow;
-
-					}
-				}
-
-
-				//this is for visual feedback of remaining time	
-				msCount ++;
-				if(msCount >= 1000) {
-					encoderCaptureCountdown --;
-					msCount = 1;
-				}
-			}
-		} while (i < (recordingTime -1) && ! encoderProcessCancel && ! encoderProcessFinish);
-
-		LogB.Debug("runEncoderCaptureCsharp main bucle end");
-		sp.Close();
-
-		if(encoderProcessCancel)
-			return false;
-		
-		TextWriter writer = File.CreateText(outputData1);
-
-		sep = "";
-		for(int j=0; j < i ; j ++) {
-			writer.Write(sep + encoderReaded[j]); //store the raw file (before encoderConfigurationConversions)
-			sep = ", ";
-		}
-
-		writer.Flush();
-		writer.Close();
-		((IDisposable)writer).Dispose();
-		LogB.Debug("runEncoderCaptureCsharp ended");
-						
-		return true;
+			encoderProcessCancel = true;
 	}
+
 
 	//this is called by non gtk thread. Don't do gtk stuff here
 	//I suppose reading gtk is ok, changing will be the problem
@@ -4338,23 +3937,24 @@ public partial class ChronoJumpWindow
 	 * update encoder capture graph stuff
 	 */
 
-	private void updateEncoderCaptureGraphPaint(bool calculatingInertia) 
+	enum UpdateEncoderPaintModes { GRAVITATORY, INERTIAL, CALCULE_IM }
+	private void updateEncoderCaptureGraphPaint(UpdateEncoderPaintModes mode)
 	{
-		if(encoderCapturePoints == null)
+		if(eCapture.EncoderCapturePoints == null)
 			return;
 
 		bool refreshAreaOnly = false;
 		
 		//mark meaning screen should be erased
-		if(encoderCapturePointsPainted == -1) {
+		if(eCapture.EncoderCapturePointsPainted == -1) {
 			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
-			encoderCapturePointsPainted = 0;
+			eCapture.EncoderCapturePointsPainted = 0;
 		}
 
 
 		//also can be optimized to do not erase window every time and only add points since last time
-		int last = encoderCapturePointsCaptured;
-		int toDraw = encoderCapturePointsCaptured - encoderCapturePointsPainted;
+		int last = eCapture.EncoderCapturePointsCaptured;
+		int toDraw = eCapture.EncoderCapturePointsCaptured - eCapture.EncoderCapturePointsPainted;
 
 		//LogB.Information("last - toDraw:" + last + " - " + toDraw);	
 
@@ -4364,25 +3964,45 @@ public partial class ChronoJumpWindow
 
 		int maxY=-1;
 		int minY=10000;
+
 		Gdk.Point [] paintPoints = new Gdk.Point[toDraw];
-		for(int j=0, i=encoderCapturePointsPainted +1 ; i <= last ; i ++, j++) 
+		for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j++) 
 		{
-			paintPoints[j] = encoderCapturePoints[i];
+			paintPoints[j] = eCapture.EncoderCapturePoints[i];
 
 			if(refreshAreaOnly) {
-				if(encoderCapturePoints[i].Y > maxY)
-					maxY = encoderCapturePoints[i].Y;
-				if(encoderCapturePoints[i].Y < minY)
-					minY = encoderCapturePoints[i].Y;
+				if(eCapture.EncoderCapturePoints[i].Y > maxY)
+					maxY = eCapture.EncoderCapturePoints[i].Y;
+				if(eCapture.EncoderCapturePoints[i].Y < minY)
+					minY = eCapture.EncoderCapturePoints[i].Y;
 			}
 
 		}
+		
+		Gdk.Point [] paintPointsInertial = new Gdk.Point[toDraw];
+		if(mode == UpdateEncoderPaintModes.INERTIAL) {
+			for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j++) 
+			{
+				paintPointsInertial[j] = eCapture.EncoderCapturePointsInertialDisc[i];
 
+				if(refreshAreaOnly) {
+					if(eCapture.EncoderCapturePointsInertialDisc[i].Y > maxY)
+						maxY = eCapture.EncoderCapturePointsInertialDisc[i].Y;
+					if(eCapture.EncoderCapturePointsInertialDisc[i].Y < minY)
+						minY = eCapture.EncoderCapturePointsInertialDisc[i].Y;
+				}
+
+			}
+			encoder_capture_signal_pixmap.DrawPoints(pen_encoder_capture_inertial_disc, paintPointsInertial);
+		}
+		
+		//paint this after the inertial because this should mask the other
 		encoder_capture_signal_pixmap.DrawPoints(pen_black_encoder_capture, paintPoints);
+
 
 		//write title
 		string title = "";
-		if(calculatingInertia)
+		if(mode == UpdateEncoderPaintModes.CALCULE_IM)
 			title = Catalog.GetString("Inertia M.");
 		else {
 			title = currentPerson.Name + " (";
@@ -4407,7 +4027,7 @@ public partial class ChronoJumpWindow
 			int startX = paintPoints[0].X;
 			/*
 			 * this helps to ensure that no white points are drawed
-			 * caused by this int when encoderCapturePoints are assigned:
+			 * caused by this int when eCapture.EncoderCapturePoints are assigned:
 			 * Convert.ToInt32(width*i/recordingTime)
 			 */
 			int exposeMargin = 4;
@@ -4417,17 +4037,17 @@ public partial class ChronoJumpWindow
 
 			encoder_capture_signal_drawingarea.QueueDrawArea( 			// -- refresh
 					startX,
-					//0,
 					minY,
 					(paintPoints[toDraw-1].X-paintPoints[0].X ) + exposeMargin,
-					//encoder_capture_signal_drawingarea.Allocation.Height
 					maxY-minY
 					);
+			//if refreshAreaOnly is true, then repeat above instruction for paintPointsInertial
+			
 			LogB.Information("minY - maxY " + minY + " - " + maxY);
 		} else
 			encoder_capture_signal_drawingarea.QueueDraw(); 			// -- refresh
 
-		encoderCapturePointsPainted = encoderCapturePointsCaptured;
+		eCapture.EncoderCapturePointsPainted = eCapture.EncoderCapturePointsCaptured;
 	}
 
 	static List<string> encoderCaptureStringR;
@@ -4577,8 +4197,9 @@ public partial class ChronoJumpWindow
 				bool isEven = Util.IsEven(count +1);
 				
 				//while capturing on inertial data comes as c,e
-				if(capturing && encoderConfigurationCurrent.has_inertia)
-					isEven = ! isEven;
+				//if(capturing && encoderConfigurationCurrent.has_inertia)
+				//	isEven = ! isEven;
+				//changed since 1.6.1
 			
 				if(isEven) //par, concentric
 					my_pen = my_pen_ecc_con_c;
@@ -4613,8 +4234,9 @@ public partial class ChronoJumpWindow
 				bool isEven = Util.IsEven(count +1);
 				
 				//while capturing on inertial data comes as c,e
-				if(capturing && encoderConfigurationCurrent.has_inertia)
-					isEven = ! isEven;
+				//if(capturing && encoderConfigurationCurrent.has_inertia)
+				//	isEven = ! isEven;
+				//changed since 1.6.1
 			
 				if(isEven)
 					encoder_capture_curves_bars_pixmap.DrawLine(pen_white_encoder_capture, 
@@ -4849,7 +4471,7 @@ public partial class ChronoJumpWindow
 		if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM) {
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			LogB.Information("encoderThreadStart begins");
-			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
+			if( EncoderCapture.CheckPort(chronopicWin.GetEncoderPort()) ) {
 				if(action == encoderActions.CAPTURE) {
 					runEncoderCaptureNoRDotNetInitialize();
 				}
@@ -4861,7 +4483,7 @@ public partial class ChronoJumpWindow
 				treeview_encoder_capture_curves.Sensitive = true;
 
 				prepareEncoderGraphs(true);
-				eccaCreated = false;
+				//eccaCreated = false;
 
 				if(action == encoderActions.CAPTURE) {
 					encoderStartVideoRecord();
@@ -4890,9 +4512,6 @@ public partial class ChronoJumpWindow
 
 					needToRefreshTreeviewCapture = false;
 
-					encoderSelectedMinimumHeight = encoderCaptureOptionsWin.GetMinHeight(
-							encoderConfigurationCurrent.has_inertia);
-	
 					encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
 				}
@@ -5020,6 +4639,7 @@ public partial class ChronoJumpWindow
 		layout_encoder_capture_curves_bars_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
 
 		pen_black_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_encoder_capture_inertial_disc = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_red_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_red_dark_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_red_light_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
@@ -5034,6 +4654,7 @@ public partial class ChronoJumpWindow
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref UtilGtk.BLACK,true,true);
+		colormap.AllocColor (ref UtilGtk.GRAY,true,true);
 		colormap.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
 		colormap.AllocColor (ref UtilGtk.RED_DARK,true,true);
 		colormap.AllocColor (ref UtilGtk.RED_LIGHT,true,true);
@@ -5047,6 +4668,7 @@ public partial class ChronoJumpWindow
 		colormap.AllocColor (ref UtilGtk.SELECTED,true,true);
 
 		pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
+		pen_encoder_capture_inertial_disc.Foreground = UtilGtk.GRAY;
 		pen_red_encoder_capture.Foreground = UtilGtk.RED_PLOTS;
 		pen_red_dark_encoder_capture.Foreground = UtilGtk.RED_DARK;
 		pen_red_light_encoder_capture.Foreground = UtilGtk.RED_LIGHT;
@@ -5059,7 +4681,10 @@ public partial class ChronoJumpWindow
 		pen_white_encoder_capture.Foreground = UtilGtk.WHITE;
 		pen_selected_encoder_capture.Foreground = UtilGtk.SELECTED;
 
+		pen_black_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+		//pen_encoder_capture_inertial_disc.SetLineAttributes (1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 		pen_selected_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+		
 		LogB.Debug("prepareEncoderGraphs() end");
 	}
 
@@ -5256,7 +4881,10 @@ public partial class ChronoJumpWindow
 			//capturingSendCurveToR(); //unused, done while capturing
 			readingCurveFromR();
 
-			updateEncoderCaptureGraphPaint(false); //not calculing inertia
+			if(encoderConfigurationCurrent.has_inertia)
+				updateEncoderCaptureGraphPaint(UpdateEncoderPaintModes.INERTIAL);
+			else
+				updateEncoderCaptureGraphPaint(UpdateEncoderPaintModes.GRAVITATORY);
 
 			if(needToRefreshTreeviewCapture) 
 			{
@@ -5264,7 +4892,7 @@ public partial class ChronoJumpWindow
 				//LogB.Error(encoderCaptureStringR);
 
 				treeviewEncoderCaptureRemoveColumns();
-				ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
+				eCapture.Ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
 
 				//if(plotCurvesBars) {
 				string title = "";
@@ -5314,7 +4942,7 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 		updatePulsebar(encoderActions.CAPTURE_IM); //activity on pulsebar
-		updateEncoderCaptureGraphPaint(true); //calculing inertia
+		updateEncoderCaptureGraphPaint(UpdateEncoderPaintModes.CALCULE_IM);
 
 		Thread.Sleep (25);
 		LogB.Debug(" CapIM:", encoderThread.ThreadState.ToString());
@@ -5387,8 +5015,8 @@ public partial class ChronoJumpWindow
 				selectedTime = encoder_configuration_win.Spin_im_duration;
 
 			encoder_pulsebar_capture.Fraction = Util.DivideSafeFraction(
-					(selectedTime - encoderCaptureCountdown), selectedTime);
-			encoder_pulsebar_capture.Text = encoderCaptureCountdown + " s";
+					(selectedTime - eCapture.Countdown), selectedTime);
+			encoder_pulsebar_capture.Text = eCapture.Countdown + " s";
 			return;
 		}
 

@@ -66,7 +66,6 @@ public abstract class EncoderCapture
 	protected int directionNow;
 	protected int directionLastMSecond;
 	protected int directionCompleted;
-//	protected int previousFrameChange;
 	protected int previousEnd;
 	protected int lastNonZero;
 
@@ -162,7 +161,6 @@ public abstract class EncoderCapture
 		directionNow = 1;		// +1 or -1
 		directionLastMSecond = 1;	// +1 or -1 (direction on last millisecond)
 		directionCompleted = -1;	// +1 or -1
-		//previousFrameChange = 0;
 		previousEnd = 0;
 		lastNonZero = 0;
 		
@@ -301,17 +299,13 @@ public abstract class EncoderCapture
 					if(startFrame < 0)
 						startFrame = 0;
 
-//					bool previousWasUp = ! Util.IntToBool(directionNow); //if we go now UP, then record previous DOWN phase
 					ecc = new EncoderCaptureCurve(
-//							previousWasUp,
 							startFrame,
 							(i - directionChangeCount + lastNonZero)/2 	//endFrame
 							//to find endFrame, first substract directionChangePeriod from i
 							//then find the middle point between that and lastNonZero
 							//this means that the end is in central point at displacements == 0
 							);
-//					LogB.Information("previousWasUp");
-//					LogB.Information(previousWasUp.ToString());
 
 					//since 1.5.0 secundary thread is capturing and sending data to R process
 					//while main thread is reading data coming from R and updating GUI
@@ -440,12 +434,9 @@ public abstract class EncoderCapture
 	}
 
 	/*
-TODO: 
-	a) en inercial concentric falta que surti la primera curva. Pel previousWasUp sembla que estigui tot al reves
-	b) mirar ecc-con
-	c) no agrupar en con-ecc / ecc-con les barres en inercial, fer que estiguin igual a capture que a graph. el mes facil seria que al capturar tambe es mostres el ecc-con
-	d) que el -25 no sigui un -25 sino que depengui del que l' usuari tingui seleccionat i la config del encoder. caldria posar lo de espai de les encoderConfigs de util.R aqui
-*/
+	 * TODO: 
+	 * que el -25 no sigui un -25 sino que depengui del que l' usuari tingui seleccionat i la config del encoder. caldria posar lo de espai de les encoderConfigs de util.R aqui
+	 */
 
 
 	// on IMCalc we don't need to send data to R and get curves we will call R at the end
@@ -455,8 +446,6 @@ TODO:
 		 * 3) if it's ecc-con, don't record first curve if first curve is concentric
 		 * 4) on ec, ecS don't store two curves in the same direction
 		*/
-		LogB.Information("capturingFirstPhase");
-		LogB.Information(capturingFirstPhase.ToString());
 
 		if( eccon == "c" && ! ecc.up )	//2
 			return false;
@@ -475,12 +464,6 @@ TODO:
 				
 	protected virtual void markDirectionChanged() 
 	{
-		LogB.Debug("i", i.ToString());
-		LogB.Debug("directionChangeCount", directionChangeCount.ToString());
-
-		//previousFrameChange = i - directionChangeCount;
-		//LogB.Debug("previousFrameChange", previousFrameChange.ToString());
-
 		directionChangeCount = 0;
 		directionCompleted = directionNow;
 	}
@@ -663,12 +646,6 @@ public class EncoderCaptureInertial : EncoderCapture
 		if(! inertialFirstEccPhaseDone && sum < 25)
 			inertialFirstEccPhaseDone = true;
 
-		LogB.Debug("i", i.ToString());
-		LogB.Debug("directionChangeCount", directionChangeCount.ToString());
-
-		//previousFrameChange = i - directionChangeCount;
-		//LogB.Debug("previousFrameChange", previousFrameChange.ToString());
-
 		directionChangeCount = 0;
 		directionCompleted = directionNow;
 	}
@@ -687,7 +664,6 @@ public class EncoderCaptureInertial : EncoderCapture
 		writer.Close();
 		((IDisposable)writer).Dispose();
 	}
-	
 	
 }
 

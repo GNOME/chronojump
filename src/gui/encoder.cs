@@ -333,7 +333,7 @@ public partial class ChronoJumpWindow
 
  
 	Gdk.GC pen_black_encoder_capture;
-	Gdk.GC pen_encoder_capture_inertial_disc;
+	Gdk.GC pen_gray;
 
 	Gdk.GC pen_red_encoder_capture;
 	Gdk.GC pen_red_dark_encoder_capture;
@@ -3993,7 +3993,7 @@ public partial class ChronoJumpWindow
 				}
 
 			}
-			encoder_capture_signal_pixmap.DrawPoints(pen_encoder_capture_inertial_disc, paintPointsInertial);
+			encoder_capture_signal_pixmap.DrawPoints(pen_gray, paintPointsInertial);
 		}
 		
 		//paint this after the inertial because this should mask the other
@@ -4196,15 +4196,15 @@ public partial class ChronoJumpWindow
 			if (eccon == "ec" || eccon == "ecS") {
 				bool isEven = Util.IsEven(count +1);
 				
-				//while capturing on inertial data comes as c,e
-				//if(capturing && encoderConfigurationCurrent.has_inertia)
-				//	isEven = ! isEven;
-				//changed since 1.6.1
-			
-				if(isEven) //par, concentric
-					my_pen = my_pen_ecc_con_c;
-				else
-					my_pen = my_pen_ecc_con_e;
+				//on inertial devices "ec" or "ecS", the first ecc has to be gray
+				if(encoderConfigurationCurrent.has_inertia && count == 0)
+					my_pen = pen_gray;
+				else {
+					if(isEven) //par, concentric
+						my_pen = my_pen_ecc_con_c;
+					else
+						my_pen = my_pen_ecc_con_e;
+				}
 			} else {
 				my_pen = my_pen_con;
 			}
@@ -4233,11 +4233,6 @@ public partial class ChronoJumpWindow
 			if (eccon == "ec" || eccon == "ecS") {
 				bool isEven = Util.IsEven(count +1);
 				
-				//while capturing on inertial data comes as c,e
-				//if(capturing && encoderConfigurationCurrent.has_inertia)
-				//	isEven = ! isEven;
-				//changed since 1.6.1
-			
 				if(isEven)
 					encoder_capture_curves_bars_pixmap.DrawLine(pen_white_encoder_capture, 
 							dLeft, dBottom, dLeft + dWidth, dTop);
@@ -4262,7 +4257,7 @@ public partial class ChronoJumpWindow
 				int myX = Convert.ToInt32( startX - textWidth/2);
 				int myY = Convert.ToInt32(dTop + dHeight + (bottom_margin /2) - textHeight/2);
 				
-				//plot a rectangle if this curve it is checked (in the near future checked will mean saved)
+				//plot a rectangle if this curve it is saved
 				if(iterOk)
 					if(((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record) {
 						rect = new Rectangle(myX -2, myY -1, textWidth +4, graphHeight - (myY -1) -1);
@@ -4639,7 +4634,7 @@ public partial class ChronoJumpWindow
 		layout_encoder_capture_curves_bars_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
 
 		pen_black_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_encoder_capture_inertial_disc = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_gray = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_red_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_red_dark_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_red_light_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
@@ -4668,7 +4663,7 @@ public partial class ChronoJumpWindow
 		colormap.AllocColor (ref UtilGtk.SELECTED,true,true);
 
 		pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
-		pen_encoder_capture_inertial_disc.Foreground = UtilGtk.GRAY;
+		pen_gray.Foreground = UtilGtk.GRAY;
 		pen_red_encoder_capture.Foreground = UtilGtk.RED_PLOTS;
 		pen_red_dark_encoder_capture.Foreground = UtilGtk.RED_DARK;
 		pen_red_light_encoder_capture.Foreground = UtilGtk.RED_LIGHT;
@@ -4682,7 +4677,6 @@ public partial class ChronoJumpWindow
 		pen_selected_encoder_capture.Foreground = UtilGtk.SELECTED;
 
 		pen_black_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
-		//pen_encoder_capture_inertial_disc.SetLineAttributes (1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 		pen_selected_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 		
 		LogB.Debug("prepareEncoderGraphs() end");

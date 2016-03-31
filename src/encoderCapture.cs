@@ -1,0 +1,711 @@
+/*
+ * This file is part of ChronoJump
+ *
+ * ChronoJump is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or   
+ *    (at your option) any later version.
+ *    
+ * ChronoJump is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ *    GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ *  Copyright (C) 2004-2016   Xavier de Blas <xaviblas@gmail.com> 
+ */
+
+using System;
+using System.IO;
+using System.IO.Ports;
+
+public abstract class EncoderCapture
+{
+	// ---- public stuff ----
+		
+	//Contains curves captured to be analyzed by R
+	public EncoderCaptureCurveArray Ecca;
+
+	public int Countdown;
+	
+	//stored to be realtime displayed
+	public Gdk.Point [] EncoderCapturePoints;
+	public Gdk.Point [] EncoderCapturePointsInertialDisc;
+	public int EncoderCapturePointsCaptured;
+	public int EncoderCapturePointsPainted;
+
+	// ---- protected stuff ----
+	protected int widthG;
+	protected int heightG;
+	protected string eccon;
+
+	protected double realHeightG;
+	protected int recordingTime;
+	protected int byteReaded;
+
+	protected static int [] encoderReaded;	//data coming from encoder and converted
+	protected static int [] encoderReadedInertialDisc;	//data coming from encoder and converted
+	
+	/*
+	 * sum: sum ob byteReaded, it's the vertical position
+	 * sumInertialDisc: on inertial this has the sum of the disc, while sum has the position of the body (always <= 0 (starting position))
+	 * on inertial we need both
+	 */
+	protected double sum;	
+	protected double sumInertialDisc;
+
+	protected int i;
+	protected int msCount;
+	protected EncoderCaptureCurve ecc;
+		
+	protected int directionChangePeriod;
+	protected int directionChangeCount;
+	protected int directionNow;
+	protected int directionLastMSecond;
+	protected int directionCompleted;
+//	protected int previousFrameChange;
+	protected int previousEnd;
+	protected int lastNonZero;
+
+	//this will be used to stop encoder automatically	
+	protected int consecutiveZeros;
+	protected int consecutiveZerosMax;
+		
+	//specific of some subclasses
+	protected bool inertialShouldCheckStartDirection;
+	protected bool inertialCaptureDirectionInverted;
+	protected bool lastDirectionStoredIsUp;
+	protected bool capturingFirstPhase;
+
+
+	
+	// ---- private stuff ----
+		
+	private static SerialPort sp;
+	private bool cancel;
+	private bool finish;
+	
+	public static bool CheckPort(string port) 
+	{
+		LogB.Information("testing encoder port: ", port);
+		sp = new SerialPort(port);
+		sp.BaudRate = 115200;
+		LogB.Information("testing 1: sp created");
+		try {
+			sp.Open();
+			LogB.Information("testing 2: sp opened");
+			sp.Close();
+			LogB.Information("testing 3: sp closed. Success!");
+		} catch {
+			LogB.Error("testing encoder port failed");
+			return false;
+		}
+		return true;
+	}
+
+	public void InitGlobal (int widthG, int heightG, int time, int timeEnd, string eccon, string port)
+	{
+		this.widthG = widthG;
+		this.heightG = heightG;
+		this.eccon = eccon;
+
+		//---- a) open port -----
+		LogB.Debug("runEncoderCaptureCsharp start port:", port);
+		sp = new SerialPort(port);
+		sp.BaudRate = 115200;
+		LogB.Information("sp created");
+		sp.Open();
+		LogB.Information("sp opened");
+		
+		
+		//---- b) initialize variables ----
+	
+		Ecca = new EncoderCaptureCurveArray();
+
+		Countdown = time;
+		msCount = 0;	//used for visual feedback of remaining time	
+
+		recordingTime = time * 1000;
+		encoderReaded = new int[recordingTime];
+		encoderReadedInertialDisc = new int[recordingTime];
+		EncoderCapturePoints = new Gdk.Point[recordingTime];
+		EncoderCapturePointsInertialDisc = new Gdk.Point[recordingTime];
+		EncoderCapturePointsCaptured = 0;
+		EncoderCapturePointsPainted = 0; 	//-1 means delete screen
+		sum = 0;
+		
+		i = -20; //delete first records because there's encoder bug
+		
+		/*
+		 * calculate params with R explanation	
+		 */
+
+		/*               3
+		 *              / \
+		 *             /   B
+		 *            /     \
+		 * --1       /
+		 *    \     /
+		 *     \   A
+		 *      \2/
+		 *
+		 * Record the signal, when arrive to A, then store the descending phase (1-2) and calculate params (power, ...)
+		 * When arrive to B, then store the ascending phase (2-3)
+		 */
+
+		directionChangePeriod = 25; //how long (ms) to recognize as change direction. (from 2 to A in ms)
+						//it's in ms and not in cm, because it's easier to calculate
+		directionChangeCount = 0; //counter for this period
+		directionNow = 1;		// +1 or -1
+		directionLastMSecond = 1;	// +1 or -1 (direction on last millisecond)
+		directionCompleted = -1;	// +1 or -1
+		//previousFrameChange = 0;
+		previousEnd = 0;
+		lastNonZero = 0;
+		
+		//this will be used to stop encoder automatically	
+		consecutiveZeros = -1;		
+		consecutiveZerosMax = timeEnd * 1000;
+	
+		//only can be true on inertial capture subclass
+		inertialShouldCheckStartDirection = false;
+		inertialCaptureDirectionInverted = false;
+
+		initSpecific();
+
+		cancel = false;
+		finish = false;
+	}
+	
+	protected virtual void initSpecific()
+	{
+	}
+
+	public bool Capture(string outputData1, EncoderRProcCapture encoderRProcCapture)
+	{
+		do {
+			try {
+				byteReaded = sp.ReadByte();
+			} catch {
+				LogB.Error("Maybe encoder cable is disconnected");
+				cancel = true;
+				break;
+			}
+
+			if(byteReaded > 128)
+				byteReaded = byteReaded - 256;
+
+			i = i+1;
+			if(i >= 0) 
+			{
+				if(inertialCaptureDirectionInverted)
+					byteReaded *= -1;
+
+				if(byteReaded == 0)
+					consecutiveZeros ++;
+				else
+					consecutiveZeros = -1;
+
+				//stop if n seconds of inactivity
+				//but it has to be moved a little bit first, just to give time to the people
+				//if(consecutiveZeros >= consecutiveZerosMax && sum > 0) #Not OK because sum maybe is 0: +1,+1,-1,-1
+				//if(consecutiveZeros >= consecutiveZerosMax && ecca.ecc.Count > 0) #Not ok because when ecca is created, ecc.Count == 1
+				//
+				//process ends 
+				//when a curve has been found and then there are n seconds of inactivity, or
+				//when a curve has not been found and then there are 2*n seconds of inactivity
+				if(
+						(Ecca.curvesAccepted > 0 && consecutiveZeros >= consecutiveZerosMax) ||
+						(Ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax)) )
+				{
+					finish = true;
+					LogB.Information("SHOULD FINISH");
+				}
+				
+
+				sumInertialDisc += byteReaded;
+				encoderReadedInertialDisc[i] = byteReaded;
+
+				if(inertialChangedConToEcc())
+					byteReaded *= -1;
+
+				sum += byteReaded;
+				encoderReaded[i] = byteReaded;
+
+				assignEncoderCapturePoints();
+				
+				EncoderCapturePointsCaptured = i;
+
+				//this only applies to inertial subclass
+				if(inertialShouldCheckStartDirection)
+					inertialCheckIfInverted();
+
+				encoderCapturePointsAdaptativeDisplay();
+
+				// ---- prepare to send to R ----
+
+				//if string goes up or down, store the direction
+				//direction is only up or down
+				if(byteReaded != 0)
+					directionNow = (int) byteReaded / (int) Math.Abs(byteReaded); //1 (up) or -1 (down)
+
+				//if we don't have changed the direction, store the last non-zero that we can find
+				if(directionChangeCount == 0 && directionNow == directionLastMSecond) {
+					//check which is the last non-zero value
+					//this is suitable to find where starts the only-zeros previous to the change
+					if(byteReaded != 0)
+						lastNonZero = i;
+				}
+
+				bool sendCurveMaybe = false;
+
+				//if it's different than the last direction, mark the start of change
+				if(directionNow != directionLastMSecond) {
+					directionLastMSecond = directionNow;
+					directionChangeCount = 0;
+				} 
+				else if(directionNow != directionCompleted) {
+					//we are in a different direction than the last completed
+
+					//we cannot add byteReaded because then is difficult to come back n frames to know the max point
+					//directionChangeCount += byteReaded
+					directionChangeCount ++;
+
+					if(directionChangeCount > directionChangePeriod)	//count >= than change_period
+						sendCurveMaybe = true;
+				}
+
+				if(sendCurveMaybe)
+				{
+					//int startFrame = previousFrameChange - directionChangeCount;	//startFrame
+					/*
+					 * at startFrame we do the "-directionChangePeriod" because
+					 * we want data a little bit earlier, because we want some zeros
+					 * that will be removed by reduceCurveBySpeed
+					 * if not done, then the data:
+					 * 0 0 0 0 0 0 0 0 0 1
+					 * will start at 10th digit (the 1)
+					 * if done, then at speed will be like this:
+					 * 0 0 0 0.01 0.04 0.06 0.07 0.08 0.09 1
+					 * and will start at fourth digit
+					 */
+
+					//this is better, takes a lot of time before, and then reduceCurveBySpeed will cut it
+					//but reduceCurveBySpeed is not implemented on inertial
+					//TODO: implement it
+					int startFrame = previousEnd;	//startFrame
+					LogB.Debug("startFrame",startFrame.ToString());
+					if(startFrame < 0)
+						startFrame = 0;
+
+//					bool previousWasUp = ! Util.IntToBool(directionNow); //if we go now UP, then record previous DOWN phase
+					ecc = new EncoderCaptureCurve(
+//							previousWasUp,
+							startFrame,
+							(i - directionChangeCount + lastNonZero)/2 	//endFrame
+							//to find endFrame, first substract directionChangePeriod from i
+							//then find the middle point between that and lastNonZero
+							//this means that the end is in central point at displacements == 0
+							);
+//					LogB.Information("previousWasUp");
+//					LogB.Information(previousWasUp.ToString());
+
+					//since 1.5.0 secundary thread is capturing and sending data to R process
+					//while main thread is reading data coming from R and updating GUI
+
+					LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Length);
+					if(ecc.endFrame - ecc.startFrame > 0 ) 
+					{
+						double [] curve = new double[ecc.endFrame - ecc.startFrame];
+						int mySum = 0;
+						for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
+							curve[k] = encoderReaded[j];
+							k ++;
+							mySum += encoderReaded[j];
+						}
+						ecc.up = (mySum >= 0);
+
+						previousEnd = ecc.endFrame;
+
+						//22-may-2015: This is done in R now
+
+						//1) check heightCurve in a fast way first to discard curves soon
+						//   only process curves with height >= min_height
+						//2) if it's concentric, only take the concentric curves, 
+						//   but if it's concentric and inertial: take both.
+						//   
+						//   When capturing on inertial, we have the first graph
+						//   that will be converted to the second.
+						//   we need the eccentric phase in order to detect the Ci2
+
+						/*               
+						 *             /\
+						 *            /  \
+						 *           /    \
+						 *____      C1     \      ___
+						 *    \    /        \    /
+						 *     \  /          \  C2
+						 *      \/            \/
+						 *
+						 * C1, C2: two concentric phases
+						 */
+
+						/*               
+						 *____                    ___
+						 *    \    /\      /\    /
+						 *     \ Ci1 \   Ci2 \ Ci3
+						 *      \/    \  /    \/
+						 *             \/
+						 *
+						 * Ci1, Ci2, Ci3: three concentric phases on inertial
+						 *
+						 * Since 1.6.1:
+						 * on inertial curve is sent when rope is fully extended,
+						 * this will allow to see at the moment c or e. Not wait the change of direction to see both
+						 */
+
+
+						if( shouldSendCurve() ) {
+							encoderRProcCapture.SendCurve(
+									UtilEncoder.CompressData(curve, 25)	//compressed
+									);
+
+							Ecca.curvesAccepted ++;
+							Ecca.ecc.Add(ecc);
+
+							lastDirectionStoredIsUp = ecc.up;
+						}
+					}
+
+					//on inertial is different
+					markDirectionChanged();
+				}
+
+				//this is for visual feedback of remaining time	
+				msCount ++;
+				if(msCount >= 1000) {
+					Countdown --;
+					msCount = 1;
+				}
+
+			}
+		} while (i < (recordingTime -1) && ! cancel && ! finish);
+
+		LogB.Debug("runEncoderCaptureCsharp main bucle end");
+		sp.Close();
+
+		if(cancel)
+			return false;
+
+		saveToFile(outputData1);
+		
+		LogB.Debug("runEncoderCaptureCsharp ended");
+
+		return true;
+	}
+
+
+	//on inertial also assigns to EncoderCapturePointsInertialDisc
+	protected virtual void assignEncoderCapturePoints() 
+	{
+		EncoderCapturePoints[i] = new Gdk.Point(
+				Convert.ToInt32(widthG * i / recordingTime),
+				Convert.ToInt32( (heightG/2) - ( sum * heightG / realHeightG) )
+				);
+	}
+				
+	//on inertial also uses to EncoderCapturePointsInertialDisc
+	protected virtual void encoderCapturePointsAdaptativeDisplay()
+	{
+		//adaptative displayed height
+		//if points go outside the graph, duplicate size of graph
+		if(EncoderCapturePoints[i].Y > heightG || EncoderCapturePoints[i].Y < 0) 
+		{
+			realHeightG *= 2;
+
+			double sum2=0;
+			for(int j=0; j <= i; j ++) {
+				sum2 += encoderReaded[j];
+				EncoderCapturePoints[j] = new Gdk.Point(
+						Convert.ToInt32(widthG * j / recordingTime),
+						Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
+						);
+			}
+			EncoderCapturePointsCaptured = i;
+			EncoderCapturePointsPainted = -1; //mark meaning screen should be erased
+		}
+	}
+
+	/*
+TODO: 
+	a) en inercial concentric falta que surti la primera curva. Pel previousWasUp sembla que estigui tot al reves
+	b) mirar ecc-con
+	c) no agrupar en con-ecc / ecc-con les barres en inercial, fer que estiguin igual a capture que a graph. el mes facil seria que al capturar tambe es mostres el ecc-con
+	d) que el -25 no sigui un -25 sino que depengui del que l' usuari tingui seleccionat i la config del encoder. caldria posar lo de espai de les encoderConfigs de util.R aqui
+*/
+
+
+	// on IMCalc we don't need to send data to R and get curves we will call R at the end
+	protected virtual bool shouldSendCurve() {
+		/*
+		 * 2) if it's concentric, only take the concentric curves, 
+		 * 3) if it's ecc-con, don't record first curve if first curve is concentric
+		 * 4) on ec, ecS don't store two curves in the same direction
+		*/
+		LogB.Information("capturingFirstPhase");
+		LogB.Information(capturingFirstPhase.ToString());
+
+		if( eccon == "c" && ! ecc.up )	//2
+			return false;
+		if( (eccon == "ec" || eccon == "ecS") && ecc.up && capturingFirstPhase ) { //3
+			capturingFirstPhase = false;
+			return false;
+		}
+		if( 
+				(eccon == "ec" || eccon == "ecS") && 
+				Ecca.curvesAccepted > 0 &&
+				lastDirectionStoredIsUp == ecc.up ) //4
+			return false;
+
+		return true;
+	}
+				
+	protected virtual void markDirectionChanged() 
+	{
+		LogB.Debug("i", i.ToString());
+		LogB.Debug("directionChangeCount", directionChangeCount.ToString());
+
+		//previousFrameChange = i - directionChangeCount;
+		//LogB.Debug("previousFrameChange", previousFrameChange.ToString());
+
+		directionChangeCount = 0;
+		directionCompleted = directionNow;
+	}
+	
+	//on inertial recordes encoderReadedInertialDisc	
+	protected virtual void saveToFile(string file)
+	{
+		TextWriter writer = File.CreateText(file);
+
+		string sep = "";
+		for(int j=0; j < i ; j ++) {
+			writer.Write(sep + encoderReaded[j]); //store the raw file (before encoderConfigurationConversions)
+			sep = ", ";
+		}
+
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+	}
+	
+	//this methods only applies to inertial subclass
+	protected virtual void inertialCheckIfInverted() {
+	}
+	protected virtual bool inertialChangedConToEcc() {
+		return false;
+	}
+
+	public void Cancel() {
+		cancel = true;
+	}
+	
+	public void Finish() {
+		finish = true;
+	}
+	
+}
+
+
+public class EncoderCaptureGravitatory : EncoderCapture
+{
+	public EncoderCaptureGravitatory() 
+	{
+	}
+	
+	protected override void initSpecific()
+	{
+		realHeightG = 2 * 1000 ; //1 meter up / 1 meter down
+		
+		//useful to don't send to R the first phase of the set in these situations: 
+		//going up in ec, ecs
+		capturingFirstPhase = true; 
+		
+		//just a default value, unused until a curve has been accepted
+		lastDirectionStoredIsUp = true;
+	}
+}
+
+
+public class EncoderCaptureInertial : EncoderCapture
+{
+	private bool inertialFirstEccPhaseDone;
+		
+	public EncoderCaptureInertial() 
+	{
+	}
+	
+	protected override void initSpecific()
+	{
+		realHeightG = 2 * 5000 ; //5 meters up / 5 meters down
+
+		inertialShouldCheckStartDirection = true;
+
+		inertialFirstEccPhaseDone = false;
+	}
+	
+	protected override void inertialCheckIfInverted() 
+	{
+		/*
+		 * 1) on inertial, when we start we should go down (because exercise starts in full extension)
+		 * if at the beginning we detect movement as positive means that the encoder is connected backwards or
+		 * the disc is in a position that makes the start in that direction
+		 * we use the '20' to detect when 'some' movement has been done
+		 * Just -1 all the past and future values of this capture
+		 * (we use the 'sum > 0' to know that it's going upwards)
+		 *
+		 * 2) here sum == sumInertialDisc and encoderReaded == encoderReadedInertialDisc
+		 * because this variables change later (when sum < -25 )
+		 */
+		if(Math.Abs(sum) > 20) 
+		{
+			inertialShouldCheckStartDirection = false;
+
+			if(sum > 0) {
+				inertialCaptureDirectionInverted = true;
+				byteReaded *= -1;
+				directionNow *= -1;
+				directionLastMSecond *= -1;
+				sum *= -1;
+				sumInertialDisc *= -1;
+				for(int j=0; j <= i; j ++) {
+					encoderReaded[j] *= -1;
+					encoderReadedInertialDisc[j] *= -1;
+				}
+				double sum2=0;
+				for(int j=0; j <= i; j ++) {
+					sum2 += encoderReaded[j];
+					EncoderCapturePoints[j] = new Gdk.Point(
+							Convert.ToInt32(widthG * j / recordingTime),
+							Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
+							);
+					//same for InertialDisc. Read comment 2 on the top of this method
+					EncoderCapturePointsInertialDisc[j] = new Gdk.Point(
+							Convert.ToInt32(widthG * j / recordingTime),
+							Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
+							);
+				}
+				EncoderCapturePointsCaptured = i;
+				EncoderCapturePointsPainted = -1; //mark meaning screen should be erased
+			}
+		}
+	}
+	
+	protected override bool inertialChangedConToEcc() 
+	{
+		if(byteReaded == 0)
+			return false;
+
+		if(inertialFirstEccPhaseDone && sumInertialDisc > 0)
+			return true;
+
+		return false;
+	}
+	
+	protected override void assignEncoderCapturePoints() 
+	{
+		EncoderCapturePoints[i] = new Gdk.Point(
+				Convert.ToInt32(widthG * i / recordingTime),
+				Convert.ToInt32( (heightG/2) - ( sum * heightG / realHeightG) )
+				);
+		EncoderCapturePointsInertialDisc[i] = new Gdk.Point(
+				Convert.ToInt32(widthG * i / recordingTime),
+				Convert.ToInt32( (heightG/2) - ( sumInertialDisc * heightG / realHeightG) )
+				);
+	}
+	
+	protected override void encoderCapturePointsAdaptativeDisplay()
+	{
+		//adaptative displayed height
+		//if points go outside the graph, duplicate size of graph
+		if(
+				EncoderCapturePoints[i].Y > heightG || EncoderCapturePoints[i].Y < 0 ||
+				EncoderCapturePointsInertialDisc[i].Y > heightG || 
+				EncoderCapturePointsInertialDisc[i].Y < 0 ) {
+			realHeightG *= 2;
+
+			double sum2 = 0;
+			double sum2InertialDisc = 0;
+			for(int j=0; j <= i; j ++) {
+				sum2 += encoderReaded[j];
+				sum2InertialDisc += encoderReadedInertialDisc[j];
+				EncoderCapturePoints[j] = new Gdk.Point(
+						Convert.ToInt32(widthG * j / recordingTime),
+						Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
+						);
+				EncoderCapturePointsInertialDisc[j] = new Gdk.Point(
+						Convert.ToInt32(widthG * j / recordingTime),
+						Convert.ToInt32( (heightG/2) - ( sum2InertialDisc * heightG / realHeightG) )
+						);
+			}
+			EncoderCapturePointsCaptured = i;
+			EncoderCapturePointsPainted = -1; //mark meaning screen should be erased
+		}
+	}
+	
+
+	protected override void markDirectionChanged() 
+	{
+		//If min height is very low, a micromovement will be used to cut phases incorrectly
+		//put a safe value like <25 . is below (more negative)  the 20 used on inertialCheckIfInverted
+		if(! inertialFirstEccPhaseDone && sum < 25)
+			inertialFirstEccPhaseDone = true;
+
+		LogB.Debug("i", i.ToString());
+		LogB.Debug("directionChangeCount", directionChangeCount.ToString());
+
+		//previousFrameChange = i - directionChangeCount;
+		//LogB.Debug("previousFrameChange", previousFrameChange.ToString());
+
+		directionChangeCount = 0;
+		directionCompleted = directionNow;
+	}
+	
+	protected override void saveToFile(string file)
+	{
+		TextWriter writer = File.CreateText(file);
+
+		string sep = "";
+		for(int j=0; j < i ; j ++) {
+			writer.Write(sep + encoderReadedInertialDisc[j]); //store the raw file (before encoderConfigurationConversions)
+			sep = ", ";
+		}
+
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+	}
+	
+	
+}
+
+
+public class EncoderCaptureIMCalc : EncoderCapture
+{
+	public EncoderCaptureIMCalc() 
+	{
+	}
+
+	protected override void initSpecific()
+	{
+		realHeightG = 2 * 500 ; //.5 meter up / .5 meter down
+	}
+	
+	// on IMCalc we don't need to send data to R and get curves we will call R at the end
+	protected override bool shouldSendCurve() {
+		return false;
+	}
+	
+}

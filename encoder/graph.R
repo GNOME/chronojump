@@ -1476,23 +1476,63 @@ stroverlapArray <- function(newPoint, points) {
 	return (FALSE)
 }
 
-fitLine <- function(mode, x, y, col, lwd, lty) {
-	if(mode == "LINE") {
-		fit = lm(y ~ x)
-		abline(fit, col=col, lwd=lwd, lty=lty)
-	}
-	if(mode == "CURVE") {
-		fit = lm(y ~ x + I(x^2))
+#fitLine <- function(mode, x, y, col, lwd, lty) {
+#	if(mode == "LINE") {
+#		fit = lm(y ~ x)
+#		abline(fit, col=col, lwd=lwd, lty=lty)
+#	}
+#	if(mode == "CURVE") {
+#		fit = lm(y ~ x + I(x^2))
+#
+#		coef.a <- fit$coefficient[3]
+#		coef.b <- fit$coefficient[2]
+#		coef.c <- fit$coefficient[1]
+#
+#		x1 <- seq(min(x),max(x), (max(x) - min(x))/1000)
+#		y1 <- coef.a *x1^2 + coef.b * x1 + coef.c
+#		lines(x1, y1, col=col, lwd=lwd, lty=lty)
+#
+#		return (fit)
+#	}
+#}
 
-		coef.a <- fit$coefficient[3]
-		coef.b <- fit$coefficient[2]
-		coef.c <- fit$coefficient[1]
+fitLine <- function(x, y, col, lwd, lty) {
+	fit = lm(y ~ x)
+	abline(fit, col=col, lwd=lwd, lty=lty)
+}
 
-		x1 <- seq(min(x),max(x), (max(x) - min(x))/1000)
-		y1 <- coef.a *x1^2 + coef.b * x1 + coef.c
-		lines(x1, y1, col=col, lwd=lwd, lty=lty)
+fitCurveCalc <- function(x, y) {
+	write("x,y",stderr())
+	write(c(x,y),stderr())
 
-		return (fit)
+	fit = lm(y ~ x + I(x^2))
+
+	coef.a <- fit$coefficient[3]
+	coef.b <- fit$coefficient[2]
+	coef.c <- fit$coefficient[1]
+
+	x1 <- seq(min(x),max(x), (max(x) - min(x))/1000)
+	y1 <- coef.a *x1^2 + coef.b * x1 + coef.c
+
+	return(list(fit, x1, y1))
+}
+fitCurvePlot <- function(x1, y1, col, lwd, lty) {
+	lines(x1, y1, col=col, lwd=lwd, lty=lty)
+}
+
+paintCrossVariablesLaterality <- function(x, y, laterality, colBalls) 
+{
+	points(x[laterality=="L"], y[laterality=="L"], type="p", cex=1, col=colBalls, pch=3) # font=5, pch=220) #172, 220 don't looks good
+	points(x[laterality=="R"], y[laterality=="R"], type="p", cex=1, col=colBalls, pch=4) # font=5, pch=222) #174, 222 don't looks good
+
+	if(length(unique(laterality)) > 1) 
+	{
+		if(length(laterality[laterality == "R"]) >= 3)
+			fitLine(x[laterality=="R"],y[laterality=="R"], "black", 1, 2)
+		if(length(laterality[laterality == "L"]) >= 3)
+			fitLine(x[laterality=="L"],y[laterality=="L"], "black", 1, 3)
+		if(length(laterality[laterality == "RL"]) >= 3)
+			fitLine(x[laterality=="RL"],y[laterality=="RL"], "black", 1, 4)
 	}
 }
 
@@ -1555,37 +1595,6 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		#bgBallsVector[laterality=="R"] <- "blue"
 		#plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBallsVector,cex=cexBalls,axes=F)
 		
-		plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
-		points(x[laterality=="L"], y[laterality=="L"], type="p", cex=1, col=colBalls, pch=3) # font=5, pch=220) #172, 220 don't looks good
-		points(x[laterality=="R"], y[laterality=="R"], type="p", cex=1, col=colBalls, pch=4) # font=5, pch=222) #174, 222 don't looks good
-		
-
-		for(i in 1:length(x)) {
-			name = i
-			if( ( Eccon=="ecS" || Eccon=="ceS" ) && singleFile) {
-				#name = paste(trunc((name+1)/2),ecconVector[i],sep="")
-				name = trunc((name+1)/2) #don't show e,c whe show the pch
-			} else {
-				#name = paste(name,ecconVector[i],sep="")
-				#don't show e,c, we show the pch
-			}
-			
-			newPoint = data.frame(x=x[i], y=y[i], curveNum=name)
-			
-			if(i == 1) {
-				nums.print = data.frame()
-				nums.print = rbind(nums.print, newPoint)
-				colnames(nums.print) = c("x","y","curveNum")
-			} else {
-				overlaps = FALSE
-				if( ! ( is.na(x[i]) && is.na(y[i]) ) )
-					overlaps = stroverlapArray(newPoint, nums.print)
-				if(! overlaps) {
-					nums.print = rbind(nums.print, newPoint)
-				}
-			}
-		}
-
 
 		if(do1RM != FALSE & do1RM != "0") {	
 			speed1RM = as.numeric(do1RM)
@@ -1641,14 +1650,31 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			#lines(10:100 ,fit2line, col="red") #puts line on plot
 		}
 		else {
-			if(length(unique(x)) >= 3) 
-			{
+			#if less than 3 different X then cannot calculate fittings. Just plot here to not crash on stroverlap (after)
+			if(length(unique(x)) < 3) {
+				plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
+
+				paintCrossVariablesLaterality(x, y, laterality, colBalls)
+			} else {
 				if(varY == "Power") {
-					fit = fitLine("CURVE", x,y, "black", 1, 1)
+					#1) fitCurveCalc is calculated first to know plot ylim (curve has to be inside the plot)
+					temp.list <- fitCurveCalc(x,y)
+					fit <- temp.list[[1]]
+					x1 <- temp.list[[2]]
+					y1 <- temp.list[[3]]
 
 					coef.a <- fit$coefficient[3]
 					coef.b <- fit$coefficient[2]
 					coef.c <- fit$coefficient[1]
+
+					#2) plot graph
+					plot(x,y, ylim=c(min(c(y,y1)), max(c(y,y1))),
+					     xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
+
+					paintCrossVariablesLaterality(x, y, laterality, colBalls)
+					
+					#3) add curve
+					fitCurvePlot(x1, y1, "black", 1, 1)
 
 					#start plot the function expression, R^2 and p
 					varXplot = varX
@@ -1694,33 +1720,44 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 							title = paste(title, " (pmax = ", round(pmax,1), " W with ", 
 								      round(xmax,1), " ", massUnit, sep="")
 					}
-					
-					if(length(unique(laterality)) > 1) 
-					{
-						if(length(laterality[laterality == "R"]) >= 3)
-							fitLine("CURVE", x[laterality=="R"],y[laterality=="R"], "black", 1, 2)
-						if(length(laterality[laterality == "L"]) >= 3)
-							fitLine("CURVE", x[laterality=="L"],y[laterality=="L"], "black", 1, 3)
-						if(length(laterality[laterality == "RL"]) >= 3)
-							fitLine("CURVE", x[laterality=="RL"],y[laterality=="RL"], "black", 1, 4)
-					}
 				}
 				else {
-					fitLine("LINE", x,y, "black", 1, 1)
+					plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
 					
-					if(length(unique(laterality)) > 1) 
-					{
-						if(length(laterality[laterality == "R"]) >= 3)
-							fitLine("LINE", x[laterality=="R"],y[laterality=="R"], "black", 1, 2)
-						if(length(laterality[laterality == "L"]) >= 3)
-							fitLine("LINE", x[laterality=="L"],y[laterality=="L"], "black", 1, 3)
-						if(length(laterality[laterality == "RL"]) >= 3)
-							fitLine("LINE", x[laterality=="RL"],y[laterality=="RL"], "black", 1, 4)
-					}
+					paintCrossVariablesLaterality(x, y, laterality, colBalls)
+					
+					fitLine(x,y, "black", 1, 1)
 				}
 			}
 		}
-		
+	
+		#show numbers at the side of names (take care of overlaps)
+		#note stroverlap should be called after plot
+		for(i in 1:length(x)) {
+			name = i
+			if( ( Eccon=="ecS" || Eccon=="ceS" ) && singleFile) {
+				#name = paste(trunc((name+1)/2),ecconVector[i],sep="")
+				name = trunc((name+1)/2) #don't show e,c whe show the pch
+			} else {
+				#name = paste(name,ecconVector[i],sep="")
+				#don't show e,c, we show the pch
+			}
+			
+			newPoint = data.frame(x=x[i], y=y[i], curveNum=name)
+			
+			if(i == 1) {
+				nums.print = data.frame()
+				nums.print = rbind(nums.print, newPoint)
+				colnames(nums.print) = c("x","y","curveNum")
+			} else {
+				overlaps = FALSE
+				if( ! ( is.na(x[i]) && is.na(y[i]) ) )
+					overlaps = stroverlapArray(newPoint, nums.print)
+				if(! overlaps) {
+					nums.print = rbind(nums.print, newPoint)
+				}
+			}
+		}
 		text(as.numeric(nums.print$x), as.numeric(nums.print$y), paste("  ", nums.print$curveNum), adj=c(adjHor,.5), cex=cexNums)
 
 		#don't write title two times on 'speed,power / load'
@@ -1759,27 +1796,41 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		#in x axis move a little every series to right in order to compare
 		seqX = seq(0,length(unique(seriesName))-1,by=1)-(length(unique(seriesName))-1)/2
 
-		plot(x,y, xlab=varXut, ylab="", type="n", axes=F)
+		maxy <- max(y)
+		miny <- min(y)
 		for(i in 1:length(seriesName)) {
 			thisSerie = which(seriesName == unique(seriesName)[i])
 			colBalls[thisSerie] = uniqueColors[i]
 			#in x axis move a little every series to right in order to compare
 			x[thisSerie] = x[thisSerie] + (seqX[i]/5)
-		}
 		
+			#find min/max Y on power
+			if(varY == "Power" && length(unique(x[thisSerie])) >= 3) {
+				temp.list <- fitCurveCalc(x[thisSerie],y[thisSerie])
+				y1 <- temp.list[[3]]
+				if(max(y1) > maxy)
+					maxy <- max(y1)
+				if(min(y1) < miny)
+					miny <- min(y1)
+			}
+		}
+		ylim <- c(miny, maxy)
+		
+		plot(x,y, ylim=ylim, xlab=varXut, ylab="", type="n", axes=F)
 		points(x,y, pch=19, col=colBalls, cex=1.8)
 		
 		for(i in 1:length(seriesName)) {
 			thisSerie = which(seriesName == unique(seriesName)[i])
 			
-			#old filtering
-			#if(length(unique(x[thisSerie])) >= 4)
-				#lines(smooth.spline(x[thisSerie],y[thisSerie],df=4),col=uniqueColors[i],lwd=2)
 			if(length(unique(x[thisSerie])) >= 3) {
-				if(varY == "Power")
-					fitLine("CURVE", x[thisSerie],y[thisSerie], uniqueColors[i], 2, 1)
+				if(varY == "Power") {
+					temp.list <- fitCurveCalc(x[thisSerie],y[thisSerie])
+					x1 <- temp.list[[2]]
+					y1 <- temp.list[[3]]
+					fitCurvePlot(x1, y1, uniqueColors[i], 2, 1)
+				}
 				else
-					fitLine("LINE", x[thisSerie],y[thisSerie], uniqueColors[i], 2, 1)
+					fitLine(x[thisSerie],y[thisSerie], uniqueColors[i], 2, 1)
 			}
 		}
 	

@@ -360,7 +360,7 @@ reduceCurveBySpeed <- function(eccon, startT, startH, displacement, smoothingOne
 	} else if(eccon=="ce") {
 		time1 = min(which(speed$y == max(speed$y)))
 		time2 = max(which(speed$y == min(speed$y)))
-	} else { #c
+	} else { #c, ecS, ceS
 		speed$y=abs(speed$y)
 		time1 = min(which(speed$y == max(speed$y)))
 		time2 = max(which(speed$y == max(speed$y)))

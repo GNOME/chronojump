@@ -2445,17 +2445,23 @@ doProcess <- function(options)
 		#reduceCurveBySpeed, don't do in inertial because it doesn't do a good right adjust on changing phase
 		#what reduceCurveBySpeed is doing in inertial is adding a value at right, and this value is a descending value
 		#and this produces a high acceleration there
-		if( ! isInertial(op$EncoderConfigurationName)) {
-			for(i in 1:n) {
-				reduceTemp=reduceCurveBySpeed(op$Eccon,
-							      curves[i,1], curves[i,3], #startT, startH
-							      displacement[curves[i,1]:curves[i,2]], #displacement
-							      op$SmoothingOneC
-							      )
-				curves[i,1] = reduceTemp[1]
-				curves[i,2] = reduceTemp[2]
-				curves[i,3] = reduceTemp[3]
-			}
+			
+		for(i in 1:n) {
+			reduceTemp=reduceCurveBySpeed(op$Eccon,
+						      curves[i,1], curves[i,3], #startT, startH
+						      displacement[curves[i,1]:curves[i,2]], #displacement
+						      op$SmoothingOneC
+						      )
+
+			#reduceCurveBySpeed, on inertial doesn't do a good right adjust on changing phase,
+			#it adds a value at right, and this value is a descending value that can produce a high acceleration there
+			#delete that value
+			if( isInertial(op$EncoderConfigurationName))
+				reduceTemp[2] = reduceTemp[2] -1
+
+			curves[i,1] = reduceTemp[1]
+			curves[i,2] = reduceTemp[2]
+			curves[i,3] = reduceTemp[3]
 		}
 		
 		#print("curves after reduceCurveBySpeed")

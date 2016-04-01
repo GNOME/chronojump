@@ -212,24 +212,33 @@ doProcess <- function(options)
 			displacement = getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt)
 		}
 
-		start = 1
-		end = length(displacement)
-		if( ! isInertial(op$EncoderConfigurationName)) {
-			reduceTemp = reduceCurveBySpeed(op$Eccon, 
+		
+		#cut curve by reduceCurveBySpeed ---->
+
+		reduceTemp = reduceCurveBySpeed(op$Eccon, 
 							1, 0, #startT, startH
 							displacement, #displacement
 							op$SmoothingOneC #SmoothingOneC
 							)
+		start = reduceTemp[1]
+		end = reduceTemp[2]
 
-			start = reduceTemp[1]
-			end = reduceTemp[2]
-			#write("printing reduceTemp2", stderr())
-			#write(reduceTemp[2], stderr())
-			if(end > length(displacement))
-				end = length(displacement)
+		#reduceCurveBySpeed, on inertial doesn't do a good right adjust on changing phase,
+		#it adds a value at right, and this value is a descending value that can produce a high acceleration there
+		#delete that value
+		if( isInertial(op$EncoderConfigurationName))
+			end = end -1
 
-			displacement = displacement[start:end]
-		}
+		#write("printing reduceTemp2", stderr())
+		#write(reduceTemp[2], stderr())
+		if(end > length(displacement))
+			end = length(displacement)
+
+		displacement = displacement[start:end]
+
+		#<---- cut curve by reduceCurveBySpeed done
+		
+			
 		#if(debug)
 		#	write("doProcess 3", stderr())
 

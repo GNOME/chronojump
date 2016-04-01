@@ -134,8 +134,6 @@ doProcess <- function(options)
 	#print (op)
 
 	curveNum = 0
-	inertialPositionCurveSentStart = 0
-	inertialPositionCurveSentEnd = 0
 
 	#Don't measure on first phase (initial eccentric) 
 	#inertialCapturingFirstPhase = TRUE
@@ -167,8 +165,6 @@ doProcess <- function(options)
 
 
 			curveNum = 0
-			inertialPositionCurveSentStart = 0
-			inertialPositionCurveSentEnd = 0
 			#inertialCapturingFirstPhase = TRUE
 			input <- readLines(f, n = 1L)
 	
@@ -212,13 +208,6 @@ doProcess <- function(options)
 			diametersPerTick = getInertialDiametersPerMs(displacement, op$diameter)
 			displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, 
 							       diametersPerTick, op$diameterExt, op$gearedDown)
-
-			#need to do this before getDisplacementInertialBody cuts the curve:  /|\
-			positionTemp = cumsum(displacement)
-			inertialPositionCurveSentEnd = inertialPositionCurveSentStart + positionTemp[length(positionTemp)]
-
-			#since 1.6.1 sign change from con to ecc is done in C#
-			#displacement = getDisplacementInertialBody(inertialPositionCurveSentStart, displacement, FALSE, op$Title) #draw: FALSE
 		} else {
 			displacement = getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt)
 		}
@@ -226,7 +215,7 @@ doProcess <- function(options)
 		start = 1
 		end = length(displacement)
 		if( ! isInertial(op$EncoderConfigurationName)) {
-			reduceTemp = reduceCurveBySpeed(op$Eccon, 1, 
+			reduceTemp = reduceCurveBySpeed(op$Eccon, 
 							1, 0, #startT, startH
 							displacement, #displacement
 							op$SmoothingOneC #SmoothingOneC
@@ -256,8 +245,6 @@ doProcess <- function(options)
 			curveNum <- calcule(displacement, op, curveNum)
 		}
 		
-
-		inertialPositionCurveSentStart = inertialPositionCurveSentEnd
 
 		#if(debug)
 		#	write("doProcess 4", stderr())

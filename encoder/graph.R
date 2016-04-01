@@ -2447,7 +2447,7 @@ doProcess <- function(options)
 		#and this produces a high acceleration there
 		if( ! isInertial(op$EncoderConfigurationName)) {
 			for(i in 1:n) {
-				reduceTemp=reduceCurveBySpeed(op$Eccon, i, 
+				reduceTemp=reduceCurveBySpeed(op$Eccon,
 							      curves[i,1], curves[i,3], #startT, startH
 							      displacement[curves[i,1]:curves[i,2]], #displacement
 							      op$SmoothingOneC

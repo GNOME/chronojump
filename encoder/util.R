@@ -311,7 +311,7 @@ getMass <- function(mass, gearedDown, angle) {
 
 
 #used in alls eccons
-reduceCurveBySpeed <- function(eccon, row, startT, startH, displacement, smoothingOneC) 
+reduceCurveBySpeed <- function(eccon, startT, startH, displacement, smoothingOneC) 
 {
 	#In 1.4.0 and before, we use smoothingOneEC on "ec", "ce"
 	#but the problem is findSmoothingsEC has problems knowing the smoothingEC when users stays stand up lot of time before jump.

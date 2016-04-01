@@ -884,10 +884,6 @@ public partial class ChronoJumpWindow
 		{
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
 			
-			//if we are capturing and has inertia, it comes as 'c','e'
-			if(capturingCsharp == encoderCaptureProcess.CAPTURING && encoderConfigurationCurrent.has_inertia)
-				isEven = !isEven;
-
 			string phase = "e";
 			if(isEven)
 				phase = "c";

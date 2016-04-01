@@ -244,43 +244,13 @@ doProcess <- function(options)
 		#if(debug)
 		#	write("doProcess 3", stderr())
 
-		#if isInertial: getDisplacementInertialBody separate phases using initial height of full extended person
-		#so now there will be two different curves to process
-		#Update. Since 1.6.1 on inertial at C# two curves are sent "e" and "c"
-
-#		position = cumsum(displacement)
-#
-#		if(isInertial(op$EncoderConfigurationName)) 
-#		{
-#			if(abs(max(position) - min(position)) >= op$MinHeight) {
-#				if(inertialCapturingFirstPhase)
-#					inertialCapturingFirstPhase = FALSE
-#				else {
-#					positionTop <- floor(mean(which(position == max(position))))
-#					displacement1 = displacement[1:positionTop]
-#					displacement2 = displacement[(positionTop+1):length(displacement)]
-#
-#					if(op$Eccon == "c") {
-#						curveNum <- calcule(displacement1, op, curveNum)
-#					} else {
-#						curveNum <- calcule(displacement1, op, curveNum)
-#						curveNum <- calcule(displacement2, op, curveNum)
-#					}
-#				}
-#			}
-#		} else {
-#			curveNum <- calcule(displacement, op, curveNum)
-#		}
-	
 		position = cumsum(displacement)
 
 		if(isInertial(op$EncoderConfigurationName)) 
 		{
 			if(abs(max(position) - min(position)) >= op$MinHeight) {
-				#if(inertialCapturingFirstPhase)
-				#	inertialCapturingFirstPhase = FALSE
-				#else
-					curveNum <- calcule(displacement, op, curveNum)
+				#Update. Since 1.6.1 on inertial at C# two curves are sent "e" and "c"
+				curveNum <- calcule(displacement, op, curveNum)
 			}
 		} else {
 			curveNum <- calcule(displacement, op, curveNum)

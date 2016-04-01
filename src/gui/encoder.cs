@@ -3951,7 +3951,6 @@ public partial class ChronoJumpWindow
 			eCapture.EncoderCapturePointsPainted = 0;
 		}
 
-
 		//also can be optimized to do not erase window every time and only add points since last time
 		int last = eCapture.EncoderCapturePointsCaptured;
 		int toDraw = eCapture.EncoderCapturePointsCaptured - eCapture.EncoderCapturePointsPainted;
@@ -3981,17 +3980,21 @@ public partial class ChronoJumpWindow
 		
 		Gdk.Point [] paintPointsInertial = new Gdk.Point[toDraw];
 		if(mode == UpdateEncoderPaintModes.INERTIAL) {
-			for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j++) 
+			for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j ++) 
 			{
-				paintPointsInertial[j] = eCapture.EncoderCapturePointsInertialDisc[i];
+				//only assign the points if they are different than paintPoints
+				if(eCapture.EncoderCapturePointsInertialDisc[i] != eCapture.EncoderCapturePoints[i] &&
+						(i % 800) <= 520 //dashed accepting 520 points and discarding 280
+						) {
+						paintPointsInertial[j] = eCapture.EncoderCapturePointsInertialDisc[i];
 
-				if(refreshAreaOnly) {
-					if(eCapture.EncoderCapturePointsInertialDisc[i].Y > maxY)
-						maxY = eCapture.EncoderCapturePointsInertialDisc[i].Y;
-					if(eCapture.EncoderCapturePointsInertialDisc[i].Y < minY)
-						minY = eCapture.EncoderCapturePointsInertialDisc[i].Y;
+						if(refreshAreaOnly) {
+							if(eCapture.EncoderCapturePointsInertialDisc[i].Y > maxY)
+								maxY = eCapture.EncoderCapturePointsInertialDisc[i].Y;
+							if(eCapture.EncoderCapturePointsInertialDisc[i].Y < minY)
+								minY = eCapture.EncoderCapturePointsInertialDisc[i].Y;
+						}
 				}
-
 			}
 			encoder_capture_signal_pixmap.DrawPoints(pen_gray, paintPointsInertial);
 		}

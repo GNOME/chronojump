@@ -4356,7 +4356,7 @@ public partial class ChronoJumpWindow
 			encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 
 			callPlotCurvesGraphDoPlot();
-			
+		
 			encoder_capture_curves_sizeChanged = false;
 		}
 
@@ -4415,7 +4415,10 @@ public partial class ChronoJumpWindow
 		{
 			encoder_capture_signal_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 		
-			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
+			if(eCapture != null && capturingCsharp == encoderCaptureProcess.CAPTURING)
+				eCapture.EncoderCapturePointsPainted = -1; //mark meaning screen should be erased and start painting from the beginning
+			else
+				UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
 			
 			encoder_capture_signal_sizeChanged = false;
 		}
@@ -4435,7 +4438,11 @@ public partial class ChronoJumpWindow
 				allocation.Width != encoder_capture_signal_allocationXOld) {
 			encoder_capture_signal_pixmap = new Gdk.Pixmap (encoder_capture_signal_drawingarea.GdkWindow, 
 					allocation.Width, allocation.Height, -1);
-			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
+			
+			if(eCapture != null && capturingCsharp == encoderCaptureProcess.CAPTURING)
+				eCapture.EncoderCapturePointsPainted = -1; //mark meaning screen should be erased and start painting from the beginning
+			else
+				UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
 
 			encoder_capture_signal_sizeChanged = false;
 		}

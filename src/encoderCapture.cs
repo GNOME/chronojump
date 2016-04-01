@@ -634,7 +634,7 @@ public class EncoderCaptureInertial : EncoderCapture
 						);
 			}
 			EncoderCapturePointsCaptured = i;
-			EncoderCapturePointsPainted = -1; //mark meaning screen should be erased
+			EncoderCapturePointsPainted = -1; //mark meaning screen should be erased and start painting from the beginning
 		}
 	}
 	

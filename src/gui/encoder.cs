@@ -542,7 +542,11 @@ public partial class ChronoJumpWindow
 		repetitiveConditionsWin.View(Constants.BellModes.ENCODER, preferences.volumeOn);
 	}
 
-	private bool encoderCheckPort()	{
+	private bool encoderCheckPort()	
+	{
+		if(File.Exists(UtilAll.GetECapSimSignalFileName())) //simulatedEncoder
+			return true;
+
 		string port = chronopicWin.GetEncoderPort();
 		string errorMessage = "";
 

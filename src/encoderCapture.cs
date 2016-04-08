@@ -79,6 +79,10 @@ public abstract class EncoderCapture
 	protected bool lastDirectionStoredIsUp;
 	protected bool capturingFirstPhase;
 
+	//capture is simulated (a signal file is readed)
+	private static bool simulated;
+	private int [] simulatedInts;
+	private int simulatedCount;
 
 	
 	// ---- private stuff ----
@@ -87,8 +91,15 @@ public abstract class EncoderCapture
 	private bool cancel;
 	private bool finish;
 	
-	public static bool CheckPort(string port) 
+	public static bool CheckPort(string port)
 	{
+		if(File.Exists(UtilAll.GetECapSimSignalFileName())) { //simulatedEncoder
+			simulated = true;
+			return true;
+		}
+
+		simulated = false;
+
 		LogB.Information("testing encoder port: ", port);
 		sp = new SerialPort(port);
 		sp.BaudRate = 115200;
@@ -110,15 +121,16 @@ public abstract class EncoderCapture
 		this.widthG = widthG;
 		this.heightG = heightG;
 		this.eccon = eccon;
-
-		//---- a) open port -----
-		LogB.Debug("runEncoderCaptureCsharp start port:", port);
-		sp = new SerialPort(port);
-		sp.BaudRate = 115200;
-		LogB.Information("sp created");
-		sp.Open();
-		LogB.Information("sp opened");
 		
+		//---- a) open port -----
+		if(! simulated) {
+			LogB.Debug("runEncoderCaptureCsharp start port:", port);
+			sp = new SerialPort(port);
+			sp.BaudRate = 115200;
+			LogB.Information("sp created");
+			sp.Open();
+			LogB.Information("sp opened");
+		}
 		
 		//---- b) initialize variables ----
 	
@@ -184,17 +196,25 @@ public abstract class EncoderCapture
 
 	public bool Capture(string outputData1, EncoderRProcCapture encoderRProcCapture)
 	{
+		if(simulated) {
+			bool success = initSimulated();
+			if(! success)
+				return false;
+		}
+
 		do {
 			try {
-				byteReaded = sp.ReadByte();
+				byteReaded = readByte();
 			} catch {
-				LogB.Error("Maybe encoder cable is disconnected");
-				cancel = true;
+				if(! simulated) {
+					LogB.Error("Maybe encoder cable is disconnected");
+					cancel = true;
+				}
+
 				break;
 			}
 
-			if(byteReaded > 128)
-				byteReaded = byteReaded - 256;
+			byteReaded = convertByte(byteReaded);
 
 			i = i+1;
 			if(i >= 0) 
@@ -387,9 +407,14 @@ public abstract class EncoderCapture
 
 			}
 		} while (i < (recordingTime -1) && ! cancel && ! finish);
-
+		
 		LogB.Debug("runEncoderCaptureCsharp main bucle end");
-		sp.Close();
+
+		//leave some time to capture.R be able to paint data, and to create two Roptions.txt file correctly
+		if(simulated)
+			System.Threading.Thread.Sleep(2000);
+		else 
+			sp.Close();
 
 		if(cancel)
 			return false;
@@ -399,6 +424,39 @@ public abstract class EncoderCapture
 		LogB.Debug("runEncoderCaptureCsharp ended");
 
 		return true;
+	}
+
+	private bool initSimulated()
+	{
+		if(! File.Exists(UtilAll.GetECapSimSignalFileName()))
+			return false;
+
+		string filename = Util.ReadFile(UtilAll.GetECapSimSignalFileName(), true);
+		simulatedInts = Util.ReadFileAsInts(filename);
+		int simulatedCount = 0;
+		return true;
+	}
+
+	private int readByte() 
+	{
+		if(simulated) {
+			return simulatedInts[simulatedCount ++];
+		} else {
+			return sp.ReadByte();
+		}
+	}
+	private int convertByte(int b) 
+	{
+		if(simulated) {
+			if(b >= 48)
+				b -= 48;
+			else if(b <= -48)
+				b += 48;
+		} else {
+			if(b > 128)
+				b = b - 256;
+		}
+		return b;
 	}
 
 

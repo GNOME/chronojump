@@ -103,6 +103,10 @@ public class UtilAll
 	public static string GetConfigFileName() {
 		return Path.Combine(GetApplicationDataDir() +  Path.DirectorySeparatorChar + Constants.FileNameConfig);
 	}
+	public static string GetECapSimSignalFileName() {
+		return Path.Combine(GetApplicationDataDir() +  Path.DirectorySeparatorChar + "eCapSimSignal.txt");
+	}
+	
 	
 	
 	public static string DetectPortsLinux(bool formatting) {

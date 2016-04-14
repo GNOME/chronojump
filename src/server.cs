@@ -254,7 +254,8 @@ public class Server
 				int countE = 0;					
 				int countS = 0;					
 
-				string [] jumps = SqliteJump.SelectJumps(false, currentSession.UniqueID, person.UniqueID, "", "");
+				string [] jumps = SqliteJump.SelectJumps(false, currentSession.UniqueID, person.UniqueID, "", "",
+						Sqlite.Orders_by.DEFAULT, -1);
 				Sqlite.Open();
 				foreach(string myJump in jumps) {
 					string [] js = myJump.Split(new char[] {':'});

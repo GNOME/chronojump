@@ -93,11 +93,13 @@ class SqliteJump : Sqlite
 
 		return myLast;
 	}
-	
+
 	//if all sessions, put -1 in sessionID
 	//if all persons, put -1 in personID
 	//if all types put, "" in filterType
-	public static string[] SelectJumps(bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType) 
+	//unlimited put -1 in limit
+	public static string[] SelectJumps(bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType, 
+			Orders_by order, int limit) 
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -121,6 +123,14 @@ class SqliteJump : Sqlite
 		if(filterType != "")
 			filterTypeString = " AND jump.type == \"" + filterType + "\" ";
 
+		string orderByString = " ORDER BY upper(" + tp + ".name), jump.uniqueID ";
+		if(order == Orders_by.ID_DESC)
+			orderByString = " ORDER BY jump.uniqueID DESC ";
+		
+		string limitString = "";
+		if(limit != -1)
+			limitString = " LIMIT " + limit;
+
 		dbcmd.CommandText = "SELECT " + tp + ".name, jump.*, " + tps + ".weight " +
 			" FROM " + tp + ", jump, " + tps + 
 			" WHERE " + tp + ".uniqueID == jump.personID " + 
@@ -130,7 +140,8 @@ class SqliteJump : Sqlite
 			filterTypeString +
 			" AND " + tps + ".personID == " + tp + ".uniqueID " +
 			" AND " + tps + ".sessionID == jump.sessionID " +
-			" ORDER BY upper(" + tp + ".name), jump.uniqueID";
+			orderByString +
+			limitString;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

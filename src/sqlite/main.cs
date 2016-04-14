@@ -58,6 +58,7 @@ class Sqlite
 	static bool creatingBlankDatabase = false;
 
 	
+	public enum Orders_by { DEFAULT, ID_DESC }
 
 	//for db creation
 	static int creationRate;

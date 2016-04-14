@@ -6077,7 +6077,11 @@ LogB.Debug("X");
 			notebook_execute.NextPage();
 		while(notebook_execute.CurrentPage > desiredPage) 
 			notebook_execute.PrevPage();
-
+		
+		//delete capture graph 
+		UtilGtk.ClearDrawingArea(event_execute_drawingarea, event_execute_pixmap);
+		//change table under graph
+		notebook_results_data.CurrentPage = notebook_execute.CurrentPage;
 
 		while(notebook_results.CurrentPage < desiredPage) 
 			notebook_results.NextPage();

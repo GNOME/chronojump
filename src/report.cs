@@ -103,7 +103,8 @@ public class Report : ExportSession
 		Sqlite.Open(); // ------------------------------
 		
 		if(ShowSimpleJumps) {
-			myJumps= SqliteJump.SelectJumps(true, sessionID, -1, "", "");
+			myJumps= SqliteJump.SelectJumps(true, sessionID, -1, "", "", 
+					Sqlite.Orders_by.DEFAULT, -1);
 		}
 		if(ShowReactiveJumps) {
 			myJumpsRj = SqliteJumpRj.SelectJumps(true, sessionID, -1, "", "");

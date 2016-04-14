@@ -1123,49 +1123,52 @@ public partial class ChronoJumpWindow
 			}
 
 			//red for TC
-			count = 0;
+			count = jumps.Length;
 			if(tcNow > 0) {
 				foreach(string myStr in jumps) {
 					string [] jump = myStr.Split(new char[] {':'});
 					Rectangle rect = new Rectangle(
-							Convert.ToInt32((ancho-event_execute_rightMargin)*(count+.5)/jumps.Length)-barDesplLeft, 
+							Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/jumps.Length)-barDesplLeft, 
 							calculatePaintHeight(Convert.ToDouble(jump[6]), alto, maxValue, minValue, 
 								topMargin, bottomMargin),
 							barWidth, alto
 							);
 					event_execute_pixmap.DrawRectangle(pen_rojo, true, rect);
-					event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
-					count ++;
+					if(count == jumps.Length)
+						event_execute_pixmap.DrawRectangle(pen_yellow, false, rect);
+					else
+						event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
+			
+					count --;
+
 				}
 			}
 		
 			//blue for TF
 			//check it's not a take off
-			count = 0;
+			count = jumps.Length;
 			if(tvNow > 0) {
 				foreach(string myStr in jumps) {
 					string [] jump = myStr.Split(new char[] {':'});
 					//jump[5] is ok fo jump.tv and for reactionTime.time
 					Rectangle rect = new Rectangle(
-							Convert.ToInt32((ancho-event_execute_rightMargin)*(count+.5)/jumps.Length)-barDesplLeft +tctfSep, 
+							Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/jumps.Length)-barDesplLeft +tctfSep, 
 							calculatePaintHeight(Convert.ToDouble(jump[5]), alto, maxValue, minValue, 
 								topMargin, bottomMargin),
 							barWidth, alto
 							);
 					event_execute_pixmap.DrawRectangle(pen_azul_claro, true, rect);
-					event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
-					count ++;
+					if(count == jumps.Length)
+						event_execute_pixmap.DrawRectangle(pen_yellow, false, rect);
+					else
+						event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
+					
+					count --;
+
 				}
-		
-				//write "last" to show last jump
-				layout.SetMarkup(Catalog.GetString("Last"));
-				event_execute_pixmap.DrawLayout (pen_gris, 
-						Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/jumps.Length)-barDesplLeft + tctfSep, 
-						0, layout);
-			}
 
 			plotSimulatedMessageIfNeededAtLast(
-					Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/jumps.Length)-barDesplLeft + tctfSep 
+					Convert.ToInt32((ancho-event_execute_rightMargin)*(jumps.Length-.5)/jumps.Length)-barDesplLeft + tctfSep 
 					+ barWidth/2,
 				       	alto);
 			
@@ -1970,6 +1973,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_azul_claro_discont; //avg tf in reactive; jump avg sessionTv
 	Gdk.GC pen_azul_discont; //avg tf in reactive; jump avg sessionTv
 	Gdk.GC pen_negro; //borders of rectangle
+	Gdk.GC pen_yellow; //big yellow borders of rectangle (last event)
 	Gdk.GC pen_negro_discont; //guide
 	Gdk.GC pen_green_discont; //guide
 	Gdk.GC pen_gris; //textual data
@@ -1986,6 +1990,7 @@ public partial class ChronoJumpWindow
 		//Gdk.Color rojo = new Gdk.Color(238,0,0);
 		//Gdk.Color azul  = new Gdk.Color(178,223,238);
 		Gdk.Color negro = new Gdk.Color(0,0,0); 
+		Gdk.Color yellow = new Gdk.Color(0xff,0xcc,0x01);
 		Gdk.Color green = new Gdk.Color(0,0xff,0);
 		Gdk.Color gris = new Gdk.Color(0x66,0x66,0x66);
 		Gdk.Color beige = new Gdk.Color(0x99,0x99,0x99);
@@ -1998,6 +2003,7 @@ public partial class ChronoJumpWindow
 		colormap.AllocColor (ref UtilGtk.BLUE_PLOTS,true,true);
 		colormap.AllocColor (ref UtilGtk.LIGHT_BLUE_PLOTS,true,true);
 		colormap.AllocColor (ref negro,true,true);
+		colormap.AllocColor (ref yellow,true,true);
 		colormap.AllocColor (ref green,true,true);
 		colormap.AllocColor (ref gris,true,true);
 		colormap.AllocColor (ref beige,true,true);
@@ -2007,6 +2013,7 @@ public partial class ChronoJumpWindow
 
 		//-- Configurar los contextos graficos (pinceles)
 		pen_rojo = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_yellow = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul_claro = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_rojo_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
@@ -2035,6 +2042,7 @@ public partial class ChronoJumpWindow
 		pen_azul_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		
 		pen_negro.Foreground = negro;
+		pen_yellow.Foreground = yellow;
 
 		pen_negro_discont.Foreground = negro;
 		pen_negro_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
@@ -2046,6 +2054,8 @@ public partial class ChronoJumpWindow
 		pen_beige_discont.Foreground = beige;
 		pen_beige_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		
+		pen_yellow.SetLineAttributes(2, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+
 		pen_brown_bold.Foreground = brown;
 		pen_brown_bold.SetLineAttributes(2, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_violet_bold.Foreground = violet;

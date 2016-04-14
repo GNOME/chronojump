@@ -76,7 +76,8 @@ public class PrepareEventGraphJumpSimple {
 		Sqlite.Open();
 
 		//select data from SQL to update graph	
-		jumpsAtSQL = SqliteJump.SelectJumps(true, sessionID, personID, "", type);
+		jumpsAtSQL = SqliteJump.SelectJumps(true, sessionID, personID, "", type,
+				Sqlite.Orders_by.ID_DESC, 10); //select only last 10 jumps
 
 		tvPersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
 				true, sessionID, personID, 

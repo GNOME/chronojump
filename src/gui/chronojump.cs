@@ -1485,7 +1485,9 @@ public partial class ChronoJumpWindow
 	private void fillTreeView_jumps (string filter, bool dbconOpened) {
 		string [] myJumps;
 	
-		myJumps = SqliteJump.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "");
+		myJumps = SqliteJump.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "",
+				Sqlite.Orders_by.DEFAULT, -1);
+
 		myTreeViewJumps.Fill(myJumps, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumps, treeview_jumps);

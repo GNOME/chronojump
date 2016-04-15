@@ -13,7 +13,7 @@
    height="502.00159"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.48.5 r10040"
    sodipodi:docname="runs.svg"
    inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/agility_t_test.png"
    inkscape:export-xdpi="81.010002"
@@ -116,6 +116,48 @@
          style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
          transform="matrix(-0.8,0,0,-0.8,-10,0)" />
     </marker>
+    <marker
+       inkscape:stockid="DotL"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="DotL-0"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4190-7"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.8,0,0,0.8,5.92,0.8)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-2"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4800-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker3090"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3092"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -124,18 +166,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.4789365"
-     inkscape:cx="689.85442"
-     inkscape:cy="337.04123"
+     inkscape:zoom="0.41821238"
+     inkscape:cx="1973.5411"
+     inkscape:cy="259.00907"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
      inkscape:window-width="1366"
-     inkscape:window-height="711"
+     inkscape:window-height="702"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
-     showguides="false"
+     showguides="true"
      inkscape:guide-bbox="true"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -149,6 +191,10 @@
        orientation="0,1"
        position="1181.8314,-5.6170693"
        id="guide6691" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="2119.1761,251.82782"
+       id="guide4110" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -604,5 +650,158 @@
              y="1045.5957">Start</tspan></text>
       </g>
     </g>
+    <g
+       id="g4178"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/agility_3l3r_photocell.png"
+       inkscape:export-xdpi="113.51"
+       inkscape:export-ydpi="113.51">
+      <rect
+         y="549.00732"
+         x="2798.3467"
+         height="618.10699"
+         width="634.30109"
+         id="rect5471-6-2"
+         style="fill:#ffffff;fill-opacity:1;stroke:none" />
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4606-3-6-5-6"
+         d="m 3366.3103,655.62595 0,439.62815"
+         style="fill:none;stroke:#000000;stroke-width:2.12338829;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4608-4-9-4-8"
+         y="874.80414"
+         x="3373.6501"
+         style="font-size:20.97130203px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="874.80414"
+           x="3373.6501"
+           id="tspan4610-1-8-0-6"
+           sodipodi:role="line">10m</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text5446-0-3"
+         y="1097.254"
+         x="2812.9866"
+         style="font-size:29.36927795px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="1097.254"
+           x="2812.9866"
+           id="tspan5448-5-2"
+           sodipodi:role="line">3L3R Test</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text5446-4-1-5"
+         y="1123.1432"
+         x="2812.9417"
+         style="font-size:18.3488903px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="1123.1432"
+           x="2812.9417"
+           id="tspan5448-0-3-7"
+           sodipodi:role="line">Josep Ma Padullés</tspan><tspan
+           id="tspan6684-0"
+           y="1146.0793"
+           x="2812.9417"
+           sodipodi:role="line">chronojump.org</tspan></text>
+      <path
+         sodipodi:nodetypes="cccccccc"
+         inkscape:connector-curvature="0"
+         id="path5860-4"
+         d="m 3080.2669,992.95239 c 16.4914,-79.65841 80.3694,-367.14165 12.5073,-369.25589 -73.2503,-1.05678 -267.8505,194.80868 -256.686,250.40723 6.5779,72.57084 194.4496,266.04067 256.8399,246.11527 112.4718,-57.8335 -114.006,-432.70317 -20.9758,-514.10339 50.8747,-26.72767 294.9821,207.13451 258.594,266.70069 -65.1479,143.0752 -203.9496,265.4849 -247.0053,270.3124 -78.2847,-24.0928 -31.3382,-202.8523 -1.8322,-269.46905"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#DotL);marker-mid:url(#Arrow1Lend);marker-end:url(#Arrow1Lend)" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4547-1-4"
+         y="884.24426"
+         x="2904.9951"
+         style="font-size:9.78759003px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           id="tspan4551-9-2"
+           y="884.24426"
+           x="2904.9951"
+           sodipodi:role="line"
+           style="font-size:20px;font-weight:normal;fill:#000000;-inkscape-font-specification:Sans">photocell</tspan></text>
+      <path
+         sodipodi:nodetypes="cccc"
+         inkscape:connector-curvature="0"
+         id="path4420-32-6-5-0"
+         d="m 3061.6393,652.40396 c 5.4201,-6.87032 26.8871,-45.32123 27.5565,-47.79384 2.4037,17.00705 7.4133,52.19466 6.0607,54.77998 -7.2603,11.21818 -35.281,5.77296 -33.6172,-6.98614 z"
+         style="fill:#ffab09;fill-opacity:1;stroke:none" />
+      <path
+         sodipodi:nodetypes="cccc"
+         inkscape:connector-curvature="0"
+         id="path4420-7-8-9-6"
+         d="m 3279.4032,870.16786 c 5.42,-6.87046 26.8871,-45.32137 27.5564,-47.79391 2.4038,17.00698 7.4133,52.19466 6.0609,54.77999 -7.2605,11.21817 -35.2812,5.77302 -33.6173,-6.98608 z"
+         style="fill:#ffab09;fill-opacity:1;stroke:none" />
+      <path
+         sodipodi:nodetypes="cccc"
+         inkscape:connector-curvature="0"
+         id="path4420-32-6-4"
+         d="m 2842.3619,871.68154 c 5.42,-6.8704 26.887,-45.3213 27.5564,-47.79391 2.4037,17.00705 7.4133,52.19466 6.0607,54.77998 -7.2603,11.21818 -35.281,5.77296 -33.6171,-6.98607 z"
+         style="fill:#ffab09;fill-opacity:1;stroke:none" />
+      <path
+         sodipodi:nodetypes="cccc"
+         inkscape:connector-curvature="0"
+         id="path4420-7-8-5"
+         d="m 3060.1257,1089.4453 c 5.42,-6.8703 26.8871,-45.3212 27.5564,-47.7939 2.4038,17.007 7.4133,52.1948 6.0608,54.7801 -7.2604,11.2182 -35.2811,5.7729 -33.6172,-6.9862 z"
+         style="fill:#ffab09;fill-opacity:1;stroke:none" />
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4606-3-6-5-4-8"
+         d="m 2869.2734,591.3244 439.6282,0"
+         style="fill:none;stroke:#000000;stroke-width:2.12338829;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4608-4-9-4-7-1"
+         y="581.79022"
+         x="3056.9897"
+         style="font-size:20.97130203px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="581.79022"
+           x="3056.9897"
+           id="tspan4610-1-8-0-8-7"
+           sodipodi:role="line">10m</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4608-4-9-4-0-6"
+         y="1018.5483"
+         x="3054.031"
+         style="font-size:20.97130203px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="1018.5483"
+           x="3054.031"
+           id="tspan4610-1-8-0-4-2"
+           sodipodi:role="line">Start</tspan></text>
+      <path
+         inkscape:connector-curvature="0"
+         id="path4108"
+         d="m 2935.984,865.24207 293.1183,0"
+         style="fill:none;stroke:#000000;stroke-width:6.3133626;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:6.31336254, 25.25345016;stroke-dashoffset:12.62672508" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="2842.5063"
+       y="395.63382"
+       id="text5506-3-5"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5508-12-4"
+         x="2842.5063"
+         y="395.63382">agility_3l3r_photocell.png</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:20.52796173px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="2950.5344"
+       y="430.84183"
+       id="text5506-1-5-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5508-1-9-6"
+         x="2950.5344"
+         y="430.84183">800px width</tspan></text>
   </g>
 </svg>

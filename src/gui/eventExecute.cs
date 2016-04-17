@@ -193,6 +193,7 @@ public partial class ChronoJumpWindow
 	
 	//for writing text
 	Pango.Layout layout;
+	Pango.Layout layoutMid;
 	Pango.Layout layoutBig;
 
 	static EventGraphConfigureWindow eventGraphConfigureWin;
@@ -276,6 +277,9 @@ public partial class ChronoJumpWindow
 		
 		layout = new Pango.Layout (event_execute_drawingarea.PangoContext);
 		layout.FontDescription = Pango.FontDescription.FromString ("Courier 7");
+		
+		layoutMid = new Pango.Layout (event_execute_drawingarea.PangoContext);
+		layoutMid.FontDescription = Pango.FontDescription.FromString ("Courier 11");
 
 		layoutBig = new Pango.Layout (event_execute_drawingarea.PangoContext);
 		layoutBig.FontDescription = Pango.FontDescription.FromString ("Courier 14");
@@ -578,6 +582,7 @@ public partial class ChronoJumpWindow
 
 		//if max value of graph is automatic
 		if(eventGraphConfigureWin.Max == -1) {
+			/*
 			maxValue = Util.GetMax(
 					eventGraph.tv.ToString() + "=" + 
 					eventGraph.tvPersonAVGAtSQL.ToString() + "=" + eventGraph.tvSessionAVGAtSQL.ToString() + "=" +
@@ -590,12 +595,16 @@ public partial class ChronoJumpWindow
 				if(Convert.ToDouble(jump[6]) > maxValue)
 					maxValue = Convert.ToDouble(jump[6]); //tc
 			}
+			*/
+			
+			maxValue = eventGraph.sessionMAXAtSQL;
 		} else {
 			maxValue = eventGraphConfigureWin.Max;
 			topMargin = 0;
 		}
 		
 		//if min value of graph is automatic
+		/*
 		if(eventGraphConfigureWin.Min == -1) {
 			string myString = eventGraph.tv.ToString() + "=" + 
 				eventGraph.tvPersonAVGAtSQL.ToString() + "=" + eventGraph.tvSessionAVGAtSQL.ToString();
@@ -611,21 +620,22 @@ public partial class ChronoJumpWindow
 					minValue = Convert.ToDouble(jump[6]); //tc
 			}
 		} else {
+		*/
 			minValue = eventGraphConfigureWin.Min;
 			bottomMargin = 0;
-		}
+		//}
 		
 		//paint graph
-		paintJumpSimple (event_execute_drawingarea, eventGraph.jumpsAtSQL, 
-				eventGraph.tv, eventGraph.tvPersonAVGAtSQL, eventGraph.tvSessionAVGAtSQL, 
-				eventGraph.tc, eventGraph.tcPersonAVGAtSQL, eventGraph.tcSessionAVGAtSQL,
+		paintJumpSimple (event_execute_drawingarea, eventGraph, 
 			       	maxValue, minValue, topMargin, bottomMargin);
 
 		//printLabels
+		/*
 		printLabelsJumpSimple (
 				eventGraph.tv, eventGraph.tvPersonAVGAtSQL, eventGraph.tvSessionAVGAtSQL, 
 				eventGraph.heightPersonAVGAtSQL, eventGraph.heightSessionAVGAtSQL, 
 				eventGraph.tc, eventGraph.tcPersonAVGAtSQL, eventGraph.tcSessionAVGAtSQL);
+				*/
 		
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
@@ -944,9 +954,13 @@ public partial class ChronoJumpWindow
 		}
 		
 		//paint graph (use simple jump method)
-		paintJumpSimple (event_execute_drawingarea, eventGraph.rtsAtSQL, 
+		/*
+		paintJumpSimple (event_execute_drawingarea, 
+				eventGraph.rtsAtSQL, 
 				eventGraph.time, eventGraph.timePersonAVGAtSQL, eventGraph.timeSessionAVGAtSQL, 
 				0, 0, 0, maxValue, minValue, topMargin, bottomMargin);
+TODO: use specific method
+				*/
 
 		printLabelsReactionTime (eventGraph.time, eventGraph.timePersonAVGAtSQL, eventGraph.timeSessionAVGAtSQL);
 		
@@ -1071,7 +1085,9 @@ public partial class ChronoJumpWindow
 			layoutBig.GetPixelSize(out lWidth, out lHeight); 
 			event_execute_pixmap.DrawLayout (pen_negro, 
 					Convert.ToInt32(x - lWidth/2), 
-					Convert.ToInt32(alto/2 - lHeight/2), 
+					//Convert.ToInt32(alto/2 - lHeight/2), 
+					//10,
+					alto - lHeight, 
 					layoutBig);
 		}
 	}
@@ -1088,10 +1104,21 @@ public partial class ChronoJumpWindow
 					layoutBig);
 		}
 	}
+	
+	private void plotResultOnBar(int x, int y, int alto, double result) {
+		layoutMid.SetMarkup(Util.TrimDecimals(result,2));
+		int lWidth = 1;
+		int lHeight = 1;
+		layoutMid.GetPixelSize(out lWidth, out lHeight); 
+		event_execute_pixmap.DrawLayout (pen_negro, 
+				//Convert.ToInt32(x - lWidth/2), 
+				//x, 
+				Convert.ToInt32(x - lWidth/2),
+				Convert.ToInt32((y+alto)/2),
+				layoutMid);
+	}
 
-	private void paintJumpSimple (Gtk.DrawingArea drawingarea, string [] jumps, 
-			double tvNow, double tvPerson, double tvSession, 
-			double tcNow, double tcPerson, double tcSession,
+	private void paintJumpSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphJumpSimple eventGraph, 
 			double maxValue, double minValue, int topMargin, int bottomMargin)
 	{
 		int ancho=drawingarea.Allocation.Width;
@@ -1099,83 +1126,105 @@ public partial class ChronoJumpWindow
 		int count;
 		
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
-		writeMarginsText(maxValue, minValue, alto);
-		
+		writeMarginsText(eventGraph.sessionMAXAtSQL, minValue, alto);
+
 		//check now here that we will have not division by zero problems
-		if(maxValue - minValue > 0) {
-			//calculate separation between series and bar width
-			int tctfSep = 0; //separation between tc and tf
-			int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/jumps.Length) -
-					Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/jumps.Length);
-			if(tcNow > 0)
-				tctfSep = Convert.ToInt32(.3*distanceBetweenCols);
-			int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
-			int barDesplLeft = Convert.ToInt32(.5*barWidth);
+		if(maxValue - minValue <= 0)
+			return;
 
-			//paint first the average horizontal guides in order to be behind the bars
-			if(tcNow > 0) {
-				drawGuideOrAVG(pen_rojo, tcPerson, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-				drawGuideOrAVG(pen_rojo_discont, tcSession, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-			}
-			if(tvNow > 0) {
-				drawGuideOrAVG(pen_azul_claro, tvPerson, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-				drawGuideOrAVG(pen_azul_claro_discont, tvSession, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-			}
+		//calculate separation between series and bar width
+		int tctfSep = 0; //separation between tc and tf
+		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/eventGraph.jumpsAtSQL.Length) -
+			Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/eventGraph.jumpsAtSQL.Length);
+		if(eventGraph.tc > 0)
+			tctfSep = Convert.ToInt32(.3*distanceBetweenCols);
+		int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
+		int barDesplLeft = Convert.ToInt32(.5*barWidth);
 
-			//red for TC
-			count = jumps.Length;
-			if(tcNow > 0) {
-				foreach(string myStr in jumps) {
-					string [] jump = myStr.Split(new char[] {':'});
-					Rectangle rect = new Rectangle(
-							Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/jumps.Length)-barDesplLeft, 
-							calculatePaintHeight(Convert.ToDouble(jump[6]), alto, maxValue, minValue, 
-								topMargin, bottomMargin),
-							barWidth, alto
-							);
-					event_execute_pixmap.DrawRectangle(pen_rojo, true, rect);
-					if(count == jumps.Length)
-						event_execute_pixmap.DrawRectangle(pen_yellow, false, rect);
-					else
-						event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
-			
-					count --;
+		//paint first the average horizontal guides in order to be behind the bars
+		drawGuideOrAVG(pen_negro, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_gris, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_azul_claro, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_azul_claro_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
-				}
+		//red for TC
+		count = eventGraph.jumpsAtSQL.Length;
+		if(eventGraph.tc > 0) {
+			foreach(string myStr in eventGraph.jumpsAtSQL) {
+				string [] jump = myStr.Split(new char[] {':'});
+				Rectangle rect = new Rectangle(
+						Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.jumpsAtSQL.Length)-barDesplLeft, 
+						calculatePaintHeight(Convert.ToDouble(jump[6]), alto, maxValue, minValue, 
+							topMargin, bottomMargin),
+						barWidth, alto
+						);
+				event_execute_pixmap.DrawRectangle(pen_rojo, true, rect);
+				if(count == eventGraph.jumpsAtSQL.Length)
+					event_execute_pixmap.DrawRectangle(pen_yellow, false, rect);
+				else
+					event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
+
+				count --;
+
 			}
 		
 			//blue for TF
 			//check it's not a take off
-			count = jumps.Length;
-			if(tvNow > 0) {
-				foreach(string myStr in jumps) {
+			count = eventGraph.jumpsAtSQL.Length;
+			if(eventGraph.tv > 0) {
+				foreach(string myStr in eventGraph.jumpsAtSQL) {
 					string [] jump = myStr.Split(new char[] {':'});
 					//jump[5] is ok fo jump.tv and for reactionTime.time
 					Rectangle rect = new Rectangle(
-							Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/jumps.Length)-barDesplLeft +tctfSep, 
+							Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.jumpsAtSQL.Length)-barDesplLeft +tctfSep, 
 							calculatePaintHeight(Convert.ToDouble(jump[5]), alto, maxValue, minValue, 
 								topMargin, bottomMargin),
 							barWidth, alto
 							);
 					event_execute_pixmap.DrawRectangle(pen_azul_claro, true, rect);
-					if(count == jumps.Length)
+					if(count == eventGraph.jumpsAtSQL.Length)
 						event_execute_pixmap.DrawRectangle(pen_yellow, false, rect);
 					else
 						event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
-					
+
 					count --;
-
 				}
+			}
+		} else { //if only tv show height
+			count = eventGraph.jumpsAtSQL.Length;
+			if(eventGraph.tv > 0) {
+				foreach(string myStr in eventGraph.jumpsAtSQL) {
+					string [] jump = myStr.Split(new char[] {':'});
+					//jump[5] is ok fo jump.tv and for reactionTime.time
+					int x = Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.jumpsAtSQL.Length)-barDesplLeft +tctfSep;
+					int y = calculatePaintHeight(Convert.ToDouble(Util.GetHeightInCentimeters(jump[5])), 
+							alto, maxValue, minValue, topMargin, bottomMargin);
+					Rectangle rect = new Rectangle(
+							x, y,
+							barWidth, alto
+							);
+					event_execute_pixmap.DrawRectangle(pen_azul_claro, true, rect);
+					if(count == eventGraph.jumpsAtSQL.Length)
+						event_execute_pixmap.DrawRectangle(pen_yellow, false, rect);
+					else
+						event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
+	
+					plotResultOnBar(x + barWidth/2, y, alto, Convert.ToDouble(Util.GetHeightInCentimeters(jump[5])));
 
-			plotSimulatedMessageIfNeededAtLast(
-					Convert.ToInt32((ancho-event_execute_rightMargin)*(jumps.Length-.5)/jumps.Length)-barDesplLeft + tctfSep 
-					+ barWidth/2,
-				       	alto);
-			
-			//paint reference guide black and green if needed
-			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+					count --;
+				}
+			}
 		}
+
+
+		plotSimulatedMessageIfNeededAtLast(
+				Convert.ToInt32((ancho-event_execute_rightMargin)*(eventGraph.jumpsAtSQL.Length-.5)/
+					eventGraph.jumpsAtSQL.Length)-barDesplLeft + tctfSep + barWidth/2,
+				alto);
+
+		//paint reference guide black and green if needed
+		//drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		//drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 	}
 
 	private void paintRunSimple (Gtk.DrawingArea drawingarea, Gdk.GC myPen, string [] runs, 

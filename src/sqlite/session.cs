@@ -553,9 +553,19 @@ class SqliteSession : Sqlite
 	}
 
 
+
 	//called from gui/event.cs for doing the graph
 	//we need to know the avg of events of a type (SJ, CMJ, free (pulse).. of a person, or of all persons on the session
 	public static double SelectAVGEventsOfAType(bool dbconOpened, int sessionID, int personID, string table, string type, string valueToSelect) 
+	{
+		return selectEventsOfAType(dbconOpened, sessionID, personID, table, type, valueToSelect, "AVG");
+	}
+	public static double SelectMAXEventsOfAType(bool dbconOpened, int sessionID, int personID, string table, string type, string valueToSelect) 
+	{
+		return selectEventsOfAType(dbconOpened, sessionID, personID, table, type, valueToSelect, "MAX");
+	}
+	public static double selectEventsOfAType(bool dbconOpened, int sessionID, int personID, 
+			string table, string type, string valueToSelect, string statistic) 
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -567,7 +577,7 @@ class SqliteSession : Sqlite
 			personIDString = " AND personID == " + personID; 
 
 		
-		dbcmd.CommandText = "SELECT AVG(" + valueToSelect + ")" +
+		dbcmd.CommandText = "SELECT " + statistic + "(" + valueToSelect + ")" +
 			" FROM " + table +				
 			" WHERE sessionID == " + sessionID + 
 			" AND type == \"" + type + "\" " +

@@ -27,6 +27,8 @@ source(scriptCaptureR)
 DEBUG <- FALSE
 DebugFileName <- paste(options[5], "/chronojump-debug.txt", sep="")
 
+CROSSVALIDATESMOOTH <- FALSE
+
 
 f <- file("stdin")
 open(f)

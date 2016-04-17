@@ -31,6 +31,7 @@ public abstract class EncoderRProc
 	public enum Status { WAITING, RUNNING, DONE } 
 	public Status status;
 	public bool Debug = false;
+	public bool CrossValidate;
 
 	protected string optionsFile;	
 	protected EncoderStruct es;
@@ -303,7 +304,8 @@ public class EncoderRProcCapture : EncoderRProc
 				es, 
 				false,	//neuromuscularProfile
 				false,	//translate (graphs)
-				Debug
+				Debug,
+				false	//crossValidate (unactive on capture at the moment)
 				).ToString();
 
 		TextWriter writer = File.CreateText(optionsFile);
@@ -538,7 +540,8 @@ public class EncoderRProcAnalyze : EncoderRProc
 				es, 
 				neuromuscularProfileDo,
 				translate,
-				Debug
+				Debug,
+				CrossValidate
 				).ToString();
 
 		TextWriter writer = File.CreateText(optionsFile);

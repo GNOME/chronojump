@@ -351,7 +351,7 @@ public class UtilEncoder
 				title, operatingSystem,
 				Util.StringArrayToString(Constants.EncoderEnglishWords,";"),
 				Util.StringArrayToString(encoderTranslatedWordsOK,";"),
-				debug
+				debug, crossValidate
 				);
 	}
 

@@ -2138,6 +2138,7 @@ doProcess <- function(options)
 	unicodeWorks <<- checkUnicodeWorks()
 
 	DEBUG <<- op$Debug
+	CROSSVALIDATESMOOTH <<- op$CrossValidate
 	
 	print(c("1 Title=",op$Title))
 	#unicoded titles arrive here like this "\\", convert to "\", as this is difficult, do like this:
@@ -2392,9 +2393,14 @@ doProcess <- function(options)
 		
 		#print(curves, stderr())
 	
-		#find SmoothingsEC
-		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, op$Eccon, op$SmoothingOneC,
-						NULL, NULL, NULL, NULL) #this row is only needed for singleFile (signal)
+		#find SmoothingsEC. TODO: fix this
+		if(CROSSVALIDATESMOOTH) {
+			for(i in 1:n)
+				SmoothingsEC[i] = 0
+		}
+		else
+			SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, op$Eccon, op$SmoothingOneC,
+							NULL, NULL, NULL, NULL) #this row is only needed for singleFile (signal)
 		print(c("SmoothingsEC:",SmoothingsEC))
 	} else {	#singleFile == True. reads a signal file
 		displacement=scan(file=op$File,sep=",")
@@ -2468,10 +2474,16 @@ doProcess <- function(options)
 		#print(curves)
 		
 		#find SmoothingsEC
-		SmoothingsEC = findSmoothingsEC(
-						singleFile, displacement, curves, op$Eccon, op$SmoothingOneC,
-						op$EncoderConfigurationName, op$diameter, op$inertiaMomentum, op$gearedDown 
-						) #second row is needed for singleFile (signal)
+		if(CROSSVALIDATESMOOTH) {
+			for(i in 1:n)
+				SmoothingsEC[i] = 0
+		}
+		else
+			SmoothingsEC = findSmoothingsEC(
+							singleFile, displacement, curves, op$Eccon, op$SmoothingOneC,
+							op$EncoderConfigurationName, op$diameter, op$inertiaMomentum, op$gearedDown 
+							) #second row is needed for singleFile (signal)
+
 		print(c("SmoothingsEC:",SmoothingsEC))
 		
 		if(curvesPlot) {
@@ -2661,14 +2673,17 @@ doProcess <- function(options)
 				debugParameters(listN(xUpperValue, xLowerValue), "paint all smoothing 2")
 
 				#3.a) find max power (y) for some smoothings(x) (closer)
-				x <- seq(from = xUpperValue, to = xLowerValue, length.out = 5)
+				x <- seq(from = xUpperValue, to = xLowerValue, length.out = 8)
 				y <- smoothAllSetYPoints(x, displacementAllSet, 
 							 op$EncoderConfigurationName, op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, 
 							 op$gearedDown, op$anglePush, op$angleWeight, op$diameter, op$inertiaMomentum)
 
 				#3.b) create a model with x,y to find optimal x (in closer values)
-				smodel <- smooth.spline(y,x)
-				smoothingAll <- predict(smodel, maxPowerAtAnyRep)$y
+				#but only if we have 4+ unique values for smooth.spline. If not, previous smoothingAll will be used
+				if(length(unique(x)) >= 4 && length(unique(y)) >= 4) {
+					smodel <- smooth.spline(y,x)
+					smoothingAll <- predict(smodel, maxPowerAtAnyRep)$y
+				}
 			}
 
 			debugParameters(listN(x, y, maxPowerAtAnyRep, smoothingAll), "paint all smoothing 3")

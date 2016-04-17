@@ -72,7 +72,8 @@ assignOptions <- function(options) {
 		    DecimalSeparator	= options[25],
 		    Title		= options[26],
 		    OperatingSystem	= options[27],	#if this changes, change it also at start of this R file
-		    Debug		= options[30]
+		    Debug		= options[30],
+		    CrossValidate	= options[31]
 		    #Unassigned here:
 		    #	englishWords [28]
 		    #	translatedWords [29]
@@ -258,7 +259,12 @@ getSpeed <- function(displacement, smoothing) {
 	#use position because this does not make erronously change the initial and end of the curve
 	#do spline with displacement is buggy because data is too similar -2, -1, 0, 1, 2, ...
 	position <- cumsum(displacement)
-	positionSpline <- smooth.spline( 1:length(position), position, spar=smoothing)
+	
+	spar <- smoothing
+	if(CROSSVALIDATESMOOTH)
+		spar <- cvParCall(1:length(position), position)
+
+	positionSpline <- smooth.spline( 1:length(position), position, spar=spar)
 	
 	#get speed converting from position to displacement, but repeat first value because it's missing on the diff process
 	#do not hijack spline like this because this works for speed, but then acceleration has big error
@@ -271,14 +277,19 @@ getSpeed <- function(displacement, smoothing) {
 	return (speedSpline)
 }
 
-#same smoothing than getSped
+#same smoothing than getSpeed
 getPositionSmoothed <- function(displacement, smoothing) {
 	#no change affected by encoderConfiguration
 	
 	#use position because this does not make erronously change the initial and end of the curve
 	#do spline with displacement is buggy because data is too similar -2, -1, 0, 1, 2, ...
 	position <- cumsum(displacement)
-	positionSpline <- smooth.spline( 1:length(position), position, spar=smoothing)
+
+	spar <- smoothing
+	if(CROSSVALIDATESMOOTH)
+		spar <- cvParCall(1:length(displacement), displacement)
+
+	positionSpline <- smooth.spline( 1:length(position), position, spar=spar)
 	
 	return (positionSpline$y)
 }
@@ -328,6 +339,7 @@ reduceCurveBySpeed <- function(eccon, startT, startH, displacement, smoothingOne
 	speed <- getSpeed(displacement, smoothing)
 	
 	speed.ext=extrema(speed$y)
+	print(speed.ext)
 
 	#in order to reduce curve by speed, we search the cross of speed (in 0m/s)
         #before and after the peak value, but in "ec" and "ce" there are two peak values:
@@ -1115,7 +1127,53 @@ getInertialDiametersPerMs <- function(displacement, diametersPerTick)
   return(diameter)
 }
 
+#----------- Begin spar with crossvalidation (Aleix Ruiz de Villa) -------------
 
+cvParCall <- function(x, y) {
+	parRange <- seq(0.1, 1, 0.05)
+	cvResults <- cvPar(x, y, parRange)
+
+	## Agafem la spar que te un error més petit
+	#print( paste('The best spar is: ', parRange[ which.min(cvResults) ] ) )
+	write("CrossValidation:", stderr())
+	write(parRange[which.min(cvResults)], stderr())
+	return (parRange[which.min(cvResults)])
+}
+cvPar <- function(x, y, parRange, cvProp = 0.8) {
+
+	n <- length(x)
+	nTrain <- floor( cvProp * n )
+	nTest <- n - nTrain
+
+	cvParError <- vector(length=length(parRange))
+	for( parPos in 1:length(parRange) ){
+		selectedPar <- parRange[ parPos ]
+
+		## Separem la mostra en train i test
+		indexTrain <- sample(1:n, nTrain)
+		indexTest <- (1:n)[-indexTrain]
+		xTrain <- x[ indexTrain ]
+		xTest <- x[ indexTest ]
+		yTrain <- y[ indexTrain ]
+		yTest <- y[ indexTest ]
+
+		## Fem servir les dades del train per a construir els splines
+		splineModel <- smooth.spline(xTrain, yTrain, spar = selectedPar)
+
+		## Fem la prediccio sobre la mostra test
+		predictedBySpline <- predict(splineModel, xTest)
+		# plot(xTest, predictedBySpline$y, col = 'blue')
+		# lines(xTest, yTest, col = 'green', type = 'p')
+
+		## Calculem els errors
+		predictionError <- sqrt( mean( (predictedBySpline$y - yTest)^2 ) )
+		cvParError[ parPos ] <- predictionError
+	}
+
+	return(cvParError)
+}
+
+#----------- end spar with crossvalidation -------------
 
 #----------- Begin debug file output -------------
 debugParameters <- function (parameterList, currentFunction) 

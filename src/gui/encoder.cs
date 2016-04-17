@@ -126,6 +126,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_force;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_power;
 	
+	[Widget] Gtk.CheckButton checkbutton_crossvalidate;
 	[Widget] Gtk.Button button_encoder_analyze;
 	[Widget] Gtk.Box hbox_encoder_analyze_progress;
 	[Widget] Gtk.Button button_encoder_analyze_cancel;
@@ -4608,6 +4609,8 @@ public partial class ChronoJumpWindow
 
 			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
 			encoderRProcAnalyze.status = EncoderRProc.Status.WAITING;
+	
+			encoderRProcAnalyze.CrossValidate = checkbutton_crossvalidate.Active;
 		
 			encoderThread = new Thread(new ThreadStart(encoderDoAnalyze));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));

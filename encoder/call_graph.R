@@ -31,6 +31,8 @@ Translated = unlist(strsplit(options[29], "\\;"))
 DEBUG <- FALSE
 DebugFileName <- paste(options[5], "/chronojump-debug.txt", sep="")
 
+CROSSVALIDATESMOOTH <- FALSE
+
 source(paste(options[4], "/util.R", sep=""))
 source(paste(options[4], "/graphSmoothingEC.R", sep=""))
 

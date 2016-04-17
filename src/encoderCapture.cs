@@ -319,6 +319,14 @@ public abstract class EncoderCapture
 					if(startFrame < 0)
 						startFrame = 0;
 
+					LogB.Information("TTTT - i," + i.ToString() +
+						       	"; directionChangeCount: " + 
+						       	directionChangeCount.ToString() + 
+						       	"; lastNonZero: " +
+						       	lastNonZero.ToString() +
+							"; final: " + 
+							((i - directionChangeCount + lastNonZero)/2).ToString());
+
 					ecc = new EncoderCaptureCurve(
 							startFrame,
 							(i - directionChangeCount + lastNonZero)/2 	//endFrame

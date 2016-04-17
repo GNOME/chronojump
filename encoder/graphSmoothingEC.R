@@ -157,12 +157,23 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				#2 get max power concentric (y) at eccentric-concentric phase with current smoothing of an interval of possible smoothings (x)
 				
 				x <- seq(from = as.numeric(smoothingOneC), 
-						    to = as.numeric(smoothingOneC)/2, 
-						    length.out = 5)
+						    to = as.numeric(smoothingOneC)/4, 
+						    length.out = 8)
 				y <- findSmoothingsECYPoints(eccentric.concentric, conStart, conEnd, x, maxPowerConAtCon, 
 						myEncoderConfigurationName, myDiameter, 100, myInertiaMomentum, myGearedDown)
 				#write(paste("x, y", x, y), stderr())
 
+
+				write("smooth.spline x (a)", stderr())	
+				write(x, stderr())
+				write("smooth.spline y (a)", stderr())	
+				write(y, stderr())
+			
+				#if less than 4 unique x or y cannot smooth spline. Just use smoothingOneC as default value
+				if(length(unique(x)) < 4 || length(unique(y)) < 4) {
+					smoothings[i] = smoothingOneC
+					next
+				}
 
 				smodel <- smooth.spline(y,x)
 				smoothingOneEC <- predict(smodel, maxPowerConAtCon)$y
@@ -201,11 +212,22 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				x <- seq(
 					 from = xUpperValue, 
 					 to = xLowerValue,
-					 length.out = 5)
+					 length.out = 8)
 				y <- findSmoothingsECYPoints(eccentric.concentric, conStart, conEnd, x, maxPowerConAtCon, 
 						myEncoderConfigurationName, myDiameter, 100, myInertiaMomentum, myGearedDown)
 				
+			
+				write("smooth.spline x (b)", stderr())
+				write(x, stderr())
+				write("smooth.spline y (b)", stderr())	
+				write(y, stderr())
 				
+				#if less than 4 unique x or y cannot smooth spline. Just use recent calculed smoothingOneEC as default value
+				if(length(unique(x)) < 4 || length(unique(y)) < 4) {
+					smoothings[i] = smoothingOneEC
+					next
+				}
+
 				smodel <- smooth.spline(y,x)
 				smoothingOneEC <- predict(smodel, maxPowerConAtCon)$y
 					

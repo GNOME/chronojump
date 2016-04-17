@@ -295,7 +295,7 @@ public class UtilEncoder
 	}
 	*/
 	
-	public static EncoderGraphROptions PrepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate, bool debug) 
+	public static EncoderGraphROptions PrepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate, bool debug, bool crossValidate) 
 	{
 		string operatingSystem = "Linux";
 			

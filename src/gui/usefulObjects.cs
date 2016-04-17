@@ -56,56 +56,44 @@ public class ExecutingGraphData
 public class PrepareEventGraphJumpSimple {
 	//sql data of previous jumps to plot graph and show stats at bottom
 	public string [] jumpsAtSQL;
-	public double tvPersonAVGAtSQL;
-	public double tvSessionAVGAtSQL;
-	public double heightPersonAVGAtSQL;
-	public double heightSessionAVGAtSQL;
-	public double tcPersonAVGAtSQL;
-	public double tcSessionAVGAtSQL;
+	
+	public double personMAXAtSQL;
+	public double sessionMAXAtSQL;
+	public double personAVGAtSQL;
+	public double sessionAVGAtSQL;
 
 	//current data
 	public double tv;
 	public double tc;
+		
+	private enum jumpVariables { HEIGHT, TVTC, TC }
 
 	public PrepareEventGraphJumpSimple() {
 	}
 
 	public PrepareEventGraphJumpSimple(double tv, double tc, int sessionID, int personID, string table, string type) 
 	{
-
 		Sqlite.Open();
 
 		//select data from SQL to update graph	
 		jumpsAtSQL = SqliteJump.SelectJumps(true, sessionID, personID, "", type,
 				Sqlite.Orders_by.ID_DESC, 10); //select only last 10 jumps
 
-		tvPersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
-				true, sessionID, personID, 
-				table, type, "TV");
-		tvSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
-				true, sessionID, -1, table, type, "TV");
+		string sqlSelect = "";
+		if(tv > 0) {
+			if(tc <= 0)
+				sqlSelect = "100*4.9*(TV/2)*(TV/2)";
+			else
+				sqlSelect = "TV";
+		} else
+			sqlSelect = "TC";
+		
+		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
+		sessionMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
 
-		//need to calculate height also, because:
-		//it's different to have mean of tv and then calculate height of that mean
-		//than have every height and then calculate the mean
-
-		heightPersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
-				true, sessionID, personID, 
-				table, type, "100*4.9*(TV/2)*(TV/2)");
-		heightSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
-				true, sessionID, -1, table, type, "100*4.9*(TV/2)*(TV/2)");
-
-
-		tcPersonAVGAtSQL = 0; 
-		tcSessionAVGAtSQL = 0; 
-		if(tc > 0) {
-			tcPersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
-					true, sessionID, personID, 
-					table, type, "TC");
-			tcSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
-					true, sessionID, -1, table, type, "TC");
-		}
-
+		personAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
+		sessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
+	
 		//end of select data from SQL to update graph	
 			
 		this.tv = tv;

@@ -1967,7 +1967,7 @@ msgstr "Terminar tras n segundos de inactividad"
 
 #: ../glade/chronojump.glade.h:437
 msgid "Not inertial"
-msgstr "No inerjcial"
+msgstr "No inercial"
 
 #: ../glade/chronojump.glade.h:438
 msgid "Inertial"

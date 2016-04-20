@@ -363,6 +363,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void showJumpSimpleLabels() {
+		/*
 		//show simple jump info
 		event_execute_hbox_jump_simple_titles.Show();
 		event_execute_table_jump_simple.Show();
@@ -378,8 +379,10 @@ public partial class ChronoJumpWindow
 		event_execute_label_jump_simple_height_now.Text = "";
 		event_execute_label_jump_simple_height_person.Text = "";
 		event_execute_label_jump_simple_height_session.Text = "";
+		*/
 
-		notebook_results_data.CurrentPage = 0;
+		notebook_results_data.Visible = false;
+		//notebook_results_data.CurrentPage = 0;
 	}
 	
 	
@@ -398,6 +401,7 @@ public partial class ChronoJumpWindow
 		event_execute_label_jump_reactive_tf_tc_now.Text = "";
 		event_execute_label_jump_reactive_tf_tc_avg.Text = "";
 
+		notebook_results_data.Visible = true;
 		notebook_results_data.CurrentPage = 1;
 	}
 	
@@ -429,6 +433,7 @@ public partial class ChronoJumpWindow
 		event_execute_label_run_interval_speed_now.Text = "";
 		event_execute_label_run_interval_speed_avg.Text = "";
 
+		notebook_results_data.Visible = true;
 		notebook_results_data.CurrentPage = 3;
 	}
 	
@@ -443,6 +448,7 @@ public partial class ChronoJumpWindow
 		event_execute_label_reaction_time_person.Text = "";
 		event_execute_label_reaction_time_session.Text = "";
 
+		notebook_results_data.Visible = true;
 		notebook_results_data.CurrentPage = 4;
 	}
 
@@ -455,6 +461,7 @@ public partial class ChronoJumpWindow
 		event_execute_label_pulse_now.Text = "";
 		event_execute_label_pulse_avg.Text = "";
 
+		notebook_results_data.Visible = true;
 		notebook_results_data.CurrentPage = 5;
 	}
 	
@@ -1083,7 +1090,7 @@ TODO: use specific method
 			int lWidth = 1;
 			int lHeight = 1;
 			layoutBig.GetPixelSize(out lWidth, out lHeight); 
-			event_execute_pixmap.DrawLayout (pen_negro, 
+			event_execute_pixmap.DrawLayout (pen_black, 
 					Convert.ToInt32(x - lWidth/2), 
 					//Convert.ToInt32(alto/2 - lHeight/2), 
 					//10,
@@ -1098,7 +1105,7 @@ TODO: use specific method
 			int lWidth = 1;
 			int lHeight = 1;
 			layoutBig.GetPixelSize(out lWidth, out lHeight); 
-			event_execute_pixmap.DrawLayout (pen_negro, 
+			event_execute_pixmap.DrawLayout (pen_black, 
 					Convert.ToInt32(ancho/2 - lWidth/2), 
 					Convert.ToInt32(alto/2 - lHeight/2), 
 					layoutBig);
@@ -1110,7 +1117,7 @@ TODO: use specific method
 		int lWidth = 1;
 		int lHeight = 1;
 		layoutMid.GetPixelSize(out lWidth, out lHeight); 
-		event_execute_pixmap.DrawLayout (pen_negro, 
+		event_execute_pixmap.DrawLayout (pen_black, 
 				//Convert.ToInt32(x - lWidth/2), 
 				//x, 
 				Convert.ToInt32(x - lWidth/2),
@@ -1126,7 +1133,7 @@ TODO: use specific method
 		int count;
 		
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
-		writeMarginsText(eventGraph.sessionMAXAtSQL, minValue, alto);
+		//writeMarginsText(eventGraph.sessionMAXAtSQL, minValue, alto);
 
 		//check now here that we will have not division by zero problems
 		if(maxValue - minValue <= 0)
@@ -1142,10 +1149,11 @@ TODO: use specific method
 		int barDesplLeft = Convert.ToInt32(.5*barWidth);
 
 		//paint first the average horizontal guides in order to be behind the bars
-		drawGuideOrAVG(pen_negro, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-		drawGuideOrAVG(pen_gris, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-		drawGuideOrAVG(pen_azul_claro, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-		drawGuideOrAVG(pen_azul_claro_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_black, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_black_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		
+		drawGuideOrAVG(pen_yellow, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
 		//red for TC
 		count = eventGraph.jumpsAtSQL.Length;
@@ -1160,9 +1168,9 @@ TODO: use specific method
 						);
 				event_execute_pixmap.DrawRectangle(pen_rojo, true, rect);
 				if(count == eventGraph.jumpsAtSQL.Length)
-					event_execute_pixmap.DrawRectangle(pen_yellow, false, rect);
+					event_execute_pixmap.DrawRectangle(pen_yellow_bars, false, rect);
 				else
-					event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
+					event_execute_pixmap.DrawRectangle(pen_black, false, rect);
 
 				count --;
 
@@ -1183,9 +1191,9 @@ TODO: use specific method
 							);
 					event_execute_pixmap.DrawRectangle(pen_azul_claro, true, rect);
 					if(count == eventGraph.jumpsAtSQL.Length)
-						event_execute_pixmap.DrawRectangle(pen_yellow, false, rect);
+						event_execute_pixmap.DrawRectangle(pen_yellow_bars, false, rect);
 					else
-						event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
+						event_execute_pixmap.DrawRectangle(pen_black, false, rect);
 
 					count --;
 				}
@@ -1205,9 +1213,9 @@ TODO: use specific method
 							);
 					event_execute_pixmap.DrawRectangle(pen_azul_claro, true, rect);
 					if(count == eventGraph.jumpsAtSQL.Length)
-						event_execute_pixmap.DrawRectangle(pen_yellow, false, rect);
+						event_execute_pixmap.DrawRectangle(pen_yellow_bars, false, rect);
 					else
-						event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
+						event_execute_pixmap.DrawRectangle(pen_black, false, rect);
 	
 					plotResultOnBar(x + barWidth/2, y, alto, Convert.ToDouble(Util.GetHeightInCentimeters(jump[5])));
 
@@ -1223,7 +1231,7 @@ TODO: use specific method
 				alto);
 
 		//paint reference guide black and green if needed
-		//drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		//drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		//drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 	}
 
@@ -1247,7 +1255,7 @@ TODO: use specific method
 			int barDesplLeft = Convert.ToInt32(.5*barWidth);
 			
 			//paint reference guide black and green if needed
-			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+			drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
 			//blue for TF
@@ -1267,7 +1275,7 @@ TODO: use specific method
 							);
 					//TODO: do speed related
 					event_execute_pixmap.DrawRectangle(pen_azul_claro, true, rect);
-					event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
+					event_execute_pixmap.DrawRectangle(pen_black, false, rect);
 					count ++;
 				}
 				
@@ -1313,7 +1321,7 @@ TODO: use specific method
 			}
 
 			//paint reference guide black and green if needed
-			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+			drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
 			
@@ -1508,7 +1516,7 @@ TODO: use specific method
 			}
 
 			//paint reference guide black and green if needed
-			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+			drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
 			
@@ -1617,7 +1625,7 @@ TODO: use specific method
 			drawGuideOrAVG(pen_azul_discont, avgTime, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
 			//paint reference guide black and green if needed
-			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+			drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
 			//blue time evolution	
@@ -2021,9 +2029,11 @@ TODO: use specific method
 	Gdk.GC pen_rojo_discont; //avg tc in reactive; jump avg sessionTc 
 	Gdk.GC pen_azul_claro_discont; //avg tf in reactive; jump avg sessionTv
 	Gdk.GC pen_azul_discont; //avg tf in reactive; jump avg sessionTv
-	Gdk.GC pen_negro; //borders of rectangle
-	Gdk.GC pen_yellow; //big yellow borders of rectangle (last event)
-	Gdk.GC pen_negro_discont; //guide
+	Gdk.GC pen_black; //borders of rectangle
+	Gdk.GC pen_yellow; //person max
+	Gdk.GC pen_yellow_discont; //person avg
+	Gdk.GC pen_yellow_bars; //big yellow borders of rectangle (last event)
+	Gdk.GC pen_black_discont; //guide
 	Gdk.GC pen_green_discont; //guide
 	Gdk.GC pen_gris; //textual data
 	Gdk.GC pen_beige_discont; //Y cols
@@ -2063,15 +2073,17 @@ TODO: use specific method
 		//-- Configurar los contextos graficos (pinceles)
 		pen_rojo = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_yellow = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_yellow_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_yellow_bars = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul_claro = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_rojo_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul_claro_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
-		//pen_negro = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		//pen_black = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		//pen_blanco= new Gdk.GC(event_execute_drawingarea.GdkWindow);
-		pen_negro = new Gdk.GC(event_execute_drawingarea.GdkWindow);
-		pen_negro_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_black = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_black_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_green_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_gris = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_beige_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
@@ -2090,20 +2102,24 @@ TODO: use specific method
 		pen_azul_claro_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_azul_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		
-		pen_negro.Foreground = negro;
+		pen_black.Foreground = negro;
 		pen_yellow.Foreground = yellow;
+		pen_yellow_discont.Foreground = yellow;
+		pen_yellow_bars.Foreground = yellow;
 
-		pen_negro_discont.Foreground = negro;
-		pen_negro_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+		pen_black_discont.Foreground = negro;
+		pen_black_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_green_discont.Foreground = green;
 		pen_green_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+		
+		pen_yellow_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		
 		pen_gris.Foreground = gris;
 
 		pen_beige_discont.Foreground = beige;
 		pen_beige_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		
-		pen_yellow.SetLineAttributes(2, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+		pen_yellow_bars.SetLineAttributes(2, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 
 		pen_brown_bold.Foreground = brown;
 		pen_brown_bold.SetLineAttributes(2, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);

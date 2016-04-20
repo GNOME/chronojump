@@ -270,6 +270,10 @@ RESOURCES = \
 	../images/stock_bell.png,stock_bell.png \
 	../images/stock_bell_green.png,stock_bell_green.png \
 	../images/stock_bell_red.png,stock_bell_red.png \
+	../images/line_session_max.png,line_session_max.png \
+	../images/line_session_avg.png,line_session_avg.png \
+	../images/line_person_max.png,line_person_max.png \
+	../images/line_person_avg.png,line_person_avg.png \
 	../images/audio-volume-high.png,audio-volume-high.png \
 	../images/audio-volume-muted.png,audio-volume-muted.png \
 	../images/chronopic_24.png,chronopic_24.png \

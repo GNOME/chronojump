@@ -5337,9 +5337,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.5102801"
-     inkscape:cx="145.14997"
-     inkscape:cy="171.16029"
+     inkscape:zoom="4.0571425"
+     inkscape:cx="443.85858"
+     inkscape:cy="267.64927"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
@@ -8477,5 +8477,172 @@
          x="-42.132053"
          y="981.16022"
          style="font-size:2px">encoder-analyze-1RM.png</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.68163776px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="312.04745"
+       y="1000.4445"
+       id="text3963-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3965-4"
+         x="312.04745"
+         y="1000.4445">all 16x16px</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.68163776px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="333.07413"
+       y="1035.1261"
+       id="text3963-8-3"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3965-4-8"
+         x="333.07413"
+         y="1035.1261">line_person_max.png</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.68163776px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="236.15991"
+       y="1042.007"
+       id="text3963-8-3-5"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3965-4-8-7"
+         x="236.15991"
+         y="1042.007">line_session_max.png</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.68163776px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="290.93176"
+       y="1084.3719"
+       id="text3963-8-3-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3965-4-8-4"
+         x="290.93176"
+         y="1084.3719">line_session_avg.png</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.68163776px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="384.76459"
+       y="1085.7003"
+       id="text3963-8-3-3"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3965-4-8-9"
+         x="384.76459"
+         y="1085.7003">line_person_avg.png</tspan></text>
+    <g
+       id="g5720"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/line_session_avg.png"
+       inkscape:export-xdpi="71.970001"
+       inkscape:export-ydpi="71.970001">
+      <rect
+         y="1053.7712"
+         x="308.76245"
+         height="20"
+         width="20"
+         id="rect4423-3-1"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <g
+         transform="translate(-6.127347,-0.87533528)"
+         id="g5656">
+        <rect
+           style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.4769018;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:6.734"
+           id="rect5545-1-4"
+           width="5.4947548"
+           height="2.7842968"
+           x="315.12851"
+           y="1063.2545" />
+        <rect
+           style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.4769018;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:6.734"
+           id="rect5545-1-4-1"
+           width="5.4947548"
+           height="2.7842968"
+           x="322.1424"
+           y="1063.2545" />
+        <rect
+           style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.4769018;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:6.734"
+           id="rect5545-1-4-8"
+           width="5.4947548"
+           height="2.7842968"
+           x="329.15628"
+           y="1063.2545" />
+      </g>
+    </g>
+    <g
+       id="g5716"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/line_session_max.png"
+       inkscape:export-xdpi="71.970001"
+       inkscape:export-ydpi="71.970001">
+      <rect
+         y="1053.2622"
+         x="255.37276"
+         height="20"
+         width="20"
+         id="rect4423-3-1-7"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <rect
+         y="1062.0496"
+         x="255.60973"
+         height="2.4252286"
+         width="19.52602"
+         id="rect5545-1-4-1-4"
+         style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0.47398013;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:6.734" />
+    </g>
+    <g
+       id="g5730"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/line_person_avg.png"
+       inkscape:export-xdpi="71.970001"
+       inkscape:export-ydpi="71.970001">
+      <rect
+         y="1053.5186"
+         x="407.56189"
+         height="20"
+         width="20"
+         id="rect4423-3-1-6"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <rect
+         y="1062.1266"
+         x="407.8006"
+         height="2.7842968"
+         width="5.4947548"
+         id="rect5545-1-4-6"
+         style="fill:#ffcc01;fill-opacity:1;stroke:#ffffff;stroke-width:0.47690179999999999;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:6.73399999999999999" />
+      <rect
+         y="1062.1266"
+         x="414.81448"
+         height="2.7842968"
+         width="5.4947548"
+         id="rect5545-1-4-1-2"
+         style="fill:#ffcc01;fill-opacity:1;stroke:#ffffff;stroke-width:0.47690179999999999;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:6.73399999999999999" />
+      <rect
+         y="1062.1266"
+         x="421.82837"
+         height="2.7842968"
+         width="5.4947548"
+         id="rect5545-1-4-8-9"
+         style="fill:#ffcc01;fill-opacity:1;stroke:#ffffff;stroke-width:0.47690179999999999;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:6.73399999999999999" />
+    </g>
+    <g
+       id="g5736"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/line_person_max.png"
+       inkscape:export-xdpi="71.970001"
+       inkscape:export-ydpi="71.970001">
+      <rect
+         y="1053.0095"
+         x="354.17221"
+         height="20"
+         width="20"
+         id="rect4423-3-1-7-7"
+         style="fill:#ffffff;fill-opacity:0;stroke:none" />
+      <rect
+         y="1061.7969"
+         x="354.40918"
+         height="2.4252286"
+         width="19.52602"
+         id="rect5545-1-4-1-4-4"
+         style="fill:#ffcc01;fill-opacity:1;stroke:#ffffff;stroke-width:0.47398013000000000;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:6.73399999999999999" />
+    </g>
   </g>
 </svg>

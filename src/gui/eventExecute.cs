@@ -177,7 +177,7 @@ public partial class ChronoJumpWindow
 	
 	int event_execute_radio = 8; 		//radious of the circles
 	int event_execute_arcSystemCorrection = 0; //on Windows circles are paint just one pixel left, fix it
-	int event_execute_rightMargin = 30; 	//at the right we write text (on windows we change later)
+	int event_execute_rightMargin = 35; 	//at the right we write text (on windows we change later)
 
 	/*
 	 * when click on destroy window, delete event is raised
@@ -216,7 +216,7 @@ public partial class ChronoJumpWindow
 		eventExecuteHideImages();
 		
 		if(UtilAll.IsWindows()) {
-			event_execute_rightMargin = 50;
+			event_execute_rightMargin = 55;
 			event_execute_arcSystemCorrection = 1;
 		}
 
@@ -227,7 +227,7 @@ public partial class ChronoJumpWindow
 			event_execute_label_simulated = Catalog.GetString("Simulated");
 
 		event_graph_label_graph_person.Text = personName;
-		event_graph_label_graph_test.Text = event_execute_eventType;
+		event_graph_label_graph_test.Text = "( " + event_execute_eventType + " )";
 				
 		event_execute_label_message.Text = "";
 
@@ -584,7 +584,7 @@ public partial class ChronoJumpWindow
 		
 		double maxValue = 0;
 		double minValue = 0;
-		int topMargin = 10; 
+		int topMargin = 20; 
 		int bottomMargin = 10; 
 
 		//if max value of graph is automatic
@@ -1084,6 +1084,19 @@ TODO: use specific method
 	}
 	
 	//used on simple tests
+	private void plotSimulatedMessage(int x, int alto) {
+		layoutMid.SetMarkup(event_execute_label_simulated);
+		int lWidth = 1;
+		int lHeight = 1;
+		layoutMid.GetPixelSize(out lWidth, out lHeight); 
+		event_execute_pixmap.DrawLayout (pen_black, 
+				Convert.ToInt32(x - lWidth/2), 
+				//Convert.ToInt32(alto/2 - lHeight/2), 
+				//10,
+				alto - lHeight, 
+				layoutMid);
+	}
+	//used on simple tests
 	private void plotSimulatedMessageIfNeededAtLast(int x, int alto) {
 		if(event_execute_label_simulated != "") {
 			layoutBig.SetMarkup(event_execute_label_simulated);
@@ -1117,9 +1130,13 @@ TODO: use specific method
 		int lWidth = 1;
 		int lHeight = 1;
 		layoutMid.GetPixelSize(out lWidth, out lHeight); 
+					
+		//draw rectangle behind
+		Rectangle rect = new Rectangle(x - lWidth/2, (y+alto)/2, lWidth, lHeight);
+		event_execute_pixmap.DrawRectangle(pen_yellow_bg, true, rect);
+		
+		//write text
 		event_execute_pixmap.DrawLayout (pen_black, 
-				//Convert.ToInt32(x - lWidth/2), 
-				//x, 
 				Convert.ToInt32(x - lWidth/2),
 				Convert.ToInt32((y+alto)/2),
 				layoutMid);
@@ -1149,7 +1166,7 @@ TODO: use specific method
 		int barDesplLeft = Convert.ToInt32(.5*barWidth);
 
 		//paint first the average horizontal guides in order to be behind the bars
-		drawGuideOrAVG(pen_black, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_black_90, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		drawGuideOrAVG(pen_black_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		
 		drawGuideOrAVG(pen_yellow, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
@@ -1168,10 +1185,10 @@ TODO: use specific method
 						);
 				event_execute_pixmap.DrawRectangle(pen_rojo, true, rect);
 				if(count == eventGraph.jumpsAtSQL.Length)
-					event_execute_pixmap.DrawRectangle(pen_yellow_bars, false, rect);
+					event_execute_pixmap.DrawRectangle(pen_black_bars, false, rect);
 				else
 					event_execute_pixmap.DrawRectangle(pen_black, false, rect);
-
+		
 				count --;
 
 			}
@@ -1191,7 +1208,7 @@ TODO: use specific method
 							);
 					event_execute_pixmap.DrawRectangle(pen_azul_claro, true, rect);
 					if(count == eventGraph.jumpsAtSQL.Length)
-						event_execute_pixmap.DrawRectangle(pen_yellow_bars, false, rect);
+						event_execute_pixmap.DrawRectangle(pen_black_bars, false, rect);
 					else
 						event_execute_pixmap.DrawRectangle(pen_black, false, rect);
 
@@ -1204,19 +1221,20 @@ TODO: use specific method
 				foreach(string myStr in eventGraph.jumpsAtSQL) {
 					string [] jump = myStr.Split(new char[] {':'});
 					//jump[5] is ok fo jump.tv and for reactionTime.time
+
 					int x = Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.jumpsAtSQL.Length)-barDesplLeft +tctfSep;
 					int y = calculatePaintHeight(Convert.ToDouble(Util.GetHeightInCentimeters(jump[5])), 
 							alto, maxValue, minValue, topMargin, bottomMargin);
-					Rectangle rect = new Rectangle(
-							x, y,
-							barWidth, alto
-							);
+					Rectangle rect = new Rectangle(x, y, barWidth, alto);
 					event_execute_pixmap.DrawRectangle(pen_azul_claro, true, rect);
 					if(count == eventGraph.jumpsAtSQL.Length)
-						event_execute_pixmap.DrawRectangle(pen_yellow_bars, false, rect);
+						event_execute_pixmap.DrawRectangle(pen_black_bars, false, rect);
 					else
 						event_execute_pixmap.DrawRectangle(pen_black, false, rect);
 	
+					if(jump[11] == "-1")
+						plotSimulatedMessage(x + barWidth/2, alto);
+
 					plotResultOnBar(x + barWidth/2, y, alto, Convert.ToDouble(Util.GetHeightInCentimeters(jump[5])));
 
 					count --;
@@ -1224,11 +1242,6 @@ TODO: use specific method
 			}
 		}
 
-
-		plotSimulatedMessageIfNeededAtLast(
-				Convert.ToInt32((ancho-event_execute_rightMargin)*(eventGraph.jumpsAtSQL.Length-.5)/
-					eventGraph.jumpsAtSQL.Length)-barDesplLeft + tctfSep + barWidth/2,
-				alto);
 
 		//paint reference guide black and green if needed
 		//drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
@@ -1879,10 +1892,10 @@ TODO: use specific method
 			return; //return if checkbox guide is not checked
 		else {
 			event_execute_pixmap.DrawLine(myPen, 
-					0, calculatePaintHeight(guideHeight, alto, maxValue, minValue, topMargin, bottomMargin),
+					10, calculatePaintHeight(guideHeight, alto, maxValue, minValue, topMargin, bottomMargin),
 					ancho - event_execute_rightMargin-2, calculatePaintHeight(guideHeight, alto, maxValue, minValue, topMargin, bottomMargin));
 			//write textual data
-			layout.SetMarkup((Math.Round(guideHeight,3)).ToString());
+			layout.SetMarkup((Math.Round(guideHeight,1)).ToString());
 			event_execute_pixmap.DrawLayout (pen_gris, ancho -event_execute_rightMargin, (int)calculatePaintHeight(guideHeight, alto, maxValue, minValue, topMargin, bottomMargin) -7, layout); //-7 for aligning with Courier 7 font baseline
 		}
 	}
@@ -2030,16 +2043,18 @@ TODO: use specific method
 	Gdk.GC pen_azul_claro_discont; //avg tf in reactive; jump avg sessionTv
 	Gdk.GC pen_azul_discont; //avg tf in reactive; jump avg sessionTv
 	Gdk.GC pen_black; //borders of rectangle
+	Gdk.GC pen_black_90; //max value on the top
 	Gdk.GC pen_yellow; //person max
 	Gdk.GC pen_yellow_discont; //person avg
-	Gdk.GC pen_yellow_bars; //big yellow borders of rectangle (last event)
+	Gdk.GC pen_yellow_bg; //below person result bar
 	Gdk.GC pen_black_discont; //guide
+	Gdk.GC pen_black_bars; //big borders of rectangle (last event)
 	Gdk.GC pen_green_discont; //guide
 	Gdk.GC pen_gris; //textual data
 	Gdk.GC pen_beige_discont; //Y cols
 	Gdk.GC pen_brown_bold; //best tv/tc in rj;
 	Gdk.GC pen_violet_bold; //worst tv/tc in rj
-	//Gdk.GC pen_blanco;
+	//Gdk.GC pen_white;
 	
 
 	void event_execute_configureColors()
@@ -2048,42 +2063,46 @@ TODO: use specific method
 		//Gdk.Color azul  = new Gdk.Color(0,0,0xff);
 		//Gdk.Color rojo = new Gdk.Color(238,0,0);
 		//Gdk.Color azul  = new Gdk.Color(178,223,238);
-		Gdk.Color negro = new Gdk.Color(0,0,0); 
+		Gdk.Color black = new Gdk.Color(0,0,0); 
+		Gdk.Color black_90 = new Gdk.Color(0x33,0x33,0x33); 
 		Gdk.Color yellow = new Gdk.Color(0xff,0xcc,0x01);
+		Gdk.Color yellow_bg = new Gdk.Color(0xff,0xee,0x66);
 		Gdk.Color green = new Gdk.Color(0,0xff,0);
 		Gdk.Color gris = new Gdk.Color(0x66,0x66,0x66);
 		Gdk.Color beige = new Gdk.Color(0x99,0x99,0x99);
 		Gdk.Color brown = new Gdk.Color(0xd6,0x88,0x33);
 		Gdk.Color violet = new Gdk.Color(0xc4,0x20,0xf3);
-		//Gdk.Color blanco = new Gdk.Color(0xff,0xff,0xff);
+		//Gdk.Color white = new Gdk.Color(0xff,0xff,0xff);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref UtilGtk.RED_PLOTS, true, true);
 		colormap.AllocColor (ref UtilGtk.BLUE_PLOTS,true,true);
 		colormap.AllocColor (ref UtilGtk.LIGHT_BLUE_PLOTS,true,true);
-		colormap.AllocColor (ref negro,true,true);
+		colormap.AllocColor (ref black,true,true);
 		colormap.AllocColor (ref yellow,true,true);
+		colormap.AllocColor (ref yellow_bg,true,true);
 		colormap.AllocColor (ref green,true,true);
 		colormap.AllocColor (ref gris,true,true);
 		colormap.AllocColor (ref beige,true,true);
 		colormap.AllocColor (ref brown,true,true);
 		colormap.AllocColor (ref violet,true,true);
-		//colormap.AllocColor (ref blanco,true,true);
+		//colormap.AllocColor (ref white,true,true);
 
 		//-- Configurar los contextos graficos (pinceles)
 		pen_rojo = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_yellow = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_yellow_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
-		pen_yellow_bars = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_yellow_bg = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul_claro = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_rojo_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul_claro_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
-		//pen_black = new Gdk.GC(event_execute_drawingarea.GdkWindow);
-		//pen_blanco= new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		//pen_white= new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_black = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_black_90 = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_black_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_black_bars = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_green_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_gris = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_beige_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
@@ -2102,13 +2121,16 @@ TODO: use specific method
 		pen_azul_claro_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_azul_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		
-		pen_black.Foreground = negro;
+		pen_black.Foreground = black;
+		pen_black_90.Foreground = black_90;
 		pen_yellow.Foreground = yellow;
 		pen_yellow_discont.Foreground = yellow;
-		pen_yellow_bars.Foreground = yellow;
+		pen_yellow_bg.Foreground = yellow_bg;
+		pen_black_bars.Foreground = black;
+		//pen_white.Foreground = white;
 
-		pen_black_discont.Foreground = negro;
-		pen_black_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+		pen_black_discont.Foreground = black;
+		pen_black_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Miter);
 		pen_green_discont.Foreground = green;
 		pen_green_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		
@@ -2119,7 +2141,7 @@ TODO: use specific method
 		pen_beige_discont.Foreground = beige;
 		pen_beige_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		
-		pen_yellow_bars.SetLineAttributes(2, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+		pen_black_bars.SetLineAttributes(3, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 
 		pen_brown_bold.Foreground = brown;
 		pen_brown_bold.SetLineAttributes(2, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);

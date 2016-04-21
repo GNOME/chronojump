@@ -89,7 +89,9 @@ class SqliteRun : Sqlite
 	//if all sessions, put -1 in sessionID
 	//if all persons, put -1 in personID
 	//if all types, put "" in filterType
-	public static string[] SelectRuns(bool dbconOpened, int sessionID, int personID, string filterType) 
+	//unlimited put -1 in limit
+	public static string[] SelectRuns(bool dbconOpened, int sessionID, int personID, string filterType,
+			Orders_by order, int limit) 
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -108,13 +110,23 @@ class SqliteRun : Sqlite
 		if(filterType != "")
 			filterTypeString = " AND run.type == \"" + filterType + "\" " ;
 
+		string orderByString = " ORDER BY upper(" + tp + ".name), run.uniqueID ";
+		if(order == Orders_by.ID_DESC)
+			orderByString = " ORDER BY run.uniqueID DESC ";
+		
+		string limitString = "";
+		if(limit != -1)
+			limitString = " LIMIT " + limit;
+
+
 		dbcmd.CommandText = "SELECT " + tp + ".name, run.* " +
 			" FROM " + tp + ", run " +
 			" WHERE " + tp + ".uniqueID == run.personID" + 
 			filterSessionString +
 			filterPersonString +
 			filterTypeString +
-			" ORDER BY upper(" + tp + ".name), run.uniqueID";
+			orderByString +
+			limitString;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

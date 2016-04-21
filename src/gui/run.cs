@@ -1259,7 +1259,8 @@ public class RunsMoreWindow : EventMoreWindow
 	}
 
 	protected override string [] findTestTypesInSessions() {
-		return SqliteRun.SelectRuns(false, -1, -1, selectedEventName); 
+		return SqliteRun.SelectRuns(false, -1, -1, selectedEventName,
+				Sqlite.Orders_by.DEFAULT, -1);
 	}
 
 	void on_button_cancel_clicked (object o, EventArgs args)

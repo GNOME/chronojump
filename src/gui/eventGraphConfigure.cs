@@ -50,7 +50,6 @@ public class EventGraphConfigureWindow
 	
 	[Widget] Gtk.CheckButton checkbutton_paint_circle;
 	[Widget] Gtk.CheckButton checkbutton_show_vertical_grid;
-	[Widget] Gtk.RadioButton radiobutton_time;
 	[Widget] Gtk.RadioButton radiobutton_speed;
 
 	
@@ -180,13 +179,6 @@ public class EventGraphConfigureWindow
 				return Convert.ToDouble(spinbutton_green_guide.Value);
 			else
 				return -1;
-		}
-	}
-	
-	//check if it's active from eventExecuteWindow
-	public bool RunsTimeActive {
-		get {
-			return (radiobutton_time.Active);
 		}
 	}
 	

@@ -62,22 +62,18 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button event_execute_button_update;
 	
 	
-	[Widget] Gtk.Table event_execute_table_jump_simple;
 	[Widget] Gtk.Table event_execute_table_jump_reactive;
-	[Widget] Gtk.Table event_execute_table_run_simple;
 	[Widget] Gtk.Table event_execute_table_run_interval;
 	[Widget] Gtk.Table event_execute_table_pulse;
 	[Widget] Gtk.Table event_execute_table_reaction_time;
 	
-	[Widget] Gtk.Table event_execute_table_jump_simple_values;
 	[Widget] Gtk.Table event_execute_table_jump_reactive_values;
-	[Widget] Gtk.Table event_execute_table_run_simple_values;
 	[Widget] Gtk.Table event_execute_table_run_interval_values;
 	[Widget] Gtk.Table event_execute_table_pulse_values;
 	[Widget] Gtk.Table event_execute_table_reaction_time_values;
+	
+	[Widget] Gtk.HBox hbox_results_legend;
 
-	[Widget] Gtk.HBox event_execute_hbox_jump_simple_titles;
-	[Widget] Gtk.HBox event_execute_hbox_run_simple_titles;
 	[Widget] Gtk.HBox event_execute_hbox_reaction_time_titles;
 
 	//for the color change in the background of the cell label
@@ -87,23 +83,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox event_execute_eventbox_jump_reactive_tc;
 	[Widget] Gtk.EventBox event_execute_eventbox_jump_reactive_tf;
 	//[Widget] Gtk.EventBox event_execute_eventbox_jump_reactive_tf_tc;
-	[Widget] Gtk.EventBox event_execute_eventbox_run_simple_time;
-	[Widget] Gtk.EventBox event_execute_eventbox_run_simple_speed;
 	[Widget] Gtk.EventBox event_execute_eventbox_run_interval_time;
 	[Widget] Gtk.EventBox event_execute_eventbox_run_interval_speed;
 	[Widget] Gtk.EventBox event_execute_eventbox_pulse_time;
 	[Widget] Gtk.EventBox event_execute_eventbox_reaction_time_time;
-
-	
-	[Widget] Gtk.Label event_execute_label_jump_simple_tc_now;
-	[Widget] Gtk.Label event_execute_label_jump_simple_tc_person;
-	[Widget] Gtk.Label event_execute_label_jump_simple_tc_session;
-	[Widget] Gtk.Label event_execute_label_jump_simple_tf_now;
-	[Widget] Gtk.Label event_execute_label_jump_simple_tf_person;
-	[Widget] Gtk.Label event_execute_label_jump_simple_tf_session;
-	[Widget] Gtk.Label event_execute_label_jump_simple_height_now;
-	[Widget] Gtk.Label event_execute_label_jump_simple_height_person;
-	[Widget] Gtk.Label event_execute_label_jump_simple_height_session;
 
 	[Widget] Gtk.Label event_execute_label_jump_reactive_height_now;
 	[Widget] Gtk.Label event_execute_label_jump_reactive_height_avg;
@@ -113,13 +96,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label event_execute_label_jump_reactive_tc_avg;
 	[Widget] Gtk.Label event_execute_label_jump_reactive_tf_tc_now;
 	[Widget] Gtk.Label event_execute_label_jump_reactive_tf_tc_avg;
-
-	[Widget] Gtk.Label event_execute_label_run_simple_time_now;
-	[Widget] Gtk.Label event_execute_label_run_simple_time_person;
-	[Widget] Gtk.Label event_execute_label_run_simple_time_session;
-	[Widget] Gtk.Label event_execute_label_run_simple_speed_now;
-	[Widget] Gtk.Label event_execute_label_run_simple_speed_person;
-	[Widget] Gtk.Label event_execute_label_run_simple_speed_session;
 
 	[Widget] Gtk.Label event_execute_label_run_interval_time_now;
 	[Widget] Gtk.Label event_execute_label_run_interval_time_avg;
@@ -226,8 +202,9 @@ public partial class ChronoJumpWindow
 		if(simulated) 
 			event_execute_label_simulated = Catalog.GetString("Simulated");
 
-		event_graph_label_graph_person.Text = personName;
-		event_graph_label_graph_test.Text = "( " + event_execute_eventType + " )";
+		event_graph_label_graph_person.Text = "<b>" + personName + "</b>";
+		event_graph_label_graph_person.UseMarkup = true; 
+		event_graph_label_graph_test.Text = " - " + event_execute_eventType;
 				
 		event_execute_label_message.Text = "";
 
@@ -269,8 +246,6 @@ public partial class ChronoJumpWindow
 		//event_execute_eventbox_jump_reactive_height.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
 		event_execute_eventbox_jump_reactive_tc.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
 		event_execute_eventbox_jump_reactive_tf.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS);
-		event_execute_eventbox_run_simple_time.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
-		event_execute_eventbox_run_simple_speed.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS);
 		event_execute_eventbox_run_interval_time.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
 		event_execute_eventbox_run_interval_speed.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS);
 		event_execute_eventbox_pulse_time.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS); //only one serie in pulse, leave blue
@@ -333,20 +308,11 @@ public partial class ChronoJumpWindow
 		event_execute_image_run_interval_time_bad.Hide();
 	}
 
-	private void eventExecuteHideAllTables() {
-		//hide simple jump info
-		event_execute_hbox_jump_simple_titles.Hide();
-		event_execute_table_jump_simple.Hide();
-		event_execute_table_jump_simple_values.Hide();
-		
+	private void eventExecuteHideAllTables() 
+	{
 		//hide reactive info
 		event_execute_table_jump_reactive.Hide();
 		event_execute_table_jump_reactive_values.Hide();
-		
-		//hide run simple info
-		event_execute_hbox_run_simple_titles.Hide();
-		event_execute_table_run_simple.Hide();
-		event_execute_table_run_simple_values.Hide();
 		
 		//hide run interval info
 		event_execute_table_run_interval.Hide();
@@ -362,31 +328,19 @@ public partial class ChronoJumpWindow
 		event_execute_table_reaction_time_values.Hide();
 	}
 	
-	private void showJumpSimpleLabels() {
-		/*
-		//show simple jump info
-		event_execute_hbox_jump_simple_titles.Show();
-		event_execute_table_jump_simple.Show();
-		event_execute_table_jump_simple_values.Show();
-
-		//initializeLabels
-		event_execute_label_jump_simple_tc_now.Text = "";
-		event_execute_label_jump_simple_tc_person.Text = "";
-		event_execute_label_jump_simple_tc_session.Text = "";
-		event_execute_label_jump_simple_tf_now.Text = "";
-		event_execute_label_jump_simple_tf_person.Text = "";
-		event_execute_label_jump_simple_tf_session.Text = "";
-		event_execute_label_jump_simple_height_now.Text = "";
-		event_execute_label_jump_simple_height_person.Text = "";
-		event_execute_label_jump_simple_height_session.Text = "";
-		*/
+	private void showJumpSimpleLabels() 
+	{
+		hbox_results_legend.Visible = true;
 
 		notebook_results_data.Visible = false;
 		//notebook_results_data.CurrentPage = 0;
 	}
 	
 	
-	private void showJumpReactiveLabels() {
+	private void showJumpReactiveLabels() 
+	{
+		hbox_results_legend.Visible = false;
+
 		//show reactive info
 		event_execute_table_jump_reactive.Show();
 		event_execute_table_jump_reactive_values.Show();
@@ -405,24 +359,18 @@ public partial class ChronoJumpWindow
 		notebook_results_data.CurrentPage = 1;
 	}
 	
-	private void showRunSimpleLabels() {
-		//show run simple info
-		event_execute_hbox_run_simple_titles.Show();
-		event_execute_table_run_simple.Show();
-		event_execute_table_run_simple_values.Show();
-		
-		//initializeLabels
-		event_execute_label_run_simple_time_now.Text = "";
-		event_execute_label_run_simple_time_person.Text = "";
-		event_execute_label_run_simple_time_session.Text = "";
-		event_execute_label_run_simple_speed_now.Text = "";
-		event_execute_label_run_simple_speed_person.Text = "";
-		event_execute_label_run_simple_speed_session.Text = "";
+	private void showRunSimpleLabels() 
+	{
+		hbox_results_legend.Visible = true;
 
-		notebook_results_data.CurrentPage = 2;
+		notebook_results_data.Visible = false;
+		//notebook_results_data.CurrentPage = 2;
 	}
 		
-	private void showRunIntervalLabels() {
+	private void showRunIntervalLabels() 
+	{
+		hbox_results_legend.Visible = false;
+
 		//show run interval info
 		event_execute_table_run_interval.Show();
 		event_execute_table_run_interval_values.Show();
@@ -589,21 +537,6 @@ public partial class ChronoJumpWindow
 
 		//if max value of graph is automatic
 		if(eventGraphConfigureWin.Max == -1) {
-			/*
-			maxValue = Util.GetMax(
-					eventGraph.tv.ToString() + "=" + 
-					eventGraph.tvPersonAVGAtSQL.ToString() + "=" + eventGraph.tvSessionAVGAtSQL.ToString() + "=" +
-					eventGraph.tc.ToString() + "=" + 
-					eventGraph.tcPersonAVGAtSQL.ToString() + "=" + eventGraph.tcSessionAVGAtSQL.ToString());
-			foreach(string myStr in eventGraph.jumpsAtSQL) {
-				string [] jump = myStr.Split(new char[] {':'});
-				if(Convert.ToDouble(jump[5]) > maxValue)
-					maxValue = Convert.ToDouble(jump[5]); //tf
-				if(Convert.ToDouble(jump[6]) > maxValue)
-					maxValue = Convert.ToDouble(jump[6]); //tc
-			}
-			*/
-			
 			maxValue = eventGraph.sessionMAXAtSQL;
 
 			//fix if there's a max tc that's higher than max tv
@@ -734,82 +667,39 @@ public partial class ChronoJumpWindow
 		if(eventGraphConfigureWin == null)
 			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
 
-		
-		bool paintTime = false; //paint speed
-		if(eventGraphConfigureWin.RunsTimeActive) 
-			paintTime = true;
-		
-
+	
 		double maxValue = 0;
 		double minValue = 0;
-		int topMargin = 10; 
+		int topMargin = 20; 
 		int bottomMargin = 0; 
 
 		//if max value of graph is automatic
-		if(eventGraphConfigureWin.Max == -1) {
-			if(paintTime) {
-				maxValue = Util.GetMax(eventGraph.time.ToString() + "=" + 
-						eventGraph.timePersonAVGAtSQL.ToString() + "=" + eventGraph.timeSessionAVGAtSQL.ToString());
-				foreach(string myStr in eventGraph.runsAtSQL) {
-					string [] run = myStr.Split(new char[] {':'});
-					if(Convert.ToDouble(run[6]) > maxValue)
-						maxValue = Convert.ToDouble(run[6]); 
-				}
-			}
-			else {						//paint speed
-				maxValue = Util.GetMax(eventGraph.speed.ToString() + "=" + 
-						eventGraph.speedPersonAVGAtSQL.ToString() + "=" + eventGraph.speedSessionAVGAtSQL.ToString());
-				foreach(string myStr in eventGraph.runsAtSQL) {
-					string [] run = myStr.Split(new char[] {':'});
-					double mySpeed = Convert.ToDouble(Util.GetSpeed(run[5], run[6], true));
-					if(mySpeed > maxValue)
-						maxValue = mySpeed;
-				}
-			}
-		} else {
+		if(eventGraphConfigureWin.Max == -1)
+			maxValue = eventGraph.sessionMAXAtSQL;
+		else {
 			maxValue = eventGraphConfigureWin.Max;
 			topMargin = 0;
 		}
 			
 		//if min value of graph is automatic
+		/*
 		if(eventGraphConfigureWin.Min == -1) {
-			if(paintTime) {
-				minValue = Util.GetMin(eventGraph.time.ToString() + "=" + 
-						eventGraph.timePersonAVGAtSQL.ToString() + "=" + eventGraph.timeSessionAVGAtSQL.ToString());
-				foreach(string myStr in eventGraph.runsAtSQL) {
-					string [] run = myStr.Split(new char[] {':'});
-					if(Convert.ToDouble(run[6]) < minValue)
-						minValue = Convert.ToDouble(run[6]); 
-				}
-			}
-			else {
-				minValue = Util.GetMin(eventGraph.speed.ToString() + "=" + 
-						eventGraph.speedPersonAVGAtSQL.ToString() + "=" + eventGraph.speedSessionAVGAtSQL.ToString());
-				foreach(string myStr in eventGraph.runsAtSQL) {
-					string [] run = myStr.Split(new char[] {':'});
-					double mySpeed = Convert.ToDouble(Util.GetSpeed(run[5], run[6], true));
-					if(mySpeed < minValue)
-						minValue = mySpeed;
-				}
+			minValue = Util.GetMin(eventGraph.speed.ToString() + "=" + 
+					eventGraph.speedPersonAVGAtSQL.ToString() + "=" + eventGraph.speedSessionAVGAtSQL.ToString());
+			foreach(string myStr in eventGraph.runsAtSQL) {
+				string [] run = myStr.Split(new char[] {':'});
+				double mySpeed = Convert.ToDouble(Util.GetSpeed(run[5], run[6], true));
+				if(mySpeed < minValue)
+					minValue = mySpeed;
 			}
 		} else {
+		*/
 			minValue = eventGraphConfigureWin.Min;
-		}
+		//}
 			
-		
-		//paint graph
-		if(paintTime)
-			paintRunSimple (event_execute_drawingarea, pen_rojo, eventGraph.runsAtSQL, 
-					eventGraph.time, eventGraph.timePersonAVGAtSQL, eventGraph.timeSessionAVGAtSQL, 
-					maxValue, minValue, topMargin, bottomMargin);
-		else						//paint speed
-			paintRunSimple (event_execute_drawingarea, pen_azul_claro, eventGraph.runsAtSQL, 
-					eventGraph.speed, eventGraph.speedPersonAVGAtSQL, eventGraph.speedSessionAVGAtSQL, 
+			paintRunSimple (event_execute_drawingarea, eventGraph,
 					maxValue, minValue, topMargin, bottomMargin);
 		
-		//printLabels
-		printLabelsRunSimple (eventGraph.time, eventGraph.timePersonAVGAtSQL, eventGraph.timeSessionAVGAtSQL, 
-				eventGraph.speed, eventGraph.speedPersonAVGAtSQL, eventGraph.speedSessionAVGAtSQL);
 		
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
@@ -824,23 +714,15 @@ public partial class ChronoJumpWindow
 		if(eventGraphConfigureWin == null)
 			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
 
-		bool paintTime = false; //paint speed
-		if(eventGraphConfigureWin.RunsTimeActive) 
-			paintTime = true;
-
 		//search MAX 
 		double maxValue = 0;
-		int topMargin = 10;
+		int topMargin = 20;
 		//if max value of graph is automatic
 		if(eventGraphConfigureWin.Max == -1) {
-			if(paintTime)
-				maxValue = Util.GetMax(timesString);
-			else {
-				if(distancesString == "")
-					maxValue = distance / Util.GetMin(timesString); //getMin because is on the "denominador"
-				else
-					maxValue = Util.GetRunIVariableDistancesSpeeds(distancesString, timesString, true);
-			}
+			if(distancesString == "")
+				maxValue = distance / Util.GetMin(timesString); //getMin because is on the "denominador"
+			else
+				maxValue = Util.GetRunIVariableDistancesSpeeds(distancesString, timesString, true);
 		} else {
 			maxValue = eventGraphConfigureWin.Max;
 			topMargin = 0;
@@ -851,14 +733,10 @@ public partial class ChronoJumpWindow
 		int bottomMargin = 0; 
 		//if min value of graph is automatic
 		if(eventGraphConfigureWin.Min == -1) { 
-			if(paintTime)
-				minValue = Util.GetMin(timesString);
-			else {
-				if(distancesString == "")
-					minValue = distance / Util.GetMax(timesString); //getMax because is in the "denominador"
-				else
-					minValue = Util.GetRunIVariableDistancesSpeeds(distancesString, timesString, false);
-			}
+			if(distancesString == "")
+				minValue = distance / Util.GetMax(timesString); //getMax because is in the "denominador"
+			else
+				minValue = Util.GetRunIVariableDistancesSpeeds(distancesString, timesString, false);
 		} else {
 			minValue = eventGraphConfigureWin.Min;
 		}		
@@ -866,7 +744,7 @@ public partial class ChronoJumpWindow
 		int tracks = Util.GetNumberOfJumps(timesString, true); 
 
 		//paint graph
-		paintRunInterval (event_execute_drawingarea, paintTime, distance, distanceTotal, distancesString,
+		paintRunInterval (event_execute_drawingarea, distance, distanceTotal, distancesString,
 				lastTime, timesString, Util.GetAverage(timesString), 
 				maxValue, minValue, tracks, topMargin, bottomMargin,
 				Util.GetPosMax(timesString), Util.GetPosMin(timesString),
@@ -886,7 +764,7 @@ public partial class ChronoJumpWindow
 
 		//search MAX 
 		double maxValue = 0;
-		int topMargin = 10;
+		int topMargin = 20;
 		//if max value of graph is automatic
 		if(eventGraphConfigureWin.Max == -1) 
 			maxValue = Util.GetMax(timesString);
@@ -925,7 +803,7 @@ public partial class ChronoJumpWindow
 
 		double maxValue = 0;
 		double minValue = 0;
-		int topMargin = 10; 
+		int topMargin = 20; 
 		int bottomMargin = 0; 
 
 		//if max value of graph is automatic
@@ -981,7 +859,7 @@ TODO: use specific method
 
 		//search MAX 
 		double maxValue = 0;
-		int topMargin = 10;
+		int topMargin = 20;
 		//if max value of graph is automatic
 		/*
 		if(eventGraphConfigureWin.Max == -1) 
@@ -1020,20 +898,6 @@ TODO: use specific method
 		event_execute_drawingarea.QueueDraw();
 	}
 	
-	
-	private void printLabelsRunSimple (double timeNow, double timePerson, double timeSession, double speedNow, double speedPerson, double speedSession) {
-		event_execute_label_run_simple_time_now.Text = "<b>" + Util.TrimDecimals(timeNow.ToString(), preferences.digitsNumber) + "</b>";
-		event_execute_label_run_simple_time_now.UseMarkup = true; 
-		
-		event_execute_label_run_simple_time_person.Text = Util.TrimDecimals(timePerson.ToString(), preferences.digitsNumber);
-		event_execute_label_run_simple_time_session.Text = Util.TrimDecimals(timeSession.ToString(), preferences.digitsNumber);
-		
-		event_execute_label_run_simple_speed_now.Text = "<b>" + Util.TrimDecimals(speedNow.ToString(), preferences.digitsNumber) + "</b>";
-		event_execute_label_run_simple_speed_now.UseMarkup = true; 
-		
-		event_execute_label_run_simple_speed_person.Text = Util.TrimDecimals(speedPerson.ToString(), preferences.digitsNumber);
-		event_execute_label_run_simple_speed_session.Text = Util.TrimDecimals(speedSession.ToString(), preferences.digitsNumber);
-	}
 	
 	private void printLabelsReactionTime (double timeNow, double timePerson, double timeSession) {
 		event_execute_label_reaction_time_now.Text =  "<b>" + Util.TrimDecimals(timeNow.ToString(), preferences.digitsNumber) + "</b>";
@@ -1138,6 +1002,10 @@ TODO: use specific method
 			count --;
 		}
 
+		if(eventGraph.tc > 0)
+			addUnitsToLabel("s");
+		else
+			addUnitsToLabel("cm");
 
 		//paint reference guide black and green if needed
 		//drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
@@ -1187,63 +1055,60 @@ TODO: use specific method
 				layout);
 	}
 
+	private void addUnitsToLabel(string unit) {
+		event_graph_label_graph_test.Text = event_graph_label_graph_test.Text + " (" + unit + ")";
+	}
 
-	private void paintRunSimple (Gtk.DrawingArea drawingarea, Gdk.GC myPen, string [] runs, 
-			double now, double person, double session,
+	private void paintRunSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphRunSimple eventGraph,
 			double maxValue, double minValue, int topMargin, int bottomMargin)
 	{
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
-		int count;
 		
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
-		writeMarginsText(maxValue, minValue, alto);
+		//writeMarginsText(maxValue, minValue, alto);
 		
 		//check now here that we will have not division by zero problems
-		if(maxValue - minValue > 0) {
-			//calculate bar width
-			int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/runs.Length) -
-					Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/runs.Length);
-			int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
-			int barDesplLeft = Convert.ToInt32(.5*barWidth);
-			
-			//paint reference guide black and green if needed
-			drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-
-			//blue for TF
-			count = 0;
-			if(now > 0) {
-				//blue tf average discountinuos line	
-				drawGuideOrAVG(pen_azul_claro, 	person, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-				drawGuideOrAVG(pen_azul_claro_discont, session, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		if(maxValue - minValue <= 0)
+			return;
 		
-				foreach(string myStr in runs) {
-					string [] run = myStr.Split(new char[] {':'});
-					Rectangle rect = new Rectangle(
-							Convert.ToInt32((ancho-event_execute_rightMargin)*(count+.5)/runs.Length)-barDesplLeft, 
-							calculatePaintHeight(Convert.ToDouble(run[6]), alto, maxValue, minValue, 
-								topMargin, bottomMargin),
-							barWidth, alto
-							);
-					//TODO: do speed related
-					event_execute_pixmap.DrawRectangle(pen_azul_claro, true, rect);
-					event_execute_pixmap.DrawRectangle(pen_black, false, rect);
-					count ++;
-				}
-				
-				//write "last" to show last jump
-				layoutSmall.SetMarkup(Catalog.GetString("Last"));
-				event_execute_pixmap.DrawLayout (pen_gris, 
-						Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/runs.Length)-barDesplLeft, 
-						0, layoutSmall);
-			}
+		//calculate bar width
+		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/eventGraph.runsAtSQL.Length) -
+			Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/eventGraph.runsAtSQL.Length);
+		int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
+		int barDesplLeft = Convert.ToInt32(.5*barWidth);
+
+		/*
+		//paint reference guide black and green if needed
+		drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		*/
+
+		//blue for TF
 			
-			plotSimulatedMessageIfNeededAtLast(
-					Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/runs.Length)-barDesplLeft 
-					+ barWidth/2,
-				       	alto);
+		drawGuideOrAVG(pen_black_90, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_black_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_yellow, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+
+		int x = 0;
+		int y = 0;
+		int count = eventGraph.runsAtSQL.Length;
+		foreach(string myStr in eventGraph.runsAtSQL) {
+			string [] run = myStr.Split(new char[] {':'});
+			if(Convert.ToDouble(run[5]) > 0 && Convert.ToDouble(run[6]) > 0) {
+				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.runsAtSQL.Length)-barDesplLeft;
+				y = calculatePaintHeight(Convert.ToDouble(run[5])/Convert.ToDouble(run[6]), alto, maxValue, minValue, 
+						topMargin, bottomMargin);
+
+				drawBar(x, y, barWidth, alto, pen_azul_claro, count == eventGraph.runsAtSQL.Length,
+						run[8] == "-1", Convert.ToDouble(run[5])/Convert.ToDouble(run[6]), layoutMid);
+			}
+
+			count --;
 		}
+			
+		addUnitsToLabel("m/s");
 	}
 
 	
@@ -1442,7 +1307,7 @@ TODO: use specific method
 			event_execute_label_jump_reactive_tf_tc_avg.Text = "0";
 	}
 
-	private void paintRunInterval (Gtk.DrawingArea drawingarea, bool paintTime, double distance, double distanceTotal, string distancesString, double lastTime, 
+	private void paintRunInterval (Gtk.DrawingArea drawingarea, double distance, double distanceTotal, string distancesString, double lastTime, 
 			string timesString, double avgTime, double maxValue, double minValue, int tracks, int topMargin, int bottomMargin, 
 			int hightValuePosition, int lowValuePosition,
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin)
@@ -1460,12 +1325,8 @@ TODO: use specific method
 		if(maxValue - minValue > 0) {
 
 			if(tracks > 1) {
-				if(paintTime) 
-					//red time average discountinuos line	
-					drawGuideOrAVG(pen_rojo_discont, avgTime, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-				else 
-					//blue speed average discountinuos line	
-					drawGuideOrAVG(pen_azul_discont, distance/avgTime, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+				//blue speed average discountinuos line	
+				drawGuideOrAVG(pen_azul_discont, distance/avgTime, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			}
 
 			//paint reference guide black and green if needed
@@ -1486,20 +1347,14 @@ TODO: use specific method
 				if(myTimeDouble < 0)
 					myTimeDouble = 0;
 
-				if(paintTime) {
-					//red time evolution
-					myPen = pen_rojo;
-					myValue = myTimeDouble;
-				} else {
-					//blue speed evolution	
-					myPen = pen_azul;
+				//blue speed evolution	
+				myPen = pen_azul;
 
-					//if distances are variable
-					if(distancesString == "") 
-						myValue = distance / myTimeDouble;
-					else
-						myValue = Util.GetRunIVariableDistancesStringRow(distancesString, count) / myTimeDouble;
-				}
+				//if distances are variable
+				if(distancesString == "") 
+					myValue = distance / myTimeDouble;
+				else
+					myValue = Util.GetRunIVariableDistancesStringRow(distancesString, count) / myTimeDouble;
 
 				if (count > 0) {
 					event_execute_pixmap.DrawLine(myPen,

@@ -59,6 +59,7 @@ public class PrepareEventGraphJumpSimple {
 	
 	public double personMAXAtSQL;
 	public double sessionMAXAtSQL;
+
 	public double personAVGAtSQL;
 	public double sessionAVGAtSQL;
 
@@ -77,7 +78,7 @@ public class PrepareEventGraphJumpSimple {
 
 		//select data from SQL to update graph	
 		jumpsAtSQL = SqliteJump.SelectJumps(true, sessionID, personID, "", type,
-				Sqlite.Orders_by.ID_DESC, 10); //select only last 10 jumps
+				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
 
 		string sqlSelect = "";
 		if(tv > 0) {
@@ -127,10 +128,12 @@ public class PrepareEventGraphJumpReactive {
 public class PrepareEventGraphRunSimple {
 	//sql data of previous runs to plot graph and show stats at bottom
 	public string [] runsAtSQL;
-	public double timePersonAVGAtSQL;
-	public double timeSessionAVGAtSQL;
-	public double speedPersonAVGAtSQL;
-	public double speedSessionAVGAtSQL;
+	
+	public double personMAXAtSQL;
+	public double sessionMAXAtSQL;
+
+	public double personAVGAtSQL;
+	public double sessionAVGAtSQL;
 	
 	public double time;
 	public double speed;
@@ -143,11 +146,15 @@ public class PrepareEventGraphRunSimple {
 		Sqlite.Open();
 		
 		//obtain data
-		runsAtSQL = SqliteRun.SelectRuns(true, sessionID, personID, type);
+		runsAtSQL = SqliteRun.SelectRuns(true, sessionID, personID, type,
+				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
 
-		timePersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, "time");
-		timeSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, "time");
-
+		
+		string sqlSelect = "distance/time";
+		
+		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
+		sessionMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
+		
 		//distancePersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, "distance");
 		//distanceSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, "distance");
 		//better to know speed like:
@@ -155,9 +162,8 @@ public class PrepareEventGraphRunSimple {
 		//SELECT AVG(distance) / SELECT AVG(time) 
 		//first is ok, because is the speed AVG
 		//2nd is not good because it tries to do an AVG of all distances and times
-		speedPersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, "distance/time");
-		speedSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, "distance/time");
-		
+		personAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
+		sessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
 		
 		this.time = time;
 		this.speed = speed;

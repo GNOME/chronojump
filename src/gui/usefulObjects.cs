@@ -84,7 +84,7 @@ public class PrepareEventGraphJumpSimple {
 			if(tc <= 0)
 				sqlSelect = "100*4.9*(TV/2)*(TV/2)";
 			else
-				sqlSelect = "TV";
+				sqlSelect = "TV"; //if tc is higher than tv it will be fixed on PrepareJumpSimpleGraph
 		} else
 			sqlSelect = "TC";
 		

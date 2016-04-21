@@ -6602,6 +6602,7 @@ after time</property>
                                                             <widget class="GtkHBox" id="hbox88">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="event_graph_label_graph_person">
                                                             <property name="visible">True</property>
@@ -6615,25 +6616,6 @@ after time</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkAlignment" id="alignment15">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label151">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label"> ( </property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkLabel" id="event_graph_label_graph_test">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -6641,19 +6623,7 @@ after time</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label160">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label"> ) </property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -6663,6 +6633,11 @@ after time</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkAlignment" id="alignment15">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="right_padding">25</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox105">
                                                             <property name="visible">True</property>
@@ -6813,10 +6788,11 @@ after time</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="padding">20</property>
                                                             <property name="pack_type">end</property>
                                                             <property name="position">1</property>
                                                             </packing>
@@ -7058,7 +7034,6 @@ after time</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkNotebook" id="notebook_results_data">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="show_tabs">False</property>
                                                             <property name="show_border">False</property>
@@ -7395,6 +7370,9 @@ after time</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -9653,6 +9631,9 @@ after time</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">2</property>
@@ -10134,6 +10115,9 @@ after time</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -19227,6 +19211,9 @@ on current Chronojump version.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -23835,6 +23822,9 @@ by you</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -24224,6 +24214,9 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -26505,6 +26498,9 @@ by you</property>
               <placeholder/>
             </child>
             <child>
+              <placeholder/>
+            </child>
+            <child>
               <widget class="GtkButton" id="button_video_url">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -26527,6 +26523,9 @@ by you</property>
                 <property name="x_options"/>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -39702,6 +39701,24 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -40893,6 +40910,18 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="n_columns">4</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                     <child>
                       <placeholder/>
                     </child>
@@ -43357,9 +43386,6 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                       <placeholder/>
                                     </child>
                                     <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
                                       <widget class="GtkLabel" id="label218">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
@@ -43730,6 +43756,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                         <property name="left_attach">2</property>
                                         <property name="right_attach">3</property>
                                       </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
                                     </child>
                                     <child>
                                       <placeholder/>
@@ -48423,6 +48452,9 @@ It starts before and arrives there with some speed.</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -48449,6 +48481,9 @@ It starts before and arrives there with some speed.</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -49244,6 +49279,9 @@ It starts before and arrives there with some speed.</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

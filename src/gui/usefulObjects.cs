@@ -213,8 +213,12 @@ public class PrepareEventGraphPulse {
 public class PrepareEventGraphReactionTime {
 	//sql data of previous rts to plot graph and show stats at bottom
 	public string [] rtsAtSQL;
-	public double timePersonAVGAtSQL;
-	public double timeSessionAVGAtSQL;
+	public double personMAXAtSQL;
+	public double sessionMAXAtSQL;
+	public double personMINAtSQL;
+	public double sessionMINAtSQL;
+	public double personAVGAtSQL;
+	public double sessionAVGAtSQL;
 
 	public double time;
 
@@ -226,11 +230,22 @@ public class PrepareEventGraphReactionTime {
 		Sqlite.Open();
 
 		//obtain data
-		rtsAtSQL = SqliteReactionTime.SelectReactionTimes(true, sessionID, personID);
-
-		timePersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
+		rtsAtSQL = SqliteReactionTime.SelectReactionTimes(true, sessionID, personID,
+				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
+		
+		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(
 				true, sessionID, personID, table, type, "time");
-		timeSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
+		sessionMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(
+				true, sessionID, -1, table, type, "time");
+		
+		personMINAtSQL = SqliteSession.SelectMINEventsOfAType(
+				true, sessionID, personID, table, type, "time");
+		sessionMINAtSQL = SqliteSession.SelectMINEventsOfAType(
+				true, sessionID, -1, table, type, "time");
+
+		personAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
+				true, sessionID, personID, table, type, "time");
+		sessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
 				true, sessionID, -1, table, type, "time");
 		
 		Sqlite.Close();

@@ -84,7 +84,8 @@ class SqliteReactionTime : Sqlite
 	}
 
 	//if all persons, put -1 in personID
-	public static string[] SelectReactionTimes(bool dbconOpened, int sessionID, int personID) 
+	public static string[] SelectReactionTimes(bool dbconOpened, int sessionID, int personID,
+			Orders_by order, int limit) 
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -94,13 +95,23 @@ class SqliteReactionTime : Sqlite
 		string filterPersonString = "";
 		if(personID != -1)
 			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
+		
+		string orderByString = " ORDER BY upper(" + tp + ".name), reactionTime.uniqueID";
+		if(order == Orders_by.ID_DESC)
+			orderByString = " ORDER BY reactionTime.uniqueID DESC ";
+		
+		string limitString = "";
+		if(limit != -1)
+			limitString = " LIMIT " + limit;
+
 
 		dbcmd.CommandText = "SELECT " + tp + ".name, reactionTime.* " +
 			" FROM " + tp + ", reactionTime " +
 			" WHERE " + tp + ".uniqueID == reactionTime.personID" + 
 			" AND reactionTime.sessionID == " + sessionID + 
 			filterPersonString +
-			" ORDER BY upper(" + tp + ".name), reactionTime.uniqueID";
+			orderByString +
+			limitString;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

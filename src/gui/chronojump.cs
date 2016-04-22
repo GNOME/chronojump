@@ -1842,7 +1842,9 @@ public partial class ChronoJumpWindow
 		fillTreeView_reaction_times (false);
 	}
 	private void fillTreeView_reaction_times (bool dbconOpened) {
-		string [] myRTs = SqliteReactionTime.SelectReactionTimes(dbconOpened, currentSession.UniqueID, -1);
+		string [] myRTs = SqliteReactionTime.SelectReactionTimes(dbconOpened, currentSession.UniqueID, -1,
+				Sqlite.Orders_by.DEFAULT, -1);
+
 		myTreeViewReactionTimes.Fill(myRTs, "");
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewReactionTimes, treeview_reaction_times);
 	}
@@ -3814,13 +3816,23 @@ public partial class ChronoJumpWindow
 		}
 
 		//if a test has been deleted
-		//notebook_results_data changes to page 8: "deleted test"
+		//notebook_results_data changes to page 3: "deleted test"
 		//when a new test is done
 		//this notebook has to poing again to data of it's test
-		//then just show same page as notebook_execute
-		notebook_results_data.CurrentPage = notebook_execute.CurrentPage;
+		change_notebook_results_data();
 	}
 
+	private void change_notebook_results_data()
+	{
+		//there are some notebook_execut pages that have not notebook_results_data pages
+		//like jump simple (0), run simple (2), reaction time (4)
+		if(notebook_execute.CurrentPage == 1) //reactive jump
+			notebook_results_data.CurrentPage = 0;
+		else if(notebook_execute.CurrentPage == 3) //interval run
+			notebook_results_data.CurrentPage = 1;
+		else if(notebook_execute.CurrentPage == 5) //pulse
+			notebook_results_data.CurrentPage = 2;
+	}
 
 	//changes the image about the text on the bottom left of main screen	
 	private void changeTestImage(string eventTypeString, string eventName, string fileNameString) {
@@ -5463,7 +5475,7 @@ LogB.Debug("X");
 	private void deleted_last_test_update_widgets() {
 		vbox_this_test_buttons.Sensitive = false;
 		UtilGtk.ClearDrawingArea(event_execute_drawingarea, event_execute_pixmap);
-		notebook_results_data.CurrentPage = 7; //shows "deleted test"
+		notebook_results_data.CurrentPage = 3; //shows "deleted test"
 	}
 	
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
@@ -6099,7 +6111,7 @@ LogB.Debug("X");
 		//delete capture graph 
 		UtilGtk.ClearDrawingArea(event_execute_drawingarea, event_execute_pixmap);
 		//change table under graph
-		notebook_results_data.CurrentPage = notebook_execute.CurrentPage;
+		change_notebook_results_data();
 
 		while(notebook_results.CurrentPage < desiredPage) 
 			notebook_results.NextPage();

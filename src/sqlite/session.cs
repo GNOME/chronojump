@@ -564,6 +564,10 @@ class SqliteSession : Sqlite
 	{
 		return selectEventsOfAType(dbconOpened, sessionID, personID, table, type, valueToSelect, "MAX");
 	}
+	public static double SelectMINEventsOfAType(bool dbconOpened, int sessionID, int personID, string table, string type, string valueToSelect) 
+	{
+		return selectEventsOfAType(dbconOpened, sessionID, personID, table, type, valueToSelect, "MIN");
+	}
 	public static double selectEventsOfAType(bool dbconOpened, int sessionID, int personID, 
 			string table, string type, string valueToSelect, string statistic) 
 	{

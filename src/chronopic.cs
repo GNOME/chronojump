@@ -115,6 +115,9 @@ public class Chronopic {
 		//-- produzca un timeout
 		ok = Read_cambio(trama);
 
+		LogB.Warning("after Read_cambio =");
+		LogB.Warning(ok.ToString());
+
 		//-- Si hay timeout o errores
 		if (ok==false) {
 			plataforma = Plataforma.UNKNOW;
@@ -167,7 +170,7 @@ public class Chronopic {
 		}
 
 		
-		sp.Write("V");
+		sp.Write("n");
 		LogB.Information("Version: " + 
 				(char) sp.ReadByte() +
 				(char) sp.ReadByte() +
@@ -310,6 +313,8 @@ public class Chronopic {
 			do {
 				try {
 					n = sp.Read(respuesta,count,5-count);
+					LogB.Warning("respuesta = ");
+					LogB.Warning(respuesta.ToString());
 					count+=n;
 					success = true;
 				} catch {}

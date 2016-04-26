@@ -206,10 +206,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_delete_selected_reaction_time;
 	[Widget] Gtk.SpinButton spinbutton_animation_lights_speed;
 	[Widget] Gtk.SpinButton spinbutton_flicker_lights_speed;
-	[Widget] Gtk.RadioButton radiobutton_reaction_time_disc_lr;
-	[Widget] Gtk.RadioButton radiobutton_reaction_time_disc_ly;
-	[Widget] Gtk.RadioButton radiobutton_reaction_time_disc_lg;
-	[Widget] Gtk.RadioButton radiobutton_reaction_time_disc_bz;
+	[Widget] Gtk.CheckButton check_reaction_time_disc_red;
+	[Widget] Gtk.CheckButton check_reaction_time_disc_yellow;
+	[Widget] Gtk.CheckButton check_reaction_time_disc_green;
+	[Widget] Gtk.CheckButton check_reaction_time_disc_buzzer;
 	[Widget] Gtk.SpinButton spinbutton_discriminative_lights_minimum;
 	[Widget] Gtk.SpinButton spinbutton_discriminative_lights_maximum;
 
@@ -4519,9 +4519,20 @@ public partial class ChronoJumpWindow
 
 		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);
-		
-		currentEventExecute.Manage();
+	
+		if(extra_window_radio_reaction_time_discriminative.Active) {
+			//TODO: do also for animation_lights and flickr
+			currentEventExecute.StartIn = false;
 
+			currentEventExecute.DiscriminativeCharToSend = discriminativeCharToSend;
+			currentEventExecute.DiscriminativeStartTime = discriminativeStartTime;
+			currentEventExecute.SP = chronopicWin.SP;
+		} else {
+			currentEventExecute.DiscriminativeCharToSend = "";
+			currentEventExecute.DiscriminativeStartTime = 0;
+		}
+		currentEventExecute.Manage(); //check that platform is ok
+		
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);

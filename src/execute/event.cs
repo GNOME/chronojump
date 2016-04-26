@@ -149,8 +149,15 @@ public class EventExecute
 	protected bool totallyCancelledMulti2;
 	protected bool totallyCancelledMulti3;
 	protected bool totallyCancelledMulti4;
-	
 
+
+	//for reaction time	
+	//on animation lights and discriminative should be false
+	public bool StartIn = true;
+	public string DiscriminativeCharToSend;
+	public int DiscriminativeStartTime;
+	public SerialPort SP;
+	
 
 	//protected EventExecuteWindow eventExecuteWin;
 	//protected ChronoJumpWindow app1;

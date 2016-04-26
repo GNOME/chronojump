@@ -9,7 +9,7 @@
   	implementation of new outputs
 	anticipation in an animated "led-wheel", using pauses on Timer2
 	fast blinking led (flickr)
-  2016 Ferran Suarez & Xavier de Blas: Validation of led-wheel
+  2016 Ferran Suarez & Xavier de Blas: reaction time: Validation of led-wheel, discriminative fully implemented
 
 
  *
@@ -34,7 +34,7 @@ History:
              modify ISR and MAIN LOOP's if --> else if
              limit COUNTDEBOUNCE overflow in INTERRUPT(isr)
 	     assembler is more efficient than C
-  2012-04-19 if PC send command 'J' for port scanning, Chronopic will return 'J'  2014-08-30 if PC send command 'V' for getting version, ex: 2.1\n
+  2012-04-19 if PC send command 'J' for port scanning, Chronopic will return 'J'  2014-08-30 if PC send command 'n' for getting version, ex: 2.1\n
   	     if PC send command 'a' get debounce time , ex:0x01
 	     if PC send command 'bx' for setting debounce time, x is from byte value 0~255(\x0 ~ \xFF) 
   2015-02-19 
@@ -123,21 +123,31 @@ unsigned char my_char;
 unsigned char i = 0, j = 0;
 unsigned char option = 0;     // option: 0 button enable, 1 encoder enable
 unsigned char command_port_scanning = 'J';	// for port scanning, it will return 'J'
-unsigned char command_get_version = 'V';	// for getting version, it will return '2.1'
+unsigned char command_get_version = 'n';	// for getting version, it will return '2.1'
 unsigned char command_get_debounce_time = 'a';	// for getting debounce time, it will return x:0~255(HEX)
 unsigned char command_set_debounce_time = 'b';	// for setting debounce time, pc send two unsigned char, 'Sx' -- x:0~255
-unsigned char command_reaction_time_rb3_on = 'R';
-unsigned char command_reaction_time_rb6_on = 'S';
-unsigned char command_reaction_time_rb7_on = 'T';
-unsigned char command_reaction_time_rb3_off = 'r';
-unsigned char command_reaction_time_rb6_off = 's';
-unsigned char command_reaction_time_rb7_off = 't';
 unsigned char command_reaction_time_animation_light = 'l';
 unsigned char command_reaction_time_animation_flicker = 'f';
-unsigned char command_reaction_time_animation_discriminative1 = 'd'; //d for 'd'iscriminative
-unsigned char command_reaction_time_animation_discriminative2 = 'D';
-unsigned char command_reaction_time_animation_discriminative3 = 'i'; //i for d'i'scriminative
-unsigned char command_reaction_time_animation_discriminative4 = 'I';
+
+unsigned char command_reaction_time_disc_red 		= 'r';
+unsigned char command_reaction_time_disc_yellow 	= 's';
+unsigned char command_reaction_time_disc_green 		= 't';
+unsigned char command_reaction_time_disc_red_yellow	= 'u';
+unsigned char command_reaction_time_disc_red_green	= 'v';
+unsigned char command_reaction_time_disc_yellow_green	= 'w';
+unsigned char command_reaction_time_disc_all		= 'x';
+
+unsigned char command_reaction_time_disc_red_bz 	= 'R';
+unsigned char command_reaction_time_disc_yellow_bz 	= 'S';
+unsigned char command_reaction_time_disc_green_bz 	= 'T';
+unsigned char command_reaction_time_disc_red_yellow_bz	= 'U';
+unsigned char command_reaction_time_disc_red_green_bz	= 'V';
+unsigned char command_reaction_time_disc_yellow_green_bz= 'W';
+unsigned char command_reaction_time_disc_all_bz		= 'X';
+
+unsigned char command_reaction_time_disc_only_bz	= 'Z';
+
+
 unsigned char position = 0;
 unsigned int timer2Times;
 
@@ -150,11 +160,14 @@ unsigned int timer2Times;
 //TODO: maybe n_times have to be done 4 times to have reasonable values (between 0.0125 and 3.2 seconds)
 //2016 - With 1000 fps camera validation, found animation_tick=63 the best value
 unsigned int animation_tick = 63;
-unsigned int animation_tick_n_times = 160;
+unsigned int animation_tick_n_times = 160; //default value
 
 unsigned char animation_light_should_run = 0; //0 until and 'l' is sent from Chronojump
 unsigned char flicker_light_should_run = 0; //0 until and 'f' is sent from Chronojump
+
+unsigned char discriminative_light_should_run = 0; 
 unsigned char discriminative_running = 0;
+unsigned char discriminative_light_signal;
 
 char version_major = '1';
 char version_minor = '1';
@@ -164,6 +177,13 @@ char version_minor = '1';
 
 //-- encoder's valus
 //char encoder_count = 0; //wade
+
+void zero_value_timer_1()
+{
+	TMR1HH = 0;
+	TMR1H = 0;
+	TMR1L = 0;
+}
 
 
 // Interruptions routine
@@ -211,9 +231,7 @@ void isr(void) __interrupt 0
 			{
 				//-- It's the first event after reset
 				//-- Put counter on zero and go to status reset=0
-				TMR1HH = 0;
-				TMR1H = 0;
-				TMR1L = 0;
+				zero_value_timer_1();
 				reset = 0;
 			}
 			//-- Store the value of chronometer on TIMESTAMP
@@ -222,9 +240,7 @@ void isr(void) __interrupt 0
 			TIMESTAMP_H = TMR1H;
 			TIMESTAMP_L = TMR1L;
 			//-- Initialize timer 1
-			TMR1HH = 0;
-			TMR1H = 0;
-			TMR1L = 0;
+			zero_value_timer_1();
 			//-- Initialize debouncing counter
 			COUNTDEBOUNCE =  DEBOUNCE_TIME;
 
@@ -525,22 +541,29 @@ void reaction_time_flicker_do()
 	}
 }
 
-void reaction_time_discriminative_do(char mode)
+void reaction_time_discriminative_do() 
 {
-	switch(mode) {
-		case 'd':
+	//1st put timer to 0
+    	zero_value_timer_1();
+	
+	//2nd fire signal
+	switch(discriminative_light_signal) {
+		case 'r':
 			RB7 = 0; RB3 = 1; RB0 = 0; RB2 = 0; //light red
 			break;
-		case 'D':
+		case 's':
 			RB7 = 0; RB3 = 0; RB0 = 1; RB2 = 1; //light yellow
 			break;
-		case 'i':
+		case 't':
 			RB7 = 0; RB3 = 0; RB0 = 1; RB2 = 0; //light green
 			break;
-		case 'I':
+		case 'Z':
 			RB7 = 0; RB3 = 0; RB0 = 0; RB2 = 1; //buzzer
 			break;
 	}
+	
+	//3rd don't call this again
+	discriminative_light_should_run = 2;
 }
 void reaction_time_discriminative_stop()
 {
@@ -705,9 +728,7 @@ void main(void)
 	T1CON = 0X31;
     // wade : end
     //-- Zero value
-    TMR1HH = 0;
-    TMR1H = 0;
-    TMR1L = 0;
+    zero_value_timer_1();
     //-- Enable interruption
     // wade : sart
     if (option == 0)
@@ -787,7 +808,7 @@ void main(void)
     //initialize lights stuff for animation wheel
     position = 0;
     timer2Times = animation_tick_n_times;
-    timer2_start();
+    timer2_start(); //TODO: delete this?
 
     
     //****************************
@@ -815,24 +836,24 @@ void main(void)
 			status_serv();
 	    	else if (my_char == command_port_scanning)	// 'J'
 			sci_sendchar(command_port_scanning);
-		else if (my_char == command_get_version)	// 'V'
+		else if (my_char == command_get_version)	// 'n'
 			send_version();
 		else if (my_char == command_get_debounce_time)	// 'a'
 			sci_sendline(DEBOUNCE_TIME + '0'); 	//if DEBOUNCE is 50ms (0x05), returns a 5 (5 * 10ms = 50ms)
 		else if (my_char == command_set_debounce_time)	// 'b'
 			DEBOUNCE_TIME = sci_readchar();
-		else if (my_char == command_reaction_time_rb3_on) // 'R'
-			RB0 = 1; //RB3 = 1
-		else if (my_char == command_reaction_time_rb6_on) // 'S'
-			RB2 = 1; //RB6 = 1
-		else if (my_char == command_reaction_time_rb7_on) // 'T'
-			RB7 = 1;
-		else if (my_char == command_reaction_time_rb3_off) // 'r'
-			RB0 = 0; //RB3 = 0
-		else if (my_char == command_reaction_time_rb6_off) // 's'
-			RB2 = 0; //RB6 = 0
-		else if (my_char == command_reaction_time_rb7_off) // 't'
-			RB7 = 0;
+		//else if (my_char == command_reaction_time_rb3_on) // 'R'
+		//	RB0 = 1; //RB3 = 1
+		//else if (my_char == command_reaction_time_rb6_on) // 'S'
+		//	RB2 = 1; //RB6 = 1
+		//else if (my_char == command_reaction_time_rb7_on) // 'T'
+		//	RB7 = 1;
+		//else if (my_char == command_reaction_time_rb3_off) // 'r'
+		//	RB0 = 0; //RB3 = 0
+		//else if (my_char == command_reaction_time_rb6_off) // 's'
+		//	RB2 = 0; //RB6 = 0
+		//else if (my_char == command_reaction_time_rb7_off) // 't'
+		//	RB7 = 0;
 		else if (my_char == command_reaction_time_animation_light) { // 'l'
 			animation_light_convert(sci_readchar());
 			animation_light_should_run = 1;
@@ -842,13 +863,29 @@ void main(void)
 			flicker_light_should_run = 1;
 		}
 		else if (
-				my_char == command_reaction_time_animation_discriminative1 ||
-				my_char == command_reaction_time_animation_discriminative2 ||
-				my_char == command_reaction_time_animation_discriminative3 ||
-				my_char == command_reaction_time_animation_discriminative4 ) 
-		{ // 'd', 'D', 'i', 'I'
-			reaction_time_discriminative_do(my_char);
-			discriminative_running = 1;
+				my_char == command_reaction_time_disc_red ||
+				my_char == command_reaction_time_disc_yellow ||
+				my_char == command_reaction_time_disc_green ||
+				my_char == command_reaction_time_disc_red_yellow ||
+				my_char == command_reaction_time_disc_red_green ||
+				my_char == command_reaction_time_disc_yellow_green ||
+				my_char == command_reaction_time_disc_all ||
+				my_char == command_reaction_time_disc_red_bz ||
+				my_char == command_reaction_time_disc_yellow_bz ||
+				my_char == command_reaction_time_disc_green_bz ||
+				my_char == command_reaction_time_disc_red_yellow_bz ||
+				my_char == command_reaction_time_disc_red_green_bz ||
+				my_char == command_reaction_time_disc_yellow_green_bz ||
+				my_char == command_reaction_time_disc_all_bz ||
+				my_char == command_reaction_time_disc_only_bz
+			) {
+			//use 10ms debounce
+			DEBOUNCE_TIME = 0x01;
+
+			//reaction_time_discriminative_do(my_char);
+			discriminative_light_signal = my_char;
+		
+			discriminative_light_should_run = 1;
 		}
 		else
 			send_error();
@@ -864,6 +901,10 @@ void main(void)
 			reaction_time_animation_lights_do();
 		else if(flicker_light_should_run == 1)
 			reaction_time_flicker_do();
+		else if(discriminative_light_should_run == 1) {
+			discriminative_running = 1;
+			reaction_time_discriminative_do();
+		}
 	    }
 	    else if (status == STAT_DEBOUNCE)   // status = DEBOUNCE?
 	    {

@@ -442,7 +442,7 @@ public class ChronopicAutoCheck : ChronopicAuto
 		IsChronopicAuto = ( (char) sp.ReadByte() == 'J');
 		if (IsChronopicAuto) 
 		{
-			sp.Write("V");
+			sp.Write("n");
 			int major = (char) sp.ReadByte() - '0'; 
 			sp.ReadByte(); 		//.
 			int minor = (char) sp.ReadByte() - '0'; 
@@ -540,14 +540,14 @@ public class ChronopicStartReactionTimeAnimation : ChronopicAuto
 				b = 0x6c;
 			else if(CharToSend == "f")
 				b = 0x66;
-			else if(CharToSend == "d")
-				b = 0x64;
-			else if(CharToSend == "D")
-				b = 0x44;
-			else if(CharToSend == "i")
-				b = 0x69;
-			else if(CharToSend == "I")
-				b = 0x49;
+			else if(CharToSend == "r")
+				b = 0x72;
+			else if(CharToSend == "s")
+				b = 0x73;
+			else if(CharToSend == "t")
+				b = 0x74;
+			else if(CharToSend == "Z")
+				b = 0x5A;
 			else
 				return "ERROR";
 

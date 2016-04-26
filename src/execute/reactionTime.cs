@@ -96,18 +96,29 @@ public class ReactionTimeExecute : EventExecute
 		//boolean to know if chronopic has been disconnected	
 		chronopicDisconnected = false;
 
+		LogB.Error("at Manage!");
+
 		if (simulated) 
 			platformState = Chronopic.Plataforma.ON;
 		else
 			platformState = chronopicInitialValue(cp);
+	
+		bool canStart = false;
+		if ( 
+				(StartIn && platformState == Chronopic.Plataforma.ON) ||
+				(! StartIn && platformState == Chronopic.Plataforma.OFF) )
+			canStart = true;
+			
 		
-		
-		if (platformState==Chronopic.Plataforma.ON) {
-			feedbackMessage = Catalog.GetString("You are IN, RELEASE when prepared!");
+		if (canStart) {
+			feedbackMessage = Catalog.GetString("You are IN, RELEASE when prepared!"); //TODO: change this
 			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
-			loggedState = States.ON;
+			if(StartIn)
+				loggedState = States.ON;
+			else
+				loggedState = States.OFF;
 
 			//prepare reactionTime for being cancelled if desired
 			cancel = false;
@@ -115,7 +126,7 @@ public class ReactionTimeExecute : EventExecute
 
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that we have leaved platform:
-			if (simulated)
+			if (simulated) //TODO: check loggedState and StartIn
 				platformState = Chronopic.Plataforma.OFF;
 			
 			//start thread
@@ -126,10 +137,11 @@ public class ReactionTimeExecute : EventExecute
 			LogB.ThreadStart(); 
 			thread.Start(); 
 		} 
-		else if (platformState==Chronopic.Plataforma.OFF) {
+		else if (! canStart && (platformState == Chronopic.Plataforma.ON || platformState == Chronopic.Plataforma.OFF) )
+		{
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show( 
-					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "", "");
+					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "", ""); //TODO:change this
 			//System.Media.SystemSounds.Beep.Play();
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
@@ -139,29 +151,62 @@ public class ReactionTimeExecute : EventExecute
 			//if confirmWin.Button_cancel is pressed retuen
 			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
 		}
-		else { //UNKNOW (Chronopic disconnected, port changed, ...)
+		else { //UNKNOW (Chronopic disconnected, port changed, ...) platformStart == some error
 			chronopicHasBeenDisconnected();
 		}
 	}
 
-	
 	protected override void waitEvent ()
 	{
+		if(DiscriminativeCharToSend != "") {
+			Thread.Sleep(DiscriminativeStartTime * 1000); //TODO: this hangs the interface, find a better way. Now should work (PulseGTK has been called)
+
+			ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
+			cs.CharToSend = DiscriminativeCharToSend;
+			cs.Write(SP, DiscriminativeStartTime);
+
+			LogB.Information("opening port");	
+			SP.Open();
+
+			LogB.Information("reading one");	
+			byte[] buffer = new byte[256];
+			SP.Read(buffer,0,256);
+			LogB.Information("readed");	
+
+			LogB.Information("reading two");	
+			buffer = new byte[256];
+			SP.Read(buffer,0,256);
+			LogB.Information("readed");	
+
+			LogB.Information("closing port");	
+			SP.Close();
+			//TODO: end discriminative stuff!!!!
+		}
+
 		double timestamp = 0;
 		bool success = false;
 		
 		bool ok;
-		
+	
+		LogB.Information("Inside waitEvent");	
 		do {
 			if(simulated)
 				ok = true;
 			else 
 				ok = cp.Read_event(out timestamp, out platformState);
+		
+			LogB.Information("Inside do");	
+			LogB.Information("cancel == ");	
+			LogB.Information(cancel.ToString());	
+			LogB.Information("ok == ");	
+			LogB.Information(ok.ToString());	
 			
 			//if (ok) {
 			if (ok && !cancel) {
+				LogB.Information("ok!");	
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) 
 				{
+					//LogB.Information("condition guai! hem entrat!");	
 					//has landed
 					if(simulated)
 						timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
@@ -189,6 +234,7 @@ public class ReactionTimeExecute : EventExecute
 				}
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) 
 				{
+					//LogB.Information("condition hem sortit");	
 			
 					//it's out, was inside (= has released)
 					

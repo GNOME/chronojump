@@ -163,6 +163,8 @@ public partial class ChronoJumpWindow
 		ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
 		cs.CharToSend = "l";
 		cs.Write(chronopicWin.SP,speed);
+
+		on_button_execute_test_clicked(o, args);
 	}
 	
 	private void on_button_flicker_lights_start_clicked (object o, EventArgs args) {
@@ -170,21 +172,77 @@ public partial class ChronoJumpWindow
 		ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
 		cs.CharToSend = "f";
 		cs.Write(chronopicWin.SP,speed);
+
+		on_button_execute_test_clicked(o, args);
 	}
 
-	private void on_button_discriminative_lights_start_clicked (object o, EventArgs args) {
-		//int speed = Convert.ToInt32(spinbutton_flicker_lights_speed.Value); //TODO
-		ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
-		if(radiobutton_reaction_time_disc_lr.Active == true)
-			cs.CharToSend = "d";
-		else if(radiobutton_reaction_time_disc_ly.Active == true)
-			cs.CharToSend = "D";
-		else if(radiobutton_reaction_time_disc_lg.Active == true)
-			cs.CharToSend = "i";
-		else if(radiobutton_reaction_time_disc_bz.Active == true)
-			cs.CharToSend = "I";
-		cs.Write(chronopicWin.SP,0); //TODO
+	private string discriminativeCharToSend;
+	private int discriminativeStartTime;
+
+	private void on_button_discriminative_lights_start_clicked (object o, EventArgs args) 
+	{
+		//TODO: check if nothing activated, Start should be unsensitive
+
+		if(check_reaction_time_disc_buzzer.Active == true) //all this are with buzzer
+		{
+			if(check_reaction_time_disc_red.Active == true) {
+				if(check_reaction_time_disc_yellow.Active == true) {
+					if(check_reaction_time_disc_green.Active == true)
+						discriminativeCharToSend = "X";		//all lights
+					else
+						discriminativeCharToSend = "U";		//red + yellow
+				} else { //! yellow
+					if(check_reaction_time_disc_green.Active == true)
+						discriminativeCharToSend = "V";		//red + green
+					else
+						discriminativeCharToSend = "R";		//red
+				}
+			} else {	// ! red
+				if(check_reaction_time_disc_yellow.Active == true) {
+					if(check_reaction_time_disc_green.Active == true)
+						discriminativeCharToSend = "W";		//yellow + green
+					else
+						discriminativeCharToSend = "S";		//yellow
+				} else {	// ! yellow
+					if(check_reaction_time_disc_green.Active == true)
+						discriminativeCharToSend = "T";			//green
+					else
+						discriminativeCharToSend = "Z";			//only buzzer
+				}
+			}
+		} else {					//all this are without buzzer
+			if(check_reaction_time_disc_red.Active == true) {
+				if(check_reaction_time_disc_yellow.Active == true) {
+					if(check_reaction_time_disc_green.Active == true)
+						discriminativeCharToSend = "x";		//all lights
+					else
+						discriminativeCharToSend = "u";		//red + yellow
+				} else { //! yellow
+					if(check_reaction_time_disc_green.Active == true)
+						discriminativeCharToSend = "v";		//red + green
+					else
+						discriminativeCharToSend = "r";		//red
+				}
+			} else {	// ! red
+				if(check_reaction_time_disc_yellow.Active == true) {
+					if(check_reaction_time_disc_green.Active == true)
+						discriminativeCharToSend = "w";		//yellow + green
+					else
+						discriminativeCharToSend = "s";		//yellow
+				} else // ! yellow
+					discriminativeCharToSend = "t";			//green
+			}
+		}
+		
+		discriminativeStartTime = Convert.ToInt32(spinbutton_discriminative_lights_minimum.Value);
+						
+		LogB.Information("discriminativeCharToSend");
+		LogB.Information(discriminativeCharToSend);
+		
+		on_button_execute_test_clicked(o, args);
 	}
+
+
 
 	//---- unused
 	

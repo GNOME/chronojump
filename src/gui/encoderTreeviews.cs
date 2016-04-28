@@ -334,17 +334,14 @@ public partial class ChronoJumpWindow
 	{
 		int bestRow = 0;
 		if(saveOption == Constants.EncoderAutoSaveCurve.BEST) {
-			//get the concentric curves
-			EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.CON));
-			bestRow = encoderSignal.FindPosOfBest(mainVariable);
-			
-			//convert from c to ec. eg.
-			//three concentric curves: c[0], c[1], c[2]
-			//coming from three ecc-con: e[0], c[1], e[2], c[3], e[4], c[5]
-			//if from first list, c[2] is the best, then on second list it will be the ec curve: e[4],c[5]
-			//always multiply *2
-			if(ecconLast != "c")
-				bestRow *= 2;
+			if(ecconLast == "c") {
+				//get the concentric curves
+				EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.CON));
+				bestRow = encoderSignal.FindPosOfBest(mainVariable);
+			} else {
+				EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.ALL));
+				bestRow = encoderSignal.FindPosOfBestEccCon(mainVariable); //will be pos of the ecc
+			}
 		}
 
 
@@ -413,19 +410,6 @@ public partial class ChronoJumpWindow
 			iterOk = encoderCaptureListStore.IterNext (ref iter);
 		}
 		
-		//combo_encoder_capture_show_save_curve_button();
-		
-		/* temporarily removed message
-		 *
-		string message = "";
-		if(saveOption == Constants.EncoderAutoSaveCurve.NONE)
-			message = Catalog.GetString("Removed");
-		else
-			message = Catalog.GetString("Saved");
-		label_encoder_curve_action.Text = message + " " + messageRows;
-		*/
-
-			
 		updateUserCurvesLabelsAndCombo(true);
 		
 		Sqlite.Close();

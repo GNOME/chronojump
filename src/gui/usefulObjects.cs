@@ -313,3 +313,35 @@ public class UpdateProgressBar {
 
 	~UpdateProgressBar() {}
 }
+
+//for animate last jump, run, pulse on a bar graph
+public class MovingBar {
+	public int X;
+	public int Y; //y will go from (y + alto -2) to y (ytop)
+	public int Width;
+	public int Alto; //always 1
+
+	public int YTop; //stored y value
+	public int AltoTop; //stored alto value
+	
+	public Gdk.GC Pen_bar_bg;
+	public bool Simulated;
+	public double Result;
+	public Pango.Layout Layout;
+	
+	public MovingBar(int x, int y, int width, int alto, int yTop, int altoTop, 
+			Gdk.GC pen_bar_bg, bool simulated, double result, Pango.Layout layout) {
+		this.X = x;
+		this.Y = y;
+		this.Width = width;
+		this.Alto = alto;
+		this.YTop = yTop;
+		this.AltoTop = altoTop;
+		this.Pen_bar_bg = pen_bar_bg;
+		this.Simulated = simulated;
+		this.Result = result;
+		this.Layout = layout;
+	}
+
+	~MovingBar() {}
+}

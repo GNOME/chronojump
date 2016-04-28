@@ -910,6 +910,7 @@ public partial class ChronoJumpWindow
 		drawGuideOrAVG(pen_yellow, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
+		bool animate;
 		int x = 0;
 		int y = 0;
 		int count = eventGraph.jumpsAtSQL.Length;
@@ -922,19 +923,24 @@ public partial class ChronoJumpWindow
 				Pango.Layout layout = layoutMid;
 				if(eventGraph.tv > 0 && eventGraph.jumpsAtSQL.Length > 4)
 					layout = layoutSmall;
+				
+				//do not animate last tc, if tv is animated because then tc is not shown
+				animate = true;
+				if(eventGraph.tv >0)
+					animate = false;
 
 				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.jumpsAtSQL.Length)-barDesplLeft;
 				y = calculatePaintHeight(Convert.ToDouble(jump[6]), alto, maxValue, minValue, topMargin, bottomMargin);
 				
 				drawBar(x, y, barWidth, alto, pen_rojo, count == eventGraph.jumpsAtSQL.Length,
-						jump[11] == "-1", Convert.ToDouble(jump[6]), layout);
+						jump[11] == "-1", Convert.ToDouble(jump[6]), layout, animate);
 			
 				if(eventGraph.tv > 0) {
 					x = Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.jumpsAtSQL.Length)-barDesplLeft +tctfSep;
 					y = calculatePaintHeight(Convert.ToDouble(jump[5]), alto, maxValue, minValue, topMargin, bottomMargin);
 					
 					drawBar(x, y, barWidth, alto, pen_azul_claro, count == eventGraph.jumpsAtSQL.Length,
-							jump[11] == "-1", Convert.ToDouble(jump[5]), layout);
+							jump[11] == "-1", Convert.ToDouble(jump[5]), layout, true);
 				}
 			} else { //if only tv show height
 				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.jumpsAtSQL.Length)-barDesplLeft +tctfSep;
@@ -942,7 +948,7 @@ public partial class ChronoJumpWindow
 						alto, maxValue, minValue, topMargin, bottomMargin);
 
 				drawBar(x, y, barWidth, alto, pen_azul_claro, count == eventGraph.jumpsAtSQL.Length,
-						jump[11] == "-1", Convert.ToDouble(Util.GetHeightInCentimeters(jump[5])), layoutMid);
+						jump[11] == "-1", Convert.ToDouble(Util.GetHeightInCentimeters(jump[5])), layoutMid, true);
 			}
 			count --;
 		}
@@ -957,21 +963,57 @@ public partial class ChronoJumpWindow
 		//drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 	}
 
+	MovingBar movingBar;
+
+	//TODO: if last tc and tf have to be painted, tc is not painted
 	private void drawBar(int x, int y, int barWidth, int alto, Gdk.GC pen_bar_bg, 
-			bool isLast, bool simulated, double result, Pango.Layout layout)
+			bool isLast, bool simulated, double result, Pango.Layout layout, bool animate)
 	{
-		Rectangle rect = new Rectangle(x, y, barWidth, alto);
-		event_execute_pixmap.DrawRectangle(pen_bar_bg, true, rect);
-		if(isLast)
-			event_execute_pixmap.DrawRectangle(pen_black_bars, false, rect);
-		else
+		if(isLast && animate) {
+			timerBar = true;
+			movingBar = new MovingBar(x, y + alto -1, barWidth, 1, y, alto, pen_bar_bg, simulated, result, layout);
+			GLib.Timeout.Add(1, new GLib.TimeoutHandler(OnTimerBar));
+		}
+		else {
+			Rectangle rect = new Rectangle(x, y, barWidth, alto);
+			event_execute_pixmap.DrawRectangle(pen_bar_bg, true, rect);
 			event_execute_pixmap.DrawRectangle(pen_black, false, rect);
+			
+			if(simulated)
+				plotSimulatedMessage(x + barWidth/2, alto, layout);
 
-		if(simulated)
-			plotSimulatedMessage(x + barWidth/2, alto, layout);
-
-		plotResultOnBar(x + barWidth/2, y, alto, result, layout);
+			plotResultOnBar(x + barWidth/2, y, alto, result, layout);
+		}
 	}
+
+	bool timerBar = true;
+	bool OnTimerBar() 
+	{ 
+		if (!timerBar) 
+			return false;
+			
+		Rectangle rect = new Rectangle(movingBar.X, movingBar.Y, movingBar.Width, movingBar.Alto);
+		event_execute_pixmap.DrawRectangle(movingBar.Pen_bar_bg, true, rect);
+		event_execute_drawingarea.QueueDrawArea(movingBar.X, movingBar.Y, movingBar.Width, movingBar.Alto);
+		
+		movingBar.Y = movingBar.Y -1;
+		if(movingBar.Y <= movingBar.YTop) {
+			rect = new Rectangle(movingBar.X, movingBar.YTop, movingBar.Width, movingBar.AltoTop);
+			event_execute_pixmap.DrawRectangle(pen_black, false, rect);
+			
+			if(movingBar.Simulated)
+				plotSimulatedMessage(movingBar.X + movingBar.Width/2, movingBar.AltoTop, movingBar.Layout);
+
+			plotResultOnBar(movingBar.X + movingBar.Width/2, movingBar.YTop, movingBar.AltoTop, movingBar.Result, movingBar.Layout);
+			
+			event_execute_drawingarea.QueueDraw();
+
+			timerBar = false;
+			return false;
+		}
+
+		return true;
+	}      
 	private void plotSimulatedMessage(int x, int alto, Pango.Layout layout) {
 		layout.SetMarkup(event_execute_label_simulated);
 		int lWidth = 1;
@@ -1047,7 +1089,7 @@ public partial class ChronoJumpWindow
 						topMargin, bottomMargin);
 
 				drawBar(x, y, barWidth, alto, pen_azul_claro, count == eventGraph.runsAtSQL.Length,
-						run[8] == "-1", Convert.ToDouble(run[5])/Convert.ToDouble(run[6]), layoutMid);
+						run[8] == "-1", Convert.ToDouble(run[5])/Convert.ToDouble(run[6]), layoutMid, true);
 			}
 
 			count --;
@@ -1096,7 +1138,7 @@ public partial class ChronoJumpWindow
 					topMargin, bottomMargin);
 
 			drawBar(x, y, barWidth, alto, pen_azul_claro, count == eventGraph.rtsAtSQL.Length,
-					rts[7] == "-1", Convert.ToDouble(rts[5]), layoutMid);
+					rts[7] == "-1", Convert.ToDouble(rts[5]), layoutMid, true);
 
 			count --;
 		}

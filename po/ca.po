@@ -5807,7 +5807,7 @@ msgstr "Drive: Efectueu exercicis on la forca es desenvolupi durant més temps."
 
 #: ../src/gui/encoder.cs:3386
 msgid "Analysis uses the best three jumps using 'jump height' criterion."
-msgstr "L'anàlisi fa servir el millor "
+msgstr "L'anàlisi fa servir els millors tres salts per l'alçada."
 
 #: ../src/gui/encoder.cs:3387
 msgid "Lapuente and De Blas. Adapted from Wagner:"

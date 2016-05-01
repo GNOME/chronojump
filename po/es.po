@@ -5851,7 +5851,7 @@ msgstr ""
 #: ../src/gui/encoder.cs:3000
 msgid "Analysis uses the best three jumps using 'jump height' criterion."
 msgstr ""
-"EL análisis usa los tres mejores tiempos usando el criterio de «altura del "
+"EL análisis usa los tres mejores saltos usando el criterio de «altura del "
 "salto»."
 
 #: ../src/gui/encoder.cs:3001

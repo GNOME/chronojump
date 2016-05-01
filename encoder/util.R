@@ -307,6 +307,20 @@ getAcceleration <- function(speed) {
 	return (predict( speed, deriv=1 ))
 }
 
+smoothSplineSafe <- function(a,b) 
+{
+	out <- tryCatch(
+			{
+				smooth.spline(a,b)
+			},        
+			error=function(cond) {
+				message(cond)
+				return(NULL)
+			}
+			)
+	return (out)
+}
+
 #gearedDown is positive, normally 2
 #this is not used on inertial machines
 getMass <- function(mass, gearedDown, angle) {

@@ -175,7 +175,13 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					next
 				}
 
-				smodel <- smooth.spline(y,x)
+				#smodel <- smooth.spline(y,x)
+				smodel <- smoothSplineSafe(y,x)
+				if(is.null(smodel)) {
+					smoothings[i] = smoothingOneC
+					next
+				}
+
 				smoothingOneEC <- predict(smodel, maxPowerConAtCon)$y
 				write(paste("smoothingOneEC", smoothingOneEC), stderr())
 					
@@ -228,7 +234,12 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					next
 				}
 
-				smodel <- smooth.spline(y,x)
+				#smodel <- smooth.spline(y,x)
+				smodel <- smoothSplineSafe(y,x)
+				if(is.null(smodel)) {
+					smoothings[i] = smoothingOneEC
+					next
+				}
 				smoothingOneEC <- predict(smodel, maxPowerConAtCon)$y
 					
 				#6 check if aproximation is OK

@@ -1527,11 +1527,11 @@ paintCrossVariablesLaterality <- function(x, y, laterality, colBalls)
 
 	if(length(unique(laterality)) > 1) 
 	{
-		if(length(laterality[laterality == "R"]) >= 3)
+		if(length(laterality[laterality == "R"]) >= 3 && length(unique(x[laterality == "R"])) > 1)
 			fitLine(x[laterality=="R"],y[laterality=="R"], "black", 1, 2)
-		if(length(laterality[laterality == "L"]) >= 3)
+		if(length(laterality[laterality == "L"]) >= 3 && length(unique(x[laterality == "L"])) > 1)
 			fitLine(x[laterality=="L"],y[laterality=="L"], "black", 1, 3)
-		if(length(laterality[laterality == "RL"]) >= 3)
+		if(length(laterality[laterality == "RL"]) >= 3 && length(unique(x[laterality == "RL"])) > 1)
 			fitLine(x[laterality=="RL"],y[laterality=="RL"], "black", 1, 4)
 	}
 }

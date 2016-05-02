@@ -2112,8 +2112,9 @@ quitIfNoData <- function(n, curves, outputData1) {
         debugParameters(listN(n, curves, outputData1), "quitIfNoData")
         
 	#if not found curves with this data, plot a "sorry" message and exit
-	if( n == 1 && 
-	   (is.na(curves[1,1]) || curves[1,1] == 0 || is.na(curves[1,2]) || curves[1,2] <= 0) ) { #bad curves[1,2] on inertial returns -1
+	if( n== 0 || 
+	   ( n == 1 && (is.na(curves[1,1]) || curves[1,1] == 0 || is.na(curves[1,2]) || curves[1,2] <= 0) )  #bad curves[1,2] on inertial returns -1
+	   ) {
 		plot(0,0,type="n",axes=F,xlab="",ylab="")
 		text(x=0,y=0,translateToPrint("Sorry, no curves matched your criteria."),cex=1.5)
 		dev.off()
@@ -2445,8 +2446,8 @@ doProcess <- function(options)
 		n=length(curves[,1])
 		quitIfNoData(n, curves, op$OutputData1)
 		
-		#print("curves before reduceCurveBySpeed")
-		#print(curves)
+		print("curves before reduceCurveBySpeed")
+		print(curves)
 	
 		#reduceCurveBySpeed, don't do in inertial because it doesn't do a good right adjust on changing phase
 		#what reduceCurveBySpeed is doing in inertial is adding a value at right, and this value is a descending value

@@ -177,7 +177,8 @@ public partial class ChronoJumpWindow
 	}
 
 	private string discriminativeCharToSend;
-	private int discriminativeStartTime;
+	private double discriminativeStartTime;
+	private Random rnd;
 
 	private void on_button_discriminative_lights_start_clicked (object o, EventArgs args) 
 	{
@@ -233,8 +234,15 @@ public partial class ChronoJumpWindow
 					discriminativeCharToSend = "t";			//green
 			}
 		}
-		
-		discriminativeStartTime = Convert.ToInt32(spinbutton_discriminative_lights_minimum.Value);
+	
+		rnd = new Random();
+		double rndDouble = rnd.NextDouble(); //double between 0 and 1
+		int range = Convert.ToInt32(spinbutton_discriminative_lights_maximum.Value) - 
+			Convert.ToInt32(spinbutton_discriminative_lights_minimum.Value);
+		discriminativeStartTime = (rndDouble * range) + Convert.ToInt32(spinbutton_discriminative_lights_minimum.Value);
+
+		LogB.Information("discriminativeStartTime");
+		LogB.Information(discriminativeStartTime.ToString());
 						
 		LogB.Information("discriminativeCharToSend");
 		LogB.Information(discriminativeCharToSend);

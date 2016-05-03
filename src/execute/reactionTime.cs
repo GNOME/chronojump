@@ -159,11 +159,11 @@ public class ReactionTimeExecute : EventExecute
 	protected override void waitEvent ()
 	{
 		if(DiscriminativeCharToSend != "") {
-			Thread.Sleep(DiscriminativeStartTime * 1000); //TODO: this hangs the interface, find a better way. Now should work (PulseGTK has been called)
+			Thread.Sleep(Convert.ToInt32(DiscriminativeStartTime * 1000)); //in ms
 
 			ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
 			cs.CharToSend = DiscriminativeCharToSend;
-			cs.Write(SP, DiscriminativeStartTime);
+			cs.Write(SP, 0);
 
 			LogB.Information("opening port");	
 			SP.Open();

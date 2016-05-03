@@ -155,7 +155,7 @@ public class EventExecute
 	//on animation lights and discriminative should be false
 	public bool StartIn = true;
 	public string DiscriminativeCharToSend;
-	public int DiscriminativeStartTime;
+	public double DiscriminativeStartTime;
 	public SerialPort SP;
 	
 

@@ -549,17 +549,31 @@ void reaction_time_discriminative_do()
 	//2nd fire signal
 	switch(discriminative_light_signal) {
 		case 'r':
-			RB7 = 0; RB3 = 1; RB0 = 0; RB2 = 0; //light red
+			//RB7 = 0; RB3 = 1; RB0 = 0; RB2 = 0; //light red
+			RB2 = 0;
 			break;
 		case 's':
-			RB7 = 0; RB3 = 0; RB0 = 1; RB2 = 1; //light yellow
+			//RB7 = 0; RB3 = 0; RB0 = 1; RB2 = 1; //light yellow
+			RB0 = 0;
 			break;
 		case 't':
-			RB7 = 0; RB3 = 0; RB0 = 1; RB2 = 0; //light green
+			//RB7 = 0; RB3 = 0; RB0 = 1; RB2 = 0; //light green
+			RB3 = 0;
+			break;
+		case 'v':	//red & green
+			RB2 = 0;
+			RB3 = 0;
+			break;
+		case 'T':	//green and buzzer
+			//RB7 = 0; RB3 = 0; RB0 = 1; RB2 = 0; //light green
+			RB3 = 0;
+			RB7 = 0;
 			break;
 		case 'Z':
-			RB7 = 0; RB3 = 0; RB0 = 0; RB2 = 1; //buzzer
+			//RB7 = 0; RB3 = 0; RB0 = 0; RB2 = 1; //buzzer
+			RB7 = 0;
 			break;
+			//TODO if none of this green is lighted. Fix it 
 	}
 	
 	//3rd don't call this again
@@ -567,7 +581,8 @@ void reaction_time_discriminative_do()
 }
 void reaction_time_discriminative_stop()
 {
-	RB7 = 0; RB3 = 0; RB0 = 0; RB2 = 0;
+	RB7 = 1; RB3 = 1; RB0 = 1; RB2 = 1;
+	discriminative_running = 0;
 }
 
 //*****************************************************
@@ -765,6 +780,12 @@ void main(void)
     //----------------------
     //-- Update led with the stable status of input variable
     update_led();
+
+    //-------------
+    //for discriminative. Attention: this is because currently Ferran hardware is reversed. Change this soon!
+    //RB7 = 0; RB3 = 0; RB0 = 0; RB2 = 0; //OFF
+    RB7 = 1; RB3 = 1; RB0 = 1; RB2 = 1; //OFF
+    //-------------
 
     //--------------------------
     //- Interruption TIMER 0

@@ -329,7 +329,11 @@ public class PreferencesWindow {
 		UtilGtk.ComboUpdate(combo_camera, devices, "");
 		hbox_combo_camera.PackStart(combo_camera, true, true, 0);
 		hbox_combo_camera.ShowAll();
-		combo_camera.Active = UtilGtk.ComboMakeActive(devices, devices[current]);
+
+		if(current < devices.Length)
+			combo_camera.Active = UtilGtk.ComboMakeActive(devices, devices[current]);
+		else
+			combo_camera.Active = UtilGtk.ComboMakeActive(devices, 0);
 	}
 
 	// ---- Language stuff

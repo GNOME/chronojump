@@ -20,7 +20,6 @@
 
 using System;
 using System.IO; 
-//using System.IO.Ports;
 using Gtk;
 using Gdk;
 using Glade;
@@ -72,9 +71,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_capture_open;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
-	//[Widget] Gtk.Entry entry_encoder_signal_comment;
-	//[Widget] Gtk.Entry entry_encoder_curve_comment;
-	//[Widget] Gtk.Button button_encoder_save_curve;
 	[Widget] Gtk.Box vbox_encoder_signal_comment;
 	[Widget] Gtk.TextView textview_encoder_signal_comment;
 	[Widget] Gtk.Button button_encoder_signal_save_comment;
@@ -109,6 +105,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_combo_encoder_laterality;
 	[Widget] Gtk.ComboBox combo_encoder_laterality;
 	[Widget] Gtk.Box hbox_encoder_capture_curves_save_all_none;
+	
+	[Widget] Gtk.Box hbox_combo_encoder_exercise_analyze;
+	[Widget] Gtk.ComboBox combo_encoder_exercise_analyze;
 
 	[Widget] Gtk.Box hbox_combo_encoder_analyze_cross;
 	[Widget] Gtk.ComboBox combo_encoder_analyze_cross;
@@ -133,9 +132,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_encoder_user_curves;
 	[Widget] Gtk.Label label_encoder_user_curves_active_num;
 	[Widget] Gtk.Label label_encoder_user_curves_all_num;
-	[Widget] Gtk.Box hbox_encoder_analyze_data_compare;
-	[Widget] Gtk.ComboBox combo_encoder_analyze_data_compare;
-	[Widget] Gtk.Button button_encoder_analyze_data_compare;
 
 	[Widget] Gtk.Table table_encoder_analyze_instant;
 	[Widget] Gtk.HScale hscale_encoder_analyze_a;
@@ -179,11 +175,17 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_analyze_table_save;
 	[Widget] Gtk.Button button_encoder_analyze_1RM_save;
 
-	[Widget] Gtk.CheckButton check_encoder_analyze_signal_or_curves;
-	[Widget] Gtk.Image image_encoder_analyze_current_signal;
-	[Widget] Gtk.Image image_encoder_analyze_saved_curves;
+	[Widget] Gtk.RadioButton radio_encoder_analyze_individual_current_set;
+	[Widget] Gtk.RadioButton radio_encoder_analyze_individual_current_session;
+	[Widget] Gtk.RadioButton radio_encoder_analyze_individual_all_sessions;
+	[Widget] Gtk.RadioButton radio_encoder_analyze_groupal_current_session;
+
+	[Widget] Gtk.Image image_encoder_analyze_individual_current_set;
+	[Widget] Gtk.Image image_encoder_analyze_individual_current_session;
+	[Widget] Gtk.Image image_encoder_analyze_individual_all_sessions;
+	[Widget] Gtk.Image image_encoder_analyze_groupal_current_session;
+
 	[Widget] Gtk.HBox hbox_encoder_analyze_current_signal;
-	[Widget] Gtk.Label label_encoder_analyze_saved_curves;
 	
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_cross;
@@ -260,9 +262,6 @@ public partial class ChronoJumpWindow
 
 	private ArrayList array1RM;
 
-	private ArrayList encoderCompareInterperson;	//personID:personName
-	private ArrayList encoderCompareIntersession;	//sessionID:sessionDate
-
 	//private static double [] encoderReaded;		//data coming from encoder and converted (can be double)
 	//private static int [] encoderReaded;		//data coming from encoder and converted
 	//private static int encoderCaptureCountdown;
@@ -324,7 +323,7 @@ public partial class ChronoJumpWindow
 	 */
 
 	enum encoderSensEnum { 
-		NOSESSION, NOPERSON, YESPERSON, PROCESSINGCAPTURE, PROCESSINGR, DONENOSIGNAL, DONEYESSIGNAL, SELECTEDCURVE }
+		NOSESSION, NOPERSON, YESPERSON, PROCESSINGCAPTURE, PROCESSINGR, DONENOSIGNAL, DONEYESSIGNAL }
 	encoderSensEnum encoderSensEnumStored; //tracks how was sensitive before PROCESSINGCAPTURE or PROCESSINGR
 	
 	//for writing text
@@ -413,6 +412,8 @@ public partial class ChronoJumpWindow
 		configInit();
 	
 		array1RM = new ArrayList();
+			
+		encSelReps = new EncoderSelectRepetitions();
 	}
 
 
@@ -618,6 +619,10 @@ public partial class ChronoJumpWindow
 			array1RMUpdate(false);
 			encoder_change_displaced_weight_and_1RM ();
 		}
+	}
+	
+	void on_combo_encoder_exercise_analyze_changed (object o, EventArgs args) {
+		prepareAnalyzeRepetitions ();
 	}
 
 	// ---- change extra weight start ----
@@ -973,192 +978,62 @@ public partial class ChronoJumpWindow
 	}
 	
 
-	void on_button_encoder_analyze_data_select_curves_clicked (object o, EventArgs args) 
+	private EncoderSelectRepetitions encSelReps;
+
+	void on_button_encoder_analyze_data_select_curves_clicked (object o, EventArgs args) {
+		encSelReps.FakeButtonDone.Clicked += new EventHandler(on_analyze_repetitions_selected);
+		encSelReps.Show();
+	}
+	
+	void on_analyze_repetitions_selected (object o, EventArgs args) {
+		LogB.Information("on_analyze_repetitions_selected");
+		encSelReps.FakeButtonDone.Clicked -= new EventHandler(on_analyze_repetitions_selected);
+
+		label_encoder_user_curves_active_num.Text = encSelReps.RepsActive.ToString();
+		label_encoder_user_curves_all_num.Text = encSelReps.RepsAll.ToString();
+	}
+	
+	//called on changing radio mode (! show), and on clicking button_encoder_analyze_data_select_curves (show)
+	//not called on current_set
+	void prepareAnalyzeRepetitions () 
 	{
-		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
-				"curve", EncoderSQL.Eccons.ALL, 
-				false, true);
+		if(radio_encoder_analyze_individual_current_session.Active) 
+		{
+			if(encSelReps == null || encSelReps.Type != EncoderSelectRepetitions.Types.INDIVIDUAL_CURRENT_SESSION)
+				encSelReps = new EncoderSelectRepetitionsIndividualCurrentSession();
 
-		ArrayList dataPrint = new ArrayList();
-		string [] checkboxes = new string[data.Count]; //to store active or inactive status of curves
-		int count = 0;
-		foreach(EncoderSQL es in data) {
-			checkboxes[count++] = es.status;
-			//LogB.Information(checkboxes[count-1]);
-			dataPrint.Add(es.ToStringArray(count,true,false,true,true));
+			encSelReps.FakeButtonDeleteCurve.Clicked += new EventHandler(on_delete_encoder_curve);
 		}
-	
-		string [] columnsString = {
-			Catalog.GetString("ID"),
-			Catalog.GetString("Active"),	//checkboxes
-			Catalog.GetString("Repetition"),
-			Catalog.GetString("Exercise"),
-			"RL",
-			Catalog.GetString("Extra weight"),
-			Catalog.GetString("Mean Power"),
-			Catalog.GetString("Encoder"),
-			Catalog.GetString("Contraction"),
-			Catalog.GetString("Date"),
-			Catalog.GetString("Comment")
-		};
-
-		ArrayList bigArray = new ArrayList();
-		ArrayList a1 = new ArrayList();
-		ArrayList a2 = new ArrayList();
-		ArrayList a3 = new ArrayList();
-		
-		//0 is the widgget to show; 1 is the editable; 2 id default value
-		a1.Add(Constants.GenericWindowShow.COMBOALLNONESELECTED); a1.Add(true); a1.Add("ALL");
-		bigArray.Add(a1);
-		
-		a2.Add(Constants.GenericWindowShow.TREEVIEW); a2.Add(true); a2.Add("");
-		bigArray.Add(a2);
-	
-		a3.Add(Constants.GenericWindowShow.COMBO); a3.Add(true); a3.Add("");
-		bigArray.Add(a3);
-	
-		//add exercises to the combo (only the exercises done, and only unique)
-		ArrayList encoderExercisesNames = new ArrayList();
-		foreach(EncoderSQL es in data) {
-			encoderExercisesNames = Util.AddToArrayListIfNotExist(encoderExercisesNames, Catalog.GetString(es.exerciseName));
+		else if(radio_encoder_analyze_individual_all_sessions.Active)
+		{
+			if(encSelReps == null || encSelReps.Type != EncoderSelectRepetitions.Types.INDIVIDUAL_ALL_SESSIONS)
+				encSelReps = new EncoderSelectRepetitionsIndividualAllSessions();
 		}
-		
-		genericWin = GenericWindow.Show(false,	//don't show now
-				string.Format(Catalog.GetString("Saved repetitions of athlete {0} on this session."), 
-					currentPerson.Name) + "\n" + 
-				Catalog.GetString("Activate the repetitions you want to use clicking on first column.") + "\n" +
-				Catalog.GetString("If you want to edit or delete a row, right click on it.") + "\n",
-				bigArray);
+		else if(radio_encoder_analyze_groupal_current_session.Active)
+		{
+			if(encSelReps == null || encSelReps.Type != EncoderSelectRepetitions.Types.GROUPAL_CURRENT_SESSION)
+				encSelReps = new EncoderSelectRepetitionsGroupalCurrentSession();
+		}
+		else
+			return; //error
 
-		genericWin.SetTreeview(columnsString, true, dataPrint, new ArrayList(), Constants.ContextMenu.EDITDELETE, false);
-		genericWin.AddOptionsToComboCheckBoxesOptions(encoderExercisesNames);
-		genericWin.CreateComboCheckBoxes();
-		genericWin.MarkActiveCurves(checkboxes);
-		
-		//find all persons in current session
-		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(
-				currentSession.UniqueID,
-				false); //means: do not returnPersonAndPSlist
-		
-		string [] persons = new String[personsPre.Count];
-		count = 0;
-	        foreach	(Person p in personsPre)
-			persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
-		genericWin.SetComboValues(persons, currentPerson.UniqueID + ":" + currentPerson.Name);
-		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected repetition") + 
-				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
-		genericWin.ShowEditRow(false);
-		genericWin.CommentColumn = 10;
-		
-		genericWin.ShowButtonCancel(false);
-		genericWin.SetButtonAcceptSensitive(true);
-		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
-		//manage selected, unselected curves
-		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_show_curves_done);
-		genericWin.Button_row_edit.Clicked += new EventHandler(on_encoder_show_curves_row_edit);
-		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_encoder_show_curves_row_edit_apply);
-		genericWin.Button_row_delete.Clicked += new EventHandler(on_encoder_show_curves_row_delete_pre);
+		encSelReps.PassVariables(currentPerson, currentSession, 
+				genericWin, button_encoder_analyze, getExerciseIDFromComboAnalyze(),
+				preferences.askDeletion);
 
-		//used when we don't need to read data, 
-		//and we want to ensure next window will be created at needed size
-		//genericWin.DestroyOnAccept=true;
-		//here is comented because we are going to read the checkboxes
+		genericWin = encSelReps.Do();
 
-		genericWin.ShowNow();
+		label_encoder_user_curves_active_num.Text = encSelReps.RepsActive.ToString();
+		label_encoder_user_curves_all_num.Text = encSelReps.RepsAll.ToString();
 	}
-	
-	protected void on_encoder_show_curves_done (object o, EventArgs args)
+			
+	void on_delete_encoder_curve (object o, EventArgs args)
 	{
-		genericWin.Button_accept.Clicked -= new EventHandler(on_encoder_show_curves_done);
-
-		//get selected/deselected rows
-		string [] checkboxes = genericWin.GetCheckboxesStatus(1, false);
-
-		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
-				"curve", EncoderSQL.Eccons.ALL, 
-				false, true);
-
-		//update on database the curves that have been selected/deselected
-		//doing it as a transaction: FAST
-		int countActive = SqliteEncoder.UpdateTransaction(data, checkboxes);
-
-		int activeCurvesNum = getActiveCurvesNum(data);
-		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
-
-		string [] activeCurvesList = getActiveCheckboxesList(checkboxes, activeCurvesNum);
-		activeCurvesList = Util.AddArrayString(activeCurvesList, Catalog.GetString("All"), true); //Add "All" first
-		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
-		combo_encoder_analyze_curve_num_combo.Active = 
-			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[1]);
-
-		genericWin.HideAndNull();
-		
-		//encoderButtonsSensitive(encoderSensEnumStored);
-		button_encoder_analyze.Sensitive = (countActive > 0);
-	}
-	
-	protected void on_encoder_show_curves_row_edit (object o, EventArgs args) {
-		LogB.Information("row edit at show curves");
-		LogB.Information(genericWin.TreeviewSelectedUniqueID.ToString());
-		genericWin.ShowEditRow(true);
-	}
-
-	protected void on_encoder_show_curves_row_edit_apply (object o, EventArgs args) {
-		LogB.Information("row edit apply at show curves");
-
-		int curveID = genericWin.TreeviewSelectedUniqueID;
-		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-				false, curveID, 0, 0, -1,
-				"", EncoderSQL.Eccons.ALL, 
-				false, true)[0];
-
-		//if changed comment, update SQL, and update treeview
-		//first remove conflictive characters
-		string comment = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
-		if(comment != eSQL.description) {
-			eSQL.description = comment;
-			SqliteEncoder.Update(false, eSQL);
-
-			//update treeview
-			genericWin.on_edit_selected_done_update_treeview();
-		}
-
-		//if changed person, proceed
-		LogB.Information("new person: " + genericWin.GetComboSelected);
-		int newPersonID = Util.FetchID(genericWin.GetComboSelected);
-		if(newPersonID != currentPerson.UniqueID) {
-			EncoderSQL eSQLChangedPerson = eSQL.ChangePerson(genericWin.GetComboSelected);
-			SqliteEncoder.Update(false, eSQLChangedPerson);
-
-			genericWin.RemoveSelectedRow();
-		}
-
-		genericWin.ShowEditRow(false);
-		updateUserCurvesLabelsAndCombo(false);
-	}
-	
-	protected void on_encoder_show_curves_row_delete_pre (object o, EventArgs args) {
-		if(preferences.askDeletion) {
-			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this repetition?"), "", "");
-			confirmWin.Button_accept.Clicked += new EventHandler(on_encoder_show_curves_row_delete);
-		} else
-			on_encoder_show_curves_row_delete (o, args);
-	}
-	
-	protected void on_encoder_show_curves_row_delete (object o, EventArgs args) {
-		LogB.Information("row delete at show curves");
-
-		int uniqueID = genericWin.TreeviewSelectedUniqueID;
-
-		delete_encoder_curve(false, uniqueID);
-
-		genericWin.Delete_row_accepted();
-	}
-
-	void delete_encoder_curve(bool dbconOpened, int uniqueID) {
+		encSelReps.FakeButtonDeleteCurve.Clicked -= new EventHandler(on_delete_encoder_curve);
+		delete_encoder_curve(false, encSelReps.DeleteCurveID);
+	}	
+	void delete_encoder_curve(bool dbconOpened, int uniqueID) 
+	{
 		LogB.Information(uniqueID.ToString());
 		bool eSQLfound = true;
 
@@ -1193,217 +1068,9 @@ public partial class ChronoJumpWindow
 				encoderCaptureSelectBySavedCurves(esc.msCentral, false);
 		}
 
+		//TODO: change encSelReps and this will change labels
 		updateUserCurvesLabelsAndCombo(dbconOpened);
 	}
-	
-	
-	void on_button_encoder_analyze_data_compare_clicked (object o, EventArgs args) 
-	{
-		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
-					encoderDataCompareTranslation) == "Between persons")
-			encoder_analyze_data_compare_interperson();
-		else if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
-					encoderDataCompareTranslation) == "Between sessions")
-			encoder_analyze_data_compare_intersession();
-	}
-
-	void encoder_analyze_data_compare_interperson () 
-	{
-		//find all persons except current person
-		ArrayList dataPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
-				false); //means: do not returnPersonAndPSlist
-
-		ArrayList data = new ArrayList();
-		ArrayList nonSensitiveRows = new ArrayList();
-		int i = 0;	//list of persons
-		int j = 0;	//list of added persons
-		foreach(Person p in dataPre) {
-			if(p.UniqueID != currentPerson.UniqueID) {
-				ArrayList eSQLarray = SqliteEncoder.Select(
-						false, -1, p.UniqueID, currentSession.UniqueID, -1, 
-						"curve", EncoderSQL.Eccons.ALL, 
-						false, true);
-				string [] s = { p.UniqueID.ToString(), "", p.Name,
-					getActiveCurvesNum(eSQLarray).ToString(), eSQLarray.Count.ToString()
-			       	};
-				data.Add(s);
-				if(getActiveCurvesNum(eSQLarray) == 0)
-					nonSensitiveRows.Add(j);
-				j++;
-			}
-			i ++;
-		}
-	
-		//prepare checkboxes to be marked	
-		string [] checkboxes = new string[data.Count]; //to store active or inactive status
-		int count = 0;
-		foreach(string [] sPersons in data) {
-			bool found = false;
-			foreach(string s2 in encoderCompareInterperson)
-				if(Util.FetchID(s2).ToString() == sPersons[0])
-					found = true;
-
-			if(found)
-				checkboxes[count++] = "active";
-			else
-				checkboxes[count++] = "inactive";
-		}			
-			
-		string [] columnsString = {
-			Catalog.GetString("ID"),
-			"",				//checkboxes
-			Catalog.GetString("Person name"),
-			Catalog.GetString("Selected\nrepetitions"),
-			Catalog.GetString("All\nrepetitions")
-		};
-
-		ArrayList bigArray = new ArrayList();
-		ArrayList a1 = new ArrayList();
-		ArrayList a2 = new ArrayList();
-		
-		//0 is the widgget to show; 1 is the editable; 2 id default value
-		a1.Add(Constants.GenericWindowShow.COMBOALLNONESELECTED); a1.Add(true); a1.Add("ALL");
-		bigArray.Add(a1);
-		
-		a2.Add(Constants.GenericWindowShow.TREEVIEW); a2.Add(true); a2.Add("");
-		bigArray.Add(a2);
-		
-		genericWin = GenericWindow.Show(false,	//don't show now
-				string.Format(Catalog.GetString("Select persons to compare to {0}."), 
-					currentPerson.Name), bigArray);
-
-		genericWin.SetTreeview(columnsString, true, data, nonSensitiveRows, Constants.ContextMenu.NONE, false);
-		genericWin.CreateComboCheckBoxes();
-		genericWin.MarkActiveCurves(checkboxes);
-		genericWin.ShowButtonCancel(false);
-		genericWin.SetButtonAcceptSensitive(true);
-		//manage selected, unselected curves
-		genericWin.Button_accept.Clicked += new EventHandler(
-				on_encoder_analyze_data_compare_interperson_done);
-
-		//used when we don't need to read data, 
-		//and we want to ensure next window will be created at needed size
-		//genericWin.DestroyOnAccept=true;
-		//here is comented because we are going to read the checkboxes
-
-		genericWin.ShowNow();
-	}
-
-	void on_encoder_analyze_data_compare_interperson_done (object o, EventArgs args) {
-		genericWin.Button_accept.Clicked -= new EventHandler(
-				on_encoder_analyze_data_compare_interperson_done);
-	
-		encoderCompareInterperson = new ArrayList ();
-		string [] selectedID = genericWin.GetCheckboxesStatus(0,true);
-		string [] selectedName = genericWin.GetCheckboxesStatus(2,true);
-
-		for (int i=0 ; i < selectedID.Length ; i ++)
-			encoderCompareInterperson.Add(Convert.ToInt32(selectedID[i]) + ":" + selectedName[i]);
-
-		genericWin.HideAndNull();
-		
-		LogB.Information("done");
-	}
-	
-	void encoder_analyze_data_compare_intersession () 
-	{
-		//select all curves of this person on all sessions
-		ArrayList dataPre = SqliteEncoder.SelectCompareIntersession(
-				false, currentPerson.UniqueID); 
-		
-		//..except on current session
-		ArrayList data = new ArrayList();
-		foreach(EncoderPersonCurvesInDB encPS in dataPre)
-			if(encPS.sessionID != currentSession.UniqueID)
-				data.Add(encPS);
-	
-		//prepare unsensitive rows	
-		ArrayList nonSensitiveRows = new ArrayList();
-		int count = 0;
-		foreach(EncoderPersonCurvesInDB encPS in data) {
-			if(encPS.countActive == 0)
-				nonSensitiveRows.Add(count);
-			count ++;
-		}
-		
-		//prepare checkboxes to be marked	
-		string [] checkboxes = new string[data.Count]; //to store active or inactive status
-		count = 0;
-		foreach(EncoderPersonCurvesInDB encPS in data) {
-			bool found = false;
-			foreach(string s2 in encoderCompareIntersession)
-				if(Util.FetchID(s2) == encPS.sessionID)
-					found = true;
-
-			if(found)
-				checkboxes[count++] = "active";
-			else
-				checkboxes[count++] = "inactive";
-		}			
-			
-		string [] columnsString = {
-			Catalog.GetString("ID"),
-			"",				//checkboxes
-			Catalog.GetString("Session name"),
-			Catalog.GetString("Session date"),
-			Catalog.GetString("Selected\nrepetitions"),
-			Catalog.GetString("All\nrepetitions")
-		};
-
-		ArrayList bigArray = new ArrayList();
-		ArrayList a1 = new ArrayList();
-		ArrayList a2 = new ArrayList();
-		
-		//0 is the widgget to show; 1 is the editable; 2 id default value
-		a1.Add(Constants.GenericWindowShow.COMBOALLNONESELECTED); a1.Add(true); a1.Add("ALL");
-		bigArray.Add(a1);
-		
-		a2.Add(Constants.GenericWindowShow.TREEVIEW); a2.Add(true); a2.Add("");
-		bigArray.Add(a2);
-		
-		genericWin = GenericWindow.Show(false,	//don't show now
-				string.Format(Catalog.GetString("Compare repetitions of {0} from this session with the following sessions."), 
-					currentPerson.Name), bigArray);
-
-		//convert data from array of EncoderPersonCurvesInDB to array of strings []
-		ArrayList dataConverted = new ArrayList();
-		foreach(EncoderPersonCurvesInDB encPS in data) {
-			dataConverted.Add(encPS.ToStringArray());
-		}
-
-		genericWin.SetTreeview(columnsString, true, dataConverted, nonSensitiveRows, Constants.ContextMenu.NONE, false);
-		genericWin.CreateComboCheckBoxes();
-		genericWin.MarkActiveCurves(checkboxes);
-		genericWin.ShowButtonCancel(false);
-		genericWin.SetButtonAcceptSensitive(true);
-		//manage selected, unselected curves
-		genericWin.Button_accept.Clicked += new EventHandler(
-				on_encoder_analyze_data_compare_intersession_done);
-
-		//used when we don't need to read data, 
-		//and we want to ensure next window will be created at needed size
-		//genericWin.DestroyOnAccept=true;
-		//here is comented because we are going to read the checkboxes
-
-		genericWin.ShowNow();
-	}
-
-	void on_encoder_analyze_data_compare_intersession_done (object o, EventArgs args) {
-		genericWin.Button_accept.Clicked -= new EventHandler(
-				on_encoder_analyze_data_compare_intersession_done);
-	
-		encoderCompareIntersession = new ArrayList ();
-		string [] selectedID = genericWin.GetCheckboxesStatus(0,true);
-		string [] selectedDate = genericWin.GetCheckboxesStatus(3,true);
-
-		for (int i=0 ; i < selectedID.Length ; i ++)
-			encoderCompareIntersession.Add(Convert.ToInt32(selectedID[i]) + ":" + selectedDate[i]);
-
-		genericWin.HideAndNull();
-		
-		LogB.Information("done");
-	}
-	
 
 	void on_button_encoder_load_signal_clicked (object o, EventArgs args) 
 	{
@@ -1531,7 +1198,7 @@ public partial class ChronoJumpWindow
 			//force a recalculate but not save the curve (we are loading)
 			encoderCalculeCurves(encoderActions.LOAD);
 		
-			check_encoder_analyze_signal_or_curves.Active = true;
+			radio_encoder_analyze_individual_current_set.Active = true;
 
 			encoderButtonsSensitive(encoderSensEnumStored);
 		}
@@ -1937,46 +1604,29 @@ public partial class ChronoJumpWindow
 	}
 
 
-	private int getActiveCurvesNum(ArrayList curvesArray) {
-		int countActiveCurves = 0;
-		foreach(EncoderSQL es in curvesArray) 
-			if(es.status == "active")
-				countActiveCurves ++;
-		
-		return countActiveCurves;
-	}
-
 	private void updateUserCurvesLabelsAndCombo(bool dbconOpened) 
 	{
-		ArrayList data = SqliteEncoder.Select(
-				dbconOpened, -1, currentPerson.UniqueID, currentSession.UniqueID, -1, 
-				"curve", EncoderSQL.Eccons.ALL, 
-				false, true);
-		int activeCurvesNum = getActiveCurvesNum(data);
+		/* TODO
+		ArrayList data;
+		if(radio_encoder_analyze_individual_current_session.Active)
+			data = SqliteEncoder.Select(
+					dbconOpened, -1, currentPerson.UniqueID, currentSession.UniqueID, -1, 
+					"curve", EncoderSQL.Eccons.ALL, 
+					false, true);
+		//else
+		//	read encSelReps public variables
+
+		int activeCurvesNum = UtilEncoder.GetActiveCurvesNum(data);
 		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
 		label_encoder_user_curves_all_num.Text = data.Count.ToString();
 		
-		if(check_encoder_analyze_signal_or_curves.Active)
+		if(radio_encoder_analyze_individual_current_set.Active)
 			updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
 		else
 			updateComboEncoderAnalyzeCurveNumSavedReps(data, activeCurvesNum);	
 	
 		button_encoder_analyze_sensitiveness();
-	}
-	
-	private string [] getActiveCheckboxesList(string [] checkboxes, int activeCurvesNum) {
-		if(activeCurvesNum == 0)
-			return Util.StringToStringArray("");
-
-		string [] activeCurvesList = new String[activeCurvesNum];
-		int i=0;
-		int j=0;
-		foreach(string cb in checkboxes) {
-			if(cb == "active")
-				activeCurvesList[j++] = (i+1).ToString();
-			i++;
-		}
-		return activeCurvesList;
+		*/
 	}
 	
 	private void updateComboEncoderAnalyzeCurveNumFromCurrentSet () 
@@ -2010,7 +1660,7 @@ public partial class ChronoJumpWindow
 		foreach(EncoderSQL eSQL in data) {
 			checkboxes[count++] = eSQL.status;
 		}
-		string [] activeCurvesList = getActiveCheckboxesList(checkboxes, activeCurvesNum);
+		string [] activeCurvesList = UtilEncoder.GetActiveCheckboxesList(checkboxes, activeCurvesNum);
 		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
 		combo_encoder_analyze_curve_num_combo.Active = 
 			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
@@ -2195,12 +1845,10 @@ public partial class ChronoJumpWindow
 	}
 
 
-	//TODO: garantir path windows	
 	private void on_button_encoder_analyze_clicked (object o, EventArgs args) 
 	{
 		//if userCurves and no data, return
-		//TODO: fix this, because curves should be active except in the single curve mode
-		if( ! check_encoder_analyze_signal_or_curves.Active) 	//saved curves
+		if( ! radio_encoder_analyze_individual_current_set.Active)
 		{
 			ArrayList data = SqliteEncoder.Select(
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1, 
@@ -2219,15 +1867,15 @@ public partial class ChronoJumpWindow
 				string nameTemp = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
 						encoderAnalyzeCrossTranslation);
 
-				if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
-							encoderDataCompareTranslation) != "No compare" && 
+				if( (radio_encoder_analyze_individual_all_sessions.Active ||
+						radio_encoder_analyze_groupal_current_session.Active) &&
 						(
 						 nameTemp == "Speed,Power / Load" || 
 						 nameTemp == Catalog.GetString("Speed,Power / Load")
 						)) {
 					new DialogMessage(Constants.MessageTypes.WARNING, 
 							Catalog.GetString("Sorry, this graph is not supported yet.") +
-							"\n\nSaved repetitions - compare - cross variables" +
+							"\n\nIntersession or Interperson - cross variables" +
 							"\n- Speed,Power / Load"
 							);
 
@@ -2241,8 +1889,8 @@ public partial class ChronoJumpWindow
 				string nameTemp = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
 						encoderAnalyze1RMTranslation);
 
-				if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
-							encoderDataCompareTranslation) != "No compare" && 
+				if((radio_encoder_analyze_individual_all_sessions.Active ||
+						radio_encoder_analyze_groupal_current_session.Active) &&
 						(
 						 nameTemp == "1RM Any exercise" || 
 						 nameTemp == Catalog.GetString("1RM Any exercise") ||
@@ -2252,6 +1900,7 @@ public partial class ChronoJumpWindow
 						)) {
 					new DialogMessage(Constants.MessageTypes.WARNING, 
 							Catalog.GetString("Sorry, this graph is not supported yet.") +
+							"\n\nIntersession or Interperson" +
 							"\n- 1RM Any exercise" +
 							"\n- 1RM Bench Press"
 							//no 1RM Indirect because cannot be done with saved curves
@@ -2420,7 +2069,7 @@ public partial class ChronoJumpWindow
 		if(sendAnalysis == "powerBars" || sendAnalysis == "single" || sendAnalysis == "side")
 			analysisVariables = getAnalysisVariables(sendAnalysis);
 
-		if( ! check_encoder_analyze_signal_or_curves.Active) 	//saved curves
+		if( ! radio_encoder_analyze_individual_current_set.Active) //not current set
 		{
 			string myEccon = "ec";
 			if(! check_encoder_analyze_eccon_together.Active)
@@ -2452,17 +2101,16 @@ public partial class ChronoJumpWindow
 				"curve", ecconSelect, 
 				false, true);
 
-			//neuromuscularProfile cannot be inerperson or intersession
+			//neuromuscularProfile cannot be interperson or intersession
 			if(encoderAnalysis != "neuromuscularProfile") 
 			{	
 				//if compare persons, select curves for other persons and add
-				if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
-							encoderDataCompareTranslation) == "Between persons") {
+				if(radio_encoder_analyze_groupal_current_session.Active) {
 					ArrayList dataPre = new ArrayList();
-					for (int i=0 ; i < encoderCompareInterperson.Count ; i ++) {
+					for (int i=0 ; i < encSelReps.EncoderCompareInter.Count ; i ++) {
 						dataPre = SqliteEncoder.Select(
 								false, -1, 
-								Util.FetchID(encoderCompareInterperson[i].ToString()),
+								Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
 								currentSession.UniqueID, 
 								-1,
 							       	"curve", EncoderSQL.Eccons.ALL, 
@@ -2471,14 +2119,13 @@ public partial class ChronoJumpWindow
 						foreach(EncoderSQL eSQL in dataPre) 
 							data.Add(eSQL);
 					}
-				} else if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
-							encoderDataCompareTranslation) == "Between sessions") {
+				} else if(radio_encoder_analyze_individual_all_sessions.Active) {
 					ArrayList dataPre = new ArrayList();
-					for (int i=0 ; i < encoderCompareIntersession.Count ; i ++) {
+					for (int i=0 ; i < encSelReps.EncoderCompareInter.Count ; i ++) {
 						dataPre = SqliteEncoder.Select(
 								false, -1,
 								currentPerson.UniqueID, 
-								Util.FetchID(encoderCompareIntersession[i].ToString()),
+								Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
 								-1,
 								"curve", EncoderSQL.Eccons.ALL,
 							       	true, true);
@@ -2567,22 +2214,20 @@ public partial class ChronoJumpWindow
 
 				//seriesName
 				string seriesName = "";
-				if(Util.FindOnArray(':',1,0,
-							UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
-						encoderDataCompareTranslation) == "Between persons") 
+				if(radio_encoder_analyze_groupal_current_session.Active)
 				{
-					foreach(string str in encoderCompareInterperson)
+					foreach(string str in encSelReps.EncoderCompareInter)
 						if(Util.FetchID(str) == eSQL.personID)
 							seriesName = Util.FetchName(str);
-				} else if(Util.FindOnArray(':',1,0,
-							UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
-						encoderDataCompareTranslation) == "Between sessions") 
+				} else if(radio_encoder_analyze_individual_all_sessions.Active)
 				{
-					foreach(string str in encoderCompareIntersession) {
+					foreach(string str in encSelReps.EncoderCompareInter) {
 						LogB.Information(str);
 						if(Util.FetchID(str) == eSQL.sessionID)
 							seriesName = Util.FetchName(str);
 					}
+					if(seriesName == "")
+						seriesName = currentSession.DateShortAsSQL;
 				}
 				if(seriesName == "")
 					seriesName = currentPerson.Name;
@@ -2627,7 +2272,7 @@ public partial class ChronoJumpWindow
 			LogB.Debug(" AT ANALYZE 2 ");
 			Sqlite.Close();	
 
-		} else {	//current signal
+		} else {	//current set
 			if(encoderAnalysis == "1RM") {
 				if(my1RMName == "1RM Any exercise") {
 					//get speed1RM (from combo)
@@ -2677,10 +2322,6 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderTempPathWithoutLastSep(),
 				ep);
 
-		//show mass in title except if it's curves because then can be different mass
-		//string massString = "-(" + Util.ConvertToPoint(findMass(true)) + "Kg)";
-		//if( ! check_encoder_analyze_signal_or_curves.Active) 	//saved curves
-		//	massString = "";
 
 		string titleStr = Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name);
 	
@@ -2688,7 +2329,7 @@ public partial class ChronoJumpWindow
 			titleStr = "Neuromuscular Profile" + "-" + titleStr;
 		else {
 			//on signal show encoder exercise, but not in curves because every curve can be of a different exercise
-			if(check_encoder_analyze_signal_or_curves.Active) 	//current signal
+			if(radio_encoder_analyze_individual_current_set.Active) //current set
 				titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise));
 		}
 
@@ -2713,7 +2354,7 @@ public partial class ChronoJumpWindow
 			check_encoder_analyze_eccon_together.Active = false;
 		}
 		else if( 
-				( check_encoder_analyze_signal_or_curves.Active && findEccon(false) == "c" ) || // 2)
+				( radio_encoder_analyze_individual_current_set.Active && findEccon(false) == "c" ) || // 2)
 				radiobutton_encoder_analyze_single.Active || radiobutton_encoder_analyze_side.Active // 3)
 		  ) {
 			//together, mandatory
@@ -2721,45 +2362,116 @@ public partial class ChronoJumpWindow
 			check_encoder_analyze_eccon_together.Active = true;
 		}
 	}
+	
+	private void on_radio_encoder_analyze_individual_current_set_toggled (object obj, EventArgs args) 
+	{
+		if(! radio_encoder_analyze_individual_current_set.Active)
+			return;
+		
+		//not called here
+		//prepareAnalyzeRepetitions();
+		
 
-	private void on_check_encoder_analyze_signal_or_curves_toggled (object obj, EventArgs args) {
-		bool signal = check_encoder_analyze_signal_or_curves.Active;
-				
-		if(signal) {
-			updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
+		updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
 
-			hbox_encoder_user_curves.Visible = false;
-			radiobutton_encoder_analyze_powerbars.Sensitive = true;
-			radiobutton_encoder_analyze_single.Sensitive = true;
-			radiobutton_encoder_analyze_side.Sensitive = true;
-		} 
-		else {
-			if(currentPerson != null) {
-				ArrayList data = SqliteEncoder.Select(
-						false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
-						"curve", EncoderSQL.Eccons.ALL,
-					       	false, true);
-				int activeCurvesNum = getActiveCurvesNum(data);
-				updateComboEncoderAnalyzeCurveNumSavedReps(data, activeCurvesNum);	
-			}
+		hbox_encoder_user_curves.Visible = false;
+		hbox_combo_encoder_exercise_analyze.Visible = false;
+		
+		//this analysis only when not comparing
+		radiobutton_encoder_analyze_powerbars.Visible = true;
+		radiobutton_encoder_analyze_1RM.Visible = true;
+		radiobutton_encoder_analyze_single.Visible = true;
+		radiobutton_encoder_analyze_side.Visible = true;
+		radiobutton_encoder_analyze_neuromuscular_profile.Visible = true;
 
-			hbox_encoder_user_curves.Visible = currentPerson != null;
-
-			radiobutton_encoder_analyze_powerbars.Sensitive = true;
-			radiobutton_encoder_analyze_single.Sensitive = true;
-			radiobutton_encoder_analyze_side.Sensitive = true;
-		}
-			
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
 			
 		button_encoder_analyze_sensitiveness();
-
-		image_encoder_analyze_current_signal.Visible 	= signal;
-		hbox_encoder_analyze_current_signal.Visible	= signal;
-		image_encoder_analyze_saved_curves.Visible	= ! signal;
-		label_encoder_analyze_saved_curves.Visible	= ! signal;
+	
+		hbox_encoder_analyze_current_signal.Visible = true;
 	}
+	
+	private void on_radio_encoder_analyze_individual_current_session_toggled (object obj, EventArgs args) 
+	{
+		if(! radio_encoder_analyze_individual_current_session.Active)
+			return;
+		
+		prepareAnalyzeRepetitions();
+
+		if(currentPerson != null) {
+			ArrayList data = SqliteEncoder.Select(
+					false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
+					"curve", EncoderSQL.Eccons.ALL,
+					false, true);
+			int activeCurvesNum = UtilEncoder.GetActiveCurvesNum(data);
+			updateComboEncoderAnalyzeCurveNumSavedReps(data, activeCurvesNum);	
+		}
+
+		hbox_encoder_user_curves.Visible = currentPerson != null;
+		hbox_combo_encoder_exercise_analyze.Visible = false;
+
+		//this analysis only when not comparing
+		radiobutton_encoder_analyze_powerbars.Visible = true;
+		radiobutton_encoder_analyze_1RM.Visible = true;
+		radiobutton_encoder_analyze_single.Visible = true;
+		radiobutton_encoder_analyze_side.Visible = true;
+		radiobutton_encoder_analyze_neuromuscular_profile.Visible = true;
+
+		check_encoder_analyze_eccon_together.Sensitive = true;
+		block_check_encoder_analyze_eccon_together_if_needed();
+			
+		button_encoder_analyze_sensitiveness();
+	
+		hbox_encoder_analyze_current_signal.Visible = false;
+	}
+	
+	private void on_radio_encoder_analyze_individual_all_sessions_toggled (object obj, EventArgs args) 
+	{
+		if(! radio_encoder_analyze_individual_all_sessions.Active)
+			return;
+		
+		prepareAnalyzeRepetitions();
+	
+		hbox_encoder_analyze_current_signal.Visible = false;
+		
+		hbox_encoder_user_curves.Visible = currentPerson != null;
+		hbox_combo_encoder_exercise_analyze.Visible = true;
+		
+		//active cross. The only available for comparing	
+		radiobutton_encoder_analyze_cross.Active = true;
+		
+		//this analysis only when not comparing
+		radiobutton_encoder_analyze_powerbars.Visible = false;
+		radiobutton_encoder_analyze_1RM.Visible = false;
+		radiobutton_encoder_analyze_single.Visible = false;
+		radiobutton_encoder_analyze_side.Visible = false;
+		radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
+	}
+
+	private void on_radio_encoder_analyze_groupal_current_session_toggled (object obj, EventArgs args) 
+	{
+		if(! radio_encoder_analyze_groupal_current_session.Active)
+			return;
+	
+		prepareAnalyzeRepetitions();
+
+		hbox_encoder_analyze_current_signal.Visible = false;
+		
+		hbox_encoder_user_curves.Visible = currentPerson != null;
+		hbox_combo_encoder_exercise_analyze.Visible = true;
+		
+		//active cross. The only available for comparing	
+		radiobutton_encoder_analyze_cross.Active = true;
+		
+		//this analysis only when not comparing
+		radiobutton_encoder_analyze_powerbars.Visible = false;
+		radiobutton_encoder_analyze_1RM.Visible = false;
+		radiobutton_encoder_analyze_single.Visible = false;
+		radiobutton_encoder_analyze_side.Visible = false;
+		radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
+	}
+
 
 	private string getAnalysisVariables(string encoderAnalysis) 
 	{
@@ -3004,18 +2716,34 @@ public partial class ChronoJumpWindow
 	}
 
 
+	//side compare works only in two modes (current_set and individual_current_session)
 	private bool curvesNumOkToSideCompare() {
-		if(check_encoder_analyze_signal_or_curves.Active && 	//current signal
-				(
-					(ecconLast == "c" && UtilGtk.CountRows(encoderCaptureListStore) <= 12) ||
-					(ecconLast != "c" && UtilGtk.CountRows(encoderCaptureListStore) <= 24)
-				) )
-			return true;
-		else if( ! check_encoder_analyze_signal_or_curves.Active && 	//saved curves
-				Convert.ToInt32(label_encoder_user_curves_active_num.Text) <= 12)
+		if( (radio_encoder_analyze_individual_current_set.Active || radio_encoder_analyze_individual_current_session.Active)
+				&& getActiveRepetitions() <= 12 )
 			return true;
 
 		return false;
+	}
+
+	private int getActiveRepetitions() 
+	{
+		if(radio_encoder_analyze_individual_current_set.Active) 
+		{ 	//current set
+			int rowsAtCapture = UtilGtk.CountRows(encoderCaptureListStore);
+		
+			if (ecconLast == "c")
+				return rowsAtCapture;
+			else {
+				if(rowsAtCapture == 0)
+					return 0;
+				else
+					return rowsAtCapture / 2;
+			}
+		} else if(radio_encoder_analyze_individual_current_session.Active)
+		{
+			return encSelReps.RepsActive;
+		}
+		return 0;
 	}
 
 
@@ -3075,7 +2803,6 @@ public partial class ChronoJumpWindow
 	string [] encoderExercisesTranslationAndBodyPWeight;
 	string [] encoderEcconTranslation;
 	string [] encoderLateralityTranslation;
-	string [] encoderDataCompareTranslation;
 	string [] encoderAnalyzeCrossTranslation;
 	string [] encoderAnalyze1RMTranslation;
 	
@@ -3083,8 +2810,12 @@ public partial class ChronoJumpWindow
 	{
 		//create combo exercises
 		combo_encoder_exercise = ComboBox.NewText ();
-		createEncoderComboExercise();
+		combo_encoder_exercise_analyze = ComboBox.NewText ();
+		
+		createEncoderComboExerciseAndAnalyze();
+		
 		combo_encoder_exercise.Changed += new EventHandler (on_combo_encoder_exercise_changed);
+		combo_encoder_exercise_analyze.Changed += new EventHandler (on_combo_encoder_exercise_analyze_changed);
 		
 		/* ConcentricEccentric
 		 * unavailable until find while concentric data on concentric is the same than in ecc-con,
@@ -3129,27 +2860,6 @@ public partial class ChronoJumpWindow
 			new EventHandler(on_combo_encoder_anchorage_changed );
 
 
-		//create combo analyze data compare (variables)
-		string [] comboDataCompareOptions = { 
-			"No compare", "Between persons", "Between sessions"};
-		string [] comboDataCompareOptionsTranslated = { 
-			Catalog.GetString("No compare"),
-			Catalog.GetString("Between persons"),
-			Catalog.GetString("Between sessions")
-		};
-		encoderDataCompareTranslation = new String [comboDataCompareOptions.Length];
-		for(int j=0; j < 3 ; j++)
-			encoderDataCompareTranslation[j] = 
-				comboDataCompareOptions[j] + ":" + comboDataCompareOptionsTranslated[j];
-		combo_encoder_analyze_data_compare = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_encoder_analyze_data_compare, comboDataCompareOptionsTranslated, "");
-		combo_encoder_analyze_data_compare.Active = UtilGtk.ComboMakeActive(
-				combo_encoder_analyze_data_compare, 
-				Catalog.GetString(comboDataCompareOptions[0]));
-		combo_encoder_analyze_data_compare.Changed += 
-			new EventHandler(on_combo_encoder_analyze_data_compare_changed );
-
-		
 		//create combo analyze cross (variables)
 		string [] comboAnalyzeCrossOptions = { 
 			"Power / Load", "Speed / Load", "Force / Load", "Speed,Power / Load", "Force / Speed", "Power / Speed"
@@ -3198,6 +2908,11 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_exercise.PackStart(combo_encoder_exercise, true, true, 0);
 		hbox_combo_encoder_exercise.ShowAll();
 		combo_encoder_exercise.Sensitive = true;
+		
+		hbox_combo_encoder_exercise_analyze.PackStart(combo_encoder_exercise_analyze, true, true, 0);
+		//hbox_combo_encoder_exercise_analyze.ShowAll(); //hbox will be shown only on intersession & interperson
+		combo_encoder_exercise_analyze.ShowAll();
+		combo_encoder_exercise_analyze.Sensitive = true;
 
 		hbox_combo_encoder_eccon.PackStart(combo_encoder_eccon, true, true, 0);
 		hbox_combo_encoder_eccon.ShowAll();
@@ -3211,10 +2926,6 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_anchorage.ShowAll();
 		combo_encoder_anchorage.Sensitive = true;
 
-		hbox_encoder_analyze_data_compare.PackStart(combo_encoder_analyze_data_compare, true, true, 0);
-		hbox_encoder_analyze_data_compare.ShowAll();
-		combo_encoder_analyze_data_compare.Sensitive = true;
-	
 		hbox_combo_encoder_analyze_cross.PackStart(combo_encoder_analyze_cross, true, true, 0);
 		hbox_combo_encoder_analyze_cross.ShowAll(); 
 		combo_encoder_analyze_cross.Sensitive = true;
@@ -3232,7 +2943,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	//this is called also when an exercise is deleted to update the combo and the string []
-	protected void createEncoderComboExercise() {
+	protected void createEncoderComboExerciseAndAnalyze() {
 		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false, -1, false);
 		encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
 		string [] exerciseNamesToCombo = new String [encoderExercises.Count];
@@ -3244,8 +2955,13 @@ public partial class ChronoJumpWindow
 			exerciseNamesToCombo[i] = Catalog.GetString(ex.name);
 			i++;
 		}
+		
 		UtilGtk.ComboUpdate(combo_encoder_exercise, exerciseNamesToCombo, "");
 		combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, 
+				Catalog.GetString(((EncoderExercise) encoderExercises[0]).name));
+		
+		UtilGtk.ComboUpdate(combo_encoder_exercise_analyze, exerciseNamesToCombo, "");
+		combo_encoder_exercise_analyze.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_analyze, 
 				Catalog.GetString(((EncoderExercise) encoderExercises[0]).name));
 	}
 
@@ -3269,36 +2985,6 @@ public partial class ChronoJumpWindow
 		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.NONE, encoderCaptureOptionsWin.GetMainVariable());
 	}
 
-	void on_combo_encoder_analyze_data_compare_changed (object o, EventArgs args)
-	{
-		bool compare = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
-					encoderDataCompareTranslation) != "No compare";
-		
-		//this analysis can be done always. It's always sensitive (don't need to change), but is active if compare
-		if(compare)
-			radiobutton_encoder_analyze_cross.Active = true;
-
-		//this analysis only when not comparing
-		radiobutton_encoder_analyze_powerbars.Sensitive = ! compare;
-		radiobutton_encoder_analyze_1RM.Sensitive = ! compare;
-		radiobutton_encoder_analyze_single.Sensitive = ! compare;
-		radiobutton_encoder_analyze_side.Sensitive = ! compare;
-		radiobutton_encoder_analyze_neuromuscular_profile.Sensitive = ! compare;
-
-		//compare button only visible when comparing
-		button_encoder_analyze_data_compare.Visible = compare;
-
-		if(compare)
-			encoderCompareInitialize(); //put some data just in case user doesn't click on compare button
-	}
-
-	//put some data just in case user doesn't click on compare button
-	private void encoderCompareInitialize() {
-		if(encoderCompareInterperson == null)
-			encoderCompareInterperson = new ArrayList ();
-		if(encoderCompareIntersession == null)
-			encoderCompareIntersession = new ArrayList ();
-	}
 
 	void on_combo_encoder_analyze_cross_changed (object o, EventArgs args)
 	{
@@ -3325,7 +3011,7 @@ public partial class ChronoJumpWindow
 		//1RM Indirect can only be used with current signal	
 		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
 					encoderAnalyze1RMTranslation) == "1RM Indirect" &&
-				! check_encoder_analyze_signal_or_curves.Active) { 	//saved curves 
+				! radio_encoder_analyze_individual_current_set.Active) {	//not current set
 			button_encoder_analyze.Sensitive = false;
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					"1RM Indirect prediction can only be done with current set.");
@@ -3468,6 +3154,9 @@ public partial class ChronoJumpWindow
 	}
 	int getExerciseIDFromCombo () {
 		return getExerciseIDFromName (UtilGtk.ComboGetActive(combo_encoder_exercise));
+	}
+	int getExerciseIDFromComboAnalyze () {
+		return getExerciseIDFromName (UtilGtk.ComboGetActive(combo_encoder_exercise_analyze));
 	}
 	int getExerciseIDFromTable () {
 		return getExerciseIDFromName (getExerciseNameFromTable());
@@ -3729,7 +3418,7 @@ public partial class ChronoJumpWindow
 
 			genericWin.HideAndNull();
 				
-			createEncoderComboExercise();
+			createEncoderComboExerciseAndAnalyze();
 			combo_encoder_exercise.Active = 0;
 
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Exercise deleted."));
@@ -3747,24 +3436,31 @@ public partial class ChronoJumpWindow
 			
 	//called when a person changes
 	private void encoderPersonChanged() {
+		//TODO
+		/*
 		ArrayList data = SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
 				"curve", EncoderSQL.Eccons.ALL, 
 				false, true);
 		
-		int activeCurvesNum = getActiveCurvesNum(data);
+		int activeCurvesNum = UtilEncoder.GetActiveCurvesNum(data);
 		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
 		
 		label_encoder_user_curves_all_num.Text = data.Count.ToString();
-	
-		if(check_encoder_analyze_signal_or_curves.Active)	//current set (signal)
+		*/
+
+	/*	
+		if(radio_encoder_analyze_individual_current_set.Active) 	//current set
 		{
 			//when person changes, current signal is not loaded, 
 			//then combo_encoder_analyze_curve_num_combo has to be empty
 			UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, new string [] {}, "");
-		} else {	//saved repetitions
+		} else if(radio_encoder_analyze_individual_current_session.Active) {
 			updateComboEncoderAnalyzeCurveNumSavedReps(data, activeCurvesNum);	
-		}
+//
+//			getActiveRepetitions() DOING THIS
+		} //rest of modes don't use this combo
+		*/
 	
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		
@@ -3783,9 +3479,6 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_table_save.Sensitive = false;
 		button_encoder_analyze_1RM_save.Visible = false;
 
-		//put some data just in case user doesn't click on compare button
-		encoderCompareInitialize();
-		
 		array1RMUpdate(false);
 		encoder_change_displaced_weight_and_1RM ();
 	}
@@ -3811,8 +3504,8 @@ public partial class ChronoJumpWindow
 		//other dependencies
 		//c5 True needs 
 		//	(signal && treeviewEncoder has rows) || 
-		//	(! check_encoder_analyze_signal_or_curves.Active && user has curves))
-		//c6 True needs ! check_encoder_analyze_signal_or_curves.Active
+		//	(! radio_encoder_analyze_individual_current_set.Active && user has curves))
+		//c6 True needs ! radio_encoder_analyze_individual_current_set.Active
 
 		if(option != encoderSensEnum.PROCESSINGCAPTURE && option != encoderSensEnum.PROCESSINGR)
 			encoderSensEnumStored = option;
@@ -3825,7 +3518,6 @@ public partial class ChronoJumpWindow
 		int [] processingR = 		{0, 0, 0, 0, 0, 0, 1, 0, 0};
 		int [] doneNoSignal = 		{1, 1, 1, 0, 0, 1, 1, 0, 0};
 		int [] doneYesSignal = 		{1, 1, 1, 1, 0, 1, 1, 0, 0};
-		int [] selectedCurve = 		{1, 1, 1, 1, 1, 1, 1, 0, 0};
 		int [] table = new int[7];
 
 		switch(option) {
@@ -3849,9 +3541,6 @@ public partial class ChronoJumpWindow
 				break;
 			case encoderSensEnum.DONEYESSIGNAL:
 				table = doneYesSignal;
-				break;
-			case encoderSensEnum.SELECTEDCURVE:
-				table = selectedCurve;
 				break;
 		}
 
@@ -3879,10 +3568,10 @@ public partial class ChronoJumpWindow
 			(
 			 Util.IntToBool(table[5]) && 
 			 (
-			  (check_encoder_analyze_signal_or_curves.Active &&
+			  (radio_encoder_analyze_individual_current_set.Active &&
 			   UtilGtk.CountRows(encoderCaptureListStore) > 0) 
 			  ||
-			  ( ! check_encoder_analyze_signal_or_curves.Active &&
+			  ( ! radio_encoder_analyze_individual_current_set.Active &&
 			   Convert.ToInt32(label_encoder_user_curves_all_num.Text) >0)
 			  )
 			 );
@@ -3896,7 +3585,7 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze.Sensitive = analyze_sensitive;
 
 		hbox_encoder_user_curves.Visible = 
-			(Util.IntToBool(table[6]) && ! check_encoder_analyze_signal_or_curves.Active);
+			(Util.IntToBool(table[6]) && ! radio_encoder_analyze_individual_current_set.Active);
 		
 		button_encoder_capture_cancel.Sensitive = Util.IntToBool(table[7]);
 		button_encoder_analyze_cancel.Sensitive = Util.IntToBool(table[7]);
@@ -3906,8 +3595,7 @@ public partial class ChronoJumpWindow
 	
 	private void button_encoder_analyze_sensitiveness() {
 		bool analyze_sensitive = false;
-		bool signal = check_encoder_analyze_signal_or_curves.Active;
-		if(signal) {
+		if(radio_encoder_analyze_individual_current_set.Active) {
 			int rows = UtilGtk.CountRows(encoderCaptureListStore);
 			
 			//button_encoder_analyze.Sensitive = encoderTimeStamp != null;
@@ -5424,8 +5112,10 @@ public partial class ChronoJumpWindow
 							}
 						}
 					}
-					if(deletedUserCurves)
+					if(deletedUserCurves) {
+						//TODO: change encSelReps and this will change labels
 						updateUserCurvesLabelsAndCombo(true); 	// (2)
+					}
 
 					// (3) update meanPower on SQL encoder
 					findAndMarkSavedCurves(true, true); //SQL opened; update curve SQL records (like future1: meanPower)

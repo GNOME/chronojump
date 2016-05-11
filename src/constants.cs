@@ -408,8 +408,10 @@ public class Constants
 	public static string FileNameContactPlatformModular = "modular_platform_with_chronopic.jpg";
 	public static string FileNameInfrared = "infrared.jpg";
 	
-	public static string FileNameEncoderAnalyzeCurrentSignalIcon = "encoder-analyze-current-signal.png";
-	public static string FileNameEncoderAnalyzeSavedCurvesIcon = "encoder-analyze-saved-curves.png";
+	public static string FileNameEncoderAnalyzeIndividualCurrentSetIcon = "encoder-analyze-individual-current-set.png";
+	public static string FileNameEncoderAnalyzeIndividualCurrentSessionIcon = "encoder-analyze-individual-current-session.png";
+	public static string FileNameEncoderAnalyzeIndividualAllSessionsIcon = "encoder-analyze-individual-all-sessions.png";
+	public static string FileNameEncoderAnalyzeGroupalCurrentSessionIcon = "encoder-analyze-groupal-current-session.png";
 
 	public static string FileNameEncoderAnalyzePowerbarsIcon = "encoder-analyze-powerbars.png";
 	public static string FileNameEncoderAnalyzeCrossIcon = "encoder-analyze-cross.png";

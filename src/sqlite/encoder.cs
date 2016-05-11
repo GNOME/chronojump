@@ -315,19 +315,10 @@ class SqliteEncoder : Sqlite
 	}
 	
 
-	public static ArrayList SelectCompareIntersession (bool dbconOpened, int personID)
+	public static ArrayList SelectCompareIntersession (bool dbconOpened, int exerciseID, int personID)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
-
-		/* OLD, returns a row for active and a row for inactive at each session	
-		dbcmd.CommandText = 
-			"SELECT count(*), encoder.sessionID, session.name, session.date, encoder.status " +
-			" FROM encoder, session, person77 " +
-			" WHERE encoder.personID == " + personID + " AND signalOrCurve == 'curve' AND " + 
-			" encoder.personID == person77.uniqueID AND encoder.sessionID == session.uniqueID " + 
-			" GROUP BY encoder.sessionID, encoder.status ORDER BY encoder.sessionID, encoder.status";
-			*/
 
 		//returns a row for each session where there are active or inactive
 		dbcmd.CommandText = 
@@ -335,7 +326,8 @@ class SqliteEncoder : Sqlite
 			" SUM(CASE WHEN encoder.status = \"active\" THEN 1 END) as active, " +
 			" SUM(CASE WHEN encoder.status = \"inactive\" THEN 1 END) as inactive " + 
 			" FROM encoder, session, person77 " +
-			" WHERE encoder.personID == " + personID + " AND signalOrCurve == \"curve\" AND " +
+			" WHERE encoder.exerciseID == " + exerciseID + " AND " +
+			" encoder.personID == " + personID + " AND signalOrCurve == \"curve\" AND " +
 			" encoder.personID == person77.uniqueID AND encoder.sessionID == session.uniqueID " +
 			" GROUP BY encoder.sessionID ORDER BY encoder.sessionID, encoder.status";
 	

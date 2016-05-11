@@ -356,21 +356,29 @@ public class GenericWindow
 	}
 
 	
-	private string [] comboCheckBoxesOptions = {
+	private static string [] comboCheckBoxesOptionsDefault = {
 		Catalog.GetString("All"),
 		Catalog.GetString("None"),
 		Catalog.GetString("Invert"),
 		Catalog.GetString("Selected"),
 	};
+	private string [] comboCheckBoxesOptions = comboCheckBoxesOptionsDefault;
+
+	public void ResetComboCheckBoxesOptions() {
+		comboCheckBoxesOptions = comboCheckBoxesOptionsDefault;
+	}
 	
 	//this search in first column
-	//private string [] addOptionsToComboCheckBoxesOptions(string [] newOptions) {
 	public void AddOptionsToComboCheckBoxesOptions(ArrayList newOptions) {
 		comboCheckBoxesOptions = Util.AddArrayString( comboCheckBoxesOptions, 
 				Util.ArrayListToString(newOptions) );
 	}
 
-	public void CreateComboCheckBoxes() {
+	public void CreateComboCheckBoxes() 
+	{
+		if(hbox_combo_all_none_selected.Children.Length > 0)
+			hbox_combo_all_none_selected.Remove(combo_all_none_selected);
+
 		combo_all_none_selected = ComboBox.NewText ();
 		UtilGtk.ComboUpdate(combo_all_none_selected, comboCheckBoxesOptions, "");
 		
@@ -581,8 +589,38 @@ public class GenericWindow
 		
 	}
 	
+	public int GetCell(int uniqueID, int column) 
+	{
+		LogB.Information(" GetCell " + uniqueID.ToString() + " " + column.ToString());
+		Gtk.TreeIter iter;
+		bool okIter = store.GetIterFirst(out iter);
+		if(okIter) {
+			do {
+				LogB.Information("_0_ " + (string) store.GetValue (iter, 0));
+				LogB.Information("_column_ " + column.ToString() + " " + (string) store.GetValue (iter, column));
+				if( ((string) store.GetValue (iter, 0)) == uniqueID.ToString()) {
+					return Convert.ToInt32( (string) store.GetValue (iter, column) );
+				}
+			} while ( store.IterNext(ref iter) );
+		}
+
+		return 0;
+	}
+	public string GetCheckboxStatus(int uniqueID) {
+		Gtk.TreeIter iter;
+		bool okIter = store.GetIterFirst(out iter);
+		if(okIter) {
+			do {
+				if( ((string) store.GetValue (iter, 0)) == uniqueID.ToString())
+					return store.GetValue (iter, 1).ToString();
+			} while ( store.IterNext(ref iter) );
+		}
+		//if error, return
+		return "inactive";
+	}
 	//if column == 1 returns checkboxes column. If is 2 returns column 2...
-	public string [] GetCheckboxesStatus(int column, bool onlyActive) 
+	//Attention: Used on checkboxes treeviews
+	public string [] GetColumn(int column, bool onlyActive) 
 	{
 		//to store active or inactive status of curves
 		string [] checkboxes = new string[UtilGtk.CountRows(store)];
@@ -633,6 +671,11 @@ public class GenericWindow
 
 				//check if there are rows checked for having sensitive or not
 				//buttonRecuperateChangeSensitiveness();
+				
+				hbox_error.Hide();
+			} else {
+				label_error.Text = "Cannot select rows without active repetitions";
+				hbox_error.Show();
 			}
 		}
 	}

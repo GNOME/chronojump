@@ -803,6 +803,33 @@ public class UtilEncoder
 
 		return econf.inertiaMachine + im_weights;
 	}
+
+	public static int GetActiveCurvesNum(ArrayList curvesArray) {
+		int countActiveCurves = 0;
+		foreach(EncoderSQL es in curvesArray) 
+			if(es.status == "active")
+				countActiveCurves ++;
+		
+		return countActiveCurves;
+	}
+	
+	public static string [] GetActiveCheckboxesList(string [] checkboxes, int activeCurvesNum) {
+		if(activeCurvesNum == 0)
+			return Util.StringToStringArray("");
+
+		string [] activeCurvesList = new String[activeCurvesNum];
+		int i=0;
+		int j=0;
+		foreach(string cb in checkboxes) {
+			if(cb == "active")
+				activeCurvesList[j++] = (i+1).ToString();
+			i++;
+		}
+		return activeCurvesList;
+	}
+	
+
+
 		
 
 }

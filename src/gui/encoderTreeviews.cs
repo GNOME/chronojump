@@ -466,28 +466,9 @@ public partial class ChronoJumpWindow
 
 			iterOk = encoderCaptureListStore.IterNext (ref iter);
 		}
-		//combo_encoder_capture_show_save_curve_button();
 			
 		callPlotCurvesGraphDoPlot();
 	}
-
-	/*	
-	void combo_encoder_capture_show_save_curve_button () {
-		label_encoder_curve_action.Text = "";
-
-		TreeIter iter;
-		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
-		while(iterOk) {
-			if(((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record) {
-				encoderButtonsSensitive(encoderSensEnum.SELECTEDCURVE);
-				return;
-			}
-			iterOk = encoderCaptureListStore.IterNext (ref iter);
-		}
-		encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
-	}
-	*/
-
 
 
 	string [] treeviewEncoderAnalyzeHeaders = {
@@ -524,10 +505,11 @@ public partial class ChronoJumpWindow
 		ArrayList curvesData = new ArrayList();
 		string exerciseName = "";
 		double totalMass = 0; 
-		if(check_encoder_analyze_signal_or_curves.Active) {	//current signal
+		if(radio_encoder_analyze_individual_current_set.Active) {	//current set
 			exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise);
 			totalMass = findMass(Constants.MassType.DISPLACED);
-		} else {						//user curves
+		} else {						//not current set
+			//TODO:
 			curvesData = SqliteEncoder.Select(
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
 					"curve", EncoderSQL.Eccons.ALL, 
@@ -551,7 +533,7 @@ public partial class ChronoJumpWindow
 				cells = fixDecimals(false, cells);
 				
 				
-				if(! check_encoder_analyze_signal_or_curves.Active) {	//user curves
+				if(! radio_encoder_analyze_individual_current_set.Active) {	//not current set
 					/*
 					 * better don't do this to avoid calling SQL in both treads
 					EncoderSQL eSQL = (EncoderSQL) curvesData[curvesCount];
@@ -906,7 +888,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 		
-		if(check_encoder_analyze_signal_or_curves.Active && findEccon(false) == "ecS") 
+		if(radio_encoder_analyze_individual_current_set.Active && findEccon(false) == "ecS") 
 		{
 			string phase = "e";
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
@@ -916,7 +898,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Text = 
 				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
 		}
-		else if(check_encoder_analyze_signal_or_curves.Active && findEccon(false) == "ceS") 
+		else if(radio_encoder_analyze_individual_current_set.Active && findEccon(false) == "ceS") 
 		{
 			string phase = "c";
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));

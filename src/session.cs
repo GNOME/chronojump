@@ -187,8 +187,16 @@ public partial class Session {
 		get { return date.ToLongDateString(); }
 	}
 	
+	//latin: 20/11/2016
 	public string DateShort {
 		get { return date.ToShortDateString(); }
+	}
+
+	//latin: 2016-11-20
+	public string DateShortAsSQL {
+		get { return date.Year.ToString() + "-" + 
+				date.Month.ToString() + "-" + 
+				date.Day.ToString(); }
 	}
 	
 	

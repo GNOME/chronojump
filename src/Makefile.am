@@ -11,6 +11,7 @@ SOURCES = \
 	gui/encoder.cs\
 	gui/encoderTreeviews.cs\
 	gui/encoderConfiguration.cs\
+	gui/encoderSelectRepetitions.cs\
 	gui/error.cs\
 	gui/eventExecute.cs\
 	gui/eventGraphConfigure.cs\
@@ -307,8 +308,10 @@ RESOURCES = \
 	../images/calendar.png,calendar.png \
 	../images/chronojump-logo-2013_320.png,chronojump-logo-2013_320.png \
 	../images/chronojump-logo-2013.png,chronojump-logo-2013.png \
-	../images/encoder-analyze-current-signal.png,encoder-analyze-current-signal.png \
-	../images/encoder-analyze-saved-curves.png,encoder-analyze-saved-curves.png \
+	../images/encoder-analyze-individual-current-set.png,encoder-analyze-individual-current-set.png \
+	../images/encoder-analyze-individual-current-session.png,encoder-analyze-individual-current-session.png \
+	../images/encoder-analyze-individual-all-sessions.png,encoder-analyze-individual-all-sessions.png \
+	../images/encoder-analyze-groupal-current-session.png,encoder-analyze-groupal-current-session.png \
 	../images/encoder-analyze-powerbars.png,encoder-analyze-powerbars.png \
 	../images/encoder-analyze-cross.png,encoder-analyze-cross.png \
 	../images/encoder-analyze-1RM.png,encoder-analyze-1RM.png \

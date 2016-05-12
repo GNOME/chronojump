@@ -350,17 +350,12 @@ public partial class ChronoJumpWindow
 	
 
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
-	//TODO: treeview on analyze (doing in separated window)
-	//
-	//TODO: on session load, show encoder stuff
 	//
 	//TODO: capture also with webcam an attach it to signal or curve
 	//
 	//TODO: peak power in eccentric in absolute values
 	//
 	//TODO: on cross, spline and force speed and power speed should have a spar value higher, like 0.7. On the other hand, the other cross graphs, haveload(mass) in the X lot more discrete, there is good to put 0.5
-	//TODO: put also the Load as Load(mass) or viceversa, and put the units on the xlab, ylab
-	//TODO: put a save graph and a html report
 	
 
 
@@ -2008,7 +2003,8 @@ public partial class ChronoJumpWindow
 		if(capturedOk)
 			UtilEncoder.RunEncoderCalculeIM(
 					encoder_configuration_win.Spin_im_weight,
-					encoder_configuration_win.Spin_im_length,
+					//encoder_configuration_win.Spin_im_length,
+					120,	//hardcoded two minutes, better than above because it's in another window and maybe too low
 					encoderRProcAnalyze
 					);
 		else

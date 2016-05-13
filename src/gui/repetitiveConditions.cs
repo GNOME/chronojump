@@ -70,6 +70,14 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spinbutton_time_lower;
 
 	/* encoder */
+	[Widget] Gtk.Frame frame_encoder_automatic_conditions;
+	[Widget] Gtk.HBox hbox_combo_encoder_variable_automatic;
+	[Widget] Gtk.ComboBox combo_encoder_variable_automatic;
+	[Widget] Gtk.CheckButton checkbutton_encoder_automatic_greater;
+	[Widget] Gtk.CheckButton checkbutton_encoder_automatic_lower;
+
+	[Widget] Gtk.VBox vbox_encoder_manual;
+	[Widget] Gtk.CheckButton checkbutton_encoder_show_manual_feedback;
 	[Widget] Gtk.Notebook notebook_encoder_conditions;
 	[Widget] Gtk.CheckButton checkbutton_encoder_height_higher;
 	[Widget] Gtk.CheckButton checkbutton_encoder_height_lower;
@@ -116,6 +124,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_repetitive_tc_lower;
 	[Widget] Gtk.Image image_repetitive_tf_tc_greater;
 	[Widget] Gtk.Image image_repetitive_time_lower;
+	[Widget] Gtk.Image image_repetitive_encoder_automatic_greater;
 	[Widget] Gtk.Image image_encoder_height_higher;
 	[Widget] Gtk.Image image_encoder_mean_speed_higher;
 	[Widget] Gtk.Image image_encoder_max_speed_higher;
@@ -132,6 +141,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_repetitive_tc_greater;
 	[Widget] Gtk.Image image_repetitive_tf_tc_lower;
 	[Widget] Gtk.Image image_repetitive_time_greater;
+	[Widget] Gtk.Image image_repetitive_encoder_automatic_lower;
 	[Widget] Gtk.Image image_encoder_height_lower;
 	[Widget] Gtk.Image image_encoder_mean_speed_lower;
 	[Widget] Gtk.Image image_encoder_max_speed_lower;
@@ -161,6 +171,8 @@ public class RepetitiveConditionsWindow
 		
 		FakeButtonClose = new Gtk.Button();
 		
+		createComboEncoderAutomaticVariable();
+
 		putNonStandardIcons();
 	}
 
@@ -195,6 +207,8 @@ public class RepetitiveConditionsWindow
 		hbox_run_best_worst.Hide();
 		hbox_jump_conditions.Hide();
 		hbox_run_conditions.Hide();
+		frame_encoder_automatic_conditions.Hide();
+		vbox_encoder_manual.Hide();
 		notebook_encoder_conditions.Hide();
 
 		if(bellMode == Constants.BellModes.JUMPS) {
@@ -209,8 +223,22 @@ public class RepetitiveConditionsWindow
 			frame_conditions.Show();
 		} else { //encoder
 			notebook_encoder_conditions.CurrentPage = 3; //power
-			notebook_encoder_conditions.Show();
+			frame_encoder_automatic_conditions.Show();
+			vbox_encoder_manual.Show();
+			if(checkbutton_encoder_show_manual_feedback.Active)
+				notebook_encoder_conditions.Show();
 		}
+	}
+		
+	private void createComboEncoderAutomaticVariable() {
+		combo_encoder_variable_automatic = ComboBox.NewText ();
+		string [] values = { Constants.MeanSpeed, Constants.MaxSpeed, Constants.MeanForce, Constants.MaxForce, Constants.MeanPower, Constants.PeakPower };
+		UtilGtk.ComboUpdate(combo_encoder_variable_automatic, values, "");
+		combo_encoder_variable_automatic.Active = UtilGtk.ComboMakeActive(combo_encoder_variable_automatic, "Mean power");
+		
+		hbox_combo_encoder_variable_automatic.PackStart(combo_encoder_variable_automatic, false, false, 0);
+		hbox_combo_encoder_variable_automatic.ShowAll();
+		combo_encoder_variable_automatic.Sensitive = true;
 	}
 
 	private void putNonStandardIcons() {
@@ -223,6 +251,7 @@ public class RepetitiveConditionsWindow
 		image_repetitive_tc_lower.Pixbuf = pixbuf;
 		image_repetitive_tf_tc_greater.Pixbuf = pixbuf;
 		image_repetitive_time_lower.Pixbuf = pixbuf;
+		image_repetitive_encoder_automatic_greater.Pixbuf = pixbuf;
 		image_encoder_height_higher.Pixbuf = pixbuf;
 		image_encoder_mean_speed_higher.Pixbuf = pixbuf;
 		image_encoder_max_speed_higher.Pixbuf = pixbuf;
@@ -240,6 +269,7 @@ public class RepetitiveConditionsWindow
 		image_repetitive_tc_greater.Pixbuf = pixbuf;
 		image_repetitive_tf_tc_lower.Pixbuf = pixbuf;
 		image_repetitive_time_greater.Pixbuf = pixbuf;
+		image_repetitive_encoder_automatic_lower.Pixbuf = pixbuf;
 		image_encoder_height_lower.Pixbuf = pixbuf;
 		image_encoder_mean_speed_lower.Pixbuf = pixbuf;
 		image_encoder_max_speed_lower.Pixbuf = pixbuf;
@@ -324,6 +354,20 @@ public class RepetitiveConditionsWindow
 	}
 
 	/* encoder */
+	void on_spinbutton_encoder_automatic_greater_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_automatic_greater.Active = true;
+	}
+	void on_spinbutton_encoder_automatic_lower_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_automatic_lower.Active = true;
+	}
+			
+	void on_checkbutton_encoder_show_manual_feedback_toggled (object o, EventArgs args) {
+		if(checkbutton_encoder_show_manual_feedback.Active)
+			notebook_encoder_conditions.Show();
+		else
+			notebook_encoder_conditions.Hide();
+	}
+	
 	void on_spinbutton_encoder_height_higher_value_changed (object o, EventArgs args) {
 		checkbutton_encoder_height_higher.Active = true;
 	}

@@ -3809,6 +3809,10 @@ public partial class ChronoJumpWindow
 		}
 		else if(radio_mode_reaction_times_small.Active) {
 			LogB.Debug("radio_mode_rt");
+	
+			if(extra_window_radio_reaction_time_discriminative.Active)
+				reaction_time_discriminative_lights_prepare();
+
 			on_reaction_time_activate (o, args);
 		}
 		else if(radio_mode_pulses_small.Active) {

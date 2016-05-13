@@ -180,7 +180,8 @@ public partial class ChronoJumpWindow
 	private double discriminativeStartTime;
 	private Random rnd;
 
-	private void on_button_discriminative_lights_start_clicked (object o, EventArgs args) 
+	//private void on_button_discriminative_lights_start_clicked (object o, EventArgs args) 
+	private void reaction_time_discriminative_lights_prepare () 
 	{
 		//TODO: check if nothing activated, Start should be unsensitive
 
@@ -247,7 +248,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("discriminativeCharToSend");
 		LogB.Information(discriminativeCharToSend);
 		
-		on_button_execute_test_clicked(o, args);
+		//on_button_execute_test_clicked(o, args);
 	}
 
 

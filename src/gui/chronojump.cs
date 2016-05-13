@@ -32,6 +32,7 @@ using LongoMatch.Gui;
 using LongoMatch.Video.Capturer;
 using LongoMatch.Video.Common;
 using LongoMatch.Video.Utils;
+using System.Threading;
 
 public partial class ChronoJumpWindow 
 {
@@ -4527,14 +4528,9 @@ public partial class ChronoJumpWindow
 		if(extra_window_radio_reaction_time_discriminative.Active) {
 			//TODO: do also for animation_lights and flickr
 			currentEventExecute.StartIn = false;
-
-			currentEventExecute.DiscriminativeCharToSend = discriminativeCharToSend;
-			currentEventExecute.DiscriminativeStartTime = discriminativeStartTime;
-			currentEventExecute.SP = chronopicWin.SP;
-		} else {
-			currentEventExecute.DiscriminativeCharToSend = "";
-			currentEventExecute.DiscriminativeStartTime = 0;
 		}
+		currentEventExecute.FakeButtonReactionTimeStart.Clicked += new EventHandler(on_event_execute_reaction_time_start);
+
 		currentEventExecute.Manage(); //check that platform is ok
 		
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
@@ -4544,6 +4540,34 @@ public partial class ChronoJumpWindow
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}	
 
+	private void on_event_execute_reaction_time_start (object o, EventArgs args) 
+	{
+		currentEventExecute.FakeButtonReactionTimeStart.Clicked -= new EventHandler(on_event_execute_reaction_time_start);
+		
+		if(extra_window_radio_reaction_time_discriminative.Active) {
+			Thread.Sleep(Convert.ToInt32(discriminativeStartTime * 1000)); //in ms
+
+			ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
+			cs.CharToSend = discriminativeCharToSend;
+			cs.Write(chronopicWin.SP, 0);
+
+
+			LogB.Information("opening port at gui/chronojump.cs");	
+			chronopicWin.SP.Open();
+
+			/*
+			 * some machines needed to flush
+			 * - my Linux laptop two bytes
+			 * - a linux guest on windows host (virtual box) don't need
+			 * Note this will not allow reaction time be lower than 100 ms (DefaultTimeout on chronopic.cs)
+			 */
+			LogB.Information("Going to flush by time out");	//needed on some machines
+			chronopicWin.CP.FlushByTimeOut();
+			LogB.Information("flushed!");	
+		}
+
+		currentEventExecute.Manage2();
+	}
 
 
 	private void on_reaction_time_finished (object o, EventArgs args)
@@ -4577,8 +4601,6 @@ public partial class ChronoJumpWindow
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
 	}
-
-
 
 	/* ---------------------------------------------------------
 	 * ----------------  PULSES EXECUTION ----------------------

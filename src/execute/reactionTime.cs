@@ -35,7 +35,7 @@ public class ReactionTimeExecute : EventExecute
 	private Chronopic cp;
 
 	private ReactionTime reactionTimeDone;
-	
+				
 	public ReactionTimeExecute() {
 	}
 
@@ -62,6 +62,8 @@ public class ReactionTimeExecute : EventExecute
 		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 		fakeButtonThreadDyed = new Gtk.Button();
+				
+		FakeButtonReactionTimeStart = new Gtk.Button();
 		
 		simulated = false;
 			
@@ -100,9 +102,10 @@ public class ReactionTimeExecute : EventExecute
 
 		if (simulated) 
 			platformState = Chronopic.Plataforma.ON;
-		else
+		else {
 			platformState = chronopicInitialValue(cp);
-	
+		}
+			
 		bool canStart = false;
 		if ( 
 				(StartIn && platformState == Chronopic.Plataforma.ON) ||
@@ -129,13 +132,9 @@ public class ReactionTimeExecute : EventExecute
 			if (simulated) //TODO: check loggedState and StartIn
 				platformState = Chronopic.Plataforma.OFF;
 			
-			//start thread
-			//Log.Write("Start thread");
-			thread = new Thread(new ThreadStart(waitEvent));
-			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
-			
-			LogB.ThreadStart(); 
-			thread.Start(); 
+	
+			//if discriminative, will fire the buttons	
+			FakeButtonReactionTimeStart.Click();
 		} 
 		else if (! canStart && (platformState == Chronopic.Plataforma.ON || platformState == Chronopic.Plataforma.OFF) )
 		{
@@ -156,33 +155,19 @@ public class ReactionTimeExecute : EventExecute
 		}
 	}
 
+	public override void Manage2() 
+	{
+		//start thread
+		//Log.Write("Start thread");
+		thread = new Thread(new ThreadStart(waitEvent));
+		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+
+		LogB.ThreadStart(); 
+		thread.Start(); 
+	}
+
 	protected override void waitEvent ()
 	{
-		if(DiscriminativeCharToSend != "") {
-			Thread.Sleep(Convert.ToInt32(DiscriminativeStartTime * 1000)); //in ms
-
-			ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
-			cs.CharToSend = DiscriminativeCharToSend;
-			cs.Write(SP, 0);
-
-			LogB.Information("opening port");	
-			SP.Open();
-
-			LogB.Information("reading one");	
-			byte[] buffer = new byte[256];
-			SP.Read(buffer,0,256);
-			LogB.Information("readed");	
-
-			LogB.Information("reading two");	
-			buffer = new byte[256];
-			SP.Read(buffer,0,256);
-			LogB.Information("readed");	
-
-			LogB.Information("closing port");	
-			SP.Close();
-			//TODO: end discriminative stuff!!!!
-		}
-
 		double timestamp = 0;
 		bool success = false;
 		

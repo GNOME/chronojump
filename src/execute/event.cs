@@ -154,9 +154,8 @@ public class EventExecute
 	//for reaction time	
 	//on animation lights and discriminative should be false
 	public bool StartIn = true;
-	public string DiscriminativeCharToSend;
-	public double DiscriminativeStartTime;
-	public SerialPort SP;
+	public Gtk.Button FakeButtonReactionTimeStart;
+	
 	
 
 	//protected EventExecuteWindow eventExecuteWin;
@@ -489,6 +488,9 @@ public class EventExecute
 	protected virtual void badEvent() {
 		Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 	} 
+	
+	public virtual void Manage2() {
+	}
 	
 	//from confirm_window cancel button (thread has not started)
 	//this is NOT called when a event has started and user click on "Cancel"

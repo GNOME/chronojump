@@ -339,6 +339,7 @@ public abstract class ChronopicAuto
 		return true;
 	}
 	private void close(SerialPort sp) {
+		LogB.Information("closing port... ");
 		sp.Close();
 	}	
 

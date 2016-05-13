@@ -373,8 +373,35 @@ public class Chronopic {
 		}
 	}
 
+	/*
+	 * this will read what's in the serial port until time out
+	*/	
+	private void flushByTimeOut()
+	{
+		byte[] buffer = new byte[256];
+
+		//try, catch done because mono-1.2.3 throws an exception when there's a timeout
+		//http://bugzilla.gnome.org/show_bug.cgi?id=420520
+		bool timeOut = false;
+		do{
+			try{
+				sp.Read(buffer,0,256);
+				LogB.Debug(" spReaded ");
+			} catch {
+				LogB.Warning(" catchedTimeOut ");
+				timeOut = true;
+			}
+
+		} while(! timeOut);
+	}
+
+
 	public void Flush() {
 		flush();
+	}
+	
+	public void FlushByTimeOut() {
+		flushByTimeOut();
 	}
 
 	/**********************************/

@@ -984,8 +984,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("on_analyze_repetitions_selected");
 		encSelReps.FakeButtonDone.Clicked -= new EventHandler(on_analyze_repetitions_selected);
 
-		label_encoder_user_curves_active_num.Text = encSelReps.RepsActive.ToString();
-		label_encoder_user_curves_all_num.Text = encSelReps.RepsAll.ToString();
+		updateUserCurvesLabelsAndCombo(false);
 	}
 	
 	//called on changing radio mode (! show), and on clicking button_encoder_analyze_data_select_curves (show)
@@ -1018,8 +1017,7 @@ public partial class ChronoJumpWindow
 
 		genericWin = encSelReps.Do();
 
-		label_encoder_user_curves_active_num.Text = encSelReps.RepsActive.ToString();
-		label_encoder_user_curves_all_num.Text = encSelReps.RepsAll.ToString();
+		updateUserCurvesLabelsAndCombo(false);
 	}
 			
 	void on_delete_encoder_curve (object o, EventArgs args)
@@ -1601,27 +1599,21 @@ public partial class ChronoJumpWindow
 
 	private void updateUserCurvesLabelsAndCombo(bool dbconOpened) 
 	{
-		/* TODO
-		ArrayList data;
-		if(radio_encoder_analyze_individual_current_session.Active)
-			data = SqliteEncoder.Select(
-					dbconOpened, -1, currentPerson.UniqueID, currentSession.UniqueID, -1, 
-					"curve", EncoderSQL.Eccons.ALL, 
-					false, true);
-		//else
-		//	read encSelReps public variables
-
-		int activeCurvesNum = UtilEncoder.GetActiveCurvesNum(data);
-		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
-		label_encoder_user_curves_all_num.Text = data.Count.ToString();
+		label_encoder_user_curves_active_num.Text = encSelReps.RepsActive.ToString();
+		label_encoder_user_curves_all_num.Text = encSelReps.RepsAll.ToString();
 		
 		if(radio_encoder_analyze_individual_current_set.Active)
 			updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
-		else
-			updateComboEncoderAnalyzeCurveNumSavedReps(data, activeCurvesNum);	
+		else if(radio_encoder_analyze_individual_current_session.Active) 
+		{
+			ArrayList data = SqliteEncoder.Select(
+					dbconOpened, -1, currentPerson.UniqueID, currentSession.UniqueID, -1, 
+					"curve", EncoderSQL.Eccons.ALL, 
+					false, true);
+			updateComboEncoderAnalyzeCurveNumSavedReps(data, encSelReps.RepsActive);
+		} //interperson and intersession modes don't use combo_encoder_analyze_curve_num_combo
 	
 		button_encoder_analyze_sensitiveness();
-		*/
 	}
 	
 	private void updateComboEncoderAnalyzeCurveNumFromCurrentSet () 
@@ -2395,6 +2387,7 @@ public partial class ChronoJumpWindow
 		
 		prepareAnalyzeRepetitions();
 
+		/*
 		if(currentPerson != null) {
 			ArrayList data = SqliteEncoder.Select(
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
@@ -2403,6 +2396,7 @@ public partial class ChronoJumpWindow
 			int activeCurvesNum = UtilEncoder.GetActiveCurvesNum(data);
 			updateComboEncoderAnalyzeCurveNumSavedReps(data, activeCurvesNum);	
 		}
+		*/
 
 		hbox_encoder_user_curves.Visible = currentPerson != null;
 		hbox_combo_encoder_exercise_analyze.Visible = false;
@@ -3457,6 +3451,12 @@ public partial class ChronoJumpWindow
 //			getActiveRepetitions() DOING THIS
 		} //rest of modes don't use this combo
 		*/
+		if(radio_encoder_analyze_individual_current_set.Active)
+			updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
+		else
+			prepareAnalyzeRepetitions();
+
+
 	
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		

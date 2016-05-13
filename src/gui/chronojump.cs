@@ -699,24 +699,24 @@ public partial class ChronoJumpWindow
 		image_line_person_avg.Pixbuf = pixbuf;
 
 		//reaction times changes
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time);
+		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time);
+		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_animation_lights);
+		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_flicker);
+		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_discriminative);
 		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_reaction_time);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_animation_lights);
 		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_reaction_time_animation_lights);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_flicker);
 		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_reaction_time_flicker);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_discriminative);
 		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_reaction_time_discriminative);
 
 		//pulses changes
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_pulses_free);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_pulses_custom);
+		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_pulses_free);
+		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_pulses_custom);
 		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_pulses_free);
 		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_pulses_custom);
 
 		//multichronopic changes
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_multichronopic_start);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_multichronopic_run_analysis);
+		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_multichronopic_start);
+		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_multichronopic_run_analysis);
 		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_multichronopic_start);
 		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_multichronopic_run_analysis);
 

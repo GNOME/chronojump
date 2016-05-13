@@ -3602,8 +3602,7 @@ public partial class ChronoJumpWindow
 				label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
 			}
 		} else {
-			analyze_sensitive = (currentPerson != null && 
-					UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo) != "");
+			analyze_sensitive = (currentPerson != null && encSelReps.RepsActive > 0);
 			if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
 				analyze_sensitive = curvesNumOkToSideCompare();
 				label_encoder_analyze_side_max.Visible = ! analyze_sensitive;

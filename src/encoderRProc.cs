@@ -32,6 +32,7 @@ public abstract class EncoderRProc
 	public Status status;
 	public bool Debug = false;
 	public bool CrossValidate;
+	public int CurvesReaded;
 
 	protected string optionsFile;	
 	protected EncoderStruct es;
@@ -213,8 +214,24 @@ public abstract class EncoderRProc
 	*/
 	protected void readingError (object sendingProcess, DataReceivedEventArgs errorFromR)
 	{
-		if (! String.IsNullOrEmpty(errorFromR.Data))
-			LogB.Warning(errorFromR.Data);
+		if (String.IsNullOrEmpty(errorFromR.Data))
+			return;
+
+		string str = errorFromR.Data;
+		if(str.Length > 6 && str.StartsWith("***") && str.EndsWith("***")) {
+			/*
+			 * 0123456
+			 * ***1***
+			 * str.Substring(3,1) 1 is the length
+			 */
+			str = str.Substring(3, str.Length -6); 
+			if(Util.IsNumber(str,false))
+				CurvesReaded = Convert.ToInt32(str);
+
+			return;
+		}
+		
+		LogB.Warning(str);
 	}
 
 	public void SendEndProcess() 
@@ -345,6 +362,8 @@ public class EncoderRProcAnalyze : EncoderRProc
 
 	protected override bool startProcess() 
 	{
+		CurvesReaded = 0;
+		
 		//If output file is not given, R will try to write in the running folder
 		//in which we may haven't got permissions
 	
@@ -409,9 +428,9 @@ public class EncoderRProcAnalyze : EncoderRProc
 		if(outputFileCheck2 != "")
 			deleteFile(outputFileCheck2);
 		
-		//delete status-5 mark used on export csv
+		//delete status-6 mark used on export csv
 		if(es.Ep.Analysis == "exportCSV")
-			Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt");
+			Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "6.txt");
 
 		//delete 1RM data if exists
 		string specialData = UtilEncoder.GetEncoderSpecialDataTempFileName();
@@ -459,6 +478,8 @@ public class EncoderRProcAnalyze : EncoderRProc
 	
 	protected override bool continueProcess() 
 	{
+		CurvesReaded = 0;
+		
 		//TODO: outputFileCheck creation/deletion here and at startProcess, should be unique
 		string outputFileCheck = "";
 		string outputFileCheck2 = "";
@@ -481,9 +502,9 @@ public class EncoderRProcAnalyze : EncoderRProc
 		if(outputFileCheck2 != "")
 			deleteFile(outputFileCheck2);
 		
-		//delete status-5 mark used on export csv
+		//delete status-6 mark used on export csv
 		if(es.Ep.Analysis == "exportCSV")
-			Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt");
+			Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "6.txt");
 		
 		//delete 1RM data if exists
 		string specialData = UtilEncoder.GetEncoderSpecialDataTempFileName();
@@ -519,7 +540,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 	//copy export from temp file to the file that user has selected
 	private void copyExportedFile() {
 		//wait first this status mark that is created when file is fully exported
-		while ( ! Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt") ) 
+		while ( ! Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "6.txt") ) 
 			;
 		//copy the file
 		File.Copy(es.OutputData1, ExportFileName, true);

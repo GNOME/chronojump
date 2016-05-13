@@ -53,15 +53,15 @@ file.create(paste(FeedbackFileBase,"2.txt",sep=""))
 
 loadLibraries(OperatingSystem)
 	
-print("Creating (FeedbackFileBase)3.txt with touch method...")
-file.create(paste(FeedbackFileBase,"3.txt",sep=""))
-	
 #open stdin connection
 f <- file("stdin")
 open(f)
 
 
 while(TRUE) {
+	print("Creating (FeedbackFileBase)3.txt with touch method...")
+	file.create(paste(FeedbackFileBase,"3.txt",sep=""))
+	
 	doProcess(options)
 
 	input <- readLines(f, n = 1L)

@@ -2328,9 +2328,9 @@ public partial class ChronoJumpWindow
 
 		encoderRProcAnalyze.StartOrContinue(encoderStruct);
 	}
-	
+		
 	/*
-	 * 1) neurmuscular should be separated
+	 * 1) neuromuscular should be separated
 	 * 2) if we are analyzing current set and it's concentric separate phases button has to be unsensitive
 	 * 3) single and side are together
 	 */
@@ -4731,18 +4731,29 @@ public partial class ChronoJumpWindow
 			}
 			*/
 
-			if(Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt")) 
+			if(Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "6.txt")) 
+			{
+				fraction = 6;
+				contents = Catalog.GetString("R tasks done");
+			}
+			else if(Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt")) 
 			{
 				fraction = 5;
-				contents = Catalog.GetString("R tasks done");
+				contents = "Smoothing done";
 			} else if(Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "4.txt")) 
 			{
 				fraction = 4;
-				contents = Catalog.GetString("Repetitions processed");
+				if(encoderRProcAnalyze.CurvesReaded > 0)
+					contents = encoderRProcAnalyze.CurvesReaded.ToString();
+				else
+					contents = Catalog.GetString("Repetitions processed");
 			} else if(Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "3.txt")) 
 			{
 				fraction = 3;
-				contents = Catalog.GetString("Starting process");
+				if(encoderRProcAnalyze.CurvesReaded > 0)
+					contents = encoderRProcAnalyze.CurvesReaded.ToString();
+				else
+					contents = Catalog.GetString("Starting process");
 			} else if(Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "2.txt")) 
 			{
 				fraction = 2;
@@ -4757,14 +4768,14 @@ public partial class ChronoJumpWindow
 				if(fraction == -1)
 					encoder_pulsebar_capture.Pulse();
 				else
-					encoder_pulsebar_capture.Fraction = Util.DivideSafeFraction(fraction, 5); 
+					encoder_pulsebar_capture.Fraction = Util.DivideSafeFraction(fraction, 6); 
 				
 				encoder_pulsebar_capture.Text = contents;
 			} else {
 				if(fraction == -1)
 					encoder_pulsebar_analyze.Pulse();
 				else
-					encoder_pulsebar_analyze.Fraction = Util.DivideSafeFraction(fraction, 5);
+					encoder_pulsebar_analyze.Fraction = Util.DivideSafeFraction(fraction, 6);
 
 				encoder_pulsebar_analyze.Text = contents;
 			}
@@ -5268,6 +5279,7 @@ public partial class ChronoJumpWindow
 		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "3.txt");
 		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "4.txt");
 		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt");
+		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "6.txt");
 	}
 
 	/*

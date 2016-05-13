@@ -102,6 +102,8 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 	} else {
 		#on every curve...
 		for(i in 1:n) {
+			write(paste("***",i,"***",sep=""), stderr())
+
 			#maybe the global eccon == "ec" or "ce" but the individual eccon of each curve is "c", then just do the same as above
 			if( (singleFile && eccon == "c") || (! singleFile && curves[i,8] == "c") )
 				smoothings[i] = 0
@@ -164,10 +166,10 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				#write(paste("x, y", x, y), stderr())
 
 
-				write("smooth.spline x (a)", stderr())	
-				write(x, stderr())
-				write("smooth.spline y (a)", stderr())	
-				write(y, stderr())
+				#write("smooth.spline x (a)", stderr())	
+				#write(x, stderr())
+				#write("smooth.spline y (a)", stderr())	
+				#write(y, stderr())
 			
 				#if less than 4 unique x or y cannot smooth spline. Just use smoothingOneC as default value
 				if(length(unique(x)) < 4 || length(unique(y)) < 4) {
@@ -223,10 +225,10 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 						myEncoderConfigurationName, myDiameter, 100, myInertiaMomentum, myGearedDown)
 				
 			
-				write("smooth.spline x (b)", stderr())
-				write(x, stderr())
-				write("smooth.spline y (b)", stderr())	
-				write(y, stderr())
+				#write("smooth.spline x (b)", stderr())
+				#write(x, stderr())
+				#write("smooth.spline y (b)", stderr())	
+				#write(y, stderr())
 				
 				#if less than 4 unique x or y cannot smooth spline. Just use recent calculed smoothingOneEC as default value
 				if(length(unique(x)) < 4 || length(unique(y)) < 4) {

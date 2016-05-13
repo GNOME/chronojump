@@ -2363,6 +2363,7 @@ doProcess <- function(options)
 
 				count = count + length(dataTempPhase)
 			}
+			write(paste("***",i,"***",sep=""), stderr())
 		}		
 
 		#position=cumsum(displacement)
@@ -2388,6 +2389,8 @@ doProcess <- function(options)
 					    stringsAsFactors=F,row.names=1)
 		}
 
+		print("Creating (op$FeedbackFileBase)4.txt with touch method...")
+		file.create(paste(op$FeedbackFileBase,"4.txt",sep=""))
 
 		n=length(curves[,1])
 		quitIfNoData(n, curves, op$OutputData1)
@@ -2546,9 +2549,8 @@ doProcess <- function(options)
 
 	#make some check here, because this file is being readed in chronojump
 
-	#write(paste("(4/5)",translateToPrint("Repetitions processed")), op$FeedbackFileBase)
-	print("Creating (op$FeedbackFileBase)4.txt with touch method...")
-	file.create(paste(op$FeedbackFileBase,"4.txt",sep=""))
+	print("Creating (op$FeedbackFileBase)5.txt with touch method...")
+	file.create(paste(op$FeedbackFileBase,"5.txt",sep=""))
 	#print(curves)
 
 
@@ -3319,9 +3321,9 @@ doProcess <- function(options)
 
 	#make some check here, because this file is being readed in chronojump
 	#write(paste("(5/5)",translateToPrint("R tasks done")), op$FeedbackFileBase)
-	print("Creating (op$FeedbackFileBase)5.txt with touch method...")
-	file.create(paste(op$FeedbackFileBase,"5.txt",sep=""))
-	write("created ...5.txt", stderr())
+	print("Creating (op$FeedbackFileBase)6.txt with touch method...")
+	file.create(paste(op$FeedbackFileBase,"6.txt",sep=""))
+	write("created ...6.txt", stderr())
 
 	warnings()
 }

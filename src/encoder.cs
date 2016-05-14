@@ -300,6 +300,7 @@ public class EncoderCurve
 
 	//http://stackoverflow.com/questions/894263/how-to-identify-if-a-string-is-a-number
 	//this does not check if decimal point is a different character (eg '.' or ',')
+	//note new method IsNumber on util.cs is better than this
 	public bool IsNumberN() {
 		int num;
 		return int.TryParse(N, out num);

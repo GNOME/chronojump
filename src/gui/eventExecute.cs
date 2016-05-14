@@ -1030,15 +1030,26 @@ public partial class ChronoJumpWindow
 		int lWidth = 1;
 		int lHeight = 1;
 		layout.GetPixelSize(out lWidth, out lHeight); 
-					
+
+		/*
+		 * text and surrounding rect are in the middle of bar
+		 * if bar is so small, then text and rect will not be fully shown
+		 * for this reason, show rect and bar in a higher position
+		 * use 2*lHeight in order to accomodate "Simulated" message below
+		 */
+		int yStart = Convert.ToInt32((y+alto)/2);
+
+		if( (yStart + 2*lHeight) > alto )
+			yStart = alto - 2*lHeight;
+
 		//draw rectangle behind
-		Rectangle rect = new Rectangle(x - lWidth/2, (y+alto)/2, lWidth, lHeight);
+		Rectangle rect = new Rectangle(x - lWidth/2, yStart, lWidth, lHeight);
 		event_execute_pixmap.DrawRectangle(pen_yellow_bg, true, rect);
 		
 		//write text
 		event_execute_pixmap.DrawLayout (pen_black, 
 				Convert.ToInt32(x - lWidth/2),
-				Convert.ToInt32((y+alto)/2),
+				yStart,
 				layout);
 	}
 

@@ -730,36 +730,46 @@ public class Util
 		string lastPartOfPath = fileName.Substring(posOfBar+1, fileName.Length - posOfBar -1);
 		return lastPartOfPath;
 	}
+	
+	public static void IsNumberTests() {
+		LogB.Information("tryParse -23 as int: " + Util.IsNumber("-23",false).ToString()); 	//catalan (True)
+		LogB.Information("tryParse -23.75 as int: " + Util.IsNumber("-23.75",false).ToString()); 	//catalan (False)
+		LogB.Information("tryParse -23,75 as int: " + Util.IsNumber("-23,75",false).ToString()); 	//catalan (False)
+		
+		LogB.Information("tryParse -23.75 as double: " + Util.IsNumber("-23.75",true).ToString()); //catalan (False)
+		LogB.Information("tryParse -23,75 as double: " + Util.IsNumber("-23,75",true).ToString()); //catalan (True)
+		
+		LogB.Information("tryParse '' as int: " + Util.IsNumber("",false).ToString()); 		//catalan (True)
+		LogB.Information("tryParse '' as double: " + Util.IsNumber("",true).ToString()); 	//catalan (True)
+		
+		LogB.Information("tryParse 'joan' as int: " + Util.IsNumber("joan",false).ToString()); 	//catalan (True)
+		LogB.Information("tryParse 'joan' as double: " + Util.IsNumber("joan",true).ToString()); //catalan (True)
+	}
 
 	//gets a string and returns if all the chars are numbers or the decimal point in current localization
-	//there should be also only one decimal point
-	//method made because i didn't find it in mono
-	//ATTENTTION ONLY WORKS FOR POSITIVES
-	//before changing this method, better create another method for all numbers, 
-	//and call that method on possible negative numbers
-	//
-	//On EncoderCurve class there's the method IsNumber that's better, but does not check if the decimal point is a different character
-	public static bool IsNumber(string myString, bool canBeDecimal) {
-		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
-		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+	public static bool IsNumber(string str, bool canBeDecimal) 
+	{
+		//false if it's blank
+		if(str.Length == 0)
+			return false;
 		
-		int countDecimals = 0;
-		foreach(char myChar in myString) {
-			if( ! System.Char.IsNumber(myChar) && myChar.ToString() != localeInfo.NumberDecimalSeparator ) {
-				return false;
-			}
-			if( myChar.ToString() == localeInfo.NumberDecimalSeparator ) {
-				countDecimals ++;
-			}
+		if(canBeDecimal) {
+			double numD;
+			//param 2 && 3 are needed on latin languages to achieve a negative result on "23.75"
+			//without those params, "23.75" and "23,75" will be true on latin. Undesired
+			if (double.TryParse(
+						str,
+						System.Globalization.NumberStyles.Float,	
+						System.Globalization.NumberFormatInfo.CurrentInfo,	
+						out numD))
+				return true;
 		}
-		if(countDecimals > 0 && !canBeDecimal) { return false; }
-		if(countDecimals > 1) { return false; }
 
-		//false if it's blank, or it's only a decimal "."
-		if(myString.Length == 0 || (myString.Length == 1 && countDecimals == 1)) { 
-			return false; }
-				
-		return true;
+		int numI;	
+		if (int.TryParse(str, out numI))
+			return true;
+
+		return false;
 	}
 
 	public static bool IsEven(string myString) {

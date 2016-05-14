@@ -3096,7 +3096,17 @@ public partial class ChronoJumpWindow
 		}
 
 		string [] load1RMStr = contents.Split(new char[] {';'});
-		double load1RM = Convert.ToDouble(Util.ChangeDecimalSeparator(load1RMStr[1]));
+		string load1RMtemp = Util.ChangeDecimalSeparator(load1RMStr[1]);
+		
+		//check if it's a number
+		if(! Util.IsNumber(load1RMtemp, true)) {
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					Catalog.GetString("Error doing operation.") + "\n" +
+					Catalog.GetString("Operation cancelled."));
+			return;
+		}
+
+		double load1RM = Convert.ToDouble(load1RMtemp);
 
 		if(load1RM == -1) {
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Not enough data."));

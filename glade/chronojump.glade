@@ -14979,6 +14979,20 @@ on current Chronojump version.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkCheckButton" id="check_encoder_intersession_x_is_date">
+                                                            <property name="label" translatable="yes">Date on X</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <signal name="toggled" handler="on_check_encoder_intersession_x_is_date_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">4</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_encoder_analyze_side_max">
                                                             <property name="can_focus">False</property>
                                                             <property name="has_tooltip">True</property>
@@ -14988,7 +15002,7 @@ on current Chronojump version.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">4</property>
+                                                            <property name="position">5</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -15029,7 +15043,7 @@ on current Chronojump version.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">5</property>
+                                                            <property name="position">6</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -15042,7 +15056,7 @@ on current Chronojump version.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">6</property>
+                                                            <property name="position">7</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -15055,7 +15069,7 @@ on current Chronojump version.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">7</property>
+                                                            <property name="position">8</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -15066,7 +15080,7 @@ on current Chronojump version.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">8</property>
+                                                            <property name="position">9</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -15241,7 +15255,7 @@ on current Chronojump version.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">9</property>
+                                                            <property name="position">10</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -16225,6 +16239,9 @@ on current Chronojump version.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -20981,6 +20998,9 @@ by you</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -21370,6 +21390,9 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -23741,6 +23764,9 @@ by you</property>
               <placeholder/>
             </child>
             <child>
+              <placeholder/>
+            </child>
+            <child>
               <widget class="GtkButton" id="button_video_url">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -23763,6 +23789,9 @@ by you</property>
                 <property name="x_options"/>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -37196,6 +37225,24 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -38387,6 +38434,18 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="n_columns">4</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                     <child>
                       <placeholder/>
                     </child>
@@ -40986,9 +41045,6 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                       <placeholder/>
                                     </child>
                                     <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
                                       <widget class="GtkLabel" id="label218">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
@@ -41359,6 +41415,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                         <property name="left_attach">2</property>
                                         <property name="right_attach">3</property>
                                       </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
                                     </child>
                                     <child>
                                       <placeholder/>
@@ -46142,6 +46201,9 @@ It starts before and arrives there with some speed.</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -46168,6 +46230,9 @@ It starts before and arrives there with some speed.</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -47008,6 +47073,9 @@ It starts before and arrives there with some speed.</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

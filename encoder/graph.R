@@ -1537,7 +1537,8 @@ paintCrossVariablesLaterality <- function(x, y, laterality, colBalls)
 }
 
 #option: mean or max
-paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, ecconVector, seriesName, 
+paintCrossVariables <- function (paf, varX, varY, option, dateAsX, 
+				 isAlone, title, singleFile, Eccon, ecconVector, seriesName, 
 				 diameter, gearedDown,
 				 do1RM, do1RMMethod, outputData1) 
 {
@@ -1571,6 +1572,12 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		x = x * gearedDown / diameter
 		varX = "Resistant torque"
 		varXut = "Resistant torque (Kg*cm)"
+	}
+
+	if(dateAsX) {
+		xCopy <- x
+		x <- as.Date(seriesName)
+		seriesName <- xCopy
 	}
 	
 	nums.print = NULL
@@ -1656,7 +1663,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 
 				paintCrossVariablesLaterality(x, y, laterality, colBalls)
 			} else {
-				if(varY == "Power") {
+				if(varY == "Power" && ! dateAsX) {
 					#1) fitCurveCalc is calculated first to know plot ylim (curve has to be inside the plot)
 					temp.list <- fitCurveCalc(x,y)
 					fit <- temp.list[[1]]
@@ -1801,11 +1808,14 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		for(i in 1:length(seriesName)) {
 			thisSerie = which(seriesName == unique(seriesName)[i])
 			colBalls[thisSerie] = uniqueColors[i]
-			#in x axis move a little every series to right in order to compare
-			x[thisSerie] = x[thisSerie] + (seqX[i]/5)
+			
+			if(! dateAsX) {
+				#in x axis move a little every series to right in order to compare
+				x[thisSerie] = x[thisSerie] + (seqX[i]/5)
+			}
 		
 			#find min/max Y on power
-			if(varY == "Power" && length(unique(x[thisSerie])) >= 3) {
+			if(varY == "Power" && length(unique(x[thisSerie])) >= 3 && ! dateAsX) {
 				temp.list <- fitCurveCalc(x[thisSerie],y[thisSerie])
 				y1 <- temp.list[[3]]
 				if(max(y1) > maxy)
@@ -1823,7 +1833,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			thisSerie = which(seriesName == unique(seriesName)[i])
 			
 			if(length(unique(x[thisSerie])) >= 3) {
-				if(varY == "Power") {
+				if(varY == "Power" && ! dateAsX) {
 					temp.list <- fitCurveCalc(x[thisSerie],y[thisSerie])
 					x1 <- temp.list[[2]]
 					y1 <- temp.list[[3]]
@@ -1851,7 +1861,11 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 	}
 		
 	if(isAlone == "ALONE") {
-		axis(1)
+		if(dateAsX)
+			axis.Date(1,as.Date(x))
+		else
+			axis(1)
+
 		axis(2)
 		mtext(varYut, side=2, line=3)
 		#box()
@@ -2987,7 +3001,8 @@ doProcess <- function(options)
 				par(mar=c(5,4,5,5))
 				analysisVertVars = unlist(strsplit(op$AnalysisVariables[1], "\\,"))
 				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[1], 
-						    op$AnalysisVariables[3], "LEFT", "",
+						    op$AnalysisVariables[3], FALSE,
+						    "LEFT", "",
 						    singleFile,
 						    op$Eccon,
 						    ecconVector,
@@ -2996,7 +3011,8 @@ doProcess <- function(options)
 						    FALSE, FALSE, op$OutputData1) 
 				par(new=T)
 				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[2], 
-						    op$AnalysisVariables[3], "RIGHT", op$Title,
+						    op$AnalysisVariables[3], FALSE,
+						    "RIGHT", op$Title,
 						    singleFile,
 						    op$Eccon,
 						    ecconVector,
@@ -3005,8 +3021,12 @@ doProcess <- function(options)
 						    FALSE, FALSE, op$OutputData1) 
 			} else {
 				par(mar=c(5,4,5,2))
+				dateAsX <- FALSE
+				if(length(op$AnalysisVariables) == 4 && op$AnalysisVariables[4] == "Date")
+					dateAsX <- TRUE
 				paintCrossVariables(paf, op$AnalysisVariables[2], op$AnalysisVariables[1], 
-						    op$AnalysisVariables[3], "ALONE", op$Title,
+						    op$AnalysisVariables[3], dateAsX,
+						    "ALONE", op$Title,
 						    singleFile,
 						    op$Eccon,
 						    ecconVector,
@@ -3023,7 +3043,8 @@ doProcess <- function(options)
 			ecconVector = createEcconVector(singleFile, op$Eccon, length(curves[,1]), curves[,8])
 
 			paintCrossVariables(paf, "Load", "Speed", 
-					    "mean", "ALONE", op$Title,
+					    "mean", FALSE,
+					    "ALONE", op$Title,
 					    singleFile,
 					    op$Eccon,
 					    ecconVector,

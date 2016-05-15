@@ -199,6 +199,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze_side;
 	[Widget] Gtk.Image image_encoder_analyze_single;
 	[Widget] Gtk.Image image_encoder_analyze_nmp;
+	[Widget] Gtk.CheckButton check_encoder_intersession_x_is_date;
 	
 	[Widget] Gtk.Button button_encoder_analyze_help;
 
@@ -2028,18 +2029,33 @@ public partial class ChronoJumpWindow
 						encoderAnalyzeCrossTranslation);
 			
 			if(
-					crossName == "Speed / Load" || crossName == "Force / Load" || 
-					crossName == "Power / Load" || crossName == "Speed,Power / Load" || 
-					crossName == "Force / Speed" || crossName == "Power / Speed") 
+					crossName == "Power / Load" || crossName == "Speed / Load" || 
+					crossName == "Force / Load" || crossName == "Speed,Power / Load" || 
+					crossName == "Force / Speed"|| crossName == "Power / Speed" )
 			{
-				//convert: "Force / Speed" in: "cross.Force.Speed.mean"
+				//convert: "Force / Speed" in: "Force;Speed;mean"
 				string [] crossNameFull = crossName.Split(new char[] {' '});
 				analysisVariables = crossNameFull[0] + ";" + crossNameFull[2]; //[1]=="/"
 				if(check_encoder_analyze_mean_or_max.Active)
 					analysisVariables += ";mean";
 				else
 					analysisVariables += ";max";
+			} 
+			else if (crossName == "Power / Date" || crossName == "Speed / Date" || crossName == "Force / Date" ) 
+			{
+				/*
+				 * In order to recycle paintCrossVariables in encoder/graph.R, 
+				 * we send "Force / Date" as "Force;Load;(mean or max);Date" and there variables will be swapped
+				 */
+				//convert: "Force / Date" in: "Force;Load;mean;Date"
+				string [] crossNameFull = crossName.Split(new char[] {' '});
+				analysisVariables = crossNameFull[0] + ";Load";
+				if(check_encoder_analyze_mean_or_max.Active)
+					analysisVariables += ";mean;Date";
+				else
+					analysisVariables += ";max;Date";
 			}
+
 		}
 		
 		string my1RMName = "";
@@ -2093,34 +2109,40 @@ public partial class ChronoJumpWindow
 			if(encoderAnalysis != "neuromuscularProfile") 
 			{	
 				//if compare persons, select curves for other persons and add
-				if(radio_encoder_analyze_groupal_current_session.Active) {
-					ArrayList dataPre = new ArrayList();
+				if(radio_encoder_analyze_groupal_current_session.Active) 
+				{
+					data = new ArrayList(); //erase data
 					for (int i=0 ; i < encSelReps.EncoderCompareInter.Count ; i ++) {
-						dataPre = SqliteEncoder.Select(
+						ArrayList dataPre = SqliteEncoder.Select(
 								false, -1, 
 								Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
 								currentSession.UniqueID, 
 								-1,
-							       	"curve", EncoderSQL.Eccons.ALL, 
+								"curve", EncoderSQL.Eccons.ALL, 
 								true, true);
-						//this curves are added to data, data included currentPerson, currentSession
 						foreach(EncoderSQL eSQL in dataPre) 
 							data.Add(eSQL);
 					}
-				} else if(radio_encoder_analyze_individual_all_sessions.Active) {
-					ArrayList dataPre = new ArrayList();
+					LogB.Information("ENCODERCOMPAREINTER GROUP");
+					foreach (string str in encSelReps.EncoderCompareInter)
+						LogB.Information(str);
+				} else if(radio_encoder_analyze_individual_all_sessions.Active) 
+				{
+					data = new ArrayList(); //erase data
 					for (int i=0 ; i < encSelReps.EncoderCompareInter.Count ; i ++) {
-						dataPre = SqliteEncoder.Select(
+						ArrayList dataPre = SqliteEncoder.Select(
 								false, -1,
 								currentPerson.UniqueID, 
 								Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
 								-1,
 								"curve", EncoderSQL.Eccons.ALL,
-							       	true, true);
-						//this curves are added to data, data included currentPerson, currentSession
+								true, true);
 						foreach(EncoderSQL eSQL in dataPre) 
 							data.Add(eSQL);
 					}
+					LogB.Information("ENCODERCOMPAREINTER INTERSESSION");
+					foreach (string str in encSelReps.EncoderCompareInter)
+						LogB.Information(str);
 				}
 			}
 			
@@ -2374,6 +2396,7 @@ public partial class ChronoJumpWindow
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
+		check_encoder_intersession_x_is_date.Visible = false;
 			
 		button_encoder_analyze_sensitiveness();
 	
@@ -2410,6 +2433,7 @@ public partial class ChronoJumpWindow
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
+		check_encoder_intersession_x_is_date.Visible = false;
 			
 		button_encoder_analyze_sensitiveness();
 	
@@ -2430,6 +2454,7 @@ public partial class ChronoJumpWindow
 		
 		//active cross. The only available for comparing	
 		radiobutton_encoder_analyze_cross.Active = true;
+		check_encoder_intersession_x_is_date.Visible = true;
 		
 		//this analysis only when not comparing
 		radiobutton_encoder_analyze_powerbars.Visible = false;
@@ -2453,6 +2478,7 @@ public partial class ChronoJumpWindow
 		
 		//active cross. The only available for comparing	
 		radiobutton_encoder_analyze_cross.Active = true;
+		check_encoder_intersession_x_is_date.Visible = false;
 		
 		//this analysis only when not comparing
 		radiobutton_encoder_analyze_powerbars.Visible = false;
@@ -2849,26 +2875,8 @@ public partial class ChronoJumpWindow
 		combo_encoder_anchorage.Changed += 
 			new EventHandler(on_combo_encoder_anchorage_changed );
 
-
-		//create combo analyze cross (variables)
-		string [] comboAnalyzeCrossOptions = { 
-			"Power / Load", "Speed / Load", "Force / Load", "Speed,Power / Load", "Force / Speed", "Power / Speed"
-		};
-		string [] comboAnalyzeCrossOptionsTranslated = { 
-			Catalog.GetString("Power / Load"), Catalog.GetString("Speed / Load"), 
-			Catalog.GetString("Force / Load"), Catalog.GetString("Speed,Power / Load"), 
-			Catalog.GetString("Force / Speed"), Catalog.GetString("Power / Speed")
-		}; //if added more, change the int in the 'for' below
-		encoderAnalyzeCrossTranslation = new String [comboAnalyzeCrossOptions.Length];
-		for(int j=0; j < 6 ; j++)
-			encoderAnalyzeCrossTranslation[j] = 
-				comboAnalyzeCrossOptions[j] + ":" + comboAnalyzeCrossOptionsTranslated[j];
-		combo_encoder_analyze_cross = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_encoder_analyze_cross, comboAnalyzeCrossOptionsTranslated, "");
-		combo_encoder_analyze_cross.Active = UtilGtk.ComboMakeActive(combo_encoder_analyze_cross, 
-				Catalog.GetString(comboAnalyzeCrossOptions[0]));
-		combo_encoder_analyze_cross.Changed += new EventHandler (on_combo_encoder_analyze_cross_changed);
-
+		//create combo analyze cross
+		createComboAnalyzeCross(true, false);	//first creation, without "dateInX"
 
 		//create combo analyze 1RM
 		string [] comboAnalyze1RMOptions = { "1RM Any exercise", "1RM Bench Press", "1RM Indirect" };
@@ -2916,11 +2924,6 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_anchorage.ShowAll();
 		combo_encoder_anchorage.Sensitive = true;
 
-		hbox_combo_encoder_analyze_cross.PackStart(combo_encoder_analyze_cross, true, true, 0);
-		hbox_combo_encoder_analyze_cross.ShowAll(); 
-		combo_encoder_analyze_cross.Sensitive = true;
-		hbox_combo_encoder_analyze_cross.Visible = false; //do not show hbox at start
-	
 		hbox_combo_encoder_analyze_1RM.PackStart(combo_encoder_analyze_1RM, true, true, 0);
 		hbox_combo_encoder_analyze_1RM.ShowAll(); 
 		combo_encoder_analyze_1RM.Sensitive = true;
@@ -2954,6 +2957,61 @@ public partial class ChronoJumpWindow
 		combo_encoder_exercise_analyze.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_analyze, 
 				Catalog.GetString(((EncoderExercise) encoderExercises[0]).name));
 	}
+		
+	private void createComboAnalyzeCross(bool firstCreation, bool dateOnX) 
+	{
+		string [] comboAnalyzeCrossOptions;
+		string [] comboAnalyzeCrossOptionsTranslated;
+	
+		if(! dateOnX) {
+			//create combo analyze cross (variables)
+			comboAnalyzeCrossOptions = new string [] { 
+				"Power / Load", "Speed / Load", "Force / Load", "Speed,Power / Load", "Force / Speed", "Power / Speed"
+			};
+			comboAnalyzeCrossOptionsTranslated = new string [] { 
+				Catalog.GetString("Power / Load"), Catalog.GetString("Speed / Load"), 
+				Catalog.GetString("Force / Load"), Catalog.GetString("Speed,Power / Load"), 
+				Catalog.GetString("Force / Speed"), Catalog.GetString("Power / Speed")
+			}; //if added more, change the int in the 'for' below
+			encoderAnalyzeCrossTranslation = new String [comboAnalyzeCrossOptions.Length];
+			for(int j=0; j < 6 ; j++)
+				encoderAnalyzeCrossTranslation[j] = 
+					comboAnalyzeCrossOptions[j] + ":" + comboAnalyzeCrossOptionsTranslated[j];
+		} else {
+			//create combo analyze cross (variables)
+			comboAnalyzeCrossOptions = new string [] { "Power / Date", "Speed / Date", "Force / Date" };
+			comboAnalyzeCrossOptionsTranslated = new string [] { 
+				Catalog.GetString("Power / Date"), 
+				Catalog.GetString("Speed / Date"), 
+				Catalog.GetString("Force / Date") 
+			}; //if added more, change the int in the 'for' below
+			encoderAnalyzeCrossTranslation = new String [comboAnalyzeCrossOptions.Length];
+			for(int j=0; j < 3 ; j++)
+				encoderAnalyzeCrossTranslation[j] = 
+					comboAnalyzeCrossOptions[j] + ":" + comboAnalyzeCrossOptionsTranslated[j];
+		}
+
+		if(firstCreation)
+			combo_encoder_analyze_cross = ComboBox.NewText ();
+
+		UtilGtk.ComboUpdate(combo_encoder_analyze_cross, comboAnalyzeCrossOptionsTranslated, "");
+		combo_encoder_analyze_cross.Active = UtilGtk.ComboMakeActive(combo_encoder_analyze_cross, 
+				Catalog.GetString(comboAnalyzeCrossOptions[0]));
+
+		if(firstCreation) {
+			combo_encoder_analyze_cross.Changed += new EventHandler (on_combo_encoder_analyze_cross_changed);
+
+			hbox_combo_encoder_analyze_cross.PackStart(combo_encoder_analyze_cross, true, true, 0);
+			hbox_combo_encoder_analyze_cross.ShowAll(); 
+			combo_encoder_analyze_cross.Sensitive = true;
+			hbox_combo_encoder_analyze_cross.Visible = false; //do not show hbox at start
+		}
+	}
+
+	void on_check_encoder_intersession_x_is_date_toggled (object o, EventArgs args) {
+		createComboAnalyzeCross(false, check_encoder_intersession_x_is_date.Active);
+	}	
+
 
 	void on_combo_encoder_eccon_changed (object o, EventArgs args) 
 	{

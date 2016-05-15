@@ -41,6 +41,11 @@ public class EncoderSelectRepetitions
 	protected Gtk.Button button_encoder_analyze;
 	protected int exerciseID;
 	protected bool askDeletion;
+	
+	protected int dateColumn;
+	protected int activeRepsColumn;
+	protected int allRepsColumn;
+	
 
 	//calculated variables here
 	
@@ -122,6 +127,25 @@ public class EncoderSelectRepetitions
 	}
 	
 	protected virtual void on_show_repetitions_done (object o, EventArgs args) {
+	}
+	
+	protected void updateEncoderCompareInterAndReps() 
+	{
+		EncoderCompareInter = new ArrayList ();
+		string [] selectedID = genericWin.GetColumn(0,true); //only active
+		string [] selectedDate = genericWin.GetColumn(dateColumn,true);
+
+		for (int i=0 ; i < selectedID.Length ; i ++) {
+			int uniqueID = Convert.ToInt32(selectedID[i]);
+			EncoderCompareInter.Add(uniqueID + ":" + selectedDate[i]);
+
+			RepsActive += genericWin.GetCell(uniqueID, activeRepsColumn);
+		}
+		
+		string [] allID = genericWin.GetColumn(0,false);
+		for (int i=0 ; i < allID.Length ; i ++) {
+			RepsAll += genericWin.GetCell(Convert.ToInt32(allID[i]), allRepsColumn);
+		}
 	}
 		 
 }
@@ -351,6 +375,10 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 {
 	public EncoderSelectRepetitionsIndividualAllSessions() {
 		Type = Types.INDIVIDUAL_ALL_SESSIONS;
+	
+		dateColumn = 3;
+		activeRepsColumn = 4;
+		allRepsColumn = 5;
 
 		if(EncoderCompareInter == null)
 			EncoderCompareInter = new ArrayList ();
@@ -387,11 +415,9 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 
 			if(found) {
 				checkboxes[count++] = "active";
-				RepsActive += encPS.countActive;
 			} else
 				checkboxes[count++] = "inactive";
 			
-			RepsAll += encPS.countAll;
 			i ++;
 		}			
 			
@@ -436,6 +462,9 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);
+		
+		//to have encoderCompareInter without opening the select window
+		updateEncoderCompareInterAndReps();
 
 		//used when we don't need to read data, 
 		//and we want to ensure next window will be created at needed size
@@ -448,32 +477,21 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 		//don't stop calling here in order to arrive when encSelReps.Show() is called and accept is clicked
 		genericWin.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
 	
-		EncoderCompareInter = new ArrayList ();
-		string [] selectedID = genericWin.GetColumn(0,true); //only active
-		string [] selectedDate = genericWin.GetColumn(3,true);
-
-		for (int i=0 ; i < selectedID.Length ; i ++) {
-			int uniqueID = Convert.ToInt32(selectedID[i]);
-			EncoderCompareInter.Add(uniqueID + ":" + selectedDate[i]);
-
-			RepsActive += genericWin.GetCell(uniqueID, 4); //col 4 (Active reps)
-		}
-		
-		string [] allID = genericWin.GetColumn(0,false);
-		for (int i=0 ; i < allID.Length ; i ++) {
-			RepsAll += genericWin.GetCell(Convert.ToInt32(allID[i]), 5); //col 5 (All reps)
-		}
-
+		updateEncoderCompareInterAndReps();
+	
 		FakeButtonDone.Click();		
 		LogB.Information("done");
 	}
-	
 }
 
 public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepetitions
 {
 	public EncoderSelectRepetitionsGroupalCurrentSession() {
 		Type = Types.GROUPAL_CURRENT_SESSION;
+		
+		dateColumn = 2;
+		activeRepsColumn = 3;
+		allRepsColumn = 4;
 
 		if(EncoderCompareInter == null)
 			EncoderCompareInter = new ArrayList ();
@@ -538,11 +556,9 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 
 			if(found) {
 				checkboxes[count++] = "active";
-				RepsActive += Convert.ToInt32(sPersons[3]);
 			} else
 				checkboxes[count++] = "inactive";
 				
-			RepsAll += Convert.ToInt32(sPersons[4]);
 			i ++;
 		}			
 			
@@ -582,6 +598,9 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);
+		
+		//to have encoderCompareInter without opening the select window
+		updateEncoderCompareInterAndReps();
 
 		//used when we don't need to read data, 
 		//and we want to ensure next window will be created at needed size
@@ -593,24 +612,9 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 	{
 		//don't stop calling here in order to arrive when encSelReps.Show() is called and accept is clicked
 		genericWin.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
-		LogB.Information(" GROUPAL ");
-	
-		EncoderCompareInter = new ArrayList ();
-		string [] selectedID = genericWin.GetColumn(0,true);
-		string [] selectedName = genericWin.GetColumn(2,true);
-
-		for (int i=0 ; i < selectedID.Length ; i ++) {
-			int uniqueID = Convert.ToInt32(selectedID[i]);
-			EncoderCompareInter.Add(uniqueID + ":" + selectedName[i]);
-
-			RepsActive += genericWin.GetCell(uniqueID, 3); //col 3 (Active reps)
-		}
 		
-		string [] allID = genericWin.GetColumn(0,false);
-		for (int i=0 ; i < allID.Length ; i ++) {
-			RepsAll += genericWin.GetCell(Convert.ToInt32(allID[i]), 4); //col 4 (All reps)
-		}
-
+		updateEncoderCompareInterAndReps();
+	
 		FakeButtonDone.Click();		
 		LogB.Information("done");
 	}

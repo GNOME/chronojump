@@ -4568,8 +4568,9 @@ public partial class ChronoJumpWindow
 	private void on_event_execute_reaction_time_start (object o, EventArgs args) 
 	{
 		currentEventExecute.FakeButtonReactionTimeStart.Clicked -= new EventHandler(on_event_execute_reaction_time_start);
-		
-		if(extra_window_radio_reaction_time_discriminative.Active) {
+
+		//Fire leds or buzzer on discriminative (if not simulated)		
+		if(extra_window_radio_reaction_time_discriminative.Active && chronopicWin.Connected) {
 			Thread.Sleep(Convert.ToInt32(discriminativeStartTime * 1000)); //in ms
 
 			ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();

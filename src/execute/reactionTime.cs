@@ -101,9 +101,12 @@ public class ReactionTimeExecute : EventExecute
 
 		LogB.Error("at Manage!");
 
-		if (simulated) 
-			platformState = Chronopic.Plataforma.ON;
-		else {
+		if (simulated) {
+			if(StartIn)
+				platformState = Chronopic.Plataforma.ON;
+			else
+				platformState = Chronopic.Plataforma.OFF;
+		} else {
 			platformState = chronopicInitialValue(cp);
 		}
 			
@@ -130,9 +133,12 @@ public class ReactionTimeExecute : EventExecute
 
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that we have leaved platform:
-			if (simulated) //TODO: check loggedState and StartIn
-				platformState = Chronopic.Plataforma.OFF;
-			
+			if (simulated) {
+				if(StartIn)
+					platformState = Chronopic.Plataforma.OFF;
+				else
+					platformState = Chronopic.Plataforma.ON;
+			}
 	
 			//if discriminative, will fire the buttons	
 			FakeButtonReactionTimeStart.Click();
@@ -291,7 +297,7 @@ public class ReactionTimeExecute : EventExecute
 				time, description, Util.BoolToNegativeInt(simulated));
 
 		//define the created object
-		eventDone = new ReactionTime(uniqueID, personID, sessionID, time, "", Util.BoolToNegativeInt(simulated)); 
+		eventDone = new ReactionTime(uniqueID, personID, sessionID, time, description, Util.BoolToNegativeInt(simulated)); 
 		
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();

@@ -110,6 +110,11 @@ public class GenericWindow
 	public int uniqueID;
 	public string nameUntranslated;
 
+	public enum Types { UNDEFINED, ENCODER_SESSION_LOAD, ENCODER_SEL_REPS };
+	//used to decide if a genericWin has to be recreated
+	public Types Type;
+
+
 	public GenericWindow ()
 	{
 		Glade.XML gladeXML;
@@ -139,7 +144,8 @@ public class GenericWindow
 		GenericWindowBox.image_delete.Pixbuf = pixbuf;
 
 		GenericWindowBox.label_header.Text = textHeader;
-		
+
+		GenericWindowBox.Type = Types.UNDEFINED;
 		
 		if(showNow)
 			GenericWindowBox.generic_window.Show ();

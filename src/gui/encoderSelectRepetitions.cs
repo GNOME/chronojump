@@ -100,6 +100,7 @@ public class EncoderSelectRepetitions
 		getData();
 		createBigArray();
 		createGenericWindow();
+		genericWin.Type = GenericWindow.Types.ENCODER_SEL_REPS;
 
 		return genericWin;
 	}

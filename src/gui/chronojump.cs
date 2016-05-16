@@ -4520,10 +4520,31 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
 		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
+		string sep = "";
+		string description = "";
+		if(extra_window_radio_reaction_time_discriminative.Active) {
+			if(check_reaction_time_disc_red.Active == true) {
+				description += sep + Catalog.GetString("red");
+				sep = " + ";
+			}
+			if(check_reaction_time_disc_yellow.Active == true) {
+				description += sep + Catalog.GetString("yellow");
+				sep = " + ";
+			}
+			if(check_reaction_time_disc_green.Active == true) {
+				description += sep + Catalog.GetString("green");
+				sep = " + ";
+			}
+			if(check_reaction_time_disc_buzzer.Active == true) {
+				description += sep + Catalog.GetString("buzzer");
+				sep = " + ";
+			}
+		}
+
 		currentEventExecute = new ReactionTimeExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, 
 				chronopicWin.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
-				progressbarLimit, egd
+				progressbarLimit, egd, description
 				);
 
 		if (!chronopicWin.Connected) 

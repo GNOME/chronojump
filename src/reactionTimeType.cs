@@ -27,12 +27,17 @@ public class ReactionTimeType : EventType
 		type = Types.REACTIONTIME;
 	}
 	
-	public ReactionTimeType(string name) {
+	public ReactionTimeType(string name) 
+	{
 		type = Types.REACTIONTIME;
 		this.name = name;
-		imageFileName = "reaction_time.png";
 		description = "";
 		longDescription = ""; 
+
+		if(name == "reactionTime")
+			imageFileName = "reaction_time.png";
+		else if(name == "Discriminative")
+			imageFileName = "reaction_time_discriminative.png";
 	}
 	
 }

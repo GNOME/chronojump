@@ -53,6 +53,10 @@ public partial class ChronoJumpWindow
 		hbox_flicker_lights.Visible = false;
 		hbox_discriminative_lights.Visible = false;
 
+		changeTestImage("","", "reaction_time.png");
+
+		currentReactionTimeType = new ReactionTimeType("reactionTime");
+
 		if(extra_window_radio_reaction_time.Active) {
 			currentReactionTimeType = new ReactionTimeType("reactionTime");
 		} else {
@@ -60,9 +64,11 @@ public partial class ChronoJumpWindow
 				hbox_animation_lights.Visible = true;
 			else if(extra_window_radio_reaction_time_flicker.Active)
 				hbox_flicker_lights.Visible = true;
-			else if(extra_window_radio_reaction_time_discriminative.Active)
+			else if(extra_window_radio_reaction_time_discriminative.Active) {
 				hbox_discriminative_lights.Visible = true;
-
+				currentReactionTimeType = new ReactionTimeType("Discriminative");
+				changeTestImage("","", "reaction_time_discriminative.png");
+			}
 		}
 
 		currentEventType = currentReactionTimeType;

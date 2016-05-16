@@ -3843,7 +3843,6 @@ public partial class ChronoJumpWindow
 			notebook_results_data.CurrentPage = 2;
 	}
 
-	//changes the image about the text on the bottom left of main screen	
 	private void changeTestImage(string eventTypeString, string eventName, string fileNameString) {
 		Pixbuf pixbuf; //main image
 		Pixbuf pixbufZoom; //icon of zoom image (if shown can have two different images)
@@ -4550,7 +4549,8 @@ public partial class ChronoJumpWindow
 		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);
 	
-		if(extra_window_radio_reaction_time_discriminative.Active) {
+		//not on simulated because results would be always 0
+		if(extra_window_radio_reaction_time_discriminative.Active && chronopicWin.Connected) {
 			//TODO: do also for animation_lights and flickr
 			currentEventExecute.StartIn = false;
 		}

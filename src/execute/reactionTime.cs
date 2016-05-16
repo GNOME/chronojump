@@ -42,7 +42,7 @@ public class ReactionTimeExecute : EventExecute
 	//reactionTime execution
 	public ReactionTimeExecute(int personID, string personName, int sessionID,   
 			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN, bool volumeOn,
-			double progressbarLimit, ExecutingGraphData egd
+			double progressbarLimit, ExecutingGraphData egd, string description
 			)
 	{
 		this.personID = personID;
@@ -57,6 +57,7 @@ public class ReactionTimeExecute : EventExecute
 		this.volumeOn = volumeOn;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
+		this.description = description;
 	
 		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();
@@ -287,7 +288,7 @@ public class ReactionTimeExecute : EventExecute
 		uniqueID = SqliteReactionTime.Insert(
 				false, table, 
 				"NULL", personID, sessionID, "", //type
-				time, "", Util.BoolToNegativeInt(simulated)); //time, description, simulated
+				time, description, Util.BoolToNegativeInt(simulated));
 
 		//define the created object
 		eventDone = new ReactionTime(uniqueID, personID, sessionID, time, "", Util.BoolToNegativeInt(simulated)); 

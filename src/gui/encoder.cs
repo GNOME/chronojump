@@ -98,8 +98,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_encoder_sup;
 	[Widget] Gtk.Notebook notebook_encoder_capture;
 	
-	[Widget] Gtk.Box hbox_combo_encoder_exercise;
-	[Widget] Gtk.ComboBox combo_encoder_exercise;
+	[Widget] Gtk.Box hbox_combo_encoder_exercise_capture;
+	[Widget] Gtk.ComboBox combo_encoder_exercise_capture;
 	[Widget] Gtk.Box hbox_combo_encoder_eccon;
 	[Widget] Gtk.ComboBox combo_encoder_eccon;
 	[Widget] Gtk.Box hbox_combo_encoder_laterality;
@@ -611,8 +611,8 @@ public partial class ChronoJumpWindow
 	}
 
 
-	void on_combo_encoder_exercise_changed (object o, EventArgs args) {
-		if(UtilGtk.ComboGetActive(combo_encoder_exercise) != "") { //needed because encoder_exercise_edit updates this combo and can be without values in the changing process
+	void on_combo_encoder_exercise_capture_changed (object o, EventArgs args) {
+		if(UtilGtk.ComboGetActive(combo_encoder_exercise_capture) != "") { //needed because encoder_exercise_edit updates this combo and can be without values in the changing process
 			array1RMUpdate(false);
 			encoder_change_displaced_weight_and_1RM ();
 		}
@@ -699,7 +699,7 @@ public partial class ChronoJumpWindow
 	{
 		array1RM = SqliteEncoder.Select1RM(
 				false, currentPerson.UniqueID, currentSession.UniqueID, 
-				getExerciseIDFromCombo(), returnPersonNameAndExerciseName); 
+				getExerciseIDFromCombo(exerciseCombos.CAPTURE), returnPersonNameAndExerciseName); 
 	}
 
 	void on_button_encoder_1RM_win_clicked (object o, EventArgs args) 
@@ -907,7 +907,7 @@ public partial class ChronoJumpWindow
 				"-1",
 				currentPerson.UniqueID,
 				currentSession.UniqueID,
-				getExerciseIDFromCombo(),	
+				getExerciseIDFromCombo(exerciseCombos.CAPTURE),	
 				findEccon(true), 	//force ecS (ecc-conc separated)
 				UtilGtk.ComboGetActive(combo_encoder_laterality),
 				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)), //when save on sql, do not include person weight
@@ -920,14 +920,14 @@ public partial class ChronoJumpWindow
 				"", videoURL,		//status, videoURL
 				encoderConfigurationCurrent,
 				"","","",	//future1, 2, 3
-				Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise), 
+				Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise_capture), 
 					encoderExercisesTranslationAndBodyPWeight)	//exerciseName (english)
 				);
 
 
 		EncoderParams ep = new EncoderParams(
 				encoderCaptureOptionsWin.GetMinHeight(encoderConfigurationCurrent.has_inertia), 
-				getExercisePercentBodyWeightFromCombo (),
+				getExercisePercentBodyWeightFromComboCapture (),
 				Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
 				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
 				findEccon(true),					//force ecS (ecc-conc separated)
@@ -951,7 +951,7 @@ public partial class ChronoJumpWindow
 
 
 		string title = Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" +
-			Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise));
+			Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise_capture));
 		if(encoderConfigurationCurrent.has_inertia)
 			title += "-(" + encoderConfigurationCurrent.inertiaTotal.ToString() + " " + Catalog.GetString("Inertia M.") + ")";
 		else
@@ -1018,7 +1018,7 @@ public partial class ChronoJumpWindow
 			return; //error
 
 		encSelReps.PassVariables(currentPerson, currentSession, 
-				genericWin, button_encoder_analyze, getExerciseIDFromComboAnalyze(),
+				genericWin, button_encoder_analyze, getExerciseIDFromCombo(exerciseCombos.ANALYZE),
 				preferences.askDeletion);
 
 		genericWin = encSelReps.Do();
@@ -1162,7 +1162,7 @@ public partial class ChronoJumpWindow
 			if(success) {
 				string exerciseNameTranslated =Util.FindOnArray(':', 1, 2, eSQL.exerciseName, 
 						encoderExercisesTranslationAndBodyPWeight);
-				combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, exerciseNameTranslated);
+				combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture, exerciseNameTranslated);
 				
 				combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, eSQL.ecconLong);
 				combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, eSQL.laterality);
@@ -1613,7 +1613,8 @@ public partial class ChronoJumpWindow
 		else if(radio_encoder_analyze_individual_current_session.Active) 
 		{
 			ArrayList data = SqliteEncoder.Select(
-					dbconOpened, -1, currentPerson.UniqueID, currentSession.UniqueID, -1, 
+					dbconOpened, -1, currentPerson.UniqueID, currentSession.UniqueID, 
+					getExerciseIDFromCombo(exerciseCombos.ANALYZE),
 					"curve", EncoderSQL.Eccons.ALL, 
 					false, true);
 			updateComboEncoderAnalyzeCurveNumSavedReps(data, encSelReps.RepsActive);
@@ -1942,7 +1943,7 @@ public partial class ChronoJumpWindow
 	//I suppose reading gtk is ok, changing will be the problem
 	private void encoderDoCaptureCsharp () 
 	{
-		string exerciseNameShown = UtilGtk.ComboGetActive(combo_encoder_exercise);
+		string exerciseNameShown = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
 
 		if(encoderConfigurationCurrent.has_inertia)
 			eCapture = new EncoderCaptureInertial();
@@ -2102,59 +2103,55 @@ public partial class ChronoJumpWindow
 			//select curves for this person
 			ArrayList data = new ArrayList();
 
-			//select currentPerson, currentSession curves
-			//onlyActive is false to have all the curves
-			//this is a need for "single" to select on display correct curve
-			data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1, 
-				"curve", ecconSelect, 
-				false, true);
-
-			//neuromuscularProfile cannot be interperson or intersession
-			if(encoderAnalysis != "neuromuscularProfile") 
-			{	
-				//if compare persons, select curves for other persons and add
-				if(radio_encoder_analyze_groupal_current_session.Active) 
-				{
-					data = new ArrayList(); //erase data
-					for (int i=0 ; i < encSelReps.EncoderCompareInter.Count ; i ++) {
-						ArrayList dataPre = SqliteEncoder.Select(
-								false, -1, 
-								Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
-								currentSession.UniqueID, 
-								getExerciseIDFromCombo(),
-								"curve", EncoderSQL.Eccons.ALL, 
-								false, //onlyActive=false. Means: all saved repetitions
-								true);
-						foreach(EncoderSQL eSQL in dataPre) {
-							eSQL.status = "active"; //force all to be active on interperson
-							data.Add(eSQL);
-						}
+			if(radio_encoder_analyze_individual_current_session.Active)
+			{
+				//select currentPerson, currentSession curves
+				//onlyActive is false to have all the curves
+				//this is a need for "single" to select on display correct curve
+				data = SqliteEncoder.Select(
+						false, -1, currentPerson.UniqueID, currentSession.UniqueID,
+						getExerciseIDFromCombo(exerciseCombos.ANALYZE),
+						"curve", ecconSelect, 
+						false, true);
+			}
+			else if(radio_encoder_analyze_groupal_current_session.Active) 
+			{
+				for (int i=0 ; i < encSelReps.EncoderCompareInter.Count ; i ++) {
+					ArrayList dataPre = SqliteEncoder.Select(
+							false, -1, 
+							Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
+							currentSession.UniqueID, 
+							getExerciseIDFromCombo(exerciseCombos.ANALYZE),
+							"curve", EncoderSQL.Eccons.ALL, 
+							false, //onlyActive=false. Means: all saved repetitions
+							true);
+					foreach(EncoderSQL eSQL in dataPre) {
+						eSQL.status = "active"; //force all to be active on interperson
+						data.Add(eSQL);
 					}
-					LogB.Information("ENCODERCOMPAREINTER GROUP");
-					foreach (string str in encSelReps.EncoderCompareInter)
-						LogB.Information(str);
-				} else if(radio_encoder_analyze_individual_all_sessions.Active) 
-				{
-					data = new ArrayList(); //erase data
-					for (int i=0 ; i < encSelReps.EncoderCompareInter.Count ; i ++) {
-						ArrayList dataPre = SqliteEncoder.Select(
-								false, -1,
-								currentPerson.UniqueID, 
-								Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
-								getExerciseIDFromCombo(),
-								"curve", EncoderSQL.Eccons.ALL,
-								false, //onlyActive=false. Means: all saved repetitions
-								true);
-						foreach(EncoderSQL eSQL in dataPre) {
-							eSQL.status = "active"; //force all to be active on intersession
-							data.Add(eSQL);
-						}
-					}
-					LogB.Information("ENCODERCOMPAREINTER INTERSESSION");
-					foreach (string str in encSelReps.EncoderCompareInter)
-						LogB.Information(str);
 				}
+				LogB.Information("ENCODERCOMPAREINTER GROUP");
+				foreach (string str in encSelReps.EncoderCompareInter)
+					LogB.Information(str);
+			} else if(radio_encoder_analyze_individual_all_sessions.Active) 
+			{
+				for (int i=0 ; i < encSelReps.EncoderCompareInter.Count ; i ++) {
+					ArrayList dataPre = SqliteEncoder.Select(
+							false, -1,
+							currentPerson.UniqueID, 
+							Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
+							getExerciseIDFromCombo(exerciseCombos.ANALYZE),
+							"curve", EncoderSQL.Eccons.ALL,
+							false, //onlyActive=false. Means: all saved repetitions
+							true);
+					foreach(EncoderSQL eSQL in dataPre) {
+						eSQL.status = "active"; //force all to be active on intersession
+						data.Add(eSQL);
+					}
+				}
+				LogB.Information("ENCODERCOMPAREINTER INTERSESSION");
+				foreach (string str in encSelReps.EncoderCompareInter)
+					LogB.Information(str);
 			}
 			
 			//1RM is calculated using curves
@@ -2298,7 +2295,7 @@ public partial class ChronoJumpWindow
 				if(my1RMName == "1RM Any exercise") {
 					//get speed1RM (from combo)
 					EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
-							false, getExerciseIDFromCombo(), false)[0];
+							false, getExerciseIDFromCombo(exerciseCombos.CAPTURE), false)[0];
 
 					sendAnalysis = "1RMAnyExercise";
 					analysisVariables = Util.ConvertToPoint(ex.speed1RM) + ";" + 
@@ -2317,7 +2314,7 @@ public partial class ChronoJumpWindow
 
 			ep = new EncoderParams(
 					encoderCaptureOptionsWin.GetMinHeight(encoderConfigurationCurrent.has_inertia),
-					getExercisePercentBodyWeightFromCombo (),
+					getExercisePercentBodyWeightFromComboCapture (),
 					Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
 					Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
 					findEccon(false),		//do not force ecS (ecc-conc separated)
@@ -2351,7 +2348,7 @@ public partial class ChronoJumpWindow
 		else {
 			//on signal show encoder exercise, but not in curves because every curve can be of a different exercise
 			if(radio_encoder_analyze_individual_current_set.Active) //current set
-				titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise));
+				titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise_capture));
 		}
 
 		encoderRProcAnalyze.SendData(
@@ -2440,7 +2437,7 @@ public partial class ChronoJumpWindow
 		label_encoder_user_curves_slash.Visible = true;
 		label_encoder_user_curves_all_num.Visible = true;
 		
-		hbox_combo_encoder_exercise_analyze.Visible = false;
+		hbox_combo_encoder_exercise_analyze.Visible = true;
 
 		//this analysis only when not comparing
 		radiobutton_encoder_analyze_powerbars.Visible = true;
@@ -2806,7 +2803,7 @@ public partial class ChronoJumpWindow
 			return extraWeight;
 		else //(massType == Constants.MassType.DISPLACED)
 			return extraWeight + 
-				( currentPersonSession.Weight * getExercisePercentBodyWeightFromCombo() ) / 100.0;
+				( currentPersonSession.Weight * getExercisePercentBodyWeightFromComboCapture() ) / 100.0;
 	}
 
 	//this is used in 1RM return to substract the weight of the body (if used on exercise)
@@ -2855,12 +2852,12 @@ public partial class ChronoJumpWindow
 	protected void createEncoderCombos() 
 	{
 		//create combo exercises
-		combo_encoder_exercise = ComboBox.NewText ();
+		combo_encoder_exercise_capture = ComboBox.NewText ();
 		combo_encoder_exercise_analyze = ComboBox.NewText ();
 		
 		createEncoderComboExerciseAndAnalyze();
 		
-		combo_encoder_exercise.Changed += new EventHandler (on_combo_encoder_exercise_changed);
+		combo_encoder_exercise_capture.Changed += new EventHandler (on_combo_encoder_exercise_capture_changed);
 		combo_encoder_exercise_analyze.Changed += new EventHandler (on_combo_encoder_exercise_analyze_changed);
 		
 		/* ConcentricEccentric
@@ -2933,9 +2930,9 @@ public partial class ChronoJumpWindow
 		
 		//pack combos
 
-		hbox_combo_encoder_exercise.PackStart(combo_encoder_exercise, true, true, 0);
-		hbox_combo_encoder_exercise.ShowAll();
-		combo_encoder_exercise.Sensitive = true;
+		hbox_combo_encoder_exercise_capture.PackStart(combo_encoder_exercise_capture, true, true, 0);
+		hbox_combo_encoder_exercise_capture.ShowAll();
+		combo_encoder_exercise_capture.Sensitive = true;
 		
 		hbox_combo_encoder_exercise_analyze.PackStart(combo_encoder_exercise_analyze, true, true, 0);
 		//hbox_combo_encoder_exercise_analyze.ShowAll(); //hbox will be shown only on intersession & interperson
@@ -2979,8 +2976,8 @@ public partial class ChronoJumpWindow
 			i++;
 		}
 		
-		UtilGtk.ComboUpdate(combo_encoder_exercise, exerciseNamesToCombo, "");
-		combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, 
+		UtilGtk.ComboUpdate(combo_encoder_exercise_capture, exerciseNamesToCombo, "");
+		combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture, 
 				Catalog.GetString(((EncoderExercise) encoderExercises[0]).name));
 		
 		UtilGtk.ComboUpdate(combo_encoder_exercise_analyze, exerciseNamesToCombo, "");
@@ -3240,12 +3237,16 @@ public partial class ChronoJumpWindow
 		//third, send error value
 		return -1;
 	}
-	int getExerciseIDFromCombo () {
-		return getExerciseIDFromName (UtilGtk.ComboGetActive(combo_encoder_exercise));
+
+	enum exerciseCombos { CAPTURE, ANALYZE }
+	
+	int getExerciseIDFromCombo (exerciseCombos combo) {
+		if(combo == exerciseCombos.CAPTURE)
+			return getExerciseIDFromName (UtilGtk.ComboGetActive(combo_encoder_exercise_capture));
+		else
+			return getExerciseIDFromName (UtilGtk.ComboGetActive(combo_encoder_exercise_analyze));
 	}
-	int getExerciseIDFromComboAnalyze () {
-		return getExerciseIDFromName (UtilGtk.ComboGetActive(combo_encoder_exercise_analyze));
-	}
+
 	int getExerciseIDFromTable () {
 		return getExerciseIDFromName (getExerciseNameFromTable());
 	}
@@ -3270,8 +3271,8 @@ public partial class ChronoJumpWindow
 				return -1;
 		}
 	}
-	int getExercisePercentBodyWeightFromCombo () {
-		return getExercisePercentBodyWeightFromName (UtilGtk.ComboGetActive(combo_encoder_exercise));
+	int getExercisePercentBodyWeightFromComboCapture () {
+		return getExercisePercentBodyWeightFromName (UtilGtk.ComboGetActive(combo_encoder_exercise_capture));
 	}
 	int getExercisePercentBodyWeightFromTable () { //from first data row
 		ArrayList array = getTreeViewCurves(encoderAnalyzeListStore);
@@ -3287,7 +3288,7 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_exercise_edit_clicked (object o, EventArgs args) 
 	{
 		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
-				false, getExerciseIDFromCombo(), false)[0];
+				false, getExerciseIDFromCombo(exerciseCombos.CAPTURE), false)[0];
 
 		ArrayList bigArray = new ArrayList();
 
@@ -3454,8 +3455,10 @@ public partial class ChronoJumpWindow
 				exerciseNamesToCombo[i] = Catalog.GetString(ex.name);
 				i++;
 			}
-			UtilGtk.ComboUpdate(combo_encoder_exercise, exerciseNamesToCombo, "");
-			combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, name);
+			UtilGtk.ComboUpdate(combo_encoder_exercise_capture, exerciseNamesToCombo, "");
+			UtilGtk.ComboUpdate(combo_encoder_exercise_analyze, exerciseNamesToCombo, "");
+			combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture, name);
+			combo_encoder_exercise_analyze.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_analyze, name);
 
 			genericWin.HideAndNull();
 			LogB.Information("done");
@@ -3507,7 +3510,8 @@ public partial class ChronoJumpWindow
 			genericWin.HideAndNull();
 				
 			createEncoderComboExerciseAndAnalyze();
-			combo_encoder_exercise.Active = 0;
+			combo_encoder_exercise_capture.Active = 0;
+			combo_encoder_exercise_analyze.Active = 0;
 
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Exercise deleted."));
 		}
@@ -4486,7 +4490,7 @@ public partial class ChronoJumpWindow
 	{
 		EncoderParams ep = new EncoderParams(
 				encoderCaptureOptionsWin.GetMinHeight(encoderConfigurationCurrent.has_inertia),
-				getExercisePercentBodyWeightFromCombo (),
+				getExercisePercentBodyWeightFromComboCapture (),
 				Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
 				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
 				findEccon(true),					//force ecS (ecc-conc separated)

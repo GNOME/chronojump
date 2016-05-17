@@ -680,7 +680,7 @@ public class GenericWindow
 				
 				hbox_error.Hide();
 			} else {
-				label_error.Text = "Cannot select rows without active repetitions";
+				label_error.Text = "Cannot select rows without data";
 				hbox_error.Show();
 			}
 		}

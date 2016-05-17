@@ -14603,7 +14603,7 @@ on current Chronojump version.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label98">
+                                                            <widget class="GtkLabel" id="label_encoder_user_curves_slash">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">/</property>

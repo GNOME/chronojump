@@ -2385,7 +2385,8 @@ public partial class ChronoJumpWindow
 		//not called here
 		//prepareAnalyzeRepetitions();
 		
-
+	
+		createComboAnalyzeCross(false, false); //first creation: false, dateOnX: false
 		updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
 
 		hbox_encoder_user_curves.Visible = false;
@@ -2425,6 +2426,7 @@ public partial class ChronoJumpWindow
 		}
 		*/
 
+		createComboAnalyzeCross(false, false); //first creation: false, dateOnX: false
 		hbox_encoder_user_curves.Visible = currentPerson != null;
 		hbox_combo_encoder_exercise_analyze.Visible = false;
 
@@ -2453,6 +2455,7 @@ public partial class ChronoJumpWindow
 	
 		hbox_encoder_analyze_current_signal.Visible = false;
 		
+		createComboAnalyzeCross(false, check_encoder_intersession_x_is_date.Active);
 		hbox_encoder_user_curves.Visible = currentPerson != null;
 		hbox_combo_encoder_exercise_analyze.Visible = true;
 		
@@ -2477,6 +2480,7 @@ public partial class ChronoJumpWindow
 
 		hbox_encoder_analyze_current_signal.Visible = false;
 		
+		createComboAnalyzeCross(false, false); //first creation: false, dateOnX: false
 		hbox_encoder_user_curves.Visible = currentPerson != null;
 		hbox_combo_encoder_exercise_analyze.Visible = true;
 		
@@ -2880,7 +2884,7 @@ public partial class ChronoJumpWindow
 			new EventHandler(on_combo_encoder_anchorage_changed );
 
 		//create combo analyze cross
-		createComboAnalyzeCross(true, false);	//first creation, without "dateInX"
+		createComboAnalyzeCross(true, false);	//first creation, without "dateOnX"
 
 		//create combo analyze 1RM
 		string [] comboAnalyze1RMOptions = { "1RM Any exercise", "1RM Bench Press", "1RM Indirect" };

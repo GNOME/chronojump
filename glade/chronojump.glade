@@ -12246,7 +12246,7 @@ on current Chronojump version.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox_combo_encoder_exercise">
+                                                            <widget class="GtkHBox" id="hbox_combo_encoder_exercise_capture">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="tooltip" translatable="yes">Exercise</property>

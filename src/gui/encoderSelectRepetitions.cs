@@ -186,7 +186,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 	protected override void getData() 
 	{
 		data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, exerciseID,
 				"curve", EncoderSQL.Eccons.ALL, 
 				false, true);
 	}
@@ -303,7 +303,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		checkboxes = genericWin.GetColumn(1, false);
 
 		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, exerciseID,
 				"curve", EncoderSQL.Eccons.ALL, 
 				false, true);
 
@@ -423,7 +423,7 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 		{
 			bool found = false;
 		
-			if(encPS.countActive == 0)
+			if(encPS.countAll == 0)
 				nonSensitiveRows.Add(count);
 			else {
 				foreach(string s2 in EncoderCompareInter)
@@ -543,7 +543,8 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 				allCurves.ToString()
 			};
 			data.Add(s);
-			if(activeCurves == 0)
+			
+			if(allCurves == 0)
 				nonSensitiveRows.Add(j);
 
 			j ++;
@@ -559,7 +560,8 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 		foreach(string [] sPersons in data) {
 			bool found = false;
 			bool nonSensitive = false;
-			
+		
+			//don't use active reps, use all
 			foreach(int nsr in nonSensitiveRows)
 				if(nsr == i)
 					nonSensitive = true;

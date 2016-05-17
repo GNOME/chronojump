@@ -131,6 +131,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_analyze_cancel;
 	[Widget] Gtk.Box hbox_encoder_user_curves;
 	[Widget] Gtk.Label label_encoder_user_curves_active_num;
+	[Widget] Gtk.Label label_encoder_user_curves_slash;
 	[Widget] Gtk.Label label_encoder_user_curves_all_num;
 
 	[Widget] Gtk.Table table_encoder_analyze_instant;
@@ -2121,11 +2122,14 @@ public partial class ChronoJumpWindow
 								false, -1, 
 								Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
 								currentSession.UniqueID, 
-								-1,
+								getExerciseIDFromCombo(),
 								"curve", EncoderSQL.Eccons.ALL, 
-								true, true);
-						foreach(EncoderSQL eSQL in dataPre) 
+								false, //onlyActive=false. Means: all saved repetitions
+								true);
+						foreach(EncoderSQL eSQL in dataPre) {
+							eSQL.status = "active"; //force all to be active on interperson
 							data.Add(eSQL);
+						}
 					}
 					LogB.Information("ENCODERCOMPAREINTER GROUP");
 					foreach (string str in encSelReps.EncoderCompareInter)
@@ -2138,11 +2142,14 @@ public partial class ChronoJumpWindow
 								false, -1,
 								currentPerson.UniqueID, 
 								Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
-								-1,
+								getExerciseIDFromCombo(),
 								"curve", EncoderSQL.Eccons.ALL,
-								true, true);
-						foreach(EncoderSQL eSQL in dataPre) 
+								false, //onlyActive=false. Means: all saved repetitions
+								true);
+						foreach(EncoderSQL eSQL in dataPre) {
+							eSQL.status = "active"; //force all to be active on intersession
 							data.Add(eSQL);
+						}
 					}
 					LogB.Information("ENCODERCOMPAREINTER INTERSESSION");
 					foreach (string str in encSelReps.EncoderCompareInter)
@@ -2427,7 +2434,12 @@ public partial class ChronoJumpWindow
 		*/
 
 		createComboAnalyzeCross(false, false); //first creation: false, dateOnX: false
+		
 		hbox_encoder_user_curves.Visible = currentPerson != null;
+		//show active curves and all curves
+		label_encoder_user_curves_slash.Visible = true;
+		label_encoder_user_curves_all_num.Visible = true;
+		
 		hbox_combo_encoder_exercise_analyze.Visible = false;
 
 		//this analysis only when not comparing
@@ -2456,7 +2468,12 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_current_signal.Visible = false;
 		
 		createComboAnalyzeCross(false, check_encoder_intersession_x_is_date.Active);
+
 		hbox_encoder_user_curves.Visible = currentPerson != null;
+		//only show active curves
+		label_encoder_user_curves_slash.Visible = false;
+		label_encoder_user_curves_all_num.Visible = false;
+		
 		hbox_combo_encoder_exercise_analyze.Visible = true;
 		
 		//active cross. The only available for comparing	
@@ -2481,7 +2498,12 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_current_signal.Visible = false;
 		
 		createComboAnalyzeCross(false, false); //first creation: false, dateOnX: false
+		
 		hbox_encoder_user_curves.Visible = currentPerson != null;
+		//only show active curves
+		label_encoder_user_curves_slash.Visible = false;
+		label_encoder_user_curves_all_num.Visible = false;
+		
 		hbox_combo_encoder_exercise_analyze.Visible = true;
 		
 		//active cross. The only available for comparing	

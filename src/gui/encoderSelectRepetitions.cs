@@ -43,7 +43,7 @@ public class EncoderSelectRepetitions
 	protected bool askDeletion;
 	
 	protected int dateColumn;
-	protected int activeRepsColumn;
+	//protected int activeRepsColumn;
 	protected int allRepsColumn;
 	
 
@@ -133,6 +133,27 @@ public class EncoderSelectRepetitions
 	protected void updateEncoderCompareInterAndReps() 
 	{
 		EncoderCompareInter = new ArrayList ();
+		
+		string [] allID = genericWin.GetColumn(0,true); //checked (selected session or person)
+		string [] selectedDate = genericWin.GetColumn(dateColumn,true); //checked (selected session or person)
+		
+		for (int i=0 ; i < allID.Length ; i ++) 
+		{
+			int id = Convert.ToInt32(allID[i]);
+			RepsAll += genericWin.GetCell(id, allRepsColumn);
+			EncoderCompareInter.Add(id + ":" + selectedDate[i]);
+		}
+		RepsActive = RepsAll;
+	}
+	
+	/*
+	 * this uses the activeReps
+	 * but better use allReps, see above
+	 *
+	protected void updateEncoderCompareInterAndRepsOld() 
+	{
+		EncoderCompareInter = new ArrayList ();
+		
 		string [] selectedID = genericWin.GetColumn(0,true); //only active
 		string [] selectedDate = genericWin.GetColumn(dateColumn,true);
 
@@ -148,6 +169,7 @@ public class EncoderSelectRepetitions
 			RepsAll += genericWin.GetCell(Convert.ToInt32(allID[i]), allRepsColumn);
 		}
 	}
+	*/
 		 
 }
 
@@ -378,8 +400,8 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 		Type = Types.INDIVIDUAL_ALL_SESSIONS;
 	
 		dateColumn = 3;
-		activeRepsColumn = 4;
-		allRepsColumn = 5;
+		//activeRepsColumn = 4;
+		allRepsColumn = 4;
 
 		if(EncoderCompareInter == null)
 			EncoderCompareInter = new ArrayList ();
@@ -427,8 +449,9 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 			"",				//checkboxes
 			Catalog.GetString("Session name"),
 			Catalog.GetString("Session date"),
-			Catalog.GetString("Selected\nrepetitions"),
-			Catalog.GetString("All\nrepetitions")
+			//Catalog.GetString("Selected\nrepetitions"),
+			//Catalog.GetString("All\nrepetitions")
+			Catalog.GetString("Saved repetitions")
 		};
 
 		bigArray = new ArrayList();
@@ -491,8 +514,8 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 		Type = Types.GROUPAL_CURRENT_SESSION;
 		
 		dateColumn = 2;
-		activeRepsColumn = 3;
-		allRepsColumn = 4;
+		//activeRepsColumn = 3;
+		allRepsColumn = 3;
 
 		if(EncoderCompareInter == null)
 			EncoderCompareInter = new ArrayList ();
@@ -505,28 +528,25 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 		data = new ArrayList();
 		
 		nonSensitiveRows = new ArrayList();
-		int i = 0;	//list of persons
 		int j = 0;	//list of added persons
 		foreach(Person p in dataPre) {
-			//if(p.UniqueID != currentPerson.UniqueID) {
-				ArrayList eSQLarray = SqliteEncoder.Select(
-						false, -1, p.UniqueID, currentSession.UniqueID, exerciseID, 
-						"curve", EncoderSQL.Eccons.ALL, 
-						false, true);
+			ArrayList eSQLarray = SqliteEncoder.Select(
+					false, -1, p.UniqueID, currentSession.UniqueID, exerciseID, 
+					"curve", EncoderSQL.Eccons.ALL, 
+					false, true);
 
-				int activeCurves = UtilEncoder.GetActiveCurvesNum(eSQLarray);
-				int allCurves = eSQLarray.Count;
+			int activeCurves = UtilEncoder.GetActiveCurvesNum(eSQLarray);
+			int allCurves = eSQLarray.Count;
 
-				string [] s = { p.UniqueID.ToString(), "", p.Name,
-					activeCurves.ToString(), allCurves.ToString()
-			       	};
-				data.Add(s);
-				if(activeCurves == 0)
-					nonSensitiveRows.Add(j);
+			string [] s = { p.UniqueID.ToString(), "", p.Name,
+				//activeCurves.ToString(), 
+				allCurves.ToString()
+			};
+			data.Add(s);
+			if(activeCurves == 0)
+				nonSensitiveRows.Add(j);
 
-				j++;
-			//}
-			i ++;
+			j ++;
 		}
 	}
 	
@@ -567,8 +587,9 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 			Catalog.GetString("ID"),
 			"",				//checkboxes
 			Catalog.GetString("Person name"),
-			Catalog.GetString("Selected\nrepetitions"),
-			Catalog.GetString("All\nrepetitions")
+			//Catalog.GetString("Selected\nrepetitions"),
+			//Catalog.GetString("All\nrepetitions")
+			Catalog.GetString("Saved repetitions")
 		};
 
 		bigArray = new ArrayList();

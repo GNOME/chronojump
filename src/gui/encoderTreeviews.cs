@@ -138,8 +138,12 @@ public partial class ChronoJumpWindow
 
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 		
-		foreach (EncoderCurve curve in encoderCaptureCurves) 
+		repetitiveConditionsWin.ResetBestSetValue();
+		foreach (EncoderCurve curve in encoderCaptureCurves) {
 			encoderCaptureListStore.AppendValues (curve);
+				
+			repetitiveConditionsWin.UpdateBestSetValue(curve);
+		}
 
 		treeview_encoder_capture_curves.Model = encoderCaptureListStore;
 
@@ -576,8 +580,13 @@ public partial class ChronoJumpWindow
 		}
 
 		encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
-		foreach (EncoderCurve curve in encoderAnalyzeCurves) 
+	
+		repetitiveConditionsWin.ResetBestSetValue();
+		foreach (EncoderCurve curve in encoderAnalyzeCurves) {
 			encoderAnalyzeListStore.AppendValues (curve);
+		
+			repetitiveConditionsWin.UpdateBestSetValue(curve);
+		}
 
 		treeview_encoder_analyze_curves.Model = encoderAnalyzeListStore;
 
@@ -799,6 +808,7 @@ public partial class ChronoJumpWindow
 
 
 	/* start rendering capture and analyze cols */
+	
 
 	private string assignColor(double found, bool higherActive, bool lowerActive, double higherValue, double lowerValue) 
 	{
@@ -1022,12 +1032,16 @@ public partial class ChronoJumpWindow
 	private void RenderMeanSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		string myColor = assignColor(
-				Convert.ToDouble(curve.MeanSpeed),
-				repetitiveConditionsWin.EncoderMeanSpeedHigher, 
-				repetitiveConditionsWin.EncoderMeanSpeedLower, 
-				repetitiveConditionsWin.EncoderMeanSpeedHigherValue,
-				repetitiveConditionsWin.EncoderMeanSpeedLowerValue);
+
+		string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MeanSpeed);
+		
+		if(myColor == "") 
+			myColor = assignColor(
+					curve.MeanSpeedD,
+					repetitiveConditionsWin.EncoderMeanSpeedHigher, 
+					repetitiveConditionsWin.EncoderMeanSpeedLower, 
+					repetitiveConditionsWin.EncoderMeanSpeedHigherValue,
+					repetitiveConditionsWin.EncoderMeanSpeedLowerValue);
 		if(myColor != "")
 			(cell as Gtk.CellRendererText).Foreground = myColor;
 		else
@@ -1041,12 +1055,16 @@ public partial class ChronoJumpWindow
 	private void RenderMaxSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		string myColor = assignColor(
-				Convert.ToDouble(curve.MaxSpeed),
-				repetitiveConditionsWin.EncoderMaxSpeedHigher, 
-				repetitiveConditionsWin.EncoderMaxSpeedLower, 
-				repetitiveConditionsWin.EncoderMaxSpeedHigherValue,
-				repetitiveConditionsWin.EncoderMaxSpeedLowerValue);
+
+		string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MaxSpeed);
+		
+		if(myColor == "") 
+			myColor = assignColor(
+					curve.MaxSpeedD,
+					repetitiveConditionsWin.EncoderMaxSpeedHigher, 
+					repetitiveConditionsWin.EncoderMaxSpeedLower, 
+					repetitiveConditionsWin.EncoderMaxSpeedHigherValue,
+					repetitiveConditionsWin.EncoderMaxSpeedLowerValue);
 		if(myColor != "")
 			(cell as Gtk.CellRendererText).Foreground = myColor;
 		else
@@ -1068,12 +1086,16 @@ public partial class ChronoJumpWindow
 	private void RenderMeanPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		string myColor = assignColor(
-				Convert.ToDouble(curve.MeanPower),
-				repetitiveConditionsWin.EncoderPowerHigher, 
-				repetitiveConditionsWin.EncoderPowerLower, 
-				repetitiveConditionsWin.EncoderPowerHigherValue,
-				repetitiveConditionsWin.EncoderPowerLowerValue);
+		
+		string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MeanPower);
+		
+		if(myColor == "") 
+			myColor = assignColor(
+					curve.MeanPowerD,
+					repetitiveConditionsWin.EncoderPowerHigher, 
+					repetitiveConditionsWin.EncoderPowerLower, 
+					repetitiveConditionsWin.EncoderPowerHigherValue,
+					repetitiveConditionsWin.EncoderPowerLowerValue);
 		if(myColor != "")
 			(cell as Gtk.CellRendererText).Foreground = myColor;
 		else
@@ -1086,12 +1108,16 @@ public partial class ChronoJumpWindow
 	private void RenderPeakPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		string myColor = assignColor(
-				Convert.ToDouble(curve.PeakPower),
-				repetitiveConditionsWin.EncoderPeakPowerHigher, 
-				repetitiveConditionsWin.EncoderPeakPowerLower, 
-				repetitiveConditionsWin.EncoderPeakPowerHigherValue,
-				repetitiveConditionsWin.EncoderPeakPowerLowerValue);
+
+		string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.PeakPower);
+		
+		if(myColor == "") 
+			myColor = assignColor(
+					curve.PeakPowerD,
+					repetitiveConditionsWin.EncoderPeakPowerHigher, 
+					repetitiveConditionsWin.EncoderPeakPowerLower, 
+					repetitiveConditionsWin.EncoderPeakPowerHigherValue,
+					repetitiveConditionsWin.EncoderPeakPowerLowerValue);
 		if(myColor != "")
 			(cell as Gtk.CellRendererText).Foreground = myColor;
 		else
@@ -1121,12 +1147,16 @@ public partial class ChronoJumpWindow
 	private void RenderMeanForce (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		string myColor = assignColor(
-				Convert.ToDouble(curve.MeanForce),
-				repetitiveConditionsWin.EncoderMeanForceHigher, 
-				repetitiveConditionsWin.EncoderMeanForceLower, 
-				repetitiveConditionsWin.EncoderMeanForceHigherValue,
-				repetitiveConditionsWin.EncoderMeanForceLowerValue);
+
+		string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MeanForce);
+		
+		if(myColor == "") 
+			myColor = assignColor(
+					curve.MeanForceD,
+					repetitiveConditionsWin.EncoderMeanForceHigher, 
+					repetitiveConditionsWin.EncoderMeanForceLower, 
+					repetitiveConditionsWin.EncoderMeanForceHigherValue,
+					repetitiveConditionsWin.EncoderMeanForceLowerValue);
 		if(myColor != "")
 			(cell as Gtk.CellRendererText).Foreground = myColor;
 		else
@@ -1139,12 +1169,16 @@ public partial class ChronoJumpWindow
 	private void RenderMaxForce (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		string myColor = assignColor(
-				Convert.ToDouble(curve.MaxForce),
-				repetitiveConditionsWin.EncoderMaxForceHigher, 
-				repetitiveConditionsWin.EncoderMaxForceLower, 
-				repetitiveConditionsWin.EncoderMaxForceHigherValue,
-				repetitiveConditionsWin.EncoderMaxForceLowerValue);
+		
+		string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MaxForce);
+		
+		if(myColor == "") 
+			myColor = assignColor(
+					curve.MaxForceD,
+					repetitiveConditionsWin.EncoderMaxForceHigher, 
+					repetitiveConditionsWin.EncoderMaxForceLower, 
+					repetitiveConditionsWin.EncoderMaxForceHigherValue,
+					repetitiveConditionsWin.EncoderMaxForceLowerValue);
 		if(myColor != "")
 			(cell as Gtk.CellRendererText).Foreground = myColor;
 		else

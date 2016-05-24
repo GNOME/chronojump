@@ -3860,7 +3860,6 @@ public partial class ChronoJumpWindow
 		foreach(EncoderBarsData ebd in data6Variables)
 			data.Add(ebd.GetValue(mainVariable));
 
-
 		//search max, min, avg
 		double max = -100000;
 		double min = 100000;
@@ -3876,6 +3875,8 @@ public partial class ChronoJumpWindow
 		if(max <= 0)
 			return;	
 		
+		repetitiveConditionsWin.ResetBestSetValue();
+		repetitiveConditionsWin.UpdateBestSetValue(max);
 
 		int textWidth = 1;
 		int textHeight = 1;
@@ -3961,9 +3962,11 @@ public partial class ChronoJumpWindow
 			if(dWidth < 1)
 				dWidth = 1;
 
-			
 			//select pen color for bars and sounds
-			if(mainVariableHigher != -1 && d >= mainVariableHigher) {
+			string myColor = repetitiveConditionsWin.AssignColorAutomatic(d);
+
+			if( myColor == UtilGtk.ColorGood || (mainVariableHigher != -1 && d >= mainVariableHigher) ) 
+			{
 				my_pen_ecc_con_e = pen_green_dark_encoder_capture;
 				my_pen_ecc_con_c = pen_green_light_encoder_capture;
 				my_pen_con = pen_green_encoder_capture;
@@ -3971,7 +3974,8 @@ public partial class ChronoJumpWindow
 				if(preferences.volumeOn && count == data.Count -1 && capturing)
 					Util.PlaySound(Constants.SoundTypes.GOOD, preferences.volumeOn);
 			}
-			else if(mainVariableLower != -1 && d <= mainVariableLower) {
+			else if( myColor == UtilGtk.ColorBad || (mainVariableLower != -1 && d <= mainVariableLower) )
+			{
 				my_pen_ecc_con_e = pen_red_dark_encoder_capture;
 				my_pen_ecc_con_c = pen_red_light_encoder_capture;
 				my_pen_con = pen_red_encoder_capture;

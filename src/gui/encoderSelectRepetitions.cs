@@ -37,9 +37,8 @@ public class EncoderSelectRepetitions
 	protected Person currentPerson;
 	protected Session currentSession;
 	protected GenericWindow genericWin;
-//	protected Gtk.ComboBox combo_encoder_analyze_curve_num_combo;
 	protected Gtk.Button button_encoder_analyze;
-	protected int exerciseID;
+	protected int exerciseID; //can be -1 (all)
 	protected bool askDeletion;
 	
 	protected int dateColumn;
@@ -77,9 +76,7 @@ public class EncoderSelectRepetitions
 	}
 
 	public void PassVariables(Person currentP, Session currentS, 
-			GenericWindow gw, //Gtk.ComboBox combo_curves, 
-			Gtk.Button button_e_a, int exID,
-			bool askDel) 
+			GenericWindow gw, Gtk.Button button_e_a, int exID, bool askDel) 
 	{
 		RepsActive = 0;
 		RepsAll = 0;
@@ -89,9 +86,8 @@ public class EncoderSelectRepetitions
 		currentSession = currentS;
 
 		genericWin = gw;
-		//combo_encoder_analyze_curve_num_combo = combo_curves;
 		button_encoder_analyze = button_e_a;
-		exerciseID = exID;
+		exerciseID = exID; //can be -1 (all)
 		askDeletion = askDel;
 	}
 	

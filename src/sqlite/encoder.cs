@@ -315,10 +315,15 @@ class SqliteEncoder : Sqlite
 	}
 	
 
+	//exerciseID can be -1 to get all exercises
 	public static ArrayList SelectCompareIntersession (bool dbconOpened, int exerciseID, int personID)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
+		
+		string exerciseIDStr = "";
+		if(exerciseID != -1)
+			exerciseIDStr = "encoder.exerciseID = " + exerciseID + " AND ";
 
 		//returns a row for each session where there are active or inactive
 		dbcmd.CommandText = 
@@ -326,9 +331,10 @@ class SqliteEncoder : Sqlite
 			" SUM(CASE WHEN encoder.status = \"active\" THEN 1 END) as active, " +
 			" SUM(CASE WHEN encoder.status = \"inactive\" THEN 1 END) as inactive " + 
 			" FROM encoder, session, person77 " +
-			" WHERE encoder.exerciseID == " + exerciseID + " AND " +
-			" encoder.personID == " + personID + " AND signalOrCurve == \"curve\" AND " +
-			" encoder.personID == person77.uniqueID AND encoder.sessionID == session.uniqueID " +
+			" WHERE " +
+			exerciseIDStr + 	
+			" encoder.personID = " + personID + " AND signalOrCurve = \"curve\" AND " +
+			" encoder.personID = person77.uniqueID AND encoder.sessionID = session.uniqueID " +
 			" GROUP BY encoder.sessionID ORDER BY encoder.sessionID, encoder.status";
 	
 		LogB.SQL(dbcmd.CommandText.ToString());

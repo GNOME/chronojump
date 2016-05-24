@@ -2979,10 +2979,20 @@ public partial class ChronoJumpWindow
 		UtilGtk.ComboUpdate(combo_encoder_exercise_capture, exerciseNamesToCombo, "");
 		combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture, 
 				Catalog.GetString(((EncoderExercise) encoderExercises[0]).name));
+	
+		exerciseNamesToCombo = addAllExercisesToComboExerciseAnalyze(exerciseNamesToCombo);
 		
 		UtilGtk.ComboUpdate(combo_encoder_exercise_analyze, exerciseNamesToCombo, "");
-		combo_encoder_exercise_analyze.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_analyze, 
-				Catalog.GetString(((EncoderExercise) encoderExercises[0]).name));
+		combo_encoder_exercise_analyze.Active = 0; //first one active "All exercises"
+	}
+	private string [] addAllExercisesToComboExerciseAnalyze(string [] exerciseNamesToCombo) {
+
+		exerciseNamesToCombo = Util.AddArrayString(exerciseNamesToCombo, Catalog.GetString("All exercises"), true); //first
+		encoderExercisesTranslationAndBodyPWeight = Util.AddArrayString(
+				encoderExercisesTranslationAndBodyPWeight, 
+				-1 + ":" + "All exercises" + ":" + Catalog.GetString("All exercises") + ":" + 0, true); //first
+
+		return(exerciseNamesToCombo);
 	}
 		
 	private void createComboAnalyzeCross(bool firstCreation, bool dateOnX) 
@@ -3456,8 +3466,11 @@ public partial class ChronoJumpWindow
 				i++;
 			}
 			UtilGtk.ComboUpdate(combo_encoder_exercise_capture, exerciseNamesToCombo, "");
-			UtilGtk.ComboUpdate(combo_encoder_exercise_analyze, exerciseNamesToCombo, "");
 			combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture, name);
+			
+			exerciseNamesToCombo = addAllExercisesToComboExerciseAnalyze(exerciseNamesToCombo);
+
+			UtilGtk.ComboUpdate(combo_encoder_exercise_analyze, exerciseNamesToCombo, "");
 			combo_encoder_exercise_analyze.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_analyze, name);
 
 			genericWin.HideAndNull();
@@ -3508,7 +3521,7 @@ public partial class ChronoJumpWindow
 			Sqlite.DeleteFromAnInt(false, Constants.Encoder1RMTable, "exerciseID", genericWin.uniqueID);
 
 			genericWin.HideAndNull();
-				
+
 			createEncoderComboExerciseAndAnalyze();
 			combo_encoder_exercise_capture.Active = 0;
 			combo_encoder_exercise_analyze.Active = 0;

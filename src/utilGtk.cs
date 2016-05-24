@@ -367,6 +367,10 @@ public class UtilGtk
 	public static Gdk.Color GREEN_LIGHT = new Gdk.Color(0,238,0);
 	public static Gdk.Color BLUE_DARK = new Gdk.Color(0,0,140);
 	public static Gdk.Color BLUE_LIGHT = new Gdk.Color(0,75,238);
+	
+	public static string ColorGood = "ForestGreen";
+	public static string ColorBad = "red";
+	public static string ColorNothing = "";
 
 	
 	public static Gdk.Color SELECTED = GetBackgroundColorSelected();

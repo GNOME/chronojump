@@ -75,6 +75,8 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.ComboBox combo_encoder_variable_automatic;
 	[Widget] Gtk.CheckButton checkbutton_encoder_automatic_greater;
 	[Widget] Gtk.CheckButton checkbutton_encoder_automatic_lower;
+	[Widget] Gtk.SpinButton spinbutton_encoder_automatic_greater;
+	[Widget] Gtk.SpinButton spinbutton_encoder_automatic_lower;
 
 	[Widget] Gtk.VBox vbox_encoder_manual;
 	[Widget] Gtk.CheckButton checkbutton_encoder_show_manual_feedback;
@@ -155,6 +157,8 @@ public class RepetitiveConditionsWindow
 
 	//static bool volumeOn;
 	bool volumeOn;
+
+	private double bestSetValue;
 	
 	static RepetitiveConditionsWindow RepetitiveConditionsWindowBox;
 		
@@ -172,6 +176,8 @@ public class RepetitiveConditionsWindow
 		FakeButtonClose = new Gtk.Button();
 		
 		createComboEncoderAutomaticVariable();
+
+		bestSetValue = 0;
 
 		putNonStandardIcons();
 	}
@@ -417,6 +423,55 @@ public class RepetitiveConditionsWindow
 		checkbutton_encoder_peakpower_lower.Active = true;
 	}
 
+			
+	public void ResetBestSetValue() {
+	       bestSetValue = 0;	
+	}
+
+	public void UpdateBestSetValue(EncoderCurve curve) 
+	{
+		string autoVar = encoderAutomaticVariable;
+		if(encoderAutomaticHigher || encoderAutomaticLower) 
+		{
+			if(autoVar == Constants.MeanSpeed)
+				UpdateBestSetValue(curve.MeanSpeedD);
+			else if(autoVar == Constants.MaxSpeed)
+				UpdateBestSetValue(curve.MaxSpeedD);
+			else if(autoVar == Constants.MeanPower)
+				UpdateBestSetValue(curve.MeanPowerD);
+			else if(autoVar == Constants.PeakPower)
+				UpdateBestSetValue(curve.PeakPowerD);
+			else if(autoVar == Constants.MeanForce)
+				UpdateBestSetValue(curve.MeanForceD);
+			else if(autoVar == Constants.MaxForce)
+				UpdateBestSetValue(curve.MaxForceD);
+		}
+	}
+	public void UpdateBestSetValue(double d) {
+		if(d > bestSetValue)
+			bestSetValue = d;
+	}
+		
+	//called from gui/encoderTreeviews.cs
+	public string AssignColorAutomatic(EncoderCurve curve, string variable)
+	{
+		if(encoderAutomaticVariable != variable)
+			return UtilGtk.ColorNothing;
+
+		double currentValue = curve.GetParameter(variable);
+
+		return AssignColorAutomatic(currentValue);
+	}
+	//called from gui/encoder.cs plotCurvesGraphDoPlot
+	public string AssignColorAutomatic(double currentValue)
+	{
+		if(encoderAutomaticHigher && currentValue > bestSetValue * encoderAutomaticHigherValue / 100)
+			return UtilGtk.ColorGood;
+		else if (encoderAutomaticLower && currentValue < bestSetValue * encoderAutomaticLowerValue/ 100)
+			return UtilGtk.ColorBad;
+
+		return UtilGtk.ColorNothing;
+	}
 
 	/* JUMPS */
 	public bool TfTcBest {
@@ -505,6 +560,25 @@ public class RepetitiveConditionsWindow
 	}
 
 	/* ENCODER */
+	//automatic
+
+	private string encoderAutomaticVariable {
+		get { return UtilGtk.ComboGetActive(combo_encoder_variable_automatic); }
+	}
+
+	private bool encoderAutomaticHigher {
+		get { return checkbutton_encoder_automatic_greater.Active; }
+	}
+	private int encoderAutomaticHigherValue {
+		get { return Convert.ToInt32(spinbutton_encoder_automatic_greater.Value); }
+	}
+	private bool encoderAutomaticLower {
+		get { return checkbutton_encoder_automatic_lower.Active; }
+	}
+	private int encoderAutomaticLowerValue {
+		get { return Convert.ToInt32(spinbutton_encoder_automatic_lower.Value); }
+	}
+	
 
 	//height
 	public bool EncoderHeightHigher {

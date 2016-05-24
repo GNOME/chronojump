@@ -391,6 +391,14 @@ public class EncoderCurve
 			return Util.ChangeChars(str, ":::", ",");
 	}
 	
+	public double MeanSpeedD { get { return Convert.ToDouble(MeanSpeed); } }
+	public double MaxSpeedD  { get { return Convert.ToDouble(MaxSpeed);  } }
+	public double MeanPowerD { get { return Convert.ToDouble(MeanPower); } }
+	public double PeakPowerD { get { return Convert.ToDouble(PeakPower); } }
+	public double MeanForceD { get { return Convert.ToDouble(MeanForce); } }
+	public double MaxForceD  { get { return Convert.ToDouble(MaxForce);  } }
+
+	
 	~EncoderCurve() {}
 }
 

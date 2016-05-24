@@ -129,44 +129,25 @@ public class EncoderSelectRepetitions
 	protected void updateEncoderCompareInterAndReps() 
 	{
 		EncoderCompareInter = new ArrayList ();
+	
+		//find RepsActive
+		string [] selectedID = genericWin.GetColumn(0,true); //only active
+		string [] selectedDate = genericWin.GetColumn(dateColumn,true); //only active
+		for (int i=0 ; i < selectedID.Length ; i ++) 
+		{
+			int id = Convert.ToInt32(selectedID[i]);
+			RepsActive += genericWin.GetCell(id, allRepsColumn);
+			EncoderCompareInter.Add(id + ":" + selectedDate[i]);
+		}
 		
-		string [] allID = genericWin.GetColumn(0,true); //checked (selected session or person)
-		string [] selectedDate = genericWin.GetColumn(dateColumn,true); //checked (selected session or person)
-		
+		//find RepsAll
+		string [] allID = genericWin.GetColumn(0,false); //unchecked (session or person don't need to be selected)
 		for (int i=0 ; i < allID.Length ; i ++) 
 		{
 			int id = Convert.ToInt32(allID[i]);
 			RepsAll += genericWin.GetCell(id, allRepsColumn);
-			EncoderCompareInter.Add(id + ":" + selectedDate[i]);
-		}
-		RepsActive = RepsAll;
-	}
-	
-	/*
-	 * this uses the activeReps
-	 * but better use allReps, see above
-	 *
-	protected void updateEncoderCompareInterAndRepsOld() 
-	{
-		EncoderCompareInter = new ArrayList ();
-		
-		string [] selectedID = genericWin.GetColumn(0,true); //only active
-		string [] selectedDate = genericWin.GetColumn(dateColumn,true);
-
-		for (int i=0 ; i < selectedID.Length ; i ++) {
-			int uniqueID = Convert.ToInt32(selectedID[i]);
-			EncoderCompareInter.Add(uniqueID + ":" + selectedDate[i]);
-
-			RepsActive += genericWin.GetCell(uniqueID, activeRepsColumn);
-		}
-		
-		string [] allID = genericWin.GetColumn(0,false);
-		for (int i=0 ; i < allID.Length ; i ++) {
-			RepsAll += genericWin.GetCell(Convert.ToInt32(allID[i]), allRepsColumn);
 		}
 	}
-	*/
-		 
 }
 
 public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRepetitions

@@ -131,7 +131,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_analyze_cancel;
 	[Widget] Gtk.Box hbox_encoder_user_curves;
 	[Widget] Gtk.Label label_encoder_user_curves_active_num;
-	[Widget] Gtk.Label label_encoder_user_curves_slash;
 	[Widget] Gtk.Label label_encoder_user_curves_all_num;
 
 	[Widget] Gtk.Table table_encoder_analyze_instant;
@@ -2433,9 +2432,6 @@ public partial class ChronoJumpWindow
 		createComboAnalyzeCross(false, false); //first creation: false, dateOnX: false
 		
 		hbox_encoder_user_curves.Visible = currentPerson != null;
-		//show active curves and all curves
-		label_encoder_user_curves_slash.Visible = true;
-		label_encoder_user_curves_all_num.Visible = true;
 		
 		hbox_combo_encoder_exercise_analyze.Visible = true;
 
@@ -2467,9 +2463,6 @@ public partial class ChronoJumpWindow
 		createComboAnalyzeCross(false, check_encoder_intersession_x_is_date.Active);
 
 		hbox_encoder_user_curves.Visible = currentPerson != null;
-		//only show active curves
-		label_encoder_user_curves_slash.Visible = false;
-		label_encoder_user_curves_all_num.Visible = false;
 		
 		hbox_combo_encoder_exercise_analyze.Visible = true;
 		
@@ -2497,9 +2490,6 @@ public partial class ChronoJumpWindow
 		createComboAnalyzeCross(false, false); //first creation: false, dateOnX: false
 		
 		hbox_encoder_user_curves.Visible = currentPerson != null;
-		//only show active curves
-		label_encoder_user_curves_slash.Visible = false;
-		label_encoder_user_curves_all_num.Visible = false;
 		
 		hbox_combo_encoder_exercise_analyze.Visible = true;
 		

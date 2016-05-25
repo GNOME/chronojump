@@ -69,6 +69,7 @@ public class EncoderSelectRepetitions
 	public ArrayList EncoderCompareInter;
 	public int RepsActive;
 	public int RepsAll;
+	public ArrayList EncoderInterSessionDateOnXWeights;
 
 	
 	public EncoderSelectRepetitions() {
@@ -377,12 +378,15 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 
 public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepetitions
 {
+	private int repsByWeightsColumn;
+
 	public EncoderSelectRepetitionsIndividualAllSessions() {
 		Type = Types.INDIVIDUAL_ALL_SESSIONS;
 	
 		dateColumn = 3;
 		//activeRepsColumn = 4;
 		allRepsColumn = 4;
+		repsByWeightsColumn = allRepsColumn +1;
 
 		if(EncoderCompareInter == null)
 			EncoderCompareInter = new ArrayList ();
@@ -432,7 +436,8 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 			Catalog.GetString("Session date"),
 			//Catalog.GetString("Selected\nrepetitions"),
 			//Catalog.GetString("All\nrepetitions")
-			Catalog.GetString("Saved repetitions")
+			Catalog.GetString("Saved repetitions"),
+			"Weights (repetitions * weight)"
 		};
 
 		bigArray = new ArrayList();
@@ -456,7 +461,7 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 		//convert data from array of EncoderPersonCurvesInDB to array of strings []
 		ArrayList dataConverted = new ArrayList();
 		foreach(EncoderPersonCurvesInDB encPS in data) {
-			dataConverted.Add(encPS.ToStringArray());
+			dataConverted.Add(encPS.ToStringArray(true));
 		}
 
 		genericWin.SetTreeview(columnsString, true, dataConverted, nonSensitiveRows, Constants.ContextMenu.NONE, false);
@@ -470,11 +475,33 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 		
 		//to have encoderCompareInter without opening the select window
 		updateEncoderCompareInterAndReps();
+		updateEncoderInterSessionDateOnXWeights();
 
 		//used when we don't need to read data, 
 		//and we want to ensure next window will be created at needed size
 		//genericWin.DestroyOnAccept=true;
 		//here is comented because we are going to read the checkboxes
+	}
+		
+	private void updateEncoderInterSessionDateOnXWeights() 
+	{
+		EncoderInterSessionDateOnXWeights = new ArrayList();
+		
+		string [] selectedID = genericWin.GetColumn(0,true); //only active
+		string [] selectedRepsByWeights = genericWin.GetColumn(repsByWeightsColumn,true); //only active
+		for (int i=0 ; i < selectedID.Length ; i ++) 
+		{
+			string [] repsByWeights = selectedRepsByWeights[i].Split(new char[] {' '});
+			//repsByWeights is "3*10", "5*70", "4*120"
+			foreach(string repByWeight in repsByWeights) {
+				string [] chunks = repByWeight.Split(new char[] {'*'});
+				if(Util.IsNumber(chunks[1], true))
+					EncoderInterSessionDateOnXWeights = Util.AddToArrayListIfNotExist(
+							EncoderInterSessionDateOnXWeights, Convert.ToDouble(chunks[1]));
+			}
+		}
+					
+		EncoderInterSessionDateOnXWeights.Sort();
 	}
 	
 	protected override void on_show_repetitions_done (object o, EventArgs args) 
@@ -483,6 +510,7 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 		genericWin.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
 	
 		updateEncoderCompareInterAndReps();
+		updateEncoderInterSessionDateOnXWeights();
 	
 		FakeButtonDone.Click();		
 		LogB.Information("done");

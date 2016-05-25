@@ -22,6 +22,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using Mono.Data.Sqlite;
 using Mono.Unix;
 
@@ -327,7 +328,7 @@ class SqliteEncoder : Sqlite
 
 		//returns a row for each session where there are active or inactive
 		dbcmd.CommandText = 
-			"SELECT encoder.sessionID, session.name, session.date, " +
+			"SELECT encoder.sessionID, session.name, session.date, encoder.extraWeight, " +
 			" SUM(CASE WHEN encoder.status = \"active\" THEN 1 END) as active, " +
 			" SUM(CASE WHEN encoder.status = \"inactive\" THEN 1 END) as inactive " + 
 			" FROM encoder, session, person77 " +
@@ -335,7 +336,7 @@ class SqliteEncoder : Sqlite
 			exerciseIDStr + 	
 			" encoder.personID = " + personID + " AND signalOrCurve = \"curve\" AND " +
 			" encoder.personID = person77.uniqueID AND encoder.sessionID = session.uniqueID " +
-			" GROUP BY encoder.sessionID ORDER BY encoder.sessionID, encoder.status";
+			" GROUP BY encoder.sessionID, encoder.extraWeight ORDER BY encoder.sessionID, encoder.extraWeight, encoder.status";
 	
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
@@ -344,27 +345,86 @@ class SqliteEncoder : Sqlite
 
 		ArrayList array = new ArrayList();
 		EncoderPersonCurvesInDB encPS = new EncoderPersonCurvesInDB();
+		/*
+		 * eg.
+		 * sessID|sess name|date|extraWe|a|i (a: active, i: inactive)
+		 * 20|Encoder tests|2012-12-10|7|3|
+		 * 20|Encoder tests|2012-12-10|0||9
+		 * 20|Encoder tests|2012-12-10|10||34
+		 * 20|Encoder tests|2012-12-10|58||1
+		 * 20|Encoder tests|2012-12-10|61||1
+		 * 26|sessio-proves|2013-07-08|10|5|36
+		 * 30|proves encoder|2013-11-08|0|2|
+		 * 30|proves encoder|2013-11-08|100|5|
+		 * 
+		 * convert to:
+		 *
+		 * sessID|sess name|date|a|i|reps*weights	(a: active, i: inactive)
+		 * 20|Encoder tests|2012-12-10|3|45|3*7 9*0 34*10 1*58 1*61 (but sorted)
+		 *
+		 */
+		int sessIDDoing = -1; //of this sessionID
+		int sessIDThisRow = -1; //of this SQL row
+		List<EncoderPersonCurvesInDBDeep> lDeep = new List<EncoderPersonCurvesInDBDeep>();
+		bool firstSession = true;
+		int activeThisRow;
+		int inactiveThisRow;
+		int activeThisSession = 0;
+		int inactiveThisSession = 0;
+
 		while(reader.Read()) {
-			int active = 0;
-			string activeStr = reader[3].ToString();
+			//1 get sessionID of this row
+			sessIDThisRow = Convert.ToInt32(reader[0].ToString());
+
+			//2 get active an inactive curves of this row
+			activeThisRow = 0;
+			string activeStr = reader[4].ToString();
 			if(Util.IsNumber(activeStr, false))
-				active = Convert.ToInt32(activeStr);
+				activeThisRow = Convert.ToInt32(activeStr);
 			
-			int inactive = 0;
-			string inactiveStr = reader[4].ToString();
+			inactiveThisRow = 0;
+			string inactiveStr = reader[5].ToString();
 			if(Util.IsNumber(inactiveStr, false))
-				inactive = Convert.ToInt32(inactiveStr);
+				inactiveThisRow = Convert.ToInt32(inactiveStr);
+			
+			//3 if session of this row is different than previous row
+			if(sessIDThisRow != sessIDDoing) 
+			{
+				sessIDDoing = sessIDThisRow;
 
+				if(! firstSession) {
+					//if is not first session (means we have processed a session before)
+					//update encPS with the lDeep and then add to array
+					encPS.lDeep = lDeep;
+					encPS.countActive = activeThisSession;
+					encPS.countAll = activeThisSession + inactiveThisSession;
+					array.Add(encPS);
+				}
 
-			encPS = new EncoderPersonCurvesInDB (
-					personID,
-					Convert.ToInt32(reader[0].ToString()),	//sessionID
-					reader[1].ToString(),			//sessionName
-					reader[2].ToString(),			//sessionDate
-					active,					//active
-					active + inactive			//all: active + inactive 
-					);
-			array.Add(encPS);
+				firstSession = false;
+
+				//create new EncoderPersonCurvesInDB
+				encPS = new EncoderPersonCurvesInDB (
+						personID,
+						Convert.ToInt32(reader[0].ToString()),	//sessionID
+						reader[1].ToString(),			//sessionName
+						reader[2].ToString());			//sessionDate
+					
+				activeThisSession = 0;
+				inactiveThisSession = 0;
+				//empty lDeep
+				lDeep = new List<EncoderPersonCurvesInDBDeep>();
+
+			}
+			//4 add deep info: (weight, all reps)
+			EncoderPersonCurvesInDBDeep deep = new EncoderPersonCurvesInDBDeep(
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString())), activeThisRow + inactiveThisRow);
+			//add to lDeep
+			lDeep.Add(deep);
+			
+			activeThisSession += activeThisRow;
+			inactiveThisSession += inactiveThisRow;
+
 		}
 		reader.Close();
 		if(! dbconOpened)

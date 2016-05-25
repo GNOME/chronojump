@@ -1618,6 +1618,12 @@ public partial class ChronoJumpWindow
 					false, true);
 			updateComboEncoderAnalyzeCurveNumSavedReps(data, encSelReps.RepsActive);
 		} //interperson and intersession modes don't use combo_encoder_analyze_curve_num_combo
+		
+		if(radio_encoder_analyze_individual_all_sessions.Active) {
+			LogB.Information("EncoderInterSessionDateOnXWeights");
+			foreach (double d in encSelReps.EncoderInterSessionDateOnXWeights)
+				LogB.Information(d.ToString());
+		}
 	
 		button_encoder_analyze_sensitiveness();
 	}

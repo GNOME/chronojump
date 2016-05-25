@@ -1376,6 +1376,14 @@ public class Util
 
 		return myArrayList;
 	}
+	
+	public static ArrayList AddToArrayListIfNotExist(ArrayList myArrayList, double d) {
+	 	bool found = FoundInArrayList(myArrayList, d);
+		if(!found)
+			myArrayList.Add(d);
+
+		return myArrayList;
+	}
 
 	public static bool FoundInArrayList(ArrayList a, string str) {
 		foreach (string str2 in a)
@@ -1387,7 +1395,15 @@ public class Util
 
 	public static bool FoundInArrayList(ArrayList a, int i) {
 		foreach (int j in a)
-			if(i == j)
+			if(j == i)
+				return true;
+
+		return false;
+	}
+
+	public static bool FoundInArrayList(ArrayList a, double d) {
+		foreach (double d2 in a)
+			if(d2 == d)
 				return true;
 
 		return false;

@@ -820,7 +820,21 @@ public class EncoderSQL
 
 }
 
+//related to all reps, not only active
+public class EncoderPersonCurvesInDBDeep
+{
+	public double extraWeight;
+	public int count; //this count is all reps (not only active)
 
+	public EncoderPersonCurvesInDBDeep(double w, int c) {
+		this.extraWeight = w;
+		this.count = c;
+	}
+
+	public override string ToString() {
+		return count.ToString() + "*" + extraWeight.ToString();// + "Kg";
+	}
+}
 public class EncoderPersonCurvesInDB
 {
 	public int personID;
@@ -829,24 +843,44 @@ public class EncoderPersonCurvesInDB
 	public string sessionDate;
 	public int countActive;
 	public int countAll;
+	public List<EncoderPersonCurvesInDBDeep> lDeep;
 	
 	public EncoderPersonCurvesInDB() {
 	}
-	public EncoderPersonCurvesInDB(int personID, int sessionID, string sessionName, string sessionDate,
-			int countActive, int countAll) {
+	public EncoderPersonCurvesInDB(int personID, int sessionID, string sessionName, string sessionDate) 
+	{
 		this.personID =		personID;
 		this.sessionID = 	sessionID;
 		this.sessionName = 	sessionName;
 		this.sessionDate = 	sessionDate;
-		this.countActive = 	countActive;
-		this.countAll =		countAll;
 	}
 
-	public string [] ToStringArray() {
-		string [] s = { sessionID.ToString(), "", sessionName, sessionDate,
-			//countActive.ToString(), countAll.ToString()
-			countAll.ToString()
-		};
+	public string [] ToStringArray(bool deep) {
+		string [] s;
+
+		//the "" will be for the checkbox on genericWin
+		if(deep) {
+			s = new string[]{ sessionID.ToString(), "", sessionName, sessionDate,
+				//countActive.ToString(), countAll.ToString()
+				countAll.ToString(), DeepPrint()
+			};
+		} else {
+			s = new string[]{ sessionID.ToString(), "", sessionName, sessionDate,
+				//countActive.ToString(), countAll.ToString()
+				countAll.ToString()
+			};
+		}
+
+		return s;
+	}
+
+	private string DeepPrint() {
+		string s = "";
+		string sep = "";
+		foreach(EncoderPersonCurvesInDBDeep e in lDeep) {
+			s += sep + e.ToString();
+			sep = " ";
+		}
 		return s;
 	}
 }

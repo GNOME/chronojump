@@ -597,13 +597,13 @@ public class GenericWindow
 	
 	public int GetCell(int uniqueID, int column) 
 	{
-		LogB.Information(" GetCell " + uniqueID.ToString() + " " + column.ToString());
+		//LogB.Information(" GetCell " + uniqueID.ToString() + " " + column.ToString());
 		Gtk.TreeIter iter;
 		bool okIter = store.GetIterFirst(out iter);
 		if(okIter) {
 			do {
-				LogB.Information("_0_ " + (string) store.GetValue (iter, 0));
-				LogB.Information("_column_ " + column.ToString() + " " + (string) store.GetValue (iter, column));
+				//LogB.Information("_0_ " + (string) store.GetValue (iter, 0));
+				//LogB.Information("_column_ " + column.ToString() + " " + (string) store.GetValue (iter, column));
 				if( ((string) store.GetValue (iter, 0)) == uniqueID.ToString()) {
 					return Convert.ToInt32( (string) store.GetValue (iter, column) );
 				}

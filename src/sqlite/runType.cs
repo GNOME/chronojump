@@ -444,7 +444,7 @@ class SqliteRunIntervalType : SqliteRunType
 		mycmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, name, distance, tracksLimited, fixedValue, unlimited, description, distancesString)" +
 				" VALUES (NULL, \"" +
-				t.Name + 	"\", " + t.Distance + ", " + Util.BoolToInt(t.TracksLimited) + 	", " + t.FixedValue + ", " +
+				t.Name + 	"\", " + Util.ConvertToPoint(t.Distance) + ", " + Util.BoolToInt(t.TracksLimited) + 	", " + t.FixedValue + ", " +
 				Util.BoolToInt(t.Unlimited) + 	", \"" + t.Description +	"\", \"" + t.DistancesString + 	"\")" ;	
 		LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();

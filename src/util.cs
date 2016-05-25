@@ -1384,6 +1384,14 @@ public class Util
 
 		return myArrayList;
 	}
+	
+	public static List<double> AddToListDoubleIfNotExist(List<double> l, double d) {
+	 	bool found = FoundInListDouble(l, d);
+		if(!found)
+			l.Add(d);
+	
+		return l;
+	}
 
 	public static bool FoundInArrayList(ArrayList a, string str) {
 		foreach (string str2 in a)
@@ -1412,6 +1420,14 @@ public class Util
 	public static bool FoundInStringArray(string [] a, string str) {
 		foreach (string str2 in a)
 			if(str2 == str)
+				return true;
+
+		return false;
+	}
+
+	public static bool FoundInListDouble(List<double>l, double d) {
+		foreach (double d2 in l)
+			if(d2 == d)
 				return true;
 
 		return false;

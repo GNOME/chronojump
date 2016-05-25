@@ -199,7 +199,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze_side;
 	[Widget] Gtk.Image image_encoder_analyze_single;
 	[Widget] Gtk.Image image_encoder_analyze_nmp;
+	[Widget] Gtk.HBox hbox_encoder_analyze_intersession;
 	[Widget] Gtk.CheckButton check_encoder_intersession_x_is_date;
+	[Widget] Gtk.HBox hbox_combo_encoder_analyze_weights;
+	[Widget] Gtk.ComboBox combo_encoder_analyze_weights;
 	
 	[Widget] Gtk.Button button_encoder_analyze_help;
 
@@ -370,6 +373,8 @@ public partial class ChronoJumpWindow
 		encoderConfigurationCurrent = SqliteEncoder.LoadEncoderConfiguration();
 		
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
+		
+		encSelReps = new EncoderSelectRepetitions();
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		//treeview_encoder_capture_curves.CursorChanged += on_treeview_encoder_capture_curves_cursor_changed;
@@ -408,8 +413,6 @@ public partial class ChronoJumpWindow
 		configInit();
 	
 		array1RM = new ArrayList();
-			
-		encSelReps = new EncoderSelectRepetitions();
 	}
 
 
@@ -1623,6 +1626,8 @@ public partial class ChronoJumpWindow
 			LogB.Information("EncoderInterSessionDateOnXWeights");
 			foreach (double d in encSelReps.EncoderInterSessionDateOnXWeights)
 				LogB.Information(d.ToString());
+		
+			createComboEncoderAnalyzeWeights(false);
 		}
 	
 		button_encoder_analyze_sensitiveness();
@@ -2150,6 +2155,12 @@ public partial class ChronoJumpWindow
 							false, //onlyActive=false. Means: all saved repetitions
 							true);
 					foreach(EncoderSQL eSQL in dataPre) {
+						string comboWeightsValue = UtilGtk.ComboGetActive(combo_encoder_analyze_weights);
+						if(check_encoder_intersession_x_is_date.Active &&
+								comboWeightsValue != Catalog.GetString("All weights") &&
+								comboWeightsValue != Util.ChangeDecimalSeparator(eSQL.extraWeight))
+							continue;
+							
 						eSQL.status = "active"; //force all to be active on intersession
 						data.Add(eSQL);
 					}
@@ -2396,6 +2407,8 @@ public partial class ChronoJumpWindow
 		
 	
 		createComboAnalyzeCross(false, false); //first creation: false, dateOnX: false
+		createComboEncoderAnalyzeWeights(false); //first creation: false
+
 		updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
 
 		hbox_encoder_user_curves.Visible = false;
@@ -2410,7 +2423,7 @@ public partial class ChronoJumpWindow
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
-		check_encoder_intersession_x_is_date.Visible = false;
+		hbox_encoder_analyze_intersession.Visible = false;
 			
 		button_encoder_analyze_sensitiveness();
 	
@@ -2450,7 +2463,7 @@ public partial class ChronoJumpWindow
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
-		check_encoder_intersession_x_is_date.Visible = false;
+		hbox_encoder_analyze_intersession.Visible = false;
 			
 		button_encoder_analyze_sensitiveness();
 	
@@ -2467,6 +2480,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_current_signal.Visible = false;
 		
 		createComboAnalyzeCross(false, check_encoder_intersession_x_is_date.Active);
+		combo_encoder_analyze_weights.Visible = check_encoder_intersession_x_is_date.Active;
 
 		hbox_encoder_user_curves.Visible = currentPerson != null;
 		
@@ -2474,7 +2488,7 @@ public partial class ChronoJumpWindow
 		
 		//active cross. The only available for comparing	
 		radiobutton_encoder_analyze_cross.Active = true;
-		check_encoder_intersession_x_is_date.Visible = true;
+		hbox_encoder_analyze_intersession.Visible = true;
 		
 		//this analysis only when not comparing
 		radiobutton_encoder_analyze_powerbars.Visible = false;
@@ -2501,7 +2515,7 @@ public partial class ChronoJumpWindow
 		
 		//active cross. The only available for comparing	
 		radiobutton_encoder_analyze_cross.Active = true;
-		check_encoder_intersession_x_is_date.Visible = false;
+		hbox_encoder_analyze_intersession.Visible = false;
 		
 		//this analysis only when not comparing
 		radiobutton_encoder_analyze_powerbars.Visible = false;
@@ -2900,6 +2914,7 @@ public partial class ChronoJumpWindow
 
 		//create combo analyze cross
 		createComboAnalyzeCross(true, false);	//first creation, without "dateOnX"
+		createComboEncoderAnalyzeWeights(true);	//first creation
 
 		//create combo analyze 1RM
 		string [] comboAnalyze1RMOptions = { "1RM Any exercise", "1RM Bench Press", "1RM Indirect" };
@@ -3040,9 +3055,34 @@ public partial class ChronoJumpWindow
 			hbox_combo_encoder_analyze_cross.Visible = false; //do not show hbox at start
 		}
 	}
+		
+	private void createComboEncoderAnalyzeWeights(bool firstCreation) 
+	{
+		if(firstCreation)
+			combo_encoder_analyze_weights = ComboBox.NewText ();
+	
+		string lastActive = UtilGtk.ComboGetActive(combo_encoder_analyze_weights);
+
+		if(encSelReps.EncoderInterSessionDateOnXWeights != null &&
+			encSelReps.EncoderInterSessionDateOnXWeights.Count > 0) {
+			UtilGtk.ComboUpdate(combo_encoder_analyze_weights, encSelReps.GetEncoderInterSessionDateOnXWeightsForCombo());
+			combo_encoder_analyze_weights.Active = UtilGtk.ComboMakeActive(combo_encoder_analyze_weights, lastActive);
+		}
+
+		if(firstCreation) {
+			hbox_combo_encoder_analyze_weights.PackStart(combo_encoder_analyze_weights, true, true, 0);
+			hbox_combo_encoder_analyze_weights.ShowAll(); 
+		}
+	}
 
 	void on_check_encoder_intersession_x_is_date_toggled (object o, EventArgs args) {
 		createComboAnalyzeCross(false, check_encoder_intersession_x_is_date.Active);
+		
+		if(check_encoder_intersession_x_is_date.Active) {
+			createComboEncoderAnalyzeWeights(false);
+			combo_encoder_analyze_weights.Visible = true;
+		} else
+			combo_encoder_analyze_weights.Visible = false;
 	}	
 
 

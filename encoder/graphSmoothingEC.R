@@ -133,6 +133,10 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 
 				#1 get max power concentric at concentric phase with current smoothing
 
+				if(length(unique(concentric)) < 4 ) {
+					smoothings[i] = smoothingOneC
+					next
+				}
 				speed <- getSpeed(concentric, smoothingOneC)
 
 				#assign values from Roptions.txt (singleFile), or from curves
@@ -189,6 +193,10 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 					
 				#check how it worked
 
+				if(length(unique(eccentric.concentric)) < 4 ) {
+					smoothings[i] = smoothingOneEC
+					next
+				}
 				speed <- getSpeed(eccentric.concentric, smoothingOneEC)
 				
 				if(! isInertial(myEncoderConfigurationName) )

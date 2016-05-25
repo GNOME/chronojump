@@ -69,7 +69,7 @@ public class EncoderSelectRepetitions
 	public ArrayList EncoderCompareInter;
 	public int RepsActive;
 	public int RepsAll;
-	public ArrayList EncoderInterSessionDateOnXWeights;
+	public List<double> EncoderInterSessionDateOnXWeights;
 
 	
 	public EncoderSelectRepetitions() {
@@ -148,6 +148,15 @@ public class EncoderSelectRepetitions
 			int id = Convert.ToInt32(allID[i]);
 			RepsAll += genericWin.GetCell(id, allRepsColumn);
 		}
+	}
+	
+	public ArrayList GetEncoderInterSessionDateOnXWeightsForCombo() {
+		ArrayList a = new ArrayList();
+		a.Add(Catalog.GetString("All weights"));
+		foreach(double d in EncoderInterSessionDateOnXWeights)
+			a.Add(d.ToString());
+
+		return a;
 	}
 }
 
@@ -485,7 +494,7 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 		
 	private void updateEncoderInterSessionDateOnXWeights() 
 	{
-		EncoderInterSessionDateOnXWeights = new ArrayList();
+		EncoderInterSessionDateOnXWeights = new List<double>();
 		
 		string [] selectedID = genericWin.GetColumn(0,true); //only active
 		string [] selectedRepsByWeights = genericWin.GetColumn(repsByWeightsColumn,true); //only active
@@ -496,7 +505,7 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 			foreach(string repByWeight in repsByWeights) {
 				string [] chunks = repByWeight.Split(new char[] {'*'});
 				if(Util.IsNumber(chunks[1], true))
-					EncoderInterSessionDateOnXWeights = Util.AddToArrayListIfNotExist(
+					EncoderInterSessionDateOnXWeights = Util.AddToListDoubleIfNotExist(
 							EncoderInterSessionDateOnXWeights, Convert.ToDouble(chunks[1]));
 			}
 		}

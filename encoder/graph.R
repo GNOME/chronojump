@@ -1550,7 +1550,11 @@ paintCrossVariables <- function (paf, varX, varY, option, dateAsX,
 	if(varX == "Load" && hasInertia)
 		varX = "Inertia"
 
-	x = (paf[,findPosInPaf(varX, option)])
+	if(varX == "Load")
+		x = (paf[,findPosInPaf("MassExtra", option)])
+	else
+		x = (paf[,findPosInPaf(varX, option)])
+
 	y = (paf[,findPosInPaf(varY, option)])
 
 	if(varX == "Inertia")

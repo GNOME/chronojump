@@ -658,8 +658,8 @@ class SqliteSession : Sqlite
 
 		//signals
 		ArrayList encoderArray = SqliteEncoder.Select(
-				true, -1, -1, Convert.ToInt32(uniqueID), -1,
-				"signal", EncoderSQL.Eccons.ALL,
+				true, -1, -1, Convert.ToInt32(uniqueID), Constants.EncoderGI.ALL,
+				-1, "signal", EncoderSQL.Eccons.ALL,
 				false, true);
 		
 		foreach(EncoderSQL eSQL in encoderArray) {
@@ -671,8 +671,8 @@ class SqliteSession : Sqlite
 		
 		//curves
 		encoderArray = SqliteEncoder.Select(
-				true, -1, -1, Convert.ToInt32(uniqueID), -1,
-				"curve",  EncoderSQL.Eccons.ALL,
+				true, -1, -1, Convert.ToInt32(uniqueID), Constants.EncoderGI.ALL,
+				-1, "curve",  EncoderSQL.Eccons.ALL,
 				false, true);
 		
 		foreach(EncoderSQL eSQL in encoderArray) {

@@ -286,6 +286,7 @@ public partial class ChronoJumpWindow
 	EncoderConfigurationWindow encoder_configuration_win;
 
 	EncoderConfiguration encoderConfigurationCurrent;
+	Constants.EncoderGI currentEncoderGI; //store here to not have to check the GUI and have thread problems
 
 	/* 
 	 * this contains last EncoderSQL captured, recalculated or loaded
@@ -1020,7 +1021,7 @@ public partial class ChronoJumpWindow
 		else
 			return; //error
 
-		encSelReps.PassVariables(currentPerson, currentSession, 
+		encSelReps.PassVariables(currentPerson, currentSession, currentEncoderGI,
 				genericWin, button_encoder_analyze, getExerciseIDFromCombo(exerciseCombos.ANALYZE),
 				preferences.askDeletion);
 
@@ -1045,7 +1046,8 @@ public partial class ChronoJumpWindow
 		
 		EncoderSQL eSQL = new EncoderSQL();
 		try {
-			eSQL = (EncoderSQL) SqliteEncoder.Select(dbconOpened, uniqueID, 0, 0, -1, "", EncoderSQL.Eccons.ALL, false, true)[0];
+			eSQL = (EncoderSQL) SqliteEncoder.Select(dbconOpened, uniqueID, 0, 0, Constants.EncoderGI.ALL,
+				       	-1, "", EncoderSQL.Eccons.ALL, false, true)[0];
 		} catch {
 			eSQLfound = false;
 			LogB.Warning("Catched! seems it's already deleted");
@@ -1073,12 +1075,22 @@ public partial class ChronoJumpWindow
 		//TODO: change encSelReps and this will change labels
 		updateUserCurvesLabelsAndCombo(dbconOpened);
 	}
+		
+	private Constants.EncoderGI getEncoderGI() {
+		/*
+		if(radio_menuitem_mode_power_gravitatory.Active)
+			return = Constants.EncoderGI.GRAVITATORY;
+		else //if(radio_menuitem_mode_power_inertial.Active)
+			return = Constants.EncoderGI.INERTIAL;
+			*/
+		return currentEncoderGI;
+	}
 
 	void on_button_encoder_load_signal_clicked (object o, EventArgs args) 
 	{
 		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
-				"signal", EncoderSQL.Eccons.ALL, 
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
+				-1, "signal", EncoderSQL.Eccons.ALL, 
 				false, true);
 
 		ArrayList dataPrint = new ArrayList();
@@ -1155,8 +1167,8 @@ public partial class ChronoJumpWindow
 		genericWin.HideAndNull();
 
 		ArrayList data = SqliteEncoder.Select(
-				false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID, -1,
-				"signal", EncoderSQL.Eccons.ALL, 
+				false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID, Constants.EncoderGI.ALL,
+				-1, "signal", EncoderSQL.Eccons.ALL, 
 				false, true);
 
 		bool success = false;
@@ -1216,7 +1228,8 @@ public partial class ChronoJumpWindow
 		LogB.Information("row edit apply at load signal");
 			
 		int curveID = genericWin.TreeviewSelectedUniqueID;
-		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, -1, "", EncoderSQL.Eccons.ALL, false, true)[0];
+		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, Constants.EncoderGI.ALL,
+				-1, "", EncoderSQL.Eccons.ALL, false, true)[0];
 		
 		//if changed comment, update SQL, and update treeview
 		//first remove conflictive characters
@@ -1262,7 +1275,8 @@ public partial class ChronoJumpWindow
 			on_button_encoder_delete_signal_accepted (o, args);
 		else {
 			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-					false, signalID, 0, 0, -1, "signal", EncoderSQL.Eccons.ALL, false, true)[0];
+					false, signalID, 0, 0, Constants.EncoderGI.ALL,
+					-1, "signal", EncoderSQL.Eccons.ALL, false, true)[0];
 		
 			//delete signal and related curves (both from SQL and files)
 			encoderSignalDelete(eSQL.GetFullURL(false), signalID);	//don't convertPathToR
@@ -1315,7 +1329,8 @@ public partial class ChronoJumpWindow
 		{
 			//select related curves to find URL
 			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-					false, esc.curveID, -1, -1, -1, "curve", EncoderSQL.Eccons.ALL, false, true)[0];
+					false, esc.curveID, -1, -1, Constants.EncoderGI.ALL,
+					-1, "curve", EncoderSQL.Eccons.ALL, false, true)[0];
 			
 			//delete file
 			Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
@@ -1579,7 +1594,8 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_delete_signal_accepted (object o, EventArgs args) 
 	{
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-				false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, -1, "signal", EncoderSQL.Eccons.ALL, false, true)[0];
+				false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, Constants.EncoderGI.ALL,
+				-1, "signal", EncoderSQL.Eccons.ALL, false, true)[0];
 
 		//delete signal and related curves (both from SQL and files)
 		encoderSignalDelete(eSQL.GetFullURL(false), Convert.ToInt32(encoderSignalUniqueID));
@@ -1616,7 +1632,7 @@ public partial class ChronoJumpWindow
 		else if(radio_encoder_analyze_individual_current_session.Active) 
 		{
 			ArrayList data = SqliteEncoder.Select(
-					dbconOpened, -1, currentPerson.UniqueID, currentSession.UniqueID, 
+					dbconOpened, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
 					getExerciseIDFromCombo(exerciseCombos.ANALYZE),
 					"curve", EncoderSQL.Eccons.ALL, 
 					false, true);
@@ -1856,8 +1872,8 @@ public partial class ChronoJumpWindow
 		if( ! radio_encoder_analyze_individual_current_set.Active)
 		{
 			ArrayList data = SqliteEncoder.Select(
-					false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1, 
-					"curve", EncoderSQL.Eccons.ALL, 
+					false, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
+					-1, "curve", EncoderSQL.Eccons.ALL, 
 					false, true);
 
 			if(data.Count == 0) {
@@ -2120,7 +2136,7 @@ public partial class ChronoJumpWindow
 				//onlyActive is false to have all the curves
 				//this is a need for "single" to select on display correct curve
 				data = SqliteEncoder.Select(
-						false, -1, currentPerson.UniqueID, currentSession.UniqueID,
+						false, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
 						getExerciseIDFromCombo(exerciseCombos.ANALYZE),
 						"curve", ecconSelect, 
 						false, true);
@@ -2131,7 +2147,8 @@ public partial class ChronoJumpWindow
 					ArrayList dataPre = SqliteEncoder.Select(
 							false, -1, 
 							Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
-							currentSession.UniqueID, 
+							currentSession.UniqueID,
+							getEncoderGI(),
 							getExerciseIDFromCombo(exerciseCombos.ANALYZE),
 							"curve", EncoderSQL.Eccons.ALL, 
 							false, //onlyActive=false. Means: all saved repetitions
@@ -2151,6 +2168,7 @@ public partial class ChronoJumpWindow
 							false, -1,
 							currentPerson.UniqueID, 
 							Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
+							getEncoderGI(),
 							getExerciseIDFromCombo(exerciseCombos.ANALYZE),
 							"curve", EncoderSQL.Eccons.ALL,
 							false, //onlyActive=false. Means: all saved repetitions
@@ -5226,14 +5244,14 @@ public partial class ChronoJumpWindow
 
 					bool deletedUserCurves = false;
 					EncoderSQL currentSignalSQL = (EncoderSQL) SqliteEncoder.Select(
-							true, Convert.ToInt32(encoderSignalUniqueID), 0, 0, -1,
-							"", EncoderSQL.Eccons.ALL, 
+							true, Convert.ToInt32(encoderSignalUniqueID), 0, 0, getEncoderGI(),
+							-1, "", EncoderSQL.Eccons.ALL, 
 							false, true)[0];
 
 
 					ArrayList data = SqliteEncoder.Select(
-							true, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
-							"curve", EncoderSQL.Eccons.ALL,  
+							true, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
+							-1, "curve", EncoderSQL.Eccons.ALL,  
 							false, true);
 					foreach(EncoderSQL eSQL in data) 
 					{

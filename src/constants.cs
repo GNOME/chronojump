@@ -736,6 +736,7 @@ public class Constants
 	public static string EccentricConcentric = "Eccentric-concentric";
 	//public static string ConcentricEccentric = "Concentric-eccentric";
 
+	public enum EncoderGI {ALL, GRAVITATORY, INERTIAL}
 	public enum EncoderCheckFileOp { CAPTURE_EXPORT_ALL, ANALYZE_SAVE_IMAGE, ANALYZE_SAVE_AB, ANALYZE_SAVE_TABLE}
 
 	public static double EncoderErrorCode = -1;

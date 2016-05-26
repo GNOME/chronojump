@@ -205,8 +205,8 @@ class SqliteEncoder : Sqlite
 	//in that conversion, we want first the last ones, and later the previous
 	//	(to delete them if they are old copies)
 	public static ArrayList Select (
-			bool dbconOpened, int uniqueID, int personID, int sessionID, int exerciseID,
-			string signalOrCurve, EncoderSQL.Eccons ecconSelect,
+			bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI, 
+			int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect,
 			bool onlyActive, bool orderIDascendent)
 	{
 		if(! dbconOpened)
@@ -275,6 +275,12 @@ class SqliteEncoder : Sqlite
 				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
 			econf.ReadParamsFromSQL(strFull);
 
+			//if encoderGI != ALL discard non wanted repetitions
+			if(encoderGI == Constants.EncoderGI.GRAVITATORY && econf.has_inertia)
+				continue;
+			else if(encoderGI == Constants.EncoderGI.INERTIAL && ! econf.has_inertia)
+				continue;
+
 			LogB.Debug("EncoderConfiguration = " + econf.ToStringOutput(EncoderConfiguration.Outputs.SQL));
 			
 			//if there's no video, will be "".
@@ -317,7 +323,7 @@ class SqliteEncoder : Sqlite
 	
 
 	//exerciseID can be -1 to get all exercises
-	public static ArrayList SelectCompareIntersession (bool dbconOpened, int exerciseID, int personID)
+	public static ArrayList SelectCompareIntersession (bool dbconOpened, Constants.EncoderGI encoderGI, int exerciseID, int personID)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -330,7 +336,8 @@ class SqliteEncoder : Sqlite
 		dbcmd.CommandText = 
 			"SELECT encoder.sessionID, session.name, session.date, encoder.extraWeight, " +
 			" SUM(CASE WHEN encoder.status = \"active\" THEN 1 END) as active, " +
-			" SUM(CASE WHEN encoder.status = \"inactive\" THEN 1 END) as inactive " + 
+			" SUM(CASE WHEN encoder.status = \"inactive\" THEN 1 END) as inactive," + 
+			" encoder.encoderConfiguration " +
 			" FROM encoder, session, person77 " +
 			" WHERE " +
 			exerciseIDStr + 	
@@ -373,6 +380,18 @@ class SqliteEncoder : Sqlite
 		int inactiveThisSession = 0;
 
 		while(reader.Read()) {
+			//discard if != encoderGI
+			string [] strFull = reader[6].ToString().Split(new char[] {':'});
+			EncoderConfiguration econf = new EncoderConfiguration(
+				(Constants.EncoderConfigurationNames) 
+				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
+
+			//if encoderGI != ALL discard non wanted repetitions
+			if(encoderGI == Constants.EncoderGI.GRAVITATORY && econf.has_inertia)
+				continue;
+			else if(encoderGI == Constants.EncoderGI.INERTIAL && ! econf.has_inertia)
+				continue;
+
 			//1 get sessionID of this row
 			sessIDThisRow = Convert.ToInt32(reader[0].ToString());
 

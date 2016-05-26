@@ -384,8 +384,8 @@ class SqlitePersonSession : Sqlite
 
 		//delete encoder signal and curves (and it's videos)
 		ArrayList encoderArray = SqliteEncoder.Select(
-				true, -1, Convert.ToInt32(personID), Convert.ToInt32(sessionID), -1,
-				"signal", EncoderSQL.Eccons.ALL,
+				true, -1, Convert.ToInt32(personID), Convert.ToInt32(sessionID), Constants.EncoderGI.ALL,
+				-1, "signal", EncoderSQL.Eccons.ALL,
 				false, true);
 
 		foreach(EncoderSQL eSQL in encoderArray) {
@@ -396,8 +396,8 @@ class SqlitePersonSession : Sqlite
 		}
 
 		encoderArray = SqliteEncoder.Select(
-				true, -1, Convert.ToInt32(personID), Convert.ToInt32(sessionID), -1, 
-				"curve", EncoderSQL.Eccons.ALL, 
+				true, -1, Convert.ToInt32(personID), Convert.ToInt32(sessionID), Constants.EncoderGI.ALL,
+				-1, "curve", EncoderSQL.Eccons.ALL, 
 				false, true);
 		
 		foreach(EncoderSQL eSQL in encoderArray) {

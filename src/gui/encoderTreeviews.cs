@@ -515,8 +515,8 @@ public partial class ChronoJumpWindow
 		} else {						//not current set
 			//TODO:
 			curvesData = SqliteEncoder.Select(
-					false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
-					"curve", EncoderSQL.Eccons.ALL, 
+					false, -1, currentPerson.UniqueID, currentSession.UniqueID, currentEncoderGI,
+					-1, "curve", EncoderSQL.Eccons.ALL, 
 					true, true);
 		}
 

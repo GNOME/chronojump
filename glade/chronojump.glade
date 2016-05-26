@@ -355,10 +355,17 @@
               </widget>
             </child>
             <child>
-              <widget class="GtkMenuItem" id="menuitem_mode_selected_power">
+              <widget class="GtkMenuItem" id="menuitem_mode_selected_power_gravitatory">
                 <property name="sensitive">False</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Power</property>
+                <property name="label" translatable="yes">Power (gravitatory)</property>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkMenuItem" id="menuitem_mode_selected_power_inertial">
+                <property name="sensitive">False</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Power (inertial)</property>
               </widget>
             </child>
             <child>

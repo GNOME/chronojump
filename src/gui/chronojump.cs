@@ -48,7 +48,8 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.MenuItem menuitem_mode_selected_jumps;
 	[Widget] Gtk.MenuItem menuitem_mode_selected_runs;
-	[Widget] Gtk.MenuItem menuitem_mode_selected_power;
+	[Widget] Gtk.MenuItem menuitem_mode_selected_power_gravitatory;
+	[Widget] Gtk.MenuItem menuitem_mode_selected_power_inertial;
 	[Widget] Gtk.MenuItem menuitem_mode_selected_other;
 	
 	[Widget] Gtk.Notebook notebook_start; //use to display the start images to select different modes
@@ -3015,7 +3016,8 @@ public partial class ChronoJumpWindow
 	{
 		menuitem_mode_selected_jumps.Visible = false;
 		menuitem_mode_selected_runs.Visible = false;
-		menuitem_mode_selected_power.Visible = false;
+		menuitem_mode_selected_power_gravitatory.Visible = false;
+		menuitem_mode_selected_power_inertial.Visible = false;
 		menuitem_mode_selected_other.Visible = false;
 			
 		LogB.Information("MODE", m.ToString());
@@ -3043,7 +3045,10 @@ public partial class ChronoJumpWindow
 			}
 
 			notebook_sup.CurrentPage = 1;
-			menuitem_mode_selected_power.Visible = true;
+			if(m == menuitem_modes.POWERGRAVITATORY)
+				menuitem_mode_selected_power_gravitatory.Visible = true;
+			else
+				menuitem_mode_selected_power_inertial.Visible = true;
 		} else {	//m == menuitem_modes.OTHER (contacts / other)
 			notebook_sup.CurrentPage = 0;
 			notebook_sup_contacts.CurrentPage = 2;

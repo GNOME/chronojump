@@ -138,7 +138,20 @@ public class EncoderConfigurationWindow
 		UtilGtk.IconWindow(encoder_configuration);
 	}
 	
-	static public EncoderConfigurationWindow View (EncoderConfiguration ec, bool definedInConfig) {
+	static public EncoderConfigurationWindow View (bool gravitatory, EncoderConfiguration ec, bool definedInConfig) 
+	{
+		/*
+		 * if we are on gravitatory but ec is inertial, then put definedInConfig as false
+		 * and create a new ec that suits
+		 */
+		if(ec.has_inertia == gravitatory) {
+			definedInConfig = false;
+			if(gravitatory)
+				ec = new EncoderConfiguration(); //LINEAR, not inertial
+			else
+				ec = new EncoderConfiguration(Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL);
+		}
+
 		if (EncoderConfigurationWindowBox == null) {
 			EncoderConfigurationWindowBox = new EncoderConfigurationWindow (definedInConfig);
 		}

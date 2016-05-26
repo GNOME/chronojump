@@ -42,7 +42,8 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs;
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_power;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_power_gravitatory;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_power_inertial;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_other;
 
 	[Widget] Gtk.MenuItem menuitem_mode_selected_jumps;
@@ -3009,7 +3010,7 @@ public partial class ChronoJumpWindow
 		main_menu.Visible = false;
 	}	
 	
-	enum menuitem_modes { JUMPS, RUNS, POWER, OTHER }
+	enum menuitem_modes { JUMPS, RUNS, POWERGRAVITATORY, POWERINERTIAL, OTHER }
 	private void select_menuitem_mode_toggled(menuitem_modes m) 
 	{
 		menuitem_mode_selected_jumps.Visible = false;
@@ -3029,7 +3030,7 @@ public partial class ChronoJumpWindow
 			notebook_sup_contacts.CurrentPage = 1;
 			menuitem_mode_selected_runs.Visible = true;
 			radio_mode_runs_small.Active = true;
-		} else if(m == menuitem_modes.POWER) {
+		} else if(m == menuitem_modes.POWERGRAVITATORY || m == menuitem_modes.POWERINERTIAL) {
 			//on OSX R is not installed by default. Check if it's installed. Needed for encoder
 			if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX &&
 					! Util.FileExists(Constants.ROSX) )
@@ -3057,10 +3058,10 @@ public partial class ChronoJumpWindow
 		main_menu.Visible = true;
 
 		//do not perform autoDetect if we are on contacts and already detected
-		if(chronopicWin.Connected && m != menuitem_modes.POWER)
+		if( chronopicWin.Connected && m != menuitem_modes.POWERGRAVITATORY && m != menuitem_modes.POWERINERTIAL )
 			change_multitest_firmware(m);
 		else
-			autoDetectChronopic(m); //will perform change_multitest_firmware at the end (except on POWER)
+			autoDetectChronopic(m); //will perform change_multitest_firmware at the end (except on POWERs)
 			
 	}
 	
@@ -3069,7 +3070,7 @@ public partial class ChronoJumpWindow
 	{
 		main_menu.Sensitive = false;
 
-		if(m == menuitem_modes.POWER) 
+		if(m == menuitem_modes.POWERGRAVITATORY || m == menuitem_modes.POWERINERTIAL) 
 		{
 			hbox_chronopic_encoder_detecting.Visible = true;
 			viewport_chronopic_encoder.Visible = false;
@@ -3259,8 +3260,10 @@ public partial class ChronoJumpWindow
 			return menuitem_modes.JUMPS;
 		else if(radio_menuitem_mode_runs.Active)
 			return menuitem_modes.RUNS;
-		else if(radio_menuitem_mode_power.Active)
-			return menuitem_modes.POWER;
+		else if(radio_menuitem_mode_power_gravitatory.Active)
+			return menuitem_modes.POWERGRAVITATORY;
+		else if(radio_menuitem_mode_power_inertial.Active)
+			return menuitem_modes.POWERINERTIAL;
 		else // if(radio_menuitem_mode_other.Active)
 			return menuitem_modes.OTHER;
 	}
@@ -3291,12 +3294,19 @@ public partial class ChronoJumpWindow
 		else
 			radio_menuitem_mode_runs.Active = true;
 	}
-	private void on_button_selector_start_power_clicked(object o, EventArgs args) 
+	private void on_button_selector_start_power_gravitatory_clicked(object o, EventArgs args) 
 	{
-		if(radio_menuitem_mode_power.Active)
-			select_menuitem_mode_toggled(menuitem_modes.POWER);
+		if(radio_menuitem_mode_power_gravitatory.Active)
+			select_menuitem_mode_toggled(menuitem_modes.POWERGRAVITATORY);
 		else
-			radio_menuitem_mode_power.Active = true;
+			radio_menuitem_mode_power_gravitatory.Active = true;
+	}
+	private void on_button_selector_start_power_inertial_clicked(object o, EventArgs args) 
+	{
+		if(radio_menuitem_mode_power_inertial.Active)
+			select_menuitem_mode_toggled(menuitem_modes.POWERINERTIAL);
+		else
+			radio_menuitem_mode_power_inertial.Active = true;
 	}
 	private void on_button_selector_start_other_clicked(object o, EventArgs args) 
 	{

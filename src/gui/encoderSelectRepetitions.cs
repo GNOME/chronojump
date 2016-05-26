@@ -36,6 +36,7 @@ public class EncoderSelectRepetitions
 	
 	protected Person currentPerson;
 	protected Session currentSession;
+	protected Constants.EncoderGI encoderGI;
 	protected GenericWindow genericWin;
 	protected Gtk.Button button_encoder_analyze;
 	protected int exerciseID; //can be -1 (all)
@@ -76,7 +77,7 @@ public class EncoderSelectRepetitions
 		Type = Types.UNDEFINED;
 	}
 
-	public void PassVariables(Person currentP, Session currentS, 
+	public void PassVariables(Person currentP, Session currentS, Constants.EncoderGI eGI,
 			GenericWindow gw, Gtk.Button button_e_a, int exID, bool askDel) 
 	{
 		RepsActive = 0;
@@ -85,6 +86,7 @@ public class EncoderSelectRepetitions
 
 		currentPerson = currentP;
 		currentSession = currentS;
+		encoderGI = eGI;
 
 		genericWin = gw;
 		button_encoder_analyze = button_e_a;
@@ -173,8 +175,8 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 	protected override void getData() 
 	{
 		data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, exerciseID,
-				"curve", EncoderSQL.Eccons.ALL, 
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, encoderGI,
+				exerciseID, "curve", EncoderSQL.Eccons.ALL, 
 				false, true);
 	}
 
@@ -294,8 +296,8 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		checkboxes = genericWin.GetColumn(1, false);
 
 		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, exerciseID,
-				"curve", EncoderSQL.Eccons.ALL, 
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, encoderGI,
+				exerciseID, "curve", EncoderSQL.Eccons.ALL, 
 				false, true);
 
 		//update on database the curves that have been selected/deselected
@@ -320,8 +322,8 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 
 		int curveID = genericWin.TreeviewSelectedUniqueID;
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-				false, curveID, 0, 0, -1,
-				"", EncoderSQL.Eccons.ALL, 
+				false, curveID, 0, 0, encoderGI,
+				-1, "", EncoderSQL.Eccons.ALL, 
 				false, true)[0];
 
 		//if changed comment, update SQL, and update treeview
@@ -403,7 +405,7 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 
 	protected override void getData() 
 	{
-		data = SqliteEncoder.SelectCompareIntersession(false, exerciseID, currentPerson.UniqueID); 
+		data = SqliteEncoder.SelectCompareIntersession(false, encoderGI, exerciseID, currentPerson.UniqueID); 
 	}
 	
 	protected override void createBigArray() 
@@ -549,8 +551,8 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 		int j = 0;	//list of added persons
 		foreach(Person p in dataPre) {
 			ArrayList eSQLarray = SqliteEncoder.Select(
-					false, -1, p.UniqueID, currentSession.UniqueID, exerciseID, 
-					"curve", EncoderSQL.Eccons.ALL, 
+					false, -1, p.UniqueID, currentSession.UniqueID, encoderGI,
+					exerciseID, "curve", EncoderSQL.Eccons.ALL, 
 					false, true);
 
 			int activeCurves = UtilEncoder.GetActiveCurvesNum(eSQLarray);

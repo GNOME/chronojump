@@ -3045,14 +3045,18 @@ public partial class ChronoJumpWindow
 			}
 
 			notebook_sup.CurrentPage = 1;
+
+			bool changed = false;
 			if(m == menuitem_modes.POWERGRAVITATORY) {
 				menuitem_mode_selected_power_gravitatory.Visible = true;
 
 				//change encoderConfigurationCurrent if needed
 				if(encoderConfigurationCurrent.has_inertia) {
 					encoderConfigurationCurrent = new EncoderConfiguration(); //LINEAR, not INERTIAL
-					label_encoder_selected.Text = encoderConfigurationCurrent.code;
+					changed = true;
 				}
+				
+				currentEncoderGI = Constants.EncoderGI.GRAVITATORY;
 			} else {
 				menuitem_mode_selected_power_inertial.Visible = true;
 
@@ -3060,8 +3064,14 @@ public partial class ChronoJumpWindow
 				if(! encoderConfigurationCurrent.has_inertia) {
 					encoderConfigurationCurrent = new EncoderConfiguration(
 							Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL);	
-					label_encoder_selected.Text = encoderConfigurationCurrent.code;
+					changed = true;
 				}
+				
+				currentEncoderGI = Constants.EncoderGI.INERTIAL;
+			}
+			if(changed) {
+				label_encoder_selected.Text = encoderConfigurationCurrent.code;
+				prepareAnalyzeRepetitions ();
 			}
 		} else {	//m == menuitem_modes.OTHER (contacts / other)
 			notebook_sup.CurrentPage = 0;

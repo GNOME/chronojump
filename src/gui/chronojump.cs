@@ -3045,10 +3045,24 @@ public partial class ChronoJumpWindow
 			}
 
 			notebook_sup.CurrentPage = 1;
-			if(m == menuitem_modes.POWERGRAVITATORY)
+			if(m == menuitem_modes.POWERGRAVITATORY) {
 				menuitem_mode_selected_power_gravitatory.Visible = true;
-			else
+
+				//change encoderConfigurationCurrent if needed
+				if(encoderConfigurationCurrent.has_inertia) {
+					encoderConfigurationCurrent = new EncoderConfiguration(); //LINEAR, not INERTIAL
+					label_encoder_selected.Text = encoderConfigurationCurrent.code;
+				}
+			} else {
 				menuitem_mode_selected_power_inertial.Visible = true;
+
+				//change encoderConfigurationCurrent if needed
+				if(! encoderConfigurationCurrent.has_inertia) {
+					encoderConfigurationCurrent = new EncoderConfiguration(
+							Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL);	
+					label_encoder_selected.Text = encoderConfigurationCurrent.code;
+				}
+			}
 		} else {	//m == menuitem_modes.OTHER (contacts / other)
 			notebook_sup.CurrentPage = 0;
 			notebook_sup_contacts.CurrentPage = 2;

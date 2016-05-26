@@ -418,6 +418,7 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_select_clicked (object o, EventArgs args) {
 		encoder_configuration_win = EncoderConfigurationWindow.View(
+				radio_menuitem_mode_power_gravitatory.Active, //false if inertial
 				encoderConfigurationCurrent, 
 				encoderConfigurationDefinedFromFile  //defined at chronojump_config.txt and only few changes can be done
 				);

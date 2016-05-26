@@ -937,7 +937,7 @@
                                 <property name="receives_default">True</property>
                                 <property name="tooltip" translatable="yes">Or press '4'</property>
                                 <signal name="clicked" handler="on_button_selector_start_power_inertial_clicked" swapped="no"/>
-                                <accelerator key="3" signal="clicked"/>
+                                <accelerator key="4" signal="clicked"/>
                                 <child>
                                   <widget class="GtkVBox" id="vbox41">
                                     <property name="visible">True</property>
@@ -1071,7 +1071,7 @@
                                 <property name="receives_default">True</property>
                                 <property name="tooltip" translatable="yes">Or press '5'</property>
                                 <signal name="clicked" handler="on_button_selector_start_other_clicked" swapped="no"/>
-                                <accelerator key="4" signal="clicked"/>
+                                <accelerator key="5" signal="clicked"/>
                                 <child>
                                   <widget class="GtkLabel" id="label51">
                                     <property name="visible">True</property>

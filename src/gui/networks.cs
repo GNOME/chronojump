@@ -131,8 +131,10 @@ public partial class ChronoJumpWindow
 		
 
 		//show only power
-		if(config.OnlyEncoder)
-			select_menuitem_mode_toggled(menuitem_modes.POWER);
+		if(config.OnlyEncoderGravitatory)
+			select_menuitem_mode_toggled(menuitem_modes.POWERGRAVITATORY);
+		else if(config.OnlyEncoderInertial)
+			select_menuitem_mode_toggled(menuitem_modes.POWERINERTIAL);
 		
 		if(config.EncoderCaptureShowOnlyBars) {
 			vpaned_encoder_capture_video_and_set_graph.Visible = false;

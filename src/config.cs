@@ -31,7 +31,8 @@ public class Config
 	public bool CustomButtons;
 	public bool UseVideo;
 	public AutodetectPortEnum AutodetectPort;
-	public bool OnlyEncoder;
+	public bool OnlyEncoderGravitatory;
+	public bool OnlyEncoderInertial;
 	public bool EncoderCaptureShowOnlyBars;
 	public bool EncoderUpdateTreeViewWhileCapturing; //recomended: false. Make it false if EncoderCaptureShowOnlyBars == true
 							//because treeview will be in 2n page of notebook
@@ -53,7 +54,8 @@ public class Config
 		else
 			AutodetectPort = AutodetectPortEnum.ACTIVE;
 
-		OnlyEncoder = false;
+		OnlyEncoderGravitatory = false;
+		OnlyEncoderInertial = false;
 		EncoderCaptureShowOnlyBars = false;
 		EncoderUpdateTreeViewWhileCapturing = true;
 		PersonWinHide = false;
@@ -91,8 +93,10 @@ public class Config
 					else if(parts[0] == "AutodetectPort" && Enum.IsDefined(typeof(AutodetectPortEnum), parts[1]))
 						AutodetectPort = (AutodetectPortEnum) 
 							Enum.Parse(typeof(AutodetectPortEnum), parts[1]);
-					else if(parts[0] == "OnlyEncoder" && Util.StringToBool(parts[1]))
-						OnlyEncoder = true;
+					else if(parts[0] == "OnlyEncoderGravitatory" && Util.StringToBool(parts[1]))
+						OnlyEncoderGravitatory = true;
+					else if(parts[0] == "OnlyEncoderInertial" && Util.StringToBool(parts[1]))
+						OnlyEncoderInertial = true;
 					else if(parts[0] == "EncoderCaptureShowOnlyBars" && Util.StringToBool(parts[1]))
 						EncoderCaptureShowOnlyBars = true;
 					else if(parts[0] == "EncoderUpdateTreeViewWhileCapturing" && ! Util.StringToBool(parts[1]))
@@ -178,7 +182,8 @@ public class Config
 				"CustomButtons = " + CustomButtons.ToString() + "\n" +
 				"UseVideo = " + UseVideo.ToString() + "\n" +
 				"AutodetectPort = " + AutodetectPort.ToString() + "\n" +
-				"OnlyEncoder = " + OnlyEncoder.ToString() + "\n" +
+				"OnlyEncoderGravitatory = " + OnlyEncoderGravitatory.ToString() + "\n" +
+				"OnlyEncoderInertial = " + OnlyEncoderInertial.ToString() + "\n" +
 				"EncoderCaptureShowOnlyBars = " + EncoderCaptureShowOnlyBars.ToString() + "\n" +
 				"EncoderUpdateTreeViewWhileCapturing = " + EncoderUpdateTreeViewWhileCapturing.ToString() + "\n" +
 				"PersonWinHide = " + PersonWinHide.ToString() + "\n" +

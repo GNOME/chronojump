@@ -534,7 +534,7 @@ public partial class ChronoJumpWindow
 	}
 		
 	void on_button_encoder_capture_options_clicked (object o, EventArgs args) {
-		encoderCaptureOptionsWin.View(repetitiveConditionsWin, preferences.volumeOn);
+		encoderCaptureOptionsWin.View(repetitiveConditionsWin, preferences.volumeOn, currentEncoderGI);
 	}
 	
 	private void on_encoder_capture_options_closed(object o, EventArgs args) {
@@ -5615,8 +5615,10 @@ public class EncoderCaptureOptionsWindow {
 	[Widget] public Gtk.RadioButton radiobutton_encoder_capture_external;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_time;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
+	[Widget] Gtk.HBox hbox_height_gravitatory;
+	[Widget] Gtk.HBox hbox_height_inertial;
+	[Widget] private Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
 	[Widget] private Gtk.SpinButton spin_encoder_capture_min_height_inertial;
-	[Widget] private Gtk.SpinButton spin_encoder_capture_min_height_not_inertial;
 	[Widget] Gtk.Box hbox_combo_main_variable;
 	[Widget] Gtk.ComboBox combo_main_variable;
 	[Widget] public Gtk.CheckButton check_show_start_and_duration;
@@ -5653,13 +5655,21 @@ public class EncoderCaptureOptionsWindow {
 		return EncoderCaptureOptionsWindowBox;
 	}
 
-	public void View (RepetitiveConditionsWindow repetitiveConditionsWin, bool volumeOn)
+	public void View (RepetitiveConditionsWindow repetitiveConditionsWin, bool volumeOn, Constants.EncoderGI encoderGI)
 	{
 		if (EncoderCaptureOptionsWindowBox == null) 
 			EncoderCaptureOptionsWindowBox = new EncoderCaptureOptionsWindow ();
 		
 		EncoderCaptureOptionsWindowBox.repetitiveConditionsWin = repetitiveConditionsWin;
 		EncoderCaptureOptionsWindowBox.volumeOn = volumeOn;
+	
+		if(encoderGI == Constants.EncoderGI.GRAVITATORY) {
+			hbox_height_gravitatory.Visible = true;
+			hbox_height_inertial.Visible = false;
+		} else {
+			hbox_height_gravitatory.Visible = false;
+			hbox_height_inertial.Visible = true;
+		}
 
 		//show window
 		EncoderCaptureOptionsWindowBox.encoder_capture_options.Show ();
@@ -5724,13 +5734,13 @@ public class EncoderCaptureOptionsWindow {
 		if(inertial)
 			return (int) spin_encoder_capture_min_height_inertial.Value;
 		else
-			return (int) spin_encoder_capture_min_height_not_inertial.Value;
+			return (int) spin_encoder_capture_min_height_gravitatory.Value;
 	}
 	public void SetMinHeight (bool inertial, int height) {
 		if(inertial)
 			spin_encoder_capture_min_height_inertial.Value = height;
 		else
-			spin_encoder_capture_min_height_not_inertial.Value = height;
+			spin_encoder_capture_min_height_gravitatory.Value = height;
 	}
 	
 	private void on_button_inactivity_help_clicked (object o, EventArgs args)

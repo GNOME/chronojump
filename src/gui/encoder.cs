@@ -4779,7 +4779,9 @@ public partial class ChronoJumpWindow
 				needToRefreshTreeviewCapture = false;
 			}
 
-			LogB.Debug(" Cap:", encoderThread.ThreadState.ToString());
+			//changed trying to fix crash of nuell 27/may/2016
+			//LogB.Debug(" Cap:", encoderThread.ThreadState.ToString());
+			LogB.Information(" Cap:" + encoderThread.ThreadState.ToString());
 		} else if(capturingCsharp == encoderCaptureProcess.STOPPING) {
 			//stop video		
 			encoderStopVideoRecord();
@@ -4793,7 +4795,8 @@ public partial class ChronoJumpWindow
 			LogB.Debug("at pulseGTKEncoderCaptureAndCurves stopped");		
 			//do curves, capturingCsharp has ended
 			updatePulsebar(encoderActions.CURVES); //activity on pulsebar
-			LogB.Debug(" Cur:", encoderThread.ThreadState.ToString());
+			//LogB.Debug(" Cur:", encoderThread.ThreadState.ToString());
+			LogB.Information(" Cur:" + encoderThread.ThreadState.ToString());
 		}
 			
 		Thread.Sleep (25);
@@ -4814,7 +4817,8 @@ public partial class ChronoJumpWindow
 		updateEncoderCaptureGraphPaint(UpdateEncoderPaintModes.CALCULE_IM);
 
 		Thread.Sleep (25);
-		LogB.Debug(" CapIM:", encoderThread.ThreadState.ToString());
+		//LogB.Debug(" CapIM:", encoderThread.ThreadState.ToString());
+		LogB.Information(" CapIM:"+ encoderThread.ThreadState.ToString());
 		return true;
 	}
 	
@@ -4835,7 +4839,8 @@ public partial class ChronoJumpWindow
 		}
 		updatePulsebar(encoderActions.CURVES); //activity on pulsebar
 		Thread.Sleep (50);
-		LogB.Debug(" Cur:", encoderThread.ThreadState.ToString());
+		//LogB.Debug(" Cur:", encoderThread.ThreadState.ToString());
+		LogB.Information(" Cur:" + encoderThread.ThreadState.ToString());
 		return true;
 	}
 	
@@ -4854,7 +4859,8 @@ public partial class ChronoJumpWindow
 		}
 		updatePulsebar(encoderActions.LOAD); //activity on pulsebar
 		Thread.Sleep (50);
-		LogB.Debug(" L:", encoderThread.ThreadState.ToString());
+		//LogB.Debug(" L:", encoderThread.ThreadState.ToString());
+		LogB.Information(" L:" + encoderThread.ThreadState.ToString());
 		return true;
 	}
 	
@@ -4873,7 +4879,8 @@ public partial class ChronoJumpWindow
 		}
 		updatePulsebar(encoderActions.ANALYZE); //activity on pulsebar
 		Thread.Sleep (50);
-		LogB.Debug(" A:", encoderThread.ThreadState.ToString());
+		//LogB.Debug(" A:", encoderThread.ThreadState.ToString());
+		LogB.Information(" A:" + encoderThread.ThreadState.ToString());
 		return true;
 	}
 	

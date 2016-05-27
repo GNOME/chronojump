@@ -34,7 +34,7 @@ History:
              modify ISR and MAIN LOOP's if --> else if
              limit COUNTDEBOUNCE overflow in INTERRUPT(isr)
 	     assembler is more efficient than C
-  2012-04-19 if PC send command 'J' for port scanning, Chronopic will return 'J'  2014-08-30 if PC send command 'n' for getting version, ex: 2.1\n
+  2012-04-19 if PC send command 'J' for port scanning, Chronopic will return 'J'  2014-08-30 if PC send command 'V' for getting version, ex: 2.1\n
   	     if PC send command 'a' get debounce time , ex:0x01
 	     if PC send command 'bx' for setting debounce time, x is from byte value 0~255(\x0 ~ \xFF) 
   2015-02-19 
@@ -123,7 +123,7 @@ unsigned char my_char;
 unsigned char i = 0, j = 0;
 unsigned char option = 0;     // option: 0 button enable, 1 encoder enable
 unsigned char command_port_scanning = 'J';	// for port scanning, it will return 'J'
-unsigned char command_get_version = 'n';	// for getting version, it will return '2.1'
+unsigned char command_get_version = 'V';	// for getting version, it will return '2.1'
 unsigned char command_get_debounce_time = 'a';	// for getting debounce time, it will return x:0~255(HEX)
 unsigned char command_set_debounce_time = 'b';	// for setting debounce time, pc send two unsigned char, 'Sx' -- x:0~255
 unsigned char command_reaction_time_animation_light = 'l';
@@ -133,7 +133,7 @@ unsigned char command_reaction_time_disc_red 		= 'r';
 unsigned char command_reaction_time_disc_yellow 	= 's';
 unsigned char command_reaction_time_disc_green 		= 't';
 unsigned char command_reaction_time_disc_red_yellow	= 'u';
-unsigned char command_reaction_time_disc_red_green	= 'v';
+unsigned char command_reaction_time_disc_red_green	= 'y';
 unsigned char command_reaction_time_disc_yellow_green	= 'w';
 unsigned char command_reaction_time_disc_all		= 'x';
 
@@ -141,7 +141,7 @@ unsigned char command_reaction_time_disc_red_bz 	= 'R';
 unsigned char command_reaction_time_disc_yellow_bz 	= 'S';
 unsigned char command_reaction_time_disc_green_bz 	= 'T';
 unsigned char command_reaction_time_disc_red_yellow_bz	= 'U';
-unsigned char command_reaction_time_disc_red_green_bz	= 'V';
+unsigned char command_reaction_time_disc_red_green_bz	= 'Y';
 unsigned char command_reaction_time_disc_yellow_green_bz= 'W';
 unsigned char command_reaction_time_disc_all_bz		= 'X';
 
@@ -560,7 +560,7 @@ void reaction_time_discriminative_do()
 			//RB7 = 0; RB3 = 0; RB0 = 1; RB2 = 0; //light green
 			RB3 = 0;
 			break;
-		case 'v':	//red & green
+		case 'y':	//red & green
 			RB2 = 0;
 			RB3 = 0;
 			break;
@@ -857,7 +857,7 @@ void main(void)
 			status_serv();
 	    	else if (my_char == command_port_scanning)	// 'J'
 			sci_sendchar(command_port_scanning);
-		else if (my_char == command_get_version)	// 'n'
+		else if (my_char == command_get_version)	// 'V'
 			send_version();
 		else if (my_char == command_get_debounce_time)	// 'a'
 			sci_sendline(DEBOUNCE_TIME + '0'); 	//if DEBOUNCE is 50ms (0x05), returns a 5 (5 * 10ms = 50ms)

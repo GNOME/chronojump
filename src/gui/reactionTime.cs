@@ -201,7 +201,7 @@ public partial class ChronoJumpWindow
 						discriminativeCharToSend = "U";		//red + yellow
 				} else { //! yellow
 					if(check_reaction_time_disc_green.Active == true)
-						discriminativeCharToSend = "V";		//red + green
+						discriminativeCharToSend = "Y";		//red + green
 					else
 						discriminativeCharToSend = "R";		//red
 				}
@@ -227,7 +227,7 @@ public partial class ChronoJumpWindow
 						discriminativeCharToSend = "u";		//red + yellow
 				} else { //! yellow
 					if(check_reaction_time_disc_green.Active == true)
-						discriminativeCharToSend = "v";		//red + green
+						discriminativeCharToSend = "y";		//red + green
 					else
 						discriminativeCharToSend = "r";		//red
 				}

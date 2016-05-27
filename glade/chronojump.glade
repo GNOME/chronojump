@@ -587,6 +587,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="tooltip" translatable="yes">Or press '1'</property>
+                                <property name="relief">none</property>
                                 <signal name="clicked" handler="on_button_selector_start_jumps_clicked" swapped="no"/>
                                 <accelerator key="1" signal="clicked"/>
                                 <child>
@@ -707,6 +708,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="tooltip" translatable="yes">Or press '2'</property>
+                                <property name="relief">none</property>
                                 <signal name="clicked" handler="on_button_selector_start_runs_clicked" swapped="no"/>
                                 <accelerator key="2" signal="clicked"/>
                                 <child>
@@ -827,6 +829,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="tooltip" translatable="yes">Or press '3'</property>
+                                <property name="relief">none</property>
                                 <signal name="clicked" handler="on_button_selector_start_power_gravitatory_clicked" swapped="no"/>
                                 <accelerator key="3" signal="clicked"/>
                                 <child>
@@ -848,7 +851,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkImage" id="image_selector_start_encoder">
+                                      <widget class="GtkImage" id="image_selector_start_encoder_gravitatory">
                                         <property name="width_request">225</property>
                                         <property name="height_request">261</property>
                                         <property name="visible">True</property>
@@ -936,6 +939,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="tooltip" translatable="yes">Or press '4'</property>
+                                <property name="relief">none</property>
                                 <signal name="clicked" handler="on_button_selector_start_power_inertial_clicked" swapped="no"/>
                                 <accelerator key="4" signal="clicked"/>
                                 <child>
@@ -957,7 +961,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkImage" id="image_selector_start_encoder1">
+                                      <widget class="GtkImage" id="image_selector_start_encoder_inertial">
                                         <property name="width_request">225</property>
                                         <property name="height_request">261</property>
                                         <property name="visible">True</property>
@@ -16541,6 +16545,9 @@ on current Chronojump version.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -21218,6 +21225,9 @@ by you</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -21607,6 +21617,9 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -24026,6 +24039,9 @@ by you</property>
               <placeholder/>
             </child>
             <child>
+              <placeholder/>
+            </child>
+            <child>
               <widget class="GtkButton" id="button_video_url">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -24048,6 +24064,9 @@ by you</property>
                 <property name="x_options"/>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -37648,6 +37667,24 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -38839,6 +38876,18 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="n_columns">4</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                     <child>
                       <placeholder/>
                     </child>
@@ -41510,9 +41559,6 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                       <placeholder/>
                                     </child>
                                     <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
                                       <widget class="GtkLabel" id="label218">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
@@ -41883,6 +41929,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                         <property name="left_attach">2</property>
                                         <property name="right_attach">3</property>
                                       </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
                                     </child>
                                     <child>
                                       <placeholder/>
@@ -46714,6 +46763,9 @@ It starts before and arrives there with some speed.</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -46740,6 +46792,9 @@ It starts before and arrives there with some speed.</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -47604,6 +47659,9 @@ It starts before and arrives there with some speed.</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

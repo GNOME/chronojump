@@ -61,7 +61,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_logo;
 	[Widget] Gtk.Image image_selector_start_jumps;
 	[Widget] Gtk.Image image_selector_start_runs;
-	[Widget] Gtk.Image image_selector_start_encoder;
+	[Widget] Gtk.Image image_selector_start_encoder_gravitatory;
+	[Widget] Gtk.Image image_selector_start_encoder_inertial;
 	
 	//gui for small screens
 	[Widget] Gtk.RadioButton radio_mode_jumps_small;
@@ -861,8 +862,10 @@ public partial class ChronoJumpWindow
 		image_selector_start_jumps.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorRuns);
 		image_selector_start_runs.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorEncoder);
-		image_selector_start_encoder.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorEncoderGravitatory);
+		image_selector_start_encoder_gravitatory.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorEncoderInertial);
+		image_selector_start_encoder_inertial.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
 		image_logo.Pixbuf = pixbuf;

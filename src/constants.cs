@@ -439,7 +439,8 @@ public class Constants
 	
 	public static string FileNameSelectorJumps = "chronojump-jumps-small.png";
 	public static string FileNameSelectorRuns = "chronojump-runs-small.png";
-	public static string FileNameSelectorEncoder = "chronojump-encoder-small.jpg";
+	public static string FileNameSelectorEncoderGravitatory = "chronojump-encoder-small.jpg";
+	public static string FileNameSelectorEncoderInertial = "chronojump-inertial.png";
 
 	public static string FileNameLog = "log_chronojump.txt";
 	public static string FileNameLogOld = "log_chronojump_old.txt";

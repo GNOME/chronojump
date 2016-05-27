@@ -12711,7 +12711,7 @@ on current Chronojump version.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox61">
+                                                            <widget class="GtkHBox" id="hbox_capture_1RM">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>

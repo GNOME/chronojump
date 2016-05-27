@@ -39,6 +39,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_select;
 	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
 	[Widget] Gtk.Label label_encoder_displaced_weight;
+	[Widget] Gtk.HBox hbox_capture_1RM;
 	[Widget] Gtk.Label label_encoder_1RM_percent;
 	[Widget] Gtk.Label label_encoder_im_total;
 	[Widget] Gtk.SpinButton spin_encoder_im_weights_n;

@@ -148,8 +148,10 @@ public class EncoderConfigurationWindow
 			definedInConfig = false;
 			if(gravitatory)
 				ec = new EncoderConfiguration(); //LINEAR, not inertial
-			else
+			else {
 				ec = new EncoderConfiguration(Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL);
+				ec.SetInertialDefaultOptions();
+			}
 		}
 
 		if (EncoderConfigurationWindowBox == null) {

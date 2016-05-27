@@ -438,7 +438,8 @@ public partial class ChronoJumpWindow
 			new EventHandler(on_button_encoder_cancel_clicked);
 	}
 
-	void on_encoder_configuration_win_accepted (object o, EventArgs args) {
+	void on_encoder_configuration_win_accepted (object o, EventArgs args) 
+	{
 		encoder_configuration_win.Button_accept.Clicked -= new EventHandler(on_encoder_configuration_win_accepted);
 		
 		EncoderConfiguration eConfNew = encoder_configuration_win.GetAcceptedValues();
@@ -446,28 +447,27 @@ public partial class ChronoJumpWindow
 			return;
 			
 		bool combo_encoder_anchorage_should_update = (encoderConfigurationCurrent.list_d != eConfNew.list_d);
-
-
+		
 		encoderConfigurationCurrent = eConfNew;
 		LogB.Information("EncoderConfigurationCurrent = " + encoderConfigurationCurrent.ToStringOutput(EncoderConfiguration.Outputs.SQL));
-		
-
+	
+		encoderGuiChangesAfterEncoderConfigurationWin(combo_encoder_anchorage_should_update);
+	}
+	void encoderGuiChangesAfterEncoderConfigurationWin(bool combo_encoder_anchorage_should_update) 
+	{
 		if(encoderConfigurationCurrent.has_inertia) {
-			notebook_encoder_capture_extra_mass.CurrentPage = 1;
-
 			if(combo_encoder_anchorage_should_update) {
 				UtilGtk.ComboUpdate(combo_encoder_anchorage, encoderConfigurationCurrent.list_d);
 				combo_encoder_anchorage.Active = 0;
 			}
-			
+
 			encoderConfigurationCurrent.extraWeightN = (int) spin_encoder_im_weights_n.Value; 
 			encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
 
 			//if inertial, select ecc-con
 			combo_encoder_eccon.Active = 1;
-		} else
-			notebook_encoder_capture_extra_mass.CurrentPage = 0;
+		}
 
 		label_encoder_selected.Text = encoderConfigurationCurrent.code;
 

@@ -3073,6 +3073,7 @@ public partial class ChronoJumpWindow
 				if(! encoderConfigurationCurrent.has_inertia) {
 					encoderConfigurationCurrent = new EncoderConfiguration(
 							Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL);	
+					encoderConfigurationCurrent.SetInertialDefaultOptions();
 					changed = true;
 				}
 				
@@ -3082,8 +3083,8 @@ public partial class ChronoJumpWindow
 				radiobutton_encoder_analyze_1RM.Visible = false;
 				radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
 			}
+			encoderGuiChangesAfterEncoderConfigurationWin(true);
 			if(changed) {
-				label_encoder_selected.Text = encoderConfigurationCurrent.code;
 				prepareAnalyzeRepetitions ();
 			}
 		} else {	//m == menuitem_modes.OTHER (contacts / other)

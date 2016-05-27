@@ -443,7 +443,7 @@ public class ChronopicAutoCheck : ChronopicAuto
 		IsChronopicAuto = ( (char) sp.ReadByte() == 'J');
 		if (IsChronopicAuto) 
 		{
-			sp.Write("n");
+			sp.Write("V");
 			int major = (char) sp.ReadByte() - '0'; 
 			sp.ReadByte(); 		//.
 			int minor = (char) sp.ReadByte() - '0'; 
@@ -549,7 +549,7 @@ public class ChronopicStartReactionTimeAnimation : ChronopicAuto
 				b = 0x74;
 			else if(CharToSend == "T") //green and buzzer
 				b = 0x54;
-			else if(CharToSend == "v") //red green
+			else if(CharToSend == "y") //red green
 				b = 0x76;
 			else if(CharToSend == "Z")
 				b = 0x5A;

@@ -266,7 +266,8 @@ public class ChronopicWindow
 		ChronopicWindowBox.setEncoderPort(encoderPort);	
 
 		//ports info comes from gui/chronojump.cs to Create mehod
-		ChronopicWindowBox.info();
+		if(! ChronopicWindowBox.connected)
+			ChronopicWindowBox.connectingInfoShow();
 
 		ChronopicWindowBox.chronopic_window.Show();
 		ChronopicWindowBox.chronopic_window.Present();
@@ -406,6 +407,15 @@ public class ChronopicWindow
 			ChronopicWindowBox.createComboWindows();
 		else
 			ChronopicWindowBox.createComboLinux();
+	
+		if(connected) {
+			int num = 1;
+			foreach(ChronopicPortData a in cpd) {
+				if(a.Connected)
+					connectionSucceded(num, false); //don't playSound
+				num ++;
+			}
+		}
 	}
 
 	//private void createComboWindows(string myPort, Gtk.ComboBox myCombo) {
@@ -552,12 +562,15 @@ public class ChronopicWindow
 		}
 	}
 	
-	private void info() {
+	private void connectingInfoShow() {
 		textview_ports_found_explanation.Buffer = UtilGtk.TextViewPrint(
 				Catalog.GetString("If you just plugged Chronopic cable and expected port is not listed, close and open again this window.") + "\n" + 
 				Catalog.GetString("If you have problems connecting with Chronopic, press help button.")  
 				//saferPorts
 				);
+	}
+	private void connectingInfoHide() {
+		textview_ports_found_explanation.Buffer = UtilGtk.TextViewPrint("");
 	}
 
 	private void chronopicAtStart(object o, EventArgs args) {
@@ -826,101 +839,32 @@ public class ChronopicWindow
 			cpDoing = cp;
 			connected = chronopicInit.Do(currentCp, out cpDoing, out sp, platformState, myPort, out message, out success);
 			cp = cpDoing;
-			if(success) {
-				((ChronopicPortData) cpd[0]).Connected=true;
-				button_connect_cp1.Sensitive = false;
-				image_cp1_no.Hide();
-				image_cp1_yes.Show();
-			
-				if(isWindows) {
-					combo_windows1.Sensitive = false;
-					combo_windows2.Sensitive = true;
-					UtilGtk.ComboDelThisValue(combo_windows2, myPort);
-					combo_windows2.Active = 0; //first option
-					UtilGtk.ComboDelThisValue(combo_windows3, myPort);
-					combo_windows3.Active = 0;
-					UtilGtk.ComboDelThisValue(combo_windows4, myPort);
-					combo_windows4.Active = 0;
-				} else {
-					combo_linux1.Sensitive = false;
-					combo_linux2.Sensitive = true;
-					UtilGtk.ComboDelThisValue(combo_linux2, myPort);
-					combo_linux2.Active = 0; //first option
-					UtilGtk.ComboDelThisValue(combo_linux3, myPort);
-					combo_linux3.Active = 0;
-					UtilGtk.ComboDelThisValue(combo_linux4, myPort);
-					combo_linux4.Active = 0;
-				}
-			}
+			if(success)
+				connectionSucceded(1, true);
 		}
 		else if(currentCp == 2) {
 			myPort = ((ChronopicPortData) cpd[1]).Port;
 			cpDoing = cp2;
 			connected = chronopicInit.Do(currentCp, out cpDoing, out sp2, platformState2, myPort, out message, out success);
 			cp2 = cpDoing;
-			if(success) {
-				((ChronopicPortData) cpd[1]).Connected=true;
-				button_connect_cp2.Sensitive = false;
-				image_cp2_no.Hide();
-				image_cp2_yes.Show();
-			
-				if(isWindows) {
-					combo_windows2.Sensitive = false;
-					combo_windows3.Sensitive = true;
-					UtilGtk.ComboDelThisValue(combo_windows3, myPort);
-					combo_windows3.Active = 0;
-					UtilGtk.ComboDelThisValue(combo_windows4, myPort);
-					combo_windows4.Active = 0;
-				} else {
-					combo_linux2.Sensitive = false;
-					combo_linux3.Sensitive = true;
-					UtilGtk.ComboDelThisValue(combo_linux3, myPort);
-					combo_linux3.Active = 0;
-					UtilGtk.ComboDelThisValue(combo_linux4, myPort);
-					combo_linux4.Active = 0;
-				}
-			}
+			if(success)
+				connectionSucceded(2, true);
 		}
 		else if(currentCp == 3) {
 			myPort = ((ChronopicPortData) cpd[2]).Port;
 			cpDoing = cp3;
 			connected = chronopicInit.Do(currentCp, out cpDoing, out sp3, platformState3, myPort, out message, out success);
 			cp3 = cpDoing;
-			if(success) {
-				((ChronopicPortData) cpd[2]).Connected=true;
-				button_connect_cp3.Sensitive = false;
-				image_cp3_no.Hide();
-				image_cp3_yes.Show();
-			
-				if(isWindows) {
-					combo_windows3.Sensitive = false;
-					combo_windows4.Sensitive = true;
-					UtilGtk.ComboDelThisValue(combo_windows4, myPort);
-					combo_windows4.Active = 0;
-				} else {
-					combo_linux3.Sensitive = false;
-					combo_linux4.Sensitive = true;
-					UtilGtk.ComboDelThisValue(combo_linux4, myPort);
-					combo_linux4.Active = 0;
-				}
-			}
+			if(success)
+				connectionSucceded(3, true);
 		}
 		else if(currentCp == 4) {
 			myPort = ((ChronopicPortData) cpd[3]).Port;
 			cpDoing = cp4;
 			connected = chronopicInit.Do(currentCp, out cpDoing, out sp4, platformState4, myPort, out message, out success);
 			cp4 = cpDoing;
-			if(success) {
-				((ChronopicPortData) cpd[3]).Connected=true;
-				button_connect_cp4.Sensitive = false;
-				image_cp4_no.Hide();
-				image_cp4_yes.Show();
-			
-				if(isWindows) 
-					combo_windows4.Sensitive = false;
-				else 
-					combo_linux4.Sensitive = false;
-			}
+			if(success)
+				connectionSucceded(4, true);
 		}
 		
 
@@ -940,6 +884,94 @@ public class ChronopicWindow
 			LogB.Information(a.Num + ", " + a.Port + ", " + a.Connected);
 
 		needUpdateChronopicWin = true;
+	}
+
+	private void connectionSucceded(int port, bool playSound)
+	{
+		string myPort = ((ChronopicPortData) cpd[port -1]).Port;
+		((ChronopicPortData) cpd[port -1]).Connected=true;
+
+		if(port == 1) {
+			button_connect_cp1.Sensitive = false;
+			image_cp1_no.Hide();
+			image_cp1_yes.Show();
+
+			if(isWindows) {
+				combo_windows1.Sensitive = false;
+				combo_windows2.Sensitive = true;
+				UtilGtk.ComboDelThisValue(combo_windows2, myPort);
+				combo_windows2.Active = 0; //first option
+				UtilGtk.ComboDelThisValue(combo_windows3, myPort);
+				combo_windows3.Active = 0;
+				UtilGtk.ComboDelThisValue(combo_windows4, myPort);
+				combo_windows4.Active = 0;
+			} else {
+				combo_linux1.Sensitive = false;
+				combo_linux2.Sensitive = true;
+				UtilGtk.ComboDelThisValue(combo_linux2, myPort);
+				combo_linux2.Active = 0; //first option
+				UtilGtk.ComboDelThisValue(combo_linux3, myPort);
+				combo_linux3.Active = 0;
+				UtilGtk.ComboDelThisValue(combo_linux4, myPort);
+				combo_linux4.Active = 0;
+			}
+		}
+		else if(port == 2) {
+			button_connect_cp2.Sensitive = false;
+			image_cp2_no.Hide();
+			image_cp2_yes.Show();
+
+			if(isWindows) {
+				combo_windows2.Sensitive = false;
+				combo_windows3.Sensitive = true;
+				UtilGtk.ComboDelThisValue(combo_windows3, myPort);
+				combo_windows3.Active = 0;
+				UtilGtk.ComboDelThisValue(combo_windows4, myPort);
+				combo_windows4.Active = 0;
+			} else {
+				combo_linux2.Sensitive = false;
+				combo_linux3.Sensitive = true;
+				UtilGtk.ComboDelThisValue(combo_linux3, myPort);
+				combo_linux3.Active = 0;
+				UtilGtk.ComboDelThisValue(combo_linux4, myPort);
+				combo_linux4.Active = 0;
+			}
+		}
+		else if(port == 3) {
+			button_connect_cp3.Sensitive = false;
+			image_cp3_no.Hide();
+			image_cp3_yes.Show();
+
+			if(isWindows) {
+				combo_windows3.Sensitive = false;
+				combo_windows4.Sensitive = true;
+				UtilGtk.ComboDelThisValue(combo_windows4, myPort);
+				combo_windows4.Active = 0;
+			} else {
+				combo_linux3.Sensitive = false;
+				combo_linux4.Sensitive = true;
+				UtilGtk.ComboDelThisValue(combo_linux4, myPort);
+				combo_linux4.Active = 0;
+			}
+		}
+		else if(port == 4) {
+			button_connect_cp4.Sensitive = false;
+			image_cp4_no.Hide();
+			image_cp4_yes.Show();
+
+			if(isWindows) 
+				combo_windows4.Sensitive = false;
+			else 
+				combo_linux4.Sensitive = false;
+		}
+			
+
+		connectingInfoHide();
+		frame_connection.Visible = true;
+		updateChronopicWin(true, Catalog.GetString("connected"));
+		if(playSound)		
+			Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+		updateChronopicWinValuesState= true; //connected
 	}
 
 	private void on_chronopic_connection_ended(object o, EventArgs args) {

@@ -2436,10 +2436,10 @@ public partial class ChronoJumpWindow
 		
 		//this analysis only when not comparing
 		radiobutton_encoder_analyze_powerbars.Visible = true;
-		radiobutton_encoder_analyze_1RM.Visible = true;
+		radiobutton_encoder_analyze_1RM.Visible = (currentEncoderGI == Constants.EncoderGI.GRAVITATORY);
 		radiobutton_encoder_analyze_single.Visible = true;
 		radiobutton_encoder_analyze_side.Visible = true;
-		radiobutton_encoder_analyze_neuromuscular_profile.Visible = true;
+		radiobutton_encoder_analyze_neuromuscular_profile.Visible = (currentEncoderGI == Constants.EncoderGI.GRAVITATORY);
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
@@ -2476,10 +2476,10 @@ public partial class ChronoJumpWindow
 
 		//this analysis only when not comparing
 		radiobutton_encoder_analyze_powerbars.Visible = true;
-		radiobutton_encoder_analyze_1RM.Visible = true;
+		radiobutton_encoder_analyze_1RM.Visible = (currentEncoderGI == Constants.EncoderGI.GRAVITATORY);
 		radiobutton_encoder_analyze_single.Visible = true;
 		radiobutton_encoder_analyze_side.Visible = true;
-		radiobutton_encoder_analyze_neuromuscular_profile.Visible = true;
+		radiobutton_encoder_analyze_neuromuscular_profile.Visible = (currentEncoderGI == Constants.EncoderGI.GRAVITATORY);
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();

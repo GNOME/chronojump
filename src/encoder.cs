@@ -1393,6 +1393,14 @@ public class EncoderConfiguration {
 		}
 	}
 
+	public void SetInertialDefaultOptions() {
+		//after creating Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL
+		inertiaMachine = 900;
+		d = 5;
+		list_d = new List<double>(); 
+		list_d.Add(d);
+	}
+
 	public void ReadParamsFromSQL (string [] strFull) 
 	{
 		//adds other params

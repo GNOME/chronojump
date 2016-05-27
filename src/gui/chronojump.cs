@@ -3060,6 +3060,7 @@ public partial class ChronoJumpWindow
 				}
 				
 				currentEncoderGI = Constants.EncoderGI.GRAVITATORY;
+				hbox_capture_1RM.Visible = true;
 			} else {
 				menuitem_mode_selected_power_inertial.Visible = true;
 
@@ -3071,6 +3072,7 @@ public partial class ChronoJumpWindow
 				}
 				
 				currentEncoderGI = Constants.EncoderGI.INERTIAL;
+				hbox_capture_1RM.Visible = false;
 			}
 			if(changed) {
 				label_encoder_selected.Text = encoderConfigurationCurrent.code;

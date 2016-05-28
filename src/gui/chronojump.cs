@@ -4592,6 +4592,8 @@ public partial class ChronoJumpWindow
 				sep = " + ";
 			}
 		}
+		else if(extra_window_radio_reaction_time_animation_lights.Active)
+			description = spinbutton_flicker_lights_speed.Value.ToString() + " - " + label_animation_lights_interval.Text;
 
 		currentEventExecute = new ReactionTimeExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, 
@@ -4603,10 +4605,12 @@ public partial class ChronoJumpWindow
 			currentEventExecute.SimulateInitValues(rand);
 	
 		//not on simulated because results would be always 0
-		if(extra_window_radio_reaction_time_discriminative.Active && chronopicWin.Connected) {
-			//TODO: do also for animation_lights and flickr
+		if( chronopicWin.Connected &&
+				(extra_window_radio_reaction_time_discriminative.Active || 
+				 extra_window_radio_reaction_time_animation_lights.Active) )
+			//TODO: do also for flickr
 			currentEventExecute.StartIn = false;
-		}
+		
 		currentEventExecute.FakeButtonReactionTimeStart.Clicked += new EventHandler(on_event_execute_reaction_time_start);
 
 		currentEventExecute.Manage(); //check that platform is ok
@@ -4622,14 +4626,21 @@ public partial class ChronoJumpWindow
 	{
 		currentEventExecute.FakeButtonReactionTimeStart.Clicked -= new EventHandler(on_event_execute_reaction_time_start);
 
-		//Fire leds or buzzer on discriminative (if not simulated)		
-		if(extra_window_radio_reaction_time_discriminative.Active && chronopicWin.Connected) {
-			Thread.Sleep(Convert.ToInt32(discriminativeStartTime * 1000)); //in ms
+		//Fire leds or buzzer on discriminative (if not simulated)
+		if(chronopicWin.Connected) {		
+			if(extra_window_radio_reaction_time_discriminative.Active) {
+				Thread.Sleep(Convert.ToInt32(discriminativeStartTime * 1000)); //in ms
 
-			ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
-			cs.CharToSend = discriminativeCharToSend;
-			cs.Write(chronopicWin.SP, 0);
-
+				ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
+				cs.CharToSend = discriminativeCharToSend;
+				cs.Write(chronopicWin.SP, 0);
+			}
+			else if(extra_window_radio_reaction_time_animation_lights.Active) {
+				int speed = Convert.ToInt32(spinbutton_animation_lights_speed.Value);
+				ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
+				cs.CharToSend = "l";
+				cs.Write(chronopicWin.SP,speed);
+			}
 
 			LogB.Information("opening port at gui/chronojump.cs");	
 			chronopicWin.SP.Open();

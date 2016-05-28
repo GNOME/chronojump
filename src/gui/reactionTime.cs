@@ -164,15 +164,6 @@ public partial class ChronoJumpWindow
 
 	// ---- start buttons
 
-	private void on_button_animation_lights_start_clicked (object o, EventArgs args) {
-		int speed = Convert.ToInt32(spinbutton_animation_lights_speed.Value);
-		ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
-		cs.CharToSend = "l";
-		cs.Write(chronopicWin.SP,speed);
-
-		on_button_execute_test_clicked(o, args);
-	}
-	
 	private void on_button_flicker_lights_start_clicked (object o, EventArgs args) {
 		int speed = Convert.ToInt32(spinbutton_flicker_lights_speed.Value);
 		ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();

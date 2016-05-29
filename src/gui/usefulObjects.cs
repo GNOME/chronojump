@@ -315,11 +315,20 @@ public class UpdateProgressBar {
 }
 
 //for animate last jump, run, pulse on a bar graph
-public class MovingBar {
+public class MovingBar 
+{
 	public int X;
-	public int Y; //y will go from (y + alto -2) to y (ytop)
+	public int Y; 
+	/*
+	 * y will go from (y + alto -speed) to (ytop)
+	 * eg a vertical bar that goes from the bottom to the top, will go from:
+	 * YTop 37, Y 380
+	 * to
+	 * YTop 37, Y 37
+	 * so y will be decreasing
+	 */
+	
 	public int Width;
-	public int Alto; //always 1
 
 	public int YTop; //stored y value
 	public int AltoTop; //stored alto value
@@ -327,20 +336,25 @@ public class MovingBar {
 	public Gdk.GC Pen_bar_bg;
 	public bool Simulated;
 	public double Result;
+	public int Step;
 	public Pango.Layout Layout;
 	
-	public MovingBar(int x, int y, int width, int alto, int yTop, int altoTop, 
+	public MovingBar(int x, int y, int width, int yTop, int altoTop, 
 			Gdk.GC pen_bar_bg, bool simulated, double result, Pango.Layout layout) {
 		this.X = x;
 		this.Y = y;
 		this.Width = width;
-		this.Alto = alto;
 		this.YTop = yTop;
 		this.AltoTop = altoTop;
 		this.Pen_bar_bg = pen_bar_bg;
 		this.Simulated = simulated;
 		this.Result = result;
 		this.Layout = layout;
+	} 
+	
+	public void Next() {
+		Step = Convert.ToInt32(Math.Ceiling((Y-YTop)/100.0));
+		Y = Y - Step;
 	}
 
 	~MovingBar() {}

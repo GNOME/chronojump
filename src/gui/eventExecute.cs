@@ -971,7 +971,7 @@ public partial class ChronoJumpWindow
 	{
 		if(isLast && animate) {
 			timerBar = true;
-			movingBar = new MovingBar(x, y + alto -1, barWidth, 1, y, alto, pen_bar_bg, simulated, result, layout);
+			movingBar = new MovingBar(x, y + alto, barWidth, y, alto, pen_bar_bg, simulated, result, layout);
 			GLib.Timeout.Add(1, new GLib.TimeoutHandler(OnTimerBar));
 		}
 		else {
@@ -991,12 +991,12 @@ public partial class ChronoJumpWindow
 	{ 
 		if (!timerBar) 
 			return false;
-			
-		Rectangle rect = new Rectangle(movingBar.X, movingBar.Y, movingBar.Width, movingBar.Alto);
-		event_execute_pixmap.DrawRectangle(movingBar.Pen_bar_bg, true, rect);
-		event_execute_drawingarea.QueueDrawArea(movingBar.X, movingBar.Y, movingBar.Width, movingBar.Alto);
 		
-		movingBar.Y = movingBar.Y -1;
+		movingBar.Next();
+		Rectangle rect = new Rectangle(movingBar.X, movingBar.Y, movingBar.Width, movingBar.Step);
+		event_execute_pixmap.DrawRectangle(movingBar.Pen_bar_bg, true, rect);
+		event_execute_drawingarea.QueueDrawArea(movingBar.X, movingBar.Y, movingBar.Width, movingBar.Step);
+		
 		if(movingBar.Y <= movingBar.YTop) {
 			rect = new Rectangle(movingBar.X, movingBar.YTop, movingBar.Width, movingBar.AltoTop);
 			event_execute_pixmap.DrawRectangle(pen_black, false, rect);

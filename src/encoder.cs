@@ -933,6 +933,7 @@ public class Encoder1RM
 	public int uniqueID;
 	public int personID;
 	public int sessionID;
+	public DateTime date;
 	public int exerciseID;
 	public double load1RM;
 	
@@ -942,20 +943,22 @@ public class Encoder1RM
 	public Encoder1RM() {
 	}
 
-	public Encoder1RM(int uniqueID, int personID, int sessionID, int exerciseID, double load1RM)
+	public Encoder1RM(int uniqueID, int personID, int sessionID, DateTime date, int exerciseID, double load1RM)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
 		this.sessionID = sessionID;
+		this.date = date;
 		this.exerciseID = exerciseID;
 		this.load1RM = load1RM;
 	}
 
-	public Encoder1RM(int uniqueID, int personID, int sessionID, int exerciseID, double load1RM, string personName, string exerciseName)
+	public Encoder1RM(int uniqueID, int personID, int sessionID, DateTime date, int exerciseID, double load1RM, string personName, string exerciseName)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
 		this.sessionID = sessionID;
+		this.date = date;
 		this.exerciseID = exerciseID;
 		this.load1RM = load1RM;
 		this.personName = personName;
@@ -968,7 +971,7 @@ public class Encoder1RM
 	}
 	
 	public string [] ToStringArray2() {
-		string [] s = { uniqueID.ToString(), personName, exerciseName, load1RM.ToString() };
+		string [] s = { uniqueID.ToString(), personName, exerciseName, load1RM.ToString(), date.ToShortDateString() };
 		return s;
 	}
 

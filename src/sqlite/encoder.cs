@@ -877,7 +877,7 @@ class SqliteEncoder : Sqlite
 		if(! dbconOpened)
 			Sqlite.Close();
 	}
-	
+
 	public static ArrayList Select1RM (bool dbconOpened, int personID, int sessionID, int exerciseID, bool returnPersonNameAndExerciseName)
 	{
 		if(! dbconOpened)
@@ -912,12 +912,13 @@ class SqliteEncoder : Sqlite
 		}
 
 		if(returnPersonNameAndExerciseName)
-			dbcmd.CommandText = "SELECT " + Constants.Encoder1RMTable + ".*, person77.name, encoderExercise.name" + 
-				" FROM " + Constants.Encoder1RMTable + ", person77, encoderExercise " +
-				whereStr +
+			dbcmd.CommandText = "SELECT " + Constants.Encoder1RMTable + ".*, person77.name, encoderExercise.name, session.date" + 
+				" FROM " + Constants.Encoder1RMTable + ", person77, encoderExercise, session " +
+				whereStr + " AND " + Constants.Encoder1RMTable + ".sessionID = session.uniqueID " +
 				" ORDER BY uniqueID DESC"; //this allows to select the last uniqueID because will be the first in the returned array 
 		else
-			dbcmd.CommandText = "SELECT * FROM " + Constants.Encoder1RMTable + whereStr +
+			dbcmd.CommandText = "SELECT " + Constants.Encoder1RMTable + ".*, session.date FROM " + 
+				Constants.Encoder1RMTable + ", session" + whereStr +
 				" ORDER BY uniqueID DESC"; //this allows to select the last uniqueID because will be the first in the returned array 
 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -934,6 +935,7 @@ class SqliteEncoder : Sqlite
 						Convert.ToInt32(reader[0].ToString()),	//uniqueID
 						Convert.ToInt32(reader[1].ToString()),	//personID	
 						Convert.ToInt32(reader[2].ToString()),	//sessionID
+						UtilDate.FromSql(reader[10].ToString()),//date
 						Convert.ToInt32(reader[3].ToString()),	//exerciseID
 						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())),  //load1RM
 						reader[8].ToString(),	//personName
@@ -944,6 +946,7 @@ class SqliteEncoder : Sqlite
 						Convert.ToInt32(reader[0].ToString()),	//uniqueID
 						Convert.ToInt32(reader[1].ToString()),	//personID	
 						Convert.ToInt32(reader[2].ToString()),	//sessionID
+						UtilDate.FromSql(reader[5].ToString()),		//date
 						Convert.ToInt32(reader[3].ToString()),	//exerciseID
 						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString()))  //load1RM
 						);

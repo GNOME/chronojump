@@ -5528,7 +5528,7 @@ msgstr ""
 
 #: ../src/gui/encoder.cs:709
 msgid "Load 1RM"
-msgstr "Carregar 1RM"
+msgstr "Carrega 1RM"
 
 #. don't show now
 #: ../src/gui/encoder.cs:720

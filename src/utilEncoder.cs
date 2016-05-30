@@ -22,6 +22,7 @@ using System;
 //using System.Data;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using System.Diagnostics; 	//for detect OS and for Process
 using System.IO; 		//for detect OS
 using Mono.Unix;
@@ -813,16 +814,12 @@ public class UtilEncoder
 		return countActiveCurves;
 	}
 	
-	public static string [] GetActiveCheckboxesList(string [] checkboxes, int activeCurvesNum) {
-		if(activeCurvesNum == 0)
-			return Util.StringToStringArray("");
-
-		string [] activeCurvesList = new String[activeCurvesNum];
+	public static List<int> GetActiveCheckboxesList(string [] checkboxes) {
+		List<int> activeCurvesList = new List<int>();
 		int i=0;
-		int j=0;
 		foreach(string cb in checkboxes) {
 			if(cb == "active")
-				activeCurvesList[j++] = (i+1).ToString();
+				activeCurvesList.Add(i+1);
 			i++;
 		}
 		return activeCurvesList;

@@ -433,7 +433,6 @@ class SqliteEncoder : Sqlite
 				inactiveThisSession = 0;
 				//empty lDeep
 				lDeep = new List<EncoderPersonCurvesInDBDeep>();
-
 			}
 			//4 add deep info: (weight, all reps)
 			EncoderPersonCurvesInDBDeep deep = new EncoderPersonCurvesInDBDeep(
@@ -443,8 +442,18 @@ class SqliteEncoder : Sqlite
 			
 			activeThisSession += activeThisRow;
 			inactiveThisSession += inactiveThisRow;
-
 		}
+		
+		//store last row in array (once we are out the while)
+		if(! firstSession) {
+			//if is not first session (means we have processed a session before)
+			//update encPS with the lDeep and then add to array
+			encPS.lDeep = lDeep;
+			encPS.countActive = activeThisSession;
+			encPS.countAll = activeThisSession + inactiveThisSession;
+			array.Add(encPS);
+		}
+
 		reader.Close();
 		if(! dbconOpened)
 			Sqlite.Close();

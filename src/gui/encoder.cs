@@ -703,7 +703,7 @@ public partial class ChronoJumpWindow
 	void array1RMUpdate (bool returnPersonNameAndExerciseName) 
 	{
 		array1RM = SqliteEncoder.Select1RM(
-				false, currentPerson.UniqueID, currentSession.UniqueID, 
+				false, currentPerson.UniqueID, -1, //-1: currentSession = all sessions
 				getExerciseIDFromCombo(exerciseCombos.CAPTURE), returnPersonNameAndExerciseName); 
 	}
 
@@ -720,7 +720,8 @@ public partial class ChronoJumpWindow
 			"ID",
 			Catalog.GetString("Person"),
 			Catalog.GetString("Exercise"),
-			Catalog.GetString("Load 1RM")
+			Catalog.GetString("Load 1RM"),
+			Catalog.GetString("Session date")
 		};
 
 		ArrayList bigArray = new ArrayList();

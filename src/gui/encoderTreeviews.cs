@@ -414,9 +414,9 @@ public partial class ChronoJumpWindow
 			iterOk = encoderCaptureListStore.IterNext (ref iter);
 		}
 		
-		updateUserCurvesLabelsAndCombo(true);
-		
 		Sqlite.Close();
+
+		prepareAnalyzeRepetitions();
 			
 		callPlotCurvesGraphDoPlot();
 	}

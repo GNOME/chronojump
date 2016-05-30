@@ -152,6 +152,15 @@ public class UtilGtk
 			myCombo.AppendText (str);
 	}
 	
+	public static void ComboUpdate(ComboBox myCombo, List<int> list) {
+		//1stdelete combo values
+		comboDelAll(myCombo);
+
+		//2nd put new values
+		foreach (int l in list)
+			myCombo.AppendText (l.ToString());
+	}
+	
 	public static void ComboUpdate(ComboBox myCombo, List<double> list) {
 		//1stdelete combo values
 		comboDelAll(myCombo);

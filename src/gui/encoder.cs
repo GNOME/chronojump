@@ -1638,7 +1638,7 @@ public partial class ChronoJumpWindow
 					getExerciseIDFromCombo(exerciseCombos.ANALYZE),
 					"curve", EncoderSQL.Eccons.ALL, 
 					false, true);
-			updateComboEncoderAnalyzeCurveNumSavedReps(data, encSelReps.RepsActive);
+			updateComboEncoderAnalyzeCurveNumSavedReps(data);
 		} //interperson and intersession modes don't use combo_encoder_analyze_curve_num_combo
 		
 		if(radio_encoder_analyze_individual_all_sessions.Active) {
@@ -1676,17 +1676,18 @@ public partial class ChronoJumpWindow
 			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[defaultValue]);
 	}
 	//saved repetitions
-	private void updateComboEncoderAnalyzeCurveNumSavedReps (ArrayList data, int activeCurvesNum) 
+	private void updateComboEncoderAnalyzeCurveNumSavedReps (ArrayList data)
 	{
 		string [] checkboxes = new string[data.Count]; //to store active or inactive status of curves
 		int count = 0;
 		foreach(EncoderSQL eSQL in data) {
 			checkboxes[count++] = eSQL.status;
 		}
-		string [] activeCurvesList = UtilEncoder.GetActiveCheckboxesList(checkboxes, activeCurvesNum);
-		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
-		combo_encoder_analyze_curve_num_combo.Active = 
-			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
+		List<int> activeCurvesList = UtilEncoder.GetActiveCheckboxesList(checkboxes);
+		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList);
+		if(activeCurvesList.Count > 0)
+			combo_encoder_analyze_curve_num_combo.Active = 
+				UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0].ToString());
 	}
 
 

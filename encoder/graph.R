@@ -3226,10 +3226,10 @@ doProcess <- function(options)
 		if(op$Eccon != "c")
 			nrep = abs(nrep/2) #only concentric
 
-		plotRMIndirect( RMIndirect(Q, nrep), Q, nrep )
+		temp <- RMIndirect(Q, nrep)
+		plotRMIndirect(temp, Q, nrep)
 		
-		#write this file to allow C# process finish
-		write("", op$OutputData1)
+		write.csv(temp, op$OutputData1, quote=FALSE)
 	}
 
 	if(op$Analysis=="exportCSV") {

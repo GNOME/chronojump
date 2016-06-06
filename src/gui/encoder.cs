@@ -866,16 +866,10 @@ public partial class ChronoJumpWindow
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 	}
 
-	private void treeviewEncoderAnalyzeRemoveColumns(bool curveOrNeuromuscular) {
+	private void treeviewEncoderAnalyzeRemoveColumns() {
 		Gtk.TreeViewColumn [] myColumns = treeview_encoder_analyze_curves.Columns;
 		foreach (Gtk.TreeViewColumn column in myColumns) 
 			treeview_encoder_analyze_curves.RemoveColumn (column);
-
-		//blank the encoderAnalyzeListStore
-		if(curveOrNeuromuscular)
-			encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
-		else
-			encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderNeuromuscularData));
 	}
 
 
@@ -3265,12 +3259,23 @@ public partial class ChronoJumpWindow
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Not enough data."));
 			return;
 		}
-
 		//save it without the body weight
-		double load1RMWithoutPerson = massWithoutPerson(load1RM,getExerciseNameFromTable());
+		string exerciseName = "";
+		int exerciseID = 0;
+		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
+					encoderAnalyze1RMTranslation) == "1RM Indirect") 
+		{
+			exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
+			exerciseID = getExerciseIDFromCombo (exerciseCombos.CAPTURE);
+		}
+		else {
+			exerciseName = getExerciseNameFromTable();
+			exerciseID = getExerciseIDFromTable();
+		}
+		double load1RMWithoutPerson = massWithoutPerson(load1RM, exerciseName);
 
 		SqliteEncoder.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID, 
-				getExerciseIDFromTable(), load1RMWithoutPerson);
+				exerciseID, load1RMWithoutPerson);
 		
 		string myString = Catalog.GetString("Saved.");
 		if(load1RM != load1RMWithoutPerson)
@@ -5405,10 +5410,18 @@ public partial class ChronoJumpWindow
 				string contents = Util.ReadFile(UtilEncoder.GetEncoderAnalyzeTableTempFileName(), false);
 				if (contents != null && contents != "") {
 					if(radiobutton_encoder_analyze_neuromuscular_profile.Active) {
-						treeviewEncoderAnalyzeRemoveColumns(false);	//neuromuscular
+						treeviewEncoderAnalyzeRemoveColumns();
+						encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
 						createTreeViewEncoderAnalyzeNeuromuscular(contents);
+					} else if(
+							radiobutton_encoder_analyze_1RM.Active &&
+							Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
+								encoderAnalyze1RMTranslation) == "1RM Indirect") {
+						treeviewEncoderAnalyzeRemoveColumns();
+						encoderAnalyzeListStore = new Gtk.ListStore (typeof (List<double>));
 					} else {
-						treeviewEncoderAnalyzeRemoveColumns(true);	//curves
+						treeviewEncoderAnalyzeRemoveColumns();
+						encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
 						createTreeViewEncoderAnalyze(contents);
 					}
 				}
@@ -5442,8 +5455,7 @@ public partial class ChronoJumpWindow
 						encoderAnalyze1RMTranslation);
 			button_encoder_analyze_1RM_save.Visible = 
 				(radiobutton_encoder_analyze_1RM.Active &&
-				(my1RMName == "1RM Bench Press" || my1RMName == "1RM Any exercise") ); 
-			// || my1RMName == "1RM Indirect") ); 
+				(my1RMName == "1RM Bench Press" || my1RMName == "1RM Any exercise" || my1RMName == "1RM Indirect") );
 			/*
 			 * TODO: currently disabled because 
 			 * on_button_encoder_analyze_1RM_save_clicked () reads getExerciseNameFromTable()

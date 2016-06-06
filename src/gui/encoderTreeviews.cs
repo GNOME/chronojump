@@ -805,6 +805,12 @@ public partial class ChronoJumpWindow
 		return curvesCount;
 	}
 
+	private int createTreeViewEncoderAnalyzeEncoder1RM(string contents) {
+		//buscar o fer algun metode generic que serveixi per mes coses
+		//si pot ser d'una classe diferent a la de ChronojumpWindow
+		
+		return -1;
+	}
 
 
 	/* start rendering capture and analyze cols */

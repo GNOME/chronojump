@@ -748,6 +748,8 @@ public class GenericWindow
 			myItem = new MenuItem ( Catalog.GetString("Delete selected") );
 			myItem.Activated += on_delete_selected_clicked;
 			myMenu.Attach( myItem, 0, 1, 0, 1 );
+		} else {
+			return; //don't show nothing if there are no options
 		}
 
 		myMenu.Popup();

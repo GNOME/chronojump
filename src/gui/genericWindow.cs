@@ -488,6 +488,7 @@ public class GenericWindow
 		store = getStore(columnsString.Length, addCheckbox); 
 		treeview.Model = store;
 		prepareHeaders(columnsString, addCheckbox);
+		treeview.HeadersClickable = false;
 
 		nonSensitiveRows = myNonSensitiveRows;
 	

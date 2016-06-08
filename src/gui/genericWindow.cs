@@ -506,9 +506,11 @@ public class GenericWindow
 		if(contextMenu == Constants.ContextMenu.EDITDELETE) {
 			button_row_edit = new Gtk.Button();
 			button_row_delete = new Gtk.Button();
+			treeview.ButtonReleaseEvent -= on_treeview_button_release_event;
 			treeview.ButtonReleaseEvent += on_treeview_button_release_event;
 		} else if(contextMenu == Constants.ContextMenu.DELETE) {
 			button_row_delete = new Gtk.Button();
+			treeview.ButtonReleaseEvent -= on_treeview_button_release_event;
 			treeview.ButtonReleaseEvent += on_treeview_button_release_event;
 		}
 	}
@@ -732,29 +734,32 @@ public class GenericWindow
 		ShowEditRow(false);
 	}
 
+	Menu menuCtx;
 	private void treeviewContextMenu() {
-		Menu myMenu = new Menu ();
+		menuCtx = new Menu ();
 		Gtk.MenuItem myItem;
 
 		if(genericWinContextMenu == Constants.ContextMenu.EDITDELETE) {
 			myItem = new MenuItem ( Catalog.GetString("Edit selected") );
 			myItem.Activated += on_edit_selected_clicked;
-			myMenu.Attach( myItem, 0, 1, 0, 1 );
+			menuCtx.Attach( myItem, 0, 1, 0, 1 );
 
 			myItem = new MenuItem ( Catalog.GetString("Delete selected") );
 			myItem.Activated += on_delete_selected_clicked;
-			myMenu.Attach( myItem, 0, 1, 1, 2 );
+			menuCtx.Attach( myItem, 0, 1, 1, 2 );
 		}
 		else if(genericWinContextMenu == Constants.ContextMenu.DELETE) {
 			myItem = new MenuItem ( Catalog.GetString("Delete selected") );
 			myItem.Activated += on_delete_selected_clicked;
-			myMenu.Attach( myItem, 0, 1, 0, 1 );
+			menuCtx.Attach( myItem, 0, 1, 0, 1 );
 		} else {
-			return; //don't show nothing if there are no options
+			//don't show nothing if there are no options
+			menuCtx.Popdown();
+			return; 
 		}
 
-		myMenu.Popup();
-		myMenu.ShowAll();
+		menuCtx.Popup();
+		menuCtx.ShowAll();
 	}
 
 	private void on_edit_selected_clicked (object o, EventArgs args) 
@@ -803,6 +808,7 @@ public class GenericWindow
 	public void Delete_row_accepted() {
 		//remove selected row from treeview
 		store = UtilGtk.RemoveRow(treeview, store);
+		menuCtx.Popdown();
 	}
 	
 	public void Row_add(string [] row) {

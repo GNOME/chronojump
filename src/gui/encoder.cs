@@ -770,6 +770,8 @@ public partial class ChronoJumpWindow
 		genericWin.Button_middle.Clicked += new EventHandler(on_encoder_1RM_win_row_added);
 		
 		genericWin.Button_accept.Clicked += new EventHandler(on_spin_encoder_extra_weight_value_changed);
+		
+		genericWin.Button_row_delete.Clicked -= new EventHandler(on_encoder_1RM_win_row_delete);
 		genericWin.Button_row_delete.Clicked += new EventHandler(on_encoder_1RM_win_row_delete);
 
 		//used when we don't need to read data, 

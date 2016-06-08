@@ -790,7 +790,7 @@ public partial class ChronoJumpWindow
 
 		genericWin.Row_add(new string[] {
 				uniqueID.ToString(), currentPerson.Name, UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
-				d.ToString(), DateTime.Now.ToShortDateString()
+				d.ToString(), currentSession.DateShort
 				}
 				);
 		

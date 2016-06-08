@@ -726,10 +726,18 @@ public partial class ChronoJumpWindow
 
 		ArrayList bigArray = new ArrayList();
 		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+		ArrayList a3 = new ArrayList();
 
 		//0 is the widgget to show; 1 is the editable; 2 id default value
 		a1.Add(Constants.GenericWindowShow.TREEVIEW); a1.Add(true); a1.Add("");
 		bigArray.Add(a1);
+		
+		a2.Add(Constants.GenericWindowShow.HBOXSPINDOUBLE2); a2.Add(true); a2.Add("");
+		bigArray.Add(a2);
+	
+		a3.Add(Constants.GenericWindowShow.BUTTONMIDDLE); a3.Add(true); a3.Add("");
+		bigArray.Add(a3);
 	
 		genericWin = GenericWindow.Show(false,	//don't show now
 				string.Format(Catalog.GetString("Saved 1RM values of athlete {0} on this session."), 
@@ -739,6 +747,10 @@ public partial class ChronoJumpWindow
 				bigArray);
 
 		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.DELETE, false);
+		genericWin.LabelSpinDouble2 = Catalog.GetString("Manually add");
+		genericWin.SetSpinDouble2Increments(0.1,1);
+		genericWin.SetSpinDouble2Range(0,5000);
+		genericWin.SetButtonMiddleLabel(Catalog.GetString("Add"));
 	
 		//find all persons in current session
 		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(
@@ -754,6 +766,9 @@ public partial class ChronoJumpWindow
 		genericWin.SetButtonAcceptSensitive(true);
 		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
 		//manage selected, unselected curves
+		genericWin.Button_middle.Clicked -= new EventHandler(on_encoder_1RM_win_row_added);
+		genericWin.Button_middle.Clicked += new EventHandler(on_encoder_1RM_win_row_added);
+		
 		genericWin.Button_accept.Clicked += new EventHandler(on_spin_encoder_extra_weight_value_changed);
 		genericWin.Button_row_delete.Clicked += new EventHandler(on_encoder_1RM_win_row_delete);
 
@@ -763,6 +778,26 @@ public partial class ChronoJumpWindow
 		//here is comented because we are going to read the checkboxes
 
 		genericWin.ShowNow();
+	}
+
+	private void on_encoder_1RM_win_row_added (object o, EventArgs args) 
+	{
+		LogB.Information("row adding at encoder 1RM");
+		
+		double d = genericWin.SpinDouble2Selected;
+		int uniqueID = SqliteEncoder.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID, 
+				getExerciseIDFromCombo (exerciseCombos.CAPTURE), genericWin.SpinDouble2Selected);
+
+		genericWin.Row_add(new string[] {
+				uniqueID.ToString(), currentPerson.Name, UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
+				d.ToString(), DateTime.Now.ToShortDateString()
+				}
+				);
+		
+		array1RMUpdate(false);
+		encoder_change_displaced_weight_and_1RM ();
+		
+		LogB.Information("row added at encoder 1RM");
 	}
 
 	protected void on_encoder_1RM_win_row_delete (object o, EventArgs args) {

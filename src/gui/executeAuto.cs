@@ -421,17 +421,17 @@ public class ExecuteAutoWindow
 		{
 			treeviewSerie1Array.Add(tc);
 			UtilGtk.TreeviewAddRow(treeview_serie1, store_serie1, 
-					new String [] { treeviewSerie1Array.Count.ToString(), tc.trName } );
+					new String [] { treeviewSerie1Array.Count.ToString(), tc.trName }, false ); //at end
 		} else if(treeviewNum == 2) 
 		{
 			treeviewSerie2Array.Add(tc);
 			UtilGtk.TreeviewAddRow(treeview_serie2, store_serie2, 
-					new String [] { treeviewSerie2Array.Count.ToString(), tc.trName } );
+					new String [] { treeviewSerie2Array.Count.ToString(), tc.trName }, false ); //at end
 		} else 
 		{	//treeviewNum == 3
 			treeviewSerie3Array.Add(tc);
 			UtilGtk.TreeviewAddRow(treeview_serie3, store_serie3, 
-					new String [] { treeviewSerie3Array.Count.ToString(), tc.trName } );
+					new String [] { treeviewSerie3Array.Count.ToString(), tc.trName }, false ); //at end
 		}
 		
 		button_save.Sensitive = (treeviewSerie1Array.Count > 0 && entry_save_name.Text.ToString().Length > 0);

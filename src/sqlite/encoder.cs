@@ -871,7 +871,7 @@ class SqliteEncoder : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static void Insert1RM(bool dbconOpened, int personID, int sessionID, int exerciseID, double load1RM)	
+	public static int Insert1RM(bool dbconOpened, int personID, int sessionID, int exerciseID, double load1RM)	
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -882,9 +882,17 @@ class SqliteEncoder : Sqlite
 				exerciseID + ", " + Util.ConvertToPoint(load1RM) + ", \"\",\"\",\"\")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
+		
+		//int myLast = dbcon.LastInsertRowId;
+		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
+		string myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
 			Sqlite.Close();
+
+		return myLast;
 	}
 
 	public static ArrayList Select1RM (bool dbconOpened, int personID, int sessionID, int exerciseID, bool returnPersonNameAndExerciseName)

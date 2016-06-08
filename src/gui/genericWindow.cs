@@ -50,6 +50,9 @@ public class GenericWindow
 
 	[Widget] Gtk.SpinButton spin_double;
 	[Widget] Gtk.Box hbox_height_metric;
+	
+	[Widget] Gtk.HButtonBox hbuttonbox_middle;
+	[Widget] Gtk.Button button_middle;
 
 	//Edit row
 	[Widget] Gtk.Box hbox_edit_row;
@@ -193,6 +196,7 @@ public class GenericWindow
 		hbox_edit_row.Hide();
 		hbox_all_none_selected.Hide();
 		hbox_combo_all_none_selected.Hide();
+		hbuttonbox_middle.Hide();
 		scrolled_window_textview.Hide();
 		scrolled_window_treeview.Hide();
 	}
@@ -258,6 +262,9 @@ public class GenericWindow
 			hbox_combo_all_none_selected.Show();
 			hbox_all_none_selected.Show();
 		}
+		else if(stuff == Constants.GenericWindowShow.BUTTONMIDDLE) {
+			hbuttonbox_middle.Show();
+		}
 		else if(stuff == Constants.GenericWindowShow.TEXTVIEW) {
 			scrolled_window_textview.Show();
 		}
@@ -293,6 +300,8 @@ public class GenericWindow
 			combo.Show();
 			*/
 		}
+		else if(stuff == Constants.GenericWindowShow.BUTTONMIDDLE)
+			hbuttonbox_middle.Show();
 		else if(stuff == Constants.GenericWindowShow.TEXTVIEW)
 			scrolled_window_textview.Show();
 		else //if(stuff == Constants.GenericWindowShow.TREEVIEW)
@@ -342,6 +351,9 @@ public class GenericWindow
 	}
 	public void SetSpinDouble2Increments(double min, double max) {
 		spin_double2.SetIncrements(min, max);
+	}
+	public void SetSpinDouble2Range(double min, double max) {
+		spin_double2.SetRange(min, max);
 	}
 	
 	public void SetComboValues(string [] values, string current) {
@@ -451,7 +463,9 @@ public class GenericWindow
 		//buttonRecuperateChangeSensitiveness();
 	}
 	
-	
+	public void SetButtonMiddleLabel(string str) {
+		button_middle.Label=str;
+	}
 	
 	public void SetTextview(string str) {
 		TextBuffer tb = new TextBuffer (new TextTagTable());
@@ -788,6 +802,12 @@ public class GenericWindow
 		store = UtilGtk.RemoveRow(treeview, store);
 	}
 	
+	public void Row_add(string [] row) {
+		//add row to treeview
+		UtilGtk.TreeviewAddRow(treeview, store, row, true); //insert at beginning
+	}
+	
+	
 	public void ShowTextview() {
 		scrolled_window_textview.Show();
 	}
@@ -849,6 +869,10 @@ public class GenericWindow
 	public void HideAndNull() {
 		GenericWindowBox.generic_window.Hide();
 		GenericWindowBox = null;
+	}
+	
+	public Button Button_middle {
+		get { return button_middle; }
 	}
 	
 	public Button Button_delete {

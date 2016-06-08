@@ -808,6 +808,9 @@ public partial class ChronoJumpWindow
 
 		Sqlite.Delete(false, Constants.Encoder1RMTable, Convert.ToInt32(uniqueID));
 		
+		array1RMUpdate(false);
+		encoder_change_displaced_weight_and_1RM ();
+		
 		genericWin.Delete_row_accepted();
 	}
 	

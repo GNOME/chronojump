@@ -3024,18 +3024,30 @@ public partial class ChronoJumpWindow
 		menuitem_mode_selected_other.Visible = false;
 			
 		LogB.Information("MODE", m.ToString());
+		
+		//default for everythong except encoder	
+		menuitem_encoder_session_overview.Visible = false;
+		menuitem_export_encoder_signal.Visible = false;
+		menuitem_export_csv.Visible = true;
 
-		if(m == menuitem_modes.JUMPS) {
+		if(m == menuitem_modes.JUMPS) 
+		{
 			notebook_sup.CurrentPage = 0;
 			notebook_sup_contacts.CurrentPage = 0;
 			menuitem_mode_selected_jumps.Visible = true;
 			radio_mode_jumps_small.Active = true;
-		} else if(m == menuitem_modes.RUNS) {
+		} else if(m == menuitem_modes.RUNS) 
+		{
 			notebook_sup.CurrentPage = 0;
 			notebook_sup_contacts.CurrentPage = 1;
 			menuitem_mode_selected_runs.Visible = true;
 			radio_mode_runs_small.Active = true;
-		} else if(m == menuitem_modes.POWERGRAVITATORY || m == menuitem_modes.POWERINERTIAL) {
+		} else if(m == menuitem_modes.POWERGRAVITATORY || m == menuitem_modes.POWERINERTIAL) 
+		{
+			menuitem_encoder_session_overview.Visible = true;
+			menuitem_export_encoder_signal.Visible = true;
+			menuitem_export_csv.Visible = false;
+			
 			//on OSX R is not installed by default. Check if it's installed. Needed for encoder
 			if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX &&
 					! Util.FileExists(Constants.ROSX) )

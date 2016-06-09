@@ -740,17 +740,17 @@ public partial class ChronoJumpWindow
 		bigArray.Add(a3);
 	
 		genericWin = GenericWindow.Show(false,	//don't show now
-				string.Format(Catalog.GetString("Saved 1RM values of athlete {0} on this session."), 
-					currentPerson.Name) + "\n" + 
+				string.Format(Catalog.GetString("Saved 1RM values of athlete {0} in {1} exercise."), 
+					currentPerson.Name, UtilGtk.ComboGetActive(combo_encoder_exercise_capture)) + "\n" + 
 				Catalog.GetString("If you want to delete a row, right click on it.") + "\n" + 
-				Catalog.GetString("If there is more than one value for an exercise,\nthe used value is the top one."),
+				Catalog.GetString("If there is more than one value, top one will be used."),
 				bigArray);
 
 		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.DELETE, false);
 		genericWin.LabelSpinDouble2 = Catalog.GetString("Manually add");
 		genericWin.SetSpinDouble2Increments(0.1,1);
 		genericWin.SetSpinDouble2Range(0,5000);
-		genericWin.SetButtonMiddleLabel(Catalog.GetString("Add"));
+		genericWin.SetButtonMiddleLabel(Catalog.GetString("Add 1RM value"));
 	
 		//find all persons in current session
 		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(

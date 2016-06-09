@@ -43107,7 +43107,7 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
         <property name="can_focus">False</property>
         <property name="spacing">4</property>
         <child>
-          <widget class="GtkNotebook" id="notebook2">
+          <widget class="GtkNotebook" id="notebook">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="border_width">6</property>
@@ -43920,7 +43920,7 @@ show elevation as:</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label4">
+              <widget class="GtkLabel" id="label_jumps">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Jumps</property>
@@ -44437,7 +44437,7 @@ It starts before and arrives there with some speed.</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label42">
+              <widget class="GtkLabel" id="label_runs">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Runs</property>
@@ -44940,7 +44940,7 @@ It starts before and arrives there with some speed.</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label6">
+              <widget class="GtkLabel" id="label_encoder">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Encoder</property>

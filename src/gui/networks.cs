@@ -132,9 +132,9 @@ public partial class ChronoJumpWindow
 
 		//show only power
 		if(config.OnlyEncoderGravitatory)
-			select_menuitem_mode_toggled(menuitem_modes.POWERGRAVITATORY);
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERGRAVITATORY);
 		else if(config.OnlyEncoderInertial)
-			select_menuitem_mode_toggled(menuitem_modes.POWERINERTIAL);
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERINERTIAL);
 		
 		if(config.EncoderCaptureShowOnlyBars) {
 			vpaned_encoder_capture_video_and_set_graph.Visible = false;
@@ -198,7 +198,7 @@ public partial class ChronoJumpWindow
 		/*
 		if(linuxType == linuxTypeEnum.NETWORKS) {
 			//mostrar directament el power
-			select_menuitem_mode_toggled(menuitem_modes.POWER);
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWER);
 			
 			//no mostrar menu
 			main_menu.Visible = false;

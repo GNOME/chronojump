@@ -1495,15 +1495,15 @@ public partial class ChronoJumpWindow
 		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_TABLE)
 			exportString = Catalog.GetString ("Save table");
 		
-		string nameString = ""; 
+		string nameString = currentPerson.Name + "_" + currentSession.DateShortAsSQL;
 		if(checkFileOp == Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL)
-			nameString = "encoder_set_export.csv";
+			nameString += "_encoder_set_export.csv";
 		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE)
-			nameString = "encoder_image.png";
+			nameString += ".png";
 		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_AB)
-			nameString = "encoder_repetition_export.csv";
+			nameString += "_encoder_repetition_export.csv";
 		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_TABLE)
-			nameString = "encoder_curves_table.csv";
+			nameString += "_encoder_curves_table.csv";
 		
 		Gtk.FileChooserDialog fc=
 			new Gtk.FileChooserDialog(exportString,

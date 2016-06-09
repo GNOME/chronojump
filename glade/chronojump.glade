@@ -31900,6 +31900,7 @@ One set can contain several tests.</property>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">8</property>
                 <property name="position">10</property>
               </packing>
             </child>

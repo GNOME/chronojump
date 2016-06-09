@@ -75,6 +75,18 @@ public class ExportSession
 					Catalog.GetString("Cancel"),ResponseType.Cancel,
 					Catalog.GetString("Export"),ResponseType.Accept
 					);
+	
+		//set default name	
+		string nameString = mySession.Name + "_" + mySession.DateShortAsSQL;
+		if(formatFile == "report") {
+			if(UtilAll.IsWindows())
+				nameString += ".htm";
+			else
+				nameString += ".html";
+		} else
+			nameString += ".csv";
+
+		fc.CurrentName = nameString;
 
 		if (fc.Run() == (int)ResponseType.Accept) 
 		{

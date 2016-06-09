@@ -43,7 +43,7 @@ using ICSharpCode.SharpZipLib;
 public class PreferencesWindow {
 	
 	[Widget] Gtk.Window preferences_win;
-
+	[Widget] Gtk.Notebook notebook;
 
 	//main tab
 	[Widget] Gtk.Button button_data_folder_open;
@@ -154,11 +154,18 @@ public class PreferencesWindow {
 		FakeButtonDebugModeStart = new Gtk.Button();
 	}
 	
-	static public PreferencesWindow Show (Preferences preferences)
+	static public PreferencesWindow Show (Preferences preferences, Constants.Menuitem_modes menu_mode)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
 		}
+
+		if(menu_mode !=	Constants.Menuitem_modes.JUMPS)
+			PreferencesWindowBox.notebook.GetNthPage(1).Hide(); 
+		if(menu_mode !=	Constants.Menuitem_modes.RUNS)
+			PreferencesWindowBox.notebook.GetNthPage(2).Hide(); 
+		if(menu_mode !=	Constants.Menuitem_modes.POWERGRAVITATORY && menu_mode != Constants.Menuitem_modes.POWERINERTIAL)
+			PreferencesWindowBox.notebook.GetNthPage(3).Hide(); 
 
 		PreferencesWindowBox.preferences = preferences;
 

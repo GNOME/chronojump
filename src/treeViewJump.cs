@@ -192,7 +192,10 @@ public class TreeViewJumps : TreeViewEvent
 				Convert.ToDouble(newJump.Weight.ToString()),
 				personWeight);
 		
-		myData[count++] = Util.TrimDecimals(weightInKg.ToString(), pDN);
+		if(preferences.weightStatsPercent)
+			myData[count++] = Util.TrimDecimals(newJump.Weight.ToString(), pDN);
+		else
+			myData[count++] = Util.TrimDecimals(weightInKg.ToString(), pDN);
 
 		myData[count++] = Util.TrimDecimals(newJump.Fall.ToString(), pDN);
 		myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);

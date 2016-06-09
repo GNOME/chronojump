@@ -4556,8 +4556,10 @@ public partial class ChronoJumpWindow
 		LogB.Debug("prepareEncoderGraphs() start (should be on first thread: GTK)");
 		
 		if(eraseFirst) {
-			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
-			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+			if(encoder_capture_signal_pixmap != null)
+				UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
+			if(encoder_capture_curves_bars_pixmap != null)
+				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 		}
 
 		layout_encoder_capture_signal = new Pango.Layout (encoder_capture_signal_drawingarea.PangoContext);

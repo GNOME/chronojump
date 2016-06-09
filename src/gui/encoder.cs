@@ -1391,15 +1391,30 @@ public partial class ChronoJumpWindow
 
 	void on_menuitem_encoder_session_overview_activate (object o, EventArgs args) 
 	{
-		ArrayList dataPrint = SqliteEncoder.SelectSessionOverview(false, currentSession.UniqueID);
+		ArrayList dataPrint = SqliteEncoder.SelectSessionOverview(false, currentEncoderGI, currentSession.UniqueID);
 
-		string [] columnsString = {
-			"Unused count",
-			Catalog.GetString("Person"),
-			Catalog.GetString("Exercise"),
-			Catalog.GetString("Displaced mass"),
-			Catalog.GetString("Sets")
-		};
+		string title = "";
+		string [] columnsString;
+		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY) {
+			title = Catalog.GetString("Gravitory sets captured on this session");
+
+			columnsString = new string [] {
+				"Unused count",
+				Catalog.GetString("Person"),
+				Catalog.GetString("Exercise"),
+				Catalog.GetString("Displaced mass"),
+				Catalog.GetString("Sets")
+			};
+		} else {
+			title = Catalog.GetString("Inertial sets captured on this session");
+			
+			columnsString = new string [] {
+				"Unused count",
+				Catalog.GetString("Person"),
+				Catalog.GetString("Exercise"),
+				Catalog.GetString("Sets")
+			};
+		}
 		
 		ArrayList bigArray = new ArrayList();
 		ArrayList a1 = new ArrayList();
@@ -1409,8 +1424,7 @@ public partial class ChronoJumpWindow
 		bigArray.Add(a1);
 	
 		genericWin = GenericWindow.Show(false,	//don't show now
-				"Sets captured on this session",
-				bigArray);
+				title, bigArray);
 			
 		ArrayList nonSensitiveRows = new ArrayList();
 		for(int i=0; i < dataPrint.Count; i ++)

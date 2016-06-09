@@ -461,13 +461,13 @@ class SqliteEncoder : Sqlite
 		return array;
 	}
 	
-	public static ArrayList SelectSessionOverview (bool dbconOpened, int sessionID)
+	public static ArrayList SelectSessionOverview (bool dbconOpened, Constants.EncoderGI encoderGI, int sessionID)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
 	
 		dbcmd.CommandText = 
-			"SELECT person77.name, encoderExercise.name, (personSession77.weight * encoderExercise.percentBodyWeight/100) + encoder.extraWeight, COUNT(*)" + 
+			"SELECT person77.name, encoder.encoderConfiguration, encoderExercise.name, (personSession77.weight * encoderExercise.percentBodyWeight/100) + encoder.extraWeight, COUNT(*)" + 
 			" FROM person77, personSession77, encoderExercise, encoder" + 
 			" WHERE person77.uniqueID == encoder.personID AND personSession77.personID == encoder.personID AND personSession77.sessionID == encoder.sessionID AND encoderExercise.uniqueID==encoder.exerciseID AND signalOrCurve == \"signal\" AND encoder.sessionID == " + sessionID + 
 			" GROUP BY encoder.personID, exerciseID, extraWeight" +
@@ -481,14 +481,36 @@ class SqliteEncoder : Sqlite
 		ArrayList array = new ArrayList();
 		int count = 0;
 		while(reader.Read()) { 
-			string [] s = { 
-				(count++).ToString(),	//not displayed but needed on genericWin.SetTreeView
-				reader[0].ToString(), 	//person name
-				reader[1].ToString(), 	//encoder exercise name
-				reader[2].ToString(),	//displaced mass (includes percentBodyeight)
-				reader[3].ToString()	//sets count
+			//discard if != encoderGI
+			string [] strFull = reader[1].ToString().Split(new char[] {':'});
+			EncoderConfiguration econf = new EncoderConfiguration(
+				(Constants.EncoderConfigurationNames) 
+				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
+
+			//if encoderGI != ALL discard non wanted repetitions
+			if(encoderGI == Constants.EncoderGI.GRAVITATORY && econf.has_inertia)
+				continue;
+			else if(encoderGI == Constants.EncoderGI.INERTIAL && ! econf.has_inertia)
+				continue;
+
+			if(encoderGI == Constants.EncoderGI.GRAVITATORY) {
+				string [] s = { 
+					(count++).ToString(),	//not displayed but needed on genericWin.SetTreeView
+					reader[0].ToString(), 	//person name
+					reader[2].ToString(), 	//encoder exercise name
+					reader[3].ToString(),	//displaced mass (includes percentBodyeight)
+					reader[4].ToString()	//sets count
 				};
-			array.Add (s);
+				array.Add (s);
+			} else {
+				string [] s = { 
+					(count++).ToString(),	//not displayed but needed on genericWin.SetTreeView
+					reader[0].ToString(), 	//person name
+					reader[2].ToString(), 	//encoder exercise name
+					reader[4].ToString()	//sets count
+				};
+				array.Add (s);
+			}
 		}
 
 		reader.Close();

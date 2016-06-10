@@ -180,16 +180,19 @@ public class PrepareEventGraphRunInterval {
 	public string timesString;
 	public double distanceTotal; //we pass this because it's dificult to calculate in runs with variable distances
 	public string distancesString; //we pass this because it's dificult to calculate in runs with variable distances
+	public bool startIn;
 
 	public PrepareEventGraphRunInterval() {
 	}
 
-	public PrepareEventGraphRunInterval(double distance, double lastTime, string timesString, double distanceTotal, string distancesString) {
+	public PrepareEventGraphRunInterval(double distance, double lastTime, string timesString, 
+			double distanceTotal, string distancesString, bool startIn) {
 		this.distance = distance;
 		this.lastTime = lastTime;
 		this.timesString = timesString;
 		this.distanceTotal = distanceTotal;
 		this.distancesString = distancesString;
+		this.startIn = startIn;
 	}
 
 	~PrepareEventGraphRunInterval() {}

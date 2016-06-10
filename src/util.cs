@@ -1713,7 +1713,12 @@ public class Util
 
 			double distance = Convert.ToDouble(distances[distPos]);
 
-			double speed = distance / time;
+			double speed;
+			if(distance == 0 || time == 0)
+				speed = 0;
+			else
+				speed = distance / time;
+
 			if(max) {
 				if(speed > searchedValue) 
 					searchedValue = speed;
@@ -1753,7 +1758,13 @@ public class Util
 			} else 
 				distance = distanceInterval;
 
-			speeds += sep + (distance / time * 1.0).ToString();
+			double speedNow;
+			if(distance == 0 || time == 0)
+				speedNow = 0;
+			else
+				speedNow = distance / time;
+			
+			speeds += sep + (speedNow * 1.0).ToString();
 			sep = separator;
 		}
 		//fill the row with 0's equalling largest row

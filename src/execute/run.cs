@@ -684,7 +684,7 @@ public class RunIntervalExecute : RunExecute
 						//update graph
 						PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
 								distanceIntervalFixed, myRaceTime, intervalTimesString, 
-								distanceTotal, distancesString);
+								distanceTotal, distancesString, startIn);
 
 						needUpdateGraphType = eventType.RUNINTERVAL;
 						needUpdateGraph = true;
@@ -966,7 +966,8 @@ public class RunIntervalExecute : RunExecute
 			fakeButtonFinished.Click();
 
 			PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
-					distanceIntervalFixed, Util.GetLast(intervalTimesString), intervalTimesString, distanceTotal, distancesString);
+					distanceIntervalFixed, Util.GetLast(intervalTimesString), 
+					intervalTimesString, distanceTotal, distancesString, startIn);
 			needUpdateGraphType = eventType.RUNINTERVAL;
 			needUpdateGraph = true;
 

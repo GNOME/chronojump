@@ -5163,6 +5163,7 @@ LogB.Debug("X");
 								currentRunInterval.IntervalTimesString, 
 								distanceTotal,
 								runType.DistancesString,
+								currentRunInterval.StartIn,
 								preferences.volumeOn, repetitiveConditionsWin);
 					}
 					break;

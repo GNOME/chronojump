@@ -230,6 +230,11 @@ public class RunInterval : Run
 		get { return tracksLimited; }
 	}
 		
+	public bool StartIn
+	{
+		get { return startIn; }
+	}
+		
 	public override double Speed
 	{
 		get { 

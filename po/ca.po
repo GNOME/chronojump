@@ -250,9 +250,8 @@ msgid "default"
 msgstr "per defecte"
 
 #: ../glade/chronojump.glade.h:48 ../src/gui/chronojump.cs:6685
-#, fuzzy
 msgid "Active, discarding first port"
-msgstr "Activat descartant el primer port"
+msgstr "Activat, descartant el primer port"
 
 #: ../glade/chronojump.glade.h:49 ../src/gui/chronojump.cs:6687
 msgid "Inactive"

@@ -1216,7 +1216,7 @@ public partial class ChronoJumpWindow
 				count ++;
 			}
 			
-			drawCircleAndWriteValue(pen_azul, myTVDouble, --count, jumps, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
+			writeValue(pen_azul, myTVDouble, --count, jumps, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
 
 			//read tc evolution	
 			string [] myTCStringFull = tcString.Split(new char[] {'='});
@@ -1238,7 +1238,7 @@ public partial class ChronoJumpWindow
 				count ++;
 			}
 			
-			drawCircleAndWriteValue(pen_rojo, myTCDouble, --count, jumps, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
+			writeValue(pen_rojo, myTCDouble, --count, jumps, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
 		
 
 			//draw best tv/tc
@@ -1443,14 +1443,13 @@ public partial class ChronoJumpWindow
 				
 				//paint Y lines
 				if(eventGraphConfigureWin.VerticalGrid) {
-					if(count == 0 && startIn) {
+					if(count == 0)
 						event_execute_pixmap.DrawLine(pen_beige_discont, 
 								xStart,
 								topMargin,
 								xStart,
 								alto-topMargin);
-					}
-					
+
 					event_execute_pixmap.DrawLine(pen_beige_discont, 
 							xEnd,
 							topMargin, 
@@ -1462,7 +1461,7 @@ public partial class ChronoJumpWindow
 				count ++;
 			}
 			
-			drawCircleAndWriteValue(myPen, myValue, (--count) + added0Value, tracks, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
+			writeValue(myPen, myValue, (--count) + added0Value, tracks, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
 		
 
 			//bells & images
@@ -1554,7 +1553,7 @@ public partial class ChronoJumpWindow
 				count ++;
 			}
 		
-			drawCircleAndWriteValue(pen_azul, myTimeDouble, --count, pulses, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
+			writeValue(pen_azul, myTimeDouble, --count, pulses, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
 			
 			plotSimulatedMessageIfNeededAtCenter(ancho, alto);
 		}
@@ -1759,17 +1758,12 @@ public partial class ChronoJumpWindow
 	}
 
 
-	private void drawCircleAndWriteValue (Gdk.GC myPen, double myValue, int count, int total, int ancho, int alto, 
-			double maxValue, double minValue, int topMargin, int bottomMargin) {
-
+	private void writeValue (Gdk.GC myPen, double myValue, int count, int total, int ancho, int alto, 
+			double maxValue, double minValue, int topMargin, int bottomMargin) 
+	{
 		//write text
 		layoutSmall.SetMarkup((Math.Round(myValue,3)).ToString());
 		event_execute_pixmap.DrawLayout (myPen, ancho -event_execute_rightMargin, (int)calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin) -7, layoutSmall); //-7 for aligning (is baseline) (font is Courier 7)
-
-		if(eventGraphConfigureWin.PaintCircle) {
-			//put circle in last value
-			event_execute_pixmap.DrawArc(myPen, true, Convert.ToInt32((ancho - event_execute_rightMargin) *(count+.5)/total) - event_execute_radio/2 + event_execute_arcSystemCorrection, calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin) - event_execute_radio/2, event_execute_radio, event_execute_radio, 0, 360*64);
-		}
 	}
 
 		

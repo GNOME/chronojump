@@ -48,7 +48,6 @@ public class EventGraphConfigureWindow
 	[Widget] Gtk.SpinButton spinbutton_black_guide;
 	[Widget] Gtk.SpinButton spinbutton_green_guide;
 	
-	[Widget] Gtk.CheckButton checkbutton_paint_circle;
 	[Widget] Gtk.CheckButton checkbutton_show_vertical_grid;
 	[Widget] Gtk.RadioButton radiobutton_speed;
 
@@ -90,7 +89,6 @@ public class EventGraphConfigureWindow
 		checkbutton_show_black_guide.Active = false;
 		checkbutton_show_green_guide.Active = false;
 			
-		checkbutton_paint_circle.Active = true;
 		checkbutton_show_vertical_grid.Active = true;
 		spinbutton_black_guide.Sensitive = false;
 		spinbutton_green_guide.Sensitive = false;
@@ -182,12 +180,6 @@ public class EventGraphConfigureWindow
 		}
 	}
 	
-	public bool PaintCircle {
-		get {
-			return (checkbutton_paint_circle.Active);
-		}
-	}
-			
 	public bool VerticalGrid {
 		get {
 			return (checkbutton_show_vertical_grid.Active);

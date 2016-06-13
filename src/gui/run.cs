@@ -1017,6 +1017,12 @@ partial class ChronoJumpWindow
 				extra_window_showLimitData(true, false);	//visible, sensitive
 			} else {
 				extra_window_runs_interval_spinbutton_limit.Value = extra_window_runs_interval_limit;
+
+				//set minimum value == 1
+				double min; double max;
+				extra_window_runs_interval_spinbutton_limit.GetRange(out min, out max);
+				extra_window_runs_interval_spinbutton_limit.SetRange(1, max);
+				
 				extra_window_showLimitData(true, true);	//visible, sensitive
 			}
 		} else {

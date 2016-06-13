@@ -1396,7 +1396,8 @@ public partial class ChronoJumpWindow
 			Gdk.GC myPen = pen_rojo; //default value
 			double myValue = 0;
 
-			foreach (string myTime in myTimesStringFull) {
+			foreach (string myTime in myTimesStringFull) 
+			{
 				myTimeDouble = Convert.ToDouble(myTime);
 				if(myTimeDouble < 0)
 					myTimeDouble = 0;
@@ -1412,30 +1413,17 @@ public partial class ChronoJumpWindow
 				else
 					myValue = Util.GetRunIVariableDistancesStringRow(distancesString, count) / myTimeDouble;
 
-				/*
-				 * for ancho = 1131 and rightMargin = 35. Paintable X is 1096
-				 * if startIn and 3 tracks
-				 * 	first xStart will be 1096 *  .5/4
-				 *	last xEnd will be    1096 * 3.5/4
-				 */
-				int xStart = Convert.ToInt32((ancho - event_execute_rightMargin) *(count - .5 + added0Value)/(tracks + added0Value));
-				int xEnd = Convert.ToInt32((ancho - event_execute_rightMargin) *(count + .5 + added0Value)/(tracks + added0Value));
-				
-				//if there are three speeds or more, x distance will be related to time between them
-				if(myTimesStringFull.Length + added0Value > 2) 
-				{
-					if(myTimeDoubleAccumulated - myTimeDouble == 0)
-						xStart = event_execute_rightMargin;
-					else 
-						xStart = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) * 
-								((myTimeDoubleAccumulated - myTimeDouble) / timeTotal));
-					
-					if(myTimeDoubleAccumulated == 0)
-						xEnd = event_execute_rightMargin;
-					else
-						xEnd = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) * 
-								(myTimeDoubleAccumulated / timeTotal));
-				}
+				int xStart = event_execute_rightMargin;
+				if(myTimeDoubleAccumulated - myTimeDouble > 0)
+					xStart = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) * 
+							((myTimeDoubleAccumulated - myTimeDouble) / timeTotal));
+
+				int xEnd = event_execute_rightMargin;
+				if(myTimeDoubleAccumulated > 0)
+					xEnd = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) * 
+							(myTimeDoubleAccumulated / timeTotal));
+
+				//LogB.Information("xStart: " + xStart.ToString() + "; xEnd: " + xEnd);
 
 
 				if(count == 0 && startIn) {
@@ -1446,13 +1434,12 @@ public partial class ChronoJumpWindow
 							xEnd,
 							calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin));
 				} 
-				else if (count > 0) {
+				else
 					event_execute_pixmap.DrawLine(myPen,
 							xStart,
 							calculatePaintHeight(oldValue, alto, maxValue, minValue, topMargin, bottomMargin),
 							xEnd,
 							calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin));
-				}
 				
 				//paint Y lines
 				if(eventGraphConfigureWin.VerticalGrid) {

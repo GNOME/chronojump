@@ -678,7 +678,8 @@ public partial class ChronoJumpWindow
 	
 	// run interval
 	// distanceTotal is passed because it can change in variable distances test
-	public void PrepareRunIntervalGraph(double distance, double lastTime, string timesString, double distanceTotal, string distancesString,
+	public void PrepareRunIntervalGraph(double distance, double lastTime, string timesString,
+			double distanceTotal, string distancesString,
 			bool startIn, bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin) {
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
@@ -1355,8 +1356,9 @@ public partial class ChronoJumpWindow
 			event_execute_label_jump_reactive_tf_tc_avg.Text = "0";
 	}
 
-	private void paintRunInterval (Gtk.DrawingArea drawingarea, double distance, double distanceTotal, string distancesString, double lastTime, 
-			string timesString, double avgTime, double maxValue, double minValue, int tracks, int topMargin, int bottomMargin, 
+	private void paintRunInterval (Gtk.DrawingArea drawingarea, double distance, double distanceTotal, string distancesString, 
+			double lastTime, string timesString, double avgTime, 
+			double maxValue, double minValue, int tracks, int topMargin, int bottomMargin, 
 			int hightValuePosition, int lowValuePosition, bool startIn,
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
@@ -1369,8 +1371,8 @@ public partial class ChronoJumpWindow
 		writeMarginsText(maxValue, minValue, alto);
 		
 		//check now here that we will have not division by zero problems
-		if(maxValue - minValue > 0) {
-
+		if(maxValue - minValue > 0) 
+		{
 			if(tracks > 1) {
 				//blue speed average discountinuos line	
 				drawGuideOrAVG(pen_azul_discont, distance/avgTime, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
@@ -1380,7 +1382,7 @@ public partial class ChronoJumpWindow
 			drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
-			
+			double timeTotal = Util.GetTotalTime(timesString); 
 			string [] myTimesStringFull = timesString.Split(new char[] {'='});
 			int count = 0;
 			int added0Value = 0;
@@ -1389,6 +1391,7 @@ public partial class ChronoJumpWindow
 
 			double oldValue = 0;
 			double myTimeDouble = 0;
+			double myTimeDoubleAccumulated = 0;
 
 			Gdk.GC myPen = pen_rojo; //default value
 			double myValue = 0;
@@ -1397,6 +1400,8 @@ public partial class ChronoJumpWindow
 				myTimeDouble = Convert.ToDouble(myTime);
 				if(myTimeDouble < 0)
 					myTimeDouble = 0;
+
+				myTimeDoubleAccumulated += myTimeDouble;
 
 				//blue speed evolution	
 				myPen = pen_azul;
@@ -1407,19 +1412,45 @@ public partial class ChronoJumpWindow
 				else
 					myValue = Util.GetRunIVariableDistancesStringRow(distancesString, count) / myTimeDouble;
 
+				/*
+				 * for ancho = 1131 and rightMargin = 35. Paintable X is 1096
+				 * if startIn and 3 tracks
+				 * 	first xStart will be 1096 *  .5/4
+				 *	last xEnd will be    1096 * 3.5/4
+				 */
+				int xStart = Convert.ToInt32((ancho - event_execute_rightMargin) *(count - .5 + added0Value)/(tracks + added0Value));
+				int xEnd = Convert.ToInt32((ancho - event_execute_rightMargin) *(count + .5 + added0Value)/(tracks + added0Value));
+				
+				//if there are three speeds or more, x distance will be related to time between them
+				if(myTimesStringFull.Length + added0Value > 2) 
+				{
+					if(myTimeDoubleAccumulated - myTimeDouble == 0)
+						xStart = event_execute_rightMargin;
+					else 
+						xStart = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) * 
+								((myTimeDoubleAccumulated - myTimeDouble) / timeTotal));
+					
+					if(myTimeDoubleAccumulated == 0)
+						xEnd = event_execute_rightMargin;
+					else
+						xEnd = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) * 
+								(myTimeDoubleAccumulated / timeTotal));
+				}
+
+
 				if(count == 0 && startIn) {
 					event_execute_pixmap.DrawLine(myPen,
-							Convert.ToInt32((ancho - event_execute_rightMargin) *(count - .5 + added0Value)/(tracks + added0Value)), 
+							xStart,
 							//calculatePaintHeight(0, alto, maxValue, minValue, topMargin, bottomMargin),
 							alto,
-							Convert.ToInt32((ancho - event_execute_rightMargin) *(count + .5 + added0Value)/(tracks + added0Value)), 
+							xEnd,
 							calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin));
 				} 
 				else if (count > 0) {
 					event_execute_pixmap.DrawLine(myPen,
-							Convert.ToInt32((ancho - event_execute_rightMargin) *(count - .5 + added0Value)/(tracks + added0Value)), 
+							xStart,
 							calculatePaintHeight(oldValue, alto, maxValue, minValue, topMargin, bottomMargin),
-							Convert.ToInt32((ancho - event_execute_rightMargin) *(count + .5 + added0Value)/(tracks + added0Value)), 
+							xEnd,
 							calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin));
 				}
 				
@@ -1427,16 +1458,16 @@ public partial class ChronoJumpWindow
 				if(eventGraphConfigureWin.VerticalGrid) {
 					if(count == 0 && startIn) {
 						event_execute_pixmap.DrawLine(pen_beige_discont, 
-								Convert.ToInt32((ancho - event_execute_rightMargin) *(count -.5 + added0Value)/(tracks + added0Value)), 
+								xStart,
 								topMargin,
-								Convert.ToInt32((ancho - event_execute_rightMargin) *(count -.5 + added0Value)/(tracks + added0Value)), 
+								xStart,
 								alto-topMargin);
 					}
 					
 					event_execute_pixmap.DrawLine(pen_beige_discont, 
-							Convert.ToInt32((ancho - event_execute_rightMargin) *(count +.5 + added0Value)/(tracks + added0Value)), 
+							xEnd,
 							topMargin, 
-							Convert.ToInt32((ancho - event_execute_rightMargin) *(count +.5 + added0Value)/(tracks + added0Value)), 
+							xEnd,
 							alto-topMargin);
 				}
 

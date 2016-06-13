@@ -185,7 +185,7 @@ public class PrepareEventGraphRunInterval {
 	public PrepareEventGraphRunInterval() {
 	}
 
-	public PrepareEventGraphRunInterval(double distance, double lastTime, string timesString, 
+	public PrepareEventGraphRunInterval(double distance, double lastTime, string timesString,
 			double distanceTotal, string distancesString, bool startIn) {
 		this.distance = distance;
 		this.lastTime = lastTime;

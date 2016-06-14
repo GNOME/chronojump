@@ -1369,6 +1369,9 @@ public partial class ChronoJumpWindow
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		
 		writeMarginsText(maxValue, minValue, alto);
+				
+		int lWidth = 1;
+		int lHeight = 1;
 		
 		//check now here that we will have not division by zero problems
 		if(maxValue - minValue > 0) 
@@ -1407,11 +1410,12 @@ public partial class ChronoJumpWindow
 				//blue speed evolution	
 				myPen = pen_azul;
 
-				//if distances are variable
-				if(distancesString == "") 
-					myValue = distance / myTimeDouble;
-				else
-					myValue = Util.GetRunIVariableDistancesStringRow(distancesString, count) / myTimeDouble;
+
+				double myDistance = distance;
+				if(distancesString != "") //if distances are variable
+					myDistance = Util.GetRunIVariableDistancesStringRow(distancesString, count);
+
+				myValue = myDistance / myTimeDouble;
 
 				int xStart = event_execute_rightMargin;
 				if(myTimeDoubleAccumulated - myTimeDouble > 0)
@@ -1456,6 +1460,14 @@ public partial class ChronoJumpWindow
 							xEnd,
 							alto-topMargin);
 				}
+			
+				layoutSmall.SetMarkup((Math.Round(myDistance,1)).ToString() + "m");
+				layoutSmall.GetPixelSize(out lWidth, out lHeight);
+				event_execute_pixmap.DrawLayout (pen_black, ((xStart+ xEnd)/2) -lWidth/2, alto -20, layoutSmall);
+				
+				layoutSmall.SetMarkup((Math.Round(myTimeDouble,2)).ToString() + "s");
+				layoutSmall.GetPixelSize(out lWidth, out lHeight);
+				event_execute_pixmap.DrawLayout (pen_black, ((xStart+ xEnd)/2) -lWidth/2, alto -10, layoutSmall);
 
 				oldValue = myValue;
 				count ++;

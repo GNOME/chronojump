@@ -1695,7 +1695,8 @@ public class Util
 			return tracks * distanceInterval;
 	}
 
-	public static double GetRunIVariableDistancesSpeeds(string distancesString, string timesString, bool max) {
+	public static double GetRunIVariableDistancesSpeeds(string distancesString, string timesString, bool max) 
+	{
 		double  searchedValue = -1; //to find max values (higher than this)
 		if(! max)
 			searchedValue = 1000; //to find min values (lower than this)
@@ -1706,6 +1707,14 @@ public class Util
 			double time = Convert.ToDouble(times[i]);
 		
 			int distPos = i % times.Length;
+
+			/*
+			 * A test limited by time or undefined can have 
+			 * timesString: 3,595518=6,971076=7,427422=8,109596 (4 values) 
+			 * and distancesString 12-3-5 (3 values)
+			 */
+			if(distPos >= distances.Length)
+				continue;
 
 			//RSA is not counted as speed
 			if(distances[distPos].StartsWith("R"))

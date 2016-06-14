@@ -91,6 +91,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Label event_execute_label_run_interval_time_now;
 	[Widget] Gtk.Label event_execute_label_run_interval_time_avg;
+	[Widget] Gtk.Label event_execute_label_run_interval_time_total;
 	[Widget] Gtk.Label event_execute_label_run_interval_speed_now;
 	[Widget] Gtk.Label event_execute_label_run_interval_speed_avg;
 	
@@ -355,6 +356,7 @@ public partial class ChronoJumpWindow
 		//initializeLabels
 		event_execute_label_run_interval_time_now.Text = "";
 		event_execute_label_run_interval_time_avg.Text = "";
+		event_execute_label_run_interval_time_total.Text = "";
 		event_execute_label_run_interval_speed_now.Text = "";
 		event_execute_label_run_interval_speed_avg.Text = "";
 
@@ -702,7 +704,7 @@ public partial class ChronoJumpWindow
 			
 		//search min
 		double minValue = 1000;
-		int bottomMargin = 0; 
+		int bottomMargin = 20; 
 		//if min value of graph is automatic
 		if(eventGraphConfigureWin.Min == -1) { 
 			if(startIn)
@@ -1174,7 +1176,7 @@ public partial class ChronoJumpWindow
 		
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		
-		writeMarginsText(maxValue, minValue, alto);
+		writeMarginsText(maxValue, minValue, alto, "");
 		
 		//check now here that we will have not division by zero problems
 		if(maxValue - minValue > 0) {
@@ -1368,24 +1370,31 @@ public partial class ChronoJumpWindow
 	
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		
-		writeMarginsText(maxValue, minValue, alto);
+		writeMarginBottom(minValue, alto, " m/s", bottomMargin, ancho);
 				
 		int lWidth = 1;
 		int lHeight = 1;
+			
+		double timeTotal = Util.GetTotalTime(timesString); 
 		
 		//check now here that we will have not division by zero problems
 		if(maxValue - minValue > 0) 
 		{
+			/*
+			 * removed avg line and value.
+			 * value will be on the table at bottom
+			 * also check distance/avgTime is the right value
+			 *
 			if(tracks > 1) {
 				//blue speed average discountinuos line	
 				drawGuideOrAVG(pen_azul_discont, distance/avgTime, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			}
+			*/
 
 			//paint reference guide black and green if needed
 			drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
-			double timeTotal = Util.GetTotalTime(timesString); 
 			string [] myTimesStringFull = timesString.Split(new char[] {'='});
 			int count = 0;
 			int added0Value = 0;
@@ -1433,17 +1442,31 @@ public partial class ChronoJumpWindow
 				if(count == 0 && startIn) {
 					event_execute_pixmap.DrawLine(myPen,
 							xStart,
-							//calculatePaintHeight(0, alto, maxValue, minValue, topMargin, bottomMargin),
-							alto,
+							alto-bottomMargin,
 							xEnd,
 							calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin));
 				} 
-				else
+				else if(myDistance != 0) //on RSA don't plot speed on the rest phase
 					event_execute_pixmap.DrawLine(myPen,
 							xStart,
 							calculatePaintHeight(oldValue, alto, maxValue, minValue, topMargin, bottomMargin),
 							xEnd,
 							calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin));
+				
+				if(myDistance > 0) { //on RSA don't plot speed on the rest phase
+					layoutSmall.SetMarkup((Math.Round(myValue,2)).ToString() + " m/s");
+					layoutSmall.GetPixelSize(out lWidth, out lHeight);
+					event_execute_pixmap.DrawLayout (pen_black, ((xStart + xEnd)/2) -lWidth/2, 10, layoutSmall);
+				}
+				
+				layoutSmall.SetMarkup((Math.Round(myDistance,1)).ToString() + " m");
+				layoutSmall.GetPixelSize(out lWidth, out lHeight);
+				event_execute_pixmap.DrawLayout (pen_black, ((xStart + xEnd)/2) -lWidth/2, alto -10, layoutSmall);
+				
+				layoutSmall.SetMarkup((Math.Round(myTimeDouble,2)).ToString() + " s");
+				layoutSmall.GetPixelSize(out lWidth, out lHeight);
+				event_execute_pixmap.DrawLayout (pen_black, xEnd -lWidth/2, alto -18, layoutSmall);
+
 				
 				//paint Y lines
 				if(eventGraphConfigureWin.VerticalGrid) {
@@ -1461,19 +1484,11 @@ public partial class ChronoJumpWindow
 							alto-topMargin);
 				}
 			
-				layoutSmall.SetMarkup((Math.Round(myDistance,1)).ToString() + "m");
-				layoutSmall.GetPixelSize(out lWidth, out lHeight);
-				event_execute_pixmap.DrawLayout (pen_black, ((xStart+ xEnd)/2) -lWidth/2, alto -20, layoutSmall);
-				
-				layoutSmall.SetMarkup((Math.Round(myTimeDouble,2)).ToString() + "s");
-				layoutSmall.GetPixelSize(out lWidth, out lHeight);
-				event_execute_pixmap.DrawLayout (pen_black, ((xStart+ xEnd)/2) -lWidth/2, alto -10, layoutSmall);
-
 				oldValue = myValue;
 				count ++;
 			}
 			
-			writeValue(myPen, myValue, (--count) + added0Value, tracks, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
+			//writeValue(myPen, myValue, (--count) + added0Value, tracks, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
 		
 
 			//bells & images
@@ -1509,12 +1524,11 @@ public partial class ChronoJumpWindow
 		
 		event_execute_label_run_interval_time_now.Text = "<b>" + Util.TrimDecimals(lastTime.ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_run_interval_time_now.UseMarkup = true; 
-
 		event_execute_label_run_interval_time_avg.Text = Util.TrimDecimals(avgTime.ToString(), preferences.digitsNumber);
+		event_execute_label_run_interval_time_total.Text = Util.TrimDecimals(timeTotal.ToString(), preferences.digitsNumber);
 		
 		event_execute_label_run_interval_speed_now.Text = "<b>" + Util.TrimDecimals((distance / lastTime).ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_run_interval_speed_now.UseMarkup = true; 
-		
 		event_execute_label_run_interval_speed_avg.Text = Util.TrimDecimals((distanceTotal / Util.GetTotalTime(timesString)).ToString(), preferences.digitsNumber);
 	}
 
@@ -1527,7 +1541,7 @@ public partial class ChronoJumpWindow
 		
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		
-		writeMarginsText(maxValue, minValue, alto);
+		writeMarginsText(maxValue, minValue, alto, "");
 		
 		//check now here that we will have not division by zero problems
 		if(maxValue - minValue > 0) {
@@ -1799,14 +1813,30 @@ public partial class ChronoJumpWindow
 		return Convert.ToInt32(alto - bottomMargin - ((currentValue - minValue) * (alto - topMargin - bottomMargin) / (maxValue - minValue)));
 	}
 
-	private void writeMarginsText(double maxValue, double minValue, int alto) {
+	private void writeMarginsText(double maxValue, double minValue, int alto, string units)
+	{
 		//write margins textual data
-		layoutSmall.SetMarkup((Math.Round(maxValue, 3)).ToString());
+		layoutSmall.SetMarkup((Math.Round(maxValue, 3)).ToString() + units);
 		event_execute_pixmap.DrawLayout (pen_gris, 0, 0, layoutSmall);
 		//event_execute_pixmap.DrawLayout (pen_gris, 0, 3, layoutSmall); //y to 3 (not 0) probably this solves rando Pango problems where this is not written and interface gets "clumsy"
-		layoutSmall.SetMarkup((Math.Round(minValue, 3)).ToString());
-		event_execute_pixmap.DrawLayout (pen_gris, 0, alto -10, layoutSmall); //don't search Y using alto - bottomMargin, because bottomMargin can be 0, 
+		
+		int y = alto - 10;
+		layoutSmall.SetMarkup((Math.Round(minValue, 3)).ToString() + units);
+		event_execute_pixmap.DrawLayout (pen_gris, 0, y, layoutSmall); //don't search Y using alto - bottomMargin, because bottomMargin can be 0, 
 									//and text goes down from the baseline, and will not be seen
+	}
+	
+	//better than above method
+	private void writeMarginBottom(double minValue, int alto, string units, int bottomMargin, int ancho)
+	{
+		int y = alto - (bottomMargin + 10/2);
+		layoutSmall.SetMarkup((Math.Round(minValue, 3)).ToString() + units);
+		event_execute_pixmap.DrawLayout (pen_gris, 0, y, layoutSmall);
+		
+		//draw a line below
+		event_execute_pixmap.DrawLine(pen_gris, 
+				event_execute_rightMargin, alto-bottomMargin, 
+				ancho - event_execute_rightMargin-2, alto-bottomMargin);
 	}
 		
 	private void hideButtons() {

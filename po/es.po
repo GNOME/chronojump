@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-15 12:48+0200\n"
-"PO-Revision-Date: 2016-06-09 17:23+0100\n"
+"PO-Revision-Date: 2016-06-15 15:27+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.10\n"
 
 #: ../CesarPlayer/Capturer/FakeCapturer.cs:81
 msgid "Fake live source"
@@ -5608,29 +5608,25 @@ msgstr "Fecha de la sesión"
 
 #. don't show now
 #: ../src/gui/encoder.cs:743
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Saved 1RM values of athlete {0} in {1} exercise."
-msgstr "Valor 1RM guardado del atleta {0} en esta sesión."
+msgstr "Valores de 1RM del atleta {0} en el ejercicio {1}."
 
 #: ../src/gui/encoder.cs:745
 msgid "If you want to delete a row, right click on it."
 msgstr "Si quiere eliminar una fila, pulse con el botón derecho sobre ella."
 
 #: ../src/gui/encoder.cs:746
-#, fuzzy
 msgid "If there is more than one value, top one will be used."
-msgstr ""
-"Si hay más de un valor para un ejercicio,\n"
-"se usa el valor superior."
+msgstr "Si hay más de un valor, se usa el que está arriba."
 
 #: ../src/gui/encoder.cs:750
 msgid "Manually add"
 msgstr "Añadir manualmente"
 
 #: ../src/gui/encoder.cs:753
-#, fuzzy
 msgid "Add 1RM value"
-msgstr "Guardar valor 1RM"
+msgstr "Añadir valor 1RM"
 
 #: ../src/gui/encoder.cs:767 ../src/gui/encoder.cs:1187
 #: ../src/gui/encoderSelectRepetitions.cs:272 ../src/gui/executeAuto.cs:309
@@ -5683,9 +5679,8 @@ msgstr ""
 "Las repeticiones guardadas asociadas a esta serie también se eliminarán."
 
 #: ../src/gui/encoder.cs:1399
-#, fuzzy
 msgid "Gravitory sets captured on this session"
-msgstr "Seleccionar las series del atleta {0} en esta sesión."
+msgstr "Series gravitatorias en esta sesión"
 
 #: ../src/gui/encoder.cs:1405
 msgid "Displaced mass"
@@ -5696,9 +5691,8 @@ msgid "Sets"
 msgstr "Series"
 
 #: ../src/gui/encoder.cs:1409
-#, fuzzy
 msgid "Inertial sets captured on this session"
-msgstr "Seleccionar las series del atleta {0} en esta sesión."
+msgstr "Series inerciales en esta sesión"
 
 #: ../src/gui/encoder.cs:1504
 msgid "Export set in CSV format"

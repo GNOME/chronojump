@@ -1830,6 +1830,10 @@ public partial class ChronoJumpWindow
 					inertialCheckStart, inertialCheckDuration, (ecconLast == "c"), 
 					currentSession.UniqueID, currentPerson.UniqueID, 
 					currentPerson.Name, encoderTimeStamp, curveIDMax);
+			
+			//there was a problem copying
+			if(fileSaved == "")
+				return "";
 
 			//save it to SQL (encoderSignalCurve table)
 			SqliteEncoder.SignalCurveInsert(dbconOpened, 

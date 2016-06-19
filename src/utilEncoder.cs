@@ -713,12 +713,17 @@ public class UtilEncoder
 			contents = contentsReversed;
 		}
 
-		
-		TextWriter writer = File.CreateText(fileCurveFull);
-		writer.Write(contents);
-		writer.Flush();
-		writer.Close();
-		((IDisposable)writer).Dispose();
+		try {
+			TextWriter writer = File.CreateText(fileCurveFull);
+			writer.Write(contents);
+			writer.Flush();
+			writer.Close();
+			((IDisposable)writer).Dispose();
+		}
+		catch {
+			LogB.Error("Problems on EncoderSaveCurve with file: " + fileCurveFull);
+			return "";
+		}
 
 		return fileCurve;
 	}

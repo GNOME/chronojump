@@ -495,7 +495,7 @@ public partial class ChronoJumpWindow
 	
 
 	// simple and DJ jump	
-	public void PrepareJumpSimpleGraph(PrepareEventGraphJumpSimple eventGraph)
+	public void PrepareJumpSimpleGraph(PrepareEventGraphJumpSimple eventGraph, bool animate)
 	{
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
@@ -546,7 +546,7 @@ public partial class ChronoJumpWindow
 		
 		//paint graph
 		paintJumpSimple (event_execute_drawingarea, eventGraph, 
-			       	maxValue, minValue, topMargin, bottomMargin);
+			       	maxValue, minValue, topMargin, bottomMargin, animate);
 
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
@@ -887,7 +887,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void paintJumpSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphJumpSimple eventGraph, 
-			double maxValue, double minValue, int topMargin, int bottomMargin)
+			double maxValue, double minValue, int topMargin, int bottomMargin, bool animate)
 	{
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
@@ -915,14 +915,15 @@ public partial class ChronoJumpWindow
 		drawGuideOrAVG(pen_yellow, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
-		bool animate;
+		bool animateBar = animate;
 		int x = 0;
 		int y = 0;
 		int count = eventGraph.jumpsAtSQL.Length;
 		foreach(string myStr in eventGraph.jumpsAtSQL) 
 		{
 			string [] jump = myStr.Split(new char[] {':'});
-		
+	
+			//if tc, maybe also tv	
 			if(eventGraph.tc > 0) {
 				//small layout when tc and tv and there are more than 4 jumps
 				Pango.Layout layout = layoutMid;
@@ -930,30 +931,30 @@ public partial class ChronoJumpWindow
 					layout = layoutSmall;
 				
 				//do not animate last tc, if tv is animated because then tc is not shown
-				animate = true;
 				if(eventGraph.tv >0)
-					animate = false;
+					animateBar = false;
 
 				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.jumpsAtSQL.Length)-barDesplLeft;
 				y = calculatePaintHeight(Convert.ToDouble(jump[6]), alto, maxValue, minValue, topMargin, bottomMargin);
 				
 				drawBar(x, y, barWidth, alto, pen_rojo, count == eventGraph.jumpsAtSQL.Length,
-						jump[11] == "-1", Convert.ToDouble(jump[6]), layout, animate);
+						jump[11] == "-1", Convert.ToDouble(jump[6]), layout, animateBar);
 			
+				//tv	
 				if(eventGraph.tv > 0) {
 					x = Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.jumpsAtSQL.Length)-barDesplLeft +tctfSep;
 					y = calculatePaintHeight(Convert.ToDouble(jump[5]), alto, maxValue, minValue, topMargin, bottomMargin);
 					
 					drawBar(x, y, barWidth, alto, pen_azul_claro, count == eventGraph.jumpsAtSQL.Length,
-							jump[11] == "-1", Convert.ToDouble(jump[5]), layout, true);
+							jump[11] == "-1", Convert.ToDouble(jump[5]), layout, animateBar);
 				}
-			} else { //if only tv show height
+			} else { //as not tc. Show only height
 				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.jumpsAtSQL.Length)-barDesplLeft +tctfSep;
 				y = calculatePaintHeight(Convert.ToDouble(Util.GetHeightInCentimeters(jump[5])), 
 						alto, maxValue, minValue, topMargin, bottomMargin);
 
 				drawBar(x, y, barWidth, alto, pen_azul_claro, count == eventGraph.jumpsAtSQL.Length,
-						jump[11] == "-1", Convert.ToDouble(Util.GetHeightInCentimeters(jump[5])), layoutMid, true);
+						jump[11] == "-1", Convert.ToDouble(Util.GetHeightInCentimeters(jump[5])), layoutMid, animateBar);
 			}
 			count --;
 		}
@@ -1866,7 +1867,7 @@ public partial class ChronoJumpWindow
 		switch (currentEventType.Type) {
 			case EventType.Types.JUMP:
 				if(thisJumpIsSimple) 
-					PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject);
+					PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject, true);
 				else {
 					PrepareJumpReactiveGraph(
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTv, 

@@ -91,7 +91,7 @@ debian/control needs to change: python-wxgtk2.8 to python-wxgtk3.0
 BUT this does not work for Ubuntu Launchpad, so continue with python-wxgtk-2.8
 
 And upload like this:
-dput chronojump-ppa build-deb/chronojump..._source.changes
+dput chronojump-ppa build-deb/chronojump_..._source.changes
 
 
 DEB.C.b ) On raspbian

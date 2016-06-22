@@ -1169,7 +1169,40 @@ partial class ChronoJumpWindow
 			extra_window_jumps_spin_single_leg_distance.Value = 0;
 			extra_window_jumps_spin_single_leg_angle.Value = 90;
 		}
+
+		updateGraphJumpsSimple();
 	}
+	private void updateGraphJumpsSimple () 
+	{
+		if(currentPerson == null || currentSession == null)
+			return;
+
+		double tc = 0.0;
+		if(! currentJumpType.StartIn)
+			tc = 1; //just a mark meaning that tc has to be shown
+
+		double tv = 1;
+		//special cases where there's no tv
+		if(currentEventType.Name == Constants.TakeOffName || currentEventType.Name == Constants.TakeOffWeightName)
+			tv = 0.0;
+		
+		//intializeVariables if not done before
+		ExecutingGraphData egd = event_execute_initializeVariables(
+			! chronopicWin.Connected,	//is simulated
+			currentPerson.UniqueID, 
+			currentPerson.Name, 
+			Catalog.GetString("Phases"),  	  //name of the different moments
+			Constants.JumpTable, //tableName
+			currentJumpType.Name 
+			);
+
+		PrepareEventGraphJumpSimple eventGraph = new PrepareEventGraphJumpSimple(
+				tv, tc, currentSession.UniqueID, currentPerson.UniqueID, Constants.JumpTable, currentEventType.Name);
+		
+		if(eventGraph.jumpsAtSQL.Length > 0)
+			PrepareJumpSimpleGraph(eventGraph, false); //don't animate
+	}
+
 	
 	private void extra_window_jumps_rj_initialize(JumpType myJumpType) 
 	{

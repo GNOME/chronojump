@@ -1149,9 +1149,18 @@ public partial class ChronoJumpWindow
 			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
 			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			label_person_change();
-		
-			encoderPersonChanged();
+	
+			personChanged();	
 		}
+	}
+
+	private void personChanged() {
+		//1) change on jumps, runs, pulse capture graph
+		if(radio_mode_jumps_small.Active) 
+			updateGraphJumpsSimple();
+		
+		//2) change on encoder
+		encoderPersonChanged();
 	}
 
 	private void treeviewPersonsContextMenu(Person myPerson) {
@@ -2909,7 +2918,7 @@ public partial class ChronoJumpWindow
 		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 		label_person_change();
 
-		encoderPersonChanged();
+		personChanged();
 	}
 
 
@@ -5139,7 +5148,7 @@ LogB.Debug("X");
 			switch (currentEventType.Type) {
 				case EventType.Types.JUMP:
 					if(lastJumpIsSimple)  
-						PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject);
+						PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject, false);
 					else
 						PrepareJumpReactiveGraph(
 								Util.GetLast(currentJumpRj.TvString), Util.GetLast(currentJumpRj.TcString),
@@ -6547,7 +6556,7 @@ LogB.Debug("X");
 		button_execute_test.Sensitive = false;
 		
 		encoderButtonsSensitive(encoderSensEnum.NOPERSON);
-		encoderPersonChanged();
+		personChanged();
 		
 		notebook_execute.Sensitive = false;
 		//hbox_chronopics.Sensitive = false;
@@ -6568,7 +6577,7 @@ LogB.Debug("X");
 		button_execute_test.Sensitive = true;
 
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
-		encoderPersonChanged();
+		personChanged();
 		
 		notebook_execute.Sensitive = true;
 		//hbox_chronopics.Sensitive = true;

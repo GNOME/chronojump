@@ -4031,7 +4031,7 @@ public partial class ChronoJumpWindow
 		if(createdStatsWin)
 			showUpdateStatsAndHideData(false);
 
-		ExecutingGraphData egd = event_execute_initializeVariables(
+		event_execute_initializeVariables(
 			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
@@ -4039,6 +4039,7 @@ public partial class ChronoJumpWindow
 			Constants.JumpTable, //tableName
 			currentJumpType.Name 
 			);
+		ExecutingGraphData egd = event_execute_prepareForTest ();
 
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -4203,7 +4204,7 @@ public partial class ChronoJumpWindow
 			showUpdateStatsAndHideData(false);
 
 		//show the event doing window
-		ExecutingGraphData egd = event_execute_initializeVariables(
+		event_execute_initializeVariables(
 			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
@@ -4211,6 +4212,7 @@ public partial class ChronoJumpWindow
 			Constants.JumpRjTable, //tableName
 			currentJumpRjType.Name
 			);
+		ExecutingGraphData egd = event_execute_prepareForTest ();
 		
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -4331,7 +4333,7 @@ public partial class ChronoJumpWindow
 		if(createdStatsWin)
 			showUpdateStatsAndHideData(false);
 
-		ExecutingGraphData egd = event_execute_initializeVariables(
+		event_execute_initializeVariables(
 			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
@@ -4339,6 +4341,7 @@ public partial class ChronoJumpWindow
 			Constants.RunTable, //tableName
 			currentRunType.Name 
 			);
+		ExecutingGraphData egd = event_execute_prepareForTest ();
 		
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -4456,7 +4459,7 @@ public partial class ChronoJumpWindow
 			showUpdateStatsAndHideData(false);
 
 		//show the event doing window
-		ExecutingGraphData egd = event_execute_initializeVariables(
+		event_execute_initializeVariables(
 			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
@@ -4464,6 +4467,7 @@ public partial class ChronoJumpWindow
 			Constants.RunIntervalTable, //tableName
 			currentRunIntervalType.Name
 			);
+		ExecutingGraphData egd = event_execute_prepareForTest ();
 
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -4575,7 +4579,7 @@ public partial class ChronoJumpWindow
 		if(createdStatsWin)
 			showUpdateStatsAndHideData(false);
 
-		ExecutingGraphData egd = event_execute_initializeVariables(
+		event_execute_initializeVariables(
 			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
@@ -4583,6 +4587,7 @@ public partial class ChronoJumpWindow
 			Constants.ReactionTimeTable, //tableName
 			"" 
 			);
+		ExecutingGraphData egd = event_execute_prepareForTest ();
 
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -4748,7 +4753,7 @@ public partial class ChronoJumpWindow
 			showUpdateStatsAndHideData(false);
 
 		//show the event doing window
-		ExecutingGraphData egd = event_execute_initializeVariables(
+		event_execute_initializeVariables(
 			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
@@ -4756,6 +4761,7 @@ public partial class ChronoJumpWindow
 			Constants.PulseTable, //tableName
 			currentPulseType.Name 
 			);
+		ExecutingGraphData egd = event_execute_prepareForTest ();
 
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -4995,7 +5001,7 @@ public partial class ChronoJumpWindow
 			showUpdateStatsAndHideData(false);
 
 		//show the event doing window
-		ExecutingGraphData egd = event_execute_initializeVariables(
+		event_execute_initializeVariables(
 			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
@@ -5003,6 +5009,7 @@ public partial class ChronoJumpWindow
 			Constants.MultiChronopicTable, //tableName
 			currentMultiChronopicType.Name
 			); 
+		ExecutingGraphData egd = event_execute_prepareForTest ();
 
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_multi_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_multi_clicked);

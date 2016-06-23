@@ -1187,7 +1187,7 @@ partial class ChronoJumpWindow
 			tv = 0.0;
 		
 		//intializeVariables if not done before
-		ExecutingGraphData egd = event_execute_initializeVariables(
+		event_execute_initializeVariables(
 			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 

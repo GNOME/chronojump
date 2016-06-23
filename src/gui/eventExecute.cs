@@ -635,7 +635,7 @@ public partial class ChronoJumpWindow
 			
 
 	// run simple
-	public void PrepareRunSimpleGraph(PrepareEventGraphRunSimple eventGraph)
+	public void PrepareRunSimpleGraph(PrepareEventGraphRunSimple eventGraph, bool animate)
 	{
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
@@ -673,7 +673,7 @@ public partial class ChronoJumpWindow
 		//}
 			
 			paintRunSimple (event_execute_drawingarea, eventGraph,
-					maxValue, minValue, topMargin, bottomMargin);
+					maxValue, minValue, topMargin, bottomMargin, animate);
 		
 		
 		// -- refresh
@@ -1066,7 +1066,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void paintRunSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphRunSimple eventGraph,
-			double maxValue, double minValue, int topMargin, int bottomMargin)
+			double maxValue, double minValue, int topMargin, int bottomMargin, bool animate)
 	{
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
@@ -1108,7 +1108,7 @@ public partial class ChronoJumpWindow
 						topMargin, bottomMargin);
 
 				drawBar(x, y, barWidth, alto, pen_azul_claro, count == eventGraph.runsAtSQL.Length,
-						run[8] == "-1", Convert.ToDouble(run[5])/Convert.ToDouble(run[6]), layoutMid, true);
+						run[8] == "-1", Convert.ToDouble(run[5])/Convert.ToDouble(run[6]), layoutMid, animate);
 			}
 
 			count --;
@@ -1881,7 +1881,7 @@ public partial class ChronoJumpWindow
 				break;
 			case EventType.Types.RUN:
 				if(thisRunIsSimple)
-					PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject);
+					PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, true);
 				else {
 					bool volumeOnHere = preferences.volumeOn;
 					//do not play good or bad sounds at RSA because we need to hear the GO sound

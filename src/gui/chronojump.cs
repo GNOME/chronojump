@@ -1158,6 +1158,8 @@ public partial class ChronoJumpWindow
 		//1) change on jumps, runs, pulse capture graph
 		if(radio_mode_jumps_small.Active) 
 			updateGraphJumpsSimple();
+		else if(radio_mode_runs_small.Active) 
+			updateGraphRunsSimple();
 		
 		//2) change on encoder
 		encoderPersonChanged();
@@ -5163,7 +5165,7 @@ LogB.Debug("X");
 					break;
 				case EventType.Types.RUN:
 					if(lastRunIsSimple) 
-						PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject);
+						PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, false);
 					else {
 						RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type, false);
 						double distanceTotal = Util.GetRunITotalDistance(currentRunInterval.DistanceInterval, 

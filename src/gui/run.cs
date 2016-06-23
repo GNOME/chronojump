@@ -984,9 +984,31 @@ partial class ChronoJumpWindow
 				extra_window_runs_spinbutton_distance.Value = extra_window_runs_distance; 
 			}
 			extra_window_showDistanceData(myRunType, true, true);	//visible, sensitive
-
 		}
 
+		updateGraphRunsSimple();
+	}
+	private void updateGraphRunsSimple () 
+	{
+		if(currentPerson == null || currentSession == null)
+			return;
+
+		//intializeVariables if not done before
+		event_execute_initializeVariables(
+			! chronopicWin.Connected,	//is simulated
+			currentPerson.UniqueID, 
+			currentPerson.Name, 
+			Catalog.GetString("Phases"),  	  //name of the different moments
+			Constants.RunTable, //tableName
+			currentRunType.Name 
+			);
+
+		PrepareEventGraphRunSimple eventGraph = new PrepareEventGraphRunSimple(
+				1, 1, //both unused
+			       	currentSession.UniqueID, currentPerson.UniqueID, Constants.RunTable, currentEventType.Name);
+		
+		if(eventGraph.runsAtSQL.Length > 0)
+			PrepareRunSimpleGraph(eventGraph, false); //don't animate
 	}
 	
 	private void extra_window_runs_interval_initialize(RunType myRunType) 

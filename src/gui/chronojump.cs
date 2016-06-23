@@ -5277,6 +5277,8 @@ LogB.Debug("X");
 			treeview_jumps_storeReset();
 			fillTreeView_jumps(UtilGtk.ComboGetActive(combo_result_jumps));
 		}
+		
+		updateGraphJumpsSimple();
 
 		if(createdStatsWin) 
 			stats_win_fillTreeView_stats(false, false);
@@ -5351,6 +5353,8 @@ LogB.Debug("X");
 			fillTreeView_runs(UtilGtk.ComboGetActive(combo_result_runs));
 		}
 		
+		updateGraphRunsSimple();
+
 		if(createdStatsWin) 
 			stats_win_fillTreeView_stats(false, false);
 	}
@@ -5400,6 +5404,8 @@ LogB.Debug("X");
 			treeview_reaction_times_storeReset();
 			fillTreeView_reaction_times(currentReactionTimeType.Name);
 		}
+		
+		updateGraphReactionTimes();
 	}
 	
 	private void on_edit_selected_pulse_clicked (object o, EventArgs args) {
@@ -5680,6 +5686,8 @@ LogB.Debug("X");
 		
 		myTreeViewJumps.DelEvent(id);
 		showHideActionEventButtons(false, "Jump");
+		
+		updateGraphJumpsSimple();
 
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
@@ -5769,6 +5777,8 @@ LogB.Debug("X");
 		
 		myTreeViewRuns.DelEvent(id);
 		showHideActionEventButtons(false, "Run");
+		
+		updateGraphRunsSimple();
 
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
@@ -5831,6 +5841,8 @@ LogB.Debug("X");
 		
 		myTreeViewReactionTimes.DelEvent(id);
 		showHideActionEventButtons(false, "ReactionTime");
+
+		updateGraphReactionTimes();
 
 		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.RT, id );
 		try {

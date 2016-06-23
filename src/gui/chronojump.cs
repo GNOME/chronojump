@@ -1160,6 +1160,8 @@ public partial class ChronoJumpWindow
 			updateGraphJumpsSimple();
 		else if(radio_mode_runs_small.Active) 
 			updateGraphRunsSimple();
+		else if(radio_mode_reaction_times_small.Active) 
+			updateGraphReactionTimes();
 		
 		//2) change on encoder
 		encoderPersonChanged();
@@ -1485,7 +1487,7 @@ public partial class ChronoJumpWindow
 
 		//load the reaction_times treeview
 		treeview_reaction_times_storeReset();
-		fillTreeView_reaction_times(true);
+		fillTreeView_reaction_times("reactionTime", true);
 
 		//load the multiChronopic treeview
 		treeview_multi_chronopic_storeReset(true);
@@ -1859,14 +1861,14 @@ public partial class ChronoJumpWindow
 		tv.CursorChanged += on_treeview_reaction_times_cursor_changed; 
 	}
 
-	private void fillTreeView_reaction_times () {
-		fillTreeView_reaction_times (false);
+	private void fillTreeView_reaction_times (string filter) {
+		fillTreeView_reaction_times (filter, false);
 	}
-	private void fillTreeView_reaction_times (bool dbconOpened) {
-		string [] myRTs = SqliteReactionTime.SelectReactionTimes(dbconOpened, currentSession.UniqueID, -1,
+	private void fillTreeView_reaction_times (string filter, bool dbconOpened) {
+		string [] myRTs = SqliteReactionTime.SelectReactionTimes(dbconOpened, currentSession.UniqueID, -1, "", 
 				Sqlite.Orders_by.DEFAULT, -1);
 
-		myTreeViewReactionTimes.Fill(myRTs, "");
+		myTreeViewReactionTimes.Fill(myRTs, filter);
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewReactionTimes, treeview_reaction_times);
 	}
 	
@@ -2420,7 +2422,8 @@ public partial class ChronoJumpWindow
 		fillTreeView_runs_interval(myText);
 	}
 
-	//no need of reationTimes
+	//no need of reationTimes because is done in:
+	//gui/reactionTime on_extra_window_reaction_times_test_changed()
 	
 	private void on_combo_pulses_changed(object o, EventArgs args) {
 		//combo_pulses.Changed -= new EventHandler (on_combo_pulses_changed);
@@ -3002,7 +3005,7 @@ public partial class ChronoJumpWindow
 
 			//currently no combo_reaction_times
 			treeview_reaction_times_storeReset();
-			fillTreeView_reaction_times();
+			fillTreeView_reaction_times("reactionTime");
 
 			//currently no combo_multi_chronopic
 			treeview_multi_chronopic_storeReset(false);
@@ -4623,7 +4626,7 @@ public partial class ChronoJumpWindow
 			description = spinbutton_flicker_lights_speed.Value.ToString() + " - " + label_animation_lights_interval.Text;
 
 		currentEventExecute = new ReactionTimeExecute(currentPerson.UniqueID, currentPerson.Name, 
-				currentSession.UniqueID, 
+				currentSession.UniqueID, currentReactionTimeType.Name, 
 				chronopicWin.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
 				progressbarLimit, egd, description
 				);
@@ -5189,7 +5192,7 @@ LogB.Debug("X");
 					PreparePulseGraph(Util.GetLast(currentPulse.TimesString), currentPulse.TimesString);
 					break;
 				case EventType.Types.REACTIONTIME:
-					PrepareReactionTimeGraph(currentEventExecute.PrepareEventGraphReactionTimeObject);
+					PrepareReactionTimeGraph(currentEventExecute.PrepareEventGraphReactionTimeObject, false);
 					break;
 				case EventType.Types.MULTICHRONOPIC:
 					PrepareMultiChronopicGraph(
@@ -5395,7 +5398,7 @@ LogB.Debug("X");
 			myTreeViewReactionTimes.Update(myRT);
 		else {
 			treeview_reaction_times_storeReset();
-			fillTreeView_reaction_times();
+			fillTreeView_reaction_times(currentReactionTimeType.Name);
 		}
 	}
 	

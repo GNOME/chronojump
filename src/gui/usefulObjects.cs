@@ -233,7 +233,7 @@ public class PrepareEventGraphReactionTime {
 		Sqlite.Open();
 
 		//obtain data
-		rtsAtSQL = SqliteReactionTime.SelectReactionTimes(true, sessionID, personID,
+		rtsAtSQL = SqliteReactionTime.SelectReactionTimes(true, sessionID, personID, type,
 				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
 		
 		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(

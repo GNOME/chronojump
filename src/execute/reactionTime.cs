@@ -40,7 +40,7 @@ public class ReactionTimeExecute : EventExecute
 	}
 
 	//reactionTime execution
-	public ReactionTimeExecute(int personID, string personName, int sessionID,   
+	public ReactionTimeExecute(int personID, string personName, int sessionID, string type,
 			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN, bool volumeOn,
 			double progressbarLimit, ExecutingGraphData egd, string description
 			)
@@ -48,6 +48,7 @@ public class ReactionTimeExecute : EventExecute
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
+		this.type = type;
 		
 		this.cp = cp;
 		this.event_execute_label_message = event_execute_label_message;
@@ -293,11 +294,11 @@ public class ReactionTimeExecute : EventExecute
 
 		uniqueID = SqliteReactionTime.Insert(
 				false, table, 
-				"NULL", personID, sessionID, "", //type
+				"NULL", personID, sessionID, type,
 				time, description, Util.BoolToNegativeInt(simulated));
 
 		//define the created object
-		eventDone = new ReactionTime(uniqueID, personID, sessionID, time, description, Util.BoolToNegativeInt(simulated)); 
+		eventDone = new ReactionTime(uniqueID, personID, sessionID, type, time, description, Util.BoolToNegativeInt(simulated)); 
 		
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();

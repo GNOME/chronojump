@@ -57,21 +57,50 @@ public partial class ChronoJumpWindow
 
 		currentReactionTimeType = new ReactionTimeType("reactionTime");
 
-		if(extra_window_radio_reaction_time.Active) {
-			currentReactionTimeType = new ReactionTimeType("reactionTime");
-		} else {
-			if(extra_window_radio_reaction_time_animation_lights.Active)
-				hbox_animation_lights.Visible = true;
-			else if(extra_window_radio_reaction_time_flicker.Active)
-				hbox_flicker_lights.Visible = true;
-			else if(extra_window_radio_reaction_time_discriminative.Active) {
-				hbox_discriminative_lights.Visible = true;
-				currentReactionTimeType = new ReactionTimeType("Discriminative");
-				changeTestImage("","", "reaction_time_discriminative.png");
-			}
+		if(extra_window_radio_reaction_time_animation_lights.Active) {
+			hbox_animation_lights.Visible = true;
+			currentReactionTimeType = new ReactionTimeType("anticipation");
+		}
+		else if(extra_window_radio_reaction_time_flicker.Active) {
+			hbox_flicker_lights.Visible = true;
+			currentReactionTimeType = new ReactionTimeType("flickr");
+		}
+		else if(extra_window_radio_reaction_time_discriminative.Active) {
+			hbox_discriminative_lights.Visible = true;
+			currentReactionTimeType = new ReactionTimeType("Discriminative");
+			changeTestImage("","", "reaction_time_discriminative.png");
 		}
 
 		currentEventType = currentReactionTimeType;
+	
+		if(currentSession != null) {	
+			treeview_reaction_times_storeReset();
+			fillTreeView_reaction_times(currentReactionTimeType.Name);
+		}
+			
+		updateGraphReactionTimes();
+	}
+	private void updateGraphReactionTimes () 
+	{
+		if(currentPerson == null || currentSession == null)
+			return;
+
+		//intializeVariables if not done before
+		event_execute_initializeVariables(
+			! chronopicWin.Connected,	//is simulated
+			currentPerson.UniqueID, 
+			currentPerson.Name, 
+			Catalog.GetString("Phases"),  	  //name of the different moments
+			Constants.ReactionTimeTable, //tableName
+			currentReactionTimeType.Name 
+			);
+
+		PrepareEventGraphReactionTime eventGraph = new PrepareEventGraphReactionTime(
+				1, //unused
+			       	currentSession.UniqueID, currentPerson.UniqueID, Constants.ReactionTimeTable, currentReactionTimeType.Name);
+		
+		if(eventGraph.rtsAtSQL.Length > 0)
+			PrepareReactionTimeGraph(eventGraph, false); //don't animate
 	}
 
 	// ---- animation lights

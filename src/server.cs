@@ -457,7 +457,7 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] rts = SqliteReactionTime.SelectReactionTimes(false, currentSession.UniqueID, person.UniqueID,
+				string [] rts = SqliteReactionTime.SelectReactionTimes(false, currentSession.UniqueID, person.UniqueID, "",
 						Sqlite.Orders_by.DEFAULT, -1);
 
 				Sqlite.Open();

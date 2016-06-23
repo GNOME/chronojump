@@ -174,7 +174,7 @@ public class ExportSession
 				Sqlite.Orders_by.DEFAULT, -1);
 
 		myRunsInterval = SqliteRunInterval.SelectRuns(true, mySession.UniqueID, -1, "");
-		myReactionTimes = SqliteReactionTime.SelectReactionTimes(true, mySession.UniqueID, -1,
+		myReactionTimes = SqliteReactionTime.SelectReactionTimes(true, mySession.UniqueID, -1, "",
 				Sqlite.Orders_by.DEFAULT, -1);
 
 		myPulses = SqlitePulse.SelectPulses(true, mySession.UniqueID, -1);
@@ -701,6 +701,7 @@ public class ExportSession
 					Catalog.GetString("Person ID") + ":" +
 					Catalog.GetString("Person name") + ":" +
 					Catalog.GetString("Reaction time ID") + ":" + 
+					Catalog.GetString("Type") + ":" + 
 					Catalog.GetString("Time") + ":" + 
 					Catalog.GetString("Description") + ":" +
 					Catalog.GetString("Simulated") );
@@ -712,7 +713,7 @@ public class ExportSession
 						myStr[2] + ":" +    			//personID
 						myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, event.uniqueID
 						//myStr[2] + ":" +  myStr[3] + ":" +  	//jump.personID, jump.sessionID
-						//myStr[4] + ":" +  //type
+						myStr[4] + ":" +  //type
 						Util.TrimDecimals(myStr[5], dec) + ":" + 	//time
 						Util.RemoveNewLine(myStr[6], true) + ":" + 
 						Util.SimulatedTestNoYes(Convert.ToInt32(myStr[7]))	//description, simulated

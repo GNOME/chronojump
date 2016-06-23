@@ -38,6 +38,10 @@ public class ReactionTimeType : EventType
 			imageFileName = "reaction_time.png";
 		else if(name == "Discriminative")
 			imageFileName = "reaction_time_discriminative.png";
+		else if(name == "anticipation")
+			imageFileName = "reaction_time.png";	//TODO
+		else if(name == "flickr")
+			imageFileName = "reaction_time.png";	//TODO
 	}
 	
 }

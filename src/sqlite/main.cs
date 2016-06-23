@@ -78,7 +78,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.28";
+	static string lastChronojumpDatabaseVersion = "1.29";
 
 	public Sqlite() {
 	}
@@ -1871,6 +1871,14 @@ class Sqlite
 				Update(true, Constants.PreferencesTable, "value", "BESTMEANPOWER", "BEST", "name", "encoderAutoSaveCurve");
 				
 				newVersion = "1.28";
+				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
+				currentVersion = newVersion;
+			}
+			if(currentVersion == "1.28") {
+				LogB.SQL("Changed reaction time rows have reactionTime as default value");
+				Update(true, Constants.ReactionTimeTable, "type", "", "reactionTime", "", "");
+				
+				newVersion = "1.29";
 				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
 				currentVersion = newVersion;
 			}

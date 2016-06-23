@@ -771,7 +771,7 @@ public partial class ChronoJumpWindow
 		event_execute_drawingarea.QueueDraw();
 	}
 	
-	public void PrepareReactionTimeGraph(PrepareEventGraphReactionTime eventGraph) 
+	public void PrepareReactionTimeGraph(PrepareEventGraphReactionTime eventGraph, bool animate) 
 	{
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
@@ -800,7 +800,7 @@ public partial class ChronoJumpWindow
 		
 		//paint graph
 		paintReactionTime (event_execute_drawingarea, eventGraph,
-				maxValue, minValue, topMargin, bottomMargin);
+				maxValue, minValue, topMargin, bottomMargin, animate);
 
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
@@ -1118,7 +1118,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void paintReactionTime (Gtk.DrawingArea drawingarea, PrepareEventGraphReactionTime eventGraph,
-			double maxValue, double minValue, int topMargin, int bottomMargin)
+			double maxValue, double minValue, int topMargin, int bottomMargin, bool animate)
 	{
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
@@ -1157,7 +1157,7 @@ public partial class ChronoJumpWindow
 					topMargin, bottomMargin);
 
 			drawBar(x, y, barWidth, alto, pen_azul_claro, count == eventGraph.rtsAtSQL.Length,
-					rts[7] == "-1", Convert.ToDouble(rts[5]), layoutMid, true);
+					rts[7] == "-1", Convert.ToDouble(rts[5]), layoutMid, animate);
 
 			count --;
 		}
@@ -1899,7 +1899,7 @@ public partial class ChronoJumpWindow
 				}
 				break;
 			case EventType.Types.REACTIONTIME:
-					PrepareReactionTimeGraph(currentEventExecute.PrepareEventGraphReactionTimeObject);
+					PrepareReactionTimeGraph(currentEventExecute.PrepareEventGraphReactionTimeObject, true);
 				break;
 			case EventType.Types.PULSE:
 					PreparePulseGraph(

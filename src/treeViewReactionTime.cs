@@ -43,8 +43,7 @@ public class TreeViewReactionTimes : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 
 
-		//These are Not used, TreeViewEvent/Fill will be called always without "filter" here
-		dataLineTypePosition = -1; //position of type in the data to be printed
+		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = "";
 		
 
@@ -60,6 +59,7 @@ public class TreeViewReactionTimes : TreeViewEvent
 	protected override System.Object getObjectFromString(string [] myStringOfData) {
 		ReactionTime myReactionTime = new ReactionTime();
 		myReactionTime.UniqueID = Convert.ToInt32(myStringOfData[1].ToString()); 
+		myReactionTime.Type = myStringOfData[4].ToString();
 		myReactionTime.Time = Convert.ToDouble(myStringOfData[5].ToString());
 		myReactionTime.Description = myStringOfData[6].ToString();
 		myReactionTime.Simulated = Convert.ToInt32(myStringOfData[7].ToString());

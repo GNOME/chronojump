@@ -169,7 +169,7 @@ public class TreeViewEvent
 		foreach (string singleEvent in myEvents) {
 			string [] myStringFull = singleEvent.Split(new char[] {':'});
 
-			//show always the names of runners ...
+			//show always the names of persons ...
 			if(tempPerson != myStringFull[dataLineNamePosition])
 			{
 				iter = store.AppendValues (myStringFull[dataLineNamePosition]);

@@ -43,7 +43,7 @@ class SqliteReactionTime : Sqlite
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
-			"type TEXT, " + //now all as "default", but in the future...
+			"type TEXT, " +
 			"time FLOAT, " +
 			"description TEXT, " +
 			"simulated INT )";		
@@ -84,7 +84,8 @@ class SqliteReactionTime : Sqlite
 	}
 
 	//if all persons, put -1 in personID
-	public static string[] SelectReactionTimes(bool dbconOpened, int sessionID, int personID,
+	//if all types put, "" in filterType
+	public static string[] SelectReactionTimes(bool dbconOpened, int sessionID, int personID, string filterType,
 			Orders_by order, int limit) 
 	{
 		if(!dbconOpened)
@@ -94,7 +95,11 @@ class SqliteReactionTime : Sqlite
 
 		string filterPersonString = "";
 		if(personID != -1)
-			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
+			filterPersonString = " AND " + tp + ".uniqueID = " + personID;
+		
+		string filterTypeString = "";
+		if(filterType != "")
+			filterTypeString = " AND reactionTime.type == \"" + filterType + "\" ";
 		
 		string orderByString = " ORDER BY upper(" + tp + ".name), reactionTime.uniqueID";
 		if(order == Orders_by.ID_DESC)
@@ -107,9 +112,10 @@ class SqliteReactionTime : Sqlite
 
 		dbcmd.CommandText = "SELECT " + tp + ".name, reactionTime.* " +
 			" FROM " + tp + ", reactionTime " +
-			" WHERE " + tp + ".uniqueID == reactionTime.personID" + 
-			" AND reactionTime.sessionID == " + sessionID + 
+			" WHERE " + tp + ".uniqueID = reactionTime.personID" + 
+			" AND reactionTime.sessionID = " + sessionID + 
 			filterPersonString +
+			filterTypeString +
 			orderByString +
 			limitString;
 		
@@ -126,11 +132,11 @@ class SqliteReactionTime : Sqlite
 
 		while(reader.Read()) {
 			myArray.Add (reader[0].ToString() + ":" +	//person.name
-					reader[1].ToString() + ":" +	//jump.uniqueID
-					reader[2].ToString() + ":" + 	//jump.personID
-					reader[3].ToString() + ":" + 	//jump.sessionID
-					reader[4].ToString() + ":" + 	//jump.type
-					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + 	//jump.time
+					reader[1].ToString() + ":" +	//uniqueID
+					reader[2].ToString() + ":" + 	//personID
+					reader[3].ToString() + ":" + 	//sessionID
+					reader[4].ToString() + ":" + 	//type
+					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + 	//time
 					reader[6].ToString() + ":" + 	//description
 					reader[7].ToString()		//simulated
 					);

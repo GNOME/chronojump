@@ -168,7 +168,7 @@ public partial class ChronoJumpWindow
 	};
 	
 
-	ExecutingGraphData event_execute_initializeVariables (
+	private void event_execute_initializeVariables (
 			bool simulated,
 			int personID,
 			string personName,
@@ -246,7 +246,9 @@ public partial class ChronoJumpWindow
 		layoutBig = new Pango.Layout (event_execute_drawingarea.PangoContext);
 		layoutBig.FontDescription = Pango.FontDescription.FromString ("Courier 14");
 		//layoutBig.Alignment = Pango.Alignment.Center; //doesn't work, see GetPixelSize below
-	
+	}
+	private ExecutingGraphData event_execute_prepareForTest () 
+	{
 		eventHasEnded = false;
 
 		checkbutton_video.Sensitive = false;

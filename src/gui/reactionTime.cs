@@ -344,6 +344,7 @@ public class EditReactionTimeWindow : EditEventWindow
 			EditReactionTimeWindowBox = new EditReactionTimeWindow (parent);
 		}
 
+		EditReactionTimeWindowBox.type = myEvent.Type;
 		EditReactionTimeWindowBox.pDN = pDN;
 		
 		EditReactionTimeWindowBox.initializeValues();
@@ -376,7 +377,7 @@ public class EditReactionTimeWindow : EditEventWindow
 	}
 
 	protected override string [] findTypes(Event myEvent) {
-		//reaction time has no types
+		//reaction time has types but they can't be changed
 		string [] myTypes = new String[0];
 		return myTypes;
 	}
@@ -392,7 +393,7 @@ public class EditReactionTimeWindow : EditEventWindow
 	}
 	
 	protected override void updateEvent(int eventID, int personID, string description) {
-		SqliteReactionTime.Update(eventID, "", entryTime, personID, description); //2nd is type
+		SqliteReactionTime.Update(eventID, type, entryTime, personID, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)

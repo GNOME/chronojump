@@ -7258,7 +7258,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="3.7509109"
      inkscape:cx="478.30195"
-     inkscape:cy="268.48109"
+     inkscape:cy="267.68128"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
@@ -7327,7 +7327,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -11239,7 +11239,7 @@
          y="1043.8402">line_person_max_all_sessions.png</tspan></text>
     <g
        id="g5736-2"
-       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/line_person_max.png"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/line_person_max_all_sessions.png"
        inkscape:export-xdpi="71.970001"
        inkscape:export-ydpi="71.970001"
        transform="translate(17.201591,-0.51864977)"

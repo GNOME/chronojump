@@ -5163,17 +5163,17 @@ LogB.Debug("X");
 		try {
 			switch (currentEventType.Type) {
 				case EventType.Types.JUMP:
-					if(lastJumpIsSimple)  
+					if(lastJumpIsSimple && radio_mode_jumps_small.Active) 
 						PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject, false);
-					else
+					else if (radio_mode_jumps_reactive_small.Active)
 						PrepareJumpReactiveGraph(
 								Util.GetLast(currentJumpRj.TvString), Util.GetLast(currentJumpRj.TcString),
 								currentJumpRj.TvString, currentJumpRj.TcString, preferences.volumeOn, repetitiveConditionsWin);
 					break;
 				case EventType.Types.RUN:
-					if(lastRunIsSimple) 
+					if(lastRunIsSimple && radio_mode_runs_small.Active) 
 						PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, false);
-					else {
+					else if(radio_mode_runs_intervallic_small.Active) {
 						RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type, false);
 						double distanceTotal = Util.GetRunITotalDistance(currentRunInterval.DistanceInterval, 
 								runType.DistancesString, currentRunInterval.Tracks);
@@ -5193,26 +5193,29 @@ LogB.Debug("X");
 					}
 					break;
 				case EventType.Types.PULSE:
-					PreparePulseGraph(Util.GetLast(currentPulse.TimesString), currentPulse.TimesString);
+					if(radio_mode_pulses_small.Active)
+						PreparePulseGraph(Util.GetLast(currentPulse.TimesString), currentPulse.TimesString);
 					break;
 				case EventType.Types.REACTIONTIME:
-					PrepareReactionTimeGraph(currentEventExecute.PrepareEventGraphReactionTimeObject, false);
+					if(radio_mode_reaction_times_small.Active)
+						PrepareReactionTimeGraph(currentEventExecute.PrepareEventGraphReactionTimeObject, false);
 					break;
 				case EventType.Types.MULTICHRONOPIC:
-					PrepareMultiChronopicGraph(
-						//currentMultiChronopic.timestamp, 
-						Util.IntToBool(currentMultiChronopic.Cp1StartedIn), 
-						Util.IntToBool(currentMultiChronopic.Cp2StartedIn), 
-						Util.IntToBool(currentMultiChronopic.Cp3StartedIn), 
-						Util.IntToBool(currentMultiChronopic.Cp4StartedIn), 
-						currentMultiChronopic.Cp1InStr, 
-						currentMultiChronopic.Cp1OutStr,
-						currentMultiChronopic.Cp2InStr, 
-						currentMultiChronopic.Cp2OutStr,
-						currentMultiChronopic.Cp3InStr, 
-						currentMultiChronopic.Cp3OutStr,
-						currentMultiChronopic.Cp4InStr, 
-						currentMultiChronopic.Cp4OutStr);
+					if(radio_mode_multi_chronopic_small.Active)
+						PrepareMultiChronopicGraph(
+								//currentMultiChronopic.timestamp, 
+								Util.IntToBool(currentMultiChronopic.Cp1StartedIn), 
+								Util.IntToBool(currentMultiChronopic.Cp2StartedIn), 
+								Util.IntToBool(currentMultiChronopic.Cp3StartedIn), 
+								Util.IntToBool(currentMultiChronopic.Cp4StartedIn), 
+								currentMultiChronopic.Cp1InStr, 
+								currentMultiChronopic.Cp1OutStr,
+								currentMultiChronopic.Cp2InStr, 
+								currentMultiChronopic.Cp2OutStr,
+								currentMultiChronopic.Cp3InStr, 
+								currentMultiChronopic.Cp3OutStr,
+								currentMultiChronopic.Cp4InStr, 
+								currentMultiChronopic.Cp4OutStr);
 					break;
 			}
 		}

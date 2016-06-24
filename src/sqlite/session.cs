@@ -578,14 +578,17 @@ class SqliteSession : Sqlite
 		
 		string personIDString = "";
 		if(personID != -1)
-			personIDString = " AND personID == " + personID; 
-
+			personIDString = " AND personID = " + personID; 
+		
+		string sessionIDString = "";
+		if(sessionID != -1)
+			sessionIDString = " AND sessionID = " + sessionID; 
 		
 		dbcmd.CommandText = "SELECT " + statistic + "(" + valueToSelect + ")" +
 			" FROM " + table +				
-			" WHERE sessionID == " + sessionID + 
-			" AND type == \"" + type + "\" " +
-			personIDString; 
+			" WHERE type = \"" + type + "\" " +
+			personIDString + 
+			sessionIDString;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

@@ -513,6 +513,8 @@ public partial class ChronoJumpWindow
 		//if max value of graph is automatic
 		if(eventGraphConfigureWin.Max == -1) {
 			maxValue = eventGraph.sessionMAXAtSQL;
+			if(eventGraph.personMAXAtSQLAllSessions > maxValue)
+				maxValue = eventGraph.personMAXAtSQLAllSessions;
 
 			//fix if there's a max tc that's higher than max tv
 			foreach(string myStr in eventGraph.jumpsAtSQL) {
@@ -910,11 +912,12 @@ public partial class ChronoJumpWindow
 		int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
 		int barDesplLeft = Convert.ToInt32(.5*barWidth);
 
-		//paint first the average horizontal guides in order to be behind the bars
+		//paint first the horizontal guides in order to be behind the bars of each jump
 		drawGuideOrAVG(pen_black_90, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		drawGuideOrAVG(pen_black_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		
 		drawGuideOrAVG(pen_yellow, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_magenta, eventGraph.personMAXAtSQLAllSessions, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
 		bool animateBar = animate;
@@ -1974,6 +1977,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_yellow; //person max
 	Gdk.GC pen_yellow_discont; //person avg
 	Gdk.GC pen_yellow_bg; //below person result bar
+	Gdk.GC pen_magenta; //person max all sessions
 	Gdk.GC pen_black_discont; //guide
 	Gdk.GC pen_black_bars; //big borders of rectangle (last event)
 	Gdk.GC pen_green_discont; //guide
@@ -1994,6 +1998,7 @@ public partial class ChronoJumpWindow
 		Gdk.Color black_90 = new Gdk.Color(0x33,0x33,0x33); 
 		Gdk.Color yellow = new Gdk.Color(0xff,0xcc,0x01);
 		Gdk.Color yellow_bg = new Gdk.Color(0xff,0xee,0x66);
+		Gdk.Color magenta = new Gdk.Color(0xff,0x39,0xff);
 		Gdk.Color green = new Gdk.Color(0,0xff,0);
 		Gdk.Color gris = new Gdk.Color(0x66,0x66,0x66);
 		Gdk.Color beige = new Gdk.Color(0x99,0x99,0x99);
@@ -2008,6 +2013,7 @@ public partial class ChronoJumpWindow
 		colormap.AllocColor (ref black,true,true);
 		colormap.AllocColor (ref yellow,true,true);
 		colormap.AllocColor (ref yellow_bg,true,true);
+		colormap.AllocColor (ref magenta,true,true);
 		colormap.AllocColor (ref green,true,true);
 		colormap.AllocColor (ref gris,true,true);
 		colormap.AllocColor (ref beige,true,true);
@@ -2020,6 +2026,7 @@ public partial class ChronoJumpWindow
 		pen_yellow = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_yellow_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_yellow_bg = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_magenta = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul_claro = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_rojo_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
@@ -2053,6 +2060,7 @@ public partial class ChronoJumpWindow
 		pen_yellow.Foreground = yellow;
 		pen_yellow_discont.Foreground = yellow;
 		pen_yellow_bg.Foreground = yellow_bg;
+		pen_magenta.Foreground = magenta;
 		pen_black_bars.Foreground = black;
 		//pen_white.Foreground = white;
 

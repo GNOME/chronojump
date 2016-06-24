@@ -120,10 +120,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_jump_auto_current_person;
 	[Widget] Gtk.Label label_jump_auto_current_test;
 		
-	[Widget] Gtk.Image image_line_session_max;
 	[Widget] Gtk.Image image_line_session_avg;
-	[Widget] Gtk.Image image_line_person_max;
+	[Widget] Gtk.Image image_line_session_max;
 	[Widget] Gtk.Image image_line_person_avg;
+	[Widget] Gtk.Image image_line_person_max;
+	[Widget] Gtk.Image image_line_person_max_all_sessions;
 
 	
 	[Widget] Gtk.Box hbox_combo_result_jumps;
@@ -692,14 +693,17 @@ public partial class ChronoJumpWindow
 		extra_windows_jumps_image_dj_fall_predefined.Pixbuf = pixbuf;
 		
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "line_session_max.png");
-		image_line_session_max.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "line_session_avg.png");
 		image_line_session_avg.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "line_person_max.png");
-		image_line_person_max.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "line_session_max.png");
+		image_line_session_max.Pixbuf = pixbuf;
+		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "line_person_avg.png");
 		image_line_person_avg.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "line_person_max.png");
+		image_line_person_max.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "line_person_max_all_sessions.png");
+		image_line_person_max_all_sessions.Pixbuf = pixbuf;
 
 		//reaction times changes
 		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time);

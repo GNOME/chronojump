@@ -277,6 +277,7 @@ RESOURCES = \
 	../images/line_session_max.png,line_session_max.png \
 	../images/line_session_avg.png,line_session_avg.png \
 	../images/line_person_max.png,line_person_max.png \
+	../images/line_person_max_all_sessions.png,line_person_max_all_sessions.png \
 	../images/line_person_avg.png,line_person_avg.png \
 	../images/audio-volume-high.png,audio-volume-high.png \
 	../images/audio-volume-muted.png,audio-volume-muted.png \

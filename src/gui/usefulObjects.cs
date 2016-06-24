@@ -57,6 +57,7 @@ public class PrepareEventGraphJumpSimple {
 	//sql data of previous jumps to plot graph and show stats at bottom
 	public string [] jumpsAtSQL;
 	
+	public double personMAXAtSQLAllSessions;
 	public double personMAXAtSQL;
 	public double sessionMAXAtSQL;
 
@@ -89,6 +90,7 @@ public class PrepareEventGraphJumpSimple {
 		} else
 			sqlSelect = "TC";
 		
+		personMAXAtSQLAllSessions = SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect);
 		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
 		sessionMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
 

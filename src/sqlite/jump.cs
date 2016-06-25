@@ -211,6 +211,47 @@ class SqliteJump : Sqlite
 
 		return myJump;
 	}
+	
+	public static string [] SelectTestMaxStuff(int personID, JumpType jumpType) 
+	{
+		double tc = 0.0;
+		if(! jumpType.StartIn)
+			tc = 1; //just a mark meaning that tc has to be shown
+
+		double tv = 1;
+		//special cases where there's no tv
+		if(jumpType.Name == Constants.TakeOffName || jumpType.Name == Constants.TakeOffWeightName)
+			tv = 0.0;
+	
+
+		string sqlSelect = "";
+		if(tv > 0) {
+			if(tc <= 0)
+				sqlSelect = "100*4.9*(jump.TV/2)*(jump.TV/2)";
+			else
+				sqlSelect = "jump.TV"; //if tc is higher than tv it will be fixed on PrepareJumpSimpleGraph
+		} else
+			sqlSelect = "jump.TC";
+		
+		Sqlite.Open();
+		dbcmd.CommandText = "SELECT session.date, session.name, MAX(" + sqlSelect + "), jump.simulated " + 
+			" FROM jump, session WHERE type = \"" + jumpType.Name + "\" AND personID = " + personID + 
+			" AND jump.sessionID = session.uniqueID";
+		
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		reader.Read();
+		
+		string [] str = DataReaderToStringArray(reader, 4);
+		
+		reader.Close();
+		Sqlite.Close();
+
+		return str;
+	}
 		
 
 	public static void Update(int jumpID, string type, string tv, string tc, string fall, int personID, double weight, string description, double angle)

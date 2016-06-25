@@ -557,6 +557,22 @@ public partial class ChronoJumpWindow
 		
 	}
 	
+	private void on_button_person_max_all_sessions_info_clicked(object o, EventArgs args) 
+	{
+		if(radio_mode_jumps_small.Active) {
+			string [] str = SqliteJump.SelectTestMaxStuff(currentPerson.UniqueID, currentJumpType); 
+					
+			string message = string.Format(Catalog.GetString("Best {0} jump of person {1} is {2}\nDone at session {3} ({4})"),
+						currentJumpType.Name, currentPerson.Name, 
+						Util.TrimDecimals(Util.ChangeDecimalSeparator(str[2]), 3), 
+						str[1], str[0]);
+			if(str[3] == "-1")
+				message += "\n" + Catalog.GetString("Simulated");
+
+			new DialogMessage(Constants.MessageTypes.INFO, message);
+		}
+	}
+	
 	// Reactive jump 
 	public void PrepareJumpReactiveGraph(double lastTv, double lastTc, string tvString, string tcString, 
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin) {

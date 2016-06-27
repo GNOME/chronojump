@@ -1199,7 +1199,7 @@ partial class ChronoJumpWindow
 		PrepareEventGraphJumpSimple eventGraph = new PrepareEventGraphJumpSimple(
 				tv, tc, currentSession.UniqueID, currentPerson.UniqueID, Constants.JumpTable, currentEventType.Name);
 		
-		if(eventGraph.jumpsAtSQL.Length > 0)
+		if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.jumpsAtSQL.Length > 0)
 			PrepareJumpSimpleGraph(eventGraph, false); //don't animate
 	}
 

@@ -959,6 +959,7 @@ public partial class ChronoJumpWindow
 		if(radio_mode_jumps_small.Active) {
 			notebooks_change(0);
 			on_extra_window_jumps_test_changed(obj, args);
+			hbox_results_legend.Visible = true;
 		}
 	}
 
@@ -966,6 +967,7 @@ public partial class ChronoJumpWindow
 		if(radio_mode_jumps_reactive_small.Active) {
 			notebooks_change(1);
 			on_extra_window_jumps_rj_test_changed(obj, args);
+			hbox_results_legend.Visible = false;
 		}
 	}
 
@@ -973,6 +975,7 @@ public partial class ChronoJumpWindow
 		if(radio_mode_runs_small.Active) {
 			notebooks_change(2);
 			on_extra_window_runs_test_changed(obj, args);
+			hbox_results_legend.Visible = true;
 		}
 	}
 
@@ -980,6 +983,7 @@ public partial class ChronoJumpWindow
 		if(radio_mode_runs_intervallic_small.Active) {
 			notebooks_change(3);
 			on_extra_window_runs_interval_test_changed(obj, args);
+			hbox_results_legend.Visible = false;
 		}
 	}
 
@@ -987,6 +991,7 @@ public partial class ChronoJumpWindow
 		if(radio_mode_reaction_times_small.Active) {
 			notebooks_change(4);
 			on_extra_window_reaction_times_test_changed(obj, args);
+			hbox_results_legend.Visible = true;
 		}
 	}
 
@@ -994,6 +999,7 @@ public partial class ChronoJumpWindow
 		if(radio_mode_pulses_small.Active) {
 			notebooks_change(5);
 			on_extra_window_pulses_test_changed(obj, args);
+			hbox_results_legend.Visible = false;
 		}
 	}
 
@@ -1001,6 +1007,7 @@ public partial class ChronoJumpWindow
 		if(radio_mode_multi_chronopic_small.Active) {
 			notebooks_change(6);
 			on_extra_window_multichronopic_test_changed(obj, args);
+			hbox_results_legend.Visible = false;
 		}
 	}
 	

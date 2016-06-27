@@ -18,6 +18,7 @@ SOURCES = \
 	gui/event.cs\
 	gui/executeAuto.cs\
 	gui/jump.cs\
+	gui/jumpsProfile.cs\
 	gui/jumpType.cs\
 	gui/run.cs\
 	gui/runType.cs\

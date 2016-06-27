@@ -1335,7 +1335,7 @@ public partial class ChronoJumpWindow
 					"http://www.chronojump.org/server.html" + "\n" + 
 					"http://www.chronojump.org/server_es.html");
 		else
-			System.Diagnostics.Process.Start(Constants.ChronojumpWebsite + Path.DirectorySeparatorChar + "server.html");
+			System.Diagnostics.Process.Start(Constants.ChronojumpWebsite + System.IO.Path.DirectorySeparatorChar + "server.html");
 	}
 
 	/* 
@@ -2494,9 +2494,9 @@ public partial class ChronoJumpWindow
 					string.Format(Catalog.GetString("Could not delete file:\n{0}"), runningFileName));
 		}
 		
-		if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db"))
-			File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",
-				Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
+		if(File.Exists(Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar + "chronojump.db"))
+			File.Move(Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar + "chronojump.db",
+				Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar + "chronojump.db");
 		
 		LogB.Information("Bye2!");
 		
@@ -6372,9 +6372,9 @@ LogB.Debug("X");
 				Catalog.GetString("Newer versions will be on this site:") +"\n" + 
 				"<i>http://www.chronojump.org/multimedia.html</i>");
 				*/
-		LogB.Information("Opening manual at: " + Path.GetFullPath(Util.GetManualDir())); 
+		LogB.Information("Opening manual at: " + System.IO.Path.GetFullPath(Util.GetManualDir())); 
 		try {
-			System.Diagnostics.Process.Start(Path.GetFullPath(Util.GetManualDir())); 
+			System.Diagnostics.Process.Start(System.IO.Path.GetFullPath(Util.GetManualDir())); 
 		} catch {
 			new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, manual folder does not exist.");
 		}
@@ -6455,7 +6455,7 @@ LogB.Debug("X");
 	
 	private void on_preferences_debug_mode_start (object o, EventArgs args) {
 		//first delete debug file
-		Util.FileDelete(Path.GetTempPath() + "chronojump-debug.txt");
+		Util.FileDelete(System.IO.Path.GetTempPath() + "chronojump-debug.txt");
 
 		encoderRProcCapture.Debug = true;
 		encoderRProcAnalyze.Debug = true;
@@ -6896,6 +6896,7 @@ LogB.Debug("X");
 
 		button_video_play_this_test.Sensitive = recordedVideo;
 	}
+	
 	
 	/*
 	 * voluntary crash for testing purposes 

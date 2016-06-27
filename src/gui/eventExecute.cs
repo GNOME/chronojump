@@ -918,6 +918,23 @@ public partial class ChronoJumpWindow
 		//check now here that we will have not division by zero problems
 		if(maxValue - minValue <= 0)
 			return;
+		
+		//paint first the horizontal guides in order to be behind the bars of each jump
+		drawGuideOrAVG(pen_black_90, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_black_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		
+		drawGuideOrAVG(pen_magenta, eventGraph.personMAXAtSQLAllSessions, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+
+		//if currentPerson has not jumped on this session, 
+		// if has jumped on another session, magenta line: personMAXAtSQLAllSessions will be displayed
+		// if other persons have been jumped on this session, eventGraph.sessionMAXAtSQL and eventGraph.sessionAVGAtSQL will be displayed
+		// don't need the rest of the method
+		if(eventGraph.jumpsAtSQL.Length == 0)
+			return;
+		
+		drawGuideOrAVG(pen_yellow, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+
 
 		//calculate separation between series and bar width
 		int tctfSep = 0; //separation between tc and tf
@@ -927,14 +944,6 @@ public partial class ChronoJumpWindow
 			tctfSep = Convert.ToInt32(.3*distanceBetweenCols);
 		int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
 		int barDesplLeft = Convert.ToInt32(.5*barWidth);
-
-		//paint first the horizontal guides in order to be behind the bars of each jump
-		drawGuideOrAVG(pen_black_90, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-		drawGuideOrAVG(pen_black_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-		
-		drawGuideOrAVG(pen_yellow, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-		drawGuideOrAVG(pen_magenta, eventGraph.personMAXAtSQLAllSessions, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
 		bool animateBar = animate;
 		int x = 0;

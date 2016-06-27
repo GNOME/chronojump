@@ -562,14 +562,18 @@ public partial class ChronoJumpWindow
 		if(radio_mode_jumps_small.Active) {
 			string [] str = SqliteJump.SelectTestMaxStuff(currentPerson.UniqueID, currentJumpType); 
 					
-			string message = string.Format(Catalog.GetString("Best {0} jump of person {1} is {2}\nDone at session {3} ({4})"),
+			if(str[2] == "" || str[2] == "0")
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Missing data."));
+			else {
+				string message = string.Format(Catalog.GetString("Best {0} jump of person {1} is {2}\nDone at session {3} ({4})"),
 						currentJumpType.Name, currentPerson.Name, 
 						Util.TrimDecimals(Util.ChangeDecimalSeparator(str[2]), 3), 
 						str[1], str[0]);
-			if(str[3] == "-1")
-				message += "\n" + Catalog.GetString("Simulated");
+				if(str[3] == "-1")
+					message += "\n" + Catalog.GetString("Simulated");
 
-			new DialogMessage(Constants.MessageTypes.INFO, message);
+				new DialogMessage(Constants.MessageTypes.INFO, message);
+			}
 		}
 	}
 	

@@ -56,6 +56,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_sup;
 	[Widget] Gtk.Notebook notebook_sup_contacts;
 	[Widget] Gtk.Notebook notebook_capture_graph_table;
+	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
+
 	
 	[Widget] Gtk.Label label_version;
 	[Widget] Gtk.Image image_logo;
@@ -193,6 +195,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_jumps_rj_result_help_stiffness;
 	
 	[Widget] Gtk.DrawingArea drawingarea_jumps_profile;
+	[Widget] Gtk.Label label_jumps_profile_person;
 	
 	
 	//runs
@@ -1170,8 +1173,12 @@ public partial class ChronoJumpWindow
 
 	private void personChanged() {
 		//1) change on jumps, runs, pulse capture graph
-		if(radio_mode_jumps_small.Active) 
+		if(radio_mode_jumps_small.Active) {
 			updateGraphJumpsSimple();
+
+			if(notebook_capture_analyze.CurrentPage == 2) //Jumps Profile
+				jumpsProfileDo(true); //calculate data
+		}
 		else if(radio_mode_runs_small.Active) 
 			updateGraphRunsSimple();
 		else if(radio_mode_reaction_times_small.Active) 
@@ -6508,25 +6515,32 @@ LogB.Debug("X");
 	}
 	
 	JumpsProfileGraph jumpsProfileGraph;
-	private void jumpsProfileDo (bool calculateData, DrawingArea area) 
+	private void jumpsProfileDo (bool calculateData)
 	{
 		if(currentPerson == null || currentSession == null)
 			return;
 		
-		if(jumpsProfileGraph == null)
+		if(jumpsProfileGraph == null) {
 			jumpsProfileGraph = new JumpsProfileGraph();
+			calculateData = true;
+		}
 
-
-		if(calculateData)
+		if(calculateData) {
 			jumpsProfileGraph.Calculate(currentPerson.UniqueID, currentSession.UniqueID);
+			label_jumps_profile_person.Text = currentPerson.Name;
+		}
 
-		jumpsProfileGraph.Graph(area);
+		jumpsProfileGraph.Graph(drawingarea_jumps_profile);
 	}
 	private void on_drawingarea_jumps_profile_expose_event (object o, ExposeEventArgs args) 
 	{
-		DrawingArea area = (DrawingArea) o;
-		//jumpsProfileDo(false); //do not calculate data
-		jumpsProfileDo(true, area); //do not calculate data
+		jumpsProfileDo(false); //do not calculate data
+		//data is calculated on switch page (at notebook_capture_analyze) or on change person
+	}
+	
+	private void on_notebook_capture_analyze_switch_page (object o, SwitchPageArgs args) {
+		if(notebook_capture_analyze.CurrentPage == 2)
+			jumpsProfileDo(true);
 	}
 
 

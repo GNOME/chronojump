@@ -1388,6 +1388,78 @@ LogB.SQL(intervalSpeeds);
 	ABK-CMJ 	Cap. Braços (hability)
 	DJa		F Reactiu-reflexa
 	*/
+
+	private static double selectDouble (string sqlSelect) 
+	{
+		dbcmd.CommandText = sqlSelect;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		double result = 0;
+		if(reader.Read())
+			result = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
+
+		reader.Close();
+		
+		return result;
+	}
+
+	//Current person
+	public static List<Double> SelectChronojumpProfile (int pID, int sID)
+	{
+		string personID = pID.ToString();
+		string sessionID = sID.ToString();
+
+		Sqlite.Open();
+		
+		//select personID and each index (using IDDoubleLists)
+		double fMax = selectDouble( 
+				"SELECT MAX(jump.tv * jump.tv * 1.226) " +
+				" FROM jump " +
+				" WHERE type = \"SJl\" AND jump.weight = 100 " +
+				" AND personID = " + personID + " AND sessionID = " + sessionID);
+		
+		double fExpl = selectDouble( 
+				"SELECT MAX(j1.tv * j1.tv * 1.226) - MAX(j2.tv * j2.tv * 1.226) AS myIndex " +
+				" FROM jump AS j1, jump AS j2 " +
+				" WHERE j1.type = \"SJ\" AND j2.type = \"SJl\" AND j2.weight=100 " +
+				" AND j1.personID = " + personID + " AND j2.personID = " + personID + 
+				" AND j1.sessionID = " + sessionID + " AND j2.sessionID = " + sessionID);
+
+		double cElast = selectDouble( 
+				"SELECT MAX(j1.tv * j1.tv * 1.226) - MAX(j2.tv * j2.tv * 1.226) AS myIndex " +
+				" FROM jump AS j1, jump AS j2 " +
+				" WHERE j1.type = \"CMJ\" AND j2.type = \"SJ\" " +
+				" AND j1.personID = " + personID + " AND j2.personID = " + personID + 
+				" AND j1.sessionID = " + sessionID + " AND j2.sessionID = " + sessionID);
+	
+		double cArms = selectDouble( 
+				"SELECT MAX(j1.tv * j1.tv * 1.226) - MAX(j2.tv * j2.tv * 1.226) AS myIndex " +
+				" FROM jump AS j1, jump AS j2 " +
+				" WHERE j1.type = \"ABK\" AND j2.type = \"CMJ\" " +
+				" AND j1.personID = " + personID + " AND j2.personID = " + personID + 
+				" AND j1.sessionID = " + sessionID + " AND j2.sessionID = " + sessionID);
+
+		double fReact = selectDouble( 
+				"SELECT MAX(jump.tv * jump.tv * 1.226) " +
+				" FROM jump WHERE type = \"DJa\" " +
+				" AND personID = " + personID + " AND sessionID = " + sessionID);
+	
+		Sqlite.Close();
+
+		List<Double> l = new List<Double>();		
+		l.Add(fMax);
+	        l.Add(fExpl);
+	        l.Add(cElast);
+		l.Add(cArms);
+		l.Add(fReact);
+		return l;
+	}
+
+	//all persons in session (unused)
 	public static ArrayList SelectChronojumpProfile (string sessionID)
 	{
 		Sqlite.Open();

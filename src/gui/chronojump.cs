@@ -192,6 +192,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_jumps_rj_result_help_power;
 	[Widget] Gtk.Button button_jumps_rj_result_help_stiffness;
 	
+	[Widget] Gtk.DrawingArea drawingarea_jumps_profile;
+	
+	
 	//runs
 	[Widget] Gtk.MenuItem menu_execute_simple_runs1;
 	[Widget] Gtk.MenuItem menu_execute_intervallic_runs1;
@@ -6502,6 +6505,28 @@ LogB.Debug("X");
 			} else
 				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 		}
+	}
+	
+	JumpsProfileGraph jumpsProfileGraph;
+	private void jumpsProfileDo (bool calculateData, DrawingArea area) 
+	{
+		if(currentPerson == null || currentSession == null)
+			return;
+		
+		if(jumpsProfileGraph == null)
+			jumpsProfileGraph = new JumpsProfileGraph();
+
+
+		if(calculateData)
+			jumpsProfileGraph.Calculate(currentPerson.UniqueID, currentSession.UniqueID);
+
+		jumpsProfileGraph.Graph(area);
+	}
+	private void on_drawingarea_jumps_profile_expose_event (object o, ExposeEventArgs args) 
+	{
+		DrawingArea area = (DrawingArea) o;
+		//jumpsProfileDo(false); //do not calculate data
+		jumpsProfileDo(true, area); //do not calculate data
 	}
 
 

@@ -252,7 +252,7 @@ class SqliteJump : Sqlite
 
 		return str;
 	}
-		
+	
 
 	public static void Update(int jumpID, string type, string tv, string tc, string fall, int personID, double weight, string description, double angle)
 	{

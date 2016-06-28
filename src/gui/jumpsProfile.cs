@@ -43,50 +43,80 @@ public class JumpsProfileGraph
 		index3 = l[2];
 		index4 = l[3];
 		index5 = l[4];
+
+		//indexes cannot be below 0. They ruin the graph
+		//eg: SJ higher than CMJ
+		if(index1 < 0)
+			index1 = 0;
+		if(index2 < 0)
+			index2 = 0;
+		if(index3 < 0)
+			index3 = 0;
+		if(index4 < 0)
+			index4 = 0;
+		if(index5 < 0)
+			index5 = 0;
 	}
 
 	public void Graph (DrawingArea area) 
 	{
 		Cairo.Context g = Gdk.CairoHelper.Create (area.GdkWindow);
+		
+		//clear (white)
+		g.SetSourceRGB(1,1,1);
+		g.Paint();
 
-		//TODO: delete this		
-		plotArc(100, 100, 50, 0, 0.25, g, new Cairo.Color(1,0,0));
-		plotArc(100, 100, 50, .25, .75, g, new Cairo.Color(0,1,0));
-		plotArc(100, 100, 50, .75, 2, g, new Cairo.Color(0,0,1));
-	
 		//palette: http://www.colourlovers.com/palette/7991/%28not_so%29_still_life	
 		Cairo.Color color1 = colorFromRGB(90,68,102);
 		Cairo.Color color2 = colorFromRGB(240,57,43);
 		Cairo.Color color3 = colorFromRGB(254,176,20);
 		Cairo.Color color4 = colorFromRGB(250,209,7);
 		Cairo.Color color5 = colorFromRGB(235,235,207);
+
+		double sum = index1 + index2 + index3 + index4 + index5;
+		if(sum == 0)
+			return;
+
+		double acc = 0; //accumulated
 		
-		//TODO: use indexes
-		plotArc(300, 200, 150, 0, 0.25, g, color1);
-		plotArc(300, 200, 150, .25, .75, g, color2);
-		plotArc(300, 200, 150, .75, 1.25, g, color3);
-		plotArc(300, 200, 150, 1.25, 1.5, g, color4);
-		plotArc(300, 200, 150, 1.5, 2, g, color5);
+		double percent = 2 * index1 / sum; //*2 to be in range 0*pi - 2*pi
+		plotArc(200, 200, 150, acc, acc + percent, g, color1);
+
+		acc += percent;
+		percent = 2 * index2 / sum; //*2 to be in range 0*pi - 2*pi
+		plotArc(200, 200, 150, acc, acc + percent, g, color2);
+
+		acc += percent;
+		percent = 2 * index3 / sum; //*2 to be in range 0*pi - 2*pi
+		plotArc(200, 200, 150, acc, acc + percent, g, color3);
+
+		acc += percent;
+		percent = 2 * index4 / sum; //*2 to be in range 0*pi - 2*pi
+		plotArc(200, 200, 150, acc, acc + percent, g, color4);
+
+		acc += percent;
+		percent = 2 * index5 / sum; //*2 to be in range 0*pi - 2*pi
+		plotArc(200, 200, 150, acc, acc + percent, g, color5);
 
 		int width = 40;
 		int height = 24;
 		//R seq(from=50,to=(350-24),length.out=5)
 		//[1] 50 119 188 257 326 
-		drawRoundedRectangle (500,  50, width, height, 3, g, color1);
-		drawRoundedRectangle (500, 119, width, height, 4, g, color2);
-		drawRoundedRectangle (500, 188, width, height, 5, g, color3);
-		drawRoundedRectangle (500, 257, width, height, 6, g, color4);
-		drawRoundedRectangle (500, 326, width, height, 7, g, color5);
+		drawRoundedRectangle (400,  50, width, height, 3, g, color1);
+		drawRoundedRectangle (400, 119, width, height, 4, g, color2);
+		drawRoundedRectangle (400, 188, width, height, 5, g, color3);
+		drawRoundedRectangle (400, 257, width, height, 6, g, color4);
+		drawRoundedRectangle (400, 326, width, height, 7, g, color5);
 	
 		g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 		int textHeight = 12;
 		g.SetFontSize(textHeight);
 		
-		printText(560,  50, height, textHeight, "Index 1", g);
-		printText(560, 119, height, textHeight, "Index 2", g);
-		printText(560, 188, height, textHeight, "Index 3", g);
-		printText(560, 257, height, textHeight, "Index 4", g);
-		printText(560, 326, height, textHeight, "Index 5", g);
+		printText(460,  50, height, textHeight, Util.TrimDecimals((100 * index1 / sum),1) + "% F. Maximum (SJ100%)", g);
+		printText(460, 119, height, textHeight, Util.TrimDecimals((100 * index2 / sum),1) + "% F. Explosive (SJ - SJ100%)", g);
+		printText(460, 188, height, textHeight, Util.TrimDecimals((100 * index3 / sum),1) + "% Hab. Elastic (CMJ - SJ)", g);
+		printText(460, 257, height, textHeight, Util.TrimDecimals((100 * index4 / sum),1) + "% Hab. Arms (ABK - CMJ)", g);
+		printText(460, 326, height, textHeight, Util.TrimDecimals((100 * index5 / sum),1) + "% F. Reactive-reflex (DJa)", g);
 
 		g.GetTarget().Dispose ();
 		g.Dispose ();
@@ -150,6 +180,26 @@ public class JumpsProfileGraph
 	}
 
 	private Cairo.Color colorFromRGB(int red, int green, int blue) {
-		return new Cairo.Color(red/255.0, green/255.0, blue/255.0);
+		return new Cairo.Color(red/256.0, green/256.0, blue/256.0);
 	}
+
+	//save to png with http://www.mono-project.com/docs/tools+libraries/libraries/Mono.Cairo/tutorial/ stroke
+	/*
+	ImageSurface surface = new ImageSurface(Format.ARGB32, 120, 120);
+	Context cr = new Context(surface);
+	// Examples are in 1.0 x 1.0 coordinate space
+	cr.Scale(120, 120);
+
+	// Drawing code goes here
+	cr.LineWidth = 0.1;
+
+	//cr.Color = new Color(0, 0, 0); #deprecated, use this:
+	cr.SetSourceRGBA(0, 0, 0, 1);
+
+	cr.Rectangle(0.25, 0.25, 0.5, 0.5);
+	cr.Stroke();
+
+	surface.WriteToPng("stroke.png");
+	*/
+
 }

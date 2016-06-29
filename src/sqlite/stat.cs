@@ -1488,7 +1488,7 @@ LogB.SQL(intervalSpeeds);
 
 	//all persons in session (unused)
 	/*
-	 * Note criteria of indexeshas changed see method above
+	 * Note criteria of indexes has changed see method above
 	 */
 	/*
 	public static ArrayList SelectChronojumpProfile (string sessionID)

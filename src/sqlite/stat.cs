@@ -1415,9 +1415,24 @@ LogB.SQL(intervalSpeeds);
 
 		Sqlite.Open();
 		
+		//this is used in all indexes
+		double DjaMax = selectDouble( 
+				"SELECT MAX(tv * tv * 1.226) " +
+				" FROM jump " +
+				" WHERE type = \"DJa\" " +
+				" AND personID = " + personID + " AND sessionID = " + sessionID);
+
+		List<Double> l = new List<Double>();
+		//if not Dja, return a 00000 list
+		if(DjaMax == 0) {
+			for(int i=0; i <= 4; i++)
+				l.Add(0);
+			return l;
+		}
+		
 		//select personID and each index (using IDDoubleLists)
 		double fMax = selectDouble( 
-				"SELECT MAX(jump.tv * jump.tv * 1.226) " +
+				"SELECT MAX(tv * tv * 1.226) " +
 				" FROM jump " +
 				" WHERE type = \"SJl\" AND jump.weight = 100 " +
 				" AND personID = " + personID + " AND sessionID = " + sessionID);
@@ -1444,13 +1459,25 @@ LogB.SQL(intervalSpeeds);
 				" AND j1.sessionID = " + sessionID + " AND j2.sessionID = " + sessionID);
 
 		double fReact = selectDouble( 
-				"SELECT MAX(jump.tv * jump.tv * 1.226) " +
-				" FROM jump WHERE type = \"DJa\" " +
-				" AND personID = " + personID + " AND sessionID = " + sessionID);
+				"SELECT MAX(j1.tv * j1.tv * 1.226) - MAX(j2.tv * j2.tv * 1.226) AS myIndex " +
+				" FROM jump AS j1, jump AS j2 " +
+				" WHERE j1.type = \"DJa\" AND j2.type = \"ABK\" " +
+				" AND j1.personID = " + personID + " AND j2.personID = " + personID + 
+				" AND j1.sessionID = " + sessionID + " AND j2.sessionID = " + sessionID);
+		
+		if(fMax > 0)
+			fMax /= DjaMax;
+		if(fExpl > 0)
+			fExpl /= DjaMax;
+		if(cElast > 0)
+			cElast /= DjaMax;
+		if(cArms > 0)
+			cArms /= DjaMax;
+		if(fReact > 0)
+			fReact /= DjaMax;
 	
 		Sqlite.Close();
 
-		List<Double> l = new List<Double>();		
 		l.Add(fMax);
 	        l.Add(fExpl);
 	        l.Add(cElast);
@@ -1460,6 +1487,10 @@ LogB.SQL(intervalSpeeds);
 	}
 
 	//all persons in session (unused)
+	/*
+	 * Note criteria of indexeshas changed see method above
+	 */
+	/*
 	public static ArrayList SelectChronojumpProfile (string sessionID)
 	{
 		Sqlite.Open();
@@ -1525,5 +1556,6 @@ LogB.SQL(intervalSpeeds);
 		Sqlite.Close();
 		return arrayReturn;
 	}
+	*/
 
 }

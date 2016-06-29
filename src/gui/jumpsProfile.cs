@@ -112,11 +112,11 @@ public class JumpsProfileGraph
 		int textHeight = 12;
 		g.SetFontSize(textHeight);
 		
-		printText(460,  50, height, textHeight, Util.TrimDecimals((100 * index1 / sum),1) + "% F. Maximum (SJ100%)", g);
-		printText(460, 119, height, textHeight, Util.TrimDecimals((100 * index2 / sum),1) + "% F. Explosive (SJ - SJ100%)", g);
-		printText(460, 188, height, textHeight, Util.TrimDecimals((100 * index3 / sum),1) + "% Hab. Elastic (CMJ - SJ)", g);
-		printText(460, 257, height, textHeight, Util.TrimDecimals((100 * index4 / sum),1) + "% Hab. Arms (ABK - CMJ)", g);
-		printText(460, 326, height, textHeight, Util.TrimDecimals((100 * index5 / sum),1) + "% F. Reactive-reflex (DJa)", g);
+		printText(460,  50, height, textHeight, Util.TrimDecimals((100 * index1 / sum),1) + "% F. Maximum  SJ100% / DJa", g);
+		printText(460, 119, height, textHeight, Util.TrimDecimals((100 * index2 / sum),1) + "% F. Explosive  (SJ - SJ100%) / Dja", g);
+		printText(460, 188, height, textHeight, Util.TrimDecimals((100 * index3 / sum),1) + "% Hab. Elastic  (CMJ - SJ) / Dja", g);
+		printText(460, 257, height, textHeight, Util.TrimDecimals((100 * index4 / sum),1) + "% Hab. Arms  (ABK - CMJ) / Dja", g);
+		printText(460, 326, height, textHeight, Util.TrimDecimals((100 * index5 / sum),1) + "% F. Reactive-reflex  (DJa - ABK) / Dja", g);
 
 		g.GetTarget().Dispose ();
 		g.Dispose ();

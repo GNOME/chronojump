@@ -109,7 +109,7 @@ public class StatChronojumpProfile : Stat
 
 				string [] sessionFull = sessions[0].ToString().Split(new char[] {':'});
 				//SqliteStat.SelectChronojumpProfile(sessionFull[0]);
-				processDataSimpleSession (SqliteStat.SelectChronojumpProfile(sessionFull[0]), true, dataColumns);
+				//processDataSimpleSession (SqliteStat.SelectChronojumpProfile(sessionFull[0]), true, dataColumns);
 			//}
 		//}
 	}

@@ -1415,6 +1415,55 @@ LogB.SQL(intervalSpeeds);
 
 		Sqlite.Open();
 		
+		double sj = selectDouble( 
+				"SELECT MAX(tv * tv * 1.226) " +
+				" FROM jump " +
+				" WHERE type = \"SJ\" " +
+				" AND personID = " + personID + " AND sessionID = " + sessionID);
+		
+		double sjl = selectDouble( 
+				"SELECT MAX(tv * tv * 1.226) " +
+				" FROM jump " +
+				" WHERE type = \"SJl\" AND jump.weight = 100 " +
+				" AND personID = " + personID + " AND sessionID = " + sessionID);
+		
+		double cmj = selectDouble( 
+				"SELECT MAX(tv * tv * 1.226) " +
+				" FROM jump " +
+				" WHERE type = \"CMJ\" " +
+				" AND personID = " + personID + " AND sessionID = " + sessionID);
+		
+		double abk = selectDouble( 
+				"SELECT MAX(tv * tv * 1.226) " +
+				" FROM jump " +
+				" WHERE type = \"ABK\" " +
+				" AND personID = " + personID + " AND sessionID = " + sessionID);
+		
+		double dja = selectDouble( 
+				"SELECT MAX(tv * tv * 1.226) " +
+				" FROM jump " +
+				" WHERE type = \"DJa\" " +
+				" AND personID = " + personID + " AND sessionID = " + sessionID);
+
+		Sqlite.Close();
+
+		List<Double> l = new List<Double>();
+		l.Add(sj);
+	        l.Add(sjl);
+	        l.Add(cmj);
+		l.Add(abk);
+		l.Add(dja);
+		return l;
+	}
+
+	//Current person
+	public static List<Double> SelectChronojumpProfileOld (int pID, int sID)
+	{
+		string personID = pID.ToString();
+		string sessionID = sID.ToString();
+
+		Sqlite.Open();
+		
 		//this is used in all indexes
 		double DjaMax = selectDouble( 
 				"SELECT MAX(tv * tv * 1.226) " +

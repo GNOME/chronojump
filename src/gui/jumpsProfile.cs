@@ -23,13 +23,105 @@ using Gtk;
 using Cairo;
 using System.Collections.Generic; //List
 
+public class JumpsProfileIndex
+{
+	public string name;
+
+	public enum ErrorCodes { NEEDJUMP, NEGATIVE, NONE_OK }
+	public ErrorCodes errorCode;
+	public string Text;
+	public Cairo.Color Color;
+	public string ErrorMessage;
+	
+	private string jumpHigherName;
+	private string jumpLowerName;
+	
+	public enum Types { FMAX, FEXPL, CELAST, CARMS, FREACT }   
+	public Types type; 
+
+	public double Result;
+
+	public JumpsProfileIndex(Types type, string jumpHigherName, string jumpLowerName, double higher, double lower, double dja) 
+	{
+		//colour palette: http://www.colourlovers.com/palette/7991/%28not_so%29_still_life	
+		this.type = type;
+		switch(type) {
+			case Types.FMAX:
+				Text = "% F. Maximum  SJ100% / DJa";
+				Color = colorFromRGB(90,68,102);
+				break;
+			case Types.FEXPL:
+				Text = "% F. Explosive  (SJ - SJ100%) / Dja";
+				Color = colorFromRGB(240,57,43);
+				break;
+			case Types.CELAST:
+				Text = "% Hab. Elastic  (CMJ - SJ) / Dja";
+				Color = colorFromRGB(254,176,20);
+				break;
+			case Types.CARMS:
+				Text = "% Hab. Arms  (ABK - CMJ) / Dja";
+				Color = colorFromRGB(250,209,7);
+				break;
+			case Types.FREACT:
+				Text = "% F. Reactive-reflex  (DJa - ABK) / Dja";
+				Color = colorFromRGB(235,235,207);
+				break;
+			default:
+				Text = "% F. Maximum  SJ100% / DJa";
+				Color = colorFromRGB(90,68,102);
+				break;
+		}
+		
+		this.jumpHigherName = jumpHigherName;
+		this.jumpLowerName = jumpLowerName;
+		
+		ErrorMessage = "";
+		Result = calculate(type, higher, lower, dja);
+		
+		if(errorCode == ErrorCodes.NEEDJUMP)
+			ErrorMessage = "\nNeeds to execute jump/s";
+		else if(errorCode == ErrorCodes.NEGATIVE)
+			ErrorMessage = "\nBad execution " + jumpLowerName + " is higher than " +  jumpHigherName;
+	}
+
+	public double calculate(Types type, double higher, double lower, double dja) 
+	{
+		errorCode = ErrorCodes.NONE_OK;
+
+		if(dja == 0 || higher == 0) {
+			errorCode = ErrorCodes.NEEDJUMP;
+			return 0;
+		}
+
+		if(type == Types.FMAX)	//this index only uses higher
+			return higher / dja;
+
+		if(lower == 0) {
+			errorCode = ErrorCodes.NEEDJUMP;
+			return 0;
+		}
+
+		if(lower > higher) {
+			errorCode = ErrorCodes.NEGATIVE;
+			return 0;
+		}
+
+		return (higher - lower) / dja;
+	}
+	
+	private Cairo.Color colorFromRGB(int red, int green, int blue) {
+		return new Cairo.Color(red/256.0, green/256.0, blue/256.0);
+	}
+
+}
+
 public class JumpsProfileGraph
 {
-	private double index1;
-	private double index2;
-	private double index3;
-	private double index4;
-	private double index5;
+	private JumpsProfileIndex jpi1;
+	private JumpsProfileIndex jpi2;
+	private JumpsProfileIndex jpi3;
+	private JumpsProfileIndex jpi4;
+	private JumpsProfileIndex jpi5;
 
 	public JumpsProfileGraph() {
 	}
@@ -38,26 +130,19 @@ public class JumpsProfileGraph
 	{
 		List<Double> l = SqliteStat.SelectChronojumpProfile(personID, sessionID);
 
-		index1 = l[0];
-		index2 = l[1];
-		index3 = l[2];
-		index4 = l[3];
-		index5 = l[4];
-
-		//indexes cannot be below 0. They ruin the graph
-		//eg: SJ higher than CMJ
-		if(index1 < 0)
-			index1 = 0;
-		if(index2 < 0)
-			index2 = 0;
-		if(index3 < 0)
-			index3 = 0;
-		if(index4 < 0)
-			index4 = 0;
-		if(index5 < 0)
-			index5 = 0;
+		double sj = l[0];
+		double sjl = l[1];
+		double cmj = l[2];
+		double abk = l[3];
+		double dja = l[4];
+		
+		jpi1 = new JumpsProfileIndex(JumpsProfileIndex.Types.FMAX, "SJ", "", sjl, 0, dja);
+		jpi2 = new JumpsProfileIndex(JumpsProfileIndex.Types.FEXPL, "SJ", "SJl", sj, sjl, dja);
+		jpi3 = new JumpsProfileIndex(JumpsProfileIndex.Types.CELAST, "CMJ", "SJ", cmj, sj, dja);
+		jpi4 = new JumpsProfileIndex(JumpsProfileIndex.Types.CARMS, "ABK", "CMJ", abk, cmj, dja);
+		jpi5 = new JumpsProfileIndex(JumpsProfileIndex.Types.FREACT, "DJa", "ABK", dja, abk, dja);
 	}
-
+		
 	public void Graph (DrawingArea area) 
 	{
 		Cairo.Context g = Gdk.CairoHelper.Create (area.GdkWindow);
@@ -66,57 +151,59 @@ public class JumpsProfileGraph
 		g.SetSourceRGB(1,1,1);
 		g.Paint();
 
-		//palette: http://www.colourlovers.com/palette/7991/%28not_so%29_still_life	
-		Cairo.Color color1 = colorFromRGB(90,68,102);
-		Cairo.Color color2 = colorFromRGB(240,57,43);
-		Cairo.Color color3 = colorFromRGB(254,176,20);
-		Cairo.Color color4 = colorFromRGB(250,209,7);
-		Cairo.Color color5 = colorFromRGB(235,235,207);
+		g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
+		int textHeight = 12;
+		g.SetFontSize(textHeight);
 
-		double sum = index1 + index2 + index3 + index4 + index5;
+		double sum = jpi1.Result + jpi2.Result + jpi3.Result + jpi4.Result + jpi5.Result;
 		if(sum == 0)
 			return;
 
 		double acc = 0; //accumulated
 		
-		double percent = 2 * index1 / sum; //*2 to be in range 0*pi - 2*pi
-		plotArc(200, 200, 150, acc, acc + percent, g, color1);
+		double percent = 2 * jpi1.Result / sum; //*2 to be in range 0*pi - 2*pi
+		plotArc(200, 200, 150, acc, acc + percent, g, jpi1.Color);
 
 		acc += percent;
-		percent = 2 * index2 / sum; //*2 to be in range 0*pi - 2*pi
-		plotArc(200, 200, 150, acc, acc + percent, g, color2);
+		percent = 2 * jpi2.Result / sum; //*2 to be in range 0*pi - 2*pi
+		plotArc(200, 200, 150, acc, acc + percent, g, jpi2.Color);
 
 		acc += percent;
-		percent = 2 * index3 / sum; //*2 to be in range 0*pi - 2*pi
-		plotArc(200, 200, 150, acc, acc + percent, g, color3);
+		percent = 2 * jpi3.Result / sum; //*2 to be in range 0*pi - 2*pi
+		plotArc(200, 200, 150, acc, acc + percent, g, jpi3.Color);
 
 		acc += percent;
-		percent = 2 * index4 / sum; //*2 to be in range 0*pi - 2*pi
-		plotArc(200, 200, 150, acc, acc + percent, g, color4);
+		percent = 2 * jpi4.Result / sum; //*2 to be in range 0*pi - 2*pi
+		plotArc(200, 200, 150, acc, acc + percent, g, jpi4.Color);
 
 		acc += percent;
-		percent = 2 * index5 / sum; //*2 to be in range 0*pi - 2*pi
-		plotArc(200, 200, 150, acc, acc + percent, g, color5);
+		percent = 2 * jpi5.Result / sum; //*2 to be in range 0*pi - 2*pi
+		plotArc(200, 200, 150, acc, acc + percent, g, jpi5.Color);
 
 		int width = 40;
 		int height = 24;
 		//R seq(from=50,to=(350-24),length.out=5)
 		//[1] 50 119 188 257 326 
-		drawRoundedRectangle (400,  50, width, height, 3, g, color1);
-		drawRoundedRectangle (400, 119, width, height, 4, g, color2);
-		drawRoundedRectangle (400, 188, width, height, 5, g, color3);
-		drawRoundedRectangle (400, 257, width, height, 6, g, color4);
-		drawRoundedRectangle (400, 326, width, height, 7, g, color5);
+		drawRoundedRectangle (400,  50, width, height, 6, g, jpi1.Color);
+		drawRoundedRectangle (400, 119, width, height, 6, g, jpi2.Color);
+		drawRoundedRectangle (400, 188, width, height, 6, g, jpi3.Color);
+		drawRoundedRectangle (400, 257, width, height, 6, g, jpi4.Color);
+		drawRoundedRectangle (400, 326, width, height, 6, g, jpi5.Color);
 	
-		g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
-		int textHeight = 12;
-		g.SetFontSize(textHeight);
+		printText(460,  50, height, textHeight, Util.TrimDecimals((100 * jpi1.Result / sum),1) + jpi1.Text, g);
+		printText(460, 119, height, textHeight, Util.TrimDecimals((100 * jpi2.Result / sum),1) + jpi2.Text, g);
+		printText(460, 188, height, textHeight, Util.TrimDecimals((100 * jpi3.Result / sum),1) + jpi3.Text, g);
+		printText(460, 257, height, textHeight, Util.TrimDecimals((100 * jpi4.Result / sum),1) + jpi4.Text, g);
+		printText(460, 326, height, textHeight, Util.TrimDecimals((100 * jpi5.Result / sum),1) + jpi5.Text, g);
 		
-		printText(460,  50, height, textHeight, Util.TrimDecimals((100 * index1 / sum),1) + "% F. Maximum  SJ100% / DJa", g);
-		printText(460, 119, height, textHeight, Util.TrimDecimals((100 * index2 / sum),1) + "% F. Explosive  (SJ - SJ100%) / Dja", g);
-		printText(460, 188, height, textHeight, Util.TrimDecimals((100 * index3 / sum),1) + "% Hab. Elastic  (CMJ - SJ) / Dja", g);
-		printText(460, 257, height, textHeight, Util.TrimDecimals((100 * index4 / sum),1) + "% Hab. Arms  (ABK - CMJ) / Dja", g);
-		printText(460, 326, height, textHeight, Util.TrimDecimals((100 * index5 / sum),1) + "% F. Reactive-reflex  (DJa - ABK) / Dja", g);
+		//print errors (if any)
+		g.Color = new Cairo.Color (0.5,0,0);
+		
+		printText(460,  70, height, textHeight, jpi1.ErrorMessage, g);
+		printText(460, 139, height, textHeight, jpi2.ErrorMessage, g);
+		printText(460, 208, height, textHeight, jpi3.ErrorMessage, g);
+		printText(460, 277, height, textHeight, jpi4.ErrorMessage, g);
+		printText(460, 346, height, textHeight, jpi5.ErrorMessage, g);
 
 		g.GetTarget().Dispose ();
 		g.Dispose ();
@@ -177,10 +264,6 @@ public class JumpsProfileGraph
 				minp = i;
 
 		return arr[minp];
-	}
-
-	private Cairo.Color colorFromRGB(int red, int green, int blue) {
-		return new Cairo.Color(red/256.0, green/256.0, blue/256.0);
 	}
 
 	//save to png with http://www.mono-project.com/docs/tools+libraries/libraries/Mono.Cairo/tutorial/ stroke

@@ -3548,6 +3548,7 @@ public partial class ChronoJumpWindow
 	void encoder_exercise_edit (bool adding) 
 	{
 		string name = Util.RemoveTildeAndColonAndDot(genericWin.EntrySelected);
+		name = Util.RemoveChar(name, '"');
 
 		if(adding)
 			LogB.Information("Trying to insert: " + name);

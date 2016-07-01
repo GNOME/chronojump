@@ -129,6 +129,7 @@ SOURCES = \
 	genericObjects.cs\
 	json.cs\
 	jump.cs\
+	jumpsProfile.cs\
 	jumpType.cs\
 	networks.cs\
 	person.cs\

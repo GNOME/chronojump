@@ -6514,23 +6514,25 @@ LogB.Debug("X");
 		}
 	}
 	
-	JumpsProfileGraph jumpsProfileGraph;
+
+	JumpsProfile jumpsProfile;
+
 	private void jumpsProfileDo (bool calculateData)
 	{
 		if(currentPerson == null || currentSession == null)
 			return;
 		
-		if(jumpsProfileGraph == null) {
-			jumpsProfileGraph = new JumpsProfileGraph();
+		if(jumpsProfile == null) {
+			jumpsProfile = new JumpsProfile();
 			calculateData = true;
 		}
 
 		if(calculateData) {
-			jumpsProfileGraph.Calculate(currentPerson.UniqueID, currentSession.UniqueID);
+			jumpsProfile.Calculate(currentPerson.UniqueID, currentSession.UniqueID);
 			label_jumps_profile_person.Text = currentPerson.Name;
 		}
 
-		jumpsProfileGraph.Graph(drawingarea_jumps_profile);
+		JumpsProfileGraph.Do(jumpsProfile.GetIndexes(), drawingarea_jumps_profile);
 	}
 	private void on_drawingarea_jumps_profile_expose_event (object o, ExposeEventArgs args) 
 	{

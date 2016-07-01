@@ -294,6 +294,8 @@ public class Util
 	}
 	
 	//dot is used for separating sex in stats names (cannot be used for a new jumpType)
+	//also recomended:
+	//name = Util.RemoveChar(name, '"');
 	public static string RemoveTildeAndColonAndDot(string myString) 
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);

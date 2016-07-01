@@ -123,24 +123,25 @@ public class JumpTypeAddWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
+		string name = Util.RemoveTildeAndColonAndDot(entry_name.Text);
+		name = Util.RemoveChar(name, '"');
+
 		//check if this jump type exists, and check it's name is not AllJumpsName
-		bool jumpTypeExists = Sqlite.Exists (false, Constants.JumpTypeTable, Util.RemoveTildeAndColonAndDot(entry_name.Text));
-		if(Util.RemoveTildeAndColonAndDot(entry_name.Text) == Constants.AllJumpsName) {
+		bool jumpTypeExists = Sqlite.Exists (false, Constants.JumpTypeTable, name);
+		if(name == Constants.AllJumpsName)
 			jumpTypeExists = true;
-		}
 		
 		if(jumpTypeExists) {
 			//string myString =  Catalog.GetString ("Jump type: '") + 
 			//	Util.RemoveTildeAndColonAndDot(entry_name.Text) + 
 			//	Catalog.GetString ("' exists. Please, use another name");
 			
-			string myString = string.Format(Catalog.GetString("Jump type: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
+			string myString = string.Format(Catalog.GetString("Jump type: '{0}' exists. Please, use another name"), name);
 			
 			LogB.Information (myString);
 			ErrorWindow.Show(myString);
 		} else {
-			string myJump = "";
-			myJump = Util.RemoveTildeAndColonAndDot(entry_name.Text);
+			string myJump = name;
 			if(radiobutton_startIn_yes.Active) {
 				myJump = myJump + ":1"; 
 			} else {

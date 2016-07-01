@@ -164,21 +164,21 @@ public class RunTypeAddWindow
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		//ConsoleB.Information(getEntriesString());
+		string name = Util.RemoveTildeAndColonAndDot(entry_name.Text);
+		name = Util.RemoveChar(name, '"');
 
 		//check if this run type exists, and check it's name is not AllRunsName
-		bool runTypeExists = Sqlite.Exists (false, Constants.RunTypeTable, Util.RemoveTildeAndColonAndDot(entry_name.Text));
-		if(Util.RemoveTildeAndColonAndDot(entry_name.Text) == Constants.AllRunsName) {
+		bool runTypeExists = Sqlite.Exists (false, Constants.RunTypeTable, name);
+		if(name == Constants.AllRunsName)
 			runTypeExists = true;
-		}
 		
 		if(runTypeExists) {
-			string myString = string.Format(Catalog.GetString("Run type: '{0}' exists. Please, use another name"), 
-					Util.RemoveTildeAndColonAndDot(entry_name.Text) );
+			string myString = string.Format(Catalog.GetString("Run type: '{0}' exists. Please, use another name"), name); 
 			LogB.Information (myString);
 			ErrorWindow.Show(myString);
 		} else {
 			RunType type = new RunType();
-			type.Name = Util.RemoveTildeAndColonAndDot(entry_name.Text);
+			type.Name = name;
 			type.Description = Util.RemoveTildeAndColon(textview_description.Buffer.Text);
 						
 			if(radiobutton_dist_variable.Active)

@@ -2815,6 +2815,25 @@ LogB.SQL("5" + tableName);
 
 
 	/* methods for different classes */
+	
+	protected static double selectDouble (string sqlSelect) 
+	{
+		dbcmd.CommandText = sqlSelect;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		double result = 0;
+		if(reader.Read())
+			result = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
+
+		reader.Close();
+		
+		return result;
+	}
+
 
 	public static int Max (string tableName, string column, bool dbconOpened)
 	{

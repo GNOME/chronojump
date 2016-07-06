@@ -6693,6 +6693,15 @@ LogB.Debug("X");
 		session_menuitem.Sensitive = false;
 		menuitem_mode.Sensitive = false;
 		notebook_sup_contacts.Sensitive = false;
+		
+		//jumpsProfile has Sqlite calls. Don't do them while jumping
+		//but don't unsensitive the notebook because user need to "finish" or cancel"
+		//notebook_capture_analyze.Sensitive = true; 
+		notebook_capture_analyze.GetNthPage(1).Hide();
+		if(radio_menuitem_mode_jumps.Active)
+			notebook_capture_analyze.GetNthPage(2).Hide();
+		
+		
 		help_menuitem.Sensitive = false;
 		frame_persons.Sensitive = false;
 		
@@ -6726,6 +6735,14 @@ LogB.Debug("X");
 		session_menuitem.Sensitive = true;
 		menuitem_mode.Sensitive = true;
 		notebook_sup_contacts.Sensitive = true;
+
+		//jumpsProfile has Sqlite calls. Don't do them while jumping
+		//but don't unsensitive the notebook because user need to "finish" or cancel"
+		//notebook_capture_analyze.Sensitive = true; 
+		notebook_capture_analyze.GetNthPage(1).Show();
+		if(radio_menuitem_mode_jumps.Active)
+			notebook_capture_analyze.GetNthPage(2).Show();
+		
 		help_menuitem.Sensitive = true;
 		frame_persons.Sensitive = true;
 

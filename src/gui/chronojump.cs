@@ -6816,11 +6816,16 @@ LogB.Debug("X");
 		menuitem_mode.Sensitive 	= ! start;
 		help_menuitem.Sensitive 	= ! start;
 		frame_persons.Sensitive 	= ! start;
+		notebook_sup_contacts.Sensitive = ! start;
 
 		hbox_jumps_test.Visible 	= ! start;
 		button_auto_start.Visible 	= ! start;	
 		hbox_jump_types_options.Visible = ! start;
 		hbox_jump_auto_controls.Visible  = start;
+		
+		notebook_capture_analyze.GetNthPage(1).Visible = ! start;
+		if(radio_menuitem_mode_jumps.Active)
+			notebook_capture_analyze.GetNthPage(2).Visible = ! start;
 
 		//when start, put button delete_this_test as not sensitive
 		//(just for the test previous to the auto process)

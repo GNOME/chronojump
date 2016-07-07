@@ -49,7 +49,7 @@ public static class JumpsProfileGraph
 			double acc = 0; //accumulated
 			foreach(JumpsProfileIndex jpi in l_jpi) {
 				double percent = 2 * jpi.Result / sum; //*2 to be in range 0*pi - 2*pi
-				plotArc(200, 200, 150, acc, acc + percent, g, jpi.Color);
+				plotArc(200, 200, 150, acc -.5, acc + percent -.5, g, jpi.Color); //-.5 to start at top of the pie
 				acc += percent;
 			}
 		}

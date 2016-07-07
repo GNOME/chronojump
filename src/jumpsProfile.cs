@@ -42,32 +42,32 @@ public class JumpsProfileIndex
 
 	public JumpsProfileIndex (Types type, string jumpHigherName, string jumpLowerName, double higher, double lower, double dja) 
 	{
-		//colour palette: http://www.colourlovers.com/palette/7991/%28not_so%29_still_life	
+		//colour palette: http://www.colourlovers.com/palette/4286628/Tabor_1
 		this.type = type;
 		switch(type) {
 			case Types.FMAX:
 				Text = "% F. Maximum  SJ100% / DJa";
-				Color = colorFromRGB(90,68,102);
+				Color = colorFromRGB(101,86,67);
 				break;
 			case Types.FEXPL:
 				Text = "% F. Explosive  (SJ - SJ100%) / Dja";
-				Color = colorFromRGB(240,57,43);
+				Color = colorFromRGB(209,63,58);
 				break;
 			case Types.CELAST:
 				Text = "% Hab. Elastic  (CMJ - SJ) / Dja";
-				Color = colorFromRGB(254,176,20);
+				Color = colorFromRGB(255,152,68);
 				break;
 			case Types.CARMS:
 				Text = "% Hab. Arms  (ABK - CMJ) / Dja";
-				Color = colorFromRGB(250,209,7);
+				Color = colorFromRGB(141,237,78);
 				break;
 			case Types.FREACT:
 				Text = "% F. Reactive-reflex  (DJa - ABK) / Dja";
-				Color = colorFromRGB(235,235,207);
+				Color = colorFromRGB(133,190,199);
 				break;
 			default:
 				Text = "% F. Maximum  SJ100% / DJa";
-				Color = colorFromRGB(90,68,102);
+				Color = colorFromRGB(101,86,67);
 				break;
 		}
 		

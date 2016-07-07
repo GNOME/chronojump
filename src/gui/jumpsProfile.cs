@@ -34,13 +34,10 @@ public static class JumpsProfileGraph
 		g.SetSourceRGB(1,1,1);
 		g.Paint();
 
-		//3 calculate sum and return if empty
+		//3 calculate sum
 		double sum = 0;
 		foreach(JumpsProfileIndex jpi in l_jpi)
 			sum += jpi.Result;
-		
-		if(sum == 0)
-			return;
 		
 		//4 prepare font
 		g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
@@ -48,11 +45,13 @@ public static class JumpsProfileGraph
 		g.SetFontSize(textHeight);
 
 		//5 plot arcs
-		double acc = 0; //accumulated
-		foreach(JumpsProfileIndex jpi in l_jpi) {
-			double percent = 2 * jpi.Result / sum; //*2 to be in range 0*pi - 2*pi
-			plotArc(200, 200, 150, acc, acc + percent, g, jpi.Color);
-			acc += percent;
+		if(sum > 0 ) {
+			double acc = 0; //accumulated
+			foreach(JumpsProfileIndex jpi in l_jpi) {
+				double percent = 2 * jpi.Result / sum; //*2 to be in range 0*pi - 2*pi
+				plotArc(200, 200, 150, acc, acc + percent, g, jpi.Color);
+				acc += percent;
+			}
 		}
 
 		//6 draw legend at right
@@ -61,7 +60,12 @@ public static class JumpsProfileGraph
 		//[1] 50 119 188 257 326 #difference is 69
 		foreach(JumpsProfileIndex jpi in l_jpi) {
 			drawRoundedRectangle (400,  y, 40, 24, 6, g, jpi.Color);
-			printText(460,  y, 24, textHeight, Util.TrimDecimals((100 * jpi.Result / sum),1) + jpi.Text, g);
+			
+			double percent = 0;
+			if(sum > 0)
+				percent = 100 * jpi.Result / sum;
+
+			printText(460,  y, 24, textHeight, Util.TrimDecimals(percent, 1) + jpi.Text, g);
 			y += 69;
 		}
 	

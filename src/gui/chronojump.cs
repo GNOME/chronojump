@@ -5714,8 +5714,6 @@ LogB.Debug("X");
 		myTreeViewJumps.DelEvent(id);
 		showHideActionEventButtons(false, "Jump");
 		
-		updateGraphJumpsSimple();
-
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
 		}
@@ -5731,6 +5729,8 @@ LogB.Debug("X");
 			//there's no currentJump (no one jumped), then it crashed,
 			//but don't need to update widgets
 		}
+		
+		updateGraphJumpsSimple();
 
 		//if auto mode, show last person/test again
 		if(execute_auto_doing) {
@@ -5805,8 +5805,6 @@ LogB.Debug("X");
 		myTreeViewRuns.DelEvent(id);
 		showHideActionEventButtons(false, "Run");
 		
-		updateGraphRunsSimple();
-
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
 		}
@@ -5818,6 +5816,8 @@ LogB.Debug("X");
 			//there's no currentRun (no one done it now), then it crashed,
 			//but don't need to update widgets
 		}
+		
+		updateGraphRunsSimple();
 	}
 
 	private void on_delete_selected_run_interval_accepted (object o, EventArgs args) {
@@ -5869,8 +5869,6 @@ LogB.Debug("X");
 		myTreeViewReactionTimes.DelEvent(id);
 		showHideActionEventButtons(false, "ReactionTime");
 
-		updateGraphReactionTimes();
-
 		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.RT, id );
 		try {
 			if(currentReactionTime.UniqueID == id)
@@ -5879,6 +5877,8 @@ LogB.Debug("X");
 			//there's no currentReactionTime (no one done it now), then it crashed,
 			//but don't need to update widgets
 		}
+
+		updateGraphReactionTimes();
 	}
 
 	private void on_delete_selected_pulse_clicked (object o, EventArgs args) {

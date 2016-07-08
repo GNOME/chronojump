@@ -191,6 +191,29 @@ class SqliteRun : Sqlite
 		return myRun;
 	}
 		
+	public static string [] SelectTestMaxStuff(int personID, RunType runType) 
+	{
+		Sqlite.Open();
+		
+		dbcmd.CommandText = "SELECT session.date, session.name, MAX(distance/time), run.simulated " + 
+			" FROM run, session WHERE type = \"" + runType.Name + "\" AND personID = " + personID + 
+			" AND run.sessionID = session.uniqueID";
+		
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		reader.Read();
+		
+		string [] str = DataReaderToStringArray(reader, 4);
+		
+		reader.Close();
+		Sqlite.Close();
+
+		return str;
+	}
+	
 	public static void Update(int runID, string type, string distance, string time, int personID, string description)
 	{
 		Sqlite.Open();

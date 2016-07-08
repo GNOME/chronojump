@@ -196,6 +196,7 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.DrawingArea drawingarea_jumps_profile;
 	[Widget] Gtk.Label label_jumps_profile_person;
+	[Widget] Gtk.Table table_jumps_profile;
 	
 	
 	//runs
@@ -6546,6 +6547,10 @@ LogB.Debug("X");
 	private void on_notebook_capture_analyze_switch_page (object o, SwitchPageArgs args) {
 		if(notebook_capture_analyze.CurrentPage == 2)
 			jumpsProfileDo(true);
+	}
+
+	private void on_button_jumps_profile_training_clicked (object o, EventArgs args) {
+		table_jumps_profile.Visible = ! table_jumps_profile.Visible;
 	}
 
 

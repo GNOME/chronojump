@@ -46,11 +46,11 @@ public class JumpsProfileIndex
 		this.type = type;
 		switch(type) {
 			case Types.FMAX:
-				Text = "% F. Maximum  SJ100% / DJa";
+				Text = "% F. Maximum  SJl100% / DJa";
 				Color = colorFromRGB(101,86,67);
 				break;
 			case Types.FEXPL:
-				Text = "% F. Explosive  (SJ - SJ100%) / Dja";
+				Text = "% F. Explosive  (SJ - SJl100%) / Dja";
 				Color = colorFromRGB(209,63,58);
 				break;
 			case Types.CELAST:
@@ -66,7 +66,7 @@ public class JumpsProfileIndex
 				Color = colorFromRGB(133,190,199);
 				break;
 			default:
-				Text = "% F. Maximum  SJ100% / DJa";
+				Text = "% F. Maximum  SJl100% / DJa";
 				Color = colorFromRGB(101,86,67);
 				break;
 		}
@@ -78,9 +78,9 @@ public class JumpsProfileIndex
 		Result = calculateIndex(type, higher, lower, dja);
 		
 		if(errorCode == ErrorCodes.NEEDJUMP)
-			ErrorMessage = "\nNeeds to execute jump/s";
+			ErrorMessage = "Needs to execute jump/s";
 		else if(errorCode == ErrorCodes.NEGATIVE)
-			ErrorMessage = "\nBad execution " + jumpLowerName + " is higher than " +  jumpHigherName;
+			ErrorMessage = "Bad execution " + jumpLowerName + " is higher than " +  jumpHigherName;
 	}
 
 	private double calculateIndex (Types type, double higher, double lower, double dja) 

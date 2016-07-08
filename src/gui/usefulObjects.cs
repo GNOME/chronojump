@@ -131,6 +131,7 @@ public class PrepareEventGraphRunSimple {
 	//sql data of previous runs to plot graph and show stats at bottom
 	public string [] runsAtSQL;
 	
+	public double personMAXAtSQLAllSessions;
 	public double personMAXAtSQL;
 	public double sessionMAXAtSQL;
 
@@ -154,6 +155,7 @@ public class PrepareEventGraphRunSimple {
 		
 		string sqlSelect = "distance/time";
 		
+		personMAXAtSQLAllSessions = SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect);
 		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
 		sessionMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
 		

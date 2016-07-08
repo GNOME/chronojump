@@ -1007,7 +1007,7 @@ partial class ChronoJumpWindow
 				1, 1, //both unused
 			       	currentSession.UniqueID, currentPerson.UniqueID, Constants.RunTable, currentEventType.Name);
 		
-		if(eventGraph.runsAtSQL.Length > 0)
+		if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Length > 0)
 			PrepareRunSimpleGraph(eventGraph, false); //don't animate
 	}
 	

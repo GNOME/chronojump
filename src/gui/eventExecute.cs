@@ -559,21 +559,29 @@ public partial class ChronoJumpWindow
 	
 	private void on_button_person_max_all_sessions_info_clicked(object o, EventArgs args) 
 	{
+		string [] str;
+		string testName;
 		if(radio_mode_jumps_small.Active) {
-			string [] str = SqliteJump.SelectTestMaxStuff(currentPerson.UniqueID, currentJumpType); 
-					
-			if(str[2] == "" || str[2] == "0")
-				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Missing data."));
-			else {
-				string message = string.Format(Catalog.GetString("Best {0} jump of person {1} is {2}\nDone at session {3} ({4})"),
-						currentJumpType.Name, currentPerson.Name, 
-						Util.TrimDecimals(Util.ChangeDecimalSeparator(str[2]), 3), 
-						str[1], str[0]);
-				if(str[3] == "-1")
-					message += "\n" + Catalog.GetString("Simulated");
+			str = SqliteJump.SelectTestMaxStuff(currentPerson.UniqueID, currentJumpType); 
+			testName = currentJumpType.Name;
+		}
+		else if(radio_mode_runs_small.Active) {
+			str = SqliteRun.SelectTestMaxStuff(currentPerson.UniqueID, currentRunType); 
+			testName = currentRunType.Name;
+		} else
+			return;
 
-				new DialogMessage(Constants.MessageTypes.INFO, message);
-			}
+		if(str[2] == "" || str[2] == "0")
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Missing data."));
+		else {
+			string message = string.Format(Catalog.GetString("Best {0} test of person {1} is {2}\nDone at session {3} ({4})"),
+					testName, currentPerson.Name, 
+					Util.TrimDecimals(Util.ChangeDecimalSeparator(str[2]), 3), 
+					str[1], str[0]);
+			if(str[3] == "-1")
+				message += "\n" + Catalog.GetString("Simulated");
+
+			new DialogMessage(Constants.MessageTypes.INFO, message);
 		}
 	}
 	
@@ -671,9 +679,11 @@ public partial class ChronoJumpWindow
 		int bottomMargin = 0; 
 
 		//if max value of graph is automatic
-		if(eventGraphConfigureWin.Max == -1)
+		if(eventGraphConfigureWin.Max == -1) {
 			maxValue = eventGraph.sessionMAXAtSQL;
-		else {
+			if(eventGraph.personMAXAtSQLAllSessions > maxValue)
+				maxValue = eventGraph.personMAXAtSQLAllSessions;
+		} else {
 			maxValue = eventGraphConfigureWin.Max;
 			topMargin = 0;
 		}
@@ -1114,12 +1124,6 @@ public partial class ChronoJumpWindow
 		if(maxValue - minValue <= 0)
 			return;
 		
-		//calculate bar width
-		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/eventGraph.runsAtSQL.Length) -
-			Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/eventGraph.runsAtSQL.Length);
-		int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
-		int barDesplLeft = Convert.ToInt32(.5*barWidth);
-
 		/*
 		//paint reference guide black and green if needed
 		drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
@@ -1130,8 +1134,24 @@ public partial class ChronoJumpWindow
 			
 		drawGuideOrAVG(pen_black_90, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		drawGuideOrAVG(pen_black_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		drawGuideOrAVG(pen_magenta, eventGraph.personMAXAtSQLAllSessions, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		
+		//if currentPerson has not run on this session, 
+		// if has run on another session, magenta line: personMAXAtSQLAllSessions will be displayed
+		// if other persons have run on this session, eventGraph.sessionMAXAtSQL and eventGraph.sessionAVGAtSQL will be displayed
+		// don't need the rest of the method
+		if(eventGraph.runsAtSQL.Length == 0)
+			return;
+		
 		drawGuideOrAVG(pen_yellow, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+
+		//calculate bar width
+		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/eventGraph.runsAtSQL.Length) -
+			Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/eventGraph.runsAtSQL.Length);
+		int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
+		int barDesplLeft = Convert.ToInt32(.5*barWidth);
+
 
 		int x = 0;
 		int y = 0;

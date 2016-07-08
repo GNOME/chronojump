@@ -12028,7 +12028,7 @@ on current Chronojump version.</property>
                                                 <property name="can_focus">False</property>
                                                 <child>
                                                   <widget class="GtkButton" id="button_jumps_profile_training">
-                                                    <property name="label">General reccomendations on improving indexes</property>
+                                                    <property name="label">General recommendations on improving indexes</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>

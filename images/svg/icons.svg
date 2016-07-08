@@ -14,7 +14,7 @@
    height="342.32059"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.91 r"
    sodipodi:docname="icons.svg"
    inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/together.png"
    inkscape:export-xdpi="90"
@@ -7256,22 +7256,22 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.7509109"
-     inkscape:cx="478.30195"
-     inkscape:cy="267.68128"
+     inkscape:zoom="4.6554891"
+     inkscape:cx="274.30877"
+     inkscape:cy="211.93301"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
-     inkscape:window-width="1366"
-     inkscape:window-height="702"
+     inkscape:window-width="1920"
+     inkscape:window-height="1024"
      inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-y="25"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     showguides="false"
+     showguides="true"
      inkscape:guide-bbox="true"
      inkscape:snap-global="false">
     <sodipodi:guide
@@ -7318,6 +7318,14 @@
        orientation="0,1"
        position="180.81203,118.19549"
        id="guide6720" />
+    <sodipodi:guide
+       position="296.21612,212.58169"
+       orientation="0,1"
+       id="guide6487" />
+    <sodipodi:guide
+       position="287.18606,209.26778"
+       orientation="1,0"
+       id="guide6489" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -7327,7 +7335,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -7999,7 +8007,7 @@
            sodipodi:cy="150.00484"
            sodipodi:rx="2.0107021"
            sodipodi:ry="2.0107021"
-           d="m 10.644894,150.00484 c 0,1.11048 -0.9002224,2.0107 -2.0107025,2.0107 -1.1104801,0 -2.0107021,-0.90022 -2.0107021,-2.0107 0,-1.11048 0.900222,-2.01071 2.0107021,-2.01071 1.1104801,0 2.0107025,0.90023 2.0107025,2.01071 z"
+           d="m 10.644894,150.00484 a 2.0107021,2.0107021 0 0 1 -2.0107025,2.0107 2.0107021,2.0107021 0 0 1 -2.0107021,-2.0107 2.0107021,2.0107021 0 0 1 2.0107021,-2.01071 2.0107021,2.0107021 0 0 1 2.0107025,2.01071 z"
            transform="matrix(1.4448628,0,0,1.4448628,-32.590964,901.86061)" />
       </g>
     </g>
@@ -8069,7 +8077,7 @@
       </g>
       <path
          transform="matrix(0.92839834,0,0,0.92839834,35.384666,978.54092)"
-         d="m 10.644894,150.00484 c 0,1.11048 -0.9002224,2.0107 -2.0107025,2.0107 -1.1104801,0 -2.0107021,-0.90022 -2.0107021,-2.0107 0,-1.11048 0.900222,-2.01071 2.0107021,-2.01071 1.1104801,0 2.0107025,0.90023 2.0107025,2.01071 z"
+         d="m 10.644894,150.00484 a 2.0107021,2.0107021 0 0 1 -2.0107025,2.0107 2.0107021,2.0107021 0 0 1 -2.0107021,-2.0107 2.0107021,2.0107021 0 0 1 2.0107021,-2.01071 2.0107021,2.0107021 0 0 1 2.0107025,2.01071 z"
          sodipodi:ry="2.0107021"
          sodipodi:rx="2.0107021"
          sodipodi:cy="150.00484"
@@ -9458,7 +9466,7 @@
            inkscape:flatsided="true"
            inkscape:rounded="0"
            inkscape:randomized="0"
-           d="M 87.726226,298.70343 73.283719,295.34498 83.413471,284.51663 z"
+           d="M 87.726226,298.70343 73.283719,295.34498 83.413471,284.51663 Z"
            inkscape:transform-center-x="0.21554041"
            inkscape:transform-center-y="2.5761139" />
         <g
@@ -9546,7 +9554,7 @@
            inkscape:flatsided="true"
            inkscape:rounded="0"
            inkscape:randomized="0"
-           d="M 87.726226,298.70343 73.283719,295.34498 83.413471,284.51663 z"
+           d="M 87.726226,298.70343 73.283719,295.34498 83.413471,284.51663 Z"
            inkscape:transform-center-x="0.21554041"
            inkscape:transform-center-y="2.5761139" />
         <g
@@ -9634,7 +9642,7 @@
            inkscape:flatsided="true"
            inkscape:rounded="0"
            inkscape:randomized="0"
-           d="M 87.726226,298.70343 73.283719,295.34498 83.413471,284.51663 z"
+           d="M 87.726226,298.70343 73.283719,295.34498 83.413471,284.51663 Z"
            inkscape:transform-center-x="0.21554041"
            inkscape:transform-center-y="2.5761139" />
         <g
@@ -9722,7 +9730,7 @@
            inkscape:flatsided="true"
            inkscape:rounded="0"
            inkscape:randomized="0"
-           d="M 87.726226,298.70343 73.283719,295.34498 83.413471,284.51663 z"
+           d="M 87.726226,298.70343 73.283719,295.34498 83.413471,284.51663 Z"
            inkscape:transform-center-x="0.21554041"
            inkscape:transform-center-y="2.5761139" />
         <g
@@ -11259,5 +11267,104 @@
          id="rect5545-1-4-1-4-4-0"
          style="fill:#ff00ff;fill-opacity:1;stroke:#ffffff;stroke-width:0.47398013000000000;stroke-linecap:square;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:6.73399999999999999" />
     </g>
+    <g
+       id="g6480"
+       transform="translate(13.263829,-0.29534842)"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/jumps-profile-pie.png"
+       inkscape:export-xdpi="89.440002"
+       inkscape:export-ydpi="89.440002">
+      <path
+         inkscape:transform-center-y="1.5365662"
+         inkscape:transform-center-x="3.9979354"
+         d="m -95.13308,1111.8978 a 8,8 0 0 1 -0.58563,-10.2529 l 6.41744,4.7766 z"
+         sodipodi:end="3.7814514"
+         sodipodi:start="2.3876217"
+         sodipodi:ry="8"
+         sodipodi:rx="8"
+         sodipodi:cy="1106.4215"
+         sodipodi:cx="-89.30127"
+         sodipodi:type="arc"
+         transform="matrix(0.9727213,-0.23197689,0.23197689,0.9727213,0,0)"
+         id="path6266-7"
+         style="opacity:1;fill:#8cec4e;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         inkscape:transform-center-y="3.9989008"
+         inkscape:transform-center-x="0.17718828"
+         d="m -1096.431,215.03722 a 8,8 0 0 1 0.1281,-9.37627 l 6.4174,4.77666 z"
+         sodipodi:end="3.7814514"
+         sodipodi:start="2.5290469"
+         sodipodi:ry="8"
+         sodipodi:rx="8"
+         sodipodi:cy="210.43761"
+         sodipodi:cx="-1089.8855"
+         sodipodi:type="arc"
+         transform="matrix(0.03715232,-0.99930961,0.99930961,0.03715232,0,0)"
+         id="path6266-7-5"
+         style="opacity:1;fill:#fe9744;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         inkscape:transform-center-y="1.894426"
+         inkscape:transform-center-x="-3.9999265"
+         d="m -503.78933,-987.41354 a 8,8 0 0 1 0.1535,-9.97016 l 6.17895,5.08139 z"
+         sodipodi:end="3.8298269"
+         sodipodi:start="2.4841483"
+         sodipodi:ry="8"
+         sodipodi:rx="8"
+         sodipodi:cy="-992.30231"
+         sodipodi:cx="-497.45688"
+         sodipodi:type="arc"
+         transform="matrix(-0.95198874,-0.30613303,0.30613303,-0.95198874,0,0)"
+         id="path6266-7-5-3"
+         style="opacity:1;fill:#d03f3a;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         inkscape:transform-center-y="-4.0009395"
+         inkscape:transform-center-x="-3.4858748"
+         d="m 812.1991,-744.87008 a 8,8 0 0 1 0.532,-10.39828 l 5.80046,5.50951 z"
+         sodipodi:end="3.9012714"
+         sodipodi:start="2.4841483"
+         sodipodi:ry="8"
+         sodipodi:rx="8"
+         sodipodi:cy="-749.75885"
+         sodipodi:cx="818.53156"
+         sodipodi:type="arc"
+         transform="matrix(-0.55470341,0.83204815,-0.83204815,-0.55470341,0,0)"
+         id="path6266-7-5-3-5"
+         style="opacity:1;fill:#655643;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         inkscape:transform-center-y="-3.9971701"
+         inkscape:transform-center-x="3.1959591"
+         d="m 1032.5198,399.27562 a 8,8 0 0 1 -1.5169,-9.80697 l 6.9601,3.94422 z"
+         sodipodi:end="3.6571587"
+         sodipodi:start="2.3191008"
+         sodipodi:ry="8"
+         sodipodi:rx="8"
+         sodipodi:cy="393.41287"
+         sodipodi:cx="1037.963"
+         sodipodi:type="arc"
+         transform="matrix(0.49328497,0.86986777,-0.86986777,0.49328497,0,0)"
+         id="path6266-7-5-3-5-6"
+         style="opacity:1;fill:#84bdc6;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.68163776px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="150.97533"
+       y="1083.8927"
+       id="text3963-8-3-5-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3965-4-8-7-9"
+         x="150.97533"
+         y="1083.8927">jumps-profile-pie.png</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:5.68163776px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="175.87433"
+       y="1076.8043"
+       id="text3963-8-3-5-2-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3965-4-8-7-9-2"
+         x="175.87433"
+         y="1076.8043">16x16</tspan></text>
   </g>
 </svg>

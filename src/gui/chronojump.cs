@@ -197,6 +197,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.DrawingArea drawingarea_jumps_profile;
 	[Widget] Gtk.Label label_jumps_profile_person;
 	[Widget] Gtk.Table table_jumps_profile;
+	[Widget] Gtk.Image image_tab_jumps_profile;
 	
 	
 	//runs
@@ -813,6 +814,9 @@ public partial class ChronoJumpWindow
 	
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "spreadsheet.png");
 		image_encoder_analyze_table_save.Pixbuf = pixbuf;
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "jumps-profile-pie.png");
+		image_tab_jumps_profile.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualCurrentSetIcon);
 		image_encoder_analyze_individual_current_set.Pixbuf = pixbuf;

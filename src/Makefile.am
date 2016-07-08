@@ -286,6 +286,7 @@ RESOURCES = \
 	../images/chronopic_24.png,chronopic_24.png \
 	../images/chronopic_128.png,chronopic_128.png \
 	../images/gpm-statistics.png,gpm-statistics.png \
+	../images/jumps-profile-pie.png,jumps-profile-pie.png \
 	../images/spreadsheet.png,spreadsheet.png \
 	../images/report_view.png,report_view.png \
 	../images/preferences-system.png,preferences-system.png \

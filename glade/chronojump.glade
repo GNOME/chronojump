@@ -12223,7 +12223,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkLabel" id="label191">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Weight ligfting,
+                                                    <property name="label">Weight lifting,
 gym machines</property>
                                                     <property name="justify">center</property>
                                                   </widget>
@@ -12240,7 +12240,7 @@ gym machines</property>
                                                   <widget class="GtkLabel" id="label192">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Weight ligfting,
+                                                    <property name="label">Weight lifting,
 gym machines</property>
                                                     <property name="justify">center</property>
                                                   </widget>
@@ -12257,7 +12257,7 @@ gym machines</property>
                                                   <widget class="GtkLabel" id="label193">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Weight ligfting,
+                                                    <property name="label">Weight lifting,
 gym machines</property>
                                                     <property name="justify">center</property>
                                                   </widget>

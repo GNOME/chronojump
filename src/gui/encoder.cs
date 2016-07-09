@@ -78,6 +78,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_export_encoder_signal;
 	[Widget] Gtk.Label label_encoder_curve_action;
 	[Widget] Gtk.Button button_encoder_delete_signal;
+	[Widget] Gtk.CheckButton checkbutton_encoder_auto;
 	
 	[Widget] Gtk.VPaned vpaned_encoder_main;
 	[Widget] Gtk.VPaned vpaned_encoder_capture_video_and_set_graph;
@@ -2037,6 +2038,7 @@ public partial class ChronoJumpWindow
 				encoder_capture_signal_drawingarea.Allocation.Height,
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_inactivity_end_time.Value,
+				checkbutton_encoder_auto.Active,
 				findEccon(true),
 				chronopicWin.GetEncoderPort()
 				);
@@ -2070,6 +2072,7 @@ public partial class ChronoJumpWindow
 				encoder_capture_signal_drawingarea.Allocation.Height,
 				encoder_configuration_win.Spin_im_duration,
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_inactivity_end_time.Value,
+				false,
 				findEccon(true),
 				chronopicWin.GetEncoderPort()
 				);
@@ -5437,6 +5440,10 @@ public partial class ChronoJumpWindow
 			button_encoder_analyze_1RM_save.Visible = false;
 		
 			encoderShowCaptureDoingButtons(false);
+		
+			//redo if auto mode
+			if(checkbutton_encoder_auto.Active)
+				on_button_encoder_capture_clicked (new object (), new EventArgs ());
 
 		} else { //ANALYZE
 			if(encoderProcessCancel) {

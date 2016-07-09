@@ -1313,7 +1313,7 @@ msgstr "Estira."
 
 #: ../glade/chronojump.glade.h:285
 msgid "Roll de machine to wrap the rope."
-msgstr "Fes girar la màquina per enrotllar la corda"
+msgstr "Fes girar la màquina per enrotllar la corda."
 
 #: ../glade/chronojump.glade.h:286
 msgid "Start capture with the rope completely unwrapped."
@@ -1389,7 +1389,7 @@ msgstr "Sèrie actual"
 
 #: ../glade/chronojump.glade.h:304
 msgid "Load another set"
-msgstr "Carregar una altre sèrie"
+msgstr "Carregar una altra sèrie"
 
 #: ../glade/chronojump.glade.h:305
 msgid "("
@@ -1610,7 +1610,7 @@ msgid ""
 "(platform or photocell)"
 msgstr ""
 "Contactes\n"
-"(plataforma o fotocèl·lula) "
+"(plataforma o fotocèl·lula)"
 
 #: ../glade/chronojump.glade.h:360
 msgid ""
@@ -1622,7 +1622,7 @@ msgid ""
 msgstr ""
 "Seleccioneu el port on s'ha connectat el Chronopic.\n"
 "\n"
-"No hi ha comprovació o activació a l'encoder"
+"No hi ha comprovació o activació a l'encoder."
 
 #: ../glade/chronojump.glade.h:365
 msgid "Chronopic"
@@ -3476,7 +3476,7 @@ msgstr ""
 #, c-format
 msgid "The playback of this movie requires a %s plugin which is not installed."
 msgstr ""
-"La reproducció d'aquest vído requereix el plugin %s, que no està instal·lat."
+"La reproducció d'aquest vídeo requereix el plugin %s, que no està instal·lat."
 
 #: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2174
 #, c-format
@@ -4420,7 +4420,7 @@ msgstr "Accel."
 
 #: ../src/constants.cs:893
 msgid "Average Power"
-msgstr "Potencia mitja"
+msgstr "Potència mitja"
 
 #: ../src/constants.cs:896
 msgid "Time to Peak Power"

@@ -4800,7 +4800,7 @@ public partial class ChronoJumpWindow
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
 			LogB.Information("End from capture"); 
 			LogB.ThreadEnding(); 
-			finishPulsebar(encoderActions.CURVES);
+			finishPulsebar(encoderActions.CURVES_AC);
 			
 			if(encoderProcessCancel) {
 				//stop video		
@@ -5200,13 +5200,14 @@ public partial class ChronoJumpWindow
 				action == encoderActions.CAPTURE || 
 				action == encoderActions.CAPTURE_IM || 
 				action == encoderActions.CURVES || 
+				action == encoderActions.CURVES_AC || 
 				action == encoderActions.LOAD )
 		{
 			LogB.Information("ffffffinishPulsebarrrrr");
 		
 			//save video will be later at encoderSaveSignalOrCurve, because there encoderSignalUniqueID will be known
 			
-			if(action == encoderActions.CURVES)
+			if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC)
 				sensitiveGuiEventDone();
 			
 			if(encoderProcessCancel || encoderProcessProblems) {
@@ -5233,7 +5234,8 @@ public partial class ChronoJumpWindow
 					&& encoderProcessFinish ) {
 				encoder_pulsebar_capture.Text = Catalog.GetString("Finished");
 			} 
-			else if(action == encoderActions.CURVES || action == encoderActions.LOAD) {
+			else if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD) 
+			{
 				//this notebook has capture (signal plotting), and curves (shows R graph)	
 				if(notebook_encoder_capture.CurrentPage == 0)
 					notebook_encoder_capture.NextPage();
@@ -5272,7 +5274,7 @@ public partial class ChronoJumpWindow
 				button_encoder_signal_save_comment.Sensitive = false;
 		
 				//autosave signal (but not in load)
-				if(action == encoderActions.CURVES) 
+				if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC)
 				{
 					bool needToAutoSaveCurve = false;
 					if(
@@ -5429,7 +5431,7 @@ public partial class ChronoJumpWindow
 				if(encoderProcessCancel)
 					removeSignalFromGuiBecauseDeletedOrCancelled();
 			}
-				
+			
 			encoder_pulsebar_capture.Fraction = 1;
 			//analyze_image_save only has not to be sensitive now because capture graph will be saved
 			image_encoder_analyze.Sensitive = false;
@@ -5441,8 +5443,7 @@ public partial class ChronoJumpWindow
 		
 			encoderShowCaptureDoingButtons(false);
 		
-			//redo if auto mode
-			if(checkbutton_encoder_auto.Active)
+			if(action == encoderActions.CURVES_AC && checkbutton_encoder_auto.Active)
 				on_button_encoder_capture_clicked (new object (), new EventArgs ());
 
 		} else { //ANALYZE
@@ -5551,7 +5552,7 @@ public partial class ChronoJumpWindow
 	 * mark their rows (meaning saved)
 	 * also if updateSQLRecords, then update SQL meanPower of the curve
 	 *
-	 * This method is called by on_repetitive_conditions_closed, and finishPulseBar
+	 * This method is called by on_repetitive_conditions_closed, and finishPulsebar
 	 */
 	private void findAndMarkSavedCurves(bool dbconOpened, bool updateSQLRecords) 
 	{

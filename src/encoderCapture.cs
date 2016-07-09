@@ -40,6 +40,7 @@ public abstract class EncoderCapture
 	// ---- protected stuff ----
 	protected int widthG;
 	protected int heightG;
+	protected bool auto;
 	protected string eccon;
 
 	protected double realHeightG;
@@ -116,10 +117,12 @@ public abstract class EncoderCapture
 		return true;
 	}
 
-	public void InitGlobal (int widthG, int heightG, int time, int timeEnd, string eccon, string port)
+	//if auto (automatic mode), then will not end when too much time passed before start
+	public void InitGlobal (int widthG, int heightG, int time, int timeEnd, bool auto, string eccon, string port)
 	{
 		this.widthG = widthG;
 		this.heightG = heightG;
+		this.auto = auto;
 		this.eccon = eccon;
 		
 		//---- a) open port -----
@@ -237,7 +240,7 @@ public abstract class EncoderCapture
 				//when a curve has not been found and then there are 2*n seconds of inactivity
 				if(
 						(Ecca.curvesAccepted > 0 && consecutiveZeros >= consecutiveZerosMax) ||
-						(Ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax)) )
+						(! auto && Ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax)) )
 				{
 					finish = true;
 					LogB.Information("SHOULD FINISH");

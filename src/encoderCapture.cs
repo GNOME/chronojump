@@ -21,6 +21,7 @@
 using System;
 using System.IO;
 using System.IO.Ports;
+using System.Collections.Generic; //List<T>
 
 public abstract class EncoderCapture
 {
@@ -32,23 +33,24 @@ public abstract class EncoderCapture
 	public int Countdown;
 	
 	//stored to be realtime displayed
-	public Gdk.Point [] EncoderCapturePoints;
-	public Gdk.Point [] EncoderCapturePointsInertialDisc;
+	public List<Gdk.Point> EncoderCapturePoints;
+	public List<Gdk.Point> EncoderCapturePointsInertialDisc;
 	public int EncoderCapturePointsCaptured;
 	public int EncoderCapturePointsPainted;
 
 	// ---- protected stuff ----
 	protected int widthG;
 	protected int heightG;
-	protected bool auto;
+	protected bool cont;
 	protected string eccon;
 
 	protected double realHeightG;
-	protected int recordingTime;
+	protected int recordingTime;		//on !cont, capture time is defined previously
+	protected int recordedTimeCont;	//on cont, capture time is not defined, and this value has the actual recorded time
 	protected int byteReaded;
 
-	protected static int [] encoderReaded;	//data coming from encoder and converted
-	protected static int [] encoderReadedInertialDisc;	//data coming from encoder and converted
+	protected static List<int> encoderReaded;	//data coming from encoder and converted
+	protected static List<int> encoderReadedInertialDisc;	//data coming from encoder and converted
 	
 	/*
 	 * sum: sum ob byteReaded, it's the vertical position
@@ -117,12 +119,12 @@ public abstract class EncoderCapture
 		return true;
 	}
 
-	//if auto (automatic mode), then will not end when too much time passed before start
-	public void InitGlobal (int widthG, int heightG, int time, int timeEnd, bool auto, string eccon, string port)
+	//if cont (continuous mode), then will not end when too much time passed before start
+	public void InitGlobal (int widthG, int heightG, int time, int timeEnd, bool cont, string eccon, string port)
 	{
 		this.widthG = widthG;
 		this.heightG = heightG;
-		this.auto = auto;
+		this.cont = cont;
 		this.eccon = eccon;
 		
 		//---- a) open port -----
@@ -143,10 +145,12 @@ public abstract class EncoderCapture
 		msCount = 0;	//used for visual feedback of remaining time	
 
 		recordingTime = time * 1000;
-		encoderReaded = new int[recordingTime];
-		encoderReadedInertialDisc = new int[recordingTime];
-		EncoderCapturePoints = new Gdk.Point[recordingTime];
-		EncoderCapturePointsInertialDisc = new Gdk.Point[recordingTime];
+		recordedTimeCont = 1; //not 0 to not have divide by zero problems
+
+		encoderReaded = new List<int>();
+		encoderReadedInertialDisc = new List<int>();
+		EncoderCapturePoints = new List<Gdk.Point>();
+		EncoderCapturePointsInertialDisc = new List<Gdk.Point>();
 		EncoderCapturePointsCaptured = 0;
 		EncoderCapturePointsPainted = 0; 	//-1 means delete screen
 		sum = 0;
@@ -179,7 +183,7 @@ public abstract class EncoderCapture
 		previousEnd = 0;
 		lastNonZero = 0;
 		
-		//this will be used to stop encoder automatically	
+		//this will be used to stop encoder automatically (on !cont mode)
 		consecutiveZeros = -1;		
 		consecutiveZerosMax = timeEnd * 1000;
 	
@@ -222,6 +226,9 @@ public abstract class EncoderCapture
 			i = i+1;
 			if(i >= 0) 
 			{
+				if(cont)
+					recordedTimeCont ++;
+
 				if(inertialCaptureDirectionInverted)
 					byteReaded *= -1;
 
@@ -240,7 +247,7 @@ public abstract class EncoderCapture
 				//when a curve has not been found and then there are 2*n seconds of inactivity
 				if(
 						(Ecca.curvesAccepted > 0 && consecutiveZeros >= consecutiveZerosMax) ||
-						(! auto && Ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax)) )
+						(! cont && Ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax)) )
 				{
 					finish = true;
 					LogB.Information("SHOULD FINISH");
@@ -248,13 +255,13 @@ public abstract class EncoderCapture
 				
 
 				sumInertialDisc += byteReaded;
-				encoderReadedInertialDisc[i] = byteReaded;
+				encoderReadedInertialDisc.Add(byteReaded);
 
 				if(inertialChangedConToEcc())
 					byteReaded *= -1;
 
 				sum += byteReaded;
-				encoderReaded[i] = byteReaded;
+				encoderReaded.Add(byteReaded);
 
 				assignEncoderCapturePoints();
 				
@@ -341,7 +348,7 @@ public abstract class EncoderCapture
 					//since 1.5.0 secundary thread is capturing and sending data to R process
 					//while main thread is reading data coming from R and updating GUI
 
-					LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Length);
+					LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Count);
 					if(ecc.endFrame - ecc.startFrame > 0 ) 
 					{
 						double [] curve = new double[ecc.endFrame - ecc.startFrame];
@@ -417,7 +424,7 @@ public abstract class EncoderCapture
 				}
 
 			}
-		} while (i < (recordingTime -1) && ! cancel && ! finish);
+		} while ( (cont || i < (recordingTime -1)) && ! cancel && ! finish);
 		
 		LogB.Debug("runEncoderCaptureCsharp main bucle end");
 
@@ -474,10 +481,14 @@ public abstract class EncoderCapture
 	//on inertial also assigns to EncoderCapturePointsInertialDisc
 	protected virtual void assignEncoderCapturePoints() 
 	{
-		EncoderCapturePoints[i] = new Gdk.Point(
-				Convert.ToInt32(widthG * i / recordingTime),
+		int xWidth = recordingTime;
+		if(cont)
+			xWidth = recordedTimeCont;
+
+		EncoderCapturePoints.Add(new Gdk.Point(
+				Convert.ToInt32(widthG * i / xWidth),
 				Convert.ToInt32( (heightG/2) - ( sum * heightG / realHeightG) )
-				);
+				));
 	}
 				
 	//on inertial also uses to EncoderCapturePointsInertialDisc
@@ -489,11 +500,15 @@ public abstract class EncoderCapture
 		{
 			realHeightG *= 2;
 
+			int xWidth = recordingTime;
+			if(cont)
+				xWidth = recordedTimeCont;
+
 			double sum2=0;
 			for(int j=0; j <= i; j ++) {
 				sum2 += encoderReaded[j];
 				EncoderCapturePoints[j] = new Gdk.Point(
-						Convert.ToInt32(widthG * j / recordingTime),
+						Convert.ToInt32(widthG * j / xWidth),
 						Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
 						);
 			}
@@ -537,14 +552,39 @@ public abstract class EncoderCapture
 		directionCompleted = directionNow;
 	}
 	
+	protected List<int> trimInitialZeros(List<int> l) 
+	{
+		int count = 0; //position of the first non-zero value
+	
+		//1. find when there's the first non-zero	
+		foreach(int k in l) {
+			if(k != 0)
+				break;
+
+			count ++;
+		}
+		
+		//number of allowed milliseconds with zero values at start (will be cut by reduceCurveBySpeed)
+		int allowedZeroMSAtStart = 1000;
+
+		if(count > allowedZeroMSAtStart)
+		{
+			l.RemoveRange(0, count-allowedZeroMSAtStart);
+		} // else: not enough zeros at start, don't need to trim 
+		
+		return l; 
+	}
+	
 	//on inertial recordes encoderReadedInertialDisc	
 	protected virtual void saveToFile(string file)
 	{
 		TextWriter writer = File.CreateText(file);
 
+		encoderReaded = trimInitialZeros(encoderReaded);
+
 		string sep = "";
-		for(int j=0; j < i ; j ++) {
-			writer.Write(sep + encoderReaded[j]); //store the raw file (before encoderConfigurationConversions)
+		foreach(int k in encoderReaded) {
+			writer.Write(sep + k); //store the raw file (before encoderConfigurationConversions)
 			sep = ", ";
 		}
 
@@ -632,6 +672,11 @@ public class EncoderCaptureInertial : EncoderCapture
 				directionLastMSecond *= -1;
 				sum *= -1;
 				sumInertialDisc *= -1;
+			
+				int xWidth = recordingTime;
+				if(cont)
+					xWidth = recordedTimeCont;
+
 				for(int j=0; j <= i; j ++) {
 					encoderReaded[j] *= -1;
 					encoderReadedInertialDisc[j] *= -1;
@@ -640,12 +685,12 @@ public class EncoderCaptureInertial : EncoderCapture
 				for(int j=0; j <= i; j ++) {
 					sum2 += encoderReaded[j];
 					EncoderCapturePoints[j] = new Gdk.Point(
-							Convert.ToInt32(widthG * j / recordingTime),
+							Convert.ToInt32(widthG * j / xWidth),
 							Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
 							);
 					//same for InertialDisc. Read comment 2 on the top of this method
 					EncoderCapturePointsInertialDisc[j] = new Gdk.Point(
-							Convert.ToInt32(widthG * j / recordingTime),
+							Convert.ToInt32(widthG * j / xWidth),
 							Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
 							);
 				}
@@ -668,14 +713,18 @@ public class EncoderCaptureInertial : EncoderCapture
 	
 	protected override void assignEncoderCapturePoints() 
 	{
-		EncoderCapturePoints[i] = new Gdk.Point(
-				Convert.ToInt32(widthG * i / recordingTime),
+		int xWidth = recordingTime;
+		if(cont)
+			xWidth = recordedTimeCont;
+
+		EncoderCapturePoints.Add(new Gdk.Point(
+				Convert.ToInt32(widthG * i / xWidth),
 				Convert.ToInt32( (heightG/2) - ( sum * heightG / realHeightG) )
-				);
-		EncoderCapturePointsInertialDisc[i] = new Gdk.Point(
-				Convert.ToInt32(widthG * i / recordingTime),
+				));
+		EncoderCapturePointsInertialDisc.Add(new Gdk.Point(
+				Convert.ToInt32(widthG * i / xWidth),
 				Convert.ToInt32( (heightG/2) - ( sumInertialDisc * heightG / realHeightG) )
-				);
+				));
 	}
 	
 	protected override void encoderCapturePointsAdaptativeDisplay()
@@ -688,17 +737,21 @@ public class EncoderCaptureInertial : EncoderCapture
 				EncoderCapturePointsInertialDisc[i].Y < 0 ) {
 			realHeightG *= 2;
 
+			int xWidth = recordingTime;
+			if(cont)
+				xWidth = recordedTimeCont;
+
 			double sum2 = 0;
 			double sum2InertialDisc = 0;
 			for(int j=0; j <= i; j ++) {
 				sum2 += encoderReaded[j];
 				sum2InertialDisc += encoderReadedInertialDisc[j];
 				EncoderCapturePoints[j] = new Gdk.Point(
-						Convert.ToInt32(widthG * j / recordingTime),
+						Convert.ToInt32(widthG * j / xWidth),
 						Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
 						);
 				EncoderCapturePointsInertialDisc[j] = new Gdk.Point(
-						Convert.ToInt32(widthG * j / recordingTime),
+						Convert.ToInt32(widthG * j / xWidth),
 						Convert.ToInt32( (heightG/2) - ( sum2InertialDisc * heightG / realHeightG) )
 						);
 			}
@@ -723,9 +776,11 @@ public class EncoderCaptureInertial : EncoderCapture
 	{
 		TextWriter writer = File.CreateText(file);
 
+		encoderReadedInertialDisc = trimInitialZeros(encoderReadedInertialDisc);
+
 		string sep = "";
-		for(int j=0; j < i ; j ++) {
-			writer.Write(sep + encoderReadedInertialDisc[j]); //store the raw file (before encoderConfigurationConversions)
+		foreach(int k in encoderReadedInertialDisc) {
+			writer.Write(sep + k); //store the raw file (before encoderConfigurationConversions)
 			sep = ", ";
 		}
 

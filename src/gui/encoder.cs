@@ -78,7 +78,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_export_encoder_signal;
 	[Widget] Gtk.Label label_encoder_curve_action;
 	[Widget] Gtk.Button button_encoder_delete_signal;
-	[Widget] Gtk.CheckButton checkbutton_encoder_auto;
+	[Widget] Gtk.CheckButton checkbutton_encoder_cont;
 	
 	[Widget] Gtk.VPaned vpaned_encoder_main;
 	[Widget] Gtk.VPaned vpaned_encoder_capture_video_and_set_graph;
@@ -2033,12 +2033,16 @@ public partial class ChronoJumpWindow
 		else
 			eCapture = new EncoderCaptureGravitatory();
 		
+		int recordingTime = (int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value;
+		if(checkbutton_encoder_cont.Active)
+			recordingTime = 0;
+		
 		eCapture.InitGlobal( 
 				encoder_capture_signal_drawingarea.Allocation.Width,
 				encoder_capture_signal_drawingarea.Allocation.Height,
-				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
+				recordingTime, 
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_inactivity_end_time.Value,
-				checkbutton_encoder_auto.Active,
+				checkbutton_encoder_cont.Active,
 				findEccon(true),
 				chronopicWin.GetEncoderPort()
 				);
@@ -3871,6 +3875,10 @@ public partial class ChronoJumpWindow
 		if(eCapture.EncoderCapturePoints == null)
 			return;
 
+		//continuous mode not show the capture line
+		if(checkbutton_encoder_cont.Active)
+			return;
+
 		bool refreshAreaOnly = false;
 		
 		//mark meaning screen should be erased
@@ -5443,7 +5451,7 @@ public partial class ChronoJumpWindow
 		
 			encoderShowCaptureDoingButtons(false);
 		
-			if(action == encoderActions.CURVES_AC && checkbutton_encoder_auto.Active)
+			if(action == encoderActions.CURVES_AC && checkbutton_encoder_cont.Active)
 				on_button_encoder_capture_clicked (new object (), new EventArgs ());
 
 		} else { //ANALYZE

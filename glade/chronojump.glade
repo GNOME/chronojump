@@ -14056,8 +14056,8 @@ low ressistance</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkCheckButton" id="checkbutton_encoder_auto">
-                                                            <property name="label">Auto</property>
+                                                            <widget class="GtkCheckButton" id="checkbutton_encoder_cont">
+                                                            <property name="label">Cont</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
@@ -15607,7 +15607,7 @@ low ressistance</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
-                                                            <property name="tooltip" translatable="yes">Groupal / current set</property>
+                                                            <property name="tooltip" translatable="yes">Groupal / current session</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
                                                             <property name="group">radio_encoder_analyze_individual_current_set</property>

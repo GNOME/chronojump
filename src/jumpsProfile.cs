@@ -54,15 +54,15 @@ public class JumpsProfileIndex
 				Color = colorFromRGB(209,63,58);
 				break;
 			case Types.CELAST:
-				Text = "% Elastic Hability  (CMJ - SJ) / Dja";
+				Text = "% Elastic  (CMJ - SJ) / Dja";
 				Color = colorFromRGB(255,152,68);
 				break;
 			case Types.CARMS:
-				Text = "% Arms Hability  (ABK - CMJ) / Dja";
+				Text = "% Arms  (ABK - CMJ) / Dja";
 				Color = colorFromRGB(141,237,78);
 				break;
 			case Types.FREACT:
-				Text = "% Reactive-reflex Hability  (DJa - ABK) / Dja";
+				Text = "% Reactive-reflex  (DJa - ABK) / Dja";
 				Color = colorFromRGB(133,190,199);
 				break;
 			default:

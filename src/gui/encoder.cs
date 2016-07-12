@@ -4963,8 +4963,16 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 	
-	private void updatePulsebar (encoderActions action) {
-		if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM) {
+	private void updatePulsebar (encoderActions action) 
+	{
+		if(action == encoderActions.CAPTURE && checkbutton_encoder_cont.Active) {
+			encoder_pulsebar_capture.Text = "";
+			encoder_pulsebar_capture.Pulse();
+			return;
+		}
+
+		if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM) 
+		{
 			int selectedTime = (int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value;
 			if(action == encoderActions.CAPTURE_IM)
 				selectedTime = encoder_configuration_win.Spin_im_duration;
@@ -4972,6 +4980,7 @@ public partial class ChronoJumpWindow
 			encoder_pulsebar_capture.Fraction = Util.DivideSafeFraction(
 					(selectedTime - eCapture.Countdown), selectedTime);
 			encoder_pulsebar_capture.Text = eCapture.Countdown + " s";
+	
 			return;
 		}
 

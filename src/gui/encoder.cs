@@ -351,6 +351,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_blue_encoder_capture;
 	Gdk.GC pen_blue_dark_encoder_capture;
 	Gdk.GC pen_blue_light_encoder_capture;
+	Gdk.GC pen_yellow_encoder_capture;
 	
 	Gdk.GC pen_white_encoder_capture;
 	Gdk.GC pen_selected_encoder_capture;
@@ -4279,6 +4280,30 @@ public partial class ChronoJumpWindow
 			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 	}
 
+	private void plotCurvesGraphDoPlotMessage(string message) 
+	{
+		Pango.Layout layout_message = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
+		layout_message.FontDescription = Pango.FontDescription.FromString ("Courier 12");
+		
+		int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
+		int graphHeight=encoder_capture_curves_bars_drawingarea.Allocation.Height;
+
+		layout_message.SetMarkup(message);
+		int textWidth = 1;
+		int textHeight = 1;
+		layout_message.GetPixelSize(out textWidth, out textHeight); 
+		
+		int xStart = Convert.ToInt32(graphWidth/2 - textWidth/2);
+		int yStart = Convert.ToInt32(graphHeight/2 - textHeight/2);
+
+		//draw rectangle behind
+		Rectangle rect = new Rectangle(xStart -3, yStart -3, textWidth +3, textHeight +3);
+		encoder_capture_curves_bars_pixmap.DrawRectangle(pen_yellow_encoder_capture, true, rect);
+		
+		//write text inside
+		encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, xStart, yStart, layout_message);
+	}
+
 	int encoder_capture_curves_allocationXOld;
 	int encoder_capture_curves_allocationYOld;
 	bool encoder_capture_curves_sizeChanged;
@@ -4427,14 +4452,22 @@ public partial class ChronoJumpWindow
 				//don't need to be false because ItemToggled is deactivated during capture
 				treeview_encoder_capture_curves.Sensitive = true;
 
-				prepareEncoderGraphs(true);
+				//on continuous mode do not erase at beginning of capture in order to see last bars
+				if(action == encoderActions.CAPTURE && checkbutton_encoder_cont.Active) {
+					prepareEncoderGraphs(false);
+					plotCurvesGraphDoPlotMessage("Previous set");
+				} else
+					prepareEncoderGraphs(true);
+
 				//eccaCreated = false;
 
 				if(action == encoderActions.CAPTURE) {
 					encoderStartVideoRecord();
 
 					//remove treeview columns
-					treeviewEncoderCaptureRemoveColumns();
+					if( ! (action == encoderActions.CAPTURE && checkbutton_encoder_cont.Active) )
+						treeviewEncoderCaptureRemoveColumns();
+
 					encoderCaptureStringR = new List<string>();
 					encoderCaptureStringR.Add(
 						",series,exercise,mass,start,width,height," + 
@@ -4600,6 +4633,8 @@ public partial class ChronoJumpWindow
 		pen_blue_light_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_white_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_selected_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		
+		pen_yellow_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref UtilGtk.BLACK,true,true);
@@ -4613,6 +4648,7 @@ public partial class ChronoJumpWindow
 		colormap.AllocColor (ref UtilGtk.BLUE_PLOTS,true,true);
 		colormap.AllocColor (ref UtilGtk.BLUE_DARK,true,true);
 		colormap.AllocColor (ref UtilGtk.BLUE_LIGHT,true,true);
+		colormap.AllocColor (ref UtilGtk.YELLOW,true,true);
 		colormap.AllocColor (ref UtilGtk.WHITE,true,true);
 		colormap.AllocColor (ref UtilGtk.SELECTED,true,true);
 
@@ -4627,6 +4663,7 @@ public partial class ChronoJumpWindow
 		pen_blue_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
 		pen_blue_dark_encoder_capture.Foreground = UtilGtk.BLUE_DARK;
 		pen_blue_light_encoder_capture.Foreground = UtilGtk.BLUE_LIGHT;
+		pen_yellow_encoder_capture.Foreground = UtilGtk.YELLOW;
 		pen_white_encoder_capture.Foreground = UtilGtk.WHITE;
 		pen_selected_encoder_capture.Foreground = UtilGtk.SELECTED;
 

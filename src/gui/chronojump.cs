@@ -196,7 +196,8 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.DrawingArea drawingarea_jumps_profile;
 	[Widget] Gtk.Label label_jumps_profile_person;
-	[Widget] Gtk.Table table_jumps_profile;
+	[Widget] Gtk.Table table_jumps_profile_help;
+	[Widget] Gtk.Table table_jumps_profile_training;
 	[Widget] Gtk.Image image_tab_jumps_profile;
 	
 	
@@ -6553,8 +6554,14 @@ LogB.Debug("X");
 			jumpsProfileDo(true);
 	}
 
+	private void on_button_jumps_profile_help_clicked (object o, EventArgs args) {
+		table_jumps_profile_training.Visible = false;
+		table_jumps_profile_help.Visible = ! table_jumps_profile_help.Visible;
+	}
+
 	private void on_button_jumps_profile_training_clicked (object o, EventArgs args) {
-		table_jumps_profile.Visible = ! table_jumps_profile.Visible;
+		table_jumps_profile_help.Visible = false;
+		table_jumps_profile_training.Visible = ! table_jumps_profile_training.Visible;
 	}
 
 

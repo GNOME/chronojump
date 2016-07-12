@@ -46,27 +46,27 @@ public class JumpsProfileIndex
 		this.type = type;
 		switch(type) {
 			case Types.FMAX:
-				Text = "% F. Maximum  SJl100% / DJa";
+				Text = "% Maximum Force  SJl100% / DJa";
 				Color = colorFromRGB(101,86,67);
 				break;
 			case Types.FEXPL:
-				Text = "% F. Explosive  (SJ - SJl100%) / Dja";
+				Text = "% Explosive Force  (SJ - SJl100%) / Dja";
 				Color = colorFromRGB(209,63,58);
 				break;
 			case Types.CELAST:
-				Text = "% Hab. Elastic  (CMJ - SJ) / Dja";
+				Text = "% Elastic Hability  (CMJ - SJ) / Dja";
 				Color = colorFromRGB(255,152,68);
 				break;
 			case Types.CARMS:
-				Text = "% Hab. Arms  (ABK - CMJ) / Dja";
+				Text = "% Arms Hability  (ABK - CMJ) / Dja";
 				Color = colorFromRGB(141,237,78);
 				break;
 			case Types.FREACT:
-				Text = "% F. Reactive-reflex  (DJa - ABK) / Dja";
+				Text = "% Reactive-reflex Hability  (DJa - ABK) / Dja";
 				Color = colorFromRGB(133,190,199);
 				break;
 			default:
-				Text = "% F. Maximum  SJl100% / DJa";
+				Text = "% Maximum Force  SJl100% / DJa";
 				Color = colorFromRGB(101,86,67);
 				break;
 		}

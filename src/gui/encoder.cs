@@ -3887,10 +3887,6 @@ public partial class ChronoJumpWindow
 		if(eCapture.EncoderCapturePoints == null)
 			return;
 
-		//continuous mode not show the capture line
-		if(radio_encoder_capture_cont.Active)
-			return;
-
 		bool refreshAreaOnly = false;
 		
 		//mark meaning screen should be erased
@@ -3913,27 +3909,42 @@ public partial class ChronoJumpWindow
 		int minY=10000;
 
 		Gdk.Point [] paintPoints = new Gdk.Point[toDraw];
-		for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j++) 
-		{
-			paintPoints[j] = eCapture.EncoderCapturePoints[i];
+		Gdk.Point [] paintPointsInertial = new Gdk.Point[toDraw];
 
-			if(refreshAreaOnly) {
-				if(eCapture.EncoderCapturePoints[i].Y > maxY)
-					maxY = eCapture.EncoderCapturePoints[i].Y;
-				if(eCapture.EncoderCapturePoints[i].Y < minY)
-					minY = eCapture.EncoderCapturePoints[i].Y;
+		//currently disabled points painting on continuous mode
+		if(radio_encoder_capture_cont.Active) {
+			int graphWidth = encoder_capture_signal_drawingarea.Allocation.Width;
+			int graphHeight = encoder_capture_signal_drawingarea.Allocation.Height;
+			
+			layout_encoder_capture_signal.SetMarkup("Graph currently disabled\non continuous mode");
+			int textWidth = 1;
+			int textHeight = 1;
+			layout_encoder_capture_signal.GetPixelSize(out textWidth, out textHeight); 
+			
+			encoder_capture_signal_pixmap.DrawLayout(pen_blue_encoder_capture, 
+					graphWidth/2 - textWidth/2, graphHeight/2 - textHeight/2, layout_encoder_capture_signal);
+		}
+		else {
+			for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j++) 
+			{
+				paintPoints[j] = eCapture.EncoderCapturePoints[i];
+
+				if(refreshAreaOnly) {
+					if(eCapture.EncoderCapturePoints[i].Y > maxY)
+						maxY = eCapture.EncoderCapturePoints[i].Y;
+					if(eCapture.EncoderCapturePoints[i].Y < minY)
+						minY = eCapture.EncoderCapturePoints[i].Y;
+				}
+
 			}
 
-		}
-		
-		Gdk.Point [] paintPointsInertial = new Gdk.Point[toDraw];
-		if(mode == UpdateEncoderPaintModes.INERTIAL) {
-			for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j ++) 
-			{
-				//only assign the points if they are different than paintPoints
-				if(eCapture.EncoderCapturePointsInertialDisc[i] != eCapture.EncoderCapturePoints[i] &&
-						(i % 800) <= 520 //dashed accepting 520 points and discarding 280
-						) {
+			if(mode == UpdateEncoderPaintModes.INERTIAL) {
+				for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j ++) 
+				{
+					//only assign the points if they are different than paintPoints
+					if(eCapture.EncoderCapturePointsInertialDisc[i] != eCapture.EncoderCapturePoints[i] &&
+							(i % 800) <= 520 //dashed accepting 520 points and discarding 280
+					  ) {
 						paintPointsInertial[j] = eCapture.EncoderCapturePointsInertialDisc[i];
 
 						if(refreshAreaOnly) {
@@ -3942,14 +3953,14 @@ public partial class ChronoJumpWindow
 							if(eCapture.EncoderCapturePointsInertialDisc[i].Y < minY)
 								minY = eCapture.EncoderCapturePointsInertialDisc[i].Y;
 						}
+					}
 				}
+				encoder_capture_signal_pixmap.DrawPoints(pen_gray, paintPointsInertial);
 			}
-			encoder_capture_signal_pixmap.DrawPoints(pen_gray, paintPointsInertial);
+			//paint this after the inertial because this should mask the other
+			encoder_capture_signal_pixmap.DrawPoints(pen_black_encoder_capture, paintPoints);
 		}
 		
-		//paint this after the inertial because this should mask the other
-		encoder_capture_signal_pixmap.DrawPoints(pen_black_encoder_capture, paintPoints);
-
 
 		//write title
 		string title = "";
@@ -4294,7 +4305,7 @@ public partial class ChronoJumpWindow
 	private void plotCurvesGraphDoPlotMessage(string message) 
 	{
 		Pango.Layout layout_message = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
-		layout_message.FontDescription = Pango.FontDescription.FromString ("Courier 12");
+		layout_message.FontDescription = Pango.FontDescription.FromString ("Courier 10");
 		
 		int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
 		int graphHeight=encoder_capture_curves_bars_drawingarea.Allocation.Height;
@@ -4307,8 +4318,12 @@ public partial class ChronoJumpWindow
 		int xStart = Convert.ToInt32(graphWidth/2 - textWidth/2);
 		int yStart = Convert.ToInt32(graphHeight/2 - textHeight/2);
 
-		//draw rectangle behind
-		Rectangle rect = new Rectangle(xStart -3, yStart -3, textWidth +3, textHeight +3);
+		//draw horizontal line behind (across all graph)
+		Rectangle rect = new Rectangle(0, yStart + textHeight -1, graphWidth, 1);
+		encoder_capture_curves_bars_pixmap.DrawRectangle(pen_yellow_encoder_capture, true, rect);
+
+		//draw rectangle behind text
+		rect = new Rectangle(xStart -2, yStart -2, textWidth +2, textHeight +2);
 		encoder_capture_curves_bars_pixmap.DrawRectangle(pen_yellow_encoder_capture, true, rect);
 		
 		//write text inside
@@ -4463,12 +4478,12 @@ public partial class ChronoJumpWindow
 				//don't need to be false because ItemToggled is deactivated during capture
 				treeview_encoder_capture_curves.Sensitive = true;
 
-				//on continuous mode do not erase at beginning of capture in order to see last bars
+				//on continuous mode do not erase bars at beginning of capture in order to see last bars
 				if(action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) {
-					prepareEncoderGraphs(false);
+					prepareEncoderGraphs(false, true); //bars, signal
 					plotCurvesGraphDoPlotMessage("Previous set");
 				} else
-					prepareEncoderGraphs(true);
+					prepareEncoderGraphs(true, true);
 
 				//eccaCreated = false;
 
@@ -4545,7 +4560,7 @@ public partial class ChronoJumpWindow
 				//-2 to accomadate the width slider without needing a height slider
 				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture) -2;
 
-				prepareEncoderGraphs(true);
+				prepareEncoderGraphs(true, true);
 				
 				
 				//_______ 2) run stuff
@@ -4616,15 +4631,16 @@ public partial class ChronoJumpWindow
 		button_encoder_capture_finish_cont.Visible = radio_encoder_capture_cont.Active;
 	}
 
-	void prepareEncoderGraphs(bool eraseFirst) {
+	void prepareEncoderGraphs(bool eraseBars, bool eraseSignal) 
+	{
 		LogB.Debug("prepareEncoderGraphs() start (should be on first thread: GTK)");
 		
-		if(eraseFirst) {
-			if(encoder_capture_signal_pixmap != null)
-				UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
-			if(encoder_capture_curves_bars_pixmap != null)
-				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
-		}
+		if(eraseBars && encoder_capture_curves_bars_pixmap != null)
+			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+
+		if(eraseSignal && encoder_capture_signal_pixmap != null)
+			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
+
 
 		layout_encoder_capture_signal = new Pango.Layout (encoder_capture_signal_drawingarea.PangoContext);
 		layout_encoder_capture_signal.FontDescription = Pango.FontDescription.FromString ("Courier 10");
@@ -4853,7 +4869,7 @@ public partial class ChronoJumpWindow
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
 				
-			prepareEncoderGraphs(false); //do not erase them
+			prepareEncoderGraphs(false, false); //do not erase them
 			needToCallPrepareEncoderGraphs = false;
 		}
 			

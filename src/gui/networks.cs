@@ -98,9 +98,7 @@ public partial class ChronoJumpWindow
 		
 			button_encoder_select.HeightRequest = 40;
 			//this will make all encoder capture controls taller	
-			//88 then buttons will be the same height than button_encoder_select. The 8 extra is for the vertical space
-			button_encoder_capture.SetSizeRequest(125,88);
-			//button_encoder_capture.HeightRequest = 88;
+			button_encoder_capture.SetSizeRequest(125,60);
 
 			spin_encoder_im_weights_n.Visible = false;
 			hbox_encoder_im_weights_n.Visible = true;

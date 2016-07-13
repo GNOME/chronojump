@@ -14385,10 +14385,13 @@ low ressistance</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox57">
+                                                            <widget class="GtkTable" id="table3">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="n_rows">2</property>
+                                                            <property name="n_columns">2</property>
+                                                            <property name="column_spacing">8</property>
+                                                            <property name="row_spacing">8</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_recalculate">
                                                             <property name="width_request">60</property>
@@ -14409,11 +14412,6 @@ low ressistance</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_load_signal">
@@ -14436,23 +14434,35 @@ low ressistance</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox60">
+                                                            <widget class="GtkButton" id="button_encoder_delete_signal">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Delete set</property>
+                                                            <signal name="clicked" handler="on_button_encoder_delete_signal_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_signal_delete">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="stock">gtk-delete</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox189">
                                                             <property name="visible">True</property>
@@ -14511,40 +14521,15 @@ low ressistance</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
                                                             </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_encoder_delete_signal">
-                                                            <property name="visible">True</property>
-                                                            <property name="sensitive">False</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Delete set</property>
-                                                            <signal name="clicked" handler="on_button_encoder_delete_signal_clicked" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_encoder_signal_delete">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-delete</property>
-                                                            <property name="icon-size">2</property>
-                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </widget>

@@ -65,6 +65,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_bell;
 	[Widget] Gtk.Button button_encoder_capture_cancel;
 	[Widget] Gtk.Button button_encoder_capture_finish;
+	[Widget] Gtk.Button button_encoder_capture_finish_cont;
 	[Widget] Gtk.Button button_encoder_recalculate;
 	[Widget] Gtk.Button button_encoder_load_signal;
 	[Widget] Gtk.Button button_encoder_load_signal_on_analyze;
@@ -78,7 +79,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_export_encoder_signal;
 	[Widget] Gtk.Label label_encoder_curve_action;
 	[Widget] Gtk.Button button_encoder_delete_signal;
-	[Widget] Gtk.CheckButton checkbutton_encoder_cont;
+	[Widget] Gtk.RadioButton radio_encoder_capture_cont;
 	
 	[Widget] Gtk.VPaned vpaned_encoder_main;
 	[Widget] Gtk.VPaned vpaned_encoder_capture_video_and_set_graph;
@@ -283,6 +284,7 @@ public partial class ChronoJumpWindow
 	private static bool encoderProcessCancel;
 	private static bool encoderProcessProblems;
 	private static bool encoderProcessFinish;
+	private static bool encoderProcessFinishContMode;
 
 	EncoderCaptureOptionsWindow encoderCaptureOptionsWin;
 	EncoderConfigurationWindow encoder_configuration_win;
@@ -847,6 +849,12 @@ public partial class ChronoJumpWindow
 	{
 		eCapture.Finish();
 		encoderProcessFinish = true;
+			
+	}
+	void on_button_encoder_capture_finish_cont_clicked (object o, EventArgs args) 
+	{
+		encoderProcessFinishContMode = true;
+		on_button_encoder_capture_finish_clicked (o, args); 
 	}
 
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args) {
@@ -2035,15 +2043,17 @@ public partial class ChronoJumpWindow
 			eCapture = new EncoderCaptureGravitatory();
 		
 		int recordingTime = (int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value;
-		if(checkbutton_encoder_cont.Active)
+		if(radio_encoder_capture_cont.Active)  {
 			recordingTime = 0;
+			encoderProcessFinishContMode = false; //will be true when finish button is pressed
+		}
 		
 		eCapture.InitGlobal( 
 				encoder_capture_signal_drawingarea.Allocation.Width,
 				encoder_capture_signal_drawingarea.Allocation.Height,
 				recordingTime, 
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_inactivity_end_time.Value,
-				checkbutton_encoder_cont.Active,
+				radio_encoder_capture_cont.Active,
 				findEccon(true),
 				chronopicWin.GetEncoderPort()
 				);
@@ -3832,6 +3842,7 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_cancel.Sensitive = Util.IntToBool(table[7]);
 		
 		button_encoder_capture_finish.Sensitive = Util.IntToBool(table[8]);
+		button_encoder_capture_finish_cont.Sensitive = Util.IntToBool(table[8]);
 	}
 	
 	private void button_encoder_analyze_sensitiveness() {
@@ -3877,7 +3888,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		//continuous mode not show the capture line
-		if(checkbutton_encoder_cont.Active)
+		if(radio_encoder_capture_cont.Active)
 			return;
 
 		bool refreshAreaOnly = false;
@@ -4453,7 +4464,7 @@ public partial class ChronoJumpWindow
 				treeview_encoder_capture_curves.Sensitive = true;
 
 				//on continuous mode do not erase at beginning of capture in order to see last bars
-				if(action == encoderActions.CAPTURE && checkbutton_encoder_cont.Active) {
+				if(action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) {
 					prepareEncoderGraphs(false);
 					plotCurvesGraphDoPlotMessage("Previous set");
 				} else
@@ -4465,7 +4476,7 @@ public partial class ChronoJumpWindow
 					encoderStartVideoRecord();
 
 					//remove treeview columns
-					if( ! (action == encoderActions.CAPTURE && checkbutton_encoder_cont.Active) )
+					if( ! (action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) )
 						treeviewEncoderCaptureRemoveColumns();
 
 					encoderCaptureStringR = new List<string>();
@@ -4599,6 +4610,10 @@ public partial class ChronoJumpWindow
 	void encoderShowCaptureDoingButtons(bool show) {
 		hbox_encoder_capture_wait.Visible = ! show;
 		vbox_encoder_capture_doing.Visible = show;
+
+		button_encoder_capture_cancel.Visible = ! radio_encoder_capture_cont.Active;
+		button_encoder_capture_finish.Visible = ! radio_encoder_capture_cont.Active;
+		button_encoder_capture_finish_cont.Visible = radio_encoder_capture_cont.Active;
 	}
 
 	void prepareEncoderGraphs(bool eraseFirst) {
@@ -4905,6 +4920,7 @@ public partial class ChronoJumpWindow
 			//don't allow to press cancel or finish
 			button_encoder_capture_cancel.Sensitive = false;
 			button_encoder_capture_finish.Sensitive = false;
+			button_encoder_capture_finish_cont.Sensitive = false;
 
 			capturingCsharp = encoderCaptureProcess.STOPPED;
 		} else {	//STOPPED	
@@ -5002,7 +5018,7 @@ public partial class ChronoJumpWindow
 	
 	private void updatePulsebar (encoderActions action) 
 	{
-		if(action == encoderActions.CAPTURE && checkbutton_encoder_cont.Active) {
+		if(action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) {
 			encoder_pulsebar_capture.Text = "";
 			encoder_pulsebar_capture.Pulse();
 			return;
@@ -5497,7 +5513,7 @@ public partial class ChronoJumpWindow
 		
 			encoderShowCaptureDoingButtons(false);
 		
-			if(action == encoderActions.CURVES_AC && checkbutton_encoder_cont.Active)
+			if(action == encoderActions.CURVES_AC && radio_encoder_capture_cont.Active && ! encoderProcessFinishContMode)
 				on_button_encoder_capture_clicked (new object (), new EventArgs ());
 
 		} else { //ANALYZE

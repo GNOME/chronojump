@@ -2085,7 +2085,7 @@ public partial class ChronoJumpWindow
 		eCapture.InitGlobal( 
 				encoder_capture_signal_drawingarea.Allocation.Width,
 				encoder_capture_signal_drawingarea.Allocation.Height,
-				encoder_configuration_win.Spin_im_duration,
+				120, //hardcoded 2 minutes. Old: encoder_configuration_win.Spin_im_duration,
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_inactivity_end_time.Value,
 				false,
 				findEccon(true),
@@ -2102,8 +2102,7 @@ public partial class ChronoJumpWindow
 		if(capturedOk)
 			UtilEncoder.RunEncoderCalculeIM(
 					encoder_configuration_win.Spin_im_weight,
-					//encoder_configuration_win.Spin_im_length,
-					120,	//hardcoded two minutes, better than above because it's in another window and maybe too low
+					encoder_configuration_win.Spin_im_length,
 					encoderRProcAnalyze
 					);
 		else

@@ -35,10 +35,14 @@
 #Measure weight
 #Measure distance between centre of axis and centre of weight
 
-calculate <- function (displacement, mass, length)
+calculate <- function (displacement, mass, distance)
 {
 	print("at inertia-momentum.R calculate")
 
+	print("mass = ")
+	print(mass)
+	print("distance = ")
+	print(distance)
 	#cumulative movement of the encoder
 	x <- cumsum(displacement)
 	#print(c("x",x))
@@ -53,20 +57,23 @@ calculate <- function (displacement, mass, length)
 
 	#times where the maximums are found in milliseconds
 	tmax <- rowMeans(ex$maxindex)
-	print(c("tmax",tmax))
+	print("Time of maximums")
 	print(tmax)
 	
+	#times where the minimums are found in milliseconds
 	tmin <- rowMeans(ex$minindex)
-	print(c("tmin",tmin))
+	print("Time of minimums")
+	print(tmin)
 
 	tall = sort(as.numeric(c(tmin, tmax)))
-	print("tall")
+	print("Times of minimums and maximums")
 	print(tall)
 
 	#the last maximum is discarded
 	#tmax <- tmax[1:(length(tmax)-1)]
 	#print(c("tmax",tmax))
 	tall <- tall[1:(length(tall)-1)]
+	print("With the last maximum discarded")
 	print(c("tall",tall))
 
 	#Periods of the oscillations
@@ -79,15 +86,18 @@ calculate <- function (displacement, mass, length)
 
 	#Coefficients of a Logarithmic regression
 	logT <- lm( log(T) ~ I(log(tall[1:(length(tall)-1)])))
-	print(c("logT",logT))
+	print("-------Results of the logarithmic regression (logT)--------- ")
+	print(logT)
+	print("----------------End of the logarithmic regression----------- ")
 
 	#The final period of the oscillation in seconds
 	finalT <- exp(logT$coefficients[1] + logT$coefficients[2]*log(tall[length(tall)]))/1000
-	print(c("finalT",finalT))
+	print(c("finalT = ",finalT))
 
 	#Inertia momentum using the pendulus formula
-	I <- ( (finalT / (2 * pi))^2 ) * mass * 9.81 * length - (mass * length^2)
-	print(c("I",I))
+
+	I <- ( (finalT / (2 * pi))^2 ) * mass * 9.81 * distance - (mass * distance^2)
+	print(c("I = ",I))
 
 	return(as.numeric(I))
 }
@@ -104,14 +114,14 @@ options = scan(optionsFile, comment.char="#", what=character(), sep="\n")
 fileInput = options[1]
 fileOutput = options[2]
 mass = as.numeric(options[3]) / 1000.0 	# g -> Kg
-length = as.numeric(options[4]) / 100.0	#cm -> m
+distance = as.numeric(options[4]) / 100.0	#cm -> m
 scriptUtilR = options[5]
 		
 source(scriptUtilR)
 
 displacement = scan(file=fileInput, sep=",")
 
-inertia = calculate(displacement, mass, length)
+inertia = calculate(displacement, mass, distance)
 
 print (inertia)
 write(inertia, fileOutput)

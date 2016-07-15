@@ -359,7 +359,7 @@ public class UtilEncoder
 
 	//Inertia Momentum
 	//TODO: make this work with encoderRProc
-	public static void RunEncoderCalculeIM(double weight, double length, EncoderRProcAnalyze encoderRProcAnalyze) 
+	public static void RunEncoderCalculeIM(double weight, double distance, EncoderRProcAnalyze encoderRProcAnalyze) 
 	{
 		encoderRProcAnalyze.CancelRScript = false;
 
@@ -396,7 +396,7 @@ public class UtilEncoder
 			inputData + "\n" + 
 			outputData + "\n" + 
 			Util.ConvertToPoint(weight) + "\n" + 
-			Util.ConvertToPoint(length) + "\n" +
+			Util.ConvertToPoint(distance) + "\n" +
 			scriptUtilR + "\n";
 
 		string optionsFile = Path.GetTempPath() + "Roptions.txt";

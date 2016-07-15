@@ -94,7 +94,6 @@ public class EncoderSelectRepetitions
 		askDeletion = askDel;
 	}
 	
-	//public GenericWindow Do() {
 	public GenericWindow Do() {
 		getData();
 		createBigArray();
@@ -105,12 +104,9 @@ public class EncoderSelectRepetitions
 	}
 
 	//used when click on "Select" button
-	public void Show() {
-		RepsActive = 0;
-		RepsAll = 0;
-
+	public void Show() 
+	{
 		activateCallbacks();
-		
 		genericWin.ShowNow();
 	}
 
@@ -132,6 +128,8 @@ public class EncoderSelectRepetitions
 	protected void updateEncoderCompareInterAndReps() 
 	{
 		EncoderCompareInter = new ArrayList ();
+		RepsActive = 0;
+		RepsAll = 0;
 	
 		//find RepsActive
 		string [] selectedID = genericWin.GetColumn(0,true); //only active
@@ -368,14 +366,15 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		LogB.Information("row delete at show curves");
 
 		int uniqueID = genericWin.TreeviewSelectedUniqueID;
-		string status = genericWin.GetCheckboxStatus(uniqueID);
+		bool status = genericWin.GetCheckboxStatus(uniqueID);
+		
+		if(status) //active
+			RepsActive --;
+		RepsAll --;
+		
 
 		DeleteCurveID = uniqueID;
 		FakeButtonDeleteCurve.Click();
-
-		if(status == "active")
-			RepsActive --;
-		RepsAll --;
 
 		genericWin.Delete_row_accepted();
 		FakeButtonDone.Click();		

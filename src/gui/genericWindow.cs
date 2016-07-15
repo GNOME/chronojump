@@ -629,17 +629,17 @@ public class GenericWindow
 
 		return 0;
 	}
-	public string GetCheckboxStatus(int uniqueID) {
+	public bool GetCheckboxStatus(int uniqueID) {
 		Gtk.TreeIter iter;
 		bool okIter = store.GetIterFirst(out iter);
 		if(okIter) {
 			do {
 				if( ((string) store.GetValue (iter, 0)) == uniqueID.ToString())
-					return store.GetValue (iter, 1).ToString();
+					return (bool) store.GetValue (iter, 1);
 			} while ( store.IterNext(ref iter) );
 		}
-		//if error, return
-		return "inactive";
+		//if error, return false
+		return false;
 	}
 	//if column == 1 returns checkboxes column. If is 2 returns column 2...
 	//Attention: Used on checkboxes treeviews

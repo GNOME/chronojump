@@ -818,7 +818,7 @@ public class Constants
 	public enum Encoder1RMMethod { NONWEIGHTED, WEIGHTED, WEIGHTED2, WEIGHTED3 }
 	public enum ContextMenu { NONE, EDITDELETE, DELETE }
 	
-	public enum EncoderAutoSaveCurve { ALL, NONE, BEST }
+	public enum EncoderAutoSaveCurve { ALL, NONE, BEST, FROM4TOPENULTIMATE }
 
 	public enum DoubleContact {
 		NONE, FIRST, AVERAGE, LAST

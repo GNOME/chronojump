@@ -98,6 +98,7 @@ public class PreferencesWindow {
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted2;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted3;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_best;
+	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_4top;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_all;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_none;
 
@@ -315,6 +316,8 @@ public class PreferencesWindow {
 			
 		if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BEST)
 			PreferencesWindowBox.radio_encoder_auto_save_curve_best.Active = true;
+		else if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE)
+			PreferencesWindowBox.radio_encoder_auto_save_curve_4top.Active = true;
 		else if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL)
 			PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active = true;
 		else
@@ -1020,6 +1023,10 @@ public class PreferencesWindow {
 		if(PreferencesWindowBox.radio_encoder_auto_save_curve_best.Active) {
 			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString(), true);
 			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.BEST;
+		}
+		else if(PreferencesWindowBox.radio_encoder_auto_save_curve_4top.Active) {
+			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE.ToString(), true);
+			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE;
 		}
 		else if(PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active) {
 			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.ALL.ToString(), true);

@@ -38,6 +38,7 @@ public class ChronoJump
 	
 	private static string progVersion = ""; //now in "version" file
 	private static string progName = "Chronojump";
+	private static string buildDate = "2016-07-16";
 	
 	private static string runningFolder;	
 
@@ -127,6 +128,7 @@ public class ChronoJump
 		}
 		
 		LogB.Information("Platform:" + Environment.OSVersion.Platform);
+		LogB.Information("Build date:" + buildDate);
 		
 		LogB.Information("baseDir0:", System.AppDomain.CurrentDomain.BaseDirectory);
 		LogB.Information("baseDir1:", baseDirectory);

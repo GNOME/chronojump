@@ -3,6 +3,7 @@ check is "updated to last version"
 cp ../chronojump-docs/chronojump_manual_e*.pdf manual/
 
 2) change version on configure.ac and src/AssemblyInfo.cs
+3) change buildDate string on src/chronojump.cs
 
 
 linux stuff

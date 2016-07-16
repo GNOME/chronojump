@@ -3196,6 +3196,9 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_capture_curves_none_clicked (object o, EventArgs args) {
 		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.NONE, encoderCaptureOptionsWin.GetMainVariable());
 	}
+	void on_button_encoder_capture_curves_4top_clicked (object o, EventArgs args) {
+		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE, encoderCaptureOptionsWin.GetMainVariable());
+	}
 
 
 	void on_combo_encoder_analyze_cross_changed (object o, EventArgs args)

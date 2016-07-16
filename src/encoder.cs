@@ -412,6 +412,10 @@ public class EncoderSignal
 		this.curves = curves;
 	}
 
+	public int CurvesNum() {
+		return curves.Count;
+	}
+
 	//this can be an eccentric or concentric curve
 	public int FindPosOfBest(string variable) {
 		double bestValue = 0;

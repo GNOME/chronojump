@@ -337,14 +337,17 @@ public partial class ChronoJumpWindow
 	void encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve saveOption, string mainVariable)
 	{
 		int bestRow = 0;
-		if(saveOption == Constants.EncoderAutoSaveCurve.BEST) {
+		int numRows = 0;
+		if(saveOption == Constants.EncoderAutoSaveCurve.BEST || saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE) {
 			if(ecconLast == "c") {
 				//get the concentric curves
 				EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.CON));
 				bestRow = encoderSignal.FindPosOfBest(mainVariable);
+				numRows = encoderSignal.CurvesNum();
 			} else {
 				EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.ALL));
 				bestRow = encoderSignal.FindPosOfBestEccCon(mainVariable); //will be pos of the ecc
+				numRows = encoderSignal.CurvesNum();
 			}
 		}
 
@@ -366,12 +369,20 @@ public partial class ChronoJumpWindow
 		while(iterOk) {
 			TreePath path = encoderCaptureListStore.GetPath(iter);
 			
+			bool from4ToPenult = false;
+			if( saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE &&
+					( (ecconLast == "c" && i > 2 && i < numRows -1) ||
+					(ecconLast != "c" && i > 4 && i < numRows -2) ) )
+				from4ToPenult = true;
+			
 			EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
 			if(
 					(! curve.Record && saveOption == Constants.EncoderAutoSaveCurve.ALL) ||
 					(! curve.Record && saveOption == Constants.EncoderAutoSaveCurve.BEST && i == bestRow) ||
+					(! curve.Record && saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE && from4ToPenult) ||
 					(curve.Record && saveOption == Constants.EncoderAutoSaveCurve.BEST && i != bestRow) ||
-					(curve.Record && saveOption == Constants.EncoderAutoSaveCurve.NONE) ) 
+					(curve.Record && saveOption == Constants.EncoderAutoSaveCurve.NONE) ||
+					(curve.Record && saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE && ! from4ToPenult) )
 			{ 
 				changeTo = ! curve.Record;
 				

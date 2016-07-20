@@ -1100,6 +1100,72 @@ getDisplacementInertialBody <- function(positionStart, displacement, draw, title
 	return(displacementPerson)
 }
 
+#used when user captures without string fully extended
+#d is displacement, graph is to debug
+fixInertialSignalNotFullyExtendedString <- function(d, graph)
+{
+	pos <- cumsum(d)
+
+	maximums <- extrema(pos)$maxindex[,1]
+	minimums <- extrema(pos)$minindex[,1]
+	maximumsCopy <- maximums #store this value
+	minimumsCopy <- minimums #store this value
+
+	#if we have more than 2 max & mins, remove the first and last value
+	if(length(maximums) > 2 & length(minimums) > 2)
+	{
+		#remove the first value of the maximums OR minimums (just the first one of both)
+		if(maximums[1] < minimums[1])
+			maximums <- maximums[-1]
+		else
+			minimums <- minimums[-1]
+
+		#remove the last value of the maximums OR minimums (just the last one of both)
+		if(maximums[length(maximums)] > minimums[length(minimums)])
+			maximums <- maximums[-length(maximums)]
+		else
+			minimums <- minimums[-length(minimums)]
+	}
+
+	#return if no data
+	if(length(maximums) < 1 | length(minimums) < 1)
+		return()
+
+	#ensure both maximums and minimums have same length
+	while(length(maximums) != length(minimums))
+	{
+		if(length(maximums) > length(minimums))
+			maximums <- maximums[-length(maximums)]
+		else if(length(maximums) < length(minimums))
+			minimums <- minimums[-length(minimums)]
+	}
+
+	meanByExtrema <- mean(c(pos[maximums], pos[minimums]))
+	posCorrected <- pos - meanByExtrema
+
+	if(graph) {
+		par(mfrow=c(1,2))
+
+		#1st graph
+		plot(pos, type="l", lty=2, xlab="time", ylab="position", main="String NOT fully extended")
+		lines(abs(pos)*-1, lwd=2)
+		points(maximumsCopy, pos[maximumsCopy], col="black", cex=1)
+		points(minimumsCopy, pos[minimumsCopy], col="black", cex=1)
+		points(maximums, pos[maximums], col="green", cex=3)
+		points(minimums, pos[minimums], col="green", cex=3)
+		abline(h = meanByExtrema, col="red")
+
+		#2nd graph
+		plot(posCorrected, type="l", lty=2, xlab="time", ylab="position", main="Set corrected")
+		lines(abs(posCorrected)*-1, lwd=2)
+
+		par(mfrow=c(1,1))
+	}
+
+	return()
+}
+
+
 
 #Read a double vector indicating the initial diameter of every loop of the rope
 #plus the final diameter of the last loop and returns a dataframe with the radius

@@ -2246,7 +2246,7 @@ doProcess <- function(options)
 	
 	#declare here
 	SmoothingsEC = 0
-
+	curvesHeight = NULL
 
 	if(! singleFile) {	#reads CSV with curves to analyze
 		#this produces a displacement, but note that a position = cumsum(displacement) cannot be done because:
@@ -2262,13 +2262,13 @@ doProcess <- function(options)
 		count = 1
 		start = NULL; end = NULL; startH = NULL
 		status = NULL; id = NULL; exerciseName = NULL; massBody = NULL; massExtra = NULL
-		dateTime = NULL; myEccon = NULL; curvesHeight = NULL
-		seriesName = NULL; percentBodyWeight = NULL;
+		dateTime = NULL; myEccon = NULL
+		seriesName = NULL; percentBodyWeight = NULL
 
 		#encoderConfiguration
-		econfName = NULL; econfd = NULL; econfD = NULL; econfAnglePush = NULL; econfAngleWeight = NULL; 
-		econfInertia = NULL; econfGearedDown = NULL;
-		laterality = NULL;
+		econfName = NULL; econfd = NULL; econfD = NULL; econfAnglePush = NULL; econfAngleWeight = NULL
+		econfInertia = NULL; econfGearedDown = NULL
+		laterality = NULL
 
 		newLines=0;
 		countLines=1; #useful to know the correct ids of active curves
@@ -2360,8 +2360,7 @@ doProcess <- function(options)
 				econfInertia[(i+newLines)] = inputMultiData$econfInertia[i]/10000.0 #comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
 				econfGearedDown[(i+newLines)] = inputMultiData$econfGearedDown[i]
 
-				curvesHeight[(i+newLines)] = sum(dataTempPhase)
-
+				myPosition = cumsum(dataTemPhase)
 				if(processTimes == 2) {
 					if(j == 1) {
 						myEccon[(i+newLines)] = "e"
@@ -2371,11 +2370,15 @@ doProcess <- function(options)
 						id[(i+newLines)] = paste(countLines, myEccon[(i+newLines)], sep="")
 						countLines = countLines + 1
 					}
+					curvesHeight[(i+newLines)] = max(myPosition) - min(myPosition)
 				} else {
-					if(inputMultiData$eccon[i] == "c")
+					if(inputMultiData$eccon[i] == "c") {
 						myEccon[(i+newLines)] = "c"
-					else
+						curvesHeight[(i+newLines)] = max(myPosition) - min(myPosition)
+					} else {
 						myEccon[(i+newLines)] = "ec"
+						curvesHeight[(i+newLines)] = findDistanceAbsoluteEC(myPosition)
+					}
 					countLines = countLines + 1
 				}
 				
@@ -2493,6 +2496,12 @@ doProcess <- function(options)
 			curves[i,1] = reduceTemp[1]
 			curves[i,2] = reduceTemp[2]
 			curves[i,3] = reduceTemp[3]
+			
+			myPosition = cumsum(displacement[curves[i,1]:curves[i,2]])
+			if(op$Eccon == "ec")
+				curvesHeight[i] = findDistanceAbsoluteEC(myPosition)
+			else
+				curvesHeight[i] = max(myPosition) - min(myPosition)
 		}
 		
 		#print("curves after reduceCurveBySpeed")
@@ -2991,7 +3000,7 @@ doProcess <- function(options)
 			else 
 				paintPowerPeakPowerBars(singleFile, op$Title, paf, 
 							op$Eccon,					#Eccon
-							position[curves[,2]]-curves[,3], 	#height
+							curvesHeight,			#height 
 							n, 
 			      				(op$AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
 			      				(op$AnalysisVariables[2] == "Range") 		#show range
@@ -3137,7 +3146,7 @@ doProcess <- function(options)
 					  op$MassBody,
 					  op$MassExtra,
 					  curves[,1],
-					  curves[,2]-curves[,1],position[curves[,2]]-curves[,3],pafCurves)
+					  curves[,2]-curves[,1],curvesHeight,pafCurves)
 			else {
 				if(discardingCurves)
 					curvesHeight = curvesHeight[-discardedCurves]

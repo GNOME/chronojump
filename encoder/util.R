@@ -243,6 +243,25 @@ findTakeOff <- function(forceConcentric, maxSpeedTInConcentric)
 
 	return(takeoff)
 }
+
+#find the absolute distance reached on ec curve
+findDistanceAbsoluteEC <- function(position)
+{
+	#	-
+	#	 \       /
+	#	  \     /
+	#	   \   /
+	#	    \_/
+	#	A    B   C
+
+	#1st, find B value
+	minB = min(position)
+	minBms = min(which(position == minB))
+	maxA = max(position[1:minBms])
+	maxC = max(position[minBms:length(position)])
+
+	return ( (maxA - minB) + (maxC - minB) )
+}
 	
 
 getSpeedSafe <- function(displacement, smoothing) {

@@ -2585,7 +2585,7 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information("edit session");
 		
-		if(currentSession.Name == "SIMULATED")
+		if(currentSession.Name == Constants.SessionSimulatedName)
 			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtected);
 		else {
 			sessionAddEditWin = SessionAddEditWindow.Show(app1, currentSession);
@@ -2662,7 +2662,7 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information("--- delete session ---");
 		
-		if(currentSession.Name == "SIMULATED")
+		if(currentSession.Name == Constants.SessionSimulatedName)
 			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtected);
 		else {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete the current session"), "", Catalog.GetString("and all the session tests?"));

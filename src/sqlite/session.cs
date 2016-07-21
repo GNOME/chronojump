@@ -84,8 +84,8 @@ class SqliteSession : Sqlite
 
 	protected internal static void insertSimulatedSession()
 	{
-		if(! Sqlite.Exists (true, Constants.SessionTable, "SIMULATED"))
-			Insert(true, Constants.SessionTable, "-1", "SIMULATED", "", DateTime.Today, 
+		if(! Sqlite.Exists (true, Constants.SessionTable, Constants.SessionSimulatedName))
+			Insert(true, Constants.SessionTable, "-1", Constants.SessionSimulatedName, "", DateTime.Today, 
 					Constants.SportUndefinedID, Constants.SpeciallityUndefinedID, Constants.LevelUndefinedID,
 					Catalog.GetString("Use this session to simulate tests."), Constants.ServerUndefinedID);
 	}

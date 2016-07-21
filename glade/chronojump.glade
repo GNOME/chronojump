@@ -12029,7 +12029,7 @@ on current Chronojump version.</property>
                                                 <property name="layout_style">spread</property>
                                                 <child>
                                                   <widget class="GtkButton" id="button_jumps_profile_help">
-                                                    <property name="label">Help on indexes</property>
+                                                    <property name="label" translatable="yes">Help on indexes</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
@@ -12043,7 +12043,7 @@ on current Chronojump version.</property>
                                                 </child>
                                                 <child>
                                                   <widget class="GtkButton" id="button_jumps_profile_training">
-                                                    <property name="label">General recommendations on improving indexes</property>
+                                                    <property name="label" translatable="yes">General recommendations on improving indexes</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
@@ -12077,7 +12077,7 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label">&lt;b&gt;Maximum Force&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Maximum Force&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12090,7 +12090,7 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label">&lt;b&gt;Explosive Force&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Explosive Force&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12105,7 +12105,7 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label">&lt;b&gt;Elastic&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Elastic&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12120,7 +12120,7 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label">&lt;b&gt;Arms using&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Arms using&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12135,7 +12135,7 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label">&lt;b&gt;Reactive-reflex&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Reactive-reflex&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12150,7 +12150,7 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label">Ability to mobilise an external resistance.</property>
+                                                    <property name="label" translatable="yes">Ability to mobilise an external resistance.</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="left_attach">1</property>
@@ -12164,7 +12164,7 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label">Ability to mobilise the body mass.</property>
+                                                    <property name="label" translatable="yes">Ability to mobilise the body mass.</property>
                                                     <property name="justify">center</property>
                                                   </widget>
                                                   <packing>
@@ -12181,7 +12181,7 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label">Increasing of strength due to the elastic energy accumulated during the stretch-shortening cycle.</property>
+                                                    <property name="label" translatable="yes">Increasing of strength due to the elastic energy accumulated during the stretch-shortening cycle.</property>
                                                     <property name="justify">center</property>
                                                   </widget>
                                                   <packing>
@@ -12198,7 +12198,7 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label">Increasing of strength due to arm movement.</property>
+                                                    <property name="label" translatable="yes">Increasing of strength due to arm movement.</property>
                                                     <property name="justify">center</property>
                                                   </widget>
                                                   <packing>
@@ -12215,7 +12215,7 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label">Increasing of strength by previous falling from height (reflex mechanisms activation).</property>
+                                                    <property name="label" translatable="yes">Increasing of strength by previous falling from height (reflex mechanisms activation).</property>
                                                     <property name="justify">center</property>
                                                   </widget>
                                                   <packing>
@@ -12262,7 +12262,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkLabel" id="label170">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">&lt;b&gt;Type of training&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Type of training&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12275,7 +12275,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkLabel" id="label171">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">&lt;b&gt;Contraction&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Contraction&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12288,7 +12288,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkLabel" id="label172">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">&lt;b&gt;% max load&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;% max load&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12301,7 +12301,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkLabel" id="label173">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">&lt;b&gt;% max power&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;% max power&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12314,7 +12314,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkLabel" id="label174">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">&lt;b&gt;Repetitions&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Repetitions&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12327,7 +12327,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkLabel" id="label175">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">&lt;b&gt;Series&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Series&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12340,7 +12340,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkLabel" id="label176">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">&lt;b&gt;Recuperation (min)&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Recuperation (min)&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12353,7 +12353,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkLabel" id="label177">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">&lt;b&gt;Maximum force&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Maximum force&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12367,7 +12367,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkLabel" id="label169">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">&lt;b&gt;Explosive Force&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Explosive Force&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12381,7 +12381,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkLabel" id="label178">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">&lt;b&gt;Elastic&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Elastic&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12395,7 +12395,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkLabel" id="label186">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">&lt;b&gt;Arms&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Arms using&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12409,7 +12409,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkLabel" id="label190">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">&lt;b&gt;Reactive-reflex&lt;/b&gt;</property>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Reactive-reflex&lt;/b&gt;</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
@@ -12423,7 +12423,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkLabel" id="label191">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Weight lifting,
+                                                    <property name="label" translatable="yes">Weight lifting,
 gym machines</property>
                                                     <property name="justify">center</property>
                                                   </widget>
@@ -12440,7 +12440,7 @@ gym machines</property>
                                                   <widget class="GtkLabel" id="label192">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Weight lifting,
+                                                    <property name="label" translatable="yes">Weight lifting,
 gym machines</property>
                                                     <property name="justify">center</property>
                                                   </widget>
@@ -12457,7 +12457,7 @@ gym machines</property>
                                                   <widget class="GtkLabel" id="label193">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Weight lifting,
+                                                    <property name="label" translatable="yes">Weight lifting,
 gym machines</property>
                                                     <property name="justify">center</property>
                                                   </widget>
@@ -12474,7 +12474,7 @@ gym machines</property>
                                                   <widget class="GtkLabel" id="label194">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Jumps,
+                                                    <property name="label" translatable="yes">Jumps,
 inertial machines</property>
                                                     <property name="justify">center</property>
                                                   </widget>
@@ -12491,7 +12491,7 @@ inertial machines</property>
                                                   <widget class="GtkLabel" id="label195">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Jumps,
+                                                    <property name="label" translatable="yes">Jumps,
 elastic bands</property>
                                                     <property name="justify">center</property>
                                                   </widget>
@@ -12508,7 +12508,7 @@ elastic bands</property>
                                                   <widget class="GtkLabel" id="label196">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Concentric
+                                                    <property name="label" translatable="yes">Concentric,
 isometric</property>
                                                     <property name="justify">center</property>
                                                   </widget>
@@ -12525,7 +12525,7 @@ isometric</property>
                                                   <widget class="GtkLabel" id="label199">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Concentric</property>
+                                                    <property name="label" translatable="yes">Concentric</property>
                                                     <property name="justify">center</property>
                                                   </widget>
                                                   <packing>
@@ -12541,7 +12541,7 @@ isometric</property>
                                                   <widget class="GtkLabel" id="label200">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Excentric-
+                                                    <property name="label" translatable="yes">Excentric-
 Concentric</property>
                                                     <property name="justify">center</property>
                                                   </widget>
@@ -12558,7 +12558,7 @@ Concentric</property>
                                                   <widget class="GtkLabel" id="label202">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Concentric,
+                                                    <property name="label" translatable="yes">Concentric,
 isometric</property>
                                                     <property name="justify">center</property>
                                                   </widget>
@@ -12575,7 +12575,7 @@ isometric</property>
                                                   <widget class="GtkLabel" id="label203">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Excentric-
+                                                    <property name="label" translatable="yes">Excentric-
 Concentric</property>
                                                     <property name="justify">center</property>
                                                   </widget>
@@ -12624,7 +12624,7 @@ Concentric</property>
                                                   <widget class="GtkLabel" id="label206">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Body weight
+                                                    <property name="label" translatable="yes">Body weight,
 low ressistance</property>
                                                     <property name="justify">center</property>
                                                   </widget>
@@ -12988,6 +12988,9 @@ low ressistance</property>
                                                     <property name="x_options"/>
                                                     <property name="y_options"/>
                                                   </packing>
+                                                </child>
+                                                <child>
+                                                  <placeholder/>
                                                 </child>
                                                 <child>
                                                   <placeholder/>
@@ -17722,6 +17725,9 @@ low ressistance</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -22688,6 +22694,9 @@ by you</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -23077,6 +23086,9 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -25658,6 +25670,9 @@ by you</property>
               <placeholder/>
             </child>
             <child>
+              <placeholder/>
+            </child>
+            <child>
               <widget class="GtkButton" id="button_video_url">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -25680,6 +25695,9 @@ by you</property>
                 <property name="x_options"/>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -39832,6 +39850,24 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -42751,6 +42787,18 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                     <child>
                       <placeholder/>
                     </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                   </widget>
                 </child>
               </widget>
@@ -43937,9 +43985,6 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                       <placeholder/>
                                     </child>
                                     <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
                                       <widget class="GtkLabel" id="label218">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
@@ -44310,6 +44355,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                         <property name="left_attach">2</property>
                                         <property name="right_attach">3</property>
                                       </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
                                     </child>
                                     <child>
                                       <placeholder/>
@@ -49384,6 +49432,9 @@ It starts before and arrives there with some speed.</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -49410,6 +49461,9 @@ It starts before and arrives there with some speed.</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -50355,6 +50409,9 @@ It starts before and arrives there with some speed.</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

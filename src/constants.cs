@@ -165,9 +165,11 @@ public class Constants
 	public const string Height = "height";
 	public const string Weight = "weight";
 	
-	//session
+	//simulated tests and SIMULATED session
 	public const string SessionSimulatedName = "SIMULATED"; //Do NOT translate this 
 	public static string SessionProtected = Catalog.GetString("Sorry, this session cannot be modified."); //SIMULATED session
+	public static string SimulatedTestsNotAllowed = Catalog.GetString("Chronopic is disconnected.") + "\n\n" + 
+		string.Format(Catalog.GetString("If you want to simulate tests, use {0} session."), "SIMULATED");
 
 	//server
 	public const string ServerPingTable = "SPing"; 

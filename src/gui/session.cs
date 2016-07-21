@@ -570,8 +570,6 @@ public class SessionAddEditWindow {
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			ErrorWindow.Show(myString);
 		} else {
-			FakeButtonAccept.Click();
-
 			int sportID;
 			if(radiobutton_diff_sports.Active)
 				sportID = Constants.SportUndefinedID;
@@ -612,7 +610,13 @@ public class SessionAddEditWindow {
 						sportID, speciallityID, levelID,
 						currentSession.Comments);
 			}
+			
+			FakeButtonAccept.Click();
+		}
+	}
 
+	public void HideAndNull() {
+		if (SessionAddEditWindowBox != null) {
 			SessionAddEditWindowBox.session_add_edit.Hide();
 			SessionAddEditWindowBox = null;
 		}

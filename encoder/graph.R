@@ -2360,7 +2360,7 @@ doProcess <- function(options)
 				econfInertia[(i+newLines)] = inputMultiData$econfInertia[i]/10000.0 #comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
 				econfGearedDown[(i+newLines)] = inputMultiData$econfGearedDown[i]
 
-				myPosition = cumsum(dataTemPhase)
+				myPosition = cumsum(dataTempPhase)
 				if(processTimes == 2) {
 					if(j == 1) {
 						myEccon[(i+newLines)] = "e"

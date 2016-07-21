@@ -166,6 +166,7 @@ public class Constants
 	public const string Weight = "weight";
 	
 	//session
+	public const string SessionSimulatedName = "SIMULATED"; //Do NOT translate this 
 	public static string SessionProtected = Catalog.GetString("Sorry, this session cannot be modified."); //SIMULATED session
 
 	//server

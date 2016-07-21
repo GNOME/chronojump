@@ -2544,6 +2544,8 @@ public partial class ChronoJumpWindow
 		if(sessionAddEditWin.CurrentSession != null) 
 		{
 			currentSession = sessionAddEditWin.CurrentSession;
+			sessionAddEditWin.HideAndNull();
+
 			//serverUniqueID is undefined until session is updated
 			currentSession.ServerUniqueID = Constants.ServerUndefinedID;
 
@@ -2572,7 +2574,7 @@ public partial class ChronoJumpWindow
 			try {
 				reportWin.FillTreeView();
 			} catch {} //reportWin is still not created, not need to Fill again
-
+	
 			//feedback (more in 1st session created)
 			string feedbackLoadUsers = Catalog.GetString ("Session created, now add or load persons.");
 			new DialogMessage(Constants.MessageTypes.INFO, feedbackLoadUsers);
@@ -2590,6 +2592,8 @@ public partial class ChronoJumpWindow
 		if(sessionAddEditWin.CurrentSession != null) 
 		{
 			currentSession = sessionAddEditWin.CurrentSession;
+			sessionAddEditWin.HideAndNull();
+			
 			app1.Title = progName + " - " + currentSession.Name;
 
 			if(createdStatsWin) {

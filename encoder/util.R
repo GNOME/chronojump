@@ -1102,7 +1102,8 @@ getDisplacementInertialBody <- function(positionStart, displacement, draw, title
 
 #used when user captures without string fully extended
 #d is displacement, graph is to debug
-fixInertialSignalNotFullyExtendedString <- function(d, graph)
+#see codeExplained/image detect-and-fix-inertial-string-not-fully-extended.png
+fixInertialSignalIfNotFullyExtended <- function(d, saveFile, graph)
 {
 	pos <- cumsum(d)
 
@@ -1129,7 +1130,7 @@ fixInertialSignalNotFullyExtendedString <- function(d, graph)
 
 	#return if no data
 	if(length(maximums) < 1 | length(minimums) < 1)
-		return()
+		return(d)
 
 	#ensure both maximums and minimums have same length
 	while(length(maximums) != length(minimums))
@@ -1143,10 +1144,13 @@ fixInertialSignalNotFullyExtendedString <- function(d, graph)
 	meanByExtrema <- mean(c(pos[maximums], pos[minimums]))
 	posCorrected <- pos - meanByExtrema
 
+	#remove the initial part of the signal. Remove from ms 1 to when posCorrected crosses 0
+	posCorrectedCrossZero = extrema(posCorrected)$cross[1,1]
+
 	if(graph) {
 		par(mfrow=c(1,2))
 
-		#1st graph
+		#1st graph (left)
 		plot(pos, type="l", lty=2, xlab="time", ylab="position", main="String NOT fully extended")
 		lines(abs(pos)*-1, lwd=2)
 		points(maximumsCopy, pos[maximumsCopy], col="black", cex=1)
@@ -1155,14 +1159,22 @@ fixInertialSignalNotFullyExtendedString <- function(d, graph)
 		points(minimums, pos[minimums], col="green", cex=3)
 		abline(h = meanByExtrema, col="red")
 
-		#2nd graph
-		plot(posCorrected, type="l", lty=2, xlab="time", ylab="position", main="Set corrected")
+		#2nd graph (right)
+		plot(posCorrected, type="l", lty=2, xlab="time", ylab="position", main="Corrected set")
 		lines(abs(posCorrected)*-1, lwd=2)
+		abline(v=c(posCorrectedCrossZero, length(posCorrected)), col="green")
+		mtext("Start", at=posCorrectedCrossZero, side=3, col="green")
+		mtext("End", at=length(posCorrected), side=3, col="green")
 
 		par(mfrow=c(1,1))
 	}
 
-	return()
+	#define new displacement
+	d <- d[posCorrectedCrossZero:length(d)]
+	
+	#write to file and return displacement to be used
+	write(d, file=saveFile, ncolumns=length(d), sep=", ")
+	return(d)
 }
 
 

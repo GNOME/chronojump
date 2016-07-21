@@ -932,13 +932,19 @@ public partial class ChronoJumpWindow
 	}
 
 
+	private void encoderDoCurvesGraphR_curves() {
+		encoderDoCurvesGraphR("curves");
+	}
+	private void encoderDoCurvesGraphR_curvesAC() {
+		encoderDoCurvesGraphR("curvesAC");
+	}
 	//this is called by non gtk thread. Don't do gtk stuff here
 	//I suppose reading gtk is ok, changing will be the problem
 	//called on calculatecurves, recalculate and load
-	private void encoderDoCurvesGraphR() 
+	private void encoderDoCurvesGraphR(string analysisSent)
 	{
 		LogB.Debug("encoderDoCurvesGraphR() start");
-		string analysis = "curves";
+		string analysis = analysisSent;
 
 		string analysisOptions = getEncoderAnalysisOptions();
 
@@ -4570,7 +4576,7 @@ public partial class ChronoJumpWindow
 				//don't need because ItemToggled is deactivated during capture
 				//treeview_encoder_capture_curves.Sensitive = false;
 				
-				encoderThread = new Thread(new ThreadStart(encoderDoCurvesGraphR));
+				encoderThread = new Thread(new ThreadStart(encoderDoCurvesGraphR_curves));
 				if(action == encoderActions.CURVES)
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCurves));
 				else // action == encoderActions.LOAD
@@ -4591,7 +4597,7 @@ public partial class ChronoJumpWindow
 				
 				//_______ 2) run stuff
 				//this does not run a pulseGTK
-				encoderDoCurvesGraphR();
+				encoderDoCurvesGraphR_curvesAC();
 				encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
 			}
 		} else { //encoderActions.ANALYZE

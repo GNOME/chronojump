@@ -74,6 +74,7 @@ public class SessionAddEditWindow {
 	bool addSession;
 	
 	private Session currentSession;
+	private Gtk.Button fakeButtonAccept;
 	
 	GenericWindow genericWin;
 	static SessionAddEditWindow SessionAddEditWindowBox;
@@ -91,6 +92,8 @@ public class SessionAddEditWindow {
 	
 		this.currentSession = currentSession;
 		button_accept.Sensitive = false;
+		
+		fakeButtonAccept = new Button();
 
 		createComboSports();
 		createComboSpeciallities(-1);
@@ -567,6 +570,8 @@ public class SessionAddEditWindow {
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			ErrorWindow.Show(myString);
 		} else {
+			FakeButtonAccept.Click();
+
 			int sportID;
 			if(radiobutton_diff_sports.Active)
 				sportID = Constants.SportUndefinedID;
@@ -613,15 +618,11 @@ public class SessionAddEditWindow {
 		}
 	}
 
-	public Button Button_accept 
+	public Gtk.Button FakeButtonAccept
 	{
-		set {
-			button_accept = value;	
-		}
-		get {
-			return button_accept;
-		}
+		get { return fakeButtonAccept; }
 	}
+	
 
 	public Session CurrentSession 
 	{

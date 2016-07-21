@@ -2536,7 +2536,8 @@ public partial class ChronoJumpWindow
 	private void on_new_activate (object o, EventArgs args) {
 		LogB.Information("new session");
 		sessionAddEditWin = SessionAddEditWindow.Show(app1, new Session());
-		sessionAddEditWin.Button_accept.Clicked += new EventHandler(on_new_session_accepted);
+		sessionAddEditWin.FakeButtonAccept.Clicked -= new EventHandler(on_new_session_accepted);
+		sessionAddEditWin.FakeButtonAccept.Clicked += new EventHandler(on_new_session_accepted);
 	}
 	
 	private void on_new_session_accepted (object o, EventArgs args) {
@@ -2581,7 +2582,8 @@ public partial class ChronoJumpWindow
 	private void on_edit_session_activate (object o, EventArgs args) {
 		LogB.Information("edit session");
 		sessionAddEditWin = SessionAddEditWindow.Show(app1, currentSession);
-		sessionAddEditWin.Button_accept.Clicked += new EventHandler(on_edit_session_accepted);
+		sessionAddEditWin.FakeButtonAccept.Clicked -= new EventHandler(on_edit_session_accepted);
+		sessionAddEditWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_session_accepted);
 	}
 	
 	private void on_edit_session_accepted (object o, EventArgs args) {

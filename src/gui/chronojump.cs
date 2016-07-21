@@ -2581,11 +2581,17 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	private void on_edit_session_activate (object o, EventArgs args) {
+	private void on_edit_session_activate (object o, EventArgs args) 
+	{
 		LogB.Information("edit session");
-		sessionAddEditWin = SessionAddEditWindow.Show(app1, currentSession);
-		sessionAddEditWin.FakeButtonAccept.Clicked -= new EventHandler(on_edit_session_accepted);
-		sessionAddEditWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_session_accepted);
+		
+		if(currentSession.Name == "SIMULATED")
+			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtected);
+		else {
+			sessionAddEditWin = SessionAddEditWindow.Show(app1, currentSession);
+			sessionAddEditWin.FakeButtonAccept.Clicked -= new EventHandler(on_edit_session_accepted);
+			sessionAddEditWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_session_accepted);
+		}
 	}
 	
 	private void on_edit_session_accepted (object o, EventArgs args) {
@@ -2652,10 +2658,16 @@ public partial class ChronoJumpWindow
 	}
 	
 	
-	private void on_delete_session_activate (object o, EventArgs args) {
+	private void on_delete_session_activate (object o, EventArgs args) 
+	{
 		LogB.Information("--- delete session ---");
-		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete the current session"), "", Catalog.GetString("and all the session tests?"));
-		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_session_accepted);
+		
+		if(currentSession.Name == "SIMULATED")
+			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtected);
+		else {
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete the current session"), "", Catalog.GetString("and all the session tests?"));
+			confirmWin.Button_accept.Clicked += new EventHandler(on_delete_session_accepted);
+		}
 	}
 	
 	private void on_delete_session_accepted (object o, EventArgs args) 

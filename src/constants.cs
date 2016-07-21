@@ -164,8 +164,11 @@ public class Constants
 	public const string Name = "name";
 	public const string Height = "height";
 	public const string Weight = "weight";
+	
+	//session
+	public static string SessionProtected = Catalog.GetString("Sorry, this session cannot be modified."); //SIMULATED session
 
-	//server	
+	//server
 	public const string ServerPingTable = "SPing"; 
 	public const string ServerEvaluatorTable = "SEvaluator"; 
 	public const string IPUnknown = "Unknown"; 

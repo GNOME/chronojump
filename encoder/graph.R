@@ -2228,7 +2228,7 @@ doProcess <- function(options)
 	#	titleType="jump"
 
 	curvesPlot = FALSE
-	if(op$Analysis == "curves") {
+	if(op$Analysis == "curves" || op$Analysis == "curvesAC") {
 		curvesPlot = TRUE
 		par(mar=c(2,2.5,2,1))
 	}
@@ -2431,26 +2431,33 @@ doProcess <- function(options)
 							NULL, NULL, NULL, NULL) #this row is only needed for singleFile (signal)
 		print(c("SmoothingsEC:",SmoothingsEC))
 	} else {	#singleFile == True. reads a signal file
-		displacement=scan(file=op$File,sep=",")
+		displacement <- scan(file=op$File,sep=",")
 		#if data file ends with comma. Last character will be an NA. remove it
 		#this removes all NAs
-		displacement  = displacement[!is.na(displacement)]
+		displacement <- displacement[!is.na(displacement)]
 		displacementInertialNotBody <- NULL
 
 		if(isInertial(op$EncoderConfigurationName)) 
 		{
-			diametersPerMs = getInertialDiametersPerMs(displacement, op$diameter)
-			displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, 
+			#This process is only done on the curves after capture (not on recalculate or load)
+	   		if(op$Analysis == "curvesAC")
+				displacement <- fixInertialSignalIfNotFullyExtended(displacement, 
+										    paste(op$EncoderTempPath,
+											  "/chronojump-last-encoder-data.txt",
+											  sep=""), 
+										    FALSE)
+
+			diametersPerMs <- getInertialDiametersPerMs(displacement, op$diameter)
+			displacement <- getDisplacementInertial(displacement, op$EncoderConfigurationName, 
 							       diametersPerMs, op$diameterExt, op$gearedDown)
 
-		
 			displacementInertialNotBody <- displacement #store a copy to be used on "single" (all set) to have a better set smooth
-			displacement = getDisplacementInertialBody(0, displacement, curvesPlot, op$Title)
+			displacement <- getDisplacementInertialBody(0, displacement, curvesPlot, op$Title)
 			#positionStart is 0 in graph.R. It is different on capture.R because depends on the start of every repetition
 
-			curvesPlot = FALSE
+			curvesPlot <- FALSE
 		} else {
-			displacement = getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt)
+			displacement <- getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt)
 		}
 
 		#TODO: is this needed at all?
@@ -2467,7 +2474,7 @@ doProcess <- function(options)
 		curves=findCurvesNew(displacement, op$Eccon, isInertial(op$EncoderConfigurationName), 
 				     op$MinHeight, curvesPlot, op$Title)
 		
-		if(op$Analysis == "curves")
+		if(op$Analysis == "curves" || op$Analysis == "curvesAC")
 			curvesPlot = TRUE
 
 		n=length(curves[,1])
@@ -2917,7 +2924,8 @@ doProcess <- function(options)
 	if(
 	   op$Analysis == "powerBars" || op$Analysis == "cross" || 
 	   op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise" || 
-	   op$Analysis == "curves" || op$Analysis == "neuromuscularProfile" ||
+	   op$Analysis == "curves" || op$Analysis == "curvesAC" ||
+	   op$Analysis == "neuromuscularProfile" ||
 	   writeCurves) 
 	{
 		paf = data.frame()
@@ -3125,7 +3133,7 @@ doProcess <- function(options)
 			neuromuscularProfileWriteData(npj, op$OutputData1)
 		}
 		
-		if(op$Analysis == "curves" || writeCurves) {
+		if(op$Analysis == "curves" || op$Analysis == "curvesAC" || writeCurves) {
 			#create pafCurves to be printed on CSV. This columns are going to be removed:
 
 			#print("---- 1 ----")
@@ -3171,8 +3179,8 @@ doProcess <- function(options)
 					)
 		
 
-			#Add "Max", "AVG" and "SD" when analyzing, not on "curves"
-			if(op$Analysis != "curves") {
+			#Add "Max", "AVG" and "SD" when analyzing, not on "curves", not on "curvesAC"
+			if(op$Analysis != "curves" && op$Analysis != "curvesAC") {
 				addSD = FALSE
 				if(length(pafCurves[,1]) > 1)
 					addSD = TRUE

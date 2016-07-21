@@ -3902,7 +3902,12 @@ public partial class ChronoJumpWindow
 	
 	void on_button_execute_test_accepted (object o, EventArgs args) 
 	{
-
+		//simulated tests are only allowed on SIMULATED session
+		if(currentSession.Name != Constants.SessionSimulatedName && ! chronopicWin.Connected) {
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.SimulatedTestsNotAllowed);
+			return;
+		}
+		
 		if(radio_mode_jumps_small.Active) 
 		{
 			LogB.Debug("radio_mode_jumps_small");

@@ -78,7 +78,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.29";
+	static string lastChronojumpDatabaseVersion = "1.30";
 
 	public Sqlite() {
 	}
@@ -1882,6 +1882,17 @@ class Sqlite
 				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
 				currentVersion = newVersion;
 			}
+			if(currentVersion == "1.29") {
+				LogB.SQL("Added SIMULATED session");
+	
+				//add SIMULATED session if doesn't exists. Unique session where tests can be simulated.
+				SqliteSession.insertSimulatedSession();
+
+				newVersion = "1.30";
+				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
+				currentVersion = newVersion;
+			}
+
 
 
 			// --- add more updates here
@@ -1944,6 +1955,10 @@ class Sqlite
 		} else {
 			SqliteSession sqliteSessionObject = new SqliteSession();
 			sqliteSessionObject.createTable(Constants.SessionTable);
+			
+			//add SIMULATED session if doesn't exists. Unique session where tests can be simulated.
+			SqliteSession.insertSimulatedSession();
+			
 			SqlitePersonSessionNotUpload.CreateTable();
 			creationRate ++;
 		}
@@ -2037,6 +2052,8 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
+		//1.29 - 1.30 Converted DB to 1.30 Added SIMULATED session
+		//1.28 - 1.29 Converted DB to 1.29 Changed reaction time rows have reactionTime as default value
 		//1.27 - 1.28 Converted DB to 1.28 Changed encoderAutoSaveCurve BESTMEANPOWER to BEST
 		//1.26 - 1.27 Converted DB to 1.27 Changing runDoubleContactsMS and runIDoubleContactsMS from 1000ms to 300ms
 		//1.25 - 1.26 Converted DB to 1.26 Changed Inclinated to Inclined

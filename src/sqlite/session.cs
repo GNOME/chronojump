@@ -82,6 +82,14 @@ class SqliteSession : Sqlite
 		return myLast;
 	}
 
+	protected internal static void insertSimulatedSession()
+	{
+		if(! Sqlite.Exists (true, Constants.SessionTable, "SIMULATED"))
+			Insert(true, Constants.SessionTable, "-1", "SIMULATED", "", DateTime.Today, 
+					Constants.SportUndefinedID, Constants.SpeciallityUndefinedID, Constants.LevelUndefinedID,
+					Catalog.GetString("Use this session to simulate tests."), Constants.ServerUndefinedID);
+	}
+
 	public static void Update(int uniqueID, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments) 
 	{
 		//TODO: serverUniqueID (but cannot be changed in gui/edit, then not need now)

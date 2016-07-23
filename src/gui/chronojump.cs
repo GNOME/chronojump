@@ -3098,6 +3098,7 @@ public partial class ChronoJumpWindow
 			notebook_sup_contacts.CurrentPage = 0;
 			menuitem_mode_selected_jumps.Visible = true;
 			radio_mode_jumps_small.Active = true;
+			notebook_capture_analyze.ShowTabs = true;
 			notebook_capture_analyze.GetNthPage(2).Show(); //show jumpsProfile on jumps
 		} else if(m == Constants.Menuitem_modes.RUNS) 
 		{
@@ -3105,6 +3106,7 @@ public partial class ChronoJumpWindow
 			notebook_sup_contacts.CurrentPage = 1;
 			menuitem_mode_selected_runs.Visible = true;
 			radio_mode_runs_small.Active = true;
+			notebook_capture_analyze.ShowTabs = true;
 			notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on runs
 		} else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL) 
 		{
@@ -3168,7 +3170,10 @@ public partial class ChronoJumpWindow
 			notebook_sup_contacts.CurrentPage = 2;
 			menuitem_mode_selected_other.Visible = true;
 			radio_mode_reaction_times_small.Active = true;
-			notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
+
+			notebook_capture_analyze.CurrentPage = 0;
+			notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
+			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 		}
 
 		//show the program

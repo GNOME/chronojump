@@ -972,6 +972,8 @@ public partial class ChronoJumpWindow
 			notebooks_change(0);
 			on_extra_window_jumps_test_changed(obj, args);
 			hbox_results_legend.Visible = true;
+			
+			notebook_capture_analyze.GetNthPage(2).Show(); //show jumpsProfile on jumps
 		}
 	}
 
@@ -980,6 +982,8 @@ public partial class ChronoJumpWindow
 			notebooks_change(1);
 			on_extra_window_jumps_rj_test_changed(obj, args);
 			hbox_results_legend.Visible = false;
+			
+			notebook_capture_analyze.GetNthPage(2).Hide(); //don't show jumpsProfile on jumps reactive
 		}
 	}
 
@@ -6737,7 +6741,7 @@ LogB.Debug("X");
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
 		//notebook_capture_analyze.Sensitive = true; 
 		notebook_capture_analyze.GetNthPage(1).Hide();
-		if(radio_menuitem_mode_jumps.Active)
+		if(radio_menuitem_mode_jumps.Active && radio_mode_jumps_small.Active)
 			notebook_capture_analyze.GetNthPage(2).Hide();
 		
 		
@@ -6779,7 +6783,7 @@ LogB.Debug("X");
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
 		//notebook_capture_analyze.Sensitive = true; 
 		notebook_capture_analyze.GetNthPage(1).Show();
-		if(radio_menuitem_mode_jumps.Active)
+		if(radio_menuitem_mode_jumps.Active && radio_mode_jumps_small.Active)
 			notebook_capture_analyze.GetNthPage(2).Show();
 		
 		help_menuitem.Sensitive = true;

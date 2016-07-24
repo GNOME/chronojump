@@ -5374,7 +5374,8 @@ public partial class ChronoJumpWindow
 					if(
 							encoderSignalUniqueID == "-1" &&	//if we just captured
 							(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL ||
-							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BEST) )
+							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BEST ||
+							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE) )
 						needToAutoSaveCurve = true;
 
 					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve(false, "signal", 0); //this updates encoderSignalUniqueID

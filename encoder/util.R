@@ -1101,14 +1101,14 @@ getDisplacementInertialBody <- function(positionStart, displacement, draw, title
 }
 
 #used when user captures without string fully extended
-#d is displacement, graph is to debug
+#signal is the information coming from the encoder, graph is to debug
 #see codeExplained/image detect-and-fix-inertial-string-not-fully-extended.png
-fixInertialSignalIfNotFullyExtended <- function(d, saveFile, graph)
+fixInertialSignalIfNotFullyExtended <- function(signal, saveFile, graph)
 {
-	pos <- cumsum(d)
+	angle <- cumsum(signal) #360 degrees every 200 ticks
 
-	maximums <- extrema(pos)$maxindex[,1]
-	minimums <- extrema(pos)$minindex[,1]
+	maximums <- extrema(angle)$maxindex[,1]
+	minimums <- extrema(angle)$minindex[,1]
 	maximumsCopy <- maximums #store this value
 	minimumsCopy <- minimums #store this value
 
@@ -1130,7 +1130,7 @@ fixInertialSignalIfNotFullyExtended <- function(d, saveFile, graph)
 
 	#return if no data
 	if(length(maximums) < 1 | length(minimums) < 1)
-		return(d)
+		return(signal)
 
 	#ensure both maximums and minimums have same length
 	while(length(maximums) != length(minimums))
@@ -1141,40 +1141,44 @@ fixInertialSignalIfNotFullyExtended <- function(d, saveFile, graph)
 			minimums <- minimums[-length(minimums)]
 	}
 
-	meanByExtrema <- mean(c(pos[maximums], pos[minimums]))
-	posCorrected <- pos - meanByExtrema
+	meanByExtrema <- mean(c(angle[maximums], angle[minimums]))
+	angleCorrected <- angle - meanByExtrema
 
-	#remove the initial part of the signal. Remove from ms 1 to when posCorrected crosses 0
-	posCorrectedCrossZero = extrema(posCorrected)$cross[1,1]
+	#remove the initial part of the signal. Remove from ms 1 to when angleCorrected crosses 0
+	angleCorrectedCrossZero = extrema(angleCorrected)$cross[1,1]
 
 	if(graph) {
 		par(mfrow=c(1,2))
 
 		#1st graph (left)
-		plot(pos, type="l", lty=2, xlab="time", ylab="position", main="String NOT fully extended")
-		lines(abs(pos)*-1, lwd=2)
-		points(maximumsCopy, pos[maximumsCopy], col="black", cex=1)
-		points(minimumsCopy, pos[minimumsCopy], col="black", cex=1)
-		points(maximums, pos[maximums], col="green", cex=3)
-		points(minimums, pos[minimums], col="green", cex=3)
+		plot(angle, type="l", lty=2, xlab="time", ylab="Angle", main="String NOT fully extended", 
+		     ylim=c(min(c(angle[minimums], -angle[maximums])) - abs(meanByExtrema), max(c(angle[maximums], -angle[minimums])) + abs(meanByExtrema)))
+		lines(abs(angle)*-1, lwd=2)
+		points(maximumsCopy, angle[maximumsCopy], col="black", cex=1)
+		points(minimumsCopy, angle[minimumsCopy], col="black", cex=1)
+		points(maximums, angle[maximums], col="green", cex=3)
+		points(minimums, angle[minimums], col="green", cex=3)
 		abline(h = meanByExtrema, col="red")
+		text(x = 0, y = meanByExtrema, labels = meanByExtrema)
 
 		#2nd graph (right)
-		plot(posCorrected, type="l", lty=2, xlab="time", ylab="position", main="Corrected set")
-		lines(abs(posCorrected)*-1, lwd=2)
-		abline(v=c(posCorrectedCrossZero, length(posCorrected)), col="green")
-		mtext("Start", at=posCorrectedCrossZero, side=3, col="green")
-		mtext("End", at=length(posCorrected), side=3, col="green")
+		plot(angleCorrected, type="l", lty=2, xlab="time", ylab="angle", main="Corrected set", 
+		     ylim=c(min(c(angle[minimums], -angle[maximums])) - 2*abs(meanByExtrema), max(c(angle[maximums], -angle[minimums]))))
+		lines(abs(angleCorrected)*-1, lwd=2)
+		abline(v=c(angleCorrectedCrossZero, length(angleCorrected)), col="green")
+		mtext("Start", at=angleCorrectedCrossZero, side=3, col="green")
+		mtext("EnfixInertialSignalIfNotFullyExtendedd", at=length(angleCorrected), side=3, col="green")
 
 		par(mfrow=c(1,1))
 	}
 
-	#define new displacement
-	d <- d[posCorrectedCrossZero:length(d)]
+	#define new signal
+	signal <- signal[angleCorrectedCrossZero:length(signal)]
 	
 	#write to file and return displacement to be used
-	write(d, file=saveFile, ncolumns=length(d), sep=", ")
-	return(d)
+	write(signal, file=saveFile, ncolumns=length(signal), sep=", ")
+	
+	return(signal)
 }
 
 

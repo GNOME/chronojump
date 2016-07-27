@@ -61,7 +61,12 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.Box hbox_encoder_capture_wait;
 	[Widget] Gtk.Box vbox_encoder_capture_doing;
+	
+	[Widget] Gtk.Box hbox_encoder_capture_1_or_cont;
+	[Widget] Gtk.RadioButton radio_encoder_capture_1set;
+	[Widget] Gtk.RadioButton radio_encoder_capture_cont;
 	[Widget] Gtk.Button button_encoder_capture;
+	
 	[Widget] Gtk.Image image_encoder_bell;
 	[Widget] Gtk.Button button_encoder_capture_cancel;
 	[Widget] Gtk.Button button_encoder_capture_finish;
@@ -79,7 +84,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_export_encoder_signal;
 	[Widget] Gtk.Label label_encoder_curve_action;
 	[Widget] Gtk.Button button_encoder_delete_signal;
-	[Widget] Gtk.RadioButton radio_encoder_capture_cont;
 	
 	[Widget] Gtk.VPaned vpaned_encoder_main;
 	[Widget] Gtk.VPaned vpaned_encoder_capture_video_and_set_graph;

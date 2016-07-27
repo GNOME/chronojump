@@ -3144,6 +3144,7 @@ public partial class ChronoJumpWindow
 					radiobutton_encoder_analyze_1RM.Visible = true;
 					radiobutton_encoder_analyze_neuromuscular_profile.Visible = true;
 				}
+				hbox_encoder_capture_1_or_cont.Visible = true;
 			} else {
 				menuitem_mode_selected_power_inertial.Visible = true;
 
@@ -3160,6 +3161,9 @@ public partial class ChronoJumpWindow
 				notebook_encoder_capture_extra_mass.CurrentPage = 1;
 				radiobutton_encoder_analyze_1RM.Visible = false;
 				radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
+				
+				radio_encoder_capture_1set.Active = true;
+				hbox_encoder_capture_1_or_cont.Visible = false;
 			}
 			encoderGuiChangesAfterEncoderConfigurationWin(true);
 			if(changed) {

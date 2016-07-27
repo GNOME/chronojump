@@ -37,7 +37,7 @@ public class EncoderSelectRepetitions
 	protected Person currentPerson;
 	protected Session currentSession;
 	protected Constants.EncoderGI encoderGI;
-	protected GenericWindow genericWin;
+	protected static GenericWindow genericWinESR;
 	protected Gtk.Button button_encoder_analyze;
 	protected int exerciseID; //can be -1 (all)
 	protected bool askDeletion;
@@ -78,7 +78,7 @@ public class EncoderSelectRepetitions
 	}
 
 	public void PassVariables(Person currentP, Session currentS, Constants.EncoderGI eGI,
-			GenericWindow gw, Gtk.Button button_e_a, int exID, bool askDel) 
+			Gtk.Button button_e_a, int exID, bool askDel) 
 	{
 		RepsActive = 0;
 		RepsAll = 0;
@@ -88,26 +88,32 @@ public class EncoderSelectRepetitions
 		currentSession = currentS;
 		encoderGI = eGI;
 
-		genericWin = gw;
 		button_encoder_analyze = button_e_a;
 		exerciseID = exID; //can be -1 (all)
 		askDeletion = askDel;
 	}
 	
-	public GenericWindow Do() {
+	public void Do() {
 		getData();
 		createBigArray();
+		nullifyGenericWindow();
 		createGenericWindow();
-		genericWin.Type = GenericWindow.Types.ENCODER_SEL_REPS;
+	}
 
-		return genericWin;
+	private void nullifyGenericWindow() {
+		if(genericWinESR != null && ! genericWinESR.GenericWindowBoxIsNull())
+			genericWinESR.HideAndNull();
 	}
 
 	//used when click on "Select" button
 	public void Show() 
 	{
+		//if user destroyed window (on_delete_event), recreate it again
+		if(genericWinESR.GenericWindowBoxIsNull() || ! createdGenericWinIsOfThisType())
+			createGenericWindow();
+
 		activateCallbacks();
-		genericWin.ShowNow();
+		genericWinESR.ShowNow();
 	}
 
 	protected virtual void getData() {
@@ -116,10 +122,15 @@ public class EncoderSelectRepetitions
 	}
 	protected virtual void createGenericWindow() {
 	}
+		
+	protected virtual bool createdGenericWinIsOfThisType() {
+		return false;
+	}
 
 	protected virtual void activateCallbacks() {
 		//manage selected, unselected curves
-		genericWin.Button_accept.Clicked += new EventHandler(on_show_repetitions_done);
+		genericWinESR.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
+		genericWinESR.Button_accept.Clicked += new EventHandler(on_show_repetitions_done);
 	}
 	
 	protected virtual void on_show_repetitions_done (object o, EventArgs args) {
@@ -132,21 +143,21 @@ public class EncoderSelectRepetitions
 		RepsAll = 0;
 	
 		//find RepsActive
-		string [] selectedID = genericWin.GetColumn(0,true); //only active
-		string [] selectedDate = genericWin.GetColumn(dateColumn,true); //only active
+		string [] selectedID = genericWinESR.GetColumn(0,true); //only active
+		string [] selectedDate = genericWinESR.GetColumn(dateColumn,true); //only active
 		for (int i=0 ; i < selectedID.Length ; i ++) 
 		{
 			int id = Convert.ToInt32(selectedID[i]);
-			RepsActive += genericWin.GetCell(id, allRepsColumn);
+			RepsActive += genericWinESR.GetCell(id, allRepsColumn);
 			EncoderCompareInter.Add(id + ":" + selectedDate[i]);
 		}
 		
 		//find RepsAll
-		string [] allID = genericWin.GetColumn(0,false); //unchecked (session or person don't need to be selected)
+		string [] allID = genericWinESR.GetColumn(0,false); //unchecked (session or person don't need to be selected)
 		for (int i=0 ; i < allID.Length ; i ++) 
 		{
 			int id = Convert.ToInt32(allID[i]);
-			RepsAll += genericWin.GetCell(id, allRepsColumn);
+			RepsAll += genericWinESR.GetCell(id, allRepsColumn);
 		}
 	}
 	
@@ -226,7 +237,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 	protected override void createGenericWindow() 
 	{
 		/*
-		 * Disabled because combo exercise is selected before (not on genericWin)
+		 * Disabled because combo exercise is selected before (not on genericWinESR)
 		 *
 		add exercises to the combo (only the exercises done, and only unique)
 		ArrayList encoderExercisesNames = new ArrayList();
@@ -235,20 +246,20 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		}
 		*/
 		
-		genericWin = GenericWindow.Show(false,	//don't show now
+		genericWinESR = GenericWindow.Show(false,	//don't show now
 				string.Format(Catalog.GetString("Saved repetitions of athlete {0} on this session."), 
 					currentPerson.Name) + "\n" + 
 				Catalog.GetString("Activate the repetitions you want to use clicking on first column.") + "\n" +
 				Catalog.GetString("If you want to edit or delete a row, right click on it.") + "\n",
 				bigArray);
 
-		genericWin.SetTreeview(columnsString, true, dataPrint, new ArrayList(), Constants.ContextMenu.EDITDELETE, false);
+		genericWinESR.SetTreeview(columnsString, true, dataPrint, new ArrayList(), Constants.ContextMenu.EDITDELETE, false);
 
-		genericWin.ResetComboCheckBoxesOptions();
-		//genericWin.AddOptionsToComboCheckBoxesOptions(encoderExercisesNames);
-		genericWin.CreateComboCheckBoxes();
+		genericWinESR.ResetComboCheckBoxesOptions();
+		//genericWinESR.AddOptionsToComboCheckBoxesOptions(encoderExercisesNames);
+		genericWinESR.CreateComboCheckBoxes();
 
-		genericWin.MarkActiveCurves(checkboxes);
+		genericWinESR.MarkActiveCurves(checkboxes);
 		
 		//find all persons in current session
 		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(
@@ -259,39 +270,51 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		int count = 0;
 	        foreach	(Person p in personsPre)
 			persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
-		genericWin.SetComboValues(persons, currentPerson.UniqueID + ":" + currentPerson.Name);
-		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected repetition") + 
+		genericWinESR.SetComboValues(persons, currentPerson.UniqueID + ":" + currentPerson.Name);
+		genericWinESR.SetComboLabel(Catalog.GetString("Change the owner of selected repetition") + 
 				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
-		genericWin.ShowEditRow(false);
-		genericWin.CommentColumn = 10;
+		genericWinESR.ShowEditRow(false);
+		genericWinESR.CommentColumn = 10;
 		
-		genericWin.ShowButtonCancel(false);
-		genericWin.SetButtonAcceptSensitive(true);
-		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
+		genericWinESR.ShowButtonCancel(false);
+		genericWinESR.SetButtonAcceptSensitive(true);
+		genericWinESR.SetButtonCancelLabel(Catalog.GetString("Close"));
 
 		//used when we don't need to read data, 
 		//and we want to ensure next window will be created at needed size
-		//genericWin.DestroyOnAccept=true;
+		//genericWinESR.DestroyOnAccept=true;
 		//here is comented because we are going to read the checkboxes
+		
+		genericWinESR.Type = GenericWindow.Types.ENCODER_SEL_REPS_IND_CURRENT_SESS;
+	}
+	
+	protected override bool createdGenericWinIsOfThisType() {
+		if(genericWinESR.Type == GenericWindow.Types.ENCODER_SEL_REPS_IND_CURRENT_SESS)
+			return true;
+
+		return false;
 	}
 	
 	protected override void activateCallbacks() {
 		//manage selected, unselected curves
-		genericWin.Button_accept.Clicked += new EventHandler(on_show_repetitions_done);
+		genericWinESR.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
+		genericWinESR.Button_accept.Clicked += new EventHandler(on_show_repetitions_done);
 		
-		genericWin.Button_row_edit.Clicked += new EventHandler(on_show_repetitions_row_edit);
-		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_show_repetitions_row_edit_apply);
-		genericWin.Button_row_delete.Clicked += new EventHandler(on_show_repetitions_row_delete_pre);
+		genericWinESR.Button_row_edit.Clicked -= new EventHandler(on_show_repetitions_row_edit);
+		genericWinESR.Button_row_edit.Clicked += new EventHandler(on_show_repetitions_row_edit);
+
+		genericWinESR.Button_row_edit_apply.Clicked -= new EventHandler(on_show_repetitions_row_edit_apply);
+		genericWinESR.Button_row_edit_apply.Clicked += new EventHandler(on_show_repetitions_row_edit_apply);
+		
+		genericWinESR.Button_row_delete.Clicked -= new EventHandler(on_show_repetitions_row_delete_pre);
+		genericWinESR.Button_row_delete.Clicked += new EventHandler(on_show_repetitions_row_delete_pre);
 	}
 	
 	
 	protected override void on_show_repetitions_done (object o, EventArgs args)
 	{
-		//don't stop calling here in order to arrive when encSelReps.Show() is called and accept is clicked
-		genericWin.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
-
 		//get selected/deselected rows
-		checkboxes = genericWin.GetColumn(1, false);
+		checkboxes = genericWinESR.GetColumn(1, false);
 
 		ArrayList data = SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, encoderGI,
@@ -310,15 +333,13 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 	// --------------- edit curves start ---------------
 	
 	protected void on_show_repetitions_row_edit (object o, EventArgs args) {
-		LogB.Information("row edit at show curves");
-		LogB.Information(genericWin.TreeviewSelectedUniqueID.ToString());
-		genericWin.ShowEditRow(true);
+		LogB.Information(genericWinESR.TreeviewSelectedUniqueID.ToString());
+		genericWinESR.ShowEditRow(true);
 	}
 
 	protected void on_show_repetitions_row_edit_apply (object o, EventArgs args) {
-		LogB.Information("row edit apply at show curves");
 
-		int curveID = genericWin.TreeviewSelectedUniqueID;
+		int curveID = genericWinESR.TreeviewSelectedUniqueID;
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
 				false, curveID, 0, 0, encoderGI,
 				-1, "", EncoderSQL.Eccons.ALL, 
@@ -326,26 +347,26 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 
 		//if changed comment, update SQL, and update treeview
 		//first remove conflictive characters
-		string comment = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
+		string comment = Util.RemoveTildeAndColonAndDot(genericWinESR.EntryEditRow);
 		if(comment != eSQL.description) {
 			eSQL.description = comment;
 			SqliteEncoder.Update(false, eSQL);
 
 			//update treeview
-			genericWin.on_edit_selected_done_update_treeview();
+			genericWinESR.on_edit_selected_done_update_treeview();
 		}
 
 		//if changed person, proceed
-		LogB.Information("new person: " + genericWin.GetComboSelected);
-		int newPersonID = Util.FetchID(genericWin.GetComboSelected);
+		LogB.Information("new person: " + genericWinESR.GetComboSelected);
+		int newPersonID = Util.FetchID(genericWinESR.GetComboSelected);
 		if(newPersonID != currentPerson.UniqueID) {
-			EncoderSQL eSQLChangedPerson = eSQL.ChangePerson(genericWin.GetComboSelected);
+			EncoderSQL eSQLChangedPerson = eSQL.ChangePerson(genericWinESR.GetComboSelected);
 			SqliteEncoder.Update(false, eSQLChangedPerson);
 
-			genericWin.RemoveSelectedRow();
+			genericWinESR.RemoveSelectedRow();
 		}
 
-		genericWin.ShowEditRow(false);
+		genericWinESR.ShowEditRow(false);
 	}
 	
 	// --------------- edit curves end ---------------
@@ -357,6 +378,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		if(askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
 						"Are you sure you want to delete this repetition?"), "", "");
+			confirmWin.Button_accept.Clicked -= new EventHandler(on_show_repetitions_row_delete);
 			confirmWin.Button_accept.Clicked += new EventHandler(on_show_repetitions_row_delete);
 		} else
 			on_show_repetitions_row_delete (o, args);
@@ -365,8 +387,8 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 	protected void on_show_repetitions_row_delete (object o, EventArgs args) {
 		LogB.Information("row delete at show curves");
 
-		int uniqueID = genericWin.TreeviewSelectedUniqueID;
-		bool status = genericWin.GetCheckboxStatus(uniqueID);
+		int uniqueID = genericWinESR.TreeviewSelectedUniqueID;
+		bool status = genericWinESR.GetCheckboxStatus(uniqueID);
 		
 		if(status) //active
 			RepsActive --;
@@ -376,7 +398,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		DeleteCurveID = uniqueID;
 		FakeButtonDeleteCurve.Click();
 
-		genericWin.Delete_row_accepted();
+		genericWinESR.Delete_row_accepted();
 		FakeButtonDone.Click();		
 	}
 
@@ -464,7 +486,7 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 	
 	protected override void createGenericWindow() 
 	{
-		genericWin = GenericWindow.Show(false,  //don't show now	//TODO: change message
+		genericWinESR = GenericWindow.Show(false,  //don't show now	//TODO: change message
 				string.Format(Catalog.GetString("Compare repetitions between the following sessions"),
 					currentPerson.Name), bigArray);
 
@@ -474,14 +496,14 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 			dataConverted.Add(encPS.ToStringArray(true));
 		}
 
-		genericWin.SetTreeview(columnsString, true, dataConverted, nonSensitiveRows, Constants.ContextMenu.NONE, false);
+		genericWinESR.SetTreeview(columnsString, true, dataConverted, nonSensitiveRows, Constants.ContextMenu.NONE, false);
 
-		genericWin.ResetComboCheckBoxesOptions();
-		genericWin.CreateComboCheckBoxes();
+		genericWinESR.ResetComboCheckBoxesOptions();
+		genericWinESR.CreateComboCheckBoxes();
 		
-		genericWin.MarkActiveCurves(checkboxes);
-		genericWin.ShowButtonCancel(false);
-		genericWin.SetButtonAcceptSensitive(true);
+		genericWinESR.MarkActiveCurves(checkboxes);
+		genericWinESR.ShowButtonCancel(false);
+		genericWinESR.SetButtonAcceptSensitive(true);
 		
 		//to have encoderCompareInter without opening the select window
 		updateEncoderCompareInterAndReps();
@@ -489,16 +511,25 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 
 		//used when we don't need to read data, 
 		//and we want to ensure next window will be created at needed size
-		//genericWin.DestroyOnAccept=true;
+		//genericWinESR.DestroyOnAccept=true;
 		//here is comented because we are going to read the checkboxes
+		
+		genericWinESR.Type = GenericWindow.Types.ENCODER_SEL_REPS_IND_ALL_SESS;
+	}
+	
+	protected override bool createdGenericWinIsOfThisType() {
+		if(genericWinESR.Type == GenericWindow.Types.ENCODER_SEL_REPS_IND_ALL_SESS)
+			return true;
+
+		return false;
 	}
 		
 	private void updateEncoderInterSessionDateOnXWeights() 
 	{
 		EncoderInterSessionDateOnXWeights = new List<double>();
 		
-		string [] selectedID = genericWin.GetColumn(0,true); //only active
-		string [] selectedRepsByWeights = genericWin.GetColumn(repsByWeightsColumn,true); //only active
+		string [] selectedID = genericWinESR.GetColumn(0,true); //only active
+		string [] selectedRepsByWeights = genericWinESR.GetColumn(repsByWeightsColumn,true); //only active
 		for (int i=0 ; i < selectedID.Length ; i ++) 
 		{
 			string [] repsByWeights = selectedRepsByWeights[i].Split(new char[] {' '});
@@ -516,9 +547,6 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 	
 	protected override void on_show_repetitions_done (object o, EventArgs args) 
 	{
-		//don't stop calling here in order to arrive when encSelReps.Show() is called and accept is clicked
-		genericWin.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
-	
 		updateEncoderCompareInterAndReps();
 		updateEncoderInterSessionDateOnXWeights();
 	
@@ -627,35 +655,41 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 	
 	protected override void createGenericWindow() 
 	{
-		genericWin = GenericWindow.Show(false,	//don't show now
+		genericWinESR = GenericWindow.Show(false,	//don't show now
 				Catalog.GetString("Select persons to compare"), bigArray);
 
-		genericWin.SetTreeview(columnsString, true, data, nonSensitiveRows, Constants.ContextMenu.NONE, false);
+		genericWinESR.SetTreeview(columnsString, true, data, nonSensitiveRows, Constants.ContextMenu.NONE, false);
 
 		//select this person row
-		genericWin.SelectRowWithID(0, currentPerson.UniqueID);
+		genericWinESR.SelectRowWithID(0, currentPerson.UniqueID);
 
-		genericWin.ResetComboCheckBoxesOptions();
-		genericWin.CreateComboCheckBoxes();
+		genericWinESR.ResetComboCheckBoxesOptions();
+		genericWinESR.CreateComboCheckBoxes();
 		
-		genericWin.MarkActiveCurves(checkboxes);
-		genericWin.ShowButtonCancel(false);
-		genericWin.SetButtonAcceptSensitive(true);
+		genericWinESR.MarkActiveCurves(checkboxes);
+		genericWinESR.ShowButtonCancel(false);
+		genericWinESR.SetButtonAcceptSensitive(true);
 		
 		//to have encoderCompareInter without opening the select window
 		updateEncoderCompareInterAndReps();
 
 		//used when we don't need to read data, 
 		//and we want to ensure next window will be created at needed size
-		//genericWin.DestroyOnAccept=true;
+		//genericWinESR.DestroyOnAccept=true;
 		//here is comented because we are going to read the checkboxes
+		
+		genericWinESR.Type = GenericWindow.Types.ENCODER_SEL_REPS_GROUP_CURRENT_SESS;
 	}
 	
+	protected override bool createdGenericWinIsOfThisType() {
+		if(genericWinESR.Type == GenericWindow.Types.ENCODER_SEL_REPS_GROUP_CURRENT_SESS)
+			return true;
+
+		return false;
+	}
+		
 	protected override void on_show_repetitions_done (object o, EventArgs args) 
 	{
-		//don't stop calling here in order to arrive when encSelReps.Show() is called and accept is clicked
-		genericWin.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
-		
 		updateEncoderCompareInterAndReps();
 	
 		FakeButtonDone.Click();		

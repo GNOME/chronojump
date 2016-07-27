@@ -113,47 +113,46 @@ public class GenericWindow
 	public int uniqueID;
 	public string nameUntranslated;
 
-	public enum Types { UNDEFINED, ENCODER_SESSION_LOAD, ENCODER_SEL_REPS };
+	public enum Types { UNDEFINED, ENCODER_SESSION_LOAD, 
+		ENCODER_SEL_REPS_IND_CURRENT_SESS, ENCODER_SEL_REPS_IND_ALL_SESS, ENCODER_SEL_REPS_GROUP_CURRENT_SESS };
 	//used to decide if a genericWin has to be recreated
 	public Types Type;
 
 
-	public GenericWindow ()
+	public GenericWindow (string textHeader)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "generic_window", "chronojump");
 		gladeXML.Autoconnect(this);
-		
+	
 		//put an icon to window
 		UtilGtk.IconWindow(generic_window);
+		
+		hideWidgets();
+		generic_window.Resizable = false;
+		label_header.Text = textHeader;
+		
+		HideOnAccept = true;
+		DestroyOnAccept = false;
 	}
 
 	//for some widgets
 	static public GenericWindow Show (bool showNow, string textHeader, ArrayList array)
 	{
 		if (GenericWindowBox == null) {
-			GenericWindowBox = new GenericWindow();
+			GenericWindowBox = new GenericWindow(textHeader);
 		}
 
-		GenericWindowBox.hideWidgets();
-	
 		foreach(ArrayList widgetArray in array)
 			GenericWindowBox.showWidgetsPowerful(widgetArray);
 
-		GenericWindowBox.generic_window.Resizable = false;
-		GenericWindowBox.label_header.Text = textHeader;
-		
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		GenericWindowBox.image_delete.Pixbuf = pixbuf;
-
-		GenericWindowBox.label_header.Text = textHeader;
 
 		GenericWindowBox.Type = Types.UNDEFINED;
 		
 		if(showNow)
 			GenericWindowBox.generic_window.Show ();
-		GenericWindowBox.HideOnAccept = true;
-		GenericWindowBox.DestroyOnAccept = false;
 		
 		return GenericWindowBox;
 	}
@@ -162,23 +161,24 @@ public class GenericWindow
 	static public GenericWindow Show (string textHeader, Constants.GenericWindowShow stuff)
 	{
 		if (GenericWindowBox == null) {
-			GenericWindowBox = new GenericWindow();
+			GenericWindowBox = new GenericWindow(textHeader);
 		}
+		
+		GenericWindowBox.Type = Types.UNDEFINED;
 
-		GenericWindowBox.hideWidgets();
 		GenericWindowBox.showWidget(stuff);
-
-		GenericWindowBox.generic_window.Resizable = false;
-		GenericWindowBox.label_header.Text = textHeader;
 		GenericWindowBox.generic_window.Show ();
-		GenericWindowBox.HideOnAccept = true;
-		GenericWindowBox.DestroyOnAccept = false;
 		
 		return GenericWindowBox;
 	}
 	
 	public void ShowNow() {
-		generic_window.Show ();
+		if(GenericWindowBox == null) {
+			LogB.Error("at showNow GenericWindowBox is null!!");
+		//	GenericWindowBox = new GenericWindow("");
+		}
+
+		GenericWindowBox.generic_window.Show ();
 	}
 	
 	
@@ -828,13 +828,7 @@ public class GenericWindow
 	public void ShowButtonDelete(bool show) {
 		button_delete.Visible = show;
 	}
-	
-	private void on_button_delete_clicked (object o, EventArgs args)
-	{
-		GenericWindowBox.generic_window.Hide();
-		GenericWindowBox = null;
-	}
-	
+
 	public void SetButtonAcceptLabel(string str) {
 		button_accept.Label=str;
 	}
@@ -856,9 +850,11 @@ public class GenericWindow
 		GenericWindowBox.generic_window.Hide();
 		GenericWindowBox = null;
 	}
-	
+
 	private void on_delete_event (object o, DeleteEventArgs args)
 	{
+		LogB.Information("calling on_delete_event");
+
 		args.RetVal = true;
 			
 		GenericWindowBox.generic_window.Hide();
@@ -867,6 +863,8 @@ public class GenericWindow
 
 	private void on_button_accept_clicked (object o, EventArgs args)
 	{
+		LogB.Information("called on_button_accept_clicked");
+
 		if(HideOnAccept)
 			GenericWindowBox.generic_window.Hide();
 		if(DestroyOnAccept)
@@ -878,6 +876,12 @@ public class GenericWindow
 	public void HideAndNull() {
 		GenericWindowBox.generic_window.Hide();
 		GenericWindowBox = null;
+	}
+	
+	public bool GenericWindowBoxIsNull() {
+		if(GenericWindowBox == null)
+			return true;
+		return false;
 	}
 	
 	public Button Button_middle {

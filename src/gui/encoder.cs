@@ -1036,7 +1036,7 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_analyze_data_select_curves_clicked (object o, EventArgs args) {
 		encSelReps.FakeButtonDone.Clicked += new EventHandler(on_analyze_repetitions_selected);
 
-		if(genericWin.Type != GenericWindow.Types.ENCODER_SEL_REPS)
+		if(encSelReps == null)
 			prepareAnalyzeRepetitions();
 
 		encSelReps.Show();
@@ -1074,10 +1074,10 @@ public partial class ChronoJumpWindow
 			return; //error
 
 		encSelReps.PassVariables(currentPerson, currentSession, currentEncoderGI,
-				genericWin, button_encoder_analyze, getExerciseIDFromCombo(exerciseCombos.ANALYZE),
+				button_encoder_analyze, getExerciseIDFromCombo(exerciseCombos.ANALYZE),
 				preferences.askDeletion);
 
-		genericWin = encSelReps.Do();
+		encSelReps.Do();
 
 		updateUserCurvesLabelsAndCombo(false);
 	}

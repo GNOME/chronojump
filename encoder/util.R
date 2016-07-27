@@ -1111,10 +1111,23 @@ fixInertialSignalIfNotFullyExtended <- function(signal, saveFile, graph)
 	minimums <- extrema(angle)$minindex[,1]
 	maximumsCopy <- maximums #store this value
 	minimumsCopy <- minimums #store this value
-
+		
 	#if we have more than 2 max & mins, remove the first and last value
 	if(length(maximums) > 2 & length(minimums) > 2)
 	{
+		#if there's any max extrema value negative (remove it), same for positive min values
+		maximums.temp = NULL
+		minimums.temp = NULL
+		for( i in maximums )
+			if(angle[i] > 0)
+				maximums.temp <- c(maximums.temp, i)
+		for( i in minimums )
+			if(angle[i] < 0)
+				minimums.temp <- c(minimums.temp, i)
+		
+		maximums <- maximums.temp
+		minimums <- minimums.temp
+
 		#remove the first value of the maximums OR minimums (just the first one of both)
 		if(maximums[1] < minimums[1])
 			maximums <- maximums[-1]
@@ -1159,7 +1172,7 @@ fixInertialSignalIfNotFullyExtended <- function(signal, saveFile, graph)
 		points(maximums, angle[maximums], col="green", cex=3)
 		points(minimums, angle[minimums], col="green", cex=3)
 		abline(h = meanByExtrema, col="red")
-		text(x = 0, y = meanByExtrema, labels = meanByExtrema)
+		text(x = 0, y = meanByExtrema, labels = round(meanByExtrema,2), adj=0)
 
 		#2nd graph (right)
 		plot(angleCorrected, type="l", lty=2, xlab="time", ylab="angle", main="Corrected set", 
@@ -1172,11 +1185,13 @@ fixInertialSignalIfNotFullyExtended <- function(signal, saveFile, graph)
 		par(mfrow=c(1,1))
 	}
 
-	#define new signal
-	signal <- signal[angleCorrectedCrossZero:length(signal)]
-	
-	#write to file and return displacement to be used
-	write(signal, file=saveFile, ncolumns=length(signal), sep=", ")
+	#define new signal only if the error in extended string is more than 360
+	if(meanByExtrema > 200) {
+		signal <- signal[angleCorrectedCrossZero:length(signal)]
+
+		#write to file and return displacement to be used
+		write(signal, file=saveFile, ncolumns=length(signal), sep=", ")
+	}
 	
 	return(signal)
 }

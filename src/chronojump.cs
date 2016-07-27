@@ -38,7 +38,7 @@ public class ChronoJump
 	
 	private static string progVersion = ""; //now in "version" file
 	private static string progName = "Chronojump";
-	private static string buildDate = "2016-07-16";
+	private static string buildDate = "2016-07-27";
 	
 	private static string runningFolder;	
 

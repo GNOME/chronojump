@@ -1,5 +1,8 @@
-
+____
+for partial releases:
 change buildDate string on src/chronojump.cs
+if it's a release, leave buildDate empty
+____
 
 
 -------------------------------------------------------------------

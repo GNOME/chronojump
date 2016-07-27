@@ -627,8 +627,11 @@ public partial class ChronoJumpWindow
 		//presentationInit();
 
 		videoCaptureInitialize();
-		
-		label_version.Text = progVersion; 
+	
+		//leave empty on new releases	
+		string buildDate = " (2016-07-27)";
+		label_version.Text = progVersion + buildDate;
+		LogB.Information("Build date:" + buildDate);
 	}
 	
 

@@ -1062,6 +1062,7 @@ public partial class ChronoJumpWindow
 			if(encSelReps == null || encSelReps.Type != EncoderSelectRepetitions.Types.INDIVIDUAL_CURRENT_SESSION)
 				encSelReps = new EncoderSelectRepetitionsIndividualCurrentSession();
 
+			encSelReps.FakeButtonDeleteCurve.Clicked -= new EventHandler(on_delete_encoder_curve);
 			encSelReps.FakeButtonDeleteCurve.Clicked += new EventHandler(on_delete_encoder_curve);
 		}
 		else if(radio_encoder_analyze_individual_all_sessions.Active)
@@ -1088,7 +1089,7 @@ public partial class ChronoJumpWindow
 			
 	void on_delete_encoder_curve (object o, EventArgs args)
 	{
-		encSelReps.FakeButtonDeleteCurve.Clicked -= new EventHandler(on_delete_encoder_curve);
+		LogB.Information("at on_delete_encoder_curve");
 		delete_encoder_curve(false, encSelReps.DeleteCurveID);
 	}	
 	void delete_encoder_curve(bool dbconOpened, int uniqueID) 
@@ -1216,6 +1217,7 @@ public partial class ChronoJumpWindow
 	
 	protected void on_encoder_load_signal_accepted (object o, EventArgs args)
 	{
+		LogB.Information("on load signal accepted");
 		genericWin.Button_accept.Clicked -= new EventHandler(on_encoder_load_signal_accepted);
 
 		int uniqueID = genericWin.TreeviewSelectedRowID();

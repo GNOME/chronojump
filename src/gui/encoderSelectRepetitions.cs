@@ -110,7 +110,7 @@ public class EncoderSelectRepetitions
 	{
 		//if user destroyed window (on_delete_event), recreate it again
 		if(genericWinESR.GenericWindowBoxIsNull() || ! createdGenericWinIsOfThisType())
-			createGenericWindow();
+			Do();
 
 		activateCallbacks();
 		genericWinESR.ShowNow();
@@ -131,6 +131,11 @@ public class EncoderSelectRepetitions
 		//manage selected, unselected curves
 		genericWinESR.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
 		genericWinESR.Button_accept.Clicked += new EventHandler(on_show_repetitions_done);
+	}
+	//as genericWin is called by many parts of the software, ensure no undesirable methods are called from a previous genericWindow
+	protected virtual void removeCallbacks() {
+		//manage selected, unselected curves
+		genericWinESR.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
 	}
 	
 	protected virtual void on_show_repetitions_done (object o, EventArgs args) {
@@ -309,10 +314,19 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		genericWinESR.Button_row_delete.Clicked -= new EventHandler(on_show_repetitions_row_delete_pre);
 		genericWinESR.Button_row_delete.Clicked += new EventHandler(on_show_repetitions_row_delete_pre);
 	}
+	protected override void removeCallbacks() {
+		genericWinESR.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
+		genericWinESR.Button_row_edit.Clicked -= new EventHandler(on_show_repetitions_row_edit);
+		genericWinESR.Button_row_edit_apply.Clicked -= new EventHandler(on_show_repetitions_row_edit_apply);
+		genericWinESR.Button_row_delete.Clicked -= new EventHandler(on_show_repetitions_row_delete_pre);
+	}
 	
 	
 	protected override void on_show_repetitions_done (object o, EventArgs args)
 	{
+		//genericWinESR.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
+		removeCallbacks();
+
 		//get selected/deselected rows
 		checkboxes = genericWinESR.GetColumn(1, false);
 
@@ -374,9 +388,11 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 	
 	// --------------- delete curves start ---------------
 	
-	protected void on_show_repetitions_row_delete_pre (object o, EventArgs args) {
+	ConfirmWindow confirmWin;
+	protected void on_show_repetitions_row_delete_pre (object o, EventArgs args) 
+	{
 		if(askDeletion) {
-			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+			confirmWin = ConfirmWindow.Show(Catalog.GetString(
 						"Are you sure you want to delete this repetition?"), "", "");
 			confirmWin.Button_accept.Clicked -= new EventHandler(on_show_repetitions_row_delete);
 			confirmWin.Button_accept.Clicked += new EventHandler(on_show_repetitions_row_delete);
@@ -384,7 +400,9 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 			on_show_repetitions_row_delete (o, args);
 	}
 	
-	protected void on_show_repetitions_row_delete (object o, EventArgs args) {
+	protected void on_show_repetitions_row_delete (object o, EventArgs args) 
+	{
+		confirmWin.Button_accept.Clicked -= new EventHandler(on_show_repetitions_row_delete);
 		LogB.Information("row delete at show curves");
 
 		int uniqueID = genericWinESR.TreeviewSelectedUniqueID;
@@ -547,6 +565,9 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 	
 	protected override void on_show_repetitions_done (object o, EventArgs args) 
 	{
+		//genericWinESR.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
+		removeCallbacks();
+
 		updateEncoderCompareInterAndReps();
 		updateEncoderInterSessionDateOnXWeights();
 	
@@ -690,6 +711,9 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 		
 	protected override void on_show_repetitions_done (object o, EventArgs args) 
 	{
+		//genericWinESR.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
+		removeCallbacks();
+
 		updateEncoderCompareInterAndReps();
 	
 		FakeButtonDone.Click();		

@@ -82,7 +82,10 @@ findSmoothingsECYPoints <- function(eccentric.concentric, conStart, conEnd, x, m
 
 #called on "ec" and "ce" to have a smoothingOneEC for every curve
 #this smoothingOneEC has produce same speeds than smoothing "c"
-findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingOneC,
+
+#on op$Analysis=="single", singleCurveNum is the curve that has to be analysed.
+#On the rest of op$Analysis, singleCurveNum is -1 meaning "All"
+findSmoothingsEC <- function(singleFile, displacement, curves, singleCurveNum, eccon, smoothingOneC,
 			     singleFileEncoderConfigurationName, singleFileDiameter, singleFileInertiaMomentum, singleFileGearedDown)
 {
 	ptm <- as.vector(proc.time()[3])
@@ -108,6 +111,12 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 			if( (singleFile && eccon == "c") || (! singleFile && curves[i,8] == "c") )
 				smoothings[i] = 0
 			else {
+				#on op$Analysis=="single", only analyse one curve
+				if(singleCurveNum > 0 && i != singleCurveNum) {
+					smoothings[i] = 0
+					next
+				}
+
 #0 find concentric
 				eccentric.concentric = displacement[curves[i,1]:curves[i,2]]
 

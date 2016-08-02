@@ -1089,6 +1089,7 @@ public partial class ChronoJumpWindow
 			
 	void on_delete_encoder_curve (object o, EventArgs args)
 	{
+		encSelReps.FakeButtonDeleteCurve.Clicked -= new EventHandler(on_delete_encoder_curve);
 		LogB.Information("at on_delete_encoder_curve");
 		delete_encoder_curve(false, encSelReps.DeleteCurveID);
 	}	

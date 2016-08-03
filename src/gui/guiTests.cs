@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using System.Threading;
 
 public partial class ChronoJumpWindow 
@@ -30,12 +31,41 @@ public partial class ChronoJumpWindow
 	//to repeat some actions
 	private static int bucleCount;
 		
+	private List<cjTestTypes> sequence;
+	
+	public enum cjTestTypes { 
+		MODE_POWERINERTIAL, 
+		SESSION_LOAD,
+		PERSON_SELECT,
+		ENCODER_SIGNAL_LOAD,
+		ENCODER_ECC_CON_INVERT,
+		ENCODER_RECALCULATE
+	}
+
+	private List<cjTestTypes> sequenceEncoder1()
+	{
+		return new List<cjTestTypes> { 
+			cjTestTypes.MODE_POWERINERTIAL, 
+				cjTestTypes.SESSION_LOAD,
+				cjTestTypes.PERSON_SELECT,
+				cjTestTypes.ENCODER_SIGNAL_LOAD,
+				cjTestTypes.ENCODER_ECC_CON_INVERT,	//start bucle
+				cjTestTypes.ENCODER_RECALCULATE,
+				cjTestTypes.ENCODER_ECC_CON_INVERT,
+				cjTestTypes.ENCODER_RECALCULATE,
+				cjTestTypes.ENCODER_ECC_CON_INVERT,
+				cjTestTypes.ENCODER_RECALCULATE,
+				cjTestTypes.ENCODER_ECC_CON_INVERT,
+				cjTestTypes.ENCODER_RECALCULATE		//end bucle
+		};
+	}
 	
 	private void chronojumpWindowTestsStart() 
 	{
 		TestsActive = true;
 		TestNum = 0;
-		bucleCount = 10;
+		bucleCount = 2;
+		sequence = sequenceEncoder1();
 
 		chronojumpWindowTestsDo();
 	}
@@ -44,15 +74,18 @@ public partial class ChronoJumpWindow
 		if(TestsActive) 
 		{
 			TestNum ++;
-
-			if(bucleCount > 0 && TestNum == 6) {
-				TestNum = 4;
+			if(TestNum < sequence.Count)
+				chronojumpWindowTestsDo();
+			else {
 				bucleCount --;
+				if(bucleCount > 0) {
+					TestNum = 0;
+					chronojumpWindowTestsDo();
+				}
 			}
-
-			chronojumpWindowTestsDo();
 		}
 	}
+	
 	private void chronojumpWindowTestsDo() 
 	{
 		LogB.Information("TestNum: " + TestNum.ToString());
@@ -60,34 +93,36 @@ public partial class ChronoJumpWindow
 		//if process is very fast (no threads, no GUI problems) just call next from this method
 		bool callNext = false;
 
-		switch(TestNum) {
-			case 0:
+		switch(sequence[TestNum]) {
+			case cjTestTypes.MODE_POWERINERTIAL:
 				chronojumpWindowTestsMode(Constants.Menuitem_modes.POWERINERTIAL);
 				break;
-			case 1:
+			case cjTestTypes.SESSION_LOAD:
 				chronojumpWindowTestsLoadSession(); //this also selects first person
 				break;
-			case 2:
-				chronojumpWindowTestsSelectPerson(1); //select 2nd person (Giles)
+			case cjTestTypes.PERSON_SELECT:
+				chronojumpWindowTestsSelectPerson(1); //select 2nd person (Giles) //TODO: change this
 				callNext = true;
 				break;
-			case 3:
+			case cjTestTypes.ENCODER_SIGNAL_LOAD:
 				chronojumpWindowTestsEncoderLoadSignal();
 				break;
-			case 4:
+			case cjTestTypes.ENCODER_ECC_CON_INVERT:
 				chronojumpWindowTestsEncoderEccConInvert();
 				callNext = true;
 				break;
-			case 5:
+			case cjTestTypes.ENCODER_RECALCULATE:
 				chronojumpWindowTestsEncoderRecalculate();
 				break;
-			case 6:
-				LogB.Information("ALL TESTS DONE");
-				break;
+				/*
+				   case 6:
+				   LogB.Information("ALL TESTS DONE");
+				   break;
+				*/
 		}
 
 		if(callNext)		
-			chronojumpWindowTestsNext(); //TODO: move from here
+			chronojumpWindowTestsNext();
 	}
 
 
@@ -107,8 +142,9 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsLoadSession");
 
-		currentSession = SqliteSession.Select ("1"); //select first session (if is not deleted)
-		on_load_session_accepted();
+		on_open_activate(new Object(), new EventArgs());
+		sessionLoadWin.SelectRow(0);
+		sessionLoadWin.Button_accept.Click();
 		
 		LogB.TestEnd("chronojumpWindowTestsLoadSession");
 	}

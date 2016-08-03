@@ -22,103 +22,75 @@ using System;
 using System.Collections; //ArrayList
 using System.Threading;
 
-public class GuiT 
-{
-	protected enum StatusTypes { WAITING, RUNNING } //WAITING means waiting or done
-	protected StatusTypes status = StatusTypes.WAITING;
-	protected string message;
-
-	public GuiT() {
-	}
-		
-	protected void logStart() {
-		LogB.TestStart(message);
-	}
-	protected void logEnd() {
-		LogB.TestEnd(message);
-	}
-
-	//called from chronojump gui
-	public void End(int seconds) 
-	{
-		LogB.Information("End (sleep start)");
-		Thread.Sleep(seconds*1000);
-
-		LogB.Information("End (changing to waiting)");
-		status = StatusTypes.WAITING;
-		LogB.Information("End (changed to waiting)");
-	}
-
-	public void WaitEnd() {
-		LogB.Information("at waitEnd");
-		while(status == StatusTypes.RUNNING)
-			Thread.Sleep(50);
-		
-		LogB.Information("ended waitEnd");
-
-		logEnd();
-	}
-}	
-
-public class GuiTLoadSignal : GuiT 
-{
-
-	public GuiTLoadSignal() 
-	{
-		message = "guiTLoadSignal";
-		status = StatusTypes.RUNNING;
-		logStart();
-	}
-}	
-
 public partial class ChronoJumpWindow 
 {
-	public GuiTLoadSignal GuiTLoadSignalObject;
-
-	private void chronojumpWindowTests() 
+	public static int TestNum;
+	public static bool TestsActive = false;
+	
+	//to repeat some actions
+	private static int bucleCount;
+		
+	
+	private void chronojumpWindowTestsStart() 
 	{
-		chronojumpWindowTestsMode(Constants.Menuitem_modes.POWERINERTIAL);
-		
-		//using tutorial (or demo) session
-		chronojumpWindowTestsLoadSession(); //this also selects first person
-		
-		chronojumpWindowTestsSelectPerson(1); //select 2nd person (Giles)
-		
-		chronojumpWindowTestsEncoderLoadSignal();
+		TestsActive = true;
+		TestNum = 0;
+		bucleCount = 10;
 
-//		chronojumpWindowTestsWaitS(4);
-
-//		chronojumpWindowTestsEncoderEccConInvert();
-
-//		chronojumpWindowTestsWaitS(1);
-		
-//		chronojumpWindowTestsEncoderRecalculate();
-		
-//		chronojumpWindowTestsWaitS(4);
-
-/*
-		chronojumpWindowTestsEncoderEccConInvert();
-		chronojumpWindowTestsEncoderRecalculate();
-*/
-
-		/*
-		chronojumpWindowTestsEncoderSave(EncoderAutoSaveCurve.ALL);
-		chronojumpWindowTestsEncoderSave(EncoderAutoSaveCurve.NONE);
-		chronojumpWindowTestsEncoderSave(EncoderAutoSaveCurve.BEST);
-		chronojumpWindowTestsEncoderSave(EncoderAutoSaveCurve.FROM4TOPENULTIMATE);
-		*/
+		chronojumpWindowTestsDo();
 	}
-		
-	private void chronojumpWindowTestsWaitS(int seconds)
+	private void chronojumpWindowTestsNext() 
 	{
-		LogB.TestStart("chronojumpWindowTestsWaitS");
+		if(TestsActive) 
+		{
+			TestNum ++;
 
-		Thread.Sleep(1000 * seconds);
+			if(bucleCount > 0 && TestNum == 6) {
+				TestNum = 4;
+				bucleCount --;
+			}
+
+			chronojumpWindowTestsDo();
+		}
+	}
+	private void chronojumpWindowTestsDo() 
+	{
+		LogB.Information("TestNum: " + TestNum.ToString());
 		
-		LogB.TestEnd("chronojumpWindowTestsWaitS");
+		//if process is very fast (no threads, no GUI problems) just call next from this method
+		bool callNext = false;
+
+		switch(TestNum) {
+			case 0:
+				chronojumpWindowTestsMode(Constants.Menuitem_modes.POWERINERTIAL);
+				break;
+			case 1:
+				chronojumpWindowTestsLoadSession(); //this also selects first person
+				break;
+			case 2:
+				chronojumpWindowTestsSelectPerson(1); //select 2nd person (Giles)
+				callNext = true;
+				break;
+			case 3:
+				chronojumpWindowTestsEncoderLoadSignal();
+				break;
+			case 4:
+				chronojumpWindowTestsEncoderEccConInvert();
+				callNext = true;
+				break;
+			case 5:
+				chronojumpWindowTestsEncoderRecalculate();
+				break;
+			case 6:
+				LogB.Information("ALL TESTS DONE");
+				break;
+		}
+
+		if(callNext)		
+			chronojumpWindowTestsNext(); //TODO: move from here
 	}
 
-		
+
 	private void chronojumpWindowTestsMode(Constants.Menuitem_modes m) 
 	{
 		LogB.TestStart("chronojumpWindowTestsMode", m.ToString());
@@ -152,8 +124,7 @@ public partial class ChronoJumpWindow
 
 	private void chronojumpWindowTestsEncoderLoadSignal()
 	{
-		GuiTLoadSignalObject = new GuiTLoadSignal();
-		//LogB.TestStart("chronojumpWindowTestsLoadSignal");
+		LogB.TestStart("chronojumpWindowTestsLoadSignal");
 
 		ArrayList data = encoderLoadSignalData(); //selects signals of this person, this session, this encoderGI
 		EncoderSQL es = (EncoderSQL) data[0]; //gets first
@@ -162,7 +133,7 @@ public partial class ChronoJumpWindow
 
 		genericWin.Button_accept.Click(); //this will call accepted
 
-		GuiTLoadSignalObject.WaitEnd();
+		LogB.TestEnd("chronojumpWindowTestsLoadSignal");
 	}
 	
 	private void chronojumpWindowTestsEncoderEccConInvert()

@@ -1284,10 +1284,6 @@ public partial class ChronoJumpWindow
 
 			encoderButtonsSensitive(encoderSensEnumStored);
 		}
-		//guiT stuff
-		//end but wait two seconds to allow encoderCalculeCurves thread end
-		if(GuiTLoadSignalObject != null)
-			GuiTLoadSignalObject.End(2);
 	}
 
 	protected void on_encoder_load_signal_row_edit (object o, EventArgs args) {
@@ -5560,6 +5556,7 @@ public partial class ChronoJumpWindow
 		
 			if(action == encoderActions.CURVES_AC && radio_encoder_capture_cont.Active && ! encoderProcessFinishContMode)
 				on_button_encoder_capture_clicked (new object (), new EventArgs ());
+		
 		} else { //ANALYZE
 			if(encoderProcessCancel) {
 				encoder_pulsebar_analyze.Text = Catalog.GetString("Cancelled");
@@ -5659,6 +5656,13 @@ public partial class ChronoJumpWindow
 		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "4.txt");
 		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt");
 		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "6.txt");
+			
+		//for chronojumpWindowTests
+		LogB.Error("finishPulseBar DONE: " + action.ToString());
+		if(
+				action == encoderActions.LOAD ||	//load 
+				action == encoderActions.CURVES )	//recalculate
+			chronojumpWindowTestsNext();
 	}
 
 	/*

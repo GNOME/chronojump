@@ -865,6 +865,21 @@ public class SessionLoadWindow {
 
 	}
 	
+	//pass 0 for first row
+	public void SelectRow(int rowNumber)
+	{
+		TreeIter iter;
+		bool iterOk = store.GetIterFirst(out iter);
+		if(iterOk) {
+			int count = 0;
+			while (count < rowNumber) {
+				store.IterNext(ref iter);
+				count ++;
+			}
+			treeview_session_load.Selection.SelectIter(iter);
+		}
+	}
+	
 	private void onSelectionEntry (object o, EventArgs args)
 	{
 		TreeModel model;

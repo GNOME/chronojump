@@ -1144,12 +1144,21 @@ public partial class ChronoJumpWindow
 		return currentEncoderGI;
 	}
 
-	void on_button_encoder_load_signal_clicked (object o, EventArgs args) 
-	{
-		ArrayList data = SqliteEncoder.Select(
+	//separated to be called also from guiT
+	ArrayList encoderLoadSignalData() {
+		return SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
 				-1, "signal", EncoderSQL.Eccons.ALL, 
 				false, true);
+	}
+	//this is called when user clicks on load signal
+	void on_button_encoder_load_signal_clicked (object o, EventArgs args) {
+		on_encoder_load_signal_clicked (Convert.ToInt32(encoderSignalUniqueID));
+	}
+	//this can be called also by guiT
+	void on_encoder_load_signal_clicked (int myEncoderSignalUniqueID) 
+	{
+		ArrayList data = encoderLoadSignalData();
 
 		ArrayList dataPrint = new ArrayList();
 		int count = 1;
@@ -1200,7 +1209,7 @@ public partial class ChronoJumpWindow
 		genericWin.ShowEditRow(false);
 
 		//select row corresponding to current signal
-		genericWin.SelectRowWithID(0, Convert.ToInt32(encoderSignalUniqueID)); //colNum, id
+		genericWin.SelectRowWithID(0, myEncoderSignalUniqueID); //colNum, id
 		
 		genericWin.CommentColumn = 9;
 	
@@ -1275,6 +1284,10 @@ public partial class ChronoJumpWindow
 
 			encoderButtonsSensitive(encoderSensEnumStored);
 		}
+		//guiT stuff
+		//end but wait two seconds to allow encoderCalculeCurves thread end
+		if(GuiTLoadSignalObject != null)
+			GuiTLoadSignalObject.End(2);
 	}
 
 	protected void on_encoder_load_signal_row_edit (object o, EventArgs args) {
@@ -5547,7 +5560,6 @@ public partial class ChronoJumpWindow
 		
 			if(action == encoderActions.CURVES_AC && radio_encoder_capture_cont.Active && ! encoderProcessFinishContMode)
 				on_button_encoder_capture_clicked (new object (), new EventArgs ());
-
 		} else { //ANALYZE
 			if(encoderProcessCancel) {
 				encoder_pulsebar_analyze.Text = Catalog.GetString("Cancelled");

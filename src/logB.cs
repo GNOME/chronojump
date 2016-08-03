@@ -59,7 +59,8 @@ public enum LogEntryType
 	Error,
 	Information,
 	SQL, SQLon, SQLoff,
-	ThreadStart, ThreadEnding, ThreadEnded
+	ThreadStart, ThreadEnding, ThreadEnded,
+	TestStart, TestEnd
 }
 
 public class LogEntry
@@ -167,6 +168,14 @@ public static class LogB
 					ConsoleCrayon.BackgroundColor = ConsoleColor.Red;
 					ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
 					break;
+				case LogEntryType.TestStart:
+					ConsoleCrayon.BackgroundColor = ConsoleColor.Blue;
+					ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
+					break;
+				case LogEntryType.TestEnd:
+					ConsoleCrayon.BackgroundColor = ConsoleColor.Blue;
+					ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
+					break;
 			}
 
 			var thread_name = String.Empty;
@@ -222,6 +231,10 @@ public static class LogB
 				return " <.......................... Thread Ending";
 			case LogEntryType.ThreadEnded:
 				return " <-------------------------- Thread Ended";
+			case LogEntryType.TestStart:
+				return "Test Start t_t_t_t_t_t_t_t_t_t_->";
+			case LogEntryType.TestEnd:
+				return "Test End <-_t_t_t_t_t_t_t_t_t_t";
 		}
 		return null;
 	}
@@ -491,7 +504,7 @@ public static class LogB
 
 #endregion
 
-#region Public SQL Methods
+#region Public Thread Methods
 	
 	public static void ThreadStart()
 	{
@@ -508,6 +521,29 @@ public static class LogB
 		Commit(LogEntryType.ThreadEnded, null, null, false);
 	}
 
+#endregion
+
+#region Public Test Methods
+	
+	public static void TestStart(string test)
+	{
+		Commit(LogEntryType.TestStart, test, null, false);
+	}
+	
+	public static void TestStart(string test, string details)
+	{
+		Commit(LogEntryType.TestStart, test, details, false);
+	}
+
+	public static void TestEnd(string test)
+	{
+		Commit(LogEntryType.TestEnd, test, null, false);
+	}
+	
+	public static void TestEnd(string test, string details)
+	{
+		Commit(LogEntryType.TestEnd, test, details, false);
+	}
 
 #endregion
 

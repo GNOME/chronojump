@@ -39,7 +39,9 @@ public partial class ChronoJumpWindow
 		PERSON_SELECT,
 		ENCODER_SIGNAL_LOAD,
 		ENCODER_ECC_CON_INVERT,
-		ENCODER_RECALCULATE
+		ENCODER_RECALCULATE,
+		ENCODER_SET_SAVE_REPS,
+		ENCODER_SET_SAVE_REPS_BUCLE
 	}
 
 	private List<cjTestTypes> sequenceEncoder1()
@@ -49,14 +51,21 @@ public partial class ChronoJumpWindow
 				cjTestTypes.SESSION_LOAD,
 				cjTestTypes.PERSON_SELECT,
 				cjTestTypes.ENCODER_SIGNAL_LOAD,
-				cjTestTypes.ENCODER_ECC_CON_INVERT,	//start bucle
-				cjTestTypes.ENCODER_RECALCULATE,
 				cjTestTypes.ENCODER_ECC_CON_INVERT,
 				cjTestTypes.ENCODER_RECALCULATE,
 				cjTestTypes.ENCODER_ECC_CON_INVERT,
 				cjTestTypes.ENCODER_RECALCULATE,
 				cjTestTypes.ENCODER_ECC_CON_INVERT,
-				cjTestTypes.ENCODER_RECALCULATE		//end bucle
+				cjTestTypes.ENCODER_RECALCULATE,
+				cjTestTypes.ENCODER_ECC_CON_INVERT,
+				cjTestTypes.ENCODER_RECALCULATE,
+				/*
+				cjTestTypes.ENCODER_SET_SAVE_REPS,
+				cjTestTypes.ENCODER_SET_SAVE_REPS,
+				cjTestTypes.ENCODER_SET_SAVE_REPS,
+				cjTestTypes.ENCODER_SET_SAVE_REPS,
+				*/
+				cjTestTypes.ENCODER_SET_SAVE_REPS_BUCLE
 		};
 	}
 	
@@ -113,6 +122,13 @@ public partial class ChronoJumpWindow
 				break;
 			case cjTestTypes.ENCODER_RECALCULATE:
 				chronojumpWindowTestsEncoderRecalculate();
+				break;
+			case cjTestTypes.ENCODER_SET_SAVE_REPS:
+				chronojumpWindowTestsEncoderSetSaveReps();
+				callNext = true;
+				break;
+			case cjTestTypes.ENCODER_SET_SAVE_REPS_BUCLE:
+				chronojumpWindowTestsEncoderSetSaveRepsBucle();
 				break;
 				/*
 				   case 6:
@@ -192,4 +208,91 @@ public partial class ChronoJumpWindow
 
 		LogB.TestEnd("chronojumpWindowTestsEncoderRecalculate");
 	}
+
+
+	//saves all best none 4top randomly
+	private void chronojumpWindowTestsEncoderSetSaveReps()
+	{
+		LogB.TestStart("chronojumpWindowTestsEncoderSetSaveReps");
+
+		//Constants.EncoderAutoSaveCurve easc;
+		double d = rand.NextDouble(); //0 - 1
+		if(d < .25)
+			//easc = Constants.EncoderAutoSaveCurve.ALL;
+			button_encoder_capture_curves_all.Click();
+		else if(d < .5)
+			//easc = Constants.EncoderAutoSaveCurve.BEST;
+			button_encoder_capture_curves_best.Click();
+		else if(d < .75)
+			//easc = Constants.EncoderAutoSaveCurve.NONE;
+			button_encoder_capture_curves_none.Click();
+		else
+			//easc = Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE;
+			button_encoder_capture_curves_4top.Click();
+
+		//encoderCaptureSaveCurvesAllNoneBest(easc, encoderCaptureOptionsWin.GetMainVariable());
+		
+		LogB.TestEnd("chronojumpWindowTestsEncoderSetSaveReps: " + d.ToString());
+	}
+	
+	//saves all best none 4top randomly
+	private void chronojumpWindowTestsEncoderSetSaveRepsBucle()
+	{
+		LogB.TestStart("chronojumpWindowTestsEncoderSetSaveReps");
+
+		saveRepsLastI = -1;
+		saveRepsBucleDoing = true;
+		saveRepsBucleCount = 25;
+
+		//make interval bigger if you cannot see GUI updating
+		GLib.Timeout.Add(500, new GLib.TimeoutHandler(chronojumpWindowTestsEncoderSetSaveRepsBucleDo));
+		
+		LogB.TestEnd("chronojumpWindowTestsEncoderSetSaveReps");
+	}
+	bool saveRepsBucleDoing;
+	int saveRepsBucleCount;
+	int saveRepsLastI;
+	private bool chronojumpWindowTestsEncoderSetSaveRepsBucleDo()
+	{
+		if(! saveRepsBucleDoing)
+			return false;
+		
+		//LogB.Information(" saveReps(" + saveRepsBucleCount.ToString() + ") ");
+
+		//get random value but different than last time
+		int i;
+		do {
+			i = rand.Next(1,5); //1-4
+		} while(i == saveRepsLastI);
+
+		saveRepsLastI = i;
+		
+		//LogB.Information(" [i=" + i.ToString() + "] ");
+		
+		Constants.EncoderAutoSaveCurve easc;
+		if(i == 1)
+			//easc = Constants.EncoderAutoSaveCurve.ALL;
+			button_encoder_capture_curves_all.Click();
+		else if(i == 2)
+			//easc = Constants.EncoderAutoSaveCurve.BEST;
+			button_encoder_capture_curves_best.Click();
+		else if(i == 3)
+			//easc = Constants.EncoderAutoSaveCurve.NONE;
+			button_encoder_capture_curves_none.Click();
+		else
+			//easc = Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE;
+			button_encoder_capture_curves_4top.Click();
+
+		//encoderCaptureSaveCurvesAllNoneBest(easc, encoderCaptureOptionsWin.GetMainVariable());
+			
+		saveRepsBucleCount --;
+		if(saveRepsBucleCount > 0)
+			return true;
+		else {
+			saveRepsBucleDoing = false;
+			chronojumpWindowTestsNext();
+			return false;
+		}
+	}
+
 }

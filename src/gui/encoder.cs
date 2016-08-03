@@ -113,6 +113,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_encoder_laterality;
 	[Widget] Gtk.Box hbox_encoder_capture_curves_save_all_none;
 	
+	[Widget] Gtk.Button button_encoder_capture_curves_all;
+	[Widget] Gtk.Button button_encoder_capture_curves_best;
+	[Widget] Gtk.Button button_encoder_capture_curves_none;
+	[Widget] Gtk.Button button_encoder_capture_curves_4top;
+	
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_analyze;
 	[Widget] Gtk.ComboBox combo_encoder_exercise_analyze;
 

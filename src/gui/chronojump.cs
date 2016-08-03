@@ -2663,6 +2663,8 @@ public partial class ChronoJumpWindow
 
 		if(reportWin != null)
 			reportWin.FillTreeView();
+		
+		chronojumpWindowTestsNext();
 	}
 	
 	
@@ -3195,7 +3197,9 @@ public partial class ChronoJumpWindow
 			change_multitest_firmware(m);
 		else
 			autoDetectChronopic(m); //will perform change_multitest_firmware at the end (except on POWERs)
+		
 			
+		chronojumpWindowTestsNext();
 	}
 	
 	ChronopicDetect cpDetect;
@@ -6525,7 +6529,7 @@ LogB.Debug("X");
 	}
 
 	private void on_button_gui_tests_clicked (object o, EventArgs args) {
-		chronojumpWindowTests();
+		chronojumpWindowTestsStart();
 	}
 
 	private void on_about1_activate (object o, EventArgs args) {

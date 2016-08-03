@@ -40,6 +40,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuBar main_menu;
 	[Widget] Gtk.MenuItem menuitem_mode;
 	
+	[Widget] Gtk.Button button_gui_tests;
+	
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_power_gravitatory;
@@ -6516,10 +6518,15 @@ LogB.Debug("X");
 
 		encoderRProcCapture.Debug = true;
 		encoderRProcAnalyze.Debug = true;
-			
+	
+		button_gui_tests.Visible = true;
+
 		preferencesWin.DebugActivated();
 	}
 
+	private void on_button_gui_tests_clicked (object o, EventArgs args) {
+		chronojumpWindowTests();
+	}
 
 	private void on_about1_activate (object o, EventArgs args) {
 		string translator_credits = Catalog.GetString ("translator-credits");

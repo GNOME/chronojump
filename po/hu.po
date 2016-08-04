@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-07-31 12:44+0000\n"
-"PO-Revision-Date: 2016-07-31 15:06+0200\n"
-"Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
+"POT-Creation-Date: 2016-08-04 12:01+0000\n"
+"PO-Revision-Date: 2016-08-04 23:07+0200\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Lokalize 1.2\n"
 
 #: ../CesarPlayer/Capturer/FakeCapturer.cs:81
 msgid "Fake live source"
@@ -133,14 +133,14 @@ msgid "_Mode:"
 msgstr "_Mód:"
 
 #: ../glade/chronojump.glade.h:21 ../src/exportSession.cs:412
-#: ../src/gui/chronojump.cs:3378 ../src/gui/chronojump.cs:4284
+#: ../src/gui/chronojump.cs:3395 ../src/gui/chronojump.cs:4301
 #: ../src/gui/jump.cs:1744 ../src/gui/jump.cs:1799 ../src/gui/jump.cs:1849
 #: ../src/sqlite/speciallity.cs:174 ../src/stats/rjAVGSD.cs:36
 #: ../src/stats/rjPotencyBosco.cs:35
 msgid "Jumps"
 msgstr "Ugrások"
 
-#: ../glade/chronojump.glade.h:22 ../src/gui/chronojump.cs:3380
+#: ../glade/chronojump.glade.h:22 ../src/gui/chronojump.cs:3397
 msgid "Runs"
 msgstr "Futások"
 
@@ -240,7 +240,7 @@ msgstr "Egyéb tesztek"
 msgid "Auto-detect hardware"
 msgstr "Hardver automatikus felismerése"
 
-#: ../glade/chronojump.glade.h:46 ../src/gui/chronojump.cs:6855
+#: ../glade/chronojump.glade.h:46 ../src/gui/chronojump.cs:6877
 #: ../src/gui/encoderSelectRepetitions.cs:214
 msgid "Active"
 msgstr "Aktív"
@@ -249,11 +249,11 @@ msgstr "Aktív"
 msgid "default"
 msgstr "alapértelmezett"
 
-#: ../glade/chronojump.glade.h:48 ../src/gui/chronojump.cs:6857
+#: ../glade/chronojump.glade.h:48 ../src/gui/chronojump.cs:6879
 msgid "Active, discarding first port"
 msgstr "Aktív, első port elutasítása"
 
-#: ../glade/chronojump.glade.h:49 ../src/gui/chronojump.cs:6859
+#: ../glade/chronojump.glade.h:49 ../src/gui/chronojump.cs:6881
 msgid "Inactive"
 msgstr "Inaktív"
 
@@ -343,7 +343,7 @@ msgid "Reaction times"
 msgstr "Reakcióidők"
 
 #: ../glade/chronojump.glade.h:71 ../src/exportSession.cs:211
-#: ../src/gui/chronojump.cs:4833 ../src/gui/person.cs:2406
+#: ../src/gui/chronojump.cs:4850 ../src/gui/person.cs:2406
 #: ../src/gui/session.cs:743 ../src/report.cs:184
 msgid "Pulses"
 msgstr "Impulzusok"
@@ -544,7 +544,7 @@ msgid "Horizontal"
 msgstr "Vízszintes"
 
 #: ../glade/chronojump.glade.h:120 ../src/constants.cs:923
-#: ../src/gui/encoder.cs:3003 ../src/sqlite/main.cs:1799
+#: ../src/gui/encoder.cs:3018 ../src/sqlite/main.cs:1799
 #: ../src/sqlite/main.cs:1800
 msgid "L"
 msgstr "B"
@@ -618,19 +618,19 @@ msgstr "4. oldal"
 msgid "Lights"
 msgstr "Fények"
 
-#: ../glade/chronojump.glade.h:136 ../src/gui/chronojump.cs:4677
+#: ../glade/chronojump.glade.h:136 ../src/gui/chronojump.cs:4694
 msgid "red"
 msgstr "piros"
 
-#: ../glade/chronojump.glade.h:137 ../src/gui/chronojump.cs:4681
+#: ../glade/chronojump.glade.h:137 ../src/gui/chronojump.cs:4698
 msgid "yellow"
 msgstr "sárga"
 
-#: ../glade/chronojump.glade.h:138 ../src/gui/chronojump.cs:4685
+#: ../glade/chronojump.glade.h:138 ../src/gui/chronojump.cs:4702
 msgid "green"
 msgstr "zöld"
 
-#: ../glade/chronojump.glade.h:139 ../src/gui/chronojump.cs:4689
+#: ../glade/chronojump.glade.h:139 ../src/gui/chronojump.cs:4706
 msgid "buzzer"
 msgstr "berregő"
 
@@ -711,7 +711,7 @@ msgstr "7. oldal"
 msgid "Or press 'space'"
 msgstr "Vagy nyomja meg a „szóközt”"
 
-#: ../glade/chronojump.glade.h:158 ../src/gui/chronojump.cs:6453
+#: ../glade/chronojump.glade.h:158 ../src/gui/chronojump.cs:6470
 msgid "Execute test"
 msgstr "Teszt végrehajtása"
 
@@ -723,8 +723,8 @@ msgstr "Teszt befejezése (teszt mentése eddig a pillanatig)\t"
 msgid "Cancel test"
 msgstr "Teszt megszakítása"
 
-#: ../glade/chronojump.glade.h:161 ../src/gui/chronojump.cs:4111
-#: ../src/gui/chronojump.cs:4413 ../src/gui/chronojump.cs:4659
+#: ../glade/chronojump.glade.h:161 ../src/gui/chronojump.cs:4128
+#: ../src/gui/chronojump.cs:4430 ../src/gui/chronojump.cs:4676
 #: ../src/gui/jump.cs:1194 ../src/gui/reactionTime.cs:93 ../src/gui/run.cs:1001
 msgid "Phases"
 msgstr "Fázisok"
@@ -779,9 +779,9 @@ msgid "Best"
 msgstr "Legjobb"
 
 #. column where the uniqueID of event will be (and will be hidden)
-#: ../glade/chronojump.glade.h:172 ../src/gui/encoder.cs:729
-#: ../src/gui/encoder.cs:1425 ../src/gui/encoder.cs:1435
-#: ../src/gui/encoder.cs:3659 ../src/gui/executeAuto.cs:505
+#: ../glade/chronojump.glade.h:172 ../src/gui/encoder.cs:734
+#: ../src/gui/encoder.cs:1440 ../src/gui/encoder.cs:1450
+#: ../src/gui/encoder.cs:3674 ../src/gui/executeAuto.cs:505
 #: ../src/stats/runIntervallic.cs:64 ../src/treeViewMultiChronopic.cs:30
 #: ../src/treeViewPulse.cs:46 ../src/treeViewReactionTime.cs:30
 msgid "Person"
@@ -1013,12 +1013,12 @@ msgid "select"
 msgstr "kiválasztás"
 
 #: ../glade/chronojump.glade.h:214 ../src/exportSession.cs:193
-#: ../src/gui/encoder.cs:3660 ../src/report.cs:141
+#: ../src/gui/encoder.cs:3675 ../src/report.cs:141
 msgid "Session"
 msgstr "Munkamenet"
 
-#: ../glade/chronojump.glade.h:215 ../src/gui/encoder.cs:902
-#: ../src/gui/encoder.cs:1738 ../src/gui/genericWindow.cs:378
+#: ../glade/chronojump.glade.h:215 ../src/gui/encoder.cs:907
+#: ../src/gui/encoder.cs:1753 ../src/gui/genericWindow.cs:378
 #: ../src/gui/genericWindow.cs:431 ../src/gui/person.cs:306
 #: ../src/gui/person.cs:433 ../src/gui/stats.cs:217 ../src/gui/stats.cs:963
 #: ../src/gui/stats.cs:1319 ../src/report.cs:275 ../src/stats/main.cs:239
@@ -1324,7 +1324,7 @@ msgstr "Beállítások"
 msgid "Detecting ..."
 msgstr "Felismerés…"
 
-#: ../glade/chronojump.glade.h:290 ../src/gui/chronojump.cs:5044
+#: ../glade/chronojump.glade.h:290 ../src/gui/chronojump.cs:5061
 msgid "Encoder disconnected"
 msgstr "Jeladó leválasztva"
 
@@ -1340,9 +1340,9 @@ msgstr "Jeladó:"
 msgid "Select encoder"
 msgstr "Jeladó kiválasztása"
 
-#: ../glade/chronojump.glade.h:294 ../src/gui/encoder.cs:730
-#: ../src/gui/encoder.cs:1161 ../src/gui/encoder.cs:1426
-#: ../src/gui/encoder.cs:1436 ../src/gui/encoderTreeviews.cs:492
+#: ../glade/chronojump.glade.h:294 ../src/gui/encoder.cs:735
+#: ../src/gui/encoder.cs:1176 ../src/gui/encoder.cs:1441
+#: ../src/gui/encoder.cs:1451 ../src/gui/encoderTreeviews.cs:492
 #: ../src/gui/encoderSelectRepetitions.cs:216
 msgid "Exercise"
 msgstr "Gyakorlat"
@@ -1444,8 +1444,8 @@ msgid "Finish continuous mode"
 msgstr "Folyamatos mód befejezése"
 
 #. not capturing
-#: ../glade/chronojump.glade.h:319 ../src/gui/encoder.cs:870
-#: ../src/gui/encoder.cs:5373
+#: ../glade/chronojump.glade.h:319 ../src/gui/encoder.cs:875
+#: ../src/gui/encoder.cs:5371
 msgid "Save comment"
 msgstr "Megjegyzés mentése"
 
@@ -1454,7 +1454,7 @@ msgid "Select them to save"
 msgstr "Válassza ki azokat a mentéshez"
 
 #. not shown, unused
-#: ../glade/chronojump.glade.h:321 ../src/gui/encoder.cs:3659
+#: ../glade/chronojump.glade.h:321 ../src/gui/encoder.cs:3674
 msgid "Repetitions"
 msgstr "Ismétlések"
 
@@ -1502,7 +1502,7 @@ msgstr "Felvétel"
 msgid "Play"
 msgstr "Lejátszás"
 
-#: ../glade/chronojump.glade.h:332 ../src/gui/encoder.cs:1167
+#: ../glade/chronojump.glade.h:332 ../src/gui/encoder.cs:1182
 msgid "Video"
 msgstr "Videó"
 
@@ -1522,7 +1522,7 @@ msgstr "Mappa"
 msgid "Open Folder"
 msgstr "Mappa megnyitása"
 
-#: ../glade/chronojump.glade.h:337 ../src/gui/encoder.cs:1160
+#: ../glade/chronojump.glade.h:337 ../src/gui/encoder.cs:1175
 msgid "Set"
 msgstr "Sorozat"
 
@@ -1672,7 +1672,7 @@ msgstr "Elmozdulás"
 msgid "Difference"
 msgstr "Különbség"
 
-#: ../glade/chronojump.glade.h:374 ../src/gui/encoder.cs:1528
+#: ../glade/chronojump.glade.h:374 ../src/gui/encoder.cs:1543
 msgid "Save image"
 msgstr "Kép mentése"
 
@@ -1684,11 +1684,11 @@ msgstr "1RM érték mentése"
 msgid "Export repetition from A to B"
 msgstr "Ismétlések exportálása A-tól B-ig"
 
-#: ../glade/chronojump.glade.h:377 ../src/gui/encoder.cs:1532
+#: ../glade/chronojump.glade.h:377 ../src/gui/encoder.cs:1547
 msgid "Save table"
 msgstr "Táblázat mentése"
 
-#: ../glade/chronojump.glade.h:378 ../src/gui/encoder.cs:1164
+#: ../glade/chronojump.glade.h:378 ../src/gui/encoder.cs:1179
 #: ../src/gui/encoderSelectRepetitions.cs:220
 msgid "Encoder"
 msgstr "Jeladó"
@@ -1921,7 +1921,7 @@ msgstr "Intervallos futások"
 msgid "Tests"
 msgstr "Tesztek"
 
-#: ../glade/chronojump.glade.h:438 ../src/gui/chronojump.cs:1207
+#: ../glade/chronojump.glade.h:438 ../src/gui/chronojump.cs:1209
 msgid "Edit"
 msgstr "Szerkesztés"
 
@@ -1929,7 +1929,7 @@ msgstr "Szerkesztés"
 msgid "Flight time"
 msgstr "Repülési idő"
 
-#: ../glade/chronojump.glade.h:440 ../src/gui/encoder.cs:1163
+#: ../glade/chronojump.glade.h:440 ../src/gui/encoder.cs:1178
 #: ../src/gui/encoderTreeviews.cs:494
 #: ../src/gui/encoderSelectRepetitions.cs:218 ../src/gui/jump.cs:1492
 #: ../src/gui/jump.cs:1710 ../src/stats/sjCmjAbkPlus.cs:57
@@ -2191,8 +2191,8 @@ msgstr "Forgó súrlódás"
 msgid "Rotary axis"
 msgstr "Forgástengely"
 
-#: ../glade/chronojump.glade.h:496 ../src/gui/encoder.cs:3495
-#: ../src/gui/encoder.cs:3550
+#: ../glade/chronojump.glade.h:496 ../src/gui/encoder.cs:3510
+#: ../src/gui/encoder.cs:3565
 msgid "Resistance"
 msgstr "Ellenállás"
 
@@ -2233,8 +2233,8 @@ msgid "Inertia momentum without extra weight"
 msgstr "Tehetetlenségi nyomaték további súly nélkül"
 
 #: ../glade/chronojump.glade.h:505 ../src/constants.cs:924
-#: ../src/gui/encoder.cs:1016 ../src/gui/encoder.cs:3982
-#: ../src/gui/encoder.cs:3986 ../src/gui/encoderTreeviews.cs:496
+#: ../src/gui/encoder.cs:1021 ../src/gui/encoder.cs:3980
+#: ../src/gui/encoder.cs:3984 ../src/gui/encoderTreeviews.cs:496
 msgid "Inertia M."
 msgstr "Tehetetlenségi ny."
 
@@ -2323,7 +2323,7 @@ msgstr "Az e-mail sosem lesz nyilvánosan megjelenítve."
 #: ../src/exportSession.cs:245 ../src/gui/executeAuto.cs:192
 #: ../src/gui/jump.cs:1490 ../src/gui/jump.cs:1706 ../src/gui/person.cs:117
 #: ../src/gui/run.cs:1186 ../src/gui/run.cs:1374 ../src/gui/server.cs:164
-#: ../src/gui/session.cs:730 ../src/gui/session.cs:981 ../src/report.cs:229
+#: ../src/gui/session.cs:730 ../src/gui/session.cs:996 ../src/report.cs:229
 msgid "Name"
 msgstr "Név"
 
@@ -2353,7 +2353,7 @@ msgstr "Születési idő"
 
 #: ../glade/chronojump.glade.h:533 ../src/exportSession.cs:233
 #: ../src/exportSession.cs:250 ../src/gui/session.cs:750
-#: ../src/gui/session.cs:984 ../src/report.cs:231 ../src/runType.cs:197
+#: ../src/gui/session.cs:999 ../src/report.cs:231 ../src/runType.cs:197
 #: ../src/runType.cs:214 ../src/runType.cs:283 ../src/runType.cs:304
 msgid "Comments"
 msgstr "Megjegyzések"
@@ -2546,7 +2546,7 @@ msgstr "Hüvelyk"
 msgid "button"
 msgstr "gomb"
 
-#: ../glade/chronojump.glade.h:581 ../src/gui/encoder.cs:1168
+#: ../glade/chronojump.glade.h:581 ../src/gui/encoder.cs:1183
 #: ../src/gui/encoderSelectRepetitions.cs:223 ../src/gui/report.cs:145
 msgid "Comment"
 msgstr "Megjegyzés"
@@ -2568,8 +2568,8 @@ msgstr "Új ugrástípus létrehozása az adatbázisban"
 #: ../src/exportSession.cs:313 ../src/exportSession.cs:415
 #: ../src/exportSession.cs:555 ../src/exportSession.cs:611
 #: ../src/exportSession.cs:706 ../src/exportSession.cs:748
-#: ../src/exportSession.cs:808 ../src/gui/encoder.cs:3496
-#: ../src/gui/encoder.cs:3551 ../src/gui/executeAuto.cs:194
+#: ../src/exportSession.cs:808 ../src/gui/encoder.cs:3511
+#: ../src/gui/encoder.cs:3566 ../src/gui/executeAuto.cs:194
 #: ../src/gui/jump.cs:1493 ../src/gui/jump.cs:1711 ../src/gui/person.cs:120
 #: ../src/gui/run.cs:1188 ../src/gui/run.cs:1378 ../src/runType.cs:192
 #: ../src/runType.cs:228 ../src/runType.cs:269 ../src/runType.cs:298
@@ -2754,7 +2754,7 @@ msgstr "Ellenőrzés"
 msgid "Search filter"
 msgstr "Keresési szűrő"
 
-#: ../glade/chronojump.glade.h:628 ../src/gui/encoder.cs:1207
+#: ../glade/chronojump.glade.h:628 ../src/gui/encoder.cs:1222
 #: ../src/gui/person.cs:1890
 msgid "Load"
 msgstr "Betöltés"
@@ -2776,7 +2776,7 @@ msgid "Add new person"
 msgstr "Új személy hozzáadása"
 
 #: ../glade/chronojump.glade.h:633 ../src/exportSession.cs:75
-#: ../src/gui/encoder.cs:1548 ../src/gui/person.cs:1889
+#: ../src/gui/encoder.cs:1563 ../src/gui/person.cs:1889
 #: ../src/gui/preferences.cs:548 ../src/gui/preferences.cs:621
 msgid "Cancel"
 msgstr "Mégse"
@@ -2874,8 +2874,8 @@ msgstr "Adatbázis biztonsági mentése"
 msgid "Make a copy of the database"
 msgstr "Másolat készítése az adatbázisról"
 
-#: ../glade/chronojump.glade.h:656 ../src/gui/encoder.cs:4618
-#: ../src/gui/encoder.cs:5071
+#: ../glade/chronojump.glade.h:656 ../src/gui/encoder.cs:4616
+#: ../src/gui/encoder.cs:5069
 msgid "Please, wait."
 msgstr "Kis türelmet."
 
@@ -3479,14 +3479,14 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:805 ../src/exportSession.cs:231
 #: ../src/gui/person.cs:2399 ../src/gui/session.cs:731
-#: ../src/gui/session.cs:982 ../src/report.cs:230
+#: ../src/gui/session.cs:997 ../src/report.cs:230
 msgid "Place"
 msgstr "Hely"
 
 #: ../glade/chronojump.glade.h:806 ../src/exportSession.cs:232
-#: ../src/gui/encoder.cs:1166 ../src/gui/encoder.cs:3660
+#: ../src/gui/encoder.cs:1181 ../src/gui/encoder.cs:3675
 #: ../src/gui/encoderSelectRepetitions.cs:222 ../src/gui/session.cs:732
-#: ../src/gui/session.cs:983 ../src/report.cs:230
+#: ../src/gui/session.cs:998 ../src/report.cs:230
 msgid "Date"
 msgstr "Dátum"
 
@@ -3888,7 +3888,7 @@ msgstr "Frissítsen az új verzióra."
 msgid "Chronojump crashed before."
 msgstr "A Chronojump korábban összeomlott."
 
-#: ../src/chronojump.cs:461 ../src/gui/chronojump.cs:1260
+#: ../src/chronojump.cs:461 ../src/gui/chronojump.cs:1262
 msgid "Please, update to new version: "
 msgstr "Frissítsen az új verzióra: "
 
@@ -4642,8 +4642,8 @@ msgstr "ugrás magassága"
 msgid "Repetition"
 msgstr "Ismétlés"
 
-#: ../src/constants.cs:914 ../src/gui/encoder.cs:3331
-#: ../src/gui/encoder.cs:3349
+#: ../src/constants.cs:914 ../src/gui/encoder.cs:3346
+#: ../src/gui/encoder.cs:3364
 msgid "Not enough data."
 msgstr "Nincs elég adat."
 
@@ -4683,12 +4683,12 @@ msgstr "Legalább három ugrás szükséges"
 msgid "Laterality"
 msgstr "Oldalsó"
 
-#: ../src/constants.cs:923 ../src/gui/encoder.cs:3003
+#: ../src/constants.cs:923 ../src/gui/encoder.cs:3018
 #: ../src/sqlite/main.cs:1793 ../src/sqlite/main.cs:1794
 msgid "RL"
 msgstr "JB"
 
-#: ../src/constants.cs:923 ../src/gui/encoder.cs:3003
+#: ../src/constants.cs:923 ../src/gui/encoder.cs:3018
 #: ../src/sqlite/main.cs:1796 ../src/sqlite/main.cs:1797
 msgid "R"
 msgstr "J"
@@ -4952,7 +4952,7 @@ msgid "Run will not be recorded. Out of time."
 msgstr "A futás nem lesz rögzítve. Letelt az idő."
 
 #: ../src/execute/run.cs:948 ../src/exportSession.cs:609
-#: ../src/gui/chronojump.cs:4539 ../src/gui/run.cs:1409 ../src/gui/run.cs:1477
+#: ../src/gui/chronojump.cs:4556 ../src/gui/run.cs:1409 ../src/gui/run.cs:1477
 #: ../src/gui/run.cs:1529
 msgid "Tracks"
 msgstr "Pályák"
@@ -4969,14 +4969,14 @@ msgstr "Munkamenet exportálása ebben a formátumban: "
 msgid "Export"
 msgstr "Exportálás"
 
-#: ../src/exportSession.cs:106 ../src/gui/encoder.cs:1572
+#: ../src/exportSession.cs:106 ../src/gui/encoder.cs:1587
 msgid "Are you sure you want to overwrite file: "
 msgstr "Biztosan felül akarja írni a fájlt: "
 
 #: ../src/exportSession.cs:114 ../src/exportSession.cs:146
-#: ../src/gui/encoder.cs:1598 ../src/gui/encoder.cs:1628
-#: ../src/gui/encoder.cs:1636 ../src/gui/encoder.cs:1643
-#: ../src/gui/encoder.cs:1651
+#: ../src/gui/encoder.cs:1613 ../src/gui/encoder.cs:1643
+#: ../src/gui/encoder.cs:1651 ../src/gui/encoder.cs:1658
+#: ../src/gui/encoder.cs:1666
 #, csharp-format
 msgid "Saved to {0}"
 msgstr "Elmentve ide: {0}"
@@ -4987,7 +4987,7 @@ msgid "Cannot export to file {0} "
 msgstr "Nem lehet exportálni fájlba: {0} "
 
 #. report does not currently send the appBar reference
-#: ../src/exportSession.cs:127 ../src/gui/encoder.cs:1614
+#: ../src/exportSession.cs:127 ../src/gui/encoder.cs:1629
 msgid "Cancelled."
 msgstr "Megszakítva."
 
@@ -5016,7 +5016,7 @@ msgid "SessionID"
 msgstr "Munkamenet azonosító"
 
 #: ../src/exportSession.cs:245 ../src/gui/convertWeight.cs:106
-#: ../src/gui/encoder.cs:1159 ../src/gui/encoderSelectRepetitions.cs:213
+#: ../src/gui/encoder.cs:1174 ../src/gui/encoderSelectRepetitions.cs:213
 #: ../src/gui/encoderSelectRepetitions.cs:483
 #: ../src/gui/encoderSelectRepetitions.cs:657 ../src/gui/person.cs:116
 msgid "ID"
@@ -5212,100 +5212,100 @@ msgstr "Telepített verzió: "
 msgid "Last version published: "
 msgstr "Legutóbbi közzétett verzió: "
 
-#: ../src/gui/chronojump.cs:899
+#: ../src/gui/chronojump.cs:901
 #, csharp-format
 msgid "Chronojump database version file: {0}"
 msgstr "Chronojump adatbázis verziófájl: {0}"
 
-#: ../src/gui/chronojump.cs:943
+#: ../src/gui/chronojump.cs:945
 msgid "Preferences loaded"
 msgstr "Beállítások betöltve"
 
-#: ../src/gui/chronojump.cs:1211
+#: ../src/gui/chronojump.cs:1213
 msgid "Show all tests of"
 msgstr "Az összes teszt megjelenítése ebből:"
 
-#: ../src/gui/chronojump.cs:1218
+#: ../src/gui/chronojump.cs:1220
 #, csharp-format
 msgid "Delete {0} from this session"
 msgstr "{0} törlése ebből a munkamenetből"
 
-#: ../src/gui/chronojump.cs:1243
+#: ../src/gui/chronojump.cs:1245
 msgid "Please, first fill evaluator data."
 msgstr "Először töltse ki az értékelő adatokat."
 
-#: ../src/gui/chronojump.cs:1245
+#: ../src/gui/chronojump.cs:1247
 msgid "Please, first check evaluator data is ok."
 msgstr "Először ellenőrizze, hogy az értékelő adatok rendben vannak-e."
 
-#: ../src/gui/chronojump.cs:1259
+#: ../src/gui/chronojump.cs:1261
 msgid "Your version of Chronojump is too old for this."
 msgstr "A Chronojump verziója ehhez túl régi."
 
 #. false: don't do insertion
 #. false: don't do insertion
-#: ../src/gui/chronojump.cs:1327
+#: ../src/gui/chronojump.cs:1329
 msgid "Do you want to upload evaluator data now?"
 msgstr "Szeretné most feltölteni az értékelő adatokat?"
 
-#: ../src/gui/chronojump.cs:1331
+#: ../src/gui/chronojump.cs:1333
 msgid "Currently cannot upload."
 msgstr "Jelenleg nem lehet feltölteni."
 
-#: ../src/gui/chronojump.cs:1401
+#: ../src/gui/chronojump.cs:1403
 msgid "<b>Weight</b> of the following persons is not ok:"
 msgstr "A következő személyek <b>súlya</b> nincs rendben:"
 
-#: ../src/gui/chronojump.cs:1415
+#: ../src/gui/chronojump.cs:1417
 msgid "<b>Country</b> of the following persons is undefined:"
 msgstr "A következő személyek <b>országa</b> nincs meghatározva:"
 
-#: ../src/gui/chronojump.cs:1429
+#: ../src/gui/chronojump.cs:1431
 msgid "<b>Sport</b> of the following persons is undefined:"
 msgstr "A következő személyek <b>sportja</b> nincs meghatározva:"
 
-#: ../src/gui/chronojump.cs:1443
+#: ../src/gui/chronojump.cs:1445
 msgid "Please, fix this before uploading:"
 msgstr "Javítsa ezt a feltöltés előtt:"
 
-#: ../src/gui/chronojump.cs:1445
+#: ../src/gui/chronojump.cs:1447
 msgid "Or when upload session again, mark these persons as not to be uploaded."
 msgstr ""
 "Vagy ha újra feltölti a munkamenetet, jelölje meg ezeket a személyeket, hogy "
 "ne töltse fel őket."
 
-#: ../src/gui/chronojump.cs:1462
+#: ../src/gui/chronojump.cs:1464
 msgid "Session will be uploaded to server."
 msgstr "A munkamenet fel lesz töltve a kiszolgálóra."
 
-#: ../src/gui/chronojump.cs:1463
+#: ../src/gui/chronojump.cs:1465
 msgid "Names, date of birth and descriptions of persons will be hidden."
 msgstr "A személyek nevei, születési idejei és leírásai el lesznek rejtve."
 
-#: ../src/gui/chronojump.cs:1464
+#: ../src/gui/chronojump.cs:1466
 msgid "You can upload again this session if you add more data or persons."
 msgstr ""
 "Ismét feltöltheti ezt a munkamenetet, ha további adatokat vagy személyeket "
 "ad hozzá."
 
-#: ../src/gui/chronojump.cs:1467
+#: ../src/gui/chronojump.cs:1469
 msgid "Session has been uploaded to server before."
 msgstr "A munkamenet korábban már fel lett töltve a kiszolgálóra."
 
-#: ../src/gui/chronojump.cs:1468
+#: ../src/gui/chronojump.cs:1470
 msgid "Uploading new data."
 msgstr "Új adatok feltöltése."
 
-#: ../src/gui/chronojump.cs:1470
+#: ../src/gui/chronojump.cs:1472
 msgid "All the uploaded data will be licensed as:"
 msgstr "Az összes feltöltött adat így lesz licencelve:"
 
-#: ../src/gui/chronojump.cs:1471
+#: ../src/gui/chronojump.cs:1473
 msgid "Creative Commons Attribution 3.0"
 msgstr "Creative Commons Nevezd meg! 3.0"
 
 #. label_link
-#: ../src/gui/chronojump.cs:1476
+#: ../src/gui/chronojump.cs:1478
 msgid "Are you sure you want to upload this session to server?"
 msgstr "Biztosan fel szeretné tölteni ezt a munkamenetet a kiszolgálóra?"
 
@@ -5386,27 +5386,27 @@ msgstr "Biztosan fel szeretné tölteni ezt a munkamenetet a kiszolgálóra?"
 #. myItem.Sensitive = false;
 #. myMenu.Attach( myItem, 0, 1, 0, 1 );
 #.
-#: ../src/gui/chronojump.cs:1608 ../src/gui/chronojump.cs:1697
-#: ../src/gui/chronojump.cs:1781 ../src/gui/chronojump.cs:1865
-#: ../src/gui/chronojump.cs:1949 ../src/gui/chronojump.cs:2032
-#: ../src/gui/chronojump.cs:2130 ../src/gui/genericWindow.cs:743
+#: ../src/gui/chronojump.cs:1610 ../src/gui/chronojump.cs:1699
+#: ../src/gui/chronojump.cs:1783 ../src/gui/chronojump.cs:1867
+#: ../src/gui/chronojump.cs:1951 ../src/gui/chronojump.cs:2034
+#: ../src/gui/chronojump.cs:2132 ../src/gui/genericWindow.cs:743
 msgid "Edit selected"
 msgstr "Kijelölt szerkesztése"
 
-#: ../src/gui/chronojump.cs:1615 ../src/gui/chronojump.cs:1708
-#: ../src/gui/chronojump.cs:1788 ../src/gui/chronojump.cs:1876
-#: ../src/gui/chronojump.cs:1956 ../src/gui/chronojump.cs:2043
-#: ../src/gui/chronojump.cs:2143 ../src/gui/executeAuto.cs:241
+#: ../src/gui/chronojump.cs:1617 ../src/gui/chronojump.cs:1710
+#: ../src/gui/chronojump.cs:1790 ../src/gui/chronojump.cs:1878
+#: ../src/gui/chronojump.cs:1958 ../src/gui/chronojump.cs:2045
+#: ../src/gui/chronojump.cs:2145 ../src/gui/executeAuto.cs:241
 #: ../src/gui/genericWindow.cs:747 ../src/gui/genericWindow.cs:752
 msgid "Delete selected"
 msgstr "Kijelölt törlése"
 
-#: ../src/gui/chronojump.cs:1701 ../src/gui/chronojump.cs:1869
-#: ../src/gui/chronojump.cs:2036
+#: ../src/gui/chronojump.cs:1703 ../src/gui/chronojump.cs:1871
+#: ../src/gui/chronojump.cs:2038
 msgid "Repair selected"
 msgstr "Kijelölt javítása"
 
-#: ../src/gui/chronojump.cs:2516
+#: ../src/gui/chronojump.cs:2518
 #, csharp-format
 msgid ""
 "Could not delete file:\n"
@@ -5417,34 +5417,34 @@ msgstr ""
 
 #. reportWin is still not created, not need to Fill again
 #. feedback (more in 1st session created)
-#: ../src/gui/chronojump.cs:2585
+#: ../src/gui/chronojump.cs:2587
 msgid "Session created, now add or load persons."
 msgstr "Munkamenet létrehozva, most adjon hozzá vagy töltsön be személyeket."
 
-#: ../src/gui/chronojump.cs:2674
+#: ../src/gui/chronojump.cs:2678
 msgid "Are you sure you want to delete the current session"
 msgstr "Biztosan törölni szeretné a jelenlegi munkamenetet"
 
-#: ../src/gui/chronojump.cs:2674
+#: ../src/gui/chronojump.cs:2678
 msgid "and all the session tests?"
 msgstr "és az összes munkamenet tesztet?"
 
-#: ../src/gui/chronojump.cs:2681
+#: ../src/gui/chronojump.cs:2685
 msgid "Deleted session and all its tests."
 msgstr "A munkamenet és az összes tesztje törölve."
 
-#: ../src/gui/chronojump.cs:2691
+#: ../src/gui/chronojump.cs:2695
 msgid "Encoder data will not be exported."
 msgstr "A jeladóadatok nem lesznek exportálva."
 
-#: ../src/gui/chronojump.cs:2835 ../src/gui/person.cs:618
+#: ../src/gui/chronojump.cs:2839 ../src/gui/person.cs:618
 #, csharp-format
 msgid "Successfully added one person."
 msgid_plural "Successfully added {0} persons."
 msgstr[0] "Sikeresen hozzáadva egy személy."
 msgstr[1] "Sikeresen hozzáadva {0} személy."
 
-#: ../src/gui/chronojump.cs:2906
+#: ../src/gui/chronojump.cs:2910
 msgid ""
 "Are you sure you want to delete the current person and all his/her tests "
 "(jumps, runs, pulses, ...) from this session?\n"
@@ -5454,32 +5454,32 @@ msgstr ""
 "(ugrások, futások, impulzusok, …) ebből a munkamenetből?\n"
 "(A személyes adatai és tesztjei más munkamenetekben érintetlenek maradnak.)"
 
-#: ../src/gui/chronojump.cs:2907
+#: ../src/gui/chronojump.cs:2911
 msgid "Current Person: "
 msgstr "Jelenlegi személy: "
 
-#: ../src/gui/chronojump.cs:2914
+#: ../src/gui/chronojump.cs:2918
 msgid "Deleted person and all his/her tests on this session."
 msgstr "A személy és az összes tesztje törölve a munkamenetből."
 
-#: ../src/gui/chronojump.cs:3124
+#: ../src/gui/chronojump.cs:3128
 msgid "Sorry, R software is not installed."
 msgstr "Elnézést, az R szoftver nincs telepítve."
 
-#: ../src/gui/chronojump.cs:3125 ../src/gui/encoder.cs:5323
+#: ../src/gui/chronojump.cs:3129 ../src/gui/encoder.cs:5321
 #: ../src/stats/main.cs:1517
 msgid "Please, install it from here:"
 msgstr "Kérjük, innen telepítse:"
 
-#: ../src/gui/chronojump.cs:3693
+#: ../src/gui/chronojump.cs:3710
 msgid "Please, touch the contact platform for full cancelling."
 msgstr "Érintse meg az érintkezési platformot a teljes megszakításhoz."
 
-#: ../src/gui/chronojump.cs:3694 ../src/gui/chronojump.cs:3798
+#: ../src/gui/chronojump.cs:3711 ../src/gui/chronojump.cs:3815
 msgid "Then press Accept"
 msgstr "Majd nyomja meg az elfogadást"
 
-#: ../src/gui/chronojump.cs:3742
+#: ../src/gui/chronojump.cs:3759
 #, csharp-format
 msgid ""
 "Please, touch the contact platform on Chronopic/s [{0}] for full "
@@ -5490,11 +5490,11 @@ msgstr ""
 "megszakításhoz.\n"
 "Majd nyomja meg a gombot\n"
 
-#: ../src/gui/chronojump.cs:3797
+#: ../src/gui/chronojump.cs:3814
 msgid "Please, touch the contact platform for full finishing."
 msgstr "Érintse meg az érintkezési platformot a teljes befejezéshez."
 
-#: ../src/gui/chronojump.cs:3871
+#: ../src/gui/chronojump.cs:3888
 #, csharp-format
 msgid ""
 "Please, touch the contact platform on Chronopic/s [{0}] for full finishing."
@@ -5502,186 +5502,186 @@ msgstr ""
 "Érintse meg az érintkezési platformot Chronopic-on [{0}] a teljes "
 "befejezéshez."
 
-#: ../src/gui/chronojump.cs:3872
+#: ../src/gui/chronojump.cs:3889
 msgid "Then press this button:\n"
 msgstr "Majd nyomja meg ezt a gombot:\n"
 
-#: ../src/gui/chronojump.cs:3947
+#: ../src/gui/chronojump.cs:3964
 msgid "Sorry, RSA tests cannot be simulated."
 msgstr "Elnézést, az RSA teszteket nem lehet szimulálni."
 
-#: ../src/gui/chronojump.cs:4181 ../src/gui/chronojump.cs:4337
-#: ../src/gui/chronojump.cs:4466 ../src/gui/chronojump.cs:4593
-#: ../src/gui/chronojump.cs:4775 ../src/gui/chronojump.cs:4894
-#: ../src/gui/chronojump.cs:5195 ../src/gui/encoder.cs:1926
+#: ../src/gui/chronojump.cs:4198 ../src/gui/chronojump.cs:4354
+#: ../src/gui/chronojump.cs:4483 ../src/gui/chronojump.cs:4610
+#: ../src/gui/chronojump.cs:4792 ../src/gui/chronojump.cs:4911
+#: ../src/gui/chronojump.cs:5212 ../src/gui/encoder.cs:1941
 #: ../src/gui/person.cs:1907
 msgid "Sorry, video cannot be stored."
 msgstr "Elnézést, a videót nem lehet tárolni."
 
-#: ../src/gui/chronojump.cs:5039
+#: ../src/gui/chronojump.cs:5056
 msgid "Encoder connected"
 msgstr "Jeladó csatlakoztatva"
 
-#: ../src/gui/chronojump.cs:5081
+#: ../src/gui/chronojump.cs:5098
 msgid "Changes"
 msgstr "Változtatások"
 
-#: ../src/gui/chronojump.cs:5287
+#: ../src/gui/chronojump.cs:5304
 msgid "Cannot update. Probably this test was deleted."
 msgstr "Nem lehet frissíteni. Valószínűleg ez a teszt törölve lett."
 
 #. without these lines works also but has less functionalities (speed, go to ms)
-#: ../src/gui/chronojump.cs:5556 ../src/gui/event.cs:320
+#: ../src/gui/chronojump.cs:5573 ../src/gui/event.cs:320
 msgid "Playing video"
 msgstr "Videó lejátszása"
 
-#: ../src/gui/chronojump.cs:5727 ../src/gui/chronojump.cs:5743
+#: ../src/gui/chronojump.cs:5744 ../src/gui/chronojump.cs:5760
 msgid "Do you want to delete this jump?"
 msgstr "Törölni szeretné ezt az ugrást?"
 
-#: ../src/gui/chronojump.cs:5744
+#: ../src/gui/chronojump.cs:5761
 msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
 msgstr "Figyelem: egy reaktív részugrás törlése törölni fogja az egész ugrást"
 
-#: ../src/gui/chronojump.cs:5817 ../src/gui/chronojump.cs:5834
+#: ../src/gui/chronojump.cs:5834 ../src/gui/chronojump.cs:5851
 msgid "Do you want to delete this run?"
 msgstr "Törölni szeretné ezt a futást?"
 
-#: ../src/gui/chronojump.cs:5835
+#: ../src/gui/chronojump.cs:5852
 msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
 msgstr ""
 "Figyelem: egy intervallos részfutás törlése törölni fogja az egész futást"
 
-#: ../src/gui/chronojump.cs:5973
+#: ../src/gui/chronojump.cs:5990
 msgid "Do you want to delete this test?"
 msgstr "Törölni szeretné ezt a tesztet?"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:6030
+#: ../src/gui/chronojump.cs:6047
 msgid "Added simple jump."
 msgstr "Egyszerű ugrás hozzáadva."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:6036
+#: ../src/gui/chronojump.cs:6053
 msgid "Added reactive jump."
 msgstr "Reaktív ugrás hozzáadva."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:6066
+#: ../src/gui/chronojump.cs:6083
 msgid "Added simple run."
 msgstr "Egyszerű futás hozzáadva."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:6072
+#: ../src/gui/chronojump.cs:6089
 msgid "Added intervallic run."
 msgstr "Intervallos futás hozzáadva."
 
-#: ../src/gui/chronojump.cs:6446
+#: ../src/gui/chronojump.cs:6463
 msgid "Accelerators help"
 msgstr "Gyorsbillentyűk súgó"
 
-#: ../src/gui/chronojump.cs:6448
+#: ../src/gui/chronojump.cs:6465
 msgid "Use these keys in order to work faster."
 msgstr "Használja ezeket a billentyűket, hogy gyorsabban dolgozzon."
 
-#: ../src/gui/chronojump.cs:6449
+#: ../src/gui/chronojump.cs:6466
 msgid "On execute test tab:"
 msgstr "A teszt végrehajtása lapon:"
 
-#: ../src/gui/chronojump.cs:6450
+#: ../src/gui/chronojump.cs:6467
 msgid "Edit selected person"
 msgstr "Kijelölt személy szerkesztése"
 
-#: ../src/gui/chronojump.cs:6451
+#: ../src/gui/chronojump.cs:6468
 msgid "CURSOR_UP"
 msgstr "KURZOR_FEL"
 
-#: ../src/gui/chronojump.cs:6451
+#: ../src/gui/chronojump.cs:6468
 msgid "Select previous person"
 msgstr "Előző személy kijelölése"
 
-#: ../src/gui/chronojump.cs:6452
+#: ../src/gui/chronojump.cs:6469
 msgid "CURSOR_DOWN"
 msgstr "KURZOR_LE"
 
-#: ../src/gui/chronojump.cs:6452
+#: ../src/gui/chronojump.cs:6469
 msgid "Select next person"
 msgstr "Következő személy kijelölése"
 
-#: ../src/gui/chronojump.cs:6454
+#: ../src/gui/chronojump.cs:6471
 msgid "Play video of this test"
 msgstr "A teszt videójának lejátszása"
 
-#: ../src/gui/chronojump.cs:6454 ../src/gui/chronojump.cs:6458
-#: ../src/gui/chronojump.cs:6461
+#: ../src/gui/chronojump.cs:6471 ../src/gui/chronojump.cs:6475
+#: ../src/gui/chronojump.cs:6478
 msgid "(if available)"
 msgstr "(ha elérhető)"
 
-#: ../src/gui/chronojump.cs:6455
+#: ../src/gui/chronojump.cs:6472
 msgid "Delete this test"
 msgstr "A teszt törlése"
 
-#: ../src/gui/chronojump.cs:6456
+#: ../src/gui/chronojump.cs:6473
 msgid "On results tab:"
 msgstr "Az eredmények lapon:"
 
-#: ../src/gui/chronojump.cs:6457
+#: ../src/gui/chronojump.cs:6474
 msgid "Zoom change"
 msgstr "Nagyítás megváltoztatása"
 
-#: ../src/gui/chronojump.cs:6458
+#: ../src/gui/chronojump.cs:6475
 msgid "Play video of selected test"
 msgstr "A kijelölt teszt videójának lejátszása"
 
-#: ../src/gui/chronojump.cs:6459
+#: ../src/gui/chronojump.cs:6476
 msgid "Edit selected test"
 msgstr "A kijelölt teszt szerkesztése"
 
-#: ../src/gui/chronojump.cs:6460
+#: ../src/gui/chronojump.cs:6477
 msgid "Delete selected test"
 msgstr "A kijelölt teszt törlése"
 
-#: ../src/gui/chronojump.cs:6461
+#: ../src/gui/chronojump.cs:6478
 msgid "Repair selected test"
 msgstr "A kijelölt teszt javítása"
 
-#: ../src/gui/chronojump.cs:6525
+#: ../src/gui/chronojump.cs:6547
 msgid "translator-credits"
 msgstr ""
 "Rózsavölgyi Márk <rmzmark@gmail.com>, 2016.\n"
 "Úr Balázs <urbalazs@gmail.com>, 2015, 2016."
 
-#: ../src/gui/chronojump.cs:6852
+#: ../src/gui/chronojump.cs:6874
 msgid "Help on auto-detect"
 msgstr "Automatikus felismerés súgó"
 
-#: ../src/gui/chronojump.cs:6854
+#: ../src/gui/chronojump.cs:6876
 msgid "Modes:"
 msgstr "Módok:"
 
-#: ../src/gui/chronojump.cs:6856
+#: ../src/gui/chronojump.cs:6878
 msgid "Auto-detection on hardware is active."
 msgstr "Az automatikus felismerés a hardveren be van kapcsolva."
 
-#: ../src/gui/chronojump.cs:6856
+#: ../src/gui/chronojump.cs:6878
 msgid "Default mode"
 msgstr "Alapértelmezett mód"
 
-#: ../src/gui/chronojump.cs:6858
+#: ../src/gui/chronojump.cs:6880
 msgid "Use this option on computers where first port fails."
 msgstr ""
 "Használja ezt a beállítást olyan számítógépeken, ahol az első port nem "
 "működik."
 
-#: ../src/gui/chronojump.cs:6860
+#: ../src/gui/chronojump.cs:6882
 msgid "Auto-detection on hardware is inactive."
 msgstr "Az automatikus felismerés a hardveren ki van kapcsolva."
 
-#: ../src/gui/chronojump.cs:6860
+#: ../src/gui/chronojump.cs:6882
 msgid "Use it if you have problems at start or at capture."
 msgstr "Használja, ha problémája van kezdéskor vagy felvételkor."
 
-#: ../src/gui/chronojump.cs:7026
+#: ../src/gui/chronojump.cs:7048
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Tesztelési célokhoz készítve. A Chronojump rosszul fog kilépni"
 
@@ -5753,189 +5753,189 @@ msgstr ""
 "Új súly\n"
 "2. lehetőség"
 
-#: ../src/gui/encoder.cs:731
+#: ../src/gui/encoder.cs:736
 msgid "Load 1RM"
 msgstr "1RM betöltése"
 
-#: ../src/gui/encoder.cs:732 ../src/gui/encoderSelectRepetitions.cs:486
+#: ../src/gui/encoder.cs:737 ../src/gui/encoderSelectRepetitions.cs:486
 msgid "Session date"
 msgstr "Munkamenet dátuma"
 
 #. don't show now
-#: ../src/gui/encoder.cs:751
+#: ../src/gui/encoder.cs:756
 #, csharp-format
 msgid "Saved 1RM values of athlete {0} in {1} exercise."
 msgstr "A(z) {0} sportoló 1RM értékei elmentve a(z) {1} gyakorlatban."
 
-#: ../src/gui/encoder.cs:753
+#: ../src/gui/encoder.cs:758
 msgid "If you want to delete a row, right click on it."
 msgstr "Ha törölni szeretne egy sort, akkor kattintson rá a jobb gombbal."
 
-#: ../src/gui/encoder.cs:754
+#: ../src/gui/encoder.cs:759
 msgid "If there is more than one value, top one will be used."
 msgstr "Ha egynél több érték van, akkor a legjobb lesz használva."
 
-#: ../src/gui/encoder.cs:758
+#: ../src/gui/encoder.cs:763
 msgid "Manually add"
 msgstr "Kézi hozzáadás"
 
-#: ../src/gui/encoder.cs:761
+#: ../src/gui/encoder.cs:766
 msgid "Add 1RM value"
 msgstr "1RM érték hozzáadása"
 
-#: ../src/gui/encoder.cs:775 ../src/gui/encoder.cs:1208
+#: ../src/gui/encoder.cs:780 ../src/gui/encoder.cs:1223
 #: ../src/gui/encoderSelectRepetitions.cs:286 ../src/gui/executeAuto.cs:309
 #: ../src/gui/genericWindow.cs:795
 msgid "Close"
 msgstr "Bezárás"
 
-#: ../src/gui/encoder.cs:842 ../src/gui/eventExecute.cs:575
+#: ../src/gui/encoder.cs:847 ../src/gui/eventExecute.cs:575
 msgid "Missing data."
 msgstr "Hiányzó adatok."
 
-#: ../src/gui/encoder.cs:879
+#: ../src/gui/encoder.cs:884
 msgid "Saved comment."
 msgstr "Elmentett megjegyzés."
 
-#: ../src/gui/encoder.cs:1165 ../src/gui/encoderSelectRepetitions.cs:221
+#: ../src/gui/encoder.cs:1180 ../src/gui/encoderSelectRepetitions.cs:221
 msgid "Contraction"
 msgstr "Összehúzódás"
 
 #. don't show now
-#: ../src/gui/encoder.cs:1182
+#: ../src/gui/encoder.cs:1197
 #, csharp-format
 msgid "Select set of athlete {0} on this session."
 msgstr "Válassza ki a(z) {0} sportoló sorozatát ebben a munkamenetben."
 
-#: ../src/gui/encoder.cs:1184 ../src/gui/encoderSelectRepetitions.cs:258
+#: ../src/gui/encoder.cs:1199 ../src/gui/encoderSelectRepetitions.cs:258
 msgid "If you want to edit or delete a row, right click on it."
 msgstr ""
 "Ha szerkeszteni vagy törölni szeretne egy sort, akkor kattintson rá a jobb "
 "gombbal."
 
-#: ../src/gui/encoder.cs:1197
+#: ../src/gui/encoder.cs:1212
 msgid "Change the owner of selected set"
 msgstr "A kijelölt sorozat tulajdonosának megváltoztatása"
 
-#: ../src/gui/encoder.cs:1198 ../src/gui/encoderSelectRepetitions.cs:280
+#: ../src/gui/encoder.cs:1213 ../src/gui/encoderSelectRepetitions.cs:280
 msgid "code"
 msgstr "kód"
 
-#: ../src/gui/encoder.cs:1198 ../src/gui/encoderSelectRepetitions.cs:280
+#: ../src/gui/encoder.cs:1213 ../src/gui/encoderSelectRepetitions.cs:280
 msgid "name"
 msgstr "név"
 
-#: ../src/gui/encoder.cs:1319 ../src/gui/encoder.cs:1660
+#: ../src/gui/encoder.cs:1334 ../src/gui/encoder.cs:1675
 msgid "Are you sure you want to delete this set?"
 msgstr "Biztosan törölni szeretné ezt a sorozatot?"
 
-#: ../src/gui/encoder.cs:1319 ../src/gui/encoder.cs:1660
+#: ../src/gui/encoder.cs:1334 ../src/gui/encoder.cs:1675
 msgid "Saved repetitions related to this set will also be deleted."
 msgstr ""
 "Az ehhez a sorozathoz kapcsolódó mentett ismétlések is törölve lesznek."
 
-#: ../src/gui/encoder.cs:1421
+#: ../src/gui/encoder.cs:1436
 msgid "Gravitory sets captured on this session"
 msgstr "Gravitációs sorozatok rögzítve ebben a munkamenetben"
 
-#: ../src/gui/encoder.cs:1427
+#: ../src/gui/encoder.cs:1442
 msgid "Displaced mass"
 msgstr "Mozdított tömeg"
 
-#: ../src/gui/encoder.cs:1428 ../src/gui/encoder.cs:1437
+#: ../src/gui/encoder.cs:1443 ../src/gui/encoder.cs:1452
 msgid "Sets"
 msgstr "Beállítások"
 
-#: ../src/gui/encoder.cs:1431
+#: ../src/gui/encoder.cs:1446
 msgid "Inertial sets captured on this session"
 msgstr "Tehetetlenségi sorozatok rögzítve ebben a munkamenetben"
 
-#: ../src/gui/encoder.cs:1526
+#: ../src/gui/encoder.cs:1541
 msgid "Export set in CSV format"
 msgstr "Beállítás exportálása CSV-formátumba"
 
-#: ../src/gui/encoder.cs:1530
+#: ../src/gui/encoder.cs:1545
 msgid "Export repetition in CSV format"
 msgstr "Ismétlés exportálása CSV-formátumba"
 
-#: ../src/gui/encoder.cs:1549 ../src/gui/executeAuto.cs:544
+#: ../src/gui/encoder.cs:1564 ../src/gui/executeAuto.cs:544
 msgid "Accept"
 msgstr "Elfogadás"
 
-#: ../src/gui/encoder.cs:1607 ../src/gui/encoder.cs:3267
-#: ../src/gui/encoder.cs:3320
+#: ../src/gui/encoder.cs:1622 ../src/gui/encoder.cs:3282
+#: ../src/gui/encoder.cs:3335
 #, csharp-format
 msgid "Cannot save file {0} "
 msgstr "Nem menthető a fájl: {0} "
 
-#: ../src/gui/encoder.cs:1677
+#: ../src/gui/encoder.cs:1692
 msgid "Set deleted"
 msgstr "Beállítás törölve"
 
-#: ../src/gui/encoder.cs:1778 ../src/gui/encoderTreeviews.cs:169
+#: ../src/gui/encoder.cs:1793 ../src/gui/encoderTreeviews.cs:169
 #: ../src/gui/executeAuto.cs:456
 msgid "Saved"
 msgstr "Elmentve"
 
-#: ../src/gui/encoder.cs:1904
+#: ../src/gui/encoder.cs:1919
 msgid "Set saved"
 msgstr "Beállítás elmentve"
 
-#: ../src/gui/encoder.cs:1938
+#: ../src/gui/encoder.cs:1953
 msgid "Set updated"
 msgstr "Beállítás frissítve"
 
-#: ../src/gui/encoder.cs:1958
+#: ../src/gui/encoder.cs:1973
 msgid "Sorry, no repetitions selected."
 msgstr "Elnézést, nincsenek ismétlések kijelölve."
 
-#: ../src/gui/encoder.cs:1972 ../src/gui/encoder.cs:3124
+#: ../src/gui/encoder.cs:1987 ../src/gui/encoder.cs:3139
 msgid "Speed,Power / Load"
 msgstr "Sebesség, teljesítmény / terhelés"
 
-#: ../src/gui/encoder.cs:1975 ../src/gui/encoder.cs:2000
+#: ../src/gui/encoder.cs:1990 ../src/gui/encoder.cs:2015
 msgid "Sorry, this graph is not supported yet."
 msgstr "Elnézést, ez a grafikon még nem támogatott."
 
-#: ../src/gui/encoder.cs:1994 ../src/gui/encoder.cs:2013
-#: ../src/gui/encoder.cs:3025
+#: ../src/gui/encoder.cs:2009 ../src/gui/encoder.cs:2028
+#: ../src/gui/encoder.cs:3040
 msgid "1RM Any exercise"
 msgstr "1RM bármilyen feladat"
 
-#: ../src/gui/encoder.cs:1996 ../src/gui/encoder.cs:2015
-#: ../src/gui/encoder.cs:3025
+#: ../src/gui/encoder.cs:2011 ../src/gui/encoder.cs:2030
+#: ../src/gui/encoder.cs:3040
 msgid "1RM Bench Press"
 msgstr "1RM fekve nyomás"
 
-#: ../src/gui/encoder.cs:2032
+#: ../src/gui/encoder.cs:2047
 msgid "Sorry, cannot calculate 1RM of different exercises."
 msgstr "Elnézést, nem lehet kiszámítani a különböző feladatok 1RM-ét."
 
-#: ../src/gui/encoder.cs:2033
+#: ../src/gui/encoder.cs:2048
 msgid "Please select repetitions of only one exercise type."
 msgstr "Csak egy feladattípus ismétléseit válassza ki."
 
-#: ../src/gui/encoder.cs:2263 ../src/gui/encoderSelectRepetitions.cs:171
+#: ../src/gui/encoder.cs:2278 ../src/gui/encoderSelectRepetitions.cs:171
 msgid "All weights"
 msgstr "Minden súly"
 
-#: ../src/gui/encoder.cs:2852
+#: ../src/gui/encoder.cs:2867
 msgid "About Neuromuscular Profile"
 msgstr "A Neuromuszkuláris profilról"
 
-#: ../src/gui/encoder.cs:2853
+#: ../src/gui/encoder.cs:2868
 msgid "Load = Average eccentric RFD (Ratio of Force Development)"
 msgstr "Terhelés = átlagos excentrikus RFD (erőkifejtés aránya)"
 
-#: ../src/gui/encoder.cs:2854
+#: ../src/gui/encoder.cs:2869
 msgid "Explode = Average relative concentric RFD"
 msgstr "Robbanás = átlagos relatív koncentrikus RFD"
 
-#: ../src/gui/encoder.cs:2855
+#: ../src/gui/encoder.cs:2870
 msgid "Drive = Average relative concentric Impulse"
 msgstr "Hajtás = átlagos relatív koncentrikus impulzus"
 
-#: ../src/gui/encoder.cs:2856
+#: ../src/gui/encoder.cs:2871
 msgid ""
 "General trends to try to develop an 'equilibrated' neuromuscular profile "
 "(always add individual considerations as previous or actual injuries, sport "
@@ -5945,7 +5945,7 @@ msgstr ""
 "(mindig egyedi figyelmet fordítson a korábbi vagy jelenlegi sérülésekre, "
 "sportspecifikusságra, izomzatra, stb.)."
 
-#: ../src/gui/encoder.cs:2857
+#: ../src/gui/encoder.cs:2872
 msgid ""
 "If one of the metrics is under developed (weak) compared with the other two, "
 "prescribe exercises that emphasize its development."
@@ -5953,7 +5953,7 @@ msgstr ""
 "Ha a mérőszámok egyike túl alacsony (gyenge) összehasonlítva másik kettővel, "
 "akkor végezzen olyan gyakorlatokat, amelyekkel fejlesztheti azt."
 
-#: ../src/gui/encoder.cs:2858
+#: ../src/gui/encoder.cs:2873
 msgid ""
 "If one of the metrics is over developed (extreme) compared with the other "
 "two, prescribe exercises to emphasize those, but paying attention to "
@@ -5963,11 +5963,11 @@ msgstr ""
 "akkor végezzen olyan gyakorlatokat, amelyekkel fejlesztheti azokat, de "
 "legyen figyelemmel a nyújtásra és lazításra a dolgozó izmoknál."
 
-#: ../src/gui/encoder.cs:2860
+#: ../src/gui/encoder.cs:2875
 msgid "General guidelines to improve the neuromuscular profile:"
 msgstr "Általános irányelvek a neuromuszkuláris profil fejlesztéséhez:"
 
-#: ../src/gui/encoder.cs:2862
+#: ../src/gui/encoder.cs:2877
 msgid ""
 "Load: Perform exercises that develop maximum force (eccentric, isometric or "
 "concentric)."
@@ -5975,13 +5975,13 @@ msgstr ""
 "Terhelés: végezzen olyan gyakorlatokat, amelyek a legnagyobb erőt fejlesztik "
 "(excentrikus, izometrikus vagy koncentrikus)."
 
-#: ../src/gui/encoder.cs:2863
+#: ../src/gui/encoder.cs:2878
 msgid "Then switch to exercises that develop eccentric force in short time."
 msgstr ""
 "Majd váltson olyan gyakorlatokra, amelyek az excentrikus erőt fejlesztik "
 "rövid idő alatt."
 
-#: ../src/gui/encoder.cs:2865
+#: ../src/gui/encoder.cs:2880
 msgid ""
 "Explode: Perform exercises that develop force in short time, and maximum "
 "force."
@@ -5989,102 +5989,102 @@ msgstr ""
 "Robbanás: végezzen gyakorlatokat, amelyek rövid időn belül fejlesztik az "
 "erőt és legnagyobb erőt."
 
-#: ../src/gui/encoder.cs:2866
+#: ../src/gui/encoder.cs:2881
 msgid "Drive: Perform exercises where force is developed during more time."
 msgstr ""
 "Hajtás: végezzen olyan gyakorlatokat, ahol az erőfejlesztés több ideig tart."
 
-#: ../src/gui/encoder.cs:2868
+#: ../src/gui/encoder.cs:2883
 msgid "Analysis uses the best three jumps using 'jump height' criterion."
 msgstr ""
 "Az elemzés a három legjobb ugrást használja az „ugrási magasság” feltételek "
 "használatával."
 
-#: ../src/gui/encoder.cs:2869
+#: ../src/gui/encoder.cs:2884
 msgid "Lapuente and De Blas. Adapted from Wagner:"
 msgstr "Lapuente és De Blas. Átvéve Wagnertől:"
 
-#: ../src/gui/encoder.cs:3026
+#: ../src/gui/encoder.cs:3041
 msgid "1RM Indirect"
 msgstr "1RM indirekt"
 
-#: ../src/gui/encoder.cs:3104 ../src/gui/encoder.cs:3107
+#: ../src/gui/encoder.cs:3119 ../src/gui/encoder.cs:3122
 msgid "All exercises"
 msgstr "Összes gyakorlat"
 
-#: ../src/gui/encoder.cs:3123
+#: ../src/gui/encoder.cs:3138
 msgid "Power / Load"
 msgstr "Teljesítmény / terhelés"
 
-#: ../src/gui/encoder.cs:3123
+#: ../src/gui/encoder.cs:3138
 msgid "Speed / Load"
 msgstr "Sebesség / terhelés"
 
-#: ../src/gui/encoder.cs:3124
+#: ../src/gui/encoder.cs:3139
 msgid "Force / Load"
 msgstr "Erő / terhelés"
 
-#: ../src/gui/encoder.cs:3125
+#: ../src/gui/encoder.cs:3140
 msgid "Force / Speed"
 msgstr "Erő / sebesség"
 
-#: ../src/gui/encoder.cs:3125
+#: ../src/gui/encoder.cs:3140
 msgid "Power / Speed"
 msgstr "Teljesítmény / sebesség"
 
-#: ../src/gui/encoder.cs:3135
+#: ../src/gui/encoder.cs:3150
 msgid "Power / Date"
 msgstr "Teljesítmény / dátum"
 
-#: ../src/gui/encoder.cs:3136
+#: ../src/gui/encoder.cs:3151
 msgid "Speed / Date"
 msgstr "Sebesség / dátum"
 
-#: ../src/gui/encoder.cs:3137
+#: ../src/gui/encoder.cs:3152
 msgid "Force / Date"
 msgstr "Erő / dátum"
 
-#: ../src/gui/encoder.cs:3341
+#: ../src/gui/encoder.cs:3356
 msgid "Error doing operation."
 msgstr "Hiba a művelet végrehajtásakor."
 
-#: ../src/gui/encoder.cs:3342
+#: ../src/gui/encoder.cs:3357
 msgid "Operation cancelled."
 msgstr "A művelet megszakítva."
 
-#: ../src/gui/encoder.cs:3370
+#: ../src/gui/encoder.cs:3385
 msgid "Saved."
 msgstr "Elmentve."
 
-#: ../src/gui/encoder.cs:3372
+#: ../src/gui/encoder.cs:3387
 #, csharp-format
 msgid "1RM found: {0} Kg."
 msgstr "1RM található: {0} kg."
 
-#: ../src/gui/encoder.cs:3373
+#: ../src/gui/encoder.cs:3388
 #, csharp-format
 msgid "Displaced body weight in this exercise: {0}%."
 msgstr "Elmozdított testsúly ebben a feladatban: {0}%."
 
-#: ../src/gui/encoder.cs:3375
+#: ../src/gui/encoder.cs:3390
 #, csharp-format
 msgid "Saved 1RM without displaced body weight: {0} Kg."
 msgstr "1RM elmentve elmozdított testsúly nélkül: {0} kg."
 
-#: ../src/gui/encoder.cs:3488
+#: ../src/gui/encoder.cs:3503
 msgid "Encoder exercise name:"
 msgstr "Jeladógyakorlat neve:"
 
-#: ../src/gui/encoder.cs:3489 ../src/gui/encoder.cs:3548
+#: ../src/gui/encoder.cs:3504 ../src/gui/encoder.cs:3563
 msgid "Displaced body weight"
 msgstr "Elmozdított testsúly"
 
-#: ../src/gui/encoder.cs:3497 ../src/gui/encoder.cs:3552
+#: ../src/gui/encoder.cs:3512 ../src/gui/encoder.cs:3567
 msgid "Speed at 1RM"
 msgstr "Sebesség 1RM-nél"
 
 #. don't show now
-#: ../src/gui/encoder.cs:3547
+#: ../src/gui/encoder.cs:3562
 msgid "Write the name of the encoder exercise:"
 msgstr "Jeladógyakorlat nevének kiírása:"
 
@@ -6097,93 +6097,97 @@ msgstr "Jeladógyakorlat nevének kiírása:"
 #. genericWin.SetSpin3Range(0,90);
 #. genericWin.SetSpin3Value(90);
 #.
-#: ../src/gui/encoder.cs:3563
+#: ../src/gui/encoder.cs:3578
 msgid "Add"
 msgstr "Hozzáadás"
 
-#: ../src/gui/encoder.cs:3591
+#: ../src/gui/encoder.cs:3606
 msgid "Error: Missing name of exercise."
 msgstr "Hiba: hiányzó gyakorlatnév."
 
-#: ../src/gui/encoder.cs:3594
+#: ../src/gui/encoder.cs:3609
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Hiba: egy „{0}” nevű gyakorlat már létezik."
 
-#: ../src/gui/encoder.cs:3640
+#: ../src/gui/encoder.cs:3655
 msgid "Sorry, predefined exercises cannot be deleted."
 msgstr "Elnézést, az előre meghatározott gyakorlatokat nem lehet törölni."
 
-#: ../src/gui/encoder.cs:3649
+#: ../src/gui/encoder.cs:3664
 msgid "Sorry, this exercise cannot be deleted."
 msgstr "Elnézést, ezt a gyakorlatot nem lehet törölni."
 
-#: ../src/gui/encoder.cs:3650
+#: ../src/gui/encoder.cs:3665
 msgid "Please delete first the following repetitions:"
 msgstr "Először törölje a következő ismétléseket:"
 
-#: ../src/gui/encoder.cs:3683
+#: ../src/gui/encoder.cs:3698
 msgid "Exercise deleted."
 msgstr "Gyakorlat törölve."
 
-#: ../src/gui/encoder.cs:4287
+#: ../src/gui/encoder.cs:4285
 msgid "saved"
 msgstr "elmentve"
 
-#: ../src/gui/encoder.cs:4550
+#: ../src/gui/encoder.cs:4548
 msgid "Chronopic port is not configured."
 msgstr "A Chronopic port nincs beállítva."
 
-#: ../src/gui/encoder.cs:5090
+#: ../src/gui/encoder.cs:5088
 msgid "R tasks done"
 msgstr "R-feladatok készen vannak"
 
-#: ../src/gui/encoder.cs:5102
+#: ../src/gui/encoder.cs:5100
 msgid "Repetitions processed"
 msgstr "Ismétlések feldolgozva"
 
-#: ../src/gui/encoder.cs:5109
+#: ../src/gui/encoder.cs:5107
 msgid "Starting process"
 msgstr "Folyamat megkezdése"
 
-#: ../src/gui/encoder.cs:5113
+#: ../src/gui/encoder.cs:5111
 msgid "Loading libraries"
 msgstr "Könyvtárak betöltése"
 
-#: ../src/gui/encoder.cs:5117
+#: ../src/gui/encoder.cs:5115
 msgid "Starting R"
 msgstr "R indítása"
 
-#: ../src/gui/encoder.cs:5321 ../src/stats/main.cs:1515
+#: ../src/gui/encoder.cs:5319 ../src/stats/main.cs:1515
 msgid "Sorry. Error doing graph."
 msgstr "Elnézést. Hiba a grafikon készítésekor."
 
-#: ../src/gui/encoder.cs:5322 ../src/stats/main.cs:1516
+#: ../src/gui/encoder.cs:5320 ../src/stats/main.cs:1516
 msgid "Maybe R is not installed."
 msgstr "Talán az R nincs telepítve."
 
 #. signal is raised and managed in gui/encoder.cs
-#: ../src/gui/encoder.cs:5330 ../src/gui/encoder.cs:5552
+#: ../src/gui/encoder.cs:5328 ../src/gui/encoder.cs:5561
 #: ../src/gui/encoderConfiguration.cs:545
 msgid "Cancelled"
 msgstr "Megszakítva"
 
-#: ../src/gui/encoder.cs:5335
+#: ../src/gui/encoder.cs:5333
 msgid "Finished"
 msgstr "Befejeződött"
 
-#: ../src/gui/encoder.cs:5765
+#: ../src/gui/encoder.cs:5556
+msgid "Set corrected. string was not fully extended at the beginning."
+msgstr "Helyesen beállítva. A kötél nem volt teljesen kiterjesztve az elején."
+
+#: ../src/gui/encoder.cs:5781
 msgid "Sorry, file not found"
 msgstr "Elnézést, a fájl nem található"
 
-#: ../src/gui/encoder.cs:5940
+#: ../src/gui/encoder.cs:5956
 msgid ""
 "If a repetition has been found, test will end at selected inactivity seconds."
 msgstr ""
 "Ha egy ismétlés található, akkor a teszt befejeződik a választott inaktív "
 "másodpercek után."
 
-#: ../src/gui/encoder.cs:5941
+#: ../src/gui/encoder.cs:5957
 msgid ""
 "If a repetition has not been found, test will end at selected inactivity "
 "seconds (x2)."
@@ -6191,7 +6195,7 @@ msgstr ""
 "Ha nem található ismétlés, akkor a teszt befejeződik a választott inaktív "
 "másodpercek után (x2)."
 
-#: ../src/gui/encoder.cs:5942
+#: ../src/gui/encoder.cs:5958
 msgid "This will let the person to have more time to start movement."
 msgstr "Ez több időt hagy a személynek, hogy elkezdje a mozgást."
 
@@ -7009,7 +7013,7 @@ msgstr "Ez a szint:"
 msgid "Session: '{0}' exists. Please, use another name"
 msgstr "A(z) „{0}” munkamenet létezik. Használjon másik nevet"
 
-#: ../src/gui/session.cs:729 ../src/gui/session.cs:980
+#: ../src/gui/session.cs:729 ../src/gui/session.cs:995
 msgid "Number"
 msgstr "Szám"
 

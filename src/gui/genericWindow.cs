@@ -151,6 +151,8 @@ public class GenericWindow
 
 		GenericWindowBox.Type = Types.UNDEFINED;
 		
+		GenericWindowBox.label_header.Text = textHeader;
+		
 		if(showNow)
 			GenericWindowBox.generic_window.Show ();
 		

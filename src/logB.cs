@@ -188,18 +188,30 @@ public static class LogB
 					thread_name += "     ";
 			}
 
-			Console.Write("[{5}{0} {1:00}:{2:00}:{3:00}.{4:000}]", TypeString(type), DateTime.Now.Hour,
-					DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond, thread_name);
+			/*
+			 * TODO: Console.Write is written to a file. see log.Start() at log.cs
+			 * is done by 
+			 * 	System.Console.SetOut(sw);
+			 * 	System.Console.SetError(sw);
+			 * 	sw.AutoFlush = true;
+			 * and this is not threadsafe. 
+			 * Have to find a way using TextWriter.Synchronized http://stackoverflow.com/a/9539571
+			 */
+			try {
+				Console.Write("[{5}{0} {1:00}:{2:00}:{3:00}.{4:000}]", TypeString(type), DateTime.Now.Hour,
+						DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond, thread_name);
 
-			ConsoleCrayon.ResetColor();
+				ConsoleCrayon.ResetColor();
 
-			if(details != null) {
-				Console.WriteLine(" {0} - {1}", message, details);
-			} else {
-				if(type == LogEntryType.Debug)
-					Console.Write(" {0}", message);
-				else
-					Console.WriteLine(" {0}", message);
+				if(details != null) {
+					Console.WriteLine(" {0} - {1}", message, details);
+				} else {
+					if(type == LogEntryType.Debug)
+						Console.Write(" {0}", message);
+					else
+						Console.WriteLine(" {0}", message);
+				}
+			} catch (System.IndexOutOfRangeException e) {
 			}
 		}
 

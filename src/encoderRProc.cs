@@ -307,7 +307,13 @@ public class EncoderRProcCapture : EncoderRProc
 	//here curve is sent compressed (string. eg: "0*5 1 0 -1*3 2")
 	public void SendCurve(string curveCompressed)
 	{
-		LogB.Information("curveSend [displacement array]",curveCompressed);
+		/*
+		 * curveCompressed print has made crash Chronojump once.
+		 * Seems to be a problem with multithreading and Console.SetOut, see logB Commit (added a try/catch there)
+		 * until is not fixed, better leave this commented
+		 */
+		//LogB.Information("curveSend [displacement array]",curveCompressed);
+
 		p.StandardInput.WriteLine(curveCompressed); 	//this will send some lines because compressed data comes with '\n's
 		p.StandardInput.WriteLine("E");		//this will mean the 'E'nd of the curve. Then data can be uncompressed on R
 	}	

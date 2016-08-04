@@ -5544,6 +5544,17 @@ public partial class ChronoJumpWindow
 		
 			if(action == encoderActions.CURVES_AC && radio_encoder_capture_cont.Active && ! encoderProcessFinishContMode)
 				on_button_encoder_capture_clicked (new object (), new EventArgs ());
+			
+			//on inertial, check after capture if string was not fully extended and was corrected
+			if(getMenuItemMode() == Constants.Menuitem_modes.POWERINERTIAL && 
+					action == encoderActions.CURVES_AC && 
+					Util.FileExists(UtilEncoder.GetEncoderSpecialDataTempFileName())) 
+			{
+				string str = Util.ReadFile(UtilEncoder.GetEncoderSpecialDataTempFileName(), true);
+				if(str != null && str == "SIGNAL CORRECTED")
+					new DialogMessage(Constants.MessageTypes.WARNING, 
+						Catalog.GetString("Set corrected. string was not fully extended at the beginning."));
+			}
 		
 		} else { //ANALYZE
 			if(encoderProcessCancel) {

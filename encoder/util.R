@@ -1103,8 +1103,9 @@ getDisplacementInertialBody <- function(positionStart, displacement, draw, title
 #used when user captures without string fully extended
 #signal is the information coming from the encoder, graph is to debug
 #see codeExplained/image detect-and-fix-inertial-string-not-fully-extended.png
-fixInertialSignalIfNotFullyExtended <- function(signal, saveFile, graph)
+fixInertialSignalIfNotFullyExtended <- function(signal, saveFile, specialDataFile, graph)
 {
+	write("at fixInertialSignalIfNotFullyExtended", stderr())
 	angle <- cumsum(signal) #360 degrees every 200 ticks
 
 	maximums <- extrema(angle)$maxindex[,1]
@@ -1185,10 +1186,13 @@ fixInertialSignalIfNotFullyExtended <- function(signal, saveFile, graph)
 		par(mfrow=c(1,1))
 	}
 
-	#define new signal only if the error in extended string is more than 360
-	if(meanByExtrema > 200) {
+	#define new signal only if the error in extended string is more than 4 revolutions
+	if(abs(meanByExtrema) > 800) {
+		write(signal, file="/tmp/old.txt", ncolumns=length(signal), sep=", ")
 		signal <- signal[angleCorrectedCrossZero:length(signal)]
 
+		write("SIGNAL CORRECTED", specialDataFile)
+		
 		#write to file and return displacement to be used
 		write(signal, file=saveFile, ncolumns=length(signal), sep=", ")
 	}

@@ -2449,7 +2449,8 @@ doProcess <- function(options)
 				displacement <- fixInertialSignalIfNotFullyExtended(displacement, 
 										    paste(op$EncoderTempPath,
 											  "/chronojump-last-encoder-data.txt",
-											  sep=""), 
+											  sep=""),
+										    op$SpecialData, 
 										    FALSE)
 
 			diametersPerMs <- getInertialDiametersPerMs(displacement, op$diameter)

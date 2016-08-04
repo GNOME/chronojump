@@ -3133,6 +3133,17 @@ public partial class ChronoJumpWindow
 
 			notebook_sup.CurrentPage = 1;
 
+
+			/*
+			 * If there's a signal on gravitatory and we move to inertial, 
+			 * interface has to change to YESPERSON (meaning no_signal).
+			 * But, if there's no person shoud continue on NOPERSON
+			 */
+			if(selectRowTreeView_persons(treeview_persons, treeview_persons_store, 0))
+				encoderButtonsSensitive(encoderSensEnum.YESPERSON);
+			
+			blankEncoderInterface();
+
 			bool changed = false;
 			if(m == Constants.Menuitem_modes.POWERGRAVITATORY) {
 				menuitem_mode_selected_power_gravitatory.Visible = true;

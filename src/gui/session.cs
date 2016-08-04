@@ -744,8 +744,12 @@ public class SessionLoadWindow {
 			tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);
 		}
 		if(showEncoder) {
-			tv.AppendColumn ( Catalog.GetString ("Encoder sets"), new CellRendererText(), "text", count++);
-			tv.AppendColumn ( Catalog.GetString ("Encoder repetitions"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("Gravitatory encoder") + "\n" +
+					Catalog.GetString("Sets") + " ; " + Catalog.GetString("Repetitions"),
+					new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("Inertial encoder") + "\n" +
+					Catalog.GetString("Sets") + " ; " + Catalog.GetString("Repetitions"),
+					new CellRendererText(), "text", count++);
 		}
 		tv.AppendColumn ( Catalog.GetString ("Comments"), new CellRendererText(), "text", count++);
 	}

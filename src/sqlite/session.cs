@@ -398,44 +398,75 @@ class SqliteSession : Sqlite
 		}
 		reader_mcs.Close();
 	
-		//select encoder signal of each session
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.EncoderTable + 
-			" WHERE signalOrCurve == \"signal\" GROUP BY sessionID ORDER BY sessionID";
+	
+		//select encoder stuff of each session
+		dbcmd.CommandText = "SELECT sessionID, encoderConfiguration, signalOrCurve FROM " + Constants.EncoderTable + " ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader_enc_s;
-		reader_enc_s = dbcmd.ExecuteReader();
-		ArrayList myArray_enc_s = new ArrayList(2);
+		SqliteDataReader reader_enc = dbcmd.ExecuteReader();
+		ArrayList myArray_enc_g_s = new ArrayList(2); //gravitatory sets
+		ArrayList myArray_enc_g_r = new ArrayList(2); //gravitatory repetitions
+		ArrayList myArray_enc_i_s = new ArrayList(2); //inertial sets
+		ArrayList myArray_enc_i_r = new ArrayList(2); //inertial repetitions
 		
-		while(reader_enc_s.Read()) {
-			myArray_enc_s.Add (reader_enc_s[0].ToString() + ":" + reader_enc_s[1].ToString() + ":" );
-		}
-		reader_enc_s.Close();
-	
-		//select encoder curve of each session
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.EncoderTable + 
-			" WHERE signalOrCurve == \"curve\" GROUP BY sessionID ORDER BY sessionID";
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
+		int count_g_s = 0;	
+		int count_g_r = 0;	
+		int count_i_s = 0;
+		int count_i_r = 0;
+		int sessionBefore = -1;
+		int sessionNow = -1;
+		while(reader_enc.Read()) 
+		{
+			//get econf to separate gravitatory and inertial
+			string [] strFull = reader_enc[1].ToString().Split(new char[] {':'});
+			EncoderConfiguration econf = new EncoderConfiguration(
+				(Constants.EncoderConfigurationNames) 
+				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
 
-		SqliteDataReader reader_enc_c;
-		reader_enc_c = dbcmd.ExecuteReader();
-		ArrayList myArray_enc_c = new ArrayList(2);
-		
-		while(reader_enc_c.Read()) {
-			myArray_enc_c.Add (reader_enc_c[0].ToString() + ":" + reader_enc_c[1].ToString() + ":" );
+			sessionNow = Convert.ToInt32(reader_enc[0].ToString());
+			if(sessionNow != sessionBefore && sessionBefore != -1) {
+				myArray_enc_g_s.Add (sessionBefore.ToString() + ":" + count_g_s.ToString() + ":" );
+				myArray_enc_g_r.Add (sessionBefore.ToString() + ":" + count_g_r.ToString() + ":" );
+				myArray_enc_i_s.Add (sessionBefore.ToString() + ":" + count_i_s.ToString() + ":" );
+				myArray_enc_i_r.Add (sessionBefore.ToString() + ":" + count_i_r.ToString() + ":" );
+				count_g_s = 0;
+				count_g_r = 0;
+				count_i_s = 0;
+				count_i_r = 0;
+			}
+			sessionBefore = sessionNow;
+
+			if(! econf.has_inertia) {
+				if(reader_enc[2].ToString() == "signal")
+					count_g_s ++;
+				else
+					count_g_r ++;
+			} else {
+				if(reader_enc[2].ToString() == "signal")
+					count_i_s ++;
+				else
+					count_i_r ++;
+			}
 		}
-		reader_enc_c.Close();
-	
+		myArray_enc_g_s.Add (sessionBefore.ToString() + ":" + count_g_s.ToString() + ":" );
+		myArray_enc_g_r.Add (sessionBefore.ToString() + ":" + count_g_r.ToString() + ":" );
+		myArray_enc_i_s.Add (sessionBefore.ToString() + ":" + count_i_s.ToString() + ":" );
+		myArray_enc_i_r.Add (sessionBefore.ToString() + ":" + count_i_r.ToString() + ":" );
+
+		reader_enc.Close();
+
+		
 		
 		//close database connection
 		Sqlite.Close();
 
-		//mix seven arrayLists
+		//mix nine arrayLists
 		string [] mySessions = new string[count];
 		count =0;
 		bool found;
+		string result_enc_s;	//sets
+		string result_enc_r;	//repetitions
 		foreach (string line in myArray) {
 			string lineNotReadOnly = line;
 
@@ -531,27 +562,35 @@ class SqliteSession : Sqlite
 			}
 			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
 
-			//add encoder signal for each session
-			found = false;
-			foreach (string line_enc_s in myArray_enc_s) {
-				string [] myStringFull = line_enc_s.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID) {
-					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
-					found = true;
-				}
+			//add encoder gravitatory for each session (sets ; repetitions)
+			result_enc_s = "0";
+			result_enc_r = "0";
+			foreach (string line_enc_g_s in myArray_enc_g_s) {
+				string [] myStringFull = line_enc_g_s.Split(new char[] {':'});
+				if(myStringFull[0] == mixingSessionID)
+					result_enc_s = myStringFull[1];
 			}
-			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
+			foreach (string line_enc_g_r in myArray_enc_g_r) {
+				string [] myStringFull = line_enc_g_r.Split(new char[] {':'});
+				if(myStringFull[0] == mixingSessionID)
+					result_enc_r = myStringFull[1];
+			}
+			lineNotReadOnly  = lineNotReadOnly + ":" + result_enc_s + " ; " + result_enc_r;
 
-			//add encoder curve for each session
-			found = false;
-			foreach (string line_enc_c in myArray_enc_c) {
-				string [] myStringFull = line_enc_c.Split(new char[] {':'});
-				if(myStringFull[0] == mixingSessionID) {
-					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
-					found = true;
-				}
+			//add encoder inertial for each session (sets ; repetitions)
+			result_enc_s = "0";
+			result_enc_r = "0";
+			foreach (string line_enc_i_s in myArray_enc_i_s) {
+				string [] myStringFull = line_enc_i_s.Split(new char[] {':'});
+				if(myStringFull[0] == mixingSessionID)
+					result_enc_s = myStringFull[1];
 			}
-			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
+			foreach (string line_enc_i_r in myArray_enc_i_r) {
+				string [] myStringFull = line_enc_i_r.Split(new char[] {':'});
+				if(myStringFull[0] == mixingSessionID)
+					result_enc_r = myStringFull[1];
+			}
+			lineNotReadOnly  = lineNotReadOnly + ":" + result_enc_s + " ; " + result_enc_r;
 
 			
 			mySessions [count++] = lineNotReadOnly;

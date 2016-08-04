@@ -438,7 +438,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 		if(es.Ep.Analysis == "exportCSV")
 			Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "6.txt");
 
-		//delete 1RM data if exists
+		//delete SpecialData if exists
 		string specialData = UtilEncoder.GetEncoderSpecialDataTempFileName();
 		if (File.Exists(specialData))
 			File.Delete(specialData);
@@ -512,7 +512,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 		if(es.Ep.Analysis == "exportCSV")
 			Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "6.txt");
 		
-		//delete 1RM data if exists
+		//delete SpecialData if exists
 		string specialData = UtilEncoder.GetEncoderSpecialDataTempFileName();
 		if (File.Exists(specialData))
 			File.Delete(specialData);

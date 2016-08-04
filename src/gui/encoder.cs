@@ -3709,41 +3709,27 @@ public partial class ChronoJumpWindow
 	/* sensitivity stuff */	
 			
 	//called when a person changes
-	private void encoderPersonChanged() {
-		//TODO
-		/*
-		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
-				"curve", EncoderSQL.Eccons.ALL, 
-				false, true);
+	private void encoderPersonChanged() 
+	{
+		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		
-		int activeCurvesNum = UtilEncoder.GetActiveCurvesNum(data);
-		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
+		array1RMUpdate(false);
+		encoder_change_displaced_weight_and_1RM ();
+	
+		blankEncoderInterface();
+	}
+	
+	/* called on:
+	 * encoderPersonChanged()
+	 * select_menuitem_mode_toggled(Constants.Menuitem_modes m)
+	 */
+	private void blankEncoderInterface() {
 		
-		label_encoder_user_curves_all_num.Text = data.Count.ToString();
-		*/
-
-	/*	
-		if(radio_encoder_analyze_individual_current_set.Active) 	//current set
-		{
-			//when person changes, current signal is not loaded, 
-			//then combo_encoder_analyze_curve_num_combo has to be empty
-			UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, new string [] {}, "");
-		} else if(radio_encoder_analyze_individual_current_session.Active) {
-			updateComboEncoderAnalyzeCurveNumSavedReps(data, activeCurvesNum);	
-//
-//			getActiveRepetitions() DOING THIS
-		} //rest of modes don't use this combo
-		*/
 		if(radio_encoder_analyze_individual_current_set.Active)
 			updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
 		else
 			prepareAnalyzeRepetitions();
-
-
 	
-		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
-		
 		//blank the encoderCaptureListStore
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 		button_encoder_analyze_sensitiveness();
@@ -3758,9 +3744,6 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_AB_save.Sensitive = false;
 		button_encoder_analyze_table_save.Sensitive = false;
 		button_encoder_analyze_1RM_save.Visible = false;
-
-		array1RMUpdate(false);
-		encoder_change_displaced_weight_and_1RM ();
 	}
 
 	private void encoderButtonsSensitive(encoderSensEnum option) 

@@ -12544,7 +12544,7 @@ isometric</property>
                                                   <widget class="GtkLabel" id="label200">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">Excentric-
+                                                    <property name="label" translatable="yes">Eccentric-
 Concentric</property>
                                                     <property name="justify">center</property>
                                                   </widget>

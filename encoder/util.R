@@ -1186,8 +1186,8 @@ fixInertialSignalIfNotFullyExtended <- function(signal, saveFile, specialDataFil
 		par(mfrow=c(1,1))
 	}
 
-	#define new signal only if the error in extended string is more than 4 revolutions
-	if(abs(meanByExtrema) > 800) {
+	#define new signal only if the error in extended string is more than 5 revolutions
+	if(abs(meanByExtrema) > 1000) {
 		#write(signal, file="/tmp/old.txt", ncolumns=length(signal), sep=", ")
 		signal <- signal[angleCorrectedCrossZero:length(signal)]
 

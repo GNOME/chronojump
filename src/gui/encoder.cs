@@ -5657,7 +5657,7 @@ public partial class ChronoJumpWindow
 		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "6.txt");
 			
 		//for chronojumpWindowTests
-		LogB.Error("finishPulseBar DONE: " + action.ToString());
+		LogB.Information("finishPulseBar DONE: " + action.ToString());
 		if(
 				action == encoderActions.LOAD ||	//load 
 				action == encoderActions.CURVES )	//recalculate

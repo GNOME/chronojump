@@ -310,7 +310,7 @@ public class EncoderRProcCapture : EncoderRProc
 		/*
 		 * curveCompressed print has made crash Chronojump once.
 		 * Seems to be a problem with multithreading and Console.SetOut, see logB Commit (added a try/catch there)
-		 * until is not fixed, better leave this commented
+		 * on 2016 August 5 (1.6.2) should be fixed with LogSync class, but for now better leave this commented until more tests are done
 		 */
 		//LogB.Information("curveSend [displacement array]",curveCompressed);
 

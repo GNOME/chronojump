@@ -69,6 +69,7 @@ public class ChronoJump
 		Log.WriteLine(string.Format("Client database option 2 in ... " + Util.GetDatabaseTempDir()));
 		*/
 		
+		LogSync.Initialize();
 		//1.4.10
 		Log.Start();
 		LogB.Debugging = true; //now LogB.Debug will be shown. Also there will be thread info on Warning, Error, Information

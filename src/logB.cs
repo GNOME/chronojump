@@ -103,6 +103,48 @@ public class LogEntry
 	}
 }
 
+/*
+ * LogB Console.Write is written to a file. see log.Start() at log.cs
+ * is done by
+ * 	System.Console.SetOut(sw);
+ * 	System.Console.SetError(sw);
+ * 	sw.AutoFlush = true;
+ * and this is not threadsafe.
+ * We store a string on this class with the Log that will be pushed to Console -> StreamWriter, only by the main thread
+ */
+// Based on O'Reilly C# Cookbook p. 1015
+public static class LogSync
+{
+	private static string logPending;
+	private static object syncObj = new object();
+
+	//only called one time (at Chronojump Main())
+	public static void Initialize()
+	{
+		logPending = "";
+	}
+
+	//called by threads 2 and above
+	public static void Add(string str)
+	{
+		lock(syncObj)
+		{
+			logPending += str;
+		}
+	}
+	
+	//called by thread 1 (GTK)
+	public static string ReadAndEmpty()
+	{
+		lock(syncObj)
+		{
+			string str = logPending;
+			logPending = "";
+			return str;
+		}
+	}
+}
+
 //copied from Banshee project
 //called LogB because in Chronojump there's already a Log class that will be deprecated soon
 public static class LogB
@@ -179,39 +221,40 @@ public static class LogB
 			}
 
 			var thread_name = String.Empty;
+			bool printNow = false;
 			if(Debugging) {
 				var thread = Thread.CurrentThread;
 				thread_name = thread.ManagedThreadId.ToString();
-				if(thread_name == "1")
+				if(thread_name == "1") {
+					printNow = true;
 					thread_name = "1-GTK ";
-				else
+				} else 
 					thread_name += "     ";
 			}
 
-			/*
-			 * TODO: Console.Write is written to a file. see log.Start() at log.cs
-			 * is done by 
-			 * 	System.Console.SetOut(sw);
-			 * 	System.Console.SetError(sw);
-			 * 	sw.AutoFlush = true;
-			 * and this is not threadsafe. 
-			 * Have to find a way using TextWriter.Synchronized http://stackoverflow.com/a/9539571
-			 */
-			try {
-				Console.Write("[{5}{0} {1:00}:{2:00}:{3:00}.{4:000}]", TypeString(type), DateTime.Now.Hour,
-						DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond, thread_name);
+			string lineStart = string.Format("[{5}{0} {1:00}:{2:00}:{3:00}.{4:000}]", TypeString(type), DateTime.Now.Hour,
+					DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond, thread_name);
 
-				ConsoleCrayon.ResetColor();
-
-				if(details != null) {
-					Console.WriteLine(" {0} - {1}", message, details);
-				} else {
-					if(type == LogEntryType.Debug)
-						Console.Write(" {0}", message);
-					else
-						Console.WriteLine(" {0}", message);
-				}
-			} catch (System.IndexOutOfRangeException e) {
+			if(printNow) {
+				//try {
+					Console.Write(lineStart);
+	
+					ConsoleCrayon.ResetColor();
+	
+					message += LogSync.ReadAndEmpty();
+	
+					if(details != null) {
+						Console.WriteLine(" {0} - {1}", message, details);
+					} else {
+						if(type == LogEntryType.Debug)
+							Console.Write(" {0}", message);
+						else
+							Console.WriteLine(" {0}", message);
+					}
+				//} catch (System.IndexOutOfRangeException e) {
+				//}
+			} else {
+				LogSync.Add(lineStart + "\n" + message);
 			}
 		}
 

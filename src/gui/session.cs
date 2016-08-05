@@ -565,9 +565,12 @@ public class SessionAddEditWindow {
 	{
 		//check if name of session exists (is owned by other session),
 		//but all is ok if the name is the same as the old name (editing)
-		bool sessionNameExists = Sqlite.Exists (false, Constants.SessionTable, Util.RemoveTildeAndColon(entry_name.Text));
-		if(sessionNameExists && Util.RemoveTildeAndColon(entry_name.Text) != currentSession.Name ) {
-			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
+		string name = Util.RemoveTildeAndColon(entry_name.Text);
+		name = Util.RemoveChar(name, '"');
+
+		bool sessionNameExists = Sqlite.Exists (false, Constants.SessionTable, name);
+		if(sessionNameExists && name != currentSession.Name ) {
+			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), name);
 			ErrorWindow.Show(myString);
 		} else {
 			int sportID;
@@ -589,21 +592,25 @@ public class SessionAddEditWindow {
 			else
 				levelID = Util.FetchID(UtilGtk.ComboGetActive(combo_levels));
 
+			string place = Util.RemoveTildeAndColon(entry_place.Text);
+			string comments = Util.RemoveTildeAndColon(textview.Buffer.Text);
+			place = Util.RemoveChar(place, '"');
+			comments = Util.RemoveChar(comments, '"');
+
 			if(addSession) 
-				currentSession = new Session (Util.RemoveTildeAndColon(entry_name.Text), 
-						Util.RemoveTildeAndColon(entry_place.Text), 
+				currentSession = new Session (name, place,
 						dateTime,
 						sportID, speciallityID, levelID,
-						Util.RemoveTildeAndColon(textview.Buffer.Text),
+						comments,
 						Constants.ServerUndefinedID);
 			else {
-				currentSession.Name = Util.RemoveTildeAndColon(entry_name.Text.ToString());
-				currentSession.Place = Util.RemoveTildeAndColon(entry_place.Text.ToString()); 
+				currentSession.Name = name;
+				currentSession.Place = place;
 				currentSession.Date = dateTime;
 				currentSession.PersonsSportID = sportID;
 				currentSession.PersonsSpeciallityID = speciallityID;
 				currentSession.PersonsPractice = levelID;
-				currentSession.Comments = Util.RemoveTildeAndColon(textview.Buffer.Text);
+				currentSession.Comments = comments;
 
 				SqliteSession.Update(currentSession.UniqueID, currentSession.Name, 
 						currentSession.Place, currentSession.Date, 

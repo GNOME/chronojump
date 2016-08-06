@@ -23,17 +23,18 @@ using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
 using System.Threading;
 
-public partial class ChronoJumpWindow 
+/* TODO:
+ * separate in various classes, files
+ * progressBar
+ * button to end
+ * summary
+ */
+
+public class CJTests 
 {
-	public static int TestNum;
-	public static bool TestsActive = false;
-	
-	//to repeat some actions
-	private static int bucleCount;
-		
-	private List<cjTestTypes> sequence;
-	
-	public enum cjTestTypes { 
+	public enum Types 
+	{
+		MODE_POWERGRAVITATORY, 
 		MODE_POWERINERTIAL, 
 		SESSION_LOAD,
 		PERSON_SELECT,
@@ -41,100 +42,226 @@ public partial class ChronoJumpWindow
 		ENCODER_ECC_CON_INVERT,
 		ENCODER_RECALCULATE,
 		ENCODER_SET_SAVE_REPS,
-		ENCODER_SET_SAVE_REPS_BUCLE
-	}
-
-	private List<cjTestTypes> sequenceEncoder1()
-	{
-		return new List<cjTestTypes> { 
-			cjTestTypes.MODE_POWERINERTIAL, 
-				cjTestTypes.SESSION_LOAD,
-				cjTestTypes.PERSON_SELECT,
-				cjTestTypes.ENCODER_SIGNAL_LOAD,
-				cjTestTypes.ENCODER_ECC_CON_INVERT,
-				cjTestTypes.ENCODER_RECALCULATE,
-				cjTestTypes.ENCODER_ECC_CON_INVERT,
-				cjTestTypes.ENCODER_RECALCULATE,
-				cjTestTypes.ENCODER_ECC_CON_INVERT,
-				cjTestTypes.ENCODER_RECALCULATE,
-				cjTestTypes.ENCODER_ECC_CON_INVERT,
-				cjTestTypes.ENCODER_RECALCULATE,
-				/*
-				cjTestTypes.ENCODER_SET_SAVE_REPS,
-				cjTestTypes.ENCODER_SET_SAVE_REPS,
-				cjTestTypes.ENCODER_SET_SAVE_REPS,
-				cjTestTypes.ENCODER_SET_SAVE_REPS,
-				*/
-				cjTestTypes.ENCODER_SET_SAVE_REPS_BUCLE
-		};
+		ENCODER_SET_SAVE_REPS_BUCLE,
+		BUCLE_1_ON,
+		BUCLE_1_OFF,
+		BUCLE_2_ON,
+		BUCLE_2_OFF,
+		END
 	}
 	
-	private void chronojumpWindowTestsStart() 
+	public static List<CJTests.Types> SequenceEncoder1 = new List<CJTests.Types> 
 	{
-		TestsActive = true;
-		TestNum = 0;
+		CJTests.Types.MODE_POWERINERTIAL, 
+		CJTests.Types.SESSION_LOAD,
+		CJTests.Types.PERSON_SELECT,
+		CJTests.Types.ENCODER_SIGNAL_LOAD,
+		CJTests.Types.ENCODER_ECC_CON_INVERT,
+		CJTests.Types.ENCODER_RECALCULATE,
+		CJTests.Types.ENCODER_ECC_CON_INVERT,
+		CJTests.Types.ENCODER_RECALCULATE,
+		CJTests.Types.ENCODER_ECC_CON_INVERT,
+		CJTests.Types.ENCODER_RECALCULATE,
+		CJTests.Types.ENCODER_ECC_CON_INVERT,
+		CJTests.Types.ENCODER_RECALCULATE,
+		/*
+		   CJTests.Types.ENCODER_SET_SAVE_REPS,
+		   CJTests.Types.ENCODER_SET_SAVE_REPS,
+		   CJTests.Types.ENCODER_SET_SAVE_REPS,
+		   CJTests.Types.ENCODER_SET_SAVE_REPS,
+		   */
+		CJTests.Types.ENCODER_SET_SAVE_REPS_BUCLE
+	};
+	
+	public static List<CJTests.Types> SequenceEncoder2 = new List<CJTests.Types> 
+	{
+		CJTests.Types.MODE_POWERGRAVITATORY, 
+		CJTests.Types.SESSION_LOAD,
+		CJTests.Types.BUCLE_1_ON,
+			CJTests.Types.PERSON_SELECT, //bucle1startPos //repeat from here
+			CJTests.Types.BUCLE_2_ON,
+				CJTests.Types.ENCODER_SIGNAL_LOAD, //bucle2startPos
+				CJTests.Types.ENCODER_RECALCULATE,
+			CJTests.Types.BUCLE_2_OFF,
+		CJTests.Types.BUCLE_1_OFF,
+		CJTests.Types.END
+	};
+
+}
+
+public partial class ChronoJumpWindow 
+{
+	private static int sequenceCurrent;
+	private static bool testsActive = false;
+	
+	//to repeat some actions
+	private static int bucleCount;
+		
+	private List<CJTests.Types> sequence;
+	
+	/*
+	private void chronojumpWindowTestsStartOld() 
+	{
+		testsActive = true;
+		sequenceCurrent = 0;
 		bucleCount = 2;
 		sequence = sequenceEncoder1();
-
+	
 		chronojumpWindowTestsDo();
 	}
-	private void chronojumpWindowTestsNext() 
+	private void chronojumpWindowTestsNextOld() 
 	{
-		if(TestsActive) 
+		if(testsActive) 
 		{
-			TestNum ++;
-			if(TestNum < sequence.Count)
+			sequenceCurrent ++;
+			if(sequenceCurrent < sequence.Count)
 				chronojumpWindowTestsDo();
 			else {
 				bucleCount --;
 				if(bucleCount > 0) {
-					TestNum = 0;
+					sequenceCurrent = 0;
 					chronojumpWindowTestsDo();
 				}
 			}
 		}
 	}
-	
+	*/
+
+	int bucle1count;
+	int bucle2count;
+	int bucle1startPos;
+	int bucle2startPos;
+	bool bucle1ended;
+	bool bucle2ended;
+	int bucleCurrent;
+	private void chronojumpWindowTestsStart() 
+	{
+		testsActive = true;
+		sequence = CJTests.SequenceEncoder2;
+		sequenceCurrent = 0;
+		bucleCurrent = 0;
+
+		chronojumpWindowTestsDo();
+	}
+
+	//TODO: move this and all the control variables to CJTests class	
+	private void chronojumpWindowTestsNext() 
+	{
+		if(! testsActive) 
+			return;
+
+		sequenceCurrent ++;
+
+		if(sequence[sequenceCurrent] == CJTests.Types.BUCLE_1_ON) 
+		{
+			bucleCurrent = 1;
+			bucle1ended = false;
+			bucle1count = 0;
+			sequenceCurrent ++;
+			bucle1startPos = sequenceCurrent;
+		} 
+		
+		if(sequence[sequenceCurrent] == CJTests.Types.BUCLE_2_ON) 
+		{
+			bucleCurrent = 2;
+			bucle2ended = false;
+			bucle2count = 0;
+			sequenceCurrent ++;
+			bucle2startPos = sequenceCurrent;
+		}
+		
+		if(sequence[sequenceCurrent] == CJTests.Types.BUCLE_2_OFF) 
+		{
+			if(bucle2ended) {
+				//LogB.Information(" 2 OFF A");
+				bucleCurrent --;
+				sequenceCurrent ++;
+			} else {
+				//LogB.Information(" 2 OFF B");
+				bucle2count ++;
+				sequenceCurrent = bucle2startPos;
+			}
+		} 
+		
+		if(sequence[sequenceCurrent] == CJTests.Types.BUCLE_1_OFF) 
+		{
+			if(bucle1ended) {
+				//LogB.Information(" 1 OFF A");
+				bucleCurrent --;
+				sequenceCurrent ++;
+			}
+			else {
+				//LogB.Information(" 1 OFF B");
+				bucle1count ++;
+				sequenceCurrent = bucle1startPos;
+			}
+		} 
+		
+			
+		chronojumpWindowTestsDo();
+		
+		if(sequence[sequenceCurrent] == CJTests.Types.END)
+		{
+			testsActive = false;
+			return;
+		}
+	}
+
 	private void chronojumpWindowTestsDo() 
 	{
-		LogB.Information("TestNum: " + TestNum.ToString());
+		LogB.Information("sequenceCurrent: " + sequenceCurrent.ToString());
 		
 		//if process is very fast (no threads, no GUI problems) just call next from this method
 		bool callNext = false;
 
-		switch(sequence[TestNum]) {
-			case cjTestTypes.MODE_POWERINERTIAL:
+		bool bucleContinues = true;
+
+		int bcount = 0;
+		if(bucleCurrent == 1)
+			bcount = bucle1count;
+		else if(bucleCurrent == 2)
+			bcount = bucle2count;
+
+		switch(sequence[sequenceCurrent]) {
+			case CJTests.Types.MODE_POWERGRAVITATORY:
+				chronojumpWindowTestsMode(Constants.Menuitem_modes.POWERGRAVITATORY);
+				break;
+			case CJTests.Types.MODE_POWERINERTIAL:
 				chronojumpWindowTestsMode(Constants.Menuitem_modes.POWERINERTIAL);
 				break;
-			case cjTestTypes.SESSION_LOAD:
+			case CJTests.Types.SESSION_LOAD:
 				chronojumpWindowTestsLoadSession(); //this also selects first person
 				break;
-			case cjTestTypes.PERSON_SELECT:
-				chronojumpWindowTestsSelectPerson(1); //select 2nd person (Giles) //TODO: change this
+			case CJTests.Types.PERSON_SELECT:
+				bucleContinues = chronojumpWindowTestsSelectPerson(bcount);
 				callNext = true;
 				break;
-			case cjTestTypes.ENCODER_SIGNAL_LOAD:
-				chronojumpWindowTestsEncoderLoadSignal();
+			case CJTests.Types.ENCODER_SIGNAL_LOAD:
+				bucleContinues = chronojumpWindowTestsEncoderLoadSignal(bcount);
+				if(bucleContinues)
+					callNext = true;
 				break;
-			case cjTestTypes.ENCODER_ECC_CON_INVERT:
+			case CJTests.Types.ENCODER_ECC_CON_INVERT:
 				chronojumpWindowTestsEncoderEccConInvert();
 				callNext = true;
 				break;
-			case cjTestTypes.ENCODER_RECALCULATE:
+			case CJTests.Types.ENCODER_RECALCULATE:
 				chronojumpWindowTestsEncoderRecalculate();
 				break;
-			case cjTestTypes.ENCODER_SET_SAVE_REPS:
+			case CJTests.Types.ENCODER_SET_SAVE_REPS:
 				chronojumpWindowTestsEncoderSetSaveReps();
 				callNext = true;
 				break;
-			case cjTestTypes.ENCODER_SET_SAVE_REPS_BUCLE:
+			case CJTests.Types.ENCODER_SET_SAVE_REPS_BUCLE:
 				chronojumpWindowTestsEncoderSetSaveRepsBucle();
 				break;
-				/*
-				   case 6:
-				   LogB.Information("ALL TESTS DONE");
-				   break;
-				*/
+		}
+
+		if(! bucleContinues) {
+			if(bucleCurrent == 2)
+				bucle2ended = true;
+			else if(bucleCurrent == 1)
+				bucle1ended = true;
 		}
 
 		if(callNext)		
@@ -159,33 +286,45 @@ public partial class ChronoJumpWindow
 		LogB.TestStart("chronojumpWindowTestsLoadSession");
 
 		on_open_activate(new Object(), new EventArgs());
-		sessionLoadWin.SelectRow(0);
+		sessionLoadWin.SelectRow(5); //0 is the first //TODO: hardcoded!!
 		sessionLoadWin.Button_accept.Click();
 		
 		LogB.TestEnd("chronojumpWindowTestsLoadSession");
 	}
 			
-	private void chronojumpWindowTestsSelectPerson(int numInPersonTV) 
+	private bool chronojumpWindowTestsSelectPerson(int count)
 	{
 		LogB.TestStart("chronojumpWindowTestsSelectPerson");
 
-		selectRowTreeView_persons(treeview_persons, treeview_persons_store, numInPersonTV);
+		bool personExists = selectRowTreeView_persons(treeview_persons, treeview_persons_store, count);
+		if(! personExists) {
+			LogB.TestEnd("chronojumpWindowTestsSelectPerson_ended");
+			return false;
+		}
 		
-		LogB.TestEnd("chronojumpWindowTestsSelectPerson");
+		LogB.TestEnd("chronojumpWindowTestsSelectPerson_continuing");
+		return true;
 	}
 
-	private void chronojumpWindowTestsEncoderLoadSignal()
+	private bool chronojumpWindowTestsEncoderLoadSignal(int count)
 	{
 		LogB.TestStart("chronojumpWindowTestsLoadSignal");
 
 		ArrayList data = encoderLoadSignalData(); //selects signals of this person, this session, this encoderGI
-		EncoderSQL es = (EncoderSQL) data[0]; //gets first
+
+		if(count >= data.Count) {
+			LogB.TestEnd("chronojumpWindowTestsLoadSignal_ended");
+			return false;
+		}
+		
+		EncoderSQL es = (EncoderSQL) data[count]; //first is 0
 
 		on_encoder_load_signal_clicked (Convert.ToInt32(es.uniqueID)); //opens load window with first selected
 
 		genericWin.Button_accept.Click(); //this will call accepted
 
-		LogB.TestEnd("chronojumpWindowTestsLoadSignal");
+		LogB.TestEnd("chronojumpWindowTestsLoadSignal_continuing");
+		return true;
 	}
 	
 	private void chronojumpWindowTestsEncoderEccConInvert()
@@ -271,20 +410,14 @@ public partial class ChronoJumpWindow
 		
 		Constants.EncoderAutoSaveCurve easc;
 		if(i == 1)
-			//easc = Constants.EncoderAutoSaveCurve.ALL;
 			button_encoder_capture_curves_all.Click();
 		else if(i == 2)
-			//easc = Constants.EncoderAutoSaveCurve.BEST;
 			button_encoder_capture_curves_best.Click();
 		else if(i == 3)
-			//easc = Constants.EncoderAutoSaveCurve.NONE;
 			button_encoder_capture_curves_none.Click();
 		else
-			//easc = Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE;
 			button_encoder_capture_curves_4top.Click();
 
-		//encoderCaptureSaveCurvesAllNoneBest(easc, encoderCaptureOptionsWin.GetMainVariable());
-			
 		saveRepsBucleCount --;
 		if(saveRepsBucleCount > 0)
 			return true;

@@ -24,7 +24,7 @@ using System.Collections.Generic; //List<T>
 using System.Threading;
 
 /* TODO:
- * separate in various classes, files
+ * separate in various classes (done!), files
  * progressBar
  * button to end
  * summary
@@ -32,6 +32,15 @@ using System.Threading;
 
 public class CJTests 
 {
+	private static int sequencePos;
+	private static int bucleCurrent;
+	private static int bucle1count;
+	private static int bucle2count;
+	private static int bucle1startPos;
+	private static int bucle2startPos;
+	private static bool bucle1ended;
+	private static bool bucle2ended;
+	
 	public enum Types 
 	{
 		MODE_POWERGRAVITATORY, 
@@ -49,7 +58,8 @@ public class CJTests
 		BUCLE_2_OFF,
 		END
 	}
-	
+
+	/*	
 	public static List<CJTests.Types> SequenceEncoder1 = new List<CJTests.Types> 
 	{
 		CJTests.Types.MODE_POWERINERTIAL, 
@@ -64,14 +74,13 @@ public class CJTests
 		CJTests.Types.ENCODER_RECALCULATE,
 		CJTests.Types.ENCODER_ECC_CON_INVERT,
 		CJTests.Types.ENCODER_RECALCULATE,
-		/*
-		   CJTests.Types.ENCODER_SET_SAVE_REPS,
-		   CJTests.Types.ENCODER_SET_SAVE_REPS,
-		   CJTests.Types.ENCODER_SET_SAVE_REPS,
-		   CJTests.Types.ENCODER_SET_SAVE_REPS,
-		   */
+		//CJTests.Types.ENCODER_SET_SAVE_REPS,
+		//CJTests.Types.ENCODER_SET_SAVE_REPS,
+		//CJTests.Types.ENCODER_SET_SAVE_REPS,
+		//CJTests.Types.ENCODER_SET_SAVE_REPS,
 		CJTests.Types.ENCODER_SET_SAVE_REPS_BUCLE
 	};
+	*/
 	
 	public static List<CJTests.Types> SequenceEncoder2 = new List<CJTests.Types> 
 	{
@@ -86,143 +95,123 @@ public class CJTests
 		CJTests.Types.BUCLE_1_OFF,
 		CJTests.Types.END
 	};
+	
+	public static void Initialize() 
+	{
+		sequencePos = 0;
+		bucleCurrent = 0;
+	}
+
+	public static int Next(List<CJTests.Types> sequence) 
+	{
+		sequencePos ++;
+
+		if(sequence[sequencePos] == CJTests.Types.BUCLE_1_ON) 
+		{
+			bucleCurrent = 1;
+			bucle1ended = false;
+			bucle1count = 0;
+			sequencePos ++;
+			bucle1startPos = sequencePos;
+		} 
+		
+		if(sequence[sequencePos] == CJTests.Types.BUCLE_2_ON) 
+		{
+			bucleCurrent = 2;
+			bucle2ended = false;
+			bucle2count = 0;
+			sequencePos ++;
+			bucle2startPos = sequencePos;
+		}
+		
+		if(sequence[sequencePos] == CJTests.Types.BUCLE_2_OFF) 
+		{
+			if(bucle2ended) {
+				bucleCurrent --;
+				sequencePos ++;
+			} else {
+				bucle2count ++;
+				sequencePos = bucle2startPos;
+			}
+		} 
+		
+		if(sequence[sequencePos] == CJTests.Types.BUCLE_1_OFF) 
+		{
+			if(bucle1ended) {
+				bucleCurrent --;
+				sequencePos ++;
+			}
+			else {
+				bucle1count ++;
+				sequencePos = bucle1startPos;
+			}
+		} 
+		
+		if(sequence[sequencePos] == CJTests.Types.END)
+			return -1;
+
+		return sequencePos;
+	}
+	
+	//get the iterating value on current bucle	
+	public static int GetBucleCount() 
+	{
+		if(bucleCurrent == 1)
+			return bucle1count;
+		else if(bucleCurrent == 2)
+			return bucle2count;
+
+		return 0;
+	}
+
+	public static void EndBucleCurrent() 
+	{
+		if(bucleCurrent == 2)
+			bucle2ended = true;
+		else if(bucleCurrent == 1)
+			bucle1ended = true;
+	}
 
 }
 
 public partial class ChronoJumpWindow 
 {
-	private static int sequenceCurrent;
 	private static bool testsActive = false;
-	
-	//to repeat some actions
-	private static int bucleCount;
-		
 	private List<CJTests.Types> sequence;
 	
-	/*
-	private void chronojumpWindowTestsStartOld() 
-	{
-		testsActive = true;
-		sequenceCurrent = 0;
-		bucleCount = 2;
-		sequence = sequenceEncoder1();
-	
-		chronojumpWindowTestsDo();
-	}
-	private void chronojumpWindowTestsNextOld() 
-	{
-		if(testsActive) 
-		{
-			sequenceCurrent ++;
-			if(sequenceCurrent < sequence.Count)
-				chronojumpWindowTestsDo();
-			else {
-				bucleCount --;
-				if(bucleCount > 0) {
-					sequenceCurrent = 0;
-					chronojumpWindowTestsDo();
-				}
-			}
-		}
-	}
-	*/
-
-	int bucle1count;
-	int bucle2count;
-	int bucle1startPos;
-	int bucle2startPos;
-	bool bucle1ended;
-	bool bucle2ended;
-	int bucleCurrent;
 	private void chronojumpWindowTestsStart() 
 	{
 		testsActive = true;
 		sequence = CJTests.SequenceEncoder2;
-		sequenceCurrent = 0;
-		bucleCurrent = 0;
 
-		chronojumpWindowTestsDo();
+		CJTests.Initialize();
+
+		chronojumpWindowTestsDo(sequence[0]);
 	}
-
-	//TODO: move this and all the control variables to CJTests class	
-	private void chronojumpWindowTestsNext() 
+	
+	public void chronojumpWindowTestsNext() 
 	{
 		if(! testsActive) 
 			return;
 
-		sequenceCurrent ++;
+		int pos = CJTests.Next(sequence);
 
-		if(sequence[sequenceCurrent] == CJTests.Types.BUCLE_1_ON) 
-		{
-			bucleCurrent = 1;
-			bucle1ended = false;
-			bucle1count = 0;
-			sequenceCurrent ++;
-			bucle1startPos = sequenceCurrent;
-		} 
-		
-		if(sequence[sequenceCurrent] == CJTests.Types.BUCLE_2_ON) 
-		{
-			bucleCurrent = 2;
-			bucle2ended = false;
-			bucle2count = 0;
-			sequenceCurrent ++;
-			bucle2startPos = sequenceCurrent;
-		}
-		
-		if(sequence[sequenceCurrent] == CJTests.Types.BUCLE_2_OFF) 
-		{
-			if(bucle2ended) {
-				//LogB.Information(" 2 OFF A");
-				bucleCurrent --;
-				sequenceCurrent ++;
-			} else {
-				//LogB.Information(" 2 OFF B");
-				bucle2count ++;
-				sequenceCurrent = bucle2startPos;
-			}
-		} 
-		
-		if(sequence[sequenceCurrent] == CJTests.Types.BUCLE_1_OFF) 
-		{
-			if(bucle1ended) {
-				//LogB.Information(" 1 OFF A");
-				bucleCurrent --;
-				sequenceCurrent ++;
-			}
-			else {
-				//LogB.Information(" 1 OFF B");
-				bucle1count ++;
-				sequenceCurrent = bucle1startPos;
-			}
-		} 
-		
-			
-		chronojumpWindowTestsDo();
-		
-		if(sequence[sequenceCurrent] == CJTests.Types.END)
-		{
+		if(pos >= 0)
+			chronojumpWindowTestsDo(sequence[pos]);
+		else
 			testsActive = false;
-			return;
-		}
 	}
 
-	private void chronojumpWindowTestsDo() 
+	private void chronojumpWindowTestsDo(CJTests.Types testType) 
 	{
-		LogB.Information("sequenceCurrent: " + sequenceCurrent.ToString());
-		
 		//if process is very fast (no threads, no GUI problems) just call next from this method
 		bool callNext = false;
-
+		
 		bool bucleContinues = true;
+		int bcount = CJTests.GetBucleCount();
 
-		int bcount = 0;
-		if(bucleCurrent == 1)
-			bcount = bucle1count;
-		else if(bucleCurrent == 2)
-			bcount = bucle2count;
-
-		switch(sequence[sequenceCurrent]) {
+		switch(testType) 
+		{
 			case CJTests.Types.MODE_POWERGRAVITATORY:
 				chronojumpWindowTestsMode(Constants.Menuitem_modes.POWERGRAVITATORY);
 				break;
@@ -257,17 +246,17 @@ public partial class ChronoJumpWindow
 				break;
 		}
 
-		if(! bucleContinues) {
-			if(bucleCurrent == 2)
-				bucle2ended = true;
-			else if(bucleCurrent == 1)
-				bucle1ended = true;
-		}
+		if(! bucleContinues)
+			CJTests.EndBucleCurrent();
 
 		if(callNext)		
 			chronojumpWindowTestsNext();
 	}
 
+
+	/*
+	 * TESTS START
+	 */
 
 	private void chronojumpWindowTestsMode(Constants.Menuitem_modes m) 
 	{
@@ -427,5 +416,10 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 	}
+	
+	/*
+	 * TESTS END
+	 */
+
 
 }

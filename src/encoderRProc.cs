@@ -465,9 +465,9 @@ public class EncoderRProcAnalyze : EncoderRProc
 
 
 			if(outputFileCheck2 == "")
-				while ( ! ( fileWritten(outputFileCheck) || CancelRScript) );
+				while ( ! ( Util.FileReadable(outputFileCheck) || CancelRScript) );
 			else
-				while ( ! ( (fileWritten(outputFileCheck) && fileWritten(outputFileCheck2)) || CancelRScript ) );
+				while ( ! ( (Util.FileReadable(outputFileCheck) && Util.FileReadable(outputFileCheck2)) || CancelRScript ) );
 
 			//copy export from temp file to the file that user has selected
 			if(es.Ep.Analysis == "exportCSV" && ! CancelRScript)
@@ -530,9 +530,9 @@ public class EncoderRProcAnalyze : EncoderRProc
 
 		LogB.Debug("waiting files");
 		if(outputFileCheck2 == "")
-			while ( ! ( fileWritten(outputFileCheck) || CancelRScript) );
+			while ( ! ( Util.FileReadable(outputFileCheck) || CancelRScript) );
 		else
-			while ( ! ( (fileWritten(outputFileCheck) && fileWritten(outputFileCheck2)) || CancelRScript ) );
+			while ( ! ( (Util.FileReadable(outputFileCheck) && Util.FileReadable(outputFileCheck2)) || CancelRScript ) );
 			
 		//copy export from temp file to the file that user has selected
 		if(es.Ep.Analysis == "exportCSV" && ! CancelRScript)
@@ -583,17 +583,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 		LogB.Information("Deleting... " + filename);
 		if (File.Exists(filename))
 			File.Delete(filename);
-	}
-
-	private bool fileWritten(string filename)
-	{
-		if(File.Exists(filename)) {
-			FileInfo fi = new FileInfo(filename);
-			if(fi.Length > 0)
-				return true;
-		}
-
-		return false;
+		LogB.Information("Deleted " + filename);
 	}
 
 }

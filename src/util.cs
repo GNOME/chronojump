@@ -1062,6 +1062,20 @@ public class Util
 	public static bool FileExists(string fileName){
 		return File.Exists(fileName);
 	}
+	
+	public static bool FileReadable(string filename)
+	{
+		//http://stackoverflow.com/a/17318735
+		try {
+			File.Open(filename, FileMode.Open, FileAccess.Read).Dispose();
+			//LogB.Information("success at Util.FileReadable: " + filename);
+			return true;
+		}
+		catch (IOException) {
+			System.Threading.Thread.Sleep(10);
+			return false;
+		}
+	}
 
 	//not recommended, better use below method. Better for bigger files
 	public static string ReadFile(string fileName, bool removeEOL)

@@ -1129,17 +1129,26 @@ fixInertialSignalIfNotFullyExtended <- function(signal, saveFile, specialDataFil
 		maximums <- maximums.temp
 		minimums <- minimums.temp
 
+		if(length(maximums) < 1 | length(minimums) < 1)
+			return(signal)
+
+
 		#remove the first value of the maximums OR minimums (just the first one of both)
 		if(maximums[1] < minimums[1])
 			maximums <- maximums[-1]
 		else
 			minimums <- minimums[-1]
+		
+		if(length(maximums) < 1 | length(minimums) < 1)
+			return(signal)
+
 
 		#remove the last value of the maximums OR minimums (just the last one of both)
 		if(maximums[length(maximums)] > minimums[length(minimums)])
 			maximums <- maximums[-length(maximums)]
 		else
 			minimums <- minimums[-length(minimums)]
+		
 	}
 
 	#return if no data

@@ -68,29 +68,24 @@ public abstract class EncoderRProc
 		if(p == null) {
 			LogB.Debug("p == null");
 			return false;
+		} else {
+			if(isRunningThisProcess(p))
+				return true;
 		}
-
-		/*	
-		LogB.Debug("print processes");	
-		Process [] pids = Process.GetProcesses();
-		foreach (Process myPid in pids)
-			LogB.Information(myPid.ToString());
-		*/
-		
-		LogB.Debug(string.Format("last pid id {0}", p.Id));
-
-
-		//if(isRunningThisProcess("Rscript") || isRunningThisProcess("*R*"))
-		if(isRunningThisProcess(p.Id))
-			return true;
 	
 		return false;
 	}
 
-	private bool isRunningThisProcess(int id)
+	private bool isRunningThisProcess(Process p)
 	{
+		/*
+		 * Process Id is not valid if the associated process is not running.
+		 * Need to ensure that the process is running before attempting to retrieve the Id property.
+		 */
+		
 		try {
-			Process pid = Process.GetProcessById(id);
+			LogB.Debug(string.Format("last pid id {0}", p.Id));
+			Process pid = Process.GetProcessById(p.Id);
 			if(pid == null)
 				return false;
 		} catch {

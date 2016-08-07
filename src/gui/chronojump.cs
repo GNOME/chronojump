@@ -40,7 +40,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuBar main_menu;
 	[Widget] Gtk.MenuItem menuitem_mode;
 	
-	[Widget] Gtk.Button button_gui_tests;
+	[Widget] Gtk.HBox hbox_gui_tests;
+	[Widget] Gtk.SpinButton spin_gui_tests;
 	
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs;
@@ -6535,13 +6536,13 @@ LogB.Debug("X");
 		encoderRProcCapture.Debug = true;
 		encoderRProcAnalyze.Debug = true;
 	
-		button_gui_tests.Visible = true;
+		hbox_gui_tests.Visible = true;
 
 		preferencesWin.DebugActivated();
 	}
 
 	private void on_button_gui_tests_clicked (object o, EventArgs args) {
-		chronojumpWindowTestsStart();
+		chronojumpWindowTestsStart(Convert.ToInt32(spin_gui_tests.Value -1));
 	}
 
 	private void on_about1_activate (object o, EventArgs args) {

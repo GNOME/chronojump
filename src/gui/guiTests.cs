@@ -24,6 +24,7 @@ using System.Collections.Generic; //List<T>
 using System.Threading;
 
 /* TODO:
+ * need to be able to select session
  * separate in various classes (done!), files
  * progressBar
  * button to end
@@ -32,14 +33,15 @@ using System.Threading;
 
 public class CJTests 
 {
-	private static int sequencePos;
-	private static int bucleCurrent;
-	private static int bucle1count;
-	private static int bucle2count;
-	private static int bucle1startPos;
-	private static int bucle2startPos;
-	private static bool bucle1ended;
-	private static bool bucle2ended;
+	private List<Types> sequence;
+	private int sequencePos;
+	private int bucleCurrent;
+	private int bucle1count;
+	private int bucle2count;
+	private int bucle1startPos;
+	private int bucle2startPos;
+	private bool bucle1ended;
+	private bool bucle2ended;
 	
 	public enum Types 
 	{
@@ -60,7 +62,7 @@ public class CJTests
 	}
 
 	/*	
-	public static List<CJTests.Types> SequenceEncoder1 = new List<CJTests.Types> 
+	public static List<Types> SequenceEncoder1 = new List<Types> 
 	{
 		CJTests.Types.MODE_POWERINERTIAL, 
 		CJTests.Types.SESSION_LOAD,
@@ -82,7 +84,7 @@ public class CJTests
 	};
 	*/
 	
-	public static List<CJTests.Types> SequenceEncoder2 = new List<CJTests.Types> 
+	private List<Types> sequenceEncoder2 = new List<Types> 
 	{
 		CJTests.Types.MODE_POWERGRAVITATORY, 
 		CJTests.Types.SESSION_LOAD,
@@ -96,17 +98,18 @@ public class CJTests
 		CJTests.Types.END
 	};
 	
-	public static void Initialize() 
+	public CJTests()
 	{
+		sequence = sequenceEncoder2;
 		sequencePos = 0;
 		bucleCurrent = 0;
 	}
 
-	public static int Next(List<CJTests.Types> sequence) 
+	public bool Next() 
 	{
 		sequencePos ++;
 
-		if(sequence[sequencePos] == CJTests.Types.BUCLE_1_ON) 
+		if(sequence[sequencePos] == Types.BUCLE_1_ON) 
 		{
 			bucleCurrent = 1;
 			bucle1ended = false;
@@ -115,7 +118,7 @@ public class CJTests
 			bucle1startPos = sequencePos;
 		} 
 		
-		if(sequence[sequencePos] == CJTests.Types.BUCLE_2_ON) 
+		if(sequence[sequencePos] == Types.BUCLE_2_ON) 
 		{
 			bucleCurrent = 2;
 			bucle2ended = false;
@@ -124,7 +127,7 @@ public class CJTests
 			bucle2startPos = sequencePos;
 		}
 		
-		if(sequence[sequencePos] == CJTests.Types.BUCLE_2_OFF) 
+		if(sequence[sequencePos] == Types.BUCLE_2_OFF) 
 		{
 			if(bucle2ended) {
 				bucleCurrent --;
@@ -135,7 +138,7 @@ public class CJTests
 			}
 		} 
 		
-		if(sequence[sequencePos] == CJTests.Types.BUCLE_1_OFF) 
+		if(sequence[sequencePos] == Types.BUCLE_1_OFF) 
 		{
 			if(bucle1ended) {
 				bucleCurrent --;
@@ -148,13 +151,18 @@ public class CJTests
 		} 
 		
 		if(sequence[sequencePos] == CJTests.Types.END)
-			return -1;
+			return false;
 
-		return sequencePos;
+		return true;
 	}
 	
+	public Types GetSequencePos()
+	{
+		return sequence[sequencePos];
+	}
+
 	//get the iterating value on current bucle	
-	public static int GetBucleCount() 
+	public int GetBucleCount() 
 	{
 		if(bucleCurrent == 1)
 			return bucle1count;
@@ -164,7 +172,7 @@ public class CJTests
 		return 0;
 	}
 
-	public static void EndBucleCurrent() 
+	public void EndBucleCurrent() 
 	{
 		if(bucleCurrent == 2)
 			bucle2ended = true;
@@ -177,16 +185,15 @@ public class CJTests
 public partial class ChronoJumpWindow 
 {
 	private static bool testsActive = false;
-	private List<CJTests.Types> sequence;
+	private CJTests cjTest;
 	
 	private void chronojumpWindowTestsStart() 
 	{
 		testsActive = true;
-		sequence = CJTests.SequenceEncoder2;
 
-		CJTests.Initialize();
+		cjTest = new CJTests();
 
-		chronojumpWindowTestsDo(sequence[0]);
+		chronojumpWindowTestsDo();
 	}
 	
 	public void chronojumpWindowTestsNext() 
@@ -194,23 +201,21 @@ public partial class ChronoJumpWindow
 		if(! testsActive) 
 			return;
 
-		int pos = CJTests.Next(sequence);
-
-		if(pos >= 0)
-			chronojumpWindowTestsDo(sequence[pos]);
+		if(cjTest.Next())
+			chronojumpWindowTestsDo();
 		else
 			testsActive = false;
 	}
 
-	private void chronojumpWindowTestsDo(CJTests.Types testType) 
+	private void chronojumpWindowTestsDo() 
 	{
 		//if process is very fast (no threads, no GUI problems) just call next from this method
 		bool callNext = false;
 		
 		bool bucleContinues = true;
-		int bcount = CJTests.GetBucleCount();
+		int bcount = cjTest.GetBucleCount();
 
-		switch(testType) 
+		switch(cjTest.GetSequencePos()) 
 		{
 			case CJTests.Types.MODE_POWERGRAVITATORY:
 				chronojumpWindowTestsMode(Constants.Menuitem_modes.POWERGRAVITATORY);
@@ -247,7 +252,7 @@ public partial class ChronoJumpWindow
 		}
 
 		if(! bucleContinues)
-			CJTests.EndBucleCurrent();
+			cjTest.EndBucleCurrent();
 
 		if(callNext)		
 			chronojumpWindowTestsNext();
@@ -285,11 +290,12 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsSelectPerson");
 
-		bool personExists = selectRowTreeView_persons(treeview_persons, treeview_persons_store, count);
-		if(! personExists) {
+		if(count > myTreeViewPersons.CountRows()) {
 			LogB.TestEnd("chronojumpWindowTestsSelectPerson_ended");
 			return false;
 		}
+			
+		selectRowTreeView_persons(treeview_persons, treeview_persons_store, count);
 		
 		LogB.TestEnd("chronojumpWindowTestsSelectPerson_continuing");
 		return true;

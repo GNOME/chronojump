@@ -24,7 +24,6 @@ using System.Collections.Generic; //List<T>
 using System.Threading;
 
 /* TODO:
- * need to be able to select session
  * separate in various classes (done!), files
  * progressBar
  * button to end
@@ -186,10 +185,12 @@ public partial class ChronoJumpWindow
 {
 	private static bool testsActive = false;
 	private CJTests cjTest;
+	private int sessionID;
 	
-	private void chronojumpWindowTestsStart() 
+	private void chronojumpWindowTestsStart(int sessionID) 
 	{
 		testsActive = true;
+		this.sessionID = sessionID;
 
 		cjTest = new CJTests();
 
@@ -224,7 +225,7 @@ public partial class ChronoJumpWindow
 				chronojumpWindowTestsMode(Constants.Menuitem_modes.POWERINERTIAL);
 				break;
 			case CJTests.Types.SESSION_LOAD:
-				chronojumpWindowTestsLoadSession(); //this also selects first person
+				chronojumpWindowTestsLoadSession(sessionID); //this also selects first person
 				break;
 			case CJTests.Types.PERSON_SELECT:
 				bucleContinues = chronojumpWindowTestsSelectPerson(bcount);
@@ -275,12 +276,12 @@ public partial class ChronoJumpWindow
 		LogB.TestEnd("chronojumpWindowTestsMode");
 	}
 
-	private void chronojumpWindowTestsLoadSession() 
+	private void chronojumpWindowTestsLoadSession(int sID)
 	{
 		LogB.TestStart("chronojumpWindowTestsLoadSession");
 
 		on_open_activate(new Object(), new EventArgs());
-		sessionLoadWin.SelectRow(5); //0 is the first //TODO: hardcoded!!
+		sessionLoadWin.SelectRow(sID); //0 is the first
 		sessionLoadWin.Button_accept.Click();
 		
 		LogB.TestEnd("chronojumpWindowTestsLoadSession");

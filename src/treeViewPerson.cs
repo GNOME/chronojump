@@ -141,6 +141,11 @@ public class TreeViewPersons
 	{
 		SelectRow(FindRow(personID) -1);
 	}
+
+	public int CountRows() {
+		return(store.IterNChildren());
+	}
+
 	
 	//add in the row position by alfabetical order
 	public void Add (string jumperID, string jumperName)

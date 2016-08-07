@@ -52,6 +52,8 @@ public class DialogMessage
 
 	private void initialize(string title, Constants.MessageTypes type, string message)
 	{
+		LogB.Information("Dialog message: " + message);
+
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_message", "chronojump");
 		gladeXML.Autoconnect(this);

@@ -999,6 +999,8 @@ public partial class ChronoJumpWindow
 				analysis,
 				"none",				//analysisVariables (not needed in create curves). Cannot be blank
 				analysisOptions,
+				preferences.encoderCaptureCheckFullyExtended,
+				preferences.encoderCaptureCheckFullyExtendedValue,
 				encoderConfigurationCurrent,
 				Util.ConvertToPoint(preferences.encoderSmoothCon),	//R decimal: '.'
 			       	0, 			//curve is not used here
@@ -1492,6 +1494,8 @@ public partial class ChronoJumpWindow
 				"exportCSV",
 				"none",						//analysisVariables (not needed in create curves). Cannot be blank
 				analysisOptions,
+				preferences.encoderCaptureCheckFullyExtended,
+				preferences.encoderCaptureCheckFullyExtendedValue,
 				encoderConfigurationCurrent,
 				Util.ConvertToPoint(preferences.encoderSmoothCon),	//R decimal: '.'
 				-1,
@@ -2326,6 +2330,8 @@ public partial class ChronoJumpWindow
 					sendAnalysis,
 					analysisVariables,
 					analysisOptions,
+					preferences.encoderCaptureCheckFullyExtended,
+					preferences.encoderCaptureCheckFullyExtendedValue,
 					new EncoderConfiguration(),
 					Util.ConvertToPoint(preferences.encoderSmoothCon),	//R decimal: '.'
 					myCurveNum,
@@ -2455,6 +2461,8 @@ public partial class ChronoJumpWindow
 					sendAnalysis,
 					analysisVariables, 
 					analysisOptions,
+					preferences.encoderCaptureCheckFullyExtended,
+					preferences.encoderCaptureCheckFullyExtendedValue,
 					encoderConfigurationCurrent,
 					Util.ConvertToPoint(preferences.encoderSmoothCon),	//R decimal: '.'
 					curveNum,
@@ -4729,6 +4737,8 @@ public partial class ChronoJumpWindow
 				"-",		//analysis
 				"none",		//analysisVariables (not needed in create curves). Cannot be blank
 				getEncoderAnalysisOptions(),	//used on capture for pass the 'p' of propulsive
+				preferences.encoderCaptureCheckFullyExtended,
+				preferences.encoderCaptureCheckFullyExtendedValue,
 				encoderConfigurationCurrent,
 				Util.ConvertToPoint(preferences.encoderSmoothCon),	//R decimal: '.'
 			       	0, 			//curve is not used here

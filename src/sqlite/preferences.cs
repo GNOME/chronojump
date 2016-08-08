@@ -84,6 +84,8 @@ class SqlitePreferences : Sqlite
 				Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString(), dbcmdTr);
 
 				Insert ("encoderPropulsive", "True", dbcmdTr);
+				Insert ("encoderCaptureCheckFullyExtended", "True", dbcmdTr);
+				Insert ("encoderCaptureCheckFullyExtendedValue", "4", dbcmdTr);
 				Insert ("encoderSmoothEccCon", "0.6", dbcmdTr);
 				Insert ("encoderSmoothCon", "0.7", dbcmdTr);
 				Insert ("videoDevice", "0", dbcmdTr); //first
@@ -209,6 +211,10 @@ class SqlitePreferences : Sqlite
 				preferences.metersSecondsPreferred = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderPropulsive")
 				preferences.encoderPropulsive = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "encoderCaptureCheckFullyExtended")
+				preferences.encoderCaptureCheckFullyExtended = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "encoderCaptureCheckFullyExtendedValue")
+				preferences.encoderCaptureCheckFullyExtendedValue = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "encoderSmoothCon")
 				preferences.encoderSmoothCon = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));

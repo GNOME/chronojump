@@ -42,6 +42,8 @@ public class EncoderParams
 	private string analysis;
 	private string analysisVariables;
 	private string analysisOptions;		//p: propulsive
+	private bool captureCheckFullyExtended;
+	private int captureCheckFullyExtendedValue;
 					
 	//encoderConfiguration conversions
 	//in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
@@ -73,6 +75,7 @@ public class EncoderParams
 	//to graph.R	
 	public EncoderParams(int minHeight, int exercisePercentBodyWeight, string massBody, string massExtra, 
 			string eccon, string analysis, string analysisVariables, string analysisOptions, 
+			bool captureCheckFullyExtended, int captureCheckFullyExtendedValue,
 			EncoderConfiguration encoderConfiguration,
 			string smoothCon, int curve, int width, int height, string decimalSeparator)
 	{
@@ -84,6 +87,8 @@ public class EncoderParams
 		this.analysis = analysis;
 		this.analysisVariables = analysisVariables;
 		this.analysisOptions = analysisOptions;
+		this.captureCheckFullyExtended = captureCheckFullyExtended;
+		this.captureCheckFullyExtendedValue = captureCheckFullyExtendedValue;
 		this.encoderConfiguration = encoderConfiguration;
 		this.smoothCon = smoothCon;
 		this.curve = curve;
@@ -94,6 +99,10 @@ public class EncoderParams
 	
 	public string ToStringROptions () 
 	{
+		string capFullyExtendedStr = "-1";
+		if(captureCheckFullyExtended)
+			capFullyExtendedStr = captureCheckFullyExtendedValue.ToString(); 
+		
 		return 
 			"#minHeight\n" + 	minHeight + "\n" + 
 			"#exercisePercentBodyWeight\n" + exercisePercentBodyWeight + "\n" + 
@@ -103,6 +112,7 @@ public class EncoderParams
 			"#analysis\n" + 	analysis + "\n" + 
 			"#analysisVariables\n" + analysisVariables + "\n" + 
 			"#analysisOptions\n" + analysisOptions + "\n" + 
+			"#captureCheckFullyExtended\n" + capFullyExtendedStr + "\n" + 
 			encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.ROPTIONS) + "\n" +
 			"#smoothCon\n" + 	smoothCon + "\n" + 
 			"#curve\n" + 		curve + "\n" + 

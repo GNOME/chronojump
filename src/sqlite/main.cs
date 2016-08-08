@@ -78,7 +78,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.30";
+	static string lastChronojumpDatabaseVersion = "1.31";
 
 	public Sqlite() {
 	}
@@ -1892,6 +1892,16 @@ class Sqlite
 				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
 				currentVersion = newVersion;
 			}
+			if(currentVersion == "1.30") {
+				LogB.SQL("Insert encoderCaptureCheckFullyExtended and ...Value at preferences");
+
+				SqlitePreferences.Insert ("encoderCaptureCheckFullyExtended", "True");
+				SqlitePreferences.Insert ("encoderCaptureCheckFullyExtendedValue", "4");
+
+				newVersion = "1.31";
+				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
+				currentVersion = newVersion;
+			}
 
 
 
@@ -2052,6 +2062,7 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
+		//1.30 - 1.31 Converted DB to 1.31 Insert encoderCaptureCheckFullyExtended and ...Value at preferences
 		//1.29 - 1.30 Converted DB to 1.30 Added SIMULATED session
 		//1.28 - 1.29 Converted DB to 1.29 Changed reaction time rows have reactionTime as default value
 		//1.27 - 1.28 Converted DB to 1.28 Changed encoderAutoSaveCurve BESTMEANPOWER to BEST

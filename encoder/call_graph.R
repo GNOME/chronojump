@@ -21,12 +21,12 @@ options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 
 FeedbackFileBase <- paste(options[5], "/chronojump-encoder-status-", sep="")
 SpecialData <- paste(options[5], "/chronojump-special-data.txt", sep="")
-OperatingSystem <- options[27]
+OperatingSystem <- options[28]
 
 EncoderConfigurationName <- ""
 
-English = unlist(strsplit(options[28], "\\;"))
-Translated = unlist(strsplit(options[29], "\\;"))
+English = unlist(strsplit(options[29], "\\;"))
+Translated = unlist(strsplit(options[30], "\\;"))
 
 DEBUG <- FALSE
 DebugFileName <- paste(options[5], "/chronojump-debug.txt", sep="")

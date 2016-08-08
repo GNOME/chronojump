@@ -46,6 +46,8 @@ public class Preferences
 	public int runIDoubleContactsMS; //milliseconds
 	
 	public bool encoderPropulsive;
+	public bool encoderCaptureCheckFullyExtended;
+	public int encoderCaptureCheckFullyExtendedValue;
 	public double encoderSmoothCon;
 	public int videoDeviceNum; 		//AKA videoDevice
 	public Constants.Encoder1RMMethod encoder1RMMethod;

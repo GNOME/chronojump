@@ -91,6 +91,9 @@ public class PreferencesWindow {
 	
 	//encoder tab	
 	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
+	[Widget] Gtk.CheckButton checkbutton_encoder_capture_fully_extended;
+	[Widget] Gtk.HBox hbox_encoder_capture_fully_extended;
+	[Widget] Gtk.SpinButton spin_encoder_capture_fully_extended;
 	[Widget] Gtk.SpinButton spin_encoder_smooth_con;
 	[Widget] Gtk.Label label_encoder_con;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_nonweighted;
@@ -282,6 +285,11 @@ public class PreferencesWindow {
 	
 		//encoder	
 		PreferencesWindowBox.checkbutton_encoder_propulsive.Active = preferences.encoderPropulsive;
+
+		PreferencesWindowBox.checkbutton_encoder_capture_fully_extended.Active = preferences.encoderCaptureCheckFullyExtended;
+		PreferencesWindowBox.spin_encoder_capture_fully_extended.Value = preferences.encoderCaptureCheckFullyExtendedValue;
+		PreferencesWindowBox.hbox_encoder_capture_fully_extended.Visible = preferences.encoderCaptureCheckFullyExtended;
+		
 		PreferencesWindowBox.spin_encoder_smooth_con.Value = preferences.encoderSmoothCon;
 
 		if(preferences.encoder1RMMethod == Constants.Encoder1RMMethod.NONWEIGHTED)
@@ -345,6 +353,12 @@ public class PreferencesWindow {
 		
 		combo_camera.Active = UtilGtk.ComboMakeActive(devices, devices[current]);
 	}
+		
+	
+	private void on_checkbutton_encoder_capture_fully_extended_toggled(object obj, EventArgs args) {
+		hbox_encoder_capture_fully_extended.Visible = checkbutton_encoder_capture_fully_extended.Active;
+	}
+
 
 	// ---- Language stuff
 	
@@ -971,6 +985,18 @@ public class PreferencesWindow {
 			SqlitePreferences.Update("encoderPropulsive", 
 					PreferencesWindowBox.checkbutton_encoder_propulsive.Active.ToString(), true);
 			preferences.encoderPropulsive = PreferencesWindowBox.checkbutton_encoder_propulsive.Active;
+		}
+		
+		if( preferences.encoderCaptureCheckFullyExtended != PreferencesWindowBox.checkbutton_encoder_capture_fully_extended.Active ) {
+			SqlitePreferences.Update("encoderCaptureCheckFullyExtended", 
+					PreferencesWindowBox.checkbutton_encoder_capture_fully_extended.Active.ToString(), true);
+			preferences.encoderCaptureCheckFullyExtended = PreferencesWindowBox.checkbutton_encoder_capture_fully_extended.Active;
+		}
+		
+		if( preferences.encoderCaptureCheckFullyExtendedValue != (int) PreferencesWindowBox.spin_encoder_capture_fully_extended.Value ) {
+			SqlitePreferences.Update("encoderCaptureCheckFullyExtendedValue", 
+					PreferencesWindowBox.spin_encoder_capture_fully_extended.Value.ToString(), true);
+			preferences.encoderCaptureCheckFullyExtendedValue = (int) PreferencesWindowBox.spin_encoder_capture_fully_extended.Value;
 		}
 
 		if( preferences.encoderSmoothCon != (double) PreferencesWindowBox.spin_encoder_smooth_con.Value ) {

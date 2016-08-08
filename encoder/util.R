@@ -60,27 +60,28 @@ assignOptions <- function(options) {
 		    Analysis		= options[11],	
 		    AnalysisVariables	= unlist(strsplit(options[12], "\\;")),
 		    AnalysisOptions	= options[13],
-		    EncoderConfigurationName =	options[14],	#just the name of the EncoderConfiguration	
-		    diameter		= as.numeric(unlist(strsplit(options[15], "\\;"))), #comes in cm, will be converted to m. Since 1.5.1 can be different diameters separated by ;
+		    CheckFullyExtended	= as.numeric(options[14]),
+		    EncoderConfigurationName =	options[15],	#just the name of the EncoderConfiguration	
+		    diameter		= as.numeric(unlist(strsplit(options[16], "\\;"))), #comes in cm, will be converted to m. Since 1.5.1 can be different diameters separated by ;
 		    #diameter    = getInertialDiametersPerTick(as.numeric(unlist(strsplit("1.5; 1.75; 2.65; 3.32; 3.95; 4.07; 4.28; 4.46; 4.54; 4.77; 4.96; 5.13; 5.3; 5.55", "\\;")))),
-		    diameterExt		= as.numeric(options[16]),	#comes in cm, will be converted to m
-		    anglePush 		= as.numeric(options[17]),
-		    angleWeight 	= as.numeric(options[18]),
-		    inertiaMomentum	= (as.numeric(options[19])/10000.0),	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
-		    gearedDown 		= readFromFile.gearedDown(as.numeric(options[20])),
+		    diameterExt		= as.numeric(options[17]),	#comes in cm, will be converted to m
+		    anglePush 		= as.numeric(options[18]),
+		    angleWeight 	= as.numeric(options[19]),
+		    inertiaMomentum	= (as.numeric(options[20])/10000.0),	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
+		    gearedDown 		= readFromFile.gearedDown(as.numeric(options[21])),
 
-		    SmoothingOneC	= as.numeric(options[21]),
-		    Jump		= options[22],
-		    Width		= as.numeric(options[23]),
-		    Height		= as.numeric(options[24]),
-		    DecimalSeparator	= options[25],
-		    Title		= options[26],
-		    OperatingSystem	= options[27],	#if this changes, change it also at start of this R file
-		    Debug		= options[30],
-		    CrossValidate	= options[31]
+		    SmoothingOneC	= as.numeric(options[22]),
+		    Jump		= options[23],
+		    Width		= as.numeric(options[24]),
+		    Height		= as.numeric(options[25]),
+		    DecimalSeparator	= options[26],
+		    Title		= options[27],
+		    OperatingSystem	= options[28],	#if this changes, change it also at call_graph.R
+		    Debug		= options[31],
+		    CrossValidate	= options[32]
 		    #Unassigned here:
-		    #	englishWords [28]
-		    #	translatedWords [29]
+		    #	englishWords [29]
+		    #	translatedWords [30]
 		    ))
 }
 
@@ -1103,7 +1104,7 @@ getDisplacementInertialBody <- function(positionStart, displacement, draw, title
 #used when user captures without string fully extended
 #signal is the information coming from the encoder, graph is to debug
 #see codeExplained/image detect-and-fix-inertial-string-not-fully-extended.png
-fixInertialSignalIfNotFullyExtended <- function(signal, saveFile, specialDataFile, graph)
+fixInertialSignalIfNotFullyExtended <- function(signal, checkRevolutions, saveFile, specialDataFile, graph)
 {
 	write("at fixInertialSignalIfNotFullyExtended", stderr())
 	angle <- cumsum(signal) #360 degrees every 200 ticks
@@ -1195,8 +1196,9 @@ fixInertialSignalIfNotFullyExtended <- function(signal, saveFile, specialDataFil
 		par(mfrow=c(1,1))
 	}
 
-	#define new signal only if the error in extended string is more than 5 revolutions
-	if(abs(meanByExtrema) > 1000) {
+	#define new signal only if the error in extended string is more than 4 revolutions 
+	#(this value can be changed from gui)
+	if( abs(meanByExtrema) > (checkRevolutions * 200) ) {
 		#write(signal, file="/tmp/old.txt", ncolumns=length(signal), sep=", ")
 		signal <- signal[angleCorrectedCrossZero:length(signal)]
 

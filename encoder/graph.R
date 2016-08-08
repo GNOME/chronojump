@@ -2168,10 +2168,6 @@ doProcess <- function(options)
 	op$Title=parse(text = paste0("'", op$Title, "'"))
 	print(c("1 Title=",op$Title))
 	
-	#options 29 and 30 is assigned on the top of the file to be available in all functions
-	#print(options[29])
-	#print(options[30])
-
 	#--- include files ---
 	if(op$Analysis == "neuromuscularProfile")
 		source(paste(op$EncoderRScriptsPath, "/neuromuscularProfile.R", sep=""))
@@ -2445,8 +2441,9 @@ doProcess <- function(options)
 		if(isInertial(op$EncoderConfigurationName)) 
 		{
 			#This process is only done on the curves after capture (not on recalculate or load)
-	   		if(op$Analysis == "curvesAC")
+	   		if(op$Analysis == "curvesAC" && op$CheckFullyExtended > 0)
 				displacement <- fixInertialSignalIfNotFullyExtended(displacement, 
+										    op$CheckFullyExtended,
 										    paste(op$EncoderTempPath,
 											  "/chronojump-last-encoder-data.txt",
 											  sep=""),

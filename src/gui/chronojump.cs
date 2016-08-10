@@ -6579,6 +6579,7 @@ LogB.Debug("X");
 				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
+						encoderCaptureOptionsWin.GetEncoderInertialDiscardFirstThree(),
 						false);	//not capturing
 			} else
 				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);

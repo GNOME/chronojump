@@ -4037,7 +4037,7 @@ public partial class ChronoJumpWindow
 	
 	//if we are capturing, play sounds
 	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower, 
-			ArrayList data6Variables, bool capturing) 
+			ArrayList data6Variables, bool discardFirstThree, bool capturing) 
 	{
 		//LogB.Information("at plotCurvesGraphDoPlot");
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
@@ -4154,7 +4154,15 @@ public partial class ChronoJumpWindow
 			//select pen color for bars and sounds
 			string myColor = repetitiveConditionsWin.AssignColorAutomatic(d);
 
-			if( myColor == UtilGtk.ColorGood || (mainVariableHigher != -1 && d >= mainVariableHigher) ) 
+			bool discarded = false;
+			if( eccon == "c" && discardFirstThree && count < 3)
+				discarded = true;
+			else if( eccon != "c" && discardFirstThree && count < 6)
+				discarded = true;
+			else if ( (eccon == "ec" || eccon == "ecS") && encoderConfigurationCurrent.has_inertia && count == 0)
+				discarded = true;	//on inertial devices "ec" or "ecS", the first ecc cannot have feedback
+
+			if( ! discarded && ( myColor == UtilGtk.ColorGood || (mainVariableHigher != -1 && d >= mainVariableHigher) ) )
 			{
 				my_pen_ecc_con_e = pen_green_dark_encoder_capture;
 				my_pen_ecc_con_c = pen_green_light_encoder_capture;
@@ -4163,7 +4171,7 @@ public partial class ChronoJumpWindow
 				if(preferences.volumeOn && count == data.Count -1 && capturing)
 					Util.PlaySound(Constants.SoundTypes.GOOD, preferences.volumeOn);
 			}
-			else if( myColor == UtilGtk.ColorBad || (mainVariableLower != -1 && d <= mainVariableLower) )
+			else if( ! discarded && ( myColor == UtilGtk.ColorBad || (mainVariableLower != -1 && d <= mainVariableLower) ) )
 			{
 				my_pen_ecc_con_e = pen_red_dark_encoder_capture;
 				my_pen_ecc_con_c = pen_red_light_encoder_capture;
@@ -4317,6 +4325,7 @@ public partial class ChronoJumpWindow
 			double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
 			double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
 			plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
+					encoderCaptureOptionsWin.GetEncoderInertialDiscardFirstThree(),
 					false);	//not capturing
 		} else
 			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
@@ -4942,6 +4951,7 @@ public partial class ChronoJumpWindow
 				//captureCurvesBarsData.Add(new EncoderBarsData(20, 39, 10, 40));
 
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData, 
+						encoderCaptureOptionsWin.GetEncoderInertialDiscardFirstThree(),
 						true);	//capturing
 				//}
 
@@ -5376,6 +5386,7 @@ public partial class ChronoJumpWindow
 
 
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
+						encoderCaptureOptionsWin.GetEncoderInertialDiscardFirstThree(),
 						false);	//not capturing
 		
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
@@ -5945,6 +5956,10 @@ public class EncoderCaptureOptionsWindow {
 		}
 			
 		return -1;
+	}
+
+	public bool GetEncoderInertialDiscardFirstThree() {
+		return repetitiveConditionsWin.EncoderInertialDiscardFirstThree;
 	}
 
 	public int GetMinHeight (bool inertial) {

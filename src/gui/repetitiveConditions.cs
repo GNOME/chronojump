@@ -109,13 +109,11 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spinbutton_encoder_peakpower_higher;
 	[Widget] Gtk.SpinButton spinbutton_encoder_power_lower;
 	[Widget] Gtk.SpinButton spinbutton_encoder_peakpower_lower;
+	[Widget] Gtk.CheckButton checkbutton_inertial_discard_first_three;
 
 
-	/* bell tests*/	
-	[Widget] Gtk.RadioButton radiobutton_test_good;
-	[Widget] Gtk.RadioButton radiobutton_test_bad;
-
-	[Widget] Gtk.Button button_test;
+	[Widget] Gtk.Button button_test_good;
+	[Widget] Gtk.Button button_test_bad;
 	[Widget] Gtk.Button button_close;
 
 	//bells good (green)
@@ -289,9 +287,9 @@ public class RepetitiveConditionsWindow
 	void on_button_test_clicked (object o, EventArgs args)
 	{
 		if(volumeOn) {
-			if (radiobutton_test_good.Active) 
+			if (o == button_test_good) 
 				Util.PlaySound(Constants.SoundTypes.GOOD, true);
-			else
+			else //button_test_bad
 				Util.PlaySound(Constants.SoundTypes.BAD, true);
 		} else
 			new DialogMessage(Constants.MessageTypes.INFO, 
@@ -680,6 +678,10 @@ public class RepetitiveConditionsWindow
 	}
 	public int EncoderPeakPowerLowerValue {
 		get { return Convert.ToInt32(spinbutton_encoder_peakpower_lower.Value); }
+	}
+	
+	public bool EncoderInertialDiscardFirstThree {
+		get { return checkbutton_inertial_discard_first_three.Active; }
 	}
 
 }

@@ -3304,7 +3304,7 @@ msgstr "Mostrar feedback manual"
 
 #: ../glade/chronojump.glade.h:762
 msgid "<b>Height</b> (cm)"
-msgstr "<b>Alçada</b> (kg)"
+msgstr "<b>Alçada</b> (cm)"
 
 #: ../glade/chronojump.glade.h:763
 msgid "<b>Mean speed</b> (m/s)"

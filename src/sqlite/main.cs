@@ -78,7 +78,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.31";
+	static string lastChronojumpDatabaseVersion = "1.32";
 
 	public Sqlite() {
 	}
@@ -1822,7 +1822,6 @@ class Sqlite
 			// ----------------------------------------------
 			LogB.SQL("Leaving Sqlite opened before DB updates");
 			bool sqliteOpened = true;
-			string newVersion = "";
 	
 			Sqlite.Open(); //------------------------------------------------
 
@@ -1836,51 +1835,39 @@ class Sqlite
 				SqlitePreferences.Insert ("runIDoubleContactsMode", Constants.DoubleContact.AVERAGE.ToString()); 
 				SqlitePreferences.Insert ("runIDoubleContactsMS", "1000");
 
-				newVersion = "1.24";
-				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
-				currentVersion = newVersion;
+				currentVersion = updateVersion("1.24");
 			}
 			if(currentVersion == "1.24") {
 				LogB.SQL("Language defaults to (empty string), means detected");
 				SqlitePreferences.Update("language", "", true);
 				
-				newVersion = "1.25";
-				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
-				currentVersion = newVersion;
+				currentVersion = updateVersion("1.25");
 			}
 			if(currentVersion == "1.25") {
 				LogB.SQL("Changed Inclinated to Inclined");
 				Update(true, Constants.EncoderExerciseTable, "name", "Inclinated plane", "Inclined plane", "", "");
 				Update(true, Constants.EncoderExerciseTable, "name", "Inclinated plane BW", "Inclined plane BW", "", "");
 				
-				newVersion = "1.26";
-				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
-				currentVersion = newVersion;
+				currentVersion = updateVersion("1.26");
 			}
 			if(currentVersion == "1.26") {
 				LogB.SQL("Changing runDoubleContactsMS and runIDoubleContactsMS from 1000ms to 300ms");
 				SqlitePreferences.Update("runDoubleContactsMS", "300", true);
 				SqlitePreferences.Update("runIDoubleContactsMS", "300", true);
 				
-				newVersion = "1.27";
-				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
-				currentVersion = newVersion;
+				currentVersion = updateVersion("1.27");
 			}
 			if(currentVersion == "1.27") {
 				LogB.SQL("Changed encoderAutoSaveCurve BESTMEANPOWER to BEST");
 				Update(true, Constants.PreferencesTable, "value", "BESTMEANPOWER", "BEST", "name", "encoderAutoSaveCurve");
 				
-				newVersion = "1.28";
-				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
-				currentVersion = newVersion;
+				currentVersion = updateVersion("1.28");
 			}
 			if(currentVersion == "1.28") {
 				LogB.SQL("Changed reaction time rows have reactionTime as default value");
 				Update(true, Constants.ReactionTimeTable, "type", "", "reactionTime", "", "");
 				
-				newVersion = "1.29";
-				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
-				currentVersion = newVersion;
+				currentVersion = updateVersion("1.29");
 			}
 			if(currentVersion == "1.29") {
 				LogB.SQL("Added SIMULATED session");
@@ -1888,9 +1875,7 @@ class Sqlite
 				//add SIMULATED session if doesn't exists. Unique session where tests can be simulated.
 				SqliteSession.insertSimulatedSession();
 
-				newVersion = "1.30";
-				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
-				currentVersion = newVersion;
+				currentVersion = updateVersion("1.30");
 			}
 			if(currentVersion == "1.30") {
 				LogB.SQL("Insert encoderCaptureCheckFullyExtended and ...Value at preferences");
@@ -1898,9 +1883,19 @@ class Sqlite
 				SqlitePreferences.Insert ("encoderCaptureCheckFullyExtended", "True");
 				SqlitePreferences.Insert ("encoderCaptureCheckFullyExtendedValue", "4");
 
-				newVersion = "1.31";
-				SqlitePreferences.Update ("databaseVersion", newVersion, true); 
-				currentVersion = newVersion;
+				currentVersion = updateVersion("1.31");
+			}
+			if(currentVersion == "1.31") {
+				LogB.SQL("encoderCaptureOptionsWin -> preferences");
+
+				SqlitePreferences.Insert ("encoderCaptureTime", "60");
+				SqlitePreferences.Insert ("encoderCaptureInactivityEndTime", "3");
+				SqlitePreferences.Insert ("encoderCaptureMainVariable", Constants.EncoderVariablesCapture.MeanPower.ToString());
+				SqlitePreferences.Insert ("encoderCaptureMinHeightGravitatory", "20");
+				SqlitePreferences.Insert ("encoderCaptureMinHeightInertial", "5");
+				SqlitePreferences.Insert ("encoderShowStartAndDuration", "False");
+
+				currentVersion = updateVersion("1.32");
 			}
 
 
@@ -1921,6 +1916,11 @@ class Sqlite
 		//remember to change also the databaseVersion below
 		
 		return returnSoftwareIsNew;
+	}
+	
+	private static string updateVersion(string newVersion) {
+		SqlitePreferences.Update ("databaseVersion", newVersion, true); 
+		return newVersion;
 	}
 
 	public static bool ChangeDjToDJna() {
@@ -2062,6 +2062,7 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
+		//1.31 - 1.32 Converted DB to 1.32 encoderCaptureOptionsWin -> preferences
 		//1.30 - 1.31 Converted DB to 1.31 Insert encoderCaptureCheckFullyExtended and ...Value at preferences
 		//1.29 - 1.30 Converted DB to 1.30 Added SIMULATED session
 		//1.28 - 1.29 Converted DB to 1.29 Changed reaction time rows have reactionTime as default value

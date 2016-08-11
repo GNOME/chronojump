@@ -297,12 +297,16 @@ public class PreferencesWindow {
 		//encoder capture -->
 		PreferencesWindowBox.spin_encoder_capture_time.Value = preferences.encoderCaptureTime;
 		PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value = preferences.encoderCaptureInactivityEndTime;
-		PreferencesWindowBox.createComboEncoderCaptureMainVariable(preferences.encoderCaptureMainVariable);
+		
+		PreferencesWindowBox.createComboEncoderCaptureMainVariable(
+				Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
+
 		PreferencesWindowBox.spin_encoder_capture_min_height_gravitatory.Value = preferences.encoderCaptureMinHeightGravitatory;
 		PreferencesWindowBox.spin_encoder_capture_min_height_inertial.Value = preferences.encoderCaptureMinHeightInertial;
 		PreferencesWindowBox.checkbutton_encoder_capture_fully_extended.Active = preferences.encoderCaptureCheckFullyExtended;
 		PreferencesWindowBox.spin_encoder_capture_fully_extended.Value = preferences.encoderCaptureCheckFullyExtendedValue;
 		PreferencesWindowBox.hbox_encoder_capture_fully_extended.Visible = preferences.encoderCaptureCheckFullyExtended;
+		
 		if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BEST)
 			PreferencesWindowBox.radio_encoder_auto_save_curve_best.Active = true;
 		else if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE)
@@ -311,6 +315,8 @@ public class PreferencesWindow {
 			PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active = true;
 		else
 			PreferencesWindowBox.radio_encoder_auto_save_curve_none.Active = true;
+	
+		PreferencesWindowBox.check_show_start_and_duration.Active = preferences.encoderShowStartAndDuration;
 
 
 		//encoder other -->
@@ -354,7 +360,7 @@ public class PreferencesWindow {
 		return PreferencesWindowBox;
 	}
 	
-	private void createComboEncoderCaptureMainVariable(Constants.EncoderVariablesCapture v) {
+	private void createComboEncoderCaptureMainVariable(string v) {
 		combo_main_variable = ComboBox.NewText ();
 		string [] values = Constants.EncoderVariablesCaptureList;
 		UtilGtk.ComboUpdate(combo_main_variable, values, "");

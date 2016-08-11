@@ -45,17 +45,27 @@ public class Preferences
 	public Constants.DoubleContact runIDoubleContactsMode; //default AVERAGE
 	public int runIDoubleContactsMS; //milliseconds
 	
-	public bool encoderPropulsive;
+	//encoder capture
+	public int encoderCaptureTime;
+	public int encoderCaptureInactivityEndTime;
+	public Constants.EncoderVariablesCapture encoderCaptureMainVariable;
+	public int encoderCaptureMinHeightGravitatory;
+	public int encoderCaptureMinHeightInertial;
 	public bool encoderCaptureCheckFullyExtended;
 	public int encoderCaptureCheckFullyExtendedValue;
+	public Constants.EncoderAutoSaveCurve encoderAutoSaveCurve;
+	public bool encoderShowStartAndDuration;
+	
+	//encoder other
+	public bool encoderPropulsive;
 	public double encoderSmoothCon;
-	public int videoDeviceNum; 		//AKA videoDevice
 	public Constants.Encoder1RMMethod encoder1RMMethod;
+	
+	public int videoDeviceNum; 		//AKA videoDevice
 	public string CSVExportDecimalSeparator;
 	public string language;
 	public bool RGraphsTranslate;
 	public bool useHeightsOnJumpIndexes;
-	public Constants.EncoderAutoSaveCurve encoderAutoSaveCurve;
 	
 	/*
 	 * these are NOT sent to preferences window

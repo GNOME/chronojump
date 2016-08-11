@@ -820,6 +820,12 @@ public class Constants
 	public const string MaxForce = "Max force";
 	public const string MeanPower = "Mean power";
 	public const string PeakPower = "Peak power";
+	public enum EncoderVariablesCapture {
+		MeanSpeed, MaxSpeed, MeanForce, MaxForce, MeanPower, PeakPower
+	}
+	public static string [] EncoderVariablesCaptureList = {
+		MeanSpeed, MaxSpeed, MeanForce, MaxForce, MeanPower, PeakPower
+	};
 		
 	public enum Encoder1RMMethod { NONWEIGHTED, WEIGHTED, WEIGHTED2, WEIGHTED3 }
 	public enum ContextMenu { NONE, EDITDELETE, DELETE }

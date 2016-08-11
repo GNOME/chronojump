@@ -843,6 +843,23 @@ public class Constants
 		}
 		return MeanPower;
 	}
+	public static EncoderVariablesCapture SetEncoderVariablesCapture(string v) {
+		switch(v) {
+			case MeanSpeed:
+				return EncoderVariablesCapture.MeanSpeed;
+			case MaxSpeed:
+				return EncoderVariablesCapture.MaxSpeed;
+			case MeanForce:
+				return EncoderVariablesCapture.MeanForce;
+			case MaxForce:
+				return EncoderVariablesCapture.MaxForce;
+			case MeanPower:
+				return EncoderVariablesCapture.MeanPower;
+			case PeakPower:
+				return EncoderVariablesCapture.PeakPower;
+		}
+		return EncoderVariablesCapture.MeanPower;
+	}
 		
 	public enum Encoder1RMMethod { NONWEIGHTED, WEIGHTED, WEIGHTED2, WEIGHTED3 }
 	public enum ContextMenu { NONE, EDITDELETE, DELETE }

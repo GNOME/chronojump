@@ -1025,30 +1025,97 @@ public class PreferencesWindow {
 
 		//---- end of double contacts stuff
 		
-		
-		if( preferences.encoderPropulsive != PreferencesWindowBox.checkbutton_encoder_propulsive.Active ) {
-			SqlitePreferences.Update("encoderPropulsive", 
-					PreferencesWindowBox.checkbutton_encoder_propulsive.Active.ToString(), true);
-			preferences.encoderPropulsive = PreferencesWindowBox.checkbutton_encoder_propulsive.Active;
+		//encoder capture ----
+	
+		preferences.encoderCaptureTime = preferencesChange(
+				"encoderCaptureTime",
+				preferences.encoderCaptureTime,
+				(int) PreferencesWindowBox.spin_encoder_capture_time.Value);
+
+		preferences.encoderCaptureInactivityEndTime = preferencesChange(
+				"encoderCaptureInactivityEndTime",
+				preferences.encoderCaptureInactivityEndTime,
+				(int) PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value);
+
+	
+		Constants.EncoderVariablesCapture mainVariable = Constants.SetEncoderVariablesCapture(
+				UtilGtk.ComboGetActive(PreferencesWindowBox.combo_main_variable));
+		if( preferences.encoderCaptureMainVariable != mainVariable ) {
+			SqlitePreferences.Update("encoderCaptureMainVariable", mainVariable.ToString(), true);
+			preferences.encoderCaptureMainVariable = mainVariable;
 		}
 		
-		if( preferences.encoderCaptureCheckFullyExtended != PreferencesWindowBox.checkbutton_encoder_capture_fully_extended.Active ) {
-			SqlitePreferences.Update("encoderCaptureCheckFullyExtended", 
-					PreferencesWindowBox.checkbutton_encoder_capture_fully_extended.Active.ToString(), true);
-			preferences.encoderCaptureCheckFullyExtended = PreferencesWindowBox.checkbutton_encoder_capture_fully_extended.Active;
-		}
+		preferences.encoderCaptureMinHeightGravitatory = preferencesChange(
+				"encoderCaptureMinHeightGravitatory",
+				preferences.encoderCaptureMinHeightGravitatory,
+				(int) PreferencesWindowBox.spin_encoder_capture_min_height_gravitatory.Value);
+	
+		preferences.encoderCaptureMinHeightInertial = preferencesChange(
+				"encoderCaptureMinHeightInertial",
+				preferences.encoderCaptureMinHeightInertial,
+				(int) PreferencesWindowBox.spin_encoder_capture_min_height_inertial.Value);
+
+		preferences.encoderCaptureCheckFullyExtended = preferencesChange(
+				"encoderCaptureCheckFullyExtended",
+				preferences.encoderCaptureCheckFullyExtended,
+				PreferencesWindowBox.checkbutton_encoder_capture_fully_extended.Active);
 		
-		if( preferences.encoderCaptureCheckFullyExtendedValue != (int) PreferencesWindowBox.spin_encoder_capture_fully_extended.Value ) {
-			SqlitePreferences.Update("encoderCaptureCheckFullyExtendedValue", 
-					PreferencesWindowBox.spin_encoder_capture_fully_extended.Value.ToString(), true);
-			preferences.encoderCaptureCheckFullyExtendedValue = (int) PreferencesWindowBox.spin_encoder_capture_fully_extended.Value;
+		preferences.encoderCaptureCheckFullyExtendedValue = preferencesChange(
+				"encoderCaptureCheckFullyExtendedValue",
+				preferences.encoderCaptureCheckFullyExtendedValue,
+				(int) PreferencesWindowBox.spin_encoder_capture_fully_extended.Value);
+
+		if(PreferencesWindowBox.radio_encoder_auto_save_curve_best.Active) {
+			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString(), true);
+			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.BEST;
+		}
+		else if(PreferencesWindowBox.radio_encoder_auto_save_curve_4top.Active) {
+			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE.ToString(), true);
+			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE;
+		}
+		else if(PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active) {
+			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.ALL.ToString(), true);
+			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.ALL;
+		}
+		else {
+			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.NONE.ToString(), true);
+			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.NONE;
 		}
 
-		if( preferences.encoderSmoothCon != (double) PreferencesWindowBox.spin_encoder_smooth_con.Value ) {
-			SqlitePreferences.Update("encoderSmoothCon", Util.ConvertToPoint( 
-						(double) PreferencesWindowBox.spin_encoder_smooth_con.Value), true);
-			preferences.encoderSmoothCon = (double) PreferencesWindowBox.spin_encoder_smooth_con.Value;
-		}
+		preferences.encoderShowStartAndDuration = preferencesChange(
+				"encoderShowStartAndDuration",
+				preferences.encoderShowStartAndDuration,
+				PreferencesWindowBox.check_show_start_and_duration.Active);
+		
+
+		//---- end of encoder capture
+		
+		//encoder other ----
+		
+		preferences.encoderPropulsive = preferencesChange(
+				"encoderPropulsive",
+				preferences.encoderPropulsive,
+				PreferencesWindowBox.checkbutton_encoder_propulsive.Active);
+		
+		preferences.encoderSmoothCon = preferencesChange(
+				"encoderSmoothCon",
+				preferences.encoderSmoothCon,
+				(double) PreferencesWindowBox.spin_encoder_smooth_con.Value);
+		
+		Constants.Encoder1RMMethod encoder1RMMethod;
+		if(PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.NONWEIGHTED;
+		else if(PreferencesWindowBox.radio_encoder_1RM_weighted.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED;
+		else if(PreferencesWindowBox.radio_encoder_1RM_weighted2.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED2;
+		else // (PreferencesWindowBox.radio_encoder_1RM_weighted3.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED3;
+
+		SqlitePreferences.Update("encoder1RMMethod", encoder1RMMethod.ToString(), true);
+		preferences.encoder1RMMethod = encoder1RMMethod;
+		
+		//---- end of encoder other
 		
 		if( preferences.videoDeviceNum != UtilGtk.ComboGetActivePos(combo_camera) ) {
 			SqlitePreferences.Update("videoDevice", UtilGtk.ComboGetActivePos(combo_camera).ToString(), true);
@@ -1091,40 +1158,33 @@ public class PreferencesWindow {
 			preferences.useHeightsOnJumpIndexes = PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active;
 		}
 
-		if(PreferencesWindowBox.radio_encoder_auto_save_curve_best.Active) {
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString(), true);
-			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.BEST;
-		}
-		else if(PreferencesWindowBox.radio_encoder_auto_save_curve_4top.Active) {
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE.ToString(), true);
-			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE;
-		}
-		else if(PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active) {
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.ALL.ToString(), true);
-			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.ALL;
-		}
-		else {
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.NONE.ToString(), true);
-			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.NONE;
-		}
-
-		Constants.Encoder1RMMethod encoder1RMMethod;
-		if(PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active)
-			encoder1RMMethod = Constants.Encoder1RMMethod.NONWEIGHTED;
-		else if(PreferencesWindowBox.radio_encoder_1RM_weighted.Active)
-			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED;
-		else if(PreferencesWindowBox.radio_encoder_1RM_weighted2.Active)
-			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED2;
-		else // (PreferencesWindowBox.radio_encoder_1RM_weighted3.Active)
-			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED3;
-
-		SqlitePreferences.Update("encoder1RMMethod", encoder1RMMethod.ToString(), true);
-		preferences.encoder1RMMethod = encoder1RMMethod;
 
 		Sqlite.Close();
 
 		PreferencesWindowBox.preferences_win.Hide();
 		PreferencesWindowBox = null;
+	}
+
+	private bool preferencesChange(string prefName, bool prefValue, bool bNew) 
+	{
+		if(prefValue != bNew)
+			SqlitePreferences.Update(prefName, bNew.ToString(), true);
+		
+		return bNew;
+	}
+	private int preferencesChange(string prefName, int prefValue, int iNew) 
+	{
+		if(prefValue != iNew)
+			SqlitePreferences.Update(prefName, iNew.ToString(), true);
+		
+		return iNew;
+	}
+	private double preferencesChange(string prefName, double prefValue, double dNew) 
+	{
+		if(prefValue != dNew)
+			SqlitePreferences.Update(prefName, Util.ConvertToPoint(dNew), true);
+		
+		return dNew;
 	}
 
 	public Button Button_accept 

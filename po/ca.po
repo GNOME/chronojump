@@ -1173,7 +1173,7 @@ msgstr "Ajuda sobre el índexs"
 
 #: ../glade/chronojump.glade.h:252
 msgid "General recommendations on improving indexes"
-msgstr "Recomenacions generals per la millora dels índexs"
+msgstr "Recomanacions generals per la millora dels índexs"
 
 #: ../glade/chronojump.glade.h:253
 msgid "<b>Maximum Force</b>"
@@ -1208,7 +1208,7 @@ msgid ""
 "Increasing of strength due to the elastic energy accumulated during the "
 "stretch-shortening cycle."
 msgstr ""
-"Augment de la forca degut a l'energia elàstica acumulada durant el cicle de "
+"Augment de la força degut a l'energia elàstica acumulada durant el cicle de "
 "estirament-escurçament."
 
 #: ../glade/chronojump.glade.h:261
@@ -1220,7 +1220,7 @@ msgid ""
 "Increasing of strength by previous falling from height (reflex mechanisms "
 "activation)."
 msgstr ""
-"Augment de força mitjançant una caiguda prèvia des de una alçada (activació "
+"Augment de força mitjançant una caiguda prèvia des d'una alçada (activació "
 "del mecanisme reflex)."
 
 #: ../glade/chronojump.glade.h:263
@@ -1238,7 +1238,7 @@ msgstr "<b>Contracció</b>"
 #: ../glade/chronojump.glade.h:267
 #, no-c-format
 msgid "<b>% max load</b>"
-msgstr "<b>% cèrrega màxima</b>"
+msgstr "<b>% càrrega màxima</b>"
 
 #: ../glade/chronojump.glade.h:269
 #, no-c-format
@@ -1266,7 +1266,7 @@ msgid ""
 "Weight lifting,\n"
 "gym machines"
 msgstr ""
-"eixecament de peses,\n"
+"Aixecament de peses,\n"
 "màquines de gimnàs"
 
 #: ../glade/chronojump.glade.h:276
@@ -1281,7 +1281,8 @@ msgstr ""
 msgid ""
 "Jumps,\n"
 "elastic bands"
-msgstr "Salts, bandas elàstiques"
+msgstr "Salts,\n"
+"bandes elàstiques"
 
 #: ../glade/chronojump.glade.h:280
 msgid ""
@@ -1315,7 +1316,8 @@ msgstr ""
 msgid ""
 "Body weight,\n"
 "low ressistance"
-msgstr "Pes corporal, resistència baixa"
+msgstr "Pes corporal,\n"
+"resistència baixa"
 
 #: ../glade/chronojump.glade.h:289
 msgid "Contacts (platform or photocell)"
@@ -6007,7 +6009,7 @@ msgstr ""
 
 #: ../src/gui/encoder.cs:2881
 msgid "Drive: Perform exercises where force is developed during more time."
-msgstr "Drive: Efectueu exercicis on la forca es desenvolupi durant més temps."
+msgstr "Drive: Efectueu exercicis on la força es desenvolupi durant més temps."
 
 #: ../src/gui/encoder.cs:2883
 msgid "Analysis uses the best three jumps using 'jump height' criterion."

@@ -409,8 +409,8 @@ public partial class ChronoJumpWindow
 		encoderRProcCapture = new EncoderRProcCapture();
 		encoderRProcAnalyze = new EncoderRProcAnalyze();
 		
-		encoderCaptureOptionsWin = EncoderCaptureOptionsWindow.Create(repetitiveConditionsWin);
-		encoderCaptureOptionsWin.FakeButtonClose.Clicked += new EventHandler(on_encoder_capture_options_closed);
+//		encoderCaptureOptionsWin = EncoderCaptureOptionsWindow.Create(repetitiveConditionsWin);
+//		encoderCaptureOptionsWin.FakeButtonClose.Clicked += new EventHandler(on_encoder_capture_options_closed);
 
 		captureCurvesBarsData = new ArrayList(0);
 		
@@ -5835,14 +5835,11 @@ public partial class ChronoJumpWindow
 
 }	
 	
-
 public class EncoderCaptureOptionsWindow {
 
 	[Widget] Gtk.Window encoder_capture_options;
 	static EncoderCaptureOptionsWindow EncoderCaptureOptionsWindowBox;
 	
-	[Widget] public Gtk.RadioButton radiobutton_encoder_capture_safe;
-	[Widget] public Gtk.RadioButton radiobutton_encoder_capture_external;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_time;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
 	[Widget] Gtk.HBox hbox_height_gravitatory;
@@ -5977,15 +5974,6 @@ public class EncoderCaptureOptionsWindow {
 			spin_encoder_capture_min_height_gravitatory.Value = height;
 	}
 	
-	private void on_button_inactivity_help_clicked (object o, EventArgs args)
-	{
-		new DialogMessage(Constants.MessageTypes.INFO, 
-				Catalog.GetString("If a repetition has been found, test will end at selected inactivity seconds.") + "\n\n" +
-				Catalog.GetString("If a repetition has not been found, test will end at selected inactivity seconds (x2).") + "\n" +
-				Catalog.GetString("This will let the person to have more time to start movement.")
-				);
-	}
-
 	protected virtual void on_button_close_clicked (object o, EventArgs args)
 	{
 		EncoderCaptureOptionsWindowBox.encoder_capture_options.Hide();

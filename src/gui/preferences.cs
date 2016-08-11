@@ -89,21 +89,30 @@ public class PreferencesWindow {
 	[Widget] Gtk.RadioButton radio_runs_i_prevent_double_contact_average;
 	[Widget] Gtk.RadioButton radio_runs_i_prevent_double_contact_last;
 	
-	//encoder tab	
-	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
+	//encoder capture tab
+	[Widget] Gtk.SpinButton spin_encoder_capture_time;
+	[Widget] Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
+	[Widget] Gtk.Box hbox_combo_main_variable;
+	[Widget] Gtk.ComboBox combo_main_variable;
+	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
+	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_inertial;
 	[Widget] Gtk.CheckButton checkbutton_encoder_capture_fully_extended;
 	[Widget] Gtk.HBox hbox_encoder_capture_fully_extended;
 	[Widget] Gtk.SpinButton spin_encoder_capture_fully_extended;
+	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_best;
+	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_4top;
+	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_all;
+	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_none;
+	[Widget] Gtk.CheckButton check_show_start_and_duration;
+	
+	//encoder other tab
+	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
 	[Widget] Gtk.SpinButton spin_encoder_smooth_con;
 	[Widget] Gtk.Label label_encoder_con;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_nonweighted;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted2;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted3;
-	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_best;
-	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_4top;
-	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_all;
-	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_none;
 
 	//camera tab
 	[Widget] Gtk.Box hbox_combo_camera;
@@ -168,8 +177,10 @@ public class PreferencesWindow {
 			PreferencesWindowBox.notebook.GetNthPage(1).Hide(); 
 		if(menu_mode !=	Constants.Menuitem_modes.RUNS)
 			PreferencesWindowBox.notebook.GetNthPage(2).Hide(); 
-		if(menu_mode !=	Constants.Menuitem_modes.POWERGRAVITATORY && menu_mode != Constants.Menuitem_modes.POWERINERTIAL)
-			PreferencesWindowBox.notebook.GetNthPage(3).Hide(); 
+		if(menu_mode !=	Constants.Menuitem_modes.POWERGRAVITATORY && menu_mode != Constants.Menuitem_modes.POWERINERTIAL) {
+			PreferencesWindowBox.notebook.GetNthPage(3).Hide();
+			PreferencesWindowBox.notebook.GetNthPage(4).Hide();
+		}
 
 		PreferencesWindowBox.preferences = preferences;
 
@@ -283,12 +294,27 @@ public class PreferencesWindow {
 			PreferencesWindowBox.radio_export_non_latin.Active = true; 
 
 	
-		//encoder	
-		PreferencesWindowBox.checkbutton_encoder_propulsive.Active = preferences.encoderPropulsive;
-
+		//encoder capture -->
+		PreferencesWindowBox.spin_encoder_capture_time.Value = preferences.encoderCaptureTime;
+		PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value = preferences.encoderCaptureInactivityEndTime;
+		PreferencesWindowBox.createComboEncoderCaptureMainVariable(preferences.encoderCaptureMainVariable);
+		PreferencesWindowBox.spin_encoder_capture_min_height_gravitatory.Value = preferences.encoderCaptureMinHeightGravitatory;
+		PreferencesWindowBox.spin_encoder_capture_min_height_inertial.Value = preferences.encoderCaptureMinHeightInertial;
 		PreferencesWindowBox.checkbutton_encoder_capture_fully_extended.Active = preferences.encoderCaptureCheckFullyExtended;
 		PreferencesWindowBox.spin_encoder_capture_fully_extended.Value = preferences.encoderCaptureCheckFullyExtendedValue;
 		PreferencesWindowBox.hbox_encoder_capture_fully_extended.Visible = preferences.encoderCaptureCheckFullyExtended;
+		if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BEST)
+			PreferencesWindowBox.radio_encoder_auto_save_curve_best.Active = true;
+		else if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE)
+			PreferencesWindowBox.radio_encoder_auto_save_curve_4top.Active = true;
+		else if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL)
+			PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active = true;
+		else
+			PreferencesWindowBox.radio_encoder_auto_save_curve_none.Active = true;
+
+
+		//encoder other -->
+		PreferencesWindowBox.checkbutton_encoder_propulsive.Active = preferences.encoderPropulsive;
 		
 		PreferencesWindowBox.spin_encoder_smooth_con.Value = preferences.encoderSmoothCon;
 
@@ -304,6 +330,7 @@ public class PreferencesWindow {
 		//done here and not in glade to be shown with the decimal point of user language	
 		PreferencesWindowBox.label_encoder_con.Text = (0.7).ToString();
 	
+		//language -->
 		if(preferences.language == "")
 			PreferencesWindowBox.radio_language_detected.Active = true;
 		else
@@ -322,19 +349,22 @@ public class PreferencesWindow {
 		else
 			PreferencesWindowBox.radio_do_not_use_heights_on_jump_indexes.Active = true;
 			
-		if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BEST)
-			PreferencesWindowBox.radio_encoder_auto_save_curve_best.Active = true;
-		else if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE)
-			PreferencesWindowBox.radio_encoder_auto_save_curve_4top.Active = true;
-		else if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL)
-			PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active = true;
-		else
-			PreferencesWindowBox.radio_encoder_auto_save_curve_none.Active = true;
-
 
 		PreferencesWindowBox.preferences_win.Show ();
 		return PreferencesWindowBox;
 	}
+	
+	private void createComboEncoderCaptureMainVariable(Constants.EncoderVariablesCapture v) {
+		combo_main_variable = ComboBox.NewText ();
+		string [] values = Constants.EncoderVariablesCaptureList;
+		UtilGtk.ComboUpdate(combo_main_variable, values, "");
+		combo_main_variable.Active = UtilGtk.ComboMakeActive(combo_main_variable, v.ToString());
+		
+		hbox_combo_main_variable.PackStart(combo_main_variable, false, false, 0);
+		hbox_combo_main_variable.ShowAll();
+		combo_main_variable.Sensitive = true;
+	}
+
 	
 	private void createComboCamera(string [] devices, int current) {
 		combo_camera = ComboBox.NewText ();
@@ -362,7 +392,6 @@ public class PreferencesWindow {
 
 	// ---- Language stuff
 	
-	//private void createComboLanguage(string myLanguageCode) {
 	private void createComboLanguage() {
 		
 		combo_language = ComboBox.NewText ();
@@ -748,7 +777,17 @@ public class PreferencesWindow {
 		}
 	}
 	*/
-	
+
+	//encoder
+	private void on_button_inactivity_help_clicked (object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.INFO, 
+				Catalog.GetString("If a repetition has been found, test will end at selected inactivity seconds.") + "\n\n" +
+				Catalog.GetString("If a repetition has not been found, test will end at selected inactivity seconds (x2).") + "\n" +
+				Catalog.GetString("This will let the person to have more time to start movement.")
+				);
+	}
+
 	
 	// ---- start SQL stress tests ---->
 

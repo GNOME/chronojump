@@ -83,13 +83,21 @@ class SqlitePreferences : Sqlite
 
 				Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString(), dbcmdTr);
 
-				Insert ("encoderPropulsive", "True", dbcmdTr);
+				//encoder
+				Insert ("encoderCaptureTime", "60", dbcmdTr);
+				Insert ("encoderCaptureInactivityEndTime", "3", dbcmdTr);
+				Insert ("encoderCaptureMainVariable", Constants.EncoderVariablesCapture.MeanPower.ToString(), dbcmdTr);
+				Insert ("encoderCaptureMinHeightGravitatory", "20", dbcmdTr);
+				Insert ("encoderCaptureMinHeightInertial", "5", dbcmdTr);
 				Insert ("encoderCaptureCheckFullyExtended", "True", dbcmdTr);
 				Insert ("encoderCaptureCheckFullyExtendedValue", "4", dbcmdTr);
+				Insert ("encoderShowStartAndDuration", "False", dbcmdTr);
+				Insert ("encoderPropulsive", "True", dbcmdTr);
 				Insert ("encoderSmoothEccCon", "0.6", dbcmdTr);
 				Insert ("encoderSmoothCon", "0.7", dbcmdTr);
-				Insert ("videoDevice", "0", dbcmdTr); //first
 				Insert ("encoder1RMMethod", Constants.Encoder1RMMethod.WEIGHTED2.ToString(), dbcmdTr);
+
+				Insert ("videoDevice", "0", dbcmdTr); //first
 				Insert ("inertialmomentum", "0.01", dbcmdTr);
 				Insert ("CSVExportDecimalSeparator", Util.GetDecimalSeparatorFromLocale(), dbcmdTr);
 				Insert ("RGraphsTranslate", "True", dbcmdTr);
@@ -209,15 +217,37 @@ class SqlitePreferences : Sqlite
 				preferences.heightPreferred = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "metersSecondsPreferred")
 				preferences.metersSecondsPreferred = reader[1].ToString() == "True";
-			else if(reader[0].ToString() == "encoderPropulsive")
-				preferences.encoderPropulsive = reader[1].ToString() == "True";
+			//encoder capture
+			else if(reader[0].ToString() == "encoderCaptureTime")
+				preferences.encoderCaptureTime = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == "encoderCaptureInactivityEndTime")
+				preferences.encoderCaptureInactivityEndTime = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == "encoderCaptureMainVariable")
+				preferences.encoderCaptureMainVariable = (Constants.EncoderVariablesCapture) 
+					Enum.Parse(typeof(Constants.EncoderVariablesCapture), reader[1].ToString()); 
+			else if(reader[0].ToString() == "encoderCaptureMinHeightGravitatory")
+				preferences.encoderCaptureMinHeightGravitatory = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == "encoderCaptureMinHeightInertial")
+				preferences.encoderCaptureMinHeightInertial = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "encoderCaptureCheckFullyExtended")
 				preferences.encoderCaptureCheckFullyExtended = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderCaptureCheckFullyExtendedValue")
 				preferences.encoderCaptureCheckFullyExtendedValue = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == "encoderAutoSaveCurve")
+				preferences.encoderAutoSaveCurve = (Constants.EncoderAutoSaveCurve) 
+					Enum.Parse(typeof(Constants.EncoderAutoSaveCurve), reader[1].ToString()); 
+			else if(reader[0].ToString() == "encoderShowStartAndDuration")
+				preferences.encoderShowStartAndDuration = reader[1].ToString() == "True";
+			//encoder other
+			else if(reader[0].ToString() == "encoderPropulsive")
+				preferences.encoderPropulsive = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderSmoothCon")
 				preferences.encoderSmoothCon = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if(reader[0].ToString() == "encoder1RMMethod")
+				preferences.encoder1RMMethod = (Constants.Encoder1RMMethod) 
+					Enum.Parse(typeof(Constants.Encoder1RMMethod), reader[1].ToString()); 
+			//video... other
 			else if(reader[0].ToString() == "videoDevice")
 				preferences.videoDeviceNum = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "CSVExportDecimalSeparator")
@@ -228,12 +258,6 @@ class SqlitePreferences : Sqlite
 				preferences.RGraphsTranslate = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "useHeightsOnJumpIndexes")
 				preferences.useHeightsOnJumpIndexes = reader[1].ToString() == "True";
-			else if(reader[0].ToString() == "encoderAutoSaveCurve")
-				preferences.encoderAutoSaveCurve = (Constants.EncoderAutoSaveCurve) 
-					Enum.Parse(typeof(Constants.EncoderAutoSaveCurve), reader[1].ToString()); 
-			else if(reader[0].ToString() == "encoder1RMMethod")
-				preferences.encoder1RMMethod = (Constants.Encoder1RMMethod) 
-					Enum.Parse(typeof(Constants.Encoder1RMMethod), reader[1].ToString()); 
 	 		//these are NOT sent to preferences window
 			else if(reader[0].ToString() == "allowFinishRjAfterTime")
 				preferences.allowFinishRjAfterTime = reader[1].ToString() == "True";

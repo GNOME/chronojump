@@ -409,9 +409,6 @@ public partial class ChronoJumpWindow
 		encoderRProcCapture = new EncoderRProcCapture();
 		encoderRProcAnalyze = new EncoderRProcAnalyze();
 		
-//		encoderCaptureOptionsWin = EncoderCaptureOptionsWindow.Create(repetitiveConditionsWin);
-//		encoderCaptureOptionsWin.FakeButtonClose.Clicked += new EventHandler(on_encoder_capture_options_closed);
-
 		captureCurvesBarsData = new ArrayList(0);
 		
 		try {	
@@ -545,15 +542,7 @@ public partial class ChronoJumpWindow
 	{
 		on_button_encoder_capture_calcule_im();
 	}
-		
-	void on_button_encoder_capture_options_clicked (object o, EventArgs args) {
-		encoderCaptureOptionsWin.View(repetitiveConditionsWin, preferences.volumeOn, currentEncoderGI);
-	}
 	
-	private void on_encoder_capture_options_closed(object o, EventArgs args) {
-		LogB.Information("Encoder capture options closed");
-		//update the bars graph because main variable maybe has changed
-	}
 	
 	private void on_button_encoder_bells_clicked(object o, EventArgs args) {
 		repetitiveConditionsWin.View(Constants.BellModes.ENCODER, preferences.volumeOn);

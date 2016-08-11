@@ -4155,12 +4155,14 @@ public partial class ChronoJumpWindow
 			string myColor = repetitiveConditionsWin.AssignColorAutomatic(d);
 
 			bool discarded = false;
-			if( eccon == "c" && discardFirstThree && count < 3)
-				discarded = true;
-			else if( eccon != "c" && discardFirstThree && count < 6)
-				discarded = true;
-			else if ( (eccon == "ec" || eccon == "ecS") && encoderConfigurationCurrent.has_inertia && count == 0)
-				discarded = true;	//on inertial devices "ec" or "ecS", the first ecc cannot have feedback
+			if(encoderConfigurationCurrent.has_inertia) {
+				if(eccon == "c" && discardFirstThree && count < 3)
+					discarded = true;
+				else if(eccon != "c" && discardFirstThree && count < 6)
+					discarded = true;
+				else if ((eccon == "ec" || eccon == "ecS") && count == 0)
+					discarded = true;	//on inertial devices "ec" or "ecS", the first ecc cannot have feedback
+			}
 
 			if( ! discarded && ( myColor == UtilGtk.ColorGood || (mainVariableHigher != -1 && d >= mainVariableHigher) ) )
 			{

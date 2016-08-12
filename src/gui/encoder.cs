@@ -295,7 +295,7 @@ public partial class ChronoJumpWindow
 	private static bool encoderProcessFinish;
 	private static bool encoderProcessFinishContMode;
 
-	EncoderCaptureOptionsWindow encoderCaptureOptionsWin;
+//	EncoderCaptureOptionsWindow encoderCaptureOptionsWin;
 	EncoderConfigurationWindow encoder_configuration_win;
 
 	EncoderConfiguration encoderConfigurationCurrent;
@@ -968,8 +968,8 @@ public partial class ChronoJumpWindow
 				"",	//signalOrCurve,
 				"", 	//fileSaved,	//to know date do: select substr(name,-23,19) from encoder;
 				"",	//path,			//url
-				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
-				encoderCaptureOptionsWin.GetMinHeight(encoderConfigurationCurrent.has_inertia), 
+				preferences.encoderCaptureTime, 
+				preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia), 
 				Util.RemoveTildeAndColonAndDot(textview_encoder_signal_comment.Buffer.Text), //desc,
 				"", videoURL,		//status, videoURL
 				encoderConfigurationCurrent,
@@ -980,7 +980,7 @@ public partial class ChronoJumpWindow
 
 
 		EncoderParams ep = new EncoderParams(
-				encoderCaptureOptionsWin.GetMinHeight(encoderConfigurationCurrent.has_inertia), 
+				preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia), 
 				getExercisePercentBodyWeightFromComboCapture (),
 				Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
 				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
@@ -2442,7 +2442,7 @@ public partial class ChronoJumpWindow
 				curveNum = Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo));
 
 			ep = new EncoderParams(
-					encoderCaptureOptionsWin.GetMinHeight(encoderConfigurationCurrent.has_inertia),
+					preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia), 
 					getExercisePercentBodyWeightFromComboCapture (),
 					Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
 					Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
@@ -4729,7 +4729,7 @@ public partial class ChronoJumpWindow
 	private void runEncoderCaptureNoRDotNetInitialize() 
 	{
 		EncoderParams ep = new EncoderParams(
-				encoderCaptureOptionsWin.GetMinHeight(encoderConfigurationCurrent.has_inertia),
+				preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia), 
 				getExercisePercentBodyWeightFromComboCapture (),
 				Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
 				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
@@ -5950,12 +5950,14 @@ public class EncoderCaptureOptionsWindow {
 		return repetitiveConditionsWin.EncoderInertialDiscardFirstThree;
 	}
 
+	/*
 	public int GetMinHeight (bool inertial) {
 		if(inertial)
 			return (int) spin_encoder_capture_min_height_inertial.Value;
 		else
 			return (int) spin_encoder_capture_min_height_gravitatory.Value;
 	}
+	*/
 	public void SetMinHeight (bool inertial, int height) {
 		if(inertial)
 			spin_encoder_capture_min_height_inertial.Value = height;

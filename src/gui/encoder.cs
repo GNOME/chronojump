@@ -295,7 +295,7 @@ public partial class ChronoJumpWindow
 	private static bool encoderProcessFinish;
 	private static bool encoderProcessFinishContMode;
 
-//	EncoderCaptureOptionsWindow encoderCaptureOptionsWin;
+	EncoderCaptureOptionsWindow encoderCaptureOptionsWin;
 	EncoderConfigurationWindow encoder_configuration_win;
 
 	EncoderConfiguration encoderConfigurationCurrent;

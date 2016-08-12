@@ -98,6 +98,12 @@ public class Preferences
 		return SqlitePreferences.SelectAll();
 	}
 	
+	public int EncoderCaptureMinHeight(bool inertial) {
+		if(inertial)
+			return encoderCaptureMinHeightInertial;
+		else
+			return encoderCaptureMinHeightGravitatory;
+	}
 
 	~Preferences() {}
 	   

@@ -293,8 +293,7 @@ public class RepetitiveConditionsWindow
 				Util.PlaySound(Constants.SoundTypes.BAD, true);
 		} else
 			new DialogMessage(Constants.MessageTypes.INFO, 
-					Catalog.GetString("You need to activate sounds in main window") + 
-					" (" + Catalog.GetString("top right") + ")");
+					Catalog.GetString("You need to activate sounds in preferences / multimedia."));
 
 	}
 

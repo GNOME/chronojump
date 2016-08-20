@@ -263,11 +263,6 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Label label_video;
 	[Widget] Gtk.Image image_video_yes;
 	[Widget] Gtk.Image image_video_no;
-	
-	[Widget] Gtk.CheckButton checkbutton_volume;
-	[Widget] Gtk.Image image_volume;
-	[Widget] Gtk.Image image_volume_encoder;
-	[Widget] Gtk.CheckButton checkbutton_volume_encoder;
 
 
 	//multiChronopic	
@@ -905,21 +900,6 @@ public partial class ChronoJumpWindow
 					preferences.databaseVersion));
 
 		checkbutton_allow_finish_rj_after_time.Active = preferences.allowFinishRjAfterTime;
-
-
-		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_volume);
-		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_volume_encoder);
-		
-		//don't raise the signal	
-		checkbutton_volume.Clicked -= new EventHandler(on_checkbutton_volume_clicked);
-		checkbutton_volume.Active = preferences.volumeOn;
-		checkbutton_volume.Clicked += new EventHandler(on_checkbutton_volume_clicked);
-		//don't raise the signal	
-		checkbutton_volume_encoder.Clicked -= new EventHandler(on_checkbutton_volume_encoder_clicked);
-		checkbutton_volume_encoder.Active = preferences.volumeOn;
-		checkbutton_volume_encoder.Clicked += new EventHandler(on_checkbutton_volume_encoder_clicked);
-		
-		changeVolumeButtons(preferences.volumeOn);
 
 		//---- video ----
 
@@ -3474,7 +3454,7 @@ public partial class ChronoJumpWindow
 	
 
 	/*
-	 * videoOn and volumeOn
+	 * videoOn
 	 */
 	
 
@@ -3620,48 +3600,7 @@ public partial class ChronoJumpWindow
 		videoCapturePrepare(true); //if error, show message
 	}
 
-	private void changeVolumeButtons(bool myVolume) {
-		Pixbuf pixbuf;
-		if(myVolume) 
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-high.png");
-		else 
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-muted.png");
-		
-		image_volume.Pixbuf = pixbuf;
-		image_volume_encoder.Pixbuf = pixbuf;
-	}
-	
-	private void on_checkbutton_volume_clicked(object o, EventArgs args) {
-		if(checkbutton_volume.Active) {
-			preferences.volumeOn = true;
-			SqlitePreferences.Update("volumeOn", "True", false);
-		} else {
-			preferences.volumeOn = false;
-			SqlitePreferences.Update("volumeOn", "False", false);
-		}
-		//change encoder checkbox but don't raise the signal	
-		checkbutton_volume_encoder.Clicked -= new EventHandler(on_checkbutton_volume_encoder_clicked);
-		checkbutton_volume_encoder.Active = preferences.volumeOn;
-		checkbutton_volume_encoder.Clicked += new EventHandler(on_checkbutton_volume_encoder_clicked);
-		
-		changeVolumeButtons(preferences.volumeOn);
-	}
 
-	private void on_checkbutton_volume_encoder_clicked(object o, EventArgs args) {
-		if(checkbutton_volume_encoder.Active) {
-			preferences.volumeOn = true;
-			SqlitePreferences.Update("volumeOn", "True", false);
-		} else {
-			preferences.volumeOn = false;
-			SqlitePreferences.Update("volumeOn", "False", false);
-		}
-		//change encoder checkbox but don't raise the signal	
-		checkbutton_volume.Clicked -= new EventHandler(on_checkbutton_volume_clicked);
-		checkbutton_volume.Active = preferences.volumeOn;
-		checkbutton_volume.Clicked += new EventHandler(on_checkbutton_volume_clicked);
-		
-		changeVolumeButtons(preferences.volumeOn);
-	}
 	/*
 	 * cancel and finish
 	 */

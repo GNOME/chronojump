@@ -114,7 +114,8 @@ public class PreferencesWindow {
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted2;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted3;
 
-	//camera tab
+	//multimedia tab
+	[Widget] Gtk.CheckButton checkbutton_volume;
 	[Widget] Gtk.Box hbox_combo_camera;
 	[Widget] Gtk.ComboBox combo_camera;
 
@@ -186,8 +187,15 @@ public class PreferencesWindow {
 
 		PreferencesWindowBox.createComboLanguage();
 
+		//multimedia tab
+		if(preferences.volumeOn)  
+			PreferencesWindowBox.checkbutton_volume.Active = true; 
+		else 
+			PreferencesWindowBox.checkbutton_volume.Active = false; 
+
 		PreferencesWindowBox.createComboCamera(UtilVideo.GetVideoDevices(), preferences.videoDeviceNum);
-		
+	
+
 		string [] decs = {"1", "2", "3"};
 		PreferencesWindowBox.combo_decimals.Active = UtilGtk.ComboMakeActive(
 				decs, preferences.digitsNumber.ToString());
@@ -1117,6 +1125,12 @@ public class PreferencesWindow {
 		
 		//---- end of encoder other
 		
+		//multimedia ----
+		if( preferences.volumeOn != PreferencesWindowBox.checkbutton_volume.Active ) {
+			SqlitePreferences.Update("volumeOn", PreferencesWindowBox.checkbutton_volume.Active.ToString(), true);
+			preferences.volumeOn = PreferencesWindowBox.checkbutton_volume.Active;
+		}
+
 		if( preferences.videoDeviceNum != UtilGtk.ComboGetActivePos(combo_camera) ) {
 			SqlitePreferences.Update("videoDevice", UtilGtk.ComboGetActivePos(combo_camera).ToString(), true);
 			preferences.videoDeviceNum = UtilGtk.ComboGetActivePos(combo_camera);

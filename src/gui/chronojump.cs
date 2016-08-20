@@ -44,21 +44,25 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_gui_tests;
 	[Widget] Gtk.Button button_carles;
 	
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps;
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps_simple;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps_reactive;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs_simple;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs_intervallic;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_power_gravitatory;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_power_inertial;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_other;
 
-	[Widget] Gtk.MenuItem menuitem_mode_selected_jumps;
-	[Widget] Gtk.MenuItem menuitem_mode_selected_runs;
+	[Widget] Gtk.MenuItem menuitem_mode_selected_jumps_simple;
+	[Widget] Gtk.MenuItem menuitem_mode_selected_jumps_reactive;
+	[Widget] Gtk.MenuItem menuitem_mode_selected_runs_simple;
+	[Widget] Gtk.MenuItem menuitem_mode_selected_runs_intervallic;
 	[Widget] Gtk.MenuItem menuitem_mode_selected_power_gravitatory;
 	[Widget] Gtk.MenuItem menuitem_mode_selected_power_inertial;
 	[Widget] Gtk.MenuItem menuitem_mode_selected_other;
 	
 	[Widget] Gtk.Notebook notebook_start; //use to display the start images to select different modes
 	[Widget] Gtk.Notebook notebook_sup;
-	[Widget] Gtk.Notebook notebook_sup_contacts;
+	[Widget] Gtk.HBox hbox_other;
 	[Widget] Gtk.Notebook notebook_capture_graph_table;
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
 
@@ -70,20 +74,17 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_selector_start_encoder_gravitatory;
 	[Widget] Gtk.Image image_selector_start_encoder_inertial;
 	
-	//gui for small screens
-	[Widget] Gtk.RadioButton radio_mode_jumps_small;
-	[Widget] Gtk.RadioButton radio_mode_jumps_reactive_small;
-	[Widget] Gtk.RadioButton radio_mode_runs_small;
-	[Widget] Gtk.RadioButton radio_mode_runs_intervallic_small;
 	[Widget] Gtk.RadioButton radio_mode_reaction_times_small;
 	[Widget] Gtk.RadioButton radio_mode_pulses_small;
 	[Widget] Gtk.RadioButton radio_mode_multi_chronopic_small;
 	[Widget] Gtk.RadioButton radio_mode_encoder_capture_small;
 	[Widget] Gtk.RadioButton radio_mode_encoder_analyze_small;
+	/*
 	[Widget] Gtk.Image image_mode_jumps_small;
 	[Widget] Gtk.Image image_mode_jumps_reactive_small;
 	[Widget] Gtk.Image image_mode_runs_small;
 	[Widget] Gtk.Image image_mode_runs_intervallic_small;
+	*/
 	[Widget] Gtk.Image image_mode_reaction_times_small;
 	[Widget] Gtk.Image image_mode_pulses_small;
 	[Widget] Gtk.Image image_mode_multi_chronopic_small;
@@ -492,13 +493,13 @@ public partial class ChronoJumpWindow
 
 	private void on_button_image_test_zoom_clicked(object o, EventArgs args) {
 		EventType myType;
-		if(radio_mode_jumps_small.Active) 
+		if(radio_menuitem_mode_jumps_simple.Active) 
 			myType = currentJumpType;
-		else if(radio_mode_jumps_reactive_small.Active) 
+		else if(radio_menuitem_mode_jumps_reactive.Active) 
 			myType = currentJumpRjType;
-		else if(radio_mode_runs_small.Active) 
+		else if(radio_menuitem_mode_runs_simple.Active) 
 			myType = currentRunType;
-		else if(radio_mode_runs_intervallic_small.Active) 
+		else if(radio_menuitem_mode_runs_intervallic.Active) 
 			myType = currentRunIntervalType;
 		else if(radio_mode_reaction_times_small.Active) 
 			myType = currentReactionTimeType;
@@ -682,6 +683,7 @@ public partial class ChronoJumpWindow
 		 * gui for small screens
 		 */
 
+		/*
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumps);
 		image_mode_jumps_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsRJ);
@@ -690,6 +692,7 @@ public partial class ChronoJumpWindow
 		image_mode_runs_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRunsInterval);
 		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
+		*/
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameReactionTime);
 		image_mode_reaction_times_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNamePulse);
@@ -953,42 +956,7 @@ public partial class ChronoJumpWindow
 	 * ----------------  test modes (small GUI) ----------------
 	 *  --------------------------------------------------------
 	 */
-	
-	public void on_radio_mode_jumps_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_jumps_small.Active) {
-			notebooks_change(0);
-			on_extra_window_jumps_test_changed(obj, args);
-			hbox_results_legend.Visible = true;
-			
-			notebook_capture_analyze.GetNthPage(2).Show(); //show jumpsProfile on jumps
-		}
-	}
 
-	public void on_radio_mode_jumps_reactive_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_jumps_reactive_small.Active) {
-			notebooks_change(1);
-			on_extra_window_jumps_rj_test_changed(obj, args);
-			hbox_results_legend.Visible = false;
-			
-			notebook_capture_analyze.GetNthPage(2).Hide(); //don't show jumpsProfile on jumps reactive
-		}
-	}
-
-	public void on_radio_mode_runs_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_runs_small.Active) {
-			notebooks_change(2);
-			on_extra_window_runs_test_changed(obj, args);
-			hbox_results_legend.Visible = true;
-		}
-	}
-
-	public void on_radio_mode_runs_intervallic_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_runs_intervallic_small.Active) {
-			notebooks_change(3);
-			on_extra_window_runs_interval_test_changed(obj, args);
-			hbox_results_legend.Visible = false;
-		}
-	}
 
 	public void on_radio_mode_reaction_times_small_toggled (object obj, EventArgs args) {
 		if(radio_mode_reaction_times_small.Active) {
@@ -1170,13 +1138,13 @@ public partial class ChronoJumpWindow
 
 	private void personChanged() {
 		//1) change on jumps, runs, pulse capture graph
-		if(radio_mode_jumps_small.Active) {
+		if(radio_menuitem_mode_jumps_simple.Active) {
 			updateGraphJumpsSimple();
 
 			if(notebook_capture_analyze.CurrentPage == 2) //Jumps Profile
 				jumpsProfileDo(true); //calculate data
 		}
-		else if(radio_mode_runs_small.Active) 
+		else if(radio_menuitem_mode_runs_simple.Active) 
 			updateGraphRunsSimple();
 		else if(radio_mode_reaction_times_small.Active) 
 			updateGraphReactionTimes();
@@ -3068,8 +3036,10 @@ public partial class ChronoJumpWindow
 	
 	private void select_menuitem_mode_toggled(Constants.Menuitem_modes m) 
 	{
-		menuitem_mode_selected_jumps.Visible = false;
-		menuitem_mode_selected_runs.Visible = false;
+		menuitem_mode_selected_jumps_simple.Visible = false;
+		menuitem_mode_selected_jumps_reactive.Visible = false;
+		menuitem_mode_selected_runs_simple.Visible = false;
+		menuitem_mode_selected_runs_intervallic.Visible = false;
 		menuitem_mode_selected_power_gravitatory.Visible = false;
 		menuitem_mode_selected_power_inertial.Visible = false;
 		menuitem_mode_selected_other.Visible = false;
@@ -3081,23 +3051,49 @@ public partial class ChronoJumpWindow
 		menuitem_export_encoder_signal.Visible = false;
 		menuitem_export_csv.Visible = true;
 
-		if(m == Constants.Menuitem_modes.JUMPS) 
+		hbox_other.Visible = false;
+
+		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
 			notebook_sup.CurrentPage = 0;
-			notebook_sup_contacts.CurrentPage = 0;
-			menuitem_mode_selected_jumps.Visible = true;
-			radio_mode_jumps_small.Active = true;
 			notebook_capture_analyze.ShowTabs = true;
-			notebook_capture_analyze.GetNthPage(2).Show(); //show jumpsProfile on jumps
-		} else if(m == Constants.Menuitem_modes.RUNS) 
+			if(m == Constants.Menuitem_modes.JUMPSSIMPLE) 
+			{
+				menuitem_mode_selected_jumps_simple.Visible = true;
+				notebooks_change(0);
+				on_extra_window_jumps_test_changed(new object(), new EventArgs());
+				hbox_results_legend.Visible = true;
+				notebook_capture_analyze.GetNthPage(2).Show(); //show jumpsProfile on jumps simple
+			} else 
+			{
+				menuitem_mode_selected_jumps_reactive.Visible = true;
+				notebooks_change(1);
+				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
+				hbox_results_legend.Visible = false;
+				notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on jumps reactive
+			}
+		}
+		else if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
 			notebook_sup.CurrentPage = 0;
-			notebook_sup_contacts.CurrentPage = 1;
-			menuitem_mode_selected_runs.Visible = true;
-			radio_mode_runs_small.Active = true;
 			notebook_capture_analyze.ShowTabs = true;
+			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
+			{
+				menuitem_mode_selected_runs_simple.Visible = true;
+				notebooks_change(2);
+				on_extra_window_runs_test_changed(new object(), new EventArgs());
+				hbox_results_legend.Visible = true;
+			}
+			else
+			{
+				menuitem_mode_selected_runs_intervallic.Visible = true;
+				notebooks_change(3);
+				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
+				hbox_results_legend.Visible = false;
+			}
 			notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on runs
-		} else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL) 
+		}
+		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL) 
 		{
 			menuitem_encoder_session_overview.Visible = true;
 			menuitem_export_encoder_signal.Visible = true;
@@ -3169,9 +3165,10 @@ public partial class ChronoJumpWindow
 			if(changed) {
 				prepareAnalyzeRepetitions ();
 			}
-		} else {	//m == Constants.Menuitem_modes.OTHER (contacts / other)
+		} 
+		else {	//m == Constants.Menuitem_modes.OTHER (contacts / other)
 			notebook_sup.CurrentPage = 0;
-			notebook_sup_contacts.CurrentPage = 2;
+			hbox_other.Visible = true;
 			menuitem_mode_selected_other.Visible = true;
 			radio_mode_reaction_times_small.Active = true;
 
@@ -3369,7 +3366,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("change_multitest_firmware 3");
 		if(isChronopicAuto) {
 			int debounceChange = 50;
-			if(m == Constants.Menuitem_modes.RUNS)
+			if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 				debounceChange = 10;
 
 			int msChanged = chronopicWin.ChangeMultitestFirmware(debounceChange);
@@ -3387,10 +3384,14 @@ public partial class ChronoJumpWindow
 
 	private Constants.Menuitem_modes getMenuItemMode() 
 	{
-		if(radio_menuitem_mode_jumps.Active)
-			return Constants.Menuitem_modes.JUMPS;
-		else if(radio_menuitem_mode_runs.Active)
-			return Constants.Menuitem_modes.RUNS;
+		if(radio_menuitem_mode_jumps_simple.Active)
+			return Constants.Menuitem_modes.JUMPSSIMPLE;
+		else if(radio_menuitem_mode_jumps_reactive.Active)
+			return Constants.Menuitem_modes.JUMPSREACTIVE;
+		else if(radio_menuitem_mode_runs_simple.Active)
+			return Constants.Menuitem_modes.RUNSSIMPLE;
+		else if(radio_menuitem_mode_runs_intervallic.Active)
+			return Constants.Menuitem_modes.RUNSINTERVALLIC;
 		else if(radio_menuitem_mode_power_gravitatory.Active)
 			return Constants.Menuitem_modes.POWERGRAVITATORY;
 		else if(radio_menuitem_mode_power_inertial.Active)
@@ -3409,21 +3410,35 @@ public partial class ChronoJumpWindow
 		select_menuitem_mode_toggled(getMenuItemMode());
 	}
 
-	private void on_button_selector_start_jumps_clicked(object o, EventArgs args) 
+	private void on_button_selector_start_jumps_simple_clicked(object o, EventArgs args) 
 	{
-		if(radio_menuitem_mode_jumps.Active) {
+		if(radio_menuitem_mode_jumps_simple.Active) {
 			//needed if people select again the same option
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPS); 
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSSIMPLE);
 		}
 		else
-			radio_menuitem_mode_jumps.Active = true;
+			radio_menuitem_mode_jumps_simple.Active = true;
 	}
-	private void on_button_selector_start_runs_clicked(object o, EventArgs args) 
+	private void on_button_selector_start_jumps_reactive_clicked(object o, EventArgs args) 
 	{
-		if(radio_menuitem_mode_runs.Active)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNS);
+		if(radio_menuitem_mode_jumps_reactive.Active)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSREACTIVE);
 		else
-			radio_menuitem_mode_runs.Active = true;
+			radio_menuitem_mode_jumps_reactive.Active = true;
+	}
+	private void on_button_selector_start_runs_simple_clicked(object o, EventArgs args) 
+	{
+		if(radio_menuitem_mode_runs_simple.Active)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSSIMPLE);
+		else
+			radio_menuitem_mode_runs_simple.Active = true;
+	}
+	private void on_button_selector_start_runs_intervallic_clicked(object o, EventArgs args) 
+	{
+		if(radio_menuitem_mode_runs_intervallic.Active)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSINTERVALLIC);
+		else
+			radio_menuitem_mode_runs_intervallic.Active = true;
 	}
 	private void on_button_selector_start_power_gravitatory_clicked(object o, EventArgs args) 
 	{
@@ -3882,23 +3897,23 @@ public partial class ChronoJumpWindow
 			return;
 		}
 		
-		if(radio_mode_jumps_small.Active) 
+		if(radio_menuitem_mode_jumps_simple.Active) 
 		{
-			LogB.Debug("radio_mode_jumps_small");
+			LogB.Debug("radio_menuitem_mode_jumps_simple");
 			on_normal_jump_activate(o, args);
 		}
-		else if(radio_mode_jumps_reactive_small.Active) 
+		else if(radio_menuitem_mode_jumps_reactive.Active) 
 		{
-			LogB.Debug("radio_mode_jumps_reactive_small");
+			LogB.Debug("radio_menuitem_mode_jumps_reactive");
 			on_rj_activate(o, args);
 		}
-		else if(radio_mode_runs_small.Active) {
-			LogB.Debug("radio_mode_runs_small");
+		else if(radio_menuitem_mode_runs_simple.Active) {
+			LogB.Debug("radio_menuitem_mode_runs_simple");
 			extra_window_runs_distance = (double) extra_window_runs_spinbutton_distance.Value;
 			
 			on_normal_run_activate(o, args);
 		}
-		else if(radio_mode_runs_intervallic_small.Active) {
+		else if(radio_menuitem_mode_runs_intervallic.Active) {
 			LogB.Debug("radio_mode_runs_i_small");
 			//RSA runs cannot be simulated because it's complicated to manage the countdown event...
 			if(currentRunIntervalType.IsRSA && !chronopicWin.Connected) {
@@ -5186,17 +5201,17 @@ LogB.Debug("X");
 		try {
 			switch (currentEventType.Type) {
 				case EventType.Types.JUMP:
-					if(lastJumpIsSimple && radio_mode_jumps_small.Active) 
+					if(lastJumpIsSimple && radio_menuitem_mode_jumps_simple.Active) 
 						PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject, false);
-					else if (radio_mode_jumps_reactive_small.Active)
+					else if (radio_menuitem_mode_jumps_reactive.Active)
 						PrepareJumpReactiveGraph(
 								Util.GetLast(currentJumpRj.TvString), Util.GetLast(currentJumpRj.TcString),
 								currentJumpRj.TvString, currentJumpRj.TcString, preferences.volumeOn, repetitiveConditionsWin);
 					break;
 				case EventType.Types.RUN:
-					if(lastRunIsSimple && radio_mode_runs_small.Active) 
+					if(lastRunIsSimple && radio_menuitem_mode_runs_simple.Active) 
 						PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, false);
-					else if(radio_mode_runs_intervallic_small.Active) {
+					else if(radio_menuitem_mode_runs_intervallic.Active) {
 						RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type, false);
 						double distanceTotal = Util.GetRunITotalDistance(currentRunInterval.DistanceInterval, 
 								runType.DistancesString, currentRunInterval.Tracks);
@@ -6715,13 +6730,12 @@ LogB.Debug("X");
 	private void sensitiveGuiEventDoing () {
 		session_menuitem.Sensitive = false;
 		menuitem_mode.Sensitive = false;
-		notebook_sup_contacts.Sensitive = false;
 		
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
 		//notebook_capture_analyze.Sensitive = true; 
 		notebook_capture_analyze.GetNthPage(1).Hide();
-		if(radio_menuitem_mode_jumps.Active && radio_mode_jumps_small.Active)
+		if(radio_menuitem_mode_jumps_simple.Active)
 			notebook_capture_analyze.GetNthPage(2).Hide();
 		
 		
@@ -6757,13 +6771,12 @@ LogB.Debug("X");
 
 		session_menuitem.Sensitive = true;
 		menuitem_mode.Sensitive = true;
-		notebook_sup_contacts.Sensitive = true;
 
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
 		//notebook_capture_analyze.Sensitive = true; 
 		notebook_capture_analyze.GetNthPage(1).Show();
-		if(radio_menuitem_mode_jumps.Active && radio_mode_jumps_small.Active)
+		if(radio_menuitem_mode_jumps_simple.Active)
 			notebook_capture_analyze.GetNthPage(2).Show();
 		
 		help_menuitem.Sensitive = true;
@@ -6839,7 +6852,6 @@ LogB.Debug("X");
 		menuitem_mode.Sensitive 	= ! start;
 		help_menuitem.Sensitive 	= ! start;
 		frame_persons.Sensitive 	= ! start;
-		notebook_sup_contacts.Sensitive = ! start;
 
 		hbox_jumps_test.Visible 	= ! start;
 		button_auto_start.Visible 	= ! start;	
@@ -6847,7 +6859,7 @@ LogB.Debug("X");
 		hbox_jump_auto_controls.Visible  = start;
 		
 		notebook_capture_analyze.GetNthPage(1).Visible = ! start;
-		if(radio_menuitem_mode_jumps.Active)
+		if(radio_menuitem_mode_jumps_simple.Active)
 			notebook_capture_analyze.GetNthPage(2).Visible = ! start;
 
 		//when start, put button delete_this_test as not sensitive

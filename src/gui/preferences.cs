@@ -174,9 +174,9 @@ public class PreferencesWindow {
 			PreferencesWindowBox = new PreferencesWindow ();
 		}
 
-		if(menu_mode !=	Constants.Menuitem_modes.JUMPS)
+		if(menu_mode !=	Constants.Menuitem_modes.JUMPSSIMPLE && menu_mode != Constants.Menuitem_modes.JUMPSREACTIVE)
 			PreferencesWindowBox.notebook.GetNthPage(1).Hide(); 
-		if(menu_mode !=	Constants.Menuitem_modes.RUNS)
+		if(menu_mode !=	Constants.Menuitem_modes.RUNSSIMPLE && menu_mode != Constants.Menuitem_modes.RUNSINTERVALLIC)
 			PreferencesWindowBox.notebook.GetNthPage(2).Hide(); 
 		if(menu_mode !=	Constants.Menuitem_modes.POWERGRAVITATORY && menu_mode != Constants.Menuitem_modes.POWERINERTIAL) {
 			PreferencesWindowBox.notebook.GetNthPage(3).Hide();

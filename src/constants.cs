@@ -689,7 +689,7 @@ public class Constants
 		JUMPS, RUNS, ENCODER
 	}
 
-	public enum Menuitem_modes { JUMPS, RUNS, POWERGRAVITATORY, POWERINERTIAL, OTHER }
+	public enum Menuitem_modes { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, POWERGRAVITATORY, POWERINERTIAL, OTHER }
 
 	public static string All = "All";
 	public static string None = "None";

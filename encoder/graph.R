@@ -2128,7 +2128,7 @@ createPchVector <- function(ecconVector) {
 
 #-------------- end of EncoderConfiguration conversions -------------------------
 
-quitIfNoData <- function(n, curves, outputData1) {
+quitIfNoData <- function(curvesPlot, n, curves, outputData1) {
         
         debugParameters(listN(n, curves, outputData1), "quitIfNoData")
         
@@ -2136,7 +2136,10 @@ quitIfNoData <- function(n, curves, outputData1) {
 	if( n== 0 || 
 	   ( n == 1 && (is.na(curves[1,1]) || curves[1,1] == 0 || is.na(curves[1,2]) || curves[1,2] <= 0) )  #bad curves[1,2] on inertial returns -1
 	   ) {
-		plot(0,0,type="n",axes=F,xlab="",ylab="")
+		#if curvesPlot, then findCurvesNew has started a graph, don't need to start again 
+		if(! curvesPlot)
+			plot(0,0,type="n",axes=F,xlab="",ylab="")
+
 		text(x=0,y=0,translateToPrint("Sorry, no curves matched your criteria."),cex=1.5)
 		dev.off()
 		write("", outputData1)
@@ -2413,7 +2416,7 @@ doProcess <- function(options)
 		file.create(paste(op$FeedbackFileBase,"4.txt",sep=""))
 
 		n=length(curves[,1])
-		quitIfNoData(n, curves, op$OutputData1)
+		quitIfNoData(curvesPlot, n, curves, op$OutputData1)
 		
 		#print(curves, stderr())
 	
@@ -2481,7 +2484,7 @@ doProcess <- function(options)
 			curvesPlot = TRUE
 
 		n=length(curves[,1])
-		quitIfNoData(n, curves, op$OutputData1)
+		quitIfNoData(curvesPlot, n, curves, op$OutputData1)
 		
 		print("curves before reduceCurveBySpeed")
 		print(curves)

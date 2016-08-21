@@ -59,7 +59,8 @@ class SqliteServer : Sqlite
 			"chronometer TEXT, " +
 			"device TEXT, " +
 			"comments TEXT, " +
-			"confiable INT ) "; //bool
+			"confiable INT, " + // bool
+			"FOREIGN KEY (countryID) REFERENCES Country(uniqueID)) ";
 		dbcmd.ExecuteNonQuery();
 	 }
 

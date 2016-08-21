@@ -55,7 +55,9 @@ class SqliteJumpRj : SqliteJump
 			"limited TEXT, " + //for RJ, "11J" or "11S" (11 Jumps, 11 seconds)
 			"angleString TEXT, " + //"-1" if undef
 			"simulated INT, " +
-			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID))";
+			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID), " + 
+			"FOREIGN KEY (type) REFERENCES JumpRjType(name), " +
+			"FOREIGN KEY (personID) REFERENCES Person77(uniqueID))";
 		dbcmd.ExecuteNonQuery();
 	}
 

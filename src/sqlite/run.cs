@@ -49,7 +49,9 @@ class SqliteRun : Sqlite
 			"description TEXT, " +
 			"simulated INT, " +
 			"initialSpeed INT, " +
-			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID))";
+			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID), " +
+			"FOREIGN KEY (type) REFERENCES RunType(name), " +
+			"FOREIGN KEY (personId) REFERENCES Person77(uniqueID))";
 		dbcmd.ExecuteNonQuery();
 	}
 	

@@ -56,7 +56,8 @@ class SqliteJump : Sqlite
 						//positive numbers represent the serverUniqueID
 						//the simulated has two purposes, but it's logical because 
 						//only real tests can be uploaded
-			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID))";
+			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID), " +
+			"FOREIGN KEY (type) REFERENCES JumpType(name))";
 		dbcmd.ExecuteNonQuery();
 	}
 	

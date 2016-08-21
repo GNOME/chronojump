@@ -47,7 +47,8 @@ class SqliteReactionTime : Sqlite
 			"time FLOAT, " +
 			"description TEXT, " +
 			"simulated INT, " +
-			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID))";
+			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID), " + 
+			"FOREIGN KEY (personID) REFERENCES Person77(uniqueID))";
 		dbcmd.ExecuteNonQuery();
 	}
 	

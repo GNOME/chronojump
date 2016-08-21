@@ -36,7 +36,8 @@ class SqliteSpeciallity : Sqlite
 			"CREATE TABLE " + Constants.SpeciallityTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"sportID INT, " +
-			"name TEXT )";
+			"name TEXT, " +
+			"FOREIGN KEY (sportId) REFERENCES Sport(uniqueID))";
 		dbcmd.ExecuteNonQuery();
 	 }
 

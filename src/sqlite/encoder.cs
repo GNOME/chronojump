@@ -61,7 +61,11 @@ class SqliteEncoder : Sqlite
 		       	"future1 TEXT, " +	//Since 1.4.4 (DB 1.06) this stores last meanPower detected on a curve 
 						//(as string with '.' because future1 was created as TEXT)
 		       	"future2 TEXT, " + 
-		       	"future3 TEXT )";
+			"future3 TEXT, " +
+			"FOREIGN KEY (exerciseID) REFERENCES Encoder1RM(exerciseID), " +
+			"FOREIGN KEY (personID) REFERENCES Person77(uniqueID), " +
+			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID), " +
+			"FOREIGN KEY (exerciseID) REFERENCES EncoderExercise(uniqueID))";
 		dbcmd.ExecuteNonQuery();
 	}
 	
@@ -889,7 +893,9 @@ class SqliteEncoder : Sqlite
 			"load1RM FLOAT, " +
 			"future1 TEXT, " +	
 			"future2 TEXT, " +
-			"future3 TEXT )";
+			"future3 TEXT, " +
+			"FOREIGN KEY (personID) REFERENCES Person77(uniqueID), " +
+			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID))";
 		dbcmd.ExecuteNonQuery();
 	}
 	

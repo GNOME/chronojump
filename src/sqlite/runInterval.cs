@@ -51,7 +51,9 @@ class SqliteRunInterval : SqliteRun
 			"limited TEXT, " +
 			"simulated INT, " +
 			"initialSpeed INT, " +
-			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID))";
+			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID), " +
+			"FOREIGN KEY (personID) REFERENCES Person77(uniqueID), " + 
+			"FOREIGN KEY (type) REFERENCES RunIntervalType(name))";
 		dbcmd.ExecuteNonQuery();
 	}
 

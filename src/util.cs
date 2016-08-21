@@ -60,8 +60,20 @@ public class Util
 		else
 			return ConvertToPoint(s);
 	}
-		
 
+
+	// If the @p variable is defined and different to 0 and different to
+	// OFF (case insensitive): returns true.
+	public static bool IsEnvironmentVariableEnabled(string variable) {
+		string value = Environment.GetEnvironmentVariable("CHRONOJUMP_SQLITE_FOREIGN_KEYS");
+
+		if (String.IsNullOrEmpty(value) || value == "0" || value.ToUpper() == "OFF") {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
 
 	//when we do a query to the server, it returns avg as "0,54" because it's latin localized
 	//if client is on english machine, need to convert this to "0.54"

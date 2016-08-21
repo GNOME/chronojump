@@ -48,7 +48,8 @@ class SqlitePulse : Sqlite
 			"totalPulsesNum INT, " +
 			"timeString TEXT, " +
 			"description TEXT, " +
-			"simulated INT )";		
+			"simulated INT, " +
+			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID))";
 		dbcmd.ExecuteNonQuery();
 	}
 	

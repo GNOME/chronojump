@@ -48,7 +48,8 @@ class SqliteRun : Sqlite
 			"time FLOAT, " +
 			"description TEXT, " +
 			"simulated INT, " +
-			"initialSpeed INT )";
+			"initialSpeed INT, " +
+			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID))";
 		dbcmd.ExecuteNonQuery();
 	}
 	

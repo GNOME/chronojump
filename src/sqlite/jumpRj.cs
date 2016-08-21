@@ -54,7 +54,8 @@ class SqliteJumpRj : SqliteJump
 			"time FLOAT, " + //if limit it's 'n' jumps, we probably waste 7.371 seconds
 			"limited TEXT, " + //for RJ, "11J" or "11S" (11 Jumps, 11 seconds)
 			"angleString TEXT, " + //"-1" if undef
-			"simulated INT )";
+			"simulated INT, " +
+			"FOREIGN KEY (sessionID) REFERENCES Session(uniqueID))";
 		dbcmd.ExecuteNonQuery();
 	}
 

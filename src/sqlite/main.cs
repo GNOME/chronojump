@@ -153,6 +153,18 @@ class Sqlite
 		 */
 		string sqlFileTest = home + Path.DirectorySeparatorChar + "test.db";
 		string sqlFileTestTemp = temp + Path.DirectorySeparatorChar + "test.db";
+
+		string foreignKeys;
+
+		if (Util.IsEnvironmentVariableEnabled("CHRONOJUMP_SQLITE_FOREIGN_KEYS")) {
+			foreignKeys = "; foreign keys=true";
+			LogB.SQL("sqlite foreign keys enabled");
+		}
+		else {
+			foreignKeys = "; foreign keys=false";
+			LogB.SQL("sqlite foreign keys disabled");
+		}
+
 		string connectionStringTest = "version = 3; Data source = " + sqlFileTest;
 		string connectionStringTestTemp = "version = 3; Data source = " + sqlFileTestTemp;
 

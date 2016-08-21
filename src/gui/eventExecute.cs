@@ -1123,6 +1123,10 @@ public partial class ChronoJumpWindow
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
+		//fix problem on show graph at Chronojump start
+		if(event_execute_drawingarea == null || event_execute_pixmap == null)
+			return;
+
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		//writeMarginsText(maxValue, minValue, alto);
 		
@@ -1191,6 +1195,10 @@ public partial class ChronoJumpWindow
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
+		//fix problem on show graph at Chronojump start
+		if(event_execute_drawingarea == null || event_execute_pixmap == null)
+			return;
+
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		//writeMarginsText(maxValue, minValue, alto);
 		
@@ -1609,6 +1617,9 @@ public partial class ChronoJumpWindow
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
+		//fix problem on show graph at Chronojump start
+		if(event_execute_drawingarea == null || event_execute_pixmap == null)
+			return;
 		
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		

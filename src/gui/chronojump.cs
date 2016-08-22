@@ -69,22 +69,37 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.Label label_version;
 	[Widget] Gtk.Image image_logo;
+	[Widget] Gtk.Button button_selector_start_jumps;
+	[Widget] Gtk.Button button_selector_start_runs;
+	[Widget] Gtk.Button button_selector_start_encoder;
+	[Widget] Gtk.Button button_selector_start_other;
 	[Widget] Gtk.Image image_selector_start_jumps;
 	[Widget] Gtk.Image image_selector_start_runs;
 	[Widget] Gtk.Image image_selector_start_encoder_gravitatory;
-	[Widget] Gtk.Image image_selector_start_encoder_inertial;
+	//[Widget] Gtk.Image image_selector_start_encoder_inertial;
+	
+	[Widget] Gtk.Notebook notebook_selector_start_jumps;
+	[Widget] Gtk.Viewport viewport_selector_start_jumps;
+	[Widget] Gtk.Label label_selector_start_jumps_simple;
+	[Widget] Gtk.Label label_selector_start_jumps_reactive;
+	[Widget] Gtk.Notebook notebook_selector_start_runs;
+	[Widget] Gtk.Viewport viewport_selector_start_runs;
+	[Widget] Gtk.Label label_selector_start_runs_simple;
+	[Widget] Gtk.Label label_selector_start_runs_intervallic;
+	[Widget] Gtk.Notebook notebook_selector_start_encoder;
+	[Widget] Gtk.Viewport viewport_selector_start_encoder;
+	[Widget] Gtk.Label label_selector_start_encoder_gravitatory;
+	[Widget] Gtk.Label label_selector_start_encoder_inertial;
 	
 	[Widget] Gtk.RadioButton radio_mode_reaction_times_small;
 	[Widget] Gtk.RadioButton radio_mode_pulses_small;
 	[Widget] Gtk.RadioButton radio_mode_multi_chronopic_small;
 	[Widget] Gtk.RadioButton radio_mode_encoder_capture_small;
 	[Widget] Gtk.RadioButton radio_mode_encoder_analyze_small;
-	/*
 	[Widget] Gtk.Image image_mode_jumps_small;
 	[Widget] Gtk.Image image_mode_jumps_reactive_small;
 	[Widget] Gtk.Image image_mode_runs_small;
 	[Widget] Gtk.Image image_mode_runs_intervallic_small;
-	*/
 	[Widget] Gtk.Image image_mode_reaction_times_small;
 	[Widget] Gtk.Image image_mode_pulses_small;
 	[Widget] Gtk.Image image_mode_multi_chronopic_small;
@@ -634,8 +649,9 @@ public partial class ChronoJumpWindow
 		string buildDate = " (b)";
 		label_version.Text = progVersion + buildDate;
 		LogB.Information("Build date:" + buildDate);
-	}
 	
+		//moveStartTestInitial();
+	}
 
 
 /*
@@ -701,8 +717,18 @@ public partial class ChronoJumpWindow
 		/*
 		 * gui for small screens
 		 */
+		viewport_selector_start_jumps.ModifyBg(StateType.Normal, new Gdk.Color(0x0b,0x48,0x6b));
+		label_selector_start_jumps_simple.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+		label_selector_start_jumps_reactive.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+		
+		viewport_selector_start_runs.ModifyBg(StateType.Normal, new Gdk.Color(0x3b,0x86,0x86));
+		label_selector_start_runs_simple.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+		label_selector_start_runs_intervallic.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+		
+		viewport_selector_start_encoder.ModifyBg(StateType.Normal, new Gdk.Color(0x79,0xbd,0x98));
+		label_selector_start_encoder_gravitatory.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+		label_selector_start_encoder_inertial.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
 
-		/*
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumps);
 		image_mode_jumps_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsRJ);
@@ -711,7 +737,7 @@ public partial class ChronoJumpWindow
 		image_mode_runs_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRunsInterval);
 		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
-		*/
+		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameReactionTime);
 		image_mode_reaction_times_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNamePulse);
@@ -904,8 +930,8 @@ public partial class ChronoJumpWindow
 		image_selector_start_runs.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorEncoderGravitatory);
 		image_selector_start_encoder_gravitatory.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorEncoderInertial);
-		image_selector_start_encoder_inertial.Pixbuf = pixbuf;
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorEncoderInertial);
+		//image_selector_start_encoder_inertial.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
 		image_logo.Pixbuf = pixbuf;
@@ -3046,7 +3072,9 @@ public partial class ChronoJumpWindow
 	 * menu test selectors
 	 */
 
-	private void on_menuitem_mode_main_menu_activate (object o, EventArgs args) {
+	private void on_menuitem_mode_main_menu_activate (object o, EventArgs args) 
+	{
+		reset_buttons_selector_start();
 		notebook_start.CurrentPage = 0;
 		
 		//don't show menu bar on start page
@@ -3419,6 +3447,20 @@ public partial class ChronoJumpWindow
 			return Constants.Menuitem_modes.OTHER;
 	}
 
+	private void reset_buttons_selector_start_from_gui(object o, EventArgs args) {
+		reset_buttons_selector_start();
+	}
+	private void reset_buttons_selector_start()
+	{
+		button_selector_start_jumps.Sensitive = true;
+		button_selector_start_runs.Sensitive = true;
+		button_selector_start_encoder.Sensitive = true;
+		button_selector_start_other.Sensitive = true;
+		notebook_selector_start_jumps.CurrentPage = 0;
+		notebook_selector_start_runs.CurrentPage = 0;
+		notebook_selector_start_encoder.CurrentPage = 0;
+	}
+
 	private void on_radio_menuitem_mode_activate(object o, EventArgs args) 
 	{
 		//togglebutton sends signal two times (deactivate/activate), just get the good signal
@@ -3429,6 +3471,13 @@ public partial class ChronoJumpWindow
 		select_menuitem_mode_toggled(getMenuItemMode());
 	}
 
+	private void on_button_selector_start_jumps_clicked(object o, EventArgs args) 
+	{
+		button_selector_start_runs.Sensitive = false;
+		button_selector_start_encoder.Sensitive = false;
+		button_selector_start_other.Sensitive = false;
+		notebook_selector_start_jumps.CurrentPage = 1;
+	}
 	private void on_button_selector_start_jumps_simple_clicked(object o, EventArgs args) 
 	{
 		if(radio_menuitem_mode_jumps_simple.Active) {
@@ -3445,7 +3494,15 @@ public partial class ChronoJumpWindow
 		else
 			radio_menuitem_mode_jumps_reactive.Active = true;
 	}
-	private void on_button_selector_start_runs_simple_clicked(object o, EventArgs args) 
+	
+	private void on_button_selector_start_runs_clicked(object o, EventArgs args) 
+	{
+		button_selector_start_jumps.Sensitive = false;
+		button_selector_start_encoder.Sensitive = false;
+		button_selector_start_other.Sensitive = false;
+		notebook_selector_start_runs.CurrentPage = 1;
+	}
+	private void on_button_selector_start_runs_simple_clicked(object o, EventArgs args)
 	{
 		if(radio_menuitem_mode_runs_simple.Active)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSSIMPLE);
@@ -3459,20 +3516,29 @@ public partial class ChronoJumpWindow
 		else
 			radio_menuitem_mode_runs_intervallic.Active = true;
 	}
-	private void on_button_selector_start_power_gravitatory_clicked(object o, EventArgs args) 
+	
+	private void on_button_selector_start_encoder_clicked(object o, EventArgs args) 
+	{
+		button_selector_start_jumps.Sensitive = false;
+		button_selector_start_runs.Sensitive = false;
+		button_selector_start_other.Sensitive = false;
+		notebook_selector_start_encoder.CurrentPage = 1;
+	}
+	private void on_button_selector_start_encoder_gravitatory_clicked(object o, EventArgs args) 
 	{
 		if(radio_menuitem_mode_power_gravitatory.Active)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERGRAVITATORY);
 		else
 			radio_menuitem_mode_power_gravitatory.Active = true;
 	}
-	private void on_button_selector_start_power_inertial_clicked(object o, EventArgs args) 
+	private void on_button_selector_start_encoder_inertial_clicked(object o, EventArgs args) 
 	{
 		if(radio_menuitem_mode_power_inertial.Active)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERINERTIAL);
 		else
 			radio_menuitem_mode_power_inertial.Active = true;
 	}
+	
 	private void on_button_selector_start_other_clicked(object o, EventArgs args) 
 	{
 		if(radio_menuitem_mode_other.Active)

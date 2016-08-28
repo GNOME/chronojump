@@ -69,10 +69,6 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.Label label_version;
 	[Widget] Gtk.Image image_logo;
-	[Widget] Gtk.Button button_selector_start_jumps;
-	[Widget] Gtk.Button button_selector_start_runs;
-	[Widget] Gtk.Button button_selector_start_encoder;
-	[Widget] Gtk.Button button_selector_start_other;
 	[Widget] Gtk.Image image_selector_start_jumps;
 	[Widget] Gtk.Image image_selector_start_runs;
 	[Widget] Gtk.Image image_selector_start_encoder_gravitatory;
@@ -107,6 +103,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_mode_jumps_reactive_small;
 	[Widget] Gtk.Label label_mode_runs_small;
 	[Widget] Gtk.Label label_mode_runs_intervallic_small;
+	[Widget] Gtk.Image image_mode_encoder_gravitatory;
+	[Widget] Gtk.Image image_mode_encoder_inertial;
 	[Widget] Gtk.Label label_mode_reaction_times_small;
 	[Widget] Gtk.Label label_mode_pulses_small;
 	[Widget] Gtk.Label label_mode_multi_chronopic_small;
@@ -738,6 +736,11 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRunsInterval);
 		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
 		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderGravitatory);
+		image_mode_encoder_gravitatory.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderInertial);
+		image_mode_encoder_inertial.Pixbuf = pixbuf;
+	
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameReactionTime);
 		image_mode_reaction_times_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNamePulse);
@@ -3452,10 +3455,6 @@ public partial class ChronoJumpWindow
 	}
 	private void reset_buttons_selector_start()
 	{
-		button_selector_start_jumps.Sensitive = true;
-		button_selector_start_runs.Sensitive = true;
-		button_selector_start_encoder.Sensitive = true;
-		button_selector_start_other.Sensitive = true;
 		notebook_selector_start_jumps.CurrentPage = 0;
 		notebook_selector_start_runs.CurrentPage = 0;
 		notebook_selector_start_encoder.CurrentPage = 0;
@@ -3473,10 +3472,9 @@ public partial class ChronoJumpWindow
 
 	private void on_button_selector_start_jumps_clicked(object o, EventArgs args) 
 	{
-		button_selector_start_runs.Sensitive = false;
-		button_selector_start_encoder.Sensitive = false;
-		button_selector_start_other.Sensitive = false;
 		notebook_selector_start_jumps.CurrentPage = 1;
+		notebook_selector_start_runs.CurrentPage = 0;
+		notebook_selector_start_encoder.CurrentPage = 0;
 	}
 	private void on_button_selector_start_jumps_simple_clicked(object o, EventArgs args) 
 	{
@@ -3497,10 +3495,9 @@ public partial class ChronoJumpWindow
 	
 	private void on_button_selector_start_runs_clicked(object o, EventArgs args) 
 	{
-		button_selector_start_jumps.Sensitive = false;
-		button_selector_start_encoder.Sensitive = false;
-		button_selector_start_other.Sensitive = false;
+		notebook_selector_start_jumps.CurrentPage = 0;
 		notebook_selector_start_runs.CurrentPage = 1;
+		notebook_selector_start_encoder.CurrentPage = 0;
 	}
 	private void on_button_selector_start_runs_simple_clicked(object o, EventArgs args)
 	{
@@ -3519,9 +3516,8 @@ public partial class ChronoJumpWindow
 	
 	private void on_button_selector_start_encoder_clicked(object o, EventArgs args) 
 	{
-		button_selector_start_jumps.Sensitive = false;
-		button_selector_start_runs.Sensitive = false;
-		button_selector_start_other.Sensitive = false;
+		notebook_selector_start_jumps.CurrentPage = 0;
+		notebook_selector_start_runs.CurrentPage = 0;
 		notebook_selector_start_encoder.CurrentPage = 1;
 	}
 	private void on_button_selector_start_encoder_gravitatory_clicked(object o, EventArgs args) 

@@ -400,6 +400,8 @@ public class Constants
 	public static string FileNameJumpsRJ = "stock_up_down.png";
 	public static string FileNameRuns = "stock_right.png";
 	public static string FileNameRunsInterval = "stock_right_left.png";
+	public static string FileNameEncoderGravitatory = "stock_down.png";
+	public static string FileNameEncoderInertial = "stock_inertial.png";
 	public static string FileNameReactionTime = "reaction_time_menu.png";
 	public static string FileNamePulse = "pulse_menu.png";
 	public static string FileNameMultiChronopic = "multichronopic_menu.png";

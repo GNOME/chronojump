@@ -676,11 +676,12 @@
                                   <widget class="GtkViewport" id="viewport_selector_start_jumps">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="border_width">4</property>
                                     <child>
                                       <widget class="GtkVBox" id="vbox_selector_start_jumps_2">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="border_width">12</property>
+                                        <property name="border_width">16</property>
                                         <property name="spacing">12</property>
                                         <child>
                                           <widget class="GtkVBox" id="vbox84">
@@ -689,7 +690,7 @@
                                             <property name="spacing">6</property>
                                             <child>
                                               <widget class="GtkButton" id="button5">
-                                                <property name="height_request">75</property>
+                                                <property name="height_request">60</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
@@ -760,7 +761,7 @@
                                             <property name="spacing">6</property>
                                             <child>
                                               <widget class="GtkButton" id="button6">
-                                                <property name="height_request">75</property>
+                                                <property name="height_request">60</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
@@ -1083,6 +1084,7 @@
                                   <widget class="GtkViewport" id="viewport_selector_start_runs">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="border_width">4</property>
                                     <child>
                                       <widget class="GtkVBox" id="vbox_selector_start_runs">
                                         <property name="visible">True</property>
@@ -1096,7 +1098,7 @@
                                             <property name="spacing">6</property>
                                             <child>
                                               <widget class="GtkButton" id="button7">
-                                                <property name="height_request">75</property>
+                                                <property name="height_request">60</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
@@ -1167,7 +1169,7 @@
                                             <property name="spacing">6</property>
                                             <child>
                                               <widget class="GtkButton" id="button8">
-                                                <property name="height_request">75</property>
+                                                <property name="height_request">50</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
@@ -1301,6 +1303,7 @@
                                   <widget class="GtkViewport" id="viewport_selector_start_encoder">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="border_width">4</property>
                                     <child>
                                       <widget class="GtkVBox" id="vbox_selector_start_encoder">
                                         <property name="visible">True</property>
@@ -1314,7 +1317,7 @@
                                             <property name="spacing">6</property>
                                             <child>
                                               <widget class="GtkButton" id="button9">
-                                                <property name="height_request">75</property>
+                                                <property name="height_request">60</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
@@ -1385,7 +1388,7 @@
                                             <property name="spacing">6</property>
                                             <child>
                                               <widget class="GtkButton" id="button10">
-                                                <property name="height_request">75</property>
+                                                <property name="height_request">60</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
@@ -18279,6 +18282,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -23127,6 +23133,9 @@ by you</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -23516,6 +23525,9 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -26277,6 +26289,9 @@ by you</property>
               <placeholder/>
             </child>
             <child>
+              <placeholder/>
+            </child>
+            <child>
               <widget class="GtkButton" id="button_video_url">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -26299,6 +26314,9 @@ by you</property>
                 <property name="x_options"/>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -40657,6 +40675,24 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -43936,6 +43972,18 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                     <child>
                       <placeholder/>
                     </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                   </widget>
                 </child>
               </widget>
@@ -45032,9 +45080,6 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                       <placeholder/>
                                     </child>
                                     <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
                                       <widget class="GtkLabel" id="label218">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
@@ -45405,6 +45450,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                         <property name="left_attach">2</property>
                                         <property name="right_attach">3</property>
                                       </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
                                     </child>
                                     <child>
                                       <placeholder/>
@@ -51275,6 +51323,9 @@ Other</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -51301,6 +51352,9 @@ Other</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -52336,6 +52390,9 @@ Other</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

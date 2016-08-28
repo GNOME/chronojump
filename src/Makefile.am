@@ -298,6 +298,8 @@ RESOURCES = \
 	../images/stock_right_left.png,stock_right_left.png \
 	../images/stock_up.png,stock_up.png \
 	../images/stock_up_down.png,stock_up_down.png \
+	../images/stock_down.png,stock_down.png \
+	../images/stock_inertial.png,stock_inertial.png \
 	../images/reaction_time_menu.png,reaction_time_menu.png \
 	../images/pulse_menu.png,pulse_menu.png \
 	../images/multichronopic_menu.png,multichronopic_menu.png \

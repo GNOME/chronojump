@@ -3355,8 +3355,13 @@ public partial class ChronoJumpWindow
 		LogB.Information("change_multitest_firmware");
 		label_chronopics_multitest.Text = "";
 		
+
+		//---- 1 if is not connected, return
+		
 		if(! chronopicWin.Connected)
 			return;
+
+		//---- 2 if port does not exists, show cp window and return
 
 		//http://www.raspberrypi.org/forums/viewtopic.php?f=66&t=88415
 		//https://bugzilla.xamarin.com/show_bug.cgi?id=15514
@@ -3403,6 +3408,8 @@ public partial class ChronoJumpWindow
 		}
 		*/
 
+		//---- 3 try to communicate with multitest firmware (return if cannot connect)
+		
 		LogB.Information("Trying method 2");
 		bool isChronopicAuto = false;
 		try {
@@ -3412,6 +3419,8 @@ public partial class ChronoJumpWindow
 			LogB.Information("Could not read from Chronopic with method 2");
 			return;
 		}
+		
+		//---- 4 change 10 <-> 50 ms
 
 		LogB.Information("change_multitest_firmware 3");
 		if(isChronopicAuto) {

@@ -281,7 +281,7 @@ public class ChronopicAutoDetect
 				/*
 				 * we are searching an encoder
 				 * if we arrived here, we know is not a normal chronopic
-				 * then wecan search safely for an encoder here
+				 * then we can search safely for an encoder here
 				 */
 				ChronopicAuto caEncoder = new ChronopicAutoCheckEncoder();
 				caEncoder.IsEncoder = true;    //for the bauds.

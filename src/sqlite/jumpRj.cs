@@ -40,7 +40,7 @@ class SqliteJumpRj : SqliteJump
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
-			"type TEXT, " + 
+			"type TEXT UNIQUE, " +
 			"tvMax FLOAT, " +
 			"tcMax FLOAT, " +
 			"fall FLOAT, " +  

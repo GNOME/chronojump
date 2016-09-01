@@ -2,6 +2,7 @@
 
 import argparse
 import sqlite3
+import sys
 
 
 def results_delete_column(column, results):

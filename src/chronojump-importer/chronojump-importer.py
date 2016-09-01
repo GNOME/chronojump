@@ -1,0 +1,241 @@
+#!/usr/bin/env python3
+
+import argparse
+import sqlite3
+
+
+def results_delete_column(column, results):
+    new_results = []
+
+    for row in results:
+        new_results.append(list(row[column+1:]))
+
+    return new_results
+
+
+def get_column_names(db, table):
+    cursor = db.cursor()
+
+    cursor.execute("PRAGMA table_info({})".format(table))
+    result = cursor.fetchall()
+
+    names = []
+
+    for row in result:
+       names.append(row[1])
+
+    return names
+
+
+def find_jump_types(sessionID, source_db):
+    """ Returns jumpTypes rows (without the uniqueID) needed by sessionID"""
+    source_cursor = source_db.cursor()
+
+    column_names = get_column_names(source_db, "JumpType")
+
+    i = 0
+    while i < len(column_names):
+        column_names[i] = "JumpType." + column_names[i]
+        i+=1
+
+    result = source_cursor.execute("SELECT {} FROM JumpType LEFT JOIN Jump ON JumpType.name=Jump.type LEFT JOIN Session ON Jump.sessionID=Session.uniqueID WHERE Session.uniqueID={}".format(",".join(column_names), sessionID))
+
+    results = result.fetchall()
+    jump_types = results_delete_column(0, results)
+
+    return jump_types
+
+
+def ids_from_data(db, table, rows):
+    """ Returns a list of ids in table. Inserts it if necessary. """
+    ids = []
+
+    cursor = db.cursor()
+
+    column_names = get_column_names(db, table)
+    column_names = column_names[1:]
+
+    for row in rows:
+        where = ""
+        for idx, column_name in enumerate(column_names):
+            if where != "":
+                where += " AND "
+
+            where += column_name + "=\"" + str(row[idx]) + "\""
+
+        sql = "select uniqueID from " + table + " where " + where
+
+        cursor.execute(sql)
+        result = cursor.fetchall()
+
+        if len(result) == 0:
+            values = "("
+            for col in row:
+                if values != "(":
+                    values += ","
+                values += '"' + str(col) + '"'
+
+            values += ")"
+
+            sql = "insert into " + table + " (" + ",".join(column_names) + ") VALUES " + values
+            cursor.execute(sql)
+            newid = cursor.lastrowid
+        else:
+            newid = result[0][0]
+
+        if newid not in ids:
+            ids.append(newid)
+
+    return ids
+
+
+def create_select(table_name, column_names, where):
+    sql = "SELECT " + ",".join(column_names) + " FROM " + table_name + " WHERE " + where
+
+    return sql
+
+
+def create_insert(table_name, column_names, row):
+    values = "("
+    for data in row:
+        if values != "(":
+            values += ","
+        values += '"' + str(data) + '"' # TODO fix escaping here!
+    values += ")"
+
+    sql = "INSERT INTO " + table_name + " (" + ",".join(column_names) + ") VALUES " + values
+
+    return sql
+
+
+def import_table_with_where(source_db, destination_db, table_name, autoincrement_column_name, where):
+    column_names = get_column_names(source_db, table_name)
+
+    column_names.remove(autoincrement_column_name)
+
+    sql_select = create_select(table_name, column_names, where)
+
+    source_cursor = source_db.cursor()
+    destination_cursor = destination_db.cursor()
+
+    source_cursor.execute(sql_select)
+
+    result = source_cursor.fetchall()
+
+    new_ids = []
+
+    for row in result:
+        sql_insert = create_insert(table_name, column_names, row)
+        destination_cursor.execute(sql_insert)
+
+        new_id = destination_cursor.lastrowid
+
+        new_ids.append(new_id)
+
+    return new_ids
+
+
+def import_session(source_db, destination_db, source_session):
+    """ Imports souce_session from source_d~/.local/share/Chronojump/database/chronojump.dbb into destination_db. Returns the session_id"""
+    ids = import_table_with_where(source_db, destination_db, "Session", "uniqueID", "uniqueID={}".format(source_session))
+
+    assert len(ids) == 1
+
+    return ids[0]
+
+
+def insert_person77(source_db, destination_db, person_id):
+    column_names = get_column_names(source_db, "Person77")
+    column_names = column_names[1:]
+
+    source_cursor = source_db.cursor()
+    create_select("Person77", column_names, "uniqueId = {}".format(person_id))
+
+
+    sql = create_insert("Person77", column_names, row)
+
+    destination_cursor = destination_db.cursor()
+
+    destination_cursor.execute(sql)
+
+    person77_id = destination_cursor.lastrowid
+
+    return person77_id
+
+
+def get_person_id(source_db, destination_db, source_person_id):
+    """ Returns the personId if it person_name already exists or creates one and returns the personId"""
+    source_cursor = source_db.cursor()
+    destination_cursor = destination_db.cursor()
+
+    sql_select = "SELECT name FROM Person77 WHERE uniqueID = {}".format(source_person_id)
+    source_cursor.execute(sql_select)
+
+    person_name = source_cursor.fetchall()[0][0]
+
+    print("Person name to look for:", person_name)
+
+    sql_select = "SELECT * FROM Person77 WHERE name = {}".format(person_name)
+    destination_cursor.execute(sql_select)
+
+    result = destination_cursor.fetchall()
+
+    if len(result) == 0:
+        insert_person77(source_db, destination_db, source_person_id)
+    else:
+        return result[0][0]
+
+
+def import_jump_rj(source_db, destination_db, old_session_id, new_session_id):
+    source_cursor = source_db.cursor()
+    destination_db = destination_db.cursor()
+
+
+
+def import_database(source_db, destination_db, source_session):
+    id = import_session(source_db, destination_db, source_session)
+    print("Imported sessionId:", id)
+    # import_jump_rj(source_db, destination_db, old_session_id, new_session_id)
+    # jump_types = find_jump_types(source_session, source_db)
+
+    # ids_from_data(destination_db, "JumpType", jump_types)
+    # import_session(source_db, destination_db, source_session)
+
+
+def open_database(filename, read_only):
+    if read_only:
+        mode = "ro"
+    else:
+        mode = "rw"
+
+    uri = "file:{}?mode={}".format(filename,mode)
+    conn = sqlite3.connect(uri, uri=True)
+
+    conn.execute("pragma foreign_keys=ON")
+
+    return conn
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Process some integers.")
+    parser.add_argument("--source", type=str, required=True,
+                        help="chronojump.sqlite that we are importing from")
+    parser.add_argument("--destination", type=str, required=True,
+                        help="chronojump.sqlite that we import to")
+    parser.add_argument("--source_session", type=int, required=True,
+                        help="Session from source that will be imported to a new session in destination")
+    args = parser.parse_args()
+
+    source_session = args.source_session
+    source_db = open_database(args.source, True)
+    destination_db = open_database(args.destination, False)
+
+    import_database(source_db, destination_db, source_session)
+
+    destination_db.commit()
+
+    destination_db.close()
+
+
+if __name__ == "__main__":
+    main()

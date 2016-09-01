@@ -27,18 +27,25 @@ def get_column_names(db, table):
     return names
 
 
-def find_jump_types(sessionID, source_db):
+def find_jump_types(sessionID, source_db, table):
     """ Returns jumpTypes rows (without the uniqueID) needed by sessionID"""
     source_cursor = source_db.cursor()
 
-    column_names = get_column_names(source_db, "JumpType")
+    column_names = get_column_names(source_db, table)
 
     i = 0
     while i < len(column_names):
-        column_names[i] = "JumpType." + column_names[i]
+        column_names[i] = table+"." + column_names[i]
         i+=1
 
-    result = source_cursor.execute("SELECT {} FROM JumpType LEFT JOIN Jump ON JumpType.name=Jump.type LEFT JOIN Session ON Jump.sessionID=Session.uniqueID WHERE Session.uniqueID={}".format(",".join(column_names), sessionID))
+    if table == "JumpType":
+        secondary_table = "Jump"
+    elif table == "JumpRjType":
+        secondary_table = "JumpRj"
+    else:
+        assert False
+
+    result = source_cursor.execute(("SELECT {} FROM " + table + " LEFT JOIN " + secondary_table + " ON "+table+".name="+secondary_table+".type LEFT JOIN Session ON "+secondary_table+".sessionID=Session.uniqueID WHERE Session.uniqueID={}").format(",".join(column_names), sessionID))
 
     results = result.fetchall()
     jump_types = results_delete_column(0, results)
@@ -64,6 +71,7 @@ def ids_from_data(db, table, rows):
             where += column_name + "=\"" + str(row[idx]) + "\""
 
         sql = "select uniqueID from " + table + " where " + where
+        print("Will check:", sql)
 
         cursor.execute(sql)
         result = cursor.fetchall()
@@ -78,14 +86,18 @@ def ids_from_data(db, table, rows):
             values += ")"
 
             sql = "insert into " + table + " (" + ",".join(column_names) + ") VALUES " + values
+            print("SQL insert:", sql)
             cursor.execute(sql)
             newid = cursor.lastrowid
+
         else:
+            print("Not inserting because it already existed")
             newid = result[0][0]
 
         if newid not in ids:
             ids.append(newid)
 
+    db.commit()
     return ids
 
 
@@ -174,7 +186,13 @@ def get_person_id(source_db, destination_db, source_person_id):
     sql_select = "SELECT name FROM Person77 WHERE uniqueID = {}".format(source_person_id)
     source_cursor.execute(sql_select)
 
-    person_name = source_cursor.fetchall()[0][0]
+    results = source_cursor.fetchall()
+
+    assert results
+    assert len(results) > 0
+    assert len(results[0]) > 0
+
+    person_name = results[0][0]
 
     print("Person name to look for:", person_name)
 
@@ -194,6 +212,7 @@ def import_jump_rj(source_db, destination_db, source_session, new_session_id):
     destination_cursor = destination_db.cursor()
 
     column_names = get_column_names(source_db, "JumpRj")
+    column_names = column_names[1:]
 
     source_cursor.execute("SELECT " + ",".join(column_names) + " FROM JumpRJ WHERE sessionID = {}".format(source_session))
 
@@ -203,12 +222,12 @@ def import_jump_rj(source_db, destination_db, source_session, new_session_id):
 
     for row in results:
         new_row = list(row)
-        personId = row[0]
+        personId = row[1]
         new_person_id = get_person_id(source_db, destination_db, personId)
         new_row[0] = new_person_id
 
         sql_insert = create_insert("JumpRj",column_names, new_row)
-
+        print("Executing:", sql_insert)
         destination_cursor.execute(sql_insert)
 
         new_id = destination_cursor.lastrowid
@@ -218,14 +237,17 @@ def import_jump_rj(source_db, destination_db, source_session, new_session_id):
     return new_ids
 
 def import_database(source_db, destination_db, source_session):
+    jump_types = find_jump_types(source_session, source_db, "JumpType")
+    ids_from_data(destination_db, "JumpType", jump_types)
+
+    jump_rj_types = find_jump_types(source_session, source_db, "JumpRjType")
+    ids_from_data(destination_db, "JumpRjType", jump_rj_types)
+
     new_session_id = import_session(source_db, destination_db, source_session)
     print("Imported sessionId:", new_session_id)
     new_jump_rj_ids = import_jump_rj(source_db, destination_db, source_session, new_session_id)
     print("new_jump_rj_ids:", new_jump_rj_ids)
 
-    # jump_types = find_jump_types(source_session, source_db)
-
-    # ids_from_data(destination_db, "JumpType", jump_types)
     # import_session(source_db, destination_db, source_session)
 
 

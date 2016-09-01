@@ -257,6 +257,29 @@ def import_person_session_77(source_db, destination_db, source_session, destinat
         insert_person_session_77(destination_db, row)
 
 
+def import_reaction_time(source_db, destination_db, new_session_id):
+    """ ... """
+    source_cursor = source_db.cursor()
+    destination_db = destination_db.cursor()
+
+    columns = get_column_names(source_db, "ReactionTime")
+    columns = columns[1:]
+    sql = create_select("ReactionTime", columns, "SessionID={}".format(new_session_id))
+
+    source_cursor.execute(sql)
+
+    results = source_cursor.fetchall()
+
+    for row in results:
+        new_row = list(row)
+
+        new_person_id = get_person_id(source_db, destination_db, new_row[0])
+
+        new_row[0] = new_person_id
+
+        create_insert("ReactionTime", columns, new_row)
+
+
 def insert_person_session_77(destination_db, row):
     """ Inserts row into PersonSession77 and returns the uniqueID"""
     destination_cursor = destination_db.cursor()
@@ -287,6 +310,8 @@ def import_database(source_db, destination_db, source_session):
 
     new_jump_rj_ids = import_jump_rj(source_db, destination_db, source_session, new_session_id)
     print("new_jump_rj_ids:", new_jump_rj_ids)
+
+    import_reaction_time(source_db, destination_db, new_session_id)
 
     # import_session(source_db, destination_db, source_session)
 

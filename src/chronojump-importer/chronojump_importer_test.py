@@ -5,31 +5,40 @@ import subprocess
 import tempfile
 import shutil
 
+
 class TestImporter(unittest.TestCase):
-    def test_importerA(self):
+    def setUp(self):
+        self.temporary_directory_path = tempfile.mkdtemp(prefix="chronojump_importer_test_")
 
-        temporary_directory_path = tempfile.mkdtemp(prefix="chronojump_importer_test_")
+    def tearDown(self):
+        shutil.rmtree(self.temporary_directory_path)
 
-        print("temporary directory path:", temporary_directory_path)
+    def test_importerGeneric(self):
 
-        source_file = "{}/source-a.sqlite".format(temporary_directory_path)
-        destination_file = "{}/destination-a.sqlite".format(temporary_directory_path)
+        # lists the names. They will expand to generic-destination-X.sqlite / generic-source-X.sqlite / generic-expected-X.sqlite
+        generic_tests = ["a"]
 
-        shutil.copy("/home/carles/git/chronojump/src/chronojump-importer/tests/source-a.sqlite", source_file)
+        for generic_test in generic_tests:
+            source_file_name = "generic-source-{}.sqlite".format(generic_test)
+            destination_file_name = "generic-destination-{}.sqlite".format(generic_test)
+            expected_file_name = "generic-expected-{}.sqlite".format(generic_test)
 
-        shutil.copy("/home/carles/git/chronojump/src/chronojump-importer/tests/destination-a.sqlite", destination_file)
+            source_file_path = "{}/{}".format(self.temporary_directory_path, source_file_name)
+            destination_file_path = "{}/{}".format(self.temporary_directory_path, destination_file_name)
 
-        command = "python3 ./chronojump_importer.py --source {} --destination {} --source_session 1".format(source_file, destination_file)
+            shutil.copy("tests/{}".format(source_file_name), source_file_path)
+            shutil.copy("tests/{}".format(destination_file_name), destination_file_path)
 
-        print("Command: ", command)
-        os.system(command)
-        os.system("echo .dump | sqlite3 {}/destination-a.sqlite > {}/destination-a.sql".format(temporary_directory_path, temporary_directory_path))
-        os.system("echo .dump | sqlite3 /home/carles/git/chronojump/src/chronojump-importer/tests/expected-a.sqlite > {}/expected-a.sql".format(temporary_directory_path))
+            command = "python3 ./chronojump_importer.py --source {} --destination {} --source_session 1".format(source_file_path, destination_file_path)
+            os.system(command)
 
-        diff = subprocess.getoutput("diff -u {}/destination-a.sql {}/expected-a.sql".format(temporary_directory_path, temporary_directory_path))
+            os.system("echo .dump | sqlite3 {} > {}/destination.sql".format(destination_file_path, self.temporary_directory_path))
+            os.system("echo .dump | sqlite3 tests/{} > {}/expected.sql".format(expected_file_name, self.temporary_directory_path))
 
-        self.maxDiff = None
-        self.assertEqual(diff, "")
+            diff = subprocess.getoutput("diff -u {}/destination.sql {}/expected.sql".format(self.temporary_directory_path, self.temporary_directory_path))
+
+            self.maxDiff = None
+            self.assertEqual(diff, "")
 
 if __name__ == '__main__':
     unittest.main()

@@ -236,6 +236,43 @@ def import_jump_rj(source_db, destination_db, source_session, new_session_id):
 
     return new_ids
 
+
+def import_person_session_77(source_db, destination_db, source_session, destination_session):
+    source_cursor = source_db.cursor()
+
+    person_session_77_columns = get_column_names(source_db, "PersonSession77")
+
+    person_session_77_columns = person_session_77_columns[1:]
+
+    source_cursor.execute("SELECT " + ",".join(person_session_77_columns) + " FROM PersonSession77 WHERE sessionID={}".format(source_session))
+    results = source_cursor.fetchall()
+
+    for row in results:
+        new_row = list(row)
+        new_person_id = get_person_id(source_db, destination_db, row[0])
+
+        new_row[0] = new_person_id
+        new_row[1] = destination_session
+
+        insert_person_session_77(destination_db, row)
+
+
+def insert_person_session_77(destination_db, row):
+    """ Inserts row into PersonSession77 and returns the uniqueID"""
+    destination_cursor = destination_db.cursor()
+
+    column_names = get_column_names(destination_db, "PersonSession77")
+    column_names = column_names[1:]
+
+    sql = create_insert("PersonSession77", column_names, row)
+
+    destination_cursor.execute(sql)
+
+    new_id = destination_cursor.lastrowid
+
+    return new_id
+
+
 def import_database(source_db, destination_db, source_session):
     jump_types = find_jump_types(source_session, source_db, "JumpType")
     ids_from_data(destination_db, "JumpType", jump_types)
@@ -245,6 +282,9 @@ def import_database(source_db, destination_db, source_session):
 
     new_session_id = import_session(source_db, destination_db, source_session)
     print("Imported sessionId:", new_session_id)
+
+    import_person_session_77(source_db, destination_db, source_session, new_session_id)
+
     new_jump_rj_ids = import_jump_rj(source_db, destination_db, source_session, new_session_id)
     print("new_jump_rj_ids:", new_jump_rj_ids)
 

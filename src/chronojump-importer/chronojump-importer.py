@@ -149,14 +149,17 @@ def insert_person77(source_db, destination_db, person_id):
     column_names = column_names[1:]
 
     source_cursor = source_db.cursor()
-    create_select("Person77", column_names, "uniqueId = {}".format(person_id))
+    select_sql = create_select("Person77", column_names, "uniqueId = {}".format(person_id))
 
+    source_cursor.execute(select_sql)
 
-    sql = create_insert("Person77", column_names, row)
+    row = source_cursor.fetchall()[0]
+
+    insert_sql = create_insert("Person77", column_names, row)
 
     destination_cursor = destination_db.cursor()
 
-    destination_cursor.execute(sql)
+    destination_cursor.execute(insert_sql)
 
     person77_id = destination_cursor.lastrowid
 
@@ -175,27 +178,51 @@ def get_person_id(source_db, destination_db, source_person_id):
 
     print("Person name to look for:", person_name)
 
-    sql_select = "SELECT * FROM Person77 WHERE name = {}".format(person_name)
+    sql_select = "SELECT * FROM Person77 WHERE name = '{}'".format(person_name)
     destination_cursor.execute(sql_select)
 
     result = destination_cursor.fetchall()
 
     if len(result) == 0:
-        insert_person77(source_db, destination_db, source_person_id)
+        return insert_person77(source_db, destination_db, source_person_id)
     else:
         return result[0][0]
 
 
-def import_jump_rj(source_db, destination_db, old_session_id, new_session_id):
+def import_jump_rj(source_db, destination_db, source_session, new_session_id):
     source_cursor = source_db.cursor()
-    destination_db = destination_db.cursor()
+    destination_cursor = destination_db.cursor()
 
+    column_names = get_column_names(source_db, "JumpRj")
 
+    source_cursor.execute("SELECT " + ",".join(column_names) + " FROM JumpRJ WHERE sessionID = {}".format(source_session))
+
+    results = source_cursor.fetchall()
+
+    new_ids = []
+
+    for row in results:
+        new_row = list(row)
+        personId = row[0]
+        new_person_id = get_person_id(source_db, destination_db, personId)
+        new_row[0] = new_person_id
+
+        sql_insert = create_insert("JumpRj",column_names, new_row)
+
+        destination_cursor.execute(sql_insert)
+
+        new_id = destination_cursor.lastrowid
+
+        new_ids.append(new_id)
+
+    return new_ids
 
 def import_database(source_db, destination_db, source_session):
-    id = import_session(source_db, destination_db, source_session)
-    print("Imported sessionId:", id)
-    # import_jump_rj(source_db, destination_db, old_session_id, new_session_id)
+    new_session_id = import_session(source_db, destination_db, source_session)
+    print("Imported sessionId:", new_session_id)
+    new_jump_rj_ids = import_jump_rj(source_db, destination_db, source_session, new_session_id)
+    print("new_jump_rj_ids:", new_jump_rj_ids)
+
     # jump_types = find_jump_types(source_session, source_db)
 
     # ids_from_data(destination_db, "JumpType", jump_types)

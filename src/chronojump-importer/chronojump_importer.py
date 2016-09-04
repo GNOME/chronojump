@@ -3,7 +3,7 @@
 import argparse
 import sqlite3
 import sys
-
+import pprint
 
 def results_delete_column(column, results):
     new_results = []
@@ -28,8 +28,92 @@ def get_column_names(db, table):
     return names
 
 
+def remove_elements(list_of_elements, elements_to_remove):
+    """Returns a new list with list_of_elements without elements_to_remove"""
+    result = []
+
+    for element in list_of_elements:
+        if element not in elements_to_remove:
+            result.append(element)
+
+    return result
+
+
+def add_prefix(list_of_elements, prefix):
+    result = []
+
+    for element in list_of_elements:
+        result.append("{}{}".format(prefix, element))
+
+    return result
+
+
+def insert_data(database, table_name, data, matches_columns):
+    """ Inserts data (list of dictionaries) into table_name for database.
+    Modifies data and adds new_unique_id. This is the new uniqueid or an
+    existing one if a register with matches_columns already existed. """
+    cursor = database.cursor()
+
+    for row in data:
+        # First check if this already existed
+
+        where = ""
+        for column in matches_columns:
+            where += "{} = '{}'".format(column, row[column])
+
+        format_data = {}
+        format_data['table_name'] = table_name
+        format_data['where'] = where
+        sql = "SELECT uniqueId FROM {table_name} WHERE {where}".format(**format_data)
+        cursor.execute(sql)
+
+        results = cursor.fetchall()
+
+        if len(results[0]) == 0:
+            # Needs to insert
+            sql = create_insert_dictionary(table_name, row)
+            print("Will execute:", sql)
+            cursor.execute(sql)
+            new_id = cursor.lastrowid
+            row['new_unique_id'] = new_id
+        else:
+            # Returns uniqueid
+            row['new_unique_id'] = results[0][0]
+
+    database.commit()
+
+
+def return_data_from_table(database, table_name, where_condition, skip_columns, join_clause =""):
+    """ Returns a list of lists of the database, table executing where and skips the columns. """
+    cursor = database.cursor()
+
+    column_names = get_column_names(database, table_name)
+
+    column_names = remove_elements(column_names, skip_columns)
+
+    column_names_with_prefixes = add_prefix(column_names, "{}.".format(table_name))
+
+    where_condition = " WHERE {} ".format(where_condition)
+
+    format_data = {"column_names": ",".join(column_names_with_prefixes), "table_name": table_name, "join_clause": join_clause, "where": where_condition}
+
+    sql = "SELECT {column_names} FROM {table_name} {join_clause} {where}".format(**format_data)
+    cursor.execute(sql)
+
+    results = cursor.fetchall()
+
+    data = []
+    for row in results:
+        r = {}
+        for i, col in enumerate(row):
+            r[column_names[i]] = col
+
+        data.append(r)
+
+    return data
+
 def find_jump_types(sessionID, source_db, table):
-    """ Returns jumpTypes rows (without the uniqueID) needed by sessionID"""
+    """ Returns jumpTypes rows (without the uniqueID) used by sessionID"""
     source_cursor = source_db.cursor()
 
     column_names = get_column_names(source_db, table)
@@ -37,7 +121,7 @@ def find_jump_types(sessionID, source_db, table):
     i = 0
     while i < len(column_names):
         column_names[i] = table+"." + column_names[i]
-        i+=1
+        i += 1
 
     if table == "JumpType":
         secondary_table = "Jump"
@@ -104,6 +188,22 @@ def ids_from_data(db, table, rows):
 
 def create_select(table_name, column_names, where):
     sql = "SELECT " + ",".join(column_names) + " FROM " + table_name + " WHERE " + where
+
+    return sql
+
+
+def create_insert_dictionary(table_name, row):
+    values = "("
+    column_names = []
+    for column_name in row.keys():
+        if values != "(":
+            values += ","
+        values += '"' + str(row[column_name]) + '"' # TODO fix escaping here!
+        column_names.append(column_name)
+
+    values += ")"
+
+    sql = "INSERT INTO " + table_name + " (" + ",".join(column_names) + ") VALUES " + values
 
     return sql
 
@@ -259,7 +359,7 @@ def import_person_session_77(source_db, destination_db, source_session, destinat
 
 
 def import_reaction_time(source_db, destination_db, new_session_id):
-    """ ... """
+    """ TODO: it doesn't work it doesn't know the source session id"""
     source_cursor = source_db.cursor()
     destination_db = destination_db.cursor()
 
@@ -298,8 +398,19 @@ def insert_person_session_77(destination_db, row):
 
 
 def import_database(source_db, destination_db, source_session):
-    jump_types = find_jump_types(source_session, source_db, "JumpType")
-    ids_from_data(destination_db, "JumpType", jump_types)
+    """ Imports the session source_session from source_db into destination_db """
+    # jump_types = find_jump_types(source_session, source_db, "JumpType")
+    # print("Jump types:")
+    # pprint.pprint(jump_types)
+    # print("---------------")
+    jump_types = return_data_from_table(database=source_db, table_name="JumpType",
+                                        where_condition="Session.uniqueID={}".format(source_session),
+                                        skip_columns=["uniqueID"],
+                                        join_clause="LEFT JOIN Jump ON JumpType.name=Jump.type LEFT JOIN Session ON Jump.sessionID=Session.uniqueID")
+
+    insert_data(database=destination_db, table_name="JumpType", data=jump_types,
+                matches_columns=["name"])
+    # ids_from_data(destination_db, "JumpType", jump_types)
 
     jump_rj_types = find_jump_types(source_session, source_db, "JumpRjType")
     ids_from_data(destination_db, "JumpRjType", jump_rj_types)
@@ -314,10 +425,11 @@ def import_database(source_db, destination_db, source_session):
 
     import_reaction_time(source_db, destination_db, new_session_id)
 
-    # import_session(source_db, destination_db, source_session)
-
 
 def open_database(filename, read_only):
+    """Opens the database specified by filename. If read_only is True
+    the database cannot be changed.
+    """
     if read_only:
         mode = "ro"
     else:

@@ -6,6 +6,8 @@ import os
 import subprocess
 import tempfile
 import shutil
+import difflib
+import pprint
 
 
 class TestImporter(unittest.TestCase):
@@ -35,17 +37,24 @@ class TestImporter(unittest.TestCase):
             shutil.copy("tests/{}".format(destination_file_name), destination_file_path)
             shutil.copy("tests/{}".format(destination_file_name), original_destination_file_path)
 
-            # command = "python3 ./chronojump_importer.py --source {} --destination {} --source_session 1".format(source_file_path, destination_file_path)
-            # print("Command:", command)
-            # os.system(command)
-
             chronojump_importer.import_database(source_file_path, destination_file_path, 1)
 
             os.system("echo .dump | sqlite3 {} > {}/destination.sql".format(destination_file_path, self.temporary_directory_path))
             os.system("echo .dump | sqlite3 tests/{} > {}/expected.sql".format(expected_file_name, self.temporary_directory_path))
 
+            actual_file = open(self.temporary_directory_path + "/destination.sql")
+            expected_file = open(self.temporary_directory_path + "/expected.sql")
+
+            actual_dump = actual_file.readlines()
+            expected_dump = expected_file.readlines()
+
+            actual_file.close()
+            expected_file.close()
+
+            diff = difflib.unified_diff(actual_dump, expected_dump)
+            diff = "".join(diff)
+            print(diff)
             command = "diff -u {}/destination.sql {}/expected.sql".format(self.temporary_directory_path, self.temporary_directory_path)
-            print("command:",command)
             diff = subprocess.getoutput(command)
 
             self.maxDiff = None

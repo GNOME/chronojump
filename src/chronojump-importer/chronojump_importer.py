@@ -5,6 +5,9 @@ import argparse
 import sqlite3
 import sys
 import pprint
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 
 def results_delete_column(column, results):
@@ -435,8 +438,8 @@ def update_session_ids(table, new_session_id):
 def import_database(source_path, destination_path, source_session):
     """ Imports the session source_session from source_db into destination_db """
 
-    print("source path:", source_path)
-    print("destination path:", destination_path)
+    logging.debug("source path:" + source_path)
+    logging.debug("destination path:" + destination_path)
 
     source_db = open_database(source_path, read_only=True)
     destination_db = open_database(destination_path, read_only=False)
@@ -453,9 +456,9 @@ def import_database(source_path, destination_path, source_session):
     insert_data(cursor=destination_cursor, table_name="JumpType", data=jump_types,
                 matches_columns=get_column_names(destination_cursor, "JumpType", ["uniqueID"]))
 
-    cursor = destination_db.cursor()
-    cursor.execute("select * from jumptype")
-    pprint.pprint(cursor.fetchall())
+    # cursor = destination_db.cursor()
+    # cursor.execute("select * from jumptype")
+    # pprint.pprint(cursor.fetchall())
     #cursor.execute('INSERT INTO Jump (weight,angle,tc,type,tv,fall,description,sessionID,personID,simulated) VALUES ("0","-1.0","0.0","Free","0.729703","0.0","","1","1","-1")')
 
     #destination_db.commit()
@@ -554,7 +557,7 @@ def open_database(filename, read_only):
 
 
 def execute_and_log(cursor, sql, comment = ""):
-    print("SQL:", sql, comment)
+    logging.debug("SQL: {} -- {}".format(sql,comment))
     cursor.execute(sql)
 
 

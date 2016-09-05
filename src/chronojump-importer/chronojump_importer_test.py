@@ -19,18 +19,21 @@ class TestImporter(unittest.TestCase):
     def test_importerGeneric(self):
 
         # lists the names. They will expand to generic-destination-X.sqlite / generic-source-X.sqlite / generic-expected-X.sqlite
-        generic_tests = ["a"]
+        generic_tests = ["a", "b"]
 
         for generic_test in generic_tests:
             source_file_name = "generic-source-{}.sqlite".format(generic_test)
             destination_file_name = "generic-destination-{}.sqlite".format(generic_test)
             expected_file_name = "generic-expected-{}.sqlite".format(generic_test)
+            original_destination_file_path = "generic-original-destination-{}.sqlite".format(generic_test)
 
             source_file_path = "{}/{}".format(self.temporary_directory_path, source_file_name)
             destination_file_path = "{}/{}".format(self.temporary_directory_path, destination_file_name)
+            original_destination_file_path = "{}/{}".format(self.temporary_directory_path, original_destination_file_path)
 
             shutil.copy("tests/{}".format(source_file_name), source_file_path)
             shutil.copy("tests/{}".format(destination_file_name), destination_file_path)
+            shutil.copy("tests/{}".format(destination_file_name), original_destination_file_path)
 
             # command = "python3 ./chronojump_importer.py --source {} --destination {} --source_session 1".format(source_file_path, destination_file_path)
             # print("Command:", command)

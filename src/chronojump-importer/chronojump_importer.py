@@ -58,16 +58,18 @@ def insert_data_into_table(cursor, table_name, data, matches_columns):
             if len(matches_columns) == 0:
                 where = "1=1"
             else:
+                where_values = []
                 for column in matches_columns:
                     if where != "":
                         where += " AND "
-                    where += "{} = '{}'".format(column, row[column])
+                    where += "{} = ?".format(column)
+                    where_values.append(row[column])
 
             format_data = {}
             format_data['table_name'] = table_name
             format_data['where_clause'] = " WHERE {}".format(where)
             sql = "SELECT uniqueID FROM {table_name} {where_clause}".format(**format_data)
-            execute_and_log(cursor, sql)
+            cursor.execute(sql, where_values)
 
             results = cursor.fetchall()
 

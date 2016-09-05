@@ -31,8 +31,11 @@ class TestImporter(unittest.TestCase):
             shutil.copy("tests/{}".format(source_file_name), source_file_path)
             shutil.copy("tests/{}".format(destination_file_name), destination_file_path)
 
-            command = "python3 ./chronojump_importer.py --source {} --destination {} --source_session 1".format(source_file_path, destination_file_path)
-            os.system(command)
+            # command = "python3 ./chronojump_importer.py --source {} --destination {} --source_session 1".format(source_file_path, destination_file_path)
+            # print("Command:", command)
+            # os.system(command)
+
+            chronojump_importer.import_database(source_file_path, destination_file_path, 1)
 
             os.system("echo .dump | sqlite3 {} > {}/destination.sql".format(destination_file_path, self.temporary_directory_path))
             os.system("echo .dump | sqlite3 tests/{} > {}/expected.sql".format(expected_file_name, self.temporary_directory_path))

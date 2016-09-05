@@ -1540,8 +1540,9 @@ paintCrossVariablesLaterality <- function(x, y, laterality, colBalls)
 }
 
 #option: mean or max
-paintCrossVariables <- function (paf, varX, varY, option, dateAsX, 
-				 isAlone, title, singleFile, Eccon, ecconVector, seriesName, 
+paintCrossVariables <- function (paf, varX, varY, option, 
+				 dateAsX, dateTime,
+				 isAlone, title, singleFile, Eccon, ecconVector, seriesName,
 				 diameter, gearedDown,
 				 do1RM, do1RMMethod, outputData1) 
 {
@@ -1583,7 +1584,7 @@ paintCrossVariables <- function (paf, varX, varY, option, dateAsX,
 
 	if(dateAsX) {
 		xCopy <- x
-		x <- as.Date(seriesName)
+		x <- as.Date(dateTime)
 		seriesName <- xCopy
 	}
 	
@@ -2383,6 +2384,7 @@ doProcess <- function(options)
 				}
 				
 				seriesName[(i+newLines)] = as.vector(inputMultiData$seriesName[i])
+
 				laterality[(i+newLines)] = as.vector(inputMultiData$laterality[i])
 
 				count = count + length(dataTempPhase)
@@ -3027,16 +3029,19 @@ doProcess <- function(options)
 		}
 		else if(op$Analysis == "cross") {
 			mySeries = "1"
-			if(! singleFile)
+			myDateTime = NULL
+			if(! singleFile) {
 				mySeries = curves[,9]
+				myDateTime = curves[,7]
+			}
 
 			ecconVector = createEcconVector(singleFile, op$Eccon, length(curves[,1]), curves[,8])
 
 			if(op$AnalysisVariables[1] == "Speed,Power") {
 				par(mar=c(5,4,5,5))
 				analysisVertVars = unlist(strsplit(op$AnalysisVariables[1], "\\,"))
-				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[1], 
-						    op$AnalysisVariables[3], FALSE,
+				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[1], op$AnalysisVariables[3], 
+						    FALSE, NULL,
 						    "LEFT", "",
 						    singleFile,
 						    op$Eccon,
@@ -3045,8 +3050,8 @@ doProcess <- function(options)
 						    repOp$diameter, repOp$gearedDown,
 						    FALSE, FALSE, op$OutputData1) 
 				par(new=T)
-				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[2], 
-						    op$AnalysisVariables[3], FALSE,
+				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[2], op$AnalysisVariables[3], 
+						    FALSE, NULL,
 						    "RIGHT", op$Title,
 						    singleFile,
 						    op$Eccon,
@@ -3059,8 +3064,8 @@ doProcess <- function(options)
 				dateAsX <- FALSE
 				if(length(op$AnalysisVariables) == 4 && op$AnalysisVariables[4] == "Date")
 					dateAsX <- TRUE
-				paintCrossVariables(paf, op$AnalysisVariables[2], op$AnalysisVariables[1], 
-						    op$AnalysisVariables[3], dateAsX,
+				paintCrossVariables(paf, op$AnalysisVariables[2], op$AnalysisVariables[1], op$AnalysisVariables[3], 
+						    dateAsX, myDateTime,
 						    "ALONE", op$Title,
 						    singleFile,
 						    op$Eccon,

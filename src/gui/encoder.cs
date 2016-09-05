@@ -1958,7 +1958,7 @@ public partial class ChronoJumpWindow
 		{
 			ArrayList data = SqliteEncoder.Select(
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
-					-1, "curve", EncoderSQL.Eccons.ALL, 
+					getExerciseIDFromCombo(exerciseCombos.ANALYZE), "curve", EncoderSQL.Eccons.ALL, 
 					false, true);
 
 			if(data.Count == 0) {

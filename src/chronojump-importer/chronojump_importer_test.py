@@ -18,7 +18,7 @@ class TestImporter(unittest.TestCase):
     def test_importerGeneric(self):
 
         # lists the names. They will expand to generic-destination-X.sqlite / generic-source-X.sqlite / generic-expected-X.sqlite
-        generic_tests = ["a", "b"]
+        generic_tests = ["a"]
 
         for generic_test in generic_tests:
             source_file_name = "generic-source-{}.sqlite".format(generic_test)

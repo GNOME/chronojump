@@ -7,58 +7,53 @@ import subprocess
 import tempfile
 import shutil
 import difflib
+import ddt
 import pprint
 
-
+@ddt.ddt
 class TestImporter(unittest.TestCase):
     def setUp(self):
         self.temporary_directory_path = tempfile.mkdtemp(prefix="chronojump_importer_test_")
 
     def tearDown(self):
-        pass
-        #shutil.rmtree(self.temporary_directory_path)
+        shutil.rmtree(self.temporary_directory_path)
 
-    def test_importerGeneric(self):
+    # lists the names. They will expand to generic-destination-X.sqlite / generic-source-X.sqlite / generic-expected-X.sqlite
+    @ddt.data("a", "b")
+    def test_importerGeneric(self, data):
+        generic_test = data
+        source_file_name = "generic-source-{}.sqlite".format(generic_test)
+        destination_file_name = "generic-destination-{}.sqlite".format(generic_test)
+        expected_file_name = "generic-expected-{}.sqlite".format(generic_test)
+        original_destination_file_path = "generic-original-destination-{}.sqlite".format(generic_test)
 
-        # lists the names. They will expand to generic-destination-X.sqlite / generic-source-X.sqlite / generic-expected-X.sqlite
-        generic_tests = ["a", "b"]
+        source_file_path = "{}/{}".format(self.temporary_directory_path, source_file_name)
+        destination_file_path = "{}/{}".format(self.temporary_directory_path, destination_file_name)
+        original_destination_file_path = "{}/{}".format(self.temporary_directory_path, original_destination_file_path)
 
-        for generic_test in generic_tests:
-            source_file_name = "generic-source-{}.sqlite".format(generic_test)
-            destination_file_name = "generic-destination-{}.sqlite".format(generic_test)
-            expected_file_name = "generic-expected-{}.sqlite".format(generic_test)
-            original_destination_file_path = "generic-original-destination-{}.sqlite".format(generic_test)
+        shutil.copy("tests/{}".format(source_file_name), source_file_path)
+        shutil.copy("tests/{}".format(destination_file_name), destination_file_path)
+        shutil.copy("tests/{}".format(destination_file_name), original_destination_file_path)
 
-            source_file_path = "{}/{}".format(self.temporary_directory_path, source_file_name)
-            destination_file_path = "{}/{}".format(self.temporary_directory_path, destination_file_name)
-            original_destination_file_path = "{}/{}".format(self.temporary_directory_path, original_destination_file_path)
+        chronojump_importer.import_database(source_file_path, destination_file_path, 1)
 
-            shutil.copy("tests/{}".format(source_file_name), source_file_path)
-            shutil.copy("tests/{}".format(destination_file_name), destination_file_path)
-            shutil.copy("tests/{}".format(destination_file_name), original_destination_file_path)
+        os.system("echo .dump | sqlite3 {} > {}/destination.sql".format(destination_file_path, self.temporary_directory_path))
+        os.system("echo .dump | sqlite3 tests/{} > {}/expected.sql".format(expected_file_name, self.temporary_directory_path))
 
-            chronojump_importer.import_database(source_file_path, destination_file_path, 1)
+        actual_file = open(self.temporary_directory_path + "/destination.sql")
+        expected_file = open(self.temporary_directory_path + "/expected.sql")
 
-            os.system("echo .dump | sqlite3 {} > {}/destination.sql".format(destination_file_path, self.temporary_directory_path))
-            os.system("echo .dump | sqlite3 tests/{} > {}/expected.sql".format(expected_file_name, self.temporary_directory_path))
+        actual_dump = actual_file.readlines()
+        expected_dump = expected_file.readlines()
 
-            actual_file = open(self.temporary_directory_path + "/destination.sql")
-            expected_file = open(self.temporary_directory_path + "/expected.sql")
+        actual_file.close()
+        expected_file.close()
 
-            actual_dump = actual_file.readlines()
-            expected_dump = expected_file.readlines()
+        diff = difflib.unified_diff(actual_dump, expected_dump)
+        diff = "".join(diff)
 
-            actual_file.close()
-            expected_file.close()
-
-            diff = difflib.unified_diff(actual_dump, expected_dump)
-            diff = "".join(diff)
-            print(diff)
-            command = "diff -u {}/destination.sql {}/expected.sql".format(self.temporary_directory_path, self.temporary_directory_path)
-            diff = subprocess.getoutput(command)
-
-            self.maxDiff = None
-            self.assertEqual(diff, "")
+        self.maxDiff = None
+        self.assertEqual(diff, "")
 
 if __name__ == '__main__':
     unittest.main()

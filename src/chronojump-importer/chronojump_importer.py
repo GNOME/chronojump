@@ -58,22 +58,26 @@ def insert_data(database, table_name, data, matches_columns):
         # First check if this already existed
 
         where = ""
-        for column in matches_columns:
-            where += "{} = '{}'".format(column, row[column])
+        if len(matches_columns) == 0:
+            where = "1=1"
+        else:
+            for column in matches_columns:
+                if where != "":
+                    where += " AND "
+                where += "{} = '{}'".format(column, row[column])
 
         format_data = {}
         format_data['table_name'] = table_name
-        format_data['where'] = where
-        sql = "SELECT uniqueId FROM {table_name} WHERE {where}".format(**format_data)
-        cursor.execute(sql)
+        format_data['where_clause'] = " WHERE {}".format(where)
+        sql = "SELECT uniqueId FROM {table_name} {where_clause}".format(**format_data)
+        execute_and_log(cursor, sql)
 
         results = cursor.fetchall()
 
-        if len(results[0]) == 0:
+        if len(results) == 0:
             # Needs to insert
             sql = create_insert_dictionary(table_name, row)
-            print("Will execute:", sql)
-            cursor.execute(sql)
+            execute_and_log(cursor, sql)
             new_id = cursor.lastrowid
             row['new_unique_id'] = new_id
         else:
@@ -98,7 +102,7 @@ def return_data_from_table(database, table_name, where_condition, skip_columns, 
     format_data = {"column_names": ",".join(column_names_with_prefixes), "table_name": table_name, "join_clause": join_clause, "where": where_condition}
 
     sql = "SELECT {column_names} FROM {table_name} {join_clause} {where}".format(**format_data)
-    cursor.execute(sql)
+    execute_and_log(cursor, sql)
 
     results = cursor.fetchall()
 
@@ -158,7 +162,7 @@ def ids_from_data(db, table, rows):
         sql = "select uniqueID from " + table + " where " + where
         print("Will check:", sql)
 
-        cursor.execute(sql)
+        execute_and_log(cursor, sql)
         result = cursor.fetchall()
 
         if len(result) == 0:
@@ -171,8 +175,7 @@ def ids_from_data(db, table, rows):
             values += ")"
 
             sql = "insert into " + table + " (" + ",".join(column_names) + ") VALUES " + values
-            print("SQL insert:", sql)
-            cursor.execute(sql)
+            execute_and_log(cursor, sql)
             newid = cursor.lastrowid
 
         else:
@@ -397,33 +400,53 @@ def insert_person_session_77(destination_db, row):
     return new_id
 
 
-def import_database(source_db, destination_db, source_session):
+def import_database(source_path, destination_path, source_session):
     """ Imports the session source_session from source_db into destination_db """
-    # jump_types = find_jump_types(source_session, source_db, "JumpType")
-    # print("Jump types:")
-    # pprint.pprint(jump_types)
-    # print("---------------")
+
+    source_db = open_database(source_path, read_only=True)
+    destination_db = open_database(destination_path, read_only=False)
+
     jump_types = return_data_from_table(database=source_db, table_name="JumpType",
                                         where_condition="Session.uniqueID={}".format(source_session),
                                         skip_columns=["uniqueID"],
                                         join_clause="LEFT JOIN Jump ON JumpType.name=Jump.type LEFT JOIN Session ON Jump.sessionID=Session.uniqueID")
 
     insert_data(database=destination_db, table_name="JumpType", data=jump_types,
-                matches_columns=["name"])
-    # ids_from_data(destination_db, "JumpType", jump_types)
+                matches_columns=["name", "startIn", "weight", "description"])
 
-    jump_rj_types = find_jump_types(source_session, source_db, "JumpRjType")
-    ids_from_data(destination_db, "JumpRjType", jump_rj_types)
+    jump_rj_types = return_data_from_table(database=source_db, table_name="JumpRjType",
+                                           where_condition="Session.uniqueID={}".format(source_session),
+                                           skip_columns=["uniqueID"],
+                                           join_clause="LEFT JOIN JumpRj ON JumpRjType.name=JumpRj.type LEFT JOIN Session on JumpRj.sessionID=Session.uniqueID")
 
-    new_session_id = import_session(source_db, destination_db, source_session)
+    insert_data(database=destination_db, table_name="JumpRjType", data=jump_rj_types,
+                matches_columns=["name", "startIn", "weight", "jumpsLimited", "fixedValue", "description"])
+
+
+    session = return_data_from_table(database=source_db, table_name="Session",
+                           where_condition="Session.uniqueID={}".format(source_session),
+                           skip_columns=["uniqueID"])
+
+    insert_data(database=destination_db, table_name="Session", data=session,
+                              matches_columns=["name", "place", "date", "personsSportID", "personsSpeciallityID", "personsPractice", "comments"])
+
+    new_session_id = session[0]['new_unique_id']
+
+    # new_session_id = import_session(source_db, destination_db, source_session)
     print("Imported sessionId:", new_session_id)
 
-    import_person_session_77(source_db, destination_db, source_session, new_session_id)
+    ### Continue from here
 
-    new_jump_rj_ids = import_jump_rj(source_db, destination_db, source_session, new_session_id)
-    print("new_jump_rj_ids:", new_jump_rj_ids)
+    # import_person_session_77(source_db, destination_db, source_session, new_session_id)
 
-    import_reaction_time(source_db, destination_db, new_session_id)
+    # new_jump_rj_ids = import_jump_rj(source_db, destination_db, source_session, new_session_id)
+    # print("new_jump_rj_ids:", new_jump_rj_ids)
+
+    # import_reaction_time(source_db, destination_db, new_session_id)
+
+    destination_db.commit()
+
+    destination_db.close()
 
 
 def open_database(filename, read_only):
@@ -442,8 +465,11 @@ def open_database(filename, read_only):
 
     return conn
 
+def execute_and_log(cursor, sql, comment = ""):
+    print("Will execute:", sql, comment)
+    cursor.execute(sql)
 
-def main():
+def process_command_line():
     parser = argparse.ArgumentParser(description="Process some integers.")
     parser.add_argument("--source", type=str, required=True,
                         help="chronojump.sqlite that we are importing from")
@@ -454,15 +480,9 @@ def main():
     args = parser.parse_args()
 
     source_session = args.source_session
-    source_db = open_database(args.source, True)
-    destination_db = open_database(args.destination, False)
 
-    import_database(source_db, destination_db, source_session)
-
-    destination_db.commit()
-
-    destination_db.close()
+    import_database(args.source, args.destination, source_session)
 
 
 if __name__ == "__main__":
-    main()
+    process_command_line()

@@ -12334,217 +12334,232 @@ on current Chronojump version.</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkVBox" id="vbox_jumps_profile_help">
-                                                    <property name="can_focus">False</property>
-                                                    <property name="spacing">20</property>
+                                                  <widget class="GtkScrolledWindow" id="scrolledwindow_jumps_profile_help">
+                                                    <property name="can_focus">True</property>
+                                                    <property name="hscrollbar_policy">automatic</property>
+                                                    <property name="vscrollbar_policy">never</property>
                                                     <child>
-                                                      <widget class="GtkTable" id="table_jumps_profile_help">
+                                                      <widget class="GtkViewport" id="viewport2">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="n_rows">5</property>
-                                                        <property name="n_columns">2</property>
-                                                        <property name="column_spacing">6</property>
-                                                        <property name="row_spacing">8</property>
+                                                        <property name="shadow_type">none</property>
                                                         <child>
-                                                          <widget class="GtkLabel" id="label233">
+                                                          <widget class="GtkVBox" id="vbox_jumps_profile_help">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">20</property>
+                                                            <child>
+                                                            <widget class="GtkTable" id="table_jumps_profile_help">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="n_rows">5</property>
+                                                            <property name="n_columns">2</property>
+                                                            <property name="column_spacing">6</property>
+                                                            <property name="row_spacing">8</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label233">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">&lt;b&gt;Maximum Force&lt;/b&gt;</property>
                                                             <property name="use_markup">True</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options"/>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label234">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label234">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">&lt;b&gt;Explosive Force&lt;/b&gt;</property>
                                                             <property name="use_markup">True</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options"/>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label235">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label235">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">&lt;b&gt;Elastic&lt;/b&gt;</property>
                                                             <property name="use_markup">True</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="top_attach">2</property>
                                                             <property name="bottom_attach">3</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options"/>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label236">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label236">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">&lt;b&gt;Arms using&lt;/b&gt;</property>
                                                             <property name="use_markup">True</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="top_attach">3</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options"/>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label237">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label237">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">&lt;b&gt;Reactive-reflex&lt;/b&gt;</property>
                                                             <property name="use_markup">True</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="top_attach">4</property>
                                                             <property name="bottom_attach">5</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options"/>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label238">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label238">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Ability to mobilise an external resistance.</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="left_attach">1</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options"/>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label239">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label239">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Ability to mobilise the body mass.</property>
                                                             <property name="justify">center</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="left_attach">1</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options"/>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label240">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label240">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Increasing of strength due to the elastic energy accumulated during the stretch-shortening cycle.</property>
                                                             <property name="justify">center</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="left_attach">1</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="top_attach">2</property>
                                                             <property name="bottom_attach">3</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options"/>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label241">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label241">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Increasing of strength due to arm movement.</property>
                                                             <property name="justify">center</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="left_attach">1</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="top_attach">3</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options"/>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label242">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label242">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Increasing of strength by previous falling from height (reflex mechanisms activation).</property>
                                                             <property name="justify">center</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="left_attach">1</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="top_attach">4</property>
                                                             <property name="bottom_attach">5</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options"/>
-                                                          </packing>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkVBox" id="vbox60">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="spacing">8</property>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label243">
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox60">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">8</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label243">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label">All the definitions are related to jumps.</property>
                                                             <property name="justify">center</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label244">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label244">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Drop jump goal in this profile is maximum height.</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
-                                                          </packing>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
                                                         </child>
                                                       </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
                                                     </child>
                                                   </widget>
                                                   <packing>
@@ -12554,798 +12569,813 @@ on current Chronojump version.</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkTable" id="table_jumps_profile_training">
-                                                    <property name="can_focus">False</property>
-                                                    <property name="n_rows">6</property>
-                                                    <property name="n_columns">8</property>
-                                                    <property name="column_spacing">4</property>
-                                                    <property name="row_spacing">6</property>
+                                                  <widget class="GtkScrolledWindow" id="scrolledwindow_jumps_profile_training">
+                                                    <property name="can_focus">True</property>
+                                                    <property name="hscrollbar_policy">automatic</property>
+                                                    <property name="vscrollbar_policy">never</property>
                                                     <child>
-                                                      <widget class="GtkLabel" id="label170">
+                                                      <widget class="GtkViewport" id="viewport1">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Type of training&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label171">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Contraction&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">2</property>
-                                                        <property name="right_attach">3</property>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label172">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;% max load&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">3</property>
-                                                        <property name="right_attach">4</property>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label173">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;% max power&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">4</property>
-                                                        <property name="right_attach">5</property>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label174">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Repetitions&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">5</property>
-                                                        <property name="right_attach">6</property>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label175">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Series&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">6</property>
-                                                        <property name="right_attach">7</property>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label176">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Recuperation (min)&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">7</property>
-                                                        <property name="right_attach">8</property>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label177">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Maximum force&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label169">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Explosive Force&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label178">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Elastic&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label186">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Arms using&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="top_attach">4</property>
-                                                        <property name="bottom_attach">5</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label190">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Reactive-reflex&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="top_attach">5</property>
-                                                        <property name="bottom_attach">6</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label191">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">Weight lifting,
+                                                        <property name="shadow_type">none</property>
+                                                        <child>
+                                                          <widget class="GtkTable" id="table_jumps_profile_training">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="n_rows">6</property>
+                                                            <property name="n_columns">8</property>
+                                                            <property name="column_spacing">8</property>
+                                                            <property name="row_spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label170">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">&lt;b&gt;Type of training&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label171">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">&lt;b&gt;Contraction&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label172">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">&lt;b&gt;% max load&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">3</property>
+                                                            <property name="right_attach">4</property>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label173">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">&lt;b&gt;% max power&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">4</property>
+                                                            <property name="right_attach">5</property>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label174">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">&lt;b&gt;Repetitions&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">5</property>
+                                                            <property name="right_attach">6</property>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label175">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">&lt;b&gt;Series&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">6</property>
+                                                            <property name="right_attach">7</property>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label176">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">&lt;b&gt;Recuperation (min)&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">7</property>
+                                                            <property name="right_attach">8</property>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label177">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">&lt;b&gt;Maximum force&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label169">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">&lt;b&gt;Explosive Force&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label178">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">&lt;b&gt;Elastic&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label186">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">&lt;b&gt;Arms using&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="top_attach">4</property>
+                                                            <property name="bottom_attach">5</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label190">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">&lt;b&gt;Reactive-reflex&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="top_attach">5</property>
+                                                            <property name="bottom_attach">6</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label191">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Weight lifting,
 gym machines</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
-                                                        <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label192">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">Weight lifting,
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label192">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Weight lifting,
 gym machines</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
-                                                        <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label193">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">Weight lifting,
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label193">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Weight lifting,
 gym machines</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
-                                                        <property name="top_attach">4</property>
-                                                        <property name="bottom_attach">5</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label194">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">Jumps,
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="top_attach">4</property>
+                                                            <property name="bottom_attach">5</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label194">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Jumps,
 inertial machines</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
-                                                        <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label195">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">Jumps,
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label195">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Jumps,
 elastic bands</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
-                                                        <property name="top_attach">5</property>
-                                                        <property name="bottom_attach">6</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label196">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">Concentric,
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="top_attach">5</property>
+                                                            <property name="bottom_attach">6</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label196">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Concentric,
 isometric</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">2</property>
-                                                        <property name="right_attach">3</property>
-                                                        <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label199">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">Concentric</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">2</property>
-                                                        <property name="right_attach">3</property>
-                                                        <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label200">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">Eccentric-
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label199">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Concentric</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label200">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Eccentric-
 Concentric</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">2</property>
-                                                        <property name="right_attach">3</property>
-                                                        <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label203">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">Excentric-
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label203">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Excentric-
 Concentric</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">2</property>
-                                                        <property name="right_attach">3</property>
-                                                        <property name="top_attach">5</property>
-                                                        <property name="bottom_attach">6</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label204">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">80-100% 1RM</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">3</property>
-                                                        <property name="right_attach">4</property>
-                                                        <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label205">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">60-80% 1RM</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">3</property>
-                                                        <property name="right_attach">4</property>
-                                                        <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label206">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">Body weight,
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="top_attach">5</property>
+                                                            <property name="bottom_attach">6</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label204">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">80-100% 1RM</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">3</property>
+                                                            <property name="right_attach">4</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label205">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">60-80% 1RM</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">3</property>
+                                                            <property name="right_attach">4</property>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label206">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Body weight,
 low ressistance</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">3</property>
-                                                        <property name="right_attach">4</property>
-                                                        <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label207">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">30-50% 1RM</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">3</property>
-                                                        <property name="right_attach">4</property>
-                                                        <property name="top_attach">4</property>
-                                                        <property name="bottom_attach">5</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label209">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">40-60% 1RM</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">3</property>
-                                                        <property name="right_attach">4</property>
-                                                        <property name="top_attach">5</property>
-                                                        <property name="bottom_attach">6</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label210">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">90-100%</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">4</property>
-                                                        <property name="right_attach">5</property>
-                                                        <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label214">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">95-100%</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">4</property>
-                                                        <property name="right_attach">5</property>
-                                                        <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label215">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">90-100%</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">4</property>
-                                                        <property name="right_attach">5</property>
-                                                        <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label216">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">90-100%</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">4</property>
-                                                        <property name="right_attach">5</property>
-                                                        <property name="top_attach">4</property>
-                                                        <property name="bottom_attach">5</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label217">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">100%</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">4</property>
-                                                        <property name="right_attach">5</property>
-                                                        <property name="top_attach">5</property>
-                                                        <property name="bottom_attach">6</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label218">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">1-5</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">5</property>
-                                                        <property name="right_attach">6</property>
-                                                        <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label219">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">3-8</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">5</property>
-                                                        <property name="right_attach">6</property>
-                                                        <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label220">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">6-8</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">5</property>
-                                                        <property name="right_attach">6</property>
-                                                        <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label221">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">8-12</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">5</property>
-                                                        <property name="right_attach">6</property>
-                                                        <property name="top_attach">4</property>
-                                                        <property name="bottom_attach">5</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label222">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">4-12</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">5</property>
-                                                        <property name="right_attach">6</property>
-                                                        <property name="top_attach">5</property>
-                                                        <property name="bottom_attach">6</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label223">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">3-5</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">6</property>
-                                                        <property name="right_attach">7</property>
-                                                        <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label224">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">3-6</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">6</property>
-                                                        <property name="right_attach">7</property>
-                                                        <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label225">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">4-8</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">6</property>
-                                                        <property name="right_attach">7</property>
-                                                        <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label226">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">3-4</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">6</property>
-                                                        <property name="right_attach">7</property>
-                                                        <property name="top_attach">4</property>
-                                                        <property name="bottom_attach">5</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label227">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">4-8</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">6</property>
-                                                        <property name="right_attach">7</property>
-                                                        <property name="top_attach">5</property>
-                                                        <property name="bottom_attach">6</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label228">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">2-6</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">7</property>
-                                                        <property name="right_attach">8</property>
-                                                        <property name="top_attach">1</property>
-                                                        <property name="bottom_attach">2</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label229">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">3-6</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">7</property>
-                                                        <property name="right_attach">8</property>
-                                                        <property name="top_attach">2</property>
-                                                        <property name="bottom_attach">3</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label230">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">3-6</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">7</property>
-                                                        <property name="right_attach">8</property>
-                                                        <property name="top_attach">3</property>
-                                                        <property name="bottom_attach">4</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label231">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">2-5</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">7</property>
-                                                        <property name="right_attach">8</property>
-                                                        <property name="top_attach">4</property>
-                                                        <property name="bottom_attach">5</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label232">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label">3-6</property>
-                                                        <property name="justify">center</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">7</property>
-                                                        <property name="right_attach">8</property>
-                                                        <property name="top_attach">5</property>
-                                                        <property name="bottom_attach">6</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label168">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">Excentric-
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">3</property>
+                                                            <property name="right_attach">4</property>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label207">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">30-50% 1RM</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">3</property>
+                                                            <property name="right_attach">4</property>
+                                                            <property name="top_attach">4</property>
+                                                            <property name="bottom_attach">5</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label209">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">40-60% 1RM</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">3</property>
+                                                            <property name="right_attach">4</property>
+                                                            <property name="top_attach">5</property>
+                                                            <property name="bottom_attach">6</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label210">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">90-100%</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">4</property>
+                                                            <property name="right_attach">5</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label214">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">95-100%</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">4</property>
+                                                            <property name="right_attach">5</property>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label215">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">90-100%</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">4</property>
+                                                            <property name="right_attach">5</property>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label216">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">90-100%</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">4</property>
+                                                            <property name="right_attach">5</property>
+                                                            <property name="top_attach">4</property>
+                                                            <property name="bottom_attach">5</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label217">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">100%</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">4</property>
+                                                            <property name="right_attach">5</property>
+                                                            <property name="top_attach">5</property>
+                                                            <property name="bottom_attach">6</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label218">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">1-5</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">5</property>
+                                                            <property name="right_attach">6</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label219">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">3-8</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">5</property>
+                                                            <property name="right_attach">6</property>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label220">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">6-8</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">5</property>
+                                                            <property name="right_attach">6</property>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label221">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">8-12</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">5</property>
+                                                            <property name="right_attach">6</property>
+                                                            <property name="top_attach">4</property>
+                                                            <property name="bottom_attach">5</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label222">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">4-12</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">5</property>
+                                                            <property name="right_attach">6</property>
+                                                            <property name="top_attach">5</property>
+                                                            <property name="bottom_attach">6</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label223">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">3-5</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">6</property>
+                                                            <property name="right_attach">7</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label224">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">3-6</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">6</property>
+                                                            <property name="right_attach">7</property>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label225">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">4-8</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">6</property>
+                                                            <property name="right_attach">7</property>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label226">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">3-4</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">6</property>
+                                                            <property name="right_attach">7</property>
+                                                            <property name="top_attach">4</property>
+                                                            <property name="bottom_attach">5</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label227">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">4-8</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">6</property>
+                                                            <property name="right_attach">7</property>
+                                                            <property name="top_attach">5</property>
+                                                            <property name="bottom_attach">6</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label228">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">2-6</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">7</property>
+                                                            <property name="right_attach">8</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label229">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">3-6</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">7</property>
+                                                            <property name="right_attach">8</property>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label230">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">3-6</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">7</property>
+                                                            <property name="right_attach">8</property>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label231">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">2-5</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">7</property>
+                                                            <property name="right_attach">8</property>
+                                                            <property name="top_attach">4</property>
+                                                            <property name="bottom_attach">5</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label232">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">3-6</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">7</property>
+                                                            <property name="right_attach">8</property>
+                                                            <property name="top_attach">5</property>
+                                                            <property name="bottom_attach">6</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label168">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Excentric-
 Concentric</property>
-                                                        <property name="justify">center</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="top_attach">4</property>
+                                                            <property name="bottom_attach">5</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                        </child>
                                                       </widget>
-                                                      <packing>
-                                                        <property name="left_attach">2</property>
-                                                        <property name="right_attach">3</property>
-                                                        <property name="top_attach">4</property>
-                                                        <property name="bottom_attach">5</property>
-                                                        <property name="x_options"/>
-                                                        <property name="y_options"/>
-                                                      </packing>
                                                     </child>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
-                                                    <property name="fill">False</property>
+                                                    <property name="fill">True</property>
                                                     <property name="position">3</property>
                                                   </packing>
                                                 </child>
@@ -17984,6 +18014,9 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -23142,6 +23175,9 @@ by you</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -23531,6 +23567,9 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -26304,6 +26343,9 @@ by you</property>
               <placeholder/>
             </child>
             <child>
+              <placeholder/>
+            </child>
+            <child>
               <widget class="GtkButton" id="button_video_url">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -26326,6 +26368,9 @@ by you</property>
                 <property name="x_options"/>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -40726,6 +40771,24 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -44029,6 +44092,18 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                     <child>
                       <placeholder/>
                     </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                   </widget>
                 </child>
               </widget>
@@ -45119,9 +45194,6 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                       <placeholder/>
                                     </child>
                                     <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
                                       <widget class="GtkLabel" id="label218">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
@@ -45492,6 +45564,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                         <property name="left_attach">2</property>
                                         <property name="right_attach">3</property>
                                       </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
                                     </child>
                                     <child>
                                       <placeholder/>
@@ -51374,6 +51449,9 @@ Other</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -51400,6 +51478,9 @@ Other</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -52441,6 +52522,9 @@ Other</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

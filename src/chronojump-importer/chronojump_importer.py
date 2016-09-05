@@ -423,6 +423,21 @@ def update_persons77_ids(table, persons77_list):
 
     return result
 
+
+def update_session_ids(table, new_session_id):
+    result = copy.deepcopy(table)
+
+    changed = False
+
+    for row in table:
+        row["sessionID"] = new_session_id
+        changed = True
+        break
+
+    assert changed
+
+    return result
+
 def import_database(source_path, destination_path, source_session):
     """ Imports the session source_session from source_db into destination_db """
 
@@ -480,6 +495,7 @@ def import_database(source_path, destination_path, source_session):
                            where_condition="JumpRj.sessionID={}".format(source_session))
 
     jump_rj = update_persons77_ids(jump_rj, persons77)
+    jump_rj = update_session_ids(jump_rj, new_session_id)
 
     insert_data(database=destination_db, table_name="JumpRj", data=jump_rj, matches_columns=None)
 
@@ -488,8 +504,16 @@ def import_database(source_path, destination_path, source_session):
                            where_condition="Jump.sessionID={}".format(source_session))
 
     jump = update_persons77_ids(jump, persons77)
+    jump = update_session_ids(jump, new_session_id)
 
     insert_data(database=destination_db, table_name="Jump", data=jump, matches_columns=None)
+
+    # Imports PersonSession77
+    person_session_77 = return_data_from_table(database=source_db, table_name="PersonSession77",
+                                               where_condition="PersonSession77.sessionID={}".format(source_session))
+    person_session_77 = update_persons77_ids(person_session_77, persons77)
+    person_session_77 = update_session_ids(person_session_77, new_session_id)
+    insert_data(database=destination_db, table_name="PersonSession77", data=person_session_77, matches_columns=None)
 
     ### Continue from here
 

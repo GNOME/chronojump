@@ -2128,8 +2128,8 @@ createPchVector <- function(ecconVector) {
 
 #-------------- end of EncoderConfiguration conversions -------------------------
 
-quitIfNoData <- function(curvesPlot, n, curves, outputData1) {
-        
+quitIfNoData <- function(curvesPlot, n, curves, outputData1, minHeight) 
+{
         debugParameters(listN(n, curves, outputData1), "quitIfNoData")
         
 	#if not found curves with this data, plot a "sorry" message and exit
@@ -2140,7 +2140,8 @@ quitIfNoData <- function(curvesPlot, n, curves, outputData1) {
 		if(! curvesPlot)
 			plot(0,0,type="n",axes=F,xlab="",ylab="")
 
-		text(x=0,y=0,translateToPrint("Sorry, no curves matched your criteria."),cex=1.5)
+		text(x=0, y=0, adj=0, cex=1.2, col="red",
+		     paste(translateToPrint("Sorry, no curves matched your criteria."),"\nMin height is = ",minHeight/10,"cm"))
 		dev.off()
 		write("", outputData1)
 		quit()
@@ -2416,7 +2417,7 @@ doProcess <- function(options)
 		file.create(paste(op$FeedbackFileBase,"4.txt",sep=""))
 
 		n=length(curves[,1])
-		quitIfNoData(curvesPlot, n, curves, op$OutputData1)
+		quitIfNoData(curvesPlot, n, curves, op$OutputData1, op$MinHeight)
 		
 		#print(curves, stderr())
 	
@@ -2484,7 +2485,7 @@ doProcess <- function(options)
 			curvesPlot = TRUE
 
 		n=length(curves[,1])
-		quitIfNoData(curvesPlot, n, curves, op$OutputData1)
+		quitIfNoData(curvesPlot, n, curves, op$OutputData1, op$MinHeight)
 		
 		print("curves before reduceCurveBySpeed")
 		print(curves)

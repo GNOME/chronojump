@@ -6626,11 +6626,11 @@ LogB.Debug("X");
 			
 			//also update the bars plot (to show colors depending on bells changes)
 			if(captureCurvesBarsData.Count > 0) {
-				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
-				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
-				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
+				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
+				double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
+				double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
-						encoderCaptureOptionsWin.GetEncoderInertialDiscardFirstThree(),
+						repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
 						false);	//not capturing
 			} else
 				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);

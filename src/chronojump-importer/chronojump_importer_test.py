@@ -13,7 +13,8 @@ class TestImporter(unittest.TestCase):
         self.temporary_directory_path = tempfile.mkdtemp(prefix="chronojump_importer_test_")
 
     def tearDown(self):
-        shutil.rmtree(self.temporary_directory_path)
+        pass
+        #shutil.rmtree(self.temporary_directory_path)
 
     def test_importerGeneric(self):
 
@@ -40,7 +41,9 @@ class TestImporter(unittest.TestCase):
             os.system("echo .dump | sqlite3 {} > {}/destination.sql".format(destination_file_path, self.temporary_directory_path))
             os.system("echo .dump | sqlite3 tests/{} > {}/expected.sql".format(expected_file_name, self.temporary_directory_path))
 
-            diff = subprocess.getoutput("diff -u {}/destination.sql {}/expected.sql".format(self.temporary_directory_path, self.temporary_directory_path))
+            command = "diff -u {}/destination.sql {}/expected.sql".format(self.temporary_directory_path, self.temporary_directory_path)
+            print("command:",command)
+            diff = subprocess.getoutput(command)
 
             self.maxDiff = None
             self.assertEqual(diff, "")

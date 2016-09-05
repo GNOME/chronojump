@@ -15,7 +15,7 @@ def results_delete_column(column, results):
     return new_results
 
 
-def get_column_names(db, table):
+def get_column_names(db, table, skip_columns = []):
     cursor = db.cursor()
 
     cursor.execute("PRAGMA table_info({})".format(table))
@@ -24,7 +24,9 @@ def get_column_names(db, table):
     names = []
 
     for row in result:
-       names.append(row[1])
+        column_name = row[1]
+        if column_name not in skip_columns:
+            names.append(column_name)
 
     return names
 
@@ -58,26 +60,25 @@ def insert_data(database, table_name, data, matches_columns):
     cursor = database.cursor()
 
     for row in data_result:
-        # First check if this already existed
+        if type(matches_columns) == list:
+            where = ""
+            if len(matches_columns) == 0:
+                where = "1=1"
+            else:
+                for column in matches_columns:
+                    if where != "":
+                        where += " AND "
+                    where += "{} = '{}'".format(column, row[column])
 
-        where = ""
-        if len(matches_columns) == 0:
-            where = "1=1"
-        else:
-            for column in matches_columns:
-                if where != "":
-                    where += " AND "
-                where += "{} = '{}'".format(column, row[column])
+            format_data = {}
+            format_data['table_name'] = table_name
+            format_data['where_clause'] = " WHERE {}".format(where)
+            sql = "SELECT uniqueID FROM {table_name} {where_clause}".format(**format_data)
+            execute_and_log(cursor, sql)
 
-        format_data = {}
-        format_data['table_name'] = table_name
-        format_data['where_clause'] = " WHERE {}".format(where)
-        sql = "SELECT uniqueId FROM {table_name} {where_clause}".format(**format_data)
-        execute_and_log(cursor, sql)
+            results = cursor.fetchall()
 
-        results = cursor.fetchall()
-
-        if len(results) == 0:
+        if matches_columns is None or len(results) == 0:
             # Needs to insert
             sql = create_insert_dictionary(table_name, row)
             execute_and_log(cursor, sql)
@@ -92,21 +93,24 @@ def insert_data(database, table_name, data, matches_columns):
     return data_result
 
 
-def return_data_from_table(database, table_name, where_condition, skip_columns, join_clause =""):
+def return_data_from_table(database, table_name, where_condition, join_clause ="", group_by_clause=""):
     """ Returns a list of lists of the database, table executing where and skips the columns. """
     cursor = database.cursor()
 
     column_names = get_column_names(database, table_name)
 
-    column_names = remove_elements(column_names, skip_columns)
-
     column_names_with_prefixes = add_prefix(column_names, "{}.".format(table_name))
 
     where_condition = " WHERE {} ".format(where_condition)
 
-    format_data = {"column_names": ",".join(column_names_with_prefixes), "table_name": table_name, "join_clause": join_clause, "where": where_condition}
+    if group_by_clause != "":
+        group_by = " GROUP BY {}".format(group_by_clause)
+    else:
+        group_by = ""
 
-    sql = "SELECT {column_names} FROM {table_name} {join_clause} {where}".format(**format_data)
+    format_data = {"column_names": ",".join(column_names_with_prefixes), "table_name": table_name, "join_clause": join_clause, "where": where_condition, "group_by": group_by}
+
+    sql = "SELECT {column_names} FROM {table_name} {join_clause} {where} {group_by}".format(**format_data)
     execute_and_log(cursor, sql)
 
     results = cursor.fetchall()
@@ -200,10 +204,13 @@ def create_select(table_name, column_names, where):
     return sql
 
 
-def create_insert_dictionary(table_name, row):
+def create_insert_dictionary(table_name, row, skip_columns=["uniqueID"]):
     values = "("
     column_names = []
     for column_name in row.keys():
+        if column_name in skip_columns:
+            continue
+
         if values != "(":
             values += ","
         values += '"' + str(row[column_name]) + '"' # TODO fix escaping here!
@@ -411,7 +418,7 @@ def update_persons77_ids(table, persons77_list):
     for row in table:
         old_person_id = row['personID']
         for persons77 in persons77_list:
-            if persons77['unique_id'] == old_person_id:
+            if persons77['uniqueID'] == old_person_id:
                 row['personID'] = persons77['new_unique_id']
 
     return result
@@ -422,57 +429,67 @@ def import_database(source_path, destination_path, source_session):
     source_db = open_database(source_path, read_only=True)
     destination_db = open_database(destination_path, read_only=False)
 
+    # Imports JumpType table
     jump_types = return_data_from_table(database=source_db, table_name="JumpType",
                                         where_condition="Session.uniqueID={}".format(source_session),
-                                        skip_columns=["uniqueID"],
                                         join_clause="LEFT JOIN Jump ON JumpType.name=Jump.type LEFT JOIN Session ON Jump.sessionID=Session.uniqueID")
 
     insert_data(database=destination_db, table_name="JumpType", data=jump_types,
                 matches_columns=["name", "startIn", "weight", "description"])
 
+    # Imports JumpRjType table
     jump_rj_types = return_data_from_table(database=source_db, table_name="JumpRjType",
                                            where_condition="Session.uniqueID={}".format(source_session),
-                                           skip_columns=["uniqueID"],
                                            join_clause="LEFT JOIN JumpRj ON JumpRjType.name=JumpRj.type LEFT JOIN Session on JumpRj.sessionID=Session.uniqueID")
 
     insert_data(database=destination_db, table_name="JumpRjType", data=jump_rj_types,
                 matches_columns=["name", "startIn", "weight", "jumpsLimited", "fixedValue", "description"])
 
 
+    # Imports the session
     session = return_data_from_table(database=source_db, table_name="Session",
-                           where_condition="Session.uniqueID={}".format(source_session),
-                           skip_columns=["uniqueID"])
+                           where_condition="Session.uniqueID={}".format(source_session))
 
     session = insert_data(database=destination_db, table_name="Session", data=session,
                               matches_columns=["name", "place", "date", "personsSportID", "personsSpeciallityID", "personsPractice", "comments"])
 
     new_session_id = session[0]['new_unique_id']
 
-    # new_session_id = import_session(source_db, destination_db, source_session)
-    print("Imported sessionId:", new_session_id)
-
+    # Imports Persons77 used by JumpRj table
     persons77_jump_rj = return_data_from_table(database=source_db, table_name="Person77",
                                        where_condition="JumpRj.sessionID={}".format(source_session),
-                                       skip_columns=["uniqueID"],
-                                       join_clause="LEFT JOIN JumpRj ON Person77.uniqueID=JumpRj.personID")
+                                       join_clause="LEFT JOIN JumpRj ON Person77.uniqueID=JumpRj.personID",
+                                        group_by_clause="Person77.uniqueID")
 
     persons77_jump_rj = insert_data(database=destination_db, table_name="Person77", data=persons77_jump_rj,
                             matches_columns=["name"])
 
+    # Imports Person77 used by Jump table
     persons77_jump = return_data_from_table(database=source_db, table_name="Person77",
                                        where_condition="Jump.sessionID={}".format(source_session),
-                                       skip_columns=["uniqueID"],
                                        join_clause="LEFT JOIN Jump ON Person77.uniqueID=Jump.personID")
 
     persons77_jump = insert_data(database=destination_db, table_name="Person77", data=persons77_jump,
                             matches_columns=["name"])
 
+    persons77 = persons77_jump_rj + persons77_jump
 
+
+    # Imports JumpRj table (with the new Person77's uniqueIDs)
     jump_rj = return_data_from_table(database=source_db, table_name="JumpRj",
-                           where_condition="JumpRj.sessionID={}".format(source_session),
-                           skip_columns=["uniqueID"])
+                           where_condition="JumpRj.sessionID={}".format(source_session))
 
-    update_persons77_ids(jump_rj, persons77_jump_rj)
+    jump_rj = update_persons77_ids(jump_rj, persons77)
+
+    insert_data(database=destination_db, table_name="JumpRj", data=jump_rj, matches_columns=None)
+
+    # Imports Jump table (with the new Person77's uniqueIDs)
+    jump = return_data_from_table(database=source_db, table_name="Jump",
+                           where_condition="Jump.sessionID={}".format(source_session))
+
+    jump = update_persons77_ids(jump, persons77)
+
+    insert_data(database=destination_db, table_name="Jump", data=jump, matches_columns=None)
 
     ### Continue from here
 

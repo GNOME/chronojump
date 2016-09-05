@@ -405,6 +405,17 @@ def insert_person_session_77(destination_db, row):
     return new_id
 
 
+def update_persons77_ids(table, persons77_list):
+    result = copy.deepcopy(table)
+
+    for row in table:
+        old_person_id = row['personID']
+        for persons77 in persons77_list:
+            if persons77['unique_id'] == old_person_id:
+                row['personID'] = persons77['new_unique_id']
+
+    return result
+
 def import_database(source_path, destination_path, source_session):
     """ Imports the session source_session from source_db into destination_db """
 
@@ -439,6 +450,29 @@ def import_database(source_path, destination_path, source_session):
 
     # new_session_id = import_session(source_db, destination_db, source_session)
     print("Imported sessionId:", new_session_id)
+
+    persons77_jump_rj = return_data_from_table(database=source_db, table_name="Person77",
+                                       where_condition="JumpRj.sessionID={}".format(source_session),
+                                       skip_columns=["uniqueID"],
+                                       join_clause="LEFT JOIN JumpRj ON Person77.uniqueID=JumpRj.personID")
+
+    persons77_jump_rj = insert_data(database=destination_db, table_name="Person77", data=persons77_jump_rj,
+                            matches_columns=["name"])
+
+    persons77_jump = return_data_from_table(database=source_db, table_name="Person77",
+                                       where_condition="Jump.sessionID={}".format(source_session),
+                                       skip_columns=["uniqueID"],
+                                       join_clause="LEFT JOIN Jump ON Person77.uniqueID=Jump.personID")
+
+    persons77_jump = insert_data(database=destination_db, table_name="Person77", data=persons77_jump,
+                            matches_columns=["name"])
+
+
+    jump_rj = return_data_from_table(database=source_db, table_name="JumpRj",
+                           where_condition="JumpRj.sessionID={}".format(source_session),
+                           skip_columns=["uniqueID"])
+
+    update_persons77_ids(jump_rj, persons77_jump_rj)
 
     ### Continue from here
 

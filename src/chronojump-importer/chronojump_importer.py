@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import copy
 import argparse
 import sqlite3
 import sys
@@ -50,11 +51,13 @@ def add_prefix(list_of_elements, prefix):
 
 def insert_data(database, table_name, data, matches_columns):
     """ Inserts data (list of dictionaries) into table_name for database.
-    Modifies data and adds new_unique_id. This is the new uniqueid or an
+    Returns a copy of data and adds new_unique_id. This is the new uniqueid or an
     existing one if a register with matches_columns already existed. """
+
+    data_result = copy.deepcopy(data)
     cursor = database.cursor()
 
-    for row in data:
+    for row in data_result:
         # First check if this already existed
 
         where = ""
@@ -85,6 +88,8 @@ def insert_data(database, table_name, data, matches_columns):
             row['new_unique_id'] = results[0][0]
 
     database.commit()
+
+    return data_result
 
 
 def return_data_from_table(database, table_name, where_condition, skip_columns, join_clause =""):
@@ -427,7 +432,7 @@ def import_database(source_path, destination_path, source_session):
                            where_condition="Session.uniqueID={}".format(source_session),
                            skip_columns=["uniqueID"])
 
-    insert_data(database=destination_db, table_name="Session", data=session,
+    session = insert_data(database=destination_db, table_name="Session", data=session,
                               matches_columns=["name", "place", "date", "personsSportID", "personsSpeciallityID", "personsPractice", "comments"])
 
     new_session_id = session[0]['new_unique_id']

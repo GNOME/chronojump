@@ -295,7 +295,6 @@ public partial class ChronoJumpWindow
 	private static bool encoderProcessFinish;
 	private static bool encoderProcessFinishContMode;
 
-	EncoderCaptureOptionsWindow encoderCaptureOptionsWin;
 	EncoderConfigurationWindow encoder_configuration_win;
 
 	EncoderConfiguration encoderConfigurationCurrent;
@@ -1247,8 +1246,9 @@ public partial class ChronoJumpWindow
 				combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, eSQL.laterality);
 				spin_encoder_extra_weight.Value = Convert.ToInt32(eSQL.extraWeight);
 
-				encoderCaptureOptionsWin.SetMinHeight(
-						eSQL.encoderConfiguration.has_inertia, eSQL.minHeight);
+				bool minHeightChanged = preferences.EncoderChangeMinHeight(eSQL.encoderConfiguration.has_inertia, eSQL.minHeight);
+				//TODO: show info to user in a dialog,
+				//but check if more info have to be shown on this process
 
 				textview_encoder_signal_comment.Buffer.Text = eSQL.description;
 				encoderTimeStamp = eSQL.GetDate(false); 
@@ -2062,7 +2062,7 @@ public partial class ChronoJumpWindow
 		else
 			eCapture = new EncoderCaptureGravitatory();
 		
-		int recordingTime = (int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value;
+		int recordingTime = preferences.encoderCaptureTime;
 		if(radio_encoder_capture_cont.Active)  {
 			recordingTime = 0;
 			encoderProcessFinishContMode = false; //will be true when finish button is pressed
@@ -2072,7 +2072,7 @@ public partial class ChronoJumpWindow
 				encoder_capture_signal_drawingarea.Allocation.Width,
 				encoder_capture_signal_drawingarea.Allocation.Height,
 				recordingTime, 
-				(int) encoderCaptureOptionsWin.spin_encoder_capture_inactivity_end_time.Value,
+				preferences.encoderCaptureInactivityEndTime,
 				radio_encoder_capture_cont.Active,
 				findEccon(true),
 				chronopicWin.GetEncoderPort()
@@ -2105,8 +2105,8 @@ public partial class ChronoJumpWindow
 		eCapture.InitGlobal( 
 				encoder_capture_signal_drawingarea.Allocation.Width,
 				encoder_capture_signal_drawingarea.Allocation.Height,
-				120, //hardcoded 2 minutes. Old: encoder_configuration_win.Spin_im_duration,
-				(int) encoderCaptureOptionsWin.spin_encoder_capture_inactivity_end_time.Value,
+				preferences.encoderCaptureTimeIM,
+				preferences.encoderCaptureInactivityEndTime,
 				false,
 				findEccon(true),
 				chronopicWin.GetEncoderPort()
@@ -3212,16 +3212,20 @@ public partial class ChronoJumpWindow
 	}
 
 	void on_button_encoder_capture_curves_all_clicked (object o, EventArgs args) {
-		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.ALL, encoderCaptureOptionsWin.GetMainVariable());
+		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.ALL, 
+				Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
 	}
 	void on_button_encoder_capture_curves_best_clicked (object o, EventArgs args) {
-		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.BEST, encoderCaptureOptionsWin.GetMainVariable());
+		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.BEST,
+				Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
 	}
 	void on_button_encoder_capture_curves_none_clicked (object o, EventArgs args) {
-		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.NONE, encoderCaptureOptionsWin.GetMainVariable());
+		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.NONE,
+				Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
 	}
 	void on_button_encoder_capture_curves_4top_clicked (object o, EventArgs args) {
-		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE, encoderCaptureOptionsWin.GetMainVariable());
+		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE,
+				Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
 	}
 
 
@@ -4312,11 +4316,11 @@ public partial class ChronoJumpWindow
 
 	private void callPlotCurvesGraphDoPlot() {
 		if(captureCurvesBarsData.Count > 0) {
-			string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
-			double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
-			double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
+			string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
+			double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
+			double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
 			plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
-					encoderCaptureOptionsWin.GetEncoderInertialDiscardFirstThree(),
+					repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
 					false);	//not capturing
 		} else
 			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
@@ -4934,15 +4938,15 @@ public partial class ChronoJumpWindow
 
 				//if(plotCurvesBars) {
 				string title = "";
-				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
-				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
-				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
+				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
+				double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
+				double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
 				//TODO:
 				//captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
 				//captureCurvesBarsData.Add(new EncoderBarsData(20, 39, 10, 40));
 
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData, 
-						encoderCaptureOptionsWin.GetEncoderInertialDiscardFirstThree(),
+						repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
 						true);	//capturing
 				//}
 
@@ -5065,9 +5069,9 @@ public partial class ChronoJumpWindow
 
 		if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM) 
 		{
-			int selectedTime = (int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value;
+			int selectedTime = preferences.encoderCaptureTime;
 			if(action == encoderActions.CAPTURE_IM)
-				selectedTime = encoder_configuration_win.Spin_im_duration;
+				selectedTime = preferences.encoderCaptureTimeIM;
 
 			encoder_pulsebar_capture.Fraction = Util.DivideSafeFraction(
 					(selectedTime - eCapture.Countdown), selectedTime);
@@ -5359,9 +5363,9 @@ public partial class ChronoJumpWindow
 				image_encoder_capture.Sensitive = true;
 
 				//plot curves bars graph
-				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
-				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
-				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
+				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
+				double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
+				double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
 			
 				captureCurvesBarsData = new ArrayList();
 				foreach (EncoderCurve curve in encoderCaptureCurves) {
@@ -5377,7 +5381,7 @@ public partial class ChronoJumpWindow
 
 
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
-						encoderCaptureOptionsWin.GetEncoderInertialDiscardFirstThree(),
+						repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
 						false);	//not capturing
 		
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
@@ -5397,8 +5401,8 @@ public partial class ChronoJumpWindow
 					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve(false, "signal", 0); //this updates encoderSignalUniqueID
 
 					if(needToAutoSaveCurve)
-						encoderCaptureSaveCurvesAllNoneBest(
-								preferences.encoderAutoSaveCurve, encoderCaptureOptionsWin.GetMainVariable());
+						encoderCaptureSaveCurvesAllNoneBest(preferences.encoderAutoSaveCurve,
+								Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
 
 				} else
 					encoder_pulsebar_capture.Text = "";
@@ -5823,158 +5827,3 @@ public partial class ChronoJumpWindow
 	/* end of video stuff */
 
 }	
-	
-public class EncoderCaptureOptionsWindow {
-
-	[Widget] Gtk.Window encoder_capture_options;
-	static EncoderCaptureOptionsWindow EncoderCaptureOptionsWindowBox;
-	
-	[Widget] public Gtk.SpinButton spin_encoder_capture_time;
-	[Widget] public Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
-	[Widget] Gtk.HBox hbox_height_gravitatory;
-	[Widget] Gtk.HBox hbox_height_inertial;
-	[Widget] private Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
-	[Widget] private Gtk.SpinButton spin_encoder_capture_min_height_inertial;
-	[Widget] Gtk.Box hbox_combo_main_variable;
-	[Widget] Gtk.ComboBox combo_main_variable;
-	[Widget] public Gtk.CheckButton check_show_start_and_duration;
-	[Widget] Gtk.Button button_close;
-	
-	RepetitiveConditionsWindow repetitiveConditionsWin;
-	bool volumeOn;
-	
-	public Gtk.Button FakeButtonClose;
-		
-	EncoderCaptureOptionsWindow () { 
-		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "encoder_capture_options", "chronojump");
-		gladeXML.Autoconnect(this);
-	
-		//don't show until View is called
-		encoder_capture_options.Hide ();
-
-		createCombo();
-
-		//put an icon to window
-		UtilGtk.IconWindow(encoder_capture_options);
-		
-		FakeButtonClose = new Gtk.Button();
-	}
-
-	
-	static public EncoderCaptureOptionsWindow Create (RepetitiveConditionsWindow repetitiveConditionsWin) {
-		if (EncoderCaptureOptionsWindowBox == null)
-			EncoderCaptureOptionsWindowBox = new EncoderCaptureOptionsWindow ();
-		
-		EncoderCaptureOptionsWindowBox.repetitiveConditionsWin = repetitiveConditionsWin;
-		
-		return EncoderCaptureOptionsWindowBox;
-	}
-
-	public void View (RepetitiveConditionsWindow repetitiveConditionsWin, bool volumeOn, Constants.EncoderGI encoderGI)
-	{
-		if (EncoderCaptureOptionsWindowBox == null) 
-			EncoderCaptureOptionsWindowBox = new EncoderCaptureOptionsWindow ();
-		
-		EncoderCaptureOptionsWindowBox.repetitiveConditionsWin = repetitiveConditionsWin;
-		EncoderCaptureOptionsWindowBox.volumeOn = volumeOn;
-	
-		if(encoderGI == Constants.EncoderGI.GRAVITATORY) {
-			hbox_height_gravitatory.Visible = true;
-			hbox_height_inertial.Visible = false;
-		} else {
-			hbox_height_gravitatory.Visible = false;
-			hbox_height_inertial.Visible = true;
-		}
-
-		//show window
-		EncoderCaptureOptionsWindowBox.encoder_capture_options.Show ();
-	}
-
-	private void createCombo() {
-		combo_main_variable = ComboBox.NewText ();
-		string [] values = { Constants.MeanSpeed, Constants.MaxSpeed, Constants.MeanForce, Constants.MaxForce, Constants.MeanPower, Constants.PeakPower };
-		UtilGtk.ComboUpdate(combo_main_variable, values, "");
-		combo_main_variable.Active = UtilGtk.ComboMakeActive(combo_main_variable, "Mean power");
-		
-		hbox_combo_main_variable.PackStart(combo_main_variable, false, false, 0);
-		hbox_combo_main_variable.ShowAll();
-		combo_main_variable.Sensitive = true;
-	}
-
-	public string GetMainVariable() {
-		return UtilGtk.ComboGetActive(combo_main_variable);
-	}
-	
-	public double GetMainVariableHigher(string mainVariable) {
-		//if user has not clicked at bells, repetitiveConditionsWin has not ben sent to encoderCaptureOptionsWin
-		if(repetitiveConditionsWin != null) {
-			if(mainVariable == Constants.MeanSpeed && repetitiveConditionsWin.EncoderMeanSpeedHigher)
-				return repetitiveConditionsWin.EncoderMeanSpeedHigherValue;
-			else if(mainVariable == Constants.MaxSpeed && repetitiveConditionsWin.EncoderMaxSpeedHigher)
-				return repetitiveConditionsWin.EncoderMaxSpeedHigherValue;
-			else if(mainVariable == Constants.MeanForce && repetitiveConditionsWin.EncoderMeanForceHigher)
-				return repetitiveConditionsWin.EncoderMeanForceHigherValue;
-			else if(mainVariable == Constants.MaxForce && repetitiveConditionsWin.EncoderMaxForceHigher)
-				return repetitiveConditionsWin.EncoderMaxForceHigherValue;
-			else if(mainVariable == Constants.MeanPower && repetitiveConditionsWin.EncoderPowerHigher)
-				return repetitiveConditionsWin.EncoderPowerHigherValue;
-			else if(mainVariable == Constants.PeakPower && repetitiveConditionsWin.EncoderPeakPowerHigher)
-				return repetitiveConditionsWin.EncoderPeakPowerHigherValue;
-		}
-			
-		return -1;
-	}
-
-	public double GetMainVariableLower(string mainVariable) {
-		//if user has not clicked at bells, repetitiveConditionsWin has not ben sent to encoderCaptureOptionsWin
-		if(repetitiveConditionsWin != null) {
-			if(mainVariable == Constants.MeanSpeed && repetitiveConditionsWin.EncoderMeanSpeedLower)
-				return repetitiveConditionsWin.EncoderMeanSpeedLowerValue;
-			else if(mainVariable == Constants.MaxSpeed && repetitiveConditionsWin.EncoderMaxSpeedLower)
-				return repetitiveConditionsWin.EncoderMaxSpeedLowerValue;
-			else if(mainVariable == Constants.MeanForce && repetitiveConditionsWin.EncoderMeanForceLower)
-				return repetitiveConditionsWin.EncoderMeanForceLowerValue;
-			else if(mainVariable == Constants.MaxForce && repetitiveConditionsWin.EncoderMaxForceLower)
-				return repetitiveConditionsWin.EncoderMaxForceLowerValue;
-			else if(mainVariable == Constants.MeanPower && repetitiveConditionsWin.EncoderPowerLower)
-				return repetitiveConditionsWin.EncoderPowerLowerValue;
-			else if(mainVariable == Constants.PeakPower && repetitiveConditionsWin.EncoderPeakPowerLower)
-				return repetitiveConditionsWin.EncoderPeakPowerLowerValue;
-		}
-			
-		return -1;
-	}
-
-	public bool GetEncoderInertialDiscardFirstThree() {
-		return repetitiveConditionsWin.EncoderInertialDiscardFirstThree;
-	}
-
-	/*
-	public int GetMinHeight (bool inertial) {
-		if(inertial)
-			return (int) spin_encoder_capture_min_height_inertial.Value;
-		else
-			return (int) spin_encoder_capture_min_height_gravitatory.Value;
-	}
-	*/
-	public void SetMinHeight (bool inertial, int height) {
-		if(inertial)
-			spin_encoder_capture_min_height_inertial.Value = height;
-		else
-			spin_encoder_capture_min_height_gravitatory.Value = height;
-	}
-	
-	protected virtual void on_button_close_clicked (object o, EventArgs args)
-	{
-		EncoderCaptureOptionsWindowBox.encoder_capture_options.Hide();
-		FakeButtonClose.Click();
-		//EncoderCaptureOptionsWindowBox = null;
-	}
-	
-	protected virtual void on_delete_event (object o, DeleteEventArgs args)
-	{
-		button_close.Click();
-		args.RetVal = true;
-	}
-}

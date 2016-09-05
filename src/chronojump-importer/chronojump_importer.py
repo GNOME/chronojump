@@ -16,9 +16,7 @@ def results_delete_column(column, results):
     return new_results
 
 
-def get_column_names(db, table, skip_columns = []):
-    cursor = db.cursor()
-
+def get_column_names(cursor, table, skip_columns = []):
     cursor.execute("PRAGMA table_info({})".format(table))
     result = cursor.fetchall()
 
@@ -52,13 +50,12 @@ def add_prefix(list_of_elements, prefix):
     return result
 
 
-def insert_data(database, table_name, data, matches_columns):
+def insert_data(cursor, table_name, data, matches_columns):
     """ Inserts data (list of dictionaries) into table_name for database.
     Returns a copy of data and adds new_unique_id. This is the new uniqueid or an
     existing one if a register with matches_columns already existed. """
 
     data_result = copy.deepcopy(data)
-    cursor = database.cursor()
 
     for row in data_result:
         if type(matches_columns) == list:
@@ -89,16 +86,12 @@ def insert_data(database, table_name, data, matches_columns):
             # Returns uniqueid
             row['new_unique_id'] = results[0][0]
 
-    database.commit()
-
     return data_result
 
 
-def return_data_from_table(database, table_name, where_condition, join_clause ="", group_by_clause=""):
+def return_data_from_table(cursor, table_name, where_condition, join_clause ="", group_by_clause=""):
     """ Returns a list of lists of the database, table executing where and skips the columns. """
-    cursor = database.cursor()
-
-    column_names = get_column_names(database, table_name)
+    column_names = get_column_names(cursor, table_name)
 
     column_names_with_prefixes = add_prefix(column_names, "{}.".format(table_name))
 
@@ -448,14 +441,17 @@ def import_database(source_path, destination_path, source_session):
     source_db = open_database(source_path, read_only=True)
     destination_db = open_database(destination_path, read_only=False)
 
+    source_cursor = source_db.cursor()
+    destination_cursor = destination_db.cursor()
+
     # Imports JumpType table
-    jump_types = return_data_from_table(database=source_db, table_name="JumpType",
+    jump_types = return_data_from_table(cursor=source_cursor, table_name="JumpType",
                                         where_condition="Session.uniqueID={}".format(source_session),
                                         join_clause="LEFT JOIN Jump ON JumpType.name=Jump.type LEFT JOIN Session ON Jump.sessionID=Session.uniqueID",
                                         group_by_clause="JumpType.uniqueID")
 
-    insert_data(database=destination_db, table_name="JumpType", data=jump_types,
-                matches_columns=get_column_names(destination_db, "JumpType", ["uniqueID"]))
+    insert_data(cursor=destination_cursor, table_name="JumpType", data=jump_types,
+                matches_columns=get_column_names(destination_cursor, "JumpType", ["uniqueID"]))
 
     cursor = destination_db.cursor()
     cursor.execute("select * from jumptype")
@@ -464,67 +460,67 @@ def import_database(source_path, destination_path, source_session):
 
     #destination_db.commit()
     # Imports JumpRjType table
-    jump_rj_types = return_data_from_table(database=source_db, table_name="JumpRjType",
+    jump_rj_types = return_data_from_table(cursor=source_cursor, table_name="JumpRjType",
                                            where_condition="Session.uniqueID={}".format(source_session),
                                            join_clause="LEFT JOIN JumpRj ON JumpRjType.name=JumpRj.type LEFT JOIN Session on JumpRj.sessionID=Session.uniqueID",
                                            group_by_clause="JumpRjType.uniqueID")
 
-    insert_data(database=destination_db, table_name="JumpRjType", data=jump_rj_types,
-                matches_columns=get_column_names(destination_db, "JumpRjType", ["uniqueID"]))
+    insert_data(cursor=destination_cursor, table_name="JumpRjType", data=jump_rj_types,
+                matches_columns=get_column_names(destination_cursor, "JumpRjType", ["uniqueID"]))
 
     # Imports the session
-    session = return_data_from_table(database=source_db, table_name="Session",
-                           where_condition="Session.uniqueID={}".format(source_session))
+    session = return_data_from_table(cursor=source_cursor, table_name="Session",
+                                     where_condition="Session.uniqueID={}".format(source_session))
 
-    session = insert_data(database=destination_db, table_name="Session", data=session,
-                              matches_columns=get_column_names(destination_db, "Session", ["uniqueID"]))
+    session = insert_data(cursor=destination_cursor, table_name="Session", data=session,
+                          matches_columns=get_column_names(destination_cursor, "Session", ["uniqueID"]))
 
     new_session_id = session[0]['new_unique_id']
 
     # Imports Persons77 used by JumpRj table
-    persons77_jump_rj = return_data_from_table(database=source_db, table_name="Person77",
-                                       where_condition="JumpRj.sessionID={}".format(source_session),
-                                       join_clause="LEFT JOIN JumpRj ON Person77.uniqueID=JumpRj.personID",
-                                        group_by_clause="Person77.uniqueID")
+    persons77_jump_rj = return_data_from_table(cursor=source_cursor, table_name="Person77",
+                                               where_condition="JumpRj.sessionID={}".format(source_session),
+                                               join_clause="LEFT JOIN JumpRj ON Person77.uniqueID=JumpRj.personID",
+                                               group_by_clause="Person77.uniqueID")
 
-    persons77_jump_rj = insert_data(database=destination_db, table_name="Person77", data=persons77_jump_rj,
+    persons77_jump_rj = insert_data(cursor=destination_cursor, table_name="Person77", data=persons77_jump_rj,
                                     matches_columns=["name"])
 
     # Imports Person77 used by Jump table
-    persons77_jump = return_data_from_table(database=source_db, table_name="Person77",
-                                       where_condition="Jump.sessionID={}".format(source_session),
-                                       join_clause="LEFT JOIN Jump ON Person77.uniqueID=Jump.personID",
-                                       group_by_clause="Person77.uniqueID")
+    persons77_jump = return_data_from_table(cursor=source_cursor, table_name="Person77",
+                                            where_condition="Jump.sessionID={}".format(source_session),
+                                            join_clause="LEFT JOIN Jump ON Person77.uniqueID=Jump.personID",
+                                            group_by_clause="Person77.uniqueID")
 
-    persons77_jump = insert_data(database=destination_db, table_name="Person77", data=persons77_jump,
+    persons77_jump = insert_data(cursor=destination_cursor, table_name="Person77", data=persons77_jump,
                                  matches_columns=["name"])
 
     persons77 = persons77_jump_rj + persons77_jump
 
     # Imports JumpRj table (with the new Person77's uniqueIDs)
-    jump_rj = return_data_from_table(database=source_db, table_name="JumpRj",
-                           where_condition="JumpRj.sessionID={}".format(source_session))
+    jump_rj = return_data_from_table(cursor=source_cursor, table_name="JumpRj",
+                                     where_condition="JumpRj.sessionID={}".format(source_session))
 
     jump_rj = update_persons77_ids(jump_rj, persons77)
     jump_rj = update_session_ids(jump_rj, new_session_id)
 
-    insert_data(database=destination_db, table_name="JumpRj", data=jump_rj, matches_columns=None)
+    insert_data(cursor=destination_cursor, table_name="JumpRj", data=jump_rj, matches_columns=None)
 
     # Imports Jump table (with the new Person77's uniqueIDs)
-    jump = return_data_from_table(database=source_db, table_name="Jump",
-                           where_condition="Jump.sessionID={}".format(source_session))
+    jump = return_data_from_table(cursor=source_cursor, table_name="Jump",
+                                  where_condition="Jump.sessionID={}".format(source_session))
 
     jump = update_persons77_ids(jump, persons77)
     jump = update_session_ids(jump, new_session_id)
 
-    insert_data(database=destination_db, table_name="Jump", data=jump, matches_columns=None)
+    insert_data(cursor=destination_cursor, table_name="Jump", data=jump, matches_columns=None)
 
     # Imports PersonSession77
-    person_session_77 = return_data_from_table(database=source_db, table_name="PersonSession77",
+    person_session_77 = return_data_from_table(cursor=source_cursor, table_name="PersonSession77",
                                                where_condition="PersonSession77.sessionID={}".format(source_session))
     person_session_77 = update_persons77_ids(person_session_77, persons77)
     person_session_77 = update_session_ids(person_session_77, new_session_id)
-    insert_data(database=destination_db, table_name="PersonSession77", data=person_session_77, matches_columns=None)
+    insert_data(cursor=destination_cursor, table_name="PersonSession77", data=person_session_77, matches_columns=None)
 
     ### Continue from here
 

@@ -476,6 +476,17 @@ public partial class ChronoJumpWindow
 	ExecuteAutoWindow executeAutoWin;
 	
 	ChronopicWindow chronopicWin;
+	ChronopicWizardWindow chronopicWizardWin;
+	
+	/*
+	 * useful to not check for Chronopic if changing select_menuitem_mode_toggled from a 50 to a 50
+	 * great for 1.6.3 where people change from simple jumps to reactive jumps and Chronopic don't need to change
+	 *
+	 * maybe it will be replaced by chronopic_wizard_window
+
+	private enum chronopicTypes { CONTACTS50, CONTACTS10, ENCODER }
+	private chronopicTypes lastChronopicType;
+	 */
 	
 	private bool firstRjValue;
 	private double rjTcCount;
@@ -3266,7 +3277,7 @@ public partial class ChronoJumpWindow
 			cpDetect.FakeButtonDone.Clicked += new EventHandler(on_autoDetectChronopic_encoder_done);
 		} 
 		else {
-			//disabled on Windows until is fixed
+			//disabled on Windows until is fixed //TODO
 			if(UtilAll.IsWindows()) {
 				main_menu.Sensitive = true;
 				return;
@@ -6933,6 +6944,10 @@ LogB.Debug("X");
 				"- <b>" + Catalog.GetString("Inactive") + "</b>:  " + 
 					Catalog.GetString("Auto-detection on hardware is inactive.") + " " + Catalog.GetString("Use it if you have problems at start or at capture.")
 				);
+	}
+	
+	private void on_button_chronopic_wizard_clicked (object o, EventArgs args) {
+		chronopicWizardWin = ChronopicWizardWindow.Show();
 	}
 
 	//start/end auto mode

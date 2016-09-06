@@ -7,6 +7,7 @@ LINK = $(REF_DEP_CHRONOJUMP)
 SOURCES = \
 	gui/chronojump.cs\
 	gui/chronopic.cs\
+	gui/chronopicWizard.cs\
 	gui/confirm.cs\
 	gui/encoder.cs\
 	gui/encoderTreeviews.cs\

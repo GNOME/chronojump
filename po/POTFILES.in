@@ -24,6 +24,7 @@ src/exportSession.cs
 src/json.cs
 src/gui/chronojump.cs
 src/gui/chronopic.cs
+src/gui/chronopicWizard.cs
 src/gui/convertWeight.cs
 src/gui/encoder.cs
 src/gui/encoderConfiguration.cs

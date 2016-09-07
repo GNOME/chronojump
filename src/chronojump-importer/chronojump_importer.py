@@ -232,6 +232,17 @@ def print_summary(table_name, table_data):
     print("{table_name} - inserted: {inserted}, reused: {reused}".format(table_name=table_name, inserted=inserted, reused=reused))
 
 
+def remove_duplicates_list(l):
+    """ Returns a new list without duplicate elements. """
+    result = []
+
+    for index, element in enumerate(l):
+        if element not in l[index+1:]:
+            result.append(element)
+
+    return result
+
+
 def import_database(source_path, destination_path, source_session):
     """ Imports the session source_session from source_db into destination_db """
 
@@ -288,20 +299,16 @@ def import_database(source_path, destination_path, source_session):
                                             join_clause="LEFT JOIN JumpRj ON Person77.uniqueID=JumpRj.personID",
                                             group_by_clause="Person77.uniqueID")
 
-    persons77_jump_rj = insert_data_into_table(cursor=destination_cursor, table_name="Person77", data=persons77_jump_rj,
-                                               matches_columns=["name"])
-
     # Imports Person77 used by Jump table
     persons77_jump = get_data_from_table(cursor=source_cursor, table_name="Person77",
                                          where_condition="Jump.sessionID={}".format(source_session),
                                          join_clause="LEFT JOIN Jump ON Person77.uniqueID=Jump.personID",
                                          group_by_clause="Person77.uniqueID")
 
-    persons77_jump = insert_data_into_table(cursor=destination_cursor, table_name="Person77", data=persons77_jump,
-                                            matches_columns=["name"])
+    persons77 = remove_duplicates_list(persons77_jump + persons77_jump_rj)
 
-    persons77 = persons77_jump_rj + persons77_jump
-    print_summary("Person77", persons77)
+    persons77 = insert_data_into_table(cursor=destination_cursor, table_name="Person77", data=persons77,
+                                            matches_columns=["name"])
 
     # Imports JumpRj table (with the new Person77's uniqueIDs)
     jump_rj = get_data_from_table(cursor=source_cursor, table_name="JumpRj",

@@ -113,13 +113,16 @@ def insert_data_into_table(cursor, table_name, data, matches_columns):
         if matches_columns is None or len(results) == 0:
             # Needs to insert it
             new_id = insert_dictionary_into_table(cursor, table_name, row)
+            row['importer_action'] = "inserted"
 
         else:
             # Uses the existing id as new_unique_id
             new_id = results[0][0]
+            row['importer_action'] = "reused"
 
         row['new_unique_id'] = new_id
 
+    print_summary(table_name, data_result)
     return data_result
 
 
@@ -215,6 +218,20 @@ def update_session_ids(table, new_session_id):
     return result
 
 
+def print_summary(table_name, table_data):
+    inserted = 0
+    reused = 0
+    for row in table_data:
+        if row['importer_action'] == 'inserted':
+            inserted += 1
+        elif row['importer_action'] == 'reused':
+            reused += 1
+        else:
+            assert False
+
+    print("{table_name} - inserted: {inserted}, reused: {reused}".format(table_name=table_name, inserted=inserted, reused=reused))
+
+
 def import_database(source_path, destination_path, source_session):
     """ Imports the session source_session from source_db into destination_db """
 
@@ -284,6 +301,7 @@ def import_database(source_path, destination_path, source_session):
                                             matches_columns=["name"])
 
     persons77 = persons77_jump_rj + persons77_jump
+    print_summary("Person77", persons77)
 
     # Imports JumpRj table (with the new Person77's uniqueIDs)
     jump_rj = get_data_from_table(cursor=source_cursor, table_name="JumpRj",

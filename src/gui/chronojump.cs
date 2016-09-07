@@ -477,6 +477,8 @@ public partial class ChronoJumpWindow
 	
 	ChronopicWindow chronopicWin;
 	ChronopicWizardWindow chronopicWizardWin;
+	string wizardPortContacts;
+	string wizardPortEncoder;
 	
 	/*
 	 * useful to not check for Chronopic if changing select_menuitem_mode_toggled from a 50 to a 50
@@ -611,6 +613,8 @@ public partial class ChronoJumpWindow
 		repetitiveConditionsWin.FakeButtonClose.Clicked += new EventHandler(on_repetitive_conditions_closed);
 
 		createChronopicWindow(false, "");
+		wizardPortContacts = "";
+		wizardPortEncoder = "";
 	
 		on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 		on_extra_window_pulses_test_changed(new object(), new EventArgs());
@@ -3244,13 +3248,29 @@ public partial class ChronoJumpWindow
 		//it's not visible at startup
 		main_menu.Visible = true;
 
-		//do not perform autoDetect if we are on contacts and already detected
-		if( chronopicWin.Connected && m != Constants.Menuitem_modes.POWERGRAVITATORY && m != Constants.Menuitem_modes.POWERINERTIAL )
-			change_multitest_firmware(m);
-		else
-			autoDetectChronopic(m); //will perform change_multitest_firmware at the end (except on POWERs)
-		
-			
+		/*
+		if(Constants.Menuitem_mode_IsContacts(m) && wizardPortContacts != "")
+			chronopicWin.Connected = true;
+		else if (! Constants.Menuitem_mode_IsContacts(m) && wizardPortEncoder != "")
+			chronopicWin.Connected = true;
+			*/
+
+//mySp = new SerialPort(myPort);
+//myCp = new Chronopic(mySp);
+//pensar en duplicats de chronopic i serial port
+//connectar amb chronopicInit.Do ?
+
+
+		if(Constants.Menuitem_mode_IsContacts(m))
+		{
+			if(chronopicWin.Connected)
+				change_multitest_firmware(m);
+			else
+				autoDetectChronopic(m); //on contacts will perform change_multitest_firmware at the end
+		}
+		else if(wizardPortEncoder == "")
+			autoDetectChronopic(m);
+
 		chronojumpWindowTestsNext();
 	}
 	
@@ -6946,8 +6966,27 @@ LogB.Debug("X");
 				);
 	}
 	
-	private void on_button_chronopic_wizard_clicked (object o, EventArgs args) {
+	private void on_button_chronopic_wizard_clicked (object o, EventArgs args) 
+	{
 		chronopicWizardWin = ChronopicWizardWindow.Show();
+	
+		chronopicWizardWin.FakeButtonChronopicWizardFinished.Clicked -= 
+			new EventHandler(chronopic_wizard_finished);
+		chronopicWizardWin.FakeButtonChronopicWizardFinished.Clicked += new 
+			EventHandler(chronopic_wizard_finished);
+	}
+	private void chronopic_wizard_finished (object o, EventArgs args) 
+	{
+		chronopicWizardWin.FakeButtonChronopicWizardFinished.Clicked -= 
+			new EventHandler(chronopic_wizard_finished);
+		
+		wizardPortContacts = chronopicWizardWin.PortContacts;
+		wizardPortEncoder = chronopicWizardWin.PortEncoder;
+		
+		LogB.Information("wizardPortContacts: " + wizardPortContacts);
+		LogB.Information("wizardPortEncoder: " + wizardPortEncoder);
+		
+		chronopicWizardWin.HideAndNull();
 	}
 
 	//start/end auto mode

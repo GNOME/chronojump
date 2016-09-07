@@ -19,7 +19,7 @@ class TestImporter(unittest.TestCase):
         shutil.rmtree(self.temporary_directory_path)
 
     # lists the names. They will expand to generic-destination-X.sqlite / generic-source-X.sqlite / generic-expected-X.sqlite
-    @ddt.data("a", "b")
+    @ddt.data("a", "b", "c")
     def test_importerGeneric(self, data):
         generic_test = data
         source_file_name = "generic-source-{}.sqlite".format(generic_test)

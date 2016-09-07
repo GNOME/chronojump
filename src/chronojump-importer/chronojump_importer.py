@@ -219,18 +219,20 @@ def update_session_ids(table, new_session_id):
 
 
 def print_summary(table_name, table_data):
-    inserted = 0
-    reused = 0
+    inserted_ids = []
+    reused_ids = []
     for row in table_data:
         if row['importer_action'] == 'inserted':
-            inserted += 1
+            inserted_ids.append(row['uniqueID'])
+
         elif row['importer_action'] == 'reused':
-            reused += 1
+            reused_ids.append(row['uniqueID'])
         else:
             assert False
 
-    print("{table_name} - inserted: {inserted}, reused: {reused}".format(table_name=table_name, inserted=inserted, reused=reused))
-
+    print("{table_name}".format(table_name=table_name))
+    print("\tinserted: {inserted_counter} uniqueIDs: {inserted}".format(inserted_counter=len(inserted_ids), inserted=inserted_ids))
+    print("\treused: {reused_counter} uniqueIDs: {reused}".format(reused_counter=len(reused_ids), reused=reused_ids))
 
 def remove_duplicates_list(l):
     """ Returns a new list without duplicate elements. """

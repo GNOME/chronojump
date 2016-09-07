@@ -124,7 +124,7 @@ def insert_data_into_table(cursor, table_name, data, matches_columns, avoids_dup
             new_id = results[0][0]
             row['importer_action'] = "reused"
 
-        row['new_unique_id'] = new_id
+        row['new_uniqueID'] = new_id
 
     print_summary(table_name, data_result)
     return data_result
@@ -271,30 +271,16 @@ def avoids_column_duplicate(cursor, table_name, column_name, data_row):
             data_row['new_' + column_name] = data_row[column_name]
 
 
-def update_persons77_ids(table, persons77_list):
-    """ table argument is a list of dictionaries. It returns a copy of it
-    replacing each personID by the 'new' personID contained in persons77_list.
-    persons77_list is a list of dictionaries and they must contain uniqueID (old person ID) and
-    new_unique_id -the new one in the new database. """
-    result = copy.deepcopy(table)
+def update_ids_from_table(table_to_update, column_to_update, referenced_table, old_referenced_column, new_referenced_column):
+    result = copy.deepcopy(table_to_update)
 
-    for row in result:
-        old_person_id = row['personID']
-        for persons77 in persons77_list:
-            if persons77['uniqueID'] == old_person_id:
-                row['personID'] = persons77['new_unique_id']
+    for row_to_update in result:
+        old_id = row_to_update[column_to_update]
+        for row_referenced in referenced_table:
+            old_column_name = old_referenced_column
 
-    return result
-
-
-def update_jump_types(table, jump_types):
-    """ TODO: refactor with update_persons77_ids"""
-    result = copy.deepcopy(table)
-
-    for row in result:
-        for jump_type in jump_types:
-            if row['type'] == jump_type.get('old_name'):
-                row['type'] = jump_type['new_name']
+            if old_column_name in row_referenced and row_referenced[old_referenced_column] == old_id:
+                row_to_update[column_to_update] = row_referenced[new_referenced_column]
 
     return result
 
@@ -329,7 +315,7 @@ def import_database(source_path, destination_path, source_session):
     session = insert_data_into_table(cursor=destination_cursor, table_name="Session", data=session,
                                      matches_columns=get_column_names(destination_cursor, "Session", ["uniqueID"]))
 
-    new_session_id = session[0]['new_unique_id']
+    new_session_id = session[0]['new_uniqueID']
 
     # Imports JumpType table
     jump_types = get_data_from_table(cursor=source_cursor, table_name="JumpType",
@@ -372,9 +358,9 @@ def import_database(source_path, destination_path, source_session):
     jump_rj = get_data_from_table(cursor=source_cursor, table_name="JumpRj",
                                   where_condition="JumpRj.sessionID={}".format(source_session))
 
-    jump_rj = update_persons77_ids(jump_rj, persons77)
+    jump_rj = update_ids_from_table(jump_rj, "personID", persons77, "uniqueID", "new_uniqueID")
     jump_rj = update_session_ids(jump_rj, new_session_id)
-    jump_rj = update_jump_types(jump_rj, jump_rj_types)
+    jump_rj = update_ids_from_table(jump_rj, "type", persons77, "old_name", "new_name")
 
     insert_data_into_table(cursor=destination_cursor, table_name="JumpRj", data=jump_rj, matches_columns=None)
 
@@ -382,16 +368,16 @@ def import_database(source_path, destination_path, source_session):
     jump = get_data_from_table(cursor=source_cursor, table_name="Jump",
                                where_condition="Jump.sessionID={}".format(source_session))
 
-    jump = update_persons77_ids(jump, persons77)
+    jump = update_ids_from_table(jump, "personID", persons77, "uniqueID", "new_uniqueID")
     jump = update_session_ids(jump, new_session_id)
-    jump = update_jump_types(jump, jump_types)
+    jump = update_ids_from_table(jump, "type", jump_types, "old_name", "new_name")
 
     insert_data_into_table(cursor=destination_cursor, table_name="Jump", data=jump, matches_columns=None)
 
     # Imports PersonSession77
     person_session_77 = get_data_from_table(cursor=source_cursor, table_name="PersonSession77",
                                             where_condition="PersonSession77.sessionID={}".format(source_session))
-    person_session_77 = update_persons77_ids(person_session_77, persons77)
+    person_session_77 = update_ids_from_table(person_session_77, "personID", persons77, "uniqueID", "new_uniqueID")
     person_session_77 = update_session_ids(person_session_77, new_session_id)
     insert_data_into_table(cursor=destination_cursor, table_name="PersonSession77", data=person_session_77, matches_columns=None)
 

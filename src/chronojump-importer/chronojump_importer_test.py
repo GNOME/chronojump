@@ -81,5 +81,26 @@ class TestImporter(unittest.TestCase):
         for row in actual:
             self.assertEqual(row['sessionID'], 4)
 
+    def test_remove_duplicates_list(self):
+        l = [1,1,2,3,2]
+
+        actual = chronojump_importer.remove_duplicates_list(l)
+
+        self.assertEqual(sorted(actual), sorted([1,2,3]))
+
+    def test_update_ids_from_table(self):
+        table_to_update = [{'name': 'john', 'personId': 1}, {'name': 'mark', 'personId': 4}, {'name': 'alex', 'personId': 5}]
+        column_to_update = 'personId'
+        referenced_table = [{'personId': 11, 'old_personId': 1}, {'personId': 12, 'old_personId': 4}]
+        old_reference_column = 'old_personId'
+        new_reference_column = 'personId'
+
+        actual = chronojump_importer.update_ids_from_table(table_to_update, column_to_update, referenced_table, old_reference_column, new_reference_column)
+
+        self.assertEqual(len(actual), 3)
+        self.assertTrue({'name': 'john', 'personId': 11} in actual)
+        self.assertTrue({'name': 'mark', 'personId': 12} in actual)
+        self.assertTrue({'name': 'alex', 'personId': 5} in actual)
+
 if __name__ == '__main__':
     unittest.main()

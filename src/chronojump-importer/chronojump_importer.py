@@ -190,22 +190,6 @@ def insert_dictionary_into_table(cursor, table_name, row, skip_columns=["uniqueI
     return new_id
 
 
-def update_persons77_ids(table, persons77_list):
-    """ table argument is a list of dictionaries. It returns a copy of it
-    replacing each personID by the 'new' personID contained in persons77_list.
-    persons77_list is a list of dictionaries and they must contain uniqueID (old person ID) and
-    new_unique_id -the new one in the new database. """
-    result = copy.deepcopy(table)
-
-    for row in table:
-        old_person_id = row['personID']
-        for persons77 in persons77_list:
-            if persons77['uniqueID'] == old_person_id:
-                row['personID'] = persons77['new_unique_id']
-
-    return result
-
-
 def update_session_ids(table, new_session_id):
     """ table argument is a list of dictionaries. It returns a copy of it
      replacing each sessionID by new_session_id.
@@ -239,6 +223,7 @@ def print_summary(table_name, table_data):
     print("{table_name}".format(table_name=table_name))
     print("\tinserted: {inserted_counter} uniqueIDs: {inserted}".format(inserted_counter=len(inserted_ids), inserted=inserted_ids))
     print("\treused: {reused_counter} uniqueIDs: {reused}".format(reused_counter=len(reused_ids), reused=reused_ids))
+
 
 def remove_duplicates_list(l):
     """ Returns a new list without duplicate elements. """
@@ -284,6 +269,22 @@ def avoids_column_duplicate(cursor, table_name, column_name, data_row):
         else:
             data_row[column_name] = increment_suffix(data_row[column_name])
             data_row['new_' + column_name] = data_row[column_name]
+
+
+def update_persons77_ids(table, persons77_list):
+    """ table argument is a list of dictionaries. It returns a copy of it
+    replacing each personID by the 'new' personID contained in persons77_list.
+    persons77_list is a list of dictionaries and they must contain uniqueID (old person ID) and
+    new_unique_id -the new one in the new database. """
+    result = copy.deepcopy(table)
+
+    for row in result:
+        old_person_id = row['personID']
+        for persons77 in persons77_list:
+            if persons77['uniqueID'] == old_person_id:
+                row['personID'] = persons77['new_unique_id']
+
+    return result
 
 
 def update_jump_types(table, jump_types):
@@ -374,7 +375,6 @@ def import_database(source_path, destination_path, source_session):
     jump_rj = update_persons77_ids(jump_rj, persons77)
     jump_rj = update_session_ids(jump_rj, new_session_id)
     jump_rj = update_jump_types(jump_rj, jump_rj_types)
-
 
     insert_data_into_table(cursor=destination_cursor, table_name="JumpRj", data=jump_rj, matches_columns=None)
 

@@ -198,10 +198,9 @@ def update_session_ids(table, new_session_id):
 
     changed = False
 
-    for row in table:
+    for row in result:
         row["sessionID"] = new_session_id
         changed = True
-        break
 
     assert changed
 

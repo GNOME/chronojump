@@ -170,8 +170,10 @@ def insert_dictionary_into_table(cursor, table_name, row, skip_columns=["uniqueI
     values = []
     column_names = []
     place_holders = []
+    table_column_names = get_column_names(cursor, table_name)
+
     for column_name in row.keys():
-        if column_name in skip_columns:
+        if column_name in skip_columns or column_name not in table_column_names:
             continue
 
         values.append(row[column_name])
@@ -267,6 +269,8 @@ def avoids_column_duplicate(cursor, table_name, column_name, data_row):
     if column_name is None:
         return
 
+    data_row['old_' + column_name] = data_row[column_name]
+
     while True:
         sql = "SELECT count(*) FROM {table_name} WHERE {column}=?".format(table_name=table_name, column=column_name)
         binding_values = []
@@ -279,6 +283,19 @@ def avoids_column_duplicate(cursor, table_name, column_name, data_row):
             break
         else:
             data_row[column_name] = increment_suffix(data_row[column_name])
+            data_row['new_' + column_name] = data_row[column_name]
+
+
+def update_jump_types(table, jump_types):
+    """ TODO: refactor with update_persons77_ids"""
+    result = copy.deepcopy(table)
+
+    for row in result:
+        for jump_type in jump_types:
+            if row['type'] == jump_type.get('old_name'):
+                row['type'] = jump_type['new_name']
+
+    return result
 
 
 def import_database(source_path, destination_path, source_session):
@@ -319,7 +336,7 @@ def import_database(source_path, destination_path, source_session):
                                      join_clause="LEFT JOIN Jump ON JumpType.name=Jump.type LEFT JOIN Session ON Jump.sessionID=Session.uniqueID",
                                      group_by_clause="JumpType.uniqueID")
 
-    insert_data_into_table(cursor=destination_cursor, table_name="JumpType", data=jump_types,
+    jump_types = insert_data_into_table(cursor=destination_cursor, table_name="JumpType", data=jump_types,
                            matches_columns=get_column_names(destination_cursor, "JumpType", ["uniqueID"]),
                            avoids_duplicate_column="name")
 
@@ -329,7 +346,7 @@ def import_database(source_path, destination_path, source_session):
                                         join_clause="LEFT JOIN JumpRj ON JumpRjType.name=JumpRj.type LEFT JOIN Session on JumpRj.sessionID=Session.uniqueID",
                                         group_by_clause="JumpRjType.uniqueID")
 
-    insert_data_into_table(cursor=destination_cursor, table_name="JumpRjType", data=jump_rj_types,
+    jump_rj_types = insert_data_into_table(cursor=destination_cursor, table_name="JumpRjType", data=jump_rj_types,
                            matches_columns=get_column_names(destination_cursor, "JumpRjType", ["uniqueID"]),
                            avoids_duplicate_column="name")
 
@@ -356,6 +373,8 @@ def import_database(source_path, destination_path, source_session):
 
     jump_rj = update_persons77_ids(jump_rj, persons77)
     jump_rj = update_session_ids(jump_rj, new_session_id)
+    jump_rj = update_jump_types(jump_rj, jump_rj_types)
+
 
     insert_data_into_table(cursor=destination_cursor, table_name="JumpRj", data=jump_rj, matches_columns=None)
 
@@ -365,6 +384,7 @@ def import_database(source_path, destination_path, source_session):
 
     jump = update_persons77_ids(jump, persons77)
     jump = update_session_ids(jump, new_session_id)
+    jump = update_jump_types(jump, jump_types)
 
     insert_data_into_table(cursor=destination_cursor, table_name="Jump", data=jump, matches_columns=None)
 

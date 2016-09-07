@@ -30,6 +30,7 @@ logging.basicConfig(level=logging.INFO)
  */
 """
 
+
 def get_column_names(cursor, table, skip_columns = []):
     """ Returns the column names of table. Doesn't return any columns
     indicated by skip_columns. """
@@ -43,6 +44,7 @@ def get_column_names(cursor, table, skip_columns = []):
         if column_name not in skip_columns:
             names.append(column_name)
 
+    assert len(names) > 0
     return names
 
 
@@ -336,19 +338,36 @@ def execute_query_and_log(cursor, sql, where_values):
     cursor.execute(sql, where_values)
 
 
+def show_information(database_path):
+    database = open_database(database_path, read_only=True)
+    cursor = database.cursor()
+
+    sessions = get_data_from_table(cursor=cursor, table_name="Session", where_condition="1=1")
+
+    print("sessionID, date, place, comments")
+    for session in sessions:
+        print("{uniqueID}, {date}, {place}, {comments}".format(**session))
+
+
 def process_command_line():
     parser = argparse.ArgumentParser(description="Allows to import a session from one Chronojump database file into another one")
     parser.add_argument("--source", type=str, required=True,
                         help="chronojump.sqlite that we are importing from")
-    parser.add_argument("--destination", type=str, required=True,
+    parser.add_argument("--destination", type=str, required=False,
                         help="chronojump.sqlite that we import to")
-    parser.add_argument("--source_session", type=int, required=True,
+    parser.add_argument("--source_session", type=int, required=False,
                         help="Session from source that will be imported to a new session in destination")
+    parser.add_argument("--information", required=False, action='store_true',
+                        help="Shows information of the source database")
     args = parser.parse_args()
 
-    source_session = args.source_session
-
-    import_database(args.source, args.destination, source_session)
+    if args.information:
+        show_information(args.source)
+    else:
+        if args.destination and args.source_session:
+            import_database(args.source, args.destination, args.source_session)
+        else:
+            print("if --information not used --source, --destination and --source_session parameters are required")
 
 
 if __name__ == "__main__":

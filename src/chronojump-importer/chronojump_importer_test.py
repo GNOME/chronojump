@@ -55,5 +55,10 @@ class TestImporter(unittest.TestCase):
         self.maxDiff = None
         self.assertEqual(diff, "")
 
+    def test_increment_suffix(self):
+        self.assertEqual(chronojump_importer.increment_suffix("Free Jump"), "Free Jump (1)")
+        self.assertEqual(chronojump_importer.increment_suffix("Free Jump (1)"), "Free Jump (2)")
+        self.assertEqual(chronojump_importer.increment_suffix("Free Jump (2)"), "Free Jump (3)")
+
 if __name__ == '__main__':
     unittest.main()

@@ -5,6 +5,7 @@ import argparse
 import sqlite3
 import logging
 import sys
+import re
 
 logging.basicConfig(level=logging.INFO)
 
@@ -69,7 +70,7 @@ def add_prefix(list_of_elements, prefix):
     return result
 
 
-def insert_data_into_table(cursor, table_name, data, matches_columns):
+def insert_data_into_table(cursor, table_name, data, matches_columns, avoids_duplicate_column=None):
     """ Data is a list of dictionaries and the keys should match the columns
     of table_name.
 
@@ -112,6 +113,9 @@ def insert_data_into_table(cursor, table_name, data, matches_columns):
 
         if matches_columns is None or len(results) == 0:
             # Needs to insert it
+
+            avoids_column_duplicate(cursor=cursor, table_name=table_name, column_name=avoids_duplicate_column, data_row=row)
+
             new_id = insert_dictionary_into_table(cursor, table_name, row)
             row['importer_action'] = "inserted"
 
@@ -245,6 +249,38 @@ def remove_duplicates_list(l):
     return result
 
 
+def increment_suffix(value):
+    suffix = re.match("(.*) \(([0-9]+)\)", value)
+
+    if suffix == None:
+        return "{} (1)".format(value)
+    else:
+        base_name = suffix.group(1)
+        counter = int(suffix.group(2))
+        counter += 1
+        return "{} ({})".format(base_name, counter)
+
+
+def avoids_column_duplicate(cursor, table_name, column_name, data_row):
+    """ Makes sure that data_row[column_name] doesn't exist in table_name. If it exists
+    it changes data_row[column_name] to the same with (1) or (2)"""
+    if column_name is None:
+        return
+
+    while True:
+        sql = "SELECT count(*) FROM {table_name} WHERE {column}=?".format(table_name=table_name, column=column_name)
+        binding_values = []
+        binding_values.append(data_row[column_name])
+        execute_query_and_log(cursor, sql, binding_values)
+
+        results = cursor.fetchall()
+
+        if results[0][0] == 0:
+            break
+        else:
+            data_row[column_name] = increment_suffix(data_row[column_name])
+
+
 def import_database(source_path, destination_path, source_session):
     """ Imports the session source_session from source_db into destination_db """
 
@@ -284,7 +320,8 @@ def import_database(source_path, destination_path, source_session):
                                      group_by_clause="JumpType.uniqueID")
 
     insert_data_into_table(cursor=destination_cursor, table_name="JumpType", data=jump_types,
-                           matches_columns=get_column_names(destination_cursor, "JumpType", ["uniqueID"]))
+                           matches_columns=get_column_names(destination_cursor, "JumpType", ["uniqueID"]),
+                           avoids_duplicate_column="name")
 
     # Imports JumpRjType table
     jump_rj_types = get_data_from_table(cursor=source_cursor, table_name="JumpRjType",
@@ -293,7 +330,8 @@ def import_database(source_path, destination_path, source_session):
                                         group_by_clause="JumpRjType.uniqueID")
 
     insert_data_into_table(cursor=destination_cursor, table_name="JumpRjType", data=jump_rj_types,
-                           matches_columns=get_column_names(destination_cursor, "JumpRjType", ["uniqueID"]))
+                           matches_columns=get_column_names(destination_cursor, "JumpRjType", ["uniqueID"]),
+                           avoids_duplicate_column="name")
 
     # Imports Persons77 used by JumpRj table
     persons77_jump_rj = get_data_from_table(cursor=source_cursor, table_name="Person77",

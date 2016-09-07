@@ -9,6 +9,7 @@ import shutil
 import difflib
 import ddt
 import pprint
+import sqlite3
 
 @ddt.ddt
 class TestImporter(unittest.TestCase):
@@ -101,6 +102,22 @@ class TestImporter(unittest.TestCase):
         self.assertTrue({'name': 'john', 'personId': 11} in actual)
         self.assertTrue({'name': 'mark', 'personId': 12} in actual)
         self.assertTrue({'name': 'alex', 'personId': 5} in actual)
+
+    def test_get_column_names(self):
+        filename = tempfile.mktemp(prefix="chronojump_importer_test_get_column_", suffix=".sqlite")
+        open(filename, 'a').close()
+
+        database = chronojump_importer.open_database(filename, read_only=False)
+        cursor = database.cursor()
+
+        cursor.execute("CREATE TABLE test (uniqueID INTEGER, name TEXT, surname1 TEXT, surname2 TEXT, age INTEGER)")
+
+        columns = chronojump_importer.get_column_names(cursor=cursor, table="test", skip_columns=["surname1", "surname2"])
+
+        self.assertEqual(columns, ["uniqueID", "name", "age"])
+
+        database.close()
+        os.remove(filename)
 
 if __name__ == '__main__':
     unittest.main()

@@ -239,7 +239,7 @@ def remove_duplicates_list(l):
 def increment_suffix(value):
     suffix = re.match("(.*) \(([0-9]+)\)", value)
 
-    if suffix == None:
+    if suffix is None:
         return "{} (1)".format(value)
     else:
         base_name = suffix.group(1)
@@ -272,6 +272,8 @@ def avoids_column_duplicate(cursor, table_name, column_name, data_row):
 
 
 def update_ids_from_table(table_to_update, column_to_update, referenced_table, old_referenced_column, new_referenced_column):
+    """From table_to_update: updates column_to_update if there is referenced_table old_referenced_column with the same
+    value and assigned new_new_referenced_column value."""
     result = copy.deepcopy(table_to_update)
 
     for row_to_update in result:

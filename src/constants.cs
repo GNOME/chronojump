@@ -692,6 +692,11 @@ public class Constants
 	}
 
 	public enum Menuitem_modes { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, POWERGRAVITATORY, POWERINERTIAL, OTHER }
+	public static bool Menuitem_mode_IsContacts (Menuitem_modes m) {
+		if(m == Menuitem_modes.POWERGRAVITATORY || m == Menuitem_modes.POWERINERTIAL)
+			return false;
+		return true;
+	}
 
 	public static string All = "All";
 	public static string None = "None";

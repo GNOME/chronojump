@@ -72,8 +72,9 @@ public class ChronopicWizardWindow
 
 	static ChronopicWizardWindow ChronopicWizardWindowBox;
 
-	public string portContacts;
-	public string portEncoder;
+	public Gtk.Button FakeButtonChronopicWizardFinished;
+	public string PortContacts;
+	public string PortEncoder;
 
 	private ArrayList portsAlreadyDetected;
 
@@ -100,6 +101,10 @@ public class ChronopicWizardWindow
 
 	void initialize() 
 	{
+		FakeButtonChronopicWizardFinished = new Gtk.Button();
+		PortContacts = "";
+		PortEncoder = "";
+
 		portsAlreadyDetected = new ArrayList(0);
 
 		notebook_main.CurrentPage = 0;
@@ -134,11 +139,7 @@ public class ChronopicWizardWindow
 	ArrayList detectPorts()
 	{
 		//detect ports
-		string [] ports = {""};
-		if(UtilAll.IsWindows())
-			ports = SerialPort.GetPortNames();
-		else
-			ports = Directory.GetFiles("/dev/", "ttyUSB*");
+		string [] ports = ChronopicPorts.GetPorts();
 
 		//get only new ports
 		ArrayList portsNew = new ArrayList(0);
@@ -236,6 +237,7 @@ public class ChronopicWizardWindow
 		return true;
 	}      
 
+	//gui for contacts detection ----
 
 	void on_button_done_unplugged_clicked (object o, EventArgs args)
 	{
@@ -281,6 +283,8 @@ public class ChronopicWizardWindow
 		hbox_detection_contacts.Sensitive = false;
 		button_done_contacts.Sensitive = true;
 	}
+	
+	//gui for encoder detection ----
 	
 	void on_button_done_encoder_clicked (object o, EventArgs args)
 	{
@@ -347,7 +351,7 @@ public class ChronopicWizardWindow
 			//from page 2 to page 3 detect encoder
 			//exit if there's no encoder
 			if(radio_start_contacts.Active)
-				on_button_cancel_clicked(o, args); //TODO
+				finishWizard();
 			else {
 				button_next.Sensitive = false; //unsensitive until click on Done
 				
@@ -356,37 +360,57 @@ public class ChronopicWizardWindow
 			}
 		}
 		else if(notebook_main.CurrentPage == 3) {
-			//exiting form encoder page
-			on_button_cancel_clicked(o, args); //TODO
+			finishWizard();
 		}
 
 		//change the page		
 		notebook_main.CurrentPage += advancePages;
 	}
+			
+	private void finishWizard()
+	{
+		if(radio_start_contacts.Active || radio_start_both.Active)
+			PortContacts = readSelectedRadioButton(radio_contacts1, radio_contacts2,
+					radio_contacts3, radio_contacts4, radio_contacts5);
+		
+		if(radio_start_encoder.Active || radio_start_both.Active)
+			PortEncoder = readSelectedRadioButton(radio_encoder1, radio_encoder2,
+					radio_encoder3, radio_encoder4, radio_encoder5);
+		
+		//exiting using finish (next) button
+		FakeButtonChronopicWizardFinished.Click();
+	}
+			
+	private string readSelectedRadioButton(Gtk.RadioButton radio1, Gtk.RadioButton radio2, 
+			Gtk.RadioButton radio3, Gtk.RadioButton radio4, Gtk.RadioButton radio5) 
+	{
+		if(radio1.Active)
+			return radio1.Label;
+		else if(radio2.Active)
+			return radio2.Label;
+		else if(radio3.Active)
+			return radio3.Label;
+		else if(radio4.Active)
+			return radio4.Label;
+		else //if(radio5.Active)
+			return radio5.Label;
+	}
 
-	void on_button_cancel_clicked (object o, EventArgs args)
+	public void HideAndNull () 
 	{
 		ChronopicWizardWindowBox.chronopic_wizard_win.Hide();
 		ChronopicWizardWindowBox = null;
 	}
+
+	void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		HideAndNull();
+	}
 	
 	void on_delete_event (object o, DeleteEventArgs args)
 	{
-		/*
-		 * copied from preferences
-		 *
-		//do not hide/exit if copyiing
-		if (thread != null && thread.IsAlive)
-			args.RetVal = true;
-		else {
-		*/
-			ChronopicWizardWindowBox.chronopic_wizard_win.Hide();
-			ChronopicWizardWindowBox = null;
-			/*
-		}
-		*/
+		progressbarContinue = false;
+		HideAndNull();
 	}
-	
-
 }
 

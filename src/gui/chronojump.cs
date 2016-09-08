@@ -3248,19 +3248,15 @@ public partial class ChronoJumpWindow
 		//it's not visible at startup
 		main_menu.Visible = true;
 
-		/*
+
+		//if wizard has been used, mark Chronopic as connected
 		if(Constants.Menuitem_mode_IsContacts(m) && wizardPortContacts != "")
 			chronopicWin.Connected = true;
-		else if (! Constants.Menuitem_mode_IsContacts(m) && wizardPortEncoder != "")
+		else if(! Constants.Menuitem_mode_IsContacts(m) && wizardPortEncoder != "")
 			chronopicWin.Connected = true;
-			*/
-
-//mySp = new SerialPort(myPort);
-//myCp = new Chronopic(mySp);
-//pensar en duplicats de chronopic i serial port
-//connectar amb chronopicInit.Do ?
 
 
+		//change multitest firmware or autoDetectChronopic
 		if(Constants.Menuitem_mode_IsContacts(m))
 		{
 			if(chronopicWin.Connected)
@@ -5037,8 +5033,8 @@ public partial class ChronoJumpWindow
 	{
 		ArrayList cpd = new ArrayList();
 		for(int i=1; i<=4;i++) {
-			ChronopicPortData a = new ChronopicPortData(i,"",false);
-			cpd.Add(a);
+			ChronopicPortData cpdata = new ChronopicPortData(i,"",false);
+			cpd.Add(cpdata);
 		}
 		createChronopicWindow(null, cpd, recreate, encoderPort);
 	}
@@ -6999,7 +6995,35 @@ LogB.Debug("X");
 		
 		LogB.Information("wizardPortContacts: " + wizardPortContacts);
 		LogB.Information("wizardPortEncoder: " + wizardPortEncoder);
+	
+		/*
+		 * createChronopicWindow (pass cp,...)
+		 * recreate is true because it has been created on first ChronojumpWindow call
+		 */
+		//contacts and encoder
+		if(wizardPortContacts != "")
+		{
+			Chronopic cpW; //cp Wizard
+			chronopicWin.CreateSPifNeeded(wizardPortContacts);
+			cpW = new Chronopic(chronopicWin.SP);
+			ChronopicPortData cpdata = new ChronopicPortData(1, wizardPortContacts, true);
+			ArrayList cpd = new ArrayList();
+			cpd.Add(cpdata);
+
+			if(wizardPortEncoder == "") //no encoder
+				createChronopicWindow(cpW, cpd, true, "");
+			else
+				createChronopicWindow(cpW, cpd, true, wizardPortEncoder);
+		}
+		else { //only encoder
+			createChronopicWindow(true, wizardPortEncoder);
+		}
 		
+		//need to do this because createChronopicWindow does it but relying on menuitem_mode, and now we are on start page	
+		if(wizardPortEncoder != "")
+			chronopicEncoderLabels(true);
+
+		//all the needed info is take. Can destroy wizard window 
 		chronopicWizardWin.HideAndNull();
 	}
 

@@ -1060,6 +1060,12 @@ public class ChronopicWindow
 		 */
 		return encoderPort;
 	}
+	
+	public void CreateSPifNeeded(string port) 
+	{
+		if(sp == null)
+			sp = new SerialPort(port);
+	}
 
 
 	public Chronopic CP {

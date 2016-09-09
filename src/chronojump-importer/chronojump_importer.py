@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import copy
 import argparse
 import sqlite3
 import logging
@@ -37,8 +36,17 @@ class Row:
     def __init__(self):
         self._row = {}
 
-    def add(self, column_name, value):
+    def set(self, column_name, value):
         self._row[column_name] = value
+
+    def get(self, column_name):
+        return self._row[column_name]
+
+    def has_column(self, column_name):
+        return column_name in self._row
+
+    def columns(self):
+        return self._row.keys()
 
 
 class Table:
@@ -64,7 +72,7 @@ class Table:
         changed = False
 
         for row in self._table_data:
-            row._row["sessionID"] = new_session_id
+            row.set("sessionID", new_session_id)
             changed = True
 
         if len(self._table_data) > 0:
@@ -74,12 +82,12 @@ class Table:
         """From table_to_update: updates column_to_update if there is referenced_table old_referenced_column with the same
         value and assigned new_new_referenced_column value."""
         for row_to_update in self._table_data:
-            old_id = row_to_update._row[column_to_update]
+            old_id = row_to_update.get(column_to_update)
             for row_referenced in referenced_table._table_data:
                 old_column_name = old_referenced_column
 
-                if old_column_name in row_referenced._row and row_referenced._row[old_referenced_column] == old_id:
-                    row_to_update._row[column_to_update] = row_referenced._row[new_referenced_column]
+                if row_referenced.has_column(old_column_name) and row_referenced.get(old_referenced_column) == old_id:
+                    row_to_update.set(column_to_update, row_referenced.get(new_referenced_column))
 
 
 class Database:
@@ -101,7 +109,7 @@ class Database:
             self._conn.close()
             self._is_opened = False
 
-    def column_names(self, table, skip_columns = []):
+    def column_names(self, table, skip_columns=[]):
         """ Returns the column names of table. Doesn't return any columns
         indicated by skip_columns. """
         self._cursor.execute("PRAGMA table_info({})".format(table))
@@ -156,7 +164,7 @@ class Database:
                         if where != "":
                             where += " AND "
                         where += "{} = ?".format(column)
-                        where_values.append(row._row[column])
+                        where_values.append(row.get(column))
 
                 format_data = {}
                 format_data['table_name'] = table.get_table_name()
@@ -172,14 +180,14 @@ class Database:
                 self.avoids_column_duplicate(table_name=table.get_table_name(), column_name=avoids_duplicate_column, data_row=row)
 
                 new_id = self.insert_dictionary_into_table(table.get_table_name(), row)
-                row.add('importer_action', 'inserted')
+                row.set('importer_action', 'inserted')
 
             else:
                 # Uses the existing id as new_unique_id
                 new_id = results[0][0]
-                row.add('importer_action', 'reused')
+                row.set('importer_action', 'reused')
 
-            row.add('new_uniqueID', new_id)
+            row.set('new_uniqueID', new_id)
 
         # TODO print_summary(table, data_result)
 
@@ -210,7 +218,7 @@ class Database:
         for row in results:
             table_row = Row()
             for i, col in enumerate(row):
-                table_row.add(column_names[i], col)
+                table_row.set(column_names[i], col)
 
             table.insert_row(table_row)
 
@@ -225,11 +233,11 @@ class Database:
         place_holders = []
         table_column_names = self.column_names(table_name)
 
-        for column_name in row._row.keys():
+        for column_name in row.columns():
             if column_name in skip_columns or column_name not in table_column_names:
                 continue
 
-            values.append(row._row[column_name])
+            values.append(row.get(column_name))
             column_names.append(column_name)
             place_holders.append("?")
 
@@ -248,12 +256,12 @@ class Database:
         if column_name is None:
             return
 
-        data_row._row['old_' + column_name] = data_row._row[column_name]
+        data_row.set('old_' + column_name, data_row.get(column_name))
 
         while True:
             sql = "SELECT count(*) FROM {table_name} WHERE {column}=?".format(table_name=table_name, column=column_name)
             binding_values = []
-            binding_values.append(data_row._row[column_name])
+            binding_values.append(data_row.get(column_name))
             execute_query_and_log(self._cursor, sql, binding_values)
 
             results = self._cursor.fetchall()
@@ -261,8 +269,8 @@ class Database:
             if results[0][0] == 0:
                 break
             else:
-                data_row._row[column_name] = increment_suffix(data_row._row[column_name])
-                data_row._row['new_' + column_name] = data_row._row[column_name]
+                data_row.set(column_name, increment_suffix(data_row.get(column_name)))
+                data_row.set('new_' + column_name, data_row.get(column_name))
 
     def open_database(self, filename, read_only):
         """Opens the database specified by filename. If read_only is True
@@ -366,7 +374,7 @@ def import_database(source_path, destination_path, source_session):
 
     destination_db.insert_table(table=session, matches_columns=destination_db.column_names("Session", ["uniqueID"]))
 
-    new_session_id = session._table_data[0]._row['new_uniqueID']
+    new_session_id = session._table_data[0].get('new_uniqueID')
 
     # Imports JumpType table
     jump_types = source_db.get_data_from_table(table_name="JumpType",

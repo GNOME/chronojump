@@ -72,7 +72,7 @@ class Table:
         self._table_data += other
 
     def remove_duplicates(self):
-        """ Remove duplicate rows of the table. The order of the table could change """
+        """ Remove duplicate rows of the table. The order of the rows in the table could change """
         new_data = []
 
         for index, element in enumerate(self._table_data):
@@ -139,8 +139,7 @@ class Database:
             self._is_opened = False
 
     def column_names(self, table, skip_columns=None):
-        """ Returns the column names of table. Doesn't return any columns
-        indicated by skip_columns. """
+        """ Returns a list with the column names of the table. Doesn't return columns mentioned in skip_columns """
 
         self._cursor.execute("PRAGMA table_info({})".format(table))
         result = self._cursor.fetchall()
@@ -166,12 +165,11 @@ class Database:
         return result
 
     def write(self, table, matches_columns, avoids_duplicate_column=None):
-        """ Data is a list of dictionaries and the keys should match the columns
-        of table_name.
+        """ Writes table into the database.
 
-        Inserts the data and returns a copy of data with a new key per each
-        dictionary: new_unique_id. This is the new uniqueID for this row if it
-        didn't exist or the old one. The matching is based on matches_columns.
+        Inserts the data and modifies table adding new_unique_id. This is the new uniqueID
+        if the row has been inserted or the old one if the row has been reused. This
+        depends on avoid_duplicate_columns.
 
         For example, if matches_columns = ["Name"] it will insert a new row
         in the table if the name didn't exist and will add new_unique_id
@@ -186,15 +184,12 @@ class Database:
         for row in table:
             if type(matches_columns) == list:
                 where = ""
-                if len(matches_columns) == 0:
-                    where = "1=1"
-                else:
-                    where_values = []
-                    for column in matches_columns:
-                        if where != "":
-                            where += " AND "
-                        where += "{} = ?".format(column)
-                        where_values.append(row.get(column))
+                where_values = []
+                for column in matches_columns:
+                    if where != "":
+                        where += " AND "
+                    where += "{} = ?".format(column)
+                    where_values.append(row.get(column))
 
                 format_data = {'table_name': table.name,
                                'where_clause': " WHERE {}".format(where)
@@ -207,7 +202,6 @@ class Database:
 
             if matches_columns is None or len(results) == 0:
                 # Needs to insert it
-
                 self._avoid_duplicate_value(table_name=table.name, column_name=avoids_duplicate_column, data_row=row)
 
                 new_id = self._write_row(table.name, row)
@@ -222,7 +216,8 @@ class Database:
 
         self._print_summary(table)
 
-    def _print_summary(self, table):
+    @staticmethod
+    def _print_summary(table):
         """ Prints a summary of which rows has been inserted, which ones reused, during the write operation """
         inserted_ids = []
         reused_ids = []
@@ -243,7 +238,7 @@ class Database:
                                                                         reused=reused_ids))
 
     def read(self, table_name, where_condition, join_clause ="", group_by_clause=""):
-        """ Returns a list of dictionaries of the table table_name applying the where_condition, join_clause and group_by_clause. """
+        """ Returns a new table with the contents of this table with where_condition. """
         column_names = self.column_names(table_name)
 
         column_names_with_prefixes = self._add_prefix(column_names, "{}.".format(table_name))
@@ -275,10 +270,12 @@ class Database:
 
         return table
 
-    def _write_row(self, table_name, row, skip_columns=["uniqueID"]):
-        """ Inserts the row (it's a dictionary) into table_name and skips skip_column.
-        Returns the new Id of the inserted row.
-        """
+    def _write_row(self, table_name, row, skip_columns=None):
+        """ Inserts the row into the table. Returns the new_id. By default skips uniqueID """
+
+        if skip_columns is None:
+            skip_columns = ["uniqueID"]
+
         values = []
         column_names = []
         place_holders = []
@@ -293,8 +290,8 @@ class Database:
             place_holders.append("?")
 
         sql = "INSERT INTO {table_name} ({column_names}) VALUES ({place_holders})".format(table_name=table_name,
-                                                                                        column_names=",".join(column_names),
-                                                                                        place_holders=",".join(place_holders))
+                                                                                          column_names=",".join(column_names),
+                                                                                          place_holders=",".join(place_holders))
         self._execute_query_and_log(sql, values)
 
         new_id = self._cursor.lastrowid
@@ -302,8 +299,8 @@ class Database:
         return new_id
 
     def _avoid_duplicate_value(self, table_name, column_name, data_row):
-        """ Makes sure that data_row[column_name] doesn't exist in table_name. If it exists
-        it changes data_row[column_name] to the same with (1) or (2)"""
+        """ Makes sure that data_row[column_name] doesn't exist in table_name (accessing the database).
+        If it exists it changes data_row[column_name] to the same with (1) or (2)"""
         if column_name is None:
             return
 

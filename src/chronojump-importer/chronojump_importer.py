@@ -32,20 +32,26 @@ logging.basicConfig(level=logging.INFO)
 
 
 class Row:
-    """ A row represents a row in a table: it has column-names and their values."""
+    """ A row represents a row in a table: it has column-names and their values.
+    It can contain column names that are not in the database (this can be used
+    to store other information if needed) """
     def __init__(self):
         self._row = {}
 
     def set(self, column_name, value):
+        """ Sets the value to the column_name """
         self._row[column_name] = value
 
     def get(self, column_name):
+        """ Returns the value of column_name. Raise an exception if column_name in this row doesn't exist """
         return self._row[column_name]
 
     def has_column(self, column_name):
+        """ Returns true if the row has the column column_name """
         return column_name in self._row
 
     def columns(self):
+        """ Returns a list of columns in this row """
         return self._row.keys()
 
     def __eq__(self, other):
@@ -53,8 +59,7 @@ class Row:
 
 
 class Table:
-    """ This class has Table operations. Rows should be inserted and then can
-    be manipulated."""
+    """ This class has Table operations: insert rows, remove duplicates, pudate sessionIDs, etc. """
     def __init__(self, table_name):
         self._table_data = []
         self._table_name = table_name
@@ -62,11 +67,12 @@ class Table:
     def insert_row(self, row):
         self._table_data.append(row)
 
-    def add_table(self, table):
-        self._table_data += table
+    def concatenate_table(self, other):
+        """ Concatenates other in this table. It doens't change the table names """
+        self._table_data += other
 
     def remove_duplicates(self):
-        """ Returns a new list without duplicate elements. """
+        """ Remove duplicate rows of the table. The order of the table could change """
         new_data = []
 
         for index, element in enumerate(self._table_data):
@@ -77,12 +83,11 @@ class Table:
 
     @property
     def name(self):
+        """ Property holding the table name """
         return self._table_name
 
     def update_session_ids(self, new_session_id):
-        """ table argument is a list of dictionaries. It returns a copy of it
-         replacing each sessionID by new_session_id.
-         """
+        """ Updates all the sessionID of each row to new_session_id """
         changed = False
 
         for row in self._table_data:
@@ -93,8 +98,9 @@ class Table:
             assert changed
 
     def update_ids(self, column_to_update, referenced_table, old_referenced_column, new_referenced_column):
-        """From table_to_update: updates column_to_update if there is referenced_table old_referenced_column with the same
-        value and assigned new_new_referenced_column value."""
+        """ For each row: matches column_to_update values with a row in referenced_table old_referenced_column values.
+        If they are the same it updates column_to_update with new_referenced_column
+        """
         for row_to_update in self._table_data:
             old_id = row_to_update.get(column_to_update)
             for row_referenced in referenced_table:
@@ -111,24 +117,6 @@ class Table:
 
     def __getitem__(self, index):
         return self._table_data[index]
-
-    def print_summary(self):
-        inserted_ids = []
-        reused_ids = []
-        for row in self._table_data:
-            if row.get('importer_action') == 'inserted':
-                inserted_ids.append(row.get('uniqueID'))
-
-            elif row.get('importer_action') == 'reused':
-                reused_ids.append(row.get('uniqueID'))
-            else:
-                assert False
-
-        print("{table_name}".format(table_name=self.name))
-        print("\tinserted: {inserted_counter} uniqueIDs: {inserted}".format(inserted_counter=len(inserted_ids),
-                                                                            inserted=inserted_ids))
-        print(
-            "\treused: {reused_counter} uniqueIDs: {reused}".format(reused_counter=len(reused_ids), reused=reused_ids))
 
 
 class Database:
@@ -232,7 +220,27 @@ class Database:
 
             row.set('new_uniqueID', new_id)
 
-        table.print_summary()
+        self._print_summary(table)
+
+    def _print_summary(self, table):
+        """ Prints a summary of which rows has been inserted, which ones reused, during the write operation """
+        inserted_ids = []
+        reused_ids = []
+        for row in table:
+            if row.get('importer_action') == 'inserted':
+                inserted_ids.append(row.get('uniqueID'))
+
+            elif row.get('importer_action') == 'reused':
+                reused_ids.append(row.get('uniqueID'))
+            else:
+                assert False
+
+        print("{table_name}".format(table_name=table.name))
+        print("\tinserted: {inserted_counter} uniqueIDs: {inserted}".format(inserted_counter=len(inserted_ids),
+                                                                            inserted=inserted_ids))
+        print(
+            "\treused: {reused_counter} uniqueIDs: {reused}".format(reused_counter=len(reused_ids),
+                                                                        reused=reused_ids))
 
     def read(self, table_name, where_condition, join_clause ="", group_by_clause=""):
         """ Returns a list of dictionaries of the table table_name applying the where_condition, join_clause and group_by_clause. """
@@ -407,8 +415,8 @@ def import_database(source_path, destination_path, source_session):
                                     group_by_clause="Person77.uniqueID")
 
     persons77 = Table("person77")
-    persons77.add_table(persons77_jump)
-    persons77.add_table(persons77_jump_rj)
+    persons77.concatenate_table(persons77_jump)
+    persons77.concatenate_table(persons77_jump_rj)
     persons77.remove_duplicates()
 
     destination_db.write(table=persons77,

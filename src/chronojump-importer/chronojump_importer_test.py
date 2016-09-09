@@ -104,13 +104,16 @@ class TestImporter(unittest.TestCase):
         table.insert_row(row2)
         table.insert_row(row3)
 
-        self.assertEqual(len(table._table_data), 3)
+        self.assertEqual(len(table), 3)
         table.remove_duplicates()
 
-        self.assertEqual(len(table._table_data), 2)
+        self.assertEqual(len(table), 2)
 
-        # TODO: verify that the contents is right
+        expected = [row1, row3]
+        for row in table:
+            expected.remove(row)
 
+        self.assertEqual(len(expected), 0)
 
     def test_update_ids_from_table(self):
         table_to_update = chronojump_importer.Table("table_to_update")

@@ -112,6 +112,24 @@ class Table:
     def __getitem__(self, index):
         return self._table_data[index]
 
+    def print_summary(self):
+        inserted_ids = []
+        reused_ids = []
+        for row in self._table_data:
+            if row.get('importer_action') == 'inserted':
+                inserted_ids.append(row.get('uniqueID'))
+
+            elif row.get('importer_action') == 'reused':
+                reused_ids.append(row.get('uniqueID'))
+            else:
+                assert False
+
+        print("{table_name}".format(table_name=self.name))
+        print("\tinserted: {inserted_counter} uniqueIDs: {inserted}".format(inserted_counter=len(inserted_ids),
+                                                                            inserted=inserted_ids))
+        print(
+            "\treused: {reused_counter} uniqueIDs: {reused}".format(reused_counter=len(reused_ids), reused=reused_ids))
+
 
 class Database:
     """ A database represents the database and read/writes tables. """
@@ -214,7 +232,7 @@ class Database:
 
             row.set('new_uniqueID', new_id)
 
-        # TODO print_summary(table, data_result)
+        table.print_summary()
 
     def read(self, table_name, where_condition, join_clause ="", group_by_clause=""):
         """ Returns a list of dictionaries of the table table_name applying the where_condition, join_clause and group_by_clause. """
@@ -326,23 +344,6 @@ class Database:
             counter = int(suffix.group(2))
             counter += 1
             return "{} ({})".format(base_name, counter)
-
-
-def print_summary(table_name, table_data):
-    inserted_ids = []
-    reused_ids = []
-    for row in table_data:
-        if row['importer_action'] == 'inserted':
-            inserted_ids.append(row['uniqueID'])
-
-        elif row['importer_action'] == 'reused':
-            reused_ids.append(row['uniqueID'])
-        else:
-            assert False
-
-    print("{table_name}".format(table_name=table_name))
-    print("\tinserted: {inserted_counter} uniqueIDs: {inserted}".format(inserted_counter=len(inserted_ids), inserted=inserted_ids))
-    print("\treused: {reused_counter} uniqueIDs: {reused}".format(reused_counter=len(reused_ids), reused=reused_ids))
 
 
 def import_database(source_path, destination_path, source_session):

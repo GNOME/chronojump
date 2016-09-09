@@ -67,14 +67,9 @@ class TestImporter(unittest.TestCase):
         shutil.rmtree(temporary_directory_path)
 
     def test_increment_suffix(self):
-        self.assertEqual(chronojump_importer.increment_suffix("Free Jump"), "Free Jump (1)")
-        self.assertEqual(chronojump_importer.increment_suffix("Free Jump (1)"), "Free Jump (2)")
-        self.assertEqual(chronojump_importer.increment_suffix("Free Jump (2)"), "Free Jump (3)")
-
-    def test_remove_elements(self):
-        l=[1,2,3,4,5]
-        actual = chronojump_importer.remove_elements(l, [2,4])
-        self.assertEqual(actual, [1,3,5])
+        self.assertEqual(chronojump_importer.Database.increment_suffix("Free Jump"), "Free Jump (1)")
+        self.assertEqual(chronojump_importer.Database.increment_suffix("Free Jump (1)"), "Free Jump (2)")
+        self.assertEqual(chronojump_importer.Database.increment_suffix("Free Jump (2)"), "Free Jump (3)")
 
     def test_add_prefix(self):
         l=['hello', 'chronojump']
@@ -141,7 +136,7 @@ class TestImporter(unittest.TestCase):
         old_reference_column = 'old_personId'
         new_reference_column = 'personId'
 
-        table_to_update.update_ids_from_table(column_to_update, referenced_table, old_reference_column, new_reference_column)
+        table_to_update.update_ids(column_to_update, referenced_table, old_reference_column, new_reference_column)
 
         self.assertEqual(len(table_to_update._table_data), 3)
 
@@ -171,6 +166,11 @@ class TestImporter(unittest.TestCase):
 
         database.close()
         os.remove(filename)
+
+    def test_table_name(self):
+        table = chronojump_importer.Table("Session")
+
+        self.assertEqual(table.name, "Session")
 
 
 if __name__ == '__main__':

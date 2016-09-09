@@ -64,7 +64,7 @@ class TestImporter(unittest.TestCase):
         self.maxDiff = None
         self.assertEqual(diff, "")
 
-        # shutil.rmtree(self.temporary_directory_path)
+        shutil.rmtree(temporary_directory_path)
 
     def test_increment_suffix(self):
         self.assertEqual(chronojump_importer.increment_suffix("Free Jump"), "Free Jump (1)")
@@ -78,15 +78,25 @@ class TestImporter(unittest.TestCase):
 
     def test_add_prefix(self):
         l=['hello', 'chronojump']
-        actual = chronojump_importer.add_prefix(l, "test_")
+        actual = chronojump_importer.Database.add_prefix(l, "test_")
         self.assertEqual(actual, ["test_hello", "test_chronojump"])
 
     def test_update_session_ids(self):
-        table=[{'sessionID': 2, 'name': 'hello'}, {'sessionID':3, 'name':'bye'}]
+        table = chronojump_importer.Table("test")
+        row1 = chronojump_importer.Row()
+        row1.add("sessionID", 2)
+        row1.add("name", "john")
 
-        actual = chronojump_importer.update_session_ids(table, 4)
-        for row in actual:
-            self.assertEqual(row['sessionID'], 4)
+        row2 = chronojump_importer.Row()
+        row2.add("sessionID", 3)
+        row2.add("name", "mark")
+
+        table.insert_row(row1)
+        table.insert_row(row2)
+
+        table.update_session_ids(4)
+        for row in table._table_data:
+            self.assertEqual(row._row['sessionID'], 4)
 
     def test_remove_duplicates_list(self):
         l = [1,1,2,3,2]
@@ -96,29 +106,66 @@ class TestImporter(unittest.TestCase):
         self.assertEqual(sorted(actual), sorted([1,2,3]))
 
     def test_update_ids_from_table(self):
-        table_to_update = [{'name': 'john', 'personId': 1}, {'name': 'mark', 'personId': 4}, {'name': 'alex', 'personId': 5}]
+        table_to_update = chronojump_importer.Table("table_to_update")
+        row1 = chronojump_importer.Row()
+        row1.add("name", "john")
+        row1.add("personId", 1)
+
+        row2 = chronojump_importer.Row()
+        row2.add("name", "mark")
+        row2.add("personId", 4)
+
+        row3 = chronojump_importer.Row()
+        row3.add("name", "alex")
+        row3.add("personId", 5)
+
+        table_to_update.insert_row(row1)
+        table_to_update.insert_row(row2)
+        table_to_update.insert_row(row3)
+
+
         column_to_update = 'personId'
-        referenced_table = [{'personId': 11, 'old_personId': 1}, {'personId': 12, 'old_personId': 4}]
+
+        referenced_table = chronojump_importer.Table("referenced_table")
+        row4 = chronojump_importer.Row()
+        row4.add("personId", 11)
+        row4.add("old_personId", 1)
+
+        row5 = chronojump_importer.Row()
+        row5.add("personId", 12)
+        row5.add("old_personId", 4)
+
+        referenced_table.insert_row(row4)
+        referenced_table.insert_row(row5)
+
         old_reference_column = 'old_personId'
         new_reference_column = 'personId'
 
-        actual = chronojump_importer.update_ids_from_table(table_to_update, column_to_update, referenced_table, old_reference_column, new_reference_column)
+        table_to_update.update_ids_from_table(column_to_update, referenced_table, old_reference_column, new_reference_column)
 
-        self.assertEqual(len(actual), 3)
-        self.assertTrue({'name': 'john', 'personId': 11} in actual)
-        self.assertTrue({'name': 'mark', 'personId': 12} in actual)
-        self.assertTrue({'name': 'alex', 'personId': 5} in actual)
+        self.assertEqual(len(table_to_update._table_data), 3)
+
+        def verify_exists(table, name, personId):
+            for row in table._table_data:
+                if row._row['name'] == name and row._row['personId'] == personId:
+                    return True
+
+            return False
+
+        self.assertTrue(verify_exists(table_to_update, "john", 11))
+        self.assertTrue(verify_exists(table_to_update, "mark", 12))
+        self.assertTrue(verify_exists(table_to_update, "alex", 5))
 
     def test_get_column_names(self):
         filename = tempfile.mktemp(prefix="chronojump_importer_test_get_column_", suffix=".sqlite")
         open(filename, 'a').close()
 
-        database = chronojump_importer.open_database(filename, read_only=False)
-        cursor = database.cursor()
+        database = chronojump_importer.Database(filename, read_only=False)
+        cursor = database._cursor
 
         cursor.execute("CREATE TABLE test (uniqueID INTEGER, name TEXT, surname1 TEXT, surname2 TEXT, age INTEGER)")
 
-        columns = chronojump_importer.get_column_names(cursor=cursor, table="test", skip_columns=["surname1", "surname2"])
+        columns = database.column_names(table="test", skip_columns=["surname1", "surname2"])
 
         self.assertEqual(columns, ["uniqueID", "name", "age"])
 

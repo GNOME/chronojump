@@ -19,16 +19,22 @@ class TestImporter(unittest.TestCase):
     def tearDown(self):
         pass
 
-    # lists the names. They will expand to generic-destination-X.sqlite / generic-source-X.sqlite / generic-expected-X.sqlite
-    @ddt.data("a", "b", "c")
+    # lists the names. {} will expand to source/destination/expected.
+    @ddt.data(
+        {'base_filename': 'generic-{}-a.sqlite', 'session': 1},
+        {'base_filename': 'generic-{}-b.sqlite', 'session': 1},
+        {'base_filename': 'generic-{}-c.sqlite', 'session': 1},
+        {'base_filename': 'padu-{}.sqlite', 'session': 19},
+        {'base_filename': 'yoyo-{}.sqlite', 'session': 19}
+    )
     def test_importerGeneric(self, data):
-        temporary_directory_path = tempfile.mkdtemp(prefix="chronojump_importer_test_")
+        base_filename = data['base_filename']
+        source_file_name = base_filename.format('source')
+        destination_file_name = base_filename.format('destination')
+        expected_file_name = base_filename.format('expected')
+        original_destination_file_path = base_filename.format('original-destination')
 
-        generic_test = data
-        source_file_name = "generic-source-{}.sqlite".format(generic_test)
-        destination_file_name = "generic-destination-{}.sqlite".format(generic_test)
-        expected_file_name = "generic-expected-{}.sqlite".format(generic_test)
-        original_destination_file_path = "generic-original-destination-{}.sqlite".format(generic_test)
+        temporary_directory_path = tempfile.mkdtemp(prefix="chronojump_importer_test_{}".format(base_filename.replace("{}", "")))
 
         source_file_path = "{}/{}".format(temporary_directory_path, source_file_name)
         destination_file_path = "{}/{}".format(temporary_directory_path, destination_file_name)
@@ -118,6 +124,7 @@ class TestImporter(unittest.TestCase):
 
         database.close()
         os.remove(filename)
+
 
 if __name__ == '__main__':
     unittest.main()

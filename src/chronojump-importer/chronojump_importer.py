@@ -202,7 +202,8 @@ def update_session_ids(table, new_session_id):
         row["sessionID"] = new_session_id
         changed = True
 
-    assert changed
+    if len(table) > 0:
+        assert changed
 
     return result
 

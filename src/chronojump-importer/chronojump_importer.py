@@ -168,7 +168,7 @@ class Database:
         return names
 
     @staticmethod
-    def add_prefix(list_of_elements, prefix):
+    def _add_prefix(list_of_elements, prefix):
         """  Returns a copy of list_of_elements prefixing each element with prefix. """
         result = []
 
@@ -238,7 +238,7 @@ class Database:
         """ Returns a list of dictionaries of the table table_name applying the where_condition, join_clause and group_by_clause. """
         column_names = self.column_names(table_name)
 
-        column_names_with_prefixes = self.add_prefix(column_names, "{}.".format(table_name))
+        column_names_with_prefixes = self._add_prefix(column_names, "{}.".format(table_name))
 
         where_condition = " WHERE {} ".format(where_condition)
         assert '"' not in where_condition   # Easy way to avoid problems - where_condition is only used by us (programmers) and

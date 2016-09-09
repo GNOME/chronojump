@@ -64,16 +64,44 @@ class TestImporter(unittest.TestCase):
 
         shutil.rmtree(temporary_directory_path)
 
-    def test_increment_suffix(self):
-        self.assertEqual(chronojump_importer.Database.increment_suffix("Free Jump"), "Free Jump (1)")
-        self.assertEqual(chronojump_importer.Database.increment_suffix("Free Jump (1)"), "Free Jump (2)")
-        self.assertEqual(chronojump_importer.Database.increment_suffix("Free Jump (2)"), "Free Jump (3)")
 
-    def test_add_prefix(self):
-        l=['hello', 'chronojump']
-        actual = chronojump_importer.Database.add_prefix(l, "test_")
-        self.assertEqual(actual, ["test_hello", "test_chronojump"])
+class TestRow(unittest.TestCase):
+    def test_get(self):
+        row = chronojump_importer.Row()
+        row.set("name", "sam")
 
+        self.assertEqual(row.get("name"), "sam")
+
+    def test_columns(self):
+        row = chronojump_importer.Row()
+        row.set("name", "john")
+        row.set("year", 1970)
+
+        self.assertEqual(sorted(row.columns()), ["name", "year"])
+
+    def test_has_column(self):
+        row = chronojump_importer.Row()
+        row.set("name", "john")
+
+        self.assertEqual(row.has_column("name"), True)
+        self.assertEqual(row.has_column("year"), False)
+
+    def test_equal(self):
+        row1 = chronojump_importer.Row()
+        row1.set("name", "john")
+        row1.set("year", 1970)
+
+        row2 = chronojump_importer.Row()
+        row2.set("name", "john")
+        row2.set("year", 1971)
+
+        self.assertNotEqual(row1, row2)
+        row2.set("year", 1970)
+
+        self.assertEqual(row1, row2)
+
+
+class TestTable(unittest.TestCase):
     def test_update_session_ids(self):
         table = chronojump_importer.Table("test")
         row1 = chronojump_importer.Row()
@@ -133,7 +161,6 @@ class TestImporter(unittest.TestCase):
         table_to_update.insert_row(row2)
         table_to_update.insert_row(row3)
 
-
         column_to_update = 'personId'
 
         referenced_table = chronojump_importer.Table("referenced_table")
@@ -166,6 +193,23 @@ class TestImporter(unittest.TestCase):
         self.assertTrue(verify_exists(table_to_update, "mark", 12))
         self.assertTrue(verify_exists(table_to_update, "alex", 5))
 
+    def test_table_name(self):
+        table = chronojump_importer.Table("Session")
+
+        self.assertEqual(table.name, "Session")
+
+
+class TestDatabase(unittest.TestCase):
+    def test_increment_suffix(self):
+        self.assertEqual(chronojump_importer.Database.increment_suffix("Free Jump"), "Free Jump (1)")
+        self.assertEqual(chronojump_importer.Database.increment_suffix("Free Jump (1)"), "Free Jump (2)")
+        self.assertEqual(chronojump_importer.Database.increment_suffix("Free Jump (2)"), "Free Jump (3)")
+
+    def test_add_prefix(self):
+        l = ['hello', 'chronojump']
+        actual = chronojump_importer.Database._add_prefix(l, "test_")
+        self.assertEqual(actual, ["test_hello", "test_chronojump"])
+
     def test_get_column_names(self):
         filename = tempfile.mktemp(prefix="chronojump_importer_test_get_column_", suffix=".sqlite")
         open(filename, 'a').close()
@@ -182,11 +226,6 @@ class TestImporter(unittest.TestCase):
         database.close()
         os.remove(filename)
 
-    def test_table_name(self):
-        table = chronojump_importer.Table("Session")
-
-        self.assertEqual(table.name, "Session")
-
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)

@@ -323,16 +323,21 @@ class Database:
                 data_row.set('new_' + column_name, data_row.get(column_name))
 
     def open_database(self, filename, read_only):
-        """Opens the database specified by filename. If read_only is True
-        the database cannot be changed.
+        """Opens the database specified by filename. On Python3 If read_only is True
+        the database is opened in read only mode
         """
-        if read_only:
-            mode = "ro"
-        else:
-            mode = "rw"
+        if sys.version_info >= (3, 0):
+            if read_only:
+                mode = "ro"
+            else:
+                mode = "rw"
 
-        uri = "file:{}?mode={}".format(filename,mode)
-        self._conn = sqlite3.connect(uri, uri=True)
+            uri = "file:{}?mode={}".format(filename,mode)
+            self._conn = sqlite3.connect(uri, uri=True)
+        else:
+            # On Python2 there is no uri support. This opens
+            # the database always on rw
+            self._conn = sqlite3.connect(filename)
 
         self._conn.execute("pragma foreign_keys=ON")
         self._cursor = self._conn.cursor()

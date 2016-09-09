@@ -48,6 +48,9 @@ class Row:
     def columns(self):
         return self._row.keys()
 
+    def __eq__(self, other):
+        return self._row == other._row
+
 
 class Table:
     """ This class has Table operations. Rows should be inserted and then can
@@ -58,6 +61,19 @@ class Table:
 
     def insert_row(self, row):
         self._table_data.append(row)
+
+    def add_table(self, table):
+        self._table_data += table._table_data
+
+    def remove_duplicates(self):
+        """ Returns a new list without duplicate elements. """
+        new_data = []
+
+        for index, element in enumerate(self._table_data):
+            if element not in self._table_data[index + 1:]:
+                new_data.append(element)
+
+        self._table_data = new_data
 
     @property
     def name(self):
@@ -319,17 +335,6 @@ def print_summary(table_name, table_data):
     print("\treused: {reused_counter} uniqueIDs: {reused}".format(reused_counter=len(reused_ids), reused=reused_ids))
 
 
-def remove_duplicates_list(l):
-    """ Returns a new list without duplicate elements. """
-    result = []
-
-    for index, element in enumerate(l):
-        if element not in l[index+1:]:
-            result.append(element)
-
-    return result
-
-
 def import_database(source_path, destination_path, source_session):
     """ Imports the session source_session from source_db into destination_db """
 
@@ -391,7 +396,10 @@ def import_database(source_path, destination_path, source_session):
                                     group_by_clause="Person77.uniqueID")
 
     persons77 = Table("person77")
-    persons77._table_data = remove_duplicates_list(persons77_jump._table_data + persons77_jump_rj._table_data)
+    persons77.add_table(persons77_jump)
+    persons77.add_table(persons77_jump_rj)
+    persons77.remove_duplicates()
+    # persons77._table_data = remove_duplicates_list(persons77_jump._table_data + persons77_jump_rj._table_data)
 
     destination_db.write(table=persons77,
                          matches_columns=["name"])

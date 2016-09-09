@@ -3,13 +3,11 @@
 import unittest
 import chronojump_importer
 import os
-import subprocess
 import tempfile
 import shutil
 import difflib
 import ddt
-import pprint
-import sqlite3
+
 
 @ddt.ddt
 class TestImporter(unittest.TestCase):
@@ -94,11 +92,25 @@ class TestImporter(unittest.TestCase):
             self.assertEqual(row.get('sessionID'), 4)
 
     def test_remove_duplicates_list(self):
-        l = [1,1,2,3,2]
+        row1 = chronojump_importer.Row()
+        row1.set("name", "john")
+        row2 = chronojump_importer.Row()
+        row2.set("name", "john")
+        row3 = chronojump_importer.Row()
+        row3.set("name", "sam")
 
-        actual = chronojump_importer.remove_duplicates_list(l)
+        table = chronojump_importer.Table("Test")
+        table.insert_row(row1)
+        table.insert_row(row2)
+        table.insert_row(row3)
 
-        self.assertEqual(sorted(actual), sorted([1,2,3]))
+        self.assertEqual(len(table._table_data), 3)
+        table.remove_duplicates()
+
+        self.assertEqual(len(table._table_data), 2)
+
+        # TODO: verify that the contents is right
+
 
     def test_update_ids_from_table(self):
         table_to_update = chronojump_importer.Table("table_to_update")

@@ -59,10 +59,8 @@ class Table:
     def insert_row(self, row):
         self._table_data.append(row)
 
-    def set_table_name(self, table_name):
-        self._table_data = table_name
-
-    def get_table_name(self):
+    @property
+    def name(self):
         return self._table_name
 
     def update_session_ids(self, new_session_id):
@@ -78,7 +76,7 @@ class Table:
         if len(self._table_data) > 0:
             assert changed
 
-    def update_ids_from_table(self, column_to_update, referenced_table, old_referenced_column, new_referenced_column):
+    def update_ids(self, column_to_update, referenced_table, old_referenced_column, new_referenced_column):
         """From table_to_update: updates column_to_update if there is referenced_table old_referenced_column with the same
         value and assigned new_new_referenced_column value."""
         for row_to_update in self._table_data:
@@ -135,7 +133,7 @@ class Database:
 
         return result
 
-    def insert_table(self, table, matches_columns, avoids_duplicate_column=None):
+    def write(self, table, matches_columns, avoids_duplicate_column=None):
         """ Data is a list of dictionaries and the keys should match the columns
         of table_name.
 
@@ -167,19 +165,19 @@ class Database:
                         where_values.append(row.get(column))
 
                 format_data = {}
-                format_data['table_name'] = table.get_table_name()
+                format_data['table_name'] = table.name
                 format_data['where_clause'] = " WHERE {}".format(where)
                 sql = "SELECT uniqueID FROM {table_name} {where_clause}".format(**format_data)
-                execute_query_and_log(self._cursor, sql, where_values)
+                self.execute_query_and_log(sql, where_values)
 
                 results = self._cursor.fetchall()
 
             if matches_columns is None or len(results) == 0:
                 # Needs to insert it
 
-                self.avoids_column_duplicate(table_name=table.get_table_name(), column_name=avoids_duplicate_column, data_row=row)
+                self._avoid_duplicate_value(table_name=table.name, column_name=avoids_duplicate_column, data_row=row)
 
-                new_id = self.insert_dictionary_into_table(table.get_table_name(), row)
+                new_id = self._write_row(table.name, row)
                 row.set('importer_action', 'inserted')
 
             else:
@@ -191,7 +189,7 @@ class Database:
 
         # TODO print_summary(table, data_result)
 
-    def get_data_from_table(self, table_name, where_condition, join_clause ="", group_by_clause=""):
+    def read(self, table_name, where_condition, join_clause ="", group_by_clause=""):
         """ Returns a list of dictionaries of the table table_name applying the where_condition, join_clause and group_by_clause. """
         column_names = self.column_names(table_name)
 
@@ -209,7 +207,7 @@ class Database:
         format_data = {"column_names": ",".join(column_names_with_prefixes), "table_name": table_name, "join_clause": join_clause, "where": where_condition, "group_by": group_by}
 
         sql = "SELECT {column_names} FROM {table_name} {join_clause} {where} {group_by}".format(**format_data)
-        execute_query_and_log(self._cursor, sql, [])
+        self.execute_query_and_log(sql, [])
 
         results = self._cursor.fetchall()
 
@@ -224,7 +222,7 @@ class Database:
 
         return table
 
-    def insert_dictionary_into_table(self, table_name, row, skip_columns=["uniqueID"]):
+    def _write_row(self, table_name, row, skip_columns=["uniqueID"]):
         """ Inserts the row (it's a dictionary) into table_name and skips skip_column.
         Returns the new Id of the inserted row.
         """
@@ -244,13 +242,13 @@ class Database:
         sql = "INSERT INTO {table_name} ({column_names}) VALUES ({place_holders})".format(table_name=table_name,
                                                                                         column_names=",".join(column_names),
                                                                                         place_holders=",".join(place_holders))
-        execute_query_and_log(self._cursor, sql, values)
+        self.execute_query_and_log(sql, values)
 
         new_id = self._cursor.lastrowid
 
         return new_id
 
-    def avoids_column_duplicate(self, table_name, column_name, data_row):
+    def _avoid_duplicate_value(self, table_name, column_name, data_row):
         """ Makes sure that data_row[column_name] doesn't exist in table_name. If it exists
         it changes data_row[column_name] to the same with (1) or (2)"""
         if column_name is None:
@@ -262,14 +260,14 @@ class Database:
             sql = "SELECT count(*) FROM {table_name} WHERE {column}=?".format(table_name=table_name, column=column_name)
             binding_values = []
             binding_values.append(data_row.get(column_name))
-            execute_query_and_log(self._cursor, sql, binding_values)
+            self.execute_query_and_log(sql, binding_values)
 
             results = self._cursor.fetchall()
 
             if results[0][0] == 0:
                 break
             else:
-                data_row.set(column_name, increment_suffix(data_row.get(column_name)))
+                data_row.set(column_name, self.increment_suffix(data_row.get(column_name)))
                 data_row.set('new_' + column_name, data_row.get(column_name))
 
     def open_database(self, filename, read_only):
@@ -287,23 +285,21 @@ class Database:
         self._conn.execute("pragma foreign_keys=ON")
         self._cursor = self._conn.cursor()
 
-def remove_elements(list_of_elements, elements_to_remove):
-    """Returns a new list with list_of_elements without elements_to_remove"""
-    result = []
+    def execute_query_and_log(self, sql, where_values):
+        logging.debug("SQL: {} - values: {}".format(sql, where_values))
+        self._cursor.execute(sql, where_values)
 
-    for element in list_of_elements:
-        if element not in elements_to_remove:
-            result.append(element)
+    @staticmethod
+    def increment_suffix(value):
+        suffix = re.match("(.*) \(([0-9]+)\)", value)
 
-    return result
-
-
-
-
-
-
-
-
+        if suffix is None:
+            return "{} (1)".format(value)
+        else:
+            base_name = suffix.group(1)
+            counter = int(suffix.group(2))
+            counter += 1
+            return "{} ({})".format(base_name, counter)
 
 
 def print_summary(table_name, table_data):
@@ -334,20 +330,6 @@ def remove_duplicates_list(l):
     return result
 
 
-def increment_suffix(value):
-    suffix = re.match("(.*) \(([0-9]+)\)", value)
-
-    if suffix is None:
-        return "{} (1)".format(value)
-    else:
-        base_name = suffix.group(1)
-        counter = int(suffix.group(2))
-        counter += 1
-        return "{} ({})".format(base_name, counter)
-
-
-
-
 def import_database(source_path, destination_path, source_session):
     """ Imports the session source_session from source_db into destination_db """
 
@@ -358,8 +340,8 @@ def import_database(source_path, destination_path, source_session):
     destination_db = Database(destination_path, read_only=False)
 
     # Imports the session
-    session = source_db.get_data_from_table(table_name="Session",
-                                            where_condition="Session.uniqueID={}".format(source_session))
+    session = source_db.read(table_name="Session",
+                             where_condition="Session.uniqueID={}".format(source_session))
 
     number_of_matching_sessions = len(session._table_data)
 
@@ -372,79 +354,75 @@ def import_database(source_path, destination_path, source_session):
                                                                                                         source_file=source_path))
         sys.exit(1)
 
-    destination_db.insert_table(table=session, matches_columns=destination_db.column_names("Session", ["uniqueID"]))
+    destination_db.write(table=session, matches_columns=destination_db.column_names("Session", ["uniqueID"]))
 
     new_session_id = session._table_data[0].get('new_uniqueID')
 
     # Imports JumpType table
-    jump_types = source_db.get_data_from_table(table_name="JumpType",
-                                     where_condition="Session.uniqueID={}".format(source_session),
-                                     join_clause="LEFT JOIN Jump ON JumpType.name=Jump.type LEFT JOIN Session ON Jump.sessionID=Session.uniqueID",
-                                     group_by_clause="JumpType.uniqueID")
+    jump_types = source_db.read(table_name="JumpType",
+                                where_condition="Session.uniqueID={}".format(source_session),
+                                join_clause="LEFT JOIN Jump ON JumpType.name=Jump.type LEFT JOIN Session ON Jump.sessionID=Session.uniqueID",
+                                group_by_clause="JumpType.uniqueID")
 
-    destination_db.insert_table(table=jump_types,
-                           matches_columns=destination_db.column_names("JumpType", ["uniqueID"]),
-                           avoids_duplicate_column="name")
+    destination_db.write(table=jump_types,
+                         matches_columns=destination_db.column_names("JumpType", ["uniqueID"]),
+                         avoids_duplicate_column="name")
 
     # Imports JumpRjType table
-    jump_rj_types = source_db.get_data_from_table(table_name="JumpRjType",
-                                        where_condition="Session.uniqueID={}".format(source_session),
-                                        join_clause="LEFT JOIN JumpRj ON JumpRjType.name=JumpRj.type LEFT JOIN Session on JumpRj.sessionID=Session.uniqueID",
-                                        group_by_clause="JumpRjType.uniqueID")
+    jump_rj_types = source_db.read(table_name="JumpRjType",
+                                   where_condition="Session.uniqueID={}".format(source_session),
+                                   join_clause="LEFT JOIN JumpRj ON JumpRjType.name=JumpRj.type LEFT JOIN Session on JumpRj.sessionID=Session.uniqueID",
+                                   group_by_clause="JumpRjType.uniqueID")
 
-    jump_rj_types = destination_db.insert_table(table=jump_rj_types,
-                           matches_columns=destination_db.column_names("JumpRjType", ["uniqueID"]),
-                           avoids_duplicate_column="name")
+    destination_db.write(table=jump_rj_types,
+                                         matches_columns=destination_db.column_names("JumpRjType", ["uniqueID"]),
+                                         avoids_duplicate_column="name")
 
     # Imports Persons77 used by JumpRj table
-    persons77_jump_rj = source_db.get_data_from_table(table_name="Person77",
-                                            where_condition="JumpRj.sessionID={}".format(source_session),
-                                            join_clause="LEFT JOIN JumpRj ON Person77.uniqueID=JumpRj.personID",
-                                            group_by_clause="Person77.uniqueID")
+    persons77_jump_rj = source_db.read(table_name="Person77",
+                                       where_condition="JumpRj.sessionID={}".format(source_session),
+                                       join_clause="LEFT JOIN JumpRj ON Person77.uniqueID=JumpRj.personID",
+                                       group_by_clause="Person77.uniqueID")
 
     # Imports Person77 used by Jump table
-    persons77_jump = source_db.get_data_from_table(table_name="Person77",
-                                         where_condition="Jump.sessionID={}".format(source_session),
-                                         join_clause="LEFT JOIN Jump ON Person77.uniqueID=Jump.personID",
-                                         group_by_clause="Person77.uniqueID")
+    persons77_jump = source_db.read(table_name="Person77",
+                                    where_condition="Jump.sessionID={}".format(source_session),
+                                    join_clause="LEFT JOIN Jump ON Person77.uniqueID=Jump.personID",
+                                    group_by_clause="Person77.uniqueID")
 
     persons77 = Table("person77")
-    persons77._table_data = remove_duplicates_list(persons77._table_data + persons77_jump_rj._table_data)
+    persons77._table_data = remove_duplicates_list(persons77_jump._table_data + persons77_jump_rj._table_data)
 
-    destination_db.insert_table(table=persons77,
-                                            matches_columns=["name"])
+    destination_db.write(table=persons77,
+                         matches_columns=["name"])
 
     # Imports JumpRj table (with the new Person77's uniqueIDs)
-    jump_rj = source_db.get_data_from_table(table_name="JumpRj",
-                                  where_condition="JumpRj.sessionID={}".format(source_session))
+    jump_rj = source_db.read(table_name="JumpRj",
+                             where_condition="JumpRj.sessionID={}".format(source_session))
 
-    jump_rj.update_ids_from_table("personID", persons77, "uniqueID", "new_uniqueID")
+    jump_rj.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
     jump_rj.update_session_ids(new_session_id)
-    jump_rj.update_ids_from_table("type", persons77, "old_name", "new_name")
+    jump_rj.update_ids("type", persons77, "old_name", "new_name")
 
-    destination_db.insert_table(table=jump_rj, matches_columns=None)
+    destination_db.write(table=jump_rj, matches_columns=None)
 
     # Imports Jump table (with the new Person77's uniqueIDs)
-    jump = source_db.get_data_from_table(table_name="Jump",
-                               where_condition="Jump.sessionID={}".format(source_session))
+    jump = source_db.read(table_name="Jump",
+                          where_condition="Jump.sessionID={}".format(source_session))
 
-    jump.update_ids_from_table("personID", persons77, "uniqueID", "new_uniqueID")
+    jump.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
     jump.update_session_ids(new_session_id)
-    jump.update_ids_from_table("type", jump_types, "old_name", "new_name")
+    jump.update_ids("type", jump_types, "old_name", "new_name")
 
-    destination_db.insert_table(table=jump, matches_columns=None)
+    destination_db.write(table=jump, matches_columns=None)
 
     # Imports PersonSession77
-    person_session_77 = source_db.get_data_from_table(table_name="PersonSession77",
-                                            where_condition="PersonSession77.sessionID={}".format(source_session))
-    person_session_77.update_ids_from_table("personID", persons77, "uniqueID", "new_uniqueID")
+    person_session_77 = source_db.read(table_name="PersonSession77",
+                                       where_condition="PersonSession77.sessionID={}".format(source_session))
+    person_session_77.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
     person_session_77.update_session_ids(new_session_id)
-    destination_db.insert_table(table=person_session_77, matches_columns=None)
+    destination_db.write(table=person_session_77, matches_columns=None)
 
-
-def execute_query_and_log(cursor, sql, where_values):
-    logging.debug("SQL: {} - values: {}".format(sql, where_values))
-    cursor.execute(sql, where_values)
 
 
 def show_information(database_path):

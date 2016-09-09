@@ -84,19 +84,19 @@ class TestImporter(unittest.TestCase):
     def test_update_session_ids(self):
         table = chronojump_importer.Table("test")
         row1 = chronojump_importer.Row()
-        row1.add("sessionID", 2)
-        row1.add("name", "john")
+        row1.set("sessionID", 2)
+        row1.set("name", "john")
 
         row2 = chronojump_importer.Row()
-        row2.add("sessionID", 3)
-        row2.add("name", "mark")
+        row2.set("sessionID", 3)
+        row2.set("name", "mark")
 
         table.insert_row(row1)
         table.insert_row(row2)
 
         table.update_session_ids(4)
         for row in table._table_data:
-            self.assertEqual(row._row['sessionID'], 4)
+            self.assertEqual(row.get('sessionID'), 4)
 
     def test_remove_duplicates_list(self):
         l = [1,1,2,3,2]
@@ -108,16 +108,16 @@ class TestImporter(unittest.TestCase):
     def test_update_ids_from_table(self):
         table_to_update = chronojump_importer.Table("table_to_update")
         row1 = chronojump_importer.Row()
-        row1.add("name", "john")
-        row1.add("personId", 1)
+        row1.set("name", "john")
+        row1.set("personId", 1)
 
         row2 = chronojump_importer.Row()
-        row2.add("name", "mark")
-        row2.add("personId", 4)
+        row2.set("name", "mark")
+        row2.set("personId", 4)
 
         row3 = chronojump_importer.Row()
-        row3.add("name", "alex")
-        row3.add("personId", 5)
+        row3.set("name", "alex")
+        row3.set("personId", 5)
 
         table_to_update.insert_row(row1)
         table_to_update.insert_row(row2)
@@ -128,12 +128,12 @@ class TestImporter(unittest.TestCase):
 
         referenced_table = chronojump_importer.Table("referenced_table")
         row4 = chronojump_importer.Row()
-        row4.add("personId", 11)
-        row4.add("old_personId", 1)
+        row4.set("personId", 11)
+        row4.set("old_personId", 1)
 
         row5 = chronojump_importer.Row()
-        row5.add("personId", 12)
-        row5.add("old_personId", 4)
+        row5.set("personId", 12)
+        row5.set("old_personId", 4)
 
         referenced_table.insert_row(row4)
         referenced_table.insert_row(row5)
@@ -147,7 +147,7 @@ class TestImporter(unittest.TestCase):
 
         def verify_exists(table, name, personId):
             for row in table._table_data:
-                if row._row['name'] == name and row._row['personId'] == personId:
+                if row.get('name') == name and row.get('personId') == personId:
                     return True
 
             return False

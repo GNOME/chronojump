@@ -42,10 +42,6 @@ class Sqlite
 	private static string temp = Util.GetDatabaseTempDir();
 	private static string sqlFileTemp = temp + Path.DirectorySeparatorChar + "chronojump.db";
 
-	//before installJammer
-	private static string homeOld = Util.GetOldDatabaseDir();
-	private static string sqlFileOld = homeOld + Path.DirectorySeparatorChar + "chronojump.db";
-	
 	//http://www.mono-project.com/SQLite
 
 	static string connectionString = "version = 3; Data source = " + sqlFile;

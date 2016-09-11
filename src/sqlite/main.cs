@@ -36,15 +36,15 @@ class Sqlite
 	//since we use installJammer (chronojump 0.7)	
 	//database was on c:\.chronojump\ or in ~/.chronojump
 	//now it's on installed dir, eg linux: ~/Chronojump/database
-	public static string home = Util.GetDatabaseDir();
-	public static string sqlFile = home + Path.DirectorySeparatorChar + "chronojump.db";
+	private static string home = Util.GetDatabaseDir();
+	private static string sqlFile = home + Path.DirectorySeparatorChar + "chronojump.db";
 	
-	public static string temp = Util.GetDatabaseTempDir();
-	public static string sqlFileTemp = temp + Path.DirectorySeparatorChar + "chronojump.db";
+	private static string temp = Util.GetDatabaseTempDir();
+	private static string sqlFileTemp = temp + Path.DirectorySeparatorChar + "chronojump.db";
 
 	//before installJammer
-	public static string homeOld = Util.GetOldDatabaseDir();
-	public static string sqlFileOld = homeOld + Path.DirectorySeparatorChar + "chronojump.db";
+	private static string homeOld = Util.GetOldDatabaseDir();
+	private static string sqlFileOld = homeOld + Path.DirectorySeparatorChar + "chronojump.db";
 	
 	//http://www.mono-project.com/SQLite
 

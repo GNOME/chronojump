@@ -183,7 +183,7 @@ public class EditRunWindow : EditEventWindow
 		
 
 	protected override void updateEvent(int eventID, int personID, string description) {
-		SqliteRun.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryDistance, entryTime, personID, description);
+		SqliteGeneral.SqliteRun.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryDistance, entryTime, personID, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)
@@ -535,7 +535,7 @@ public class EditRunIntervalWindow : EditRunWindow
 
 
 	protected override void updateEvent(int eventID, int personID, string description) {
-		SqliteRunInterval.Update(eventID, personID, description);
+		SqliteGeneral.SqliteRunInterval.Update(eventID, personID, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)
@@ -844,7 +844,7 @@ public class RepairRunIntervalWindow
 		Sqlite.Delete(false, Constants.RunIntervalTable, runInterval.UniqueID);
 		runInterval.InsertAtDB(false, Constants.RunIntervalTable); 
 		/*
-		SqliteRun.InsertInterval(false, Constants.RunIntervalTable, runInterval.UniqueID.ToString(), 
+		SqliteGeneral.SqliteRun.InsertInterval(false, Constants.RunIntervalTable, runInterval.UniqueID.ToString(), 
 				runInterval.PersonID, runInterval.SessionID, 
 				runInterval.Type, 
 				runs * runInterval.DistanceInterval,	//distanceTotal
@@ -917,11 +917,11 @@ partial class ChronoJumpWindow
 		
 		if(! t.IsPredefined) {
 			if(simple) {
-				t = SqliteRunType.SelectAndReturnRunType(name, false);
-				t.ImageFileName = SqliteEvent.GraphLinkSelectFileName(Constants.RunTable, name);
+				t = SqliteGeneral.SqliteRunType.SelectAndReturnRunType(name, false);
+				t.ImageFileName = SqliteGeneral.SqliteEvent.GraphLinkSelectFileName(Constants.RunTable, name);
 			} else {
-				t = SqliteRunIntervalType.SelectAndReturnRunIntervalType(name, false);
-				t.ImageFileName = SqliteEvent.GraphLinkSelectFileName(Constants.RunIntervalTable, name);
+				t = SqliteGeneral.SqliteRunIntervalType.SelectAndReturnRunIntervalType(name, false);
+				t.ImageFileName = SqliteGeneral.SqliteEvent.GraphLinkSelectFileName(Constants.RunIntervalTable, name);
 			}
 		}
 		return t;
@@ -1287,7 +1287,7 @@ public class RunsMoreWindow : EventMoreWindow
 	}
 
 	protected override string [] findTestTypesInSessions() {
-		return SqliteRun.SelectRuns(false, -1, -1, selectedEventName,
+		return SqliteGeneral.SqliteRun.SelectRuns(false, -1, -1, selectedEventName,
 				Sqlite.Orders_by.DEFAULT, -1);
 	}
 
@@ -1552,7 +1552,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	}
 
 	protected override string [] findTestTypesInSessions() {
-		return SqliteRunInterval.SelectRuns(false, -1, -1, selectedEventName); 
+		return SqliteGeneral.SqliteRunInterval.SelectRuns(false, -1, -1, selectedEventName); 
 	}
 	
 	

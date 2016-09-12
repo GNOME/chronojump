@@ -26,7 +26,7 @@ using Mono.Data.Sqlite;
 using Mono.Unix;
 
 
-class SqliteSession : Sqlite
+public class SqliteSession : Sqlite
 {
 	public SqliteSession() {
 	}
@@ -743,7 +743,7 @@ class SqliteSession : Sqlite
 
 }
 
-class SqliteServerSession : SqliteSession
+public class SqliteServerSession : SqliteSession
 {
 	public SqliteServerSession() {
 	}

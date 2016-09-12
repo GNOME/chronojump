@@ -25,7 +25,7 @@ using System.Collections; //ArrayList
 using Mono.Data.Sqlite;
 
 
-class SqliteRunType : Sqlite
+public class SqliteRunType : Sqlite
 {
 	public SqliteRunType() {
 	}
@@ -307,7 +307,7 @@ class SqliteRunType : Sqlite
 
 }	
 
-class SqliteRunIntervalType : SqliteRunType
+public class SqliteRunIntervalType : SqliteRunType
 {
 	public SqliteRunIntervalType() {
 	}

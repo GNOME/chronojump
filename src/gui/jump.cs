@@ -409,7 +409,7 @@ public class EditJumpWindow : EditEventWindow
 		//only for jump
 		double jumpPercentWeightForNewPerson = updateWeight(personID, sessionID);
 		
-		SqliteJump.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryTv, entryTc, entryFall, personID, jumpPercentWeightForNewPerson, description, Convert.ToDouble(entryAngle));
+		SqliteGeneral.SqliteJump.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryTv, entryTc, entryFall, personID, jumpPercentWeightForNewPerson, description, Convert.ToDouble(entryAngle));
 	}
 
 	
@@ -559,7 +559,7 @@ public class EditJumpRjWindow : EditJumpWindow
 		//only for jumps
 		double jumpPercentWeightForNewPerson = updateWeight(personID, sessionID);
 		
-		SqliteJumpRj.Update(eventID, personID, entryFall, jumpPercentWeightForNewPerson, description);
+		SqliteGeneral.SqliteJumpRj.Update(eventID, personID, entryFall, jumpPercentWeightForNewPerson, description);
 	}
 }
 
@@ -930,7 +930,7 @@ public class RepairJumpRjWindow
 		Sqlite.Delete(false, Constants.JumpRjTable, jumpRj.UniqueID);
 		jumpRj.InsertAtDB(false, Constants.JumpRjTable); 
 		/*
-		SqliteJump.InsertRj("jumpRj", jumpRj.UniqueID.ToString(), jumpRj.PersonID, jumpRj.SessionID, 
+		SqliteGeneral.SqliteJump.InsertRj("jumpRj", jumpRj.UniqueID.ToString(), jumpRj.PersonID, jumpRj.SessionID, 
 				jumpRj.Type, Util.GetMax(tvString), Util.GetMax(tcString), 
 				jumpRj.Fall, jumpRj.Weight, jumpRj.Description,
 				Util.GetAverage(tvString), Util.GetAverage(tcString),
@@ -1041,11 +1041,11 @@ partial class ChronoJumpWindow
 		
 		if(! t.IsPredefined) {
 			if(simple) {
-				t = SqliteJumpType.SelectAndReturnJumpType(name, false);
-				t.ImageFileName = SqliteEvent.GraphLinkSelectFileName(Constants.JumpTable, name);
+				t = SqliteGeneral.SqliteJumpType.SelectAndReturnJumpType(name, false);
+				t.ImageFileName = SqliteGeneral.SqliteEvent.GraphLinkSelectFileName(Constants.JumpTable, name);
 			} else {
-				t = SqliteJumpType.SelectAndReturnJumpRjType(name, false);
-				t.ImageFileName = SqliteEvent.GraphLinkSelectFileName(Constants.JumpRjTable, name);
+				t = SqliteGeneral.SqliteJumpType.SelectAndReturnJumpRjType(name, false);
+				t.ImageFileName = SqliteGeneral.SqliteEvent.GraphLinkSelectFileName(Constants.JumpRjTable, name);
 			}
 		}
 		return t;
@@ -1264,7 +1264,7 @@ partial class ChronoJumpWindow
 
 	private void on_extra_window_checkbutton_allow_finish_rj_after_time_toggled(object o, EventArgs args)
 	{
-		SqlitePreferences.Update("allowFinishRjAfterTime", checkbutton_allow_finish_rj_after_time.Active.ToString(), false);
+		SqliteGeneral.SqlitePreferences.Update("allowFinishRjAfterTime", checkbutton_allow_finish_rj_after_time.Active.ToString(), false);
 	}
 
 	private void on_more_jumps_update_test (object o, EventArgs args) {
@@ -1426,7 +1426,7 @@ partial class ChronoJumpWindow
 			" " + distance.ToString() +
 			" " + angle.ToString();
 		
-		SqliteJump.UpdateDescription(Constants.JumpTable, 
+		SqliteGeneral.SqliteJump.UpdateDescription(Constants.JumpTable, 
 			currentJump.UniqueID, currentJump.Description);
 		
 		myTreeViewJumps.Update(currentJump);
@@ -1602,7 +1602,7 @@ public class JumpsMoreWindow : EventMoreWindow
 	}
 
 	protected override string [] findTestTypesInSessions() {
-		return SqliteJump.SelectJumps(false, -1, -1, "", selectedEventName,
+		return SqliteGeneral.SqliteJump.SelectJumps(false, -1, -1, "", selectedEventName,
 				Sqlite.Orders_by.DEFAULT, -1);
 	}
 	
@@ -1879,7 +1879,7 @@ public class JumpsRjMoreWindow : EventMoreWindow
 	}
 	
 	protected override string [] findTestTypesInSessions() {
-		return SqliteJumpRj.SelectJumps(false, -1, -1, "", selectedEventName); 
+		return SqliteGeneral.SqliteJumpRj.SelectJumps(false, -1, -1, "", selectedEventName); 
 	}
 	
 	void on_button_cancel_clicked (object o, EventArgs args)

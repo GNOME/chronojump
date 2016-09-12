@@ -24,7 +24,7 @@ using System.IO;
 using Mono.Data.Sqlite;
 
 
-class SqlitePreferences : Sqlite
+public class SqlitePreferences : Sqlite
 {
 	protected internal void createTable()
 	{

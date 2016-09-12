@@ -85,13 +85,13 @@ public partial class ServerEvaluator
 	}
 
 	public int InsertAtDB(bool dbconOpened){
-		int myID = SqliteServer.InsertEvaluator(dbconOpened, code, name, email, dateBorn, countryID, chronometer, device, comments, confiable);
+		int myID = SqliteGeneral.SqliteServer.InsertEvaluator(dbconOpened, code, name, email, dateBorn, countryID, chronometer, device, comments, confiable);
 		return myID;
 	}	
 
 	public int Update (bool dbconOpened){
 		//confiable will not get updated
-		SqliteServer.UpdateEvaluator(dbconOpened, uniqueID, code, name, email, dateBorn, countryID, chronometer, device, comments, confiable);
+		SqliteGeneral.SqliteServer.UpdateEvaluator(dbconOpened, uniqueID, code, name, email, dateBorn, countryID, chronometer, device, comments, confiable);
 		return uniqueID;
 	}	
 

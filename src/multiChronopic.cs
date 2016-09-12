@@ -76,7 +76,7 @@ public class MultiChronopic : Event
 		arrayDone = false;
 	}
 	
-	//used to select a event at SqliteMultiChronopic.SelectMultiChronopicData and at Sqlite.convertTables
+	//used to select a event at SqliteGeneral.SqliteMultiChronopic.SelectMultiChronopicData and at Sqlite.convertTables
 	//Util.ConvertToPointIfNeeded is used because multichronopic data is recorded by mistake as ',' instead of '.' on database
 	public MultiChronopic(string [] eventString) {
 		this.uniqueID = Convert.ToInt32(eventString[0]);
@@ -102,7 +102,7 @@ public class MultiChronopic : Event
 
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
-		return SqliteMultiChronopic.Insert(dbconOpened, tableName, 
+		return SqliteGeneral.SqliteMultiChronopic.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), 
 				personID, sessionID, 
 				type, 

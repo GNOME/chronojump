@@ -24,7 +24,7 @@ using System.IO;
 using System.Collections; //ArrayList
 using Mono.Data.Sqlite;
 
-class SqlitePersonSessionNotUpload : Sqlite
+public class SqlitePersonSessionNotUpload : Sqlite
 {
 	protected internal void CreateTable()
 	 {

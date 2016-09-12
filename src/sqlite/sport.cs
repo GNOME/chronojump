@@ -27,7 +27,7 @@ using Mono.Data.Sqlite;
 using Mono.Unix;
 
 
-class SqliteSport : Sqlite
+public class SqliteSport : Sqlite
 {
 	protected internal void createTable()
 	 {

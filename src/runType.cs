@@ -470,13 +470,13 @@ public class RunType : EventType
 					name, distance, tracksLimited, fixedValue,
 					unlimited, description);
 					*/
-			return SqliteRunIntervalType.Insert(this, tableName, dbconOpened);
+			return SqliteGeneral.SqliteRunIntervalType.Insert(this, tableName, dbconOpened);
 		else
 			/*
 			return SqliteRunType.Insert(dbconOpened, tableName, 
 					name, distance, description);
 					*/
-			return SqliteRunType.Insert(this, tableName, dbconOpened);
+			return SqliteGeneral.SqliteRunType.Insert(this, tableName, dbconOpened);
 	}
 
 

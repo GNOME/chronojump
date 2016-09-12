@@ -24,7 +24,7 @@ using Mono.Data.Sqlite;
 
 /* this class has some initializations used for all events */
  
-class SqliteEvent : Sqlite
+public class SqliteEvent : Sqlite
 {
 	/*
 	 * create and initialize tables

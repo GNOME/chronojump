@@ -188,7 +188,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 
 	protected override void getData() 
 	{
-		data = SqliteEncoder.Select(
+		data = SqliteGeneral.SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, encoderGI,
 				exerciseID, "curve", EncoderSQL.Eccons.ALL, 
 				false, true);
@@ -267,7 +267,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		genericWinESR.MarkActiveCurves(checkboxes);
 		
 		//find all persons in current session
-		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(
+		ArrayList personsPre = SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID,
 				false); //means: do not returnPersonAndPSlist
 		
@@ -330,14 +330,14 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		//get selected/deselected rows
 		checkboxes = genericWinESR.GetColumn(1, false);
 
-		ArrayList data = SqliteEncoder.Select(
+		ArrayList data = SqliteGeneral.SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, encoderGI,
 				exerciseID, "curve", EncoderSQL.Eccons.ALL, 
 				false, true);
 
 		//update on database the curves that have been selected/deselected
 		//doing it as a transaction: FAST
-		RepsActive = SqliteEncoder.UpdateTransaction(data, checkboxes);
+		RepsActive = SqliteGeneral.SqliteEncoder.UpdateTransaction(data, checkboxes);
 		RepsAll = data.Count;
 
 		FakeButtonDone.Click();		
@@ -354,7 +354,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 	protected void on_show_repetitions_row_edit_apply (object o, EventArgs args) {
 
 		int curveID = genericWinESR.TreeviewSelectedUniqueID;
-		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
+		EncoderSQL eSQL = (EncoderSQL) SqliteGeneral.SqliteEncoder.Select(
 				false, curveID, 0, 0, encoderGI,
 				-1, "", EncoderSQL.Eccons.ALL, 
 				false, true)[0];
@@ -364,7 +364,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		string comment = Util.RemoveTildeAndColonAndDot(genericWinESR.EntryEditRow);
 		if(comment != eSQL.description) {
 			eSQL.description = comment;
-			SqliteEncoder.Update(false, eSQL);
+			SqliteGeneral.SqliteEncoder.Update(false, eSQL);
 
 			//update treeview
 			genericWinESR.on_edit_selected_done_update_treeview();
@@ -375,7 +375,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		int newPersonID = Util.FetchID(genericWinESR.GetComboSelected);
 		if(newPersonID != currentPerson.UniqueID) {
 			EncoderSQL eSQLChangedPerson = eSQL.ChangePerson(genericWinESR.GetComboSelected);
-			SqliteEncoder.Update(false, eSQLChangedPerson);
+			SqliteGeneral.SqliteEncoder.Update(false, eSQLChangedPerson);
 
 			genericWinESR.RemoveSelectedRow();
 		}
@@ -444,7 +444,7 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 
 	protected override void getData() 
 	{
-		data = SqliteEncoder.SelectCompareIntersession(false, encoderGI, exerciseID, currentPerson.UniqueID); 
+		data = SqliteGeneral.SqliteEncoder.SelectCompareIntersession(false, encoderGI, exerciseID, currentPerson.UniqueID); 
 	}
 	
 	protected override void createBigArray() 
@@ -591,14 +591,14 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 
 	protected override void getData() 
 	{
-		ArrayList dataPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
+		ArrayList dataPre = SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
 				false); //means: do not returnPersonAndPSlist
 		data = new ArrayList();
 		
 		nonSensitiveRows = new ArrayList();
 		int j = 0;	//list of added persons
 		foreach(Person p in dataPre) {
-			ArrayList eSQLarray = SqliteEncoder.Select(
+			ArrayList eSQLarray = SqliteGeneral.SqliteEncoder.Select(
 					false, -1, p.UniqueID, currentSession.UniqueID, encoderGI,
 					exerciseID, "curve", EncoderSQL.Eccons.ALL, 
 					false, true);

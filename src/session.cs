@@ -108,7 +108,7 @@ public partial class Session {
 	}
 
 	public virtual int InsertAtDB (bool dbconOpened, string tableName) {
-		int myID = SqliteSession.Insert(dbconOpened, tableName, 
+		int myID = SqliteGeneral.SqliteSession.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), name,
 				place, date, 
 				personsSportID, 
@@ -235,7 +235,7 @@ public partial class ServerSession : Session
 	}
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
-		int myID = SqliteServerSession.Insert(dbconOpened, tableName, 
+		int myID = SqliteGeneral.SqliteServerSession.Insert(dbconOpened, tableName, 
 				//uniqueID.ToString(),
 				name,
 				place, date, 

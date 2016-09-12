@@ -92,7 +92,7 @@ public class EditPulseWindow : EditEventWindow
 	}
 	
 	protected override void updateEvent(int eventID, int personID, string description) {
-		SqlitePulse.Update(eventID, personID, description);
+		SqliteGeneral.SqlitePulse.Update(eventID, personID, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)
@@ -460,7 +460,7 @@ public class RepairPulseWindow
 
 		myPulse.InsertAtDB(false, Constants.PulseTable);
 		/*
-		SqlitePulse.Insert(myPulse.UniqueID.ToString(), 
+		SqliteGeneral.SqlitePulse.Insert(myPulse.UniqueID.ToString(), 
 				myPulse.PersonID, myPulse.SessionID, 
 				myPulse.Type, myPulse.FixedPulse, totalPulsesNum, 
 				timeString, myPulse.Description

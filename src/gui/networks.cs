@@ -178,14 +178,14 @@ public partial class ChronoJumpWindow
 			main_menu.Visible = false;
 			button_preferences_not_menu.Visible = true;
 
-			if(! Sqlite.Exists(false, Constants.SessionTable, "session")) {
+			if(! SqliteGeneral.Sqlite.Exists(false, Constants.SessionTable, "session")) {
 				//this creates the session and inserts at DB
 				currentSession = new Session(
 						"session", "", DateTime.Today,	//name, place, dateTime
 						Constants.SportUndefinedID, Constants.SpeciallityUndefinedID, Constants.LevelUndefinedID,
 						"", Constants.ServerUndefinedID); //comments, serverID
 			} else
-				currentSession = SqliteSession.SelectByName("session");
+				currentSession = SqliteGeneral.SqliteSession.SelectByName("session");
 			
 			on_load_session_accepted();
 		}

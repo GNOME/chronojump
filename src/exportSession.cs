@@ -161,26 +161,26 @@ public class ExportSession
 	
 	protected virtual void getData() 
 	{
-		myPersonsAndPS = SqlitePersonSession.SelectCurrentSessionPersons(mySession.UniqueID, true);
+		myPersonsAndPS = SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons(mySession.UniqueID, true);
 
 		//Leave SQL opened in all this process
-		Sqlite.Open(); // ------------------------------
+		SqliteGeneral.Sqlite.Open(); // ------------------------------
 		
-		myJumps= SqliteJump.SelectJumps(true, mySession.UniqueID, -1, "", "",
+		myJumps= SqliteGeneral.SqliteJump.SelectJumps(true, mySession.UniqueID, -1, "", "",
 				Sqlite.Orders_by.DEFAULT, -1);
 
-		myJumpsRj = SqliteJumpRj.SelectJumps(true, mySession.UniqueID, -1, "", "");
-		myRuns= SqliteRun.SelectRuns(true, mySession.UniqueID, -1, "",
+		myJumpsRj = SqliteGeneral.SqliteJumpRj.SelectJumps(true, mySession.UniqueID, -1, "", "");
+		myRuns= SqliteGeneral.SqliteRun.SelectRuns(true, mySession.UniqueID, -1, "",
 				Sqlite.Orders_by.DEFAULT, -1);
 
-		myRunsInterval = SqliteRunInterval.SelectRuns(true, mySession.UniqueID, -1, "");
-		myReactionTimes = SqliteReactionTime.SelectReactionTimes(true, mySession.UniqueID, -1, "",
+		myRunsInterval = SqliteGeneral.SqliteRunInterval.SelectRuns(true, mySession.UniqueID, -1, "");
+		myReactionTimes = SqliteGeneral.SqliteReactionTime.SelectReactionTimes(true, mySession.UniqueID, -1, "",
 				Sqlite.Orders_by.DEFAULT, -1);
 
-		myPulses = SqlitePulse.SelectPulses(true, mySession.UniqueID, -1);
-		myMCs = SqliteMultiChronopic.SelectTests(true, mySession.UniqueID, -1);
+		myPulses = SqliteGeneral.SqlitePulse.SelectPulses(true, mySession.UniqueID, -1);
+		myMCs = SqliteGeneral.SqliteMultiChronopic.SelectTests(true, mySession.UniqueID, -1);
 		
-		Sqlite.Close(); // ------------------------------
+		SqliteGeneral.Sqlite.Close(); // ------------------------------
 	}
 
 	protected virtual void printTitles(string title) {
@@ -250,10 +250,10 @@ public class ExportSession
 				Catalog.GetString ("Level") + ":" + Catalog.GetString ("Comments")
 			   );
 
-		Sqlite.Open();	
+		SqliteGeneral.Sqlite.Open();	
 		foreach (PersonAndPS paps in myPersonsAndPS) {
-			string sportName = (SqliteSport.Select(true, paps.ps.SportID)).Name;
-			string speciallityName = SqliteSpeciallity.Select(true, paps.ps.SpeciallityID);
+			string sportName = (SqliteGeneral.SqliteSport.Select(true, paps.ps.SportID)).Name;
+			string speciallityName = SqliteGeneral.SqliteSpeciallity.Select(true, paps.ps.SpeciallityID);
 			
 			myData.Add(
 					paps.p.UniqueID.ToString() + ":" + paps.p.Name + ":" +
@@ -265,7 +265,7 @@ public class ExportSession
 					Util.RemoveNewLine(paps.ps.Comments, true)
 				  );
 		}
-		Sqlite.Close();	
+		SqliteGeneral.Sqlite.Close();	
 		
 		writeData(myData);
 		writeData("VERTICAL-SPACE");
@@ -588,7 +588,7 @@ public class ExportSession
 		if(myRunsInterval.Length > 0)
 			printTitles(title); 
 
-		Sqlite.Open();	
+		SqliteGeneral.Sqlite.Open();	
 		foreach (string runString in myRunsInterval) 
 		{
 			if(showSubruns) {
@@ -620,7 +620,7 @@ public class ExportSession
 			string myRunTypeString = myStr[4];
 			string myRunDistanceInterval = myStr[7];
 			if(myRunDistanceInterval == "-1" || myRunDistanceInterval == "-1.0") {
-				myRunType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(
+				myRunType = SqliteGeneral.SqliteRunIntervalType.SelectAndReturnRunIntervalType(
 						myRunTypeString, true);
 			}
 			myData.Add (
@@ -681,7 +681,7 @@ public class ExportSession
 				writeData("VERTICAL-SPACE");
 			}
 		}
-		Sqlite.Close();	
+		SqliteGeneral.Sqlite.Close();	
 
 		//if not showSubruns write data at last for not having every row as TH
 		if(! showSubruns) {

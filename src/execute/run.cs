@@ -402,7 +402,7 @@ public class RunExecute : EventExecute
 			// P = W * 9.8 * D / t   
 			// W: person weight
 			// D: distance between 3d and 9th stair
-			double weight = SqlitePersonSession.SelectAttribute(false, personID, sessionID, Constants.Weight);
+			double weight = SqliteGeneral.SqlitePersonSession.SelectAttribute(false, personID, sessionID, Constants.Weight);
 			double distanceMeters = distance / 1000;
 			description = "P = " + Util.TrimDecimals ( (weight * 9.8 * distanceMeters / time).ToString(), pDN) + " (Watts)";
 		} else if(type == "Gesell-DBT") 
@@ -411,7 +411,7 @@ public class RunExecute : EventExecute
 
 		string table = Constants.RunTable;
 
-		uniqueID = SqliteRun.Insert(false, table, "NULL", personID, sessionID, 
+		uniqueID = SqliteGeneral.SqliteRun.Insert(false, table, "NULL", personID, sessionID, 
 				type, distance, time, description, 
 				Util.BoolToNegativeInt(simulated), 
 				!startIn	//initialSpeed true if not startIn
@@ -435,7 +435,7 @@ public class RunExecute : EventExecute
 	
 	public string RunnerName
 	{
-		get { return SqlitePerson.SelectAttribute(personID, Constants.Name); }
+		get { return SqliteGeneral.SqlitePerson.SelectAttribute(personID, Constants.Name); }
 	}
 
 	~RunExecute() {}
@@ -484,7 +484,7 @@ public class RunIntervalExecute : RunExecute
 		//if distances are variable
 		distancesString = "";
 		if(distanceInterval == -1) {
-			RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(type, false);
+			RunType runType = SqliteGeneral.SqliteRunIntervalType.SelectAndReturnRunIntervalType(type, false);
 			distancesString = runType.DistancesString;
 		}
 
@@ -919,7 +919,7 @@ public class RunIntervalExecute : RunExecute
 
 
 		if(tempTable)
-			SqliteRunInterval.Insert(false, Constants.TempRunIntervalTable, "NULL", personID, sessionID, type, 
+			SqliteGeneral.SqliteRunInterval.Insert(false, Constants.TempRunIntervalTable, "NULL", personID, sessionID, type, 
 					distanceTotal, timeTotal,
 					distanceInterval, intervalTimesString, tracksHere, 
 					description,
@@ -928,7 +928,7 @@ public class RunIntervalExecute : RunExecute
 					!startIn	//initialSpeed true if not startIn
 					);
 		else {
-			uniqueID = SqliteRunInterval.Insert(false, Constants.RunIntervalTable, "NULL", personID, sessionID, type, 
+			uniqueID = SqliteGeneral.SqliteRunInterval.Insert(false, Constants.RunIntervalTable, "NULL", personID, sessionID, type, 
 					distanceTotal, timeTotal,
 					distanceInterval, intervalTimesString, tracksHere, 
 					description,

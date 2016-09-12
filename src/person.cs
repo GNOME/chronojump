@@ -93,7 +93,7 @@ public partial class Person {
 	}
 	
 	public int InsertAtDB (bool dbconOpened, string tableName) {
-		int myID = SqlitePerson.Insert(dbconOpened,  
+		int myID = SqliteGeneral.SqlitePerson.Insert(dbconOpened,  
 				uniqueID.ToString(), name, sex, dateBorn, race, countryID,
 				description, serverUniqueID);
 		return myID;

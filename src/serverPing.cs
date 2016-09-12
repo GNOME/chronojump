@@ -47,7 +47,7 @@ public partial class ServerPing
 	}
 
 	public int InsertAtDB(bool dbconOpened){
-		int myID = SqliteServer.InsertPing(dbconOpened, evaluatorID, cjVersion, osVersion, ip, date);
+		int myID = SqliteGeneral.SqliteServer.InsertPing(dbconOpened, evaluatorID, cjVersion, osVersion, ip, date);
 		return myID;
 	}	
 

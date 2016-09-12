@@ -64,7 +64,7 @@ public class Run : Event
 		this.initialSpeed = initialSpeed;
 	}
 
-	//used to select a run at SqliteRun.SelectNormalRunData and at Sqlite.convertTables
+	//used to select a run at SqliteGeneral.SqliteRun.SelectNormalRunData and at Sqlite.convertTables
 	public Run(string [] eventString)
 	{
 		this.uniqueID = Convert.ToInt32(eventString[0]);
@@ -80,7 +80,7 @@ public class Run : Event
 	
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
-		return SqliteRun.Insert(dbconOpened, tableName, 
+		return SqliteGeneral.SqliteRun.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), 
 				personID, sessionID, 
 				type, distance, time, 
@@ -160,7 +160,7 @@ public class RunInterval : Run
 		this.initialSpeed = initialSpeed;
 	}
 
-	//used to select a run at SqliteRun.SelectIntervalRunData and at Sqlite.convertTables
+	//used to select a run at SqliteGeneral.SqliteRun.SelectIntervalRunData and at Sqlite.convertTables
 	public RunInterval(string [] eventString)
 	{
 		this.uniqueID = Convert.ToInt32(eventString[0]);
@@ -180,7 +180,7 @@ public class RunInterval : Run
 	
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
-		return SqliteRunInterval.Insert(dbconOpened, tableName, 
+		return SqliteGeneral.SqliteRunInterval.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), 
 				personID, sessionID, 
 				type, distanceTotal, timeTotal, 

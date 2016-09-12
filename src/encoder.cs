@@ -1466,7 +1466,7 @@ public class EncoderConfiguration {
 	//called on capture, recalculate, load
 	public void SQLUpdate()
 	{
-		SqlitePreferences.Update("encoderConfiguration", this.ToStringOutput(Outputs.SQL), false);
+		SqliteGeneral.SqlitePreferences.Update("encoderConfiguration", this.ToStringOutput(Outputs.SQL), false);
 	}
 
 	public enum Outputs { ROPTIONS, RCSV, SQL} 

@@ -172,10 +172,10 @@ public class ExecuteAutoSQL
 
 	public bool SaveToSQL() 
 	{
-		if(Sqlite.Exists(false, Constants.ExecuteAutoTable, name))
+		if(SqliteGeneral.Sqlite.Exists(false, Constants.ExecuteAutoTable, name))
 			return false; //not saved because name exists
 
-		SqliteExecuteAuto.Insert(false, this);
+		SqliteGeneral.SqliteExecuteAuto.Insert(false, this);
 			
 		return true; //saved
 	}

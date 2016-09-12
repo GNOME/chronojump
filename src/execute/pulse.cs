@@ -343,7 +343,7 @@ public class PulseExecute : EventExecute
 
 		totalPulsesNum = Util.GetNumberOfJumps(timesString, false);
 
-		uniqueID = SqlitePulse.Insert(false, Constants.PulseTable, "NULL", personID, sessionID, type, 
+		uniqueID = SqliteGeneral.SqlitePulse.Insert(false, Constants.PulseTable, "NULL", personID, sessionID, type, 
 				fixedPulse, totalPulsesNum, timesString, 
 				"", Util.BoolToNegativeInt(simulated) //description
 				);

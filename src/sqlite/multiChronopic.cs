@@ -25,7 +25,7 @@ using System.Collections; //ArrayList
 using Mono.Data.Sqlite;
 
 
-class SqliteMultiChronopic : Sqlite
+public class SqliteMultiChronopic : Sqlite
 {
 	public SqliteMultiChronopic() {
 	}

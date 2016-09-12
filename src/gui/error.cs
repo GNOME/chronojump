@@ -93,7 +93,7 @@ public class ErrorWindow
 	string emailStored;
 	public void Show_send_log() 
 	{
-		emailStored = SqlitePreferences.Select("email");
+		emailStored = SqliteGeneral.SqlitePreferences.Select("email");
 		if(emailStored != null && emailStored != "" && emailStored != "0")
 			entry_send_log.Text = emailStored;
 		
@@ -110,7 +110,7 @@ public class ErrorWindow
 
 		//1st save email on sqlite
 		if(email != null && email != "" && email != "0" && email != emailStored)
-			SqlitePreferences.Update("email", email, false);
+			SqliteGeneral.SqlitePreferences.Update("email", email, false);
 
 		//2nd if there are comments, add them at the beginning of the file
 		string comments = textview_comments.Buffer.Text;

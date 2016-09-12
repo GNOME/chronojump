@@ -599,7 +599,7 @@ public partial class ChronoJumpWindow {
 			//by default show all simple nonTC jumps, but if combo_stats_subtype changed
 			//updateComboStatsSubType() will do the work
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-				SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "nonTC", true), ""); //only select name
+				SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "nonTC", true), ""); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 
@@ -613,7 +613,7 @@ public partial class ChronoJumpWindow {
 			combo_stats_stat_subtype.Active = 0;
 			
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-				SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "TC", true), ""); //only select name
+				SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "TC", true), ""); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 
@@ -627,7 +627,7 @@ public partial class ChronoJumpWindow {
 			combo_stats_stat_subtype.Active = 0;
 			
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-				SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //only select name
+				SqliteGeneral.SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		}
@@ -673,7 +673,7 @@ public partial class ChronoJumpWindow {
 		{
 			if(UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("No indexes")) {
 				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "nonTC", true), ""); //only select name
+					SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "nonTC", true), ""); //only select name
 				combo_stats_stat_apply_to.Sensitive = true;
 				combo_stats_stat_apply_to.Active = 0;
 			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.ChronojumpProfile) {
@@ -703,9 +703,9 @@ public partial class ChronoJumpWindow {
 				combo_stats_stat_apply_to.Sensitive = false;
 			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString(Constants.SubtractionBetweenTests)) {
 				UtilGtk.ComboUpdate(combo_subtraction_between_1, 
-					SqliteJumpType.SelectJumpTypes(false, "", "", true), ""); //only select name
+					SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, "", "", true), ""); //only select name
 				UtilGtk.ComboUpdate(combo_subtraction_between_2, 
-					SqliteJumpType.SelectJumpTypes(false, "", "", true), ""); //only select name
+					SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, "", "", true), ""); //only select name
 				//subtraction_between_tests_show(true);
 				showSubtractionBetweenTests = true;
 				label_apply_to.Visible = false;
@@ -714,7 +714,7 @@ public partial class ChronoJumpWindow {
 			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencySayersSJFormulaShort) {
 				combo_stats_stat_apply_to.Active = 
 					UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-							SqliteJumpType.SelectJumpTypes(false, "", "nonTC", true), //only select name
+							SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, "", "nonTC", true), //only select name
 							"SJ"); //default value
 				combo_stats_stat_apply_to.Sensitive = false;
 			} else {/*
@@ -733,7 +733,7 @@ public partial class ChronoJumpWindow {
 				*/
 				combo_stats_stat_apply_to.Active = 
 					UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-							SqliteJumpType.SelectJumpTypes(false, "", "nonTC", true), //only select name
+							SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, "", "nonTC", true), //only select name
 							"CMJ"); //default value
 				combo_stats_stat_apply_to.Sensitive = false;
 			}
@@ -741,7 +741,7 @@ public partial class ChronoJumpWindow {
 		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimpleWithTC ) 
 		{
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-				SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "TC", true), ""); //only select name
+				SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "TC", true), ""); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 

@@ -251,9 +251,9 @@ public class JumpType : EventType
 				return hasWeight; 
 			} else {
 				if(isRepetitive)
-					return SqliteJumpType.HasWeight("jumpRjType", name);
+					return SqliteGeneral.SqliteJumpType.HasWeight("jumpRjType", name);
 				else
-					return SqliteJumpType.HasWeight("jumpType", name);
+					return SqliteGeneral.SqliteJumpType.HasWeight("jumpType", name);
 			}
 		}
 		set { hasWeight = value; }
@@ -269,9 +269,9 @@ public class JumpType : EventType
 				return ! startIn; 
 			} else {
 				if(isRepetitive)
-					return SqliteJumpType.HasFall("jumpRjType", name);
+					return SqliteGeneral.SqliteJumpType.HasFall("jumpRjType", name);
 				else
-					return SqliteJumpType.HasFall("jumpType", name);
+					return SqliteGeneral.SqliteJumpType.HasFall("jumpType", name);
 			}
 		}
 	}

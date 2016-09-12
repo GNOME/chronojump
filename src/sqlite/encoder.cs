@@ -27,7 +27,7 @@ using Mono.Data.Sqlite;
 using Mono.Unix;
 
 
-class SqliteEncoder : Sqlite
+public class SqliteEncoder : Sqlite
 {
 	public SqliteEncoder() {
 	}
@@ -1056,7 +1056,7 @@ class SqliteEncoder : Sqlite
 	//called on startup to load last encoderConfiguration
 	public EncoderConfiguration LoadEncoderConfiguration()
 	{
-		string ecStr = SqlitePreferences.Select("encoderConfiguration", false);
+		string ecStr = SqliteGeneral.SqlitePreferences.Select("encoderConfiguration", false);
 		
 		//1.5.1 and previous don't store encoderConfiguration on SqlitePreferences
 		if(ecStr == null || ecStr.Length == 0 || ecStr == "0" || ecStr == "")

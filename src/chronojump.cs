@@ -157,7 +157,7 @@ public class ChronoJump
 	string language = "";
 	if(File.Exists(System.IO.Path.Combine(Util.GetDatabaseDir(), "chronojump.db"))) {
 		try {
-			SqliteForUser.Instance.Connect();
+			SqliteGeneral.Sqlite.Connect();
 
 			/*
 			 * chronojump 1.5.2 converts DB 1.24 to 1.25 changing language to ""
@@ -165,14 +165,14 @@ public class ChronoJump
 			 * We need here! to define the language from the beginning
 			 * so we use language = "" if version is prior to 1.25
 			 */
-			string currentVersion = SqlitePreferences.Select("databaseVersion", false);
+			string currentVersion = SqliteGeneral.SqlitePreferences.Select("databaseVersion", false);
 			double currentVersionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(currentVersion));
 			if(currentVersionDouble < Convert.ToDouble(Util.ChangeDecimalSeparator("1.25")))
 				language = "";
 			else
-				language = SqlitePreferences.Select("language", false);
+				language = SqliteGeneral.SqlitePreferences.Select("language", false);
 
-			Sqlite.DisConnect();
+			SqliteGeneral.Sqlite.DisConnect();
 	
 			if(language != "") {
 				Environment.SetEnvironmentVariable ("LANGUAGE", language); //works
@@ -269,8 +269,8 @@ public class ChronoJump
 		Console.ReadLine();		
 		*/
 		
-		Sqlite.CreateDir();
-		bool defaultDBLocation = Sqlite.Connect();
+		SqliteGeneral.Sqlite.CreateDir();
+		bool defaultDBLocation = SqliteGeneral.Sqlite.Connect();
 
 		LogB.SQL("sqlite connected");
 
@@ -281,7 +281,7 @@ public class ChronoJump
 		*/
 		
 		//Chech if the DB file exists
-		if (!Sqlite.CheckTables(defaultDBLocation)) {
+		if (!SqliteGeneral.Sqlite.CheckTables(defaultDBLocation)) {
 			LogB.SQL ( Catalog.GetString ("no tables, creating ...") );
 
 			creatingDB = true;
@@ -297,9 +297,9 @@ public class ChronoJump
 
 
 
-			Sqlite.CreateDir();
-			Sqlite.CreateFile();
-			//Sqlite.CreateFile(defaultDBLocation);
+			SqliteGeneral.Sqlite.CreateDir();
+			SqliteGeneral.Sqlite.CreateFile();
+			//SqliteGeneral.Sqlite.CreateFile(defaultDBLocation);
 
 
 
@@ -312,7 +312,7 @@ public class ChronoJump
 
 
 			createRunningFileName(runningFileName);
-			Sqlite.CreateTables(false); //not server
+			SqliteGeneral.Sqlite.CreateTables(false); //not server
 			creatingDB = false;
 		} else {
 			LogB.SQL("doing backup");
@@ -326,8 +326,8 @@ public class ChronoJump
 			//System.IO.Compression.GZipStream are not in mono
 
 
-			if(! Sqlite.IsSqlite3()) {
-				bool ok = Sqlite.ConvertFromSqlite2To3();
+			if(! SqliteGeneral.Sqlite.IsSqlite3()) {
+				bool ok = SqliteGeneral.Sqlite.ConvertFromSqlite2To3();
 				if (!ok) {
 					LogB.Error("problem with sqlite");
 					//check (spanish)
@@ -341,17 +341,17 @@ public class ChronoJump
 					chronojumpHasToExit = true;
 					return;
 				}
-				Sqlite.Connect();
+				SqliteGeneral.Sqlite.Connect();
 			}
 
 			splashMessageChange(4);  //updating DB
 			updatingDB = true;
 
-			if(Sqlite.ChangeDjToDJna())
+			if(SqliteGeneral.Sqlite.ChangeDjToDJna())
 				messageToShowOnBoot += Catalog.GetString("All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms).") + "\n\n"+ 
 					Catalog.GetString("If your Drop Jumps were executed using the arms, please rename them manually as 'DJa'.") + "\n";
 
-			bool softwareIsNew = Sqlite.ConvertToLastChronojumpDBVersion();
+			bool softwareIsNew = SqliteGeneral.Sqlite.ConvertToLastChronojumpDBVersion();
 			updatingDB = false;
 			
 				
@@ -370,7 +370,7 @@ public class ChronoJump
 		
 
 			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
-			//SqliteJump.FindBadRjs();
+			//SqliteGeneral.SqliteJump.FindBadRjs();
 		
 			createRunningFileName(runningFileName);
 		}
@@ -409,7 +409,7 @@ public class ChronoJump
 		//doing ping using json methods
 		/*
 		 * temporarily disabled on start
-		string machineID = SqlitePreferences.Select("machineID", false);
+		string machineID = SqliteGeneral.SqlitePreferences.Select("machineID", false);
 		Json js = new Json();
 		bool success = js.Ping(UtilAll.GetOS(), progVersion, machineID);
 		if(success)
@@ -425,9 +425,9 @@ public class ChronoJump
 		//while(! pingEnd) {
 		//}
 
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
-		string versionAvailableKnown = SqlitePreferences.Select("versionAvailable", true);
+		string versionAvailableKnown = SqliteGeneral.SqlitePreferences.Select("versionAvailable", true);
 		if( versionAvailable != Constants.ServerOffline && new Version(versionAvailable) > new Version(progVersion) ) {
 			//check if available version is higher than known available version
 			Version versionAvailableAsV = new Version(versionAvailable);
@@ -445,7 +445,7 @@ public class ChronoJump
 			if(updateKnownVersion) {
 				//is the first time we know about this new version
 				//just write on db and show message to user
-				SqlitePreferences.Update(Constants.PrefVersionAvailable, versionAvailable, true);
+				SqliteGeneral.SqlitePreferences.Update(Constants.PrefVersionAvailable, versionAvailable, true);
 				versionAvailableKnown = versionAvailable;
 				messageToShowOnBoot += string.Format(Catalog.GetString(
 							"\nNew Chronojump version available on website.\nYour Chronojump version is: {1}"), 
@@ -462,7 +462,7 @@ public class ChronoJump
 				       Catalog.GetString("Please, update to new version: ") + versionAvailableKnown + "\n";
 			else {
 				messageToShowOnBoot += messageCrashedBefore;
-				//SqlitePreferences.Update("videoOn", "False", true);
+				//SqliteGeneral.SqlitePreferences.Update("videoOn", "False", true);
 			}
 		}
 		
@@ -471,9 +471,9 @@ public class ChronoJump
 		
 
 		//start as "simulated"
-		SqlitePreferences.Update("simulated", "True", true); //dbcon opened
+		SqliteGeneral.SqlitePreferences.Update("simulated", "True", true); //dbcon opened
 
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		
 		allSQLCallsDoneOnSqliteThingsThread = true;
 		LogB.SQL("all SQL calls done on sqliteThings thread");
@@ -580,24 +580,24 @@ public class ChronoJump
 
 	private static void createBlankDB() {
 		LogB.SQL("Creating blank database");
-		Sqlite.ConnectBlank();
-		Sqlite.CreateFile();
-		Sqlite.CreateTables(false); //not server
+		SqliteGeneral.Sqlite.ConnectBlank();
+		SqliteGeneral.Sqlite.CreateFile();
+		SqliteGeneral.Sqlite.CreateTables(false); //not server
 		LogB.SQL("Created blank database! Exiting");
 	}
 	
 	private static void createBlankDBServer() {
 		LogB.SQL("Creating blank database for server");
-		if(Sqlite.CheckFileServer())
+		if(SqliteGeneral.Sqlite.CheckFileServer())
 			LogB.Error("File already exists. Cannot create.");
 		else {
-			Sqlite.ConnectServer();
-			Sqlite.CreateFile();
-			Sqlite.CreateTables(true); //server
+			SqliteGeneral.Sqlite.ConnectServer();
+			SqliteGeneral.Sqlite.CreateFile();
+			SqliteGeneral.Sqlite.CreateTables(true); //server
 			LogB.SQL("Created blank database! Exiting");
 			string myVersion = UtilAll.ReadVersion();
 			LogB.Warning("CAUTION: client info about versionAvailable (on server): ", myVersion);
-			SqlitePreferences.Update ("availableVersion", myVersion, false); 
+			SqliteGeneral.SqlitePreferences.Update ("availableVersion", myVersion, false); 
 			LogB.Information("Maybe you don't want to show this version on pings, change it to last stable published version");
 		}
 	}
@@ -635,18 +635,18 @@ public class ChronoJump
 	
 		if(updatingDB) {
 			splashWin.ShowProgressbar("updating");
-			splashWin.UpdateLabel(splashMessage + " " + Sqlite.PrintConversionText());
+			splashWin.UpdateLabel(splashMessage + " " + SqliteGeneral.Sqlite.PrintConversionText());
 		
-			splashWin.UpdateProgressbar("version", Sqlite.PrintConversionVersion());
-			splashWin.UpdateProgressbar("rate", Sqlite.PrintConversionRate());
-			splashWin.UpdateProgressbar("subrate", Sqlite.PrintConversionSubRate());
+			splashWin.UpdateProgressbar("version", SqliteGeneral.Sqlite.PrintConversionVersion());
+			splashWin.UpdateProgressbar("rate", SqliteGeneral.Sqlite.PrintConversionRate());
+			splashWin.UpdateProgressbar("subrate", SqliteGeneral.Sqlite.PrintConversionSubRate());
 
 		} else if(creatingDB) {
 			splashWin.ShowProgressbar("creating");
-			splashWin.UpdateProgressbar("version", Sqlite.PrintCreation());
+			splashWin.UpdateProgressbar("version", SqliteGeneral.Sqlite.PrintCreation());
 			
-			//splashWin.UpdateProgressbar("rate", Sqlite.PrintConversionRate());
-			splashWin.UpdateProgressbar("subrate", Sqlite.PrintConversionSubRate());
+			//splashWin.UpdateProgressbar("rate", SqliteGeneral.Sqlite.PrintConversionRate());
+			splashWin.UpdateProgressbar("subrate", SqliteGeneral.Sqlite.PrintConversionSubRate());
 		}
 
 		if(needUpdateSplashMessage) {
@@ -745,28 +745,28 @@ public class ChronoJump
 		string returnString = "";
 		
 		string tableName = "tempJumpRj";
-		int existsTempData = Sqlite.TempDataExists(tableName);
+		int existsTempData = SqliteGeneral.Sqlite.TempDataExists(tableName);
 		if(existsTempData > 0)
 		{
-			JumpRj myJumpRj = SqliteJumpRj.SelectJumpData("tempJumpRj", existsTempData, false);
+			JumpRj myJumpRj = SqliteGeneral.SqliteJumpRj.SelectJumpData("tempJumpRj", existsTempData, false);
 			try {
 				myJumpRj.InsertAtDB (true, Constants.JumpRjTable);
 			} catch {} //pitty, cannot insert
 
-			Sqlite.DeleteTempEvents(tableName);
+			SqliteGeneral.Sqlite.DeleteTempEvents(tableName);
 			returnString = "Recuperated last Reactive Jump";
 		}
 
 		tableName = "tempRunInterval";
-		existsTempData = Sqlite.TempDataExists(tableName);
+		existsTempData = SqliteGeneral.Sqlite.TempDataExists(tableName);
 		if(existsTempData > 0)
 		{
-			RunInterval myRun = SqliteRunInterval.SelectRunData("tempRunInterval", existsTempData, false);
+			RunInterval myRun = SqliteGeneral.SqliteRunInterval.SelectRunData("tempRunInterval", existsTempData, false);
 			try {
 				myRun.InsertAtDB (true, Constants.RunIntervalTable);
 			} catch {} //pitty, cannot insert
 
-			Sqlite.DeleteTempEvents(tableName);
+			SqliteGeneral.Sqlite.DeleteTempEvents(tableName);
 			returnString = "Recuperated last Intervallic Run";
 		}
 		

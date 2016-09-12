@@ -590,7 +590,7 @@ public class MultiChronopicExecute : EventExecute
 	
 
 		if(tempTable) //TODO
-			uniqueID = SqliteMultiChronopic.Insert(false, Constants.TempMultiChronopicTable, "NULL", 
+			uniqueID = SqliteGeneral.SqliteMultiChronopic.Insert(false, Constants.TempMultiChronopicTable, "NULL", 
 					personID, sessionID, type,  
 					Util.BoolToInt(cp1StartedIn), Util.BoolToInt(cp2StartedIn), 
 					Util.BoolToInt(cp3StartedIn), Util.BoolToInt(cp4StartedIn),
@@ -600,7 +600,7 @@ public class MultiChronopicExecute : EventExecute
 					description, Util.BoolToNegativeInt(simulated)
 					);
 		else {
-			uniqueID = SqliteMultiChronopic.Insert(false, Constants.MultiChronopicTable, "NULL", 
+			uniqueID = SqliteGeneral.SqliteMultiChronopic.Insert(false, Constants.MultiChronopicTable, "NULL", 
 					personID, sessionID, type,  
 					Util.BoolToInt(cp1StartedIn), Util.BoolToInt(cp2StartedIn), 
 					Util.BoolToInt(cp3StartedIn), Util.BoolToInt(cp4StartedIn),

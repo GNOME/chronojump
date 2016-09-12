@@ -25,7 +25,7 @@ using System.Collections; //ArrayList
 using Mono.Data.Sqlite;
 
 
-class SqlitePerson : Sqlite
+public class SqlitePerson : Sqlite
 {
 	public SqlitePerson() {
 	}

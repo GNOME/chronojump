@@ -55,7 +55,7 @@ public class Jump : Event
 		this.simulated = simulated;
 	}
 
-	//used to select a jump at SqliteJump.SelectNormalJumpData and at Sqlite.converTables
+	//used to select a jump at SqliteGeneral.SqliteJump.SelectNormalJumpData and at Sqlite.converTables
 	public Jump(string [] eventString)
 	{
 		this.uniqueID = Convert.ToInt32(eventString[0]);
@@ -73,7 +73,7 @@ public class Jump : Event
 
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
-		return SqliteJump.Insert(dbconOpened, tableName, 
+		return SqliteGeneral.SqliteJump.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), 
 				personID, sessionID, 
 				type, tv, tc, fall, 
@@ -92,11 +92,11 @@ public class Jump : Event
 	}
 
 	public virtual bool TypeHasWeight {
-		get { return SqliteJumpType.HasWeight("jumpType", type); }
+		get { return SqliteGeneral.SqliteJumpType.HasWeight("jumpType", type); }
 	}
 	
 	public virtual bool TypeHasFall {
-		get { return SqliteJumpType.HasFall("jumpType", type); } //jumpType is the table name
+		get { return SqliteGeneral.SqliteJumpType.HasFall("jumpType", type); } //jumpType is the table name
 	}
 
 	public double Tv {
@@ -168,7 +168,7 @@ public class JumpRj : Jump
 		this.simulated = simulated;
 	}
 	
-	//used to select a jump at SqliteJump.SelectRjJumpData and at Sqlite.convertTables
+	//used to select a jump at SqliteGeneral.SqliteJump.SelectRjJumpData and at Sqlite.convertTables
 	public JumpRj(string [] eventString)
 	{
 		//foreach(string myStr in eventString)
@@ -193,7 +193,7 @@ public class JumpRj : Jump
 
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
-		return SqliteJumpRj.Insert(dbconOpened, tableName, 
+		return SqliteGeneral.SqliteJumpRj.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(),
 				personID, sessionID, 
 				type, TvMax, TcMax, fall, weight,
@@ -217,12 +217,12 @@ public class JumpRj : Jump
 	
 	public override bool TypeHasWeight
 	{
-		get { return SqliteJumpType.HasWeight("jumpRjType", type); }
+		get { return SqliteGeneral.SqliteJumpType.HasWeight("jumpRjType", type); }
 	}
 	
 	public override bool TypeHasFall
 	{
-		get { return SqliteJumpType.HasFall("jumpRjType", type); } //jumpRjType is the table name
+		get { return SqliteGeneral.SqliteJumpType.HasFall("jumpRjType", type); } //jumpRjType is the table name
 	}
 	
 	public double TvMax

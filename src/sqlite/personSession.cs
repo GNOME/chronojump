@@ -27,7 +27,7 @@ using Mono.Unix;
 using System.Collections.Generic; //List<T>
 
 
-class SqlitePersonSession : Sqlite
+public class SqlitePersonSession : Sqlite
 {
 	public SqlitePersonSession() {
 	}

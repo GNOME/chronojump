@@ -393,7 +393,7 @@ public class EditReactionTimeWindow : EditEventWindow
 	}
 	
 	protected override void updateEvent(int eventID, int personID, string description) {
-		SqliteReactionTime.Update(eventID, type, entryTime, personID, description);
+		SqliteGeneral.SqliteReactionTime.Update(eventID, type, entryTime, personID, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)

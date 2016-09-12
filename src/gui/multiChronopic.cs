@@ -184,7 +184,7 @@ public class EditMultiChronopicWindow : EditEventWindow
 	
 	protected override void updateEvent(int eventID, int personID, string description) {
 
-		SqliteMultiChronopic.Update(eventID, personID, entryDistance, description);
+		SqliteGeneral.SqliteMultiChronopic.Update(eventID, personID, entryDistance, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)

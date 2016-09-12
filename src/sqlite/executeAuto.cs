@@ -25,7 +25,7 @@ using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
 using Mono.Data.Sqlite;
 
-class SqliteExecuteAuto : Sqlite
+public class SqliteExecuteAuto : Sqlite
 {
 	public SqliteExecuteAuto() {
 	}

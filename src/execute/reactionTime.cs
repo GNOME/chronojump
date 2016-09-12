@@ -292,7 +292,7 @@ public class ReactionTimeExecute : EventExecute
 		
 		string table = Constants.ReactionTimeTable;
 
-		uniqueID = SqliteReactionTime.Insert(
+		uniqueID = SqliteGeneral.SqliteReactionTime.Insert(
 				false, table, 
 				"NULL", personID, sessionID, type,
 				time, description, Util.BoolToNegativeInt(simulated));

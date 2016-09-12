@@ -283,7 +283,7 @@ public class ConvertWeightWindow
 					if ( (string) treeview1.Model.GetValue(iter, 1) == reactiveString )
 						tableName = "jumpRj";
 
-					SqliteJump.UpdateWeight(tableName, jumpID, percent);
+					SqliteGeneral.SqliteJump.UpdateWeight(tableName, jumpID, percent);
 				}
 			}
 		}

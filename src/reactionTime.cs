@@ -40,7 +40,7 @@ public class ReactionTime : Event
 		this.simulated = simulated;
 	}
 
-	//used to select a event at SqliteReactionTime.SelectReactionTimeData and at Sqlite.convertTables
+	//used to select a event at SqliteGeneral.SqliteReactionTime.SelectReactionTimeData and at Sqlite.convertTables
 	public ReactionTime(string [] eventString) {
 		this.uniqueID = Convert.ToInt32(eventString[0]);
 		this.personID = Convert.ToInt32(eventString[1]);
@@ -52,7 +52,7 @@ public class ReactionTime : Event
 	}
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
-		return SqliteReactionTime.Insert(dbconOpened, tableName, 
+		return SqliteGeneral.SqliteReactionTime.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), 
 				personID, sessionID, 
 				type, time,

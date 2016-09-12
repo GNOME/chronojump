@@ -553,18 +553,18 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		
 		List <PersonSession> personSessions = new List<PersonSession>();
 		int psID;
-		int countPersonSessions = Sqlite.Count(Constants.PersonSessionTable, false);
+		int countPersonSessions = SqliteGeneral.Sqlite.Count(Constants.PersonSessionTable, false);
 		if(countPersonSessions == 0)
 			psID = 1;
 		else {
-			//Sqlite.Max will return NULL if there are no values, for this reason we use the Sqlite.Count before
-			int maxPSUniqueID = Sqlite.Max(Constants.PersonSessionTable, "uniqueID", false);
+			//SqliteGeneral.Sqlite.Max will return NULL if there are no values, for this reason we use the SqliteGeneral.Sqlite.Count before
+			int maxPSUniqueID = SqliteGeneral.Sqlite.Max(Constants.PersonSessionTable, "uniqueID", false);
 			psID = maxPSUniqueID + 1;
 		}
 
 		if (store.GetIterFirst(out iter)) 
 		{
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 			do {
 				val = (bool) store.GetValue (iter, 0);
 				//if checkbox of person is true
@@ -584,7 +584,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 				}
 			} while ( store.IterNext(ref iter) );
 		
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 			//do the transaction	
 			SqlitePersonSessionTransaction psTr = new SqlitePersonSessionTransaction(personSessions);
@@ -712,7 +712,7 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store, int sessionID, ArrayList initiallyUnchecked ) 
 	{
 		/*
-		   this is a bit weird because we use Sqlite.SelectAllPersonsRecuperable as inherithed methods 
+		   this is a bit weird because we use SqliteGeneral.Sqlite.SelectAllPersonsRecuperable as inherithed methods 
 		   that slq method needs a session where we want to search and a session not to search (current session)
 		   now here is different, we want to select persons from this session.
 		   we continue using method SelectAllPersonsRecuperable because we want same output columns
@@ -1491,7 +1491,7 @@ public class PersonAddModifyWindow
 	private void on_sport_add_accepted (object o, EventArgs args) {
 		genericWin.Button_accept.Clicked -= new EventHandler(on_sport_add_accepted);
 		string newSportName = genericWin.EntrySelected;
-		if(Sqlite.Exists(false, Constants.SportTable, newSportName) ||
+		if(SqliteGeneral.Sqlite.Exists(false, Constants.SportTable, newSportName) ||
 				newSportName == Catalog.GetString(Constants.SportUndefined) || //let's save problems
 				newSportName == Catalog.GetString(Constants.SportNone)		//let's save problems
 				)
@@ -1541,7 +1541,7 @@ public class PersonAddModifyWindow
 
 		bool personExists;
 		if(adding)
-			personExists = Sqlite.Exists (false, Constants.PersonTable, Util.RemoveTilde(personName));
+			personExists = SqliteGeneral.Sqlite.Exists (false, Constants.PersonTable, Util.RemoveTilde(personName));
 		else
 			personExists = SqlitePerson.ExistsAndItsNotMe (currentPerson.UniqueID, Util.RemoveTilde(personName));
 
@@ -1552,9 +1552,9 @@ public class PersonAddModifyWindow
 			//if weight has changed
 			if(!adding && (double) spinbutton_weight.Value != weightIni) {
 				//see if this person has done jumps with weight
-				string [] myJumpsNormal = SqliteJump.SelectJumps(false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "",
-						Sqlite.Orders_by.DEFAULT, -1);
-				string [] myJumpsReactive = SqliteJumpRj.SelectJumps(false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "");
+				string [] myJumpsNormal = SqliteGeneral.SqliteJump.SelectJumps(false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "",
+						SqliteGeneral.Sqlite.Orders_by.DEFAULT, -1);
+				string [] myJumpsReactive = SqliteGeneral.SqliteJumpRj.SelectJumps(false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "");
 
 				if(myJumpsNormal.Length > 0 || myJumpsReactive.Length > 0) {
 					//create the convertWeight Window
@@ -1591,15 +1591,15 @@ public class PersonAddModifyWindow
 		double weight = (double) spinbutton_weight.Value;
 
 		//convert margarias (it's power is calculated using weight and it's written on description)
-		string [] myMargarias = SqliteRun.SelectRuns(false, currentSession.UniqueID, currentPerson.UniqueID, "Margaria",
-				Sqlite.Orders_by.DEFAULT, -1);
+		string [] myMargarias = SqliteGeneral.SqliteRun.SelectRuns(false, currentSession.UniqueID, currentPerson.UniqueID, "Margaria",
+				SqliteGeneral.Sqlite.Orders_by.DEFAULT, -1);
 
 		foreach(string myStr in myMargarias) {
 			string [] margaria = myStr.Split(new char[] {':'});
-			Run mRun = SqliteRun.SelectRunData(Convert.ToInt32(margaria[1]), false);
+			Run mRun = SqliteGeneral.SqliteRun.SelectRunData(Convert.ToInt32(margaria[1]), false);
 			double distanceMeters = mRun.Distance / 1000;
 			mRun.Description = "P = " + Util.TrimDecimals ( (weight * 9.8 * distanceMeters / mRun.Time).ToString(), pDN) + " (Watts)";
-			SqliteRun.Update(mRun.UniqueID, mRun.Type, mRun.Distance.ToString(), mRun.Time.ToString(), mRun.PersonID, mRun.Description);
+			SqliteGeneral.SqliteRun.Update(mRun.UniqueID, mRun.Type, mRun.Distance.ToString(), mRun.Time.ToString(), mRun.PersonID, mRun.Description);
 		}
 
 
@@ -2130,10 +2130,10 @@ public class PersonAddMultipleWindow {
 		errorRepeatedEntryString = "";
 		personsCreatedCount = 0;
 
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		for (int i = 0; i < rows; i ++) 
 			checkEntries(i, ((Gtk.Entry)entries[i]).Text.ToString(), (int) ((Gtk.SpinButton)spins[i]).Value);
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	
 		checkAllEntriesAreDifferent();
 
@@ -2152,7 +2152,7 @@ public class PersonAddMultipleWindow {
 		
 	private void checkEntries(int count, string name, double weight) {
 		if(name.Length > 0) {
-			bool personExists = Sqlite.Exists (true, Constants.PersonTable, Util.RemoveTilde(name));
+			bool personExists = SqliteGeneral.Sqlite.Exists (true, Constants.PersonTable, Util.RemoveTilde(name));
 			if(personExists) {
 				errorExistsString += "[" + (count+1) + "] " + name + "\n";
 			}
@@ -2203,22 +2203,22 @@ public class PersonAddMultipleWindow {
 	void processAllNonBlankRows() 
 	{
 		int pID;
-		int countPersons = Sqlite.Count(Constants.PersonTable, false);
+		int countPersons = SqliteGeneral.Sqlite.Count(Constants.PersonTable, false);
 		if(countPersons == 0)
 			pID = 1;
 		else {
-			//Sqlite.Max will return NULL if there are no values, for this reason we use the Sqlite.Count before
-			int maxPUniqueID = Sqlite.Max(Constants.PersonTable, "uniqueID", false);
+			//SqliteGeneral.Sqlite.Max will return NULL if there are no values, for this reason we use the SqliteGeneral.Sqlite.Count before
+			int maxPUniqueID = SqliteGeneral.Sqlite.Max(Constants.PersonTable, "uniqueID", false);
 			pID = maxPUniqueID + 1;
 		}
 
 		int psID;
-		int countPersonSessions = Sqlite.Count(Constants.PersonSessionTable, false);
+		int countPersonSessions = SqliteGeneral.Sqlite.Count(Constants.PersonSessionTable, false);
 		if(countPersonSessions == 0)
 			psID = 1;
 		else {
-			//Sqlite.Max will return NULL if there are no values, for this reason we use the Sqlite.Count before
-			int maxPSUniqueID = Sqlite.Max(Constants.PersonSessionTable, "uniqueID", false);
+			//SqliteGeneral.Sqlite.Max will return NULL if there are no values, for this reason we use the SqliteGeneral.Sqlite.Count before
+			int maxPSUniqueID = SqliteGeneral.Sqlite.Max(Constants.PersonSessionTable, "uniqueID", false);
 			psID = maxPSUniqueID + 1;
 		}
 		

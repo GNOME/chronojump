@@ -68,7 +68,7 @@ public class Report : ExportSession
 
 		StatisticsData = new ArrayList(1);
 		
-		mySession = SqliteSession.Select(sessionID.ToString());
+		mySession = SqliteGeneral.SqliteSession.Select(sessionID.ToString());
 	}
 
 
@@ -96,35 +96,35 @@ public class Report : ExportSession
 		}
 
 		if(ShowCurrentSessionJumpers) {
-			myPersonsAndPS = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
+			myPersonsAndPS = SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
 		}
 		
 		//Leave SQL opened in all this process
-		Sqlite.Open(); // ------------------------------
+		SqliteGeneral.Sqlite.Open(); // ------------------------------
 		
 		if(ShowSimpleJumps) {
-			myJumps= SqliteJump.SelectJumps(true, sessionID, -1, "", "", 
+			myJumps= SqliteGeneral.SqliteJump.SelectJumps(true, sessionID, -1, "", "", 
 					Sqlite.Orders_by.DEFAULT, -1);
 		}
 		if(ShowReactiveJumps) {
-			myJumpsRj = SqliteJumpRj.SelectJumps(true, sessionID, -1, "", "");
+			myJumpsRj = SqliteGeneral.SqliteJumpRj.SelectJumps(true, sessionID, -1, "", "");
 		}
 		if(ShowSimpleRuns) {
-			myRuns= SqliteRun.SelectRuns(true, sessionID, -1, "",
+			myRuns= SqliteGeneral.SqliteRun.SelectRuns(true, sessionID, -1, "",
 					Sqlite.Orders_by.DEFAULT, -1);
 		}
 		if (ShowIntervalRuns) {
-			myRunsInterval = SqliteRunInterval.SelectRuns(true, sessionID, -1, "");
+			myRunsInterval = SqliteGeneral.SqliteRunInterval.SelectRuns(true, sessionID, -1, "");
 		}
 		if(ShowReactionTimes) {
-			myReactionTimes= SqliteReactionTime.SelectReactionTimes(true, sessionID, -1, "",
+			myReactionTimes= SqliteGeneral.SqliteReactionTime.SelectReactionTimes(true, sessionID, -1, "",
 					Sqlite.Orders_by.DEFAULT, -1);
 		}
 		if(ShowPulses) {
-			myPulses= SqlitePulse.SelectPulses(true, sessionID, -1);
+			myPulses= SqliteGeneral.SqlitePulse.SelectPulses(true, sessionID, -1);
 		}
 		
-		Sqlite.Close(); // ------------------------------
+		SqliteGeneral.Sqlite.Close(); // ------------------------------
 	}
 	
 	protected override void printTitles(string title) {
@@ -262,7 +262,7 @@ public class Report : ExportSession
 		ArrayList sendSelectedSessions = new ArrayList(1);
 		string [] sessionsStrFull = sessionsString.Split(new char[] {':'});
 		for (int j=0; j < sessionsStrFull.Length ; j++) {
-			Session tempSession = SqliteSession.Select(sessionsStrFull[j]);
+			Session tempSession = SqliteGeneral.SqliteSession.Select(sessionsStrFull[j]);
 			sendSelectedSessions.Add(tempSession.UniqueID + ":" + tempSession.Name + ":" + tempSession.DateShort);
 		}
 		return sendSelectedSessions;
@@ -405,7 +405,7 @@ public class Report : ExportSession
 	public int SessionID {
 		set { 
 			sessionID = value;
-			mySession = SqliteSession.Select(sessionID.ToString());
+			mySession = SqliteGeneral.SqliteSession.Select(sessionID.ToString());
 		}
 	}
 

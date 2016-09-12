@@ -27,28 +27,229 @@ using System.Diagnostics; 	//for launching other process
 
 using Mono.Unix;
 
-public sealed class SqliteForUser
+public sealed class SqliteGeneral
 {
-	private static readonly Sqlite instance = new Sqlite();
+	private static Sqlite m_sqliteGeneral;
+	private static SqlitePreferences m_sqlitePreferences;
+	private static SqliteJumpRj m_sqliteJumpRj;
+	private static SqliteJump m_sqliteJump;
+	private static SqliteRunInterval m_sqliteRunInterval;
+	private static SqlitePerson m_sqlitePerson;
+	private static SqliteExecuteAuto m_sqliteExecuteAuto;
+	private static SqlitePersonSession m_sqlitePersonSession;
+	private static SqliteRun m_sqliteRun;
+	private static SqliteRunIntervalType m_sqliteRunIntervalType;
+	private static SqliteRunType m_sqliteRunType;
+	private static SqliteReactionTime m_sqliteReactionTime;
+	private static SqlitePulse m_sqlitePulse;
+	private static SqlitePulseType m_sqlitePulseType;
+	private static SqliteMultiChronopic m_sqliteMultiChronopic;
+	private static SqliteSport m_sqliteSport;
+	private static SqliteSpeciallity m_sqliteSpeciallity;
+	private static SqliteJumpType m_sqliteJumpType;
+	private static SqliteSession m_sqliteSession;
+	private static SqliteServer m_sqliteServer;
+	private static SqliteServerSession m_sqliteServerSession;
+	private static SqlitePersonSessionNotUpload m_sqlitePersonSessionNotUpload;
+	private static SqliteEncoder m_sqliteEncoder;
+	private static SqliteEvent m_sqliteEvent;
 
-	// Explicit static constructor to tell C# compiler
-	// not to mark type as beforefieldinit
-	static SqliteForUser()
+	public SqliteGeneral()
 	{
+		m_sqliteGeneral = new Sqlite();
+		m_sqlitePreferences = new SqlitePreferences();
+		// TODO create the other ones!
+
 	}
 
-	private SqliteForUser()
-	{
-	}
-
-	public static Sqlite Instance
+	public static Sqlite Sqlite
 	{
 		get
 		{
-			return instance;
+			return m_sqliteGeneral;
 		}
 	}
-} 
+
+	public static SqlitePreferences SqlitePreferences
+	{
+		get
+		{
+			return m_sqlitePreferences;
+		}
+	}
+
+	public static SqliteJumpRj SqliteJumpRj
+	{
+		get
+		{
+			return m_sqliteJumpRj;
+		}
+	}
+
+	public static SqliteJump SqliteJump
+	{
+		get
+		{
+			return m_sqliteJump;
+		}
+	}
+
+	public static SqliteRunInterval SqliteRunInterval
+	{
+		get
+		{
+			return m_sqliteRunInterval;
+		}
+	}
+
+	public static SqlitePerson SqlitePerson
+	{
+		get
+		{
+			return m_sqlitePerson;
+		}
+	}
+
+	public static SqliteExecuteAuto SqliteExecuteAuto
+	{
+		get
+		{
+			return m_sqliteExecuteAuto;
+		}
+	}
+
+	public static SqlitePersonSession SqlitePersonSession
+	{
+		get
+		{
+			return m_sqlitePersonSession;
+		}
+	}
+
+	public static SqliteRun SqliteRun
+	{
+		get
+		{
+			return m_sqliteRun;
+		}
+	}
+
+	public static SqliteRunIntervalType SqliteRunIntervalType
+	{
+		get
+		{
+			return m_sqliteRunIntervalType;
+		}
+	}
+
+	public static SqliteRunType SqliteRunType
+	{
+		get
+		{
+			return m_sqliteRunType;
+		}
+	}
+	public static SqliteReactionTime SqliteReactionTime
+	{
+
+		get
+		{
+			return m_sqliteReactionTime;
+		}
+	}
+
+	public static SqlitePulse SqlitePulse
+	{
+		get
+		{
+			return m_sqlitePulse;
+		}
+	}
+
+	public static SqlitePulseType SqlitePulseType
+	{
+		get
+		{
+			return m_sqlitePulseType;
+		}
+	}
+
+	public static SqliteMultiChronopic SqliteMultiChronopic
+	{
+		get
+		{
+			return m_sqliteMultiChronopic;
+		}
+	}
+
+	public static SqliteSport SqliteSport
+	{
+		get
+		{
+			return m_sqliteSport;
+		}
+	}
+
+	public static SqliteSpeciallity SqliteSpeciallity
+	{
+		get
+		{
+			return m_sqliteSpeciallity;
+		}
+	}
+
+	public static SqliteJumpType SqliteJumpType
+	{
+		get
+		{
+			return m_sqliteJumpType;
+		}
+	}
+
+	public static SqliteSession SqliteSession
+	{
+		get
+		{
+			return m_sqliteSession;
+		}
+	}
+
+	public static SqliteServer SqliteServer
+	{
+		get
+		{
+			return m_sqliteServer;
+		}
+	}
+	public static SqliteServerSession SqliteServerSession
+	{
+		get
+		{
+			return m_sqliteServerSession;
+		}
+	}
+	public static SqlitePersonSessionNotUpload SqlitePersonSessionNotUpload
+	{
+		get
+		{
+			return m_sqlitePersonSessionNotUpload;
+		}
+	}
+	public static SqliteEncoder SqliteEncoder
+	{
+		get
+		{
+			return m_sqliteEncoder;
+		}
+	}
+	public static SqliteEvent SqliteEvent
+	{
+		get
+		{
+			return m_sqliteEvent;
+		}
+	}
+}
 
 public class Sqlite
 {
@@ -335,12 +536,12 @@ public class Sqlite
 	public bool IsSqlite3() {
 		if(sqlite3SelectWorks()){
 			LogB.SQL("SQLITE3");
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 			return true;
 		}
 		else if(sqlite2SelectWorks()) {
 			LogB.SQL("SQLITE2");
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 			//write sqlFile path on data/databasePath.txt
 			//TODO
 			//
@@ -349,27 +550,27 @@ public class Sqlite
 		}
 		else {
 			LogB.SQL("ERROR in sqlite detection");
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 			return false;
 		}
 	}
 	private bool sqlite3SelectWorks() {
 		try {
-			SqlitePreferences.Select("chronopicPort");
+			SqliteGeneral.SqlitePreferences.Select("chronopicPort");
 		} catch {
 			/*
 			try {
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				if(File.Exists(Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db"))
 					File.Move(Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db",
 							Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db");
 
 				dbcon.ConnectionString = connectionStringTemp;
 				dbcmd = dbcon.CreateCommand();
-				Sqlite.Open();
-				SqlitePreferences.Select("chronopicPort");
+				SqliteGeneral.Sqlite.Open();
+				SqliteGeneral.SqlitePreferences.Select("chronopicPort");
 			} catch {
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db"))
 					File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",
 							Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
@@ -384,14 +585,14 @@ public class Sqlite
 		/*
 		 *it says:
 		 Unhandled Exception: System.NotSupportedException: Only Sqlite Version 3 is supported at this time
-		   at Mono.Data.Sqlite.SqliteConnection.Open () [0x00000]
+		   at Mono.Data.SqliteGeneral.Sqlite.SqliteConnection.Open () [0x00000]
 		 *
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		connectionString = "version=2; URI=file:" + sqlFile;
 		dbcon.ConnectionString = connectionString;
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		try {
-			SqlitePreferences.Select("chronopicPort");
+			SqliteGeneral.SqlitePreferences.Select("chronopicPort");
 		} catch {
 			return false;
 		}
@@ -507,7 +708,7 @@ public class Sqlite
 
 		addChronopicPortNameIfNotExists();
 
-		currentVersion = SqlitePreferences.Select("databaseVersion");
+		currentVersion = SqliteGeneral.SqlitePreferences.Select("databaseVersion");
 
 		//LogB.SQL("lastDB: {0}", Convert.ToDouble(lastChronojumpDatabaseVersion));
 		//LogB.SQL("currentVersion: {0}", Convert.ToDouble(currentVersion));
@@ -539,86 +740,86 @@ public class Sqlite
 			SqlitePersonSessionOld sqlitePersonSessionOldObject = new SqlitePersonSessionOld();
 
 			if(currentVersion == "0.41") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
-				//SqlitePulse.createTable(Constants.PulseTable);
+				//SqliteGeneral.SqlitePulse.createTable(Constants.PulseTable);
 				sqlitePulseObject.createTable(Constants.PulseTable);
 				SqlitePulseType.createTablePulseType();
 				SqlitePulseType.initializeTablePulseType();
 
-				SqlitePreferences.Update ("databaseVersion", "0.42", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.42", true); 
 				LogB.SQL("Converted DB to 0.42 (added pulse and pulseType tables)");
 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.42";
 			}
 
 			if(currentVersion == "0.42") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				SqlitePulseType.Insert ("Free:-1:-1:free PulseStep mode", true); 
-				SqlitePreferences.Insert ("language", "es-ES"); 
-				SqlitePreferences.Update ("databaseVersion", "0.43", true); 
+				SqliteGeneral.SqlitePreferences.Insert ("language", "es-ES"); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.43", true); 
 				LogB.SQL("Converted DB to 0.43 (added 'free' pulseType & language peference)");
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.43";
 			}
 
 			if(currentVersion == "0.43") {
-				Sqlite.Open();
-				SqlitePreferences.Insert ("showQIndex", "False"); 
-				SqlitePreferences.Insert ("showDjIndex", "False"); 
-				SqlitePreferences.Update ("databaseVersion", "0.44", true); 
+				SqliteGeneral.Sqlite.Open();
+				SqliteGeneral.SqlitePreferences.Insert ("showQIndex", "False"); 
+				SqliteGeneral.SqlitePreferences.Insert ("showDjIndex", "False"); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.44", true); 
 				LogB.SQL("Converted DB to 0.44 (added showQIndex, showDjIndex)");
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.44";
 			}
 
 			if(currentVersion == "0.44") {
-				Sqlite.Open();
-				SqlitePreferences.Insert ("allowFinishRjAfterTime", "True"); 
-				SqlitePreferences.Update ("databaseVersion", "0.45", true); 
+				SqliteGeneral.Sqlite.Open();
+				SqliteGeneral.SqlitePreferences.Insert ("allowFinishRjAfterTime", "True"); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.45", true); 
 				LogB.SQL("Converted DB to 0.45 (added allowFinishRjAfterTime)");
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.45";
 			}
 
 			if(currentVersion == "0.45") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				SqliteJumpType.JumpTypeInsert ("Free:1:0:Free jump", true); 
-				SqlitePreferences.Update ("databaseVersion", "0.46", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.46", true); 
 				LogB.SQL("Added Free jump type");
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.46";
 			}
 
 			if(currentVersion == "0.46") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
-				//SqliteReactionTime.createTable(Constants.ReactionTimeTable);
+				//SqliteGeneral.SqliteReactionTime.createTable(Constants.ReactionTimeTable);
 				sqliteReactionTimeObject.createTable(Constants.ReactionTimeTable);
 
-				SqlitePreferences.Update ("databaseVersion", "0.47", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.47", true); 
 				LogB.SQL("Added reaction time table");
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.47";
 			}
 
 			if(currentVersion == "0.47") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
-				//SqliteJumpRj.createTable(Constants.TempJumpRjTable);
+				//SqliteGeneral.SqliteJumpRj.createTable(Constants.TempJumpRjTable);
 				sqliteJumpRjObject.createTable(Constants.TempJumpRjTable);
-				//SqliteRun.intervalCreateTable(Constants.TempRunIntervalTable);
+				//SqliteGeneral.SqliteRun.intervalCreateTable(Constants.TempRunIntervalTable);
 				sqliteRunIntervalObject.createTable(Constants.TempRunIntervalTable);
 
-				SqlitePreferences.Update ("databaseVersion", "0.48", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.48", true); 
 				LogB.SQL("created tempJumpReactive and tempRunInterval tables");
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.48";
 			}
 
 			if(currentVersion == "0.48") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
 				SqliteJumpType.JumpTypeInsert ("Rocket:1:0:Rocket jump", true); 
 
@@ -642,66 +843,66 @@ public class Sqlite
 				SqliteEvent.createGraphLinkTable();
 				SqliteRunType.AddGraphLinksRunSimpleAgility();	
 
-				SqlitePreferences.Update ("databaseVersion", "0.49", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.49", true); 
 				LogB.SQL("Added graphLinkTable, added Rocket jump and 5 agility tests: (20Yard, 505, Illinois, Shuttle-Run & ZigZag. Added graphs pof the 5 agility tests)");
 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.49";
 			}
 
 			if(currentVersion == "0.49") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				SqliteJumpType.Update ("SJ+", "SJl"); 
 				SqliteJumpType.Update ("CMJ+", "CJl"); 
 				SqliteJumpType.Update ("ABK+", "ABKl"); 
-				SqliteJump.ChangeWeightToL();
+				SqliteGeneral.SqliteJump.ChangeWeightToL();
 				SqliteJumpType.AddGraphLinks();	
 				SqliteJumpType.AddGraphLinksRj();	
-				SqlitePreferences.Update ("databaseVersion", "0.50", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.50", true); 
 				LogB.SQL("changed SJ+ to SJl, same for CMJ+ and ABK+, added jump and jumpRj graph links");
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.50";
 			}
 
 			if(currentVersion == "0.50") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				SqliteRunType.AddGraphLinksRunSimple();	
 				SqliteRunIntervalType.AddGraphLinksRunInterval();	
-				SqlitePreferences.Update ("databaseVersion", "0.51", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.51", true); 
 				LogB.SQL("added graphLinks for run simple and interval");
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.51";
 			}
 
 			if(currentVersion == "0.51") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				SqliteJumpType.Update ("CJl", "CMJl"); 
 				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJl", "jump_cmj_l.png", true);
 				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABKl", "jump_abk_l.png", true);
-				SqlitePreferences.Update ("databaseVersion", "0.52", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.52", true); 
 				LogB.SQL("added graphLinks for cmj_l and abk_l, fixed CMJl name");
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.52";
 			}
 			
 			if(currentVersion == "0.52") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				sqlitePersonSessionOldObject.createTable (); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				
 				//this needs the dbCon closed
 				SqlitePersonSessionOld.moveOldTableToNewTable (); 
 				
-				Sqlite.Open();
-				SqlitePreferences.Update ("databaseVersion", "0.53", true); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Open();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.53", true); 
+				SqliteGeneral.Sqlite.Close();
 				
 				LogB.SQL("created weightSession table. Moved person weight data to weightSession table for each session that has performed");
 				currentVersion = "0.53";
 			}
 			
 			if(currentVersion == "0.53") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
 				SqliteSport.createTable();
 				SqliteSport.initialize();
@@ -711,36 +912,36 @@ public class Sqlite
 				//SqlitePersonOld.convertTableToSportRelated (); 
 				needToConvertPersonToSport = true;
 				
-				SqlitePreferences.Update ("databaseVersion", "0.54", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.54", true); 
+				SqliteGeneral.Sqlite.Close();
 				
 				LogB.SQL("Created sport tables. Added sport data, speciallity and level of practice to person table");
 				currentVersion = "0.54";
 			}
 			if(currentVersion == "0.54") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
 				SqliteSpeciallity.InsertUndefined(true);
 
-				SqlitePreferences.Update ("databaseVersion", "0.55", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.55", true); 
+				SqliteGeneral.Sqlite.Close();
 				
 				LogB.SQL("Added undefined to speciallity table");
 				currentVersion = "0.55";
 			}
 			if(currentVersion == "0.55") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
 				SqliteSessionOld.convertTableAddingSportStuff();
 
-				SqlitePreferences.Update ("databaseVersion", "0.56", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.56", true); 
+				SqliteGeneral.Sqlite.Close();
 				
 				LogB.SQL("Added session default sport stuff into session table");
 				currentVersion = "0.56";
 			}
 			if(currentVersion == "0.56") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
 				//jump and jumpRj
 				ArrayList arrayAngleAndSimulated = new ArrayList(1);
@@ -776,9 +977,9 @@ public class Sqlite
 
 				//reacreate temp tables for have also the simulated column
 				conversionRate ++;
-				Sqlite.dropTable(Constants.TempJumpRjTable);
+				SqliteGeneral.Sqlite.dropTable(Constants.TempJumpRjTable);
 				sqliteJumpRjObject.createTable(Constants.TempJumpRjTable);
-				Sqlite.dropTable(Constants.TempRunIntervalTable);
+				SqliteGeneral.Sqlite.dropTable(Constants.TempRunIntervalTable);
 				sqliteRunIntervalObject.createTable(Constants.TempRunIntervalTable);
 
 				conversionRate ++;
@@ -801,20 +1002,20 @@ public class Sqlite
 				arrayPersonRaceCountryServerID.Add(Constants.ServerUndefinedID.ToString());
 				convertTables(new SqlitePersonOld(), Constants.PersonOldTable, columnsBefore, arrayPersonRaceCountryServerID, putDescriptionInMiddle);
 
-				SqlitePreferences.Update ("databaseVersion", "0.57", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.57", true); 
+				SqliteGeneral.Sqlite.Close();
 				
 				LogB.SQL("Added simulated column to each event table on client. Added to person: race, country, serverUniqueID. Convert to sport related done here if needed. Added also run and runInterval initial speed");
 				currentVersion = "0.57";
 			}
 			if(currentVersion == "0.57") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 		
 				//check if "republic" is in country table
 				if(SqliteCountry.TableHasOldRepublicStuff()){
 					conversionRateTotal = 4;
 					conversionRate = 1;
-					Sqlite.dropTable(Constants.CountryTable);
+					SqliteGeneral.Sqlite.dropTable(Constants.CountryTable);
 					conversionRate ++;
 					SqliteCountry.createTable();
 					conversionRate ++;
@@ -823,36 +1024,36 @@ public class Sqlite
 					LogB.SQL("Countries without kingdom or republic (except when needed)");
 				}
 				
-				SqlitePreferences.Update ("databaseVersion", "0.58", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.58", true); 
+				SqliteGeneral.Sqlite.Close();
 				
 				currentVersion = "0.58";
 			}
 
 			if(currentVersion == "0.58") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				conversionRateTotal = 2;
 				conversionRate = 1;
-				SqlitePreferences.Insert ("showAngle", "False"); 
+				SqliteGeneral.SqlitePreferences.Insert ("showAngle", "False"); 
 				alterTableColumn(new SqliteJump(), Constants.JumpTable, 11);
 
 				//jump fall is also converted to double (don't need to do at conversion to 0.76)
 				jumpFallAsDouble = true;
 
-				SqlitePreferences.Update ("databaseVersion", "0.59", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.59", true); 
 				LogB.SQL("Converted DB to 0.59 (added 'showAngle' to preferences, changed angle on jump to double)"); 
 				conversionRate = 2;
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.59";
 			}
 
 			if(currentVersion == "0.59") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				conversionRateTotal = 4;
 
 				conversionRate = 1;
-				SqlitePreferences.Insert ("volumeOn", "True"); 
-				SqlitePreferences.Insert ("evaluatorServerID", "-1");
+				SqliteGeneral.SqlitePreferences.Insert ("volumeOn", "True"); 
+				SqliteGeneral.SqlitePreferences.Insert ("evaluatorServerID", "-1");
 
 				conversionRate = 2;
 			
@@ -864,16 +1065,16 @@ public class Sqlite
 				conversionRate = 3;
 				SqliteEvent.SimulatedConvertToNegative();
 
-				SqlitePreferences.Update ("databaseVersion", "0.60", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.60", true); 
 				LogB.SQL("Converted DB to 0.60 (added volumeOn and evaluatorServerID to preferences. session has now serverUniqueID. Simulated now are -1, because 0 is real and positive is serverUniqueID)"); 
 				
 				conversionRate = 4;
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.60";
 			}
 
 			if(currentVersion == "0.60") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				conversionRateTotal = 3;
 				conversionRate = 1;
 
@@ -894,31 +1095,31 @@ public class Sqlite
 				type.DistancesString = "1-7-19";
 				SqliteRunIntervalType.Insert(type, Constants.RunIntervalTypeTable, true);
 				
-				SqlitePreferences.Update ("databaseVersion", "0.61", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.61", true); 
 				LogB.SQL("Converted DB to 0.61 added RunIntervalType distancesString (now we van have interval tests with different distances of tracks). Added MTGUG");
 				
 				conversionRate = 3;
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.61";
 			}
 			if(currentVersion == "0.61") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				SqliteJumpType.JumpRjTypeInsert ("RJ(hexagon):1:0:1:18:Reactive Jump on a hexagon until three full revolutions are done", true);
-				SqlitePreferences.Update ("databaseVersion", "0.62", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.62", true); 
 				LogB.SQL("Converted DB to 0.62 added hexagon");
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.62";
 			}
 			if(currentVersion == "0.62") {
-				Sqlite.Open();
-				SqlitePreferences.Insert ("versionAvailable", "");
-				SqlitePreferences.Update ("databaseVersion", "0.63", true); 
+				SqliteGeneral.Sqlite.Open();
+				SqliteGeneral.SqlitePreferences.Insert ("versionAvailable", "");
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.63", true); 
 				LogB.SQL("Converted DB to 0.63 (added 'versionAvailable' to preferences)"); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.63";
 			}
 			if(currentVersion == "0.63") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				RunType type = new RunType();
 				type.Name = "Margaria";
@@ -927,60 +1128,60 @@ public class Sqlite
 				SqliteRunType.Insert(type, Constants.RunTypeTable, true);
 
 				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Margaria", "margaria.png", true);
-				SqlitePreferences.Update ("databaseVersion", "0.64", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.64", true); 
 				
 				LogB.SQL("Converted DB to 0.64 (added margaria test)"); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.64";
 			}
 			if(currentVersion == "0.64") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				SqliteServer sqliteServerObject = new SqliteServer();
 				//user has also an evaluator table with a row (it's row)	
 				sqliteServerObject.CreateEvaluatorTable();
 
-				SqlitePreferences.Update ("databaseVersion", "0.65", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.65", true); 
 				
 				LogB.SQL("Converted DB to 0.65 (added Sevaluator on client)"); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.65";
 			}
 			if(currentVersion == "0.65") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				//now runAnalysis is a multiChronopic event
 				//SqliteJumpType.JumpRjTypeInsert ("RunAnalysis:0:0:1:-1:Run between two photocells recording contact and flight times in contact platform/s. Until finish button is clicked.", true);
 
-				SqlitePreferences.Update ("databaseVersion", "0.66", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.66", true); 
 				
 				//LogB.SQL("Converted DB to 0.66 (added RunAnalysis Reactive jump)"); 
 				LogB.SQL("Converted DB to 0.66 (done nothing)"); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.66";
 			}
 			if(currentVersion == "0.66") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				SqliteJumpType.JumpTypeInsert ("TakeOff:0:0:Take off", true);
 				SqliteJumpType.JumpTypeInsert ("TakeOffWeight:0:0:Take off with weight", true);
 
-				SqlitePreferences.Update ("databaseVersion", "0.67", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.67", true); 
 				
 				LogB.SQL("Converted DB to 0.67 (added TakeOff jumps)"); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.67";
 			}
 			if(currentVersion == "0.67") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				sqliteMultiChronopicObject.createTable(Constants.MultiChronopicTable);
 
-				SqlitePreferences.Update ("databaseVersion", "0.68", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.68", true); 
 				
 				LogB.SQL("Converted DB to 0.68 (added multiChronopic tests table)"); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.68";
 			}
 			if(currentVersion == "0.68") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				RunType type = new RunType();
 				type.Name = "Gesell-DBT";
@@ -989,51 +1190,51 @@ public class Sqlite
 				SqliteRunType.Insert(type, Constants.RunTypeTable, true);
 
 				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Gesell-DBT", "gesell_dbt.png", true);
-				SqlitePreferences.Update ("databaseVersion", "0.69", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.69", true); 
 				
 				LogB.SQL("Converted DB to 0.69 (added Gesell-DBT test)"); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.69";
 			}
 			if(currentVersion == "0.69") {
-				Sqlite.Open();
-				SqlitePreferences.Insert ("showPower", "True"); 
-				SqlitePreferences.Update ("databaseVersion", "0.70", true); 
+				SqliteGeneral.Sqlite.Open();
+				SqliteGeneral.SqlitePreferences.Insert ("showPower", "True"); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.70", true); 
 				LogB.SQL("Converted DB to 0.70 (added showPower)");
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.70";
 			}
 			if(currentVersion == "0.70") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				SqlitePersonSessionNotUpload.CreateTable();
 
-				SqlitePreferences.Update ("databaseVersion", "0.71", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.71", true); 
 				
 				LogB.SQL("Converted DB to 0.71 (created personNotUploadTable on client)"); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.71";
 			}
 			if(currentVersion == "0.71") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				datesToYYYYMMDD();
 
-				SqlitePreferences.Update ("databaseVersion", "0.72", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.72", true); 
 				
 				LogB.SQL("Converted DB to 0.72 (dates to YYYY-MM-DD)"); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.72";
 			}
 			if(currentVersion == "0.72") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				deleteOrphanedPersonsOld();
 
-				SqlitePreferences.Update ("databaseVersion", "0.73", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.73", true); 
 				
 				LogB.SQL("Converted DB to 0.73 (deleted orphaned persons (in person table but not in personSessionWeight table)"); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.73";
 			}
 			if(currentVersion == "0.73") {
@@ -1041,34 +1242,34 @@ public class Sqlite
 				
 				convertDJInDJna();
 
-				SqlitePreferences.Update ("databaseVersion", "0.74", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.74", true); 
 				
 				LogB.SQL("Converted DB to 0.74 (All DJ converted to DJna)"); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.74";
 			}
 			if(currentVersion == "0.74") {
 				conversionRateTotal = 3;
 				conversionRate = 1;
 				
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
 				convertTables(new SqlitePersonOld(), Constants.PersonOldTable, 13, new ArrayList(), false);
 				conversionRate++;
 				
 				convertTables(new SqlitePersonSessionOld(), Constants.PersonSessionOldWeightTable, 4, new ArrayList(), false);
 
-				SqlitePreferences.Update ("databaseVersion", "0.75", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.75", true); 
 				conversionRate++;
 				
 				LogB.SQL("Converted DB to 0.75 (person, and personSessionWeight have height and weight as double)"); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.75";
 			}
 			if(currentVersion == "0.75") {
 				conversionRateTotal = 3;
 				conversionRate = 1;
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
 				if(!jumpFallAsDouble)
 					alterTableColumn(new SqliteJump(), Constants.JumpTable, 11);
@@ -1077,51 +1278,51 @@ public class Sqlite
 				
 				alterTableColumn(new SqliteJumpRj(), Constants.JumpRjTable, 18);
 				
-				SqlitePreferences.Update ("databaseVersion", "0.76", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.76", true); 
 				conversionRate++;
 				
 				LogB.SQL("Converted DB to 0.76 (jump & jumpRj falls as double)"); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.76";
 			}
 			if(currentVersion == "0.76") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				convertPersonAndPersonSessionTo77();
-				SqlitePreferences.Update ("databaseVersion", "0.77", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.77", true); 
 				LogB.SQL("Converted DB to 0.77 (person77, personSession77)"); 
 				
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.77";
 			}
 			if(currentVersion == "0.77") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
 				SqliteJumpType.UpdateOther ("weight", Constants.TakeOffWeightName, "1"); 
 
 				Random rnd = new Random();
 				string machineID = rnd.Next().ToString();
-				SqlitePreferences.Insert ("machineID", machineID); 
+				SqliteGeneral.SqlitePreferences.Insert ("machineID", machineID); 
 
-				SqlitePreferences.Update ("databaseVersion", "0.78", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.78", true); 
 				LogB.SQL("Converted DB to 0.78 (Added machineID to preferences, takeOffWeight has no weight in db conversions since 0.66)"); 
 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.78";
 			}
 			if(currentVersion == "0.78") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
-				SqlitePreferences.Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString());
+				SqliteGeneral.SqlitePreferences.Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString());
 
-				SqlitePreferences.Update ("databaseVersion", "0.79", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.79", true); 
 				LogB.SQL("Converted DB to 0.79 (Added multimediaStorage structure id)"); 
 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.79";
 			}
 			if(currentVersion == "0.79") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
 	 			if(! runAndRunIntervalInitialSpeedAdded) {
 					ArrayList myArray = new ArrayList(1);
@@ -1136,45 +1337,45 @@ public class Sqlite
 					LogB.SQL("Converted DB to 0.80 Added run and runInterval initial speed (if not done in 0.56 conversion)"); 
 				}
 
-				SqlitePreferences.Update ("databaseVersion", "0.80", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.80", true); 
 				
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.80";
 			}
 			if(currentVersion == "0.80") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
 				ArrayList myArray = new ArrayList(1);
 				myArray.Add("0"); //initial speed
 				
 				conversionRateTotal = 2;
 				conversionRate = 1;
-				Sqlite.dropTable(Constants.TempRunIntervalTable);
+				SqliteGeneral.Sqlite.dropTable(Constants.TempRunIntervalTable);
 				sqliteRunIntervalObject.createTable(Constants.TempRunIntervalTable);
 				conversionRate ++;
 				LogB.SQL("Converted DB to 0.81 Added tempRunInterval initial speed"); 
 
-				SqlitePreferences.Update ("databaseVersion", "0.81", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.81", true); 
 				
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.81";
 			}
 			if(currentVersion == "0.81") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				conversionRateTotal = 2;
 
 				conversionRate = 1;
-				SqlitePreferences.Insert ("videoOn", "False"); 
+				SqliteGeneral.SqlitePreferences.Insert ("videoOn", "False"); 
 				conversionRate = 2;
 				LogB.SQL("Converted DB to 0.82 Added videoOn"); 
 
-				SqlitePreferences.Update ("databaseVersion", "0.82", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.82", true); 
 				
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.82";
 			}
 			if(currentVersion == "0.82") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				conversionRateTotal = 2;
 				
 				conversionRate = 1;
@@ -1184,12 +1385,12 @@ public class Sqlite
 				conversionRate = 2;
 				LogB.SQL("Created encoder tables.");
 
-				SqlitePreferences.Update ("databaseVersion", "0.83", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.83", true); 
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.83";
 			}
 			if(currentVersion == "0.83") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				RunType type = new RunType();
 				type.Name = "RSA 8-4-R3-5";
@@ -1203,39 +1404,39 @@ public class Sqlite
 
 				LogB.SQL("Added 1st RSA test.");
 
-				SqlitePreferences.Update ("databaseVersion", "0.84", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.84", true); 
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.84";
 			}
 			if(currentVersion == "0.84") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				SqliteJumpType.JumpTypeInsert ("slCMJ:1:0:Single-leg CMJ jump", true);
 
-				SqlitePreferences.Update ("databaseVersion", "0.85", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.85", true); 
 				
 				LogB.SQL("Converted DB to 0.85 (added slCMJ jump)"); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.85";
 			}
 			if(currentVersion == "0.85") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				LogB.SQL("Converted DB to 0.86 videoOn: TRUE"); 
 
-				SqlitePreferences.Update("videoOn", "True", true);
-				SqlitePreferences.Update ("databaseVersion", "0.86", true); 
+				SqliteGeneral.SqlitePreferences.Update("videoOn", "True", true);
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.86", true); 
 				
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.86";
 			}
 			if(currentVersion == "0.86") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				LogB.SQL("Added run speed start preferences on sqlite"); 
 
-				SqlitePreferences.Insert ("runSpeedStartArrival", "True");
-				SqlitePreferences.Insert ("runISpeedStartArrival", "True");
-				SqlitePreferences.Update ("databaseVersion", "0.87", true); 
+				SqliteGeneral.SqlitePreferences.Insert ("runSpeedStartArrival", "True");
+				SqliteGeneral.SqlitePreferences.Insert ("runISpeedStartArrival", "True");
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.87", true); 
 				
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "0.87";
 			}
 			if(currentVersion == "0.87") {
@@ -1243,7 +1444,7 @@ public class Sqlite
 				SqliteRunIntervalType.Delete("RSA 8-4-R3-5");
 
 				//delete all it's runs
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				dbcmd.CommandText = "DELETE FROM " + Constants.RunIntervalTable +
 					" WHERE type == \"RSA 8-4-R3-5\"";
 				LogB.SQL(dbcmd.CommandText.ToString());
@@ -1255,95 +1456,95 @@ public class Sqlite
 
 				LogB.SQL("Deleted fake RSA test and added known RSA tests.");
 				
-				SqlitePreferences.Update ("databaseVersion", "0.88", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.88", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "0.88";
 			}
 			if(currentVersion == "0.88") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 	
 				SqliteEncoder.addEncoderFreeExercise();
 				
 				LogB.SQL("Added encoder exercise: Free");
 				
-				SqlitePreferences.Update ("databaseVersion", "0.89", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.89", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "0.89";
 			}
 			if(currentVersion == "0.89") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 	
-				SqlitePreferences.Insert("encoderPropulsive", "True");
-				SqlitePreferences.Insert("encoderSmoothEccCon", "0.6");
-				SqlitePreferences.Insert("encoderSmoothCon", "0.7");
+				SqliteGeneral.SqlitePreferences.Insert("encoderPropulsive", "True");
+				SqliteGeneral.SqlitePreferences.Insert("encoderSmoothEccCon", "0.6");
+				SqliteGeneral.SqlitePreferences.Insert("encoderSmoothCon", "0.7");
 				LogB.SQL("Preferences added propulsive and encoder smooth");
 				
-				SqlitePreferences.Update ("databaseVersion", "0.90", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.90", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "0.90";
 			}
 			if(currentVersion == "0.90") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				SqliteEncoder.UpdateExercise(true, "Squat", "Squat", 100, "weight bar", "", "");	
 				LogB.SQL("Encoder Squat 75% -> 100%");
 				
-				SqlitePreferences.Update ("databaseVersion", "0.91", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.91", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "0.91";
 			}
 			if(currentVersion == "0.91") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
-				SqlitePreferences.Insert("videoDevice", "0");
+				SqliteGeneral.SqlitePreferences.Insert("videoDevice", "0");
 				LogB.SQL("Added videoDevice to preferences");
 				
-				SqlitePreferences.Update ("databaseVersion", "0.92", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.92", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "0.92";
 			}
 			if(currentVersion == "0.92") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				SqliteEncoder.UpdateExercise(true, "Bench press", "Bench press", 0, "weight bar", "","0.185");
 				SqliteEncoder.UpdateExercise(true, "Squat", "Squat", 100, "weight bar", "","0.31");
 				LogB.SQL("Added speed1RM on encoder exercise");
 				
-				SqlitePreferences.Update ("databaseVersion", "0.93", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.93", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "0.93";
 			}
 			if(currentVersion == "0.93") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				SqliteEncoder.createTable1RM();
 				LogB.SQL("Added encoder1RM table");
 				
-				SqlitePreferences.Update ("databaseVersion", "0.94", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.94", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "0.94";
 			}
 			if(currentVersion == "0.94") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
-				SqlitePreferences.Insert ("encoder1RMMethod", 
+				SqliteGeneral.SqlitePreferences.Insert ("encoder1RMMethod", 
 						Constants.Encoder1RMMethod.WEIGHTED2.ToString());
 				LogB.SQL("Added encoder1RMMethod");
 				
-				SqlitePreferences.Update ("databaseVersion", "0.95", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.95", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "0.95";
 			}
 			if(currentVersion == "0.95") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				Update(true, Constants.EncoderTable, "future3", "", Constants.EncoderConfigurationNames.LINEAR.ToString(), 
 						"signalOrCurve", "signal");
@@ -1354,24 +1555,24 @@ public class Sqlite
 
 				LogB.SQL("Encoder signal future3 three modes");
 				
-				SqlitePreferences.Update ("databaseVersion", "0.96", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.96", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "0.96";
 			}
 			if(currentVersion == "0.96") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
-				SqlitePreferences.Insert ("inertialmomentum", "0.01");
+				SqliteGeneral.SqlitePreferences.Insert ("inertialmomentum", "0.01");
 				LogB.SQL("Added inertialmomentum in preferences");
 				
-				SqlitePreferences.Update ("databaseVersion", "0.97", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.97", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "0.97";
 			}
 			if(currentVersion == "0.97") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				Update(true, Constants.EncoderTable, "laterality", "both", "RL", "", "");
 				Update(true, Constants.EncoderTable, "laterality", "Both", "RL", "", "");
@@ -1384,13 +1585,13 @@ public class Sqlite
 				Update(true, Constants.EncoderTable, "laterality", Catalog.GetString("Left"), "L", "", "");
 				LogB.SQL("Fixed encoder laterality");
 				
-				SqlitePreferences.Update ("databaseVersion", "0.98", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.98", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "0.98";
 			}
 			if(currentVersion == "0.98") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 		
 				ArrayList array = SqliteOldConvert.EncoderSelect098(true,-1,-1,-1,"all",false);
 				
@@ -1428,37 +1629,37 @@ public class Sqlite
 
 				conversionRate = count;
 				LogB.SQL("Encoder table improved");
-				SqlitePreferences.Update ("databaseVersion", "0.99", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.99", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "0.99";
 			}
 			if(currentVersion == "0.99") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 
 				SqliteEncoder.putEncoderExerciseAnglesAt90();
 				SqliteEncoder.addEncoderJumpExercise();
 				SqliteEncoder.addEncoderInclinedExercises();
 
 				LogB.SQL("Added Free and inclinedExercises");
-				SqlitePreferences.Update ("databaseVersion", "1.00", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.00", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.00";
 			}
 			if(currentVersion == "1.00") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 			
-				SqlitePreferences.Insert ("CSVExportDecimalSeparator", Util.GetDecimalSeparatorFromLocale());
+				SqliteGeneral.SqlitePreferences.Insert ("CSVExportDecimalSeparator", Util.GetDecimalSeparatorFromLocale());
 
 				LogB.SQL("Added export to CSV configuration on preferences");
-				SqlitePreferences.Update ("databaseVersion", "1.01", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.01", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.01";
 			}
 			if(currentVersion == "1.01") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 			
 				RunType type = new RunType("Agility-T-Test");
 				SqliteRunType.Insert(type, Constants.RunTypeTable, true);
@@ -1466,25 +1667,25 @@ public class Sqlite
 				SqliteRunIntervalType.Insert(type, Constants.RunIntervalTypeTable, true);
 
 				LogB.SQL("Added Agility Tests: Agility-T-Test, Agility-3l3R");
-				SqlitePreferences.Update ("databaseVersion", "1.02", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.02", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.02";
 			}
 			if(currentVersion == "1.02") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 		
 				DeleteFromName(true, Constants.EncoderExerciseTable, "Inclinated plane Custom");
 				SqliteEncoder.removeEncoderExerciseAngles();
 
 				LogB.SQL("Updated encoder exercise, angle is now on encoder configuration");
-				SqlitePreferences.Update ("databaseVersion", "1.03", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.03", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.03";
 			}
 			if(currentVersion == "1.03") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 		
 				ArrayList array = SqliteOldConvert.EncoderSelect103(true,-1,-1,-1,"all",false);
 				
@@ -1525,13 +1726,13 @@ public class Sqlite
 
 				conversionRate = count;
 				LogB.SQL("Encoder table improved");
-				SqlitePreferences.Update ("databaseVersion", "1.04", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.04", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.04";
 			}
 			if(currentVersion == "1.04") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				dbcmd.CommandText = "DELETE FROM " + Constants.EncoderTable + 
 					" WHERE encoderConfiguration LIKE \"%INERTIAL%\" AND " +
@@ -1540,13 +1741,13 @@ public class Sqlite
 				dbcmd.ExecuteNonQuery();
 
 				LogB.SQL("Removed inertial curves, because sign was not checked on 1.04 when saving curves");
-				SqlitePreferences.Update ("databaseVersion", "1.05", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.05", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.05";
 			}
 			if(currentVersion == "1.05") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 		
 				SqliteEncoder.createTableEncoderSignalCurve();
 
@@ -1597,7 +1798,7 @@ public class Sqlite
 									exists = true;
 							if(exists) {
 								//delete this (newer will not be deleted)
-								Sqlite.Delete(true, 
+								SqliteGeneral.Sqlite.Delete(true, 
 										Constants.EncoderTable, Convert.ToInt32(c.uniqueID));
 							} else {
 								curvesStored.Add(msCentral);
@@ -1611,47 +1812,47 @@ public class Sqlite
 				conversionSubRate ++;
 				conversionRate ++;
 				LogB.SQL("Curves are now linked to signals");
-				SqlitePreferences.Update ("databaseVersion", "1.06", true); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.06", true); 
 				
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 				currentVersion = "1.06";
 			}
 			if(currentVersion == "1.06") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 			
 				Update(true, Constants.GraphLinkTable, "graphFileName", "jump_dj.png", "jump_dj_a.png",
 						"eventName", "DJa");
 				
 				LogB.SQL("Added jump_dj_a.png");
-				SqlitePreferences.Update ("databaseVersion", "1.07", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.07", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.07";
 			}
 			if(currentVersion == "1.07") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 			
 				LogB.SQL("Added translate statistics graph option to preferences");
 				
-				SqlitePreferences.Insert ("RGraphsTranslate", "True"); 
-				SqlitePreferences.Update ("databaseVersion", "1.08", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Insert ("RGraphsTranslate", "True"); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.08", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.08";
 			}
 			if(currentVersion == "1.08") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 			
 				LogB.SQL("Added option on preferences to useHeightsOnJumpIndexes (default) or not");
 				
-				SqlitePreferences.Insert ("useHeightsOnJumpIndexes", "True"); 
-				SqlitePreferences.Update ("databaseVersion", "1.09", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Insert ("useHeightsOnJumpIndexes", "True"); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.09", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.09";
 			}
 			if(currentVersion == "1.09") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 			
 				LogB.SQL("Added RSA RAST on runType");
 
@@ -1675,138 +1876,138 @@ public class Sqlite
 					addedRSA = true;
 				}
 				
-				SqlitePreferences.Update ("databaseVersion", "1.10", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.10", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.10";
 			}
 			if(currentVersion == "1.10") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 			
 				LogB.SQL("Added option on autosave curves on capture (all/bestmeanpower/none)");
 				
-				SqlitePreferences.Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString()); 
-				SqlitePreferences.Update ("databaseVersion", "1.11", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString()); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.11", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.11";
 			}
 			if(currentVersion == "1.11") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 			
 				LogB.SQL("URLs from absolute to relative)");
 				
 				SqliteOldConvert.ConvertAbsolutePathsToRelative(); 
-				SqlitePreferences.Update ("databaseVersion", "1.12", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.12", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.12";
 			}
 			if(currentVersion == "1.12") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 			
 				LogB.SQL("Added ExecuteAuto table");
 				
 				SqliteExecuteAuto.createTableExecuteAuto();
-				SqlitePreferences.Update ("databaseVersion", "1.13", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.13", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.13";
 			}
 			if(currentVersion == "1.13") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 			
 				LogB.SQL("slCMJ -> slCMJleft, slCMJright");
 
 				SqliteOldConvert.slCMJDivide();
-				SqlitePreferences.Update ("databaseVersion", "1.14", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.14", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.14";
 			}
 			if(currentVersion == "1.14") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 			
 				LogB.SQL("added Chronojump profile and bilateral profile");
 
 				SqliteExecuteAuto.addChronojumpProfileAndBilateral();
-				SqlitePreferences.Update ("databaseVersion", "1.15", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.15", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.15";
 			}
 			if(currentVersion == "1.15") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 			
 				LogB.SQL("Cyprus moved to Europe");
 
 				Update(true, Constants.CountryTable, "continent", "Asia", "Europe", "code", "CYP"); 
-				SqlitePreferences.Update ("databaseVersion", "1.16", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.16", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.16";
 			}
 			if(currentVersion == "1.16") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 			
 				LogB.SQL("Deleting Max jump");
 
 				Update(true, Constants.JumpTable, "type", "Max", "Free", "", ""); 
 				DeleteFromName(true, Constants.JumpTypeTable, "Max");
-				SqlitePreferences.Update ("databaseVersion", "1.17", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.17", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.17";
 			}
 			if(currentVersion == "1.17") {
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 			
 				LogB.SQL("Deleted Negative runInterval runs (bug from last version)");
 
 				SqliteOldConvert.deleteNegativeRuns();
-				SqlitePreferences.Update ("databaseVersion", "1.18", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.18", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.18";
 			}
 			if(currentVersion == "1.18") {
 				LogB.SQL("Preferences deleted showHeight, added showStiffness");
 				
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				DeleteFromName(true, Constants.PreferencesTable, "showHeight");
-				SqlitePreferences.Insert ("showStiffness", "True"); 
-				SqlitePreferences.Update ("databaseVersion", "1.19", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Insert ("showStiffness", "True"); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.19", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.19";
 			}
 			if(currentVersion == "1.19") {
 				LogB.SQL("Preferences: added user email");
 				
-				Sqlite.Open();
-				SqlitePreferences.Insert ("email", ""); 
-				SqlitePreferences.Update ("databaseVersion", "1.20", true); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Open();
+				SqliteGeneral.SqlitePreferences.Insert ("email", ""); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.20", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.20";
 			}
 			if(currentVersion == "1.20") {
 				LogB.SQL("Fixing loosing of encoder videoURL after recalculate");
 				
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				
 				SqliteOldConvert.ConvertAbsolutePathsToRelative(); //videoURLs got absolute again
 				SqliteOldConvert.FixLostVideoURLAfterEncoderRecalculate();
 
-				SqlitePreferences.Update ("databaseVersion", "1.21", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.21", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.21";
 			}
 			if(currentVersion == "1.21") {
 				LogB.SQL("Encoder laterality in english again");
 				
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 		
 				if(Catalog.GetString("RL") != "RL")	
 					Update(true, Constants.EncoderTable, "laterality", Catalog.GetString("RL"), "RL", "", "");
@@ -1817,18 +2018,18 @@ public class Sqlite
 				if(Catalog.GetString("L") != "L")	
 					Update(true, Constants.EncoderTable, "laterality", Catalog.GetString("L"), "L", "", "");
 
-				SqlitePreferences.Update ("databaseVersion", "1.22", true); 
-				Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.22", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.22";
 			}
 			if(currentVersion == "1.22") {
 				LogB.SQL("Added encoder configuration");
 				
-				Sqlite.Open();
-				SqlitePreferences.Insert ("encoderConfiguration", new EncoderConfiguration().ToStringOutput(EncoderConfiguration.Outputs.SQL)); 
-				SqlitePreferences.Update ("databaseVersion", "1.23", true); 
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Open();
+				SqliteGeneral.SqlitePreferences.Insert ("encoderConfiguration", new EncoderConfiguration().ToStringOutput(EncoderConfiguration.Outputs.SQL)); 
+				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.23", true); 
+				SqliteGeneral.Sqlite.Close();
 
 				currentVersion = "1.23";
 			}
@@ -1841,23 +2042,23 @@ public class Sqlite
 			LogB.SQL("Leaving Sqlite opened before DB updates");
 			bool sqliteOpened = true;
 	
-			Sqlite.Open(); //------------------------------------------------
+			SqliteGeneral.Sqlite.Open(); //------------------------------------------------
 
 
 			if(currentVersion == "1.23") {
 				LogB.SQL("Delete runISpeedStartArrival and add 4 double contacts configs");
 
 				DeleteFromName(true, Constants.PreferencesTable, "runISpeedStartArrival");
-				SqlitePreferences.Insert ("runDoubleContactsMode", Constants.DoubleContact.LAST.ToString()); 
-				SqlitePreferences.Insert ("runDoubleContactsMS", "1000");
-				SqlitePreferences.Insert ("runIDoubleContactsMode", Constants.DoubleContact.AVERAGE.ToString()); 
-				SqlitePreferences.Insert ("runIDoubleContactsMS", "1000");
+				SqliteGeneral.SqlitePreferences.Insert ("runDoubleContactsMode", Constants.DoubleContact.LAST.ToString()); 
+				SqliteGeneral.SqlitePreferences.Insert ("runDoubleContactsMS", "1000");
+				SqliteGeneral.SqlitePreferences.Insert ("runIDoubleContactsMode", Constants.DoubleContact.AVERAGE.ToString()); 
+				SqliteGeneral.SqlitePreferences.Insert ("runIDoubleContactsMS", "1000");
 
 				currentVersion = updateVersion("1.24");
 			}
 			if(currentVersion == "1.24") {
 				LogB.SQL("Language defaults to (empty string), means detected");
-				SqlitePreferences.Update("language", "", true);
+				SqliteGeneral.SqlitePreferences.Update("language", "", true);
 				
 				currentVersion = updateVersion("1.25");
 			}
@@ -1870,8 +2071,8 @@ public class Sqlite
 			}
 			if(currentVersion == "1.26") {
 				LogB.SQL("Changing runDoubleContactsMS and runIDoubleContactsMS from 1000ms to 300ms");
-				SqlitePreferences.Update("runDoubleContactsMS", "300", true);
-				SqlitePreferences.Update("runIDoubleContactsMS", "300", true);
+				SqliteGeneral.SqlitePreferences.Update("runDoubleContactsMS", "300", true);
+				SqliteGeneral.SqlitePreferences.Update("runIDoubleContactsMS", "300", true);
 				
 				currentVersion = updateVersion("1.27");
 			}
@@ -1898,20 +2099,20 @@ public class Sqlite
 			if(currentVersion == "1.30") {
 				LogB.SQL("Insert encoderCaptureCheckFullyExtended and ...Value at preferences");
 
-				SqlitePreferences.Insert ("encoderCaptureCheckFullyExtended", "True");
-				SqlitePreferences.Insert ("encoderCaptureCheckFullyExtendedValue", "4");
+				SqliteGeneral.SqlitePreferences.Insert ("encoderCaptureCheckFullyExtended", "True");
+				SqliteGeneral.SqlitePreferences.Insert ("encoderCaptureCheckFullyExtendedValue", "4");
 
 				currentVersion = updateVersion("1.31");
 			}
 			if(currentVersion == "1.31") {
 				LogB.SQL("encoderCaptureOptionsWin -> preferences");
 
-				SqlitePreferences.Insert ("encoderCaptureTime", "60");
-				SqlitePreferences.Insert ("encoderCaptureInactivityEndTime", "3");
-				SqlitePreferences.Insert ("encoderCaptureMainVariable", Constants.EncoderVariablesCapture.MeanPower.ToString());
-				SqlitePreferences.Insert ("encoderCaptureMinHeightGravitatory", "20");
-				SqlitePreferences.Insert ("encoderCaptureMinHeightInertial", "5");
-				SqlitePreferences.Insert ("encoderShowStartAndDuration", "False");
+				SqliteGeneral.SqlitePreferences.Insert ("encoderCaptureTime", "60");
+				SqliteGeneral.SqlitePreferences.Insert ("encoderCaptureInactivityEndTime", "3");
+				SqliteGeneral.SqlitePreferences.Insert ("encoderCaptureMainVariable", Constants.EncoderVariablesCapture.MeanPower.ToString());
+				SqliteGeneral.SqlitePreferences.Insert ("encoderCaptureMinHeightGravitatory", "20");
+				SqliteGeneral.SqlitePreferences.Insert ("encoderCaptureMinHeightInertial", "5");
+				SqliteGeneral.SqlitePreferences.Insert ("encoderShowStartAndDuration", "False");
 
 				currentVersion = updateVersion("1.32");
 			}
@@ -1927,7 +2128,7 @@ public class Sqlite
 			LogB.SQL("Closing Sqlite after DB updates");
 			sqliteOpened = false;
 
-			Sqlite.Close(); //------------------------------------------------
+			SqliteGeneral.Sqlite.Close(); //------------------------------------------------
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1937,12 +2138,12 @@ public class Sqlite
 	}
 	
 	private string updateVersion(string newVersion) {
-		SqlitePreferences.Update ("databaseVersion", newVersion, true); 
+		SqliteGeneral.SqlitePreferences.Update ("databaseVersion", newVersion, true); 
 		return newVersion;
 	}
 
 	public bool ChangeDjToDJna() {
-		string v = SqlitePreferences.Select("databaseVersion");
+		string v = SqliteGeneral.SqlitePreferences.Select("databaseVersion");
 		LogB.SQL(Convert.ToDouble(Util.ChangeDecimalSeparator(v)).ToString());
 		if(Convert.ToDouble(Util.ChangeDecimalSeparator(v)) < Convert.ToDouble(Util.ChangeDecimalSeparator("0.74")))
 			return true;
@@ -1950,15 +2151,15 @@ public class Sqlite
 	}
 
 	private void addChronopicPortNameIfNotExists() {
-		string myPort = SqlitePreferences.Select("chronopicPort");
+		string myPort = SqliteGeneral.SqlitePreferences.Select("chronopicPort");
 		if(myPort == "0") {
 			//if doesn't exist (for any reason, like old database)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 			if(UtilAll.IsWindows() || creatingBlankDatabase)
-				SqlitePreferences.Insert ("chronopicPort", Constants.ChronopicDefaultPortWindows);
+				SqliteGeneral.SqlitePreferences.Insert ("chronopicPort", Constants.ChronopicDefaultPortWindows);
 			else
-				SqlitePreferences.Insert ("chronopicPort", Constants.ChronopicDefaultPortLinux);
-			Sqlite.Close();
+				SqliteGeneral.SqlitePreferences.Insert ("chronopicPort", Constants.ChronopicDefaultPortLinux);
+			SqliteGeneral.Sqlite.Close();
 			
 			LogB.SQL("Added Chronopic port");
 		}
@@ -1966,7 +2167,7 @@ public class Sqlite
 	
 	public void CreateTables(bool server)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		creationTotal = 14;
 		creationRate = 1;
@@ -2069,8 +2270,8 @@ public class Sqlite
 		sqlitePersonSessionObject.createTable(Constants.PersonSessionTable);
 		
 		creationRate ++;
-		SqlitePreferences.createTable();
-		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
+		SqliteGeneral.SqlitePreferences.createTable();
+		SqliteGeneral.SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 		
 		creationRate ++;
 		SqliteCountry.createTable();
@@ -2174,14 +2375,14 @@ public class Sqlite
 		//0.4 - 0.41: jump, jumpRj weight is double (always a percent)
 		
 
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		creationRate ++;
 	}
 
 	public bool Exists(bool dbconOpened, string tableName, string findName)
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT uniqueID FROM " + tableName + 
 			" WHERE LOWER(name) == LOWER(\"" + findName + "\")" ;
@@ -2200,7 +2401,7 @@ public class Sqlite
 
 		reader.Close();
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return exists;
 	}
@@ -2276,7 +2477,7 @@ public class Sqlite
 	{
 		//tableName can be tempJumpRj or tempRunInterval
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT MAX(uniqueID) FROM " + tableName;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
@@ -2294,7 +2495,7 @@ public class Sqlite
 		}
 		LogB.SQL(string.Format("exists = {0}", exists.ToString()));
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		return exists;
 	}
@@ -2303,12 +2504,12 @@ public class Sqlite
 	{
 		//tableName can be tempJumpRj or tempRunInterval
 
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		//dbcmd.CommandText = "Delete FROM tempJumpRj";
 		dbcmd.CommandText = "DELETE FROM " + tableName;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 	protected void dropTable(string tableName) {
@@ -2368,8 +2569,8 @@ public class Sqlite
 		}
 		
 		//drop old tables
-		Sqlite.dropTable(Constants.PersonOldTable);
-		Sqlite.dropTable(Constants.PersonSessionOldWeightTable);
+		SqliteGeneral.Sqlite.dropTable(Constants.PersonOldTable);
+		SqliteGeneral.Sqlite.dropTable(Constants.PersonSessionOldWeightTable);
 
 	}
 
@@ -2549,7 +2750,7 @@ public class Sqlite
 		}
 
 		//no opened before because Exists is for closed dbcon
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		//create new jump types
 		SqliteJumpType.JumpTypeInsert ("DJa:0:0:DJ jump using arms", true); 
@@ -2688,7 +2889,7 @@ LogB.SQL("1" + tableName);
 		
 LogB.SQL("2" + tableName);
 		//3rd drop desired table
-		Sqlite.dropTable(tableName);
+		SqliteGeneral.Sqlite.dropTable(tableName);
 
 LogB.SQL("3" + tableName);
 		//4d create desired table (now with new columns)
@@ -2727,7 +2928,7 @@ LogB.SQL("4" + tableName);
 
 LogB.SQL("5" + tableName);
 		//6th drop temp table
-		Sqlite.dropTable(Constants.ConvertTempTable);
+		SqliteGeneral.Sqlite.dropTable(Constants.ConvertTempTable);
 	}
 	
 	/*
@@ -2798,7 +2999,7 @@ LogB.SQL("5" + tableName);
 		}
 
 		//3rd drop desired table
-		Sqlite.dropTable(tableName);
+		SqliteGeneral.Sqlite.dropTable(tableName);
 
 		//4d create desired table (now with new columns)
 		sqliteObject.createTable(tableName);
@@ -2810,7 +3011,7 @@ LogB.SQL("5" + tableName);
 		}
 
 		//6th drop temp table
-		Sqlite.dropTable(Constants.ConvertTempTable);
+		SqliteGeneral.Sqlite.dropTable(Constants.ConvertTempTable);
 	}
 
 	protected string [] DataReaderToStringArray (SqliteDataReader reader, int columns) {
@@ -2885,7 +3086,7 @@ LogB.SQL("5" + tableName);
 	public int Max (string tableName, string column, bool dbconOpened)
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT MAX(" + column + ") FROM " + tableName ;
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -2900,14 +3101,14 @@ LogB.SQL("5" + tableName);
 		reader.Close();
 
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		return myReturn;
 	}
 
 	public int Count (string tableName, bool dbconOpened)
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT COUNT(*) FROM " + tableName ;
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -2921,13 +3122,13 @@ LogB.SQL("5" + tableName);
 		reader.Close();
 
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		return myReturn;
 	}
 
 	public int CountCondition (string tableName, bool dbconOpened, string condition, string operand, string myValue) {
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT COUNT(*) FROM " + tableName +
 			" WHERE " + condition + " " + operand + " " + myValue;
@@ -2942,7 +3143,7 @@ LogB.SQL("5" + tableName);
 		reader.Close();
 
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		return myReturn;
 	}
 
@@ -2953,7 +3154,7 @@ LogB.SQL("5" + tableName);
 			string columnNameCondition2, string searchValueCondition2)
 	{
 		if( ! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		
 		bool whereDone = false;
 		string cond1 = "";
@@ -2983,13 +3184,13 @@ LogB.SQL("5" + tableName);
 		dbcmd.ExecuteNonQuery();
 		
 		if( ! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 
 	public void Delete(bool dbconOpened, string tableName, int uniqueID)
 	{
 		if( ! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "DELETE FROM " + tableName +
 			" WHERE uniqueID == " + uniqueID.ToString();
@@ -2997,13 +3198,13 @@ LogB.SQL("5" + tableName);
 		dbcmd.ExecuteNonQuery();
 		
 		if( ! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 	
 	public void DeleteSelectingField(bool dbconOpened, string tableName, string fieldName, string id)
 	{
 		if( ! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "DELETE FROM " + tableName +
 			" WHERE " + fieldName + " == " + id;
@@ -3011,14 +3212,14 @@ LogB.SQL("5" + tableName);
 		dbcmd.ExecuteNonQuery();
 		
 		if( ! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 
 
 	public void DeleteFromName(bool dbconOpened, string tableName, string name)
 	{
 		if( ! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "DELETE FROM " + tableName +
 			" WHERE name == \"" + name + "\"";
@@ -3026,13 +3227,13 @@ LogB.SQL("5" + tableName);
 		dbcmd.ExecuteNonQuery();
 		
 		if( ! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 
 	public void DeleteFromAnInt(bool dbconOpened, string tableName, string colName, int id)
 	{
 		if( ! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "DELETE FROM " + tableName +
 			" WHERE " + colName + " == " + id;
@@ -3040,7 +3241,7 @@ LogB.SQL("5" + tableName);
 		dbcmd.ExecuteNonQuery();
 		
 		if( ! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 
 
@@ -3069,7 +3270,7 @@ LogB.SQL("5" + tableName);
 	
 	public bool DisConnect() {
 		try {
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		} catch {
 			return false;
 		}

@@ -26,7 +26,7 @@ using System.Collections.Generic; //List<T>
 using Mono.Data.Sqlite;
 
 
-class SqliteJump : Sqlite
+public class SqliteJump : Sqlite
 {
 	public SqliteJump() {
 	}

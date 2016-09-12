@@ -127,7 +127,7 @@ public class JumpsProfile
 
 	public void Calculate (int personID, int sessionID)
 	{
-		List<Double> l = SqliteJump.SelectChronojumpProfile(personID, sessionID);
+		List<Double> l = SqliteGeneral.SqliteJump.SelectChronojumpProfile(personID, sessionID);
 
 		double sj  = l[0];
 		double sjl = l[1];

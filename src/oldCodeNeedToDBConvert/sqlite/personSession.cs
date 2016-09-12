@@ -89,7 +89,7 @@ class SqlitePersonSessionOld : Sqlite
 	 * conversion from database 0.52 to 0.53 (add weight into personSession)
 	 * now weight of a person can change every session
 	*/
-	protected internal static void moveOldTableToNewTable() 
+	protected internal void moveOldTableToNewTable() 
 	{
 		string tp = Constants.PersonOldTable;
 		string tps1 = Constants.PersonSessionOldTable;

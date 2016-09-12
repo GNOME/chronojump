@@ -78,7 +78,7 @@ public class PrepareEventGraphJumpSimple {
 		Sqlite.Open();
 
 		//select data from SQL to update graph	
-		jumpsAtSQL = SqliteJump.SelectJumps(true, sessionID, personID, "", type,
+		jumpsAtSQL = SqliteGeneral.SqliteJump.SelectJumps(true, sessionID, personID, "", type,
 				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
 
 		string sqlSelect = "";
@@ -149,7 +149,7 @@ public class PrepareEventGraphRunSimple {
 		Sqlite.Open();
 		
 		//obtain data
-		runsAtSQL = SqliteRun.SelectRuns(true, sessionID, personID, type,
+		runsAtSQL = SqliteGeneral.SqliteRun.SelectRuns(true, sessionID, personID, type,
 				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
 
 		
@@ -237,7 +237,7 @@ public class PrepareEventGraphReactionTime {
 		Sqlite.Open();
 
 		//obtain data
-		rtsAtSQL = SqliteReactionTime.SelectReactionTimes(true, sessionID, personID, type,
+		rtsAtSQL = SqliteGeneral.SqliteReactionTime.SelectReactionTimes(true, sessionID, personID, type,
 				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
 		
 		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(

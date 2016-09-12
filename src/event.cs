@@ -87,7 +87,7 @@ public partial class Event
 	public string PersonName
 	{
 		//get { return personName; }
-		get { return SqlitePerson.SelectAttribute(personID, Constants.Name); }
+		get { return SqliteGeneral.SqlitePerson.SelectAttribute(personID, Constants.Name); }
 	}
 	
 	

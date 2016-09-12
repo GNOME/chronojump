@@ -562,11 +562,11 @@ public partial class ChronoJumpWindow
 		string [] str;
 		string testName;
 		if(radio_mode_jumps_small.Active) {
-			str = SqliteJump.SelectTestMaxStuff(currentPerson.UniqueID, currentJumpType); 
+			str = SqliteGeneral.SqliteJump.SelectTestMaxStuff(currentPerson.UniqueID, currentJumpType); 
 			testName = currentJumpType.Name;
 		}
 		else if(radio_mode_runs_small.Active) {
-			str = SqliteRun.SelectTestMaxStuff(currentPerson.UniqueID, currentRunType); 
+			str = SqliteGeneral.SqliteRun.SelectTestMaxStuff(currentPerson.UniqueID, currentRunType); 
 			testName = currentRunType.Name;
 		} else
 			return;

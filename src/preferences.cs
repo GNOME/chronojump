@@ -81,7 +81,7 @@ public class Preferences
 	public string databaseVersion;
 
 	/*
-	 * these are unused on SqlitePreferences.SelectAll
+	 * these are unused on SqliteGeneral.SqlitePreferences.SelectAll
 	 */
 	
 	//public string chronopicPort;
@@ -95,7 +95,7 @@ public class Preferences
 	}
 	
 	public static Preferences LoadAllFromSqlite() {
-		return SqlitePreferences.SelectAll();
+		return SqliteGeneral.SqlitePreferences.SelectAll();
 	}
 	
 	public int EncoderCaptureMinHeight(bool inertial) {

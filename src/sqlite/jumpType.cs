@@ -25,7 +25,7 @@ using System.Collections; //ArrayList
 using Mono.Data.Sqlite;
 
 
-class SqliteJumpType : Sqlite
+public class SqliteJumpType : Sqlite
 {
 	/*
 	 * create and initialize tables

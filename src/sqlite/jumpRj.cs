@@ -25,7 +25,7 @@ using System.Collections; //ArrayList
 using Mono.Data.Sqlite;
 
 
-class SqliteJumpRj : SqliteJump
+public class SqliteJumpRj : SqliteJump
 {
 	public SqliteJumpRj() {
 	}

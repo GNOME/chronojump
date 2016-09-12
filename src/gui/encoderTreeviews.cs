@@ -252,7 +252,7 @@ public partial class ChronoJumpWindow
 					Convert.ToDouble(curveNext.Duration);
 			}
 
-			ArrayList signalCurves = SqliteEncoder.SelectSignalCurve(dbconOpened,
+			ArrayList signalCurves = SqliteGeneral.SqliteEncoder.SelectSignalCurve(dbconOpened,
 					Convert.ToInt32(encoderSignalUniqueID), -1, 
 					msStart, msEnd);
 			foreach(EncoderSignalCurve esc in signalCurves)
@@ -363,7 +363,7 @@ public partial class ChronoJumpWindow
 
 		//need to open Sqlite because if more than 50 curves are saved/deleted, it will crash if open/close connnections all the time
 		//TODO: do as a transaction, but code need to be refactored
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		bool changeTo;
 		while(iterOk) {
@@ -425,7 +425,7 @@ public partial class ChronoJumpWindow
 			iterOk = encoderCaptureListStore.IterNext (ref iter);
 		}
 		
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		prepareAnalyzeRepetitions();
 			
@@ -525,7 +525,7 @@ public partial class ChronoJumpWindow
 			totalMass = findMass(Constants.MassType.DISPLACED);
 		} else {						//not current set
 			//TODO:
-			curvesData = SqliteEncoder.Select(
+			curvesData = SqliteGeneral.SqliteEncoder.Select(
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, currentEncoderGI,
 					-1, "curve", EncoderSQL.Eccons.ALL, 
 					true, true);

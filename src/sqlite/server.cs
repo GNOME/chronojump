@@ -26,7 +26,7 @@ using Mono.Data.Sqlite;
 
 using Mono.Unix; //Catalog
 
-class SqliteServer : Sqlite
+public class SqliteServer : Sqlite
 {
 	public SqliteServer() {
 	}

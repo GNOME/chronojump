@@ -51,7 +51,7 @@ public class Pulse : Event
 		this.simulated = simulated;
 	}
 
-	//used to select a event at SqlitePulse.SelectPulseData and at Sqlite.convertTables
+	//used to select a event at SqliteGeneral.SqlitePulse.SelectPulseData and at Sqlite.convertTables
 	public Pulse(string [] eventString) {
 		this.uniqueID = Convert.ToInt32(eventString[0]);
 		this.personID = Convert.ToInt32(eventString[1]);
@@ -65,7 +65,7 @@ public class Pulse : Event
 	}
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
-		return SqlitePulse.Insert(dbconOpened, tableName, 
+		return SqliteGeneral.SqlitePulse.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), 
 				personID, sessionID, 
 				type, fixedPulse, totalPulsesNum, timesString,

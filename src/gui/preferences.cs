@@ -815,25 +815,25 @@ public class PreferencesWindow {
 	}
 	private void on_SQL_stress_test_not_safe_short_clicked (object o, EventArgs args) {
 		LogB.Information("start not safe short stress test ---->");
-		Sqlite.SafeClose = false;
+		SqliteGeneral.Sqlite.SafeClose = false;
 		sql_stress_test(1000);
-		Sqlite.SafeClose = true;
+		SqliteGeneral.Sqlite.SafeClose = true;
 	}
 	private void on_SQL_stress_test_not_safe_long_clicked (object o, EventArgs args) {
 		LogB.Information("start not safe long stress test ---->");
-		Sqlite.SafeClose = false;
+		SqliteGeneral.Sqlite.SafeClose = false;
 		sql_stress_test(4000);
-		Sqlite.SafeClose = true;
+		SqliteGeneral.Sqlite.SafeClose = true;
 	}
 	private void sql_stress_test (int times) {
 		Stopwatch sw = new Stopwatch();
 
 		sw.Start();
 
-		//trying if new way of Sqlite.Close disposing dbcmd fixes problems when multiple open / close connection
+		//trying if new way of SqliteGeneral.Sqlite.Close disposing dbcmd fixes problems when multiple open / close connection
 		for(int i=0 ; i < times; i++) {
 			LogB.Debug (" i=" + i.ToString());
-			LogB.Debug(SqlitePreferences.Select("databaseVersion"));
+			LogB.Debug(SqliteGeneral.SqlitePreferences.Select("databaseVersion"));
 		}
 		sw.Stop();
 
@@ -894,68 +894,68 @@ public class PreferencesWindow {
 	//change stuff in Sqlite and in preferences object that will be retrieved by GetPreferences
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		if( preferences.digitsNumber != Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals)) ) {
-			SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), true);
+			SqliteGeneral.SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), true);
 			preferences.digitsNumber = Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals));
 		}
 		
 		if( preferences.showPower != PreferencesWindowBox.checkbutton_power.Active ) {
-			SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), true);
 			preferences.showPower = PreferencesWindowBox.checkbutton_power.Active;
 		}
 		
 		if( preferences.showStiffness != PreferencesWindowBox.checkbutton_stiffness.Active ) {
-			SqlitePreferences.Update("showStiffness", PreferencesWindowBox.checkbutton_stiffness.Active.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("showStiffness", PreferencesWindowBox.checkbutton_stiffness.Active.ToString(), true);
 			preferences.showStiffness = PreferencesWindowBox.checkbutton_stiffness.Active;
 		}
 		
 		if( preferences.showInitialSpeed != PreferencesWindowBox.checkbutton_initial_speed.Active ) {
-			SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), true);
 			preferences.showInitialSpeed = PreferencesWindowBox.checkbutton_initial_speed.Active;
 		}
 
 		if( preferences.showAngle != PreferencesWindowBox.checkbutton_angle.Active ) {
-			SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), true);
 			preferences.showAngle = PreferencesWindowBox.checkbutton_angle.Active;
 		}
 		
 		if(PreferencesWindowBox.checkbutton_show_tv_tc_index.Active) {
-			SqlitePreferences.Update("showQIndex", PreferencesWindowBox.radiobutton_show_q_index.Active.ToString(), true);
-			SqlitePreferences.Update("showDjIndex", PreferencesWindowBox.radiobutton_show_dj_index.Active.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("showQIndex", PreferencesWindowBox.radiobutton_show_q_index.Active.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("showDjIndex", PreferencesWindowBox.radiobutton_show_dj_index.Active.ToString(), true);
 			preferences.showQIndex = PreferencesWindowBox.radiobutton_show_q_index.Active;
 			preferences.showDjIndex = PreferencesWindowBox.radiobutton_show_dj_index.Active;
 		} else {
-			SqlitePreferences.Update("showQIndex", "False", true);
-			SqlitePreferences.Update("showDjIndex", "False", true);
+			SqliteGeneral.SqlitePreferences.Update("showQIndex", "False", true);
+			SqliteGeneral.SqlitePreferences.Update("showDjIndex", "False", true);
 			preferences.showQIndex = false;
 			preferences.showDjIndex = false; 
 		}
 		
 		
 		if( preferences.askDeletion != PreferencesWindowBox.checkbutton_ask_deletion.Active ) {
-			SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString(), true);
 			preferences.askDeletion = PreferencesWindowBox.checkbutton_ask_deletion.Active;
 		}
 
 		if( preferences.weightStatsPercent != PreferencesWindowBox.radio_weight_percent.Active ) {
-			SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.radio_weight_percent.Active.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.radio_weight_percent.Active.ToString(), true);
 			preferences.weightStatsPercent = PreferencesWindowBox.radio_weight_percent.Active;
 		}
 
 		if( preferences.heightPreferred != PreferencesWindowBox.radio_elevation_height.Active ) {
-			SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.radio_elevation_height.Active.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.radio_elevation_height.Active.ToString(), true);
 			preferences.heightPreferred = PreferencesWindowBox.radio_elevation_height.Active;
 		}
 
 		if( preferences.metersSecondsPreferred != PreferencesWindowBox.radio_speed_ms.Active ) {
-			SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.radio_speed_ms.Active.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.radio_speed_ms.Active.ToString(), true);
 			preferences.metersSecondsPreferred = PreferencesWindowBox.radio_speed_ms.Active;
 		}
 		
 		if( preferences.runSpeedStartArrival != PreferencesWindowBox.radio_runs_speed_start_arrival.Active ) {
-			SqlitePreferences.Update("runSpeedStartArrival", PreferencesWindowBox.radio_runs_speed_start_arrival.Active.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("runSpeedStartArrival", PreferencesWindowBox.radio_runs_speed_start_arrival.Active.ToString(), true);
 			preferences.runSpeedStartArrival = PreferencesWindowBox.radio_runs_speed_start_arrival.Active;
 		}
 		
@@ -967,7 +967,7 @@ public class PreferencesWindow {
 		if( (preferences.runDoubleContactsMode != Constants.DoubleContact.NONE) && 
 				! PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active) 
 		{
-				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.NONE.ToString(), true);
+				SqliteGeneral.SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.NONE.ToString(), true);
 				preferences.runDoubleContactsMode = Constants.DoubleContact.NONE;
 		}
 		else if(PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active) 
@@ -975,22 +975,22 @@ public class PreferencesWindow {
 			//1.2 mode has changed between FIRST, AVERAGE or LAST
 			if( PreferencesWindowBox.radio_runs_prevent_double_contact_first.Active &&
 					(preferences.runDoubleContactsMode != Constants.DoubleContact.FIRST) ) {
-				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.FIRST.ToString(), true);
+				SqliteGeneral.SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.FIRST.ToString(), true);
 				preferences.runDoubleContactsMode = Constants.DoubleContact.FIRST;
 			}
 			else if( PreferencesWindowBox.radio_runs_prevent_double_contact_average.Active &&
 					(preferences.runDoubleContactsMode != Constants.DoubleContact.AVERAGE) ) {
-				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.AVERAGE.ToString(), true);
+				SqliteGeneral.SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.AVERAGE.ToString(), true);
 				preferences.runDoubleContactsMode = Constants.DoubleContact.AVERAGE;
 			}
 			else if( PreferencesWindowBox.radio_runs_prevent_double_contact_last.Active &&
 					(preferences.runDoubleContactsMode != Constants.DoubleContact.LAST) ) {
-				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.LAST.ToString(), true);
+				SqliteGeneral.SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.LAST.ToString(), true);
 				preferences.runDoubleContactsMode = Constants.DoubleContact.LAST;
 			}
 
 			if(preferences.runDoubleContactsMS != (int) PreferencesWindowBox.spinbutton_runs_prevent_double_contact.Value) {
-				SqlitePreferences.Update("runDoubleContactsMS", 
+				SqliteGeneral.SqlitePreferences.Update("runDoubleContactsMS", 
 						PreferencesWindowBox.spinbutton_runs_prevent_double_contact.Value.ToString(), true); //saved as string
 				preferences.runDoubleContactsMS = (int) spinbutton_runs_prevent_double_contact.Value;
 			}
@@ -1002,7 +1002,7 @@ public class PreferencesWindow {
 		if( (preferences.runIDoubleContactsMode != Constants.DoubleContact.NONE) && 
 				! PreferencesWindowBox.checkbutton_runs_i_prevent_double_contact.Active) 
 		{
-				SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.NONE.ToString(), true);
+				SqliteGeneral.SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.NONE.ToString(), true);
 				preferences.runIDoubleContactsMode = Constants.DoubleContact.NONE;
 		}
 		else if(PreferencesWindowBox.checkbutton_runs_i_prevent_double_contact.Active) 
@@ -1010,22 +1010,22 @@ public class PreferencesWindow {
 			//2.2 mode has changed between FIRST, AVERAGE or LAST
 			if( PreferencesWindowBox.radio_runs_i_prevent_double_contact_first.Active &&
 					(preferences.runIDoubleContactsMode != Constants.DoubleContact.FIRST) ) {
-				SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.FIRST.ToString(), true);
+				SqliteGeneral.SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.FIRST.ToString(), true);
 				preferences.runIDoubleContactsMode = Constants.DoubleContact.FIRST;
 			}
 			else if( PreferencesWindowBox.radio_runs_i_prevent_double_contact_average.Active &&
 					(preferences.runIDoubleContactsMode != Constants.DoubleContact.AVERAGE) ) {
-				SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.AVERAGE.ToString(), true);
+				SqliteGeneral.SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.AVERAGE.ToString(), true);
 				preferences.runIDoubleContactsMode = Constants.DoubleContact.AVERAGE;
 			}
 			else if( PreferencesWindowBox.radio_runs_i_prevent_double_contact_last.Active &&
 					(preferences.runIDoubleContactsMode != Constants.DoubleContact.LAST) ) {
-				SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.LAST.ToString(), true);
+				SqliteGeneral.SqlitePreferences.Update("runIDoubleContactsMode", Constants.DoubleContact.LAST.ToString(), true);
 				preferences.runIDoubleContactsMode = Constants.DoubleContact.LAST;
 			}
 			
 			if(preferences.runIDoubleContactsMS != (int) PreferencesWindowBox.spinbutton_runs_i_prevent_double_contact.Value) {
-				SqlitePreferences.Update("runIDoubleContactsMS", 
+				SqliteGeneral.SqlitePreferences.Update("runIDoubleContactsMS", 
 						PreferencesWindowBox.spinbutton_runs_i_prevent_double_contact.Value.ToString(), true); //saved as string
 				preferences.runIDoubleContactsMS = (int) spinbutton_runs_i_prevent_double_contact.Value;
 			}
@@ -1049,7 +1049,7 @@ public class PreferencesWindow {
 		Constants.EncoderVariablesCapture mainVariable = Constants.SetEncoderVariablesCapture(
 				UtilGtk.ComboGetActive(PreferencesWindowBox.combo_main_variable));
 		if( preferences.encoderCaptureMainVariable != mainVariable ) {
-			SqlitePreferences.Update("encoderCaptureMainVariable", mainVariable.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("encoderCaptureMainVariable", mainVariable.ToString(), true);
 			preferences.encoderCaptureMainVariable = mainVariable;
 		}
 		
@@ -1074,19 +1074,19 @@ public class PreferencesWindow {
 				(int) PreferencesWindowBox.spin_encoder_capture_fully_extended.Value);
 
 		if(PreferencesWindowBox.radio_encoder_auto_save_curve_best.Active) {
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString(), true);
 			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.BEST;
 		}
 		else if(PreferencesWindowBox.radio_encoder_auto_save_curve_4top.Active) {
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE.ToString(), true);
 			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE;
 		}
 		else if(PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active) {
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.ALL.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.ALL.ToString(), true);
 			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.ALL;
 		}
 		else {
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.NONE.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.NONE.ToString(), true);
 			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.NONE;
 		}
 
@@ -1120,29 +1120,29 @@ public class PreferencesWindow {
 		else // (PreferencesWindowBox.radio_encoder_1RM_weighted3.Active)
 			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED3;
 
-		SqlitePreferences.Update("encoder1RMMethod", encoder1RMMethod.ToString(), true);
+		SqliteGeneral.SqlitePreferences.Update("encoder1RMMethod", encoder1RMMethod.ToString(), true);
 		preferences.encoder1RMMethod = encoder1RMMethod;
 		
 		//---- end of encoder other
 		
 		//multimedia ----
 		if( preferences.volumeOn != PreferencesWindowBox.checkbutton_volume.Active ) {
-			SqlitePreferences.Update("volumeOn", PreferencesWindowBox.checkbutton_volume.Active.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("volumeOn", PreferencesWindowBox.checkbutton_volume.Active.ToString(), true);
 			preferences.volumeOn = PreferencesWindowBox.checkbutton_volume.Active;
 		}
 
 		if( preferences.videoDeviceNum != UtilGtk.ComboGetActivePos(combo_camera) ) {
-			SqlitePreferences.Update("videoDevice", UtilGtk.ComboGetActivePos(combo_camera).ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update("videoDevice", UtilGtk.ComboGetActivePos(combo_camera).ToString(), true);
 			preferences.videoDeviceNum = UtilGtk.ComboGetActivePos(combo_camera);
 		}
 		
 
 		if(PreferencesWindowBox.radio_export_latin.Active) {
-			SqlitePreferences.Update("CSVExportDecimalSeparator","COMMA", true); 
+			SqliteGeneral.SqlitePreferences.Update("CSVExportDecimalSeparator","COMMA", true); 
 			preferences.CSVExportDecimalSeparator = "COMMA";
 		}
 		else {
-			SqlitePreferences.Update("CSVExportDecimalSeparator","POINT", true); 
+			SqliteGeneral.SqlitePreferences.Update("CSVExportDecimalSeparator","POINT", true); 
 			preferences.CSVExportDecimalSeparator = "POINT";
 		}
 	
@@ -1150,30 +1150,30 @@ public class PreferencesWindow {
 
 		//if there was a language on SQL but now "detected" is selected, put "" in language on SQL
 		if(preferences.language != "" && radio_language_detected.Active) {
-			SqlitePreferences.Update("language", "", true);
+			SqliteGeneral.SqlitePreferences.Update("language", "", true);
 			preferences.language = "";
 		}
 		//if force a language, and SQL language is != than selected language, change language on SQL
 		else if(radio_language_force.Active && preferences.language != selectedLanguage) {
-			SqlitePreferences.Update("language", selectedLanguage, true);
+			SqliteGeneral.SqlitePreferences.Update("language", selectedLanguage, true);
 			preferences.language = selectedLanguage;
 		}
 
 
 		if( preferences.RGraphsTranslate != PreferencesWindowBox.radio_graphs_translate.Active ) {
-			SqlitePreferences.Update("RGraphsTranslate", 
+			SqliteGeneral.SqlitePreferences.Update("RGraphsTranslate", 
 					PreferencesWindowBox.radio_graphs_translate.Active.ToString(), true);
 			preferences.RGraphsTranslate = PreferencesWindowBox.radio_graphs_translate.Active;
 		}
 
 		if( preferences.useHeightsOnJumpIndexes != PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active ) {
-			SqlitePreferences.Update("useHeightsOnJumpIndexes", 
+			SqliteGeneral.SqlitePreferences.Update("useHeightsOnJumpIndexes", 
 					PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active.ToString(), true);
 			preferences.useHeightsOnJumpIndexes = PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active;
 		}
 
 
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		PreferencesWindowBox.preferences_win.Hide();
 		PreferencesWindowBox = null;
@@ -1182,21 +1182,21 @@ public class PreferencesWindow {
 	private bool preferencesChange(string prefName, bool prefValue, bool bNew) 
 	{
 		if(prefValue != bNew)
-			SqlitePreferences.Update(prefName, bNew.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update(prefName, bNew.ToString(), true);
 		
 		return bNew;
 	}
 	private int preferencesChange(string prefName, int prefValue, int iNew) 
 	{
 		if(prefValue != iNew)
-			SqlitePreferences.Update(prefName, iNew.ToString(), true);
+			SqliteGeneral.SqlitePreferences.Update(prefName, iNew.ToString(), true);
 		
 		return iNew;
 	}
 	private double preferencesChange(string prefName, double prefValue, double dNew) 
 	{
 		if(prefValue != dNew)
-			SqlitePreferences.Update(prefName, Util.ConvertToPoint(dNew), true);
+			SqliteGeneral.SqlitePreferences.Update(prefName, Util.ConvertToPoint(dNew), true);
 		
 		return dNew;
 	}

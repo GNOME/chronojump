@@ -821,7 +821,7 @@ public class ChronopicWindow
 	{
 		if(currentCp == 1) {
 		//	simulated = false;
-		//	SqlitePreferences.Update("simulated", simulated.ToString(), false);
+		//	SqliteGeneral.SqlitePreferences.Update("simulated", simulated.ToString(), false);
 			if(connected)
 				return;
 		}

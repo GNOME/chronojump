@@ -58,7 +58,7 @@ public partial class Sport
 	//currently only used from server at uploadSport
 	//if used in other places, the "-1" maybe should be another value
 	public int InsertAtDB (bool dbconOpened) {
-		int myID = SqliteSport.Insert(dbconOpened, "-1", name,
+		int myID = SqliteGeneral.SqliteSport.Insert(dbconOpened, "-1", name,
 				userDefined, hasSpeciallities, graphLink);
 		return myID;
 	}

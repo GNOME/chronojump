@@ -25,7 +25,7 @@ using System.Collections; //ArrayList
 using Mono.Data.Sqlite;
 
 
-class SqlitePulseType : Sqlite
+public class SqlitePulseType : Sqlite
 {
 	/*
 	 * create and initialize tables

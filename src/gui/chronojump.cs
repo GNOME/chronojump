@@ -551,7 +551,7 @@ public partial class ChronoJumpWindow
 
 		//put videoOn as false before loading preferences to start always without the camera
 		//this is good if camera produces crash
-		SqlitePreferences.Update("videoOn", "False", false);
+		SqliteGeneral.SqlitePreferences.Update("videoOn", "False", false);
 		
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
@@ -934,7 +934,7 @@ public partial class ChronoJumpWindow
 	 * now since 0.53 svn, we use mono on windows and linux, then this is not used
 	 *
 	private void languageChange () {
-		string myLanguage = SqlitePreferences.Select("language");
+		string myLanguage = SqliteGeneral.SqlitePreferences.Select("language");
 		if ( myLanguage != "0") {
 			try {
 				Log.WriteLine("myLanguage: {0}", myLanguage);
@@ -1050,37 +1050,37 @@ public partial class ChronoJumpWindow
 				treeviewPersonsContextMenu(currentPerson);
 			} else if(myTv == treeview_jumps) {
 				if (myTreeViewJumps.EventSelectedID > 0) {
-					Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
+					Jump myJump = SqliteGeneral.SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
 					treeviewJumpsContextMenu(myJump);
 				}
 			} else if(myTv == treeview_jumps_rj) {
 				if (myTreeViewJumpsRj.EventSelectedID > 0) {
-					JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
+					JumpRj myJump = SqliteGeneral.SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
 					treeviewJumpsRjContextMenu(myJump);
 				}
 			} else if(myTv == treeview_runs) {
 				if (myTreeViewRuns.EventSelectedID > 0) {
-					Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
+					Run myRun = SqliteGeneral.SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
 					treeviewRunsContextMenu(myRun);
 				}
 			} else if(myTv == treeview_runs_interval) {
 				if (myTreeViewRunsInterval.EventSelectedID > 0) {
-					RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
+					RunInterval myRun = SqliteGeneral.SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
 					treeviewRunsIntervalContextMenu(myRun);
 				}
 			} else if(myTv == treeview_reaction_times) {
 				if (myTreeViewReactionTimes.EventSelectedID > 0) {
-					ReactionTime myRt = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID, false );
+					ReactionTime myRt = SqliteGeneral.SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID, false );
 					treeviewReactionTimesContextMenu(myRt);
 				}
 			} else if(myTv == treeview_pulses) {
 				if (myTreeViewPulses.EventSelectedID > 0) {
-					Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
+					Pulse myPulse = SqliteGeneral.SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
 					treeviewPulsesContextMenu(myPulse);
 				}
 			} else if(myTv == treeview_multi_chronopic) {
 				if (myTreeViewMultiChronopic.EventSelectedID > 0) {
-					MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID, false );
+					MultiChronopic mc = SqliteGeneral.SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID, false );
 					treeviewMultiChronopicContextMenu(mc);
 				}
 			} else
@@ -1099,7 +1099,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void fillTreeView_persons () {
-		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+		ArrayList myPersons = SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID, 
 				false); //means: do not returnPersonAndPSlist
 
@@ -1129,8 +1129,8 @@ public partial class ChronoJumpWindow
 		TreeIter iter;
 		if (tv.Selection.GetSelected (out model, out iter)) {
 			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
-			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
-			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
+			currentPerson = SqliteGeneral.SqlitePerson.Select(Convert.ToInt32(selectedID));
+			currentPersonSession = SqliteGeneral.SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			label_person_change();
 		
 			return true;
@@ -1160,8 +1160,8 @@ public partial class ChronoJumpWindow
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
 		
-			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
-			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
+			currentPerson = SqliteGeneral.SqlitePerson.Select(Convert.ToInt32(selectedID));
+			currentPersonSession = SqliteGeneral.SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			label_person_change();
 	
 			personChanged();	
@@ -1223,7 +1223,7 @@ public partial class ChronoJumpWindow
 		//evaluator stuff
 		//Server.ServerUploadEvaluator();
 		string evalMessage = "";
-		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
+		int evalSID = Convert.ToInt32(SqliteGeneral.SqlitePreferences.Select("evaluatorServerID"));
 		if(evalSID == Constants.ServerUndefinedID) 
 			evalMessage = Catalog.GetString("Please, first fill evaluator data.");
 		else 
@@ -1258,7 +1258,7 @@ public partial class ChronoJumpWindow
 
 			LogB.SQL(myServer.DisConnectDatabase());
 
-			string [] statsMine = SqliteServer.StatsMine();
+			string [] statsMine = SqliteGeneral.SqliteServer.StatsMine();
 
 			new DialogServerStats(statsServer, statsMine);
 		}
@@ -1300,7 +1300,7 @@ public partial class ChronoJumpWindow
 	*/
 	
 	private void server_evaluator_data () {
-		ServerEvaluator myEval = SqliteServer.SelectEvaluator(1); 
+		ServerEvaluator myEval = SqliteGeneral.SqliteServer.SelectEvaluator(1); 
 		evalWin = EvaluatorWindow.Show(myEval);
 		evalWin.FakeButtonAccept.Clicked += new EventHandler(on_evaluator_done);
 	}
@@ -1355,8 +1355,8 @@ public partial class ChronoJumpWindow
 		ArrayList undefinedCountry = new ArrayList(1); //country is required for server
 		ArrayList undefinedSport = new ArrayList(1);
 		
-		ArrayList notToUpload = SqlitePersonSessionNotUpload.SelectAll(currentSession.UniqueID);
-		ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
+		ArrayList notToUpload = SqliteGeneral.SqlitePersonSessionNotUpload.SelectAll(currentSession.UniqueID);
+		ArrayList persons = SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID,
 				false); //means: do not returnPersonAndPSlist
 
@@ -1364,8 +1364,8 @@ public partial class ChronoJumpWindow
 		{
 			if(! Util.FoundInArrayList(notToUpload, person.UniqueID.ToString())) 
 			{
-				//TODO: this is not needed if true at SqlitePersonSession.SelectCurrentSessionPersons
-				PersonSession ps = SqlitePersonSession.Select(person.UniqueID, currentSession.UniqueID);
+				//TODO: this is not needed if true at SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons
+				PersonSession ps = SqliteGeneral.SqlitePersonSession.Select(person.UniqueID, currentSession.UniqueID);
 				if(ps.Weight <= 10 || ps.Weight >= 300)
 					impossibleWeight.Add(person);
 				if(person.CountryID == Constants.CountryUndefinedID)
@@ -1438,7 +1438,7 @@ public partial class ChronoJumpWindow
 			
 	private void server_upload_session () 
 	{
-		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
+		int evalSID = Convert.ToInt32(SqliteGeneral.SqlitePreferences.Select("evaluatorServerID"));
 		if(evalSID != Constants.ServerUndefinedID) {
 			if(!checkPersonsMissingData()) {
 				string message1 = ""; 
@@ -1481,7 +1481,7 @@ public partial class ChronoJumpWindow
 		}
 
 		//Leave SQL opened in all this process
-		Sqlite.Open(); // ------------------------------
+		SqliteGeneral.Sqlite.Open(); // ------------------------------
 
 		//load the jumps treeview
 		treeview_jumps_storeReset();
@@ -1513,7 +1513,7 @@ public partial class ChronoJumpWindow
 		
 
 		//close SQL opened in all this process
-		Sqlite.Close(); // ------------------------------
+		SqliteGeneral.Sqlite.Close(); // ------------------------------
 	}
 
 
@@ -1540,7 +1540,7 @@ public partial class ChronoJumpWindow
 	private void fillTreeView_jumps (string filter, bool dbconOpened) {
 		string [] myJumps;
 	
-		myJumps = SqliteJump.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "",
+		myJumps = SqliteGeneral.SqliteJump.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "",
 				Sqlite.Orders_by.DEFAULT, -1);
 
 		myTreeViewJumps.Fill(myJumps, filter);
@@ -1626,7 +1626,7 @@ public partial class ChronoJumpWindow
 	}
 	private void fillTreeView_jumps_rj (string filter, bool dbconOpened) {
 		string [] myJumps;
-		myJumps = SqliteJumpRj.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "");
+		myJumps = SqliteGeneral.SqliteJumpRj.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "");
 		myTreeViewJumpsRj.Fill(myJumps, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumpsRj, treeview_jumps_rj);
@@ -1715,7 +1715,7 @@ public partial class ChronoJumpWindow
 		fillTreeView_runs (filter, false);
 	}
 	private void fillTreeView_runs (string filter, bool dbconOpened) {
-		string [] myRuns = SqliteRun.SelectRuns(dbconOpened, currentSession.UniqueID, -1, "",
+		string [] myRuns = SqliteGeneral.SqliteRun.SelectRuns(dbconOpened, currentSession.UniqueID, -1, "",
 				Sqlite.Orders_by.DEFAULT, -1);
 
 		myTreeViewRuns.Fill(myRuns, filter);
@@ -1795,7 +1795,7 @@ public partial class ChronoJumpWindow
 		fillTreeView_runs_interval (filter, false);
 	}
 	private void fillTreeView_runs_interval (string filter, bool dbconOpened) {
-		string [] myRuns = SqliteRunInterval.SelectRuns(dbconOpened, currentSession.UniqueID, -1, "");
+		string [] myRuns = SqliteGeneral.SqliteRunInterval.SelectRuns(dbconOpened, currentSession.UniqueID, -1, "");
 		myTreeViewRunsInterval.Fill(myRuns, filter);
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRunsInterval, treeview_runs_interval);
 	}
@@ -1883,7 +1883,7 @@ public partial class ChronoJumpWindow
 		fillTreeView_reaction_times (filter, false);
 	}
 	private void fillTreeView_reaction_times (string filter, bool dbconOpened) {
-		string [] myRTs = SqliteReactionTime.SelectReactionTimes(dbconOpened, currentSession.UniqueID, -1, "", 
+		string [] myRTs = SqliteGeneral.SqliteReactionTime.SelectReactionTimes(dbconOpened, currentSession.UniqueID, -1, "", 
 				Sqlite.Orders_by.DEFAULT, -1);
 
 		myTreeViewReactionTimes.Fill(myRTs, filter);
@@ -1963,7 +1963,7 @@ public partial class ChronoJumpWindow
 		fillTreeView_pulses (filter, false);
 	}
 	private void fillTreeView_pulses (string filter, bool dbconOpened) {
-		string [] myPulses = SqlitePulse.SelectPulses(dbconOpened, currentSession.UniqueID, -1);
+		string [] myPulses = SqliteGeneral.SqlitePulse.SelectPulses(dbconOpened, currentSession.UniqueID, -1);
 		myTreeViewPulses.Fill(myPulses, filter);
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewPulses, treeview_pulses);
 	}
@@ -2042,7 +2042,7 @@ public partial class ChronoJumpWindow
 		//myTreeViewMultiChronopic is a TreeViewMultiChronopic instance
 		if(definedSession)
 			myTreeViewMultiChronopic = new TreeViewMultiChronopic( tv, preferences.digitsNumber, 
-					TreeViewEvent.ExpandStates.MINIMIZED, SqliteMultiChronopic.MaxCPs(dbconOpened, currentSession.UniqueID) );
+					TreeViewEvent.ExpandStates.MINIMIZED, SqliteGeneral.SqliteMultiChronopic.MaxCPs(dbconOpened, currentSession.UniqueID) );
 		else
 			myTreeViewMultiChronopic = new TreeViewMultiChronopic( tv, preferences.digitsNumber, 
 					TreeViewEvent.ExpandStates.MINIMIZED, 2);
@@ -2055,7 +2055,7 @@ public partial class ChronoJumpWindow
 		fillTreeView_multi_chronopic (false);
 	}
 	private void fillTreeView_multi_chronopic (bool dbconOpened) {
-		string [] mcs = SqliteMultiChronopic.SelectTests(dbconOpened, currentSession.UniqueID, -1);
+		string [] mcs = SqliteGeneral.SqliteMultiChronopic.SelectTests(dbconOpened, currentSession.UniqueID, -1);
 		myTreeViewMultiChronopic.Fill(mcs, "");
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewMultiChronopic, treeview_multi_chronopic);
 	}
@@ -2075,7 +2075,7 @@ public partial class ChronoJumpWindow
 		myTreeViewMultiChronopic.RemoveColumns();
 		if(definedSession)
 			myTreeViewMultiChronopic = new TreeViewMultiChronopic( treeview_multi_chronopic, preferences.digitsNumber, 
-					myTreeViewMultiChronopic.ExpandState, SqliteMultiChronopic.MaxCPs(dbconOpened, currentSession.UniqueID) );
+					myTreeViewMultiChronopic.ExpandState, SqliteGeneral.SqliteMultiChronopic.MaxCPs(dbconOpened, currentSession.UniqueID) );
 		else
 			myTreeViewMultiChronopic = new TreeViewMultiChronopic( treeview_multi_chronopic, preferences.digitsNumber, 
 					myTreeViewMultiChronopic.ExpandState, 2);
@@ -2152,7 +2152,7 @@ public partial class ChronoJumpWindow
 		if(create)
 			combo_select_jumps = ComboBox.NewText ();
 
-		string [] jumpTypes = SqliteJumpType.SelectJumpTypes(false, "", "", false); //without alljumpsname, without filter, not only name
+		string [] jumpTypes = SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, "", "", false); //without alljumpsname, without filter, not only name
 		selectJumpsString = new String [jumpTypes.Length];
 		string [] jumpNamesToCombo = new String [jumpTypes.Length];
 		int i =0;
@@ -2181,7 +2181,7 @@ public partial class ChronoJumpWindow
 		if(create)
 			combo_select_jumps_rj = ComboBox.NewText ();
 
-		string [] jumpTypes = SqliteJumpType.SelectJumpRjTypes("", false); //without alljumpsname, not only name
+		string [] jumpTypes = SqliteGeneral.SqliteJumpType.SelectJumpRjTypes("", false); //without alljumpsname, not only name
 		selectJumpsRjString = new String [jumpTypes.Length];
 		string [] jumpNamesToCombo = new String [jumpTypes.Length];
 		int i =0;
@@ -2211,7 +2211,7 @@ public partial class ChronoJumpWindow
 		if(create)
 			combo_select_runs = ComboBox.NewText ();
 
-		string [] runTypes = SqliteRunType.SelectRunTypes("", false); //without allrunsname, not only name
+		string [] runTypes = SqliteGeneral.SqliteRunType.SelectRunTypes("", false); //without allrunsname, not only name
 		selectRunsString = new String [runTypes.Length];
 		string [] runNamesToCombo = new String [runTypes.Length];
 		int i =0;
@@ -2240,7 +2240,7 @@ public partial class ChronoJumpWindow
 		if(create)
 			combo_select_runs_interval = ComboBox.NewText ();
 
-		string [] runTypes = SqliteRunIntervalType.SelectRunIntervalTypes("", false); //without allrunsname, not only name
+		string [] runTypes = SqliteGeneral.SqliteRunIntervalType.SelectRunIntervalTypes("", false); //without allrunsname, not only name
 		selectRunsIntervalString = new String [runTypes.Length];
 		string [] runNamesToCombo = new String [runTypes.Length];
 		int i =0;
@@ -2272,7 +2272,7 @@ public partial class ChronoJumpWindow
 	private void createComboResultJumps() {
 		combo_result_jumps = ComboBox.NewText ();
 		UtilGtk.ComboUpdate(combo_result_jumps,
-				SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), //with alljumpsname, without filter, only select name
+				SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), //with alljumpsname, without filter, only select name
 			       	"");
 		
 		combo_result_jumps.Active = 0;
@@ -2285,7 +2285,7 @@ public partial class ChronoJumpWindow
 	
 	private void createComboResultJumpsRj() {
 		combo_result_jumps_rj = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_result_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //only select name
+		UtilGtk.ComboUpdate(combo_result_jumps_rj, SqliteGeneral.SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //only select name
 		
 		combo_result_jumps_rj.Active = 0;
 		combo_result_jumps_rj.Changed += new EventHandler (on_combo_result_jumps_rj_changed);
@@ -2297,7 +2297,7 @@ public partial class ChronoJumpWindow
 	
 	private void createComboResultRuns() {
 		combo_result_runs = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_result_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_result_runs, SqliteGeneral.SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
 		
 		combo_result_runs.Active = 0;
 		combo_result_runs.Changed += new EventHandler (on_combo_result_runs_changed);
@@ -2309,7 +2309,7 @@ public partial class ChronoJumpWindow
 
 	private void createComboResultRunsInterval() {
 		combo_result_runs_interval = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_result_runs_interval, SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_result_runs_interval, SqliteGeneral.SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
 		
 		combo_result_runs_interval.Active = 0;
 		combo_result_runs_interval.Changed += new EventHandler (on_combo_result_runs_interval_changed);
@@ -2323,7 +2323,7 @@ public partial class ChronoJumpWindow
 
 	private void createComboPulses() {
 		combo_pulses = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_pulses, SqlitePulseType.SelectPulseTypes(Constants.AllPulsesName, true), ""); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_pulses, SqliteGeneral.SqlitePulseType.SelectPulseTypes(Constants.AllPulsesName, true), ""); //without filter, only select name
 		
 		combo_pulses.Active = 0;
 		combo_pulses.Changed += new EventHandler (on_combo_pulses_changed);
@@ -2666,7 +2666,7 @@ public partial class ChronoJumpWindow
 	private void on_delete_session_accepted (object o, EventArgs args) 
 	{
 		new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Deleted session and all its tests."));
-		SqliteSession.DeleteAllStuff(currentSession.UniqueID.ToString());
+		SqliteGeneral.SqliteSession.DeleteAllStuff(currentSession.UniqueID.ToString());
 		
 		sensitiveGuiNoSession();
 		definedSession = false;
@@ -2755,7 +2755,7 @@ public partial class ChronoJumpWindow
 		if (personAddModifyWin.CurrentPerson != null)
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;
-			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+			currentPersonSession = SqliteGeneral.SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 			label_person_change();
 			myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
 
@@ -2788,7 +2788,7 @@ public partial class ChronoJumpWindow
 			}
 			
 			if(person_add_single_called_from_person_select_window) {
-				ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+				ArrayList myPersons = SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons(
 						currentSession.UniqueID, 
 						false); //means: do not returnPersonAndPSlist
 				personSelectWin.Update(myPersons);
@@ -2806,7 +2806,7 @@ public partial class ChronoJumpWindow
 		if (personAddMultipleWin.CurrentPerson != null)
 		{
 			currentPerson = personAddMultipleWin.CurrentPerson;
-			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+			currentPersonSession = SqliteGeneral.SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 			label_person_change();
 			treeview_persons_storeReset();
 			fillTreeView_persons();
@@ -2847,7 +2847,7 @@ public partial class ChronoJumpWindow
 		if (personAddModifyWin.CurrentPerson != null)
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;
-			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+			currentPersonSession = SqliteGeneral.SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 			label_person_change();
 			treeview_persons_storeReset();
 			fillTreeView_persons();
@@ -2873,7 +2873,7 @@ public partial class ChronoJumpWindow
 //			personAddModifyWin.Destroy();
 			
 			if(person_edit_single_called_from_person_select_window) {
-				ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+				ArrayList myPersons = SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons(
 						currentSession.UniqueID, 
 						false); //means: do not returnPersonAndPSlist
 				personSelectWin.Update(myPersons);
@@ -2899,7 +2899,7 @@ public partial class ChronoJumpWindow
 	private void on_delete_current_person_from_session_accepted (object o, EventArgs args) 
 	{
 		new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Deleted person and all his/her tests on this session."));
-		SqlitePersonSession.DeletePersonFromSessionAndTests(
+		SqliteGeneral.SqlitePersonSession.DeletePersonFromSessionAndTests(
 				currentSession.UniqueID.ToString(), currentPerson.UniqueID.ToString());
 		
 		resetAllTreeViews(true); //boolean means: "also persons"
@@ -2920,7 +2920,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_encoder_person_change_clicked (object o, EventArgs args) 
 	{
-		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+		ArrayList myPersons = SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID, 
 				false); //means: do not returnPersonAndPSlist
 
@@ -2949,7 +2949,7 @@ public partial class ChronoJumpWindow
 		//without confirm, because it's already confirmed on PersonSelect
 		on_delete_current_person_from_session_accepted (o, args);
 				
-		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+		ArrayList myPersons = SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID, 
 				false); //means: do not returnPersonAndPSlist
 		personSelectWin.Update(myPersons);
@@ -2958,7 +2958,7 @@ public partial class ChronoJumpWindow
 	private void on_button_encoder_person_change_done(object o, EventArgs args) 
 	{
 		currentPerson = personSelectWin.SelectedPerson; 
-		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+		currentPersonSession = SqliteGeneral.SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 		label_person_change();
 
 		personChanged();
@@ -3566,10 +3566,10 @@ public partial class ChronoJumpWindow
 	private void on_checkbutton_video_clicked(object o, EventArgs args) {
 		if(checkbutton_video.Active) {
 			preferences.videoOn = true;
-			SqlitePreferences.Update("videoOn", "True", false);
+			SqliteGeneral.SqlitePreferences.Update("videoOn", "True", false);
 		} else {
 			preferences.videoOn = false;
-			SqlitePreferences.Update("videoOn", "False", false);
+			SqliteGeneral.SqlitePreferences.Update("videoOn", "False", false);
 		}
 		//change encoder checkbox but don't raise the signal	
 		checkbutton_video_encoder.Clicked -= new EventHandler(on_checkbutton_video_encoder_clicked);
@@ -3584,10 +3584,10 @@ public partial class ChronoJumpWindow
 	private void on_checkbutton_video_encoder_clicked(object o, EventArgs args) {
 		if(checkbutton_video_encoder.Active) {
 			preferences.videoOn = true;
-			SqlitePreferences.Update("videoOn", "True", false);
+			SqliteGeneral.SqlitePreferences.Update("videoOn", "True", false);
 		} else {
 			preferences.videoOn = false;
-			SqlitePreferences.Update("videoOn", "False", false);
+			SqliteGeneral.SqlitePreferences.Update("videoOn", "False", false);
 		}
 		//change contacts checkbox but don't raise the signal	
 		checkbutton_video.Clicked -= new EventHandler(on_checkbutton_video_clicked);
@@ -3842,7 +3842,7 @@ public partial class ChronoJumpWindow
 		
 
 			//if this multichronopic has more chronopics than other in session, then reload treeview, else simply add
-			if(currentMultiChronopic.CPs() != SqliteMultiChronopic.MaxCPs(currentSession.UniqueID)) {
+			if(currentMultiChronopic.CPs() != SqliteGeneral.SqliteMultiChronopic.MaxCPs(currentSession.UniqueID)) {
 				treeview_multi_chronopic_storeReset(false);
 				fillTreeView_multi_chronopic();
 			} else
@@ -4129,7 +4129,7 @@ public partial class ChronoJumpWindow
 					//but show the input cm
 					notebook_options_after_execute.CurrentPage = 1;
 				}
-				SqliteJump.UpdateDescription(Constants.JumpTable, 
+				SqliteGeneral.SqliteJump.UpdateDescription(Constants.JumpTable, 
 						currentJump.UniqueID, currentJump.Description);
 			}
 
@@ -4330,7 +4330,7 @@ public partial class ChronoJumpWindow
 			chronopicDisconnectedWhileExecuting();
 		
 		//delete the temp tables if exists
-		Sqlite.DeleteTempEvents("tempJumpRj");
+		SqliteGeneral.Sqlite.DeleteTempEvents("tempJumpRj");
 	}
 
 	/* ---------------------------------------------------------
@@ -4586,7 +4586,7 @@ public partial class ChronoJumpWindow
 			chronopicDisconnectedWhileExecuting();
 		
 		//delete the temp tables if exists
-		Sqlite.DeleteTempEvents("tempRunInterval");
+		SqliteGeneral.Sqlite.DeleteTempEvents("tempRunInterval");
 	}
 
 	/* ---------------------------------------------------------
@@ -5159,7 +5159,7 @@ LogB.Debug("W");
 LogB.Debug("W2");
 			
 			//if this multichronopic has more chronopics than other in session, then reload treeview, else simply add
-			if(currentMultiChronopic.CPs() != SqliteMultiChronopic.MaxCPs(false, currentSession.UniqueID)) {
+			if(currentMultiChronopic.CPs() != SqliteGeneral.SqliteMultiChronopic.MaxCPs(false, currentSession.UniqueID)) {
 				treeview_multi_chronopic_storeReset(false);
 				fillTreeView_multi_chronopic();
 			} else
@@ -5197,7 +5197,7 @@ LogB.Debug("X");
 					if(lastRunIsSimple && radio_mode_runs_small.Active) 
 						PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, false);
 					else if(radio_mode_runs_intervallic_small.Active) {
-						RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type, false);
+						RunType runType = SqliteGeneral.SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type, false);
 						double distanceTotal = Util.GetRunITotalDistance(currentRunInterval.DistanceInterval, 
 								runType.DistancesString, currentRunInterval.Tracks);
 
@@ -5264,7 +5264,7 @@ LogB.Debug("X");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumps.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
+			Jump myJump = SqliteGeneral.SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
 			eventOldPerson = myJump.PersonID;
 		
 			//4.- edit this jump
@@ -5280,7 +5280,7 @@ LogB.Debug("X");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
+			JumpRj myJump = SqliteGeneral.SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
 			eventOldPerson = myJump.PersonID;
 		
 			//4.- edit this jump
@@ -5292,12 +5292,12 @@ LogB.Debug("X");
 	private void on_edit_selected_jump_accepted (object o, EventArgs args) {
 		LogB.Information("edit selected jump accepted");
 	
-		Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
+		Jump myJump = SqliteGeneral.SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myJump.PersonID) {
 			if(! preferences.weightStatsPercent) {
-				double personWeight = SqlitePersonSession.SelectAttribute(
+				double personWeight = SqliteGeneral.SqlitePersonSession.SelectAttribute(
 						false, myJump.PersonID, currentSession.UniqueID, Constants.Weight);
 				myJump.Weight = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
 			}
@@ -5317,12 +5317,12 @@ LogB.Debug("X");
 	private void on_edit_selected_jump_rj_accepted (object o, EventArgs args) {
 		LogB.Information("edit selected jump RJ accepted");
 	
-		JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
+		JumpRj myJump = SqliteGeneral.SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
 		
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myJump.PersonID) {
 			if(! preferences.weightStatsPercent) {
-				double personWeight = SqlitePersonSession.SelectAttribute(
+				double personWeight = SqliteGeneral.SqlitePersonSession.SelectAttribute(
 						false, myJump.PersonID, currentSession.UniqueID, Constants.Weight);
 				myJump.Weight = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
 			}
@@ -5344,7 +5344,7 @@ LogB.Debug("X");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewRuns.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
+			Run myRun = SqliteGeneral.SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
 			myRun.MetersSecondsPreferred = preferences.metersSecondsPreferred;
 			eventOldPerson = myRun.PersonID;
 		
@@ -5361,7 +5361,7 @@ LogB.Debug("X");
 		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
+			RunInterval myRun = SqliteGeneral.SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
 			eventOldPerson = myRun.PersonID;
 		
 			//4.- edit this run
@@ -5373,7 +5373,7 @@ LogB.Debug("X");
 	private void on_edit_selected_run_accepted (object o, EventArgs args) {
 		LogB.Information("edit selected run accepted");
 		
-		Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
+		Run myRun = SqliteGeneral.SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
 		
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myRun.PersonID)
@@ -5392,7 +5392,7 @@ LogB.Debug("X");
 	private void on_edit_selected_run_interval_accepted (object o, EventArgs args) {
 		LogB.Information("edit selected run interval accepted");
 		
-		RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
+		RunInterval myRun = SqliteGeneral.SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myRun.PersonID)
@@ -5413,7 +5413,7 @@ LogB.Debug("X");
 		//2.- check that this line is a event and not a person
 		if (myTreeViewReactionTimes.EventSelectedID > 0) {
 			//3.- obtain the data of the selected event
-			ReactionTime myRT = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID, false );
+			ReactionTime myRT = SqliteGeneral.SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID, false );
 			eventOldPerson = myRT.PersonID;
 		
 			//4.- edit this event
@@ -5425,7 +5425,7 @@ LogB.Debug("X");
 	private void on_edit_selected_reaction_time_accepted (object o, EventArgs args) {
 		LogB.Information("edit selected reaction time accepted");
 		
-		ReactionTime myRT = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID, false);
+		ReactionTime myRT = SqliteGeneral.SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID, false);
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myRT.PersonID)
@@ -5445,7 +5445,7 @@ LogB.Debug("X");
 		//2.- check that this line is a event and not a person
 		if (myTreeViewPulses.EventSelectedID > 0) {
 			//3.- obtain the data of the selected event
-			Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
+			Pulse myPulse = SqliteGeneral.SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
 			eventOldPerson = myPulse.PersonID;
 		
 			//4.- edit this event
@@ -5457,7 +5457,7 @@ LogB.Debug("X");
 	private void on_edit_selected_pulse_accepted (object o, EventArgs args) {
 		LogB.Information("edit selected pulse accepted");
 		
-		Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
+		Pulse myPulse = SqliteGeneral.SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myPulse.PersonID)
@@ -5475,7 +5475,7 @@ LogB.Debug("X");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewMultiChronopic.EventSelectedID > 0) {
 			//3.- obtain the data of the selected test
-			MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID, false );
+			MultiChronopic mc = SqliteGeneral.SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID, false );
 			eventOldPerson = mc.PersonID;
 		
 			//4.- edit this jump
@@ -5487,7 +5487,7 @@ LogB.Debug("X");
 	private void on_edit_selected_multi_chronopic_accepted (object o, EventArgs args) {
 		LogB.Information("edit selected multi chronopic accepted");
 	
-		MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID, false );
+		MultiChronopic mc = SqliteGeneral.SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID, false );
 		
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == mc.PersonID) 
@@ -5712,7 +5712,7 @@ LogB.Debug("X");
 		LogB.Information("accept delete this jump");
 		int id = myTreeViewJumps.EventSelectedID;
 		
-		Sqlite.Delete(false, Constants.JumpTable, id);
+		SqliteGeneral.Sqlite.Delete(false, Constants.JumpTable, id);
 		
 		myTreeViewJumps.DelEvent(id);
 		showHideActionEventButtons(false, "Jump");
@@ -5746,7 +5746,7 @@ LogB.Debug("X");
 		LogB.Information("accept delete this jump");
 		int id = myTreeViewJumpsRj.EventSelectedID;
 		
-		Sqlite.Delete(false, Constants.JumpRjTable, id);
+		SqliteGeneral.Sqlite.Delete(false, Constants.JumpRjTable, id);
 		
 		myTreeViewJumpsRj.DelEvent(id);
 		showHideActionEventButtons(false, "JumpRj");
@@ -5803,7 +5803,7 @@ LogB.Debug("X");
 		LogB.Information("accept delete this run");
 		int id = myTreeViewRuns.EventSelectedID;
 		
-		Sqlite.Delete(false, Constants.RunTable, id);
+		SqliteGeneral.Sqlite.Delete(false, Constants.RunTable, id);
 		
 		myTreeViewRuns.DelEvent(id);
 		showHideActionEventButtons(false, "Run");
@@ -5827,7 +5827,7 @@ LogB.Debug("X");
 		LogB.Information("accept delete this run");
 		int id = myTreeViewRunsInterval.EventSelectedID;
 		
-		Sqlite.Delete(false, Constants.RunIntervalTable, id);
+		SqliteGeneral.Sqlite.Delete(false, Constants.RunIntervalTable, id);
 		
 		myTreeViewRunsInterval.DelEvent(id);
 		showHideActionEventButtons(false, "RunInterval");
@@ -5867,7 +5867,7 @@ LogB.Debug("X");
 		LogB.Information("accept delete this reaction time");
 		int id = myTreeViewReactionTimes.EventSelectedID;
 		
-		Sqlite.Delete(false, Constants.ReactionTimeTable, id);
+		SqliteGeneral.Sqlite.Delete(false, Constants.ReactionTimeTable, id);
 		
 		myTreeViewReactionTimes.DelEvent(id);
 		showHideActionEventButtons(false, "ReactionTime");
@@ -5906,7 +5906,7 @@ LogB.Debug("X");
 		LogB.Information("accept delete this pulse");
 		int id = myTreeViewPulses.EventSelectedID;
 		
-		Sqlite.Delete(false, Constants.PulseTable, id);
+		SqliteGeneral.Sqlite.Delete(false, Constants.PulseTable, id);
 		
 		myTreeViewPulses.DelEvent(id);
 		showHideActionEventButtons(false, "Pulse");
@@ -5941,7 +5941,7 @@ LogB.Debug("X");
 		LogB.Information("accept delete this multi chronopic");
 		int id = myTreeViewMultiChronopic.EventSelectedID;
 		
-		Sqlite.Delete(false, Constants.MultiChronopicTable, id);
+		SqliteGeneral.Sqlite.Delete(false, Constants.MultiChronopicTable, id);
 		
 		myTreeViewMultiChronopic.DelEvent(id);
 		showHideActionEventButtons(false, Constants.MultiChronopicName);
@@ -5985,13 +5985,13 @@ LogB.Debug("X");
 			createComboSelectJumps(false); //this will update also the selectJumpsString
 
 			UtilGtk.ComboUpdate(combo_result_jumps, 
-					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), ""); //without filter, only select name
+					SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), ""); //without filter, only select name
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple jump."));
 		} else {
 			createComboSelectJumpsRj(false); //this will update also the selectJumpsRjString
 			
 			UtilGtk.ComboUpdate(combo_result_jumps_rj, 
-					SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
+					SqliteGeneral.SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added reactive jump."));
 		}
 		updateComboStats();
@@ -6021,13 +6021,13 @@ LogB.Debug("X");
 			createComboSelectRuns(false); //this will update also the selectRunsString
 
 			UtilGtk.ComboUpdate(combo_result_runs, 
-					SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+					SqliteGeneral.SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple run."));
 		} else {
 			createComboSelectRunsInterval(false); //this will update also the selectRunsIntervalString
 			
 			UtilGtk.ComboUpdate(combo_result_runs_interval, 
-					SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+					SqliteGeneral.SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added intervallic run."));
 		}
 		updateComboStats();
@@ -6125,7 +6125,7 @@ LogB.Debug("X");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
+			JumpRj myJump = SqliteGeneral.SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
 		
 			//4.- edit this jump
 			repairJumpRjWin = RepairJumpRjWindow.Show(app1, myJump, preferences.digitsNumber);
@@ -6152,7 +6152,7 @@ LogB.Debug("X");
 		//(check also if it's not a individual run interval, then pass the parent run interval)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
+			RunInterval myRun = SqliteGeneral.SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
 		
 			//4.- edit this run
 			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun, preferences.digitsNumber);
@@ -6179,7 +6179,7 @@ LogB.Debug("X");
 		//(check also if it's not a individual pulse, then pass the parent pulse)
 		if (myTreeViewPulses.EventSelectedID > 0) {
 			//3.- obtain the data of the selected pulse
-			Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
+			Pulse myPulse = SqliteGeneral.SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
 		
 			//4.- edit this pulse
 			repairPulseWin = RepairPulseWindow.Show(app1, myPulse, preferences.digitsNumber);

@@ -57,8 +57,8 @@ public class Server
 			ChronojumpServer myServer = new ChronojumpServer();
 			LogB.Information(myServer.ConnectDatabase());
 		
-			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
-			string machineID = SqlitePreferences.Select("machineID");
+			int evalSID = Convert.ToInt32(SqliteGeneral.SqlitePreferences.Select("evaluatorServerID"));
+			string machineID = SqliteGeneral.SqlitePreferences.Select("machineID");
 
 			ServerPing myPing = new ServerPing(evalSID, progName + " " + progVersion, UtilAll.GetOS(), 
 					//getIP(), DateTime.Now); //evaluator IP, date
@@ -161,7 +161,7 @@ public class Server
 	
 	private static void on_server_upload_session_started () 
 	{
-		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
+		int evalSID = Convert.ToInt32(SqliteGeneral.SqlitePreferences.Select("evaluatorServerID"));
 
 		try {	
 			ChronojumpServer myServer = new ChronojumpServer();
@@ -254,13 +254,13 @@ public class Server
 				int countE = 0;					
 				int countS = 0;					
 
-				string [] jumps = SqliteJump.SelectJumps(false, currentSession.UniqueID, person.UniqueID, "", "",
+				string [] jumps = SqliteGeneral.SqliteJump.SelectJumps(false, currentSession.UniqueID, person.UniqueID, "", "",
 						Sqlite.Orders_by.DEFAULT, -1);
 				Sqlite.Open();
 				foreach(string myJump in jumps) {
 					string [] js = myJump.Split(new char[] {':'});
 					//select jump
-					Jump test = SqliteJump.SelectJumpData(Convert.ToInt32(js[1]), true); //uniqueID
+					Jump test = SqliteGeneral.SqliteJump.SelectJumpData(Convert.ToInt32(js[1]), true); //uniqueID
 					//fix it to server person, session keys
 					test.PersonID = person.ServerUniqueID;
 					test.SessionID = currentSession.ServerUniqueID;
@@ -324,12 +324,12 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] jumpsRj = SqliteJumpRj.SelectJumps(false, currentSession.UniqueID, person.UniqueID, "", "");
+				string [] jumpsRj = SqliteGeneral.SqliteJumpRj.SelectJumps(false, currentSession.UniqueID, person.UniqueID, "", "");
 				Sqlite.Open();
 				foreach(string myJump in jumpsRj) {
 					string [] js = myJump.Split(new char[] {':'});
 					//select jump
-					JumpRj test = SqliteJumpRj.SelectJumpData(Constants.JumpRjTable, Convert.ToInt32(js[1]), true); //uniqueID
+					JumpRj test = SqliteGeneral.SqliteJumpRj.SelectJumpData(Constants.JumpRjTable, Convert.ToInt32(js[1]), true); //uniqueID
 					//fix it to server person, session keys
 					test.PersonID = person.ServerUniqueID;
 					test.SessionID = currentSession.ServerUniqueID;
@@ -368,14 +368,14 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] runs = SqliteRun.SelectRuns(false, currentSession.UniqueID, person.UniqueID, "",
+				string [] runs = SqliteGeneral.SqliteRun.SelectRuns(false, currentSession.UniqueID, person.UniqueID, "",
 						Sqlite.Orders_by.DEFAULT, -1);
 
 				Sqlite.Open();
 				foreach(string myRun in runs) {
 					string [] js = myRun.Split(new char[] {':'});
 					//select run
-					Run test = SqliteRun.SelectRunData(Convert.ToInt32(js[1]), true); //uniqueID
+					Run test = SqliteGeneral.SqliteRun.SelectRunData(Convert.ToInt32(js[1]), true); //uniqueID
 					//fix it to server person, session keys
 					test.PersonID = person.ServerUniqueID;
 					test.SessionID = currentSession.ServerUniqueID;
@@ -414,12 +414,12 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] runsI = SqliteRunInterval.SelectRuns(false, currentSession.UniqueID, person.UniqueID, "");
+				string [] runsI = SqliteGeneral.SqliteRunInterval.SelectRuns(false, currentSession.UniqueID, person.UniqueID, "");
 				Sqlite.Open();
 				foreach(string myRun in runsI) {
 					string [] js = myRun.Split(new char[] {':'});
 					//select run
-					RunInterval test = SqliteRunInterval.SelectRunData(Constants.RunIntervalTable, Convert.ToInt32(js[1]), true); //uniqueID
+					RunInterval test = SqliteGeneral.SqliteRunInterval.SelectRunData(Constants.RunIntervalTable, Convert.ToInt32(js[1]), true); //uniqueID
 					//fix it to server person, session keys
 					test.PersonID = person.ServerUniqueID;
 					test.SessionID = currentSession.ServerUniqueID;
@@ -457,14 +457,14 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] rts = SqliteReactionTime.SelectReactionTimes(false, currentSession.UniqueID, person.UniqueID, "",
+				string [] rts = SqliteGeneral.SqliteReactionTime.SelectReactionTimes(false, currentSession.UniqueID, person.UniqueID, "",
 						Sqlite.Orders_by.DEFAULT, -1);
 
 				Sqlite.Open();
 				foreach(string myRt in rts) {
 					string [] js = myRt.Split(new char[] {':'});
 					//select rt
-					ReactionTime test = SqliteReactionTime.SelectReactionTimeData(Convert.ToInt32(js[1]), true); //uniqueID
+					ReactionTime test = SqliteGeneral.SqliteReactionTime.SelectReactionTimeData(Convert.ToInt32(js[1]), true); //uniqueID
 					//fix it to server person, session keys
 					test.PersonID = person.ServerUniqueID;
 					test.SessionID = currentSession.ServerUniqueID;
@@ -490,12 +490,12 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] pulses = SqlitePulse.SelectPulses(false, currentSession.UniqueID, person.UniqueID);
+				string [] pulses = SqliteGeneral.SqlitePulse.SelectPulses(false, currentSession.UniqueID, person.UniqueID);
 				Sqlite.Open();
 				foreach(string myPulse in pulses) {
 					string [] js = myPulse.Split(new char[] {':'});
 					//select pulse
-					Pulse test = SqlitePulse.SelectPulseData(Convert.ToInt32(js[1]), true); //uniqueID
+					Pulse test = SqliteGeneral.SqlitePulse.SelectPulseData(Convert.ToInt32(js[1]), true); //uniqueID
 					//fix it to server person, session keys
 					test.PersonID = person.ServerUniqueID;
 					test.SessionID = currentSession.ServerUniqueID;
@@ -521,12 +521,12 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] mcs = SqliteMultiChronopic.SelectTests(false, currentSession.UniqueID, person.UniqueID);
+				string [] mcs = SqliteGeneral.SqliteMultiChronopic.SelectTests(false, currentSession.UniqueID, person.UniqueID);
 				Sqlite.Open();
 				foreach(string mc in mcs) {
 					string [] js = mc.Split(new char[] {':'});
 					//select mc
-					MultiChronopic test = SqliteMultiChronopic.SelectMultiChronopicData(Convert.ToInt32(js[1]), true); //uniqueID
+					MultiChronopic test = SqliteGeneral.SqliteMultiChronopic.SelectMultiChronopicData(Convert.ToInt32(js[1]), true); //uniqueID
 					//fix it to server person, session keys
 					test.PersonID = person.ServerUniqueID;
 					test.SessionID = currentSession.ServerUniqueID;
@@ -655,7 +655,7 @@ public class Server
 			ServerEvaluator myEval = SqliteServer.SelectEvaluator(1);
 
 			bool success = false;
-			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
+			int evalSID = Convert.ToInt32(SqliteGeneral.SqlitePreferences.Select("evaluatorServerID"));
 			if(evalSID == Constants.ServerUndefinedID) {
 				string idCode = myServer.UploadEvaluator(myEval);
 				myEval.Code = Util.FetchName(idCode);
@@ -663,7 +663,7 @@ public class Server
 				myEval.Update(false);
 
 				evalSID = Util.FetchID(idCode);
-				SqlitePreferences.Update("evaluatorServerID", evalSID.ToString(), false);
+				SqliteGeneral.SqlitePreferences.Update("evaluatorServerID", evalSID.ToString(), false);
 				success = true;
 			} else 
 				success = myServer.EditEvaluator(myEval, evalSID);

@@ -60,7 +60,7 @@ public class SqlitePulse : Sqlite
 	public int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double fixedPulse, int totalPulsesNum, string timeString, string description, int simulated)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 	
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -80,7 +80,7 @@ public class SqlitePulse : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
@@ -90,7 +90,7 @@ public class SqlitePulse : Sqlite
 	public string[] SelectPulses(bool dbconOpened, int sessionID, int personID) 
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string tp = Constants.PersonTable;
 
@@ -134,7 +134,7 @@ public class SqlitePulse : Sqlite
 		reader.Close();
 		
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		string [] myPulses = new string[count];
 		count =0;
@@ -148,7 +148,7 @@ public class SqlitePulse : Sqlite
 	public Pulse SelectPulseData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PulseTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -163,20 +163,20 @@ public class SqlitePulse : Sqlite
 
 		reader.Close();
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		return myPulse;
 	}
 
 	public void Update(int pulseID, int personID, string description)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PulseTable + 
 			" SET personID = " + personID + 
 			", description = \"" + description +
 			"\" WHERE uniqueID == " + pulseID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 }

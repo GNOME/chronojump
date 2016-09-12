@@ -74,7 +74,7 @@ public class EditJumpWindow : EditEventWindow
 		}	
 
 		EditJumpWindowBox.weightPercentPreferred = weightPercentPreferred;
-		EditJumpWindowBox.personWeight = SqlitePersonSession.SelectAttribute(
+		EditJumpWindowBox.personWeight = SqliteGeneral.SqlitePersonSession.SelectAttribute(
 				false,
 				Convert.ToInt32(myEvent.PersonID),
 				Convert.ToInt32(myEvent.SessionID),
@@ -123,9 +123,9 @@ public class EditJumpWindow : EditEventWindow
 		Jump myJump = (Jump) myEvent;
 		string [] myTypes;
 		if (myJump.TypeHasFall) {
-			myTypes = SqliteJumpType.SelectJumpTypes(false, "", "TC", true); //don't show allJumpsName row, TC jumps, only select name
+			myTypes = SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, "", "TC", true); //don't show allJumpsName row, TC jumps, only select name
 		} else {
-			myTypes = SqliteJumpType.SelectJumpTypes(false, "", "nonTC", true); //don't show allJumpsName row, nonTC jumps, only select name
+			myTypes = SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, "", "nonTC", true); //don't show allJumpsName row, nonTC jumps, only select name
 		}
 		return myTypes;
 	}
@@ -426,7 +426,7 @@ public class EditJumpWindow : EditEventWindow
 			else
 				jumpWeightInKg = Convert.ToDouble(entryWeight);
 			
-			double newPersonWeight = SqlitePersonSession.SelectAttribute(false, personID, mySessionID, Constants.Weight); 
+			double newPersonWeight = SqliteGeneral.SqlitePersonSession.SelectAttribute(false, personID, mySessionID, Constants.Weight); 
 			//jumpPercentWeightForNewPerson = jumpWeightInKg * 100 / newPersonWeight; 
 			jumpPercentWeightForNewPerson = Util.WeightFromKgToPercent(jumpWeightInKg, newPersonWeight); 
 			LogB.Information(string.Format("oldPW: {0}, jWinKg {1}, newPW{2}, jWin%NewP{3}",
@@ -466,7 +466,7 @@ public class EditJumpRjWindow : EditJumpWindow
 		}
 
 		EditJumpRjWindowBox.weightPercentPreferred = weightPercentPreferred;
-		EditJumpRjWindowBox.personWeight = SqlitePersonSession.SelectAttribute(
+		EditJumpRjWindowBox.personWeight = SqliteGeneral.SqlitePersonSession.SelectAttribute(
 				false, myEvent.PersonID, myEvent.SessionID, Constants.Weight); 
 
 		EditJumpRjWindowBox.pDN = pDN;
@@ -507,7 +507,7 @@ public class EditJumpRjWindow : EditJumpWindow
 		combo_eventType.Sensitive=false;
 
 		string [] myTypes;
-		myTypes = SqliteJumpType.SelectJumpRjTypes("", true); //don't show allJumpsName row, only select name
+		myTypes = SqliteGeneral.SqliteJumpType.SelectJumpRjTypes("", true); //don't show allJumpsName row, only select name
 		return myTypes;
 	}
 
@@ -609,7 +609,7 @@ public class RepairJumpRjWindow
 		label_header.Text = string.Format(Catalog.GetString("Use this window to repair this test.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	
 		
-		jumpType = SqliteJumpType.SelectAndReturnJumpRjType(myJump.Type, false);
+		jumpType = SqliteGeneral.SqliteJumpType.SelectAndReturnJumpRjType(myJump.Type, false);
 		
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = createTextForTextView(jumpType);
@@ -927,7 +927,7 @@ public class RepairJumpRjWindow
 		}
 
 		//save it deleting the old first for having the same uniqueID
-		Sqlite.Delete(false, Constants.JumpRjTable, jumpRj.UniqueID);
+		SqliteGeneral.Sqlite.Delete(false, Constants.JumpRjTable, jumpRj.UniqueID);
 		jumpRj.InsertAtDB(false, Constants.JumpRjTable); 
 		/*
 		SqliteGeneral.SqliteJump.InsertRj("jumpRj", jumpRj.UniqueID.ToString(), jumpRj.PersonID, jumpRj.SessionID, 
@@ -1496,7 +1496,7 @@ public class JumpsMoreWindow : EventMoreWindow
 	protected override void fillTreeView (Gtk.TreeView tv, TreeStore store) 
 	{
 		//select data without inserting an "all jumps", without filter, and not obtain only name of jump
-		string [] myJumpTypes = SqliteJumpType.SelectJumpTypes(false, "", "", false);
+		string [] myJumpTypes = SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, "", "", false);
 
 		//remove typesTranslated
 		typesTranslated = new String [myJumpTypes.Length];
@@ -1593,7 +1593,7 @@ public class JumpsMoreWindow : EventMoreWindow
 	}
 	
 	protected override void deleteTestLine() {
-		SqliteJumpType.Delete(Constants.JumpTypeTable, selectedEventName, false);
+		SqliteGeneral.SqliteJumpType.Delete(Constants.JumpTypeTable, selectedEventName, false);
 		
 		//delete from typesTranslated
 		string row = Util.FindOnArray(':',0, -1, selectedEventName, typesTranslated);
@@ -1714,7 +1714,7 @@ public class JumpsRjMoreWindow : EventMoreWindow
 	protected override void fillTreeView (Gtk.TreeView tv, TreeStore store) 
 	{
 		//select data without inserting an "all jumps", and not obtain only name of jump
-		string [] myJumpTypes = SqliteJumpType.SelectJumpRjTypes("", false);
+		string [] myJumpTypes = SqliteGeneral.SqliteJumpType.SelectJumpRjTypes("", false);
 
 		//remove typesTranslated
 		typesTranslated = new String [myJumpTypes.Length];
@@ -1871,7 +1871,7 @@ public class JumpsRjMoreWindow : EventMoreWindow
 	}
 	
 	protected override void deleteTestLine() {
-		SqliteJumpType.Delete(Constants.JumpRjTypeTable, selectedEventName, false);
+		SqliteGeneral.SqliteJumpType.Delete(Constants.JumpRjTypeTable, selectedEventName, false);
 		
 		//delete from typesTranslated
 		string row = Util.FindOnArray(':',0, -1, selectedEventName, typesTranslated);

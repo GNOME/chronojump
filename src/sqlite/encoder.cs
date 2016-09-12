@@ -72,7 +72,7 @@ public class SqliteEncoder : Sqlite
 	public int Insert(bool dbconOpened, EncoderSQL es)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		if(es.uniqueID == "-1")
 			es.uniqueID = "NULL";
@@ -102,7 +102,7 @@ public class SqliteEncoder : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
@@ -120,7 +120,7 @@ public class SqliteEncoder : Sqlite
 	private void update(bool dbconOpened, EncoderSQL es, SqliteCommand mycmd)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		if(es.uniqueID == "-1")
 			es.uniqueID = "NULL";
@@ -150,7 +150,7 @@ public class SqliteEncoder : Sqlite
 		mycmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 	
 	public int UpdateTransaction(ArrayList data, string [] checkboxes)
@@ -159,7 +159,7 @@ public class SqliteEncoder : Sqlite
 		int countActive = 0;
 
 		LogB.SQL("Starting transaction");
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		
 		using(SqliteTransaction tr = dbcon.BeginTransaction())
 		{
@@ -183,7 +183,7 @@ public class SqliteEncoder : Sqlite
 			tr.Commit();
 		}
 
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		LogB.SQL("Ended transaction");
 		return countActive;
 	}
@@ -210,7 +210,7 @@ public class SqliteEncoder : Sqlite
 			bool onlyActive, bool orderIDascendent)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string personIDStr = "";
 		if(personID != -1)
@@ -316,7 +316,7 @@ public class SqliteEncoder : Sqlite
 		}
 		reader.Close();
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return array;
 	}
@@ -326,7 +326,7 @@ public class SqliteEncoder : Sqlite
 	public ArrayList SelectCompareIntersession (bool dbconOpened, Constants.EncoderGI encoderGI, int exerciseID, int personID)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		
 		string exerciseIDStr = "";
 		if(exerciseID != -1)
@@ -456,7 +456,7 @@ public class SqliteEncoder : Sqlite
 
 		reader.Close();
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return array;
 	}
@@ -464,7 +464,7 @@ public class SqliteEncoder : Sqlite
 	public ArrayList SelectSessionOverview (bool dbconOpened, Constants.EncoderGI encoderGI, int sessionID)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 	
 		dbcmd.CommandText = 
 			"SELECT person77.name, encoder.encoderConfiguration, encoderExercise.name, (personSession77.weight * encoderExercise.percentBodyWeight/100) + encoder.extraWeight, COUNT(*)" + 
@@ -515,7 +515,7 @@ public class SqliteEncoder : Sqlite
 
 		reader.Close();
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return array;
 	}
@@ -539,7 +539,7 @@ public class SqliteEncoder : Sqlite
 	public void SignalCurveInsert(bool dbconOpened, int signalID, int curveID, int msCentral)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderSignalCurveTable +  
 			" (uniqueID, signalID, curveID, msCentral, future1) " + 
@@ -548,7 +548,7 @@ public class SqliteEncoder : Sqlite
 		dbcmd.ExecuteNonQuery();
 		
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 	
 
@@ -558,7 +558,7 @@ public class SqliteEncoder : Sqlite
 	public ArrayList SelectSignalCurve (bool dbconOpened, int signalID, int curveID, double msStart, double msEnd)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string whereStr = "";
 		if(signalID != -1 || curveID != -1 || msStart != -1)
@@ -604,7 +604,7 @@ public class SqliteEncoder : Sqlite
 		}
 		reader.Close();
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return array;
 	}
@@ -612,7 +612,7 @@ public class SqliteEncoder : Sqlite
 	public void DeleteSignalCurveWithCurveID(bool dbconOpened, int curveID)
 	{
 		if( ! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "Delete FROM " + Constants.EncoderSignalCurveTable +
 			" WHERE curveID == " + curveID.ToString();
@@ -620,7 +620,7 @@ public class SqliteEncoder : Sqlite
 		dbcmd.ExecuteNonQuery();
 		
 		if( ! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 	
 	//when select from database, ensure path separators are ok for this platform
@@ -675,7 +675,7 @@ public class SqliteEncoder : Sqlite
 			string ressistance, string description, string speed1RM)	 //speed1RM decimal point = '.'
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderExerciseTable +  
 				" (uniqueID, name, percentBodyWeight, ressistance, description, future1, future2, future3)" +
@@ -685,7 +685,7 @@ public class SqliteEncoder : Sqlite
 		dbcmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 
 	//Note: if this names change, or there are new, change them on both:
@@ -715,13 +715,13 @@ public class SqliteEncoder : Sqlite
 	
 	protected internal void addEncoderFreeExercise()
 	{
-		bool exists = Sqlite.Exists (true, Constants.EncoderExerciseTable, "Free");
+		bool exists = SqliteGeneral.Sqlite.Exists (true, Constants.EncoderExerciseTable, "Free");
 		if(! exists)
 			InsertExercise(true, "Free", 0, "", "", "");
 	}
 	protected internal void addEncoderJumpExercise()
 	{
-		bool exists = Sqlite.Exists (true, Constants.EncoderExerciseTable, "Jump");
+		bool exists = SqliteGeneral.Sqlite.Exists (true, Constants.EncoderExerciseTable, "Jump");
 		if(! exists)
 			InsertExercise(true, "Jump", 100, "", "", "");
 	}
@@ -743,7 +743,7 @@ public class SqliteEncoder : Sqlite
 			string ressistance, string description, string speed1RM)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "UPDATE " + Constants.EncoderExerciseTable + " SET " +
 				" name = \"" + name +
@@ -757,7 +757,7 @@ public class SqliteEncoder : Sqlite
 		dbcmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 	
 	//if uniqueID != -1, returns an especific EncoderExercise that can be read like this	
@@ -765,7 +765,7 @@ public class SqliteEncoder : Sqlite
 	public ArrayList SelectEncoderExercises(bool dbconOpened, int uniqueID, bool onlyNames) 
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string uniqueIDStr = "";
 		if(uniqueID != -1)
@@ -810,7 +810,7 @@ public class SqliteEncoder : Sqlite
 
 		reader.Close();
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return array;
 	}
@@ -819,7 +819,7 @@ public class SqliteEncoder : Sqlite
 	public ArrayList SelectEncoderRowsOfAnExercise(bool dbconOpened, int exerciseID) 
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "select count(*), " + 
 			Constants.PersonTable + ".name, " +
@@ -851,7 +851,7 @@ public class SqliteEncoder : Sqlite
 
 		reader.Close();
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return array;
 	}
@@ -896,7 +896,7 @@ public class SqliteEncoder : Sqlite
 	public int Insert1RM(bool dbconOpened, int personID, int sessionID, int exerciseID, double load1RM)	
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.Encoder1RMTable +  
 				" (uniqueID, personID, sessionID, exerciseID, load1RM, future1, future2, future3)" +
@@ -912,7 +912,7 @@ public class SqliteEncoder : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
@@ -920,7 +920,7 @@ public class SqliteEncoder : Sqlite
 	public ArrayList Select1RM (bool dbconOpened, int personID, int sessionID, int exerciseID, bool returnPersonNameAndExerciseName)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string whereStr = "";
 		if(personID != -1 || sessionID != -1 || exerciseID != -1) {
@@ -993,7 +993,7 @@ public class SqliteEncoder : Sqlite
 		}
 		reader.Close();
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return array;
 	}

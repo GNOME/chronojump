@@ -77,7 +77,7 @@ public class SqliteSport : Sqlite
 	public int Insert(bool dbconOpened, SqliteCommand mycmd, string uniqueID, string name, bool userDefined, bool hasSpeciallities, string graphLink)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -98,7 +98,7 @@ public class SqliteSport : Sqlite
 		int myLast = Convert.ToInt32(mycmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
@@ -106,7 +106,7 @@ public class SqliteSport : Sqlite
 	public Sport Select(bool dbconOpened, int uniqueID)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SportTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -128,14 +128,14 @@ public class SqliteSport : Sqlite
 		reader.Close();
 		
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return mySport;
 	}
 		
 	public int SelectID(string name)
 	{
-		//Sqlite.Open();
+		//SqliteGeneral.Sqlite.Open();
 		
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.SportTable + " WHERE name == \"" + name + "\"";
 		
@@ -148,14 +148,14 @@ public class SqliteSport : Sqlite
 		int myID = Convert.ToInt32(reader[0]);
 		reader.Close();
 		
-		//Sqlite.Close();
+		//SqliteGeneral.Sqlite.Close();
 		
 		return myID;
 	}
 
 	public string [] SelectAll() 
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		SqliteDataReader reader;
 		ArrayList myArray = new ArrayList(2);
 		int count = 0;
@@ -179,7 +179,7 @@ public class SqliteSport : Sqlite
 			count ++;
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		string [] myReturn = new string[count];
 		count = 0;

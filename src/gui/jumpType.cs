@@ -127,7 +127,7 @@ public class JumpTypeAddWindow
 		name = Util.RemoveChar(name, '"');
 
 		//check if this jump type exists, and check it's name is not AllJumpsName
-		bool jumpTypeExists = Sqlite.Exists (false, Constants.JumpTypeTable, name);
+		bool jumpTypeExists = SqliteGeneral.Sqlite.Exists (false, Constants.JumpTypeTable, name);
 		if(name == Constants.AllJumpsName)
 			jumpTypeExists = true;
 		
@@ -157,7 +157,7 @@ public class JumpTypeAddWindow
 				myJump = myJump + ":" + 
 					Util.RemoveTildeAndColon(textview_description.Buffer.Text);
 			
-				SqliteJumpType.JumpTypeInsert(myJump, false); //false, because dbcon is not opened
+				SqliteGeneral.SqliteJumpType.JumpTypeInsert(myJump, false); //false, because dbcon is not opened
 				InsertedSimple = true;
 			} else {
 				
@@ -182,7 +182,7 @@ public class JumpTypeAddWindow
 				myJump = myJump + ":" + 
 					Util.RemoveTildeAndColon(textview_description.Buffer.Text);
 				
-				SqliteJumpType.JumpRjTypeInsert(myJump, false); //false, because dbcon is not opened
+				SqliteGeneral.SqliteJumpType.JumpRjTypeInsert(myJump, false); //false, because dbcon is not opened
 				InsertedSimple = false;
 			}
 			

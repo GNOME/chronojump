@@ -57,7 +57,7 @@ class SqlitePersonOld : Sqlite
 
 	//can be "Constants.PersonOldTable" or "Constants.ConvertTempTable"
 	//temp is used to modify table between different database versions if needed
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string sex, DateTime dateBorn, double height, double weight, int sportID, int speciallityID, int practice, string description, int race, int countryID, int serverUniqueID)
+	public int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string sex, DateTime dateBorn, double height, double weight, int sportID, int speciallityID, int practice, string description, int race, int countryID, int serverUniqueID)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -120,7 +120,7 @@ class SqlitePersonOld : Sqlite
 	   from SqlitePersonSessionWeight.DeletePersonFromSessionAndTests()
 	   if person is not in other sessions, delete it from DB
 	 */
-	public static void Delete(int uniqueID)
+	public void Delete(int uniqueID)
 	{
 		dbcmd.CommandText = "Delete FROM " + Constants.PersonOldTable +
 			" WHERE uniqueID == " + uniqueID.ToString();

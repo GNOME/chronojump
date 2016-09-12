@@ -152,7 +152,7 @@ public class ExecuteAutoWindow
 		label_tests_info.Visible = false;
 		label_series_info.Visible = false;
 
-		jumpTypes = SqliteJumpType.SelectJumpTypes(false, "", "", false); //without alljumpsname, without filter, not only name
+		jumpTypes = SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, "", "", false); //without alljumpsname, without filter, not only name
 
 		createTreeviewLoad();
 		fillTreeviewLoad();
@@ -201,7 +201,7 @@ public class ExecuteAutoWindow
 	}
 	
 	private void fillTreeviewLoad() {
-		List<ExecuteAutoSQL> sequences = SqliteExecuteAuto.Select(false, -1);
+		List<ExecuteAutoSQL> sequences = SqliteGeneral.SqliteExecuteAuto.Select(false, -1);
 
 		foreach (ExecuteAutoSQL eaSQL in sequences)
 			store_load.AppendValues (eaSQL.ToLoadTreeview(jumpTypes));
@@ -252,7 +252,7 @@ public class ExecuteAutoWindow
 					treeview_load, store_load, store_load_uniqueID_col);
 		
 		if(uniqueID > 0) {
-			Sqlite.Delete(false, Constants.ExecuteAutoTable, uniqueID);
+			SqliteGeneral.Sqlite.Delete(false, Constants.ExecuteAutoTable, uniqueID);
 			store_load = UtilGtk.RemoveRow(treeview_load, store_load);
 			button_next.Sensitive = false; 
 		}
@@ -267,7 +267,7 @@ public class ExecuteAutoWindow
 					treeview_load, store_load, store_load_uniqueID_col);
 			
 			if(uniqueID > 0) {
-				ExecuteAutoSQL eaSQL = SqliteExecuteAuto.Select(false, uniqueID)[0];
+				ExecuteAutoSQL eaSQL = SqliteGeneral.SqliteExecuteAuto.Select(false, uniqueID)[0];
 				
 				foreach(int i in eaSQL.Serie1IDs)
 					button_simulate_exercise_clicked(i, 1); //first treeview
@@ -532,7 +532,7 @@ public class ExecuteAutoWindow
 			notebook_main.NextPage();
 		}
 		else if(notebook_main.CurrentPage == 1) {
-			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
+			ArrayList persons = SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons(
 					sessionID,
 					false); //means: do not returnPersonAndPSlist
 			orderedData = ExecuteAuto.CreateOrder(mode, persons,  

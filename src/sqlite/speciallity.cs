@@ -68,7 +68,7 @@ public class SqliteSpeciallity : Sqlite
 	public int Insert(bool dbconOpened, SqliteCommand mycmd, int sportID, string speciallityName)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string myString = "INSERT INTO " + Constants.SpeciallityTable + 
 			" (uniqueID, sportID, name) VALUES (NULL, " + sportID + ", \"" + speciallityName + "\")"; 
@@ -84,7 +84,7 @@ public class SqliteSpeciallity : Sqlite
 		int myLast = Convert.ToInt32(mycmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
@@ -95,7 +95,7 @@ public class SqliteSpeciallity : Sqlite
 			return "";
 
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		
 		dbcmd.CommandText = "SELECT name FROM " + Constants.SpeciallityTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -111,7 +111,7 @@ public class SqliteSpeciallity : Sqlite
 		reader.Close();
 		
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		
 		return Catalog.GetString(speciallityName);
 	}
@@ -122,7 +122,7 @@ public class SqliteSpeciallity : Sqlite
 		if(sportFilter != -1)
 			whereString = " WHERE sportID == " + sportFilter;
 
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		SqliteDataReader reader;
 		ArrayList myArray = new ArrayList(2);
 		int count = 0;
@@ -145,7 +145,7 @@ public class SqliteSpeciallity : Sqlite
 			count ++;
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		string [] myReturn = new string[count];
 		count = 0;
@@ -216,7 +216,7 @@ public class SqliteSpeciallity : Sqlite
 	public void InsertUndefined(bool dbconOpened)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string myString = "INSERT INTO " + Constants.SpeciallityTable + 
 			" (uniqueID, sportID, name) VALUES (-1, -1, \"\")"; 
@@ -225,6 +225,6 @@ public class SqliteSpeciallity : Sqlite
 		dbcmd.ExecuteNonQuery();
 		
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 }

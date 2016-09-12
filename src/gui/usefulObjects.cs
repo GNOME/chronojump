@@ -75,7 +75,7 @@ public class PrepareEventGraphJumpSimple {
 
 	public PrepareEventGraphJumpSimple(double tv, double tc, int sessionID, int personID, string table, string type) 
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		//select data from SQL to update graph	
 		jumpsAtSQL = SqliteGeneral.SqliteJump.SelectJumps(true, sessionID, personID, "", type,
@@ -90,19 +90,19 @@ public class PrepareEventGraphJumpSimple {
 		} else
 			sqlSelect = "TC";
 		
-		personMAXAtSQLAllSessions = SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect);
-		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
-		sessionMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
+		personMAXAtSQLAllSessions = SqliteGeneral.SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect);
+		personMAXAtSQL = SqliteGeneral.SqliteSession.SelectMAXEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
+		sessionMAXAtSQL = SqliteGeneral.SqliteSession.SelectMAXEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
 
-		personAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
-		sessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
+		personAVGAtSQL = SqliteGeneral.SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
+		sessionAVGAtSQL = SqliteGeneral.SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
 	
 		//end of select data from SQL to update graph	
 			
 		this.tv = tv;
 		this.tc = tc;
 		
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 	~PrepareEventGraphJumpSimple() {}
@@ -146,33 +146,33 @@ public class PrepareEventGraphRunSimple {
 
 	public PrepareEventGraphRunSimple(double time, double speed, int sessionID, int personID, string table, string type) 
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		
 		//obtain data
 		runsAtSQL = SqliteGeneral.SqliteRun.SelectRuns(true, sessionID, personID, type,
-				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
+				SqliteGeneral.Sqlite.Orders_by.ID_DESC, 10); //select only last 10
 
 		
 		string sqlSelect = "distance/time";
 		
-		personMAXAtSQLAllSessions = SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect);
-		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
-		sessionMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
+		personMAXAtSQLAllSessions = SqliteGeneral.SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect);
+		personMAXAtSQL = SqliteGeneral.SqliteSession.SelectMAXEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
+		sessionMAXAtSQL = SqliteGeneral.SqliteSession.SelectMAXEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
 		
-		//distancePersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, "distance");
-		//distanceSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, "distance");
+		//distancePersonAVGAtSQL = SqliteGeneral.SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, "distance");
+		//distanceSessionAVGAtSQL = SqliteGeneral.SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, "distance");
 		//better to know speed like:
 		//SELECT AVG(distance/time) from run; than 
 		//SELECT AVG(distance) / SELECT AVG(time) 
 		//first is ok, because is the speed AVG
 		//2nd is not good because it tries to do an AVG of all distances and times
-		personAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
-		sessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
+		personAVGAtSQL = SqliteGeneral.SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
+		sessionAVGAtSQL = SqliteGeneral.SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
 		
 		this.time = time;
 		this.speed = speed;
 		
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 	~PrepareEventGraphRunSimple() {}
@@ -234,28 +234,28 @@ public class PrepareEventGraphReactionTime {
 
 	public PrepareEventGraphReactionTime(double time, int sessionID, int personID, string table, string type) 
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		//obtain data
 		rtsAtSQL = SqliteGeneral.SqliteReactionTime.SelectReactionTimes(true, sessionID, personID, type,
-				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
+				SqliteGeneral.Sqlite.Orders_by.ID_DESC, 10); //select only last 10
 		
-		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(
+		personMAXAtSQL = SqliteGeneral.SqliteSession.SelectMAXEventsOfAType(
 				true, sessionID, personID, table, type, "time");
-		sessionMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(
+		sessionMAXAtSQL = SqliteGeneral.SqliteSession.SelectMAXEventsOfAType(
 				true, sessionID, -1, table, type, "time");
 		
-		personMINAtSQL = SqliteSession.SelectMINEventsOfAType(
+		personMINAtSQL = SqliteGeneral.SqliteSession.SelectMINEventsOfAType(
 				true, sessionID, personID, table, type, "time");
-		sessionMINAtSQL = SqliteSession.SelectMINEventsOfAType(
+		sessionMINAtSQL = SqliteGeneral.SqliteSession.SelectMINEventsOfAType(
 				true, sessionID, -1, table, type, "time");
 
-		personAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
+		personAVGAtSQL = SqliteGeneral.SqliteSession.SelectAVGEventsOfAType(
 				true, sessionID, personID, table, type, "time");
-		sessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
+		sessionAVGAtSQL = SqliteGeneral.SqliteSession.SelectAVGEventsOfAType(
 				true, sessionID, -1, table, type, "time");
 		
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	
 		this.time = time;
 	}

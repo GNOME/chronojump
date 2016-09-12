@@ -118,7 +118,7 @@ public class SqliteRunType : Sqlite
 	{
 		//string [] myStr = myRun.Split(new char[] {':'});
 		if(! dbconOpened) {
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		}
 		mycmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, name, distance, description)" +
@@ -138,7 +138,7 @@ public class SqliteRunType : Sqlite
 		int myLast = Convert.ToInt32(mycmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened) {
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		}
 		return myLast;
 	}
@@ -146,7 +146,7 @@ public class SqliteRunType : Sqlite
 	public RunType SelectAndReturnRunType(string typeName, bool dbconOpened) 
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.RunTypeTable +
 			" WHERE name  = \"" + typeName +
@@ -170,7 +170,7 @@ public class SqliteRunType : Sqlite
 
 		reader.Close();
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myRunType;
 	}
@@ -182,7 +182,7 @@ public class SqliteRunType : Sqlite
 	
 		string whereString = "";
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.RunTypeTable +
 			whereString +
@@ -212,7 +212,7 @@ public class SqliteRunType : Sqlite
 		}
 
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		int numRows;
 		if(allRunsName != "") {
@@ -236,7 +236,7 @@ public class SqliteRunType : Sqlite
 
 	public double Distance (string typeName) 
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT distance " +
 			" FROM " + Constants.RunTypeTable +
 			" WHERE name == \"" + typeName + "\"";
@@ -252,7 +252,7 @@ public class SqliteRunType : Sqlite
 			distance = Convert.ToDouble(reader[0].ToString());
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return distance;
 	}
 	
@@ -263,12 +263,12 @@ public class SqliteRunType : Sqlite
 			{
 				dbcmdTr.Transaction = tr;
 
-				SqliteEvent.GraphLinkInsert (Constants.RunTable, "20m", "run_simple.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunTable, "100m", "run_simple.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunTable, "200m", "run_simple.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunTable, "400m", "run_simple.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunTable, "1000m", "run_simple.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunTable, "2000m", "run_simple.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunTable, "20m", "run_simple.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunTable, "100m", "run_simple.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunTable, "200m", "run_simple.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunTable, "400m", "run_simple.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunTable, "1000m", "run_simple.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunTable, "2000m", "run_simple.png", true, dbcmdTr);
 			}
 			tr.Commit();
 		}
@@ -281,13 +281,13 @@ public class SqliteRunType : Sqlite
 			{
 				dbcmdTr.Transaction = tr;
 
-				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-20Yard", "agility_20yard.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-505", "agility_505.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-Illinois", "agility_illinois.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-Shuttle-Run", "agility_shuttle.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-ZigZag", "agility_zigzag.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Margaria", "margaria.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Gesell-DBT", "gesell_dbt.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-20Yard", "agility_20yard.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-505", "agility_505.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-Illinois", "agility_illinois.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-Shuttle-Run", "agility_shuttle.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-ZigZag", "agility_zigzag.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunTable, "Margaria", "margaria.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunTable, "Gesell-DBT", "gesell_dbt.png", true, dbcmdTr);
 			}
 			tr.Commit();
 		}
@@ -296,12 +296,12 @@ public class SqliteRunType : Sqlite
 
 	public void Delete(string name)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "Delete FROM " + Constants.RunTypeTable +
 			" WHERE name == \"" + name + "\"";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 
@@ -435,11 +435,11 @@ public class SqliteRunIntervalType : SqliteRunType
 	//Called from initialize
 	public new int Insert(RunType t, string tableName, bool dbconOpened, SqliteCommand mycmd)
 	{
-		//done here for not having twho Sqlite.Opened
+		//done here for not having twho SqliteGeneral.Sqlite.Opened
 		//double distance = t.Distance;
 
 		if(! dbconOpened) {
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		}
 		mycmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, name, distance, tracksLimited, fixedValue, unlimited, description, distancesString)" +
@@ -456,14 +456,14 @@ public class SqliteRunIntervalType : SqliteRunType
 		int myLast = Convert.ToInt32(mycmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened) {
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		}
 		return myLast;
 	}
 
 	public string[] SelectRunIntervalTypes(string allRunsName, bool onlyName) 
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.RunIntervalTypeTable +
 			" ORDER BY uniqueID";
@@ -496,7 +496,7 @@ public class SqliteRunIntervalType : SqliteRunType
 		}
 
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		int numRows;
 		if(allRunsName != "") {
@@ -519,7 +519,7 @@ public class SqliteRunIntervalType : SqliteRunType
 	public RunType SelectAndReturnRunIntervalType(string typeName, bool dbconOpened) 
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.RunIntervalTypeTable +
 			" WHERE name  = \"" + typeName +
@@ -552,7 +552,7 @@ public class SqliteRunIntervalType : SqliteRunType
 
 		reader.Close();
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myRunType;
 	}
@@ -564,14 +564,14 @@ public class SqliteRunIntervalType : SqliteRunType
 			{
 				dbcmdTr.Transaction = tr;
 
-				SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "byLaps", "run_interval.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "byTime", "run_interval.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "unlimited", "run_interval.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "20m10times", "run_interval.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "7m30seconds", "run_interval.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "20m endurance", "run_interval.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "MTGUG", "mtgug.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "Agility-3L3R", "agility_3l3r.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "byLaps", "run_interval.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "byTime", "run_interval.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "unlimited", "run_interval.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "20m10times", "run_interval.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "7m30seconds", "run_interval.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "20m endurance", "run_interval.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "MTGUG", "mtgug.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "Agility-3L3R", "agility_3l3r.png", true, dbcmdTr);
 			}
 			tr.Commit();
 		}
@@ -579,12 +579,12 @@ public class SqliteRunIntervalType : SqliteRunType
 	
 	public void Delete(string name)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTypeTable +
 			" WHERE name == \"" + name + "\"";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 

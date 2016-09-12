@@ -57,7 +57,7 @@ public class SqliteRunInterval : SqliteRun
 	public int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited, int simulated, bool initialSpeed )
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -84,7 +84,7 @@ public class SqliteRunInterval : SqliteRun
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
@@ -92,7 +92,7 @@ public class SqliteRunInterval : SqliteRun
 	public new string[] SelectRuns(bool dbconOpened, int sessionID, int personID, string filterType) 
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string tp = Constants.PersonTable;
 
@@ -149,7 +149,7 @@ public class SqliteRunInterval : SqliteRun
 		reader.Close();
 		
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		string [] myRuns = new string[count];
 		count =0;
@@ -165,7 +165,7 @@ public class SqliteRunInterval : SqliteRun
 		//tableName can be runInterval or tempRunInterval
 
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + tableName + " WHERE uniqueID == " + uniqueID;
 		
@@ -180,20 +180,20 @@ public class SqliteRunInterval : SqliteRun
 
 		reader.Close();
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		return myRun;
 	}
 
 	public void Update(int runID, int personID, string description)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.RunIntervalTable +
 			" SET personID = " + personID + 
 			", description = \"" + description +
 			"\" WHERE uniqueID == " + runID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 

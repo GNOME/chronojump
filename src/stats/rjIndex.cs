@@ -74,14 +74,14 @@ public class StatRjIndex : Stat
 			if(multisession) {
 				string operation = "AVG";
 				processDataMultiSession ( 
-						SqliteStat.RjIndex(sessionString, multisession, 
+						SqliteGeneral.SqliteStat.RjIndex(sessionString, multisession, 
 							//"AVG(", ")", showSex), 
 							operation, jumpType, showSex), 
 						true, sessions.Count);
 			} else {
 				string operation = "AVG";
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.RjIndex(sessionString, multisession, 
+							SqliteGeneral.SqliteStat.RjIndex(sessionString, multisession, 
 								//"AVG(", ")", showSex), 
 								operation, jumpType, showSex), 
 							statsJumpsType, limit),
@@ -91,7 +91,7 @@ public class StatRjIndex : Stat
 			//if more than on session, show only the avg or max of each jump/jumper
 			if(multisession) {
 				string operation = "MAX";
-				processDataMultiSession ( SqliteStat.RjIndex(sessionString, multisession, 
+				processDataMultiSession ( SqliteGeneral.SqliteStat.RjIndex(sessionString, multisession, 
 							//"MAX(", ")", showSex),  
 							operation, jumpType, showSex), 
 						true, sessions.Count);
@@ -99,7 +99,7 @@ public class StatRjIndex : Stat
 				string operation = ""; //no need of "MAX", there's an order by (index) desc
 							//and clenaDontWanted will do his work
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.RjIndex(sessionString, multisession, 
+							SqliteGeneral.SqliteStat.RjIndex(sessionString, multisession, 
 								//"", "", showSex), 
 								operation, jumpType, showSex), 
 							statsJumpsType, limit),

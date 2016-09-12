@@ -39,7 +39,7 @@ class SqliteSessionOld : Sqlite
 	 * don't do more like this, use Sqlite.convertTables()
 	 */
 	//change DB from 0.55 to 0.56
-	protected internal static void convertTableAddingSportStuff() 
+	protected internal void convertTableAddingSportStuff() 
 	{
 		ArrayList myArray = new ArrayList(2);
 

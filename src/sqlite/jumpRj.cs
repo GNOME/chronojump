@@ -61,7 +61,7 @@ public class SqliteJumpRj : SqliteJump
 	public int Insert (bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tvMax, double tcMax, double fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited, string angleString, int simulated )
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -86,7 +86,7 @@ public class SqliteJumpRj : SqliteJump
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
@@ -94,7 +94,7 @@ public class SqliteJumpRj : SqliteJump
 	public new string[] SelectJumps(bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType) 
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
@@ -165,7 +165,7 @@ public class SqliteJumpRj : SqliteJump
 		reader.Close();
 		
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		string [] myJumps = new string[count];
 		count =0;
@@ -181,7 +181,7 @@ public class SqliteJumpRj : SqliteJump
 		//tableName is jumpRj or tempJumpRj
 
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + tableName + " WHERE uniqueID == " + uniqueID;
 		
@@ -196,13 +196,13 @@ public class SqliteJumpRj : SqliteJump
 
 		reader.Close();
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		return myJump;
 	}
 	
 	public void Update(int jumpID, int personID, string fall, double weight, string description)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "UPDATE jumpRj SET personID = " + personID + 
 			", fall = " + Util.ConvertToPoint(Convert.ToDouble(fall)) + 
 			", weight = " + Util.ConvertToPoint(weight) + 
@@ -210,14 +210,14 @@ public class SqliteJumpRj : SqliteJump
 			"\" WHERE uniqueID == " + jumpID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 	//checks if there are Rjs with different number of TCs than TFs
 	//then repair database manually, and look if the jump is jumpLimited, and how many jumps there are defined
 	public void FindBadRjs()
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT uniqueID, tcstring, tvstring, jumps, limited FROM jumpRj";
 		
@@ -238,7 +238,7 @@ public class SqliteJumpRj : SqliteJump
 			}
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 }

@@ -278,7 +278,7 @@ public class EditEventWindow
 			label_run_start_value.Hide();
 		}
 
-		ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
+		ArrayList persons = SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons(
 				myEvent.SessionID,
 				false); //means: do not returnPersonAndPSlist
 		string [] personsStrings = new String[persons.Count];

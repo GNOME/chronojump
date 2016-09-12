@@ -30,7 +30,7 @@ using Mono.Data.Sqlite;
 using Mono.Unix;
 
 
-class SqliteCountry : Sqlite
+public class SqliteCountry : Sqlite
 {
 	protected internal void createTable()
 	 {
@@ -74,7 +74,7 @@ class SqliteCountry : Sqlite
 	public void Insert(bool dbconOpened, SqliteCommand mycmd, string code, string nameEnglish, string continent)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string myString = "INSERT INTO " + Constants.CountryTable + 
 			//" (uniqueID, code, name, continent) VALUES (NULL, '" + code + "', '" + 
@@ -96,12 +96,12 @@ class SqliteCountry : Sqlite
 		*/
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 
 	public string [] SelectCountriesOfAContinent(string continent, bool insertUndefined)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		
 		dbcmd.CommandText = "SELECT uniqueID, name FROM " + Constants.CountryTable + " WHERE continent == \"" + continent + "\"";
 		
@@ -116,7 +116,7 @@ class SqliteCountry : Sqlite
 					reader[1].ToString() + ":" + 
 					Catalog.GetString(reader[1].ToString()));
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		int count = 0;
 		string [] myReturn;
@@ -136,7 +136,7 @@ class SqliteCountry : Sqlite
 	
 	public string [] Select(int uniqueID)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		
 		dbcmd.CommandText = "SELECT * FROM " + Constants.CountryTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -154,7 +154,7 @@ class SqliteCountry : Sqlite
 		myReturn[3] = reader[3].ToString(); //continent
 		
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myReturn;
 	}
 

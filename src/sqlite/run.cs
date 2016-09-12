@@ -60,7 +60,7 @@ public class SqliteRun : Sqlite
 	public int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distance, double time, string description, int simulated, bool initialSpeed)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -81,7 +81,7 @@ public class SqliteRun : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
@@ -94,7 +94,7 @@ public class SqliteRun : Sqlite
 			Orders_by order, int limit) 
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string tp = Constants.PersonTable;
 
@@ -157,7 +157,7 @@ public class SqliteRun : Sqlite
 		reader.Close();
 		
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		string [] myRuns = new string[count];
 		count =0;
@@ -171,7 +171,7 @@ public class SqliteRun : Sqlite
 	public Run SelectRunData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.RunTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -187,13 +187,13 @@ public class SqliteRun : Sqlite
 	
 		reader.Close();
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		return myRun;
 	}
 		
 	public string [] SelectTestMaxStuff(int personID, RunType runType) 
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		
 		dbcmd.CommandText = "SELECT session.date, session.name, MAX(distance/time), run.simulated " + 
 			" FROM run, session WHERE type = \"" + runType.Name + "\" AND personID = " + personID + 
@@ -209,14 +209,14 @@ public class SqliteRun : Sqlite
 		string [] str = DataReaderToStringArray(reader, 4);
 		
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		return str;
 	}
 	
 	public void Update(int runID, string type, string distance, string time, int personID, string description)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.RunTable + 
 			" SET personID = " + personID + 
 			", type = \"" + type +
@@ -226,7 +226,7 @@ public class SqliteRun : Sqlite
 			"\" WHERE uniqueID == " + runID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 }

@@ -57,7 +57,7 @@ public class SqlitePersonSession : Sqlite
 			string comments) 
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -83,7 +83,7 @@ public class SqlitePersonSession : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		return myLast;
 	}
 	
@@ -92,7 +92,7 @@ public class SqlitePersonSession : Sqlite
 	public double SelectAttribute(bool dbconOpened, int personID, int sessionID, string attribute)
 	{
 		if( ! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT " + attribute + " FROM " + Constants.PersonSessionTable +
 		       	" WHERE personID == " + personID + 
@@ -110,7 +110,7 @@ public class SqlitePersonSession : Sqlite
 		}
 		reader.Close();
 		if( ! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myReturn;
 	}
@@ -119,7 +119,7 @@ public class SqlitePersonSession : Sqlite
 	//select doubles
 	public double SelectAttribute(int personID, string attribute)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT " + attribute + ", sessionID FROM " + Constants.PersonSessionTable + 
 			" WHERE personID == " + personID + 
@@ -136,13 +136,13 @@ public class SqlitePersonSession : Sqlite
 			myReturn = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myReturn;
 	}
 	
 	public void Update(PersonSession ps)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PersonSessionTable + 
 			" SET personID = " + ps.PersonID + 
 			", sessionID = " + ps.SessionID + 
@@ -155,13 +155,13 @@ public class SqlitePersonSession : Sqlite
 			"\" WHERE uniqueID == " + ps.UniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 	//double
 	public void UpdateAttribute(int personID, int sessionID, string attribute, double attrValue)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PersonSessionTable + 
 			" SET " + attribute + " = " + Util.ConvertToPoint(attrValue) + 
 			" WHERE personID = " + personID +
@@ -169,12 +169,12 @@ public class SqlitePersonSession : Sqlite
 			;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 	public bool PersonSelectExistsInSession(int myPersonID, int mySessionID)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionTable +
 			" WHERE personID == " + myPersonID + 
 			" AND sessionID == " + mySessionID ; 
@@ -190,7 +190,7 @@ public class SqlitePersonSession : Sqlite
 			exists = true;
 
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return exists;
 	}
 
@@ -207,7 +207,7 @@ public class SqlitePersonSession : Sqlite
 	public PersonSession Select(bool dbconOpened, int personID, int sessionID)
 	{
 		if( ! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string tps = Constants.PersonSessionTable;
 			
@@ -242,7 +242,7 @@ public class SqlitePersonSession : Sqlite
 		reader.Close();
 		
 		if( ! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return ps;
 	}
@@ -259,7 +259,7 @@ public class SqlitePersonSession : Sqlite
 		if(returnPersonAndPSlist)
 			tpsString = ", " + tps + ".* ";
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".*" + tpsString +
 			" FROM " + tp + ", " + tps + 
 			" WHERE " + tps + ".sessionID == " + sessionID + 
@@ -301,14 +301,14 @@ public class SqlitePersonSession : Sqlite
 				myArray.Add (person);
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myArray;
 	}
 	
 	
 	public void DeletePersonFromSessionAndTests(string sessionID, string personID)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		//1.- first delete in personSession77 at this session
 
@@ -392,7 +392,7 @@ public class SqlitePersonSession : Sqlite
 			Util.FileDelete(eSQL.GetFullURL(false));	//signal, don't convertPathToR
 			if(eSQL.future2 != "")
 				Util.FileDelete(eSQL.future2);		//video
-			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+			SqliteGeneral.Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
 		}
 
 		encoderArray = SqliteEncoder.Select(
@@ -406,7 +406,7 @@ public class SqlitePersonSession : Sqlite
 			if(eSQL.future2 != "")
 				Util.FileDelete(eSQL.future2);
 			*/
-			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+			SqliteGeneral.Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
 			SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID));
 		}
 				
@@ -414,13 +414,13 @@ public class SqlitePersonSession : Sqlite
 		//4.- TODO: delete videos
 
 
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 	public bool PersonExistsInPS(bool dbconOpened, int personID)
 	{
 		if( ! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionTable + 
 			" WHERE personID == " + personID;
@@ -440,7 +440,7 @@ public class SqlitePersonSession : Sqlite
 		reader.Close();
 		
 		if( ! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return exists;
 	}
@@ -476,7 +476,7 @@ class SqlitePersonSessionTransaction : Sqlite
 	public void doTransaction() 
 	{
 		LogB.SQL("Starting transaction");
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		using(SqliteTransaction tr = dbcon.BeginTransaction())
 		{
@@ -507,7 +507,7 @@ class SqlitePersonSessionTransaction : Sqlite
 			tr.Commit();
 		}
 
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		LogB.SQL("Ended transaction");
 	}
 }

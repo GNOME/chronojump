@@ -58,7 +58,7 @@ public class SqliteReactionTime : Sqlite
 	public int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double time, string description, int simulated)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -78,7 +78,7 @@ public class SqliteReactionTime : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
@@ -89,7 +89,7 @@ public class SqliteReactionTime : Sqlite
 			Orders_by order, int limit) 
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string tp = Constants.PersonTable;
 
@@ -146,7 +146,7 @@ public class SqliteReactionTime : Sqlite
 		reader.Close();
 		
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		string [] myEvents = new string[count];
 		count =0;
@@ -160,7 +160,7 @@ public class SqliteReactionTime : Sqlite
 	public ReactionTime SelectReactionTimeData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.ReactionTimeTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -176,13 +176,13 @@ public class SqliteReactionTime : Sqlite
 	
 		reader.Close();
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		return myRT;
 	}
 		
 	public void Update(int eventID, string type, string time, int personID, string description)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.ReactionTimeTable + " SET personID = " + personID + 
 			", type = \"" + type +
 			"\", time = " + Util.ConvertToPoint(time) +
@@ -190,7 +190,7 @@ public class SqliteReactionTime : Sqlite
 			"\" WHERE uniqueID == " + eventID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 }

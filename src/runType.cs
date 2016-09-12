@@ -473,7 +473,7 @@ public class RunType : EventType
 			return SqliteGeneral.SqliteRunIntervalType.Insert(this, tableName, dbconOpened);
 		else
 			/*
-			return SqliteRunType.Insert(dbconOpened, tableName, 
+			return SqliteGeneral.SqliteRunType.Insert(dbconOpened, tableName, 
 					name, distance, description);
 					*/
 			return SqliteGeneral.SqliteRunType.Insert(this, tableName, dbconOpened);
@@ -487,7 +487,7 @@ public class RunType : EventType
 			if(isPredefined) {
 				return distance; 
 			} else {
-				return SqliteRunType.Distance(name);
+				return SqliteGeneral.SqliteRunType.Distance(name);
 			}
 			*/
 				return distance; 

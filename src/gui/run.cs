@@ -102,7 +102,7 @@ public class EditRunWindow : EditEventWindow
 	}
 
 	protected override string [] findTypes(Event myEvent) {
-		string [] myTypes = SqliteRunType.SelectRunTypes("", true); //don't show allRunsName row, only select name
+		string [] myTypes = SqliteGeneral.SqliteRunType.SelectRunTypes("", true); //don't show allRunsName row, only select name
 		return myTypes;
 	}
 	
@@ -1191,7 +1191,7 @@ public class RunsMoreWindow : EventMoreWindow
 	protected override void fillTreeView (Gtk.TreeView tv, TreeStore store) 
 	{
 		//select data without inserting an "all jumps", and not obtain only name of jump
-		string [] myRunTypes = SqliteRunType.SelectRunTypes("", false);
+		string [] myRunTypes = SqliteGeneral.SqliteRunType.SelectRunTypes("", false);
 
 		//remove typesTranslated
 		typesTranslated = new String [myRunTypes.Length];

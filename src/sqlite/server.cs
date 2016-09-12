@@ -67,7 +67,7 @@ public class SqliteServer : Sqlite
 	public int InsertPing(bool dbconOpened, int evaluatorID, string cjVersion, string osVersion, string ip, DateTime date)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string uniqueID = "NULL";
 
@@ -90,7 +90,7 @@ public class SqliteServer : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
@@ -99,7 +99,7 @@ public class SqliteServer : Sqlite
 			int countryID, string chronometer, string device, string comments, bool confiable)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string uniqueID = "NULL";
 
@@ -128,7 +128,7 @@ public class SqliteServer : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
@@ -137,7 +137,7 @@ public class SqliteServer : Sqlite
 			int countryID, string chronometer, string device, string comments, bool confiable)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.ServerEvaluatorTable + " " +
 			" SET code = \"" + code +
 			"\" , name = \"" + name +
@@ -153,7 +153,7 @@ public class SqliteServer : Sqlite
 		dbcmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 	
 	
@@ -161,7 +161,7 @@ public class SqliteServer : Sqlite
 	//if confiable is read on client, it will be also checked on server
 	public ServerEvaluator SelectEvaluator(int myUniqueID)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT * FROM " + Constants.ServerEvaluatorTable + " WHERE uniqueID == " + myUniqueID ; 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		
@@ -187,13 +187,13 @@ public class SqliteServer : Sqlite
 		}
 
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myEval;
 	}
 	
 	public string [] SelectEvaluators(bool addAnyString)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + 
 			Constants.ServerEvaluatorTable + ".uniqueID, " + 
 			Constants.ServerEvaluatorTable + ".name " +
@@ -212,12 +212,12 @@ public class SqliteServer : Sqlite
 			evals.Add(reader[0].ToString() + ":" + reader[1].ToString());
 
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return Util.ArrayListToString(evals);
 	}
 	
 	public string Query(string str) {
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = str; 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -231,14 +231,14 @@ public class SqliteServer : Sqlite
 		}
 		
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myReturn;
 	}
 
 	public string [] Stats() {
 		ArrayList stats = new ArrayList();
 			
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		/*
 		 * is good to add the string stuff like "Pings" 
@@ -246,19 +246,19 @@ public class SqliteServer : Sqlite
 		 * depending if it matches what want to show.
 		 * Maintain the ':' as separator
 		*/
-		stats.Add("Pings:" + Sqlite.Count(Constants.ServerPingTable, true).ToString());
-		stats.Add("Evaluators:" + Sqlite.Count(Constants.ServerEvaluatorTable, true).ToString());
-		stats.Add("Sessions:" + Sqlite.Count(Constants.SessionTable, true).ToString());
-		stats.Add("Persons:" + Sqlite.Count(Constants.PersonTable, true).ToString());
-		stats.Add("Jumps:" + Sqlite.Count(Constants.JumpTable, true).ToString());
-		stats.Add("JumpsRj:" + Sqlite.Count(Constants.JumpRjTable, true).ToString());
-		stats.Add("Runs:" + Sqlite.Count(Constants.RunTable, true).ToString());
-		stats.Add("RunsInterval:" + Sqlite.Count(Constants.RunIntervalTable, true).ToString());
-		stats.Add("ReactionTimes:" + Sqlite.Count(Constants.ReactionTimeTable, true).ToString());
-		stats.Add("Pulses:" + Sqlite.Count(Constants.PulseTable, true).ToString());
-		stats.Add("MultiChronopic:" + Sqlite.Count(Constants.MultiChronopicTable, true).ToString());
+		stats.Add("Pings:" + SqliteGeneral.Sqlite.Count(Constants.ServerPingTable, true).ToString());
+		stats.Add("Evaluators:" + SqliteGeneral.Sqlite.Count(Constants.ServerEvaluatorTable, true).ToString());
+		stats.Add("Sessions:" + SqliteGeneral.Sqlite.Count(Constants.SessionTable, true).ToString());
+		stats.Add("Persons:" + SqliteGeneral.Sqlite.Count(Constants.PersonTable, true).ToString());
+		stats.Add("Jumps:" + SqliteGeneral.Sqlite.Count(Constants.JumpTable, true).ToString());
+		stats.Add("JumpsRj:" + SqliteGeneral.Sqlite.Count(Constants.JumpRjTable, true).ToString());
+		stats.Add("Runs:" + SqliteGeneral.Sqlite.Count(Constants.RunTable, true).ToString());
+		stats.Add("RunsInterval:" + SqliteGeneral.Sqlite.Count(Constants.RunIntervalTable, true).ToString());
+		stats.Add("ReactionTimes:" + SqliteGeneral.Sqlite.Count(Constants.ReactionTimeTable, true).ToString());
+		stats.Add("Pulses:" + SqliteGeneral.Sqlite.Count(Constants.PulseTable, true).ToString());
+		stats.Add("MultiChronopic:" + SqliteGeneral.Sqlite.Count(Constants.MultiChronopicTable, true).ToString());
 		
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		string [] statsString = Util.ArrayListToString(stats);
 		return statsString;
@@ -270,7 +270,7 @@ public class SqliteServer : Sqlite
 	public string [] StatsMine() {
 		ArrayList stats = new ArrayList();
 			
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		/*
 		 * is good to add the string stuff like "Pings" 
@@ -278,17 +278,17 @@ public class SqliteServer : Sqlite
 		 * depending if it matches what want to show.
 		 * Maintain the ':' as separator
 		*/
-		stats.Add("Sessions:" + Sqlite.CountCondition(Constants.SessionTable, true, "serverUniqueID", ">", "0").ToString());
-		stats.Add("Persons:" + Sqlite.CountCondition(Constants.PersonTable, true, "serverUniqueID", ">", "0").ToString());
-		stats.Add("Jumps:" + Sqlite.CountCondition(Constants.JumpTable, true, "simulated", ">", "0").ToString());
-		stats.Add("JumpsRj:" + Sqlite.CountCondition(Constants.JumpRjTable, true, "simulated", ">", "0").ToString());
-		stats.Add("Runs:" + Sqlite.CountCondition(Constants.RunTable, true, "simulated", ">", "0").ToString());
-		stats.Add("RunsInterval:" + Sqlite.CountCondition(Constants.RunIntervalTable, true, "simulated", ">", "0").ToString());
-		stats.Add("ReactionTimes:" + Sqlite.CountCondition(Constants.ReactionTimeTable, true, "simulated", ">", "0").ToString());
-		stats.Add("Pulses:" + Sqlite.CountCondition(Constants.PulseTable, true, "simulated", ">", "0").ToString());
-		stats.Add("MultiChronopic:" + Sqlite.CountCondition(Constants.MultiChronopicTable, true, "simulated", ">", "0").ToString());
+		stats.Add("Sessions:" + SqliteGeneral.Sqlite.CountCondition(Constants.SessionTable, true, "serverUniqueID", ">", "0").ToString());
+		stats.Add("Persons:" + SqliteGeneral.Sqlite.CountCondition(Constants.PersonTable, true, "serverUniqueID", ">", "0").ToString());
+		stats.Add("Jumps:" + SqliteGeneral.Sqlite.CountCondition(Constants.JumpTable, true, "simulated", ">", "0").ToString());
+		stats.Add("JumpsRj:" + SqliteGeneral.Sqlite.CountCondition(Constants.JumpRjTable, true, "simulated", ">", "0").ToString());
+		stats.Add("Runs:" + SqliteGeneral.Sqlite.CountCondition(Constants.RunTable, true, "simulated", ">", "0").ToString());
+		stats.Add("RunsInterval:" + SqliteGeneral.Sqlite.CountCondition(Constants.RunIntervalTable, true, "simulated", ">", "0").ToString());
+		stats.Add("ReactionTimes:" + SqliteGeneral.Sqlite.CountCondition(Constants.ReactionTimeTable, true, "simulated", ">", "0").ToString());
+		stats.Add("Pulses:" + SqliteGeneral.Sqlite.CountCondition(Constants.PulseTable, true, "simulated", ">", "0").ToString());
+		stats.Add("MultiChronopic:" + SqliteGeneral.Sqlite.CountCondition(Constants.MultiChronopicTable, true, "simulated", ">", "0").ToString());
 		
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		string [] statsString = Util.ArrayListToString(stats);
 		return statsString;

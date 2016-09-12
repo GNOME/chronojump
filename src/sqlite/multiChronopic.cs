@@ -77,7 +77,7 @@ public class SqliteMultiChronopic : Sqlite
 			string description, int simulated)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -107,7 +107,7 @@ public class SqliteMultiChronopic : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
@@ -116,7 +116,7 @@ public class SqliteMultiChronopic : Sqlite
 	public string[] SelectTests(bool dbconOpened, int sessionID, int personID) 
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string tp = Constants.PersonTable;
 
@@ -172,7 +172,7 @@ public class SqliteMultiChronopic : Sqlite
 		reader.Close();
 		
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		string [] myEvents = new string[count];
 		count =0;
@@ -186,7 +186,7 @@ public class SqliteMultiChronopic : Sqlite
 	public MultiChronopic SelectMultiChronopicData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.MultiChronopicTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -202,14 +202,14 @@ public class SqliteMultiChronopic : Sqlite
 	
 		reader.Close();
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		return mc;
 	}
 
 	public int MaxCPs(bool dbconOpened, int sessionID)
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		int maxCPs = 2;
 
@@ -236,21 +236,21 @@ public class SqliteMultiChronopic : Sqlite
 		reader.Close();
 		
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return maxCPs;
 	}
 
 	public void Update(int eventID, int personID, string vars, string description)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.MultiChronopicTable + " SET personID = " + personID + 
 			", vars = \"" + vars + 		//vars is distance on runAnalysis
 			"\", description = \"" + description +
 			"\" WHERE uniqueID == " + eventID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 }

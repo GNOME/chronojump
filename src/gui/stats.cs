@@ -574,7 +574,7 @@ public partial class ChronoJumpWindow {
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, nullOptions, "");
 			combo_stats_stat_subtype.Sensitive = false;
 			
-			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
+			ArrayList persons = SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons(
 					currentSession.UniqueID,
 					false); //means: do not returnPersonAndPSlist
 
@@ -641,7 +641,7 @@ public partial class ChronoJumpWindow {
 			combo_stats_stat_subtype.Active = 0;
 			
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-				SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //only select name
+				SqliteGeneral.SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 
@@ -655,7 +655,7 @@ public partial class ChronoJumpWindow {
 			combo_stats_stat_subtype.Active = 0;
 			
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-				SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //only select name
+				SqliteGeneral.SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 

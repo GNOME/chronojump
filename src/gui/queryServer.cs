@@ -302,7 +302,7 @@ public class QueryServerWindow
 
 	private void createComboSports() {
 		combo_sports = ComboBox.NewText ();
-		sports = SqliteSport.SelectAll();
+		sports = SqliteGeneral.SqliteSport.SelectAll();
 		
 		//first value has to be any
 		sports[0] = Constants.SportUndefinedID + ":" + //no problem using the undefinedID
@@ -330,7 +330,7 @@ public class QueryServerWindow
 	
 	private void createComboSpeciallities(int sportID) {
 		combo_speciallities = ComboBox.NewText ();
-		speciallities = SqliteSpeciallity.SelectAll(true, sportID); //show undefined, filter by sport
+		speciallities = SqliteGeneral.SqliteSpeciallity.SelectAll(true, sportID); //show undefined, filter by sport
 		
 		//first value has to be any
 		speciallities[0] = "-1:" + Constants.Any + ":" + Catalog.GetString(Constants.Any);
@@ -403,13 +403,13 @@ public class QueryServerWindow
 		}
 		else if (UtilGtk.ComboGetActive(combo_test_types) == Catalog.GetString(Constants.JumpSimpleName))
 			UtilGtk.ComboUpdate(combo_tests, 
-					SqliteJumpType.SelectJumpTypes(false, "", "", true), "");
+					SqliteGeneral.SqliteJumpType.SelectJumpTypes(false, "", "", true), "");
 		else if (UtilGtk.ComboGetActive(combo_test_types) == Catalog.GetString(Constants.JumpReactiveName))
 			UtilGtk.ComboUpdate(combo_tests, 
-					SqliteJumpType.SelectJumpRjTypes("", true), "");
+					SqliteGeneral.SqliteJumpType.SelectJumpRjTypes("", true), "");
 		else if (UtilGtk.ComboGetActive(combo_test_types) == Catalog.GetString(Constants.RunSimpleName))
 			UtilGtk.ComboUpdate(combo_tests, 
-					SqliteRunType.SelectRunTypes("", true), "");
+					SqliteGeneral.SqliteRunType.SelectRunTypes("", true), "");
 
 		combo_tests.Active = 0;
 
@@ -423,7 +423,7 @@ public class QueryServerWindow
 		if (UtilGtk.ComboGetActive(combo_test_types) == Catalog.GetString(Constants.UndefinedDefault)) 
 			UtilGtk.ComboUpdate(combo_variables, Util.StringToStringArray(Constants.UndefinedDefault), "");
 		else if (UtilGtk.ComboGetActive(combo_test_types) == Catalog.GetString(Constants.JumpSimpleName)) {
-			JumpType jt = SqliteJumpType.SelectAndReturnJumpType(UtilGtk.ComboGetActive(combo_tests), false);
+			JumpType jt = SqliteGeneral.SqliteJumpType.SelectAndReturnJumpType(UtilGtk.ComboGetActive(combo_tests), false);
 			if(jt.StartIn)
 				UtilGtk.ComboUpdate(combo_variables, variablesJumpSimple, "");
 			else
@@ -452,7 +452,7 @@ public class QueryServerWindow
 		else {
 			//get the active continent
 			string continentEnglish = Util.FindOnArray(':', 1, 0, UtilGtk.ComboGetActive(combo_continents), continents); 
-			countries = SqliteCountry.SelectCountriesOfAContinent(continentEnglish, true); //put undefined first
+			countries = SqliteGeneral.SqliteCountry.SelectCountriesOfAContinent(continentEnglish, true); //put undefined first
 
 			//create countries translated, only with translated stuff
 			countriesTranslated = new String[countries.Length];
@@ -540,7 +540,7 @@ public class QueryServerWindow
 		//LogB.Information("changed");
 		try {
 			int sportID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports));
-			sport = SqliteSport.Select(false, sportID);
+			sport = SqliteGeneral.SqliteSport.Select(false, sportID);
 
 			if(Catalog.GetString(sport.Name) == Catalog.GetString(Constants.SportAny)) {
 				//if sport is undefined, level should be undefined, and unsensitive

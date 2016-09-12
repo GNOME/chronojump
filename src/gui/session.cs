@@ -145,7 +145,7 @@ public class SessionAddEditWindow {
 
 		if(currentSession.PersonsSportID != Constants.SportUndefinedID) { 
 			radiobutton_same_sport.Active = true;
-			Sport mySport = SqliteSport.Select(false, currentSession.PersonsSportID);
+			Sport mySport = SqliteGeneral.SqliteSport.Select(false, currentSession.PersonsSportID);
 			combo_sports.Active = UtilGtk.ComboMakeActive(sportsTranslated, mySport.ToString());
 
 			if(sport.HasSpeciallities) {
@@ -280,7 +280,7 @@ public class SessionAddEditWindow {
 
 	private void createComboSports() {
 		combo_sports = ComboBox.NewText ();
-		sports = SqliteSport.SelectAll();
+		sports = SqliteGeneral.SqliteSport.SelectAll();
 		
 		//create sports translated, only with translated stuff
 		sportsTranslated = new String[sports.Length];
@@ -361,7 +361,7 @@ public class SessionAddEditWindow {
 		try {
 			//sport = new Sport(UtilGtk.ComboGetActive(combo_sports));
 			int sportID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports));
-			sport = SqliteSport.Select(false, sportID);
+			sport = SqliteGeneral.SqliteSport.Select(false, sportID);
 
 			if(Catalog.GetString(sport.Name) == Catalog.GetString(Constants.SportUndefined)) {
 				//if sport is undefined, level should be undefined, and unsensitive
@@ -456,7 +456,7 @@ public class SessionAddEditWindow {
 			else {
 				sportString = Catalog.GetString("All people in session practice the same sport:");
 				int sportID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports));
-				Sport mySport = SqliteSport.Select(false, sportID);
+				Sport mySport = SqliteGeneral.SqliteSport.Select(false, sportID);
 
 				if(sportID == Constants.SportUndefinedID)
 					sportString += "<tt>" + pleaseDefineItString + "</tt>";
@@ -531,7 +531,7 @@ public class SessionAddEditWindow {
 	private void on_sport_add_accepted (object o, EventArgs args) {
 		genericWin.Button_accept.Clicked -= new EventHandler(on_sport_add_accepted);
 		string newSportName = genericWin.EntrySelected;
-		if(Sqlite.Exists(false, Constants.SportTable, newSportName) ||
+		if(SqliteGeneral.Sqlite.Exists(false, Constants.SportTable, newSportName) ||
 				newSportName == Catalog.GetString(Constants.SportUndefined) || //let's save problems
 				newSportName == Catalog.GetString(Constants.SportNone)		//let's save problems
 				)
@@ -539,12 +539,12 @@ public class SessionAddEditWindow {
 							Catalog.GetString("Sorry, this sport '{0}' already exists in database"), 
 							newSportName));
 		else {
-			int myID = SqliteSport.Insert(false, "-1", newSportName, true, //dbconOpened, , userDefined
+			int myID = SqliteGeneral.SqliteSport.Insert(false, "-1", newSportName, true, //dbconOpened, , userDefined
 					false, "");	//hasSpeciallities, graphLink 
 
 			Sport mySport = new Sport(myID, newSportName, true, 
 					false, "");	//hasSpeciallities, graphLink 
-			sports = SqliteSport.SelectAll();
+			sports = SqliteGeneral.SqliteSport.SelectAll();
 			//create sports translated, only with translated stuff
 			sportsTranslated = new String[sports.Length];
 			int i = 0;
@@ -797,7 +797,7 @@ public class SessionLoadWindow {
 		if(entry_search_filter.Text.ToString().Length > 0) 
 			filterName = entry_search_filter.Text.ToString();
 		
-		string [] mySessions = SqliteSession.SelectAllSessions(filterName); //returns a string of values separated by ':'
+		string [] mySessions = SqliteGeneral.SqliteSession.SelectAllSessions(filterName); //returns a string of values separated by ':'
 		foreach (string session in mySessions) {
 			string [] myStringFull = session.Split(new char[] {':'});
 		
@@ -922,7 +922,7 @@ public class SessionLoadWindow {
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		if(selected != "-1") {
-			currentSession = SqliteSession.Select (selected);
+			currentSession = SqliteGeneral.SqliteSession.Select (selected);
 			SessionLoadWindowBox.session_load.Hide();
 			SessionLoadWindowBox = null;
 		}

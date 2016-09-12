@@ -80,7 +80,7 @@ public partial class Session {
 		this.serverUniqueID = serverUniqueID; //remember don't do this on server
 
 		/*
-		uniqueID = SqliteSession.Insert (false, //dbconOpened,
+		uniqueID = SqliteGeneral.SqliteSession.Insert (false, //dbconOpened,
 				Constants.SessionTable, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments, serverUniqueID);
 		*/
 		uniqueID = -1;

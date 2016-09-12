@@ -26,7 +26,7 @@ using Mono.Unix;
 using Mono.Data.Sqlite;
 
 
-class SqliteStat : Sqlite
+public class SqliteStat : Sqlite
 {
 	//sj, cmj, abk (no sj+)
 	//AllJumpsName (simple) is not managed here, is done in SjCmjAbkPlus
@@ -62,7 +62,7 @@ class SqliteStat : Sqlite
 			orderByString = orderByString + tp + ".name, sessionID, ";
 		}
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, sessionID, " + moreSelect +
 			fromString +
 			sessionString +
@@ -107,7 +107,7 @@ class SqliteStat : Sqlite
 			}
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myArray;
 	}
 	
@@ -153,7 +153,7 @@ class SqliteStat : Sqlite
 			orderByString = orderByString + "" + tp + ".name, jump.sessionID, ";
 		}
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, jump.sessionID, " + moreSelect +
 			fromString +
 			sessionString +
@@ -213,7 +213,7 @@ class SqliteStat : Sqlite
 			}
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myArray;
 	}
 
@@ -314,7 +314,7 @@ class SqliteStat : Sqlite
 			orderByString = orderByString + tp + ".name, jump.sessionID, ";
 		}
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, jump.sessionID, " + moreSelect +
 			fromString +
 			sessionString +
@@ -378,7 +378,7 @@ class SqliteStat : Sqlite
 				    );
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myArray;
 	}
 
@@ -420,7 +420,7 @@ class SqliteStat : Sqlite
 			orderByString = orderByString + tp + ".name, jumpRj.sessionID, ";
 		}
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, sessionID, " + moreSelect +
 			//" FROM jumpRj, person " +
 			fromString +
@@ -473,7 +473,7 @@ class SqliteStat : Sqlite
 				    );
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myArray;
 	}
 
@@ -517,7 +517,7 @@ class SqliteStat : Sqlite
 			orderByString = orderByString + tp + ".name, jumpRj.sessionID, ";
 		}
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, sessionID, " + moreSelect +
 			fromString +
 			sessionString +
@@ -575,7 +575,7 @@ class SqliteStat : Sqlite
 				    );
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myArray;
 	}
 
@@ -583,7 +583,7 @@ class SqliteStat : Sqlite
 	//for rjEvolution (to know the number of columns)
 	public int ObtainMaxNumberOfJumps (string sessionString)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT MAX(jumps) from jumpRj " + sessionString +
 			"group by jumps order by jumps DESC limit 1";
 			//this is done because if no jumps, and we don't write last line, it returns a blank line
@@ -600,7 +600,7 @@ class SqliteStat : Sqlite
 			myReturn = Convert.ToInt32(reader[0].ToString());
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		if (found) {
 			return myReturn;
@@ -612,7 +612,7 @@ class SqliteStat : Sqlite
 	//for start/RunIntervallic (to know the number of columns)
 	public int ObtainMaxNumberOfRuns (string sessionString)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT MAX(tracks) from runInterval " + sessionString +
 			"group by tracks order by tracks DESC limit 1";
 			//this is done because if no jumps, and we don't write last line, it returns a blank line
@@ -631,7 +631,7 @@ class SqliteStat : Sqlite
 			myReturn = Convert.ToInt32(Math.Floor(Convert.ToDouble(reader[0].ToString())));
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		if (found) {
 			return myReturn;
@@ -703,7 +703,7 @@ class SqliteStat : Sqlite
 			orderByString = orderByString + tp + ".name, jumpRj.sessionID, ";
 		}
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, sessionID, " + moreSelect +
 			fromString +
 			sessionString +
@@ -765,7 +765,7 @@ class SqliteStat : Sqlite
 				    );
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myArray;
 	}
 
@@ -811,7 +811,7 @@ class SqliteStat : Sqlite
 		//	orderByString = orderByString + tp + ".name, jumpRj.sessionID, ";
 		//}
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, sessionID, " + moreSelect +
 			fromString +
 			sessionString +
@@ -866,7 +866,7 @@ LogB.SQL(intervalSpeeds);
 				    );
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myArray;
 	}
 
@@ -906,7 +906,7 @@ LogB.SQL(intervalSpeeds);
 			orderByString = orderByString + tp + ".name, j1.sessionID, ";
 		}
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, j1.sessionID, " + moreSelect +
 			" FROM jump AS j1, jump AS j2, " + tp + " " +
 			sessionString +
@@ -949,7 +949,7 @@ LogB.SQL(intervalSpeeds);
 				    );
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myArray;
 	}
 	
@@ -983,7 +983,7 @@ LogB.SQL(intervalSpeeds);
 			orderByString = orderByString + tp + ".name, j1.sessionID, ";
 		}
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, j1.sessionID, " + moreSelect +
 			" FROM jump AS j1, jump AS j2, " + tp + " " +
 			sessionString +
@@ -1027,7 +1027,7 @@ LogB.SQL(intervalSpeeds);
 				    );
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myArray;
 	}
 
@@ -1061,7 +1061,7 @@ LogB.SQL(intervalSpeeds);
 			orderByString = orderByString + tp + ".name, j1.sessionID, ";
 		}
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, j1.sessionID, " + moreSelect +
 			" FROM jump AS j1, jump AS j2, " + tp + " " +
 			sessionString +
@@ -1111,7 +1111,7 @@ LogB.SQL(intervalSpeeds);
 				    );
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myArray;
 	}
 
@@ -1216,7 +1216,7 @@ LogB.SQL(intervalSpeeds);
 			orderByString = orderByString + "jump.sessionID, ";
 		}
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, jump.sessionID, " + moreSelect +
 			fromString +
 			sessionString +
@@ -1286,7 +1286,7 @@ LogB.SQL(intervalSpeeds);
 			}
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myArray;
 	}
 
@@ -1328,7 +1328,7 @@ LogB.SQL(intervalSpeeds);
 			orderByString = orderByString + tp + ".name, sessionID, ";
 		}
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, sessionID, " + moreSelect +
 			fromString +
 			sessionString +
@@ -1373,7 +1373,7 @@ LogB.SQL(intervalSpeeds);
 			}
 		}
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return myArray;
 	}
 	
@@ -1385,7 +1385,7 @@ LogB.SQL(intervalSpeeds);
 	/*
 	public ArrayList SelectChronojumpProfile (string sessionID)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		
 		//select personID and personName (IDNameList)
 		IDNameList idNameList = fillIDNameList( 
@@ -1445,7 +1445,7 @@ LogB.SQL(intervalSpeeds);
 		ArrayList arrayReturn = superlist.GetArray();
 		LogB.SQL("end of superlist");
 		
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return arrayReturn;
 	}
 	*/

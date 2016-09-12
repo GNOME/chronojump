@@ -60,7 +60,7 @@ public class SqliteExecuteAuto : Sqlite
 	public void Insert(bool dbconOpened, ExecuteAutoSQL eaSQL)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.ExecuteAutoTable +  
 			" (uniqueID, name, mode, description, " +
@@ -76,12 +76,12 @@ public class SqliteExecuteAuto : Sqlite
 		dbcmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 
 	protected internal void addChronojumpProfileAndBilateral()
 	{
-		string [] jumps = SqliteJumpType.SelectJumpTypes(true, "", "", false);
+		string [] jumps = SqliteGeneral.SqliteJumpType.SelectJumpTypes(true, "", "", false);
 
 		IDNameList jList = new IDNameList(jumps,':');
 		
@@ -125,7 +125,7 @@ public class SqliteExecuteAuto : Sqlite
 	public List<ExecuteAutoSQL> Select(bool dbconOpened, int uniqueID) 
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string whereStr = "";
 		if(uniqueID != -1)
@@ -154,7 +154,7 @@ public class SqliteExecuteAuto : Sqlite
 		}
 		reader.Close();
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return sequences;
 	}

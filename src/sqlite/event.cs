@@ -57,7 +57,7 @@ public class SqliteEvent : Sqlite
 	public int GraphLinkInsert(string tableName, string eventName, string graphFileName, bool dbconOpened, SqliteCommand mycmd)
 	{
 		if(! dbconOpened) {
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		}
 		mycmd.CommandText = "INSERT INTO graphLinkTable" + 
 				"(uniqueID, tableName, eventName, graphFileName, other1, other2)" +
@@ -70,7 +70,7 @@ public class SqliteEvent : Sqlite
 		mycmd.CommandText = myString;
 		int myLast = Convert.ToInt32(mycmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		if(! dbconOpened) {
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		}
 
 		return myLast;
@@ -79,7 +79,7 @@ public class SqliteEvent : Sqlite
 	//do not use this because some graph like the takeoff.png are not in this SQL table	
 	public string GraphLinkSelectFileName(string tableName, string eventName)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT graphFileName FROM graphLinkTable WHERE tableName == \"" + tableName + "\" AND eventName ==\"" + eventName + "\"";
 		
@@ -95,7 +95,7 @@ public class SqliteEvent : Sqlite
 		}
 	
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return returnString;
 	}
 		
@@ -104,7 +104,7 @@ public class SqliteEvent : Sqlite
 	public void UpdateSimulated(bool dbconOpened, string tableName, int uniqueID, int simulated)
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "UPDATE " + tableName + " SET simulated = " + simulated + 
 			" WHERE uniqueID == " + uniqueID ;
@@ -112,7 +112,7 @@ public class SqliteEvent : Sqlite
 		dbcmd.ExecuteNonQuery();
 
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 
 	//convertSimulate and simulateConvertToNegative as a part of db conversion to 0.60

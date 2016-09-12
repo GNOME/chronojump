@@ -44,7 +44,7 @@ class SqlitePersonSessionOld : Sqlite
 		dbcmd.ExecuteNonQuery();
 	 }
 
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, double weight)
+	public int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, double weight)
 	{
 		if(!dbconOpened)
 			dbcon.Open();
@@ -128,7 +128,7 @@ class SqlitePersonSessionOld : Sqlite
 		}
 	}
 	
-	public static bool PersonExistsInPS(int personID)
+	public bool PersonExistsInPS(int personID)
 	{
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionOldWeightTable + 
 			" WHERE personID == " + personID;

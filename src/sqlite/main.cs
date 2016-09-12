@@ -53,6 +53,8 @@ public sealed class SqliteGeneral
 	private static SqlitePersonSessionNotUpload m_sqlitePersonSessionNotUpload;
 	private static SqliteEncoder m_sqliteEncoder;
 	private static SqliteEvent m_sqliteEvent;
+	private static SqliteCountry m_sqliteCountry;
+	private static SqliteStat m_sqliteStat;
 
 	public SqliteGeneral()
 	{
@@ -247,6 +249,20 @@ public sealed class SqliteGeneral
 		get
 		{
 			return m_sqliteEvent;
+		}
+	}
+	public static SqliteCountry SqliteCountry
+	{
+		get
+		{
+			return m_sqliteCountry;
+		}
+	}
+	public static SqliteStat SqliteStat
+	{
+		get
+		{
+			return m_sqliteStat;
 		}
 	}
 }
@@ -744,8 +760,8 @@ public class Sqlite
 
 				//SqliteGeneral.SqlitePulse.createTable(Constants.PulseTable);
 				sqlitePulseObject.createTable(Constants.PulseTable);
-				SqlitePulseType.createTablePulseType();
-				SqlitePulseType.initializeTablePulseType();
+				SqliteGeneral.SqlitePulseType.createTablePulseType();
+				SqliteGeneral.SqlitePulseType.initializeTablePulseType();
 
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.42", true); 
 				LogB.SQL("Converted DB to 0.42 (added pulse and pulseType tables)");
@@ -756,7 +772,7 @@ public class Sqlite
 
 			if(currentVersion == "0.42") {
 				SqliteGeneral.Sqlite.Open();
-				SqlitePulseType.Insert ("Free:-1:-1:free PulseStep mode", true); 
+				SqliteGeneral.SqlitePulseType.Insert ("Free:-1:-1:free PulseStep mode", true); 
 				SqliteGeneral.SqlitePreferences.Insert ("language", "es-ES"); 
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.43", true); 
 				LogB.SQL("Converted DB to 0.43 (added 'free' pulseType & language peference)");
@@ -785,7 +801,7 @@ public class Sqlite
 
 			if(currentVersion == "0.45") {
 				SqliteGeneral.Sqlite.Open();
-				SqliteJumpType.JumpTypeInsert ("Free:1:0:Free jump", true); 
+				SqliteGeneral.SqliteJumpType.JumpTypeInsert ("Free:1:0:Free jump", true); 
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.46", true); 
 				LogB.SQL("Added Free jump type");
 				SqliteGeneral.Sqlite.Close();
@@ -821,7 +837,7 @@ public class Sqlite
 			if(currentVersion == "0.48") {
 				SqliteGeneral.Sqlite.Open();
 
-				SqliteJumpType.JumpTypeInsert ("Rocket:1:0:Rocket jump", true); 
+				SqliteGeneral.SqliteJumpType.JumpTypeInsert ("Rocket:1:0:Rocket jump", true); 
 
 				string [] iniRunTypes = {
 					"Agility-20Yard:18.28:20Yard Agility test",
@@ -852,12 +868,12 @@ public class Sqlite
 
 			if(currentVersion == "0.49") {
 				SqliteGeneral.Sqlite.Open();
-				SqliteJumpType.Update ("SJ+", "SJl"); 
-				SqliteJumpType.Update ("CMJ+", "CJl"); 
-				SqliteJumpType.Update ("ABK+", "ABKl"); 
+				SqliteGeneral.SqliteJumpType.Update ("SJ+", "SJl"); 
+				SqliteGeneral.SqliteJumpType.Update ("CMJ+", "CJl"); 
+				SqliteGeneral.SqliteJumpType.Update ("ABK+", "ABKl"); 
 				SqliteGeneral.SqliteJump.ChangeWeightToL();
-				SqliteJumpType.AddGraphLinks();	
-				SqliteJumpType.AddGraphLinksRj();	
+				SqliteGeneral.SqliteJumpType.AddGraphLinks();	
+				SqliteGeneral.SqliteJumpType.AddGraphLinksRj();	
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.50", true); 
 				LogB.SQL("changed SJ+ to SJl, same for CMJ+ and ABK+, added jump and jumpRj graph links");
 				SqliteGeneral.Sqlite.Close();
@@ -876,7 +892,7 @@ public class Sqlite
 
 			if(currentVersion == "0.51") {
 				SqliteGeneral.Sqlite.Open();
-				SqliteJumpType.Update ("CJl", "CMJl"); 
+				SqliteGeneral.SqliteJumpType.Update ("CJl", "CMJl"); 
 				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJl", "jump_cmj_l.png", true);
 				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABKl", "jump_abk_l.png", true);
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.52", true); 
@@ -1104,7 +1120,7 @@ public class Sqlite
 			}
 			if(currentVersion == "0.61") {
 				SqliteGeneral.Sqlite.Open();
-				SqliteJumpType.JumpRjTypeInsert ("RJ(hexagon):1:0:1:18:Reactive Jump on a hexagon until three full revolutions are done", true);
+				SqliteGeneral.SqliteJumpType.JumpRjTypeInsert ("RJ(hexagon):1:0:1:18:Reactive Jump on a hexagon until three full revolutions are done", true);
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.62", true); 
 				LogB.SQL("Converted DB to 0.62 added hexagon");
 				SqliteGeneral.Sqlite.Close();
@@ -1150,7 +1166,7 @@ public class Sqlite
 			if(currentVersion == "0.65") {
 				SqliteGeneral.Sqlite.Open();
 				//now runAnalysis is a multiChronopic event
-				//SqliteJumpType.JumpRjTypeInsert ("RunAnalysis:0:0:1:-1:Run between two photocells recording contact and flight times in contact platform/s. Until finish button is clicked.", true);
+				//SqliteGeneral.SqliteJumpType.JumpRjTypeInsert ("RunAnalysis:0:0:1:-1:Run between two photocells recording contact and flight times in contact platform/s. Until finish button is clicked.", true);
 
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.66", true); 
 				
@@ -1161,8 +1177,8 @@ public class Sqlite
 			}
 			if(currentVersion == "0.66") {
 				SqliteGeneral.Sqlite.Open();
-				SqliteJumpType.JumpTypeInsert ("TakeOff:0:0:Take off", true);
-				SqliteJumpType.JumpTypeInsert ("TakeOffWeight:0:0:Take off with weight", true);
+				SqliteGeneral.SqliteJumpType.JumpTypeInsert ("TakeOff:0:0:Take off", true);
+				SqliteGeneral.SqliteJumpType.JumpTypeInsert ("TakeOffWeight:0:0:Take off with weight", true);
 
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.67", true); 
 				
@@ -1298,7 +1314,7 @@ public class Sqlite
 			if(currentVersion == "0.77") {
 				SqliteGeneral.Sqlite.Open();
 
-				SqliteJumpType.UpdateOther ("weight", Constants.TakeOffWeightName, "1"); 
+				SqliteGeneral.SqliteJumpType.UpdateOther ("weight", Constants.TakeOffWeightName, "1"); 
 
 				Random rnd = new Random();
 				string machineID = rnd.Next().ToString();
@@ -1379,9 +1395,9 @@ public class Sqlite
 				conversionRateTotal = 2;
 				
 				conversionRate = 1;
-				SqliteEncoder.createTableEncoder();
-				SqliteEncoder.createTableEncoderExercise();
-				SqliteEncoder.initializeTableEncoderExercise();
+				SqliteGeneral.SqliteEncoder.createTableEncoder();
+				SqliteGeneral.SqliteEncoder.createTableEncoderExercise();
+				SqliteGeneral.SqliteEncoder.initializeTableEncoderExercise();
 				conversionRate = 2;
 				LogB.SQL("Created encoder tables.");
 
@@ -1410,7 +1426,7 @@ public class Sqlite
 			}
 			if(currentVersion == "0.84") {
 				SqliteGeneral.Sqlite.Open();
-				SqliteJumpType.JumpTypeInsert ("slCMJ:1:0:Single-leg CMJ jump", true);
+				SqliteGeneral.SqliteJumpType.JumpTypeInsert ("slCMJ:1:0:Single-leg CMJ jump", true);
 
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.85", true); 
 				
@@ -1464,7 +1480,7 @@ public class Sqlite
 			if(currentVersion == "0.88") {
 				SqliteGeneral.Sqlite.Open();
 	
-				SqliteEncoder.addEncoderFreeExercise();
+				SqliteGeneral.SqliteEncoder.addEncoderFreeExercise();
 				
 				LogB.SQL("Added encoder exercise: Free");
 				
@@ -1489,7 +1505,7 @@ public class Sqlite
 			if(currentVersion == "0.90") {
 				SqliteGeneral.Sqlite.Open();
 				
-				SqliteEncoder.UpdateExercise(true, "Squat", "Squat", 100, "weight bar", "", "");	
+				SqliteGeneral.SqliteEncoder.UpdateExercise(true, "Squat", "Squat", 100, "weight bar", "", "");	
 				LogB.SQL("Encoder Squat 75% -> 100%");
 				
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.91", true); 
@@ -1511,8 +1527,8 @@ public class Sqlite
 			if(currentVersion == "0.92") {
 				SqliteGeneral.Sqlite.Open();
 				
-				SqliteEncoder.UpdateExercise(true, "Bench press", "Bench press", 0, "weight bar", "","0.185");
-				SqliteEncoder.UpdateExercise(true, "Squat", "Squat", 100, "weight bar", "","0.31");
+				SqliteGeneral.SqliteEncoder.UpdateExercise(true, "Bench press", "Bench press", 0, "weight bar", "","0.185");
+				SqliteGeneral.SqliteEncoder.UpdateExercise(true, "Squat", "Squat", 100, "weight bar", "","0.31");
 				LogB.SQL("Added speed1RM on encoder exercise");
 				
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.93", true); 
@@ -1523,7 +1539,7 @@ public class Sqlite
 			if(currentVersion == "0.93") {
 				SqliteGeneral.Sqlite.Open();
 				
-				SqliteEncoder.createTable1RM();
+				SqliteGeneral.SqliteEncoder.createTable1RM();
 				LogB.SQL("Added encoder1RM table");
 				
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.94", true); 
@@ -1607,7 +1623,7 @@ public class Sqlite
 				foreach( EncoderSQL098 es in array) {
 					conversionRate = count;
 				
-					//do not use SqliteEncoder.Insert because that method maybe changes in the future,
+					//do not use SqliteGeneral.SqliteEncoder.Insert because that method maybe changes in the future,
 					//and here we need to do a conversion that works from 0.98 to 0.99
 					dbcmd.CommandText = "INSERT INTO " + Constants.EncoderTable +  
 						" (uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, " + 
@@ -1637,9 +1653,9 @@ public class Sqlite
 			if(currentVersion == "0.99") {
 				SqliteGeneral.Sqlite.Open();
 
-				SqliteEncoder.putEncoderExerciseAnglesAt90();
-				SqliteEncoder.addEncoderJumpExercise();
-				SqliteEncoder.addEncoderInclinedExercises();
+				SqliteGeneral.SqliteEncoder.putEncoderExerciseAnglesAt90();
+				SqliteGeneral.SqliteEncoder.addEncoderJumpExercise();
+				SqliteGeneral.SqliteEncoder.addEncoderInclinedExercises();
 
 				LogB.SQL("Added Free and inclinedExercises");
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.00", true); 
@@ -1676,7 +1692,7 @@ public class Sqlite
 				SqliteGeneral.Sqlite.Open();
 		
 				DeleteFromName(true, Constants.EncoderExerciseTable, "Inclinated plane Custom");
-				SqliteEncoder.removeEncoderExerciseAngles();
+				SqliteGeneral.SqliteEncoder.removeEncoderExerciseAngles();
 
 				LogB.SQL("Updated encoder exercise, angle is now on encoder configuration");
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "1.03", true); 
@@ -1704,7 +1720,7 @@ public class Sqlite
 				foreach(EncoderSQL103 es in array) {
 					conversionRate = count;
 				
-					//do not use SqliteEncoder.Insert because that method maybe changes in the future,
+					//do not use SqliteGeneral.SqliteEncoder.Insert because that method maybe changes in the future,
 					//and here we need to do a conversion that works from 1.03 to 1.04
 					dbcmd.CommandText = "INSERT INTO " + Constants.EncoderTable +  
 						" (uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, " + 
@@ -1749,11 +1765,11 @@ public class Sqlite
 			if(currentVersion == "1.05") {
 				SqliteGeneral.Sqlite.Open();
 		
-				SqliteEncoder.createTableEncoderSignalCurve();
+				SqliteGeneral.SqliteEncoder.createTableEncoderSignalCurve();
 
-				ArrayList signals = SqliteEncoder.Select(true, -1, -1, -1, Constants.EncoderGI.ALL,
+				ArrayList signals = SqliteGeneral.SqliteEncoder.Select(true, -1, -1, -1, Constants.EncoderGI.ALL,
 						-1, "signal", EncoderSQL.Eccons.ALL, false, false);
-				ArrayList curves = SqliteEncoder.Select(true, -1, -1, -1, Constants.EncoderGI.ALL,
+				ArrayList curves = SqliteGeneral.SqliteEncoder.Select(true, -1, -1, -1, Constants.EncoderGI.ALL,
 						-1, "curve", EncoderSQL.Eccons.ALL, false, false);
 				int signalID;
 				conversionRateTotal = signals.Count;
@@ -1770,7 +1786,7 @@ public class Sqlite
 					foreach(EncoderSQL c in curves) {
 						conversionSubRate ++;
 						if(s.GetDate(false) == c.GetDate(false) && s.eccon == c.eccon) {
-							int msCentral = SqliteEncoder.FindCurveInSignal(
+							int msCentral = SqliteGeneral.SqliteEncoder.FindCurveInSignal(
 									s.GetFullURL(false), c.GetFullURL(false));
 
 							signalID = Convert.ToInt32(s.uniqueID);
@@ -1802,7 +1818,7 @@ public class Sqlite
 										Constants.EncoderTable, Convert.ToInt32(c.uniqueID));
 							} else {
 								curvesStored.Add(msCentral);
-								SqliteEncoder.SignalCurveInsert(true, 
+								SqliteGeneral.SqliteEncoder.SignalCurveInsert(true, 
 										signalID, Convert.ToInt32(c.uniqueID), msCentral);
 							}
 						}
@@ -2209,10 +2225,10 @@ public class Sqlite
 
 		//jump Types
 		creationRate ++;
-		SqliteJumpType.createTableJumpType();
-		SqliteJumpType.createTableJumpRjType();
-		SqliteJumpType.initializeTableJumpType();
-		SqliteJumpType.initializeTableJumpRjType();
+		SqliteGeneral.SqliteJumpType.createTableJumpType();
+		SqliteGeneral.SqliteJumpType.createTableJumpRjType();
+		SqliteGeneral.SqliteJumpType.initializeTableJumpType();
+		SqliteGeneral.SqliteJumpType.initializeTableJumpRjType();
 		
 		//runs
 		creationRate ++;
@@ -2251,11 +2267,11 @@ public class Sqlite
 	
 		//encoder	
 		creationRate ++;
-		SqliteEncoder.createTableEncoder();
-		SqliteEncoder.createTableEncoderSignalCurve();
-		SqliteEncoder.createTableEncoderExercise();
-		SqliteEncoder.initializeTableEncoderExercise();
-		SqliteEncoder.createTable1RM();
+		SqliteGeneral.SqliteEncoder.createTableEncoder();
+		SqliteGeneral.SqliteEncoder.createTableEncoderSignalCurve();
+		SqliteGeneral.SqliteEncoder.createTableEncoderExercise();
+		SqliteGeneral.SqliteEncoder.initializeTableEncoderExercise();
+		SqliteGeneral.SqliteEncoder.createTable1RM();
 
 		//sports
 		creationRate ++;
@@ -2668,7 +2684,7 @@ public class Sqlite
 		conversionRate ++;
 	}
 
-	//used to delete persons (if needed) when a session is deleted. See SqliteSession.DeleteAllStuff
+	//used to delete persons (if needed) when a session is deleted. See SqliteGeneral.SqliteSession.DeleteAllStuff
 	protected internal void deleteOrphanedPersons()
 	{
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonTable;
@@ -2685,12 +2701,12 @@ public class Sqlite
 
 		foreach(int personID in myArray) {
 			//if person is not in other sessions, delete it from DB
-			if(! SqlitePersonSession.PersonExistsInPS(true, personID))
+			if(! SqliteGeneral.SqlitePersonSession.PersonExistsInPS(true, personID))
 				Delete(true, Constants.PersonTable, personID);
 		}
 	}
 				
-	//used to delete persons (if needed) when a session is deleted. See SqliteSession.DeleteAllStuff
+	//used to delete persons (if needed) when a session is deleted. See SqliteGeneral.SqliteSession.DeleteAllStuff
 	//also used to convert to sqlite 0.73
 	//this is old method (before .77), now use above method
 	protected internal void deleteOrphanedPersonsOld()
@@ -2753,8 +2769,8 @@ public class Sqlite
 		SqliteGeneral.Sqlite.Open();
 
 		//create new jump types
-		SqliteJumpType.JumpTypeInsert ("DJa:0:0:DJ jump using arms", true); 
-		SqliteJumpType.JumpTypeInsert ("DJna:0:0:DJ jump without using arms", true); 
+		SqliteGeneral.SqliteJumpType.JumpTypeInsert ("DJa:0:0:DJ jump using arms", true); 
+		SqliteGeneral.SqliteJumpType.JumpTypeInsert ("DJna:0:0:DJ jump without using arms", true); 
 		
 		//add auto-converted on description
 		dbcmd.CommandText = "UPDATE jump SET description = description || \" Auto-converted from DJ\" WHERE type == \"DJ\"";
@@ -2767,7 +2783,7 @@ public class Sqlite
 		dbcmd.ExecuteNonQuery();
 
 		//delete DJ
-		SqliteJumpType.Delete(Constants.JumpTypeTable, "DJ", true);
+		SqliteGeneral.SqliteJumpType.Delete(Constants.JumpTypeTable, "DJ", true);
 	}
 
 

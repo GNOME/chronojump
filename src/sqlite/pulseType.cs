@@ -66,7 +66,7 @@ public class SqlitePulseType : Sqlite
 	{
 		string [] myStr = myPulse.Split(new char[] {':'});
 		if(! dbconOpened) {
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		}
 		dbcmd.CommandText = "INSERT INTO " + Constants.PulseTypeTable +  
 				" (uniqueID, name, fixedPulse, totalPulsesNum, description)" +
@@ -76,7 +76,7 @@ public class SqlitePulseType : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(! dbconOpened) {
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 		}
 	}
 	
@@ -85,7 +85,7 @@ public class SqlitePulseType : Sqlite
 		//allPulsesName: add and "allPulsesName" value
 		//onlyName: return only type name
 	
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.PulseTypeTable + 
 			" ORDER BY uniqueID";
@@ -115,7 +115,7 @@ public class SqlitePulseType : Sqlite
 		}
 
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		int numRows;
 		if(allPulsesName != "") {
@@ -139,7 +139,7 @@ public class SqlitePulseType : Sqlite
 
 	public PulseType SelectAndReturnPulseType(string typeName) 
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.PulseTypeTable +
 			" WHERE name  = \"" + typeName +
@@ -160,7 +160,7 @@ public class SqlitePulseType : Sqlite
 		}
 
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		return myPulseType;
 	}

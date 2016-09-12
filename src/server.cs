@@ -192,7 +192,7 @@ public class Server
 			string sportsSeparator = "";
 
 			//upload persons (updating also person.serverUniqueID locally)
-			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
+			ArrayList persons = SqliteGeneral.SqlitePersonSession.SelectCurrentSessionPersons(
 					serverSession.UniqueID,
 					false); //means: do not returnPersonAndPSlist
 			
@@ -209,7 +209,7 @@ public class Server
 				if(Util.FoundInArrayList(notToUpload, person.UniqueID.ToString())) 
 					continue;
 
-				PersonSession ps = SqlitePersonSession.Select(person.UniqueID, currentSession.UniqueID);  
+				PersonSession ps = SqliteGeneral.SqlitePersonSession.Select(person.UniqueID, currentSession.UniqueID);  
 
 				//check person if exists
 				if(person.ServerUniqueID != Constants.ServerUndefinedID) 
@@ -256,7 +256,7 @@ public class Server
 
 				string [] jumps = SqliteGeneral.SqliteJump.SelectJumps(false, currentSession.UniqueID, person.UniqueID, "", "",
 						Sqlite.Orders_by.DEFAULT, -1);
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				foreach(string myJump in jumps) {
 					string [] js = myJump.Split(new char[] {':'});
 					//select jump
@@ -271,7 +271,7 @@ public class Server
 					if(test.Simulated == 0) {
 						//upload jumpType if is user defined and doesn't exists in server database
 						//JumpType type = new JumpType(test.Type);
-						JumpType type = SqliteJumpType.SelectAndReturnJumpType(test.Type, true);
+						JumpType type = SqliteGeneral.SqliteJumpType.SelectAndReturnJumpType(test.Type, true);
 						if( ! type.IsPredefined) {
 							//Console.WriteLine("USER DEFINED TEST: " + test.Type);
 							//
@@ -312,7 +312,7 @@ public class Server
 					else //SIMULATED
 						countS ++;
 				}
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 
 				//other thread updates the gui:
 				sessionUploadPersonData.jumpsU = countU;
@@ -325,7 +325,7 @@ public class Server
 				countS = 0;					
 
 				string [] jumpsRj = SqliteGeneral.SqliteJumpRj.SelectJumps(false, currentSession.UniqueID, person.UniqueID, "", "");
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				foreach(string myJump in jumpsRj) {
 					string [] js = myJump.Split(new char[] {':'});
 					//select jump
@@ -335,7 +335,7 @@ public class Server
 					test.SessionID = currentSession.ServerUniqueID;
 					
 					if(test.Simulated == 0) {
-						JumpType type = SqliteJumpType.SelectAndReturnJumpRjType(test.Type, true);
+						JumpType type = SqliteGeneral.SqliteJumpType.SelectAndReturnJumpRjType(test.Type, true);
 						if( ! type.IsPredefined) {
 							string insertedType = myServer.UploadJumpRjType(type, evalSID);
 							if(insertedType != "-1") {
@@ -356,7 +356,7 @@ public class Server
 					else //SIMULATED
 						countS ++;
 				}
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 
 				//other thread updates the gui:
 				sessionUploadPersonData.jumpsRjU = countU;
@@ -371,7 +371,7 @@ public class Server
 				string [] runs = SqliteGeneral.SqliteRun.SelectRuns(false, currentSession.UniqueID, person.UniqueID, "",
 						Sqlite.Orders_by.DEFAULT, -1);
 
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				foreach(string myRun in runs) {
 					string [] js = myRun.Split(new char[] {':'});
 					//select run
@@ -381,7 +381,7 @@ public class Server
 					test.SessionID = currentSession.ServerUniqueID;
 
 					if(test.Simulated == 0) {
-						RunType type = SqliteRunType.SelectAndReturnRunType(test.Type, true);
+						RunType type = SqliteGeneral.SqliteRunType.SelectAndReturnRunType(test.Type, true);
 						if( ! type.IsPredefined) {
 							string insertedType = myServer.UploadRunType(type, evalSID);
 							if(insertedType != "-1") {
@@ -402,7 +402,7 @@ public class Server
 					else //SIMULATED
 						countS ++;
 				}
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 
 				//other thread updates the gui:
 				sessionUploadPersonData.runsU = countU;
@@ -415,7 +415,7 @@ public class Server
 				countS = 0;					
 
 				string [] runsI = SqliteGeneral.SqliteRunInterval.SelectRuns(false, currentSession.UniqueID, person.UniqueID, "");
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				foreach(string myRun in runsI) {
 					string [] js = myRun.Split(new char[] {':'});
 					//select run
@@ -445,7 +445,7 @@ public class Server
 					else //SIMULATED
 						countS ++;
 				}
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 
 				//other thread updates the gui:
 				sessionUploadPersonData.runsIU = countU;
@@ -458,9 +458,9 @@ public class Server
 				countS = 0;					
 
 				string [] rts = SqliteGeneral.SqliteReactionTime.SelectReactionTimes(false, currentSession.UniqueID, person.UniqueID, "",
-						Sqlite.Orders_by.DEFAULT, -1);
+						SqliteGeneral.Sqlite.Orders_by.DEFAULT, -1);
 
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				foreach(string myRt in rts) {
 					string [] js = myRt.Split(new char[] {':'});
 					//select rt
@@ -478,7 +478,7 @@ public class Server
 					else //SIMULATED
 						countS ++;
 				}
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 
 				//other thread updates the gui:
 				sessionUploadPersonData.rtsU = countU;
@@ -491,7 +491,7 @@ public class Server
 				countS = 0;					
 
 				string [] pulses = SqliteGeneral.SqlitePulse.SelectPulses(false, currentSession.UniqueID, person.UniqueID);
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				foreach(string myPulse in pulses) {
 					string [] js = myPulse.Split(new char[] {':'});
 					//select pulse
@@ -509,7 +509,7 @@ public class Server
 					else //SIMULATED
 						countS ++;
 				}
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 
 				//other thread updates the gui:
 				sessionUploadPersonData.pulsesU = countU;
@@ -522,7 +522,7 @@ public class Server
 				countS = 0;					
 
 				string [] mcs = SqliteGeneral.SqliteMultiChronopic.SelectTests(false, currentSession.UniqueID, person.UniqueID);
-				Sqlite.Open();
+				SqliteGeneral.Sqlite.Open();
 				foreach(string mc in mcs) {
 					string [] js = mc.Split(new char[] {':'});
 					//select mc
@@ -540,7 +540,7 @@ public class Server
 					else //SIMULATED
 						countS ++;
 				}
-				Sqlite.Close();
+				SqliteGeneral.Sqlite.Close();
 
 				//other thread updates the gui:
 				sessionUploadPersonData.mcsU = countU;

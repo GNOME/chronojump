@@ -138,7 +138,7 @@ class SqliteOldConvert : Sqlite
 			int uniqueID, int personID, int sessionID, string signalOrCurve, bool onlyActive)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string personIDStr = "";
 		if(personID != -1)
@@ -213,7 +213,7 @@ class SqliteOldConvert : Sqlite
 		}
 		reader.Close();
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return array;
 	}
@@ -285,7 +285,7 @@ class SqliteOldConvert : Sqlite
 			int uniqueID, int personID, int sessionID, string signalOrCurve, bool onlyActive)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string personIDStr = "";
 		if(personID != -1)
@@ -355,7 +355,7 @@ class SqliteOldConvert : Sqlite
 		}
 		reader.Close();
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return array;
 	}

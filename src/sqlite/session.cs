@@ -56,7 +56,7 @@ public class SqliteSession : Sqlite
 	public int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -77,14 +77,14 @@ public class SqliteSession : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
 
 	protected internal void insertSimulatedSession()
 	{
-		if(! Sqlite.Exists (true, Constants.SessionTable, Constants.SessionSimulatedName))
+		if(! SqliteGeneral.Sqlite.Exists (true, Constants.SessionTable, Constants.SessionSimulatedName))
 			Insert(true, Constants.SessionTable, "-1", Constants.SessionSimulatedName, "", DateTime.Today, 
 					Constants.SportUndefinedID, Constants.SpeciallityUndefinedID, Constants.LevelUndefinedID,
 					Catalog.GetString("Use this session to simulate tests."), Constants.ServerUndefinedID);
@@ -93,7 +93,7 @@ public class SqliteSession : Sqlite
 	public void Update(int uniqueID, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments) 
 	{
 		//TODO: serverUniqueID (but cannot be changed in gui/edit, then not need now)
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " " +
 			" SET name = \"" + name +
 			"\" , date = \"" + UtilDate.ToSql(date) +
@@ -104,14 +104,14 @@ public class SqliteSession : Sqlite
 			", comments = \"" + comments +
 			"\" WHERE uniqueID == " + uniqueID;
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 	
 	//updating local session when it gets uploaded
 	public void UpdateServerUniqueID(int uniqueID, int serverID)
 	{
 		//if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "UPDATE " +Constants.SessionTable + " SET serverUniqueID = " + serverID + 
 			" WHERE uniqueID == " + uniqueID ;
@@ -119,7 +119,7 @@ public class SqliteSession : Sqlite
 		dbcmd.ExecuteNonQuery();
 
 		//if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 
 
@@ -139,12 +139,12 @@ public class SqliteSession : Sqlite
 	public Session SelectDo(SqliteCommand mydbcmd)
 	{
 		try {
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 		} catch {
 			//done because there's an eventual problem maybe thread related on very few starts of chronojump
 			LogB.SQL("Catched dbcon problem at Session.Select");
-			Sqlite.Close();
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Close();
+			SqliteGeneral.Sqlite.Open();
 			LogB.SQL("reopened again");
 		}
 		LogB.SQL(mydbcmd.CommandText.ToString());
@@ -172,7 +172,7 @@ public class SqliteSession : Sqlite
 			values[7], Convert.ToInt32(values[8]) );
 		
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 		return mySession;
 	}
 	
@@ -185,7 +185,7 @@ public class SqliteSession : Sqlite
 			selectString = " uniqueID, name, place, date ";
 		}
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		//dbcmd.CommandText = "SELECT * FROM session ORDER BY uniqueID";
 		dbcmd.CommandText = "SELECT " + selectString + " FROM " + Constants.SessionTable + " " + 
 			" WHERE uniqueID != " + sessionIdDisable + " ORDER BY uniqueID";
@@ -215,7 +215,7 @@ public class SqliteSession : Sqlite
 		reader.Close();
 	
 		//close database connection
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		string [] mySessions = new string[count];
 		count =0;
@@ -229,7 +229,7 @@ public class SqliteSession : Sqlite
 
 	public string[] SelectAllSessions(string filterName) 
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		string filterNameString = "";
 		if(filterName != "")
@@ -459,7 +459,7 @@ public class SqliteSession : Sqlite
 		
 		
 		//close database connection
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		//mix nine arrayLists
 		string [] mySessions = new string[count];
@@ -619,7 +619,7 @@ public class SqliteSession : Sqlite
 			string table, string type, string valueToSelect, string statistic) 
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		//if personIDString == -1, the applies for all persons
 		
@@ -652,7 +652,7 @@ public class SqliteSession : Sqlite
 		reader.Close();
 		
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		if (found) {
 			return myReturn;
@@ -664,7 +664,7 @@ public class SqliteSession : Sqlite
 	
 	public void DeleteAllStuff(string uniqueID)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 
 		//delete the session
 		dbcmd.CommandText = "Delete FROM " + Constants.SessionTable + " WHERE uniqueID == " + uniqueID;
@@ -674,7 +674,7 @@ public class SqliteSession : Sqlite
 		dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionTable + " WHERE sessionID == " + uniqueID;
 		dbcmd.ExecuteNonQuery();
 
-		Sqlite.deleteOrphanedPersons();
+		SqliteGeneral.Sqlite.deleteOrphanedPersons();
 		
 		//delete normal jumps
 		dbcmd.CommandText = "Delete FROM " + Constants.JumpTable + " WHERE sessionID == " + uniqueID;
@@ -716,7 +716,7 @@ public class SqliteSession : Sqlite
 			Util.FileDelete(eSQL.GetFullURL(false));	//signal, don't convertPathToR
 			if(eSQL.videoURL != "")
 				Util.FileDelete(eSQL.videoURL);		//video
-			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+			SqliteGeneral.Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
 		}
 		
 		//curves
@@ -731,14 +731,14 @@ public class SqliteSession : Sqlite
 			if(eSQL.videoURL != "")
 				Util.FileDelete(eSQL.videoURL);
 			*/
-			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+			SqliteGeneral.Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
 			SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID));
 		}
 		
 		//<------- delete from encoder end
 				
 		
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 }
@@ -776,7 +776,7 @@ public class SqliteServerSession : SqliteSession
 	public int Insert(bool dbconOpened, string tableName, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID, int evaluatorID, string evaluatorCJVersion, string evaluatorOS, DateTime uploadedDate, int uploadingState)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		//(uniqueID == "-1")
 		//	uniqueID = "NULL";
@@ -801,7 +801,7 @@ public class SqliteServerSession : SqliteSession
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
@@ -810,7 +810,7 @@ public class SqliteServerSession : SqliteSession
 	public void UpdateUploadingState(int uniqueID, int state)
 	{
 		//if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " SET uploadingState = " + state + 
 			" WHERE uniqueID == " + uniqueID ;
@@ -818,7 +818,7 @@ public class SqliteServerSession : SqliteSession
 		dbcmd.ExecuteNonQuery();
 
 		//if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 	}
 
 	

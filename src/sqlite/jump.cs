@@ -68,7 +68,7 @@ public class SqliteJump : Sqlite
 	public int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated)
 	{
 		if(! dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -90,7 +90,7 @@ public class SqliteJump : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myLast;
 	}
@@ -103,7 +103,7 @@ public class SqliteJump : Sqlite
 			Orders_by order, int limit) 
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
@@ -177,7 +177,7 @@ public class SqliteJump : Sqlite
 		reader.Close();
 		
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 
 		string [] myJumps = new string[count];
@@ -192,7 +192,7 @@ public class SqliteJump : Sqlite
 	public Jump SelectJumpData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
-			Sqlite.Open();
+			SqliteGeneral.Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM jump WHERE uniqueID == " + uniqueID;
 		
@@ -208,7 +208,7 @@ public class SqliteJump : Sqlite
 		reader.Close();
 		
 		if(!dbconOpened)
-			Sqlite.Close();
+			SqliteGeneral.Sqlite.Close();
 
 		return myJump;
 	}
@@ -234,7 +234,7 @@ public class SqliteJump : Sqlite
 		} else
 			sqlSelect = "jump.TC";
 		
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "SELECT session.date, session.name, MAX(" + sqlSelect + "), jump.simulated " + 
 			" FROM jump, session WHERE type = \"" + jumpType.Name + "\" AND personID = " + personID + 
 			" AND jump.sessionID = session.uniqueID";
@@ -249,7 +249,7 @@ public class SqliteJump : Sqlite
 		string [] str = DataReaderToStringArray(reader, 4);
 		
 		reader.Close();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		return str;
 	}
@@ -259,7 +259,7 @@ public class SqliteJump : Sqlite
 		string personID = pID.ToString();
 		string sessionID = sID.ToString();
 
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		
 		double sj = selectDouble( 
 				"SELECT MAX(tv * tv * 1.226) " +
@@ -291,7 +291,7 @@ public class SqliteJump : Sqlite
 				" WHERE type = \"DJa\" " +
 				" AND personID = " + personID + " AND sessionID = " + sessionID);
 
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 
 		List<Double> l = new List<Double>();
 		l.Add(sj);
@@ -305,7 +305,7 @@ public class SqliteJump : Sqlite
 
 	public void Update(int jumpID, string type, string tv, string tc, string fall, int personID, double weight, string description, double angle)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "UPDATE jump SET personID = " + personID + 
 			", type = \"" + type +
 			"\", tv = " + Util.ConvertToPoint(tv) +
@@ -317,27 +317,27 @@ public class SqliteJump : Sqlite
 			" WHERE uniqueID == " + jumpID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 	public void UpdateWeight(string tableName, int uniqueID, double weight)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + tableName + " SET weight = " + Util.ConvertToPoint(weight) + 
 			" WHERE uniqueID == " + uniqueID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 	public void UpdateDescription(string tableName, int uniqueID, string description)
 	{
-		Sqlite.Open();
+		SqliteGeneral.Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + tableName + " SET description = \"" + description + 
 			"\" WHERE uniqueID == " + uniqueID ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		Sqlite.Close();
+		SqliteGeneral.Sqlite.Close();
 	}
 
 	//onle for change SJ+ CMJ+ and ABK+ to SJl...

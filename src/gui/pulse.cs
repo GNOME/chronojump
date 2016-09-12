@@ -83,7 +83,7 @@ public class EditPulseWindow : EditEventWindow
 	}
 
 	protected override string [] findTypes(Event myEvent) {
-		string [] myTypes = SqlitePulseType.SelectPulseTypes("", true); //don't show allEventName row, only select name
+		string [] myTypes = SqliteGeneral.SqlitePulseType.SelectPulseTypes("", true); //don't show allEventName row, only select name
 
 		//on pulses can not change type
 		combo_eventType.Sensitive = false;
@@ -234,7 +234,7 @@ public class RepairPulseWindow
 		label_header.Text = string.Format(Catalog.GetString("Use this window to repair this test.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	
 		
-		pulseType = SqlitePulseType.SelectAndReturnPulseType(myPulse.Type);
+		pulseType = SqliteGeneral.SqlitePulseType.SelectAndReturnPulseType(myPulse.Type);
 		
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = createTextForTextView(pulseType);
@@ -456,7 +456,7 @@ public class RepairPulseWindow
 		myPulse.TimesString = timeString;
 
 		//save it deleting the old first for having the same uniqueID
-		Sqlite.Delete(false, Constants.PulseTable,myPulse.UniqueID);
+		SqliteGeneral.Sqlite.Delete(false, Constants.PulseTable,myPulse.UniqueID);
 
 		myPulse.InsertAtDB(false, Constants.PulseTable);
 		/*

@@ -221,7 +221,7 @@ public class EvaluatorWindow
 		else {
 			//get the active continent
 			string continentEnglish = Util.FindOnArray(':', 1, 0, UtilGtk.ComboGetActive(combo_continents), continents); 
-			countries = SqliteCountry.SelectCountriesOfAContinent(continentEnglish, true); //put undefined first
+			countries = SqliteGeneral.SqliteCountry.SelectCountriesOfAContinent(continentEnglish, true); //put undefined first
 
 			//create countries translated, only with translated stuff
 			countriesTranslated = new String[countries.Length];
@@ -372,7 +372,7 @@ public class EvaluatorWindow
 		if(! creating) {		
 			//country stuff
 			if(eval.CountryID != Constants.CountryUndefinedID) {
-				string [] countryString = SqliteCountry.Select(eval.CountryID);
+				string [] countryString = SqliteGeneral.SqliteCountry.Select(eval.CountryID);
 				combo_continents.Active = UtilGtk.ComboMakeActive(continentsTranslated, 
 						Catalog.GetString(countryString[3]));
 				combo_countries.Active = UtilGtk.ComboMakeActive(countriesTranslated, 

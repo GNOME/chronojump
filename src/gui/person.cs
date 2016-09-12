@@ -163,7 +163,7 @@ public class PersonRecuperateWindow {
 	{
 		int except = currentSession.UniqueID;
 		int inSession = -1;	//search persons for recuperating in all sessions
-		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", except, inSession, searchFilterName); 
+		ArrayList myPersons = SqliteGeneral.SqlitePerson.SelectAllPersonsRecuperable("name", except, inSession, searchFilterName); 
 		
 		foreach (Person person in myPersons) {
 			store.AppendValues (
@@ -248,9 +248,9 @@ public class PersonRecuperateWindow {
 	{
 		if(selected != "-1")
 		{
-			currentPerson = SqlitePerson.Select(Convert.ToInt32(selected));
+			currentPerson = SqliteGeneral.SqlitePerson.Select(Convert.ToInt32(selected));
 				
-			PersonSession myPS = SqlitePersonSession.Select(currentPerson.UniqueID, -1); //if sessionID == -1 we search data in last sessionID
+			PersonSession myPS = SqliteGeneral.SqlitePersonSession.Select(currentPerson.UniqueID, -1); //if sessionID == -1 we search data in last sessionID
 			//this inserts in DB
 			currentPersonSession = new PersonSession (
 					currentPerson.UniqueID, currentSession.UniqueID, 
@@ -373,7 +373,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 
 		bool commentsDisable = true;
 		int sessionIdDisable = currentSession.UniqueID; //for not showing current session on the list
-		UtilGtk.ComboUpdate(combo_sessions, SqliteSession.SelectAllSessionsSimple(commentsDisable, sessionIdDisable), "");
+		UtilGtk.ComboUpdate(combo_sessions, SqliteGeneral.SqliteSession.SelectAllSessionsSimple(commentsDisable, sessionIdDisable), "");
 
 		combo_sessions.Changed += new EventHandler (on_combo_sessions_changed);
 
@@ -481,7 +481,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store, int except, int inSession) 
 	{
-		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", except, inSession, ""); //"" is searchFilterName (not implemented on recuperate multiple)
+		ArrayList myPersons = SqliteGeneral.SqlitePerson.SelectAllPersonsRecuperable("name", except, inSession, ""); //"" is searchFilterName (not implemented on recuperate multiple)
 
 		foreach (Person person in myPersons) {
 			store.AppendValues (
@@ -569,8 +569,8 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 				val = (bool) store.GetValue (iter, 0);
 				//if checkbox of person is true
 				if(val) {
-					currentPerson = SqlitePerson.Select(true, Convert.ToInt32(treeview_person_recuperate.Model.GetValue(iter, 1)) );
-					PersonSession currentPersonSession = SqlitePersonSession.Select(
+					currentPerson = SqliteGeneral.SqlitePerson.Select(true, Convert.ToInt32(treeview_person_recuperate.Model.GetValue(iter, 1)) );
+					PersonSession currentPersonSession = SqliteGeneral.SqlitePersonSession.Select(
 							true, currentPerson.UniqueID, -1); //if sessionID == -1 search data in last sessionID
 					personSessions.Add(new PersonSession(
 								psID ++, currentPerson.UniqueID, currentSession.UniqueID, 
@@ -684,7 +684,7 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		createTreeView(treeview_person_recuperate, 1);
 		treeview_person_recuperate.Model = store;
 		
-		initiallyUnchecked = SqlitePersonSessionNotUpload.SelectAll(sessionID);
+		initiallyUnchecked = SqliteGeneral.SqlitePersonSessionNotUpload.SelectAll(sessionID);
 		if(initiallyUnchecked.Count > 0)
 			combo_select_checkboxes.Active = 2; //SELECTED
 		else
@@ -718,7 +718,7 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		   we continue using method SelectAllPersonsRecuperable because we want same output columns
 		   */
 
-		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", -1, sessionID, ""); //"" is searchFilterName (not implemented on recuperate multiple)
+		ArrayList myPersons = SqliteGeneral.SqlitePerson.SelectAllPersonsRecuperable("name", -1, sessionID, ""); //"" is searchFilterName (not implemented on recuperate multiple)
 
 		foreach (Person person in myPersons) {
 			store.AppendValues (
@@ -767,9 +767,9 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 				 */
 
 				if(bannedToUploadBefore && uploadNow) 
-					SqlitePersonSessionNotUpload.Delete(personID, sessionID);
+					SqliteGeneral.SqlitePersonSessionNotUpload.Delete(personID, sessionID);
 				else if (! bannedToUploadBefore && ! uploadNow) 
-					SqlitePersonSessionNotUpload.Add(personID, sessionID);
+					SqliteGeneral.SqlitePersonSessionNotUpload.Add(personID, sessionID);
 			} while ( store.IterNext(ref iter) );
 		}
 
@@ -1123,7 +1123,7 @@ public class PersonAddModifyWindow
 
 	private void createComboSports() {
 		combo_sports = ComboBox.NewText ();
-		sports = SqliteSport.SelectAll();
+		sports = SqliteGeneral.SqliteSport.SelectAll();
 			
 		//create sports translated, only with translated stuff
 		sportsTranslated = new String[sports.Length];
@@ -1149,7 +1149,7 @@ public class PersonAddModifyWindow
 	
 	private void createComboSpeciallities(int sportID) {
 		combo_speciallities = ComboBox.NewText ();
-		speciallities = SqliteSpeciallity.SelectAll(true, sportID); //show undefined, filter by sport
+		speciallities = SqliteGeneral.SqliteSpeciallity.SelectAll(true, sportID); //show undefined, filter by sport
 		
 		//create speciallities translated, only with translated stuff
 		speciallitiesTranslated = new String[speciallities.Length];
@@ -1265,7 +1265,7 @@ public class PersonAddModifyWindow
 
 			//country stuff
 			if(currentPerson.CountryID != Constants.CountryUndefinedID) {
-				string [] countryString = SqliteCountry.Select(currentPerson.CountryID);
+				string [] countryString = SqliteGeneral.SqliteCountry.Select(currentPerson.CountryID);
 			
 				combo_continents.Active = UtilGtk.ComboMakeActive(continentsTranslated, 
 						Catalog.GetString(countryString[3]));
@@ -1282,7 +1282,7 @@ public class PersonAddModifyWindow
 			
 
 			//PERSONSESSION STUFF
-			PersonSession myPS = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+			PersonSession myPS = SqliteGeneral.SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 
 			spinbutton_height.Value = myPS.Height;
 			spinbutton_weight.Value = myPS.Weight;
@@ -1298,10 +1298,10 @@ public class PersonAddModifyWindow
 			textview_ps_comments.Buffer = tb2;
 		}
 			
-		sport = SqliteSport.Select(false, mySportID);
+		sport = SqliteGeneral.SqliteSport.Select(false, mySportID);
 		combo_sports.Active = UtilGtk.ComboMakeActive(sportsTranslated, sport.ToString());
 
-		combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallitiesTranslated, SqliteSpeciallity.Select(false, mySpeciallityID));
+		combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallitiesTranslated, SqliteGeneral.SqliteSpeciallity.Select(false, mySpeciallityID));
 
 		combo_levels.Active = UtilGtk.ComboMakeActive(levels, myLevelID + ":" + Util.FindLevelName(myLevelID));
 		
@@ -1356,7 +1356,7 @@ public class PersonAddModifyWindow
 		//LogB.Information("changed");
 		try {
 			int sportID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports));
-			sport = SqliteSport.Select(false, sportID);
+			sport = SqliteGeneral.SqliteSport.Select(false, sportID);
 
 			if(Catalog.GetString(sport.Name) == Catalog.GetString(Constants.SportUndefined)) {
 				//if sport is undefined, level should be undefined, and unsensitive
@@ -1454,7 +1454,7 @@ public class PersonAddModifyWindow
 		else {
 			//get the active continent
 			string continentEnglish = Util.FindOnArray(':', 1, 0, UtilGtk.ComboGetActive(combo_continents), continents); 
-			countries = SqliteCountry.SelectCountriesOfAContinent(continentEnglish, true); //put undefined first
+			countries = SqliteGeneral.SqliteCountry.SelectCountriesOfAContinent(continentEnglish, true); //put undefined first
 
 			//create countries translated, only with translated stuff
 			countriesTranslated = new String[countries.Length];
@@ -1499,12 +1499,12 @@ public class PersonAddModifyWindow
 							Catalog.GetString("Sorry, this sport '{0}' already exists in database"), 
 							newSportName));
 		else {
-			int myID = SqliteSport.Insert(false, "-1", newSportName, true, //dbconOpened, , userDefined
+			int myID = SqliteGeneral.SqliteSport.Insert(false, "-1", newSportName, true, //dbconOpened, , userDefined
 					false, "");	//hasSpeciallities, graphLink 
 
 			Sport mySport = new Sport(myID, newSportName, true, 
 					false, "");	//hasSpeciallities, graphLink 
-			sports = SqliteSport.SelectAll();
+			sports = SqliteGeneral.SqliteSport.SelectAll();
 			//create sports translated, only with translated stuff
 			sportsTranslated = new String[sports.Length];
 			int i = 0;
@@ -1543,7 +1543,7 @@ public class PersonAddModifyWindow
 		if(adding)
 			personExists = SqliteGeneral.Sqlite.Exists (false, Constants.PersonTable, Util.RemoveTilde(personName));
 		else
-			personExists = SqlitePerson.ExistsAndItsNotMe (currentPerson.UniqueID, Util.RemoveTilde(personName));
+			personExists = SqliteGeneral.SqlitePerson.ExistsAndItsNotMe (currentPerson.UniqueID, Util.RemoveTilde(personName));
 
 		if(personExists) 
 			errorMessage += string.Format(Catalog.GetString("Person: '{0}' exists. Please, use another name"), 
@@ -1553,7 +1553,7 @@ public class PersonAddModifyWindow
 			if(!adding && (double) spinbutton_weight.Value != weightIni) {
 				//see if this person has done jumps with weight
 				string [] myJumpsNormal = SqliteGeneral.SqliteJump.SelectJumps(false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "",
-						SqliteGeneral.Sqlite.Orders_by.DEFAULT, -1);
+						Sqlite.Orders_by.DEFAULT, -1);
 				string [] myJumpsReactive = SqliteGeneral.SqliteJumpRj.SelectJumps(false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "");
 
 				if(myJumpsNormal.Length > 0 || myJumpsReactive.Length > 0) {
@@ -1592,7 +1592,7 @@ public class PersonAddModifyWindow
 
 		//convert margarias (it's power is calculated using weight and it's written on description)
 		string [] myMargarias = SqliteGeneral.SqliteRun.SelectRuns(false, currentSession.UniqueID, currentPerson.UniqueID, "Margaria",
-				SqliteGeneral.Sqlite.Orders_by.DEFAULT, -1);
+				Sqlite.Orders_by.DEFAULT, -1);
 
 		foreach(string myStr in myMargarias) {
 			string [] margaria = myStr.Split(new char[] {':'});
@@ -1628,11 +1628,11 @@ public class PersonAddModifyWindow
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					textview_description.Buffer.Text,
 					serverUniqueID);
-			SqlitePerson.Update (currentPerson); 
+			SqliteGeneral.SqlitePerson.Update (currentPerson); 
 		
 			//we only need to update personSession
 			//1.- search uniqueID
-			PersonSession ps = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+			PersonSession ps = SqliteGeneral.SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 
 			//2.- create new instance
 			currentPersonSession = new PersonSession (
@@ -1645,7 +1645,7 @@ public class PersonAddModifyWindow
 					textview_ps_comments.Buffer.Text);
 
 			//3.- update in database
-			SqlitePersonSession.Update (currentPersonSession); 
+			SqliteGeneral.SqlitePersonSession.Update (currentPersonSession); 
 		}
 
 
@@ -2086,9 +2086,9 @@ public class PersonAddMultipleWindow {
 
 		string sportStuffString = "";
 		if(currentSession.PersonsSportID != Constants.SportUndefinedID)
-			sportStuffString += Catalog.GetString("Sport") + ":<i>" + Catalog.GetString(SqliteSport.Select(false, currentSession.PersonsSportID).Name) + "</i>.";
+			sportStuffString += Catalog.GetString("Sport") + ":<i>" + Catalog.GetString(SqliteGeneral.SqliteSport.Select(false, currentSession.PersonsSportID).Name) + "</i>.";
 		if(currentSession.PersonsSpeciallityID != Constants.SpeciallityUndefinedID)
-			sportStuffString += " " + Catalog.GetString("Specialty") + ":<i>" + SqliteSpeciallity.Select(false, currentSession.PersonsSpeciallityID) + "</i>.";
+			sportStuffString += " " + Catalog.GetString("Specialty") + ":<i>" + SqliteGeneral.SqliteSpeciallity.Select(false, currentSession.PersonsSpeciallityID) + "</i>.";
 		if(currentSession.PersonsPractice != Constants.LevelUndefinedID)
 			sportStuffString += " " + Catalog.GetString("Level") + ":<i>" + Util.FindLevelName(currentSession.PersonsPractice) + "</i>.";
 
@@ -2350,7 +2350,7 @@ public class PersonShowAllEventsWindow {
 			inSession = sessionID;	//select only persons who are on currentSession
 		}
 		
-		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", -1, inSession, ""); //"" is searchFilterName (not implemented on PersonShowAllEventsWindow)
+		ArrayList myPersons = SqliteGeneral.SqlitePerson.SelectAllPersonsRecuperable("name", -1, inSession, ""); //"" is searchFilterName (not implemented on PersonShowAllEventsWindow)
 
 		//put only id and name in combo
 		string [] myPersonsIDName = new string[myPersons.Count];
@@ -2411,7 +2411,7 @@ public class PersonShowAllEventsWindow {
 	
 	protected void fillTreeView (Gtk.TreeView tv, TreeStore store, int personID) {
 		ArrayList myEvents;
-		myEvents = SqlitePerson.SelectAllPersonEvents(personID); 
+		myEvents = SqliteGeneral.SqlitePerson.SelectAllPersonEvents(personID); 
 
 		foreach (string myEvent in myEvents) {
 			string [] myStr = myEvent.Split(new char[] {':'});

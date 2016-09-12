@@ -662,7 +662,11 @@ public partial class ChronoJumpWindow
 		string buildDate = " (c)";
 		label_version.Text = progVersion + buildDate;
 		LogB.Information("Build date:" + buildDate);
-	
+
+		//send ping without freezing the interface
+		pingDoing = false;
+		GLib.Timeout.Add(2000, new GLib.TimeoutHandler(pingStart));
+
 		//moveStartTestInitial();
 	}
 
@@ -2542,6 +2546,10 @@ public partial class ChronoJumpWindow
 		encoderRProcAnalyze.SendEndProcess();
 
 		LogB.Information("Bye3!");
+
+		//exit start ping if has not ended
+		if(pingDoing)
+			pingEnded = true;
 		
 		Log.End();
 
@@ -6587,25 +6595,50 @@ LogB.Debug("X");
 					js.ResultMessage);
 		}
 	}
-	
-	private void on_menuitem_ping_activate (object o, EventArgs args) {
+
+	bool pingDoing;
+	bool pingEnded;
+	private bool pingStart ()
+	{
+		if(pingEnded)
+			return false;
+
+		if(! pingDoing)
+			pingDo(false);
+		
+		return true;
+	}
+
+	private void on_menuitem_ping_activate (object o, EventArgs args) 
+	{
+		pingDo(true);
+	}
+
+	private void pingDo(bool showInWindow)
+	{
+		pingEnded = false;
+
 		Json js = new Json();
 		bool success = js.Ping(UtilAll.GetOS(), UtilAll.ReadVersion(), preferences.machineID);
 
 		if(success) {
 			LogB.Information(js.ResultMessage);
-			new DialogMessage(
-					"Chronojump",
-					Constants.MessageTypes.INFO, 
-					js.ResultMessage);
+			if(showInWindow)
+				new DialogMessage(
+						"Chronojump",
+						Constants.MessageTypes.INFO, 
+						js.ResultMessage);
 		}
 		else {
 			LogB.Error(js.ResultMessage);
-			new DialogMessage(
-					"Chronojump",
-					Constants.MessageTypes.WARNING, 
-					js.ResultMessage);
+			if(showInWindow)
+				new DialogMessage(
+						"Chronojump",
+						Constants.MessageTypes.WARNING, 
+						js.ResultMessage);
 		}
+
+		pingEnded = true;
 		/*
 		new DialogMessage(
 				"Chronojump",

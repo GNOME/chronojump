@@ -180,7 +180,7 @@ public class Server
 
 				//update session currentSession (serverUniqueID) on client database
 				currentSession.ServerUniqueID = idAtServer;
-				SqliteSession.UpdateServerUniqueID(currentSession.UniqueID, currentSession.ServerUniqueID);
+				SqliteGeneral.SqliteSession.UpdateServerUniqueID(currentSession.UniqueID, currentSession.ServerUniqueID);
 			}
 
 			state = (int) Constants.ServerSessionStates.UPLOADINGDATA;
@@ -197,7 +197,7 @@ public class Server
 					false); //means: do not returnPersonAndPSlist
 			
 			Constants.UploadCodes uCode;
-			ArrayList notToUpload = SqlitePersonSessionNotUpload.SelectAll(currentSession.UniqueID);
+			ArrayList notToUpload = SqliteGeneral.SqlitePersonSessionNotUpload.SelectAll(currentSession.UniqueID);
 			
 			//store in variable for updating progressBar from other thread
 			progressBarPersonsNum = persons.Count - notToUpload.Count;
@@ -222,7 +222,7 @@ public class Server
 					
 				//if sport is user defined, upload it
 				//and when upload the person, do it with new sportID
-				Sport sport = SqliteSport.Select(false, ps.SportID);
+				Sport sport = SqliteGeneral.SqliteSport.Select(false, ps.SportID);
 				//but record old sport ID because locally will be a change in serverUniqueID
 				//(with slite update)
 				//but local sport has not to be changed
@@ -425,7 +425,7 @@ public class Server
 					test.SessionID = currentSession.ServerUniqueID;
 					
 					if(test.Simulated == 0) {
-						RunType type = SqliteRunIntervalType.SelectAndReturnRunIntervalType(test.Type, true);
+						RunType type = SqliteGeneral.SqliteRunIntervalType.SelectAndReturnRunIntervalType(test.Type, true);
 						if( ! type.IsPredefined) {
 							string insertedType = myServer.UploadRunIntervalType(type, evalSID);
 							if(insertedType != "-1") {
@@ -458,7 +458,7 @@ public class Server
 				countS = 0;					
 
 				string [] rts = SqliteGeneral.SqliteReactionTime.SelectReactionTimes(false, currentSession.UniqueID, person.UniqueID, "",
-						SqliteGeneral.Sqlite.Orders_by.DEFAULT, -1);
+						Sqlite.Orders_by.DEFAULT, -1);
 
 				SqliteGeneral.Sqlite.Open();
 				foreach(string myRt in rts) {
@@ -574,7 +574,7 @@ public class Server
 		//update person (serverUniqueID) on client database
 		person.ServerUniqueID = idAtServer;
 
-		SqlitePerson.Update(person);
+		SqliteGeneral.SqlitePerson.Update(person);
 
 		return person;
 	}
@@ -640,7 +640,7 @@ public class Server
 			
 			//update test (simulated) on client database
 			myTest.Simulated = idAtServer;
-			SqliteEvent.UpdateSimulated(true, tableName, myTest.UniqueID, idAtServer);
+			SqliteGeneral.SqliteEvent.UpdateSimulated(true, tableName, myTest.UniqueID, idAtServer);
 			
 			uCode = Constants.UploadCodes.OK;
 		}
@@ -652,7 +652,7 @@ public class Server
 			ChronojumpServer myServer = new ChronojumpServer();
 			LogB.Information(myServer.ConnectDatabase());
 			
-			ServerEvaluator myEval = SqliteServer.SelectEvaluator(1);
+			ServerEvaluator myEval = SqliteGeneral.SqliteServer.SelectEvaluator(1);
 
 			bool success = false;
 			int evalSID = Convert.ToInt32(SqliteGeneral.SqlitePreferences.Select("evaluatorServerID"));

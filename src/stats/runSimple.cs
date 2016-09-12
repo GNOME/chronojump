@@ -73,13 +73,13 @@ public class StatRunSimple : Stat
 			if(multisession) {
 				string operation = "AVG";
 				processDataMultiSession ( 
-						SqliteStat.RunSimple(sessionString, multisession, 
+						SqliteGeneral.SqliteStat.RunSimple(sessionString, multisession, 
 							operation, jumpType, showSex), 
 						true, sessions.Count);
 			} else {
 				string operation = "AVG";
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.RunSimple(sessionString, multisession, 
+							SqliteGeneral.SqliteStat.RunSimple(sessionString, multisession, 
 								operation, jumpType, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
@@ -88,7 +88,7 @@ public class StatRunSimple : Stat
 			//if more than on session, show only the avg or max of each jump/jumper
 			if(multisession) {
 				string operation = "MAX";
-				processDataMultiSession ( SqliteStat.RunSimple(sessionString, multisession, 
+				processDataMultiSession ( SqliteGeneral.SqliteStat.RunSimple(sessionString, multisession, 
 							operation, jumpType, showSex),  
 						true, sessions.Count);
 			} else {
@@ -96,7 +96,7 @@ public class StatRunSimple : Stat
 							//and clenaDontWanted will do his work
 							
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.RunSimple(sessionString, multisession, 
+							SqliteGeneral.SqliteStat.RunSimple(sessionString, multisession, 
 								operation, jumpType, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);

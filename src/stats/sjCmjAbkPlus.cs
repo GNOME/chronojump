@@ -89,14 +89,14 @@ public class StatSjCmjAbkPlus : Stat
 			if(multisession) {
 				string operation = "AVG";
 				processDataMultiSession ( 
-						SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
+						SqliteGeneral.SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
 							//operation, jumpType, showSex, percent, heightPreferred), 
 							operation, jumpType, showSex, heightPreferred, weightPercentPreferred), 
 						true, sessions.Count);
 			} else {
 				string operation = "AVG";
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
+							SqliteGeneral.SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
 								//operation, jumpType, showSex, percent, heightPreferred), 
 								operation, jumpType, showSex, heightPreferred, weightPercentPreferred), 
 							statsJumpsType, limit),
@@ -106,7 +106,7 @@ public class StatSjCmjAbkPlus : Stat
 			//if more than on session, show only the avg or max of each jump/jumper
 			if(multisession) {
 				string operation = "MAX";
-				processDataMultiSession ( SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
+				processDataMultiSession ( SqliteGeneral.SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
 							//operation, jumpType, showSex, percent, heightPreferred),  
 							operation, jumpType, showSex, heightPreferred, weightPercentPreferred),  
 						true, sessions.Count);
@@ -114,7 +114,7 @@ public class StatSjCmjAbkPlus : Stat
 				string operation = ""; //no need of "MAX", there's an order by jump.tv desc
 							//and clenaDontWanted will do his work
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
+							SqliteGeneral.SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
 								//operation, jumpType, showSex, percent, heightPreferred), 
 								operation, jumpType, showSex, heightPreferred, weightPercentPreferred), 
 							statsJumpsType, limit),

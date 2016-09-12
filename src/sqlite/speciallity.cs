@@ -30,7 +30,7 @@ using Mono.Unix;
 
 public class SqliteSpeciallity : Sqlite
 {
-	protected internal void createTable()
+	protected override void createTable()
 	 {
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.SpeciallityTable + " ( " +
@@ -56,7 +56,7 @@ public class SqliteSpeciallity : Sqlite
 					string [] strFull = myString.Split(new char[] {':'});
 					string sportName = strFull[0];
 					string speciallityEnglishName = strFull[1];
-					int sportID = SqliteSport.SelectID(sportName);
+					int sportID = SqliteGeneral.SqliteSport.SelectID(sportName);
 					Insert(true, dbcmdTr, sportID, speciallityEnglishName);
 					conversionSubRate ++;
 				}

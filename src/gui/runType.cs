@@ -168,7 +168,7 @@ public class RunTypeAddWindow
 		name = Util.RemoveChar(name, '"');
 
 		//check if this run type exists, and check it's name is not AllRunsName
-		bool runTypeExists = Sqlite.Exists (false, Constants.RunTypeTable, name);
+		bool runTypeExists = SqliteGeneral.Sqlite.Exists (false, Constants.RunTypeTable, name);
 		if(name == Constants.AllRunsName)
 			runTypeExists = true;
 		
@@ -192,7 +192,7 @@ public class RunTypeAddWindow
 			}
 			
 			if(radiobutton_simple.Active) {
-				SqliteRunType.Insert(type, Constants.RunTypeTable, false); //false, because dbcon is not opened
+				SqliteGeneral.SqliteRunType.Insert(type, Constants.RunTypeTable, false); //false, because dbcon is not opened
 				InsertedSimple = true;
 			}
 			else {
@@ -214,7 +214,7 @@ public class RunTypeAddWindow
 					type.Unlimited = false; 
 				}
 			
-				SqliteRunIntervalType.Insert(type, Constants.RunIntervalTypeTable, false); //false, because dbcon is not opened
+				SqliteGeneral.SqliteRunIntervalType.Insert(type, Constants.RunIntervalTypeTable, false); //false, because dbcon is not opened
 				InsertedSimple = false;
 			}
 			

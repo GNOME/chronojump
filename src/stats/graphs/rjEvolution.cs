@@ -44,7 +44,7 @@ public class GraphRjEvolution : StatRjEvolution
 		//we need to know the reactive with more jumps for prepare columns
 		//later this value can be changed in stats/main/plotgraphgraphseries because 
 		//there is possible to check the checked stats rows
-		maxJumps = SqliteStat.ObtainMaxNumberOfJumps(sessionString);
+		maxJumps = SqliteGeneral.SqliteStat.ObtainMaxNumberOfJumps(sessionString);
 		
 		this.dataColumns = maxJumps*2 + 2;	//for simplesession (index, (tv , tc)*jumps, fall)
 		

@@ -79,12 +79,12 @@ public class StatRjAVGSD : Stat
 		*/
 
 		string operation = ""; // cannot be avg in this statistic
-		int maxJumps = SqliteStat.ObtainMaxNumberOfJumps(sessionString);
+		int maxJumps = SqliteGeneral.SqliteStat.ObtainMaxNumberOfJumps(sessionString);
 		
 		processDataSimpleSession ( 
 				cleanDontWanted (
 					convertTCsTFsCombinedToIndexAVGSD (
-						SqliteStat.RjEvolution(sessionString, multisession, 
+						SqliteGeneral.SqliteStat.RjEvolution(sessionString, multisession, 
 							operation, jumpType, showSex, maxJumps)), 
 						statsJumpsType, limit),
 				false, dataColumns);

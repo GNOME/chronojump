@@ -81,11 +81,11 @@ public class StatJumpSimpleSubtraction : Stat
 		if(statsJumpsType == 3) { //avg of each jumper
 			if(multisession) {
 				processDataMultiSession ( 
-						SqliteStat.JumpSimpleSubtraction(sessionString, multisession, "AVG(", ")", test1, test2, showSex), 
+						SqliteGeneral.SqliteStat.JumpSimpleSubtraction(sessionString, multisession, "AVG(", ")", test1, test2, showSex), 
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.JumpSimpleSubtraction(sessionString, multisession, "AVG(", ")", test1, test2, showSex), 
+							SqliteGeneral.SqliteStat.JumpSimpleSubtraction(sessionString, multisession, "AVG(", ")", test1, test2, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
@@ -93,10 +93,10 @@ public class StatJumpSimpleSubtraction : Stat
 			//if more than on session, show only the avg or max of each jump/jumper
 			//some of this options are never called becase we don't allow radiobutton all and limit (only avg and best)
 			if(multisession) {
-				processDataMultiSession ( SqliteStat.JumpSimpleSubtraction(sessionString, multisession, "MAX(", ")", test1, test2, showSex),  
+				processDataMultiSession ( SqliteGeneral.SqliteStat.JumpSimpleSubtraction(sessionString, multisession, "MAX(", ")", test1, test2, showSex),  
 						true, sessions.Count);
 			} else {
-				processDataSimpleSession ( SqliteStat.JumpSimpleSubtraction(sessionString, multisession, "MAX(", ")", test1, test2, showSex), 
+				processDataSimpleSession ( SqliteGeneral.SqliteStat.JumpSimpleSubtraction(sessionString, multisession, "MAX(", ")", test1, test2, showSex), 
 						true, dataColumns);
 			}
 		}

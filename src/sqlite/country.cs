@@ -32,7 +32,7 @@ using Mono.Unix;
 
 public class SqliteCountry : Sqlite
 {
-	protected internal void createTable()
+	protected override void createTable()
 	 {
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.CountryTable + " ( " +

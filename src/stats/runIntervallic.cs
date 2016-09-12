@@ -46,7 +46,7 @@ public class StatRunIntervallic : Stat
 		string sessionString = obtainSessionSqlString(sessions, "runInterval");
 
 		//we need to know the run with more tracks for prepare columns
-		maxRuns = SqliteStat.ObtainMaxNumberOfRuns(sessionString);
+		maxRuns = SqliteGeneral.SqliteStat.ObtainMaxNumberOfRuns(sessionString);
 		
 		this.dataColumns = maxRuns +1;	//for simplesession (avg speed, speed of each track)
 
@@ -230,7 +230,7 @@ public class StatRunIntervallic : Stat
 		string operation = ""; //no need of "MAX", there's an order by (index) desc
 		//and cleanDontWanted will do his work
 		processDataSimpleSession ( cleanDontWanted (
-					SqliteStat.RunInterval(sessionString, multisession, 
+					SqliteGeneral.SqliteStat.RunInterval(sessionString, multisession, 
 						operation, jumpType, showSex, maxRuns), 
 					statsJumpsType, limit),
 				false, dataColumns); //TODO: maybe in future do avg and sd of speeds 

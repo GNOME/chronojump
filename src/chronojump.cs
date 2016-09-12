@@ -68,7 +68,9 @@ public class ChronoJump
 		Log.WriteLine(string.Format("Client database option 1 in ... " + Util.GetDatabaseDir()));
 		Log.WriteLine(string.Format("Client database option 2 in ... " + Util.GetDatabaseTempDir()));
 		*/
-		
+
+		SqliteGeneral sqliteGeneral = new SqliteGeneral();
+
 		LogSync.Initialize();
 		//1.4.10
 		Log.Start();
@@ -184,6 +186,7 @@ public class ChronoJump
 		catch {
 			LogB.Warning("Problem reading language on start");
 		}
+		sqliteGeneral.GetType();
 	}
 
 	Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
@@ -426,6 +429,7 @@ public class ChronoJump
 		//}
 
 		SqliteGeneral.Sqlite.Open();
+		SqliteGeneral.SqlitePreferences.Open();
 
 		string versionAvailableKnown = SqliteGeneral.SqlitePreferences.Select("versionAvailable", true);
 		if( versionAvailable != Constants.ServerOffline && new Version(versionAvailable) > new Version(progVersion) ) {

@@ -150,7 +150,7 @@ public class PrepareEventGraphRunSimple {
 		
 		//obtain data
 		runsAtSQL = SqliteGeneral.SqliteRun.SelectRuns(true, sessionID, personID, type,
-				SqliteGeneral.Sqlite.Orders_by.ID_DESC, 10); //select only last 10
+				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
 
 		
 		string sqlSelect = "distance/time";
@@ -238,7 +238,7 @@ public class PrepareEventGraphReactionTime {
 
 		//obtain data
 		rtsAtSQL = SqliteGeneral.SqliteReactionTime.SelectReactionTimes(true, sessionID, personID, type,
-				SqliteGeneral.Sqlite.Orders_by.ID_DESC, 10); //select only last 10
+				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
 		
 		personMAXAtSQL = SqliteGeneral.SqliteSession.SelectMAXEventsOfAType(
 				true, sessionID, personID, table, type, "time");

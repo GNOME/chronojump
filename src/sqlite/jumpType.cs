@@ -97,17 +97,17 @@ public class SqliteJumpType : Sqlite
 			{
 				dbcmdTr.Transaction = tr;
 
-				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Free", "jump_free.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "SJ", "jump_sj.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "SJl", "jump_sj_l.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJ", "jump_cmj.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJl", "jump_cmj_l.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABK", "jump_abk.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABKl", "jump_abk_l.png", true, dbcmdTr);
-				//SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Max", "jump_max.png", true, dbcmdTr); //we already have "Free"
-				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Rocket", "jump_rocket.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJa", "jump_dj_a.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJna", "jump_dj.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Free", "jump_free.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpTable, "SJ", "jump_sj.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpTable, "SJl", "jump_sj_l.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJ", "jump_cmj.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJl", "jump_cmj_l.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABK", "jump_abk.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABKl", "jump_abk_l.png", true, dbcmdTr);
+				//SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Max", "jump_max.png", true, dbcmdTr); //we already have "Free"
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Rocket", "jump_rocket.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJa", "jump_dj_a.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJna", "jump_dj.png", true, dbcmdTr);
 			}
 			tr.Commit();
 		}
@@ -174,10 +174,10 @@ public class SqliteJumpType : Sqlite
 			{
 				dbcmdTr.Transaction = tr;
 				
-				SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(j)", "jump_rj.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(t)", "jump_rj.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(unlimited)", "jump_rj_in.png", true, dbcmdTr);
-				SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "triple jump", "jump_rj.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(j)", "jump_rj.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(t)", "jump_rj.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(unlimited)", "jump_rj_in.png", true, dbcmdTr);
+				SqliteGeneral.SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "triple jump", "jump_rj.png", true, dbcmdTr);
 			}
 			tr.Commit();
 		}

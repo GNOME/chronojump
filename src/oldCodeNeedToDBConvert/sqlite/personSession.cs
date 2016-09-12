@@ -26,7 +26,7 @@ using Mono.Data.Sqlite;
 using Mono.Unix;
 
 
-class SqlitePersonSessionOld : Sqlite
+public class SqlitePersonSessionOld : Sqlite
 {
 	public SqlitePersonSessionOld() {
 	}
@@ -153,7 +153,7 @@ class SqlitePersonSessionOld : Sqlite
 	 * conversion from database 0.52 to 0.53 (add weight into personSession)
 	 * now weight of a person can change every session
 	*/
-	private static void dropOldTable(string tableName) {
+	private void dropOldTable(string tableName) {
 		dbcmd.CommandText = "DROP TABLE " + tableName;
 		dbcmd.ExecuteNonQuery();
 	}

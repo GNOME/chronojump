@@ -486,7 +486,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		combo_eventType.Sensitive=false;
 
 		string [] myTypes;
-		myTypes = SqliteRunIntervalType.SelectRunIntervalTypes("", true); //don't show allRunsName row, only select name
+		myTypes = SqliteGeneral.SqliteRunIntervalType.SelectRunIntervalTypes("", true); //don't show allRunsName row, only select name
 		return myTypes;
 	}
 	
@@ -599,7 +599,7 @@ public class RepairRunIntervalWindow
 		label_header.Text = string.Format(Catalog.GetString("Use this window to repair this test.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	
 		
-		type = SqliteRunIntervalType.SelectAndReturnRunIntervalType(myRun.Type, false);
+		type = SqliteGeneral.SqliteRunIntervalType.SelectAndReturnRunIntervalType(myRun.Type, false);
 		
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = createTextForTextView(type);
@@ -841,7 +841,7 @@ public class RepairRunIntervalWindow
 		}
 
 		//save it deleting the old first for having the same uniqueID
-		Sqlite.Delete(false, Constants.RunIntervalTable, runInterval.UniqueID);
+		SqliteGeneral.Sqlite.Delete(false, Constants.RunIntervalTable, runInterval.UniqueID);
 		runInterval.InsertAtDB(false, Constants.RunIntervalTable); 
 		/*
 		SqliteGeneral.SqliteRun.InsertInterval(false, Constants.RunIntervalTable, runInterval.UniqueID.ToString(), 
@@ -1278,7 +1278,7 @@ public class RunsMoreWindow : EventMoreWindow
 	}
 	
 	protected override void deleteTestLine() {
-		SqliteRunType.Delete(selectedEventName);
+		SqliteGeneral.SqliteRunType.Delete(selectedEventName);
 		
 		//delete from typesTranslated
 		string row = Util.FindOnArray(':',0, -1, selectedEventName, typesTranslated);
@@ -1381,7 +1381,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	protected override void fillTreeView (Gtk.TreeView tv, TreeStore store) 
 	{
 		//select data without inserting an "all jumps", and not obtain only name of jump
-		string [] myTypes = SqliteRunIntervalType.SelectRunIntervalTypes("", false);
+		string [] myTypes = SqliteGeneral.SqliteRunIntervalType.SelectRunIntervalTypes("", false);
 		
 		//remove typesTranslated
 		typesTranslated = new String [myTypes.Length];
@@ -1544,7 +1544,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	}
 	
 	protected override void deleteTestLine() {
-		SqliteRunIntervalType.Delete(selectedEventName);
+		SqliteGeneral.SqliteRunIntervalType.Delete(selectedEventName);
 		
 		//delete from typesTranslated
 		string row = Util.FindOnArray(':',0, -1, selectedEventName, typesTranslated);

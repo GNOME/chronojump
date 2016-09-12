@@ -103,7 +103,7 @@ public partial class PersonOld {
 		LogB.Information(this.ToString());
 
 		//insert in the personSession table (fast way of knowing who was in each session)
-		SqlitePersonSessionOld.Insert (false, Constants.PersonSessionOldWeightTable, "-1", uniqueID, sessionID, weight);
+		SqliteGeneral.SqlitePersonSessionOld.Insert (false, Constants.PersonSessionOldWeightTable, "-1", uniqueID, sessionID, weight);
 	}
 	
 	//used to select a person at Sqlite.convertTables
@@ -125,7 +125,7 @@ public partial class PersonOld {
 	}
 
 	public int InsertAtDB (bool dbconOpened, string tableName) {
-		int myID = SqlitePersonOld.Insert(dbconOpened, tableName, 
+		int myID = SqliteGeneral.SqlitePersonOld.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), name,
 				sex, dateBorn, height, -1, //person weight is '-1', weight is in personSessionWeight table
 				sportID, speciallityID, practice,

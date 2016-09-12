@@ -26,7 +26,7 @@ using Mono.Data.Sqlite;
 
 /* methods for convert from old tables to new tables */
 
-class SqliteOldConvert : Sqlite
+public class SqliteOldConvert : Sqlite
 {
 
 	/*
@@ -104,9 +104,9 @@ class SqliteOldConvert : Sqlite
 		//it's a conversion, dbcon is opened
 
 		//changes on jumpType table
-		SqliteJumpType.Delete(Constants.JumpTypeTable, "slCMJ", true);
-		SqliteJumpType.JumpTypeInsert("slCMJleft:1:0:Single-leg CMJ jump", true);
-		SqliteJumpType.JumpTypeInsert("slCMJright:1:0:Single-leg CMJ jump", true);
+		SqliteGeneral.SqliteJumpType.Delete(Constants.JumpTypeTable, "slCMJ", true);
+		SqliteGeneral.SqliteJumpType.JumpTypeInsert("slCMJleft:1:0:Single-leg CMJ jump", true);
+		SqliteGeneral.SqliteJumpType.JumpTypeInsert("slCMJright:1:0:Single-leg CMJ jump", true);
 
 
 		//changes on jump table

@@ -717,7 +717,7 @@ public class QueryServerWindow
 		}
 		
 		try {
-			string sqlString = Sqlite.SQLBuildQueryString(
+			string sqlString = SqliteGeneral.Sqlite.SQLBuildQueryString(
 					tableName, 
 					UtilGtk.ComboGetActive(combo_tests),
 					strVariable,

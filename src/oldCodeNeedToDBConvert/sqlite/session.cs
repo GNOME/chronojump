@@ -26,7 +26,7 @@ using Mono.Data.Sqlite;
 using Mono.Unix;
 
 
-class SqliteSessionOld : Sqlite
+public class SqliteSessionOld : Sqlite
 {
 	public SqliteSessionOld() {
 	}
@@ -72,7 +72,7 @@ class SqliteSessionOld : Sqlite
 				mySession.PersonsSportID, mySession.PersonsSpeciallityID, mySession.PersonsPractice, mySession.Comments);
 
 		//3rd drop table sessions
-		Sqlite.dropTable(Constants.SessionTable);
+		SqliteGeneral.Sqlite.dropTable(Constants.SessionTable);
 
 		//4d create table persons (now with sport related stuff
 		//createTable(Constants.SessionTable);
@@ -86,11 +86,11 @@ class SqliteSessionOld : Sqlite
 
 
 		//6th drop temp table
-		Sqlite.dropTable(Constants.ConvertTempTable);
+		SqliteGeneral.Sqlite.dropTable(Constants.ConvertTempTable);
 	}
 	
 	/* used only on conversion from 0.55 to 0.56 */
-	public static int InsertOld(bool dbconOpened, string tableName, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments)
+	public int InsertOld(bool dbconOpened, string tableName, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments)
 	{
 		if(! dbconOpened)
 			dbcon.Open();

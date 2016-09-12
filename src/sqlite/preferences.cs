@@ -26,7 +26,7 @@ using Mono.Data.Sqlite;
 
 public class SqlitePreferences : Sqlite
 {
-	protected internal void createTable()
+	protected override void createTable()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.PreferencesTable + " ( " +
@@ -121,19 +121,19 @@ public class SqlitePreferences : Sqlite
 	//Called from initialize
 	public void Insert(string myName, string myValue, SqliteCommand mycmd)
 	{
-		//SqliteGeneral.Sqlite.Open();
+		//Open();
 		mycmd.CommandText = "INSERT INTO " + Constants.PreferencesTable + 
 			" (name, value) VALUES (\"" + 
 			myName + "\", \"" + myValue + "\")" ;
 		LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();
-		//SqliteGeneral.Sqlite.Close();
+		//Close();
 	}
 
 	public void Update(string myName, string myValue, bool dbconOpened)
 	{
 		if(! dbconOpened)
-			SqliteGeneral.Sqlite.Open();
+			Open();
 
 		dbcmd.CommandText = "UPDATE " + Constants.PreferencesTable +
 			" SET value = \"" + myValue + 
@@ -142,7 +142,7 @@ public class SqlitePreferences : Sqlite
 		dbcmd.ExecuteNonQuery();
 		
 		if(! dbconOpened)
-			SqliteGeneral.Sqlite.Close();
+			Close();
 	}
 
 	//Called from most of all old Chronojump methods
@@ -154,7 +154,7 @@ public class SqlitePreferences : Sqlite
 	public string Select (string myName, bool dbconOpened) 
 	{
 		if(! dbconOpened)
-			SqliteGeneral.Sqlite.Open();
+			Open();
 
 		dbcmd.CommandText = "SELECT value FROM " + Constants.PreferencesTable + 
 			" WHERE name == \"" + myName + "\"" ;
@@ -173,14 +173,14 @@ public class SqlitePreferences : Sqlite
 		reader.Close();
 		
 		if(! dbconOpened)
-			SqliteGeneral.Sqlite.Close();
+			Close();
 
 		return myReturn;
 	}
 	
 	public Preferences SelectAll () 
 	{
-		SqliteGeneral.Sqlite.Open();
+		Open();
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PreferencesTable; 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -293,7 +293,7 @@ public class SqlitePreferences : Sqlite
 		}
 
 		reader.Close();
-		SqliteGeneral.Sqlite.Close();
+		Close();
 
 		return preferences;
 	}

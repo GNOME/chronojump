@@ -71,11 +71,11 @@ public class StatFv : StatJumpIndexes
 		if(statsJumpsType == 3) { //avg of each jumper
 			if(multisession) {
 				processDataMultiSession ( 
-						SqliteStat.Fv(sessionString, multisession, "AVG(", ")", jump1, jump2, showSex), 
+						SqliteGeneral.SqliteStat.Fv(sessionString, multisession, "AVG(", ")", jump1, jump2, showSex), 
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.Fv(sessionString, multisession, "AVG(", ")", jump1, jump2, showSex), 
+							SqliteGeneral.SqliteStat.Fv(sessionString, multisession, "AVG(", ")", jump1, jump2, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
@@ -85,10 +85,10 @@ public class StatFv : StatJumpIndexes
 			//max jump1, max jump2 (seems more real)
 			//max jump1, min jump2 (index goes greater)
 			if(multisession) {
-				processDataMultiSession ( SqliteStat.Fv(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex),  
+				processDataMultiSession ( SqliteGeneral.SqliteStat.Fv(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex),  
 						true, sessions.Count);
 			} else {
-				processDataSimpleSession ( SqliteStat.Fv(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex), 
+				processDataSimpleSession ( SqliteGeneral.SqliteStat.Fv(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex), 
 						true, dataColumns);
 			}
 		}

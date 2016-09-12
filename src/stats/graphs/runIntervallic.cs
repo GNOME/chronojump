@@ -44,7 +44,7 @@ public class GraphRunIntervallic : StatRunIntervallic
 		//we need to know the reactive with more runs for prepare columns
 		//later this value can be changed in stats/main/plotgraphgraphseries because 
 		//there is possible to check the checked stats rows
-		maxRuns = SqliteStat.ObtainMaxNumberOfRuns(sessionString);
+		maxRuns = SqliteGeneral.SqliteStat.ObtainMaxNumberOfRuns(sessionString);
 		
 		this.dataColumns = maxRuns + 1;	//for simplesession (speedavg, speed*runs, )
 		

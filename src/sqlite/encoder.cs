@@ -171,7 +171,7 @@ public class SqliteEncoder : Sqlite
 					if(count < checkboxes.Length && eSQL.status != checkboxes[count]) {
 						eSQL.status = checkboxes[count];
 
-						SqliteEncoder.Update(true, eSQL, dbcmdTr);
+						SqliteGeneral.SqliteEncoder.Update(true, eSQL, dbcmdTr);
 					}
 
 					count ++;

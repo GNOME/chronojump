@@ -76,13 +76,13 @@ public class StatDjIndex : Stat
 			if(multisession) {
 				string operation = "AVG";
 				processDataMultiSession ( 
-						SqliteStat.DjIndexes(indexType, sessionString, multisession, 
+						SqliteGeneral.SqliteStat.DjIndexes(indexType, sessionString, multisession, 
 							operation, jumpType, showSex), 
 						true, sessions.Count);
 			} else {
 				string operation = "AVG";
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.DjIndexes(indexType, sessionString, multisession, 
+							SqliteGeneral.SqliteStat.DjIndexes(indexType, sessionString, multisession, 
 								operation, jumpType, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
@@ -91,14 +91,14 @@ public class StatDjIndex : Stat
 			//if more than on session, show only the avg or max of each jump/jumper
 			if(multisession) {
 				string operation = "MAX";
-				processDataMultiSession ( SqliteStat.DjIndexes(indexType, sessionString, multisession, 
+				processDataMultiSession ( SqliteGeneral.SqliteStat.DjIndexes(indexType, sessionString, multisession, 
 							operation, jumpType, showSex),  
 						true, sessions.Count);
 			} else {
 				string operation = ""; //no need of "MAX", there's an order by jump.tv desc
 							//and clenaDontWanted will do his work
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.DjIndexes(indexType, sessionString, multisession, 
+							SqliteGeneral.SqliteStat.DjIndexes(indexType, sessionString, multisession, 
 								operation, jumpType, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);

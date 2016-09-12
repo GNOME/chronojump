@@ -89,13 +89,13 @@ public class StatPotency : Stat
 			if(multisession) {
 				string operation = "AVG";
 				processDataMultiSession ( 
-						SqliteStat.CmjPlusPotency(sessionString, multisession, 
+						SqliteGeneral.SqliteStat.CmjPlusPotency(sessionString, multisession, 
 							operation, jumpType, showSex, heightPreferred), 
 						true, sessions.Count);
 			} else {
 				string operation = "AVG";
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.CmjPlusPotency(sessionString, multisession, 
+							SqliteGeneral.SqliteStat.CmjPlusPotency(sessionString, multisession, 
 								operation, jumpType, showSex, heightPreferred), 
 							statsJumpsType, limit),
 						true, dataColumns);
@@ -105,14 +105,14 @@ public class StatPotency : Stat
 			//if more than on session, show only the avg or max of each jump/jumper
 			if(multisession) {
 				string operation = "MAX";
-				processDataMultiSession ( SqliteStat.Potency(indexType, sessionString, multisession, 
+				processDataMultiSession ( SqliteGeneral.SqliteStat.Potency(indexType, sessionString, multisession, 
 							operation, jumpType, showSex, heightPreferred),  
 						true, sessions.Count);
 			} else {
 				string operation = ""; //no need of "MAX", there's an order by jump.tv desc
 							//and cleanDontWanted will do his work
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.Potency(indexType, sessionString, multisession, 
+							SqliteGeneral.SqliteStat.Potency(indexType, sessionString, multisession, 
 								operation, jumpType, showSex, heightPreferred), 
 							statsJumpsType, limit),
 						true, dataColumns);

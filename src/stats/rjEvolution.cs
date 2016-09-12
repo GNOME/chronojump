@@ -47,7 +47,7 @@ public class StatRjEvolution : Stat
 		string sessionString = obtainSessionSqlString(sessions, "jumpRj");
 
 		//we need to know the reactive with more jumps for prepare columns
-		maxJumps = SqliteStat.ObtainMaxNumberOfJumps(sessionString);
+		maxJumps = SqliteGeneral.SqliteStat.ObtainMaxNumberOfJumps(sessionString);
 		
 		this.dataColumns = maxJumps*2 + 2;	//for simplesession (index, fall, (tv , tc)*jumps)
 
@@ -243,7 +243,7 @@ public class StatRjEvolution : Stat
 		string operation = ""; //no need of "MAX", there's an order by (index) desc
 		//and cleanDontWanted will do his work
 		processDataSimpleSession ( cleanDontWanted (
-					SqliteStat.RjEvolution(sessionString, multisession, 
+					SqliteGeneral.SqliteStat.RjEvolution(sessionString, multisession, 
 						operation, jumpType, showSex, maxJumps), 
 					statsJumpsType, limit),
 				false, dataColumns); //don't print AVG and SD at end of row (has no sense)

@@ -156,7 +156,7 @@ public class SessionAddEditWindow {
 				if(currentSession.PersonsSpeciallityID != Constants.SpeciallityUndefinedID) { 
 					radiobutton_same_speciallity.Active = true;
 					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallitiesTranslated,
-						       SqliteSpeciallity.Select(false, currentSession.PersonsSpeciallityID));
+						       SqliteGeneral.SqliteSpeciallity.Select(false, currentSession.PersonsSpeciallityID));
 						       
 				} else 
 					combo_speciallities.Active = 
@@ -308,7 +308,7 @@ public class SessionAddEditWindow {
 	
 	private void createComboSpeciallities(int sportID) {
 		combo_speciallities = ComboBox.NewText ();
-		speciallities = SqliteSpeciallity.SelectAll(true, sportID); //show undefined, filter by sport
+		speciallities = SqliteGeneral.SqliteSpeciallity.SelectAll(true, sportID); //show undefined, filter by sport
 
 		//create speciallities translated, only with translated stuff
 		speciallitiesTranslated = new String[speciallities.Length];
@@ -568,7 +568,7 @@ public class SessionAddEditWindow {
 		string name = Util.RemoveTildeAndColon(entry_name.Text);
 		name = Util.RemoveChar(name, '"');
 
-		bool sessionNameExists = Sqlite.Exists (false, Constants.SessionTable, name);
+		bool sessionNameExists = SqliteGeneral.Sqlite.Exists (false, Constants.SessionTable, name);
 		if(sessionNameExists && name != currentSession.Name ) {
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), name);
 			ErrorWindow.Show(myString);
@@ -612,7 +612,7 @@ public class SessionAddEditWindow {
 				currentSession.PersonsPractice = levelID;
 				currentSession.Comments = comments;
 
-				SqliteSession.Update(currentSession.UniqueID, currentSession.Name, 
+				SqliteGeneral.SqliteSession.Update(currentSession.UniqueID, currentSession.Name, 
 						currentSession.Place, currentSession.Date, 
 						sportID, speciallityID, levelID,
 						currentSession.Comments);
@@ -1015,7 +1015,7 @@ public class SessionSelectStatsWindow {
 		bool commentsDisable = false;
 		int sessionIdDisable = -1; //don't disable any session (-1 as uniqueID is impossible)
 		string [] mySessions = 
-			SqliteSession.SelectAllSessionsSimple(commentsDisable, sessionIdDisable);
+			SqliteGeneral.SqliteSession.SelectAllSessionsSimple(commentsDisable, sessionIdDisable);
 
 		foreach (string session in mySessions) {
 			string [] myStringFull = session.Split(new char[] {':'});

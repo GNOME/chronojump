@@ -26,6 +26,10 @@ using Mono.Data.Sqlite;
 
 public class SqlitePreferences : Sqlite
 {
+	public SqlitePreferences (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
+
 	protected override void createTable()
 	{
 		dbcmd.CommandText = 

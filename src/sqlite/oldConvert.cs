@@ -29,6 +29,10 @@ using Mono.Data.Sqlite;
 public class SqliteOldConvert : Sqlite
 {
 
+	public SqliteOldConvert (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
+
 	/*
 	 * DB 1.20 -> 1.21
 	 * "Fixing loosing of encoder videoURL after recalculate"

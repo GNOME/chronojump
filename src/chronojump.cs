@@ -159,8 +159,6 @@ public class ChronoJump
 	string language = "";
 	if(File.Exists(System.IO.Path.Combine(Util.GetDatabaseDir(), "chronojump.db"))) {
 		try {
-			SqliteGeneral.Sqlite.Connect();
-
 			/*
 			 * chronojump 1.5.2 converts DB 1.24 to 1.25 changing language to ""
 			 * but this operation is done later (on sqliteThings)
@@ -273,7 +271,7 @@ public class ChronoJump
 		*/
 		
 		SqliteGeneral.Sqlite.CreateDir();
-		bool defaultDBLocation = SqliteGeneral.Sqlite.Connect();
+		bool defaultDBLocation = true; // TODO
 
 		LogB.SQL("sqlite connected");
 
@@ -301,7 +299,7 @@ public class ChronoJump
 
 
 			SqliteGeneral.Sqlite.CreateDir();
-			SqliteGeneral.Sqlite.CreateFile();
+			//SqliteGeneral.Sqlite.CreateFile();
 			//SqliteGeneral.Sqlite.CreateFile(defaultDBLocation);
 
 
@@ -344,7 +342,7 @@ public class ChronoJump
 					chronojumpHasToExit = true;
 					return;
 				}
-				SqliteGeneral.Sqlite.Connect();
+				// TODO SqliteGeneral.Sqlite.Connect();
 			}
 
 			splashMessageChange(4);  //updating DB
@@ -585,7 +583,7 @@ public class ChronoJump
 	private static void createBlankDB() {
 		LogB.SQL("Creating blank database");
 		SqliteGeneral.Sqlite.ConnectBlank();
-		SqliteGeneral.Sqlite.CreateFile();
+		//SqliteGeneral.Sqlite.CreateFile();
 		SqliteGeneral.Sqlite.CreateTables(false); //not server
 		LogB.SQL("Created blank database! Exiting");
 	}
@@ -596,7 +594,7 @@ public class ChronoJump
 			LogB.Error("File already exists. Cannot create.");
 		else {
 			SqliteGeneral.Sqlite.ConnectServer();
-			SqliteGeneral.Sqlite.CreateFile();
+			//SqliteGeneral.Sqlite.CreateFile();
 			SqliteGeneral.Sqlite.CreateTables(true); //server
 			LogB.SQL("Created blank database! Exiting");
 			string myVersion = UtilAll.ReadVersion();

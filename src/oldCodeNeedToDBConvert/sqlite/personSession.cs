@@ -28,7 +28,9 @@ using Mono.Unix;
 
 public class SqlitePersonSessionOld : Sqlite
 {
-	public SqlitePersonSessionOld() {
+	public SqlitePersonSessionOld(SqliteConnection dbcon, SqliteCommand dbcmd)
+		: base (dbcon, dbcmd)
+	{
 	}
 	
 	~SqlitePersonSessionOld() {}

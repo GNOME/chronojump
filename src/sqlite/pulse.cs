@@ -27,8 +27,9 @@ using Mono.Data.Sqlite;
 
 public class SqlitePulse : Sqlite
 {
-	public SqlitePulse() {
-	}
+	public SqlitePulse (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	
 	~SqlitePulse() {}
 

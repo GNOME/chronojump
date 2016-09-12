@@ -28,6 +28,11 @@ using Mono.Data.Sqlite;
 
 public class SqliteStat : Sqlite
 {
+
+	public SqliteStat (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
+
 	//sj, cmj, abk (no sj+)
 	//AllJumpsName (simple) is not managed here, is done in SjCmjAbkPlus
 	public ArrayList SjCmjAbk (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)

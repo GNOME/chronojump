@@ -34,6 +34,10 @@ public class SqliteEvent : Sqlite
 	 * in the future this will not exist, and graphs will be in jumpType, runType, ... tables
 	 */
 
+	public SqliteEvent(SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
+
 	protected internal void createGraphLinkTable()
 	{
 		dbcmd.CommandText = 

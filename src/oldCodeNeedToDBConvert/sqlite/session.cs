@@ -28,7 +28,9 @@ using Mono.Unix;
 
 public class SqliteSessionOld : Sqlite
 {
-	public SqliteSessionOld() {
+	public SqliteSessionOld(SqliteConnection dbcon, SqliteCommand dbcmd)
+		: base (dbcon, dbcmd)
+	{
 	}
 	
 	~SqliteSessionOld() {}
@@ -45,7 +47,7 @@ public class SqliteSessionOld : Sqlite
 
 		//1st create a temp table
 		//createTable(Constants.ConvertTempTable);
-		SqliteSessionOld sqliteSessionObject = new SqliteSessionOld();
+		SqliteSessionOld sqliteSessionObject = new SqliteSessionOld(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 		sqliteSessionObject.createTable(Constants.ConvertTempTable);
 			
 		//2nd copy all data from session table to temp table

@@ -27,8 +27,9 @@ using Mono.Data.Sqlite;
 
 public class SqliteRunInterval : SqliteRun
 {
-	public SqliteRunInterval() {
-	}
+	public SqliteRunInterval (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	
 	~SqliteRunInterval() {}
 

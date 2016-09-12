@@ -59,41 +59,44 @@ public sealed class SqliteGeneral
 	private static SqlitePersonOld m_sqlitePersonOld;
 	private static SqliteSessionOld m_sqliteSessionOld;
 	private static SqliteOldConvert m_sqliteOldConvert;
+	private static SqliteConnector m_sqliteConnector;
 
 	public SqliteGeneral()
 	{
-		m_sqlite = new Sqlite();
-		m_sqlite.Connect();
-		m_sqlitePreferences = new SqlitePreferences();
-		m_sqlitePreferences.Connect();
-		m_sqliteJumpRj = new SqliteJumpRj();
-		m_sqliteJump = new SqliteJump();
-		m_sqliteRunInterval = new SqliteRunInterval();
-		m_sqlitePerson = new SqlitePerson();
-		m_sqliteExecuteAuto = new SqliteExecuteAuto();
-		m_sqlitePersonSession = new SqlitePersonSession();
-		m_sqliteRun = new SqliteRun();
-		m_sqliteRunIntervalType = new SqliteRunIntervalType();
-		m_sqliteRunType = new SqliteRunType();
-		m_sqliteReactionTime = new SqliteReactionTime();
-		m_sqlitePulse = new SqlitePulse();
-		m_sqlitePulseType = new SqlitePulseType();
-		m_sqliteMultiChronopic = new SqliteMultiChronopic();
-		m_sqliteSport = new SqliteSport();
-		m_sqliteSpeciallity = new SqliteSpeciallity();
-		m_sqliteJumpType = new SqliteJumpType();
-		m_sqliteSession = new SqliteSession();
-		m_sqliteServer = new SqliteServer();
-		m_sqliteServerSession = new SqliteServerSession();
-		m_sqlitePersonSessionNotUpload = new SqlitePersonSessionNotUpload();
-		m_sqliteEncoder = new SqliteEncoder();
-		m_sqliteEvent = new SqliteEvent();
-		m_sqliteCountry = new SqliteCountry();
-		m_sqliteStat = new SqliteStat();
-		m_sqlitePersonSessionOld = new SqlitePersonSessionOld();
-		m_sqlitePersonOld = new SqlitePersonOld();
-		m_sqliteSessionOld = new SqliteSessionOld();
-		m_sqliteOldConvert = new SqliteOldConvert();
+		SqliteConnector sqliteConnector = new SqliteConnector();
+
+		sqliteConnector.connectGeneral();
+
+		m_sqlite = new Sqlite(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqlitePreferences = new SqlitePreferences(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteJumpRj = new SqliteJumpRj(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteJump = new SqliteJump(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteRunInterval = new SqliteRunInterval(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqlitePerson = new SqlitePerson(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteExecuteAuto = new SqliteExecuteAuto(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqlitePersonSession = new SqlitePersonSession(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteRun = new SqliteRun(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteRunIntervalType = new SqliteRunIntervalType(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteRunType = new SqliteRunType(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteReactionTime = new SqliteReactionTime(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqlitePulse = new SqlitePulse(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqlitePulseType = new SqlitePulseType(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteMultiChronopic = new SqliteMultiChronopic(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteSport = new SqliteSport(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteSpeciallity = new SqliteSpeciallity(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteJumpType = new SqliteJumpType(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteSession = new SqliteSession(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteServer = new SqliteServer(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteServerSession = new SqliteServerSession(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqlitePersonSessionNotUpload = new SqlitePersonSessionNotUpload(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteEncoder = new SqliteEncoder(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteEvent = new SqliteEvent(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteCountry = new SqliteCountry(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteStat = new SqliteStat(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqlitePersonSessionOld = new SqlitePersonSessionOld(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqlitePersonOld = new SqlitePersonOld(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteSessionOld = new SqliteSessionOld(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
+		m_sqliteOldConvert = new SqliteOldConvert(sqliteConnector.sqliteConnection, sqliteConnector.sqliteCommand);
 	}
 
 	public static Sqlite Sqlite
@@ -326,27 +329,185 @@ public sealed class SqliteGeneral
 			return m_sqliteOldConvert;
 		}
 	}
+
+	public static SqliteConnector SqlConnector
+	{
+		get
+		{
+			return m_sqliteConnector;
+		}
+	}
+}
+
+public class SqliteConnector
+{
+	private SqliteConnection dbcon;
+	private SqliteCommand dbcmd;
+
+	private string sqlFileServer;
+	private string connectionStringServer;
+
+	private void CreateFile(string connectionString)
+	{
+		LogB.SQL("creating file...");
+		LogB.SQL(connectionString);
+
+		//	if(!Directory.Exists(home)) {
+		//		Directory.CreateDirectory (home);
+		//	}
+
+		//try {	
+		dbcon.Open();
+		/*
+		   } catch {
+		   dbcon.Close();
+		   dbcon.ConnectionString = connectionStringTemp;
+		   dbcmd = dbcon.CreateCommand();
+		   dbcon.Open();
+		   }
+		   */
+		dbcon.Close();
+	}
+
+	public bool connectGeneral()
+	{
+		//since we use installJammer (chronojump 0.7)	
+		//database was on c:\.chronojump\ or in ~/.chronojump
+		//now it's on installed dir, eg linux: ~/Chronojump/database
+		string home = Util.GetDatabaseDir();
+		string sqlFile = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db";
+
+		string temp = Util.GetDatabaseTempDir();
+		string sqlFileTemp = Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db";
+
+		//http://www.mono-project.com/SQLite
+
+		string connectionString;
+		string connectionStringTemp;
+
+		connectionString = "version = 3; Data source = " + sqlFile;
+		connectionStringTemp = "version = 3; Data source = " + sqlFileTemp;
+
+		sqlFileServer = home + Path.DirectorySeparatorChar + "chronojump_server.db";
+		connectionStringServer = "version = 3; Data source = " + sqlFileServer;
+
+		/*
+	       splashMessage = "pre";
+		needUpdateSplashMessage = true;
+		Console.ReadLine();		
+		*/
+
+		LogB.SQL("home is: " + home);
+
+		bool defaultDBLocation = true;
+
+		dbcon = new SqliteConnection();
+		dbcon.ConnectionString = connectionString;
+
+		CreateFile(connectionString);
+
+		/*
+		 * the Open() helps to know it threre are problems with path and sqlite
+		 * passing utf-8 or looking for invalid chars is not enough
+		 * but, as Open creates a file (if it doesn't exist)
+		 * we prefer to create a test file (test.db) instead of chronojump.db
+		 */
+		string sqlFileTest = home + Path.DirectorySeparatorChar + "test.db";
+		string sqlFileTestTemp = temp + Path.DirectorySeparatorChar + "test.db";
+		string connectionStringTest = "version = 3; Data source = " + sqlFileTest;
+		string connectionStringTestTemp = "version = 3; Data source = " + sqlFileTestTemp;
+
+		dbcon.ConnectionString = connectionStringTest;
+		dbcmd = dbcon.CreateCommand();
+
+
+
+		try {
+			dbcon.Open();
+		} catch {
+			dbcon.Close();
+			dbcon.ConnectionString = connectionStringTestTemp;
+			dbcmd = dbcon.CreateCommand();
+			dbcon.Open();
+			defaultDBLocation = false;
+		}
+		dbcon.Close();
+
+
+		if(defaultDBLocation) {
+			dbcon.ConnectionString = connectionString;
+			if (File.Exists(sqlFileTest)){
+				File.Delete(sqlFileTest);
+			}
+		} else {
+			dbcon.ConnectionString = connectionStringTemp;
+			if (File.Exists(sqlFileTestTemp)){
+				File.Delete(sqlFileTestTemp);
+			}
+		}
+		dbcmd = dbcon.CreateCommand();
+
+		/*
+		LogB.SQL(string.Format("press3"));
+	       	splashMessage = "post1";
+		needUpdateSplashMessage = true;
+		Console.ReadLine();		
+		*/
+
+		/*
+		try{
+			LogB.SQL(string.Format("Trying database in ... " + connectionString));
+
+		//dbcon = new SqliteConnection();
+			*/
+		/*
+			dbcon.ConnectionString = connectionString;
+			//dbcon.ConnectionString = connectionStringTemp;
+			dbcmd = dbcon.CreateCommand();
+		} catch {
+			try {
+				LogB.SQL(string.Format("Trying database in ... " + connectionStringTemp));
+
+		//dbcon = new SqliteConnection();
+				dbcon.ConnectionString = connectionStringTemp;
+				dbcmd = dbcon.CreateCommand();
+			} catch { 
+				LogB.SQL("Problems, exiting...\n");
+				System.Console.Out.Close();
+				Log.End();
+				Log.Delete();
+				Environment.Exit(1);
+			}
+
+		}
+
+		*/
+
+		return defaultDBLocation;
+	}
+
+	public SqliteConnection sqliteConnection
+	{
+		get
+		{
+			return dbcon;
+		}
+	}
+
+	public SqliteCommand sqliteCommand
+	{
+		get
+		{
+			return dbcmd;
+		}
+	}
 }
 
 public class Sqlite
 {
 	protected SqliteConnection dbcon;
 	protected SqliteCommand dbcmd;
-
-	//since we use installJammer (chronojump 0.7)	
-	//database was on c:\.chronojump\ or in ~/.chronojump
-	//now it's on installed dir, eg linux: ~/Chronojump/database
-	private string home = Util.GetDatabaseDir();
-	private string sqlFile = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db";
 	
-	private string temp = Util.GetDatabaseTempDir();
-	private string sqlFileTemp = Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db";
-
-	//http://www.mono-project.com/SQLite
-
-	private string connectionString;
-	private string connectionStringTemp;
-
 	//test to try to open db in a dir with accents (latin)
 	//string connectionString = "globalization requestEncoding=\"iso-8859-1\"; responseEncoding=\"iso-8859-1\"; fileEncoding=\"iso-8859-1\"; culture=\"es-ES\";version = 3; Data source = " + sqlFile;
 	
@@ -376,12 +537,10 @@ public class Sqlite
 	 */
 	string lastChronojumpDatabaseVersion = "1.32";
 
-	public Sqlite() {
-		connectionString = "version = 3; Data source = " + sqlFile;
-		connectionStringTemp = "version = 3; Data source = " + sqlFileTemp;
-
-		sqlFileServer = home + Path.DirectorySeparatorChar + "chronojump_server.db";
-		connectionStringServer = "version = 3; Data source = " + sqlFileServer;
+	public Sqlite(SqliteConnection dbcon, SqliteCommand dbcmd)
+	{
+		this.dbcon = dbcon;
+		this.dbcmd = dbcmd;
 	}
 
 	protected virtual void createTable(string tableName) {
@@ -432,99 +591,6 @@ public class Sqlite
 		IsOpened = false;
 	}
 
-	public bool Connect()
-	{
-		/*
-	       splashMessage = "pre";
-		needUpdateSplashMessage = true;
-		Console.ReadLine();		
-		*/
-
-		LogB.SQL("home is: " + home);
-
-		bool defaultDBLocation = true;
-
-		dbcon = new SqliteConnection();
-
-		/*
-		 * the Open() helps to know it threre are problems with path and sqlite
-		 * passing utf-8 or looking for invalid chars is not enough
-		 * but, as Open creates a file (if it doesn't exist)
-		 * we prefer to create a test file (test.db) instead of chronojump.db
-		 */
-		string sqlFileTest = home + Path.DirectorySeparatorChar + "test.db";
-		string sqlFileTestTemp = temp + Path.DirectorySeparatorChar + "test.db";
-		string connectionStringTest = "version = 3; Data source = " + sqlFileTest;
-		string connectionStringTestTemp = "version = 3; Data source = " + sqlFileTestTemp;
-
-		dbcon.ConnectionString = connectionStringTest;
-		dbcmd = dbcon.CreateCommand();
-
-		try {
-			dbcon.Open();
-		} catch {
-			dbcon.Close();
-			dbcon.ConnectionString = connectionStringTestTemp;
-			dbcmd = dbcon.CreateCommand();
-			dbcon.Open();
-			defaultDBLocation = false;
-		}
-		dbcon.Close();
-		
-		
-		if(defaultDBLocation) {
-			dbcon.ConnectionString = connectionString;
-			if (File.Exists(sqlFileTest)){
-				File.Delete(sqlFileTest);
-			}
-		} else {
-			dbcon.ConnectionString = connectionStringTemp;
-			if (File.Exists(sqlFileTestTemp)){
-				File.Delete(sqlFileTestTemp);
-			}
-		}
-		dbcmd = dbcon.CreateCommand();
-
-		/*
-		LogB.SQL(string.Format("press3"));
-	       	splashMessage = "post1";
-		needUpdateSplashMessage = true;
-		Console.ReadLine();		
-		*/
-
-		/*
-		try{
-			LogB.SQL(string.Format("Trying database in ... " + connectionString));
-
-		//dbcon = new SqliteConnection();
-			*/
-		/*
-			dbcon.ConnectionString = connectionString;
-			//dbcon.ConnectionString = connectionStringTemp;
-			dbcmd = dbcon.CreateCommand();
-		} catch {
-			try {
-				LogB.SQL(string.Format("Trying database in ... " + connectionStringTemp));
-
-		//dbcon = new SqliteConnection();
-				dbcon.ConnectionString = connectionStringTemp;
-				dbcmd = dbcon.CreateCommand();
-			} catch { 
-				LogB.SQL("Problems, exiting...\n");
-				System.Console.Out.Close();
-				Log.End();
-				Log.Delete();
-				Environment.Exit(1);
-			}
-
-		}
-
-		*/
-			
-		return defaultDBLocation;
-		
-	}
-
 	//only create blank DB
 	public void ConnectBlank()
 	{
@@ -552,6 +618,7 @@ public class Sqlite
 	
 	public void CreateDir()
 	{
+		/* TODO
 		LogB.SQL(connectionString);
 
 		string applicationDataDir = UtilAll.GetApplicationDataDir();
@@ -566,33 +633,14 @@ public class Sqlite
 			Directory.CreateDirectory (home);
 		}
 		LogB.SQL("Dirs created.");
+		*/
 	}
-
-	public void CreateFile()
-	{
-		LogB.SQL("creating file...");
-		LogB.SQL(connectionString);
-		
-		//	if(!Directory.Exists(home)) {
-		//		Directory.CreateDirectory (home);
-		//	}
-
-		//try {	
-		dbcon.Open();
-		/*
-		   } catch {
-		   dbcon.Close();
-		   dbcon.ConnectionString = connectionStringTemp;
-		   dbcmd = dbcon.CreateCommand();
-		   dbcon.Open();
-		   }
-		   */
-		dbcon.Close();
-	}
-	
 
 	public bool CheckTables(bool defaultDBLocation)
 	{
+		return true;
+		/*
+
 		if(defaultDBLocation) {
 			if (File.Exists(sqlFile)){
 				return true;
@@ -611,6 +659,7 @@ public class Sqlite
 			}
 		}
 		return false;
+		*/
 	}
 
 
@@ -813,12 +862,12 @@ public class Sqlite
 	 		bool runAndRunIntervalInitialSpeedAdded = false;
 			bool addedRSA = false;
 
-			SqliteJumpRj sqliteJumpRjObject = new SqliteJumpRj();
-			SqliteRunInterval sqliteRunIntervalObject = new SqliteRunInterval();
-			SqliteReactionTime sqliteReactionTimeObject = new SqliteReactionTime();
-			SqlitePulse sqlitePulseObject = new SqlitePulse();
-			SqliteMultiChronopic sqliteMultiChronopicObject = new SqliteMultiChronopic();
-			SqlitePersonSessionOld sqlitePersonSessionOldObject = new SqlitePersonSessionOld();
+			SqliteJumpRj sqliteJumpRjObject = new SqliteJumpRj(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
+			SqliteRunInterval sqliteRunIntervalObject = new SqliteRunInterval(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
+			SqliteReactionTime sqliteReactionTimeObject = new SqliteReactionTime(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
+			SqlitePulse sqlitePulseObject = new SqlitePulse(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
+			SqliteMultiChronopic sqliteMultiChronopicObject = new SqliteMultiChronopic(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
+			SqlitePersonSessionOld sqlitePersonSessionOldObject = new SqlitePersonSessionOld(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 
 			if(currentVersion == "0.41") {
 				SqliteGeneral.Sqlite.Open();
@@ -1041,19 +1090,19 @@ public class Sqlite
 
 				conversionRateTotal = 9;
 				conversionRate = 1;
-				convertTables(new SqliteJump(), Constants.JumpTable, 9, arrayAngleAndSimulated, false);
+				convertTables(new SqliteJump(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.JumpTable, 9, arrayAngleAndSimulated, false);
 				conversionRate ++;
-				convertTables(new SqliteJumpRj(), Constants.JumpRjTable, 16, arrayAngleAndSimulated, false);
+				convertTables(new SqliteJumpRj(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.JumpRjTable, 16, arrayAngleAndSimulated, false);
 				conversionRate ++;
-				convertTables(new SqliteRun(), Constants.RunTable, 7, arraySimulated, false);
+				convertTables(new SqliteRun(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.RunTable, 7, arraySimulated, false);
 				conversionRate ++;
-				convertTables(new SqliteRunInterval(), Constants.RunIntervalTable, 11, arraySimulated, false);
+				convertTables(new SqliteRunInterval(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.RunIntervalTable, 11, arraySimulated, false);
 				runAndRunIntervalInitialSpeedAdded = true;
 				
 				conversionRate ++;
-				convertTables(new SqliteReactionTime(), Constants.ReactionTimeTable, 6, arraySimulated, false);
+				convertTables(new SqliteReactionTime(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.ReactionTimeTable, 6, arraySimulated, false);
 				conversionRate ++;
-				convertTables(new SqlitePulse(), Constants.PulseTable, 8, arraySimulated, false);
+				convertTables(new SqlitePulse(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.PulseTable, 8, arraySimulated, false);
 
 
 				//reacreate temp tables for have also the simulated column
@@ -1081,7 +1130,7 @@ public class Sqlite
 				arrayPersonRaceCountryServerID.Add(Constants.RaceUndefinedID.ToString());
 				arrayPersonRaceCountryServerID.Add(Constants.CountryUndefinedID.ToString());
 				arrayPersonRaceCountryServerID.Add(Constants.ServerUndefinedID.ToString());
-				convertTables(new SqlitePersonOld(), Constants.PersonOldTable, columnsBefore, arrayPersonRaceCountryServerID, putDescriptionInMiddle);
+				convertTables(new SqlitePersonOld(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.PersonOldTable, columnsBefore, arrayPersonRaceCountryServerID, putDescriptionInMiddle);
 
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.57", true); 
 				SqliteGeneral.Sqlite.Close();
@@ -1116,7 +1165,7 @@ public class Sqlite
 				conversionRateTotal = 2;
 				conversionRate = 1;
 				SqliteGeneral.SqlitePreferences.Insert ("showAngle", "False"); 
-				alterTableColumn(new SqliteJump(), Constants.JumpTable, 11);
+				alterTableColumn(new SqliteJump(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.JumpTable, 11);
 
 				//jump fall is also converted to double (don't need to do at conversion to 0.76)
 				jumpFallAsDouble = true;
@@ -1141,7 +1190,7 @@ public class Sqlite
 				int columnsBefore = 8;
 				ArrayList arrayServerID = new ArrayList(1);
 				arrayServerID.Add(Constants.ServerUndefinedID.ToString());
-				convertTables(new SqliteSession(), Constants.SessionTable, columnsBefore, arrayServerID, false);
+				convertTables(new SqliteSession(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.SessionTable, columnsBefore, arrayServerID, false);
 				
 				conversionRate = 3;
 				SqliteGeneral.SqliteEvent.SimulatedConvertToNegative();
@@ -1161,7 +1210,7 @@ public class Sqlite
 
 				ArrayList arrayDS = new ArrayList(1);
 				arrayDS.Add("-1"); //distancesString
-				convertTables(new SqliteRunIntervalType(), Constants.RunIntervalTypeTable, 7, arrayDS, false);
+				convertTables(new SqliteRunIntervalType(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.RunIntervalTypeTable, 7, arrayDS, false);
 				
 				conversionRate = 2;
 
@@ -1218,7 +1267,7 @@ public class Sqlite
 			if(currentVersion == "0.64") {
 				SqliteGeneral.Sqlite.Open();
 				
-				SqliteServer sqliteServerObject = new SqliteServer();
+				SqliteServer sqliteServerObject = new SqliteServer(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 				//user has also an evaluator table with a row (it's row)	
 				sqliteServerObject.CreateEvaluatorTable();
 
@@ -1335,10 +1384,10 @@ public class Sqlite
 				
 				SqliteGeneral.Sqlite.Open();
 
-				convertTables(new SqlitePersonOld(), Constants.PersonOldTable, 13, new ArrayList(), false);
+				convertTables(new SqlitePersonOld(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.PersonOldTable, 13, new ArrayList(), false);
 				conversionRate++;
 				
-				convertTables(new SqlitePersonSessionOld(), Constants.PersonSessionOldWeightTable, 4, new ArrayList(), false);
+				convertTables(new SqlitePersonSessionOld(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.PersonSessionOldWeightTable, 4, new ArrayList(), false);
 
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.75", true); 
 				conversionRate++;
@@ -1353,11 +1402,11 @@ public class Sqlite
 				SqliteGeneral.Sqlite.Open();
 
 				if(!jumpFallAsDouble)
-					alterTableColumn(new SqliteJump(), Constants.JumpTable, 11);
+					alterTableColumn(new SqliteJump(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.JumpTable, 11);
 				
 				conversionRate++;
 				
-				alterTableColumn(new SqliteJumpRj(), Constants.JumpRjTable, 18);
+				alterTableColumn(new SqliteJumpRj(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.JumpRjTable, 18);
 				
 				SqliteGeneral.SqlitePreferences.Update ("databaseVersion", "0.76", true); 
 				conversionRate++;
@@ -1411,9 +1460,9 @@ public class Sqlite
 				
 					conversionRateTotal = 3;
 					conversionRate = 1;
-					convertTables(new SqliteRun(), Constants.RunTable, 8, myArray, false);
+					convertTables(new SqliteRun(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.RunTable, 8, myArray, false);
 					conversionRate ++;
-					convertTables(new SqliteRunInterval(), Constants.RunIntervalTable, 12, myArray, false);
+					convertTables(new SqliteRunInterval(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand), Constants.RunIntervalTable, 12, myArray, false);
 					conversionRate ++;
 					LogB.SQL("Converted DB to 0.80 Added run and runInterval initial speed (if not done in 0.56 conversion)"); 
 				}
@@ -2253,17 +2302,17 @@ public class Sqlite
 		creationTotal = 14;
 		creationRate = 1;
 
-		SqliteServer sqliteServerObject = new SqliteServer();
+		SqliteServer sqliteServerObject = new SqliteServer(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 		//user has also an evaluator table with a row (it's row)	
 		sqliteServerObject.CreateEvaluatorTable();
 		
 		if(server) {
 			sqliteServerObject.CreatePingTable();
 			
-			SqliteServerSession sqliteSessionObject = new SqliteServerSession();
+			SqliteServerSession sqliteSessionObject = new SqliteServerSession(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 			sqliteSessionObject.createTable(Constants.SessionTable);
 		} else {
-			SqliteSession sqliteSessionObject = new SqliteSession();
+			SqliteSession sqliteSessionObject = new SqliteSession(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 			sqliteSessionObject.createTable(Constants.SessionTable);
 			
 			//add SIMULATED session if doesn't exists. Unique session where tests can be simulated.
@@ -2274,7 +2323,7 @@ public class Sqlite
 		}
 		
 
-		SqlitePerson sqlitePersonObject = new SqlitePerson();
+		SqlitePerson sqlitePersonObject = new SqlitePerson(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 		sqlitePersonObject.createTable(Constants.PersonTable);
 
 		//graphLinkTable
@@ -2282,8 +2331,8 @@ public class Sqlite
 		creationRate ++;
 		
 		//jumps
-		SqliteJump sqliteJumpObject = new SqliteJump();
-		SqliteJumpRj sqliteJumpRjObject = new SqliteJumpRj();
+		SqliteJump sqliteJumpObject = new SqliteJump(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
+		SqliteJumpRj sqliteJumpRjObject = new SqliteJumpRj(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 		sqliteJumpObject.createTable(Constants.JumpTable);
 		sqliteJumpRjObject.createTable(Constants.JumpRjTable);
 		sqliteJumpRjObject.createTable(Constants.TempJumpRjTable);
@@ -2297,37 +2346,37 @@ public class Sqlite
 		
 		//runs
 		creationRate ++;
-		SqliteRun sqliteRunObject = new SqliteRun();
-		SqliteRunInterval sqliteRunIntervalObject = new SqliteRunInterval();
+		SqliteRun sqliteRunObject = new SqliteRun(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
+		SqliteRunInterval sqliteRunIntervalObject = new SqliteRunInterval(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 		sqliteRunObject.createTable(Constants.RunTable);
 		sqliteRunIntervalObject.createTable(Constants.RunIntervalTable);
 		sqliteRunIntervalObject.createTable(Constants.TempRunIntervalTable);
 		
 		//run Types
 		creationRate ++;
-		SqliteRunType sqliteRunTypeObject = new SqliteRunType();
+		SqliteRunType sqliteRunTypeObject = new SqliteRunType(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 		sqliteRunTypeObject.createTable(Constants.RunTypeTable);
 		SqliteGeneral.SqliteRunType.initializeTable();
 
-		SqliteRunIntervalType sqliteRunIntervalTypeObject = new SqliteRunIntervalType();
+		SqliteRunIntervalType sqliteRunIntervalTypeObject = new SqliteRunIntervalType(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 		sqliteRunIntervalTypeObject.createTable(Constants.RunIntervalTypeTable);
 		SqliteGeneral.SqliteRunIntervalType.initializeTable();
 		
 		//reactionTimes
 		creationRate ++;
-		SqliteReactionTime sqliteReactionTimeObject = new SqliteReactionTime();
+		SqliteReactionTime sqliteReactionTimeObject = new SqliteReactionTime(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 		sqliteReactionTimeObject.createTable(Constants.ReactionTimeTable);
 		
 		//pulses and pulseTypes
 		creationRate ++;
-		SqlitePulse sqlitePulseObject = new SqlitePulse();
+		SqlitePulse sqlitePulseObject = new SqlitePulse(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 		sqlitePulseObject.createTable(Constants.PulseTable);
 		SqliteGeneral.SqlitePulseType.createTablePulseType();
 		SqliteGeneral.SqlitePulseType.initializeTablePulseType();
 		
 		//multiChronopic tests		
 		creationRate ++;
-		SqliteMultiChronopic sqliteMultiChronopicObject = new SqliteMultiChronopic();
+		SqliteMultiChronopic sqliteMultiChronopicObject = new SqliteMultiChronopic(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 		sqliteMultiChronopicObject.createTable(Constants.MultiChronopicTable);
 	
 		//encoder	
@@ -2347,7 +2396,7 @@ public class Sqlite
 		SqliteGeneral.SqliteSpeciallity.InsertUndefined(true);
 				
 		creationRate ++;
-		SqlitePersonSession sqlitePersonSessionObject = new SqlitePersonSession();
+		SqlitePersonSession sqlitePersonSessionObject = new SqlitePersonSession(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 		sqlitePersonSessionObject.createTable(Constants.PersonSessionTable);
 		
 		creationRate ++;
@@ -2600,15 +2649,15 @@ public class Sqlite
 				
 	protected void convertPersonAndPersonSessionTo77() {
 		//create person77
-		SqlitePerson sqlitePersonObject = new SqlitePerson();
+		SqlitePerson sqlitePersonObject = new SqlitePerson(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 		sqlitePersonObject.createTable(Constants.PersonTable);
 		
 		//create personSession77
-		SqlitePersonSession sqlitePersonSessionObject = new SqlitePersonSession();
+		SqlitePersonSession sqlitePersonSessionObject = new SqlitePersonSession(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 		sqlitePersonSessionObject.createTable(Constants.PersonSessionTable);
 
 		//select all personOld data
-		SqlitePersonOld sqlitePersonOldObject = new SqlitePersonOld();
+		SqlitePersonOld sqlitePersonOldObject = new SqlitePersonOld(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 		ArrayList personsOld = sqlitePersonOldObject.SelectAllPersons();
 
 		conversionRateTotal = personsOld.Count;
@@ -2627,7 +2676,7 @@ public class Sqlite
 			p.InsertAtDB(true, Constants.PersonTable);
 		
 			//select all personSessionOld data of this person
-			SqlitePersonSessionOld sqlitePersonSessionOldObject = new SqlitePersonSessionOld();
+			SqlitePersonSessionOld sqlitePersonSessionOldObject = new SqlitePersonSessionOld(SqliteGeneral.SqlConnector.sqliteConnection, SqliteGeneral.SqlConnector.sqliteCommand);
 			ArrayList personSessionsOld = sqlitePersonSessionOldObject.SelectAllPersonSessionsOfAPerson(p.UniqueID);
 			conversionSubRateTotal = personSessionsOld.Count;
 			conversionSubRate = 1;

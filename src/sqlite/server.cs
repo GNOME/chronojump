@@ -28,8 +28,9 @@ using Mono.Unix; //Catalog
 
 public class SqliteServer : Sqlite
 {
-	public SqliteServer() {
-	}
+	public SqliteServer (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	
 	~SqliteServer() {}
 

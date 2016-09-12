@@ -27,8 +27,10 @@ using Mono.Data.Sqlite;
 
 public class SqliteJumpRj : SqliteJump
 {
-	public SqliteJumpRj() {
-	}
+	public SqliteJumpRj (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
+
 	~SqliteJumpRj() {}
 	
 	protected override void createTable(string tableName)

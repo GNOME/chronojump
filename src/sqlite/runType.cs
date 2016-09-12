@@ -27,8 +27,9 @@ using Mono.Data.Sqlite;
 
 public class SqliteRunType : Sqlite
 {
-	public SqliteRunType() {
-	}
+	public SqliteRunType (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	
 	~SqliteRunType() {}
 
@@ -309,8 +310,9 @@ public class SqliteRunType : Sqlite
 
 public class SqliteRunIntervalType : SqliteRunType
 {
-	public SqliteRunIntervalType() {
-	}
+	public SqliteRunIntervalType (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	
 	~SqliteRunIntervalType() {}
 	

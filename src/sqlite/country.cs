@@ -43,8 +43,12 @@ public class SqliteCountry : Sqlite
 		dbcmd.ExecuteNonQuery();
 	 }
 
+	public SqliteCountry (SqliteConnection dbcon, SqliteCommand dbcmd)
+	:base(dbcon, dbcmd)
+	{}
+
 	// intialize table
-	protected internal  void initialize()
+	protected internal void initialize()
 	{
 		conversionSubRateTotal = countries.Length;
 		conversionSubRate = 0;

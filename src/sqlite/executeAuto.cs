@@ -27,8 +27,9 @@ using Mono.Data.Sqlite;
 
 public class SqliteExecuteAuto : Sqlite
 {
-	public SqliteExecuteAuto() {
-	}
+	public SqliteExecuteAuto (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	
 	~SqliteExecuteAuto() {}
 

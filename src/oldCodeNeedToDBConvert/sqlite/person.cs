@@ -27,8 +27,9 @@ using Mono.Data.Sqlite;
 
 public class SqlitePersonOld : Sqlite
 {
-	public SqlitePersonOld() {
-	}
+	public SqlitePersonOld(SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	
 	~SqlitePersonOld() {}
 

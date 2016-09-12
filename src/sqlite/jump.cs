@@ -28,8 +28,9 @@ using Mono.Data.Sqlite;
 
 public class SqliteJump : Sqlite
 {
-	public SqliteJump() {
-	}
+	public SqliteJump(SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	
 	~SqliteJump() {}
 

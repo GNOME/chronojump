@@ -29,8 +29,9 @@ using System.Collections.Generic; //List<T>
 
 public class SqlitePersonSession : Sqlite
 {
-	public SqlitePersonSession() {
-	}
+	public SqlitePersonSession (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	
 	~SqlitePersonSession() {}
 
@@ -457,14 +458,16 @@ class SqlitePersonSessionTransaction : Sqlite
 	enum Modes { INSERT_PERSONS_MULTIPLE, RECUPERATE_PERSONS_MULTIPLE }
 	Modes mode;
 	
-	public SqlitePersonSessionTransaction(List <PersonSession> personSessions) 
+	public SqlitePersonSessionTransaction(SqliteConnection dbcon, SqliteCommand dbcmd, List <PersonSession> personSessions) 
+		: base(dbcon, dbcmd)
 	{
 		this.personSessions = personSessions;
 		mode = Modes.RECUPERATE_PERSONS_MULTIPLE;
 		
 		doTransaction();
 	}
-	public SqlitePersonSessionTransaction(List <Person> persons, List <PersonSession> personSessions) 
+	public SqlitePersonSessionTransaction(SqliteConnection dbcon, SqliteCommand dbcmd, List <Person> persons, List <PersonSession> personSessions) 
+		: base(dbcon, dbcmd)
 	{
 		this.persons = persons;
 		this.personSessions = personSessions;

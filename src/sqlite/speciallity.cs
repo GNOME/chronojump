@@ -30,6 +30,10 @@ using Mono.Unix;
 
 public class SqliteSpeciallity : Sqlite
 {
+	public SqliteSpeciallity (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
+
 	protected override void createTable()
 	 {
 		dbcmd.CommandText = 

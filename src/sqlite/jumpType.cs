@@ -27,6 +27,9 @@ using Mono.Data.Sqlite;
 
 public class SqliteJumpType : Sqlite
 {
+	public SqliteJumpType (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	/*
 	 * create and initialize tables
 	 */

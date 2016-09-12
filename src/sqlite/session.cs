@@ -28,8 +28,9 @@ using Mono.Unix;
 
 public class SqliteSession : Sqlite
 {
-	public SqliteSession() {
-	}
+	public SqliteSession (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	
 	~SqliteSession() {}
 
@@ -745,8 +746,9 @@ public class SqliteSession : Sqlite
 
 public class SqliteServerSession : SqliteSession
 {
-	public SqliteServerSession() {
-	}
+	public SqliteServerSession (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	
 	protected override void createTable(string tableName)
 	{

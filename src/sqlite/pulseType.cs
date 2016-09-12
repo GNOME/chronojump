@@ -30,6 +30,10 @@ public class SqlitePulseType : Sqlite
 	/*
 	 * create and initialize tables
 	 */
+
+	public SqlitePulseType (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	
 	//creates table containing the types of simple Pulses
 	//following INT values are booleans

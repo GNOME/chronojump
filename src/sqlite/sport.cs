@@ -29,6 +29,10 @@ using Mono.Unix;
 
 public class SqliteSport : Sqlite
 {
+	public SqliteSport (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
+
 	protected internal void createTable()
 	 {
 		dbcmd.CommandText = 

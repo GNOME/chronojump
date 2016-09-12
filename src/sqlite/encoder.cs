@@ -29,8 +29,9 @@ using Mono.Unix;
 
 public class SqliteEncoder : Sqlite
 {
-	public SqliteEncoder() {
-	}
+	public SqliteEncoder(SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	
 	~SqliteEncoder() {}
 

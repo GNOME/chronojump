@@ -26,6 +26,11 @@ using Mono.Data.Sqlite;
 
 public class SqlitePersonSessionNotUpload : Sqlite
 {
+
+	public SqlitePersonSessionNotUpload (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
+
 	protected internal void CreateTable()
 	 {
 		dbcmd.CommandText = 

@@ -27,8 +27,9 @@ using Mono.Data.Sqlite;
 
 public class SqliteReactionTime : Sqlite
 {
-	public SqliteReactionTime() {
-	}
+	public SqliteReactionTime (SqliteConnection dbcon, SqliteCommand dbcmd)
+		:base(dbcon, dbcmd)
+	{}
 	
 	~SqliteReactionTime() {}
 

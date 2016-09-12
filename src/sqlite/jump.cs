@@ -64,8 +64,8 @@ class SqliteJump : Sqlite
 	 * Jump class methods
 	 */
 	
-	//public static int Insert(int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string limited, string description, int simulated)
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated)
+	//public int Insert(int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string limited, string description, int simulated)
+	public int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -99,7 +99,7 @@ class SqliteJump : Sqlite
 	//if all persons, put -1 in personID
 	//if all types put, "" in filterType
 	//unlimited put -1 in limit
-	public static string[] SelectJumps(bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType, 
+	public string[] SelectJumps(bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType, 
 			Orders_by order, int limit) 
 	{
 		if(!dbconOpened)
@@ -189,7 +189,7 @@ class SqliteJump : Sqlite
 		return myJumps;
 	}
 
-	public static Jump SelectJumpData(int uniqueID, bool dbconOpened)
+	public Jump SelectJumpData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -213,7 +213,7 @@ class SqliteJump : Sqlite
 		return myJump;
 	}
 	
-	public static string [] SelectTestMaxStuff(int personID, JumpType jumpType) 
+	public string [] SelectTestMaxStuff(int personID, JumpType jumpType) 
 	{
 		double tc = 0.0;
 		if(! jumpType.StartIn)
@@ -254,7 +254,7 @@ class SqliteJump : Sqlite
 		return str;
 	}
 	
-	public static List<Double> SelectChronojumpProfile (int pID, int sID)
+	public List<Double> SelectChronojumpProfile (int pID, int sID)
 	{
 		string personID = pID.ToString();
 		string sessionID = sID.ToString();
@@ -303,7 +303,7 @@ class SqliteJump : Sqlite
 	}
 
 
-	public static void Update(int jumpID, string type, string tv, string tc, string fall, int personID, double weight, string description, double angle)
+	public void Update(int jumpID, string type, string tv, string tc, string fall, int personID, double weight, string description, double angle)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE jump SET personID = " + personID + 
@@ -320,7 +320,7 @@ class SqliteJump : Sqlite
 		Sqlite.Close();
 	}
 
-	public static void UpdateWeight(string tableName, int uniqueID, double weight)
+	public void UpdateWeight(string tableName, int uniqueID, double weight)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + tableName + " SET weight = " + Util.ConvertToPoint(weight) + 
@@ -330,7 +330,7 @@ class SqliteJump : Sqlite
 		Sqlite.Close();
 	}
 
-	public static void UpdateDescription(string tableName, int uniqueID, string description)
+	public void UpdateDescription(string tableName, int uniqueID, string description)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + tableName + " SET description = \"" + description + 
@@ -341,7 +341,7 @@ class SqliteJump : Sqlite
 	}
 
 	//onle for change SJ+ CMJ+ and ABK+ to SJl...
-	public static void ChangeWeightToL()
+	public void ChangeWeightToL()
 	{
 		dbcmd.CommandText = "UPDATE jump SET type = \"SJl\" WHERE type == \"SJ+\"";
 		LogB.SQL(dbcmd.CommandText.ToString());

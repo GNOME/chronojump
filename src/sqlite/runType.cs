@@ -38,8 +38,8 @@ class SqliteRunType : Sqlite
 	
 	//creates table containing the types of simple Runs
 	//following INT values are booleans
-	//protected internal static void createTableRunType()
-	//protected internal static void createTable(string tableName)
+	//protected internal void createTableRunType()
+	//protected internal void createTable(string tableName)
 	protected override void createTable(string tableName)
 	{
 		dbcmd.CommandText = 
@@ -53,8 +53,8 @@ class SqliteRunType : Sqlite
 	}
 	
 	//if this changes, runType.cs constructor should change 
-	//protected internal static void initializeTableRunType()
-	protected internal static void initializeTable()
+	//protected internal void initializeTableRunType()
+	protected internal void initializeTable()
 	{
 		string [] iniRunTypes = {
 			//name:distance:description
@@ -109,12 +109,12 @@ class SqliteRunType : Sqlite
 
 	//called from some Chronojump methods
 	//adds dbcmd to be used on next Insert method
-	public static int Insert(RunType t, string tableName, bool dbconOpened)
+	public int Insert(RunType t, string tableName, bool dbconOpened)
 	{
 		return Insert(t, tableName, dbconOpened, dbcmd);
 	}
 	//Called from initialize
-	public static int Insert(RunType t, string tableName, bool dbconOpened, SqliteCommand mycmd)
+	public int Insert(RunType t, string tableName, bool dbconOpened, SqliteCommand mycmd)
 	{
 		//string [] myStr = myRun.Split(new char[] {':'});
 		if(! dbconOpened) {
@@ -143,7 +143,7 @@ class SqliteRunType : Sqlite
 		return myLast;
 	}
 	
-	public static RunType SelectAndReturnRunType(string typeName, bool dbconOpened) 
+	public RunType SelectAndReturnRunType(string typeName, bool dbconOpened) 
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -175,7 +175,7 @@ class SqliteRunType : Sqlite
 		return myRunType;
 	}
 
-	public static string[] SelectRunTypes(string allRunsName, bool onlyName) 
+	public string[] SelectRunTypes(string allRunsName, bool onlyName) 
 	{
 		//allRunsName: add and "allRunsName" value
 		//onlyName: return only type name
@@ -234,7 +234,7 @@ class SqliteRunType : Sqlite
 		return myTypes;
 	}
 
-	public static double Distance (string typeName) 
+	public double Distance (string typeName) 
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT distance " +
@@ -256,7 +256,7 @@ class SqliteRunType : Sqlite
 		return distance;
 	}
 	
-	public static void AddGraphLinksRunSimple() {
+	public void AddGraphLinksRunSimple() {
 		using(SqliteTransaction tr = dbcon.BeginTransaction())
 		{
 			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
@@ -274,7 +274,7 @@ class SqliteRunType : Sqlite
 		}
 	}
 
-	public static void AddGraphLinksRunSimpleAgility() {
+	public void AddGraphLinksRunSimpleAgility() {
 		using(SqliteTransaction tr = dbcon.BeginTransaction())
 		{
 			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
@@ -294,7 +294,7 @@ class SqliteRunType : Sqlite
 	}
 
 
-	public static void Delete(string name)
+	public void Delete(string name)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "Delete FROM " + Constants.RunTypeTable +
@@ -316,8 +316,8 @@ class SqliteRunIntervalType : SqliteRunType
 	
 	//creates table containing the types of Interval Runs 
 	//following INT values are booleans
-	//protected internal static void createTableRunIntervalType()
-	//protected internal static void createTable(string tableName)
+	//protected internal void createTableRunIntervalType()
+	//protected internal void createTable(string tableName)
 	protected override void createTable(string tableName)
 	{
 		dbcmd.CommandText = 
@@ -341,8 +341,8 @@ class SqliteRunIntervalType : SqliteRunType
 	}
 	
 	//if this changes, runType.cs constructor should change 
-	//protected internal static void initializeTableRunIntervalType()
-	protected internal static new void initializeTable()
+	//protected internal void initializeTableRunIntervalType()
+	protected internal new void initializeTable()
 	{
 		string [] iniRunTypes = {
 			//name:distance:tracksLimited:fixedValue:unlimited:description:distancesString
@@ -384,7 +384,7 @@ class SqliteRunIntervalType : SqliteRunType
 		addRSA();
 	}
 
-	protected internal static void addRSA()
+	protected internal void addRSA()
 	{
 		string [] iniRunTypes = {
 			//name:distance:tracksLimited:fixedValue:unlimited:description:distancesString
@@ -428,12 +428,12 @@ class SqliteRunIntervalType : SqliteRunType
 
 	//called from some Chronojump methods
 	//adds dbcmd to be used on next Insert method
-	public static new int Insert(RunType t, string tableName, bool dbconOpened)
+	public new int Insert(RunType t, string tableName, bool dbconOpened)
 	{
 		return Insert(t, tableName, dbconOpened, dbcmd);
 	}
 	//Called from initialize
-	public static new int Insert(RunType t, string tableName, bool dbconOpened, SqliteCommand mycmd)
+	public new int Insert(RunType t, string tableName, bool dbconOpened, SqliteCommand mycmd)
 	{
 		//done here for not having twho Sqlite.Opened
 		//double distance = t.Distance;
@@ -461,7 +461,7 @@ class SqliteRunIntervalType : SqliteRunType
 		return myLast;
 	}
 
-	public static string[] SelectRunIntervalTypes(string allRunsName, bool onlyName) 
+	public string[] SelectRunIntervalTypes(string allRunsName, bool onlyName) 
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
@@ -516,7 +516,7 @@ class SqliteRunIntervalType : SqliteRunType
 		return myTypes;
 	}
 
-	public static RunType SelectAndReturnRunIntervalType(string typeName, bool dbconOpened) 
+	public RunType SelectAndReturnRunIntervalType(string typeName, bool dbconOpened) 
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -557,7 +557,7 @@ class SqliteRunIntervalType : SqliteRunType
 		return myRunType;
 	}
 
-	public static void AddGraphLinksRunInterval() {
+	public void AddGraphLinksRunInterval() {
 		using(SqliteTransaction tr = dbcon.BeginTransaction())
 		{
 			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
@@ -577,7 +577,7 @@ class SqliteRunIntervalType : SqliteRunType
 		}
 	}
 	
-	public static void Delete(string name)
+	public void Delete(string name)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTypeTable +

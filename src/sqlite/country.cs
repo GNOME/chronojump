@@ -32,7 +32,7 @@ using Mono.Unix;
 
 class SqliteCountry : Sqlite
 {
-	protected internal static void createTable()
+	protected internal void createTable()
 	 {
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.CountryTable + " ( " +
@@ -44,7 +44,7 @@ class SqliteCountry : Sqlite
 	 }
 
 	// intialize table
-	protected internal static void initialize()
+	protected internal  void initialize()
 	{
 		conversionSubRateTotal = countries.Length;
 		conversionSubRate = 0;
@@ -71,7 +71,7 @@ class SqliteCountry : Sqlite
 			tr.Commit();
 		}
 	}
-	public static void Insert(bool dbconOpened, SqliteCommand mycmd, string code, string nameEnglish, string continent)
+	public void Insert(bool dbconOpened, SqliteCommand mycmd, string code, string nameEnglish, string continent)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -99,7 +99,7 @@ class SqliteCountry : Sqlite
 			Sqlite.Close();
 	}
 
-	public static string [] SelectCountriesOfAContinent(string continent, bool insertUndefined)
+	public string [] SelectCountriesOfAContinent(string continent, bool insertUndefined)
 	{
 		Sqlite.Open();
 		
@@ -134,7 +134,7 @@ class SqliteCountry : Sqlite
 		return myReturn;
 	}
 	
-	public static string [] Select(int uniqueID)
+	public string [] Select(int uniqueID)
 	{
 		Sqlite.Open();
 		
@@ -159,7 +159,7 @@ class SqliteCountry : Sqlite
 	}
 
 	//useful to convert DB from 0.57 to 0.58 (strip republic and kingdom stuff)
-	public static bool TableHasOldRepublicStuff() {
+	public bool TableHasOldRepublicStuff() {
 		dbcmd.CommandText = "SELECT name FROM " + Constants.CountryTable + " WHERE code == \"DZA\"";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -188,7 +188,7 @@ class SqliteCountry : Sqlite
 	 * all this are obviously NOT user defined
 	 * last string is for graphLink
 	 */
-	private static string [] countries = {
+	private string [] countries = {
 		//true or false means if it has speciallities
 		Constants.CountryUndefined + ":" + Constants.CountryUndefined + ":" + Catalog.GetString(Constants.CountryUndefined) + ":" + Constants.CountryUndefined, //will be 1 (it's also written in Constants.CountryUndefinedID
 		"Africa:" + "Algeria:" + Catalog.GetString("Algeria") + ":" + "DZA",

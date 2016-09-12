@@ -30,7 +30,7 @@ using Mono.Unix;
 
 class SqliteSpeciallity : Sqlite
 {
-	protected internal static void createTable()
+	protected internal void createTable()
 	 {
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.SpeciallityTable + " ( " +
@@ -41,7 +41,7 @@ class SqliteSpeciallity : Sqlite
 	 }
 
 	// intialize sport table
-	protected internal static void initialize()
+	protected internal void initialize()
 	{
 		conversionSubRateTotal = Speciallities.Length;
 		conversionSubRate = 0;
@@ -65,7 +65,7 @@ class SqliteSpeciallity : Sqlite
 		}
 	}
 
-	public static int Insert(bool dbconOpened, SqliteCommand mycmd, int sportID, string speciallityName)
+	public int Insert(bool dbconOpened, SqliteCommand mycmd, int sportID, string speciallityName)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -89,7 +89,7 @@ class SqliteSpeciallity : Sqlite
 		return myLast;
 	}
 
-	public static string Select(bool dbconOpened, int uniqueID)
+	public string Select(bool dbconOpened, int uniqueID)
 	{
 		if(uniqueID == -1)
 			return "";
@@ -116,7 +116,7 @@ class SqliteSpeciallity : Sqlite
 		return Catalog.GetString(speciallityName);
 	}
 	
-	public static string [] SelectAll(bool showUndefined, int sportFilter) 
+	public string [] SelectAll(bool showUndefined, int sportFilter) 
 	{
 		string whereString = "";
 		if(sportFilter != -1)
@@ -160,7 +160,7 @@ class SqliteSpeciallity : Sqlite
 	//string will be shown in user language
 	//speciallities use sport names and not ids, because in the future if sports grow it can be messed with user sports
 	//when it's not defined it will be -1
-	private static string [] Speciallities = {
+	private string [] Speciallities = {
 		//"-1:" + Constants.SpeciallityUndefined + ":" + Catalog.GetString(Constants.SpeciallityUndefined), 
 		
 		"Aquatics:" + "Diving" + ":" + Catalog.GetString("Diving"), 
@@ -213,7 +213,7 @@ class SqliteSpeciallity : Sqlite
 	};
 
 	//convert from DB 0.54 to 0.55
-	public static void InsertUndefined(bool dbconOpened)
+	public void InsertUndefined(bool dbconOpened)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();

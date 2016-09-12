@@ -42,7 +42,7 @@ class SqliteOldConvert : Sqlite
 	 * Following  method: is to restore signals that lost their videoURL value
 	 */
 
-	public static void FixLostVideoURLAfterEncoderRecalculate()
+	public void FixLostVideoURLAfterEncoderRecalculate()
 	{
 		dbcmd.CommandText = "SELECT eSignal.uniqueID, eCurve.videoURL " + 
 			"FROM encoder AS eSignal, encoder AS eCurve, encoderSignalCurve " + 
@@ -75,7 +75,7 @@ class SqliteOldConvert : Sqlite
 	//to be easier to move data between computers, absolute paths have to be converted to relative
 	//DB 1.11 -> 1.12
 	//dbcon is already opened
-	public static void ConvertAbsolutePathsToRelative () 
+	public void ConvertAbsolutePathsToRelative () 
 	{
 		//get parentDir with the final '/' or '\'
 		string parentDir = Util.GetParentDir(true);
@@ -86,7 +86,7 @@ class SqliteOldConvert : Sqlite
 		//URLs of videos of contact tests: jump, run,... are not in the database
 		//URLs of images of person77			 are not in the database
 	}
-	public static void ConvertAbsolutePathsToRelativeDo (string parentDir, string table, string column) {
+	public void ConvertAbsolutePathsToRelativeDo (string parentDir, string table, string column) {
 		//eg. dbcmd.CommandText = "UPDATE encoder SET videoURL = replace( videoURL, '/home/user/.local/share/Chronojump/', '' ) " + 
 		//	"WHERE videoURL LIKE '/home/user/.local/share/Chronojump/%'";
 
@@ -100,7 +100,7 @@ class SqliteOldConvert : Sqlite
 
 	//convert slCMJ to slCMJleft, slCMJright
 	//DB 1.13 -> DB 1.14
-	public static void slCMJDivide() {
+	public void slCMJDivide() {
 		//it's a conversion, dbcon is opened
 
 		//changes on jumpType table
@@ -134,7 +134,7 @@ class SqliteOldConvert : Sqlite
 	//personID can be -1 to get all on that session
 	//sessionID can be -1 to get all sessions
 	//signalOrCurve can be "all"
-	public static ArrayList EncoderSelect103 (bool dbconOpened, 
+	public ArrayList EncoderSelect103 (bool dbconOpened, 
 			int uniqueID, int personID, int sessionID, string signalOrCurve, bool onlyActive)
 	{
 		if(! dbconOpened)
@@ -218,7 +218,7 @@ class SqliteOldConvert : Sqlite
 		return array;
 	}
 	
-	protected internal static void createTableEncoder104()
+	protected internal void createTableEncoder104()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.EncoderTable + " ( " +
@@ -244,7 +244,7 @@ class SqliteOldConvert : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 
-	protected internal static void createTableEncoder99()
+	protected internal void createTableEncoder99()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.EncoderTable + " ( " +
@@ -281,7 +281,7 @@ class SqliteOldConvert : Sqlite
 	//personID can be -1 to get all on that session
 	//sessionID can be -1 to get all sessions
 	//signalOrCurve can be "all"
-	public static ArrayList EncoderSelect098 (bool dbconOpened, 
+	public ArrayList EncoderSelect098 (bool dbconOpened, 
 			int uniqueID, int personID, int sessionID, string signalOrCurve, bool onlyActive)
 	{
 		if(! dbconOpened)
@@ -361,7 +361,7 @@ class SqliteOldConvert : Sqlite
 	}
 
 	//DB 1.17 -> 1.18	
-	protected internal static void deleteNegativeRuns() 
+	protected internal void deleteNegativeRuns() 
 	{
 		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable +
 			" WHERE timeTotal < 0";

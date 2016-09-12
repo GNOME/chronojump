@@ -67,7 +67,7 @@ class SqliteMultiChronopic : Sqlite
 	 * multiChronopic class methods
 	 */
 
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, 
+	public int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, 
 			int cp1StartedIn, int cp2StartedIn, int cp3StartedIn, int cp4StartedIn,
 			string cp1InStr, string cp1OutStr,
 			string cp2InStr, string cp2OutStr,
@@ -113,7 +113,7 @@ class SqliteMultiChronopic : Sqlite
 	}
 
 	//if all persons, put -1 in personID
-	public static string[] SelectTests(bool dbconOpened, int sessionID, int personID) 
+	public string[] SelectTests(bool dbconOpened, int sessionID, int personID) 
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -183,7 +183,7 @@ class SqliteMultiChronopic : Sqlite
 		return myEvents;
 	}
 
-	public static MultiChronopic SelectMultiChronopicData(int uniqueID, bool dbconOpened)
+	public MultiChronopic SelectMultiChronopicData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -206,7 +206,7 @@ class SqliteMultiChronopic : Sqlite
 		return mc;
 	}
 
-	public static int MaxCPs(bool dbconOpened, int sessionID)
+	public int MaxCPs(bool dbconOpened, int sessionID)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -241,7 +241,7 @@ class SqliteMultiChronopic : Sqlite
 		return maxCPs;
 	}
 
-	public static void Update(int eventID, int personID, string vars, string description)
+	public void Update(int eventID, int personID, string vars, string description)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.MultiChronopicTable + " SET personID = " + personID + 

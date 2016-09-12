@@ -36,7 +36,7 @@ class SqliteExecuteAuto : Sqlite
 	 * create and initialize tables
 	 */
 	
-	protected internal static void createTableExecuteAuto()
+	protected internal void createTableExecuteAuto()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.ExecuteAutoTable + " ( " +
@@ -57,7 +57,7 @@ class SqliteExecuteAuto : Sqlite
 	 * class methods
 	 */
 	
-	public static void Insert(bool dbconOpened, ExecuteAutoSQL eaSQL)
+	public void Insert(bool dbconOpened, ExecuteAutoSQL eaSQL)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -79,7 +79,7 @@ class SqliteExecuteAuto : Sqlite
 			Sqlite.Close();
 	}
 
-	protected internal static void addChronojumpProfileAndBilateral()
+	protected internal void addChronojumpProfileAndBilateral()
 	{
 		string [] jumps = SqliteJumpType.SelectJumpTypes(true, "", "", false);
 
@@ -122,7 +122,7 @@ class SqliteExecuteAuto : Sqlite
 
 	//uniqueID == -1 selects all ExecuteAutoSQLs
 	//uniqueID > 0 selects one ExecuteAutoSQL	
-	public static List<ExecuteAutoSQL> Select(bool dbconOpened, int uniqueID) 
+	public List<ExecuteAutoSQL> Select(bool dbconOpened, int uniqueID) 
 	{
 		if(! dbconOpened)
 			Sqlite.Open();

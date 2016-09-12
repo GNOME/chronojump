@@ -34,7 +34,7 @@ class SqliteEvent : Sqlite
 	 * in the future this will not exist, and graphs will be in jumpType, runType, ... tables
 	 */
 
-	protected internal static void createGraphLinkTable()
+	protected internal void createGraphLinkTable()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE graphLinkTable ( " +
@@ -49,12 +49,12 @@ class SqliteEvent : Sqlite
 	
 	//called from some Chronojump methods
 	//adds dbcmd to be used on next Insert method
-	public static int GraphLinkInsert(string tableName, string eventName, string graphFileName, bool dbconOpened) 
+	public int GraphLinkInsert(string tableName, string eventName, string graphFileName, bool dbconOpened) 
 	{
 		return GraphLinkInsert(tableName, eventName, graphFileName, dbconOpened, dbcmd);
 	}
 	//Called from initialize jump, jumpRj
-	public static int GraphLinkInsert(string tableName, string eventName, string graphFileName, bool dbconOpened, SqliteCommand mycmd)
+	public int GraphLinkInsert(string tableName, string eventName, string graphFileName, bool dbconOpened, SqliteCommand mycmd)
 	{
 		if(! dbconOpened) {
 			Sqlite.Open();
@@ -77,7 +77,7 @@ class SqliteEvent : Sqlite
 	}
 
 	//do not use this because some graph like the takeoff.png are not in this SQL table	
-	public static string GraphLinkSelectFileName(string tableName, string eventName)
+	public string GraphLinkSelectFileName(string tableName, string eventName)
 	{
 		Sqlite.Open();
 
@@ -101,7 +101,7 @@ class SqliteEvent : Sqlite
 		
 	//useful for passing serverUniqueID as simulated int
 	//updating local test when it gets uploaded
-	public static void UpdateSimulated(bool dbconOpened, string tableName, int uniqueID, int simulated)
+	public void UpdateSimulated(bool dbconOpened, string tableName, int uniqueID, int simulated)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -117,14 +117,14 @@ class SqliteEvent : Sqlite
 
 	//convertSimulate and simulateConvertToNegative as a part of db conversion to 0.60
 	//0.59 - 0.60 (...) Simulated now are -1, because 0 is real and positive is serverUniqueID
-	private static void convertSimulate(string tableName)
+	private void convertSimulate(string tableName)
 	{
 		dbcmd.CommandText = "UPDATE " + tableName + " SET simulated = -1" + 
 			" WHERE simulated == 1";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
-	public static void SimulatedConvertToNegative() 
+	public void SimulatedConvertToNegative() 
 	{
 		convertSimulate(Constants.JumpTable);
 		convertSimulate(Constants.JumpRjTable);

@@ -34,7 +34,7 @@ class SqlitePerson : Sqlite
 
 	//can be "Constants.PersonTable" or "Constants.ConvertTempTable"
 	//temp is used to modify table between different database versions if needed
-	//protected new internal static void createTable(string tableName)
+	//protected new internal void createTable(string tableName)
 	protected override void createTable(string tableName)
 	 {
 		dbcmd.CommandText = 
@@ -52,7 +52,7 @@ class SqlitePerson : Sqlite
 		dbcmd.ExecuteNonQuery();
 	 }
 
-	public static int Insert(bool dbconOpened, string uniqueID, string name, string sex, DateTime dateBorn, 
+	public int Insert(bool dbconOpened, string uniqueID, string name, string sex, DateTime dateBorn, 
 			int race, int countryID, string description, int serverUniqueID)
 	{
 		LogB.SQL("going to insert");
@@ -88,10 +88,10 @@ class SqlitePerson : Sqlite
 
 	//This is like SqlitePersonSession.Selectbut this returns a Person
 	
-	public static Person Select(int uniqueID) {
+	public Person Select(int uniqueID) {
 		return Select(false, uniqueID);
 	}
-	public static Person Select(bool dbconOpened, int uniqueID)
+	public Person Select(bool dbconOpened, int uniqueID)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -124,9 +124,9 @@ class SqlitePerson : Sqlite
 		return p;
 	}
 		
-	//public static string SelectJumperName(int uniqueID)
+	//public string SelectJumperName(int uniqueID)
 	//select strings
-	public static string SelectAttribute(int uniqueID, string attribute)
+	public string SelectAttribute(int uniqueID, string attribute)
 	{
 		Sqlite.Open();
 
@@ -148,7 +148,7 @@ class SqlitePerson : Sqlite
 	}
 		
 	//currently only used on server
-	public static ArrayList SelectAllPersons() 
+	public ArrayList SelectAllPersons() 
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT uniqueID, name FROM " + Constants.PersonTable; 
@@ -167,7 +167,7 @@ class SqlitePerson : Sqlite
 		return myArray;
 	}
 		
-	public static ArrayList SelectAllPersonsRecuperable(string sortedBy, int except, int inSession, string searchFilterName) 
+	public ArrayList SelectAllPersonsRecuperable(string sortedBy, int except, int inSession, string searchFilterName) 
 	{
 		//sortedBy = name or uniqueID (= creation date)
 	
@@ -269,7 +269,7 @@ finishForeach:
 		return arrayReturn;
 	}
 
-	public static ArrayList SelectAllPersonEvents(int personID) 
+	public ArrayList SelectAllPersonEvents(int personID) 
 	{
 		SqliteDataReader reader;
 		ArrayList arraySessions = new ArrayList(2);
@@ -536,7 +536,7 @@ finishForeach:
 		return arrayAll;
 	}
 	
-	public static bool ExistsAndItsNotMe(int uniqueID, string personName)
+	public bool ExistsAndItsNotMe(int uniqueID, string personName)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonTable +
@@ -562,7 +562,7 @@ finishForeach:
 	}
 	
 	
-	public static void Update(Person myPerson)
+	public void Update(Person myPerson)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PersonTable + 

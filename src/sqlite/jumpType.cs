@@ -33,7 +33,7 @@ class SqliteJumpType : Sqlite
 	
 	//creates table containing the types of simple Jumps
 	//following INT values are booleans
-	protected internal static void createTableJumpType()
+	protected internal void createTableJumpType()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.JumpTypeTable + " ( " +
@@ -46,7 +46,7 @@ class SqliteJumpType : Sqlite
 	}
 	
 	//if this changes, jumpType.cs constructor should change 
-	protected internal static void initializeTableJumpType()
+	protected internal void initializeTableJumpType()
 	{
 		string [] iniJumpTypes = {
 			//name:startIn:weight:description
@@ -90,7 +90,7 @@ class SqliteJumpType : Sqlite
 	//put the graph links on the db
 	//don't put the full description because if the user changes language, description will be in old lang
 	//description will be on src/jumpType
-	public static void AddGraphLinks() {
+	public void AddGraphLinks() {
 		using(SqliteTransaction tr = dbcon.BeginTransaction())
 		{
 			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
@@ -115,7 +115,7 @@ class SqliteJumpType : Sqlite
 
 	//creates table containing the types of repetitive Jumps
 	//following INT values are booleans
-	protected internal static void createTableJumpRjType()
+	protected internal void createTableJumpRjType()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.JumpRjTypeTable + " ( " +
@@ -139,7 +139,7 @@ class SqliteJumpType : Sqlite
 	}
 	
 	//if this changes, jumpType.cs constructor should change 
-	protected internal static void initializeTableJumpRjType()
+	protected internal void initializeTableJumpRjType()
 	{
 		string [] iniJumpTypes = {
 			//name:startIn:weight:jumpsLimited:limitValue:description
@@ -167,7 +167,7 @@ class SqliteJumpType : Sqlite
 		AddGraphLinksRj();	
 	}
 
-	public static void AddGraphLinksRj() {
+	public void AddGraphLinksRj() {
 		using(SqliteTransaction tr = dbcon.BeginTransaction())
 		{
 			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
@@ -189,12 +189,12 @@ class SqliteJumpType : Sqlite
 
 	//called from some Chronojump methods
 	//adds dbcmd to be used on next Insert method
-	public static void JumpTypeInsert(string myJump, bool dbconOpened)
+	public void JumpTypeInsert(string myJump, bool dbconOpened)
 	{
 		JumpTypeInsert(myJump, dbconOpened, dbcmd);
 	}
 	//Called from initialize
-	public static void JumpTypeInsert(string myJump, bool dbconOpened, SqliteCommand mycmd)
+	public void JumpTypeInsert(string myJump, bool dbconOpened, SqliteCommand mycmd)
 	{
 		string [] myStr = myJump.Split(new char[] {':'});
 		if(! dbconOpened) {
@@ -214,12 +214,12 @@ class SqliteJumpType : Sqlite
 
 	//called from some Chronojump methods
 	//adds dbcmd to be used on next Insert method
-	public static void JumpRjTypeInsert(string myJump, bool dbconOpened)
+	public void JumpRjTypeInsert(string myJump, bool dbconOpened)
 	{
 		JumpRjTypeInsert(myJump, dbconOpened, dbcmd);
 	}
 	//Called from initialize
-	public static void JumpRjTypeInsert(string myJump, bool dbconOpened, SqliteCommand mycmd)
+	public void JumpRjTypeInsert(string myJump, bool dbconOpened, SqliteCommand mycmd)
 	{
 		string [] myStr = myJump.Split(new char[] {':'});
 		if(! dbconOpened) {
@@ -238,7 +238,7 @@ class SqliteJumpType : Sqlite
 		}
 	}
 
-	public static string[] SelectJumpTypes(bool dbconOpened, string allJumpsName, string filter, bool onlyName) 
+	public string[] SelectJumpTypes(bool dbconOpened, string allJumpsName, string filter, bool onlyName) 
 	{
 		//allJumpsName: add and "allJumpsName" value
 		//filter: 
@@ -309,7 +309,7 @@ class SqliteJumpType : Sqlite
 		return myTypes;
 	}
 
-	public static string[] SelectJumpRjTypes(string allJumpsName, bool onlyName) 
+	public string[] SelectJumpRjTypes(string allJumpsName, bool onlyName) 
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
@@ -363,7 +363,7 @@ class SqliteJumpType : Sqlite
 		return myTypes;
 	}
 	
-	public static JumpType SelectAndReturnJumpType(string typeName, bool dbconOpened) 
+	public JumpType SelectAndReturnJumpType(string typeName, bool dbconOpened) 
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -395,7 +395,7 @@ class SqliteJumpType : Sqlite
 		return myJumpType;
 	}
 
-	public static JumpType SelectAndReturnJumpRjType(string typeName, bool dbconOpened) 
+	public JumpType SelectAndReturnJumpRjType(string typeName, bool dbconOpened) 
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -439,7 +439,7 @@ class SqliteJumpType : Sqlite
 	}
 
 	//tableName is jumpType or jumpRjType
-	public static bool HasWeight(string tableName, string typeName) 
+	public bool HasWeight(string tableName, string typeName) 
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT weight " +
@@ -467,7 +467,7 @@ class SqliteJumpType : Sqlite
 	}
 
 	//we know if it has fall if it starts in 
-	public static bool HasFall(string tableName, string typeName) 
+	public bool HasFall(string tableName, string typeName) 
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT startIn " +
@@ -492,7 +492,7 @@ class SqliteJumpType : Sqlite
 	}
 
 	//updates name	
-	public static void Update(string nameOld, string nameNew)
+	public void Update(string nameOld, string nameNew)
 	{
 		//Sqlite.Open();
 		dbcmd.CommandText = "UPDATE jumpType SET name = \"" + nameNew + 
@@ -502,7 +502,7 @@ class SqliteJumpType : Sqlite
 		//Sqlite.Close();
 	}
 
-	public static void UpdateOther(string column, string typeName, string newValue)
+	public void UpdateOther(string column, string typeName, string newValue)
 	{
 		//Sqlite.Open();
 		dbcmd.CommandText = "UPDATE jumpType SET " + column + " = \"" + newValue + 
@@ -512,7 +512,7 @@ class SqliteJumpType : Sqlite
 		//Sqlite.Close();
 	}
 	
-	public static void Delete(string tableName, string name, bool dbconOpened)
+	public void Delete(string tableName, string name, bool dbconOpened)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();

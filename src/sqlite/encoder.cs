@@ -38,7 +38,7 @@ class SqliteEncoder : Sqlite
 	 * create and initialize tables
 	 */
 	
-	protected internal static void createTableEncoder()
+	protected internal void createTableEncoder()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.EncoderTable + " ( " +
@@ -69,7 +69,7 @@ class SqliteEncoder : Sqlite
 	 * Encoder class methods
 	 */
 	
-	public static int Insert(bool dbconOpened, EncoderSQL es)
+	public int Insert(bool dbconOpened, EncoderSQL es)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -108,16 +108,16 @@ class SqliteEncoder : Sqlite
 	}
 
 	//normal Update call dbcmd will be used	
-	public static void Update(bool dbconOpened, EncoderSQL es)
+	public void Update(bool dbconOpened, EncoderSQL es)
 	{
 		update(dbconOpened, es, dbcmd);
 	}
 	//Transaction Update call dbcmdTr will be used	
-	public static void Update(bool dbconOpened, EncoderSQL es, SqliteCommand dbcmdTr) 
+	public void Update(bool dbconOpened, EncoderSQL es, SqliteCommand dbcmdTr) 
 	{
 		update(dbconOpened, es, dbcmdTr);
 	}
-	private static void update(bool dbconOpened, EncoderSQL es, SqliteCommand mycmd)
+	private void update(bool dbconOpened, EncoderSQL es, SqliteCommand mycmd)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -153,7 +153,7 @@ class SqliteEncoder : Sqlite
 			Sqlite.Close();
 	}
 	
-	public static int UpdateTransaction(ArrayList data, string [] checkboxes)
+	public int UpdateTransaction(ArrayList data, string [] checkboxes)
 	{
 		int count = 0;
 		int countActive = 0;
@@ -204,7 +204,7 @@ class SqliteEncoder : Sqlite
 	//orderIDascendent is good for all the situations except when we want to convert from 1.05 to 1.06
 	//in that conversion, we want first the last ones, and later the previous
 	//	(to delete them if they are old copies)
-	public static ArrayList Select (
+	public ArrayList Select (
 			bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI, 
 			int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect,
 			bool onlyActive, bool orderIDascendent)
@@ -323,7 +323,7 @@ class SqliteEncoder : Sqlite
 	
 
 	//exerciseID can be -1 to get all exercises
-	public static ArrayList SelectCompareIntersession (bool dbconOpened, Constants.EncoderGI encoderGI, int exerciseID, int personID)
+	public ArrayList SelectCompareIntersession (bool dbconOpened, Constants.EncoderGI encoderGI, int exerciseID, int personID)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -461,7 +461,7 @@ class SqliteEncoder : Sqlite
 		return array;
 	}
 	
-	public static ArrayList SelectSessionOverview (bool dbconOpened, Constants.EncoderGI encoderGI, int sessionID)
+	public ArrayList SelectSessionOverview (bool dbconOpened, Constants.EncoderGI encoderGI, int sessionID)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -524,7 +524,7 @@ class SqliteEncoder : Sqlite
 	 * EncoderSignalCurve
 	 */
 	
-	protected internal static void createTableEncoderSignalCurve()
+	protected internal void createTableEncoderSignalCurve()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.EncoderSignalCurveTable + " ( " +
@@ -536,7 +536,7 @@ class SqliteEncoder : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static void SignalCurveInsert(bool dbconOpened, int signalID, int curveID, int msCentral)
+	public void SignalCurveInsert(bool dbconOpened, int signalID, int curveID, int msCentral)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -555,7 +555,7 @@ class SqliteEncoder : Sqlite
 	//signalID == -1 (any signal)
 	//curveID == -1 (any curve)
 	//if msStart and msEnd != -1 (means find a curve with msCentral contained between both values)
-	public static ArrayList SelectSignalCurve (bool dbconOpened, int signalID, int curveID, double msStart, double msEnd)
+	public ArrayList SelectSignalCurve (bool dbconOpened, int signalID, int curveID, double msStart, double msEnd)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -609,7 +609,7 @@ class SqliteEncoder : Sqlite
 		return array;
 	}
 
-	public static void DeleteSignalCurveWithCurveID(bool dbconOpened, int curveID)
+	public void DeleteSignalCurveWithCurveID(bool dbconOpened, int curveID)
 	{
 		if( ! dbconOpened)
 			Sqlite.Open();
@@ -625,7 +625,7 @@ class SqliteEncoder : Sqlite
 	
 	//when select from database, ensure path separators are ok for this platform
 	//useful if person moved database between diff OS
-	private static string fixOSpath(string url) {
+	private string fixOSpath(string url) {
 		if(UtilAll.IsWindows())
 			return url.Replace("/","\\");
 		else
@@ -634,14 +634,14 @@ class SqliteEncoder : Sqlite
 	//url and videoURL stored path is relative to be able to move data between computers
 	//then SELECT: makes it abolute (addURLpath)
 	//INSERT and UPDATE: makes it relative (removeURLpath)
-	private static string addURLpath(string url) {
+	private string addURLpath(string url) {
 		string parentDir = Util.GetParentDir(true); //add final '/' or '\'
 		if( ! url.StartsWith(parentDir) )
 			url = parentDir + url; 
 
 		return url;
 	}
-	private static string removeURLpath(string url) {
+	private string removeURLpath(string url) {
 		string parentDir = Util.GetParentDir(true); //add final '/' or '\'
 		if( url.StartsWith(parentDir) )
 			url = url.Replace(parentDir, ""); 
@@ -656,7 +656,7 @@ class SqliteEncoder : Sqlite
 	
 	
 	//ressistance (weight bar, machine, goma, none, inertial, ...)
-	protected internal static void createTableEncoderExercise()
+	protected internal void createTableEncoderExercise()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.EncoderExerciseTable + " ( " +
@@ -671,7 +671,7 @@ class SqliteEncoder : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static void InsertExercise(bool dbconOpened, string name, int percentBodyWeight, 
+	public void InsertExercise(bool dbconOpened, string name, int percentBodyWeight, 
 			string ressistance, string description, string speed1RM)	 //speed1RM decimal point = '.'
 	{
 		if(! dbconOpened)
@@ -691,7 +691,7 @@ class SqliteEncoder : Sqlite
 	//Note: if this names change, or there are new, change them on both:
 	//gui/encoder createEncoderCombos();	
 	//gui/encoder on_button_encoder_exercise_add_accepted (object o, EventArgs args) 
-	protected internal static void initializeTableEncoderExercise()
+	protected internal void initializeTableEncoderExercise()
 	{
 		string [] iniEncoderExercises = {
 			//name:percentBodyWeight:ressistance:description:speed1RM:pullAngle:weightAngle
@@ -713,19 +713,19 @@ class SqliteEncoder : Sqlite
 	private string ExerciseTranslatedBenchPress = Catalog.GetString("Bench press");
 	private string ExerciseTranslatedSquat = Catalog.GetString("Squat");
 	
-	protected internal static void addEncoderFreeExercise()
+	protected internal void addEncoderFreeExercise()
 	{
 		bool exists = Sqlite.Exists (true, Constants.EncoderExerciseTable, "Free");
 		if(! exists)
 			InsertExercise(true, "Free", 0, "", "", "");
 	}
-	protected internal static void addEncoderJumpExercise()
+	protected internal void addEncoderJumpExercise()
 	{
 		bool exists = Sqlite.Exists (true, Constants.EncoderExerciseTable, "Jump");
 		if(! exists)
 			InsertExercise(true, "Jump", 100, "", "", "");
 	}
-	protected internal static void addEncoderInclinedExercises()
+	protected internal void addEncoderInclinedExercises()
 	{
 		string [] iniEncoderExercises = {
 			//name:percentBodyWeight:ressistance:description:speed1RM:bodyAngle:weightAngle
@@ -739,7 +739,7 @@ class SqliteEncoder : Sqlite
 		}
 	}
 
-	public static void UpdateExercise(bool dbconOpened, string nameOld, string name, int percentBodyWeight, 
+	public void UpdateExercise(bool dbconOpened, string nameOld, string name, int percentBodyWeight, 
 			string ressistance, string description, string speed1RM)
 	{
 		if(! dbconOpened)
@@ -762,7 +762,7 @@ class SqliteEncoder : Sqlite
 	
 	//if uniqueID != -1, returns an especific EncoderExercise that can be read like this	
 	//EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID)[0];
-	public static ArrayList SelectEncoderExercises(bool dbconOpened, int uniqueID, bool onlyNames) 
+	public ArrayList SelectEncoderExercises(bool dbconOpened, int uniqueID, bool onlyNames) 
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -816,7 +816,7 @@ class SqliteEncoder : Sqlite
 	}
 
 
-	public static ArrayList SelectEncoderRowsOfAnExercise(bool dbconOpened, int exerciseID) 
+	public ArrayList SelectEncoderRowsOfAnExercise(bool dbconOpened, int exerciseID) 
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -857,7 +857,7 @@ class SqliteEncoder : Sqlite
 	}
 	
 	//conversion from DB 0.99 to 1.00
-	protected internal static void putEncoderExerciseAnglesAt90() {
+	protected internal void putEncoderExerciseAnglesAt90() {
 		dbcmd.CommandText = "UPDATE " + Constants.EncoderExerciseTable + 
 			" SET future2 = 90, future3 = 90";
 
@@ -866,7 +866,7 @@ class SqliteEncoder : Sqlite
 	}
 	
 	//conversion from DB 1.02 to 1.03
-	protected internal static void removeEncoderExerciseAngles() {
+	protected internal void removeEncoderExerciseAngles() {
 		dbcmd.CommandText = "UPDATE " + Constants.EncoderExerciseTable + 
 			" SET future2 = \"\", future3 = \"\"";
 
@@ -878,7 +878,7 @@ class SqliteEncoder : Sqlite
 	 * 1RM stuff
 	 */
 
-	protected internal static void createTable1RM()
+	protected internal void createTable1RM()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.Encoder1RMTable + " ( " +
@@ -893,7 +893,7 @@ class SqliteEncoder : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static int Insert1RM(bool dbconOpened, int personID, int sessionID, int exerciseID, double load1RM)	
+	public int Insert1RM(bool dbconOpened, int personID, int sessionID, int exerciseID, double load1RM)	
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -917,7 +917,7 @@ class SqliteEncoder : Sqlite
 		return myLast;
 	}
 
-	public static ArrayList Select1RM (bool dbconOpened, int personID, int sessionID, int exerciseID, bool returnPersonNameAndExerciseName)
+	public ArrayList Select1RM (bool dbconOpened, int personID, int sessionID, int exerciseID, bool returnPersonNameAndExerciseName)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -1017,7 +1017,7 @@ class SqliteEncoder : Sqlite
 	//
 	//as explained, following method is only used in conversions from 1.05 to 1.06
 	//newly saved curves in 1.06 will write msCentral in EncoderSignalCurve table without needing this method
-	public static int FindCurveInSignal(string signalFile, string curveFile) 
+	public int FindCurveInSignal(string signalFile, string curveFile) 
 	{
 		int [] signalInts = Util.ReadFileAsInts(signalFile);
 		/*	
@@ -1054,7 +1054,7 @@ class SqliteEncoder : Sqlite
 	 */
 
 	//called on startup to load last encoderConfiguration
-	public static EncoderConfiguration LoadEncoderConfiguration()
+	public EncoderConfiguration LoadEncoderConfiguration()
 	{
 		string ecStr = SqlitePreferences.Select("encoderConfiguration", false);
 		

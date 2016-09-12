@@ -157,7 +157,7 @@ public class ChronoJump
 	string language = "";
 	if(File.Exists(System.IO.Path.Combine(Util.GetDatabaseDir(), "chronojump.db"))) {
 		try {
-			Sqlite.Connect();
+			SqliteForUser.Instance.Connect();
 
 			/*
 			 * chronojump 1.5.2 converts DB 1.24 to 1.25 changing language to ""

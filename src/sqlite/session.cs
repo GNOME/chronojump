@@ -35,7 +35,7 @@ class SqliteSession : Sqlite
 
 	//can be "Constants.SessionTable" or "Constants.ConvertTempTable"
 	//temp is used to modify table between different database versions if needed
-	//protected new internal static void createTable(string tableName)
+	//protected new internal void createTable(string tableName)
 	protected override void createTable(string tableName)
 	{
 		dbcmd.CommandText = 
@@ -53,7 +53,7 @@ class SqliteSession : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID)
+	public int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -82,7 +82,7 @@ class SqliteSession : Sqlite
 		return myLast;
 	}
 
-	protected internal static void insertSimulatedSession()
+	protected internal void insertSimulatedSession()
 	{
 		if(! Sqlite.Exists (true, Constants.SessionTable, Constants.SessionSimulatedName))
 			Insert(true, Constants.SessionTable, "-1", Constants.SessionSimulatedName, "", DateTime.Today, 
@@ -90,7 +90,7 @@ class SqliteSession : Sqlite
 					Catalog.GetString("Use this session to simulate tests."), Constants.ServerUndefinedID);
 	}
 
-	public static void Update(int uniqueID, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments) 
+	public void Update(int uniqueID, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments) 
 	{
 		//TODO: serverUniqueID (but cannot be changed in gui/edit, then not need now)
 		Sqlite.Open();
@@ -108,7 +108,7 @@ class SqliteSession : Sqlite
 	}
 	
 	//updating local session when it gets uploaded
-	public static void UpdateServerUniqueID(int uniqueID, int serverID)
+	public void UpdateServerUniqueID(int uniqueID, int serverID)
 	{
 		//if(!dbconOpened)
 			Sqlite.Open();
@@ -125,18 +125,18 @@ class SqliteSession : Sqlite
 
 	//by name (only in gui/networks.cs configInit
 	//be careful because name is not unique
-	public static Session SelectByName(string name)
+	public Session SelectByName(string name)
 	{
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE name == \"" + name + "\""; 
 		return SelectDo(dbcmd);
 	}
 	//by ID (default
-	public static Session Select(string myUniqueID)
+	public Session Select(string myUniqueID)
 	{
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE uniqueID == " + myUniqueID ; 
 		return SelectDo(dbcmd);
 	}
-	public static Session SelectDo(SqliteCommand mydbcmd)
+	public Session SelectDo(SqliteCommand mydbcmd)
 	{
 		try {
 			Sqlite.Open();
@@ -178,7 +178,7 @@ class SqliteSession : Sqlite
 	
 	//used by the stats selector of sessions
 	//also by PersonsRecuperateFromOtherSessionWindowBox (src/gui/person.cs)
-	public static string[] SelectAllSessionsSimple(bool commentsDisable, int sessionIdDisable) 
+	public string[] SelectAllSessionsSimple(bool commentsDisable, int sessionIdDisable) 
 	{
 		string selectString = " uniqueID, name, place, date, comments ";
 		if(commentsDisable) {
@@ -227,7 +227,7 @@ class SqliteSession : Sqlite
 	}
 
 
-	public static string[] SelectAllSessions(string filterName) 
+	public string[] SelectAllSessions(string filterName) 
 	{
 		Sqlite.Open();
 
@@ -603,19 +603,19 @@ class SqliteSession : Sqlite
 
 	//called from gui/event.cs for doing the graph
 	//we need to know the avg of events of a type (SJ, CMJ, free (pulse).. of a person, or of all persons on the session
-	public static double SelectAVGEventsOfAType(bool dbconOpened, int sessionID, int personID, string table, string type, string valueToSelect) 
+	public double SelectAVGEventsOfAType(bool dbconOpened, int sessionID, int personID, string table, string type, string valueToSelect) 
 	{
 		return selectEventsOfAType(dbconOpened, sessionID, personID, table, type, valueToSelect, "AVG");
 	}
-	public static double SelectMAXEventsOfAType(bool dbconOpened, int sessionID, int personID, string table, string type, string valueToSelect) 
+	public double SelectMAXEventsOfAType(bool dbconOpened, int sessionID, int personID, string table, string type, string valueToSelect) 
 	{
 		return selectEventsOfAType(dbconOpened, sessionID, personID, table, type, valueToSelect, "MAX");
 	}
-	public static double SelectMINEventsOfAType(bool dbconOpened, int sessionID, int personID, string table, string type, string valueToSelect) 
+	public double SelectMINEventsOfAType(bool dbconOpened, int sessionID, int personID, string table, string type, string valueToSelect) 
 	{
 		return selectEventsOfAType(dbconOpened, sessionID, personID, table, type, valueToSelect, "MIN");
 	}
-	public static double selectEventsOfAType(bool dbconOpened, int sessionID, int personID, 
+	public double selectEventsOfAType(bool dbconOpened, int sessionID, int personID, 
 			string table, string type, string valueToSelect, string statistic) 
 	{
 		if(!dbconOpened)
@@ -662,7 +662,7 @@ class SqliteSession : Sqlite
 	}
 
 	
-	public static void DeleteAllStuff(string uniqueID)
+	public void DeleteAllStuff(string uniqueID)
 	{
 		Sqlite.Open();
 
@@ -773,7 +773,7 @@ class SqliteServerSession : SqliteSession
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static int Insert(bool dbconOpened, string tableName, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID, int evaluatorID, string evaluatorCJVersion, string evaluatorOS, DateTime uploadedDate, int uploadingState)
+	public int Insert(bool dbconOpened, string tableName, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID, int evaluatorID, string evaluatorCJVersion, string evaluatorOS, DateTime uploadedDate, int uploadingState)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -807,7 +807,7 @@ class SqliteServerSession : SqliteSession
 	}
 	
 	//updating local session when it gets uploaded
-	public static void UpdateUploadingState(int uniqueID, int state)
+	public void UpdateUploadingState(int uniqueID, int state)
 	{
 		//if(!dbconOpened)
 			Sqlite.Open();

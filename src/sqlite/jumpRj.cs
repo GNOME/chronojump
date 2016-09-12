@@ -58,7 +58,7 @@ class SqliteJumpRj : SqliteJump
 		dbcmd.ExecuteNonQuery();
 	}
 
-	public static int Insert (bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tvMax, double tcMax, double fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited, string angleString, int simulated )
+	public int Insert (bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tvMax, double tcMax, double fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited, string angleString, int simulated )
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -91,7 +91,7 @@ class SqliteJumpRj : SqliteJump
 		return myLast;
 	}
 
-	public new static string[] SelectJumps(bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType) 
+	public new string[] SelectJumps(bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType) 
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -176,7 +176,7 @@ class SqliteJumpRj : SqliteJump
 		return myJumps;
 	}
 
-	public static JumpRj SelectJumpData(string tableName, int uniqueID, bool dbconOpened)
+	public JumpRj SelectJumpData(string tableName, int uniqueID, bool dbconOpened)
 	{
 		//tableName is jumpRj or tempJumpRj
 
@@ -200,7 +200,7 @@ class SqliteJumpRj : SqliteJump
 		return myJump;
 	}
 	
-	public static void Update(int jumpID, int personID, string fall, double weight, string description)
+	public void Update(int jumpID, int personID, string fall, double weight, string description)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE jumpRj SET personID = " + personID + 
@@ -215,7 +215,7 @@ class SqliteJumpRj : SqliteJump
 
 	//checks if there are Rjs with different number of TCs than TFs
 	//then repair database manually, and look if the jump is jumpLimited, and how many jumps there are defined
-	public static void FindBadRjs()
+	public void FindBadRjs()
 	{
 		Sqlite.Open();
 

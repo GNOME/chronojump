@@ -54,7 +54,7 @@ class SqliteRunInterval : SqliteRun
 		dbcmd.ExecuteNonQuery();
 	}
 
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited, int simulated, bool initialSpeed )
+	public int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited, int simulated, bool initialSpeed )
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -89,7 +89,7 @@ class SqliteRunInterval : SqliteRun
 		return myLast;
 	}
 
-	public new static string[] SelectRuns(bool dbconOpened, int sessionID, int personID, string filterType) 
+	public new string[] SelectRuns(bool dbconOpened, int sessionID, int personID, string filterType) 
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -160,7 +160,7 @@ class SqliteRunInterval : SqliteRun
 		return myRuns;
 	}
 
-	public static RunInterval SelectRunData(string tableName, int uniqueID, bool dbconOpened)
+	public RunInterval SelectRunData(string tableName, int uniqueID, bool dbconOpened)
 	{
 		//tableName can be runInterval or tempRunInterval
 
@@ -184,7 +184,7 @@ class SqliteRunInterval : SqliteRun
 		return myRun;
 	}
 
-	public static void Update(int runID, int personID, string description)
+	public void Update(int runID, int personID, string description)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.RunIntervalTable +

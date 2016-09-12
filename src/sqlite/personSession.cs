@@ -52,7 +52,7 @@ class SqlitePersonSession : Sqlite
 		dbcmd.ExecuteNonQuery();
 	 }
 
-	public static int Insert(bool dbconOpened, string uniqueID, int personID, int sessionID, 
+	public int Insert(bool dbconOpened, string uniqueID, int personID, int sessionID, 
 			double height, double weight, int sportID, int speciallityID, int practice,
 			string comments) 
 	{
@@ -89,7 +89,7 @@ class SqlitePersonSession : Sqlite
 	
 	//we KNOW session
 	//select doubles
-	public static double SelectAttribute(bool dbconOpened, int personID, int sessionID, string attribute)
+	public double SelectAttribute(bool dbconOpened, int personID, int sessionID, string attribute)
 	{
 		if( ! dbconOpened)
 			Sqlite.Open();
@@ -117,7 +117,7 @@ class SqlitePersonSession : Sqlite
 
 	//when a session is NOT KNOWN, then select atrribute of last session
 	//select doubles
-	public static double SelectAttribute(int personID, string attribute)
+	public double SelectAttribute(int personID, string attribute)
 	{
 		Sqlite.Open();
 
@@ -140,7 +140,7 @@ class SqlitePersonSession : Sqlite
 		return myReturn;
 	}
 	
-	public static void Update(PersonSession ps)
+	public void Update(PersonSession ps)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PersonSessionTable + 
@@ -159,7 +159,7 @@ class SqlitePersonSession : Sqlite
 	}
 
 	//double
-	public static void UpdateAttribute(int personID, int sessionID, string attribute, double attrValue)
+	public void UpdateAttribute(int personID, int sessionID, string attribute, double attrValue)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PersonSessionTable + 
@@ -172,7 +172,7 @@ class SqlitePersonSession : Sqlite
 		Sqlite.Close();
 	}
 
-	public static bool PersonSelectExistsInSession(int myPersonID, int mySessionID)
+	public bool PersonSelectExistsInSession(int myPersonID, int mySessionID)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionTable +
@@ -200,11 +200,11 @@ class SqlitePersonSession : Sqlite
 	//in a newly created person	
 	//This is like SqlitePerson.Select but this returns a PersonSession
 
-	public static PersonSession Select(int personID, int sessionID)
+	public PersonSession Select(int personID, int sessionID)
 	{
 		return Select(false, personID, sessionID);
 	}
-	public static PersonSession Select(bool dbconOpened, int personID, int sessionID)
+	public PersonSession Select(bool dbconOpened, int personID, int sessionID)
 	{
 		if( ! dbconOpened)
 			Sqlite.Open();
@@ -250,7 +250,7 @@ class SqlitePersonSession : Sqlite
 	//the difference between this select and others, is that this returns and ArrayList of Persons
 	//this is better than return the strings that can produce bugs in the future
 	//use this in the future:
-	public static ArrayList SelectCurrentSessionPersons(int sessionID, bool returnPersonAndPSlist) 
+	public ArrayList SelectCurrentSessionPersons(int sessionID, bool returnPersonAndPSlist) 
 	{
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
@@ -306,7 +306,7 @@ class SqlitePersonSession : Sqlite
 	}
 	
 	
-	public static void DeletePersonFromSessionAndTests(string sessionID, string personID)
+	public void DeletePersonFromSessionAndTests(string sessionID, string personID)
 	{
 		Sqlite.Open();
 
@@ -417,7 +417,7 @@ class SqlitePersonSession : Sqlite
 		Sqlite.Close();
 	}
 
-	public static bool PersonExistsInPS(bool dbconOpened, int personID)
+	public bool PersonExistsInPS(bool dbconOpened, int personID)
 	{
 		if( ! dbconOpened)
 			Sqlite.Open();

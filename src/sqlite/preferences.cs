@@ -26,7 +26,7 @@ using Mono.Data.Sqlite;
 
 class SqlitePreferences : Sqlite
 {
-	protected internal static void createTable()
+	protected internal void createTable()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.PreferencesTable + " ( " +
@@ -35,7 +35,7 @@ class SqlitePreferences : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	protected internal static void initializeTable(string databaseVersion, bool creatingBlankDatabase)
+	protected internal void initializeTable(string databaseVersion, bool creatingBlankDatabase)
 	{
 		using(SqliteTransaction tr = dbcon.BeginTransaction())
 		{
@@ -114,12 +114,12 @@ class SqlitePreferences : Sqlite
 
 	//called from some Chronojump methods
 	//adds dbcmd to be used on next Insert method
-	public static void Insert(string myName, string myValue)
+	public void Insert(string myName, string myValue)
 	{
 		Insert(myName, myValue, dbcmd);
 	}
 	//Called from initialize
-	public static void Insert(string myName, string myValue, SqliteCommand mycmd)
+	public void Insert(string myName, string myValue, SqliteCommand mycmd)
 	{
 		//Sqlite.Open();
 		mycmd.CommandText = "INSERT INTO " + Constants.PreferencesTable + 
@@ -130,7 +130,7 @@ class SqlitePreferences : Sqlite
 		//Sqlite.Close();
 	}
 
-	public static void Update(string myName, string myValue, bool dbconOpened)
+	public void Update(string myName, string myValue, bool dbconOpened)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -146,12 +146,12 @@ class SqlitePreferences : Sqlite
 	}
 
 	//Called from most of all old Chronojump methods
-	public static string Select (string myName) 
+	public string Select (string myName) 
 	{
 		return Select(myName, false);
 	}
 	//Called from new methods were dbcon is opened
-	public static string Select (string myName, bool dbconOpened) 
+	public string Select (string myName, bool dbconOpened) 
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -178,7 +178,7 @@ class SqlitePreferences : Sqlite
 		return myReturn;
 	}
 	
-	public static Preferences SelectAll () 
+	public Preferences SelectAll () 
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PreferencesTable; 

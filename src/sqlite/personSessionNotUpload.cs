@@ -26,7 +26,7 @@ using Mono.Data.Sqlite;
 
 class SqlitePersonSessionNotUpload : Sqlite
 {
-	protected internal static void CreateTable()
+	protected internal void CreateTable()
 	 {
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.PersonNotUploadTable + " ( " +
@@ -44,7 +44,7 @@ class SqlitePersonSessionNotUpload : Sqlite
 		dbcmd.ExecuteNonQuery();
 	 }
 
-	public static ArrayList SelectAll(int sessionID)
+	public ArrayList SelectAll(int sessionID)
 	 {
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT personID FROM " + Constants.PersonNotUploadTable +
@@ -64,7 +64,7 @@ class SqlitePersonSessionNotUpload : Sqlite
 		return myArray;
 	 }
 
-	public static void Add(int personID, int sessionID)
+	public void Add(int personID, int sessionID)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "INSERT INTO " + Constants.PersonNotUploadTable +  
@@ -76,7 +76,7 @@ class SqlitePersonSessionNotUpload : Sqlite
 		Sqlite.Close();
 	 }
 
-	public static void Delete(int personID, int sessionID)
+	public void Delete(int personID, int sessionID)
 	 {
 		 Sqlite.Open();
 		 dbcmd.CommandText = "Delete FROM " + Constants.PersonNotUploadTable +

@@ -55,7 +55,7 @@ class SqliteReactionTime : Sqlite
 	 * ReactionTime class methods
 	 */
 	
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double time, string description, int simulated)
+	public int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double time, string description, int simulated)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -85,7 +85,7 @@ class SqliteReactionTime : Sqlite
 
 	//if all persons, put -1 in personID
 	//if all types put, "" in filterType
-	public static string[] SelectReactionTimes(bool dbconOpened, int sessionID, int personID, string filterType,
+	public string[] SelectReactionTimes(bool dbconOpened, int sessionID, int personID, string filterType,
 			Orders_by order, int limit) 
 	{
 		if(!dbconOpened)
@@ -157,7 +157,7 @@ class SqliteReactionTime : Sqlite
 		return myEvents;
 	}
 
-	public static ReactionTime SelectReactionTimeData(int uniqueID, bool dbconOpened)
+	public ReactionTime SelectReactionTimeData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -180,7 +180,7 @@ class SqliteReactionTime : Sqlite
 		return myRT;
 	}
 		
-	public static void Update(int eventID, string type, string time, int personID, string description)
+	public void Update(int eventID, string type, string time, int personID, string description)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.ReactionTimeTable + " SET personID = " + personID + 

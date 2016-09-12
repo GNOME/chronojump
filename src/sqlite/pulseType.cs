@@ -33,7 +33,7 @@ class SqlitePulseType : Sqlite
 	
 	//creates table containing the types of simple Pulses
 	//following INT values are booleans
-	protected internal static void createTablePulseType()
+	protected internal void createTablePulseType()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.PulseTypeTable + " ( " +
@@ -46,7 +46,7 @@ class SqlitePulseType : Sqlite
 	}
 	
 	//if this changes, pulseType.cs constructor should change 
-	protected internal static void initializeTablePulseType()
+	protected internal void initializeTablePulseType()
 	{
 		string [] iniPulseTypes = {
 			//name:fixedPulse:totalPulsesNum:description
@@ -62,7 +62,7 @@ class SqlitePulseType : Sqlite
 	 * PulseType class methods
 	 */
 
-	public static void Insert(string myPulse, bool dbconOpened)
+	public void Insert(string myPulse, bool dbconOpened)
 	{
 		string [] myStr = myPulse.Split(new char[] {':'});
 		if(! dbconOpened) {
@@ -80,7 +80,7 @@ class SqlitePulseType : Sqlite
 		}
 	}
 	
-	public static string[] SelectPulseTypes(string allPulsesName, bool onlyName) 
+	public string[] SelectPulseTypes(string allPulsesName, bool onlyName) 
 	{
 		//allPulsesName: add and "allPulsesName" value
 		//onlyName: return only type name
@@ -137,7 +137,7 @@ class SqlitePulseType : Sqlite
 		return myTypes;
 	}
 
-	public static PulseType SelectAndReturnPulseType(string typeName) 
+	public PulseType SelectAndReturnPulseType(string typeName) 
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +

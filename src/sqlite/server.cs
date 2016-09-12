@@ -63,8 +63,8 @@ class SqliteServer : Sqlite
 		dbcmd.ExecuteNonQuery();
 	 }
 
-	//public static int InsertPing(ServerPing ping)
-	public static int InsertPing(bool dbconOpened, int evaluatorID, string cjVersion, string osVersion, string ip, DateTime date)
+	//public int InsertPing(ServerPing ping)
+	public int InsertPing(bool dbconOpened, int evaluatorID, string cjVersion, string osVersion, string ip, DateTime date)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -95,7 +95,7 @@ class SqliteServer : Sqlite
 		return myLast;
 	}
 
-	public static int InsertEvaluator(bool dbconOpened, string code, string name, string email, DateTime dateBorn, 
+	public int InsertEvaluator(bool dbconOpened, string code, string name, string email, DateTime dateBorn, 
 			int countryID, string chronometer, string device, string comments, bool confiable)
 	{
 		if(! dbconOpened)
@@ -133,7 +133,7 @@ class SqliteServer : Sqlite
 		return myLast;
 	}
 	
-	public static void UpdateEvaluator(bool dbconOpened, int uniqueID, string code, string name, string email, DateTime dateBorn, 
+	public void UpdateEvaluator(bool dbconOpened, int uniqueID, string code, string name, string email, DateTime dateBorn, 
 			int countryID, string chronometer, string device, string comments, bool confiable)
 	{
 		if(! dbconOpened)
@@ -159,7 +159,7 @@ class SqliteServer : Sqlite
 	
 	//when client selects in it's DB, there's only a row with uniqueID: 1
 	//if confiable is read on client, it will be also checked on server
-	public static ServerEvaluator SelectEvaluator(int myUniqueID)
+	public ServerEvaluator SelectEvaluator(int myUniqueID)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * FROM " + Constants.ServerEvaluatorTable + " WHERE uniqueID == " + myUniqueID ; 
@@ -191,7 +191,7 @@ class SqliteServer : Sqlite
 		return myEval;
 	}
 	
-	public static string [] SelectEvaluators(bool addAnyString)
+	public string [] SelectEvaluators(bool addAnyString)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + 
@@ -216,7 +216,7 @@ class SqliteServer : Sqlite
 		return Util.ArrayListToString(evals);
 	}
 	
-	public static string Query(string str) {
+	public string Query(string str) {
 		Sqlite.Open();
 
 		dbcmd.CommandText = str; 
@@ -235,7 +235,7 @@ class SqliteServer : Sqlite
 		return myReturn;
 	}
 
-	public static string [] Stats() {
+	public string [] Stats() {
 		ArrayList stats = new ArrayList();
 			
 		Sqlite.Open();
@@ -267,7 +267,7 @@ class SqliteServer : Sqlite
 	/*
 	 * this is only called on client
 	 */
-	public static string [] StatsMine() {
+	public string [] StatsMine() {
 		ArrayList stats = new ArrayList();
 			
 		Sqlite.Open();

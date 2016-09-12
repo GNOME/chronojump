@@ -30,7 +30,7 @@ class SqliteStat : Sqlite
 {
 	//sj, cmj, abk (no sj+)
 	//AllJumpsName (simple) is not managed here, is done in SjCmjAbkPlus
-	public static ArrayList SjCmjAbk (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)
+	public ArrayList SjCmjAbk (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)
 	{
 		string tp = Constants.PersonTable;
 
@@ -113,7 +113,7 @@ class SqliteStat : Sqlite
 	
 	//sj+, cmj+, abk+
 	//and AllJumpsName (simple)
-	public static ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred, bool weightPercentPreferred)
+	public ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred, bool weightPercentPreferred)
 	{
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
@@ -217,7 +217,7 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
-	private static string convertWeight (string jumpW, double personW, bool percentDesired) {
+	private string convertWeight (string jumpW, double personW, bool percentDesired) {
 		//if it was a non weight jump, return 0
 		if(jumpW.Length == 0) {
 			return "0";
@@ -255,7 +255,7 @@ class SqliteStat : Sqlite
 	}
 
 	//dj index, Q index, Dj Power ( ... (indexType)
-	public static ArrayList DjIndexes (string indexType, string sessionString, bool multisession, string operationString, string jumpType, bool showSex)
+	public ArrayList DjIndexes (string indexType, string sessionString, bool multisession, string operationString, string jumpType, bool showSex)
 	{
 		string tp = Constants.PersonTable;
 
@@ -382,7 +382,7 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
-	public static ArrayList RjIndex (string sessionString, bool multisession, string operationString, string jumpType, bool showSex)
+	public ArrayList RjIndex (string sessionString, bool multisession, string operationString, string jumpType, bool showSex)
 	{
 		string tp = Constants.PersonTable;
 
@@ -477,7 +477,7 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
-	public static ArrayList RjPotencyBosco (string sessionString, bool multisession, string operationString, string jumpType, bool showSex)
+	public ArrayList RjPotencyBosco (string sessionString, bool multisession, string operationString, string jumpType, bool showSex)
 	{
 		string tp = Constants.PersonTable;
 
@@ -581,7 +581,7 @@ class SqliteStat : Sqlite
 
 
 	//for rjEvolution (to know the number of columns)
-	public static int ObtainMaxNumberOfJumps (string sessionString)
+	public int ObtainMaxNumberOfJumps (string sessionString)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT MAX(jumps) from jumpRj " + sessionString +
@@ -610,7 +610,7 @@ class SqliteStat : Sqlite
 	}
 	
 	//for start/RunIntervallic (to know the number of columns)
-	public static int ObtainMaxNumberOfRuns (string sessionString)
+	public int ObtainMaxNumberOfRuns (string sessionString)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT MAX(tracks) from runInterval " + sessionString +
@@ -642,7 +642,7 @@ class SqliteStat : Sqlite
 
 	//convert the strings of TFs and TCs separated by '=' in
 	//one string mixed and separated by ':' (starting by an ':')
-	private static string combineTCsTFs(string TCs, string TFs, int maxJumps)
+	private string combineTCsTFs(string TCs, string TFs, int maxJumps)
 	{
 		string [] TCFull = TCs.Split(new char[] {'='});
 		string [] TFFull = TFs.Split(new char[] {'='});
@@ -665,7 +665,7 @@ class SqliteStat : Sqlite
 	//maxJumps for make all the results of same length (fill it with '-'s)
 	//rjAVGSD also calls this method
 	//but both of them are simple session
-	public static ArrayList RjEvolution (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, int maxJumps)
+	public ArrayList RjEvolution (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, int maxJumps)
 	{
 		string tp = Constants.PersonTable;
 
@@ -771,7 +771,7 @@ class SqliteStat : Sqlite
 
 	//maxRuns for make all the results of same length (fill it with '-'s)
 	//only simple session
-	public static ArrayList RunInterval (string sessionString, bool multisession, string operationString, string runType, bool showSex, int maxRuns)
+	public ArrayList RunInterval (string sessionString, bool multisession, string operationString, string runType, bool showSex, int maxRuns)
 	{
 		string tp = Constants.PersonTable;
 
@@ -871,7 +871,7 @@ LogB.SQL(intervalSpeeds);
 	}
 
 	//1.4.7 useHeights is the new default, because this indexes should use height instead of TV that has been used by default since now
-	public static ArrayList JumpIndexes (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex, bool useHeights)
+	public ArrayList JumpIndexes (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex, bool useHeights)
 	{
 		string tp = Constants.PersonTable;
 
@@ -954,7 +954,7 @@ LogB.SQL(intervalSpeeds);
 	}
 	
 	//is the same as IE, Arms Use Index except the moreSelect lines
-	public static ArrayList JumpSimpleSubtraction (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
+	public ArrayList JumpSimpleSubtraction (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
 	{
 		string tp = Constants.PersonTable;
 		string orderByString = "ORDER BY ";
@@ -1032,7 +1032,7 @@ LogB.SQL(intervalSpeeds);
 	}
 
 
-	public static ArrayList Fv (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
+	public ArrayList Fv (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
 	{
 		string tp = Constants.PersonTable;
 
@@ -1115,7 +1115,7 @@ LogB.SQL(intervalSpeeds);
 		return myArray;
 	}
 
-	public static ArrayList Potency (string indexType, string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)
+	public ArrayList Potency (string indexType, string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)
 	{
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
@@ -1290,7 +1290,7 @@ LogB.SQL(intervalSpeeds);
 		return myArray;
 	}
 
-	public static ArrayList RunSimple (string sessionString, bool multisession, string operationString, string runType, bool showSex)
+	public ArrayList RunSimple (string sessionString, bool multisession, string operationString, string runType, bool showSex)
 	{
 		string tp = Constants.PersonTable;
 
@@ -1383,7 +1383,7 @@ LogB.SQL(intervalSpeeds);
 	 * Note criteria of indexes has changed see method above
 	 */
 	/*
-	public static ArrayList SelectChronojumpProfile (string sessionID)
+	public ArrayList SelectChronojumpProfile (string sessionID)
 	{
 		Sqlite.Open();
 		

@@ -57,7 +57,7 @@ class SqliteRun : Sqlite
 	 * Run class methods
 	 */
 	
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distance, double time, string description, int simulated, bool initialSpeed)
+	public int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distance, double time, string description, int simulated, bool initialSpeed)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -90,7 +90,7 @@ class SqliteRun : Sqlite
 	//if all persons, put -1 in personID
 	//if all types, put "" in filterType
 	//unlimited put -1 in limit
-	public static string[] SelectRuns(bool dbconOpened, int sessionID, int personID, string filterType,
+	public string[] SelectRuns(bool dbconOpened, int sessionID, int personID, string filterType,
 			Orders_by order, int limit) 
 	{
 		if(!dbconOpened)
@@ -168,7 +168,7 @@ class SqliteRun : Sqlite
 		return myRuns;
 	}
 
-	public static Run SelectRunData(int uniqueID, bool dbconOpened)
+	public Run SelectRunData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -191,7 +191,7 @@ class SqliteRun : Sqlite
 		return myRun;
 	}
 		
-	public static string [] SelectTestMaxStuff(int personID, RunType runType) 
+	public string [] SelectTestMaxStuff(int personID, RunType runType) 
 	{
 		Sqlite.Open();
 		
@@ -214,7 +214,7 @@ class SqliteRun : Sqlite
 		return str;
 	}
 	
-	public static void Update(int runID, string type, string distance, string time, int personID, string description)
+	public void Update(int runID, string type, string distance, string time, int personID, string description)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.RunTable + 

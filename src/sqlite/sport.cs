@@ -29,7 +29,7 @@ using Mono.Unix;
 
 class SqliteSport : Sqlite
 {
-	protected internal static void createTable()
+	protected internal void createTable()
 	 {
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.SportTable + " ( " +
@@ -42,7 +42,7 @@ class SqliteSport : Sqlite
 	 }
 
 	// intialize sport table
-	protected internal static void initialize()
+	protected internal void initialize()
 	{
 		conversionSubRateTotal = sportsChronojump.Length;
 		conversionSubRate = 0;
@@ -68,13 +68,13 @@ class SqliteSport : Sqlite
 
 	//called from some Chronojump methods
 	//adds dbcmd to be used on next Insert method
-	public static int Insert(bool dbconOpened, string uniqueID, string name, bool userDefined, bool hasSpeciallities, string graphLink)
+	public int Insert(bool dbconOpened, string uniqueID, string name, bool userDefined, bool hasSpeciallities, string graphLink)
 	{
 		return Insert(dbconOpened, dbcmd, uniqueID, name, userDefined, hasSpeciallities, graphLink);
 
 	}
 	//Called from initialize
-	public static int Insert(bool dbconOpened, SqliteCommand mycmd, string uniqueID, string name, bool userDefined, bool hasSpeciallities, string graphLink)
+	public int Insert(bool dbconOpened, SqliteCommand mycmd, string uniqueID, string name, bool userDefined, bool hasSpeciallities, string graphLink)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -103,7 +103,7 @@ class SqliteSport : Sqlite
 		return myLast;
 	}
 
-	public static Sport Select(bool dbconOpened, int uniqueID)
+	public Sport Select(bool dbconOpened, int uniqueID)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -133,7 +133,7 @@ class SqliteSport : Sqlite
 		return mySport;
 	}
 		
-	public static int SelectID(string name)
+	public int SelectID(string name)
 	{
 		//Sqlite.Open();
 		
@@ -153,7 +153,7 @@ class SqliteSport : Sqlite
 		return myID;
 	}
 
-	public static string [] SelectAll() 
+	public string [] SelectAll() 
 	{
 		Sqlite.Open();
 		SqliteDataReader reader;
@@ -196,7 +196,7 @@ class SqliteSport : Sqlite
 	 * all this are obviously NOT user defined
 	 * last string is for graphLink
 	 */
-	private static string [] sportsChronojump = {
+	private string [] sportsChronojump = {
 		//true or false means if it has speciallities
 		Constants.SportUndefined + ":" + Catalog.GetString(Constants.SportUndefined) + ":" + false + ":" + "", //will be 1 (it's also written in Constants.SportUndefinedID
 		Constants.SportNone + ":" + Catalog.GetString(Constants.SportNone) + ":" + false + ":" + "", 	 //will be 2 (it's also written in Constants.SportNoneID

@@ -57,7 +57,7 @@ class SqlitePulse : Sqlite
 	 * Pulse class methods
 	 */
 	
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double fixedPulse, int totalPulsesNum, string timeString, string description, int simulated)
+	public int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double fixedPulse, int totalPulsesNum, string timeString, string description, int simulated)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -87,7 +87,7 @@ class SqlitePulse : Sqlite
 	
 
 	//if all persons, put -1 in personID
-	public static string[] SelectPulses(bool dbconOpened, int sessionID, int personID) 
+	public string[] SelectPulses(bool dbconOpened, int sessionID, int personID) 
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -145,7 +145,7 @@ class SqlitePulse : Sqlite
 		return myPulses;
 	}
 
-	public static Pulse SelectPulseData(int uniqueID, bool dbconOpened)
+	public Pulse SelectPulseData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -167,7 +167,7 @@ class SqlitePulse : Sqlite
 		return myPulse;
 	}
 
-	public static void Update(int pulseID, int personID, string description)
+	public void Update(int pulseID, int personID, string description)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PulseTable + 

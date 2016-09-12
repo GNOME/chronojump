@@ -27,54 +27,76 @@ using System.Diagnostics; 	//for launching other process
 
 using Mono.Unix;
 
-
-class Sqlite
+public sealed class SqliteForUser
 {
-	protected static SqliteConnection dbcon;
-	protected static SqliteCommand dbcmd;
+	private static readonly Sqlite instance = new Sqlite();
+
+	// Explicit static constructor to tell C# compiler
+	// not to mark type as beforefieldinit
+	static SqliteForUser()
+	{
+	}
+
+	private SqliteForUser()
+	{
+	}
+
+	public static Sqlite Instance
+	{
+		get
+		{
+			return instance;
+		}
+	}
+} 
+
+public class Sqlite
+{
+	protected SqliteConnection dbcon;
+	protected SqliteCommand dbcmd;
 
 	//since we use installJammer (chronojump 0.7)	
 	//database was on c:\.chronojump\ or in ~/.chronojump
 	//now it's on installed dir, eg linux: ~/Chronojump/database
-	private static string home = Util.GetDatabaseDir();
-	private static string sqlFile = home + Path.DirectorySeparatorChar + "chronojump.db";
+	private string home = Util.GetDatabaseDir();
+	private string sqlFile = home + Path.DirectorySeparatorChar + "chronojump.db";
 	
-	private static string temp = Util.GetDatabaseTempDir();
-	private static string sqlFileTemp = temp + Path.DirectorySeparatorChar + "chronojump.db";
+	private string temp = Util.GetDatabaseTempDir();
+	private string sqlFileTemp = temp + Path.DirectorySeparatorChar + "chronojump.db";
 
 	//http://www.mono-project.com/SQLite
 
-	static string connectionString = "version = 3; Data source = " + sqlFile;
-	static string connectionStringTemp = "version = 3; Data source = " + sqlFileTemp;
+	string connectionString = "version = 3; Data source = " + sqlFile;
+	string connectionStringTemp = "version = 3; Data source = " + sqlFileTemp;
 
 	//test to try to open db in a dir with accents (latin)
-	//static string connectionString = "globalization requestEncoding=\"iso-8859-1\"; responseEncoding=\"iso-8859-1\"; fileEncoding=\"iso-8859-1\"; culture=\"es-ES\";version = 3; Data source = " + sqlFile;
+	//string connectionString = "globalization requestEncoding=\"iso-8859-1\"; responseEncoding=\"iso-8859-1\"; fileEncoding=\"iso-8859-1\"; culture=\"es-ES\";version = 3; Data source = " + sqlFile;
 	
 	//create blank database
-	static bool creatingBlankDatabase = false;
+	bool creatingBlankDatabase = false;
 
 	
 	public enum Orders_by { DEFAULT, ID_DESC }
 
 	//for db creation
-	static int creationRate;
-	static int creationTotal;
+	int creationRate;
+	int creationTotal;
 
 	//for db conversion
-	static string currentVersion = "0";
+	string currentVersion = "0";
 	
-	static int conversionRate;
-	static int conversionRateTotal;
-	protected static int conversionSubRate;
-	protected static int conversionSubRateTotal;
+	int conversionRate;
+	int conversionRateTotal;
+	protected int conversionSubRate;
+	protected int conversionSubRateTotal;
 
-	public static bool IsOpened = false;
-	public static bool SafeClose = true;
+	public bool IsOpened = false;
+	public bool SafeClose = true;
 
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.32";
+	string lastChronojumpDatabaseVersion = "1.32";
 
 	public Sqlite() {
 	}
@@ -90,7 +112,7 @@ class Sqlite
 
 	//these two methods are used by methods who want to leave the connection opened
 	//because lots of similar transactions have to be done
-	public static void Open()
+	public void Open()
 	{
 		try {
 			LogB.SQLon();
@@ -109,7 +131,7 @@ class Sqlite
 		
 		IsOpened = true;
 	}
-	public static void Close()
+	public void Close()
 	{
 		LogB.SQLoff();
 			
@@ -127,7 +149,7 @@ class Sqlite
 		IsOpened = false;
 	}
 
-	public static bool Connect()
+	public bool Connect()
 	{
 		/*
 	       splashMessage = "pre";
@@ -222,7 +244,7 @@ class Sqlite
 	}
 
 	//only create blank DB
-	public static void ConnectBlank()
+	public void ConnectBlank()
 	{
 		string sqlFileBlank = "chronojump_blank.db"; //copied on /chronojump-x.y/data installjammer will copy it to database
 		string connectionStringBlank = "version = 3; Data source = " + sqlFileBlank;
@@ -246,7 +268,7 @@ class Sqlite
 		creatingBlankDatabase = true; 
 	}
 	
-	public static void CreateDir()
+	public void CreateDir()
 	{
 		LogB.SQL(connectionString);
 
@@ -264,7 +286,7 @@ class Sqlite
 		LogB.SQL("Dirs created.");
 	}
 
-	public static void CreateFile()
+	public void CreateFile()
 	{
 		LogB.SQL("creating file...");
 		LogB.SQL(connectionString);
@@ -287,7 +309,7 @@ class Sqlite
 	}
 	
 
-	public static bool CheckTables(bool defaultDBLocation)
+	public bool CheckTables(bool defaultDBLocation)
 	{
 		if(defaultDBLocation) {
 			if (File.Exists(sqlFile)){
@@ -310,7 +332,7 @@ class Sqlite
 	}
 
 
-	public static bool IsSqlite3() {
+	public bool IsSqlite3() {
 		if(sqlite3SelectWorks()){
 			LogB.SQL("SQLITE3");
 			Sqlite.Close();
@@ -331,7 +353,7 @@ class Sqlite
 			return false;
 		}
 	}
-	private static bool sqlite3SelectWorks() {
+	private bool sqlite3SelectWorks() {
 		try {
 			SqlitePreferences.Select("chronopicPort");
 		} catch {
@@ -358,7 +380,7 @@ class Sqlite
 		}
 		return true;
 	}
-	private static bool sqlite2SelectWorks() {
+	private bool sqlite2SelectWorks() {
 		/*
 		 *it says:
 		 Unhandled Exception: System.NotSupportedException: Only Sqlite Version 3 is supported at this time
@@ -378,7 +400,7 @@ class Sqlite
 	}
 
 
-	public static bool ConvertFromSqlite2To3() {
+	public bool ConvertFromSqlite2To3() {
 		/*
 		 * 1 write the sqlite2 dumped data to an archive
 		 * 2 copy db
@@ -453,7 +475,7 @@ class Sqlite
 	}
 
 	//for splashWin text
-	public static string PrintConversionText() {
+	public string PrintConversionText() {
 		double toReach = Convert.ToDouble(Util.ChangeDecimalSeparator(lastChronojumpDatabaseVersion));
 		return currentVersion + "/" + toReach.ToString() + " " +
 			conversionRate.ToString() + "/" + conversionRateTotal.ToString() + " " +
@@ -461,23 +483,23 @@ class Sqlite
 	}
 
 	//for splashWin progressbars
-	public static double PrintCreation() {
+	public double PrintCreation() {
 		return Util.DivideSafeFraction(creationRate, creationTotal);
 	}
-	public static double PrintConversionVersion() {
+	public double PrintConversionVersion() {
 		return Util.DivideSafeFraction(
 				Convert.ToDouble(Util.ChangeDecimalSeparator(currentVersion)), 
 				Convert.ToDouble(Util.ChangeDecimalSeparator(lastChronojumpDatabaseVersion))
 				);
 	}
-	public static double PrintConversionRate() {
+	public double PrintConversionRate() {
 		return Util.DivideSafeFraction(conversionRate, conversionRateTotal);
 	}
-	public static double PrintConversionSubRate() {
+	public double PrintConversionSubRate() {
 		return Util.DivideSafeFraction(conversionSubRate, conversionSubRateTotal);
 	}
 
-	public static bool ConvertToLastChronojumpDBVersion() {
+	public bool ConvertToLastChronojumpDBVersion() {
 		LogB.SQL("SelectChronojumpProfile ()");
 
 		//if(checkIfIsSqlite2())
@@ -1914,12 +1936,12 @@ class Sqlite
 		return returnSoftwareIsNew;
 	}
 	
-	private static string updateVersion(string newVersion) {
+	private string updateVersion(string newVersion) {
 		SqlitePreferences.Update ("databaseVersion", newVersion, true); 
 		return newVersion;
 	}
 
-	public static bool ChangeDjToDJna() {
+	public bool ChangeDjToDJna() {
 		string v = SqlitePreferences.Select("databaseVersion");
 		LogB.SQL(Convert.ToDouble(Util.ChangeDecimalSeparator(v)).ToString());
 		if(Convert.ToDouble(Util.ChangeDecimalSeparator(v)) < Convert.ToDouble(Util.ChangeDecimalSeparator("0.74")))
@@ -1927,7 +1949,7 @@ class Sqlite
 		return false;
 	}
 
-	private static void addChronopicPortNameIfNotExists() {
+	private void addChronopicPortNameIfNotExists() {
 		string myPort = SqlitePreferences.Select("chronopicPort");
 		if(myPort == "0") {
 			//if doesn't exist (for any reason, like old database)
@@ -1942,7 +1964,7 @@ class Sqlite
 		}
 	}
 	
-	public static void CreateTables(bool server)
+	public void CreateTables(bool server)
 	{
 		Sqlite.Open();
 
@@ -2156,7 +2178,7 @@ class Sqlite
 		creationRate ++;
 	}
 
-	public static bool Exists(bool dbconOpened, string tableName, string findName)
+	public bool Exists(bool dbconOpened, string tableName, string findName)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -2183,7 +2205,7 @@ class Sqlite
 		return exists;
 	}
 
-	public static string SQLBuildQueryString (string tableName, string test, string variable,
+	public string SQLBuildQueryString (string tableName, string test, string variable,
 			int sex, string ageInterval,
 			int countryID, int sportID, int speciallityID, int levelID, int evaluatorID)
 	{
@@ -2250,7 +2272,7 @@ class Sqlite
 	/* 
 	 * temp data stuff
 	 */
-	public static int TempDataExists(string tableName)
+	public int TempDataExists(string tableName)
 	{
 		//tableName can be tempJumpRj or tempRunInterval
 		
@@ -2277,7 +2299,7 @@ class Sqlite
 		return exists;
 	}
 
-	public static void DeleteTempEvents(string tableName)
+	public void DeleteTempEvents(string tableName)
 	{
 		//tableName can be tempJumpRj or tempRunInterval
 
@@ -2289,12 +2311,12 @@ class Sqlite
 		Sqlite.Close();
 	}
 
-	protected static void dropTable(string tableName) {
+	protected void dropTable(string tableName) {
 		dbcmd.CommandText = "DROP TABLE " + tableName;
 		dbcmd.ExecuteNonQuery();
 	}
 				
-	protected static void convertPersonAndPersonSessionTo77() {
+	protected void convertPersonAndPersonSessionTo77() {
 		//create person77
 		SqlitePerson sqlitePersonObject = new SqlitePerson();
 		sqlitePersonObject.createTable(Constants.PersonTable);
@@ -2354,7 +2376,7 @@ class Sqlite
 
 
 	//to convert to sqlite 0.72
-	protected internal static void datesToYYYYMMDD()
+	protected internal void datesToYYYYMMDD()
 	{
 		conversionRateTotal = 4;
 		conversionRate = 1;
@@ -2446,7 +2468,7 @@ class Sqlite
 	}
 
 	//used to delete persons (if needed) when a session is deleted. See SqliteSession.DeleteAllStuff
-	protected internal static void deleteOrphanedPersons()
+	protected internal void deleteOrphanedPersons()
 	{
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonTable;
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -2470,7 +2492,7 @@ class Sqlite
 	//used to delete persons (if needed) when a session is deleted. See SqliteSession.DeleteAllStuff
 	//also used to convert to sqlite 0.73
 	//this is old method (before .77), now use above method
-	protected internal static void deleteOrphanedPersonsOld()
+	protected internal void deleteOrphanedPersonsOld()
 	{
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonOldTable;
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -2492,7 +2514,7 @@ class Sqlite
 	}
 				
 	//used to convert to sqlite 0.74
-	protected internal static void convertDJInDJna()
+	protected internal void convertDJInDJna()
 	{
 		//Dja exists in DB? (user defined)
 		if(Exists(false, Constants.JumpTypeTable, "DJa")) {
@@ -2557,7 +2579,7 @@ class Sqlite
 	 * The best seem to have a boolean that indicates if certain conversion has done before
 	 * (see bool runAndRunIntervalInitialSpeedAdded)
 	 */
-	protected internal static void convertTables(Sqlite sqliteObject, string tableName, int columnsBefore, ArrayList columnsToAdd, bool putDescriptionInMiddle) 
+	protected internal void convertTables(Sqlite sqliteObject, string tableName, int columnsBefore, ArrayList columnsToAdd, bool putDescriptionInMiddle) 
 	{
 		conversionSubRate = 1;
 		conversionSubRateTotal = -1; //unknown yet
@@ -2722,7 +2744,7 @@ LogB.SQL("5" + tableName);
 	 * if we don't use this, and we have created a column as int, and introduce floats or doubles, 
 	 * we can insert ok the float or doubles, but on select we will have ints
 	 */
-	protected internal static void alterTableColumn(Sqlite sqliteObject, string tableName, int columns) 
+	protected internal void alterTableColumn(Sqlite sqliteObject, string tableName, int columns) 
 	{
 		conversionSubRate = 1;
 		conversionSubRateTotal = -1; //unknown yet
@@ -2791,14 +2813,14 @@ LogB.SQL("5" + tableName);
 		Sqlite.dropTable(Constants.ConvertTempTable);
 	}
 
-	protected static string [] DataReaderToStringArray (SqliteDataReader reader, int columns) {
+	protected string [] DataReaderToStringArray (SqliteDataReader reader, int columns) {
 		string [] myReaderStr = new String[columns];
 		for (int i=0; i < columns; i ++)
 			myReaderStr[i] = reader[i].ToString();
 		return myReaderStr;
 	}
 
-	protected static IDNameList fillIDNameList(string selectStr) 
+	protected IDNameList fillIDNameList(string selectStr) 
 	{
 		//select personID and jump type 'SJ' mean
 		dbcmd.CommandText = selectStr;
@@ -2820,7 +2842,7 @@ LogB.SQL("5" + tableName);
 		return list;
 	}
 
-	protected static IDDoubleList fillIDDoubleList(string selectStr) 
+	protected IDDoubleList fillIDDoubleList(string selectStr) 
 	{
 		//select personID and jump type 'SJ' mean
 		dbcmd.CommandText = selectStr;
@@ -2841,7 +2863,7 @@ LogB.SQL("5" + tableName);
 
 	/* methods for different classes */
 	
-	protected static double selectDouble (string sqlSelect) 
+	protected double selectDouble (string sqlSelect) 
 	{
 		dbcmd.CommandText = sqlSelect;
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -2860,7 +2882,7 @@ LogB.SQL("5" + tableName);
 	}
 
 
-	public static int Max (string tableName, string column, bool dbconOpened)
+	public int Max (string tableName, string column, bool dbconOpened)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -2882,7 +2904,7 @@ LogB.SQL("5" + tableName);
 		return myReturn;
 	}
 
-	public static int Count (string tableName, bool dbconOpened)
+	public int Count (string tableName, bool dbconOpened)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -2903,7 +2925,7 @@ LogB.SQL("5" + tableName);
 		return myReturn;
 	}
 
-	public static int CountCondition (string tableName, bool dbconOpened, string condition, string operand, string myValue) {
+	public int CountCondition (string tableName, bool dbconOpened, string condition, string operand, string myValue) {
 		if(!dbconOpened)
 			Sqlite.Open();
 
@@ -2925,7 +2947,7 @@ LogB.SQL("5" + tableName);
 	}
 
 	//if we want to use the condition2 but not the searchValue, leave this as ""
-	public static void Update(
+	public void Update(
 			bool dbconOpened, string tableName, string columnName, 
 			string searchValue, string newValue, 
 			string columnNameCondition2, string searchValueCondition2)
@@ -2964,7 +2986,7 @@ LogB.SQL("5" + tableName);
 			Sqlite.Close();
 	}
 
-	public static void Delete(bool dbconOpened, string tableName, int uniqueID)
+	public void Delete(bool dbconOpened, string tableName, int uniqueID)
 	{
 		if( ! dbconOpened)
 			Sqlite.Open();
@@ -2978,7 +3000,7 @@ LogB.SQL("5" + tableName);
 			Sqlite.Close();
 	}
 	
-	public static void DeleteSelectingField(bool dbconOpened, string tableName, string fieldName, string id)
+	public void DeleteSelectingField(bool dbconOpened, string tableName, string fieldName, string id)
 	{
 		if( ! dbconOpened)
 			Sqlite.Open();
@@ -2993,7 +3015,7 @@ LogB.SQL("5" + tableName);
 	}
 
 
-	public static void DeleteFromName(bool dbconOpened, string tableName, string name)
+	public void DeleteFromName(bool dbconOpened, string tableName, string name)
 	{
 		if( ! dbconOpened)
 			Sqlite.Open();
@@ -3007,7 +3029,7 @@ LogB.SQL("5" + tableName);
 			Sqlite.Close();
 	}
 
-	public static void DeleteFromAnInt(bool dbconOpened, string tableName, string colName, int id)
+	public void DeleteFromAnInt(bool dbconOpened, string tableName, string colName, int id)
 	{
 		if( ! dbconOpened)
 			Sqlite.Open();
@@ -3028,24 +3050,24 @@ LogB.SQL("5" + tableName);
 	 * SERVER STUFF
 	 */
 	
-	public static string sqlFileServer = home + Path.DirectorySeparatorChar + "chronojump_server.db";
-	static string connectionStringServer = "version = 3; Data source = " + sqlFileServer;
+	public string sqlFileServer = home + Path.DirectorySeparatorChar + "chronojump_server.db";
+	string connectionStringServer = "version = 3; Data source = " + sqlFileServer;
 	
-	public static bool CheckFileServer(){
+	public bool CheckFileServer(){
 		if (File.Exists(sqlFileServer))
 			return true;
 		else
 			return false;
 	}
 	
-	public static void ConnectServer()
+	public void ConnectServer()
 	{
 		dbcon = new SqliteConnection();
 		dbcon.ConnectionString = connectionStringServer;
 		dbcmd = dbcon.CreateCommand();
 	}
 	
-	public static bool DisConnect() {
+	public bool DisConnect() {
 		try {
 			Sqlite.Close();
 		} catch {

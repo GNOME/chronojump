@@ -572,8 +572,38 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
+	double findMaxPowerIntersession()
+	{
+		//finding historical maxPower of a person in an exercise
+		Constants.EncoderGI encGI = getEncoderGI();
+		ArrayList arrayTemp = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, -1, encGI,
+					getExerciseIDFromCombo(exerciseCombos.CAPTURE), "curve", EncoderSQL.Eccons.ALL,
+					false, false);
+		double maxPower = 0;
+		if(encGI == Constants.EncoderGI.GRAVITATORY)
+		{
+			//TODO: do a regression to find maxPower with a value of extraWeight unused
+			int extraWeight = Convert.ToInt32(spin_encoder_extra_weight.Value);
+			foreach(EncoderSQL es in arrayTemp)
+				if(Convert.ToInt32(es.extraWeight) == extraWeight && Convert.ToDouble(es.future1) > maxPower)
+					maxPower = Convert.ToDouble(es.future1);
+		}
+		else if(encGI == Constants.EncoderGI.INERTIAL)
+		{
+			foreach(EncoderSQL es in arrayTemp)
+				if(es.encoderConfiguration == encoderConfigurationCurrent && Convert.ToDouble(es.future1) > maxPower)
+					maxPower = Convert.ToDouble(es.future1);
+		}
+
+		return maxPower;
+	}
+
+	double maxPowerIntersessionOnCapture;
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
 	{
+		maxPowerIntersessionOnCapture = findMaxPowerIntersession();
+		//LogB.Information("maxPower: " + maxPowerIntersessionOnCapture);
+
 		if(! encoderCheckPort())
 			return;
 
@@ -591,6 +621,7 @@ public partial class ChronoJumpWindow
 		LogB.Debug("Calling encoderThreadStart for capture");
 
 		encoderConfigurationCurrent.SQLUpdate(); //record this encoderConfiguration to SQL for next Chronojump open
+
 
 		needToCallPrepareEncoderGraphs = false;
 		encoderProcessFinish = false;
@@ -4046,6 +4077,9 @@ public partial class ChronoJumpWindow
 		double max = -100000;
 		double min = 100000;
 		double sum = 0;
+
+		if(mainVariable == Constants.MeanPower)
+			max = maxPowerIntersessionOnCapture;
 		
 		foreach(double d in data) {
 			if(d > max)
@@ -4104,6 +4138,20 @@ public partial class ChronoJumpWindow
 		//sum saved curves to do avg
 		double sumSaved = 0; 
 		double countSaved = 0;
+		
+		//draw line for person max intersession
+		if(mainVariable == Constants.MeanPower && max > 0)
+		{
+			layout_encoder_capture_curves_bars.SetMarkup("Person's best");
+			layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight);
+			encoder_capture_curves_bars_pixmap.DrawLayout (pen_yellow_encoder_capture,
+						left_margin, top_margin - textHeight,
+						layout_encoder_capture_curves_bars);
+
+			encoder_capture_curves_bars_pixmap.DrawLine(pen_yellow_encoder_capture,
+					left_margin, top_margin,
+					graphWidth - right_margin, top_margin);
+		}
 		
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
 		foreach(double dFor in data) {
@@ -5380,6 +5428,7 @@ public partial class ChronoJumpWindow
 				}
 
 
+				maxPowerIntersessionOnCapture = findMaxPowerIntersession();
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
 						repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
 						false);	//not capturing

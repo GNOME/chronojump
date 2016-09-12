@@ -110,6 +110,15 @@
                       </widget>
                     </child>
                     <child>
+                      <widget class="GtkImageMenuItem" id="menuitem_import_chronojump_session">
+                        <property name="label" translatable="yes">Imports session from another Chronojump database</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="use_stock">False</property>
+                        <signal name="activate" handler="on_button_encoder_import_chronojump_session" swapped="no"/>
+                      </widget>
+                    </child>
+                    <child>
                       <widget class="GtkMenuItem" id="menuitem_encoder_session_overview">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>

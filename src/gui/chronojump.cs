@@ -33,6 +33,7 @@ using LongoMatch.Video.Capturer;
 using LongoMatch.Video.Common;
 using LongoMatch.Video.Utils;
 using System.Threading;
+using System.Diagnostics;
 
 public partial class ChronoJumpWindow 
 {
@@ -2609,7 +2610,43 @@ public partial class ChronoJumpWindow
 	private void on_load_session_accepted_to_import(object o, EventArgs args)
 	{
 		int sessionNumber = sessionLoadWin.CurrentSessionId();
-		// TODO needs to import this session number
+		string databasePath = sessionLoadWin.DatabasePath();
+		LogB.Information (databasePath);
+
+		ImportSessionFromDatabase (databasePath, sessionNumber);
+	}
+
+	private void ImportSessionFromDatabase(string databasePath, int sessionNumber)
+	{
+		string pythonInterpreter = "/usr/bin/python3";
+		string importerPath = "/home/carles/git/chronojump/src/chronojump-importer/chronojump_importer.py";
+		string source_filename = databasePath;
+		string destination_filename = "/home/carles/.local/share/Chronojump/database/chronojump.db";
+		string session = Convert.ToString (sessionNumber);;
+
+		Process process = new Process();
+		ProcessStartInfo processStartInfo;
+
+		processStartInfo = new ProcessStartInfo();
+
+		processStartInfo.Arguments = importerPath + " --source " + source_filename + " --destination " + destination_filename + " --source_session " + session;
+		processStartInfo.FileName = pythonInterpreter;
+
+		processStartInfo.CreateNoWindow = true;
+		processStartInfo.UseShellExecute = false;
+		processStartInfo.RedirectStandardInput = false;
+		processStartInfo.RedirectStandardError = false;
+		processStartInfo.RedirectStandardOutput = true;
+		process.OutputDataReceived += new DataReceivedEventHandler(
+			(s, e) =>
+			{ 
+				Console.WriteLine(e.Data); 
+			}
+		);
+		process.StartInfo = processStartInfo;
+		process.Start();
+		process.BeginOutputReadLine();
+		process.WaitForExit();
 	}
 
 	private void on_open_activate (object o, EventArgs args) 

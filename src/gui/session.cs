@@ -930,6 +930,10 @@ public class SessionLoadWindow {
 		}
 		return -1;
 	}
+
+	public string DatabasePath() {
+		return entry_path.Text;
+	}
 	
 	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{

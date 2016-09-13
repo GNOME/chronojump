@@ -661,7 +661,9 @@ public class SessionLoadWindow {
 	[Widget] Gtk.Entry entry_search_filter;
 	[Widget] Gtk.CheckButton checkbutton_show_data_jump_run;
 	[Widget] Gtk.CheckButton checkbutton_show_data_encoder;
-	[Widget] Gtk.Entry entry_path;
+	[Widget] Gtk.Entry file_path_import;
+	[Widget] Gtk.Button select_file_import;
+	[Widget] Gtk.HBox session_import_box;
 
 	static SessionLoadWindow SessionLoadWindowBox;
 	Gtk.Window parent;
@@ -677,7 +679,7 @@ public class SessionLoadWindow {
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 
-		entry_path.Visible = (type == WindowType.IMPORT_SESSION);
+		session_import_box.Visible = (type == WindowType.IMPORT_SESSION);
 
 		//put an icon to window
 		UtilGtk.IconWindow(session_load);
@@ -775,8 +777,24 @@ public class SessionLoadWindow {
 	protected void on_entry_search_filter_changed (object o, EventArgs args) {
 		recreateTreeView("changed search filter");
 	}
-	protected void on_entry_path_changed(object o, EventArgs args) {
-		recreateTreeView ("entry path changed");
+	protected void on_file_path_import_changed(object o, EventArgs args) {
+		recreateTreeView ("file path changed");
+	}
+	protected void on_select_file_import_clicked(object o, EventArgs args) {
+		Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog ("Choose ChronoJump database to import from",
+		                                                               session_load, FileChooserAction.Open,
+		                                                               "Cancel",ResponseType.Cancel,
+		                                                               "Open",ResponseType.Accept);
+
+		FileFilter file_filter = new FileFilter();
+		file_filter.AddPattern ("*.db");
+		file_filter.Name = "ChronoJump database";
+		filechooser.AddFilter (file_filter);
+
+		if (filechooser.Run () == (int)ResponseType.Accept) {
+			file_path_import.Text = filechooser.Filename;
+		}
+		filechooser.Destroy ();
 	}
 	void on_checkbutton_show_data_jump_run_toggled (object o, EventArgs args) {
 		recreateTreeView("jump run " + checkbutton_show_data_jump_run.Active.ToString());
@@ -811,7 +829,7 @@ public class SessionLoadWindow {
 		if(entry_search_filter.Text.ToString().Length > 0) 
 			filterName = entry_search_filter.Text.ToString();
 
-		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (entry_path.Text.ToString ());
+		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (file_path_import.Text);
 		
 		string [] mySessions = sessionSwitcher.SelectAllSessions(filterName); //returns a string of values separated by ':'
 		foreach (string session in mySessions) {
@@ -932,7 +950,7 @@ public class SessionLoadWindow {
 	}
 
 	public string DatabasePath() {
-		return entry_path.Text;
+		return file_path_import.Text;
 	}
 	
 	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
@@ -1026,7 +1044,6 @@ public class SessionSelectStatsWindow {
 			SessionSelectStatsWindowBox = new SessionSelectStatsWindow (parent, oldSelectedSessions);
 		}
 		SessionSelectStatsWindowBox.stats_select_sessions.Show ();
-		
 		return SessionSelectStatsWindowBox;
 	}
 	

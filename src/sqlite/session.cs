@@ -68,7 +68,9 @@ public class SqliteSessionSwitcher
 			while (reader.Read())
 			{
 				string row = string.Format ("{0}:{1}::{2}--Undefined::Undefined:{3}:0:0:0:0:0:0:0:0:0 ; 0:0 ; 0", reader ["uniqueID"], reader ["name"], reader ["date"], reader ["comments"]);
-				result.Add(row);
+				if (row.ToLower ().Contains (filterName)) {
+					result.Add(row);
+				}
 			}
 			return result.ToArray();
 		}

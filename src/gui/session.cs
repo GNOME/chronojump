@@ -679,7 +679,10 @@ public class SessionLoadWindow {
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 
+		// Hides and shows widgets only needed by some of the functionality
 		session_import_box.Visible = (type == WindowType.IMPORT_SESSION);
+		checkbutton_show_data_encoder.Visible = (type == WindowType.LOAD_SESSION);
+		checkbutton_show_data_jump_run.Visible = (type == WindowType.LOAD_SESSION);
 
 		//put an icon to window
 		UtilGtk.IconWindow(session_load);

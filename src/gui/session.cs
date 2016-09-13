@@ -737,6 +737,8 @@ public class SessionLoadWindow {
 		if (SessionLoadWindowBox == null) {
 			SessionLoadWindowBox = new SessionLoadWindow (parent, type);
 		}
+		SessionLoadWindowBox.recreateTreeView("loaded the dialog");
+
 		SessionLoadWindowBox.session_load.Show ();
 		
 		return SessionLoadWindowBox;
@@ -829,7 +831,13 @@ public class SessionLoadWindow {
 		if(entry_search_filter.Text.ToString().Length > 0) 
 			filterName = entry_search_filter.Text.ToString();
 
-		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (file_path_import.Text);
+		SqliteSessionSwitcher.DatabaseType databaseType;
+		if (type == WindowType.LOAD_SESSION) {
+			databaseType = SqliteSessionSwitcher.DatabaseType.STANDARD;
+		} else {
+			databaseType = SqliteSessionSwitcher.DatabaseType.SPECIFIC;
+		}
+		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (databaseType, file_path_import.Text);
 		
 		string [] mySessions = sessionSwitcher.SelectAllSessions(filterName); //returns a string of values separated by ':'
 		foreach (string session in mySessions) {

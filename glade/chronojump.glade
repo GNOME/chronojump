@@ -111,7 +111,7 @@
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_import_chronojump_session">
-                        <property name="label" translatable="yes">Imports session from another Chronojump database</property>
+                        <property name="label" translatable="yes">Import session from another Chronojump database</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_stock">False</property>

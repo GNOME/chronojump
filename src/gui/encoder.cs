@@ -1413,14 +1413,6 @@ public partial class ChronoJumpWindow
 		checkFile(Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL);
 	}
 
-	void on_button_encoder_import_chronojump_session(object o, EventArgs args)
-	{
-		// TODO: show dialog Load Session
-		// TODO: and the user will select a database (needs a button + FileDialog to select the database)
-		// TODO: the sessions of the database will be displayed
-		// TODO: and one of them will be imported
-	}
-
 	/*
 	 * encoder session overview
 	 */

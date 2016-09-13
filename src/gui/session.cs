@@ -646,7 +646,12 @@ public class SessionAddEditWindow {
 
 
 public class SessionLoadWindow {
-	
+
+	public enum WindowType
+	{
+		LOAD_SESSION,
+		IMPORT_SESSION
+	};
 	[Widget] Gtk.Window session_load;
 	
 	private TreeStore store;
@@ -656,20 +661,24 @@ public class SessionLoadWindow {
 	[Widget] Gtk.Entry entry_search_filter;
 	[Widget] Gtk.CheckButton checkbutton_show_data_jump_run;
 	[Widget] Gtk.CheckButton checkbutton_show_data_encoder;
+	[Widget] Gtk.Entry entry_path;
 
 	static SessionLoadWindow SessionLoadWindowBox;
 	Gtk.Window parent;
 	
 	private Session currentSession;
 	private SqliteSessionSwitcher sqliteSession;
+	private WindowType type;
 
-	SessionLoadWindow (Gtk.Window parent, SqliteSessionSwitcher sqliteSession) {
-		this.sqliteSession = sqliteSession;
+	SessionLoadWindow (Gtk.Window parent, WindowType type) {
+		this.type = type;
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_load", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
-		
+
+		entry_path.Visible = (type == WindowType.IMPORT_SESSION);
+
 		//put an icon to window
 		UtilGtk.IconWindow(session_load);
 		
@@ -721,10 +730,10 @@ public class SessionLoadWindow {
 	}
 
 	
-	static public SessionLoadWindow Show (Gtk.Window parent)
+	static public SessionLoadWindow Show (Gtk.Window parent, WindowType type)
 	{
 		if (SessionLoadWindowBox == null) {
-			SessionLoadWindowBox = new SessionLoadWindow (parent, new SqliteSessionSwitcher(""));
+			SessionLoadWindowBox = new SessionLoadWindow (parent, type);
 		}
 		SessionLoadWindowBox.session_load.Show ();
 		
@@ -766,6 +775,9 @@ public class SessionLoadWindow {
 	protected void on_entry_search_filter_changed (object o, EventArgs args) {
 		recreateTreeView("changed search filter");
 	}
+	protected void on_entry_path_changed(object o, EventArgs args) {
+		recreateTreeView ("entry path changed");
+	}
 	void on_checkbutton_show_data_jump_run_toggled (object o, EventArgs args) {
 		recreateTreeView("jump run " + checkbutton_show_data_jump_run.Active.ToString());
 	}
@@ -798,8 +810,10 @@ public class SessionLoadWindow {
 		string filterName = "";
 		if(entry_search_filter.Text.ToString().Length > 0) 
 			filterName = entry_search_filter.Text.ToString();
+
+		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (entry_path.Text.ToString ());
 		
-		string [] mySessions = SqliteSession.SelectAllSessions(filterName); //returns a string of values separated by ':'
+		string [] mySessions = sessionSwitcher.SelectAllSessions(filterName); //returns a string of values separated by ':'
 		foreach (string session in mySessions) {
 			string [] myStringFull = session.Split(new char[] {':'});
 		

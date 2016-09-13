@@ -178,6 +178,16 @@ public class UtilEncoder
 		return false;
 	}
 	
+	public static string GetChronojumpImporter() {
+		if (UtilAll.IsWindows ()) {
+			// TODO
+			return "";
+		} else {
+			// It's installed in the PATH.
+			return "chronojump_importer.py";
+		}
+		// What about OSX?
+	}
 
 	/*	
 	private static string getEncoderScriptCapturePython() {

@@ -2618,8 +2618,7 @@ public partial class ChronoJumpWindow
 
 	private void ImportSessionFromDatabase(string databasePath, int sessionNumber)
 	{
-		string pythonInterpreter = "/usr/bin/python3";
-		string importerPath = "/home/carles/git/chronojump/src/chronojump-importer/chronojump_importer.py";
+		string importerPath = UtilEncoder.GetChronojumpImporter ();
 		string source_filename = databasePath;
 		string destination_filename = Sqlite.DatabaseFilePath;
 		string session = Convert.ToString (sessionNumber);;
@@ -2629,8 +2628,11 @@ public partial class ChronoJumpWindow
 
 		processStartInfo = new ProcessStartInfo();
 
-		processStartInfo.Arguments = importerPath + " --source " + source_filename + " --destination " + destination_filename + " --source_session " + session;
-		processStartInfo.FileName = pythonInterpreter;
+		processStartInfo.Arguments = " --source " + source_filename + " --destination " + destination_filename + " --source_session " + session;
+		processStartInfo.FileName = importerPath;
+
+		LogB.Debug ("chronojump-importer fileName:" + processStartInfo.FileName);
+		LogB.Debug ("chronojump-importer Arguments:" + processStartInfo.Arguments);
 
 		processStartInfo.CreateNoWindow = true;
 		processStartInfo.UseShellExecute = false;
@@ -2640,13 +2642,25 @@ public partial class ChronoJumpWindow
 		process.OutputDataReceived += new DataReceivedEventHandler(
 			(s, e) =>
 			{ 
-				Console.WriteLine(e.Data); 
+				LogB.Debug(e.Data); 
 			}
 		);
 		process.StartInfo = processStartInfo;
-		process.Start();
-		process.BeginOutputReadLine();
-		process.WaitForExit();
+
+		bool started = false;
+		try {
+			process.Start();
+			started = true;
+		}
+		catch(Exception e) {
+			string errorMessage;
+			errorMessage = String.Format ("Cannot execute:\n   {0}\nwith the parameters:\n   {1}\n\nThe exception is: {2}", processStartInfo.FileName, processStartInfo.Arguments, e.Message);
+			ErrorWindow.Show (errorMessage);
+		}
+
+		if (started) {
+			process.BeginOutputReadLine ();
+		}
 	}
 
 	private void on_open_activate (object o, EventArgs args) 

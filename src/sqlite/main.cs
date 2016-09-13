@@ -27,6 +27,23 @@ using System.Diagnostics; 	//for launching other process
 
 using Mono.Unix;
 
+class SqliteGeneral
+{
+	private SqliteConnection dbcon;
+
+	public SqliteGeneral(string databasePath)
+	{
+		dbcon = new SqliteConnection ();
+		string connectionString = "version = 3; Data source = " + databasePath;
+		dbcon.Open();
+	}
+
+	public SqliteCommand command()
+	{
+		SqliteCommand dbcmd = dbcon.CreateCommand();
+		return dbcmd;
+	}
+}
 
 class Sqlite
 {

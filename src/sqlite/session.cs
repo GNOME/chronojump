@@ -29,14 +29,22 @@ using System.Collections.Generic;
 public class SqliteSessionSwitcher
 {
 	private string databasePath;
-	public SqliteSessionSwitcher(string databasePath)
+	private DatabaseType type;
+	public enum DatabaseType
 	{
+		STANDARD,
+		SPECIFIC
+	};
+	
+	public SqliteSessionSwitcher(DatabaseType type, string databasePath)
+	{
+		this.type = type;
 		this.databasePath = databasePath;
 	}
 
 	public string[] SelectAllSessions(string filterName)
 	{
-		if (string.IsNullOrEmpty (databasePath))
+		if (type == DatabaseType.STANDARD)
 		{
 			return SqliteSession.SelectAllSessions (filterName);
 		}
@@ -68,7 +76,7 @@ public class SqliteSessionSwitcher
 
 	public Session Select(string myUniqueID)
 	{
-		if (string.IsNullOrEmpty (databasePath))
+		if (type == DatabaseType.STANDARD)
 		{
 			return SqliteSession.Select (myUniqueID);
 		}

@@ -919,6 +919,17 @@ public class SessionLoadWindow {
 		} else
 			button_accept.Sensitive = false;
 	}
+
+	public int CurrentSessionId() {
+		TreeModel model;
+		TreeIter iter;
+
+		if (treeview_session_load.Selection.GetSelected (out model, out iter)) {
+			string selected = (string)model.GetValue (iter, 0);
+			return Convert.ToInt32 (selected.Split (':')[0]);
+		}
+		return -1;
+	}
 	
 	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{

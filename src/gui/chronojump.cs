@@ -2608,7 +2608,8 @@ public partial class ChronoJumpWindow
 	//from import session
 	private void on_load_session_accepted_to_import(object o, EventArgs args)
 	{
-		// TODO
+		int sessionNumber = sessionLoadWin.CurrentSessionId();
+		// TODO needs to import this session number
 	}
 
 	private void on_open_activate (object o, EventArgs args) 

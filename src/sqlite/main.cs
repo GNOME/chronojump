@@ -258,7 +258,7 @@ class Sqlite
 		
 	}
 
-	public static string DatabaseFilePath()
+	public static string DatabaseFilePath
 	{
 		get
 		{

@@ -1,4 +1,4 @@
-SUBDIRS = Mini
+SUBDIRS = Mini chronojump-importer
 
 ASSEMBLY = Chronojump
 TARGET = exe

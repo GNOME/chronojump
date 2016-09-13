@@ -2621,7 +2621,7 @@ public partial class ChronoJumpWindow
 		string pythonInterpreter = "/usr/bin/python3";
 		string importerPath = "/home/carles/git/chronojump/src/chronojump-importer/chronojump_importer.py";
 		string source_filename = databasePath;
-		string destination_filename = "/home/carles/.local/share/Chronojump/database/chronojump.db";
+		string destination_filename = Sqlite.DatabaseFilePath;
 		string session = Convert.ToString (sessionNumber);;
 
 		Process process = new Process();

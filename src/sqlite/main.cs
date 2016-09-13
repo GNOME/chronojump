@@ -258,6 +258,14 @@ class Sqlite
 		
 	}
 
+	public static string DatabaseFilePath()
+	{
+		get
+		{
+			return sqlFile;
+		}
+	}
+
 	//only create blank DB
 	public static void ConnectBlank()
 	{

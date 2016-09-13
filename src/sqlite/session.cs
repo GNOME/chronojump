@@ -24,7 +24,84 @@ using System.IO;
 using System.Collections; //ArrayList
 using Mono.Data.Sqlite;
 using Mono.Unix;
+using System.Collections.Generic;
 
+public class SqliteSessionSwitcher
+{
+	private string databasePath;
+	public SqliteSessionSwitcher(string databasePath)
+	{
+		this.databasePath = databasePath;
+	}
+
+	public string[] SelectAllSessions(string filterName)
+	{
+		if (string.IsNullOrEmpty (databasePath))
+		{
+			return SqliteSession.SelectAllSessions (filterName);
+		}
+		else
+		{
+			SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
+			SqliteCommand dbcommand = sqliteGeneral.command();
+
+			dbcommand.CommandText = "SELECT uniqueID, name, place, data, comment FROM Sessions";
+
+			SqliteDataReader reader = dbcommand.ExecuteReader ();
+
+			List<string> result = new List<string>();
+
+			// Each row should be:
+			// 1:SIMULATED::11/09/2016:--Undefined::Undefined:Use this session to simulate tests.:0:0:0:0:0:0:0:0:0 ; 0:0 ; 0
+			while (reader.Read())
+			{
+				string row = string.Format ("{0}:{1}::{2}--Undefined::Undefined:{3}:0:0:0:0:0:0:0:0:0 ; 0:0 ; 0", reader ["uniqueID"], reader ["name"], reader ["data"], reader ["comment"]);
+				result.Add(row);
+			}
+			return result.ToArray();
+		}
+	}
+
+	public Session Select(string myUniqueID)
+	{
+		if (string.IsNullOrEmpty (databasePath))
+		{
+			return SqliteSession.Select (myUniqueID);
+		}
+		else
+		{
+			SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
+			SqliteCommand dbcommand = sqliteGeneral.command();
+
+			dbcommand.CommandText = "SELECT * FROM Sessions WHERE uniqueID == @myUniqueID";
+			dbcommand.Parameters.Add (new SqliteParameter ("@myUniqueID", myUniqueID));
+
+			SqliteDataReader reader = dbcommand.ExecuteReader ();
+
+			// Copied from a non-callable (yet) static method: SqliteSession::Select()
+			string [] values = new string[9];
+
+			while(reader.Read()) {
+				values[0] = reader[0].ToString(); 
+				values[1] = reader[1].ToString(); 
+				values[2] = reader[2].ToString();
+				values[3] = reader[3].ToString();
+				values[4] = reader[4].ToString();
+				values[5] = reader[5].ToString();
+				values[6] = reader[6].ToString();
+				values[7] = reader[7].ToString();
+				values[8] = reader[8].ToString();
+			}
+
+			Session mySession = new Session(values[0], 
+			                                values[1], values[2], UtilDate.FromSql(values[3]), 
+			                                Convert.ToInt32(values[4]), Convert.ToInt32(values[5]), Convert.ToInt32(values[6]), 
+			                                values[7], Convert.ToInt32(values[8]) );
+
+			return mySession;
+		}
+	}
+}
 
 class SqliteSession : Sqlite
 {
@@ -596,6 +673,7 @@ class SqliteSession : Sqlite
 			mySessions [count++] = lineNotReadOnly;
 		}
 
+		LogB.SQL (mySessions [0]);
 		return mySessions;
 	}
 

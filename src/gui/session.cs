@@ -661,8 +661,10 @@ public class SessionLoadWindow {
 	Gtk.Window parent;
 	
 	private Session currentSession;
-	
-	SessionLoadWindow (Gtk.Window parent) {
+	private SqliteSessionSwitcher sqliteSession;
+
+	SessionLoadWindow (Gtk.Window parent, SqliteSessionSwitcher sqliteSession) {
+		this.sqliteSession = sqliteSession;
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_load", null);
 		gladeXML.Autoconnect(this);
@@ -722,7 +724,7 @@ public class SessionLoadWindow {
 	static public SessionLoadWindow Show (Gtk.Window parent)
 	{
 		if (SessionLoadWindowBox == null) {
-			SessionLoadWindowBox = new SessionLoadWindow (parent);
+			SessionLoadWindowBox = new SessionLoadWindow (parent, new SqliteSessionSwitcher(""));
 		}
 		SessionLoadWindowBox.session_load.Show ();
 		

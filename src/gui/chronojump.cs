@@ -2598,14 +2598,26 @@ public partial class ChronoJumpWindow
 			}
 		}
 	}
-	
+
+	private void on_button_encoder_import_chronojump_session(object o, EventArgs args)
+	{
+		sessionLoadWin = SessionLoadWindow.Show (app1, SessionLoadWindow.WindowType.IMPORT_SESSION);
+		sessionLoadWin.Button_accept.Clicked += new EventHandler(on_load_session_accepted_to_import);
+	}
+
+	//from import session
+	private void on_load_session_accepted_to_import(object o, EventArgs args)
+	{
+		// TODO
+	}
+
 	private void on_open_activate (object o, EventArgs args) 
 	{
 		LogB.Information("open session");
-		sessionLoadWin = SessionLoadWindow.Show(app1);
+		sessionLoadWin = SessionLoadWindow.Show(app1, SessionLoadWindow.WindowType.LOAD_SESSION);
 		sessionLoadWin.Button_accept.Clicked += new EventHandler(on_load_session_accepted_from_open);
 	}
-	
+
 	//from open session
 	private void on_load_session_accepted_from_open (object o, EventArgs args) 
 	{

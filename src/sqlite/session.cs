@@ -43,9 +43,13 @@ public class SqliteSessionSwitcher
 		else
 		{
 			SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
+			if (!sqliteGeneral.IsOpened) {
+				List<string> emptyResult = new List<string> ();
+				return emptyResult.ToArray ();
+			}
 			SqliteCommand dbcommand = sqliteGeneral.command();
 
-			dbcommand.CommandText = "SELECT uniqueID, name, place, data, comment FROM Sessions";
+			dbcommand.CommandText = "SELECT uniqueID, name, place, date, comments FROM Session";
 
 			SqliteDataReader reader = dbcommand.ExecuteReader ();
 
@@ -55,7 +59,7 @@ public class SqliteSessionSwitcher
 			// 1:SIMULATED::11/09/2016:--Undefined::Undefined:Use this session to simulate tests.:0:0:0:0:0:0:0:0:0 ; 0:0 ; 0
 			while (reader.Read())
 			{
-				string row = string.Format ("{0}:{1}::{2}--Undefined::Undefined:{3}:0:0:0:0:0:0:0:0:0 ; 0:0 ; 0", reader ["uniqueID"], reader ["name"], reader ["data"], reader ["comment"]);
+				string row = string.Format ("{0}:{1}::{2}--Undefined::Undefined:{3}:0:0:0:0:0:0:0:0:0 ; 0:0 ; 0", reader ["uniqueID"], reader ["name"], reader ["date"], reader ["comments"]);
 				result.Add(row);
 			}
 			return result.ToArray();
@@ -73,7 +77,7 @@ public class SqliteSessionSwitcher
 			SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
 			SqliteCommand dbcommand = sqliteGeneral.command();
 
-			dbcommand.CommandText = "SELECT * FROM Sessions WHERE uniqueID == @myUniqueID";
+			dbcommand.CommandText = "SELECT * FROM Session WHERE uniqueID == @myUniqueID";
 			dbcommand.Parameters.Add (new SqliteParameter ("@myUniqueID", myUniqueID));
 
 			SqliteDataReader reader = dbcommand.ExecuteReader ();

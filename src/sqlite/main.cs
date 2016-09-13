@@ -30,12 +30,32 @@ using Mono.Unix;
 class SqliteGeneral
 {
 	private SqliteConnection dbcon;
-
+	private bool isOpened;
 	public SqliteGeneral(string databasePath)
 	{
+		isOpened = false;
+
+		if (!File.Exists (databasePath)) {
+			return;
+		}
 		dbcon = new SqliteConnection ();
 		string connectionString = "version = 3; Data source = " + databasePath;
-		dbcon.Open();
+		dbcon.ConnectionString = connectionString;
+		try {
+			dbcon.Open();
+			isOpened = true;
+		}
+		catch {
+
+		}
+	}
+
+	public bool IsOpened
+	{
+		get
+		{
+			return isOpened;
+		}
 	}
 
 	public SqliteCommand command()

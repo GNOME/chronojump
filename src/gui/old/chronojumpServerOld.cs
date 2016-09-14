@@ -42,10 +42,10 @@ public partial class ChronoJumpWindow
 	 * SERVER CALLBACKS
 	 */
 
-	/*
 	bool serverEvaluatorDoing;
 	// upload session and it's persons (callback)
 	private void on_server_upload_session_pre (object o, EventArgs args) {
+		/*
 		//evaluator stuff
 		//Server.ServerUploadEvaluator();
 		string evalMessage = "";
@@ -58,6 +58,7 @@ public partial class ChronoJumpWindow
 //		appbar2.Push ( 1, evalMessage );
 		
 		server_evaluator_data_and_after_upload_session();
+		*/
 	}
 
 	private bool connectedAndCanI (string serverAction) {
@@ -76,6 +77,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_menuitem_server_stats (object o, EventArgs args) {
+		/*
 		if(connectedAndCanI(Constants.ServerActionStats)) {
 			ChronojumpServer myServer = new ChronojumpServer();
 			LogB.SQL(myServer.ConnectDatabase());
@@ -88,9 +90,11 @@ public partial class ChronoJumpWindow
 
 			new DialogServerStats(statsServer, statsMine);
 		}
+		*/
 	}
 	
 	private void on_menuitem_server_query (object o, EventArgs args) {
+		/*
 		if(connectedAndCanI(Constants.ServerActionQuery)) {
 			ChronojumpServer myServer = new ChronojumpServer();
 			QueryServerWindow.Show(
@@ -98,16 +102,20 @@ public partial class ChronoJumpWindow
 					myServer.SelectEvaluators(true)
 					);
 		}
+		*/
 	}
 	
 	private void on_server_ping (object o, EventArgs args) {
+		/*
 		string str = Server.Ping(false, progName, progVersion); //don't do insertion (will show versionAvailable)
 		//show online or offline (not the next version of client available)
 		if(str != Constants.ServerOffline)
 			str = Catalog.GetString(Constants.ServerOnline);
 		new DialogMessage(Constants.MessageTypes.INFO, str);
+		*/
 	}
-	
+
+	/*	
 	bool uploadSessionAfter;
 
 	//called when after that has to continue with upload session
@@ -160,16 +168,18 @@ public partial class ChronoJumpWindow
 	private void on_select_persons_to_discard_done (object o, EventArgs args) {
 		server_upload_session();
 	}
+	*/
 
 	private void on_menuitem_goto_server_website (object o, EventArgs args) {
+		/*
 		if(UtilAll.IsWindows())
 			new DialogMessage(Constants.MessageTypes.INFO, 
 					"http://www.chronojump.org/server.html" + "\n" + 
 					"http://www.chronojump.org/server_es.html");
 		else
 			System.Diagnostics.Process.Start(Constants.ChronojumpWebsite + System.IO.Path.DirectorySeparatorChar + "server.html");
+		*/
 	}
-	*/
 
 	/* 
 	 * SERVER CODE

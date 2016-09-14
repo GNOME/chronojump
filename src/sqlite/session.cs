@@ -26,8 +26,19 @@ using Mono.Data.Sqlite;
 using Mono.Unix;
 using System.Collections.Generic;
 
+
 public class SqliteSessionSwitcher
 {
+	/** SqliteSessionSwitcher implements two methods that SqliteSesion class had (SelectAllSessions and Select).
+ 	* These methods are used by SessionLoadWindow and depending on the parameters passed to the
+	* SqliteSessionSwitcher constructor:
+	* -it might use the static methods of SqliteSession (so it will access the main chronojump.db file)
+	* -it might use a specific database (depends on databasePath)
+	* 
+	* Doing this SessionLoadWindow can display sessions from other databases when SessionLoadWindow
+	* is used to import sessions from another Chronojump database instead of displaying sessions of the current
+	* database.
+	*/
 	private string databasePath;
 	private DatabaseType type;
 	public enum DatabaseType

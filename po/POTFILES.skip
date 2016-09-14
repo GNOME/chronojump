@@ -1,4 +1,6 @@
+# List of source files that should *not* be translated.
+# Please keep this file sorted alphabetically.
+glade/chronojump_copia.glade
 src/chronojump.desktop.in
 src/chronojump_mini_validate.cs
-glade/chronojump_copia.glade
 src/platform.cs

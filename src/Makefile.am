@@ -49,6 +49,7 @@ SOURCES = \
 	gui/networks.cs\
 	gui/queryServer.cs\
 	gui/usefulObjects.cs\
+	gui/old/chronojumpServerOld.cs\
 	statType.cs\
 	stats/main.cs\
 	stats/chronojumpProfile.cs\

@@ -162,6 +162,7 @@ SOURCES = \
 	utilEncoder.cs\
 	utilGtk.cs\
 	utilLanguage.cs\
+	utilMath.cs\
 	utilVideo.cs\
 	constants.cs\
 	report.cs\

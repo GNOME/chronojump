@@ -19,6 +19,28 @@
  *  Copyright (C) 2016   Xavier de Blas <xaviblas@gmail.com> 
  */
 
+using System.Collections.Generic; //List<T>
+
+public class Point
+{
+	double x;
+	double y;
+
+	public Point(double x, double y) 
+	{
+		this.x = x;
+		this.y = y;
+	}
+
+	public double X {
+		get { return x; }
+	}
+	
+	public double Y {
+		get { return y; }
+	}
+}
+
 public class LeastSquares 
 {
 	//WIP
@@ -31,51 +53,56 @@ public class LeastSquares
 		calculate();
 	}
 
-	private double [] calculate() 
+	private void calculate() 
 	{
-		int numElements = 3;
-		double [numElements,2] measures = { //TODO: pass this values
-			{ 20,30,40 },
-			{ 5,7,9 } };
+		//TODO: pass this values
+		List<Point> measures = new List<Point> { 
+			new Point(1, 10.3214), new Point(2, 13.3214), new Point(3, 18.3214),
+			    new Point(4, 25.3214), new Point(5, 34.3214), new Point(6, 45.3214), 
+			    new Point(7, 58.3214), new Point(8, 73.3214), new Point(9, 90.3214), new Point(10, 109.3214) };
 
-		double [3] B = new double[3];
-		for(int i = 0; i++; i < 3){
-			B[0] = B[0] + measures[i][1];
-			B[1] = B[0] + measures[i][0]*measures[i][1];
-			B[2] = B[0] + measures[i][0]*measures[i][0]*measures[i][1];
+		int numMeasures = measures.Count;
+
+		double [] B = new double[3];
+		for(int i = 0; i < numMeasures; i++){
+			B[0] = B[0] + measures[i].Y;
+			B[1] = B[0] + measures[i].X * measures[i].Y;
+			B[2] = B[0] + measures[i].X * measures[i].X * measures[i].Y;
 		}
+
+		LogB.Information(string.Format("B = {0} {1} {2}", B[0], B[1], B[2]));
 
 		double sumX = 0; //sumatory of the X values
 		double sumX2 = 0; //sumatory of the squared X values
 		double sumX3 = 0; //sumatory of the cubic X values
 
-		for(int i = 0; i++; i < numElements){
-			sumX = sumX + measures[i][0];
-			sumX2 = sumX2 + measures[i][0]*measures[i][0];
-			sumX3 = sumX3 + measures[i][0]*measures[i][0]*measures[i][0];
+		for(int i = 0; i < numMeasures; i++){
+			sumX = sumX + measures[i].X;
+			sumX2 = sumX2 + measures[i].X * measures[i].X;
+			sumX3 = sumX3 + measures[i].X * measures[i].X * measures[i].X;
 		}
 
-		double detA = numElements*sumX2*sumX3 + 2*sumX*sumX2*sumX3 - sumX2*sumX2*sumX2 - sumX2*sumX2*sumX3 - numElements*sumX3*sumX3;
+		double detA = numMeasures*sumX2*sumX3 + 2*sumX*sumX2*sumX3 - sumX2*sumX2*sumX2 - sumX2*sumX2*sumX3 - numMeasures*sumX3*sumX3;
 		if(detA != 0){
-			double [3][3] invA = new double[3][3];
+			double [,] invA = new double[3,3];
 
-			invA[0][0] = ( sumX2*sumX3 - sumX3*sumX3) / detA;
-			invA[0][1] = (-sumX*sumX3  + sumX2*sumX3) / detA;
-			invA[0][2] = ( sumX*sumX3  - sumX2*sumX2) / detA;
-			invA[1][1] = ( numElements*sumX3 - sumX2*sumX2) / detA;
-			invA[1][2] = (-numElements*sumX3 + sumX*sumX2 ) / detA;
-			invA[2][2] = ( numElements*sumX2 - sumX*sumX  ) / detA;
+			invA[0,0] = ( sumX2*sumX3 - sumX3*sumX3) / detA;
+			invA[0,1] = (-sumX*sumX3  + sumX2*sumX3) / detA;
+			invA[0,2] = ( sumX*sumX3  - sumX2*sumX2) / detA;
+			invA[1,1] = ( numMeasures*sumX3 - sumX2*sumX2) / detA;
+			invA[1,2] = (-numMeasures*sumX3 + sumX*sumX2 ) / detA;
+			invA[2,2] = ( numMeasures*sumX2 - sumX*sumX  ) / detA;
 
 			//Simetric matrix
-			invA[1][0] = invA[0][1];
-			invA[2][0] = invA[0][2];
-			invA[2][1] = invA[1][2];
+			invA[1,0] = invA[0,1];
+			invA[2,0] = invA[0,2];
+			invA[2,1] = invA[1,2];
 
 			//coef = invA * B
-			double [3] coef = new double[3];
-			coef[0] = invA[0][0]*B[0] + invA[0][1]*B[1] + invA[0][2]*B[2];
-			coef[1] = invA[1][0]*B[0] + invA[1][1]*B[1] + invA[1][2]*B[2];
-			coef[2] = invA[2][0]*B[0] + invA[2][1]*B[1] + invA[2][2]*B[2];
+			double [] coef = new double[3];
+			coef[0] = invA[0,0]*B[0] + invA[0,1]*B[1] + invA[0,2]*B[2];
+			coef[1] = invA[1,0]*B[0] + invA[1,1]*B[1] + invA[1,2]*B[2];
+			coef[2] = invA[2,0]*B[0] + invA[2,1]*B[1] + invA[2,2]*B[2];
 
 			Success = true;
 			Coef = coef;

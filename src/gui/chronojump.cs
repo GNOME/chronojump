@@ -666,6 +666,8 @@ public partial class ChronoJumpWindow
 		label_version.Text = progVersion + buildDate;
 		LogB.Information("Build date:" + buildDate);
 
+		LeastSquares ls = new LeastSquares();
+		LogB.Information(string.Format("coef = {0} {1} {2}", ls.Coef[0], ls.Coef[1], ls.Coef[2]));
 
 		/*
 		 * start a ping in other thread

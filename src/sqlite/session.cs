@@ -66,24 +66,9 @@ public class SqliteSessionSwitcher
 				List<string> emptyResult = new List<string> ();
 				return emptyResult.ToArray ();
 			}
-			SqliteCommand dbcommand = sqliteGeneral.command();
+			SqliteConnection dbcon = sqliteGeneral.connection;
 
-			dbcommand.CommandText = "SELECT uniqueID, name, place, date, comments FROM Session";
-
-			SqliteDataReader reader = dbcommand.ExecuteReader ();
-
-			List<string> result = new List<string>();
-
-			// Each row should be:
-			// 1:SIMULATED::11/09/2016:--Undefined::Undefined:Use this session to simulate tests.:0:0:0:0:0:0:0:0:0 ; 0:0 ; 0
-			while (reader.Read())
-			{
-				string row = string.Format ("{0}:{1}::{2}--Undefined::Undefined:{3}:0:0:0:0:0:0:0:0:0 ; 0:0 ; 0", reader ["uniqueID"], reader ["name"], reader ["date"], reader ["comments"]);
-				if (row.ToLower ().Contains (filterName)) {
-					result.Add(row);
-				}
-			}
-			return result.ToArray();
+			return SqliteSession.SelectAllSessions (filterName, dbcon);
 		}
 	}
 
@@ -95,6 +80,8 @@ public class SqliteSessionSwitcher
 		}
 		else
 		{
+			// This code could be refactored from existing code in SqliteSession::Select()
+
 			SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
 			SqliteCommand dbcommand = sqliteGeneral.command();
 
@@ -328,10 +315,13 @@ class SqliteSession : Sqlite
 		return mySessions;
 	}
 
-
-	public static string[] SelectAllSessions(string filterName) 
+	public static string[] SelectAllSessions(string filterName, SqliteConnection dbcon)
 	{
-		Sqlite.Open();
+		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon
+		// to connect to the database. This methos is used by the importer after opening an arbitrary
+		// ChronoJump sqlite database. It needs to be refactored to the new database system.
+
+		dbcmd = dbcon.CreateCommand();
 
 		string filterNameString = "";
 		if(filterName != "")
@@ -339,11 +329,11 @@ class SqliteSession : Sqlite
 
 		dbcmd.CommandText = 
 			"SELECT session.*, sport.name, speciallity.name" +
-			" FROM session, sport, speciallity " +
-			" WHERE session.personsSportID == sport.uniqueID " + 
-			" AND session.personsSpeciallityID == speciallity.UniqueID " +
-			filterNameString + 
-			" ORDER BY session.uniqueID";
+				" FROM session, sport, speciallity " +
+				" WHERE session.personsSportID == sport.uniqueID " + 
+				" AND session.personsSpeciallityID == speciallity.UniqueID " +
+				filterNameString + 
+				" ORDER BY session.uniqueID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -360,11 +350,10 @@ class SqliteSession : Sqlite
 			if(reader[10].ToString() != "")
 				speciallityName = Catalog.GetString(reader[10].ToString());
 			string levelName = Catalog.GetString(Util.FindLevelName(Convert.ToInt32(reader[6])));
-
 			myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
-					reader[2].ToString() + ":" + UtilDate.FromSql(reader[3].ToString()).ToShortDateString() + ":" +
-					sportName + ":" + speciallityName + ":" +
-					levelName + ":" + reader[7].ToString() ); //desc
+			             reader[2].ToString() + ":" + UtilDate.FromSql(reader[3].ToString()).ToShortDateString() + ":" +
+			             sportName + ":" + speciallityName + ":" +
+			             levelName + ":" + reader[7].ToString() ); //desc
 			count ++;
 		}
 
@@ -379,7 +368,7 @@ class SqliteSession : Sqlite
 		 * this will open a new window showing this values.
 		 * this solution it's more "lighter" for people who have  abig DB
 		 * */
-		
+
 		//select persons of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.PersonSessionTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
@@ -389,12 +378,12 @@ class SqliteSession : Sqlite
 		SqliteDataReader reader_persons;
 		reader_persons = dbcmd.ExecuteReader();
 		ArrayList myArray_persons = new ArrayList(2);
-		
+
 		while(reader_persons.Read()) {
 			myArray_persons.Add (reader_persons[0].ToString() + ":" + reader_persons[1].ToString() + ":" );
 		}
 		reader_persons.Close();
-		
+
 		//select jumps of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.JumpTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
@@ -404,12 +393,12 @@ class SqliteSession : Sqlite
 		SqliteDataReader reader_jumps;
 		reader_jumps = dbcmd.ExecuteReader();
 		ArrayList myArray_jumps = new ArrayList(2);
-		
+
 		while(reader_jumps.Read()) {
 			myArray_jumps.Add (reader_jumps[0].ToString() + ":" + reader_jumps[1].ToString() + ":" );
 		}
 		reader_jumps.Close();
-		
+
 		//select jumpsRj of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.JumpRjTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
@@ -419,12 +408,12 @@ class SqliteSession : Sqlite
 		SqliteDataReader reader_jumpsRj;
 		reader_jumpsRj = dbcmd.ExecuteReader();
 		ArrayList myArray_jumpsRj = new ArrayList(2);
-		
+
 		while(reader_jumpsRj.Read()) {
 			myArray_jumpsRj.Add (reader_jumpsRj[0].ToString() + ":" + reader_jumpsRj[1].ToString() + ":" );
 		}
 		reader_jumpsRj.Close();
-		
+
 		//select runs of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
@@ -434,12 +423,12 @@ class SqliteSession : Sqlite
 		SqliteDataReader reader_runs;
 		reader_runs = dbcmd.ExecuteReader();
 		ArrayList myArray_runs = new ArrayList(2);
-		
+
 		while(reader_runs.Read()) {
 			myArray_runs.Add (reader_runs[0].ToString() + ":" + reader_runs[1].ToString() + ":" );
 		}
 		reader_runs.Close();
-		
+
 		//select runsInterval of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunIntervalTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
@@ -449,12 +438,12 @@ class SqliteSession : Sqlite
 		SqliteDataReader reader_runs_interval;
 		reader_runs_interval = dbcmd.ExecuteReader();
 		ArrayList myArray_runs_interval = new ArrayList(2);
-		
+
 		while(reader_runs_interval.Read()) {
 			myArray_runs_interval.Add (reader_runs_interval[0].ToString() + ":" + reader_runs_interval[1].ToString() + ":" );
 		}
 		reader_runs_interval.Close();
-	
+
 		//select reaction time of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ReactionTimeTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
@@ -464,12 +453,12 @@ class SqliteSession : Sqlite
 		SqliteDataReader reader_rt;
 		reader_rt = dbcmd.ExecuteReader();
 		ArrayList myArray_rt = new ArrayList(2);
-		
+
 		while(reader_rt.Read()) {
 			myArray_rt.Add (reader_rt[0].ToString() + ":" + reader_rt[1].ToString() + ":" );
 		}
 		reader_rt.Close();
-	
+
 		//select pulses of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.PulseTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
@@ -479,12 +468,12 @@ class SqliteSession : Sqlite
 		SqliteDataReader reader_pulses;
 		reader_pulses = dbcmd.ExecuteReader();
 		ArrayList myArray_pulses = new ArrayList(2);
-		
+
 		while(reader_pulses.Read()) {
 			myArray_pulses.Add (reader_pulses[0].ToString() + ":" + reader_pulses[1].ToString() + ":" );
 		}
 		reader_pulses.Close();
-	
+
 		//select multichronopic of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.MultiChronopicTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
@@ -494,13 +483,13 @@ class SqliteSession : Sqlite
 		SqliteDataReader reader_mcs;
 		reader_mcs = dbcmd.ExecuteReader();
 		ArrayList myArray_mcs = new ArrayList(2);
-		
+
 		while(reader_mcs.Read()) {
 			myArray_mcs.Add (reader_mcs[0].ToString() + ":" + reader_mcs[1].ToString() + ":" );
 		}
 		reader_mcs.Close();
-	
-	
+
+
 		//select encoder stuff of each session
 		dbcmd.CommandText = "SELECT sessionID, encoderConfiguration, signalOrCurve FROM " + Constants.EncoderTable + " ORDER BY sessionID";
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -511,7 +500,7 @@ class SqliteSession : Sqlite
 		ArrayList myArray_enc_g_r = new ArrayList(2); //gravitatory repetitions
 		ArrayList myArray_enc_i_s = new ArrayList(2); //inertial sets
 		ArrayList myArray_enc_i_r = new ArrayList(2); //inertial repetitions
-		
+
 		int count_g_s = 0;	
 		int count_g_r = 0;	
 		int count_i_s = 0;
@@ -558,10 +547,7 @@ class SqliteSession : Sqlite
 
 		reader_enc.Close();
 
-		
-		
-		//close database connection
-		Sqlite.Close();
+
 
 		//mix nine arrayLists
 		string [] mySessions = new string[count];
@@ -575,7 +561,7 @@ class SqliteSession : Sqlite
 			//if some sessions are deleted, do not use count=0 to mix arrays, use sessionID of line
 			string [] mixingSessionFull = line.Split(new char[] {':'});
 			string mixingSessionID = mixingSessionFull[0];
-			
+
 			//add persons for each session	
 			found = false;
 			foreach (string line_persons in myArray_persons) {
@@ -586,7 +572,7 @@ class SqliteSession : Sqlite
 				}
 			}
 			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
-		
+
 			//add jumps for each session
 			found = false;
 			foreach (string line_jumps in myArray_jumps) {
@@ -597,7 +583,7 @@ class SqliteSession : Sqlite
 				}
 			}
 			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
-			
+
 			//add jumpsRj for each session
 			found = false;
 			foreach (string line_jumpsRj in myArray_jumpsRj) {
@@ -608,7 +594,7 @@ class SqliteSession : Sqlite
 				}
 			}
 			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
-			
+
 			//add runs for each session
 			found = false;
 			foreach (string line_runs in myArray_runs) {
@@ -619,7 +605,7 @@ class SqliteSession : Sqlite
 				}
 			}
 			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
-			
+
 			//add runsInterval for each session
 			found = false;
 			foreach (string line_runs_interval in myArray_runs_interval) {
@@ -630,7 +616,7 @@ class SqliteSession : Sqlite
 				}
 			}
 			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
-			
+
 			//add reaction time for each session
 			found = false;
 			foreach (string line_rt in myArray_rt) {
@@ -694,15 +680,31 @@ class SqliteSession : Sqlite
 			}
 			lineNotReadOnly  = lineNotReadOnly + ":" + result_enc_s + " ; " + result_enc_r;
 
-			
+
 			mySessions [count++] = lineNotReadOnly;
 		}
 
-		LogB.SQL (mySessions [0]);
+		if (mySessions.Length > 0) {
+			LogB.SQL (mySessions [0]);
+		} else {
+			LogB.Debug ("SelectAllSessions with filter: " + filterName + " is empty");
+		}
 		return mySessions;
 	}
 
+	public static string[] SelectAllSessions(string filterName) 
+	{
+		Sqlite.Open();
 
+		// SelectAllSessions is used here and by the Chronojump importer to allow to pass an arbitrary
+		// dbcon.
+		string [] mySessions = SelectAllSessions(filterName, dbcon);
+
+		//close database connection
+		Sqlite.Close();
+
+		return mySessions;
+	}
 
 	//called from gui/event.cs for doing the graph
 	//we need to know the avg of events of a type (SJ, CMJ, free (pulse).. of a person, or of all persons on the session

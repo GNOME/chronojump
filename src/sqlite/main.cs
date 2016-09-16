@@ -58,6 +58,14 @@ class SqliteGeneral
 		}
 	}
 
+	public SqliteConnection connection
+	{
+		get
+		{
+			return dbcon;
+		}
+	}
+
 	public SqliteCommand command()
 	{
 		SqliteCommand dbcmd = dbcon.CreateCommand();

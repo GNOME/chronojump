@@ -131,11 +131,31 @@ class Database:
         self._cursor = None
         self._conn = None
 
-        self.open_database(source_path, read_only)
+        self.open(source_path, read_only)
         self._is_opened = True
 
     def __del__(self):
         self.close()
+
+    def open(self, filename, read_only):
+        """Opens the database specified by filename. On Python3 If read_only is True
+        the database is opened in read only mode
+        """
+        if sys.version_info >= (3, 0):
+            if read_only:
+                mode = "ro"
+            else:
+                mode = "rw"
+
+            uri = "file:{}?mode={}".format(filename, mode)
+            self._conn = sqlite3.connect(uri, uri=True)
+        else:
+            # On Python2 there is no uri support. This opens
+            # the database always on rw
+            self._conn = sqlite3.connect(filename)
+
+        self._conn.execute("pragma foreign_keys=ON")
+        self._cursor = self._conn.cursor()
 
     def close(self):
         if self._is_opened:
@@ -159,15 +179,39 @@ class Database:
         assert len(names) > 0
         return names
 
-    @staticmethod
-    def _add_prefix(list_of_elements, prefix):
-        """  Returns a copy of list_of_elements prefixing each element with prefix. """
-        result = []
+    def read(self, table_name, where_condition, join_clause="", group_by_clause=""):
+        """ Returns a new table with the contents of this table with where_condition. """
+        column_names = self.column_names(table_name)
 
-        for element in list_of_elements:
-            result.append("{}{}".format(prefix, element))
+        column_names_with_prefixes = self._add_prefix(column_names, "{}.".format(table_name))
 
-        return result
+        where_condition = " WHERE {} ".format(where_condition)
+        assert '"' not in where_condition  # Easy way to avoid problems - where_condition is only used by us (programmers) and
+        # it doesn't depend on user data.
+
+        if group_by_clause != "":
+            group_by = " GROUP BY {}".format(group_by_clause)
+        else:
+            group_by = ""
+
+        format_data = {"column_names": ",".join(column_names_with_prefixes), "table_name": table_name,
+                       "join_clause": join_clause, "where": where_condition, "group_by": group_by}
+
+        sql = "SELECT {column_names} FROM {table_name} {join_clause} {where} {group_by}".format(**format_data)
+        self._execute_query_and_log(sql, [])
+
+        results = self._cursor.fetchall()
+
+        table = Table(table_name)
+
+        for row in results:
+            table_row = Row()
+            for i, col in enumerate(row):
+                table_row.set(column_names[i], col)
+
+            table.insert_row(table_row)
+
+        return table
 
     def write(self, table, matches_columns, avoids_duplicate_column=None):
         """ Writes table into the database.
@@ -222,6 +266,28 @@ class Database:
         self._print_summary(table)
 
     @staticmethod
+    def increment_suffix(value):
+        suffix = re.match("(.*) \(([0-9]+)\)", value)
+
+        if suffix is None:
+            return "{} (1)".format(value)
+        else:
+            base_name = suffix.group(1)
+            counter = int(suffix.group(2))
+            counter += 1
+            return "{} ({})".format(base_name, counter)
+
+    @staticmethod
+    def _add_prefix(list_of_elements, prefix):
+        """  Returns a copy of list_of_elements prefixing each element with prefix. """
+        result = []
+
+        for element in list_of_elements:
+            result.append("{}{}".format(prefix, element))
+
+        return result
+
+    @staticmethod
     def _print_summary(table):
         """ Prints a summary of which rows has been inserted, which ones reused, during the write operation """
         inserted_ids = []
@@ -241,40 +307,6 @@ class Database:
         print(
             "\treused: {reused_counter} uniqueIDs: {reused}".format(reused_counter=len(reused_ids),
                                                                     reused=reused_ids))
-
-    def read(self, table_name, where_condition, join_clause="", group_by_clause=""):
-        """ Returns a new table with the contents of this table with where_condition. """
-        column_names = self.column_names(table_name)
-
-        column_names_with_prefixes = self._add_prefix(column_names, "{}.".format(table_name))
-
-        where_condition = " WHERE {} ".format(where_condition)
-        assert '"' not in where_condition  # Easy way to avoid problems - where_condition is only used by us (programmers) and
-        # it doesn't depend on user data.
-
-        if group_by_clause != "":
-            group_by = " GROUP BY {}".format(group_by_clause)
-        else:
-            group_by = ""
-
-        format_data = {"column_names": ",".join(column_names_with_prefixes), "table_name": table_name,
-                       "join_clause": join_clause, "where": where_condition, "group_by": group_by}
-
-        sql = "SELECT {column_names} FROM {table_name} {join_clause} {where} {group_by}".format(**format_data)
-        self._execute_query_and_log(sql, [])
-
-        results = self._cursor.fetchall()
-
-        table = Table(table_name)
-
-        for row in results:
-            table_row = Row()
-            for i, col in enumerate(row):
-                table_row.set(column_names[i], col)
-
-            table.insert_row(table_row)
-
-        return table
 
     def _write_row(self, table_name, row, skip_columns=None):
         """ Inserts the row into the table. Returns the new_id. By default skips uniqueID """
@@ -327,41 +359,9 @@ class Database:
                 data_row.set(column_name, self.increment_suffix(data_row.get(column_name)))
                 data_row.set('new_' + column_name, data_row.get(column_name))
 
-    def open_database(self, filename, read_only):
-        """Opens the database specified by filename. On Python3 If read_only is True
-        the database is opened in read only mode
-        """
-        if sys.version_info >= (3, 0):
-            if read_only:
-                mode = "ro"
-            else:
-                mode = "rw"
-
-            uri = "file:{}?mode={}".format(filename, mode)
-            self._conn = sqlite3.connect(uri, uri=True)
-        else:
-            # On Python2 there is no uri support. This opens
-            # the database always on rw
-            self._conn = sqlite3.connect(filename)
-
-        self._conn.execute("pragma foreign_keys=ON")
-        self._cursor = self._conn.cursor()
-
     def _execute_query_and_log(self, sql, where_values):
         logging.debug("SQL: {} - values: {}".format(sql, where_values))
         self._cursor.execute(sql, where_values)
-
-    @staticmethod
-    def increment_suffix(value):
-        suffix = re.match("(.*) \(([0-9]+)\)", value)
-
-        if suffix is None:
-            return "{} (1)".format(value)
-        else:
-            base_name = suffix.group(1)
-            counter = int(suffix.group(2))
-            counter += 1
-            return "{} ({})".format(base_name, counter)
 
 
 def import_database(source_path, destination_path, source_session):

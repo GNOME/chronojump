@@ -32,7 +32,8 @@ class TestImporter(unittest.TestCase):
         expected_file_name = base_filename.format('expected')
         original_destination_file_path = base_filename.format('original-destination')
 
-        temporary_directory_path = tempfile.mkdtemp(prefix="chronojump_importer_test_{}".format(base_filename.replace("{}", "")))
+        temporary_directory_path = tempfile.mkdtemp(
+            prefix="chronojump_importer_test_{}".format(base_filename.replace("{}", "")))
 
         source_file_path = "{}/{}".format(temporary_directory_path, source_file_name)
         destination_file_path = "{}/{}".format(temporary_directory_path, destination_file_name)
@@ -44,8 +45,10 @@ class TestImporter(unittest.TestCase):
 
         chronojump_importer.import_database(source_file_path, destination_file_path, 1)
 
-        os.system("echo .dump | sqlite3 {} > {}/destination.sql".format(destination_file_path, temporary_directory_path))
-        os.system("echo .dump | sqlite3 tests/{} > {}/expected.sql".format(expected_file_name, temporary_directory_path))
+        os.system(
+            "echo .dump | sqlite3 {} > {}/destination.sql".format(destination_file_path, temporary_directory_path))
+        os.system(
+            "echo .dump | sqlite3 tests/{} > {}/expected.sql".format(expected_file_name, temporary_directory_path))
 
         actual_file = open(temporary_directory_path + "/destination.sql")
         expected_file = open(temporary_directory_path + "/expected.sql")

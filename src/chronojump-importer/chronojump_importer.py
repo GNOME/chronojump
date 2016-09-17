@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 import argparse
-import sqlite3
 import logging
+import sqlite3
 import sys
+
 import re
 
 logging.basicConfig(level=logging.INFO)
@@ -35,6 +36,7 @@ class Row:
     """ A row represents a row in a table: it has column-names and their values.
     It can contain column names that are not in the database (this can be used
     to store other information if needed) """
+
     def __init__(self):
         self._row = {}
 
@@ -60,6 +62,7 @@ class Row:
 
 class Table:
     """ This class has Table operations: insert rows, remove duplicates, pudate sessionIDs, etc. """
+
     def __init__(self, table_name):
         self._table_data = []
         self._table_name = table_name
@@ -118,9 +121,9 @@ class Table:
     def __getitem__(self, index):
         return self._table_data[index]
 
-
 class Database:
     """ A database represents the database and read/writes tables. """
+
     def __init__(self, source_path, read_only):
         self._is_opened = False
         self._cursor = None
@@ -193,7 +196,7 @@ class Database:
 
                 format_data = {'table_name': table.name,
                                'where_clause': " WHERE {}".format(where)
-                              }
+                               }
 
                 sql = "SELECT uniqueID FROM {table_name} {where_clause}".format(**format_data)
                 self._execute_query_and_log(sql, where_values)
@@ -235,24 +238,25 @@ class Database:
                                                                             inserted=inserted_ids))
         print(
             "\treused: {reused_counter} uniqueIDs: {reused}".format(reused_counter=len(reused_ids),
-                                                                        reused=reused_ids))
+                                                                    reused=reused_ids))
 
-    def read(self, table_name, where_condition, join_clause ="", group_by_clause=""):
+    def read(self, table_name, where_condition, join_clause="", group_by_clause=""):
         """ Returns a new table with the contents of this table with where_condition. """
         column_names = self.column_names(table_name)
 
         column_names_with_prefixes = self._add_prefix(column_names, "{}.".format(table_name))
 
         where_condition = " WHERE {} ".format(where_condition)
-        assert '"' not in where_condition   # Easy way to avoid problems - where_condition is only used by us (programmers) and
-                                            # it doesn't depend on user data.
+        assert '"' not in where_condition  # Easy way to avoid problems - where_condition is only used by us (programmers) and
+        # it doesn't depend on user data.
 
         if group_by_clause != "":
             group_by = " GROUP BY {}".format(group_by_clause)
         else:
             group_by = ""
 
-        format_data = {"column_names": ",".join(column_names_with_prefixes), "table_name": table_name, "join_clause": join_clause, "where": where_condition, "group_by": group_by}
+        format_data = {"column_names": ",".join(column_names_with_prefixes), "table_name": table_name,
+                       "join_clause": join_clause, "where": where_condition, "group_by": group_by}
 
         sql = "SELECT {column_names} FROM {table_name} {join_clause} {where} {group_by}".format(**format_data)
         self._execute_query_and_log(sql, [])
@@ -290,8 +294,10 @@ class Database:
             place_holders.append("?")
 
         sql = "INSERT INTO {table_name} ({column_names}) VALUES ({place_holders})".format(table_name=table_name,
-                                                                                          column_names=",".join(column_names),
-                                                                                          place_holders=",".join(place_holders))
+                                                                                          column_names=",".join(
+                                                                                              column_names),
+                                                                                          place_holders=",".join(
+                                                                                              place_holders))
         self._execute_query_and_log(sql, values)
 
         new_id = self._cursor.lastrowid
@@ -329,7 +335,7 @@ class Database:
             else:
                 mode = "rw"
 
-            uri = "file:{}?mode={}".format(filename,mode)
+            uri = "file:{}?mode={}".format(filename, mode)
             self._conn = sqlite3.connect(uri, uri=True)
         else:
             # On Python2 there is no uri support. This opens
@@ -372,12 +378,14 @@ def import_database(source_path, destination_path, source_session):
     number_of_matching_sessions = len(session._table_data)
 
     if number_of_matching_sessions == 0:
-        print("Trying to import {session} from {source_file} and it doesn't exist. Cancelling...".format(session=source_session,
-                                                                                                         source_file=source_path))
+        print("Trying to import {session} from {source_file} and it doesn't exist. Cancelling...".format(
+            session=source_session,
+            source_file=source_path))
         sys.exit(1)
     elif number_of_matching_sessions > 1:
-        print("Found {number_of_sessions} in {source_file} which is not possible. Cancelling...".format(number_of_sessions=number_of_matching_sessions,
-                                                                                                        source_file=source_path))
+        print("Found {number_of_sessions} in {source_file} which is not possible. Cancelling...".format(
+            number_of_sessions=number_of_matching_sessions,
+            source_file=source_path))
         sys.exit(1)
 
     destination_db.write(table=session, matches_columns=destination_db.column_names("Session", ["uniqueID"]))
@@ -401,8 +409,8 @@ def import_database(source_path, destination_path, source_session):
                                    group_by_clause="JumpRjType.uniqueID")
 
     destination_db.write(table=jump_rj_types,
-                                         matches_columns=destination_db.column_names("JumpRjType", ["uniqueID"]),
-                                         avoids_duplicate_column="name")
+                         matches_columns=destination_db.column_names("JumpRjType", ["uniqueID"]),
+                         avoids_duplicate_column="name")
 
     # Imports Persons77 used by JumpRj table
     persons77_jump_rj = source_db.read(table_name="Person77",
@@ -468,7 +476,8 @@ def show_information(database_path):
 
 
 def process_command_line():
-    parser = argparse.ArgumentParser(description="Allows to import a session from one Chronojump database file into another one")
+    parser = argparse.ArgumentParser(
+        description="Allows to import a session from one Chronojump database file into another one")
     parser.add_argument("--source", type=str, required=True,
                         help="chronojump.sqlite that we are importing from")
     parser.add_argument("--destination", type=str, required=False,

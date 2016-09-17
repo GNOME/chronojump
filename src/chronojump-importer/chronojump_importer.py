@@ -57,11 +57,12 @@ class Row:
         return self._row.keys()
 
     def __eq__(self, other):
+        # noinspection PyProtectedMember
         return self._row == other._row
 
 
 class Table:
-    """ This class has Table operations: insert rows, remove duplicates, pudate sessionIDs, etc. """
+    """ This class has Table operations: inserts rows, removes duplicates, updates sessionIDs, etc. """
 
     def __init__(self, table_name):
         self._table_data = []
@@ -71,7 +72,7 @@ class Table:
         self._table_data.append(row)
 
     def concatenate_table(self, other):
-        """ Concatenates other in this table. It doens't change the table names """
+        """ Concatenates other in this table. It doesn't change the table names """
         self._table_data += other
 
     def remove_duplicates(self):
@@ -120,6 +121,7 @@ class Table:
 
     def __getitem__(self, index):
         return self._table_data[index]
+
 
 class Database:
     """ A database represents the database and read/writes tables. """
@@ -375,7 +377,7 @@ def import_database(source_path, destination_path, source_session):
     session = source_db.read(table_name="Session",
                              where_condition="Session.uniqueID={}".format(source_session))
 
-    number_of_matching_sessions = len(session._table_data)
+    number_of_matching_sessions = len(session)
 
     if number_of_matching_sessions == 0:
         print("Trying to import {session} from {source_file} and it doesn't exist. Cancelling...".format(

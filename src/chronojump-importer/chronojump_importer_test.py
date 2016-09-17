@@ -185,9 +185,9 @@ class TestTable(unittest.TestCase):
 
         self.assertEqual(len(table_to_update._table_data), 3)
 
-        def verify_exists(table, name, personId):
+        def verify_exists(table, name, person_id):
             for row in table._table_data:
-                if row.get('name') == name and row.get('personId') == personId:
+                if row.get('name') == name and row.get('personId') == person_id:
                     return True
 
             return False

@@ -23,7 +23,8 @@ class TestImporter(unittest.TestCase):
         {'base_filename': 'generic-{}-b.sqlite', 'session': 1},
         {'base_filename': 'generic-{}-c.sqlite', 'session': 1},
         {'base_filename': 'padu-{}.sqlite', 'session': 19},
-        {'base_filename': 'yoyo-{}.sqlite', 'session': 19}
+        {'base_filename': 'yoyo-{}.sqlite', 'session': 19},
+        {'base_filename': 'user-jump-{}.sqlite', 'session': 1}
     )
     def test_importerGeneric(self, data):
         base_filename = data['base_filename']

@@ -344,7 +344,7 @@ class Database:
         if column_name is None:
             return
 
-        data_row.set('old_' + column_name, data_row.get(column_name))
+        original_value = data_row.get(column_name)
 
         while True:
             sql = "SELECT count(*) FROM {table_name} WHERE {column}=?".format(table_name=table_name, column=column_name)
@@ -358,6 +358,7 @@ class Database:
             else:
                 data_row.set(column_name, self.increment_suffix(data_row.get(column_name)))
                 data_row.set('new_' + column_name, data_row.get(column_name))
+                data_row.set('old_' + column_name, original_value)
 
     def _execute_query_and_log(self, sql, where_values):
         logging.debug("SQL: {} - values: {}".format(sql, where_values))

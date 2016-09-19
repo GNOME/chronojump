@@ -662,7 +662,7 @@ public partial class ChronoJumpWindow
 	
 		//leave empty on new releases	
 		//string buildDate = " (2016-07-27)";
-		string buildDate = " (c)";
+		string buildDate = " (d)";
 		label_version.Text = progVersion + buildDate;
 		LogB.Information("Build date:" + buildDate);
 

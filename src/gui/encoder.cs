@@ -4278,8 +4278,16 @@ public partial class ChronoJumpWindow
 							dLeft, dTop, dLeft + dWidth, dBottom);
 			}
 			
+			bool curveSaved = false;	
+			if( iterOk && ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record ) {
+				curveSaved = true;
+				sumSaved += dFor;
+				countSaved ++;
+			}
+			
 			//add text on the bottom
-			if (eccon == "c" || Util.IsEven(count +1)) { //par
+			if (eccon == "c" || Util.IsEven(count +1)) //par
+			{
 				int startX = Convert.ToInt32(dLeft + dWidth/2);
 				string bottomText = (count +1).ToString();
 				if (eccon != "c") {
@@ -4293,25 +4301,17 @@ public partial class ChronoJumpWindow
 				layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
 				int myX = Convert.ToInt32( startX - textWidth/2);
 				int myY = Convert.ToInt32(dTop + dHeight + (bottom_margin /2) - textHeight/2);
-				
-				//plot a rectangle if this curve it is saved
-				if(iterOk)
-					if(((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record) {
-						rect = new Rectangle(myX -2, myY -1, textWidth +4, graphHeight - (myY -1) -1);
-						encoder_capture_curves_bars_pixmap.DrawRectangle(pen_selected_encoder_capture, false, rect);
-
-						//average of saved values
-						sumSaved += dFor;
-						countSaved ++;
-					}
+			
+				if(curveSaved) {
+					rect = new Rectangle(myX -2, myY -1, textWidth +4, graphHeight - (myY -1) -1);
+					encoder_capture_curves_bars_pixmap.DrawRectangle(pen_selected_encoder_capture, false, rect);
+				}
 				
 				//write the text
 				encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
 						myX, myY,
 						layout_encoder_capture_curves_bars);
 			}
-
-
 
 			count ++;
 			iterOk = encoderCaptureListStore.IterNext (ref iter);

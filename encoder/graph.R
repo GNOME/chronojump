@@ -843,10 +843,10 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		if(eccon=="ec") {
 			#landing = min(which(force>=weight))
 		
-			if(! canJump(encoderConfigurationName) || length(which(force[eccentric] <= weight)) == 0)
+			if(! canJump(encoderConfigurationName) || length(which(force[eccentric] <= 0)) == 0)
 				landing = -1
 			else {
-				landing = max(which(force[eccentric]<=weight))
+				landing = max(which(force[eccentric]<= 0))
 				abline(v=landing,lty=1,col=cols[2]) 
 				mtext(text=paste(translateToPrint("air")," ",sep=""),side=3,at=landing,cex=.8,adj=1,col=cols[2])
 				mtext(text=paste(" ",translateToPrint("land")," ",sep=""),side=3,at=landing,cex=.8,adj=0,col=cols[2])

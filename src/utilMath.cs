@@ -19,6 +19,7 @@
  *  Copyright (C) 2016   Xavier de Blas <xaviblas@gmail.com> 
  */
 
+using System;
 using System.Collections.Generic; //List<T>
 
 public class Point
@@ -41,33 +42,48 @@ public class Point
 	}
 }
 
+
 public class LeastSquares 
 {
 	//WIP
 
 	public bool Success;
 	public double [] Coef;
+	private List<Point> measures; 
 
 	public LeastSquares() {
 		Coef = null;
-		calculate();
 	}
 
-	private void calculate() 
+	public void Test()
 	{
-		//TODO: pass this values
-		List<Point> measures = new List<Point> { 
+		measures = new List<Point> { 
 			new Point(1, 10.3214), new Point(2, 13.3214), new Point(3, 18.3214),
 			    new Point(4, 25.3214), new Point(5, 34.3214), new Point(6, 45.3214), 
 			    new Point(7, 58.3214), new Point(8, 73.3214), new Point(9, 90.3214), new Point(10, 109.3214) };
 
+		//R testing
+		//x=1:10
+		//y=c(10.3214,13.3214,18.3214,25.3214,34.3214,45.3214,58.3214,73.3214,90.3214,109.3214)
+
+		calculate();
+	}
+
+	public void calculate() 
+	{
 		int numMeasures = measures.Count;
+
+		if(numMeasures < 3) {
+			LogB.Error(string.Format("LeastSquares needs at least three values, has:",numMeasures));
+			Success = false;
+			return;
+		}
 
 		double [] B = new double[3];
 		for(int i = 0; i < numMeasures; i++){
 			B[0] = B[0] + measures[i].Y;
-			B[1] = B[0] + measures[i].X * measures[i].Y;
-			B[2] = B[0] + measures[i].X * measures[i].X * measures[i].Y;
+			B[1] = B[1] + measures[i].X * measures[i].Y;
+			B[2] = B[2] + measures[i].X * measures[i].X * measures[i].Y;
 		}
 
 		LogB.Information(string.Format("B = {0} {1} {2}", B[0], B[1], B[2]));
@@ -78,22 +94,22 @@ public class LeastSquares
 		double sumX4 = 0; //sumatory of the forth power of X values
 
 		for(int i = 0; i < numMeasures; i++){
-			sumX = sumX + measures[i].X;
-			sumX2 = sumX2 + measures[i].X * measures[i].X;
-			sumX3 = sumX3 + measures[i].X * measures[i].X * measures[i].X;
-			sumX4 = sumX3 + measures[i].X * measures[i].X * measures[i].X * measures[i].X;
+			sumX  = sumX  + measures[i].X;
+			sumX2 = sumX2 + Math.Pow(measures[i].X,2);
+			sumX3 = sumX3 + Math.Pow(measures[i].X,3);
+			sumX4 = sumX4 + Math.Pow(measures[i].X,4);
 		}
 
-		double detA = numMeasures*sumX2*sumX4 + 2*sumX*sumX2*sumX3- sumX2*sumX2*sumX2 - sumX*sumX*sumX4 - numMeasures*sumX3*sumX3;
+		double detA = numMeasures*sumX2*sumX4 + 2*sumX*sumX2*sumX3 - sumX2*sumX2*sumX2 - sumX*sumX*sumX4 - numMeasures*sumX3*sumX3;
 		if(detA != 0){
 			double [,] invA = new double[3,3];
 
 			invA[0,0] = ( sumX2*sumX4 - sumX3*sumX3) / detA;
-			invA[0,1] = (-sumX*sumX4 + sumX2*sumX3) / detA;
-			invA[0,2] = ( sumX*sumX3  - sumX2*sumX2) / detA;
-			invA[1,1] = ( numMeasures*sumX4 - sumX2*sumX2) / detA;
-			invA[1,2] = (-numMeasures*sumX3 + sumX*sumX2 ) / detA;
-			invA[2,2] = ( numMeasures*sumX2 - sumX*sumX  ) / detA;
+			invA[0,1] = (-sumX *sumX4 + sumX2*sumX3) / detA;
+			invA[0,2] = ( sumX *sumX3 - sumX2*sumX2) / detA;
+			invA[1,1] = ( numMeasures*sumX4 - sumX2*sumX2 ) / detA;
+			invA[1,2] = (-numMeasures*sumX3 + sumX *sumX2 ) / detA;
+			invA[2,2] = ( numMeasures*sumX2 - sumX *sumX  ) / detA;
 
 			//Simetric matrix
 			invA[1,0] = invA[0,1];

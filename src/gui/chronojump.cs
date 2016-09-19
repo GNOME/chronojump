@@ -667,6 +667,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Build date:" + buildDate);
 
 		LeastSquares ls = new LeastSquares();
+		ls.Test();
 		LogB.Information(string.Format("coef = {0} {1} {2}", ls.Coef[0], ls.Coef[1], ls.Coef[2]));
 
 		/*

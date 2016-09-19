@@ -3004,11 +3004,13 @@ public partial class ChronoJumpWindow
 		main_menu.Visible = true;
 
 
-		//if wizard has been used, mark Chronopic as connected
+		//if wizard has been used mark Chronopic as connected or disconnected depending if port exists
 		if(Constants.Menuitem_mode_IsContacts(m) && wizardPortContacts != "")
-			chronopicWin.Connected = true;
+			chronopicWin.Connected =
+				Util.FoundInStringArray(ChronopicPorts.GetPorts(), wizardPortContacts);
 		else if(! Constants.Menuitem_mode_IsContacts(m) && wizardPortEncoder != "")
-			chronopicWin.Connected = true;
+			chronopicWin.Connected =
+				Util.FoundInStringArray(ChronopicPorts.GetPorts(), wizardPortEncoder);
 
 
 		//change multitest firmware or autoDetectChronopic

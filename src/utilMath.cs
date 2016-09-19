@@ -75,21 +75,23 @@ public class LeastSquares
 		double sumX = 0; //sumatory of the X values
 		double sumX2 = 0; //sumatory of the squared X values
 		double sumX3 = 0; //sumatory of the cubic X values
+		double sumX4 = 0; //sumatory of the forth power of X values
 
 		for(int i = 0; i < numMeasures; i++){
 			sumX = sumX + measures[i].X;
 			sumX2 = sumX2 + measures[i].X * measures[i].X;
 			sumX3 = sumX3 + measures[i].X * measures[i].X * measures[i].X;
+			sumX4 = sumX3 + measures[i].X * measures[i].X * measures[i].X * measures[i].X;
 		}
 
-		double detA = numMeasures*sumX2*sumX3 + 2*sumX*sumX2*sumX3 - sumX2*sumX2*sumX2 - sumX2*sumX2*sumX3 - numMeasures*sumX3*sumX3;
+		double detA = numMeasures*sumX2*sumX4 + 2*sumX*sumX2*sumX3- sumX2*sumX2*sumX2 - sumX*sumX*sumX4 - numMeasures*sumX3*sumX3;
 		if(detA != 0){
 			double [,] invA = new double[3,3];
 
-			invA[0,0] = ( sumX2*sumX3 - sumX3*sumX3) / detA;
-			invA[0,1] = (-sumX*sumX3  + sumX2*sumX3) / detA;
+			invA[0,0] = ( sumX2*sumX4 - sumX3*sumX3) / detA;
+			invA[0,1] = (-sumX*sumX4 + sumX2*sumX3) / detA;
 			invA[0,2] = ( sumX*sumX3  - sumX2*sumX2) / detA;
-			invA[1,1] = ( numMeasures*sumX3 - sumX2*sumX2) / detA;
+			invA[1,1] = ( numMeasures*sumX4 - sumX2*sumX2) / detA;
 			invA[1,2] = (-numMeasures*sumX3 + sumX*sumX2 ) / detA;
 			invA[2,2] = ( numMeasures*sumX2 - sumX*sumX  ) / detA;
 
@@ -107,7 +109,7 @@ public class LeastSquares
 			Success = true;
 			Coef = coef;
 		} else {
-			LogB.Error("Invalid values");
+			LogB.Error("Determinant of matrix equal to zero");
 			Success = false;
 		}
 	}

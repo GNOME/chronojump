@@ -230,6 +230,24 @@ class TestDatabase(unittest.TestCase):
         database.close()
         os.remove(filename)
 
+    def test_write(self):
+        filename = tempfile.mktemp(prefix="chronojump_importer_test_write", suffix=".sqlite")
+        open(filename, 'a').close()
+
+        database = chronojump_importer.Database(filename, read_only=False)
+        cursor = database._cursor
+
+        cursor.execute("CREATE TABLE test (uniqueID INTEGER PRIMARY KEY, name TEXT)")
+        cursor.execute("INSERT INTO test (uniqueID, name) VALUES (1, 'john')")
+
+        table = chronojump_importer.Table("test")
+        row = chronojump_importer.Row()
+        row.set(column_name="uniqueID", value="2")
+        row.set(column_name="name", value="john")
+
+        table.insert_row(row)
+
+        database.write(table=table, matches_columns=None, avoids_duplicate_column="name")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

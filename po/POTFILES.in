@@ -1,3 +1,5 @@
+# List of source files containing translatable strings.
+# Please keep this file sorted alphabetically.
 [encoding: UTF-8]
 CesarPlayer/Capturer/FakeCapturer.cs
 CesarPlayer/gtk-gui/LongoMatch.Gui.CapturerBin.cs
@@ -10,7 +12,6 @@ glade/chronojump.glade
 libcesarplayer/bacon-video-widget-gst-0.10.c
 libcesarplayer/video-utils.c
 src/chronojump.cs
-src/Mini/chronojump_mini.cs
 src/chronopic.cs
 src/constants.cs
 src/encoder.cs
@@ -21,14 +22,14 @@ src/execute/pulse.cs
 src/execute/reactionTime.cs
 src/execute/run.cs
 src/exportSession.cs
-src/json.cs
 src/gui/chronojump.cs
 src/gui/chronopic.cs
+src/gui/chronopicWizard.cs
 src/gui/convertWeight.cs
-src/gui/encoder.cs
 src/gui/encoderConfiguration.cs
-src/gui/encoderTreeviews.cs
+src/gui/encoder.cs
 src/gui/encoderSelectRepetitions.cs
+src/gui/encoderTreeviews.cs
 src/gui/error.cs
 src/gui/evaluator.cs
 src/gui/event.cs
@@ -39,6 +40,7 @@ src/gui/helpPorts.cs
 src/gui/jump.cs
 src/gui/jumpType.cs
 src/gui/multiChronopic.cs
+src/gui/old/chronojumpServerOld.cs
 src/gui/person.cs
 src/gui/preferences.cs
 src/gui/pulse.cs
@@ -51,15 +53,17 @@ src/gui/runType.cs
 src/gui/server.cs
 src/gui/session.cs
 src/gui/stats.cs
+src/json.cs
 src/jumpType.cs
+src/Mini/chronojump_mini.cs
 src/pulseType.cs
 src/report.cs
 src/runType.cs
 src/server.cs
 src/serverPing.cs
-src/sqlite/main.cs
 src/sqlite/country.cs
 src/sqlite/encoder.cs
+src/sqlite/main.cs
 src/sqlite/personSession.cs
 src/sqlite/server.cs
 src/sqlite/session.cs

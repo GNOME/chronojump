@@ -561,11 +561,11 @@ public partial class ChronoJumpWindow
 	{
 		string [] str;
 		string testName;
-		if(radio_mode_jumps_small.Active) {
+		if(radio_menuitem_mode_jumps_simple.Active) {
 			str = SqliteJump.SelectTestMaxStuff(currentPerson.UniqueID, currentJumpType); 
 			testName = currentJumpType.Name;
 		}
-		else if(radio_mode_runs_small.Active) {
+		else if(radio_menuitem_mode_runs_simple.Active) {
 			str = SqliteRun.SelectTestMaxStuff(currentPerson.UniqueID, currentRunType); 
 			testName = currentRunType.Name;
 		} else
@@ -1123,6 +1123,10 @@ public partial class ChronoJumpWindow
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
+		//fix problem on show graph at Chronojump start
+		if(event_execute_drawingarea == null || event_execute_pixmap == null)
+			return;
+
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		//writeMarginsText(maxValue, minValue, alto);
 		
@@ -1191,6 +1195,10 @@ public partial class ChronoJumpWindow
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
+		//fix problem on show graph at Chronojump start
+		if(event_execute_drawingarea == null || event_execute_pixmap == null)
+			return;
+
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		//writeMarginsText(maxValue, minValue, alto);
 		
@@ -1609,6 +1617,9 @@ public partial class ChronoJumpWindow
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
+		//fix problem on show graph at Chronojump start
+		if(event_execute_drawingarea == null || event_execute_pixmap == null)
+			return;
 		
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		

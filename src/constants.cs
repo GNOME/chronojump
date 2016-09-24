@@ -400,6 +400,8 @@ public class Constants
 	public static string FileNameJumpsRJ = "stock_up_down.png";
 	public static string FileNameRuns = "stock_right.png";
 	public static string FileNameRunsInterval = "stock_right_left.png";
+	public static string FileNameEncoderGravitatory = "stock_down.png";
+	public static string FileNameEncoderInertial = "stock_inertial.png";
 	public static string FileNameReactionTime = "reaction_time_menu.png";
 	public static string FileNamePulse = "pulse_menu.png";
 	public static string FileNameMultiChronopic = "multichronopic_menu.png";
@@ -689,7 +691,30 @@ public class Constants
 		JUMPS, RUNS, ENCODER
 	}
 
-	public enum Menuitem_modes { JUMPS, RUNS, POWERGRAVITATORY, POWERINERTIAL, OTHER }
+	public enum Menuitem_modes { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, POWERGRAVITATORY, POWERINERTIAL, OTHER }
+	public static bool Menuitem_mode_IsContacts (Menuitem_modes m) 
+	{
+		if(m == Menuitem_modes.POWERGRAVITATORY || m == Menuitem_modes.POWERINERTIAL)
+			return false;
+		return true;
+	}
+
+	//unused on power
+	private static int menuitem_mode_multitest_debounce (Menuitem_modes m) 
+	{
+		if(m == Menuitem_modes.RUNSSIMPLE || m == Menuitem_modes.RUNSINTERVALLIC)
+			return 10;
+		
+		return 50;
+	}
+	//know if multitest firmware has to be changed, eg jumps(50) <-> runs(10)
+	public static bool Menuitem_mode_multitest_should_change (Menuitem_modes mPre, Menuitem_modes m) 
+	{
+		if(menuitem_mode_multitest_debounce(mPre) != menuitem_mode_multitest_debounce(m))
+			return true;
+
+		return false;
+	}
 
 	public static string All = "All";
 	public static string None = "None";

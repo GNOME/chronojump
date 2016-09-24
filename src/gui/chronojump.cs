@@ -45,21 +45,25 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_gui_tests;
 	[Widget] Gtk.Button button_carles;
 	
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps;
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps_simple;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps_reactive;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs_simple;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs_intervallic;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_power_gravitatory;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_power_inertial;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_other;
 
-	[Widget] Gtk.MenuItem menuitem_mode_selected_jumps;
-	[Widget] Gtk.MenuItem menuitem_mode_selected_runs;
+	[Widget] Gtk.MenuItem menuitem_mode_selected_jumps_simple;
+	[Widget] Gtk.MenuItem menuitem_mode_selected_jumps_reactive;
+	[Widget] Gtk.MenuItem menuitem_mode_selected_runs_simple;
+	[Widget] Gtk.MenuItem menuitem_mode_selected_runs_intervallic;
 	[Widget] Gtk.MenuItem menuitem_mode_selected_power_gravitatory;
 	[Widget] Gtk.MenuItem menuitem_mode_selected_power_inertial;
 	[Widget] Gtk.MenuItem menuitem_mode_selected_other;
 	
 	[Widget] Gtk.Notebook notebook_start; //use to display the start images to select different modes
 	[Widget] Gtk.Notebook notebook_sup;
-	[Widget] Gtk.Notebook notebook_sup_contacts;
+	[Widget] Gtk.HBox hbox_other;
 	[Widget] Gtk.Notebook notebook_capture_graph_table;
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
 
@@ -69,13 +73,21 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_selector_start_jumps;
 	[Widget] Gtk.Image image_selector_start_runs;
 	[Widget] Gtk.Image image_selector_start_encoder_gravitatory;
-	[Widget] Gtk.Image image_selector_start_encoder_inertial;
+	//[Widget] Gtk.Image image_selector_start_encoder_inertial;
 	
-	//gui for small screens
-	[Widget] Gtk.RadioButton radio_mode_jumps_small;
-	[Widget] Gtk.RadioButton radio_mode_jumps_reactive_small;
-	[Widget] Gtk.RadioButton radio_mode_runs_small;
-	[Widget] Gtk.RadioButton radio_mode_runs_intervallic_small;
+	[Widget] Gtk.Notebook notebook_selector_start_jumps;
+	[Widget] Gtk.Viewport viewport_selector_start_jumps;
+	[Widget] Gtk.Label label_selector_start_jumps_simple;
+	[Widget] Gtk.Label label_selector_start_jumps_reactive;
+	[Widget] Gtk.Notebook notebook_selector_start_runs;
+	[Widget] Gtk.Viewport viewport_selector_start_runs;
+	[Widget] Gtk.Label label_selector_start_runs_simple;
+	[Widget] Gtk.Label label_selector_start_runs_intervallic;
+	[Widget] Gtk.Notebook notebook_selector_start_encoder;
+	[Widget] Gtk.Viewport viewport_selector_start_encoder;
+	[Widget] Gtk.Label label_selector_start_encoder_gravitatory;
+	[Widget] Gtk.Label label_selector_start_encoder_inertial;
+	
 	[Widget] Gtk.RadioButton radio_mode_reaction_times_small;
 	[Widget] Gtk.RadioButton radio_mode_pulses_small;
 	[Widget] Gtk.RadioButton radio_mode_multi_chronopic_small;
@@ -92,6 +104,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_mode_jumps_reactive_small;
 	[Widget] Gtk.Label label_mode_runs_small;
 	[Widget] Gtk.Label label_mode_runs_intervallic_small;
+	[Widget] Gtk.Image image_mode_encoder_gravitatory;
+	[Widget] Gtk.Image image_mode_encoder_inertial;
 	[Widget] Gtk.Label label_mode_reaction_times_small;
 	[Widget] Gtk.Label label_mode_pulses_small;
 	[Widget] Gtk.Label label_mode_multi_chronopic_small;
@@ -200,8 +214,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_jumps_rj_result_help_stiffness;
 	
 	[Widget] Gtk.DrawingArea drawingarea_jumps_profile;
-	[Widget] Gtk.VBox vbox_jumps_profile_help;
-	[Widget] Gtk.Table table_jumps_profile_training;
+	[Widget] Gtk.ScrolledWindow scrolledwindow_jumps_profile_help;
+	[Widget] Gtk.ScrolledWindow scrolledwindow_jumps_profile_training;
 	[Widget] Gtk.Image image_tab_jumps_profile;
 	
 	
@@ -463,6 +477,22 @@ public partial class ChronoJumpWindow
 	ExecuteAutoWindow executeAutoWin;
 	
 	ChronopicWindow chronopicWin;
+	ChronopicWizardWindow chronopicWizardWin;
+	string wizardPortContacts;
+	string wizardPortEncoder;
+		
+	static Thread pingThread;
+
+	
+	/*
+	 * useful to not check for Chronopic if changing select_menuitem_mode_toggled from a 50 to a 50
+	 * great for 1.6.3 where people change from simple jumps to reactive jumps and Chronopic don't need to change
+	 *
+	 * maybe it will be replaced by chronopic_wizard_window
+
+	private enum chronopicTypes { CONTACTS50, CONTACTS10, ENCODER }
+	private chronopicTypes lastChronopicType;
+	 */
 	
 	private bool firstRjValue;
 	private double rjTcCount;
@@ -493,13 +523,13 @@ public partial class ChronoJumpWindow
 
 	private void on_button_image_test_zoom_clicked(object o, EventArgs args) {
 		EventType myType;
-		if(radio_mode_jumps_small.Active) 
+		if(radio_menuitem_mode_jumps_simple.Active) 
 			myType = currentJumpType;
-		else if(radio_mode_jumps_reactive_small.Active) 
+		else if(radio_menuitem_mode_jumps_reactive.Active) 
 			myType = currentJumpRjType;
-		else if(radio_mode_runs_small.Active) 
+		else if(radio_menuitem_mode_runs_simple.Active) 
 			myType = currentRunType;
-		else if(radio_mode_runs_intervallic_small.Active) 
+		else if(radio_menuitem_mode_runs_intervallic.Active) 
 			myType = currentRunIntervalType;
 		else if(radio_mode_reaction_times_small.Active) 
 			myType = currentReactionTimeType;
@@ -587,6 +617,8 @@ public partial class ChronoJumpWindow
 		repetitiveConditionsWin.FakeButtonClose.Clicked += new EventHandler(on_repetitive_conditions_closed);
 
 		createChronopicWindow(false, "");
+		wizardPortContacts = "";
+		wizardPortEncoder = "";
 	
 		on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 		on_extra_window_pulses_test_changed(new object(), new EventArgs());
@@ -603,6 +635,7 @@ public partial class ChronoJumpWindow
 		
 		rand = new Random(40);
 	
+		formatModeMenu();	
 		putNonStandardIcons();	
 		eventExecutePutNonStandardIcons();
 		//eventExecuteCreateComboGraphResultsSize();
@@ -630,11 +663,24 @@ public partial class ChronoJumpWindow
 	
 		//leave empty on new releases	
 		//string buildDate = " (2016-07-27)";
-		string buildDate = " (b)";
+		string buildDate = " (d)";
 		label_version.Text = progVersion + buildDate;
 		LogB.Information("Build date:" + buildDate);
+
+		LeastSquares ls = new LeastSquares();
+		ls.Test();
+		LogB.Information(string.Format("coef = {0} {1} {2}", ls.Coef[0], ls.Coef[1], ls.Coef[2]));
+
+		/*
+		 * start a ping in other thread
+		 * http://www.mono-project.com/docs/gui/gtksharp/responsive-applications/
+		 * Gtk.Application.Invoke
+		 */
+		pingThread = new Thread (new ThreadStart (pingAtStart));
+		pingThread.Start();
+
+		//moveStartTestInitial();
 	}
-	
 
 
 /*
@@ -674,6 +720,24 @@ public partial class ChronoJumpWindow
 	}
 */
 
+	private void formatModeMenu() 
+	{
+		((Label) radio_menuitem_mode_jumps_simple.Child).Text = 
+			"   " + ((Label) radio_menuitem_mode_jumps_simple.Child).Text;
+		((Label) radio_menuitem_mode_jumps_reactive.Child).Text = 
+			"   " + ((Label) radio_menuitem_mode_jumps_reactive.Child).Text;
+
+		((Label) radio_menuitem_mode_runs_simple.Child).Text = 
+			"   " + ((Label) radio_menuitem_mode_runs_simple.Child).Text;
+		((Label) radio_menuitem_mode_runs_intervallic.Child).Text = 
+			"   " + ((Label) radio_menuitem_mode_runs_intervallic.Child).Text;
+		
+		((Label) radio_menuitem_mode_power_gravitatory.Child).Text = 
+			"   " + ((Label) radio_menuitem_mode_power_gravitatory.Child).Text;
+		((Label) radio_menuitem_mode_power_inertial.Child).Text = 
+			"   " + ((Label) radio_menuitem_mode_power_inertial.Child).Text;
+	}
+
 	private void putNonStandardIcons() {
 		Pixbuf pixbuf;
 	
@@ -682,6 +746,17 @@ public partial class ChronoJumpWindow
 		/*
 		 * gui for small screens
 		 */
+		viewport_selector_start_jumps.ModifyBg(StateType.Normal, new Gdk.Color(0x0b,0x48,0x6b));
+		label_selector_start_jumps_simple.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+		label_selector_start_jumps_reactive.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+		
+		viewport_selector_start_runs.ModifyBg(StateType.Normal, new Gdk.Color(0x3b,0x86,0x86));
+		label_selector_start_runs_simple.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+		label_selector_start_runs_intervallic.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+		
+		viewport_selector_start_encoder.ModifyBg(StateType.Normal, new Gdk.Color(0x79,0xbd,0x98));
+		label_selector_start_encoder_gravitatory.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+		label_selector_start_encoder_inertial.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumps);
 		image_mode_jumps_small.Pixbuf = pixbuf;
@@ -691,6 +766,12 @@ public partial class ChronoJumpWindow
 		image_mode_runs_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRunsInterval);
 		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderGravitatory);
+		image_mode_encoder_gravitatory.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderInertial);
+		image_mode_encoder_inertial.Pixbuf = pixbuf;
+	
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameReactionTime);
 		image_mode_reaction_times_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNamePulse);
@@ -883,8 +964,8 @@ public partial class ChronoJumpWindow
 		image_selector_start_runs.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorEncoderGravitatory);
 		image_selector_start_encoder_gravitatory.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorEncoderInertial);
-		image_selector_start_encoder_inertial.Pixbuf = pixbuf;
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorEncoderInertial);
+		//image_selector_start_encoder_inertial.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
 		image_logo.Pixbuf = pixbuf;
@@ -954,42 +1035,7 @@ public partial class ChronoJumpWindow
 	 * ----------------  test modes (small GUI) ----------------
 	 *  --------------------------------------------------------
 	 */
-	
-	public void on_radio_mode_jumps_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_jumps_small.Active) {
-			notebooks_change(0);
-			on_extra_window_jumps_test_changed(obj, args);
-			hbox_results_legend.Visible = true;
-			
-			notebook_capture_analyze.GetNthPage(2).Show(); //show jumpsProfile on jumps
-		}
-	}
 
-	public void on_radio_mode_jumps_reactive_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_jumps_reactive_small.Active) {
-			notebooks_change(1);
-			on_extra_window_jumps_rj_test_changed(obj, args);
-			hbox_results_legend.Visible = false;
-			
-			notebook_capture_analyze.GetNthPage(2).Hide(); //don't show jumpsProfile on jumps reactive
-		}
-	}
-
-	public void on_radio_mode_runs_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_runs_small.Active) {
-			notebooks_change(2);
-			on_extra_window_runs_test_changed(obj, args);
-			hbox_results_legend.Visible = true;
-		}
-	}
-
-	public void on_radio_mode_runs_intervallic_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_runs_intervallic_small.Active) {
-			notebooks_change(3);
-			on_extra_window_runs_interval_test_changed(obj, args);
-			hbox_results_legend.Visible = false;
-		}
-	}
 
 	public void on_radio_mode_reaction_times_small_toggled (object obj, EventArgs args) {
 		if(radio_mode_reaction_times_small.Active) {
@@ -1171,13 +1217,13 @@ public partial class ChronoJumpWindow
 
 	private void personChanged() {
 		//1) change on jumps, runs, pulse capture graph
-		if(radio_mode_jumps_small.Active) {
+		if(radio_menuitem_mode_jumps_simple.Active) {
 			updateGraphJumpsSimple();
 
 			if(notebook_capture_analyze.CurrentPage == 2) //Jumps Profile
 				jumpsProfileDo(true); //calculate data
 		}
-		else if(radio_mode_runs_small.Active) 
+		else if(radio_menuitem_mode_runs_simple.Active) 
 			updateGraphRunsSimple();
 		else if(radio_mode_reaction_times_small.Active) 
 			updateGraphReactionTimes();
@@ -1209,270 +1255,6 @@ public partial class ChronoJumpWindow
 		myMenu.ShowAll();
 	}
 		
-	/* ---------------------------------------------------------
-	 * ----------------  SERVER CALLS --------------------------
-	 *  --------------------------------------------------------
-	 */
-
-	/* 
-	 * SERVER CALLBACKS
-	 */
-
-	bool serverEvaluatorDoing;
-	// upload session and it's persons (callback)
-	private void on_server_upload_session_pre (object o, EventArgs args) {
-		//evaluator stuff
-		//Server.ServerUploadEvaluator();
-		string evalMessage = "";
-		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
-		if(evalSID == Constants.ServerUndefinedID) 
-			evalMessage = Catalog.GetString("Please, first fill evaluator data.");
-		else 
-			evalMessage = Catalog.GetString("Please, first check evaluator data is ok.");
-		
-//		appbar2.Push ( 1, evalMessage );
-		
-		server_evaluator_data_and_after_upload_session();
-	}
-
-	private bool connectedAndCanI (string serverAction) {
-		string versionAvailable = Server.Ping(false, "", ""); //false: don't do insertion
-		if(versionAvailable != Constants.ServerOffline) { //false: don't do insertion
-			if(Server.CanI(serverAction, progVersion))
-				return true;
-			else
-				new DialogMessage(Constants.MessageTypes.WARNING, 
-						Catalog.GetString("Your version of Chronojump is too old for this.") + "\n\n" + 
-						Catalog.GetString("Please, update to new version: ") + versionAvailable + "\n");
-		} else 
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
-
-		return false;
-	}
-
-	private void on_menuitem_server_stats (object o, EventArgs args) {
-		if(connectedAndCanI(Constants.ServerActionStats)) {
-			ChronojumpServer myServer = new ChronojumpServer();
-			LogB.SQL(myServer.ConnectDatabase());
-
-			string [] statsServer = myServer.Stats();
-
-			LogB.SQL(myServer.DisConnectDatabase());
-
-			string [] statsMine = SqliteServer.StatsMine();
-
-			new DialogServerStats(statsServer, statsMine);
-		}
-	}
-	
-	private void on_menuitem_server_query (object o, EventArgs args) {
-		if(connectedAndCanI(Constants.ServerActionQuery)) {
-			ChronojumpServer myServer = new ChronojumpServer();
-			QueryServerWindow.Show(
-					preferences.digitsNumber,
-					myServer.SelectEvaluators(true)
-					);
-		}
-	}
-	
-	private void on_server_ping (object o, EventArgs args) {
-		string str = Server.Ping(false, progName, progVersion); //don't do insertion (will show versionAvailable)
-		//show online or offline (not the next version of client available)
-		if(str != Constants.ServerOffline)
-			str = Catalog.GetString(Constants.ServerOnline);
-		new DialogMessage(Constants.MessageTypes.INFO, str);
-	}
-	
-	bool uploadSessionAfter;
-
-	//called when after that has to continue with upload session
-	private void server_evaluator_data_and_after_upload_session() {
-//		appbar2.Push ( 1, "" );
-		uploadSessionAfter = true;
-		server_evaluator_data (); 
-	}
-
-	/*	
-	//called when only has to be created/updated the evaluator (not update session)
-	private void on_menuitem_server_evaluator_data_only (object o, EventArgs args) {
-		uploadSessionAfter = false;
-		server_evaluator_data (); 
-	}
-	*/
-	
-	private void server_evaluator_data () {
-		ServerEvaluator myEval = SqliteServer.SelectEvaluator(1); 
-		evalWin = EvaluatorWindow.Show(myEval);
-		evalWin.FakeButtonAccept.Clicked += new EventHandler(on_evaluator_done);
-	}
-
-	private void on_evaluator_done (object o, EventArgs args) {
-		if(evalWin.Changed) {
-			string versionAvailable = Server.Ping(false, "", ""); //false: don't do insertion
-			if(versionAvailable != Constants.ServerOffline) { //false: don't do insertion
-				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Do you want to upload evaluator data now?"), "", "");
-				confirmWin.Button_accept.Clicked += new EventHandler(on_evaluator_upload_accepted);
-			} else 
-				new DialogMessage(Constants.MessageTypes.WARNING, 
-						Catalog.GetString("Currently cannot upload.") + "\n\n" + Constants.ServerOffline);
-		}
-		else
-			if(uploadSessionAfter)
-				select_persons_to_discard ();
-
-	}
-
-	private void on_evaluator_upload_accepted (object o, EventArgs args) {
-		Server.ServerUploadEvaluator();
-		if(uploadSessionAfter)
-			select_persons_to_discard ();
-	}
-
-	private void select_persons_to_discard () {
-		personNotUploadWin = PersonNotUploadWindow.Show(app1, currentSession.UniqueID);
-		personNotUploadWin.FakeButtonDone.Clicked += new EventHandler(on_select_persons_to_discard_done);
-	}
-	
-	private void on_select_persons_to_discard_done (object o, EventArgs args) {
-		server_upload_session();
-	}
-
-	private void on_menuitem_goto_server_website (object o, EventArgs args) {
-		if(UtilAll.IsWindows())
-			new DialogMessage(Constants.MessageTypes.INFO, 
-					"http://www.chronojump.org/server.html" + "\n" + 
-					"http://www.chronojump.org/server_es.html");
-		else
-			System.Diagnostics.Process.Start(Constants.ChronojumpWebsite + System.IO.Path.DirectorySeparatorChar + "server.html");
-	}
-
-	/* 
-	 * SERVER CODE
-	 */
-
-	private bool checkPersonsMissingData() 
-	{
-		ArrayList impossibleWeight = new ArrayList(1);
-		ArrayList undefinedCountry = new ArrayList(1); //country is required for server
-		ArrayList undefinedSport = new ArrayList(1);
-		
-		ArrayList notToUpload = SqlitePersonSessionNotUpload.SelectAll(currentSession.UniqueID);
-		ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
-				currentSession.UniqueID,
-				false); //means: do not returnPersonAndPSlist
-
-		foreach (Person person in persons) 
-		{
-			if(! Util.FoundInArrayList(notToUpload, person.UniqueID.ToString())) 
-			{
-				//TODO: this is not needed if true at SqlitePersonSession.SelectCurrentSessionPersons
-				PersonSession ps = SqlitePersonSession.Select(person.UniqueID, currentSession.UniqueID);
-				if(ps.Weight <= 10 || ps.Weight >= 300)
-					impossibleWeight.Add(person);
-				if(person.CountryID == Constants.CountryUndefinedID)
-					undefinedCountry.Add(person);
-				if(ps.SportID == Constants.SportUndefinedID)
-					undefinedSport.Add(person);
-				//speciallity and level not required, because person gui obligates to select them when sport is selected
-			}
-		}
-
-		string weightString = "";
-		string countryString = "";
-		string sportString = "";
-		
-		int maxPeopleFail = 7;
-
-		if(impossibleWeight.Count > 0) {
-			weightString += "\n\n" + Catalog.GetString("<b>Weight</b> of the following persons is not ok:") + "\n";
-			string separator = "";
-			int count=0;
-			foreach(Person person in impossibleWeight) {
-				weightString += separator + person.Name;
-				separator = ", ";
-				if(++count >= maxPeopleFail) {
-					weightString += "...";
-					break;
-				}
-			}
-		}
-
-		if(undefinedCountry.Count > 0) {
-			countryString += "\n\n" + Catalog.GetString("<b>Country</b> of the following persons is undefined:") + "\n";
-			string separator = "";
-			int count=0;
-			foreach(Person person in undefinedCountry) {
-				countryString += separator + person.Name;
-				separator = ", ";
-				if(++count >= maxPeopleFail) {
-					countryString += "...";
-					break;
-				}
-			}
-		}
-
-		if(undefinedSport.Count > 0) {
-			sportString += "\n\n" + Catalog.GetString("<b>Sport</b> of the following persons is undefined:") + "\n";
-			string separator = "";
-			int count=0;
-			foreach(Person person in undefinedSport) {
-				sportString += separator + person.Name;
-				separator = ", ";
-				if(++count >= maxPeopleFail) {
-					sportString += "...";
-					break;
-				}
-			}
-		}
-
-		if(weightString.Length > 0 || countryString.Length > 0 || sportString.Length > 0) {
-			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Please, fix this before uploading:") +
-						weightString + countryString + sportString + "\n\n" + 
-						Catalog.GetString("Or when upload session again, mark these persons as not to be uploaded.")
-						);
-			return true; //data is missing
-		}
-		else
-			return false; //data is ok
-
-	}
-			
-	private void server_upload_session () 
-	{
-		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
-		if(evalSID != Constants.ServerUndefinedID) {
-			if(!checkPersonsMissingData()) {
-				string message1 = ""; 
-				if(currentSession.ServerUniqueID == Constants.ServerUndefinedID) 
-					message1 =  
-							Catalog.GetString("Session will be uploaded to server.") + "\n" +  
-							Catalog.GetString("Names, date of birth and descriptions of persons will be hidden.") + "\n\n" + 
-							Catalog.GetString("You can upload again this session if you add more data or persons.");
-				else
-					message1 =  
-							Catalog.GetString("Session has been uploaded to server before.") + "\n" +  
-							Catalog.GetString("Uploading new data.");
-
-				message1 += "\n\n" + Catalog.GetString("All the uploaded data will be licensed as:") + 
-						"\n<b>" + Catalog.GetString("Creative Commons Attribution 3.0") + "</b>";
-
-
-				ConfirmWindow confirmWin = ConfirmWindow.Show(message1, 
-							"<u>http://creativecommons.org/licenses/by/3.0/</u>", //label_link
-							Catalog.GetString("Are you sure you want to upload this session to server?"));
-				confirmWin.Button_accept.Clicked += new EventHandler(on_server_upload_session_accepted);
-			}
-		}
-	}
-
-
-	private void on_server_upload_session_accepted (object o, EventArgs args) 
-	{
-		if(connectedAndCanI(Constants.ServerActionUploadSession)) {
-			Server.InitializeSessionVariables(app1, currentSession, progName, progVersion);
-			Server.ThreadStart();
-		}
-	}
 
 	private void resetAllTreeViews( bool alsoPersons) {
 		if(alsoPersons) {
@@ -2512,6 +2294,10 @@ public partial class ChronoJumpWindow
 		encoderRProcAnalyze.SendEndProcess();
 
 		LogB.Information("Bye3!");
+
+		//exit start ping if has not ended
+		if(pingThread.IsAlive)
+			pingThread.Abort();
 		
 		Log.End();
 
@@ -3123,7 +2909,9 @@ public partial class ChronoJumpWindow
 	 * menu test selectors
 	 */
 
-	private void on_menuitem_mode_main_menu_activate (object o, EventArgs args) {
+	private void on_menuitem_mode_main_menu_activate (object o, EventArgs args) 
+	{
+		reset_buttons_selector_start();
 		notebook_start.CurrentPage = 0;
 		
 		//don't show menu bar on start page
@@ -3132,8 +2920,10 @@ public partial class ChronoJumpWindow
 	
 	private void select_menuitem_mode_toggled(Constants.Menuitem_modes m) 
 	{
-		menuitem_mode_selected_jumps.Visible = false;
-		menuitem_mode_selected_runs.Visible = false;
+		menuitem_mode_selected_jumps_simple.Visible = false;
+		menuitem_mode_selected_jumps_reactive.Visible = false;
+		menuitem_mode_selected_runs_simple.Visible = false;
+		menuitem_mode_selected_runs_intervallic.Visible = false;
 		menuitem_mode_selected_power_gravitatory.Visible = false;
 		menuitem_mode_selected_power_inertial.Visible = false;
 		menuitem_mode_selected_other.Visible = false;
@@ -3145,23 +2935,49 @@ public partial class ChronoJumpWindow
 		menuitem_export_encoder_signal.Visible = false;
 		menuitem_export_csv.Visible = true;
 
-		if(m == Constants.Menuitem_modes.JUMPS) 
+		hbox_other.Visible = false;
+
+		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
 			notebook_sup.CurrentPage = 0;
-			notebook_sup_contacts.CurrentPage = 0;
-			menuitem_mode_selected_jumps.Visible = true;
-			radio_mode_jumps_small.Active = true;
 			notebook_capture_analyze.ShowTabs = true;
-			notebook_capture_analyze.GetNthPage(2).Show(); //show jumpsProfile on jumps
-		} else if(m == Constants.Menuitem_modes.RUNS) 
+			if(m == Constants.Menuitem_modes.JUMPSSIMPLE) 
+			{
+				menuitem_mode_selected_jumps_simple.Visible = true;
+				notebooks_change(0);
+				on_extra_window_jumps_test_changed(new object(), new EventArgs());
+				hbox_results_legend.Visible = true;
+				notebook_capture_analyze.GetNthPage(2).Show(); //show jumpsProfile on jumps simple
+			} else 
+			{
+				menuitem_mode_selected_jumps_reactive.Visible = true;
+				notebooks_change(1);
+				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
+				hbox_results_legend.Visible = false;
+				notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on jumps reactive
+			}
+		}
+		else if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
 			notebook_sup.CurrentPage = 0;
-			notebook_sup_contacts.CurrentPage = 1;
-			menuitem_mode_selected_runs.Visible = true;
-			radio_mode_runs_small.Active = true;
 			notebook_capture_analyze.ShowTabs = true;
+			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
+			{
+				menuitem_mode_selected_runs_simple.Visible = true;
+				notebooks_change(2);
+				on_extra_window_runs_test_changed(new object(), new EventArgs());
+				hbox_results_legend.Visible = true;
+			}
+			else
+			{
+				menuitem_mode_selected_runs_intervallic.Visible = true;
+				notebooks_change(3);
+				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
+				hbox_results_legend.Visible = false;
+			}
 			notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on runs
-		} else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL) 
+		}
+		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL) 
 		{
 			menuitem_encoder_session_overview.Visible = true;
 			menuitem_export_encoder_signal.Visible = true;
@@ -3233,9 +3049,10 @@ public partial class ChronoJumpWindow
 			if(changed) {
 				prepareAnalyzeRepetitions ();
 			}
-		} else {	//m == Constants.Menuitem_modes.OTHER (contacts / other)
+		} 
+		else {	//m == Constants.Menuitem_modes.OTHER (contacts / other)
 			notebook_sup.CurrentPage = 0;
-			notebook_sup_contacts.CurrentPage = 2;
+			hbox_other.Visible = true;
 			menuitem_mode_selected_other.Visible = true;
 			radio_mode_reaction_times_small.Active = true;
 
@@ -3250,13 +3067,27 @@ public partial class ChronoJumpWindow
 		//it's not visible at startup
 		main_menu.Visible = true;
 
-		//do not perform autoDetect if we are on contacts and already detected
-		if( chronopicWin.Connected && m != Constants.Menuitem_modes.POWERGRAVITATORY && m != Constants.Menuitem_modes.POWERINERTIAL )
-			change_multitest_firmware(m);
-		else
-			autoDetectChronopic(m); //will perform change_multitest_firmware at the end (except on POWERs)
-		
-			
+
+		//if wizard has been used mark Chronopic as connected or disconnected depending if port exists
+		if(Constants.Menuitem_mode_IsContacts(m) && wizardPortContacts != "")
+			chronopicWin.Connected =
+				Util.FoundInStringArray(ChronopicPorts.GetPorts(), wizardPortContacts);
+		else if(! Constants.Menuitem_mode_IsContacts(m) && wizardPortEncoder != "")
+			chronopicWin.Connected =
+				Util.FoundInStringArray(ChronopicPorts.GetPorts(), wizardPortEncoder);
+
+
+		//change multitest firmware or autoDetectChronopic
+		if(Constants.Menuitem_mode_IsContacts(m))
+		{
+			if(chronopicWin.Connected)
+				change_multitest_firmware(m);
+			else
+				autoDetectChronopic(m); //on contacts will perform change_multitest_firmware at the end
+		}
+		else if(wizardPortEncoder == "")
+			autoDetectChronopic(m);
+
 		chronojumpWindowTestsNext();
 	}
 	
@@ -3283,7 +3114,7 @@ public partial class ChronoJumpWindow
 			cpDetect.FakeButtonDone.Clicked += new EventHandler(on_autoDetectChronopic_encoder_done);
 		} 
 		else {
-			//disabled on Windows until is fixed
+			//disabled on Windows until is fixed //TODO
 			if(UtilAll.IsWindows()) {
 				main_menu.Sensitive = true;
 				return;
@@ -3365,15 +3196,31 @@ public partial class ChronoJumpWindow
 	{
 		main_menu.Sensitive = true;
 	}
-			
+		
+	private bool previousMultitestFirmwareDefined = false;
+	private Constants.Menuitem_modes previousMultitestFirmware;
+
 	//change debounce time automatically on change menuitem mode (if multitest firmware)
 	private void change_multitest_firmware(Constants.Menuitem_modes m) 
 	{
 		LogB.Information("change_multitest_firmware");
+
+		//---- 1 if don't need to change, return
+		if(previousMultitestFirmwareDefined && 
+				! Constants.Menuitem_mode_multitest_should_change(previousMultitestFirmware, m)) 
+		{
+			LogB.Information("don't need to change multitest firmware");
+			return;
+		}
+
 		label_chronopics_multitest.Text = "";
+		
+		//---- 2 if is not connected, return
 		
 		if(! chronopicWin.Connected)
 			return;
+
+		//---- 3 if port does not exists, show cp window and return
 
 		//http://www.raspberrypi.org/forums/viewtopic.php?f=66&t=88415
 		//https://bugzilla.xamarin.com/show_bug.cgi?id=15514
@@ -3420,6 +3267,8 @@ public partial class ChronoJumpWindow
 		}
 		*/
 
+		//---- 4 try to communicate with multitest firmware (return if cannot connect)
+		
 		LogB.Information("Trying method 2");
 		bool isChronopicAuto = false;
 		try {
@@ -3429,11 +3278,13 @@ public partial class ChronoJumpWindow
 			LogB.Information("Could not read from Chronopic with method 2");
 			return;
 		}
+		
+		//---- 5 change 10 <-> 50 ms
 
 		LogB.Information("change_multitest_firmware 3");
 		if(isChronopicAuto) {
 			int debounceChange = 50;
-			if(m == Constants.Menuitem_modes.RUNS)
+			if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 				debounceChange = 10;
 
 			int msChanged = chronopicWin.ChangeMultitestFirmware(debounceChange);
@@ -3447,20 +3298,37 @@ public partial class ChronoJumpWindow
 			} else
 				label_chronopics_multitest.Text = "";
 		}
+	
+		previousMultitestFirmwareDefined = true;
+		previousMultitestFirmware = m;
 	}
 
 	private Constants.Menuitem_modes getMenuItemMode() 
 	{
-		if(radio_menuitem_mode_jumps.Active)
-			return Constants.Menuitem_modes.JUMPS;
-		else if(radio_menuitem_mode_runs.Active)
-			return Constants.Menuitem_modes.RUNS;
+		if(radio_menuitem_mode_jumps_simple.Active)
+			return Constants.Menuitem_modes.JUMPSSIMPLE;
+		else if(radio_menuitem_mode_jumps_reactive.Active)
+			return Constants.Menuitem_modes.JUMPSREACTIVE;
+		else if(radio_menuitem_mode_runs_simple.Active)
+			return Constants.Menuitem_modes.RUNSSIMPLE;
+		else if(radio_menuitem_mode_runs_intervallic.Active)
+			return Constants.Menuitem_modes.RUNSINTERVALLIC;
 		else if(radio_menuitem_mode_power_gravitatory.Active)
 			return Constants.Menuitem_modes.POWERGRAVITATORY;
 		else if(radio_menuitem_mode_power_inertial.Active)
 			return Constants.Menuitem_modes.POWERINERTIAL;
 		else // if(radio_menuitem_mode_other.Active)
 			return Constants.Menuitem_modes.OTHER;
+	}
+
+	private void reset_buttons_selector_start_from_gui(object o, EventArgs args) {
+		reset_buttons_selector_start();
+	}
+	private void reset_buttons_selector_start()
+	{
+		notebook_selector_start_jumps.CurrentPage = 0;
+		notebook_selector_start_runs.CurrentPage = 0;
+		notebook_selector_start_encoder.CurrentPage = 0;
 	}
 
 	private void on_radio_menuitem_mode_activate(object o, EventArgs args) 
@@ -3475,34 +3343,69 @@ public partial class ChronoJumpWindow
 
 	private void on_button_selector_start_jumps_clicked(object o, EventArgs args) 
 	{
-		if(radio_menuitem_mode_jumps.Active) {
+		notebook_selector_start_jumps.CurrentPage = 1;
+		notebook_selector_start_runs.CurrentPage = 0;
+		notebook_selector_start_encoder.CurrentPage = 0;
+	}
+	private void on_button_selector_start_jumps_simple_clicked(object o, EventArgs args) 
+	{
+		if(radio_menuitem_mode_jumps_simple.Active) {
 			//needed if people select again the same option
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPS); 
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSSIMPLE);
 		}
 		else
-			radio_menuitem_mode_jumps.Active = true;
+			radio_menuitem_mode_jumps_simple.Active = true;
 	}
+	private void on_button_selector_start_jumps_reactive_clicked(object o, EventArgs args) 
+	{
+		if(radio_menuitem_mode_jumps_reactive.Active)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSREACTIVE);
+		else
+			radio_menuitem_mode_jumps_reactive.Active = true;
+	}
+	
 	private void on_button_selector_start_runs_clicked(object o, EventArgs args) 
 	{
-		if(radio_menuitem_mode_runs.Active)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNS);
-		else
-			radio_menuitem_mode_runs.Active = true;
+		notebook_selector_start_jumps.CurrentPage = 0;
+		notebook_selector_start_runs.CurrentPage = 1;
+		notebook_selector_start_encoder.CurrentPage = 0;
 	}
-	private void on_button_selector_start_power_gravitatory_clicked(object o, EventArgs args) 
+	private void on_button_selector_start_runs_simple_clicked(object o, EventArgs args)
+	{
+		if(radio_menuitem_mode_runs_simple.Active)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSSIMPLE);
+		else
+			radio_menuitem_mode_runs_simple.Active = true;
+	}
+	private void on_button_selector_start_runs_intervallic_clicked(object o, EventArgs args) 
+	{
+		if(radio_menuitem_mode_runs_intervallic.Active)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSINTERVALLIC);
+		else
+			radio_menuitem_mode_runs_intervallic.Active = true;
+	}
+	
+	private void on_button_selector_start_encoder_clicked(object o, EventArgs args) 
+	{
+		notebook_selector_start_jumps.CurrentPage = 0;
+		notebook_selector_start_runs.CurrentPage = 0;
+		notebook_selector_start_encoder.CurrentPage = 1;
+	}
+	private void on_button_selector_start_encoder_gravitatory_clicked(object o, EventArgs args) 
 	{
 		if(radio_menuitem_mode_power_gravitatory.Active)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERGRAVITATORY);
 		else
 			radio_menuitem_mode_power_gravitatory.Active = true;
 	}
-	private void on_button_selector_start_power_inertial_clicked(object o, EventArgs args) 
+	private void on_button_selector_start_encoder_inertial_clicked(object o, EventArgs args) 
 	{
 		if(radio_menuitem_mode_power_inertial.Active)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERINERTIAL);
 		else
 			radio_menuitem_mode_power_inertial.Active = true;
 	}
+	
 	private void on_button_selector_start_other_clicked(object o, EventArgs args) 
 	{
 		if(radio_menuitem_mode_other.Active)
@@ -3946,23 +3849,23 @@ public partial class ChronoJumpWindow
 			return;
 		}
 		
-		if(radio_mode_jumps_small.Active) 
+		if(radio_menuitem_mode_jumps_simple.Active) 
 		{
-			LogB.Debug("radio_mode_jumps_small");
+			LogB.Debug("radio_menuitem_mode_jumps_simple");
 			on_normal_jump_activate(o, args);
 		}
-		else if(radio_mode_jumps_reactive_small.Active) 
+		else if(radio_menuitem_mode_jumps_reactive.Active) 
 		{
-			LogB.Debug("radio_mode_jumps_reactive_small");
+			LogB.Debug("radio_menuitem_mode_jumps_reactive");
 			on_rj_activate(o, args);
 		}
-		else if(radio_mode_runs_small.Active) {
-			LogB.Debug("radio_mode_runs_small");
+		else if(radio_menuitem_mode_runs_simple.Active) {
+			LogB.Debug("radio_menuitem_mode_runs_simple");
 			extra_window_runs_distance = (double) extra_window_runs_spinbutton_distance.Value;
 			
 			on_normal_run_activate(o, args);
 		}
-		else if(radio_mode_runs_intervallic_small.Active) {
+		else if(radio_menuitem_mode_runs_intervallic.Active) {
 			LogB.Debug("radio_mode_runs_i_small");
 			//RSA runs cannot be simulated because it's complicated to manage the countdown event...
 			if(currentRunIntervalType.IsRSA && !chronopicWin.Connected) {
@@ -4951,8 +4854,8 @@ public partial class ChronoJumpWindow
 	{
 		ArrayList cpd = new ArrayList();
 		for(int i=1; i<=4;i++) {
-			ChronopicPortData a = new ChronopicPortData(i,"",false);
-			cpd.Add(a);
+			ChronopicPortData cpdata = new ChronopicPortData(i,"",false);
+			cpd.Add(cpdata);
 		}
 		createChronopicWindow(null, cpd, recreate, encoderPort);
 	}
@@ -5250,17 +5153,17 @@ LogB.Debug("X");
 		try {
 			switch (currentEventType.Type) {
 				case EventType.Types.JUMP:
-					if(lastJumpIsSimple && radio_mode_jumps_small.Active) 
+					if(lastJumpIsSimple && radio_menuitem_mode_jumps_simple.Active) 
 						PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject, false);
-					else if (radio_mode_jumps_reactive_small.Active)
+					else if (radio_menuitem_mode_jumps_reactive.Active)
 						PrepareJumpReactiveGraph(
 								Util.GetLast(currentJumpRj.TvString), Util.GetLast(currentJumpRj.TcString),
 								currentJumpRj.TvString, currentJumpRj.TcString, preferences.volumeOn, repetitiveConditionsWin);
 					break;
 				case EventType.Types.RUN:
-					if(lastRunIsSimple && radio_mode_runs_small.Active) 
+					if(lastRunIsSimple && radio_menuitem_mode_runs_simple.Active) 
 						PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, false);
-					else if(radio_mode_runs_intervallic_small.Active) {
+					else if(radio_menuitem_mode_runs_intervallic.Active) {
 						RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type, false);
 						double distanceTotal = Util.GetRunITotalDistance(currentRunInterval.DistanceInterval, 
 								runType.DistancesString, currentRunInterval.Tracks);
@@ -6485,7 +6388,8 @@ LogB.Debug("X");
 				);
 	}
 	
-	private void on_menuitem_check_last_version_activate (object o, EventArgs args) {
+	private void on_menuitem_check_last_version_activate (object o, EventArgs args) 
+	{
 		Json js = new Json();
 		bool success = js.GetLastVersion(progVersion);
 
@@ -6505,25 +6409,37 @@ LogB.Debug("X");
 					js.ResultMessage);
 		}
 	}
-	
-	private void on_menuitem_ping_activate (object o, EventArgs args) {
+
+	private void on_menuitem_ping_activate (object o, EventArgs args) 
+	{
+		pingDo(true);
+	}
+	private void pingAtStart()
+	{
+		pingDo(false);
+	}
+	private void pingDo(bool showInWindow)
+	{
 		Json js = new Json();
 		bool success = js.Ping(UtilAll.GetOS(), UtilAll.ReadVersion(), preferences.machineID);
 
 		if(success) {
 			LogB.Information(js.ResultMessage);
-			new DialogMessage(
-					"Chronojump",
-					Constants.MessageTypes.INFO, 
-					js.ResultMessage);
+			if(showInWindow)
+				new DialogMessage(
+						"Chronojump",
+						Constants.MessageTypes.INFO, 
+						js.ResultMessage);
 		}
 		else {
 			LogB.Error(js.ResultMessage);
-			new DialogMessage(
-					"Chronojump",
-					Constants.MessageTypes.WARNING, 
-					js.ResultMessage);
+			if(showInWindow)
+				new DialogMessage(
+						"Chronojump",
+						Constants.MessageTypes.WARNING, 
+						js.ResultMessage);
 		}
+
 		/*
 		new DialogMessage(
 				"Chronojump",
@@ -6585,11 +6501,11 @@ LogB.Debug("X");
 			
 			//also update the bars plot (to show colors depending on bells changes)
 			if(captureCurvesBarsData.Count > 0) {
-				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
-				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
-				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
+				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
+				double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
+				double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
-						encoderCaptureOptionsWin.GetEncoderInertialDiscardFirstThree(),
+						repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
 						false);	//not capturing
 			} else
 				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
@@ -6626,13 +6542,13 @@ LogB.Debug("X");
 	}
 
 	private void on_button_jumps_profile_help_clicked (object o, EventArgs args) {
-		table_jumps_profile_training.Visible = false;
-		vbox_jumps_profile_help.Visible = ! vbox_jumps_profile_help.Visible;
+		scrolledwindow_jumps_profile_training.Visible = false;
+		scrolledwindow_jumps_profile_help.Visible = ! scrolledwindow_jumps_profile_help.Visible;
 	}
 
 	private void on_button_jumps_profile_training_clicked (object o, EventArgs args) {
-		vbox_jumps_profile_help.Visible = false;
-		table_jumps_profile_training.Visible = ! table_jumps_profile_training.Visible;
+		scrolledwindow_jumps_profile_help.Visible = false;
+		scrolledwindow_jumps_profile_training.Visible = ! scrolledwindow_jumps_profile_training.Visible;
 	}
 
 
@@ -6779,13 +6695,12 @@ LogB.Debug("X");
 	private void sensitiveGuiEventDoing () {
 		session_menuitem.Sensitive = false;
 		menuitem_mode.Sensitive = false;
-		notebook_sup_contacts.Sensitive = false;
 		
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
 		//notebook_capture_analyze.Sensitive = true; 
 		notebook_capture_analyze.GetNthPage(1).Hide();
-		if(radio_menuitem_mode_jumps.Active && radio_mode_jumps_small.Active)
+		if(radio_menuitem_mode_jumps_simple.Active)
 			notebook_capture_analyze.GetNthPage(2).Hide();
 		
 		
@@ -6821,13 +6736,12 @@ LogB.Debug("X");
 
 		session_menuitem.Sensitive = true;
 		menuitem_mode.Sensitive = true;
-		notebook_sup_contacts.Sensitive = true;
 
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
 		//notebook_capture_analyze.Sensitive = true; 
 		notebook_capture_analyze.GetNthPage(1).Show();
-		if(radio_menuitem_mode_jumps.Active && radio_mode_jumps_small.Active)
+		if(radio_menuitem_mode_jumps_simple.Active)
 			notebook_capture_analyze.GetNthPage(2).Show();
 		
 		help_menuitem.Sensitive = true;
@@ -6895,6 +6809,57 @@ LogB.Debug("X");
 					Catalog.GetString("Auto-detection on hardware is inactive.") + " " + Catalog.GetString("Use it if you have problems at start or at capture.")
 				);
 	}
+	
+	private void on_button_chronopic_wizard_clicked (object o, EventArgs args) 
+	{
+		chronopicWizardWin = ChronopicWizardWindow.Show();
+	
+		chronopicWizardWin.FakeButtonChronopicWizardFinished.Clicked -= 
+			new EventHandler(chronopic_wizard_finished);
+		chronopicWizardWin.FakeButtonChronopicWizardFinished.Clicked += new 
+			EventHandler(chronopic_wizard_finished);
+	}
+	private void chronopic_wizard_finished (object o, EventArgs args) 
+	{
+		chronopicWizardWin.FakeButtonChronopicWizardFinished.Clicked -= 
+			new EventHandler(chronopic_wizard_finished);
+		
+		wizardPortContacts = chronopicWizardWin.PortContacts;
+		wizardPortEncoder = chronopicWizardWin.PortEncoder;
+		
+		LogB.Information("wizardPortContacts: " + wizardPortContacts);
+		LogB.Information("wizardPortEncoder: " + wizardPortEncoder);
+	
+		/*
+		 * createChronopicWindow (pass cp,...)
+		 * recreate is true because it has been created on first ChronojumpWindow call
+		 */
+		//contacts and encoder
+		if(wizardPortContacts != "")
+		{
+			Chronopic cpW; //cp Wizard
+			chronopicWin.CreateSPifNeeded(wizardPortContacts);
+			cpW = new Chronopic(chronopicWin.SP);
+			ChronopicPortData cpdata = new ChronopicPortData(1, wizardPortContacts, true);
+			ArrayList cpd = new ArrayList();
+			cpd.Add(cpdata);
+
+			if(wizardPortEncoder == "") //no encoder
+				createChronopicWindow(cpW, cpd, true, "");
+			else
+				createChronopicWindow(cpW, cpd, true, wizardPortEncoder);
+		}
+		else { //only encoder
+			createChronopicWindow(true, wizardPortEncoder);
+		}
+		
+		//need to do this because createChronopicWindow does it but relying on menuitem_mode, and now we are on start page	
+		if(wizardPortEncoder != "")
+			chronopicEncoderLabels(true);
+
+		//all the needed info is take. Can destroy wizard window 
+		chronopicWizardWin.HideAndNull();
+	}
 
 	//start/end auto mode
 	private void sensitiveGuiAutoStartEnd (bool start) {
@@ -6903,7 +6868,6 @@ LogB.Debug("X");
 		menuitem_mode.Sensitive 	= ! start;
 		help_menuitem.Sensitive 	= ! start;
 		frame_persons.Sensitive 	= ! start;
-		notebook_sup_contacts.Sensitive = ! start;
 
 		hbox_jumps_test.Visible 	= ! start;
 		button_auto_start.Visible 	= ! start;	
@@ -6911,7 +6875,7 @@ LogB.Debug("X");
 		hbox_jump_auto_controls.Visible  = start;
 		
 		notebook_capture_analyze.GetNthPage(1).Visible = ! start;
-		if(radio_menuitem_mode_jumps.Active)
+		if(radio_menuitem_mode_jumps_simple.Active)
 			notebook_capture_analyze.GetNthPage(2).Visible = ! start;
 
 		//when start, put button delete_this_test as not sensitive

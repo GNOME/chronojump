@@ -61,7 +61,7 @@ public partial class ChronoJumpWindow
 
 		LogB.Debug("At createTreeViewEncoderCapture");
 
-		bool showStartAndDuration = encoderCaptureOptionsWin.check_show_start_and_duration.Active;
+		bool showStartAndDuration = preferences.encoderShowStartAndDuration;
 
 		string [] columnsString = {
 			Catalog.GetString("n") + "\n",

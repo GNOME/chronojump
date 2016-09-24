@@ -321,6 +321,56 @@ public class UpdateProgressBar {
 	~UpdateProgressBar() {}
 }
 
+//start window buttons
+public class MovingStartButton
+{
+	public bool Moving;
+
+	private double pos;
+	private double speed;
+	private int end;
+	public enum Dirs { R, L }
+	private Dirs dir;
+
+
+	public MovingStartButton(int start, int end, Dirs dir)
+	{
+		pos = start;
+		this.end = end;
+		this.dir = dir;
+		Moving = true;
+	}
+	
+	public bool Next()
+	{
+		if(dir == Dirs.R) {
+			if( pos >= end )
+				Moving = false;
+			else {
+				speed = Math.Ceiling(Math.Abs(end-pos)/25.0);
+				pos += speed;
+			}
+		} else {
+			if( pos <= end )
+				Moving = false;
+			else {
+				speed = Math.Ceiling(Math.Abs(end-pos)/25.0);
+				pos -= speed;
+			}
+		}
+
+		//LogB.Information("pos: " + pos + "; speed: " + speed);
+		return true;
+	}
+
+	public int Pos {
+		get { return Convert.ToInt32(pos); }
+	}
+	public int Speed {
+		get { return Convert.ToInt32(speed); }
+	}
+}
+
 //for animate last jump, run, pulse on a bar graph
 public class MovingBar 
 {

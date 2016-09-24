@@ -349,25 +349,18 @@ public class EncoderCurve
 		switch(parameter) {
 			case Constants.MeanSpeed:
 				return Convert.ToDouble(MeanSpeed);
-				break;
 			case Constants.MaxSpeed:
 				return Convert.ToDouble(MaxSpeed);
-				break;
 			case Constants.MeanForce:
 				return Convert.ToDouble(MeanForce);
-				break;
 			case Constants.MaxForce:
 				return Convert.ToDouble(MaxForce);
-				break;
 			case Constants.MeanPower:
 				return Convert.ToDouble(MeanPower);
-				break;
 			case Constants.PeakPower:
 				return Convert.ToDouble(PeakPower);
-				break;
 			default:
 				return Convert.ToDouble(MeanPower);
-				break;
 		}
 	}
 
@@ -1577,25 +1570,18 @@ public class EncoderConfiguration {
 		switch(gearedDown) {
 			case -4:
 				return "4";
-				break;
 			case -3:
 				return "3";
-				break;
 			case -2:
 				return "2";
-				break;
 			case 2:
 				return "1/2";
-				break;
 			case 3:
 				return "1/3";
-				break;
 			case 4:
 				return "1/4";
-				break;
 			default:
 				return "2";
-				break;
 		}
 	}
 	public void SetGearedDownFromDisplay(string gearedUpStr) 

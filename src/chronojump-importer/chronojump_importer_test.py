@@ -248,7 +248,7 @@ class TestDatabase(unittest.TestCase):
         {'initial_name': 'John', 'name_to_insert': 'John', 'expected_inserted_name': 'John (1)'},
         {'initial_name': 'Sam', 'name_to_insert': 'John', 'expected_inserted_name': 'John'}
     )
-    def test_write_duplicate(self, data):
+    def test_write(self, data):
         self._cursor.execute("CREATE TABLE test (uniqueID INTEGER PRIMARY KEY, name TEXT)")
         self._cursor.execute("INSERT INTO test (uniqueID, name) VALUES (1, ?)", (data['initial_name'], ))
 

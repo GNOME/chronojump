@@ -203,7 +203,28 @@ class TestTable(unittest.TestCase):
         self.assertEqual(table.name, "Session")
 
 
+@ddt.ddt
 class TestDatabase(unittest.TestCase):
+    def setUp(self):
+        self._create_database()
+        pass
+
+    def tearDown(self):
+        self._destroy_database()
+        pass
+
+    def _create_database(self):
+        """ Creates an empty file, sets self._database, self._cursor, self._filename """
+        self._filename = tempfile.mktemp(prefix="chronojump_importer_test_database", suffix=".sqlite")
+        open(self._filename, 'a').close()
+
+        self._database = chronojump_importer.Database(self._filename, read_only=False)
+        self._cursor = self._database._cursor
+
+    def _destroy_database(self):
+        self._database.close()
+        os.remove(self._filename)
+
     def test_increment_suffix(self):
         self.assertEqual(chronojump_importer.Database.increment_suffix("Free Jump"), "Free Jump (1)")
         self.assertEqual(chronojump_importer.Database.increment_suffix("Free Jump (1)"), "Free Jump (2)")
@@ -211,43 +232,51 @@ class TestDatabase(unittest.TestCase):
 
     def test_add_prefix(self):
         l = ['hello', 'chronojump']
+
+        # Yes, here we test a private and static method. Just handy and it can get re-tested in test_read()
         actual = chronojump_importer.Database._add_prefix(l, "test_")
         self.assertEqual(actual, ["test_hello", "test_chronojump"])
 
     def test_get_column_names(self):
-        filename = tempfile.mktemp(prefix="chronojump_importer_test_get_column_", suffix=".sqlite")
-        open(filename, 'a').close()
+        self._cursor.execute("CREATE TABLE test (uniqueID INTEGER, name TEXT, surname1 TEXT, surname2 TEXT, age INTEGER)")
 
-        database = chronojump_importer.Database(filename, read_only=False)
-        cursor = database._cursor
-
-        cursor.execute("CREATE TABLE test (uniqueID INTEGER, name TEXT, surname1 TEXT, surname2 TEXT, age INTEGER)")
-
-        columns = database.column_names(table="test", skip_columns=["surname1", "surname2"])
+        columns = self._database.column_names(table="test", skip_columns=["surname1", "surname2"])
 
         self.assertEqual(columns, ["uniqueID", "name", "age"])
 
-        database.close()
-        os.remove(filename)
-
-    def test_write(self):
-        filename = tempfile.mktemp(prefix="chronojump_importer_test_write", suffix=".sqlite")
-        open(filename, 'a').close()
-
-        database = chronojump_importer.Database(filename, read_only=False)
-        cursor = database._cursor
-
-        cursor.execute("CREATE TABLE test (uniqueID INTEGER PRIMARY KEY, name TEXT)")
-        cursor.execute("INSERT INTO test (uniqueID, name) VALUES (1, 'john')")
+    @ddt.data(
+        {'initial_name': 'John', 'name_to_insert': 'John', 'expected_inserted_name': 'John (1)'},
+        {'initial_name': 'Sam', 'name_to_insert': 'John', 'expected_inserted_name': 'John'}
+    )
+    def test_write_duplicate(self, data):
+        self._cursor.execute("CREATE TABLE test (uniqueID INTEGER PRIMARY KEY, name TEXT)")
+        self._cursor.execute("INSERT INTO test (uniqueID, name) VALUES (1, ?)", (data['initial_name'], ))
 
         table = chronojump_importer.Table("test")
         row = chronojump_importer.Row()
         row.set(column_name="uniqueID", value="2")
-        row.set(column_name="name", value="john")
+        row.set(column_name="name", value=data['name_to_insert'])
 
         table.insert_row(row)
 
-        database.write(table=table, matches_columns=None, avoids_duplicate_column="name")
+        self._database.write(table=table, matches_columns=None, avoids_duplicate_column="name")
+
+        self._cursor.execute("SELECT * FROM test WHERE uniqueID=?", (2,))
+        result = self._cursor.fetchone()
+        self.assertEqual(result[0], 2)
+        self.assertEqual(result[1], data['expected_inserted_name'])
+
+    def test_read(self):
+        self._cursor.execute("CREATE TABLE test (uniqueID INTEGER PRIMARY KEY, name TEXT)")
+        self._cursor.execute("INSERT INTO test (uniqueID, name) VALUES (1, ?)", ("John",))
+
+        table = self._database.read(table_name="test", where_condition="1=1")
+
+        self.assertEqual(len(table), 1)
+        row = table[0]
+        self.assertEqual(row.get("uniqueID"), 1)
+        self.assertEqual(row.get("name"), "John")
+        self.assertEqual(self._database.column_names("test"), ["uniqueID", "name"])
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

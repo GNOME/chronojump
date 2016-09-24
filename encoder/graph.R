@@ -843,10 +843,10 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		if(eccon=="ec") {
 			#landing = min(which(force>=weight))
 		
-			if(! canJump(encoderConfigurationName) || length(which(force[eccentric] <= weight)) == 0)
+			if(! canJump(encoderConfigurationName) || length(which(force[eccentric] <= 0)) == 0)
 				landing = -1
 			else {
-				landing = max(which(force[eccentric]<=weight))
+				landing = max(which(force[eccentric]<= 0))
 				abline(v=landing,lty=1,col=cols[2]) 
 				mtext(text=paste(translateToPrint("air")," ",sep=""),side=3,at=landing,cex=.8,adj=1,col=cols[2])
 				mtext(text=paste(" ",translateToPrint("land")," ",sep=""),side=3,at=landing,cex=.8,adj=0,col=cols[2])
@@ -1540,8 +1540,9 @@ paintCrossVariablesLaterality <- function(x, y, laterality, colBalls)
 }
 
 #option: mean or max
-paintCrossVariables <- function (paf, varX, varY, option, dateAsX, 
-				 isAlone, title, singleFile, Eccon, ecconVector, seriesName, 
+paintCrossVariables <- function (paf, varX, varY, option, 
+				 dateAsX, dateTime,
+				 isAlone, title, singleFile, Eccon, ecconVector, seriesName,
 				 diameter, gearedDown,
 				 do1RM, do1RMMethod, outputData1) 
 {
@@ -1583,7 +1584,7 @@ paintCrossVariables <- function (paf, varX, varY, option, dateAsX,
 
 	if(dateAsX) {
 		xCopy <- x
-		x <- as.Date(seriesName)
+		x <- as.Date(dateTime)
 		seriesName <- xCopy
 	}
 	
@@ -2128,8 +2129,8 @@ createPchVector <- function(ecconVector) {
 
 #-------------- end of EncoderConfiguration conversions -------------------------
 
-quitIfNoData <- function(curvesPlot, n, curves, outputData1) {
-        
+quitIfNoData <- function(curvesPlot, n, curves, outputData1, minHeight) 
+{
         debugParameters(listN(n, curves, outputData1), "quitIfNoData")
         
 	#if not found curves with this data, plot a "sorry" message and exit
@@ -2140,7 +2141,8 @@ quitIfNoData <- function(curvesPlot, n, curves, outputData1) {
 		if(! curvesPlot)
 			plot(0,0,type="n",axes=F,xlab="",ylab="")
 
-		text(x=0,y=0,translateToPrint("Sorry, no curves matched your criteria."),cex=1.5)
+		text(x=0, y=0, adj=0, cex=1.2, col="red",
+		     paste(translateToPrint("Sorry, no curves matched your criteria."),"\nMin height is = ",minHeight/10,"cm"))
 		dev.off()
 		write("", outputData1)
 		quit()
@@ -2382,6 +2384,7 @@ doProcess <- function(options)
 				}
 				
 				seriesName[(i+newLines)] = as.vector(inputMultiData$seriesName[i])
+
 				laterality[(i+newLines)] = as.vector(inputMultiData$laterality[i])
 
 				count = count + length(dataTempPhase)
@@ -2416,7 +2419,7 @@ doProcess <- function(options)
 		file.create(paste(op$FeedbackFileBase,"4.txt",sep=""))
 
 		n=length(curves[,1])
-		quitIfNoData(curvesPlot, n, curves, op$OutputData1)
+		quitIfNoData(curvesPlot, n, curves, op$OutputData1, op$MinHeight)
 		
 		#print(curves, stderr())
 	
@@ -2484,7 +2487,7 @@ doProcess <- function(options)
 			curvesPlot = TRUE
 
 		n=length(curves[,1])
-		quitIfNoData(curvesPlot, n, curves, op$OutputData1)
+		quitIfNoData(curvesPlot, n, curves, op$OutputData1, op$MinHeight)
 		
 		print("curves before reduceCurveBySpeed")
 		print(curves)
@@ -3026,16 +3029,19 @@ doProcess <- function(options)
 		}
 		else if(op$Analysis == "cross") {
 			mySeries = "1"
-			if(! singleFile)
+			myDateTime = NULL
+			if(! singleFile) {
 				mySeries = curves[,9]
+				myDateTime = curves[,7]
+			}
 
 			ecconVector = createEcconVector(singleFile, op$Eccon, length(curves[,1]), curves[,8])
 
 			if(op$AnalysisVariables[1] == "Speed,Power") {
 				par(mar=c(5,4,5,5))
 				analysisVertVars = unlist(strsplit(op$AnalysisVariables[1], "\\,"))
-				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[1], 
-						    op$AnalysisVariables[3], FALSE,
+				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[1], op$AnalysisVariables[3], 
+						    FALSE, NULL,
 						    "LEFT", "",
 						    singleFile,
 						    op$Eccon,
@@ -3044,8 +3050,8 @@ doProcess <- function(options)
 						    repOp$diameter, repOp$gearedDown,
 						    FALSE, FALSE, op$OutputData1) 
 				par(new=T)
-				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[2], 
-						    op$AnalysisVariables[3], FALSE,
+				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[2], op$AnalysisVariables[3], 
+						    FALSE, NULL,
 						    "RIGHT", op$Title,
 						    singleFile,
 						    op$Eccon,
@@ -3058,8 +3064,8 @@ doProcess <- function(options)
 				dateAsX <- FALSE
 				if(length(op$AnalysisVariables) == 4 && op$AnalysisVariables[4] == "Date")
 					dateAsX <- TRUE
-				paintCrossVariables(paf, op$AnalysisVariables[2], op$AnalysisVariables[1], 
-						    op$AnalysisVariables[3], dateAsX,
+				paintCrossVariables(paf, op$AnalysisVariables[2], op$AnalysisVariables[1], op$AnalysisVariables[3], 
+						    dateAsX, myDateTime,
 						    "ALONE", op$Title,
 						    singleFile,
 						    op$Eccon,

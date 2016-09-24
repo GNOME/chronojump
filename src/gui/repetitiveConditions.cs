@@ -576,6 +576,41 @@ public class RepetitiveConditionsWindow
 		get { return Convert.ToInt32(spinbutton_encoder_automatic_lower.Value); }
 	}
 	
+	public double GetMainVariableHigher(string mainVariable) 
+	{
+		if(mainVariable == Constants.MeanSpeed && EncoderMeanSpeedHigher)
+			return EncoderMeanSpeedHigherValue;
+		else if(mainVariable == Constants.MaxSpeed && EncoderMaxSpeedHigher)
+			return EncoderMaxSpeedHigherValue;
+		else if(mainVariable == Constants.MeanForce && EncoderMeanForceHigher)
+			return EncoderMeanForceHigherValue;
+		else if(mainVariable == Constants.MaxForce && EncoderMaxForceHigher)
+			return EncoderMaxForceHigherValue;
+		else if(mainVariable == Constants.MeanPower && EncoderPowerHigher)
+			return EncoderPowerHigherValue;
+		else if(mainVariable == Constants.PeakPower && EncoderPeakPowerHigher)
+			return EncoderPeakPowerHigherValue;
+
+		return -1;
+	}
+
+	public double GetMainVariableLower(string mainVariable) 
+	{
+		if(mainVariable == Constants.MeanSpeed && EncoderMeanSpeedLower)
+			return EncoderMeanSpeedLowerValue;
+		else if(mainVariable == Constants.MaxSpeed && EncoderMaxSpeedLower)
+			return EncoderMaxSpeedLowerValue;
+		else if(mainVariable == Constants.MeanForce && EncoderMeanForceLower)
+			return EncoderMeanForceLowerValue;
+		else if(mainVariable == Constants.MaxForce && EncoderMaxForceLower)
+			return EncoderMaxForceLowerValue;
+		else if(mainVariable == Constants.MeanPower && EncoderPowerLower)
+			return EncoderPowerLowerValue;
+		else if(mainVariable == Constants.PeakPower && EncoderPeakPowerLower)
+			return EncoderPeakPowerLowerValue;
+			
+		return -1;
+	}
 
 	//height
 	public bool EncoderHeightHigher {

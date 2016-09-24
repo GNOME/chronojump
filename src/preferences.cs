@@ -79,6 +79,8 @@ public class Preferences
 	public string machineID;
 	public Constants.MultimediaStorage multimediaStorage;
 	public string databaseVersion;
+				
+	public int encoderCaptureTimeIM = 120; //hardcoded 2 minutes.
 
 	/*
 	 * these are unused on SqlitePreferences.SelectAll
@@ -103,6 +105,27 @@ public class Preferences
 			return encoderCaptureMinHeightInertial;
 		else
 			return encoderCaptureMinHeightGravitatory;
+	}
+	
+	public bool EncoderChangeMinHeight(bool inertial, int minHeight) 
+	{
+		bool changed = false;
+
+		if(inertial && minHeight != encoderCaptureMinHeightInertial) 
+		{
+			encoderCaptureMinHeightInertial = minHeight;
+			SqlitePreferences.Update("encoderCaptureMinHeightInertial", 
+					minHeight.ToString(), false);
+			changed = true;
+		}
+		else if(! inertial && minHeight != encoderCaptureMinHeightGravitatory)
+		{
+			encoderCaptureMinHeightGravitatory = minHeight;
+			SqlitePreferences.Update("encoderCaptureMinHeightGravitatory", 
+					minHeight.ToString(), false);
+			changed = true;
+		}
+		return changed;
 	}
 
 	~Preferences() {}

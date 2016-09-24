@@ -389,10 +389,9 @@ public class TreeViewJumpsRj : TreeViewJumps
 		if (preferences.showStiffness) {
 			//use directly Util.GetStiffness because we want to get from this specific subjump, not all the reactive jump.
 			if(Convert.ToDouble(thisTc) > 0) {
-				//show as integer in treeview, but let the other parts of the software (export) to show it as double
-				myData[count++] = Convert.ToInt32(
+				myData[count++] = Util.TrimDecimals(
 						Util.GetStiffness(personWeight, weightInKg, Convert.ToDouble(thisTv), Convert.ToDouble(thisTc))
-						).ToString();
+						.ToString(), 1);
 			}
 			else
 				myData[count++] = ""; 

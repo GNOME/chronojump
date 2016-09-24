@@ -220,9 +220,9 @@ public class ChronopicAutoDetect
 		 *
 		 * So the solution is:
 		 * if we are searching encoder, on every port first check if 4MHz connection can be stablished, if it's Found, then normal Chronopic is found
-		 * if is not Fount, then search for the encoder.
+		 * if is not Found, then search for the encoder.
 		 *
-		 * The only problem is in normal Chronopics with old firmware (without the 'J' read/write
+		 * The only problem is in normal Chronopics with old firmware (without the 'J' read/write)
 		 * they will not work after trying to be recognised as an encoder, until reset or disconnect cable
 		 *
 		 */
@@ -281,7 +281,7 @@ public class ChronopicAutoDetect
 				/*
 				 * we are searching an encoder
 				 * if we arrived here, we know is not a normal chronopic
-				 * then wecan search safely for an encoder here
+				 * then we can search safely for an encoder here
 				 */
 				ChronopicAuto caEncoder = new ChronopicAutoCheckEncoder();
 				caEncoder.IsEncoder = true;    //for the bauds.

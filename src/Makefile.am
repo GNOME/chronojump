@@ -7,6 +7,7 @@ LINK = $(REF_DEP_CHRONOJUMP)
 SOURCES = \
 	gui/chronojump.cs\
 	gui/chronopic.cs\
+	gui/chronopicWizard.cs\
 	gui/confirm.cs\
 	gui/encoder.cs\
 	gui/encoderTreeviews.cs\
@@ -48,6 +49,7 @@ SOURCES = \
 	gui/networks.cs\
 	gui/queryServer.cs\
 	gui/usefulObjects.cs\
+	gui/old/chronojumpServerOld.cs\
 	statType.cs\
 	stats/main.cs\
 	stats/chronojumpProfile.cs\
@@ -160,6 +162,7 @@ SOURCES = \
 	utilEncoder.cs\
 	utilGtk.cs\
 	utilLanguage.cs\
+	utilMath.cs\
 	utilVideo.cs\
 	constants.cs\
 	report.cs\
@@ -298,6 +301,8 @@ RESOURCES = \
 	../images/stock_right_left.png,stock_right_left.png \
 	../images/stock_up.png,stock_up.png \
 	../images/stock_up_down.png,stock_up_down.png \
+	../images/stock_down.png,stock_down.png \
+	../images/stock_inertial.png,stock_inertial.png \
 	../images/reaction_time_menu.png,reaction_time_menu.png \
 	../images/pulse_menu.png,pulse_menu.png \
 	../images/multichronopic_menu.png,multichronopic_menu.png \

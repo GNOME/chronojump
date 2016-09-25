@@ -1,6 +1,11 @@
 deploy:
 	python deploy_win32.py
 	cp -r deps/* dist/
+	
+	rm dist/FTD2XX_NET_v1.0.14/Readme.chronojump.txt
+	mv dist/FTD2XX_NET_v1.0.14/* dist/bin
+	rmdir dist/FTD2XX_NET_v1.0.14
+
 	python ../encoder/setup-pyserial_pyper_windows.py install
 	python ../encoder/setup-pyserial_pyper_windows.py py2exe -d "dist/bin/encoder"
 	cd ../chronopic-firmware/chronopic-firmwarecord/; python setup.py -d "dist/bin"

@@ -107,6 +107,9 @@ WINDOWS
 - to compile:
 (from remmina)(if there's any problem with the keyboard, just go outside of Linux GUI using CTRL+ALT+F1 and return)
 
+On the Windows machine desktop, execute "msys - Acceso directo".
+
+In the shell execute:
 chronojump-shell
 cd chronojump
 git pull

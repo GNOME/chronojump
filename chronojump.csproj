@@ -854,6 +854,12 @@
     <EmbeddedResource Include="images\mini\take_off.png">
       <LogicalName>mini/take_off.png</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="images\stock_down.png">
+      <LogicalName>stock_down.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\stock_inertial.png">
+      <LogicalName>stock_inertial.png</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
@@ -1030,6 +1036,9 @@
     <Compile Include="src\stats\graphs\sjCmjAbkPlus.cs" />
     <Compile Include="src\server.cs" />
     <Compile Include="chronojump_server\ChronojumpServer.cs" />
+    <Compile Include="src\gui\chronopicWizard.cs" />
+    <Compile Include="src\utilMath.cs" />
+    <Compile Include="src\gui\old\chronojumpServerOld.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -177,16 +177,6 @@ public class UtilEncoder
 		LogB.Error(Constants.FileNotFound);
 		return false;
 	}
-	
-	public static string GetPythonExecutable() {
-		if (UtilAll.IsWindows ()) {
-			//on Windows we need the \"str\" to call without problems in path with spaces
-			return  "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "python3" + Path.DirectorySeparatorChar + "python.exe") + "\"";
-		} else {
-			// We assume that it's installed in the PATH and that we don't care if it's Python2 or Python3
-			return "python";
-		}
-	}
 
 	/*	
 	private static string getEncoderScriptCapturePython() {

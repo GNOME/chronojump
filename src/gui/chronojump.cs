@@ -2405,11 +2405,16 @@ public partial class ChronoJumpWindow
 
 	private void ImportSessionFromDatabase(string databasePath, int sessionNumber)
 	{
-		string pythonExecutable = UtilEncoder.GetPythonExecutable ();
 		string source_filename = databasePath;
 		string destination_filename = Sqlite.DatabaseFilePath;
 		string session = Convert.ToString (sessionNumber);
-		string importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin" + Path.DirectorySeparatorChar + "chronojump_importer.py");
+		string importer_executable;
+
+		if (UtilAll.IsWindows()) {
+			importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin\\chronojump-importer\\chronojump_importer.py");
+		} else {
+			importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin" + Path.DirectorySeparatorChar + "chronojump_importer.py");
+		}
 
 		Process process = new Process();
 		ProcessStartInfo processStartInfo;
@@ -2418,8 +2423,8 @@ public partial class ChronoJumpWindow
 
 		// TODO: use this to escape the arguments: https://github.com/ericpopivker/Command-Line-Encoder/blob/master/CommandLineEncoder/CommandLineEncoder/Utils.cs
 		// Otherwise source_filename with double quotes, spaces, etc. wouldn't work
-		processStartInfo.Arguments = importer_executable + " --source " + source_filename + " --destination " + destination_filename + " --source_session " + session;
-		processStartInfo.FileName = pythonExecutable;
+		processStartInfo.Arguments = " --source " + CommandLineEncoder.EncodeArgText (source_filename) + " --destination " + CommandLineEncoder.EncodeArgText (destination_filename) + " --source_session " + CommandLineEncoder.EncodeArgText (session);
+		processStartInfo.FileName = importer_executable;
 
 		LogB.Debug ("chronojump-importer fileName:" + processStartInfo.FileName);
 		LogB.Debug ("chronojump-importer Arguments:" + processStartInfo.Arguments);
@@ -2464,6 +2469,7 @@ public partial class ChronoJumpWindow
 
 		process.WaitForExit ();
 		updateComboStats ();
+		new DialogMessage (Constants.MessageTypes.INFO, Catalog.GetString ("Session imported"));
 	}
 
 	private void on_open_activate (object o, EventArgs args) 

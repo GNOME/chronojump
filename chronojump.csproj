@@ -1039,6 +1039,7 @@
     <Compile Include="src\gui\chronopicWizard.cs" />
     <Compile Include="src\utilMath.cs" />
     <Compile Include="src\gui\old\chronojumpServerOld.cs" />
+    <Compile Include="src\commandLineEncoder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

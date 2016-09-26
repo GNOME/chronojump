@@ -165,6 +165,7 @@ SOURCES = \
 	utilMath.cs\
 	utilVideo.cs\
 	constants.cs\
+	commandLineEncoder.cs\
 	report.cs\
 	sport.cs\
 	log.cs\

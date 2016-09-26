@@ -2405,18 +2405,19 @@ public partial class ChronoJumpWindow
 
 	private void ImportSessionFromDatabase(string databasePath, int sessionNumber)
 	{
-		string importerPath = UtilEncoder.GetChronojumpImporter ();
+		string pythonExecutable = UtilEncoder.GetPythonExecutable ();
 		string source_filename = databasePath;
 		string destination_filename = Sqlite.DatabaseFilePath;
-		string session = Convert.ToString (sessionNumber);;
+		string session = Convert.ToString (sessionNumber);
+		string importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin" + Path.DirectorySeparatorChar + "chronojump_importer.py");
 
 		Process process = new Process();
 		ProcessStartInfo processStartInfo;
 
 		processStartInfo = new ProcessStartInfo();
 
-		processStartInfo.Arguments = " --source " + source_filename + " --destination " + destination_filename + " --source_session " + session;
-		processStartInfo.FileName = importerPath;
+		processStartInfo.Arguments = importer_executable + " --source " + source_filename + " --destination " + destination_filename + " --source_session " + session;
+		processStartInfo.FileName = pythonExecutable;
 
 		LogB.Debug ("chronojump-importer fileName:" + processStartInfo.FileName);
 		LogB.Debug ("chronojump-importer Arguments:" + processStartInfo.Arguments);

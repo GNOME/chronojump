@@ -2416,6 +2416,8 @@ public partial class ChronoJumpWindow
 
 		processStartInfo = new ProcessStartInfo();
 
+		// TODO: use this to escape the arguments: https://github.com/ericpopivker/Command-Line-Encoder/blob/master/CommandLineEncoder/CommandLineEncoder/Utils.cs
+		// Otherwise source_filename with double quotes, spaces, etc. wouldn't work
 		processStartInfo.Arguments = importer_executable + " --source " + source_filename + " --destination " + destination_filename + " --source_session " + session;
 		processStartInfo.FileName = pythonExecutable;
 
@@ -2425,14 +2427,23 @@ public partial class ChronoJumpWindow
 		processStartInfo.CreateNoWindow = true;
 		processStartInfo.UseShellExecute = false;
 		processStartInfo.RedirectStandardInput = false;
-		processStartInfo.RedirectStandardError = false;
+		processStartInfo.RedirectStandardError = true;
 		processStartInfo.RedirectStandardOutput = true;
+		process.EnableRaisingEvents = true; // So the callback for Exited is called
+
 		process.OutputDataReceived += new DataReceivedEventHandler(
 			(s, e) =>
 			{ 
 				LogB.Debug(e.Data); 
 			}
 		);
+		process.ErrorDataReceived += new DataReceivedEventHandler (
+			(s, e) =>
+			{
+				LogB.Debug(e.Data);
+			}
+		);
+
 		process.StartInfo = processStartInfo;
 
 		bool started = false;
@@ -2448,7 +2459,11 @@ public partial class ChronoJumpWindow
 
 		if (started) {
 			process.BeginOutputReadLine ();
+			process.BeginErrorReadLine ();
 		}
+
+		process.WaitForExit ();
+		updateComboStats ();
 	}
 
 	private void on_open_activate (object o, EventArgs args) 

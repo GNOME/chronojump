@@ -178,15 +178,14 @@ public class UtilEncoder
 		return false;
 	}
 	
-	public static string GetChronojumpImporter() {
+	public static string GetPythonExecutable() {
 		if (UtilAll.IsWindows ()) {
-			// TODO
-			return "";
+			//on Windows we need the \"str\" to call without problems in path with spaces
+			return  "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "python3" + Path.DirectorySeparatorChar + "python.exe") + "\"";
 		} else {
-			// It's installed in the PATH.
-			return "chronojump_importer.py";
+			// We assume that it's installed in the PATH and that we don't care if it's Python2 or Python3
+			return "python";
 		}
-		// What about OSX?
 	}
 
 	/*	

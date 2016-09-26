@@ -1,6 +1,7 @@
 deploy:
 	python deploy_win32.py
 	cp -r deps/* dist/
+	python ../src/chronojump-importer/py2exec_chronojump_importer.py py2exe -d "dist/bin/chronojump-importer"
 	python ../encoder/setup-pyserial_pyper_windows.py install
 	python ../encoder/setup-pyserial_pyper_windows.py py2exe -d "dist/bin/encoder"
 	cd ../chronopic-firmware/chronopic-firmwarecord/; python setup.py -d "dist/bin"

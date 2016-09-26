@@ -598,8 +598,14 @@ public partial class ChronoJumpWindow {
 			
 			//by default show all simple nonTC jumps, but if combo_stats_subtype changed
 			//updateComboStatsSubType() will do the work
+
+			
+			string[] jumps = SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "nonTC", true);
+
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-				SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "nonTC", true), ""); //only select name
+				jumps, ""); //only select name
+			UtilGtk.ComboUpdate(combo_select_jumps, jumps, "");
+
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 

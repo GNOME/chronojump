@@ -2421,8 +2421,6 @@ public partial class ChronoJumpWindow
 
 		processStartInfo = new ProcessStartInfo();
 
-		// TODO: use this to escape the arguments: https://github.com/ericpopivker/Command-Line-Encoder/blob/master/CommandLineEncoder/CommandLineEncoder/Utils.cs
-		// Otherwise source_filename with double quotes, spaces, etc. wouldn't work
 		processStartInfo.Arguments = " --source " + CommandLineEncoder.EncodeArgText (source_filename) + " --destination " + CommandLineEncoder.EncodeArgText (destination_filename) + " --source_session " + CommandLineEncoder.EncodeArgText (session);
 		processStartInfo.FileName = importer_executable;
 

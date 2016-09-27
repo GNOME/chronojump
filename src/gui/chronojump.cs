@@ -2411,7 +2411,7 @@ public partial class ChronoJumpWindow
 		string importer_executable;
 
 		if (UtilAll.IsWindows()) {
-			importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin\\chronojump-importer\\chronojump_importer.py");
+			importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin\\chronojump-importer\\chronojump_importer.exe");
 		} else {
 			importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin" + Path.DirectorySeparatorChar + "chronojump_importer.py");
 		}

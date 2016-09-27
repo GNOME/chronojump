@@ -8,10 +8,10 @@
     <ProjectGuid>{96A7C775-CBB0-4C9C-8DD0-3F0A9AF997FD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>chronojump</RootNamespace>
-    <AssemblyName>chronojump</AssemblyName>
     <StartupObject>ChronoJump</StartupObject>
-    <ReleaseVersion>1.6.2</ReleaseVersion>
     <SynchReleaseVersion>false</SynchReleaseVersion>
+    <ReleaseVersion>1.6.2</ReleaseVersion>
+    <AssemblyName>chronojump</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,9 +22,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <LangVersion>4</LangVersion>
     <PlatformTarget>x86</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>full</DebugType>
@@ -33,9 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>4</LangVersion>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -80,652 +80,488 @@
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
       <LogicalName>test</LogicalName>
-      <LogicalName>gui.stetic</LogicalName>
-      <LogicalName>gui.stetic</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="glade\chronojump.glade">
-      <LogicalName>chronojump.glade</LogicalName>
       <LogicalName>chronojump.glade</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\123804__kendallbear__kendallklap1.wav">
       <LogicalName>123804__kendallbear__kendallklap1.wav</LogicalName>
-      <LogicalName>123804__kendallbear__kendallklap1.wav</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\135936__bradwesson__collectcoin.wav">
-      <LogicalName>135936__bradwesson__collectcoin.wav</LogicalName>
       <LogicalName>135936__bradwesson__collectcoin.wav</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\142608__autistic-lucario__error.wav">
       <LogicalName>142608__autistic-lucario__error.wav</LogicalName>
-      <LogicalName>142608__autistic-lucario__error.wav</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\agility_20yard.png">
-      <LogicalName>agility_20yard.png</LogicalName>
       <LogicalName>agility_20yard.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\agility_3l3r.png">
       <LogicalName>agility_3l3r.png</LogicalName>
-      <LogicalName>agility_3l3r.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\agility_505.png">
-      <LogicalName>agility_505.png</LogicalName>
       <LogicalName>agility_505.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\agility_illinois.png">
       <LogicalName>agility_illinois.png</LogicalName>
-      <LogicalName>agility_illinois.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\agility_shuttle.png">
-      <LogicalName>agility_shuttle.png</LogicalName>
       <LogicalName>agility_shuttle.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\agility_t_test.png">
       <LogicalName>agility_t_test.png</LogicalName>
-      <LogicalName>agility_t_test.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\agility_zigzag.png">
-      <LogicalName>agility_zigzag.png</LogicalName>
       <LogicalName>agility_zigzag.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\audio-volume-high.png">
       <LogicalName>audio-volume-high.png</LogicalName>
-      <LogicalName>audio-volume-high.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\audio-volume-muted.png">
-      <LogicalName>audio-volume-muted.png</LogicalName>
       <LogicalName>audio-volume-muted.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\auto-by-persons.png">
       <LogicalName>auto-by-persons.png</LogicalName>
-      <LogicalName>auto-by-persons.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\auto-by-series.png">
-      <LogicalName>auto-by-series.png</LogicalName>
       <LogicalName>auto-by-series.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\auto-by-tests.png">
       <LogicalName>auto-by-tests.png</LogicalName>
-      <LogicalName>auto-by-tests.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\auto-person-remove.png">
-      <LogicalName>auto-person-remove.png</LogicalName>
       <LogicalName>auto-person-remove.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\auto-person-skip.png">
       <LogicalName>auto-person-skip.png</LogicalName>
-      <LogicalName>auto-person-skip.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\calendar.png">
-      <LogicalName>calendar.png</LogicalName>
       <LogicalName>calendar.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump-boscosystem.png">
       <LogicalName>chronojump-boscosystem.png</LogicalName>
-      <LogicalName>chronojump-boscosystem.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump-boscosystem_320.png">
-      <LogicalName>chronojump-boscosystem_320.png</LogicalName>
       <LogicalName>chronojump-boscosystem_320.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump-boscosystem_white_bg.png">
       <LogicalName>chronojump-boscosystem_white_bg.png</LogicalName>
-      <LogicalName>chronojump-boscosystem_white_bg.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump-encoder-small.png">
-      <LogicalName>chronojump-encoder-small.png</LogicalName>
       <LogicalName>chronojump-encoder-small.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump-inertial.png">
       <LogicalName>chronojump-inertial.png</LogicalName>
-      <LogicalName>chronojump-inertial.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump-jumps-small.png">
-      <LogicalName>chronojump-jumps-small.png</LogicalName>
       <LogicalName>chronojump-jumps-small.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump-logo-2013.png">
       <LogicalName>chronojump-logo-2013.png</LogicalName>
-      <LogicalName>chronojump-logo-2013.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump-logo-2013_320.png">
-      <LogicalName>chronojump-logo-2013_320.png</LogicalName>
       <LogicalName>chronojump-logo-2013_320.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump-runs-small.png">
       <LogicalName>chronojump-runs-small.png</LogicalName>
-      <LogicalName>chronojump-runs-small.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump_320.png">
-      <LogicalName>chronojump_320.png</LogicalName>
       <LogicalName>chronojump_320.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump_icon.png">
       <LogicalName>chronojump_icon.png</LogicalName>
-      <LogicalName>chronojump_icon.png</LogicalName>
-      <LogicalName>chronojump_icon.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump_icon_512.png">
-      <LogicalName>chronojump_icon_512.png</LogicalName>
       <LogicalName>chronojump_icon_512.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump_icon_graph.png">
       <LogicalName>chronojump_icon_graph.png</LogicalName>
-      <LogicalName>chronojump_icon_graph.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump_icon_install_win.ico">
-      <LogicalName>chronojump_icon_install_win.ico</LogicalName>
       <LogicalName>chronojump_icon_install_win.ico</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump_logo.png">
       <LogicalName>chronojump_logo.png</LogicalName>
-      <LogicalName>chronojump_logo.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronopic1.jpg">
-      <LogicalName>chronopic1.jpg</LogicalName>
       <LogicalName>chronopic1.jpg</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronopic2.jpg">
       <LogicalName>chronopic2.jpg</LogicalName>
-      <LogicalName>chronopic2.jpg</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronopic3.jpg">
-      <LogicalName>chronopic3.jpg</LogicalName>
       <LogicalName>chronopic3.jpg</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronopic_128.png">
       <LogicalName>chronopic_128.png</LogicalName>
-      <LogicalName>chronopic_128.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronopic_24.png">
-      <LogicalName>chronopic_24.png</LogicalName>
       <LogicalName>chronopic_24.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\delete_last.png">
       <LogicalName>delete_last.png</LogicalName>
-      <LogicalName>delete_last.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\dj-from-in.png">
-      <LogicalName>dj-from-in.png</LogicalName>
       <LogicalName>dj-from-in.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\dj-from-out.png">
       <LogicalName>dj-from-out.png</LogicalName>
-      <LogicalName>dj-from-out.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-1RM.png">
-      <LogicalName>encoder-analyze-1RM.png</LogicalName>
       <LogicalName>encoder-analyze-1RM.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-accel.png">
       <LogicalName>encoder-analyze-accel.png</LogicalName>
-      <LogicalName>encoder-analyze-accel.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-cross.png">
-      <LogicalName>encoder-analyze-cross.png</LogicalName>
       <LogicalName>encoder-analyze-cross.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-current-signal.png">
       <LogicalName>encoder-analyze-current-signal.png</LogicalName>
-      <LogicalName>encoder-analyze-current-signal.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-eccon-separated.png">
-      <LogicalName>encoder-analyze-eccon-separated.png</LogicalName>
       <LogicalName>encoder-analyze-eccon-separated.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-eccon-together.png">
       <LogicalName>encoder-analyze-eccon-together.png</LogicalName>
-      <LogicalName>encoder-analyze-eccon-together.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-force.png">
-      <LogicalName>encoder-analyze-force.png</LogicalName>
       <LogicalName>encoder-analyze-force.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-groupal-current-session.png">
       <LogicalName>encoder-analyze-groupal-current-session.png</LogicalName>
-      <LogicalName>encoder-analyze-groupal-current-session.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-individual-all-sessions.png">
-      <LogicalName>encoder-analyze-individual-all-sessions.png</LogicalName>
       <LogicalName>encoder-analyze-individual-all-sessions.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-individual-current-session.png">
       <LogicalName>encoder-analyze-individual-current-session.png</LogicalName>
-      <LogicalName>encoder-analyze-individual-current-session.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-individual-current-set.png">
-      <LogicalName>encoder-analyze-individual-current-set.png</LogicalName>
       <LogicalName>encoder-analyze-individual-current-set.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-max.png">
       <LogicalName>encoder-analyze-max.png</LogicalName>
-      <LogicalName>encoder-analyze-max.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-mean.png">
-      <LogicalName>encoder-analyze-mean.png</LogicalName>
       <LogicalName>encoder-analyze-mean.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-nmp.png">
       <LogicalName>encoder-analyze-nmp.png</LogicalName>
-      <LogicalName>encoder-analyze-nmp.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-power.png">
-      <LogicalName>encoder-analyze-power.png</LogicalName>
       <LogicalName>encoder-analyze-power.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-powerbars.png">
       <LogicalName>encoder-analyze-powerbars.png</LogicalName>
-      <LogicalName>encoder-analyze-powerbars.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-range.png">
-      <LogicalName>encoder-analyze-range.png</LogicalName>
       <LogicalName>encoder-analyze-range.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-saved-curves.png">
       <LogicalName>encoder-analyze-saved-curves.png</LogicalName>
-      <LogicalName>encoder-analyze-saved-curves.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-side.png">
-      <LogicalName>encoder-analyze-side.png</LogicalName>
       <LogicalName>encoder-analyze-side.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-single.png">
       <LogicalName>encoder-analyze-single.png</LogicalName>
-      <LogicalName>encoder-analyze-single.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-speed.png">
-      <LogicalName>encoder-analyze-speed.png</LogicalName>
       <LogicalName>encoder-analyze-speed.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-time-to-pp.png">
       <LogicalName>encoder-analyze-time-to-pp.png</LogicalName>
-      <LogicalName>encoder-analyze-time-to-pp.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-calcule-im.png">
-      <LogicalName>encoder-calcule-im.png</LogicalName>
       <LogicalName>encoder-calcule-im.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-image-pending.png">
       <LogicalName>encoder-image-pending.png</LogicalName>
-      <LogicalName>encoder-image-pending.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-linear-free-weight-inv.png">
-      <LogicalName>encoder-linear-free-weight-inv.png</LogicalName>
       <LogicalName>encoder-linear-free-weight-inv.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-linear-free-weight.png">
       <LogicalName>encoder-linear-free-weight.png</LogicalName>
-      <LogicalName>encoder-linear-free-weight.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-linear-inclined-plane-weight-diff-angle.png">
-      <LogicalName>encoder-linear-inclined-plane-weight-diff-angle.png</LogicalName>
       <LogicalName>encoder-linear-inclined-plane-weight-diff-angle.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-linear-inclined-plane.png">
       <LogicalName>encoder-linear-inclined-plane.png</LogicalName>
-      <LogicalName>encoder-linear-inclined-plane.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-linear-inertial.png">
-      <LogicalName>encoder-linear-inertial.png</LogicalName>
       <LogicalName>encoder-linear-inertial.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-linear-inv-on-person-weighted-moving-pulley1.png">
       <LogicalName>encoder-linear-inv-on-person-weighted-moving-pulley1.png</LogicalName>
-      <LogicalName>encoder-linear-inv-on-person-weighted-moving-pulley1.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-linear-inv-on-person-weighted-moving-pulley2.png">
-      <LogicalName>encoder-linear-inv-on-person-weighted-moving-pulley2.png</LogicalName>
       <LogicalName>encoder-linear-inv-on-person-weighted-moving-pulley2.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-linear-on-person-weighted-moving-pulley1.png">
       <LogicalName>encoder-linear-on-person-weighted-moving-pulley1.png</LogicalName>
-      <LogicalName>encoder-linear-on-person-weighted-moving-pulley1.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-linear-on-person-weighted-moving-pulley2.png">
-      <LogicalName>encoder-linear-on-person-weighted-moving-pulley2.png</LogicalName>
       <LogicalName>encoder-linear-on-person-weighted-moving-pulley2.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-linear-on-weighted-moving-pulley.png">
       <LogicalName>encoder-linear-on-weighted-moving-pulley.png</LogicalName>
-      <LogicalName>encoder-linear-on-weighted-moving-pulley.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-linear.png">
-      <LogicalName>encoder-linear.png</LogicalName>
       <LogicalName>encoder-linear.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-axis-inertial-lateral.png">
       <LogicalName>encoder-rotary-axis-inertial-lateral.png</LogicalName>
-      <LogicalName>encoder-rotary-axis-inertial-lateral.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-axis-inertial-mov-pulley.png">
-      <LogicalName>encoder-rotary-axis-inertial-mov-pulley.png</LogicalName>
       <LogicalName>encoder-rotary-axis-inertial-mov-pulley.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-axis-inertial.png">
       <LogicalName>encoder-rotary-axis-inertial.png</LogicalName>
-      <LogicalName>encoder-rotary-axis-inertial.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png">
-      <LogicalName>encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png</LogicalName>
       <LogicalName>encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-axis-pulley-axis.png">
       <LogicalName>encoder-rotary-axis-pulley-axis.png</LogicalName>
-      <LogicalName>encoder-rotary-axis-pulley-axis.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-axis.png">
-      <LogicalName>encoder-rotary-axis.png</LogicalName>
       <LogicalName>encoder-rotary-axis.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-friction-axis-inertial-lateral.png">
       <LogicalName>encoder-rotary-friction-axis-inertial-lateral.png</LogicalName>
-      <LogicalName>encoder-rotary-friction-axis-inertial-lateral.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-friction-axis-inertial-mov-pulley.png">
-      <LogicalName>encoder-rotary-friction-axis-inertial-mov-pulley.png</LogicalName>
       <LogicalName>encoder-rotary-friction-axis-inertial-mov-pulley.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-friction-axis-inertial.png">
       <LogicalName>encoder-rotary-friction-axis-inertial.png</LogicalName>
-      <LogicalName>encoder-rotary-friction-axis-inertial.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png">
-      <LogicalName>encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png</LogicalName>
       <LogicalName>encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-friction-pulley-axis.png">
       <LogicalName>encoder-rotary-friction-pulley-axis.png</LogicalName>
-      <LogicalName>encoder-rotary-friction-pulley-axis.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-friction-pulley.png">
-      <LogicalName>encoder-rotary-friction-pulley.png</LogicalName>
       <LogicalName>encoder-rotary-friction-pulley.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-friction-side-inertial-lateral.png">
       <LogicalName>encoder-rotary-friction-side-inertial-lateral.png</LogicalName>
-      <LogicalName>encoder-rotary-friction-side-inertial-lateral.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-friction-side-inertial-mov-pulley.png">
-      <LogicalName>encoder-rotary-friction-side-inertial-mov-pulley.png</LogicalName>
       <LogicalName>encoder-rotary-friction-side-inertial-mov-pulley.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-friction-side-inertial.png">
       <LogicalName>encoder-rotary-friction-side-inertial.png</LogicalName>
-      <LogicalName>encoder-rotary-friction-side-inertial.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-rotary-friction.png">
-      <LogicalName>encoder-rotary-friction.png</LogicalName>
       <LogicalName>encoder-rotary-friction.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\gesell_dbt.png">
       <LogicalName>gesell_dbt.png</LogicalName>
-      <LogicalName>gesell_dbt.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\gpm-statistics.png">
-      <LogicalName>gpm-statistics.png</LogicalName>
       <LogicalName>gpm-statistics.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\gtk-new-1.png">
       <LogicalName>gtk-new-1.png</LogicalName>
-      <LogicalName>gtk-new-1.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\gtk-new-plus.png">
-      <LogicalName>gtk-new-plus.png</LogicalName>
       <LogicalName>gtk-new-plus.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\gtk-open-1.png">
       <LogicalName>gtk-open-1.png</LogicalName>
-      <LogicalName>gtk-open-1.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\gtk-open-plus.png">
-      <LogicalName>gtk-open-plus.png</LogicalName>
       <LogicalName>gtk-open-plus.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\gtk-open.png">
       <LogicalName>gtk-open.png</LogicalName>
-      <LogicalName>gtk-open.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\gtk-zoom-fit.png">
-      <LogicalName>gtk-zoom-fit.png</LogicalName>
       <LogicalName>gtk-zoom-fit.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\gtk-zoom-in-with-text.png">
       <LogicalName>gtk-zoom-in-with-text.png</LogicalName>
-      <LogicalName>gtk-zoom-in-with-text.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\gtk-zoom-in.png">
-      <LogicalName>gtk-zoom-in.png</LogicalName>
       <LogicalName>gtk-zoom-in.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\gtk-zoom-out.png">
       <LogicalName>gtk-zoom-out.png</LogicalName>
-      <LogicalName>gtk-zoom-out.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\icon.icns">
-      <LogicalName>icon.icns</LogicalName>
       <LogicalName>icon.icns</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\import-csv-headers.png">
       <LogicalName>import-csv-headers.png</LogicalName>
-      <LogicalName>import-csv-headers.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\import-csv-name-1-column.png">
-      <LogicalName>import-csv-name-1-column.png</LogicalName>
       <LogicalName>import-csv-name-1-column.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\import-csv-name-2-columns.png">
       <LogicalName>import-csv-name-2-columns.png</LogicalName>
-      <LogicalName>import-csv-name-2-columns.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\import-csv-noheaders.png">
-      <LogicalName>import-csv-noheaders.png</LogicalName>
       <LogicalName>import-csv-noheaders.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\inertial-start.png">
       <LogicalName>inertial-start.png</LogicalName>
-      <LogicalName>inertial-start.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\infrared.jpg">
-      <LogicalName>infrared.jpg</LogicalName>
       <LogicalName>infrared.jpg</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_abk.png">
       <LogicalName>jump_abk.png</LogicalName>
-      <LogicalName>jump_abk.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_abk_l.png">
-      <LogicalName>jump_abk_l.png</LogicalName>
       <LogicalName>jump_abk_l.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_cmj.png">
       <LogicalName>jump_cmj.png</LogicalName>
-      <LogicalName>jump_cmj.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_cmj_l.png">
-      <LogicalName>jump_cmj_l.png</LogicalName>
       <LogicalName>jump_cmj_l.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_dj.png">
       <LogicalName>jump_dj.png</LogicalName>
-      <LogicalName>jump_dj.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_dj_a.png">
-      <LogicalName>jump_dj_a.png</LogicalName>
       <LogicalName>jump_dj_a.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_dj_a_inside.png">
       <LogicalName>jump_dj_a_inside.png</LogicalName>
-      <LogicalName>jump_dj_a_inside.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_dj_inside.png">
-      <LogicalName>jump_dj_inside.png</LogicalName>
       <LogicalName>jump_dj_inside.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_free.png">
       <LogicalName>jump_free.png</LogicalName>
-      <LogicalName>jump_free.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_max.png">
-      <LogicalName>jump_max.png</LogicalName>
       <LogicalName>jump_max.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_rj.png">
       <LogicalName>jump_rj.png</LogicalName>
-      <LogicalName>jump_rj.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_rj_hexagon.png">
-      <LogicalName>jump_rj_hexagon.png</LogicalName>
       <LogicalName>jump_rj_hexagon.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_rj_in.png">
       <LogicalName>jump_rj_in.png</LogicalName>
-      <LogicalName>jump_rj_in.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_rocket.png">
-      <LogicalName>jump_rocket.png</LogicalName>
       <LogicalName>jump_rocket.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_sj.png">
       <LogicalName>jump_sj.png</LogicalName>
-      <LogicalName>jump_sj.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jump_sj_l.png">
-      <LogicalName>jump_sj_l.png</LogicalName>
       <LogicalName>jump_sj_l.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\jumps-profile-pie.png">
       <LogicalName>jumps-profile-pie.png</LogicalName>
-      <LogicalName>jumps-profile-pie.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\line_person_avg.png">
-      <LogicalName>line_person_avg.png</LogicalName>
       <LogicalName>line_person_avg.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\line_person_max.png">
       <LogicalName>line_person_max.png</LogicalName>
-      <LogicalName>line_person_max.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\line_person_max_all_sessions.png">
-      <LogicalName>line_person_max_all_sessions.png</LogicalName>
       <LogicalName>line_person_max_all_sessions.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\line_session_avg.png">
       <LogicalName>line_session_avg.png</LogicalName>
-      <LogicalName>line_session_avg.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\line_session_max.png">
-      <LogicalName>line_session_max.png</LogicalName>
       <LogicalName>line_session_max.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\margaria.png">
       <LogicalName>margaria.png</LogicalName>
-      <LogicalName>margaria.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\modular_platform_with_chronopic.jpg">
-      <LogicalName>modular_platform_with_chronopic.jpg</LogicalName>
       <LogicalName>modular_platform_with_chronopic.jpg</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\mtgug.png">
       <LogicalName>mtgug.png</LogicalName>
-      <LogicalName>mtgug.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\multiChronopic.png">
-      <LogicalName>multiChronopic.png</LogicalName>
       <LogicalName>multiChronopic.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\multichronopic_menu.png">
       <LogicalName>multichronopic_menu.png</LogicalName>
-      <LogicalName>multichronopic_menu.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\plataforma_contactos.jpg">
-      <LogicalName>plataforma_contactos.jpg</LogicalName>
       <LogicalName>plataforma_contactos.jpg</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\preferences-system.png">
       <LogicalName>preferences-system.png</LogicalName>
-      <LogicalName>preferences-system.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\pulse_custom.png">
-      <LogicalName>pulse_custom.png</LogicalName>
       <LogicalName>pulse_custom.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\pulse_free.png">
       <LogicalName>pulse_free.png</LogicalName>
-      <LogicalName>pulse_free.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\pulse_menu.png">
-      <LogicalName>pulse_menu.png</LogicalName>
       <LogicalName>pulse_menu.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\reaction_time.png">
       <LogicalName>reaction_time.png</LogicalName>
-      <LogicalName>reaction_time.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\reaction_time_discriminative.png">
-      <LogicalName>reaction_time_discriminative.png</LogicalName>
       <LogicalName>reaction_time_discriminative.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\reaction_time_menu.png">
       <LogicalName>reaction_time_menu.png</LogicalName>
-      <LogicalName>reaction_time_menu.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\report_view.png">
-      <LogicalName>report_view.png</LogicalName>
       <LogicalName>report_view.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\report_web_style.css">
       <LogicalName>report_web_style.css</LogicalName>
-      <LogicalName>report_web_style.css</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\run_analysis.png">
-      <LogicalName>run_analysis.png</LogicalName>
       <LogicalName>run_analysis.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\run_interval.png">
       <LogicalName>run_interval.png</LogicalName>
-      <LogicalName>run_interval.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\run_simple.png">
-      <LogicalName>run_simple.png</LogicalName>
       <LogicalName>run_simple.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\spreadsheet.png">
       <LogicalName>spreadsheet.png</LogicalName>
-      <LogicalName>spreadsheet.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\stock_bell.png">
-      <LogicalName>stock_bell.png</LogicalName>
       <LogicalName>stock_bell.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\stock_bell_green.png">
       <LogicalName>stock_bell_green.png</LogicalName>
-      <LogicalName>stock_bell_green.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\stock_bell_red.png">
-      <LogicalName>stock_bell_red.png</LogicalName>
       <LogicalName>stock_bell_red.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\stock_delete.png">
       <LogicalName>stock_delete.png</LogicalName>
-      <LogicalName>stock_delete.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\stock_right.png">
-      <LogicalName>stock_right.png</LogicalName>
       <LogicalName>stock_right.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\stock_right_left.png">
       <LogicalName>stock_right_left.png</LogicalName>
-      <LogicalName>stock_right_left.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\stock_up.png">
-      <LogicalName>stock_up.png</LogicalName>
       <LogicalName>stock_up.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\stock_up_down.png">
       <LogicalName>stock_up_down.png</LogicalName>
-      <LogicalName>stock_up_down.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\take_off.png">
-      <LogicalName>take_off.png</LogicalName>
       <LogicalName>take_off.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\mini\agility_20yard.png">
@@ -1041,7 +877,6 @@
     <Compile Include="src\gui\old\chronojumpServerOld.cs" />
     <Compile Include="src\commandLineEncoder.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="src\" />
   </ItemGroup>
@@ -2075,6 +1910,7 @@
       <DeployService-TargetDirectoryId>Linux.DesktopApplications</DeployService-TargetDirectoryId>
     </Content>
   </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>

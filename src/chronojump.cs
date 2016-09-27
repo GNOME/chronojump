@@ -77,6 +77,9 @@ public class ChronoJump
 		var envPath = Environment.GetEnvironmentVariable ("PATH");
 		var rBinPath = "";
 		baseDirectory = Util.GetPrefixDir();
+
+		FTD2XX_NET.FTDI ftdi = new FTD2XX_NET.FTDI ();
+
 		if(UtilAll.IsWindows()) {
 			//Environment.SetEnvironmentVariable ("R_HOME", RelativeToPrefix ("library"));
 			//rBinPath = RelativeToPrefix ("lib");

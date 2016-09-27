@@ -68,7 +68,18 @@ public class SqliteSessionSwitcher
 			}
 			SqliteConnection dbcon = sqliteGeneral.connection;
 
-			return SqliteSession.SelectAllSessions (filterName, dbcon);
+			string[] allSessions = SqliteSession.SelectAllSessions (filterName, dbcon);
+
+			// Filtered sessions will contain all sessions but not the "SIMULATED"
+			List<string> filteredSessions = new List<string> ();
+
+			foreach(string session in allSessions) {
+				if (session.Split (':') [1] != "SIMULATED") {
+					filteredSessions.Add (session);
+				}
+			}
+
+			return filteredSessions.ToArray();
 		}
 	}
 

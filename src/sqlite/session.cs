@@ -43,7 +43,7 @@ public class SqliteSessionSwitcher
 	private DatabaseType type;
 	public enum DatabaseType
 	{
-		STANDARD,
+		DEFAULT,
 		SPECIFIC
 	};
 	
@@ -55,14 +55,14 @@ public class SqliteSessionSwitcher
 
 	public string[] SelectAllSessions(string filterName)
 	{
-		if (type == DatabaseType.STANDARD)
+		if (type == DatabaseType.DEFAULT)
 		{
 			return SqliteSession.SelectAllSessions (filterName);
 		}
 		else
 		{
 			SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
-			if (!sqliteGeneral.IsOpened) {
+			if (! sqliteGeneral.IsOpened) {
 				List<string> emptyResult = new List<string> ();
 				return emptyResult.ToArray ();
 			}
@@ -74,7 +74,7 @@ public class SqliteSessionSwitcher
 
 	public Session Select(string myUniqueID)
 	{
-		if (type == DatabaseType.STANDARD)
+		if (type == DatabaseType.DEFAULT)
 		{
 			return SqliteSession.Select (myUniqueID);
 		}
@@ -315,7 +315,28 @@ class SqliteSession : Sqlite
 		return mySessions;
 	}
 
-	public static string[] SelectAllSessions(string filterName, SqliteConnection dbcon)
+	// It's used by chronojump-importer and receives a specific database
+	public static string[] SelectAllSessions(string filterName, SqliteConnection dbcon) 
+	{
+		string [] mySessions = selectAllSessionsDo(filterName, dbcon);
+		return mySessions;
+	}
+
+	// This is the usual chronojump's call (default database)
+	public static string[] SelectAllSessions(string filterName) 
+	{
+		Sqlite.Open();
+
+		// SelectAllSessions is used here and by the Chronojump importer to allow to pass an arbitrary
+		// dbcon.
+		string [] mySessions = selectAllSessionsDo(filterName, dbcon);
+
+		//close database connection
+		Sqlite.Close();
+
+		return mySessions;
+	}
+	private static string[] selectAllSessionsDo(string filterName, SqliteConnection dbcon)
 	{
 		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon
 		// to connect to the database. This methos is used by the importer after opening an arbitrary
@@ -692,19 +713,7 @@ class SqliteSession : Sqlite
 		return mySessions;
 	}
 
-	public static string[] SelectAllSessions(string filterName) 
-	{
-		Sqlite.Open();
 
-		// SelectAllSessions is used here and by the Chronojump importer to allow to pass an arbitrary
-		// dbcon.
-		string [] mySessions = SelectAllSessions(filterName, dbcon);
-
-		//close database connection
-		Sqlite.Close();
-
-		return mySessions;
-	}
 
 	//called from gui/event.cs for doing the graph
 	//we need to know the avg of events of a type (SJ, CMJ, free (pulse).. of a person, or of all persons on the session

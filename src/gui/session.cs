@@ -836,7 +836,7 @@ public class SessionLoadWindow {
 
 		SqliteSessionSwitcher.DatabaseType databaseType;
 		if (type == WindowType.LOAD_SESSION) {
-			databaseType = SqliteSessionSwitcher.DatabaseType.STANDARD;
+			databaseType = SqliteSessionSwitcher.DatabaseType.DEFAULT;
 		} else {
 			databaseType = SqliteSessionSwitcher.DatabaseType.SPECIFIC;
 		}

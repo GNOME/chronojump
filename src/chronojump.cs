@@ -88,8 +88,8 @@ public class ChronoJump
 				System.IO.Path.Combine(baseDirectory, x64) : System.IO.Path.Combine(baseDirectory, i386);
 
 			if (Directory.Exists(rPath) == false) {
-				throw new DirectoryNotFoundException(string.Format("Could not found the specified path to the directory containing R.dll: {0}", rPath));
 				LogB.Error("Could not found the specified path to the directory containing R.dll: ", rPath);
+				throw new DirectoryNotFoundException(string.Format("Could not found the specified path to the directory containing R.dll: {0}", rPath));
 			}
 
 			var newPath = string.Format("{0}{1}{2}", rPath, System.IO.Path.PathSeparator, envPath);

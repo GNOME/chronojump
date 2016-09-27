@@ -129,6 +129,7 @@ SOURCES = \
 	executeAuto.cs\
 	event.cs\
 	eventType.cs\
+	FTD2XX_NET.cs\
 	genericObjects.cs\
 	json.cs\
 	jump.cs\

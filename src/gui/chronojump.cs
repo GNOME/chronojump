@@ -2421,7 +2421,7 @@ public partial class ChronoJumpWindow
 
 		processStartInfo = new ProcessStartInfo();
 
-		processStartInfo.Arguments = " --source " + CommandLineEncoder.EncodeArgText (source_filename) + " --destination " + CommandLineEncoder.EncodeArgText (destination_filename) + " --source_session " + CommandLineEncoder.EncodeArgText (session);
+		processStartInfo.Arguments = " --source \"" + CommandLineEncoder.EncodeArgText (source_filename) + "\" --destination \"" + CommandLineEncoder.EncodeArgText (destination_filename) + "\" --source_session \"" + CommandLineEncoder.EncodeArgText (session) + "\"";
 		processStartInfo.FileName = importer_executable;
 
 		LogB.Debug ("chronojump-importer fileName:" + processStartInfo.FileName);

@@ -78,7 +78,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.32";
+	static string lastChronojumpDatabaseVersion = "1.33";
 
 	public Sqlite() {
 	}
@@ -129,6 +129,17 @@ class Sqlite
 		}
 		
 		IsOpened = false;
+	}
+
+	protected static void openIfNeeded(bool dbconOpened)
+	{
+		if(! dbconOpened)
+			Open();
+	}
+	protected static void closeIfNeeded(bool dbconOpened)
+	{
+		if(! dbconOpened)
+			Close();
 	}
 
 	public static bool Connect()
@@ -1897,6 +1908,13 @@ class Sqlite
 
 				currentVersion = updateVersion("1.32");
 			}
+			if(currentVersion == "1.32") {
+				LogB.SQL("Added chronopicRegister table");
+
+				SqliteChronopicRegister.createTableChronopicRegister();
+
+				currentVersion = updateVersion("1.33");
+			}
 
 
 
@@ -2060,8 +2078,11 @@ class Sqlite
 				
 		SqliteExecuteAuto.createTableExecuteAuto();
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
-		
+
+		SqliteChronopicRegister.createTableChronopicRegister();
+
 		//changes [from - to - desc]
+		//1.32 - 1.33 Converted DB to 1.33 Added chronopicRegister table
 		//1.31 - 1.32 Converted DB to 1.32 encoderCaptureOptionsWin -> preferences
 		//1.30 - 1.31 Converted DB to 1.31 Insert encoderCaptureCheckFullyExtended and ...Value at preferences
 		//1.29 - 1.30 Converted DB to 1.30 Added SIMULATED session

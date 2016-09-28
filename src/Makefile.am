@@ -88,6 +88,7 @@ SOURCES = \
 	stats/graphs/runSimple.cs\
 	stats/graphs/runIntervallic.cs\
 	stats/graphs/jumpSimpleSubtraction.cs\
+	sqlite/chronopicRegister.cs\
 	sqlite/main.cs\
 	sqlite/preferences.cs\
 	sqlite/session.cs\

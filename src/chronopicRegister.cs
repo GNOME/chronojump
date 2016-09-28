@@ -29,28 +29,119 @@ public class ChronopicRegisterPort
 	public string Port;
 	public bool FTDI;
 	public string SerialNumber;
+	public enum Types { UNKNOWN, CONTACTS, ENCODER }
+	public Types Type;
 
-	public ChronopicRegisterPort (string port) {
+	//constructor when port is known (searching FTDI stuff on a serial port)
+	public ChronopicRegisterPort (string port)
+	{
 		this.Port = port;
 		this.FTDI = false;
 		this.SerialNumber = "";
+		this.Type = Types.UNKNOWN;
 	}
 
-	public override string ToString() {
-		return "Port: " + Port + " ; FTDI: " + FTDI.ToString() + " ; SerialNumber: " + SerialNumber;
+	//constructor used on SqliteChronopicRegister.SelectAll()
+	public ChronopicRegisterPort (string serialNumber, Types type)
+	{
+		this.Port = "";
+		this.FTDI = true;
+		this.SerialNumber = serialNumber;
+		this.Type = type;
+	}
+
+	public override string ToString()
+	{
+		return "Port: " + Port + " ; FTDI: " + FTDI.ToString() +
+			" ; SerialNumber: " + SerialNumber + " ; Type: " + Type.ToString();
 	}
 }
+
+public class ChronopicRegisterPortList
+{
+	public List<ChronopicRegisterPort> L;
+
+	//constructor
+	public ChronopicRegisterPortList ()
+	{
+		this.L = SqliteChronopicRegister.SelectAll(false);
+	}
+
+	public void Print()
+	{
+		LogB.Information("Printing ChronopicRegisterPortList... ");
+		foreach(ChronopicRegisterPort crp in L)
+			LogB.Information(crp.ToString());
+
+		LogB.Information("... Done!");
+	}
+
+	public bool Exists(ChronopicRegisterPort crp)
+	{
+		foreach(ChronopicRegisterPort c in L)
+			if(c.SerialNumber == crp.SerialNumber)
+				return true;
+
+		return false;
+	}
+
+	public void Add (ChronopicRegisterPort crp)
+	{
+		//Add to SQL
+		SqliteChronopicRegister.Insert(false, crp);
+
+		//Add to list
+		L.Add(crp);
+	}
+
+	public void Update (ChronopicRegisterPort crp, ChronopicRegisterPort.Types newType)
+	{
+		//Update SQL
+		SqliteChronopicRegister.Update(false, crp, newType);
+
+		//Update list
+		foreach(ChronopicRegisterPort c in L) {
+			if(c.SerialNumber == crp.SerialNumber) {
+				c.Type = newType;
+				break;
+			}
+		}
+	}
+
+	public void Delete (ChronopicRegisterPort crp)
+	{
+		//Delete from SQL
+		SqliteChronopicRegister.Delete(false, crp);
+
+		//Delete from list
+		L.Remove(crp);
+	}
+
+}
+
 
 public class ChronopicRegister 
 {
 	public ChronopicRegister () 
 	{
+		//1 print the registered ports on SQL
+		ChronopicRegisterPortList crpl = new ChronopicRegisterPortList();
+		crpl.Print();
+
 		List<string> ports = getPorts(true);
 		foreach(string p in ports) {
 			LogB.Information(string.Format("ChronopicRegister for port: " + p));
 			ChronopicRegisterPort crp = readFTDI(p);
 			LogB.Information(crp.ToString());
+
+			//2 add to registered list (add also on database)
+			if(crp.FTDI && ! crpl.Exists(crp))
+				crpl.Add(crp);
 		}
+
+		//1 print the registered ports on SQL
+		crpl = new ChronopicRegisterPortList();
+		crpl.Print();
 	}
 
 	private List<string> getPorts(bool debug) 
@@ -65,6 +156,7 @@ public class ChronopicRegister
 		return l;
 	}
 
+	//read all information of one port
 	private ChronopicRegisterPort readFTDI(string port) 
 	{
 		//if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)

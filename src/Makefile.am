@@ -176,6 +176,7 @@ SOURCES = \
 	server.cs\
 	chronopic.cs\
 	chronopicDetect.cs\
+	chronopicRegister.cs\
 	oldCodeNeedToDBConvert/person.cs\
 	oldCodeNeedToDBConvert/personSession.cs\
 	oldCodeNeedToDBConvert/sqlite/person.cs\

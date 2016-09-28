@@ -88,6 +88,7 @@ SOURCES = \
 	stats/graphs/runSimple.cs\
 	stats/graphs/runIntervallic.cs\
 	stats/graphs/jumpSimpleSubtraction.cs\
+	sqlite/chronopicRegister.cs\
 	sqlite/main.cs\
 	sqlite/preferences.cs\
 	sqlite/session.cs\
@@ -129,6 +130,7 @@ SOURCES = \
 	executeAuto.cs\
 	event.cs\
 	eventType.cs\
+	FTD2XX_NET.cs\
 	genericObjects.cs\
 	json.cs\
 	jump.cs\
@@ -176,6 +178,7 @@ SOURCES = \
 	server.cs\
 	chronopic.cs\
 	chronopicDetect.cs\
+	chronopicRegister.cs\
 	oldCodeNeedToDBConvert/person.cs\
 	oldCodeNeedToDBConvert/personSession.cs\
 	oldCodeNeedToDBConvert/sqlite/person.cs\

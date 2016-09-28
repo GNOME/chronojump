@@ -679,6 +679,8 @@ public partial class ChronoJumpWindow
 		pingThread.Start();
 
 		//moveStartTestInitial();
+		
+		ChronopicRegister cr = new ChronopicRegister();
 	}
 
 

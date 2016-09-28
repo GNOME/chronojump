@@ -2410,10 +2410,13 @@ public partial class ChronoJumpWindow
 		string session = Convert.ToString (sessionNumber);
 		string importer_executable;
 
+		string importer_script_path = "";
+
 		if (UtilAll.IsWindows()) {
 			importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin\\chronojump-importer\\chronojump_importer.exe");
 		} else {
-			importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin" + Path.DirectorySeparatorChar + "chronojump_importer.py");
+			importer_executable = "python";		// chronojump_importer works on Python 2 and Python 3
+			importer_script_path = "\"" + CommandLineEncoder.EncodeArgText(System.IO.Path.Combine (Util.GetPrefixDir (), "bin" + Path.DirectorySeparatorChar + "chronojump_importer.py")) + "\"";
 		}
 
 		Process process = new Process();
@@ -2421,7 +2424,7 @@ public partial class ChronoJumpWindow
 
 		processStartInfo = new ProcessStartInfo();
 
-		processStartInfo.Arguments = " --source \"" + CommandLineEncoder.EncodeArgText (source_filename) + "\" --destination \"" + CommandLineEncoder.EncodeArgText (destination_filename) + "\" --source_session \"" + CommandLineEncoder.EncodeArgText (session) + "\"";
+		processStartInfo.Arguments = importer_script_path + " --source \"" + CommandLineEncoder.EncodeArgText (source_filename) + "\" --destination \"" + CommandLineEncoder.EncodeArgText (destination_filename) + "\" --source_session \"" + CommandLineEncoder.EncodeArgText (session) + "\"";
 		processStartInfo.FileName = importer_executable;
 
 		LogB.Debug ("chronojump-importer fileName:" + processStartInfo.FileName);

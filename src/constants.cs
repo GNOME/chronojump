@@ -122,6 +122,8 @@ public class Constants
 	public const string PreferencesTable = "preferences";
 	public const string CountryTable = "country";
 	public const string ConvertTempTable = "convertTemp"; //for conversions
+	public const string ChronopicRegisterTable = "chronopicRegister";
+
 	//tests
 	public const string JumpTable = "jump";
 	public const string JumpRjTable = "jumpRj";

@@ -878,6 +878,7 @@
     <Compile Include="src\commandLineEncoder.cs" />
     <Compile Include="src\chronopicRegister.cs" />
     <Compile Include="src\sqlite\chronopicRegister.cs" />
+    <Compile Include="src\chronojumpImporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

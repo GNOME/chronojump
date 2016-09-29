@@ -2410,69 +2410,17 @@ public partial class ChronoJumpWindow
 		string source_filename = databasePath;
 		string destination_filename = Sqlite.DatabaseFilePath;
 		string session = Convert.ToString (sessionNumber);
-		string importer_executable;
 
-		string importer_script_path = "";
+		ChronojumpImporter chronojumpImporter = new ChronojumpImporter (source_filename, destination_filename, session);
 
-		if (UtilAll.IsWindows()) {
-			importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin\\chronojump-importer\\chronojump_importer.exe");
-		} else {
-			importer_executable = "python";		// chronojump_importer works on Python 2 and Python 3
-			importer_script_path = "\"" + CommandLineEncoder.EncodeArgText(System.IO.Path.Combine (Util.GetPrefixDir (), "bin" + Path.DirectorySeparatorChar + "chronojump_importer.py")) + "\"";
+		ChronojumpImporter.Result result = chronojumpImporter.import ();
+
+		if (result.success) {
+			updateComboStats ();
+			new DialogMessage (Constants.MessageTypes.INFO, Catalog.GetString ("Session imported."));
 		}
-
-		Process process = new Process();
-		ProcessStartInfo processStartInfo;
-
-		processStartInfo = new ProcessStartInfo();
-
-		processStartInfo.Arguments = importer_script_path + " --source \"" + CommandLineEncoder.EncodeArgText (source_filename) + "\" --destination \"" + CommandLineEncoder.EncodeArgText (destination_filename) + "\" --source_session \"" + CommandLineEncoder.EncodeArgText (session) + "\"";
-		processStartInfo.FileName = importer_executable;
-
-		LogB.Debug ("chronojump-importer fileName:" + processStartInfo.FileName);
-		LogB.Debug ("chronojump-importer Arguments:" + processStartInfo.Arguments);
-
-		processStartInfo.CreateNoWindow = true;
-		processStartInfo.UseShellExecute = false;
-		processStartInfo.RedirectStandardInput = false;
-		processStartInfo.RedirectStandardError = true;
-		processStartInfo.RedirectStandardOutput = true;
-		process.EnableRaisingEvents = true; // So the callback for Exited is called
-
-		process.OutputDataReceived += new DataReceivedEventHandler(
-			(s, e) =>
-			{ 
-				LogB.Debug(e.Data); 
-			}
-		);
-		process.ErrorDataReceived += new DataReceivedEventHandler (
-			(s, e) =>
-			{
-				LogB.Debug(e.Data);
-			}
-		);
-
-		process.StartInfo = processStartInfo;
-
-		bool started = false;
-		try {
-			process.Start();
-			started = true;
-		}
-		catch(Exception e) {
-			string errorMessage;
-			errorMessage = String.Format ("Cannot execute:\n   {0}\nwith the parameters:\n   {1}\n\nThe exception is: {2}", processStartInfo.FileName, processStartInfo.Arguments, e.Message);
-			ErrorWindow.Show (errorMessage);
-		}
-
-		if (started) {
-			process.BeginOutputReadLine ();
-			process.BeginErrorReadLine ();
-		}
-
-		process.WaitForExit ();
-		updateComboStats ();
-		new DialogMessage (Constants.MessageTypes.INFO, Catalog.GetString ("Session imported"));
+		else
+			new DialogMessage (Constants.MessageTypes.WARNING, result.error);
 	}
 
 	private void on_open_activate (object o, EventArgs args) 

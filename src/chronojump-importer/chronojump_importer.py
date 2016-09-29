@@ -4,6 +4,7 @@ import argparse
 import logging
 import sqlite3
 import sys
+import json
 
 import re
 
@@ -464,19 +465,33 @@ def import_database(source_path, destination_path, source_session):
     destination_db.write(table=person_session_77, matches_columns=None)
 
 
-def show_information(database_path):
+def json_information(database_path):
+    information = {}
+    information['sessions'] = []
+
     database = Database(database_path, read_only=True)
 
     sessions = database.read(table_name="Session", where_condition="1=1")
 
-    print("sessionID, date, place, comments")
     for session in sessions:
         data = {'uniqueID': session.get('uniqueID'),
                 'date': session.get('date'),
                 'place': session.get('place'),
                 'comments': session.get('comments')
                 }
-        print("{uniqueID}, {date}, {place}, {comments}".format(**data))
+        information['sessions'].append(data)
+
+    preferences = database.read(table_name="Preferences", where_condition="name='databaseVersion'")
+    information['databaseVersion'] = preferences[0].get("value")
+
+    return information
+
+
+def show_json_information(database_path):
+    information = json_information(database_path)
+    information_str = json.dumps(information, sort_keys=True, indent=4)
+
+    print(information_str)
 
 
 def process_command_line():
@@ -488,12 +503,12 @@ def process_command_line():
                         help="chronojump.sqlite that we import to")
     parser.add_argument("--source_session", type=int, required=False,
                         help="Session from source that will be imported to a new session in destination")
-    parser.add_argument("--information", required=False, action='store_true',
+    parser.add_argument("--json_information", required=False, action='store_true',
                         help="Shows information of the source database")
     args = parser.parse_args()
 
-    if args.information:
-        show_information(args.source)
+    if args.json_information:
+        show_json_information(args.source)
     else:
         if args.destination and args.source_session:
             import_database(args.source, args.destination, args.source_session)

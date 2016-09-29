@@ -2413,14 +2413,14 @@ public partial class ChronoJumpWindow
 
 		ChronojumpImporter chronojumpImporter = new ChronojumpImporter (source_filename, destination_filename, session);
 
-		bool imported = chronojumpImporter.import ();
+		ChronojumpImporter.Result result = chronojumpImporter.import ();
 
-		if (imported) {
+		if (result.success) {
 			updateComboStats ();
-			new DialogMessage (Constants.MessageTypes.INFO, Catalog.GetString ("Session imported"));
+			new DialogMessage (Constants.MessageTypes.INFO, Catalog.GetString ("Session imported."));
 		}
-		// If not imported ChronojumpImporter object has already shown errors to the user.
-
+		else
+			new DialogMessage (Constants.MessageTypes.WARNING, result.error);
 	}
 
 	private void on_open_activate (object o, EventArgs args) 

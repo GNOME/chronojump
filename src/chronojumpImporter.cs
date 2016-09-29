@@ -5,12 +5,52 @@ using System.Diagnostics;
 using System;
 using Mono.Unix;
 
+/*
+ * This file is part of ChronoJump
+ *
+ * ChronoJump is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or   
+ * (at your option) any later version.
+ *    
+ * ChronoJump is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Copyright (C) 2016   Carles Pina i Estany <carles@pina.cat>
+ */
+
+
 class ChronojumpImporter
 {
 	private string sourceFile;
 	private string destinationFile;
 	private string session;
 
+
+	// Result struct holds the output, error and success operations. It's used to pass
+	// errors from different layers (e.g. executing Python scripts) to the UI layer
+	public struct Result
+	{
+		public bool success;
+		public string output;
+		public string error;
+
+		public Result(bool success, string output, string error = "")
+		{
+			this.success = success;
+			this.output = output;
+			this.error = error;
+		}
+	}
+
+	// ChronojumpImporter class imports a specific session from sourceFile to destinationFile.
+	// The main method is "import()" which does all the work.
 	public ChronojumpImporter(string sourceFile, string destinationFile, string session)
 	{
 		this.sourceFile = sourceFile;
@@ -18,14 +58,25 @@ class ChronojumpImporter
 		this.session = session;
 	}
 
-	public bool import()
+	// Tries to import the session and files defined in the constructor and returns Result. See
+	// Result struct information to have a better idea.
+	//
+	// It checks the database versions and aborts (see Result information) if this Chronojump
+	// tries to import a newer chronojump version.
+	public Result import()
 	{
-		string sourceDatabaseVersion = getSourceDatabaseVersion ();
-		string destinationDatabaseVersion = getDestinationDatabaseVersion ();
+		Result sourceDatabaseVersion = getSourceDatabaseVersion ();
+		Result destinationDatabaseVersion = getDestinationDatabaseVersion ();
 
-		if (float.Parse(destinationDatabaseVersion) < float.Parse(sourceDatabaseVersion)) {
-			new DialogMessage (Constants.MessageTypes.WARNING, Catalog.GetString ("Trying to import a newer database version than this Chronojump\nPlease, update the running Chronojump."));
-			return false;
+		if (! sourceDatabaseVersion.success)
+			return sourceDatabaseVersion;
+
+		if (! destinationDatabaseVersion.success)
+			return destinationDatabaseVersion;
+
+		if (float.Parse(destinationDatabaseVersion.output) < float.Parse(sourceDatabaseVersion.output)) {
+			return new Result (false, Catalog.GetString ("Trying to import a newer database version than this Chronojump\n" +
+				"Please, update the running Chronojump."));
 		}
 
 		List<string> parameters = new List<string> ();
@@ -36,22 +87,22 @@ class ChronojumpImporter
 		parameters.Add ("--source_session");
 		parameters.Add (CommandLineEncoder.EncodeArgText (session));
 
-		executeChronojumpImporter (parameters);
+		Result result = executeChronojumpImporter (parameters);
 
-		return true;
+		return result;
 	}
 
-	public string getSourceDatabaseVersion()
+	private Result getSourceDatabaseVersion()
 	{
 		return getDatabaseVersionFromFile (sourceFile);
 	}
 
-	public string getDestinationDatabaseVersion()
+	private Result getDestinationDatabaseVersion()
 	{
 		return getDatabaseVersionFromFile (destinationFile);
 	}
 
-	private string getDatabaseVersionFromFile(string filePath)
+	private Result getDatabaseVersionFromFile(string filePath)
 	{
 		List<string> parameters = new List<string> ();
 
@@ -59,16 +110,28 @@ class ChronojumpImporter
 		parameters.Add (filePath);
 		parameters.Add ("--json_information");
 
-		string jsonText = executeChronojumpImporter (parameters);
+		Result result = executeChronojumpImporter (parameters);
 
-		JsonValue result = JsonValue.Parse(jsonText);
+		if (result.success) {
+			JsonValue json = "";
+			try {
+				json = JsonValue.Parse (result.output);
+			} catch (Exception e) {
+				LogB.Debug ("getDatabaseVersionFromFile: invalid JSON content:" + result.output);
+				return new Result(false, "", String.Format(Catalog.GetString("getDatabaseVersionFromFile: invalid JSON content:\n{0}\nException. {1}"), result.output, e.Message));
+			}
 
-		string databaseVersion = result ["databaseVersion"];
+			string databaseVersion = json ["databaseVersion"];
+			
+			return new Result (true, databaseVersion);
 
-		return databaseVersion;
+		} else {
+			LogB.Debug ("getDatabaseVersionFromFile: no success fetching the database version" + filePath);
+			return new Result(false, "", String.Format(Catalog.GetString("getDatabaseVersionFromFile: no success fetching the database version of:\n{0}\nError: {1}"), filePath, result.error));
+		}
 	}
 
-	private string executeChronojumpImporter(List<string> parameters)
+	private Result executeChronojumpImporter(List<string> parameters)
 	{
 		string importer_executable;
 		string importer_script_path = "";
@@ -85,7 +148,6 @@ class ChronojumpImporter
 
 		processStartInfo = new ProcessStartInfo();
 
-		// processStartInfo.Arguments = importer_script_path + " --source \"" + CommandLineEncoder.EncodeArgText (sourceFile) + "\" --destination \"" + CommandLineEncoder.EncodeArgText (destinationFile) + "\" --source_session \"" + CommandLineEncoder.EncodeArgText (session) + "\"";
 		processStartInfo.Arguments = importer_script_path + " " + string.Join (" ", parameters);
 		processStartInfo.FileName = importer_executable;
 
@@ -100,30 +162,38 @@ class ChronojumpImporter
 
 		process.StartInfo = processStartInfo;
 
-		bool started = false;
 		try {
 			process.Start();
-			started = true;
 		}
 		catch(Exception e) {
-			string errorMessage;
-			errorMessage = String.Format ("Cannot execute:\n   {0}\nwith the parameters:\n   {1}\n\nThe exception is: {2}", processStartInfo.FileName, processStartInfo.Arguments, e.Message);
-			ErrorWindow.Show (errorMessage);
-			return "";
+			string errorMessage = String.Format (Catalog.GetString("Cannot start:\n" +
+			                                                       "{0}\n" +
+			                                                       "with the parameters:" +
+			                                                       "{1}\n" +
+			                                                       "Exception:\n" +
+			                                                       "{2}"),
+			                                     processStartInfo.FileName, processStartInfo.Arguments, e.Message);
+			LogB.Information (errorMessage);
+			return new Result (false, "", errorMessage);
 		}
 
-/*		if (started) {
-			process.BeginOutputReadLine ();
-			process.BeginErrorReadLine ();
-		}
-*/
 		string allOutput = "";
 		allOutput += process.StandardOutput.ReadToEnd();
 		allOutput += process.StandardError.ReadToEnd();
-		Console.WriteLine(allOutput);
 
 		process.WaitForExit ();
 
-		return allOutput;
+		if (process.ExitCode != 0) {
+			string errorMessage = String.Format (Catalog.GetString("Error executing: {0}\n" +
+			                                                       "with the parameters: {1}\n" +
+			                                                       "output: {2}"),
+			                                     processStartInfo.FileName, processStartInfo.Arguments, allOutput);
+
+			LogB.Information (errorMessage);
+			// Python interpretar was executed but the Python file wasn't found or the script failed
+			return new Result (false, allOutput, errorMessage);
+		}
+
+		return new Result (true, allOutput);
 	}
 }

@@ -876,6 +876,8 @@
     <Compile Include="src\utilMath.cs" />
     <Compile Include="src\gui\old\chronojumpServerOld.cs" />
     <Compile Include="src\commandLineEncoder.cs" />
+    <Compile Include="src\chronopicRegister.cs" />
+    <Compile Include="src\sqlite\chronopicRegister.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

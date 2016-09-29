@@ -114,6 +114,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Import session from another Chronojump database</property>
+                        <signal name="activate" handler="on_button_encoder_import_chronojump_session" swapped="no"/>
                       </widget>
                     </child>
                     <child>
@@ -18363,6 +18364,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -24169,6 +24173,9 @@ by you</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -24558,6 +24565,9 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -27379,6 +27389,9 @@ by you</property>
               <placeholder/>
             </child>
             <child>
+              <placeholder/>
+            </child>
+            <child>
               <widget class="GtkButton" id="button_video_url">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -27401,6 +27414,9 @@ by you</property>
                 <property name="x_options"/>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -41969,6 +41985,24 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -45368,6 +45402,18 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                     <child>
                       <placeholder/>
                     </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                   </widget>
                 </child>
               </widget>
@@ -46434,9 +46480,6 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                       <placeholder/>
                                     </child>
                                     <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
                                       <widget class="GtkLabel" id="label218">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
@@ -46807,6 +46850,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                         <property name="left_attach">2</property>
                                         <property name="right_attach">3</property>
                                       </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
                                     </child>
                                     <child>
                                       <placeholder/>
@@ -52737,6 +52783,9 @@ Other</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -52763,6 +52812,9 @@ Other</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -53828,6 +53880,9 @@ Other</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

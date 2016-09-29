@@ -14,7 +14,7 @@ public class CommandLineEncoder
 			result = TryEncodeSlashesFollowedByQuotes(result);
 			result = TryEncodeQuotes(result);
 			result = TryEncodeLastSlash(result);
-			return result;
+			return "\"" + result + "\"";
 		}
 
 		private static string TryEncodeNewLine(string original)

@@ -68,6 +68,12 @@ class TestImporter(unittest.TestCase):
 
         shutil.rmtree(temporary_directory_path)
 
+    def test_databaseVersion(self):
+        database_file = "tests/yoyo-source.sqlite"
+        information = chronojump_importer.json_information(database_file)
+        print(information)
+        self.assertEqual(information['databaseVersion'], '1.28')
+
 
 class TestRow(unittest.TestCase):
     def test_get(self):

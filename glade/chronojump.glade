@@ -110,15 +110,6 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkImageMenuItem" id="menuitem_import_chronojump_session">
-                        <property name="label" translatable="yes">Import session from another Chronojump database</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_stock">False</property>
-                        <signal name="activate" handler="on_button_encoder_import_chronojump_session" swapped="no"/>
-                      </widget>
-                    </child>
-                    <child>
                       <widget class="GtkMenuItem" id="menuitem_encoder_session_overview">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -54638,12 +54629,6 @@ Other</property>
                     <child>
                       <placeholder/>
                     </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
                   </widget>
                 </child>
               </widget>
@@ -60932,61 +60917,6 @@ suitable for agility tests and RSA)</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkHBox" id="session_import_box">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <widget class="GtkLabel" id="file_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Path:</property>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkEntry" id="file_path_import">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">●</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
-                <signal name="changed" handler="on_file_path_import_changed" swapped="no"/>
-              </widget>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkButton" id="select_file_import">
-                <property name="label">gtk-open</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_select_file_import_clicked" swapped="no"/>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-          </widget>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
           <widget class="GtkScrolledWindow" id="scrolledwindow5">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
@@ -61003,7 +60933,7 @@ suitable for agility tests and RSA)</property>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
@@ -61048,11 +60978,8 @@ suitable for agility tests and RSA)</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="position">2</property>
           </packing>
-        </child>
-        <child>
-          <placeholder/>
         </child>
       </widget>
     </child>

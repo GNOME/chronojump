@@ -179,6 +179,7 @@ SOURCES = \
 	chronopic.cs\
 	chronopicDetect.cs\
 	chronopicRegister.cs\
+	chronojumpImporter.cs\
 	oldCodeNeedToDBConvert/person.cs\
 	oldCodeNeedToDBConvert/personSession.cs\
 	oldCodeNeedToDBConvert/sqlite/person.cs\

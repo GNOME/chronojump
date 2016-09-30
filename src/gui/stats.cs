@@ -604,7 +604,7 @@ public partial class ChronoJumpWindow {
 
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
 				jumps, ""); //only select name
-			UtilGtk.ComboUpdate(combo_select_jumps, jumps, "");
+			combo_select_jumps.Active = UtilGtk.ComboUpdate(combo_select_jumps, jumps, "");
 
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;

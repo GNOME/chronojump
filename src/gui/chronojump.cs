@@ -680,9 +680,11 @@ public partial class ChronoJumpWindow
 		pingThread = new Thread (new ThreadStart (pingAtStart));
 		pingThread.Start();
 
-		//moveStartTestInitial();
+		//testing ChronopicRegister
+		ChronopicRegisterSelectOS cros = new ChronopicRegisterSelectOS();
+		ChronopicRegister cr = cros.Do();
 		
-		ChronopicRegister cr = new ChronopicRegister();
+		//moveStartTestInitial();
 	}
 
 

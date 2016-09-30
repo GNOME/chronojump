@@ -21,8 +21,11 @@
  * this started at 1.6.3 version
  */
 
+using System;
 using System.Collections.Generic; //List<T>
 using System.Diagnostics; 	//for detect OS and for Process
+using FTD2XX_NET;
+
 
 public class ChronopicRegisterPort
 {
@@ -119,32 +122,61 @@ public class ChronopicRegisterPortList
 
 }
 
-
-public class ChronopicRegister 
+public class ChronopicRegisterSelectOS
 {
-	public ChronopicRegister () 
+	public ChronopicRegisterSelectOS() {
+	}
+
+	public ChronopicRegister Do()
+	{
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+			return new ChronopicRegisterLinux();
+		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+			return new ChronopicRegisterMac();
+		else // WINDOWS
+			return new ChronopicRegisterWindows();
+	}
+}
+
+public abstract class ChronopicRegister
+{
+	protected ChronopicRegisterPortList crpl;
+
+	protected void process()
 	{
 		//1 print the registered ports on SQL
-		ChronopicRegisterPortList crpl = new ChronopicRegisterPortList();
+		crpl = new ChronopicRegisterPortList();
 		crpl.Print();
 
+		//2 create list
+		createList();
+
+		//3 print the registered ports on SQL (debug)
+		crpl = new ChronopicRegisterPortList();
+		crpl.Print();
+	}
+
+	//used on Linux and Mac
+	protected virtual void createList()
+	{
 		List<string> ports = getPorts(true);
-		foreach(string p in ports) {
+		foreach(string p in ports)
+		{
 			LogB.Information(string.Format("ChronopicRegister for port: " + p));
-			ChronopicRegisterPort crp = readFTDI(p);
+
+			ChronopicRegisterPort crp = new ChronopicRegisterPort(p);
+			crp = readFTDI(crp);
+
 			LogB.Information(crp.ToString());
 
 			//2 add to registered list (add also on database)
 			if(crp.FTDI && ! crpl.Exists(crp))
 				crpl.Add(crp);
 		}
-
-		//1 print the registered ports on SQL
-		crpl = new ChronopicRegisterPortList();
-		crpl.Print();
 	}
 
-	private List<string> getPorts(bool debug) 
+	//used on Linux and Mac
+	protected List<string> getPorts(bool debug)
 	{
 		//TODO: move that method here
 		List<string> l = new List<string>(ChronopicPorts.GetPorts());
@@ -156,20 +188,21 @@ public class ChronopicRegister
 		return l;
 	}
 
-	//read all information of one port
-	private ChronopicRegisterPort readFTDI(string port) 
+	//unused
+	protected virtual ChronopicRegisterPort readFTDI(ChronopicRegisterPort crp)
 	{
-		ChronopicRegisterPort crp = new ChronopicRegisterPort(port);
-
-		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
-			return readFTDILinux(crp);
-		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
-			return readFTDIMac(crp);
-		else // WINDOWS
-			return readFTDIWindows(crp);
+		return crp;
 	}
-		
-	private ChronopicRegisterPort readFTDILinux(ChronopicRegisterPort crp) 
+}
+
+public class ChronopicRegisterLinux : ChronopicRegister
+{
+	public ChronopicRegisterLinux ()
+	{
+		process();
+	}
+
+	protected override ChronopicRegisterPort readFTDI(ChronopicRegisterPort crp) 
 	{
 		/*
 		 * old:
@@ -236,8 +269,17 @@ public class ChronopicRegister
 		
 		return crp;
 	}
+}
 
-	private ChronopicRegisterPort readFTDIMac(ChronopicRegisterPort crp)
+
+public class ChronopicRegisterMac : ChronopicRegister
+{
+	public ChronopicRegisterMac ()
+	{
+		process();
+	}
+
+	protected override ChronopicRegisterPort readFTDI(ChronopicRegisterPort crp)
 	{
 		//TODO: 1) check if it's FTDI
 		crp.FTDI = true;
@@ -250,10 +292,82 @@ public class ChronopicRegister
 
 		return crp;
 	}
+}
 
-	private ChronopicRegisterPort readFTDIWindows(ChronopicRegisterPort crp)
+public class ChronopicRegisterWindows : ChronopicRegister
+{
+	FTDI ftdiDeviceWin;
+
+	public ChronopicRegisterWindows ()
 	{
-		return crp;
+		process();
+	}
+
+	protected override void createList()
+	{
+		// Create new instance of the FTDI device class
+		//TODO: check that is created only once?
+		ftdiDeviceWin = new FTDI();
+
+		uint numDevices = getFTDIdevicesWindows();
+		if(numDevices > 0)
+			createListDo(numDevices);
+	}
+
+	private uint getFTDIdevicesWindows()
+	{
+		//based on: http://www.ftdichip.com/Support/SoftwareExamples/CodeExamples/CSharp/EEPROM.zip
+
+		//UInt32 ftdiDeviceCount = 0;
+		uint ftdiDeviceCount = 0;
+		FTDI.FT_STATUS ftStatus = FTDI.FT_STATUS.FT_OK;
+
+		// Determine the number of FTDI devices connected to the machine
+		ftStatus = ftdiDeviceWin.GetNumberOfDevices(ref ftdiDeviceCount);
+		// Check status
+		if (ftStatus != FTDI.FT_STATUS.FT_OK) {
+			LogB.Error("FTDI GetNumberOfDevices failed");
+			return 0;
+		}
+		if (ftdiDeviceCount == 0) {
+			LogB.Information("FTDI GetNumberOfDevices 0");
+			return 0;
+		}
+
+		return ftdiDeviceCount;
+	}
+
+	private void createListDo(uint ftdiDeviceCount)
+	{
+		FTDI.FT_STATUS ftStatus = FTDI.FT_STATUS.FT_OK;
+
+		// Allocate storage for device info list
+		FTDI.FT_DEVICE_INFO_NODE[] ftdiDeviceList = new FTDI.FT_DEVICE_INFO_NODE[ftdiDeviceCount];
+
+		// Populate our device list
+		ftStatus = ftdiDeviceWin.GetDeviceList(ftdiDeviceList);
+
+		if (ftStatus == FTDI.FT_STATUS.FT_OK)
+		{
+			for (uint i = 0; i < ftdiDeviceCount; i++)
+			{
+				LogB.Information(String.Format("Device Index: " + i.ToString()));
+				LogB.Information(String.Format("Flags: " + String.Format("{0:x}", ftdiDeviceList[i].Flags)));
+				LogB.Information(String.Format("Type: " + ftdiDeviceList[i].Type.ToString()));
+				LogB.Information(String.Format("ID: " + String.Format("{0:x}", ftdiDeviceList[i].ID)));
+				LogB.Information(String.Format("Location ID: " + String.Format("{0:x}", ftdiDeviceList[i].LocId)));
+				LogB.Information(String.Format("Serial Number: " + ftdiDeviceList[i].SerialNumber.ToString()));
+				LogB.Information(String.Format("Description: " + ftdiDeviceList[i].Description.ToString()));
+
+				string port = "????"; //TODO
+				ChronopicRegisterPort crp = new ChronopicRegisterPort(port);
+				crp.FTDI = true;
+				crp.SerialNumber = ftdiDeviceList[i].SerialNumber.ToString();
+				crp.Type = ChronopicRegisterPort.Types.UNKNOWN;
+
+				crpl.Add(crp);
+			}
+		}
 	}
 }
 

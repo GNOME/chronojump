@@ -427,6 +427,16 @@ def import_database(source_path, destination_path, source_session):
                          matches_columns=destination_db.column_names("RunType", ["uniqueID"]),
                          avoids_duplicate_column="name")
 
+    # Imports RunIntervalTypes table
+    run_interval_types = source_db.read(table_name="RunIntervalType",
+                                        where_condition="Session.uniqueID={}".format(source_session),
+                                        join_clause="LEFT JOIN RunInterval ON RunIntervalType.name=RunInterval.type LEFT JOIN Session on RunInterval.sessionID=Session.uniqueID",
+                                        group_by_clause="RunIntervalType.uniqueID")
+
+    destination_db.write(table=run_interval_types,
+                         matches_columns=destination_db.column_names("RunIntervalType", ["uniqueID"]),
+                         avoids_duplicate_column="name")
+
     # Imports Persons77 used by JumpRj table
     persons77_jump_rj = source_db.read(table_name="Person77",
                                        where_condition="JumpRj.sessionID={}".format(source_session),
@@ -439,15 +449,22 @@ def import_database(source_path, destination_path, source_session):
                                     join_clause="LEFT JOIN Jump ON Person77.uniqueID=Jump.personID",
                                     group_by_clause="Person77.uniqueID")
 
+    # Imports Person77 used by Run table
     persons77_run = source_db.read(table_name="Person77",
                                     where_condition="Run.sessionID={}".format(source_session),
                                     join_clause="LEFT JOIN Run ON Person77.uniqueID=Run.personID",
                                     group_by_clause="Person77.uniqueID")
 
+    persons77_run_interval = source_db.read(table_name="Person77",
+                                            where_condition="RunInterval.sessionID={}".format(source_session),
+                                            join_clause="LEFT JOIN RunInterval ON Person77.uniqueID=RunInterval.personID",
+                                            group_by_clause="Person77.uniqueID")
+
     persons77 = Table("person77")
     persons77.concatenate_table(persons77_jump)
     persons77.concatenate_table(persons77_jump_rj)
     persons77.concatenate_table(persons77_run)
+    persons77.concatenate_table(persons77_run_interval)
     persons77.remove_duplicates()
 
     destination_db.write(table=persons77,
@@ -478,7 +495,14 @@ def import_database(source_path, destination_path, source_session):
                          where_condition="Run.sessionID={}".format(source_session))
     run.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
     run.update_session_ids(new_session_id)
-    run.update_ids("type", jump_types, "old_name", "new_name")
+    run.update_ids("type", run_types, "old_name", "new_name")
+
+    # Imports RunInterval table (with the new Person77's uniqueIDs)
+    run_interval = source_db.read(table_name="RunInterval",
+                                  where_condition="RunInterval.sessionID={}".format(source_session))
+    run_interval.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
+    run_interval.update_session_ids(new_session_id)
+    run_interval.update_ids("type", run_interval_types, "old_name", "new_name")
 
     # Imports PersonSession77
     person_session_77 = source_db.read(table_name="PersonSession77",

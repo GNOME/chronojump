@@ -159,16 +159,18 @@ public class ChronopicRegister
 	//read all information of one port
 	private ChronopicRegisterPort readFTDI(string port) 
 	{
-		//if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
-			return readFTDILinux(port);
-		//else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
-		//else // WINDOWS
-	}
-		
-	private ChronopicRegisterPort readFTDILinux(string port) 
-	{
 		ChronopicRegisterPort crp = new ChronopicRegisterPort(port);
 
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+			return readFTDILinux(crp);
+		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+			return readFTDIMac(crp);
+		else // WINDOWS
+			return readFTDIWindows(crp);
+	}
+		
+	private ChronopicRegisterPort readFTDILinux(ChronopicRegisterPort crp) 
+	{
 		/*
 		 * old:
 		 * /bin/udevadm info —name=/dev/ttyUSB0 |grep ID_SERIAL_SHORT|cut -d= -f2
@@ -188,7 +190,7 @@ public class ChronopicRegister
 		pinfo.RedirectStandardOutput = true; 
 	
 		//1) get path	
-		pinfo.Arguments = "info -q path -n " + port;
+		pinfo.Arguments = "info -q path -n " + crp.Port;
 		LogB.Information("Arguments:", pinfo.Arguments);
 		
 		Process p = new Process();
@@ -232,6 +234,25 @@ public class ChronopicRegister
 		if(error != "")
 			LogB.Error(error);
 		
+		return crp;
+	}
+
+	private ChronopicRegisterPort readFTDIMac(ChronopicRegisterPort crp)
+	{
+		//TODO: 1) check if it's FTDI
+		crp.FTDI = true;
+
+		//2) read SerialNumber
+		//eg crp.Port = "/dev/tty.usbserialA123456F";
+		string chunk = "usbserial";
+		int pos = crp.Port.LastIndexOf(chunk) + chunk.Length;
+		crp.SerialNumber = crp.Port.Substring(pos); //eg. A123456F
+
+		return crp;
+	}
+
+	private ChronopicRegisterPort readFTDIWindows(ChronopicRegisterPort crp)
+	{
 		return crp;
 	}
 }

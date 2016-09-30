@@ -283,9 +283,15 @@ class Sqlite
 
 	public static string DatabaseFilePath
 	{
-		get
-		{
+		get {
 			return sqlFile;
+		}
+	}
+
+	public static string CurrentVersion
+	{
+		set {
+			currentVersion = value;
 		}
 	}
 

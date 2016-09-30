@@ -38,10 +38,6 @@ class ChronojumpImporter
 	// Session that will import
 	private string session;
 
-	// When importing we might copy the sourceFile to update to the current database.
-	// The file is deleted afterwards
-	private string temporaryFile = "";
-
 	// Result struct holds the output, error and success operations. It's used to pass
 	// errors from different layers (e.g. executing Python scripts) to the UI layer
 	public struct Result
@@ -74,8 +70,11 @@ class ChronojumpImporter
 	// tries to import a newer chronojump version.
 	public Result import()
 	{
-		Result sourceDatabaseVersion = getSourceDatabaseVersion ();
-		Result destinationDatabaseVersion = getDestinationDatabaseVersion ();
+		string temporarySourceFile = Path.GetTempFileName ();
+		File.Copy (sourceFile, temporarySourceFile, true);
+
+		Result sourceDatabaseVersion = getDatabaseVersionFromFile (temporarySourceFile);
+		Result destinationDatabaseVersion = getDatabaseVersionFromFile (destinationFile);
 
 		if (! sourceDatabaseVersion.success)
 			return sourceDatabaseVersion;
@@ -90,9 +89,11 @@ class ChronojumpImporter
 			return new Result (false, Catalog.GetString ("Trying to import a newer database version than this Chronojump\n" +
 				"Please, update the running Chronojump."));
 		} else if (destinationDatabaseVersionNum > sourceDatabaseVersionNum) {
-			updateSourceDatabase ();
+			LogB.Debug ("chronojump-importer version before update: ", sourceDatabaseVersion.output);
+			updateDatabase (temporarySourceFile);
+			string versionAfterUpdate = getDatabaseVersionFromFile (temporarySourceFile).output;
+			LogB.Debug ("chronojump-importer version after update: ", versionAfterUpdate);
 		}
-
 
 		List<string> parameters = new List<string> ();
 		parameters.Add ("--source");
@@ -104,41 +105,27 @@ class ChronojumpImporter
 
 		Result result = executeChronojumpImporter (parameters);
 
-		if (temporaryFile != "") {
-			File.Delete (temporaryFile);
-			temporaryFile = "";
-		}
+		File.Delete (temporarySourceFile);
 
 		return result;
 	}
 
-	private bool updateSourceDatabase()
+	private static void updateDatabase(string databaseFile)
 	{
 		StaticClassState classOriginalState = new StaticClassState (typeof (Sqlite));
-		temporaryFile = Path.GetTempFileName ();
-
-		File.Copy (sourceFile, temporaryFile, true);
 
 		classOriginalState.readAttributes ();
 
 		classOriginalState.writeAttributes (Sqlite.InitialState);
-		Sqlite.setSqlFilePath (temporaryFile);
+
+		Sqlite.CurrentVersion = "0";
+		Sqlite.setSqlFilePath (databaseFile);
+		Sqlite.Connect ();
+
 		Sqlite.ConvertToLastChronojumpDBVersion ();
 
 		classOriginalState.writeAttributes (classOriginalState);
 		Sqlite.Connect ();
-
-		return true;
-	}
-
-	private Result getSourceDatabaseVersion()
-	{
-		return getDatabaseVersionFromFile (sourceFile);
-	}
-
-	private Result getDestinationDatabaseVersion()
-	{
-		return getDatabaseVersionFromFile (destinationFile);
 	}
 
 	private Result getDatabaseVersionFromFile(string filePath)

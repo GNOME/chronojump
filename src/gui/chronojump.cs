@@ -2938,7 +2938,7 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = 0;
 			notebook_capture_analyze.ShowTabs = true;
 
-			menuitem_import_chronojump_session.Visible = false;	// not implemented yet
+			menuitem_import_chronojump_session.Visible = true;
 
 			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
 			{

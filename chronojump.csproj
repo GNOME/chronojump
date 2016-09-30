@@ -879,6 +879,7 @@
     <Compile Include="src\chronopicRegister.cs" />
     <Compile Include="src\sqlite\chronopicRegister.cs" />
     <Compile Include="src\chronojumpImporter.cs" />
+    <Compile Include="src\staticClassState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

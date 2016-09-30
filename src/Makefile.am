@@ -176,6 +176,7 @@ SOURCES = \
 	serverPing.cs\
 	serverEvaluator.cs\
 	server.cs\
+	staticClassState.cs\
 	chronopic.cs\
 	chronopicDetect.cs\
 	chronopicRegister.cs\

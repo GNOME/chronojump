@@ -116,6 +116,10 @@ class Sqlite
 	public static bool IsOpened = false;
 	public static bool SafeClose = true;
 
+	// Here it saves the initial class state before it's used. So we can restore it any time
+	// if needed
+	private static StaticClassState initialState;
+
 	/*
 	 * Important, change this if there's any update to database
 	 */
@@ -279,9 +283,35 @@ class Sqlite
 
 	public static string DatabaseFilePath
 	{
+		get {
+			return sqlFile;
+		}
+	}
+
+	public static string CurrentVersion
+	{
+		set {
+			currentVersion = value;
+		}
+	}
+
+	public static void setSqlFilePath(string filePath)
+	{
+		sqlFile = filePath;
+		connectionString = "version = 3; Data source = " + sqlFile;
+	}
+
+	public static void saveClassState()
+	{
+		initialState = new StaticClassState (typeof (Sqlite));
+		initialState.readAttributes ();
+	}
+
+	public static StaticClassState InitialState
+	{
 		get
 		{
-			return sqlFile;
+			return initialState;
 		}
 	}
 

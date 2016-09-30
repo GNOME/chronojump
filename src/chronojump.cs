@@ -474,7 +474,11 @@ public class ChronoJump
 		SqlitePreferences.Update("simulated", "True", true); //dbcon opened
 
 		Sqlite.Close();
-		
+
+		// Chronojump sqlite is in an initialized state, let's keep the Sqlite state here
+		// to be re-used
+		Sqlite.saveClassState ();
+
 		allSQLCallsDoneOnSqliteThingsThread = true;
 		LogB.SQL("all SQL calls done on sqliteThings thread");
 		

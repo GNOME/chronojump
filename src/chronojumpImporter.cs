@@ -3,6 +3,7 @@ using System.Collections.Generic; //List
 using System.Json;
 using System.Diagnostics;
 using System;
+using System.IO;
 using Mono.Unix;
 
 /*
@@ -28,10 +29,14 @@ using Mono.Unix;
 
 class ChronojumpImporter
 {
+	// Database that it's importing from
 	private string sourceFile;
-	private string destinationFile;
-	private string session;
 
+	// Database that it's importing to (usually chronojump.db database)
+	private string destinationFile;
+
+	// Session that will import
+	private string session;
 
 	// Result struct holds the output, error and success operations. It's used to pass
 	// errors from different layers (e.g. executing Python scripts) to the UI layer
@@ -65,8 +70,11 @@ class ChronojumpImporter
 	// tries to import a newer chronojump version.
 	public Result import()
 	{
-		Result sourceDatabaseVersion = getSourceDatabaseVersion ();
-		Result destinationDatabaseVersion = getDestinationDatabaseVersion ();
+		string temporarySourceFile = Path.GetTempFileName ();
+		File.Copy (sourceFile, temporarySourceFile, true);
+
+		Result sourceDatabaseVersion = getDatabaseVersionFromFile (temporarySourceFile);
+		Result destinationDatabaseVersion = getDatabaseVersionFromFile (destinationFile);
 
 		if (! sourceDatabaseVersion.success)
 			return sourceDatabaseVersion;
@@ -74,9 +82,17 @@ class ChronojumpImporter
 		if (! destinationDatabaseVersion.success)
 			return destinationDatabaseVersion;
 
-		if (float.Parse(destinationDatabaseVersion.output) < float.Parse(sourceDatabaseVersion.output)) {
+		float destinationDatabaseVersionNum = float.Parse (destinationDatabaseVersion.output);
+		float sourceDatabaseVersionNum = float.Parse (sourceDatabaseVersion.output);
+
+		if (destinationDatabaseVersionNum < sourceDatabaseVersionNum) {
 			return new Result (false, Catalog.GetString ("Trying to import a newer database version than this Chronojump\n" +
 				"Please, update the running Chronojump."));
+		} else if (destinationDatabaseVersionNum > sourceDatabaseVersionNum) {
+			LogB.Debug ("chronojump-importer version before update: ", sourceDatabaseVersion.output);
+			updateDatabase (temporarySourceFile);
+			string versionAfterUpdate = getDatabaseVersionFromFile (temporarySourceFile).output;
+			LogB.Debug ("chronojump-importer version after update: ", versionAfterUpdate);
 		}
 
 		List<string> parameters = new List<string> ();
@@ -89,17 +105,27 @@ class ChronojumpImporter
 
 		Result result = executeChronojumpImporter (parameters);
 
+		File.Delete (temporarySourceFile);
+
 		return result;
 	}
 
-	private Result getSourceDatabaseVersion()
+	private static void updateDatabase(string databaseFile)
 	{
-		return getDatabaseVersionFromFile (sourceFile);
-	}
+		StaticClassState classOriginalState = new StaticClassState (typeof (Sqlite));
 
-	private Result getDestinationDatabaseVersion()
-	{
-		return getDatabaseVersionFromFile (destinationFile);
+		classOriginalState.readAttributes ();
+
+		classOriginalState.writeAttributes (Sqlite.InitialState);
+
+		Sqlite.CurrentVersion = "0";
+		Sqlite.setSqlFilePath (databaseFile);
+		Sqlite.Connect ();
+
+		Sqlite.ConvertToLastChronojumpDBVersion ();
+
+		classOriginalState.writeAttributes (classOriginalState);
+		Sqlite.Connect ();
 	}
 
 	private Result getDatabaseVersionFromFile(string filePath)

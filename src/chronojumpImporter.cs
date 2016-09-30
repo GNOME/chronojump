@@ -3,6 +3,7 @@ using System.Collections.Generic; //List
 using System.Json;
 using System.Diagnostics;
 using System;
+using System.IO;
 using Mono.Unix;
 
 /*
@@ -28,10 +29,18 @@ using Mono.Unix;
 
 class ChronojumpImporter
 {
+	// Database that it's importing from
 	private string sourceFile;
+
+	// Database that it's importing to (usually chronojump.db database)
 	private string destinationFile;
+
+	// Session that will import
 	private string session;
 
+	// When importing we might copy the sourceFile to update to the current database.
+	// The file is deleted afterwards
+	private string temporaryFile = "";
 
 	// Result struct holds the output, error and success operations. It's used to pass
 	// errors from different layers (e.g. executing Python scripts) to the UI layer
@@ -74,10 +83,16 @@ class ChronojumpImporter
 		if (! destinationDatabaseVersion.success)
 			return destinationDatabaseVersion;
 
-		if (float.Parse(destinationDatabaseVersion.output) < float.Parse(sourceDatabaseVersion.output)) {
+		float destinationDatabaseVersionNum = float.Parse (destinationDatabaseVersion.output);
+		float sourceDatabaseVersionNum = float.Parse (sourceDatabaseVersion.output);
+
+		if (destinationDatabaseVersionNum < sourceDatabaseVersionNum) {
 			return new Result (false, Catalog.GetString ("Trying to import a newer database version than this Chronojump\n" +
 				"Please, update the running Chronojump."));
+		} else if (destinationDatabaseVersionNum > sourceDatabaseVersionNum) {
+			updateSourceDatabase ();
 		}
+
 
 		List<string> parameters = new List<string> ();
 		parameters.Add ("--source");
@@ -89,7 +104,31 @@ class ChronojumpImporter
 
 		Result result = executeChronojumpImporter (parameters);
 
+		if (temporaryFile != "") {
+			File.Delete (temporaryFile);
+			temporaryFile = "";
+		}
+
 		return result;
+	}
+
+	private bool updateSourceDatabase()
+	{
+		StaticClassState classOriginalState = new StaticClassState (typeof (Sqlite));
+		temporaryFile = Path.GetTempFileName ();
+
+		File.Copy (sourceFile, temporaryFile, true);
+
+		classOriginalState.readAttributes ();
+
+		classOriginalState.writeAttributes (Sqlite.InitialState);
+		Sqlite.setSqlFilePath (temporaryFile);
+		Sqlite.ConvertToLastChronojumpDBVersion ();
+
+		classOriginalState.writeAttributes (classOriginalState);
+		Sqlite.Connect ();
+
+		return true;
 	}
 
 	private Result getSourceDatabaseVersion()

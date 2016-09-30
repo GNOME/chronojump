@@ -392,7 +392,7 @@ def import_database(source_path, destination_path, source_session):
             source_file=source_path))
         sys.exit(1)
 
-    destination_db.write(table=session, matches_columns=destination_db.column_names("Session", ["uniqueID"]),
+    destination_db.write(table=session, matches_columns=None,
                          avoids_duplicate_column="name")
 
     new_session_id = session[0].get('new_uniqueID')

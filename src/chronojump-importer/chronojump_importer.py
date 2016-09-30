@@ -417,6 +417,16 @@ def import_database(source_path, destination_path, source_session):
                          matches_columns=destination_db.column_names("JumpRjType", ["uniqueID"]),
                          avoids_duplicate_column="name")
 
+    # Imports RunTypes table
+    run_types = source_db.read(table_name="RunType",
+                               where_condition="Session.uniqueID={}".format(source_session),
+                               join_clause="LEFT JOIN Run ON RunType.name=Run.type LEFT JOIN Session ON Run.sessionID=Session.uniqueID",
+                               group_by_clause="RunType.uniqueID")
+
+    destination_db.write(table=run_types,
+                         matches_columns=destination_db.column_names("RunType", ["uniqueID"]),
+                         avoids_duplicate_column="name")
+
     # Imports Persons77 used by JumpRj table
     persons77_jump_rj = source_db.read(table_name="Person77",
                                        where_condition="JumpRj.sessionID={}".format(source_session),
@@ -429,9 +439,15 @@ def import_database(source_path, destination_path, source_session):
                                     join_clause="LEFT JOIN Jump ON Person77.uniqueID=Jump.personID",
                                     group_by_clause="Person77.uniqueID")
 
+    persons77_run = source_db.read(table_name="Person77",
+                                    where_condition="Run.sessionID={}".format(source_session),
+                                    join_clause="LEFT JOIN Run ON Person77.uniqueID=Run.personID",
+                                    group_by_clause="Person77.uniqueID")
+
     persons77 = Table("person77")
     persons77.concatenate_table(persons77_jump)
     persons77.concatenate_table(persons77_jump_rj)
+    persons77.concatenate_table(persons77_run)
     persons77.remove_duplicates()
 
     destination_db.write(table=persons77,
@@ -456,6 +472,13 @@ def import_database(source_path, destination_path, source_session):
     jump.update_ids("type", jump_types, "old_name", "new_name")
 
     destination_db.write(table=jump, matches_columns=None)
+
+    # Imports Run table (with the new Person77's uniqueIDs)
+    run = source_db.read(table_name="Run",
+                         where_condition="Run.sessionID={}".format(source_session))
+    run.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
+    run.update_session_ids(new_session_id)
+    run.update_ids("type", jump_types, "old_name", "new_name")
 
     # Imports PersonSession77
     person_session_77 = source_db.read(table_name="PersonSession77",

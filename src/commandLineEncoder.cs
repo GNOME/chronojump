@@ -1,4 +1,4 @@
-﻿// This file is copied and adapted from https://raw.githubusercontent.com/ericpopivker/Command-Line-Encoder/master/CommandLineEncoder/CommandLineEncoder/Utils.cs
+// This file is copied and adapted from https://raw.githubusercontent.com/ericpopivker/Command-Line-Encoder/master/CommandLineEncoder/CommandLineEncoder/Utils.cs
 
 using System;
 using System.Text.RegularExpressions;

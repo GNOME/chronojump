@@ -12,6 +12,7 @@ glade/chronojump.glade
 libcesarplayer/bacon-video-widget-gst-0.10.c
 libcesarplayer/video-utils.c
 src/chronojump.cs
+src/chronojumpImporter.cs
 src/chronopic.cs
 src/constants.cs
 src/encoder.cs

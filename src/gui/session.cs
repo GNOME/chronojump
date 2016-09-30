@@ -684,6 +684,12 @@ public class SessionLoadWindow {
 		checkbutton_show_data_encoder.Visible = (type == WindowType.LOAD_SESSION);
 		checkbutton_show_data_jump_run.Visible = (type == WindowType.LOAD_SESSION);
 
+		if (type == WindowType.LOAD_SESSION) {
+			session_load.Title = Catalog.GetString ("Load session");
+		} else {
+			session_load.Title = Catalog.GetString ("Import session");
+		}
+
 		//put an icon to window
 		UtilGtk.IconWindow(session_load);
 		

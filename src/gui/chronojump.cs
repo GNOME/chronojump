@@ -2418,9 +2418,10 @@ public partial class ChronoJumpWindow
 		if (result.success) {
 			updateComboStats ();
 			new DialogMessage (Constants.MessageTypes.INFO, Catalog.GetString ("Session imported."));
-		}
-		else
+		} else {
+			LogB.Debug ("Chronojump Importer error: ", result.error);
 			new DialogMessage (Constants.MessageTypes.WARNING, result.error);
+		}
 	}
 
 	private void on_open_activate (object o, EventArgs args) 

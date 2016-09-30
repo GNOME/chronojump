@@ -117,7 +117,6 @@ class ChronojumpImporter
 			try {
 				json = JsonValue.Parse (result.output);
 			} catch (Exception e) {
-				LogB.Debug ("getDatabaseVersionFromFile: invalid JSON content:" + result.output);
 				return new Result(false, "", String.Format(Catalog.GetString("getDatabaseVersionFromFile: invalid JSON content:\n{0}\nException. {1}"), result.output, e.Message));
 			}
 
@@ -126,7 +125,6 @@ class ChronojumpImporter
 			return new Result (true, databaseVersion);
 
 		} else {
-			LogB.Debug ("getDatabaseVersionFromFile: no success fetching the database version" + filePath);
 			return new Result(false, "", String.Format(Catalog.GetString("getDatabaseVersionFromFile: no success fetching the database version of:\n{0}\nError: {1}"), filePath, result.error));
 		}
 	}
@@ -173,7 +171,6 @@ class ChronojumpImporter
 			                                                       "Exception:\n" +
 			                                                       "{2}"),
 			                                     processStartInfo.FileName, processStartInfo.Arguments, e.Message);
-			LogB.Information (errorMessage);
 			return new Result (false, "", errorMessage);
 		}
 
@@ -189,7 +186,6 @@ class ChronojumpImporter
 			                                                       "output: {2}"),
 			                                     processStartInfo.FileName, processStartInfo.Arguments, allOutput);
 
-			LogB.Information (errorMessage);
 			// Python interpretar was executed but the Python file wasn't found or the script failed
 			return new Result (false, allOutput, errorMessage);
 		}

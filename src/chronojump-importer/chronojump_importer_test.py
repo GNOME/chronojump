@@ -63,6 +63,11 @@ class TestImporter(unittest.TestCase):
         diff = difflib.unified_diff(actual_dump, expected_dump)
         diff = "".join(diff)
 
+        if diff != "":
+            # Just to help where the files are when debugging
+            print("Temporary directory: ", temporary_directory_path)
+            print("Base filename: ", base_filename)
+
         self.maxDiff = None
         self.assertEqual(diff, "")
 

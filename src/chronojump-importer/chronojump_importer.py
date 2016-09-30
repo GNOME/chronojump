@@ -437,6 +437,16 @@ def import_database(source_path, destination_path, source_session):
                          matches_columns=destination_db.column_names("RunIntervalType", ["uniqueID"]),
                          avoids_duplicate_column="name")
 
+    # Imports PulseTypes table
+    pulse_types = source_db.read(table_name="PulseType",
+                                 where_condition="Session.uniqueID={}".format(source_session),
+                                 join_clause="LEFT JOIN Pulse ON PulseType.name=Pulse.type LEFT JOIN Session on Pulse.sessionID=Session.uniqueID",
+                                 group_by_clause="PulseType.uniqueID")
+
+    destination_db.write(table=pulse_types,
+                         matches_columns=destination_db.column_names("PulseType", ["uniqueID"]),
+                         avoids_duplicate_column="name")
+
     # Imports Persons77 used by JumpRj table
     persons77_jump_rj = source_db.read(table_name="Person77",
                                        where_condition="JumpRj.sessionID={}".format(source_session),
@@ -455,16 +465,24 @@ def import_database(source_path, destination_path, source_session):
                                     join_clause="LEFT JOIN Run ON Person77.uniqueID=Run.personID",
                                     group_by_clause="Person77.uniqueID")
 
+    # Imports Person77 used by RunInterval table
     persons77_run_interval = source_db.read(table_name="Person77",
                                             where_condition="RunInterval.sessionID={}".format(source_session),
                                             join_clause="LEFT JOIN RunInterval ON Person77.uniqueID=RunInterval.personID",
                                             group_by_clause="Person77.uniqueID")
+
+    # Imports Person77 used by Pulse table
+    persons77_pulse = source_db.read(table_name="Person77",
+                                     where_condition="Pulse.sessionID={}".format(source_session),
+                                     join_clause="LEFT JOIN Pulse ON Person77.uniqueID=Pulse.personID",
+                                     group_by_clause="Pulse.uniqueID")
 
     persons77 = Table("person77")
     persons77.concatenate_table(persons77_jump)
     persons77.concatenate_table(persons77_jump_rj)
     persons77.concatenate_table(persons77_run)
     persons77.concatenate_table(persons77_run_interval)
+    persons77.concatenate_table(persons77_pulse)
     persons77.remove_duplicates()
 
     destination_db.write(table=persons77,

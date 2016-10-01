@@ -76,6 +76,9 @@
       <HintPath>bin\Debug\System.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Services" />
+    <Reference Include="FTD2XX_NET">
+      <HintPath>win32\deps\FTD2XX_NET_v1.0.14\FTD2XX_NET.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">

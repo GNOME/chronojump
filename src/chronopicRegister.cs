@@ -359,7 +359,7 @@ public class ChronopicRegisterWindows : ChronopicRegister
 				LogB.Information(String.Format("Serial Number: " + ftdiDeviceList[i].SerialNumber.ToString()));
 				LogB.Information(String.Format("Description: " + ftdiDeviceList[i].Description.ToString()));
 
-				string port = "????"; //TODO
+				string port = getComPort(ftdiDeviceList[i]);
 				ChronopicRegisterPort crp = new ChronopicRegisterPort(port);
 				crp.FTDI = true;
 				crp.SerialNumber = ftdiDeviceList[i].SerialNumber.ToString();
@@ -368,6 +368,23 @@ public class ChronopicRegisterWindows : ChronopicRegister
 				crpl.Add(crp);
 			}
 		}
+	}
+
+	private string getComPort(FTDI.FT_DEVICE_INFO_NODE node)
+	{
+		string comport = "";
+		//http://stackoverflow.com/questions/2279646/finding-usb-serial-ports-from-a-net-application-under-windows-7
+		if (ftdiDeviceWin.OpenByLocation(node.LocId) == FTDI.FT_STATUS.FT_OK)
+		{
+			try {
+				ftdiDeviceWin.GetCOMPort(out comport);
+			}
+			finally {
+				ftdiDeviceWin.Close();
+			}
+		}
+
+		return comport;
 	}
 }
 

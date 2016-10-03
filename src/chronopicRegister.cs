@@ -97,7 +97,22 @@ public class ChronopicRegisterPortList
 		L.Add(crp);
 	}
 
-	public void Update (ChronopicRegisterPort crp, ChronopicRegisterPort.Types newType)
+	//only call this if Exists
+	public bool PortChanged(ChronopicRegisterPort crp)
+	{
+		foreach(ChronopicRegisterPort c in L) {
+			if(c.SerialNumber == crp.SerialNumber) {
+				if(c.Port == crp.Port)
+					return false;
+
+				return true;
+			}
+		}
+
+		return true;
+	}
+
+	public void UpdateType (ChronopicRegisterPort crp, ChronopicRegisterPort.Types newType)
 	{
 		//Update SQL
 		SqliteChronopicRegister.Update(false, crp, newType);
@@ -106,6 +121,15 @@ public class ChronopicRegisterPortList
 		foreach(ChronopicRegisterPort c in L) {
 			if(c.SerialNumber == crp.SerialNumber) {
 				c.Type = newType;
+				break;
+			}
+		}
+	}
+	public void UpdatePort (ChronopicRegisterPort crp, string newPort)
+	{
+		foreach(ChronopicRegisterPort c in L) {
+			if(c.SerialNumber == crp.SerialNumber) {
+				c.Port = newPort;
 				break;
 			}
 		}
@@ -152,7 +176,6 @@ public abstract class ChronopicRegister
 		createList();
 
 		//3 print the registered ports on SQL (debug)
-		crpl = new ChronopicRegisterPortList();
 		crpl.Print();
 	}
 
@@ -169,9 +192,8 @@ public abstract class ChronopicRegister
 
 			LogB.Information(crp.ToString());
 
-			//2 add to registered list (add also on database)
-			if(crp.FTDI && ! crpl.Exists(crp))
-				crpl.Add(crp);
+			//2 add/update registered list
+			registerAddOrUpdate(crp);
 		}
 	}
 
@@ -186,6 +208,17 @@ public abstract class ChronopicRegister
 				LogB.Information(string.Format("port: " + p));
 
 		return l;
+	}
+	
+	protected void registerAddOrUpdate(ChronopicRegisterPort crp)
+	{
+		if(! crp.FTDI)
+			return;
+
+		if (! crpl.Exists(crp))
+			crpl.Add(crp);
+		else if(crpl.PortChanged(crp))
+			crpl.UpdatePort(crp, crp.Port);
 	}
 
 	//unused
@@ -364,8 +397,10 @@ public class ChronopicRegisterWindows : ChronopicRegister
 				crp.FTDI = true;
 				crp.SerialNumber = ftdiDeviceList[i].SerialNumber.ToString();
 				crp.Type = ChronopicRegisterPort.Types.UNKNOWN;
+				
+				LogB.Information(string.Format("crp: " + crp.ToString()));
 
-				crpl.Add(crp);
+				registerAddOrUpdate(crp);
 			}
 		}
 	}

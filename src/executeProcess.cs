@@ -110,8 +110,8 @@ class ExecuteProcess
 			return new Result ("", "", Result.ERROR_CANT_START, errorMessage);
 		}
 
-		string stdout = process.StandardOutput.ReadToEnd();
-		string stderr = process.StandardError.ReadToEnd();
+		string stdout = process.StandardOutput.ReadToEnd().TrimEnd ('\n');
+		string stderr = process.StandardError.ReadToEnd ().TrimEnd ('\n');
 
 		process.WaitForExit ();
 

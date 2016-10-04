@@ -97,11 +97,11 @@ class ChronojumpImporter
 
 		List<string> parameters = new List<string> ();
 		parameters.Add ("--source");
-		parameters.Add (CommandLineEncoder.EncodeArgText (sourceFile));
+		parameters.Add (sourceFile));
 		parameters.Add ("--destination");
-		parameters.Add (CommandLineEncoder.EncodeArgText (destinationFile));
+		parameters.Add (destinationFile);
 		parameters.Add ("--source_session");
-		parameters.Add (CommandLineEncoder.EncodeArgText (session));
+		parameters.Add (session);
 
 		Result result = executeChronojumpImporter (parameters);
 
@@ -167,55 +167,25 @@ class ChronojumpImporter
 			importer_script_path = CommandLineEncoder.EncodeArgText (System.IO.Path.Combine (Util.GetPrefixDir (), "bin/chronojump_importer.py"));
 		}
 
-		Process process = new Process();
-		ProcessStartInfo processStartInfo;
+		parameters.Insert (0, importer_script_path);
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (importer_executable, parameters);
 
-		processStartInfo = new ProcessStartInfo();
-
-		processStartInfo.Arguments = importer_script_path + " " + string.Join (" ", parameters);
-		processStartInfo.FileName = importer_executable;
-
-		LogB.Debug ("chronojump-importer fileName: " + processStartInfo.FileName);
-		LogB.Debug ("chronojump-importer Arguments: " + processStartInfo.Arguments);
-
-		processStartInfo.CreateNoWindow = true;
-		processStartInfo.UseShellExecute = false;
-		processStartInfo.RedirectStandardInput = false;
-		processStartInfo.RedirectStandardError = true;
-		processStartInfo.RedirectStandardOutput = true;
-
-		process.StartInfo = processStartInfo;
-
-		try {
-			process.Start();
-		}
-		catch(Exception e) {
-			string errorMessage = String.Format (Catalog.GetString("Cannot start:\n" +
-			                                                       "{0}\n" +
-			                                                       "with the parameters:" +
-			                                                       "{1}\n" +
-			                                                       "Exception:\n" +
-			                                                       "{2}"),
-			                                     processStartInfo.FileName, processStartInfo.Arguments, e.Message);
-			return new Result (false, "", errorMessage);
-		}
-
-		string allOutput = "";
-		allOutput += process.StandardOutput.ReadToEnd();
-		allOutput += process.StandardError.ReadToEnd();
-
-		process.WaitForExit ();
-
-		if (process.ExitCode != 0) {
-			string errorMessage = String.Format (Catalog.GetString("Error executing: {0}\n" +
-			                                                       "with the parameters: {1}\n" +
-			                                                       "output: {2}"),
-			                                     processStartInfo.FileName, processStartInfo.Arguments, allOutput);
-
+		if (execute_result.exitCode != 0) {
 			// Python interpretar was executed but the Python file wasn't found or the script failed
-			return new Result (false, allOutput, errorMessage);
+			string errorMessage = "";
+
+			if (execute_result.errorMessage == "") {
+				// The Python script has been executed and failed (syntax error, crashed).
+				// The error message will be in the output:
+				errorMessage = execute_result.allOutput;
+			} else {
+				// The Python script has not been executed, return the error message from ExecuteProcess
+				errorMessage = execute_result.errorMessage;
+			}
+			return new Result (false, execute_result.allOutput, errorMessage);
 		}
 
-		return new Result (true, allOutput);
+		// All good, returns the output
+		return new Result (true, execute_result.allOutput);
 	}
 }

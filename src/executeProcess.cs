@@ -28,7 +28,9 @@ class ExecuteProcess
 {
 	public struct Result
 	{
-		// Encapsulates the result of a run: stdout, stderr, exitCode (-1 if process couldn't start),
+		public const int ERROR_CANT_START = -1;
+
+		// Encapsulates the result of a run: stdout, stderr, exitCode if process couldn't start is ERROR_CANT_START),
 		// success (if exitCode != 0) and errorMessage to be shown to the user.
 		public string stdout;
 		public string stderr;
@@ -49,9 +51,26 @@ class ExecuteProcess
 		}
 	};
 
+	public static string runShowError(string file_name, List<string> parameters)
+	{
+		Result result = run(file_name, parameters);
+
+		if (result.exitCode == Result.ERROR_CANT_START) {
+			new DialogMessage (Constants.MessageTypes.WARNING, result.errorMessage);
+			return "";
+		} else {
+			return result.allOutput;
+		}
+	}
+
+	public static Result run(string file_name, List<string> parameters)
+	{
+		return runDo (file_name, parameters);
+	}
+
 	// Executes file_name without creating a Window and without using the shell
 	// with the parameters. Waits that it finishes it. Returns the stdout and stderr.
-	public static Result run(string file_name, List<string> parameters)
+	private static Result runDo(string file_name, List<string> parameters)
 	{
 		Process process = new Process();
 		ProcessStartInfo processStartInfo = new ProcessStartInfo();
@@ -89,7 +108,7 @@ class ExecuteProcess
 			                                                       "{2}"),
 			                                     processStartInfo.FileName, parameters_string, e.Message);
 			LogB.Warning (errorMessage);
-			return new Result ("", "", -1, errorMessage);
+			return new Result ("", "", Result.ERROR_CANT_START, errorMessage);
 		}
 
 		string stdout = process.StandardOutput.ReadToEnd();

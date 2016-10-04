@@ -97,7 +97,7 @@ class ChronojumpImporter
 
 		List<string> parameters = new List<string> ();
 		parameters.Add ("--source");
-		parameters.Add (sourceFile));
+		parameters.Add (sourceFile);
 		parameters.Add ("--destination");
 		parameters.Add (destinationFile);
 		parameters.Add ("--source_session");
@@ -164,7 +164,7 @@ class ChronojumpImporter
 			importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin\\chronojump-importer\\chronojump_importer.exe");
 		} else {
 			importer_executable = "python";		// chronojump_importer works on Python 2 and Python 3
-			importer_script_path = CommandLineEncoder.EncodeArgText (System.IO.Path.Combine (Util.GetPrefixDir (), "bin/chronojump_importer.py"));
+			importer_script_path = System.IO.Path.Combine (Util.GetPrefixDir (), "bin/chronojump_importer.py");
 		}
 
 		parameters.Insert (0, importer_script_path);

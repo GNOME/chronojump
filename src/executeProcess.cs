@@ -51,16 +51,15 @@ class ExecuteProcess
 		}
 	};
 
-	public static string runShowError(string file_name, List<string> parameters)
+	public static Result runShowErrorIfNotStarted(string file_name, List<string> parameters)
 	{
 		Result result = run(file_name, parameters);
 
 		if (result.exitCode == Result.ERROR_CANT_START) {
 			new DialogMessage (Constants.MessageTypes.WARNING, result.errorMessage);
-			return "";
-		} else {
-			return result.allOutput;
 		}
+
+		return result;
 	}
 
 	public static Result run(string file_name, List<string> parameters)
@@ -115,6 +114,10 @@ class ExecuteProcess
 		string stderr = process.StandardError.ReadToEnd();
 
 		process.WaitForExit ();
+
+		if (stderr != "") {
+			LogB.Warning(String.Format("Executed: {0} Parameters: {1} Stdout: {2} Stderr: {3}", processStartInfo.FileName, parameters_string, stdout, stderr));
+		}
 
 		int exitCode = process.ExitCode;
 

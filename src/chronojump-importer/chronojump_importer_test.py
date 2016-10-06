@@ -27,6 +27,10 @@ class TestImporter(unittest.TestCase):
         {'base_filename': 'user-jump-{}.sqlite', 'session': 1}
     )
     def test_importerGeneric(self, data):
+        re_creates_test = False  # During development change it to True
+                                 # to execute the tests and copy the new
+                                 # result as expected test
+
         base_filename = data['base_filename']
         source_file_name = base_filename.format('source')
         destination_file_name = base_filename.format('destination')
@@ -68,6 +72,9 @@ class TestImporter(unittest.TestCase):
             # Just to help where the files are when debugging
             print("Temporary directory: ", temporary_directory_path)
             print("Base filename: ", base_filename)
+
+        if re_creates_test:
+            shutil.copy(destination_file_path, "tests/" + expected_file_name)
 
         self.maxDiff = None
         self.assertEqual(diff, "")

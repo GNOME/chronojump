@@ -219,7 +219,7 @@ class Database:
 
         Inserts the data and modifies table adding new_unique_id. This is the new uniqueID
         if the row has been inserted or the old one if the row has been reused. This
-        depends on avoid_duplicate_columns.
+        depends on avoids_duplicate_column.
 
         For example, if matches_columns = ["Name"] it will insert a new row
         in the table if the name didn't exist and will add new_unique_id
@@ -615,9 +615,10 @@ class ImportSession:
         encoder_signal_curve = Table("encoderSignalCurve")
         encoder_signal_curve.concatenate_table(encoder_signal_curve_signals)
         encoder_signal_curve.concatenate_table(encoder_signal_curve_curves)
+        encoder_signal_curve.remove_duplicates()
 
-        encoder_signal_curve.update_ids("signalID", encoder, "old_signalID", "new_signalID")
-        encoder_signal_curve.update_ids("curveID", encoder, "old_curveID", "new_curveID")
+        encoder_signal_curve.update_ids("signalID", encoder, "old_uniqueID", "new_uniqueID")
+        encoder_signal_curve.update_ids("curveID", encoder, "old_uniqueID", "new_uniqueID")
 
         self.destination_db.write(table=encoder_signal_curve,
                                   avoids_duplicate_column=None,

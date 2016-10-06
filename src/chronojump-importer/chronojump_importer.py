@@ -28,7 +28,7 @@ logging.basicConfig(level=logging.INFO)
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2016 Carles Pina
+ * Copyright (C) 2016 Carles Pina i Estany <carles@pina.cat>
  */
 """
 

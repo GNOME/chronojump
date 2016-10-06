@@ -477,12 +477,26 @@ def import_database(source_path, destination_path, source_session):
                                      join_clause="LEFT JOIN Pulse ON Person77.uniqueID=Pulse.personID",
                                      group_by_clause="Pulse.uniqueID")
 
+    # Imports Person77 used by Encoder
+    persons77_encoder = source_db.read(table_name="Person77",
+                                       where_condition="Encoder.sessionID={}".format(source_session),
+                                       join_clause="LEFT JOIN Encoder ON Person77.uniqueID=Encoder.personID",
+                                       group_by_clause="Encoder.uniqueID")
+
+    # Imports Person77 used by Encoder1RM
+    persons77_encoder_1rm = source_db.read(table_name="Person77",
+                                           where_condition="Encoder1RM.sessionID={}".format(source_session),
+                                           join_clause="LEFT JOIN Encoder1RM ON Person77.uniqueID=Encoder1RM.personID",
+                                           group_by_clause="Encoder1RM.uniqueID")
+
     persons77 = Table("person77")
     persons77.concatenate_table(persons77_jump)
     persons77.concatenate_table(persons77_jump_rj)
     persons77.concatenate_table(persons77_run)
     persons77.concatenate_table(persons77_run_interval)
     persons77.concatenate_table(persons77_pulse)
+    persons77.concatenate_table(persons77_encoder)
+    persons77.concatenate_table(persons77_encoder_1rm)
     persons77.remove_duplicates()
 
     destination_db.write(table=persons77,
@@ -528,6 +542,53 @@ def import_database(source_path, destination_path, source_session):
     person_session_77.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
     person_session_77.update_session_ids(new_session_id)
     destination_db.write(table=person_session_77, matches_columns=None)
+
+    # Imports EncoderExercise
+    encoder_exercise = source_db.read(table_name="EncoderExercise",
+                                      where_condition="Encoder.sessionID={}".format(source_session),
+                                      join_clause="LEFT JOIN Encoder ON Encoder.exerciseID=EncoderExercise.uniqueID",
+                                      group_by_clause="EncoderExercise.uniqueID")
+    destination_db.write(table=encoder_exercise,
+                         matches_columns=destination_db.column_names("EncoderExercise", ["uniqueID"]))
+
+    # Imports Encoder1RM
+    encoder_1rm = source_db.read(table_name="Encoder1RM",
+                                 where_condition="Encoder1RM.sessionID={}".format(source_session))
+    encoder_1rm.update_session_ids(new_session_id)
+    encoder_1rm.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
+    destination_db.write(table=encoder_1rm,
+                         matches_columns=None)
+
+    # Imports Encoder
+    encoder = source_db.read(table_name="Encoder",
+                             where_condition="Encoder.sessionID={}".format(source_session))
+    encoder.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
+    encoder.update_ids("exerciseID", encoder_1rm, "old_exerciseID", "new_exerciseID")
+    encoder.update_session_ids(new_session_id)
+    destination_db.write(table=encoder,
+                         matches_columns=None)
+
+    # Imports EncoderSignalCurve
+    encoder_signal_curve_signals = source_db.read(table_name="EncoderSignalCurve",
+                                                  where_condition="Encoder.signalOrCurve='signal' AND Encoder.sessionID={}".format(
+                                                      source_session),
+                                                  join_clause="LEFT JOIN Encoder ON Encoder.uniqueID=EncoderSignalCurve.SignalID")
+
+    encoder_signal_curve_curves = source_db.read(table_name="EncoderSignalCurve",
+                                                 where_condition="Encoder.signalOrCurve='curve' AND Encoder.sessionID={}".format(
+                                                     source_session),
+                                                 join_clause="LEFT JOIN Encoder ON Encoder.uniqueID=EncoderSignalCurve.curveID")
+
+    encoder_signal_curve = Table("encoderSignalCurve")
+    encoder_signal_curve.concatenate_table(encoder_signal_curve_signals)
+    encoder_signal_curve.concatenate_table(encoder_signal_curve_curves)
+
+    encoder_signal_curve.update_ids("signalID", encoder, "old_signalID", "new_signalID")
+    encoder_signal_curve.update_ids("curveID", encoder, "old_curveID", "new_curveID")
+
+    destination_db.write(table=encoder_signal_curve,
+                         avoids_duplicate_column=None,
+                         matches_columns=None)
 
 
 def json_information(database_path):

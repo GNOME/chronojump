@@ -366,229 +366,261 @@ class Database:
         self._cursor.execute(sql, where_values)
 
 
-def import_database(source_path, destination_path, source_session):
-    """ Imports the session source_session from source_db into destination_db """
+class ImportSession:
+    def __init__(self, source_path, destination_path):
+        """ Creates the object to import the session source_session from source_db into destination_db. """
 
-    logging.debug("source path:" + source_path)
-    logging.debug("destination path:" + destination_path)
+        logging.debug("source path:" + source_path)
+        logging.debug("destination path:" + destination_path)
 
-    source_db = Database(source_path, read_only=True)
-    destination_db = Database(destination_path, read_only=False)
+        self.source_db = Database(source_path, read_only=True)
+        self.destination_db = Database(destination_path, read_only=False)
 
-    # Imports the session
-    session = source_db.read(table_name="Session",
-                             where_condition="Session.uniqueID={}".format(source_session))
+        self.source_session = None
+        self.new_session_id = None
 
-    number_of_matching_sessions = len(session)
+        self.persons77 = None
 
-    if number_of_matching_sessions == 0:
-        print("Trying to import {session} from {source_file} and it doesn't exist. Cancelling...".format(
-            session=source_session,
-            source_file=source_path))
-        sys.exit(1)
-    elif number_of_matching_sessions > 1:
-        print("Found {number_of_sessions} in {source_file} which is not possible. Cancelling...".format(
-            number_of_sessions=number_of_matching_sessions,
-            source_file=source_path))
-        sys.exit(1)
+    def import_as_new_session(self, source_session):
+        self.source_session = source_session
+        self.new_session_id = self._import_session()
 
-    destination_db.write(table=session, matches_columns=None,
-                         avoids_duplicate_column="name")
+        self.persons77 = self._import_persons77()
 
-    new_session_id = session[0].get('new_uniqueID')
+        self._import_person_session77()
 
-    # Imports JumpType table
-    jump_types = source_db.read(table_name="JumpType",
-                                where_condition="Session.uniqueID={}".format(source_session),
-                                join_clause="LEFT JOIN Jump ON JumpType.name=Jump.type LEFT JOIN Session ON Jump.sessionID=Session.uniqueID",
-                                group_by_clause="JumpType.uniqueID")
+        self._import_jumps()
+        self._import_runs()
+        self._import_pulse()
+        self._import_encoder()
 
-    destination_db.write(table=jump_types,
-                         matches_columns=destination_db.column_names("JumpType", ["uniqueID"]),
-                         avoids_duplicate_column="name")
+    def _import_session(self):
+        """
+        Imports the Session information saved in self._source_session (only table Session).
+        Returns the new session ID.
+        """
 
-    # Imports JumpRjType table
-    jump_rj_types = source_db.read(table_name="JumpRjType",
-                                   where_condition="Session.uniqueID={}".format(source_session),
-                                   join_clause="LEFT JOIN JumpRj ON JumpRjType.name=JumpRj.type LEFT JOIN Session on JumpRj.sessionID=Session.uniqueID",
-                                   group_by_clause="JumpRjType.uniqueID")
+        session = self.source_db.read(table_name="Session",
+                                 where_condition="Session.uniqueID={}".format(self.source_session))
 
-    destination_db.write(table=jump_rj_types,
-                         matches_columns=destination_db.column_names("JumpRjType", ["uniqueID"]),
-                         avoids_duplicate_column="name")
+        number_of_matching_sessions = len(session)
 
-    # Imports RunTypes table
-    run_types = source_db.read(table_name="RunType",
-                               where_condition="Session.uniqueID={}".format(source_session),
-                               join_clause="LEFT JOIN Run ON RunType.name=Run.type LEFT JOIN Session ON Run.sessionID=Session.uniqueID",
-                               group_by_clause="RunType.uniqueID")
+        if number_of_matching_sessions == 0:
+            print("Trying to import {session} from {source_file} and it doesn't exist. Cancelling...".format(
+                session=self.source_session,
+                source_file=self.source_path))
+            sys.exit(1)
+        elif number_of_matching_sessions > 1:
+            print("Found {number_of_sessions} in {source_file} which is not possible. Cancelling...".format(
+                number_of_sessions=number_of_matching_sessions,
+                source_file=self.source_path))
+            sys.exit(1)
 
-    destination_db.write(table=run_types,
-                         matches_columns=destination_db.column_names("RunType", ["uniqueID"]),
-                         avoids_duplicate_column="name")
+        self.destination_db.write(table=session, matches_columns=None,
+                             avoids_duplicate_column="name")
 
-    # Imports RunIntervalTypes table
-    run_interval_types = source_db.read(table_name="RunIntervalType",
-                                        where_condition="Session.uniqueID={}".format(source_session),
-                                        join_clause="LEFT JOIN RunInterval ON RunIntervalType.name=RunInterval.type LEFT JOIN Session on RunInterval.sessionID=Session.uniqueID",
-                                        group_by_clause="RunIntervalType.uniqueID")
+        return session[0].get('new_uniqueID')
 
-    destination_db.write(table=run_interval_types,
-                         matches_columns=destination_db.column_names("RunIntervalType", ["uniqueID"]),
-                         avoids_duplicate_column="name")
+    def _import_persons77(self):
+        # Imports Persons77 used by JumpRj table
+        persons77_jump_rj = self.source_db.read(table_name="Person77",
+                                           where_condition="JumpRj.sessionID={}".format(self.source_session),
+                                           join_clause="LEFT JOIN JumpRj ON Person77.uniqueID=JumpRj.personID",
+                                           group_by_clause="Person77.uniqueID")
 
-    # Imports PulseTypes table
-    pulse_types = source_db.read(table_name="PulseType",
-                                 where_condition="Session.uniqueID={}".format(source_session),
-                                 join_clause="LEFT JOIN Pulse ON PulseType.name=Pulse.type LEFT JOIN Session on Pulse.sessionID=Session.uniqueID",
-                                 group_by_clause="PulseType.uniqueID")
+        # Imports Person77 used by Jump table
+        persons77_jump = self.source_db.read(table_name="Person77",
+                                        where_condition="Jump.sessionID={}".format(self.source_session),
+                                        join_clause="LEFT JOIN Jump ON Person77.uniqueID=Jump.personID",
+                                        group_by_clause="Person77.uniqueID")
 
-    destination_db.write(table=pulse_types,
-                         matches_columns=destination_db.column_names("PulseType", ["uniqueID"]),
-                         avoids_duplicate_column="name")
-
-    # Imports Persons77 used by JumpRj table
-    persons77_jump_rj = source_db.read(table_name="Person77",
-                                       where_condition="JumpRj.sessionID={}".format(source_session),
-                                       join_clause="LEFT JOIN JumpRj ON Person77.uniqueID=JumpRj.personID",
+        # Imports Person77 used by Run table
+        persons77_run = self.source_db.read(table_name="Person77",
+                                       where_condition="Run.sessionID={}".format(self.source_session),
+                                       join_clause="LEFT JOIN Run ON Person77.uniqueID=Run.personID",
                                        group_by_clause="Person77.uniqueID")
 
-    # Imports Person77 used by Jump table
-    persons77_jump = source_db.read(table_name="Person77",
-                                    where_condition="Jump.sessionID={}".format(source_session),
-                                    join_clause="LEFT JOIN Jump ON Person77.uniqueID=Jump.personID",
-                                    group_by_clause="Person77.uniqueID")
+        # Imports Person77 used by RunInterval table
+        persons77_run_interval = self.source_db.read(table_name="Person77",
+                                                where_condition="RunInterval.sessionID={}".format(self.source_session),
+                                                join_clause="LEFT JOIN RunInterval ON Person77.uniqueID=RunInterval.personID",
+                                                group_by_clause="Person77.uniqueID")
 
-    # Imports Person77 used by Run table
-    persons77_run = source_db.read(table_name="Person77",
-                                    where_condition="Run.sessionID={}".format(source_session),
-                                    join_clause="LEFT JOIN Run ON Person77.uniqueID=Run.personID",
-                                    group_by_clause="Person77.uniqueID")
+        # Imports Person77 used by Pulse table
+        persons77_pulse = self.source_db.read(table_name="Person77",
+                                         where_condition="Pulse.sessionID={}".format(self.source_session),
+                                         join_clause="LEFT JOIN Pulse ON Person77.uniqueID=Pulse.personID",
+                                         group_by_clause="Pulse.uniqueID")
 
-    # Imports Person77 used by RunInterval table
-    persons77_run_interval = source_db.read(table_name="Person77",
-                                            where_condition="RunInterval.sessionID={}".format(source_session),
-                                            join_clause="LEFT JOIN RunInterval ON Person77.uniqueID=RunInterval.personID",
-                                            group_by_clause="Person77.uniqueID")
+        # Imports Person77 used by Encoder
+        persons77_encoder = self.source_db.read(table_name="Person77",
+                                           where_condition="Encoder.sessionID={}".format(self.source_session),
+                                           join_clause="LEFT JOIN Encoder ON Person77.uniqueID=Encoder.personID",
+                                           group_by_clause="Encoder.uniqueID")
 
-    # Imports Person77 used by Pulse table
-    persons77_pulse = source_db.read(table_name="Person77",
-                                     where_condition="Pulse.sessionID={}".format(source_session),
-                                     join_clause="LEFT JOIN Pulse ON Person77.uniqueID=Pulse.personID",
-                                     group_by_clause="Pulse.uniqueID")
+        # Imports Person77 used by Encoder1RM
+        persons77_encoder_1rm = self.source_db.read(table_name="Person77",
+                                               where_condition="Encoder1RM.sessionID={}".format(self.source_session),
+                                               join_clause="LEFT JOIN Encoder1RM ON Person77.uniqueID=Encoder1RM.personID",
+                                               group_by_clause="Encoder1RM.uniqueID")
 
-    # Imports Person77 used by Encoder
-    persons77_encoder = source_db.read(table_name="Person77",
-                                       where_condition="Encoder.sessionID={}".format(source_session),
-                                       join_clause="LEFT JOIN Encoder ON Person77.uniqueID=Encoder.personID",
-                                       group_by_clause="Encoder.uniqueID")
+        persons77 = Table("person77")
+        persons77.concatenate_table(persons77_jump)
+        persons77.concatenate_table(persons77_jump_rj)
+        persons77.concatenate_table(persons77_run)
+        persons77.concatenate_table(persons77_run_interval)
+        persons77.concatenate_table(persons77_pulse)
+        persons77.concatenate_table(persons77_encoder)
+        persons77.concatenate_table(persons77_encoder_1rm)
+        persons77.remove_duplicates()
 
-    # Imports Person77 used by Encoder1RM
-    persons77_encoder_1rm = source_db.read(table_name="Person77",
-                                           where_condition="Encoder1RM.sessionID={}".format(source_session),
-                                           join_clause="LEFT JOIN Encoder1RM ON Person77.uniqueID=Encoder1RM.personID",
-                                           group_by_clause="Encoder1RM.uniqueID")
+        self.destination_db.write(table=persons77,
+                             matches_columns=["name"])
 
-    persons77 = Table("person77")
-    persons77.concatenate_table(persons77_jump)
-    persons77.concatenate_table(persons77_jump_rj)
-    persons77.concatenate_table(persons77_run)
-    persons77.concatenate_table(persons77_run_interval)
-    persons77.concatenate_table(persons77_pulse)
-    persons77.concatenate_table(persons77_encoder)
-    persons77.concatenate_table(persons77_encoder_1rm)
-    persons77.remove_duplicates()
+        return persons77
 
-    destination_db.write(table=persons77,
-                         matches_columns=["name"])
+    def _import_jumps(self):
+        # Imports JumpType table
+        jump_types = self.source_db.read(table_name="JumpType",
+                                    where_condition="Session.uniqueID={}".format(self.source_session),
+                                    join_clause="LEFT JOIN Jump ON JumpType.name=Jump.type LEFT JOIN Session ON Jump.sessionID=Session.uniqueID",
+                                    group_by_clause="JumpType.uniqueID")
 
-    # Imports JumpRj table (with the new Person77's uniqueIDs)
-    jump_rj = source_db.read(table_name="JumpRj",
-                             where_condition="JumpRj.sessionID={}".format(source_session))
+        self.destination_db.write(table=jump_types,
+                             matches_columns=self.destination_db.column_names("JumpType", ["uniqueID"]),
+                             avoids_duplicate_column="name")
 
-    jump_rj.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
-    jump_rj.update_session_ids(new_session_id)
-    jump_rj.update_ids("type", persons77, "old_name", "new_name")
+        # Imports JumpRjType table
+        jump_rj_types = self.source_db.read(table_name="JumpRjType",
+                                       where_condition="Session.uniqueID={}".format(self.source_session),
+                                       join_clause="LEFT JOIN JumpRj ON JumpRjType.name=JumpRj.type LEFT JOIN Session on JumpRj.sessionID=Session.uniqueID",
+                                       group_by_clause="JumpRjType.uniqueID")
 
-    destination_db.write(table=jump_rj, matches_columns=None)
+        self.destination_db.write(table=jump_rj_types,
+                             matches_columns=self.destination_db.column_names("JumpRjType", ["uniqueID"]),
+                             avoids_duplicate_column="name")
 
-    # Imports Jump table (with the new Person77's uniqueIDs)
-    jump = source_db.read(table_name="Jump",
-                          where_condition="Jump.sessionID={}".format(source_session))
+        # Imports JumpRj table (with the new Person77's uniqueIDs)
+        jump_rj = self.source_db.read(table_name="JumpRj",
+                                 where_condition="JumpRj.sessionID={}".format(self.source_session))
 
-    jump.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
-    jump.update_session_ids(new_session_id)
-    jump.update_ids("type", jump_types, "old_name", "new_name")
+        jump_rj.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
+        jump_rj.update_session_ids(self.new_session_id)
+        jump_rj.update_ids("type", self.persons77, "old_name", "new_name")
 
-    destination_db.write(table=jump, matches_columns=None)
+        self.destination_db.write(table=jump_rj, matches_columns=None)
 
-    # Imports Run table (with the new Person77's uniqueIDs)
-    run = source_db.read(table_name="Run",
-                         where_condition="Run.sessionID={}".format(source_session))
-    run.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
-    run.update_session_ids(new_session_id)
-    run.update_ids("type", run_types, "old_name", "new_name")
+        # Imports Jump table (with the new Person77's uniqueIDs)
+        jump = self.source_db.read(table_name="Jump",
+                              where_condition="Jump.sessionID={}".format(self.source_session))
 
-    # Imports RunInterval table (with the new Person77's uniqueIDs)
-    run_interval = source_db.read(table_name="RunInterval",
-                                  where_condition="RunInterval.sessionID={}".format(source_session))
-    run_interval.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
-    run_interval.update_session_ids(new_session_id)
-    run_interval.update_ids("type", run_interval_types, "old_name", "new_name")
+        jump.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
+        jump.update_session_ids(self.new_session_id)
+        jump.update_ids("type", jump_types, "old_name", "new_name")
 
-    # Imports PersonSession77
-    person_session_77 = source_db.read(table_name="PersonSession77",
-                                       where_condition="PersonSession77.sessionID={}".format(source_session))
-    person_session_77.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
-    person_session_77.update_session_ids(new_session_id)
-    destination_db.write(table=person_session_77, matches_columns=None)
+        self.destination_db.write(table=jump, matches_columns=None)
 
-    # Imports EncoderExercise
-    encoder_exercise = source_db.read(table_name="EncoderExercise",
-                                      where_condition="Encoder.sessionID={}".format(source_session),
-                                      join_clause="LEFT JOIN Encoder ON Encoder.exerciseID=EncoderExercise.uniqueID",
-                                      group_by_clause="EncoderExercise.uniqueID")
-    destination_db.write(table=encoder_exercise,
-                         matches_columns=destination_db.column_names("EncoderExercise", ["uniqueID"]))
+    def _import_runs(self):
+        # Imports RunTypes table
+        run_types = self.source_db.read(table_name="RunType",
+                                   where_condition="Session.uniqueID={}".format(self.source_session),
+                                   join_clause="LEFT JOIN Run ON RunType.name=Run.type LEFT JOIN Session ON Run.sessionID=Session.uniqueID",
+                                   group_by_clause="RunType.uniqueID")
 
-    # Imports Encoder1RM
-    encoder_1rm = source_db.read(table_name="Encoder1RM",
-                                 where_condition="Encoder1RM.sessionID={}".format(source_session))
-    encoder_1rm.update_session_ids(new_session_id)
-    encoder_1rm.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
-    destination_db.write(table=encoder_1rm,
-                         matches_columns=None)
+        self.destination_db.write(table=run_types,
+                             matches_columns=self.destination_db.column_names("RunType", ["uniqueID"]),
+                             avoids_duplicate_column="name")
 
-    # Imports Encoder
-    encoder = source_db.read(table_name="Encoder",
-                             where_condition="Encoder.sessionID={}".format(source_session))
-    encoder.update_ids("personID", persons77, "uniqueID", "new_uniqueID")
-    encoder.update_ids("exerciseID", encoder_1rm, "old_exerciseID", "new_exerciseID")
-    encoder.update_session_ids(new_session_id)
-    destination_db.write(table=encoder,
-                         matches_columns=None)
+        # Imports RunIntervalTypes table
+        run_interval_types = self.source_db.read(table_name="RunIntervalType",
+                                            where_condition="Session.uniqueID={}".format(self.source_session),
+                                            join_clause="LEFT JOIN RunInterval ON RunIntervalType.name=RunInterval.type LEFT JOIN Session on RunInterval.sessionID=Session.uniqueID",
+                                            group_by_clause="RunIntervalType.uniqueID")
 
-    # Imports EncoderSignalCurve
-    encoder_signal_curve_signals = source_db.read(table_name="EncoderSignalCurve",
-                                                  where_condition="Encoder.signalOrCurve='signal' AND Encoder.sessionID={}".format(
-                                                      source_session),
-                                                  join_clause="LEFT JOIN Encoder ON Encoder.uniqueID=EncoderSignalCurve.SignalID")
+        self.destination_db.write(table=run_interval_types,
+                             matches_columns=self.destination_db.column_names("RunIntervalType", ["uniqueID"]),
+                             avoids_duplicate_column="name")
 
-    encoder_signal_curve_curves = source_db.read(table_name="EncoderSignalCurve",
-                                                 where_condition="Encoder.signalOrCurve='curve' AND Encoder.sessionID={}".format(
-                                                     source_session),
-                                                 join_clause="LEFT JOIN Encoder ON Encoder.uniqueID=EncoderSignalCurve.curveID")
+        # Imports Run table (with the new Person77's uniqueIDs)
+        run = self.source_db.read(table_name="Run",
+                             where_condition="Run.sessionID={}".format(self.source_session))
+        run.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
+        run.update_session_ids(self.new_session_id)
+        run.update_ids("type", run_types, "old_name", "new_name")
 
-    encoder_signal_curve = Table("encoderSignalCurve")
-    encoder_signal_curve.concatenate_table(encoder_signal_curve_signals)
-    encoder_signal_curve.concatenate_table(encoder_signal_curve_curves)
+        # Imports RunInterval table (with the new Person77's uniqueIDs)
+        run_interval = self.source_db.read(table_name="RunInterval",
+                                      where_condition="RunInterval.sessionID={}".format(self.source_session))
+        run_interval.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
+        run_interval.update_session_ids(self.new_session_id)
+        run_interval.update_ids("type", run_interval_types, "old_name", "new_name")
 
-    encoder_signal_curve.update_ids("signalID", encoder, "old_signalID", "new_signalID")
-    encoder_signal_curve.update_ids("curveID", encoder, "old_curveID", "new_curveID")
+    def _import_pulse(self):
+        # Imports PulseTypes table
+        pulse_types = self.source_db.read(table_name="PulseType",
+                                     where_condition="Session.uniqueID={}".format(self.source_session),
+                                     join_clause="LEFT JOIN Pulse ON PulseType.name=Pulse.type LEFT JOIN Session on Pulse.sessionID=Session.uniqueID",
+                                     group_by_clause="PulseType.uniqueID")
 
-    destination_db.write(table=encoder_signal_curve,
-                         avoids_duplicate_column=None,
-                         matches_columns=None)
+        self.destination_db.write(table=pulse_types,
+                             matches_columns=self.destination_db.column_names("PulseType", ["uniqueID"]),
+                             avoids_duplicate_column="name")
+
+    def _import_person_session77(self):
+        # Imports PersonSession77
+        person_session_77 = self.source_db.read(table_name="PersonSession77",
+                                           where_condition="PersonSession77.sessionID={}".format(self.source_session))
+        person_session_77.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
+        person_session_77.update_session_ids(self.new_session_id)
+        self.destination_db.write(table=person_session_77, matches_columns=None)
+
+    def _import_encoder(self):
+        # Imports EncoderExercise
+        encoder_exercise = self.source_db.read(table_name="EncoderExercise",
+                                          where_condition="Encoder.sessionID={}".format(self.source_session),
+                                          join_clause="LEFT JOIN Encoder ON Encoder.exerciseID=EncoderExercise.uniqueID",
+                                          group_by_clause="EncoderExercise.uniqueID")
+        self.destination_db.write(table=encoder_exercise,
+                             matches_columns=self.destination_db.column_names("EncoderExercise", ["uniqueID"]))
+
+        # Imports Encoder1RM
+        encoder_1rm = self.source_db.read(table_name="Encoder1RM",
+                                     where_condition="Encoder1RM.sessionID={}".format(self.source_session))
+        encoder_1rm.update_session_ids(self.new_session_id)
+        encoder_1rm.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
+        self.destination_db.write(table=encoder_1rm,
+                             matches_columns=None)
+
+        # Imports Encoder
+        encoder = self.source_db.read(table_name="Encoder",
+                                 where_condition="Encoder.sessionID={}".format(self.source_session))
+        encoder.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
+        encoder.update_ids("exerciseID", encoder_1rm, "old_exerciseID", "new_exerciseID")
+        encoder.update_session_ids(self.new_session_id)
+        self.destination_db.write(table=encoder,
+                             matches_columns=None)
+
+        # Imports EncoderSignalCurve
+        encoder_signal_curve_signals = self.source_db.read(table_name="EncoderSignalCurve",
+                                                      where_condition="Encoder.signalOrCurve='signal' AND Encoder.sessionID={}".format(
+                                                          self.source_session),
+                                                      join_clause="LEFT JOIN Encoder ON Encoder.uniqueID=EncoderSignalCurve.SignalID")
+
+        encoder_signal_curve_curves = self.source_db.read(table_name="EncoderSignalCurve",
+                                                     where_condition="Encoder.signalOrCurve='curve' AND Encoder.sessionID={}".format(
+                                                         self.source_session),
+                                                     join_clause="LEFT JOIN Encoder ON Encoder.uniqueID=EncoderSignalCurve.curveID")
+
+        encoder_signal_curve = Table("encoderSignalCurve")
+        encoder_signal_curve.concatenate_table(encoder_signal_curve_signals)
+        encoder_signal_curve.concatenate_table(encoder_signal_curve_curves)
+
+        encoder_signal_curve.update_ids("signalID", encoder, "old_signalID", "new_signalID")
+        encoder_signal_curve.update_ids("curveID", encoder, "old_curveID", "new_curveID")
+
+        self.destination_db.write(table=encoder_signal_curve,
+                             avoids_duplicate_column=None,
+                             matches_columns=None)
 
 
 def json_information(database_path):
@@ -637,7 +669,8 @@ def process_command_line():
         show_json_information(args.source)
     else:
         if args.destination and args.source_session:
-            import_database(args.source, args.destination, args.source_session)
+            importer = ImportSession(args.source, args.destination)
+            importer.import_as_new_session(args.source_session)
         else:
             print("if --information not used --source, --destination and --source_session parameters are required")
 

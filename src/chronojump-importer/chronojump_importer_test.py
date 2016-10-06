@@ -44,7 +44,8 @@ class TestImporter(unittest.TestCase):
         shutil.copy("tests/{}".format(destination_file_name), destination_file_path)
         shutil.copy("tests/{}".format(destination_file_name), original_destination_file_path)
 
-        chronojump_importer.import_database(source_file_path, destination_file_path, 1)
+        importer = chronojump_importer.ImportSession(source_file_path, destination_file_path)
+        importer.import_as_new_session(1)
 
         os.system(
             "echo .dump | sqlite3 {} > {}/destination.sql".format(destination_file_path, temporary_directory_path))

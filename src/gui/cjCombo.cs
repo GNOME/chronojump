@@ -27,6 +27,9 @@ public class CjCombo
 	protected Gtk.ComboBox combo;
 	protected Gtk.HBox hbox;
 
+	protected List<object> l_types;
+
+
 	protected void create() 
 	{
 		combo = ComboBox.NewText ();
@@ -43,23 +46,47 @@ public class CjCombo
 		combo.Sensitive = false;
 	}
 	
-	public virtual string GetSelectedNameEnglish()
+	public string GetSelectedNameEnglish()
 	{
+		string nameTranslatedSelected = UtilGtk.ComboGetActive(combo);
+		foreach(SelectTypes type in l_types)
+			if(type.NameTranslated == nameTranslatedSelected)
+				return type.NameEnglish;
+
 		return "";
 	}
 	
-	public virtual Gtk.ComboBox SelectById(int id) 
+	public Gtk.ComboBox SelectById(int id)
 	{
+		int pos = 0;
+		foreach(SelectTypes type in l_types) 
+		{
+			if(type.Id == id) 
+			{
+				combo.Active = pos;
+				break;
+			}
+
+			pos ++;
+		}
+
 		return combo;
 	}
-	
-	public virtual string GetNameTranslated(string nameEnglish)
+
+	public string GetNameTranslated(string nameEnglish)
 	{
+		foreach(SelectTypes type in l_types)
+			if(type.NameEnglish == nameEnglish)
+				return type.NameTranslated;
+
 		return "";
 	}
-	
-	public virtual void MakeActive(string nameEnglish)
+
+	public void MakeActive(string nameEnglish)
 	{
+		foreach(SelectTypes type in l_types)
+			if(type.NameTranslated == nameEnglish)
+				combo.Active = UtilGtk.ComboMakeActive(combo, type.NameTranslated);
 	}
 
 	public Gtk.ComboBox DeleteValue(string nameTranslated)
@@ -76,8 +103,6 @@ public class CjCombo
 
 public class CjComboSelectJumps : CjCombo
 {
-	List<SelectJumpTypes> jumpTypes;
-
 	public CjComboSelectJumps(Gtk.ComboBox combo_select_jumps, Gtk.HBox hbox_combo_select_jumps) 
 	{
 		this.combo = combo_select_jumps;
@@ -93,61 +118,15 @@ public class CjComboSelectJumps : CjCombo
 	//if we just need to update values, call only this method
 	public override void Fill()
 	{
-		jumpTypes = SqliteJumpType.SelectJumpTypesNew(false, "", "", false); //without alljumpsname, without filter, not only name
+		l_types = (List<object>) SqliteJumpType.SelectJumpTypesNew(false, "", "", false); //without alljumpsname, without filter, not only name
 
-		string [] jumpNamesToCombo = new String [jumpTypes.Count];
+		string [] jumpNamesToCombo = new String [l_types.Count];
 		int i =0;
-		foreach(SelectJumpTypes jumpType in jumpTypes)
+		foreach(SelectJumpTypes jumpType in l_types)
 			jumpNamesToCombo[i++] = jumpType.NameTranslated;
 		
 		UtilGtk.ComboUpdate(combo, jumpNamesToCombo, "");
 		combo.Active = 0;
 	}
 
-	//TODO: refactor this. Move it to parent class	
-	public override string GetSelectedNameEnglish()
-	{
-		string nameTranslatedSelected = UtilGtk.ComboGetActive(combo);
-		foreach(SelectJumpTypes jumpType in jumpTypes)
-			if(jumpType.NameTranslated == nameTranslatedSelected)
-				return jumpType.NameEnglish;
-
-		return "";
-	}
-
-	//TODO: refactor this. Move it to parent class	
-	public Gtk.ComboBox SelectById(int id)
-	{
-		int pos = 0;
-		foreach(SelectJumpTypes jumpType in jumpTypes) 
-		{
-			if(jumpType.Id == id) 
-			{
-				combo.Active = pos;
-				break;
-			}
-
-			pos ++;
-		}
-
-		return combo;
-	}
-
-	//TODO: refactor this. Move it to parent class	
-	public override string GetNameTranslated(string nameEnglish)
-	{
-		foreach(SelectJumpTypes jumpType in jumpTypes)
-			if(jumpType.NameEnglish == nameEnglish)
-				return jumpType.NameTranslated;
-
-		return "";
-	}
-
-	//TODO: refactor this. Move it to parent class	
-	public override void MakeActive(string nameEnglish)
-	{
-		foreach(SelectJumpTypes jumpType in jumpTypes)
-			if(jumpType.NameTranslated == nameEnglish)
-				combo.Active = UtilGtk.ComboMakeActive(combo, jumpType.NameTranslated);
-	}
 }

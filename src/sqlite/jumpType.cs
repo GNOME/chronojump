@@ -240,7 +240,7 @@ class SqliteJumpType : Sqlite
 	}
 	
 	//use SelectJumpTypes object. Since 1.6.3
-	public static List<SelectJumpTypes> SelectJumpTypesNew(bool dbconOpened, string allJumpsName, string filter, bool onlyName) 
+	public static List<object> SelectJumpTypesNew(bool dbconOpened, string allJumpsName, string filter, bool onlyName) 
 	{
 		//allJumpsName: add and "allJumpsName" value
 		//filter:
@@ -267,7 +267,7 @@ class SqliteJumpType : Sqlite
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
-		List<SelectJumpTypes> jumpTypes = new List<SelectJumpTypes>();
+		List<object> jumpTypes = new List<object>();
 
 		int count = new int();
 		count = 0;

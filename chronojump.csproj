@@ -883,6 +883,7 @@
     <Compile Include="src\sqlite\chronopicRegister.cs" />
     <Compile Include="src\chronojumpImporter.cs" />
     <Compile Include="src\staticClassState.cs" />
+    <Compile Include="src\gui\chronopicRegister.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

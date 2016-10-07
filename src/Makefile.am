@@ -10,6 +10,7 @@ SOURCES = \
 	gui/chronopicRegister.cs\
 	gui/chronopicWizard.cs\
 	gui/confirm.cs\
+	gui/cjCombo.cs\
 	gui/encoder.cs\
 	gui/encoderTreeviews.cs\
 	gui/encoderConfiguration.cs\
@@ -112,6 +113,7 @@ SOURCES = \
 	sqlite/event.cs\
 	sqlite/sport.cs\
 	sqlite/speciallity.cs\
+	sqlite/usefulObjects.cs\
 	sqlite/country.cs\
 	sqlite/oldConvert.cs\
 	sqlite/server.cs\

@@ -91,7 +91,7 @@ class SqliteJumpRj : SqliteJump
 		return myLast;
 	}
 
-	public new static string[] SelectJumps(bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType) 
+	public static string[] SelectJumps(bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType) 
 	{
 		if(!dbconOpened)
 			Sqlite.Open();

@@ -67,7 +67,7 @@ public class EditJumpWindow : EditEventWindow
 		eventBigTypeString = Catalog.GetString("jump");
 	}
 
-	static new public EditJumpWindow Show (Gtk.Window parent, Event myEvent, bool weightPercentPreferred, int pDN)
+	static public EditJumpWindow Show (Gtk.Window parent, Event myEvent, bool weightPercentPreferred, int pDN)
 	{
 		if (EditJumpWindowBox == null) {
 			EditJumpWindowBox = new EditJumpWindow (parent);

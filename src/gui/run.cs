@@ -52,7 +52,7 @@ public class EditRunWindow : EditEventWindow
 		eventBigTypeString = Catalog.GetString("run");
 	}
 
-	static new public EditRunWindow Show (Gtk.Window parent, Event myEvent, int pDN, bool metersSecondsPreferred)
+	static public EditRunWindow Show (Gtk.Window parent, Event myEvent, int pDN, bool metersSecondsPreferred)
 	{
 		if (EditRunWindowBox == null) {
 			EditRunWindowBox = new EditRunWindow (parent);

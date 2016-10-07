@@ -484,7 +484,7 @@ public class EncoderSignalCurve {
 		this.msCentral = msCentral;
 	}
 	
-	public string ToString() {
+	public override string ToString() {
 		return uniqueID.ToString() + ":" + signalID.ToString() + ":" + 
 			curveID.ToString() + ":" + msCentral.ToString();
 	}

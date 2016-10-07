@@ -941,7 +941,7 @@ public class RunIntervalExecute : RunExecute
 			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracksHere, description, limitString, Util.BoolToNegativeInt(simulated), !startIn); 
 
 
-			string tempValuesString = "";
+			string tempValuesString;
 			if(tracksLimited) 
 				tempValuesString = " (" + distanceIntervalFixed + "x" + tracksHere + "R), " + Catalog.GetString("Time") + ": " + Util.TrimDecimals( timeTotal.ToString(), pDN);
 			else

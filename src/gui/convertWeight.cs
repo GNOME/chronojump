@@ -84,7 +84,7 @@ public class ConvertWeightWindow
 		fillTreeView( treeview1, store );
 	}
 
-	static public new ConvertWeightWindow Show (
+	static public ConvertWeightWindow Show (
 			double oldPersonWeight, double newPersonWeight, string [] jumpsNormal, string [] jumpsReactive)
 	{
 		if (ConvertWeightWindowBox == null) {

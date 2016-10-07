@@ -26,7 +26,7 @@ using Mono.Data.Sqlite;
 
 class SqlitePreferences : Sqlite
 {
-	protected internal static void createTable()
+	protected internal static new void createTable()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.PreferencesTable + " ( " +

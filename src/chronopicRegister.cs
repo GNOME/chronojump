@@ -32,7 +32,7 @@ public class ChronopicRegisterPort
 	public string Port;
 	public bool FTDI;
 	public string SerialNumber;
-	public enum Types { UNKNOWN, CONTACTS, ENCODER }
+	public enum Types { UNKNOWN, NOT_CHRONOPIC, CONTACTS, ENCODER }
 	public Types Type;
 
 	//constructor when port is known (searching FTDI stuff on a serial port)

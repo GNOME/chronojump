@@ -2419,17 +2419,6 @@ public partial class ChronoJumpWindow
 		ChronojumpImporter.Result result = chronojumpImporter.import ();
 
 		if (result.success) {
-			//if a simple jump type has been added
-			createComboSelectJumps(false); //this will update also the selectJumpsString
-			UtilGtk.ComboUpdate(combo_result_jumps,
-					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), ""); //without filter, only select name
-			combo_select_jumps.Active = 0;
-			combo_result_jumps.Active = 0;
-
-			//TODO: RJ, run simple, run interval. See methods:
-			//on_jump_type_add_accepted
-			//on_run_type_add_accepted
-
 			//update stats combos
 			updateComboStats ();
 

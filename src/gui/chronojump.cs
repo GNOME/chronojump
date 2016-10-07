@@ -183,7 +183,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_export_csv;
 	[Widget] Gtk.MenuItem menuitem_export_xml;
 	[Widget] Gtk.MenuItem menuitem_encoder_session_overview;
-	[Widget] Gtk.MenuItem menuitem_import_chronojump_session;
 	[Widget] Gtk.Image image_session_open;
 		
 	//menu person
@@ -2911,7 +2910,6 @@ public partial class ChronoJumpWindow
 		menuitem_encoder_session_overview.Visible = false;
 		menuitem_export_encoder_signal.Visible = false;
 		menuitem_export_csv.Visible = true;
-		menuitem_import_chronojump_session.Visible = true;
 
 		hbox_other.Visible = false;
 
@@ -2940,8 +2938,6 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = 0;
 			notebook_capture_analyze.ShowTabs = true;
 
-			menuitem_import_chronojump_session.Visible = true;
-
 			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
 			{
 				menuitem_mode_selected_runs_simple.Visible = true;
@@ -2964,8 +2960,6 @@ public partial class ChronoJumpWindow
 			menuitem_export_encoder_signal.Visible = true;
 			menuitem_export_csv.Visible = false;
 
-			menuitem_import_chronojump_session.Visible = false;	// not implemented yet
-			
 			//on OSX R is not installed by default. Check if it's installed. Needed for encoder
 			if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX &&
 					! Util.FileExists(Constants.ROSX) )

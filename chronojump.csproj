@@ -885,6 +885,8 @@
     <Compile Include="src\staticClassState.cs" />
     <Compile Include="src\gui\chronopicRegister.cs" />
     <Compile Include="src\executeProcess.cs" />
+    <Compile Include="src\gui\cjCombo.cs" />
+    <Compile Include="src\sqlite\usefulObjects.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

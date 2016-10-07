@@ -21,11 +21,19 @@
 using System;
 using Mono.Unix;
 
-public class SelectJumpTypes
+public class SelectTypes
 {
 	public int Id;
 	public string NameEnglish;
 	public string NameTranslated;
+
+	public SelectTypes()
+	{
+	}
+}
+
+public class SelectJumpTypes : SelectTypes
+{
 	public bool StartIn;
 	public bool HasWeight;
 	public string Description;
@@ -44,6 +52,5 @@ public class SelectJumpTypes
 		this.HasWeight = hasWeight;
 		this.Description = description;
 	}
-
 }
 

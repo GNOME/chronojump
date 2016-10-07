@@ -577,7 +577,7 @@ class SqliteRunIntervalType : SqliteRunType
 		}
 	}
 	
-	public static void Delete(string name)
+	public static new void Delete(string name)
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTypeTable +

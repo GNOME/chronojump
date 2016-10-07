@@ -30,7 +30,7 @@ using Mono.Unix;
 
 class SqliteSpeciallity : Sqlite
 {
-	protected internal static void createTable()
+	protected internal static new void createTable()
 	 {
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.SpeciallityTable + " ( " +

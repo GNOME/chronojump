@@ -89,7 +89,7 @@ class SqliteRunInterval : SqliteRun
 		return myLast;
 	}
 
-	public new static string[] SelectRuns(bool dbconOpened, int sessionID, int personID, string filterType) 
+	public static string[] SelectRuns(bool dbconOpened, int sessionID, int personID, string filterType) 
 	{
 		if(!dbconOpened)
 			Sqlite.Open();

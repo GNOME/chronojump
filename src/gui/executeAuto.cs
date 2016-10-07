@@ -100,7 +100,7 @@ public class ExecuteAutoWindow
 		FakeButtonAccept = new Gtk.Button();
 	}
 
-	static new public ExecuteAutoWindow Show (Gtk.Window parent, int sessionID)
+	static public ExecuteAutoWindow Show (Gtk.Window parent, int sessionID)
 	{
 		if (ExecuteAutoWindowBox == null) {
 			ExecuteAutoWindowBox = new ExecuteAutoWindow (parent);
@@ -115,7 +115,7 @@ public class ExecuteAutoWindow
 	}
 	
 	//creates and shows the third tab
-	static new public ExecuteAutoWindow ShowJustOrder (Gtk.Window parent, ArrayList orderedData, int orderedDataPos)
+	static public ExecuteAutoWindow ShowJustOrder (Gtk.Window parent, ArrayList orderedData, int orderedDataPos)
 	{
 		if (ExecuteAutoWindowBox == null) {
 			ExecuteAutoWindowBox = new ExecuteAutoWindow (parent);

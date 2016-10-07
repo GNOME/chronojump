@@ -356,7 +356,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 
-	static public new PersonsRecuperateFromOtherSessionWindow Show (
+	static public PersonsRecuperateFromOtherSessionWindow Show (
 			Gtk.Window parent, Session currentSession)
 	{
 		if (PersonsRecuperateFromOtherSessionWindowBox == null) {
@@ -698,7 +698,7 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 
-	static public new PersonNotUploadWindow Show (Gtk.Window parent, int sessionID)
+	static public PersonNotUploadWindow Show (Gtk.Window parent, int sessionID)
 	{
 		if (PersonNotUploadWindowBox == null) {
 			PersonNotUploadWindowBox = 
@@ -784,7 +784,7 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		on_button_close_clicked (o, new EventArgs());
 	}
 	
-	public Button FakeButtonDone 
+	public new Button FakeButtonDone 
 	{
 		set { fakeButtonDone = value; }
 		get { return fakeButtonDone; }

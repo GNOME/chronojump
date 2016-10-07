@@ -230,8 +230,8 @@ public class ChronopicAutoDetect
 		this.configAutoDetect = configAutoDetect;
 		
 		if(configAutoDetect == Config.AutodetectPortEnum.INACTIVE) {
-			return;
 			Detected = "";
+			return;
 		}
 
 		//no matter if we are searching for 4MHz or 20MHz (encoder)

@@ -1329,6 +1329,14 @@ public partial class ChronoJumpWindow
 	private void fillTreeView_jumps (string filter, bool dbconOpened) {
 		string [] myJumps;
 	
+		if (currentSession == null) {
+			// This happens when the user "Imports a session": Chronojump tries to
+			// update comboboxes, it reaches here because the comboboxes are updated and
+			// on_combo_result_jumps_changedd. But if the user didn't have any
+			// open session currentSession variable (see below) is null and it crashed here
+			// (when it did currentSession.UniqueID with currentSession==null)
+			return;
+		}
 		myJumps = SqliteJump.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "",
 				Sqlite.Orders_by.DEFAULT, -1);
 

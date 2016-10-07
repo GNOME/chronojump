@@ -5,6 +5,8 @@ import logging
 import sqlite3
 import sys
 import json
+import os
+import shutil
 
 import re
 
@@ -367,7 +369,7 @@ class Database:
 
 
 class ImportSession:
-    def __init__(self, source_path, destination_path):
+    def __init__(self, source_path, destination_path, source_base_directory):
         """ Creates the object to import the session source_session from source_db into destination_db. """
 
         logging.debug("source path:" + source_path)
@@ -375,6 +377,7 @@ class ImportSession:
 
         self.source_path = source_path
         self.destination_path = destination_path
+        self.source_base_directory = source_base_directory
 
         self.source_db = Database(source_path, read_only=True)
         self.destination_db = Database(destination_path, read_only=False)
@@ -425,57 +428,10 @@ class ImportSession:
         return session[0].get('new_uniqueID')
 
     def _import_persons77(self):
-        # Imports Persons77 used by JumpRj table
-        persons77_jump_rj = self.source_db.read(table_name="Person77",
-                                                where_condition="JumpRj.sessionID={}".format(self.source_session),
-                                                join_clause="LEFT JOIN JumpRj ON Person77.uniqueID=JumpRj.personID",
-                                                group_by_clause="Person77.uniqueID")
-
-        # Imports Person77 used by Jump table
-        persons77_jump = self.source_db.read(table_name="Person77",
-                                             where_condition="Jump.sessionID={}".format(self.source_session),
-                                             join_clause="LEFT JOIN Jump ON Person77.uniqueID=Jump.personID",
-                                             group_by_clause="Person77.uniqueID")
-
-        # Imports Person77 used by Run table
-        persons77_run = self.source_db.read(table_name="Person77",
-                                            where_condition="Run.sessionID={}".format(self.source_session),
-                                            join_clause="LEFT JOIN Run ON Person77.uniqueID=Run.personID",
-                                            group_by_clause="Person77.uniqueID")
-
-        # Imports Person77 used by RunInterval table
-        persons77_run_interval = self.source_db.read(table_name="Person77",
-                                                     where_condition="RunInterval.sessionID={}".format(self.source_session),
-                                                     join_clause="LEFT JOIN RunInterval ON Person77.uniqueID=RunInterval.personID",
-                                                     group_by_clause="Person77.uniqueID")
-
-        # Imports Person77 used by Pulse table
-        persons77_pulse = self.source_db.read(table_name="Person77",
-                                              where_condition="Pulse.sessionID={}".format(self.source_session),
-                                              join_clause="LEFT JOIN Pulse ON Person77.uniqueID=Pulse.personID",
-                                              group_by_clause="Pulse.uniqueID")
-
-        # Imports Person77 used by Encoder
-        persons77_encoder = self.source_db.read(table_name="Person77",
-                                                where_condition="Encoder.sessionID={}".format(self.source_session),
-                                                join_clause="LEFT JOIN Encoder ON Person77.uniqueID=Encoder.personID",
-                                                group_by_clause="Encoder.uniqueID")
-
-        # Imports Person77 used by Encoder1RM
-        persons77_encoder_1rm = self.source_db.read(table_name="Person77",
-                                                    where_condition="Encoder1RM.sessionID={}".format(self.source_session),
-                                                    join_clause="LEFT JOIN Encoder1RM ON Person77.uniqueID=Encoder1RM.personID",
-                                                    group_by_clause="Encoder1RM.uniqueID")
-
-        persons77 = Table("person77")
-        persons77.concatenate_table(persons77_jump)
-        persons77.concatenate_table(persons77_jump_rj)
-        persons77.concatenate_table(persons77_run)
-        persons77.concatenate_table(persons77_run_interval)
-        persons77.concatenate_table(persons77_pulse)
-        persons77.concatenate_table(persons77_encoder)
-        persons77.concatenate_table(persons77_encoder_1rm)
-        persons77.remove_duplicates()
+        persons77 = self.source_db.read(table_name="Person77",
+                                        where_condition="personSession77.sessionID={}".format(self.source_session),
+                                        join_clause="LEFT JOIN personSession77 ON personSession77.personID=Person77.uniqueID",
+                                        group_by_clause="Person77.uniqueID")
 
         self.destination_db.write(table=persons77,
                                   matches_columns=["name"])
@@ -600,6 +556,9 @@ class ImportSession:
         encoder.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
         encoder.update_ids("exerciseID", encoder_1rm, "old_exerciseID", "new_exerciseID")
         encoder.update_session_ids(self.new_session_id)
+
+        self._import_encoder_files(encoder)
+
         self.destination_db.write(table=encoder,
                                   matches_columns=None)
 
@@ -623,6 +582,51 @@ class ImportSession:
         self.destination_db.write(table=encoder_signal_curve,
                                   avoids_duplicate_column=None,
                                   matches_columns=None)
+
+
+    @staticmethod
+    def _encoder_filename(person_id, original_filename):
+        """ original_filename is like 1-Carmelo-2014-12-03_12-48-54.txt. It only replaces the person_id (1 in this case)"""
+        filename=original_filename.split("-", 1)
+        filename[0] = str(person_id)
+        return "-".join(filename)
+
+    @staticmethod
+    def _encoder_url(session_id, signal_or_curve):
+        return 'encoder/data/{session_id}/{signal_or_curve}'.format(session_id=session_id, signal_or_curve=signal_or_curve)
+
+    def _import_encoder_files(self, encoder_table):
+        if self.source_base_directory is None:
+            # We are skipping to copy the Encoding files. This is used in unit tests.
+            return
+
+        for row in encoder_table:
+            # Gets information from row
+            person_id=row.get("personID")
+            original_filename=row.get("filename")
+            original_url=row.get("url")
+            session_id=row.get("sessionID")
+            signal_or_curve=row.get("signalOrCurve")
+
+            # Prepares the new filename and destination_url
+            filename=self._encoder_filename(person_id, original_filename)
+            destination_url=self._encoder_url(session_id, signal_or_curve)
+
+            # Sets it to the row
+            row.set("filename", filename)
+            row.set("url", destination_url)
+
+            # Copies the files to the new place
+            destination_directory = os.path.join(self.destination_path, "..", "..", destination_url)
+            destination_directory = os.path.abspath(destination_directory)  # os.makedirs() can't handle directories with ".."
+
+            destination_filename = os.path.join(destination_directory, filename)
+            source_file = os.path.join(self.source_base_directory, original_url, original_filename)
+
+            if not os.path.isdir(destination_directory):
+                os.makedirs(destination_directory)
+
+            shutil.copy(source_file, destination_filename)
 
 
 def json_information(database_path):
@@ -659,6 +663,9 @@ def process_command_line():
         description="Allows to import a session from one Chronojump database file into another one")
     parser.add_argument("--source", type=str, required=True,
                         help="chronojump.sqlite that we are importing from")
+    parser.add_argument("--source_base_directory", type=str, required=False,
+                        help="Directory where the encoder/ directory (amongst database/, logs/ and multimedia/ can be found\n" +
+                             "By default is parent as --source")
     parser.add_argument("--destination", type=str, required=False,
                         help="chronojump.sqlite that we import to")
     parser.add_argument("--source_session", type=int, required=False,
@@ -671,7 +678,12 @@ def process_command_line():
         show_json_information(args.source)
     else:
         if args.destination and args.source_session:
-            importer = ImportSession(args.source, args.destination)
+            if args.source_base_directory:
+                source_base_directory = args.source_base_directory
+            else:
+                source_base_directory = os.path.join(args.source, "../..")
+
+            importer = ImportSession(args.source, args.destination, source_base_directory)
             importer.import_as_new_session(args.source_session)
         else:
             print("if --information not used --source, --destination and --source_session parameters are required")

@@ -48,7 +48,7 @@ class TestImporter(unittest.TestCase):
         shutil.copy("tests/{}".format(destination_file_name), destination_file_path)
         shutil.copy("tests/{}".format(destination_file_name), original_destination_file_path)
 
-        importer = chronojump_importer.ImportSession(source_file_path, destination_file_path)
+        importer = chronojump_importer.ImportSession(source_file_path, destination_file_path, None)
         importer.import_as_new_session(1)
 
         os.system(

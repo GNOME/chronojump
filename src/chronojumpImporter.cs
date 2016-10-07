@@ -97,11 +97,15 @@ class ChronojumpImporter
 
 		List<string> parameters = new List<string> ();
 		parameters.Add ("--source");
-		parameters.Add (CommandLineEncoder.EncodeArgText (sourceFile));
+		parameters.Add (temporarySourceFile);
+		parameters.Add ("--source_base_directory");
+		parameters.Add (Path.Combine(Path.GetDirectoryName(sourceFile), "..")); // Parent directory of the original database
+																				// is where the importer can find the
+																				// encoder files
 		parameters.Add ("--destination");
-		parameters.Add (CommandLineEncoder.EncodeArgText (destinationFile));
+		parameters.Add (destinationFile);
 		parameters.Add ("--source_session");
-		parameters.Add (CommandLineEncoder.EncodeArgText (session));
+		parameters.Add (session);
 
 		Result result = executeChronojumpImporter (parameters);
 

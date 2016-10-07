@@ -884,6 +884,7 @@
     <Compile Include="src\chronojumpImporter.cs" />
     <Compile Include="src\staticClassState.cs" />
     <Compile Include="src\gui\chronopicRegister.cs" />
+    <Compile Include="src\executeProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

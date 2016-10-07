@@ -246,47 +246,25 @@ public class ChronopicRegisterLinux : ChronopicRegister
 		//new: udevadm info -p $(udevadm info -q path -n /dev/ttyUSB0)
 		//TODO: find a way to call this in only one process
 
-		ProcessStartInfo pinfo = new ProcessStartInfo();
-		string pBin = "udevadm";
-		pinfo.FileName=pBin;
-		
-		pinfo.CreateNoWindow = true;
-		pinfo.UseShellExecute = false;
-		pinfo.RedirectStandardError = true;
-		pinfo.RedirectStandardOutput = true; 
-	
-		//1) get path	
-		pinfo.Arguments = "info -q path -n " + crp.Port;
-		LogB.Information("Arguments:", pinfo.Arguments);
-		
-		Process p = new Process();
-		p.StartInfo = pinfo;
-		p.Start();
+		//1) get path
+		List<string> parameters = new List<string> { "info", "-q", "path", "-n", crp.Port };
+		ExecuteProcess.Result result = ExecuteProcess.runShowErrorIfNotStarted ("udevadm", parameters);
+		string path = result.stdout;
 
-		string path = p.StandardOutput.ReadToEnd();
-		LogB.Information(path);
-		string error = p.StandardError.ReadToEnd();
-		
-		p.WaitForExit();
-
-		if(error != "") {
-			LogB.Error(error);
+		if (result.stderr != "") {
 			return crp;
 		}
-		
+
 		//2) read FTDI info	
-		pinfo.Arguments = "info -p " + path;
-		LogB.Information("Arguments:", pinfo.Arguments);
-		
-		p = new Process();
-		p.StartInfo = pinfo;
-		p.Start();
+		parameters = new List<string> { "info", "-p", path };
+		result = ExecuteProcess.runShowErrorIfNotStarted ("udevadm", parameters);
 
-		error = p.StandardError.ReadToEnd();
+		if (result.stderr != "") {
+			return crp;
+		}
 
-		while (! p.StandardOutput.EndOfStream)
+		foreach (string lineOut in result.stdout.Split('\n'))
 		{
-			string lineOut = p.StandardOutput.ReadLine();
 			if (lineOut.Contains("ID_VENDOR=")) {
 				string [] strFull = lineOut.Split(new char[] {'='});
 				crp.FTDI = (strFull[1] == "FTDI");
@@ -295,11 +273,6 @@ public class ChronopicRegisterLinux : ChronopicRegister
 				crp.SerialNumber = strFull[1];
 			}
 		}
-		p.WaitForExit();
-		
-		if(error != "")
-			LogB.Error(error);
-		
 		return crp;
 	}
 }

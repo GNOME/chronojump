@@ -1082,7 +1082,7 @@ partial class ChronoJumpWindow
 	
 	private void on_extra_window_jumps_test_changed(object o, EventArgs args)
 	{
-		string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps), selectJumpsString);
+		string jumpEnglishName = comboSelectJumps.GetSelectedNameEnglish();
 		currentJumpType = createJumpType(jumpEnglishName, true);
 	
 		extra_window_jumps_initialize(currentJumpType);
@@ -1267,11 +1267,10 @@ partial class ChronoJumpWindow
 		SqlitePreferences.Update("allowFinishRjAfterTime", checkbutton_allow_finish_rj_after_time.Active.ToString(), false);
 	}
 
-	private void on_more_jumps_update_test (object o, EventArgs args) {
+	private void on_more_jumps_update_test (object o, EventArgs args) 
+	{
 		currentEventType = new JumpType(jumpsMoreWin.SelectedEventName);
-		string jumpTranslatedName = Util.FindOnArray(':',1,2, jumpsMoreWin.SelectedEventName, selectJumpsString);
-		
-		combo_select_jumps.Active = UtilGtk.ComboMakeActive(combo_select_jumps, jumpTranslatedName);	
+		comboSelectJumps.MakeActive(jumpsMoreWin.SelectedEventName);
 	}
 	
 	private void on_more_jumps_rj_update_test (object o, EventArgs args) {

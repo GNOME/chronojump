@@ -22,6 +22,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using Mono.Data.Sqlite;
 
 
@@ -237,6 +238,66 @@ class SqliteJumpType : Sqlite
 			Sqlite.Close();
 		}
 	}
+	
+	//use SelectJumpTypes object. Since 1.6.3
+	public static List<SelectJumpTypes> SelectJumpTypesNew(bool dbconOpened, string allJumpsName, string filter, bool onlyName) 
+	{
+		//allJumpsName: add and "allJumpsName" value
+		//filter:
+		//	"" all jumps,
+		//	"TC" only with previous fall,
+		//	"nonTC" only not with previous fall
+		//	used in gui/stats.cs
+		//onlyName: return only type name
+
+		string whereString = "";
+		if(filter == "TC") { whereString = " WHERE startIn == 0 "; }
+		else if(filter == "nonTC") { whereString = " WHERE startIn == 1 "; }
+
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "SELECT * " +
+			" FROM " + Constants.JumpTypeTable + " " +
+			whereString +
+			" ORDER BY uniqueID";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<SelectJumpTypes> jumpTypes = new List<SelectJumpTypes>();
+
+		int count = new int();
+		count = 0;
+
+		SelectJumpTypes jumpType;
+		if(allJumpsName != "") {
+			jumpType = new SelectJumpTypes(allJumpsName);
+			jumpTypes.Add(jumpType);
+		}
+
+		while(reader.Read()) {
+			if(onlyName) {
+				jumpType = new SelectJumpTypes(reader[1].ToString());
+			} else {
+				jumpType = new SelectJumpTypes(
+						Convert.ToInt32(reader[0]), 	//uniqueID
+						reader[1].ToString(),		//nameEnglish
+						Util.IntToBool(Convert.ToInt32(reader[2].ToString())), 	//startIn
+						Util.IntToBool(Convert.ToInt32(reader[3].ToString())), 	//hasWeight
+						reader[4].ToString()); 		//description
+			}
+			jumpTypes.Add(jumpType);
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		return jumpTypes;
+	}
+
 
 	public static string[] SelectJumpTypes(bool dbconOpened, string allJumpsName, string filter, bool onlyName) 
 	{
@@ -247,11 +308,11 @@ class SqliteJumpType : Sqlite
 		//	"nonTC" only not with previous fall
 		//	used in gui/stats.cs
 		//onlyName: return only type name
-	
+
 		string whereString = "";
 		if(filter == "TC") { whereString = " WHERE startIn == 0 "; }
 		else if(filter == "nonTC") { whereString = " WHERE startIn == 1 "; }
-	
+
 		if(! dbconOpened)	
 			Sqlite.Open();
 
@@ -259,7 +320,7 @@ class SqliteJumpType : Sqlite
 			" FROM " + Constants.JumpTypeTable + " " +
 			whereString +
 			" ORDER BY uniqueID";
-		
+
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

@@ -127,7 +127,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TreeView treeview_pulses;
 	[Widget] Gtk.TreeView treeview_multi_chronopic;
 	
-	[Widget] Gtk.Box hbox_combo_select_jumps;
+	[Widget] Gtk.HBox hbox_combo_select_jumps;
 	[Widget] Gtk.Box hbox_combo_select_jumps_rj;
 	[Widget] Gtk.Box hbox_combo_select_runs;
 	[Widget] Gtk.Box hbox_combo_select_runs_interval;
@@ -165,6 +165,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_select_jumps_rj;
 	[Widget] Gtk.ComboBox combo_select_runs;
 	[Widget] Gtk.ComboBox combo_select_runs_interval;
+
+	CjComboSelectJumps comboSelectJumps; //new since 1.6.3. Using gui/cjCombo.cs
 	
 	[Widget] Gtk.ComboBox combo_result_jumps;
 	[Widget] Gtk.ComboBox combo_result_jumps_rj;
@@ -1938,39 +1940,22 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 	
-	string [] selectJumpsString;
 	string [] selectJumpsRjString;
 	string [] selectRunsString;
 	string [] selectRunsIntervalString;
 
 	// ---------------- combo_select ----------------------
 
-	private void createComboSelectJumps(bool create) {
+	private void createComboSelectJumps(bool create) 
+	{
 		if(create)
-			combo_select_jumps = ComboBox.NewText ();
-
-		string [] jumpTypes = SqliteJumpType.SelectJumpTypes(false, "", "", false); //without alljumpsname, without filter, not only name
-		selectJumpsString = new String [jumpTypes.Length];
-		string [] jumpNamesToCombo = new String [jumpTypes.Length];
-		int i =0;
-		foreach(string jumpType in jumpTypes) {
-			string [] j = jumpType.Split(new char[] {':'});
-			string nameTranslated = Catalog.GetString(j[1]);
-			selectJumpsString[i] = 
-				j[0] + ":" + j[1] + ":" + nameTranslated + ":" +	//uniqueID, name, nameTranslated
-				j[2] + ":" + j[3] + ":" + j[4];				//startIn, weight, description
-			jumpNamesToCombo[i] = nameTranslated;
-			i++;
-		}
-
-		UtilGtk.ComboUpdate(combo_select_jumps, jumpNamesToCombo, "");
-		combo_select_jumps.Active = 0;
-		combo_select_jumps.Changed += new EventHandler (on_combo_select_jumps_changed);
-
-		if(create) {
-			hbox_combo_select_jumps.PackStart(combo_select_jumps, true, true, 0);
-			hbox_combo_select_jumps.ShowAll();
-			combo_select_jumps.Sensitive = false;
+		{
+			comboSelectJumps = new CjComboSelectJumps(combo_select_jumps, hbox_combo_select_jumps);
+			combo_select_jumps = comboSelectJumps.Combo;
+			combo_select_jumps.Changed += new EventHandler (on_combo_select_jumps_changed);
+		} else {
+			comboSelectJumps.Fill();
+			combo_select_jumps = comboSelectJumps.Combo;
 		}
 	}
 	
@@ -2428,7 +2413,7 @@ public partial class ChronoJumpWindow
 
 		if (result.success) {
 			//if a simple jump type has been added
-			createComboSelectJumps(false); //this will update also the selectJumpsString
+			createComboSelectJumps(false);
 			UtilGtk.ComboUpdate(combo_result_jumps,
 					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), ""); //without filter, only select name
 			combo_select_jumps.Active = 0;
@@ -3980,10 +3965,6 @@ public partial class ChronoJumpWindow
 		if(execute_auto_doing)
 			sensitiveGuiAutoExecuteOrWait (true);
 		
-		//currentJumpType is already defined in selecting name from combo or from jumpsMoreWin
-		//string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps), selectJumpsString);
-		//currentJumpType = new JumpType(jumpEnglishName);
-
 		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
 			if(extra_window_jumps_option == "%") 
@@ -5949,7 +5930,7 @@ LogB.Debug("X");
 	private void on_jump_type_add_accepted (object o, EventArgs args) {
 		LogB.Information("ACCEPTED Add new jump type");
 		if(jumpTypeAddWin.InsertedSimple) {
-			createComboSelectJumps(false); //this will update also the selectJumpsString
+			createComboSelectJumps(false);
 
 			UtilGtk.ComboUpdate(combo_result_jumps, 
 					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), ""); //without filter, only select name
@@ -6041,17 +6022,12 @@ LogB.Debug("X");
 	
 	//----
 	
-	private void on_deleted_jump_type (object o, EventArgs args) {
-		//first delete if from combos
-		string translatedName = Util.FindOnArray(':', 2, 1, jumpsMoreWin.SelectedEventName, selectJumpsString);
-		UtilGtk.ComboDelThisValue(combo_select_jumps, translatedName);
-		UtilGtk.ComboDelThisValue(combo_result_jumps, translatedName);
-		
-		//2nd delete if from global string. -1 selects all row
-		string row = Util.FindOnArray(':',1, -1, jumpsMoreWin.SelectedEventName, selectJumpsString);
-		selectJumpsString = Util.DeleteString(selectJumpsString, row);
+	private void on_deleted_jump_type (object o, EventArgs args)
+	{
+		string translatedName = comboSelectJumps.GetNameTranslated(jumpsMoreWin.SelectedEventName);
+		combo_select_jumps = comboSelectJumps.DeleteValue(translatedName);
 
-		combo_select_jumps.Active = 0;
+		UtilGtk.ComboDelThisValue(combo_result_jumps, translatedName);
 		combo_result_jumps.Active = 0;
 
 		extra_window_jumps_initialize(new JumpType("Free"));
@@ -6225,8 +6201,7 @@ LogB.Debug("X");
 			label_jump_auto_current_person.Text = currentPerson.Name;
 
 			//select the test
-			int rowTest = Convert.ToInt32(Util.FindOnArray(':', 0, -2, ea.testUniqueID.ToString(), selectJumpsString));
-			combo_select_jumps.Active = rowTest;
+			combo_select_jumps = comboSelectJumps.SelectById(ea.testUniqueID);
 			label_jump_auto_current_test.Text = "(" + ea.testTrName + ")";
 			
 			//put GUI on auto_waiting

@@ -71,6 +71,7 @@ src/sqlite/session.cs
 src/sqlite/speciallity.cs
 src/sqlite/sport.cs
 src/sqlite/stat.cs
+src/sqlite/usefulObjects.cs
 src/stats/chronojumpProfile.cs
 src/stats/djIndex.cs
 src/stats/djPower.cs

@@ -1100,7 +1100,7 @@ partial class ChronoJumpWindow
 	
 	private void on_extra_window_jumps_rj_test_changed(object o, EventArgs args)
 	{
-		string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps_rj), selectJumpsRjString);
+		string jumpEnglishName = comboSelectJumpsRj.GetSelectedNameEnglish();
 		currentJumpRjType = createJumpType(jumpEnglishName, false);
 
 		extra_window_jumps_rj_initialize(currentJumpRjType);
@@ -1267,17 +1267,16 @@ partial class ChronoJumpWindow
 		SqlitePreferences.Update("allowFinishRjAfterTime", checkbutton_allow_finish_rj_after_time.Active.ToString(), false);
 	}
 
-	private void on_more_jumps_update_test (object o, EventArgs args) 
+	private void on_more_jumps_update_test (object o, EventArgs args)
 	{
 		currentEventType = new JumpType(jumpsMoreWin.SelectedEventName);
 		comboSelectJumps.MakeActive(jumpsMoreWin.SelectedEventName);
 	}
 	
-	private void on_more_jumps_rj_update_test (object o, EventArgs args) {
+	private void on_more_jumps_rj_update_test (object o, EventArgs args) 
+	{
 		currentEventType = new JumpType(jumpsRjMoreWin.SelectedEventName);
-		string jumpTranslatedName = Util.FindOnArray(':',1,2, jumpsRjMoreWin.SelectedEventName, selectJumpsRjString);
-		
-		combo_select_jumps_rj.Active = UtilGtk.ComboMakeActive(combo_select_jumps_rj, jumpTranslatedName);	
+		comboSelectJumpsRj.MakeActive(jumpsRjMoreWin.SelectedEventName);
 	}
 	
 	//used from the dialogue "jumps more"

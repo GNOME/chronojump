@@ -109,9 +109,7 @@ public class CjComboSelectJumps : CjCombo
 		this.hbox = hbox_combo_select_jumps;
 
 		create();
-		
 		Fill();
-	
 		package();	
 	}
 
@@ -120,13 +118,39 @@ public class CjComboSelectJumps : CjCombo
 	{
 		l_types = (List<object>) SqliteJumpType.SelectJumpTypesNew(false, "", "", false); //without alljumpsname, without filter, not only name
 
-		string [] jumpNamesToCombo = new String [l_types.Count];
+		string [] namesToCombo = new String [l_types.Count];
 		int i =0;
-		foreach(SelectJumpTypes jumpType in l_types)
-			jumpNamesToCombo[i++] = jumpType.NameTranslated;
+		foreach(SelectJumpTypes type in l_types)
+			namesToCombo[i++] = type.NameTranslated;
 		
-		UtilGtk.ComboUpdate(combo, jumpNamesToCombo, "");
+		UtilGtk.ComboUpdate(combo, namesToCombo, "");
 		combo.Active = 0;
 	}
+}
 
+public class CjComboSelectJumpsRj : CjCombo
+{
+	public CjComboSelectJumpsRj(Gtk.ComboBox combo_select_jumps_rj, Gtk.HBox hbox_combo_select_jumps_rj)
+	{
+		this.combo = combo_select_jumps_rj;
+		this.hbox = hbox_combo_select_jumps_rj;
+
+		create();
+		Fill();
+		package();
+	}
+
+	//if we just need to update values, call only this method
+	public override void Fill()
+	{
+		l_types = (List<object>) SqliteJumpType.SelectJumpRjTypesNew("", false); //without alljumpsname, not only name
+
+		string [] namesToCombo = new String [l_types.Count];
+		int i =0;
+		foreach(SelectJumpRjTypes type in l_types)
+			namesToCombo[i++] = type.NameTranslated;
+
+		UtilGtk.ComboUpdate(combo, namesToCombo, "");
+		combo.Active = 0;
+	}
 }

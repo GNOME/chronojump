@@ -128,9 +128,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TreeView treeview_multi_chronopic;
 	
 	[Widget] Gtk.HBox hbox_combo_select_jumps;
-	[Widget] Gtk.Box hbox_combo_select_jumps_rj;
-	[Widget] Gtk.Box hbox_combo_select_runs;
-	[Widget] Gtk.Box hbox_combo_select_runs_interval;
+	[Widget] Gtk.HBox hbox_combo_select_jumps_rj;
+	[Widget] Gtk.HBox hbox_combo_select_runs;
+	[Widget] Gtk.HBox hbox_combo_select_runs_interval;
 
 	//auto mode	
 	[Widget] Gtk.Box hbox_jump_types_options;
@@ -167,6 +167,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_select_runs_interval;
 
 	CjComboSelectJumps comboSelectJumps; //new since 1.6.3. Using gui/cjCombo.cs
+	CjComboSelectJumpsRj comboSelectJumpsRj; //new since 1.6.3. Using gui/cjCombo.cs
 	
 	[Widget] Gtk.ComboBox combo_result_jumps;
 	[Widget] Gtk.ComboBox combo_result_jumps_rj;
@@ -1940,7 +1941,6 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 	
-	string [] selectJumpsRjString;
 	string [] selectRunsString;
 	string [] selectRunsIntervalString;
 
@@ -1959,33 +1959,16 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	private void createComboSelectJumpsRj(bool create) {
+	private void createComboSelectJumpsRj(bool create)
+	{
 		if(create)
-			combo_select_jumps_rj = ComboBox.NewText ();
-
-		string [] jumpTypes = SqliteJumpType.SelectJumpRjTypes("", false); //without alljumpsname, not only name
-		selectJumpsRjString = new String [jumpTypes.Length];
-		string [] jumpNamesToCombo = new String [jumpTypes.Length];
-		int i =0;
-		foreach(string jumpType in jumpTypes) {
-			string [] j = jumpType.Split(new char[] {':'});
-			string nameTranslated = Catalog.GetString(j[1]);
-			selectJumpsRjString[i] = 
-				j[0] + ":" + j[1] + ":" + nameTranslated + ":" +	//uniqueID, name, nameTranslated
-				j[2] + ":" + j[3] + ":" + j[4] + ":" +			//startIn, weight, jumpsLimited
-				j[5] + ":" + j[6];					//fixedValue, description
-			jumpNamesToCombo[i] = nameTranslated;
-			i++;
-		}
-
-		UtilGtk.ComboUpdate(combo_select_jumps_rj, jumpNamesToCombo, "");
-		combo_select_jumps_rj.Active = 0;
-		combo_select_jumps_rj.Changed += new EventHandler (on_combo_select_jumps_rj_changed);
-
-		if(create) {
-			hbox_combo_select_jumps_rj.PackStart(combo_select_jumps_rj, true, true, 0);
-			hbox_combo_select_jumps_rj.ShowAll();
-			combo_select_jumps_rj.Sensitive = false;
+		{
+			comboSelectJumpsRj = new CjComboSelectJumpsRj(combo_select_jumps_rj, hbox_combo_select_jumps_rj);
+			combo_select_jumps_rj = comboSelectJumpsRj.Combo;
+			combo_select_jumps_rj.Changed += new EventHandler (on_combo_select_jumps_rj_changed);
+		} else {
+			comboSelectJumpsRj.Fill();
+			combo_select_jumps_rj = comboSelectJumpsRj.Combo;
 		}
 	}
 	
@@ -4141,10 +4124,6 @@ public partial class ChronoJumpWindow
 	
 	private void on_rj_activate (object o, EventArgs args) 
 	{
-		//currentJumpRjType is already defined in selecting name from combo or from jumpsMoreWin
-		//string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps_rj), selectJumpsRjString);
-		//currentJumpRjType = new JumpType(jumpEnglishName);
-
 		double progressbarLimit = 0;
 		
 		//if it's a unlimited interval run, put -1 as limit value
@@ -5936,7 +5915,7 @@ LogB.Debug("X");
 					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), ""); //without filter, only select name
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple jump."));
 		} else {
-			createComboSelectJumpsRj(false); //this will update also the selectJumpsRjString
+			createComboSelectJumpsRj(false);
 			
 			UtilGtk.ComboUpdate(combo_result_jumps_rj, 
 					SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
@@ -6033,17 +6012,12 @@ LogB.Debug("X");
 		extra_window_jumps_initialize(new JumpType("Free"));
 	}
 
-	private void on_deleted_jump_rj_type (object o, EventArgs args) {
-		//first delete if from combos
-		string translatedName = Util.FindOnArray(':', 2, 1, jumpsRjMoreWin.SelectedEventName, selectJumpsRjString);
-		UtilGtk.ComboDelThisValue(combo_select_jumps_rj, translatedName);
-		UtilGtk.ComboDelThisValue(combo_result_jumps_rj, translatedName);
-		
-		//2nd delete if from global string. -1 selects all row
-		string row = Util.FindOnArray(':',1, -1, jumpsRjMoreWin.SelectedEventName, selectJumpsRjString);
-		selectJumpsRjString = Util.DeleteString(selectJumpsRjString, row);
+	private void on_deleted_jump_rj_type (object o, EventArgs args)
+	{
+		string translatedName = comboSelectJumpsRj.GetNameTranslated(jumpsRjMoreWin.SelectedEventName);
+		combo_select_jumps_rj = comboSelectJumpsRj.DeleteValue(translatedName);
 
-		combo_select_jumps_rj.Active = 0;
+		UtilGtk.ComboDelThisValue(combo_result_jumps_rj, translatedName);
 		combo_result_jumps_rj.Active = 0;
 
 		extra_window_jumps_rj_initialize(new JumpType("RJ(j)"));

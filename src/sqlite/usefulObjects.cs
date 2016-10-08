@@ -38,6 +38,11 @@ public class SelectJumpTypes : SelectTypes
 	public bool HasWeight;
 	public string Description;
 
+	//needed for inheritance
+	public SelectJumpTypes()
+	{
+	}
+
 	public SelectJumpTypes(string nameEnglish)
 	{
 		this.NameEnglish = nameEnglish;
@@ -50,6 +55,29 @@ public class SelectJumpTypes : SelectTypes
 		this.NameTranslated = Catalog.GetString(nameEnglish);
 		this.StartIn = startIn;
 		this.HasWeight = hasWeight;
+		this.Description = description;
+	}
+}
+
+public class SelectJumpRjTypes : SelectJumpTypes
+{
+	public bool JumpsLimited;
+	public double FixedValue;
+
+	public SelectJumpRjTypes(string nameEnglish)
+	{
+		this.NameEnglish = nameEnglish;
+	}
+
+	public SelectJumpRjTypes(int id, string nameEnglish, bool startIn, bool hasWeight, bool jumpsLimited, double fixedValue, string description)
+	{
+		this.Id = id;
+		this.NameEnglish = nameEnglish;
+		this.NameTranslated = Catalog.GetString(nameEnglish);
+		this.StartIn = startIn;
+		this.HasWeight = hasWeight;
+		this.JumpsLimited = jumpsLimited;
+		this.FixedValue = fixedValue;
 		this.Description = description;
 	}
 }

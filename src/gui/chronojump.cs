@@ -166,8 +166,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_select_runs;
 	[Widget] Gtk.ComboBox combo_select_runs_interval;
 
-	CjComboSelectJumps comboSelectJumps; //new since 1.6.3. Using gui/cjCombo.cs
-	CjComboSelectJumpsRj comboSelectJumpsRj; //new since 1.6.3. Using gui/cjCombo.cs
+	//new since 1.6.3. Using gui/cjCombo.cs
+	CjComboSelectJumps comboSelectJumps;
+	CjComboSelectJumpsRj comboSelectJumpsRj;
+	CjComboSelectRuns comboSelectRuns;
 	
 	[Widget] Gtk.ComboBox combo_result_jumps;
 	[Widget] Gtk.ComboBox combo_result_jumps_rj;
@@ -1941,7 +1943,6 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 	
-	string [] selectRunsString;
 	string [] selectRunsIntervalString;
 
 	// ---------------- combo_select ----------------------
@@ -1972,32 +1973,16 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	private void createComboSelectRuns(bool create) {
+	private void createComboSelectRuns(bool create)
+	{
 		if(create)
-			combo_select_runs = ComboBox.NewText ();
-
-		string [] runTypes = SqliteRunType.SelectRunTypes("", false); //without allrunsname, not only name
-		selectRunsString = new String [runTypes.Length];
-		string [] runNamesToCombo = new String [runTypes.Length];
-		int i =0;
-		foreach(string runType in runTypes) {
-			string [] j = runType.Split(new char[] {':'});
-			string nameTranslated = Catalog.GetString(j[1]);
-			selectRunsString[i] = 
-				j[0] + ":" + j[1] + ":" + nameTranslated + ":" +	//uniqueID, name, nameTranslated
-				j[2] + ":" + j[3];					//distance, description
-			runNamesToCombo[i] = nameTranslated;
-			i++;
-		}
-
-		UtilGtk.ComboUpdate(combo_select_runs, runNamesToCombo, "");
-		combo_select_runs.Active = 0;
-		combo_select_runs.Changed += new EventHandler (on_combo_select_runs_changed);
-
-		if(create) {
-			hbox_combo_select_runs.PackStart(combo_select_runs, true, true, 0);
-			hbox_combo_select_runs.ShowAll();
-			combo_select_runs.Sensitive = false;
+		{
+			comboSelectRuns = new CjComboSelectRuns(combo_select_runs, hbox_combo_select_runs);
+			combo_select_runs = comboSelectRuns.Combo;
+			combo_select_runs.Changed += new EventHandler (on_combo_select_runs_changed);
+		} else {
+			comboSelectRuns.Fill();
+			combo_select_runs = comboSelectRuns.Combo;
 		}
 	}
 
@@ -5945,7 +5930,7 @@ LogB.Debug("X");
 	private void on_run_type_add_accepted (object o, EventArgs args) {
 		LogB.Information("ACCEPTED Add new run type");
 		if(runTypeAddWin.InsertedSimple) {
-			createComboSelectRuns(false); //this will update also the selectRunsString
+			createComboSelectRuns(false);
 
 			UtilGtk.ComboUpdate(combo_result_runs, 
 					SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
@@ -6023,10 +6008,20 @@ LogB.Debug("X");
 		extra_window_jumps_rj_initialize(new JumpType("RJ(j)"));
 	}
 
-	private void on_deleted_run_type (object o, EventArgs args) {
+	private void on_deleted_run_type (object o, EventArgs args)
+	{
+		string translatedName = comboSelectRuns.GetNameTranslated(runsMoreWin.SelectedEventName);
+		combo_select_runs = comboSelectRuns.DeleteValue(translatedName);
+
+		UtilGtk.ComboDelThisValue(combo_result_runs, translatedName);
+		combo_result_runs.Active = 0;
+
 		extra_window_runs_initialize(new RunType("Custom"));
 	}
-	private void on_deleted_run_i_type (object o, EventArgs args) {
+
+	private void on_deleted_run_i_type (object o, EventArgs args)
+	{
+		//TODO
 		extra_window_runs_interval_initialize(new RunType("byLaps"));
 	}
 

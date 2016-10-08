@@ -22,6 +22,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using Mono.Data.Sqlite;
 
 
@@ -175,6 +176,54 @@ class SqliteRunType : Sqlite
 		return myRunType;
 	}
 
+	//use SelectRunTypes object. Since 1.6.3
+	public static List<object> SelectRunTypesNew(string allRunsName, bool onlyName) 
+	{
+		//allRunsName: add and "allRunsName" value
+		//onlyName: return only type name
+
+		string whereString = "";
+
+		Sqlite.Open();
+		dbcmd.CommandText = "SELECT * " +
+			" FROM " + Constants.RunTypeTable +
+			whereString +
+			" ORDER BY uniqueID";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<object> types = new List<object>();
+
+		SelectRunTypes type;
+		if(allRunsName != "") {
+			type = new SelectRunTypes(allRunsName);
+			types.Add(type);
+		}
+
+		while(reader.Read()) {
+			if(onlyName) {
+				type = new SelectRunTypes(reader[1].ToString());
+			} else {
+				type = new SelectRunTypes(
+						Convert.ToInt32(reader[0]), 	//uniqueID
+						reader[1].ToString(),		//nameEnglish
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[2].ToString())), 	//distance
+						reader[3].ToString() 		//description
+						);
+			}
+			types.Add(type);
+		}
+
+		reader.Close();
+		Sqlite.Close();
+
+		return types;
+	}
+	//on newly cereated code use above method
 	public static string[] SelectRunTypes(string allRunsName, bool onlyName) 
 	{
 		//allRunsName: add and "allRunsName" value

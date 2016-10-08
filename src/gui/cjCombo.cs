@@ -34,9 +34,23 @@ public class CjCombo
 	{
 		combo = ComboBox.NewText ();
 	}
-	
-	public virtual void Fill()
+
+	protected virtual void select()
 	{
+	}
+
+	//if we just need to update values, call only this method
+	public void Fill()
+	{
+		select();
+
+		string [] namesToCombo = new String [l_types.Count];
+		int i =0;
+		foreach(SelectTypes type in l_types)
+			namesToCombo[i++] = type.NameTranslated;
+
+		UtilGtk.ComboUpdate(combo, namesToCombo, "");
+		combo.Active = 0;
 	}
 	
 	protected void package() 
@@ -110,21 +124,12 @@ public class CjComboSelectJumps : CjCombo
 
 		create();
 		Fill();
-		package();	
+		package();
 	}
 
-	//if we just need to update values, call only this method
-	public override void Fill()
+	protected override void select()
 	{
 		l_types = (List<object>) SqliteJumpType.SelectJumpTypesNew(false, "", "", false); //without alljumpsname, without filter, not only name
-
-		string [] namesToCombo = new String [l_types.Count];
-		int i =0;
-		foreach(SelectJumpTypes type in l_types)
-			namesToCombo[i++] = type.NameTranslated;
-		
-		UtilGtk.ComboUpdate(combo, namesToCombo, "");
-		combo.Active = 0;
 	}
 }
 
@@ -140,17 +145,27 @@ public class CjComboSelectJumpsRj : CjCombo
 		package();
 	}
 
-	//if we just need to update values, call only this method
-	public override void Fill()
+	protected override void select()
 	{
 		l_types = (List<object>) SqliteJumpType.SelectJumpRjTypesNew("", false); //without alljumpsname, not only name
-
-		string [] namesToCombo = new String [l_types.Count];
-		int i =0;
-		foreach(SelectJumpRjTypes type in l_types)
-			namesToCombo[i++] = type.NameTranslated;
-
-		UtilGtk.ComboUpdate(combo, namesToCombo, "");
-		combo.Active = 0;
 	}
 }
+
+public class CjComboSelectRuns : CjCombo
+{
+	public CjComboSelectRuns(Gtk.ComboBox combo_select_runs, Gtk.HBox hbox_combo_select_runs) 
+	{
+		this.combo = combo_select_runs;
+		this.hbox = hbox_combo_select_runs;
+
+		create();
+		Fill();
+		package();
+	}
+
+	protected override void select()
+	{
+		l_types = (List<object>) SqliteRunType.SelectRunTypesNew("", false); //without allrunsname, not only name
+	}
+}
+

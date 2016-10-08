@@ -82,3 +82,28 @@ public class SelectJumpRjTypes : SelectJumpTypes
 	}
 }
 
+public class SelectRunTypes : SelectTypes
+{
+	public double Distance;
+	public string Description;
+
+	//needed for inheritance
+	public SelectRunTypes()
+	{
+	}
+
+	public SelectRunTypes(string nameEnglish)
+	{
+		this.NameEnglish = nameEnglish;
+	}
+
+	public SelectRunTypes(int id, string nameEnglish, double distance, string description)
+	{
+		this.Id = id;
+		this.NameEnglish = nameEnglish;
+		this.NameTranslated = Catalog.GetString(nameEnglish);
+		this.Distance = distance;
+		this.Description = description;
+	}
+}
+

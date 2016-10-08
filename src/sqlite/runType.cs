@@ -510,6 +510,52 @@ class SqliteRunIntervalType : SqliteRunType
 		return myLast;
 	}
 
+	//use SelectRunITypes object. Since 1.6.3
+	public static List<object> SelectRunIntervalTypesNew(string allRunsName, bool onlyName)
+	{
+		Sqlite.Open();
+		dbcmd.CommandText = "SELECT * " +
+			" FROM " + Constants.RunIntervalTypeTable +
+			" ORDER BY uniqueID";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<object> types = new List<object>();
+
+		SelectRunITypes type;
+		if(allRunsName != "") {
+			type = new SelectRunITypes(allRunsName);
+			types.Add(type);
+		}
+
+		while(reader.Read()) {
+			if(onlyName) {
+				type = new SelectRunITypes(reader[1].ToString());
+			} else {
+				type = new SelectRunITypes(
+						Convert.ToInt32(reader[0]), 	//uniqueID
+						reader[1].ToString(),		//nameEnglish
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[2].ToString())), 	//distance
+						Util.IntToBool(Convert.ToInt32(reader[3].ToString())), 	//tracksLimited
+						Convert.ToInt32(reader[4].ToString()), 			//fixedValue
+						Util.IntToBool(Convert.ToInt32(reader[5].ToString())), 	//unlimited
+						reader[6].ToString(),					//description
+						Util.ChangeDecimalSeparator(reader[7].ToString())	//distancesString
+					    );
+			}
+			types.Add(type);
+		}
+
+		reader.Close();
+		Sqlite.Close();
+
+		return types;
+	}
+	//on newly cereated code use above method
 	public static string[] SelectRunIntervalTypes(string allRunsName, bool onlyName) 
 	{
 		Sqlite.Open();

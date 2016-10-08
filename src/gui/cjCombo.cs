@@ -115,6 +115,8 @@ public class CjCombo
 	}
 }
 
+//------------ jumps -------------
+
 public class CjComboSelectJumps : CjCombo
 {
 	public CjComboSelectJumps(Gtk.ComboBox combo_select_jumps, Gtk.HBox hbox_combo_select_jumps) 
@@ -151,6 +153,8 @@ public class CjComboSelectJumpsRj : CjCombo
 	}
 }
 
+//------------ runs -------------
+
 public class CjComboSelectRuns : CjCombo
 {
 	public CjComboSelectRuns(Gtk.ComboBox combo_select_runs, Gtk.HBox hbox_combo_select_runs) 
@@ -169,3 +173,20 @@ public class CjComboSelectRuns : CjCombo
 	}
 }
 
+public class CjComboSelectRunsI : CjCombo
+{
+	public CjComboSelectRunsI(Gtk.ComboBox combo_select_runs_interval, Gtk.HBox hbox_combo_select_runs_interval)
+	{
+		this.combo = combo_select_runs_interval;
+		this.hbox = hbox_combo_select_runs_interval;
+
+		create();
+		Fill();
+		package();
+	}
+
+	protected override void select()
+	{
+		l_types = (List<object>) SqliteRunIntervalType.SelectRunIntervalTypesNew("", false); //without allrunsname, not only name
+	}
+}

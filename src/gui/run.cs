@@ -948,7 +948,7 @@ partial class ChronoJumpWindow
 	
 	private void on_extra_window_runs_interval_test_changed(object o, EventArgs args)
 	{
-		string runEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_runs_interval), selectRunsIntervalString);
+		string runEnglishName = comboSelectRunsI.GetSelectedNameEnglish();
 		currentRunIntervalType = createRunType(runEnglishName, false);
 		
 		extra_window_runs_interval_initialize(currentRunIntervalType);
@@ -1058,11 +1058,10 @@ partial class ChronoJumpWindow
 		comboSelectRuns.MakeActive(runsMoreWin.SelectedEventName);
 	}
 	
-	private void on_more_runs_interval_update_test (object o, EventArgs args) {
+	private void on_more_runs_interval_update_test (object o, EventArgs args)
+	{
 		currentEventType = new RunType(runsIntervalMoreWin.SelectedEventName);
-		string runTranslatedName = Util.FindOnArray(':',1,2, runsIntervalMoreWin.SelectedEventName, selectRunsIntervalString);
-		
-		combo_select_runs_interval.Active = UtilGtk.ComboMakeActive(combo_select_runs_interval, runTranslatedName);	
+		comboSelectRunsI.MakeActive(runsIntervalMoreWin.SelectedEventName);
 	}
 	
 	

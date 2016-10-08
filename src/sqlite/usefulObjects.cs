@@ -107,3 +107,30 @@ public class SelectRunTypes : SelectTypes
 	}
 }
 
+public class SelectRunITypes : SelectRunTypes
+{
+	public bool TracksLimited;
+	public int FixedValue;
+	public bool Unlimited;
+	public string DistancesString;
+
+	public SelectRunITypes(string nameEnglish)
+	{
+		this.NameEnglish = nameEnglish;
+	}
+
+	public SelectRunITypes(int id, string nameEnglish, double distance,
+			bool tracksLimited, int fixedValue, bool unlimited,
+			string description, string distancesString)
+	{
+		this.Id = id;
+		this.NameEnglish = nameEnglish;
+		this.NameTranslated = Catalog.GetString(nameEnglish);
+		this.Distance = distance;
+		this.TracksLimited = tracksLimited;
+		this.FixedValue = fixedValue;
+		this.Unlimited = unlimited;
+		this.Description = description;
+		this.DistancesString = distancesString;
+	}
+}

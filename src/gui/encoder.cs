@@ -3931,6 +3931,10 @@ public partial class ChronoJumpWindow
 		if(eCapture.EncoderCapturePoints == null)
 			return;
 
+		//this happens when EncoderCaptureShowOnlyBars=TRUE
+		if(encoder_capture_signal_drawingarea == null || encoder_capture_signal_pixmap == null)
+			return;
+
 		bool refreshAreaOnly = false;
 		
 		//mark meaning screen should be erased
@@ -4723,20 +4727,22 @@ public partial class ChronoJumpWindow
 		layout_encoder_capture_curves_bars_text = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
 		layout_encoder_capture_curves_bars_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
 
-		pen_black_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_gray = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_red_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_red_dark_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_red_light_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_green_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_green_dark_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_green_light_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_blue_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_blue_dark_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_blue_light_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_white_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_selected_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		
+		//defined as encoder_capture_curves_bars_drawingarea instead of encoder_capture_signal_drawingarea
+		//because the 2nd is null if config.EncoderCaptureShowOnlyBars == TRUE
+		pen_black_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_gray = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_red_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_red_light_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_green_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_blue_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_white_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_selected_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_red_light_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_red_dark_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_green_light_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_green_dark_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_blue_dark_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_blue_light_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
 		pen_yellow_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;

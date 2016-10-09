@@ -227,6 +227,26 @@ public abstract class ChronopicRegister
 		return crp;
 	}
 
+	public int NumConnectedOfType(ChronopicRegisterPort.Types type)
+	{
+		int count = 0;
+		foreach(ChronopicRegisterPort crp in crpl.L)
+			if(crp.Type == type && crp.Port != "")
+				count ++;
+
+		return count;
+	}
+
+	//returns first found (should be only one if called NumConnectedOfType and returned value was 1
+	public string PortConnectedOfType(ChronopicRegisterPort.Types type)
+	{
+		foreach(ChronopicRegisterPort crp in crpl.L)
+			if(crp.Type == type && crp.Port != "")
+				return crp.Port;
+
+		return "";
+	}
+
 	public ChronopicRegisterPortList Crpl
 	{
 		get { return crpl; }

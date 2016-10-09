@@ -94,6 +94,7 @@ public abstract class EncoderCapture
 	private bool cancel;
 	private bool finish;
 	
+	/*
 	public static bool CheckPort(string port)
 	{
 		if(File.Exists(UtilAll.GetECapSimSignalFileName())) { //simulatedEncoder
@@ -118,6 +119,7 @@ public abstract class EncoderCapture
 		}
 		return true;
 	}
+	*/
 
 	//if cont (continuous mode), then will not end when too much time passed before start
 	public void InitGlobal (int widthG, int heightG, int time, int timeEnd, bool cont, string eccon, string port)

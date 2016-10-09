@@ -119,11 +119,21 @@ public class ChronopicRegisterWindow
 
 		treeview.Model = listStoreAll;
 
-		foreach(ChronopicRegisterPort crp in list)
-			listStoreAll.AppendValues(crp.SerialNumber, crp.Type.ToString(), crp.Port);
+		bool chronopicsFound = false;
+		foreach(ChronopicRegisterPort crp in list) {
+			if(crp.Port != "") {
+				listStoreAll.AppendValues(crp.SerialNumber, crp.Type.ToString(), crp.Port);
+				chronopicsFound = true;
+			}
+		}
 
-
-		Gtk.Label label = new Gtk.Label("To change values:\nClick on Type and the press Enter");
+		Gtk.Label label;
+		if(chronopicsFound) {
+			label = new Gtk.Label("To change values:\nClick on <b>Type</b> column and the press Enter.");
+			label.UseMarkup = true;
+		} else {
+			label = new Gtk.Label("Chronopic/s not found:\nConnect and reopen this window.");
+		}
 
 		Gtk.VBox vboxTV = new Gtk.VBox(false, 8);
 		vboxTV.Add(treeview);

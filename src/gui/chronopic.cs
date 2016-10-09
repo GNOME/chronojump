@@ -1046,7 +1046,7 @@ public class ChronopicWindow
 		return ((ChronopicPortData) cpd[0]).Port;
 	}
 
-	public string GetEncoderPort() {
+	//public string GetEncoderPort() {
 		/*
 		if(isWindows)
 			return UtilGtk.ComboGetActive(combo_windows_encoder);
@@ -1058,8 +1058,8 @@ public class ChronopicWindow
 		 * and readed from the software
 		 * without needing to define the combos (from View)
 		 */
-		return encoderPort;
-	}
+	//	return encoderPort;
+	//}
 	
 	public void CreateSPifNeeded(string port) 
 	{

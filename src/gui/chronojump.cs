@@ -274,9 +274,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_chronopic_encoder_detecting_cancel;
 	[Widget] Gtk.Button button_chronopic_encoder_detecting_info;
 	[Widget] Gtk.Viewport viewport_chronopic_encoder;
-	[Widget] Gtk.Label label_chronopic_encoder;
-	[Widget] Gtk.Image image_chronopic_encoder_no;
-	[Widget] Gtk.Image image_chronopic_encoder_yes;
+	//[Widget] Gtk.Label label_chronopic_encoder;
+	//[Widget] Gtk.Image image_chronopic_encoder_no;
+	//[Widget] Gtk.Image image_chronopic_encoder_yes;
 	
 	[Widget] Gtk.HBox hbox_video_capture;
 	[Widget] Gtk.Label label_video_feedback;
@@ -4812,9 +4812,13 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_chronopic_encoder_clicked (object o, EventArgs args) {
+		/*
 		chronopicWin = ChronopicWindow.View(ChronopicWindow.ChronojumpMode.ENCODER, preferences.volumeOn);
 		//chronopicWin.FakeWindowReload.Clicked += new EventHandler(chronopicWindowReload);
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_encoder_connected_or_done);
+		*/
+
+		chronopicRegisterUpdate(true);
 	}
 
 	
@@ -4876,7 +4880,9 @@ public partial class ChronoJumpWindow
 					chronopicWin.Connected);
 	}
 
-	private void chronopicEncoderLabels(bool colorize) {
+	private void chronopicEncoderLabels(bool colorize)
+	{
+		/*
 		LogB.Information("at chronopicEncoderLabels");
 		string encoderPort = chronopicWin.GetEncoderPort();
 		LogB.Debug("gui/chronojump.cs encoderPort:", encoderPort);
@@ -4899,6 +4905,7 @@ public partial class ChronoJumpWindow
 					encoderPort != "");
 
 		LogB.Information("at chronopicEncoderLabels end");
+		*/
 	}
 
 
@@ -6787,13 +6794,18 @@ LogB.Debug("X");
 		chronopicWizardWin.HideAndNull();
 	}
 
+	ChronopicRegister chronopicRegister;
 	private void on_button_chronopic_register_clicked (object o, EventArgs args)
 	{
-		//testing ChronopicRegister
+		chronopicRegisterUpdate(true);
+	}
+	private void chronopicRegisterUpdate(bool openWindow)
+	{
 		ChronopicRegisterSelectOS cros = new ChronopicRegisterSelectOS();
-		ChronopicRegister cr = cros.Do();
+		chronopicRegister = cros.Do();
 
-		ChronopicRegisterWindow crw = new ChronopicRegisterWindow(cr.Crpl.L);
+		if(openWindow)
+			new ChronopicRegisterWindow(chronopicRegister.Crpl.L);
 	}
 
 	//start/end auto mode

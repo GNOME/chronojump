@@ -547,6 +547,7 @@ public partial class ChronoJumpWindow
 		repetitiveConditionsWin.View(Constants.BellModes.ENCODER, preferences.volumeOn);
 	}
 
+	/*
 	private bool encoderCheckPort()	
 	{
 		if(File.Exists(UtilAll.GetECapSimSignalFileName())) //simulatedEncoder
@@ -571,6 +572,7 @@ public partial class ChronoJumpWindow
 
 		return true;
 	}
+	*/
 
 	double findMaxPowerIntersession()
 	{
@@ -598,13 +600,31 @@ public partial class ChronoJumpWindow
 		return maxPower;
 	}
 
+	bool canCaptureEncoder()
+	{
+		chronopicRegisterUpdate(false);
+		int numEncoders = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER);
+		LogB.Information("numEncoders: " + numEncoders);
+		if(numEncoders == 0) {
+			new DialogMessage(Constants.MessageTypes.WARNING, "Encoder is not connected");
+			return false;
+		}
+		if(numEncoders > 1) {
+			new DialogMessage(Constants.MessageTypes.WARNING, "More than 1 encoders are connected");
+			return false;
+		}
+
+		return true;
+	}
+
 	double maxPowerIntersessionOnCapture;
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
 	{
 		maxPowerIntersessionOnCapture = findMaxPowerIntersession();
 		//LogB.Information("maxPower: " + maxPowerIntersessionOnCapture);
 
-		if(! encoderCheckPort())
+		//check if chronopics have changed
+		if(! canCaptureEncoder())
 			return;
 
 		if(encoderConfigurationCurrent.has_inertia)
@@ -634,9 +654,10 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_capture_calcule_im () 
 	{
-		if(! encoderCheckPort())
+		//check if chronopics have changed
+		if(! canCaptureEncoder())
 			return;
-	
+
 		encoder_configuration_win.Button_encoder_capture_inertial_do_chronopic_ok();
 		
 		//tis notebook has capture (signal plotting), and curves (shows R graph)	
@@ -2106,7 +2127,7 @@ public partial class ChronoJumpWindow
 				preferences.encoderCaptureInactivityEndTime,
 				radio_encoder_capture_cont.Active,
 				findEccon(true),
-				chronopicWin.GetEncoderPort()
+				chronopicRegister.PortConnectedOfType(ChronopicRegisterPort.Types.ENCODER)
 				);
 		bool capturedOk = eCapture.Capture(
 				UtilEncoder.GetEncoderDataTempFileName(),
@@ -2140,7 +2161,7 @@ public partial class ChronoJumpWindow
 				preferences.encoderCaptureInactivityEndTime,
 				false,
 				findEccon(true),
-				chronopicWin.GetEncoderPort()
+				chronopicRegister.PortConnectedOfType(ChronopicRegisterPort.Types.ENCODER)
 				);
 		bool capturedOk = eCapture.Capture(
 				UtilEncoder.GetEncoderDataTempFileName(),
@@ -4537,84 +4558,78 @@ public partial class ChronoJumpWindow
 	
 	/* thread stuff */
 
-	private void encoderThreadStart(encoderActions action) {
+	private void encoderThreadStart(encoderActions action)
+	{
 		encoderProcessCancel = false;
 					
-		if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM) {
+		if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM)
+		{
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			LogB.Information("encoderThreadStart begins");
-			if( EncoderCapture.CheckPort(chronopicWin.GetEncoderPort()) ) {
-				if(action == encoderActions.CAPTURE) {
-					runEncoderCaptureNoRDotNetInitialize();
-				}
 				
-				image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
-				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
-				
-				//don't need to be false because ItemToggled is deactivated during capture
-				treeview_encoder_capture_curves.Sensitive = true;
+			if(action == encoderActions.CAPTURE) {
+				runEncoderCaptureNoRDotNetInitialize();
+			}
 
-				//on continuous mode do not erase bars at beginning of capture in order to see last bars
-				if(action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) {
-					prepareEncoderGraphs(false, true); //bars, signal
-					plotCurvesGraphDoPlotMessage("Previous set");
-				} else
-					prepareEncoderGraphs(true, true);
+			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
+			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
 
-				//eccaCreated = false;
+			//don't need to be false because ItemToggled is deactivated during capture
+			treeview_encoder_capture_curves.Sensitive = true;
 
-				if(action == encoderActions.CAPTURE) {
-					encoderStartVideoRecord();
+			//on continuous mode do not erase bars at beginning of capture in order to see last bars
+			if(action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) {
+				prepareEncoderGraphs(false, true); //bars, signal
+				plotCurvesGraphDoPlotMessage("Previous set");
+			} else
+				prepareEncoderGraphs(true, true);
 
-					//remove treeview columns
-					if( ! (action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) )
-						treeviewEncoderCaptureRemoveColumns();
+			//eccaCreated = false;
 
-					encoderCaptureStringR = new List<string>();
-					encoderCaptureStringR.Add(
+			if(action == encoderActions.CAPTURE) {
+				encoderStartVideoRecord();
+
+				//remove treeview columns
+				if( ! (action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) )
+					treeviewEncoderCaptureRemoveColumns();
+
+				encoderCaptureStringR = new List<string>();
+				encoderCaptureStringR.Add(
 						",series,exercise,mass,start,width,height," + 
 						"meanSpeed,maxSpeed,maxSpeedT," +
 						"meanPower,peakPower,peakPowerT,pp_ppt," +
 						"meanForce, maxForce, maxForceT");
 
-					string filename = UtilEncoder.GetEncoderCaptureTempFileName();
-					if(File.Exists(filename))
-						File.Delete(filename);
+				string filename = UtilEncoder.GetEncoderCaptureTempFileName();
+				if(File.Exists(filename))
+					File.Delete(filename);
 
-					encoderCaptureReadedLines = 0;
-					deleteAllCapturedCurveFiles();
+				encoderCaptureReadedLines = 0;
+				deleteAllCapturedCurveFiles();
 
-					capturingCsharp = encoderCaptureProcess.CAPTURING;
-				}
-
-				if(action == encoderActions.CAPTURE) {
-					captureCurvesBarsData = new ArrayList();
-
-					needToRefreshTreeviewCapture = false;
-
-					encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
-					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
-				}
-				else { //action == encoderActions.CAPTURE_IM)
-					encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharpIM));
-					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureIM));
-				}
-				
-				encoderShowCaptureDoingButtons(true);
-
-				LogB.Information("encoderThreadStart middle");
-				encoderButtonsSensitive(encoderSensEnum.PROCESSINGCAPTURE);
-
-				LogB.ThreadStart();
-				encoderThread.Start(); 
-			} else {
-				new DialogMessage(Constants.MessageTypes.WARNING, 
-					Catalog.GetString("Chronopic port is not configured."));
-				LogB.Error("Chronopic port is not configured.");
-			
-				createChronopicWindow(true, "");
-				return;
+				capturingCsharp = encoderCaptureProcess.CAPTURING;
 			}
+
+			if(action == encoderActions.CAPTURE) {
+				captureCurvesBarsData = new ArrayList();
+
+				needToRefreshTreeviewCapture = false;
+
+				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
+				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
+			}
+			else { //action == encoderActions.CAPTURE_IM)
+				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharpIM));
+				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureIM));
+			}
+
+			encoderShowCaptureDoingButtons(true);
+
+			LogB.Information("encoderThreadStart middle");
+			encoderButtonsSensitive(encoderSensEnum.PROCESSINGCAPTURE);
+
+			LogB.ThreadStart();
+			encoderThread.Start();
 		} else if(
 				action == encoderActions.CURVES || 
 				action == encoderActions.LOAD ||

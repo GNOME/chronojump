@@ -51,9 +51,6 @@ public class ChronopicRegisterPort
 		this.FTDI = true;
 		this.SerialNumber = serialNumber;
 		this.Type = type;
-
-		if(Type == null)
-			Type = Types.UNKNOWN;
 	}
 
 	public override string ToString()

@@ -134,7 +134,9 @@ public partial class ChronoJumpWindow
 		else if(config.OnlyEncoderInertial)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERINERTIAL);
 		
-		if(config.EncoderCaptureShowOnlyBars) {
+		if(config.EncoderCaptureShowOnlyBars)
+		{
+			//attention: this makes encoder_capture_signal_drawingarea == null
 			vpaned_encoder_capture_video_and_set_graph.Visible = false;
 			
 			vpaned_encoder_main.Remove(alignment_treeview_encoder_capture_curves);

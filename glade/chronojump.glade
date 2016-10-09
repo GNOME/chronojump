@@ -13851,7 +13851,7 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkImage" id="image_chronopic_encoder_no">
-                                                            <property name="visible">True</property>
+                                                            <property name="visible">False</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-no</property>
                                                             <property name="icon-size">2</property>
@@ -13864,6 +13864,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkImage" id="image_chronopic_encoder_yes">
+                                                            <property name="visible">False</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-yes</property>
                                                             <property name="icon-size">3</property>
@@ -13883,7 +13884,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_chronopic_encoder">
-                                                            <property name="visible">True</property>
+                                                            <property name="visible">False</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xpad">5</property>
                                                             <property name="label" translatable="yes">Encoder disconnected</property>

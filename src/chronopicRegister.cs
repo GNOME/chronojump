@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2016  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2016  Xavier de Blas <xaviblas@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ public class ChronopicRegisterPort
 	public string Port;
 	public bool FTDI;
 	public string SerialNumber;
-	public enum Types { UNKNOWN, NOT_CHRONOPIC, CONTACTS, ENCODER }
+	public enum Types { UNKNOWN, CONTACTS, ENCODER }
 	public Types Type;
 
 	//constructor when port is known (searching FTDI stuff on a serial port)
@@ -51,6 +51,9 @@ public class ChronopicRegisterPort
 		this.FTDI = true;
 		this.SerialNumber = serialNumber;
 		this.Type = type;
+
+		if(Type == null)
+			Type = Types.UNKNOWN;
 	}
 
 	public override string ToString()
@@ -225,6 +228,11 @@ public abstract class ChronopicRegister
 	protected virtual ChronopicRegisterPort readFTDI(ChronopicRegisterPort crp)
 	{
 		return crp;
+	}
+
+	public ChronopicRegisterPortList Crpl
+	{
+		get { return crpl; }
 	}
 }
 

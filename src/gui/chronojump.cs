@@ -684,12 +684,6 @@ public partial class ChronoJumpWindow
 		 */
 		pingThread = new Thread (new ThreadStart (pingAtStart));
 		pingThread.Start();
-
-		//testing ChronopicRegister
-		ChronopicRegisterSelectOS cros = new ChronopicRegisterSelectOS();
-		ChronopicRegister cr = cros.Do();
-
-		ChronopicRegisterWindow crw = new ChronopicRegisterWindow();
 		
 		//moveStartTestInitial();
 	}
@@ -6791,6 +6785,15 @@ LogB.Debug("X");
 
 		//all the needed info is take. Can destroy wizard window 
 		chronopicWizardWin.HideAndNull();
+	}
+
+	private void on_button_chronopic_register_clicked (object o, EventArgs args)
+	{
+		//testing ChronopicRegister
+		ChronopicRegisterSelectOS cros = new ChronopicRegisterSelectOS();
+		ChronopicRegister cr = cros.Do();
+
+		ChronopicRegisterWindow crw = new ChronopicRegisterWindow(cr.Crpl.L);
 	}
 
 	//start/end auto mode

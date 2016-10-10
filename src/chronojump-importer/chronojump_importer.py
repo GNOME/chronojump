@@ -591,7 +591,7 @@ class ImportSession:
 
     @staticmethod
     def _encoder_url(session_id, signal_or_curve):
-        return 'encoder/data/{session_id}/{signal_or_curve}'.format(session_id=session_id, signal_or_curve=signal_or_curve)
+        return os.path.join("encoder", "data", str(session_id), signal_or_curve)
 
     def _import_encoder_files(self, encoder_table):
         if self.source_base_directory is None:
@@ -608,7 +608,7 @@ class ImportSession:
 
             # Prepares the new filename and destination_url
             filename=self._encoder_filename(person_id, original_filename)
-            destination_url=self._encoder_url(session_id, signal_or_curve)
+            destination_url = self._encoder_url(session_id, signal_or_curve)
 
             # Sets it to the row
             row.set("filename", filename)

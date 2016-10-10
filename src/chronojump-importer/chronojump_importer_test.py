@@ -111,6 +111,21 @@ class TestImporter(unittest.TestCase):
         new_filename = chronojump_importer.ImportSession._encoder_filename(10, "19-test.txt")
         self.assertEqual("10-test.txt", new_filename)
 
+    def test_normalize_path(self):
+        original_os_sep = os.sep
+
+        # I don't think that unittest.mock can mock a non-call function so
+        # here it changes os.sep and leave it as it was later on.
+        os.sep = "/"
+        self.assertEqual("test/directory", chronojump_importer.ImportSession._normalize_path("test\\directory"))
+        self.assertEqual("test/directory", chronojump_importer.ImportSession._normalize_path("test/directory"))
+
+        os.sep = "\\"
+        self.assertEqual("test\\directory", chronojump_importer.ImportSession._normalize_path("test\\directory"))
+        self.assertEqual("test\\directory", chronojump_importer.ImportSession._normalize_path("test/directory"))
+
+        os.sep = original_os_sep
+
     def test_encoder_url(self):
         new_url = chronojump_importer.ImportSession._encoder_url(11, "signal")
         self.assertEqual(os.path.join("encoder", "data", "11", "signal"), new_url)

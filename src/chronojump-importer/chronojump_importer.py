@@ -593,6 +593,22 @@ class ImportSession:
     def _encoder_url(session_id, signal_or_curve):
         return os.path.join("encoder", "data", str(session_id), signal_or_curve)
 
+    @staticmethod
+    def _normalize_path(path):
+        """
+        The path that it is read from the database might use Windows separators but
+        we might be on a Linux system (or OS-X). This function should replace the directory
+        separators to the system's ones.
+
+        It assumes that the "/" and "\" characters are only used to separate directories.
+        """
+        if os.sep == "/":
+            # We are on Linux, OS-X or some other system with "/" separators.
+            # If the path had "\" then replace them to "/".
+            return path.replace("\\", "/")
+        elif os.sep == "\\":
+            return path.replace("/", "\\")
+
     def _import_encoder_files(self, encoder_table):
         if self.source_base_directory is None:
             # We are skipping to copy the Encoding files. This is used in unit tests.
@@ -602,7 +618,7 @@ class ImportSession:
             # Gets information from row
             person_id = row.get("personID")
             original_filename = row.get("filename")
-            original_url = row.get("url")
+            original_url = self._normalize_path(row.get("url"))
             session_id = row.get("sessionID")
             signal_or_curve = row.get("signalOrCurve")
 

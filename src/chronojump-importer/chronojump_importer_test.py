@@ -42,11 +42,11 @@ class TestImporter(unittest.TestCase):
         {'base_filename': 'generic-{}-a.sqlite', 'session': 1},
         {'base_filename': 'generic-{}-b.sqlite', 'session': 1},
         {'base_filename': 'generic-{}-c.sqlite', 'session': 1},
-        {'base_filename': 'padu-{}.sqlite', 'session': 19},
-        {'base_filename': 'yoyo-{}.sqlite', 'session': 19},
+        {'base_filename': 'padu-{}.sqlite', 'session': 1},
+        {'base_filename': 'yoyo-{}.sqlite', 'session': 1},
         {'base_filename': 'user-jump-{}.sqlite', 'session': 1}
     )
-    def test_importerGeneric(self, data):
+    def test_importer_generic(self, data):
         re_creates_test = False  # During development change it to True
                                  # to execute the tests and copy the new
                                  # result as expected test
@@ -55,7 +55,7 @@ class TestImporter(unittest.TestCase):
             self._prepare_database_to_import(data["base_filename"])
 
         importer = chronojump_importer.ImportSession(source_file_path, destination_file_path, None)
-        importer.import_as_new_session(1)
+        importer.import_as_new_session(data["session"])
 
         os.system(
             "echo .dump | sqlite3 {} > {}/destination.sql".format(destination_file_path, temporary_directory_path))
@@ -87,8 +87,25 @@ class TestImporter(unittest.TestCase):
 
         shutil.rmtree(temporary_directory_path)
 
-    def test_import_encoder(self):
-        pass
+    @unittest.mock.patch("os.makedirs", side_effect=os.makedirs)
+    @unittest.mock.patch("shutil.copy", side_effect=shutil.copy)
+    def test_import_encoder_files(self, copy_function, makedirs_function):
+        (source_file_path, destination_file_path, expected_file_name, temporary_directory_path) = \
+            self._prepare_database_to_import("yoyo-{}.sqlite")
+
+        importer = chronojump_importer.ImportSession(source_file_path, destination_file_path, "fake-base-directory")
+
+        # Mock couldn't be done earlier because these methods are used by sqlite3 when opening the database.
+        copy_function.reset_mock()
+        makedirs_function.reset_mock()
+
+        copy_function.side_effect = None
+        makedirs_function.side_effect = None
+
+        importer.import_as_new_session(7)
+
+        self.assertTrue(copy_function.called)
+        self.assertEqual(copy_function.call_count, 11) # 11 encoding for session number 7
 
     def test_encoder_filename(self):
         new_filename = chronojump_importer.ImportSession._encoder_filename(10, "19-test.txt")
@@ -96,9 +113,9 @@ class TestImporter(unittest.TestCase):
 
     def test_encoder_url(self):
         new_url = chronojump_importer.ImportSession._encoder_url(11, "signal")
-        self.assertEqual("encoder/data/11/signal", new_url)
+        self.assertEqual(os.path.join("encoder", "data", "11", "signal"), new_url)
 
-    def test_databaseVersion(self):
+    def test_database_version(self):
         database_file = "tests/yoyo-source.sqlite"
         information = chronojump_importer.json_information(database_file)
         print(information)

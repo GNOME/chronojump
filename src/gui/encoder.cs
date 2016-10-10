@@ -2127,7 +2127,7 @@ public partial class ChronoJumpWindow
 				preferences.encoderCaptureInactivityEndTime,
 				radio_encoder_capture_cont.Active,
 				findEccon(true),
-				chronopicRegister.PortConnectedOfType(ChronopicRegisterPort.Types.ENCODER)
+				chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port
 				);
 		bool capturedOk = eCapture.Capture(
 				UtilEncoder.GetEncoderDataTempFileName(),
@@ -2161,7 +2161,7 @@ public partial class ChronoJumpWindow
 				preferences.encoderCaptureInactivityEndTime,
 				false,
 				findEccon(true),
-				chronopicRegister.PortConnectedOfType(ChronopicRegisterPort.Types.ENCODER)
+				chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port
 				);
 		bool capturedOk = eCapture.Capture(
 				UtilEncoder.GetEncoderDataTempFileName(),

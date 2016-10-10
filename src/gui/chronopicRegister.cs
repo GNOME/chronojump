@@ -22,6 +22,42 @@ using System;
 using System.Collections.Generic; //List<T>
 using Gtk;
 
+public class ChronopicRegisterWindowTypes
+{
+	public string SerialNumber;
+	public string Port;
+	public bool Unknown;
+	public bool Contacts;
+	public bool Encoder;
+
+	public ChronopicRegisterWindowTypes (string serialNumber, string port, bool unknown, bool contacts, bool encoder)
+	{
+		this.SerialNumber = serialNumber;
+		this.Port = port;
+		this.Unknown = unknown;
+		this.Contacts = contacts;
+		this.Encoder = encoder;
+	}
+
+	public ChronopicRegisterWindowTypes (ChronopicRegisterPort crp)
+	{
+		this.SerialNumber = crp.SerialNumber;
+		this.Port = crp.Port;
+
+		Unknown = false;
+		Contacts = false;
+		Encoder = false;
+
+		if(crp.Type == ChronopicRegisterPort.Types.UNKNOWN)
+			Unknown = true;
+		else if(crp.Type == ChronopicRegisterPort.Types.CONTACTS)
+			Contacts = true;
+		else
+			Encoder = true;
+	}
+}
+
+
 public class ChronopicRegisterWindow
 {
 	Gtk.Window chronopic_register_win;
@@ -45,6 +81,7 @@ public class ChronopicRegisterWindow
 	private void createWindow()
 	{
 		chronopic_register_win = new Window ("Chronopic register");
+		chronopic_register_win.AllowGrow = false;
 
 		chronopic_register_win.DeleteEvent += on_delete_event;
 
@@ -60,80 +97,86 @@ public class ChronopicRegisterWindow
 
 
 	Gtk.TreeView treeview;
-	Gtk.ListStore listStoreTypes;
 	Gtk.ListStore listStoreAll;
 
-	//based on: http://www.mono-project.com/docs/gui/gtksharp/widgets/treeview-tutorial/
-	//and: http://stackoverflow.com/questions/12679688/updating-treeview-after-changing-cellrenderercombo-gtk
+	//based on: ~/informatica/progs_meus/mono/treemodel.cs
 	private void createTreeView(List<ChronopicRegisterPort> list)
 	{
 		treeview = new Gtk.TreeView();
 
-		// Create column , cell renderer and add the cell to the 1st column
+		// Create column , cell renderer and add the cell to the serialN column
 		Gtk.TreeViewColumn serialNCol = new Gtk.TreeViewColumn ();
 		serialNCol.Title = "Serial Number";
 		Gtk.CellRendererText serialNCell = new Gtk.CellRendererText ();
 		serialNCol.PackStart (serialNCell, true);
 
-		//--------------------- combo start --------------
-		Gtk.TreeViewColumn typeCol = new Gtk.TreeViewColumn ();
-		typeCol.Title = "Type";
-		Gtk.CellRendererCombo typeCell = new Gtk.CellRendererCombo ();
-		typeCell.Editable = true;
-
-		listStoreTypes = new Gtk.ListStore(typeof (string));
-		int maxChars = 0;
-		foreach(string s in Enum.GetNames(typeof(ChronopicRegisterPort.Types))) {
-			listStoreTypes.AppendValues (s);
-			if(s.Length > maxChars)
-				maxChars = s.Length;
-		}
-
-		typeCell.Model = listStoreTypes;
-		typeCell.WidthChars = maxChars + 10; //enough space to show the dropdown list button
-		typeCell.TextColumn = 0;
-		typeCell.Edited += comboChanged;
-
-		typeCol.PackStart (typeCell, false);
-		//--------------------- combo end --------------
-
-
-		// Create column , cell renderer and add the cell to the 3rd column
+		// Create column , cell renderer and add the cell to the port column
 		Gtk.TreeViewColumn portCol = new Gtk.TreeViewColumn ();
 		portCol.Title = "Port";
 		Gtk.CellRendererText portCell = new Gtk.CellRendererText ();
 		portCol.PackStart (portCell, true);
 
-		// Add the columns to the TreeView
-		treeview.AppendColumn (serialNCol);
-		treeview.AppendColumn (typeCol);
-		treeview.AppendColumn (portCol);
 
-		//Tell the Cell Renderers which items in the model to display
-		serialNCol.AddAttribute (serialNCell, "text", 0);
-		typeCol.AddAttribute (typeCell, "text", 1);
-		portCol.AddAttribute (portCell, "text", 2);
+		//-- cell renderer toggles
 
-		//listStoreAll = new Gtk.ListStore (typeof (string), typeof(Gtk.ComboBox), typeof(string));
-		listStoreAll = new Gtk.ListStore (typeof (string), typeof(string), typeof(string));
+		Gtk.TreeViewColumn unknownCol = new Gtk.TreeViewColumn ();
+		unknownCol.Title = "Unknown";
+		Gtk.CellRendererToggle unknownCell = new Gtk.CellRendererToggle ();
+		unknownCell.Activatable = true;
+		unknownCell.Radio = true; 	//draw as radiobutton
+		unknownCell.Toggled += new Gtk.ToggledHandler (unknownToggled);
+		unknownCol.PackStart (unknownCell, true);
 
-		treeview.Model = listStoreAll;
+		Gtk.TreeViewColumn contactsCol = new Gtk.TreeViewColumn ();
+		contactsCol.Title = "Contacts";
+		Gtk.CellRendererToggle contactsCell = new Gtk.CellRendererToggle ();
+		contactsCell.Activatable = true;
+		contactsCell.Radio = true; 	//draw as radiobutton
+		contactsCell.Toggled += new Gtk.ToggledHandler (contactsToggled);
+		contactsCol.PackStart (contactsCell, true);
+
+		Gtk.TreeViewColumn encoderCol = new Gtk.TreeViewColumn ();
+		encoderCol.Title = "Encoder";
+		Gtk.CellRendererToggle encoderCell = new Gtk.CellRendererToggle ();
+		encoderCell.Activatable = true;
+		encoderCell.Radio = true; 	//draw as radiobutton
+		encoderCell.Toggled += new Gtk.ToggledHandler (encoderToggled);
+		encoderCol.PackStart (encoderCell, true);
+
+		//-- end of cell renderer toggles
+
+
+		listStoreAll = new Gtk.ListStore (typeof (ChronopicRegisterWindowTypes));
 
 		bool chronopicsFound = false;
 		foreach(ChronopicRegisterPort crp in list) {
 			if(crp.Port != "") {
-				listStoreAll.AppendValues(crp.SerialNumber, crp.Type.ToString(), crp.Port);
+				listStoreAll.AppendValues(new ChronopicRegisterWindowTypes(crp));
 				chronopicsFound = true;
 			}
 		}
 
+		serialNCol.SetCellDataFunc (serialNCell, new Gtk.TreeCellDataFunc (RenderSerialN));
+		portCol.SetCellDataFunc (portCell, new Gtk.TreeCellDataFunc (RenderPort));
+		unknownCol.SetCellDataFunc (unknownCell, new Gtk.TreeCellDataFunc (RenderUnknown));
+		contactsCol.SetCellDataFunc (contactsCell, new Gtk.TreeCellDataFunc (RenderContacts));
+		encoderCol.SetCellDataFunc (encoderCell, new Gtk.TreeCellDataFunc (RenderEncoder));
+
+		treeview.Model = listStoreAll;
+
+		// Add the columns to the TreeView
+		treeview.AppendColumn (serialNCol);
+		treeview.AppendColumn (portCol);
+		treeview.AppendColumn (unknownCol);
+		treeview.AppendColumn (contactsCol);
+		treeview.AppendColumn (encoderCol);
+
+
 		Gtk.Label label;
-		if(chronopicsFound) {
-			label = new Gtk.Label("To change values:\nClick on <b>Type</b> column and the press Enter.");
-			label.UseMarkup = true;
-		} else {
+		if(chronopicsFound)
+			label = new Gtk.Label("");
+		else
 			label = new Gtk.Label("Chronopic/s not found:\nConnect and reopen this window.");
-		}
 
 		Gtk.VBox vboxTV = new Gtk.VBox(false, 8);
 		vboxTV.Add(treeview);
@@ -142,60 +185,110 @@ public class ChronopicRegisterWindow
 		vbox_main.Add(vboxTV);
 	}
 
-	/*
-	   void comboChangedOld (object o, EditedArgs args)
-	   {
-	   TreeSelection selection = treeview.Selection;
-	   TreeIter iter;
-	   if (!selection.GetSelected (out iter))
-	   return;
 
-	   listStoreAll.SetValue (iter, 1, args.NewText);
-	   }
-	   */
+	private void RenderSerialN (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = crwt.SerialNumber;
+	}
 
-	void comboChanged (object o, EditedArgs args)
+	private void RenderPort (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = crwt.Port;
+	}
+
+	private void RenderUnknown (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererToggle).Active = crwt.Unknown;
+	}
+
+	private void RenderContacts (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererToggle).Active = crwt.Contacts;
+	}
+
+	private void RenderEncoder (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererToggle).Active = crwt.Encoder;
+	}
+
+
+
+	private void unknownToggled (object sender, Gtk.ToggledArgs args)
 	{
 		Gtk.TreeIter iter;
 		listStoreAll.GetIter (out iter, new Gtk.TreePath (args.Path));
 
-		//update value on treeview
-		listStoreAll.SetValue (iter, 1, args.NewText);
+		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) listStoreAll.GetValue (iter, 0);
+
+		if(! crwt.Unknown) {
+			crwt.Unknown = true;
+			crwt.Contacts = false;
+			crwt.Encoder = false;
+		}
 
 		//store on SQL
-		string serialNumber = (string) listStoreAll.GetValue (iter, 0);
-		ChronopicRegisterPort.Types type = (ChronopicRegisterPort.Types) Enum.Parse(
-				typeof(ChronopicRegisterPort.Types), args.NewText);
-		string port = (string) listStoreAll.GetValue (iter, 2);
+		SqliteChronopicRegister.Update(false,
+				new ChronopicRegisterPort(crwt.SerialNumber, ChronopicRegisterPort.Types.UNKNOWN),
+				ChronopicRegisterPort.Types.UNKNOWN);
+	}
 
-		ChronopicRegisterPort crp = new ChronopicRegisterPort(serialNumber, type);
-		crp.Port = port;
+	private void contactsToggled (object sender, Gtk.ToggledArgs args)
+	{
+		Gtk.TreeIter iter;
+		listStoreAll.GetIter (out iter, new Gtk.TreePath (args.Path));
 
-		SqliteChronopicRegister.Update(false, crp, type);
+		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) listStoreAll.GetValue (iter, 0);
+
+		if(! crwt.Contacts) {
+			crwt.Unknown = false;
+			crwt.Contacts = true;
+			crwt.Encoder = false;
+		}
+
+		//store on SQL
+		SqliteChronopicRegister.Update(false,
+				new ChronopicRegisterPort(crwt.SerialNumber, ChronopicRegisterPort.Types.CONTACTS),
+				ChronopicRegisterPort.Types.CONTACTS);
+	}
+
+	private void encoderToggled (object sender, Gtk.ToggledArgs args)
+	{
+		Gtk.TreeIter iter;
+		listStoreAll.GetIter (out iter, new Gtk.TreePath (args.Path));
+
+		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) listStoreAll.GetValue (iter, 0);
+
+		if(! crwt.Encoder) {
+			crwt.Unknown = false;
+			crwt.Contacts = false;
+			crwt.Encoder = true;
+		}
+
+		//store on SQL
+		SqliteChronopicRegister.Update(false,
+				new ChronopicRegisterPort(crwt.SerialNumber, ChronopicRegisterPort.Types.ENCODER),
+				ChronopicRegisterPort.Types.ENCODER);
 	}
 
 	private void createButton()
 	{
 		Gtk.Button button = new Gtk.Button("Close");
 		button.Clicked += new EventHandler(on_button_clicked);
-		vbox_main.Add(button);
+
+		Gtk.HButtonBox hbox = new Gtk.HButtonBox ();
+		hbox.Add(button);
+
+		vbox_main.Add(hbox);
 	}
 
 	private void on_button_clicked(object o, EventArgs args)
 	{
-		/*
-		 * TODO:
-		 * trying to manage if a combobox is changed but focus is still there. "Edited" is not called.
-		 TreeSelection selection = treeview.Selection;
-		 TreeIter iter;
-		 if (selection.GetSelected (out iter)) {
-		 LogB.Information("SOMETHING SELECTED");
-		 selection.UnselectIter(iter);
-		 }
-		 else
-		 LogB.Information("NOTHING SELECTED");
-		 */
-
+		//TODO: be called with Escape (accelerator)
 		chronopic_register_win.Hide();
 		chronopic_register_win = null;
 	}

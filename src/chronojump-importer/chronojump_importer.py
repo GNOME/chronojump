@@ -7,7 +7,6 @@ import sys
 import json
 import os
 import shutil
-
 import re
 
 logging.basicConfig(level=logging.INFO)
@@ -583,7 +582,6 @@ class ImportSession:
                                   avoids_duplicate_column=None,
                                   matches_columns=None)
 
-
     @staticmethod
     def _encoder_filename(person_id, original_filename):
         """ original_filename is like 1-Carmelo-2014-12-03_12-48-54.txt. It only replaces the person_id (1 in this case)"""
@@ -602,11 +600,11 @@ class ImportSession:
 
         for row in encoder_table:
             # Gets information from row
-            person_id=row.get("personID")
-            original_filename=row.get("filename")
-            original_url=row.get("url")
-            session_id=row.get("sessionID")
-            signal_or_curve=row.get("signalOrCurve")
+            person_id = row.get("personID")
+            original_filename = row.get("filename")
+            original_url = row.get("url")
+            session_id = row.get("sessionID")
+            signal_or_curve = row.get("signalOrCurve")
 
             # Prepares the new filename and destination_url
             filename=self._encoder_filename(person_id, original_filename)

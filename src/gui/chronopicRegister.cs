@@ -280,6 +280,15 @@ public class ChronopicRegisterWindow
 		Gtk.Button button = new Gtk.Button("Close");
 		button.Clicked += new EventHandler(on_button_clicked);
 
+		//button can be called clicking Escape key
+		Gtk.AccelGroup ag = new Gtk.AccelGroup ();
+		chronopic_register_win.AddAccelGroup (ag);
+
+		button.AddAccelerator
+			("activate", ag, new Gtk.AccelKey
+			 (Gdk.Key.Escape, Gdk.ModifierType.None,
+			  Gtk.AccelFlags.Visible));
+
 		Gtk.HButtonBox hbox = new Gtk.HButtonBox ();
 		hbox.Add(button);
 
@@ -288,7 +297,6 @@ public class ChronopicRegisterWindow
 
 	private void on_button_clicked(object o, EventArgs args)
 	{
-		//TODO: be called with Escape (accelerator)
 		chronopic_register_win.Hide();
 		chronopic_register_win = null;
 	}

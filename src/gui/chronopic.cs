@@ -740,7 +740,8 @@ public class ChronopicWindow
 				"Minimum value will be 50 ms again when user unplugs USB cable.");
 	}
 	
-	
+
+	/*
 	//called from gui/chronojump.cs
 	//done here because sending the SP is problematic on windows
 	public string CheckAuto (out bool isChronopicAuto)
@@ -752,7 +753,9 @@ public class ChronopicWindow
 		isChronopicAuto = ca.IsChronopicAuto;
 
 		return str;
-	}	
+	}
+	*/	
+	/*
 	public int ChangeMultitestFirmware (int debounceChange) 
 	{
 		LogB.Information("change_multitest_firmware 3 a");
@@ -790,6 +793,7 @@ public class ChronopicWindow
 			
 		return -1;
 	}
+	*/
 
 
 	// end of Chronopic Automatic Firmware ---------------
@@ -1068,6 +1072,7 @@ public class ChronopicWindow
 	}
 
 
+	/*
 	public Chronopic CP {
 		get { return cp; }
 	}
@@ -1091,6 +1096,7 @@ public class ChronopicWindow
 	public Chronopic.Plataforma PlatformState {	//on (in platform), off (jumping), or unknow
 		get { return platformState; }
 	}
+	*/
 
 
 	//connected to a Chronopic	

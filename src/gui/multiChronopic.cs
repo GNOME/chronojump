@@ -54,11 +54,14 @@ public partial class ChronoJumpWindow
 			currentMultiChronopicType = new MultiChronopicType(Constants.MultiChronopicName);
 		else if(extra_window_radio_multichronopic_run_analysis.Active) 
 			currentMultiChronopicType = new MultiChronopicType(Constants.RunAnalysisName);
-		
+
+		/*
+		 *	disabled on 1.6.3
 		if(chronopicWin.NumConnected() < 2) 
 			extra_window_multichronopic_can_do(false);
 		else
 			extra_window_multichronopic_can_do(true);
+			*/
 		
 		extra_window_multichronopic_initialize(currentMultiChronopicType);
 	}

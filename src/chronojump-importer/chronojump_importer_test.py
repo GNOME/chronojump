@@ -90,6 +90,14 @@ class TestImporter(unittest.TestCase):
     def test_import_encoder(self):
         pass
 
+    def test_encoder_filename(self):
+        new_filename = chronojump_importer.ImportSession._encoder_filename(10, "19-test.txt")
+        self.assertEqual("10-test.txt", new_filename)
+
+    def test_encoder_url(self):
+        new_url = chronojump_importer.ImportSession._encoder_url(11, "signal")
+        self.assertEqual("encoder/data/11/signal", new_url)
+
     def test_databaseVersion(self):
         database_file = "tests/yoyo-source.sqlite"
         information = chronojump_importer.json_information(database_file)

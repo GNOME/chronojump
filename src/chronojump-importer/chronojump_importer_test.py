@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import unittest.mock
 import unittest
 import chronojump_importer
 import os
@@ -17,6 +18,25 @@ class TestImporter(unittest.TestCase):
     def tearDown(self):
         pass
 
+    @staticmethod
+    def _prepare_database_to_import(base_filename):
+        source_file_name = base_filename.format('source')
+        destination_file_name = base_filename.format('destination')
+        expected_file_name = base_filename.format('expected')
+        original_destination_file_path = base_filename.format('original-destination')
+
+        temporary_directory_path = tempfile.mkdtemp(
+            prefix="chronojump_importer_test_{}".format(base_filename.replace("{}", "")))
+        source_file_path = "{}/{}".format(temporary_directory_path, source_file_name)
+        destination_file_path = "{}/{}".format(temporary_directory_path, destination_file_name)
+        original_destination_file_path = "{}/{}".format(temporary_directory_path, original_destination_file_path)
+
+        shutil.copy("tests/{}".format(source_file_name), source_file_path)
+        shutil.copy("tests/{}".format(destination_file_name), destination_file_path)
+        shutil.copy("tests/{}".format(destination_file_name), original_destination_file_path)
+
+        return (source_file_path, destination_file_path, expected_file_name, temporary_directory_path)
+
     # lists the names. {} will expand to source/destination/expected.
     @ddt.data(
         {'base_filename': 'generic-{}-a.sqlite', 'session': 1},
@@ -31,22 +51,8 @@ class TestImporter(unittest.TestCase):
                                  # to execute the tests and copy the new
                                  # result as expected test
 
-        base_filename = data['base_filename']
-        source_file_name = base_filename.format('source')
-        destination_file_name = base_filename.format('destination')
-        expected_file_name = base_filename.format('expected')
-        original_destination_file_path = base_filename.format('original-destination')
-
-        temporary_directory_path = tempfile.mkdtemp(
-            prefix="chronojump_importer_test_{}".format(base_filename.replace("{}", "")))
-
-        source_file_path = "{}/{}".format(temporary_directory_path, source_file_name)
-        destination_file_path = "{}/{}".format(temporary_directory_path, destination_file_name)
-        original_destination_file_path = "{}/{}".format(temporary_directory_path, original_destination_file_path)
-
-        shutil.copy("tests/{}".format(source_file_name), source_file_path)
-        shutil.copy("tests/{}".format(destination_file_name), destination_file_path)
-        shutil.copy("tests/{}".format(destination_file_name), original_destination_file_path)
+        (source_file_path, destination_file_path, expected_file_name, temporary_directory_path) = \
+            self._prepare_database_to_import(data["base_filename"])
 
         importer = chronojump_importer.ImportSession(source_file_path, destination_file_path, None)
         importer.import_as_new_session(1)
@@ -71,7 +77,7 @@ class TestImporter(unittest.TestCase):
         if diff != "":
             # Just to help where the files are when debugging
             print("Temporary directory: ", temporary_directory_path)
-            print("Base filename: ", base_filename)
+            print("Base filename: ", data["base_filename"])
 
         if re_creates_test:
             shutil.copy(destination_file_path, "tests/" + expected_file_name)
@@ -80,6 +86,9 @@ class TestImporter(unittest.TestCase):
         self.assertEqual(diff, "")
 
         shutil.rmtree(temporary_directory_path)
+
+    def test_import_encoder(self):
+        pass
 
     def test_databaseVersion(self):
         database_file = "tests/yoyo-source.sqlite"

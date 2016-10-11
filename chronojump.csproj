@@ -81,9 +81,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="gtk-gui\gui.stetic">
-      <LogicalName>test</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="glade\chronojump.glade">
       <LogicalName>chronojump.glade</LogicalName>
     </EmbeddedResource>
@@ -701,11 +698,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\AssemblyInfo.cs" />
     <Compile Include="src\chronojump.cs" />
     <Compile Include="src\chronopic.cs" />
+    <Compile Include="src\chronopic2016.cs" />
     <Compile Include="src\chronopicDetect.cs" />
     <Compile Include="src\config.cs" />
     <Compile Include="src\constants.cs" />

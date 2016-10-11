@@ -806,13 +806,10 @@ public class PersonAddModifyWindow
 	
 	[Widget] Gtk.Label label_date;
 	//[Widget] Gtk.Button button_change_date;
-	[Widget] Gtk.Button button_calendar;
 	[Widget] Gtk.Image image_calendar;
 
 	[Widget] Gtk.SpinButton spinbutton_height;
 	[Widget] Gtk.SpinButton spinbutton_weight;
-	[Widget] Gtk.Button button_height_metric;
-	[Widget] Gtk.Button button_weight_metric;
 	
 	[Widget] Gtk.Box hbox_combo_sports;
 	[Widget] Gtk.ComboBox combo_sports;
@@ -1715,7 +1712,6 @@ public class PersonAddMultipleWindow {
 	[Widget] Gtk.Box hbox_csv;
 	[Widget] Gtk.Box hbox_manually;
 	[Widget] Gtk.SpinButton spin_manually;
-	[Widget] Gtk.Button button_manually_created;
 	
 	[Widget] Gtk.Image image_csv_headers;
 	[Widget] Gtk.Image image_csv_noheaders;
@@ -1734,8 +1730,6 @@ public class PersonAddMultipleWindow {
 	
 	[Widget] Gtk.CheckButton check_headers;
 	[Widget] Gtk.CheckButton check_name_1_column;
-	[Widget] Gtk.Button button_csv_load;
-	[Widget] Gtk.Button button_csv_help;
 	
 	[Widget] Gtk.Label label_csv_help;
 

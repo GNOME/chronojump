@@ -34,8 +34,6 @@ public class ReactionTimeExecute : EventExecute
 	//protected Chronopic cp;
 	private Chronopic cp;
 
-	private ReactionTime reactionTimeDone;
-				
 	public ReactionTimeExecute() {
 	}
 

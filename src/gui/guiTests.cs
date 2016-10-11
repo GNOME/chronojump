@@ -404,7 +404,6 @@ public partial class ChronoJumpWindow
 		
 		//LogB.Information(" [i=" + i.ToString() + "] ");
 		
-		Constants.EncoderAutoSaveCurve easc;
 		if(i == 1)
 			button_encoder_capture_curves_all.Click();
 		else if(i == 2)

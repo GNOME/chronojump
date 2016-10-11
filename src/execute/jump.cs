@@ -519,8 +519,6 @@ public class JumpRjExecute : JumpExecute
 {
 	string tvString;
 	string tcString;
-	int jumps; //total number of jumps
-	double time; //time elapsed
 	string limited; //the teorically values, eleven jumps: "11=J" (time recorded in "time"), 10 seconds: "10=T" (jumps recorded in jumps)
 	double limitAsDouble;	//-1 for non limited (unlimited repetitive jump until "finish" is clicked)
 	bool jumpsLimited;

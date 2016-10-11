@@ -28,10 +28,7 @@ using Mono.Unix;
 public class HelpPorts
 {
 	[Widget] Gtk.Dialog dialog_help_ports;
-	[Widget] Gtk.TextView textview_info;
-	[Widget] Gtk.TextView textview_detected;
 	[Widget] Gtk.Label label_info;
-	[Widget] Gtk.Label label_detection;
 	[Widget] Gtk.Label label_detected;
 	[Widget] Gtk.Label label_help_info;
 	[Widget] Gtk.Label label_help_manual;

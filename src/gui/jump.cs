@@ -981,7 +981,6 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_kg;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_weight;
 	[Widget] Gtk.Label extra_window_jumps_label_weight;
-	[Widget] Gtk.Label extra_window_jumps_label_cm;
 	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_arms;
 
 	//slCMJ	
@@ -989,13 +988,10 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_options_after_execute;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_vertical;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_horizontal;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_lateral;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_this_limb;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_opposite;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_unknown;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_fall_this_limb;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_fall_opposite;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_fall_both;
 	[Widget] Gtk.SpinButton extra_window_jumps_spin_single_leg_distance;
 	[Widget] Gtk.SpinButton extra_window_jumps_spin_single_leg_angle;
 	

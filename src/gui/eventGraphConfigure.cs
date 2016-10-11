@@ -36,8 +36,6 @@ public class EventGraphConfigureWindow
 {
 	[Widget] Gtk.Window event_graph_configure;
 	
-	[Widget] Gtk.Button button_close;
-
 	[Widget] Gtk.CheckButton checkbutton_max_auto;
 	[Widget] Gtk.CheckButton checkbutton_min_auto;
 	[Widget] Gtk.CheckButton checkbutton_show_black_guide;
@@ -49,8 +47,6 @@ public class EventGraphConfigureWindow
 	[Widget] Gtk.SpinButton spinbutton_green_guide;
 	
 	[Widget] Gtk.CheckButton checkbutton_show_vertical_grid;
-	[Widget] Gtk.RadioButton radiobutton_speed;
-
 	
 	static EventGraphConfigureWindow EventGraphConfigureWindowBox;
 		

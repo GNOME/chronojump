@@ -64,7 +64,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_start; //use to display the start images to select different modes
 	[Widget] Gtk.Notebook notebook_sup;
 	[Widget] Gtk.HBox hbox_other;
-	[Widget] Gtk.Notebook notebook_capture_graph_table;
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
 
 	
@@ -180,7 +179,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_edit_session;
 	[Widget] Gtk.MenuItem menuitem_delete_session;
 	[Widget] Gtk.MenuItem menuitem_export_csv;
-	[Widget] Gtk.MenuItem menuitem_export_xml;
 	[Widget] Gtk.MenuItem menuitem_encoder_session_overview;
 	[Widget] Gtk.Image image_session_open;
 		
@@ -191,7 +189,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_show_all_person_events;
 	[Widget] Gtk.Button button_delete_current_person;
 	[Widget] Gtk.Label label_current_person;
-	[Widget] Gtk.Label label_current_person_title;
 	
 	//tests
 	//jumps
@@ -219,8 +216,6 @@ public partial class ChronoJumpWindow
 	
 	
 	//runs
-	[Widget] Gtk.MenuItem menu_execute_simple_runs1;
-	[Widget] Gtk.MenuItem menu_execute_intervallic_runs1;
 	[Widget] Gtk.Button button_edit_selected_run;
 	[Widget] Gtk.Button button_video_play_selected_run;
 	[Widget] Gtk.Button button_delete_selected_run;
@@ -331,7 +326,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_multi_chronopic_zoom;
 	
 	//encoder
-	[Widget] Gtk.Image image_encoder_capture_zoom;
 	//[Widget] Gtk.Image image_encoder_analyze_zoom;
 	[Widget] Gtk.Image image_encoder_analyze_stats;
 	[Widget] Gtk.Image image_encoder_analyze_image_save;
@@ -346,28 +340,19 @@ public partial class ChronoJumpWindow
 	//persons
 	private TreeStore treeview_persons_store;
 	private TreeViewPersons myTreeViewPersons;
-	private Gtk.Button fakeButtonPersonUp;
-	private Gtk.Button fakeButtonPersonDown;
 	//normal jumps
-	private TreeStore treeview_jumps_store;
 	private TreeViewJumps myTreeViewJumps;
 	//rj jumps
-	private TreeStore treeview_jumps_rj_store;
 	private TreeViewJumpsRj myTreeViewJumpsRj;
 	//normal runs
-	private TreeStore treeview_runs_store;
 	private TreeViewRuns myTreeViewRuns;
 	//runs interval
-	private TreeStore treeview_runs_interval_store;
 	private TreeViewRunsInterval myTreeViewRunsInterval;
 	//reaction times
-	private TreeStore treeview_reaction_times_store;
 	private TreeViewReactionTimes myTreeViewReactionTimes;
 	//pulses
-	private TreeStore treeview_pulses_store;
 	private TreeViewPulses myTreeViewPulses;
 	//multiChronopic
-	private TreeStore treeview_multi_chronopic_store;
 	private TreeViewMultiChronopic myTreeViewMultiChronopic;
 	
 	private Preferences preferences;
@@ -438,8 +423,6 @@ public partial class ChronoJumpWindow
 	RepetitiveConditionsWindow repetitiveConditionsWin;
 	GenericWindow genericWin;
 		
-	EvaluatorWindow evalWin;
-	PersonNotUploadWindow personNotUploadWin; 
 	ExecuteAutoWindow executeAutoWin;
 	
 	//ChronopicWindow chronopicWin;
@@ -460,12 +443,7 @@ public partial class ChronoJumpWindow
 	private chronopicTypes lastChronopicType;
 	 */
 	
-	private bool firstRjValue;
-	private double rjTcCount;
-	private double rjTvCount;
-	private string rjTcString;
-	private string rjTvString;
-	
+
 	private bool createdStatsWin;
 	
 	private string progVersion;
@@ -473,12 +451,7 @@ public partial class ChronoJumpWindow
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 
-	private bool normalGUI; //false means small gui
-
-	private bool debugMode; //currently only for encoder R
-
 	//int chronopicCancelledTimes = 0;
-
 
 	//only called the first time the software runs
 	//and only on windows
@@ -5054,7 +5027,6 @@ public partial class ChronoJumpWindow
 		*/
 	}
 
-	bool multiFinishing;
 	private void on_multi_chronopic_finished (object o, EventArgs args)
 	{
 		/*

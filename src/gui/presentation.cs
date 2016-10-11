@@ -33,14 +33,10 @@ public partial class ChronoJumpWindow
 {
 	//presentation
 	[Widget] Gtk.Box vbox_presentation;
-	[Widget] Gtk.ScrolledWindow scrolledwindow_presentation;
-	[Widget] Gtk.Button button_presentation_fullscreen;
-	[Widget] Gtk.Button button_presentation_restore_screen;
 	[Widget] Gtk.Image image_presentation_logo;
 	[Widget] Gtk.Label label_presentation_current;
 
 	//static WebKit.WebView presentation;
-	Thread presentationThread;
 
 	bool presentationInitialized = false;
 

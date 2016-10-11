@@ -100,15 +100,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_mode_reaction_times_small;
 	[Widget] Gtk.Image image_mode_pulses_small;
 	[Widget] Gtk.Image image_mode_multi_chronopic_small;
-	[Widget] Gtk.Label label_mode_jumps_small;
-	[Widget] Gtk.Label label_mode_jumps_reactive_small;
-	[Widget] Gtk.Label label_mode_runs_small;
-	[Widget] Gtk.Label label_mode_runs_intervallic_small;
 	[Widget] Gtk.Image image_mode_encoder_gravitatory;
 	[Widget] Gtk.Image image_mode_encoder_inertial;
-	[Widget] Gtk.Label label_mode_reaction_times_small;
-	[Widget] Gtk.Label label_mode_pulses_small;
-	[Widget] Gtk.Label label_mode_multi_chronopic_small;
 
 	[Widget] Gtk.Image image_persons_new_1;
 	[Widget] Gtk.Image image_persons_new_plus;

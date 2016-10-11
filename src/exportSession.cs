@@ -980,8 +980,6 @@ public class ExportSessionCSV : ExportSession
 
 public class ExportSessionXML : ExportSession 
 {
-	private XmlTextWriter xr;
-		
 	public ExportSessionXML(Session mySession, Gtk.Window app1, Preferences preferences) 
 	{
 		this.mySession = mySession;

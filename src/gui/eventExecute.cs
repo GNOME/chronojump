@@ -121,7 +121,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_graph_results_height;
 	*/
 
-	[Widget] Gtk.Alignment event_execute_alignment;
 	//[Widget] Gtk.Alignment event_execute_alignment_drawingarea;
 	//static Gdk.Pixmap event_execute_pixmap = null;
 	Gdk.Pixmap event_execute_pixmap = null;

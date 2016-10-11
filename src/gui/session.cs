@@ -65,10 +65,8 @@ public class SessionAddEditWindow {
 	Sport sport;
 	string [] sports;
 	string [] sportsTranslated;
-	int speciallityID;
 	string [] speciallities;
 	string [] speciallitiesTranslated;
-	String level;
 	string [] levels;
 
 	bool addSession;

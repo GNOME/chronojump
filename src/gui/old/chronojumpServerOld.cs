@@ -42,7 +42,6 @@ public partial class ChronoJumpWindow
 	 * SERVER CALLBACKS
 	 */
 
-	bool serverEvaluatorDoing;
 	// upload session and it's persons (callback)
 	private void on_server_upload_session_pre (object o, EventArgs args) {
 		/*

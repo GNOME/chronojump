@@ -95,7 +95,6 @@ public class ChronopicWindow
 	[Widget] Gtk.ProgressBar progressbar;
 	[Widget] Gtk.Button button_cancel;
 	
-	[Widget] Gtk.Image chronopic_image;
 	[Widget] Gtk.TextView textview_ports_found_explanation;
 
 	//Automatic firmware stuff
@@ -152,8 +151,6 @@ public class ChronopicWindow
 	Chronopic cp4;
 	Chronopic.Plataforma platformState4;
 
-	States loggedState;		//log of last state
-	
 	public enum ChronojumpMode { JUMPORRUN, ENCODER, OTHER };
 		
 	private ChronopicInit chronopicInit;

@@ -45,7 +45,6 @@ public class ErrorWindow
 	[Widget] Gtk.Label label_send_log_message;
 	
 
-	string table;
 	static ErrorWindow ErrorWindowBox;
 	string progVersion = "";
 	

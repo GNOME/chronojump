@@ -135,13 +135,7 @@ public class JumpRj : Jump
 	int jumps; //total number of jumps
 	double time; //time elapsed
 	string limited; //the teorically values, eleven jumps: "11=J" (time recorded in "time"), 10 seconds: "10=T" (jumps recorded in jumps)
-	double limitAsDouble;	//-1 for non limited (unlimited repetitive jump until "finish" is clicked)
 	bool jumpsLimited;
-	bool firstRjValue;
-	private double tcCount;
-	private double tvCount;
-	private double lastTc;
-	private double lastTv;
 	private string angleString;
 	
 	public JumpRj() {

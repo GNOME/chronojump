@@ -68,8 +68,6 @@ public class MultiChronopicExecute : EventExecute
 
 	static bool firstValue;
 	
-	private MultiChronopic multiChronopicDone;
-	
 	
 	public MultiChronopicExecute() {
 	}

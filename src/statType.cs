@@ -68,7 +68,6 @@ public class StatType {
 	int evolution_mark_consecutives;
 	
 	ArrayList markedRows;
-	ArrayList personsWithData;
 
 	bool graph;
 	bool toReport;

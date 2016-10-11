@@ -25,7 +25,6 @@ using Mono.Unix;
 
 public class ExecuteAuto {
 	public enum ModeTypes { BY_PERSONS, BY_TESTS, BY_SETS }
-	private ModeTypes mode;
 	
 	public int serieID;	//only in BY_SETS (in BY_PERSONS or BY_TESTS, value is -1)
 	public int personUniqueID;

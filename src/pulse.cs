@@ -29,8 +29,6 @@ public class Pulse : Event
 	int totalPulsesNum;
 
 	string timesString;
-	int tracks;
-	double contactTime;
 
 	//used on treeviewPulse
 	public Pulse() {

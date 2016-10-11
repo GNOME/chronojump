@@ -253,20 +253,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box vbox_execute_test;
 	[Widget] Gtk.Button button_execute_test;
 	[Widget] Gtk.Viewport viewport_chronopics;
-	[Widget] Gtk.Box hbox_chronopics;
-	[Widget] Gtk.Label label_chronopics;
-	[Widget] Gtk.Label label_connected_chronopics;
 	[Widget] Gtk.Label label_chronopics_multitest;
-	[Widget] Gtk.Image image_simulated_warning;
-	[Widget] Gtk.Box hbox_chronopic_detecting;
-	[Widget] Gtk.ProgressBar progressbar_chronopic_detecting;
-	[Widget] Gtk.Button button_chronopic_detecting_cancel;
-	[Widget] Gtk.Button button_chronopic_detecting_info;
-	[Widget] Gtk.Box hbox_chronopic_encoder_detecting;
-	[Widget] Gtk.ProgressBar progressbar_chronopic_encoder_detecting;
-	[Widget] Gtk.Button button_chronopic_encoder_detecting_cancel;
-	[Widget] Gtk.Button button_chronopic_encoder_detecting_info;
-	[Widget] Gtk.Viewport viewport_chronopic_encoder;
 	//[Widget] Gtk.Label label_chronopic_encoder;
 	//[Widget] Gtk.Image image_chronopic_encoder_no;
 	//[Widget] Gtk.Image image_chronopic_encoder_yes;
@@ -292,31 +279,11 @@ public partial class ChronoJumpWindow
 //	[Widget] Gtk.Entry entry_multi_chronopic_cp2;
 
 	//widgets for enable or disable
-	[Widget] Gtk.Button button_new;
-	[Widget] Gtk.Button button_open;
 	[Widget] Gtk.Frame frame_persons;
 	[Widget] Gtk.Button button_recuperate_person;
 	[Widget] Gtk.Button button_recuperate_persons_from_session;
 	[Widget] Gtk.Button button_person_add_single;
 	[Widget] Gtk.Button button_person_add_multiple;
-
-	[Widget] Gtk.Button button_run_custom;
-	[Widget] Gtk.Button button_run_20m;
-	[Widget] Gtk.Button button_run_100m;
-	[Widget] Gtk.Button button_run_200m;
-	[Widget] Gtk.Button button_run_400m;
-	[Widget] Gtk.Button button_run_gesell;
-	[Widget] Gtk.Button button_run_20yard;
-	[Widget] Gtk.Button button_run_505;
-	[Widget] Gtk.Button button_run_illinois;
-	[Widget] Gtk.Button button_run_margaria;
-	[Widget] Gtk.Button button_run_shuttle;
-	[Widget] Gtk.Button button_run_zigzag;
-	[Widget] Gtk.Button button_run_interval_by_laps;
-	[Widget] Gtk.Button button_run_interval_by_time;
-	[Widget] Gtk.Button button_run_interval_unlimited;
-	[Widget] Gtk.Button button_run_interval_mtgug;
-	[Widget] Gtk.Button button_reaction_time_execute;
 
 	[Widget] Gtk.Notebook notebook_execute;
 	[Widget] Gtk.Notebook notebook_results;

@@ -35,7 +35,6 @@ public class GenericWindow
 	[Widget] Gtk.Label label_header;
 	[Widget] Gtk.Box hbox_error;
 	[Widget] Gtk.Label label_error;
-	[Widget] Gtk.Label label_generic_name;
 	[Widget] Gtk.Entry entry;
 	
 	[Widget] Gtk.Box hbox_spin_int;

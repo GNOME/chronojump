@@ -835,8 +835,7 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.Image image_zoom;
 
 	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Button button_cancel;
-	
+
 	//used for connect ok gui/chronojump.cs, PersonRecuperate, PersonRecuperateFromOtherSession,this class, gui/convertWeight.cs
 	public Gtk.Button fakeButtonAccept;
 	
@@ -851,7 +850,6 @@ public class PersonAddModifyWindow
 	Sport sport;
 	string [] sports;
 	string [] sportsTranslated;
-	int speciallityID;
 	string [] speciallities;
 	string [] speciallitiesTranslated;
 	//String level;

@@ -39,7 +39,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_autodetect_discard_first;
 	
 	//RFID
-	[Widget] Gtk.Box hbox_rfid;
 	[Widget] Gtk.Label label_rfid;
 	
 	//better raspberry controls
@@ -65,7 +64,6 @@ public partial class ChronoJumpWindow
 	private Config.AutodetectPortEnum configAutodetectPort = Config.AutodetectPortEnum.ACTIVE;
 
 	private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
-	private linuxTypeEnum linuxType;
 	private bool encoderConfigurationDefinedFromFile = false;
 	private bool encoderUpdateTreeViewWhileCapturing = true;
 		

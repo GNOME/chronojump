@@ -53,17 +53,6 @@ public class EncoderParams
 	private int curve;
 	private int width;
 	private int height;
-	private double heightHigherCondition;
-	private double heightLowerCondition;
-	private double meanSpeedHigherCondition;
-	private double meanSpeedLowerCondition;
-	private double maxSpeedHigherCondition;
-	private double maxSpeedLowerCondition;
-	private int powerHigherCondition;
-	private int powerLowerCondition;
-	private int peakPowerHigherCondition;
-	private int peakPowerLowerCondition;
-	private string mainVariable;
 	private string decimalSeparator;	//used in export data from R to csv
 	//private bool inverted; //used only in runEncoderCapturePython. In graph.R will be used encoderConfigurationName
 

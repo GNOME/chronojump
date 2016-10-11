@@ -39,8 +39,6 @@ public class ChronoJump
 	private static string progVersion = ""; //now in "version" file
 	private static string progName = "Chronojump";
 	
-	private static string runningFolder;	
-
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 	private string messageToShowOnBoot = "";
 	private string messageCrashedBefore = "";

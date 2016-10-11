@@ -135,7 +135,6 @@ public class RunInterval : Run
 	string intervalTimesString;
 	double tracks; //double because if we limit by time (runType tracksLimited false), we do n.nn tracks
 	string limited; //the teorically values, eleven runs: "11=R" (time recorded in "time"), 10 seconds: "10=T" (tracks recorded in tracks)
-	double limitAsDouble;	//-1 for non limited (unlimited repetitive run until "finish" is clicked)
 	bool tracksLimited;
 	
 

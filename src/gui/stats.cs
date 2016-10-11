@@ -65,11 +65,8 @@ public partial class ChronoJumpWindow {
 	[Widget] Gtk.CheckButton checkbutton_show_enunciate;
 	
 	[Widget] Gtk.Notebook notebook_stats_win_options;
-	[Widget] Gtk.Box hbox_mark_consecutives;
 	[Widget] Gtk.CheckButton checkbutton_mark_consecutives;
 	[Widget] Gtk.SpinButton spinbutton_mark_consecutives;
-	[Widget] Gtk.Label label_subtraction_between;
-	[Widget] Gtk.Box hbox_subtraction_between;
 	[Widget] Gtk.Box hbox_subtraction_between_1;
 	[Widget] Gtk.Box hbox_subtraction_between_2;
 	[Widget] Gtk.ComboBox combo_subtraction_between_1;

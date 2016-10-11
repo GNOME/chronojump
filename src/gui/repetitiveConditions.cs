@@ -113,7 +113,6 @@ public class RepetitiveConditionsWindow
 
 
 	[Widget] Gtk.Button button_test_good;
-	[Widget] Gtk.Button button_test_bad;
 	[Widget] Gtk.Button button_close;
 
 	//bells good (green)

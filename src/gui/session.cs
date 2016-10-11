@@ -34,7 +34,6 @@ public class SessionAddEditWindow {
 	[Widget] Gtk.Entry entry_place;
 	
 	[Widget] Gtk.Label label_date;
-	[Widget] Gtk.Button button_change_date;
 	
 	[Widget] Gtk.TextView textview;
 	[Widget] Gtk.Button button_accept;
@@ -660,14 +659,12 @@ public class SessionLoadWindow {
 	[Widget] Gtk.CheckButton checkbutton_show_data_jump_run;
 	[Widget] Gtk.CheckButton checkbutton_show_data_encoder;
 	[Widget] Gtk.Entry file_path_import;
-	[Widget] Gtk.Button select_file_import;
 	[Widget] Gtk.HBox session_import_box;
 
 	static SessionLoadWindow SessionLoadWindowBox;
 	Gtk.Window parent;
 	
 	private Session currentSession;
-	private SqliteSessionSwitcher sqliteSession;
 	private WindowType type;
 
 	SessionLoadWindow (Gtk.Window parent, WindowType type) {

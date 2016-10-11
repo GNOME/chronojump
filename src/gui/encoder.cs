@@ -54,7 +54,6 @@ public partial class ChronoJumpWindow
 	//at graph.R is converted to Kg*m^2 ( /10000 )
 	//[Widget] Gtk.SpinButton spin_encoder_capture_inertial; 
 	
-	[Widget] Gtk.Box hbox_encoder_sup_capture_analyze;
 	[Widget] Gtk.Box hbox_encoder_sup_capture_analyze_two_buttons;
 	[Widget] Gtk.Box hbox_encoder_configuration;
 	[Widget] Gtk.Box hbox_encoder_capture_options;
@@ -76,13 +75,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_load_signal_on_analyze;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_capture;
-	[Widget] Gtk.Image image_encoder_capture_open;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
 	[Widget] Gtk.Box vbox_encoder_signal_comment;
 	[Widget] Gtk.TextView textview_encoder_signal_comment;
 	[Widget] Gtk.Button button_encoder_signal_save_comment;
 	[Widget] Gtk.MenuItem menuitem_export_encoder_signal;
-	[Widget] Gtk.Label label_encoder_curve_action;
 	[Widget] Gtk.Button button_encoder_delete_signal;
 	
 	[Widget] Gtk.VPaned vpaned_encoder_main;

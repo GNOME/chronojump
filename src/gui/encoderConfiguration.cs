@@ -97,13 +97,10 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.SpinButton spin_im_length_calcule;
 	//[Widget] Gtk.SpinButton spin_im_duration_calcule;
 	[Widget] Gtk.Label label_im_result_disc;
-	[Widget] Gtk.Label label_im_result_weights;
-	[Widget] Gtk.Label label_im_result_total;
 	[Widget] Gtk.Label label_im_feedback;
 	[Widget] Gtk.Button button_encoder_capture_inertial_do;
 	[Widget] Gtk.Button button_encoder_capture_inertial_cancel;
 	//[Widget] Gtk.Button button_encoder_capture_inertial_finish;
-	[Widget] Gtk.Label label_button_encoder_capture_inertial_do;
 
 	[Widget] Gtk.Button button_accept;
 

@@ -62,7 +62,6 @@ public class ChronopicRegisterWindow
 {
 	Gtk.Window chronopic_register_win;
 	Gtk.VBox vbox_main;
-	Gtk.Table table;
 
 	public ChronopicRegisterWindow(List<ChronopicRegisterPort> list)
 	{

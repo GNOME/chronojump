@@ -453,6 +453,10 @@ public partial class ChronoJumpWindow
 
 	//int chronopicCancelledTimes = 0;
 
+	ChronopicRegister chronopicRegister;
+	Chronopic2016 cp2016;
+
+
 	//only called the first time the software runs
 	//and only on windows
 	private void on_language_clicked(object o, EventArgs args) {
@@ -609,6 +613,9 @@ public partial class ChronoJumpWindow
 		LeastSquares ls = new LeastSquares();
 		ls.Test();
 		LogB.Information(string.Format("coef = {0} {1} {2}", ls.Coef[0], ls.Coef[1], ls.Coef[2]));
+
+		//this is constructed only one time
+		cp2016 = new Chronopic2016();
 
 		//needed to initialize cp, sp, ...
 		chronopicRegisterUpdate(false);
@@ -2159,7 +2166,7 @@ public partial class ChronoJumpWindow
 			chronopicWin.SerialPortsCloseIfNeeded();
 		}
 		*/
-		chronopicRegister.SerialPortsCloseIfNeeded();
+		cp2016.SerialPortsCloseIfNeeded();
 	
 		try {	
 			File.Delete(runningFileName);
@@ -3128,7 +3135,7 @@ public partial class ChronoJumpWindow
 			*/
 
 		Chronopic.Plataforma ps;
-		bool ok = (chronopicRegister.CP).Read_platform(out ps);
+		bool ok = (cp2016.CP).Read_platform(out ps);
 		if(!ok) {
 			LogB.Information("Chronopic has been disconnected");
 			//createChronopicWindow(true, "");
@@ -3157,7 +3164,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Trying method 2");
 		bool isChronopicAuto = false;
 		try {
-			string result = chronopicRegister.CheckAuto(out isChronopicAuto);
+			string result = cp2016.CheckAuto(out isChronopicAuto);
 			LogB.Debug("version: " + result);
 		} catch {
 			LogB.Information("Could not read from Chronopic with method 2");
@@ -3172,7 +3179,7 @@ public partial class ChronoJumpWindow
 			if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 				debounceChange = 10;
 
-			int msChanged = chronopicRegister.ChangeMultitestFirmware(debounceChange);
+			int msChanged = cp2016.ChangeMultitestFirmware(debounceChange);
 			if(msChanged != -1) {
 				if(msChanged == 50)
 					label_chronopics_multitest.Text = "[" + Catalog.GetString("Jumps") + "]";
@@ -3467,7 +3474,7 @@ public partial class ChronoJumpWindow
 		//this will cancel jumps or runs
 		currentEventExecute.Cancel = true;
 
-		if(chronopicRegister.StoredCanCaptureContacts)
+		if(cp2016.StoredCanCaptureContacts)
 			checkCancelTotally(o, args);
 
 		//let update stats
@@ -3488,7 +3495,7 @@ public partial class ChronoJumpWindow
 		//this will cancel jumps or runs
 		currentEventExecute.Cancel = true;
 
-		if(chronopicRegister.StoredCanCaptureContacts)
+		if(cp2016.StoredCanCaptureContacts)
 			checkCancelMultiTotally(o, args);
 	}
 
@@ -3560,7 +3567,7 @@ public partial class ChronoJumpWindow
 	{
 		currentEventExecute.Finish = true;
 	
-		if(chronopicRegister.StoredCanCaptureContacts)
+		if(cp2016.StoredCanCaptureContacts)
 			checkFinishTotally(o, args);
 		
 		//let update stats
@@ -3584,7 +3591,7 @@ public partial class ChronoJumpWindow
 		//runA is not called for this, because it ends different
 		//and there's a message on gui/eventExecute.cs for runA	
 		LogB.Debug("RR1");
-		if(currentMultiChronopicType.Name != Constants.RunAnalysisName && chronopicRegister.StoredCanCaptureContacts)
+		if(currentMultiChronopicType.Name != Constants.RunAnalysisName && cp2016.StoredCanCaptureContacts)
 			checkFinishMultiTotally(o, args);
 
 		LogB.Debug("RR2");
@@ -3716,7 +3723,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("numContacts: " + numContacts);
 
 		//store a boolean in order to read info faster
-		chronopicRegister.StoredCanCaptureContacts = (numContacts == 1);
+		cp2016.StoredCanCaptureContacts = (numContacts == 1);
 
 		if(numContacts == 0) {
 			new DialogMessage(Constants.MessageTypes.WARNING, "Chronopic jumps/runs is not connected");
@@ -3749,16 +3756,17 @@ public partial class ChronoJumpWindow
 		if(canCaptureContacts())
 		{
 			ChronopicRegisterPort crp = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
-			if(crp.ConnectedReal)
+			LogB.Information("Checking if Connected real!");
+			if(cp2016.IsLastConnectedReal(crp))
 				LogB.Information("Already Connected real!");
 			else {
-				LogB.Information("Connected real (starting connection)");
+				LogB.Information("Connecting real (starting connection)");
 				LogB.Information("Press test button on Chronopic");
-				bool connectedReal = chronopicRegister.ConnectContactsReal(crp);
+				bool connectedReal = cp2016.ConnectContactsReal(crp);
 				if(connectedReal)
-					LogB.Information("Sucess at Connected real!");
+					LogB.Information("Sucess at Connecting real!");
 				else {
-					LogB.Information("Failure at Connected real!");
+					LogB.Information("Failure at Connecting real!");
 					return;
 				}
 			}
@@ -3775,7 +3783,7 @@ public partial class ChronoJumpWindow
 	
 	void on_button_execute_test_accepted (object o, EventArgs args) 
 	{
-		bool canCaptureC = chronopicRegister.StoredCanCaptureContacts;
+		bool canCaptureC = cp2016.StoredCanCaptureContacts;
 
 		if(radio_menuitem_mode_jumps_simple.Active) 
 		{
@@ -3975,7 +3983,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new JumpExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				//chronopicWin.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
-				chronopicRegister.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
+				cp2016.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
 				progressbarLimit, egd, description);
 
 
@@ -4145,7 +4153,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new JumpRjExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpRjType.Name, myFall, jumpWeight, 
 				progressbarLimit, currentJumpRjType.JumpsLimited, 
-				chronopicRegister.CP, event_execute_label_message, app1, preferences.digitsNumber,
+				cp2016.CP, event_execute_label_message, app1, preferences.digitsNumber,
 				checkbutton_allow_finish_rj_after_time.Active, preferences.volumeOn, 
 				repetitiveConditionsWin, progressbarLimit, egd
 				);
@@ -4276,7 +4284,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new RunExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				chronopicRegister.CP, event_execute_label_message, app1,
+				cp2016.CP, event_execute_label_message, app1,
 				preferences.digitsNumber, preferences.metersSecondsPreferred, preferences.volumeOn, 
 				progressbarLimit, egd,
 				preferences.runDoubleContactsMode,
@@ -4400,7 +4408,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new RunIntervalExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
 				distanceInterval, progressbarLimit, currentRunIntervalType.TracksLimited, 
-				chronopicRegister.CP, event_execute_label_message, app1,
+				cp2016.CP, event_execute_label_message, app1,
 				preferences.digitsNumber, preferences.metersSecondsPreferred, preferences.volumeOn, repetitiveConditionsWin, 
 				progressbarLimit, egd,
 				preferences.runIDoubleContactsMode,
@@ -4542,7 +4550,7 @@ public partial class ChronoJumpWindow
 
 		currentEventExecute = new ReactionTimeExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentReactionTimeType.Name, 
-				chronopicRegister.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
+				cp2016.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
 				progressbarLimit, egd, description
 				);
 
@@ -4572,24 +4580,27 @@ public partial class ChronoJumpWindow
 		currentEventExecute.FakeButtonReactionTimeStart.Clicked -= new EventHandler(on_event_execute_reaction_time_start);
 
 		//Fire leds or buzzer on discriminative (if not simulated)
-		if(chronopicRegister.StoredCanCaptureContacts)
+		if(cp2016.StoredCanCaptureContacts)
 		{
 			if(extra_window_radio_reaction_time_discriminative.Active) {
 				Thread.Sleep(Convert.ToInt32(discriminativeStartTime * 1000)); //in ms
 
 				ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
 				cs.CharToSend = discriminativeCharToSend;
-				cs.Write(chronopicRegister.SP, 0);
+				cs.Write(cp2016.SP, 0);
 			}
 			else if(extra_window_radio_reaction_time_animation_lights.Active) {
 				int speed = Convert.ToInt32(spinbutton_animation_lights_speed.Value);
 				ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
 				cs.CharToSend = "l";
-				cs.Write(chronopicRegister.SP,speed);
+				cs.Write(cp2016.SP,speed);
 			}
 
-			LogB.Information("opening port at gui/chronojump.cs");	
-			chronopicRegister.SP.Open();
+			LogB.Information("on_event_execute_reaction_time_start check if need to open SP");
+			if(! cp2016.SP.IsOpen) {
+				LogB.Information("opening SP...");
+				cp2016.SP.Open();
+			}
 
 			/*
 			 * some machines needed to flush
@@ -4598,7 +4609,7 @@ public partial class ChronoJumpWindow
 			 * Note this will not allow reaction time be lower than 100 ms (DefaultTimeout on chronopic.cs)
 			 */
 			LogB.Information("Going to flush by time out");	//needed on some machines
-			chronopicRegister.CP.FlushByTimeOut();
+			cp2016.CP.FlushByTimeOut();
 			LogB.Information("flushed!");	
 		}
 
@@ -4694,7 +4705,7 @@ public partial class ChronoJumpWindow
 
 		currentEventExecute = new PulseExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
-				chronopicRegister.CP, event_execute_label_message,
+				cp2016.CP, event_execute_label_message,
 				app1, preferences.digitsNumber, preferences.volumeOn, egd
 				);
 		
@@ -6821,7 +6832,6 @@ LogB.Debug("X");
 	}
 	*/
 
-	ChronopicRegister chronopicRegister;
 	private void on_button_chronopic_register_clicked (object o, EventArgs args)
 	{
 		chronopicRegisterUpdate(true);

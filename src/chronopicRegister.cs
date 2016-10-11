@@ -244,9 +244,13 @@ public abstract class ChronopicRegister
 	//returns first found (should be only one if called NumConnectedOfType and returned value was 1
 	public ChronopicRegisterPort ConnectedOfType(ChronopicRegisterPort.Types type)
 	{
-		foreach(ChronopicRegisterPort crp in crpl.L)
-			if(crp.Type == type && crp.Port != "")
+		foreach (ChronopicRegisterPort crp in crpl.L)
+		{
+			if (crp.Type == type && crp.Port != "")
+			{
 				return crp;
+			}
+		}
 
 		return null;
 	}
@@ -255,103 +259,6 @@ public abstract class ChronopicRegister
 	{
 		get { return crpl; }
 	}
-
-	//used on contacts
-	private Chronopic cp;
-	private SerialPort sp;
-	private Chronopic.Plataforma platformState;
-
-	public bool ConnectContactsReal(ChronopicRegisterPort crp)
-	{
-		string message = "";
-		bool success = false;
-
-		sp = new SerialPort(crp.Port);
-		ChronopicInit chronopicInit = new ChronopicInit();
-		bool connected = chronopicInit.Do(1, out cp, out sp, platformState, crp.Port, out message, out success);
-
-		//only one crp can be connectedReal
-		if(connected) {
-			foreach(ChronopicRegisterPort cr in crpl.L)
-				crp.ConnectedReal = (cr == crp);
-		} else {
-			crp.ConnectedReal = false;
-		}
-
-		return connected;
-	}
-
-	//store a boolean in order to read info faster
-	public bool StoredCanCaptureContacts;
-
-	//called from gui/chronojump.cs
-	//done here because sending the SP is problematic on windows
-	public string CheckAuto (out bool isChronopicAuto)
-	{
-		ChronopicAuto ca = new ChronopicAutoCheck();
-
-		string str = ca.Read(sp);
-
-		isChronopicAuto = ca.IsChronopicAuto;
-
-		return str;
-	}
-
-	public int ChangeMultitestFirmware (int debounceChange)
-	{
-		LogB.Information("change_multitest_firmware 3 a");
-		try {
-			//write change
-			ChronopicAuto ca = new ChronopicAutoChangeDebounce();
-			ca.Write(sp, debounceChange);
-
-			//read if ok
-			string ms = "";
-			bool success = false;
-			int tryNum = 7; //try to connect seven times
-			do {
-				ca = new ChronopicAutoCheckDebounce();
-				ms = ca.Read(sp);
-
-				if(ms.Length == 0)
-					LogB.Error("multitest firmware. ms is null");
-				else if(ms[0] == '-') //is negative
-					LogB.Error("multitest firmware. ms = " + ms);
-				else
-					success = true;
-				tryNum --;
-			} while (! success && tryNum > 0);
-
-			LogB.Debug("multitest firmware. ms = " + ms);
-
-			if(ms == "50 ms")
-				return 50;
-			else if(ms == "10 ms")
-				return 10;
-		} catch {
-			LogB.Error("Could not change debounce");
-		}
-
-		return -1;
-	}
-
-	public void SerialPortsCloseIfNeeded() {
-		if(sp != null && sp.IsOpen) {
-			LogB.Information("Closing sp");
-			sp.Close();
-		}
-	}
-
-	public Chronopic CP
-	{
-		get { return cp; }
-	}
-
-	public SerialPort SP
-	{
-		get { return sp; }
-	}
-
 }
 
 public class ChronopicRegisterLinux : ChronopicRegister
@@ -521,4 +428,3 @@ public class ChronopicRegisterWindows : ChronopicRegister
 		return comport;
 	}
 }
-

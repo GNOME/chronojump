@@ -181,6 +181,7 @@ SOURCES = \
 	server.cs\
 	staticClassState.cs\
 	chronopic.cs\
+	chronopic2016.cs\
 	chronopicDetect.cs\
 	chronopicRegister.cs\
 	chronojumpImporter.cs\

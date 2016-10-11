@@ -83,7 +83,7 @@ public partial class ChronoJumpWindow
 
 		//intializeVariables if not done before
 		event_execute_initializeVariables(
-			! chronopicRegister.StoredCanCaptureContacts, //is simulated
+			! cp2016.StoredCanCaptureContacts, //is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
 			Catalog.GetString("Phases"),  	  //name of the different moments
@@ -193,7 +193,7 @@ public partial class ChronoJumpWindow
 		int speed = Convert.ToInt32(spinbutton_flicker_lights_speed.Value);
 		ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
 		cs.CharToSend = "f";
-		cs.Write(chronopicRegister.SP,speed);
+		cs.Write(cp2016.SP,speed);
 
 		on_button_execute_test_clicked(o, args);
 	}

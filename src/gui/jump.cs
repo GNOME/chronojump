@@ -1184,7 +1184,7 @@ partial class ChronoJumpWindow
 		
 		//intializeVariables if not done before
 		event_execute_initializeVariables(
-			! chronopicRegister.StoredCanCaptureContacts, //is simulated
+			! cp2016.StoredCanCaptureContacts, //is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
 			Catalog.GetString("Phases"),  	  //name of the different moments

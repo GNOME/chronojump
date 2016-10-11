@@ -119,7 +119,7 @@ public class ChronopicRegisterWindow
 		//-- cell renderer toggles
 
 		Gtk.TreeViewColumn unknownCol = new Gtk.TreeViewColumn ();
-		unknownCol.Title = "Unknown";
+		unknownCol.Title = "Not configured";
 		Gtk.CellRendererToggle unknownCell = new Gtk.CellRendererToggle ();
 		unknownCell.Activatable = true;
 		unknownCell.Radio = true; 	//draw as radiobutton

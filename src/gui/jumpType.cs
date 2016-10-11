@@ -52,7 +52,6 @@ public class JumpTypeAddWindow
 	[Widget] Gtk.SpinButton spin_fixed_num;
 
 	[Widget] Gtk.RadioButton radiobutton_startIn_yes;
-	[Widget] Gtk.RadioButton radiobutton_startIn_no;
 	[Widget] Gtk.RadioButton radiobutton_extra_weight_yes;
 	[Widget] Gtk.RadioButton radiobutton_extra_weight_no;
 	[Widget] Gtk.TextView textview_description;

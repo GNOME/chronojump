@@ -35,7 +35,6 @@ public class ExecuteAutoWindow
 
 	//1st tab
 	[Widget] Gtk.RadioButton radio_load;
-	[Widget] Gtk.RadioButton radio_new;
 	[Widget] Gtk.Notebook notebook_load_or_new;
 	[Widget] Gtk.TreeView treeview_load;
 	[Widget] Gtk.RadioButton radio_by_persons;
@@ -57,7 +56,6 @@ public class ExecuteAutoWindow
 	[Widget] Gtk.Label label_serie1;
 	[Widget] Gtk.Label label_serie2;
 	[Widget] Gtk.Label label_serie3;
-	[Widget] Gtk.ScrolledWindow scrolled_win_serie1;
 	[Widget] Gtk.ScrolledWindow scrolled_win_serie2;
 	[Widget] Gtk.ScrolledWindow scrolled_win_serie3;
 	[Widget] Gtk.TreeView treeview_serie1;

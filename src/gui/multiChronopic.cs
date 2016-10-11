@@ -33,8 +33,6 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.RadioButton extra_window_radio_multichronopic_start;
 	[Widget] Gtk.RadioButton extra_window_radio_multichronopic_run_analysis;
-	[Widget] Gtk.Label label_extra_window_radio_multichronopic_start;
-	[Widget] Gtk.Label label_extra_window_radio_multichronopic_run_analysis;
 
 	[Widget] Gtk.Label extra_window_label_multichronopic_need_two;
 	[Widget] Gtk.Button button_run_analysis_help;

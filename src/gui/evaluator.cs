@@ -75,16 +75,12 @@ public class EvaluatorWindow
 
 
 	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Button button_cancel;
 	
 	string [] continents;
 	string [] continentsTranslated;
 	string [] countries;
 	string [] countriesTranslated;
-	string [] chronometers;
-	string [] devices;
-	string [] devicesTranslated;
-	
+
 	DialogCalendar myDialogCalendar;
 	DateTime dateTime;
 

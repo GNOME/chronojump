@@ -37,13 +37,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_flicker_lights_cycle;
 	[Widget] Gtk.Label label_flicker_lights_frequency;
 
-	[Widget] Gtk.Label label_extra_window_radio_reaction_time;
 	[Widget] Gtk.RadioButton extra_window_radio_reaction_time;
-	[Widget] Gtk.Label label_extra_window_radio_reaction_time_animation_lights;
 	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_animation_lights;
-	[Widget] Gtk.Label label_extra_window_radio_reaction_time_flicker;
 	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_flicker;
-	[Widget] Gtk.Label label_extra_window_radio_reaction_time_discriminative;
 	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_discriminative;
 
 	

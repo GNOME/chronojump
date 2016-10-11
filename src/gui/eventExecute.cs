@@ -113,7 +113,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_results_data;
 	
 	[Widget] Gtk.DrawingArea event_execute_drawingarea;
-	[Widget] Box event_execute_hbox_drawingarea;
 	/*
 	[Widget] Gtk.Box hbox_combo_graph_results_width;
 	[Widget] Gtk.Box hbox_combo_graph_results_height;

@@ -490,8 +490,7 @@ public class ChronoJump
 	private void findVersion() {
 		LogB.Debug("--1--");
 		//pingStart = true;
-		splashShowButton = true;
-		
+
 		LogB.Debug("--2--");
 		//maybe other thread doesn't create at time the splash win
 		//then just wait
@@ -516,7 +515,6 @@ public class ChronoJump
 		versionAvailable = Server.Ping(true, progName, UtilAll.ReadVersion()); //doInsertion
 		
 		LogB.Debug("--4--");
-		splashShowButton = false;
 		LogB.Information(" version:  ", versionAvailable);
 		LogB.Debug("\n--5--");
 		//pingEnd = true;
@@ -524,7 +522,6 @@ public class ChronoJump
 	}
 		
 	private void on_find_version_cancelled(object o, EventArgs args) {
-		splashShowButton = false;
 		versionAvailable = Constants.ServerOffline;
 		//pingEnd = true;
 	}
@@ -605,8 +602,6 @@ public class ChronoJump
 	/* --------------------
 	/* splash window things 
 	 * --------------------*/
-
-	private bool splashShowButton = false;
 
 	private void splashMessageChange(int messageInt) {
 	       splashMessage = Catalog.GetString(Constants.SplashMessages[messageInt]);

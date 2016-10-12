@@ -3611,16 +3611,94 @@ public partial class ChronoJumpWindow
 		cp2016.StoredCanCaptureContacts = (numContacts == 1);
 
 		if(numContacts == 0) {
-			new DialogMessage(Constants.MessageTypes.WARNING, "Chronopic jumps/runs is not connected");
+			if(currentSession.Name != Constants.SessionSimulatedName)
+				new DialogMessage(Constants.MessageTypes.WARNING, "Chronopic jumps/runs is not connected");
+
 			return false;
 		}
 		if(numContacts > 1) {
-			new DialogMessage(Constants.MessageTypes.WARNING, "More than 1 Chronopic for jumps/runs are connected");
+			if(currentSession.Name != Constants.SessionSimulatedName)
+				new DialogMessage(Constants.MessageTypes.WARNING, "More than 1 Chronopic for jumps/runs are connected");
+
 			return false;
 		}
 
-
 		return true;
+	}
+
+	Thread connectContactsRealThread;
+	//used to pass crp to connectContactsRealThread
+	ChronopicRegisterPort crpConnectContactsRealThread;
+	static bool succededConnectContactsRealThread;
+
+	void connectContactsReal(ChronopicRegisterPort crp)
+	{
+		LogB.Information("Connecting real (starting connection)");
+		LogB.Information("Press test button on Chronopic");
+		event_execute_label_message.Text = "Press TEST button on Chronopic to stablish initial communication";
+
+		crpConnectContactsRealThread = crp;
+
+		connectContactsRealThread = new Thread (new ThreadStart (connectContactsRealDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseConnectContactsReal));
+
+		LogB.ThreadStart();
+		connectContactsRealThread.Start();
+	}
+	void connectContactsRealDo()
+	{
+		succededConnectContactsRealThread = cp2016.ConnectContactsReal(
+				crpConnectContactsRealThread);
+	}
+	bool pulseConnectContactsReal()
+	{
+		if(! connectContactsRealThread.IsAlive)
+		{
+			event_execute_progressbar_event.Fraction = 1.0;
+			event_execute_progressbar_time.Fraction = 1.0;
+			LogB.ThreadEnding();
+			connectContactsRealEnd();
+			LogB.ThreadEnded();
+
+			return false;
+		}
+
+		event_execute_progressbar_event.Pulse();
+		event_execute_progressbar_time.Pulse();
+		Thread.Sleep (50);
+		return true;
+	}
+
+	private void connectContactsRealEnd()
+	{
+		event_execute_label_message.Text = "";
+
+		if(! succededConnectContactsRealThread)
+		{
+			LogB.Information("Failure at Connecting real!");
+			return;
+		}
+
+		LogB.Information("Success at Connecting real!");
+		changeMultitestFirmwareIfNeeded();
+		on_button_execute_test_accepted();
+	}
+
+
+	private void changeMultitestFirmwareIfNeeded()
+	{
+		//change multitest stuff
+		int changed = cp2016.ChangeMultitestFirmwareMaybe(getMenuItemMode());
+
+		//TODO: this is debug info. Remove this for 1.6.3
+		if(changed == -1)
+			label_chronopics_multitest.Text = "";
+		else if(changed == 50)
+			label_chronopics_multitest.Text =
+				"[" + Catalog.GetString("Jumps") + "]";
+		else if(changed == 10)
+			label_chronopics_multitest.Text =
+				"[" + Catalog.GetString("Runs") + "]";
 	}
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 
@@ -3643,43 +3721,31 @@ public partial class ChronoJumpWindow
 			ChronopicRegisterPort crp = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
 			LogB.Information("Checking if Connected real!");
 			if(cp2016.IsLastConnectedReal(crp))
+			{
 				LogB.Information("Already Connected real!");
-			else {
-				LogB.Information("Connecting real (starting connection)");
-				LogB.Information("Press test button on Chronopic");
-				bool connectedReal = cp2016.ConnectContactsReal(crp);
-				if(connectedReal)
-					LogB.Information("Sucess at Connecting real!");
-				else {
-					LogB.Information("Failure at Connecting real!");
-					return;
-				}
+				changeMultitestFirmwareIfNeeded();
+				on_button_execute_test_accepted();
+			} else
+			{
+				connectContactsReal(crp);
+				/*
+				 * this will start a thread and if succeeds, then will call:
+				 * changeMultitestFirmwareIfNeeded();
+				 * on_button_execute_test_accepted();
+				 */
 			}
 
-			//change multitest stuff
-			int changed = cp2016.ChangeMultitestFirmwareMaybe(getMenuItemMode());
-
-			//TODO: this is debug info. Remove this for 1.6.3
-			if(changed == -1)
-				label_chronopics_multitest.Text = "";
-			else if(changed == 50)
-				label_chronopics_multitest.Text =
-					"[" + Catalog.GetString("Jumps") + "]";
-			else if(changed == 10)
-				label_chronopics_multitest.Text =
-					"[" + Catalog.GetString("Runs") + "]";
 		} else {
 			//simulated tests are only allowed on SIMULATED session
 			if(currentSession.Name != Constants.SessionSimulatedName) {
 				new DialogMessage(Constants.MessageTypes.WARNING, Constants.SimulatedTestsNotAllowed);
 				return;
 			}
+			on_button_execute_test_accepted();
 		}
-
-		on_button_execute_test_accepted(o, args);
 	}
 	
-	void on_button_execute_test_accepted (object o, EventArgs args) 
+	void on_button_execute_test_accepted ()
 	{
 		bool canCaptureC = cp2016.StoredCanCaptureContacts;
 

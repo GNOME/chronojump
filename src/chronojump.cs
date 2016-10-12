@@ -221,7 +221,6 @@ public class ChronoJump
 	string versionAvailable;
 	//bool pingStart;
 	//bool pingEnd;
-	bool pulseGTKPingShouldEnd;
 	bool allSQLCallsDoneOnSqliteThingsThread;
 
 	//used when Chronojump is being running two or more times (quadriple-click on start)
@@ -491,7 +490,6 @@ public class ChronoJump
 	private void findVersion() {
 		LogB.Debug("--1--");
 		//pingStart = true;
-		pulseGTKPingShouldEnd = false;
 		splashShowButton = true;
 		
 		LogB.Debug("--2--");
@@ -527,7 +525,6 @@ public class ChronoJump
 		
 	private void on_find_version_cancelled(object o, EventArgs args) {
 		splashShowButton = false;
-		pulseGTKPingShouldEnd = true;
 		versionAvailable = Constants.ServerOffline;
 		//pingEnd = true;
 	}

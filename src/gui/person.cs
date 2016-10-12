@@ -642,7 +642,7 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 	[Widget] Gtk.Button button_close;
 
 	private int sessionID;
-	public Gtk.Button fakeButtonDone;
+	public new Gtk.Button fakeButtonDone;
 	
 	PersonNotUploadWindow (Gtk.Window parent, int sessionID) {
 		Glade.XML gladeXML;

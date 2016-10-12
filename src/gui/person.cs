@@ -1040,20 +1040,16 @@ public class PersonAddModifyWindow
 
 	void on_entries_required_changed (object o, EventArgs args)
 	{
-		bool allOk = true;
-		
 		if(entry1.Text.ToString().Length > 0)
 			image_name.Hide();
 		else {
 			image_name.Show();
-			allOk = false;
 		}
 
 		if((double) spinbutton_weight.Value > 0)
 			image_weight.Hide();
 		else {
 			image_weight.Show();
-			allOk = false;
 		}
 	
 		/*		

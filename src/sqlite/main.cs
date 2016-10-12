@@ -1911,7 +1911,6 @@ class Sqlite
 			// that crashes mac (Linux 100)
 			// ----------------------------------------------
 			LogB.SQL("Leaving Sqlite opened before DB updates");
-			bool sqliteOpened = true;
 	
 			Sqlite.Open(); //------------------------------------------------
 
@@ -2004,7 +2003,6 @@ class Sqlite
 			// --- end of update, close DB
 
 			LogB.SQL("Closing Sqlite after DB updates");
-			sqliteOpened = false;
 
 			Sqlite.Close(); //------------------------------------------------
 		}

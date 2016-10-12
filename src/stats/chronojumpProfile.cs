@@ -66,12 +66,10 @@ public class StatChronojumpProfile : Stat
 	public override void PrepareData() 
 	{
 		string sessionString = obtainSessionSqlString(sessions, "jump");
-		bool multisession = false;
 		//if(sessions.Count > 1) {
 		//	multisession = true;
 		//}
 
-		string indexType = "ChronojumpProfile";
 		/*
 		if(statsJumpsType == 3) { //avg of each jumper
 			if(multisession) {

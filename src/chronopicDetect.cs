@@ -476,7 +476,7 @@ public class ChronopicAutoCheckEncoder : ChronopicAuto
 			myByte = (char) sp.ReadByte();
 			
 			LogB.Debug("readed");
-			if(myByte != null && myByte.ToString() != "")
+			if(myByte.ToString() != "")
 				LogB.Information(myByte.ToString());
 			
 			if(myByte == 'J') {

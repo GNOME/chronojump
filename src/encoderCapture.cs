@@ -453,7 +453,6 @@ public abstract class EncoderCapture
 
 		string filename = Util.ReadFile(UtilAll.GetECapSimSignalFileName(), true);
 		simulatedInts = Util.ReadFileAsInts(filename);
-		int simulatedCount = 0;
 		return true;
 	}
 

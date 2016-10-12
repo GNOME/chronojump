@@ -3088,9 +3088,11 @@ public partial class ChronoJumpWindow
 		LogB.Information("change_multitest_firmware");
 		LogB.Information("Disabled temporarily");
 		//TODO: enable again. Active once first connection is done. Problem is cp is not initialized
+		// when removed uncomment code below as well!
 		return;
 
 		//---- 1 if don't need to change, return
+		/*
 		if(previousMultitestFirmwareDefined && 
 				! Constants.Menuitem_mode_multitest_should_change(previousMultitestFirmware, m)) 
 		{
@@ -3098,11 +3100,12 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+
 		label_chronopics_multitest.Text = "";
 
 		if(! canCaptureContacts())
 			return;
-
+		*/
 		/*
 		//---- 2 if is not connected, return
 

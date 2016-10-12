@@ -2957,13 +2957,14 @@ public partial class ChronoJumpWindow
 
 
 		//change multitest firmware or autoDetectChronopic
-		if(Constants.Menuitem_mode_IsContacts(m))
-		{
+		//if(Constants.Menuitem_mode_IsContacts(m))
+		//{
 			//if(chronopicWin.Connected)
-				change_multitest_firmware(m);
+				//change_multitest_firmware(m);
+
 			//else
 			//	autoDetectChronopic(m); //on contacts will perform change_multitest_firmware at the end
-		}
+		//}
 		//else if(wizardPortEncoder == "")
 		//	autoDetectChronopic(m);
 
@@ -3078,122 +3079,6 @@ public partial class ChronoJumpWindow
 	}
 	*/
 		
-	private bool previousMultitestFirmwareDefined = false;
-	private Constants.Menuitem_modes previousMultitestFirmware;
-
-	//change debounce time automatically on change menuitem mode (if multitest firmware)
-	private void change_multitest_firmware(Constants.Menuitem_modes m) 
-	{
-
-		LogB.Information("change_multitest_firmware");
-		LogB.Information("Disabled temporarily");
-		//TODO: enable again. Active once first connection is done. Problem is cp is not initialized
-		return;
-
-		//---- 1 if don't need to change, return
-		if(previousMultitestFirmwareDefined && 
-				! Constants.Menuitem_mode_multitest_should_change(previousMultitestFirmware, m)) 
-		{
-			LogB.Information("don't need to change multitest firmware");
-			return;
-		}
-
-		label_chronopics_multitest.Text = "";
-
-		if(! canCaptureContacts())
-			return;
-
-		/*
-		//---- 2 if is not connected, return
-
-		if(! chronopicWin.Connected)
-		return;
-
-		//---- 3 if port does not exists, show cp window and return
-
-		//http://www.raspberrypi.org/forums/viewtopic.php?f=66&t=88415
-		//https://bugzilla.xamarin.com/show_bug.cgi?id=15514
-		if(! UtilAll.IsWindows ()) {
-		if(! File.Exists(chronopicWin.GetContactsFirstPort())) {
-		LogB.Information("Chronopic has been disconnected");
-		createChronopicWindow(true, "");
-		chronopicWin.Connected = false;
-		return;
-		}
-		}
-		*/
-
-		LogB.Information("change_multitest_firmware 1");
-
-		/*
-			LogB.Debug("chronopicWin is null? " + (chronopicWin == null).ToString());
-
-			int cps = chronopicWin.NumConnected();
-			LogB.Debug("cps: " + cps.ToString());
-
-			LogB.Debug("chronopicWin.Connected? " + chronopicWin.Connected.ToString());
-			*/
-
-		Chronopic.Plataforma ps;
-		bool ok = (cp2016.CP).Read_platform(out ps);
-		if(!ok) {
-			LogB.Information("Chronopic has been disconnected");
-			//createChronopicWindow(true, "");
-			//chronopicWin.Connected = false;
-			return;
-		}
-
-
-		LogB.Information("change_multitest_firmware 2");
-		ChronopicAuto ca;
-
-		/*	
-			try {
-			ca = new ChronopicAutoCheck();
-		//problems with windows using this:
-		string chronopicVersion = ca.Read(chronopicWin.SP);
-		LogB.Debug("version: " + chronopicVersion);
-		} catch {
-		LogB.Information("Could not read from Chronopic with method 1");
-		return;
-		}
-		*/
-
-		//---- 4 try to communicate with multitest firmware (return if cannot connect)
-
-		LogB.Information("Trying method 2");
-		bool isChronopicAuto = false;
-		try {
-			string result = cp2016.CheckAuto(out isChronopicAuto);
-			LogB.Debug("version: " + result);
-		} catch {
-			LogB.Information("Could not read from Chronopic with method 2");
-			return;
-		}
-
-		//---- 5 change 10 <-> 50 ms
-
-		LogB.Information("change_multitest_firmware 3");
-		if(isChronopicAuto) {
-			int debounceChange = 50;
-			if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
-				debounceChange = 10;
-
-			int msChanged = cp2016.ChangeMultitestFirmware(debounceChange);
-			if(msChanged != -1) {
-				if(msChanged == 50)
-					label_chronopics_multitest.Text = "[" + Catalog.GetString("Jumps") + "]";
-				else if(msChanged == 10)
-					label_chronopics_multitest.Text = "[" + Catalog.GetString("Runs") + "]";
-				else
-					label_chronopics_multitest.Text = "";
-			} else
-				label_chronopics_multitest.Text = "";
-		}
-
-		previousMultitestFirmwareDefined = true;
-		previousMultitestFirmware = m;
-	}
 
 	private Constants.Menuitem_modes getMenuItemMode() 
 	{
@@ -3770,6 +3655,19 @@ public partial class ChronoJumpWindow
 					return;
 				}
 			}
+
+			//change multitest stuff
+			int changed = cp2016.ChangeMultitestFirmwareMaybe(getMenuItemMode());
+
+			//TODO: this is debug info. Remove this for 1.6.3
+			if(changed == -1)
+				label_chronopics_multitest.Text = "";
+			else if(changed == 50)
+				label_chronopics_multitest.Text =
+					"[" + Catalog.GetString("Jumps") + "]";
+			else if(changed == 10)
+				label_chronopics_multitest.Text =
+					"[" + Catalog.GetString("Runs") + "]";
 		} else {
 			//simulated tests are only allowed on SIMULATED session
 			if(currentSession.Name != Constants.SessionSimulatedName) {

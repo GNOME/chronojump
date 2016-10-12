@@ -88,9 +88,94 @@ public class Chronopic2016
 		return str;
 	}
 
-	public int ChangeMultitestFirmware (int debounceChange)
+
+	// ----- change multitest firmware START ----->
+
+	private bool previousMultitestFirmwareDefined = false;
+	private Constants.Menuitem_modes previousMultitestFirmware;
+
+	//change debounce time automatically on change menuitem mode (if multitest firmware)
+	//return values:
+	//-1 error
+	//0 don't need to change
+	//10 or 50 the change value
+	public int ChangeMultitestFirmwareMaybe(Constants.Menuitem_modes m)
 	{
-		LogB.Information("change_multitest_firmware 3 a");
+
+		LogB.Information("ChangeMultitestFirmwareMaybe (A)");
+
+		//---- 1 if don't need to change, return
+		if(previousMultitestFirmwareDefined &&
+				! Constants.Menuitem_mode_multitest_should_change(previousMultitestFirmware, m))
+		{
+			LogB.Information("don't need to change multitest firmware");
+			return 0;
+		}
+
+
+		//bool ok = cp.Read_platform(out platformState);
+		//seems better to have a new platformState:
+		Chronopic.Plataforma ps;
+		bool ok = cp.Read_platform(out ps);
+		if(! ok) {
+			LogB.Information("Chronopic has been disconnected");
+			//createChronopicWindow(true, "");
+			//chronopicWin.Connected = false;
+			return -1;
+		}
+
+
+		/*
+		 * method 1. Unused
+		try {
+			ChronopicAuto ca = new ChronopicAutoCheck();
+			//problems with windows using this:
+			string chronopicVersion = ca.Read(chronopicWin.SP);
+			LogB.Debug("version: " + chronopicVersion);
+		} catch {
+			LogB.Information("Could not read from Chronopic with method 1");
+			return;
+		}*/
+
+		//---- 4 try to communicate with multitest firmware (return if cannot connect)
+
+		LogB.Information("ChangeMultitestFirmwareMaybe (B)");
+		bool isChronopicAuto = false;
+		try {
+			string result = CheckAuto(out isChronopicAuto);
+			LogB.Debug("version: " + result);
+		} catch {
+			LogB.Information("Could not read from Chronopic with method 2");
+			return -1;
+		}
+
+		//---- 5 change 10 <-> 50 ms
+		int returnValue = -1;
+
+		LogB.Information("ChangeMultitestFirmwareMaybe (C)");
+		if(isChronopicAuto) {
+			int debounceChange = 50;
+			if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
+				debounceChange = 10;
+
+			int msChanged = changeMultitestFirmwareDo(debounceChange);
+			if(msChanged == 50)
+				returnValue = 50;
+			else if(msChanged == 10)
+				returnValue = 10;
+		}
+
+		previousMultitestFirmwareDefined = true;
+		previousMultitestFirmware = m;
+
+		LogB.Information("ChangeMultitestFirmwareMaybe (D)");
+
+		return returnValue;
+	}
+
+	private int changeMultitestFirmwareDo (int debounceChange)
+	{
+		LogB.Information("ChangeMultitestFirmwareDo");
 		try {
 			//write change
 			ChronopicAuto ca = new ChronopicAutoChangeDebounce();
@@ -125,6 +210,8 @@ public class Chronopic2016
 
 		return -1;
 	}
+
+	// <----- change multitest firmware END
 
 	public void SerialPortsCloseIfNeeded() {
 		if(sp != null && sp.IsOpen) {

@@ -193,9 +193,44 @@ SOURCES = \
 	oldCodeNeedToDBConvert/sqlite/session.cs
 
 RESOURCES = \
-	../glade/chronojump.glade\
-	../glade/session_load.glade\
-	../glade/dialog_about.glade\
+	../glade/chronojump.glade \
+	../glade/app1.glade \
+	../glade/chronopic_window.glade \
+	../glade/chronopic_wizard_win.glade \
+	../glade/confirm_window.glade \
+	../glade/convert_weight.glade \
+	../glade/dialog_about.glade \
+	../glade/dialog_calendar.glade \
+	../glade/dialog_help_ports.glade \
+	../glade/dialog_image_test.glade \
+	../glade/dialog_message.glade \
+	../glade/dialog_server_stats.glade \
+	../glade/edit_event.glade \
+	../glade/encoder_configuration.glade \
+	../glade/error_dialog.glade \
+	../glade/error_window.glade \
+	../glade/evaluator_window.glade \
+	../glade/event_graph_configure.glade \
+	../glade/execute_auto.glade \
+	../glade/generic_window.glade \
+	../glade/jump_type_add.glade \
+	../glade/jumps_runs_more.glade \
+	../glade/person_multiple_infinite.glade \
+	../glade/person_recuperate.glade \
+	../glade/person_select_window.glade \
+	../glade/person_show_all_events.glade \
+	../glade/person_win.glade \
+	../glade/preferences_win.glade \
+	../glade/query_server_window.glade \
+	../glade/repair_sub_event.glade \
+	../glade/repetitive_conditions.glade \
+	../glade/report_window.glade \
+	../glade/run_type_add.glade \
+	../glade/session_add_edit.glade \
+	../glade/session_load.glade \
+	../glade/session_upload.glade \
+	../glade/splash_window.glade \
+	../glade/stats_select_sessions.glade \
 	../images/mini/no_image.png,mini/no_image.png \
 	../images/chronojump-jumps-small.png,chronojump-jumps-small.png \
 	../images/chronojump-runs-small.png,chronojump-runs-small.png \

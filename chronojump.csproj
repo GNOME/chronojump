@@ -84,11 +84,116 @@
     <EmbeddedResource Include="glade\chronojump.glade">
       <LogicalName>chronojump.glade</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="glade\session_load.glade">
-      <LogicalName>session_load.glade</LogicalName>
+    <EmbeddedResource Include="glade\app1.glade">
+      <LogicalName>app1.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\chronopic_window.glade">
+      <LogicalName>chronopic_window.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\chronopic_wizard_win.glade">
+      <LogicalName>chronopic_wizard_win.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\confirm_window.glade">
+      <LogicalName>confirm_window.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\convert_weight.glade">
+      <LogicalName>convert_weight.glade</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="glade\dialog_about.glade">
       <LogicalName>dialog_about.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\dialog_calendar.glade">
+      <LogicalName>dialog_calendar.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\dialog_help_ports.glade">
+      <LogicalName>dialog_help_ports.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\dialog_image_test.glade">
+      <LogicalName>dialog_image_test.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\dialog_message.glade">
+      <LogicalName>dialog_message.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\dialog_server_stats.glade">
+      <LogicalName>dialog_server_stats.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\edit_event.glade">
+      <LogicalName>edit_event.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\encoder_configuration.glade">
+      <LogicalName>encoder_configuration.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\error_dialog.glade">
+      <LogicalName>error_dialog.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\error_window.glade">
+      <LogicalName>error_window.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\evaluator_window.glade">
+      <LogicalName>evaluator_window.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\event_graph_configure.glade">
+      <LogicalName>event_graph_configure.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\execute_auto.glade">
+      <LogicalName>execute_auto.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\generic_window.glade">
+      <LogicalName>generic_window.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\jump_type_add.glade">
+      <LogicalName>jump_type_add.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\jumps_runs_more.glade">
+      <LogicalName>jumps_runs_more.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\person_multiple_infinite.glade">
+      <LogicalName>person_multiple_infinite.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\person_recuperate.glade">
+      <LogicalName>person_recuperate.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\person_select_window.glade">
+      <LogicalName>person_select_window.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\person_show_all_events.glade">
+      <LogicalName>person_show_all_events.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\person_win.glade">
+      <LogicalName>person_win.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\preferences_win.glade">
+      <LogicalName>preferences_win.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\query_server_window.glade">
+      <LogicalName>query_server_window.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\repair_sub_event.glade">
+      <LogicalName>repair_sub_event.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\repetitive_conditions.glade">
+      <LogicalName>repetitive_conditions.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\report_window.glade">
+      <LogicalName>report_window.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\run_type_add.glade">
+      <LogicalName>run_type_add.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\session_add_edit.glade">
+      <LogicalName>session_add_edit.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\session_load.glade">
+      <LogicalName>session_load.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\session_upload.glade">
+      <LogicalName>session_upload.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\splash_window.glade">
+      <LogicalName>splash_window.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\stats_select_sessions.glade">
+      <LogicalName>stats_select_sessions.glade</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\123804__kendallbear__kendallklap1.wav">
       <LogicalName>123804__kendallbear__kendallklap1.wav</LogicalName>

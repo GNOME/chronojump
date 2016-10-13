@@ -3603,7 +3603,9 @@ public partial class ChronoJumpWindow
 
 	bool canCaptureContacts()
 	{
-		chronopicRegisterUpdate(false);
+		if(! UtilAll.IsWindows())
+			chronopicRegisterUpdate(false);
+
 		int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
 		LogB.Information("numContacts: " + numContacts);
 
@@ -4790,6 +4792,8 @@ public partial class ChronoJumpWindow
 		//chronopicWin.FakeWindowReload.Clicked += new EventHandler(chronopicWindowReload);
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_contacts_connected_or_done);
 		*/
+
+		//TODO: on Windows need to close the sp if it's open, and maybe the cp
 		chronopicRegisterUpdate(true);
 	}
 
@@ -4800,6 +4804,7 @@ public partial class ChronoJumpWindow
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_encoder_connected_or_done);
 		*/
 
+		//TODO: on Windows need to close the sp if it's open, and maybe the cp
 		chronopicRegisterUpdate(true);
 	}
 
@@ -6798,7 +6803,7 @@ LogB.Debug("X");
 
 	private void on_button_chronopic_register_clicked (object o, EventArgs args)
 	{
-		chronopicRegisterUpdate(true);
+		//chronopicRegisterUpdate(true);
 	}
 	private void chronopicRegisterUpdate(bool openWindow)
 	{

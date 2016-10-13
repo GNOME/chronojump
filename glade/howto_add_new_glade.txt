@@ -1,0 +1,7 @@
+When adding a new glade file add it next to existing glade files in:
+src/Makefile.am
+po/POTFILES
+
+And if using Monodevelop:
+chronojump.csproj (using Monodevelop and closing Monodevelop, editing the XML file and opening it again)
+

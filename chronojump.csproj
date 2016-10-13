@@ -87,6 +87,9 @@
     <EmbeddedResource Include="glade\session_load.glade">
       <LogicalName>session_load.glade</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="glade\dialog_about.glade">
+      <LogicalName>dialog_about.glade</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="images\123804__kendallbear__kendallklap1.wav">
       <LogicalName>123804__kendallbear__kendallklap1.wav</LogicalName>
     </EmbeddedResource>

@@ -668,7 +668,7 @@ public class SessionLoadWindow {
 	SessionLoadWindow (Gtk.Window parent, WindowType type) {
 		this.type = type;
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_load", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "session_load.glade", "session_load", null);
 		gladeXML.Autoconnect(this);
 		session_load.Parent = parent;
 

@@ -84,6 +84,9 @@
     <EmbeddedResource Include="glade\chronojump.glade">
       <LogicalName>chronojump.glade</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="glade\session_load.glade">
+      <LogicalName>session_load.glade</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="images\123804__kendallbear__kendallklap1.wav">
       <LogicalName>123804__kendallbear__kendallklap1.wav</LogicalName>
     </EmbeddedResource>

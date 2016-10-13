@@ -194,6 +194,8 @@ SOURCES = \
 
 RESOURCES = \
 	../glade/chronojump.glade\
+	../glade/session_load.glade\
+	../glade/dialog_about.glade\
 	../images/mini/no_image.png,mini/no_image.png \
 	../images/chronojump-jumps-small.png,chronojump-jumps-small.png \
 	../images/chronojump-runs-small.png,chronojump-runs-small.png \

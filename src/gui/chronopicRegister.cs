@@ -63,9 +63,9 @@ public class ChronopicRegisterWindow
 	Gtk.Window chronopic_register_win;
 	Gtk.VBox vbox_main;
 
-	public ChronopicRegisterWindow(List<ChronopicRegisterPort> list)
+	public ChronopicRegisterWindow(Gtk.Window app1, List<ChronopicRegisterPort> list)
 	{
-		createWindow();
+		createWindow(app1);
 		//put an icon to window
 		UtilGtk.IconWindow(chronopic_register_win);
 
@@ -77,10 +77,12 @@ public class ChronopicRegisterWindow
 	}
 
 
-	private void createWindow()
+	private void createWindow(Gtk.Window app1)
 	{
 		chronopic_register_win = new Window ("Chronopic register");
 		chronopic_register_win.AllowGrow = false;
+		chronopic_register_win.Modal = true;
+		chronopic_register_win.TransientFor = app1;
 
 		chronopic_register_win.DeleteEvent += on_delete_event;
 

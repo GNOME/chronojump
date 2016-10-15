@@ -6811,7 +6811,7 @@ LogB.Debug("X");
 		chronopicRegister = cros.Do();
 
 		if(openWindow)
-			new ChronopicRegisterWindow(chronopicRegister.Crpl.L);
+			new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
 	}
 
 	//start/end auto mode

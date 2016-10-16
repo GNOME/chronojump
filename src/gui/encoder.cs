@@ -1428,7 +1428,7 @@ public partial class ChronoJumpWindow
 	void encoderSignalDelete (string signalURL, int signalID) 
 	{
 		//remove signal file
-		bool deletedOk = Util.FileDelete(signalURL);
+		Util.FileDelete(signalURL);
 
 		//delete signal from encoder table
 		Sqlite.Delete(false, Constants.EncoderTable, signalID);

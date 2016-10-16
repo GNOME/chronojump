@@ -141,6 +141,20 @@ public class Constants
 	public const string Encoder1RMTable = "encoder1RM";
 	public const string ExecuteAutoTable = "executeAuto";
 
+	// Dummy variables that exists for translating purposes
+	// pragma warning is to avoid warnings of "defined and not used" for these variables.
+#pragma warning disable 0414
+	private static string dumbVariableForTranslatingAny = Catalog.GetString("Any");
+	private static string dumbVariableForTranslatingSportUndefined = Catalog.GetString("--Undefined");
+	private static string dumbVariableForTranslatingSportAny = Catalog.GetString("--Any");
+	private static string dumbVariableForTranslatingSportNone = Catalog.GetString("-None");
+	private static string dumbVariableForTranslatingSpeciallityUndefined = Catalog.GetString("Undefined");
+	private static string dumbVariableForTranslatingLevelUndefined = Catalog.GetString("Undefined");
+	private static string dumbVariableForTranslatingLevelSedentary = Catalog.GetString("Sedentary/Occasional practice");
+	private static string dumbVariableForTranslatingExerciseTranslatedBenchPress = Catalog.GetString("Bench press");
+	private static string dumbVariableForTranslatingExerciseTranslatedSquat = Catalog.GetString("Squat");
+#pragma warning restore 0414
+
 	//tests types
 	public const string JumpTypeTable = "jumpType";
 	public const string JumpRjTypeTable = "jumpRjType";
@@ -152,7 +166,6 @@ public class Constants
 
 	public const string UndefinedDefault = "Undefined";
 	public const string Any = "Any";
-	private static string dumbVariableForTranslatingAny = Catalog.GetString("Any");
 
 	public const string M = "M";
 	public const string F = "F";
@@ -521,16 +534,12 @@ public class Constants
 	public static int SportUndefinedID = 1;
 	public static string SportUndefined = "--Undefined";
 	public static string SportAny = "--Any";
-	private static string dumbVariableForTranslatingSportUndefined = Catalog.GetString("--Undefined");
-	private static string dumbVariableForTranslatingSportAny = Catalog.GetString("--Any");
 	public static int SportNoneID = 2;
 	public static string SportNone = "-None";
-	private static string dumbVariableForTranslatingSportNone = Catalog.GetString("-None");
 
 	public static int SpeciallityUndefinedID = -1;
 	public static string SpeciallityUndefined = "Undefined"; 
-	private static string dumbVariableForTranslatingSpeciallityUndefined = Catalog.GetString("Undefined");
-	
+
 	public static int RaceUndefinedID = -1;
 
 	public static int CountryUndefinedID = 1;
@@ -560,10 +569,8 @@ public class Constants
 	//string will be shown in user language
 	public static int LevelUndefinedID = -1;
 	public static string LevelUndefined = "Undefined"; 
-	private static string dumbVariableForTranslatingLevelUndefined = Catalog.GetString("Undefined");
 	public static int LevelSedentaryID = 0; 
 	public static string LevelSedentary = "Sedentary/Occasional practice"; 
-	private static string dumbVariableForTranslatingLevelSedentary = Catalog.GetString("Sedentary/Occasional practice");
 	public static string [] Levels = {
 		LevelUndefinedID.ToString() + ":" + Catalog.GetString(LevelUndefined), 
 		LevelSedentaryID.ToString() + ":" + Catalog.GetString(LevelSedentary), 

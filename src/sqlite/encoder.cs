@@ -709,10 +709,6 @@ class SqliteEncoder : Sqlite
 		addEncoderInclinedExercises();
 	}
 
-	//written just to have the names translated
-	private string ExerciseTranslatedBenchPress = Catalog.GetString("Bench press");
-	private string ExerciseTranslatedSquat = Catalog.GetString("Squat");
-	
 	protected internal static void addEncoderFreeExercise()
 	{
 		bool exists = Sqlite.Exists (true, Constants.EncoderExerciseTable, "Free");

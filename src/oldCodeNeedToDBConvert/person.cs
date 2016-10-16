@@ -39,8 +39,6 @@ public partial class PersonOld {
 	private int countryID;
 	private int serverUniqueID; //not on server
 
-	private int sessionID;
-	
 	public PersonOld() {
 	}
 
@@ -90,7 +88,6 @@ public partial class PersonOld {
 		this.race = race;
 		this.countryID = countryID;
 		this.serverUniqueID = serverUniqueID; //remember don't do this on server
-		this.sessionID = sessionID;
 
 		//insert in the person table
 		//when insert as person we don't know uniqueID

@@ -23,7 +23,7 @@ using System.Data;
 using System.Text; //StringBuilder
 using Mono.Unix;
 
-public partial class PersonSessionOld {
+public class PersonSessionOld {
 
 	private int uniqueID;
 	private int personID;

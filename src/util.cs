@@ -668,7 +668,6 @@ public class Util
 		//Calcule the potential energies before (mass * g * fallHeight) and after the jump (mass * g * tv^2 * 1.226)
 		//and divide by the time during force is applied
 		double g = 9.81;
-		double tt = tc + tf; //totalTime
 		fallHeight = fallHeight / 100.0; //cm -> m
 		
 		return mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tc;

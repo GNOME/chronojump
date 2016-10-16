@@ -65,7 +65,7 @@ public class StatChronojumpProfile : Stat
 	
 	public override void PrepareData() 
 	{
-		string sessionString = obtainSessionSqlString(sessions, "jump");
+		//string sessionString = obtainSessionSqlString(sessions, "jump");
 		//if(sessions.Count > 1) {
 		//	multisession = true;
 		//}
@@ -105,7 +105,7 @@ public class StatChronojumpProfile : Stat
 				//			statsJumpsType, limit),
 				//		true, dataColumns);
 
-				string [] sessionFull = sessions[0].ToString().Split(new char[] {':'});
+				//string [] sessionFull = sessions[0].ToString().Split(new char[] {':'});
 				//SqliteStat.SelectChronojumpProfile(sessionFull[0]);
 				//processDataSimpleSession (SqliteStat.SelectChronojumpProfile(sessionFull[0]), true, dataColumns);
 			//}

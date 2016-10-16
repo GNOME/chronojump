@@ -19,12 +19,16 @@
 
 using System;
 using System.IO.Ports;
+using System.Threading;
+using Gtk;
 
 public class Chronopic2016
 {
 	public Chronopic2016()
 	{
 		//this is constructed only one time
+
+		FakeButtonContactsRealDone = new Gtk.Button();
 	}
 
 	//used on contacts
@@ -36,32 +40,83 @@ public class Chronopic2016
 	private string lastConnectedRealSerialNumber = "";
 	private ChronopicRegisterPort.Types lastConnectedRealType = ChronopicRegisterPort.Types.UNKNOWN;
 
-	public bool IsLastConnectedReal(ChronopicRegisterPort crp)
+
+	// -----ConnectContactsReal START ----->
+
+	Gtk.Window chronopic_contacts_real_win;
+	Gtk.ProgressBar progressbar;
+
+	private Thread connectContactsRealThread;
+	//used to pass crp to connectContactsRealThread
+	private ChronopicRegisterPort crpConnectContactsRealThread;
+	public bool SuccededConnectContactsRealThread;
+	public Gtk.Button FakeButtonContactsRealDone;
+
+	private void createGui(Gtk.Window app1, string labelStr)
 	{
-		LogB.Information("lastConnectedRealPort");
-		LogB.Information(lastConnectedRealPort);
-		LogB.Information("lastConnectedRealSerialNumber");
-		LogB.Information(lastConnectedRealSerialNumber);
-		LogB.Information("lastConnectedRealType");
-		LogB.Information(lastConnectedRealType.ToString());
-		crp.ToString();
+		chronopic_contacts_real_win = new Window ("Chronopic connection");
+		chronopic_contacts_real_win.AllowGrow = false;
+		chronopic_contacts_real_win.Modal = true;
+		chronopic_contacts_real_win.TransientFor = app1;
+		chronopic_contacts_real_win.BorderWidth= 20;
 
-		if(lastConnectedRealPort != "" && lastConnectedRealSerialNumber != "" && 
-				lastConnectedRealType == ChronopicRegisterPort.Types.CONTACTS &&
-				crp.Port == lastConnectedRealPort &&
-				crp.SerialNumber == lastConnectedRealSerialNumber)
-			return true;
+		chronopic_contacts_real_win.DeleteEvent += on_delete_event;
 
-		return false;
+		Gtk.VBox vbox_main = new Gtk.VBox(false, 20);
+		chronopic_contacts_real_win.Add(vbox_main);
+
+		LogB.Information("Connecting real (starting connection)");
+		LogB.Information("Press test button on Chronopic");
+
+		Gtk.Label label = new Gtk.Label();
+		label.Text = labelStr;
+		vbox_main.Add(label);
+
+		progressbar = new Gtk.ProgressBar();
+		vbox_main.Add(progressbar);
+
+		chronopic_contacts_real_win.ShowAll();
 	}
-	public bool ConnectContactsReal(ChronopicRegisterPort crp)
+
+	private void on_delete_event (object o, DeleteEventArgs args)
 	{
+		LogB.Information("calling on_delete_event");
+
+		args.RetVal = true;
+
+		hideAndNull();
+	}
+	private void hideAndNull()
+	{
+		chronopic_contacts_real_win.Hide();
+		chronopic_contacts_real_win = null;
+	}
+
+
+	public void ConnectContactsReal(Gtk.Window app1, ChronopicRegisterPort crp, string labelStr)
+	{
+		createGui(app1, labelStr);
+
+		crpConnectContactsRealThread = crp;
+
+		connectContactsRealThread = new Thread (new ThreadStart (connectContactsRealDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseConnectContactsReal));
+
+		LogB.ThreadStart();
+		connectContactsRealThread.Start();
+	}
+
+	private void connectContactsRealDo()
+	{
+		ChronopicRegisterPort crp = crpConnectContactsRealThread;
+
 		string message = "";
 		bool success = false;
 
 		sp = new SerialPort(crp.Port);
 		ChronopicInit chronopicInit = new ChronopicInit();
-		bool connected = chronopicInit.Do(1, out cp, out sp, platformState, crp.Port, out message, out success);
+		bool connected = chronopicInit.Do(1, out cp, out sp,
+				platformState, crp.Port, out message, out success);
 
 		if(connected) {
 			lastConnectedRealPort = crp.Port;
@@ -69,11 +124,60 @@ public class Chronopic2016
 			lastConnectedRealType = ChronopicRegisterPort.Types.CONTACTS;
 		}
 
-		return connected;
+		SuccededConnectContactsRealThread = connected;
 	}
 
-	//store a boolean in order to read info faster
-	public bool StoredCanCaptureContacts;
+	bool pulseConnectContactsReal()
+	{
+		if(! connectContactsRealThread.IsAlive)
+		{
+			progressbar.Fraction = 1.0;
+			LogB.ThreadEnding();
+			connectContactsRealEnd();
+			LogB.ThreadEnded();
+
+			return false;
+		}
+
+		progressbar.Pulse();
+		Thread.Sleep (50);
+		return true;
+	}
+
+	private void connectContactsRealEnd()
+	{
+		if(SuccededConnectContactsRealThread)
+			LogB.Information("Success at Connecting real!");
+		else
+			LogB.Warning("Failure at Connecting real!");
+
+		hideAndNull();
+
+		FakeButtonContactsRealDone.Click();
+	}
+
+
+	public bool IsLastConnectedReal(ChronopicRegisterPort crp)
+	{
+		LogB.Information(string.Format(
+					"lastConnectedReal (port:{0}, serialNumber:{1}, type:{2})",
+				lastConnectedRealPort, lastConnectedRealSerialNumber,
+				lastConnectedRealType.ToString()));
+		LogB.Information(crp.ToString());
+
+		if(lastConnectedRealPort != "" && lastConnectedRealSerialNumber != "" &&
+				lastConnectedRealType == ChronopicRegisterPort.Types.CONTACTS &&
+				crp.Port == lastConnectedRealPort &&
+				crp.SerialNumber == lastConnectedRealSerialNumber)
+			return true;
+
+		return false;
+	}
+
+	public bool StoredCanCaptureContacts; //store a boolean in order to read info faster
+
+	//<-----ConnectContactsReal END -----
+
 
 	//called from gui/chronojump.cs
 	//done here because sending the SP is problematic on windows

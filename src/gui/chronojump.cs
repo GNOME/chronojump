@@ -3601,6 +3601,8 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	//TODO: move this to chronopic2016 class
+	//on Windows check if last connected port is available with chronopicRegister getPorts()
 	bool canCaptureContacts()
 	{
 		if(! UtilAll.IsWindows())
@@ -3627,65 +3629,6 @@ public partial class ChronoJumpWindow
 
 		return true;
 	}
-
-	Thread connectContactsRealThread;
-	//used to pass crp to connectContactsRealThread
-	ChronopicRegisterPort crpConnectContactsRealThread;
-	static bool succededConnectContactsRealThread;
-
-	void connectContactsReal(ChronopicRegisterPort crp)
-	{
-		LogB.Information("Connecting real (starting connection)");
-		LogB.Information("Press test button on Chronopic");
-		event_execute_label_message.Text = "Press TEST button on Chronopic to stablish initial communication";
-
-		crpConnectContactsRealThread = crp;
-
-		connectContactsRealThread = new Thread (new ThreadStart (connectContactsRealDo));
-		GLib.Idle.Add (new GLib.IdleHandler (pulseConnectContactsReal));
-
-		LogB.ThreadStart();
-		connectContactsRealThread.Start();
-	}
-	void connectContactsRealDo()
-	{
-		succededConnectContactsRealThread = cp2016.ConnectContactsReal(
-				crpConnectContactsRealThread);
-	}
-	bool pulseConnectContactsReal()
-	{
-		if(! connectContactsRealThread.IsAlive)
-		{
-			event_execute_progressbar_event.Fraction = 1.0;
-			event_execute_progressbar_time.Fraction = 1.0;
-			LogB.ThreadEnding();
-			connectContactsRealEnd();
-			LogB.ThreadEnded();
-
-			return false;
-		}
-
-		event_execute_progressbar_event.Pulse();
-		event_execute_progressbar_time.Pulse();
-		Thread.Sleep (50);
-		return true;
-	}
-
-	private void connectContactsRealEnd()
-	{
-		event_execute_label_message.Text = "";
-
-		if(! succededConnectContactsRealThread)
-		{
-			LogB.Information("Failure at Connecting real!");
-			return;
-		}
-
-		LogB.Information("Success at Connecting real!");
-		changeMultitestFirmwareIfNeeded();
-		on_button_execute_test_accepted();
-	}
-
 
 	private void changeMultitestFirmwareIfNeeded()
 	{
@@ -3729,14 +3672,17 @@ public partial class ChronoJumpWindow
 				on_button_execute_test_accepted();
 			} else
 			{
-				connectContactsReal(crp);
-				/*
-				 * this will start a thread and if succeeds, then will call:
+				cp2016.FakeButtonContactsRealDone.Clicked +=
+					new EventHandler(on_connection_contacts_real_done);
+
+				cp2016.ConnectContactsReal(app1, crp,
+						"Press TEST button on Chronopic to stablish initial communication"); //TODO: translate this
+
+				/* this will start a thread and if succeeds, then will call:
 				 * changeMultitestFirmwareIfNeeded();
 				 * on_button_execute_test_accepted();
 				 */
 			}
-
 		} else {
 			//simulated tests are only allowed on SIMULATED session
 			if(currentSession.Name != Constants.SessionSimulatedName) {
@@ -3746,7 +3692,20 @@ public partial class ChronoJumpWindow
 			on_button_execute_test_accepted();
 		}
 	}
-	
+
+	private void on_connection_contacts_real_done (object o, EventArgs args)
+	{
+		cp2016.FakeButtonContactsRealDone.Clicked -=
+			new EventHandler(on_connection_contacts_real_done);
+
+		if(cp2016.SuccededConnectContactsRealThread) {
+			LogB.Information("Success at Connecting real! (main GUI)");
+			changeMultitestFirmwareIfNeeded();
+			on_button_execute_test_accepted();
+		} else
+			LogB.Warning("Failure at Connecting real!");
+	}
+
 	void on_button_execute_test_accepted ()
 	{
 		bool canCaptureC = cp2016.StoredCanCaptureContacts;

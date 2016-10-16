@@ -3703,7 +3703,7 @@ public partial class ChronoJumpWindow
 			changeMultitestFirmwareIfNeeded();
 			on_button_execute_test_accepted();
 		} else
-			LogB.Warning("Failure at Connecting real!");
+			LogB.Warning("Failure at Connecting real! (main GUI)");
 	}
 
 	void on_button_execute_test_accepted ()

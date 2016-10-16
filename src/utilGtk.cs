@@ -317,7 +317,7 @@ public class UtilGtk
 	//startOrEnd is true at start, false at end
 	public static void TreeviewAddRow(Gtk.TreeView tv, TreeStore store, string [] row, bool startOrEnd) {
 		TreeIter iter = new TreeIter();
-		bool iterOk = store.GetIterFirst(out iter);
+		store.GetIterFirst(out iter);
 		
 		if(startOrEnd)
 			iter = store.InsertWithValues(0,row);

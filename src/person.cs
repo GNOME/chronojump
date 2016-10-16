@@ -24,7 +24,7 @@ using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using Mono.Unix;
 
-public partial class Person {
+public class Person {
 
 	private int uniqueID;
 	private string name;

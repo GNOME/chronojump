@@ -22,7 +22,7 @@ using System;
 using System.Data;
 using System.Text; //StringBuilder
 
-public partial class Event 
+public class Event 
 {
 	protected int personID;
 	protected string personName;

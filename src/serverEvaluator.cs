@@ -24,7 +24,7 @@ using System.Text; //StringBuilder
 
 using Mono.Unix;
 
-public partial class ServerEvaluator
+public class ServerEvaluator
 {
 	private int uniqueID;
 	private string code;

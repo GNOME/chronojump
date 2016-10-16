@@ -24,7 +24,7 @@ using System.Text; //StringBuilder
 
 using Mono.Unix;
 
-public partial class ServerPing
+public class ServerPing
 {
 	private int uniqueID;
 	private int evaluatorID;

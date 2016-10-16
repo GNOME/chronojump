@@ -23,7 +23,7 @@ using System.Data;
 using System.Text; //StringBuilder
 using Mono.Unix;
 
-public partial class Session {
+public class Session {
 
 	protected int uniqueID;
 	
@@ -204,7 +204,7 @@ public partial class Session {
 	   
 }
 
-public partial class ServerSession : Session
+public class ServerSession : Session
 {
 	//server stuff
 	int evaluatorID;

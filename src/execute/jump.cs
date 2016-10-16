@@ -439,10 +439,10 @@ public class JumpExecute : EventExecute
 	
 	protected override void write()
 	{
-		string tcString = "";
+		// string tcString = "";
 		if(hasFall) {
 			//Log.WriteLine("TC: {0}", tc.ToString());
-			tcString = " " + Catalog.GetString("TC") + ": " + Util.TrimDecimals( tc.ToString(), pDN ) ;
+			// tcString = " " + Catalog.GetString("TC") + ": " + Util.TrimDecimals( tc.ToString(), pDN ) ;
 		} else {
 			tc = 0;
 		}

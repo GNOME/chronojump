@@ -940,14 +940,14 @@ public class RunIntervalExecute : RunExecute
 			//define the created object
 			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracksHere, description, limitString, Util.BoolToNegativeInt(simulated), !startIn); 
 
-
+			/*
 			string tempValuesString;
 			if(tracksLimited) 
 				tempValuesString = " (" + distanceIntervalFixed + "x" + tracksHere + "R), " + Catalog.GetString("Time") + ": " + Util.TrimDecimals( timeTotal.ToString(), pDN);
 			else
 				tempValuesString = " (" + distanceIntervalFixed + "x" + Util.TrimDecimals( timeTotal.ToString(), pDN) + "T), " + Catalog.GetString("Tracks") + ": " + tracksHere;
 
-			/*
+
 			string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + ", " + 
 				type + tempValuesString + ", " +
 				Catalog.GetString("AVG Speed") + ": " + Util.TrimDecimals( 

@@ -36,7 +36,7 @@ public class DialogCalendar
 	public DialogCalendar (string calendarTitle, DateTime dateInitial)
 	{
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_calendar", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_calendar.glade", "dialog_calendar", "chronojump");
 		gladeXML.Autoconnect(this);
 	
 		signalsActive = false;

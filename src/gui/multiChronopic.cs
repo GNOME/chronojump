@@ -122,7 +122,7 @@ public class EditMultiChronopicWindow : EditEventWindow
 
 	EditMultiChronopicWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "edit_event.glade", "edit_event", "chronojump");
 		gladeXML.Autoconnect(this);
 		this.parent 	= parent;
 		

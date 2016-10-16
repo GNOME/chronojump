@@ -70,7 +70,7 @@ public class PersonRecuperateWindow {
 
 	PersonRecuperateWindow (Gtk.Window parent, Session currentSession) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_recuperate", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_recuperate.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
@@ -313,7 +313,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 
 	PersonsRecuperateFromOtherSessionWindow (Gtk.Window parent, Session currentSession) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_recuperate", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_recuperate.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
@@ -643,7 +643,7 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 	
 	PersonNotUploadWindow (Gtk.Window parent, int sessionID) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_recuperate", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_recuperate.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
@@ -871,7 +871,7 @@ public class PersonAddModifyWindow
 	//showPhotoStuff is false on raspberry to not use camera
 	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, bool showPhotoStuff) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_win.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window
@@ -1752,7 +1752,7 @@ public class PersonAddMultipleWindow {
 	
 	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_multiple_infinite", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_multiple_infinite.glade", "person_multiple_infinite", null);
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window
@@ -2294,7 +2294,7 @@ public class PersonShowAllEventsWindow {
 	
 	PersonShowAllEventsWindow (Gtk.Window parent, int sessionID, Person currentPerson) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_show_all_events", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_show_all_events.glade", "person_show_all_events", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window

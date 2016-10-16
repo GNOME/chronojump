@@ -498,7 +498,7 @@ public partial class ChronoJumpWindow
 		
 
 		Glade.XML gxml;
-		gxml = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "app1", "chronojump");
+		gxml = Glade.XML.FromAssembly (Util.GetGladePath() + "app1.glade", "app1", "chronojump");
 		gxml.Autoconnect(this);
 
 		//put an icon to window

@@ -66,7 +66,7 @@ public class ReportWindow {
 
 	ReportWindow (Gtk.Window parent, Report report ) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "report_window", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "report_window.glade", "report_window", "chronojump");
 		gladeXML.Autoconnect(this);
 		report_window.Parent = parent;
 		

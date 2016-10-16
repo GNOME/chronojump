@@ -55,7 +55,7 @@ public class DialogMessage
 		LogB.Information("Dialog message: " + message);
 
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_message", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_message.glade", "dialog_message", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window

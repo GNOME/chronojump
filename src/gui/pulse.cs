@@ -39,7 +39,7 @@ public class EditPulseWindow : EditEventWindow
 
 	EditPulseWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "edit_event.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
 		this.parent 	= parent;
 		
@@ -213,7 +213,7 @@ public class RepairPulseWindow
 
 	RepairPulseWindow (Gtk.Window parent, Pulse myPulse, int pDN) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repair_sub_event", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "repair_sub_event.glade", "repair_sub_event", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window

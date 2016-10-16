@@ -163,7 +163,7 @@ public class QueryServerWindow
 	public QueryServerWindow (int newPrefsDigitsNumber, string [] evaluators)
 	{
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "query_server_window", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "query_server_window.glade", "query_server_window", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		this.pDN = newPrefsDigitsNumber;

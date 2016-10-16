@@ -52,7 +52,7 @@ public class ErrorWindow
 	{
 		LogB.Information("At error window2");
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "error_window", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "error_window.glade", "error_window", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window

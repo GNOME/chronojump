@@ -184,6 +184,7 @@ class ChronojumpImporter
 				// The Python script has been executed and failed (syntax error, crashed).
 				// The error message will be in the output:
 				errorMessage = execute_result.allOutput;
+				errorMessage += "\nArguments: " + String.Join (" ", parameters);
 			} else {
 				// The Python script has not been executed, return the error message from ExecuteProcess
 				errorMessage = execute_result.errorMessage;

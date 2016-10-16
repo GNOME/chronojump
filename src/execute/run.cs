@@ -614,7 +614,8 @@ public class RunIntervalExecute : RunExecute
 									else if(checkDoubleContactMode == 
 											Constants.DoubleContact.LAST) {
 										//user want last flight time, take that
-										timestamp = timestamp;
+										// so we don't need to change timestamp. Or we could do (it triggers a warning):
+										// timestamp = timestamp;
 									}
 									else {	/* do the avg of all flights and contacts
 										   then add to last timestamp */

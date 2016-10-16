@@ -372,7 +372,6 @@ public class UtilEncoder
 
 		string inputData = GetEncoderDataTempFileName();
 		string outputData = GetEncoderSpecialDataTempFileName();
-		string operatingSystem = "Linux";
 		
 		string scriptUtilR = GetEncoderScriptUtilR();
 
@@ -387,7 +386,6 @@ public class UtilEncoder
 			//a file path uses Unix-like path separator '/'		
 			inputData = inputData.Replace("\\","/");
 			scriptUtilR = scriptUtilR.Replace("\\","/");
-			operatingSystem = "Windows";
 		}
 		
 		//--- way A. passing options to a file

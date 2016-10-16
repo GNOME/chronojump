@@ -49,6 +49,8 @@ public class Chronopic2016
 	private Thread connectContactsRealThread;
 	//used to pass crp to connectContactsRealThread
 	private ChronopicRegisterPort crpConnectContactsRealThread;
+	private ChronopicInit chronopicInit;
+
 	public bool SuccededConnectContactsRealThread;
 	public Gtk.Button FakeButtonContactsRealDone;
 
@@ -75,23 +77,28 @@ public class Chronopic2016
 		progressbar = new Gtk.ProgressBar();
 		vbox_main.Add(progressbar);
 
+		Gtk.Button button_cancel = new Gtk.Button("Cancel");
+		button_cancel.Clicked += new EventHandler(on_button_cancel_clicked);
+		Gtk.HButtonBox hbox = new Gtk.HButtonBox ();
+		hbox.Add(button_cancel);
+		vbox_main.Add(hbox);
+
 		chronopic_contacts_real_win.ShowAll();
 	}
 
+	private void on_button_cancel_clicked(object o, EventArgs args)
+	{
+		cp.AbortFlush = true;
+		chronopicInit.CancelledByUser = true;
+	}
 	private void on_delete_event (object o, DeleteEventArgs args)
 	{
 		LogB.Information("calling on_delete_event");
 
 		args.RetVal = true;
 
-		hideAndNull();
+		on_button_cancel_clicked(new object(), new EventArgs());
 	}
-	private void hideAndNull()
-	{
-		chronopic_contacts_real_win.Hide();
-		chronopic_contacts_real_win = null;
-	}
-
 
 	public void ConnectContactsReal(Gtk.Window app1, ChronopicRegisterPort crp, string labelStr)
 	{
@@ -114,9 +121,11 @@ public class Chronopic2016
 		bool success = false;
 
 		sp = new SerialPort(crp.Port);
-		ChronopicInit chronopicInit = new ChronopicInit();
+		chronopicInit = new ChronopicInit();
 		bool connected = chronopicInit.Do(1, out cp, out sp,
 				platformState, crp.Port, out message, out success);
+
+		LogB.Information("Ended chronopicInit.Do()");
 
 		if(connected) {
 			lastConnectedRealPort = crp.Port;
@@ -155,14 +164,19 @@ public class Chronopic2016
 
 		FakeButtonContactsRealDone.Click();
 	}
+	private void hideAndNull()
+	{
+		chronopic_contacts_real_win.Hide();
+		chronopic_contacts_real_win = null;
+	}
 
 
 	public bool IsLastConnectedReal(ChronopicRegisterPort crp)
 	{
 		LogB.Information(string.Format(
 					"lastConnectedReal (port:{0}, serialNumber:{1}, type:{2})",
-				lastConnectedRealPort, lastConnectedRealSerialNumber,
-				lastConnectedRealType.ToString()));
+					lastConnectedRealPort, lastConnectedRealSerialNumber,
+					lastConnectedRealType.ToString()));
 		LogB.Information(crp.ToString());
 
 		if(lastConnectedRealPort != "" && lastConnectedRealSerialNumber != "" &&
@@ -231,14 +245,14 @@ public class Chronopic2016
 
 		/*
 		 * method 1. Unused
-		try {
-			ChronopicAuto ca = new ChronopicAutoCheck();
-			//problems with windows using this:
-			string chronopicVersion = ca.Read(chronopicWin.SP);
-			LogB.Debug("version: " + chronopicVersion);
+		 try {
+		 ChronopicAuto ca = new ChronopicAutoCheck();
+		//problems with windows using this:
+		string chronopicVersion = ca.Read(chronopicWin.SP);
+		LogB.Debug("version: " + chronopicVersion);
 		} catch {
-			LogB.Information("Could not read from Chronopic with method 1");
-			return;
+		LogB.Information("Could not read from Chronopic with method 1");
+		return;
 		}*/
 
 		//---- 4 try to communicate with multitest firmware (return if cannot connect)

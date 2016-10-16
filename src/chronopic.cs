@@ -489,7 +489,7 @@ public class ChronopicInit
 				LogB.Information("chronopicInit-4");		
 				do {
 					LogB.Information("chronopicInit-5");		
-					ok=myCp.Read_platform(out myPS);
+					ok = myCp.Read_platform(out myPS);
 					LogB.Information("chronopicInit-6");		
 				} while(! ok && ! CancelledByUser);
 				LogB.Information("chronopicInit-7");		

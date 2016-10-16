@@ -231,7 +231,6 @@ public class ExecuteAutoWindow
 
 	private void on_treeview_load_button_release_event (object o, ButtonReleaseEventArgs args) {
 		Gdk.EventButton e = args.Event;
-		Gtk.TreeView myTv = (Gtk.TreeView) o;
 		if (e.Button == 3) {
 			Menu myMenu = new Menu ();
 			Gtk.MenuItem myItem;

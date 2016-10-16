@@ -24,7 +24,7 @@ using System.Text; //StringBuilder
 
 using Mono.Unix;
 
-public partial class Sport
+public class Sport
 {
 	private int uniqueID;
 	private string name;

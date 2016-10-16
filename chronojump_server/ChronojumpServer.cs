@@ -20,7 +20,7 @@
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(Session))]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(EventType))]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(Event))]
-public partial class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProtocol {
+public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProtocol {
     
     private System.Threading.SendOrPostCallback ConnectDatabaseOperationCompleted;
     
@@ -1239,7 +1239,7 @@ public partial class ChronojumpServer : System.Web.Services.Protocols.SoapHttpCl
 }
 
 
-public partial class ConnectDatabaseCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class ConnectDatabaseCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1258,7 +1258,7 @@ public partial class ConnectDatabaseCompletedEventArgs : System.ComponentModel.A
 
 public delegate void ConnectDatabaseCompletedEventHandler(object sender, ConnectDatabaseCompletedEventArgs args);
 
-public partial class DisConnectDatabaseCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class DisConnectDatabaseCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1277,7 +1277,7 @@ public partial class DisConnectDatabaseCompletedEventArgs : System.ComponentMode
 
 public delegate void DisConnectDatabaseCompletedEventHandler(object sender, DisConnectDatabaseCompletedEventArgs args);
 
-public partial class CanINewCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class CanINewCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1296,7 +1296,7 @@ public partial class CanINewCompletedEventArgs : System.ComponentModel.AsyncComp
 
 public delegate void CanINewCompletedEventHandler(object sender, CanINewCompletedEventArgs args);
 
-public partial class CanICompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class CanICompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1315,7 +1315,7 @@ public partial class CanICompletedEventArgs : System.ComponentModel.AsyncComplet
 
 public delegate void CanICompletedEventHandler(object sender, CanICompletedEventArgs args);
 
-public partial class QueryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class QueryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1334,7 +1334,7 @@ public partial class QueryCompletedEventArgs : System.ComponentModel.AsyncComple
 
 public delegate void QueryCompletedEventHandler(object sender, QueryCompletedEventArgs args);
 
-public partial class StatsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class StatsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1353,7 +1353,7 @@ public partial class StatsCompletedEventArgs : System.ComponentModel.AsyncComple
 
 public delegate void StatsCompletedEventHandler(object sender, StatsCompletedEventArgs args);
 
-public partial class UploadSessionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadSessionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1372,7 +1372,7 @@ public partial class UploadSessionCompletedEventArgs : System.ComponentModel.Asy
 
 public delegate void UploadSessionCompletedEventHandler(object sender, UploadSessionCompletedEventArgs args);
 
-public partial class UpdateSessionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UpdateSessionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1391,7 +1391,7 @@ public partial class UpdateSessionCompletedEventArgs : System.ComponentModel.Asy
 
 public delegate void UpdateSessionCompletedEventHandler(object sender, UpdateSessionCompletedEventArgs args);
 
-public partial class UploadSportCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadSportCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1410,7 +1410,7 @@ public partial class UploadSportCompletedEventArgs : System.ComponentModel.Async
 
 public delegate void UploadSportCompletedEventHandler(object sender, UploadSportCompletedEventArgs args);
 
-public partial class UploadJumpTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadJumpTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1429,7 +1429,7 @@ public partial class UploadJumpTypeCompletedEventArgs : System.ComponentModel.As
 
 public delegate void UploadJumpTypeCompletedEventHandler(object sender, UploadJumpTypeCompletedEventArgs args);
 
-public partial class UploadJumpRjTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadJumpRjTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1448,7 +1448,7 @@ public partial class UploadJumpRjTypeCompletedEventArgs : System.ComponentModel.
 
 public delegate void UploadJumpRjTypeCompletedEventHandler(object sender, UploadJumpRjTypeCompletedEventArgs args);
 
-public partial class UploadRunTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadRunTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1467,7 +1467,7 @@ public partial class UploadRunTypeCompletedEventArgs : System.ComponentModel.Asy
 
 public delegate void UploadRunTypeCompletedEventHandler(object sender, UploadRunTypeCompletedEventArgs args);
 
-public partial class UploadRunIntervalTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadRunIntervalTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1486,7 +1486,7 @@ public partial class UploadRunIntervalTypeCompletedEventArgs : System.ComponentM
 
 public delegate void UploadRunIntervalTypeCompletedEventHandler(object sender, UploadRunIntervalTypeCompletedEventArgs args);
 
-public partial class UploadPersonCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadPersonCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1505,7 +1505,7 @@ public partial class UploadPersonCompletedEventArgs : System.ComponentModel.Asyn
 
 public delegate void UploadPersonCompletedEventHandler(object sender, UploadPersonCompletedEventArgs args);
 
-public partial class UploadPersonSessionIfNeededCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadPersonSessionIfNeededCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1524,7 +1524,7 @@ public partial class UploadPersonSessionIfNeededCompletedEventArgs : System.Comp
 
 public delegate void UploadPersonSessionIfNeededCompletedEventHandler(object sender, UploadPersonSessionIfNeededCompletedEventArgs args);
 
-public partial class UploadPingCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadPingCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1543,7 +1543,7 @@ public partial class UploadPingCompletedEventArgs : System.ComponentModel.AsyncC
 
 public delegate void UploadPingCompletedEventHandler(object sender, UploadPingCompletedEventArgs args);
 
-public partial class UploadEvaluatorCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadEvaluatorCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1562,7 +1562,7 @@ public partial class UploadEvaluatorCompletedEventArgs : System.ComponentModel.A
 
 public delegate void UploadEvaluatorCompletedEventHandler(object sender, UploadEvaluatorCompletedEventArgs args);
 
-public partial class EditEvaluatorCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class EditEvaluatorCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1581,7 +1581,7 @@ public partial class EditEvaluatorCompletedEventArgs : System.ComponentModel.Asy
 
 public delegate void EditEvaluatorCompletedEventHandler(object sender, EditEvaluatorCompletedEventArgs args);
 
-public partial class SelectEvaluatorsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class SelectEvaluatorsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1600,7 +1600,7 @@ public partial class SelectEvaluatorsCompletedEventArgs : System.ComponentModel.
 
 public delegate void SelectEvaluatorsCompletedEventHandler(object sender, SelectEvaluatorsCompletedEventArgs args);
 
-public partial class UploadJumpCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadJumpCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1619,7 +1619,7 @@ public partial class UploadJumpCompletedEventArgs : System.ComponentModel.AsyncC
 
 public delegate void UploadJumpCompletedEventHandler(object sender, UploadJumpCompletedEventArgs args);
 
-public partial class UploadJumpRjCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadJumpRjCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1638,7 +1638,7 @@ public partial class UploadJumpRjCompletedEventArgs : System.ComponentModel.Asyn
 
 public delegate void UploadJumpRjCompletedEventHandler(object sender, UploadJumpRjCompletedEventArgs args);
 
-public partial class UploadRunCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadRunCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1657,7 +1657,7 @@ public partial class UploadRunCompletedEventArgs : System.ComponentModel.AsyncCo
 
 public delegate void UploadRunCompletedEventHandler(object sender, UploadRunCompletedEventArgs args);
 
-public partial class UploadRunICompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadRunICompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1676,7 +1676,7 @@ public partial class UploadRunICompletedEventArgs : System.ComponentModel.AsyncC
 
 public delegate void UploadRunICompletedEventHandler(object sender, UploadRunICompletedEventArgs args);
 
-public partial class UploadRTCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadRTCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1695,7 +1695,7 @@ public partial class UploadRTCompletedEventArgs : System.ComponentModel.AsyncCom
 
 public delegate void UploadRTCompletedEventHandler(object sender, UploadRTCompletedEventArgs args);
 
-public partial class UploadPulseCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadPulseCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1714,7 +1714,7 @@ public partial class UploadPulseCompletedEventArgs : System.ComponentModel.Async
 
 public delegate void UploadPulseCompletedEventHandler(object sender, UploadPulseCompletedEventArgs args);
 
-public partial class UploadMultiChronopicCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class UploadMultiChronopicCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     
@@ -1733,7 +1733,7 @@ public partial class UploadMultiChronopicCompletedEventArgs : System.ComponentMo
 
 public delegate void UploadMultiChronopicCompletedEventHandler(object sender, UploadMultiChronopicCompletedEventArgs args);
 
-public partial class ListDirectoryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+public class ListDirectoryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
     

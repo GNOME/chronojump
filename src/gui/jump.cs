@@ -969,7 +969,7 @@ public class RepairJumpRjWindow
 //---------------- in 0.9.3 included in main gui ---------
 //--------------------------------------------------------
 
-partial class ChronoJumpWindow
+public partial class ChronoJumpWindow
 {
 	//options jumps
 	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_weight;

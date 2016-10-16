@@ -886,7 +886,7 @@ public class RepairRunIntervalWindow
 //---------------- in 0.9.3 included in main gui ---------
 //--------------------------------------------------------
 
-partial class ChronoJumpWindow
+public partial class ChronoJumpWindow
 {
 	//options runs
 	[Widget] Gtk.Label extra_window_runs_label_distance;

@@ -52,6 +52,12 @@ Following cerbero commands will take stuff from git, then all have to be commite
 
 *** to package chronojump, first ensure that version is ok in:
 cerbero/cerbero-extras/packages/chronojump/chronojump.package
+
+To package a specific branch instead of master branch edit this file:
+cerbero/cerbero-extras/recipes/chronojump.recipe
+and change the branch from commit = 'origin/master' to 'origin/branch_name'
+
+CHANGE IT BACK TO 'origin/master' as soon as it finished!
 ***
 
 packaging (outside the shell): (will fetch chronojump sources from git)
@@ -61,7 +67,7 @@ cerbero-cj package chronojump
 #if there are problems on hdiuti do:
 hdiutil create -size 200m ...
 
-#if hard disk it's busy, reset MacOSX, and free space:
+#if the hard disk is busy, reset MacOSX, and free space:
 #if on packaging says: "diskimages-helper: DI_kextDriveDisconnect returned 268435459 ((ipc/send) invalid destination port).", free space:
 
 #free space:

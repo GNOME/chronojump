@@ -193,7 +193,6 @@ SOURCES = \
 	oldCodeNeedToDBConvert/sqlite/session.cs
 
 RESOURCES = \
-	../glade/chronojump.glade \
 	../glade/app1.glade \
 	../glade/chronopic_window.glade \
 	../glade/chronopic_wizard_win.glade \

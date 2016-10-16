@@ -87,7 +87,7 @@ public class ExecuteAutoWindow
 	
 	public ExecuteAutoWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "execute_auto", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "execute_auto.glade", "execute_auto", null);
 		gladeXML.Autoconnect(this);
 		execute_auto.Parent = parent;
 		

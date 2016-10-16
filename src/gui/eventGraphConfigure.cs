@@ -52,7 +52,7 @@ public class EventGraphConfigureWindow
 		
 	EventGraphConfigureWindow () {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "event_graph_configure", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "event_graph_configure.glade", "event_graph_configure", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window

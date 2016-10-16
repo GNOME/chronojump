@@ -160,7 +160,7 @@ public class ChronopicWindow
 		LogB.Debug("constructor");
 
 		Glade.XML gxml;
-		gxml = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "chronopic_window", "chronojump");
+		gxml = Glade.XML.FromAssembly (Util.GetGladePath() + "chronopic_window.glade", "chronopic_window", "chronojump");
 		gxml.Autoconnect(this);
 
 		cpd = myCpd;

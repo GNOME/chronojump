@@ -38,7 +38,7 @@ public class HelpPorts
 	public HelpPorts ()
 	{
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_help_ports", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_help_ports.glade", "dialog_help_ports", "chronojump");
 		gladeXML.Autoconnect(this);
 
 		//put an icon to window

@@ -40,7 +40,7 @@ public class ConfirmWindowJumpRun
 	{
 		//Setup (text, table, uniqueID);
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "confirm_window", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "confirm_window.glade", "confirm_window", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window
@@ -106,7 +106,7 @@ public class ConfirmWindow
 	public ConfirmWindow (string text1, string link, string question)
 	{
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "confirm_window", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "confirm_window.glade", "confirm_window", null);
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window

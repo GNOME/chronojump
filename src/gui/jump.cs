@@ -57,7 +57,7 @@ public class EditJumpWindow : EditEventWindow
 
 	public EditJumpWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "edit_event.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
 		this.parent =  parent;
 
@@ -449,7 +449,7 @@ public class EditJumpRjWindow : EditJumpWindow
 
 	EditJumpRjWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "edit_event.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
@@ -590,7 +590,7 @@ public class RepairJumpRjWindow
 
 	RepairJumpRjWindow (Gtk.Window parent, JumpRj myJump, int pDN) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repair_sub_event", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "repair_sub_event.glade", "repair_sub_event", null);
 		gladeXML.Autoconnect(this);
 	
 		//put an icon to window
@@ -1447,7 +1447,7 @@ public class JumpsMoreWindow : EventMoreWindow
 
 	public JumpsMoreWindow (Gtk.Window parent, bool testOrDelete) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "jumps_runs_more.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;
@@ -1659,7 +1659,7 @@ public class JumpsRjMoreWindow : EventMoreWindow
 	public JumpsRjMoreWindow (Gtk.Window parent, bool testOrDelete) {
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "jumps_runs_more.glade", "jumps_runs_more", "chronojump");
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;

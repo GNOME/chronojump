@@ -121,7 +121,7 @@ public class GenericWindow
 	public GenericWindow (string textHeader)
 	{
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "generic_window", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "generic_window.glade", "generic_window", "chronojump");
 		gladeXML.Autoconnect(this);
 	
 		//put an icon to window

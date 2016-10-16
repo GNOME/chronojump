@@ -62,7 +62,7 @@ public class JumpTypeAddWindow
 
 	JumpTypeAddWindow (Gtk.Window parent, bool simple) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jump_type_add", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "jump_type_add.glade", "jump_type_add", "chronojump");
 		gladeXML.Autoconnect(this);
 		jump_type_add.Parent = parent;
 		

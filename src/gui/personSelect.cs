@@ -48,7 +48,7 @@ public class PersonSelectWindow
 	
 	PersonSelectWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_select_window", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_select_window.glade", "person_select_window", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window

@@ -154,7 +154,7 @@ public class PreferencesWindow {
 
 	PreferencesWindow () {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "preferences_win", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "preferences_win.glade", "preferences_win", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window

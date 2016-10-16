@@ -81,9 +81,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="glade\chronojump.glade">
-      <LogicalName>chronojump.glade</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="glade\app1.glade">
       <LogicalName>app1.glade</LogicalName>
     </EmbeddedResource>

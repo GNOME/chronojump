@@ -1295,7 +1295,7 @@ public partial class ChronoJumpWindow
 				combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, eSQL.laterality);
 				spin_encoder_extra_weight.Value = Convert.ToInt32(eSQL.extraWeight);
 
-				bool minHeightChanged = preferences.EncoderChangeMinHeight(eSQL.encoderConfiguration.has_inertia, eSQL.minHeight);
+				preferences.EncoderChangeMinHeight(eSQL.encoderConfiguration.has_inertia, eSQL.minHeight);
 				//TODO: show info to user in a dialog,
 				//but check if more info have to be shown on this process
 
@@ -2104,7 +2104,7 @@ public partial class ChronoJumpWindow
 	//I suppose reading gtk is ok, changing will be the problem
 	private void encoderDoCaptureCsharp () 
 	{
-		string exerciseNameShown = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
+		UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
 
 		if(encoderConfigurationCurrent.has_inertia)
 			eCapture = new EncoderCaptureInertial();
@@ -5003,7 +5003,6 @@ public partial class ChronoJumpWindow
 				eCapture.Ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
 
 				//if(plotCurvesBars) {
-				string title = "";
 				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
 				double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);

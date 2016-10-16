@@ -548,8 +548,6 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	{
 		Gtk.TreeIter iter;
 		bool val;
-		int count = 0;
-		bool found = false;
 		
 		List <PersonSession> personSessions = new List<PersonSession>();
 		int psID;
@@ -579,7 +577,6 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 							);
 
 					inserted ++;
-					found = true;
 
 				}
 			} while ( store.IterNext(ref iter) );

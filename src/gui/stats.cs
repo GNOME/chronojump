@@ -112,8 +112,6 @@ public partial class ChronoJumpWindow {
 		
 	[Widget] Gtk.Label label_stats_x_axis;
 
-	//bool statsAutomatic = true;
-	bool statsAutomatic = false;
 	bool statsColumnsToRemove = false;
 	//selected sessions
 	ArrayList selectedSessions;

@@ -32,9 +32,6 @@ public class JumpsProfileIndex
 	public Cairo.Color Color;
 	public string ErrorMessage;
 	
-	private string jumpHigherName;
-	private string jumpLowerName;
-	
 	public enum Types { FMAX, FEXPL, CELAST, CARMS, FREACT }   
 	public Types type; 
 
@@ -70,9 +67,6 @@ public class JumpsProfileIndex
 				Color = colorFromRGB(101,86,67);
 				break;
 		}
-		
-		this.jumpHigherName = jumpHigherName;
-		this.jumpLowerName = jumpLowerName;
 		
 		ErrorMessage = "";
 		Result = calculateIndex(type, higher, lower, dja);

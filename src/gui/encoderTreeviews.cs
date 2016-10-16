@@ -442,7 +442,6 @@ public partial class ChronoJumpWindow
 			TreePath path = encoderCaptureListStore.GetPath(iter);
 			EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
 			
-			bool found = false;
 			string eccon = findEccon(true);
 			if(eccon == "c") {
 				if(Convert.ToDouble(curve.Start) <= msCentral && 
@@ -517,7 +516,6 @@ public partial class ChronoJumpWindow
 		ArrayList encoderAnalyzeCurves = new ArrayList ();
 
 		//write exercise and extra weight data
-		ArrayList curvesData = new ArrayList();
 		string exerciseName = "";
 		double totalMass = 0; 
 		if(radio_encoder_analyze_individual_current_set.Active) {	//current set
@@ -525,10 +523,11 @@ public partial class ChronoJumpWindow
 			totalMass = findMass(Constants.MassType.DISPLACED);
 		} else {						//not current set
 			//TODO:
-			curvesData = SqliteEncoder.Select(
+			/*SqliteEncoder.Select(
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, currentEncoderGI,
 					-1, "curve", EncoderSQL.Eccons.ALL, 
 					true, true);
+			*/
 		}
 
 		string line;

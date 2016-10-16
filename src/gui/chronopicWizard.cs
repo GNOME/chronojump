@@ -30,7 +30,6 @@ public class ChronopicWizardWindow
 {
 	[Widget] Gtk.Window chronopic_wizard_win;
 	[Widget] Gtk.Notebook notebook_main;
-	[Widget] Gtk.Button button_cancel;
 	[Widget] Gtk.Button button_next;
 
 	//tab 0 start
@@ -41,16 +40,13 @@ public class ChronopicWizardWindow
 	//tab 1 unplug
 	[Widget] Gtk.Label label_unplug;
 	[Widget] Gtk.Notebook notebook_unplugged;
-	[Widget] Gtk.Button button_done_unplugged;
 	[Widget] Gtk.TextView textview_detected_unplugged;
 	
 	//tab 2 contacts
-	[Widget] Gtk.Frame frame_detection_contacts;
 	[Widget] Gtk.Notebook notebook_contacts;
 	[Widget] Gtk.Button button_done_contacts;
 	[Widget] Gtk.HBox hbox_detection_contacts;
 	[Widget] Gtk.ProgressBar progressbar_contacts;
-	[Widget] Gtk.Button button_cancel_contacts;
 	[Widget] Gtk.RadioButton radio_contacts1;
 	[Widget] Gtk.RadioButton radio_contacts2;
 	[Widget] Gtk.RadioButton radio_contacts3;
@@ -58,12 +54,10 @@ public class ChronopicWizardWindow
 	[Widget] Gtk.RadioButton radio_contacts5;
 
 	//tab 3 encoder
-	[Widget] Gtk.Frame frame_detection_encoder;
 	[Widget] Gtk.Notebook notebook_encoder;
 	[Widget] Gtk.Button button_done_encoder;
 	[Widget] Gtk.HBox hbox_detection_encoder;
 	[Widget] Gtk.ProgressBar progressbar_encoder;
-	[Widget] Gtk.Button button_cancel_encoder;
 	[Widget] Gtk.RadioButton radio_encoder1;
 	[Widget] Gtk.RadioButton radio_encoder2;
 	[Widget] Gtk.RadioButton radio_encoder3;

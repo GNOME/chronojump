@@ -126,7 +126,6 @@ public partial class ChronoJumpWindow
 	
 
 	string event_execute_label_simulated;
-	int event_execute_personID;	
 	//int sessionID;
 	//string event_execute_personName;	
 	string event_execute_tableName;	
@@ -138,8 +137,6 @@ public partial class ChronoJumpWindow
 		UNSTARTED, DOING, DONE
 	}
 	
-	int event_execute_radio = 8; 		//radious of the circles
-	int event_execute_arcSystemCorrection = 0; //on Windows circles are paint just one pixel left, fix it
 	int event_execute_rightMargin = 35; 	//at the right we write text (on windows we change later)
 
 	/*
@@ -149,7 +146,6 @@ public partial class ChronoJumpWindow
 	 * on 0.7.5.2 and before, we always cancel, 
 	 * and this produces and endless loop when event has ended, because there's nothing to cancel
 	 */
-	bool eventHasEnded;
 
 	//ExecutingGraphData executingGraphData;
 
@@ -161,9 +157,11 @@ public partial class ChronoJumpWindow
 
 	static EventGraphConfigureWindow eventGraphConfigureWin;
 	
-	private static string [] comboGraphResultsSize = {
+	/* Used only by commented code
+	   private static string [] comboGraphResultsSize = {
 		"100", "200", "300", "400", "500"
 	};
+	*/
 	
 
 	private void event_execute_initializeVariables (
@@ -180,7 +178,6 @@ public partial class ChronoJumpWindow
 		
 		if(UtilAll.IsWindows()) {
 			event_execute_rightMargin = 55;
-			event_execute_arcSystemCorrection = 1;
 		}
 
 		event_execute_configureColors();
@@ -198,7 +195,6 @@ public partial class ChronoJumpWindow
 		//this.event_execute_personName.Text = event_execute_personName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 
 		this.event_execute_label_phases_name.Text = phasesName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 
 								//"Phases" (simple jumps, dj, simple runs)
-		this.event_execute_personID = personID;
 		this.event_execute_tableName = tableName;
 
 		this.event_execute_eventType = event_execute_eventType;
@@ -247,8 +243,6 @@ public partial class ChronoJumpWindow
 	}
 	private ExecutingGraphData event_execute_prepareForTest () 
 	{
-		eventHasEnded = false;
-
 		checkbutton_video.Sensitive = false;
 		if(preferences.videoOn) {
 			capturer.ClickRec();
@@ -1474,9 +1468,6 @@ public partial class ChronoJumpWindow
 
 			string [] myTimesStringFull = timesString.Split(new char[] {'='});
 			int count = 0;
-			int added0Value = 0;
-			if(startIn)
-				added0Value = 1;
 
 			double oldValue = 0;
 			double myTimeDouble = 0;
@@ -2019,7 +2010,6 @@ public partial class ChronoJumpWindow
 	
 	private void on_event_execute_EventEnded(object o, EventArgs args) {
 		hideButtons();
-		eventHasEnded = true;
 
 		checkbutton_video.Sensitive = true;
 		if(preferences.videoOn) {	

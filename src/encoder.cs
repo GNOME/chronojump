@@ -28,8 +28,6 @@ using Mono.Unix;
 
 public class EncoderParams
 {
-	private int time;
-	
 	//graph.R need both to know displacedMass depending on encoderConfiguration
 	//and plot both as entry data in the table of result data
 	private string massBody; //to pass always as "." to R.
@@ -114,9 +112,6 @@ public class EncoderParams
 		get { return analysis; }
 	}
 	
-	public int Time {
-		get { return time; }
-	}
 
 	~EncoderParams() {}
 }

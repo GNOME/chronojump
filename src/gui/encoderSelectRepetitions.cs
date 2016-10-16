@@ -603,7 +603,6 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 					exerciseID, "curve", EncoderSQL.Eccons.ALL, 
 					false, true);
 
-			int activeCurves = UtilEncoder.GetActiveCurvesNum(eSQLarray);
 			int allCurves = eSQLarray.Count;
 
 			string [] s = { p.UniqueID.ToString(), "", p.Name,

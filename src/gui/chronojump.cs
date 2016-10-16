@@ -2543,12 +2543,12 @@ public partial class ChronoJumpWindow
 						rowToSelect);
 				sensitiveGuiYesPerson();
 			
-				string myString = string.Format(
-						Catalog.GetPluralString(
-							"Successfully added one person.", 
-							"Successfully added {0} persons.", 
-							personAddMultipleWin.PersonsCreatedCount),
-						personAddMultipleWin.PersonsCreatedCount);
+				// string myString = string.Format(
+				//		Catalog.GetPluralString(
+				//			"Successfully added one person.", 
+				//			"Successfully added {0} persons.", 
+				//			personAddMultipleWin.PersonsCreatedCount),
+				//		personAddMultipleWin.PersonsCreatedCount);
 				//appbar2.Push( 1, Catalog.GetString(myString) );
 			}
 		}

@@ -584,7 +584,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 			Sqlite.Close();
 
 			//do the transaction	
-			SqlitePersonSessionTransaction psTr = new SqlitePersonSessionTransaction(personSessions);
+			new SqlitePersonSessionTransaction(personSessions);
 		}
 			
 		updateStoreAndEnd();
@@ -2250,7 +2250,7 @@ public class PersonAddMultipleWindow {
 			}
 	
 		//do the transaction	
-		SqlitePersonSessionTransaction psTr = new SqlitePersonSessionTransaction(persons, personSessions);
+		new SqlitePersonSessionTransaction(persons, personSessions);
 	}
 
 	public Button Button_accept 

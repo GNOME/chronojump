@@ -6769,8 +6769,16 @@ LogB.Debug("X");
 		ChronopicRegisterSelectOS cros = new ChronopicRegisterSelectOS();
 		chronopicRegister = cros.Do();
 
-		if(openWindow)
-			new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
+		if(openWindow) {
+			ChronopicRegisterWindow crWin = new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
+			crWin.FakeButtonCloseSerialPort.Clicked += new EventHandler(closeSerialPort);
+		}
+	}
+
+	//trying to fix when an OSX disconnects and reconnects same chronopic (and it has captured)
+	private void closeSerialPort (object o, EventArgs args)
+	{
+		cp2016.SerialPortsCloseIfNeeded();
 	}
 
 	//start/end auto mode

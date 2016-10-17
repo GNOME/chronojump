@@ -62,6 +62,7 @@ public class ChronopicRegisterWindow
 {
 	Gtk.Window chronopic_register_win;
 	Gtk.VBox vbox_main;
+	public Gtk.Button FakeButtonCloseSerialPort;
 
 	public ChronopicRegisterWindow(Gtk.Window app1, List<ChronopicRegisterPort> list)
 	{
@@ -278,7 +279,11 @@ public class ChronopicRegisterWindow
 
 	private void createButton()
 	{
-		Gtk.Button button = new Gtk.Button("Close");
+		FakeButtonCloseSerialPort = new Gtk.Button();
+		Gtk.Button button_close_serial_port = new Gtk.Button("Close serial port (debug)");
+		button_close_serial_port.Clicked += new EventHandler(on_button_close_serial_port_clicked);
+
+		Gtk.Button button = new Gtk.Button("Close Window");
 		button.Clicked += new EventHandler(on_button_clicked);
 
 		//button can be called clicking Escape key
@@ -291,9 +296,16 @@ public class ChronopicRegisterWindow
 			  Gtk.AccelFlags.Visible));
 
 		Gtk.HButtonBox hbox = new Gtk.HButtonBox ();
+		hbox.Add(button_close_serial_port);
 		hbox.Add(button);
 
 		vbox_main.Add(hbox);
+	}
+	
+	private void on_button_close_serial_port_clicked(object o, EventArgs args)
+	{
+		//try first to see if a sp is opened on a cp but that /ttyusbserial does not exists
+		FakeButtonCloseSerialPort.Click();
 	}
 
 	private void on_button_clicked(object o, EventArgs args)

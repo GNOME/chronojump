@@ -5485,7 +5485,10 @@ public partial class ChronoJumpWindow
 				if(encoderSignalUniqueID != "-1")
 				{
 
-					string eccon = findEccon(true);
+					// TODO: we never use findEccon() return value. We might be able to stop calling findEccon()
+					// since it doesn't seem to do anything else other than returning the value.
+					// This needs to be checked if working on this code.
+					findEccon(true);
 
 					/*
 					 * (0) open Sqlite

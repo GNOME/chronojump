@@ -1,13 +1,9 @@
+
 1) copy manual PDFs from chronojump-docs repository, because in chronojump repository PDFs are not updated
 check is "updated to last version"
 cp ../chronojump-docs/chronojump_manual_e*.pdf manual/
 
-2) change version on configure.ac
-3) Run autoconf (this will update src/AssemblyInfo.cs - this file is not in the git repo, it's generated from src/AssemblyInfo.cs.in)
-
-
-linux stuff
-------------
+2) git tag (Chronojump's version depends on the tag):
 VERSION=1.6.2
 git commit -a -m "Bump version $VERSION"
 
@@ -15,16 +11,19 @@ git tag -a "$VERSION"
 git push
 git push origin --tags
 
-sh autogen.sh
-make dist
-
+# If some day we decide to do branching instead of tags:
 #with branching:
 #git checkout -b "tags/$VERSION" # creates a new branch
 # keep doing commits:
 # git commit -a
 # git commit -a
 # git cherry-pick -x "commit-from-master-or-some-branch-that-we-want-here"
-#When we are happy:
+# And see other comments of the document
+
+Linux stuff
+------------
+sh autogen.sh
+make dist
 
 scp "chronojump-$VERSION.tar.gz" xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org

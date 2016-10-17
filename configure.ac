@@ -1,12 +1,11 @@
 AC_PREREQ([2.54])
 
-# chronojump variable is used in the Assembly version and can only have major.minor.release
-AC_INIT([chronojump], [m4_esyscmd_s([git describe --abbrev=0])])
+# PACKAGE_VERSION variable comes from here (e.g. to show it to the user,
+# distribution package names, etc.)
+AC_INIT([chronojump], [m4_esyscmd_s([git describe])])
 
-# BUILD_CHRONOJUMP_VERSION is used to display it to the user
-# "git describe" is 1.6.2 if it's a tagged version or
-# 1.6.2-number_of_commits_since_last_tag-sha1 if it's not
-AC_SUBST([BUILD_CHRONOJUMP_VERSION], [m4_esyscmd_s([git describe])])
+# This is used in AssemblyInfo.cs.in: it can only be major.minor.release format
+AC_SUBST([PACKAGE_SIMPLIFIED_VERSION], [m4_esyscmd_s([git describe --abbrev=0])])
 
 # Date of the last commit
 AC_SUBST([BUILD_CHRONOJUMP_LAST_COMMIT_TIMESTAMP], [m4_esyscmd_s([git log -1 --format=%ct])])

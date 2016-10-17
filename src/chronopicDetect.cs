@@ -260,7 +260,10 @@ public class ChronopicAutoDetect
 			SerialPort sp = new SerialPort(port);
 			
 			LogB.Information("searching normal Chronopic at port: ", port);
-			string readed = caNormal.Read(sp);
+
+			// caNormal.Read() returns a string (not used) but also changes caNormal.Found.
+			// So we call it even if we don't use the result directly.
+			caNormal.Read(sp);
 
 			if(caNormal.Found == ChronopicType.NORMAL) //We found a normal Chronopic
 			{
@@ -287,7 +290,10 @@ public class ChronopicAutoDetect
 				caEncoder.IsEncoder = true;    //for the bauds.
 			
 				LogB.Information("searching encoder Chronopic at port: ", port);
-				readed = caEncoder.Read(sp);
+
+				// caNormal.Read() returns a string (not used) but also changes caNormal.Found.
+				// So we call it even if we don't use the result directly.
+				caEncoder.Read(sp);
 				if(caEncoder.Found == ChronopicType.ENCODER) 
 				{
 					Detected = port;

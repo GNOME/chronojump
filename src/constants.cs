@@ -153,6 +153,11 @@ public class Constants
 	private static string dumbVariableForTranslatingLevelSedentary = Catalog.GetString("Sedentary/Occasional practice");
 	private static string dumbVariableForTranslatingExerciseTranslatedBenchPress = Catalog.GetString("Bench press");
 	private static string dumbVariableForTranslatingExerciseTranslatedSquat = Catalog.GetString("Squat");
+
+	// The next two variables got moved from src/execute/event.cs from EventExecute::runATouchPlatform() and
+	// EventExecute::RunANoStrides() and I'm not sure that are used. Left it here for now to avoid any regressions.
+	private static string dumbVariableForTranslatingWarningMessageTouchAtend = Catalog.GetString("Always remember to touch platform at ending. If you don't do it, Chronojump will crash at next execution.");
+	private static string dumbVariableForTranslatingWarningMessageRunAnalysisNotValid = Catalog.GetString("This Run Analysis is not valid because there are no strides.");
 #pragma warning restore 0414
 
 	//tests types

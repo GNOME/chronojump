@@ -165,7 +165,8 @@ CesarPlayer/AssemblyInfo.cs
 CesarPlayer/CesarPlayer.dll.config
 win32/chronojump_innosetup.iss
 win32/Makefile
-deb-pkg.sh
 ])
+
+AC_CONFIG_FILES([deb-pkg.sh], [chmod +x deb-pkg.sh])
 
 AC_OUTPUT

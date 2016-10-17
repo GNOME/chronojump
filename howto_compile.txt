@@ -44,10 +44,6 @@ chronojump (enter)
 
 
 ---- MacOSX packaging ----
-
-To package, first ensure that the configure.ac and src/AssemblyInfo.cs files on Linux contain the new version name, and have been pushed
-only the configure.ac is pushed
-
 Following cerbero commands will take stuff from git, then all have to be commited and pushed
 
 *** to package chronojump, first ensure that version is ok in:

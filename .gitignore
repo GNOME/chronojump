@@ -45,6 +45,10 @@ src/chronojump
 src/chronojump.desktop
 win32/chronojump_innosetup.iss
 
+# Cesarplayer generates 2 files
+libcesarplayer/baconvideowidget-marshal.c
+libcesarplayer/baconvideowidget-marshal.h
+
 # testing-stuff binaries
 testing-stuff/*.exe
 

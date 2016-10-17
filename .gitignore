@@ -1,0 +1,36 @@
+# Files generated from Makefile.am
+Makefile
+Makefile.in
+
+# Files generated from *.po
+*.gmo
+
+# Other localization files generated from templates
+po/POTFILES
+po/stamp-it
+po/Makefile.in.in
+
+# Directories created at build or packaged time for the installation
+build-deb/
+build/
+bin/
+share/
+
+# libcesarplayer created files that we don't want to commit
+libcesarplayer/.deps/
+libcesarplayer/.libs/
+libcesarplayer/*.o
+libcesarplayer/*.lo
+libcesarplayer/*.la
+
+# autoconf files
+config.guess
+config.log
+config.status
+config.sub
+configure
+deb-pkg.sh
+depcomp
+
+# testing-stuff binaries
+testing-stuff/*.exe

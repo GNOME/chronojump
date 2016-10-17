@@ -11,7 +11,9 @@ linux stuff
 VERSION=1.6.2
 git commit -a -m "Bump version $VERSION"
 
+git tag -a "$VERSION"
 git push
+git push origin --tags
 
 sh autogen.sh
 make dist
@@ -24,8 +26,6 @@ make dist
 # git cherry-pick -x "commit-from-master-or-some-branch-that-we-want-here"
 #When we are happy:
 
-git tag -a "$VERSION"
-git push origin --tags
 scp "chronojump-$VERSION.tar.gz" xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org
 ftpadmin install "chronojump-$VERSION.tar.gz"

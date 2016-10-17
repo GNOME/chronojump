@@ -77,7 +77,6 @@ public class ExecuteAutoWindow
 	TreeStore store_result;
 	
 	static ExecuteAutoWindow ExecuteAutoWindowBox;
-	Gtk.Window parent;
 	int sessionID;
 
 	ExecuteAuto.ModeTypes mode;
@@ -90,7 +89,7 @@ public class ExecuteAutoWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "execute_auto", null);
 		gladeXML.Autoconnect(this);
-		this.parent =  parent;
+		execute_auto.Parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(execute_auto);

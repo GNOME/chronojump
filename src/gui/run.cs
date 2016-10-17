@@ -575,7 +575,6 @@ public class RepairRunIntervalWindow
 	[Widget] Gtk.TextView textview1;
 
 	static RepairRunIntervalWindow RepairRunIntervalWindowBox;
-	Gtk.Window parent;
 
 	RunType type;
 	RunInterval runInterval; //used on button_accept
@@ -585,7 +584,7 @@ public class RepairRunIntervalWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repair_sub_event", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
+		repair_sub_event.Parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(repair_sub_event);

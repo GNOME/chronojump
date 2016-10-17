@@ -37,7 +37,6 @@ public class PersonSelectWindow
 	[Widget] Gtk.Button button_add;
 	
 	static PersonSelectWindow PersonSelectWindowBox;
-	Gtk.Window parent;
 	
 	private ArrayList persons;
 	public Person SelectedPerson;
@@ -54,6 +53,7 @@ public class PersonSelectWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_select_window);
+		person_select_window.Parent = parent;
 		
 		FakeButtonAddPerson = new Gtk.Button();
 		FakeButtonEditPerson = new Gtk.Button();
@@ -66,8 +66,7 @@ public class PersonSelectWindow
 		if (PersonSelectWindowBox == null) {
 			PersonSelectWindowBox = new PersonSelectWindow (parent);
 		}
-		
-		PersonSelectWindowBox.parent = parent;
+
 		PersonSelectWindowBox.persons = persons;
 		
 		PersonSelectWindowBox.createTable();

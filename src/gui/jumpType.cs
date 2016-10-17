@@ -57,7 +57,6 @@ public class JumpTypeAddWindow
 	[Widget] Gtk.TextView textview_description;
 
 	static JumpTypeAddWindow JumpTypeAddWindowBox;
-	Gtk.Window parent;
 
 	public bool InsertedSimple;
 
@@ -65,7 +64,7 @@ public class JumpTypeAddWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jump_type_add", "chronojump");
 		gladeXML.Autoconnect(this);
-		this.parent =  parent;
+		jump_type_add.Parent = parent;
 		
 		fakeButtonAccept = new Gtk.Button();
 

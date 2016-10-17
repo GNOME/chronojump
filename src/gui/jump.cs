@@ -582,7 +582,6 @@ public class RepairJumpRjWindow
 	[Widget] Gtk.TextView textview1;
 
 	static RepairJumpRjWindow RepairJumpRjWindowBox;
-	Gtk.Window parent;
 	//int pDN;
 
 	JumpType jumpType;
@@ -597,7 +596,7 @@ public class RepairJumpRjWindow
 		//put an icon to window
 		UtilGtk.IconWindow(repair_sub_event);
 	
-		this.parent = parent;
+		repair_sub_event.Parent = parent;
 		this.jumpRj = myJump;
 
 		//this.pDN = pDN;

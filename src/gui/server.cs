@@ -102,13 +102,12 @@ public class SessionUploadWindow {
 
 
 	static SessionUploadWindow SessionUploadWindowBox;
-	Gtk.Window parent;
 	
 	SessionUploadWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_upload", "chronojump");
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
+		session_upload.Parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(session_upload);

@@ -79,7 +79,6 @@ public class RunTypeAddWindow
 	[Widget] Gtk.Entry dd9;
 
 	static RunTypeAddWindow RunTypeAddWindowBox;
-	Gtk.Window parent;
 
 	public bool InsertedSimple;
 
@@ -87,7 +86,7 @@ public class RunTypeAddWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "run_type_add", "chronojump");
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
+		run_type_add.Parent = parent;
 		
 		fakeButtonAccept = new Gtk.Button();
 

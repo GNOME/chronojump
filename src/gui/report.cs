@@ -56,8 +56,6 @@ public class ReportWindow {
 	
 	static ReportWindow ReportWindowBox;
 
-	Gtk.Window parent;
-	
 	//private int sessionID;
 
 	Report report;
@@ -70,7 +68,7 @@ public class ReportWindow {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "report_window", "chronojump");
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
+		report_window.Parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(report_window);

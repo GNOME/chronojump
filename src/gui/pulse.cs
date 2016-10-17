@@ -206,7 +206,6 @@ public class RepairPulseWindow
 	[Widget] Gtk.TextView textview1;
 
 	static RepairPulseWindow RepairPulseWindowBox;
-	Gtk.Window parent;
 
 	PulseType pulseType;
 	Pulse myPulse; //used on button_accept
@@ -220,7 +219,7 @@ public class RepairPulseWindow
 		//put an icon to window
 		UtilGtk.IconWindow(repair_sub_event);
 
-		this.parent = parent;
+		repair_sub_event.Parent = parent;
 		this.myPulse = myPulse;
 	
 		repair_sub_event.Title = Catalog.GetString("Repair pulse");

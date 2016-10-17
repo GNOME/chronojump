@@ -75,14 +75,13 @@ public class SessionAddEditWindow {
 	
 	GenericWindow genericWin;
 	static SessionAddEditWindow SessionAddEditWindowBox;
-	Gtk.Window parent;
 	
 	
 	SessionAddEditWindow (Gtk.Window parent, Session currentSession) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_add_edit", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
+		session_add_edit.Parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(session_add_edit);
@@ -662,7 +661,6 @@ public class SessionLoadWindow {
 	[Widget] Gtk.HBox session_import_box;
 
 	static SessionLoadWindow SessionLoadWindowBox;
-	Gtk.Window parent;
 	
 	private Session currentSession;
 	private WindowType type;
@@ -672,7 +670,7 @@ public class SessionLoadWindow {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_load", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
+		session_load.Parent = parent;
 
 		// Hides and shows widgets only needed by some of the functionality
 		session_import_box.Visible = (type == WindowType.IMPORT_SESSION);
@@ -1025,7 +1023,6 @@ public class SessionSelectStatsWindow {
 	[Widget] Gtk.Button button_accept;
 
 	static SessionSelectStatsWindow SessionSelectStatsWindowBox;
-	Gtk.Window parent;
 	
 	private ArrayList arrayOfSelectedSessions;
 	
@@ -1033,7 +1030,7 @@ public class SessionSelectStatsWindow {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "stats_select_sessions", "chronojump");
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
+		stats_select_sessions.Parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(stats_select_sessions);

@@ -837,8 +837,6 @@ public class PersonAddModifyWindow
 	
 	static PersonAddModifyWindow PersonAddModifyWindowBox;
 	
-	Gtk.Window parent;
-	
 	DialogCalendar myDialogCalendar;
 	DateTime dateTime;
 	Sport sport;
@@ -879,7 +877,7 @@ public class PersonAddModifyWindow
 		//put an icon to window
 		UtilGtk.IconWindow(person_win);
 	
-		this.parent = parent;
+		person_win.Parent = parent;
 		this.currentSession = currentSession;
 		this.currentPerson = currentPerson;
 
@@ -1742,7 +1740,6 @@ public class PersonAddMultipleWindow {
 	[Widget] Gtk.Button button_accept;
 	
 	static PersonAddMultipleWindow PersonAddMultipleWindowBox;
-	Gtk.Window parent;
 
 	private Person currentPerson;
 	Session currentSession;
@@ -1761,7 +1758,7 @@ public class PersonAddMultipleWindow {
 		//put an icon to window
 		UtilGtk.IconWindow(person_multiple_infinite);
 	
-		this.parent = parent;
+		person_multiple_infinite.Parent = parent;
 		this.currentSession = currentSession;
 	}
 	
@@ -2291,7 +2288,6 @@ public class PersonShowAllEventsWindow {
 	
 	static PersonShowAllEventsWindow PersonShowAllEventsWindowBox;
 
-	Gtk.Window parent;	
 	protected int sessionID;
 	
 	protected Person currentPerson;
@@ -2304,7 +2300,7 @@ public class PersonShowAllEventsWindow {
 		//put an icon to window
 		UtilGtk.IconWindow(person_show_all_events);
 
-		this.parent = parent;
+		person_show_all_events.Parent = parent;
 		this.sessionID = sessionID;
 		this.currentPerson = currentPerson;
 	

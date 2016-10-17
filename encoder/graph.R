@@ -1566,6 +1566,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
 
 	colBalls = NULL
 	bgBalls = NULL
+	doBox = TRUE
 
 	isPowerLoad = FALSE
 	if( (varX == "Load" || varX == "Inertia") && varY == "Power" )
@@ -1737,7 +1738,32 @@ paintCrossVariables <- function (paf, varX, varY, option,
 					}
 				}
 				else {
-					plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
+					if(varX == "Speed" && varY == "Force")
+					{
+						fit = lm(y ~ x)
+						x.intercept = -coef(fit)[[1]] / coef(fit)[[2]]
+						y.intercept = coef(fit)[[1]]
+
+						plot(x,y,
+						     xlim=c(0, max(x,x.intercept)), ylim=c(0, max(y,y.intercept)),
+						     xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
+
+						#force x and y axis to start at 0
+						axis(1,pos=0)
+						axis(2,pos=0)
+						#draw ablines to arrive to the fitLine values
+						abline(h=0)
+						abline(v=0)
+						#draw points and mtext
+						points(x.intercept,0,col="red")
+						points(0,y.intercept,col="red")
+						text(x=x.intercept, y=0, paste(round(x.intercept,2), "\n\n\n", sep=""), col="red", cex=.8, adj=0.5)
+						text(x=0, y=y.intercept, paste("   ", round(y.intercept,2), sep=""), col="red", cex=.8, adj=0)
+						#don't plot box because it's not nice with 0,0 axis
+						doBox = FALSE
+					} else {
+						plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
+					}
 					
 					paintCrossVariablesLaterality(x, y, laterality, colBalls)
 					
@@ -1869,24 +1895,27 @@ paintCrossVariables <- function (paf, varX, varY, option,
 	}
 		
 	if(isAlone == "ALONE") {
-		if(dateAsX)
-			axis.Date(1,as.Date(x))
-		else
-			axis(1)
+		if(doBox) {
+			if(dateAsX)
+				axis.Date(1,as.Date(x))
+			else
+				axis(1)
 
-		axis(2)
+			axis(2)
+		}
 		mtext(varYut, side=2, line=3)
-		#box()
 	} else if(isAlone == "LEFT") {
 		axis(1)
 		axis(2,col=colBalls)
 		mtext(varYut, side=2, line=3, col=colBalls)
-		#box()
 	} else { #"RIGHT"
 		axis(4,col=colBalls)
 		mtext(varYut, side=4, line=3, col=colBalls)
 	}
-	box()
+
+	if(doBox) {
+		box()
+	}
 
 }
 

@@ -68,3 +68,6 @@ venv/
 chronopic-tests/chronojump-test-accuracy
 chronopic-tests/chronojump-test-jumps
 chronopic-tests/chronojump-test-stream
+
+# Monodevelop user's specific preferences (e.g. for breakpoints)
+chronojump.userprefs

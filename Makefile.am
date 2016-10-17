@@ -23,4 +23,9 @@ ChangeLog:
 
 dist: ChangeLog
 
+osx-package:
+	export CHRONOJUMP_VERSION="@PACKAGE_VERSION@"
+	cerbero-cj buildone chronojump
+	cerbero-cj package chronojump
+
 .PHONY: ChangeLog

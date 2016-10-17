@@ -1601,7 +1601,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
 			colBalls="red"
 			bgBalls="pink"
 		}
-	
+
 		pchVector = createPchVector(ecconVector)
 
 		laterality = as.vector(paf[,findPosInPaf("Laterality","")])
@@ -2111,7 +2111,8 @@ createEcconVector <- function(singleFile, Eccon, curvesNum, ecconVectorNotSingle
 
 	return (ecconVector)
 }
-createPchVector <- function(ecconVector) {
+createPchVector <- function(ecconVector)
+{
 	pchVector = ecconVector
 	pchVector[pchVector == "ec"] <- "21"
 	pchVector[pchVector == "ce"] <- "21"
@@ -3082,8 +3083,8 @@ doProcess <- function(options)
 			
 			ecconVector = createEcconVector(singleFile, op$Eccon, length(curves[,1]), curves[,8])
 
-			paintCrossVariables(paf, "Load", "Speed", 
-					    "mean", FALSE,
+			paintCrossVariables(paf, "Load", "Speed", "mean",
+					    FALSE, NULL,
 					    "ALONE", op$Title,
 					    singleFile,
 					    op$Eccon,

@@ -75,7 +75,6 @@ sudo dpkg-divert --rename --remove /etc/xdg/autostart/gnome-keyring-gpg.desktop
 
 export DEBFULLNAME="Xavier de Blas"
 export DEBEMAIL="info@chronojump.org"
-chmod +x deb-pkg.sh
 ./deb-pkg.sh 1
 
 read carefully screen messages. Once says: successfully uploaded, need to wait 1h 30' aprox, then an email will be sent from launchpad telling if ok or not.

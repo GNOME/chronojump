@@ -606,9 +606,9 @@ public partial class ChronoJumpWindow
 	
 		//leave empty on new releases	
 		//string buildDate = " (2016-07-27)";
-		string buildDate = " (d)";
-		label_version.Text = progVersion + buildDate;
-		LogB.Information("Build date:" + buildDate);
+		string buildVersion = BuildInfo.chronojumpVersion;
+		label_version.Text = buildVersion;
+		LogB.Information("Build version:" + buildVersion);
 
 		LeastSquares ls = new LeastSquares();
 		ls.Test();

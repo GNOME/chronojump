@@ -352,12 +352,10 @@ public class EventExecute
 	}
 	
 	private void runATouchPlatform() {
-		string message = Catalog.GetString("Always remember to touch platform at ending. If you don't do it, Chronojump will crash at next execution.");
 		UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
 	}
 
 	public void RunANoStrides() {
-		string message = Catalog.GetString("This Run Analysis is not valid because there are no strides.");
 		UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
 	}
 	

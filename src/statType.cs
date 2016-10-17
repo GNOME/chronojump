@@ -71,7 +71,6 @@ public class StatType {
 
 	bool graph;
 	bool toReport;
-	Preferences preferences;
 	
 	TextWriter writer;
 	string fileName;
@@ -116,7 +115,6 @@ public class StatType {
 		
 		this.graph = graph;
 		this.toReport = toReport;
-		this.preferences = preferences;
 
 		myStatTypeStruct = new StatTypeStruct (
 				statisticApplyTo,
@@ -170,7 +168,6 @@ public class StatType {
 		
 		this.graph = graph;
 		this.toReport = toReport;
-		this.preferences = preferences;
 
 		this.writer = writer;
 		this.fileName = fileName;

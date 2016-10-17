@@ -2,22 +2,19 @@
 check is "updated to last version"
 cp ../chronojump-docs/chronojump_manual_e*.pdf manual/
 
-2) change version on configure.ac and src/AssemblyInfo.cs
-3) change buildDate string on src/gui/chronojump.cs
+2) change version on configure.ac
+3) Run autoconf (this will update src/AssemblyInfo.cs - this file is not in the git repo, it's generated from src/AssemblyInfo.cs.in)
 
 
 linux stuff
 ------------
-
-sh autogen.sh
-make dist
-
-
 VERSION=1.6.2
-[1]
 git commit -a -m "Bump version $VERSION"
 
 git push
+
+sh autogen.sh
+make dist
 
 #with branching:
 #git checkout -b "tags/$VERSION" # creates a new branch

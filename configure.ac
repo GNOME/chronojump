@@ -1,7 +1,16 @@
-dnl Warning: This is an automatically generated file, do not edit!
-dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
-AC_INIT([chronojump], [1.6.2])
+
+# chronojump variable is used in the Assembly version and can only have major.minor.release
+AC_INIT([chronojump], [m4_esyscmd_s([git describe --abbrev=0])])
+
+# BUILD_CHRONOJUMP_VERSION is used to display it to the user
+# "git describe" is 1.6.2 if it's a tagged version or
+# 1.6.2-number_of_commits_since_last_tag-sha1 if it's not
+AC_SUBST([BUILD_CHRONOJUMP_VERSION], [m4_esyscmd_s([git describe])])
+
+# Date of the last commit
+AC_SUBST([BUILD_CHRONOJUMP_LAST_COMMIT_TIMESTAMP], [m4_esyscmd_s([git log -1 --format=%ct])])
+
 AM_INIT_AUTOMAKE([foreign])
 
 AC_CONFIG_MACRO_DIR([build/m4])
@@ -156,6 +165,7 @@ chronojump_server/Makefile
 encoder/Makefile
 manual/Makefile
 src/AssemblyInfo.cs
+src/buildInfo.cs
 src/chronojump
 src/chronojump.desktop
 src/Mini/chronojump_mini

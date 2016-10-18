@@ -11,7 +11,7 @@ SUBDIRS += chronopic-tests #chronojump_server (disabled)
 endif
 
 if OSTYPE_WINDOWS
-win32-installer:
+win32-installer: all install
 	make -C win32 installer
 endif
 
@@ -27,7 +27,7 @@ if OSTYPE_OS_X
 export CHRONOJUMP_VERSION = @PACKAGE_VERSION@
 export CHRONOJUMP_COMMIT = origin/@GIT_BRANCH@
 CERBERO_COMMAND = /Users/chronojump/cerbero/cerbero-uninstalled -c  /Users/chronojump/cerbero/cerbero-extras/chronojump.cbc
-osx-package: all installer
+osx-package: all install
 	$(CERBERO_COMMAND) buildone chronojump
 	$(CERBERO_COMMAND) package chronojump
 endif

@@ -46,13 +46,10 @@ chronojump (enter)
 ---- MacOSX packaging ----
 Following cerbero commands will take stuff from git, then all have to be commited and pushed
 
-*** to package chronojump, first ensure that version is ok in:
-cerbero/cerbero-extras/packages/chronojump/chronojump.package
-***
+Outside the cerbero shell (to get out: exit)
+And inside the chronojump directory
 
-packaging (outside the shell): (will fetch chronojump sources from git)
-cerbero-cj buildone chronojump
-cerbero-cj package chronojump
+make osx-package
 
 #if there are problems on hdiuti do:
 hdiutil create -size 200m ...

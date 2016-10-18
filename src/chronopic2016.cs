@@ -306,6 +306,7 @@ public class Chronopic2016
 			do {
 				ca = new ChronopicAutoCheckDebounce();
 				ms = ca.Read(sp);
+				LogB.Information("ChronopicAutoCheckDebounce: " + ms);
 
 				if(ms.Length == 0)
 					LogB.Error("multitest firmware. ms is null");

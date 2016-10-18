@@ -125,6 +125,7 @@ SOURCES = \
 	execute/multiChronopic.cs\
 	../chronojump_server/ChronojumpServer.cs\
 	AssemblyInfo.cs\
+	buildInfo.cs\
 	chronojump.cs\
 	config.cs\
 	encoder.cs\

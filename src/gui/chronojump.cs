@@ -3616,7 +3616,7 @@ public partial class ChronoJumpWindow
 
 		if(numContacts == 0) {
 			if(currentSession.Name != Constants.SessionSimulatedName)
-				new DialogMessage(Constants.MessageTypes.WARNING, "Chronopic jumps/runs is not connected");
+				LogB.Warning("Chronopic jumps/runs is not connected");
 
 			return false;
 		}
@@ -3684,6 +3684,13 @@ public partial class ChronoJumpWindow
 				 */
 			}
 		} else {
+			/*
+			 * if serial port gets opened, then a new USB connection will use different ttyUSB on Linux
+			 * and maybe is the cause for blocking the port on OSX
+			 * close the port if opened
+			 */
+			cp2016.SerialPortsCloseIfNeeded();
+
 			//simulated tests are only allowed on SIMULATED session
 			if(currentSession.Name != Constants.SessionSimulatedName) {
 				new DialogMessage(Constants.MessageTypes.WARNING, Constants.SimulatedTestsNotAllowed);

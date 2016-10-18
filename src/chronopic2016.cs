@@ -207,6 +207,7 @@ public class Chronopic2016
 	}
 
 
+
 	// ----- change multitest firmware START ----->
 
 	private bool previousMultitestFirmwareDefined = false;

@@ -3601,35 +3601,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	//TODO: move this to chronopic2016 class
-	//on Windows check if last connected port is available with chronopicRegister getPorts()
-	bool canCaptureContacts()
-	{
-		if(! UtilAll.IsWindows())
-			chronopicRegisterUpdate(false);
-
-		int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
-		LogB.Information("numContacts: " + numContacts);
-
-		//store a boolean in order to read info faster
-		cp2016.StoredCanCaptureContacts = (numContacts == 1);
-
-		if(numContacts == 0) {
-			if(currentSession.Name != Constants.SessionSimulatedName)
-				LogB.Warning("Chronopic jumps/runs is not connected");
-
-			return false;
-		}
-		if(numContacts > 1) {
-			if(currentSession.Name != Constants.SessionSimulatedName)
-				new DialogMessage(Constants.MessageTypes.WARNING, "More than 1 Chronopic for jumps/runs are connected");
-
-			return false;
-		}
-
-		return true;
-	}
-
 	private void changeMultitestFirmwareIfNeeded()
 	{
 		//change multitest stuff
@@ -3648,20 +3619,23 @@ public partial class ChronoJumpWindow
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 
 	{
-		/*
-		//http://www.raspberrypi.org/forums/viewtopic.php?f=66&t=88415
-		//https://bugzilla.xamarin.com/show_bug.cgi?id=15514
-		if(! UtilAll.IsWindows() && chronopicWin.Connected) {
-			if(! File.Exists(chronopicWin.GetContactsFirstPort())) {
-				LogB.Information("Chronopic has been disconnected");
-				createChronopicWindow(true, "");
-				chronopicWin.Connected = false;
-				return;
-			}
-		}
-		*/
+		//on Windows check if last connected port is available with chronopicRegister getPorts()
+		if(! UtilAll.IsWindows())
+			chronopicRegisterUpdate(false);
+
+		int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
+		//store a boolean in order to read info faster
+		cp2016.StoredCanCaptureContacts = (numContacts == 1);
+		LogB.Information("numContacts: " + numContacts);
+
 		//check if chronopics have changed
-		if(canCaptureContacts())
+		if(numContacts > 1)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "More than 1 Chronopic for jumps/runs are connected.");
+			return;
+		}
+
+		if(numContacts == 1)
 		{
 			ChronopicRegisterPort crp = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
 			LogB.Information("Checking if Connected real!");
@@ -3683,7 +3657,12 @@ public partial class ChronoJumpWindow
 				 * on_button_execute_test_accepted();
 				 */
 			}
-		} else {
+
+			return;
+		}
+
+		if(numContacts == 0)
+		{
 			/*
 			 * if serial port gets opened, then a new USB connection will use different ttyUSB on Linux
 			 * and maybe is the cause for blocking the port on OSX

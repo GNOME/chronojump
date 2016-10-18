@@ -3608,13 +3608,15 @@ public partial class ChronoJumpWindow
 
 		//TODO: this is debug info. Remove this for 1.6.3
 		if(changed == -1)
-			label_chronopics_multitest.Text = "";
+			label_chronopics_multitest.Text = "??";
 		else if(changed == 50)
-			label_chronopics_multitest.Text =
-				"[" + Catalog.GetString("Jumps") + "]";
+			label_chronopics_multitest.Text = "50";
+				//"[" + Catalog.GetString("Jumps") + "]";
 		else if(changed == 10)
-			label_chronopics_multitest.Text =
-				"[" + Catalog.GetString("Runs") + "]";
+			label_chronopics_multitest.Text = "10";
+				//"[" + Catalog.GetString("Runs") + "]";
+
+		button_activate_chronopics.Show();
 	}
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 

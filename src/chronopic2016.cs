@@ -296,15 +296,15 @@ public class Chronopic2016
 	{
 		LogB.Information("ChangeMultitestFirmwareDo");
 		try {
-			//write change
 			ChronopicAuto ca = new ChronopicAutoChangeDebounce();
+			//write change
 			ca.Write(sp, debounceChange);
 
-			//read if ok
 			string ms = "";
 			bool success = false;
-			int tryNum = 7; //try to connect seven times
+			int tryNum = 10; //try to connect ten times
 			do {
+				//read if ok
 				ca = new ChronopicAutoCheckDebounce();
 				ms = ca.Read(sp);
 				LogB.Information("ChronopicAutoCheckDebounce: " + ms);
@@ -313,8 +313,11 @@ public class Chronopic2016
 					LogB.Error("multitest firmware. ms is null");
 				else if(ms[0] == '-') //is negative
 					LogB.Error("multitest firmware. ms = " + ms);
-				else
+				else if(debounceChange == 50 && ms == "50 ms")
 					success = true;
+				else if(debounceChange == 10 && ms == "10 ms")
+					success = true;
+
 				tryNum --;
 			} while (! success && tryNum > 0);
 

@@ -10,6 +10,10 @@ AC_SUBST([PACKAGE_SIMPLIFIED_VERSION], [m4_esyscmd_s([git describe --abbrev=0])]
 # Date of the last commit
 AC_SUBST([BUILD_CHRONOJUMP_LAST_COMMIT_TIMESTAMP], [m4_esyscmd_s([git log -1 --format=%ct])])
 
+# GIT_BRANCH is used by cerbero to know which branch needs to be build (on OSX)
+AC_SUBST([GIT_BRANCH], [m4_esyscmd_s([git symbolic-ref --short HEAD])])
+
+
 AM_INIT_AUTOMAKE([foreign])
 
 AC_CONFIG_MACRO_DIR([build/m4])

@@ -18,7 +18,7 @@
  */
 
 /* Compile with:
- * gcc -o test main.c gst-camera-capturer.c video-utils.c gstscreenshot.c `pkg-config --cflags --libs gstreamer-0.10 gstreamer-interfaces-0.10 gstreamer-video-0.10 gtk+-2.0` -DOSTYPE_LINUX -O0
+ * gcc -o test main.c gst-camera-capturer.c video-utils.c gstscreenshot.c `pkg-config --cflags --libs gstreamer-0.10 gstreamer-interfaces-0.10 gstreamer-video-0.10 gtk+-2.0` -lgstapp-0.10 -DOSTYPE_LINUX -O0
  */
 
 #include <gtk/gtk.h>
@@ -83,7 +83,7 @@ main (int argc, char *argv[])
   gst_camera_capturer_set_video_encoder (gvc, VIDEO_ENCODER_H264);
   gst_camera_capturer_set_audio_encoder (gvc, AUDIO_ENCODER_AAC);
   gst_camera_capturer_set_video_muxer (gvc, VIDEO_MUXER_MP4);
-  g_object_set (gvc, "output_file", "/home/andoni/jander.avi", NULL);
+  g_object_set (gvc, "output_file", "libcesarplayer-example.avi", NULL);
 
   window = create_window (gvc);
 

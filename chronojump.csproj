@@ -25,6 +25,11 @@
     <LangVersion>4</LangVersion>
     <PlatformTarget>x86</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <EnvironmentVariables>
+      <EnvironmentVariables>
+        <Variable name="LD_LIBRARY_PATH" value="/usr/local/lib/chronojump" />
+      </EnvironmentVariables>
+    </EnvironmentVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>full</DebugType>
@@ -991,6 +996,7 @@
     <Compile Include="src\executeProcess.cs" />
     <Compile Include="src\gui\cjCombo.cs" />
     <Compile Include="src\sqlite\usefulObjects.cs" />
+    <Compile Include="src\buildInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
@@ -2019,6 +2025,7 @@
     <None Include="images\xcf\chronojump_icon_graph.xcf" />
     <None Include="images\xcf\delete_last.xcf" />
     <None Include="images\xcf\pulses.xcf" />
+    <None Include="src\buildInfo.cs.in" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\chronojump.desktop">

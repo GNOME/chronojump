@@ -606,9 +606,9 @@ public partial class ChronoJumpWindow
 	
 		//leave empty on new releases	
 		//string buildDate = " (2016-07-27)";
-		string buildDate = " (d)";
-		label_version.Text = progVersion + buildDate;
-		LogB.Information("Build date:" + buildDate);
+		string buildVersion = BuildInfo.chronojumpVersion;
+		label_version.Text = buildVersion;
+		LogB.Information("Build version:" + buildVersion);
 
 		LeastSquares ls = new LeastSquares();
 		ls.Test();
@@ -3601,35 +3601,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	//TODO: move this to chronopic2016 class
-	//on Windows check if last connected port is available with chronopicRegister getPorts()
-	bool canCaptureContacts()
-	{
-		if(! UtilAll.IsWindows())
-			chronopicRegisterUpdate(false);
-
-		int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
-		LogB.Information("numContacts: " + numContacts);
-
-		//store a boolean in order to read info faster
-		cp2016.StoredCanCaptureContacts = (numContacts == 1);
-
-		if(numContacts == 0) {
-			if(currentSession.Name != Constants.SessionSimulatedName)
-				new DialogMessage(Constants.MessageTypes.WARNING, "Chronopic jumps/runs is not connected");
-
-			return false;
-		}
-		if(numContacts > 1) {
-			if(currentSession.Name != Constants.SessionSimulatedName)
-				new DialogMessage(Constants.MessageTypes.WARNING, "More than 1 Chronopic for jumps/runs are connected");
-
-			return false;
-		}
-
-		return true;
-	}
-
 	private void changeMultitestFirmwareIfNeeded()
 	{
 		//change multitest stuff
@@ -3637,31 +3608,36 @@ public partial class ChronoJumpWindow
 
 		//TODO: this is debug info. Remove this for 1.6.3
 		if(changed == -1)
-			label_chronopics_multitest.Text = "";
+			label_chronopics_multitest.Text = "??";
 		else if(changed == 50)
-			label_chronopics_multitest.Text =
-				"[" + Catalog.GetString("Jumps") + "]";
+			label_chronopics_multitest.Text = "50";
+				//"[" + Catalog.GetString("Jumps") + "]";
 		else if(changed == 10)
-			label_chronopics_multitest.Text =
-				"[" + Catalog.GetString("Runs") + "]";
+			label_chronopics_multitest.Text = "10";
+				//"[" + Catalog.GetString("Runs") + "]";
+
+		button_activate_chronopics.Show();
 	}
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 
 	{
-		/*
-		//http://www.raspberrypi.org/forums/viewtopic.php?f=66&t=88415
-		//https://bugzilla.xamarin.com/show_bug.cgi?id=15514
-		if(! UtilAll.IsWindows() && chronopicWin.Connected) {
-			if(! File.Exists(chronopicWin.GetContactsFirstPort())) {
-				LogB.Information("Chronopic has been disconnected");
-				createChronopicWindow(true, "");
-				chronopicWin.Connected = false;
-				return;
-			}
-		}
-		*/
+		//on Windows check if last connected port is available with chronopicRegister getPorts()
+		if(! UtilAll.IsWindows())
+			chronopicRegisterUpdate(false);
+
+		int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
+		//store a boolean in order to read info faster
+		cp2016.StoredCanCaptureContacts = (numContacts == 1);
+		LogB.Information("numContacts: " + numContacts);
+
 		//check if chronopics have changed
-		if(canCaptureContacts())
+		if(numContacts > 1)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "More than 1 Chronopic for jumps/runs are connected.");
+			return;
+		}
+
+		if(numContacts == 1)
 		{
 			ChronopicRegisterPort crp = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
 			LogB.Information("Checking if Connected real!");
@@ -3683,7 +3659,19 @@ public partial class ChronoJumpWindow
 				 * on_button_execute_test_accepted();
 				 */
 			}
-		} else {
+
+			return;
+		}
+
+		if(numContacts == 0)
+		{
+			/*
+			 * if serial port gets opened, then a new USB connection will use different ttyUSB on Linux
+			 * and maybe is the cause for blocking the port on OSX
+			 * close the port if opened
+			 */
+			cp2016.SerialPortsCloseIfNeeded();
+
 			//simulated tests are only allowed on SIMULATED session
 			if(currentSession.Name != Constants.SessionSimulatedName) {
 				new DialogMessage(Constants.MessageTypes.WARNING, Constants.SimulatedTestsNotAllowed);
@@ -6769,8 +6757,16 @@ LogB.Debug("X");
 		ChronopicRegisterSelectOS cros = new ChronopicRegisterSelectOS();
 		chronopicRegister = cros.Do();
 
-		if(openWindow)
-			new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
+		if(openWindow) {
+			ChronopicRegisterWindow crWin = new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
+			crWin.FakeButtonCloseSerialPort.Clicked += new EventHandler(closeSerialPort);
+		}
+	}
+
+	//trying to fix when an OSX disconnects and reconnects same chronopic (and it has captured)
+	private void closeSerialPort (object o, EventArgs args)
+	{
+		cp2016.SerialPortsCloseIfNeeded();
 	}
 
 	//start/end auto mode

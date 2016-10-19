@@ -240,7 +240,7 @@ public class ChronoJump
 		}
 
 		//print version of chronojump
-		progVersion = UtilAll.ReadVersion();
+		progVersion = BuildInfo.chronojumpVersion;
 
 		LogB.Information("Chronojump version: {0}", progVersion);
 

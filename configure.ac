@@ -1,7 +1,19 @@
-dnl Warning: This is an automatically generated file, do not edit!
-dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
-AC_INIT([chronojump], [1.6.2])
+
+# PACKAGE_VERSION variable comes from here (e.g. to show it to the user,
+# distribution package names, etc.)
+AC_INIT([chronojump], [m4_esyscmd_s([git describe])])
+
+# This is used in AssemblyInfo.cs.in: it can only be major.minor.release format
+AC_SUBST([PACKAGE_SIMPLIFIED_VERSION], [m4_esyscmd_s([git describe --abbrev=0])])
+
+# Date of the last commit
+AC_SUBST([BUILD_CHRONOJUMP_LAST_COMMIT_TIMESTAMP], [m4_esyscmd_s([git log -1 --format=%ct])])
+
+# GIT_BRANCH is used by cerbero to know which branch needs to be build (on OSX)
+AC_SUBST([GIT_BRANCH], [m4_esyscmd_s([git symbolic-ref --short HEAD])])
+
+
 AM_INIT_AUTOMAKE([foreign])
 
 AC_CONFIG_MACRO_DIR([build/m4])
@@ -156,6 +168,7 @@ chronojump_server/Makefile
 encoder/Makefile
 manual/Makefile
 src/AssemblyInfo.cs
+src/buildInfo.cs
 src/chronojump
 src/chronojump.desktop
 src/Mini/chronojump_mini
@@ -165,7 +178,8 @@ CesarPlayer/AssemblyInfo.cs
 CesarPlayer/CesarPlayer.dll.config
 win32/chronojump_innosetup.iss
 win32/Makefile
-deb-pkg.sh
 ])
+
+AC_CONFIG_FILES([deb-pkg.sh], [chmod +x deb-pkg.sh])
 
 AC_OUTPUT

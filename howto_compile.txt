@@ -44,25 +44,12 @@ chronojump (enter)
 
 
 ---- MacOSX packaging ----
-
-To package, first ensure that the configure.ac and src/AssemblyInfo.cs files on Linux contain the new version name, and have been pushed
-only the configure.ac is pushed
-
 Following cerbero commands will take stuff from git, then all have to be commited and pushed
 
-*** to package chronojump, first ensure that version is ok in:
-cerbero/cerbero-extras/packages/chronojump/chronojump.package
+Outside the cerbero shell (to get out: exit)
+And inside the chronojump directory
 
-To package a specific branch instead of master branch edit this file:
-cerbero/cerbero-extras/recipes/chronojump.recipe
-and change the branch from commit = 'origin/master' to 'origin/branch_name'
-
-CHANGE IT BACK TO 'origin/master' as soon as it finished!
-***
-
-packaging (outside the shell): (will fetch chronojump sources from git)
-cerbero-cj buildone chronojump
-cerbero-cj package chronojump
+make osx-package
 
 #if there are problems on hdiuti do:
 hdiutil create -size 200m ...

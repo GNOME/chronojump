@@ -164,16 +164,21 @@ class ChronojumpImporter
 	private Result executeChronojumpImporter(List<string> parameters)
 	{
 		string importer_executable;
-		string importer_script_path = "";
 
 		if (UtilAll.IsWindows()) {
+			// On Windows we execute the .exe file (it's the Python with py2exe)
 			importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin\\chronojump-importer\\chronojump_importer.exe");
 		} else {
-			importer_executable = "python";		// chronojump_importer works on Python 2 and Python 3
-			importer_script_path = System.IO.Path.Combine (Util.GetPrefixDir (), "bin/chronojump_importer.py");
+			// On Linux and OSX we execute Python and we pass the path to the script as a first argument
+
+			importer_executable = "python";		// chronojump_importer.py works on Python 2 and Python 3
+
+			string importer_script_path = System.IO.Path.Combine (Util.GetPrefixDir (), "bin/chronojump_importer.py");
+
+			// first argument of the Python: the path to the script
+			parameters.Insert (0, importer_script_path);
 		}
 
-		parameters.Insert (0, importer_script_path);
 		ExecuteProcess.Result execute_result = ExecuteProcess.run (importer_executable, parameters);
 
 		if (execute_result.exitCode != 0) {

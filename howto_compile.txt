@@ -49,7 +49,7 @@ Following cerbero commands will take stuff from git, then all have to be commite
 Outside the cerbero shell (to get out: exit)
 And inside the chronojump directory
 
-make osx-package
+make osx-installer
 
 #if there are problems on hdiuti do:
 hdiutil create -size 200m ...

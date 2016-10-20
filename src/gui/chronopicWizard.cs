@@ -75,7 +75,7 @@ public class ChronopicWizardWindow
 	ChronopicWizardWindow() 
 	{
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "chronopic_wizard_win", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronopic_wizard_win.glade", "chronopic_wizard_win", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window

@@ -47,7 +47,7 @@ public class ConvertWeightWindow
 	
 	ConvertWeightWindow (double oldPersonWeight, double newPersonWeight, string [] jumpsNormal, string [] jumpsReactive) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "convert_weight", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "convert_weight.glade", "convert_weight", null);
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window

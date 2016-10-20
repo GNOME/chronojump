@@ -79,7 +79,7 @@ public class SessionAddEditWindow {
 	
 	SessionAddEditWindow (Gtk.Window parent, Session currentSession) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_add_edit", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "session_add_edit.glade", "session_add_edit", null);
 		gladeXML.Autoconnect(this);
 		session_add_edit.Parent = parent;
 		
@@ -668,7 +668,7 @@ public class SessionLoadWindow {
 	SessionLoadWindow (Gtk.Window parent, WindowType type) {
 		this.type = type;
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_load", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "session_load.glade", "session_load", null);
 		gladeXML.Autoconnect(this);
 		session_load.Parent = parent;
 
@@ -1028,7 +1028,7 @@ public class SessionSelectStatsWindow {
 	
 	SessionSelectStatsWindow (Gtk.Window parent, ArrayList oldSelectedSessions) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "stats_select_sessions", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "stats_select_sessions.glade", "stats_select_sessions", "chronojump");
 		gladeXML.Autoconnect(this);
 		stats_select_sessions.Parent = parent;
 		

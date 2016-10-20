@@ -324,13 +324,57 @@ public abstract class ChronopicAuto
 
 		if (sp == null) 
 			return false;
+
+		if (sp.IsOpen)
+		{
+			LogB.Information("Port is opened. flushing ... ");
+			byte[] buffer = new byte[256];
+			for (int count = 0; count < 1; count ++) //flush by reading buffer or timeout 1 time
+			{
+				try{
+					sp.Read(buffer,0,256);
+					LogB.Debug(" spReaded ");
+				} catch {
+					LogB.Warning(" catchedTimeOut ");
+				}
+				count ++;
+			}
+
+			LogB.Information("flushed");
+		} else {
+			LogB.Information("Port is closed. Opening ... ");
+			sp.Open();
+		}
+
+		LogB.Information("ready!");
+
+		if(IsEncoder)
+			setEncoderBauds();
+
+		str = "";
+		return true;
+	}
+
+	/*
+	 * this method closes the port to "flush" but this doesn't work always
+	 * is best to use above method that does an explicit flush
+	 *
+	private bool makeOld(SerialPort sp)
+	{
+		this.sp = sp;
+
+		if (sp == null)
+			return false;
 	
-		LogB.Information("opening port... ");
 		try {	
 			if (sp != null) 
-				if (sp.IsOpen)
+				if (sp.IsOpen) {
+					LogB.Information("Port is opened. Closing ... ");
 					sp.Close(); //close to ensure no bytes are comming
+					LogB.Information("closed");
+				}
 
+			LogB.Information("opening port... ");
 			sp.Open();
 		} catch {
 			LogB.Warning("catched!");
@@ -344,6 +388,8 @@ public abstract class ChronopicAuto
 		str = "";
 		return true;
 	}
+	*/
+
 	private void close(SerialPort sp) {
 		LogB.Information("closing port... ");
 		sp.Close();
@@ -372,7 +418,8 @@ public abstract class ChronopicAuto
 			flush();
 			*/
 
-		close(sp);
+		//better don't close it
+		//close(sp);
 		
 		return str;
 	}
@@ -401,7 +448,8 @@ public abstract class ChronopicAuto
 			flush();
 			*/
 		
-		close(sp);
+		//better don't close it
+		//close(sp);
 		
 		return str;
 	}

@@ -359,8 +359,19 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsChronopicContactReal");
 
+		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS) != 1)
+		{
+			testsActive = false;
+			new DialogMessage(Constants.MessageTypes.WARNING, "Warning, need ONE contacts chronopic connected");
+			return;
+		}
+
 		ChronopicRegisterPort crp = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
-		if(! cp2016.IsLastConnectedReal(crp)) {
+		if(cp2016.IsLastConnectedReal(crp)) {
+			LogB.TestEnd("chronojumpWindowTestsChronopicContactReal");
+			chronojumpWindowTestsNext();
+		}
+		else {
 			cp2016.FakeButtonContactsRealDone.Clicked +=
 				new EventHandler(on_connection_contacts_real_done);
 			cp2016.ConnectContactsReal(app1, crp,

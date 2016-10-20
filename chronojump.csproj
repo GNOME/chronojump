@@ -125,9 +125,6 @@
     <EmbeddedResource Include="glade\encoder_configuration.glade">
       <LogicalName>encoder_configuration.glade</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="glade\error_dialog.glade">
-      <LogicalName>error_dialog.glade</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="glade\error_window.glade">
       <LogicalName>error_window.glade</LogicalName>
     </EmbeddedResource>

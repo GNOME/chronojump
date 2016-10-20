@@ -207,7 +207,6 @@ RESOURCES = \
 	../glade/dialog_server_stats.glade \
 	../glade/edit_event.glade \
 	../glade/encoder_configuration.glade \
-	../glade/error_dialog.glade \
 	../glade/error_window.glade \
 	../glade/evaluator_window.glade \
 	../glade/event_graph_configure.glade \

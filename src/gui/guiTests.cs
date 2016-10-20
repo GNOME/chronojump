@@ -242,10 +242,8 @@ public partial class ChronoJumpWindow
 	
 	public void chronojumpWindowTestsNext() 
 	{
-		if(! testsActive) {
-			testsReport();
+		if(! testsActive)
 			return;
-		}
 
 		//needed for SequenceContactsExecute50_10 (but doesn't work properly). Find other solution:
 		//http://www.mono-project.com/docs/gui/gtksharp/responsive-applications/
@@ -368,6 +366,7 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsChronopicContactReal");
 
+		chronopicRegisterUpdate(false);
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS) != 1)
 		{
 			testsActive = false;

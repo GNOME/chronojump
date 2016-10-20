@@ -334,6 +334,12 @@ public class Chronopic2016
 		return -1;
 	}
 
+	//public method to access from guiTests.cs
+	public void TestsChangeMultitestFirmwareDo (int debounceChange)
+	{
+		changeMultitestFirmwareDo(debounceChange);
+	}
+
 	// <----- change multitest firmware END
 
 	public void SerialPortsCloseIfNeeded() {

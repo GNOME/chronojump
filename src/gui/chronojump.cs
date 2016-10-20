@@ -3688,8 +3688,12 @@ public partial class ChronoJumpWindow
 
 		if(cp2016.SuccededConnectContactsRealThread) {
 			LogB.Information("Success at Connecting real! (main GUI)");
-			changeMultitestFirmwareIfNeeded();
-			on_button_execute_test_accepted();
+			if(testsActive)
+				chronojumpWindowTestsNext();
+			else {
+				changeMultitestFirmwareIfNeeded();
+				on_button_execute_test_accepted();
+			}
 		} else
 			LogB.Warning("Failure at Connecting real! (main GUI)");
 	}
@@ -3995,6 +3999,8 @@ public partial class ChronoJumpWindow
 
 		if ( ! currentEventExecute.Cancel )
 			event_execute_progressbar_time.Fraction = 1; 
+
+		//chronojumpWindowTestsNext();
 	}
 
 
@@ -6345,7 +6351,9 @@ LogB.Debug("X");
 	}
 
 	private void on_button_gui_tests_clicked (object o, EventArgs args) {
-		chronojumpWindowTestsStart(Convert.ToInt32(spin_gui_tests.Value -1));
+		chronojumpWindowTestsStart(Convert.ToInt32(spin_gui_tests.Value -1),
+				CJTests.SequenceChangeMultitest
+				);
 	}
 	
 	private void on_button_carles_clicked (object o, EventArgs args) {

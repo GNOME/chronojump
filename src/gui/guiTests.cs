@@ -44,10 +44,16 @@ public class CJTests
 	
 	public enum Types 
 	{
-		MODE_POWERGRAVITATORY, 
-		MODE_POWERINERTIAL, 
+		MODE_JUMPSSIMPLE,
+		MODE_RUNSSIMPLE,
+		MODE_POWERGRAVITATORY,
+		MODE_POWERINERTIAL,
 		SESSION_LOAD,
+		CHRONOPIC_CONNECT_REAL,
 		PERSON_SELECT,
+		MULTITEST_DO_50,
+		MULTITEST_DO_10,
+		CONTACTS_EXECUTE_TEST,
 		ENCODER_SIGNAL_LOAD,
 		ENCODER_ECC_CON_INVERT,
 		ENCODER_RECALCULATE,
@@ -82,8 +88,8 @@ public class CJTests
 		CJTests.Types.ENCODER_SET_SAVE_REPS_BUCLE
 	};
 	*/
-	
-	private List<Types> sequenceEncoder2 = new List<Types> 
+
+	public static List<Types> SequenceEncoder2 = new List<Types>
 	{
 		CJTests.Types.MODE_POWERGRAVITATORY, 
 		CJTests.Types.SESSION_LOAD,
@@ -96,10 +102,42 @@ public class CJTests
 		CJTests.Types.BUCLE_1_OFF,
 		CJTests.Types.END
 	};
-	
-	public CJTests()
+
+	/*
+	 * doesn't work properly. Need to force a real GUI update after changing mode JUMPSSIMPLE, RUNSSIMPLE
+	 * better us below List SequenceChangeMultitest
+	public static List<Types> SequenceContactsExecute50_10 = new List<Types>
 	{
-		sequence = sequenceEncoder2;
+		CJTests.Types.MODE_RUNSSIMPLE,
+		CJTests.Types.SESSION_LOAD,
+		CJTests.Types.BUCLE_1_ON,
+			CJTests.Types.PERSON_SELECT, //bucle1startPos //repeat from here //when all persons have done a jumps/runs test, will end
+			CJTests.Types.MODE_JUMPSSIMPLE,
+			CJTests.Types.CONTACTS_EXECUTE_TEST,
+			CJTests.Types.MODE_RUNSSIMPLE,
+			CJTests.Types.CONTACTS_EXECUTE_TEST,
+		CJTests.Types.BUCLE_1_OFF,
+		CJTests.Types.END
+	};
+	*/
+	
+	public static List<Types> SequenceChangeMultitest = new List<Types>
+	{
+		CJTests.Types.MODE_JUMPSSIMPLE,
+		CJTests.Types.SESSION_LOAD,
+		CJTests.Types.CHRONOPIC_CONNECT_REAL,
+		CJTests.Types.BUCLE_1_ON,
+			CJTests.Types.PERSON_SELECT, //bucle1startPos //repeat from here //when all persons have done a jumps/runs test, will end
+			CJTests.Types.MULTITEST_DO_50,
+			CJTests.Types.MULTITEST_DO_10,
+		CJTests.Types.BUCLE_1_OFF,
+		CJTests.Types.END
+	};
+
+	public CJTests(List<Types> sequence)
+	{
+		this.sequence = sequence;
+
 		sequencePos = 0;
 		bucleCurrent = 0;
 	}
@@ -187,12 +225,12 @@ public partial class ChronoJumpWindow
 	private CJTests cjTest;
 	private int sessionID;
 	
-	private void chronojumpWindowTestsStart(int sessionID) 
+	private void chronojumpWindowTestsStart(int sessionID, List<CJTests.Types> sequence)
 	{
 		testsActive = true;
 		this.sessionID = sessionID;
 
-		cjTest = new CJTests();
+		cjTest = new CJTests(sequence);
 
 		chronojumpWindowTestsDo();
 	}
@@ -201,6 +239,16 @@ public partial class ChronoJumpWindow
 	{
 		if(! testsActive) 
 			return;
+
+		//needed for SequenceContactsExecute50_10 (but doesn't work properly). Find other solution:
+		//http://www.mono-project.com/docs/gui/gtksharp/responsive-applications/
+		//
+		//force GUI update
+		//System.Threading.Thread.Sleep(250); //ok there's an sleep, but screen is not updated. Maybe need to open a new thread before each next call to ensure gui is updated
+		//http://mono.1490590.n4.nabble.com/Force-UI-Update-td3488126.html
+		//while (Gtk.Application.EventsPending ())
+		//	        Gtk.Application.RunIteration ();
+		//System.Threading.Thread.Sleep(250); //ok there's an sleep, but screen is not updated. Maybe need to open a new thread before each next call to ensure gui is updated
 
 		if(cjTest.Next())
 			chronojumpWindowTestsDo();
@@ -218,6 +266,12 @@ public partial class ChronoJumpWindow
 
 		switch(cjTest.GetSequencePos()) 
 		{
+			case CJTests.Types.MODE_JUMPSSIMPLE:
+				chronojumpWindowTestsMode(Constants.Menuitem_modes.JUMPSSIMPLE);
+				break;
+			case CJTests.Types.MODE_RUNSSIMPLE:
+				chronojumpWindowTestsMode(Constants.Menuitem_modes.RUNSSIMPLE);
+				break;
 			case CJTests.Types.MODE_POWERGRAVITATORY:
 				chronojumpWindowTestsMode(Constants.Menuitem_modes.POWERGRAVITATORY);
 				break;
@@ -227,9 +281,23 @@ public partial class ChronoJumpWindow
 			case CJTests.Types.SESSION_LOAD:
 				chronojumpWindowTestsLoadSession(sessionID); //this also selects first person
 				break;
+			case CJTests.Types.CHRONOPIC_CONNECT_REAL:
+				chronojumpWindowTestsChronopicContactReal();
+				break;
 			case CJTests.Types.PERSON_SELECT:
 				bucleContinues = chronojumpWindowTestsSelectPerson(bcount);
 				callNext = true;
+				break;
+			case CJTests.Types.MULTITEST_DO_50:
+				bucleContinues = chronojumpWindowTestsMultitestDo(50);
+				callNext = true;
+				break;
+			case CJTests.Types.MULTITEST_DO_10:
+				bucleContinues = chronojumpWindowTestsMultitestDo(10);
+				callNext = true;
+				break;
+			case CJTests.Types.CONTACTS_EXECUTE_TEST:
+				chronojumpWindowTestsContactsExecuteTest();
 				break;
 			case CJTests.Types.ENCODER_SIGNAL_LOAD:
 				bucleContinues = chronojumpWindowTestsEncoderLoadSignal(bcount);
@@ -286,6 +354,21 @@ public partial class ChronoJumpWindow
 		
 		LogB.TestEnd("chronojumpWindowTestsLoadSession");
 	}
+
+	private void chronojumpWindowTestsChronopicContactReal()
+	{
+		LogB.TestStart("chronojumpWindowTestsChronopicContactReal");
+
+		ChronopicRegisterPort crp = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
+		if(! cp2016.IsLastConnectedReal(crp)) {
+			cp2016.FakeButtonContactsRealDone.Clicked +=
+				new EventHandler(on_connection_contacts_real_done);
+			cp2016.ConnectContactsReal(app1, crp,
+					"Press TEST button on Chronopic to stablish initial communication"); //TODO: translate this
+		}
+
+		LogB.TestEnd("chronojumpWindowTestsChronopicContactReal");
+	}
 			
 	private bool chronojumpWindowTestsSelectPerson(int count)
 	{
@@ -299,6 +382,26 @@ public partial class ChronoJumpWindow
 		selectRowTreeView_persons(treeview_persons, treeview_persons_store, count);
 		
 		LogB.TestEnd("chronojumpWindowTestsSelectPerson_continuing");
+		return true;
+	}
+
+	private bool chronojumpWindowTestsMultitestDo(int ms)
+	{
+		LogB.TestStart("chronojumpWindowTestsContactsMultitestDo " + ms.ToString());
+
+		cp2016.TestsChangeMultitestFirmwareDo (ms);
+
+		LogB.TestEnd("chronojumpWindowTestsContactsMultitestDo " + ms.ToString());
+		return true;
+	}
+
+	private bool chronojumpWindowTestsContactsExecuteTest()
+	{
+		LogB.TestStart("chronojumpWindowTestsContactsExecuteTest");
+
+		on_button_execute_test_clicked (new object (), new EventArgs ());
+
+		LogB.TestEnd("chronojumpWindowTestsContactsExecuteTest");
 		return true;
 	}
 

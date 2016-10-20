@@ -335,9 +335,9 @@ public class Chronopic2016
 	}
 
 	//public method to access from guiTests.cs
-	public void TestsChangeMultitestFirmwareDo (int debounceChange)
+	public int TestsChangeMultitestFirmwareDo (int debounceChange)
 	{
-		changeMultitestFirmwareDo(debounceChange);
+		return changeMultitestFirmwareDo(debounceChange);
 	}
 
 	// <----- change multitest firmware END

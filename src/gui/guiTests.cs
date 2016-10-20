@@ -224,11 +224,16 @@ public partial class ChronoJumpWindow
 	private static bool testsActive = false;
 	private CJTests cjTest;
 	private int sessionID;
-	
+	private int testsSuccededCount;
+	private int testsFailedCount;
+
 	private void chronojumpWindowTestsStart(int sessionID, List<CJTests.Types> sequence)
 	{
 		testsActive = true;
 		this.sessionID = sessionID;
+
+		testsSuccededCount = 0;
+		testsFailedCount = 0;
 
 		cjTest = new CJTests(sequence);
 
@@ -237,8 +242,10 @@ public partial class ChronoJumpWindow
 	
 	public void chronojumpWindowTestsNext() 
 	{
-		if(! testsActive) 
+		if(! testsActive) {
+			testsReport();
 			return;
+		}
 
 		//needed for SequenceContactsExecute50_10 (but doesn't work properly). Find other solution:
 		//http://www.mono-project.com/docs/gui/gtksharp/responsive-applications/
@@ -246,14 +253,16 @@ public partial class ChronoJumpWindow
 		//force GUI update
 		//System.Threading.Thread.Sleep(250); //ok there's an sleep, but screen is not updated. Maybe need to open a new thread before each next call to ensure gui is updated
 		//http://mono.1490590.n4.nabble.com/Force-UI-Update-td3488126.html
-		//while (Gtk.Application.EventsPending ())
-		//	        Gtk.Application.RunIteration ();
+		while (Gtk.Application.EventsPending ())
+			        Gtk.Application.RunIteration ();
 		//System.Threading.Thread.Sleep(250); //ok there's an sleep, but screen is not updated. Maybe need to open a new thread before each next call to ensure gui is updated
 
 		if(cjTest.Next())
 			chronojumpWindowTestsDo();
-		else
+		else {
 			testsActive = false;
+			testsReport();
+		}
 	}
 
 	private void chronojumpWindowTestsDo() 
@@ -400,7 +409,11 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsContactsMultitestDo " + ms.ToString());
 
-		cp2016.TestsChangeMultitestFirmwareDo (ms);
+		int msRecorded = cp2016.TestsChangeMultitestFirmwareDo (ms);
+		if(msRecorded == ms)
+			testsSuccededCount ++;
+		else
+			testsFailedCount ++;
 
 		LogB.TestEnd("chronojumpWindowTestsContactsMultitestDo " + ms.ToString());
 		return true;
@@ -537,6 +550,14 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
+	void testsReport()
+	{
+		if(testsSuccededCount > 0 || testsFailedCount > 0)
+			new DialogMessage(Constants.MessageTypes.INFO,
+					string.Format("Tests succeded: {0}\nTests failed: {1}",
+						testsSuccededCount, testsFailedCount));
+	}
+
 	/*
 	 * TESTS END
 	 */

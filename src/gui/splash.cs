@@ -42,7 +42,7 @@ public class SplashWindow
 	public SplashWindow ()
 	{
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "splash_window", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "splash_window.glade", "splash_window", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window

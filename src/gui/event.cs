@@ -130,7 +130,7 @@ public class EditEventWindow
 
 	EditEventWindow (Gtk.Window parent) {
 		//Glade.XML gladeXML;
-		//gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
+		//gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "edit_event.glade", "edit_event", null);
 		//gladeXML.Autoconnect(this);
 		this.parent = parent;
 	}
@@ -613,7 +613,7 @@ public class EventMoreWindow
 	public EventMoreWindow (Gtk.Window parent, bool testOrDelete) {
 		/*
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "jumps_runs_more.glade", "jumps_runs_more", "chronojump");
 		gladeXML.Autoconnect(this);
 		*/
 

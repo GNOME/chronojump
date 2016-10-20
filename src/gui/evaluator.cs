@@ -98,7 +98,7 @@ public class EvaluatorWindow
 	{
 		//Setup (text, table, uniqueID);
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "evaluator_window", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "evaluator_window.glade", "evaluator_window", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window

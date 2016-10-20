@@ -161,7 +161,7 @@ public class RepetitiveConditionsWindow
 		
 	RepetitiveConditionsWindow () {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repetitive_conditions", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "repetitive_conditions.glade", "repetitive_conditions", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//don't show until View is called

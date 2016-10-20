@@ -105,7 +105,7 @@ public class SessionUploadWindow {
 	
 	SessionUploadWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_upload", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "session_upload.glade", "session_upload", "chronojump");
 		gladeXML.Autoconnect(this);
 		session_upload.Parent = parent;
 		

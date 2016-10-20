@@ -54,7 +54,7 @@ make osx-installer
 #if there are problems on hdiuti do:
 hdiutil create -size 200m ...
 
-#if hard disk it's busy, reset MacOSX, and free space:
+#if the hard disk is busy, reset MacOSX, and free space:
 #if on packaging says: "diskimages-helper: DI_kextDriveDisconnect returned 268435459 ((ipc/send) invalid destination port).", free space:
 
 #free space:

@@ -42,7 +42,7 @@ public class About
 	public About (string version, string translators)
 	{
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_about", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_about.glade", "dialog_about", "chronojump");
 		gladeXML.Autoconnect(this);
 	
 		/*	

@@ -55,7 +55,7 @@ public class DialogServerStats
 	public DialogServerStats (string [] statsServer, string [] statsMine)
 	{
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_server_stats", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_server_stats.glade", "dialog_server_stats", "chronojump");
 		gladeXML.Autoconnect(this);
 	
 

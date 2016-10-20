@@ -26,8 +26,8 @@ dist: ChangeLog
 if OSTYPE_OS_X
 export CHRONOJUMP_VERSION = @PACKAGE_VERSION@
 export CHRONOJUMP_COMMIT = origin/@GIT_BRANCH@
-CERBERO_COMMAND = /Users/chronojump/cerbero/cerbero-uninstalled -c  /Users/chronojump/cerbero/cerbero-extras/chronojump.cbc
-osx-package: all install
+CERBERO_COMMAND = /Users/chronojump/cerbero/cerbero-uninstalled -c /Users/chronojump/cerbero/cerbero-extras/chronojump.cbc
+osx-installer: all install
 	$(CERBERO_COMMAND) buildone chronojump
 	$(CERBERO_COMMAND) package chronojump
 endif

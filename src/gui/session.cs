@@ -921,7 +921,7 @@ public class SessionLoadWindow {
 	}
 	
 	//pass 0 for first row
-	public void SelectRow(int rowNumber)
+	public void SelectRowByPos(int rowNumber)
 	{
 		TreeIter iter;
 		bool iterOk = store.GetIterFirst(out iter);
@@ -933,6 +933,12 @@ public class SessionLoadWindow {
 			}
 			treeview_session_load.Selection.SelectIter(iter);
 		}
+	}
+
+	public bool SelectRowByID(int searchedID)
+	{
+		return UtilGtk.TreeviewSelectRowWithID(
+				treeview_session_load, store, 0, searchedID, false);
 	}
 	
 	private void onSelectionEntry (object o, EventArgs args)

@@ -356,7 +356,13 @@ public partial class ChronoJumpWindow
 		LogB.TestStart("chronojumpWindowTestsLoadSession");
 
 		on_open_activate(new Object(), new EventArgs());
-		sessionLoadWin.SelectRow(sID); //0 is the first
+		bool exists = sessionLoadWin.SelectRowByID(sID); //0 is the first
+		if(! exists) {
+			testsActive = false;
+			new DialogMessage(Constants.MessageTypes.WARNING, "Warning, This session ID does not exists");
+			return;
+		}
+
 		sessionLoadWin.Button_accept.Click();
 		
 		LogB.TestEnd("chronojumpWindowTestsLoadSession");

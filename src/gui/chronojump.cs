@@ -6351,7 +6351,7 @@ LogB.Debug("X");
 	}
 
 	private void on_button_gui_tests_clicked (object o, EventArgs args) {
-		chronojumpWindowTestsStart(Convert.ToInt32(spin_gui_tests.Value -1),
+		chronojumpWindowTestsStart(Convert.ToInt32(spin_gui_tests.Value),
 				CJTests.SequenceChangeMultitest
 				);
 	}

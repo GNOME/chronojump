@@ -263,14 +263,14 @@ public class UtilGtk
 	}
 
 	//selects a row that has an uniqueID (usually at col 0)
-	public static void TreeviewSelectRowWithID(Gtk.TreeView tv, Gtk.TreeStore store, int colNum, int id, bool scrollToRow)
+	public static bool TreeviewSelectRowWithID(Gtk.TreeView tv, Gtk.TreeStore store, int colNum, int id, bool scrollToRow)
 	{
 		if(id <= 0)
-			return;
+			return false;
 
 		int rowNum = getRowNumOfThisID(store, colNum, id);
 		if(rowNum == -1)
-			return;
+			return false;
 
 		//set the selected
 		int count = 0;
@@ -288,12 +288,13 @@ public class UtilGtk
 					tv.ScrollToCell (path, tv.Columns[0], true, 0, 0);
 				}
 
-				return;
+				return true;
 			}
 			
 			count ++;
 			store.IterNext(ref iter);
 		}
+		return false;
 	}
 
 	public static Gtk.TreeStore RemoveRow (Gtk.TreeView tv, Gtk.TreeStore store) {

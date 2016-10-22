@@ -512,7 +512,7 @@
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="about1">
-                        <property name="label" translatable="yes">_About</property>
+                        <property name="label" translatable="yes">About</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_stock">False</property>
@@ -18018,6 +18018,9 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -2167,6 +2167,10 @@ public partial class ChronoJumpWindow
 		}
 		*/
 		cp2016.SerialPortsCloseIfNeeded();
+
+		//printing remaining logs in the non-gtk thread
+		LogB.Information("Printing non-GTK thread remaining log");
+		LogB.Information(LogSync.ReadAndEmpty());
 	
 		try {	
 			File.Delete(runningFileName);

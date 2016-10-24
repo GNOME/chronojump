@@ -3625,9 +3625,14 @@ public partial class ChronoJumpWindow
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 
 	{
-		//on Windows check if last connected port is available with chronopicRegister getPorts()
-		if(! UtilAll.IsWindows())
+		if(UtilAll.IsWindows()) {
+			//on Windows check if last connected port is available with chronopicRegister getPorts()
+			bool windowsLastContactsPortExists = cp2016.WindowsLastConnectedRealExists();
+			if( ! windowsLastContactsPortExists)
+				chronopicRegisterUpdate(true);
+		} else {
 			chronopicRegisterUpdate(false);
+		}
 
 		int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
 		//store a boolean in order to read info faster
@@ -6766,6 +6771,10 @@ LogB.Debug("X");
 	}
 	private void chronopicRegisterUpdate(bool openWindow)
 	{
+		//on Windows need to close the port before reading with FTDI dll
+		if(UtilAll.IsWindows())
+			cp2016.SerialPortsCloseIfNeeded();
+
 		ChronopicRegisterSelectOS cros = new ChronopicRegisterSelectOS();
 		chronopicRegister = cros.Do();
 

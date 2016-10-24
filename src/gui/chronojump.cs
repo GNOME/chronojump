@@ -3628,8 +3628,10 @@ public partial class ChronoJumpWindow
 		if(UtilAll.IsWindows()) {
 			//on Windows check if last connected port is available with chronopicRegister getPorts()
 			bool windowsLastContactsPortExists = cp2016.WindowsLastConnectedRealExists();
-			if( ! windowsLastContactsPortExists)
+			if( ! windowsLastContactsPortExists) {
 				chronopicRegisterUpdate(true);
+				return;
+			}
 		} else {
 			chronopicRegisterUpdate(false);
 		}

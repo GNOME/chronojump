@@ -188,6 +188,19 @@ public class Chronopic2016
 		return false;
 	}
 
+	//check if last connected real port exists on getFiles()
+	public bool WindowsLastConnectedRealExists()
+	{
+		if(lastConnectedRealPort == null || lastConnectedRealPort == "")
+			return false;
+
+		foreach(string port in ChronopicPorts.GetPorts())
+			if(port == lastConnectedRealPort)
+				return true;
+
+		return false;
+	}
+
 	public bool StoredCanCaptureContacts; //store a boolean in order to read info faster
 
 	//<-----ConnectContactsReal END -----

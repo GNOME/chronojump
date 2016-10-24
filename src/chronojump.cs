@@ -130,6 +130,11 @@ public class ChronoJump
 		LogB.Information("baseDir0:", System.AppDomain.CurrentDomain.BaseDirectory);
 		LogB.Information("baseDir1:", baseDirectory);
 		LogB.Information("envPath+rBinPath:", envPath + Path.PathSeparator + rBinPath);
+
+		//testing simulated session query
+		LogB.Information(Constants.SessionTable + ":" + "-1" + ":" + Constants.SessionSimulatedName + ":" + DateTime.Today + ":" +
+					Constants.SportUndefinedID + ":" + Constants.SpeciallityUndefinedID + ":" + Constants.LevelUndefinedID + ":" +
+					Catalog.GetString("Use this session to simulate tests.") + ":" + Constants.ServerUndefinedID);
 		
 	
 		//UtilCSV.ReadValues("/tmp/chronojump-encoder-graph-input-multi.csv");	

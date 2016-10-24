@@ -2104,28 +2104,6 @@ public partial class ChronoJumpWindow
 	//I suppose reading gtk is ok, changing will be the problem
 	private void encoderDoCaptureCsharp () 
 	{
-		UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
-
-		if(encoderConfigurationCurrent.has_inertia)
-			eCapture = new EncoderCaptureInertial();
-		else
-			eCapture = new EncoderCaptureGravitatory();
-		
-		int recordingTime = preferences.encoderCaptureTime;
-		if(radio_encoder_capture_cont.Active)  {
-			recordingTime = 0;
-			encoderProcessFinishContMode = false; //will be true when finish button is pressed
-		}
-		
-		eCapture.InitGlobal( 
-				encoder_capture_signal_drawingarea.Allocation.Width,
-				encoder_capture_signal_drawingarea.Allocation.Height,
-				recordingTime, 
-				preferences.encoderCaptureInactivityEndTime,
-				radio_encoder_capture_cont.Active,
-				findEccon(true),
-				chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port
-				);
 		bool capturedOk = eCapture.Capture(
 				UtilEncoder.GetEncoderDataTempFileName(),
 				encoderRProcCapture
@@ -2150,16 +2128,6 @@ public partial class ChronoJumpWindow
 	//I suppose reading gtk is ok, changing will be the problem
 	private void encoderDoCaptureCsharpIM () 
 	{
-		eCapture = new EncoderCaptureIMCalc();
-		eCapture.InitGlobal( 
-				encoder_capture_signal_drawingarea.Allocation.Width,
-				encoder_capture_signal_drawingarea.Allocation.Height,
-				preferences.encoderCaptureTimeIM,
-				preferences.encoderCaptureInactivityEndTime,
-				false,
-				findEccon(true),
-				chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port
-				);
 		bool capturedOk = eCapture.Capture(
 				UtilEncoder.GetEncoderDataTempFileName(),
 				encoderRProcCapture
@@ -4612,10 +4580,43 @@ public partial class ChronoJumpWindow
 
 				needToRefreshTreeviewCapture = false;
 
+				if(encoderConfigurationCurrent.has_inertia)
+					eCapture = new EncoderCaptureInertial();
+				else
+					eCapture = new EncoderCaptureGravitatory();
+
+				int recordingTime = preferences.encoderCaptureTime;
+				if(radio_encoder_capture_cont.Active)  {
+					recordingTime = 0;
+					encoderProcessFinishContMode = false; //will be true when finish button is pressed
+				}
+
+				eCapture.InitGlobal(
+						encoder_capture_signal_drawingarea.Allocation.Width,
+						encoder_capture_signal_drawingarea.Allocation.Height,
+						recordingTime,
+						preferences.encoderCaptureInactivityEndTime,
+						radio_encoder_capture_cont.Active,
+						findEccon(true),
+						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port
+						);
+
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
 			}
 			else { //action == encoderActions.CAPTURE_IM)
+
+				eCapture = new EncoderCaptureIMCalc();
+				eCapture.InitGlobal(
+						encoder_capture_signal_drawingarea.Allocation.Width,
+						encoder_capture_signal_drawingarea.Allocation.Height,
+						preferences.encoderCaptureTimeIM,
+						preferences.encoderCaptureInactivityEndTime,
+						false,
+						findEccon(true),
+						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port
+						);
+
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharpIM));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureIM));
 			}

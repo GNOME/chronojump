@@ -71,6 +71,8 @@ public class ChronoJump
 		//1.4.10
 		Log.Start();
 		LogB.Debugging = true; //now LogB.Debug will be shown. Also there will be thread info on Warning, Error, Information
+		if(args.Length > 0 && args[0] == "printAll")
+			LogB.PrintAllThreads = true;
 
 		var envPath = Environment.GetEnvironmentVariable ("PATH");
 		var rBinPath = "";
@@ -131,12 +133,7 @@ public class ChronoJump
 		LogB.Information("baseDir1:", baseDirectory);
 		LogB.Information("envPath+rBinPath:", envPath + Path.PathSeparator + rBinPath);
 
-		//testing simulated session query
-		LogB.Information(Constants.SessionTable + ":" + "-1" + ":" + Constants.SessionSimulatedName + ":" + DateTime.Today + ":" +
-					Constants.SportUndefinedID + ":" + Constants.SpeciallityUndefinedID + ":" + Constants.LevelUndefinedID + ":" +
-					Catalog.GetString("Use this session to simulate tests.") + ":" + Constants.ServerUndefinedID);
-		
-	
+
 		//UtilCSV.ReadValues("/tmp/chronojump-encoder-graph-input-multi.csv");	
 		
 		if(UtilAll.IsWindows())

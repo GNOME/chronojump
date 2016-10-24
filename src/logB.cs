@@ -154,6 +154,13 @@ public static class LogB
 	private static Dictionary<uint, DateTime> timers = new Dictionary<uint, DateTime> ();
 	private static uint next_timer_id = 1;
 
+	/*
+	 * Chronojump can be called with a param printAll (chronojump printAll) and then all threads will be printed
+	 * default behaviour is to print only when on GTK thread, and messages from other threads
+	 * will be stored and printed by GTK thread before what it needs to print
+	 */
+	public static bool PrintAllThreads = false;
+
 	private static bool debugging = false;
 	public static bool Debugging {
 		get {
@@ -235,7 +242,7 @@ public static class LogB
 			string lineStart = string.Format("[{5}{0} {1:00}:{2:00}:{3:00}.{4:000}]", TypeString(type), DateTime.Now.Hour,
 					DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond, thread_name);
 
-			if(printNow) {
+			if(PrintAllThreads || printNow) {
 				//try {
 					Console.Write(lineStart);
 	

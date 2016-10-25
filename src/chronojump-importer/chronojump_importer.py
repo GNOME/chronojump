@@ -386,10 +386,17 @@ class ImportSession:
 
         self.persons77 = None
 
+    def import_into_session(self, source_session, destination_session):
+        self.source_session = source_session
+        self.new_session_id = destination_session
+        self.import_data()
+
     def import_as_new_session(self, source_session):
         self.source_session = source_session
         self.new_session_id = self._import_session()
+        self.import_data()
 
+    def import_data(self):
         self.persons77 = self._import_persons77()
 
         self._import_person_session77()
@@ -683,7 +690,11 @@ def process_command_line():
     parser.add_argument("--destination", type=str, required=False,
                         help="chronojump.sqlite that we import to")
     parser.add_argument("--source_session", type=int, required=False,
-                        help="Session from source that will be imported to a new session in destination")
+                        help="Session from source that will be imported to the session specified by --destination-session\n"
+                             "or to a new session if no --destination-session is specified")
+    parser.add_argument("--destination-session", type=int, required=False,
+                        help="Imports the [source_session] into the [destination_session]. If not specified imports as\n"
+                             "new session.")
     parser.add_argument("--json_information", required=False, action='store_true',
                         help="Shows information of the source database")
     args = parser.parse_args()
@@ -698,7 +709,11 @@ def process_command_line():
                 source_base_directory = os.path.join(args.source, "../..")
 
             importer = ImportSession(args.source, args.destination, source_base_directory)
-            importer.import_as_new_session(args.source_session)
+
+            if args.destination_session is None:
+                importer.import_as_new_session(args.source_session)
+            else:
+                importer.import_into_session(args.source_session, args.destination_session)
         else:
             print("if --information not used --source, --destination and --source_session parameters are required")
 

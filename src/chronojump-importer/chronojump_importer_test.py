@@ -19,10 +19,19 @@ class TestImporter(unittest.TestCase):
         pass
 
     @staticmethod
-    def _prepare_database_to_import(base_filename):
+    def _prepare_database_to_import(base_filename, source_session=None, destination_session=None):
+
+        if destination_session is None:
+            expected_file_name = base_filename.format('expected')
+        else:
+            expected_file_name = base_filename.format('expected-session-{}-to-{}'.format(source_session, destination_session))
+
+        return TestImporter._prepare_database_to_import_do(base_filename, expected_file_name)
+
+    @staticmethod
+    def _prepare_database_to_import_do(base_filename, expected_file_name):
         source_file_name = base_filename.format('source')
         destination_file_name = base_filename.format('destination')
-        expected_file_name = base_filename.format('expected')
         original_destination_file_path = base_filename.format('original-destination')
 
         temporary_directory_path = tempfile.mkdtemp(
@@ -39,12 +48,13 @@ class TestImporter(unittest.TestCase):
 
     # lists the names. {} will expand to source/destination/expected.
     @ddt.data(
-        {'base_filename': 'generic-{}-a.sqlite', 'session': 1},
-        {'base_filename': 'generic-{}-b.sqlite', 'session': 1},
-        {'base_filename': 'generic-{}-c.sqlite', 'session': 1},
-        {'base_filename': 'padu-{}.sqlite', 'session': 1},
-        {'base_filename': 'yoyo-{}.sqlite', 'session': 1},
-        {'base_filename': 'user-jump-{}.sqlite', 'session': 1}
+        {'base_filename': 'generic-{}-a.sqlite', 'source_session': 1},
+        {'base_filename': 'generic-{}-b.sqlite', 'source_session': 1},
+        {'base_filename': 'generic-{}-c.sqlite', 'source_session': 1},
+        {'base_filename': 'padu-{}.sqlite', 'source_session': 1},
+        {'base_filename': 'yoyo-{}.sqlite', 'source_session': 1},
+        {'base_filename': 'user-jump-{}.sqlite', 'source_session': 1},
+        {'base_filename': 'yoyo-{}.sqlite', 'source_session': 4, 'destination_session': 5}
     )
     def test_importer_generic(self, data):
         re_creates_test = False  # During development change it to True
@@ -52,10 +62,14 @@ class TestImporter(unittest.TestCase):
                                  # result as expected test
 
         (source_file_path, destination_file_path, expected_file_name, temporary_directory_path) = \
-            self._prepare_database_to_import(data["base_filename"])
+            self._prepare_database_to_import(data["base_filename"], data.get("source_session"), data.get("destination_session", None))
 
         importer = chronojump_importer.ImportSession(source_file_path, destination_file_path, None)
-        importer.import_as_new_session(data["session"])
+
+        if 'destination_session' in data:
+            importer.import_into_session(data["source_session"], data["destination_session"])
+        else:
+            importer.import_as_new_session(data["source_session"])
 
         os.system(
             "echo .dump | sqlite3 {} > {}/destination.sql".format(destination_file_path, temporary_directory_path))
@@ -105,7 +119,7 @@ class TestImporter(unittest.TestCase):
         importer.import_as_new_session(7)
 
         self.assertTrue(copy_function.called)
-        self.assertEqual(copy_function.call_count, 11) # 11 encoding for session number 7
+        self.assertEqual(copy_function.call_count, 11) # 11 encodings for session number 7
 
     def test_encoder_filename(self):
         new_filename = chronojump_importer.ImportSession._encoder_filename(10, "19-test.txt")

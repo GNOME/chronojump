@@ -79,18 +79,18 @@ class ChronojumpImporter
 	{
 		string message;
 
+		string sessionInformation = String.Format (Catalog.GetString ("Session name: {0}\n" +
+			"from file: {1}"), sourceSession, sourceFile);
+
 		if (importsToNew()) {
-			message = String.Format (Catalog.GetString ("Are you sure to import the session:\n"+
-			                                            "{0}\n" +
-			                                            "from:\n" +
-			                                            "{1}\n" +
-			                                            "as a new session?\n" +
-			                                            "(if you would like to import into an existing session then press Cancel, Load the session that you would like to import into and import it)"),
-								                        sourceSession, sourceFile);
+			message = Catalog.GetString ("A new session will be created with the data from:" + "\n" +
+				sessionInformation + "\n\n" +
+				Catalog.GetString ("(if you would like to import into an existing session then Cancel, Load the session that you would like to import into and import it)"));
 		} else {
-			message = String.Format (Catalog.GetString ("Are you sure to import the session {0} from {1} into the active session?\n" +
-			                                            "(if you would like to import it as a new session then press Cancel, exit Chronojump and import before Loading a session)"),
-			                         					sourceSession, sourceFile);
+			message = String.Format (Catalog.GetString ("The current session will be modified. The data from:") + "\n" +
+				sessionInformation + "\n" +
+				Catalog.GetString ("Will be imported in the current sesssion") + "\n\n" + 
+				Catalog.GetString ("(if you would like to import it as a new session then press Cancel, exit Chronojump and import before Loading a session)"));
 		}
 
 		Gtk.MessageDialog confirmationDialog = new Gtk.MessageDialog (parentWindow, Gtk.DialogFlags.Modal, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, message);

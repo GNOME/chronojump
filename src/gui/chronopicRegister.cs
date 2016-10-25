@@ -20,7 +20,9 @@
 
 using System;
 using System.Collections.Generic; //List<T>
+using Gdk;
 using Gtk;
+using Mono.Unix;
 
 public class ChronopicRegisterWindowTypes
 {
@@ -71,7 +73,7 @@ public class ChronopicRegisterWindow
 		UtilGtk.IconWindow(chronopic_register_win);
 
 		createVBoxMain();
-		createTreeView(list);
+		createContent(list);
 		createButton();
 
 		chronopic_register_win.ShowAll();
@@ -80,7 +82,7 @@ public class ChronopicRegisterWindow
 
 	private void createWindow(Gtk.Window app1)
 	{
-		chronopic_register_win = new Window ("Chronopic register");
+		chronopic_register_win = new Gtk.Window ("Chronopic register");
 		chronopic_register_win.AllowGrow = false;
 		chronopic_register_win.Modal = true;
 		chronopic_register_win.TransientFor = app1;
@@ -102,19 +104,19 @@ public class ChronopicRegisterWindow
 	Gtk.ListStore listStoreAll;
 
 	//based on: ~/informatica/progs_meus/mono/treemodel.cs
-	private void createTreeView(List<ChronopicRegisterPort> list)
+	private void createContent(List<ChronopicRegisterPort> list)
 	{
 		treeview = new Gtk.TreeView();
 
 		// Create column , cell renderer and add the cell to the serialN column
 		Gtk.TreeViewColumn serialNCol = new Gtk.TreeViewColumn ();
-		serialNCol.Title = "Serial Number";
+		serialNCol.Title = " " + Catalog.GetString("Serial Number") + " ";
 		Gtk.CellRendererText serialNCell = new Gtk.CellRendererText ();
 		serialNCol.PackStart (serialNCell, true);
 
 		// Create column , cell renderer and add the cell to the port column
 		Gtk.TreeViewColumn portCol = new Gtk.TreeViewColumn ();
-		portCol.Title = "Port";
+		portCol.Title = " Port ";
 		Gtk.CellRendererText portCell = new Gtk.CellRendererText ();
 		portCol.PackStart (portCell, true);
 
@@ -122,7 +124,7 @@ public class ChronopicRegisterWindow
 		//-- cell renderer toggles
 
 		Gtk.TreeViewColumn unknownCol = new Gtk.TreeViewColumn ();
-		unknownCol.Title = "Not configured";
+		unknownCol.Title = " " + Catalog.GetString("Not configured") + " ";
 		Gtk.CellRendererToggle unknownCell = new Gtk.CellRendererToggle ();
 		unknownCell.Activatable = true;
 		unknownCell.Radio = true; 	//draw as radiobutton
@@ -130,7 +132,7 @@ public class ChronopicRegisterWindow
 		unknownCol.PackStart (unknownCell, true);
 
 		Gtk.TreeViewColumn contactsCol = new Gtk.TreeViewColumn ();
-		contactsCol.Title = "Jumps/Runs";
+		contactsCol.Title = " " + Catalog.GetString("Jumps/Runs") + " ";
 		Gtk.CellRendererToggle contactsCell = new Gtk.CellRendererToggle ();
 		contactsCell.Activatable = true;
 		contactsCell.Radio = true; 	//draw as radiobutton
@@ -138,7 +140,7 @@ public class ChronopicRegisterWindow
 		contactsCol.PackStart (contactsCell, true);
 
 		Gtk.TreeViewColumn encoderCol = new Gtk.TreeViewColumn ();
-		encoderCol.Title = "Encoder";
+		encoderCol.Title = " " + Catalog.GetString("Encoder") + " ";
 		Gtk.CellRendererToggle encoderCell = new Gtk.CellRendererToggle ();
 		encoderCell.Activatable = true;
 		encoderCell.Radio = true; 	//draw as radiobutton
@@ -173,16 +175,25 @@ public class ChronopicRegisterWindow
 		treeview.AppendColumn (contactsCol);
 		treeview.AppendColumn (encoderCol);
 
+		Gtk.HBox hbox = new Gtk.HBox(false, 0);
+	
+		//create image
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameChronopic);
+		Gtk.Image image = new Gtk.Image();
+		image.Pixbuf = pixbuf;
+		hbox.Add(image);
 
+		//create label
 		Gtk.Label label;
 		if(chronopicsFound)
-			label = new Gtk.Label("");
+			label = new Gtk.Label("Chronopics found ... (blah, blah, blah)\nSay something if 1 or more is not configured");
 		else
 			label = new Gtk.Label("Chronopic/s not found:\nConnect and reopen this window.");
+		hbox.Add(label);
 
-		Gtk.VBox vboxTV = new Gtk.VBox(false, 8);
+		Gtk.VBox vboxTV = new Gtk.VBox(false, 12);
+		vboxTV.Add(hbox);
 		vboxTV.Add(treeview);
-		vboxTV.Add(label);
 
 		vbox_main.Add(vboxTV);
 	}

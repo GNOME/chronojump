@@ -29,7 +29,11 @@ public class Chronopic2016
 		//this is constructed only one time
 
 		FakeButtonContactsRealDone = new Gtk.Button();
+
+		WindowOpened = false;
 	}
+
+	public bool WindowOpened;
 
 	//used on contacts
 	private Chronopic cp;

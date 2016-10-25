@@ -23,7 +23,7 @@ using System.IO;   //for Path
 using System.IO.Ports;
 using Gtk;
 using Glade;
-using Mono.Unix;
+//using Mono.Unix;
 using System.Collections;
 
 public class ChronopicWizardWindow
@@ -126,7 +126,8 @@ public class ChronopicWizardWindow
 		radio_encoder4.Visible = false;
 		radio_encoder5.Visible = false;
 
-		button_next.Label = Catalog.GetString("Next");
+		//button_next.Label = Catalog.GetString("Next");
+		button_next.Label = "Next";
 		button_next.Sensitive = true;
 	}
 
@@ -256,7 +257,8 @@ public class ChronopicWizardWindow
 	{
 		button_done_contacts.Sensitive = false;
 		hbox_detection_contacts.Sensitive = true;
-		progressbar_contacts.Text = Catalog.GetString("Detecting");
+		//progressbar_contacts.Text = Catalog.GetString("Detecting");
+		progressbar_contacts.Text = "Detecting";
 		progressbarContinue = true;
 		progressbarCount = 0;
 		GLib.Timeout.Add(50, new GLib.TimeoutHandler(progressbarContactsDo)); //each 50 ms
@@ -273,7 +275,8 @@ public class ChronopicWizardWindow
 	void on_button_cancel_contacts_clicked (object o, EventArgs args)
 	{
 		progressbarContinue = false;
-		progressbar_contacts.Text = Catalog.GetString("Cancelled");
+		//progressbar_contacts.Text = Catalog.GetString("Cancelled");
+		progressbar_contacts.Text = "Cancelled";
 		hbox_detection_contacts.Sensitive = false;
 		button_done_contacts.Sensitive = true;
 	}
@@ -284,7 +287,8 @@ public class ChronopicWizardWindow
 	{
 		button_done_encoder.Sensitive = false;
 		hbox_detection_encoder.Sensitive = true;
-		progressbar_encoder.Text = Catalog.GetString("Detecting");
+		//progressbar_encoder.Text = Catalog.GetString("Detecting");
+		progressbar_encoder.Text = "Detecting";
 		progressbarContinue = true;
 		progressbarCount = 0;
 		GLib.Timeout.Add(50, new GLib.TimeoutHandler(progressbarEncoderDo)); //each 50 ms
@@ -298,12 +302,14 @@ public class ChronopicWizardWindow
 		notebook_encoder.CurrentPage = 1;
 		button_next.Sensitive = true;
 		
-		button_next.Label = Catalog.GetString("Finish");
+		//button_next.Label = Catalog.GetString("Finish");
+		button_next.Label = "Finish";
 	}
 	void on_button_cancel_encoder_clicked (object o, EventArgs args)
 	{
 		progressbarContinue = false;
-		progressbar_encoder.Text = Catalog.GetString("Cancelled");
+		//progressbar_encoder.Text = Catalog.GetString("Cancelled");
+		progressbar_encoder.Text = "Cancelled";
 		hbox_detection_encoder.Sensitive = false;
 		button_done_encoder.Sensitive = true;
 	}
@@ -316,6 +322,7 @@ public class ChronopicWizardWindow
 		if(notebook_main.CurrentPage == 0) 
 		{
 			//from page 0 to page 1 show unplug message
+			/*
 			int numCPs = 1;
 			if(radio_start_both.Active)
 				numCPs = 2;
@@ -323,6 +330,8 @@ public class ChronopicWizardWindow
 			label_unplug.Text = Catalog.GetPluralString(
 					"Please, unplug Chronopic USB cable.", 
 					"Please, unplug Chronopic USB cables.", numCPs);
+			*/
+			label_unplug.Text = "Please, unplug Chronopic USB cable/s.";
 
 			button_next.Sensitive = false; //unsensitive until click on Done
 		}
@@ -333,7 +342,8 @@ public class ChronopicWizardWindow
 
 			if(radio_start_contacts.Active) {
 				//if there will be no encoder, rename Next to Finish
-				button_next.Label = Catalog.GetString("Finish");
+				//button_next.Label = Catalog.GetString("Finish");
+				button_next.Label = "Finish";
 			}
 			else if(radio_start_encoder.Active) {
 				//if there will be no contacts, jump to encoder page
@@ -350,7 +360,8 @@ public class ChronopicWizardWindow
 				button_next.Sensitive = false; //unsensitive until click on Done
 				
 				//rename Next to Finish
-				button_next.Label = Catalog.GetString("Finish");
+				//button_next.Label = Catalog.GetString("Finish");
+				button_next.Label = "Finish";
 			}
 		}
 		else if(notebook_main.CurrentPage == 3) {

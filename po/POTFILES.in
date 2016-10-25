@@ -58,7 +58,7 @@ src/execute/run.cs
 src/exportSession.cs
 src/gui/chronojump.cs
 src/gui/chronopic.cs
-src/gui/chronopicWizard.cs
+src/gui/chronopicRegister.cs
 src/gui/convertWeight.cs
 src/gui/encoderConfiguration.cs
 src/gui/encoder.cs

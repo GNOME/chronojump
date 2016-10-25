@@ -36,7 +36,13 @@ class ChronojumpImporter
 	private string destinationFile;
 
 	// Session that will import
-	private string session;
+	private int sourceSession;
+
+	// Session that we will import into. If it's 0 it means into to create
+	// a new session, otherwise it will import it into the session indicated by it
+	private int destinationSession;
+
+	Gtk.Window parentWindow;
 
 	// Result struct holds the output, error and success operations. It's used to pass
 	// errors from different layers (e.g. executing Python scripts) to the UI layer
@@ -56,11 +62,61 @@ class ChronojumpImporter
 
 	// ChronojumpImporter class imports a specific session from sourceFile to destinationFile.
 	// The main method is "import()" which does all the work.
-	public ChronojumpImporter(string sourceFile, string destinationFile, string session)
+	public ChronojumpImporter(Gtk.Window parentWindow, string sourceFile, string destinationFile, int sourceSession, int destinationSession)
 	{
+		this.parentWindow = parentWindow;
 		this.sourceFile = sourceFile;
 		this.destinationFile = destinationFile;
-		this.session = session;
+		this.sourceSession = sourceSession;
+		this.destinationSession = destinationSession;
+	}
+
+	// Shows a dialogue to the user and lets him cancel the operation. The dialog information depends on
+	// this class configuration: depends if the session is going to be inserted in a new session or an
+	// existing one.
+	// Returns 
+	public Gtk.ResponseType showDialogueToUser()
+	{
+		string message;
+
+		if (importsToNew()) {
+			message = String.Format (Catalog.GetString ("Are you sure to import the session:\n"+
+			                                            "{0}\n" +
+			                                            "from:\n" +
+			                                            "{1}\n" +
+			                                            "as a new session?\n" +
+			                                            "(if you would like to import into an existing session then press Cancel, Load the session that you would like to import into and import it)"),
+								                        sourceSession, sourceFile);
+		} else {
+			message = String.Format (Catalog.GetString ("Are you sure to import the session {0} from {1} into the active session?\n" +
+			                                            "(if you would like to import it as a new session then press Cancel, exit Chronojump and import before Loading a session)"),
+			                         					sourceSession, sourceFile);
+		}
+
+		Gtk.MessageDialog confirmationDialog = new Gtk.MessageDialog (parentWindow, Gtk.DialogFlags.Modal, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, message);
+		confirmationDialog.Title = Catalog.GetString ("Import session?");
+		Gtk.ResponseType response = (Gtk.ResponseType) confirmationDialog.Run ();
+
+		confirmationDialog.Destroy ();
+
+		return response;
+	}
+
+	public void showImportCorrectlyFinished()
+	{
+		string message;
+
+		if (importsToNew()) {
+			message = Catalog.GetString ("Imported to a new session. You can load it now in Session - Load.");
+		} else {
+			message = Catalog.GetString ("Data merged into the open session.");
+		}
+		new DialogMessage (Constants.MessageTypes.INFO, message);
+	}
+
+	private bool importsToNew()
+	{
+		return destinationSession == 0;
 	}
 
 	// Tries to import the session and files defined in the constructor and returns Result. See
@@ -107,7 +163,12 @@ class ChronojumpImporter
 		parameters.Add ("--destination");
 		parameters.Add (destinationFile);
 		parameters.Add ("--source_session");
-		parameters.Add (session);
+		parameters.Add (Convert.ToString (sourceSession));
+
+		if (destinationSession != 0) {
+			parameters.Add ("--destination_session");
+			parameters.Add (Convert.ToString (destinationSession));
+		}
 
 		Result result = executeChronojumpImporter (parameters);
 

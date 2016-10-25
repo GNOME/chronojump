@@ -2288,20 +2288,35 @@ public partial class ChronoJumpWindow
 	//from import session
 	private void on_load_session_accepted_to_import(object o, EventArgs args)
 	{
-		int sessionNumber = sessionLoadWin.CurrentSessionId();
+		int sourceSession = sessionLoadWin.CurrentSessionId();
 		string databasePath = sessionLoadWin.DatabasePath();
 		LogB.Information (databasePath);
 
-		ImportSessionFromDatabase (databasePath, sessionNumber);
+		ImportSessionFromDatabase (databasePath, sourceSession, currentSession);
 	}
 
-	private void ImportSessionFromDatabase(string databasePath, int sessionNumber)
+	private void ImportSessionFromDatabase(string databasePath, int sourceSession, Session destinationSession)
 	{
 		string source_filename = databasePath;
 		string destination_filename = Sqlite.DatabaseFilePath;
-		string session = Convert.ToString (sessionNumber);
 
-		ChronojumpImporter chronojumpImporter = new ChronojumpImporter (source_filename, destination_filename, session);
+		int destinationSessionId;
+		if (destinationSession == null)
+		{
+			destinationSessionId = 0;
+		}
+		else
+		{
+			destinationSessionId = destinationSession.UniqueID;
+		}
+
+		ChronojumpImporter chronojumpImporter = new ChronojumpImporter (app1, source_filename, destination_filename, sourceSession, destinationSessionId);
+
+		Gtk.ResponseType response = chronojumpImporter.showDialogueToUser ();
+
+		if (response != Gtk.ResponseType.Ok) {
+			return;
+		}
 
 		ChronojumpImporter.Result result = chronojumpImporter.import ();
 
@@ -2320,7 +2335,7 @@ public partial class ChronoJumpWindow
 			//update stats combos
 			updateComboStats ();
 
-			new DialogMessage (Constants.MessageTypes.INFO, Catalog.GetString ("Session imported."));
+			chronojumpImporter.showImportCorrectlyFinished ();
 		} else {
 			LogB.Debug ("Chronojump Importer error: ", result.error);
 			new DialogMessage (Constants.MessageTypes.WARNING, result.error);

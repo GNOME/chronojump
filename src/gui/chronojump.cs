@@ -617,8 +617,6 @@ public partial class ChronoJumpWindow
 		//this is constructed only one time
 		cp2016 = new Chronopic2016();
 
-		//needed to initialize cp, sp, ...
-		chronopicRegisterUpdate(false);
 
 		/*
 		 * start a ping in other thread
@@ -2971,6 +2969,8 @@ public partial class ChronoJumpWindow
 		//}
 		//else if(wizardPortEncoder == "")
 		//	autoDetectChronopic(m);
+
+		chronopicRegisterUpdate(false);
 
 		chronojumpWindowTestsNext();
 	}
@@ -6771,6 +6771,7 @@ LogB.Debug("X");
 	{
 		//chronopicRegisterUpdate(true);
 	}
+
 	private void chronopicRegisterUpdate(bool openWindow)
 	{
 		//on Windows need to close the port before reading with FTDI dll
@@ -6780,9 +6781,17 @@ LogB.Debug("X");
 		ChronopicRegisterSelectOS cros = new ChronopicRegisterSelectOS();
 		chronopicRegister = cros.Do();
 
+		/*
+		 * openWindow: false, just generates the list,
+		 * but if first time since cjump running and there are unknown Chronopics, window is opened
+		 */
+		if(! cp2016.WindowOpened && chronopicRegister.UnknownFound())
+			openWindow = true;
+
 		if(openWindow) {
 			ChronopicRegisterWindow crWin = new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
 			crWin.FakeButtonCloseSerialPort.Clicked += new EventHandler(closeSerialPort);
+			cp2016.WindowOpened = true;
 		}
 	}
 

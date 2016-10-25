@@ -255,6 +255,14 @@ public abstract class ChronopicRegister
 		return null;
 	}
 
+	public bool UnknownFound()
+	{
+		if(NumConnectedOfType(ChronopicRegisterPort.Types.UNKNOWN) > 0)
+			return true;
+
+		return false;
+	}
+
 	public ChronopicRegisterPortList Crpl
 	{
 		get { return crpl; }

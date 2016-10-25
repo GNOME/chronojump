@@ -234,11 +234,14 @@ class ChronojumpImporter
 		} else {
 			JsonValue json = JsonValue.Parse (information.output);
 
+			if (!json.ContainsKey ("sessions")) {
+				LogB.Information ("Trying to import a session but sessions doesn't exist. Output:" + information.output);
+				return "UNKNOWN";
+			}
+
 			foreach(JsonValue session in json["sessions"])
 			{
-				if (session ["uniqueID"] == sessionId) {
-					return session ["name"];
-				}
+				return JsonUtils.valueOrDefault (session, "name", "UNKNOWN");
 			}
 			LogB.Information ("Trying to import a session that we can't find the name. Output:" + information.output);
 			return "UNKNOWN";
@@ -251,7 +254,7 @@ class ChronojumpImporter
 
 		if (information.success) {
 			JsonValue json = JsonValue.Parse (information.output);
-			return new Result (true, json ["databaseVersion"]);
+			return new Result (true, JsonUtils.valueOrDefault(json, "databaseVersion", "0"));
 		} else {
 			return information;
 		}

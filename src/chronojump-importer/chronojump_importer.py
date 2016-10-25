@@ -662,7 +662,8 @@ def json_information(database_path):
         data = {'uniqueID': session.get('uniqueID'),
                 'date': session.get('date'),
                 'place': session.get('place'),
-                'comments': session.get('comments')
+                'comments': session.get('comments'),
+                'name': session.get('name')
                 }
         information['sessions'].append(data)
 

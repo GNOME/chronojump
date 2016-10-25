@@ -2312,7 +2312,7 @@ public partial class ChronoJumpWindow
 
 		ChronojumpImporter chronojumpImporter = new ChronojumpImporter (app1, source_filename, destination_filename, sourceSession, destinationSessionId);
 
-		Gtk.ResponseType response = chronojumpImporter.showDialogueToUser ();
+		Gtk.ResponseType response = chronojumpImporter.showImportConfirmation ();
 
 		if (response != Gtk.ResponseType.Ok) {
 			return;

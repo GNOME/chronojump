@@ -75,17 +75,18 @@ class ChronojumpImporter
 	// this class configuration: depends if the session is going to be inserted in a new session or an
 	// existing one.
 	// Returns 
-	public Gtk.ResponseType showDialogueToUser()
+	public Gtk.ResponseType showImportConfirmation()
 	{
 		string message;
+		string sessionName = getSessionName (sourceFile, sourceSession);
 
 		string sessionInformation = String.Format (Catalog.GetString ("Session name: {0}\n" +
-			"from file: {1}"), sourceSession, sourceFile);
+			"from file: {1}"), sessionName, sourceFile);
 
 		if (importsToNew()) {
 			message = Catalog.GetString ("A new session will be created with the data from:" + "\n" +
 				sessionInformation + "\n\n" +
-				Catalog.GetString ("(if you would like to import into an existing session then Cancel, Load the session that you would like to import into and import it)"));
+				Catalog.GetString ("(if you would like to import into an existing session then press Cancel, Load the session that you would like to import into and import it)"));
 		} else {
 			message = String.Format (Catalog.GetString ("The current session will be modified. The data from:") + "\n" +
 				sessionInformation + "\n" +
@@ -195,8 +196,12 @@ class ChronojumpImporter
 		Sqlite.Connect ();
 	}
 
-	private Result getDatabaseVersionFromFile(string filePath)
+	private static Result getImporterInformation(string filePath)
 	{
+		// If Result.success == true Result.output contains a valid JSON string.
+		// It's a string and not a JsonValue for convenience with other methods (at the moment).
+		// If result.success == false then result.error will contain the error that might help
+		// the user to fix the problem or Chronojump support/developers to fix the problem.
 		List<string> parameters = new List<string> ();
 
 		parameters.Add ("--source");
@@ -206,23 +211,53 @@ class ChronojumpImporter
 		Result result = executeChronojumpImporter (parameters);
 
 		if (result.success) {
-			JsonValue json = "";
 			try {
-				json = JsonValue.Parse (result.output);
+				JsonValue.Parse (result.output);
 			} catch (Exception e) {
 				return new Result(false, "", String.Format(Catalog.GetString("getDatabaseVersionFromFile: invalid JSON content:\n{0}\nException. {1}"), result.output, e.Message));
 			}
 
-			string databaseVersion = json ["databaseVersion"];
-			
-			return new Result (true, databaseVersion);
+			return new Result (true, result.output);
 
 		} else {
 			return new Result(false, "", String.Format(Catalog.GetString("getDatabaseVersionFromFile: no success fetching the database version of:\n{0}\nError: {1}"), filePath, result.error));
 		}
 	}
 
-	private Result executeChronojumpImporter(List<string> parameters)
+	private static string getSessionName(string filePath, int sessionId)
+	{
+		Result information = getImporterInformation (filePath);
+		if (information.success == false) {
+			// This shouldn't happen, other getImporterInformation is used in different ways.
+			LogB.Information ("chronojumpImporter::getSessionName failed. Output:" + information.output + "Error:" + information.error);
+			return "UNKNOWN";
+		} else {
+			JsonValue json = JsonValue.Parse (information.output);
+
+			foreach(JsonValue session in json["sessions"])
+			{
+				if (session ["uniqueID"] == sessionId) {
+					return session ["name"];
+				}
+			}
+			LogB.Information ("Trying to import a session that we can't find the name. Output:" + information.output);
+			return "UNKNOWN";
+		}
+	}
+
+	private Result getDatabaseVersionFromFile(string filePath)
+	{
+		Result information = getImporterInformation (filePath);
+
+		if (information.success) {
+			JsonValue json = JsonValue.Parse (information.output);
+			return new Result (true, json ["databaseVersion"]);
+		} else {
+			return information;
+		}
+	}
+
+	private static Result executeChronojumpImporter(List<string> parameters)
 	{
 		string importer_executable;
 

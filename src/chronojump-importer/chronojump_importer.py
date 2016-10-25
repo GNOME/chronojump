@@ -692,7 +692,7 @@ def process_command_line():
     parser.add_argument("--source_session", type=int, required=False,
                         help="Session from source that will be imported to the session specified by --destination-session\n"
                              "or to a new session if no --destination-session is specified")
-    parser.add_argument("--destination-session", type=int, required=False,
+    parser.add_argument("--destination_session", type=int, required=False,
                         help="Imports the [source_session] into the [destination_session]. If not specified imports as\n"
                              "new session.")
     parser.add_argument("--json_information", required=False, action='store_true',

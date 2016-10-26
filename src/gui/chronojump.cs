@@ -2948,6 +2948,8 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = 0;
 			hbox_other.Visible = true;
 			menuitem_mode_selected_other.Visible = true;
+			notebooks_change(4);
+			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
 			radio_mode_reaction_times_small.Active = true;
 
 			notebook_capture_analyze.CurrentPage = 0;

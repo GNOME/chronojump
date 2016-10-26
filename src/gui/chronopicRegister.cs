@@ -82,7 +82,7 @@ public class ChronopicRegisterWindow
 
 	private void createWindow(Gtk.Window app1)
 	{
-		chronopic_register_win = new Gtk.Window ("Chronopic register");
+		chronopic_register_win = new Gtk.Window (Catalog.GetString("Chronopic window"));
 		chronopic_register_win.AllowGrow = false;
 		chronopic_register_win.Modal = true;
 		chronopic_register_win.TransientFor = app1;
@@ -101,7 +101,7 @@ public class ChronopicRegisterWindow
 
 
 	Gtk.TreeView treeview;
-	Gtk.ListStore listStoreAll;
+	Gtk.ListStore listStoreAll; //stores the chronopics that have assigned a serial port: They are plugged in.
 
 	//based on: ~/informatica/progs_meus/mono/treemodel.cs
 	private void createContent(List<ChronopicRegisterPort> list)
@@ -152,11 +152,17 @@ public class ChronopicRegisterWindow
 
 		listStoreAll = new Gtk.ListStore (typeof (ChronopicRegisterWindowTypes));
 
-		bool chronopicsFound = false;
-		foreach(ChronopicRegisterPort crp in list) {
-			if(crp.Port != "") {
+		int connectedCount = 0;
+		int unknownCount = 0;
+		foreach(ChronopicRegisterPort crp in list)
+		{
+			if(crp.Port != "")
+			{
 				listStoreAll.AppendValues(new ChronopicRegisterWindowTypes(crp));
-				chronopicsFound = true;
+				connectedCount ++;
+
+				if(crp.Type == ChronopicRegisterPort.Types.UNKNOWN)
+					unknownCount ++;
 			}
 		}
 
@@ -175,7 +181,7 @@ public class ChronopicRegisterWindow
 		treeview.AppendColumn (contactsCol);
 		treeview.AppendColumn (encoderCol);
 
-		Gtk.HBox hbox = new Gtk.HBox(false, 0);
+		Gtk.HBox hbox = new Gtk.HBox(false, 12);
 	
 		//create image
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameChronopic);
@@ -184,11 +190,8 @@ public class ChronopicRegisterWindow
 		hbox.Add(image);
 
 		//create label
-		Gtk.Label label;
-		if(chronopicsFound)
-			label = new Gtk.Label("Chronopics found ... (blah, blah, blah)\nSay something if 1 or more is not configured");
-		else
-			label = new Gtk.Label("Chronopic/s not found:\nConnect and reopen this window.");
+		Gtk.Label label = new Gtk.Label();
+		label.Text = writeLabel(connectedCount, unknownCount);
 		hbox.Add(label);
 
 		Gtk.VBox vboxTV = new Gtk.VBox(false, 12);
@@ -198,6 +201,29 @@ public class ChronopicRegisterWindow
 		vbox_main.Add(vboxTV);
 	}
 
+	private string writeLabel(int chronopicsCount, int unknownCount)
+	{
+		if(chronopicsCount > 0)
+		{
+			string str = string.Format(Catalog.GetPluralString(
+						"Found 1 Chronopic.",
+						"Found {0} Chronopics.",
+						chronopicsCount),
+					chronopicsCount);
+
+			if(unknownCount > 0)
+			{
+				str += "\n\n";
+				str += Catalog.GetString("Please, mark Chronopic/s as") +
+					"\n- " +
+					Catalog.GetString("Jumps/runs") + " " + Catalog.GetString("or") +
+					"\n- " + Catalog.GetString("Encoder");
+			}
+			return str;
+		}
+
+		return Catalog.GetString("Chronopic/s not found") + "\n\n" + Catalog.GetString("Connect and reopen this window.");
+	}
 
 	private void RenderSerialN (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{

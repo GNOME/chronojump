@@ -252,7 +252,7 @@ class JsonUtils
 		// Returns jsonObject[key] if it exists. If the key doesn't exist returns defaultValue and
 		// logs the anomaly into the Chronojump log.
 		if (jsonObject.ContainsKey (key)) {
-			return jsonObject ["key"];
+			return jsonObject [key];
 		} else {
 			LogB.Information ("JsonUtils::valueOrDefault: returning default (" + defaultValue + ") from JSON: " + jsonObject.ToString ());
 			return defaultValue;

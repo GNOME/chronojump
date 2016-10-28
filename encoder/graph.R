@@ -1920,8 +1920,10 @@ paintCrossVariables <- function (paf, varX, varY, option,
 }
 
 #propulsive!!!!
-paint1RMBadillo2010 <- function (paf, title, outputData1) {
-	curvesLoad = (paf[,findPosInPaf("Load","")]) 		#mass: X
+paint1RMBadillo2010 <- function (paf, title, outputData1)
+{
+	curvesLoadTotal = (paf[,findPosInPaf("Load","")]) 		#mass: X
+	curvesLoadExtra = (paf[,findPosInPaf("MassExtra","")])
 	curvesSpeed = (paf[,findPosInPaf("Speed", "mean")])	#mean speed Y
 
 	par(mar=c(5,6,3,4))
@@ -1937,13 +1939,14 @@ paint1RMBadillo2010 <- function (paf, title, outputData1) {
 	miny=min(c(msp,curvesSpeed))
 
 
-	loadPercentCalc=8.4326*curvesSpeed^2 - 73.501*curvesSpeed + 112.33
+	loadPercentCalc <- 8.4326*curvesSpeed^2 - 73.501*curvesSpeed + 112.33
 	#sometimes there's a negative value, fix it
 	for(i in 1:length(loadPercentCalc))
 	       if(loadPercentCalc[i] < 0)
 		       loadPercentCalc[i] = NA
 
-	loadCalc= 100 * curvesLoad / loadPercentCalc
+	loadCalcTotal <- 100 * curvesLoadTotal / loadPercentCalc
+	loadCalcExtra <- loadCalcTotal - (curvesLoadTotal - curvesLoadExtra)
 
 	#for calculations take only the curves slower or == than 1.33
 	curvesSpeedInIntervalPos = which(curvesSpeed <= max(msp))
@@ -1959,13 +1962,13 @@ paint1RMBadillo2010 <- function (paf, title, outputData1) {
 
 	par(mar=c(6,5,3,4))
 
-	plot(curvesLoad,curvesSpeed, type="p",
+	plot(curvesLoadExtra,curvesSpeed, type="p",
 	     main=paste(title, "1RM", translateToPrint("prediction")),
 	     sub=paste("\n",translateToPrint("Concentric mean speed on bench press 1RM =")," 0.185m/s.",
 		      translateToPrint("Estimated percentual load ="),
 		      " 8.4326 * ", translateToPrint("speed"), " ^2 - 73.501 * ", translateToPrint("speed"), " + 112.33\n",
 		      translateToPrint("Adapted from")," Gonzalez-Badillo, Sanchez-Medina (2010)"),
-	     xlim=c(min(curvesLoad),max(loadCalc[curvesSpeedInIntervalPos])),
+	     xlim=c(min(curvesLoadExtra),max(loadCalcExtra[curvesSpeedInIntervalPos])),
 	     ylim=c(miny,maxy), xlab="", ylab="",axes=T)
 
 	mtext(side=1,line=2,"Kg")
@@ -1976,12 +1979,12 @@ paint1RMBadillo2010 <- function (paf, title, outputData1) {
 	mtext(side=4,at=msp, paste(" ",loadPercent), las=2)
 
 	colors=c(rep(NA,29),rev(heat.colors(100)[0:71]))
-	arrows(curvesLoad,curvesSpeed,loadCalc,0.185,code=2,col=colors[loadPercentCalc])
+	arrows(curvesLoadExtra,curvesSpeed,loadCalcExtra,0.185,code=2,col=colors[loadPercentCalc])
 
-	closerValues = which(curvesLoad == max(curvesLoad))
-	segments(loadCalc[closerValues],0.185,loadCalc[closerValues],0,lty=3)
+	closerValues = which(curvesLoadExtra == max(curvesLoadExtra))
+	segments(loadCalcExtra[closerValues],0.185,loadCalcExtra[closerValues],0,lty=3)
 
-	predicted1RM = mean(loadCalc[closerValues])
+	predicted1RM = mean(loadCalcExtra[closerValues])
 
 	segments(predicted1RM,0.185,predicted1RM,0,lty=1)
 	mtext(side=1, at=predicted1RM, round(predicted1RM,2), cex=.8)

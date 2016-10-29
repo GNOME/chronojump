@@ -367,6 +367,7 @@ RESOURCES = \
 	../images/import-csv-name-1-column.png,import-csv-name-1-column.png \
 	../images/import-csv-name-2-columns.png,import-csv-name-2-columns.png \
 	../images/calendar.png,calendar.png \
+	../images/chronojump-logo-transparent.png,chronojump-logo-transparent.png \
 	../images/chronojump-logo-2013_320.png,chronojump-logo-2013_320.png \
 	../images/chronojump-logo-2013.png,chronojump-logo-2013.png \
 	../images/encoder-analyze-individual-current-set.png,encoder-analyze-individual-current-set.png \

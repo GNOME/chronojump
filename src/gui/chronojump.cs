@@ -45,6 +45,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_gui_tests;
 	[Widget] Gtk.Button button_carles;
 	
+	[Widget] Gtk.Viewport viewport_chronojump_logo;
+	[Widget] Gtk.Image image_chronojump_logo;
+
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps_simple;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps_reactive;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs_simple;
@@ -68,7 +71,6 @@ public partial class ChronoJumpWindow
 
 	
 	[Widget] Gtk.Label label_version;
-	[Widget] Gtk.Image image_logo;
 	[Widget] Gtk.Image image_selector_start_jumps;
 	[Widget] Gtk.Image image_selector_start_runs;
 	[Widget] Gtk.Image image_selector_start_encoder_gravitatory;
@@ -687,7 +689,11 @@ public partial class ChronoJumpWindow
 
 	private void putNonStandardIcons() {
 		Pixbuf pixbuf;
-	
+
+		viewport_chronojump_logo.ModifyBg(StateType.Normal, new Gdk.Color(0x0e,0x1e,0x46));
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogoTransparent);
+		image_chronojump_logo.Pixbuf = pixbuf;
+
 		//change colors of tests mode
 
 		/*
@@ -914,8 +920,6 @@ public partial class ChronoJumpWindow
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorEncoderInertial);
 		//image_selector_start_encoder_inertial.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
-		image_logo.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo320); //changed to 270 for the presentation
 		image_presentation_logo.Pixbuf = pixbuf;
 

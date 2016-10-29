@@ -3383,31 +3383,52 @@ public partial class ChronoJumpWindow
 			return;
 		}
 		//save it without the body weight
-		string exerciseName = "";
+		//string exerciseName = "";
 		int exerciseID = 0;
+		string myString = "";
+
 		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
 					encoderAnalyze1RMTranslation) == "1RM Indirect") 
 		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Currently disabled");
+			return;
+
+			/*
 			exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
 			exerciseID = getExerciseIDFromCombo (exerciseCombos.CAPTURE);
+			*/
+
+			/*
+			 * on 1RM indirect, right now the returned data is person weight + extra weight
+			 * try to give all the info to the user
+			 * in close future, this will come as extra weight from R
+			 */
+			/*
+			double load1RMWithoutPerson = massWithoutPerson(load1RM, exerciseName);
+
+			SqliteEncoder.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID,
+					exerciseID, load1RMWithoutPerson);
+
+			TODO: change this and return the extra mass on 1RM indirect
+			Also note it was not working because getExercisePercentBodyWeightFromTable reads analyze table that is empty on 1RMIndirect
+
+			if(load1RM != load1RMWithoutPerson)
+				myString = string.Format(Catalog.GetString("1RM found: {0} Kg."), load1RM) + "\n" +
+					string.Format(Catalog.GetString("Displaced body weight in this exercise: {0}%."),
+							getExercisePercentBodyWeightFromTable()) + "\n" +
+					string.Format(Catalog.GetString("Saved 1RM without displaced body weight: {0} Kg."),
+							load1RMWithoutPerson);
+			*/
 		}
 		else {
-			exerciseName = getExerciseNameFromTable();
 			exerciseID = getExerciseIDFromTable();
-		}
-		double load1RMWithoutPerson = massWithoutPerson(load1RM, exerciseName);
 
-		SqliteEncoder.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID, 
-				exerciseID, load1RMWithoutPerson);
-		
-		string myString = Catalog.GetString("Saved.");
-		if(load1RM != load1RMWithoutPerson)
-			myString = string.Format(Catalog.GetString("1RM found: {0} Kg."), load1RM) + "\n" + 
-				string.Format(Catalog.GetString("Displaced body weight in this exercise: {0}%."), 
-						getExercisePercentBodyWeightFromTable()) + "\n" +
-				string.Format(Catalog.GetString("Saved 1RM without displaced body weight: {0} Kg."), 
-						load1RMWithoutPerson);
-		
+			SqliteEncoder.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID,
+					exerciseID, load1RM);
+
+			myString = string.Format(Catalog.GetString("Saved 1RM: {0} Kg."), load1RM);
+		}
+
 		array1RMUpdate(false);
 		encoder_change_displaced_weight_and_1RM ();
 		new DialogMessage(Constants.MessageTypes.INFO, myString);

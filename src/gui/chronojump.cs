@@ -2918,8 +2918,11 @@ public partial class ChronoJumpWindow
 				currentEncoderGI = Constants.EncoderGI.GRAVITATORY;
 				hbox_capture_1RM.Visible = true;
 				notebook_encoder_capture_extra_mass.CurrentPage = 0;
-				if(radio_encoder_analyze_individual_current_set.Active || radio_encoder_analyze_individual_current_session.Active) {
+				if(radio_encoder_analyze_individual_current_set.Active || radio_encoder_analyze_individual_current_session.Active)
+				{
 					radiobutton_encoder_analyze_1RM.Visible = true;
+					if(radiobutton_encoder_analyze_1RM.Active)
+						hbox_combo_encoder_analyze_1RM.Visible=true;
 					radiobutton_encoder_analyze_neuromuscular_profile.Visible = true;
 				}
 				hbox_encoder_capture_1_or_cont.Visible = true;
@@ -2938,6 +2941,7 @@ public partial class ChronoJumpWindow
 				hbox_capture_1RM.Visible = false;
 				notebook_encoder_capture_extra_mass.CurrentPage = 1;
 				radiobutton_encoder_analyze_1RM.Visible = false;
+				hbox_combo_encoder_analyze_1RM.Visible=false;
 				radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
 				
 				radio_encoder_capture_1set.Active = true;

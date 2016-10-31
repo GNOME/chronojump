@@ -2044,7 +2044,7 @@ plotRMIndirect <- function (RMIMatrix, Q, nrep)
 
 	#Create an empty plot
 	plot(1, xlim=c(1,nRM),ylim=c(min(RMIMatrix),max(RMIMatrix)), type="n",
-	     xlab="Repetitions", ylab="Mass (Kg)", xaxt="n")
+	     xlab="Repetitions", ylab="Mass (Kg)", xaxt="n", las=2)
 	axis(1,1:nRM) #plot xaxis ensuring 1:nRM is written
 
 	#Draw grid

@@ -3289,7 +3289,8 @@ doProcess <- function(options)
 	}
 
 	if(op$Analysis=="1RMIndirect") {
-		Q <- getMassBodyByExercise(op$MassBody, op$ExercisePercentBodyWeight) + op$MassExtra
+		#Q <- getMassBodyByExercise(op$MassBody, op$ExercisePercentBodyWeight) + op$MassExtra
+		Q <- op$MassExtra
 
 		nrep <- length(curves[,1])
 		if(op$Eccon != "c")

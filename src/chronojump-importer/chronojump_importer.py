@@ -573,7 +573,7 @@ class ImportSession:
         self._import_encoder_files(encoder)
 
         self.destination_db.write(table=encoder,
-                                  matches_columns=None)
+                                  matches_columns=self.destination_db.column_names("encoder", skip_columns=["uniqueID", "personID", "sessionID", "exerciseID"]))
 
         # Imports EncoderSignalCurve
         encoder_signal_curve_signals = self.source_db.read(table_name="EncoderSignalCurve",

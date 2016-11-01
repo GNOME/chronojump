@@ -248,6 +248,9 @@
     <EmbeddedResource Include="images\calendar.png">
       <LogicalName>calendar.png</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="images\chronojump-logo-transparent.png">
+      <LogicalName>chronojump-logo-transparent.png</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump-boscosystem.png">
       <LogicalName>chronojump-boscosystem.png</LogicalName>
     </EmbeddedResource>

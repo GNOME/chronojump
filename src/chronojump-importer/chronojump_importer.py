@@ -535,6 +535,13 @@ class ImportSession:
                                   matches_columns=self.destination_db.column_names("PulseType", ["uniqueID"]),
                                   avoids_duplicate_column="name")
 
+        # Imports Pulse table
+        pulse = self.source_db.read(table_name="Pulse",
+                                    where_condition="Pulse.sessionID={}".format(self.source_session))
+        pulse.update_session_ids(self.new_session_id)
+        pulse.update_ids("type", pulse_types, "old_name", "new_name")
+        self.destination_db.write(pulse, self.destination_db.column_names("Pulse", skip_columns=["uniqueID", "personID", "sessionID"]))
+
     def _import_person_session77(self):
         # Imports PersonSession77
         person_session_77 = self.source_db.read(table_name="PersonSession77",

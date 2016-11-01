@@ -473,7 +473,7 @@ class ImportSession:
         jump_rj.update_session_ids(self.new_session_id)
         jump_rj.update_ids("type", jump_rj, "old_name", "new_name")
 
-        self.destination_db.write(table=jump_rj, matches_columns=["type", "tvMax", "tcMax", "fall", "weight", "description", "tvAvg", "tcAvg", "tvString", "tcString", "jumps", "time", "limited", "angleString", "simulated"])
+        self.destination_db.write(table=jump_rj, matches_columns=self.destination_db.column_names("JumpRj", skip_columns=["uniqueID", "personID", "sessionID"]))
 
         # Imports Jump table (with the new Person77's uniqueIDs)
         jump = self.source_db.read(table_name="Jump",
@@ -483,7 +483,7 @@ class ImportSession:
         jump.update_session_ids(self.new_session_id)
         jump.update_ids("type", jump_types, "old_name", "new_name")
 
-        self.destination_db.write(table=jump, matches_columns=["type", "tv", "tc", "fall", "weight", "description", "angle", "simulated"])
+        self.destination_db.write(table=jump, matches_columns=self.destination_db.column_names("Jump", skip_columns=["uniqueID", "personID", "sessionID"]))
 
     def _import_runs(self):
         # Imports RunTypes table
@@ -503,7 +503,7 @@ class ImportSession:
                                                  group_by_clause="RunIntervalType.uniqueID")
 
         self.destination_db.write(table=run_interval_types,
-                                  matches_columns=self.destination_db.column_names("RunIntervalType", ["uniqueID"]),
+                                  matches_columns=self.destination_db.column_names("RunIntervalType", skip_columns=["uniqueID"]),
                                   avoids_duplicate_column="name")
 
         # Imports Run table (with the new Person77's uniqueIDs)

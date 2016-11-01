@@ -471,7 +471,7 @@ class ImportSession:
 
         jump_rj.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
         jump_rj.update_session_ids(self.new_session_id)
-        jump_rj.update_ids("type", self.persons77, "old_name", "new_name")
+        jump_rj.update_ids("type", jump_rj, "old_name", "new_name")
 
         self.destination_db.write(table=jump_rj, matches_columns=None)
 

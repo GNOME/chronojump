@@ -488,8 +488,8 @@ class ImportSession:
     def _import_runs(self):
         # Imports RunTypes table
         run_types = self.source_db.read(table_name="RunType",
-                                        where_condition="Session.uniqueID={}".format(self.source_session),
-                                        join_clause="LEFT JOIN Run ON RunType.name=Run.type LEFT JOIN Session ON Run.sessionID=Session.uniqueID",
+                                        where_condition="Run.sessionID={}".format(self.source_session),
+                                        join_clause="LEFT JOIN Run ON RunType.name=Run.type",
                                         group_by_clause="RunType.uniqueID")
 
         self.destination_db.write(table=run_types,
@@ -498,8 +498,8 @@ class ImportSession:
 
         # Imports RunIntervalTypes table
         run_interval_types = self.source_db.read(table_name="RunIntervalType",
-                                                 where_condition="Session.uniqueID={}".format(self.source_session),
-                                                 join_clause="LEFT JOIN RunInterval ON RunIntervalType.name=RunInterval.type LEFT JOIN Session on RunInterval.sessionID=Session.uniqueID",
+                                                 where_condition="RunInterval.sessionID={}".format(self.source_session),
+                                                 join_clause="LEFT JOIN RunInterval ON RunIntervalType.name=RunInterval.type",
                                                  group_by_clause="RunIntervalType.uniqueID")
 
         self.destination_db.write(table=run_interval_types,
@@ -512,6 +512,8 @@ class ImportSession:
         run.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
         run.update_session_ids(self.new_session_id)
         run.update_ids("type", run_types, "old_name", "new_name")
+        self.destination_db.write(table=run,
+                                  matches_columns=self.destination_db.column_names("Run", skip_columns=["uniqueID", "personID", "sessionID"]))
 
         # Imports RunInterval table (with the new Person77's uniqueIDs)
         run_interval = self.source_db.read(table_name="RunInterval",
@@ -519,6 +521,8 @@ class ImportSession:
         run_interval.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
         run_interval.update_session_ids(self.new_session_id)
         run_interval.update_ids("type", run_interval_types, "old_name", "new_name")
+        self.destination_db.write(table=run_interval,
+                                  matches_columns=self.destination_db.column_names("RunInterval", skip_columns=["uniqueID", "personID", "sessionID"]))
 
     def _import_pulse(self):
         # Imports PulseTypes table

@@ -473,7 +473,7 @@ class ImportSession:
         jump_rj.update_session_ids(self.new_session_id)
         jump_rj.update_ids("type", jump_rj, "old_name", "new_name")
 
-        self.destination_db.write(table=jump_rj, matches_columns=None)
+        self.destination_db.write(table=jump_rj, matches_columns=["type", "tvMax", "tcMax", "fall", "weight", "description", "tvAvg", "tcAvg", "tvString", "tcString", "jumps", "time", "limited", "angleString", "simulated"])
 
         # Imports Jump table (with the new Person77's uniqueIDs)
         jump = self.source_db.read(table_name="Jump",
@@ -483,7 +483,7 @@ class ImportSession:
         jump.update_session_ids(self.new_session_id)
         jump.update_ids("type", jump_types, "old_name", "new_name")
 
-        self.destination_db.write(table=jump, matches_columns=None)
+        self.destination_db.write(table=jump, matches_columns=["type", "tv", "tc", "fall", "weight", "description", "angle", "simulated"])
 
     def _import_runs(self):
         # Imports RunTypes table
@@ -537,7 +537,10 @@ class ImportSession:
                                                 where_condition="PersonSession77.sessionID={}".format(self.source_session))
         person_session_77.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
         person_session_77.update_session_ids(self.new_session_id)
-        self.destination_db.write(table=person_session_77, matches_columns=None)
+
+        # Inserts the person_session_77 table but not for personsIDs that already existed in this session. This is
+        # the case if a user imports a session into an existing session and the persons would be already imported.
+        self.destination_db.write(table=person_session_77, matches_columns=["personID"])
 
     def _import_encoder(self):
         # Imports EncoderExercise

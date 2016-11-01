@@ -57,7 +57,7 @@ class TestImporter(unittest.TestCase):
         {'base_filename': 'yoyo-{}.sqlite', 'source_session': 4, 'destination_session': 5}
     )
     def test_importer_generic(self, data):
-        re_creates_test = False  # During development change it to True
+        re_creates_test = True   # During development change it to True
                                  # to execute the tests and copy the new
                                  # result as expected test
 
@@ -85,7 +85,7 @@ class TestImporter(unittest.TestCase):
         actual_file.close()
         expected_file.close()
 
-        diff = difflib.unified_diff(actual_dump, expected_dump)
+        diff = difflib.unified_diff(expected_dump, actual_dump)
         diff = "".join(diff)
 
         if diff != "":

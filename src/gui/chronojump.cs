@@ -2412,15 +2412,21 @@ public partial class ChronoJumpWindow
 	
 	private void on_delete_session_accepted (object o, EventArgs args) 
 	{
+		string sessionUniqueID = currentSession.UniqueID.ToString ();
+		closeSession ();
+
+		SqliteSession.DeleteAllStuff(sessionUniqueID);
 		new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Deleted session and all its tests."));
-		SqliteSession.DeleteAllStuff(currentSession.UniqueID.ToString());
-		
-		sensitiveGuiNoSession();
-		definedSession = false;
-		app1.Title = progName + "";
 	}
 
-	
+	private void closeSession()
+	{
+		app1.Title = progName + "";
+		definedSession = false;
+		currentSession = null;
+		sensitiveGuiNoSession();
+	}
+
 	private void on_export_session_activate(object o, EventArgs args) {
 		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Encoder data will not be exported."), "", "");
 		confirmWin.Button_accept.Clicked += new EventHandler(on_export_session_accepted);

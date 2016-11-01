@@ -57,7 +57,7 @@ class TestImporter(unittest.TestCase):
         {'base_filename': 'yoyo-{}.sqlite', 'source_session': 4, 'destination_session': 5}
     )
     def test_importer_generic(self, data):
-        re_creates_test = True   # During development change it to True
+        re_creates_test = False  # During development change it to True
                                  # to execute the tests and copy the new
                                  # result as expected test
 

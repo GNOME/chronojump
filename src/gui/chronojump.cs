@@ -6811,6 +6811,19 @@ LogB.Debug("X");
 
 		ChronopicRegisterSelectOS cros = new ChronopicRegisterSelectOS();
 		chronopicRegister = cros.Do();
+		
+		/*On Chronopic hsa been disconnected on OSX, port gets blocked
+		 * (no new tty is assigned until serial port is closed)
+		 * maybe need to reconnect USB cables
+		 */
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX && 
+				chronopicRegister.Crpl.L.Count == 0)
+		{
+			cp2016.SerialPortsCloseIfNeeded();
+			Thread.Sleep(250);
+			chronopicRegister = cros.Do();
+		}
+
 
 		/*
 		 * openWindow: false, just generates the list,

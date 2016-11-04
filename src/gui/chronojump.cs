@@ -3658,11 +3658,14 @@ public partial class ChronoJumpWindow
 	{
 		if(UtilAll.IsWindows()) {
 			//on Windows check if last connected port is available with chronopicRegister getPorts()
+			//TODO: fix this code
+			/*
 			bool windowsLastContactsPortExists = cp2016.WindowsLastConnectedRealExists();
 			if( ! windowsLastContactsPortExists) {
 				chronopicRegisterUpdate(true);
 				return;
 			}
+			*/
 		} else {
 			chronopicRegisterUpdate(false);
 		}
@@ -6812,7 +6815,8 @@ LogB.Debug("X");
 		ChronopicRegisterSelectOS cros = new ChronopicRegisterSelectOS();
 		chronopicRegister = cros.Do();
 		
-		/*On Chronopic hsa been disconnected on OSX, port gets blocked
+		/*
+		 * If Chronopic has been disconnected on OSX, port gets blocked
 		 * (no new tty is assigned until serial port is closed)
 		 * maybe need to reconnect USB cables
 		 */

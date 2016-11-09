@@ -90,7 +90,7 @@ class ChronojumpImporter
 		} else {
 			message = String.Format (Catalog.GetString ("The current session will be modified. The data from:") + "\n" +
 				sessionInformation + "\n" +
-				Catalog.GetString ("Will be imported in the current sesssion") + "\n\n" + 
+				Catalog.GetString ("Will be imported in the current session") + "\n\n" + 
 				Catalog.GetString ("(if you would like to import it as a new session then press Cancel, exit Chronojump and import before Loading a session)"));
 		}
 
@@ -112,7 +112,7 @@ class ChronojumpImporter
 		} else {
 			message = Catalog.GetString ("Data merged into the open session.");
 		}
-		new DialogMessage (Constants.MessageTypes.INFO, message);
+		new DialogMessage (Catalog.GetString("Chronojump importer"), Constants.MessageTypes.INFO, message);
 	}
 
 	private bool importsToNew()

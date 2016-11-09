@@ -2339,6 +2339,8 @@ public partial class ChronoJumpWindow
 			//update stats combos
 			updateComboStats ();
 
+			reloadSession ();
+
 			chronojumpImporter.showImportCorrectlyFinished ();
 		} else {
 			LogB.Debug ("Chronojump Importer error: ", result.error);
@@ -2425,6 +2427,21 @@ public partial class ChronoJumpWindow
 		definedSession = false;
 		currentSession = null;
 		sensitiveGuiNoSession();
+	}
+
+	private void reloadSession()
+	{
+		// If there is an opened session it reloads it. Otherwise it does nothing.
+
+		if (currentSession != null) {
+			LogB.Information ("Reloading a session");
+			Session openedSession = currentSession;
+			closeSession ();
+			currentSession = openedSession;
+			on_load_session_accepted ();
+		} else {
+			LogB.Information ("Reload session but no session was opened: doing nothing");
+		}
 	}
 
 	private void on_export_session_activate(object o, EventArgs args) {

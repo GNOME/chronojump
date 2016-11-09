@@ -241,7 +241,9 @@ class ChronojumpImporter
 
 			foreach(JsonValue session in json["sessions"])
 			{
-				return JsonUtils.valueOrDefault (session, "name", "UNKNOWN");
+				if (session.ContainsKey ("uniqueID") && session ["uniqueID"] == sessionId) {
+					return JsonUtils.valueOrDefault (session, "name", "UNKNOWN");
+				}
 			}
 			LogB.Information ("Trying to import a session that we can't find the name. Output:" + information.output);
 			return "UNKNOWN";

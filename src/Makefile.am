@@ -154,6 +154,7 @@ SOURCES = \
 	session.cs\
 	exportSession.cs\
 	preferences.cs\
+	restTime.cs\
 	treeViewEvent.cs\
 	treeViewPerson.cs\
 	treeViewJump.cs\

@@ -458,6 +458,10 @@ public partial class ChronoJumpWindow
 	ChronopicRegister chronopicRegister;
 	Chronopic2016 cp2016;
 
+	RestTime restTime;
+	//to control method that is updating restTimes on treeview_persons
+	bool updatingRestTimes = false;
+
 
 	//only called the first time the software runs
 	//and only on windows
@@ -618,6 +622,10 @@ public partial class ChronoJumpWindow
 
 		//this is constructed only one time
 		cp2016 = new Chronopic2016();
+
+		restTime = new RestTime();
+		updatingRestTimes = true;
+		GLib.Timeout.Add(5000, new GLib.TimeoutHandler(updateRestTimes)); //each 5s
 
 
 		/*
@@ -1103,7 +1111,7 @@ public partial class ChronoJumpWindow
 
 		if(myPersons.Count > 0) {
 			//fill treeview
-			myTreeViewPersons.Fill(myPersons);
+			myTreeViewPersons.Fill(myPersons, restTime);
 		}
 	}
 
@@ -2162,6 +2170,8 @@ public partial class ChronoJumpWindow
 
 	private void on_quit2_activate (object o, EventArgs args) {
 		LogB.Information("Bye!");
+
+		updatingRestTimes = false;
 
 		/*
 		if(chronopicWin.Connected == true) {
@@ -4060,9 +4070,25 @@ public partial class ChronoJumpWindow
 		LogB.Information(" cantouch3 ");
 
 		if ( ! currentEventExecute.Cancel )
-			event_execute_progressbar_time.Fraction = 1; 
+		{
+			event_execute_progressbar_time.Fraction = 1;
+
+			restTime.AddOrModify(currentPerson.UniqueID, true);
+			updateRestTimes();
+		}
 
 		//chronojumpWindowTestsNext();
+	}
+
+	//called each 5 seconds and after a test
+	bool updateRestTimes()
+	{
+		if(! updatingRestTimes)
+			return false;
+
+		myTreeViewPersons.UpdateRestTimes(restTime);
+
+		return true;
 	}
 
 

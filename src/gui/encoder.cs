@@ -5648,6 +5648,9 @@ public partial class ChronoJumpWindow
 			button_encoder_analyze_1RM_save.Visible = false;
 		
 			encoderShowCaptureDoingButtons(false);
+
+			if(action == encoderActions.CURVES_AC)
+				updateRestTimes();
 		
 			if(action == encoderActions.CURVES_AC && radio_encoder_capture_cont.Active && ! encoderProcessFinishContMode)
 				on_button_encoder_capture_clicked (new object (), new EventArgs ());

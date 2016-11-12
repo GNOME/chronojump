@@ -38,8 +38,8 @@ public class TreeViewPersons
 	{
 		this.treeview = treeview;
 
-		store = getStore(2); 
-		string [] columnsString = { "ID", Catalog.GetString("person")};
+		store = getStore(3);
+		string [] columnsString = { "ID", Catalog.GetString("person"), "Rest time"};
 		treeview.Model = store;
 		prepareHeaders(columnsString);
 	}
@@ -64,10 +64,13 @@ public class TreeViewPersons
 			UtilGtk.CreateCols(treeview, store, Catalog.GetString(myCol), i++, visible);
 			if(i == 1)
 				store.SetSortFunc (0, UtilGtk.IdColumnCompare);
+
+			//TODO: store.SetSortFunc for column "Rest time"
 			visible = true;
 		}
 	}
-	
+
+	/*
 	public int idColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
 		int val1 = 0;
 		int val2 = 0;
@@ -76,6 +79,7 @@ public class TreeViewPersons
 		
 		return (val1-val2);
 	}
+	*/
 
 	public void RemoveColumns() {
 		Gtk.TreeViewColumn [] myColumns = treeview.Columns;
@@ -84,15 +88,20 @@ public class TreeViewPersons
 		}
 	}
 
-	public void Fill(ArrayList myPersons)
+	public void Fill(ArrayList myPersons, RestTime rt)
 	{
-		foreach (Person person in myPersons) {
-			store.AppendValues (person.IDAndName());
-		}
+		foreach (Person person in myPersons)
+			store.AppendValues ( new String [] {
+					person.UniqueID.ToString(),
+					person.Name.ToString(),
+					rt.RestedTime(person.UniqueID) }
+					);
+
 		//show sorted by column name	
 		store.SetSortColumnId(1, Gtk.SortType.Ascending);
+
+		//TODO: check if sort works after 1h
 		store.ChangeSortColumn();
-			
 	}
 	
 	//pass 0 for first row
@@ -175,14 +184,30 @@ public class TreeViewPersons
 			//first ID, then Name
 			store.SetValue (iter2, 0, jumperID);
 			store.SetValue (iter2, 1, jumperName);
+			store.SetValue (iter2, 2, ""); //restTime
 		} else {
 			//first ID, then Name
-			iter2 = store.AppendValues (jumperID, jumperName);
+			iter2 = store.AppendValues (jumperID, jumperName, "");
 		}
 			
 		//scroll treeview if needed
 		TreePath path = store.GetPath (iter2);
 		treeview.ScrollToCell (path, null, true, 0, 0);
+	}
+
+	public void UpdateRestTimes(RestTime restTime)
+	{
+		TreeIter iter;
+		bool iterOk = store.GetIterFirst(out iter);
+		if(iterOk) {
+			do {
+				string rested = restTime.RestedTime(
+						Convert.ToInt32(store.GetValue(iter, 0)));
+				if(rested != "")
+					store.SetValue(iter, 2, rested);
+
+			} while (store.IterNext (ref iter));
+		}
 	}
 }
 

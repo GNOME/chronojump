@@ -48,9 +48,19 @@ public class LastTestTime
 		get {
 			TimeSpan ts = DateTime.Now.Subtract(time);
 			if(ts.TotalMinutes >= 60)
-				return "+60'";
+				return "+60'"; //TODO: check if this is correctly sorted on treeview persons
 
-			return string.Format("{0}'{1}\"", ts.Minutes, ts.Seconds);
+			//add a 0 if values are <10 to order them correctly on treeview persons
+			int m = ts.Minutes;
+			int s = ts.Seconds;
+			string mStr = m.ToString();
+			string sStr = s.ToString();
+			if(m < 10)
+				mStr = "0" + mStr;
+			if(s < 10)
+				sStr = "0" + sStr;
+
+			return string.Format("{0}'{1}\"", mStr, sStr);
 		}
 	}
 

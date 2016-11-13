@@ -625,7 +625,8 @@ public partial class ChronoJumpWindow
 
 		restTime = new RestTime();
 		updatingRestTimes = true;
-		GLib.Timeout.Add(5000, new GLib.TimeoutHandler(updateRestTimes)); //each 5s
+		//GLib.Timeout.Add(5000, new GLib.TimeoutHandler(updateRestTimes)); //each 5s
+		GLib.Timeout.Add(1000, new GLib.TimeoutHandler(updateRestTimes)); //each s, better for don't have problems sorting data on treeview
 
 
 		/*
@@ -4080,7 +4081,7 @@ public partial class ChronoJumpWindow
 		//chronojumpWindowTestsNext();
 	}
 
-	//called each 5 seconds and after a test
+	//called each second and after a test
 	bool updateRestTimes()
 	{
 		if(! updatingRestTimes)

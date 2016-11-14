@@ -187,6 +187,8 @@ public partial class ChronoJumpWindow
 	//menu person
 	[Widget] Gtk.Button button_persons_up;
 	[Widget] Gtk.Button button_persons_down;
+	[Widget] Gtk.CheckButton checkbutton_rest;
+	[Widget] Gtk.SpinButton spinbutton_rest;
 	[Widget] Gtk.Button button_edit_current_person;
 	[Widget] Gtk.Button button_show_all_person_events;
 	[Widget] Gtk.Button button_delete_current_person;
@@ -670,10 +672,8 @@ public partial class ChronoJumpWindow
 		if(normalGUI) {
 			//if change these values, change also in glade
 			//frame_test_options.BoxChild.Expand(true);
-			label_current_person_title.Text=Catalog.GetString("Current person");
 		} else {
 			//frame_test_options.BoxChild.Expand(false);
-			label_current_person_title.Text=Catalog.GetString("Current");
 		}
 	}
 */
@@ -1101,7 +1101,7 @@ public partial class ChronoJumpWindow
 	 */
 
 	private void createTreeView_persons (Gtk.TreeView tv) {
-		myTreeViewPersons = new TreeViewPersons( tv );
+		myTreeViewPersons = new TreeViewPersons(tv, Convert.ToInt32(spinbutton_rest.Value));
 		tv.Selection.Changed += onTreeviewPersonsSelectionEntry;
 	}
 
@@ -1155,7 +1155,7 @@ public partial class ChronoJumpWindow
 	
 	private void treeview_persons_storeReset() {
 		myTreeViewPersons.RemoveColumns();
-		myTreeViewPersons = new TreeViewPersons(treeview_persons);
+		myTreeViewPersons = new TreeViewPersons(treeview_persons, Convert.ToInt32(spinbutton_rest.Value));
 	}
 	
 	//private void on_treeview_persons_cursor_changed (object o, EventArgs args) {
@@ -4092,6 +4092,21 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
+	private void on_checkbutton_rest_clicked(object o, EventArgs args)
+	{
+		if(checkbutton_rest.Active) {
+			spinbutton_rest.Sensitive = true;
+			myTreeViewPersons.RestMinutesMark = Convert.ToInt32(spinbutton_rest.Value);
+		} else {
+			spinbutton_rest.Sensitive = false;
+			myTreeViewPersons.RestMinutesMark = 0;
+		}
+	}
+
+	private void on_spinbutton_rest_value_changed(object o, EventArgs args)
+	{
+		myTreeViewPersons.RestMinutesMark = Convert.ToInt32(spinbutton_rest.Value);
+	}
 
 
 	/* ---------------------------------------------------------

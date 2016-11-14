@@ -29,17 +29,23 @@ public class TreeViewPersons
 {
 	protected TreeStore store;
 	protected Gtk.TreeView treeview;
+
+	//if 0 don't use it
+	//if > 0 then show in red when >= to this value
+	public int RestMinutesMark;
 	
 	public TreeViewPersons ()
 	{
 	}
 	
-	public TreeViewPersons (Gtk.TreeView treeview)
+	public TreeViewPersons (Gtk.TreeView treeview, int restMinutes)
 	{
 		this.treeview = treeview;
 
+		RestMinutesMark = restMinutes;
+
 		store = getStore(3);
-		string [] columnsString = { "ID", Catalog.GetString("person"), "Rest time"};
+		string [] columnsString = { "ID", Catalog.GetString("person"), Catalog.GetString("Rest")};
 		treeview.Model = store;
 		prepareHeaders(columnsString);
 	}
@@ -61,25 +67,40 @@ public class TreeViewPersons
 		int i=0;
 		bool visible = false;
 		foreach(string myCol in columnsString) {
-			UtilGtk.CreateCols(treeview, store, Catalog.GetString(myCol), i++, visible);
+			if(i < 2)
+				UtilGtk.CreateCols(treeview, store, Catalog.GetString(myCol), i++, visible);
+			else {
+				//do it here to use a custom colored Renderer
+				Gtk.TreeViewColumn aColumn = new Gtk.TreeViewColumn ();
+				CellRendererText aCell = new CellRendererText();
+				aColumn.Title = Catalog.GetString(myCol);
+				aColumn.PackStart (aCell, true);
+				aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderRestTime));
+
+				aColumn.SortColumnId = i;
+				aColumn.SortIndicator = true;
+				aColumn.Visible = visible;
+				treeview.AppendColumn ( aColumn );
+			}
+
 			if(i == 1)
 				store.SetSortFunc (0, UtilGtk.IdColumnCompare);
 
-			//TODO: store.SetSortFunc for column "Rest time"
 			visible = true;
 		}
 	}
 
-	/*
-	public int idColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
-		int val1 = 0;
-		int val2 = 0;
-		val1 = Convert.ToInt32(model.GetValue(iter1, 0));
-		val2 = Convert.ToInt32(model.GetValue(iter2, 0));
-		
-		return (val1-val2);
+	private void RenderRestTime (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		string restTime = (string) model.GetValue(iter, 2);
+		(cell as Gtk.CellRendererText).Text = restTime;
+
+		if(RestMinutesMark > 0 && LastTestTime.GetMinutes(restTime) >= RestMinutesMark)
+			(cell as Gtk.CellRendererText).Foreground = UtilGtk.ColorBad;
+		else
+			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 	}
-	*/
+
 
 	public void RemoveColumns() {
 		Gtk.TreeViewColumn [] myColumns = treeview.Columns;

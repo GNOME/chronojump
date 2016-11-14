@@ -42,13 +42,15 @@ public class LastTestTime
 	{
 		return personID.ToString() + ":" + time.ToString();
 	}
-	
+
+	const string maxTimeString = "+60'";
+
 	public string RestedTime
 	{
 		get {
 			TimeSpan ts = DateTime.Now.Subtract(time);
 			if(ts.TotalMinutes >= 60)
-				return "+60'"; //TODO: check if this is correctly sorted on treeview persons
+				return maxTimeString; //TODO: check if this is correctly sorted on treeview persons
 
 			//add a 0 if values are <10 to order them correctly on treeview persons
 			int m = ts.Minutes;
@@ -62,6 +64,22 @@ public class LastTestTime
 
 			return string.Format("{0}'{1}\"", mStr, sStr);
 		}
+	}
+
+	public static int GetMinutes(string restedTime)
+	{
+		if(restedTime == null || restedTime == "")
+			return 0;
+		if(restedTime == maxTimeString)
+			return 60;
+
+		int minutes = 0;
+		try {
+			minutes = Convert.ToInt32(restedTime.Substring(0,2));
+		} catch {
+			return 0;
+		}
+		return minutes;
 	}
 
 	public int PersonID

@@ -2420,7 +2420,7 @@ Carles</property>
                                                             <widget class="GtkHBox" id="hbox118">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="tooltip">Highlight higher resting times</property>
+                                                            <property name="tooltip">Highlight longer resting times than this value</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <widget class="GtkCheckButton" id="checkbutton_rest">

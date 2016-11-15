@@ -188,7 +188,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_persons_up;
 	[Widget] Gtk.Button button_persons_down;
 	[Widget] Gtk.CheckButton checkbutton_rest;
-	[Widget] Gtk.SpinButton spinbutton_rest;
+	[Widget] Gtk.HBox hbox_rest_time;
+	[Widget] Gtk.SpinButton spinbutton_rest_minutes;
+	[Widget] Gtk.SpinButton spinbutton_rest_seconds;
 	[Widget] Gtk.Button button_edit_current_person;
 	[Widget] Gtk.Button button_show_all_person_events;
 	[Widget] Gtk.Button button_delete_current_person;
@@ -1101,7 +1103,7 @@ public partial class ChronoJumpWindow
 	 */
 
 	private void createTreeView_persons (Gtk.TreeView tv) {
-		myTreeViewPersons = new TreeViewPersons(tv, Convert.ToInt32(spinbutton_rest.Value));
+		myTreeViewPersons = new TreeViewPersons(tv, get_rest_time_in_seconds());
 		tv.Selection.Changed += onTreeviewPersonsSelectionEntry;
 	}
 
@@ -1153,9 +1155,10 @@ public partial class ChronoJumpWindow
 		label_encoder_person_name.UseMarkup = true; 
 	}
 	
-	private void treeview_persons_storeReset() {
+	private void treeview_persons_storeReset()
+	{
 		myTreeViewPersons.RemoveColumns();
-		myTreeViewPersons = new TreeViewPersons(treeview_persons, Convert.ToInt32(spinbutton_rest.Value));
+		myTreeViewPersons = new TreeViewPersons(treeview_persons, get_rest_time_in_seconds());
 	}
 	
 	//private void on_treeview_persons_cursor_changed (object o, EventArgs args) {
@@ -4095,17 +4098,22 @@ public partial class ChronoJumpWindow
 	private void on_checkbutton_rest_clicked(object o, EventArgs args)
 	{
 		if(checkbutton_rest.Active) {
-			spinbutton_rest.Sensitive = true;
-			myTreeViewPersons.RestMinutesMark = Convert.ToInt32(spinbutton_rest.Value);
+			hbox_rest_time.Sensitive = true;
+			myTreeViewPersons.RestSecondsMark = get_rest_time_in_seconds();
 		} else {
-			spinbutton_rest.Sensitive = false;
-			myTreeViewPersons.RestMinutesMark = 0;
+			hbox_rest_time.Sensitive = false;
+			myTreeViewPersons.RestSecondsMark = 0;
 		}
 	}
 
-	private void on_spinbutton_rest_value_changed(object o, EventArgs args)
+	private void on_spinbutton_rest_time_value_changed(object o, EventArgs args)
 	{
-		myTreeViewPersons.RestMinutesMark = Convert.ToInt32(spinbutton_rest.Value);
+		myTreeViewPersons.RestSecondsMark = get_rest_time_in_seconds();
+	}
+
+	private int get_rest_time_in_seconds()
+	{
+		return 60 * Convert.ToInt32(spinbutton_rest_minutes.Value) + Convert.ToInt32(spinbutton_rest_seconds.Value);
 	}
 
 

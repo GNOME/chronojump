@@ -93,14 +93,44 @@ public class TreeViewPersons
 	private void RenderRestTime (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		string restTime = (string) model.GetValue(iter, 2);
+
+		if(RestSecondsMark > 0 && LastTestTime.GetSeconds(restTime) >= RestSecondsMark)
+		{
+			Gtk.TreeModel model2;
+			Gtk.TreeIter iter2;
+			bool selected = false;
+			if (treeview.Selection.GetSelected (out model2, out iter2))
+				if(model.GetValue(iter, 0).ToString() == model2.GetValue(iter2, 0).ToString())
+					selected = true;
+
+			if(selected) {
+				//based on http://stackoverflow.com/a/9548415
+				(cell as Gtk.CellRendererText).Markup = "<span foreground=\"red\" background=\"white\">"+restTime+"</span>";
+			}
+			else {
+				(cell as Gtk.CellRendererText).Foreground = UtilGtk.ColorBad;
+				(cell as Gtk.CellRendererText).Text = restTime;
+			}
+		} else {
+			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+			(cell as Gtk.CellRendererText).Text = restTime;
+		}
+	}
+
+	/*
+	 * this method works fine but does not show foreground in color when cell is selected
+	 * above method solves this
+	private void RenderRestTime (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		string restTime = (string) model.GetValue(iter, 2);
 		(cell as Gtk.CellRendererText).Text = restTime;
 
 		if(RestMinutesMark > 0 && LastTestTime.GetMinutes(restTime) >= RestMinutesMark)
 			(cell as Gtk.CellRendererText).Foreground = UtilGtk.ColorBad;
 		else
-			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+			(cell as Gtk.CellRendererText).Foreground = null; 	//will show default color
 	}
-
+	*/
 
 	public void RemoveColumns() {
 		Gtk.TreeViewColumn [] myColumns = treeview.Columns;

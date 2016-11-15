@@ -32,17 +32,17 @@ public class TreeViewPersons
 
 	//if 0 don't use it
 	//if > 0 then show in red when >= to this value
-	public int RestMinutesMark;
+	public int RestSecondsMark;
 	
 	public TreeViewPersons ()
 	{
 	}
 	
-	public TreeViewPersons (Gtk.TreeView treeview, int restMinutes)
+	public TreeViewPersons (Gtk.TreeView treeview, int restSeconds)
 	{
 		this.treeview = treeview;
 
-		RestMinutesMark = restMinutes;
+		RestSecondsMark = restSeconds;
 
 		store = getStore(3);
 		string [] columnsString = { "ID", Catalog.GetString("person"), Catalog.GetString("Rest")};

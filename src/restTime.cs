@@ -66,20 +66,21 @@ public class LastTestTime
 		}
 	}
 
-	public static int GetMinutes(string restedTime)
+	public static int GetSeconds(string restedTime)
 	{
 		if(restedTime == null || restedTime == "")
 			return 0;
 		if(restedTime == maxTimeString)
-			return 60;
+			return 3600;
 
-		int minutes = 0;
+		int seconds = 0;
 		try {
-			minutes = Convert.ToInt32(restedTime.Substring(0,2));
+			//comes 02'10" 	Substring(0,2) will read minutes 	Substring(3,2) will read seconds
+			seconds = ( 60 * Convert.ToInt32(restedTime.Substring(0,2)) ) + Convert.ToInt32(restedTime.Substring(3,2));
 		} catch {
 			return 0;
 		}
-		return minutes;
+		return seconds;
 	}
 
 	public int PersonID

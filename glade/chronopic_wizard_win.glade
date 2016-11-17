@@ -44,7 +44,7 @@ Which devices are you going to use?</property>
                     <property name="can_focus">False</property>
                     <child>
                       <widget class="GtkRadioButton" id="radio_start_contacts">
-                        <property name="label">Chronopic for jumps/runs</property>
+                        <property name="label">Chronopic for jumps/races</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
@@ -329,7 +329,7 @@ Which devices are you going to use?</property>
                                       <widget class="GtkLabel" id="label3">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label">Connect Chronopic for jumps/runs</property>
+                                        <property name="label">Connect Chronopic for jumps/races</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>

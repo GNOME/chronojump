@@ -29,7 +29,7 @@
                 <property name="spacing">4</property>
                 <child>
                   <widget class="GtkCheckButton" id="checkbutton_show_data_jump_run">
-                    <property name="label" translatable="yes">Show data of jump and run tests</property>
+                    <property name="label" translatable="yes">Show data of jump and race tests</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>

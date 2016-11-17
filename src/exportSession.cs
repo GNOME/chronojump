@@ -201,10 +201,10 @@ public class ExportSession
 		printJumpsRj(true, Catalog.GetString("Reactive jumps") + 
 				" (" + Catalog.GetString("with subjumps") + ")");
 
-		printRuns(Catalog.GetString("Simple runs"));
+		printRuns(Catalog.GetString("Simple races"));
 
-		printRunsInterval(true, Catalog.GetString("interval runs") + 
-				" (" + Catalog.GetString("with tracks") + ")");
+		printRunsInterval(true, Catalog.GetString("interval races") +
+				" (" + Catalog.GetString("with laps") + ")");
 
 		printReactionTimes(Catalog.GetString("Reaction times"));
 		
@@ -606,7 +606,7 @@ public class ExportSession
 						Catalog.GetString("Time total") + ":" +
 						Catalog.GetString("Average speed") + ":" +
 						Catalog.GetString("Distance interval") + ":" + 
-						Catalog.GetString("Tracks") + ":" + 
+						Catalog.GetString("Laps") + ":" +
 						Catalog.GetString("Limited") + ":" +
 						Catalog.GetString("Description") + ":" +
 						Catalog.GetString("Simulated") + ":" +

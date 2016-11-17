@@ -49,7 +49,7 @@ public class StatRunSimple : Stat
 			store = getStore(dataColumns +1); //jumper, speed, distance, time
 		}
 		
-		string [] columnsString = { Catalog.GetString("Run"), Catalog.GetString("Speed"), 
+		string [] columnsString = { Catalog.GetString("Race"), Catalog.GetString("Speed"),
 			Catalog.GetString("Distance"), Catalog.GetString("Time") };
 	
 		if(toReport) {

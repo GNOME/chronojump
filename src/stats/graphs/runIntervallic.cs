@@ -74,7 +74,7 @@ public class GraphRunIntervallic : StatRunIntervallic
 		
 		CurrentGraphData.LabelLeft = translateYesNo("Speed") + "(m/s)";
 		CurrentGraphData.LabelRight = "";
-		CurrentGraphData.LabelBottom = translateYesNo("Runs");
+		CurrentGraphData.LabelBottom = translateYesNo("Races");
 	}
 
 	protected override void printData (string [] statValues) 

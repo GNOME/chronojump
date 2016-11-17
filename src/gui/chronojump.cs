@@ -4422,7 +4422,7 @@ public partial class ChronoJumpWindow
 			! canCaptureC,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
-			Catalog.GetString("Tracks"),  	  //name of the different moments
+			Catalog.GetString("Laps"),  	  //name of the different moments
 			Constants.RunIntervalTable, //tableName
 			currentRunIntervalType.Name
 			);

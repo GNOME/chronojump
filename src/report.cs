@@ -163,16 +163,16 @@ public class Report : ExportSession
 		}
 		
 		if(ShowSimpleRuns) 
-			printRuns(Catalog.GetString("Simple runs"));
+			printRuns(Catalog.GetString("Simple races"));
 		
 		if (ShowIntervalRuns) {
 			string myTitle = "";
 			if(ShowIntervalRunsWithSubruns) {
-				myTitle = Catalog.GetString("interval runs") + 
-						" (" + Catalog.GetString("with tracks") + ")";
+				myTitle = Catalog.GetString("interval races") +
+						" (" + Catalog.GetString("with laps") + ")";
 			} else {
-				myTitle = Catalog.GetString("interval runs") + 
-						" (" + Catalog.GetString("without tracks") + ")";
+				myTitle = Catalog.GetString("interval races") +
+						" (" + Catalog.GetString("without laps") + ")";
 			}
 			printRunsInterval(ShowIntervalRunsWithSubruns, myTitle);
 		}

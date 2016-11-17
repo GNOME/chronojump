@@ -10,10 +10,10 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=chronojump\n"
-"POT-Creation-Date: 2016-11-15 15:39+0000\n"
-"PO-Revision-Date: 2016-11-16 11:43+0100\n"
+"POT-Creation-Date: 2016-11-17 12:21+0000\n"
+"PO-Revision-Date: 2016-11-17 13:43+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
-"Language-Team: čeština <gnome-cs-list@gnome.org>>\n"
+"Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -163,10 +163,9 @@ msgstr "Jednoduchý"
 msgid "Reactive"
 msgstr "Reakční"
 
-#: ../glade/app1.glade.h:26 ../glade/dialog_server_stats.glade.h:11
-#: ../glade/preferences_win.glade.h:46 ../glade/report_window.glade.h:11
-#: ../glade/session_upload.glade.h:5
-msgid "Runs"
+#: ../glade/app1.glade.h:26 ../glade/preferences_win.glade.h:46
+#: ../glade/report_window.glade.h:11
+msgid "Races"
 msgstr "Běhy"
 
 #: ../glade/app1.glade.h:27 ../glade/report_window.glade.h:6
@@ -203,11 +202,11 @@ msgid "Jumps reactive"
 msgstr "Skoky reakční"
 
 #: ../glade/app1.glade.h:34 ../src/gui/session.cs:764
-msgid "Runs simple"
+msgid "Races simple"
 msgstr "Běhy jednoduché"
 
 #: ../glade/app1.glade.h:35
-msgid "Runs intervallic"
+msgid "Races intervallic"
 msgstr "Běhy intervalové"
 
 #: ../glade/app1.glade.h:36
@@ -455,11 +454,11 @@ msgid "2"
 msgstr "2"
 
 #: ../glade/app1.glade.h:94
-msgid "Add run type"
+msgid "Add race type"
 msgstr "Přidat typ běhu"
 
 #: ../glade/app1.glade.h:95
-msgid "Delete run type"
+msgid "Delete race type"
 msgstr "Smazat typ běhu"
 
 #: ../glade/app1.glade.h:96 ../glade/edit_event.glade.h:38
@@ -495,8 +494,8 @@ msgid "Multi Chronopic test"
 msgstr "Test Multi Chronopic"
 
 #: ../glade/app1.glade.h:104
-msgid "Run analysis"
-msgstr "Spustit analýzy"
+msgid "Race analysis"
+msgstr "Analýzy běhu"
 
 #: ../glade/app1.glade.h:105
 msgid "7"
@@ -639,10 +638,10 @@ msgstr "strana 3"
 
 #: ../glade/app1.glade.h:136
 msgid ""
-"Track distance\n"
+"Lap distance\n"
 "(between platforms)"
 msgstr ""
-"Délka dráhy \n"
+"Délka dráhy\n"
 "(mezi plošinami)"
 
 #: ../glade/app1.glade.h:138 ../glade/edit_event.glade.h:23
@@ -983,11 +982,11 @@ msgid "Jump multiple"
 msgstr "Skoky vícenásobné"
 
 #: ../glade/app1.glade.h:201 ../src/stats/runSimple.cs:52
-msgid "Run"
+msgid "Race"
 msgstr "Běh"
 
 #: ../glade/app1.glade.h:202
-msgid "Run Intervallic"
+msgid "Race Intervallic"
 msgstr "Běh intervalový"
 
 #: ../glade/app1.glade.h:203 ../src/gui/session.cs:766
@@ -1926,6 +1925,10 @@ msgstr "Obecné údaje"
 #: ../src/report.cs:156 ../src/report.cs:159
 msgid "Reactive jumps"
 msgstr "Reakční skoky"
+
+#: ../glade/dialog_server_stats.glade.h:11 ../glade/session_upload.glade.h:5
+msgid "Runs"
+msgstr "Běhy"
 
 #: ../glade/dialog_server_stats.glade.h:12
 msgid "Intervallic runs"
@@ -2987,8 +2990,8 @@ msgid "Take last contact (recommended)"
 msgstr "Vzít poslední kontakt (doporučeno)"
 
 #: ../glade/preferences_win.glade.h:42
-msgid "Double contacts on simple runs"
-msgstr "Dvojité kontakty v jednotlivých bězích"
+msgid "Double contacts on simple races"
+msgstr "Dvojité kontakty v jednoduchých bězích"
 
 #: ../glade/preferences_win.glade.h:43
 msgid "Take average (recommended)"
@@ -2999,7 +3002,7 @@ msgid "Take last contact"
 msgstr "Vzít poslední kontakt"
 
 #: ../glade/preferences_win.glade.h:45
-msgid "on intervallic runs"
+msgid "on intervallic races"
 msgstr "na intervalových bězích"
 
 #: ../glade/preferences_win.glade.h:47
@@ -3393,7 +3396,7 @@ msgid "show..."
 msgstr "zobrazit…"
 
 #: ../glade/report_window.glade.h:7
-msgid "Include tracks"
+msgid "Include laps"
 msgstr "Včetně drah"
 
 #: ../glade/report_window.glade.h:8
@@ -3437,11 +3440,11 @@ msgid "Make report"
 msgstr "Vytvořit výstupní sestavu"
 
 #: ../glade/run_type_add.glade.h:1
-msgid "Create new Run Type"
+msgid "Create new race type"
 msgstr "Vytvoření nového typu běhu"
 
 #: ../glade/run_type_add.glade.h:2
-msgid "Create a new run type in the database"
+msgid "Create a new race type in the database"
 msgstr "Vytvořit nový typ běhu v databázi"
 
 #: ../glade/run_type_add.glade.h:8
@@ -3453,7 +3456,7 @@ msgstr ""
 "(co určuje konec)"
 
 #: ../glade/run_type_add.glade.h:11 ../src/gui/run.cs:1029
-msgid "tracks"
+msgid "laps"
 msgstr "dráhy"
 
 #: ../glade/run_type_add.glade.h:12
@@ -3478,14 +3481,14 @@ msgstr "(m)"
 
 #: ../glade/run_type_add.glade.h:21
 msgid ""
-"Different (each track have different distance\n"
+"Different (each lap have different distance\n"
 "suitable for agility tests and RSA)"
 msgstr ""
 "Různá (každá dráha má jinou délku\n"
 "vhodnou pro testy hbitosti a RSA)"
 
 #: ../glade/run_type_add.glade.h:23
-msgid "Number of different tracks"
+msgid "Number of different laps"
 msgstr "Počet různých drah"
 
 #: ../glade/run_type_add.glade.h:24
@@ -3493,7 +3496,7 @@ msgid "Help RSA"
 msgstr "Nápověda k RSA"
 
 #: ../glade/run_type_add.glade.h:25
-msgid "Distance of each track"
+msgid "Distance of each lap"
 msgstr "Délka každé dráhy"
 
 #: ../glade/session_add_edit.glade.h:1
@@ -4354,7 +4357,7 @@ msgid "See all jumps"
 msgstr "Zobrazit všechny skoky"
 
 #: ../src/constants.cs:373
-msgid "See all runs"
+msgid "See all races"
 msgstr "Zobrazit všechny běhy"
 
 #: ../src/constants.cs:374
@@ -5032,15 +5035,15 @@ msgid "with subjumps"
 msgstr "s meziskoky"
 
 #: ../src/exportSession.cs:204 ../src/report.cs:166
-msgid "Simple runs"
+msgid "Simple races"
 msgstr "Jednoduché běhy"
 
 #: ../src/exportSession.cs:206 ../src/report.cs:171 ../src/report.cs:174
-msgid "interval runs"
+msgid "interval races"
 msgstr "intervalové běhy"
 
 #: ../src/exportSession.cs:207 ../src/report.cs:172
-msgid "with tracks"
+msgid "with laps"
 msgstr "s dráhami"
 
 #: ../src/exportSession.cs:229 ../src/report.cs:229
@@ -5166,7 +5169,7 @@ msgstr "Intervalová vzdálenost"
 
 #: ../src/exportSession.cs:609 ../src/gui/chronojump.cs:4425
 #: ../src/gui/run.cs:1406 ../src/gui/run.cs:1474 ../src/gui/run.cs:1526
-msgid "Tracks"
+msgid "Laps"
 msgstr "Dráhy"
 
 #: ../src/exportSession.cs:646
@@ -5635,7 +5638,7 @@ msgid "Not configured"
 msgstr "Nenastaveno"
 
 #: ../src/gui/chronopicRegister.cs:135
-msgid "Jumps/Runs"
+msgid "Jumps/Races"
 msgstr "Skoky/běhy"
 
 #: ../src/gui/chronopicRegister.cs:209
@@ -6619,7 +6622,7 @@ msgstr ""
 
 #: ../src/gui/person.cs:2384
 msgid ""
-"Runs\n"
+"Races\n"
 "simple"
 msgstr ""
 "Běhy\n"
@@ -6627,7 +6630,7 @@ msgstr ""
 
 #: ../src/gui/person.cs:2385
 msgid ""
-"Runs\n"
+"Races\n"
 "interval"
 msgstr ""
 "Běhy\n"
@@ -6773,11 +6776,11 @@ msgid "Comment this statistic"
 msgstr "Připojit poznámku k této statistice"
 
 #: ../src/gui/run.cs:52
-msgid "run"
+msgid "race"
 msgstr "běh"
 
 #: ../src/gui/run.cs:262
-msgid "intervallic run"
+msgid "intervallic race"
 msgstr "intervalový běh"
 
 #: ../src/gui/run.cs:511
@@ -6814,7 +6817,7 @@ msgid "Totaltime cannot be greater."
 msgstr "Celkový čas nemůže být větší."
 
 #: ../src/gui/run.cs:971
-msgid "Track distance (between platforms)"
+msgid "Lap distance (between barriers)"
 msgstr "Délka dráhy (mezi plošinami)"
 
 #: ../src/gui/run.cs:972
@@ -6940,7 +6943,7 @@ msgid "Number"
 msgstr "Číslo"
 
 #: ../src/gui/session.cs:765
-msgid "Runs interval"
+msgid "Races interval"
 msgstr "Běhy intervalové"
 
 #: ../src/gui/session.cs:771
@@ -7253,7 +7256,7 @@ msgid "without subjumps"
 msgstr "bez meziskoků"
 
 #: ../src/report.cs:175
-msgid "without tracks"
+msgid "without laps"
 msgstr "bez drah"
 
 #: ../src/report.cs:292
@@ -7413,11 +7416,11 @@ msgstr "Účel"
 
 #: ../src/runType.cs:190
 msgid ""
-"The 20 yard agility run is a simple measure of an athlete’s ability to "
+"The 20 yard agility race is a simple measure of an athlete’s ability to "
 "accelerate, decelerate, change direction, and to accelerate again."
 msgstr ""
-"Test hbitosti na 20 yardů je jednoduchý test měřící atletické schopnosti "
-"zrychlit, zpomalit, změnit směr a znovu zrychlit."
+"Test hbitosti při běhu na 20 yardů je jednoduchý test měřící atletické "
+"schopnosti zrychlit, zpomalit, změnit směr a znovu zrychlit."
 
 #: ../src/runType.cs:192 ../src/runType.cs:211 ../src/runType.cs:231
 #: ../src/runType.cs:269 ../src/runType.cs:298
@@ -9336,7 +9339,7 @@ msgstr[2] " (nejlepších {0} po sobě jdoucích označených běhů)"
 
 #: ../src/stats/runIntervallic.cs:271
 #, csharp-format
-msgid "{0} in Run Intervallic applied to {1} on {2}{3}"
+msgid "{0} in Intervallic races applied to {1} on {2}{3}"
 msgstr "{0} v intervalovém běhu použitém na {1} v {2}{3}"
 
 #: ../src/stats/runSimple.cs:131
@@ -9396,6 +9399,3 @@ msgstr "Čas překrytí"
 #: ../src/treeViewRun.cs:133
 msgid "Split time"
 msgstr "Čas rozdělení"
-
-#~ msgid "Current person"
-#~ msgstr "Současná osoba"

@@ -132,7 +132,7 @@ public class ChronopicRegisterWindow
 		unknownCol.PackStart (unknownCell, true);
 
 		Gtk.TreeViewColumn contactsCol = new Gtk.TreeViewColumn ();
-		contactsCol.Title = " " + Catalog.GetString("Jumps/Runs") + " ";
+		contactsCol.Title = " " + Catalog.GetString("Jumps/Races") + " ";
 		Gtk.CellRendererToggle contactsCell = new Gtk.CellRendererToggle ();
 		contactsCell.Activatable = true;
 		contactsCell.Radio = true; 	//draw as radiobutton

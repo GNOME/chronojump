@@ -370,7 +370,7 @@ public class Constants
 
 	//strings
 	public static string AllJumpsName = Catalog.GetString("See all jumps");
-	public static string AllRunsName = Catalog.GetString("See all runs");
+	public static string AllRunsName = Catalog.GetString("See all races");
 	public static string AllPulsesName = Catalog.GetString("See all pulses");
 
 	//fileNames

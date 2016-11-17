@@ -187,7 +187,7 @@ public class RunType : EventType
 				Catalog.GetString("This test is part of a battery for the USA Women's Soccer Team. The NFL use a very similar test for the NFL Combine Testing, the 20 yard shuttle.") + "\n\n" +
 
 				"<b>" + Catalog.GetString("Purpose") + "</b>: " +
-			       Catalog.GetString("The 20 yard agility run is a simple measure of an athlete’s ability to accelerate, decelerate, change direction, and to accelerate again.") + "\n\n" +
+			       Catalog.GetString("The 20 yard agility race is a simple measure of an athlete’s ability to accelerate, decelerate, change direction, and to accelerate again.") + "\n\n" +
 
 				"<b>" + Catalog.GetString("Description") + " / " + Catalog.GetString("Procedure") + "</b>: " +
 			       Catalog.GetString("Set up three marker cones in a straight line, exactly five yards apart - cones B, A(center) and C. At each cone place a line across using marking tape. The timer is positioned at the level of the center A cone, facing the athlete. The athlete straddles the center cone A with feet an equal distance apart and parallel to the line of cones. When ready, the athlete runs to cone B (touching the line with either foot), turns and accelerates to cone C (touching the line), and finishes by accelerating through the line at cone A. The stopwatch is started on the first movement of the athlete and stops the watch when the athlete’s torso crosses the center line.") + "\n\n" + 

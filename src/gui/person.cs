@@ -2381,8 +2381,8 @@ public class PersonShowAllEventsWindow {
 		tv.AppendColumn ( Catalog.GetString ("Date\n"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Jumps\nsimple"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Jumps\nreactive"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Runs\nsimple"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Runs\ninterval"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Races\nsimple"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Races\ninterval"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Reaction\ntime"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Pulses"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);

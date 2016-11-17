@@ -49,7 +49,7 @@ public class EditRunWindow : EditEventWindow
 		//put an icon to window
 		UtilGtk.IconWindow(edit_event);
 	
-		eventBigTypeString = Catalog.GetString("run");
+		eventBigTypeString = Catalog.GetString("race");
 	}
 
 	static public EditRunWindow Show (Gtk.Window parent, Event myEvent, int pDN, bool metersSecondsPreferred)
@@ -259,7 +259,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		//put an icon to window
 		UtilGtk.IconWindow(edit_event);
 	
-		eventBigTypeString = Catalog.GetString("intervallic run");
+		eventBigTypeString = Catalog.GetString("intervallic race");
 	}
 
 	static new public EditRunIntervalWindow Show (Gtk.Window parent, Event myEvent, int pDN, bool metersSecondsPreferred)
@@ -968,7 +968,7 @@ public partial class ChronoJumpWindow
 		currentEventType = myRunType;
 		changeTestImage(EventType.Types.RUN.ToString(), myRunType.Name, myRunType.ImageFileName);
 
-		extra_window_runs_label_distance.Text = Catalog.GetString("Track distance (between platforms)");
+		extra_window_runs_label_distance.Text = Catalog.GetString("Lap distance (between barriers)");
 		extra_window_runs_label_distance_units.Text = Catalog.GetString("meters");
 
 		if(myRunType.Distance > 0) {
@@ -1026,7 +1026,7 @@ public partial class ChronoJumpWindow
 		}
 
 		if(! myRunType.Unlimited) {
-			string tracksName = Catalog.GetString("tracks");
+			string tracksName = Catalog.GetString("laps");
 			string secondsName = Catalog.GetString("seconds");
 			if(myRunType.TracksLimited) 
 				extra_window_runs_interval_label_limit_units.Text = tracksName;
@@ -1403,7 +1403,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 				myLimiter= Catalog.GetString("Unlimited");
 				myLimiterValue = "-";
 			} else {
-				myLimiter = Catalog.GetString("Tracks");
+				myLimiter = Catalog.GetString("Laps");
 				if(myStringFull[3] == "0") {
 					myLimiter = Catalog.GetString("Seconds");
 				}
@@ -1471,7 +1471,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 				selectedUnlimited = true;
 			} 
 
-			if( (string) model.GetValue (iter, 2) == Catalog.GetString("Tracks") ) {
+			if( (string) model.GetValue (iter, 2) == Catalog.GetString("Laps") ) {
 				selectedTracksLimited = true;
 			}
 
@@ -1523,7 +1523,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 				selectedUnlimited = true;
 			} 
 			
-			if( (string) model.GetValue (iter, 2) == Catalog.GetString("Tracks") ) {
+			if( (string) model.GetValue (iter, 2) == Catalog.GetString("Laps") ) {
 				selectedTracksLimited = true;
 			}
 

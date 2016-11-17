@@ -53,7 +53,7 @@ public class GraphRunSimple : StatRunSimple
 		if(myStatTypeStruct.ToReport) {
 			CurrentGraphData.GraphTitle = "";
 		} else {
-			CurrentGraphData.GraphTitle = "Simple runs";
+			CurrentGraphData.GraphTitle = "Simple races";
 		}
 		
 		if(sessions.Count == 1) {

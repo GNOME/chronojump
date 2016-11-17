@@ -761,8 +761,8 @@ public class SessionLoadWindow {
 		if(showContacts) {
 			tv.AppendColumn ( Catalog.GetString ("Jumps simple"), new CellRendererText(), "text", count++);
 			tv.AppendColumn ( Catalog.GetString ("Jumps reactive"), new CellRendererText(), "text", count++);
-			tv.AppendColumn ( Catalog.GetString ("Runs simple"), new CellRendererText(), "text", count++);
-			tv.AppendColumn ( Catalog.GetString ("Runs interval"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("Races simple"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("Races interval"), new CellRendererText(), "text", count++);
 			tv.AppendColumn ( Catalog.GetString ("Reaction time"), new CellRendererText(), "text", count++);
 			tv.AppendColumn ( Catalog.GetString ("Pulses"), new CellRendererText(), "text", count++);
 			tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);

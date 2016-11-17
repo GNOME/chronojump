@@ -1149,7 +1149,7 @@ It starts before and arrives there with some speed.</property>
                       <widget class="GtkLabel" id="label44">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Double contacts on simple runs</property>
+                        <property name="label" translatable="yes">Double contacts on simple races</property>
                       </widget>
                       <packing>
                         <property name="tab_fill">False</property>
@@ -1328,7 +1328,7 @@ It starts before and arrives there with some speed.</property>
                       <widget class="GtkLabel" id="label45">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">on intervallic runs</property>
+                        <property name="label" translatable="yes">on intervallic races</property>
                       </widget>
                       <packing>
                         <property name="position">1</property>
@@ -1352,8 +1352,9 @@ It starts before and arrives there with some speed.</property>
               <widget class="GtkLabel" id="label_runs">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="xalign">0.49000000953674316</property>
                 <property name="yalign">0</property>
-                <property name="label" translatable="yes">Runs</property>
+                <property name="label" translatable="yes">Races</property>
               </widget>
               <packing>
                 <property name="position">2</property>

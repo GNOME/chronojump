@@ -268,7 +268,7 @@ public class StatRunIntervallic : Stat
 					numContinuous);
 		}
 
-		return string.Format(Catalog.GetString("{0} in Run Intervallic applied to {1} on {2}{3}"), selectedValuesString, jumpType, mySessionString, bestResalted);
+		return string.Format(Catalog.GetString("{0} in Intervallic races applied to {1} on {2}{3}"), selectedValuesString, jumpType, mySessionString, bestResalted);
 	}
 }
 

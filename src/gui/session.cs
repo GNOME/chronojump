@@ -652,12 +652,13 @@ public class SessionLoadWindow {
 	
 	private TreeStore store;
 	private string selected;
+	private string import_file_path;
 	[Widget] Gtk.TreeView treeview_session_load;
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Entry entry_search_filter;
 	[Widget] Gtk.CheckButton checkbutton_show_data_jump_run;
 	[Widget] Gtk.CheckButton checkbutton_show_data_encoder;
-	[Widget] Gtk.Entry file_path_import;
+	[Widget] Gtk.Label file_path_import;
 	[Widget] Gtk.HBox session_import_box;
 
 	static SessionLoadWindow SessionLoadWindowBox;
@@ -696,6 +697,10 @@ public class SessionLoadWindow {
 		entry_search_filter.IsFocus = true;
 
 		treeview_session_load.Selection.Changed += onSelectionEntry;
+
+		if (type == WindowType.IMPORT_SESSION) {
+			chooseDatabaseToImport ();
+		}
 	}
 
 	private TreeStore getStore(bool showContacts, bool showEncoder) {
@@ -781,10 +786,12 @@ public class SessionLoadWindow {
 	protected void on_entry_search_filter_changed (object o, EventArgs args) {
 		recreateTreeView("changed search filter");
 	}
-	protected void on_file_path_import_changed(object o, EventArgs args) {
-		recreateTreeView ("file path changed");
-	}
 	protected void on_select_file_import_clicked(object o, EventArgs args) {
+		chooseDatabaseToImport ();
+	}
+
+	private void chooseDatabaseToImport()
+	{
 		Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog ("Choose ChronoJump database to import from",
 		                                                               session_load, FileChooserAction.Open,
 		                                                               "Cancel",ResponseType.Cancel,
@@ -796,9 +803,12 @@ public class SessionLoadWindow {
 		filechooser.AddFilter (file_filter);
 
 		if (filechooser.Run () == (int)ResponseType.Accept) {
-			file_path_import.Text = filechooser.Filename;
+			import_file_path = filechooser.Filename;
+			file_path_import.Text = System.IO.Path.GetFileName (import_file_path);
+			file_path_import.TooltipText = import_file_path;
 		}
 		filechooser.Destroy ();
+		recreateTreeView ("file path changed");
 	}
 	void on_checkbutton_show_data_jump_run_toggled (object o, EventArgs args) {
 		recreateTreeView("jump run " + checkbutton_show_data_jump_run.Active.ToString());
@@ -839,7 +849,7 @@ public class SessionLoadWindow {
 		} else {
 			databaseType = SqliteSessionSwitcher.DatabaseType.SPECIFIC;
 		}
-		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (databaseType, file_path_import.Text);
+		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (databaseType, import_file_path);
 		
 		string [] mySessions = sessionSwitcher.SelectAllSessions(filterName); //returns a string of values separated by ':'
 		foreach (string session in mySessions) {
@@ -965,8 +975,8 @@ public class SessionLoadWindow {
 		return -1;
 	}
 
-	public string DatabasePath() {
-		return file_path_import.Text;
+	public string ImportDatabasePath() {
+		return import_file_path;
 	}
 	
 	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)

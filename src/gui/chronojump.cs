@@ -2307,7 +2307,7 @@ public partial class ChronoJumpWindow
 	private void on_load_session_accepted_to_import(object o, EventArgs args)
 	{
 		int sourceSession = sessionLoadWin.CurrentSessionId();
-		string databasePath = sessionLoadWin.DatabasePath();
+		string databasePath = sessionLoadWin.ImportDatabasePath();
 		LogB.Information (databasePath);
 
 		ImportSessionFromDatabase (databasePath, sourceSession, currentSession);

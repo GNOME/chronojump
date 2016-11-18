@@ -25,7 +25,7 @@
               <widget class="GtkLabel" id="file_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Path:</property>
+                <property name="label" translatable="yes">File name:</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -34,16 +34,9 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkEntry" id="file_path_import">
+              <widget class="GtkLabel" id="file_path_import">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">●</property>
-                <property name="activates_default">True</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
-                <signal name="changed" handler="on_file_path_import_changed" swapped="no"/>
+                <property name="can_focus">False</property>
               </widget>
               <packing>
                 <property name="expand">True</property>

@@ -2,7 +2,10 @@ AC_PREREQ([2.54])
 
 # PACKAGE_VERSION variable comes from here (e.g. to show it to the user,
 # distribution package names, etc.)
-AC_INIT([chronojump], [m4_esyscmd_s([git describe])])
+
+# We are not using m4_esyscmd_s (then we wouldn't need the echo -n ``) because
+# of a bug in intltool-update. See: https://bugs.launchpad.net/intltool/+bug/1642931
+AC_INIT([chronojump], [m4_esyscmd([echo -n `git describe`])])
 
 # This is used in AssemblyInfo.cs.in: it can only be major.minor.release format
 AC_SUBST([PACKAGE_SIMPLIFIED_VERSION], [m4_esyscmd_s([git describe --abbrev=0])])

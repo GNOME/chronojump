@@ -659,7 +659,7 @@ public class SessionLoadWindow {
 	[Widget] Gtk.CheckButton checkbutton_show_data_jump_run;
 	[Widget] Gtk.CheckButton checkbutton_show_data_encoder;
 	[Widget] Gtk.Label file_path_import;
-	[Widget] Gtk.HBox session_import_box;
+	[Widget] Gtk.VBox session_import_box;
 
 	static SessionLoadWindow SessionLoadWindowBox;
 	
@@ -698,9 +698,14 @@ public class SessionLoadWindow {
 
 		treeview_session_load.Selection.Changed += onSelectionEntry;
 
+		/**
+		* Uncomment if we want the session file chooser to be loaded with the dialog.
+		* On Linux at least the placement of the Windows can be strange so at the moment
+		* I leave it disabled until we discuss (to enable or to delete it).
 		if (type == WindowType.IMPORT_SESSION) {
 			chooseDatabaseToImport ();
 		}
+		*/
 	}
 
 	private TreeStore getStore(bool showContacts, bool showEncoder) {

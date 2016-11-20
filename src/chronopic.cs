@@ -306,6 +306,7 @@ public class Chronopic {
 		//-- esperados para la trama. (En el caso de id son 4). Si hay un 
 		//-- timeout se aborta
 		count=0;
+		CancelDo = false;
 		do {
 			//try, catch done because mono-1.2.3 throws an exception when there's a timeout
 			//http://bugzilla.gnome.org/show_bug.cgi?id=420520
@@ -314,10 +315,20 @@ public class Chronopic {
 				try {
 					n = sp.Read(respuesta,count,5-count);
 					LogB.Warning("respuesta = ");
-					LogB.Warning(respuesta.ToString());
+					LogB.Warning(respuesta[count].ToString());
 					count+=n;
 					success = true;
-				} catch {}
+				} catch {
+					//LogB.Warning("catched at Read_cambio");
+					//if cancel is clicked, CancelDo will be true. Stop reading
+					if(CancelDo)
+					{
+						//-- Wait a bit and empty buffer
+						Thread.Sleep(ErrorTimeout);
+						this.flushByTimeOut();
+						return false;
+					}
+				}
 			} while (!success);
 		} while (count<5 && n!=-1);
 
@@ -347,6 +358,8 @@ public class Chronopic {
 	}
 
 	public bool AbortFlush;	
+
+	public bool CancelDo;
 
 	//-- Vaciar buffer de entrada
 	//-- De momento se hace leyendo muchos datos y descartando

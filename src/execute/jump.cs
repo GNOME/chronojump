@@ -279,8 +279,14 @@ public class JumpExecute : EventExecute
 		do {
 			if(simulated)
 				ok = true;
-			else 
+			else
+			{
+				LogB.Information("calling Read_event");
 				ok = cp.Read_event(out timestamp, out platformState);
+			}
+
+			LogB.Information("Read_event done!");
+
 
 
 			/*
@@ -421,11 +427,12 @@ public class JumpExecute : EventExecute
 					loggedState = States.OFF;
 				}
 			}
-//Log.WriteLine("PREEXIT");
 		} while ( ! success && ! cancel );
-//Log.WriteLine("EXIT");
+
+		LogB.Information("Exited waitEvent main bucle");
 		
-		if(cancel) {
+		if(cancel)
+		{
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
 

@@ -3320,7 +3320,7 @@ doProcess <- function(options)
 		nums=1:curvesNum
 		nums=rep(nums,each=curveCols)		
 		namesNums=paste(names, nums)
-		units=c("\n(mm)", "\n(mm)", "\n(m/s)", "\n(m/s^2)", "\n(N)", "\n(W)")
+		units=c(" (mm)", " (mm)", " (m/s)", " (m/s^2)", " (N)", " (W)")
 		namesNums=paste(namesNums, units)
 
 		for(i in 1:curvesNum) { 

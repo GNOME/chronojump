@@ -3452,7 +3452,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute.Cancel = true;
 
 		//this will actually cancel Read_cambio and then Read_event in order to really cancel
-		cp2016.CP.CancelDo = true;
+		Chronopic.CancelDo();
 
 		//if(cp2016.StoredCanCaptureContacts)
 		//	checkCancelTotally(o, args);
@@ -3476,7 +3476,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute.Cancel = true;
 
 		//this will actually cancel Read_cambio and then Read_event in order to really cancel
-		cp2016.CP.CancelDo = true;
+		Chronopic.CancelDo();
 
 		//if(cp2016.StoredCanCaptureContacts)
 		//	checkCancelMultiTotally(o, args);

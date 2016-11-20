@@ -3422,11 +3422,14 @@ public partial class ChronoJumpWindow
 
 		LogB.Information("cancel clicked one");
 
-		//this will cancel jumps or runs
+		//this will mark the test as cancelled
 		currentEventExecute.Cancel = true;
 
-		if(cp2016.StoredCanCaptureContacts)
-			checkCancelTotally(o, args);
+		//this will actually cancel Read_cambio and then Read_event in order to really cancel
+		cp2016.CP.CancelDo = true;
+
+		//if(cp2016.StoredCanCaptureContacts)
+		//	checkCancelTotally(o, args);
 
 		//let update stats
 		//nothing changed, but stats update button cannot be insensitive,
@@ -3443,14 +3446,18 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information("cancel multi clicked one");
 
-		//this will cancel jumps or runs
+		//this will mark the test as cancelled
 		currentEventExecute.Cancel = true;
 
-		if(cp2016.StoredCanCaptureContacts)
-			checkCancelMultiTotally(o, args);
+		//this will actually cancel Read_cambio and then Read_event in order to really cancel
+		cp2016.CP.CancelDo = true;
+
+		//if(cp2016.StoredCanCaptureContacts)
+		//	checkCancelMultiTotally(o, args);
 	}
 
 
+	/*
 	//if user doesn't touch the platform after pressing "cancel", sometimes it gets waiting a Read_event
 	//now the event cancels ok, and next will be ok, also	
 	private void checkCancelTotally (object o, EventArgs args) 
@@ -3512,6 +3519,7 @@ public partial class ChronoJumpWindow
 			errorWin.Button_accept.Clicked += new EventHandler(checkCancelMultiTotally);
 		}
 	}
+	*/
 		
 		
 	private void on_finish_clicked (object o, EventArgs args) 

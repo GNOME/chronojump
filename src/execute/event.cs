@@ -523,7 +523,7 @@ public class EventExecute
 	public virtual void MultiChronopicWrite(bool tempTable) {
 		LogB.Information("at event.cs");
 	}
-			
+
 	public Gtk.Button FakeButtonUpdateGraph {
 		get { return fakeButtonUpdateGraph; }
 	}
@@ -550,7 +550,7 @@ public class EventExecute
 		get { return finish; }
 		set { finish = value; }
 	}
-	
+
 	//called from chronojump.cs for cancelling events
 	public bool Cancel
 	{

@@ -355,6 +355,8 @@ RESOURCES = \
 	../images/reaction_time_menu.png,reaction_time_menu.png \
 	../images/pulse_menu.png,pulse_menu.png \
 	../images/multichronopic_menu.png,multichronopic_menu.png \
+	../images/finish.png,finish.png \
+	../images/gtk-cancel.png,gtk-cancel.png \
 	../images/gtk-zoom-fit.png,gtk-zoom-fit.png \
 	../images/gtk-zoom-in.png,gtk-zoom-in.png \
 	../images/gtk-zoom-in-with-text.png,gtk-zoom-in-with-text.png \

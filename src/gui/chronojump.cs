@@ -109,6 +109,15 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_persons_open_1;
 	[Widget] Gtk.Image image_persons_open_plus;
 
+	//contact tests execute buttons
+	//[Widget] Gtk.Image image_button_execute;
+	[Widget] Gtk.Image image_button_finish;
+	[Widget] Gtk.Image image_button_cancel; //needed this specially because theme cancel sometimes seems "record"
+	//encoder tests execute buttons
+	//[Widget] Gtk.Image image_encoder_capture_execute;
+	[Widget] Gtk.Image image_encoder_capture_finish;
+	[Widget] Gtk.Image image_encoder_capture_cancel;
+
 	[Widget] Gtk.Notebook notebook_session_person;
 	//[Widget] Gtk.Box vbox_persons;
 
@@ -867,6 +876,23 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "jumps-profile-pie.png");
 		image_tab_jumps_profile.Pixbuf = pixbuf;
 		
+		// execute tests --->
+		/*
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gtk-apply.png"); //trying high contrast (black)
+		image_button_execute.Pixbuf = pixbuf;
+		image_encoder_capture_execute.Pixbuf = pixbuf;
+		*/
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "finish.png"); //gnome (white)
+		image_button_finish.Pixbuf = pixbuf;
+		image_encoder_capture_finish.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gtk-cancel.png"); //high contrast (black)
+		image_button_cancel.Pixbuf = pixbuf;
+		image_encoder_capture_cancel.Pixbuf = pixbuf;
+		// <--- end of execute tests
+
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualCurrentSetIcon);
 		image_encoder_analyze_individual_current_set.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualCurrentSessionIcon);
@@ -3971,6 +3997,8 @@ public partial class ChronoJumpWindow
 			Constants.JumpTable, //tableName
 			currentJumpType.Name 
 			);
+		event_execute_button_cancel.Sensitive = true;
+
 		ExecutingGraphData egd = event_execute_prepareForTest ();
 
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
@@ -4081,8 +4109,13 @@ public partial class ChronoJumpWindow
 			sensitiveGuiEventDone();
 		LogB.Information(" cantouch3 ");
 
-		if ( ! currentEventExecute.Cancel )
+		if (currentEventExecute.Cancel)
 		{
+			event_execute_progressbar_event.Fraction = 0;
+			event_execute_progressbar_time.Fraction = 0;
+			event_execute_label_event_value.Text = "";
+			event_execute_label_time_value.Text = "";
+		} else {
 			event_execute_progressbar_time.Fraction = 1;
 
 			restTime.AddOrModify(currentPerson.UniqueID, true);
@@ -4179,6 +4212,8 @@ public partial class ChronoJumpWindow
 			Constants.JumpRjTable, //tableName
 			currentJumpRjType.Name
 			);
+		event_execute_button_cancel.Sensitive = true;
+
 		ExecutingGraphData egd = event_execute_prepareForTest ();
 		
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
@@ -4308,6 +4343,8 @@ public partial class ChronoJumpWindow
 			Constants.RunTable, //tableName
 			currentRunType.Name 
 			);
+		event_execute_button_cancel.Sensitive = true;
+
 		ExecutingGraphData egd = event_execute_prepareForTest ();
 		
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
@@ -4434,6 +4471,8 @@ public partial class ChronoJumpWindow
 			Constants.RunIntervalTable, //tableName
 			currentRunIntervalType.Name
 			);
+		event_execute_button_cancel.Sensitive = true;
+
 		ExecutingGraphData egd = event_execute_prepareForTest ();
 
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
@@ -4554,6 +4593,8 @@ public partial class ChronoJumpWindow
 			Constants.ReactionTimeTable, //tableName
 			"" 
 			);
+		event_execute_button_cancel.Sensitive = true;
+
 		ExecutingGraphData egd = event_execute_prepareForTest ();
 
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
@@ -4732,6 +4773,8 @@ public partial class ChronoJumpWindow
 			Constants.PulseTable, //tableName
 			currentPulseType.Name 
 			);
+		event_execute_button_cancel.Sensitive = true;
+
 		ExecutingGraphData egd = event_execute_prepareForTest ();
 
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
@@ -5009,6 +5052,8 @@ public partial class ChronoJumpWindow
 			Constants.MultiChronopicTable, //tableName
 			currentMultiChronopicType.Name
 			); 
+		event_execute_button_cancel.Sensitive = true;
+
 		ExecutingGraphData egd = event_execute_prepareForTest ();
 
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_multi_clicked);

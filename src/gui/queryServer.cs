@@ -776,7 +776,7 @@ public class QueryServerWindow
 				testType == Catalog.GetString(Constants.JumpReactiveName))
 			label_results_num_units.Text = Catalog.GetString("jumps");
 		else if (testType == Catalog.GetString(Constants.RunSimpleName))
-			label_results_num_units.Text = Catalog.GetString("runs");
+			label_results_num_units.Text = Catalog.GetString("races");
 
 		string strVariable = UtilGtk.ComboGetActive(combo_variables);
 		if(result == "0")

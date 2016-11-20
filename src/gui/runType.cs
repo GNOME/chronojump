@@ -172,7 +172,7 @@ public class RunTypeAddWindow
 			runTypeExists = true;
 		
 		if(runTypeExists) {
-			string myString = string.Format(Catalog.GetString("Run type: '{0}' exists. Please, use another name"), name); 
+			string myString = string.Format(Catalog.GetString("Race type: '{0}' exists. Please, use another name"), name);
 			LogB.Information (myString);
 			ErrorWindow.Show(myString);
 		} else {
@@ -248,7 +248,7 @@ public class RunTypeAddWindow
 	
 	void on_radiobutton_interval_toggled (object o, EventArgs args)
 	{
-		label_distance.Text = "Distance\nof each track";
+		label_distance.Text = "Distance\nof each lap";
 		vbox_limited.Sensitive = true;	
 		if( ! radiobutton_unlimited.Active) {
 			hbox_fixed.Sensitive = true;	
@@ -356,14 +356,14 @@ public class RunTypeAddWindow
 	
 	private void on_button_help_rsa_clicked (object o, EventArgs args) {
 		new DialogMessage(Constants.MessageTypes.HELP, 
-				Catalog.GetString("On RSA tests, rest time counts as a \"track\".") + 
+				Catalog.GetString("On RSA tests, rest time counts as a \"lap\".") +
 				"\n" + 	Catalog.GetString("You should write the time in seconds after a capital 'R' (meaning \"Rest\").") + 
 				"\n\n" + 	Catalog.GetString("Eg. Aziz et al. (2000) test repeats 8 times the following sequence:") + 
 				"\n\n\t" + Catalog.GetString("Run 40 meters, rest 30 seconds.") + 
-				"\n\n" + Catalog.GetString("Will be limited by tracks with a fixed value of 16") + 
-				"\n" + Catalog.GetString("because there are 16 tracks:") + 
-				"\n" + Catalog.GetString("2 different tracks: ('Run' and 'rest') x 8 times") + 
-				"\n\n" + Catalog.GetString("And the 'distance' of each different track will be:") + 
+				"\n\n" + Catalog.GetString("Will be limited by laps with a fixed value of 16") +
+				"\n" + Catalog.GetString("because there are 16 laps:") +
+				"\n" + Catalog.GetString("2 different laps: ('Run' and 'rest') x 8 times") +
+				"\n\n" + Catalog.GetString("And the 'distance' of each different lap will be:") +
 				"\n\n\t40, R30"
 				);
 	}

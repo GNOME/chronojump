@@ -877,11 +877,11 @@ public class RunIntervalExecute : RunExecute
 						if(intervalTimesString[0] == '-') {
 							//this dialog can make crash the software because the non-gui part calls it
 							//new DialogMessage(Constants.MessageTypes.WARNING, 
-							//		Catalog.GetString("Run will not be recorded, 1st track is out of time"));
+							//		Catalog.GetString("Race will not be recorded, 1st lap is out of time"));
 
-							feedbackMessage = Catalog.GetString("Run will not be recorded. Out of time.");
+							feedbackMessage = Catalog.GetString("Race will not be recorded. Out of time.");
 							needShowFeedbackMessage = true; 
-							LogB.Information("Run will not be recorded, 1st track is out of time");
+							LogB.Information("Race will not be recorded, 1st lap is out of time");
 	
 							//mark for not having problems with cancelled
 							cancel = true;

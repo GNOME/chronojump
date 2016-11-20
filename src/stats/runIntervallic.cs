@@ -262,8 +262,8 @@ public class StatRunIntervallic : Stat
 		if(numContinuous != -1) {
 			bestResalted = string.Format(
 					Catalog.GetPluralString(
-						" (best run marked)",
-						" (best {0} consecutive runs marked)",
+						" (best race marked)",
+						" (best {0} consecutive laps marked)",
 						numContinuous),
 					numContinuous);
 		}

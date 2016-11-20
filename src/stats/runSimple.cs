@@ -128,7 +128,7 @@ public class StatRunSimple : Stat
 				strFull[0] + "(" + strFull[2] + ")";
 		}
 
-		return string.Format(Catalog.GetString("{0} in {1} run on {2}"), selectedValuesString, jumpType, mySessionString);
+		return string.Format(Catalog.GetString("{0} in {1} race on {2}"), selectedValuesString, jumpType, mySessionString);
 	}
 
 }

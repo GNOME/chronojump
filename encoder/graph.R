@@ -3341,15 +3341,16 @@ doProcess <- function(options)
 			col1 = displacement[curves[i,1]:curves[i,2]]
 			col2 = position[curves[i,1]:curves[i,2]]
 
-			#add mean, max, and time to max
+			#add absmean, mean, max, and time to max
 			col1=append(col1,
-				    c(NA,NA,NA,NA),
+				    c(NA,NA,NA,NA,NA),
 				    after=0)
 			col2=append(col2,
-				    c(NA,NA,NA,range(col2)[2]-range(col2)[1]),
+				    c(NA,NA,NA,NA,range(col2)[2]-range(col2)[1]),
 				    after=0)
 			kn$speedy=append(kn$speedy,
 					 c(
+					   mean(kn$speedy),
 					   mean(abs(kn$speedy)),
 					   max(kn$speedy),
 					   (min(which(kn$speedy == max(kn$speedy)))/1000),
@@ -3357,6 +3358,7 @@ doProcess <- function(options)
 					 after=0)
 			kn$accely=append(kn$accely,
 					 c(
+					   mean(kn$accely),
 					   mean(abs(kn$accely)),
 					   max(kn$accely),
 					   NA,
@@ -3364,6 +3366,7 @@ doProcess <- function(options)
 					 after=0)
 			kn$force=append(kn$force,
 					c(
+					  mean(kn$force),
 					  mean(abs(kn$force)),
 					  max(kn$force),
 					  NA,
@@ -3371,19 +3374,20 @@ doProcess <- function(options)
 					after=0)
 			kn$power=append(kn$power,
 					c(
+					  mean(kn$power),
 					  mean(abs(kn$power)),
 					  max(kn$power),
 					  (min(which(kn$power == max(kn$power)))/1000),
 					  NA),
 					after=0)
 
-			extraRows=4
-			length(col1)=maxLength+extraRows
-			length(col2)=maxLength+extraRows
-			length(kn$speedy)=maxLength+extraRows
-			length(kn$accely)=maxLength+extraRows
-			length(kn$force)=maxLength+extraRows
-			length(kn$power)=maxLength+extraRows
+			extraRows=5
+			length(col1) <- maxLength + extraRows
+			length(col2) <- maxLength + extraRows
+			length(kn$speedy) <- maxLength + extraRows
+			length(kn$accely) <- maxLength + extraRows
+			length(kn$force) <- maxLength + extraRows
+			length(kn$power) <- maxLength + extraRows
 
 			if(i==1)
 				df=data.frame(cbind(col1, col2,
@@ -3393,7 +3397,7 @@ doProcess <- function(options)
 						    kn$speedy, kn$accely, kn$force, kn$power))
 		}
 
-		rownames(df) = c("MEAN", "MAX", "TIME TO MAX", "RANGE", 1:maxLength)
+		rownames(df) = c("MEAN", "MEAN (ABS)", "MAX", "TIME TO MAX", "RANGE", 1:maxLength)
 		colnames(df) = namesNums
 
 		#TODO: time

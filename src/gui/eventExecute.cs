@@ -217,8 +217,6 @@ public partial class ChronoJumpWindow
 			showPulseLabels();
 		}
 
-		event_execute_button_cancel.Sensitive = true;
-
 		UtilGtk.ClearDrawingArea(event_execute_drawingarea, event_execute_pixmap);
 
 		clearProgressBars();

@@ -1564,12 +1564,12 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkButton" id="button_carles">
-                                    <property name="label">Button
-Carles</property>
+                                  <widget class="GtkButton" id="button_crash">
+                                    <property name="label">CRASH_ME
+(debug purposes)</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <signal name="clicked" handler="on_button_carles_clicked" swapped="no"/>
+                                    <signal name="clicked" handler="on_debug_crash_activate" swapped="no"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -1578,12 +1578,12 @@ Carles</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkButton" id="button_crash">
-                                    <property name="label">CRASH_ME
-(debug purposes)</property>
+                                  <widget class="GtkButton" id="button_carles">
+                                    <property name="label">Button
+Carles</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <signal name="clicked" handler="on_debug_crash_activate" swapped="no"/>
+                                    <signal name="clicked" handler="on_button_carles_clicked" swapped="no"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -6544,7 +6544,7 @@ after time</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkImage" id="image17">
+                                                            <widget class="GtkImage" id="image_button_execute">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-apply</property>
@@ -6592,7 +6592,7 @@ after time</property>
                                                             <property name="use_underline">True</property>
                                                             <signal name="clicked" handler="on_event_execute_finish_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image29">
+                                                            <widget class="GtkImage" id="image_button_finish">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-goto-last</property>
@@ -6609,6 +6609,7 @@ after time</property>
                                                             <child>
                                                             <widget class="GtkButton" id="event_execute_button_cancel">
                                                             <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
@@ -6616,7 +6617,7 @@ after time</property>
                                                             <property name="tooltip" translatable="yes">Cancel test</property>
                                                             <signal name="clicked" handler="on_event_execute_button_cancel_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image30">
+                                                            <widget class="GtkImage" id="image_button_cancel">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-cancel</property>
@@ -14819,7 +14820,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkImage" id="image10">
+                                                            <widget class="GtkImage" id="image_encoder_capture_execute">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-apply</property>
@@ -15000,7 +15001,7 @@ Concentric</property>
                                                             <property name="use_underline">True</property>
                                                             <signal name="clicked" handler="on_button_encoder_capture_finish_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image13">
+                                                            <widget class="GtkImage" id="image_encoder_capture_finish">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-goto-last</property>
@@ -15027,7 +15028,7 @@ Concentric</property>
                                                             <property name="use_underline">True</property>
                                                             <signal name="clicked" handler="on_button_encoder_cancel_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image8">
+                                                            <widget class="GtkImage" id="image_encoder_capture_cancel">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-cancel</property>
@@ -18141,6 +18142,9 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -591,7 +591,7 @@ public class RepairRunIntervalWindow
 
 		this.runInterval = myRun;
 	
-		repair_sub_event.Title = Catalog.GetString("Repair intervallic run");
+		repair_sub_event.Title = Catalog.GetString("Repair intervallic race");
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
@@ -633,7 +633,7 @@ public class RepairRunIntervalWindow
 	
 	private string createTextForTextView (RunType myRunType) {
 		string runTypeString = string.Format(Catalog.GetString(
-					"RunType: {0}."), myRunType.Name);
+					"RaceType: {0}."), myRunType.Name);
 
 		string fixedString = "";
 		if(myRunType.FixedValue > 0) {
@@ -641,8 +641,8 @@ public class RepairRunIntervalWindow
 				//if it's a run type runsLimited with a fixed value, then don't allow the creation of more runs
 				fixedString = "\n" +  string.Format(
 						Catalog.GetPluralString(
-							"This run type is fixed to one run.", 
-							"This run type is fixed to {0} runs.",
+							"This race type is fixed to one lap.",
+							"This race type is fixed to {0} laps.",
 							myRunType.FixedValue), 
 						myRunType.FixedValue) +
 					Catalog.GetString("You cannot add more.");
@@ -650,8 +650,8 @@ public class RepairRunIntervalWindow
 				//if it's a run type timeLimited with a fixed value, then complain when the total time is higher
 				fixedString = "\n" + string.Format(
 						Catalog.GetPluralString(
-							"This run type is fixed to one second.",
-							"This run type is fixed to {0} seconds.",
+							"This race type is fixed to one second.",
+							"This race type is fixed to {0} seconds.",
 							myRunType.FixedValue),
 						myRunType.FixedValue) +
 					Catalog.GetString("Totaltime cannot be greater.");

@@ -216,7 +216,7 @@ public class ChronopicRegisterWindow
 				str += "\n\n";
 				str += Catalog.GetString("Please, mark Chronopic/s as") +
 					"\n- " +
-					Catalog.GetString("Jumps/runs") + " " + Catalog.GetString("or") +
+					Catalog.GetString("Jumps") + "/" + Catalog.GetString("Races") + " " + Catalog.GetString("or") +
 					"\n- " + Catalog.GetString("Encoder");
 			}
 			return str;

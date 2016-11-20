@@ -2700,7 +2700,7 @@ public partial class ChronoJumpWindow
 	private void on_delete_current_person_from_session_clicked (object o, EventArgs args) {
 		LogB.Information("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(
-				Catalog.GetString("Are you sure you want to delete the current person and all his/her tests (jumps, runs, pulses, ...) from this session?\n(His/her personal data and tests in other sessions will remain intact.)"), "", 
+				Catalog.GetString("Are you sure you want to delete the current person and all his/her tests (jumps, races, pulses, ...) from this session?\n(His/her personal data and tests in other sessions will remain intact.)"), "",
 				Catalog.GetString("Current Person: ") + currentPerson.Name);
 
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_current_person_from_session_accepted);
@@ -5779,14 +5779,14 @@ LogB.Debug("X");
 	
 	private void on_delete_selected_run_clicked (object o, EventArgs args) {
 		//notebooks_change(2); see "notebooks_change sqlite problem"
-		LogB.Information("delete this run (normal)");
+		LogB.Information("delete this race (normal)");
 		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
 		if (myTreeViewRuns.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this run?"), "");
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this race?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_accepted);
 			} else {
 				on_delete_selected_run_accepted(o, args);
@@ -5797,14 +5797,14 @@ LogB.Debug("X");
 	
 	private void on_delete_selected_run_interval_clicked (object o, EventArgs args) {
 		//notebooks_change(3); see "notebooks_change sqlite problem"
-		LogB.Information("delete this run interval");
+		LogB.Information("delete this race interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's a subrun, pass the parent run)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this run?"), 
-						 Catalog.GetString("Attention: Deleting a Intervallic subrun will delete the whole run"));
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this race?"),
+						 Catalog.GetString("Attention: Deleting a lap will delete the whole race"));
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_interval_accepted);
 			} else {
 				on_delete_selected_run_interval_accepted(o, args);
@@ -5813,7 +5813,7 @@ LogB.Debug("X");
 	}
 
 	private void on_delete_selected_run_accepted (object o, EventArgs args) {
-		LogB.Information("accept delete this run");
+		LogB.Information("accept delete this race");
 		int id = myTreeViewRuns.EventSelectedID;
 		
 		Sqlite.Delete(false, Constants.RunTable, id);
@@ -5837,7 +5837,7 @@ LogB.Debug("X");
 	}
 
 	private void on_delete_selected_run_interval_accepted (object o, EventArgs args) {
-		LogB.Information("accept delete this run");
+		LogB.Information("accept delete this race");
 		int id = myTreeViewRunsInterval.EventSelectedID;
 		
 		Sqlite.Delete(false, Constants.RunIntervalTable, id);
@@ -5999,13 +5999,13 @@ LogB.Debug("X");
 
 			UtilGtk.ComboUpdate(combo_result_jumps, 
 					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), ""); //without filter, only select name
-			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple jump."));
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple jump type."));
 		} else {
 			createComboSelectJumpsRj(false);
 			
 			UtilGtk.ComboUpdate(combo_result_jumps_rj, 
 					SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
-			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added reactive jump."));
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added reactive jump type."));
 		}
 		updateComboStats();
 		combo_select_jumps.Active = 0;
@@ -6035,13 +6035,13 @@ LogB.Debug("X");
 
 			UtilGtk.ComboUpdate(combo_result_runs, 
 					SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
-			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple run."));
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple race type."));
 		} else {
 			createComboSelectRunsInterval(false);
 			
 			UtilGtk.ComboUpdate(combo_result_runs_interval, 
 					SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
-			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added intervallic run."));
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added intervallic race type."));
 		}
 		updateComboStats();
 		combo_select_runs.Active = 0;

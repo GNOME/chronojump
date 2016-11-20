@@ -547,7 +547,7 @@ public class ExportSession
 			myData.Add( "\n" + 
 					Catalog.GetString("Person ID") + ":" +
 					Catalog.GetString("Person name") + ":" +
-					Catalog.GetString("run ID") + ":" + 
+					Catalog.GetString("Race ID") + ":" +
 					Catalog.GetString("Type") + ":" + 
 					Catalog.GetString("Distance") + ":" + 
 					Catalog.GetString("Time") + ":" + 

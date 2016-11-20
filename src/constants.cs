@@ -365,8 +365,8 @@ public class Constants
 	public static string TypeJumpsSimple = Catalog.GetString("Simple");
 	public static string TypeJumpsSimpleWithTC = Catalog.GetString("Simple with TC");
 	public static string TypeJumpsReactive = Catalog.GetString("Jumps: Reactive");
-	public static string TypeRunsSimple = Catalog.GetString("Runs: Simple");
-	public static string TypeRunsIntervallic = Catalog.GetString("Runs: Intervallic");
+	public static string TypeRunsSimple = Catalog.GetString("Races: Simple");
+	public static string TypeRunsIntervallic = Catalog.GetString("Races: Intervallic");
 
 	//strings
 	public static string AllJumpsName = Catalog.GetString("See all jumps");

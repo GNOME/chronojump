@@ -15,6 +15,7 @@ SOURCES = \
 	gui/encoderTreeviews.cs\
 	gui/encoderConfiguration.cs\
 	gui/encoderSelectRepetitions.cs\
+	gui/encoderOverview.cs\
 	gui/error.cs\
 	gui/eventExecute.cs\
 	gui/eventGraphConfigure.cs\
@@ -208,6 +209,7 @@ RESOURCES = \
 	../glade/dialog_server_stats.glade \
 	../glade/edit_event.glade \
 	../glade/encoder_configuration.glade \
+	../glade/encoder_overview.glade \
 	../glade/error_window.glade \
 	../glade/evaluator_window.glade \
 	../glade/event_graph_configure.glade \

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -807,6 +808,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="images\stock_inertial.png">
       <LogicalName>stock_inertial.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\finish.png">
+      <LogicalName>finish.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\gtk-cancel.png">
+      <LogicalName>gtk-cancel.png</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

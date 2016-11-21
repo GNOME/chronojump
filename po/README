@@ -1,0 +1,8 @@
+If you need to use intltool-update please use the one bundled
+in this directory (e.g. ./intltool-update -m)
+
+It contains this patch:
+https://bugs.launchpad.net/intltool/+bug/1642931
+
+See the original bugreport:
+https://bugzilla.gnome.org/show_bug.cgi?id=774404

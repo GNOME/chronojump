@@ -439,7 +439,8 @@ public partial class ChronoJumpWindow
 	GenericWindow genericWin;
 		
 	ExecuteAutoWindow executeAutoWin;
-	
+	EncoderOverviewWindow encoderOverviewWindow;
+
 	//ChronopicWindow chronopicWin;
 	//ChronopicWizardWindow chronopicWizardWin;
 	//string wizardPortContacts;

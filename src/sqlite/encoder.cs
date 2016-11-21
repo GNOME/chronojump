@@ -461,13 +461,13 @@ class SqliteEncoder : Sqlite
 		return array;
 	}
 	
-	public static ArrayList SelectSessionOverview (bool dbconOpened, Constants.EncoderGI encoderGI, int sessionID)
+	public static ArrayList SelectSessionOverviewSets (bool dbconOpened, Constants.EncoderGI encoderGI, int sessionID)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
 	
 		dbcmd.CommandText = 
-			"SELECT person77.name, encoder.encoderConfiguration, encoderExercise.name, (personSession77.weight * encoderExercise.percentBodyWeight/100) + encoder.extraWeight, COUNT(*)" + 
+			"SELECT person77.name, person77.sex, encoder.encoderConfiguration, encoderExercise.name, (personSession77.weight * encoderExercise.percentBodyWeight/100) + encoder.extraWeight, COUNT(*)" +
 			" FROM person77, personSession77, encoderExercise, encoder" + 
 			" WHERE person77.uniqueID == encoder.personID AND personSession77.personID == encoder.personID AND personSession77.sessionID == encoder.sessionID AND encoderExercise.uniqueID==encoder.exerciseID AND signalOrCurve == \"signal\" AND encoder.sessionID == " + sessionID + 
 			" GROUP BY encoder.personID, exerciseID, extraWeight" +
@@ -479,10 +479,10 @@ class SqliteEncoder : Sqlite
 		reader = dbcmd.ExecuteReader();
 
 		ArrayList array = new ArrayList();
-		int count = 0;
-		while(reader.Read()) { 
+		while(reader.Read())
+		{
 			//discard if != encoderGI
-			string [] strFull = reader[1].ToString().Split(new char[] {':'});
+			string [] strFull = reader[2].ToString().Split(new char[] {':'});
 			EncoderConfiguration econf = new EncoderConfiguration(
 				(Constants.EncoderConfigurationNames) 
 				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
@@ -493,21 +493,84 @@ class SqliteEncoder : Sqlite
 			else if(encoderGI == Constants.EncoderGI.INERTIAL && ! econf.has_inertia)
 				continue;
 
-			if(encoderGI == Constants.EncoderGI.GRAVITATORY) {
+			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
+			{
 				string [] s = { 
-					(count++).ToString(),	//not displayed but needed on genericWin.SetTreeView
 					reader[0].ToString(), 	//person name
-					reader[2].ToString(), 	//encoder exercise name
-					reader[3].ToString(),	//displaced mass (includes percentBodyeight)
-					reader[4].ToString()	//sets count
+					reader[1].ToString(), 	//person sex
+					reader[3].ToString(), 	//encoder exercise name
+					reader[4].ToString(),	//displaced mass (includes percentBodyeight)
+					reader[5].ToString()	//sets count
 				};
 				array.Add (s);
 			} else {
 				string [] s = { 
-					(count++).ToString(),	//not displayed but needed on genericWin.SetTreeView
 					reader[0].ToString(), 	//person name
-					reader[2].ToString(), 	//encoder exercise name
+					reader[1].ToString(), 	//person sex
+					reader[3].ToString(), 	//encoder exercise name
 					reader[4].ToString()	//sets count
+				};
+				array.Add (s);
+			}
+		}
+
+		reader.Close();
+		if(! dbconOpened)
+			Sqlite.Close();
+
+		return array;
+	}
+
+	public static ArrayList SelectSessionOverviewReps (bool dbconOpened, Constants.EncoderGI encoderGI, int sessionID)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.CommandText =
+			"SELECT person77.name, person77.sex, encoder.encoderConfiguration, encoderExercise.name, encoder.extraWeight, encoder.future1 " +
+			"FROM person77, encoderExercise, encoder " +
+			"WHERE sessionID = " + sessionID.ToString() +
+		        " AND signalOrCurve = \"curve\" " +
+			" AND person77.uniqueID = encoder.personID " +
+			" AND encoderExercise.uniqueID = encoder.exerciseID " +
+			" ORDER BY person77.name";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList array = new ArrayList();
+		while(reader.Read())
+		{
+			//discard if != encoderGI
+			string [] strFull = reader[2].ToString().Split(new char[] {':'});
+			EncoderConfiguration econf = new EncoderConfiguration(
+				(Constants.EncoderConfigurationNames)
+				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
+
+			//if encoderGI != ALL discard non wanted repetitions
+			if(encoderGI == Constants.EncoderGI.GRAVITATORY && econf.has_inertia)
+				continue;
+			else if(encoderGI == Constants.EncoderGI.INERTIAL && ! econf.has_inertia)
+				continue;
+
+			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
+			{
+				string [] s = {
+					reader[0].ToString(), 	//person name
+					reader[1].ToString(), 	//person sex
+					reader[3].ToString(), 	//encoder exercise name
+					reader[4].ToString(),	//extra mass
+					reader[5].ToString()	//power
+				};
+				array.Add (s);
+			} else {
+				string [] s = {
+					reader[0].ToString(), 	//person name
+					reader[1].ToString(), 	//person sex
+					reader[3].ToString(), 	//encoder exercise name
+					reader[5].ToString()	//power
 				};
 				array.Add (s);
 			}

@@ -1004,6 +1004,7 @@
     <Compile Include="src\sqlite\usefulObjects.cs" />
     <Compile Include="src\buildInfo.cs" />
     <Compile Include="src\restTime.cs" />
+    <Compile Include="src\gui\encoderOverview.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

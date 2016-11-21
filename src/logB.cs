@@ -242,24 +242,29 @@ public static class LogB
 			string lineStart = string.Format("[{5}{0} {1:00}:{2:00}:{3:00}.{4:000}]", TypeString(type), DateTime.Now.Hour,
 					DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond, thread_name);
 
-			if(PrintAllThreads || printNow) {
-				//try {
+			if(PrintAllThreads || printNow)
+			{
+				try {
 					Console.Write(lineStart);
 	
 					ConsoleCrayon.ResetColor();
 	
 					message += LogSync.ReadAndEmpty();
 	
-					if(details != null) {
+					if(details != null)
 						Console.WriteLine(" {0} - {1}", message, details);
-					} else {
+					else {
 						if(type == LogEntryType.Debug)
 							Console.Write(" {0}", message);
 						else
 							Console.WriteLine(" {0}", message);
 					}
-				//} catch (System.IndexOutOfRangeException e) {
-				//}
+				} catch (System.IndexOutOfRangeException e)
+				{
+					//Sometimes logB crashes on printing
+					Console.WriteLine("CATCHED AT LOGB:");
+					Console.WriteLine("message: {0}", message);
+				}
 			} else {
 				LogSync.Add(lineStart + "\n" + message);
 			}

@@ -80,27 +80,26 @@ class ChronojumpImporter
 		string message;
 		string sessionName = getSessionName (sourceFile, sourceSession);
 
-		string sessionInformation = String.Format (Catalog.GetString ("Session name: {0}\n" +
-			"from file: {1}"), sessionName, sourceFile);
-
-		if (importsToNew()) {
-			message = Catalog.GetString ("A new session will be created with the data from:" + "\n" +
-				sessionInformation + "\n\n" +
-				Catalog.GetString ("(if you would like to import into an existing session then press Cancel, Load the session that you would like to import into and import it)"));
+		if (importsToNew ()) {
+			// We don't need any confirmation to import into a new session (the user could delete it easily if it was a mistake)
+			return Gtk.ResponseType.Accept;
 		} else {
-			message = String.Format (Catalog.GetString ("The current session will be modified. The data from:") + "\n" +
-				sessionInformation + "\n" +
-				Catalog.GetString ("Will be imported in the current session") + "\n\n" + 
-				Catalog.GetString ("(if you would like to import it as a new session then press Cancel, exit Chronojump and import before Loading a session)"));
+			// If the user is importing it into an existing session we require a confirmation.
+			// This is very hard to Undo.
+			string sessionInformation = String.Format (Catalog.GetString ("Session name: {0}\n" +
+			                                                              "from file: {1}"), sessionName, sourceFile);
+			message = String.Format (Catalog.GetString ("The current session will be modified (and it's not possible to Undo it easily). The data from:") + "\n\n" +
+				sessionInformation + "\n\n" +
+				Catalog.GetString ("Will be imported into the current session. It cannot be undone."));
+
+			Gtk.MessageDialog confirmationDialog = new Gtk.MessageDialog (parentWindow, Gtk.DialogFlags.Modal, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, message);
+			confirmationDialog.Title = Catalog.GetString ("Import session?");
+			Gtk.ResponseType response = (Gtk.ResponseType)confirmationDialog.Run ();
+
+			confirmationDialog.Destroy ();
+
+			return response;
 		}
-
-		Gtk.MessageDialog confirmationDialog = new Gtk.MessageDialog (parentWindow, Gtk.DialogFlags.Modal, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, message);
-		confirmationDialog.Title = Catalog.GetString ("Import session?");
-		Gtk.ResponseType response = (Gtk.ResponseType) confirmationDialog.Run ();
-
-		confirmationDialog.Destroy ();
-
-		return response;
 	}
 
 	public void showImportCorrectlyFinished()

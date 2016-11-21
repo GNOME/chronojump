@@ -2327,6 +2327,11 @@ public partial class ChronoJumpWindow
 	private void on_button_encoder_import_chronojump_session(object o, EventArgs args)
 	{
 		sessionLoadWin = SessionLoadWindow.Show (app1, SessionLoadWindow.WindowType.IMPORT_SESSION);
+
+		if (currentSession == null) {
+			sessionLoadWin.DisableImportToCurrentSession ();
+		}
+
 		sessionLoadWin.Button_accept.Clicked += new EventHandler(on_load_session_accepted_to_import);
 	}
 
@@ -2337,7 +2342,13 @@ public partial class ChronoJumpWindow
 		string databasePath = sessionLoadWin.ImportDatabasePath();
 		LogB.Information (databasePath);
 
-		ImportSessionFromDatabase (databasePath, sourceSession, currentSession);
+		Session destinationSession = currentSession;
+
+		if (sessionLoadWin.ImportToNewSession ()) {
+			destinationSession = null;
+		}
+
+		ImportSessionFromDatabase (databasePath, sourceSession, destinationSession);
 	}
 
 	private void ImportSessionFromDatabase(string databasePath, int sourceSession, Session destinationSession)

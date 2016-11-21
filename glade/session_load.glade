@@ -29,7 +29,7 @@
                   <widget class="GtkLabel" id="file_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">File name:</property>
+                    <property name="label" translatable="yes">Import from file:</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -72,10 +72,11 @@
             </child>
             <child>
               <widget class="GtkHBox" id="import_options_box">
+                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
                   <widget class="GtkRadioButton" id="radio_import_new_session">
-                    <property name="label" translatable="yes">Import in a new session</property>
+                    <property name="label" translatable="yes">Import into a new session</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -90,7 +91,7 @@
                 </child>
                 <child>
                   <widget class="GtkRadioButton" id="radio_import_current_session">
-                    <property name="label" translatable="yes">Import in the current session</property>
+                    <property name="label" translatable="yes">Import into the current session</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>

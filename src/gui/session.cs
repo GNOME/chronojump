@@ -660,6 +660,9 @@ public class SessionLoadWindow {
 	[Widget] Gtk.CheckButton checkbutton_show_data_encoder;
 	[Widget] Gtk.Label file_path_import;
 	[Widget] Gtk.VBox session_import_box;
+	
+	[Widget] Gtk.RadioButton radio_import_new_session;
+	[Widget] Gtk.RadioButton radio_import_current_session;
 
 	static SessionLoadWindow SessionLoadWindowBox;
 	
@@ -695,6 +698,11 @@ public class SessionLoadWindow {
 		button_accept.Sensitive = false;
 		entry_search_filter.CanFocus = true;
 		entry_search_filter.IsFocus = true;
+
+		// Leave the state of the Importing Comboboxes as they are by default
+		/*radio_import_new_session.Active = true;
+		radio_import_current_session.Sensitive = false;
+		*/
 
 		treeview_session_load.Selection.Changed += onSelectionEntry;
 
@@ -983,7 +991,16 @@ public class SessionLoadWindow {
 	public string ImportDatabasePath() {
 		return import_file_path;
 	}
-	
+
+	public bool ImportToNewSession() {
+		return radio_import_new_session.Active;
+	}
+
+	public void DisableImportToCurrentSession() {
+		radio_import_new_session.Active = true;
+		radio_import_current_session.Sensitive = false;
+	}
+
 	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;

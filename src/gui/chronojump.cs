@@ -3733,19 +3733,7 @@ public partial class ChronoJumpWindow
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 
 	{
-		if(UtilAll.IsWindows()) {
-			//on Windows check if last connected port is available with chronopicRegister getPorts()
-			//TODO: fix this code
-			/*
-			bool windowsLastContactsPortExists = cp2016.WindowsLastConnectedRealExists();
-			if( ! windowsLastContactsPortExists) {
-				chronopicRegisterUpdate(true);
-				return;
-			}
-			*/
-		} else {
-			chronopicRegisterUpdate(false);
-		}
+		chronopicRegisterUpdate(false);
 
 		int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
 		//store a boolean in order to read info faster

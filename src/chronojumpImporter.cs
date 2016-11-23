@@ -82,7 +82,7 @@ class ChronojumpImporter
 
 		if (importsToNew ()) {
 			// We don't need any confirmation to import into a new session (the user could delete it easily if it was a mistake)
-			return Gtk.ResponseType.Accept;
+			return Gtk.ResponseType.Ok;
 		} else {
 			// If the user is importing it into an existing session we require a confirmation.
 			// This is very hard to Undo.

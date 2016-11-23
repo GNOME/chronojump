@@ -283,10 +283,8 @@ public class JumpExecute : EventExecute
 			{
 				LogB.Information("calling Read_event");
 				ok = cp.Read_event(out timestamp, out platformState);
+				LogB.Information("Read_event done!");
 			}
-
-			LogB.Information("Read_event done!");
-
 
 
 			/*

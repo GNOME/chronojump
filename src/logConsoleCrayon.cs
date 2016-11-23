@@ -72,14 +72,18 @@ public static class ConsoleCrayon
 			throw new ArgumentOutOfRangeException("color", "Not a ConsoleColor value.");
 		}
 
-		if(XtermColors) {
-			Console.Write(GetAnsiColorControlCode(color, isForeground));
-		} else if(Environment.OSVersion.Platform != PlatformID.Unix && !RuntimeIsMono) {
-			if(isForeground) {
-				Console.ForegroundColor = color;
-			} else {
-				Console.BackgroundColor = color;
+		try {
+			if(XtermColors) {
+				Console.Write(GetAnsiColorControlCode(color, isForeground));
+			} else if(Environment.OSVersion.Platform != PlatformID.Unix && !RuntimeIsMono) {
+				if(isForeground) {
+					Console.ForegroundColor = color;
+				} else {
+					Console.BackgroundColor = color;
+				}
 			}
+		} catch (System.IndexOutOfRangeException e) {
+			Console.Write("CATCHED at SetColor");
 		}
 	}
 

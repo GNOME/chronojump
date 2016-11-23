@@ -180,52 +180,8 @@ public static class LogB
 			return;
 		}
 
-		if(type != LogEntryType.Information || (type == LogEntryType.Information && !showUser)) {
-			switch(type) {
-				case LogEntryType.Error:
-					ConsoleCrayon.ForegroundColor = ConsoleColor.Red;
-					break;
-				case LogEntryType.Warning:
-					ConsoleCrayon.ForegroundColor = ConsoleColor.DarkYellow;
-					break;
-				case LogEntryType.Information:
-					ConsoleCrayon.ForegroundColor = ConsoleColor.Green;
-					break;
-				case LogEntryType.Debug:
-					ConsoleCrayon.ForegroundColor = ConsoleColor.Blue;
-					break;
-				case LogEntryType.SQL:
-					ConsoleCrayon.ForegroundColor = ConsoleColor.Cyan;
-					break;
-				case LogEntryType.SQLon:
-					ConsoleCrayon.BackgroundColor = ConsoleColor.DarkCyan;
-					ConsoleCrayon.ForegroundColor = ConsoleColor.White;
-					break;
-				case LogEntryType.SQLoff:
-					ConsoleCrayon.BackgroundColor = ConsoleColor.DarkCyan;
-					ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
-					break;
-				case LogEntryType.ThreadStart:
-					ConsoleCrayon.BackgroundColor = ConsoleColor.Green;
-					ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
-					break;
-				case LogEntryType.ThreadEnding:
-					ConsoleCrayon.BackgroundColor = ConsoleColor.Yellow;
-					ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
-					break;
-				case LogEntryType.ThreadEnded:
-					ConsoleCrayon.BackgroundColor = ConsoleColor.Red;
-					ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
-					break;
-				case LogEntryType.TestStart:
-					ConsoleCrayon.BackgroundColor = ConsoleColor.Blue;
-					ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
-					break;
-				case LogEntryType.TestEnd:
-					ConsoleCrayon.BackgroundColor = ConsoleColor.Blue;
-					ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
-					break;
-			}
+		if(type != LogEntryType.Information || (type == LogEntryType.Information && !showUser))
+		{
 
 			var thread_name = String.Empty;
 			bool printNow = false;
@@ -244,26 +200,83 @@ public static class LogB
 
 			if(PrintAllThreads || printNow)
 			{
-				try {
-					Console.Write(lineStart);
-	
-					ConsoleCrayon.ResetColor();
-	
-					message += LogSync.ReadAndEmpty();
-	
-					if(details != null)
-						Console.WriteLine(" {0} - {1}", message, details);
-					else {
-						if(type == LogEntryType.Debug)
-							Console.Write(" {0}", message);
-						else
-							Console.WriteLine(" {0}", message);
+				/*
+				 * only doing this in main thread now.
+				 * Less buggy and seems to have finished with ^@ and 92M messages
+				 */
+				switch(type) {
+					case LogEntryType.Error:
+						ConsoleCrayon.ForegroundColor = ConsoleColor.Red;
+						break;
+					case LogEntryType.Warning:
+						ConsoleCrayon.ForegroundColor = ConsoleColor.DarkYellow;
+						break;
+					case LogEntryType.Information:
+						ConsoleCrayon.ForegroundColor = ConsoleColor.Green;
+						break;
+					case LogEntryType.Debug:
+						ConsoleCrayon.ForegroundColor = ConsoleColor.Blue;
+						break;
+					case LogEntryType.SQL:
+						ConsoleCrayon.ForegroundColor = ConsoleColor.Cyan;
+						break;
+					case LogEntryType.SQLon:
+						ConsoleCrayon.BackgroundColor = ConsoleColor.DarkCyan;
+						ConsoleCrayon.ForegroundColor = ConsoleColor.White;
+						break;
+					case LogEntryType.SQLoff:
+						ConsoleCrayon.BackgroundColor = ConsoleColor.DarkCyan;
+						ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
+						break;
+					case LogEntryType.ThreadStart:
+						ConsoleCrayon.BackgroundColor = ConsoleColor.Green;
+						ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
+						break;
+					case LogEntryType.ThreadEnding:
+						ConsoleCrayon.BackgroundColor = ConsoleColor.Yellow;
+						ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
+						break;
+					case LogEntryType.ThreadEnded:
+						ConsoleCrayon.BackgroundColor = ConsoleColor.Red;
+						ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
+						break;
+					case LogEntryType.TestStart:
+						ConsoleCrayon.BackgroundColor = ConsoleColor.Blue;
+						ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
+						break;
+					case LogEntryType.TestEnd:
+						ConsoleCrayon.BackgroundColor = ConsoleColor.Blue;
+						ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
+						break;
+				}
+
+				Console.Write(lineStart);
+
+				ConsoleCrayon.ResetColor();
+
+				//print messagesOtherThreads
+				//do not add to "message" because like this is better to find why crashes
+				string messagesOtherThreads = LogSync.ReadAndEmpty();
+				if(messagesOtherThreads != null) {
+					try {
+						Console.Write(messagesOtherThreads);
+					} catch (System.IndexOutOfRangeException e) {
+						Console.Write("CATCHED printing messagesOtherThreads");
 					}
-				} catch (System.IndexOutOfRangeException e)
-				{
-					//Sometimes logB crashes on printing
-					Console.WriteLine("CATCHED AT LOGB:");
-					Console.WriteLine("message: {0}", message);
+				}
+
+				//print messages this thread
+				if(details != null)
+					message += " - " + details;
+
+				try {
+					if(type == LogEntryType.Debug)
+						Console.Write(" {0}", message);
+					else
+						Console.WriteLine(" {0}", message);
+				}
+				catch (System.IndexOutOfRangeException e) {
+					Console.Write("CATCHED printing main thread");
 				}
 			} else {
 				LogSync.Add(lineStart + "\n" + message);

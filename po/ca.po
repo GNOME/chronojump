@@ -5216,7 +5216,7 @@ msgstr "No s'ha pogut obtenir l'última versió."
 
 #: ../src/json.cs:176
 msgid "Update software at "
-msgstr "Actualitzeu el programari a"
+msgstr "Actualitzeu el programari a "
 
 #: ../src/json.cs:179
 msgid "Installed version is: "

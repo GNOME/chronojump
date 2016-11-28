@@ -4,6 +4,7 @@ LINK = $(REF_DEP_CHRONOJUMP)
 
 SOURCES= \
 	chronojump_mini.cs \
+	../buildInfo.cs \
 	../chronopic.cs \
 	../utilAll.cs \
 	../utilDate.cs \

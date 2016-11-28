@@ -30,10 +30,17 @@ public class UtilAll
 {
 	static bool printedOS = false;
 
-	public static string ReadVersion() {
+	//Eg. 1.6.2.0
+	public static string ReadVersion()
+	{
 		Version version = Assembly.GetExecutingAssembly().GetName().Version;
 		return version.ToString();
 	}	
+	//Eg. 1.6.2-398-gfc1bb50
+	public static string ReadVersionFromBuildInfo()
+	{
+		return BuildInfo.chronojumpVersion;
+	}
 	
 
 	//Adapted from Mono. A developer's notebook. p 244

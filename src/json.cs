@@ -53,7 +53,7 @@ public class Json
 					"----------\nUser comments:\n" + comments + "\n----------\n", filePath);
 
 		// Create a request using a URL that can receive a post. 
-		WebRequest request = WebRequest.Create (serverUrl + "/backtrace/" + UtilAll.ReadVersion() + "-" + email);
+		WebRequest request = WebRequest.Create (serverUrl + "/backtrace/" + UtilAll.ReadVersionFromBuildInfo() + "-" + email);
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";

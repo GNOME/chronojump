@@ -551,7 +551,7 @@ class ImportSession:
 
         # Inserts the person_session_77 table but not for personsIDs that already existed in this session. This is
         # the case if a user imports a session into an existing session and the persons would be already imported.
-        self.destination_db.write(table=person_session_77, matches_columns=["personID"])
+        self.destination_db.write(table=person_session_77, matches_columns=["sessionID", "personID"])
 
     def _import_encoder(self):
         # Imports EncoderExercise

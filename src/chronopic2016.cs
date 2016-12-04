@@ -359,10 +359,14 @@ public class Chronopic2016
 
 	// <----- change multitest firmware END
 
-	public void SerialPortsCloseIfNeeded() {
+	public void SerialPortsCloseIfNeeded()
+	{
 		if(sp != null && sp.IsOpen) {
 			LogB.Information("Closing sp");
 			sp.Close();
+
+			LogB.Information("Disposing cp to see if helps on OSX port busy");
+			//cp = null;
 		}
 	}
 

@@ -3358,7 +3358,7 @@
         </child>
         <child>
           <widget class="GtkCheckButton" id="checkbutton_inertial_discard_first_three">
-            <property name="label" translatable="yes">On inertial discard first three curves.</property>
+            <property name="label" translatable="yes">On inertial discard first three repetitions.</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>

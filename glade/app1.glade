@@ -7656,7 +7656,6 @@ after time</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="event_execute_button_update">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>

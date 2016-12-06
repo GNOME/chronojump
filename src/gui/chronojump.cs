@@ -305,9 +305,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_test;
 	[Widget] Gtk.Button button_image_test_zoom;
 	[Widget] Gtk.Image image_test_zoom;
-	[Widget] Gtk.Box vbox_this_test_buttons;
+	[Widget] Gtk.Box vbox_last_test_buttons;
 	[Widget] Gtk.Button button_video_play_this_test;
-	[Widget] Gtk.Button button_delete_this_test;
+	[Widget] Gtk.Button button_delete_last_test;
 		
 	[Widget] Gtk.Button button_upload_session;
 	[Widget] Gtk.Button button_activate_chronopics;
@@ -319,7 +319,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_run_interval_repair;
 	[Widget] Gtk.Image image_pulse_repair;
 	[Widget] Gtk.Image image_person_delete;
-	[Widget] Gtk.Image image_delete_this_test;
+	[Widget] Gtk.Image image_delete_last_test;
 	[Widget] Gtk.Image image_jump_delete;
 	[Widget] Gtk.Image image_jump_reactive_delete;
 	[Widget] Gtk.Image image_run_delete;
@@ -824,7 +824,7 @@ public partial class ChronoJumpWindow
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_person_delete.Pixbuf = pixbuf;
-		image_delete_this_test.Pixbuf = pixbuf;
+		image_delete_last_test.Pixbuf = pixbuf;
 		image_jump_delete.Pixbuf = pixbuf;
 		image_jump_reactive_delete.Pixbuf = pixbuf;
 		image_run_delete.Pixbuf = pixbuf;
@@ -1027,7 +1027,9 @@ public partial class ChronoJumpWindow
 
 
 	public void on_radio_mode_reaction_times_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_reaction_times_small.Active) {
+		if(radio_mode_reaction_times_small.Active)
+		{
+			vbox_last_test_buttons.Sensitive = false;
 			notebooks_change(4);
 			on_extra_window_reaction_times_test_changed(obj, args);
 			hbox_results_legend.Visible = true;
@@ -1035,7 +1037,9 @@ public partial class ChronoJumpWindow
 	}
 
 	public void on_radio_mode_pulses_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_pulses_small.Active) {
+		if(radio_mode_pulses_small.Active)
+		{
+			vbox_last_test_buttons.Sensitive = false;
 			notebooks_change(5);
 			on_extra_window_pulses_test_changed(obj, args);
 			hbox_results_legend.Visible = false;
@@ -1043,7 +1047,9 @@ public partial class ChronoJumpWindow
 	}
 
 	public void on_radio_mode_multi_chronopic_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_multi_chronopic_small.Active) {
+		if(radio_mode_multi_chronopic_small.Active)
+		{
+			vbox_last_test_buttons.Sensitive = false;
 			notebooks_change(6);
 			on_extra_window_multichronopic_test_changed(obj, args);
 			hbox_results_legend.Visible = false;
@@ -1205,7 +1211,10 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void personChanged() {
+	private void personChanged()
+	{
+		vbox_last_test_buttons.Sensitive = false;
+
 		//1) change on jumps, runs, pulse capture graph
 		if(radio_menuitem_mode_jumps_simple.Active) {
 			updateGraphJumpsSimple();
@@ -2059,6 +2068,9 @@ public partial class ChronoJumpWindow
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
+
+		vbox_last_test_buttons.Sensitive = false;
+
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText); 
 
@@ -2070,6 +2082,9 @@ public partial class ChronoJumpWindow
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
+
+		vbox_last_test_buttons.Sensitive = false;
+
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText); 
 
@@ -2081,6 +2096,9 @@ public partial class ChronoJumpWindow
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
+
+		vbox_last_test_buttons.Sensitive = false;
+
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText); 
 
@@ -2092,6 +2110,9 @@ public partial class ChronoJumpWindow
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
+
+		vbox_last_test_buttons.Sensitive = false;
+
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText); 
 
@@ -2159,6 +2180,9 @@ public partial class ChronoJumpWindow
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
+
+		vbox_last_test_buttons.Sensitive = false;
+
 		string myText = UtilGtk.ComboGetActive(combo);
 
 		treeview_pulses_storeReset();
@@ -2908,6 +2932,7 @@ public partial class ChronoJumpWindow
 		menuitem_export_csv.Visible = true;
 
 		hbox_other.Visible = false;
+		vbox_last_test_buttons.Sensitive = false;
 
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
@@ -4042,7 +4067,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished);
 	
 		//test can be deleted if not cancelled
-		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
+		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;
 
 		if ( ! currentEventExecute.Cancel ) {
 			currentJump = (Jump) currentEventExecute.EventDone;
@@ -4255,7 +4280,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_rj_finished);
 		
 		//test can be deleted if not cancelled
-		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
+		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;
 
 		if ( ! currentEventExecute.Cancel ) {
 			currentJumpRj = (JumpRj) currentEventExecute.EventDone;
@@ -4386,7 +4411,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_run_finished);
 		
 		//test can be deleted if not cancelled
-		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
+		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;
 
 		if ( ! currentEventExecute.Cancel ) {
 			currentRun = (Run) currentEventExecute.EventDone;
@@ -4515,7 +4540,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_run_interval_finished);
 		
 		//test can be deleted if not cancelled
-		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
+		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;
 
 		if ( ! currentEventExecute.Cancel ) {
 			currentRunInterval = (RunInterval) currentEventExecute.EventDone;
@@ -4702,7 +4727,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_reaction_time_finished);
 		
 		//test can be deleted if not cancelled
-		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
+		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;
 
 		if ( ! currentEventExecute.Cancel ) {
 
@@ -4810,7 +4835,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_pulse_finished);
 		
 		//test can be deleted if not cancelled
-		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
+		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;
 
 		if ( ! currentEventExecute.Cancel ) {
 			/*
@@ -5136,7 +5161,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_multi_chronopic_finished);
 
 		//test can be deleted if not cancelled
-		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
+		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;
 
 		if(currentMultiChronopicType.Name == Constants.RunAnalysisName && ! currentEventExecute.MultiChronopicRunAUsedCP2()) 
 			//new DialogMessage(Constants.MessageTypes.WARNING, 
@@ -5542,7 +5567,7 @@ LogB.Debug("X");
 	}
 
 
-	private void on_video_play_this_test_clicked (object o, EventArgs args) {
+	private void on_video_play_last_test_clicked (object o, EventArgs args) {
 		Constants.TestTypes type = Constants.TestTypes.JUMP;
 		int id = 0;
 		switch (currentEventType.Type) {
@@ -5635,7 +5660,7 @@ LogB.Debug("X");
 	 *  --------------------------------------------------------
 	 */
 	
-	private void on_delete_this_test_clicked (object o, EventArgs args) {
+	private void on_delete_last_test_clicked (object o, EventArgs args) {
 		switch (currentEventType.Type) {
 			case EventType.Types.JUMP:
 				if(lastJumpIsSimple) {
@@ -5682,7 +5707,7 @@ LogB.Debug("X");
 	}
 
 	private void deleted_last_test_update_widgets() {
-		vbox_this_test_buttons.Sensitive = false;
+		vbox_last_test_buttons.Sensitive = false;
 		UtilGtk.ClearDrawingArea(event_execute_drawingarea, event_execute_pixmap);
 		notebook_results_data.CurrentPage = 3; //shows "deleted test"
 	}
@@ -6661,7 +6686,7 @@ LogB.Debug("X");
 		vbox_stats.Sensitive = false;
 		frame_share_data.Sensitive = false;
 		
-		vbox_this_test_buttons.Sensitive = false;
+		vbox_last_test_buttons.Sensitive = false;
 		vbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
 
@@ -6777,7 +6802,7 @@ LogB.Debug("X");
 		hbox_runs.Sensitive = false;
 		hbox_runs_interval.Sensitive = false;
 		hbox_pulses.Sensitive = false;
-		vbox_this_test_buttons.Sensitive = false;
+		vbox_last_test_buttons.Sensitive = false;
 		
 		button_upload_session.Sensitive = false;
 		button_activate_chronopics.Sensitive = false;
@@ -6821,7 +6846,7 @@ LogB.Debug("X");
 		hbox_runs_interval.Sensitive = true;
 		hbox_pulses.Sensitive = true;
 		//hbox_multi_chronopic_buttons.Sensitive = true;
-		vbox_this_test_buttons.Sensitive = true;
+		vbox_last_test_buttons.Sensitive = true;
 		
 		button_upload_session.Sensitive = true;
 		button_activate_chronopics.Sensitive = true;
@@ -6986,10 +7011,10 @@ LogB.Debug("X");
 		if(radio_menuitem_mode_jumps_simple.Active)
 			notebook_capture_analyze.GetNthPage(2).Visible = ! start;
 
-		//when start, put button delete_this_test as not sensitive
+		//when start, put button delete_last_test as not sensitive
 		//(just for the test previous to the auto process)
 		if(start)
-			button_delete_this_test.Sensitive = false;
+			button_delete_last_test.Sensitive = false;
 	}
 	
 	//true: executing a test; false: waiting a test to be executed
@@ -6998,7 +7023,7 @@ LogB.Debug("X");
 		button_activate_chronopics.Sensitive 	= ! execute;
 		button_execute_test.Sensitive 		= ! execute;
 		notebook_options_top.Sensitive 		= ! execute;
-		vbox_this_test_buttons.Sensitive 	= ! execute;
+		vbox_last_test_buttons.Sensitive 	= ! execute;
 	}
 
 

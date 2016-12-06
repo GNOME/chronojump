@@ -196,7 +196,9 @@ public class ChronopicRegisterWindow
 
 		Gtk.VBox vboxTV = new Gtk.VBox(false, 12);
 		vboxTV.Add(hbox);
-		vboxTV.Add(treeview);
+
+		if(connectedCount > 0)
+			vboxTV.Add(treeview);
 
 		vbox_main.Add(vboxTV);
 	}

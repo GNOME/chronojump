@@ -1352,8 +1352,12 @@ public partial class ChronoJumpWindow
 		myTreeViewJumps = new TreeViewJumps(treeview_jumps, preferences, myTreeViewJumps.ExpandState);
 	}
 
-	private void on_treeview_jumps_cursor_changed (object o, EventArgs args) {
+	private void on_treeview_jumps_cursor_changed (object o, EventArgs args)
+	{
 		LogB.Information("Cursor changed");
+
+		vbox_last_test_buttons.Sensitive = false;
+
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who jumps
 		if (myTreeViewJumps.EventSelectedID == 0) {
@@ -1439,7 +1443,10 @@ public partial class ChronoJumpWindow
 		myTreeViewJumpsRj = new TreeViewJumpsRj (treeview_jumps_rj, preferences, myTreeViewJumpsRj.ExpandState);
 	}
 
-	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args) {
+	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args)
+	{
+		vbox_last_test_buttons.Sensitive = false;
+
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who jumps
 		if (myTreeViewJumpsRj.EventSelectedID == 0) {
@@ -1526,7 +1533,10 @@ public partial class ChronoJumpWindow
 		myTreeViewRuns = new TreeViewRuns(treeview_runs, preferences.digitsNumber, preferences.metersSecondsPreferred, myTreeViewRuns.ExpandState);
 	}
 
-	private void on_treeview_runs_cursor_changed (object o, EventArgs args) {
+	private void on_treeview_runs_cursor_changed (object o, EventArgs args)
+	{
+		vbox_last_test_buttons.Sensitive = false;
+
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who runs
 		if (myTreeViewRuns.EventSelectedID == 0) {
@@ -1607,7 +1617,10 @@ public partial class ChronoJumpWindow
 				preferences.digitsNumber, preferences.metersSecondsPreferred, myTreeViewRunsInterval.ExpandState);
 	}
 
-	private void on_treeview_runs_interval_cursor_changed (object o, EventArgs args) {
+	private void on_treeview_runs_interval_cursor_changed (object o, EventArgs args)
+	{
+		vbox_last_test_buttons.Sensitive = false;
+
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who runs
 		if (myTreeViewRunsInterval.EventSelectedID == 0) {
@@ -1694,7 +1707,10 @@ public partial class ChronoJumpWindow
 		myTreeViewReactionTimes = new TreeViewReactionTimes( treeview_reaction_times, preferences.digitsNumber, myTreeViewReactionTimes.ExpandState );
 	}
 
-	private void on_treeview_reaction_times_cursor_changed (object o, EventArgs args) {
+	private void on_treeview_reaction_times_cursor_changed (object o, EventArgs args)
+	{
+		vbox_last_test_buttons.Sensitive = false;
+
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who is executing
 		if (myTreeViewReactionTimes.EventSelectedID == 0) {
@@ -1774,7 +1790,10 @@ public partial class ChronoJumpWindow
 		myTreeViewPulses = new TreeViewPulses( treeview_pulses, preferences.digitsNumber, myTreeViewPulses.ExpandState );
 	}
 
-	private void on_treeview_pulses_cursor_changed (object o, EventArgs args) {
+	private void on_treeview_pulses_cursor_changed (object o, EventArgs args)
+	{
+		vbox_last_test_buttons.Sensitive = false;
+
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who is executing
 		if (myTreeViewPulses.EventSelectedID == 0) {
@@ -1871,8 +1890,11 @@ public partial class ChronoJumpWindow
 					myTreeViewMultiChronopic.ExpandState, 2);
 	}
 
-	private void on_treeview_multi_chronopic_cursor_changed (object o, EventArgs args) {
+	private void on_treeview_multi_chronopic_cursor_changed (object o, EventArgs args)
+	{
 		LogB.Information("Cursor changed");
+		vbox_last_test_buttons.Sensitive = false;
+
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who does events
 		if (myTreeViewMultiChronopic.EventSelectedID == 0) {

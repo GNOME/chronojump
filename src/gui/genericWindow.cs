@@ -127,7 +127,6 @@ public class GenericWindow
 		//put an icon to window
 		UtilGtk.IconWindow(generic_window);
 		
-		hideWidgets();
 		generic_window.Resizable = false;
 		label_header.Text = textHeader;
 		
@@ -141,6 +140,8 @@ public class GenericWindow
 		if (GenericWindowBox == null) {
 			GenericWindowBox = new GenericWindow(textHeader);
 		}
+
+		GenericWindowBox.hideWidgets();
 
 		foreach(ArrayList widgetArray in array)
 			GenericWindowBox.showWidgetsPowerful(widgetArray);

@@ -8920,9 +8920,8 @@ after time</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Play Video (v)</property>
+                                                            <property name="tooltip" translatable="yes">Play Video</property>
                                                             <signal name="clicked" handler="on_video_play_selected_jump_clicked" swapped="no"/>
-                                                            <accelerator key="v" signal="clicked"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image45">
                                                             <property name="visible">True</property>
@@ -8968,9 +8967,8 @@ after time</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Delete selected (d)</property>
+                                                            <property name="tooltip" translatable="yes">Delete selected</property>
                                                             <signal name="clicked" handler="on_delete_selected_jump_clicked" swapped="no"/>
-                                                            <accelerator key="d" signal="clicked"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_jump_delete">
                                                             <property name="visible">True</property>

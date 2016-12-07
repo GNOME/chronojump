@@ -2778,7 +2778,7 @@ doProcess <- function(options)
 			speed <- getSpeedSafe(displacementAllSet, smoothingAll)
 			accel <- getAccelerationSafe(speed)
 			#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
-			accel$y <- accel$y * 1000 
+			accel$y <- accel$y * 1000
 
 			dynamics <- getDynamics (op$EncoderConfigurationName,
 						 speed$y, accel$y, 
@@ -2836,7 +2836,7 @@ doProcess <- function(options)
 				par(new=T)	
 				ylimHeight = max(abs(range(accel$y)))
 				ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
-				plot(accel$y, col="magenta", ylim=ylim, type="l", xlab="",ylab="",axes=F)
+				plot(abs(accel$y), col="magenta", ylim=ylim, type="l", xlab="",ylab="",axes=F)
 				axis(4, col="magenta", lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
 				axisLineRight = axisLineRight +2
 			}

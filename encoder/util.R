@@ -921,7 +921,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
 
   }
 
-  force = forceDisc / gearedDown + forceBody
+  force = abs(forceDisc / gearedDown) + abs(forceBody)
   power = powerDisc + powerBody
 
   loopsMax = diameter.m * max(angle)

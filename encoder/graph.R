@@ -2803,7 +2803,7 @@ doProcess <- function(options)
 	
 			axisLineRight = 0
 			marginRight = 8.5
-			if(! showSpeed)
+			if (! showSpeed || isInertial(op$EncoderConfigurationName))
 				marginRight = marginRight -2
 			if(! showAccel)
 				marginRight = marginRight -2
@@ -2830,7 +2830,8 @@ doProcess <- function(options)
 				mtext(i, side=3, at=(curves[i,1] + curves[i,2])/2)
 			}
 
-			if (showSpeed) {
+			#showSpeed only on gravitatory until speed is fixed on this experimental graph
+			if (showSpeed && ! isInertial(op$EncoderConfigurationName)) {
 				par(new=T)
 				ylimHeight = max(abs(range(speed$y)))
 				ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
@@ -2866,7 +2867,7 @@ doProcess <- function(options)
 				axisLineRight = axisLineRight +2
 			}
 			
-			paintVariablesLegend(showSpeed, showAccel, showForce, showPower)
+			paintVariablesLegend(showSpeed && ! isInertial(op$EncoderConfigurationName), showAccel, showForce, showPower)
 		}
 	
 		#needed to align the AB vertical lines on C#

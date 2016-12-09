@@ -2844,7 +2844,12 @@ doProcess <- function(options)
 				par(new=T)	
 				ylimHeight = max(abs(range(accel$y)))
 				ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
-				plot(abs(accel$y), col="magenta", ylim=ylim, type="l", xlab="",ylab="",axes=F)
+
+				if(isInertial(op$EncoderConfigurationName))
+				        plot(abs(accel$y), col="magenta", ylim=ylim, type="l", xlab="",ylab="",axes=F)
+				else
+				        plot(accel$y, col="magenta", ylim=ylim, type="l", xlab="",ylab="",axes=F)
+
 				axis(4, col="magenta", lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
 				axisLineRight = axisLineRight +2
 			}

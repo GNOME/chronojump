@@ -883,7 +883,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     anglePush = 90 #TODO: send from C#
 
     forceDisc = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) 
-    forceBody = mass * (accel + g * sin(anglePush * pi / 180))
+    forceBody = mass * (abs(accel) + g * sin(anglePush * pi / 180))
     powerDisc = abs((inertiaMomentum * angleAccel) * angleSpeed)
     powerBody = abs(mass * (accel + g * sin(anglePush * pi / 180)) * speed)
 
@@ -901,7 +901,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     #If the movement is horizontal g*sin(alpha) = 0
 
     forceDisc = abs(inertiaMomentum * angleAccel) * (2 / diameter.m)
-    forceBody = mass * (accel + g * sin(anglePush * pi / 180))
+    forceBody = mass * (abs(accel) + g * sin(anglePush * pi / 180))
     powerDisc = abs((inertiaMomentum * angleAccel) * angleSpeed)
     powerBody = abs(mass * (accel + g * sin(anglePush * pi / 180)) * speed)
 
@@ -915,13 +915,13 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     anglePush = 0 #TODO: send from C#
     
     forceDisc = abs(inertiaMomentum * angleAccel) * (2 / diameter.m)
-    forceBody = mass * accel
+    forceBody = mass * abs(accel)
     powerDisc = abs((inertiaMomentum * angleAccel) * angleSpeed)
     powerBody = abs(mass * accel * speed)
 
   }
 
-  force = abs(forceDisc / gearedDown) + abs(forceBody)
+  force = (forceDisc / gearedDown) + forceBody
   power = powerDisc + powerBody
 
   loopsMax = diameter.m * max(angle)

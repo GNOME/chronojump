@@ -485,33 +485,42 @@ public partial class ChronoJumpWindow
 	}
 
 
-	string [] treeviewEncoderAnalyzeHeaders = {
-		Catalog.GetString("Repetition") + "\n",
-		Catalog.GetString("Series") + "\n",
-		Catalog.GetString("Exercise") + "\n",
-		Catalog.GetString("Laterality") + "\n",
-		Catalog.GetString("Extra weight") + "\n (Kg)",
-		Catalog.GetString("Total weight") + "\n (Kg)",
-		Catalog.GetString("Inertia M.") + "\n (Kg*cm^2)",
-		Catalog.GetString("Start") + "\n (s)",
-		Catalog.GetString("Duration") + "\n (s)",
-		Catalog.GetString("Distance") + "\n (cm)",
-		"v" + "\n (m/s)",
-		"vmax" + "\n (m/s)",
-		"t->vmax" + "\n (s)",
-		"p" + "\n (W)",
-		"pmax" + "\n (W)",
-		"t->pmax" + "\n (s)",
-		"pmax/t->pmax" + "\n (W/s)",
-		"F" + "\n (N)",
-		"Fmax" + "\n (N)",
-		"t->Fmax" + "\n (s)"
-	};
+	//on screen shown on s but export is in ms
+	public string [] GetTreeviewEncoderAnalyzeHeaders(bool screenOrCSV)
+	{
+		string timeUnits = "(s)";
+		if(! screenOrCSV)
+			timeUnits = "(ms)";
+
+		string [] treeviewEncoderAnalyzeHeaders = {
+			Catalog.GetString("Repetition") + "\n",
+			Catalog.GetString("Series") + "\n",
+			Catalog.GetString("Exercise") + "\n",
+			Catalog.GetString("Laterality") + "\n",
+			Catalog.GetString("Extra weight") + "\n(Kg)",
+			Catalog.GetString("Total weight") + "\n(Kg)",
+			Catalog.GetString("Inertia M.") + "\n(Kg*cm^2)",
+			Catalog.GetString("Start") + "\n" + timeUnits,
+			Catalog.GetString("Duration") + "\n" + timeUnits,
+			Catalog.GetString("Distance") + "\n(cm)",
+			"v" + "\n(m/s)",
+			"vmax" + "\n(m/s)",
+			"t->vmax" + "\n" + timeUnits,
+			"p" + "\n(W)",
+			"pmax" + "\n(W)",
+			"t->pmax" + "\n" + timeUnits,
+			"pmax/t->pmax" + "\n(W/s)",
+			"F" + "\n(N)",
+			"Fmax" + "\n(N)",
+			"t->Fmax" + "\n" + timeUnits
+		};
+		return treeviewEncoderAnalyzeHeaders;
+	}
 
 	bool lastTreeviewEncoderAnalyzeIsNeuromuscular = false;
 
 	private int createTreeViewEncoderAnalyze(string contents) {
-		string [] columnsString = treeviewEncoderAnalyzeHeaders;
+		string [] columnsString = GetTreeviewEncoderAnalyzeHeaders(true); //screen
 
 		ArrayList encoderAnalyzeCurves = new ArrayList ();
 

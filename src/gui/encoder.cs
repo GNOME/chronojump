@@ -3292,7 +3292,7 @@ public partial class ChronoJumpWindow
 			} else {
 				//write header
 				writer.WriteLine(Util.RemoveNewLine(Util.StringArrayToString(
-							treeviewEncoderAnalyzeHeaders, sep), false));
+							GetTreeviewEncoderAnalyzeHeaders(false), sep), false));
 				//write curves rows
 				ArrayList array = getTreeViewCurves(encoderAnalyzeListStore);
 				foreach (EncoderCurve ec in array)

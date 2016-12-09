@@ -55,11 +55,11 @@ class SqliteStat : Sqlite
 		//if there's more than one session, it sends the avg or max
 		string groupByString = "";
 		if (ini.Length > 0) {
-			groupByString = " GROUP BY jump.personID, jump.sessionID ";
+			groupByString = " GROUP BY jump.type, jump.personID, jump.sessionID ";
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + tp + ".name, sessionID, ";
+			orderByString = orderByString + tp + ".name, jump.type, sessionID, ";
 		}
 		
 		Sqlite.Open();
@@ -146,11 +146,11 @@ class SqliteStat : Sqlite
 		//there's no chance of mixing tv and weight of different jumps in multisessions because only tv is returned
 		string groupByString = "";
 		if (ini.Length > 0) {
-			groupByString = " GROUP BY jump.personID, jump.sessionID ";
+			groupByString = " GROUP BY jump.type, jump.personID, jump.sessionID ";
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + "" + tp + ".name, jump.sessionID, ";
+			orderByString = orderByString + "" + tp + ".name, jump.type, jump.sessionID, ";
 		}
 		
 		Sqlite.Open();

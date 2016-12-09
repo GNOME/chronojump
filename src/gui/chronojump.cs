@@ -2422,17 +2422,37 @@ public partial class ChronoJumpWindow
 
 		ChronojumpImporter.Result result = chronojumpImporter.import ();
 
-		if (result.success) {
-			//if a simple jump type has been added
+		if (result.success)
+		{
+			//update GUI if events have been added
+			//1) simple jump
 			createComboSelectJumps(false);
 			UtilGtk.ComboUpdate(combo_result_jumps,
 					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), ""); //without filter, only select name
 			combo_select_jumps.Active = 0;
 			combo_result_jumps.Active = 0;
 
-			//TODO: RJ, run simple, run interval. See methods:
-			//on_jump_type_add_accepted
-			//on_run_type_add_accepted
+			//2) reactive jump
+			createComboSelectJumpsRj(false);
+			UtilGtk.ComboUpdate(combo_result_jumps_rj,
+					SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
+			combo_select_jumps_rj.Active = 0;
+			combo_result_jumps_rj.Active = 0;
+
+			//3) simple run
+			createComboSelectRuns(false);
+			UtilGtk.ComboUpdate(combo_result_runs,
+					SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+			combo_select_runs.Active = 0;
+			combo_result_runs.Active = 0;
+
+			//4) intervallic run
+			createComboSelectRunsInterval(false);
+			UtilGtk.ComboUpdate(combo_result_runs_interval,
+					SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+			combo_select_runs_interval.Active = 0;
+			combo_result_runs_interval.Active = 0;
+
 
 			//update stats combos
 			updateComboStats ();

@@ -731,7 +731,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	}
 
 	
-
+	#---------------- call to getDynamics to get mass, force, power ----------------->
 
 	dynamics = getDynamics(encoderConfigurationName,
 			speed$y, accel$y, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
@@ -739,6 +739,108 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	mass = dynamics$mass
 	force = dynamics$force
 	power = dynamics$power
+
+	#---------------- calculate landing ------------>
+
+	#calculate landing, needed to plot speed, force and power
+	#used to define the beginning of the ground phase
+	landing = -1
+	if(eccon=="ec") {
+		#landing = min(which(force>=weight))
+
+		if(! canJump(encoderConfigurationName) || length(which(force[eccentric] <= 0)) == 0)
+			landing = -1
+		else
+			landing = max(which(force[eccentric]<= 0))
+	}
+
+	#---------------- speed stuff ------------>
+
+	meanSpeedC = mean(speed$y[min(concentric):max(concentric)])
+	if(isPropulsive) {
+		meanSpeedC = mean(speed$y[min(concentric):propulsiveEnd])
+	}
+
+	if(eccon == "c") {
+		if(showSpeed) {
+			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
+		}
+	} else {
+		if(landing == -1)
+			meanSpeedE = mean(speed$y[startX:max(eccentric)])
+		else
+			meanSpeedE = mean(speed$y[landing:max(eccentric)])
+
+		if(showSpeed) {
+			if(landing == -1)
+				arrows(x0=startX,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
+			else
+				arrows(x0=landing,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
+
+			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
+		}
+	}
+
+	if(draw) {
+		ylimHeight = max(abs(range(accel$y)))
+		ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
+		if(knRanges[1] != "undefined")
+			ylim = knRanges$accely
+
+
+		#always (single or side) show 0 line
+		abline(h=0,lty=3,col="black")
+
+		#plot the speed axis
+		if(showAxes & showSpeed) {
+			if(eccon == "c") {
+				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedC),
+				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
+					      round(meanSpeedC,1)),
+				     col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
+				axis(4, at=meanSpeedC,
+				     labels="Xc",
+				     col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-2)
+			}
+			else {
+				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedE,meanSpeedC),
+				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
+					      round(meanSpeedE,1),
+					      round(meanSpeedC,1)),
+				     col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
+				axis(4, at=c(meanSpeedE,meanSpeedC),
+				     labels=labelsXeXc,
+				     col=cols[1], lty=lty[1], line=axisLineRight, lwd=0, padj=-2)
+			}
+			axisLineRight = axisLineRight +2
+		}
+
+		if(showAccel) {
+			par(new=T)
+			if(highlight==FALSE)
+				plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
+				     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="magenta",lty=lty[2],lwd=1,axes=F)
+			else
+				plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
+				     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+		}
+
+		#show propulsive stuff if line if differentiation is relevant (propulsivePhase ends before the end of the movement)
+		if(isPropulsive & propulsiveEnd < length(displacement)) {
+			#propulsive stuff
+			segments(0,-9.81,length(accel$y),-9.81,lty=3,col="magenta")
+			#abline(v=propulsiveEnd,lty=3,col="magenta")
+			abline(v=propulsiveEnd,lty=1,col=cols[2])
+			points(propulsiveEnd, -g, col="magenta")
+			text(x=length(accel$y),y=-9.81,labels=" g",cex=1,adj=c(0,0),col="magenta")
+		}
+
+		if(showAxes & showAccel) {
+			axis(4, col="magenta", lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
+			axisLineRight = axisLineRight +2
+		}
+		#mtext(text=paste("max accel:",round(max(accel$y),3)),side=3,at=which(accel$y == max(accel$y)),cex=.8,col=cols[1],line=2)
+	}
 
 
 	if(draw && isInertial(encoderConfigurationName) && debugOld) 
@@ -762,6 +864,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		#TODO: add here angleSpeed graph when diameter is variable (version 1.5.3)
 	}
 
+	#---------------- force stuff ------------>
 
 	if(draw & showForce) {
 		ylimHeight = max(abs(range(force)))
@@ -791,9 +894,6 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		}
 	}
 	
-	#used to define the beginning of the ground phase	
-	landing = -1
-
 	#mark when it's air and land
 	#if it was a eccon concentric-eccentric, will be useful to calculate flight time
 	#but this eccon will be not done
@@ -840,17 +940,11 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			mtext(text=paste(" ", translateToPrint("air"), " ",sep=""),side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
 		}
 
-		if(eccon=="ec") {
-			#landing = min(which(force>=weight))
-		
-			if(! canJump(encoderConfigurationName) || length(which(force[eccentric] <= 0)) == 0)
-				landing = -1
-			else {
-				landing = max(which(force[eccentric]<= 0))
-				abline(v=landing,lty=1,col=cols[2]) 
-				mtext(text=paste(translateToPrint("air")," ",sep=""),side=3,at=landing,cex=.8,adj=1,col=cols[2])
-				mtext(text=paste(" ",translateToPrint("land")," ",sep=""),side=3,at=landing,cex=.8,adj=0,col=cols[2])
-			}
+		if(eccon=="ec" && landing != -1)
+		{
+			abline(v=landing,lty=1,col=cols[2])
+			mtext(text=paste(translateToPrint("air")," ",sep=""),side=3,at=landing,cex=.8,adj=1,col=cols[2])
+			mtext(text=paste(" ",translateToPrint("land")," ",sep=""),side=3,at=landing,cex=.8,adj=0,col=cols[2])
 		}
 
 		print(c(is.numeric(takeoff), takeoff))
@@ -864,94 +958,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		}
 	}
 	
-	#speed (done here because of landing)
-	meanSpeedC = mean(speed$y[min(concentric):max(concentric)])
-	if(isPropulsive) {
-		meanSpeedC = mean(speed$y[min(concentric):propulsiveEnd])
-	}
-
-	if(eccon == "c") {
-		if(showSpeed) {
-			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
-		}
-	} else {
-		if(landing == -1)
-			meanSpeedE = mean(speed$y[startX:max(eccentric)])
-		else
-			meanSpeedE = mean(speed$y[landing:max(eccentric)])
-
-		if(showSpeed) {
-			if(landing == -1)
-				arrows(x0=startX,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
-			else
-				arrows(x0=landing,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
-
-			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
-		}
-	}
-
-	if(draw) {
-		ylimHeight = max(abs(range(accel$y)))
-		ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
-		if(knRanges[1] != "undefined")
-			ylim = knRanges$accely
-
-		
-		#always (single or side) show 0 line
-		abline(h=0,lty=3,col="black")
-		
-		#plot the speed axis
-		if(showAxes & showSpeed) {
-			if(eccon == "c") {
-				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedC),
-				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
-					      round(meanSpeedC,1)),
-				     col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
-				axis(4, at=meanSpeedC,
-				     labels="Xc",
-				     col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-2)
-			}
-			else {
-				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedE,meanSpeedC),
-				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
-					      round(meanSpeedE,1),
-					      round(meanSpeedC,1)),
-				     col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
-				axis(4, at=c(meanSpeedE,meanSpeedC),
-				     labels=labelsXeXc,
-				     col=cols[1], lty=lty[1], line=axisLineRight, lwd=0, padj=-2)
-			}
-			axisLineRight = axisLineRight +2
-		}
-
-		if(showAccel) {
-			par(new=T)
-			if(highlight==FALSE)
-				plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
-				     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="magenta",lty=lty[2],lwd=1,axes=F)
-			else
-				plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
-				     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
-		}
-		
-		#show propulsive stuff if line if differentiation is relevant (propulsivePhase ends before the end of the movement)
-		if(isPropulsive & propulsiveEnd < length(displacement)) {
-			#propulsive stuff
-			segments(0,-9.81,length(accel$y),-9.81,lty=3,col="magenta")
-			#abline(v=propulsiveEnd,lty=3,col="magenta") 
-			abline(v=propulsiveEnd,lty=1,col=cols[2]) 
-			points(propulsiveEnd, -g, col="magenta")
-			text(x=length(accel$y),y=-9.81,labels=" g",cex=1,adj=c(0,0),col="magenta")
-		}
-		
-		if(showAxes & showAccel) {
-			axis(4, col="magenta", lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
-			axisLineRight = axisLineRight +2
-		}
-		#mtext(text=paste("max accel:",round(max(accel$y),3)),side=3,at=which(accel$y == max(accel$y)),cex=.8,col=cols[1],line=2)
-	}
-
-
+	#---------------- power stuff ------------>
 
 	if(draw & showPower) {
 		ylimHeight = max(abs(range(power)))

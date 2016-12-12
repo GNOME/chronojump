@@ -365,8 +365,11 @@ public class Chronopic2016
 			LogB.Information("Closing sp");
 			sp.Close();
 
+			LogB.Information("Flushing cp to see if helps on OSX port busy");
+			cp.FlushByTimeOut();
+
 			LogB.Information("Disposing cp to see if helps on OSX port busy");
-			//cp = null;
+			cp = null;
 		}
 	}
 

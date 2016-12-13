@@ -185,16 +185,31 @@ public class Json
 		return true;
 	}
 
+	/*
+	 * if software just started, ping gets stuck by network problems, and user try to exit software,
+	 * thread.Abort doesn't kill the thread properly
+	 * just kill the webRequest
+	 */
+	WebRequest requestPing;
+	bool requestPingAborting;
+
+	public void PingAbort()
+	{
+		requestPingAborting = true;
+		requestPing.Abort(); //cancel an asynchronous request
+	}
 	public bool Ping(string osVersion, string cjVersion, string machineID) 
 	{
+		requestPingAborting = false;
+
 		// Create a request using a URL that can receive a post. 
-		WebRequest request = WebRequest.Create (serverUrl + "/ping");
+		requestPing = WebRequest.Create (serverUrl + "/ping");
 
 		// Set the Method property of the request to POST.
-		request.Method = "POST";
+		requestPing.Method = "POST";
 
 		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json";
+		requestPing.ContentType = "application/json";
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
@@ -208,13 +223,18 @@ public class Json
 		// Writes the json object into the request dataStream
 		Stream dataStream;
 		try {
-			dataStream = request.GetRequestStream ();
+			dataStream = requestPing.GetRequestStream ();
 		} catch {
 			this.ResultMessage = 
 				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
 				serverUrl);
 			return false;
 		}
+		if(requestPingAborting) {
+			LogB.Information("Aborted from PingAbort");
+			return false;
+		}
+
 		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
 
 		dataStream.Close ();
@@ -222,11 +242,15 @@ public class Json
 		// Get the response.
 		WebResponse response;
 		try {
-			response = request.GetResponse ();
+			response = requestPing.GetResponse ();
 		} catch {
 			this.ResultMessage = 
 				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
 				serverUrl);
+			return false;
+		}
+		if(requestPingAborting) {
+			LogB.Information("Aborted from PingAbort");
 			return false;
 		}
 

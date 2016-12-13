@@ -1319,18 +1319,20 @@ public partial class ChronoJumpWindow
 	private void fillTreeView_jumps (string filter) {
 		fillTreeView_jumps(filter, false);
 	}
-	private void fillTreeView_jumps (string filter, bool dbconOpened) {
-		string [] myJumps;
-	
+	private void fillTreeView_jumps (string filter, bool dbconOpened)
+	{
 		if (currentSession == null) {
-			// This happens when the user "Imports a session": Chronojump tries to
-			// update comboboxes, it reaches here because the comboboxes are updated and
-			// on_combo_result_jumps_changedd. But if the user didn't have any
-			// open session currentSession variable (see below) is null and it crashed here
-			// (when it did currentSession.UniqueID with currentSession==null)
+			/*
+			 * This happens when the user "Imports a session": Chronojump tries to
+			 * update comboboxes, it reaches here because the comboboxes are updated and
+			 * on_combo_result_jumps_changedd. But if the user didn't have any
+			 * open session currentSession variable (see below) is null and it crashed here
+			 * (when it did currentSession.UniqueID with currentSession==null)
+			 */
 			return;
 		}
-		myJumps = SqliteJump.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "",
+
+		string [] myJumps = SqliteJump.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "",
 				Sqlite.Orders_by.DEFAULT, -1);
 
 		myTreeViewJumps.Fill(myJumps, filter);
@@ -1418,9 +1420,20 @@ public partial class ChronoJumpWindow
 	private void fillTreeView_jumps_rj (string filter) {
 		fillTreeView_jumps_rj (filter, false);
 	}
-	private void fillTreeView_jumps_rj (string filter, bool dbconOpened) {
-		string [] myJumps;
-		myJumps = SqliteJumpRj.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "");
+	private void fillTreeView_jumps_rj (string filter, bool dbconOpened)
+	{
+		if (currentSession == null) {
+			/*
+			 * This happens when the user "Imports a session": Chronojump tries to
+			 * update comboboxes, it reaches here because the comboboxes are updated and
+			 * on_combo_result_jumps_changedd. But if the user didn't have any
+			 * open session currentSession variable (see below) is null and it crashed here
+			 * (when it did currentSession.UniqueID with currentSession==null)
+			 */
+			return;
+		}
+
+		string [] myJumps = SqliteJumpRj.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "");
 		myTreeViewJumpsRj.Fill(myJumps, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumpsRj, treeview_jumps_rj);
@@ -1511,7 +1524,19 @@ public partial class ChronoJumpWindow
 	private void fillTreeView_runs (string filter) {
 		fillTreeView_runs (filter, false);
 	}
-	private void fillTreeView_runs (string filter, bool dbconOpened) {
+	private void fillTreeView_runs (string filter, bool dbconOpened)
+	{
+		if (currentSession == null) {
+			/*
+			 * This happens when the user "Imports a session": Chronojump tries to
+			 * update comboboxes, it reaches here because the comboboxes are updated and
+			 * on_combo_result_jumps_changedd. But if the user didn't have any
+			 * open session currentSession variable (see below) is null and it crashed here
+			 * (when it did currentSession.UniqueID with currentSession==null)
+			 */
+			return;
+		}
+
 		string [] myRuns = SqliteRun.SelectRuns(dbconOpened, currentSession.UniqueID, -1, "",
 				Sqlite.Orders_by.DEFAULT, -1);
 
@@ -1594,7 +1619,19 @@ public partial class ChronoJumpWindow
 	private void fillTreeView_runs_interval (string filter) {
 		fillTreeView_runs_interval (filter, false);
 	}
-	private void fillTreeView_runs_interval (string filter, bool dbconOpened) {
+	private void fillTreeView_runs_interval (string filter, bool dbconOpened)
+	{
+		if (currentSession == null) {
+			/*
+			 * This happens when the user "Imports a session": Chronojump tries to
+			 * update comboboxes, it reaches here because the comboboxes are updated and
+			 * on_combo_result_jumps_changedd. But if the user didn't have any
+			 * open session currentSession variable (see below) is null and it crashed here
+			 * (when it did currentSession.UniqueID with currentSession==null)
+			 */
+			return;
+		}
+
 		string [] myRuns = SqliteRunInterval.SelectRuns(dbconOpened, currentSession.UniqueID, -1, "");
 		myTreeViewRunsInterval.Fill(myRuns, filter);
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRunsInterval, treeview_runs_interval);

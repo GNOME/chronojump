@@ -2294,6 +2294,15 @@ public partial class ChronoJumpWindow
 		*/
 		cp2016.SerialPortsCloseIfNeeded();
 
+		//exit start ping if has not ended
+		if(pingThread.IsAlive)
+		{
+			LogB.Information("Closing ping thread");
+			//pingThread.Abort();
+			jsPing.PingAbort();
+		}
+
+
 		//printing remaining logs in the non-gtk thread
 		LogB.Information("Printing non-GTK thread remaining log");
 		LogB.Information(LogSync.ReadAndEmpty());
@@ -2315,10 +2324,6 @@ public partial class ChronoJumpWindow
 		encoderRProcAnalyze.SendEndProcess();
 
 		LogB.Information("Bye3!");
-
-		//exit start ping if has not ended
-		if(pingThread.IsAlive)
-			pingThread.Abort();
 		
 		Log.End();
 
@@ -6575,26 +6580,29 @@ LogB.Debug("X");
 	{
 		pingDo(false);
 	}
+
+	//declared here in order to be easy closed on exit
+	Json jsPing;
 	private void pingDo(bool showInWindow)
 	{
-		Json js = new Json();
-		bool success = js.Ping(UtilAll.GetOS(), UtilAll.ReadVersionFromBuildInfo(), preferences.machineID);
+		jsPing = new Json();
+		bool success = jsPing.Ping(UtilAll.GetOS(), UtilAll.ReadVersionFromBuildInfo(), preferences.machineID);
 
 		if(success) {
-			LogB.Information(js.ResultMessage);
+			LogB.Information(jsPing.ResultMessage);
 			if(showInWindow)
 				new DialogMessage(
 						"Chronojump",
 						Constants.MessageTypes.INFO, 
-						js.ResultMessage);
+						jsPing.ResultMessage);
 		}
 		else {
-			LogB.Error(js.ResultMessage);
+			LogB.Error(jsPing.ResultMessage);
 			if(showInWindow)
 				new DialogMessage(
 						"Chronojump",
 						Constants.MessageTypes.WARNING, 
-						js.ResultMessage);
+						jsPing.ResultMessage);
 		}
 
 		/*

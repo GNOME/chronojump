@@ -6541,7 +6541,7 @@ LogB.Debug("X");
 	private void pingDo(bool showInWindow)
 	{
 		Json js = new Json();
-		bool success = js.Ping(UtilAll.GetOS(), UtilAll.ReadVersion(), preferences.machineID);
+		bool success = js.Ping(UtilAll.GetOS(), UtilAll.ReadVersionFromBuildInfo(), preferences.machineID);
 
 		if(success) {
 			LogB.Information(js.ResultMessage);

@@ -612,7 +612,7 @@ class ImportSession:
 
     @staticmethod
     def _encoder_url(session_id, signal_or_curve):
-        return os.path.join("encoder", "data", str(session_id), signal_or_curve)
+        return os.path.join("encoder", str(session_id), signal_or_curve)
 
     @staticmethod
     def _normalize_path(path):

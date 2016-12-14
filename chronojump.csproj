@@ -78,7 +78,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Json">
-      <HintPath>bin\Debug\System.Json.dll</HintPath>
+      <HintPath>..\..\..\..\usr\lib\mono\gac\System.Json\4.0.0.0__31bf3856ad364e35\System.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Services" />
     <Reference Include="FTD2XX_NET">

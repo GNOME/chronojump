@@ -605,14 +605,14 @@ class ImportSession:
 
     @staticmethod
     def _encoder_filename(person_id, original_filename):
-        """ original_filename is like 1-Carmelo-2014-12-03_12-48-54.txt. It only replaces the person_id (1 in this case)"""
+        """ original_filename is like 1-Carmelo-89-2014-12-03_12-48-54.txt. It only replaces the person_id (1 in this case)"""
         filename=original_filename.split("-", 1)
         filename[0] = str(person_id)
         return "-".join(filename)
 
     @staticmethod
     def _encoder_url(session_id, signal_or_curve):
-        return os.path.join("encoder", str(session_id), signal_or_curve)
+        return os.path.join("encoder", str(session_id), "data", signal_or_curve)
 
     @staticmethod
     def _normalize_path(path):

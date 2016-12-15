@@ -21,6 +21,7 @@ glade/dialog_message.glade
 glade/dialog_server_stats.glade
 glade/edit_event.glade
 glade/encoder_configuration.glade
+glade/encoder_overview.glade
 glade/error_window.glade
 glade/evaluator_window.glade
 glade/event_graph_configure.glade
@@ -64,6 +65,7 @@ src/gui/chronopicRegister.cs
 src/gui/convertWeight.cs
 src/gui/encoderConfiguration.cs
 src/gui/encoder.cs
+src/gui/encoderOverview.cs
 src/gui/encoderSelectRepetitions.cs
 src/gui/encoderTreeviews.cs
 src/gui/error.cs

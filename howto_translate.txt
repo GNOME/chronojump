@@ -1,3 +1,15 @@
+***********************************************
+Important !! 2016-12-15
+
+There's a bug related to intltool-update:
+https://bugzilla.gnome.org/show_bug.cgi?id=774404
+
+There's a custom intltool-update on po directoy. So call it like this:
+
+./intltool-update
+***********************************************
+
+
 2014-November-6
 - Chronojump developer use an old libglade library in order to have translations ok on Windows
 https://git.gnome.org/browse/chronojump/commit/?id=aaa0b4744969fc3ddbbb0d0246ff99ab71a21e70

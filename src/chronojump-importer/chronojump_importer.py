@@ -555,10 +555,22 @@ class ImportSession:
 
     def _import_encoder(self):
         # Imports EncoderExercise
-        encoder_exercise = self.source_db.read(table_name="EncoderExercise",
+        encoder_exercise_from_encoder = self.source_db.read(table_name="EncoderExercise",
                                                where_condition="Encoder.sessionID={}".format(self.source_session),
                                                join_clause="LEFT JOIN Encoder ON Encoder.exerciseID=EncoderExercise.uniqueID",
                                                group_by_clause="EncoderExercise.uniqueID")
+
+        encoder_exercise_from_encoder_1rm = self.source_db.read(table_name="EncoderExercise",
+                                                            where_condition="Encoder1RM.sessionID={}".format(
+                                                            self.source_session),
+                                                            join_clause="LEFT JOIN Encoder1RM ON Encoder1RM.exerciseID=EncoderExercise.uniqueID",
+                                                            group_by_clause="EncoderExercise.uniqueID")
+
+        encoder_exercise = Table("encoderExercise")
+        encoder_exercise.concatenate_table(encoder_exercise_from_encoder)
+        encoder_exercise.concatenate_table(encoder_exercise_from_encoder_1rm)
+        encoder_exercise.remove_duplicates()
+
         self.destination_db.write(table=encoder_exercise,
                                   matches_columns=self.destination_db.column_names("EncoderExercise", ["uniqueID"]))
 
@@ -567,6 +579,7 @@ class ImportSession:
                                           where_condition="Encoder1RM.sessionID={}".format(self.source_session))
         encoder_1rm.update_session_ids(self.new_session_id)
         encoder_1rm.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
+        encoder_1rm.update_ids("exerciseID", encoder_exercise, "uniqueID", "new_uniqueID")
         self.destination_db.write(table=encoder_1rm,
                                   matches_columns=None)
 
@@ -574,7 +587,7 @@ class ImportSession:
         encoder = self.source_db.read(table_name="Encoder",
                                       where_condition="Encoder.sessionID={}".format(self.source_session))
         encoder.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
-        encoder.update_ids("exerciseID", encoder_1rm, "old_exerciseID", "new_exerciseID")
+        encoder.update_ids("exerciseID", encoder_exercise, "uniqueID", "new_uniqueID")
         encoder.update_session_ids(self.new_session_id)
 
         self._import_encoder_files(encoder)

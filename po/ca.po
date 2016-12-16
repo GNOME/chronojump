@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-15 16:08+0100\n"
-"PO-Revision-Date: 2016-12-16 10:27+0100\n"
+"POT-Creation-Date: 2016-12-16 16:20+0100\n"
+"PO-Revision-Date: 2016-12-16 17:48+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: \n"
 "Language: ca\n"
@@ -172,15 +172,14 @@ msgstr "Amb intervals"
 #: ../glade/app1.glade.h:28 ../glade/preferences_win.glade.h:13
 #: ../glade/repetitive_conditions.glade.h:25 ../src/constants.cs:979
 #: ../src/encoder.cs:1791 ../src/exportSession.cs:310
-#: ../src/exportSession.cs:483 ../src/stats/djPower.cs:32
-#: ../src/treeViewJump.cs:34 ../src/gui/encoderOverview.cs:121
+#: ../src/exportSession.cs:483 ../src/gui/encoderOverview.cs:121
+#: ../src/stats/djPower.cs:32 ../src/treeViewJump.cs:34
 msgid "Power"
 msgstr "Potència"
 
 #: ../glade/app1.glade.h:29 ../glade/preferences_win.glade.h:53
-#, fuzzy
 msgid "Gravitatory"
-msgstr "Gravetat"
+msgstr "Gravitatòria"
 
 #: ../glade/app1.glade.h:30 ../glade/preferences_win.glade.h:58
 msgid "Inertial"
@@ -200,12 +199,10 @@ msgid "Jumps reactive"
 msgstr "Salts reactius"
 
 #: ../glade/app1.glade.h:34 ../src/gui/session.cs:782
-#, fuzzy
 msgid "Races simple"
 msgstr "Curses simples"
 
 #: ../glade/app1.glade.h:35
-#, fuzzy
 msgid "Races intervallic"
 msgstr ""
 "Curses amb\n"
@@ -283,9 +280,8 @@ msgid "Or press '3'"
 msgstr "O premi '3'"
 
 #: ../glade/app1.glade.h:53
-#, fuzzy
 msgid "Version"
-msgstr "Sessió"
+msgstr "Versió"
 
 #: ../glade/app1.glade.h:54
 msgid "Or press '4'"
@@ -459,9 +455,8 @@ msgid "Add race type"
 msgstr "Afegiu tipus de cursa"
 
 #: ../glade/app1.glade.h:95
-#, fuzzy
 msgid "Delete race type"
-msgstr "Esborreu el tipus de cursa"
+msgstr "Esborrar el tipus de cursa"
 
 #: ../glade/app1.glade.h:96 ../glade/edit_event.glade.h:38
 msgid "3"
@@ -496,9 +491,8 @@ msgid "Multi Chronopic test"
 msgstr "Multi Chronopic test"
 
 #: ../glade/app1.glade.h:104
-#, fuzzy
 msgid "Race analysis"
-msgstr "anàlisi de cursa"
+msgstr "Anàlisi de cursa"
 
 #: ../glade/app1.glade.h:105
 msgid "7"
@@ -640,13 +634,12 @@ msgid "page 3"
 msgstr "pàgina 3"
 
 #: ../glade/app1.glade.h:136
-#, fuzzy
 msgid ""
 "Lap distance\n"
-"(between platforms)"
+"(between barriers)"
 msgstr ""
-"Distància de pista \n"
-"(entre plataformes)"
+"Distància de tram \n"
+"(entre barreres)"
 
 #: ../glade/app1.glade.h:138 ../glade/edit_event.glade.h:23
 msgid "m"
@@ -813,9 +806,8 @@ msgid "Play Video (v)"
 msgstr "Reproduir Vídeo (v)"
 
 #: ../glade/app1.glade.h:174
-#, fuzzy
 msgid "Delete last test (d)"
-msgstr "Esborreu aquest test (d)"
+msgstr "Esborrar el darrer test (d)"
 
 #: ../glade/app1.glade.h:175
 msgid "Group"
@@ -832,10 +824,10 @@ msgstr "Millor"
 #. column where the uniqueID of event will be (and will be hidden)
 #: ../glade/app1.glade.h:178 ../glade/edit_event.glade.h:6
 #: ../glade/person_show_all_events.glade.h:3 ../src/gui/encoder.cs:771
-#: ../src/gui/encoder.cs:3667 ../src/gui/executeAuto.cs:501
+#: ../src/gui/encoder.cs:3667 ../src/gui/encoderOverview.cs:107
+#: ../src/gui/encoderOverview.cs:115 ../src/gui/executeAuto.cs:501
 #: ../src/stats/runIntervallic.cs:64 ../src/treeViewMultiChronopic.cs:30
 #: ../src/treeViewPulse.cs:46 ../src/treeViewReactionTime.cs:30
-#: ../src/gui/encoderOverview.cs:107 ../src/gui/encoderOverview.cs:115
 msgid "Person"
 msgstr "atleta"
 
@@ -959,7 +951,6 @@ msgid "Change zoom (z)"
 msgstr "Canviar Zoom (z)"
 
 #: ../glade/app1.glade.h:195
-#, fuzzy
 msgid "Play Video"
 msgstr "Reproduir vídeo"
 
@@ -1005,7 +996,6 @@ msgid "Race"
 msgstr "Cursa"
 
 #: ../glade/app1.glade.h:204
-#, fuzzy
 msgid "Race Intervallic"
 msgstr "Cursa d'intervals"
 
@@ -1410,9 +1400,9 @@ msgid "Connect encoder"
 msgstr "Connectar l'encoder"
 
 #: ../glade/app1.glade.h:302 ../src/gui/encoder.cs:772
-#: ../src/gui/encoder.cs:1214 ../src/gui/encoderSelectRepetitions.cs:216
-#: ../src/gui/encoderTreeviews.cs:498 ../src/gui/encoderOverview.cs:109
-#: ../src/gui/encoderOverview.cs:117
+#: ../src/gui/encoder.cs:1214 ../src/gui/encoderOverview.cs:109
+#: ../src/gui/encoderOverview.cs:117 ../src/gui/encoderSelectRepetitions.cs:216
+#: ../src/gui/encoderTreeviews.cs:498
 msgid "Exercise"
 msgstr "Exercici"
 
@@ -2284,6 +2274,10 @@ msgstr "grams"
 msgid "Number of weights"
 msgstr "Nombre de pesos"
 
+#: ../glade/encoder_overview.glade.h:1
+msgid "Encoder overview"
+msgstr "Resum d'encoder"
+
 #: ../glade/error_window.glade.h:1
 msgid "ChronoJump"
 msgstr "Chronojump"
@@ -2796,9 +2790,9 @@ msgid "New jumper"
 msgstr "Nou saltador"
 
 #: ../glade/person_win.glade.h:3 ../glade/query_server_window.glade.h:7
-#: ../src/exportSession.cs:246 ../src/gui/person.cs:118
-#: ../src/gui/person.cs:2007 ../src/gui/encoderOverview.cs:108
-#: ../src/gui/encoderOverview.cs:116
+#: ../src/exportSession.cs:246 ../src/gui/encoderOverview.cs:108
+#: ../src/gui/encoderOverview.cs:116 ../src/gui/person.cs:118
+#: ../src/gui/person.cs:2007
 msgid "Sex"
 msgstr "Sexe"
 
@@ -3011,7 +3005,6 @@ msgid "Take last contact (recommended)"
 msgstr "Prendre el darrer contacte (recomanat)"
 
 #: ../glade/preferences_win.glade.h:42
-#, fuzzy
 msgid "Double contacts on simple races"
 msgstr "Contactes dobles en carreres simples"
 
@@ -3024,7 +3017,6 @@ msgid "Take last contact"
 msgstr "Pren el darrer contacte"
 
 #: ../glade/preferences_win.glade.h:45
-#, fuzzy
 msgid "on intervallic races"
 msgstr "en cursa amb intervals"
 
@@ -3054,7 +3046,7 @@ msgstr "Comprovar si la corda està totalment extesa en iniciar la captura."
 
 #: ../glade/preferences_win.glade.h:55
 msgid ""
-"Is string is not extended by this value or more, signal will be corrected."
+"If string is not extended by this value or more, signal will be corrected."
 msgstr "Si la corda no està extesa per aquest valor, la sèrie serà corregida."
 
 #: ../glade/preferences_win.glade.h:56
@@ -3086,20 +3078,18 @@ msgid "Do not save"
 msgstr "No ho desis"
 
 #: ../glade/preferences_win.glade.h:64
-#, fuzzy
 msgid "Save repetitions automatically"
-msgstr "Desa les repeticions automàticament"
+msgstr "Desar les repeticions automàticament"
 
 #: ../glade/preferences_win.glade.h:65
 msgid "Show start and duration of each repetition"
 msgstr "Mostrar l'inici i la duració de cada repetició"
 
 #: ../glade/preferences_win.glade.h:66
-#, fuzzy
 msgid ""
 "Encoder\n"
 "Capture"
-msgstr "Opcions de captura d'encoder"
+msgstr "Captura d'encoder"
 
 #: ../glade/preferences_win.glade.h:68
 msgid "Propulsive"
@@ -3146,11 +3136,12 @@ msgid "1RM prediction"
 msgstr "Predicció de l'1RM"
 
 #: ../glade/preferences_win.glade.h:79
-#, fuzzy
 msgid ""
 "Encoder\n"
 "Other"
-msgstr "Encoder"
+msgstr ""
+"Encoder\n"
+"Altres"
 
 #: ../glade/preferences_win.glade.h:81
 msgid "Play sounds while capturing"
@@ -3393,19 +3384,16 @@ msgid "On inertial discard first three repetitions."
 msgstr "En inercials descartar les tres primeres repeticions"
 
 #: ../glade/repetitive_conditions.glade.h:27
-#, fuzzy
 msgid "Test bells"
-msgstr "prova campanes"
+msgstr "Provar campanes"
 
 #: ../glade/repetitive_conditions.glade.h:28
-#, fuzzy
 msgid "Test \"Good\" bell"
-msgstr "Campana \"bona\""
+msgstr "Provar la campana \"bona\""
 
 #: ../glade/repetitive_conditions.glade.h:29
-#, fuzzy
 msgid "Test \"Bad\" bell"
-msgstr "prova campana \"dolenta\""
+msgstr "Prova la campana \"dolenta\""
 
 #: ../glade/report_window.glade.h:1
 msgid "Chronojump Report window"
@@ -3420,7 +3408,6 @@ msgid "show..."
 msgstr "mostra..."
 
 #: ../glade/report_window.glade.h:7
-#, fuzzy
 msgid "Include laps"
 msgstr "Incloure els trams"
 
@@ -3465,12 +3452,10 @@ msgid "Make report"
 msgstr "Crear informe"
 
 #: ../glade/run_type_add.glade.h:1
-#, fuzzy
 msgid "Create new race type"
 msgstr "Crear un tipus de cursa nova"
 
 #: ../glade/run_type_add.glade.h:2
-#, fuzzy
 msgid "Create a new race type in the database"
 msgstr "Crear un tipus de cursa nova a la base de dades"
 
@@ -3483,9 +3468,8 @@ msgstr ""
 "(com acaba)"
 
 #: ../glade/run_type_add.glade.h:11 ../src/gui/run.cs:1029
-#, fuzzy
 msgid "laps"
-msgstr "Per pistes"
+msgstr "trams"
 
 #: ../glade/run_type_add.glade.h:12
 msgid "time (s)"
@@ -3508,16 +3492,14 @@ msgid "(m)"
 msgstr "(m)"
 
 #: ../glade/run_type_add.glade.h:21
-#, fuzzy
 msgid ""
 "Different (each lap have different distance\n"
 "suitable for agility tests and RSA)"
 msgstr ""
 "Diferent (cada pista tindrà una distància diferent\n"
-"ideal per a tests d'agilitat)"
+"ideal per a tests d'agilitat i RSA)"
 
 #: ../glade/run_type_add.glade.h:23
-#, fuzzy
 msgid "Number of different laps"
 msgstr "Nombre de trams"
 
@@ -3526,9 +3508,8 @@ msgid "Help RSA"
 msgstr "A_juda"
 
 #: ../glade/run_type_add.glade.h:25
-#, fuzzy
 msgid "Distance of each lap"
-msgstr "Distància de cada pista"
+msgstr "Distància de cada tram"
 
 #: ../glade/session_add_edit.glade.h:1
 msgid ""
@@ -3564,21 +3545,18 @@ msgid "Person's data"
 msgstr "Dades dels atletes"
 
 #: ../glade/session_load.glade.h:2
-#, fuzzy
 msgid "Import from file:"
-msgstr "Importar arxiu de configuració"
+msgstr "Importar des de l'arxiu:"
 
 #: ../glade/session_load.glade.h:3
 msgid "Import into a new session"
 msgstr "Importar en una nova sessió"
 
 #: ../glade/session_load.glade.h:4
-#, fuzzy
 msgid "Import into the current session"
-msgstr "esborreu la sessió actual"
+msgstr "Importar a la sessió actual"
 
 #: ../glade/session_load.glade.h:5
-#, fuzzy
 msgid "Show data of jump and race tests"
 msgstr "Mostrar dades de tests de salts i carreres"
 
@@ -3995,20 +3973,17 @@ msgstr ""
 
 #: ../src/chronojumpImporter.cs:91
 #, csharp-format
-msgid ""
-"The current session will be modified (and it's not possible to Undo it "
-"easily). The data from:"
+msgid "The current session will be modified. The data from:"
 msgstr "La sessió actual serà modificada. Les dades de:"
 
 #: ../src/chronojumpImporter.cs:93
 #, csharp-format
-msgid "Will be imported into the current session. It cannot be undone."
-msgstr "S'importarà a la sessió actual."
+msgid "Will be imported into the current session."
+msgstr "S'importarà a la sessió actual"
 
 #: ../src/chronojumpImporter.cs:96
-#, fuzzy
 msgid "Import session?"
-msgstr "Carregueu sessió"
+msgstr "Importar sessió?"
 
 #: ../src/chronojumpImporter.cs:110
 msgid "Imported to a new session. You can load it now in Session - Load."
@@ -4016,14 +3991,12 @@ msgstr ""
 "Importat a una nova sessió. Ara pot carregar la sessió a Sessió - Carregar."
 
 #: ../src/chronojumpImporter.cs:112
-#, fuzzy
 msgid "Data merged into the open session."
-msgstr "Dades de la persona en aquesta sessió"
+msgstr "Dades afegides a la sessió actual."
 
 #: ../src/chronojumpImporter.cs:114
-#, fuzzy
 msgid "Chronojump importer"
-msgstr "Perfil de Chronojump"
+msgstr "Importador de Chronojump"
 
 #: ../src/chronojumpImporter.cs:145
 msgid ""
@@ -4033,22 +4006,6 @@ msgstr ""
 "S'està intentant importar a una base de dades amb una versió més nova que la "
 "d'aquest Chronojump\n"
 "Siusplau, actualitzeu la versió actual del Chronojump."
-
-#: ../src/chronojumpImporter.cs:216
-#, csharp-format
-msgid ""
-"getDatabaseVersionFromFile: invalid JSON content:\n"
-"{0}\n"
-"Exception. {1}"
-msgstr ""
-
-#: ../src/chronojumpImporter.cs:222
-#, csharp-format
-msgid ""
-"getDatabaseVersionFromFile: no success fetching the database version of:\n"
-"{0}\n"
-"Error: {1}"
-msgstr ""
 
 #: ../src/chronopic.cs:531
 #, csharp-format
@@ -4325,12 +4282,10 @@ msgid "Jumps: Reactive"
 msgstr "Salts: Reactiu"
 
 #: ../src/constants.cs:368
-#, fuzzy
 msgid "Races: Simple"
-msgstr "Curses: simples"
+msgstr "Curses: Simples"
 
 #: ../src/constants.cs:369
-#, fuzzy
 msgid "Races: Intervallic"
 msgstr "Curses: Intervals"
 
@@ -4340,7 +4295,6 @@ msgid "See all jumps"
 msgstr "Mostrar tots els salts"
 
 #: ../src/constants.cs:373
-#, fuzzy
 msgid "See all races"
 msgstr "Mostrar totes les curses"
 
@@ -4976,7 +4930,6 @@ msgstr[1] "Espereu {0} segons."
 #. new DialogMessage(Constants.MessageTypes.WARNING,
 #. Catalog.GetString("Race will not be recorded, 1st lap is out of time"));
 #: ../src/execute/run.cs:882
-#, fuzzy
 msgid "Race will not be recorded. Out of time."
 msgstr "La cursa no es gravarà. Fora de temps."
 
@@ -5027,17 +4980,14 @@ msgid "with subjumps"
 msgstr "incloure subsalts"
 
 #: ../src/exportSession.cs:204 ../src/report.cs:166
-#, fuzzy
 msgid "Simple races"
 msgstr "Curses simples"
 
 #: ../src/exportSession.cs:206 ../src/report.cs:171 ../src/report.cs:174
-#, fuzzy
 msgid "interval races"
 msgstr "curses amb intervals"
 
 #: ../src/exportSession.cs:207 ../src/report.cs:172
-#, fuzzy
 msgid "with laps"
 msgstr "amb trams"
 
@@ -5143,9 +5093,8 @@ msgid "SD"
 msgstr "DE"
 
 #: ../src/exportSession.cs:550
-#, fuzzy
 msgid "Race ID"
-msgstr "Temps de reacció"
+msgstr "ID de cursa"
 
 #: ../src/exportSession.cs:603
 msgid "run ID"
@@ -5426,14 +5375,12 @@ msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
 msgstr "Atenció: Esborrar un subsalt reactiu esborrarà el salt sencer"
 
 #: ../src/gui/chronojump.cs:5898 ../src/gui/chronojump.cs:5915
-#, fuzzy
 msgid "Do you want to delete this race?"
 msgstr "Desitgeu esborrar aquesta cursa?"
 
 #: ../src/gui/chronojump.cs:5916
-#, fuzzy
 msgid "Attention: Deleting a lap will delete the whole race"
-msgstr "Atenció: Esborrar un subsalt reactiu esborrarà el salt sencer"
+msgstr "Atenció: Esborrar un tram esborrarà la cursa sencera"
 
 #: ../src/gui/chronojump.cs:6054
 msgid "Do you want to delete this test?"
@@ -5615,40 +5562,35 @@ msgid "Cancelled by user"
 msgstr "Cancel·lat"
 
 #: ../src/gui/chronopicRegister.cs:113
-#, fuzzy
 msgid "Serial Number"
-msgstr "Nombre de decimals"
+msgstr "Número de sèrie"
 
 #: ../src/gui/chronopicRegister.cs:127
-#, fuzzy
 msgid "Not configured"
-msgstr "Importar configuració"
+msgstr "No configurat"
 
 #: ../src/gui/chronopicRegister.cs:135
-#, fuzzy
 msgid "Jumps/Races"
-msgstr "Salts: Reactiu"
+msgstr "Salts/Curses"
 
 #: ../src/gui/chronopicRegister.cs:211
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Found 1 Chronopic."
 msgid_plural "Found {0} Chronopics."
-msgstr[0] "Connectar Chronopics"
-msgstr[1] "Connectar Chronopics"
+msgstr[0] "S'ha trobat un Chronopic"
+msgstr[1] "S'han trobat {0} Chronopics"
 
 #: ../src/gui/chronopicRegister.cs:219
-#, fuzzy
 msgid "Please, mark Chronopic/s as"
-msgstr "Si us plau, actualitzeu Chronojump"
+msgstr "Si us plau, marqueu el Chronopic com a:"
 
 #: ../src/gui/chronopicRegister.cs:221 ../src/gui/convertWeight.cs:109
 msgid "or"
 msgstr "o"
 
 #: ../src/gui/chronopicRegister.cs:227
-#, fuzzy
 msgid "Chronopic/s not found"
-msgstr "El port del Chronopic no està configurat."
+msgstr "Chronopic no trobat"
 
 #: ../src/gui/chronopicRegister.cs:227
 msgid "Connect and reopen this window."
@@ -5982,9 +5924,9 @@ msgid "Operation cancelled."
 msgstr "Operació cancel·lada."
 
 #: ../src/gui/encoder.cs:3383
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Saved 1RM: {0} Kg."
-msgstr "1RM trobat: {0} Kg"
+msgstr "1RM desat: {0} Kg"
 
 #: ../src/gui/encoder.cs:3496
 msgid "Encoder exercise name:"
@@ -6084,6 +6026,19 @@ msgstr "Sèrie corregida. La corda no estava totalment estirada al començament.
 #: ../src/gui/encoder.cs:5848
 msgid "Sorry, file not found"
 msgstr "Ho sentim, fitxer no trobat"
+
+#: ../src/gui/encoderOverview.cs:49
+msgid "Encoder Overview"
+msgstr "Resum d'Encoder"
+
+#: ../src/gui/encoderOverview.cs:111
+msgid "Displaced mass"
+msgstr "Massa desplaçada"
+
+#: ../src/gui/encoderOverview.cs:113 ../src/gui/session.cs:790
+#: ../src/gui/session.cs:793
+msgid "Sets"
+msgstr "Sèries"
 
 #: ../src/gui/encoderSelectRepetitions.cs:219
 msgid "Mean Power"
@@ -6603,7 +6558,6 @@ msgstr ""
 "reactius"
 
 #: ../src/gui/person.cs:2384
-#, fuzzy
 msgid ""
 "Races\n"
 "simple"
@@ -6612,7 +6566,6 @@ msgstr ""
 "simples"
 
 #: ../src/gui/person.cs:2385
-#, fuzzy
 msgid ""
 "Races\n"
 "interval"
@@ -6734,9 +6687,8 @@ msgid "reaction time"
 msgstr "temps de reacció"
 
 #: ../src/gui/repetitiveConditions.cs:295
-#, fuzzy
 msgid "You need to activate sounds in preferences / multimedia."
-msgstr "Cal que activi els sons a la finestra principal"
+msgstr "Cal que activar els sons a preferències / multimèdia"
 
 #: ../src/gui/report.cs:138
 msgid "Session/s"
@@ -6763,7 +6715,6 @@ msgid "race"
 msgstr "cursa"
 
 #: ../src/gui/run.cs:262
-#, fuzzy
 msgid "intervallic race"
 msgstr "cursa amb intervals"
 
@@ -6772,24 +6723,23 @@ msgid "Total Time"
 msgstr "Temps total"
 
 #: ../src/gui/run.cs:594
-#, fuzzy
 msgid "Repair intervallic race"
 msgstr "Repareu la cursa d'intervals"
 
 #: ../src/gui/run.cs:636
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "RaceType: {0}."
 msgstr "Tipus de cursa: {0}."
 
 #: ../src/gui/run.cs:644
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "This race type is fixed to one lap."
 msgid_plural "This race type is fixed to {0} laps."
 msgstr[0] "Aquest tipus de cursa està fixada a 1 tram."
 msgstr[1] "Aquest tipus de cursa està fixada a {0} trams."
 
 #: ../src/gui/run.cs:653
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "This race type is fixed to one second."
 msgid_plural "This race type is fixed to {0} seconds."
 msgstr[0] "Aquest tipus de cursa està fixada a 1 segon."
@@ -6800,11 +6750,10 @@ msgid "Totaltime cannot be greater."
 msgstr "El temps total no pot ser més gran."
 
 #: ../src/gui/run.cs:971
-#, fuzzy
 msgid "Lap distance (between barriers)"
 msgstr ""
-"Distància de pista \n"
-"(entre plataformes)"
+"Distància de tram \n"
+"(entre barreres)"
 
 #: ../src/gui/run.cs:972
 msgid "meters"
@@ -6828,13 +6777,12 @@ msgid "Not defined"
 msgstr "Indefinit"
 
 #: ../src/gui/runType.cs:175
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Race type: '{0}' exists. Please, use another name"
 msgstr ""
 "El tipus de cursa: '{0}' ja existeix. Si us plau, feu servir un altre nom"
 
 #: ../src/gui/runType.cs:359
-#, fuzzy
 msgid "On RSA tests, rest time counts as a \"lap\"."
 msgstr "En els tests RSA, el temps de descans compta com a \"tram\"."
 
@@ -6855,14 +6803,12 @@ msgid "Run 40 meters, rest 30 seconds."
 msgstr "Córrer 40 metres, descansar 30 segons."
 
 #: ../src/gui/runType.cs:363
-#, fuzzy
 msgid "Will be limited by laps with a fixed value of 16"
 msgstr "Serà limitat per trams amb un valor fixat de 16"
 
 #: ../src/gui/runType.cs:364
-#, fuzzy
 msgid "because there are 16 laps:"
-msgstr "perquè hi ha 16 pistes:"
+msgstr "perquè hi ha 16 trams:"
 
 #: ../src/gui/runType.cs:365
 msgid "2 different laps: ('Run' and 'rest') x 8 times"
@@ -6926,27 +6872,20 @@ msgid "Session: '{0}' exists. Please, use another name"
 msgstr "La sessió: '{0}' ja existeix. Si us plau, feu servir un altre nom"
 
 #: ../src/gui/session.cs:687
-#, fuzzy
 msgid "Import session"
-msgstr " sessió "
+msgstr "Importar sessió "
 
 #: ../src/gui/session.cs:771 ../src/gui/session.cs:1101
 msgid "Number"
 msgstr "Número"
 
 #: ../src/gui/session.cs:783
-#, fuzzy
 msgid "Races interval"
 msgstr "Curses amb intervals"
 
 #: ../src/gui/session.cs:789
 msgid "Gravitatory encoder"
 msgstr "Encoder gravitatori"
-
-#: ../src/gui/session.cs:790 ../src/gui/session.cs:793
-#: ../src/gui/encoderOverview.cs:113
-msgid "Sets"
-msgstr "Sèries"
 
 #: ../src/gui/session.cs:792
 msgid "Inertial encoder"
@@ -7256,7 +7195,6 @@ msgid "without subjumps"
 msgstr "sense subsalts"
 
 #: ../src/report.cs:175
-#, fuzzy
 msgid "without laps"
 msgstr "sense trams"
 
@@ -7417,14 +7355,12 @@ msgid "Purpose"
 msgstr "Objectiu"
 
 #: ../src/runType.cs:190
-#, fuzzy
 msgid ""
 "The 20 yard agility race is a simple measure of an athlete’s ability to "
 "accelerate, decelerate, change direction, and to accelerate again."
 msgstr ""
 "El test d'agilitat de 20 iardes és una mesura simple de la capacitat d'un "
-"atleta per a accelerar, frenar-se, canviar de direcció, i accelerar altre "
-"cop."
+"atleta per a accelerar, frenar, canviar de direcció, i accelerar altre cop."
 
 #: ../src/runType.cs:192 ../src/runType.cs:211 ../src/runType.cs:231
 #: ../src/runType.cs:269 ../src/runType.cs:298
@@ -9357,7 +9293,7 @@ msgstr[0] "(ressaltada la millor cursa)"
 msgstr[1] "(ressaltats els millors {0} trams consecutius)"
 
 #: ../src/stats/runIntervallic.cs:271
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "{0} in Intervallic races applied to {1} on {2}{3}"
 msgstr "{0} a Cursa d'intervals aplicat a {1} en {2}{3}"
 
@@ -9419,19 +9355,16 @@ msgstr "Temps parcial"
 msgid "Split time"
 msgstr "Temps acumulat"
 
-#: ../glade/encoder_overview.glade.h:1
 #, fuzzy
-msgid "Encoder overview"
-msgstr "Encoder connectat"
+#~ msgid ""
+#~ "Lap distance\n"
+#~ "(between platforms)"
+#~ msgstr ""
+#~ "Distància de pista \n"
+#~ "(entre plataformes)"
 
-#: ../src/gui/encoderOverview.cs:49
-#, fuzzy
-msgid "Encoder Overview"
-msgstr "Sèries d'encoder"
-
-#: ../src/gui/encoderOverview.cs:111
-msgid "Displaced mass"
-msgstr "Massa desplaçada"
+#~ msgid "Will be imported into the current session. It cannot be undone."
+#~ msgstr "S'importarà a la sessió actual."
 
 #~ msgid "Runs"
 #~ msgstr "Curses"

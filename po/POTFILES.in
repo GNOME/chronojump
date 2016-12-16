@@ -154,3 +154,5 @@ src/treeViewReactionTime.cs
 src/treeViewRun.cs
 glade/encoder_overview.glade
 src/gui/encoderOverview.cs
+glade/encoder_overview.glade
+src/gui/encoderOverview.cs

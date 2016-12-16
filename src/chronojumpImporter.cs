@@ -88,9 +88,9 @@ class ChronojumpImporter
 			// This is very hard to Undo.
 			string sessionInformation = String.Format (Catalog.GetString ("Session name: {0}\n" +
 			                                                              "from file: {1}"), sessionName, sourceFile);
-			message = String.Format (Catalog.GetString ("The current session will be modified (and it's not possible to Undo it easily). The data from:") + "\n\n" +
+			message = String.Format (Catalog.GetString ("The current session will be modified. The data from:") + "\n\n" +
 				sessionInformation + "\n\n" +
-				Catalog.GetString ("Will be imported into the current session. It cannot be undone."));
+				Catalog.GetString ("Will be imported into the current session."));
 
 			Gtk.MessageDialog confirmationDialog = new Gtk.MessageDialog (parentWindow, Gtk.DialogFlags.Modal, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, message);
 			confirmationDialog.Title = Catalog.GetString ("Import session?");
@@ -213,13 +213,13 @@ class ChronojumpImporter
 			try {
 				JsonValue.Parse (result.output);
 			} catch (Exception e) {
-				return new Result(false, "", String.Format(Catalog.GetString("getDatabaseVersionFromFile: invalid JSON content:\n{0}\nException. {1}"), result.output, e.Message));
+				return new Result(false, "", String.Format("getDatabaseVersionFromFile: invalid JSON content:\n{0}\nException. {1}", result.output, e.Message));
 			}
 
 			return new Result (true, result.output);
 
 		} else {
-			return new Result(false, "", String.Format(Catalog.GetString("getDatabaseVersionFromFile: no success fetching the database version of:\n{0}\nError: {1}"), filePath, result.error));
+			return new Result(false, "", String.Format("getDatabaseVersionFromFile: no success fetching the database version of:\n{0}\nError: {1}", filePath, result.error));
 		}
 	}
 

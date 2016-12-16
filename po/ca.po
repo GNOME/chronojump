@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-15 16:08+0100\n"
-"PO-Revision-Date: 2016-08-05 11:35+0200\n"
+"PO-Revision-Date: 2016-12-16 10:27+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: \n"
 "Language: ca\n"
@@ -87,7 +87,7 @@ msgstr "Exportar la sèrie en un CSV (Full de càlcul)"
 
 #: ../glade/app1.glade.h:10
 msgid "Import session from another Chronojump database"
-msgstr ""
+msgstr "Importar sessió de una altre base de dades"
 
 #: ../glade/app1.glade.h:11
 msgid "Overview of this encoder session"
@@ -163,7 +163,7 @@ msgstr "Reactiu"
 #: ../glade/app1.glade.h:26 ../glade/preferences_win.glade.h:46
 #: ../glade/report_window.glade.h:11 ../src/gui/chronopicRegister.cs:221
 msgid "Races"
-msgstr ""
+msgstr "Curses"
 
 #: ../glade/app1.glade.h:27 ../glade/report_window.glade.h:6
 msgid "Intervallic"
@@ -359,11 +359,11 @@ msgstr ""
 
 #: ../glade/app1.glade.h:71
 msgid "Highlight longer resting times than this value"
-msgstr ""
+msgstr "Resaltar temps de descans superiors a aquest valor"
 
 #: ../glade/app1.glade.h:72 ../src/treeViewPerson.cs:48
 msgid "Rest"
-msgstr ""
+msgstr "Descans"
 
 #: ../glade/app1.glade.h:73
 msgid ""
@@ -455,7 +455,6 @@ msgid "2"
 msgstr "2"
 
 #: ../glade/app1.glade.h:94
-#, fuzzy
 msgid "Add race type"
 msgstr "Afegiu tipus de cursa"
 
@@ -543,12 +542,12 @@ msgid "Additional weight"
 msgstr "Pes addicional"
 
 #: ../glade/app1.glade.h:116
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "% body\n"
 "weight"
 msgstr ""
-"% pes \n"
+"% del pes \n"
 "corporal"
 
 #: ../glade/app1.glade.h:118
@@ -1003,7 +1002,7 @@ msgstr "Salt múltiple"
 
 #: ../glade/app1.glade.h:203 ../src/stats/runSimple.cs:52
 msgid "Race"
-msgstr ""
+msgstr "Cursa"
 
 #: ../glade/app1.glade.h:204
 #, fuzzy
@@ -3051,16 +3050,16 @@ msgstr "Alçada Mínima"
 
 #: ../glade/preferences_win.glade.h:54
 msgid "Check if string is fully extended at start of capture."
-msgstr ""
+msgstr "Comprovar si la corda està totalment extesa en iniciar la captura."
 
 #: ../glade/preferences_win.glade.h:55
 msgid ""
 "Is string is not extended by this value or more, signal will be corrected."
-msgstr ""
+msgstr "Si la corda no està extesa per aquest valor, la sèrie serà corregida."
 
 #: ../glade/preferences_win.glade.h:56
 msgid "Turns"
-msgstr ""
+msgstr "Voltes"
 
 #: ../glade/preferences_win.glade.h:57
 msgid "Recommended:"
@@ -3155,7 +3154,7 @@ msgstr "Encoder"
 
 #: ../glade/preferences_win.glade.h:81
 msgid "Play sounds while capturing"
-msgstr ""
+msgstr "Reproduir son durant la captura"
 
 #: ../glade/preferences_win.glade.h:82
 msgid "Play sound (on / off)"
@@ -3167,7 +3166,7 @@ msgstr "Seleccioni la càmera"
 
 #: ../glade/preferences_win.glade.h:84
 msgid "Multimedia"
-msgstr ""
+msgstr "Multimèdia"
 
 #: ../glade/preferences_win.glade.h:85
 msgid "Language"
@@ -3391,7 +3390,7 @@ msgstr "<b>Pic de potència</b> (W)"
 
 #: ../glade/repetitive_conditions.glade.h:26
 msgid "On inertial discard first three repetitions."
-msgstr ""
+msgstr "En inercials descartar les tres primeres repeticions"
 
 #: ../glade/repetitive_conditions.glade.h:27
 #, fuzzy
@@ -3571,7 +3570,7 @@ msgstr "Importar arxiu de configuració"
 
 #: ../glade/session_load.glade.h:3
 msgid "Import into a new session"
-msgstr ""
+msgstr "Importar en una nova sessió"
 
 #: ../glade/session_load.glade.h:4
 #, fuzzy
@@ -3991,18 +3990,20 @@ msgid ""
 "Session name: {0}\n"
 "from file: {1}"
 msgstr ""
+"Nom de sessió: {0}\n"
+"de l'arxiu: {1}"
 
 #: ../src/chronojumpImporter.cs:91
 #, csharp-format
 msgid ""
 "The current session will be modified (and it's not possible to Undo it "
 "easily). The data from:"
-msgstr ""
+msgstr "La sessió actual serà modificada. Les dades de:"
 
 #: ../src/chronojumpImporter.cs:93
 #, csharp-format
 msgid "Will be imported into the current session. It cannot be undone."
-msgstr ""
+msgstr "S'importarà a la sessió actual."
 
 #: ../src/chronojumpImporter.cs:96
 #, fuzzy
@@ -4012,6 +4013,7 @@ msgstr "Carregueu sessió"
 #: ../src/chronojumpImporter.cs:110
 msgid "Imported to a new session. You can load it now in Session - Load."
 msgstr ""
+"Importat a una nova sessió. Ara pot carregar la sessió a Sessió - Carregar."
 
 #: ../src/chronojumpImporter.cs:112
 #, fuzzy
@@ -4028,6 +4030,9 @@ msgid ""
 "Trying to import a newer database version than this Chronojump\n"
 "Please, update the running Chronojump."
 msgstr ""
+"S'està intentant importar a una base de dades amb una versió més nova que la "
+"d'aquest Chronojump\n"
+"Siusplau, actualitzeu la versió actual del Chronojump."
 
 #: ../src/chronojumpImporter.cs:216
 #, csharp-format
@@ -5165,7 +5170,7 @@ msgstr "Distància d'interval"
 #: ../src/exportSession.cs:609 ../src/gui/chronojump.cs:4579
 #: ../src/gui/run.cs:1406 ../src/gui/run.cs:1474 ../src/gui/run.cs:1526
 msgid "Laps"
-msgstr ""
+msgstr "Trams"
 
 #: ../src/exportSession.cs:646
 msgid "Interval speed"
@@ -5344,14 +5349,14 @@ msgid "Encoder data will not be exported."
 msgstr "Les dades de l'encoder no s'exportaran."
 
 #: ../src/gui/chronojump.cs:2823
-#, fuzzy
 msgid ""
 "Are you sure you want to delete the current person and all his/her tests "
 "(jumps, races, pulses, ...) from this session?\n"
 "(His/her personal data and tests in other sessions will remain intact.)"
 msgstr ""
 "Esteu segur que voleu esborrar el subjecte actual d'aquesta sessió i\n"
-"esborrar tots els seus tests realitzats en aquesta sessió\n"
+"tots els seus tests (salts, curses, sèries, ...) realitzats en aquesta "
+"sessió\n"
 "(Les dades personals i els tests realitzats en altres sessions no es "
 "modificaran)"
 
@@ -5436,25 +5441,21 @@ msgstr "Desitgeu esborrar aquest test?"
 
 #. without filter, only select name
 #: ../src/gui/chronojump.cs:6111
-#, fuzzy
 msgid "Added simple jump type."
 msgstr "Afegit salt simple."
 
 #. without filter, only select name
 #: ../src/gui/chronojump.cs:6117
-#, fuzzy
 msgid "Added reactive jump type."
 msgstr "Afegit salt reactiu."
 
 #. without filter, only select name
 #: ../src/gui/chronojump.cs:6147
-#, fuzzy
 msgid "Added simple race type."
 msgstr "Afegida cursa simple."
 
 #. without filter, only select name
 #: ../src/gui/chronojump.cs:6153
-#, fuzzy
 msgid "Added intervallic race type."
 msgstr "Afegida cursa amb intervals."
 
@@ -5651,7 +5652,7 @@ msgstr "El port del Chronopic no està configurat."
 
 #: ../src/gui/chronopicRegister.cs:227
 msgid "Connect and reopen this window."
-msgstr ""
+msgstr "Connecteu i torneu a obrir aquesta finestra."
 
 #: ../src/gui/convertWeight.cs:129
 msgid "Old weight"
@@ -6722,7 +6723,7 @@ msgstr "Igual o superior a"
 
 #: ../src/gui/queryServer.cs:779
 msgid "races"
-msgstr ""
+msgstr "curses"
 
 #: ../src/gui/queryServer.cs:787
 msgid "watts"
@@ -6759,7 +6760,7 @@ msgstr "Comentar aquesta gràfica"
 
 #: ../src/gui/run.cs:52
 msgid "race"
-msgstr ""
+msgstr "cursa"
 
 #: ../src/gui/run.cs:262
 #, fuzzy
@@ -6864,12 +6865,10 @@ msgid "because there are 16 laps:"
 msgstr "perquè hi ha 16 pistes:"
 
 #: ../src/gui/runType.cs:365
-#, fuzzy
 msgid "2 different laps: ('Run' and 'rest') x 8 times"
 msgstr "Dos trams diferents: ('Córrer' i 'descansar') x 8 vegades"
 
 #: ../src/gui/runType.cs:366
-#, fuzzy
 msgid "And the 'distance' of each different lap will be:"
 msgstr "I la distància de cada tram diferent serà:"
 
@@ -6998,6 +6997,11 @@ msgid ""
 "Exception:\n"
 "{2}"
 msgstr ""
+"No es pot iniciar:\n"
+"{0}\n"
+"amb els paràmetres:{1}\n"
+"Excepció:\n"
+"{2}"
 
 #: ../src/json.cs:47
 msgid ""
@@ -9346,11 +9350,11 @@ msgid "{0} in Rj Index [(tfavg-tcavg)/tcavg *100] applied to {1} on {2}"
 msgstr "{0} a Rj Índex [(tvavg-tcavg)/tcavg *100] aplicat a {1} en {2}"
 
 #: ../src/stats/runIntervallic.cs:265
-#, fuzzy, csharp-format
+#, csharp-format
 msgid " (best race marked)"
 msgid_plural " (best {0} consecutive laps marked)"
-msgstr[0] "(ressaltat el millor tram)"
-msgstr[1] "(ressaltats els millors {0} trams)"
+msgstr[0] "(ressaltada la millor cursa)"
+msgstr[1] "(ressaltats els millors {0} trams consecutius)"
 
 #: ../src/stats/runIntervallic.cs:271
 #, fuzzy, csharp-format

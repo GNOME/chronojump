@@ -197,8 +197,6 @@ SOURCES = \
 
 RESOURCES = \
 	../glade/app1.glade \
-	../glade/chronopic_window.glade \
-	../glade/chronopic_wizard_win.glade \
 	../glade/confirm_window.glade \
 	../glade/convert_weight.glade \
 	../glade/dialog_about.glade \

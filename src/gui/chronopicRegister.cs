@@ -74,7 +74,7 @@ public class ChronopicRegisterWindow
 
 		createVBoxMain();
 		createContent(list);
-		createButton();
+		createButtons();
 
 		chronopic_register_win.ShowAll();
 	}
@@ -316,27 +316,36 @@ public class ChronopicRegisterWindow
 				ChronopicRegisterPort.Types.ENCODER);
 	}
 
-	private void createButton()
+	private void createButtons()
 	{
 		FakeButtonCloseSerialPort = new Gtk.Button();
 		Gtk.Button button_close_serial_port = new Gtk.Button("Close serial port (debug)");
 		button_close_serial_port.Clicked += new EventHandler(on_button_close_serial_port_clicked);
 
-		Gtk.Button button = new Gtk.Button("Close Window");
-		button.Clicked += new EventHandler(on_button_clicked);
+		Gtk.Button button_OSX_readme = new Gtk.Button("MacOSX Readme");
+		button_OSX_readme.Clicked += new EventHandler(on_button_OSX_readme_clicked);
 
-		//button can be called clicking Escape key
-		Gtk.AccelGroup ag = new Gtk.AccelGroup ();
+		//---- button close start --->
+		Gtk.Button button_close = new Gtk.Button("Close Window");
+		button_close.Clicked += new EventHandler(on_button_close_clicked);
+
+		Gtk.AccelGroup ag = new Gtk.AccelGroup (); //button can be called clicking Escape key
 		chronopic_register_win.AddAccelGroup (ag);
 
-		button.AddAccelerator
+		button_close.AddAccelerator
 			("activate", ag, new Gtk.AccelKey
 			 (Gdk.Key.Escape, Gdk.ModifierType.None,
 			  Gtk.AccelFlags.Visible));
+		//<---- button close end
 
+		//add buttons to containers
 		Gtk.HButtonBox hbox = new Gtk.HButtonBox ();
-		hbox.Add(button_close_serial_port);
-		hbox.Add(button);
+		//hbox.Add(button_close_serial_port);
+
+		if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+			hbox.Add(button_OSX_readme);
+
+		hbox.Add(button_close);
 
 		vbox_main.Add(hbox);
 	}
@@ -347,7 +356,16 @@ public class ChronopicRegisterWindow
 		FakeButtonCloseSerialPort.Click();
 	}
 
-	private void on_button_clicked(object o, EventArgs args)
+	private void on_button_OSX_readme_clicked(object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.INFO,
+				Catalog.GetString("There is a known problem with MacOSX:") + "\n" +
+				Catalog.GetString("If Chronopic is disconnected after jumps or runs execution, that port will be blocked until restart of machine") + "\n\n" +
+				Catalog.GetString("We are working on a solution.")
+				);
+	}
+
+	private void on_button_close_clicked(object o, EventArgs args)
 	{
 		chronopic_register_win.Hide();
 		chronopic_register_win = null;
@@ -359,7 +377,7 @@ public class ChronopicRegisterWindow
 
 		args.RetVal = true;
 
-		on_button_clicked(new object(), new EventArgs());
+		on_button_close_clicked(new object(), new EventArgs());
 	}
 }
 

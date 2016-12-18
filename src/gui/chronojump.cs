@@ -264,6 +264,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_execute_test;
 	[Widget] Gtk.Viewport viewport_chronopics;
 	[Widget] Gtk.Label label_chronopics_multitest;
+	[Widget] Gtk.Label label_chronopic_debounce;
+	[Widget] Gtk.HScale hscale_chronopic_debounce;
 	//[Widget] Gtk.Label label_chronopic_encoder;
 	//[Widget] Gtk.Image image_chronopic_encoder_no;
 	//[Widget] Gtk.Image image_chronopic_encoder_yes;
@@ -3820,6 +3822,13 @@ public partial class ChronoJumpWindow
 			sensitiveGuiYesEvent();
 			*/
 		}
+	}
+
+	//hscale does not manage correctly the +10 increments.
+	//we solve it with a label
+	private void on_hscale_chronopic_debounce_value_changed(object o, EventArgs arg)
+	{
+		label_chronopic_debounce.Text = (10 * Convert.ToInt32(hscale_chronopic_debounce.Value)).ToString();
 	}
 
 	private void changeMultitestFirmwareIfNeeded()

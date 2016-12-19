@@ -1938,6 +1938,7 @@ paint1RMBadillo2010 <- function (paf, title, outputData1)
 	loadPercent <- seq(30,100, by=5)
 
 	#msp: mean speed propulsive
+	#solve the quadratic ecuation on each %1RM vel = (-b - sqrt(b^2 -4ac))/(2a) with a = 8.4326, b = - 73.501, c = 112.33
 	msp <- c(1.33, 1.235, 1.145, 1.055, 0.965, 0.88, 0.795,
 		                          0.715, 0.635, 0.555, 0.475, 0.405, 0.325, 0.255, 0.185)
 	#variation <- c(0.08, 0.07, 0.06, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.04, 0.04, 0.03, 0.04)
@@ -2010,9 +2011,10 @@ paint1RMBadilloSquat <- function (paf, title, outputData1)
         loadPercent <- seq(30,100, by=5)
         
         #msp: mean speed propulsive
-        msp <- c(1.33, 1.235, 1.145, 1.055, 0.965, 0.88, 0.795,
-                 0.715, 0.635, 0.555, 0.475, 0.405, 0.325, 0.255, 0.185)
-        #variation <- c(0.08, 0.07, 0.06, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.04, 0.04, 0.03, 0.04)
+        percent1RM <- percent1RM <- seq(30, 100, 5)
+        #solve the quadratic ecuation on each %1RM vel = (-b - sqrt(b^2 -4ac))/(2a) with a = 8.4326, b = - 73.501, c = 112.33
+        msp <- c(1.4477703, 1.3712719, 1.2943984, 1.2171443, 1.1395039, 1.0614714, 0.9830407, 0.9042056, 0.8249600, 0.7452972, 0.6652106,
+                 0.5846934, 0.5037386, 0.4223390, 0.3404870)
         
         maxy=max(c(msp,curvesSpeed))
         miny=min(c(msp,curvesSpeed))

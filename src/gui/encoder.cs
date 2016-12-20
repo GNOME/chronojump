@@ -2004,14 +2004,17 @@ public partial class ChronoJumpWindow
 						 nameTemp == "1RM Any exercise" || 
 						 nameTemp == Catalog.GetString("1RM Any exercise") ||
 						 nameTemp == "1RM Bench Press" || 
-						 nameTemp == Catalog.GetString("1RM Bench Press")
+						 nameTemp == Catalog.GetString("1RM Bench Press") ||
+						 nameTemp == "1RM Squat" ||
+						 nameTemp == Catalog.GetString("1RM Squat")
 						 //no 1RM Indirect because cannot be done with saved curves
 						)) {
 					new DialogMessage(Constants.MessageTypes.WARNING, 
 							Catalog.GetString("Sorry, this graph is not supported yet.") +
 							"\n\nIntersession or Interperson" +
 							"\n- 1RM Any exercise" +
-							"\n- 1RM Bench Press"
+							"\n- 1RM Bench Press" +
+							"\n- 1RM Squat"
 							//no 1RM Indirect because cannot be done with saved curves
 							);
 
@@ -2023,7 +2026,9 @@ public partial class ChronoJumpWindow
 						nameTemp == "1RM Any exercise" || 
 						nameTemp == Catalog.GetString("1RM Any exercise") ||
 						nameTemp == "1RM Bench Press" || 
-						nameTemp == Catalog.GetString("1RM Bench Press")
+						nameTemp == Catalog.GetString("1RM Bench Press") ||
+						nameTemp == "1RM Squat" ||
+						nameTemp == Catalog.GetString("1RM Squat")
 						//no 1RM Indirect because cannot be done with saved curves
 				  ) {
 					bool differentExercises = false;
@@ -2113,7 +2118,7 @@ public partial class ChronoJumpWindow
 		//use this send because we change it to send it to R
 		//but we don't want to change encoderAnalysis because we want to know again if == "cross" (or "1RM")
 		//encoderAnalysis can be "cross" and sendAnalysis be "Speed / Load"
-		//encoderAnalysis can be "1RM" and sendAnalysis be "1RMBadillo1010"
+		//encoderAnalysis can be "1RM" and sendAnalysis be "1RMBadilloBench, ...
 		string sendAnalysis = encoderAnalysis;
 
 		//see doProcess at encoder/graph.R
@@ -2161,9 +2166,12 @@ public partial class ChronoJumpWindow
 			
 			//(my1RMName == "1RM Any exercise") done below different for curve and signal
 			if(my1RMName == "1RM Bench Press") {
-				sendAnalysis = "1RMBadillo2010";
+				sendAnalysis = "1RMBadilloBench";
 				analysisOptions = "p";
-			} 
+			} else if(my1RMName == "1RM Squat") {
+				sendAnalysis = "1RMBadilloSquat";
+				analysisOptions = "p";
+			}
 		}
 		
 		if(sendAnalysis == "powerBars" || sendAnalysis == "single" || sendAnalysis == "side")
@@ -2257,7 +2265,7 @@ public partial class ChronoJumpWindow
 			//because is 1RM of a person on an exercise
 			//this is checked at: "on_button_encoder_analyze_clicked()"
 			if(encoderAnalysis == "1RM" &&
-					(my1RMName == "1RM Bench Press" || my1RMName == "1RM Any exercise") )
+					(my1RMName == "1RM Bench Press" || my1RMName == "1RM Squat" || my1RMName == "1RM Any exercise") )
 			{
 				//get exercise ID
 				int exID = -1;
@@ -3003,13 +3011,13 @@ public partial class ChronoJumpWindow
 		createComboEncoderAnalyzeWeights(true);	//first creation
 
 		//create combo analyze 1RM
-		string [] comboAnalyze1RMOptions = { "1RM Any exercise", "1RM Bench Press", "1RM Indirect" };
+		string [] comboAnalyze1RMOptions = { "1RM Any exercise", "1RM Bench Press", "1RM Squat", "1RM Indirect" };
 		string [] comboAnalyze1RMOptionsTranslated = { 
-			Catalog.GetString("1RM Any exercise"), Catalog.GetString("1RM Bench Press"), 
-			Catalog.GetString("1RM Indirect")
+			Catalog.GetString("1RM Any exercise"), Catalog.GetString("1RM Bench Press"),
+			Catalog.GetString("1RM Squat"), Catalog.GetString("1RM Indirect")
 		}; //if added more, change the int in the 'for' below
 		encoderAnalyze1RMTranslation = new String [comboAnalyze1RMOptions.Length];
-		for(int j=0; j < 3 ; j++)
+		for(int j=0; j < 4 ; j++)
 			encoderAnalyze1RMTranslation[j] = 
 				comboAnalyze1RMOptions[j] + ":" + comboAnalyze1RMOptionsTranslated[j];
 		combo_encoder_analyze_1RM = ComboBox.NewText ();
@@ -5701,7 +5709,8 @@ public partial class ChronoJumpWindow
 						encoderAnalyze1RMTranslation);
 			button_encoder_analyze_1RM_save.Visible = 
 				(radiobutton_encoder_analyze_1RM.Active &&
-				(my1RMName == "1RM Bench Press" || my1RMName == "1RM Any exercise" || my1RMName == "1RM Indirect") );
+				(my1RMName == "1RM Bench Press" || my1RMName == "1RM Squat" ||
+				 my1RMName == "1RM Any exercise" || my1RMName == "1RM Indirect") );
 			/*
 			 * TODO: currently disabled because 
 			 * on_button_encoder_analyze_1RM_save_clicked () reads getExerciseNameFromTable()

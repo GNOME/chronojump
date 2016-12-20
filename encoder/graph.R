@@ -1927,7 +1927,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
 }
 
 #propulsive!!!!
-paint1RMBadillo2010 <- function (paf, title, outputData1)
+paint1RMBadilloExercise <- function (exercise, paf, title, outputData1)
 {
 	curvesLoadTotal = (paf[,findPosInPaf("Load","")]) 		#mass: X
 	curvesLoadExtra = (paf[,findPosInPaf("MassExtra","")])
@@ -1937,17 +1937,48 @@ paint1RMBadillo2010 <- function (paf, title, outputData1)
 
 	loadPercent <- seq(30,100, by=5)
 
-	#msp: mean speed propulsive
-	#solve the quadratic ecuation on each %1RM vel = (-b - sqrt(b^2 -4ac))/(2a) with a = 8.4326, b = - 73.501, c = 112.33
-	msp <- c(1.33, 1.235, 1.145, 1.055, 0.965, 0.88, 0.795,
-		                          0.715, 0.635, 0.555, 0.475, 0.405, 0.325, 0.255, 0.185)
-	#variation <- c(0.08, 0.07, 0.06, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.04, 0.04, 0.03, 0.04)
+	#variables that are different on each exercise. Declare them here
+	msp = NULL #msp: mean speed propulsive
+	loadPercentCalc = NULL
+	subtitle = NULL
+	speed1RM = NULL
+	speed1RMText = NULL
+	formula = NULL
+	reference = NULL
+
+	#solve the quadratic ecuation on each %1RM vel = (-b - sqrt(b^2 -4ac))/(2a)
+	if(exercise == "BENCH")
+	{
+		#a = 8.4326, b = - 73.501, c = 112.33
+		msp <- c(1.33, 1.235, 1.145, 1.055, 0.965, 0.88, 0.795,
+			 0.715, 0.635, 0.555, 0.475, 0.405, 0.325, 0.255, 0.185)
+		#variation <- c(0.08, 0.07, 0.06, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.04, 0.04, 0.03, 0.04)
+
+		loadPercentCalc <- 8.4326*curvesSpeed^2 - 73.501*curvesSpeed + 112.33
+		subtitle <- translateToPrint("Concentric mean speed on bench press 1RM =")
+		speed1RM <- 0.185
+		speed1RMText <- " 0.185m/s"
+		formula <- paste(" 8.4326 * ", translateToPrint("speed"), " ^2 - 73.501 * ", translateToPrint("speed"), " + 112.33")
+		reference <- " Gonzalez-Badillo, Sanchez-Medina (2010)"
+	} else
+	{ # == "SQUAT"
+		#a = -2.079, b = -59.5, c = 120.5
+		msp <- c(1.4477703, 1.3712719, 1.2943984, 1.2171443, 1.1395039, 1.0614714, 0.9830407,
+			 0.9042056, 0.8249600, 0.7452972, 0.6652106, 0.5846934, 0.5037386, 0.4223390, 0.3404870)
+
+		loadPercentCalc <- -2.079*curvesSpeed^2 - 59.5*curvesSpeed + 120.5
+		subtitle <- translateToPrint("Concentric mean speed on squat 1RM =")
+		#Note this prediction uses 0.340 as 1RM concentric speed on squat, but same authors found 0.310 on other articles
+		#reason seem to be: this prediction is calculated on full squat
+		speed1RM <- 0.340
+		speed1RMText <- " 0.34m/s"
+		formula <- paste("-2.079 * ", translateToPrint("speed"), " ^2 - 59.5 * ", translateToPrint("speed"), " + 120.5")
+		reference <- " Gonzalez-Badillo, Sanchez-Medina (2015)"
+	}
 
 	maxy=max(c(msp,curvesSpeed))
 	miny=min(c(msp,curvesSpeed))
 
-
-	loadPercentCalc <- 8.4326*curvesSpeed^2 - 73.501*curvesSpeed + 112.33
 	#sometimes there's a negative value, fix it
 	for(i in 1:length(loadPercentCalc))
 	       if(loadPercentCalc[i] < 0)
@@ -1972,10 +2003,10 @@ paint1RMBadillo2010 <- function (paf, title, outputData1)
 
 	plot(curvesLoadExtra,curvesSpeed, type="p",
 	     main=paste(title, "1RM", translateToPrint("prediction")),
-	     sub=paste("\n",translateToPrint("Concentric mean speed on bench press 1RM =")," 0.185m/s.",
+	     sub=paste(subtitle, speed1RMText,
 		      translateToPrint("Estimated percentual load ="),
-		      " 8.4326 * ", translateToPrint("speed"), " ^2 - 73.501 * ", translateToPrint("speed"), " + 112.33\n",
-		      translateToPrint("Adapted from")," Gonzalez-Badillo, Sanchez-Medina (2010)"),
+		      formula, "\n",
+		      translateToPrint("Adapted from"), reference),
 	     xlim=c(min(curvesLoadExtra),max(loadCalcExtra[curvesSpeedInIntervalPos])),
 	     ylim=c(miny,maxy), xlab="", ylab="",axes=T)
 
@@ -1987,90 +2018,19 @@ paint1RMBadillo2010 <- function (paf, title, outputData1)
 	mtext(side=4,at=msp, paste(" ",loadPercent), las=2)
 
 	colors=c(rep(NA,29),rev(heat.colors(100)[0:71]))
-	arrows(curvesLoadExtra,curvesSpeed,loadCalcExtra,0.185,code=2,col=colors[loadPercentCalc])
+	arrows(curvesLoadExtra, curvesSpeed, loadCalcExtra, speed1RM, code=2, col=colors[loadPercentCalc])
 
 	closerValues = which(curvesLoadExtra == max(curvesLoadExtra))
-	segments(loadCalcExtra[closerValues],0.185,loadCalcExtra[closerValues],0,lty=3)
+	segments(loadCalcExtra[closerValues], speed1RM, loadCalcExtra[closerValues], 0, lty=3)
 
 	predicted1RM = mean(loadCalcExtra[closerValues])
 
-	segments(predicted1RM,0.185,predicted1RM,0,lty=1)
+	segments(predicted1RM, speed1RM, predicted1RM, 0, lty=1)
 	mtext(side=1, at=predicted1RM, round(predicted1RM,2), cex=.8)
 
-	write(paste("1RM;",round(predicted1RM,2),sep=""), SpecialData)
-}
+	mtext(speed1RM, at=speed1RM, side=2, cex=.8, las=2)
 
-paint1RMBadilloSquat <- function (paf, title, outputData1)
-{
-        curvesLoadTotal = (paf[,findPosInPaf("Load","")]) 		#mass: X
-        curvesLoadExtra = (paf[,findPosInPaf("MassExtra","")])
-        curvesSpeed = (paf[,findPosInPaf("Speed", "mean")])	#mean speed Y
-        
-        par(mar=c(5,6,3,4))
-        
-        loadPercent <- seq(30,100, by=5)
-        
-        #msp: mean speed propulsive
-        percent1RM <- percent1RM <- seq(30, 100, 5)
-        #solve the quadratic ecuation on each %1RM vel = (-b - sqrt(b^2 -4ac))/(2a) with a = 8.4326, b = - 73.501, c = 112.33
-        msp <- c(1.4477703, 1.3712719, 1.2943984, 1.2171443, 1.1395039, 1.0614714, 0.9830407, 0.9042056, 0.8249600, 0.7452972, 0.6652106,
-                 0.5846934, 0.5037386, 0.4223390, 0.3404870)
-        
-        maxy=max(c(msp,curvesSpeed))
-        miny=min(c(msp,curvesSpeed))
-        
-        
-        loadPercentCalc <- -2.079*curvesSpeed^2 - 59.5*curvesSpeed + 120.5
-        #sometimes there's a negative value, fix it
-        for(i in 1:length(loadPercentCalc))
-                if(loadPercentCalc[i] < 0)
-                        loadPercentCalc[i] = NA
-        
-        loadCalcTotal <- 100 * curvesLoadTotal / loadPercentCalc
-        loadCalcExtra <- loadCalcTotal - (curvesLoadTotal - curvesLoadExtra)
-        
-        #for calculations take only the curves slower or == than 1.33
-        curvesSpeedInIntervalPos = which(curvesSpeed <= max(msp))
-        
-        if(length(curvesSpeedInIntervalPos) == 0) {
-                plot(0,0,type="n",axes=F,xlab="",ylab="")
-                text(x=0,y=0,translateToPrint("Not enough data."),cex=1.5)
-                dev.off()
-                write("1RM;-1", SpecialData)
-                write("", outputData1)
-                quit()
-        }
-        
-        par(mar=c(6,5,3,4))
-        
-        plot(curvesLoadExtra,curvesSpeed, type="p",
-             main=paste(title, "1RM", translateToPrint("prediction")),
-             sub=paste("\n",translateToPrint("Concentric mean speed on squat 1RM =")," 0.31m/s.",
-                       translateToPrint("Estimated percentual load ="),
-                       "-2.079 * ", translateToPrint("speed"), " ^2 - 59.5 * ", translateToPrint("speed"), " + 120.5\n",
-                       translateToPrint("Adapted from")," Gonzalez-Badillo, Sanchez-Medina (2015)"),
-             xlim=c(min(curvesLoadExtra),max(loadCalcExtra[curvesSpeedInIntervalPos])),
-             ylim=c(miny,maxy), xlab="", ylab="",axes=T)
-        
-        mtext(side=1,line=2,"Kg")
-        mtext(side=2,line=3,paste(translateToPrint("Mean speed in concentric propulsive phase"),"(m/s)"))
-        mtext(side=4,line=2,"1RM (%)")
-        
-        abline(h=msp, lty=2, col="gray")
-        mtext(side=4,at=msp, paste(" ",loadPercent), las=2)
-        
-        colors=c(rep(NA,29),rev(heat.colors(100)[0:71]))
-        arrows(curvesLoadExtra,curvesSpeed,loadCalcExtra,0.185,code=2,col=colors[loadPercentCalc])
-        
-        closerValues = which(curvesLoadExtra == max(curvesLoadExtra))
-        segments(loadCalcExtra[closerValues],0.185,loadCalcExtra[closerValues],0,lty=3)
-        
-        predicted1RM = mean(loadCalcExtra[closerValues])
-        
-        segments(predicted1RM,0.185,predicted1RM,0,lty=1)
-        mtext(side=1, at=predicted1RM, round(predicted1RM,2), cex=.8)
-        
-        write(paste("1RM;",round(predicted1RM,2),sep=""), SpecialData)
+	write(paste("1RM;",round(predicted1RM,2),sep=""), SpecialData)
 }
 
 #---- RM Indirect start ----
@@ -3213,8 +3173,11 @@ doProcess <- function(options)
 					    op$AnalysisVariables[1], op$AnalysisVariables[2], #speed1RM, method
 					    op$OutputData1) 
 		}
-		else if(op$Analysis == "1RMBadillo2010") {
-			paint1RMBadillo2010(paf, op$Title, op$OutputData1)
+		else if(op$Analysis == "1RMBadilloBench") {
+			paint1RMBadilloExercise("BENCH", paf, op$Title, op$OutputData1)
+		}
+		else if(op$Analysis == "1RMBadilloSquat") {
+			paint1RMBadilloExercise("SQUAT", paf, op$Title, op$OutputData1)
 		} 
 		else if(op$Analysis == "neuromuscularProfile") {
 			#only signal, it's a jump, use mass of the body (100%) + mass Extra if any

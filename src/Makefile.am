@@ -156,6 +156,7 @@ SOURCES = \
 	exportSession.cs\
 	preferences.cs\
 	restTime.cs\
+	threshold.cs\
 	treeViewEvent.cs\
 	treeViewPerson.cs\
 	treeViewJump.cs\

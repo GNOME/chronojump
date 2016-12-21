@@ -123,7 +123,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.33";
+	static string lastChronojumpDatabaseVersion = "1.34";
 
 	public Sqlite() {
 	}
@@ -1993,6 +1993,15 @@ class Sqlite
 
 				currentVersion = updateVersion("1.33");
 			}
+			if(currentVersion == "1.33") {
+				LogB.SQL("Added thresholdJumps, thresholdRuns, thresholdOther to preferences");
+
+				SqlitePreferences.Insert ("thresholdJumps", "50");
+				SqlitePreferences.Insert ("thresholdRuns", "10");
+				SqlitePreferences.Insert ("thresholdOther", "50");
+
+				currentVersion = updateVersion("1.34");
+			}
 
 
 
@@ -2159,6 +2168,7 @@ class Sqlite
 		SqliteChronopicRegister.createTableChronopicRegister();
 
 		//changes [from - to - desc]
+		//1.33 - 1.34 Converted DB to 1.34 Added thresholdJumps, thresholdRuns, thresholdOther to preferences
 		//1.32 - 1.33 Converted DB to 1.33 Added chronopicRegister table
 		//1.31 - 1.32 Converted DB to 1.32 encoderCaptureOptionsWin -> preferences
 		//1.30 - 1.31 Converted DB to 1.31 Insert encoderCaptureCheckFullyExtended and ...Value at preferences

@@ -263,9 +263,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box vbox_execute_test;
 	[Widget] Gtk.Button button_execute_test;
 	[Widget] Gtk.Viewport viewport_chronopics;
-	[Widget] Gtk.Label label_chronopics_multitest;
-	[Widget] Gtk.Label label_chronopic_debounce;
-	[Widget] Gtk.HScale hscale_chronopic_debounce;
+	[Widget] Gtk.Label label_threshold;
+	[Widget] Gtk.HScale hscale_threshold;
 	//[Widget] Gtk.Label label_chronopic_encoder;
 	//[Widget] Gtk.Image image_chronopic_encoder_no;
 	//[Widget] Gtk.Image image_chronopic_encoder_yes;
@@ -473,6 +472,7 @@ public partial class ChronoJumpWindow
 
 	ChronopicRegister chronopicRegister;
 	Chronopic2016 cp2016;
+	private Threshold threshold;
 
 	RestTime restTime;
 	//to control method that is updating restTimes on treeview_persons
@@ -636,7 +636,8 @@ public partial class ChronoJumpWindow
 		ls.Test();
 		LogB.Information(string.Format("coef = {0} {1} {2}", ls.Coef[0], ls.Coef[1], ls.Coef[2]));
 
-		//this is constructed only one time
+		//these are constructed only one time
+		threshold = new Threshold();
 		cp2016 = new Chronopic2016();
 
 		restTime = new RestTime();
@@ -3000,6 +3001,7 @@ public partial class ChronoJumpWindow
 		main_menu.Visible = false;
 	}	
 	
+	private Constants.Menuitem_modes last_menuitem_mode; //store it to decide not change threshold when change from jumps to jumpsRj
 	private void select_menuitem_mode_toggled(Constants.Menuitem_modes m) 
 	{
 		menuitem_mode_selected_jumps_simple.Visible = false;
@@ -3157,29 +3159,27 @@ public partial class ChronoJumpWindow
 		//it's not visible at startup
 		main_menu.Visible = true;
 
-
-		/*
-		//if wizard has been used mark Chronopic as connected or disconnected depending if port exists
-		if(Constants.Menuitem_mode_IsContacts(m) && wizardPortContacts != "")
-			chronopicWin.Connected =
-				Util.FoundInStringArray(ChronopicPorts.GetPorts(), wizardPortContacts);
-		else if(! Constants.Menuitem_mode_IsContacts(m) && wizardPortEncoder != "")
-			chronopicWin.Connected =
-				Util.FoundInStringArray(ChronopicPorts.GetPorts(), wizardPortEncoder);
-				*/
-
-
-		//change multitest firmware or autoDetectChronopic
-		//if(Constants.Menuitem_mode_IsContacts(m))
-		//{
-			//if(chronopicWin.Connected)
-				//change_multitest_firmware(m);
-
-			//else
-			//	autoDetectChronopic(m); //on contacts will perform change_multitest_firmware at the end
-		//}
-		//else if(wizardPortEncoder == "")
-		//	autoDetectChronopic(m);
+		if(m != Constants.Menuitem_modes.POWERGRAVITATORY && m != Constants.Menuitem_modes.POWERINERTIAL)
+		{
+			//don't change threshold if changing from jumpssimple to jumpsreactive ...
+			if(last_menuitem_mode == null ||
+					( m == Constants.Menuitem_modes.JUMPSSIMPLE &&
+					  last_menuitem_mode != Constants.Menuitem_modes.JUMPSREACTIVE ) ||
+					( m == Constants.Menuitem_modes.JUMPSREACTIVE &&
+					  last_menuitem_mode != Constants.Menuitem_modes.JUMPSSIMPLE ) ||
+					( m == Constants.Menuitem_modes.RUNSSIMPLE &&
+					  last_menuitem_mode != Constants.Menuitem_modes.RUNSINTERVALLIC ) ||
+					( m == Constants.Menuitem_modes.RUNSINTERVALLIC &&
+					  last_menuitem_mode != Constants.Menuitem_modes.RUNSSIMPLE ) ||
+					m == Constants.Menuitem_modes.OTHER )
+			{
+				if(threshold.SelectTresholdForThisMode(m))
+				{
+					hscale_threshold.Value = threshold.SetHScaleValue();
+					last_menuitem_mode = m;
+				}
+			}
+		}
 
 		chronopicRegisterUpdate(false);
 
@@ -3826,25 +3826,22 @@ public partial class ChronoJumpWindow
 
 	//hscale does not manage correctly the +10 increments.
 	//we solve it with a label
-	private void on_hscale_chronopic_debounce_value_changed(object o, EventArgs arg)
+	private void on_hscale_threshold_value_changed(object o, EventArgs arg)
 	{
-		label_chronopic_debounce.Text = (10 * Convert.ToInt32(hscale_chronopic_debounce.Value)).ToString();
+		threshold.UpdateFromGUI(10 * Convert.ToInt32(hscale_threshold.Value));
+		label_threshold.Text = threshold.GetLabel();
 	}
 
 	private void changeMultitestFirmwareIfNeeded()
 	{
 		//change multitest stuff
-		int changed = cp2016.ChangeMultitestFirmwareMaybe(getMenuItemMode());
-
-		//TODO: this is debug info. Remove this for 1.6.3
-		if(changed == -1)
-			label_chronopics_multitest.Text = "??";
-		else if(changed == 50)
-			label_chronopics_multitest.Text = "50";
-				//"[" + Catalog.GetString("Jumps") + "]";
-		else if(changed == 10)
-			label_chronopics_multitest.Text = "10";
-				//"[" + Catalog.GetString("Runs") + "]";
+		threshold.UpdateAtDatabaseIfNeeded(getMenuItemMode());
+		if(threshold.ShouldUpdateChronopicFirmware())
+		{
+			bool ok = cp2016.ChangeMultitestFirmwarePre(threshold.GetT);
+			if(ok)
+				threshold.ChronopicFirmwareUpdated();
+		}
 
 		button_activate_chronopics.Show();
 	}

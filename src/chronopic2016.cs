@@ -227,28 +227,12 @@ public class Chronopic2016
 
 	// ----- change multitest firmware START ----->
 
-	private bool previousMultitestFirmwareDefined = false;
-	private Constants.Menuitem_modes previousMultitestFirmware;
-
 	//change debounce time automatically on change menuitem mode (if multitest firmware)
-	//return values:
-	//-1 error
-	//0 don't need to change
-	//10 or 50 the change value
-	public int ChangeMultitestFirmwareMaybe(Constants.Menuitem_modes m)
+	public bool ChangeMultitestFirmwarePre(int thresholdValue)
 	{
-
 		LogB.Information("ChangeMultitestFirmwareMaybe (A)");
 
-		//---- 1 if don't need to change, return
-		if(previousMultitestFirmwareDefined &&
-				! Constants.Menuitem_mode_multitest_should_change(previousMultitestFirmware, m))
-		{
-			LogB.Information("don't need to change multitest firmware");
-			return 0;
-		}
-
-
+		//---- 1
 		//bool ok = cp.Read_platform(out platformState);
 		//seems better to have a new platformState:
 		Chronopic.Plataforma ps;
@@ -257,9 +241,8 @@ public class Chronopic2016
 			LogB.Information("Chronopic has been disconnected");
 			//createChronopicWindow(true, "");
 			//chronopicWin.Connected = false;
-			return -1;
+			return false;
 		}
-
 
 		/*
 		 * method 1. Unused
@@ -273,7 +256,7 @@ public class Chronopic2016
 		return;
 		}*/
 
-		//---- 4 try to communicate with multitest firmware (return if cannot connect)
+		//---- 2 try to communicate with multitest firmware (return if cannot connect)
 
 		LogB.Information("ChangeMultitestFirmwareMaybe (B)");
 		bool isChronopicAuto = false;
@@ -282,34 +265,24 @@ public class Chronopic2016
 			LogB.Debug("version: " + result);
 		} catch {
 			LogB.Information("Could not read from Chronopic with method 2");
-			return -1;
+			return false;
 		}
 
-		//---- 5 change 10 <-> 50 ms
-		int returnValue = -1;
-
+		//---- 3 change debounce time
 		LogB.Information("ChangeMultitestFirmwareMaybe (C)");
-		if(isChronopicAuto) {
-			int debounceChange = 50;
-			if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
-				debounceChange = 10;
-
-			int msChanged = changeMultitestFirmwareDo(debounceChange);
-			if(msChanged == 50)
-				returnValue = 50;
-			else if(msChanged == 10)
-				returnValue = 10;
+		if(isChronopicAuto)
+		{
+			bool changedOk = changeMultitestFirmwareDo(thresholdValue);
+			if(! changedOk)
+				return false;
 		}
-
-		previousMultitestFirmwareDefined = true;
-		previousMultitestFirmware = m;
 
 		LogB.Information("ChangeMultitestFirmwareMaybe (D)");
 
-		return returnValue;
+		return true;
 	}
 
-	private int changeMultitestFirmwareDo (int debounceChange)
+	private bool changeMultitestFirmwareDo (int debounceChange)
 	{
 		LogB.Information("ChangeMultitestFirmwareDo");
 		try {
@@ -323,36 +296,32 @@ public class Chronopic2016
 			do {
 				//read if ok
 				ca = new ChronopicAutoCheckDebounce();
-				ms = ca.Read(sp);
+				ms = ca.Read(sp); //ms wil be eg. "50 ms"
 				LogB.Information("ChronopicAutoCheckDebounce: " + ms);
 
 				if(ms.Length == 0)
 					LogB.Error("multitest firmware. ms is null");
 				else if(ms[0] == '-') //is negative
 					LogB.Error("multitest firmware. ms = " + ms);
-				else if(debounceChange == 50 && ms == "50 ms")
-					success = true;
-				else if(debounceChange == 10 && ms == "10 ms")
+				else if(debounceChange.ToString() + " ms" == ms)
 					success = true;
 
 				tryNum --;
 			} while (! success && tryNum > 0);
 
-			LogB.Debug("multitest firmware. ms = " + ms);
+			LogB.Information("multitest firmware CHANGED to ms = " + ms);
 
-			if(ms == "50 ms")
-				return 50;
-			else if(ms == "10 ms")
-				return 10;
+			if(success)
+				return true;
 		} catch {
 			LogB.Error("Could not change debounce");
 		}
 
-		return -1;
+		return false;
 	}
 
 	//public method to access from guiTests.cs
-	public int TestsChangeMultitestFirmwareDo (int debounceChange)
+	public bool TestsChangeMultitestFirmwareDo (int debounceChange)
 	{
 		return changeMultitestFirmwareDo(debounceChange);
 	}

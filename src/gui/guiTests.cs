@@ -414,8 +414,8 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsContactsMultitestDo " + ms.ToString());
 
-		int msRecorded = cp2016.TestsChangeMultitestFirmwareDo (ms);
-		if(msRecorded == ms)
+		bool recordedOk = cp2016.TestsChangeMultitestFirmwareDo (ms);
+		if(recordedOk)
 			testsSuccededCount ++;
 		else
 			testsFailedCount ++;

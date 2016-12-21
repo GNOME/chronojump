@@ -77,6 +77,10 @@ class SqlitePreferences : Sqlite
 						Constants.DoubleContact.AVERAGE.ToString(), dbcmdTr); 
 				Insert ("runIDoubleContactsMS", "300", dbcmdTr);
 
+				Insert ("thresholdJumps", "50", dbcmdTr);
+				Insert ("thresholdRuns", "10", dbcmdTr);
+				Insert ("thresholdOther", "50", dbcmdTr);
+
 				Random rnd = new Random();
 				string machineID = rnd.Next().ToString();
 				Insert ("machineID", machineID, dbcmdTr);
@@ -282,6 +286,12 @@ class SqlitePreferences : Sqlite
 					Enum.Parse(typeof(Constants.DoubleContact), reader[1].ToString()); 
 			else if(reader[0].ToString() == "runIDoubleContactsMS")
 				preferences.runIDoubleContactsMS = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == "thresholdJumps")
+				preferences.thresholdJumps = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == "thresholdRuns")
+				preferences.thresholdRuns = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == "thresholdOther")
+				preferences.thresholdOther = Convert.ToInt32(reader[1].ToString());
 
 			else if(reader[0].ToString() == "machineID")
 				preferences.machineID = reader[1].ToString();

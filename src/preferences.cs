@@ -44,6 +44,10 @@ public class Preferences
 	public int runDoubleContactsMS; //milliseconds
 	public Constants.DoubleContact runIDoubleContactsMode; //default AVERAGE
 	public int runIDoubleContactsMS; //milliseconds
+
+	public int thresholdJumps;
+	public int thresholdRuns;
+	public int thresholdOther;
 	
 	//encoder capture
 	public int encoderCaptureTime;

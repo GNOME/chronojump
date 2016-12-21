@@ -1564,12 +1564,12 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkButton" id="button_carles">
-                                    <property name="label">Button
-Carles</property>
+                                  <widget class="GtkButton" id="button_crash">
+                                    <property name="label">CRASH_ME
+(debug purposes)</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <signal name="clicked" handler="on_button_carles_clicked" swapped="no"/>
+                                    <signal name="clicked" handler="on_debug_crash_activate" swapped="no"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -1578,12 +1578,12 @@ Carles</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkButton" id="button_crash">
-                                    <property name="label">CRASH_ME
-(debug purposes)</property>
+                                  <widget class="GtkButton" id="button_carles">
+                                    <property name="label">Button
+Carles</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <signal name="clicked" handler="on_debug_crash_activate" swapped="no"/>
+                                    <signal name="clicked" handler="on_button_carles_clicked" swapped="no"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -4208,20 +4208,6 @@ Carles</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="spacing">8</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_chronopics_multitest">
-                                                            <property name="visible">True</property>
-                                                            <property name="sensitive">False</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label">50</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="padding">6</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkButton" id="button_activate_chronopics">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
@@ -4267,7 +4253,7 @@ Carles</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -4287,7 +4273,7 @@ Carles</property>
                                                             <widget class="GtkLabel" id="label254">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Sensibility</property>
+                                                            <property name="label" translatable="yes">Threshold</property>
                                                             </widget>
                                                             </child>
                                                             <child>
@@ -4311,7 +4297,7 @@ Carles</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHScale" id="hscale_chronopic_debounce">
+                                                            <widget class="GtkHScale" id="hscale_threshold">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="adjustment">5 1 10 1 1 0</property>
@@ -4319,7 +4305,7 @@ Carles</property>
                                                             <property name="fill_level">0</property>
                                                             <property name="digits">0</property>
                                                             <property name="draw_value">False</property>
-                                                            <signal name="value_changed" handler="on_hscale_chronopic_debounce_value_changed" swapped="no"/>
+                                                            <signal name="value_changed" handler="on_hscale_threshold_value_changed" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="top_attach">1</property>
@@ -4327,7 +4313,7 @@ Carles</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_chronopic_debounce">
+                                                            <widget class="GtkLabel" id="label_threshold">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label">50</property>
@@ -4350,7 +4336,7 @@ Carles</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -18222,6 +18208,9 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

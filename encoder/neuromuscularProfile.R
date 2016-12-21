@@ -49,7 +49,7 @@ neuromuscularProfileJump <- function(l.context, e1, c, mass, smoothingC)
 	#from max(abs(speed$y)) at e1, to end of e1
 	e1.speed <- getSpeedSafe(e1, smoothingC)
 	e1.maxspeed.pos <- mean(which(abs(e1.speed$y) == max(abs(e1.speed$y))))
-	e1f <- e1[e1.maxspeed.pos:length(e1)] #TODO: check if has to be determined by minimum acceleration instead of maxspeed
+	e1f <- e1[e1.maxspeed.pos:length(e1)] #TODO: check if has to be determined by force > 0 or a > -9.81 instead of maxspeed
 
 	print(c("e max speed.t",e1.maxspeed.pos))
 	print(c("length e1",length(e1)))
@@ -69,9 +69,10 @@ neuromuscularProfileJump <- function(l.context, e1, c, mass, smoothingC)
 
 	#e1f.rdf.avg
 	#average force on e1f / e1f.t (s)
+	#TODO: Fix this calculation. It is not the same mean(force)/totalTime than mean(force/time)
 	e1f.rfd.avg <- mean(e1f.force) / (e1f.t / 1000)  #bars LOAD
 
-	#e1f.i (Impulse)
+	#e1f.i (relative Impulse)
 	#average force on e1f * e1f.t (s) / mass (Kg)
 	e1f.i <- mean(e1f.force) * (e1f.t / 1000) / mass 
 
@@ -120,7 +121,7 @@ neuromuscularProfileJump <- function(l.context, e1, c, mass, smoothingC)
 	
 	#cl.rfd.avg = average force on cl / cl.t (s) / mass (Kg) #bars EXPLODE
 	cl.speed <- getSpeedSafe(cl, smoothingC)
-	cl.accel = getAccelerationSafe(cl.speed) 
+	cl.accel = getAccelerationSafe(cl.speed)
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	cl.accel$y <- cl.accel$y * 1000
 	cl.force <- mass * (cl.accel$y + g)
@@ -128,9 +129,12 @@ neuromuscularProfileJump <- function(l.context, e1, c, mass, smoothingC)
 	print(c("cl.t",cl.t))
 	print(c("mean clforce",mean(cl.force)))
 
+	
+	#TODO: Fix this calculation. It is not the same mean(force)/totalTime than mean(force/time) or finalForce/totalTime
 	cl.rfd.avg <- mean(cl.force) / (cl.t / 1000) / mass
 	
 	#cl.i = average force on cl * cl.t (s) / mass (Kg) #impulse #bars DRIVE
+	#It is the same as the take-off speed F*t/m = m*a*t/m = a*t = finalVelocity
 	cl.i <- mean(cl.force) * (cl.t / 1000) / mass
 
 	#cl.f.avg = average force on cl / mass (N/Kg)

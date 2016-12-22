@@ -42,6 +42,7 @@ SOURCES = \
 	gui/dialogMessage.cs\
 	gui/dialogCalendar.cs\
 	gui/dialogImageTest.cs\
+	gui/dialogThreshold.cs\
 	gui/repetitiveConditions.cs\
 	gui/convertWeight.cs\
 	gui/genericWindow.cs\
@@ -206,6 +207,7 @@ RESOURCES = \
 	../glade/dialog_image_test.glade \
 	../glade/dialog_message.glade \
 	../glade/dialog_server_stats.glade \
+	../glade/dialog_threshold.glade \
 	../glade/edit_event.glade \
 	../glade/encoder_configuration.glade \
 	../glade/encoder_overview.glade \

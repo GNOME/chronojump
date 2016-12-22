@@ -286,49 +286,33 @@ neuromuscularProfileGetData <- function(singleFile, displacement, curves, mass, 
 	return (npj)
 }
 
-#implement the Excel Forecast in R
-cutreForecastInRDo <- function(table.points, table.values, value)
-{
-	if(value > table.values[11])
-		return (table.points[11])
-	else if(value < table.values[1])
-		return (table.points[1])
-	else {
-		for(i in 1:10) {
-			if(value >= table.values[i] && value < table.values[(i+1)]) {
-				range.values = table.values[(i+1)] - table.values[i]
-				distanceFromLow = value - table.values[i]
-				percentFromLow = distanceFromLow / range.values
-				range.points = table.points[(i+1)] - table.points[i]
-				return (table.points[i] + (range.points * percentFromLow))
-			}
-		}
-	}
+#Linear interpolation of the values
+interpolation <- function(variable, value){
+        if(variable == "load")
+                percent <- 100 * value / 20000 #Linear between 0..20000
+        else if(variable == "explode")
+                percent <- 100 * value / 250 #Linear between 0..250
+        else if(variable == "drive")
+                percent = 100 * (value - 3) / (8-3) #Linear between 3..8
+        else
+                print("Wrong variable name")
+
+        #Let's correct when negative or >100
+        if(percent < 0)
+                percent <- 0
+        else if(percent > 100)
+                percent <- 100
+
+        return(percent)
 }
-
-cutreForecastInRPrepare <- function(variable, value)
-{
-	table.points <- seq(0,100,length.out=11)
-	table.load <- seq(0,20000,length.out=11)
-	table.explode <- seq(0,250,length.out=11)
-	table.drive <- seq(3,8,length.out=11)
-
-	if(variable == "load")
-		return (cutreForecastInRDo(table.points, table.load, value))
-	else if(variable == "explode")
-		return (cutreForecastInRDo(table.points, table.explode, value))
-	else #(variable == "drive")
-		return (cutreForecastInRDo(table.points, table.drive, value))
-}
-
 
 neuromuscularProfilePlotBars <- function(title, load, explode, drive)
 {
 	#print(c("load, explode, drive", load, explode, drive))
 
-	load100 = cutreForecastInRPrepare("load",load)
-	explode100 = cutreForecastInRPrepare("explode",explode)
-	drive100 = cutreForecastInRPrepare("drive",drive)
+	load100 = interpolation("load",load)
+	explode100 = interpolation("explode",explode)
+	drive100 = interpolation("drive",drive)
 	#print(c("load100, explode100, drive100", load100, explode100, drive100))
 
 	barplot(main=title, c(load100,explode100,drive100),col=topo.colors(3),ylim=c(0,100),

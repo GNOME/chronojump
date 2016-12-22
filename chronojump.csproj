@@ -1005,6 +1005,7 @@
     <Compile Include="src\restTime.cs" />
     <Compile Include="src\gui\encoderOverview.cs" />
     <Compile Include="src\threshold.cs" />
+    <Compile Include="src\gui\dialogThreshold.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

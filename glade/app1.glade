@@ -1564,12 +1564,12 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkButton" id="button_crash">
-                                    <property name="label">CRASH_ME
-(debug purposes)</property>
+                                  <widget class="GtkButton" id="button_carles">
+                                    <property name="label">Button
+Carles</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <signal name="clicked" handler="on_debug_crash_activate" swapped="no"/>
+                                    <signal name="clicked" handler="on_button_carles_clicked" swapped="no"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -1578,12 +1578,12 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkButton" id="button_carles">
-                                    <property name="label">Button
-Carles</property>
+                                  <widget class="GtkButton" id="button_crash">
+                                    <property name="label">CRASH_ME
+(debug purposes)</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <signal name="clicked" handler="on_button_carles_clicked" swapped="no"/>
+                                    <signal name="clicked" handler="on_debug_crash_activate" swapped="no"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -4262,7 +4262,7 @@ Carles</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <widget class="GtkTable" id="table_chronopic_sensibility">
+                                                            <widget class="GtkTable" id="table_chronopic_threshold">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="n_rows">2</property>
@@ -4277,10 +4277,11 @@ Carles</property>
                                                             </widget>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="chronopic_sensibility_help">
+                                                            <widget class="GtkButton" id="chronopic_threshold_help">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_chronopic_threshold_help_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image10">
                                                             <property name="visible">True</property>
@@ -18208,6 +18209,9 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

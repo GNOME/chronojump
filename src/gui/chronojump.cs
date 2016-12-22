@@ -3824,6 +3824,11 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private void on_chronopic_threshold_help_clicked (object o, EventArgs args)
+	{
+		new DialogThreshold(getMenuItemMode());
+	}
+
 	//hscale does not manage correctly the +10 increments.
 	//we solve it with a label
 	private void on_hscale_threshold_value_changed(object o, EventArgs arg)

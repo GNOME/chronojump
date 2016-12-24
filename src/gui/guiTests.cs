@@ -388,7 +388,7 @@ public partial class ChronoJumpWindow
 		else {
 			cp2016.FakeButtonContactsRealDone.Clicked +=
 				new EventHandler(on_connection_contacts_real_done);
-			cp2016.ConnectContactsReal(app1, crp,
+			cp2016.ConnectContactsReal(app1, crp, 1,
 					"Press TEST button on Chronopic to stablish initial communication"); //TODO: translate this
 		}
 

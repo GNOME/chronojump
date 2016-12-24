@@ -3837,13 +3837,13 @@ public partial class ChronoJumpWindow
 		label_threshold.Text = threshold.GetLabel();
 	}
 
-	private void changeMultitestFirmwareIfNeeded()
+	private void changeMultitestFirmwareIfNeeded(int cpCount)
 	{
 		//change multitest stuff
 		threshold.UpdateAtDatabaseIfNeeded(getMenuItemMode());
 		if(threshold.ShouldUpdateChronopicFirmware())
 		{
-			bool ok = cp2016.ChangeMultitestFirmwarePre(threshold.GetT);
+			bool ok = cp2016.ChangeMultitestFirmwarePre(threshold.GetT, cpCount);
 			if(ok)
 				threshold.ChronopicFirmwareUpdated();
 		}
@@ -3856,32 +3856,60 @@ public partial class ChronoJumpWindow
 		chronopicRegisterUpdate(false);
 
 		int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
-		//store a boolean in order to read info faster
-		cp2016.StoredCanCaptureContacts = (numContacts == 1);
 		LogB.Information("numContacts: " + numContacts);
 
 		//check if chronopics have changed
-		if(numContacts > 1)
+		if(numContacts >= 2 && radio_mode_multi_chronopic_small.Active)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "More than 1 Chronopic for jumps/runs are connected.");
+			//will get two or null
+			List<ChronopicRegisterPort> crpMultiList = chronopicRegister.GetTwoContactsConnected();
+			//store a boolean in order to read info faster
+			cp2016.StoredCanCaptureContacts = (crpMultiList.Count == 2);
+
+			foreach(ChronopicRegisterPort crp in crpMultiList)
+			{
+				//TODO: Note this code can be BUGGY in the foreach because two iteration can happen while waiting user interaction
+				int count = 1;
+				if(cp2016.IsLastConnectedReal(crp))
+				{
+					LogB.Information("Already Connected real! cp = " + count.ToString());
+					changeMultitestFirmwareIfNeeded(count);
+					//on_button_execute_test_accepted();
+				} else {
+					cp2016.FakeButtonContactsRealDone.Clicked +=
+						new EventHandler(on_connection_contacts_real_done);
+
+					cp2016.ConnectContactsReal(app1, crp, count,
+							"Press TEST button on Chronopic to stablish initial communication"); //TODO: translate this
+
+					/* this will start a thread and if succeeds, then will call:
+					 * changeMultitestFirmwareIfNeeded();
+					 * on_button_execute_test_accepted();
+					 */
+				}
+				count ++;
+			}
+
 			return;
 		}
-
-		if(numContacts == 1)
+		else if(numContacts >= 1) //will get first
 		{
 			ChronopicRegisterPort crp = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
+			//store a boolean in order to read info faster
+			cp2016.StoredCanCaptureContacts = true;
+
 			LogB.Information("Checking if Connected real!");
 			if(cp2016.IsLastConnectedReal(crp))
 			{
 				LogB.Information("Already Connected real!");
-				changeMultitestFirmwareIfNeeded();
+				changeMultitestFirmwareIfNeeded(1);
 				on_button_execute_test_accepted();
 			} else
 			{
 				cp2016.FakeButtonContactsRealDone.Clicked +=
 					new EventHandler(on_connection_contacts_real_done);
 
-				cp2016.ConnectContactsReal(app1, crp,
+				cp2016.ConnectContactsReal(app1, crp, 1,
 						"Press TEST button on Chronopic to stablish initial communication"); //TODO: translate this
 
 				/* this will start a thread and if succeeds, then will call:
@@ -3892,9 +3920,11 @@ public partial class ChronoJumpWindow
 
 			return;
 		}
-
-		if(numContacts == 0)
+		else //(numContacts == 0)
 		{
+			//store a boolean in order to read info faster
+			cp2016.StoredCanCaptureContacts = false;
+
 			/*
 			 * if serial port gets opened, then a new USB connection will use different ttyUSB on Linux
 			 * and maybe is the cause for blocking the port on OSX
@@ -3921,7 +3951,7 @@ public partial class ChronoJumpWindow
 			if(testsActive)
 				chronojumpWindowTestsNext();
 			else {
-				changeMultitestFirmwareIfNeeded();
+				changeMultitestFirmwareIfNeeded(cp2016.CpDoing);
 				on_button_execute_test_accepted();
 			}
 		} else
@@ -5142,10 +5172,9 @@ public partial class ChronoJumpWindow
 
 	private void on_multi_chronopic_start_clicked (bool canCaptureC)
 	{
-		new DialogMessage(Constants.MessageTypes.WARNING, "Disabled on version 1.6.3.");
-		return;
+		//new DialogMessage(Constants.MessageTypes.WARNING, "Disabled on version 1.6.3.");
+		//return;
 
-		/*
 		LogB.Information("multi chronopic accepted");
 		
 		bool syncAvailable = false;
@@ -5165,7 +5194,7 @@ public partial class ChronoJumpWindow
 
 		//show the event doing window
 		event_execute_initializeVariables(
-			! chronopicWin.Connected,	//is simulated
+			! canCaptureC,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
 			Catalog.GetString("Changes"),  	  //name of the different moments
@@ -5189,47 +5218,14 @@ public partial class ChronoJumpWindow
 		//if(currentMultiChronopicType.SyncAvailable && extra_window_check_multichronopic_sync.Active)
 		//	syncAvailable = true;
 
-		int numConnected = chronopicWin.NumConnected();
-
-		if(numConnected == 1)
-			currentEventExecute = new MultiChronopicExecute(
-					currentPerson.UniqueID, currentPerson.Name, 
-					currentSession.UniqueID, currentMultiChronopicType.Name, 
-					chronopicWin.CP, 
-					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
-					extra_window_spin_run_analysis_distance.Value.ToString(),
-					app1, egd
-					);
-		else if(numConnected == 2)
-			currentEventExecute = new MultiChronopicExecute(
-					currentPerson.UniqueID, currentPerson.Name, 
-					currentSession.UniqueID, currentMultiChronopicType.Name,  
-					chronopicWin.CP, chronopicWin.CP2, 
-					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
-					extra_window_spin_run_analysis_distance.Value.ToString(),
-					app1, egd
-					);
-		else if(numConnected == 3)
-			currentEventExecute = new MultiChronopicExecute(
-					currentPerson.UniqueID, currentPerson.Name, 
-					currentSession.UniqueID, currentMultiChronopicType.Name,
-					chronopicWin.CP, chronopicWin.CP2, chronopicWin.CP3, 
-					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
-					extra_window_spin_run_analysis_distance.Value.ToString(),
-					app1, egd
-					);
-		else if(numConnected == 4)
-			currentEventExecute = new MultiChronopicExecute(
-					currentPerson.UniqueID, currentPerson.Name, 
-					currentSession.UniqueID, currentMultiChronopicType.Name,
-					chronopicWin.CP, chronopicWin.CP2, chronopicWin.CP3, chronopicWin.CP4,
-					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
-					extra_window_spin_run_analysis_distance.Value.ToString(),
-					app1, egd
-					);
-
-		//if(!chronopicWin.Connected)	
-		//	currentEventExecute.SimulateInitValues(rand);
+		currentEventExecute = new MultiChronopicExecute(
+				currentPerson.UniqueID, currentPerson.Name,
+				currentSession.UniqueID, currentMultiChronopicType.Name,
+				cp2016.CP, cp2016.CP2,
+				syncAvailable, extra_window_check_multichronopic_delete_first.Active,
+				extra_window_spin_run_analysis_distance.Value.ToString(),
+				app1, egd
+				);
 
 
 		//mark to only get inside on_multi_chronopic_finished one time
@@ -5242,12 +5238,11 @@ public partial class ChronoJumpWindow
 //		currentEventExecute.FakeButtonRunATouchPlatform.Clicked += new EventHandler(on_event_execute_RunATouchPlatform);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_multi_chronopic_finished);
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
-		*/
 	}
 
+	bool multiFinishing;
 	private void on_multi_chronopic_finished (object o, EventArgs args)
 	{
-		/*
 		if(multiFinishing)
 			return;
 		else
@@ -5306,7 +5301,6 @@ LogB.Debug("X");
 		}
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
-			*/
 	}
 		
 

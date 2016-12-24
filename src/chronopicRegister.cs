@@ -255,6 +255,28 @@ public abstract class ChronopicRegister
 		return null;
 	}
 
+	//multichronopic
+	public List<ChronopicRegisterPort> GetTwoContactsConnected()
+	{
+		//create a list for two contacts crpl
+		List<ChronopicRegisterPort> l = new List<ChronopicRegisterPort>();
+		int count = 0;
+
+		foreach (ChronopicRegisterPort crp in crpl.L)
+		{
+			if (crp.Type == ChronopicRegisterPort.Types.CONTACTS && crp.Port != "")
+			{
+				l.Add(crp);
+				count ++;
+			}
+		}
+
+		if(count == 2)
+			return l;
+		else
+			return null;
+	}
+
 	public bool UnknownFound()
 	{
 		if(NumConnectedOfType(ChronopicRegisterPort.Types.UNKNOWN) > 0)

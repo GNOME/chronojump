@@ -39,6 +39,11 @@ public class Chronopic2016
 	private Chronopic cp;
 	private SerialPort sp;
 	private Chronopic.Plataforma platformState;
+
+	//multichronopic
+	private Chronopic cp2;
+	private SerialPort sp2;
+	private int cpDoing; //2 is for the second chronopic on multichronopic
 	
 	private string lastConnectedRealPort = "";
 	private string lastConnectedRealSerialNumber = "";
@@ -92,7 +97,11 @@ public class Chronopic2016
 
 	private void on_button_cancel_clicked(object o, EventArgs args)
 	{
-		cp.AbortFlush = true;
+		if(cpDoing == 1)
+			cp.AbortFlush = true;
+		else //(cpDoing == 2)
+			cp2.AbortFlush = true;
+
 		chronopicInit.CancelledByUser = true;
 	}
 	private void on_delete_event (object o, DeleteEventArgs args)
@@ -104,11 +113,14 @@ public class Chronopic2016
 		on_button_cancel_clicked(new object(), new EventArgs());
 	}
 
-	public void ConnectContactsReal(Gtk.Window app1, ChronopicRegisterPort crp, string labelStr)
+	public void ConnectContactsReal(Gtk.Window app1, ChronopicRegisterPort crp,
+			int cpCount, string labelStr) //cpCount 2 is for 2nd chronopic on multichronopic
 	{
 		createGui(app1, labelStr);
 
 		crpConnectContactsRealThread = crp;
+
+		cpDoing = cpCount;
 
 		connectContactsRealThread = new Thread (new ThreadStart (connectContactsRealDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseConnectContactsReal));
@@ -123,11 +135,21 @@ public class Chronopic2016
 
 		string message = "";
 		bool success = false;
+		bool connected = false;
 
-		sp = new SerialPort(crp.Port);
-		chronopicInit = new ChronopicInit();
-		bool connected = chronopicInit.Do(1, out cp, out sp,
-				platformState, crp.Port, out message, out success);
+		if(cpDoing == 1)
+		{
+			sp = new SerialPort(crp.Port);
+			chronopicInit = new ChronopicInit();
+			connected = chronopicInit.Do(1, out cp, out sp,
+					platformState, crp.Port, out message, out success);
+		} else //(cpDoing == 2)
+		{
+			sp2 = new SerialPort(crp.Port);
+			chronopicInit = new ChronopicInit();
+			connected = chronopicInit.Do(2, out cp2, out sp2,
+					platformState, crp.Port, out message, out success);
+		}
 
 		LogB.Information("Ended chronopicInit.Do()");
 
@@ -216,7 +238,11 @@ public class Chronopic2016
 	{
 		ChronopicAuto ca = new ChronopicAutoCheck();
 
-		string str = ca.Read(sp);
+		string str = "";
+	        if(cpDoing == 1)
+			str = ca.Read(sp);
+		else
+			str = ca.Read(sp2);
 
 		isChronopicAuto = ca.IsChronopicAuto;
 
@@ -228,15 +254,22 @@ public class Chronopic2016
 	// ----- change multitest firmware START ----->
 
 	//change debounce time automatically on change menuitem mode (if multitest firmware)
-	public bool ChangeMultitestFirmwarePre(int thresholdValue)
+	public bool ChangeMultitestFirmwarePre(int thresholdValue, int cpCount)
 	{
 		LogB.Information("ChangeMultitestFirmwareMaybe (A)");
+
+		cpDoing = cpCount;
 
 		//---- 1
 		//bool ok = cp.Read_platform(out platformState);
 		//seems better to have a new platformState:
 		Chronopic.Plataforma ps;
-		bool ok = cp.Read_platform(out ps);
+		bool ok;
+	        if(cpDoing == 1)
+			ok = cp.Read_platform(out ps);
+		else
+			ok = cp2.Read_platform(out ps);
+
 		if(! ok) {
 			LogB.Information("Chronopic has been disconnected");
 			//createChronopicWindow(true, "");
@@ -288,7 +321,10 @@ public class Chronopic2016
 		try {
 			ChronopicAuto ca = new ChronopicAutoChangeDebounce();
 			//write change
-			ca.Write(sp, debounceChange);
+			if(cpDoing == 1)
+				ca.Write(sp, debounceChange);
+			else
+				ca.Write(sp2, debounceChange);
 
 			string ms = "";
 			bool success = false;
@@ -296,7 +332,11 @@ public class Chronopic2016
 			do {
 				//read if ok
 				ca = new ChronopicAutoCheckDebounce();
-				ms = ca.Read(sp); //ms wil be eg. "50 ms"
+
+				if(cpDoing == 1)
+					ms = ca.Read(sp); //ms wil be eg. "50 ms"
+				else
+					ms = ca.Read(sp2); //ms wil be eg. "50 ms"
 				LogB.Information("ChronopicAutoCheckDebounce: " + ms);
 
 				if(ms.Length == 0)
@@ -340,6 +380,17 @@ public class Chronopic2016
 			LogB.Information("Disposing cp to see if helps on OSX port busy");
 			cp = null;
 		}
+
+		if(sp2 != null && sp2.IsOpen) {
+			LogB.Information("Closing sp2");
+			sp2.Close();
+
+			LogB.Information("Flushing cp2 to see if helps on OSX port busy");
+			cp2.FlushByTimeOut();
+
+			LogB.Information("Disposing cp2 to see if helps on OSX port busy");
+			cp2 = null;
+		}
 	}
 
 	public Chronopic CP
@@ -350,5 +401,18 @@ public class Chronopic2016
 	public SerialPort SP
 	{
 		get { return sp; }
+	}
+
+	//multichronopic
+	public Chronopic CP2
+	{
+		get { return cp2; }
+	}
+
+	//connectContactsRealDo() uses 1 or 2 cpDoing. This has to be known on gui/chronojump.cs
+	//to call cp2016.ChangeMultitestFirmwarePre with 1 or 2
+	public int CpDoing
+	{
+		get { return cpDoing; }
 	}
 }

@@ -1009,6 +1009,16 @@ public partial class ChronoJumpWindow
 		if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Length > 0)
 			PrepareRunSimpleGraph(eventGraph, false); //don't animate
 	}
+	private void updateGraphRunsInterval ()
+	{
+		if(event_execute_drawingarea == null || event_execute_pixmap == null)
+			return;
+
+		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
+		event_execute_table_run_interval_values.Hide();
+
+		//TODO paint graph of num of intervallic runs
+	}
 	
 	private void extra_window_runs_interval_initialize(RunType myRunType) 
 	{

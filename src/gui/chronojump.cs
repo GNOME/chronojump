@@ -496,12 +496,15 @@ public partial class ChronoJumpWindow
 			myType = currentRunType;
 		else if(radio_menuitem_mode_runs_intervallic.Active) 
 			myType = currentRunIntervalType;
-		else if(radio_mode_reaction_times_small.Active) 
-			myType = currentReactionTimeType;
-		else if(radio_mode_pulses_small.Active) 
-			myType = currentPulseType;
-		else //if(radio_mode_multi_chronopic_small.Active) 
-			myType = currentMultiChronopicType;
+		else //if(radio_menuitem_mode_other.Active)
+		{
+			if(radio_mode_reaction_times_small.Active)
+				myType = currentReactionTimeType;
+			else if(radio_mode_pulses_small.Active)
+				myType = currentPulseType;
+			else //if(radio_mode_multi_chronopic_small.Active)
+				myType = currentMultiChronopicType;
+		}
 			
 		if(myType.Name == "DJa" && extra_window_jumps_check_dj_fall_calculate.Active)
 			new DialogImageTest("", Util.GetImagePath(false) + "jump_dj_a_inside.png", DialogImageTest.ArchiveType.ASSEMBLY);
@@ -1219,15 +1222,20 @@ public partial class ChronoJumpWindow
 		vbox_last_test_buttons.Sensitive = false;
 
 		//1) change on jumps, runs, pulse capture graph
-		if(radio_menuitem_mode_jumps_simple.Active) {
+		if(radio_menuitem_mode_jumps_simple.Active)
+		{
 			updateGraphJumpsSimple();
 
 			if(notebook_capture_analyze.CurrentPage == 2) //Jumps Profile
 				jumpsProfileDo(true); //calculate data
 		}
-		else if(radio_menuitem_mode_runs_simple.Active) 
+		else if(radio_menuitem_mode_jumps_reactive.Active)
+			updateGraphJumpsReactive();
+		else if(radio_menuitem_mode_runs_simple.Active)
 			updateGraphRunsSimple();
-		else if(radio_mode_reaction_times_small.Active) 
+		else if(radio_menuitem_mode_runs_intervallic.Active)
+			updateGraphRunsInterval();
+		else if(radio_menuitem_mode_other.Active && radio_mode_reaction_times_small.Active)
 			updateGraphReactionTimes();
 		
 		//2) change on encoder

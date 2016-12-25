@@ -1197,7 +1197,16 @@ public partial class ChronoJumpWindow
 		if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.jumpsAtSQL.Length > 0)
 			PrepareJumpSimpleGraph(eventGraph, false); //don't animate
 	}
+	private void updateGraphJumpsReactive ()
+	{
+		if(event_execute_drawingarea == null || event_execute_pixmap == null)
+			return;
 
+		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
+		event_execute_table_jump_reactive_values.Hide();
+
+		//TODO paint graph of num of reactive jumps
+	}
 	
 	private void extra_window_jumps_rj_initialize(JumpType myJumpType) 
 	{

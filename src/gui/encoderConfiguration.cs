@@ -97,6 +97,7 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.Image image_delete;
 
 	[Widget] Gtk.Entry entry_save_name;
+	[Widget] Gtk.Entry entry_save_description;
 	[Widget] Gtk.Button button_save;
 	[Widget] Gtk.Button button_delete;
 
@@ -197,7 +198,7 @@ public class EncoderConfigurationWindow
 		}
 
 		EncoderConfigurationWindowBox.createAndFillTreeView(
-				SqliteEncoder.SelectAllEncoderConfiguration(false, ! gravitatory));
+				SqliteEncoder.SelectEncoderConfiguration(false, ! gravitatory, "")); //all
 
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
 		return EncoderConfigurationWindowBox;
@@ -572,12 +573,36 @@ public class EncoderConfigurationWindow
 		int count = 0;
 		treeview_select.AppendColumn (Catalog.GetString ("Name"), new CellRendererText(), "text", count++);
 		treeview_select.AppendColumn (Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
+
+		treeview_select.Selection.Changed += onTVSelectionChanged;
 	}
 	private TreeStore getStore()
 	{
 		return new TreeStore(typeof (string), typeof (string));
 	}
 
+	private void onTVSelectionChanged (object o, EventArgs args)
+	{
+		TreeModel model;
+		TreeIter iter;
+
+		string selectedName = "";
+		if (((TreeSelection)o).GetSelected(out model, out iter))
+			selectedName = (string) model.GetValue (iter, 0);
+
+		if(selectedName == "")
+			return;
+
+		List<EncoderConfigurationSQLObject> list = SqliteEncoder.SelectEncoderConfiguration(
+				false, radio_inertia.Active, selectedName);
+		if(list.Count == 1)
+		{
+			EncoderConfigurationSQLObject econfSO = list[0];
+			entry_save_name.Text = econfSO.customName;
+			entry_save_description.Text = econfSO.description;
+			//TODO: need to update gui
+		}
+	}
 
 	void on_entry_save_name_changed	(object o, EventArgs args)
 	{
@@ -598,6 +623,11 @@ public class EncoderConfigurationWindow
 	{
 		//save_update when changing any value
 		//and when exiting with ok dialogMessage asking for save
+
+		EncoderConfiguration econfOnGUI = GetAcceptedValues();
+		EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject(
+				-1, entry_save_name.Text.ToString(), econfOnGUI, entry_save_description.Text.ToString());
+		SqliteEncoder.InsertEncoderConfiguration(false, econfSO);
 	}
 
 	void on_button_delete_clicked (object o, EventArgs args)

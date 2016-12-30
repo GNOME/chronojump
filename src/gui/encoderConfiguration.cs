@@ -478,14 +478,33 @@ public class EncoderConfigurationWindow
 	}
 	
 	bool show_calcule_im = false;
+	int windowWidth;
+	int windowHeight;
 	void on_button_encoder_capture_inertial_show_clicked (object o, EventArgs args) 
 	{
+		/*
+		 * Window size A
+		 * Store window size just before showing side content store gui size.
+		 */
+		if(! show_calcule_im)
+			encoder_configuration.GetSize(out windowWidth, out windowHeight);
+
+		//invert show_calcule_im value
 		show_calcule_im = ! show_calcule_im;
+
+		//change gui
 		vseparator_im.Visible = show_calcule_im;
 		vbox_calcule_im.Visible = show_calcule_im;
 
 		button_encoder_capture_inertial_cancel.Sensitive = ! show_calcule_im;
 		//button_encoder_capture_inertial_finish.Sensitive = ! show_calcule_im;
+
+		/*
+		 * Window size B
+		 * Retrieve window size when side content is hided again
+		 */
+		if(! show_calcule_im)
+			encoder_configuration.Resize(windowWidth, windowHeight);
 	}
 	
 	void on_button_encoder_capture_inertial_do_clicked (object o, EventArgs args) 

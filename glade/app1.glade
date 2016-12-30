@@ -448,7 +448,7 @@
                     <property name="can_focus">False</property>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_manual">
-                        <property name="label">Documents</property>
+                        <property name="label" translatable="yes">Documents</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_stock">False</property>
@@ -707,7 +707,7 @@
                                                   <widget class="GtkLabel" id="label_selector_start_jumps_simple">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Tests have 1 flight phase</property>
+                                                    <property name="label" translatable="yes">Tests have 1 flight phase</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -778,7 +778,7 @@
                                                   <widget class="GtkLabel" id="label_selector_start_jumps_reactive">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Tests have &gt;1 flight phase</property>
+                                                    <property name="label" translatable="yes">Tests have &gt;1 flight phase</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -1115,7 +1115,7 @@
                                                   <widget class="GtkLabel" id="label_selector_start_runs_simple">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Tests have 1 lap</property>
+                                                    <property name="label" translatable="yes">Tests have 1 lap</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -1186,7 +1186,7 @@
                                                   <widget class="GtkLabel" id="label_selector_start_runs_intervallic">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Tests have &gt;1 lap</property>
+                                                    <property name="label" translatable="yes">Tests have &gt;1 lap</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -1334,7 +1334,7 @@
                                                   <widget class="GtkLabel" id="label_selector_start_encoder_gravitatory">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Resistance is gravity</property>
+                                                    <property name="label" translatable="yes">Resistance is gravity</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -1405,7 +1405,7 @@
                                                   <widget class="GtkLabel" id="label_selector_start_encoder_inertial">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Resistance is inertia</property>
+                                                    <property name="label" translatable="yes">Resistance is inertia</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -1564,12 +1564,12 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkButton" id="button_carles">
-                                    <property name="label">Button
-Carles</property>
+                                  <widget class="GtkButton" id="button_crash">
+                                    <property name="label">CRASH_ME
+(debug purposes)</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <signal name="clicked" handler="on_button_carles_clicked" swapped="no"/>
+                                    <signal name="clicked" handler="on_debug_crash_activate" swapped="no"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -1578,12 +1578,12 @@ Carles</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkButton" id="button_crash">
-                                    <property name="label">CRASH_ME
-(debug purposes)</property>
+                                  <widget class="GtkButton" id="button_carles">
+                                    <property name="label">Button
+Carles</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <signal name="clicked" handler="on_debug_crash_activate" swapped="no"/>
+                                    <signal name="clicked" handler="on_button_carles_clicked" swapped="no"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -3866,7 +3866,7 @@ Carles</property>
                                                             <widget class="GtkLabel" id="label_extra_window_radio_reaction_time_discriminative">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">Discriminative</property>
+                                                            <property name="label" translatable="yes">Discriminative</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -3889,7 +3889,7 @@ Carles</property>
                                                             <widget class="GtkLabel" id="label_extra_window_radio_reaction_time_animation_lights">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">Animation lights</property>
+                                                            <property name="label" translatable="yes">Animation lights</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -3912,7 +3912,7 @@ Carles</property>
                                                             <widget class="GtkLabel" id="label_extra_window_radio_reaction_time_flicker">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">Flicker</property>
+                                                            <property name="label" translatable="yes">Flicker</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -8904,7 +8904,7 @@ after time</property>
                                                             <widget class="GtkLabel" id="label8">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">Show graph</property>
+                                                            <property name="label" translatable="yes">Show graph</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="tab_fill">False</property>
@@ -10733,7 +10733,7 @@ after time</property>
                                                             <widget class="GtkLabel" id="label9">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">Show table</property>
+                                                            <property name="label" translatable="yes">Show table</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">1</property>
@@ -12725,7 +12725,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label">All the definitions are related to jumps.</property>
+                                                            <property name="label" translatable="yes">All the definitions are related to jumps.</property>
                                                             <property name="justify">center</property>
                                                             </widget>
                                                             <packing>
@@ -13601,7 +13601,7 @@ Concentric</property>
                                                   <widget class="GtkLabel" id="label164">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Jumps profile</property>
+                                                    <property name="label" translatable="yes">Jumps profile</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">True</property>
@@ -15479,7 +15479,6 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label158">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label">graph and maybe table</property>
                                                             </widget>
@@ -15615,7 +15614,6 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label159">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label">encoder inertial instructions</property>
                                                             </widget>
@@ -18209,6 +18207,9 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

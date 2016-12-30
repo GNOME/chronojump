@@ -137,7 +137,7 @@
                         <property name="spacing">12</property>
                         <child>
                           <widget class="GtkButton" id="button_send_log">
-                            <property name="label">Send error log</property>
+                            <property name="label" translatable="yes">Send error log</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="can_default">True</property>
@@ -152,7 +152,7 @@
                         </child>
                         <child>
                           <widget class="GtkButton" id="button_check_last_version">
-                            <property name="label">Check last version</property>
+                            <property name="label" translatable="yes">Check last version</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="can_default">True</property>

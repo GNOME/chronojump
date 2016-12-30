@@ -1174,11 +1174,17 @@ class SqliteEncoder : Sqlite
 		closeIfNeeded(dbconOpened);
 	}
 
-	public static List<EncoderConfigurationSQLObject> SelectAllEncoderConfiguration(bool dbconOpened, bool inertial)
+	//pass customName = "" to select all
+	public static List<EncoderConfigurationSQLObject> SelectEncoderConfiguration(
+			bool dbconOpened, bool inertial, string customName)
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderConfigurationTable;
+		string whereStr = "";
+		if(customName != "")
+			whereStr = " WHERE customName = \"" + customName + "\"";
+
+		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderConfigurationTable + whereStr;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

@@ -603,11 +603,11 @@ public partial class ChronoJumpWindow
 		int numEncoders = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER);
 		LogB.Information("numEncoders: " + numEncoders);
 		if(numEncoders == 0) {
-			new DialogMessage(Constants.MessageTypes.WARNING, "Encoder is not connected");
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Encoder is not connected"));
 			return false;
 		}
 		if(numEncoders > 1) {
-			new DialogMessage(Constants.MessageTypes.WARNING, "More than 1 encoders are connected");
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("More than 1 encoders are connected"));
 			return false;
 		}
 

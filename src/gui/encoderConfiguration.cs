@@ -93,6 +93,13 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.Box vbox_select_encoder;
 	[Widget] Gtk.VSeparator vseparator;
 	[Widget] Gtk.Notebook notebook_side;
+	[Widget] Gtk.TreeView treeview_select;
+	[Widget] Gtk.Image image_delete;
+
+	[Widget] Gtk.Entry entry_save_name;
+	[Widget] Gtk.Button button_save;
+	[Widget] Gtk.Button button_delete;
+
 	[Widget] Gtk.SpinButton spin_im_weight_calcule;
 	[Widget] Gtk.SpinButton spin_im_length_calcule;
 	//[Widget] Gtk.SpinButton spin_im_duration_calcule;
@@ -188,7 +195,10 @@ public class EncoderConfigurationWindow
 			EncoderConfigurationWindowBox.alignment_options.Visible = false;
 			EncoderConfigurationWindowBox.vbox_inertia_calcule.Visible = false;
 		}
-	
+
+		EncoderConfigurationWindowBox.createAndFillTreeView(
+				SqliteEncoder.SelectAllEncoderConfiguration(false, ! gravitatory));
+
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
 		return EncoderConfigurationWindowBox;
 	}
@@ -482,15 +492,15 @@ public class EncoderConfigurationWindow
 	 * ------------------- side content stuff ----------------->
 	 */
 
-	private enum sideModes { HIDDEN, LOADSAVE, CAPTUREINERTIAL }
+	private enum sideModes { HIDDEN, MANAGE, CAPTUREINERTIAL }
 	private sideModes sideMode = sideModes.HIDDEN;
 
-	void on_button_load_save_show_clicked (object o, EventArgs args)
+	void on_button_manage_show_clicked (object o, EventArgs args)
 	{
-		if(sideMode == sideModes.LOADSAVE)
+		if(sideMode == sideModes.MANAGE)
 			showHideSide(sideModes.HIDDEN);
 		else
-			showHideSide(sideModes.LOADSAVE);
+			showHideSide(sideModes.MANAGE);
 	}
 	void on_button_encoder_capture_inertial_show_clicked (object o, EventArgs args)
 	{
@@ -517,7 +527,7 @@ public class EncoderConfigurationWindow
 		//change gui
 		vseparator.Visible = (sideMode != sideModes.HIDDEN);
 
-		if(sideMode == sideModes.LOADSAVE)
+		if(sideMode == sideModes.MANAGE)
 			notebook_side.CurrentPage = 0;
 		else if(sideMode == sideModes.CAPTUREINERTIAL)
 			notebook_side.CurrentPage = 1;
@@ -543,6 +553,56 @@ public class EncoderConfigurationWindow
 	/*
 	 * <--------------- side content area / load-save ---->
 	 */
+
+	private void createAndFillTreeView(List<EncoderConfigurationSQLObject> list)
+	{
+		createTreeView();
+		TreeStore store = getStore();
+		treeview_select.Model = store;
+
+		foreach (EncoderConfigurationSQLObject econfSO in list)
+			store.AppendValues (new string[]{econfSO.customName, econfSO.description});
+
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		image_delete.Pixbuf = pixbuf;
+	}
+	private void createTreeView()
+	{
+		treeview_select.HeadersVisible=true;
+		int count = 0;
+		treeview_select.AppendColumn (Catalog.GetString ("Name"), new CellRendererText(), "text", count++);
+		treeview_select.AppendColumn (Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
+	}
+	private TreeStore getStore()
+	{
+		return new TreeStore(typeof (string), typeof (string));
+	}
+
+
+	void on_entry_save_name_changed	(object o, EventArgs args)
+	{
+		button_save.Sensitive = (entry_save_name.Text.ToString().Length > 0);
+
+		//TODO: button delete sensitivity depends on being on the treeview
+	}
+
+	void on_entry_save_description_changed (object o, EventArgs args)
+	{
+	}
+
+	void on_button_import_clicked (object o, EventArgs args)
+	{
+	}
+
+	void on_button_save_clicked (object o, EventArgs args)
+	{
+		//save_update when changing any value
+		//and when exiting with ok dialogMessage asking for save
+	}
+
+	void on_button_delete_clicked (object o, EventArgs args)
+	{
+	}
 
 	/*
 	 * <--------------- end of side content area / load-save ----

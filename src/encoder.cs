@@ -1037,7 +1037,56 @@ public class EncoderBarsData {
 	~EncoderBarsData() {}
 }
 
-public class EncoderConfiguration {
+public class EncoderConfigurationSQLObject
+{
+	public int uniqueID;
+	public string customName;
+	public EncoderConfiguration encoderConfiguration;
+	public string description;
+
+	public EncoderConfigurationSQLObject(int uniqueID, string customName,
+			EncoderConfiguration encoderConfiguration,
+			string description)
+	{
+		this.uniqueID = uniqueID;
+		this.customName = customName;
+		this.encoderConfiguration = encoderConfiguration;
+		this.description = description;
+	}
+
+	//converts encoderConfiguration string from SQL
+	public EncoderConfigurationSQLObject(int uniqueID, string customName,
+			string encoderConfigurationString,
+			string description)
+	{
+		string [] strFull = encoderConfigurationString.Split(new char[] {':'});
+		EncoderConfiguration econf = new EncoderConfiguration(
+				(Constants.EncoderConfigurationNames)
+				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
+		econf.ReadParamsFromSQL(strFull);
+
+		this.uniqueID = uniqueID;
+		this.customName = customName;
+		this.encoderConfiguration = econf;
+		this.description = description;
+	}
+
+	public string ToSQLInsert()
+	{
+		 string idStr = uniqueID.ToString();
+		 if(idStr == "-1")
+			 idStr = "NULL";
+
+		 return idStr +
+			 ", \"" + customName + "\"" +
+			 ", \"" + encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "\"" +
+			 ", \"" + description + "\"" +
+			 ", \"\", \"\", \"\""; //future1, future2, future3
+	}
+}
+
+public class EncoderConfiguration
+{
 	public Constants.EncoderConfigurationNames name;
 	public Constants.EncoderType type;
 	public int position; //used to find values on the EncoderConfigurationList. Numeration changes on every encoder and on not inertial/inertial

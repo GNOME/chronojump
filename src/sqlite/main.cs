@@ -123,7 +123,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.34";
+	static string lastChronojumpDatabaseVersion = "1.35";
 
 	public Sqlite() {
 	}
@@ -2002,6 +2002,13 @@ class Sqlite
 
 				currentVersion = updateVersion("1.34");
 			}
+			if(currentVersion == "1.34") {
+				LogB.SQL("Added encoderConfiguration table");
+
+				SqliteEncoder.createTableEncoderConfiguration();
+
+				currentVersion = updateVersion("1.35");
+			}
 
 
 
@@ -2141,6 +2148,7 @@ class Sqlite
 		SqliteEncoder.createTableEncoderExercise();
 		SqliteEncoder.initializeTableEncoderExercise();
 		SqliteEncoder.createTable1RM();
+		SqliteEncoder.createTableEncoderConfiguration();
 
 		//sports
 		creationRate ++;
@@ -2168,6 +2176,7 @@ class Sqlite
 		SqliteChronopicRegister.createTableChronopicRegister();
 
 		//changes [from - to - desc]
+		//1.34 - 1.35 Converted DB to 1.35 Added encoderConfiguration table
 		//1.33 - 1.34 Converted DB to 1.34 Added thresholdJumps, thresholdRuns, thresholdOther to preferences
 		//1.32 - 1.33 Converted DB to 1.33 Added chronopicRegister table
 		//1.31 - 1.32 Converted DB to 1.32 encoderCaptureOptionsWin -> preferences

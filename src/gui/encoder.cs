@@ -374,14 +374,15 @@ public partial class ChronoJumpWindow
 	
 
 
-	private void encoderInitializeStuff() {
+	private void encoderInitializeStuff()
+	{
 		encoder_pulsebar_capture.Fraction = 1;
 		encoder_pulsebar_capture.Text = "";
 		encoder_pulsebar_analyze.Fraction = 1;
 		encoder_pulsebar_analyze.Text = "";
 
 		//read from SQL
-		encoderConfigurationCurrent = SqliteEncoder.LoadEncoderConfiguration();
+		encoderConfigurationCurrent = SqliteEncoder.LoadEncoderConfiguration(false);
 		
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 		

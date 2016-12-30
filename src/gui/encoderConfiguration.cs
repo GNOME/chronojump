@@ -43,7 +43,7 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.RadioButton radio_inertia;
 	
 	[Widget] Gtk.CheckButton check_rotary_friction_inertia_on_axis;
-	[Widget] Gtk.HBox hbox_encoder_types;
+	[Widget] Gtk.HBox hbox_top;
 	[Widget] Gtk.Alignment alignment_options;
 	
 	[Widget] Gtk.Button button_previous;
@@ -91,8 +91,8 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.ComboBox combo_gearedUp;
 		
 	[Widget] Gtk.Box vbox_select_encoder;
-	[Widget] Gtk.VSeparator vseparator_im;
-	[Widget] Gtk.Box vbox_calcule_im;
+	[Widget] Gtk.VSeparator vseparator;
+	[Widget] Gtk.Notebook notebook_side;
 	[Widget] Gtk.SpinButton spin_im_weight_calcule;
 	[Widget] Gtk.SpinButton spin_im_length_calcule;
 	//[Widget] Gtk.SpinButton spin_im_duration_calcule;
@@ -183,7 +183,7 @@ public class EncoderConfigurationWindow
 
 		//id definedInConfig then only few things can change
 		if(definedInConfig) {
-			EncoderConfigurationWindowBox.hbox_encoder_types.Visible = false;
+			EncoderConfigurationWindowBox.hbox_top.Visible = false;
 			EncoderConfigurationWindowBox.check_rotary_friction_inertia_on_axis.Visible = false;
 			EncoderConfigurationWindowBox.alignment_options.Visible = false;
 			EncoderConfigurationWindowBox.vbox_inertia_calcule.Visible = false;
@@ -304,8 +304,8 @@ public class EncoderConfigurationWindow
 		label_count.Text = (listCurrent + 1).ToString() + " / " + list.Count.ToString();
 	
 		//hide inertia moment calculation options when change mode
-		if(show_calcule_im)
-			on_button_encoder_capture_inertial_show_clicked (new object(), new EventArgs());
+		if(sideMode == sideModes.CAPTUREINERTIAL)
+			showHideSide(sideModes.HIDDEN);
 	}
 	
 	private void putValuesStoredPreviously(double d, List<double> list_d, double D, int anglePush, int angleWeight, 
@@ -476,37 +476,83 @@ public class EncoderConfigurationWindow
 				Catalog.GetString("Calculation of dynamic variables like power in conical machines is not very accurate because current method is not using the variation of the cone diameter as a variable.") + "\n\n" +
 				Catalog.GetString("Future versions will include a better way to calcule this. Sorry for the inconvenience."));
 	}
-	
-	bool show_calcule_im = false;
+
+
+	/*
+	 * ------------------- side content stuff ----------------->
+	 */
+
+	private enum sideModes { HIDDEN, LOADSAVE, CAPTUREINERTIAL }
+	private sideModes sideMode = sideModes.HIDDEN;
+
+	void on_button_load_save_show_clicked (object o, EventArgs args)
+	{
+		if(sideMode == sideModes.LOADSAVE)
+			showHideSide(sideModes.HIDDEN);
+		else
+			showHideSide(sideModes.LOADSAVE);
+	}
+	void on_button_encoder_capture_inertial_show_clicked (object o, EventArgs args)
+	{
+		if(sideMode == sideModes.CAPTUREINERTIAL)
+			showHideSide(sideModes.HIDDEN);
+		else
+			showHideSide(sideModes.CAPTUREINERTIAL);
+	}
+
 	int windowWidth;
 	int windowHeight;
-	void on_button_encoder_capture_inertial_show_clicked (object o, EventArgs args) 
+	void showHideSide (sideModes newSideMode)
 	{
 		/*
 		 * Window size A
 		 * Store window size just before showing side content store gui size.
 		 */
-		if(! show_calcule_im)
+		if(sideMode == sideModes.HIDDEN)
 			encoder_configuration.GetSize(out windowWidth, out windowHeight);
 
-		//invert show_calcule_im value
-		show_calcule_im = ! show_calcule_im;
+		//update sideMode value
+		sideMode = newSideMode;
 
 		//change gui
-		vseparator_im.Visible = show_calcule_im;
-		vbox_calcule_im.Visible = show_calcule_im;
+		vseparator.Visible = (sideMode != sideModes.HIDDEN);
 
-		button_encoder_capture_inertial_cancel.Sensitive = ! show_calcule_im;
-		//button_encoder_capture_inertial_finish.Sensitive = ! show_calcule_im;
+		if(sideMode == sideModes.LOADSAVE)
+			notebook_side.CurrentPage = 0;
+		else if(sideMode == sideModes.CAPTUREINERTIAL)
+			notebook_side.CurrentPage = 1;
+
+		notebook_side.Visible = (sideMode != sideModes.HIDDEN);
+
+		button_encoder_capture_inertial_cancel.Sensitive = (sideMode != sideModes.CAPTUREINERTIAL);
+		//button_encoder_capture_inertial_finish.Sensitive = (sideMode != sideModes.CAPTUREINERTIAL);
 
 		/*
 		 * Window size B
 		 * Retrieve window size when side content is hided again
 		 */
-		if(! show_calcule_im)
+		if(sideMode == sideModes.HIDDEN)
 			encoder_configuration.Resize(windowWidth, windowHeight);
 	}
-	
+
+	/*
+	 * <------------------- end of side content stuff -----------------
+	 */
+
+
+	/*
+	 * <--------------- side content area / load-save ---->
+	 */
+
+	/*
+	 * <--------------- end of side content area / load-save ----
+	 */
+
+
+	/*
+	 * ------------------- side content area / capture inertial - ---->
+	 */
+
 	void on_button_encoder_capture_inertial_do_clicked (object o, EventArgs args) 
 	{
 		//signal is raised and managed in gui/encoder.cs
@@ -516,7 +562,7 @@ public class EncoderConfigurationWindow
 	public void Button_encoder_capture_inertial_do_chronopic_ok () 
 	{
 		vbox_select_encoder.Visible = false;
-		vseparator_im.Visible = false;
+		vseparator.Visible = false;
 		button_encoder_capture_inertial_do.Sensitive = false;
 
 		//adapt capture, cancel and finish	
@@ -534,7 +580,7 @@ public class EncoderConfigurationWindow
 	public void Button_encoder_capture_inertial_do_ended (double imResult, string message) 
 	{
 		vbox_select_encoder.Visible = true;
-		vseparator_im.Visible = true;
+		vseparator.Visible = true;
 		button_encoder_capture_inertial_do.Sensitive = true;
 		
 		//adapt capture, cancel and finish	
@@ -568,6 +614,11 @@ public class EncoderConfigurationWindow
 	}
 	*/
 	
+	/*
+	 * <--------------- end of side content area / capture inertial ----
+	 */
+
+
 	private void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		EncoderConfigurationWindowBox.encoder_configuration.Hide();

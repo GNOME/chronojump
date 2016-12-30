@@ -3,6 +3,7 @@
   <!-- interface-requires gtk+ 3.0 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkDialog" id="dialog_threshold">
+    <property name="width_request">600</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">10</property>
@@ -41,7 +42,7 @@
           </widget>
           <packing>
             <property name="expand">False</property>
-            <property name="fill">True</property>
+            <property name="fill">False</property>
             <property name="pack_type">end</property>
             <property name="position">0</property>
           </packing>
@@ -52,14 +53,14 @@
             <property name="can_focus">False</property>
             <property name="spacing">20</property>
             <child>
-              <widget class="GtkFrame" id="frame1">
+              <widget class="GtkFrame" id="frame2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label_xalign">0</property>
                 <property name="label_yalign">0.69999998807907104</property>
                 <property name="shadow_type">out</property>
                 <child>
-                  <widget class="GtkAlignment" id="alignment1">
+                  <widget class="GtkAlignment" id="alignment2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="top_padding">10</property>
@@ -67,77 +68,26 @@
                     <property name="left_padding">10</property>
                     <property name="right_padding">10</property>
                     <child>
-                      <widget class="GtkVBox" id="vbox1">
+                      <widget class="GtkScrolledWindow" id="scrolledwindow5">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="spacing">6</property>
+                        <property name="can_focus">True</property>
+                        <property name="hscrollbar_policy">automatic</property>
+                        <property name="vscrollbar_policy">never</property>
                         <child>
-                          <widget class="GtkLabel" id="label2">
+                          <widget class="GtkTextView" id="textview_about">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Spurius signals are common on electronics.</property>
-                            <property name="width_chars">100</property>
+                            <property name="can_focus">True</property>
+                            <property name="border_width">2</property>
+                            <property name="editable">False</property>
+                            <property name="cursor_visible">False</property>
                           </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="label3">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Threshold refers to the minimum value measurable and is the common way to clean this spurius signals. Threshold should be a value lower than expected values.</property>
-                            <property name="wrap">True</property>
-                            <property name="width_chars">100</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="label4">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">On database three different thresholds are stored: jumps, races and other tests.
-If you change this values they will be stored once test is executed.</property>
-                            <property name="wrap">True</property>
-                            <property name="ellipsize">middle</property>
-                            <property name="width_chars">100</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="label5">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Usually threshold values should not be changed but this option is useful for special cases.</property>
-                            <property name="wrap">True</property>
-                            <property name="width_chars">100</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">3</property>
-                          </packing>
                         </child>
                       </widget>
                     </child>
                   </widget>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label1">
+                  <widget class="GtkLabel" id="label23">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">&lt;b&gt;About threshold&lt;/b&gt;</property>
@@ -159,58 +109,24 @@ If you change this values they will be stored once test is executed.</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <child>
-                  <widget class="GtkVBox" id="vbox2">
+                  <widget class="GtkScrolledWindow" id="scrolledwindow6">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="border_width">10</property>
-                    <property name="spacing">6</property>
+                    <property name="can_focus">True</property>
+                    <property name="border_width">6</property>
+                    <property name="hscrollbar_policy">automatic</property>
+                    <property name="vscrollbar_policy">never</property>
                     <child>
-                      <widget class="GtkLabel" id="label9">
+                      <widget class="GtkTextView" id="textview_jumps">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Default value: 50 ms</property>
-                        <property name="width_chars">100</property>
+                        <property name="can_focus">True</property>
+                        <property name="editable">False</property>
+                        <property name="cursor_visible">False</property>
                       </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="label10">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">On jumps with contact platforms a value of 50 ms (3 cm jump approximately) is enough to solve electronical problems.</property>
-                        <property name="width_chars">100</property>
-                      </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="label11">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">You may change this value if you have a jumper that looses pressure with the platform
-while going down on the eccentric phase previous to a CMJ or ABK jump.
-This jumper should change his technique, but if it's difficult, a solution is to increase threshold.</property>
-                      </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">2</property>
-                      </packing>
                     </child>
                   </widget>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label6">
+                  <widget class="GtkLabel" id="label21">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Jumps</property>
@@ -221,39 +137,19 @@ This jumper should change his technique, but if it's difficult, a solution is to
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkVBox" id="vbox3">
+                  <widget class="GtkScrolledWindow" id="scrolledwindow7">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="border_width">10</property>
-                    <property name="spacing">6</property>
+                    <property name="can_focus">True</property>
+                    <property name="border_width">6</property>
+                    <property name="hscrollbar_policy">automatic</property>
+                    <property name="vscrollbar_policy">never</property>
                     <child>
-                      <widget class="GtkLabel" id="label12">
+                      <widget class="GtkTextView" id="textview_races">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Default value: 10 ms</property>
-                        <property name="width_chars">100</property>
+                        <property name="can_focus">True</property>
+                        <property name="editable">False</property>
+                        <property name="cursor_visible">False</property>
                       </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="label13">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">On races with photocells a value of 10 ms is the default value.
-As Chronojump manages double contacts on photocells, changing threshold value is not very common.</property>
-                        <property name="width_chars">100</property>
-                      </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                   </widget>
                   <packing>
@@ -261,7 +157,7 @@ As Chronojump manages double contacts on photocells, changing threshold value is
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label7">
+                  <widget class="GtkLabel" id="label26">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Races</property>
@@ -273,38 +169,19 @@ As Chronojump manages double contacts on photocells, changing threshold value is
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkVBox" id="vbox4">
+                  <widget class="GtkScrolledWindow" id="scrolledwindow8">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="border_width">10</property>
-                    <property name="spacing">6</property>
+                    <property name="can_focus">True</property>
+                    <property name="border_width">6</property>
+                    <property name="hscrollbar_policy">automatic</property>
+                    <property name="vscrollbar_policy">never</property>
                     <child>
-                      <widget class="GtkLabel" id="label14">
+                      <widget class="GtkTextView" id="textview_other">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Default value: 50 ms</property>
-                        <property name="width_chars">100</property>
+                        <property name="can_focus">True</property>
+                        <property name="editable">False</property>
+                        <property name="cursor_visible">False</property>
                       </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="label15">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Depending on the test, user could change values.</property>
-                        <property name="width_chars">100</property>
-                      </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                   </widget>
                   <packing>
@@ -312,7 +189,7 @@ As Chronojump manages double contacts on photocells, changing threshold value is
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label8">
+                  <widget class="GtkLabel" id="label29">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Other tests</property>

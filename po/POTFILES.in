@@ -62,6 +62,7 @@ src/gui/chronojump.cs
 src/gui/chronopic.cs
 src/gui/chronopicRegister.cs
 src/gui/convertWeight.cs
+src/gui/dialogThreshold.cs
 src/gui/encoderConfiguration.cs
 src/gui/encoder.cs
 src/gui/encoderOverview.cs

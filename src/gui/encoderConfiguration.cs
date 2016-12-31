@@ -163,31 +163,7 @@ public class EncoderConfigurationWindow
 			EncoderConfigurationWindowBox = new EncoderConfigurationWindow (definedInConfig);
 		}
 
-		//activate default radiobutton
-		if(ec.type == Constants.EncoderType.ROTARYFRICTION)
-			EncoderConfigurationWindowBox.radio_rotary_friction.Active = true;
-		else if(ec.type == Constants.EncoderType.ROTARYAXIS)
-			EncoderConfigurationWindowBox.radio_rotary_axis.Active = true;
-		else	//linear
-			EncoderConfigurationWindowBox.radio_linear.Active = true;
-
-		if(! ec.has_inertia)
-			EncoderConfigurationWindowBox.radio_gravity.Active = true;
-		else
-			EncoderConfigurationWindowBox.radio_inertia.Active = true;
-		
-		EncoderConfigurationWindowBox.check_rotary_friction_inertia_on_axis.Active = ec.rotaryFrictionOnAxis;
-
-
-		EncoderConfigurationWindowBox.initializeList(ec.type, ec.has_inertia, ec.rotaryFrictionOnAxis, ec.position);
-	
-		EncoderConfigurationWindowBox.create_list_d_spinbutton();
-		
-		EncoderConfigurationWindowBox.putValuesStoredPreviously(
-				ec.d, ec.list_d, ec.D, ec.anglePush, ec.angleWeight, 
-				ec.inertiaMachine, ec.extraWeightGrams, ec.extraWeightLength, 
-				ec.has_gearedDown, ec.GearedUpDisplay());
-		
+		EncoderConfigurationWindowBox.updateGUIFromEncoderConfiguration(ec);
 
 		//id definedInConfig then only few things can change
 		if(definedInConfig) {
@@ -202,6 +178,33 @@ public class EncoderConfigurationWindow
 
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
 		return EncoderConfigurationWindowBox;
+	}
+
+	private void updateGUIFromEncoderConfiguration(EncoderConfiguration ec)
+	{
+		//activate default radiobutton
+		if(ec.type == Constants.EncoderType.ROTARYFRICTION)
+			radio_rotary_friction.Active = true;
+		else if(ec.type == Constants.EncoderType.ROTARYAXIS)
+			radio_rotary_axis.Active = true;
+		else	//linear
+			radio_linear.Active = true;
+
+		if(! ec.has_inertia)
+			radio_gravity.Active = true;
+		else
+			radio_inertia.Active = true;
+
+		check_rotary_friction_inertia_on_axis.Active = ec.rotaryFrictionOnAxis;
+
+		initializeList(ec.type, ec.has_inertia, ec.rotaryFrictionOnAxis, ec.position);
+
+		create_list_d_spinbutton();
+
+		putValuesStoredPreviously(
+				ec.d, ec.list_d, ec.D, ec.anglePush, ec.angleWeight,
+				ec.inertiaMachine, ec.extraWeightGrams, ec.extraWeightLength,
+				ec.has_gearedDown, ec.GearedUpDisplay());
 	}
 	
 	private void on_radio_encoder_type_linear_toggled (object obj, EventArgs args) {
@@ -595,12 +598,13 @@ public class EncoderConfigurationWindow
 
 		List<EncoderConfigurationSQLObject> list = SqliteEncoder.SelectEncoderConfiguration(
 				false, radio_inertia.Active, selectedName);
-		if(list.Count == 1)
+		if(list != null && list.Count == 1)
 		{
 			EncoderConfigurationSQLObject econfSO = list[0];
 			entry_save_name.Text = econfSO.customName;
 			entry_save_description.Text = econfSO.description;
-			//TODO: need to update gui
+
+			EncoderConfigurationWindowBox.updateGUIFromEncoderConfiguration(econfSO.encoderConfiguration);
 		}
 	}
 

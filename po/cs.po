@@ -5686,7 +5686,7 @@ msgid ""
 "tests."
 msgstr ""
 "V databázi se uchovávají tři různé prahové hodnoty: skoky, běhy a ostatní "
-"testy.\n"
+"testy."
 
 #: ../src/gui/dialogThreshold.cs:63
 msgid "If you change this values they will be stored once test is executed."

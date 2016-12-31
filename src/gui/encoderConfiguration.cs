@@ -558,14 +558,15 @@ public class EncoderConfigurationWindow
 	 * <--------------- side content area / load-save ---->
 	 */
 
+	TreeStore store;
 	private void createAndFillTreeView(List<EncoderConfigurationSQLObject> list)
 	{
 		createTreeView();
-		TreeStore store = getStore();
+		store = getStore();
 		treeview_select.Model = store;
 
 		foreach (EncoderConfigurationSQLObject econfSO in list)
-			store.AppendValues (new string[]{econfSO.customName, econfSO.description});
+			store.AppendValues (new string[]{ econfSO.customName, econfSO.description });
 
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_delete.Pixbuf = pixbuf;
@@ -621,6 +622,40 @@ public class EncoderConfigurationWindow
 
 	void on_button_import_clicked (object o, EventArgs args)
 	{
+		Gtk.FileChooserDialog fc=
+			new Gtk.FileChooserDialog(Catalog.GetString("Select file to import"),
+					encoder_configuration,
+					FileChooserAction.Open,
+					Catalog.GetString("Cancel"),ResponseType.Cancel,
+					Catalog.GetString("Accept"),ResponseType.Accept
+					);
+
+		fc.Filter = new FileFilter();
+		fc.Filter.AddPattern("*.txt");
+
+		if (fc.Run() == (int)ResponseType.Accept)
+		{
+			try {
+				string contents = Util.ReadFile(fc.Filename, false);
+				if (contents != null && contents != "")
+				{
+					EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject(contents);
+					if(econfSO.customName != null && econfSO.customName != "") //TODO: check if name exists
+					{
+						//TODO: add depending on inertial. If doesn't match show error message
+						SqliteEncoder.InsertEncoderConfiguration(false, econfSO);
+						store.AppendValues (new string[]{ econfSO.customName, econfSO.description });
+						UtilGtk.TreeviewSelectRowWithName(treeview_select, store, 0, econfSO.customName, true);
+					}
+				}
+			}
+			catch {
+				LogB.Warning("Catched! Configuration cannot be imported");
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error importing data."));
+			}
+		}
+		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		fc.Destroy();
 	}
 
 	void on_button_save_clicked (object o, EventArgs args)

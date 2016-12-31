@@ -247,7 +247,8 @@ public class UtilGtk
 	}
 
 	//finds the row number (starting at 0) of a cell (usually an uniqueID in col 0)
-	private static int getRowNumOfThisID(Gtk.TreeStore store, int colNum, int searchedID) {
+	private static int getRowNumOfThisID(Gtk.TreeStore store, int colNum, int searchedID)
+	{
 		TreeIter iter;
 		int count = 0;
 		bool iterOk = store.GetIterFirst(out iter);
@@ -262,6 +263,23 @@ public class UtilGtk
 		return -1;
 	}
 
+	//finds the row number (starting at 0) of a cell
+	private static int getRowNumOfThisName(Gtk.TreeStore store, int colNum, string searchedName)
+	{
+		TreeIter iter;
+		int count = 0;
+		bool iterOk = store.GetIterFirst(out iter);
+		while(iterOk) {
+			string thisName = (string) store.GetValue (iter, colNum);
+			if(thisName == searchedName)
+				return count;
+
+			count ++;
+			iterOk = store.IterNext(ref iter);
+		}
+		return -1;
+	}
+
 	//selects a row that has an uniqueID (usually at col 0)
 	public static bool TreeviewSelectRowWithID(Gtk.TreeView tv, Gtk.TreeStore store, int colNum, int id, bool scrollToRow)
 	{
@@ -269,6 +287,18 @@ public class UtilGtk
 			return false;
 
 		int rowNum = getRowNumOfThisID(store, colNum, id);
+		return TreeviewSelectRow(tv, store, rowNum, scrollToRow);
+	}
+	public static bool TreeviewSelectRowWithName(Gtk.TreeView tv, Gtk.TreeStore store, int colNum, string name, bool scrollToRow)
+	{
+		if(name == null || name == "")
+			return false;
+
+		int rowNum = getRowNumOfThisName(store, colNum, name);
+		return TreeviewSelectRow(tv, store, rowNum, scrollToRow);
+	}
+	private static bool TreeviewSelectRow(Gtk.TreeView tv, Gtk.TreeStore store, int rowNum, bool scrollToRow)
+	{
 		if(rowNum == -1)
 			return false;
 

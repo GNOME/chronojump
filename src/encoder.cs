@@ -1071,6 +1071,45 @@ public class EncoderConfigurationSQLObject
 		this.description = description;
 	}
 
+	//imports from file
+	public EncoderConfigurationSQLObject(string contents)
+	{
+		string line;
+		using (StringReader reader = new StringReader (contents)) {
+			do {
+				line = reader.ReadLine ();
+
+				if (line == null)
+					break;
+				if (line == "" || line[0] == '#')
+					continue;
+
+				string [] parts = line.Split(new char[] {'='});
+				if(parts.Length != 2)
+					continue;
+
+				uniqueID = -1;
+				if(parts[0] == "customName" && parts[1] != "")
+					customName = parts[1];
+				else if(parts[0] == "EncoderConfiguration")
+				{
+					string [] ecFull = parts[1].Split(new char[] {':'});
+					if(Enum.IsDefined(typeof(Constants.EncoderConfigurationNames), ecFull[0]))
+					{
+						//create object
+						encoderConfiguration = new EncoderConfiguration(
+								(Constants.EncoderConfigurationNames)
+								Enum.Parse(typeof(Constants.EncoderConfigurationNames), ecFull[0]) );
+						//assign the rest of params
+						encoderConfiguration.ReadParamsFromSQL(ecFull);
+					}
+				}
+				else if(parts[0] == "description" && parts[1] != "")
+					description = parts[1];
+			} while(true);
+		}
+	}
+
 	public string ToSQLInsert()
 	{
 		 string idStr = uniqueID.ToString();

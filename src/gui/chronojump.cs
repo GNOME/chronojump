@@ -2303,7 +2303,7 @@ public partial class ChronoJumpWindow
 			chronopicWin.SerialPortsCloseIfNeeded();
 		}
 		*/
-		cp2016.SerialPortsCloseIfNeeded();
+		cp2016.SerialPortsCloseIfNeeded(true);
 
 		//exit start ping if has not ended
 		if(pingThread.IsAlive)
@@ -3938,7 +3938,7 @@ public partial class ChronoJumpWindow
 			 * and maybe is the cause for blocking the port on OSX
 			 * close the port if opened
 			 */
-			cp2016.SerialPortsCloseIfNeeded();
+			cp2016.SerialPortsCloseIfNeeded(true);
 
 			//simulated tests are only allowed on SIMULATED session
 			if(currentSession.Name != Constants.SessionSimulatedName) {
@@ -7054,8 +7054,8 @@ LogB.Debug("X");
 	private void chronopicRegisterUpdate(bool openWindow)
 	{
 		//on Windows need to close the port before reading with FTDI dll
-		if(UtilAll.IsWindows())
-			cp2016.SerialPortsCloseIfNeeded();
+//		if(UtilAll.IsWindows())
+			cp2016.SerialPortsCloseIfNeeded(false);
 
 		ChronopicRegisterSelectOS cros = new ChronopicRegisterSelectOS();
 		chronopicRegister = cros.Do();
@@ -7068,7 +7068,7 @@ LogB.Debug("X");
 		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX && 
 				chronopicRegister.Crpl.L.Count == 0)
 		{
-			cp2016.SerialPortsCloseIfNeeded();
+			cp2016.SerialPortsCloseIfNeeded(true);
 			Thread.Sleep(250);
 			chronopicRegister = cros.Do();
 		}
@@ -7083,7 +7083,7 @@ LogB.Debug("X");
 
 		if(openWindow) {
 			ChronopicRegisterWindow crWin = new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
-			crWin.FakeButtonCloseSerialPort.Clicked += new EventHandler(closeSerialPort);
+			//crWin.FakeButtonCloseSerialPort.Clicked += new EventHandler(closeSerialPort);
 			cp2016.WindowOpened = true;
 		}
 	}
@@ -7091,7 +7091,7 @@ LogB.Debug("X");
 	//trying to fix when an OSX disconnects and reconnects same chronopic (and it has captured)
 	private void closeSerialPort (object o, EventArgs args)
 	{
-		cp2016.SerialPortsCloseIfNeeded();
+		//cp2016.SerialPortsCloseIfNeeded();
 	}
 
 	//start/end auto mode

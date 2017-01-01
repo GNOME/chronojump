@@ -7054,7 +7054,7 @@ LogB.Debug("X");
 	private void chronopicRegisterUpdate(bool openWindow)
 	{
 		//on Windows need to close the port before reading with FTDI dll
-//		if(UtilAll.IsWindows())
+		if(UtilAll.IsWindows())
 			cp2016.SerialPortsCloseIfNeeded(false);
 
 		ChronopicRegisterSelectOS cros = new ChronopicRegisterSelectOS();

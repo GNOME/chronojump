@@ -368,7 +368,8 @@ public class Chronopic2016
 
 	// <----- change multitest firmware END
 
-	public void SerialPortsCloseIfNeeded()
+	//nullify only when exit software
+	public void SerialPortsCloseIfNeeded(bool nullify)
 	{
 		if(sp != null && sp.IsOpen) {
 			LogB.Information("Closing sp");
@@ -377,8 +378,10 @@ public class Chronopic2016
 			LogB.Information("Flushing cp to see if helps on OSX port busy");
 			cp.FlushByTimeOut();
 
-			LogB.Information("Disposing cp to see if helps on OSX port busy");
-			cp = null;
+			if(nullify) {
+				LogB.Information("Disposing cp to see if helps on OSX port busy");
+				cp = null;
+			}
 		}
 
 		if(sp2 != null && sp2.IsOpen) {
@@ -388,8 +391,10 @@ public class Chronopic2016
 			LogB.Information("Flushing cp2 to see if helps on OSX port busy");
 			cp2.FlushByTimeOut();
 
-			LogB.Information("Disposing cp2 to see if helps on OSX port busy");
-			cp2 = null;
+			if(nullify) {
+				LogB.Information("Disposing cp2 to see if helps on OSX port busy");
+				cp2 = null;
+			}
 		}
 	}
 

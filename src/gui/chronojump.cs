@@ -3849,11 +3849,11 @@ public partial class ChronoJumpWindow
 	{
 		//change multitest stuff
 		threshold.UpdateAtDatabaseIfNeeded(getMenuItemMode());
-		if(threshold.ShouldUpdateChronopicFirmware())
+		if(threshold.ShouldUpdateChronopicFirmware(cpCount))
 		{
 			bool ok = cp2016.ChangeMultitestFirmwarePre(threshold.GetT, cpCount);
 			if(ok)
-				threshold.ChronopicFirmwareUpdated();
+				threshold.ChronopicFirmwareUpdated(cpCount);
 		}
 
 		connectingSequence = connectingSequenceEnum.END;

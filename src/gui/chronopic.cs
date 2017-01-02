@@ -28,6 +28,118 @@ using Mono.Unix;
 using System.Threading;
 using System.IO; //"File" things
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List
+
+//gui stuff for the connection of one or two chronopics
+public partial class ChronoJumpWindow
+{
+	//multi chronopic stuff
+	List<ChronopicRegisterPort> crpMultiList;
+
+	ChronopicRegisterPort crpDoing;
+	bool connectAnother;
+	int connectNum;
+	enum connectingSequenceEnum { START, CONNECTINGREAL, FIRMWAREIFNEEDED, END }
+	private static connectingSequenceEnum connectingSequence;
+
+	private void chronopicConnectionSequenceInit(int numCPs)
+	{
+		connectNum = 1;
+		if(numCPs == 1)
+		{
+			connectAnother = false;
+			crpDoing = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
+			//store a boolean in order to read info faster
+			cp2016.StoredCanCaptureContacts = true;
+		}
+		else
+		{ //2
+			connectAnother = true;
+			//will get two crps or null
+			crpMultiList = chronopicRegister.GetTwoContactsConnected();
+			//store a boolean in order to read info faster
+			if(crpMultiList == null)
+				return;
+
+			crpDoing = crpMultiList[0];
+
+			cp2016.StoredCanCaptureContacts = (crpMultiList.Count == 2);
+		}
+		connectingSequence = connectingSequenceEnum.START;
+		chronopicConnectionSequenceDo();
+	}
+
+	private void chronopicConnectionSequenceDo()
+	{
+		//0 print sequence
+		LogB.Information("SEQUENCE: " + connectingSequence.ToString());
+
+		//1 check if need to end sequence or go to second chronopic
+		if (connectingSequence == connectingSequenceEnum.END)
+		{
+			if(connectAnother)
+			{
+				System.Threading.Thread.Sleep(250);
+				crpDoing = crpMultiList[1];
+				connectingSequence = connectingSequenceEnum.START;
+				connectAnother = false;
+				connectNum = 2;
+				chronopicConnectionSequenceDo();
+				return;
+			} else {
+				button_activate_chronopics.Show();
+				on_button_execute_test_accepted();
+				return;
+			}
+		}
+
+		//2 update sequence
+		if(connectingSequence == connectingSequenceEnum.START)
+		{
+			if(cp2016.IsLastConnectedReal(crpDoing)) {
+				connectingSequence = connectingSequenceEnum.FIRMWAREIFNEEDED;
+			} else {
+				connectingSequence = connectingSequenceEnum.CONNECTINGREAL;
+			}
+			chronopicConnectionSequenceDo();
+		}
+		else if (connectingSequence == connectingSequenceEnum.CONNECTINGREAL)
+		{
+			callConnectContactsReal(crpDoing, connectNum);
+			//this opens a thread and when end goes to chronopicConnectionSequenceDo again
+		}
+		else if (connectingSequence == connectingSequenceEnum.FIRMWAREIFNEEDED)
+		{
+			changeMultitestFirmwareIfNeeded(connectNum);
+			//this will call chronopicConnectionSequenceDo if success
+		}
+	}
+
+	private void callConnectContactsReal(ChronopicRegisterPort crp, int numCP)
+	{
+		cp2016.FakeButtonContactsRealDone.Clicked +=
+			new EventHandler(on_connection_contacts_real_done);
+
+		cp2016.ConnectContactsReal(app1, crp, numCP,
+				"Press TEST button on Chronopic to stablish initial communication"); //TODO: translate this
+	}
+
+	private void on_connection_contacts_real_done (object o, EventArgs args)
+	{
+		cp2016.FakeButtonContactsRealDone.Clicked -=
+			new EventHandler(on_connection_contacts_real_done);
+
+		if(cp2016.SuccededConnectContactsRealThread)
+		{
+			LogB.Information("Success at Connecting real! (main GUI)");
+
+			connectingSequence = connectingSequenceEnum.FIRMWAREIFNEEDED;
+			chronopicConnectionSequenceDo();
+		} else
+			LogB.Warning("Failure at Connecting real! (main GUI)");
+	}
+
+}
 
 public class ChronopicPortData
 {

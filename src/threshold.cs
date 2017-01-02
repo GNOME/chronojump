@@ -30,6 +30,7 @@ public class Threshold
 	private int t;
 	private int t_previous_on_this_mode; //on execute test, to decide if threshold have to be changed on SQL
 	private int t_stored_on_chronopic; //to know if has to be changed on chronopic or not
+	private int t_stored_on_chronopic2; //related to second chronopic (on multichronopic)
 
 	//only constructed one time
 	public Threshold()
@@ -37,6 +38,7 @@ public class Threshold
 		t = 50;
 		t_previous_on_this_mode = t;
 		t_stored_on_chronopic = t;
+		t_stored_on_chronopic2 = t;
 	}
 
 	//called when menuitem mode changes
@@ -78,13 +80,21 @@ public class Threshold
 		}
 	}
 
-	public bool ShouldUpdateChronopicFirmware()
+	//cpCount 1: first chronopic; 2: second (on multichronopic)
+	public bool ShouldUpdateChronopicFirmware(int cpCount)
 	{
-		return t != t_stored_on_chronopic;
+		if(cpCount == 1)
+			return t != t_stored_on_chronopic;
+		else //2
+			return t != t_stored_on_chronopic2;
 	}
-	public void ChronopicFirmwareUpdated()
+	//cpCount 1: first chronopic; 2: second (on multichronopic)
+	public void ChronopicFirmwareUpdated(int cpCount)
 	{
-		t_stored_on_chronopic = t;
+		if(cpCount == 1)
+			t_stored_on_chronopic = t;
+		else //2
+			t_stored_on_chronopic2 = t;
 	}
 
 	public string GetLabel()

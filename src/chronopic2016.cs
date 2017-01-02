@@ -63,7 +63,7 @@ public class Chronopic2016
 	public bool SuccededConnectContactsRealThread;
 	public Gtk.Button FakeButtonContactsRealDone;
 
-	private void createGui(Gtk.Window app1, string labelStr)
+	private void createGui(Gtk.Window app1, ChronopicRegisterPort crp, string labelStr)
 	{
 		chronopic_contacts_real_win = new Window ("Chronopic connection");
 		chronopic_contacts_real_win.AllowGrow = false;
@@ -79,9 +79,11 @@ public class Chronopic2016
 		LogB.Information("Connecting real (starting connection)");
 		LogB.Information("Press test button on Chronopic");
 
-		Gtk.Label label = new Gtk.Label();
-		label.Text = labelStr;
-		vbox_main.Add(label);
+		Gtk.Label labelMessage = new Gtk.Label();
+		labelMessage.Text = labelStr + "\n" +
+			"\nPort: " + crp.Port +
+			"\nSerial Number: " + crp.SerialNumber;
+		vbox_main.Add(labelMessage);
 
 		progressbar = new Gtk.ProgressBar();
 		vbox_main.Add(progressbar);
@@ -116,7 +118,7 @@ public class Chronopic2016
 	public void ConnectContactsReal(Gtk.Window app1, ChronopicRegisterPort crp,
 			int cpCount, string labelStr) //cpCount 2 is for 2nd chronopic on multichronopic
 	{
-		createGui(app1, labelStr);
+		createGui(app1, crp, labelStr);
 
 		crpConnectContactsRealThread = crp;
 

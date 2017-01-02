@@ -139,12 +139,14 @@ public class Chronopic2016
 
 		if(cpDoing == 1)
 		{
+			LogB.Information("connectContactsRealDo() 1");
 			sp = new SerialPort(crp.Port);
 			chronopicInit = new ChronopicInit();
 			connected = chronopicInit.Do(1, out cp, out sp,
 					platformState, crp.Port, out message, out success);
 		} else //(cpDoing == 2)
 		{
+			LogB.Information("connectContactsRealDo() 2");
 			sp2 = new SerialPort(crp.Port);
 			chronopicInit = new ChronopicInit();
 			connected = chronopicInit.Do(2, out cp2, out sp2,

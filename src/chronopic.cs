@@ -523,28 +523,8 @@ public class ChronopicInit
 			myCp = new Chronopic(); //fake constructor
 		}
 		
-		bool connected = false;
 		returnString = "";
-		if(success) {
-			if(currentCp == 1)
-				connected = true;
-			returnString = string.Format(Catalog.GetString("<b>Connected</b> to Chronopic on port: {0}"), myPort);
-		}
-		else {
-			returnString = Catalog.GetString("Problems communicating to chronopic.");
-			if(currentCp == 1) {
-				returnString += " " + Catalog.GetString("Changed platform to 'Simulated'");
-				returnString += Catalog.GetString("\n\nWe recommend to remove and connect USB cable.");
-			}
-
-			//this will raise on_radiobutton_simulated_ativate and 
-			//will put cpRunning to false, and simulated to true and cp.Close()
-			if(currentCp == 1) {
-				connected = false;
-			}
-		}
-
-		return connected;
+		return success;
 	}
 	
 }

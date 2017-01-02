@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -77,7 +78,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Json">
-      <HintPath>..\..\..\..\usr\lib\mono\gac\System.Json\4.0.0.0__31bf3856ad364e35\System.Json.dll</HintPath>
+      <HintPath>bin\Debug\System.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Services" />
     <Reference Include="FTD2XX_NET">
@@ -87,12 +88,6 @@
   <ItemGroup>
     <EmbeddedResource Include="glade\app1.glade">
       <LogicalName>app1.glade</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="glade\chronopic_window.glade">
-      <LogicalName>chronopic_window.glade</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="glade\chronopic_wizard_win.glade">
-      <LogicalName>chronopic_wizard_win.glade</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="glade\confirm_window.glade">
       <LogicalName>confirm_window.glade</LogicalName>

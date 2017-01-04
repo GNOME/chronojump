@@ -306,8 +306,6 @@ public class Chronopic {
 		//-- esperados para la trama. (En el caso de id son 4). Si hay un 
 		//-- timeout se aborta
 		count=0;
-		cancellingTest = false;
-		finishingTest = false;
 		do {
 			//try, catch done because mono-1.2.3 throws an exception when there's a timeout
 			//http://bugzilla.gnome.org/show_bug.cgi?id=420520
@@ -371,6 +369,20 @@ public class Chronopic {
 	public static void FinishDo()
 	{
 		finishingTest = true;
+	}
+
+	/*
+	   on <= 1.6.2 we could have this problem with static variables:
+	   on thread 1 finishingTest is marked as true
+	   just at the moment on thread 2 read_event is called and read_cambio is called and finishingTest = false
+	   so thread 2 does not end
+	   solution is to not define finishingTest on read_cambio
+	   define it on the beginning and will affect both chronopics
+	   */
+	public static void InitCancelAndFinish()
+	{
+		cancellingTest = false;
+		finishingTest = false;
 	}
 
 	//-- Vaciar buffer de entrada

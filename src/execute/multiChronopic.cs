@@ -317,6 +317,10 @@ public class MultiChronopicExecute : EventExecute
 
 			//start thread
 			if(chronopics > 0) {
+				//prepare variables to allow being cancelled or finished
+				if(! simulated)
+					Chronopic.InitCancelAndFinish();
+
 				thread = new Thread(new ThreadStart(waitEventPre));
 				if(chronopics > 1) {
 					thread2 = new Thread(new ThreadStart(waitEventPre2));

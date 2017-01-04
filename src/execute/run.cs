@@ -192,6 +192,10 @@ public class RunExecute : EventExecute
 		bool success = false;
 		bool ok;
 
+		//prepare variables to allow being cancelled or finished
+		if(! simulated)
+			Chronopic.InitCancelAndFinish();
+
 		do {
 			if(simulated)
 				ok = true;
@@ -546,6 +550,10 @@ public class RunIntervalExecute : RunExecute
 		double timestampDCContactTimes = -1;//sum of the contact times that happen in small time
 		double timestampDCn = 0; //number of flight times
 		
+		//prepare variables to allow being cancelled or finished
+		if(! simulated)
+			Chronopic.InitCancelAndFinish();
+
 		do {
 			if(simulated) 
 				ok = true;

@@ -139,4 +139,19 @@ public partial class ChronoJumpWindow
 			LogB.Warning("Failure at Connecting real! (main GUI)");
 	}
 
+	private void changeMultitestFirmwareIfNeeded(int cpCount)
+	{
+		//change multitest stuff
+		threshold.UpdateAtDatabaseIfNeeded(getMenuItemMode());
+		if(threshold.ShouldUpdateChronopicFirmware(cpCount))
+		{
+			bool ok = cp2016.ChangeMultitestFirmwarePre(threshold.GetT, cpCount);
+			if(ok)
+				threshold.ChronopicFirmwareUpdated(cpCount);
+		}
+
+		connectingSequence = connectingSequenceEnum.END;
+		chronopicConnectionSequenceDo();
+	}
+
 }

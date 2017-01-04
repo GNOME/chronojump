@@ -3647,21 +3647,6 @@ public partial class ChronoJumpWindow
 		label_threshold.Text = threshold.GetLabel();
 	}
 
-	private void changeMultitestFirmwareIfNeeded(int cpCount)
-	{
-		//change multitest stuff
-		threshold.UpdateAtDatabaseIfNeeded(getMenuItemMode());
-		if(threshold.ShouldUpdateChronopicFirmware(cpCount))
-		{
-			bool ok = cp2016.ChangeMultitestFirmwarePre(threshold.GetT, cpCount);
-			if(ok)
-				threshold.ChronopicFirmwareUpdated(cpCount);
-		}
-
-		connectingSequence = connectingSequenceEnum.END;
-		chronopicConnectionSequenceDo();
-	}
-
 	void on_button_execute_test_clicked (object o, EventArgs args) 
 	{
 		chronopicRegisterUpdate(false);

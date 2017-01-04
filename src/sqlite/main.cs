@@ -2088,6 +2088,10 @@ class Sqlite
 		SqlitePerson sqlitePersonObject = new SqlitePerson();
 		sqlitePersonObject.createTable(Constants.PersonTable);
 
+		creationRate ++;
+		SqlitePreferences.createTable();
+		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
+
 		//graphLinkTable
 		SqliteEvent.createGraphLinkTable();
 		creationRate ++;
@@ -2161,10 +2165,6 @@ class Sqlite
 		creationRate ++;
 		SqlitePersonSession sqlitePersonSessionObject = new SqlitePersonSession();
 		sqlitePersonSessionObject.createTable(Constants.PersonSessionTable);
-		
-		creationRate ++;
-		SqlitePreferences.createTable();
-		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 		
 		creationRate ++;
 		SqliteCountry.createTable();

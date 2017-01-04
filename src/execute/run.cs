@@ -171,7 +171,6 @@ public class RunExecute : EventExecute
 
 		//prepare jump for being cancelled if desired
 		cancel = false;
-		totallyCancelled = false;
 
 		//start thread
 		thread = new Thread(new ThreadStart(waitEvent));
@@ -326,8 +325,6 @@ public class RunExecute : EventExecute
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
-
-			totallyCancelled = true;
 		}
 	}
 	
@@ -748,8 +745,6 @@ public class RunIntervalExecute : RunExecute
 			//write only if there's a run at minimum
 			if(Util.GetNumberOfJumps(intervalTimesString, false) >= 1) {
 				writeRunInterval(false); //tempTable = false
-			
-				totallyFinished = true;
 			} else {
 				//cancel a run if clicked finish before any events done, or ended by time without events
 				cancel = true;
@@ -758,8 +753,6 @@ public class RunIntervalExecute : RunExecute
 		if(cancel || finish) {
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
-			
-			totallyCancelled = true;
 		}
 	}
 

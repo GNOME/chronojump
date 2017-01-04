@@ -3585,18 +3585,9 @@ public partial class ChronoJumpWindow
 		//this will actually cancel Read_cambio and then Read_event in order to really cancel
 		Chronopic.CancelDo();
 
-		//if(cp2016.StoredCanCaptureContacts)
-		//	checkCancelTotally(o, args);
-
 		//let update stats
-		//nothing changed, but stats update button cannot be insensitive,
-		//because probably some jump type has changed it's jumper
-		//the unsensitive of button stats is for showing the user, that he has to update manually
-		//because it's not automatically updated
-		//because it crashes in some thread problem
-		//that will be fixed in other release
-		//if(createdStatsWin)
-		//	showUpdateStatsAndHideData(true);
+		if(createdStatsWin)
+			showUpdateStatsAndHideData(true);
 	}
 	
 	private void on_cancel_multi_clicked (object o, EventArgs args) 
@@ -3608,77 +3599,8 @@ public partial class ChronoJumpWindow
 
 		//this will actually cancel Read_cambio and then Read_event in order to really cancel
 		Chronopic.CancelDo();
-
-		//if(cp2016.StoredCanCaptureContacts)
-		//	checkCancelMultiTotally(o, args);
 	}
 
-
-	/*
-	//if user doesn't touch the platform after pressing "cancel", sometimes it gets waiting a Read_event
-	//now the event cancels ok, and next will be ok, also	
-	private void checkCancelTotally (object o, EventArgs args) 
-	{
-		if(currentEventExecute.TotallyCancelled) 
-			LogB.Information("totallyCancelled");
-		else {
-			LogB.Information("NOT-totallyCancelled ");
-			errorWin = ErrorWindow.Show(Catalog.GetString("Please, touch the contact platform for full cancelling.") + "\n" +
-					Catalog.GetString("Then press Accept") + "\n");
-			errorWin.Button_accept.Clicked -= new EventHandler(checkCancelTotally);
-			errorWin.Button_accept.Clicked += new EventHandler(checkCancelTotally);
-			
-			//abort test when there are problems with USB disconnected	
-			errorWin.Show_button_abort();
-			errorWin.Button_abort.Clicked += new EventHandler(abortTest);
-		}
-	}
-	
-	private void checkCancelMultiTotally (object o, EventArgs args) 
-	{
-		bool needCancel1 = false;
-		bool needCancel2 = false;
-		bool needCancel3 = false;
-		bool needCancel4 = false;
-			
-		needCancel1 = !currentEventExecute.TotallyCancelledMulti1;
-		if(currentEventExecute.Chronopics > 1) {
-			needCancel2 = !currentEventExecute.TotallyCancelledMulti2;
-			if(currentEventExecute.Chronopics > 2) {
-				needCancel3 = !currentEventExecute.TotallyCancelledMulti3;
-				if(currentEventExecute.Chronopics > 3)
-					needCancel4 = !currentEventExecute.TotallyCancelledMulti4;
-			}
-		}
-
-		if(needCancel1 || needCancel2 || needCancel3 || needCancel4) {
-//			LogB.Information("NOT-totallyCancelled ");
-			string cancelStr = "";
-			string sep = "";
-			if(needCancel1) {
-				cancelStr += sep + "1";
-				sep = ", ";
-			}
-			if(needCancel2) {
-				cancelStr += sep + "2";
-				sep = ", ";
-			}
-			if(needCancel3) {
-				cancelStr += sep + "3";
-				sep = ", ";
-			}
-			if(needCancel4) {
-				cancelStr += sep + "4";
-				sep = ", ";
-			}
-
-			errorWin = ErrorWindow.Show(string.Format(Catalog.GetString("Please, touch the contact platform on Chronopic/s [{0}] for full cancelling.\nThen press button\n"), cancelStr));
-			errorWin.Button_accept.Clicked += new EventHandler(checkCancelMultiTotally);
-		}
-	}
-	*/
-		
-		
 	private void on_finish_clicked (object o, EventArgs args) 
 	{
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);

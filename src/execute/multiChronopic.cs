@@ -237,12 +237,9 @@ public class MultiChronopicExecute : EventExecute
 		
 			//prepare jump for being cancelled if desired
 			cancel = false;
-			totallyCancelledMulti1 = false;
 
 			//prepare jump for being finished earlier if desired
 			finish = false;
-			totallyFinishedMulti1 = false;
-
 		
 			if(chronopics > 1) {
 				platformState2 = chronopicInitialValue(cp2);
@@ -258,10 +255,6 @@ public class MultiChronopicExecute : EventExecute
 					return;
 				}
 			
-				totallyCancelledMulti2 = false;
-				totallyFinishedMulti2 = false;
-
-
 				if(chronopics > 2) {
 					platformState3 = chronopicInitialValue(cp3);
 
@@ -276,9 +269,6 @@ public class MultiChronopicExecute : EventExecute
 						return;
 					}
 
-					totallyCancelledMulti3 = false;
-					totallyFinishedMulti3 = false;
-
 					if(chronopics > 3) {
 						platformState4 = chronopicInitialValue(cp4);
 
@@ -292,9 +282,6 @@ public class MultiChronopicExecute : EventExecute
 							chronopicHasBeenDisconnected();
 							return;
 						}
-					
-						totallyCancelledMulti4 = false;
-						totallyFinishedMulti4 = false;
 					}
 				}
 			}
@@ -493,7 +480,7 @@ public class MultiChronopicExecute : EventExecute
 		} while ( ! success && ! cancel && ! finish );
 	
 		if (finish) {
-			finishThisCp(cpNum);
+			finishThisCp();
 
 			//call write on gui/chronojump.cs, because if done in execute/MultiChronopic, 
 			//will be called n times if n chronopics are working
@@ -507,31 +494,11 @@ public class MultiChronopicExecute : EventExecute
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
-			cancelThisCp(cpNum);
 		}
 	}
 	
-	private void finishThisCp (int cp) {
-		if (cp==1)
-			totallyFinishedMulti1 = true;
-		else if (cp==2)
-			totallyFinishedMulti2 = true;
-		else if (cp==3)
-			totallyFinishedMulti3 = true;
-		else // if (cp==4)
-			totallyFinishedMulti4 = true;
+	private void finishThisCp () {
 		needEndEvent = true;
-	}
-
-	private void cancelThisCp (int cp) {
-		if (cp==1)
-			totallyCancelledMulti1 = true;
-		else if (cp==2)
-			totallyCancelledMulti2 = true;
-		else if (cp==3)
-			totallyCancelledMulti3 = true;
-		else // if (cp==4)
-			totallyCancelledMulti4 = true;
 	}
 
 	protected override bool shouldFinishByTime() {

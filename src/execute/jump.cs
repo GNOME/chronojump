@@ -139,7 +139,6 @@ public class JumpExecute : EventExecute
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
-			totallyCancelled = false;
 			
 			jumpPhase = jumpPhases.PRE_OR_DOING;
 	
@@ -221,7 +220,6 @@ public class JumpExecute : EventExecute
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
-			totallyCancelled = false;
 
 			jumpPhase = jumpPhases.PRE_OR_DOING;
 
@@ -433,8 +431,6 @@ public class JumpExecute : EventExecute
 		{
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
-
-			totallyCancelled = true;
 		}
 	}
 	
@@ -667,11 +663,9 @@ public class JumpRjExecute : JumpExecute
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
-			totallyCancelled = false;
 			
 			//prepare jump for being finished earlier if desired
 			finish = false;
-			totallyFinished = false;
 			
 			jumpPhase = jumpPhases.PRE_OR_DOING;
 			
@@ -839,8 +833,6 @@ public class JumpRjExecute : JumpExecute
 				jumpPhase = jumpPhases.PLATFORM_END;
 
 				writeRj(false); //tempTable
-				
-				totallyFinished = true;
 			} else {
 				//cancel a jump if clicked finish before any events done
 				cancel = true;
@@ -850,8 +842,6 @@ public class JumpRjExecute : JumpExecute
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
-			
-			totallyCancelled = true;
 		}
 	}
 

@@ -128,7 +128,6 @@ public class ReactionTimeExecute : EventExecute
 
 			//prepare reactionTime for being cancelled if desired
 			cancel = false;
-			totallyCancelled = false;
 
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that we have leaved platform:
@@ -256,8 +255,6 @@ public class ReactionTimeExecute : EventExecute
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
-
-			totallyCancelled = true;
 		}
 	}
 	

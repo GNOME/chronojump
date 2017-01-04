@@ -127,28 +127,14 @@ public class EventExecute
 	//for cancelling from chronojump.cs
 	protected bool cancel;
 
-	//cancel doesn't finish until platform is touched (after pressing cancel button)
-	//this variable controls that platform has been touched
-	//if not, it will shown a popup from gui/chronojump.cs (on_cancel_clicked)	
-	protected bool totallyCancelled;
-
 	//for finishing earlier from chronojump.cs
 	protected bool finish;
-	protected bool totallyFinished;
 	
 	//if chronopic is disconnected by user, port changes, ...
 	protected bool chronopicDisconnected;
 	
 	// multi Chronopic stuff
 	protected int chronopics; 
-	protected bool totallyFinishedMulti1;
-	protected bool totallyFinishedMulti2;
-	protected bool totallyFinishedMulti3;
-	protected bool totallyFinishedMulti4;
-	protected bool totallyCancelledMulti1;
-	protected bool totallyCancelledMulti2;
-	protected bool totallyCancelledMulti3;
-	protected bool totallyCancelledMulti4;
 
 
 	//for reaction time	
@@ -495,7 +481,6 @@ public class EventExecute
 	protected void cancel_event_before_start(object o, EventArgs args)
 	{
 		cancel = true;
-		totallyCancelled = true;
 		//app1.EventEnded();
 		fakeButtonEventEnded.Click();
 		
@@ -558,18 +543,6 @@ public class EventExecute
 		set { cancel = value; }
 	}
 
-	public bool TotallyCancelled
-	{
-		get { return totallyCancelled; }
-		set { totallyCancelled = value; }
-	}
-
-	public bool TotallyFinished
-	{
-		get { return totallyFinished; }
-		set { totallyFinished = value; }
-	}
-
 	public bool ChronopicDisconnected
 	{
 		get { return chronopicDisconnected; }
@@ -581,16 +554,6 @@ public class EventExecute
 	
 	// multi Chronopic stuff
 	public int Chronopics { get { return chronopics; } }
-
-	public bool TotallyFinishedMulti1 { get { return totallyFinishedMulti1; } }
-	public bool TotallyFinishedMulti2 { get { return totallyFinishedMulti2; } }
-	public bool TotallyFinishedMulti3 { get { return totallyFinishedMulti3; } }
-	public bool TotallyFinishedMulti4 { get { return totallyFinishedMulti4; } }
-	
-	public bool TotallyCancelledMulti1 { get { return totallyCancelledMulti1; } }
-	public bool TotallyCancelledMulti2 { get { return totallyCancelledMulti2; } }
-	public bool TotallyCancelledMulti3 { get { return totallyCancelledMulti3; } }
-	public bool TotallyCancelledMulti4 { get { return totallyCancelledMulti4; } }
 
 
 	~EventExecute() {}

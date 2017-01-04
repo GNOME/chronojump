@@ -44,10 +44,16 @@ public class Chronopic2016
 	private Chronopic cp2;
 	private SerialPort sp2;
 	private int cpDoing; //2 is for the second chronopic on multichronopic
-	
+
+	//to check if cp changed
 	private string lastConnectedRealPort = "";
 	private string lastConnectedRealSerialNumber = "";
 	private ChronopicRegisterPort.Types lastConnectedRealType = ChronopicRegisterPort.Types.UNKNOWN;
+
+	//to check if cp2 changed
+	private string lastConnectedRealPort2 = "";
+	private string lastConnectedRealSerialNumber2 = "";
+	private ChronopicRegisterPort.Types lastConnectedRealType2 = ChronopicRegisterPort.Types.UNKNOWN;
 
 
 	// -----ConnectContactsReal START ----->
@@ -157,11 +163,8 @@ public class Chronopic2016
 
 		LogB.Information("Ended chronopicInit.Do()");
 
-		if(connected) {
-			lastConnectedRealPort = crp.Port;
-			lastConnectedRealSerialNumber = crp.SerialNumber;
-			lastConnectedRealType = ChronopicRegisterPort.Types.CONTACTS;
-		}
+		if(connected)
+			assignLastConnectedVariables(crp);
 
 		SuccededConnectContactsRealThread = connected;
 	}
@@ -201,23 +204,38 @@ public class Chronopic2016
 	}
 
 
-	public bool IsLastConnectedReal(ChronopicRegisterPort crp)
+	public bool IsLastConnectedReal(ChronopicRegisterPort crp, int cpCount)
 	{
-		LogB.Information(string.Format(
-					"lastConnectedReal (port:{0}, serialNumber:{1}, type:{2})",
-					lastConnectedRealPort, lastConnectedRealSerialNumber,
-					lastConnectedRealType.ToString()));
-		LogB.Information(crp.ToString());
-
-		if(lastConnectedRealPort != "" && lastConnectedRealSerialNumber != "" &&
+		if(cpCount == 1 &&
+				lastConnectedRealPort != "" && lastConnectedRealSerialNumber != "" &&
 				lastConnectedRealType == ChronopicRegisterPort.Types.CONTACTS &&
 				crp.Port == lastConnectedRealPort &&
 				crp.SerialNumber == lastConnectedRealSerialNumber)
-			return true;
+				return true;
+		else if(cpCount == 2 &&
+				lastConnectedRealPort2 != "" && lastConnectedRealSerialNumber2 != "" &&
+				lastConnectedRealType2 == ChronopicRegisterPort.Types.CONTACTS &&
+				crp.Port == lastConnectedRealPort2 &&
+				crp.SerialNumber == lastConnectedRealSerialNumber2)
+				return true;
 
 		return false;
 	}
 
+	private void assignLastConnectedVariables(ChronopicRegisterPort crp)
+	{
+		if(cpDoing == 1) {
+			lastConnectedRealPort = crp.Port;
+			lastConnectedRealSerialNumber = crp.SerialNumber;
+			lastConnectedRealType = ChronopicRegisterPort.Types.CONTACTS;
+		} else { //2
+			lastConnectedRealPort2 = crp.Port;
+			lastConnectedRealSerialNumber2 = crp.SerialNumber;
+			lastConnectedRealType2 = ChronopicRegisterPort.Types.CONTACTS;
+		}
+	}
+
+	/*
 	//check if last connected real port exists on getFiles()
 	public bool WindowsLastConnectedRealExists()
 	{
@@ -230,6 +248,7 @@ public class Chronopic2016
 
 		return false;
 	}
+	*/
 
 	public bool StoredCanCaptureContacts; //store a boolean in order to read info faster
 

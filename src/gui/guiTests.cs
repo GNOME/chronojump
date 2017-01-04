@@ -381,7 +381,7 @@ public partial class ChronoJumpWindow
 		}
 
 		ChronopicRegisterPort crp = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
-		if(cp2016.IsLastConnectedReal(crp)) {
+		if(cp2016.IsLastConnectedReal(crp,1)) {
 			LogB.TestEnd("chronojumpWindowTestsChronopicContactReal");
 			chronojumpWindowTestsNext();
 		}

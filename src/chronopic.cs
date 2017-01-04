@@ -307,6 +307,7 @@ public class Chronopic {
 		//-- timeout se aborta
 		count=0;
 		cancellingTest = false;
+		finishingTest = false;
 		do {
 			//try, catch done because mono-1.2.3 throws an exception when there's a timeout
 			//http://bugzilla.gnome.org/show_bug.cgi?id=420520
@@ -321,7 +322,8 @@ public class Chronopic {
 				} catch {
 					//LogB.Warning("catched at Read_cambio");
 					//if cancel is clicked, cancellingTest will be true. Stop reading
-					if(cancellingTest)
+					//same for finish and finishingTest
+					if(cancellingTest || finishingTest)
 					{
 						//-- Wait a bit and empty buffer
 						Thread.Sleep(ErrorTimeout);
@@ -364,6 +366,11 @@ public class Chronopic {
 	public static void CancelDo()
 	{
 		cancellingTest = true;
+	}
+	private static bool finishingTest;
+	public static void FinishDo()
+	{
+		finishingTest = true;
 	}
 
 	//-- Vaciar buffer de entrada

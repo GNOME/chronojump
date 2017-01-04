@@ -3681,10 +3681,11 @@ public partial class ChronoJumpWindow
 		
 	private void on_finish_clicked (object o, EventArgs args) 
 	{
+		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 		currentEventExecute.Finish = true;
 	
-		if(cp2016.StoredCanCaptureContacts)
-			checkFinishTotally(o, args);
+		//this will actually cancel Read_cambio and then Read_event in order to really finish
+		Chronopic.FinishDo();
 		
 		//let update stats
 		if(createdStatsWin)
@@ -3695,141 +3696,20 @@ public partial class ChronoJumpWindow
 	//static bool multiFinishingByClickFinish;
 	private void on_finish_multi_clicked (object o, EventArgs args) 
 	{
-		/*
-		if(multiFinishingByClickFinish)
-			return;
-		else
-			multiFinishingByClickFinish =  true;
-			*/
+		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_multi_clicked);
 
 		currentEventExecute.Finish = true;
 		
 		//runA is not called for this, because it ends different
 		//and there's a message on gui/eventExecute.cs for runA	
-		LogB.Debug("RR1");
-		if(currentMultiChronopicType.Name != Constants.RunAnalysisName && cp2016.StoredCanCaptureContacts)
-			checkFinishMultiTotally(o, args);
+		LogB.Debug("Calling finish on multi");
+		//if(currentMultiChronopicType.Name != Constants.RunAnalysisName && cp2016.StoredCanCaptureContacts)
+		//	checkFinishMultiTotally(o, args);
 
-		LogB.Debug("RR2");
-		
-		//let update stats
-		//if(createdStatsWin)
-		//	showUpdateStatsAndHideData(true);
-	}
-		
-	//if user doesn't touch the platform after pressing "finish", sometimes it gets waiting a Read_event
-	//now the event finishes ok, and next will be ok
-	//
-	//not for multiChronopic:
-	
-	private void checkFinishTotally (object o, EventArgs args) 
-	{
-		if(currentEventExecute.TotallyFinished) 
-			LogB.Information("totallyFinished");
-		else {
-			LogB.Information("NOT-totallyFinished ");
-			errorWin = ErrorWindow.Show(Catalog.GetString("Please, touch the contact platform for full finishing.") + "\n" +
-					Catalog.GetString("Then press Accept") + "\n");
-			errorWin.Button_accept.Clicked -= new EventHandler(checkFinishTotally);
-			errorWin.Button_accept.Clicked += new EventHandler(checkFinishTotally);
-		
-			//abort test when there are problems with USB disconnected	
-			errorWin.Show_button_abort();
-			errorWin.Button_abort.Clicked += new EventHandler(abortTest);
-		}
-	}
-	
-	private void abortTest (object o, EventArgs args) {
-		errorWin.Button_abort.Clicked -= new EventHandler(abortTest);
-		
-		LogB.Warning("Destroying error window");
-		errorWin.HideAndNull();
-		
-		LogB.Warning("Going to abort thread");
-		currentEventExecute.ThreadAbort();
-		LogB.Warning("Aborted");
-		
-		sensitiveGuiEventDone();
-		LogB.Warning("Sensitivity restored");
-	}
+		//this will actually cancel Read_cambio and then Read_event in order to really finish
+		Chronopic.FinishDo();
 
-	//runA is not called for this, because it ends different
-	//and there's a message on gui/eventExecute.cs for runA	
-	private void checkFinishMultiTotally (object o, EventArgs args) 
-	{
-		bool needFinish1 = false;
-		bool needFinish2 = false;
-		bool needFinish3 = false;
-		bool needFinish4 = false;
-			
-		LogB.Information("cfmt 0");
-		needFinish1 = !currentEventExecute.TotallyFinishedMulti1;
-		if(currentEventExecute.Chronopics > 1) {
-			LogB.Information("cfmt 1");
-			needFinish2 = !currentEventExecute.TotallyFinishedMulti2;
-			if(currentEventExecute.Chronopics > 2) {
-				LogB.Information("cfmt 2");
-				needFinish3 = !currentEventExecute.TotallyFinishedMulti3;
-				if(currentEventExecute.Chronopics > 3) {
-					LogB.Information("cfmt 3");
-					needFinish4 = !currentEventExecute.TotallyFinishedMulti4;
-				}
-			}
-		}
-		LogB.Information("cfmt 4");
-
-		if(needFinish1 || needFinish2 || needFinish3 || needFinish4) {
-//			LogB.Information("NOT-totallyFinishled ");
-			string cancelStr = "";
-			string sep = "";
-			if(needFinish1) {
-				cancelStr += sep + "1";
-				sep = ", ";
-			}
-			if(needFinish2) {
-				cancelStr += sep + "2";
-				sep = ", ";
-			}
-			if(needFinish3) {
-				cancelStr += sep + "3";
-				sep = ", ";
-			}
-			if(needFinish4) {
-				cancelStr += sep + "4";
-				sep = ", ";
-			}
-		
-			LogB.Information("cfmt 5");
-			//try here because maybe solves problems in runAnalysis when seem to update the eventExecuteWindow at the same time as tries to show this errorWindow
-				errorWin = ErrorWindow.Show(string.Format(
-							Catalog.GetString("Please, touch the contact platform on Chronopic/s [{0}] for full finishing.") + 
-							"\n" + Catalog.GetString("Then press this button:\n"), cancelStr));
-				LogB.Information("cfmt 6");
-				errorWin.Button_accept.Clicked += new EventHandler(checkFinishMultiTotally);
-				LogB.Information("cfmt 7");
-			//}
-		} else {
-			LogB.Information("totallyFinished");
-			/*
-			//call write here, because if done in execute/MultiChronopic, will be called n times if n chronopics are working
-			currentEventExecute.MultiChronopicWrite(false);
-			currentMultiChronopic = (MultiChronopic) currentEventExecute.EventDone;
-		
-
-			//if this multichronopic has more chronopics than other in session, then reload treeview, else simply add
-			if(currentMultiChronopic.CPs() != SqliteMultiChronopic.MaxCPs(currentSession.UniqueID)) {
-				treeview_multi_chronopic_storeReset(false);
-				fillTreeView_multi_chronopic();
-			} else
-				myTreeViewMultiChronopic.Add(currentPerson.Name, currentMultiChronopic);
-			
-			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
-			showHideActionEventButtons(true, Constants.MultiChronopicName); //show
-		
-			//unhide buttons for delete last test
-			sensitiveGuiYesEvent();
-			*/
-		}
+		LogB.Debug("Called finish on multi");
 	}
 
 	private void on_chronopic_threshold_help_clicked (object o, EventArgs args)

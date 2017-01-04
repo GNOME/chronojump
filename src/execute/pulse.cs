@@ -187,6 +187,10 @@ public class PulseExecute : EventExecute
 
 			bool ok;
 
+			//prepare variables to allow being cancelled or finished
+			if(! simulated)
+				Chronopic.InitCancelAndFinish();
+
 			do {
 				if(simulated) 
 					ok = true;

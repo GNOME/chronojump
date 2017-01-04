@@ -273,7 +273,11 @@ public class JumpExecute : EventExecute
 		
 		bool ok;
 		int phase = 0;
-		
+
+		//prepare variables to allow being cancelled or finished
+		if(! simulated)
+			Chronopic.InitCancelAndFinish();
+
 		do {
 			if(simulated)
 				ok = true;
@@ -698,6 +702,10 @@ public class JumpRjExecute : JumpExecute
 
 		int countForSavingTempTable = 0;
 	
+		//prepare variables to allow being cancelled or finished
+		if(! simulated)
+			Chronopic.InitCancelAndFinish();
+
 		do {
 			if(simulated) 
 				ok = true;

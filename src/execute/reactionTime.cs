@@ -178,6 +178,10 @@ public class ReactionTimeExecute : EventExecute
 		
 		bool ok;
 	
+		//prepare variables to allow being cancelled or finished
+		if(! simulated)
+			Chronopic.InitCancelAndFinish();
+
 		LogB.Information("Inside waitEvent");	
 		do {
 			if(simulated)

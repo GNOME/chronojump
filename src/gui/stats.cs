@@ -546,11 +546,16 @@ public partial class ChronoJumpWindow {
 		return Util.AddArrayString(comboCheckboxesOptionsWithoutPersons, Util.ArrayListToString(myStatType.PersonsWithData));
 	}
 
-	private void showUpdateStatsAndHideData(bool show) {
-		button_stats.Sensitive = show;
-		treeview_stats.Sensitive = ! show;
-		hbox_mark_and_enunciate.Sensitive = ! show;
-		frame_graph_and_report.Sensitive = ! show;
+	private void showUpdateStatsAndHideData(bool show)
+	{
+		//as this is called by cancel and finish, check that we are on first thread to not have GTK problems
+		if(UtilGtk.CanTouchGTK())
+		{
+			button_stats.Sensitive = show;
+			treeview_stats.Sensitive = ! show;
+			hbox_mark_and_enunciate.Sensitive = ! show;
+			frame_graph_and_report.Sensitive = ! show;
+		}
 	}
 	
 	private void updateComboStats() {

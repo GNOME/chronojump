@@ -30,6 +30,11 @@ using Gdk;
 //only Gtk related methods (not used bu the server) this is the differnece with Util
 public class UtilGtk
 {
+	public static bool CanTouchGTK()
+	{
+		//Only first thread can touch GTK
+		return (System.Threading.Thread.CurrentThread.ManagedThreadId.ToString() == "1");
+	}
 
 	/*
 	 *

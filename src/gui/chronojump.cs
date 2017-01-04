@@ -3670,7 +3670,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("numContacts: " + numContacts);
 
 		//check if chronopics have changed
-		if(numContacts >= 2 && radio_mode_multi_chronopic_small.Active)
+		if(numContacts >= 2 && radio_menuitem_mode_other.Active && radio_mode_multi_chronopic_small.Active)
 		{
 			chronopicConnectionSequenceInit(2);
 		}

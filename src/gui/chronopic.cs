@@ -96,7 +96,7 @@ public partial class ChronoJumpWindow
 		//2 update sequence
 		if(connectingSequence == connectingSequenceEnum.START)
 		{
-			if(cp2016.IsLastConnectedReal(crpDoing)) {
+			if(cp2016.IsLastConnectedReal(crpDoing, connectNum)) {
 				connectingSequence = connectingSequenceEnum.FIRMWAREIFNEEDED;
 			} else {
 				connectingSequence = connectingSequenceEnum.CONNECTINGREAL;

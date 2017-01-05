@@ -136,6 +136,7 @@ public class CJTests
 		CJTests.Types.END
 	};
 
+	//at the moment finish and cancel have to be done manually
 	public static List<Types> SequenceRJsSimulatedFinishCancel = new List<Types>
 	{
 		CJTests.Types.MODE_JUMPSREACTIVE,
@@ -143,6 +144,15 @@ public class CJTests
 		CJTests.Types.CONTACTS_RJ_3J,
 		CJTests.Types.BUCLE_1_ON,
 			CJTests.Types.PERSON_SELECT, //bucle1startPos //repeat from here //when all persons have done a jumps/runs test, will end
+			CJTests.Types.CONTACTS_EXECUTE_TEST,
+			CJTests.Types.CONTACTS_EXECUTE_TEST,
+			CJTests.Types.CONTACTS_EXECUTE_TEST,
+			CJTests.Types.CONTACTS_EXECUTE_TEST,
+			CJTests.Types.CONTACTS_EXECUTE_TEST,
+			CJTests.Types.CONTACTS_EXECUTE_TEST,
+			CJTests.Types.CONTACTS_EXECUTE_TEST,
+			CJTests.Types.CONTACTS_EXECUTE_TEST,
+			CJTests.Types.CONTACTS_EXECUTE_TEST,
 			CJTests.Types.CONTACTS_EXECUTE_TEST,
 		CJTests.Types.BUCLE_1_OFF,
 		CJTests.Types.END
@@ -368,11 +378,27 @@ public partial class ChronoJumpWindow
 		//configAutodetectPort = Config.AutodetectPortEnum.INACTIVE;
 
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE)
-			radio_menuitem_mode_jumps_simple.Active = true;
+		{
+			if(radio_menuitem_mode_jumps_simple.Active) {
+				//needed if people select again the same option
+				select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSSIMPLE);
+			} else
+				radio_menuitem_mode_jumps_simple.Active = true;
+		}
 		else if(m == Constants.Menuitem_modes.JUMPSREACTIVE)
-			radio_menuitem_mode_jumps_reactive.Active = true;
+		{
+			if(radio_menuitem_mode_jumps_reactive.Active)
+				select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSREACTIVE);
+			else
+				radio_menuitem_mode_jumps_reactive.Active = true;
+		}
 		else if(m == Constants.Menuitem_modes.RUNSSIMPLE)
-			radio_menuitem_mode_runs_simple.Active = true;
+		{
+			if(radio_menuitem_mode_runs_simple.Active)
+				select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSSIMPLE);
+			else
+				radio_menuitem_mode_runs_simple.Active = true;
+		}
 		
 		LogB.TestEnd("chronojumpWindowTestsMode");
 	}
@@ -465,6 +491,8 @@ public partial class ChronoJumpWindow
 		LogB.TestStart("chronojumpWindowTestsContactsExecuteTest");
 
 		on_button_execute_test_clicked (new object (), new EventArgs ());
+
+		testsSuccededCount ++;
 
 		LogB.TestEnd("chronojumpWindowTestsContactsExecuteTest");
 		return true;

@@ -3998,7 +3998,7 @@ public partial class ChronoJumpWindow
 			updateRestTimes();
 		}
 
-		//chronojumpWindowTestsNext();
+		chronojumpWindowTestsNext();
 	}
 
 	//called each second and after a test

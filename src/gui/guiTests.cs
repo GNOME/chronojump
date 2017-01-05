@@ -45,6 +45,7 @@ public class CJTests
 	public enum Types 
 	{
 		MODE_JUMPSSIMPLE,
+		MODE_JUMPSREACTIVE,
 		MODE_RUNSSIMPLE,
 		MODE_POWERGRAVITATORY,
 		MODE_POWERINERTIAL,
@@ -53,6 +54,7 @@ public class CJTests
 		PERSON_SELECT,
 		MULTITEST_DO_50,
 		MULTITEST_DO_10,
+		CONTACTS_RJ_3J,
 		CONTACTS_EXECUTE_TEST,
 		ENCODER_SIGNAL_LOAD,
 		ENCODER_ECC_CON_INVERT,
@@ -130,6 +132,18 @@ public class CJTests
 			CJTests.Types.PERSON_SELECT, //bucle1startPos //repeat from here //when all persons have done a jumps/runs test, will end
 			CJTests.Types.MULTITEST_DO_50,
 			CJTests.Types.MULTITEST_DO_10,
+		CJTests.Types.BUCLE_1_OFF,
+		CJTests.Types.END
+	};
+
+	public static List<Types> SequenceRJsSimulatedFinishCancel = new List<Types>
+	{
+		CJTests.Types.MODE_JUMPSREACTIVE,
+		CJTests.Types.SESSION_LOAD,
+		CJTests.Types.CONTACTS_RJ_3J,
+		CJTests.Types.BUCLE_1_ON,
+			CJTests.Types.PERSON_SELECT, //bucle1startPos //repeat from here //when all persons have done a jumps/runs test, will end
+			CJTests.Types.CONTACTS_EXECUTE_TEST,
 		CJTests.Types.BUCLE_1_OFF,
 		CJTests.Types.END
 	};
@@ -276,6 +290,9 @@ public partial class ChronoJumpWindow
 			case CJTests.Types.MODE_JUMPSSIMPLE:
 				chronojumpWindowTestsMode(Constants.Menuitem_modes.JUMPSSIMPLE);
 				break;
+			case CJTests.Types.MODE_JUMPSREACTIVE:
+				chronojumpWindowTestsMode(Constants.Menuitem_modes.JUMPSREACTIVE);
+				break;
 			case CJTests.Types.MODE_RUNSSIMPLE:
 				chronojumpWindowTestsMode(Constants.Menuitem_modes.RUNSSIMPLE);
 				break;
@@ -290,6 +307,10 @@ public partial class ChronoJumpWindow
 				break;
 			case CJTests.Types.CHRONOPIC_CONNECT_REAL:
 				chronojumpWindowTestsChronopicContactReal();
+				break;
+			case CJTests.Types.CONTACTS_RJ_3J:
+				chronojumpWindowTestsContactsRJ3J();
+				callNext = true;
 				break;
 			case CJTests.Types.PERSON_SELECT:
 				bucleContinues = chronojumpWindowTestsSelectPerson(bcount);
@@ -346,7 +367,12 @@ public partial class ChronoJumpWindow
 		//disable autodetect
 		//configAutodetectPort = Config.AutodetectPortEnum.INACTIVE;
 
-		select_menuitem_mode_toggled(m);
+		if(m == Constants.Menuitem_modes.JUMPSSIMPLE)
+			radio_menuitem_mode_jumps_simple.Active = true;
+		else if(m == Constants.Menuitem_modes.JUMPSREACTIVE)
+			radio_menuitem_mode_jumps_reactive.Active = true;
+		else if(m == Constants.Menuitem_modes.RUNSSIMPLE)
+			radio_menuitem_mode_runs_simple.Active = true;
 		
 		LogB.TestEnd("chronojumpWindowTestsMode");
 	}
@@ -423,6 +449,15 @@ public partial class ChronoJumpWindow
 
 		LogB.TestEnd("chronojumpWindowTestsContactsMultitestDo " + ms.ToString());
 		return true;
+	}
+
+	private void chronojumpWindowTestsContactsRJ3J()
+	{
+		LogB.TestStart("chronojumpWindowTestsContactsRJ3J");
+
+		extra_window_jumps_rj_spinbutton_limit.Value = 3;
+
+		LogB.TestEnd("chronojumpWindowTestsContactsRJ3J");
 	}
 
 	private bool chronojumpWindowTestsContactsExecuteTest()

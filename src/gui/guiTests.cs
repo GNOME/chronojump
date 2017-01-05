@@ -399,13 +399,14 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsSelectPerson");
 
-		if(count > myTreeViewPersons.CountRows()) {
+		selectRowTreeView_persons(treeview_persons, treeview_persons_store, count);
+
+		//for three persons, count: 0,1,2, CountRows() 3,3,3
+		if(count +1 >= myTreeViewPersons.CountRows()) {
 			LogB.TestEnd("chronojumpWindowTestsSelectPerson_ended");
-			return false;
+			return false; //bucle will exit (when arriving at end of bucle)
 		}
 			
-		selectRowTreeView_persons(treeview_persons, treeview_persons_store, count);
-		
 		LogB.TestEnd("chronojumpWindowTestsSelectPerson_continuing");
 		return true;
 	}

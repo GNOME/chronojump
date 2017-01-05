@@ -206,9 +206,7 @@ msgstr "Curses simples"
 
 #: ../glade/app1.glade.h:35
 msgid "Races intervallic"
-msgstr ""
-"Curses amb\n"
-"intervals"
+msgstr "Curses amb intervals"
 
 #: ../glade/app1.glade.h:36
 msgid "Power (gravitatory)"

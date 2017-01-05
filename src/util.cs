@@ -1318,7 +1318,12 @@ public class Util
 		
 	//do this for showing the Limited with selected decimals and without loosing the end letter: 'J' or 'T'
 	//called by treeview_jump, treeview_run and gui/jump_edit and gui/run_edit?
-	public static string GetLimitedRounded(string limitedString, int pDN) {
+	public static string GetLimitedRounded(string limitedString, int pDN)
+	{
+		LogB.Information("GetLimitedRounded limitedString pdN");
+		LogB.Information(limitedString);
+		LogB.Information(pDN.ToString());
+
 		string myLimitedWithoutLetter = limitedString.Substring(0, limitedString.Length -1);
 		string myLimitedLetter = limitedString.Substring(limitedString.Length -1, 1);
 

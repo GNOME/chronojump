@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-05 16:53+0100\n"
-"PO-Revision-Date: 2016-12-16 17:48+0100\n"
+"PO-Revision-Date: 2017-01-05 17:42+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: \n"
 "Language: ca\n"
@@ -223,9 +223,8 @@ msgid "_Help"
 msgstr "_Ajuda"
 
 #: ../glade/app1.glade.h:39
-#, fuzzy
 msgid "Documents"
-msgstr "Documentadors"
+msgstr "Documents"
 
 #: ../glade/app1.glade.h:40
 msgid "_Formulas"
@@ -261,11 +260,11 @@ msgstr "pàgina 1"
 
 #: ../glade/app1.glade.h:48
 msgid "Tests have 1 flight phase"
-msgstr ""
+msgstr "El test te 1 fase de vol"
 
 #: ../glade/app1.glade.h:49
 msgid "Tests have >1 flight phase"
-msgstr ""
+msgstr "El test te >1 fase de vol"
 
 #: ../glade/app1.glade.h:50 ../glade/execute_auto.glade.h:15
 msgid "page 2"
@@ -292,25 +291,23 @@ msgstr "O premi '2'"
 
 #: ../glade/app1.glade.h:55
 msgid "Tests have 1 lap"
-msgstr ""
+msgstr "El test te 1 tram"
 
 #: ../glade/app1.glade.h:56
 msgid "Tests have >1 lap"
-msgstr ""
+msgstr "El test te >1 tram"
 
 #: ../glade/app1.glade.h:57
 msgid "Or press '3'"
 msgstr "O premi '3'"
 
 #: ../glade/app1.glade.h:58
-#, fuzzy
 msgid "Resistance is gravity"
-msgstr "Resistència"
+msgstr "La resistència és la gravetat"
 
 #: ../glade/app1.glade.h:59
-#, fuzzy
 msgid "Resistance is inertia"
-msgstr "Distància d'interval"
+msgstr "La resistència és l'inèrcia"
 
 #: ../glade/app1.glade.h:60
 msgid "Version"
@@ -505,16 +502,15 @@ msgstr "Executeu temps de reacció"
 
 #: ../glade/app1.glade.h:106
 msgid "Discriminative"
-msgstr ""
+msgstr "Discriminatiu"
 
 #: ../glade/app1.glade.h:107
-#, fuzzy
 msgid "Animation lights"
-msgstr "Pes addicional"
+msgstr "Llums animades"
 
 #: ../glade/app1.glade.h:108
 msgid "Flicker"
-msgstr ""
+msgstr "Flicker"
 
 #: ../glade/app1.glade.h:109
 msgid "5"
@@ -554,7 +550,7 @@ msgstr "Chronopics"
 
 #: ../glade/app1.glade.h:118
 msgid "Threshold"
-msgstr ""
+msgstr "Llindar"
 
 #: ../glade/app1.glade.h:119
 msgid "Options"
@@ -1332,7 +1328,7 @@ msgstr ""
 
 #: ../glade/app1.glade.h:282
 msgid "All the definitions are related to jumps."
-msgstr ""
+msgstr "Totes les definicions es refereixen a salts."
 
 #: ../glade/app1.glade.h:283
 msgid "Drop jump goal in this profile is maximum height."
@@ -1433,9 +1429,8 @@ msgstr ""
 "resistència baixa"
 
 #: ../glade/app1.glade.h:309
-#, fuzzy
 msgid "Jumps profile"
-msgstr "Salts simples"
+msgstr "Perfil de salts"
 
 #: ../glade/app1.glade.h:310
 msgid "Contacts (platform or photocell)"
@@ -1942,14 +1937,12 @@ msgid "Server stats"
 msgstr "Estadístiques del servidor"
 
 #: ../glade/dialog_threshold.glade.h:1
-#, fuzzy
 msgid "Chronojump threshold"
-msgstr "Perfil de Chronojump"
+msgstr "Llindar de Chronojump"
 
 #: ../glade/dialog_threshold.glade.h:2
-#, fuzzy
 msgid "<b>About threshold</b>"
-msgstr "<b>Seleccionar tests</b>"
+msgstr "<b>Sobre el llindar</b>"
 
 #: ../glade/edit_event.glade.h:1 ../glade/person_select_window.glade.h:3
 #: ../src/gui/chronojump.cs:1249
@@ -2208,7 +2201,7 @@ msgstr "Inèrcia"
 
 #: ../glade/encoder_configuration.glade.h:8
 msgid "Manage"
-msgstr ""
+msgstr "Administrar"
 
 #: ../glade/encoder_configuration.glade.h:9
 msgid "Connected to axis"
@@ -2346,7 +2339,7 @@ msgstr "Afegir Comentaris"
 
 #: ../glade/error_window.glade.h:4
 msgid "Send error log"
-msgstr ""
+msgstr "Enviar el registre d'error"
 
 #: ../glade/error_window.glade.h:6
 msgid "Abort"
@@ -4660,14 +4653,14 @@ msgid "prediction"
 msgstr "predicció"
 
 #: ../src/constants.cs:977
-#, fuzzy
 msgid "Concentric mean speed on bench press 1RM ="
-msgstr "La velocitat concèntrica mitjana en la màquina de pressió sobre banc"
+msgstr ""
+"La velocitat concèntrica mitjana de l'1RM en la màquina de pressió sobre "
+"banc ="
 
 #: ../src/constants.cs:978
-#, fuzzy
 msgid "Concentric mean speed on squat 1RM ="
-msgstr "La velocitat concèntrica mitjana en la màquina de pressió sobre banc"
+msgstr "La velocitat concèntrica mitjana de l'1RM en l'esquat ="
 
 #: ../src/constants.cs:979
 msgid "Estimated percentual load ="
@@ -5561,17 +5554,19 @@ msgstr "Connecteu i torneu a obrir aquesta finestra."
 
 #: ../src/gui/chronopicRegister.cs:362
 msgid "There is a known problem with MacOSX:"
-msgstr ""
+msgstr "Hi ha un problema reconegut amb MacOSX:"
 
 #: ../src/gui/chronopicRegister.cs:363
 msgid ""
 "If Chronopic is disconnected after jumps or runs execution, that port will "
 "be blocked until restart of machine"
 msgstr ""
+"Si el chronopic es desconnecta després de l'execució de salts o curses, "
+"aquest port es bloquejarà fins que es reiniciï la màquina."
 
 #: ../src/gui/chronopicRegister.cs:364
 msgid "We are working on a solution."
-msgstr ""
+msgstr "Estem treballant en la solució."
 
 #: ../src/gui/convertWeight.cs:129
 msgid "Old weight"
@@ -5595,44 +5590,50 @@ msgstr ""
 
 #: ../src/gui/dialogThreshold.cs:58
 msgid "Spurius signals are common on electronics."
-msgstr ""
+msgstr "En electrònica les senyals espúries son habituals."
 
 #: ../src/gui/dialogThreshold.cs:59
 msgid ""
 "Threshold refers to the minimum value measurable and is the common way to "
 "clean this spurius signals."
 msgstr ""
+"El llindar es refereix al mínim valor mesurable i és un mètode habitual de "
+"netejar senyals espúries."
 
 #: ../src/gui/dialogThreshold.cs:60
 msgid "Threshold should be a value lower than expected values."
-msgstr ""
+msgstr "El llindar hauría de tenir un valor inferior als valors esperats."
 
 #: ../src/gui/dialogThreshold.cs:62
 msgid ""
 "On database three different thresholds are stored: jumps, races and other "
 "tests."
 msgstr ""
+"A la base de dades tres llindars diferents: salts, curses i altres tests."
 
 #: ../src/gui/dialogThreshold.cs:63
 msgid "If you change this values they will be stored once test is executed."
-msgstr ""
+msgstr "Si canvia aquests valors, es desaran un cop s'haxi executat el test."
 
 #: ../src/gui/dialogThreshold.cs:65
 msgid ""
 "Usually threshold values should not be changed but this option is useful for "
 "special cases."
 msgstr ""
+"Normalment el valor de llindar no s'hauria de canviar però aquesta opció és "
+"útil en casos especials."
 
 #: ../src/gui/dialogThreshold.cs:69 ../src/gui/dialogThreshold.cs:82
-#, fuzzy
 msgid "Default value: 50 ms."
-msgstr "Valors predeterminats"
+msgstr "Valor predeterminat: 50 ms."
 
 #: ../src/gui/dialogThreshold.cs:70
 msgid ""
 "On jumps with contact platforms a value of 50 ms (3 cm jump approximately) "
 "is enough to solve electronical problems."
 msgstr ""
+"En els salts amb plataforma, un valor de 50 ms (aproximadament 3 cm de salt) "
+"és suficient per solucionar problemes electrònics."
 
 #: ../src/gui/dialogThreshold.cs:71
 msgid ""
@@ -5640,31 +5641,36 @@ msgid ""
 "platform while going down on the eccentric phase previous to a CMJ or ABK "
 "jump."
 msgstr ""
+"Pot canviar aquest valor si te un saltador que perd pressió amb la "
+"plataforma mentre baixa en la fase previa al salt CMJ o ABJ."
 
 #: ../src/gui/dialogThreshold.cs:72
 msgid ""
 "This jumper should change his technique, but if it's difficult, a solution "
 "is to increase threshold."
 msgstr ""
+"El saltador hauria de corregir la tècnica, però això és difícil. Una "
+"possible solució és augmentar el llindar."
 
 #: ../src/gui/dialogThreshold.cs:76
-#, fuzzy
 msgid "Default value: 10 ms."
-msgstr "Valors predeterminats"
+msgstr "Valor predeterminat: 10 ms."
 
 #: ../src/gui/dialogThreshold.cs:77
 msgid "On races with photocells a value of 10 ms is the default value."
-msgstr ""
+msgstr "En curses amb fotocèlules,  el valor per defecte és de 10 ms."
 
 #: ../src/gui/dialogThreshold.cs:78
 msgid ""
 "As Chronojump manages double contacts on photocells, changing threshold "
 "value is not very common."
 msgstr ""
+"Com que el Chronojump administra els doblese talls en les fotocél·lules, no "
+"és gaire habitual canviar l'umbral."
 
 #: ../src/gui/dialogThreshold.cs:83
 msgid "Depending on the test, user could change values."
-msgstr ""
+msgstr "Segons el test, l'usuari pot canviar els valors."
 
 #: ../src/gui/encoderConfiguration.cs:490
 msgid ""
@@ -5685,9 +5691,8 @@ msgstr ""
 "molèsties."
 
 #: ../src/gui/encoderConfiguration.cs:626
-#, fuzzy
 msgid "Select file to import"
-msgstr "Seleccioneu la data de naixement"
+msgstr "Seleccioneu el fitxer per importar"
 
 #: ../src/gui/encoderConfiguration.cs:630 ../src/gui/encoder.cs:1561
 #: ../src/gui/executeAuto.cs:540
@@ -5711,14 +5716,12 @@ msgid "Cancelled"
 msgstr "Cancel·lat"
 
 #: ../src/gui/encoder.cs:607
-#, fuzzy
 msgid "Encoder is not connected"
-msgstr "l'encoder no està connectat."
+msgstr "L'encoder no està connectat."
 
 #: ../src/gui/encoder.cs:611
-#, fuzzy
 msgid "More than 1 encoders are connected"
-msgstr "l'encoder no està connectat."
+msgstr "Hi ha més d'un encoder connectat"
 
 #: ../src/gui/encoder.cs:774
 msgid "Load 1RM"
@@ -5855,9 +5858,8 @@ msgstr "1RM de pressió sobre banc"
 
 #: ../src/gui/encoder.cs:2010 ../src/gui/encoder.cs:2032
 #: ../src/gui/encoder.cs:3018
-#, fuzzy
 msgid "1RM Squat"
-msgstr "Esquat"
+msgstr "Esquat 1RM"
 
 #: ../src/gui/encoder.cs:2049
 msgid "Sorry, cannot calculate 1RM of different exercises."
@@ -8850,9 +8852,8 @@ msgid "Venezuela"
 msgstr "Veneçuela"
 
 #: ../src/sqlite/encoder.cs:1160
-#, fuzzy
 msgid "Default"
-msgstr "per defecte"
+msgstr "Per defecte"
 
 #: ../src/sqlite/session.cs:190
 msgid "Use this session to simulate tests."
@@ -9372,7 +9373,7 @@ msgid "{0} in Intervallic races applied to {1} on {2}{3}"
 msgstr "{0} a Cursa d'intervals aplicat a {1} en {2}{3}"
 
 #: ../src/stats/runSimple.cs:131
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "{0} in {1} race on {2}"
 msgstr "{0} a {1} cursa a {2}"
 

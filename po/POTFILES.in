@@ -49,6 +49,7 @@ libcesarplayer/video-utils.c
 src/chronojump.cs
 src/chronojumpImporter.cs
 src/chronopic.cs
+src/chronopic2016.cs
 src/constants.cs
 src/encoder.cs
 src/execute/event.cs

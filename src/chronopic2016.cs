@@ -21,6 +21,7 @@ using System;
 using System.IO.Ports;
 using System.Threading;
 using Gtk;
+using Mono.Unix;
 
 public class Chronopic2016
 {
@@ -87,8 +88,8 @@ public class Chronopic2016
 
 		Gtk.Label labelMessage = new Gtk.Label();
 		labelMessage.Text = labelStr + "\n" +
-			"\nPort: " + crp.Port +
-			"\nSerial Number: " + crp.SerialNumber;
+			"\n" + Catalog.GetString("Port") + ": " + crp.Port +
+			"\n" + Catalog.GetString("Serial Number") + ": " + crp.SerialNumber;
 		vbox_main.Add(labelMessage);
 
 		progressbar = new Gtk.ProgressBar();

@@ -121,7 +121,7 @@ public partial class ChronoJumpWindow
 			new EventHandler(on_connection_contacts_real_done);
 
 		cp2016.ConnectContactsReal(app1, crp, numCP,
-				"Press TEST button on Chronopic to stablish initial communication"); //TODO: translate this
+				Catalog.GetString("Please touch the platform or click Chronopic TEST button"));
 	}
 
 	private void on_connection_contacts_real_done (object o, EventArgs args)

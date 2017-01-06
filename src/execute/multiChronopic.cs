@@ -178,8 +178,6 @@ public class MultiChronopicExecute : EventExecute
 
 	private void initValues() {
 		fakeButtonUpdateGraph = new Gtk.Button();
-		fakeButtonEventEnded = new Gtk.Button();
-		fakeButtonFinished = new Gtk.Button();
 		fakeButtonThreadDyed = new Gtk.Button();
 		simulated = false;
 
@@ -489,15 +487,6 @@ public class MultiChronopicExecute : EventExecute
 			//call write on gui/chronojump.cs, because if done in execute/MultiChronopic, 
 			//will be called n times if n chronopics are working
 			//write(false); //tempTable
-			
-			//event will be raised, and managed in chronojump.cs
-			//only one call (that comes from first chronopic)
-			if(cpNum == 1)
-				fakeButtonFinished.Click();
-		}
-		if(cancel) {
-			//event will be raised, and managed in chronojump.cs
-			fakeButtonFinished.Click();
 		}
 	}
 	

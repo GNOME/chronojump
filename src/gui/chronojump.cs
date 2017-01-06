@@ -3883,17 +3883,12 @@ public partial class ChronoJumpWindow
 		thisJumpIsSimple = true; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
-		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
-
-		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}	
 	
 
-	private void on_jump_finished (object o, EventArgs args)
+	private void on_jump_finished ()
 	{
-		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished);
-	
 		//test can be deleted if not cancelled
 		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;
 
@@ -3957,6 +3952,35 @@ public partial class ChronoJumpWindow
 	private void on_test_finished_can_touch_gtk (object o, EventArgs args)
 	{
 		currentEventExecute.FakeButtonThreadDyed.Clicked -= new EventHandler(on_test_finished_can_touch_gtk);
+
+		on_event_execute_EventEnded();
+
+		LogB.Information(" cantouch 0: calling on_xxx_finished...");
+		switch (currentEventType.Type)
+		{
+			case EventType.Types.JUMP:
+				if(thisJumpIsSimple)
+					on_jump_finished();
+				else
+					on_jump_rj_finished();
+				break;
+			case EventType.Types.RUN:
+				if(thisRunIsSimple)
+					on_run_finished();
+				else
+					on_run_interval_finished();
+				break;
+			case EventType.Types.REACTIONTIME:
+				on_reaction_time_finished();
+				break;
+			case EventType.Types.PULSE:
+				on_pulse_finished();
+				break;
+			case EventType.Types.MULTICHRONOPIC:
+				on_multi_chronopic_finished();
+				break;
+		}
+
 		LogB.Information(" cantouch1 ");
 		if(! execute_auto_doing)
 			sensitiveGuiEventDone();
@@ -4096,16 +4120,12 @@ public partial class ChronoJumpWindow
 		thisJumpIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
-		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
-		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_rj_finished);
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 		
-	private void on_jump_rj_finished (object o, EventArgs args) 
+	private void on_jump_rj_finished ()
 	{
 		LogB.Information("ON JUMP RJ FINISHED");
-		
-		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_rj_finished);
 		
 		//test can be deleted if not cancelled
 		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;
@@ -4229,15 +4249,11 @@ public partial class ChronoJumpWindow
 		thisRunIsSimple = true; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
-		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
-		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_run_finished);
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 	
-	private void on_run_finished (object o, EventArgs args)
+	private void on_run_finished ()
 	{
-		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_run_finished);
-		
 		//test can be deleted if not cancelled
 		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;
 
@@ -4357,16 +4373,12 @@ public partial class ChronoJumpWindow
 		thisRunIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
-		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
-		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_run_interval_finished);
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 
 
-	private void on_run_interval_finished (object o, EventArgs args) 
+	private void on_run_interval_finished ()
 	{
-		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_run_interval_finished);
-		
 		//test can be deleted if not cancelled
 		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;
 
@@ -4503,8 +4515,6 @@ public partial class ChronoJumpWindow
 		
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
-		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
-		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_reaction_time_finished);
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}	
 
@@ -4550,10 +4560,8 @@ public partial class ChronoJumpWindow
 	}
 
 
-	private void on_reaction_time_finished (object o, EventArgs args)
+	private void on_reaction_time_finished ()
 	{
-		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_reaction_time_finished);
-		
 		//test can be deleted if not cancelled
 		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;
 
@@ -4651,16 +4659,12 @@ public partial class ChronoJumpWindow
 		
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
-		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
-		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_pulse_finished);
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 
-	private void on_pulse_finished (object o, EventArgs args) 
+	private void on_pulse_finished ()
 	{
 		LogB.Information("pulse finished");
-		
-		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_pulse_finished);
 		
 		//test can be deleted if not cancelled
 		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;
@@ -4937,21 +4941,17 @@ public partial class ChronoJumpWindow
 
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
-		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 //		currentEventExecute.FakeButtonRunATouchPlatform.Clicked += new EventHandler(on_event_execute_RunATouchPlatform);
-		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_multi_chronopic_finished);
 		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 
 	bool multiFinishing;
-	private void on_multi_chronopic_finished (object o, EventArgs args)
+	private void on_multi_chronopic_finished ()
 	{
 		if(multiFinishing)
 			return;
 		else
 			multiFinishing = true;
-
-		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_multi_chronopic_finished);
 
 		//test can be deleted if not cancelled
 		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;

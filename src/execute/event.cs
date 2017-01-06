@@ -117,8 +117,6 @@ public class EventExecute
 
 	//for raise a signal and manage it on chronojump.cs
 	protected Gtk.Button fakeButtonUpdateGraph;
-	protected Gtk.Button fakeButtonFinished;
-	protected Gtk.Button fakeButtonEventEnded;
 	//this should be a safer way, because will be called when thread has dyed, then will be the last action in the GTK thread.
 	//suitable for calling sensitiveGuiEventDone without problems
 	//sensitiveGuiEventDone causes problems on changing (or even reading) properties of gtk stuff outside of gtk thread
@@ -272,7 +270,6 @@ public class EventExecute
 		//updateTimeProgressBar();
 		if(needEndEvent) {
 			//app1.EventEnded();
-			fakeButtonEventEnded.Click();
 			//needEndEvent = false;
 			if(needUpdateGraphType == eventType.MULTICHRONOPIC && type == Constants.RunAnalysisName && finish) 
 				//app1.RunATouchPlatform();
@@ -481,11 +478,6 @@ public class EventExecute
 	protected void cancel_event_before_start(object o, EventArgs args)
 	{
 		cancel = true;
-		//app1.EventEnded();
-		fakeButtonEventEnded.Click();
-		
-		//event will be raised, and managed in chronojump.cs
-		fakeButtonFinished.Click();
 			
 		//event will be raised, and managed in chronojump.cs
 		//calls sensitiveGuiEventDone()
@@ -513,14 +505,6 @@ public class EventExecute
 		get { return fakeButtonUpdateGraph; }
 	}
 
-	public Gtk.Button FakeButtonFinished {
-		get { return fakeButtonFinished; }
-	}
-
-	public Gtk.Button FakeButtonEventEnded {
-		get { return fakeButtonEventEnded; }
-	}
-	
 	public Gtk.Button FakeButtonThreadDyed {
 		get { return fakeButtonThreadDyed; }
 	}

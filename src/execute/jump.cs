@@ -82,8 +82,6 @@ public class JumpExecute : EventExecute
 		}
 		
 		fakeButtonUpdateGraph = new Gtk.Button();
-		fakeButtonEventEnded = new Gtk.Button();
-		fakeButtonFinished = new Gtk.Button();
 		fakeButtonThreadDyed = new Gtk.Button();
 		
 		simulated = false;
@@ -430,12 +428,6 @@ public class JumpExecute : EventExecute
 		} while ( ! success && ! cancel );
 
 		LogB.Information("Exited waitEvent main bucle");
-		
-		if(cancel)
-		{
-			//event will be raised, and managed in chronojump.cs
-			fakeButtonFinished.Click();
-		}
 	}
 	
 	protected override bool shouldFinishByTime() {
@@ -477,9 +469,6 @@ public class JumpExecute : EventExecute
 		eventDone = new Jump(uniqueID, personID, sessionID, type, tv, tc, fall, 
 				weight, description, angle, Util.BoolToNegativeInt(simulated)); 
 		
-		//event will be raised, and managed in chronojump.cs
-		fakeButtonFinished.Click();
-	
 		PrepareEventGraphJumpSimpleObject = new PrepareEventGraphJumpSimple(tv, tc, sessionID, personID, table, type);
 		needUpdateGraphType = eventType.JUMP;
 		needUpdateGraph = true;
@@ -585,8 +574,6 @@ public class JumpRjExecute : JumpExecute
 		else { hasFall = false; }
 		
 		fakeButtonUpdateGraph = new Gtk.Button();
-		fakeButtonEventEnded = new Gtk.Button();
-		fakeButtonFinished = new Gtk.Button();
 		fakeButtonThreadDyed = new Gtk.Button();
 		
 		simulated = false;
@@ -846,11 +833,6 @@ public class JumpRjExecute : JumpExecute
 				cancel = true;
 			}
 		}
-		//if(cancel || finish) 
-		if(cancel) {
-			//event will be raised, and managed in chronojump.cs
-			fakeButtonFinished.Click();
-		}
 	}
 
 	protected override bool shouldFinishByTime() {
@@ -1076,10 +1058,6 @@ public class JumpRjExecute : JumpExecute
 				feedbackMessage = "";
 			needShowFeedbackMessage = true; 
 		
-
-			//event will be raised, and managed in chronojump.cs
-			fakeButtonFinished.Click();
-
 			needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 		}
 	}

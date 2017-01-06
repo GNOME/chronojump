@@ -59,8 +59,6 @@ public class ReactionTimeExecute : EventExecute
 		this.description = description;
 	
 		fakeButtonUpdateGraph = new Gtk.Button();
-		fakeButtonEventEnded = new Gtk.Button();
-		fakeButtonFinished = new Gtk.Button();
 		fakeButtonThreadDyed = new Gtk.Button();
 				
 		FakeButtonReactionTimeStart = new Gtk.Button();
@@ -255,11 +253,6 @@ public class ReactionTimeExecute : EventExecute
 //Log.WriteLine("PREEXIT");
 		} while ( ! success && ! cancel );
 //Log.WriteLine("EXIT");
-		
-		if(cancel) {
-			//event will be raised, and managed in chronojump.cs
-			fakeButtonFinished.Click();
-		}
 	}
 	
 	protected override bool shouldFinishByTime() {
@@ -298,9 +291,6 @@ public class ReactionTimeExecute : EventExecute
 
 		//define the created object
 		eventDone = new ReactionTime(uniqueID, personID, sessionID, type, time, description, Util.BoolToNegativeInt(simulated)); 
-		
-		//event will be raised, and managed in chronojump.cs
-		fakeButtonFinished.Click();
 		
 		//app1.PrepareJumpSimpleGraph(tv, tc);
 		PrepareEventGraphReactionTimeObject = new PrepareEventGraphReactionTime(time, sessionID, personID, table, type);

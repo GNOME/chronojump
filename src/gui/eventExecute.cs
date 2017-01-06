@@ -2006,7 +2006,8 @@ public partial class ChronoJumpWindow
 
 	}
 	
-	private void on_event_execute_EventEnded(object o, EventArgs args) {
+	private void on_event_execute_EventEnded()
+	{
 		hideButtons();
 
 		checkbutton_video.Sensitive = true;

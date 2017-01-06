@@ -984,7 +984,6 @@
     <Compile Include="src\stats\graphs\sjCmjAbkPlus.cs" />
     <Compile Include="src\server.cs" />
     <Compile Include="chronojump_server\ChronojumpServer.cs" />
-    <Compile Include="src\gui\chronopicWizard.cs" />
     <Compile Include="src\utilMath.cs" />
     <Compile Include="src\gui\old\chronojumpServerOld.cs" />
     <Compile Include="src\commandLineEncoder.cs" />

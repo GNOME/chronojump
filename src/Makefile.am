@@ -8,7 +8,6 @@ SOURCES = \
 	gui/chronojump.cs\
 	gui/chronopic.cs\
 	gui/chronopicRegister.cs\
-	gui/chronopicWizard.cs\
 	gui/confirm.cs\
 	gui/cjCombo.cs\
 	gui/encoder.cs\

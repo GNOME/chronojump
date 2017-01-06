@@ -79,8 +79,6 @@ public class RunExecute : EventExecute
 		this.speedStartArrival = speedStartArrival;	
 		
 		fakeButtonUpdateGraph = new Gtk.Button();
-		fakeButtonEventEnded = new Gtk.Button();
-		fakeButtonFinished = new Gtk.Button();
 		fakeButtonThreadDyed = new Gtk.Button();
 
 		simulated = false;
@@ -325,11 +323,6 @@ public class RunExecute : EventExecute
 				}
 			}
 		} while ( ! success && ! cancel );
-
-		if(cancel) {
-			//event will be raised, and managed in chronojump.cs
-			fakeButtonFinished.Click();
-		}
 	}
 	
 	protected override bool shouldFinishByTime() {
@@ -421,11 +414,7 @@ public class RunExecute : EventExecute
 		
 		//define the created object
 		eventDone = new Run(uniqueID, personID, sessionID, type, distance, time, description, Util.BoolToNegativeInt(simulated), !startIn); 
-		
-		
-		//event will be raised, and managed in chronojump.cs
-		fakeButtonFinished.Click();
-		
+
 		//app1.PrepareRunSimpleGraph(time, distance/time);
 		PrepareEventGraphRunSimpleObject = new PrepareEventGraphRunSimple(time, distance/time, sessionID, personID, table, type);
 		needUpdateGraphType = eventType.RUN;
@@ -514,8 +503,6 @@ public class RunIntervalExecute : RunExecute
 		this.speedStartArrival = speedStartArrival;	
 	
 		fakeButtonUpdateGraph = new Gtk.Button();
-		fakeButtonEventEnded = new Gtk.Button();
-		fakeButtonFinished = new Gtk.Button();
 		fakeButtonThreadDyed = new Gtk.Button();
 
 		simulated = false;
@@ -758,10 +745,6 @@ public class RunIntervalExecute : RunExecute
 				cancel = true;
 			}
 		}
-		if(cancel || finish) {
-			//event will be raised, and managed in chronojump.cs
-			fakeButtonFinished.Click();
-		}
 	}
 
 	protected override string countDownMessage() {
@@ -886,8 +869,6 @@ public class RunIntervalExecute : RunExecute
 	
 							//mark for not having problems with cancelled
 							cancel = true;
-							//event will be raised, and managed in chronojump.cs
-							fakeButtonFinished.Click();
 
 							//end this piece of code
 							return;
@@ -963,10 +944,6 @@ public class RunIntervalExecute : RunExecute
 			else
 				feedbackMessage = "";
 			needShowFeedbackMessage = true; 
-
-
-			//event will be raised, and managed in chronojump.cs
-			fakeButtonFinished.Click();
 
 			PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
 					distanceIntervalFixed, Util.GetLast(intervalTimesString), 

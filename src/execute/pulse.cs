@@ -77,8 +77,6 @@ public class PulseExecute : EventExecute
 		this.egd = egd;
 	
 		fakeButtonUpdateGraph = new Gtk.Button();
-		fakeButtonEventEnded = new Gtk.Button();
-		fakeButtonFinished = new Gtk.Button();
 		fakeButtonThreadDyed = new Gtk.Button();
 
 		simulated = false;
@@ -299,10 +297,6 @@ public class PulseExecute : EventExecute
 				write();
 				pulsePhase = pulsePhases.DONE;
 			}
-			if(cancel || finish) {
-				//event will be raised, and managed in chronojump.cs
-				fakeButtonFinished.Click();
-			}
 	}
 
 	//now pulses are not thought for being able to finish by time
@@ -358,9 +352,6 @@ public class PulseExecute : EventExecute
 		needShowFeedbackMessage = true; 
 				
 	
-		//event will be raised, and managed in chronojump.cs
-		fakeButtonFinished.Click();
-		
 		//app1.PreparePulseGraph(Util.GetLast(timesString), timesString);
 		PrepareEventGraphPulseObject = new PrepareEventGraphPulse(Util.GetLast(timesString), timesString);
 		needUpdateGraphType = eventType.PULSE;

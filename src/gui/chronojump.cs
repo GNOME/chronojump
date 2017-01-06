@@ -442,24 +442,7 @@ public partial class ChronoJumpWindow
 	ExecuteAutoWindow executeAutoWin;
 	EncoderOverviewWindow encoderOverviewWindow;
 
-	//ChronopicWindow chronopicWin;
-	//ChronopicWizardWindow chronopicWizardWin;
-	//string wizardPortContacts;
-	//string wizardPortEncoder;
-		
 	static Thread pingThread;
-
-	
-	/*
-	 * useful to not check for Chronopic if changing select_menuitem_mode_toggled from a 50 to a 50
-	 * great for 1.6.3 where people change from simple jumps to reactive jumps and Chronopic don't need to change
-	 *
-	 * maybe it will be replaced by chronopic_wizard_window
-
-	private enum chronopicTypes { CONTACTS50, CONTACTS10, ENCODER }
-	private chronopicTypes lastChronopicType;
-	 */
-	
 
 	private bool createdStatsWin;
 	
@@ -584,10 +567,6 @@ public partial class ChronoJumpWindow
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
 		repetitiveConditionsWin.FakeButtonClose.Clicked += new EventHandler(on_repetitive_conditions_closed);
 
-		//createChronopicWindow(false, "");
-		//wizardPortContacts = "";
-		//wizardPortEncoder = "";
-	
 		on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 		on_extra_window_pulses_test_changed(new object(), new EventArgs());
 		on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
@@ -3614,8 +3593,6 @@ public partial class ChronoJumpWindow
 			showUpdateStatsAndHideData(true);
 	}
 		
-	//mark to only get inside on_multi_chronopic_finished one time
-	//static bool multiFinishingByClickFinish;
 	private void on_finish_multi_clicked (object o, EventArgs args) 
 	{
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_multi_clicked);
@@ -6696,79 +6673,6 @@ LogB.Debug("X");
 	 * sensitive GUI on executeAuto methods 
 	 */
 
-	private void on_autodetect_help_clicked (object o, EventArgs args) {
-		new DialogMessage(
-				Catalog.GetString("Help on auto-detect"),
-				Constants.MessageTypes.INFO, 
-				Catalog.GetString("Modes:") + "\n\n" +
-				"- <b>" + Catalog.GetString("Active") + "</b>:  " +
-					Catalog.GetString("Auto-detection on hardware is active.") + " " + Catalog.GetString("Default mode") + ".\n\n" +
-				"- <b>" + Catalog.GetString("Active, discarding first port") + "</b>:  " + 
-					Catalog.GetString("Use this option on computers where first port fails.") + "\n\n" +
-				"- <b>" + Catalog.GetString("Inactive") + "</b>:  " + 
-					Catalog.GetString("Auto-detection on hardware is inactive.") + " " + Catalog.GetString("Use it if you have problems at start or at capture.")
-				);
-	}
-
-	private void on_button_chronopic_wizard_clicked (object o, EventArgs args) 
-	{
-	/*
-		chronopicWizardWin = ChronopicWizardWindow.Show();
-	
-		chronopicWizardWin.FakeButtonChronopicWizardFinished.Clicked -= 
-			new EventHandler(chronopic_wizard_finished);
-		chronopicWizardWin.FakeButtonChronopicWizardFinished.Clicked += new 
-			EventHandler(chronopic_wizard_finished);
-			*/
-	}
-	/*
-	private void chronopic_wizard_finished (object o, EventArgs args) 
-	{
-		chronopicWizardWin.FakeButtonChronopicWizardFinished.Clicked -= 
-			new EventHandler(chronopic_wizard_finished);
-		
-		wizardPortContacts = chronopicWizardWin.PortContacts;
-		wizardPortEncoder = chronopicWizardWin.PortEncoder;
-		
-		LogB.Information("wizardPortContacts: " + wizardPortContacts);
-		LogB.Information("wizardPortEncoder: " + wizardPortEncoder);
-	
-		//
-		// createChronopicWindow (pass cp,...)
-		// recreate is true because it has been created on first ChronojumpWindow call
-		//
-		//contacts and encoder
-		if(wizardPortContacts != "")
-		{
-			Chronopic cpW; //cp Wizard
-			chronopicWin.CreateSPifNeeded(wizardPortContacts);
-			cpW = new Chronopic(chronopicWin.SP);
-			ChronopicPortData cpdata = new ChronopicPortData(1, wizardPortContacts, true);
-			ArrayList cpd = new ArrayList();
-			cpd.Add(cpdata);
-
-			if(wizardPortEncoder == "") //no encoder
-				createChronopicWindow(cpW, cpd, true, "");
-			else
-				createChronopicWindow(cpW, cpd, true, wizardPortEncoder);
-		}
-		else { //only encoder
-			createChronopicWindow(true, wizardPortEncoder);
-		}
-		
-		//need to do this because createChronopicWindow does it but relying on menuitem_mode, and now we are on start page	
-		if(wizardPortEncoder != "")
-			chronopicEncoderLabels(true);
-
-		//all the needed info is take. Can destroy wizard window 
-		chronopicWizardWin.HideAndNull();
-	}
-	*/
-
-	private void on_button_chronopic_register_clicked (object o, EventArgs args)
-	{
-		//chronopicRegisterUpdate(true);
-	}
 
 	private void chronopicRegisterUpdate(bool openWindow)
 	{

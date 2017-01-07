@@ -123,7 +123,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.35";
+	static string lastChronojumpDatabaseVersion = "1.37";
 
 	public Sqlite() {
 	}
@@ -2000,17 +2000,72 @@ class Sqlite
 				SqlitePreferences.Insert ("thresholdRuns", "10");
 				SqlitePreferences.Insert ("thresholdOther", "50");
 
-				currentVersion = updateVersion("1.34");
+				//jump directly to 1.36 because 1.34 has a first implementation of encoderConfiguration (not released)
+				//1.35 deletes it
+				//1.36 creates new encoderConfiguration ------------------------>
+				currentVersion = updateVersion("1.36");
 			}
 			if(currentVersion == "1.34") {
+				//1.36 creates new encoderConfiguration ------------------------>
+				currentVersion = updateVersion("1.36");
+
+				/*
 				LogB.SQL("Added encoderConfiguration table");
 
-				SqliteEncoder.createTableEncoderConfiguration();
+				SqliteEncoderConfiguration.createTableEncoderConfiguration();
 
 				currentVersion = updateVersion("1.35");
+				*/
 			}
+			if(currentVersion == "1.35") {
+				LogB.SQL("Deleted encoderConfiguration table");
 
+				dropTable(Constants.EncoderConfigurationTable);
 
+				currentVersion = updateVersion("1.36");
+			}
+			if(currentVersion == "1.36")
+			{
+				LogB.SQL("Deleted encoderConfiguration variable. Added encoderConfiguration table (1.36)");
+
+				//1 create table
+				SqliteEncoderConfiguration.createTableEncoderConfiguration();
+
+				//2 load encoderConfiguration from SQL
+				string ecStr = SqlitePreferences.Select("encoderConfiguration", true);
+				string [] ecStrFull = ecStr.Split(new char[] {':'});
+
+				//2.a create object
+				EncoderConfiguration econfOnPreferences = new EncoderConfiguration(
+						(Constants.EncoderConfigurationNames)
+						Enum.Parse(typeof(Constants.EncoderConfigurationNames), ecStrFull[0]) );
+
+				//2b assign the rest of params
+				econfOnPreferences.ReadParamsFromSQL(ecStrFull);
+
+				//3 insert default configurations
+				if(econfOnPreferences.has_inertia)
+				{
+					SqliteEncoderConfiguration.Insert(true,
+							new EncoderConfigurationSQLObject(
+								-1, Constants.EncoderGI.INERTIAL, true, Constants.DefaultString, econfOnPreferences, "")
+							);
+					SqliteEncoderConfiguration.insertDefault(Constants.EncoderGI.GRAVITATORY);
+				}
+				else
+				{
+					SqliteEncoderConfiguration.Insert(true,
+							new EncoderConfigurationSQLObject(
+								-1, Constants.EncoderGI.GRAVITATORY, true, Constants.DefaultString, econfOnPreferences, "")
+							);
+					SqliteEncoderConfiguration.insertDefault(Constants.EncoderGI.INERTIAL);
+				}
+
+				//4 delete "encoderConfiguration" variable from SQL
+				DeleteFromName(true, Constants.PreferencesTable, "encoderConfiguration");
+
+				currentVersion = updateVersion("1.37");
+			}
 
 			// --- add more updates here
 		
@@ -2152,7 +2207,11 @@ class Sqlite
 		SqliteEncoder.createTableEncoderExercise();
 		SqliteEncoder.initializeTableEncoderExercise();
 		SqliteEncoder.createTable1RM();
-		SqliteEncoder.createTableEncoderConfiguration();
+
+		//encoderConfiguration
+		SqliteEncoderConfiguration.createTableEncoderConfiguration();
+		SqliteEncoderConfiguration.insertDefault(Constants.EncoderGI.GRAVITATORY);
+		SqliteEncoderConfiguration.insertDefault(Constants.EncoderGI.INERTIAL);
 
 		//sports
 		creationRate ++;
@@ -3114,13 +3173,17 @@ LogB.SQL("5" + tableName);
 	}
 
 
-	public static void DeleteFromName(bool dbconOpened, string tableName, string name)
+	public static void DeleteFromName(bool dbconOpened, string tableName, string searchName)
+	{
+		DeleteFromName(dbconOpened, tableName, "name", searchName);
+	}
+	public static void DeleteFromName(bool dbconOpened, string tableName, string colName, string searchName)
 	{
 		if( ! dbconOpened)
 			Sqlite.Open();
 
 		dbcmd.CommandText = "DELETE FROM " + tableName +
-			" WHERE name == \"" + name + "\"";
+			" WHERE " + colName + " = \"" + searchName + "\"";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		

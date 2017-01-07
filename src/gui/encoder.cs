@@ -382,7 +382,7 @@ public partial class ChronoJumpWindow
 		encoder_pulsebar_analyze.Text = "";
 
 		//read from SQL
-		encoderConfigurationCurrent = SqliteEncoder.LoadEncoderConfiguration(false);
+		encoderConfigurationCurrent = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY).encoderConfiguration;
 		
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 		
@@ -425,12 +425,11 @@ public partial class ChronoJumpWindow
 	}
 
 
-	void on_button_encoder_select_clicked (object o, EventArgs args) {
+	void on_button_encoder_select_clicked (object o, EventArgs args)
+	{
 		encoder_configuration_win = EncoderConfigurationWindow.View(
-				radio_menuitem_mode_power_gravitatory.Active, //false if inertial
-				encoderConfigurationCurrent, 
-				encoderConfigurationDefinedFromFile  //defined at chronojump_config.txt and only few changes can be done
-				);
+				currentEncoderGI,
+				SqliteEncoderConfiguration.SelectActive(currentEncoderGI));
 		encoder_configuration_win.Button_accept.Clicked += new EventHandler(on_encoder_configuration_win_accepted);
 
 		//unregister eventHandler first, then register. This avoids to have registered twice
@@ -477,13 +476,6 @@ public partial class ChronoJumpWindow
 		}
 
 		label_encoder_selected.Text = encoderConfigurationCurrent.code;
-
-		//if there's a chronojump_config.txt, update it
-		if(encoderConfigurationDefinedFromFile)
-			Config.UpdateField(
-					"EncoderConfiguration",
-					encoderConfigurationCurrent.ToStringOutput(EncoderConfiguration.Outputs.SQL)
-					);
 	}
 	
 	void on_combo_encoder_anchorage_changed (object o, EventArgs args) {
@@ -638,8 +630,8 @@ public partial class ChronoJumpWindow
 
 		LogB.Debug("Calling encoderThreadStart for capture");
 
-		encoderConfigurationCurrent.SQLUpdate(); //record this encoderConfiguration to SQL for next Chronojump open
-
+		//record this encoderConfiguration to SQL for next Chronojump open
+		SqliteEncoderConfiguration.UpdateActive(false, currentEncoderGI, encoderConfigurationCurrent);
 
 		needToCallPrepareEncoderGraphs = false;
 		encoderProcessFinish = false;
@@ -904,8 +896,10 @@ public partial class ChronoJumpWindow
 		on_button_encoder_capture_finish_clicked (o, args); 
 	}
 
-	void on_button_encoder_recalculate_clicked (object o, EventArgs args) {
-		encoderConfigurationCurrent.SQLUpdate(); //record this encoderConfiguration to SQL for next Chronojump open
+	void on_button_encoder_recalculate_clicked (object o, EventArgs args)
+	{
+		//record this encoderConfiguration to SQL for next Chronojump open
+		SqliteEncoderConfiguration.UpdateActive(false, currentEncoderGI, encoderConfigurationCurrent);
 		encoderCalculeCurves(encoderActions.CURVES);
 	}
 
@@ -1309,6 +1303,30 @@ public partial class ChronoJumpWindow
 			
 				encoderConfigurationCurrent = eSQL.encoderConfiguration;
 
+				//manage EncoderConfigurationSQLObject
+				SqliteEncoderConfiguration.MarkAllAsUnactive(false, currentEncoderGI);
+				EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectByEconf(false, currentEncoderGI, eSQL.encoderConfiguration);
+
+				//if user has deleted this econfSO, create it again
+				if(econfSO.uniqueID == -1)
+				{
+					string name = SqliteEncoderConfiguration.IfNameExistsAddSuffix(Catalog.GetString("Unnamed"), Catalog.GetString("copy"));
+
+					econfSO = new EncoderConfigurationSQLObject(
+							-1,				//uniqueID
+							currentEncoderGI,		//encoderGI
+							true,				//active
+							name,				//name
+							eSQL.encoderConfiguration,	//encoderConfiguration
+							""				//description
+							);
+					SqliteEncoderConfiguration.Insert(false, econfSO);
+				} else {
+					//if exists on datbase mark and update sql row as active
+					econfSO.active = true;
+					SqliteEncoderConfiguration.Update(false, currentEncoderGI, econfSO.name, econfSO);
+				}
+
 				encoderConfigurationGUIUpdate();
 			}
 		}
@@ -1320,7 +1338,8 @@ public partial class ChronoJumpWindow
 		//LogB.Information(UtilEncoder.CompressSignal(UtilEncoder.GetEncoderDataTempFileName()));
 
 		if(success) {	
-			encoderConfigurationCurrent.SQLUpdate(); //record this encoderConfiguration to SQL for next Chronojump open
+			//record this encoderConfiguration to SQL for next Chronojump open
+			SqliteEncoderConfiguration.UpdateActive(false, currentEncoderGI, encoderConfigurationCurrent);
 
 			//force a recalculate but not save the curve (we are loading)
 			encoderCalculeCurves(encoderActions.LOAD);

@@ -37,7 +37,7 @@ class SqliteEncoder : Sqlite
 	/*
 	 * create and initialize tables
 	 */
-	
+
 	protected internal static void createTableEncoder()
 	{
 		dbcmd.CommandText = 
@@ -1106,113 +1106,5 @@ class SqliteEncoder : Sqlite
 		}
 
 		return -1;
-	}
-
-	/*
-	 * EncoderConfiguration
-	 */
-
-	//called on startup to load last encoderConfiguration
-	public static EncoderConfiguration LoadEncoderConfiguration(bool dbconOpened)
-	{
-		string ecStr = SqlitePreferences.Select("encoderConfiguration", dbconOpened);
-		
-		//1.5.1 and previous don't store encoderConfiguration on SqlitePreferences
-		if(ecStr == null || ecStr.Length == 0 || ecStr == "0" || ecStr == "")
-			return new EncoderConfiguration(); 
-
-		string [] ecStrFull = ecStr.Split(new char[] {':'});
-
-		//create object
-		EncoderConfiguration ec = new EncoderConfiguration(
-				(Constants.EncoderConfigurationNames) 
-				Enum.Parse(typeof(Constants.EncoderConfigurationNames), ecStrFull[0]) );
-
-		//assign the rest of params
-		ec.ReadParamsFromSQL(ecStrFull);
-
-		return ec;
-	}
-
-
-	/*
-	 * EncoderConfiguration table
-	 */
-
-	protected internal static void createTableEncoderConfiguration()
-	{
-		dbcmd.CommandText =
-			"CREATE TABLE " + Constants.EncoderConfigurationTable + " ( " +
-			"uniqueID INTEGER PRIMARY KEY, " +
-			"customName TEXT, " + 		//name given by the user
-			"encoderConfiguration TEXT, " +	//text separated by ':'
-			"description TEXT, " +
-			"future1 TEXT, " +
-			"future2 TEXT, " +
-			"future3 TEXT )";
-		dbcmd.ExecuteNonQuery();
-
-		//on convert database sets the sqlite/preferences/encoderConfiguration as "default" encoder configuration
-		EncoderConfiguration econfOnPreferences = LoadEncoderConfiguration(true);
-
-		InsertEncoderConfiguration(true,
-				new EncoderConfigurationSQLObject(
-					-1 , Catalog.GetString("Default"), econfOnPreferences, "")
-				);
-	}
-
-	public static void InsertEncoderConfiguration(bool dbconOpened, EncoderConfigurationSQLObject econfSO)
-	{
-		openIfNeeded(dbconOpened);
-
-		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderConfigurationTable +
-			" (uniqueID, customName, encoderConfiguration, description, future1, future2, future3)" +
-			" VALUES (" + econfSO.ToSQLInsert() + ")";
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		closeIfNeeded(dbconOpened);
-	}
-
-	//pass customName = "" to select all
-	public static List<EncoderConfigurationSQLObject> SelectEncoderConfiguration(
-			bool dbconOpened, bool inertial, string customName)
-	{
-		openIfNeeded(dbconOpened);
-
-		string whereStr = "";
-		if(customName != "")
-			whereStr = " WHERE customName = \"" + customName + "\"";
-
-		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderConfigurationTable + whereStr;
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		List<EncoderConfigurationSQLObject> list = new List<EncoderConfigurationSQLObject>();
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-		while(reader.Read())
-		{
-			string [] strFull = reader[2].ToString().Split(new char[] {':'});
-			EncoderConfiguration econf = new EncoderConfiguration(
-					(Constants.EncoderConfigurationNames)
-					Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
-			econf.ReadParamsFromSQL(strFull);
-
-			EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject(
-					Convert.ToInt32(reader[0].ToString()),	//uniqueID
-					reader[1].ToString(),			//customName
-					econf,					//encoderConfiguration
-					reader[3].ToString()			//description
-					);
-
-			if(inertial == econf.has_inertia)
-				list.Add(econfSO);
-		}
-
-		reader.Close();
-		closeIfNeeded(dbconOpened);
-
-		return list;
 	}
 }

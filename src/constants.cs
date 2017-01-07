@@ -571,6 +571,7 @@ public class Constants
 	public static string ChronopicOne = Catalog.GetString("All tests available except MultiChronopic.");
 	public static string ChronopicMore = Catalog.GetString("All tests available.");
 
+	public static string DefaultString = Catalog.GetString("Default");
 	
 	//levels of sport practice
 	//int will go into person database

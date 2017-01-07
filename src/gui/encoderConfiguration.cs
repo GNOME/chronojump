@@ -38,10 +38,7 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.RadioButton radio_linear;
 	[Widget] Gtk.RadioButton radio_rotary_friction;
 	[Widget] Gtk.RadioButton radio_rotary_axis;
-	
-	[Widget] Gtk.RadioButton radio_gravity;
-	[Widget] Gtk.RadioButton radio_inertia;
-	
+
 	[Widget] Gtk.CheckButton check_rotary_friction_inertia_on_axis;
 	[Widget] Gtk.HBox hbox_top;
 	[Widget] Gtk.Alignment alignment_options;
@@ -91,7 +88,6 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.ComboBox combo_gearedUp;
 		
 	[Widget] Gtk.Box vbox_select_encoder;
-	[Widget] Gtk.VSeparator vseparator;
 	[Widget] Gtk.Notebook notebook_side;
 	[Widget] Gtk.TreeView treeview_select;
 	[Widget] Gtk.Image image_delete;
@@ -117,14 +113,13 @@ public class EncoderConfigurationWindow
 	ArrayList list;
 	int listCurrent = 0; //current item on list
 	Pixbuf pixbuf;
-	bool definedInConfig;
 
-	EncoderConfigurationWindow (bool definedInConfig) {
+	Constants.EncoderGI encoderGI;
+
+	EncoderConfigurationWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "encoder_configuration.glade", "encoder_configuration", "chronojump");
 		gladeXML.Autoconnect(this);
-		
-		this.definedInConfig = definedInConfig;
 		
 		//three encoder types	
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeLinear);
@@ -142,39 +137,19 @@ public class EncoderConfigurationWindow
 		//put an icon to window
 		UtilGtk.IconWindow(encoder_configuration);
 	}
-	
-	static public EncoderConfigurationWindow View (bool gravitatory, EncoderConfiguration ec, bool definedInConfig) 
+
+	static public EncoderConfigurationWindow View (Constants.EncoderGI encoderGI, EncoderConfigurationSQLObject econfSO)
 	{
-		/*
-		 * if we are on gravitatory but ec is inertial, then put definedInConfig as false
-		 * and create a new ec that suits
-		 */
-		if(ec.has_inertia == gravitatory) {
-			definedInConfig = false;
-			if(gravitatory)
-				ec = new EncoderConfiguration(); //LINEAR, not inertial
-			else {
-				ec = new EncoderConfiguration(Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL);
-				ec.SetInertialDefaultOptions();
-			}
-		}
-
 		if (EncoderConfigurationWindowBox == null) {
-			EncoderConfigurationWindowBox = new EncoderConfigurationWindow (definedInConfig);
+			EncoderConfigurationWindowBox = new EncoderConfigurationWindow ();
 		}
 
-		EncoderConfigurationWindowBox.updateGUIFromEncoderConfiguration(ec);
-
-		//id definedInConfig then only few things can change
-		if(definedInConfig) {
-			EncoderConfigurationWindowBox.hbox_top.Visible = false;
-			EncoderConfigurationWindowBox.check_rotary_friction_inertia_on_axis.Visible = false;
-			EncoderConfigurationWindowBox.alignment_options.Visible = false;
-			EncoderConfigurationWindowBox.vbox_inertia_calcule.Visible = false;
-		}
+		EncoderConfigurationWindowBox.encoderGI = encoderGI;
+		EncoderConfigurationWindowBox.updateGUIFromEncoderConfiguration(econfSO.encoderConfiguration);
 
 		EncoderConfigurationWindowBox.createAndFillTreeView(
-				SqliteEncoder.SelectEncoderConfiguration(false, ! gravitatory, "")); //all
+				SqliteEncoderConfiguration.Select(false, encoderGI, ""), //all
+				econfSO);
 
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
 		return EncoderConfigurationWindowBox;
@@ -190,11 +165,6 @@ public class EncoderConfigurationWindow
 		else	//linear
 			radio_linear.Active = true;
 
-		if(! ec.has_inertia)
-			radio_gravity.Active = true;
-		else
-			radio_inertia.Active = true;
-
 		check_rotary_friction_inertia_on_axis.Active = ec.rotaryFrictionOnAxis;
 
 		initializeList(ec.type, ec.has_inertia, ec.rotaryFrictionOnAxis, ec.position);
@@ -206,52 +176,31 @@ public class EncoderConfigurationWindow
 				ec.inertiaMachine, ec.extraWeightGrams, ec.extraWeightLength,
 				ec.has_gearedDown, ec.GearedUpDisplay());
 	}
-	
+
 	private void on_radio_encoder_type_linear_toggled (object obj, EventArgs args) {
 		if(radio_linear.Active)
 			initializeList(Constants.EncoderType.LINEAR, 
-					radio_inertia.Active, false, 0);
+					encoderGI == Constants.EncoderGI.INERTIAL, false, 0);
 	}
 	private void on_radio_encoder_type_rotary_friction_toggled (object obj, EventArgs args) {
 		if(radio_rotary_friction.Active)
 			initializeList(Constants.EncoderType.ROTARYFRICTION, 
-					radio_inertia.Active, 
-					(radio_inertia.Active && check_rotary_friction_inertia_on_axis.Active), 
+					encoderGI == Constants.EncoderGI.INERTIAL,
+					(encoderGI == Constants.EncoderGI.INERTIAL && check_rotary_friction_inertia_on_axis.Active),
 					0);
 	}
 	private void on_radio_encoder_type_rotary_axis_toggled (object obj, EventArgs args) {
 		if(radio_rotary_axis.Active)
 			initializeList(Constants.EncoderType.ROTARYAXIS, 
-					radio_inertia.Active, false, 0);
-	}
-	
-	private void on_radio_gravity_toggled (object obj, EventArgs args) {
-		if(radio_gravity.Active) {
-			if(radio_linear.Active)
-				initializeList(Constants.EncoderType.LINEAR, false, false, 0);
-			else if(radio_rotary_friction.Active)
-				initializeList(Constants.EncoderType.ROTARYFRICTION, false, false, 0);
-			else //(radio_rotary_axis.Active)
-				initializeList(Constants.EncoderType.ROTARYAXIS, false, false, 0);
-		}
-	}
-	private void on_radio_inertia_toggled (object obj, EventArgs args) {
-		if(radio_inertia.Active) {
-			if(radio_linear.Active)
-				initializeList(Constants.EncoderType.LINEAR, true, false, 0);
-			else if(radio_rotary_friction.Active)
-				initializeList(Constants.EncoderType.ROTARYFRICTION, true, check_rotary_friction_inertia_on_axis.Active,  0);
-			else //(radio_rotary_axis.Active)
-				initializeList(Constants.EncoderType.ROTARYAXIS, true, false, 0);
-		}
+					encoderGI == Constants.EncoderGI.INERTIAL, false, 0);
 	}
 
 	private void check_rotary_friction_inertia_on_axis_is_visible() {
-		check_rotary_friction_inertia_on_axis.Visible = (radio_rotary_friction.Active && ! radio_gravity.Active);
+		check_rotary_friction_inertia_on_axis.Visible = (radio_rotary_friction.Active && encoderGI == Constants.EncoderGI.INERTIAL);
 	}
 	
 	private void on_check_rotary_friction_inertia_on_axis_toggled (object obj, EventArgs args) {
-		on_radio_inertia_toggled(obj, args);
+		initializeList(Constants.EncoderType.ROTARYFRICTION, true, check_rotary_friction_inertia_on_axis.Active, 0);
 	}
 	
 
@@ -309,7 +258,7 @@ public class EncoderConfigurationWindow
 		hbox_inertia.Visible = ec.has_inertia;
 		hbox_inertia_mass.Visible = ec.has_inertia;
 		hbox_inertia_length.Visible = ec.has_inertia;
-		vbox_inertia_calcule.Visible = (ec.has_inertia && ! definedInConfig);
+		vbox_inertia_calcule.Visible = ec.has_inertia;
 		
 		hbox_gearedUp.Visible = ec.has_gearedDown;
 		if(ec.has_gearedDown)
@@ -529,8 +478,6 @@ public class EncoderConfigurationWindow
 		sideMode = newSideMode;
 
 		//change gui
-		vseparator.Visible = (sideMode != sideModes.HIDDEN);
-
 		if(sideMode == sideModes.MANAGE)
 			notebook_side.CurrentPage = 0;
 		else if(sideMode == sideModes.CAPTUREINERTIAL)
@@ -559,14 +506,19 @@ public class EncoderConfigurationWindow
 	 */
 
 	TreeStore store;
-	private void createAndFillTreeView(List<EncoderConfigurationSQLObject> list)
+	int colName = 0;
+	int colDescription = 1;
+
+	private void createAndFillTreeView(List<EncoderConfigurationSQLObject> list, EncoderConfigurationSQLObject currentSO)
 	{
 		createTreeView();
 		store = getStore();
 		treeview_select.Model = store;
 
 		foreach (EncoderConfigurationSQLObject econfSO in list)
-			store.AppendValues (new string[]{ econfSO.customName, econfSO.description });
+			store.AppendValues (new string[]{ econfSO.name, econfSO.description });
+
+		UtilGtk.TreeviewSelectRowWithName(treeview_select, store, colName, currentSO.name, true);
 
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_delete.Pixbuf = pixbuf;
@@ -585,25 +537,35 @@ public class EncoderConfigurationWindow
 		return new TreeStore(typeof (string), typeof (string));
 	}
 
-	private void onTVSelectionChanged (object o, EventArgs args)
+	private string getSelectedName()
 	{
 		TreeModel model;
 		TreeIter iter;
 
-		string selectedName = "";
-		if (((TreeSelection)o).GetSelected(out model, out iter))
-			selectedName = (string) model.GetValue (iter, 0);
+		if (treeview_select.Selection.GetSelected(out model, out iter))
+			return (string) model.GetValue (iter, colName);
 
+		return "";
+	}
+
+	private void onTVSelectionChanged (object o, EventArgs args)
+	{
+		string selectedName = getSelectedName();
 		if(selectedName == "")
 			return;
 
-		List<EncoderConfigurationSQLObject> list = SqliteEncoder.SelectEncoderConfiguration(
-				false, radio_inertia.Active, selectedName);
+		List<EncoderConfigurationSQLObject> list = SqliteEncoderConfiguration.Select(false, encoderGI, selectedName);
 		if(list != null && list.Count == 1)
 		{
 			EncoderConfigurationSQLObject econfSO = list[0];
-			entry_save_name.Text = econfSO.customName;
+			entry_save_name.Text = econfSO.name;
 			entry_save_description.Text = econfSO.description;
+
+			//mark all as unactive
+			SqliteEncoderConfiguration.MarkAllAsUnactive(false, encoderGI);
+			econfSO.active = true;
+			//mark this as active
+			SqliteEncoderConfiguration.Update(false, encoderGI, selectedName, econfSO);
 
 			EncoderConfigurationWindowBox.updateGUIFromEncoderConfiguration(econfSO.encoderConfiguration);
 		}
@@ -640,12 +602,17 @@ public class EncoderConfigurationWindow
 				if (contents != null && contents != "")
 				{
 					EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject(contents);
-					if(econfSO.customName != null && econfSO.customName != "") //TODO: check if name exists
+					if(econfSO.name != null && econfSO.name != "") //TODO: check if name exists
 					{
-						//TODO: add depending on inertial. If doesn't match show error message
-						SqliteEncoder.InsertEncoderConfiguration(false, econfSO);
-						store.AppendValues (new string[]{ econfSO.customName, econfSO.description });
-						UtilGtk.TreeviewSelectRowWithName(treeview_select, store, 0, econfSO.customName, true);
+						//add more suffixes until name is unique
+						econfSO.name = SqliteEncoderConfiguration.IfNameExistsAddSuffix(econfSO.name, Catalog.GetString("copy"));
+
+						SqliteEncoderConfiguration.MarkAllAsUnactive(false, encoderGI);
+						econfSO.active = true;
+						SqliteEncoderConfiguration.Insert(false, econfSO);
+
+						store.AppendValues (new string[]{ econfSO.name, econfSO.description });
+						UtilGtk.TreeviewSelectRowWithName(treeview_select, store, colName, econfSO.name, true);
 					}
 				}
 			}
@@ -658,19 +625,67 @@ public class EncoderConfigurationWindow
 		fc.Destroy();
 	}
 
+	//TODO: button_save sensitive only when name != "" && != of the others
 	void on_button_save_clicked (object o, EventArgs args)
 	{
+		string selectedName = getSelectedName();
+		if(selectedName == "")
+			return;
+
 		//save_update when changing any value
 		//and when exiting with ok dialogMessage asking for save
 
+		//update SQL
 		EncoderConfiguration econfOnGUI = GetAcceptedValues();
-		EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject(
-				-1, entry_save_name.Text.ToString(), econfOnGUI, entry_save_description.Text.ToString());
-		SqliteEncoder.InsertEncoderConfiguration(false, econfSO);
+		EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject(-1,
+				encoderGI, true, entry_save_name.Text.ToString(),
+				econfOnGUI, entry_save_description.Text.ToString());
+
+		SqliteEncoderConfiguration.Update(false, encoderGI, selectedName, econfSO);
+
+		//update GUI
+		TreeModel model;
+		TreeIter iter = new TreeIter();
+		treeview_select.Selection.GetSelected (out model, out iter);
+		store.SetValue (iter, colName, entry_save_name.Text);
+		store.SetValue (iter, colDescription, entry_save_description.Text);
 	}
 
+	void on_button_duplicate_clicked (object o, EventArgs args)
+	{
+		string selectedName = getSelectedName();
+		if(selectedName == "")
+			return;
+
+		List<EncoderConfigurationSQLObject> list = SqliteEncoderConfiguration.Select(false, encoderGI, selectedName);
+		if(list != null && list.Count == 1)
+		{
+			EncoderConfigurationSQLObject econfSO = list[0];
+			econfSO.uniqueID = -1; //to be entered as null and not repeat the uniqueID
+
+			//add a suffix
+			econfSO.name += "_"  + Catalog.GetString("copy");
+			//add more suffixes until name is unique
+			econfSO.name = SqliteEncoderConfiguration.IfNameExistsAddSuffix(econfSO.name, Catalog.GetString("copy"));
+
+			SqliteEncoderConfiguration.MarkAllAsUnactive(false, encoderGI);
+			econfSO.active = true;
+			SqliteEncoderConfiguration.Insert(false, econfSO);
+
+			store.AppendValues (new string[]{ econfSO.name, econfSO.description });
+			UtilGtk.TreeviewSelectRowWithName(treeview_select, store, colName, econfSO.name, true);
+		}
+	}
+
+	//TODO: cannot delete if only there's the only on this encoderGI
 	void on_button_delete_clicked (object o, EventArgs args)
 	{
+		string selectedName = getSelectedName();
+		if(selectedName == "")
+			return;
+
+		UtilGtk.RemoveRow(treeview_select, store);
+		Sqlite.DeleteFromName(false, Constants.EncoderConfigurationTable, "name", selectedName);
 	}
 
 	/*
@@ -691,7 +706,6 @@ public class EncoderConfigurationWindow
 	public void Button_encoder_capture_inertial_do_chronopic_ok () 
 	{
 		vbox_select_encoder.Visible = false;
-		vseparator.Visible = false;
 		button_encoder_capture_inertial_do.Sensitive = false;
 
 		//adapt capture, cancel and finish	
@@ -709,7 +723,6 @@ public class EncoderConfigurationWindow
 	public void Button_encoder_capture_inertial_do_ended (double imResult, string message) 
 	{
 		vbox_select_encoder.Visible = true;
-		vseparator.Visible = true;
 		button_encoder_capture_inertial_do.Sensitive = true;
 		
 		//adapt capture, cancel and finish	
@@ -747,15 +760,24 @@ public class EncoderConfigurationWindow
 	 * <--------------- end of side content area / capture inertial ----
 	 */
 
+	private void on_button_close_clicked (object o, EventArgs args)
+	{
+		//TODO:
+		//if changed:
+		//confirmwindow to save or cancel
+	}
 
 	private void on_button_cancel_clicked (object o, EventArgs args)
 	{
+		//TODO: remove button_cancel
 		EncoderConfigurationWindowBox.encoder_configuration.Hide();
 		EncoderConfigurationWindowBox = null;
 	}
 	
 	private void on_button_accept_clicked (object o, EventArgs args)
 	{
+		//TODO: remove button_accept (but continue managing call on gui/encoder.cs)
+		//managed on gui/encoder.cs
 		EncoderConfigurationWindowBox.encoder_configuration.Hide();
 	}
 	
@@ -765,7 +787,10 @@ public class EncoderConfigurationWindow
 	
 		if(capturing)
 			button_encoder_capture_inertial_cancel.Click();
-			
+
+		//TODO:
+		//call on_button_close_clicked
+
 		EncoderConfigurationWindowBox.encoder_configuration.Hide();
 		EncoderConfigurationWindowBox = null;
 	}

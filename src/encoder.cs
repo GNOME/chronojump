@@ -1040,22 +1040,33 @@ public class EncoderBarsData {
 public class EncoderConfigurationSQLObject
 {
 	public int uniqueID;
-	public string customName;
+	public Constants.EncoderGI encoderGI;
+	public bool active; //true or false. One true for each encoderGI (GRAVITATORY, INERTIAL)
+	public string name;
 	public EncoderConfiguration encoderConfiguration;
 	public string description;
 
-	public EncoderConfigurationSQLObject(int uniqueID, string customName,
+	public EncoderConfigurationSQLObject()
+	{
+		uniqueID = -1;
+	}
+
+	public EncoderConfigurationSQLObject(int uniqueID,
+			Constants.EncoderGI encoderGI, bool active, string name,
 			EncoderConfiguration encoderConfiguration,
 			string description)
 	{
 		this.uniqueID = uniqueID;
-		this.customName = customName;
+		this.encoderGI = encoderGI;
+		this.active = active;
+		this.name = name;
 		this.encoderConfiguration = encoderConfiguration;
 		this.description = description;
 	}
 
 	//converts encoderConfiguration string from SQL
-	public EncoderConfigurationSQLObject(int uniqueID, string customName,
+	public EncoderConfigurationSQLObject(int uniqueID,
+			Constants.EncoderGI encoderGI, bool active, string name,
 			string encoderConfigurationString,
 			string description)
 	{
@@ -1066,7 +1077,9 @@ public class EncoderConfigurationSQLObject
 		econf.ReadParamsFromSQL(strFull);
 
 		this.uniqueID = uniqueID;
-		this.customName = customName;
+		this.encoderGI = encoderGI;
+		this.active = active;
+		this.name = name;
 		this.encoderConfiguration = econf;
 		this.description = description;
 	}
@@ -1089,8 +1102,15 @@ public class EncoderConfigurationSQLObject
 					continue;
 
 				uniqueID = -1;
-				if(parts[0] == "customName" && parts[1] != "")
-					customName = parts[1];
+				if(parts[0] == "encoderGI")
+				{
+					if(Enum.IsDefined(typeof(Constants.EncoderGI), parts[1]))
+						encoderGI = (Constants.EncoderGI) Enum.Parse(typeof(Constants.EncoderGI), parts[1]);
+				}
+				if(parts[0] == "active" && parts[1] != "")
+					active = (parts[1] == "True");
+				if(parts[0] == "name" && parts[1] != "")
+					name = parts[1];
 				else if(parts[0] == "EncoderConfiguration")
 				{
 					string [] ecFull = parts[1].Split(new char[] {':'});
@@ -1117,7 +1137,9 @@ public class EncoderConfigurationSQLObject
 			 idStr = "NULL";
 
 		 return idStr +
-			 ", \"" + customName + "\"" +
+			 ", \"" + encoderGI.ToString() + "\"" +
+			 ", \"" + active.ToString() + "\"" +
+			 ", \"" + name + "\"" +
 			 ", \"" + encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "\"" +
 			 ", \"" + description + "\"" +
 			 ", \"\", \"\", \"\""; //future1, future2, future3
@@ -1525,12 +1547,6 @@ public class EncoderConfiguration
 			l.Add(d);
 		}
 		return l;
-	}
-
-	//called on capture, recalculate, load
-	public void SQLUpdate()
-	{
-		SqlitePreferences.Update("encoderConfiguration", this.ToStringOutput(Outputs.SQL), false);
 	}
 
 	public enum Outputs { ROPTIONS, RCSV, SQL} 

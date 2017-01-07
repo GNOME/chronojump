@@ -59,7 +59,6 @@ public partial class ChronoJumpWindow
 	private Config.AutodetectPortEnum configAutodetectPort = Config.AutodetectPortEnum.ACTIVE;
 
 	private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
-	private bool encoderConfigurationDefinedFromFile = false;
 	private bool encoderUpdateTreeViewWhileCapturing = true;
 		
 	private void configInit() 
@@ -145,14 +144,7 @@ public partial class ChronoJumpWindow
 		if(config.EncoderAnalyzeHide) {
 			hbox_encoder_sup_capture_analyze_two_buttons.Visible = false;
 		}
-		
-		if(config.Econf != null) {
-			encoderConfigurationDefinedFromFile = true;
-			encoderConfigurationCurrent = config.Econf;
-			encoderConfigurationGUIUpdate();
-			//TODO: allow to see full data, but don't allow to change it (Open window content as unsensitive)
-		}
-		
+
 		if(config.SessionMode == Config.SessionModeEnum.UNIQUE)	
 		{
 			main_menu.Visible = false;

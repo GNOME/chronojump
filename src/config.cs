@@ -38,7 +38,6 @@ public class Config
 							//because treeview will be in 2n page of notebook
 	public bool PersonWinHide;
 	public bool EncoderAnalyzeHide;
-	public EncoderConfiguration Econf;
 	public SessionModeEnum SessionMode;
 	public string RunScriptOnExit;
 
@@ -60,7 +59,6 @@ public class Config
 		EncoderUpdateTreeViewWhileCapturing = true;
 		PersonWinHide = false;
 		EncoderAnalyzeHide = false;
-		Econf = null; 
 		SessionMode = SessionModeEnum.STANDARD;
 		RunScriptOnExit = "";
 	}
@@ -105,19 +103,6 @@ public class Config
 						PersonWinHide = true;
 					else if(parts[0] == "EncoderAnalyzeHide" && Util.StringToBool(parts[1]))
 						EncoderAnalyzeHide = true;
-					else if(parts[0] == "EncoderConfiguration")
-					{
-						string [] ecFull = parts[1].Split(new char[] {':'});
-						if(Enum.IsDefined(typeof(Constants.EncoderConfigurationNames), ecFull[0])) 
-						{ 
-							//create object
-							Econf = new EncoderConfiguration(
-									(Constants.EncoderConfigurationNames) 
-									Enum.Parse(typeof(Constants.EncoderConfigurationNames), ecFull[0]) );
-							//assign the rest of params
-							Econf.ReadParamsFromSQL(ecFull);
-						}
-					}
 					else if(parts[0] == "SessionMode" && Enum.IsDefined(typeof(SessionModeEnum), parts[1]))
 						SessionMode = (SessionModeEnum) 
 							Enum.Parse(typeof(SessionModeEnum), parts[1]);
@@ -173,10 +158,6 @@ public class Config
 
 	public override string ToString() 
 	{
-		string econfStr = "";
-		if(Econf != null)
-			econfStr = Econf.ToStringPretty();
-
 		return(
 				"Maximized = " + Maximized.ToString() + "\n" +
 				"CustomButtons = " + CustomButtons.ToString() + "\n" +
@@ -188,7 +169,6 @@ public class Config
 				"EncoderUpdateTreeViewWhileCapturing = " + EncoderUpdateTreeViewWhileCapturing.ToString() + "\n" +
 				"PersonWinHide = " + PersonWinHide.ToString() + "\n" +
 				"EncoderAnalyzeHide = " + EncoderAnalyzeHide.ToString() + "\n" +
-				"Econf = " + econfStr + "\n" +
 				"SessionMode = " + SessionMode.ToString() + "\n" +
 				"RunScriptOnExit = " + RunScriptOnExit.ToString() + "\n"
 		      );

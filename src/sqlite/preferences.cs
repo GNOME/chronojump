@@ -109,8 +109,9 @@ class SqlitePreferences : Sqlite
 				Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString(), dbcmdTr); 
 				Insert ("email", "", dbcmdTr);
 				
-				//last encoderConfiguration, to be used on next session
-				Insert ("encoderConfiguration", new EncoderConfiguration().ToStringOutput(EncoderConfiguration.Outputs.SQL), dbcmdTr);
+				//removed on 1.37
+				//Insert ("encoderConfiguration", new EncoderConfiguration().ToStringOutput(EncoderConfiguration.Outputs.SQL), dbcmdTr);
+
 			}
 			tr.Commit();
 		}

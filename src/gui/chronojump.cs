@@ -3086,7 +3086,7 @@ public partial class ChronoJumpWindow
 
 				//change encoderConfigurationCurrent if needed
 				if(encoderConfigurationCurrent.has_inertia) {
-					encoderConfigurationCurrent = new EncoderConfiguration(); //LINEAR, not INERTIAL
+					encoderConfigurationCurrent = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY).encoderConfiguration;
 					changed = true;
 				}
 				
@@ -3106,9 +3106,7 @@ public partial class ChronoJumpWindow
 
 				//change encoderConfigurationCurrent if needed
 				if(! encoderConfigurationCurrent.has_inertia) {
-					encoderConfigurationCurrent = new EncoderConfiguration(
-							Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL);	
-					encoderConfigurationCurrent.SetInertialDefaultOptions();
+					encoderConfigurationCurrent = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.INERTIAL).encoderConfiguration;
 					changed = true;
 				}
 				

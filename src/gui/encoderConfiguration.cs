@@ -94,7 +94,7 @@ public class EncoderConfigurationWindow
 
 	[Widget] Gtk.Entry entry_save_name;
 	[Widget] Gtk.Entry entry_save_description;
-	[Widget] Gtk.Button button_save;
+	[Widget] Gtk.Button button_apply;
 	[Widget] Gtk.Button button_delete;
 
 	[Widget] Gtk.SpinButton spin_im_weight_calcule;
@@ -106,7 +106,7 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.Button button_encoder_capture_inertial_cancel;
 	//[Widget] Gtk.Button button_encoder_capture_inertial_finish;
 
-	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Button button_close;
 
 	static EncoderConfigurationWindow EncoderConfigurationWindowBox;
 	
@@ -604,7 +604,7 @@ public class EncoderConfigurationWindow
 
 	void on_entry_save_name_changed	(object o, EventArgs args)
 	{
-		button_save.Sensitive = (entry_save_name.Text.ToString().Length > 0);
+		button_apply.Sensitive = (entry_save_name.Text.ToString().Length > 0);
 
 		//TODO: button delete sensitivity depends on being on the treeview
 	}
@@ -656,8 +656,8 @@ public class EncoderConfigurationWindow
 		fc.Destroy();
 	}
 
-	//TODO: button_save sensitive only when name != "" && != of the others
-	void on_button_save_clicked (object o, EventArgs args)
+	//TODO: button_apply sensitive only when name != "" && != of the others
+	void on_button_apply_clicked (object o, EventArgs args)
 	{
 		string selectedName = getSelectedName();
 		if(selectedName == "")
@@ -792,23 +792,16 @@ public class EncoderConfigurationWindow
 	 * <--------------- end of side content area / capture inertial ----
 	 */
 
-	private void on_button_close_clicked (object o, EventArgs args)
-	{
-		//TODO:
-		//if changed:
-		//confirmwindow to save or cancel
-	}
-
+	/*
 	private void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		//TODO: remove button_cancel
 		EncoderConfigurationWindowBox.encoder_configuration.Hide();
 		EncoderConfigurationWindowBox = null;
 	}
+	*/
 	
-	private void on_button_accept_clicked (object o, EventArgs args)
+	private void on_button_close_clicked (object o, EventArgs args)
 	{
-		//TODO: remove button_accept (but continue managing call on gui/encoder.cs)
 		//managed on gui/encoder.cs
 		EncoderConfigurationWindowBox.encoder_configuration.Hide();
 	}
@@ -820,15 +813,11 @@ public class EncoderConfigurationWindow
 		if(capturing)
 			button_encoder_capture_inertial_cancel.Click();
 
-		//TODO:
-		//call on_button_close_clicked
-
-		EncoderConfigurationWindowBox.encoder_configuration.Hide();
-		EncoderConfigurationWindowBox = null;
+		on_button_close_clicked(new object(), new EventArgs());
 	}
 
-	public Button Button_accept {
-		get { return button_accept; }
+	public Button Button_close {
+		get { return button_close; }
 	}
 	
 	public Button Button_encoder_capture_inertial_do {

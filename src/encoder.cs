@@ -1161,7 +1161,7 @@ public class EncoderConfiguration
 	public bool has_inertia;
 	public bool has_gearedDown;
 	public bool rotaryFrictionOnAxis;
-	public double d;	//axis
+	public double d;	//axis 		//ATTENTION: this inertial param can be changed on main GUI
 	public double D;	//external disc or pulley
 	public int anglePush;
 	public int angleWeight;
@@ -1172,7 +1172,7 @@ public class EncoderConfiguration
 	public int gearedDown;	//demultiplication
 	
 	public int inertiaTotal; //this is the inertia used by R
-	public int extraWeightN; //how much extra weights (inertia)
+	public int extraWeightN; //how much extra weights (inertia) //ATTENTION: this param can be changed on main GUI
 	public int extraWeightGrams; //weight of each extra weight (inertia)
 	public double extraWeightLength; //length from center to center (cm) (inertia)
 	
@@ -1549,7 +1549,11 @@ public class EncoderConfiguration
 		return l;
 	}
 
-	public enum Outputs { ROPTIONS, RCSV, SQL} 
+	public enum Outputs { ROPTIONS, RCSV, SQL, SQLECWINCOMPARE}
+	/*
+	 * SQLECWINCOMPARE is to know it two encoderConfigurations on encoderConfigurationWindow are the same
+	 * because two inertial params change outside that window
+	 */
 	
 	public string ToStringOutput(Outputs o) 
 	{
@@ -1584,18 +1588,28 @@ public class EncoderConfiguration
 				gearedDown.ToString()
 				;
 		}
-		else { //(o == Outputs.SQL) 
+		else { //(o == Outputs.SQL || o == OUTPUTS.SQLECWINCOMPARE)
 			sep = ":";
+
+			string my_str_d = str_d;
+			string my_str_extraWeightN = extraWeightN.ToString();
+
+			if(o == Outputs.SQLECWINCOMPARE)
+			{
+				//this inertial params can be changed on main GUI
+				my_str_d = "%";
+				my_str_extraWeightN  = "%";
+			}
 			return 
 				name + sep + 
-				str_d + sep + 
+				my_str_d + sep +
 				str_D + sep + 
 				anglePush.ToString() + sep + 
 				angleWeight.ToString() + sep +
 				inertiaMachine.ToString() + sep + 
 				gearedDown.ToString() + sep + 
 				inertiaTotal.ToString() + sep + 
-				extraWeightN.ToString() + sep + 
+				my_str_extraWeightN + sep +
 				extraWeightGrams.ToString() + sep +
 				extraWeightLength.ToString() + sep +
 				writeList_d(list_d)

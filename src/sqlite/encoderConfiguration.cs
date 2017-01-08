@@ -184,7 +184,8 @@ class SqliteEncoderConfiguration : Sqlite
 
 		return list;
 	}
-	
+
+	//if by any bug there's no active, then create default
 	public static EncoderConfigurationSQLObject SelectActive (Constants.EncoderGI encoderGI) 
 	{
 		Sqlite.Open();
@@ -199,6 +200,7 @@ class SqliteEncoderConfiguration : Sqlite
 
 		EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject();
 	
+		bool success = false;
 		if(reader.Read())
 		{
 			string [] strFull = reader[4].ToString().Split(new char[] {':'});
@@ -215,8 +217,18 @@ class SqliteEncoderConfiguration : Sqlite
 					econf,					//encoderConfiguration
 					reader[5].ToString()			//description
 					);
+			success = true;
 		}
 		reader.Close();
+
+		//if by any bug there's no active, then create default and call himself again to select
+		if(! success)
+		{
+			insertDefault(encoderGI);
+			Sqlite.Close();
+			return SelectActive (encoderGI);
+		}
+
 		Sqlite.Close();
 
 		return econfSO;

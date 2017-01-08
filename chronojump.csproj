@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -1000,7 +1001,6 @@
     <Compile Include="src\gui\encoderOverview.cs" />
     <Compile Include="src\threshold.cs" />
     <Compile Include="src\gui\dialogThreshold.cs" />
-    <Compile Include="src\sqlite\encoderConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

@@ -428,8 +428,9 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_select_clicked (object o, EventArgs args)
 	{
 		encoder_configuration_win = EncoderConfigurationWindow.View(
-				currentEncoderGI,
-				SqliteEncoderConfiguration.SelectActive(currentEncoderGI));
+				currentEncoderGI, SqliteEncoderConfiguration.SelectActive(currentEncoderGI),
+				UtilGtk.ComboGetActive(combo_encoder_anchorage), (int) spin_encoder_im_weights_n.Value); //used on inertial
+
 		encoder_configuration_win.Button_accept.Clicked += new EventHandler(on_encoder_configuration_win_accepted);
 
 		//unregister eventHandler first, then register. This avoids to have registered twice
@@ -449,6 +450,7 @@ public partial class ChronoJumpWindow
 		encoder_configuration_win.Button_accept.Clicked -= new EventHandler(on_encoder_configuration_win_accepted);
 		
 		EncoderConfiguration eConfNew = encoder_configuration_win.GetAcceptedValues();
+
 		if(encoderConfigurationCurrent == eConfNew)
 			return;
 			
@@ -464,15 +466,15 @@ public partial class ChronoJumpWindow
 		if(encoderConfigurationCurrent.has_inertia) {
 			if(combo_encoder_anchorage_should_update) {
 				UtilGtk.ComboUpdate(combo_encoder_anchorage, encoderConfigurationCurrent.list_d);
-				combo_encoder_anchorage.Active = 0;
+				combo_encoder_anchorage.Active = UtilGtk.ComboMakeActive(
+						combo_encoder_anchorage,
+						encoderConfigurationCurrent.d.ToString()
+						);
 			}
 
 			encoderConfigurationCurrent.extraWeightN = (int) spin_encoder_im_weights_n.Value; 
 			encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
-
-			//if inertial, select ecc-con
-			combo_encoder_eccon.Active = 1;
 		}
 
 		label_encoder_selected.Text = encoderConfigurationCurrent.code;

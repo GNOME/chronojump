@@ -116,6 +116,14 @@ public class EncoderConfigurationWindow
 
 	Constants.EncoderGI encoderGI;
 
+	/*
+	 * this params are used on inertial
+	 * and must be retrieved when this window is closed
+	 */
+	string main_gui_anchorage_str;
+	int main_gui_extraWeightN;
+
+
 	EncoderConfigurationWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "encoder_configuration.glade", "encoder_configuration", "chronojump");
@@ -138,7 +146,9 @@ public class EncoderConfigurationWindow
 		UtilGtk.IconWindow(encoder_configuration);
 	}
 
-	static public EncoderConfigurationWindow View (Constants.EncoderGI encoderGI, EncoderConfigurationSQLObject econfSO)
+	static public EncoderConfigurationWindow View (
+			Constants.EncoderGI encoderGI, EncoderConfigurationSQLObject econfSO,
+			string anchorage_str, int extraWeightN)
 	{
 		if (EncoderConfigurationWindowBox == null) {
 			EncoderConfigurationWindowBox = new EncoderConfigurationWindow ();
@@ -146,6 +156,8 @@ public class EncoderConfigurationWindow
 
 		EncoderConfigurationWindowBox.encoderGI = encoderGI;
 		EncoderConfigurationWindowBox.updateGUIFromEncoderConfiguration(econfSO.encoderConfiguration);
+		EncoderConfigurationWindowBox.main_gui_anchorage_str = anchorage_str;
+		EncoderConfigurationWindowBox.main_gui_extraWeightN = extraWeightN;
 
 		EncoderConfigurationWindowBox.createAndFillTreeView(
 				SqliteEncoderConfiguration.Select(false, encoderGI, ""), //all
@@ -391,7 +403,7 @@ public class EncoderConfigurationWindow
 	 * because that is stored in gui/encoder as
 	 * encoderConfigurationCurrent
 	 */
-	public EncoderConfiguration GetAcceptedValues() 
+	public EncoderConfiguration GetAcceptedValues()
 	{
 		EncoderConfiguration ec = (EncoderConfiguration) list[listCurrent];
 		
@@ -403,9 +415,27 @@ public class EncoderConfigurationWindow
 		ec.inertiaMachine = -1;
 		
 		if(ec.has_d) {
-			if(ec.has_inertia) {
+			if(ec.has_inertia)
+			{
 				ec.list_d = get_list_d();
-				ec.d = ec.list_d[0]; //selected value is the first
+
+				bool found = false;
+				if(Util.IsNumber(main_gui_anchorage_str, true))
+				{
+					LogB.Information("main_gui_anchorage = " + main_gui_anchorage_str);
+					double guiAnchorage = Convert.ToDouble(main_gui_anchorage_str);
+					foreach(double d in ec.list_d) {
+						LogB.Information("d = " + d.ToString());
+						if(d == guiAnchorage) {
+							ec.d = guiAnchorage;
+							found = true;
+							break;
+						}
+					}
+				}
+
+				if(! found)
+					ec.d = ec.list_d[0]; //selected value is the first //TODO: change this and use the value in main gui
 			}
 			else
 				ec.d = (double) spin_d.Value; 
@@ -423,6 +453,7 @@ public class EncoderConfigurationWindow
 		if(ec.has_inertia) {
 			ec.inertiaMachine = (int) spin_inertia_machine.Value; 
 			ec.inertiaTotal = (int) spin_inertia_machine.Value; 
+			ec.extraWeightN = main_gui_extraWeightN;
 			ec.extraWeightGrams = (int) spin_inertia_mass.Value;
 			ec.extraWeightLength = (double) spin_inertia_length.Value;
 		}
@@ -677,6 +708,7 @@ public class EncoderConfigurationWindow
 		}
 	}
 
+	//TODO: select another row (and "active" it)
 	//TODO: cannot delete if only there's the only on this encoderGI
 	void on_button_delete_clicked (object o, EventArgs args)
 	{

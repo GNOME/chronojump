@@ -40,8 +40,6 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.RadioButton radio_rotary_axis;
 
 	[Widget] Gtk.CheckButton check_rotary_friction_inertia_on_axis;
-	[Widget] Gtk.HBox hbox_top;
-	[Widget] Gtk.Alignment alignment_options;
 	
 	[Widget] Gtk.Button button_previous;
 	[Widget] Gtk.Button button_next;
@@ -95,7 +93,6 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.Entry entry_save_name;
 	[Widget] Gtk.Entry entry_save_description;
 	[Widget] Gtk.Button button_apply;
-	[Widget] Gtk.Button button_delete;
 
 	[Widget] Gtk.SpinButton spin_im_weight_calcule;
 	[Widget] Gtk.SpinButton spin_im_length_calcule;
@@ -659,27 +656,37 @@ public class EncoderConfigurationWindow
 	//TODO: button_apply sensitive only when name != "" && != of the others
 	void on_button_apply_clicked (object o, EventArgs args)
 	{
-		string selectedName = getSelectedName();
-		if(selectedName == "")
-			return;
+		apply(true, true);
+	}
 
-		//save_update when changing any value
-		//and when exiting with ok dialogMessage asking for save
+	private void apply(bool updateSQL, bool updateGUI)
+	{
+		if(updateSQL)
+		{
+			string selectedName = getSelectedName();
+			if(selectedName == "")
+				return;
 
-		//update SQL
-		EncoderConfiguration econfOnGUI = GetAcceptedValues();
-		EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject(-1,
-				encoderGI, true, entry_save_name.Text.ToString(),
-				econfOnGUI, entry_save_description.Text.ToString());
+			//save_update when changing any value
+			//and when exiting with ok dialogMessage asking for save
 
-		SqliteEncoderConfiguration.Update(false, encoderGI, selectedName, econfSO);
+			//update SQL
+			EncoderConfiguration econfOnGUI = GetAcceptedValues();
+			EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject(-1,
+					encoderGI, true, entry_save_name.Text.ToString(),
+					econfOnGUI, entry_save_description.Text.ToString());
 
-		//update GUI
-		TreeModel model;
-		TreeIter iter = new TreeIter();
-		treeview_select.Selection.GetSelected (out model, out iter);
-		store.SetValue (iter, colName, entry_save_name.Text);
-		store.SetValue (iter, colDescription, entry_save_description.Text);
+			SqliteEncoderConfiguration.Update(false, encoderGI, selectedName, econfSO);
+		}
+
+		if(updateGUI)
+		{
+			TreeModel model;
+			TreeIter iter = new TreeIter();
+			treeview_select.Selection.GetSelected (out model, out iter);
+			store.SetValue (iter, colName, entry_save_name.Text);
+			store.SetValue (iter, colDescription, entry_save_description.Text);
+		}
 	}
 
 	void on_button_duplicate_clicked (object o, EventArgs args)
@@ -802,6 +809,8 @@ public class EncoderConfigurationWindow
 	
 	private void on_button_close_clicked (object o, EventArgs args)
 	{
+		apply(true, false);
+
 		//managed on gui/encoder.cs
 		EncoderConfigurationWindowBox.encoder_configuration.Hide();
 	}

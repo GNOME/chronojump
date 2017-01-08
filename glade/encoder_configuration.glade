@@ -1113,40 +1113,9 @@ Eg. value = 2, means person does twice force at half speed.</property>
                 <property name="can_focus">False</property>
                 <property name="layout_style">spread</property>
                 <child>
-                  <widget class="GtkButton" id="button_cancel">
-                    <property name="label">gtk-cancel</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="use_stock">True</property>
-                    <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
-                    <accelerator key="Escape" signal="clicked"/>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="button_accept">
-                    <property name="label">gtk-ok</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_stock">True</property>
-                    <signal name="clicked" handler="on_button_accept_clicked" swapped="no"/>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="pack_type">end</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
                   <widget class="GtkButton" id="button_close">
                     <property name="label">gtk-close</property>
+                    <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_stock">True</property>
@@ -1156,7 +1125,7 @@ Eg. value = 2, means person does twice force at half speed.</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">2</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
               </widget>
@@ -1429,12 +1398,12 @@ Eg. value = 2, means person does twice force at half speed.</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">20</property>
                             <child>
-                              <widget class="GtkButton" id="button_save">
-                                <property name="label" translatable="yes">Save</property>
+                              <widget class="GtkButton" id="button_apply">
+                                <property name="label" translatable="yes">Apply</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
-                                <signal name="clicked" handler="on_button_save_clicked" swapped="no"/>
+                                <signal name="clicked" handler="on_button_apply_clicked" swapped="no"/>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -1452,7 +1421,12 @@ Eg. value = 2, means person does twice force at half speed.</property>
                       </widget>
                     </child>
                     <child>
-                      <placeholder/>
+                      <widget class="GtkLabel" id="label21">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Edit</property>
+                        <property name="use_markup">True</property>
+                      </widget>
                       <packing>
                         <property name="type">label_item</property>
                       </packing>

@@ -431,7 +431,7 @@ public partial class ChronoJumpWindow
 				currentEncoderGI, SqliteEncoderConfiguration.SelectActive(currentEncoderGI),
 				UtilGtk.ComboGetActive(combo_encoder_anchorage), (int) spin_encoder_im_weights_n.Value); //used on inertial
 
-		encoder_configuration_win.Button_accept.Clicked += new EventHandler(on_encoder_configuration_win_accepted);
+		encoder_configuration_win.Button_close.Clicked += new EventHandler(on_encoder_configuration_win_closed);
 
 		//unregister eventHandler first, then register. This avoids to have registered twice
 		try {
@@ -445,9 +445,9 @@ public partial class ChronoJumpWindow
 			new EventHandler(on_button_encoder_cancel_clicked);
 	}
 
-	void on_encoder_configuration_win_accepted (object o, EventArgs args) 
+	void on_encoder_configuration_win_closed (object o, EventArgs args)
 	{
-		encoder_configuration_win.Button_accept.Clicked -= new EventHandler(on_encoder_configuration_win_accepted);
+		encoder_configuration_win.Button_close.Clicked -= new EventHandler(on_encoder_configuration_win_closed);
 		
 		EncoderConfiguration eConfNew = encoder_configuration_win.GetAcceptedValues();
 

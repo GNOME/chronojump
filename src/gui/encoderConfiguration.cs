@@ -432,7 +432,7 @@ public class EncoderConfigurationWindow
 				}
 
 				if(! found)
-					ec.d = ec.list_d[0]; //selected value is the first //TODO: change this and use the value in main gui
+					ec.d = ec.list_d[0];
 			}
 			else
 				ec.d = (double) spin_d.Value; 
@@ -656,35 +656,43 @@ public class EncoderConfigurationWindow
 	//TODO: button_apply sensitive only when name != "" && != of the others
 	void on_button_apply_clicked (object o, EventArgs args)
 	{
-		apply(true, true);
+		apply(true);
 	}
 
-	private void apply(bool updateSQL, bool updateGUI)
+	private void apply(bool updateGUI)
 	{
-		if(updateSQL)
+		//useful fo update SQL
+		string selectedOldName = getSelectedName();
+		if(selectedOldName == "")
+			return;
+
+		string newName = entry_save_name.Text;
+		if(newName != selectedOldName)
 		{
-			string selectedName = getSelectedName();
-			if(selectedName == "")
-				return;
-
-			//save_update when changing any value
-			//and when exiting with ok dialogMessage asking for save
-
-			//update SQL
-			EncoderConfiguration econfOnGUI = GetAcceptedValues();
-			EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject(-1,
-					encoderGI, true, entry_save_name.Text.ToString(),
-					econfOnGUI, entry_save_description.Text.ToString());
-
-			SqliteEncoderConfiguration.Update(false, encoderGI, selectedName, econfSO);
+			/*
+			 * if name has changed, then check if newname already exists on database
+			 * if exists add _copy recursively
+			 */
+			newName = SqliteEncoderConfiguration.IfNameExistsAddSuffix(newName, Catalog.GetString("copy"));
 		}
+		//update entry_save_name if needed
+		if(newName != entry_save_name.Text)
+			entry_save_name.Text = newName;
+
+		//update SQL
+		EncoderConfiguration econfOnGUI = GetAcceptedValues();
+		EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject(-1,
+				encoderGI, true, newName,
+				econfOnGUI, entry_save_description.Text.ToString());
+
+		SqliteEncoderConfiguration.Update(false, encoderGI, selectedOldName, econfSO);
 
 		if(updateGUI)
 		{
 			TreeModel model;
 			TreeIter iter = new TreeIter();
 			treeview_select.Selection.GetSelected (out model, out iter);
-			store.SetValue (iter, colName, entry_save_name.Text);
+			store.SetValue (iter, colName, newName);
 			store.SetValue (iter, colDescription, entry_save_description.Text);
 		}
 	}
@@ -809,7 +817,7 @@ public class EncoderConfigurationWindow
 	
 	private void on_button_close_clicked (object o, EventArgs args)
 	{
-		apply(true, false);
+		apply(false);
 
 		//managed on gui/encoder.cs
 		EncoderConfigurationWindowBox.encoder_configuration.Hide();

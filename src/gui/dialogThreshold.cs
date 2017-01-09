@@ -60,7 +60,7 @@ public class DialogThreshold
 			"\n"   + Catalog.GetString("Threshold should be a value lower than expected values.") +
 
 			"\n\n" + Catalog.GetString("On database three different thresholds are stored: jumps, races and other tests.") +
-			"\n"  +  Catalog.GetString("If you change this values they will be stored once test is executed.") +
+			"\n"  +  Catalog.GetString("If you change these values they will be stored once test is executed.") +
 
 			"\n\n" + Catalog.GetString("Usually threshold values should not be changed but this option is useful for special cases.");
 		textview_about.Buffer = tb_about;
@@ -68,7 +68,7 @@ public class DialogThreshold
 		TextBuffer tb_jumps = new TextBuffer (new TextTagTable());
 		tb_jumps.Text =  Catalog.GetString("Default value: 50 ms.") +
 			"\n\n" + Catalog.GetString("On jumps with contact platforms a value of 50 ms (3 cm jump approximately) is enough to solve electronical problems.") +
-			"\n\n" + Catalog.GetString("You may change this value if you have a jumper that looses pressure with the platform while going down on the eccentric phase previous to a CMJ or ABK jump.") +
+			"\n\n" + Catalog.GetString("You may change this value if you have a jumper that loses pressure with the platform while going down on the eccentric phase previous to a CMJ or ABK jump.") +
 			"\n" +   Catalog.GetString("This jumper should change his technique, but if it's difficult, a solution is to increase threshold.");
 		textview_jumps.Buffer = tb_jumps;
 

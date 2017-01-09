@@ -13746,7 +13746,6 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="app_paintable">True</property>
                                                             <property name="can_focus">True</property>
-                                                            <property name="spacing">10</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox95">
                                                             <property name="visible">True</property>
@@ -17953,6 +17952,9 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

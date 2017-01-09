@@ -6,6 +6,7 @@
 # Jordi Mas i Hernàndez <jmas@softcatala.org>, 2008, 2011 (fixes typos)
 # Xavier Padullés <x.padulles@gmail.com>, 2015-2017
 # Samuel Capellera <samuelcm@blanquerna.url.edu>, 2017
+# Xavier de Blas <xaviblas@gmail.com>, 2007-2011
 #
 msgid ""
 msgstr ""
@@ -5468,6 +5469,8 @@ msgstr "Repareu el test seleccionat"
 #: ../src/gui/chronojump.cs:6349
 msgid "translator-credits"
 msgstr ""
+"Xavier Padullés <x.padulles@gmail.com>, 2015-2017\n"
+"Samuel Capellera <samuelcm@blanquerna.url.edu>, 2017\n"
 "Jordi Mas i Hernàndez <jmas@softcatala.org>, 2008, 2011 (fixes typos)\n"
 "Xavier de Blas <xaviblas@gmail.com>, 2007-2011\n"
 "Elisabet Bermejo <elibermejo@gmail.com>, 2007."

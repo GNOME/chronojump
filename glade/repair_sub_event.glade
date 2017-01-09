@@ -97,7 +97,7 @@
                                   <widget class="GtkLabel" id="label177">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label">Add before</property>
+                                    <property name="label" translatable="yes">Add before</property>
                                     <property name="use_underline">True</property>
                                   </widget>
                                   <packing>
@@ -151,7 +151,7 @@
                                   <widget class="GtkLabel" id="label176">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label">Add after</property>
+                                    <property name="label" translatable="yes">Add after</property>
                                     <property name="use_underline">True</property>
                                   </widget>
                                   <packing>

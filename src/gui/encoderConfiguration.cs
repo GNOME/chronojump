@@ -156,11 +156,19 @@ public class EncoderConfigurationWindow
 		EncoderConfigurationWindowBox.main_gui_anchorage_str = anchorage_str;
 		EncoderConfigurationWindowBox.main_gui_extraWeightN = extraWeightN;
 
-		EncoderConfigurationWindowBox.createAndFillTreeView(
+		EncoderConfigurationWindowBox.createTreeView();
+		EncoderConfigurationWindowBox.fillTreeView(
 				SqliteEncoderConfiguration.Select(false, encoderGI, ""), //all
 				econfSO);
 
+		//A) side is hidden at start to ensure scr_treeview_select is scrolled and displays correctly the last row
+		EncoderConfigurationWindowBox.notebook_side.Visible = false;
+
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
+
+		//B) side is shown now, after showing the window in order to be displayed correctly (see A)
+		EncoderConfigurationWindowBox.notebook_side.Visible = (EncoderConfigurationWindowBox.sideMode != sideModes.HIDDEN);
+
 		return EncoderConfigurationWindowBox;
 	}
 
@@ -537,29 +545,32 @@ public class EncoderConfigurationWindow
 	int colName = 0;
 	int colDescription = 1;
 
-	private void createAndFillTreeView(List<EncoderConfigurationSQLObject> list, EncoderConfigurationSQLObject currentSO)
-	{
-		createTreeView();
-		store = getStore();
-		treeview_select.Model = store;
-
-		foreach (EncoderConfigurationSQLObject econfSO in list)
-			store.AppendValues (new string[]{ econfSO.name, econfSO.description });
-
-		UtilGtk.TreeviewSelectRowWithName(treeview_select, store, colName, currentSO.name, true);
-
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
-		image_delete.Pixbuf = pixbuf;
-	}
 	private void createTreeView()
 	{
+		UtilGtk.RemoveColumns(treeview_select);
+
 		treeview_select.HeadersVisible=true;
 		int count = 0;
 		treeview_select.AppendColumn (Catalog.GetString ("Name"), new CellRendererText(), "text", count++);
 		treeview_select.AppendColumn (Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
 
 		treeview_select.Selection.Changed += onTVSelectionChanged;
+
+		store = getStore();
+		treeview_select.Model = store;
+
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		image_delete.Pixbuf = pixbuf;
 	}
+
+	private void fillTreeView(List<EncoderConfigurationSQLObject> list, EncoderConfigurationSQLObject currentSO)
+	{
+		foreach (EncoderConfigurationSQLObject econfSO in list)
+			store.AppendValues (new string[]{ econfSO.name, econfSO.description });
+
+		UtilGtk.TreeviewSelectRowWithName(treeview_select, store, colName, currentSO.name, true);
+	}
+
 	private TreeStore getStore()
 	{
 		return new TreeStore(typeof (string), typeof (string));
@@ -630,7 +641,7 @@ public class EncoderConfigurationWindow
 				if (contents != null && contents != "")
 				{
 					EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject(contents);
-					if(econfSO.name != null && econfSO.name != "") //TODO: check if name exists
+					if(econfSO.name != null && econfSO.name != "")
 					{
 						//add more suffixes until name is unique
 						econfSO.name = SqliteEncoderConfiguration.IfNameExistsAddSuffix(econfSO.name, Catalog.GetString("copy"));

@@ -451,7 +451,7 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsSelectPerson");
 
-		selectRowTreeView_persons(treeview_persons, treeview_persons_store, count);
+		selectRowTreeView_persons(treeview_persons, count);
 
 		//for three persons, count: 0,1,2, CountRows() 3,3,3
 		if(count +1 >= myTreeViewPersons.CountRows()) {

@@ -1487,7 +1487,7 @@ public partial class ChronoJumpWindow
 
 	void on_menuitem_encoder_session_overview_activate (object o, EventArgs args) 
 	{
-		encoderOverviewWindow = EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID);
+		EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID);
 	}
 	
 	void on_button_encoder_export_all_curves_file_selected (string selectedFileName) 

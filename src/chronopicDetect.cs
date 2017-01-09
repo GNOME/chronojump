@@ -30,7 +30,6 @@ public class ChronopicDetect
 	
 	Gtk.ProgressBar progressbar;
 	Gtk.Button button_cancel;
-	Gtk.Button button_info;
 	
 	private static bool cancel;
 	private static bool needToChangeProgressbarText;
@@ -50,7 +49,6 @@ public class ChronopicDetect
 		this.sp = sp;
 		this.progressbar = progressbar;
 		this.button_cancel = button_cancel;
-		this.button_info = button_info;
 		this.configAutoDetect = configAutoDetect;
 
 		button_cancel.Clicked += new EventHandler(on_button_cancel_clicked);

@@ -25,7 +25,7 @@ public class Log
 {
 	//1.4.10 have log again by default to all windows users
 	//only two logs: current execution log and previous execution log
-	private static TextWriter writer;
+	//private static TextWriter writer;
 	private static bool useConsole;
 				
 
@@ -79,11 +79,13 @@ public class Log
 	{
 		if(useConsole)
 			System.Console.Out.Close();
+		/*
 		else {
 			try {
 				((IDisposable)writer).Dispose();
 			} catch {}
 		}
+		*/
 	}
 	
 	

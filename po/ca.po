@@ -261,7 +261,7 @@ msgstr "pàgina 1"
 
 #: ../glade/app1.glade.h:48
 msgid "Tests have 1 flight phase"
-msgstr "El test té >1 fase de vol"
+msgstr "El test té 1 fase de vol"
 
 #: ../glade/app1.glade.h:49
 msgid "Tests have >1 flight phase"

@@ -83,7 +83,7 @@ public abstract class EncoderCapture
 	protected bool capturingFirstPhase;
 
 	//capture is simulated (a signal file is readed)
-	private static bool simulated;
+	private static bool simulated = false;
 	private int [] simulatedInts;
 	private int simulatedCount;
 

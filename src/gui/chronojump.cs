@@ -354,7 +354,6 @@ public partial class ChronoJumpWindow
 	Random rand;
 
 	//persons
-	private TreeStore treeview_persons_store;
 	private TreeViewPersons myTreeViewPersons;
 	//normal jumps
 	private TreeViewJumps myTreeViewJumps;
@@ -434,13 +433,11 @@ public partial class ChronoJumpWindow
 	EditMultiChronopicWindow editMultiChronopicWin;
 	
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
-	ErrorWindow errorWin;
 	ReportWindow reportWin;
 	RepetitiveConditionsWindow repetitiveConditionsWin;
 	GenericWindow genericWin;
 		
 	ExecuteAutoWindow executeAutoWin;
-	EncoderOverviewWindow encoderOverviewWindow;
 
 	static Thread pingThread;
 
@@ -1145,7 +1142,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	//return true if selection is done (there's any person)
-	private bool selectRowTreeView_persons(Gtk.TreeView tv, TreeStore store, int rowNum) 
+	private bool selectRowTreeView_persons(Gtk.TreeView tv, int rowNum)
 	{
 		myTreeViewPersons.SelectRow(rowNum);
 		
@@ -2522,7 +2519,7 @@ public partial class ChronoJumpWindow
 		
 		resetAllTreeViews(true); //boolean means: "also persons"
 
-		bool foundPersons = selectRowTreeView_persons(treeview_persons, treeview_persons_store, 0);
+		bool foundPersons = selectRowTreeView_persons(treeview_persons, 0);
 		
 		//show hidden widgets
 		sensitiveGuiNoSession();
@@ -2625,9 +2622,7 @@ public partial class ChronoJumpWindow
 
 		int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 		if(rowToSelect != -1) {
-			selectRowTreeView_persons(treeview_persons,
-					treeview_persons_store, 
-					rowToSelect);
+			selectRowTreeView_persons(treeview_persons, rowToSelect);
 			sensitiveGuiYesPerson();
 		}
 	}
@@ -2647,9 +2642,7 @@ public partial class ChronoJumpWindow
 		fillTreeView_persons();
 		int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 		if(rowToSelect != -1) {
-			selectRowTreeView_persons(treeview_persons,
-					treeview_persons_store, 
-					rowToSelect);
+			selectRowTreeView_persons(treeview_persons, rowToSelect);
 			sensitiveGuiYesPerson();
 		}
 	}
@@ -2700,9 +2693,7 @@ public partial class ChronoJumpWindow
 			
 			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 			if(rowToSelect != -1) {
-				selectRowTreeView_persons(treeview_persons,
-						treeview_persons_store, 
-						rowToSelect);
+				selectRowTreeView_persons(treeview_persons, rowToSelect);
 				sensitiveGuiYesPerson();
 				//appbar2.Push( 1, Catalog.GetString("Successfully added") + " " + currentPerson.Name );
 			}
@@ -2732,9 +2723,7 @@ public partial class ChronoJumpWindow
 			fillTreeView_persons();
 			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 			if(rowToSelect != -1) {
-				selectRowTreeView_persons(treeview_persons,
-						treeview_persons_store, 
-						rowToSelect);
+				selectRowTreeView_persons(treeview_persons, rowToSelect);
 				sensitiveGuiYesPerson();
 			
 				// string myString = string.Format(
@@ -2774,9 +2763,7 @@ public partial class ChronoJumpWindow
 			
 			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 			if(rowToSelect != -1) {
-				selectRowTreeView_persons(treeview_persons,
-						treeview_persons_store, 
-						rowToSelect);
+				selectRowTreeView_persons(treeview_persons, rowToSelect);
 				sensitiveGuiYesPerson();
 			}
 
@@ -2823,7 +2810,7 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID.ToString(), currentPerson.UniqueID.ToString());
 		
 		resetAllTreeViews(true); //boolean means: "also persons"
-		bool foundPersons = selectRowTreeView_persons(treeview_persons, treeview_persons_store, 0);
+		bool foundPersons = selectRowTreeView_persons(treeview_persons, 0);
 			
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, true);
@@ -2989,6 +2976,7 @@ public partial class ChronoJumpWindow
 	}	
 	
 	private Constants.Menuitem_modes last_menuitem_mode; //store it to decide not change threshold when change from jumps to jumpsRj
+	private bool last_menuitem_mode_defined = false; //undefined when first time entry on a mode (jumps, jumpRj, ...)
 	private void select_menuitem_mode_toggled(Constants.Menuitem_modes m) 
 	{
 		menuitem_mode_selected_jumps_simple.Visible = false;
@@ -3075,7 +3063,7 @@ public partial class ChronoJumpWindow
 			 * interface has to change to YESPERSON (meaning no_signal).
 			 * But, if there's no person shoud continue on NOPERSON
 			 */
-			if(selectRowTreeView_persons(treeview_persons, treeview_persons_store, 0))
+			if(selectRowTreeView_persons(treeview_persons, 0))
 				encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 			
 			blankEncoderInterface();
@@ -3147,7 +3135,7 @@ public partial class ChronoJumpWindow
 		if(m != Constants.Menuitem_modes.POWERGRAVITATORY && m != Constants.Menuitem_modes.POWERINERTIAL)
 		{
 			//don't change threshold if changing from jumpssimple to jumpsreactive ...
-			if(last_menuitem_mode == null ||
+			if(! last_menuitem_mode_defined ||
 					( m == Constants.Menuitem_modes.JUMPSSIMPLE &&
 					  last_menuitem_mode != Constants.Menuitem_modes.JUMPSREACTIVE ) ||
 					( m == Constants.Menuitem_modes.JUMPSREACTIVE &&
@@ -3165,6 +3153,7 @@ public partial class ChronoJumpWindow
 				}
 			}
 		}
+		last_menuitem_mode_defined = true;
 
 		chronopicRegisterUpdate(false);
 
@@ -5071,7 +5060,7 @@ LogB.Debug("X");
 			}
 		}
 		catch {
-			errorWin = ErrorWindow.Show(Catalog.GetString("Cannot update. Probably this test was deleted."));
+			ErrorWindow.Show(Catalog.GetString("Cannot update. Probably this test was deleted."));
 		}
 	
 	}
@@ -6087,7 +6076,7 @@ LogB.Debug("X");
 		int rowToSelect = myTreeViewPersons.FindRow(ea.personUniqueID);
 		if(rowToSelect != -1) {
 			//this will update also currentPerson
-			selectRowTreeView_persons(treeview_persons, treeview_persons_store, rowToSelect);
+			selectRowTreeView_persons(treeview_persons, rowToSelect);
 			label_jump_auto_current_person.Text = currentPerson.Name;
 
 			//select the test
@@ -6703,8 +6692,9 @@ LogB.Debug("X");
 			openWindow = true;
 
 		if(openWindow) {
-			ChronopicRegisterWindow crWin = new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
+			//ChronopicRegisterWindow crWin = new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
 			//crWin.FakeButtonCloseSerialPort.Clicked += new EventHandler(closeSerialPort);
+			new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
 			cp2016.WindowOpened = true;
 		}
 	}

@@ -56,7 +56,6 @@ public partial class ChronoJumpWindow
 
 
 	private bool useVideo = true;
-	private Config.AutodetectPortEnum configAutodetectPort = Config.AutodetectPortEnum.ACTIVE;
 
 	private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
 	private bool encoderUpdateTreeViewWhileCapturing = true;
@@ -102,9 +101,6 @@ public partial class ChronoJumpWindow
 			alignment_video_encoder.Visible = false;
 		}
 		
-		//Auto-detect stuff
-		configAutodetectPort = config.AutodetectPort;
-
 		//show only power
 		if(config.OnlyEncoderGravitatory)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERGRAVITATORY);

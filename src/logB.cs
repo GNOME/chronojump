@@ -260,7 +260,7 @@ public static class LogB
 				if(messagesOtherThreads != null) {
 					try {
 						Console.Write(messagesOtherThreads);
-					} catch (System.IndexOutOfRangeException e) {
+					} catch (System.IndexOutOfRangeException) {
 						Console.Write("CATCHED printing messagesOtherThreads");
 					}
 				}
@@ -275,7 +275,7 @@ public static class LogB
 					else
 						Console.WriteLine(" {0}", message);
 				}
-				catch (System.IndexOutOfRangeException e) {
+				catch (System.IndexOutOfRangeException) {
 					Console.Write("CATCHED printing main thread");
 				}
 			} else {

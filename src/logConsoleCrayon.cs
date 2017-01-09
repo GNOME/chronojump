@@ -82,7 +82,7 @@ public static class ConsoleCrayon
 					Console.BackgroundColor = color;
 				}
 			}
-		} catch (System.IndexOutOfRangeException e) {
+		} catch (System.IndexOutOfRangeException) {
 			Console.Write("CATCHED at SetColor");
 		}
 	}

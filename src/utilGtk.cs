@@ -285,6 +285,10 @@ public class UtilGtk
 		return -1;
 	}
 
+	public static bool TreeviewSelectFirstRow(Gtk.TreeView tv, Gtk.TreeStore store, bool scrollToRow)
+	{
+		return treeviewSelectRow(tv, store, 0, scrollToRow);
+	}
 	//selects a row that has an uniqueID (usually at col 0)
 	public static bool TreeviewSelectRowWithID(Gtk.TreeView tv, Gtk.TreeStore store, int colNum, int id, bool scrollToRow)
 	{
@@ -292,7 +296,7 @@ public class UtilGtk
 			return false;
 
 		int rowNum = getRowNumOfThisID(store, colNum, id);
-		return TreeviewSelectRow(tv, store, rowNum, scrollToRow);
+		return treeviewSelectRow(tv, store, rowNum, scrollToRow);
 	}
 	public static bool TreeviewSelectRowWithName(Gtk.TreeView tv, Gtk.TreeStore store, int colNum, string name, bool scrollToRow)
 	{
@@ -300,9 +304,9 @@ public class UtilGtk
 			return false;
 
 		int rowNum = getRowNumOfThisName(store, colNum, name);
-		return TreeviewSelectRow(tv, store, rowNum, scrollToRow);
+		return treeviewSelectRow(tv, store, rowNum, scrollToRow);
 	}
-	private static bool TreeviewSelectRow(Gtk.TreeView tv, Gtk.TreeStore store, int rowNum, bool scrollToRow)
+	private static bool treeviewSelectRow(Gtk.TreeView tv, Gtk.TreeStore store, int rowNum, bool scrollToRow)
 	{
 		if(rowNum == -1)
 			return false;

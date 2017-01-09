@@ -734,15 +734,23 @@ public class EncoderConfigurationWindow
 		}
 	}
 
-	//TODO: select another row (and "active" it)
-	//TODO: cannot delete if only there's the only on this encoderGI
 	void on_button_delete_clicked (object o, EventArgs args)
 	{
 		string selectedName = getSelectedName();
 		if(selectedName == "")
 			return;
 
-		UtilGtk.RemoveRow(treeview_select, store);
+		if(UtilGtk.CountRows(store) <= 1) {
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Sorry, cannot delete all rows.") + "\n");
+			return;
+		}
+
+		//treeview
+		UtilGtk.RemoveRow(treeview_select, store); 			//1 delete row
+		UtilGtk.TreeviewSelectFirstRow(treeview_select, store, true); 	//2 selects another row (use first)
+
+		//SQL
 		Sqlite.DeleteFromName(false, Constants.EncoderConfigurationTable, "name", selectedName);
 	}
 

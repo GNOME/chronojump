@@ -1107,9 +1107,11 @@ public class EncoderConfigurationSQLObject
 					if(Enum.IsDefined(typeof(Constants.EncoderGI), parts[1]))
 						encoderGI = (Constants.EncoderGI) Enum.Parse(typeof(Constants.EncoderGI), parts[1]);
 				}
-				if(parts[0] == "active" && parts[1] != "")
+
+				//active is not needed on import, because on import it's always marked as active
+				else if(parts[0] == "active" && parts[1] != "")
 					active = (parts[1] == "True");
-				if(parts[0] == "name" && parts[1] != "")
+				else if(parts[0] == "name" && parts[1] != "")
 					name = parts[1];
 				else if(parts[0] == "EncoderConfiguration")
 				{

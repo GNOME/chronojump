@@ -3073,8 +3073,12 @@ public partial class ChronoJumpWindow
 				menuitem_mode_selected_power_gravitatory.Visible = true;
 
 				//change encoderConfigurationCurrent if needed
-				if(encoderConfigurationCurrent.has_inertia) {
-					encoderConfigurationCurrent = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY).encoderConfiguration;
+				if(encoderConfigurationCurrent.has_inertia)
+				{
+					EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY);
+					encoderConfigurationCurrent = econfSO.encoderConfiguration;
+					label_encoder_selected.Text = econfSO.name;
+
 					changed = true;
 				}
 				
@@ -3093,8 +3097,12 @@ public partial class ChronoJumpWindow
 				menuitem_mode_selected_power_inertial.Visible = true;
 
 				//change encoderConfigurationCurrent if needed
-				if(! encoderConfigurationCurrent.has_inertia) {
-					encoderConfigurationCurrent = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.INERTIAL).encoderConfiguration;
+				if(! encoderConfigurationCurrent.has_inertia)
+				{
+					EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.INERTIAL);
+					encoderConfigurationCurrent = econfSO.encoderConfiguration;
+					label_encoder_selected.Text = econfSO.name;
+
 					changed = true;
 				}
 				

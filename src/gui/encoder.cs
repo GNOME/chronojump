@@ -382,7 +382,9 @@ public partial class ChronoJumpWindow
 		encoder_pulsebar_analyze.Text = "";
 
 		//read from SQL
-		encoderConfigurationCurrent = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY).encoderConfiguration;
+		EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY);
+		encoderConfigurationCurrent = econfSO.encoderConfiguration;
+		label_encoder_selected.Text = econfSO.name;
 		
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 		
@@ -450,6 +452,7 @@ public partial class ChronoJumpWindow
 		encoder_configuration_win.Button_close.Clicked -= new EventHandler(on_encoder_configuration_win_closed);
 		
 		EncoderConfiguration eConfNew = encoder_configuration_win.GetAcceptedValues();
+		label_encoder_selected.Text = encoder_configuration_win.Entry_save_name;
 
 		if(encoderConfigurationCurrent == eConfNew)
 			return;
@@ -476,8 +479,6 @@ public partial class ChronoJumpWindow
 			encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
 		}
-
-		label_encoder_selected.Text = encoderConfigurationCurrent.code;
 	}
 	
 	void on_combo_encoder_anchorage_changed (object o, EventArgs args) {
@@ -1442,8 +1443,6 @@ public partial class ChronoJumpWindow
 		}
 		else
 			notebook_encoder_capture_extra_mass.CurrentPage = 0;
-
-		label_encoder_selected.Text = encoderConfigurationCurrent.code;
 	}
 
 	void encoderSignalDelete (string signalURL, int signalID) 

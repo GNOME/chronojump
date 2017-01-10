@@ -844,12 +844,12 @@ public class EncoderConfigurationWindow
 	
 	protected void on_delete_event (object o, DeleteEventArgs args)
 	{
-		args.RetVal = true;
-	
 		if(capturing)
 			button_encoder_capture_inertial_cancel.Click();
 
-		on_button_close_clicked(new object(), new EventArgs());
+		button_close.Click();
+
+		args.RetVal = true;
 	}
 
 	public Button Button_close {
@@ -866,6 +866,9 @@ public class EncoderConfigurationWindow
 	//	get { return button_encoder_capture_inertial_finish; }
 	//}
 	
+	public string Entry_save_name {
+		get { return entry_save_name.Text; }
+	}
 	
 	public double Spin_im_weight {
 		get { return spin_im_weight_calcule.Value; }

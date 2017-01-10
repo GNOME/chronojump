@@ -641,7 +641,16 @@ public class EncoderConfigurationWindow
 				if (contents != null && contents != "")
 				{
 					EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject(contents);
-					if(econfSO.name != null && econfSO.name != "")
+					if(econfSO.encoderGI != encoderGI)
+					{
+						if(encoderGI == Constants.EncoderGI.GRAVITATORY)
+							new DialogMessage(Constants.MessageTypes.WARNING,
+									Catalog.GetString("Imported configuration must be gravitatory."));
+						else if(encoderGI == Constants.EncoderGI.INERTIAL)
+							new DialogMessage(Constants.MessageTypes.WARNING,
+									Catalog.GetString("Imported configuration must be inertial."));
+					}
+					else if(econfSO.name != null && econfSO.name != "")
 					{
 						//add more suffixes until name is unique
 						econfSO.name = SqliteEncoderConfiguration.IfNameExistsAddSuffix(econfSO.name, Catalog.GetString("copy"));

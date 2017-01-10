@@ -3577,6 +3577,9 @@ public partial class ChronoJumpWindow
 
 	private void on_finish_clicked (object o, EventArgs args) 
 	{
+		//to avoid doble finish or cancel while finishing
+		hideButtons();
+
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 		currentEventExecute.Finish = true;
 	

@@ -3243,7 +3243,7 @@ msgstr "Test curt de l'SQL"
 
 #: ../glade/preferences_win.glade.h:103
 msgid "SQL long test"
-msgstr "Test llard de l'SQL"
+msgstr "Test llarg de l'SQL"
 
 #: ../glade/preferences_win.glade.h:104
 msgid "Developer options"

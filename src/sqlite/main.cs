@@ -141,6 +141,14 @@ class Sqlite
 	//because lots of similar transactions have to be done
 	public static void Open()
 	{
+		if(dbcon.State == System.Data.ConnectionState.Closed)
+		{
+			LogB.SQLon();
+			dbcon.Open();
+		} else
+			LogB.SQLonAlready();
+
+		/*
 		try {
 			LogB.SQLon();
 			dbcon.Open();
@@ -155,6 +163,7 @@ class Sqlite
 			
 			LogB.SQL("-- end of catched --");
 		}
+		*/
 		
 		IsOpened = true;
 	}

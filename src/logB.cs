@@ -58,7 +58,7 @@ public enum LogEntryType
 	Warning,
 	Error,
 	Information,
-	SQL, SQLon, SQLoff,
+	SQL, SQLon, SQLoff, SQLonAlready, //already means: was not opened because it was already opened
 	ThreadStart, ThreadEnding, ThreadEnded,
 	TestStart, TestEnd
 }
@@ -228,6 +228,10 @@ public static class LogB
 						ConsoleCrayon.BackgroundColor = ConsoleColor.DarkCyan;
 						ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
 						break;
+					case LogEntryType.SQLonAlready:
+						ConsoleCrayon.BackgroundColor = ConsoleColor.DarkCyan;
+						ConsoleCrayon.ForegroundColor = ConsoleColor.Gray;
+						break;
 					case LogEntryType.ThreadStart:
 						ConsoleCrayon.BackgroundColor = ConsoleColor.Green;
 						ConsoleCrayon.ForegroundColor = ConsoleColor.Black;
@@ -305,6 +309,8 @@ public static class LogB
 				return "SQL ON";
 			case LogEntryType.SQLoff:
 				return "SQL OFF";
+			case LogEntryType.SQLonAlready:
+				return "SQL ON ALREADY!!!";
 			case LogEntryType.ThreadStart:
 				return "Thread Start -------------------------->";
 			case LogEntryType.ThreadEnding:
@@ -580,6 +586,11 @@ public static class LogB
 	public static void SQLoff()
 	{
 		Commit(LogEntryType.SQLoff, null, null, false);
+	}
+
+	public static void SQLonAlready()
+	{
+		Commit(LogEntryType.SQLonAlready, null, null, false);
 	}
 
 #endregion

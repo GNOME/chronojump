@@ -490,6 +490,13 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsContactsExecuteTest");
 
+		if(myTreeViewPersons.CountRows() == 0)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "This session has no persons. Test will end now!");
+			testsActive = false;
+			return false;
+		}
+
 		on_button_execute_test_clicked (new object (), new EventArgs ());
 
 		testsSuccededCount ++;

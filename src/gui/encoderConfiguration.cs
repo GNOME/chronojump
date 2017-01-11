@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic; //List<T>
 using Gtk;
@@ -671,6 +672,83 @@ public class EncoderConfigurationWindow
 		}
 		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
 		fc.Destroy();
+	}
+
+	string exportFileName;
+	void on_button_export_clicked (object o, EventArgs args)
+	{
+		Gtk.FileChooserDialog fc=
+			new Gtk.FileChooserDialog(Catalog.GetString("Export to file"),
+					encoder_configuration,
+					FileChooserAction.Save,
+					Catalog.GetString("Cancel"),ResponseType.Cancel,
+					Catalog.GetString("Accept"),ResponseType.Accept
+					);
+
+		if (fc.Run() == (int)ResponseType.Accept)
+		{
+			exportFileName = fc.Filename;
+			exportFileName = Util.AddTxtIfNeeded(exportFileName);
+
+			try {
+				if (File.Exists(exportFileName)) {
+					LogB.Information(string.Format(
+								"File {0} exists with attributes {1}, created at {2}",
+								exportFileName,
+								File.GetAttributes(exportFileName),
+								File.GetCreationTime(exportFileName)));
+					LogB.Information("Overwrite...");
+					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+								"Are you sure you want to overwrite file: "), "",
+							exportFileName);
+
+					confirmWin.Button_accept.Clicked +=
+						new EventHandler(on_overwrite_file_export_accepted);
+				} else {
+					on_file_export_accepted();
+
+					string myString = string.Format(Catalog.GetString("Saved to {0}"),
+							exportFileName);
+					new DialogMessage(Constants.MessageTypes.INFO, myString);
+				}
+			}
+			catch {
+				string myString = string.Format(
+						Catalog.GetString("Cannot save file {0} "), exportFileName);
+				new DialogMessage(Constants.MessageTypes.WARNING, myString);
+			}
+		}
+		else {
+			LogB.Information("cancelled");
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
+			fc.Hide ();
+			return ;
+		}
+
+		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		fc.Destroy();
+
+		return;
+	}
+	private void on_overwrite_file_export_accepted(object o, EventArgs args)
+	{
+		on_file_export_accepted();
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+	private void on_file_export_accepted()
+	{
+		TextWriter writer = File.CreateText(exportFileName);
+
+		EncoderConfiguration econfOnGUI = GetAcceptedValues();
+		EncoderConfigurationSQLObject econfSO = new EncoderConfigurationSQLObject(-1,
+				encoderGI, true, entry_save_name.Text.ToString(),
+				econfOnGUI, entry_save_description.Text.ToString());
+		writer.Write(econfSO.ToFile());
+
+		writer.Close();
+		((IDisposable)writer).Dispose();
 	}
 
 	//TODO: button_apply sensitive only when name != "" && != of the others

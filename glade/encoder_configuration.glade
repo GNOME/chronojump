@@ -1160,17 +1160,65 @@ Eg. value = 2, means person does twice force at half speed.</property>
                     <property name="label_yalign">0.69999998807907104</property>
                     <property name="shadow_type">out</property>
                     <child>
-                      <widget class="GtkHButtonBox" id="hbuttonbox3">
+                      <widget class="GtkHBox" id="hbox15">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="border_width">8</property>
+                        <property name="border_width">6</property>
                         <child>
                           <widget class="GtkButton" id="button_import">
-                            <property name="label" translatable="yes">Import</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="tooltip" translatable="yes">Import</property>
                             <signal name="clicked" handler="on_button_import_clicked" swapped="no"/>
+                            <child>
+                              <widget class="GtkImage" id="image_import">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="stock">gtk-new</property>
+                              </widget>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkButton" id="button_export">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="tooltip" translatable="yes">Export</property>
+                            <signal name="clicked" handler="on_button_export_clicked" swapped="no"/>
+                            <child>
+                              <widget class="GtkImage" id="image_export">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="stock">gtk-convert</property>
+                              </widget>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkHBox" id="hbox9">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <widget class="GtkLabel" id="label27">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Import</property>
+                            <property name="use_markup">True</property>
                           </widget>
                           <packing>
                             <property name="expand">True</property>
@@ -1178,14 +1226,31 @@ Eg. value = 2, means person does twice force at half speed.</property>
                             <property name="position">0</property>
                           </packing>
                         </child>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="label27">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Import</property>
-                        <property name="use_markup">True</property>
+                        <child>
+                          <widget class="GtkLabel" id="label34">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label">/</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="label37">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Export</property>
+                            <property name="use_markup">True</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
                       </widget>
                       <packing>
                         <property name="type">label_item</property>

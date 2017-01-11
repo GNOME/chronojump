@@ -1146,6 +1146,31 @@ public class EncoderConfigurationSQLObject
 			 ", \"" + description + "\"" +
 			 ", \"\", \"\", \"\""; //future1, future2, future3
 	}
+
+	public string ToFile()
+	{
+		return
+			"#Case sensitive!\n" +
+			"#Comments start with sharp sign\n" +
+			"#Options are key/values with an = separating them\n" +
+			"#DO NOT write comments in the same line than key/value pairs\n" +
+			"#\n" +
+			"#DO NOT WRITE SPACES JUST BEFORE OR AFTER THE '=' SIGN\n" +
+			"#This work:\n" +
+			"#name=My encoder config\n" +
+			"#This doesn't work:\n" +
+			"#name= My encoder config\n" +
+			"#\n" +
+			"#Whitelines are allowed\n" +
+			"\nname=" + name + "\n" +
+			"description=" + description + "\n" +
+			"\n#encoderGI must be GRAVITATORY or INERTIAL\n" +
+			"encoderGI=" + encoderGI.ToString() + "\n" +
+			"\n#EncoderConfiguration if exists, this will be used and cannot be changed\n" +
+"#name:d:D:anglePush:angleWeight:inertiaMachine:gearedDown:inertiaTotal:extraWeightN:extraWeightGrams:extraWeightLenght:list_d\n" +
+"#list_d is list of anchorages in centimeters. each value separated by '_' . Decimal separator is '.'\n" +
+			"EncoderConfiguration=" + encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL);
+	}
 }
 
 public class EncoderConfiguration

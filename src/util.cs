@@ -1521,6 +1521,9 @@ public class Util
 	public static string AddPngIfNeeded(string myFile) {
 		return addExtensionIfNeeded(myFile, ".png");
 	}
+	public static string AddTxtIfNeeded(string myFile) {
+		return addExtensionIfNeeded(myFile, ".txt");
+	}
 	private static string addExtensionIfNeeded(string myFile, string extension)
 	{
 		int posOfDot = myFile.LastIndexOf('.');

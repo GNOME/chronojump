@@ -134,6 +134,8 @@ public class PreferencesWindow {
 	[Widget] Gtk.RadioButton radio_export_latin;
 	[Widget] Gtk.RadioButton radio_export_non_latin;
 	[Widget] Gtk.Label label_advanced_feedback;
+	[Widget] Gtk.ToggleButton toggle_gc_collect_on_close;
+	[Widget] Gtk.ToggleButton toggle_never_close;
 
 
 	[Widget] Gtk.Button button_accept;
@@ -853,6 +855,28 @@ public class PreferencesWindow {
 	}
 	public void DebugActivated() {
 		label_advanced_feedback.Text = "Debug mode on while Chronojump is running.";
+	}
+
+	private void on_toggle_gc_collect_on_close_toggled(object o, EventArgs args)
+	{
+		if(toggle_gc_collect_on_close.Active) {
+			Sqlite.GCCollect = true;
+			new DialogMessage(Constants.MessageTypes.INFO, "GCCollect: ACTIVE!");
+		} else {
+			Sqlite.GCCollect = false;
+			new DialogMessage(Constants.MessageTypes.INFO, "GCCollect: UNACTIVE! (default)");
+		}
+	}
+
+	private void on_toggle_never_close_toggled(object o, EventArgs args)
+	{
+		if(toggle_never_close.Active) {
+			Sqlite.NeverCloseDB = true;
+			new DialogMessage(Constants.MessageTypes.INFO, "Never close: ACTIVE!");
+		} else {
+			Sqlite.NeverCloseDB = false;
+			new DialogMessage(Constants.MessageTypes.INFO, "Never close: UNACTIVE! (default)");
+		}
 	}
 
 	private bool PulseGTK ()

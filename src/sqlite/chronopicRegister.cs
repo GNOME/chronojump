@@ -65,7 +65,8 @@ class SqliteChronopicRegister : Sqlite
 					);
 			l.Add(crp);
 		}
-		
+
+		reader.Close();
 		closeIfNeeded(dbconOpened);
 
 		return l;

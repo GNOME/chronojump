@@ -3580,6 +3580,8 @@ public partial class ChronoJumpWindow
 		//to avoid doble finish or cancel while finishing
 		hideButtons();
 
+		LogB.Information("finish clicked one");
+
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 		currentEventExecute.Finish = true;
 	
@@ -3662,6 +3664,14 @@ public partial class ChronoJumpWindow
 	void on_button_execute_test_accepted ()
 	{
 		bool canCaptureC = cp2016.StoredCanCaptureContacts;
+
+		/*
+		 * We need to do this to ensure no cancel_clicked calls accumulate
+		 * if we don't do tue -= now, after 10 tests, if we cancel last one,
+		 * it wWill enter on_cancel_clicked 10 times at the end
+		 */
+		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
+		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 
 		if(radio_menuitem_mode_jumps_simple.Active) 
 		{

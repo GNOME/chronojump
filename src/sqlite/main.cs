@@ -145,7 +145,13 @@ class Sqlite
 		if(dbcon.State == System.Data.ConnectionState.Closed)
 		{
 			LogB.SQLon();
-			dbcon.Open();
+			try {
+				dbcon.Open();
+			} catch {
+				LogB.SQL("-- catched on SQL open --");
+				System.Threading.Thread.Sleep(250);
+				Open();
+			}
 		} else
 			LogB.SQLonAlready();
 

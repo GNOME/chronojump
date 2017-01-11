@@ -141,6 +141,7 @@ class Sqlite
 	//because lots of similar transactions have to be done
 	public static void Open()
 	{
+		LogB.Information("SQL going to open, status: " + dbcon.State.ToString());
 		if(dbcon.State == System.Data.ConnectionState.Closed)
 		{
 			LogB.SQLon();

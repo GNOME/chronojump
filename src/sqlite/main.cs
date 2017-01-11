@@ -115,6 +115,8 @@ class Sqlite
 
 	public static bool IsOpened = false;
 	public static bool SafeClose = true;
+	public static bool GCCollect = false; //Experimental
+	public static bool NeverCloseDB = false; //Experimental
 
 	// Here it saves the initial class state before it's used. So we can restore it any time
 	// if needed
@@ -176,6 +178,9 @@ class Sqlite
 	}
 	public static void Close()
 	{
+		if(NeverCloseDB)
+			return;
+
 		LogB.SQLoff();
 			
 		if(SafeClose) {
@@ -185,7 +190,9 @@ class Sqlite
 		dbcon.Close();
 		
 		if(SafeClose) {
-			//GC.Collect(); don't need and very slow
+			if(GCCollect)
+				GC.Collect(); //don't need and very slow
+
 			dbcmd = dbcon.CreateCommand();
 		}
 		

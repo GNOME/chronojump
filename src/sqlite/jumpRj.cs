@@ -60,9 +60,11 @@ class SqliteJumpRj : SqliteJump
 
 	public static int Insert (bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tvMax, double tcMax, double fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited, string angleString, int simulated )
 	{
+		Console.WriteLine("At SQL insert RJ");
+
 		if(! dbconOpened)
 			Sqlite.Open();
-		
+
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
 
@@ -77,8 +79,6 @@ class SqliteJumpRj : SqliteJump
 				Util.ConvertToPoint(tvString) + "\", \"" + Util.ConvertToPoint(tcString) + "\", " +
 				jumps + ", " + Util.ConvertToPoint(time) + ", \"" + limited + "\", \"" + angleString + "\", " + simulated +")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
-
-		LogB.Information("SQL going to insert RJ, status: " + dbcon.State.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//int myLast = dbcon.LastInsertRowId;

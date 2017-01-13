@@ -143,37 +143,27 @@ class Sqlite
 	//because lots of similar transactions have to be done
 	public static void Open()
 	{
-		LogB.Information("SQL going to open, status: " + dbcon.State.ToString());
+		Console.WriteLine("SQL going to open, status: " + dbcon.State.ToString());
 		if(dbcon.State == System.Data.ConnectionState.Closed)
 		{
 			LogB.SQLon();
 			try {
 				dbcon.Open();
 			} catch {
-				LogB.SQL("-- catched on SQL open --");
-				System.Threading.Thread.Sleep(250);
-				Open();
+				LogB.SQL("-- catched --");
+
+				Close();
+
+				LogB.Warning(" going to open again ");
+				LogB.SQLon();
+				dbcon.Open();
+
+				Console.WriteLine("-- end of catched --");
 			}
-		} else
+		} else {
 			LogB.SQLonAlready();
-
-		/*
-		try {
-			LogB.SQLon();
-			dbcon.Open();
-		} catch {
-			LogB.SQL("-- catched --");
-
-			Close();
-
-			LogB.Warning(" going to open ");
-			LogB.SQLon();
-			dbcon.Open();
-			
-			LogB.SQL("-- end of catched --");
 		}
-		*/
-		
+
 		IsOpened = true;
 	}
 	public static void Close()

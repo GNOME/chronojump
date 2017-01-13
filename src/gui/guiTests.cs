@@ -141,7 +141,8 @@ public class CJTests
 	{
 		CJTests.Types.MODE_JUMPSREACTIVE,
 		CJTests.Types.SESSION_LOAD,
-		CJTests.Types.CONTACTS_RJ_3J,
+		//CJTests.Types.CONTACTS_RJ_3J,
+		CJTests.Types.MODE_JUMPSSIMPLE,
 		CJTests.Types.BUCLE_1_ON,
 			CJTests.Types.PERSON_SELECT, //bucle1startPos //repeat from here //when all persons have done a jumps/runs test, will end
 			CJTests.Types.CONTACTS_EXECUTE_TEST,

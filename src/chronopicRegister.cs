@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2016-2017  Xavier de Blas <xaviblas@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 
 /*
  * This class provides all the functionality to connect using FTDI serialNumber
- * this started at 1.6.3 version
+ * this started at 1.7.0 version
  */
 
 using System;

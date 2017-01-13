@@ -3142,7 +3142,6 @@ Other</property>
                                 </child>
                                 <child>
                                   <widget class="GtkHBox" id="hbox22">
-                                    <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <child>
                                       <widget class="GtkToggleButton" id="toggle_gc_collect_on_close">

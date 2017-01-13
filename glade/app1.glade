@@ -13630,7 +13630,7 @@ Concentric</property>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkButton" id="button_encoder_select">
-                                                            <property name="label" translatable="yes">Select encoder</property>
+                                                            <property name="label" translatable="yes">Encoder configuration</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
@@ -17975,6 +17975,9 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

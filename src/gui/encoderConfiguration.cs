@@ -795,7 +795,7 @@ public class EncoderConfigurationWindow
 		}
 	}
 
-	void on_button_duplicate_clicked (object o, EventArgs args)
+	void on_button_new_clicked (object o, EventArgs args)
 	{
 		string selectedName = getSelectedName();
 		if(selectedName == "")

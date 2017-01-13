@@ -609,8 +609,6 @@ public partial class ChronoJumpWindow
 
 		videoCaptureInitialize();
 	
-		//leave empty on new releases	
-		//string buildDate = " (2016-07-27)";
 		string buildVersion = UtilAll.ReadVersionFromBuildInfo();
 		label_version.Text = buildVersion;
 		LogB.Information("Build version:" + buildVersion);

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2005  Juan Gonzalez Gomez
- * Copyright (C) 2014-2016  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2014-2017  Xavier de Blas <xaviblas@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

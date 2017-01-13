@@ -1,6 +1,6 @@
 # 
 #  This file is part of ChronoJump
-#   Copyright (C) 2014-2016  	Xavier de Blas <xaviblas@gmail.com> 
+#   Copyright (C) 2014-2017  	Xavier de Blas <xaviblas@gmail.com> 
 # 
 
 #Is A LOT faster to call this file from C#, and this file will do a source("graph.R")

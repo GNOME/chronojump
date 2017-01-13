@@ -111,6 +111,9 @@ dput chronojump-ppa build-deb/chronojump..._source.changes
 
 macosx stuff
 ------------
+If is for internal use, copy into: /Users/chronojump/BinarisMac/
+to be automatically available on owncloud
+
 download (with filezilla is very fast), using owncloud is nice also
 /Users/chronojump/chronojump/Chronojump-1.4.2-x86_64.dmg
 scp -l 8192 Chronojump...dmg xaviblas@master.gnome.org:.
@@ -124,6 +127,9 @@ wait 5'
 windows stuff
 ------------
 See: howto_compile.txt
+
+If is for internal use, copy int: c:/Usuarios/chronojump/BinarisWin/
+to be automatically available on owncloud
 
 scp -l 8192 Chronojump...exe xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org

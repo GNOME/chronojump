@@ -68,7 +68,7 @@ public class DialogThreshold
 		TextBuffer tb_jumps = new TextBuffer (new TextTagTable());
 		tb_jumps.Text =  Catalog.GetString("Default value: 50 ms.") +
 			"\n\n" + Catalog.GetString("On jumps with contact platforms a value of 50 ms (3 cm jump approximately) is enough to solve electronical problems.") +
-			"\n\n" + Catalog.GetString("You may change this value if you have a jumper that loses pressure with the platform while going down on the eccentric phase previous to a CMJ or ABK jump.") +
+			"\n\n" + Catalog.GetString("You may change this value if you have a jumper that loses pressure with the platform while going down previous to a CMJ or ABK jump.") +
 			"\n" +   Catalog.GetString("This jumper should change his technique, but if it's difficult, a solution is to increase threshold.");
 		textview_jumps.Buffer = tb_jumps;
 

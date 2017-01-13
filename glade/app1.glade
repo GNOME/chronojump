@@ -48,6 +48,7 @@
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_open_activate" swapped="no"/>
                         <child internal-child="image">
                           <widget class="GtkImage" id="image_session_open">
@@ -65,6 +66,7 @@
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_edit_session_activate" swapped="no"/>
                         <child internal-child="image">
                           <widget class="GtkImage" id="image11">
@@ -83,6 +85,7 @@
                         <property name="tooltip" translatable="yes">delete current session</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_delete_session_activate" swapped="no"/>
                         <child internal-child="image">
                           <widget class="GtkImage" id="image12">
@@ -106,15 +109,32 @@
                         <property name="can_focus">False</property>
                         <property name="tooltip" translatable="yes">Export set to CSV (Spreadsheet)</property>
                         <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_button_encoder_export_all_curves_clicked" swapped="no"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image_export_encoder_signal">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stock">gtk-missing-image</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkMenuItem" id="menuitem_import_chronojump_session">
+                      <widget class="GtkImageMenuItem" id="menuitem_import_chronojump_session">
+                        <property name="label" translatable="yes">Import session from another Chronojump database</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Import session from another Chronojump database</property>
+                        <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_button_encoder_import_chronojump_session" swapped="no"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image_import_database">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stock">gtk-missing-image</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -134,12 +154,13 @@
                         <property name="tooltip" translatable="yes">Useful to export to a Spreadsheet like MS Excel, LibreOffice or Google Spreadsheets</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_export_session_activate" swapped="no"/>
                         <child internal-child="image">
-                          <widget class="GtkImage" id="image9">
+                          <widget class="GtkImage" id="image_export_csv">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">gtk-convert</property>
+                            <property name="stock">gtk-missing-image</property>
                           </widget>
                         </child>
                       </widget>
@@ -166,6 +187,7 @@
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_preferences_activate" swapped="no"/>
                       </widget>
                     </child>
@@ -245,6 +267,7 @@
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_quit1_activate" swapped="no"/>
                       </widget>
                     </child>
@@ -263,12 +286,20 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <widget class="GtkMenuItem" id="menuitem_mode_main_menu">
+                      <widget class="GtkImageMenuItem" id="menuitem_mode_main_menu">
+                        <property name="label" translatable="yes">Main menu</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Main menu</property>
-                        <property name="use_underline">True</property>
+                        <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_menuitem_mode_main_menu_activate" swapped="no"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image_mode_main_menu">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stock">gtk-home</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -452,6 +483,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_menuitem_manual_activate" swapped="no"/>
                         <child internal-child="image">
                           <widget class="GtkImage" id="image36">
@@ -516,6 +548,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_about1_activate" swapped="no"/>
                         <child internal-child="image">
                           <widget class="GtkImage" id="image35">

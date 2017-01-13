@@ -413,6 +413,9 @@ public class Constants
 	public static string FileNameOpen1 = "gtk-open-1.png";
 	public static string FileNameOpenPlus = "gtk-open-plus.png";
 
+	public static string FileNameImport = "import.png";
+	public static string FileNameExport = "export.png";
+
 	public static string FileNameCSVHeadersIcon = "import-csv-headers.png";
 	public static string FileNameCSVNoHeadersIcon = "import-csv-noheaders.png";
 	public static string FileNameCSVName1Icon = "import-csv-name-1-column.png";

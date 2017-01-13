@@ -109,6 +109,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_persons_open_1;
 	[Widget] Gtk.Image image_persons_open_plus;
 
+	[Widget] Gtk.Image image_import_database;
+	[Widget] Gtk.Image image_export_csv;
+	[Widget] Gtk.Image image_export_encoder_signal;
+
 	//contact tests execute buttons
 	//[Widget] Gtk.Image image_button_execute;
 	[Widget] Gtk.Image image_button_finish;
@@ -753,6 +757,12 @@ public partial class ChronoJumpWindow
 		image_line_person_max.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "line_person_max_all_sessions.png");
 		image_line_person_max_all_sessions.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
+		image_import_database.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameExport);
+		image_export_csv.Pixbuf = pixbuf;
+		image_export_encoder_signal.Pixbuf = pixbuf;
 
 		//reaction times changes
 		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time);

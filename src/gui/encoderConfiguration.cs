@@ -89,6 +89,8 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.Box vbox_select_encoder;
 	[Widget] Gtk.Notebook notebook_side;
 	[Widget] Gtk.TreeView treeview_select;
+	[Widget] Gtk.Image image_import;
+	[Widget] Gtk.Image image_export;
 	[Widget] Gtk.Image image_delete;
 
 	[Widget] Gtk.Entry entry_save_name;
@@ -560,7 +562,12 @@ public class EncoderConfigurationWindow
 		store = getStore();
 		treeview_select.Model = store;
 
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		Pixbuf pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
+		image_import.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameExport);
+		image_export.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_delete.Pixbuf = pixbuf;
 	}
 

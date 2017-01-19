@@ -58,7 +58,7 @@ public abstract class EncoderCapture
 	 * on inertial we need both
 	 */
 	protected double sum;	
-	protected double sumInertialDisc;
+	protected int sumInertialDisc;
 
 	protected int i;
 	protected int msCount;
@@ -82,6 +82,9 @@ public abstract class EncoderCapture
 	protected bool lastDirectionStoredIsUp;
 	protected bool capturingFirstPhase;
 
+	protected static SerialPort sp;
+	protected bool finish;
+
 	//capture is simulated (a signal file is readed)
 	private static bool simulated = false;
 	private int [] simulatedInts;
@@ -89,11 +92,8 @@ public abstract class EncoderCapture
 
 	
 	// ---- private stuff ----
-		
-	private static SerialPort sp;
 	private bool cancel;
-	private bool finish;
-	
+
 	/*
 	public static bool CheckPort(string port)
 	{
@@ -120,6 +120,7 @@ public abstract class EncoderCapture
 		return true;
 	}
 	*/
+
 
 	//if cont (continuous mode), then will not end when too much time passed before start
 	public void InitGlobal (int widthG, int heightG, int time, int timeEnd, bool cont, string eccon, string port)
@@ -198,8 +199,12 @@ public abstract class EncoderCapture
 		cancel = false;
 		finish = false;
 	}
-	
+
 	protected virtual void initSpecific()
+	{
+	}
+
+	public virtual void InitCalibrated(int angleNow)
 	{
 	}
 
@@ -211,6 +216,8 @@ public abstract class EncoderCapture
 				return false;
 		}
 
+		LogB.Information("sum = " + sum.ToString());
+		LogB.Information("sumInertialDisc = " + sumInertialDisc.ToString());
 		do {
 			try {
 				byteReaded = readByte();
@@ -224,6 +231,7 @@ public abstract class EncoderCapture
 			}
 
 			byteReaded = convertByte(byteReaded);
+			//LogB.Information(" byte: " + byteReaded);
 
 			i = i+1;
 			if(i >= 0) 
@@ -296,6 +304,10 @@ public abstract class EncoderCapture
 				if(directionNow != directionLastMSecond) {
 					directionLastMSecond = directionNow;
 					directionChangeCount = 0;
+
+		LogB.Information("sum = " + sum.ToString());
+		LogB.Information("sumInertialDisc = " + sumInertialDisc.ToString());
+
 				} 
 				else if(directionNow != directionCompleted) {
 					//we are in a different direction than the last completed
@@ -456,7 +468,8 @@ public abstract class EncoderCapture
 		return true;
 	}
 
-	private int readByte() 
+
+	protected virtual int readByte()
 	{
 		if(simulated) {
 			return simulatedInts[simulatedCount ++];
@@ -464,7 +477,7 @@ public abstract class EncoderCapture
 			return sp.ReadByte();
 		}
 	}
-	private int convertByte(int b) 
+	protected int convertByte(int b)
 	{
 		if(simulated) {
 			if(b >= 48)
@@ -648,7 +661,18 @@ public class EncoderCaptureInertial : EncoderCapture
 
 		inertialFirstEccPhaseDone = false;
 	}
-	
+
+	public override void InitCalibrated(int angleNow)
+	{
+		sum = angleNow;
+		sumInertialDisc = angleNow;
+
+		if(inertialShouldCheckStartDirection)
+		{
+			inertialCheckIfInverted();
+		}
+	}
+
 	protected override void inertialCheckIfInverted() 
 	{
 		/*
@@ -809,4 +833,52 @@ public class EncoderCaptureIMCalc : EncoderCapture
 		return false;
 	}
 	
+}
+
+public class EncoderCaptureInertialBackground : EncoderCapture
+{
+	/*
+	 * this class allows reading always in order to know the angle of the string and the change of direction
+	 */
+	private int angleNow;
+
+	public EncoderCaptureInertialBackground(string port)
+	{
+		angleNow = 0;
+		finish = false;
+
+		sp = new SerialPort(port);
+		sp.BaudRate = 115200;
+		LogB.Information("sp created");
+	}
+
+	public bool CaptureBG()
+	{
+		LogB.Information("CaptureBG!");
+		sp.Open();
+		LogB.Information("sp opened");
+
+		int myByteReaded;
+		do {
+			try {
+				myByteReaded = readByte();
+			} catch {
+				LogB.Error("ERROR at InertialCaptureBackground: Maybe encoder cable is disconnected");
+				return false;
+			}
+
+			myByteReaded = convertByte(myByteReaded);
+			angleNow += myByteReaded;
+			//LogB.Information("angleNow = " + angleNow.ToString());
+		} while (! finish);
+
+		sp.Close();
+		return true;
+	}
+
+	public int AngleNow
+	{
+		get { return angleNow; }
+	}
+
 }

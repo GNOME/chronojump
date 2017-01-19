@@ -261,6 +261,7 @@ public partial class ChronoJumpWindow
 	Gtk.ListStore encoderAnalyzeListStore; //can be EncoderCurves or EncoderNeuromuscularData
 
 	Thread encoderThread;
+	//Thread encoderThreadBG;
 	
 
 	int image_encoder_width;
@@ -320,7 +321,7 @@ public partial class ChronoJumpWindow
 	 * CAPTURE_IM records to get the inertia moment but does not calculate curves in R and not updates the treeview
 	 * CURVES_AC (After Capture) is like curves but does not start a new thread (uses same pulse as capture)
 	 */
-	enum encoderActions { CAPTURE, CAPTURE_EXTERNAL, CURVES, CURVES_AC, LOAD, ANALYZE, CAPTURE_IM, CURVES_IM } 
+	enum encoderActions { CAPTURE_BG, CAPTURE, CAPTURE_EXTERNAL, CURVES, CURVES_AC, LOAD, ANALYZE, CAPTURE_IM, CURVES_IM }
 	
 	//STOPPING is used to stop the camera. It has to be called only one time
 	enum encoderCaptureProcess { CAPTURING, STOPPING, STOPPED } 
@@ -610,9 +611,19 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
+	EncoderCaptureInertialBackground eCaptureInertialBG; //only created one time
+	void on_button_encoder_inertial_calibrate_clicked (object o, EventArgs args)
+	{
+		//TODO: At the moment, button_encoder_inertial_calibrate can only be sensitive while not capturing
+		encoderThreadStart(encoderActions.CAPTURE_BG);
+	}
+
 	double maxPowerIntersessionOnCapture;
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
 	{
+		if(eCaptureInertialBG != null)
+			eCaptureInertialBG.Finish();
+
 		maxPowerIntersessionOnCapture = findMaxPowerIntersession();
 		//LogB.Information("maxPower: " + maxPowerIntersessionOnCapture);
 
@@ -2078,6 +2089,13 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_progress.Visible = true;
 
 		encoderThreadStart(encoderActions.ANALYZE);
+	}
+
+	//this is called by non gtk thread. Don't do gtk stuff here
+	//I suppose reading gtk is ok, changing will be the problem
+	private void encoderDoCaptureBG ()
+	{
+		eCaptureInertialBG.CaptureBG();
 	}
 
 	//this is called by non gtk thread. Don't do gtk stuff here
@@ -4531,7 +4549,20 @@ public partial class ChronoJumpWindow
 	{
 		encoderProcessCancel = false;
 					
-		if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM)
+		if(action == encoderActions.CAPTURE_BG)
+		{
+			eCaptureInertialBG = new EncoderCaptureInertialBackground(
+					chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port);
+			//encoderThreadBG = new Thread(new ThreadStart(encoderDoCaptureBG));
+			encoderThread = new Thread(new ThreadStart(encoderDoCaptureBG));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureBG));
+
+			LogB.ThreadStart();
+			//encoderThreadBG.Start();
+			encoderThread.Start();
+		}
+
+		else if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM)
 		{
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			LogB.Information("encoderThreadStart begins");
@@ -4585,8 +4616,9 @@ public partial class ChronoJumpWindow
 				needToRefreshTreeviewCapture = false;
 
 				if(encoderConfigurationCurrent.has_inertia)
+				{
 					eCapture = new EncoderCaptureInertial();
-				else
+				} else
 					eCapture = new EncoderCaptureGravitatory();
 
 				int recordingTime = preferences.encoderCaptureTime;
@@ -4604,6 +4636,11 @@ public partial class ChronoJumpWindow
 						findEccon(true),
 						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port
 						);
+
+				if(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null)
+				{
+					eCapture.InitCalibrated(eCaptureInertialBG.AngleNow);
+				}
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
@@ -4956,6 +4993,19 @@ public partial class ChronoJumpWindow
 			//executed on GTK thread pulse method
 			needToRefreshTreeviewCapture = true;
 		}
+	}
+
+	private bool pulseGTKEncoderCaptureBG ()
+	{
+		//if(! encoderThreadBG.IsAlive) {
+		if(! encoderThread.IsAlive) {
+			return false;
+		}
+
+		Thread.Sleep (100);
+		//LogB.Information(" CapBG:"+ encoderThreadBG.ThreadState.ToString());
+		LogB.Information(" CapBG:"+ encoderThread.ThreadState.ToString());
+		return true;
 	}
 				
 	static bool needToCallPrepareEncoderGraphs; //this will not erase them

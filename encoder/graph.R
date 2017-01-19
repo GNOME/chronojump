@@ -2520,15 +2520,16 @@ doProcess <- function(options)
 
 		if(isInertial(op$EncoderConfigurationName)) 
 		{
+			#Disabled just after 1.7.0
 			#This process is only done on the curves after capture (not on recalculate or load)
-	   		if(op$Analysis == "curvesAC" && op$CheckFullyExtended > 0)
-				displacement <- fixInertialSignalIfNotFullyExtended(displacement, 
-										    op$CheckFullyExtended,
-										    paste(op$EncoderTempPath,
-											  "/chronojump-last-encoder-data.txt",
-											  sep=""),
-										    op$SpecialData, 
-										    FALSE)
+	   		#if(op$Analysis == "curvesAC" && op$CheckFullyExtended > 0)
+			#	displacement <- fixInertialSignalIfNotFullyExtended(displacement,
+			#							    op$CheckFullyExtended,
+			#							    paste(op$EncoderTempPath,
+			#								  "/chronojump-last-encoder-data.txt",
+			#								  sep=""),
+			#							    op$SpecialData,
+			#							    FALSE)
 
 			diametersPerMs <- getInertialDiametersPerMs(displacement, op$diameter)
 			displacement <- getDisplacementInertial(displacement, op$EncoderConfigurationName, 

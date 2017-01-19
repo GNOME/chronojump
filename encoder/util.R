@@ -60,7 +60,8 @@ assignOptions <- function(options) {
 		    Analysis		= options[11],	
 		    AnalysisVariables	= unlist(strsplit(options[12], "\\;")),
 		    AnalysisOptions	= options[13],
-		    CheckFullyExtended	= as.numeric(options[14]),
+		    #CheckFullyExtended	= as.numeric(options[14]),
+		    CheckFullyExtended	= 0, 	#deactivated just after 1.7.0
 		    EncoderConfigurationName =	options[15],	#just the name of the EncoderConfiguration	
 		    diameter		= as.numeric(unlist(strsplit(options[16], "\\;"))), #comes in cm, will be converted to m. Since 1.5.1 can be different diameters separated by ;
 		    #diameter    = getInertialDiametersPerTick(as.numeric(unlist(strsplit("1.5; 1.75; 2.65; 3.32; 3.95; 4.07; 4.28; 4.46; 4.54; 4.77; 4.96; 5.13; 5.3; 5.55", "\\;")))),
@@ -1101,115 +1102,116 @@ getDisplacementInertialBody <- function(positionStart, displacement, draw, title
 	return(displacementPerson)
 }
 
+#DISABLED just after 1.7.0
 #used when user captures without string fully extended
 #signal is the information coming from the encoder, graph is to debug
 #see codeExplained/image detect-and-fix-inertial-string-not-fully-extended.png
-fixInertialSignalIfNotFullyExtended <- function(signal, checkRevolutions, saveFile, specialDataFile, graph)
-{
-	write("at fixInertialSignalIfNotFullyExtended", stderr())
-	angle <- cumsum(signal) #360 degrees every 200 ticks
-
-	maximums <- extrema(angle)$maxindex[,1]
-	minimums <- extrema(angle)$minindex[,1]
-	maximumsCopy <- maximums #store this value
-	minimumsCopy <- minimums #store this value
-		
-	#if we have more than 2 max & mins, remove the first and last value
-	if(length(maximums) > 2 & length(minimums) > 2)
-	{
-		#if there's any max extrema value negative (remove it), same for positive min values
-		maximums.temp = NULL
-		minimums.temp = NULL
-		for( i in maximums )
-			if(angle[i] > 0)
-				maximums.temp <- c(maximums.temp, i)
-		for( i in minimums )
-			if(angle[i] < 0)
-				minimums.temp <- c(minimums.temp, i)
-		
-		maximums <- maximums.temp
-		minimums <- minimums.temp
-
-		if(length(maximums) < 1 | length(minimums) < 1)
-			return(signal)
-
-
-		#remove the first value of the maximums OR minimums (just the first one of both)
-		if(maximums[1] < minimums[1])
-			maximums <- maximums[-1]
-		else
-			minimums <- minimums[-1]
-		
-		if(length(maximums) < 1 | length(minimums) < 1)
-			return(signal)
-
-
-		#remove the last value of the maximums OR minimums (just the last one of both)
-		if(maximums[length(maximums)] > minimums[length(minimums)])
-			maximums <- maximums[-length(maximums)]
-		else
-			minimums <- minimums[-length(minimums)]
-		
-	}
-
-	#return if no data
-	if(length(maximums) < 1 | length(minimums) < 1)
-		return(signal)
-
-	#ensure both maximums and minimums have same length
-	while(length(maximums) != length(minimums))
-	{
-		if(length(maximums) > length(minimums))
-			maximums <- maximums[-length(maximums)]
-		else if(length(maximums) < length(minimums))
-			minimums <- minimums[-length(minimums)]
-	}
-
-	meanByExtrema <- mean(c(angle[maximums], angle[minimums]))
-	angleCorrected <- angle - meanByExtrema
-
-	#remove the initial part of the signal. Remove from ms 1 to when angleCorrected crosses 0
-	angleCorrectedCrossZero = extrema(angleCorrected)$cross[1,1]
-
-	if(graph) {
-		par(mfrow=c(1,2))
-
-		#1st graph (left)
-		plot(angle, type="l", lty=2, xlab="time", ylab="Angle", main="String NOT fully extended", 
-		     ylim=c(min(c(angle[minimums], -angle[maximums])) - abs(meanByExtrema), max(c(angle[maximums], -angle[minimums])) + abs(meanByExtrema)))
-		lines(abs(angle)*-1, lwd=2)
-		points(maximumsCopy, angle[maximumsCopy], col="black", cex=1)
-		points(minimumsCopy, angle[minimumsCopy], col="black", cex=1)
-		points(maximums, angle[maximums], col="green", cex=3)
-		points(minimums, angle[minimums], col="green", cex=3)
-		abline(h = meanByExtrema, col="red")
-		text(x = 0, y = meanByExtrema, labels = round(meanByExtrema,2), adj=0)
-
-		#2nd graph (right)
-		plot(angleCorrected, type="l", lty=2, xlab="time", ylab="angle", main="Corrected set", 
-		     ylim=c(min(c(angle[minimums], -angle[maximums])) - 2*abs(meanByExtrema), max(c(angle[maximums], -angle[minimums]))))
-		lines(abs(angleCorrected)*-1, lwd=2)
-		abline(v=c(angleCorrectedCrossZero, length(angleCorrected)), col="green")
-		mtext("Start", at=angleCorrectedCrossZero, side=3, col="green")
-		mtext("EnfixInertialSignalIfNotFullyExtendedd", at=length(angleCorrected), side=3, col="green")
-
-		par(mfrow=c(1,1))
-	}
-
-	#define new signal only if the error in extended string is more than 4 revolutions 
-	#(this value can be changed from gui)
-	if( abs(meanByExtrema) > (checkRevolutions * 200) ) {
-		#write(signal, file="/tmp/old.txt", ncolumns=length(signal), sep=", ")
-		signal <- signal[angleCorrectedCrossZero:length(signal)]
-
-		write("SIGNAL CORRECTED", specialDataFile)
-		
-		#write to file and return displacement to be used
-		write(signal, file=saveFile, ncolumns=length(signal), sep=", ")
-	}
-	
-	return(signal)
-}
+#fixInertialSignalIfNotFullyExtended <- function(signal, checkRevolutions, saveFile, specialDataFile, graph)
+#{
+#	write("at fixInertialSignalIfNotFullyExtended", stderr())
+#	angle <- cumsum(signal) #360 degrees every 200 ticks
+#
+#	maximums <- extrema(angle)$maxindex[,1]
+#	minimums <- extrema(angle)$minindex[,1]
+#	maximumsCopy <- maximums #store this value
+#	minimumsCopy <- minimums #store this value
+#
+#	#if we have more than 2 max & mins, remove the first and last value
+#	if(length(maximums) > 2 & length(minimums) > 2)
+#	{
+#		#if there's any max extrema value negative (remove it), same for positive min values
+#		maximums.temp = NULL
+#		minimums.temp = NULL
+#		for( i in maximums )
+#			if(angle[i] > 0)
+#				maximums.temp <- c(maximums.temp, i)
+#		for( i in minimums )
+#			if(angle[i] < 0)
+#				minimums.temp <- c(minimums.temp, i)
+#
+#		maximums <- maximums.temp
+#		minimums <- minimums.temp
+#
+#		if(length(maximums) < 1 | length(minimums) < 1)
+#			return(signal)
+#
+#
+#		#remove the first value of the maximums OR minimums (just the first one of both)
+#		if(maximums[1] < minimums[1])
+#			maximums <- maximums[-1]
+#		else
+#			minimums <- minimums[-1]
+#
+#		if(length(maximums) < 1 | length(minimums) < 1)
+#			return(signal)
+#
+#
+#		#remove the last value of the maximums OR minimums (just the last one of both)
+#		if(maximums[length(maximums)] > minimums[length(minimums)])
+#			maximums <- maximums[-length(maximums)]
+#		else
+#			minimums <- minimums[-length(minimums)]
+#
+#	}
+#
+#	#return if no data
+#	if(length(maximums) < 1 | length(minimums) < 1)
+#		return(signal)
+#
+#	#ensure both maximums and minimums have same length
+#	while(length(maximums) != length(minimums))
+#	{
+#		if(length(maximums) > length(minimums))
+#			maximums <- maximums[-length(maximums)]
+#		else if(length(maximums) < length(minimums))
+#			minimums <- minimums[-length(minimums)]
+#	}
+#
+#	meanByExtrema <- mean(c(angle[maximums], angle[minimums]))
+#	angleCorrected <- angle - meanByExtrema
+#
+#	#remove the initial part of the signal. Remove from ms 1 to when angleCorrected crosses 0
+#	angleCorrectedCrossZero = extrema(angleCorrected)$cross[1,1]
+#
+#	if(graph) {
+#		par(mfrow=c(1,2))
+#
+#		#1st graph (left)
+#		plot(angle, type="l", lty=2, xlab="time", ylab="Angle", main="String NOT fully extended",
+#		     ylim=c(min(c(angle[minimums], -angle[maximums])) - abs(meanByExtrema), max(c(angle[maximums], -angle[minimums])) + abs(meanByExtrema)))
+#		lines(abs(angle)*-1, lwd=2)
+#		points(maximumsCopy, angle[maximumsCopy], col="black", cex=1)
+#		points(minimumsCopy, angle[minimumsCopy], col="black", cex=1)
+#		points(maximums, angle[maximums], col="green", cex=3)
+#		points(minimums, angle[minimums], col="green", cex=3)
+#		abline(h = meanByExtrema, col="red")
+#		text(x = 0, y = meanByExtrema, labels = round(meanByExtrema,2), adj=0)
+#
+#		#2nd graph (right)
+#		plot(angleCorrected, type="l", lty=2, xlab="time", ylab="angle", main="Corrected set",
+#		     ylim=c(min(c(angle[minimums], -angle[maximums])) - 2*abs(meanByExtrema), max(c(angle[maximums], -angle[minimums]))))
+#		lines(abs(angleCorrected)*-1, lwd=2)
+#		abline(v=c(angleCorrectedCrossZero, length(angleCorrected)), col="green")
+#		mtext("Start", at=angleCorrectedCrossZero, side=3, col="green")
+#		mtext("EnfixInertialSignalIfNotFullyExtendedd", at=length(angleCorrected), side=3, col="green")
+#
+#		par(mfrow=c(1,1))
+#	}
+#
+#	#define new signal only if the error in extended string is more than 4 revolutions
+#	#(this value can be changed from gui)
+#	if( abs(meanByExtrema) > (checkRevolutions * 200) ) {
+#		#write(signal, file="/tmp/old.txt", ncolumns=length(signal), sep=", ")
+#		signal <- signal[angleCorrectedCrossZero:length(signal)]
+#
+#		write("SIGNAL CORRECTED", specialDataFile)
+#
+#		#write to file and return displacement to be used
+#		write(signal, file=saveFile, ncolumns=length(signal), sep=", ")
+#	}
+#
+#	return(signal)
+#}
 
 
 

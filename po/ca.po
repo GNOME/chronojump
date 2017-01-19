@@ -1537,7 +1537,7 @@ msgstr "Cancel·lar el procés"
 
 #: ../glade/app1.glade.h:335
 msgid "Finish continuous mode"
-msgstr "Finalitzar la el modo continu"
+msgstr "Finalitzar el modo continu"
 
 #. not capturing
 #: ../glade/app1.glade.h:336 ../src/gui/encoder.cs:909

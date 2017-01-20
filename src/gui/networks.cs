@@ -34,6 +34,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_encoder_analyze_signal_or_curves;
 			
 	//RFID
+	[Widget] Gtk.HBox hbox_rfid;
+	[Widget] Gtk.Button button_rfid_start;
 	[Widget] Gtk.Label label_rfid;
 	
 	//better raspberry controls
@@ -183,6 +185,8 @@ public partial class ChronoJumpWindow
 			notebook_encoder_sup.Sensitive = false;
 		}
 		*/
+
+		hbox_rfid.Visible = (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX);
 	}
 
 	//rfid
@@ -190,12 +194,50 @@ public partial class ChronoJumpWindow
 		Networks networks = new Networks();
 		networks.Test();
 	}
-	void on_button_rfid_read_clicked (object o, EventArgs args) {
-		string file = "/tmp/chronojump_rfid.txt";
+	void on_button_rfid_read_clicked (object o, EventArgs args)
+	{
+		string filePath = Constants.FilePathRfid;
 
-		if(Util.FileExists(file))
-			label_rfid.Text = Util.ReadFile(file, true);
+		if(Util.FileExists(filePath))
+			label_rfid.Text = Util.ReadFile(filePath, true);
 	}
+
+	void on_button_rfid_start_clicked (object o, EventArgs args)
+	{
+		button_rfid_start.Sensitive = false;
+
+		string filePath = Constants.FilePathRfid;
+
+		//create a new FileSystemWatcher and set its properties.
+		FileSystemWatcher watcher = new FileSystemWatcher();
+		watcher.Path = Path.GetDirectoryName(filePath);
+		watcher.Filter = Path.GetFileName(filePath);
+
+		//add event handlers.
+		watcher.Changed += new FileSystemEventHandler(rfid_watcher_changed);
+
+		//start watching
+		watcher.EnableRaisingEvents = true;
+
+		//also perform an initial search
+		rfid_read();
+	}
+
+	private void rfid_watcher_changed(object source, FileSystemEventArgs e)
+	{
+		rfid_read();
+	}
+
+	private void rfid_read()
+	{
+		string filePath = Constants.FilePathRfid;
+
+		LogB.Information("Changed file: " +  filePath);
+
+		if(Util.FileExists(filePath))
+			label_rfid.Text = Util.ReadFile(filePath, true);
+	}
+
 
 }
 

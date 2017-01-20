@@ -265,6 +265,65 @@ public class Json
 		return true;
 	}
 
+	public bool UploadEncoderData()
+	{
+		// Create a request using a URL that can receive a post.
+		WebRequest request = WebRequest.Create (serverUrl + "/uploadEncoderData");
+
+		// Set the Method property of the request to POST.
+		request.Method = "POST";
+
+		// Set the ContentType property of the WebRequest.
+		request.ContentType = "application/json";
+
+		// Creates the json object
+		JsonObject json = new JsonObject();
+		json.Add("person_id", 1);
+		json.Add("person_name", "Joan yjk");
+		json.Add("machine_id", 2);
+		json.Add("machine_name", "Bench press");
+		json.Add("mean_power", 650);
+
+		// Converts it to a String
+		String js = json.ToString();
+
+		// Writes the json object into the request dataStream
+		Stream dataStream;
+		try {
+			dataStream = request.GetRequestStream ();
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+				serverUrl);
+			return false;
+		}
+
+		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
+
+		dataStream.Close ();
+
+		// Get the response.
+		WebResponse response;
+		try {
+			response = request.GetResponse ();
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+				serverUrl);
+			return false;
+		}
+
+		// Display the status (will be 202, CREATED)
+		Console.WriteLine (((HttpWebResponse)response).StatusDescription);
+
+		// Clean up the streams.
+		dataStream.Close ();
+		response.Close ();
+
+		this.ResultMessage = "Encoder data sent.";
+		return true;
+	}
+
 
 	~Json() {}
 }

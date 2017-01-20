@@ -6359,7 +6359,37 @@ LogB.Debug("X");
 				);
 	}
 	
-	private void on_button_carles_clicked (object o, EventArgs args) {
+	private void on_button_carles_clicked (object o, EventArgs args)
+	{
+		bool showInWindow = true;
+
+		Json js = new Json();
+		bool success = js.UploadEncoderData();
+
+		if(success) {
+			LogB.Information(js.ResultMessage);
+			if(showInWindow)
+				new DialogMessage(
+						"Chronojump",
+						Constants.MessageTypes.INFO,
+						js.ResultMessage);
+		}
+		else {
+			LogB.Error(js.ResultMessage);
+			if(showInWindow)
+				new DialogMessage(
+						"Chronojump",
+						Constants.MessageTypes.WARNING,
+						js.ResultMessage);
+		}
+
+		/*
+		new DialogMessage(
+				"Chronojump",
+				Constants.MessageTypes.INFO,
+				"Temporarily Disabled");
+		*/
+
 		//carles stuff
 	}
 

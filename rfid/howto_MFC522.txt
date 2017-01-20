@@ -1,0 +1,29 @@
+This document describe the process to comunicate the Raspberry Pi with the
+MFC522 RFID reader
+
+RFID    RPI-SPI
+---------------
+RC522---RPI
+SDA-----24
+SCK-----23
+MOSI----19
+MISO----21
+GND-----20
+RST-----22
+3.3V----1
+
+#In raspbian 2016-05-27 you must add a line at /boot/config.txt
+dtoverlay=spi0-hw-cs
+
+#Download and install the SPI-Py libraries to use SPI in Python
+git clone https://github.com/lthiery/SPI-Py
+sudo apt-get install python-dev
+sudo python setup.py install 
+
+#The ReadChronojump.py reads from the RFID reader and writes it in /tmp/chronojump_rfid.txt
+python ReadChronojump.py
+
+#Download the MFRC522-python for the examples using RFID
+git clone https://github.com/mxgxw/MFRC522-python
+cd MFRC522-python
+python Read.py

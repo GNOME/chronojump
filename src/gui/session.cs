@@ -524,8 +524,10 @@ public class SessionAddEditWindow {
 		genericWin.Button_accept.Clicked += new EventHandler(on_sport_add_accepted);
 	}
 
-	private void on_sport_add_accepted (object o, EventArgs args) {
+	private void on_sport_add_accepted (object o, EventArgs args)
+	{
 		genericWin.Button_accept.Clicked -= new EventHandler(on_sport_add_accepted);
+
 		string newSportName = genericWin.EntrySelected;
 		if(Sqlite.Exists(false, Constants.SportTable, newSportName) ||
 				newSportName == Catalog.GetString(Constants.SportUndefined) || //let's save problems

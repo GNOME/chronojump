@@ -134,12 +134,15 @@ public class GenericWindow
 		DestroyOnAccept = false;
 	}
 
-	//for some widgets
+	//for an array of widgets
 	static public GenericWindow Show (bool showNow, string textHeader, ArrayList array)
 	{
 		if (GenericWindowBox == null) {
 			GenericWindowBox = new GenericWindow(textHeader);
-		}
+		} else
+			GenericWindowBox.label_header.Text = textHeader;
+
+		GenericWindowBox.Type = Types.UNDEFINED;
 
 		GenericWindowBox.hideWidgets();
 
@@ -149,24 +152,23 @@ public class GenericWindow
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		GenericWindowBox.image_delete.Pixbuf = pixbuf;
 
-		GenericWindowBox.Type = Types.UNDEFINED;
-		
-		GenericWindowBox.label_header.Text = textHeader;
-		
 		if(showNow)
 			GenericWindowBox.generic_window.Show ();
 		
 		return GenericWindowBox;
 	}
-			
+
 	//for only one widget
 	static public GenericWindow Show (string textHeader, Constants.GenericWindowShow stuff)
 	{
 		if (GenericWindowBox == null) {
 			GenericWindowBox = new GenericWindow(textHeader);
-		}
-		
+		} else
+			GenericWindowBox.label_header.Text = textHeader;
+
 		GenericWindowBox.Type = Types.UNDEFINED;
+
+		GenericWindowBox.hideWidgets();
 
 		GenericWindowBox.showWidget(stuff);
 		GenericWindowBox.generic_window.Show ();

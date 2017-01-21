@@ -1317,6 +1317,8 @@ public class PersonAddModifyWindow
 	}
 	void on_button_height_metric_accepted (object obj, EventArgs args)
 	{
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_height_metric_accepted);
+
 		string [] myStr = genericWin.TwoSpinSelected.Split(new char[] {':'});
 		spinbutton_height.Value = Util.ConvertFeetInchesToCm(
 			Convert.ToInt32(myStr[0]), 
@@ -1331,6 +1333,8 @@ public class PersonAddModifyWindow
 	}
 	void on_button_weight_metric_accepted (object obj, EventArgs args)
 	{
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_weight_metric_accepted);
+
 		spinbutton_weight.Value = Util.ConvertPoundsToKg(genericWin.SpinDoubleSelected);
 	}
 
@@ -1474,8 +1478,10 @@ public class PersonAddModifyWindow
 		genericWin.Button_accept.Clicked += new EventHandler(on_sport_add_accepted);
 	}
 
-	private void on_sport_add_accepted (object o, EventArgs args) {
+	private void on_sport_add_accepted (object o, EventArgs args)
+	{
 		genericWin.Button_accept.Clicked -= new EventHandler(on_sport_add_accepted);
+
 		string newSportName = genericWin.EntrySelected;
 		if(Sqlite.Exists(false, Constants.SportTable, newSportName) ||
 				newSportName == Catalog.GetString(Constants.SportUndefined) || //let's save problems

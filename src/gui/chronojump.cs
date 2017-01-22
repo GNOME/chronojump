@@ -2282,11 +2282,13 @@ public partial class ChronoJumpWindow
 
 		updatingRestTimes = false;
 
-		/*
-		if(chronopicWin.Connected == true) {
-			chronopicWin.SerialPortsCloseIfNeeded();
+		//if capturing on the background finish it
+		if(eCaptureInertialBG != null)
+		{
+			eCaptureInertialBG.FinishBG();
+			EncoderCaptureInertialBackgroundStatic.Abort();
 		}
-		*/
+
 		cp2016.SerialPortsCloseIfNeeded(true);
 
 		//exit start ping if has not ended
@@ -3101,6 +3103,7 @@ public partial class ChronoJumpWindow
 					radiobutton_encoder_analyze_neuromuscular_profile.Visible = true;
 				}
 				hbox_encoder_capture_1_or_cont.Visible = true;
+				hbox_encoder_inertial_calibrate.Visible = false;
 			} else {
 				menuitem_mode_selected_power_inertial.Visible = true;
 
@@ -3123,6 +3126,7 @@ public partial class ChronoJumpWindow
 				
 				radio_encoder_capture_1set.Active = true;
 				hbox_encoder_capture_1_or_cont.Visible = false;
+				hbox_encoder_inertial_calibrate.Visible = true;
 			}
 			encoderGuiChangesAfterEncoderConfigurationWin(true);
 			if(changed) {

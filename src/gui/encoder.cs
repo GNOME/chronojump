@@ -60,8 +60,10 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.Box hbox_encoder_capture_wait;
 	[Widget] Gtk.Box vbox_encoder_capture_doing;
+	[Widget] Gtk.HScale hscale_encoder_capture_inertial_angle_now;
 	
 	[Widget] Gtk.Box hbox_encoder_capture_1_or_cont;
+	[Widget] Gtk.Box hbox_encoder_inertial_calibrate;
 	[Widget] Gtk.RadioButton radio_encoder_capture_1set;
 	[Widget] Gtk.RadioButton radio_encoder_capture_cont;
 	[Widget] Gtk.Button button_encoder_capture;
@@ -261,7 +263,7 @@ public partial class ChronoJumpWindow
 	Gtk.ListStore encoderAnalyzeListStore; //can be EncoderCurves or EncoderNeuromuscularData
 
 	Thread encoderThread;
-	//Thread encoderThreadBG;
+	Thread encoderThreadBG;
 	
 
 	int image_encoder_width;
@@ -615,20 +617,24 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_inertial_calibrate_clicked (object o, EventArgs args)
 	{
 		//TODO: At the moment, button_encoder_inertial_calibrate can only be sensitive while not capturing
+		//check if chronopics have changed
+		if(! canCaptureEncoder())
+			return;
+
 		encoderThreadStart(encoderActions.CAPTURE_BG);
 	}
 
 	double maxPowerIntersessionOnCapture;
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
 	{
-		if(eCaptureInertialBG != null)
-			eCaptureInertialBG.Finish();
+//		if(eCaptureInertialBG != null)
+//			eCaptureInertialBG.Finish();
 
 		maxPowerIntersessionOnCapture = findMaxPowerIntersession();
 		//LogB.Information("maxPower: " + maxPowerIntersessionOnCapture);
 
-		//check if chronopics have changed
-		if(! canCaptureEncoder())
+		//if we are not capturing on the background, check if chronopics have changed
+		if( ! (encoderThreadBG != null && encoderThreadBG.IsAlive) && ! canCaptureEncoder() )
 			return;
 
 		if(encoderConfigurationCurrent.has_inertia)
@@ -4553,13 +4559,11 @@ public partial class ChronoJumpWindow
 		{
 			eCaptureInertialBG = new EncoderCaptureInertialBackground(
 					chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port);
-			//encoderThreadBG = new Thread(new ThreadStart(encoderDoCaptureBG));
-			encoderThread = new Thread(new ThreadStart(encoderDoCaptureBG));
+			encoderThreadBG = new Thread(new ThreadStart(encoderDoCaptureBG));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureBG));
 
 			LogB.ThreadStart();
-			//encoderThreadBG.Start();
-			encoderThread.Start();
+			encoderThreadBG.Start();
 		}
 
 		else if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM)
@@ -4634,11 +4638,13 @@ public partial class ChronoJumpWindow
 						preferences.encoderCaptureInactivityEndTime,
 						radio_encoder_capture_cont.Active,
 						findEccon(true),
-						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port
+						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port,
+						(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null)
 						);
 
 				if(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null)
 				{
+					eCaptureInertialBG.StoreData = true;
 					eCapture.InitCalibrated(eCaptureInertialBG.AngleNow);
 				}
 
@@ -4655,7 +4661,8 @@ public partial class ChronoJumpWindow
 						preferences.encoderCaptureInactivityEndTime,
 						false,
 						findEccon(true),
-						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port
+						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port,
+						false
 						);
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharpIM));
@@ -4997,14 +5004,24 @@ public partial class ChronoJumpWindow
 
 	private bool pulseGTKEncoderCaptureBG ()
 	{
-		//if(! encoderThreadBG.IsAlive) {
-		if(! encoderThread.IsAlive) {
+		if(! encoderThreadBG.IsAlive) {
 			return false;
 		}
 
-		Thread.Sleep (100);
-		//LogB.Information(" CapBG:"+ encoderThreadBG.ThreadState.ToString());
-		LogB.Information(" CapBG:"+ encoderThread.ThreadState.ToString());
+		//resize hscale if needed
+		int newValue = eCaptureInertialBG.AngleNow;
+		int lower = Convert.ToInt32(hscale_encoder_capture_inertial_angle_now.Adjustment.Lower);
+		int upper = Convert.ToInt32(hscale_encoder_capture_inertial_angle_now.Adjustment.Upper);
+
+		if(newValue < lower || newValue > upper)
+			hscale_encoder_capture_inertial_angle_now.SetRange(lower * 2, upper *2);
+
+		//update hscale value
+		hscale_encoder_capture_inertial_angle_now.Value = eCaptureInertialBG.AngleNow;
+
+		Thread.Sleep (50);
+		LogB.Information(" CapBG:"+ encoderThreadBG.ThreadState.ToString());
+
 		return true;
 	}
 				
@@ -5019,12 +5036,17 @@ public partial class ChronoJumpWindow
 			prepareEncoderGraphs(false, false); //do not erase them
 			needToCallPrepareEncoderGraphs = false;
 		}
-			
-		if(! encoderThread.IsAlive || encoderProcessCancel) {
+
+		if(! encoderThread.IsAlive || encoderProcessCancel)
+		{
 			LogB.Information("End from capture"); 
-			LogB.ThreadEnding(); 
+			LogB.ThreadEnding();
+
+			if(eCaptureInertialBG != null)
+				eCaptureInertialBG.StoreData = false;
+
 			finishPulsebar(encoderActions.CURVES_AC);
-			
+
 			if(encoderProcessCancel) {
 				//stop video		
 				encoderStopVideoRecord();

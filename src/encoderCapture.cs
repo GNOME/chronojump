@@ -84,6 +84,7 @@ public abstract class EncoderCapture
 
 	protected static SerialPort sp;
 	protected bool finish;
+	protected bool capturingInertialBG;
 
 	//capture is simulated (a signal file is readed)
 	private static bool simulated = false;
@@ -94,44 +95,18 @@ public abstract class EncoderCapture
 	// ---- private stuff ----
 	private bool cancel;
 
-	/*
-	public static bool CheckPort(string port)
-	{
-		if(File.Exists(UtilAll.GetECapSimSignalFileName())) { //simulatedEncoder
-			simulated = true;
-			return true;
-		}
-
-		simulated = false;
-
-		LogB.Information("testing encoder port: ", port);
-		sp = new SerialPort(port);
-		sp.BaudRate = 115200;
-		LogB.Information("testing 1: sp created");
-		try {
-			sp.Open();
-			LogB.Information("testing 2: sp opened");
-			sp.Close();
-			LogB.Information("testing 3: sp closed. Success!");
-		} catch {
-			LogB.Error("testing encoder port failed");
-			return false;
-		}
-		return true;
-	}
-	*/
-
 
 	//if cont (continuous mode), then will not end when too much time passed before start
-	public void InitGlobal (int widthG, int heightG, int time, int timeEnd, bool cont, string eccon, string port)
+	public void InitGlobal (int widthG, int heightG, int time, int timeEnd, bool cont, string eccon, string port, bool capturingInertialBG)
 	{
 		this.widthG = widthG;
 		this.heightG = heightG;
 		this.cont = cont;
 		this.eccon = eccon;
+		this.capturingInertialBG = capturingInertialBG;
 		
 		//---- a) open port -----
-		if(! simulated) {
+		if(! simulated && ! capturingInertialBG) {
 			LogB.Debug("runEncoderCaptureCsharp start port:", port);
 			sp = new SerialPort(port);
 			sp.BaudRate = 115200;
@@ -445,7 +420,7 @@ public abstract class EncoderCapture
 		//leave some time to capture.R be able to paint data, and to create two Roptions.txt file correctly
 		if(simulated)
 			System.Threading.Thread.Sleep(2000);
-		else 
+		else if(! capturingInertialBG)
 			sp.Close();
 
 		if(cancel)
@@ -469,12 +444,15 @@ public abstract class EncoderCapture
 	}
 
 
-	protected virtual int readByte()
+	protected int readByte()
 	{
 		if(simulated) {
 			return simulatedInts[simulatedCount ++];
 		} else {
-			return sp.ReadByte();
+			if(capturingInertialBG)
+				return EncoderCaptureInertialBackgroundStatic.GetNext();
+			else
+				return sp.ReadByte();
 		}
 	}
 	protected int convertByte(int b)
@@ -630,7 +608,7 @@ public class EncoderCaptureGravitatory : EncoderCapture
 	public EncoderCaptureGravitatory() 
 	{
 	}
-	
+
 	protected override void initSpecific()
 	{
 		realHeightG = 2 * 1000 ; //1 meter up / 1 meter down
@@ -652,7 +630,7 @@ public class EncoderCaptureInertial : EncoderCapture
 	public EncoderCaptureInertial() 
 	{
 	}
-	
+
 	protected override void initSpecific()
 	{
 		realHeightG = 2 * 5000 ; //5 meters up / 5 meters down
@@ -833,52 +811,4 @@ public class EncoderCaptureIMCalc : EncoderCapture
 		return false;
 	}
 	
-}
-
-public class EncoderCaptureInertialBackground : EncoderCapture
-{
-	/*
-	 * this class allows reading always in order to know the angle of the string and the change of direction
-	 */
-	private int angleNow;
-
-	public EncoderCaptureInertialBackground(string port)
-	{
-		angleNow = 0;
-		finish = false;
-
-		sp = new SerialPort(port);
-		sp.BaudRate = 115200;
-		LogB.Information("sp created");
-	}
-
-	public bool CaptureBG()
-	{
-		LogB.Information("CaptureBG!");
-		sp.Open();
-		LogB.Information("sp opened");
-
-		int myByteReaded;
-		do {
-			try {
-				myByteReaded = readByte();
-			} catch {
-				LogB.Error("ERROR at InertialCaptureBackground: Maybe encoder cable is disconnected");
-				return false;
-			}
-
-			myByteReaded = convertByte(myByteReaded);
-			angleNow += myByteReaded;
-			//LogB.Information("angleNow = " + angleNow.ToString());
-		} while (! finish);
-
-		sp.Close();
-		return true;
-	}
-
-	public int AngleNow
-	{
-		get { return angleNow; }
-	}
-
 }

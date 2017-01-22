@@ -1003,6 +1003,7 @@
     <Compile Include="src\platform.cs" />
     <Compile Include="src\gui\movingStartWindow.cs" />
     <Compile Include="src\Mini\chronojump_mini.cs" />
+    <Compile Include="src\encoderCaptureInertialBG.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

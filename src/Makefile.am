@@ -132,6 +132,7 @@ SOURCES = \
 	config.cs\
 	encoder.cs\
 	encoderCapture.cs\
+	encoderCaptureInertialBG.cs\
 	encoderRProc.cs\
 	executeAuto.cs\
 	event.cs\

@@ -2277,7 +2277,8 @@ public partial class ChronoJumpWindow
 	}
 		
 
-	private void on_quit2_activate (object o, EventArgs args) {
+	private void on_quit2_activate (object o, EventArgs args)
+	{
 		LogB.Information("Bye!");
 
 		updatingRestTimes = false;
@@ -2298,6 +2299,14 @@ public partial class ChronoJumpWindow
 			//pingThread.Abort();
 			jsPing.PingAbort();
 		}
+
+		//close rfid capture process if it's working
+		if(ExecuteProcess.IsRunning(processRFIDcapture))
+		{
+			LogB.Information("processRFIDcapture is running. Stopping");
+			processRFIDcapture.Kill();
+		} else
+			LogB.Information("processRFIDcapture is NOT running.");
 
 
 		//printing remaining logs in the non-gtk thread

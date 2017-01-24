@@ -965,6 +965,19 @@ public class Util
 	/********** end of encoder paths ************/
 
 
+	/********** start of rfid paths ************/
+
+	public static string GetRFIDCaptureScript() {
+		return Path.Combine(GetPrefixDir(), "bin/chronojump_rfid_capture.py");
+	}
+	public static string GetRFIDCapturedFile() {
+		return Path.Combine(Path.GetTempPath(), "chronojump_rfid.txt");
+	}
+
+
+	/********** end of rfid paths ************/
+
+
 	public static string GetManualDir() {
 		//we are on:
 		//lib/chronojump/ (Unix) or bin/ (win32)

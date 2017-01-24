@@ -27,6 +27,7 @@ using System.IO.Ports;
 using System.IO; //"File" things
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
+using System.Diagnostics; //Process
 	
 public partial class ChronoJumpWindow 
 {
@@ -196,17 +197,49 @@ public partial class ChronoJumpWindow
 	}
 	void on_button_rfid_read_clicked (object o, EventArgs args)
 	{
-		string filePath = Constants.FilePathRfid;
+		string filePath = Util.GetRFIDCapturedFile();
 
 		if(Util.FileExists(filePath))
 			label_rfid.Text = Util.ReadFile(filePath, true);
 	}
 
+	Process processRFIDcapture;
 	void on_button_rfid_start_clicked (object o, EventArgs args)
 	{
-		button_rfid_start.Sensitive = false;
+		string script_path = Util.GetRFIDCaptureScript();
 
-		string filePath = Constants.FilePathRfid;
+		if(! File.Exists(script_path))
+		{
+			LogB.Debug ("ExecuteProcess does not exist parameter: " + script_path);
+			label_rfid.Text = "Error starting rfid capture";
+			return;
+		}
+
+		string filePath = Util.GetRFIDCapturedFile();
+		Util.FileDelete(filePath);
+
+
+		// ---- start process ----
+		//
+		// on Windows will be different, but at the moment RFID is only supported on Linux (Raspberrys)
+		// On Linux and OSX we execute Python and we pass the path to the script as a first argument
+
+		string executable = "python";         // TODO: check if ReadChronojump.py works on Python 2 and Python 3
+
+		List<string> parameters = new List <string> ();
+		// first argument of the Python: the path to the script
+		parameters.Insert (0, script_path);
+
+
+		processRFIDcapture = new Process();
+		bool calledOk = ExecuteProcess.RunAtBackground (processRFIDcapture, executable, parameters);
+		if(calledOk) {
+			button_rfid_start.Sensitive = false;
+			label_rfid.Text = "...";
+		} else
+			label_rfid.Text = "Error starting rfid capture";
+
+		// ----- process is launched
 
 		//create a new FileSystemWatcher and set its properties.
 		FileSystemWatcher watcher = new FileSystemWatcher();
@@ -230,14 +263,13 @@ public partial class ChronoJumpWindow
 
 	private void rfid_read()
 	{
-		string filePath = Constants.FilePathRfid;
+		string filePath = Util.GetRFIDCapturedFile();
 
 		LogB.Information("Changed file: " +  filePath);
 
 		if(Util.FileExists(filePath))
 			label_rfid.Text = Util.ReadFile(filePath, true);
 	}
-
 
 }
 

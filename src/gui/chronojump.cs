@@ -3158,8 +3158,10 @@ public partial class ChronoJumpWindow
 		//show the program
 		notebook_start.CurrentPage = 1;
 
-		//it's not visible at startup
-		main_menu.Visible = true;
+		//make main_menu visible because it's not visible at startup.
+		//but don't show if session == UNIQUE
+		if(! sessionIsUnique)
+			main_menu.Visible = true;
 
 		if(m != Constants.Menuitem_modes.POWERGRAVITATORY && m != Constants.Menuitem_modes.POWERINERTIAL)
 		{

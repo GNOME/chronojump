@@ -58,7 +58,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_preferences_not_menu;
 
 
+	//variables used on gui/chronojump.cs
 	private bool useVideo = true;
+	private bool sessionIsUnique = false;
 
 	private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
 	private bool encoderUpdateTreeViewWhileCapturing = true;
@@ -146,6 +148,7 @@ public partial class ChronoJumpWindow
 
 		if(config.SessionMode == Config.SessionModeEnum.UNIQUE)	
 		{
+			sessionIsUnique = true;
 			main_menu.Visible = false;
 			button_preferences_not_menu.Visible = true;
 

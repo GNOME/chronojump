@@ -48,7 +48,7 @@ public abstract class EncoderRProc
 
 		bool ok = true;
 			
-		if(isRunning() && isResponsive(p)) {
+		if(ExecuteProcess.IsRunning(p) && ExecuteProcess.IsResponsive(p)) {
 			LogB.Debug("calling continue");
 			ok = continueProcess();
 		} else {
@@ -62,97 +62,6 @@ public abstract class EncoderRProc
 		return ok;
 	}
 
-	protected bool isRunning() 
-	{
-		LogB.Debug("calling isRunning()");
-		if(p == null) {
-			LogB.Debug("p == null");
-			return false;
-		} else {
-			if(isRunningThisProcess(p))
-				return true;
-		}
-	
-		return false;
-	}
-
-	private bool isRunningThisProcess(Process p)
-	{
-		/*
-		 * Process Id is not valid if the associated process is not running.
-		 * Need to ensure that the process is running before attempting to retrieve the Id property.
-		 */
-		
-		try {
-			LogB.Debug(string.Format("last pid id {0}", p.Id));
-			Process pid = Process.GetProcessById(p.Id);
-			if(pid == null)
-				return false;
-		} catch {
-			return false;
-		}
-
-		return true;
-	}
-	/*
-	 * don't use this because in linux R script can be called by:
-	 * "/usr/lib/R/bin/exec/R"
-	 * and it will not be found passing "R" or "*R"
-	private bool isRunningThisProcess(string name)
-	{
-		Process [] pids = Process.GetProcessesByName(name);
-		foreach (Process myPid in pids) {
-			LogB.Debug(string.Format("pids id: {0}", myPid.Id));
-			if (myPid.Id == Convert.ToInt32(p.Id))
-				return true;
-		}
-		
-		return false;
-	}
-	*/
-	
-	/*
-	 * The process.Responding only works on GUI processes
-	 * So, here we send a "ping" expecting to see the result in short time
-	 *
-	 * TODO: maybe is good to kill the unresponsive processes
-	 */
-	private bool isResponsive(Process process)
-	{
-		Random rnd = new Random();
-		int randomInt = rnd.Next(); //eg. 1234
-		
-		string randomPingStr = "PING" + Path.Combine(Path.GetTempPath(), "chronojump" + randomInt.ToString() + ".txt"); 
-		//eg Linux: 'PING/tmp/chronojump1234.txt'
-		//eg Windows: 'PINGC:\Temp...\chronojump1234.txt'
-
-		if (UtilAll.IsWindows()) {
-			//On win32 R understands backlash as an escape character and 
-			//a file path uses Unix-like path separator '/'		
-			randomPingStr = randomPingStr.Replace("\\","/");
-		}
-		//eg Windows: 'PINGC:/Temp.../chronojump1234.txt'
-
-		LogB.Information("Sending ping: " + randomPingStr);
-		try {
-			process.StandardInput.WriteLine(randomPingStr);
-		} catch {
-			LogB.Warning("Catched waiting response");
-			return false;
-		}
-
-		//wait 250ms the response
-		System.Threading.Thread.Sleep(250);
-
-		//On Linux will be '/' on Windows '\'	
-		if(File.Exists(Path.Combine(Path.GetTempPath(), "chronojump" + randomInt.ToString() + ".txt"))) {
-			LogB.Information("Process is responding");
-			return true;
-		}
-
-		LogB.Warning("Process is NOT responding");
-		return false;
-	}
 
 	protected string pBinURL()
 	{
@@ -231,7 +140,7 @@ public abstract class EncoderRProc
 
 	public void SendEndProcess() 
 	{
-		if(isRunning()) {
+		if(ExecuteProcess.IsRunning(p)) {
 			LogB.Debug("Closing R script");
 			try {
 				p.StandardInput.WriteLine("Q");

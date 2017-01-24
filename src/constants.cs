@@ -480,7 +480,6 @@ public class Constants
 	public static string FileNameLogOld = "log_chronojump_old.txt";
 	
 	public static string FileNameConfig = "chronojump_config.txt";
-	public static string FilePathRfid = "/tmp/chronojump_rfid.txt";
 	
 	//30 colors defined
 	//see als UtilGtk that's not used by the server

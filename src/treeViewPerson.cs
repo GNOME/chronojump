@@ -142,16 +142,22 @@ public class TreeViewPersons
 	public void Fill(ArrayList myPersons, RestTime rt)
 	{
 		foreach (Person person in myPersons)
+		{
+			//take care on null at restTime. This happens eg on start of session where SessionMode == UNIQUE
+			string restedTime = "";
+			if(rt != null && rt.RestedTime(person.UniqueID) != null)
+				restedTime = rt.RestedTime(person.UniqueID);
+
 			store.AppendValues ( new String [] {
 					person.UniqueID.ToString(),
 					person.Name.ToString(),
-					rt.RestedTime(person.UniqueID) }
+					restedTime }
 					);
+		}
 
 		//show sorted by column name	
 		store.SetSortColumnId(1, Gtk.SortType.Ascending);
 
-		//TODO: check if sort works after 1h
 		store.ChangeSortColumn();
 	}
 	

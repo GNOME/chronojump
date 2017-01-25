@@ -67,6 +67,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_encoder_capture_1set;
 	[Widget] Gtk.RadioButton radio_encoder_capture_cont;
 	[Widget] Gtk.Button button_encoder_capture;
+
+	[Widget] Gtk.Label label_encoder_not_menu;
+	[Widget] Gtk.Button button_gravitatory_not_menu;
+	[Widget] Gtk.Button button_inertial_not_menu;
+
 	
 	[Widget] Gtk.Image image_encoder_bell;
 	[Widget] Gtk.Button button_encoder_capture_cancel;

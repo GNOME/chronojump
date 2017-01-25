@@ -55,7 +55,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_treeview_encoder_at_second_page;
 	
 	//shown when menu is hidden
-	[Widget] Gtk.Button button_preferences_not_menu;
+	[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu;
 
 
 	//variables used on gui/chronojump.cs
@@ -150,7 +150,7 @@ public partial class ChronoJumpWindow
 		{
 			sessionIsUnique = true;
 			main_menu.Visible = false;
-			button_preferences_not_menu.Visible = true;
+			hbox_menu_and_preferences_outside_menu.Visible = true;
 
 			if(! Sqlite.Exists(false, Constants.SessionTable, "session")) {
 				//this creates the session and inserts at DB

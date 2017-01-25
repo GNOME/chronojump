@@ -2285,10 +2285,7 @@ public partial class ChronoJumpWindow
 
 		//if capturing on the background finish it
 		if(eCaptureInertialBG != null)
-		{
-			eCaptureInertialBG.FinishBG();
-			EncoderCaptureInertialBackgroundStatic.Abort();
-		}
+			stopCapturingInertialBG();
 
 		cp2016.SerialPortsCloseIfNeeded(true);
 
@@ -3649,6 +3646,12 @@ public partial class ChronoJumpWindow
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 
 	{
+		// stop capturing inertial on the background if we start capturing another test
+		if(encoderThreadBG != null && encoderThreadBG.IsAlive)
+		{
+			stopCapturingInertialBG();
+		}
+
 		chronopicRegisterUpdate(false);
 
 		int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);

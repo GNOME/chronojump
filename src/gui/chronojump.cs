@@ -103,6 +103,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_mode_multi_chronopic_small;
 	[Widget] Gtk.Image image_mode_encoder_gravitatory;
 	[Widget] Gtk.Image image_mode_encoder_inertial;
+	[Widget] Gtk.Image image_gravitatory_not_menu;
+	[Widget] Gtk.Image image_inertial_not_menu;
 
 	[Widget] Gtk.Image image_persons_new_1;
 	[Widget] Gtk.Image image_persons_new_plus;
@@ -727,8 +729,10 @@ public partial class ChronoJumpWindow
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderGravitatory);
 		image_mode_encoder_gravitatory.Pixbuf = pixbuf;
+		image_gravitatory_not_menu.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderInertial);
 		image_mode_encoder_inertial.Pixbuf = pixbuf;
+		image_inertial_not_menu.Pixbuf = pixbuf;
 	
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameReactionTime);
 		image_mode_reaction_times_small.Pixbuf = pixbuf;
@@ -3110,6 +3114,10 @@ public partial class ChronoJumpWindow
 				}
 				hbox_encoder_capture_1_or_cont.Visible = true;
 				hbox_encoder_inertial_calibrate.Visible = false;
+
+				label_encoder_not_menu.Text = Catalog.GetString("Gravitatory");
+				button_gravitatory_not_menu.Sensitive = false;
+				button_inertial_not_menu.Sensitive = true;
 			} else {
 				menuitem_mode_selected_power_inertial.Visible = true;
 
@@ -3133,6 +3141,10 @@ public partial class ChronoJumpWindow
 				radio_encoder_capture_1set.Active = true;
 				hbox_encoder_capture_1_or_cont.Visible = false;
 				hbox_encoder_inertial_calibrate.Visible = true;
+
+				label_encoder_not_menu.Text = Catalog.GetString("Inertial");
+				button_gravitatory_not_menu.Sensitive = true;
+				button_inertial_not_menu.Sensitive = false;
 			}
 			encoderGuiChangesAfterEncoderConfigurationWin(true);
 			if(changed) {

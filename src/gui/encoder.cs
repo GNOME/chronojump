@@ -621,6 +621,12 @@ public partial class ChronoJumpWindow
 		if(! canCaptureEncoder())
 			return;
 
+		// stop capturing inertial on the background if we calibrate again
+		if(encoderThreadBG != null && encoderThreadBG.IsAlive)
+		{
+			stopCapturingInertialBG();
+		}
+
 		encoderThreadStart(encoderActions.CAPTURE_BG);
 	}
 
@@ -636,6 +642,12 @@ public partial class ChronoJumpWindow
 		//if we are not capturing on the background, check if chronopics have changed
 		if( ! (encoderThreadBG != null && encoderThreadBG.IsAlive) && ! canCaptureEncoder() )
 			return;
+
+		// stop capturing inertial on the background if we start capturing gravitatory
+		if(! encoderConfigurationCurrent.has_inertia && encoderThreadBG != null && encoderThreadBG.IsAlive)
+		{
+			stopCapturingInertialBG();
+		}
 
 		if(encoderConfigurationCurrent.has_inertia)
 			notebook_encoder_capture_or_instructions.Page = 1; //show inertia instructions
@@ -2102,6 +2114,15 @@ public partial class ChronoJumpWindow
 	private void encoderDoCaptureBG ()
 	{
 		eCaptureInertialBG.CaptureBG();
+	}
+
+	private void stopCapturingInertialBG()
+	{
+		LogB.Information("Stopping capturing Inertial BG");
+		eCaptureInertialBG.FinishBG();
+		EncoderCaptureInertialBackgroundStatic.Abort();
+		eCaptureInertialBG = null;
+		hscale_encoder_capture_inertial_angle_now.Value = 0;
 	}
 
 	//this is called by non gtk thread. Don't do gtk stuff here

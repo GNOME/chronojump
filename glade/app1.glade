@@ -13753,6 +13753,7 @@ Concentric</property>
                                                             <widget class="GtkHScale" id="hscale_encoder_capture_inertial_angle_now">
                                                             <property name="width_request">150</property>
                                                             <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="adjustment">0 -100 100 1 1 0</property>
                                                             <property name="restrict_to_fill_level">False</property>
@@ -18064,6 +18065,9 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

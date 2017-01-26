@@ -626,13 +626,14 @@ public partial class ChronoJumpWindow
 		if(! canCaptureEncoder())
 			return;
 
-		// stop capturing inertial on the background if we calibrate again
+		/*
+		 * if user calibrates again: put 0 value
+		 * if calibration was not running: start it
+		 */
 		if(encoderThreadBG != null && encoderThreadBG.IsAlive)
-		{
-			stopCapturingInertialBG();
-		}
-
-		encoderThreadStart(encoderActions.CAPTURE_BG);
+			eCaptureInertialBG.AngleNow = 0;
+		else
+			encoderThreadStart(encoderActions.CAPTURE_BG);
 	}
 
 	double maxPowerIntersessionOnCapture;

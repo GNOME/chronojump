@@ -87,6 +87,7 @@ public class EncoderCaptureInertialBackground
 	public int AngleNow
 	{
 		get { return angleNow; }
+		set { angleNow = value; } //if user recalibrates again
 	}
 
 	public void FinishBG()

@@ -21,6 +21,7 @@
 using System;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using Mono.Unix;
 
 //this class tries to be a space for methods that are used in different classes
 public class UtilDate
@@ -84,6 +85,13 @@ public class UtilDate
 					Convert.ToInt32(dateFull[0]));
 		}
 		return dt;
+	}
+
+	public static string GetCurrentYearMonthStr()
+	{
+		DateTime dt = DateTime.Now;
+
+		return UtilAll.DigitsCreate(dt.Year,4) + "-" + Catalog.GetString(dt.ToString("MMMM"));
 	}
 
 }

@@ -691,11 +691,14 @@ public class SessionLoadWindow {
 
 		//put an icon to window
 		UtilGtk.IconWindow(session_load);
-		
+
 		createTreeView(treeview_session_load, false, false);
 		store = getStore(false, false);
 		treeview_session_load.Model = store;
 		fillTreeView(treeview_session_load, store, false, false);
+
+		store.SetSortColumnId(1, Gtk.SortType.Descending); //date
+		store.ChangeSortColumn();
 
 		button_accept.Sensitive = false;
 		entry_search_filter.CanFocus = true;
@@ -722,7 +725,7 @@ public class SessionLoadWindow {
 		TreeStore s;
 		if(showContacts && showEncoder)
 			s = new TreeStore(
-				typeof (string), typeof (string), typeof (string), typeof (string), //number, name, place, date
+				typeof (string), typeof (string), typeof (string), typeof (string), //number (hidden), date, name, place
 				typeof (string), typeof (string), typeof (string), typeof (string), //persons, sport, spllity, level
 				typeof (string), typeof (string), typeof (string), typeof(string), //jumps s,r, runs s, i, 
 				typeof (string), typeof (string), typeof (string), 	//rt, pulses, mc
@@ -731,7 +734,7 @@ public class SessionLoadWindow {
 			       	);
 		else if(showContacts && ! showEncoder)
 			s = new TreeStore(
-				typeof (string), typeof (string), typeof (string), typeof (string), //number, name, place, date
+				typeof (string), typeof (string), typeof (string), typeof (string), //number (hidden), date, name, place
 				typeof (string), typeof (string), typeof (string), typeof (string), //persons, sport, spllity, level
 				typeof (string), typeof (string), typeof (string), typeof(string), //jumps s,r, runs s, i, 
 				typeof (string), typeof (string), typeof (string), 	//rt, pulses, mc
@@ -739,20 +742,35 @@ public class SessionLoadWindow {
 			       	);
 		else if(! showContacts && showEncoder)
 			s = new TreeStore(
-				typeof (string), typeof (string), typeof (string), typeof (string), //number, name, place, date
+				typeof (string), typeof (string), typeof (string), typeof (string), //number (hidden), date, name, place
 				typeof (string), typeof (string), typeof (string), typeof (string), //persons, sport, spllity, level
 				typeof (string), typeof (string), 			//encoder s, c
 				typeof (string)						//comments
 			       	);
 		else // ! showContacts && ! showEncoder
 			s = new TreeStore(
-				typeof (string), typeof (string), typeof (string), typeof (string), //number, name, place, date
+				typeof (string), typeof (string), typeof (string), typeof (string), //number (hidden), date, name, place
 				typeof (string), typeof (string), typeof (string), typeof (string), //persons, sport, spllity, level
 				typeof (string)						//comments
 			       	);
+
+		//s.SetSortFunc (0, UtilGtk.IdColumnCompare); //not needed, it's hidden
+		s.SetSortFunc (1, dateColumnCompare);
+		s.ChangeSortColumn();
+
 		return s;
 	}
 
+
+	private static int dateColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)
+	{
+		DateTime val1;
+		DateTime val2;
+		val1 = UtilDate.FromSql(model.GetValue(iter1, 1).ToString());
+		val2 = UtilDate.FromSql(model.GetValue(iter2, 1).ToString());
+
+		return DateTime.Compare(val1, val2);
+	}
 	
 	static public SessionLoadWindow Show (Gtk.Window parent, WindowType type)
 	{
@@ -766,14 +784,29 @@ public class SessionLoadWindow {
 		return SessionLoadWindowBox;
 	}
 	
-	private void createTreeView (Gtk.TreeView tv, bool showContacts, bool showEncoder) {
+	private void createTreeView (Gtk.TreeView tv, bool showContacts, bool showEncoder)
+	{
 		tv.HeadersVisible=true;
 		int count = 0;
+
+		Gtk.TreeViewColumn colID = new Gtk.TreeViewColumn(Catalog.GetString ("Number"), new CellRendererText(), "text", count);
+		colID.SortColumnId = count ++;
+		colID.SortIndicator = true;
+		colID.Visible = false; //hidden
+		tv.AppendColumn (colID);
+
+		//tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
+		Gtk.TreeViewColumn colDate = new Gtk.TreeViewColumn(Catalog.GetString ("Date"), new CellRendererText(), "text", count);
+		colDate.SortColumnId = count ++;
+		colDate.SortIndicator = true;
+		tv.AppendColumn (colDate);
+
+		Gtk.TreeViewColumn colName = new Gtk.TreeViewColumn(Catalog.GetString ("Name"), new CellRendererText(), "text", count);
+		colName.SortColumnId = count ++;
+		colName.SortIndicator = true;
+		tv.AppendColumn (colName);
 		
-		tv.AppendColumn ( Catalog.GetString ("Number"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Name"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Persons"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Sport"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Specialty"), new CellRendererText(), "text", count++);
@@ -844,6 +877,10 @@ public class SessionLoadWindow {
 		fillTreeView(treeview_session_load, store,
 				checkbutton_show_data_jump_run.Active, checkbutton_show_data_encoder.Active);
 		
+		store.SetSortColumnId(1, Gtk.SortType.Descending); //date
+		store.ChangeSortColumn();
+
+
 		/*
 		 * after clicking on checkbuttons, treeview row gets unselected
 		 * call onSelectionEntry to see if there's a row selected
@@ -884,9 +921,11 @@ public class SessionLoadWindow {
 				myLevel = Catalog.GetString(myStringFull[6]);
 
 			if(showContacts && showEncoder)
-				store.AppendValues (myStringFull[0], myStringFull[1], 
-						myStringFull[2], 
+				store.AppendValues (
+						myStringFull[0], 	//session num
 						myStringFull[3],	//session date
+						myStringFull[1], 	//session name
+						myStringFull[2], 	//session place
 						myStringFull[8],	//number of jumpers x session
 						mySport,		//personsSport
 						mySpeciallity,		//personsSpeciallity
@@ -903,9 +942,11 @@ public class SessionLoadWindow {
 						myStringFull[7]		//description of session
 						);
 			else if(showContacts && ! showEncoder)
-				store.AppendValues (myStringFull[0], myStringFull[1], 
-						myStringFull[2], 
+				store.AppendValues (
+						myStringFull[0], 	//session num
 						myStringFull[3],	//session date
+						myStringFull[1], 	//session name
+						myStringFull[2], 	//session place
 						myStringFull[8],	//number of jumpers x session
 						mySport,		//personsSport
 						mySpeciallity,		//personsSpeciallity
@@ -920,9 +961,11 @@ public class SessionLoadWindow {
 						myStringFull[7]		//description of session
 						);
 			else if(! showContacts && showEncoder)
-				store.AppendValues (myStringFull[0], myStringFull[1], 
-						myStringFull[2], 
+				store.AppendValues (
+						myStringFull[0], 	//session num
 						myStringFull[3],	//session date
+						myStringFull[1], 	//session name
+						myStringFull[2], 	//session place
 						myStringFull[8],	//number of jumpers x session
 						mySport,		//personsSport
 						mySpeciallity,		//personsSpeciallity
@@ -932,9 +975,11 @@ public class SessionLoadWindow {
 						myStringFull[7]		//description of session
 						);
 			else // ! showContacts && ! showEncoder
-				store.AppendValues (myStringFull[0], myStringFull[1], 
-						myStringFull[2], 
+				store.AppendValues (
+						myStringFull[0], 	//session num
 						myStringFull[3],	//session date
+						myStringFull[1], 	//session name
+						myStringFull[2], 	//session place
 						myStringFull[8],	//number of jumpers x session
 						mySport,		//personsSport
 						mySpeciallity,		//personsSpeciallity

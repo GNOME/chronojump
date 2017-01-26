@@ -141,19 +141,34 @@ public partial class ChronoJumpWindow
 			hbox_encoder_sup_capture_analyze_two_buttons.Visible = false;
 		}
 
-		if(configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE)
+		if(configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE || configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY)
 		{
 			main_menu.Visible = false;
 			hbox_menu_and_preferences_outside_menu.Visible = true;
 
-			if(! Sqlite.Exists(false, Constants.SessionTable, "session")) {
-				//this creates the session and inserts at DB
-				currentSession = new Session(
-						"session", "", DateTime.Today,	//name, place, dateTime
-						Constants.SportUndefinedID, Constants.SpeciallityUndefinedID, Constants.LevelUndefinedID,
-						"", Constants.ServerUndefinedID); //comments, serverID
-			} else
-				currentSession = SqliteSession.SelectByName("session");
+			if(configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE)
+			{
+				if(! Sqlite.Exists(false, Constants.SessionTable, "session")) {
+					//this creates the session and inserts at DB
+					currentSession = new Session(
+							"session", "", DateTime.Today,	//name, place, dateTime
+							Constants.SportUndefinedID, Constants.SpeciallityUndefinedID, Constants.LevelUndefinedID,
+							"", Constants.ServerUndefinedID); //comments, serverID
+				} else
+					currentSession = SqliteSession.SelectByName("session");
+			} else {
+				//configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY
+
+				string yearMonthStr = UtilDate.GetCurrentYearMonthStr();
+				if(! Sqlite.Exists(false, Constants.SessionTable, yearMonthStr)) {
+					//this creates the session and inserts at DB
+					currentSession = new Session(
+							yearMonthStr, "", DateTime.Today,	//name, place, dateTime
+							Constants.SportUndefinedID, Constants.SpeciallityUndefinedID, Constants.LevelUndefinedID,
+							"", Constants.ServerUndefinedID); //comments, serverID
+				} else
+					currentSession = SqliteSession.SelectByName(yearMonthStr);
+			}
 			
 			on_load_session_accepted();
 		}

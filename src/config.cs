@@ -25,7 +25,7 @@ using System.IO;
 public class Config
 {
 	public enum AutodetectPortEnum { ACTIVE, DISCARDFIRST, INACTIVE }
-	public enum SessionModeEnum { STANDARD, UNIQUE }
+	public enum SessionModeEnum { STANDARD, UNIQUE, MONTHLY }
 
 	public bool Maximized;
 	public bool CustomButtons;

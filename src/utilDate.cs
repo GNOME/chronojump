@@ -58,7 +58,6 @@ public class UtilDate
 		if(date == null || date == "")
 			return DateTime.Now;
 
-
 		/*
 		   maybe date format is before 0.72 (d/m/Y)
 		   this is still here and not in a standalone conversion

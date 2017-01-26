@@ -148,17 +148,6 @@ public class PersonRecuperateWindow {
 	}
 */
 
-	/*
-	public int birthColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
-		DateTime val1; 
-		DateTime val2; 
-		val1 = UtilDate.DateAsDateTime(model.GetValue(iter1, firstColumn + 5).ToString());
-		val2 = UtilDate.DateAsDateTime(model.GetValue(iter2, firstColumn + 5).ToString());
-		
-		return DateTime.Compare(val1, val2);
-	}
-	*/
-
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store, string searchFilterName) 
 	{
 		int except = currentSession.UniqueID;

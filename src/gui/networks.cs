@@ -144,6 +144,7 @@ public partial class ChronoJumpWindow
 		if(configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE || configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY)
 		{
 			main_menu.Visible = false;
+			app1.Decorated = false;
 			hbox_menu_and_preferences_outside_menu.Visible = true;
 
 			if(configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE)

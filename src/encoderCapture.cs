@@ -162,6 +162,7 @@ public abstract class EncoderCapture
 		lastNonZero = 0;
 		
 		//this will be used to stop encoder automatically (on !cont mode)
+		//or to save this set and wait for the next on cont mode
 		consecutiveZeros = -1;		
 		consecutiveZerosMax = timeEnd * 1000;
 	

@@ -3112,7 +3112,7 @@ public partial class ChronoJumpWindow
 						hbox_combo_encoder_analyze_1RM.Visible=true;
 					radiobutton_encoder_analyze_neuromuscular_profile.Visible = true;
 				}
-				hbox_encoder_capture_1_or_cont.Visible = true;
+				//hbox_encoder_capture_1_or_cont.Visible = true;
 				hbox_encoder_inertial_calibrate.Visible = false;
 
 				label_encoder_not_menu.Text = Catalog.GetString("Gravitatory");
@@ -3139,7 +3139,7 @@ public partial class ChronoJumpWindow
 				radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
 				
 				radio_encoder_capture_1set.Active = true;
-				hbox_encoder_capture_1_or_cont.Visible = false;
+				//hbox_encoder_capture_1_or_cont.Visible = false;
 				hbox_encoder_inertial_calibrate.Visible = true;
 
 				label_encoder_not_menu.Text = Catalog.GetString("Inertial");

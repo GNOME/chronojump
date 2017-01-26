@@ -13851,7 +13851,6 @@ Concentric</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_inertial_calibrate">
                                                             <property name="label" translatable="yes">Calibrate</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_button_encoder_inertial_calibrate_clicked" swapped="no"/>
@@ -15462,10 +15461,9 @@ Concentric</property>
                                                             <widget class="GtkVBox" id="vbox81">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <widget class="GtkImage" id="image_encoder_inertial_instructions">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             </widget>
@@ -15477,7 +15475,6 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkTable" id="table1">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="n_rows">3</property>
                                                             <property name="n_columns">2</property>
@@ -15576,6 +15573,54 @@ Concentric</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label135">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">Inital calibration. Please put the inertial machine at zero position and click calibrate</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHButtonBox" id="hbuttonbox1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_encoder_inertial_calibrate_2">
+                                                            <property name="label" translatable="yes">Calibrate</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_encoder_inertial_calibrate_clicked" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_wait">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">Please, wait 3 seconds.</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -18178,6 +18223,9 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

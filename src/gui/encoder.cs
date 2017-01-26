@@ -67,6 +67,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_encoder_capture_1set;
 	[Widget] Gtk.RadioButton radio_encoder_capture_cont;
 	[Widget] Gtk.Button button_encoder_capture;
+	[Widget] Gtk.Button button_encoder_inertial_calibrate_2;
+	[Widget] Gtk.Label label_wait;
 
 	[Widget] Gtk.Label label_encoder_not_menu;
 	[Widget] Gtk.Button button_gravitatory_not_menu;
@@ -623,8 +625,10 @@ public partial class ChronoJumpWindow
 	{
 		//TODO: At the moment, button_encoder_inertial_calibrate can only be sensitive while not capturing
 		//check if chronopics have changed
+		/*
 		if(! canCaptureEncoder())
 			return;
+			*/
 
 		/*
 		 * if user calibrates again: put 0 value
@@ -633,7 +637,9 @@ public partial class ChronoJumpWindow
 		if(encoderThreadBG != null && encoderThreadBG.IsAlive)
 			eCaptureInertialBG.AngleNow = 0;
 		else
+		{
 			encoderThreadStart(encoderActions.CAPTURE_BG);
+		}
 	}
 
 	double maxPowerIntersessionOnCapture;
@@ -645,18 +651,32 @@ public partial class ChronoJumpWindow
 		maxPowerIntersessionOnCapture = findMaxPowerIntersession();
 		//LogB.Information("maxPower: " + maxPowerIntersessionOnCapture);
 
-		//if we are not capturing on the background, check if chronopics have changed
-		if( ! (encoderThreadBG != null && encoderThreadBG.IsAlive) && ! canCaptureEncoder() )
-			return;
-
-		// stop capturing inertial on the background if we start capturing gravitatory
-		if(! encoderConfigurationCurrent.has_inertia && encoderThreadBG != null && encoderThreadBG.IsAlive)
+		if(encoderThreadBG != null && encoderThreadBG.IsAlive) //if we are capturing on the background ...
 		{
-			stopCapturingInertialBG();
+			// stop capturing on the background if we start capturing gravitatory
+			if(! encoderConfigurationCurrent.has_inertia)
+			{
+				stopCapturingInertialBG();
+			}
+		}
+		else //if we are NOT capturing on the background ...
+		{
+			//check if chronopics have changed
+			if(! canCaptureEncoder() )
+				return;
+
+			if(encoderConfigurationCurrent.has_inertia)
+			{
+				//show inertia calibrate instructions. User will click on calibrate and this method will be called again
+
+				button_encoder_inertial_calibrate_2.Sensitive = true;
+				label_wait.Visible = false;
+				notebook_encoder_capture_or_instructions.Page = 1;
+
+				return;
+			}
 		}
 
-		if(encoderConfigurationCurrent.has_inertia)
-			notebook_encoder_capture_or_instructions.Page = 1; //show inertia instructions
 
 		//This notebook has capture (signal plotting), and curves (shows R graph)	
 		if(notebook_encoder_capture.CurrentPage == 1)
@@ -4584,6 +4604,10 @@ public partial class ChronoJumpWindow
 					
 		if(action == encoderActions.CAPTURE_BG)
 		{
+			shownWaitAtInertialCapture = false;
+			calledCaptureInertial = false;
+			timeCalibrated = DateTime.Now;
+
 			eCaptureInertialBG = new EncoderCaptureInertialBackground(
 					chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port);
 			encoderThreadBG = new Thread(new ThreadStart(encoderDoCaptureBG));
@@ -5029,10 +5053,28 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	bool shownWaitAtInertialCapture;
+	bool calledCaptureInertial;
+	DateTime timeCalibrated;
 	private bool pulseGTKEncoderCaptureBG ()
 	{
 		if(! encoderThreadBG.IsAlive) {
 			return false;
+		}
+
+		if(! shownWaitAtInertialCapture)
+		{
+			button_encoder_inertial_calibrate_2.Sensitive = false;
+			label_wait.Visible = true;
+			shownWaitAtInertialCapture = true;
+		}
+
+		if(! calledCaptureInertial && DateTime.Now.Subtract(timeCalibrated).TotalSeconds > 3)
+		{
+			//capture starts in 3 seconds
+			//System.Threading.Thread.Sleep(3000);
+			calledCaptureInertial = true;
+			on_button_encoder_capture_clicked (new object (), new EventArgs ());
 		}
 
 		//resize hscale if needed

@@ -57,20 +57,16 @@ public partial class ChronoJumpWindow
 	//shown when menu is hidden
 	[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu;
 
-
-	//variables used on gui/chronojump.cs
-	private bool useVideo = true;
-	private bool sessionIsUnique = false;
-
 	private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
 	private bool encoderUpdateTreeViewWhileCapturing = true;
 		
+	Config configChronojump;
 	private void configInit() 
 	{
 		//trying new Config class
-		Config config = new Config();
-		config.Read();
-		LogB.Information("Config:\n" + config.ToString());
+		configChronojump = new Config();
+		configChronojump.Read();
+		LogB.Information("Config:\n" + configChronojump.ToString());
 			
 		/*
 		 * TODO: do an else to any option
@@ -80,9 +76,9 @@ public partial class ChronoJumpWindow
 		 * But note this has to be executed only if it has changed!!
 		 */
 
-		if(config.Maximized)
+		if(configChronojump.Maximized)
 			app1.Maximize();
-		if(config.CustomButtons) {
+		if(configChronojump.CustomButtons) {
 			
 			//---- capture tab ----
 			
@@ -101,18 +97,17 @@ public partial class ChronoJumpWindow
 			hbox_encoder_analyze_signal_or_curves.HeightRequest = 40;
 			button_encoder_analyze.SetSizeRequest(120,40);
 		}
-		if(! config.UseVideo) {
-			useVideo = false;
+		if(! configChronojump.UseVideo) {
 			alignment_video_encoder.Visible = false;
 		}
 		
 		//show only power
-		if(config.OnlyEncoderGravitatory)
+		if(configChronojump.OnlyEncoderGravitatory)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERGRAVITATORY);
-		else if(config.OnlyEncoderInertial)
+		else if(configChronojump.OnlyEncoderInertial)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERINERTIAL);
 		
-		if(config.EncoderCaptureShowOnlyBars)
+		if(configChronojump.EncoderCaptureShowOnlyBars)
 		{
 			//attention: this makes encoder_capture_signal_drawingarea == null
 			vpaned_encoder_capture_video_and_set_graph.Visible = false;
@@ -134,21 +129,20 @@ public partial class ChronoJumpWindow
 			*/
 		}
 		
-		encoderUpdateTreeViewWhileCapturing = config.EncoderUpdateTreeViewWhileCapturing;
+		encoderUpdateTreeViewWhileCapturing = configChronojump.EncoderUpdateTreeViewWhileCapturing;
 		
-		if(config.PersonWinHide) {
+		if(configChronojump.PersonWinHide) {
 			//vbox_persons.Visible = false;
 			notebook_session_person.Visible = false;
 			hbox_encoder_person.Visible = true;
 		}
 		
-		if(config.EncoderAnalyzeHide) {
+		if(configChronojump.EncoderAnalyzeHide) {
 			hbox_encoder_sup_capture_analyze_two_buttons.Visible = false;
 		}
 
-		if(config.SessionMode == Config.SessionModeEnum.UNIQUE)	
+		if(configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE)
 		{
-			sessionIsUnique = true;
 			main_menu.Visible = false;
 			hbox_menu_and_preferences_outside_menu.Visible = true;
 

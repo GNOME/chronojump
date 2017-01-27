@@ -670,7 +670,7 @@ public partial class ChronoJumpWindow
 				//show inertia calibrate instructions. User will click on calibrate and this method will be called again
 
 				button_encoder_inertial_calibrate_2.Sensitive = true;
-				label_wait.Visible = false;
+				label_wait.Text = " ";
 				notebook_encoder_capture_or_instructions.Page = 1;
 
 				return;
@@ -4993,10 +4993,6 @@ public partial class ChronoJumpWindow
 			line = reader.ReadLine(); //just read first line
 			reader.Close();
 			
-			//at first readed curve, hide inertia capture instructions
-			if(encoderCaptureReadedLines == 0 && encoderConfigurationCurrent.has_inertia)
-				notebook_encoder_capture_or_instructions.Page = 0;
-
 			encoderCaptureReadedLines ++;
 		}
 		catch {
@@ -5065,7 +5061,7 @@ public partial class ChronoJumpWindow
 		if(! shownWaitAtInertialCapture)
 		{
 			button_encoder_inertial_calibrate_2.Sensitive = false;
-			label_wait.Visible = true;
+			label_wait.Text = "Please, wait 3 seconds.";
 			shownWaitAtInertialCapture = true;
 		}
 
@@ -5106,6 +5102,10 @@ public partial class ChronoJumpWindow
 			needToCallPrepareEncoderGraphs = false;
 		}
 
+		//if on inertia and already showing instructions, return to page 0
+		if(notebook_encoder_capture_or_instructions.Page == 1)
+			notebook_encoder_capture_or_instructions.Page = 0;
+
 		if(! encoderThread.IsAlive || encoderProcessCancel)
 		{
 			LogB.Information("End from capture"); 
@@ -5120,10 +5120,6 @@ public partial class ChronoJumpWindow
 				//stop video		
 				encoderStopVideoRecord();
 			}
-
-			//if on inertia and already showing instructions, return to page 0
-			if(notebook_encoder_capture_or_instructions.Page == 1)
-				notebook_encoder_capture_or_instructions.Page = 0;
 
 			LogB.ThreadEnded(); 
 			return false;

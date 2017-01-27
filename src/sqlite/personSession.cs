@@ -305,7 +305,42 @@ class SqlitePersonSession : Sqlite
 		return myArray;
 	}
 	
-	
+	//use this in the future:
+	public static List<PersonSession> SelectPersonSessionList(int sessionID)
+	{
+		string tps = Constants.PersonSessionTable;
+
+		Sqlite.Open();
+		dbcmd.CommandText = "SELECT " + tps + ".*" +
+			" FROM " + tps +
+			" WHERE " + tps + ".sessionID == " + sessionID;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<PersonSession> list = new List<PersonSession>();
+		while(reader.Read())
+		{
+			PersonSession ps = new PersonSession(
+					Convert.ToInt32(reader[0].ToString()), 	//uniqueID
+					Convert.ToInt32(reader[1].ToString()), 	//personID
+					Convert.ToInt32(reader[2].ToString()), 	//sessionID
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString())), //height
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())), //weight
+					Convert.ToInt32(reader[5].ToString()), 	//sportID
+					Convert.ToInt32(reader[6].ToString()), 	//speciallityID
+					Convert.ToInt32(reader[7].ToString()),	//practice
+					reader[8].ToString() 			//comments
+					);
+			list.Add(ps);
+		}
+		reader.Close();
+		Sqlite.Close();
+		return list;
+	}
+
+
 	public static void DeletePersonFromSessionAndTests(string sessionID, string personID)
 	{
 		Sqlite.Open();

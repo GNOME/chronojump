@@ -102,7 +102,13 @@ public class PersonSession {
 	
 	public string ToSQLInsertString()
 	{
-		return uniqueID.ToString() + ", " + personID + ", " + sessionID + ", " + 
+		string uniqueIDStr;
+		if(uniqueID == -1)
+			uniqueIDStr = "null";
+		else
+			uniqueIDStr = uniqueID.ToString();
+
+		return uniqueIDStr + ", " + personID + ", " + sessionID + ", " +
 			Util.ConvertToPoint(height) + ", " + Util.ConvertToPoint(weight) + ", " +
 			sportID + ", " + speciallityID + ", " + practice + ", '" + 
 			comments + "', '', ''"; 

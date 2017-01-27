@@ -62,7 +62,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box vbox_encoder_capture_doing;
 	[Widget] Gtk.HScale hscale_encoder_capture_inertial_angle_now;
 	
-	[Widget] Gtk.Box hbox_encoder_capture_1_or_cont;
 	[Widget] Gtk.Box hbox_encoder_inertial_calibrate;
 	[Widget] Gtk.RadioButton radio_encoder_capture_1set;
 	[Widget] Gtk.RadioButton radio_encoder_capture_cont;

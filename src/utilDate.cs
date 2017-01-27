@@ -94,4 +94,13 @@ public class UtilDate
 		return UtilAll.DigitsCreate(dt.Year,4) + "-" + Catalog.GetString(dt.ToString("MMMM"));
 	}
 
+	//get a string of last month
+	public static string GetCurrentYearLastMonthStr()
+	{
+		DateTime dt = DateTime.Now;
+		dt = dt.AddMonths(-1);
+
+		return UtilAll.DigitsCreate(dt.Year,4) + "-" + Catalog.GetString(dt.ToString("MMMM"));
+	}
+
 }

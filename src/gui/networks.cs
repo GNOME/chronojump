@@ -161,12 +161,36 @@ public partial class ChronoJumpWindow
 				//configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY
 
 				string yearMonthStr = UtilDate.GetCurrentYearMonthStr();
-				if(! Sqlite.Exists(false, Constants.SessionTable, yearMonthStr)) {
+				LogB.Information("yearMonthStr: " + yearMonthStr);
+				if(! Sqlite.Exists(false, Constants.SessionTable, yearMonthStr))
+				{
 					//this creates the session and inserts at DB
 					currentSession = new Session(
 							yearMonthStr, "", DateTime.Today,	//name, place, dateTime
 							Constants.SportUndefinedID, Constants.SpeciallityUndefinedID, Constants.LevelUndefinedID,
 							"", Constants.ServerUndefinedID); //comments, serverID
+
+					//insert personSessions from last month
+					string yearLastMonthStr = UtilDate.GetCurrentYearLastMonthStr();
+					if(Sqlite.Exists(false, Constants.SessionTable, yearLastMonthStr))
+					{
+						Session s = SqliteSession.SelectByName(yearLastMonthStr);
+
+						//import all persons from last session
+						List<PersonSession> personSessions = SqlitePersonSession.SelectPersonSessionList(s.UniqueID);
+
+						//convert all personSessions to currentSession
+						//and nullify UniqueID in order to be inserted incrementally by SQL
+						foreach(PersonSession ps in personSessions)
+						{
+							ps.UniqueID = -1;
+							ps.SessionID = currentSession.UniqueID;
+						}
+
+
+						//insert personSessions using a transaction
+						new SqlitePersonSessionTransaction(personSessions);
+					}
 				} else
 					currentSession = SqliteSession.SelectByName(yearMonthStr);
 			}

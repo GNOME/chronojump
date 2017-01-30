@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic; //List<T>
+using System.IO; //StringReader
 	
 public class Networks
 {
@@ -50,5 +51,50 @@ public class Networks
 		}
 
 		return (total);
+	}
+
+	public static void WakeUpRaspberryIfNeeded()
+	{
+		string executable = "xset";
+		List<string> parameters = new List<string>();
+
+		parameters.Insert (0, "-q");
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
+
+		bool on = screenIsOn(execute_result.stdout);
+		LogB.Information("Screen is on?" + on.ToString());
+
+		if(! on) {
+			//xset -display :0 dpms force on
+			parameters = new List<string>();
+			parameters.Insert (0, "-display");
+			parameters.Insert (1, ":0");
+			parameters.Insert (2, "dpms");
+			parameters.Insert (3, "force");
+			parameters.Insert (4, "on");
+		}
+
+		execute_result = ExecuteProcess.run (executable, parameters);
+		LogB.Information("Result = " + execute_result.stdout);
+	}
+
+	private static bool screenIsOn(string contents)
+	{
+		LogB.Information(contents);
+		string line;
+		using (StringReader reader = new StringReader (contents)) {
+			do {
+				line = reader.ReadLine ();
+
+				if (line == null)
+					break;
+
+				if(line.StartsWith("  Monitor is On"))
+					return true;
+				else if(line.StartsWith("  Monitor is Off"))
+					return false;
+			} while(true);
+		}
+		return true; //by default screen is on. If detection is wrong user can touch screen
 	}
 }

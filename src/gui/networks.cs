@@ -296,6 +296,10 @@ public partial class ChronoJumpWindow
 	private void rfid_watcher_changed(object source, FileSystemEventArgs e)
 	{
 		rfid_read();
+
+		//if compujump, wakeup screen if it's off
+		if(configChronojump.Compujump == true)
+			Networks.WakeUpRaspberryIfNeeded();
 	}
 
 	private void rfid_read()

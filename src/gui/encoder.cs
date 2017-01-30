@@ -647,6 +647,10 @@ public partial class ChronoJumpWindow
 //		if(eCaptureInertialBG != null)
 //			eCaptureInertialBG.Finish();
 
+		//if compujump, wakeup screen if it's off
+		if(configChronojump.Compujump == true)
+			Networks.WakeUpRaspberryIfNeeded();
+
 		maxPowerIntersessionOnCapture = findMaxPowerIntersession();
 		//LogB.Information("maxPower: " + maxPowerIntersessionOnCapture);
 

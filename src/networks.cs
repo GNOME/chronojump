@@ -91,6 +91,8 @@ public class Networks
 
 				if(line.StartsWith("  Monitor is On"))
 					return true;
+				else if(line.StartsWith("  Monitor is in Standby"))
+					return false;
 				else if(line.StartsWith("  Monitor is Off"))
 					return false;
 			} while(true);

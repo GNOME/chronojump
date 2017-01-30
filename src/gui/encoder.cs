@@ -5088,7 +5088,9 @@ public partial class ChronoJumpWindow
 		hscale_encoder_capture_inertial_angle_now.Value = eCaptureInertialBG.AngleNow;
 
 		Thread.Sleep (50);
-		LogB.Information(" CapBG:"+ encoderThreadBG.ThreadState.ToString());
+
+		//don't plot info here because this is sorking all the time
+		//LogB.Information(" CapBG:"+ encoderThreadBG.ThreadState.ToString());
 
 		return true;
 	}

@@ -184,7 +184,7 @@ public abstract class EncoderCapture
 	{
 	}
 
-	public bool Capture(string outputData1, EncoderRProcCapture encoderRProcCapture)
+	public bool Capture(string outputData1, EncoderRProcCapture encoderRProcCapture, bool compujump)
 	{
 		if(simulated) {
 			bool success = initSimulated();
@@ -390,7 +390,13 @@ public abstract class EncoderCapture
 						 */
 
 
-						if( shouldSendCurve() ) {
+						if( shouldSendCurve() )
+						{
+							//if compujump, wakeup screen if it's off
+							//do it on the first repetition because it will not be sleeping on the rest of repetitions
+							if(compujump && Ecca.curvesAccepted == 0)
+								Networks.WakeUpRaspberryIfNeeded();
+
 							encoderRProcCapture.SendCurve(
 									UtilEncoder.CompressData(curve, 25)	//compressed
 									);

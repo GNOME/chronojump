@@ -37,6 +37,7 @@ public class Config
 	public bool PersonWinHide;
 	public bool EncoderAnalyzeHide;
 	public SessionModeEnum SessionMode;
+	public bool Compujump;
 	public string RunScriptOnExit;
 
 	public Config()
@@ -52,6 +53,7 @@ public class Config
 		PersonWinHide = false;
 		EncoderAnalyzeHide = false;
 		SessionMode = SessionModeEnum.STANDARD;
+		Compujump = false;
 		RunScriptOnExit = "";
 	}
 
@@ -95,6 +97,8 @@ public class Config
 					else if(parts[0] == "SessionMode" && Enum.IsDefined(typeof(SessionModeEnum), parts[1]))
 						SessionMode = (SessionModeEnum) 
 							Enum.Parse(typeof(SessionModeEnum), parts[1]);
+					else if(parts[0] == "Compujump" && Util.StringToBool(parts[1]))
+						Compujump = true;
 					else if(parts[0] == "RunScriptOnExit" && parts[1] != "")
 						RunScriptOnExit = parts[1];
 				} while(true);
@@ -158,6 +162,7 @@ public class Config
 				"PersonWinHide = " + PersonWinHide.ToString() + "\n" +
 				"EncoderAnalyzeHide = " + EncoderAnalyzeHide.ToString() + "\n" +
 				"SessionMode = " + SessionMode.ToString() + "\n" +
+				"Compujump = " + Compujump.ToString() + "\n" +
 				"RunScriptOnExit = " + RunScriptOnExit.ToString() + "\n"
 		      );
 	}

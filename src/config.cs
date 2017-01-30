@@ -24,13 +24,11 @@ using System.IO;
 
 public class Config
 {
-	public enum AutodetectPortEnum { ACTIVE, DISCARDFIRST, INACTIVE }
 	public enum SessionModeEnum { STANDARD, UNIQUE, MONTHLY }
 
 	public bool Maximized;
 	public bool CustomButtons;
 	public bool UseVideo;
-	public AutodetectPortEnum AutodetectPort;
 	public bool OnlyEncoderGravitatory;
 	public bool OnlyEncoderInertial;
 	public bool EncoderCaptureShowOnlyBars;
@@ -47,12 +45,6 @@ public class Config
 		CustomButtons = false;
 		UseVideo = true;
 		
-		//currently disabled AutodetectPort by default on MACOSX
-		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
-			AutodetectPort = AutodetectPortEnum.INACTIVE;
-		else
-			AutodetectPort = AutodetectPortEnum.ACTIVE;
-
 		OnlyEncoderGravitatory = false;
 		OnlyEncoderInertial = false;
 		EncoderCaptureShowOnlyBars = false;
@@ -88,9 +80,6 @@ public class Config
 						CustomButtons = true;
 					else if(parts[0] == "UseVideo" && ! Util.StringToBool(parts[1]))
 						UseVideo = false;
-					else if(parts[0] == "AutodetectPort" && Enum.IsDefined(typeof(AutodetectPortEnum), parts[1]))
-						AutodetectPort = (AutodetectPortEnum) 
-							Enum.Parse(typeof(AutodetectPortEnum), parts[1]);
 					else if(parts[0] == "OnlyEncoderGravitatory" && Util.StringToBool(parts[1]))
 						OnlyEncoderGravitatory = true;
 					else if(parts[0] == "OnlyEncoderInertial" && Util.StringToBool(parts[1]))
@@ -162,7 +151,6 @@ public class Config
 				"Maximized = " + Maximized.ToString() + "\n" +
 				"CustomButtons = " + CustomButtons.ToString() + "\n" +
 				"UseVideo = " + UseVideo.ToString() + "\n" +
-				"AutodetectPort = " + AutodetectPort.ToString() + "\n" +
 				"OnlyEncoderGravitatory = " + OnlyEncoderGravitatory.ToString() + "\n" +
 				"OnlyEncoderInertial = " + OnlyEncoderInertial.ToString() + "\n" +
 				"EncoderCaptureShowOnlyBars = " + EncoderCaptureShowOnlyBars.ToString() + "\n" +

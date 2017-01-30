@@ -24,285 +24,6 @@ using System.Threading;
 using System.IO.Ports;
 using Gtk;
 
-public class ChronopicDetect
-{
-	Thread thread;
-	
-	Gtk.ProgressBar progressbar;
-	Gtk.Button button_cancel;
-	
-	private static bool cancel;
-	private static bool needToChangeProgressbarText;
-	private SerialPort sp;
-	private Config.AutodetectPortEnum configAutoDetect;
-
-	public bool Detecting; //used to block closing chronojump window if true
-	public string Detected; //readed from chronojump window
-	private ChronopicInit chronopicInit;
-	private bool connectedNormalChronopic;
-	
-	public Gtk.Button FakeButtonDone;
-	
-	public ChronopicDetect (SerialPort sp, Gtk.ProgressBar progressbar, Gtk.Button button_cancel, Gtk.Button button_info,
-			Config.AutodetectPortEnum configAutoDetect )
-	{
-		this.sp = sp;
-		this.progressbar = progressbar;
-		this.button_cancel = button_cancel;
-		this.configAutoDetect = configAutoDetect;
-
-		button_cancel.Clicked += new EventHandler(on_button_cancel_clicked);
-		button_info.Clicked += new EventHandler(on_button_info_clicked);
-
-		FakeButtonDone = new Gtk.Button();
-		Detecting = false;
-	}
-	
-	public void Detect(string mode)
-	{
-		//set variables	
-		cancel = false;
-		Detected = "";
-		Detecting = true;
-		connectedNormalChronopic = false;
-		
-		progressbar.Text = Constants.ChronopicDetecting;
-		needToChangeProgressbarText = false;
-
-
-		if(mode == "ENCODER") {
-			LogB.Information("Detecting encoder... ");
-			thread = new Thread(new ThreadStart(detectEncoder));
-		} else {
-			LogB.Information("Detecting normal Chronopic... ");
-			thread = new Thread(new ThreadStart(detectNormal));
-		}
-		
-		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
-
-		LogB.ThreadStart();
-		thread.Start(); 
-	}
-
-	private void detectEncoder()
-	{
-		//simulateDriverProblem(); //uncomment to check cancel, info buttons behaviour
-
-		ChronopicAutoDetect cad = 
-			new ChronopicAutoDetect(ChronopicAutoDetect.ChronopicType.ENCODER, configAutoDetect);
-
-		Detected = cad.Detected;
-	}
-	
-	private void detectNormal()
-	{
-		//simulateDriverProblem(); //uncomment to check cancel, info buttons behaviour
-
-		ChronopicAutoDetect cad = 
-			new ChronopicAutoDetect(ChronopicAutoDetect.ChronopicType.NORMAL, configAutoDetect);
-
-		Detected = cad.Detected;
-		
-		if(Detected != null && Detected != "") 
-		{
-			needToChangeProgressbarText = true;
-			connectNormal(Detected);
-		}
-		LogB.Debug("detectNormal ended");
-	}
-
-	private static Chronopic cpDoing;
-	private static Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
-	
-	private void connectNormal(string myPort)
-	{
-		LogB.Debug("connectNormal start");
-		
-		chronopicInit = new ChronopicInit();
-		
-		string message = "";
-		bool success = false;
-		connectedNormalChronopic = chronopicInit.Do(1, out cpDoing, out sp, platformState, myPort, out message, out success);
-		LogB.Information(message);
-		LogB.Debug("connectNormal end");
-	}
-
-
-	private void simulateDriverProblem() 
-	{
-		//testing a fault in drivers
-		int count = 0;
-		bool crash = true;
-		while(crash) {
-			count ++;
-			if(count >= 40000) {
-				LogB.Debug(" at simulateDriverProblem\n ");
-				count = 0;
-			}
-		}
-	}
-	
-	private bool PulseGTK ()
-	{
-		if(cancel || ! thread.IsAlive) {
-			LogB.ThreadEnding();
-
-			if(cancel)
-				thread.Abort();
-
-			LogB.Information("Connected = " + connectedNormalChronopic.ToString());
-			
-			FakeButtonDone.Click();	//send signal to gui/chronojump.cs to read Detected
-			Detecting = false;
-			
-			LogB.ThreadEnded();
-			return false;
-		}
-
-		progressbar.Pulse();
-		
-		if(needToChangeProgressbarText) {
-			progressbar.Text = Constants.ChronopicNeedTouch;
-			needToChangeProgressbarText = false;
-		}
-		
-		Thread.Sleep (50);
-		LogB.Debug(thread.ThreadState.ToString());
-		return true;
-	}
-	
-	private void on_button_cancel_clicked (object o, EventArgs args)
-	{
-		button_cancel.Clicked -= new EventHandler(on_button_cancel_clicked);
-
-		Detected = "Cancelled";
-		cancel = true;
-	}
-	
-	private void on_button_info_clicked (object o, EventArgs args)
-	{
-		string str = Constants.FindDriverNeed;
-		
-		if(UtilAll.IsWindows())
-			str += "\n\n" + Constants.FindDriverWindows;
-		else	
-			str += "\n\n" + Constants.FindDriverOthers;
-
-		new DialogMessage(Constants.MessageTypes.INFO, str);
-	} 
-	
-	//will be sent to chronopicWin
-	public Chronopic getCP() {
-		return cpDoing;
-	}
-
-
-	~ChronopicDetect() {}
-}
-
-public class ChronopicAutoDetect
-{
-	public enum ChronopicType { UNDETECTED, NORMAL, ENCODER }
-	private ChronopicType searched;
-
-	public string Detected; // portname if detected, if not will be ""
-	private Config.AutodetectPortEnum configAutoDetect;
-
-	public ChronopicAutoDetect(ChronopicType type, Config.AutodetectPortEnum configAutoDetect)
-	{
-		/*
-		 * Try to detect a normal 4MHz Chronopic on a 20MHz encoder fails
-		 * but encoder can be used normally
-		 * In the other hand, try to detect an encoder on a 4MHz Chronopic fails
-		 * but encoder cannot be used until 'reset' or disconnect cable (and can be problems with Chronojump GUI)
-		 *
-		 * So the solution is:
-		 * if we are searching encoder, on every port first check if 4MHz connection can be stablished, if it's Found, then normal Chronopic is found
-		 * if is not Found, then search for the encoder.
-		 *
-		 * The only problem is in normal Chronopics with old firmware (without the 'J' read/write)
-		 * they will not work after trying to be recognised as an encoder, until reset or disconnect cable
-		 *
-		 */
-		this.searched = type;
-		this.configAutoDetect = configAutoDetect;
-		
-		if(configAutoDetect == Config.AutodetectPortEnum.INACTIVE) {
-			Detected = "";
-			return;
-		}
-
-		//no matter if we are searching for 4MHz or 20MHz (encoder)
-		//first see if 4MHz is connected
-		ChronopicAuto caNormal = new ChronopicAutoCheck();
-		caNormal.IsEncoder = false;    //for the bauds.
-
-		autoDetect(caNormal);
-	}
-
-	private void autoDetect(ChronopicAuto caNormal)
-	{
-		LogB.Information("starting port detection");
-
-		string [] usbSerial = ChronopicPorts.GetPorts();
-
-		bool first = true;
-		foreach(string port in usbSerial) 
-		{
-			if(configAutoDetect == Config.AutodetectPortEnum.DISCARDFIRST && first) {
-				first = false;
-				LogB.Warning("Discarded port = ", port);
-				continue;
-			}
-
-			SerialPort sp = new SerialPort(port);
-			
-			LogB.Information("searching normal Chronopic at port: ", port);
-
-			// caNormal.Read() returns a string (not used) but also changes caNormal.Found.
-			// So we call it even if we don't use the result directly.
-			caNormal.Read(sp);
-
-			if(caNormal.Found == ChronopicType.NORMAL) //We found a normal Chronopic
-			{
-				if(searched == ChronopicType.NORMAL) //normal Chronopic is what we are searching
-				{
-					Detected = port;
-					return;
-				} else {
-					/*
-					 * else: 
-					 * means that we are searching for an encoder chronopic and found a normal
-					 * so don't try to search for an encoder on that port, because 115200 bauds will saturate it
-					 */
-					LogB.Information("our goal is to search encoder but found normal Chronopic at port: ", port);
-				}
-			} else if(searched == ChronopicType.ENCODER) 
-			{
-				/*
-				 * we are searching an encoder
-				 * if we arrived here, we know is not a normal chronopic
-				 * then we can search safely for an encoder here
-				 */
-				ChronopicAuto caEncoder = new ChronopicAutoCheckEncoder();
-				caEncoder.IsEncoder = true;    //for the bauds.
-			
-				LogB.Information("searching encoder Chronopic at port: ", port);
-
-				// caNormal.Read() returns a string (not used) but also changes caNormal.Found.
-				// So we call it even if we don't use the result directly.
-				caEncoder.Read(sp);
-				if(caEncoder.Found == ChronopicType.ENCODER) 
-				{
-					Detected = port;
-					return;
-				}
-			}
-		}
-		Detected = "";
-	}
-}
-
 //methods specific of the Automatic firmware
 //for "automatic" firmware 1.1: debounce can change, get version, port scanning
 public abstract class ChronopicAuto 
@@ -314,7 +35,9 @@ public abstract class ChronopicAuto
 	private string str;
 	public string CharToSend = "";
 	public bool IsEncoder = false;
-	public ChronopicAutoDetect.ChronopicType Found;
+
+	public enum ChronopicType { UNDETECTED, NORMAL, ENCODER }
+	public ChronopicType Found;
 
 	private bool make(SerialPort sp) 
 	{
@@ -490,7 +213,7 @@ public class ChronopicAutoCheck : ChronopicAuto
 {
 	protected internal override string Communicate() 
 	{
-		Found = ChronopicAutoDetect.ChronopicType.UNDETECTED;
+		Found = ChronopicAuto.ChronopicType.UNDETECTED;
 		sp.Write("J");
 		IsChronopicAuto = ( (char) sp.ReadByte() == 'J');
 		if (IsChronopicAuto) 
@@ -500,7 +223,7 @@ public class ChronopicAutoCheck : ChronopicAuto
 			sp.ReadByte(); 		//.
 			int minor = (char) sp.ReadByte() - '0'; 
 
-			Found = ChronopicAutoDetect.ChronopicType.NORMAL;
+			Found = ChronopicAuto.ChronopicType.NORMAL;
 			return "Yes! v" + major.ToString() + "." + minor.ToString();
 		}
 
@@ -514,7 +237,7 @@ public class ChronopicAutoCheckEncoder : ChronopicAuto
 	{
 		LogB.Information("Communicate start ...");
 		
-		Found = ChronopicAutoDetect.ChronopicType.UNDETECTED;
+		Found = ChronopicAuto.ChronopicType.UNDETECTED;
 	
 		char myByte;
 		for(int i = 0; i < 100; i ++) //try 100 times (usually works on Linux 3-5 try, Mac 8-10, Windows don't work < 20... trying bigger numbers)
@@ -534,7 +257,7 @@ public class ChronopicAutoCheckEncoder : ChronopicAuto
 			if(myByte == 'J') {
 				LogB.Information("Encoder found!");
 
-				Found = ChronopicAutoDetect.ChronopicType.ENCODER;
+				Found = ChronopicAuto.ChronopicType.ENCODER;
 				return "1";
 			}
 		}

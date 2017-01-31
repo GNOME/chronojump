@@ -6646,9 +6646,11 @@ LogB.Debug("X");
 	private void sensitiveGuiYesEvent () {
 	}
 	
-	private void sensitiveGuiEventDoing () {
+	private void sensitiveGuiEventDoing ()
+	{
 		session_menuitem.Sensitive = false;
 		menuitem_mode.Sensitive = false;
+		hbox_menu_and_preferences_outside_menu.Sensitive = false;
 		
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
@@ -6685,11 +6687,13 @@ LogB.Debug("X");
 		//hbox_multi_chronopic_buttons.Sensitive = false;
 	}
    
-	private void sensitiveGuiEventDone () {
+	private void sensitiveGuiEventDone ()
+	{
 		LogB.Information(" sensitiveGuiEventDone start ");
 
 		session_menuitem.Sensitive = true;
 		menuitem_mode.Sensitive = true;
+		hbox_menu_and_preferences_outside_menu.Sensitive = true;
 
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"

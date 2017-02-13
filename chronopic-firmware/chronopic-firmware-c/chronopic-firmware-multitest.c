@@ -622,8 +622,9 @@ static void asm_ledon()
     MOVWF PORTC
     __endasm;
 }
-		
-static void animation_light_convert(char sentData)
+
+/*
+static void animation_light_convert_old(char sentData)
 {
 	switch(sentData) {
 		case 0:
@@ -649,6 +650,36 @@ static void animation_light_convert(char sentData)
 			break;
 		case 7:
 			animation_tick_n_times = 640; //2 seconds
+			break;
+	}
+}
+*/
+static void animation_light_convert(char sentData)
+{
+	switch(sentData) {
+		case 0:
+			animation_tick_n_times = 5;
+			break;
+		case 1:
+			animation_tick_n_times = 10;
+			break;
+		case 2:
+			animation_tick_n_times = 15;
+			break;
+		case 3:
+			animation_tick_n_times = 20;
+			break;
+		case 4:
+			animation_tick_n_times = 25;
+			break;
+		case 5:
+			animation_tick_n_times = 30;
+			break;
+		case 6:
+			animation_tick_n_times = 35;
+			break;
+		case 7:
+			animation_tick_n_times = 40;
 			break;
 	}
 }

@@ -64,6 +64,7 @@ public class ChronopicRegisterWindow
 {
 	Gtk.Window chronopic_register_win;
 	Gtk.VBox vbox_main;
+	Gtk.Label label_macOSX;
 	public Gtk.Button FakeButtonCloseSerialPort;
 
 	public ChronopicRegisterWindow(Gtk.Window app1, List<ChronopicRegisterPort> list)
@@ -318,12 +319,16 @@ public class ChronopicRegisterWindow
 
 	private void createButtons()
 	{
+		label_macOSX = new Gtk.Label();
+		label_macOSX.Text = Catalog.GetString("There is a known problem with MacOSX:") + "\n" +
+				Catalog.GetString("If Chronopic is disconnected after jumps or runs execution,\nthat port will be blocked until restart of machine.") + "\n\n" +
+				Catalog.GetString("We are working on a solution.");
+		if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+			vbox_main.Add(label_macOSX);
+
 		FakeButtonCloseSerialPort = new Gtk.Button();
 		Gtk.Button button_close_serial_port = new Gtk.Button("Close serial port (debug)");
 		button_close_serial_port.Clicked += new EventHandler(on_button_close_serial_port_clicked);
-
-		Gtk.Button button_OSX_readme = new Gtk.Button("MacOSX Readme");
-		button_OSX_readme.Clicked += new EventHandler(on_button_OSX_readme_clicked);
 
 		//---- button close start --->
 		Gtk.Button button_close = new Gtk.Button("Close Window");
@@ -342,9 +347,6 @@ public class ChronopicRegisterWindow
 		Gtk.HButtonBox hbox = new Gtk.HButtonBox ();
 		//hbox.Add(button_close_serial_port);
 
-		if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
-			hbox.Add(button_OSX_readme);
-
 		hbox.Add(button_close);
 
 		vbox_main.Add(hbox);
@@ -354,15 +356,6 @@ public class ChronopicRegisterWindow
 	{
 		//try first to see if a sp is opened on a cp but that /ttyusbserial does not exists
 		FakeButtonCloseSerialPort.Click();
-	}
-
-	private void on_button_OSX_readme_clicked(object o, EventArgs args)
-	{
-		new DialogMessage(Constants.MessageTypes.INFO,
-				Catalog.GetString("There is a known problem with MacOSX:") + "\n" +
-				Catalog.GetString("If Chronopic is disconnected after jumps or runs execution, that port will be blocked until restart of machine") + "\n\n" +
-				Catalog.GetString("We are working on a solution.")
-				);
 	}
 
 	private void on_button_close_clicked(object o, EventArgs args)

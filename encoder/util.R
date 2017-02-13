@@ -725,8 +725,8 @@ findPropulsiveEnd <- function(accel, concentric, maxSpeedTInConcentric,
 	}
 	else
 		propulsiveEnd = length(concentric)
-	
-return (propulsiveEnd)
+
+	return (propulsiveEnd)
 }
 
 pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, inertiaMomentum) 

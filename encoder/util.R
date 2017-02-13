@@ -1327,6 +1327,21 @@ cvPar <- function(x, y, parRange, cvProp = 0.8) {
 #----------- end spar with crossvalidation -------------
 
 #----------- Begin debug file output -------------
+#http://stackoverflow.com/a/34996874
+write_list <- function (outlist, outfile,append=FALSE) {
+	for (i in 1:length(outlist)) {
+		if (i==1) app=append else app=TRUE
+		if (is.character(outlist[[i]]) || is.numeric(outlist[[i]])) write(paste(outlist[[i]],collapse = " "),outfile, append=app)
+		else
+			if (is.data.frame(outlist[[i]])) write.table(outlist[[i]],outfile, append=app, quote=FALSE, sep="\t")
+			else
+				if (is.POSIXlt(outlist[[i]])) write (as.character(outlist[[i]]),outfile, append=app)
+				else
+					if  (is.list(outlist[[i]])) write_list(outlist = outlist[[i]], outfile, append = TRUE)
+
+	}
+}
+
 debugParameters <- function (parameterList, currentFunction) 
 {
 	if(is.null(DEBUG) || DEBUG == FALSE || is.null(DebugFileName) || DebugFileName == "")
@@ -1351,7 +1366,7 @@ debugParameters <- function (parameterList, currentFunction)
                 }
                 else if  (is.list(parameterList[[i]])) {
 			writedebugParameters(parameterList, i)
-                        write_list(parameterList = parameterList[[i]], DebugFileName, append = TRUE)
+                        write_list(parameterList[[i]], DebugFileName, append = TRUE)
                 }
                 else if (is.matrix(parameterList[[i]])) {
 			writedebugParameters(parameterList, i)

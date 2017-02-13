@@ -3384,7 +3384,7 @@ doProcess <- function(options)
 						  "") #laterality 
 
 			kn <- kinematicsF(displacement[curves[i,1]:curves[i,2]],
-					  repOp, SmoothingsEC[i], op$smoothingOneC, g, isPropulsive, 
+					  repOp, SmoothingsEC[i], op$SmoothingOneC, g, isPropulsive,
 					  TRUE #TODO: think if it's more appropiate to be FALSE in order to export full ecc phase
 					  )
 

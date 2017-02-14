@@ -3289,9 +3289,9 @@ doProcess <- function(options)
 					#1) MAX
 					pafCurvesMax = c("","", max(pafCurves$massBody), max(pafCurves$massExtra),
 							    max(pafCurves$start),max(pafCurves$width),max(pafCurves$height),
-							    mean(pafCurves$meanSpeed),max(pafCurves$maxSpeed),max(pafCurves$maxSpeedT),
-							    mean(pafCurves$meanPower),max(pafCurves$peakPower),max(pafCurves$peakPowerT),
-							    mean(pafCurves$pp_ppt),
+							    max(pafCurves$meanSpeed),max(pafCurves$maxSpeed),max(pafCurves$maxSpeedT),
+							    max(pafCurves$meanPower),max(pafCurves$peakPower),max(pafCurves$peakPowerT),
+							    max(pafCurves$pp_ppt),
 							    max(pafCurves$meanForce), max(pafCurves$maxForce), max(pafCurves$maxForceT),
 							    "", max(pafCurves$inertiaM)
 							    )

@@ -1347,7 +1347,7 @@ debugParameters <- function (parameterList, currentFunction)
 	if(is.null(DEBUG) || DEBUG == FALSE || is.null(DebugFileName) || DebugFileName == "")
 		return()
 
-        write(paste("Parameters of the", currentFunction, "function are:\n"), DebugFileName, append=TRUE)
+        write(paste("\n\n[Parameters of the", currentFunction, "function are]:\n"), DebugFileName, append=TRUE)
         
         #based on http://stackoverflow.com/a/34996874
         for (i in 1:length(parameterList)) {
@@ -1361,6 +1361,10 @@ debugParameters <- function (parameterList, currentFunction)
                         write.table(parameterList[[i]], DebugFileName, append=TRUE, quote=FALSE, sep="\t", col.names = TRUE)
                 }
                 else if (is.POSIXlt(parameterList[[i]])) {
+			writedebugParameters(parameterList, i)
+                        write(as.character(parameterList[[i]]), DebugFileName, append=TRUE)
+                }
+                else if (is.logical(parameterList[[i]])) {
 			writedebugParameters(parameterList, i)
                         write(as.character(parameterList[[i]]), DebugFileName, append=TRUE)
                 }
@@ -1389,11 +1393,13 @@ test_debugParameters <- function() {
         charVariable = c("Hello", "how", "are", "you")
         dataframeVariable = as.data.frame(matrix(c(10,20,40,50), ncol = 2))
         matrixVariable = matrix(c(100,200,400,500), ncol = 2)
+	booleanVariable = TRUE
 
 	l = list(numVariable = numVariable,
 		 charVariable = charVariable,
 		 dataframeVariable = dataframeVariable,
-		 matrixVariable = matrixVariable)
+		 matrixVariable = matrixVariable,
+		 booleanVariable = booleanVariable)
         
         debugParameters(l, "test_debugParameters")
 }

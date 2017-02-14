@@ -3385,7 +3385,7 @@ doProcess <- function(options)
 
 			kn <- kinematicsF(displacement[curves[i,1]:curves[i,2]],
 					  repOp, SmoothingsEC[i], op$SmoothingOneC, g, isPropulsive,
-					  TRUE #TODO: think if it's more appropiate to be FALSE in order to export full ecc phase
+					  FALSE		#show all the repetition, not only ground phase on ecc
 					  )
 
 			#fill with NAs in order to have the same length

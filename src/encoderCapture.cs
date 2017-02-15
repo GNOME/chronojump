@@ -313,6 +313,10 @@ public abstract class EncoderCapture
 						sendCurveMaybe = true;
 				}
 
+				//but on inertialCalibrated don't send curve until 0 is crossed
+				if(inertialCalibrated && inertialCalibratedFirstCross0Pos == 0)
+					sendCurveMaybe = false;
+
 				if(sendCurveMaybe)
 				{
 					//int startFrame = previousFrameChange - directionChangeCount;	//startFrame
@@ -451,7 +455,7 @@ public abstract class EncoderCapture
 			return false;
 
 		saveToFile(outputData1);
-		
+
 		LogB.Debug("runEncoderCaptureCsharp ended");
 
 		return true;

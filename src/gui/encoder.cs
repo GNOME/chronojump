@@ -5062,16 +5062,19 @@ public partial class ChronoJumpWindow
 		if(! shownWaitAtInertialCapture)
 		{
 			button_encoder_inertial_calibrate_2.Sensitive = false;
-			label_wait.Text = "Please, wait 3 seconds.";
+			label_wait.Text = string.Format("Exercise will start in {0} seconds.", 3);
 			shownWaitAtInertialCapture = true;
 		}
 
-		if(! calledCaptureInertial && DateTime.Now.Subtract(timeCalibrated).TotalSeconds > 3)
+		if(! calledCaptureInertial)
 		{
-			//capture starts in 3 seconds
-			//System.Threading.Thread.Sleep(3000);
-			calledCaptureInertial = true;
-			on_button_encoder_capture_clicked (new object (), new EventArgs ());
+			int elapsed = Convert.ToInt32(DateTime.Now.Subtract(timeCalibrated).TotalSeconds);
+			if(elapsed > 3)
+			{
+				calledCaptureInertial = true;
+				on_button_encoder_capture_clicked (new object (), new EventArgs ());
+			} else
+				label_wait.Text = string.Format("Exercise will start in {0} seconds.", 3 - elapsed);
 		}
 
 		//resize hscale if needed

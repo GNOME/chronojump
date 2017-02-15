@@ -60,13 +60,12 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.Box hbox_encoder_capture_wait;
 	[Widget] Gtk.Box vbox_encoder_capture_doing;
-	[Widget] Gtk.HScale hscale_encoder_capture_inertial_angle_now;
+	[Widget] Gtk.VScale vscale_encoder_capture_inertial_angle_now;
 	
-	[Widget] Gtk.Box hbox_encoder_inertial_calibrate;
 	[Widget] Gtk.RadioButton radio_encoder_capture_1set;
 	[Widget] Gtk.RadioButton radio_encoder_capture_cont;
 	[Widget] Gtk.Button button_encoder_capture;
-	[Widget] Gtk.Button button_encoder_inertial_calibrate_2;
+	[Widget] Gtk.Button button_encoder_inertial_calibrate;
 	[Widget] Gtk.Label label_wait;
 
 	[Widget] Gtk.Label label_encoder_not_menu;
@@ -664,7 +663,8 @@ public partial class ChronoJumpWindow
 			{
 				//show inertia calibrate instructions. User will click on calibrate and this method will be called again
 
-				button_encoder_inertial_calibrate_2.Sensitive = true;
+				sensitiveGuiEventDoing();
+				button_encoder_inertial_calibrate.Sensitive = true;
 				label_wait.Text = " ";
 				notebook_encoder_capture_or_instructions.Page = 1;
 
@@ -2143,7 +2143,7 @@ public partial class ChronoJumpWindow
 		eCaptureInertialBG.FinishBG();
 		EncoderCaptureInertialBackgroundStatic.Abort();
 		eCaptureInertialBG = null;
-		hscale_encoder_capture_inertial_angle_now.Value = 0;
+		vscale_encoder_capture_inertial_angle_now.Value = 0;
 	}
 
 	//this is called by non gtk thread. Don't do gtk stuff here
@@ -5057,7 +5057,7 @@ public partial class ChronoJumpWindow
 
 		if(! shownWaitAtInertialCapture)
 		{
-			button_encoder_inertial_calibrate_2.Sensitive = false;
+			button_encoder_inertial_calibrate.Sensitive = false;
 			label_wait.Text = string.Format("Exercise will start in {0} seconds.", 3);
 			shownWaitAtInertialCapture = true;
 		}
@@ -5073,16 +5073,16 @@ public partial class ChronoJumpWindow
 				label_wait.Text = string.Format("Exercise will start in {0} seconds.", 3 - elapsed);
 		}
 
-		//resize hscale if needed
+		//resize vscale if needed
 		int newValue = eCaptureInertialBG.AngleNow;
-		int lower = Convert.ToInt32(hscale_encoder_capture_inertial_angle_now.Adjustment.Lower);
-		int upper = Convert.ToInt32(hscale_encoder_capture_inertial_angle_now.Adjustment.Upper);
+		int lower = Convert.ToInt32(vscale_encoder_capture_inertial_angle_now.Adjustment.Lower);
+		int upper = Convert.ToInt32(vscale_encoder_capture_inertial_angle_now.Adjustment.Upper);
 
 		if(newValue < lower || newValue > upper)
-			hscale_encoder_capture_inertial_angle_now.SetRange(lower * 2, upper *2);
+			vscale_encoder_capture_inertial_angle_now.SetRange(lower * 2, upper *2);
 
-		//update hscale value
-		hscale_encoder_capture_inertial_angle_now.Value = eCaptureInertialBG.AngleNow;
+		//update vscale value
+		vscale_encoder_capture_inertial_angle_now.Value = eCaptureInertialBG.AngleNow;
 
 		Thread.Sleep (50);
 

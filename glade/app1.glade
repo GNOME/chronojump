@@ -13865,48 +13865,6 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox_encoder_inertial_calibrate">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_encoder_inertial_calibrate">
-                                                            <property name="label" translatable="yes">Calibrate</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <signal name="clicked" handler="on_button_encoder_inertial_calibrate_clicked" swapped="no"/>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkHScale" id="hscale_encoder_capture_inertial_angle_now">
-                                                            <property name="width_request">150</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="sensitive">False</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="adjustment">0 -100 100 1 1 0</property>
-                                                            <property name="restrict_to_fill_level">False</property>
-                                                            <property name="fill_level">0</property>
-                                                            <property name="digits">0</property>
-                                                            <property name="value_pos">right</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_chronopic_encoder_detecting">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -13955,7 +13913,7 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -14083,7 +14041,7 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                           </widget>
@@ -15232,14 +15190,18 @@ Concentric</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="position">400</property>
                                                     <child>
-                                                      <widget class="GtkNotebook" id="notebook_encoder_capture_main">
+                                                      <widget class="GtkHBox" id="hbox74">
                                                         <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="tab_pos">bottom</property>
-                                                        <property name="show_tabs">False</property>
-                                                        <property name="show_border">False</property>
+                                                        <property name="can_focus">False</property>
                                                         <child>
-                                                          <widget class="GtkNotebook" id="notebook_encoder_capture_or_instructions">
+                                                          <widget class="GtkNotebook" id="notebook_encoder_capture_main">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="tab_pos">bottom</property>
+                                                            <property name="show_tabs">False</property>
+                                                            <property name="show_border">False</property>
+                                                            <child>
+                                                            <widget class="GtkNotebook" id="notebook_encoder_capture_or_instructions">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="show_tabs">False</property>
@@ -15292,7 +15254,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox80">
+                                                            <widget class="GtkHBox" id="hbox85">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">12</property>
@@ -15529,7 +15491,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_encoder_inertial_calibrate_2">
+                                                            <widget class="GtkButton" id="button_encoder_inertial_calibrate">
                                                             <property name="label" translatable="yes">Calibrate</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
@@ -15577,47 +15539,72 @@ then click this button.</property>
                                                             <property name="type">tab</property>
                                                             </packing>
                                                             </child>
-                                                          </widget>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label128">
+                                                            </widget>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label128">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Show graph</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="tab_fill">False</property>
                                                             <property name="type">tab</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkVBox" id="vbox_treeview_encoder_at_second_page">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox_treeview_encoder_at_second_page">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="position">1</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label131">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label131">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Show table</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="position">1</property>
                                                             <property name="tab_fill">False</property>
                                                             <property name="type">tab</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkVScale" id="vscale_encoder_capture_inertial_angle_now">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="adjustment">0 -100 100 1 1 0</property>
+                                                            <property name="restrict_to_fill_level">False</property>
+                                                            <property name="fill_level">0</property>
+                                                            <property name="round_digits">0</property>
+                                                            <property name="digits">0</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="padding">10</property>
+                                                            <property name="position">1</property>
                                                           </packing>
                                                         </child>
                                                       </widget>
                                                       <packing>
-                                                        <property name="resize">False</property>
-                                                        <property name="shrink">True</property>
+                                                        <property name="resize">True</property>
+                                                        <property name="shrink">False</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -15637,7 +15624,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox87">
+                                                            <widget class="GtkHBox" id="hbox94">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">20</property>
@@ -15770,7 +15757,7 @@ then click this button.</property>
                                                             <property name="extension_events">cursor</property>
                                                             <property name="border_width">2</property>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox94">
+                                                            <widget class="GtkHBox" id="hbox118">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
@@ -16049,7 +16036,7 @@ then click this button.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox74">
+                                                            <widget class="GtkHBox" id="hbox87">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
@@ -16148,7 +16135,7 @@ then click this button.</property>
                                                         </child>
                                                       </widget>
                                                       <packing>
-                                                        <property name="resize">False</property>
+                                                        <property name="resize">True</property>
                                                         <property name="shrink">False</property>
                                                       </packing>
                                                     </child>
@@ -18161,6 +18148,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

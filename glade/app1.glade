@@ -15513,7 +15513,8 @@ Concentric</property>
                                                             <widget class="GtkLabel" id="label136">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">Start with the rope completely unwrapped and then click on Calibrate.</property>
+                                                            <property name="label" translatable="yes">Start with the rope completely unwrapped,
+then click this button.</property>
                                                             <property name="use_markup">True</property>
                                                             <property name="justify">center</property>
                                                             </widget>
@@ -18160,6 +18161,9 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

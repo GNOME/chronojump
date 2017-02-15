@@ -5089,6 +5089,12 @@ public partial class ChronoJumpWindow
 		//don't plot info here because this is sorking all the time
 		//LogB.Information(" CapBG:"+ encoderThreadBG.ThreadState.ToString());
 
+		if(newValue < -100000 || newValue > 100000)
+		{
+			LogB.Information("Encoder seems to be disconnected");
+			stopCapturingInertialBG();
+		}
+
 		return true;
 	}
 				

@@ -622,12 +622,8 @@ public partial class ChronoJumpWindow
 	EncoderCaptureInertialBackground eCaptureInertialBG; //only created one time
 	void on_button_encoder_inertial_calibrate_clicked (object o, EventArgs args)
 	{
-		//TODO: At the moment, button_encoder_inertial_calibrate can only be sensitive while not capturing
-		//check if chronopics have changed
-		/*
 		if(! canCaptureEncoder())
 			return;
-			*/
 
 		/*
 		 * if user calibrates again: put 0 value

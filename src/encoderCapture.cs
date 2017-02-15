@@ -86,6 +86,11 @@ public abstract class EncoderCapture
 	protected bool finish;
 	protected bool capturingInertialBG;
 
+	//get the moment where we cross 0 first time on inertial calibrated
+	//signal will be saved from here
+	protected int inertialCalibratedFirstCross0Pos;
+	protected bool inertialCalibrated;
+
 	//capture is simulated (a signal file is readed)
 	private static bool simulated = false;
 	private int [] simulatedInts;
@@ -182,6 +187,7 @@ public abstract class EncoderCapture
 
 	public virtual void InitCalibrated(int angleNow)
 	{
+		inertialCalibrated = false;
 	}
 
 	public bool Capture(string outputData1, EncoderRProcCapture encoderRProcCapture, bool compujump)
@@ -191,6 +197,8 @@ public abstract class EncoderCapture
 			if(! success)
 				return false;
 		}
+
+		inertialCalibratedFirstCross0Pos = 0;
 
 		LogB.Information("sum = " + sum.ToString());
 		LogB.Information("sumInertialDisc = " + sumInertialDisc.ToString());
@@ -239,6 +247,15 @@ public abstract class EncoderCapture
 					LogB.Information("SHOULD FINISH");
 				}
 				
+
+				//on inertialCalibrated set mark where 0 is crossed for the first time
+				if(inertialCalibrated && inertialCalibratedFirstCross0Pos == 0)
+				{
+					if(byteReaded > 0 && sumInertialDisc < 0 && sumInertialDisc + byteReaded >= 0)
+						inertialCalibratedFirstCross0Pos = i;
+					else if(byteReaded < 0 && sumInertialDisc > 0 && sumInertialDisc + byteReaded <= 0)
+						inertialCalibratedFirstCross0Pos = i;
+				}
 
 				sumInertialDisc += byteReaded;
 				encoderReadedInertialDisc.Add(byteReaded);
@@ -649,6 +666,7 @@ public class EncoderCaptureInertial : EncoderCapture
 
 	public override void InitCalibrated(int angleNow)
 	{
+		inertialCalibrated = true;
 		sum = angleNow;
 		sumInertialDisc = angleNow;
 
@@ -786,7 +804,11 @@ public class EncoderCaptureInertial : EncoderCapture
 	{
 		TextWriter writer = File.CreateText(file);
 
-		encoderReadedInertialDisc = trimInitialZeros(encoderReadedInertialDisc);
+		//on inertialCalibrated remove from the beginnig to the moment where 0 is crossed
+		if(inertialCalibrated && inertialCalibratedFirstCross0Pos != 0)
+			encoderReadedInertialDisc.RemoveRange(0, inertialCalibratedFirstCross0Pos);
+		else
+			encoderReadedInertialDisc = trimInitialZeros(encoderReadedInertialDisc);
 
 		string sep = "";
 		foreach(int k in encoderReadedInertialDisc) {

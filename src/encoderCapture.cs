@@ -809,7 +809,8 @@ public class EncoderCaptureInertial : EncoderCapture
 		TextWriter writer = File.CreateText(file);
 
 		//on inertialCalibrated remove from the beginnig to the moment where 0 is crossed
-		if(inertialCalibrated && inertialCalibratedFirstCross0Pos != 0)
+		if(inertialCalibrated && inertialCalibratedFirstCross0Pos != 0 &&
+				encoderReadedInertialDisc.Count > inertialCalibratedFirstCross0Pos)
 			encoderReadedInertialDisc.RemoveRange(0, inertialCalibratedFirstCross0Pos);
 		else
 			encoderReadedInertialDisc = trimInitialZeros(encoderReadedInertialDisc);

@@ -233,6 +233,7 @@ public abstract class EncoderCapture
 					//clean variables when we are on cont and long time elapsed
 					if(cont && Ecca.curvesAccepted == 0 && consecutiveZeros >= consecutiveZerosMax)
 					{
+						LogB.Information("Cleaning on capture");
 						consecutiveZeros = -1;
 						encoderReadedInertialDisc = new List<int>();
 						encoderReaded = new List<int>();
@@ -240,7 +241,9 @@ public abstract class EncoderCapture
 						EncoderCapturePointsInertialDisc = new List<Gdk.Point>();
 						EncoderCapturePointsCaptured = 0;
 						EncoderCapturePointsPainted = 0; 	//-1 means delete screen
-						i = 0;
+
+						i = -1; //will be 0 on next loop start
+						continue;
 					}
 				}
 				else

@@ -4989,8 +4989,6 @@ public partial class ChronoJumpWindow
 			StreamReader reader = File.OpenText(filename);
 			line = reader.ReadLine(); //just read first line
 			reader.Close();
-			
-			encoderCaptureReadedLines ++;
 		}
 		catch {
 			LogB.Debug("catched - open later",encoderCaptureReadedLines.ToString());
@@ -5003,6 +5001,9 @@ public partial class ChronoJumpWindow
 		//if (!String.IsNullOrEmpty(curveFromR.Data))
 		if (!String.IsNullOrEmpty(line))
 		{
+			//only mark as readed now because line it's not empty
+			encoderCaptureReadedLines ++;
+
 			LogB.Information("Without trim");
 			//LogB.Information(curveFromR.Data);
 			LogB.Information(line);

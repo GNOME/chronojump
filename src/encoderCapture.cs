@@ -227,7 +227,22 @@ public abstract class EncoderCapture
 					byteReaded *= -1;
 
 				if(byteReaded == 0)
+				{
 					consecutiveZeros ++;
+
+					//clean variables when we are on cont and long time elapsed
+					if(cont && Ecca.curvesAccepted == 0 && consecutiveZeros >= consecutiveZerosMax)
+					{
+						consecutiveZeros = -1;
+						encoderReadedInertialDisc = new List<int>();
+						encoderReaded = new List<int>();
+						EncoderCapturePoints = new List<Gdk.Point>();
+						EncoderCapturePointsInertialDisc = new List<Gdk.Point>();
+						EncoderCapturePointsCaptured = 0;
+						EncoderCapturePointsPainted = 0; 	//-1 means delete screen
+						i = 0;
+					}
+				}
 				else
 					consecutiveZeros = -1;
 
@@ -246,7 +261,7 @@ public abstract class EncoderCapture
 					finish = true;
 					LogB.Information("SHOULD FINISH");
 				}
-				
+
 
 				//on inertialCalibrated set mark where 0 is crossed for the first time
 				if(inertialCalibrated && inertialCalibratedFirstCross0Pos == 0)

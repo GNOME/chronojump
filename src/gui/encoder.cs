@@ -5084,7 +5084,7 @@ public partial class ChronoJumpWindow
 		//update vscale value
 		vscale_encoder_capture_inertial_angle_now.Value = eCaptureInertialBG.AngleNow;
 
-		Thread.Sleep (50);
+		Thread.Sleep (100);
 
 		//don't plot info here because this is sorking all the time
 		//LogB.Information(" CapBG:"+ encoderThreadBG.ThreadState.ToString());
@@ -5170,7 +5170,7 @@ public partial class ChronoJumpWindow
 
 			//changed trying to fix crash of nuell 27/may/2016
 			//LogB.Debug(" Cap:", encoderThread.ThreadState.ToString());
-			LogB.Information(" Cap:" + encoderThread.ThreadState.ToString());
+			//LogB.Information(" Cap:" + encoderThread.ThreadState.ToString());
 		} else if(capturingCsharp == encoderCaptureProcess.STOPPING) {
 			//stop video		
 			encoderStopVideoRecord();
@@ -5189,7 +5189,7 @@ public partial class ChronoJumpWindow
 			LogB.Information(" Cur:" + encoderThread.ThreadState.ToString());
 		}
 			
-		Thread.Sleep (25);
+		Thread.Sleep (100);
 
 		return true;
 	}

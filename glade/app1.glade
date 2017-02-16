@@ -1959,7 +1959,7 @@ Carles</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">4</property>
                                                 <child>
-                                                  <widget class="GtkHBox" id="hbox126">
+                                                  <widget class="GtkHBox" id="hbox_persons_top">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="spacing">8</property>
@@ -2110,7 +2110,7 @@ Carles</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkVBox" id="vbox13">
+                                                  <widget class="GtkVBox" id="vbox_persons_bottom">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="spacing">6</property>
@@ -2190,7 +2190,7 @@ Carles</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkFrame" id="frame3">
+                                                            <widget class="GtkFrame" id="frame_persons_rest">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label_xalign">0</property>
@@ -2349,7 +2349,7 @@ Carles</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">2</property>
                                                         <child>
-                                                          <widget class="GtkHBox" id="hbox16">
+                                                          <widget class="GtkHBox" id="hbox_persons_bottom">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">2</property>
@@ -18148,6 +18148,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

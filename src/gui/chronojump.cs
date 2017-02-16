@@ -297,6 +297,9 @@ public partial class ChronoJumpWindow
 
 	//widgets for enable or disable
 	[Widget] Gtk.Frame frame_persons;
+	[Widget] Gtk.HBox hbox_persons_top;
+	[Widget] Gtk.Frame frame_persons_rest;
+	[Widget] Gtk.HBox hbox_persons_bottom;
 	[Widget] Gtk.Button button_recuperate_person;
 	[Widget] Gtk.Button button_recuperate_persons_from_session;
 	[Widget] Gtk.Button button_person_add_single;
@@ -3873,7 +3876,7 @@ public partial class ChronoJumpWindow
 			
 		//hide jumping buttons
 		if(! execute_auto_doing)
-			sensitiveGuiEventDoing();
+			sensitiveGuiEventDoing(false);
 
 		//show the event doing window
 		double progressbarLimit = 3; //3 phases for show the Dj
@@ -4120,7 +4123,7 @@ public partial class ChronoJumpWindow
 		currentEventType = currentJumpRjType;
 			
 		//hide jumping buttons
-		sensitiveGuiEventDoing();
+		sensitiveGuiEventDoing(false);
 	
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -4244,7 +4247,7 @@ public partial class ChronoJumpWindow
 		currentEventType = currentRunType;
 			
 		//hide jumping (running) buttons
-		sensitiveGuiEventDoing();
+		sensitiveGuiEventDoing(false);
 	
 		//show the event doing window
 		
@@ -4371,7 +4374,7 @@ public partial class ChronoJumpWindow
 		currentEventType = currentRunIntervalType;
 			
 		//hide running buttons
-		sensitiveGuiEventDoing();
+		sensitiveGuiEventDoing(false);
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -4487,7 +4490,7 @@ public partial class ChronoJumpWindow
 		currentEventType = new ReactionTimeType();
 			
 		//hide jumping buttons
-		sensitiveGuiEventDoing();
+		sensitiveGuiEventDoing(false);
 
 		//show the event doing window
 		double progressbarLimit = 2;
@@ -4665,7 +4668,7 @@ public partial class ChronoJumpWindow
 		currentEventType = currentPulseType;
 			
 		//hide pulse buttons
-		sensitiveGuiEventDoing();
+		sensitiveGuiEventDoing(false);
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -4939,7 +4942,7 @@ public partial class ChronoJumpWindow
 		currentEventType = new MultiChronopicType();
 			
 		//hide pulse buttons
-		sensitiveGuiEventDoing();
+		sensitiveGuiEventDoing(false);
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -6646,7 +6649,7 @@ LogB.Debug("X");
 	private void sensitiveGuiYesEvent () {
 	}
 	
-	private void sensitiveGuiEventDoing ()
+	private void sensitiveGuiEventDoing (bool cont)
 	{
 		session_menuitem.Sensitive = false;
 		menuitem_mode.Sensitive = false;
@@ -6661,7 +6664,15 @@ LogB.Debug("X");
 		
 		
 		help_menuitem.Sensitive = false;
-		frame_persons.Sensitive = false;
+
+		if(cont)
+		{
+			hbox_persons_top.Sensitive = false;
+			//treeview_persons is shown (person can be changed)
+			frame_persons_rest.Sensitive = false;
+			hbox_persons_bottom.Sensitive = false;
+		} else
+			frame_persons.Sensitive = false;
 		
 		button_execute_test.Sensitive = false;
 		
@@ -6701,14 +6712,22 @@ LogB.Debug("X");
 		notebook_capture_analyze.GetNthPage(1).Show();
 		if(radio_menuitem_mode_jumps_simple.Active)
 			notebook_capture_analyze.GetNthPage(2).Show();
-		
+
 		help_menuitem.Sensitive = true;
+
 		frame_persons.Sensitive = true;
+		//check this is sensitive (because on cont was unsensitive)
+		if(! hbox_persons_top.Sensitive)
+			hbox_persons_top.Sensitive = true;
+		if(! frame_persons_rest.Sensitive)
+			frame_persons_rest.Sensitive = true;
+		if(! hbox_persons_bottom.Sensitive)
+			hbox_persons_bottom.Sensitive = true;
 
 		button_execute_test.Sensitive = true;
-		
+
 		button_encoder_person_change.Sensitive = true;
-	
+
 		if(encoderCaptureCurves != null && encoderCaptureCurves.Count > 0)
 			encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 		else

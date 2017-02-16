@@ -663,7 +663,7 @@ public partial class ChronoJumpWindow
 			{
 				//show inertia calibrate instructions. User will click on calibrate and this method will be called again
 
-				sensitiveGuiEventDoing();
+				sensitiveGuiEventDoing(radio_encoder_capture_cont.Active);
 				button_encoder_inertial_calibrate.Sensitive = true;
 				label_wait.Text = " ";
 				notebook_encoder_capture_or_instructions.Page = 1;
@@ -679,7 +679,7 @@ public partial class ChronoJumpWindow
 
 		radiobutton_video_encoder_capture.Active = true;
 
-		sensitiveGuiEventDoing();
+		sensitiveGuiEventDoing(radio_encoder_capture_cont.Active);
 
 		LogB.Debug("Calling encoderThreadStart for capture");
 
@@ -3813,8 +3813,8 @@ public partial class ChronoJumpWindow
 	 * encoderPersonChanged()
 	 * select_menuitem_mode_toggled(Constants.Menuitem_modes m)
 	 */
-	private void blankEncoderInterface() {
-		
+	private void blankEncoderInterface()
+	{
 		if(radio_encoder_analyze_individual_current_set.Active)
 			updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
 		else
@@ -3825,8 +3825,12 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_sensitiveness();
 		
 		treeviewEncoderCaptureRemoveColumns();
+
 		if(encoder_capture_curves_bars_pixmap != null) 
 			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+		if(encoder_capture_signal_pixmap != null)
+			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
+
 		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
 		treeview_encoder_analyze_curves.Sensitive = false;

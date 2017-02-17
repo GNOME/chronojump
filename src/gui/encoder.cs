@@ -4691,7 +4691,8 @@ public partial class ChronoJumpWindow
 						radio_encoder_capture_cont.Active,
 						findEccon(true),
 						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port,
-						(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null)
+						(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
+						configChronojump.EncoderCaptureShowOnlyBars
 						);
 
 				if(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null)
@@ -4714,6 +4715,7 @@ public partial class ChronoJumpWindow
 						false,
 						findEccon(true),
 						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port,
+						false,
 						false
 						);
 

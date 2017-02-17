@@ -33,6 +33,7 @@ public abstract class EncoderCapture
 	public int Countdown;
 	
 	//stored to be realtime displayed
+	//this is unused if showOnlyBars (configChronojump.EncoderCaptureShowOnlyBars)
 	public List<Gdk.Point> EncoderCapturePoints;
 	public List<Gdk.Point> EncoderCapturePointsInertialDisc;
 	public int EncoderCapturePointsCaptured;
@@ -85,6 +86,7 @@ public abstract class EncoderCapture
 	protected static SerialPort sp;
 	protected bool finish;
 	protected bool capturingInertialBG;
+	protected bool showOnlyBars;
 
 	//get the moment where we cross 0 first time on inertial calibrated
 	//signal will be saved from here
@@ -102,13 +104,14 @@ public abstract class EncoderCapture
 
 
 	//if cont (continuous mode), then will not end when too much time passed before start
-	public void InitGlobal (int widthG, int heightG, int time, int timeEnd, bool cont, string eccon, string port, bool capturingInertialBG)
+	public void InitGlobal (int widthG, int heightG, int time, int timeEnd, bool cont, string eccon, string port, bool capturingInertialBG, bool showOnlyBars)
 	{
 		this.widthG = widthG;
 		this.heightG = heightG;
 		this.cont = cont;
 		this.eccon = eccon;
 		this.capturingInertialBG = capturingInertialBG;
+		this.showOnlyBars = showOnlyBars;
 		
 		//---- a) open port -----
 		if(! simulated && ! capturingInertialBG) {
@@ -132,10 +135,15 @@ public abstract class EncoderCapture
 
 		encoderReaded = new List<int>();
 		encoderReadedInertialDisc = new List<int>();
-		EncoderCapturePoints = new List<Gdk.Point>();
-		EncoderCapturePointsInertialDisc = new List<Gdk.Point>();
-		EncoderCapturePointsCaptured = 0;
-		EncoderCapturePointsPainted = 0; 	//-1 means delete screen
+
+		if(! showOnlyBars)
+		{
+			EncoderCapturePoints = new List<Gdk.Point>();
+			EncoderCapturePointsInertialDisc = new List<Gdk.Point>();
+			EncoderCapturePointsCaptured = 0;
+			EncoderCapturePointsPainted = 0; 	//-1 means delete screen
+		}
+
 		sum = 0;
 		
 		i = -20; //delete first records because there's encoder bug
@@ -237,10 +245,14 @@ public abstract class EncoderCapture
 						consecutiveZeros = -1;
 						encoderReadedInertialDisc = new List<int>();
 						encoderReaded = new List<int>();
-						EncoderCapturePoints = new List<Gdk.Point>();
-						EncoderCapturePointsInertialDisc = new List<Gdk.Point>();
-						EncoderCapturePointsCaptured = 0;
-						EncoderCapturePointsPainted = 0; 	//-1 means delete screen
+
+						if(! showOnlyBars)
+						{
+							EncoderCapturePoints = new List<Gdk.Point>();
+							EncoderCapturePointsInertialDisc = new List<Gdk.Point>();
+							EncoderCapturePointsCaptured = 0;
+							EncoderCapturePointsPainted = 0; 	//-1 means delete screen
+						}
 
 						i = -1; //will be 0 on next loop start
 						continue;
@@ -284,15 +296,19 @@ public abstract class EncoderCapture
 				sum += byteReaded;
 				encoderReaded.Add(byteReaded);
 
-				assignEncoderCapturePoints();
-				
-				EncoderCapturePointsCaptured = i;
+				if(! showOnlyBars)
+				{
+					assignEncoderCapturePoints();
+
+					EncoderCapturePointsCaptured = i;
+				}
 
 				//this only applies to inertial subclass
 				if(inertialShouldCheckStartDirection)
 					inertialCheckIfInverted();
 
-				encoderCapturePointsAdaptativeDisplay();
+				if(! showOnlyBars)
+					encoderCapturePointsAdaptativeDisplay();
 
 				// ---- prepare to send to R ----
 
@@ -722,7 +738,7 @@ public class EncoderCaptureInertial : EncoderCapture
 				directionLastMSecond *= -1;
 				sum *= -1;
 				sumInertialDisc *= -1;
-			
+
 				int xWidth = recordingTime;
 				if(cont)
 					xWidth = recordedTimeCont;
@@ -734,18 +750,26 @@ public class EncoderCaptureInertial : EncoderCapture
 				double sum2=0;
 				for(int j=0; j <= i; j ++) {
 					sum2 += encoderReaded[j];
-					EncoderCapturePoints[j] = new Gdk.Point(
-							Convert.ToInt32(widthG * j / xWidth),
-							Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
-							);
-					//same for InertialDisc. Read comment 2 on the top of this method
-					EncoderCapturePointsInertialDisc[j] = new Gdk.Point(
-							Convert.ToInt32(widthG * j / xWidth),
-							Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
-							);
+
+					if(! showOnlyBars)
+					{
+						EncoderCapturePoints[j] = new Gdk.Point(
+								Convert.ToInt32(widthG * j / xWidth),
+								Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
+								);
+						//same for InertialDisc. Read comment 2 on the top of this method
+						EncoderCapturePointsInertialDisc[j] = new Gdk.Point(
+								Convert.ToInt32(widthG * j / xWidth),
+								Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
+								);
+					}
 				}
-				EncoderCapturePointsCaptured = i;
-				EncoderCapturePointsPainted = -1; //mark meaning screen should be erased
+
+				if(! showOnlyBars)
+				{
+					EncoderCapturePointsCaptured = i;
+					EncoderCapturePointsPainted = -1; //mark meaning screen should be erased
+				}
 			}
 		}
 	}

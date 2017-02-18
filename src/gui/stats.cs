@@ -289,7 +289,8 @@ public partial class ChronoJumpWindow {
 	
 	private void stats_win_putNonStandardIcons() {
 		Pixbuf pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_analyze.png");
 		image_stats_win_graph.Pixbuf = pixbuf;
 		image_stats_win_graph1.Pixbuf = pixbuf;
 		image_stats_win_graph2.Pixbuf = pixbuf;

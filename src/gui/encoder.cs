@@ -35,7 +35,6 @@ public partial class ChronoJumpWindow
 {
 
 	[Widget] Gtk.HBox hbox_encoder_capture_top;
-	//[Widget] Gtk.Notebook notebook_encoder_capture_extra_mass;
 	[Widget] Gtk.Label label_encoder_exercise_mass;
 	[Widget] Gtk.VBox vbox_encoder_exercise_mass;
 	[Widget] Gtk.Label label_encoder_exercise_inertia;
@@ -51,9 +50,18 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Entry entry_encoder_im_weights_n;
 	[Widget] Gtk.HBox hbox_combo_encoder_anchorage;
 	[Widget] Gtk.ComboBox combo_encoder_anchorage;
-	
+
 	[Widget] Gtk.Label label_encoder_selected;	
-	
+
+	[Widget] Gtk.Notebook notebook_encoder_top;
+	[Widget] Gtk.Label label_encoder_top_exercise;
+	[Widget] Gtk.Label label_encoder_top_eccon;
+	[Widget] Gtk.Label label_encoder_top_laterality;
+	[Widget] Gtk.Label label_encoder_top_extra_mass;
+	[Widget] Gtk.Label label_encoder_top_1RM_percent;
+	[Widget] Gtk.Label label_encoder_top_weights;
+	[Widget] Gtk.Label label_encoder_top_im;
+
 	//this is Kg*cm^2 because there's limitation of Glade on 3 decimals. 
 	//at SQL it's in Kg*cm^2 also because it's stored as int
 	//at graph.R is converted to Kg*m^2 ( /10000 )
@@ -123,7 +131,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_combo_encoder_laterality;
 	[Widget] Gtk.ComboBox combo_encoder_laterality;
 	[Widget] Gtk.Box hbox_encoder_capture_curves_save_all_none;
-	
+
 	[Widget] Gtk.Button button_encoder_capture_curves_all;
 	[Widget] Gtk.Button button_encoder_capture_curves_best;
 	[Widget] Gtk.Button button_encoder_capture_curves_none;
@@ -494,6 +502,7 @@ public partial class ChronoJumpWindow
 			encoderConfigurationCurrent.extraWeightN = (int) spin_encoder_im_weights_n.Value; 
 			encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
+			label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
 		}
 	}
 	
@@ -531,6 +540,7 @@ public partial class ChronoJumpWindow
 		encoderConfigurationCurrent.extraWeightN = (int) spin_encoder_im_weights_n.Value; 
 		encoderConfigurationCurrent.inertiaTotal = UtilEncoder.CalculeInertiaTotal(encoderConfigurationCurrent);
 		label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
+		label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
 	}
 	void on_entry_encoder_im_weights_n_changed (object o, EventArgs args) 
 	{
@@ -540,6 +550,8 @@ public partial class ChronoJumpWindow
 			spin_encoder_im_weights_n.Value = Convert.ToInt32(entry_encoder_im_weights_n.Text);
 		else
 			entry_encoder_im_weights_n.Text = spin_encoder_im_weights_n.Value.ToString();
+
+		label_encoder_top_weights.Text = Catalog.GetString("Weights") + ": " + entry_encoder_im_weights_n.Text;
 	}
 
 	// <---- end of spin_encoder_im_weights_n ----
@@ -724,6 +736,7 @@ public partial class ChronoJumpWindow
 		if(UtilGtk.ComboGetActive(combo_encoder_exercise_capture) != "") { //needed because encoder_exercise_edit updates this combo and can be without values in the changing process
 			array1RMUpdate(false);
 			encoder_change_displaced_weight_and_1RM ();
+			label_encoder_top_exercise.Text = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
 		}
 	}
 	
@@ -781,6 +794,8 @@ public partial class ChronoJumpWindow
 			spin_encoder_extra_weight.Value = Convert.ToInt32(entry_raspberry_extra_weight.Text);
 		else
 			entry_raspberry_extra_weight.Text = spin_encoder_extra_weight.Value.ToString();
+
+		label_encoder_top_extra_mass.Text = Catalog.GetString("Extra mass") + ": " + entry_raspberry_extra_weight.Text + " Kg";
 	}
 
 	void encoder_change_displaced_weight_and_1RM () 
@@ -797,6 +812,8 @@ public partial class ChronoJumpWindow
 		else
 			label_encoder_1RM_percent.Text = Util.TrimDecimals(
 					(100 * findMass(Constants.MassType.EXTRA) / ( load1RM * 1.0 )).ToString(), 1);
+
+		label_encoder_top_1RM_percent.Text = label_encoder_1RM_percent.Text + " %1RM";
 	}
 	
 	// ---- end of change extra weight ----
@@ -1484,8 +1501,7 @@ public partial class ChronoJumpWindow
 	{
 		if(encoderConfigurationCurrent.has_inertia)
 		{
-			//notebook_encoder_capture_extra_mass.CurrentPage = 1;
-			//TODO: show also info on the top
+			notebook_encoder_top.Page = 1;
 			label_encoder_exercise_mass.Visible = false;
 			vbox_encoder_exercise_mass.Visible = false;
 			label_encoder_exercise_inertia.Visible = true;
@@ -1504,10 +1520,10 @@ public partial class ChronoJumpWindow
 			entry_encoder_im_weights_n.Text = encoderConfigurationCurrent.extraWeightN.ToString();
 
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
+			label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
 		}
 		else {
-			//notebook_encoder_capture_extra_mass.CurrentPage = 0
-			//TODO: show also info on the top
+			notebook_encoder_top.Page = 0;
 			label_encoder_exercise_mass.Visible = true;
 			vbox_encoder_exercise_mass.Visible = true;
 			label_encoder_exercise_inertia.Visible = false;
@@ -3109,6 +3125,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.ComboUpdate(combo_encoder_laterality, comboLateralityOptionsTranslated, "");
 		combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, 
 				Catalog.GetString(comboLateralityOptions[0]));
+		combo_encoder_laterality.Changed += new EventHandler (on_combo_encoder_laterality_changed);
 
 		//create combo encoder anchorage
 		combo_encoder_anchorage = Gtk.ComboBox.NewText();
@@ -3174,6 +3191,14 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_analyze_curve_num_combo.ShowAll(); 
 		combo_encoder_analyze_curve_num_combo.Sensitive = true;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false; //do not show hbox at start
+
+		label_encoder_top_exercise.Text = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
+		label_encoder_top_eccon.Text = UtilGtk.ComboGetActive(combo_encoder_eccon);
+		label_encoder_top_laterality.Text = UtilGtk.ComboGetActive(combo_encoder_laterality);
+		label_encoder_top_extra_mass.Text = Catalog.GetString("Extra mass") + ": " + entry_raspberry_extra_weight.Text + " Kg";
+		label_encoder_top_1RM_percent.Text = label_encoder_1RM_percent.Text + " %1RM";
+		label_encoder_top_weights.Text = Catalog.GetString("Weights") + ": " + entry_encoder_im_weights_n.Text;
+		label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
 	}
 	
 	//this is called also when an exercise is deleted to update the combo and the string []
@@ -3297,7 +3322,14 @@ public partial class ChronoJumpWindow
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
+		label_encoder_top_eccon.Text = UtilGtk.ComboGetActive(combo_encoder_eccon);
 	}
+
+	void on_combo_encoder_laterality_changed (object o, EventArgs args)
+	{
+		label_encoder_top_laterality.Text = UtilGtk.ComboGetActive(combo_encoder_laterality);
+	}
+
 
 	void on_button_encoder_capture_curves_all_clicked (object o, EventArgs args) {
 		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.ALL, 

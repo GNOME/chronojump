@@ -349,7 +349,7 @@ RESOURCES = \
 	../images/preferences-system.png,preferences-system.png \
 	../images/md/ic_home_blue_24dp_1x.png,image_home.png \
 	../images/md/ic_settings_blue_24dp_1x.png,image_settings.png \
-	../images/md/ic_close_blue_24dp_1x.png,image_close.png \
+	../images/md/ic_close_red_24dp_1x.png,image_close.png \
 	../images/md/ic_close_blue_24dp_2x.png,image_close_big.png \
 	../images/md/ic_power_settings_new_blue_24dp_1x.png,image_quit.png \
 	../images/md/ic_gravity_1x.png,image_gravity.png \

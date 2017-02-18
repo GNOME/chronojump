@@ -14151,6 +14151,14 @@ Concentric</property>
                                                             <property name="label_yalign">0</property>
                                                             <property name="shadow_type">in</property>
                                                             <child>
+                                                            <widget class="GtkAlignment" id="alignment23">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="top_padding">10</property>
+                                                            <property name="bottom_padding">10</property>
+                                                            <property name="left_padding">6</property>
+                                                            <property name="right_padding">6</property>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox80">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -14177,7 +14185,7 @@ Concentric</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -14198,7 +14206,7 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">10</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_encoder_exercise">
+                                                            <widget class="GtkLabel" id="label_encoder_top_exercise">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label">label_encoder_exercise</property>
@@ -14210,7 +14218,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_encoder_contraction">
+                                                            <widget class="GtkLabel" id="label_encoder_top_eccon">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label">contraction</property>
@@ -14222,7 +14230,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_encoder_rl">
+                                                            <widget class="GtkLabel" id="label_encoder_top_laterality">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label">RL</property>
@@ -14235,21 +14243,112 @@ Concentric</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkNotebook" id="notebook_encoder_top">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="show_tabs">False</property>
+                                                            <property name="show_border">False</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox96">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_top_extra_mass">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">label</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_top_1RM_percent">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">label</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label85">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="label">Mass stuff</property>
+                                                            <property name="label">gravity</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="tab_fill">False</property>
+                                                            <property name="type">tab</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox131">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_top_weights">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">label</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_top_im">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">label</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label139">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">inertia</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            <property name="tab_fill">False</property>
+                                                            <property name="type">tab</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -14259,6 +14358,8 @@ Concentric</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             </child>
@@ -14270,8 +14371,8 @@ Concentric</property>
                                                             </child>
                                                           </widget>
                                                           <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                           </packing>
                                                         </child>
@@ -14972,16 +15073,20 @@ Concentric</property>
                                                             <property name="left_padding">10</property>
                                                             <property name="right_padding">10</property>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox27">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkVBox" id="vbox4">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">25</property>
+                                                            <property name="spacing">40</property>
                                                             <child>
                                                             <widget class="GtkTable" id="table1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="n_rows">2</property>
-                                                            <property name="n_columns">2</property>
+                                                            <property name="n_columns">3</property>
                                                             <property name="column_spacing">10</property>
                                                             <property name="row_spacing">20</property>
                                                             <child>
@@ -14999,6 +15104,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">10</property>
+                                                            <property name="homogeneous">True</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox86">
                                                             <property name="visible">True</property>
@@ -15069,8 +15175,8 @@ Concentric</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -15111,15 +15217,16 @@ Concentric</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">1</property>
-                                                            <property name="right_attach">2</property>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="x_options">GTK_FILL</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -15131,17 +15238,18 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">10</property>
+                                                            <property name="homogeneous">True</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox47">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_encoder_capture_extra_mass_no_raspberry">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="tooltip" translatable="yes">Extra mass</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_encoder_extra_weight_text">
                                                             <property name="visible">True</property>
@@ -15156,7 +15264,6 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkSpinButton" id="spin_encoder_extra_weight">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="width_chars">3</property>
@@ -15178,18 +15285,6 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_encoder_extra_weight_label_kg">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label">Kg</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -15199,11 +15294,14 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_encoder_capture_extra_mass_raspberry">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_raspberry_extra_weight_minus_10">
                                                             <property name="label">-10</property>
+                                                            <property name="width_request">50</property>
+                                                            <property name="height_request">40</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -15212,14 +15310,16 @@ Concentric</property>
                                                             <signal name="clicked" handler="on_button_encoder_raspberry_extra_weight_minus_10_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_raspberry_extra_weight_minus_1">
                                                             <property name="label"> -1 </property>
+                                                            <property name="width_request">40</property>
+                                                            <property name="height_request">40</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -15234,6 +15334,11 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox45">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
                                                             <widget class="GtkEntry" id="entry_raspberry_extra_weight">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
@@ -15241,7 +15346,8 @@ Concentric</property>
                                                             <property name="has_frame">False</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="width_chars">3</property>
-                                                            <property name="text">10</property>
+                                                            <property name="text">1</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="shadow_type">none</property>
                                                             <property name="invisible_char_set">True</property>
                                                             <property name="primary_icon_activatable">False</property>
@@ -15251,14 +15357,36 @@ Concentric</property>
                                                             <signal name="changed" handler="on_entry_raspberry_extra_weight_changed" swapped="no"/>
                                                             </widget>
                                                             <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_extra_weight_label_kg">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">Kg</property>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_raspberry_extra_weight_plus_1">
                                                             <property name="label"> +1 </property>
+                                                            <property name="width_request">40</property>
+                                                            <property name="height_request">40</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -15267,14 +15395,16 @@ Concentric</property>
                                                             <signal name="clicked" handler="on_button_encoder_raspberry_extra_weight_plus_1_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_raspberry_extra_weight_plus_10">
                                                             <property name="label">+10</property>
+                                                            <property name="width_request">50</property>
+                                                            <property name="height_request">40</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -15297,21 +15427,21 @@ Concentric</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox45">
+                                                            <widget class="GtkHBox" id="hbox49">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">20</property>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox49">
+                                                            <widget class="GtkHBox" id="hbox66">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label137">
                                                             <property name="visible">True</property>
@@ -15426,13 +15556,6 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
                                                             <property name="pack_type">end</property>
                                                             <property name="position">1</property>
                                                             </packing>
@@ -15441,6 +15564,14 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -15449,6 +15580,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">10</property>
+                                                            <property name="homogeneous">True</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_encoder_anchorage_diameter">
                                                             <property name="visible">True</property>
@@ -15500,7 +15632,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox66">
+                                                            <widget class="GtkHBox" id="hbox126">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">20</property>
@@ -15508,7 +15640,7 @@ Concentric</property>
                                                             <widget class="GtkHBox" id="hbox160">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label183">
                                                             <property name="visible">True</property>
@@ -15523,7 +15655,6 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkSpinButton" id="spin_encoder_im_weights_n">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="primary_icon_activatable">False</property>
@@ -15545,11 +15676,14 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_encoder_im_weights_n">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_im_weights_n_minus">
                                                             <property name="label"> -1 </property>
+                                                            <property name="width_request">40</property>
+                                                            <property name="height_request">40</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -15571,6 +15705,7 @@ Concentric</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="width_chars">2</property>
                                                             <property name="text">0</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="shadow_type">none</property>
                                                             <property name="invisible_char_set">True</property>
                                                             <property name="primary_icon_activatable">False</property>
@@ -15588,6 +15723,8 @@ Concentric</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_im_weights_n_plus">
                                                             <property name="label"> +1 </property>
+                                                            <property name="width_request">40</property>
+                                                            <property name="height_request">40</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -15624,7 +15761,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="tooltip" translatable="yes">Inertia moment</property>
-                                                            <property name="label" translatable="yes">IM</property>
+                                                            <property name="label" translatable="yes">Inertia M.</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -15648,6 +15785,14 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -15660,17 +15805,11 @@ Concentric</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="left_attach">1</property>
-                                                            <property name="right_attach">2</property>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
                                                             <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
+                                                            <property name="x_options">GTK_FILL</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -15708,6 +15847,28 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkVSeparator" id="vseparator4">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkVSeparator" id="vseparator5">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -15727,6 +15888,7 @@ Concentric</property>
                                                             <property name="tooltip" translatable="yes">Close</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_button_encoder_exercise_close_clicked" swapped="no"/>
+                                                            <accelerator key="Escape" signal="clicked"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_encoder_exercise_close">
                                                             <property name="visible">True</property>
@@ -15746,6 +15908,13 @@ Concentric</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -18463,6 +18632,12 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

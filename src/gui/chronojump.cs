@@ -782,7 +782,7 @@ public partial class ChronoJumpWindow
 		image_encoder_exercise_add.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
 		image_encoder_exercise_edit.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close_big.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
 		image_encoder_exercise_close.Pixbuf = pixbuf;
 
 
@@ -3169,7 +3169,8 @@ public partial class ChronoJumpWindow
 			blankEncoderInterface();
 
 			bool changed = false;
-			if(m == Constants.Menuitem_modes.POWERGRAVITATORY) {
+			if(m == Constants.Menuitem_modes.POWERGRAVITATORY)
+			{
 				menuitem_mode_selected_power_gravitatory.Visible = true;
 
 				//change encoderConfigurationCurrent if needed
@@ -3208,6 +3209,8 @@ public partial class ChronoJumpWindow
 					radiobutton_gravitatory_not_menu.Active = true;
 					radiobutton_dont_follow_signals = false;
 				}
+
+				notebook_encoder_top.Page = 0;
 			} else {
 				menuitem_mode_selected_power_inertial.Visible = true;
 
@@ -3245,6 +3248,8 @@ public partial class ChronoJumpWindow
 					radiobutton_inertial_not_menu.Active = true;
 					radiobutton_dont_follow_signals = false;
 				}
+
+				notebook_encoder_top.Page = 1;
 			}
 			encoderGuiChangesAfterEncoderConfigurationWin(true);
 			if(changed) {

@@ -34,7 +34,12 @@ using LongoMatch.Gui;
 public partial class ChronoJumpWindow 
 {
 
-	[Widget] Gtk.Notebook notebook_encoder_capture_extra_mass;
+	[Widget] Gtk.HBox hbox_encoder_capture_top;
+	//[Widget] Gtk.Notebook notebook_encoder_capture_extra_mass;
+	[Widget] Gtk.Label label_encoder_exercise_mass;
+	[Widget] Gtk.VBox vbox_encoder_exercise_mass;
+	[Widget] Gtk.Label label_encoder_exercise_inertia;
+	[Widget] Gtk.VBox vbox_encoder_exercise_inertia;
 
 	[Widget] Gtk.Button button_encoder_select;
 	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
@@ -54,9 +59,10 @@ public partial class ChronoJumpWindow
 	//at graph.R is converted to Kg*m^2 ( /10000 )
 	//[Widget] Gtk.SpinButton spin_encoder_capture_inertial; 
 	
+	[Widget] Gtk.Box hbox_encoder_sup_capture_analyze;
 	[Widget] Gtk.Box hbox_encoder_sup_capture_analyze_two_buttons;
 	[Widget] Gtk.Box hbox_encoder_configuration;
-	[Widget] Gtk.Box hbox_encoder_capture_options;
+	[Widget] Gtk.Frame frame_encoder_capture_options;
 	
 	[Widget] Gtk.Box hbox_encoder_capture_wait;
 	[Widget] Gtk.Box vbox_encoder_capture_doing;
@@ -68,9 +74,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_inertial_calibrate;
 	[Widget] Gtk.Label label_wait;
 
-	[Widget] Gtk.Label label_encoder_not_menu;
-	[Widget] Gtk.Button button_gravitatory_not_menu;
-	[Widget] Gtk.Button button_inertial_not_menu;
+	[Widget] Gtk.Label label_gravitatory;
+	[Widget] Gtk.Label label_inertial;
+	[Widget] Gtk.RadioButton radiobutton_gravitatory_not_menu;
+	[Widget] Gtk.RadioButton radiobutton_inertial_not_menu;
 
 	
 	[Widget] Gtk.Image image_encoder_bell;
@@ -122,6 +129,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_capture_curves_none;
 	[Widget] Gtk.Button button_encoder_capture_curves_4top;
 	
+	[Widget] Gtk.Notebook notebook_encoder_exercise;
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_analyze;
 	[Widget] Gtk.ComboBox combo_encoder_exercise_analyze;
 
@@ -255,7 +263,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TreeView treeview_encoder_capture_curves;
 	[Widget] Gtk.TreeView treeview_encoder_analyze_curves;
 	
-	[Widget] Gtk.Notebook notebook_encoder_capture_or_instructions;
+	[Widget] Gtk.Notebook notebook_encoder_capture_or_exercise_or_instructions;
 	
 	[Widget] Gtk.DrawingArea encoder_capture_signal_drawingarea;
 
@@ -666,7 +674,7 @@ public partial class ChronoJumpWindow
 				sensitiveGuiEventDoing(radio_encoder_capture_cont.Active);
 				button_encoder_inertial_calibrate.Sensitive = true;
 				label_wait.Text = " ";
-				notebook_encoder_capture_or_instructions.Page = 1;
+				notebook_encoder_capture_or_exercise_or_instructions.Page = 2;
 
 				return;
 			}
@@ -1474,8 +1482,14 @@ public partial class ChronoJumpWindow
 				
 	void encoderConfigurationGUIUpdate()
 	{
-		if(encoderConfigurationCurrent.has_inertia) {
-			notebook_encoder_capture_extra_mass.CurrentPage = 1;
+		if(encoderConfigurationCurrent.has_inertia)
+		{
+			//notebook_encoder_capture_extra_mass.CurrentPage = 1;
+			//TODO: show also info on the top
+			label_encoder_exercise_mass.Visible = false;
+			vbox_encoder_exercise_mass.Visible = false;
+			label_encoder_exercise_inertia.Visible = true;
+			vbox_encoder_exercise_inertia.Visible = true;
 			
 			if(encoderConfigurationCurrent.list_d != null && encoderConfigurationCurrent.list_d.Count > 0) 
 			{
@@ -1491,8 +1505,14 @@ public partial class ChronoJumpWindow
 
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
 		}
-		else
-			notebook_encoder_capture_extra_mass.CurrentPage = 0;
+		else {
+			//notebook_encoder_capture_extra_mass.CurrentPage = 0
+			//TODO: show also info on the top
+			label_encoder_exercise_mass.Visible = true;
+			vbox_encoder_exercise_mass.Visible = true;
+			label_encoder_exercise_inertia.Visible = false;
+			vbox_encoder_exercise_inertia.Visible = false;
+		}
 	}
 
 	void encoderSignalDelete (string signalURL, int signalID) 
@@ -3551,6 +3571,28 @@ public partial class ChronoJumpWindow
 
 	// ---------end of helpful methods -----------
 
+	void on_button_encoder_exercise_clicked (object o, EventArgs args)
+	{
+		encoder_exercise_show_hide (true);
+	}
+	void on_button_encoder_exercise_close_clicked (object o, EventArgs args)
+	{
+		encoder_exercise_show_hide (false);
+	}
+	private void encoder_exercise_show_hide (bool show)
+	{
+		if(show)
+			notebook_encoder_capture_or_exercise_or_instructions.Page = 1;
+		else
+			notebook_encoder_capture_or_exercise_or_instructions.Page = 0;
+
+		main_menu.Sensitive = ! show;
+		hbox_encoder_sup_capture_analyze.Sensitive = ! show;
+		notebook_session_person.Sensitive = ! show;
+		hbox_encoder_configuration.Sensitive = ! show;
+		hbox_encoder_capture_top.Sensitive = ! show;
+		vpaned_encoder_capture_video_and_set_graph.Sensitive = ! show;
+	}
 
 	//info is now info and edit (all values can be changed), and detete (there's delete button)
 	void on_button_encoder_exercise_edit_clicked (object o, EventArgs args) 
@@ -3846,7 +3888,7 @@ public partial class ChronoJumpWindow
 
 		//columns
 		//c0 button_encoder_capture, hbox_encoder_sup_capture_analyze_two_buttons,
-		//	hbox_encoder_configuration, hbox_encoder_capture_options
+		//	hbox_encoder_configuration, frame_encoder_capture_options
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
 		//c3 hbox_encoder_capture_curves_save_all_none, menuitem_export_encoder_signal 
@@ -3904,7 +3946,7 @@ public partial class ChronoJumpWindow
 		button_encoder_capture.Sensitive = Util.IntToBool(table[0]);
 		hbox_encoder_sup_capture_analyze_two_buttons.Sensitive = Util.IntToBool(table[0]);
 		hbox_encoder_configuration.Sensitive = Util.IntToBool(table[0]);
-		hbox_encoder_capture_options.Sensitive = Util.IntToBool(table[0]);
+		frame_encoder_capture_options.Sensitive = Util.IntToBool(table[0]);
 
 		button_encoder_recalculate.Sensitive = Util.IntToBool(table[1]);
 		
@@ -5118,8 +5160,8 @@ public partial class ChronoJumpWindow
 		}
 
 		//if on inertia and already showing instructions, return to page 0
-		if(notebook_encoder_capture_or_instructions.Page == 1)
-			notebook_encoder_capture_or_instructions.Page = 0;
+		if(notebook_encoder_capture_or_exercise_or_instructions.Page == 2)
+			notebook_encoder_capture_or_exercise_or_instructions.Page = 0;
 
 		if(! encoderThread.IsAlive || encoderProcessCancel)
 		{

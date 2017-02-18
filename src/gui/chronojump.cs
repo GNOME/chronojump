@@ -697,7 +697,27 @@ public partial class ChronoJumpWindow
 			"   " + ((Label) radio_menuitem_mode_power_inertial.Child).Text;
 	}
 
-	private void putNonStandardIcons() {
+	[Widget] Gtk.Image image_home;
+	[Widget] Gtk.Image image_settings;
+	[Widget] Gtk.Image image_quit;
+	[Widget] Gtk.Image image_mode_encoder_capture;
+	[Widget] Gtk.Image image_person;
+	[Widget] Gtk.Image image_encoder_1RM_info;
+	[Widget] Gtk.Image image_chronopic_connect;
+	[Widget] Gtk.Image image_recalculate;
+	[Widget] Gtk.Image image_encoder_configuration;
+	[Widget] Gtk.Image image_encoder_exercise;
+	[Widget] Gtk.Image image_encoder_exercise1;
+	[Widget] Gtk.Image image_encoder_capture_open;
+	[Widget] Gtk.Image image_encoder_capture_1set;
+	[Widget] Gtk.Image image_encoder_capture_cont;
+	[Widget] Gtk.Image image_encoder_capture_execute;
+	[Widget] Gtk.Image image_encoder_exercise_add;
+	[Widget] Gtk.Image image_encoder_exercise_edit;
+	[Widget] Gtk.Image image_encoder_exercise_close;
+
+	private void putNonStandardIcons()
+	{
 		Pixbuf pixbuf;
 
 		viewport_chronojump_logo.ModifyBg(StateType.Normal, new Gdk.Color(0x0e,0x1e,0x46));
@@ -705,6 +725,70 @@ public partial class ChronoJumpWindow
 		image_chronojump_logo.Pixbuf = pixbuf;
 
 		//change colors of tests mode
+
+		/*
+		 * start of material design icons ---->
+		 */
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_home.png");
+		image_home.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_settings.png");
+		image_settings.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_quit.png");
+		image_quit.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_gravity.png");
+		image_mode_encoder_gravitatory.Pixbuf = pixbuf;
+		image_gravitatory_not_menu.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
+		image_mode_encoder_inertial.Pixbuf = pixbuf;
+		image_inertial_not_menu.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
+		image_mode_encoder_capture.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person.png");
+		image_person.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
+		image_encoder_1RM_info.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect.png");
+		image_chronopic_connect.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_recalculate.png");
+		image_recalculate.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_build.png");
+		image_encoder_configuration.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_exercise.png");
+		image_encoder_exercise.Pixbuf = pixbuf;
+		image_encoder_exercise1.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
+		image_encoder_capture_open.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "one.png");
+		image_encoder_capture_1set.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "cont.png");
+		image_encoder_capture_cont.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run.png"); //or use "timer"
+		image_encoder_capture_execute.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_add.png");
+		image_encoder_exercise_add.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
+		image_encoder_exercise_edit.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close_big.png");
+		image_encoder_exercise_close.Pixbuf = pixbuf;
+
+
+		/*
+		 * <------ end of material design icons
+		 */
 
 		/*
 		 * gui for small screens
@@ -730,13 +814,6 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRunsInterval);
 		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderGravitatory);
-		image_mode_encoder_gravitatory.Pixbuf = pixbuf;
-		image_gravitatory_not_menu.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderInertial);
-		image_mode_encoder_inertial.Pixbuf = pixbuf;
-		image_inertial_not_menu.Pixbuf = pixbuf;
-	
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameReactionTime);
 		image_mode_reaction_times_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNamePulse);
@@ -3107,7 +3184,14 @@ public partial class ChronoJumpWindow
 				
 				currentEncoderGI = Constants.EncoderGI.GRAVITATORY;
 				hbox_capture_1RM.Visible = true;
-				notebook_encoder_capture_extra_mass.CurrentPage = 0;
+
+				//notebook_encoder_capture_extra_mass.CurrentPage = 0;
+				//TODO: show also info on the top
+				label_encoder_exercise_mass.Visible = true;
+				vbox_encoder_exercise_mass.Visible = true;
+				label_encoder_exercise_inertia.Visible = false;
+				vbox_encoder_exercise_inertia.Visible = false;
+
 				if(radio_encoder_analyze_individual_current_set.Active || radio_encoder_analyze_individual_current_session.Active)
 				{
 					radiobutton_encoder_analyze_1RM.Visible = true;
@@ -3118,9 +3202,12 @@ public partial class ChronoJumpWindow
 				//hbox_encoder_capture_1_or_cont.Visible = true;
 				vscale_encoder_capture_inertial_angle_now.Visible = false;
 
-				label_encoder_not_menu.Text = Catalog.GetString("Gravitatory");
-				button_gravitatory_not_menu.Sensitive = false;
-				button_inertial_not_menu.Sensitive = true;
+				if(! radiobutton_gravitatory_not_menu.Active)
+				{
+					radiobutton_dont_follow_signals = true;
+					radiobutton_gravitatory_not_menu.Active = true;
+					radiobutton_dont_follow_signals = false;
+				}
 			} else {
 				menuitem_mode_selected_power_inertial.Visible = true;
 
@@ -3136,7 +3223,14 @@ public partial class ChronoJumpWindow
 				
 				currentEncoderGI = Constants.EncoderGI.INERTIAL;
 				hbox_capture_1RM.Visible = false;
-				notebook_encoder_capture_extra_mass.CurrentPage = 1;
+
+				//notebook_encoder_capture_extra_mass.CurrentPage = 1;
+				//TODO: show also info on the top
+				label_encoder_exercise_mass.Visible = false;
+				vbox_encoder_exercise_mass.Visible = false;
+				label_encoder_exercise_inertia.Visible = true;
+				vbox_encoder_exercise_inertia.Visible = true;
+
 				radiobutton_encoder_analyze_1RM.Visible = false;
 				hbox_combo_encoder_analyze_1RM.Visible=false;
 				radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
@@ -3145,9 +3239,12 @@ public partial class ChronoJumpWindow
 				//hbox_encoder_capture_1_or_cont.Visible = false;
 				vscale_encoder_capture_inertial_angle_now.Visible = true;
 
-				label_encoder_not_menu.Text = Catalog.GetString("Inertial");
-				button_gravitatory_not_menu.Sensitive = true;
-				button_inertial_not_menu.Sensitive = false;
+				if(! radiobutton_inertial_not_menu.Active)
+				{
+					radiobutton_dont_follow_signals = true;
+					radiobutton_inertial_not_menu.Active = true;
+					radiobutton_dont_follow_signals = false;
+				}
 			}
 			encoderGuiChangesAfterEncoderConfigurationWin(true);
 			if(changed) {
@@ -3400,8 +3497,13 @@ public partial class ChronoJumpWindow
 		notebook_selector_start_runs.CurrentPage = 0;
 		notebook_selector_start_encoder.CurrentPage = 1;
 	}
+
+	bool radiobutton_dont_follow_signals = false;
 	private void on_button_selector_start_encoder_gravitatory_clicked(object o, EventArgs args) 
 	{
+		if(radiobutton_dont_follow_signals)
+			return;
+
 		if(radio_menuitem_mode_power_gravitatory.Active)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERGRAVITATORY);
 		else
@@ -3409,12 +3511,15 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_selector_start_encoder_inertial_clicked(object o, EventArgs args) 
 	{
+		if(radiobutton_dont_follow_signals)
+			return;
+
 		if(radio_menuitem_mode_power_inertial.Active)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERINERTIAL);
 		else
 			radio_menuitem_mode_power_inertial.Active = true;
 	}
-	
+
 	private void on_button_selector_start_other_clicked(object o, EventArgs args) 
 	{
 		if(radio_menuitem_mode_other.Active)

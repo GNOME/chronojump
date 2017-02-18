@@ -330,7 +330,7 @@ RESOURCES = \
 	../images/mini/plataforma_contactos.jpg,mini/plataforma_contactos.jpg \
 	../images/infrared.jpg,infrared.jpg \
 	../images/mini/infrared.jpg,mini/infrared.jpg \
-	../images/stock_bell.png,stock_bell.png \
+	../images/md/ic_notifications_blue_24dp_1x.png,stock_bell.png \
 	../images/stock_bell_green.png,stock_bell_green.png \
 	../images/stock_bell_red.png,stock_bell_red.png \
 	../images/line_session_max.png,line_session_max.png \
@@ -347,7 +347,28 @@ RESOURCES = \
 	../images/spreadsheet.png,spreadsheet.png \
 	../images/report_view.png,report_view.png \
 	../images/preferences-system.png,preferences-system.png \
-	../images/stock_delete.png,stock_delete.png \
+	../images/md/ic_home_blue_24dp_1x.png,image_home.png \
+	../images/md/ic_settings_blue_24dp_1x.png,image_settings.png \
+	../images/md/ic_close_blue_24dp_1x.png,image_close.png \
+	../images/md/ic_close_blue_24dp_2x.png,image_close_big.png \
+	../images/md/ic_power_settings_new_blue_24dp_1x.png,image_quit.png \
+	../images/md/ic_gravity_1x.png,image_gravity.png \
+	../images/md/ic_settings_backup_restore_blue_24dp_1x.png,image_inertia.png \
+	../images/md/ic_timer_blue_24dp_1x.png,image_capture.png \
+	../images/md/ic_insert_chart_blue_24dp_1x.png,image_analyze.png \
+	../images/md/ic_developer_board_blue_24dp_1x.png,image_chronopic_connect.png \
+	../images/md/ic_person_blue_24dp_1x.png,image_person.png \
+	../images/md/ic_cached_blue_24dp_1x.png,image_recalculate.png \
+	../images/md/ic_delete_blue_24dp_1x.png,stock_delete.png \
+	../images/md/ic_folder_open_blue_24dp_1x.png,folder_open.png \
+	../images/md/ic_looks_one_blue_24dp_1x.png,one.png \
+	../images/md/ic_all_inclusive_blue_24dp_1x.png,cont.png \
+	../images/md/ic_directions_run_blue_24dp_2x.png,run.png \
+	../images/md/ic_build_blue_24dp_1x.png,image_build.png \
+	../images/md/ic_edit_blue_24dp_1x.png,image_edit.png \
+	../images/md/ic_add_blue_24dp_1x.png,image_add.png \
+	../images/md/ic_info_outline_blue_24dp_1x.png,image_info.png \
+	../images/md/ic_fitness_center_blue_24dp_1x.png,image_exercise.png \
 	../images/chronojump_icon.png,chronojump_icon.png \
 	../images/chronojump_icon_graph.png,chronojump_icon_graph.png \
 	../images/stock_right.png,stock_right.png \

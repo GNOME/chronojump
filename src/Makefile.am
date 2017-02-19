@@ -6,6 +6,7 @@ LINK = $(REF_DEP_CHRONOJUMP)
 
 SOURCES = \
 	gui/chronojump.cs\
+	gui/chronojumpIcons.cs\
 	gui/chronopic.cs\
 	gui/chronopicRegister.cs\
 	gui/confirm.cs\
@@ -360,7 +361,15 @@ RESOURCES = \
 	../images/md/ic_person_blue_24dp_1x.png,image_person.png \
 	../images/md/ic_cached_blue_24dp_1x.png,image_recalculate.png \
 	../images/md/ic_delete_blue_24dp_1x.png,stock_delete.png \
+	../images/md/ic_create_new_folder_blue_24dp_2x.png,folder_new_big.png \
+	../images/md/ic_create_new_folder_blue_24dp_1x.png,folder_new.png \
+	../images/md/ic_folder_open_blue_24dp_2x.png,folder_open_big.png \
 	../images/md/ic_folder_open_blue_24dp_1x.png,folder_open.png \
+	../images/md/ic_visibility_blue_24dp_1x.png,image_visibility.png \
+	../images/md/ic_person_add_blue_24dp_1x.png,image_person_add.png \
+	../images/md/ic_group_add_blue_24dp_1x.png,image_group_add.png \
+	../images/md/ic_person_outline_blue_24dp_1x.png,image_person_outline.png \
+	../images/md/ic_people_outline_blue_24dp_1x.png,image_group_outline.png \
 	../images/md/ic_looks_one_blue_24dp_1x.png,one.png \
 	../images/md/ic_all_inclusive_blue_24dp_1x.png,cont.png \
 	../images/md/ic_directions_run_blue_24dp_2x.png,run.png \
@@ -369,6 +378,8 @@ RESOURCES = \
 	../images/md/ic_add_blue_24dp_1x.png,image_add.png \
 	../images/md/ic_info_outline_blue_24dp_1x.png,image_info.png \
 	../images/md/ic_fitness_center_blue_24dp_1x.png,image_exercise.png \
+	../images/md/ic_keyboard_arrow_up_blue_24dp_1x.png,image_up.png \
+	../images/md/ic_keyboard_arrow_down_blue_24dp_1x.png,image_down.png \
 	../images/chronojump_icon.png,chronojump_icon.png \
 	../images/chronojump_icon_graph.png,chronojump_icon_graph.png \
 	../images/stock_right.png,stock_right.png \

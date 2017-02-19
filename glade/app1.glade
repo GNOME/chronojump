@@ -297,7 +297,7 @@
                           <widget class="GtkImage" id="image_mode_main_menu">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">gtk-home</property>
+                            <property name="stock">gtk-missing-image</property>
                           </widget>
                         </child>
                       </widget>
@@ -1835,7 +1835,7 @@ Carles</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">10</property>
                                                 <child>
-                                                  <widget class="GtkImage" id="image62">
+                                                  <widget class="GtkImage" id="image_session_new">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="stock">gtk-new</property>
@@ -1880,10 +1880,10 @@ Carles</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">10</property>
                                                 <child>
-                                                  <widget class="GtkImage" id="image63">
+                                                  <widget class="GtkImage" id="image_session_load">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-open</property>
+                                                    <property name="stock">gtk-missing-image</property>
                                                     <property name="icon-size">6</property>
                                                   </widget>
                                                   <packing>
@@ -1981,7 +1981,7 @@ Carles</property>
                                                             <widget class="GtkImage" id="image_persons_new_1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-new</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -2004,7 +2004,7 @@ Carles</property>
                                                             <widget class="GtkImage" id="image_persons_new_plus">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-new</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -2076,6 +2076,7 @@ Carles</property>
                                                       <packing>
                                                         <property name="expand">False</property>
                                                         <property name="fill">False</property>
+                                                        <property name="pack_type">end</property>
                                                         <property name="position">1</property>
                                                       </packing>
                                                     </child>
@@ -2144,7 +2145,7 @@ Carles</property>
                                                             <widget class="GtkImage" id="image_persons_up">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-go-up</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
@@ -2171,7 +2172,7 @@ Carles</property>
                                                             <widget class="GtkImage" id="image_persons_down">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-go-down</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
@@ -2364,10 +2365,10 @@ Carles</property>
                                                             <signal name="clicked" handler="on_edit_current_person_clicked_from_main_gui" swapped="no"/>
                                                             <accelerator key="p" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image1977">
+                                                            <widget class="GtkImage" id="image_edit_current_person">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-edit</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
@@ -2387,10 +2388,10 @@ Carles</property>
                                                             <property name="tooltip" translatable="yes">Show all tests of this person</property>
                                                             <signal name="clicked" handler="on_show_all_person_events_activate" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image1188">
+                                                            <widget class="GtkImage" id="image_all_persons_events">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-dialog-info</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
@@ -18632,6 +18633,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

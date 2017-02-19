@@ -1004,6 +1004,7 @@
     <Compile Include="src\gui\movingStartWindow.cs" />
     <Compile Include="src\Mini\chronojump_mini.cs" />
     <Compile Include="src\encoderCaptureInertialBG.cs" />
+    <Compile Include="src\gui\chronojumpIcons.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

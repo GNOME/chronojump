@@ -643,7 +643,7 @@ static void animation_light_convert_old(char sentData)
 			animation_tick_n_times = 80;
 			break;
 		case 5:
-			animation_tick_n_times = 160; //160[default] * 63 = ,5 seconds
+			animation_tick_n_times = 160; //160[default] * 63 = ,5 seconds: 500ms
 			break;
 		case 6:
 			animation_tick_n_times = 320; //1 second
@@ -658,28 +658,28 @@ static void animation_light_convert(char sentData)
 {
 	switch(sentData) {
 		case 0:
-			animation_tick_n_times = 5;
+			animation_tick_n_times = 5; //15,125ms
 			break;
 		case 1:
-			animation_tick_n_times = 10;
+			animation_tick_n_times = 10; //31,25
 			break;
 		case 2:
-			animation_tick_n_times = 15;
+			animation_tick_n_times = 15; //46,875
 			break;
 		case 3:
-			animation_tick_n_times = 20;
+			animation_tick_n_times = 20; //62,5
 			break;
 		case 4:
-			animation_tick_n_times = 25;
+			animation_tick_n_times = 25; //78,125
 			break;
 		case 5:
-			animation_tick_n_times = 30;
+			animation_tick_n_times = 30; //93,75
 			break;
 		case 6:
-			animation_tick_n_times = 35;
+			animation_tick_n_times = 35; //109,375
 			break;
 		case 7:
-			animation_tick_n_times = 40;
+			animation_tick_n_times = 40; //125
 			break;
 	}
 }

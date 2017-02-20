@@ -709,7 +709,7 @@ public class Constants
 	public static string CameraNotFound = Catalog.GetString("Sorry, no cameras found.");
 	
 	public enum BellModes {
-		JUMPS, RUNS, ENCODER
+		JUMPS, RUNS, ENCODERGRAVITATORY, ENCODERINERTIAL
 	}
 
 	public enum Menuitem_modes { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, POWERGRAVITATORY, POWERINERTIAL, OTHER }

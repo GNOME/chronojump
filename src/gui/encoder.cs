@@ -82,8 +82,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_inertial_calibrate;
 	[Widget] Gtk.Label label_wait;
 
-	[Widget] Gtk.Label label_gravitatory;
-	[Widget] Gtk.Label label_inertial;
 	[Widget] Gtk.RadioButton radiobutton_gravitatory_not_menu;
 	[Widget] Gtk.RadioButton radiobutton_inertial_not_menu;
 
@@ -137,7 +135,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_capture_curves_none;
 	[Widget] Gtk.Button button_encoder_capture_curves_4top;
 	
-	[Widget] Gtk.Notebook notebook_encoder_exercise;
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_analyze;
 	[Widget] Gtk.ComboBox combo_encoder_exercise_analyze;
 
@@ -564,8 +561,12 @@ public partial class ChronoJumpWindow
 	}
 	
 	
-	private void on_button_encoder_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(Constants.BellModes.ENCODER, preferences.volumeOn);
+	private void on_button_encoder_bells_clicked(object o, EventArgs args)
+	{
+		if(radio_menuitem_mode_power_gravitatory.Active)
+			repetitiveConditionsWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences.volumeOn);
+		else
+			repetitiveConditionsWin.View(Constants.BellModes.ENCODERINERTIAL, preferences.volumeOn);
 	}
 
 	/*

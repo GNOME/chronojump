@@ -203,7 +203,8 @@ public class RepetitiveConditionsWindow
 		RepetitiveConditionsWindowBox.volumeOn = volumeOn;
 	}
 
-	void showWidgets(Constants.BellModes bellMode) {
+	void showWidgets(Constants.BellModes bellMode)
+	{
 		frame_best_and_worst.Hide();
 		frame_conditions.Hide();
 		hbox_jump_best_worst.Hide();
@@ -213,6 +214,7 @@ public class RepetitiveConditionsWindow
 		frame_encoder_automatic_conditions.Hide();
 		vbox_encoder_manual.Hide();
 		notebook_encoder_conditions.Hide();
+		checkbutton_inertial_discard_first_three.Hide();
 
 		if(bellMode == Constants.BellModes.JUMPS) {
 			frame_best_and_worst.Show();
@@ -224,12 +226,15 @@ public class RepetitiveConditionsWindow
 			hbox_run_best_worst.Show();
 			hbox_run_conditions.Show();
 			frame_conditions.Show();
-		} else { //encoder
+		} else { //encoder (grav and inertial)
 			notebook_encoder_conditions.CurrentPage = 3; //power
 			frame_encoder_automatic_conditions.Show();
 			vbox_encoder_manual.Show();
 			if(checkbutton_encoder_show_manual_feedback.Active)
 				notebook_encoder_conditions.Show();
+
+			if(bellMode == Constants.BellModes.ENCODERINERTIAL)
+				checkbutton_inertial_discard_first_three.Show();
 		}
 	}
 		

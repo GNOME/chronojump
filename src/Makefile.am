@@ -372,6 +372,7 @@ RESOURCES = \
 	../images/md/ic_group_add_blue_24dp_1x.png,image_group_add.png \
 	../images/md/ic_person_outline_blue_24dp_1x.png,image_person_outline.png \
 	../images/md/ic_people_outline_blue_24dp_1x.png,image_group_outline.png \
+	../images/md/ic_weekend_blue_24dp_1x.png,image_rest.png \
 	../images/md/ic_looks_one_blue_24dp_1x.png,one.png \
 	../images/md/ic_all_inclusive_blue_24dp_1x.png,cont.png \
 	../images/md/ic_directions_run_blue_24dp_2x.png,run.png \

@@ -1993,6 +1993,7 @@ Carles</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Manage persons</property>
+                                                            <property name="relief">half</property>
                                                             <property name="xalign">0</property>
                                                             <signal name="clicked" handler="on_button_manage_persons_clicked" swapped="no"/>
                                                             <child>
@@ -2063,6 +2064,7 @@ Carles</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">New person</property>
+                                                            <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_person_add_single_from_main_gui" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox91">
@@ -2109,6 +2111,7 @@ Carles</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">New persons (multiple)</property>
+                                                            <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_person_add_multiple_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox92">
@@ -2191,6 +2194,7 @@ Carles</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Load person</property>
+                                                            <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_recuperate_person_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox98">
@@ -2237,6 +2241,7 @@ Carles</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Load persons from other session</property>
+                                                            <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_recuperate_persons_from_session_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox99">
@@ -2352,23 +2357,14 @@ Carles</property>
                                                   <widget class="GtkVBox" id="vbox_persons_bottom">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="spacing">6</property>
+                                                    <property name="spacing">10</property>
                                                     <child>
-                                                      <widget class="GtkVBox" id="vbox53">
+                                                      <widget class="GtkHBox" id="hbox_persons_bottom">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
+                                                        <property name="spacing">2</property>
                                                         <child>
-                                                          <widget class="GtkHBox" id="hbox35">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
-                                                            <child>
-                                                            <widget class="GtkVBox" id="vbox80">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_persons_up">
+                                                          <widget class="GtkButton" id="button_persons_up">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
@@ -2387,15 +2383,15 @@ Carles</property>
                                                             <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
-                                                            </widget>
-                                                            <packing>
+                                                          </widget>
+                                                          <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_persons_down">
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkButton" id="button_persons_down">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
@@ -2414,36 +2410,125 @@ Carles</property>
                                                             <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
-                                                            </widget>
-                                                            <packing>
+                                                          </widget>
+                                                          <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkButton" id="button_edit_current_person">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Edit selected person
+&lt;Control&gt;p</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_edit_current_person_clicked_from_main_gui" swapped="no"/>
+                                                            <accelerator key="p" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_edit_current_person">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
-                                                            <packing>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkButton" id="button_show_all_person_events">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Show all tests of this person</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_show_all_person_events_activate" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_all_persons_events">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">3</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkButton" id="button_delete_current_person">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="can_default">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Delete person</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_delete_current_person_from_session_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_person_delete">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">4</property>
+                                                          </packing>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkHBox" id="hbox_rest_time">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="spacing">8</property>
+                                                        <child>
+                                                          <widget class="GtkCheckButton" id="checkbutton_rest">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Highlight longer resting times than this value</property>
+                                                            <property name="relief">none</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <signal name="clicked" handler="on_checkbutton_rest_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_rest">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkFrame" id="frame_persons_rest">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label_xalign">0</property>
-                                                            <property name="shadow_type">in</property>
-                                                            <child>
-                                                            <widget class="GtkAlignment" id="alignment9">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="top_padding">2</property>
-                                                            <property name="bottom_padding">2</property>
-                                                            <property name="left_padding">4</property>
-                                                            <property name="right_padding">4</property>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox_rest_time">
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkHBox" id="hbox_rest_time_values">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="tooltip" translatable="yes">Highlight longer resting times than this value</property>
@@ -2460,6 +2545,7 @@ Carles</property>
                                                             <property name="max_length">2</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="width_chars">2</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="invisible_char_set">True</property>
                                                             <property name="primary_icon_activatable">False</property>
                                                             <property name="secondary_icon_activatable">False</property>
@@ -2507,6 +2593,7 @@ Carles</property>
                                                             <property name="max_length">2</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="width_chars">2</property>
+                                                            <property name="xalign">1</property>
                                                             <property name="invisible_char_set">True</property>
                                                             <property name="primary_icon_activatable">False</property>
                                                             <property name="secondary_icon_activatable">False</property>
@@ -2542,153 +2629,17 @@ Carles</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkCheckButton" id="checkbutton_rest">
-                                                            <property name="label" translatable="yes">Rest</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="tooltip" translatable="yes">Highlight longer resting times than this value</property>
-                                                            <property name="active">True</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <signal name="clicked" handler="on_checkbutton_rest_clicked" swapped="no"/>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="type">label_item</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                           </packing>
                                                         </child>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
                                                         <property name="fill">False</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkVBox" id="vbox79">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="spacing">2</property>
-                                                        <child>
-                                                          <widget class="GtkHBox" id="hbox_persons_bottom">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_edit_current_person">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Edit selected person
-&lt;Control&gt;p</property>
-                                                            <signal name="clicked" handler="on_edit_current_person_clicked_from_main_gui" swapped="no"/>
-                                                            <accelerator key="p" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_edit_current_person">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon-size">2</property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_show_all_person_events">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Show all tests of this person</property>
-                                                            <signal name="clicked" handler="on_show_all_person_events_activate" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_all_persons_events">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon-size">2</property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_delete_current_person">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="can_default">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Delete person</property>
-                                                            <signal name="clicked" handler="on_delete_current_person_from_session_clicked" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_person_delete">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="icon-size">2</property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">-1</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label_current_person">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="use_markup">True</property>
-                                                            <property name="ellipsize">end</property>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="pack_type">end</property>
                                                         <property name="position">1</property>
                                                       </packing>
                                                     </child>

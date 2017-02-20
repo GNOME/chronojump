@@ -204,12 +204,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_persons_down;
 	[Widget] Gtk.CheckButton checkbutton_rest;
 	[Widget] Gtk.HBox hbox_rest_time;
+	[Widget] Gtk.HBox hbox_rest_time_values;
 	[Widget] Gtk.SpinButton spinbutton_rest_minutes;
 	[Widget] Gtk.SpinButton spinbutton_rest_seconds;
 	[Widget] Gtk.Button button_edit_current_person;
 	[Widget] Gtk.Button button_show_all_person_events;
 	[Widget] Gtk.Button button_delete_current_person;
-	[Widget] Gtk.Label label_current_person;
 	
 	//tests
 	//jumps
@@ -298,7 +298,6 @@ public partial class ChronoJumpWindow
 	//widgets for enable or disable
 	[Widget] Gtk.Frame frame_persons;
 	[Widget] Gtk.Frame frame_persons_top;
-	[Widget] Gtk.Frame frame_persons_rest;
 	[Widget] Gtk.HBox hbox_persons_bottom;
 	[Widget] Gtk.Button button_recuperate_person;
 	[Widget] Gtk.Button button_recuperate_persons_from_session;
@@ -917,8 +916,6 @@ public partial class ChronoJumpWindow
 	}
 
 	void label_person_change() {
-		label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
-		label_current_person.UseMarkup = true; 
 		label_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>"; 
 		label_encoder_person_name.UseMarkup = true; 
 	}
@@ -3841,10 +3838,10 @@ public partial class ChronoJumpWindow
 	private void on_checkbutton_rest_clicked(object o, EventArgs args)
 	{
 		if(checkbutton_rest.Active) {
-			hbox_rest_time.Sensitive = true;
+			hbox_rest_time_values.Sensitive = true;
 			myTreeViewPersons.RestSecondsMark = get_rest_time_in_seconds();
 		} else {
-			hbox_rest_time.Sensitive = false;
+			hbox_rest_time_values.Sensitive = false;
 			myTreeViewPersons.RestSecondsMark = 0;
 		}
 	}
@@ -6445,7 +6442,7 @@ LogB.Debug("X");
 		{
 			frame_persons_top.Sensitive = false;
 			//treeview_persons is shown (person can be changed)
-			frame_persons_rest.Sensitive = false;
+			hbox_rest_time.Sensitive = false;
 			hbox_persons_bottom.Sensitive = false;
 		} else
 			frame_persons.Sensitive = false;
@@ -6495,8 +6492,8 @@ LogB.Debug("X");
 		//check this is sensitive (because on cont was unsensitive)
 		if(! frame_persons_top.Sensitive)
 			frame_persons_top.Sensitive = true;
-		if(! frame_persons_rest.Sensitive)
-			frame_persons_rest.Sensitive = true;
+		if(! hbox_rest_time.Sensitive)
+			hbox_rest_time.Sensitive = true;
 		if(! hbox_persons_bottom.Sensitive)
 			hbox_persons_bottom.Sensitive = true;
 

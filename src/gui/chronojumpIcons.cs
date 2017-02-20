@@ -38,6 +38,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_edit_current_person;
 	[Widget] Gtk.Image image_persons_up;
 	[Widget] Gtk.Image image_persons_down;
+	[Widget] Gtk.Image image_rest;
 	[Widget] Gtk.Image image_all_persons_events;
 	[Widget] Gtk.Image image_encoder_1RM_info;
 	[Widget] Gtk.Image image_chronopic_connect;
@@ -146,7 +147,10 @@ public partial class ChronoJumpWindow
 		image_persons_open_1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_group_outline.png");
 		image_persons_open_plus.Pixbuf = pixbuf;
-		
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");
+		image_rest.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_visibility.png");
 		image_all_persons_events.Pixbuf = pixbuf;
 

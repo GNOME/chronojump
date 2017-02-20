@@ -297,7 +297,7 @@ public partial class ChronoJumpWindow
 
 	//widgets for enable or disable
 	[Widget] Gtk.Frame frame_persons;
-	[Widget] Gtk.HBox hbox_persons_top;
+	[Widget] Gtk.Frame frame_persons_top;
 	[Widget] Gtk.Frame frame_persons_rest;
 	[Widget] Gtk.HBox hbox_persons_bottom;
 	[Widget] Gtk.Button button_recuperate_person;
@@ -2407,7 +2407,12 @@ public partial class ChronoJumpWindow
 			sensitiveGuiYesPerson();
 		}
 	}
-	
+
+	[Widget] Gtk.VBox vbox_manage_persons;
+	private void on_button_manage_persons_clicked (object o, EventArgs args) {
+		vbox_manage_persons.Visible = ! vbox_manage_persons.Visible;
+	}
+
 	bool person_add_single_called_from_person_select_window;
 	private void on_person_add_single_from_main_gui (object o, EventArgs args) {
 		person_add_single_called_from_person_select_window = false;
@@ -6438,7 +6443,7 @@ LogB.Debug("X");
 
 		if(cont)
 		{
-			hbox_persons_top.Sensitive = false;
+			frame_persons_top.Sensitive = false;
 			//treeview_persons is shown (person can be changed)
 			frame_persons_rest.Sensitive = false;
 			hbox_persons_bottom.Sensitive = false;
@@ -6488,8 +6493,8 @@ LogB.Debug("X");
 
 		frame_persons.Sensitive = true;
 		//check this is sensitive (because on cont was unsensitive)
-		if(! hbox_persons_top.Sensitive)
-			hbox_persons_top.Sensitive = true;
+		if(! frame_persons_top.Sensitive)
+			frame_persons_top.Sensitive = true;
 		if(! frame_persons_rest.Sensitive)
 			frame_persons_rest.Sensitive = true;
 		if(! hbox_persons_bottom.Sensitive)

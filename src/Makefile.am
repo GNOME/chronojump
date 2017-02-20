@@ -366,6 +366,8 @@ RESOURCES = \
 	../images/md/ic_folder_open_blue_24dp_2x.png,folder_open_big.png \
 	../images/md/ic_folder_open_blue_24dp_1x.png,folder_open.png \
 	../images/md/ic_visibility_blue_24dp_1x.png,image_visibility.png \
+	../images/md/ic_person_pin_blue_24dp_1x.png,image_person_pin.png \
+	../images/md/ic_face_blue_24dp_1x.png,image_face.png \
 	../images/md/ic_person_add_blue_24dp_1x.png,image_person_add.png \
 	../images/md/ic_group_add_blue_24dp_1x.png,image_group_add.png \
 	../images/md/ic_person_outline_blue_24dp_1x.png,image_person_outline.png \

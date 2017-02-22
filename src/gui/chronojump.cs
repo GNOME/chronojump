@@ -2106,6 +2106,8 @@ public partial class ChronoJumpWindow
 		
 			resetAllTreeViews(true); //boolean means: "also persons"
 
+			vbox_manage_persons.Visible = true;
+
 			//show hidden widgets
 			sensitiveGuiNoSession();
 			sensitiveGuiYesSession();
@@ -2292,7 +2294,9 @@ public partial class ChronoJumpWindow
 		if(foundPersons) {
 			//activate the gui for persons in main window
 			sensitiveGuiYesPerson();
-		}
+		} else
+			vbox_manage_persons.Visible = true;
+
 
 		//update report
 		report.SessionID = currentSession.UniqueID;

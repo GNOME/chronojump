@@ -34,15 +34,15 @@ public class Platform {
 	{
 	}
 
-	public Initialize()
+	public void Initialize()
 	{
 	}
 
-	public Close()
+	public void Close()
 	{
 	}
 
-	public ReadStream()
+	public void ReadStream()
 	{
 		if(stream[1] == "0") { state = false; }
 		else if (stream[1] == "1") { state = true; }
@@ -53,7 +53,7 @@ public class Platform {
 
 	public override string ToString()
 	{
-		return Catalog.GetString("State: {0}, lastChange {1}"), state.ToString(), lastChange;
+		return Catalog.GetString("State: {0}, lastChange {1}", state.ToString(), lastChange);
 	}
 		
 	public bool State 

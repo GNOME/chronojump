@@ -317,6 +317,7 @@ public partial class ChronoJumpWindow
 
 	EncoderConfiguration encoderConfigurationCurrent;
 	Constants.EncoderGI currentEncoderGI; //store here to not have to check the GUI and have thread problems
+	bool firstSetOfCont; //used to don't erase the screen on cont after first set
 
 	/* 
 	 * this contains last EncoderSQL captured, recalculated or loaded
@@ -658,10 +659,18 @@ public partial class ChronoJumpWindow
 	}
 
 	double maxPowerIntersessionOnCapture;
+	//called from main GUI
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
+	{
+		on_button_encoder_capture_clicked_do (true);
+	}
+
+	void on_button_encoder_capture_clicked_do (bool firstSet)
 	{
 //		if(eCaptureInertialBG != null)
 //			eCaptureInertialBG.Finish();
+
+		firstSetOfCont = firstSet;
 
 		maxPowerIntersessionOnCapture = findMaxPowerIntersession();
 		//LogB.Information("maxPower: " + maxPowerIntersessionOnCapture);
@@ -941,7 +950,8 @@ public partial class ChronoJumpWindow
 	//action can be CURVES_AC (After Capture) (where signal does not exists, need to define it)
 	//CAPTURE_EXTERNAL, CURVES, LOAD (signal is defined)
 	//CAPTURE_EXTERNAL is not implemented because it's deprecated
-	void encoderCalculeCurves(encoderActions action) {
+	void encoderCalculeCurves(encoderActions action)
+	{
 		if(action == encoderActions.CURVES_AC) 
 		{
 			encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
@@ -3901,7 +3911,7 @@ public partial class ChronoJumpWindow
 		
 		treeviewEncoderCaptureRemoveColumns();
 
-		if(encoder_capture_curves_bars_pixmap != null) 
+		if(encoder_capture_curves_bars_pixmap != null)
 			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 		if(encoder_capture_signal_pixmap != null)
 			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
@@ -4204,7 +4214,6 @@ public partial class ChronoJumpWindow
 	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower, 
 			ArrayList data6Variables, bool discardFirstThree, bool capturing) 
 	{
-		//LogB.Information("at plotCurvesGraphDoPlot");
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
 		int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
@@ -4511,7 +4520,7 @@ public partial class ChronoJumpWindow
 			plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
 					repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
 					false);	//not capturing
-		} else
+		} else if( ! ( radio_encoder_capture_cont.Active && ! firstSetOfCont) )
 			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 	}
 
@@ -4550,14 +4559,15 @@ public partial class ChronoJumpWindow
 	{
 		Gdk.EventConfigure ev = args.Event;
 		Gdk.Window window = ev.Window;
-
 		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
-		
+
+
 		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 
 				allocation.Width != encoder_capture_curves_allocationXOld ||
-				allocation.Height != encoder_capture_curves_allocationYOld) 
+				allocation.Height != encoder_capture_curves_allocationYOld)
 		{
-			encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
+			if(encoder_capture_curves_bars_pixmap == null || firstSetOfCont)
+				encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 
 			callPlotCurvesGraphDoPlot();
 		
@@ -4574,12 +4584,13 @@ public partial class ChronoJumpWindow
 		 * Do here the initialization
 		 */
 		//LogB.Debug("EXPOSE");
-		
+
 		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
 		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 
 				allocation.Width != encoder_capture_curves_allocationXOld ||
 				allocation.Height != encoder_capture_curves_allocationYOld) 
 		{
+
 			encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (
 					encoder_capture_curves_bars_drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
 			
@@ -4590,7 +4601,7 @@ public partial class ChronoJumpWindow
 
 		Gdk.Rectangle area = args.Event.Area;
 
-		//sometimes this is called when pait is finished
+		//sometimes this is called when paint is finished
 		//don't let this erase win
 		if(encoder_capture_curves_bars_pixmap != null) {
 			args.Event.Window.DrawDrawable(encoder_capture_curves_bars_drawingarea.Style.WhiteGC, 
@@ -4740,6 +4751,7 @@ public partial class ChronoJumpWindow
 
 				capturingCsharp = encoderCaptureProcess.CAPTURING;
 			}
+
 
 			if(action == encoderActions.CAPTURE) {
 				captureCurvesBarsData = new ArrayList();
@@ -5150,7 +5162,7 @@ public partial class ChronoJumpWindow
 			if(elapsed > 3)
 			{
 				calledCaptureInertial = true;
-				on_button_encoder_capture_clicked (new object (), new EventArgs ());
+				on_button_encoder_capture_clicked_do (true);
 			} else
 				label_wait.Text = string.Format("Exercise will start in {0} seconds.", 3 - elapsed);
 		}
@@ -5866,7 +5878,7 @@ public partial class ChronoJumpWindow
 			}
 		
 			if(action == encoderActions.CURVES_AC && radio_encoder_capture_cont.Active && ! encoderProcessFinishContMode)
-				on_button_encoder_capture_clicked (new object (), new EventArgs ());
+				on_button_encoder_capture_clicked_do (false);
 			
 			//on inertial, check after capture if string was not fully extended and was corrected
 			if(getMenuItemMode() == Constants.Menuitem_modes.POWERINERTIAL && 

@@ -607,6 +607,111 @@
     <EmbeddedResource Include="images\preferences-system.png">
       <LogicalName>preferences-system.png</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_home_blue_24dp_1x.png">
+      <LogicalName>image_home.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_settings_blue_24dp_1x.png">
+      <LogicalName>image_settings.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_close_red_24dp_1x.png">
+      <LogicalName>image_close.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_close_blue_24dp_2x.png">
+      <LogicalName>image_close_big.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_power_settings_new_blue_24dp_1x.png">
+      <LogicalName>image_quit.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_gravity_1x.png">
+      <LogicalName>image_gravity.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_settings_backup_restore_blue_24dp_1x.png">
+      <LogicalName>image_inertia.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_timer_blue_24dp_1x.png">
+      <LogicalName>image_capture.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_insert_chart_blue_24dp_1x.png">
+      <LogicalName>image_analyze.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_developer_board_blue_24dp_1x.png">
+      <LogicalName>image_chronopic_connect.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_person_blue_24dp_1x.png">
+      <LogicalName>image_person.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_cached_blue_24dp_1x.png">
+      <LogicalName>image_recalculate.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_delete_blue_24dp_1x.png">
+      <LogicalName>stock_delete.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_create_new_folder_blue_24dp_2x.png">
+      <LogicalName>folder_new_big.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_create_new_folder_blue_24dp_1x.png">
+      <LogicalName>folder_new.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_folder_open_blue_24dp_2x.png">
+      <LogicalName>folder_open_big.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_folder_open_blue_24dp_1x.png">
+      <LogicalName>folder_open.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_visibility_blue_24dp_1x.png">
+      <LogicalName>image_visibility.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_person_pin_blue_24dp_1x.png">
+      <LogicalName>image_person_pin.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_face_blue_24dp_1x.png">
+      <LogicalName>image_face.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_person_add_blue_24dp_1x.png">
+      <LogicalName>image_person_add.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_group_add_blue_24dp_1x.png">
+      <LogicalName>image_group_add.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_person_outline_blue_24dp_1x.png">
+      <LogicalName>image_person_outline.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_people_outline_blue_24dp_1x.png">
+      <LogicalName>image_group_outline.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_weekend_blue_24dp_1x.png">
+      <LogicalName>image_rest.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_looks_one_blue_24dp_1x.png">
+      <LogicalName>one.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_all_inclusive_blue_24dp_1x.png">
+      <LogicalName>cont.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_directions_run_blue_24dp_2x.png">
+      <LogicalName>run.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_build_blue_24dp_1x.png">
+      <LogicalName>image_build.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_edit_blue_24dp_1x.png">
+      <LogicalName>image_edit.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_add_blue_24dp_1x.png">
+      <LogicalName>image_add.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_info_outline_blue_24dp_1x.png">
+      <LogicalName>image_info.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_fitness_center_blue_24dp_1x.png">
+      <LogicalName>image_exercise.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_keyboard_arrow_up_blue_24dp_1x.png">
+      <LogicalName>image_up.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_keyboard_arrow_down_blue_24dp_1x.png">
+      <LogicalName>image_down.png</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="images\pulse_custom.png">
       <LogicalName>pulse_custom.png</LogicalName>
     </EmbeddedResource>
@@ -643,7 +748,13 @@
     <EmbeddedResource Include="images\spreadsheet.png">
       <LogicalName>spreadsheet.png</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="images\stock_bell.png">
+    <EmbeddedResource Include="images\import-24.png">
+      <LogicalName>import.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\export-24.png">
+      <LogicalName>export.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_notifications_blue_24dp_1x.png">
       <LogicalName>stock_bell.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\stock_bell_green.png">
@@ -651,9 +762,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="images\stock_bell_red.png">
       <LogicalName>stock_bell_red.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="images\stock_delete.png">
-      <LogicalName>stock_delete.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\stock_right.png">
       <LogicalName>stock_right.png</LogicalName>
@@ -1000,7 +1108,6 @@
     <Compile Include="src\gui\encoderOverview.cs" />
     <Compile Include="src\threshold.cs" />
     <Compile Include="src\gui\dialogThreshold.cs" />
-    <Compile Include="src\platform.cs" />
     <Compile Include="src\gui\movingStartWindow.cs" />
     <Compile Include="src\Mini\chronojump_mini.cs" />
     <Compile Include="src\encoderCaptureInertialBG.cs" />

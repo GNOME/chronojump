@@ -75,6 +75,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_encoder_capture_wait;
 	[Widget] Gtk.Box vbox_encoder_capture_doing;
 	[Widget] Gtk.VScale vscale_encoder_capture_inertial_angle_now;
+	[Widget] Gtk.VBox vbox_angle_now;
+	[Widget] Gtk.Label label_encoder_capture_inertial_angle_now;
 	
 	[Widget] Gtk.RadioButton radio_encoder_capture_1set;
 	[Widget] Gtk.RadioButton radio_encoder_capture_cont;
@@ -5167,16 +5169,17 @@ public partial class ChronoJumpWindow
 				label_wait.Text = string.Format("Exercise will start in {0} seconds.", 3 - elapsed);
 		}
 
-		//resize vscale if needed
 		int newValue = eCaptureInertialBG.AngleNow;
-		int lower = Convert.ToInt32(vscale_encoder_capture_inertial_angle_now.Adjustment.Lower);
+		//resize vscale if needed
+		//0 is at the graphical top. abs(+-100) is on the bottom, but is called adjustment Upper
 		int upper = Convert.ToInt32(vscale_encoder_capture_inertial_angle_now.Adjustment.Upper);
-
-		if(newValue < lower || newValue > upper)
-			vscale_encoder_capture_inertial_angle_now.SetRange(lower * 2, upper *2);
+		if(Math.Abs(newValue) > upper)
+			vscale_encoder_capture_inertial_angle_now.SetRange(0, upper *2);
 
 		//update vscale value
-		vscale_encoder_capture_inertial_angle_now.Value = eCaptureInertialBG.AngleNow;
+		vscale_encoder_capture_inertial_angle_now.Value = Math.Abs(newValue);
+		label_encoder_capture_inertial_angle_now.Text = newValue.ToString();
+
 
 		Thread.Sleep (100);
 

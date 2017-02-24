@@ -383,6 +383,8 @@ RESOURCES = \
 	../images/md/ic_fitness_center_blue_24dp_1x.png,image_exercise.png \
 	../images/md/ic_keyboard_arrow_up_blue_24dp_1x.png,image_up.png \
 	../images/md/ic_keyboard_arrow_down_blue_24dp_1x.png,image_down.png \
+	../images/md/inertial_rolled.png,inertial_rolled.png \
+	../images/md/inertial_extended.png,inertial_extended.png \
 	../images/chronojump_icon.png,chronojump_icon.png \
 	../images/chronojump_icon_graph.png,chronojump_icon_graph.png \
 	../images/stock_right.png,stock_right.png \

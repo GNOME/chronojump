@@ -2868,7 +2868,7 @@ public partial class ChronoJumpWindow
 					radiobutton_encoder_analyze_neuromuscular_profile.Visible = true;
 				}
 				//hbox_encoder_capture_1_or_cont.Visible = true;
-				vscale_encoder_capture_inertial_angle_now.Visible = false;
+				vbox_angle_now.Visible = false;
 
 				if(! radiobutton_gravitatory_not_menu.Active)
 				{
@@ -2907,7 +2907,7 @@ public partial class ChronoJumpWindow
 				
 				radio_encoder_capture_1set.Active = true;
 				//hbox_encoder_capture_1_or_cont.Visible = false;
-				vscale_encoder_capture_inertial_angle_now.Visible = true;
+				vbox_angle_now.Visible = true;
 
 				if(! radiobutton_inertial_not_menu.Active)
 				{
@@ -3438,7 +3438,7 @@ public partial class ChronoJumpWindow
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 
 	{
-		// stop capturing inertial on the background if we start capturing another test
+		// stop capturing inertial on the background if we start capturing a contacts test
 		if(encoderThreadBG != null && encoderThreadBG.IsAlive)
 		{
 			stopCapturingInertialBG();

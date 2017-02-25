@@ -246,6 +246,12 @@ public abstract class EncoderCapture
 						encoderReadedInertialDisc = new List<int>();
 						encoderReaded = new List<int>();
 
+						if(capturingInertialBG)
+						{
+							//empty EncoderCaptureInertialBackgroundStatic.ListCaptured
+							EncoderCaptureInertialBackgroundStatic.Initialize();
+						}
+
 						if(! showOnlyBars)
 						{
 							EncoderCapturePoints = new List<Gdk.Point>();

@@ -110,9 +110,14 @@ public static class EncoderCaptureInertialBackgroundStatic
 
 	public static void Start()
 	{
+		abort = false;
+		Initialize();
+	}
+
+	public static void Initialize()
+	{
 		ListCaptured = new List<int> ();
 		pos = 0;
-		abort = false;
 	}
 
 	//TODO: write nicer

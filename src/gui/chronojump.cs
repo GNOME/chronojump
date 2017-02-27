@@ -607,6 +607,10 @@ public partial class ChronoJumpWindow
 		createdStatsWin = true;
 		//stats_win_initializeSession();
 
+		//these are constructed only one time
+		threshold = new Threshold();
+		cp2016 = new Chronopic2016();
+
 		encoderInitializeStuff();	
 
 		//presentationInit();
@@ -620,10 +624,6 @@ public partial class ChronoJumpWindow
 		LeastSquares ls = new LeastSquares();
 		ls.Test();
 		LogB.Information(string.Format("coef = {0} {1} {2}", ls.Coef[0], ls.Coef[1], ls.Coef[2]));
-
-		//these are constructed only one time
-		threshold = new Threshold();
-		cp2016 = new Chronopic2016();
 
 		restTime = new RestTime();
 		updatingRestTimes = true;

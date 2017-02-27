@@ -103,9 +103,9 @@ public partial class ChronoJumpWindow
 		
 		//show only power
 		if(configChronojump.OnlyEncoderGravitatory)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERGRAVITATORY);
+			on_button_selector_start_encoder_gravitatory_clicked(new object(), new EventArgs());
 		else if(configChronojump.OnlyEncoderInertial)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERINERTIAL);
+			on_button_selector_start_encoder_inertial_clicked(new object(), new EventArgs());
 		
 		if(configChronojump.EncoderCaptureShowOnlyBars)
 		{

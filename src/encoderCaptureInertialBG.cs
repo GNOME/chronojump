@@ -111,12 +111,13 @@ public static class EncoderCaptureInertialBackgroundStatic
 	public static void Start()
 	{
 		abort = false;
+		ListCaptured = new List<int> ();
 		Initialize();
 	}
 
 	public static void Initialize()
 	{
-		ListCaptured = new List<int> ();
+		ListCaptured.Clear();
 		pos = 0;
 	}
 

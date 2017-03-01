@@ -33,6 +33,7 @@ History:
   2012-04-02 change the baud rate = 115200, set default function = encoder.
   2012-04-19 if PC send command 'J' for porti scanning, Chronopic will return 'J'
   2017-02.28 Xavier Padullés and Xavi de Blas: added triggerIfPushed, removed option 0 stuff, cleaned code.
+  2017-03-01 trigger now has ON and OFF
 */
 
 //-- this PIC is going to be used:
@@ -56,7 +57,8 @@ unsigned char FSTATUS = 'E';  // Petition of status of the platform
 unsigned char RSTATUS = 'E';  // Response of the status frame
 
 //RCA push (RB4) will activate trigger and this will be sent to Chronojump
-unsigned char TRIGGER = 'T';  // Trigger (RCA has been pushed)
+unsigned char TRIGGER_ON = 'T';  // Trigger (RCA has been pushed)
+unsigned char TRIGGER_OFF = 't';  // Trigger (RCA has been released)
 unsigned char RB4Previous = 0; //previous RB4 (RCA) to see if there's a change
 
 //-- Initialization value of the TIMER0 to have TICKS with a duration of Nms
@@ -159,13 +161,15 @@ void update_led()
 
 void triggerIfPushed()
 {
-	if(RB4 == 1)
+	if(RB4 == 1 && RB4Previous == 0)
 	{
-		if(RB4Previous == 0)
-		{
-			sci_sendchar(TRIGGER);
-		}
+		sci_sendchar(TRIGGER_ON);
 	}
+	else if(RB4 == 0 && RB4Previous == 1)
+	{
+		sci_sendchar(TRIGGER_OFF);
+	}
+
 	if(RB4Previous != RB4)
 	{
 		update_led();

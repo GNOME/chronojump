@@ -962,6 +962,10 @@ public class Util
 		return Path.Combine(Path.GetTempPath(), "encoder_set_export.csv");
 	}
 
+	public static string GetEncoderTriggerFileName() {
+		return Path.Combine(Path.GetTempPath(), "encoder_trigger.txt");
+	}
+
 	/********** end of encoder paths ************/
 
 

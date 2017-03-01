@@ -803,8 +803,8 @@ getDynamics <- function(encoderConfigurationName,
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2" ||
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV" ||
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYFRICTION" ||
-	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS" ) ||
-	   encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY"
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS" ||
+	   encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY")
 	{
 		massExtra = getMass(massExtra, gearedDown, anglePush)
 	} 

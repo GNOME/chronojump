@@ -803,7 +803,8 @@ getDynamics <- function(encoderConfigurationName,
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2" ||
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV" ||
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYFRICTION" ||
-	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS" ) 
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS" ) ||
+	   encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY"
 	{
 		massExtra = getMass(massExtra, gearedDown, anglePush)
 	} 
@@ -820,21 +821,22 @@ getDynamics <- function(encoderConfigurationName,
 
 #mass extra can be connected to body or connected to a pulley depending on encoderConfiguration
 getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel, 
-				   massBody, massExtra, massTotal,
-				   exercisePercentBodyWeight, gearedDown, anglePush, angleWeight) 
+                                   massBody, massExtra, massTotal,
+                                   exercisePercentBodyWeight, gearedDown, anglePush, angleWeight) 
 { 
-	force = NULL
-	if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
-		force <- massBody*(accel + g*sin(anglePush * pi / 180)) + massExtra*(g*sin(angleWeight * pi / 180) + accel)
-	} else if(encoderConfigurationName == "LINEARONPLANE"){
-		force <- (massBody + massExtra)*(accel + g*sin(anglePush * pi / 180))
-	} else {
-		force <- massTotal*(accel+g)	#g:9.81 (used when movement is against gravity)
-	}
-
-	power <- force*speed
-
-	return(list(mass=massTotal, force=force, power=power))
+  force = NULL
+  if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
+    force <- massBody*(accel + g*sin(anglePush * pi / 180)) + massExtra*(g*sin(angleWeight * pi / 180) + accel)
+    } else if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY") {
+      force <- massBody*(accel + g*sin(anglePush * pi / 180)) + massExtra*(g*sin(angleWeight * pi / 180) + accel) / gearedDown
+    } else if(encoderConfigurationName == "LINEARONPLANE"){
+      force <- (massBody + massExtra)*(accel + g*sin(anglePush * pi / 180))
+    } else {
+      force <- massTotal*(accel+g)	#g:9.81 (used when movement is against gravity)
+    }
+  power <- force*speed
+  
+  return(list(mass=massTotal, force=force, power=power))
 }
 
 #diameter: diameter of the axis (where string is wrapped)
@@ -957,6 +959,9 @@ getDisplacement <- function(encoderConfigurationName, displacement, diameter, di
 	  #On geared down machines the displacement of the subject is multiplied by gearedDown
 	  #default is: gearedDown = 2. Future maybe this will be a parameter
 	  displacement = displacement * 2
+  } else if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY")
+  {
+    displacement = displacement * gearedDown
   } else if(encoderConfigurationName == "ROTARYFRICTIONAXIS") 
   {
 	  #On rotary friction axis the displacement of the subject is proportional to the axis diameter
@@ -1413,3 +1418,4 @@ listN <- function(...){
 }
 
 #----------- End debug file output -------------
+

@@ -1344,6 +1344,18 @@ public class EncoderConfiguration
 			has_angle_push = true;
 			has_angle_weight = true;
 		}
+		else if(name == Constants.EncoderConfigurationNames.LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY) {
+			type = Constants.EncoderType.LINEAR;
+			position = 9;
+			image = Constants.FileNameEncoderLinearOnPlaneWeightDiffAngle; //TODO
+			code = "Linear - inclined plane different angle - moving pulley";
+			text = Catalog.GetString("Linear encoder on a inclined plane moving a weight in different angle.") + "\n" +
+				Catalog.GetString("Suitable also for horizontal movement. Just set a 0 push angle."); //TODO
+
+			has_angle_push = true;
+			has_angle_weight = true;
+			has_gearedDown = true;
+		}
 		// ---- inertial
 		else if(name == Constants.EncoderConfigurationNames.LINEARINERTIAL) {
 			type = Constants.EncoderType.LINEAR;

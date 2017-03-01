@@ -52,6 +52,10 @@ public abstract class EncoderCapture
 
 	protected static List<int> encoderReaded;	//data coming from encoder and converted
 	protected static List<int> encoderReadedInertialDisc;	//data coming from encoder and converted
+
+	private int TRIGGER_ON = 84; //'T' from TRIGGER_ON on encoder firmware
+	private int TRIGGER_OFF = 116; //'t' from TRIGGER_OFF on encoder firmware
+	private List<BoolMs> boolMsList;
 	
 	/*
 	 * sum: sum ob byteReaded, it's the vertical position
@@ -185,6 +189,10 @@ public abstract class EncoderCapture
 
 		initSpecific();
 
+		//prepare for receiving triggers from encoder
+		boolMsList = new List<BoolMs>();
+		Util.FileDelete(Util.GetEncoderTriggerFileName());
+
 		cancel = false;
 		finish = false;
 	}
@@ -220,6 +228,17 @@ public abstract class EncoderCapture
 				}
 
 				break;
+			}
+
+			if(byteReaded == TRIGGER_ON)
+			{
+				boolMsList.Add(new BoolMs(true, i));
+				continue;
+			}
+			else if(byteReaded == TRIGGER_OFF)
+			{
+				boolMsList.Add(new BoolMs(false, i));
+				continue;
 			}
 
 			byteReaded = convertByte(byteReaded);
@@ -495,6 +514,20 @@ public abstract class EncoderCapture
 			return false;
 
 		saveToFile(outputData1);
+
+		//save triggers to file (if any)
+		if(boolMsList.Count > 0)
+		{
+			LogB.Debug("runEncoderCaptureCsharp saving triggers");
+			TextWriter writer = File.CreateText(Util.GetEncoderTriggerFileName());
+
+			foreach(BoolMs boolMs in boolMsList)
+				writer.WriteLine(boolMs.ToString());
+
+			writer.Flush();
+			writer.Close();
+			((IDisposable)writer).Dispose();
+		}
 
 		LogB.Debug("runEncoderCaptureCsharp ended");
 
@@ -893,4 +926,21 @@ public class EncoderCaptureIMCalc : EncoderCapture
 		return false;
 	}
 	
+}
+
+public class BoolMs
+{
+	private bool b;
+	private int ms;
+
+	public BoolMs(bool b, int ms)
+	{
+		this.b = b;
+		this.ms = ms;
+	}
+
+	public override string ToString()
+	{
+		return b.ToString() + ": " + ms.ToString();
+	}
 }

@@ -775,7 +775,8 @@ isInertial <- function(encoderConfigurationName) {
 	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALMOVPULLEY" ||
 	   encoderConfigurationName == "ROTARYAXISINERTIAL" ||
 	   encoderConfigurationName == "ROTARYAXISINERTIALLATERAL" || 
-	   encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY"
+	   encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY" ||
+	   encoderConfigurationName == "ROTARYAXISINERTIALLATERALMOVPULLEY"
 	   )
 		return(TRUE)
 	else
@@ -849,6 +850,8 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel,
 #  ROTARYFRICTIONAXISINERTIAL Rotary friction encoder connected to inertial machine on the axis
 #  ROTARYAXISINERTIAL Rotary axis encoder  connected to inertial machine on the axis
 #  ROTARYAXISINERTIALMOVPULLEY Rotari axis encoder connected to inertial machine on the axis and the subject pulling from a moving pulley
+#  ROTARYAXISINERTIALLATERALMOVPULLEY Rotari axis encoder connected to inertial machine on the axis and the subject pulling from a moving pulley
+#       and performing and horizontal movement
 
 getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter, mass, inertiaMomentum, gearedDown, smoothing)
 {
@@ -913,9 +916,9 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
               encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALLATERAL" ||
               encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL" ||
               encoderConfigurationName == "ROTARYAXISINERTIALLATERALMOVPULLEY"){
-    angle = position.m * 2 * gearedDown / diameter.m
-    angleSpeed = speed * 2 * gearedDown / diameter.m
-    angleAccel = accel * 2 * gearedDown / diameter.m
+    angle = position.m * 2 / gearedDown / diameter.m
+    angleSpeed = speed * 2 / gearedDown / diameter.m
+    angleAccel = accel * 2 / gearedDown / diameter.m
     anglePush = 0 #TODO: send from C#
     
     forceDisc = abs(inertiaMomentum * angleAccel) * (2 / diameter.m)
@@ -1008,7 +1011,6 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 	} else if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
                 encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL" ||
                 encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALMOVPULLEY"){
-	        
 	        displacement = displacement * diameter * gearedDown / diameterExt #displacement of the axis
 	        
 	} else if(encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALMOVPULLEY"){

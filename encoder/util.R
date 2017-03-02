@@ -911,10 +911,11 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
 
   } else if(encoderConfigurationName == "ROTARYAXISINERTIALLATERAL" ||
               encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALLATERAL" ||
-              encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL"){
-    angle = position.m * 2 / diameter.m
-    angleSpeed = speed * 2 / diameter.m
-    angleAccel = accel * 2 / diameter.m
+              encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL" ||
+              encoderConfigurationName == "ROTARYAXISINERTIALLATERALMOVPULLEY"){
+    angle = position.m * 2 * gearedDown / diameter.m
+    angleSpeed = speed * 2 * gearedDown / diameter.m
+    angleAccel = accel * 2 * gearedDown / diameter.m
     anglePush = 0 #TODO: send from C#
     
     forceDisc = abs(inertiaMomentum * angleAccel) * (2 / diameter.m)
@@ -992,7 +993,8 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 	#now convert it to mm of body displacement
 	if(encoderConfigurationName == "ROTARYAXISINERTIAL" ||
 	     encoderConfigurationName == "ROTARYAXISINERTIALLATERAL" ||
-	     encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY") {
+	     encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY" ||
+	     encoderConfigurationName == "ROTARYAXISINERTIALLATERALMOVPULLEY") {
 	        ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks per revolution
 	        
 	        #Number of revolutions that the flywheel rotates every millisecond

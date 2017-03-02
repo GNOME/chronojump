@@ -1533,6 +1533,19 @@ public class EncoderConfiguration
 			has_inertia = true;
 			has_gearedDown = true;
 		}
+		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALLATERALMOVPULLEY) {
+			type = Constants.EncoderType.ROTARYAXIS;
+			position = 3;
+			image = Constants.FileNameEncoderAxisInertialMovPulley; //TODO
+			code = "Rotary axis - inertial machine - horizontal movement - geared up";
+			text = Catalog.GetString("Rotary axis encoder on inertial machine geared up when person is moving horizontally.") + "\n" +
+				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled") + "\n" +
+				Catalog.GetString("Inertial machine rolls twice faster than body.");
+
+			has_d = true;
+			has_inertia = true;
+			has_gearedDown = true;
+		}
 	}
 
 	public void SetInertialDefaultOptions() {

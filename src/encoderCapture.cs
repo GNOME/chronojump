@@ -55,7 +55,7 @@ public abstract class EncoderCapture
 
 	private int TRIGGER_ON = 84; //'T' from TRIGGER_ON on encoder firmware
 	private int TRIGGER_OFF = 116; //'t' from TRIGGER_OFF on encoder firmware
-	private List<BoolMs> boolMsList;
+	private BoolMsList boolMsList;
 	
 	/*
 	 * sum: sum ob byteReaded, it's the vertical position
@@ -190,7 +190,7 @@ public abstract class EncoderCapture
 		initSpecific();
 
 		//prepare for receiving triggers from encoder
-		boolMsList = new List<BoolMs>();
+		boolMsList = new BoolMsList();
 		Util.FileDelete(Util.GetEncoderTriggerFileName());
 
 		cancel = false;
@@ -232,12 +232,12 @@ public abstract class EncoderCapture
 
 			if(byteReaded == TRIGGER_ON)
 			{
-				boolMsList.Add(new BoolMs(true, i));
+				boolMsList.Add(true, i);
 				continue;
 			}
 			else if(byteReaded == TRIGGER_OFF)
 			{
-				boolMsList.Add(new BoolMs(false, i));
+				boolMsList.Add(false, i);
 				continue;
 			}
 
@@ -261,6 +261,10 @@ public abstract class EncoderCapture
 					if(cont && Ecca.curvesAccepted == 0 && consecutiveZeros >= consecutiveZerosMax)
 					{
 						LogB.Information("Cleaning on capture");
+
+						//remove this time on existing boolMs records
+						boolMsList.Substract(consecutiveZeros * 1000);
+
 						consecutiveZeros = -1;
 						encoderReadedInertialDisc = new List<int>();
 						encoderReaded = new List<int>();
@@ -515,19 +519,7 @@ public abstract class EncoderCapture
 
 		saveToFile(outputData1);
 
-		//save triggers to file (if any)
-		if(boolMsList.Count > 0)
-		{
-			LogB.Debug("runEncoderCaptureCsharp saving triggers");
-			TextWriter writer = File.CreateText(Util.GetEncoderTriggerFileName());
-
-			foreach(BoolMs boolMs in boolMsList)
-				writer.WriteLine(boolMs.ToString());
-
-			writer.Flush();
-			writer.Close();
-			((IDisposable)writer).Dispose();
-		}
+		boolMsList.Write();
 
 		LogB.Debug("runEncoderCaptureCsharp ended");
 
@@ -928,6 +920,42 @@ public class EncoderCaptureIMCalc : EncoderCapture
 	
 }
 
+public class BoolMsList
+{
+	private List<BoolMs> l;
+	public BoolMsList()
+	{
+		l = new List<BoolMs>();
+	}
+
+	public void Add(bool b, int ms)
+	{
+		l.Add(new BoolMs(b, ms));
+	}
+
+	public void Substract(int msToSubstract)
+	{
+		foreach(BoolMs boolMs in l)
+			boolMs.Substract(msToSubstract);
+	}
+
+	public void Write()
+	{
+		//save triggers to file (if any)
+		if(l == null || l.Count == 0)
+			return;
+
+		LogB.Debug("runEncoderCaptureCsharp saving triggers");
+		TextWriter writer = File.CreateText(Util.GetEncoderTriggerFileName());
+
+		foreach(BoolMs boolMs in l)
+			writer.WriteLine(boolMs.ToString());
+
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+	}
+}
 public class BoolMs
 {
 	private bool b;
@@ -937,6 +965,11 @@ public class BoolMs
 	{
 		this.b = b;
 		this.ms = ms;
+	}
+
+	public void Substract(int msToSubstract)
+	{
+		ms -= msToSubstract;
 	}
 
 	public override string ToString()

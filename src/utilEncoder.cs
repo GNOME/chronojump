@@ -792,6 +792,8 @@ public class UtilEncoder
 							Constants.EncoderConfigurationNames.ROTARYAXISINERTIALLATERAL));
 				list.Add(new EncoderConfiguration(
 							Constants.EncoderConfigurationNames.ROTARYAXISINERTIALMOVPULLEY));
+				list.Add(new EncoderConfiguration(
+							Constants.EncoderConfigurationNames.ROTARYAXISINERTIALLATERALMOVPULLEY));
 			}
 		}
 		return list;

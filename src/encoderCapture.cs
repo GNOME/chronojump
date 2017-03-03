@@ -656,6 +656,8 @@ public abstract class EncoderCapture
 		{
 			l.RemoveRange(0, count-allowedZeroMSAtStart);
 		} // else: not enough zeros at start, don't need to trim 
+
+		boolMsList.Substract(count-allowedZeroMSAtStart);
 		
 		return l; 
 	}

@@ -32,8 +32,8 @@
      id="namedview5689"
      showgrid="false"
      inkscape:zoom="0.12167951"
-     inkscape:cx="148.9243"
-     inkscape:cy="-1994.3645"
+     inkscape:cx="1993.5383"
+     inkscape:cy="-1767.055"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -31297,7 +31297,7 @@
             <dc:title>Openclipart</dc:title>
           </cc:Agent>
         </dc:publisher>
-        <dc:title />
+        <dc:title></dc:title>
         <dc:date>2013-08-08T13:03:15</dc:date>
         <dc:description>Simple database or storage symbol. Font is &quot;League Gothic&quot;. Drawn on Inkscape</dc:description>
         <dc:source>http://openclipart.org/detail/181674/database-symbol-by-eternaltyro-181674</dc:source>
@@ -45914,7 +45914,10 @@
   </g>
   <g
      id="g12016"
-     transform="translate(1191.785,-616.37329)">
+     transform="translate(1191.785,-616.37329)"
+     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-inclined-plane-weight-diff-angle-mov-pulley.png"
+     inkscape:export-xdpi="15.721952"
+     inkscape:export-ydpi="15.721952">
     <rect
        y="19054.551"
        x="-302.9736"

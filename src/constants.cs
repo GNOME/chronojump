@@ -792,6 +792,7 @@ public class Constants
 	public static string FileNameEncoderWeightedMovPulleyOnLinearEncoder = "encoder-linear-on-weighted-moving-pulley.png";
 	public static string FileNameEncoderLinearOnPlane = "encoder-linear-inclined-plane.png";	
 	public static string FileNameEncoderLinearOnPlaneWeightDiffAngle = "encoder-linear-inclined-plane-weight-diff-angle.png";	
+	public static string FileNameEncoderLinearOnPlaneWeightDiffAngleMovPulley = "encoder-linear-inclined-plane-weight-diff-angle-mov-pulley.png";
 
 	//rotary friction
 	public static string FileNameEncoderFrictionSide = "encoder-rotary-friction-pulley.png";

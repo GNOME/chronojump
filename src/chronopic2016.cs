@@ -111,7 +111,8 @@ public class Chronopic2016
 		else //(cpDoing == 2)
 			cp2.AbortFlush = true;
 
-		chronopicInit.CancelledByUser = true;
+		if(chronopicInit != null)
+			chronopicInit.CancelledByUser = true;
 	}
 	private void on_delete_event (object o, DeleteEventArgs args)
 	{

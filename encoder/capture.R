@@ -209,7 +209,7 @@ doProcess <- function(options)
 			displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, 
 							       diametersPerTick, op$diameterExt, op$gearedDown)
 		} else {
-			displacement = getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt)
+			displacement = getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt, op$gearedDown)
 		}
 
 		

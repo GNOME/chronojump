@@ -942,7 +942,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
 
 
 #in signals and curves, need to do conversions (invert, diameter)
-getDisplacement <- function(encoderConfigurationName, displacement, diameter, diameterExt) {
+getDisplacement <- function(encoderConfigurationName, displacement, diameter, diameterExt, gearedDown) {
 	#no change
 	#WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
 	#WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,

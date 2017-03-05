@@ -2387,7 +2387,8 @@ doProcess <- function(options)
 								       inputMultiData$econfGearedDown[i] )
 				#getDisplacementInertialBody is not needed because it's done on curve save
 			} else {
-				dataTempFile = getDisplacement(inputMultiData$econfName[i], dataTempFile, op$diameter, op$diameterExt)
+				dataTempFile = getDisplacement(inputMultiData$econfName[i], dataTempFile, op$diameter, op$diameterExt,
+							       inputMultiData$econfGearedDown[i])
 			}
 
 
@@ -2541,7 +2542,7 @@ doProcess <- function(options)
 
 			curvesPlot <- FALSE
 		} else {
-			displacement <- getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt)
+			displacement <- getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt, op$gearedDown)
 		}
 
 		#TODO: is this needed at all?

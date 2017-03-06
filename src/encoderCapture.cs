@@ -263,7 +263,7 @@ public abstract class EncoderCapture
 						LogB.Information("Cleaning on capture");
 
 						//remove this time on existing boolMs records
-						boolMsList.Substract(consecutiveZeros * 1000);
+						boolMsList.Substract(consecutiveZeros);
 
 						consecutiveZeros = -1;
 						encoderReadedInertialDisc = new List<int>();
@@ -655,10 +655,9 @@ public abstract class EncoderCapture
 		if(count > allowedZeroMSAtStart)
 		{
 			l.RemoveRange(0, count-allowedZeroMSAtStart);
+			boolMsList.Substract(count-allowedZeroMSAtStart);
 		} // else: not enough zeros at start, don't need to trim 
 
-		boolMsList.Substract(count-allowedZeroMSAtStart);
-		
 		return l; 
 	}
 	
@@ -939,6 +938,14 @@ public class BoolMsList
 	{
 		foreach(BoolMs boolMs in l)
 			boolMs.Substract(msToSubstract);
+	}
+
+	//just to debug
+	public void ToString()
+	{
+		LogB.Information("Printing BoolMSList");
+		foreach(BoolMs boolMs in l)
+			LogB.Information(boolMs.ToString());
 	}
 
 	public void Write()

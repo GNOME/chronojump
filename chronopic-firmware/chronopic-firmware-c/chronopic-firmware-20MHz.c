@@ -163,11 +163,11 @@ void triggerIfPushed()
 {
 	if(RB4 == 1 && RB4Previous == 0)
 	{
-		sci_sendchar(TRIGGER_ON);
+		sci_sendchar(TRIGGER_OFF);
 	}
 	else if(RB4 == 0 && RB4Previous == 1)
 	{
-		sci_sendchar(TRIGGER_OFF);
+		sci_sendchar(TRIGGER_ON);
 	}
 
 	if(RB4Previous != RB4)

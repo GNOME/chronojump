@@ -948,7 +948,7 @@ public class BoolMsList
 			return;
 
 		LogB.Debug("runEncoderCaptureCsharp saving triggers");
-		TextWriter writer = File.CreateText(Util.GetEncoderTriggerFileName());
+		TextWriter writer = File.CreateText(Util.GetEncoderTriggerDateTimeFileName());
 
 		foreach(BoolMs boolMs in l)
 			writer.WriteLine(boolMs.ToString());

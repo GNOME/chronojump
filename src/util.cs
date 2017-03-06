@@ -965,6 +965,9 @@ public class Util
 	public static string GetEncoderTriggerFileName() {
 		return Path.Combine(Path.GetTempPath(), "encoder_trigger.txt");
 	}
+	public static string GetEncoderTriggerDateTimeFileName() {
+		return Path.Combine(Path.GetTempPath(), "encoder_trigger_" + DateTime.Now.ToString() + ".txt");
+	}
 
 	/********** end of encoder paths ************/
 

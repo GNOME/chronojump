@@ -966,7 +966,7 @@ public class Util
 		return Path.Combine(Path.GetTempPath(), "encoder_trigger.txt");
 	}
 	public static string GetEncoderTriggerDateTimeFileName() {
-		return Path.Combine(Path.GetTempPath(), "encoder_trigger_" + DateTime.Now.ToString() + ".txt");
+		return Path.Combine(Path.GetTempPath(), "encoder_trigger_" + UtilDate.ToFile(DateTime.Now) + ".txt");
 	}
 
 	/********** end of encoder paths ************/

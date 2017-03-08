@@ -27,7 +27,8 @@ filenameCompose <- function(curveNum)
 }
 
 #calcule <- function(displacement, start, end, op, curveNum)
-calcule <- function(displacement, op, curveNum)
+#startInSet: know when this repetition starts in the current set
+calcule <- function(displacement, op, curveNum, startInSet)
 {
 	#if(debug)
 	#	write("At calcule", stderr())
@@ -89,7 +90,8 @@ calcule <- function(displacement, op, curveNum)
 	filename <- filenameCompose(curveNum)
 	con <- file(filename, "w")
 	cat(paste(#start, #start is not used because we have no data of the initial zeros
-		  (curveNum +1), sum(displacement), #title, height
+		  (curveNum +1), startInSet, length(displacement), #title, start, width
+		  sum(displacement), #height
 		  paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, 
 		  paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, 
 		  paf$meanForce, paf$maxForce, paf$maxForceT,
@@ -134,6 +136,7 @@ doProcess <- function(options)
 	#print (op)
 
 	curveNum = 0
+	startInSet = 1
 
 	#Don't measure on first phase (initial eccentric) 
 	#inertialCapturingFirstPhase = TRUE
@@ -163,8 +166,8 @@ doProcess <- function(options)
 			op <- assignOptions(options)
 			DEBUG <<- op$Debug
 
-
 			curveNum = 0
+
 			#inertialCapturingFirstPhase = TRUE
 			input <- readLines(f, n = 1L)
 	
@@ -177,6 +180,9 @@ doProcess <- function(options)
 
 		#-- read the curve (from some lines that finally end on an 'E')
 		readingCurve = TRUE
+		startInSet <- as.numeric(input)
+		input = ""
+		print(paste("startInSet: ", startInSet))
 		while(readingCurve) {
 			inputLine <- readLines(f, n = 1L)
 			if(inputLine[1] == "E")
@@ -223,6 +229,10 @@ doProcess <- function(options)
 		start = reduceTemp[1]
 		end = reduceTemp[2]
 
+		#reduceCurveBySpeed reduces the curve. Then startInSet has to change:
+		print(paste("start:",start))
+		startInSet = startInSet + start
+
 		#reduceCurveBySpeed, on inertial doesn't do a good right adjust on changing phase,
 		#it adds a value at right, and this value is a descending value that can produce a high acceleration there
 		#delete that value
@@ -248,12 +258,11 @@ doProcess <- function(options)
 		{
 			if(abs(max(position) - min(position)) >= op$MinHeight) {
 				#Update. Since 1.6.1 on inertial at C# two curves are sent "e" and "c"
-				curveNum <- calcule(displacement, op, curveNum)
+				curveNum <- calcule(displacement, op, curveNum, startInSet)
 			}
 		} else {
-			curveNum <- calcule(displacement, op, curveNum)
+			curveNum <- calcule(displacement, op, curveNum, startInSet)
 		}
-		
 
 		#if(debug)
 		#	write("doProcess 4", stderr())

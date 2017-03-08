@@ -5118,12 +5118,12 @@ public partial class ChronoJumpWindow
 						"{1},{2},{3}," + //start, width, height
 						"{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}",
 					strs[0],
-					0, 0, strs[1],			//start, width, height
-					strs[2], strs[3], strs[4],	//speeds
-					strs[5], strs[6], strs[7],	//powers
-					strs[8],			//pp/ppt
-					strs[9], strs[10], strs[11]));	//forces
-			
+					strs[1], strs[2], strs[3],	//start, width, height
+					strs[4], strs[5], strs[6],	//speeds
+					strs[7], strs[8], strs[9],	//powers
+					strs[10],			//pp/ppt
+					strs[11], strs[12], strs[13]));	//forces
+
 			//LogB.Debug("encoderCaptureStringR");
 			//LogB.Debug(encoderCaptureStringR);
 

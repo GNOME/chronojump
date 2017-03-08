@@ -969,7 +969,8 @@ public class Encoder1RM
 	~Encoder1RM() {}
 }
 
-public class EncoderCaptureCurve {
+public class EncoderCaptureCurve
+{
 	public bool up;
 	public int startFrame;
         public int endFrame;
@@ -987,18 +988,24 @@ public class EncoderCaptureCurve {
 			return "DOWN";
 	}
 
+	public override string ToString()
+	{
+		return "ECC: " + up.ToString() + ";" + startFrame.ToString() + ";" + endFrame.ToString();
+	}
+
 	~EncoderCaptureCurve() {}
 }
 
-public class EncoderCaptureCurveArray {
+public class EncoderCaptureCurveArray
+{
 	public ArrayList ecc;	//each of the EncoderCaptureCurve
 	public int curvesAccepted; //starts at int 0. How many ecc have been accepted (will be rows in treeview_encoder_capture_curves)
 	
 	public EncoderCaptureCurveArray() {
-		ecc = new ArrayList();
+		ecc = new ArrayList(0);
 		curvesAccepted = 0;
 	}
-	
+
 	~EncoderCaptureCurveArray() {}
 }
 

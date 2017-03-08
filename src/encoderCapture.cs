@@ -482,11 +482,13 @@ public abstract class EncoderCapture
 								Networks.WakeUpRaspberryIfNeeded();
 
 							encoderRProcCapture.SendCurve(
+									ecc.startFrame,
 									UtilEncoder.CompressData(curve, 25)	//compressed
 									);
 
 							Ecca.curvesAccepted ++;
 							Ecca.ecc.Add(ecc);
+							LogB.Information(ecc.ToString());
 
 							lastDirectionStoredIsUp = ecc.up;
 						}
@@ -941,7 +943,7 @@ public class BoolMsList
 	}
 
 	//just to debug
-	public void ToString()
+	public void Print()
 	{
 		LogB.Information("Printing BoolMSList");
 		foreach(BoolMs boolMs in l)

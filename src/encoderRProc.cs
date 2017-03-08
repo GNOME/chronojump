@@ -209,7 +209,7 @@ public class EncoderRProcCapture : EncoderRProc
 	}
 	
 	//here curve is sent compressed (string. eg: "0*5 1 0 -1*3 2")
-	public void SendCurve(string curveCompressed)
+	public void SendCurve(int startFrame, string curveCompressed)
 	{
 		/*
 		 * curveCompressed print has made crash Chronojump once.
@@ -217,6 +217,10 @@ public class EncoderRProcCapture : EncoderRProc
 		 * on 2016 August 5 (1.6.2) should be fixed with LogSync class, but for now better leave this commented until more tests are done
 		 */
 		//LogB.Information("curveSend [displacement array]",curveCompressed);
+
+		//since 1.7.1 it's needed to send the startFrame in order to know the startFrame of the accepted repetitions (on R)
+		//then this data will be used to save the "Best?" repetitions on C# without calling curves on cont mode
+		p.StandardInput.WriteLine(startFrame.ToString());
 
 		p.StandardInput.WriteLine(curveCompressed); 	//this will send some lines because compressed data comes with '\n's
 		p.StandardInput.WriteLine("E");		//this will mean the 'E'nd of the curve. Then data can be uncompressed on R

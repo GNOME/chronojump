@@ -5127,12 +5127,12 @@ public partial class ChronoJumpWindow
 			//LogB.Debug("encoderCaptureStringR");
 			//LogB.Debug(encoderCaptureStringR);
 
-			double meanSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[2]));
-			double maxSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[3]));
-			double meanForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[9]));
-			double maxForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[10]));
-			double meanPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[5]));
-			double peakPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[6]));
+			double meanSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[4]));
+			double maxSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[5]));
+			double meanForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[11]));
+			double maxForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[12]));
+			double meanPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[7]));
+			double peakPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[8]));
 			captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanForce, maxForce, meanPower, peakPower));
 			
 			LogB.Information("activating needToRefreshTreeviewCapture");

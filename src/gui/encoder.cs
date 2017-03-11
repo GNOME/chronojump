@@ -1379,6 +1379,7 @@ public partial class ChronoJumpWindow
 				combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, eSQL.ecconLong);
 				combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, eSQL.laterality);
 				spin_encoder_extra_weight.Value = Convert.ToInt32(eSQL.extraWeight);
+				entry_raspberry_extra_weight.Text = Convert.ToInt32(eSQL.extraWeight).ToString();
 
 				preferences.EncoderChangeMinHeight(eSQL.encoderConfiguration.has_inertia, eSQL.minHeight);
 				//TODO: show info to user in a dialog,

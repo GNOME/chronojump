@@ -1420,6 +1420,7 @@ public partial class ChronoJumpWindow
 				}
 
 				encoderConfigurationGUIUpdate();
+				label_encoder_selected.Text = econfSO.name;
 			}
 		}
 

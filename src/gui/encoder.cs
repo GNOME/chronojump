@@ -4565,12 +4565,13 @@ public partial class ChronoJumpWindow
 		Gdk.Window window = ev.Window;
 		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
 
+		LogB.Debug("CONFIGURE");
 
 		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 
 				allocation.Width != encoder_capture_curves_allocationXOld ||
 				allocation.Height != encoder_capture_curves_allocationYOld)
 		{
-			if(encoder_capture_curves_bars_pixmap == null || firstSetOfCont)
+			if(encoder_capture_curves_bars_pixmap == null || ! radio_encoder_capture_cont.Active || firstSetOfCont)
 				encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 
 			callPlotCurvesGraphDoPlot();
@@ -4587,7 +4588,7 @@ public partial class ChronoJumpWindow
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
 		 * Do here the initialization
 		 */
-		//LogB.Debug("EXPOSE");
+		LogB.Debug("EXPOSE");
 
 		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
 		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 

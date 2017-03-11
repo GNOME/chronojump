@@ -5184,7 +5184,7 @@ public partial class ChronoJumpWindow
 		label_encoder_capture_inertial_angle_now.Text = newValue.ToString();
 
 
-		Thread.Sleep (100);
+		Thread.Sleep (50);
 
 		//don't plot info here because this is sorking all the time
 		//LogB.Information(" CapBG:"+ encoderThreadBG.ThreadState.ToString());
@@ -5289,7 +5289,7 @@ public partial class ChronoJumpWindow
 			LogB.Information(" Cur:" + encoderThread.ThreadState.ToString());
 		}
 			
-		Thread.Sleep (100);
+		Thread.Sleep (50);
 
 		return true;
 	}

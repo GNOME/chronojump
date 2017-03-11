@@ -4803,7 +4803,7 @@ msgstr ""
 #: ../src/encoder.cs:1362
 msgid "In the example image demultiplier is 2, hence multiplier is 1/2."
 msgstr ""
-"En la imagen de ejemple, el factor de desmultiplicación es 2, por tanto el "
+"En la imagen de ejemplo, el factor de desmultiplicación es 2, por tanto el "
 "de multiplicación es 1/2."
 
 #: ../src/encoder.cs:1374

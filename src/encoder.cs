@@ -1359,7 +1359,7 @@ public class EncoderConfiguration
 			text = Catalog.GetString("Linear encoder on a inclined plane moving a weight in different angle.") + "\n" +
 				Catalog.GetString("Suitable also for horizontal movement. Just set a 0 push angle.") + "\n" +
 				Catalog.GetString("Force demultiplier refers to the times the rope comes in and comes out from the moving pulley attached to the extra load.") +
-				" " + Catalog.GetString("In the example image it is 1/2.");
+				" " + Catalog.GetString("In the example image demultiplier is 2, hence multiplier is 1/2.");
 
 			has_angle_push = true;
 			has_angle_weight = true;

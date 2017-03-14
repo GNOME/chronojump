@@ -804,8 +804,7 @@ getDynamics <- function(encoderConfigurationName,
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2" ||
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV" ||
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYFRICTION" ||
-	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS" ||
-	   encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY")
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS")
 	{
 		massExtra = getMass(massExtra, gearedDown, anglePush)
 	} 
@@ -836,7 +835,7 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel,
       force <- massTotal*(accel+g)	#g:9.81 (used when movement is against gravity)
     }
   power <- force*speed
-  
+
   return(list(mass=massTotal, force=force, power=power))
 }
 

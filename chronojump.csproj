@@ -1112,6 +1112,7 @@
     <Compile Include="src\Mini\chronojump_mini.cs" />
     <Compile Include="src\encoderCaptureInertialBG.cs" />
     <Compile Include="src\gui\chronojumpIcons.cs" />
+    <Compile Include="src\sprint.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

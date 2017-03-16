@@ -63,23 +63,6 @@ public abstract class EncoderRProc
 	}
 
 
-	protected string pBinURL()
-	{
-		string pBin="Rscript";
-		if (UtilAll.IsWindows())
-		{
-			//on Windows we need the \"str\" to call without problems in path with spaces
-			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
-		}
-		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
-		{
-			pBin = Constants.RScriptOSX;
-		}
-
-		LogB.Information("pBin:", pBin);
-		return pBin;
-	}
-
 	protected virtual void writeOptionsFile()
 	{
 	}
@@ -162,7 +145,7 @@ public class EncoderRProcCapture : EncoderRProc
 		//If output file is not given, R will try to write in the running folder
 		//in which we may haven't got permissions
 
-		string pBin = pBinURL();
+		string pBin = UtilEncoder.RProcessBinURL();
 
 		pinfo = new ProcessStartInfo();
 
@@ -283,7 +266,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 	
 		pinfo = new ProcessStartInfo();
 
-		string pBin = pBinURL();
+		string pBin = UtilEncoder.RProcessBinURL();
 		
 		if (UtilAll.IsWindows()) {
 			//On win32 R understands backlash as an escape character and 

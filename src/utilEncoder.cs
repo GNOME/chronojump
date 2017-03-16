@@ -233,6 +233,15 @@ public class UtilEncoder
 	
 	/********** end of encoder paths ************/
 
+
+	/********** start of r-scripts paths ************/
+
+	public static string GetScriptSprint() {
+		return System.IO.Path.Combine(Util.GetDataDir(), "r-scripts", "sprint.R");
+	}
+
+	/********** end of r-scripts paths ************/
+
 	private static string changeSpaceToSpaceMark(string myString) 
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);
@@ -353,6 +362,23 @@ public class UtilEncoder
 				Util.StringArrayToString(encoderTranslatedWordsOK,";"),
 				debug, crossValidate
 				);
+	}
+
+	public static string RProcessBinURL()
+	{
+		string pBin="Rscript";
+		if (UtilAll.IsWindows())
+		{
+			//on Windows we need the \"str\" to call without problems in path with spaces
+			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
+		}
+		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+		{
+			pBin = Constants.RScriptOSX;
+		}
+
+		LogB.Information("pBin:", pBin);
+		return pBin;
 	}
 
 

@@ -18,17 +18,18 @@
 #   Copyright (C) 2017   	Xavier Padullés <x.padulles@gmail.com>
 
 
-# #Returns the K and Vmax parameters of the sprint using a number of pairs (time, position)
-getSprintFromPhotocell <- function(positions, lapTimes, noise=0){       #noise is for testing purpouses.
-        
-        # Checking that time and positions have the same lenght
+#Returns the K and Vmax parameters of the sprint using a number of pairs (time, position)
+getSprintFromPhotocell <- function(positions, lapTimes, noise=0)
+{
+	#noise is for testing purpouses.
+	# Checking that time and positions have the same length
         if(length(lapTimes) != length(positions)){
                 print("Positions and lapTimes have diferent lengths")
                 return()
         }
         
         # For the correct calculation we need at least 2 values in the position and time
-        if(length(positions < 2)){
+        if(length(positions) < 2){
                 print("Not enough data")
                 return()
         }
@@ -59,8 +60,8 @@ getSprintFromPhotocell <- function(positions, lapTimes, noise=0){       #noise i
 }
 
 #Reads a .rad file, trims the header and the last line and finds the curve that best fits with the data of the file.
-getSprintFromRadar <- function(radFile){
-        
+getSprintFromRadar <- function(radFile)
+{
         nlines = length(readLines(radFile))     # The number of lines of the file
         #Store the values of the file in the radar variable
         #Skips the 18 first lines and the las line
@@ -80,8 +81,9 @@ getSprintFromRadar <- function(radFile){
 
 #Calculates all kinematic and dynamic variables using the sprint parameters (K and Vmax) and the conditions of the test (Mass and Height of the subject,
 #Temperature in the moment of the test and Velocity of the wind).
-getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw = 0, maxTime = 10){ # maxTime is used for the numerical calculations
-        
+getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw = 0, maxTime = 10)
+{
+	# maxTime is used for the numerical calculations
         # Constants for the air friction modeling
         ro0 = 1.293
         Pb = 760
@@ -129,7 +131,8 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
 
 #Finds the time correspondig to a given position in the formula x(t) = Vmax*(t + (1/K)*exp(-K*t)) -Vmax - 1/K
 #Uses the iterative Newton's method of the tangent aproximation
-lapTime <- function(Vmax, K, position, tolerance = 0.001, initTime = 1){
+lapTime <- function(Vmax, K, position, tolerance = 0.001, initTime = 1)
+{
         #Trying to find the solution of Position(time) = f(time)
         #We have to find the time where y = 0.
         y = Vmax*(initTime + (1/K)*exp(-K*initTime)) -Vmax/K - position
@@ -143,7 +146,8 @@ lapTime <- function(Vmax, K, position, tolerance = 0.001, initTime = 1){
 }
 
 # Reads all the .rad files in a folder and processes it geting the kinematics, dynamics, and plotting the graphs in pdf files
-getRadarDynamicsFromFolder <- function(radDir, athletesFile, lapDistance, resultsFile = "results.csv", decimalSeparator =","){
+getRadarDynamicsFromFolder <- function(radDir, athletesFile, lapDistance, resultsFile = "results.csv", decimalSeparator =",")
+{
         #model v(t) = Vmax*(1 - exp(-K*t))
         
         ro0 = 1.293                     #Air density at 1ATM
@@ -322,11 +326,17 @@ getRadarDynamicsFromFolder <- function(radDir, athletesFile, lapDistance, result
 
 #Examples of use
 
-# Vmax = 9.54709925453619
-# K = 0.818488730889454
-# lapTimes = seq(5,10, by=1)
-# position = Vmax*(time + (1/K)*exp(-K*time)) -Vmax/K
-# getSprintFromPhotocell(position = position, lapTimes = time, noise = 1)
+testPhotocells <- function()
+{
+	Vmax = 9.54709925453619
+	K = 0.818488730889454
+	lapTimes = seq(5,10, by=1)
+	position = Vmax*(lapTimes + (1/K)*exp(-K*lapTimes)) -Vmax/K
+	getSprintFromPhotocell(position = position, lapTimes = lapTimes, noise = 1)
+}
+
+testPhotocells()
+
 # getSprintFromRadar("~/Documentos/Radar/APL_post24.rad")
 # getDynamicsFromSprint(K = 0.8184887, Vmax = 9.547099, Mass = 60, Temperature = 25, Height = 1.65 )
-getRadarDynamicsFromFolder(radDir = "~/ownCloud/Xavier/Recerca/Yoyo-Tests/Radar", athletesFile = "~/ownCloud/Xavier/Chronojump/Projectes/Sprint/athletes.csv", lapDistance = c(5,10,20))
+#getRadarDynamicsFromFolder(radDir = "~/ownCloud/Xavier/Recerca/Yoyo-Tests/Radar", athletesFile = "~/ownCloud/Xavier/Chronojump/Projectes/Sprint/athletes.csv", lapDistance = c(5,10,20))

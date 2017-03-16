@@ -640,7 +640,11 @@ public partial class ChronoJumpWindow
 		pingThread.Start();
 
 		//moveStartTestInitial();
+
+		//test calling sprint.R file
+		//new Sprint();
 	}
+
 
 
 /*

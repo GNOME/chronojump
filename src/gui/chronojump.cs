@@ -640,9 +640,6 @@ public partial class ChronoJumpWindow
 		pingThread.Start();
 
 		//moveStartTestInitial();
-
-		//test calling sprint.R file
-		//new Sprint();
 	}
 
 
@@ -2787,6 +2784,7 @@ public partial class ChronoJumpWindow
 				hbox_results_legend.Visible = false;
 				notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on jumps reactive
 			}
+			notebook_capture_analyze.GetNthPage(3).Hide(); //hide sprint page
 		}
 		else if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
@@ -2799,6 +2797,7 @@ public partial class ChronoJumpWindow
 				notebooks_change(2);
 				on_extra_window_runs_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = true;
+				notebook_capture_analyze.GetNthPage(3).Hide(); //hide sprint page
 			}
 			else
 			{
@@ -2806,6 +2805,7 @@ public partial class ChronoJumpWindow
 				notebooks_change(3);
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = false;
+				notebook_capture_analyze.GetNthPage(3).Show(); //show sprint page
 			}
 			notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on runs
 		}
@@ -6289,6 +6289,12 @@ LogB.Debug("X");
 	}
 
 
+	private void on_button_sprint_clicked (object o, EventArgs args)
+	{
+		//test calling sprint.R file
+		new Sprint();
+	}
+
 	/* ---------------------------------------------------------
 	 * ----------------  SENSITIVE GUI METHODS-------------------
 	 *  --------------------------------------------------------
@@ -6442,6 +6448,8 @@ LogB.Debug("X");
 		notebook_capture_analyze.GetNthPage(1).Hide();
 		if(radio_menuitem_mode_jumps_simple.Active)
 			notebook_capture_analyze.GetNthPage(2).Hide();
+		else if(radio_menuitem_mode_runs_intervallic.Active)
+			notebook_capture_analyze.GetNthPage(3).Hide();
 		
 		
 		help_menuitem.Sensitive = false;
@@ -6493,6 +6501,8 @@ LogB.Debug("X");
 		notebook_capture_analyze.GetNthPage(1).Show();
 		if(radio_menuitem_mode_jumps_simple.Active)
 			notebook_capture_analyze.GetNthPage(2).Show();
+		else if(radio_menuitem_mode_runs_intervallic.Active)
+			notebook_capture_analyze.GetNthPage(3).Show();
 
 		help_menuitem.Sensitive = true;
 
@@ -6615,6 +6625,8 @@ LogB.Debug("X");
 		notebook_capture_analyze.GetNthPage(1).Visible = ! start;
 		if(radio_menuitem_mode_jumps_simple.Active)
 			notebook_capture_analyze.GetNthPage(2).Visible = ! start;
+		else if(radio_menuitem_mode_runs_intervallic.Active)
+			notebook_capture_analyze.GetNthPage(3).Visible = ! start;
 
 		//when start, put button delete_last_test as not sensitive
 		//(just for the test previous to the auto process)

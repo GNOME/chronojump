@@ -79,7 +79,7 @@ public abstract class EncoderRProc
 		LogB.Information("pBin:", pBin);
 		return pBin;
 	}
-		
+
 	protected virtual void writeOptionsFile()
 	{
 	}
@@ -224,12 +224,12 @@ public class EncoderRProcCapture : EncoderRProc
 
 		p.StandardInput.WriteLine(curveCompressed); 	//this will send some lines because compressed data comes with '\n's
 		p.StandardInput.WriteLine("E");		//this will mean the 'E'nd of the curve. Then data can be uncompressed on R
-	}	
-	
+	}
+
 	protected override void writeOptionsFile()
 	{
 		optionsFile = Path.GetTempPath() + "Roptions.txt";
-	
+
 		string scriptOptions = UtilEncoder.PrepareEncoderGraphOptions(
 				"none", 	//title
 				es, 

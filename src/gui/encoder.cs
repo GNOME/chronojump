@@ -492,7 +492,7 @@ public partial class ChronoJumpWindow
 	{
 		if(encoderConfigurationCurrent.has_inertia) {
 			if(combo_encoder_anchorage_should_update) {
-				UtilGtk.ComboUpdate(combo_encoder_anchorage, encoderConfigurationCurrent.list_d);
+				UtilGtk.ComboUpdate(combo_encoder_anchorage, encoderConfigurationCurrent.list_d.L);
 				combo_encoder_anchorage.Active = UtilGtk.ComboMakeActive(
 						combo_encoder_anchorage,
 						encoderConfigurationCurrent.d.ToString()
@@ -1522,9 +1522,9 @@ public partial class ChronoJumpWindow
 			label_encoder_exercise_inertia.Visible = true;
 			vbox_encoder_exercise_inertia.Visible = true;
 			
-			if(encoderConfigurationCurrent.list_d != null && encoderConfigurationCurrent.list_d.Count > 0) 
+			if(! encoderConfigurationCurrent.list_d.IsEmpty())
 			{
-				UtilGtk.ComboUpdate(combo_encoder_anchorage, encoderConfigurationCurrent.list_d);
+				UtilGtk.ComboUpdate(combo_encoder_anchorage, encoderConfigurationCurrent.list_d.L);
 				combo_encoder_anchorage.Active = UtilGtk.ComboMakeActive(
 						combo_encoder_anchorage, 
 						encoderConfigurationCurrent.d.ToString()

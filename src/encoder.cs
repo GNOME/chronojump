@@ -111,7 +111,7 @@ public class EncoderParams
 	public string Analysis {
 		get { return analysis; }
 	}
-	
+
 
 	~EncoderParams() {}
 }
@@ -1210,54 +1210,32 @@ public class EncoderConfiguration
 	public int extraWeightGrams; //weight of each extra weight (inertia)
 	public double extraWeightLength; //length from center to center (cm) (inertia)
 	
-	public List<double> list_d;	//list of diameters depending on the anchorage position 
+	public List_d list_d;	//object managing a list of diameters depending on the anchorage position
 
 
 	public string textDefault = Catalog.GetString("Linear encoder attached to a barbell.") + "\n" + 
 		Catalog.GetString("Also common gym tests like jumps or chin-ups.");
 
 	//this is the default values
-	public EncoderConfiguration() {
+	public EncoderConfiguration()
+	{
 		name = Constants.EncoderConfigurationNames.LINEAR;
 		type = Constants.EncoderType.LINEAR;
 		position = 0;
 		image = Constants.FileNameEncoderLinearFreeWeight;
 		code = Constants.DefaultEncoderConfigurationCode;
 		text = textDefault;
-		has_d = false;
-		has_D = false;
-		has_angle_push = false;
-		has_angle_weight = false;
-		has_inertia = false;
-		has_gearedDown = false; //gearedDown can be changed by user
-		rotaryFrictionOnAxis = false;
-		d = -1;
-		D = -1;
-		anglePush = -1;
-		angleWeight = -1;
-		inertiaMachine = -1;
-		gearedDown = 1;
-		inertiaTotal = -1;
-		extraWeightN = 0;
-		extraWeightGrams = 0;
-		extraWeightLength = 1;
-		list_d = new List<double>(); 
+
+		setDefaultOptions();
 	}
 
 	// note: if this changes, change also in:
 	// UtilEncoder.EncoderConfigurationList(enum encoderType)
 	
-	public EncoderConfiguration(Constants.EncoderConfigurationNames name) {
+	public EncoderConfiguration(Constants.EncoderConfigurationNames name)
+	{
 		this.name = name;
-		has_d = false;
-		has_D = false;
-		has_angle_push = false;
-		has_angle_weight = false;
-		has_inertia = false;
-		has_gearedDown = false; //gearedDown can be changed by user
-		rotaryFrictionOnAxis = false;
-		gearedDown = 1;
-		list_d = new List<double>(); 
+		setDefaultOptions();
 
 		// ---- LINEAR ----
 		// ---- not inertial
@@ -1557,12 +1535,35 @@ public class EncoderConfiguration
 		}
 	}
 
-	public void SetInertialDefaultOptions() {
+	private void setDefaultOptions()
+	{
+		has_d = false;
+		has_D = false;
+		has_angle_push = false;
+		has_angle_weight = false;
+		has_inertia = false;
+		has_gearedDown = false; //gearedDown can be changed by user
+		rotaryFrictionOnAxis = false;
+		d = -1;
+		D = -1;
+		anglePush = -1;
+		angleWeight = -1;
+		inertiaMachine = -1;
+		gearedDown = 1;
+		inertiaTotal = -1;
+		extraWeightN = 0;
+		extraWeightGrams = 0;
+		extraWeightLength = 1;
+		list_d = new List_d();
+	}
+
+	public void SetInertialDefaultOptions()
+	{
 		//after creating Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL
 		inertiaMachine = 900;
 		d = 5;
-		list_d = new List<double>(); 
-		list_d.Add(d);
+		list_d = new List_d(d);
+		inertiaTotal = UtilEncoder.CalculeInertiaTotal(this);
 	}
 
 	public void ReadParamsFromSQL (string [] strFull) 
@@ -1574,40 +1575,11 @@ public class EncoderConfiguration
 		this.angleWeight = Convert.ToInt32(strFull[4]);
 		this.inertiaMachine = 	Convert.ToInt32(strFull[5]);
 		this.gearedDown =  Convert.ToInt32(strFull[6]);
-	
-		//this params started at 1.5.1
-		if(strFull.Length > 7) {
-			this.inertiaTotal = 	Convert.ToInt32(strFull[7]);
-			this.extraWeightN = 	Convert.ToInt32(strFull[8]);
-			this.extraWeightGrams = Convert.ToInt32(strFull[9]);
-			this.extraWeightLength = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[10]));
-			if(strFull.Length > 11) //this param starts at 1.5.3
-				this.list_d = readList_d(strFull[11]);
-		} else {
-			this.inertiaTotal = 	inertiaMachine;
-			this.extraWeightN = 	0;
-			this.extraWeightGrams = 0;
-			this.extraWeightLength = 1;
-		}
-
-		//if we load a signal previous to 1.5.3, put d in list_d to have something to be sent to R
-		if(this.list_d.Count == 0)
-			this.list_d.Add(d);
-		else if (this.list_d.Count == 1 && this.list_d[0] == 0) {
-			//check if diameter is zero is safest because some tests have been done while list_d has been completely implemented
-			this.list_d[0] = this.d;
-		}
-	}
-	//list_d contains the different diameters (byt eh anchorages). They are stored as '_'
-	private List<double> readList_d(string listFromSQL) 
-	{
-		List<double> l = new List<double>(); 
-		string [] strFull = listFromSQL.Split(new char[] {'_'});
-		foreach (string s in strFull) {
-			double d = Convert.ToDouble(Util.ChangeDecimalSeparator(s));
-			l.Add(d);
-		}
-		return l;
+		this.inertiaTotal = 	Convert.ToInt32(strFull[7]);
+		this.extraWeightN = 	Convert.ToInt32(strFull[8]);
+		this.extraWeightGrams = Convert.ToInt32(strFull[9]);
+		this.extraWeightLength = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[10]));
+		this.list_d.ReadFromSQL(strFull[11]);
 	}
 
 	public enum Outputs { ROPTIONS, RCSV, SQL, SQLECWINCOMPARE}
@@ -1673,20 +1645,10 @@ public class EncoderConfiguration
 				my_str_extraWeightN + sep +
 				extraWeightGrams.ToString() + sep +
 				extraWeightLength.ToString() + sep +
-				writeList_d(list_d)
-				;
+				list_d.ToString();
 		}
 	}
-	private string writeList_d(List<double> l) {
-		string str = "";
-		string sep = "";
-		foreach(double d in l) {
-			str += sep + Util.ConvertToPoint(d);
-			sep = "_";
-		}
-		return str;
-	}
-	
+
 	//just to show on a treeview	
 	public string ToStringPretty() {
 		string sep = "; ";
@@ -1771,6 +1733,81 @@ public class EncoderConfiguration
 				gearedDown = -2;
 				break;
 		}
+	}
+
+}
+/*
+ * class that manages list of diameters on encoderConfiguration
+ * read_list_d returns a List<double>. when reading a "" value from SQL is usually converted to 0 here
+ * and then a list_d Add will add a new value
+ * control list_d values with this class
+ * if there are no diameters, list_d has one value: 0
+ */
+public class List_d
+{
+	private List<double> l;
+
+	//default constructor
+	public List_d()
+	{
+		l = new List<double>();
+		l.Add(0);
+	}
+	//constructor with a default value
+	public List_d(double d)
+	{
+		l = new List<double>();
+		l.Add(d);
+	}
+
+	//list_d contains the different diameters (anchorages). They are stored as '_'
+	public void ReadFromSQL(string listFromSQL)
+	{
+		l = new List<double>();
+		string [] strFull = listFromSQL.Split(new char[] {'_'});
+		foreach (string s in strFull) {
+			double d = Convert.ToDouble(Util.ChangeDecimalSeparator(s));
+			l.Add(d);
+		}
+
+		if(l.Count == 0)
+			l.Add(0);
+	}
+
+	public void Add(double d)
+	{
+		if(l.Count == 1 && l[0] == 0)
+			l[0] = d;
+		else
+			l.Add(d);
+	}
+
+	public override string ToString()
+	{
+		string str = "";
+		string sep = "";
+		foreach(double d in l) {
+			str += sep + Util.ConvertToPoint(d);
+			sep = "_";
+		}
+
+		if(str == "")
+			str = "0";
+
+		return str;
+	}
+
+	public bool IsEmpty()
+	{
+		if(l == null || l.Count == 0 || (l.Count == 1 && l[0] == 0) )
+			return true;
+
+		return false;
+	}
+
+	public List<double> L
+	{
+		get { return l; }
 	}
 
 }

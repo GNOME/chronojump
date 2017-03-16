@@ -167,6 +167,7 @@ rfid/Makefile
 po/Makefile.in
 chronojump_server/Makefile
 encoder/Makefile
+r-scripts/Makefile
 manual/Makefile
 src/AssemblyInfo.cs
 src/buildInfo.cs

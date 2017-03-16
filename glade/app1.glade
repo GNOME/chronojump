@@ -13580,6 +13580,42 @@ Concentric</property>
                                                 <property name="type">tab</property>
                                               </packing>
                                             </child>
+                                            <child>
+                                              <widget class="GtkHButtonBox" id="hbuttonbox9">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="border_width">10</property>
+                                                <child>
+                                                  <widget class="GtkButton" id="button_sprint">
+                                                    <property name="label">Sprint</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="clicked" handler="on_button_sprint_clicked" swapped="no"/>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="position">3</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label140">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label">Sprint</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="position">3</property>
+                                                <property name="tab_fill">False</property>
+                                                <property name="type">tab</property>
+                                              </packing>
+                                            </child>
                                           </widget>
                                           <packing>
                                             <property name="expand">True</property>
@@ -14016,8 +14052,8 @@ Concentric</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-							  <widget class="GtkLabel" id="label_encoder_selected">
-							    <property name="visible">True</property>
+                                                          <widget class="GtkLabel" id="label_encoder_selected">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                           </widget>
                                                           <packing>
@@ -18886,6 +18922,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

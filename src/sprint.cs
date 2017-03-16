@@ -30,8 +30,11 @@ public class Sprint
 		parameters.Insert(0, "\"" + UtilEncoder.GetScriptSprint() + "\"");
 
 		LogB.Information("\nCalling sprint.R ----->");
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
+
+		//ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
 		//LogB.Information("Result = " + execute_result.stdout);
+		ExecuteProcess.run (executable, parameters);
+
 		LogB.Information("\n<------ Done calling sprint.R.");
 	}
 }

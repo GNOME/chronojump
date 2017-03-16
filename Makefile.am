@@ -4,7 +4,7 @@ CLEANFILES = win32/Makefile win32/chronojump_innosetup.iss
 ACLOCAL_AMFLAGS = -I build/m4 -I build/m4/shave -I build/m4/shamrock
 
 SUBDIRS = build chronopic-firmware rfid \
-	  encoder libcesarplayer CesarPlayer src po manual #chronojump_server (disabled)
+	  encoder r-scripts libcesarplayer CesarPlayer src po manual #chronojump_server (disabled)
 
 if OSTYPE_LINUX
 SUBDIRS += chronopic-tests #chronojump_server (disabled)

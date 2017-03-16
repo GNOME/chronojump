@@ -609,12 +609,14 @@ public class UtilEncoder
 
 
 	public static string EncoderSaveCurve(string fileNameSignal, 
-			int start, int duration, 
+			int start, int duration,
 			int inertialCheckStart, int inertialCheckDuration, 
 			bool inertialCheckPositive, //has to be positive (true) or negative (false)
 			int sessionID, int uniqueID, string personName, string timeStamp, int curveIDMax) 
 	{
 		string contents = Util.ReadFile(fileNameSignal, false);
+
+		LogB.Information("EncoderSaveCurve start:" + start.ToString() + "; duration:" + duration.ToString());
 		
 			
 		/*

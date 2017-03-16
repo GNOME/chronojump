@@ -17,7 +17,6 @@
  *
  * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
  */
-
 using System;
 using System.IO; 
 using Gtk;
@@ -1070,16 +1069,9 @@ public partial class ChronoJumpWindow
 	private void encoderDoCurvesGraphR_curvesAC() {
 		encoderDoCurvesGraphR("curvesAC");
 	}
-	//this is called by non gtk thread. Don't do gtk stuff here
-	//I suppose reading gtk is ok, changing will be the problem
-	//called on calculatecurves, recalculate and load
-	private void encoderDoCurvesGraphR(string analysisSent)
+
+	private void setLastEncoderSQLSignal()
 	{
-		LogB.Debug("encoderDoCurvesGraphR() start");
-		string analysis = analysisSent;
-
-		string analysisOptions = getEncoderAnalysisOptions();
-
 		//without this we loose the videoURL on recalculate
 		string videoURL = "";		
 		if(encoderSignalUniqueID != null && encoderSignalUniqueID != "-1") {
@@ -1111,7 +1103,19 @@ public partial class ChronoJumpWindow
 				Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise_capture), 
 					encoderExercisesTranslationAndBodyPWeight)	//exerciseName (english)
 				);
+	}
 
+	//this is called by non gtk thread. Don't do gtk stuff here
+	//I suppose reading gtk is ok, changing will be the problem
+	//called on calculatecurves, recalculate and load
+	private void encoderDoCurvesGraphR(string analysisSent)
+	{
+		LogB.Debug("encoderDoCurvesGraphR() start");
+
+		setLastEncoderSQLSignal();
+
+		string analysis = analysisSent;
+		string analysisOptions = getEncoderAnalysisOptions();
 
 		EncoderParams ep = new EncoderParams(
 				preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia), 
@@ -2214,9 +2218,19 @@ public partial class ChronoJumpWindow
 		capturingCsharp = encoderCaptureProcess.STOPPING;
 
 		//will start calcule curves thread
-		if(capturedOk) {
-			LogB.Debug("Going to encoderCalculeCurves");		
-			encoderCalculeCurves(encoderActions.CURVES_AC);
+		if(capturedOk)
+		{
+			if(radio_encoder_capture_cont.Active && ! captureContWithCurves)
+			{
+				LogB.Debug("Don't need to to encoderCalculeCurves");
+				encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
+				encoderSignalUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database
+				setLastEncoderSQLSignal();
+			} else
+			{
+				LogB.Debug("Going to encoderCalculeCurves");
+				encoderCalculeCurves(encoderActions.CURVES_AC);
+			}
 		} else
 			encoderProcessCancel = true;
 	}
@@ -5623,6 +5637,7 @@ public partial class ChronoJumpWindow
 	// -------------- end of drawingarea_encoder_analyze_instant
 
 
+	bool captureContWithCurves = true;
 	private void finishPulsebar(encoderActions action) {
 		if(
 				action == encoderActions.CAPTURE || 
@@ -5668,30 +5683,37 @@ public partial class ChronoJumpWindow
 				if(notebook_encoder_capture.CurrentPage == 0)
 					notebook_encoder_capture.NextPage();
 
-				List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName());
-				
-				image_encoder_capture = UtilGtk.OpenImageSafe(
-						UtilEncoder.GetEncoderGraphTempFileName(),
-						image_encoder_capture);
-				
-				encoderUpdateTreeViewCapture(contents); //this updates encoderCaptureCurves
-				image_encoder_capture.Sensitive = true;
-
-				//plot curves bars graph
+				//variables for plotting curves bars graph
 				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
 				double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
-			
-				captureCurvesBarsData = new ArrayList();
-				foreach (EncoderCurve curve in encoderCaptureCurves) {
-					captureCurvesBarsData.Add(new EncoderBarsData(
-								Convert.ToDouble(curve.MeanSpeed), 
-								Convert.ToDouble(curve.MaxSpeed), 
-								Convert.ToDouble(curve.MeanForce), 
-								Convert.ToDouble(curve.MaxForce), 
-								Convert.ToDouble(curve.MeanPower), 
-								Convert.ToDouble(curve.PeakPower)
-								));
+
+				if(radio_encoder_capture_cont.Active && ! captureContWithCurves)
+				{
+					//will use captureCurvesBarsData (created on capture)
+					LogB.Information("at fff with captureCurvesBarsData =");
+					LogB.Information(captureCurvesBarsData.Count.ToString());
+				} else {
+					List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName());
+
+					image_encoder_capture = UtilGtk.OpenImageSafe(
+							UtilEncoder.GetEncoderGraphTempFileName(),
+							image_encoder_capture);
+
+					encoderUpdateTreeViewCapture(contents); //this updates encoderCaptureCurves
+					image_encoder_capture.Sensitive = true;
+
+					captureCurvesBarsData = new ArrayList();
+					foreach (EncoderCurve curve in encoderCaptureCurves) {
+						captureCurvesBarsData.Add(new EncoderBarsData(
+									Convert.ToDouble(curve.MeanSpeed),
+									Convert.ToDouble(curve.MaxSpeed),
+									Convert.ToDouble(curve.MeanForce),
+									Convert.ToDouble(curve.MaxForce),
+									Convert.ToDouble(curve.MeanPower),
+									Convert.ToDouble(curve.PeakPower)
+									));
+					}
 				}
 
 
@@ -5734,7 +5756,6 @@ public partial class ChronoJumpWindow
 				LogB.Information(" encoderSignalUniqueID:" + encoderSignalUniqueID);
 				if(encoderSignalUniqueID != "-1")
 				{
-
 					// TODO: we never use findEccon() return value. We might be able to stop calling findEccon()
 					// since it doesn't seem to do anything else other than returning the value.
 					// This needs to be checked if working on this code.

@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.37";
+	static string lastChronojumpDatabaseVersion = "1.38";
 
 	public Sqlite() {
 	}
@@ -2079,6 +2079,71 @@ class Sqlite
 
 				currentVersion = updateVersion("1.37");
 			}
+			if(currentVersion == "1.37")
+			{
+				/*
+				 * encoderConfiguration has 7 values, 11 at 1.5.1 and 12 from 1.5.3.
+				 * I't safe to convert everything to 12
+				 * Example of checking the number of values using the separator (colon) character
+				 * SELECT LENGTH(encoderConfiguration) - LENGTH(REPLACE(encoderConfiguration, ":", "")) AS colons, count(*) FROM encoder GROUP BY colons;
+				 * 6|2149
+				 * 10|74
+				 * 11|1505
+				 * */
+
+				//encoderConfiguration table. Update fields with 6 ':'
+				executeSQL("UPDATE encoderConfiguration " +
+						"SET encoderConfiguration = encoderConfiguration || \":-1:0:0:1:0\" " +
+						"WHERE LENGTH(encoderConfiguration) - LENGTH(REPLACE(encoderConfiguration, \":\", \"\")) = 6");
+
+				//encoderConfiguration table. Update fields with 10 ':'
+				executeSQL("UPDATE encoderConfiguration " +
+						"SET encoderConfiguration = encoderConfiguration || \":0\" " +
+						"WHERE LENGTH(encoderConfiguration) - LENGTH(REPLACE(encoderConfiguration, \":\", \"\")) = 10");
+
+				//encoder table. Update fields with 6 ':'
+				executeSQL("UPDATE encoder " +
+						"SET encoderConfiguration = encoderConfiguration || \":-1:0:0:1:0\" " +
+						"WHERE LENGTH(encoderConfiguration) - LENGTH(REPLACE(encoderConfiguration, \":\", \"\")) = 6");
+
+				//encoder table. Update fields with 10 ':'
+				executeSQL("UPDATE encoder " +
+						"SET encoderConfiguration = encoderConfiguration || \":0\" " +
+						"WHERE LENGTH(encoderConfiguration) - LENGTH(REPLACE(encoderConfiguration, \":\", \"\")) = 10");
+
+
+				/*
+				 * encoderConfiguration last parameter: list_d when is not used, sometimes is ":" or ":0" or ":-1"
+				 * Convert all to ":0" that's how is going to be always when there are empty vales, from now on
+				 *
+				 * Don't use REPLACE because it will change all the -1 and not just the last one
+				 */
+
+				// A) encoderConfiguration table
+				// If ends with ":" convert to ":0"
+				executeSQL("UPDATE encoderConfiguration " +
+						"SET encoderConfiguration = encoderConfiguration || \"0\" " +
+						"WHERE SUBSTR(encoderConfiguration, -1, 1) = \":\"");
+
+				// If ends with ":-1" convert to ":0"
+				executeSQL("UPDATE encoderConfiguration " +
+						"SET encoderConfiguration = SUBSTR(encoderConfiguration, 0, LENGTH(encoderConfiguration) +1 -2) || \"0\" " +
+						"WHERE SUBSTR(encoderConfiguration, -3, 3) = \":-1\"");
+
+				// B) encoder table
+				// If ends with ":" convert to ":0"
+				executeSQL("UPDATE encoder " +
+						"SET encoderConfiguration = encoderConfiguration || \"0\" " +
+						"WHERE SUBSTR(encoderConfiguration, -1, 1) = \":\"");
+
+				// If ends with ":-1" convert to ":0"
+				executeSQL("UPDATE encoder " +
+						"SET encoderConfiguration = SUBSTR(encoderConfiguration, 0, LENGTH(encoderConfiguration) +1 -2) || \"0\" " +
+						"WHERE SUBSTR(encoderConfiguration, -3, 3) = \":-1\"");
+
+				currentVersion = updateVersion("1.38");
+			}
+
 
 			// --- add more updates here
 		
@@ -2097,6 +2162,13 @@ class Sqlite
 		return returnSoftwareIsNew;
 	}
 	
+	private static void executeSQL(string command)
+	{
+		dbcmd.CommandText = command;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+	}
+
 	private static string updateVersion(string newVersion) {
 		SqlitePreferences.Update ("databaseVersion", newVersion, true); 
 		return newVersion;
@@ -2248,6 +2320,9 @@ class Sqlite
 		SqliteChronopicRegister.createTableChronopicRegister();
 
 		//changes [from - to - desc]
+		//1.37 - 1.38 Converted DB to 1.38 encoderConfiguration always with 12 values. Empty encoderConfiguration list_d as '' instead of '-1' or '0'
+		//1.36 - 1.37 Converted DB to 1.37 Deleted encoderConfiguration variable. Added encoderConfiguration table (1.36)
+		//1.35 - 1.36 Converted DB to 1.36 Deleted encoderConfiguration table
 		//1.34 - 1.35 Converted DB to 1.35 Added encoderConfiguration table
 		//1.33 - 1.34 Converted DB to 1.34 Added thresholdJumps, thresholdRuns, thresholdOther to preferences
 		//1.32 - 1.33 Converted DB to 1.33 Added chronopicRegister table

@@ -291,19 +291,19 @@ public class EncoderConfigurationWindow
 			showHideSide(sideModes.HIDDEN);
 	}
 	
-	private void putValuesStoredPreviously(double d, List<double> list_d, double D, int anglePush, int angleWeight, 
-			int inertia, int extraWeightGrams, double extraWeightLength, 
-			bool has_gearedDown, string gearedUpDisplay) 
+	private void putValuesStoredPreviously(double d, List_d list_d, double D, int anglePush, int angleWeight,
+			int inertia, int extraWeightGrams, double extraWeightLength,
+			bool has_gearedDown, string gearedUpDisplay)
 	{
 		if(d != -1)
 			spin_d.Value = d;
-		if(list_d != null && list_d.Count > 0) {
+		if(! list_d.IsEmpty()) {
 			//when there's 1 value in list_d, first value (0) in combo should be selected
-			combo_d_num.Active = list_d.Count -1; //this will perform a reset on spinbuttons
+			combo_d_num.Active = list_d.L.Count -1; //this will perform a reset on spinbuttons
 		
 			int i = 0;
 			foreach(Gtk.SpinButton sp in hbox_list_d.Children)
-				sp.Value = list_d[i ++];
+				sp.Value = list_d.L[i ++];
 		}
 
 		if(D != -1)
@@ -395,14 +395,15 @@ public class EncoderConfigurationWindow
 		hbox_list_d.ShowAll();
 	}
 	
-	private List<double> get_list_d	() {
-		List<double> l = new List<double>(); 
+	private List_d get_list_d()
+	{
+		List_d list_d = new List_d();
 		double d = new double();
 		foreach(Gtk.SpinButton sp in hbox_list_d.Children) {
 			d = (double) sp.Value;
-			l.Add(d);
+			list_d.Add(d);
 		}
-		return l;
+		return list_d;
 	}
 	
 	/*
@@ -416,11 +417,16 @@ public class EncoderConfigurationWindow
 		EncoderConfiguration ec = (EncoderConfiguration) list[listCurrent];
 		
 		ec.d = -1;
-		ec.list_d = new List<double>(); 
+		ec.list_d = new List_d();
 		ec.D = -1;
 		ec.anglePush = -1;
 		ec.angleWeight = -1;
 		ec.inertiaMachine = -1;
+		ec.gearedDown = 1;
+		ec.inertiaTotal = -1;
+		ec.extraWeightN = 0;
+		ec.extraWeightGrams = 0;
+		ec.extraWeightLength = 1;
 		
 		if(ec.has_d) {
 			if(ec.has_inertia)
@@ -432,7 +438,7 @@ public class EncoderConfigurationWindow
 				{
 					LogB.Information("main_gui_anchorage = " + main_gui_anchorage_str);
 					double guiAnchorage = Convert.ToDouble(main_gui_anchorage_str);
-					foreach(double d in ec.list_d) {
+					foreach(double d in ec.list_d.L) {
 						LogB.Information("d = " + d.ToString());
 						if(d == guiAnchorage) {
 							ec.d = guiAnchorage;
@@ -443,7 +449,7 @@ public class EncoderConfigurationWindow
 				}
 
 				if(! found)
-					ec.d = ec.list_d[0];
+					ec.d = ec.list_d.L[0];
 			}
 			else
 				ec.d = (double) spin_d.Value; 

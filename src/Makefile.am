@@ -21,6 +21,7 @@ SOURCES = \
 	gui/eventGraphConfigure.cs\
 	gui/event.cs\
 	gui/executeAuto.cs\
+	gui/forceSensor.cs\
 	gui/guiTests.cs\
 	gui/jump.cs\
 	gui/jumpsProfile.cs\

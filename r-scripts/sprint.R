@@ -88,7 +88,7 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
         ro0 = 1.293
         Pb = 760
         Cd = 0.9
-        ro = ro0*(Pb/760)*273/(273 + athletes$Temperature[n])
+        ro = ro0*(Pb/760)*273/(273 + Temperature)
         Af = 0.2025*(Height^0.725)*(Mass^0.425)*0.266 # Model of the frontal area
         Ka = 0.5*ro*Af*Cd
         
@@ -102,9 +102,10 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
 
         # Getting values from the exponential model. Used for numerical calculations
         time = seq(0,maxTime, by = 0.01)      
-        vfitted=Vmax*(1-exp(-K*time))
-        ffitted = Vmax*Mass*K*(1 - vfitted/Vmax) + Ka*(vfitted - Vw)^2
-        power.fitted = ffitted * vfitted
+        v.fitted=Vmax*(1-exp(-K*time))
+        a.fitted = Vmax*K*(1 - v.fitted/Vmax)
+        f.fitted = Vmax*Mass*K*(1 - v.fitted/Vmax) + Ka*(v.fitted - Vw)^2
+        power.fitted = f.fitted * v.fitted
         pmax.fitted = max(power.fitted)                 #TODO: Make an interpolation between the two closest points
         pmax.rel.fitted = pmax.fitted / Mass
         tpmax.fitted = time[which.max(power.fitted)]
@@ -115,7 +116,7 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
         # Faero(v) = Ka*(V - Va)²
         # Ka = 0.5 * ro * Af * Cd
         
-        fvModel = lm(ffitted ~ vfitted)              # Linear regression of the fitted values
+        fvModel = lm(f.fitted ~ v.fitted)              # Linear regression of the fitted values
         F0 = fvModel$coefficients[1]                 # The same as fmax.fitted. F0 is the interception of the linear regression with the vertical axis
         F0.rel = F0 / Mass
         sfv.lm = fvModel$coefficients[2]             # Slope of the linear regression
@@ -124,9 +125,10 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
         pmax.lm = V0 * F0/4                          # Max Power Using the linear regression. The maximum is found in the middle of the parabole p(v)
         pmax.rel.lm = pmax.lm / Mass
         
-        return(list(amax.fitted = amax.fitted, fmax.fitted = fmax.fitted, fmax.rel.fitted = fmax.rel.fitted, sfv.fitted = sfv.fitted, sfv.rel.fitted = sfv.rel.fitted,
+        return(list(Mass = Mass, Height = Height, Temperature = Temperature, Vw = Vw, Ka = Ka, K.fitted = K, Vmax.fitted = Vmax,
+                    amax.fitted = amax.fitted, fmax.fitted = fmax.fitted, fmax.rel.fitted = fmax.rel.fitted, sfv.fitted = sfv.fitted, sfv.rel.fitted = sfv.rel.fitted,
                     pmax.fitted = pmax.fitted, pmax.rel.fitted = pmax.rel.fitted, tpmax.fitted = tpmax.fitted, F0 = F0, F0.rel = F0.rel, V0 = V0,
-                    sfv.lm = sfv.lm, sfv.rel.lm = sfv.rel.lm, pmax.lm = pmax.lm, pmax.rel.lm = pmax.rel.lm ))
+                    sfv.lm = sfv.lm, sfv.rel.lm = sfv.rel.lm, pmax.lm = pmax.lm, pmax.rel.lm = pmax.rel.lm, v.fitted = v.fitted, a.fitted = a.fitted, f.fitted = f.fitted, p.fitted = power.fitted ))
 }
 
 #Finds the time correspondig to a given position in the formula x(t) = Vmax*(t + (1/K)*exp(-K*t)) -Vmax - 1/K
@@ -206,8 +208,10 @@ getRadarDynamicsFromFolder <- function(radDir, athletesFile, lapDistance, result
                                  n = nlines - 19)                   #The last line contains "END OF FILE" So it is discarded
                 radar = data.frame(t = na.omit(radar[,2]), v= na.omit(radar[,3]), position = na.omit(radar[,5]))        #Discarding NA values
                 
+                options(warn = -1)
                 #Adjusting the measured data to the model of getSprintFromRadar
                 model = getSprintFromRadar(paste(radDir, "/", originalFiles[n], sep=""))
+                options(warn = 0)
                 K = model$K
                 Vmax = model$Vmax
                 
@@ -257,13 +261,9 @@ getRadarDynamicsFromFolder <- function(radDir, athletesFile, lapDistance, result
                 
                 # In vel.global is stored all the predicted speeds of all tests. It is used to see how good are the predictions
                 v.fitted.global = c(v.fitted.global, v.fitted)
-                
-                ###################################################
-                #            Plotting all graphs                  #
-                ###################################################
-                
-                
-                
+
+                ########## Plotting all graphs ###########
+ 
                 # Create the directory. If it exists it isn't overwritten.
                 dir.create(paste(radDir,"/graphs", sep=""), showWarnings=F)
                 
@@ -324,19 +324,77 @@ getRadarDynamicsFromFolder <- function(radDir, athletesFile, lapDistance, result
         return(results)
 }
 
+drawSprintFromPhotocells <- function(sprintDynamics, lapTimes, positions, title, plotFittedSpeed = T, plotFittedAccel = T, plotFittedForce = T, plotFittedPower = T)
+{
+        
+        maxTime = lapTimes[length(lapTimes)]
+        time = seq(0, maxTime, by=0.01)
+        #Calculating measured average speeds
+        avg.speeds = diff(positions)/diff(lapTimes)
+        textXPos = lapTimes[1:length(lapTimes) - 1] + diff(lapTimes)/2
+        
+        # Plotting average speed
+        pdf("/tmp/photocellsSprintGraph.pdf", width = 16, height = 8)
+        barplot(height = avg.speeds, width = diff(lapTimes), space = 0, ylim = c(0, max(avg.speeds) + 1), main=title, xlab="Time(s)", ylab="Velocity(m/s)", axes = FALSE, yaxs= "i", xaxs = "i")
+        text(textXPos, avg.speeds, round(avg.speeds, digits = 2), pos = 3)
+        
+        # Fitted speed plotting
+        par(new=T)
+        plot(time, sprintDynamics$v.fitted, , type = "l", xlab="", ylab = "",  ylim = c(0, max(avg.speeds) + 1), yaxs= "i", xaxs = "i") # Fitted data
+        text(4, 6, substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax=round(sprintDynamics$Vmax.fitted, digits=3), K=round(K, digits=3))), pos=4, cex=2)
+        
+        if(plotFittedAccel)
+        {
+                par(new = T)
+                plot(time, sprintDynamics$a.fitted, type = "l", col = "green", yaxs= "i", xaxs = "i", xlab="", ylab = "", axes = FALSE )
+        }
+        
+        #Force plotting
+        if(plotFittedForce)
+        {
+                par(new=T)
+                plot(time, sprintDynamics$f.fitted, type="l", axes = FALSE, xlab="", ylab="", col="blue", ylim=c(0,sprintDynamics$fmax.fitted), yaxs= "i", xaxs = "i")
+        }
+        
+        #Power plotting
+        if(plotFittedPower)
+        {
+                par(new=T)
+                plot(time, sprintDynamics$p.fitted, type="l", axes = FALSE, xlab="", ylab="", col="red", ylim=c(0,sprintDynamics$pmax.fitted), yaxs= "i", xaxs = "i")
+                print(paste("Power =",sprintDynamics$power.fitted))
+                abline(v = sprintDynamics$tpmax.fitted, col="red")
+                axis(4, col="red")
+                mtext(4, text="Power(W/Kg)", col="red")
+                text(3, 250, substitute(P(t) == A*e^(-K*t)*(1-e^(-K*t)) + B*(1-e^(-K*t))^3, 
+                                        list(A=round(sprintDynamics$Vmax.fitted^2*sprintDynamics$Mass, digits=3), 
+                                             B = round(sprintDynamics$Vmax.fitted^3*sprintDynamics$Ka, digits = 3),
+                                             Vmax=round(sprintDynamics$Vmax.fitted, digits=3),
+                                             K=round(K, digits=3))),
+                     pos=4, cex=1, col ="red")
+                dev.off()
+        }
+        
+}
+
 #Examples of use
 
 testPhotocells <- function()
 {
 	Vmax = 9.54709925453619
 	K = 0.818488730889454
-	lapTimes = seq(5,10, by=1)
-	position = Vmax*(lapTimes + (1/K)*exp(-K*lapTimes)) -Vmax/K
-	getSprintFromPhotocell(position = position, lapTimes = lapTimes, noise = 1)
+	noise = 0
+	lapTimes = seq(0,10, by=1)
+	#lapTimes = c(0, 1, 5, 10)
+	positions = Vmax*(lapTimes + (1/K)*exp(-K*lapTimes)) -Vmax/K
+	photocell.noise = data.frame(time = lapTimes + noise*rnorm(length(lapTimes), 0, 1), position = positions)
+	sprint = getSprintFromPhotocell(position = photocell.noise$position, lapTimes = photocell.noise$time)
+	sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, 75, 25, 1.65)
+	print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
+	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, lapTimes, positions, title = "Testing graph")
 }
 
 testPhotocells()
 
 # getSprintFromRadar("~/Documentos/Radar/APL_post24.rad")
 # getDynamicsFromSprint(K = 0.8184887, Vmax = 9.547099, Mass = 60, Temperature = 25, Height = 1.65 )
-#getRadarDynamicsFromFolder(radDir = "~/ownCloud/Xavier/Recerca/Yoyo-Tests/Radar", athletesFile = "~/ownCloud/Xavier/Chronojump/Projectes/Sprint/athletes.csv", lapDistance = c(5,10,20))
+# getRadarDynamicsFromFolder(radDir = "~/ownCloud/Xavier/Recerca/Yoyo-Tests/Radar", athletesFile = "~/ownCloud/Xavier/Chronojump/Projectes/Sprint/athletes.csv", lapDistance = c(5,10,20))

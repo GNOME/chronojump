@@ -52,6 +52,19 @@ public class CjCombo
 		UtilGtk.ComboUpdate(combo, namesToCombo, "");
 		combo.Active = 0;
 	}
+	//used when strings are not translatable, like port names
+	public void FillNoTranslate()
+	{
+		select();
+
+		string [] namesToCombo = new String [l_types.Count];
+		int i =0;
+		foreach(string type in l_types)
+			namesToCombo[i++] = type;
+
+		UtilGtk.ComboUpdate(combo, namesToCombo, "");
+		combo.Active = 0;
+	}
 	
 	protected void package() 
 	{
@@ -188,5 +201,26 @@ public class CjComboSelectRunsI : CjCombo
 	protected override void select()
 	{
 		l_types = (List<object>) SqliteRunIntervalType.SelectRunIntervalTypesNew("", false); //without allrunsname, not only name
+	}
+}
+
+public class CjComboForceSensorPorts : CjCombo
+{
+	public CjComboForceSensorPorts(Gtk.ComboBox combo_force_sensor_ports, Gtk.HBox hbox_combo_force_sensor_ports)
+	{
+		this.combo = combo_force_sensor_ports;
+		this.hbox = hbox_combo_force_sensor_ports;
+
+		create();
+		FillNoTranslate();
+		package();
+	}
+
+	protected override void select()
+	{
+		l_types = new List<object>();
+		string [] strArray = ChronopicPorts.GetPorts();
+		foreach(string str in strArray)
+			l_types.Add(str);
 	}
 }

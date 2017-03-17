@@ -92,6 +92,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_mode_reaction_times_small;
 	[Widget] Gtk.RadioButton radio_mode_pulses_small;
 	[Widget] Gtk.RadioButton radio_mode_multi_chronopic_small;
+	[Widget] Gtk.RadioButton radio_mode_force_sensor_small;
+
 	[Widget] Gtk.RadioButton radio_mode_encoder_capture_small;
 	[Widget] Gtk.RadioButton radio_mode_encoder_analyze_small;
 	[Widget] Gtk.Image image_mode_jumps_small;
@@ -492,6 +494,8 @@ public partial class ChronoJumpWindow
 				myType = currentPulseType;
 			else //if(radio_mode_multi_chronopic_small.Active)
 				myType = currentMultiChronopicType;
+			//else //if(radio_mode_force_sensor_small.Active)
+			//	myType = currentForceType;
 		}
 			
 		if(myType.Name == "DJa" && extra_window_jumps_check_dj_fall_calculate.Active)
@@ -787,6 +791,16 @@ public partial class ChronoJumpWindow
 			vbox_last_test_buttons.Sensitive = false;
 			notebooks_change(6);
 			on_extra_window_multichronopic_test_changed(obj, args);
+			hbox_results_legend.Visible = false;
+		}
+	}
+
+	public void on_radio_mode_force_sensor_small_toggled (object obj, EventArgs args) {
+		if(radio_mode_force_sensor_small.Active)
+		{
+			vbox_last_test_buttons.Sensitive = false;
+			notebooks_change(7);
+			//on_extra_window_force_sensor_test_changed(obj, args);
 			hbox_results_legend.Visible = false;
 		}
 	}
@@ -3442,6 +3456,16 @@ public partial class ChronoJumpWindow
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 
 	{
+		if(radio_mode_force_sensor_small.Active) {
+			LogB.Debug("radio_mode_force_sensor");
+			/*
+			 * force sensor is not FTDI
+			 on_force_sensor_activate(canCaptureC);
+			 */
+			force_sensor_capture();
+			return;
+		}
+
 		// stop capturing inertial on the background if we start capturing a contacts test
 		if(encoderThreadBG != null && encoderThreadBG.IsAlive)
 		{
@@ -4899,6 +4923,9 @@ LogB.Debug("X");
 								currentMultiChronopic.Cp3OutStr,
 								currentMultiChronopic.Cp4InStr, 
 								currentMultiChronopic.Cp4OutStr);
+					break;
+				case EventType.Types.FORCESENSOR:
+					LogB.Information("Cannot update of force sensor");
 					break;
 			}
 		}

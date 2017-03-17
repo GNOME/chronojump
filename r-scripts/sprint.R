@@ -340,8 +340,8 @@ drawSprintFromPhotocells <- function(sprintDynamics, lapTimes, positions, title,
         
         # Fitted speed plotting
         par(new=T)
-        plot(time, sprintDynamics$v.fitted, , type = "l", xlab="", ylab = "",  ylim = c(0, max(avg.speeds) + 1), yaxs= "i", xaxs = "i") # Fitted data
-        text(4, 6, substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax=round(sprintDynamics$Vmax.fitted, digits=3), K=round(K, digits=3))), pos=4, cex=2)
+        plot(time, sprintDynamics$v.fitted, type = "l", xlab="", ylab = "",  ylim = c(0, max(avg.speeds) + 1), yaxs= "i", xaxs = "i") # Fitted data
+        text(4, 6, substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax=round(sprintDynamics$Vmax.fitted, digits=3), K=round(sprintDynamics$K.fitted, digits=3))), pos=4, cex=2)
         
         if(plotFittedAccel)
         {
@@ -369,7 +369,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, lapTimes, positions, title,
                                         list(A=round(sprintDynamics$Vmax.fitted^2*sprintDynamics$Mass, digits=3), 
                                              B = round(sprintDynamics$Vmax.fitted^3*sprintDynamics$Ka, digits = 3),
                                              Vmax=round(sprintDynamics$Vmax.fitted, digits=3),
-                                             K=round(K, digits=3))),
+                                             K=round(sprintDynamics$K.fitted, digits=3))),
                      pos=4, cex=1, col ="red")
                 dev.off()
         }

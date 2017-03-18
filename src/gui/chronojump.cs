@@ -118,7 +118,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_export_encoder_signal;
 
 	//contact tests execute buttons
-	//[Widget] Gtk.Image image_button_execute;
 	[Widget] Gtk.Image image_button_finish;
 	[Widget] Gtk.Image image_button_cancel; //needed this specially because theme cancel sometimes seems "record"
 	//encoder tests execute buttons

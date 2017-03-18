@@ -358,6 +358,7 @@ RESOURCES = \
 	../images/md/ic_gravity_1x.png,image_gravity.png \
 	../images/md/ic_settings_backup_restore_blue_24dp_1x.png,image_inertia.png \
 	../images/md/ic_timer_blue_24dp_1x.png,image_capture.png \
+	../images/md/ic_timer_blue_24dp_2x.png,image_capture_big.png \
 	../images/md/ic_insert_chart_blue_24dp_1x.png,image_analyze.png \
 	../images/md/ic_developer_board_blue_24dp_1x.png,image_chronopic_connect.png \
 	../images/md/ic_person_blue_24dp_1x.png,image_person.png \

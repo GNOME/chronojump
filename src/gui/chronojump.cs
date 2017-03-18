@@ -3456,7 +3456,7 @@ public partial class ChronoJumpWindow
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 
 	{
-		if(radio_mode_force_sensor_small.Active) {
+		if(radio_menuitem_mode_other.Active && radio_mode_force_sensor_small.Active) {
 			LogB.Debug("radio_mode_force_sensor");
 			/*
 			 * force sensor is not FTDI

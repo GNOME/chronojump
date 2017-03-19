@@ -955,6 +955,12 @@ public class Util
 
 	/********** end of multimedia paths ************/
 	
+	public static string GetThemeDir() {
+		return Path.Combine(GetDataDir(), "theme");
+	}
+	public static string GetThemeFile() {
+		return Path.Combine(GetThemeDir(), "gtk-2.0" + Path.DirectorySeparatorChar + "gtkrc");
+	}
 
 	/********** start of encoder paths ************/
 

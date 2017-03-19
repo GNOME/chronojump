@@ -78,7 +78,9 @@ public class ChronoJump
 		var rBinPath = "";
 		baseDirectory = Util.GetPrefixDir();
 
-		//Rc.AddDefaultFile ("/home/xavier/informatica/progs_meus/chronojump/chronojump/data/theme/gtk-2.0/gtkrc");
+		//location of gtkrc file
+		Rc.AddDefaultFile (Util.GetThemeFile());
+		LogB.Information("gtk theme:" + Util.GetThemeFile());
 
 		if(UtilAll.IsWindows()) {
 			//Environment.SetEnvironmentVariable ("R_HOME", RelativeToPrefix ("library"));

@@ -53,7 +53,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture_execute;
 	[Widget] Gtk.Image image_encoder_exercise_add;
 	[Widget] Gtk.Image image_encoder_exercise_edit;
-	[Widget] Gtk.Image image_encoder_exercise_close;
+	//[Widget] Gtk.Image image_encoder_exercise_close;
 	[Widget] Gtk.Image image_inertial_rolled;
 	[Widget] Gtk.Image image_inertial_extended;
 
@@ -135,8 +135,8 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
 		image_encoder_exercise_edit.Pixbuf = pixbuf;
 		image_edit_current_person.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
-		image_encoder_exercise_close.Pixbuf = pixbuf;
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+		//image_encoder_exercise_close.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_up.png");
 		image_persons_up.Pixbuf = pixbuf;

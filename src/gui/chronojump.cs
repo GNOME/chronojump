@@ -570,6 +570,7 @@ public partial class ChronoJumpWindow
 		//reaction_times has no combo
 		createComboPulses();
 		//createComboMultiChronopic();
+		createComboForceSensorPorts(true);
 		createdStatsWin = false;
 		
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();

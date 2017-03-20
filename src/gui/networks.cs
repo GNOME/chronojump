@@ -33,6 +33,10 @@ public partial class ChronoJumpWindow
 {
 	//custom buttons
 	[Widget] Gtk.HBox hbox_encoder_analyze_signal_or_curves;
+	[Widget] Gtk.VBox vbox_start_window_main;
+	[Widget] Gtk.VBox vbox_start_window_sub;
+	[Widget] Gtk.Alignment alignment_start_window;
+	[Widget] Gtk.Alignment alignment_encoder_capture_options;
 			
 	//RFID
 	[Widget] Gtk.HBox hbox_rfid;
@@ -78,7 +82,16 @@ public partial class ChronoJumpWindow
 
 		if(configChronojump.Maximized)
 			app1.Maximize();
-		if(configChronojump.CustomButtons) {
+		if(configChronojump.CustomButtons)
+		{
+			//---- start window ----
+
+			vbox_start_window_main.Spacing = 0;
+			vbox_start_window_sub.Spacing = 0;
+			alignment_start_window.TopPadding = 0;
+			alignment_start_window.BottomPadding = 2;
+			alignment_encoder_capture_options.TopPadding = 0;
+			alignment_encoder_capture_options.BottomPadding = 0;
 			
 			//---- capture tab ----
 			

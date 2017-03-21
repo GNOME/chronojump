@@ -17,14 +17,15 @@
 # 
 #   Copyright (C) 2017   	Xavier Padullés <x.padulles@gmail.com>
 
+#This code uses splitTimes: accumulated time (not lap time)
 
 #Returns the K and Vmax parameters of the sprint using a number of pairs (time, position)
-getSprintFromPhotocell <- function(positions, lapTimes, noise=0)
+getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
 {
 	#noise is for testing purpouses.
 	# Checking that time and positions have the same length
-        if(length(lapTimes) != length(positions)){
-                print("Positions and lapTimes have diferent lengths")
+        if(length(splitTimes) != length(positions)){
+                print("Positions and splitTimes have diferent lengths")
                 return()
         }
         
@@ -34,7 +35,7 @@ getSprintFromPhotocell <- function(positions, lapTimes, noise=0)
                 return()
         }
         
-        photocell = data.frame(time = lapTimes, position = positions)
+        photocell = data.frame(time = splitTimes, position = positions)
         
         # Using the model of v = Vmax(1 - exp(-K*t)). If this function are integrated and we calculate the integration constant (t=0 -> position = 0)
         # position = Vmax*(time + (1/K)*exp(-K*time)) -Vmax/K
@@ -43,7 +44,7 @@ getSprintFromPhotocell <- function(positions, lapTimes, noise=0)
         Vmax = summary(pos.model)$coeff[2,1]
         
         #For testing purpouses. It simulates a spurious signal adding noise to perfect data.
-        #photocell.noise = data.frame(time = lapTimes + noise*rnorm(length(lapTimes), 0, 1), position = positions)
+        #photocell.noise = data.frame(time = splitTimes + noise*rnorm(length(splitTimes), 0, 1), position = positions)
         #pos.noise.model = nls(position ~ Vmax*(time + (1/K)*exp(-K*time)) -Vmax/K, photocell.noise, start = list(K = 0.81, Vmax = 10), control=nls.control(maxiter=1000, warnOnly=TRUE))
         #K.noise = summary(pos.noise.model)$coeff[1,1]
         #Vmax.noise = summary(pos.noise.model)$coeff[2,1]
@@ -133,7 +134,7 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
 
 #Finds the time correspondig to a given position in the formula x(t) = Vmax*(t + (1/K)*exp(-K*t)) -Vmax - 1/K
 #Uses the iterative Newton's method of the tangent aproximation
-lapTime <- function(Vmax, K, position, tolerance = 0.001, initTime = 1)
+splitTime <- function(Vmax, K, position, tolerance = 0.001, initTime = 1)
 {
         #Trying to find the solution of Position(time) = f(time)
         #We have to find the time where y = 0.
@@ -148,7 +149,7 @@ lapTime <- function(Vmax, K, position, tolerance = 0.001, initTime = 1)
 }
 
 # Reads all the .rad files in a folder and processes it geting the kinematics, dynamics, and plotting the graphs in pdf files
-getRadarDynamicsFromFolder <- function(radDir, athletesFile, lapDistance, resultsFile = "results.csv", decimalSeparator =",")
+getRadarDynamicsFromFolder <- function(radDir, athletesFile, splitDistance, resultsFile = "results.csv", decimalSeparator =",")
 {
         #model v(t) = Vmax*(1 - exp(-K*t))
         
@@ -162,17 +163,17 @@ getRadarDynamicsFromFolder <- function(radDir, athletesFile, lapDistance, result
         originalFiles = list.files(path=radDir, pattern="*.rad")
         nFiles = length(originalFiles)
         
-        #Naming the columns of the lap times corresponding to the lapDistance values.  For each distance theres is the predicted(fitted) and raw time
+        #Naming the columns of the split times corresponding to the splitDistance values.  For each distance theres is the predicted(fitted) and raw time
         tcolnameFitted = NULL
         tcolnameRaw = NULL
-        for (i in 1:length(lapDistance)){
-                tcolnameFitted = c(tcolnameFitted, paste("t", lapDistance[i], "mFitted", sep=""))
-                tcolnameRaw  = c(tcolnameRaw, paste("t", lapDistance[i], "mRaw", sep=""))
+        for (i in 1:length(splitDistance)){
+                tcolnameFitted = c(tcolnameFitted, paste("t", splitDistance[i], "mFitted", sep=""))
+                tcolnameRaw  = c(tcolnameRaw, paste("t", splitDistance[i], "mRaw", sep=""))
                 
         }
         
-        #20 variables plus the 2*laptimes (raw and predicted)
-        results = matrix(rep(NA, nFiles*(24 + 2*length(lapDistance))), ncol=(24 + 2*length(lapDistance)))
+        #20 variables plus the 2*splittimes (raw and predicted)
+        results = matrix(rep(NA, nFiles*(24 + 2*length(splitDistance))), ncol=(24 + 2*length(splitDistance)))
         
         colnames(results)=c("fileName", "Mass", "Height", "Temperature", "Vw", "Vmax.fitted", "K.fitted", "amax.fitted", "fmax.fitted", "fmax.rel.fitted", "sfv.fitted", "sfv.rel.fitted",
                             "pmax.fitted", "pmax.rel.fitted", "tpmax.fitted", "F0", "F0.rel", "V0", "sfv.lm", "sfv.rel.lm", "pmax.lm", "pmax.rel.lm",
@@ -247,12 +248,12 @@ getRadarDynamicsFromFolder <- function(radDir, athletesFile, lapDistance, result
                 results$rsquared[n] = summary(prediction)$r.squared
                 results$pvalue[n] = anova(prediction)$`Pr(>F)`[1]
                 
-                # Calculing all lap times                
-                for (lap in 1:length(lapDistance)){
+                # Calculing all split times
+                for (split in 1:length(splitDistance)){
                         # With the fitted exponential model
-                        results[n, 24 + lap] = lapTime(Vmax, K, position = lapDistance[lap])
+                        results[n, 24 + split] = splitTime(Vmax, K, position = splitDistance[split])
                         # With the raw data
-                        results[n, (24 + length(lapDistance) + lap)] = radar$t[which(abs(radar$position - lapDistance[lap]) == min(abs(radar$position - lapDistance[lap])))[1]]
+                        results[n, (24 + length(splitDistance) + split)] = radar$t[which(abs(radar$position - splitDistance[split]) == min(abs(radar$position - splitDistance[split])))[1]]
                 }
                 
                 
@@ -324,22 +325,24 @@ getRadarDynamicsFromFolder <- function(radDir, athletesFile, lapDistance, result
         return(results)
 }
 
-drawSprintFromPhotocells <- function(sprintDynamics, lapTimes, positions, title, plotFittedSpeed = T, plotFittedAccel = T, plotFittedForce = T, plotFittedPower = T)
+drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, title, plotFittedSpeed = T, plotFittedAccel = T, plotFittedForce = T, plotFittedPower = T)
 {
         
-        maxTime = lapTimes[length(lapTimes)]
+        maxTime = splitTimes[length(splitTimes)]
         time = seq(0, maxTime, by=0.01)
         #Calculating measured average speeds
-        avg.speeds = diff(positions)/diff(lapTimes)
-        textXPos = lapTimes[1:length(lapTimes) - 1] + diff(lapTimes)/2
+        avg.speeds = diff(positions)/diff(splitTimes)
+        textXPos = splitTimes[1:length(splitTimes) - 1] + diff(splitTimes)/2
         
         # Plotting average speed
         pdf("/tmp/photocellsSprintGraph.pdf", width = 16, height = 8)
-        barplot(height = avg.speeds, width = diff(lapTimes), space = 0, ylim = c(0, max(avg.speeds) + 1), main=title, xlab="Time(s)", ylab="Velocity(m/s)", axes = FALSE, yaxs= "i", xaxs = "i")
+        barplot(height = avg.speeds, width = diff(splitTimes), space = 0, ylim = c(0, max(avg.speeds) + 1), main=title, xlab="Time(s)", ylab="Velocity(m/s)", axes = FALSE, yaxs= "i", xaxs = "i")
         text(textXPos, avg.speeds, round(avg.speeds, digits = 2), pos = 3)
         
         # Fitted speed plotting
         par(new=T)
+	print(time)
+	print(sprintDynamics$v.fitted)
         plot(time, sprintDynamics$v.fitted, type = "l", xlab="", ylab = "",  ylim = c(0, max(avg.speeds) + 1), yaxs= "i", xaxs = "i") # Fitted data
         text(4, 6, substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax=round(sprintDynamics$Vmax.fitted, digits=3), K=round(sprintDynamics$K.fitted, digits=3))), pos=4, cex=2)
         
@@ -383,18 +386,35 @@ testPhotocells <- function()
 	Vmax = 9.54709925453619
 	K = 0.818488730889454
 	noise = 0
-	lapTimes = seq(0,10, by=1)
-	#lapTimes = c(0, 1, 5, 10)
-	positions = Vmax*(lapTimes + (1/K)*exp(-K*lapTimes)) -Vmax/K
-	photocell.noise = data.frame(time = lapTimes + noise*rnorm(length(lapTimes), 0, 1), position = positions)
-	sprint = getSprintFromPhotocell(position = photocell.noise$position, lapTimes = photocell.noise$time)
+	splitTimes = seq(0,10, by=1)
+	#splitTimes = c(0, 1, 5, 10)
+	positions = Vmax*(splitTimes + (1/K)*exp(-K*splitTimes)) -Vmax/K
+	photocell.noise = data.frame(time = splitTimes + noise*rnorm(length(splitTimes), 0, 1), position = positions)
+	sprint = getSprintFromPhotocell(position = photocell.noise$position, splitTimes = photocell.noise$time)
 	sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, 75, 25, 1.65)
 	print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
-	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, lapTimes, positions, title = "Testing graph")
+	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = "Testing graph")
 }
 
-testPhotocells()
+#Test wiht data like is coming from Chronojump
+testPhotocellsCJ <- function()
+{
+	#Data coming from Chronojump. Example: Usain Bolt
+	positions  = c(0, 20   , 40   , 70   )
+	splitTimes = c(0,  2.73,  4.49,  6.95)
+	mass = 75
+	tempC = 25
+	personHeight = 1.65
+
+	sprint = getSprintFromPhotocell(position = positions, splitTimes = splitTimes)
+	sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, mass, tempC, personHeight, maxTime = max(splitTimes))
+	print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
+	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = "Testing graph")
+}
+
+#testPhotocells()
+#testPhotocellsCJ()
 
 # getSprintFromRadar("~/Documentos/Radar/APL_post24.rad")
 # getDynamicsFromSprint(K = 0.8184887, Vmax = 9.547099, Mass = 60, Temperature = 25, Height = 1.65 )
-# getRadarDynamicsFromFolder(radDir = "~/ownCloud/Xavier/Recerca/Yoyo-Tests/Radar", athletesFile = "~/ownCloud/Xavier/Chronojump/Projectes/Sprint/athletes.csv", lapDistance = c(5,10,20))
+# getRadarDynamicsFromFolder(radDir = "~/ownCloud/Xavier/Recerca/Yoyo-Tests/Radar", athletesFile = "~/ownCloud/Xavier/Chronojump/Projectes/Sprint/athletes.csv", splitDistance = c(5,10,20))

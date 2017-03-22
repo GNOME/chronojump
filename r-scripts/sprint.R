@@ -366,41 +366,66 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         
 }
 
-#Examples of use
-
-testPhotocells <- function()
+testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC)
 {
-	Vmax = 9.54709925453619
-	K = 0.818488730889454
-	noise = 0
-	splitTimes = seq(0,10, by=1)
-	#splitTimes = c(0, 1, 5, 10)
-	positions = Vmax*(splitTimes + (1/K)*exp(-K*splitTimes)) -Vmax/K
-	photocell.noise = data.frame(time = splitTimes + noise*rnorm(length(splitTimes), 0, 1), position = positions)
-	sprint = getSprintFromPhotocell(position = photocell.noise$position, splitTimes = photocell.noise$time)
-	sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, 75, 25, 1.65)
-	print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
-	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = "Testing graph")
-}
-
-#Test wiht data like is coming from Chronojump
-testPhotocellsCJ <- function()
-{
-	#Data coming from Chronojump. Example: Usain Bolt
-	positions  = c(0, 20   , 40   , 70   )
-	splitTimes = c(0,  2.73,  4.49,  6.95)
-	mass = 75
-	tempC = 25
-	personHeight = 1.65
-
 	sprint = getSprintFromPhotocell(position = positions, splitTimes = splitTimes)
 	sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, mass, tempC, personHeight, maxTime = max(splitTimes))
 	print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
 	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = "Testing graph")
 }
 
-#testPhotocells()
-#testPhotocellsCJ()
+
+args <- commandArgs(TRUE)
+optionsFile <- args[1]
+options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
+assignOptions <- function(options) {
+	return(list(
+		    positions  	= as.numeric(unlist(strsplit(options[1], "\\;"))),
+		    splitTimes 	= as.numeric(unlist(strsplit(options[2], "\\;"))),
+		    mass 	= as.numeric(options[3]),
+		    personHeight = as.numeric(options[4]),
+		    tempC 	= as.numeric(options[5])
+		    ))
+}
+
+op <- assignOptions(options)
+#print(op$positions)
+testPhotocellsCJ(op$positions, op$splitTimes, op$mass, op$personHeight, op$tempC)
+
+
+#Examples of use
+
+#testPhotocells <- function()
+#{
+#	Vmax = 9.54709925453619
+#	K = 0.818488730889454
+#	noise = 0
+#	splitTimes = seq(0,10, by=1)
+#	#splitTimes = c(0, 1, 5, 10)
+#	positions = Vmax*(splitTimes + (1/K)*exp(-K*splitTimes)) -Vmax/K
+#	photocell.noise = data.frame(time = splitTimes + noise*rnorm(length(splitTimes), 0, 1), position = positions)
+#	sprint = getSprintFromPhotocell(position = photocell.noise$position, splitTimes = photocell.noise$time)
+#	sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, 75, 25, 1.65)
+#	print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
+#	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = "Testing graph")
+#}
+
+#Test wiht data like is coming from Chronojump
+#testPhotocellsCJSample <- function()
+#{
+#	#Data coming from Chronojump. Example: Usain Bolt
+#	positions  = c(0, 20   , 40   , 70   )
+#	splitTimes = c(0,  2.73,  4.49,  6.95)
+#	mass = 75
+#	tempC = 25
+#	personHeight = 1.65
+#
+#	sprint = getSprintFromPhotocell(position = positions, splitTimes = splitTimes)
+#	sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, mass, tempC, personHeight, maxTime = max(splitTimes))
+#	print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
+#	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = "Testing graph")
+#}
+
 
 # getSprintFromRadar("~/Documentos/Radar/APL_post24.rad")
 # getDynamicsFromSprint(K = 0.8184887, Vmax = 9.547099, Mass = 60, Temperature = 25, Height = 1.65 )

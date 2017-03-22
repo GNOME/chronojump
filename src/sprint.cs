@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.IO; 		//for detect OS
 using System.Collections.Generic; //List<T>
 
 public class Sprint
@@ -29,6 +30,8 @@ public class Sprint
 		List<string> parameters = new List<string>();
 		parameters.Insert(0, "\"" + UtilEncoder.GetScriptSprint() + "\"");
 
+		writeOptionsFile();
+
 		LogB.Information("\nCalling sprint.R ----->");
 
 		//ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
@@ -36,5 +39,23 @@ public class Sprint
 		ExecuteProcess.run (executable, parameters);
 
 		LogB.Information("\n<------ Done calling sprint.R.");
+	}
+
+	private void writeOptionsFile()
+	{
+		string optionsFile = Path.GetTempPath() + "Roptions.txt";
+
+		string scriptOptions =
+			"#positions\n" + 	"0;20;40;70" + "\n" +
+			"#splitTimes\n" + 	"0;2.73;4.49;6.95" + "\n" +
+			"#personMass\n" + 	"75" + "\n" +
+			"#personHeight\n" + 	"1.65" + "\n" +
+			"#tempC\n" + 		"25" + "\n";
+
+		TextWriter writer = File.CreateText(optionsFile);
+		writer.Write(scriptOptions);
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
 	}
 }

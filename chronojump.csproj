@@ -1114,6 +1114,7 @@
     <Compile Include="src\gui\chronojumpIcons.cs" />
     <Compile Include="src\sprint.cs" />
     <Compile Include="src\gui\forceSensor.cs" />
+    <Compile Include="src\gui\sprint.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

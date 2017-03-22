@@ -13686,7 +13686,6 @@ Concentric</property>
                                                     <property name="spacing">12</property>
                                                     <child>
                                                       <widget class="GtkScrolledWindow" id="scrolledwindow3">
-                                                        <property name="width_request">250</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="hscrollbar_policy">automatic</property>
@@ -13701,7 +13700,7 @@ Concentric</property>
                                                         </child>
                                                       </widget>
                                                       <packing>
-                                                        <property name="expand">False</property>
+                                                        <property name="expand">True</property>
                                                         <property name="fill">True</property>
                                                         <property name="position">0</property>
                                                       </packing>
@@ -19072,6 +19071,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

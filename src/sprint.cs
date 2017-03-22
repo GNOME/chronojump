@@ -26,7 +26,37 @@ public class Sprint
 {
 	string optionsFile;
 
-	public Sprint()
+	//private List<double> positions;
+	//private List<double> splitTimes;
+	private string positions;
+	private string splitTimes;
+	private double mass;
+	private double personHeight;
+	private double tempC;
+
+	public Sprint(string positions, string splitTimes,
+			double mass, double personHeight, double tempC)
+	{
+		this.positions = positions;
+		this.splitTimes = splitTimes;
+		this.mass = mass;
+		this.personHeight = personHeight;
+		this.tempC = tempC;
+	}
+
+	/*
+	public Sprint(List<double> positions, List<double> splitTimes,
+			double mass, double personHeight, double tempC)
+	{
+		this.positions = positions;
+		this.splitTimes = splitTimes;
+		this.mass = mass;
+		this.personHeight = personHeight;
+		this.tempC = tempC;
+	}
+	*/
+
+	public void CallR()
 	{
 		optionsFile = Path.GetTempPath() + "Roptions.txt";
 
@@ -48,12 +78,20 @@ public class Sprint
 
 	private void writeOptionsFile()
 	{
+		/*
 		string scriptOptions =
 			"#positions\n" + 	"0;20;40;70" + "\n" +
 			"#splitTimes\n" + 	"0;2.73;4.49;6.95" + "\n" +
 			"#mass\n" + 		"75" + "\n" +
 			"#personHeight\n" + 	"1.65" + "\n" +
 			"#tempC\n" + 		"25" + "\n";
+			*/
+		string scriptOptions =
+			"#positions\n" + 	positions + "\n" +
+			"#splitTimes\n" + 	splitTimes + "\n" +
+			"#mass\n" + 		mass + "\n" +
+			"#personHeight\n" + 	personHeight + "\n" +
+			"#tempC\n" + 		tempC + "\n";
 
 		TextWriter writer = File.CreateText(optionsFile);
 		writer.Write(scriptOptions);

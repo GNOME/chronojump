@@ -133,6 +133,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TreeView treeview_jumps_rj;
 	[Widget] Gtk.TreeView treeview_runs;
 	[Widget] Gtk.TreeView treeview_runs_interval;
+	[Widget] Gtk.TreeView treeview_runs_interval_sprint;
 	[Widget] Gtk.TreeView treeview_reaction_times;
 	[Widget] Gtk.TreeView treeview_pulses;
 	[Widget] Gtk.TreeView treeview_multi_chronopic;
@@ -553,6 +554,7 @@ public partial class ChronoJumpWindow
 		createTreeView_jumps_rj (treeview_jumps_rj);
 		createTreeView_runs (treeview_runs);
 		createTreeView_runs_interval (treeview_runs_interval);
+		createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 		createTreeView_reaction_times (treeview_reaction_times);
 		createTreeView_pulses (treeview_pulses);
 		createTreeView_multi_chronopic (false, treeview_multi_chronopic);
@@ -975,10 +977,13 @@ public partial class ChronoJumpWindow
 		else if(radio_menuitem_mode_runs_simple.Active)
 			updateGraphRunsSimple();
 		else if(radio_menuitem_mode_runs_intervallic.Active)
+		{
 			updateGraphRunsInterval();
+			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
+		}
 		else if(radio_menuitem_mode_other.Active && radio_mode_reaction_times_small.Active)
 			updateGraphReactionTimes();
-		
+
 		//2) change on encoder
 		encoderPersonChanged();
 	}
@@ -2720,6 +2725,7 @@ public partial class ChronoJumpWindow
 			createTreeView_jumps_rj (treeview_jumps_rj);
 			createTreeView_runs (treeview_runs);
 			createTreeView_runs_interval (treeview_runs_interval);
+			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 			createTreeView_pulses(treeview_pulses);
 			createTreeView_reaction_times(treeview_reaction_times);
 			createTreeView_multi_chronopic(false, treeview_multi_chronopic);
@@ -6313,13 +6319,6 @@ LogB.Debug("X");
 	private void on_button_jumps_profile_training_clicked (object o, EventArgs args) {
 		scrolledwindow_jumps_profile_help.Visible = false;
 		scrolledwindow_jumps_profile_training.Visible = ! scrolledwindow_jumps_profile_training.Visible;
-	}
-
-
-	private void on_button_sprint_clicked (object o, EventArgs args)
-	{
-		//test calling sprint.R file
-		new Sprint();
 	}
 
 	/* ---------------------------------------------------------

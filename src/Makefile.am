@@ -47,8 +47,9 @@ SOURCES = \
 	gui/repetitiveConditions.cs\
 	gui/convertWeight.cs\
 	gui/genericWindow.cs\
-	gui/splash.cs\
 	gui/server.cs\
+	gui/splash.cs\
+	gui/sprint.cs\
 	gui/dialogServerStats.cs\
 	gui/evaluator.cs\
 	gui/networks.cs\

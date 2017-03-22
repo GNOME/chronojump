@@ -305,5 +305,4 @@ public class TreeViewRunsInterval : TreeViewRuns
 		
 		return myData;
 	}
-	
 }

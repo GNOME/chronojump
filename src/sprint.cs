@@ -24,11 +24,16 @@ using System.Collections.Generic; //List<T>
 
 public class Sprint
 {
+	string optionsFile;
+
 	public Sprint()
 	{
+		optionsFile = Path.GetTempPath() + "Roptions.txt";
+
 		string executable = UtilEncoder.RProcessBinURL();
 		List<string> parameters = new List<string>();
 		parameters.Insert(0, "\"" + UtilEncoder.GetScriptSprint() + "\"");
+		parameters.Insert(1, "\"" + optionsFile + "\"");
 
 		writeOptionsFile();
 
@@ -43,12 +48,10 @@ public class Sprint
 
 	private void writeOptionsFile()
 	{
-		string optionsFile = Path.GetTempPath() + "Roptions.txt";
-
 		string scriptOptions =
 			"#positions\n" + 	"0;20;40;70" + "\n" +
 			"#splitTimes\n" + 	"0;2.73;4.49;6.95" + "\n" +
-			"#personMass\n" + 	"75" + "\n" +
+			"#mass\n" + 		"75" + "\n" +
 			"#personHeight\n" + 	"1.65" + "\n" +
 			"#tempC\n" + 		"25" + "\n";
 

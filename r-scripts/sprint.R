@@ -42,20 +42,7 @@ getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
         pos.model = nls(position ~ Vmax*(time + (1/K)*exp(-K*time)) -Vmax/K, photocell, start = list(K = 0.81, Vmax = 10), control=nls.control(maxiter=1000, warnOnly=TRUE))
         K = summary(pos.model)$coeff[1,1]
         Vmax = summary(pos.model)$coeff[2,1]
-        
-        #For testing purpouses. It simulates a spurious signal adding noise to perfect data.
-        #photocell.noise = data.frame(time = splitTimes + noise*rnorm(length(splitTimes), 0, 1), position = positions)
-        #pos.noise.model = nls(position ~ Vmax*(time + (1/K)*exp(-K*time)) -Vmax/K, photocell.noise, start = list(K = 0.81, Vmax = 10), control=nls.control(maxiter=1000, warnOnly=TRUE))
-        #K.noise = summary(pos.noise.model)$coeff[1,1]
-        #Vmax.noise = summary(pos.noise.model)$coeff[2,1]
-        # plot(time, position, xlim = c(0, time[length(time)]), ylim = c(0, position[length(position)]))
-        # points(photocell.noise, col = "red")
-        # time = seq(0,20, by = 0.1)
-        # position.fitted = Vmax*(time + (1/K)*exp(-K*time)) -Vmax/K
-        # position.noise.fitted = Vmax.noise*(time + (1/K.noise)*exp(-K.noise*time)) -Vmax.noise/K.noise
-        # lines(time, position.fitted)
-        # lines(time, position.noise.fitted, col = "red")
-        
+
         summary(pos.model)$coef[1:2,1]
         return(list(K = K, Vmax = Vmax))
 }
@@ -336,14 +323,14 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         
         # Plotting average speed
         pdf("/tmp/photocellsSprintGraph.pdf", width = 16, height = 8)
-        barplot(height = avg.speeds, width = diff(splitTimes), space = 0, ylim = c(0, max(avg.speeds) + 1), main=title, xlab="Time(s)", ylab="Velocity(m/s)", axes = FALSE, yaxs= "i", xaxs = "i")
+        barplot(height = avg.speeds, width = diff(splitTimes), space = 0, ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), main=title, xlab="Time(s)", ylab="Velocity(m/s)", axes = FALSE, yaxs= "i", xaxs = "i")
         text(textXPos, avg.speeds, round(avg.speeds, digits = 2), pos = 3)
         
         # Fitted speed plotting
         par(new=T)
 	print(time)
 	print(sprintDynamics$v.fitted)
-        plot(time, sprintDynamics$v.fitted, type = "l", xlab="", ylab = "",  ylim = c(0, max(avg.speeds) + 1), yaxs= "i", xaxs = "i") # Fitted data
+        plot(time, sprintDynamics$v.fitted, type = "l", xlab="", ylab = "",  ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), yaxs= "i", xaxs = "i") # Fitted data
         text(4, 6, substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax=round(sprintDynamics$Vmax.fitted, digits=3), K=round(sprintDynamics$K.fitted, digits=3))), pos=4, cex=2)
         
         if(plotFittedAccel)

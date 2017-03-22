@@ -259,7 +259,7 @@ getRadarDynamicsFromFolder <- function(radDir, athletesFile, splitDistance, resu
                 pdf(paste(radDir,"/graphs/", results$fileName[n], "-v-F-p-t", ".pdf", sep=""), width = 16, height = 8)
                 plot(radar$t, radar$v, main=originalFiles[n], xlab="Time(s)", ylab="Velocity(m/s)") # Raw data
                 lines(radar$t, v.fitted, col = "green")
-                text(4, 6, substitute(v(t) == Vmax*(1-e^-(K*t)), list(Vmax=round(Vmax, digits=3), K=round(K, digits=3))), pos=4, cex=2, col="green")
+                text(4, Vmax*0.8, substitute(v(t) == Vmax*(1-e^-(K*t)), list(Vmax=round(Vmax, digits=3), K=round(K, digits=3))), pos=4, cex=2, col="green")
                 #Force drawing
                 par(new=T)
                 plot(radar$t, f.fitted, type="l", axes = FALSE, xlab="", ylab="", col="grey", ylim=c(0,results$amax.fitted[n]))
@@ -270,7 +270,7 @@ getRadarDynamicsFromFolder <- function(radDir, athletesFile, splitDistance, resu
                 abline(v = results$tpmax.fitted[n], col="red")
                 axis(4, col="red")
                 mtext(4, text="Power(W/Kg)", col="red")
-                text(3, 250, substitute(P(t) == A*e^(-K*t)*(1-e^(-K*t)) + B*(1-e^(-K*t))^3, list(A=round(Vmax^2*athletes$Mass[n], digits=3), B = round(Vmax^3*Ka, digits = 3), Vmax=round(Vmax, digits=3), K=round(K, digits=3))), pos=4, cex=1, col ="red")
+                text(results$tpmax[n], results$pmax.fitted[n]*0.3, substitute(P(t) == A*e^(-K*t)*(1-e^(-K*t)) + B*(1-e^(-K*t))^3, list(A=round(Vmax^2*athletes$Mass[n], digits=3), B = round(Vmax^3*Ka, digits = 3), Vmax=round(Vmax, digits=3), K=round(K, digits=3))), pos=4, cex=2, col ="red")
                 dev.off()
                 
                 #Plotting F(v)
@@ -331,7 +331,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
 	print(time)
 	print(sprintDynamics$v.fitted)
         plot(time, sprintDynamics$v.fitted, type = "l", xlab="", ylab = "",  ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), yaxs= "i", xaxs = "i") # Fitted data
-        text(4, 6, substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax=round(sprintDynamics$Vmax.fitted, digits=3), K=round(sprintDynamics$K.fitted, digits=3))), pos=4, cex=2)
+        text(4, sprintDynamics$Vmax.fitted/2, substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax=round(sprintDynamics$Vmax.fitted, digits=3), K=round(sprintDynamics$K.fitted, digits=3))), pos=4, cex=2)
         
         if(plotFittedAccel)
         {

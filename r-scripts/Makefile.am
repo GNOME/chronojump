@@ -1,3 +1,5 @@
 rscriptsdir = @datadir@/@PACKAGE@/r-scripts
 
-dist_rscripts_DATA = sprint.R
+dist_rscripts_DATA = sprintUtil.R \
+		     sprintPhotocells.R \
+		     sprintRadar.R

@@ -236,9 +236,13 @@ public class UtilEncoder
 
 	/********** start of r-scripts paths ************/
 
-	public static string GetSprintScript() {
-		return System.IO.Path.Combine(Util.GetDataDir(), "r-scripts", "sprint.R");
+	public static string GetSprintPath() {
+		return System.IO.Path.Combine(Util.GetDataDir(), "r-scripts");
 	}
+	public static string GetSprintPhotocellsScript() {
+		return System.IO.Path.Combine(GetSprintPath(), "sprintPhotocells.R");
+	}
+
 	public static string GetSprintImage() {
 		return System.IO.Path.Combine(Path.GetTempPath(), "sprintGraph.png");
 	}

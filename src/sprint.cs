@@ -58,13 +58,27 @@ public class Sprint
 	{
 		string executable = UtilEncoder.RProcessBinURL();
 		List<string> parameters = new List<string>();
-		parameters.Insert(0, "\"" + UtilEncoder.GetSprintScript() + "\"");
-		parameters.Insert(1, "\"" + Path.GetTempPath() + "\"");
 
+		//A) photocellsScript
+		string photocellsScript = UtilEncoder.GetSprintPhotocellsScript();
+		if(UtilAll.IsWindows())
+			photocellsScript = photocellsScript.Replace("\\","/");
+
+		parameters.Insert(0, "\"" + photocellsScript + "\"");
+
+		//B) tempPath
+		string tempPath = Path.GetTempPath();
+		if(UtilAll.IsWindows())
+			tempPath = tempPath.Replace("\\","/");
+
+		parameters.Insert(1, "\"" + tempPath + "\"");
+
+		//C) writeOptions
 		writeOptionsFile(graphWidth, graphHeight);
 
 		LogB.Information("\nCalling sprint.R ----->");
 
+		//D) call process
 		//ExecuteProcess.run (executable, parameters);
 		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
 		//LogB.Information("Result = " + execute_result.stdout);
@@ -83,7 +97,12 @@ public class Sprint
 			"#personHeight\n" + 	"1.65" + "\n" +
 			"#tempC\n" + 		"25" + "\n";
 			*/
+		string scriptsPath = UtilEncoder.GetSprintPath();
+		if(UtilAll.IsWindows())
+			scriptsPath = scriptsPath.Replace("\\","/");
+
 		string scriptOptions =
+			"#scriptsPath\n" + 	scriptsPath + "\n" +
 			"#positions\n" + 	positions + "\n" +
 			"#splitTimes\n" + 	splitTimes + "\n" +
 			"#mass\n" + 		Util.ConvertToPoint(mass) + "\n" +

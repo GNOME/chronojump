@@ -236,8 +236,11 @@ public class UtilEncoder
 
 	/********** start of r-scripts paths ************/
 
-	public static string GetScriptSprint() {
+	public static string GetSprintScript() {
 		return System.IO.Path.Combine(Util.GetDataDir(), "r-scripts", "sprint.R");
+	}
+	public static string GetSprintImage() {
+		return System.IO.Path.Combine(Path.GetTempPath(), "sprintGraph.png");
 	}
 
 	/********** end of r-scripts paths ************/
@@ -303,10 +306,20 @@ public class UtilEncoder
 		while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
 	}
 	*/
-	
-	public static EncoderGraphROptions PrepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate, bool debug, bool crossValidate) 
+
+	//R plots on Windows using Cairo, need to know if it's windows or not
+	public static string OperatingSystemForRGraphs()
 	{
 		string operatingSystem = "Linux";
+		if (UtilAll.IsWindows())
+			operatingSystem = "Windows";
+
+		return operatingSystem;
+	}
+
+	public static EncoderGraphROptions PrepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate, bool debug, bool crossValidate)
+	{
+		string operatingSystem = OperatingSystemForRGraphs();
 			
 		title = Util.RemoveBackSlash(title);
 		title = Util.RemoveChar(title, '\''); 
@@ -323,7 +336,6 @@ public class UtilEncoder
 			//es.OutputData2 = es.OutputData2.Replace("\\","/");
 			//es.SpecialData = es.SpecialData.Replace("\\","/");
 			es.EncoderTempPath = es.EncoderTempPath.Replace("\\","/");
-			operatingSystem = "Windows";
 		}
 		
 	 	//if translators add ";", it will be converted to ','

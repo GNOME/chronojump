@@ -24,8 +24,6 @@ using System.Collections.Generic; //List<T>
 
 public class Sprint
 {
-	string optionsFile;
-
 	//private List<double> positions;
 	//private List<double> splitTimes;
 	private string positions;
@@ -56,27 +54,26 @@ public class Sprint
 	}
 	*/
 
-	public void CallR()
+	public bool CallR(int graphWidth, int graphHeight)
 	{
-		optionsFile = Path.GetTempPath() + "Roptions.txt";
-
 		string executable = UtilEncoder.RProcessBinURL();
 		List<string> parameters = new List<string>();
-		parameters.Insert(0, "\"" + UtilEncoder.GetScriptSprint() + "\"");
-		parameters.Insert(1, "\"" + optionsFile + "\"");
+		parameters.Insert(0, "\"" + UtilEncoder.GetSprintScript() + "\"");
+		parameters.Insert(1, "\"" + Path.GetTempPath() + "\"");
 
-		writeOptionsFile();
+		writeOptionsFile(graphWidth, graphHeight);
 
 		LogB.Information("\nCalling sprint.R ----->");
 
-		//ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
+		//ExecuteProcess.run (executable, parameters);
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
 		//LogB.Information("Result = " + execute_result.stdout);
-		ExecuteProcess.run (executable, parameters);
 
 		LogB.Information("\n<------ Done calling sprint.R.");
+		return execute_result.success;
 	}
 
-	private void writeOptionsFile()
+	private void writeOptionsFile(int graphWidth, int graphHeight)
 	{
 		/*
 		string scriptOptions =
@@ -91,9 +88,12 @@ public class Sprint
 			"#splitTimes\n" + 	splitTimes + "\n" +
 			"#mass\n" + 		mass + "\n" +
 			"#personHeight\n" + 	personHeight + "\n" +
-			"#tempC\n" + 		tempC + "\n";
+			"#tempC\n" + 		tempC + "\n" +
+			"#os\n" + 		UtilEncoder.OperatingSystemForRGraphs() + "\n" +
+			"#graphWidth\n" + 	graphWidth.ToString() + "\n" +
+			"#graphHeight\n" + 	graphHeight.ToString() + "\n";
 
-		TextWriter writer = File.CreateText(optionsFile);
+		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");
 		writer.Write(scriptOptions);
 		writer.Flush();
 		writer.Close();

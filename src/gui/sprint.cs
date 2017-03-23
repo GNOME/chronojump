@@ -62,20 +62,45 @@ public partial class ChronoJumpWindow
 
 		foreach (string line in runsArray)
 		{
+			//[] lineSplit has run params
 			string [] lineSplit = line.Split(new char[] {':'});
-			string positions = runIntervalDistances(lineSplit[4], runITypes);
-			if(positions == "")
-				continue;
 
-			positions = Util.ChangeChars(positions, "-", ";");
-
+			//get intervalTimes
 			string intervalTimes = lineSplit[8];
 			string [] intervalTimesSplit = intervalTimes.Split(new char[] {'='});
 
-			//accumulated
+			//get positions
+			string positions = "";
+			string sep = "";
+			if(lineSplit[7] != "-1") //not variable distances
+			{
+				double distanceIntervalD = Convert.ToDouble(lineSplit[7]);
+				double distanceAccumulated = distanceIntervalD;
+				for(int i=0; i < intervalTimesSplit.Length; i ++)
+				{
+					positions += sep + Util.TrimDecimals(distanceAccumulated, preferences.digitsNumber);
+					sep = ";";
+					distanceAccumulated += distanceIntervalD;
+				}
+			} else { //variable distances
+
+				//discard RSA
+				if(lineSplit[4].Contains("R"))
+					continue;
+
+				positions = runIntervalTypeDistances(lineSplit[4], runITypes);
+			}
+
+			if(positions == "")
+				continue;
+
+			//format positions
+			positions = Util.ChangeChars(positions, "-", ";");
+
+			//manage accumulated time
 			double timeAccumulated = 0;
 			string splitTimes = "";
-			string sep = "";
+			sep = "";
 			foreach(string time in intervalTimesSplit)
 			{
 				double timeD = Convert.ToDouble(time);
@@ -95,7 +120,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private string runIntervalDistances(string runTypeEnglishName, List<object> runITypes)
+	private string runIntervalTypeDistances(string runTypeEnglishName, List<object> runITypes)
 	{
 		foreach(SelectRunITypes type in runITypes)
 			if(type.NameEnglish == runTypeEnglishName)
@@ -110,9 +135,8 @@ public partial class ChronoJumpWindow
 		TreeIter iter;
 
 		// you get the iter and the model if something is selected
-		if (((TreeSelection)o).GetSelected(out model, out iter)) {
+		if (((TreeSelection)o).GetSelected(out model, out iter))
 			button_sprint.Sensitive = true;
-		}
 	}
 
 	public static bool GetSelectedSprint (Gtk.TreeView tv)
@@ -149,6 +173,20 @@ public partial class ChronoJumpWindow
 		if(! GetSelectedSprint(treeview_runs_interval_sprint))
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, "Error");
+			return;
+		}
+
+		if(currentPersonSession.Weight == 0)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					"Error, weight of the person cannot be 0");
+			return;
+		}
+
+		if(currentPersonSession.Height == 0)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					"Error, height of the person cannot be 0");
 			return;
 		}
 

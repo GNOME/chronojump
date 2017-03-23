@@ -86,8 +86,8 @@ public class Sprint
 		string scriptOptions =
 			"#positions\n" + 	positions + "\n" +
 			"#splitTimes\n" + 	splitTimes + "\n" +
-			"#mass\n" + 		mass + "\n" +
-			"#personHeight\n" + 	personHeight + "\n" +
+			"#mass\n" + 		Util.ConvertToPoint(mass) + "\n" +
+			"#personHeight\n" + 	Util.ConvertToPoint(personHeight) + "\n" +
 			"#tempC\n" + 		tempC + "\n" +
 			"#os\n" + 		UtilEncoder.OperatingSystemForRGraphs() + "\n" +
 			"#graphWidth\n" + 	graphWidth.ToString() + "\n" +

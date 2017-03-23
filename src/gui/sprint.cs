@@ -29,6 +29,9 @@ using System.Collections.Generic; //List<T>
 public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.Button button_sprint;
+	[Widget] Gtk.Viewport viewport_sprint;
+	[Widget] Gtk.Image image_sprint;
+
 	static Sprint sprint;
 
 	private void createTreeView_runs_interval_sprint (Gtk.TreeView tv)
@@ -190,7 +193,28 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		sprint.CallR();
-		new DialogMessage(Constants.MessageTypes.WARNING, "Ok");
+		Util.FileDelete(UtilEncoder.GetSprintImage());
+
+		image_sprint.Sensitive = false;
+
+		bool success = sprint.CallR(
+				viewport_sprint.Allocation.Width -5,
+				viewport_sprint.Allocation.Height -5);
+
+		if(! success)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Problems on sprint R script.");
+			return;
+		}
+
+		while ( ! Util.FileReadable(UtilEncoder.GetSprintImage()));
+
+		image_sprint = UtilGtk.OpenImageSafe(
+				UtilEncoder.GetSprintImage(),
+				image_sprint);
+		image_sprint.Sensitive = true;
+
+		new DialogMessage(Constants.MessageTypes.INFO, "Ok");
 	}
+
 }

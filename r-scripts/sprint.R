@@ -16,6 +16,7 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 #   Copyright (C) 2017   	Xavier Padullés <x.padulles@gmail.com>
+#   Copyright (C) 2017   	Xavier de Blas <xaviblas@gmail.com>
 
 #This code uses splitTimes: accumulated time (not lap time)
 
@@ -322,7 +323,6 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         textXPos = splitTimes[1:length(splitTimes) - 1] + diff(splitTimes)/2
         
         # Plotting average speed
-        pdf("/tmp/photocellsSprintGraph.pdf", width = 16, height = 8)
         barplot(height = avg.speeds, width = diff(splitTimes), space = 0, ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), main=title, xlab="Time(s)", ylab="Velocity(m/s)", axes = FALSE, yaxs= "i", xaxs = "i")
         text(textXPos, avg.speeds, round(avg.speeds, digits = 2), pos = 3)
         
@@ -361,9 +361,20 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
                                              Vmax=round(sprintDynamics$Vmax.fitted, digits=3),
                                              K=round(sprintDynamics$K.fitted, digits=3))),
                      pos=4, cex=1, col ="red")
-                dev.off()
         }
         
+}
+
+prepareGraph <- function(os, pngFile, width, height)
+{
+	if(os == "Windows")
+		Cairo(width, height, file = pngFile, type="png", bg="white")
+	else
+		png(pngFile, width=width, height=height)
+}
+endGraph <- function()
+{
+	dev.off()
 }
 
 testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC)
@@ -371,12 +382,17 @@ testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC)
 	sprint = getSprintFromPhotocell(position = positions, splitTimes = splitTimes)
 	sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, mass, tempC, personHeight, maxTime = max(splitTimes))
 	print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
+
 	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = "Testing graph")
 }
 
 
 args <- commandArgs(TRUE)
-optionsFile <- args[1]
+
+tempPath <- args[1]
+optionsFile <- paste(tempPath, "/Roptions.txt", sep="")
+pngFile <- paste(tempPath, "/sprintGraph.png", sep="")
+
 options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 assignOptions <- function(options) {
 	return(list(
@@ -384,13 +400,19 @@ assignOptions <- function(options) {
 		    splitTimes 	= as.numeric(unlist(strsplit(options[2], "\\;"))),
 		    mass 	= as.numeric(options[3]),
 		    personHeight = as.numeric(options[4]),
-		    tempC 	= as.numeric(options[5])
+		    tempC 	= as.numeric(options[5]),
+		    os 		= options[6],
+		    graphWidth 	= as.numeric(options[7]),
+		    graphHeight	= as.numeric(options[8])
 		    ))
 }
 
 op <- assignOptions(options)
 #print(op$positions)
+
+prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 testPhotocellsCJ(op$positions, op$splitTimes, op$mass, op$personHeight, op$tempC)
+endGraph()
 
 
 #Examples of use

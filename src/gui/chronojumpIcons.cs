@@ -44,6 +44,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_chronopic_connect_encoder;
 	[Widget] Gtk.Image image_button_execute;
 	[Widget] Gtk.Image image_tests_capture;
+	[Widget] Gtk.Image image_tests_sprint;
 	[Widget] Gtk.Image image_info1;
 	[Widget] Gtk.Image image_info2;
 	[Widget] Gtk.Image image_info3;
@@ -105,6 +106,9 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
 		image_tests_capture.Pixbuf = pixbuf;
 		image_mode_encoder_capture.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_sprint.png");
+		image_tests_sprint.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		image_button_cancel.Pixbuf = pixbuf;

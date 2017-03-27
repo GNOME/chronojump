@@ -362,6 +362,7 @@ RESOURCES = \
 	../images/md/ic_timer_blue_24dp_2x.png,image_capture_big.png \
 	../images/md/ic_cancel_blue_24dp_1x.png,image_cancel.png \
 	../images/md/ic_insert_chart_blue_24dp_1x.png,image_analyze.png \
+	../images/md/ic_fast_forward_blue_24dp_1x.png,image_sprint.png \
 	../images/md/ic_developer_board_blue_24dp_1x.png,image_chronopic_connect.png \
 	../images/md/ic_person_blue_24dp_1x.png,image_person.png \
 	../images/md/ic_cached_blue_24dp_1x.png,image_recalculate.png \

@@ -360,6 +360,7 @@ RESOURCES = \
 	../images/md/ic_settings_backup_restore_blue_24dp_1x.png,image_inertia.png \
 	../images/md/ic_timer_blue_24dp_1x.png,image_capture.png \
 	../images/md/ic_timer_blue_24dp_2x.png,image_capture_big.png \
+	../images/md/ic_cancel_blue_24dp_1x.png,image_cancel.png \
 	../images/md/ic_insert_chart_blue_24dp_1x.png,image_analyze.png \
 	../images/md/ic_developer_board_blue_24dp_1x.png,image_chronopic_connect.png \
 	../images/md/ic_person_blue_24dp_1x.png,image_person.png \
@@ -378,6 +379,7 @@ RESOURCES = \
 	../images/md/ic_people_outline_blue_24dp_1x.png,image_group_outline.png \
 	../images/md/ic_weekend_blue_24dp_1x.png,image_rest.png \
 	../images/md/ic_looks_one_blue_24dp_1x.png,one.png \
+	../images/md/ic_add_circle_blue_24dp_1x.png,image_add_test.png \
 	../images/md/ic_all_inclusive_blue_24dp_1x.png,cont.png \
 	../images/md/ic_directions_run_blue_24dp_2x.png,run.png \
 	../images/md/ic_build_blue_24dp_1x.png,image_build.png \

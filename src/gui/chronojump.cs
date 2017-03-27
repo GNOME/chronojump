@@ -2825,6 +2825,7 @@ public partial class ChronoJumpWindow
 				notebooks_change(3);
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = false;
+				createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 				notebook_capture_analyze.GetNthPage(3).Show(); //show sprint page
 			}
 			notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on runs
@@ -4280,6 +4281,8 @@ public partial class ChronoJumpWindow
 			event_execute_LabelTimeValue = currentRunInterval.TimeTotal;
 			//possible deletion of last run can make the runs on event window be false
 			event_execute_LabelEventValue = currentRunInterval.Tracks;
+
+			addTreeView_runs_interval_sprint (currentRunInterval, currentRunIntervalType);
 		}
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();

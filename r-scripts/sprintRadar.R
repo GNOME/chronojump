@@ -145,7 +145,7 @@ getRadarDynamicsFromFolder <- function(radDir, athletesFile, splitDistance, resu
                 results$sfv.lm[n] = dynamics$sfv.lm
                 results$sfv.rel.lm[n] = dynamics$sfv.rel.lm
                 results$pmax.fitted[n] = dynamics$pmax.fitted
-                results$pmax.rel.fitted[n] = dynamics$pmax.fitted
+                results$pmax.rel.fitted[n] = dynamics$pmax.fitted / athletes$Mass[n]
                 results$tpmax.fitted[n] = dynamics$tpmax.fitted
                 results$pmax.lm[n] = dynamics$pmax.lm
                 results$pmax.rel.lm[n] = dynamics$pmax.rel.lm

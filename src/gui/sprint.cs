@@ -33,6 +33,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_sprint;
 
 	static Sprint sprint;
+	TreeStore storeSprint;
 
 	private void createTreeView_runs_interval_sprint (Gtk.TreeView tv)
 	{
@@ -48,10 +49,10 @@ public partial class ChronoJumpWindow
 		tv.AppendColumn ("Split times", new CellRendererText(), "text", count++);
 		tv.AppendColumn ("Total time", new CellRendererText(), "text", count++);
 
-		TreeStore store = new TreeStore(
+		storeSprint = new TreeStore(
 				typeof (string), typeof (string), typeof (string),
 				typeof (string), typeof (string));
-		tv.Model = store;
+		tv.Model = storeSprint;
 
 		if (currentSession == null || currentPerson == null)
 		      return;
@@ -69,48 +70,17 @@ public partial class ChronoJumpWindow
 			string [] lineSplit = line.Split(new char[] {':'});
 
 			//get intervalTimes
-			string intervalTimes = lineSplit[8];
-			string [] intervalTimesSplit = intervalTimes.Split(new char[] {'='});
+			string intervalTimesString = lineSplit[8];
 
-			//get positions
-			string positions = "";
-			string sep = "";
-			if(lineSplit[7] != "-1") //not variable distances
-			{
-				double distanceIntervalD = Convert.ToDouble(lineSplit[7]);
-				double distanceAccumulated = distanceIntervalD;
-				for(int i=0; i < intervalTimesSplit.Length; i ++)
-				{
-					positions += sep + Util.TrimDecimals(distanceAccumulated, preferences.digitsNumber);
-					sep = ";";
-					distanceAccumulated += distanceIntervalD;
-				}
-			} else { //variable distances
-
-				//discard RSA
-				if(lineSplit[4].Contains("R"))
-					continue;
-
-				positions = runIntervalTypeDistances(lineSplit[4], runITypes);
-			}
-
+			string positions = getSprintPositions(
+					Convert.ToDouble(lineSplit[7]), //distanceInterval. == -1 means variable distances
+					intervalTimesString,
+					runIntervalTypeDistances(lineSplit[4], runITypes) 	//distancesString
+					);
 			if(positions == "")
 				continue;
 
-			//format positions
-			positions = Util.ChangeChars(positions, "-", ";");
-
-			//manage accumulated time
-			double timeAccumulated = 0;
-			string splitTimes = "";
-			sep = "";
-			foreach(string time in intervalTimesSplit)
-			{
-				double timeD = Convert.ToDouble(time);
-				timeAccumulated += timeD;
-				splitTimes += sep + Util.TrimDecimals(timeAccumulated, preferences.digitsNumber);
-				sep = ";";
-			}
+			string splitTimes = getSplitTimes(intervalTimesString);
 
 			string [] lineParams = { 
 				lineSplit[4],
@@ -119,8 +89,79 @@ public partial class ChronoJumpWindow
 				splitTimes,
 				Util.TrimDecimals(lineSplit[6], preferences.digitsNumber)
 			};
-			store.AppendValues (lineParams);
+			storeSprint.AppendValues (lineParams);
 		}
+	}
+
+	public void addTreeView_runs_interval_sprint (RunInterval runI, RunType runIType)
+	{
+		if(storeSprint == null)
+		{
+			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
+			return;
+		}
+
+		string positions = getSprintPositions(
+				runI.DistanceInterval, 		//distanceInterval. == -1 means variable distances
+				runI.IntervalTimesString,
+				runIType.DistancesString 	//distancesString
+				);
+		if(positions == "")
+			return;
+
+		TreeIter iter = new TreeIter();
+		bool iterOk = storeSprint.GetIterFirst(out iter);
+		if(iterOk) {
+			iter = storeSprint.AppendValues (
+					runI.Type,
+					runI.UniqueID.ToString(),
+					positions,
+					getSplitTimes(runI.IntervalTimesString),
+					Util.TrimDecimals(runI.TimeTotal, preferences.digitsNumber)
+					);
+
+			//scroll treeview if needed
+			TreePath path = storeSprint.GetPath (iter);
+			treeview_runs_interval_sprint.ScrollToCell (path, null, true, 0, 0);
+		}
+	}
+
+	private string getSprintPositions(double distanceInterval, string intervalTimesString, string distancesString)
+	{
+		string positions = "";
+		string [] intervalTimesSplit = intervalTimesString.Split(new char[] {'='});
+		if(! distancesString.Contains("R") ) 	//discard RSA
+		{
+			string sep = "";
+			for(int i=0; i < intervalTimesSplit.Length; i ++)
+			{
+				positions += sep + Util.GetRunITotalDistance(distanceInterval, distancesString, i+1);
+				sep = ";";
+			}
+
+			//format positions
+			positions = Util.ChangeChars(positions, "-", ";");
+		}
+		return positions;
+	}
+
+	private string getSplitTimes(string intervalTimesString)
+	{
+		string [] intervalTimesSplit = intervalTimesString.Split(new char[] {'='});
+
+		//manage accumulated time
+		double timeAccumulated = 0;
+		string splitTimes = "";
+		string sep = "";
+		foreach(string time in intervalTimesSplit)
+		{
+			double timeD = Convert.ToDouble(time);
+			timeAccumulated += timeD;
+			splitTimes += sep + Util.TrimDecimals(timeAccumulated, preferences.digitsNumber);
+			sep = ";";
+		}
+
+		return splitTimes;
 	}
 
 	private string runIntervalTypeDistances(string runTypeEnglishName, List<object> runITypes)

@@ -2893,7 +2893,7 @@ Carles</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_extra_window_jumps_more" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image3">
+                                                            <widget class="GtkImage" id="image_info1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-info</property>
@@ -2915,7 +2915,7 @@ Carles</property>
                                                             <property name="tooltip" translatable="yes">Add jump type</property>
                                                             <signal name="clicked" handler="on_jump_simple_type_add_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image3210">
+                                                            <widget class="GtkImage" id="image_add_test1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-new</property>
@@ -3211,7 +3211,7 @@ Carles</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_extra_window_jumps_rj_more" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image6">
+                                                            <widget class="GtkImage" id="image_info2">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-info</property>
@@ -3287,7 +3287,7 @@ Carles</property>
                                                             <property name="tooltip" translatable="yes">Add jump type</property>
                                                             <signal name="clicked" handler="on_jump_reactive_type_add_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image1">
+                                                            <widget class="GtkImage" id="image_add_test2">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-new</property>
@@ -3420,7 +3420,7 @@ Carles</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_extra_window_runs_more" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image16">
+                                                            <widget class="GtkImage" id="image_info3">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-info</property>
@@ -3442,7 +3442,7 @@ Carles</property>
                                                             <property name="tooltip" translatable="yes">Add race type</property>
                                                             <signal name="clicked" handler="on_run_simple_type_add_activate" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image33">
+                                                            <widget class="GtkImage" id="image_add_test3">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-new</property>
@@ -3575,7 +3575,7 @@ Carles</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_extra_window_runs_interval_more" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image32">
+                                                            <widget class="GtkImage" id="image_info4">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-info</property>
@@ -3651,7 +3651,7 @@ Carles</property>
                                                             <property name="tooltip" translatable="yes">Add race type</property>
                                                             <signal name="clicked" handler="on_run_intervallic_type_add_activate" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image3213">
+                                                            <widget class="GtkImage" id="image_add_test4">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-new</property>
@@ -4241,7 +4241,7 @@ Carles</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkImage" id="image5">
+                                                            <widget class="GtkImage" id="image_chronopic_connect_contacts">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-connect</property>
@@ -4289,7 +4289,7 @@ Carles</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_chronopic_threshold_help_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image10">
+                                                            <widget class="GtkImage" id="image_info_threshold">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-info</property>
@@ -7557,7 +7557,7 @@ after time</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_button_person_max_all_sessions_info_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image65">
+                                                            <widget class="GtkImage" id="image_info_sessions_info">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-info</property>
@@ -10866,10 +10866,10 @@ after time</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">4</property>
                                                 <child>
-                                                  <widget class="GtkImage" id="image18">
+                                                  <widget class="GtkImage" id="image_tests_capture">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-execute</property>
+                                                    <property name="stock">gtk-missing-image</property>
                                                     <property name="icon-size">2</property>
                                                   </widget>
                                                   <packing>
@@ -14473,7 +14473,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkImage" id="image_chronopic_connect">
+                                                            <widget class="GtkImage" id="image_chronopic_connect_encoder">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -19077,6 +19077,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

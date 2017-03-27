@@ -40,9 +40,22 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_persons_down;
 	[Widget] Gtk.Image image_rest;
 	[Widget] Gtk.Image image_all_persons_events;
-	[Widget] Gtk.Image image_encoder_1RM_info;
-	[Widget] Gtk.Image image_chronopic_connect;
+	[Widget] Gtk.Image image_chronopic_connect_contacts;
+	[Widget] Gtk.Image image_chronopic_connect_encoder;
 	[Widget] Gtk.Image image_button_execute;
+	[Widget] Gtk.Image image_tests_capture;
+	[Widget] Gtk.Image image_info1;
+	[Widget] Gtk.Image image_info2;
+	[Widget] Gtk.Image image_info3;
+	[Widget] Gtk.Image image_info4;
+	[Widget] Gtk.Image image_info_threshold;
+	[Widget] Gtk.Image image_info_sessions_info;
+	[Widget] Gtk.Image image_add_test1;
+	[Widget] Gtk.Image image_add_test2;
+	[Widget] Gtk.Image image_add_test3;
+	[Widget] Gtk.Image image_add_test4;
+
+	//encoder images
 	[Widget] Gtk.Image image_recalculate;
 	[Widget] Gtk.Image image_encoder_configuration;
 	[Widget] Gtk.Image image_encoder_exercise;
@@ -53,6 +66,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture_execute;
 	[Widget] Gtk.Image image_encoder_exercise_add;
 	[Widget] Gtk.Image image_encoder_exercise_edit;
+	[Widget] Gtk.Image image_encoder_1RM_info;
 	//[Widget] Gtk.Image image_encoder_exercise_close;
 	[Widget] Gtk.Image image_inertial_rolled;
 	[Widget] Gtk.Image image_inertial_extended;
@@ -89,7 +103,12 @@ public partial class ChronoJumpWindow
 		image_inertial_not_menu.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
+		image_tests_capture.Pixbuf = pixbuf;
 		image_mode_encoder_capture.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		image_button_cancel.Pixbuf = pixbuf;
+		image_encoder_capture_cancel.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
 		image_manage_persons.Pixbuf = pixbuf;
@@ -98,10 +117,23 @@ public partial class ChronoJumpWindow
 		image_person.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
+		image_info1.Pixbuf = pixbuf;
+		image_info2.Pixbuf = pixbuf;
+		image_info3.Pixbuf = pixbuf;
+		image_info4.Pixbuf = pixbuf;
+		image_info_threshold.Pixbuf = pixbuf;
+		image_info_sessions_info.Pixbuf = pixbuf;
 		image_encoder_1RM_info.Pixbuf = pixbuf;
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_add_test.png");
+		image_add_test1.Pixbuf = pixbuf;
+		image_add_test2.Pixbuf = pixbuf;
+		image_add_test3.Pixbuf = pixbuf;
+		image_add_test4.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect.png");
-		image_chronopic_connect.Pixbuf = pixbuf;
+		image_chronopic_connect_contacts.Pixbuf = pixbuf;
+		image_chronopic_connect_encoder.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_recalculate.png");
 		image_recalculate.Pixbuf = pixbuf;
@@ -330,9 +362,9 @@ public partial class ChronoJumpWindow
 		image_button_finish.Pixbuf = pixbuf;
 		image_encoder_capture_finish.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gtk-cancel.png"); //high contrast (black)
-		image_button_cancel.Pixbuf = pixbuf;
-		image_encoder_capture_cancel.Pixbuf = pixbuf;
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gtk-cancel.png"); //high contrast (black)
+		//image_button_cancel.Pixbuf = pixbuf;
+		//image_encoder_capture_cancel.Pixbuf = pixbuf;
 		// <--- end of execute tests
 
 

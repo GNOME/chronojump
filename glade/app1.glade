@@ -2258,7 +2258,6 @@ Carles</property>
                                                         <property name="spacing">2</property>
                                                         <child>
                                                           <widget class="GtkButton" id="button_persons_up">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
@@ -2285,7 +2284,6 @@ Carles</property>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkButton" id="button_persons_down">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
@@ -19102,6 +19100,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

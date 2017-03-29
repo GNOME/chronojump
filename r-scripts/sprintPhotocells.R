@@ -83,8 +83,6 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         
         # Fitted speed plotting
         par(new=T)
-	print(time)
-	print(sprintDynamics$v.fitted)
         plot(time, sprintDynamics$v.fitted, type = "l", xlab="", ylab = "",  ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), yaxs= "i", xaxs = "i") # Fitted data
         text(4, sprintDynamics$Vmax.fitted/2, substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax=round(sprintDynamics$Vmax.fitted, digits=3), K=round(sprintDynamics$K.fitted, digits=3))), pos=4, cex=2)
         
@@ -99,6 +97,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         {
                 par(new=T)
                 plot(time, sprintDynamics$f.fitted, type="l", axes = FALSE, xlab="", ylab="", col="blue", ylim=c(0,sprintDynamics$fmax.fitted), yaxs= "i", xaxs = "i")
+
         }
         
         #Power plotting
@@ -106,7 +105,6 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         {
                 par(new=T)
                 plot(time, sprintDynamics$p.fitted, type="l", axes = FALSE, xlab="", ylab="", col="red", ylim=c(0,sprintDynamics$pmax.fitted), yaxs= "i", xaxs = "i")
-                print(paste("Power =",sprintDynamics$power.fitted))
                 abline(v = sprintDynamics$tpmax.fitted, col="red")
                 axis(4, col="red")
                 mtext(4, text="Power(W/Kg)", col="red")

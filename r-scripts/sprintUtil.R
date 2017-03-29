@@ -46,12 +46,12 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
         # Getting values from the exponential model. Used for numerical calculations
         time = seq(0,maxTime, by = 0.01)      
         v.fitted=Vmax*(1-exp(-K*time))
-        a.fitted = Vmax*K*(1 - v.fitted/Vmax)
-        f.fitted = Vmax*Mass*K*(1 - v.fitted/Vmax) + Ka*(v.fitted - Vw)^2
-        power.fitted = f.fitted * v.fitted
-        pmax.fitted = max(power.fitted)                 #TODO: Make an interpolation between the two closest points
+        a.fitted = Vmax*K*exp(-K*time)
+        f.fitted = Mass*a.fitted + Ka*(v.fitted - Vw)^2
+        p.fitted = f.fitted * v.fitted
+        pmax.fitted = max(p.fitted)                 #TODO: Make an interpolation between the two closest points
         pmax.rel.fitted = pmax.fitted / Mass
-        tpmax.fitted = time[which.max(power.fitted)]
+        tpmax.fitted = time[which.max(p.fitted)]
         
         #Modeling F-v with the wind friction.
         # a(v) = Vmax*K*(1 - v/Vmax)
@@ -71,7 +71,7 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
         return(list(Mass = Mass, Height = Height, Temperature = Temperature, Vw = Vw, Ka = Ka, K.fitted = K, Vmax.fitted = Vmax,
                     amax.fitted = amax.fitted, fmax.fitted = fmax.fitted, fmax.rel.fitted = fmax.rel.fitted, sfv.fitted = sfv.fitted, sfv.rel.fitted = sfv.rel.fitted,
                     pmax.fitted = pmax.fitted, pmax.rel.fitted = pmax.rel.fitted, tpmax.fitted = tpmax.fitted, F0 = F0, F0.rel = F0.rel, V0 = V0,
-                    sfv.lm = sfv.lm, sfv.rel.lm = sfv.rel.lm, pmax.lm = pmax.lm, pmax.rel.lm = pmax.rel.lm, v.fitted = v.fitted, a.fitted = a.fitted, f.fitted = f.fitted, p.fitted = power.fitted ))
+                    sfv.lm = sfv.lm, sfv.rel.lm = sfv.rel.lm, pmax.lm = pmax.lm, pmax.rel.lm = pmax.rel.lm, v.fitted = v.fitted, a.fitted = a.fitted, f.fitted = f.fitted, p.fitted = p.fitted ))
 }
 
 #Finds the time correspondig to a given position in the formula x(t) = Vmax*(t + (1/K)*exp(-K*t)) -Vmax - 1/K

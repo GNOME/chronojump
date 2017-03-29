@@ -271,12 +271,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box vbox_execute_test;
 	[Widget] Gtk.Button button_execute_test;
 	[Widget] Gtk.Viewport viewport_chronopics;
-	[Widget] Gtk.Label label_threshold;
-	[Widget] Gtk.HScale hscale_threshold;
 	//[Widget] Gtk.Label label_chronopic_encoder;
 	//[Widget] Gtk.Image image_chronopic_encoder_no;
 	//[Widget] Gtk.Image image_chronopic_encoder_yes;
-	
+
+	[Widget] Gtk.Label label_threshold;
+
 	[Widget] Gtk.HBox hbox_video_capture;
 	[Widget] Gtk.Label label_video_feedback;
 	[Widget] Gtk.CheckButton checkbutton_video;
@@ -2985,7 +2985,8 @@ public partial class ChronoJumpWindow
 			{
 				if(threshold.SelectTresholdForThisMode(m))
 				{
-					hscale_threshold.Value = threshold.SetHScaleValue();
+					label_threshold.Text = Catalog.GetString("Threshold") + " " + threshold.GetLabel() + " ms";
+
 					last_menuitem_mode = m;
 				}
 			}
@@ -3448,17 +3449,21 @@ public partial class ChronoJumpWindow
 		LogB.Debug("Called finish on multi");
 	}
 
-	private void on_chronopic_threshold_help_clicked (object o, EventArgs args)
+	DialogThreshold dialogThreshold;
+	private void on_threshold_clicked (object o, EventArgs args)
 	{
-		new DialogThreshold(getMenuItemMode());
+		dialogThreshold = new DialogThreshold(getMenuItemMode(), threshold.GetT);
+		dialogThreshold.FakeButtonClose.Clicked += new EventHandler(on_threshold_close);
 	}
 
-	//hscale does not manage correctly the +10 increments.
-	//we solve it with a label
-	private void on_hscale_threshold_value_changed(object o, EventArgs arg)
+	private void on_threshold_close (object o, EventArgs args)
 	{
-		threshold.UpdateFromGUI(10 * Convert.ToInt32(hscale_threshold.Value));
-		label_threshold.Text = threshold.GetLabel();
+		dialogThreshold.FakeButtonClose.Clicked -= new EventHandler(on_threshold_close);
+
+		threshold.UpdateFromGUI(dialogThreshold.ThresholdCurrent);
+		label_threshold.Text = Catalog.GetString("Threshold") + " " + threshold.GetLabel() + " ms";
+
+		dialogThreshold.DestroyDialog();
 	}
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 
@@ -6371,7 +6376,6 @@ LogB.Debug("X");
 		
 		//notebooks
 		notebook_execute.Sensitive = false;
-		//hbox_chronopics.Sensitive = false;
 		notebook_results.Sensitive = false;
 		notebook_options_top.Sensitive = false;
 		notebook_encoder_sup.Sensitive = false;
@@ -6417,7 +6421,6 @@ LogB.Debug("X");
 		personChanged();
 		
 		notebook_execute.Sensitive = false;
-		//hbox_chronopics.Sensitive = false;
 		notebook_results.Sensitive = false;
 		notebook_options_top.Sensitive = false;
 		notebook_encoder_sup.Sensitive = false;
@@ -6438,7 +6441,6 @@ LogB.Debug("X");
 		personChanged();
 		
 		notebook_execute.Sensitive = true;
-		//hbox_chronopics.Sensitive = true;
 		notebook_results.Sensitive = true;
 		notebook_options_top.Sensitive = true;
 		notebook_encoder_sup.Sensitive = true;

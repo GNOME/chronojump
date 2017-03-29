@@ -4146,71 +4146,20 @@ Carles</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox75">
+                                                      <widget class="GtkAlignment" id="alignment19">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
+                                                        <property name="top_padding">8</property>
                                                         <child>
-                                                          <widget class="GtkHBox" id="hbox_chronopic_detecting">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <widget class="GtkProgressBar" id="progressbar_chronopic_detecting">
+                                                          <widget class="GtkHBox" id="hbox75">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="show_text">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
+                                                            <property name="spacing">8</property>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_chronopic_detecting_cancel">
-                                                            <property name="label">gtk-cancel</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="use_stock">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_chronopic_detecting_info">
-                                                            <property name="label">gtk-info</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="use_stock">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkViewport" id="viewport_chronopics">
+                                                            <widget class="GtkViewport" id="viewport_chronopics">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="shadow_type">none</property>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox_chronopics">
-                                                            <property name="visible">True</property>
-                                                            <property name="app_paintable">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_activate_chronopics">
                                                             <property name="visible">True</property>
@@ -4246,10 +4195,12 @@ Carles</property>
                                                             <property name="icon-size">2</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             </child>
@@ -4261,81 +4212,16 @@ Carles</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox36">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <widget class="GtkTable" id="table_chronopic_threshold">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="n_rows">2</property>
-                                                            <property name="n_columns">2</property>
-                                                            <property name="column_spacing">4</property>
-                                                            <property name="row_spacing">2</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label254">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Threshold</property>
-                                                            </widget>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkButton" id="chronopic_threshold_help">
+                                                            <widget class="GtkButton" id="button_threshold">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
-                                                            <signal name="clicked" handler="on_chronopic_threshold_help_clicked" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_info_threshold">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-info</property>
-                                                            <property name="icon-size">1</property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="left_attach">1</property>
-                                                            <property name="right_attach">2</property>
-                                                            <property name="y_options"/>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkHScale" id="hscale_threshold">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="adjustment">5 1 10 1 1 0</property>
-                                                            <property name="restrict_to_fill_level">False</property>
-                                                            <property name="fill_level">0</property>
-                                                            <property name="digits">0</property>
-                                                            <property name="draw_value">False</property>
-                                                            <signal name="value_changed" handler="on_hscale_threshold_value_changed" swapped="no"/>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="top_attach">1</property>
-                                                            <property name="bottom_attach">2</property>
-                                                            </packing>
-                                                            </child>
+                                                            <signal name="clicked" handler="on_threshold_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_threshold">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">50</property>
                                                             </widget>
-                                                            <packing>
-                                                            <property name="left_attach">1</property>
-                                                            <property name="right_attach">2</property>
-                                                            <property name="top_attach">1</property>
-                                                            <property name="bottom_attach">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
                                                             </child>
                                                             </widget>
                                                             <packing>
@@ -4343,15 +4229,8 @@ Carles</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
-                                                            </child>
-                                                            </widget>
                                                             </child>
                                                           </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                          </packing>
                                                         </child>
                                                       </widget>
                                                       <packing>
@@ -19100,6 +18979,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

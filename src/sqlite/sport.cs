@@ -115,17 +115,32 @@ class SqliteSport : Sqlite
 
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
-		reader.Read();
 
-		Sport mySport = new Sport(
-				uniqueID,
-				reader[1].ToString(), //name
-				Util.IntToBool(Convert.ToInt32(reader[2])), //userDefined
-				Util.IntToBool(Convert.ToInt32(reader[3])), //hasSpeciallities
-				reader[4].ToString() //graphLink
-				);
-	
+		Sport mySport = null;
+		while(reader.Read())
+			mySport = new Sport(
+					uniqueID,
+					reader[1].ToString(), //name
+					Util.IntToBool(Convert.ToInt32(reader[2])), //userDefined
+					Util.IntToBool(Convert.ToInt32(reader[3])), //hasSpeciallities
+					reader[4].ToString() //graphLink
+					);
+
 		reader.Close();
+
+		//manage problem if sport was deleted, return 1st sport: "undefined"
+		if(mySport == null)
+		{
+			//sportsChronojump[0] is "undefined"
+			string [] sportsFull = sportsChronojump[0].Split(new char[] {':'});
+			mySport = new Sport(
+					1, 					//uniqueID
+					sportsFull[0], 				//name
+					false, 					//userDefined
+					Util.StringToBool(sportsFull[2]), 	//hasSpeciallities
+					sportsFull[3] 				//graphLink
+					);
+		}
 		
 		if(! dbconOpened)
 			Sqlite.Close();

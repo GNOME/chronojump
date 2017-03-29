@@ -1983,9 +1983,9 @@ paint1RMBadilloExercise <- function (exercise, paf, title, outputData1)
 	for(i in 1:length(loadPercentCalc))
 	       if(loadPercentCalc[i] < 0)
 		       loadPercentCalc[i] = NA
-
-	loadCalcTotal <- 100 * curvesLoadTotal / loadPercentCalc
-	loadCalcExtra <- loadCalcTotal - (curvesLoadTotal - curvesLoadExtra)
+        
+	#Isolating loadCalcExtra from loadPercentCalc = 100 * curvesLoadExtra / loadCalcExtra we have:
+	loadCalcExtra <- 100 * curvesLoadExtra / loadPercentCalc
 
 	#for calculations take only the curves slower or == than 1.33
 	curvesSpeedInIntervalPos = which(curvesSpeed <= max(msp))

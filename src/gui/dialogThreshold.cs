@@ -27,13 +27,21 @@ using Mono.Unix;
 public class DialogThreshold
 {
 	[Widget] Gtk.Dialog dialog_threshold;
+
 	[Widget] Gtk.Notebook notebook;
 	[Widget] Gtk.TextView textview_about;
 	[Widget] Gtk.TextView textview_jumps;
 	[Widget] Gtk.TextView textview_races;
 	[Widget] Gtk.TextView textview_other;
 
-	public DialogThreshold (Constants.Menuitem_modes m)
+	[Widget] Gtk.Label label_threshold_name;
+	[Widget] Gtk.Label label_threshold_value;
+	[Widget] Gtk.HScale hscale_threshold;
+
+	private int thresholdCurrent;
+	public Button FakeButtonClose;
+
+	public DialogThreshold (Constants.Menuitem_modes m, int thresholdCurrent)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_threshold.glade", "dialog_threshold", null);
@@ -42,14 +50,39 @@ public class DialogThreshold
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_threshold);
 
+		FakeButtonClose = new Gtk.Button();
+
+		this.thresholdCurrent = thresholdCurrent;
+		hscale_threshold.Value = Convert.ToInt32(thresholdCurrent / 10);
+		label_threshold_value.Text = thresholdCurrent.ToString() + " ms";
+
 		writeTexts();
 
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
+		{
+			label_threshold_name.Text = "<b>" + Catalog.GetString("Threshold for jumps") + "</b>";
 			notebook.CurrentPage = 0;
+		}
                 else if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		{
+			label_threshold_name.Text = "<b>" + Catalog.GetString("Threshold for runs") + "</b>";
 			notebook.CurrentPage = 1;
+		}
 		else 	//other
+		{
+			label_threshold_name.Text = "<b>" + Catalog.GetString("Threshold for other tests") + "</b>";
 			notebook.CurrentPage = 2;
+		}
+
+		label_threshold_name.UseMarkup = true;
+	}
+
+	//hscale does not manage correctly the +10 increments.
+	//we solve it with a label
+	private void on_hscale_threshold_value_changed(object o, EventArgs arg)
+	{
+		thresholdCurrent = 10 * Convert.ToInt32(hscale_threshold.Value);
+		label_threshold_value.Text = thresholdCurrent.ToString() + " ms";
 	}
 
 	private void writeTexts()
@@ -84,11 +117,25 @@ public class DialogThreshold
 		textview_other.Buffer = tb_other;
 	}
 
-	public void on_button_close_clicked (object obj, EventArgs args) {
+	public void on_button_close_clicked (object obj, EventArgs args)
+	{
+		FakeButtonClose.Click(); //this will call DestroyDialog() later
+	}
+
+	private void on_delete_event (object o, DeleteEventArgs args)
+	{
+		FakeButtonClose.Click(); //this will call DestroyDialog() later
+
+		args.RetVal = true;
+	}
+
+	public void DestroyDialog ()
+	{
 		dialog_threshold.Destroy ();
 	}
 
-	private void on_delete_event (object o, DeleteEventArgs args) {
-		dialog_threshold.Destroy ();
+	public int ThresholdCurrent
+	{
+		get { return thresholdCurrent;	}
 	}
 }

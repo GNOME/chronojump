@@ -20,6 +20,7 @@
 
 using System;
 using System.IO.Ports;
+using System.Threading;
 using Gtk;
 using Glade;
 using System.Text; //StringBuilder
@@ -31,6 +32,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_value;
 	
 	CjComboForceSensorPorts comboForceSensorPorts;
+
+	Thread forceThread;
+	static bool forceProcessFinish;
+	static bool forceProcessCancel;
 
 	private void on_button_force_sensor_ports_reload_clicked(object o, EventArgs args)
 	{
@@ -55,25 +60,65 @@ public partial class ChronoJumpWindow
 		}
 		combo_force_sensor_ports.Sensitive = true;
 	}
-	
-	private void force_sensor_capture()
-	{
-		string portName = UtilGtk.ComboGetActive(combo_force_sensor_ports);
-		if(portName == null || portName == "")
-			return;
 
-		SerialPort port = new SerialPort(portName, 115200);
+	string forceSensorPortName;
+	private void forceSensorCapture()
+	{
+		forceSensorPortName = UtilGtk.ComboGetActive(combo_force_sensor_ports);
+		if(forceSensorPortName == null || forceSensorPortName == "")
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Please, select port");
+			return;
+		}
+
+		forceProcessFinish = false;
+		forceProcessCancel = false;
+		
+		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
+		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		
+		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
+		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+
+		forceThread = new Thread(new ThreadStart(forceSensorCaptureDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKForceSensor));
+	}
+
+	//non GTK on this method
+	private void forceSensorCaptureDo()
+	{
+		SerialPort port = new SerialPort(forceSensorPortName, 115200);
 		port.Open();
 
-		int count = 0;
 		string str;
-		while(count < 1000)
+		while(! forceProcessFinish && ! forceProcessCancel)
 		{
 			str = port.ReadLine();
 			LogB.Information("Readed: " + str);
 			label_force_sensor_value.Text = str;
-			count ++;
 		}
+
+		port.Close();
 	}
+	
+	private bool pulseGTKForceSensor ()
+	{
+		if(! forceThread.IsAlive || forceProcessFinish || forceProcessCancel)
+		{
+			LogB.ThreadEnding(); 
+			//finishPulsebar(...);
+			LogB.ThreadEnded(); 
+			return false;
+		}
+		/*
+		updatePulsebar(...); //activity on pulsebar
+		update graph or vscale
+		*/
+
+		Thread.Sleep (50);
+		LogB.Information(" ForceSensor:"+ forceThread.ThreadState.ToString());
+		return true;
+	}
+	
 }
 

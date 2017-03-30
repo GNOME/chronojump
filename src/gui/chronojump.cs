@@ -3389,6 +3389,13 @@ public partial class ChronoJumpWindow
 	{
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 
+		if(forceThread.IsAlive)
+		{
+			LogB.Information("cancel clicked on force");
+			forceProcessCancel = true;
+			return;
+		}
+
 		LogB.Information("cancel clicked one");
 
 		//this will mark the test as cancelled
@@ -3417,6 +3424,13 @@ public partial class ChronoJumpWindow
 	{
 		//to avoid doble finish or cancel while finishing
 		hideButtons();
+
+		if(forceThread.IsAlive)
+		{
+			LogB.Information("finish clicked on force");
+			forceProcessFinish = true;
+			return;
+		}
 
 		LogB.Information("finish clicked one");
 
@@ -3468,13 +3482,14 @@ public partial class ChronoJumpWindow
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 
 	{
-		if(radio_menuitem_mode_other.Active && radio_mode_force_sensor_small.Active) {
+		if(radio_menuitem_mode_other.Active && radio_mode_force_sensor_small.Active)
+		{
 			LogB.Debug("radio_mode_force_sensor");
 			/*
 			 * force sensor is not FTDI
 			 on_force_sensor_activate(canCaptureC);
 			 */
-			force_sensor_capture();
+			forceSensorCapture();
 			return;
 		}
 

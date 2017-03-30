@@ -822,6 +822,9 @@ public class RepairRunIntervalWindow
 		runInterval.Tracks = Util.GetNumberOfJumps(timeString, false); //don't need a GetNumberOfRuns, this works
 		runInterval.TimeTotal = Util.GetTotalTime(timeString);
 		runInterval.DistanceTotal = runInterval.TimeTotal * runInterval.DistanceInterval;
+
+		if(timeString != runInterval.IntervalTimesString)
+			runInterval.IntervalTimesString = timeString;
 	
 		if(type.FixedValue > 0) {
 			//if this t'Type has a fixed value of runs or time, limitstring has not changed

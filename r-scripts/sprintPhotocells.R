@@ -78,18 +78,23 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         textXPos = splitTimes[1:length(splitTimes) - 1] + diff(splitTimes)/2
         
         # Plotting average speed
+        par(mar = c(4, 4, 5, 6.5))
         barplot(height = avg.speeds, width = diff(splitTimes), space = 0, ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), main=title, xlab="Time(s)", ylab="Velocity(m/s)", axes = FALSE, yaxs= "i", xaxs = "i")
         text(textXPos, avg.speeds, round(avg.speeds, digits = 2), pos = 3)
+        axis(3, at = splitTimes, labels = splitTimes)
         
         # Fitted speed plotting
         par(new=T)
         plot(time, sprintDynamics$v.fitted, type = "l", xlab="", ylab = "",  ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), yaxs= "i", xaxs = "i") # Fitted data
+        axis(2, at = sprintDynamics$Vmax.fitted, labels = round(sprintDynamics$Vmax.fitted, digits = 2), line = 1, lwd = 0)
+        abline(h = sprintDynamics$Vmax, lty = 2)
         text(4, sprintDynamics$Vmax.fitted/2, substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax=round(sprintDynamics$Vmax.fitted, digits=3), K=round(sprintDynamics$K.fitted, digits=3))), pos=4, cex=2)
         
         if(plotFittedAccel)
         {
                 par(new = T)
                 plot(time, sprintDynamics$a.fitted, type = "l", col = "green", yaxs= "i", xaxs = "i", xlab="", ylab = "", axes = FALSE )
+                axis(line = 4, side = 4, col ="green", at = seq(0,max(sprintDynamics$a.fitted), by = 1))
         }
         
         #Force plotting
@@ -97,6 +102,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         {
                 par(new=T)
                 plot(time, sprintDynamics$f.fitted, type="l", axes = FALSE, xlab="", ylab="", col="blue", ylim=c(0,sprintDynamics$fmax.fitted), yaxs= "i", xaxs = "i")
+                axis(line = 2, side = 4, col ="blue", at = seq(0, sprintDynamics$fmax.fitted + 100, by = 100))
 
         }
         
@@ -104,16 +110,17 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         if(plotFittedPower)
         {
                 par(new=T)
-                plot(time, sprintDynamics$p.fitted, type="l", axes = FALSE, xlab="", ylab="", col="red", ylim=c(0,sprintDynamics$pmax.fitted), yaxs= "i", xaxs = "i")
-                abline(v = sprintDynamics$tpmax.fitted, col="red")
-                axis(4, col="red")
-                mtext(4, text="Power(W/Kg)", col="red")
-                text(3, 250, substitute(P(t) == A*e^(-K*t)*(1-e^(-K*t)) + B*(1-e^(-K*t))^3, 
-                                        list(A=round(sprintDynamics$Vmax.fitted^2*sprintDynamics$Mass, digits=3), 
-                                             B = round(sprintDynamics$Vmax.fitted^3*sprintDynamics$Ka, digits = 3),
-                                             Vmax=round(sprintDynamics$Vmax.fitted, digits=3),
-                                             K=round(sprintDynamics$K.fitted, digits=3))),
-                     pos=4, cex=1, col ="red")
+                plot(time, sprintDynamics$p.fitted, type="l", axes = FALSE, xlab="", ylab="", col="red", ylim=c(0,sprintDynamics$pmax.fitted + 100), yaxs= "i", xaxs = "i")
+                abline(v = sprintDynamics$tpmax.fitted, col="red", lty = 2)
+                axis(side = 4, col ="red", at = seq(0, sprintDynamics$pmax.fitted, by = 200))
+                axis(3, at = sprintDynamics$tpmax.fitted, labels = sprintDynamics$tpmax.fitted)
+                text(sprintDynamics$tpmax.fitted, sprintDynamics$pmax.fitted, paste("Pmax fitted =", round(sprintDynamics$pmax.fitted, digits = 2)),  pos = 3)
+                # text(3, 250, substitute(P(t) == A*e^(-K*t)*(1-e^(-K*t)) + B*(1-e^(-K*t))^3, 
+                #                         list(A=round(sprintDynamics$Vmax.fitted^2*sprintDynamics$Mass, digits=3), 
+                #                              B = round(sprintDynamics$Vmax.fitted^3*sprintDynamics$Ka, digits = 3),
+                #                              Vmax=round(sprintDynamics$Vmax.fitted, digits=3),
+                #                              K=round(sprintDynamics$K.fitted, digits=3))),
+                #      pos=4, cex=1, col ="red")
         }
         
 }

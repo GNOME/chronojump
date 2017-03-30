@@ -106,7 +106,7 @@ public class Sprint
 			"#positions\n" + 	positions + "\n" +
 			"#splitTimes\n" + 	splitTimes + "\n" +
 			"#mass\n" + 		Util.ConvertToPoint(mass) + "\n" +
-			"#personHeight\n" + 	Util.ConvertToPoint(personHeight) + "\n" +
+			"#personHeight\n" + 	Util.ConvertToPoint(personHeight / 100.0) + "\n" + //send it in meters
 			"#tempC\n" + 		tempC + "\n" +
 			"#os\n" + 		UtilEncoder.OperatingSystemForRGraphs() + "\n" +
 			"#graphWidth\n" + 	graphWidth.ToString() + "\n" +

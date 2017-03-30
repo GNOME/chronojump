@@ -69,6 +69,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_1RM_info;
 	//[Widget] Gtk.Image image_encoder_exercise_close;
 	[Widget] Gtk.Image image_inertial_rolled;
+	[Widget] Gtk.Image image_inertial_half_rolled;
 	[Widget] Gtk.Image image_inertial_extended;
 
 	private void putNonStandardIcons()
@@ -195,6 +196,8 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "inertial_rolled.png");
 		image_inertial_rolled.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "inertial_half_rolled.png");
+		image_inertial_half_rolled.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "inertial_extended.png");
 		image_inertial_extended.Pixbuf = pixbuf;
 

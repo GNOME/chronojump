@@ -60,7 +60,7 @@ getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
         #if there's only three positions. Substituting x1 = x(t1), and x2 = x(t2) whe have an exact solution.
         #2 variables (K and Vmax) and 2 equations.
         if (length(positions == 3)){
-                return(getSprintFrom2SplitTimes(x1 = positions[2], x2 = position[3], t1 = splitTimes[2], t2 = splitTimes[3] ))
+                return(getSprintFrom2SplitTimes(x1 = positions[2], x2 = positions[3], t1 = splitTimes[2], t2 = splitTimes[3] ))
         }
         
         photocell = data.frame(time = splitTimes, position = positions)

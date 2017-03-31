@@ -5744,7 +5744,7 @@ public partial class ChronoJumpWindow
 
 					//save the triggers now that we have an encoderSignalUniqueID
 					if(action == encoderActions.CURVES_AC)
-						eCapture.SaveTriggers(); //dbcon is closed
+						eCapture.SaveTriggers(Convert.ToInt32(encoderSignalUniqueID)); //dbcon is closed
 
 				} else
 					encoder_pulsebar_capture.Text = "";

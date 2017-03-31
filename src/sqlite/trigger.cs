@@ -92,7 +92,7 @@ class SqliteTrigger : Sqlite
 		{
 			dbcmd.CommandText = "INSERT INTO " + table + 
 				" (uniqueID, mode, modeID, ms, inOut, name, color, comments) VALUES (" +
-				trigger.ToSQL() + ")";
+				trigger.ToSQLInsertString() + ")";
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();
 		}

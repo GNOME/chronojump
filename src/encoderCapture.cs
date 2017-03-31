@@ -681,9 +681,9 @@ public abstract class EncoderCapture
 		((IDisposable)writer).Dispose();
 	}
 
-	public void SaveTriggers()
+	public void SaveTriggers(int signalID)
 	{
-		triggerList.SQLInsert();
+		triggerList.SQLInsert(signalID);
 	}
 	
 	//this methods only applies to inertial subclass

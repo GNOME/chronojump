@@ -63,10 +63,14 @@ public class Trigger
 		ms -= msToSubstract;
 	}
 
-	public string ToSQL()
+	public string ToSQLInsertString()
 	{
+		 string idStr = uniqueID.ToString();
+		 if(idStr == "-1")
+			 idStr = "NULL";
+
 	 	return 
-			uniqueID.ToString() + "," +
+			idStr + "," +
 			"\"" + mode.ToString() + "\"" + "," +
 			modeID.ToString() + "," +
 			ms.ToString() + "," +
@@ -79,6 +83,10 @@ public class Trigger
 
 	public int UniqueID {
 		get { return uniqueID; }
+	}
+
+	public int ModeID {
+		set { modeID = value; }
 	}
 }
 
@@ -109,11 +117,15 @@ public class TriggerList
 			LogB.Information(trigger.ToString());
 	}
 
-	public void SQLInsert()
+	public void SQLInsert(int signalID)
 	{
 		//save triggers to file (if any)
 		if(l == null || l.Count == 0)
 			return;
+
+		//update triggers with encoderSignalUniqueID
+		foreach(Trigger trigger in l)
+			trigger.ModeID = signalID;
 
 		LogB.Debug("runEncoderCaptureCsharp SQL inserting triggers");
 		SqliteTrigger.InsertList(false, l);

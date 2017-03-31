@@ -43,6 +43,11 @@ op <- assignOptions(options)
 #Returns the K and Vmax parameters of the sprint using a number of pairs (time, position)
 getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
 {
+        # TODO: If the photocell is not in the 0 meters we must find how long is the time from
+        #starting the race to the reaching of the photocell
+        # t0 = 0
+        # splitTimes = splitTimes + t0
+                                                
 	#noise is for testing purpouses.
 	# Checking that time and positions have the same length
         if(length(splitTimes) != length(positions)){
@@ -59,7 +64,7 @@ getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
         #Asuming that the first time and position are 0s it is not necessary to use the non linear regression
         #if there's only three positions. Substituting x1 = x(t1), and x2 = x(t2) whe have an exact solution.
         #2 variables (K and Vmax) and 2 equations.
-        if (length(positions == 3)){
+        if (length(positions) == 3){
                 return(getSprintFrom2SplitTimes(x1 = positions[2], x2 = positions[3], t1 = splitTimes[2], t2 = splitTimes[3] ))
         }
         
@@ -85,8 +90,10 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         textXPos = splitTimes[1:length(splitTimes) - 1] + diff(splitTimes)/2
         
         # Plotting average speed
-        par(mar = c(4, 4, 5, 6.5))
-        barplot(height = avg.speeds, width = diff(splitTimes), space = 0, ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), main=title, xlab="Time(s)", ylab="Velocity(m/s)", axes = FALSE, yaxs= "i", xaxs = "i")
+        par(mar = c(7, 4, 5, 6.5))
+        barplot(height = avg.speeds, width = diff(splitTimes), space = 0, ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)),
+                main=title, xlab="Time[s]", ylab="Velocity[m/s]",
+                axes = FALSE, yaxs= "i", xaxs = "i")
         text(textXPos, avg.speeds, round(avg.speeds, digits = 2), pos = 3)
         axis(3, at = splitTimes, labels = splitTimes)
         
@@ -95,7 +102,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         plot(time, sprintDynamics$v.fitted, type = "l", xlab="", ylab = "",  ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), yaxs= "i", xaxs = "i") # Fitted data
         axis(2, at = sprintDynamics$Vmax.fitted, labels = round(sprintDynamics$Vmax.fitted, digits = 2), line = 1, lwd = 0)
         abline(h = sprintDynamics$Vmax, lty = 2)
-        text(4, sprintDynamics$Vmax.fitted/2, substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax=round(sprintDynamics$Vmax.fitted, digits=3), K=round(sprintDynamics$K.fitted, digits=3))), pos=4, cex=2)
+        mtext(side = 1, line = 5, at = splitTimes[length(splitTimes)]*0.25, cex = 2 , substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax=round(sprintDynamics$Vmax.fitted, digits=3), K=round(sprintDynamics$K.fitted, digits=3))))
         
         if(plotFittedAccel)
         {
@@ -122,12 +129,13 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
                 axis(side = 4, col ="red", at = seq(0, sprintDynamics$pmax.fitted, by = 200))
                 axis(3, at = sprintDynamics$tpmax.fitted, labels = sprintDynamics$tpmax.fitted)
                 text(sprintDynamics$tpmax.fitted, sprintDynamics$pmax.fitted, paste("Pmax fitted =", round(sprintDynamics$pmax.fitted, digits = 2)),  pos = 3)
-                # text(3, 250, substitute(P(t) == A*e^(-K*t)*(1-e^(-K*t)) + B*(1-e^(-K*t))^3, 
-                #                         list(A=round(sprintDynamics$Vmax.fitted^2*sprintDynamics$Mass, digits=3), 
-                #                              B = round(sprintDynamics$Vmax.fitted^3*sprintDynamics$Ka, digits = 3),
-                #                              Vmax=round(sprintDynamics$Vmax.fitted, digits=3),
-                #                              K=round(sprintDynamics$K.fitted, digits=3))),
-                #      pos=4, cex=1, col ="red")
+                mtext(side = 1, line = 5, at = splitTimes[length(splitTimes)]*0.75, cex = 1.5,
+                      substitute(P(t) == A*e^(-K*t)*(1-e^(-K*t)) + B*(1-e^(-K*t))^3,
+                                        list(A=round(sprintDynamics$Vmax.fitted^2*sprintDynamics$Mass, digits=3),
+                                             B = round(sprintDynamics$Vmax.fitted^3*sprintDynamics$Ka, digits = 3),
+                                             Vmax=round(sprintDynamics$Vmax.fitted, digits=3),
+                                             K=round(sprintDynamics$K.fitted, digits=3)))
+                      , col ="red")
         }
         
 }

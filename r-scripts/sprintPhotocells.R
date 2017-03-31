@@ -51,9 +51,16 @@ getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
         }
         
         # For the correct calculation we need at least 2 values in the position and time
-        if(length(positions) < 2){
+        if(length(positions) <= 2){
                 print("Not enough data")
                 return()
+        }
+        
+        #Asuming that the first time and position are 0s it is not necessary to use the non linear regression
+        #if there's only three positions. Substituting x1 = x(t1), and x2 = x(t2) whe have an exact solution.
+        #2 variables (K and Vmax) and 2 equations.
+        if (length(positions == 3)){
+                return(getSprintFrom2SplitTimes(x1 = positions[2], x2 = position[3], t1 = splitTimes[2], t2 = splitTimes[3] ))
         }
         
         photocell = data.frame(time = splitTimes, position = positions)

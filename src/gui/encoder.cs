@@ -5742,6 +5742,10 @@ public partial class ChronoJumpWindow
 						encoderCaptureSaveCurvesAllNoneBest(preferences.encoderAutoSaveCurve,
 								Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
 
+					//save the triggers now that we have an encoderSignalUniqueID
+					if(action == encoderActions.CURVES_AC)
+						eCapture.SaveTriggers(); //dbcon is closed
+
 				} else
 					encoder_pulsebar_capture.Text = "";
 		

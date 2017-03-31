@@ -141,6 +141,7 @@ public class Constants
 	public const string EncoderExerciseTable = "encoderExercise";
 	public const string Encoder1RMTable = "encoder1RM";
 	public const string ExecuteAutoTable = "executeAuto";
+	public const string TriggerTable = "trigger";
 
 	// Dummy variables that exists for translating purposes
 	// pragma warning is to avoid warnings of "defined and not used" for these variables.

@@ -1115,6 +1115,8 @@
     <Compile Include="src\sprint.cs" />
     <Compile Include="src\gui\forceSensor.cs" />
     <Compile Include="src\gui\sprint.cs" />
+    <Compile Include="src\sqlite\trigger.cs" />
+    <Compile Include="src\trigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

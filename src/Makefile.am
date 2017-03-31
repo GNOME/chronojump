@@ -118,6 +118,7 @@ SOURCES = \
 	sqlite/event.cs\
 	sqlite/sport.cs\
 	sqlite/speciallity.cs\
+	sqlite/trigger.cs\
 	sqlite/usefulObjects.cs\
 	sqlite/country.cs\
 	sqlite/oldConvert.cs\
@@ -170,6 +171,7 @@ SOURCES = \
 	treeViewPulse.cs\
 	treeViewReactionTime.cs\
 	treeViewMultiChronopic.cs\
+	trigger.cs\
 	util.cs\
 	utilAll.cs\
 	utilCSV.cs\

@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.38";
+	static string lastChronojumpDatabaseVersion = "1.39";
 
 	public Sqlite() {
 	}
@@ -2143,6 +2143,12 @@ class Sqlite
 
 				currentVersion = updateVersion("1.38");
 			}
+			if(currentVersion == "1.38")
+			{
+				LogB.SQL("Created trigger table");
+				SqliteTrigger.createTableTrigger();
+				currentVersion = updateVersion("1.39");
+			}
 
 
 			// --- add more updates here
@@ -2318,8 +2324,10 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 
 		SqliteChronopicRegister.createTableChronopicRegister();
+		SqliteTrigger.createTableTrigger();
 
 		//changes [from - to - desc]
+		//1.38 - 1.39 Converted DB to 1.39 Created trigger table 
 		//1.37 - 1.38 Converted DB to 1.38 encoderConfiguration always with 12 values. Empty encoderConfiguration list_d as '' instead of '-1' or '0'
 		//1.36 - 1.37 Converted DB to 1.37 Deleted encoderConfiguration variable. Added encoderConfiguration table (1.36)
 		//1.35 - 1.36 Converted DB to 1.36 Deleted encoderConfiguration table

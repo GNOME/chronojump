@@ -55,7 +55,9 @@ public abstract class EncoderCapture
 
 	private int TRIGGER_ON = 84; //'T' from TRIGGER_ON on encoder firmware
 	private int TRIGGER_OFF = 116; //'t' from TRIGGER_OFF on encoder firmware
-	private BoolMsList boolMsList;
+
+	//private BoolMsList boolMsList;
+	private TriggerList triggerList;
 	
 	/*
 	 * sum: sum ob byteReaded, it's the vertical position
@@ -190,7 +192,7 @@ public abstract class EncoderCapture
 		initSpecific();
 
 		//prepare for receiving triggers from encoder
-		boolMsList = new BoolMsList();
+		triggerList = new TriggerList();
 		Util.FileDelete(Util.GetEncoderTriggerFileName());
 
 		cancel = false;
@@ -232,12 +234,12 @@ public abstract class EncoderCapture
 
 			if(byteReaded == TRIGGER_ON)
 			{
-				boolMsList.Add(true, i);
+				triggerList.Add(new Trigger(Trigger.Modes.ENCODER, i, true));
 				continue;
 			}
 			else if(byteReaded == TRIGGER_OFF)
 			{
-				boolMsList.Add(false, i);
+				triggerList.Add(new Trigger(Trigger.Modes.ENCODER, i, false));
 				continue;
 			}
 
@@ -262,8 +264,8 @@ public abstract class EncoderCapture
 					{
 						LogB.Information("Cleaning on capture");
 
-						//remove this time on existing boolMs records
-						boolMsList.Substract(consecutiveZeros);
+						//remove this time on existing trigger records
+						triggerList.Substract(consecutiveZeros);
 
 						consecutiveZeros = -1;
 						encoderReadedInertialDisc = new List<int>();
@@ -521,8 +523,6 @@ public abstract class EncoderCapture
 
 		saveToFile(outputData1);
 
-		boolMsList.Write();
-
 		LogB.Debug("runEncoderCaptureCsharp ended");
 
 		return true;
@@ -656,8 +656,8 @@ public abstract class EncoderCapture
 
 		if(count > allowedZeroMSAtStart)
 		{
-			l.RemoveRange(0, count-allowedZeroMSAtStart);
-			boolMsList.Substract(count-allowedZeroMSAtStart);
+			l.RemoveRange(0, count - allowedZeroMSAtStart);
+			triggerList.Substract(count - allowedZeroMSAtStart);
 		} // else: not enough zeros at start, don't need to trim 
 
 		return l; 
@@ -679,6 +679,11 @@ public abstract class EncoderCapture
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
+	}
+
+	public void SaveTriggers()
+	{
+		triggerList.SQLInsert();
 	}
 	
 	//this methods only applies to inertial subclass
@@ -923,6 +928,7 @@ public class EncoderCaptureIMCalc : EncoderCapture
 	
 }
 
+/*
 public class BoolMsList
 {
 	private List<BoolMs> l;
@@ -967,6 +973,7 @@ public class BoolMsList
 		((IDisposable)writer).Dispose();
 	}
 }
+
 public class BoolMs
 {
 	private bool b;
@@ -988,3 +995,4 @@ public class BoolMs
 		return b.ToString() + ": " + ms.ToString();
 	}
 }
+*/

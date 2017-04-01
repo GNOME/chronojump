@@ -2908,6 +2908,10 @@ doProcess <- function(options)
 				axisLineRight = axisLineRight +2
 			}
 			
+			#always (single or side) show 0 line
+			if(showSpeed || showAccel || showForce || showPower)
+				abline(h=0,lty=3,col="black")
+
 			paintVariablesLegend(showSpeed && ! isInertial(op$EncoderConfigurationName), showAccel, showForce, showPower)
 		}
 	

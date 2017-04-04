@@ -50,6 +50,10 @@ class SqlitePreferences : Sqlite
 				else
 					Insert ("chronopicPort", Constants.ChronopicDefaultPortLinux, dbcmdTr);
 
+				//appearance
+				Insert ("maximized", "False", dbcmdTr);
+				Insert ("personWinHide", "False", dbcmdTr);
+				Insert ("encoderCaptureShowOnlyBars", "False", dbcmdTr);
 				Insert ("digitsNumber", "3", dbcmdTr);
 				Insert ("showPower", "True", dbcmdTr);
 				Insert ("showStiffness", "True", dbcmdTr);
@@ -200,7 +204,13 @@ class SqlitePreferences : Sqlite
 			//LogB.Information(reader[0].ToString() + ":" + reader[1].ToString());
 
 	 		//these are sent to preferences window
-			if(reader[0].ToString() == "digitsNumber")
+			if(reader[0].ToString() == "maximized")
+				preferences.maximized = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "personWinHide")
+				preferences.personWinHide = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "encoderCaptureShowOnlyBars")
+				preferences.encoderCaptureShowOnlyBars = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "digitsNumber")
 				preferences.digitsNumber = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "showPower")
 				preferences.showPower = reader[1].ToString() == "True";

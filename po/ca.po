@@ -3098,7 +3098,9 @@ msgstr "Mostrar l'inici i la duració de cada repetició"
 msgid ""
 "Encoder\n"
 "Capture"
-msgstr "Captura d'encoder"
+msgstr ""
+"Encoder\n"
+"Captura"
 
 #: ../glade/preferences_win.glade.h:68
 msgid "Propulsive"

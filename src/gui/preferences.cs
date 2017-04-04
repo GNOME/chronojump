@@ -40,12 +40,18 @@ using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib;
 */
 
-public class PreferencesWindow {
-	
+public class PreferencesWindow
+{
 	[Widget] Gtk.Window preferences_win;
 	[Widget] Gtk.Notebook notebook;
 
-	//main tab
+	//appearance tab
+	[Widget] Gtk.CheckButton check_appearance_maximized;
+	[Widget] Gtk.CheckButton check_appearance_person_win_hide;
+	[Widget] Gtk.CheckButton check_appearance_encoder_only_bars;
+	[Widget] Gtk.Alignment alignment_restart;
+
+	//database tab
 	[Widget] Gtk.Button button_data_folder_open;
 
 	[Widget] Gtk.CheckButton check_backup_multimedia_and_encoder;
@@ -153,6 +159,11 @@ public class PreferencesWindow {
 	
 	ListStore langsStore;
 
+	const int JUMPSPAGE = 2;
+	const int RUNSPAGE = 3;
+	const int ENCODERCAPTUREPAGE = 4;
+	const int ENCODEROTHERPAGE = 5;
+
 
 	PreferencesWindow () {
 		Glade.XML gladeXML;
@@ -177,17 +188,34 @@ public class PreferencesWindow {
 		}
 
 		if(menu_mode !=	Constants.Menuitem_modes.JUMPSSIMPLE && menu_mode != Constants.Menuitem_modes.JUMPSREACTIVE)
-			PreferencesWindowBox.notebook.GetNthPage(1).Hide(); 
+			PreferencesWindowBox.notebook.GetNthPage(JUMPSPAGE).Hide();
 		if(menu_mode !=	Constants.Menuitem_modes.RUNSSIMPLE && menu_mode != Constants.Menuitem_modes.RUNSINTERVALLIC)
-			PreferencesWindowBox.notebook.GetNthPage(2).Hide(); 
+			PreferencesWindowBox.notebook.GetNthPage(RUNSPAGE).Hide();
 		if(menu_mode !=	Constants.Menuitem_modes.POWERGRAVITATORY && menu_mode != Constants.Menuitem_modes.POWERINERTIAL) {
-			PreferencesWindowBox.notebook.GetNthPage(3).Hide();
-			PreferencesWindowBox.notebook.GetNthPage(4).Hide();
+			PreferencesWindowBox.notebook.GetNthPage(ENCODERCAPTUREPAGE).Hide();
+			PreferencesWindowBox.notebook.GetNthPage(ENCODEROTHERPAGE).Hide();
 		}
 
 		PreferencesWindowBox.preferences = preferences;
 
 		PreferencesWindowBox.createComboLanguage();
+
+		//appearence tab
+		if(preferences.maximized)
+			PreferencesWindowBox.check_appearance_maximized.Active = true;
+		else
+			PreferencesWindowBox.check_appearance_maximized.Active = false;
+
+		if(preferences.personWinHide)
+			PreferencesWindowBox.check_appearance_person_win_hide.Active = true;
+		else
+			PreferencesWindowBox.check_appearance_person_win_hide.Active = false;
+
+		if(preferences.encoderCaptureShowOnlyBars)
+			PreferencesWindowBox.check_appearance_encoder_only_bars.Active = true;
+		else
+			PreferencesWindowBox.check_appearance_encoder_only_bars.Active = false;
+
 
 		//multimedia tab
 		if(preferences.volumeOn)  
@@ -400,7 +428,11 @@ public class PreferencesWindow {
 		combo_camera.Active = UtilGtk.ComboMakeActive(devices, devices[current]);
 	}
 		
-	
+	private void on_check_appearance_encoder_only_bars_toggled (object obj, EventArgs args) 
+	{
+		alignment_restart.Visible = ! check_appearance_encoder_only_bars.Active;
+	}
+
 	private void on_checkbutton_encoder_capture_fully_extended_toggled(object obj, EventArgs args) {
 		hbox_encoder_capture_fully_extended.Visible = checkbutton_encoder_capture_fully_extended.Active;
 	}
@@ -920,6 +952,21 @@ public class PreferencesWindow {
 	{
 		Sqlite.Open();
 
+
+		//appearance tab
+		if( preferences.maximized != PreferencesWindowBox.check_appearance_maximized.Active ) {
+			SqlitePreferences.Update("maximized", PreferencesWindowBox.check_appearance_maximized.Active.ToString(), true);
+			preferences.maximized = PreferencesWindowBox.check_appearance_maximized.Active;
+		}
+		if( preferences.personWinHide != PreferencesWindowBox.check_appearance_person_win_hide.Active ) {
+			SqlitePreferences.Update("personWinHide", PreferencesWindowBox.check_appearance_person_win_hide.Active.ToString(), true);
+			preferences.personWinHide = PreferencesWindowBox.check_appearance_person_win_hide.Active;
+		}
+		if( preferences.encoderCaptureShowOnlyBars != PreferencesWindowBox.check_appearance_encoder_only_bars.Active ) {
+			SqlitePreferences.Update("encoderCaptureShowOnlyBars", PreferencesWindowBox.check_appearance_encoder_only_bars.Active.ToString(), true);
+			preferences.encoderCaptureShowOnlyBars = PreferencesWindowBox.check_appearance_encoder_only_bars.Active;
+		}
+		
 		if( preferences.digitsNumber != Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals)) ) {
 			SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), true);
 			preferences.digitsNumber = Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals));
@@ -929,7 +976,7 @@ public class PreferencesWindow {
 			SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), true);
 			preferences.showPower = PreferencesWindowBox.checkbutton_power.Active;
 		}
-		
+
 		if( preferences.showStiffness != PreferencesWindowBox.checkbutton_stiffness.Active ) {
 			SqlitePreferences.Update("showStiffness", PreferencesWindowBox.checkbutton_stiffness.Active.ToString(), true);
 			preferences.showStiffness = PreferencesWindowBox.checkbutton_stiffness.Active;

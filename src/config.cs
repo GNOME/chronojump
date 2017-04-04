@@ -57,6 +57,7 @@ public class Config
 		RunScriptOnExit = "";
 	}
 
+	/*
 	public void Read()
 	{
 		string contents = Util.ReadFile(UtilAll.GetConfigFileName(), false);
@@ -105,7 +106,8 @@ public class Config
 			}
 		}
 	}
-	
+	*/
+	/*
 	public static void UpdateField(string field, string text)
 	{
 		//adapted from
@@ -166,6 +168,7 @@ public class Config
 				"RunScriptOnExit = " + RunScriptOnExit.ToString() + "\n"
 		      );
 	}
+	*/
 
 	~Config() {}
 }

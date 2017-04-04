@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.IO;
 using System.IO.Ports;
 using System.Threading;
 using Gtk;
@@ -82,6 +83,9 @@ public partial class ChronoJumpWindow
 
 		forceThread = new Thread(new ThreadStart(forceSensorCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKForceSensor));
+
+		LogB.ThreadStart();
+		forceThread.Start();
 	}
 
 	//non GTK on this method
@@ -89,14 +93,28 @@ public partial class ChronoJumpWindow
 	{
 		SerialPort port = new SerialPort(forceSensorPortName, 115200);
 		port.Open();
+		Thread.Sleep(2500); //sleep to let arduino start reading
 
-		string str;
+		port.WriteLine("Start:-920.80:"); //Imp: note decimal is point
+		string str = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			str = port.ReadLine();
+			LogB.Information("init string: " + str);
+		}
+		while(! str.StartsWith("StartedOk"));
+
+		str = "";
+		TextWriter writer = File.CreateText("/tmp/force.txt"); //TODO: hardcoded
 		while(! forceProcessFinish && ! forceProcessCancel)
 		{
 			str = port.ReadLine();
-			LogB.Information("Readed: " + str);
-			label_force_sensor_value.Text = str;
+			writer.WriteLine(str);
 		}
+		port.WriteLine("Stop");
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
 
 		port.Close();
 	}

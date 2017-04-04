@@ -50,8 +50,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_encoder_im_weights_n;
 	
 	//config.EncoderNameAndCapture
-	[Widget] Gtk.Box hbox_encoder_person;
-	[Widget] Gtk.Label label_encoder_person_name;
+	[Widget] Gtk.Box hbox_top_person;
+	[Widget] Gtk.Box hbox_top_person_encoder;
+	[Widget] Gtk.Label label_top_person_name;
+	[Widget] Gtk.Label label_top_encoder_person_name;
 	[Widget] Gtk.Button button_encoder_person_change;
 
 	//config.EncoderCaptureShowOnlyBars
@@ -65,11 +67,28 @@ public partial class ChronoJumpWindow
 	private bool encoderUpdateTreeViewWhileCapturing = true;
 		
 	Config configChronojump;
-	private void configInit() 
+	private void configInitRead()
 	{
 		//trying new Config class
 		configChronojump = new Config();
-		configChronojump.Read();
+
+		//configChronojump.Read();
+
+		configDo();
+	}
+	private void configInitFromPreferences()
+	{
+		configChronojump = new Config();
+
+		configChronojump.Maximized = preferences.maximized;
+		configChronojump.PersonWinHide = preferences.personWinHide;
+		configChronojump.EncoderCaptureShowOnlyBars = preferences.encoderCaptureShowOnlyBars;
+
+		configDo();
+	}
+
+	private void configDo()
+	{
 		LogB.Information("Config:\n" + configChronojump.ToString());
 			
 		/*
@@ -82,6 +101,9 @@ public partial class ChronoJumpWindow
 
 		if(configChronojump.Maximized)
 			app1.Maximize();
+		else
+			app1.Unmaximize();
+
 		if(configChronojump.CustomButtons)
 		{
 			//---- start window ----
@@ -140,14 +162,21 @@ public partial class ChronoJumpWindow
 			vbox_treeview_encoder_at_second_page.Remove(alignment_treeview_encoder_capture_curves);
 			vpaned_encoder_main.PackStart(alignment_treeview_encoder_capture_curves);
 			*/
+
+			//this change needs chronojump reload
 		}
 		
 		encoderUpdateTreeViewWhileCapturing = configChronojump.EncoderUpdateTreeViewWhileCapturing;
 		
-		if(configChronojump.PersonWinHide) {
-			//vbox_persons.Visible = false;
+		if(configChronojump.PersonWinHide)
+		{
 			notebook_session_person.Visible = false;
-			hbox_encoder_person.Visible = true;
+			hbox_top_person.Visible = true;
+			hbox_top_person_encoder.Visible = true;
+		} else {
+			notebook_session_person.Visible = true;
+			hbox_top_person.Visible = false;
+			hbox_top_person_encoder.Visible = false;
 		}
 		
 		if(configChronojump.EncoderAnalyzeHide) {

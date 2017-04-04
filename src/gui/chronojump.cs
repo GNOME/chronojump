@@ -69,7 +69,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_other;
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
 
-	
+	[Widget] Gtk.HBox hbox_contacts_sup_capture_analyze_two_buttons;
+	[Widget] Gtk.RadioButton radio_mode_contacts_capture;
+	[Widget] Gtk.RadioButton radio_mode_contacts_analyze;
+	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_profile;
+	[Widget] Gtk.RadioButton radio_mode_contacts_sprint;
+
 	[Widget] Gtk.Label label_version;
 	[Widget] Gtk.Image image_selector_start_jumps;
 	[Widget] Gtk.Image image_selector_start_runs;
@@ -711,6 +716,8 @@ public partial class ChronoJumpWindow
 		LogB.Information (string.Format(Catalog.GetString("Chronojump database version file: {0}"), 
 					preferences.databaseVersion));
 
+		configInitFromPreferences();
+
 		checkbutton_allow_finish_rj_after_time.Active = preferences.allowFinishRjAfterTime;
 
 		//---- video ----
@@ -932,9 +939,13 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	void label_person_change() {
-		label_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>"; 
-		label_encoder_person_name.UseMarkup = true; 
+	void label_person_change()
+	{
+		label_top_person_name.Text = "<b>" + currentPerson.Name + "</b>";
+		label_top_person_name.UseMarkup = true;
+
+		label_top_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>";
+		label_top_encoder_person_name.UseMarkup = true;
 	}
 	
 	private void treeview_persons_storeReset()
@@ -2685,11 +2696,14 @@ public partial class ChronoJumpWindow
 		preferencesWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
 		
-	private void on_preferences_import_configuration (object o, EventArgs args) {
+	private void on_preferences_import_configuration (object o, EventArgs args)
+	{
+		/*
 		preferencesWin.FakeButtonImported.Clicked -= new EventHandler(on_preferences_import_configuration);
 		
 		configInit();
 		LogB.Information("Initialized configuration");
+		*/
 	}
 
 	private void on_preferences_accepted (object o, EventArgs args) 
@@ -2703,7 +2717,8 @@ public partial class ChronoJumpWindow
 		//change language works on windows. On Linux let's change the locale
 		//if(UtilAll.IsWindows()) 
 		//	languageChange();
-		
+
+		configInitFromPreferences();
 
 		if(repetitiveConditionsWin != null)
 			repetitiveConditionsWin.VolumeOn = preferences.volumeOn;
@@ -2788,28 +2803,35 @@ public partial class ChronoJumpWindow
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
 			notebook_sup.CurrentPage = 0;
-			notebook_capture_analyze.ShowTabs = true;
+			//notebook_capture_analyze.ShowTabs = true;
+			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			if(m == Constants.Menuitem_modes.JUMPSSIMPLE) 
 			{
 				menuitem_mode_selected_jumps_simple.Visible = true;
 				notebooks_change(0);
 				on_extra_window_jumps_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = true;
-				notebook_capture_analyze.GetNthPage(2).Show(); //show jumpsProfile on jumps simple
+				radio_mode_contacts_jumps_profile.Show();
 			} else 
 			{
 				menuitem_mode_selected_jumps_reactive.Visible = true;
 				notebooks_change(1);
 				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = false;
-				notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on jumps reactive
+
+				radio_mode_contacts_jumps_profile.Hide();
+				if(radio_mode_contacts_jumps_profile.Active)
+					radio_mode_contacts_capture.Active = true;
 			}
-			notebook_capture_analyze.GetNthPage(3).Hide(); //hide sprint page
+			radio_mode_contacts_sprint.Hide();
+			if(radio_mode_contacts_sprint.Active)
+				radio_mode_contacts_capture.Active = true;
 		}
 		else if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
 			notebook_sup.CurrentPage = 0;
-			notebook_capture_analyze.ShowTabs = true;
+			//notebook_capture_analyze.ShowTabs = true;
+			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 
 			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
 			{
@@ -2817,7 +2839,10 @@ public partial class ChronoJumpWindow
 				notebooks_change(2);
 				on_extra_window_runs_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = true;
-				notebook_capture_analyze.GetNthPage(3).Hide(); //hide sprint page
+
+				radio_mode_contacts_sprint.Hide();
+				if(radio_mode_contacts_sprint.Active)
+					radio_mode_contacts_capture.Active = true;
 			}
 			else
 			{
@@ -2826,9 +2851,11 @@ public partial class ChronoJumpWindow
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = false;
 				createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
-				notebook_capture_analyze.GetNthPage(3).Show(); //show sprint page
+				radio_mode_contacts_sprint.Show();
 			}
-			notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on runs
+			radio_mode_contacts_jumps_profile.Hide();
+			if(radio_mode_contacts_jumps_profile.Active)
+				radio_mode_contacts_capture.Active = true;
 		}
 		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL) 
 		{
@@ -2957,7 +2984,8 @@ public partial class ChronoJumpWindow
 			radio_mode_reaction_times_small.Active = true;
 
 			notebook_capture_analyze.CurrentPage = 0;
-			notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
+			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
+			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 		}
 
@@ -6328,7 +6356,29 @@ LogB.Debug("X");
 		jumpsProfileDo(false); //do not calculate data
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
-	
+
+
+	private void on_radio_mode_contacts_capture_toggled (object o, EventArgs args)
+	{
+		if(radio_mode_contacts_capture.Active)
+			notebook_capture_analyze.CurrentPage = 0;
+	}
+	private void on_radio_mode_contacts_analyze_toggled (object o, EventArgs args)
+	{
+		if(radio_mode_contacts_analyze.Active)
+			notebook_capture_analyze.CurrentPage = 1;
+	}
+	private void on_radio_mode_contacts_jumps_profile_toggled (object o, EventArgs args)
+	{
+		if(radio_mode_contacts_jumps_profile.Active)
+			notebook_capture_analyze.CurrentPage = 2;
+	}
+	private void on_radio_mode_contacts_sprint_toggled (object o, EventArgs args)
+	{
+		if(radio_mode_contacts_sprint.Active)
+			notebook_capture_analyze.CurrentPage = 3;
+	}
+
 	private void on_notebook_capture_analyze_switch_page (object o, SwitchPageArgs args) {
 		if(notebook_capture_analyze.CurrentPage == 2)
 			jumpsProfileDo(true);
@@ -6444,7 +6494,8 @@ LogB.Debug("X");
 		menuPersonSelectedSensitive(false);
 		vbox_execute_test.Sensitive = false;
 
-		label_encoder_person_name.Text = "";
+		label_top_person_name.Text = "";
+		label_top_encoder_person_name.Text = "";
 	}
 	
 	private void sensitiveGuiYesPerson () {
@@ -6491,11 +6542,15 @@ LogB.Debug("X");
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
 		//notebook_capture_analyze.Sensitive = true; 
-		notebook_capture_analyze.GetNthPage(1).Hide();
+		radio_mode_contacts_analyze.Hide();
 		if(radio_menuitem_mode_jumps_simple.Active)
-			notebook_capture_analyze.GetNthPage(2).Hide();
+		{
+			radio_mode_contacts_jumps_profile.Hide();
+		}
 		else if(radio_menuitem_mode_runs_intervallic.Active)
-			notebook_capture_analyze.GetNthPage(3).Hide();
+		{
+			radio_mode_contacts_sprint.Hide();
+		}
 		
 		
 		help_menuitem.Sensitive = false;
@@ -6544,11 +6599,15 @@ LogB.Debug("X");
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
 		//notebook_capture_analyze.Sensitive = true; 
-		notebook_capture_analyze.GetNthPage(1).Show();
+		radio_mode_contacts_analyze.Visible = true;
 		if(radio_menuitem_mode_jumps_simple.Active)
-			notebook_capture_analyze.GetNthPage(2).Show();
+		{
+			radio_mode_contacts_jumps_profile.Show();
+		}
 		else if(radio_menuitem_mode_runs_intervallic.Active)
-			notebook_capture_analyze.GetNthPage(3).Show();
+		{
+			radio_mode_contacts_sprint.Show();
+		}
 
 		help_menuitem.Sensitive = true;
 
@@ -6667,12 +6726,12 @@ LogB.Debug("X");
 		button_auto_start.Visible 	= ! start;	
 		hbox_jump_types_options.Visible = ! start;
 		hbox_jump_auto_controls.Visible  = start;
-		
-		notebook_capture_analyze.GetNthPage(1).Visible = ! start;
-		if(radio_menuitem_mode_jumps_simple.Active)
-			notebook_capture_analyze.GetNthPage(2).Visible = ! start;
+
+		radio_mode_contacts_analyze.Visible = ! start;
+		if(radio_menuitem_mode_jumps_reactive.Active)
+			radio_mode_contacts_jumps_profile.Visible = ! start;
 		else if(radio_menuitem_mode_runs_intervallic.Active)
-			notebook_capture_analyze.GetNthPage(3).Visible = ! start;
+			radio_mode_contacts_sprint.Visible = ! start;
 
 		//when start, put button delete_last_test as not sensitive
 		//(just for the test previous to the auto process)

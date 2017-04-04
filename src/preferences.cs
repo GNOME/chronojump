@@ -27,6 +27,11 @@ public class Preferences
 	 * these are sent to preferences window
 	 */
 
+	//appearance tab
+	public bool maximized;
+	public bool personWinHide;
+	public bool encoderCaptureShowOnlyBars;
+
 	public int digitsNumber;
 	public bool showPower;
 	public bool showStiffness;

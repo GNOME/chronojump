@@ -28,6 +28,197 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="border_width">16</property>
+                <property name="spacing">15</property>
+                <child>
+                  <widget class="GtkFrame" id="frame11">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label_xalign">0</property>
+                    <property name="shadow_type">in</property>
+                    <child>
+                      <widget class="GtkAlignment" id="alignment11">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="left_padding">12</property>
+                        <child>
+                          <widget class="GtkVBox" id="vbox28">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="border_width">8</property>
+                            <property name="spacing">10</property>
+                            <child>
+                              <widget class="GtkCheckButton" id="check_appearance_maximized">
+                                <property name="label" translatable="yes">Maximized</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="draw_indicator">True</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkCheckButton" id="check_appearance_person_win_hide">
+                                <property name="label" translatable="yes">Persons on top</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="draw_indicator">True</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkAlignment" id="alignment12">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="bottom_padding">10</property>
+                                <property name="left_padding">30</property>
+                                <child>
+                                  <widget class="GtkLabel" id="label72">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Hide left persons tab and show a button at top</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkCheckButton" id="check_appearance_encoder_only_bars">
+                                <property name="label" translatable="yes">On encoder capture show only bars</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="on_check_appearance_encoder_only_bars_toggled" swapped="no"/>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkAlignment" id="alignment_restart">
+                                <property name="can_focus">False</property>
+                                <property name="top_padding">20</property>
+                                <child>
+                                  <widget class="GtkHBox" id="hbox25">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="spacing">12</property>
+                                    <child>
+                                      <widget class="GtkLabel" id="label73">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="xalign">0</property>
+                                        <property name="label" translatable="yes">This change needs restarting Chronojump</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkImage" id="image2">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="stock">gtk-dialog-warning</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </widget>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">4</property>
+                              </packing>
+                            </child>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="label70">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Recommended options for small screens</property>
+                        <property name="use_markup">True</property>
+                      </widget>
+                      <packing>
+                        <property name="type">label_item</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkHButtonBox" id="hbuttonbox1">
+                    <property name="can_focus">False</property>
+                    <child>
+                      <widget class="GtkButton" id="button_import_configuration">
+                        <property name="label" translatable="yes">Import configuration</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_underline">True</property>
+                        <signal name="clicked" handler="on_button_import_configuration_clicked" swapped="no"/>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label528">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="yalign">0</property>
+                <property name="label" translatable="yes">Appearance</property>
+              </widget>
+              <packing>
+                <property name="tab_fill">False</property>
+                <property name="type">tab</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkVBox" id="vbox27">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="border_width">16</property>
                 <property name="spacing">25</property>
                 <child>
                   <widget class="GtkFrame" id="frame3">
@@ -198,21 +389,6 @@
                                 <property name="position">1</property>
                               </packing>
                             </child>
-                            <child>
-                              <widget class="GtkButton" id="button_import_configuration">
-                                <property name="label" translatable="yes">Import configuration</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <signal name="clicked" handler="on_button_import_configuration_clicked" swapped="no"/>
-                              </widget>
-                              <packing>
-                                <property name="expand">True</property>
-                                <property name="fill">False</property>
-                                <property name="position">2</property>
-                              </packing>
-                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -236,15 +412,19 @@
                   </packing>
                 </child>
               </widget>
+              <packing>
+                <property name="position">1</property>
+              </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label528">
+              <widget class="GtkLabel" id="label69">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="yalign">0</property>
-                <property name="label" translatable="yes">Main</property>
+                <property name="label" translatable="yes">Database</property>
               </widget>
               <packing>
+                <property name="position">1</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -827,7 +1007,7 @@ show elevation as:</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child>
@@ -838,7 +1018,7 @@ show elevation as:</property>
                 <property name="label" translatable="yes">Jumps</property>
               </widget>
               <packing>
-                <property name="position">1</property>
+                <property name="position">2</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -1345,7 +1525,7 @@ It starts before and arrives there with some speed.</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
             <child>
@@ -1357,7 +1537,7 @@ It starts before and arrives there with some speed.</property>
                 <property name="label" translatable="yes">Races</property>
               </widget>
               <packing>
-                <property name="position">2</property>
+                <property name="position">3</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -2169,7 +2349,7 @@ It starts before and arrives there with some speed.</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">3</property>
+                <property name="position">4</property>
               </packing>
             </child>
             <child>
@@ -2180,7 +2360,7 @@ It starts before and arrives there with some speed.</property>
 Capture</property>
               </widget>
               <packing>
-                <property name="position">3</property>
+                <property name="position">4</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -2510,7 +2690,7 @@ Capture</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">4</property>
+                <property name="position">5</property>
               </packing>
             </child>
             <child>
@@ -2521,7 +2701,7 @@ Capture</property>
 Other</property>
               </widget>
               <packing>
-                <property name="position">4</property>
+                <property name="position">5</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -2590,7 +2770,7 @@ Other</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">5</property>
+                <property name="position">6</property>
               </packing>
             </child>
             <child>
@@ -2601,7 +2781,7 @@ Other</property>
                 <property name="label" translatable="yes">Multimedia</property>
               </widget>
               <packing>
-                <property name="position">5</property>
+                <property name="position">6</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -2983,7 +3163,7 @@ Other</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">6</property>
+                <property name="position">7</property>
               </packing>
             </child>
             <child>
@@ -2994,7 +3174,7 @@ Other</property>
                 <property name="label" translatable="yes">Language</property>
               </widget>
               <packing>
-                <property name="position">6</property>
+                <property name="position">7</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -3268,7 +3448,7 @@ Other</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">7</property>
+                <property name="position">8</property>
               </packing>
             </child>
             <child>
@@ -3279,7 +3459,7 @@ Other</property>
                 <property name="label" translatable="yes">Advanced</property>
               </widget>
               <packing>
-                <property name="position">7</property>
+                <property name="position">8</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>

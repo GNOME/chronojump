@@ -131,16 +131,21 @@ public partial class ChronoJumpWindow
 
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
 		string fileName = Util.GetForceSensorSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar +
-			currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now) + ".txt";
+			currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now) + ".csv";
 
 		TextWriter writer = File.CreateText(fileName);
+		writer.WriteLine("Time (s);Force(N)");
 		str = "";
 		while(! forceProcessFinish && ! forceProcessCancel)
 		{
 			str = port.ReadLine();
-			writer.WriteLine(str);
 			string [] strFull = str.Split(new char[] {';'});
-			forceSensorLast = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
+			//needed to store double in user locale
+			double time = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[0]));
+			double force = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
+
+			writer.WriteLine(time.ToString() + ";" + force.ToString());
+			forceSensorLast = force;
 		}
 		port.WriteLine("Stop");
 		writer.Flush();

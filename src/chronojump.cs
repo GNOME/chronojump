@@ -255,6 +255,8 @@ public class ChronoJump
 		Util.CreateMultimediaDirsIfNeeded();
 		//to store encoder data and graphs
 		UtilEncoder.CreateEncoderDirIfNeeded();
+		//to store force sensor data and graphs
+		Util.CreateForceSensorDirIfNeeded();
 
 //TODO: when a session is deleted, encoder data has to be deleted, also multimedia videos, I suppose. Show message to user warning about it
 //TODO: encoder weight auto written depending on person loaded, and changes if it changes person or weight

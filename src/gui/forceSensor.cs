@@ -111,9 +111,12 @@ public partial class ChronoJumpWindow
 		}
 		while(! str.StartsWith("StartedOk"));
 
-		str = "";
-		string fileName = "/tmp/force_" + currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now) + ".txt"; //TODO: hardcoded
+		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
+		string fileName = Util.GetForceSensorSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar +
+			currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now) + ".txt";
+
 		TextWriter writer = File.CreateText(fileName);
+		str = "";
 		while(! forceProcessFinish && ! forceProcessCancel)
 		{
 			str = port.ReadLine();
@@ -158,6 +161,20 @@ public partial class ChronoJumpWindow
 		LogB.Information(" ForceSensor:"+ forceThread.ThreadState.ToString());
 		return true;
 	}
-	
+
+	private void on_button_force_sensor_data_folder_clicked	(object o, EventArgs args)
+	{
+		System.IO.DirectoryInfo folderSession =
+			new System.IO.DirectoryInfo(Util.GetForceSensorSessionDir(currentSession.UniqueID));
+		System.IO.DirectoryInfo folderGeneric =
+			new System.IO.DirectoryInfo(Util.GetForceSensorDir());
+
+		if(folderSession.Exists)
+			System.Diagnostics.Process.Start(Util.GetForceSensorSessionDir(currentSession.UniqueID));
+		else if(folderGeneric.Exists)
+			System.Diagnostics.Process.Start(Util.GetForceSensorDir());
+		else
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpen);
+	}
 }
 

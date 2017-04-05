@@ -874,6 +874,45 @@ public class Util
 		}
 	}
 	
+	/*
+	 * force sensor suff ------------------>
+	 */
+
+	//to store force sensor data and graphs
+	public static string GetForceSensorDir()
+	{
+		return Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump" + Path.DirectorySeparatorChar + "forceSensor");
+	}
+	public static void CreateForceSensorDirIfNeeded ()
+	{
+		string dir = GetForceSensorDir();
+		if( ! Directory.Exists(dir)) {
+			Directory.CreateDirectory (dir);
+			LogB.Information ("created dir:", dir);
+		}
+	}
+
+	//forceSensor organized by sessions.
+	public static string GetForceSensorSessionDir (int sessionID)
+	{
+		return GetForceSensorDir() + Path.DirectorySeparatorChar + sessionID.ToString();
+	}
+	public static void CreateForceSensorSessionDirIfNeeded (int sessionID)
+	{
+		string dir = GetForceSensorSessionDir(sessionID);
+		if( ! Directory.Exists(dir)) {
+			Directory.CreateDirectory (dir);
+			LogB.Information ("created dir:", dir);
+		}
+	}
+
+	/*
+	 * <--------------- end of force sensor suff
+	 */
+
+
 	//videos ar organized by sessions. Photos no.	
 	public static string GetVideoSessionDir (int sessionID) {
 		return GetVideosDir() + Path.DirectorySeparatorChar + sessionID.ToString();

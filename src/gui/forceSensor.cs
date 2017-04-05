@@ -37,6 +37,7 @@ public partial class ChronoJumpWindow
 	Thread forceThread;
 	static bool forceProcessFinish;
 	static bool forceProcessCancel;
+	static bool capturingForce;
 
 	private void on_button_force_sensor_ports_reload_clicked(object o, EventArgs args)
 	{
@@ -72,6 +73,12 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		button_execute_test.Sensitive = false;
+		event_execute_button_finish.Sensitive = true;
+		event_execute_button_cancel.Sensitive = true;
+		event_execute_label_message.Text = "Capturing ...";
+
+		capturingForce = true;
 		forceProcessFinish = false;
 		forceProcessCancel = false;
 		
@@ -105,7 +112,8 @@ public partial class ChronoJumpWindow
 		while(! str.StartsWith("StartedOk"));
 
 		str = "";
-		TextWriter writer = File.CreateText("/tmp/force.txt"); //TODO: hardcoded
+		string fileName = "/tmp/force_" + currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now) + ".txt"; //TODO: hardcoded
+		TextWriter writer = File.CreateText(fileName);
 		while(! forceProcessFinish && ! forceProcessCancel)
 		{
 			str = port.ReadLine();
@@ -115,17 +123,30 @@ public partial class ChronoJumpWindow
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
+		capturingForce = false;
 
 		port.Close();
+
+		if(forceProcessCancel)
+			Util.FileDelete(fileName);
 	}
 	
 	private bool pulseGTKForceSensor ()
 	{
 		if(! forceThread.IsAlive || forceProcessFinish || forceProcessCancel)
 		{
-			LogB.ThreadEnding(); 
-			//finishPulsebar(...);
+			LogB.ThreadEnding();
+
+			button_execute_test.Sensitive = true;
+			if(forceProcessFinish)
+				event_execute_label_message.Text = "Saved.";
+			else if(forceProcessCancel)
+				event_execute_label_message.Text = "Cancelled.";
+			else
+				event_execute_label_message.Text = "";
+
 			LogB.ThreadEnded(); 
+
 			return false;
 		}
 		/*

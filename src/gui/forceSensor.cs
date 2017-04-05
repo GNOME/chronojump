@@ -31,13 +31,25 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_combo_force_sensor_ports;
 	[Widget] Gtk.ComboBox combo_force_sensor_ports;
 	[Widget] Gtk.Label label_force_sensor_value;
+	[Widget] Gtk.VScale vscale_force_sensor;
 	
 	CjComboForceSensorPorts comboForceSensorPorts;
 
 	Thread forceThread;
 	static bool forceProcessFinish;
 	static bool forceProcessCancel;
-	static bool capturingForce;
+
+	/*
+	 * forceStatus:
+	 * STOP is when is not used
+	 * STARTING is while is waiting forceSensor to start capturing
+	 * CAPTURING is when data is arriving
+	 */
+	enum forceStatus { STOP, STARTING, CAPTURING }
+	static forceStatus capturingForce = forceStatus.STOP;
+
+	static bool forceCaptureStartMark; 	//Just needed to display "Capturing message"
+	static double forceSensorLast; 		//Needed to display value and move vscale
 
 	private void on_button_force_sensor_ports_reload_clicked(object o, EventArgs args)
 	{
@@ -76,9 +88,12 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = false;
 		event_execute_button_finish.Sensitive = true;
 		event_execute_button_cancel.Sensitive = true;
-		event_execute_label_message.Text = "Capturing ...";
+		event_execute_label_message.Text = "Please, wait ...";
+		forceCaptureStartMark = false;
+		vscale_force_sensor.Value = 0;
+		notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 
-		capturingForce = true;
+		capturingForce = forceStatus.STARTING;
 		forceProcessFinish = false;
 		forceProcessCancel = false;
 		
@@ -111,6 +126,9 @@ public partial class ChronoJumpWindow
 		}
 		while(! str.StartsWith("StartedOk"));
 
+		forceCaptureStartMark = true;
+		capturingForce = forceStatus.CAPTURING;
+
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
 		string fileName = Util.GetForceSensorSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar +
 			currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now) + ".txt";
@@ -121,12 +139,14 @@ public partial class ChronoJumpWindow
 		{
 			str = port.ReadLine();
 			writer.WriteLine(str);
+			string [] strFull = str.Split(new char[] {';'});
+			forceSensorLast = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
 		}
 		port.WriteLine("Stop");
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
-		capturingForce = false;
+		capturingForce = forceStatus.STOP;
 
 		port.Close();
 
@@ -152,12 +172,39 @@ public partial class ChronoJumpWindow
 
 			return false;
 		}
-		/*
-		updatePulsebar(...); //activity on pulsebar
-		update graph or vscale
-		*/
 
-		Thread.Sleep (50);
+		if(forceCaptureStartMark)
+		{
+			event_execute_label_message.Text = "Capturing ...";
+			forceCaptureStartMark = false;
+		}
+
+		if(capturingForce == forceStatus.CAPTURING)
+		{
+			//A) resize vscale if needed
+			int upper = Convert.ToInt32(vscale_force_sensor.Adjustment.Upper);
+			int lower = Convert.ToInt32(vscale_force_sensor.Adjustment.Lower);
+			bool changed = false;
+
+			if(forceSensorLast > upper)
+			{
+				upper = Convert.ToInt32(forceSensorLast * 2);
+				changed = true;
+			}
+			if(forceSensorLast < lower)
+			{
+				lower = Convert.ToInt32(forceSensorLast * 2); //good for negative values
+				changed = true;
+			}
+			if(changed)
+				vscale_force_sensor.SetRange(lower, upper);
+
+			//B) change the value
+			vscale_force_sensor.Value = forceSensorLast;
+			label_force_sensor_value.Text = forceSensorLast.ToString();
+		}
+
+		Thread.Sleep (25);
 		LogB.Information(" ForceSensor:"+ forceThread.ThreadState.ToString());
 		return true;
 	}

@@ -10872,9 +10872,35 @@ after time</property>
                                                             <property name="border_width">20</property>
                                                             <property name="spacing">10</property>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox207">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">20</property>
+                                                            <child>
+                                                            <widget class="GtkVScale" id="vscale_force_sensor">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="adjustment">0 -100 100 1 10 10</property>
+                                                            <property name="inverted">True</property>
+                                                            <property name="round_digits">1</property>
+                                                            <property name="draw_value">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox72">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label262">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
                                                             <property name="label">Force sensor</property>
                                                             </widget>
                                                             <packing>
@@ -10884,14 +10910,54 @@ after time</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox208">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_value">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label254">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label">N</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -19277,6 +19343,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

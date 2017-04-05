@@ -68,6 +68,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_sup;
 	[Widget] Gtk.HBox hbox_other;
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
+	[Widget] Gtk.Notebook notebook_capture_graph_table;
 
 	[Widget] Gtk.HBox hbox_contacts_sup_capture_analyze_two_buttons;
 	[Widget] Gtk.RadioButton radio_mode_contacts_capture;
@@ -3417,7 +3418,7 @@ public partial class ChronoJumpWindow
 	{
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 
-		if(capturingForce)
+		if(capturingForce != forceStatus.STOP)
 		{
 			LogB.Information("cancel clicked on force");
 			forceProcessCancel = true;
@@ -3453,7 +3454,7 @@ public partial class ChronoJumpWindow
 		//to avoid doble finish or cancel while finishing
 		hideButtons();
 
-		if(capturingForce)
+		if(capturingForce != forceStatus.STOP)
 		{
 			LogB.Information("finish clicked on force");
 			forceProcessFinish = true;

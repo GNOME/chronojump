@@ -3417,7 +3417,7 @@ public partial class ChronoJumpWindow
 	{
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 
-		if(forceThread != null && forceThread.IsAlive)
+		if(capturingForce)
 		{
 			LogB.Information("cancel clicked on force");
 			forceProcessCancel = true;
@@ -3453,7 +3453,7 @@ public partial class ChronoJumpWindow
 		//to avoid doble finish or cancel while finishing
 		hideButtons();
 
-		if(forceThread != null && forceThread.IsAlive)
+		if(capturingForce)
 		{
 			LogB.Information("finish clicked on force");
 			forceProcessFinish = true;

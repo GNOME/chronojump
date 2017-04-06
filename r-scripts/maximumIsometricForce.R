@@ -40,7 +40,21 @@ assignOptions <- function(options) {
 		    averageLength = as.numeric(options[2]),
 		    percentChange = as.numeric(options[3]),
 		    graphWidth 	= as.numeric(options[4]),
-		    graphHeight	= as.numeric(options[5])
+		    graphHeight	= as.numeric(options[5]),
+		    vlineT0 	= as.numeric(options[6]),
+		    vline50fmax.raw 	= as.numeric(options[7]),
+		    vline50fmax.fitted 	= as.numeric(options[8]),
+		    hline50fmax.raw 	= as.numeric(options[9]),
+		    hline50fmax.fitted 	= as.numeric(options[10]),
+		    rfd0.fitted 	= as.numeric(options[11]),
+		    rfd100.raw 	        = as.numeric(options[12]),
+		    rfd0_100.raw 	= as.numeric(options[13]),
+		    rfd0_100.fitted     = as.numeric(options[14]),
+		    rfd200.raw  	= as.numeric(options[15]),
+		    rfd0_200.raw 	= as.numeric(options[16]),
+		    rfd0_200.fitted 	= as.numeric(options[17]),
+		    rfd50fmax.raw 	= as.numeric(options[18]),
+		    rfd50fmax.fitted 	= as.numeric(options[19])
 		    ))
 }
 
@@ -75,10 +89,12 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
         return(list(fmax = fmax - f0, K = K))
 }
 
-getDynamicsFromLoadCellFile <- function(inputFile, sep = ";", dec = ".", averageLength = 0.1, percentChange = 5)
+getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentChange = 5)
 {
-        originalTest = read.csv2(inputFile, header = F, dec = dec, sep = sep, skip = 2)
+        originalTest = read.csv(inputFile, header = F, dec = ".", sep = ";", skip = 2)
         colnames(originalTest) <- c("Time", "Force")
+        originalTest$Time = as.numeric(originalTest$Time)
+        print(originalTest)
         
         
         #Finding the decrease of the foce to detect the end of the maximum voluntary force
@@ -372,19 +388,27 @@ getTrimmingSamples <- function(test, movingAverageForce, averageLength = 0.1, pe
 
 getMovingAverageForce <- function(test, averageLength = 0.1)
 {
-        
         sampleRate = (length(test$Time) - 1) / (test$Time[length(test$Time)] - test$Time[1])
         lengthSamples = round(averageLength * sampleRate, digits = 0)
-        
         movingAverageForce = filter(test$Force, rep(1/lengthSamples, lengthSamples), sides = 2)
         return(movingAverageForce)
 }
 
+assignOptions <- function(options) {
+        return(list(
+                os 		= options[1],
+                averageLength   = as.numeric(options[2]),
+                percentChange   = as.numeric(options[3]),
+                graphWidth 	= as.numeric(options[4]),
+                graphHeight	= as.numeric(options[5])
+        ))
+}
+
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-dynamics = getDynamicsFromLoadCellFile(dataFile, op$averageLength, op$percentChange, sep = ";", dec = ",")
-drawDynamicsFromLoadCell(dynamics, vlineT0=F, vline50fmax.raw=F, vline50fmax.fitted=T, hline50fmax.raw=F, hline50fmax.fitted=T,
-                         rfd0.fitted=T, rfd100.raw=F, rfd0_100.raw=F, rfd0_100.fitted = F, rfd200.raw=F, rfd0_200.raw=F, rfd0_200.fitted = F,
-                         rfd50fmax.raw=F, rfd50fmax.fitted=T)
+dynamics = getDynamicsFromLoadCellFile(dataFile, op$averageLength, op$percentChange)
+drawDynamicsFromLoadCell(dynamics, op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
+                         op$rfd0.fitted, op$rfd100.raw, op$rfd0_100.raw, op$rfd0_100.fitted, op$rfd200.raw, op$rfd0_200.raw, op$rfd0_200.fitted,
+                         op$rfd50fmax.raw, op$rfd50fmax.fitted)
 endGraph()
 
 #dynamics = getDynamicsFromLoadCellFile("~/ownCloud/Xavier/Recerca/Yoyo-Tests/Galga/RowData/APl1", averageLength = 0.1, percentChange = 5, sep = ";", dec = ",")

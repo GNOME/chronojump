@@ -17,6 +17,47 @@
 # 
 #   Copyright (C) 2017   	Xavier Padullés <x.padulles@gmail.com>
 
+#call from Chronojump or:
+
+#Rscript path_to/maximumIsometricForce.R path_tmp
+
+prepareGraph <- function(os, pngFile, width, height)
+{
+	if(os == "Windows")
+		Cairo(width, height, file = pngFile, type="png", bg="white")
+	else
+		png(pngFile, width=width, height=height)
+}
+
+endGraph <- function()
+{
+	dev.off()
+}
+
+assignOptions <- function(options) {
+	return(list(
+		    os 		= options[1],
+		    averageLength = as.numeric(options[2]),
+		    percentChange = as.numeric(options[3]),
+		    graphWidth 	= as.numeric(options[4]),
+		    graphHeight	= as.numeric(options[5])
+		    ))
+}
+
+#-------------- get params -------------
+args <- commandArgs(TRUE)
+
+tempPath <- args[1]
+optionsFile <- paste(tempPath, "/Roptions.txt", sep="")
+dataFile <- paste(tempPath, "/cj_mif_Data.csv", sep="")
+pngFile <- paste(tempPath, "/cj_mif_Graph.png", sep="")
+
+#-------------- scan options file -------------
+options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
+
+#-------------- assign options -------------
+op <- assignOptions(options)
+
 
 #Fits the data to the model f = fmax*(1 - exp(-K*t))
 #Important! It fits the data with the axes moved to f0 and startTime. The real maximum force is fmax + f0
@@ -106,11 +147,15 @@ getDynamicsFromLoadCellFile <- function(inputFile, sep = ";", dec = ".", average
                     endTime = endTime))
 }
 
-drawDynamicsFromLoadCell <- function(dynamics, pdfFilename = "/tmp/loadCellsMaxIsomForce.pdf", vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F, hline50fmax.raw=F, hline50fmax.fitted=F, 
-                                     rfd0.fitted=F, rfd100.raw=F, rfd0_100.raw=F, rfd0_100.fitted = F, rfd200.raw=F, rfd0_200.raw=F, rfd0_200.fitted = F, rfd50fmax.raw=F, rfd50fmax.fitted=F,
+#drawDynamicsFromLoadCell <- function(dynamics, pdfFilename = "/tmp/loadCellsMaxIsomForce.pdf", vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F, hline50fmax.raw=F, hline50fmax.fitted=F,
+drawDynamicsFromLoadCell <- function(
+				     dynamics, vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F,
+				     hline50fmax.raw=F, hline50fmax.fitted=F,
+                                     rfd0.fitted=F, rfd100.raw=F, rfd0_100.raw=F, rfd0_100.fitted = F, rfd200.raw=F, rfd0_200.raw=F,
+				     rfd0_200.fitted = F, rfd50fmax.raw=F, rfd50fmax.fitted=F,
                                      xlimits=NA)
 {
-        pdf(file = pdfFilename, paper="a4r", width = 12, height = 12)
+#        pdf(file = pdfFilename, paper="a4r", width = 12, height = 12)
         
         #Plotting raw data
         yHeight = dynamics$fmax.raw * 1.1
@@ -261,7 +306,7 @@ drawDynamicsFromLoadCell <- function(dynamics, pdfFilename = "/tmp/loadCellsMaxI
                      srt=atan(windowSlope)*180/pi, pos=2, cex = 0.75)
                 points(x = dynamics$t50fmax.fitted, y = dynamics$f50fmax.fitted, col = "blue")
         }
-        dev.off()
+        #dev.off()
 }
 
 getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf)
@@ -334,6 +379,13 @@ getMovingAverageForce <- function(test, averageLength = 0.1)
         movingAverageForce = filter(test$Force, rep(1/lengthSamples, lengthSamples), sides = 2)
         return(movingAverageForce)
 }
+
+prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
+dynamics = getDynamicsFromLoadCellFile(dataFile, op$averageLength, op$percentChange, sep = ";", dec = ",")
+drawDynamicsFromLoadCell(dynamics, vlineT0=F, vline50fmax.raw=F, vline50fmax.fitted=T, hline50fmax.raw=F, hline50fmax.fitted=T,
+                         rfd0.fitted=T, rfd100.raw=F, rfd0_100.raw=F, rfd0_100.fitted = F, rfd200.raw=F, rfd0_200.raw=F, rfd0_200.fitted = F,
+                         rfd50fmax.raw=F, rfd50fmax.fitted=T)
+endGraph()
 
 #dynamics = getDynamicsFromLoadCellFile("~/ownCloud/Xavier/Recerca/Yoyo-Tests/Galga/RowData/APl1", averageLength = 0.1, percentChange = 5, sep = ";", dec = ",")
 #drawDynamicsFromLoadCell(dynamics, vlineT0=F, vline50fmax.raw=F, vline50fmax.fitted=T, hline50fmax.raw=F, hline50fmax.fitted=T, 

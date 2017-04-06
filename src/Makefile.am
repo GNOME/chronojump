@@ -142,6 +142,7 @@ SOURCES = \
 	event.cs\
 	eventType.cs\
 	FTD2XX_NET.cs\
+	forceSensor.cs\
 	genericObjects.cs\
 	json.cs\
 	jump.cs\

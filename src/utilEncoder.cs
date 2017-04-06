@@ -247,6 +247,13 @@ public class UtilEncoder
 		return System.IO.Path.Combine(Path.GetTempPath(), "sprintGraph.png");
 	}
 
+	public static string GetmifPath() {
+		return System.IO.Path.Combine(Util.GetDataDir(), "r-scripts");
+	}
+	public static string GetmifScript() {
+		return System.IO.Path.Combine(GetSprintPath(), "maximumisometricForce.R");
+	}
+
 	/********** end of r-scripts paths ************/
 
 	private static string changeSpaceToSpaceMark(string myString) 

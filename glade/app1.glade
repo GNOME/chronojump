@@ -10879,6 +10879,7 @@ after time</property>
                                                             <child>
                                                             <widget class="GtkVScale" id="vscale_force_sensor">
                                                             <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="adjustment">0 -100 100 1 10 10</property>
                                                             <property name="inverted">True</property>

@@ -235,6 +235,8 @@ public partial class ChronoJumpWindow
 		image_mode_pulses_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameMultiChronopic);
 		image_mode_multi_chronopic_small.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_menu.png");
+		image_mode_force_sensor_small.Pixbuf = pixbuf;
 		
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsFallCalculate);

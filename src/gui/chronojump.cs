@@ -109,6 +109,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_mode_reaction_times_small;
 	[Widget] Gtk.Image image_mode_pulses_small;
 	[Widget] Gtk.Image image_mode_multi_chronopic_small;
+	[Widget] Gtk.Image image_mode_force_sensor_small;
 	[Widget] Gtk.Image image_mode_encoder_gravitatory;
 	[Widget] Gtk.Image image_mode_encoder_inertial;
 	[Widget] Gtk.Image image_gravitatory_not_menu;

@@ -2972,7 +2972,8 @@ Carles</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">10</property>
                                                         <child>
-                                                          <widget class="GtkImage" id="image_mode_force_sensor_small1">
+                                                          <widget class="GtkImage" id="image_mode_force_sensor_small">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                           </widget>
@@ -19344,6 +19345,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

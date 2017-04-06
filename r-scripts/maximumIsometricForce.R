@@ -74,10 +74,10 @@ op <- assignOptions(options)
 
 
 #Fits the data to the model f = fmax*(1 - exp(-K*t))
-#Important! It fits the data with the axes moved to f0 and startTime. The real maximum force is fmax + f0
+#Important! It fits the data with the axes moved to initf and startTime. The real maximum force is fmax + initf
 getForceModel <- function(time, force, startTime, # startTime is the instant when the force start to increase
                    fmaxi,           # fmaxi is the initial value for the force. For numeric purpouses
-                   f0)              # f0 is the sustained force before the increase
+                   initf)              # initf is the sustained force before the increase
         {
         timeTrimmed = time[which(time == startTime):length(time)]
         forceTrimmed = force[which(time == startTime):length(time)]
@@ -86,7 +86,7 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
         model = nls( force ~ fmax*(1-exp(-K*time)), data, start=list(fmax=fmaxi, K=1), control=nls.control(warnOnly=TRUE))
         fmax = summary(model)$coeff[1,1]
         K = summary(model)$coeff[2,1]
-        return(list(fmax = fmax - f0, K = K))
+        return(list(fmax = fmax - initf, K = K))
 }
 
 getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentChange = 5)
@@ -103,47 +103,50 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         endSample = trimmingSamples$endSample
         endTime = originalTest$Time[endSample]
         
-        f0.raw = mean(originalTest$Force[1:(startSample - 10)]) # Initial force.
+        # Initial force. It is needed to perform an initial steady force to avoid jerks and great peaks in the force
+        initf = mean(originalTest$Force[1:(startSample - 10)]) #ATENTION. This value is different from f0.raw
         fmax.raw = max(originalTest$Force)
         
         #Trimming the data before and after contraction
         test = originalTest[startSample:endSample,]
 
-        f.smoothed = getMovingAverageForce(originalTest, averageLength = averageLength) #Running average with equal weight of 1/18 (200 ms)
+        f.smoothed = getMovingAverageForce(originalTest, averageLength = averageLength) #Running average with equal weight averageLength seconds
         fmax.smoothed = max(f.smoothed, na.rm =T)
         
-        model = getForceModel(test$Time, test$Force, startTime, fmax.smoothed, f0.raw)
-        f.fitted = f0.raw + model$fmax*(1-exp(-model$K*(originalTest$Time - startTime)))
+        model = getForceModel(test$Time, test$Force, startTime, fmax.smoothed, initf)
+        f.fitted = initf + model$fmax*(1-exp(-model$K*(originalTest$Time - startTime)))
         
+        f0.raw = test$Force[1]                                                       #Force at t=0ms. ATENTION. This value is different than initf
         f100.raw = test$Force[which.min(abs(test$Time - (startTime + 0.1)))]         #Force at t=100ms
-        f100.fitted = model$fmax*(1 - exp( - model$K * 0.1)) + f0.raw
+        f100.fitted = model$fmax*(1 - exp( - model$K * 0.1)) + initf
         f200.raw = test$Force[which.min(abs(test$Time - (startTime + 0.2)))]         #Force at t=200ms
-        f200.fitted = model$fmax*(1 - exp( - model$K * 0.2)) + f0.raw
+        f200.fitted = model$fmax*(1 - exp( - model$K * 0.2)) + initf
         f90.raw = test$Force[which.min(abs(test$Time - (startTime + 0.09)))]        #Force at t=90ms
         f110.raw = test$Force[which.min(abs(test$Time - (startTime + 0.11)))]       #Force at t=110ms
         f190.raw = test$Force[which.min(abs(test$Time - (startTime + 0.19)))]       #Force at t=190ms
         f210.raw = test$Force[which.min(abs(test$Time - (startTime + 0.21)))]       #Force at t=210ms
         f50fmax.raw = test$Force[which.min(abs(test$Force - fmax.raw/2))]
-        f50fmax.fitted = (model$fmax + f0.raw)/2
+        f50fmax.fitted = (model$fmax + initf)/2
         
         rfd0.fitted = model$fmax * model$K # RFD at t=0ms using the exponential model
         rfd100.raw = (f110.raw - f90.raw) / 0.02  #rfd at t= 100ms. Mean value using de previous and the next value and divided by 20ms
         rfd0_100.raw = (f100.raw - f0.raw) / 0.1  #Mean rfd during t=[0..100]
-        rfd0_100.fitted = (f100.fitted - f0.raw) / 0.1
+        rfd0_100.fitted = (f100.fitted - initf) / 0.1
         rfd200.raw = (f210.raw - f190.raw) / 0.02
         rfd0_200.raw = (f200.raw - f0.raw) / 0.2
-        rfd0_200.fitted = (f200.fitted - f0.raw) / 0.2
+        rfd0_200.fitted = (f200.fitted - initf) / 0.2
         rfd100_200.raw = ((f200.raw - f100.raw) * 10)
         
         t50fmax.raw = test$Time[which.min(abs(test$Force - fmax.raw/2))]
-        t50fmax.fitted = originalTest$Time[which.min(abs(f.fitted - (model$fmax + f0.raw)/ 2))]
+        t50fmax.fitted = originalTest$Time[which.min(abs(f.fitted - (model$fmax + initf)/ 2))]
         rfd50fmax.raw = (test$Force[which.min(abs(test$Force - fmax.raw/2)) + 1] - test$Force[which.min(abs(test$Force - fmax.raw/2)) - 1]) * 100 / 2 #RFD at the moment that the force is 50% of the fmax
         rfd50fmax.fitted = model$fmax * model$K * exp(-model$K*(t50fmax.fitted - startTime))
         
         return(list(nameOfFile = inputFile, time = originalTest[, "Time"], fmax.fitted = model$fmax, k.fitted = model$K,
                     startTime = startTime, entTime = endTime,
                     startSample = startSample, endSample = endSample,
-                    f0 = f0.raw,
+                    initf = initf,
+                    f0.raw = f0.raw,
                     fmax.raw = fmax.raw, fmax.smoothed = fmax.smoothed,
                     f100.raw = f100.raw,
                     f100.fitted = f100.fitted,
@@ -174,8 +177,7 @@ drawDynamicsFromLoadCell <- function(
 {
 #        pdf(file = pdfFilename, paper="a4r", width = 12, height = 12)
         
-        #Plotting raw data
-        print(dynamics$time[dynamics$startSample])
+        #Plotting raw data from startTime to endTime (Only the analysed data)
         yHeight = dynamics$fmax.raw * 1.1
         if (!is.na(xlimits[1])){
                 xWidth = xlimits[2] - xlimits[1]
@@ -192,6 +194,8 @@ drawDynamicsFromLoadCell <- function(
                      ylim=c(0, yHeight),
                      main = dynamics$nameOfFile, yaxs= "i", xaxs = "i")
         }
+        
+        #Plotting not analysed data
         lines(dynamics$time[1:dynamics$startSample] , dynamics$f.raw[1:dynamics$startSample], type = "c")
         lines(dynamics$time[dynamics$endSample: length(dynamics$time)] , dynamics$f.raw[dynamics$endSample: length(dynamics$time)], type = "c")
         
@@ -200,7 +204,7 @@ drawDynamicsFromLoadCell <- function(
         #Plotting fitted data
         lines(dynamics$time, dynamics$f.fitted, col="blue")
         text(x = dynamics$time[length(dynamics$time)], y = dynamics$fmax.fitted - 30, labels = paste("Fmax =", round(dynamics$fmax.fitted, digits = 2), "N"), pos = 4, col="blue")
-        axis(4, at = dynamics$fmax.fitted + dynamics$f0, labels = round(dynamics$fmax.fitted + dynamics$f0, digits = 2), col = "blue")
+        axis(4, at = dynamics$fmax.fitted + dynamics$initf, labels = round(dynamics$fmax.fitted + dynamics$initf, digits = 2), col = "blue")
         
         #Plottting smoothed data
         lines(dynamics$time, dynamics$f.smoothed, col="grey")
@@ -214,8 +218,8 @@ drawDynamicsFromLoadCell <- function(
                 text( x = dynamics$t50fmax.raw + 0.5, y = dynamics$fmax.raw/2, labels = paste("Fmax/2 =", round(dynamics$fmax.raw/2, digits=2), "N", sep=""), pos = 3)
         }
         if(hline50fmax.fitted){
-                abline( h = (dynamics$fmax.fitted + dynamics$f0)/2, lty = 2, col = "blue")
-                text( x =dynamics$t50fmax.fitted + 0.5, y = (dynamics$fmax.fitted + dynamics$f0)/2, labels = paste("Fmax/2 =", round((dynamics$fmax.fitted + dynamics$f0)/2, digits=2), "N", sep=""), pos = 1, col="blue")
+                abline( h = (dynamics$fmax.fitted + dynamics$initf)/2, lty = 2, col = "blue")
+                text( x =dynamics$t50fmax.fitted + 0.5, y = (dynamics$fmax.fitted + dynamics$initf)/2, labels = paste("Fmax/2 =", round((dynamics$fmax.fitted + dynamics$initf)/2, digits=2), "N", sep=""), pos = 1, col="blue")
         }
         if(vline50fmax.raw){
                 abline(v = dynamics$t50fmax.raw, lty = 2)
@@ -242,7 +246,7 @@ drawDynamicsFromLoadCell <- function(
                 text(x = (yHeight - 5 - intercepstartTime.fitted)/dynamics$rfd0.fitted, y = yHeight - 5,
                      label=paste("RFD0 =", round(dynamics$rfd0.fitted, digits=0), "N/s"),
                      srt=atan(windowSlope)*180/pi, pos = 2, cex = 0.75, col = "blue")
-                points(x = dynamics$startTime, y = dynamics$f0, col = "blue")
+                points(x = dynamics$startTime, y = dynamics$initf, col = "blue")
         }
         
         if(rfd100.raw)
@@ -259,23 +263,23 @@ drawDynamicsFromLoadCell <- function(
         if(rfd0_100.raw)
         {
                 windowSlope = dynamics$rfd0_100.raw*(plotHeight/yHeight)/(plotWidth/xWidth)
-                intercepstartTime_100.raw = dynamics$f0 - dynamics$rfd0_100.raw * dynamics$startTime
+                intercepstartTime_100.raw = dynamics$f0.raw - dynamics$rfd0_100.raw * dynamics$startTime
                 abline(a = intercepstartTime_100.raw, b = dynamics$rfd0_100.raw, lty = 2)
                 text(x = (yHeight - 5 - intercepstartTime_100.raw)/dynamics$rfd0_100.raw, y = yHeight - 5,
                      label=paste("RFD0_100 =", round(dynamics$rfd0_100.raw, digits=0), "N/s"),
                      srt=atan(windowSlope)*180/pi, pos = 2, cex = 0.75)
-                points(x = c(dynamics$startTime, dynamics$startTime + 0.1), y = c(dynamics$f0, dynamics$f100.raw))
+                points(x = c(dynamics$startTime, dynamics$startTime + 0.1), y = c(dynamics$f0.raw, dynamics$f100.raw))
         }
         
         if(rfd0_100.fitted)
         {
                 windowSlope = dynamics$rfd0_100.fitted*(plotHeight/yHeight)/(plotWidth/xWidth)
-                intercepstartTime_100.fitted = dynamics$f0 - dynamics$rfd0_100.fitted * dynamics$startTime
+                intercepstartTime_100.fitted = dynamics$initf - dynamics$rfd0_100.fitted * dynamics$startTime
                 abline(a = intercepstartTime_100.fitted, b = dynamics$rfd0_100.fitted, lty = 2, col = "blue")
                 text(x = (yHeight - 5 - intercepstartTime_100.fitted)/dynamics$rfd0_100.fitted, y = yHeight - 5,
                      label=paste("RFD0_100 =", round(dynamics$rfd0_100.fitted, digits=0), "N/s"),
                      srt=atan(windowSlope)*180/pi, pos = 2, cex = 0.75, col = "blue")
-                points(x = c(dynamics$startTime, dynamics$startTime + 0.1), y = c(dynamics$f0, dynamics$f100.fitted), col = "blue")
+                points(x = c(dynamics$startTime, dynamics$startTime + 0.1), y = c(dynamics$initf, dynamics$f100.fitted), col = "blue")
         }
         
         if(rfd200.raw)
@@ -291,23 +295,23 @@ drawDynamicsFromLoadCell <- function(
         if(rfd0_200.raw)
         {
                 windowSlope = dynamics$rfd0_200.raw*(plotHeight/yHeight)/(plotWidth/xWidth)
-                intercepstartTime_200.raw = dynamics$f0 - dynamics$rfd0_200.raw * dynamics$startTime
+                intercepstartTime_200.raw = dynamics$f0.raw - dynamics$rfd0_200.raw * dynamics$startTime
                 abline(a = intercepstartTime_200.raw, b = dynamics$rfd0_200.raw, lty = 2)
                 text(x = (yHeight - 5 - intercepstartTime_200.raw)/dynamics$rfd0_200.raw, y = yHeight - 5,
                      label=paste("RFD0_200 =", round(dynamics$rfd0_200.raw, digits=0), "N/s"),
                      srt=atan(windowSlope)*180/pi, pos = 2, cex = 0.75)
-                points(x = c(dynamics$startTime, dynamics$startTime + 0.2), y = c(dynamics$f0,dynamics$f200.raw))
+                points(x = c(dynamics$startTime, dynamics$startTime + 0.2), y = c(dynamics$f0.raw,dynamics$f200.raw))
         }
         
         if(rfd0_200.fitted)
         {
                 windowSlope = dynamics$rfd0_200.fitted*(plotHeight/yHeight)/(plotWidth/xWidth)
-                intercepstartTime_200.fitted = dynamics$f0 - dynamics$rfd0_200.fitted * dynamics$startTime
+                intercepstartTime_200.fitted = dynamics$initf - dynamics$rfd0_200.fitted * dynamics$startTime
                 abline(a = intercepstartTime_200.fitted, b = dynamics$rfd0_200.fitted, lty = 2, col = "blue")
                 text(x = (yHeight - 5 - intercepstartTime_200.fitted)/dynamics$rfd0_200.fitted, y = yHeight - 5,
                      label=paste("RFD0_200 =", round(dynamics$rfd0_200.fitted, digits=0), "N/s"),
                      srt=atan(windowSlope)*180/pi, pos = 2, cex = 0.75, col = "blue")
-                points(x = c(dynamics$startTime, dynamics$startTime + 0.2), y = c(dynamics$f0,dynamics$f200.fitted), col = "blue")
+                points(x = c(dynamics$startTime, dynamics$startTime + 0.2), y = c(dynamics$initf,dynamics$f200.fitted), col = "blue")
         }
         
         if(rfd50fmax.raw){
@@ -337,7 +341,7 @@ getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf
         originalFiles = list.files(path=folderName, pattern="*")
         nFiles = length(originalFiles)
         results = matrix(rep(NA, 16*nFiles), ncol = 16)
-        colnames(results)=c("fileName", "fmax.fitted", "k.fitted", "fmax.raw", "startTime", "f0", "fmax.smoothed",
+        colnames(results)=c("fileName", "fmax.fitted", "k.fitted", "fmax.raw", "startTime", "initf", "fmax.smoothed",
                             "rfd0.fitted", "rfd100.raw", "rfd0_100.raw", "rfd0_100.fitted",
                             "rfd200.raw", "rfd0_200.raw", "rfd0_200.fitted",
                             "rfd50fmax.raw", "rfd50fmax.fitted")
@@ -353,7 +357,7 @@ getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf
                 results[i, "k.fitted"] = dynamics$k.fitted
                 results[i, "fmax.raw"] = dynamics$fmax.raw
                 results[i, "startTime"] = dynamics$startTime
-                results[i, "f0"] = dynamics$f0
+                results[i, "initf"] = dynamics$initf
                 results[i, "fmax.smoothed"] = dynamics$fmax.smoothed
                 results[i, "rfd0.fitted"] = dynamics$rfd0.fitted
                 results[i, "rfd100.raw"] = dynamics$rfd100.raw

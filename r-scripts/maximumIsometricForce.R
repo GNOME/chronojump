@@ -94,8 +94,6 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         originalTest = read.csv(inputFile, header = F, dec = ".", sep = ";", skip = 2)
         colnames(originalTest) <- c("Time", "Force")
         originalTest$Time = as.numeric(originalTest$Time)
-        print(originalTest)
-        
         
         #Finding the decrease of the foce to detect the end of the maximum voluntary force
         trimmingSamples = getTrimmingSamples(originalTest, averageLength = averageLength, percentChange = percentChange)
@@ -142,7 +140,10 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         rfd50fmax.raw = (test$Force[which.min(abs(test$Force - fmax.raw/2)) + 1] - test$Force[which.min(abs(test$Force - fmax.raw/2)) - 1]) * 100 / 2 #RFD at the moment that the force is 50% of the fmax
         rfd50fmax.fitted = model$fmax * model$K * exp(-model$K*(t50fmax.fitted - startTime))
         
-        return(list(nameOfFile = inputFile, time = originalTest[, "Time"], fmax.fitted = model$fmax, k.fitted = model$K, startTime = startTime, entTime = endTime, f0 = f0.raw,
+        return(list(nameOfFile = inputFile, time = originalTest[, "Time"], fmax.fitted = model$fmax, k.fitted = model$K,
+                    startTime = startTime, entTime = endTime,
+                    startSample = startSample, endSample = endSample,
+                    f0 = f0.raw,
                     fmax.raw = fmax.raw, fmax.smoothed = fmax.smoothed,
                     f100.raw = f100.raw,
                     f100.fitted = f100.fitted,
@@ -174,20 +175,26 @@ drawDynamicsFromLoadCell <- function(
 #        pdf(file = pdfFilename, paper="a4r", width = 12, height = 12)
         
         #Plotting raw data
+        print(dynamics$time[dynamics$startSample])
         yHeight = dynamics$fmax.raw * 1.1
         if (!is.na(xlimits[1])){
                 xWidth = xlimits[2] - xlimits[1]
-                plot(dynamics$time , dynamics$f.raw , type="l", xlab="Time[s]", ylab="Force[N]", xlim = xlimits, ylim=c(0, yHeight),
+                plot(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample],
+                     type="l", xlab="Time[s]", ylab="Force[N]", xlim = xlimits, ylim=c(0, yHeight),
                      main = dynamics$nameOfFile, yaxs= "i", xaxs = "i")
         } else if (is.na(xlimits[1])){
                 xmin = dynamics$startTime*0.97 - dynamics$time[1]*0.03
                 xmax = dynamics$endTime*1.1 - dynamics$startTime*0.1
                 xWidth = xmax - xmin
-                plot(dynamics$time , dynamics$f.raw , type="l", xlab="Time[s]", ylab="Force[N]",
+                plot(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample],
+                     type="l", xlab="Time[s]", ylab="Force[N]",
                      xlim = c(xmin, xmax),
                      ylim=c(0, yHeight),
                      main = dynamics$nameOfFile, yaxs= "i", xaxs = "i")
         }
+        lines(dynamics$time[1:dynamics$startSample] , dynamics$f.raw[1:dynamics$startSample], type = "c")
+        lines(dynamics$time[dynamics$endSample: length(dynamics$time)] , dynamics$f.raw[dynamics$endSample: length(dynamics$time)], type = "c")
+        
         text( x = min(which(dynamics$f.raw == max(dynamics$f.raw))/100), y = dynamics$fmax.raw, labels = paste("Fmax = ", round(dynamics$fmax.raw, digits=2), " N", sep=""), pos = 3)
         
         #Plotting fitted data
@@ -329,7 +336,6 @@ getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf
 {
         originalFiles = list.files(path=folderName, pattern="*")
         nFiles = length(originalFiles)
-        print(originalFiles)
         results = matrix(rep(NA, 16*nFiles), ncol = 16)
         colnames(results)=c("fileName", "fmax.fitted", "k.fitted", "fmax.raw", "startTime", "f0", "fmax.smoothed",
                             "rfd0.fitted", "rfd100.raw", "rfd0_100.raw", "rfd0_100.fitted",

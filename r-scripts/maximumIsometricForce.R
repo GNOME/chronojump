@@ -37,10 +37,10 @@ endGraph <- function()
 assignOptions <- function(options) {
 	return(list(
 		    os 		= options[1],
-		    averageLength = as.numeric(options[2]),
-		    percentChange = as.numeric(options[3]),
-		    graphWidth 	= as.numeric(options[4]),
-		    graphHeight	= as.numeric(options[5]),
+		    graphWidth 	= as.numeric(options[2]),
+		    graphHeight	= as.numeric(options[3]),
+		    averageLength = as.numeric(options[4]),
+		    percentChange = as.numeric(options[5]),
 		    vlineT0 	= as.numeric(options[6]),
 		    vline50fmax.raw 	= as.numeric(options[7]),
 		    vline50fmax.fitted 	= as.numeric(options[8]),
@@ -392,16 +392,6 @@ getMovingAverageForce <- function(test, averageLength = 0.1)
         lengthSamples = round(averageLength * sampleRate, digits = 0)
         movingAverageForce = filter(test$Force, rep(1/lengthSamples, lengthSamples), sides = 2)
         return(movingAverageForce)
-}
-
-assignOptions <- function(options) {
-        return(list(
-                os 		= options[1],
-                averageLength   = as.numeric(options[2]),
-                percentChange   = as.numeric(options[3]),
-                graphWidth 	= as.numeric(options[4]),
-                graphHeight	= as.numeric(options[5])
-        ))
 }
 
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)

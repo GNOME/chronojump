@@ -1605,8 +1605,8 @@ msgid ""
 "Start with the rope completely unwrapped,\n"
 "then click this button."
 msgstr ""
-"Comenceu la captura amb la corda completament desenrotllada; aleshores "
-"pitjeu aquest botó."
+"Comenceu la captura amb la corda completament desenrotllada,\n"
+"aleshores pitjeu aquest botó."
 
 #: ../glade/app1.glade.h:349
 msgid "Calibrate"

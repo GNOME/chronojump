@@ -658,6 +658,10 @@ public partial class ChronoJumpWindow
 			encoderThreadStart(encoderActions.CAPTURE_BG);
 		}
 	}
+	void on_button_encoder_inertial_recalibrate_clicked (object o, EventArgs args)
+	{
+		notebook_encoder_capture_or_exercise_or_instructions.Page = 2;
+	}
 
 	double maxPowerIntersessionOnCapture;
 	//called from main GUI

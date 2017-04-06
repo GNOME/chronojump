@@ -71,6 +71,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_inertial_rolled;
 	[Widget] Gtk.Image image_inertial_half_rolled;
 	[Widget] Gtk.Image image_inertial_extended;
+	[Widget] Gtk.Image image_encoder_calibrate;
+	[Widget] Gtk.Image image_encoder_recalibrate;
 
 	private void putNonStandardIcons()
 	{
@@ -200,6 +202,10 @@ public partial class ChronoJumpWindow
 		image_inertial_half_rolled.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "inertial_extended.png");
 		image_inertial_extended.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "calibrate.png");
+		image_encoder_calibrate.Pixbuf = pixbuf;
+		image_encoder_recalibrate.Pixbuf = pixbuf;
 
 		/*
 		 * <------ end of material design icons

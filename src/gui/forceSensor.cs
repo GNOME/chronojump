@@ -30,7 +30,9 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.HBox hbox_combo_force_sensor_ports;
 	[Widget] Gtk.ComboBox combo_force_sensor_ports;
+	[Widget] Gtk.Label label_force_sensor_value_max;
 	[Widget] Gtk.Label label_force_sensor_value;
+	[Widget] Gtk.Label label_force_sensor_value_min;
 	[Widget] Gtk.VScale vscale_force_sensor;
 	
 	CjComboForceSensorPorts comboForceSensorPorts;
@@ -91,6 +93,9 @@ public partial class ChronoJumpWindow
 		event_execute_label_message.Text = "Please, wait ...";
 		forceCaptureStartMark = false;
 		vscale_force_sensor.Value = 0;
+		label_force_sensor_value_max.Text = "0";
+		label_force_sensor_value.Text = "0";
+		label_force_sensor_value_min.Text = "0";
 		notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 
 		capturingForce = forceStatus.STARTING;
@@ -207,6 +212,10 @@ public partial class ChronoJumpWindow
 			//B) change the value
 			vscale_force_sensor.Value = forceSensorLast;
 			label_force_sensor_value.Text = forceSensorLast.ToString();
+			if(forceSensorLast > Convert.ToDouble(label_force_sensor_value_max.Text))
+				label_force_sensor_value_max.Text = forceSensorLast.ToString();
+			if(forceSensorLast < Convert.ToDouble(label_force_sensor_value_min.Text))
+				label_force_sensor_value_min.Text = forceSensorLast.ToString();
 		}
 
 		Thread.Sleep (25);

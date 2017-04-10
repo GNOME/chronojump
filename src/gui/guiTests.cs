@@ -58,6 +58,7 @@ public class CJTests
 		CONTACTS_EXECUTE_TEST,
 		ENCODER_SIGNAL_LOAD,
 		ENCODER_ECC_CON_INVERT,
+		ENCODER_CAPTURE,
 		ENCODER_RECALCULATE,
 		ENCODER_SET_SAVE_REPS,
 		ENCODER_SET_SAVE_REPS_BUCLE,
@@ -156,6 +157,38 @@ public class CJTests
 			CJTests.Types.CONTACTS_EXECUTE_TEST,
 			CJTests.Types.CONTACTS_EXECUTE_TEST,
 		CJTests.Types.BUCLE_1_OFF,
+		CJTests.Types.END
+	};
+
+	/*
+	 * howto simulate inertial capture
+	 * open chronojump, inertial mode, load simulated session, preferences / debug,
+	 * main menu: 70 (simulated session), click on guiTests
+	 * go to inertial mode, click on calibrate
+	 */
+	public static List<Types> SequenceEncoderInertialCapture = new List<Types>
+	{
+		CJTests.Types.MODE_POWERINERTIAL,
+//		CJTests.Types.SESSION_LOAD,
+//		CJTests.Types.BUCLE_1_ON,
+//			CJTests.Types.PERSON_SELECT, //bucle1startPos //repeat from here //when all persons have done a jumps/runs test, will end
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE,
+//		CJTests.Types.BUCLE_1_OFF,
 		CJTests.Types.END
 	};
 
@@ -267,29 +300,35 @@ public partial class ChronoJumpWindow
 	
 	public void chronojumpWindowTestsNext() 
 	{
+		LogB.Information("At chronojumpWindowTestsNext 0");
 		if(! testsActive)
 			return;
 
+		LogB.Information("At chronojumpWindowTestsNext 1");
 		//needed for SequenceContactsExecute50_10 (but doesn't work properly). Find other solution:
 		//http://www.mono-project.com/docs/gui/gtksharp/responsive-applications/
 		//
 		//force GUI update
 		//System.Threading.Thread.Sleep(250); //ok there's an sleep, but screen is not updated. Maybe need to open a new thread before each next call to ensure gui is updated
 		//http://mono.1490590.n4.nabble.com/Force-UI-Update-td3488126.html
-		while (Gtk.Application.EventsPending ())
-			        Gtk.Application.RunIteration ();
-		//System.Threading.Thread.Sleep(250); //ok there's an sleep, but screen is not updated. Maybe need to open a new thread before each next call to ensure gui is updated
+		//this works, and is used on 1.7.0, but does not work after ENCODER_CAPTURE test
+		//while (Gtk.Application.EventsPending ())
+		//	        Gtk.Application.RunIteration ();
+		System.Threading.Thread.Sleep(250); //ok there's an sleep, but screen is not updated. Maybe need to open a new thread before each next call to ensure gui is updated
 
+		LogB.Information("At chronojumpWindowTestsNext 2");
 		if(cjTest.Next())
 			chronojumpWindowTestsDo();
 		else {
 			testsActive = false;
 			testsReport();
 		}
+		LogB.Information("At chronojumpWindowTestsNext 3");
 	}
 
 	private void chronojumpWindowTestsDo() 
 	{
+		LogB.Information("At chronojumpWindowTestsDo");
 		//if process is very fast (no threads, no GUI problems) just call next from this method
 		bool callNext = false;
 		
@@ -346,6 +385,9 @@ public partial class ChronoJumpWindow
 			case CJTests.Types.ENCODER_ECC_CON_INVERT:
 				chronojumpWindowTestsEncoderEccConInvert();
 				callNext = true;
+				break;
+			case CJTests.Types.ENCODER_CAPTURE:
+				chronojumpWindowTestsEncoderCapture();
 				break;
 			case CJTests.Types.ENCODER_RECALCULATE:
 				chronojumpWindowTestsEncoderRecalculate();
@@ -539,6 +581,15 @@ public partial class ChronoJumpWindow
 		LogB.TestEnd("chronojumpWindowTestsEncoderEccConInvert");
 	}
 	
+	private void chronojumpWindowTestsEncoderCapture()
+	{
+		LogB.TestStart("chronojumpWindowTestsEncoderCapture");
+
+		on_button_encoder_capture_clicked (new Object (), new EventArgs ());
+
+		LogB.TestEnd("chronojumpWindowTestsEncoderCapture");
+	}
+
 	private void chronojumpWindowTestsEncoderRecalculate()
 	{
 		LogB.TestStart("chronojumpWindowTestsEncoderRecalculate");

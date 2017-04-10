@@ -626,6 +626,9 @@ public partial class ChronoJumpWindow
 
 	bool canCaptureEncoder()
 	{
+		if(currentSession.Name == Constants.SessionSimulatedName && testsActive)
+			return true;
+
 		chronopicRegisterUpdate(false);
 		int numEncoders = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER);
 		LogB.Information("numEncoders: " + numEncoders);
@@ -2193,7 +2196,9 @@ public partial class ChronoJumpWindow
 	//I suppose reading gtk is ok, changing will be the problem
 	private void encoderDoCaptureBG ()
 	{
-		eCaptureInertialBG.CaptureBG();
+		eCaptureInertialBG.CaptureBG(
+			currentSession.Name == Constants.SessionSimulatedName && testsActive
+			);
 	}
 
 	private void stopCapturingInertialBG()
@@ -2218,6 +2223,10 @@ public partial class ChronoJumpWindow
 		//wait to ensure capture thread has ended
 		Thread.Sleep(50);	
 		
+		//on simulated sleep more to ensure data is written to disc
+		if(currentSession.Name == Constants.SessionSimulatedName && testsActive)
+			Thread.Sleep(1500);
+
 		LogB.Debug("Going to stop");		
 		capturingCsharp = encoderCaptureProcess.STOPPING;
 
@@ -4718,8 +4727,12 @@ public partial class ChronoJumpWindow
 			calledCaptureInertial = false;
 			timeCalibrated = DateTime.Now;
 
-			eCaptureInertialBG = new EncoderCaptureInertialBackground(
-					chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port);
+			if(currentSession.Name == Constants.SessionSimulatedName && testsActive)
+				eCaptureInertialBG = new EncoderCaptureInertialBackground("");
+			else
+				eCaptureInertialBG = new EncoderCaptureInertialBackground(
+						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port);
+
 			encoderThreadBG = new Thread(new ThreadStart(encoderDoCaptureBG));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureBG));
 
@@ -4793,6 +4806,10 @@ public partial class ChronoJumpWindow
 					encoderProcessFinishContMode = false; //will be true when finish button is pressed
 				}
 
+				string portName = "";
+				if( ! (currentSession.Name == Constants.SessionSimulatedName && testsActive))
+					portName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port;
+
 				eCapture.InitGlobal(
 						encoder_capture_signal_drawingarea.Allocation.Width,
 						encoder_capture_signal_drawingarea.Allocation.Height,
@@ -4800,15 +4817,19 @@ public partial class ChronoJumpWindow
 						preferences.encoderCaptureInactivityEndTime,
 						radio_encoder_capture_cont.Active,
 						findEccon(true),
-						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port,
+						portName,
 						(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
-						configChronojump.EncoderCaptureShowOnlyBars
+						configChronojump.EncoderCaptureShowOnlyBars,
+						currentSession.Name == Constants.SessionSimulatedName && testsActive
 						);
 
 				if(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null)
 				{
 					eCaptureInertialBG.StoreData = true;
 					eCapture.InitCalibrated(eCaptureInertialBG.AngleNow);
+
+					if(currentSession.Name == Constants.SessionSimulatedName && testsActive)
+						eCaptureInertialBG.SimulatedReset();
 				}
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
@@ -4825,6 +4846,7 @@ public partial class ChronoJumpWindow
 						false,
 						findEccon(true),
 						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port,
+						false,
 						false,
 						false
 						);
@@ -5911,10 +5933,7 @@ public partial class ChronoJumpWindow
 				restTime.AddOrModify(currentPerson.UniqueID, true);
 				updateRestTimes();
 			}
-		
-			if(action == encoderActions.CURVES_AC && radio_encoder_capture_cont.Active && ! encoderProcessFinishContMode)
-				on_button_encoder_capture_clicked_do (false);
-			
+
 			//on inertial, check after capture if string was not fully extended and was corrected
 			if(getMenuItemMode() == Constants.Menuitem_modes.POWERINERTIAL && 
 					action == encoderActions.CURVES_AC && 
@@ -5925,7 +5944,6 @@ public partial class ChronoJumpWindow
 					new DialogMessage(Constants.MessageTypes.WARNING, 
 						Catalog.GetString("Set corrected. string was not fully extended at the beginning."));
 			}
-		
 		} else { //ANALYZE
 			if(encoderProcessCancel) {
 				encoder_pulsebar_analyze.Text = Catalog.GetString("Cancelled");
@@ -6027,11 +6045,15 @@ public partial class ChronoJumpWindow
 		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt");
 		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "6.txt");
 			
+		if(action == encoderActions.CURVES_AC && radio_encoder_capture_cont.Active && ! encoderProcessFinishContMode)
+			on_button_encoder_capture_clicked_do (false);
+
 		//for chronojumpWindowTests
 		LogB.Information("finishPulseBar DONE: " + action.ToString());
 		if(
 				action == encoderActions.LOAD ||	//load 
-				action == encoderActions.CURVES )	//recalculate
+				action == encoderActions.CURVES ||	//recalculate
+				action == encoderActions.CURVES_AC) 	//curves after capture
 			chronojumpWindowTestsNext();
 	}
 

@@ -31,7 +31,9 @@ public class EncoderCaptureInertialBackground
 	private bool finishBG;
 	public bool StoreData;
 	private SerialPort sp;
+	private Random rand;
 
+	//send port == "" for simulated
 	public EncoderCaptureInertialBackground(string port)
 	{
 		angleNow = 0;
@@ -39,21 +41,34 @@ public class EncoderCaptureInertialBackground
 		StoreData = false;
 		EncoderCaptureInertialBackgroundStatic.Start();
 
-		sp = new SerialPort(port);
-		sp.BaudRate = 115200;
-		LogB.Information("sp created");
+		if(port != "")
+		{
+			sp = new SerialPort(port);
+			sp.BaudRate = 115200;
+			LogB.Information("sp created");
+		}
 	}
 
-	public bool CaptureBG()
+	public bool CaptureBG(bool simulated)
 	{
 		LogB.Information("CaptureBG!");
-		sp.Open();
-		LogB.Information("sp opened");
+		if(simulated)
+		{
+			rand = new Random(40);
+			SimulatedReset();
+		}
+		else {
+			sp.Open();
+			LogB.Information("sp opened");
+		}
 
 		int byteReaded;
 		do {
 			try {
-				byteReaded = readByte();
+				if(simulated)
+					byteReaded = simulateByte();
+				else
+					byteReaded = readByte();
 			} catch {
 				LogB.Error("ERROR at InertialCaptureBackground: Maybe encoder cable is disconnected");
 				return false;
@@ -67,13 +82,50 @@ public class EncoderCaptureInertialBackground
 			//LogB.Information("angleNow = " + angleNow.ToString());
 		} while (! finishBG);
 
-		sp.Close();
+		if(! simulated)
+			sp.Close();
+
 		return true;
 	}
 
 	private int readByte()
 	{
 		return sp.ReadByte();
+	}
+
+	private bool simulatedGoingUp = false;
+	private int simulatedMaxValue = 400;
+	private int simulatedLength;
+	private int simulatedMaxLength = 4000; //when signal stops
+
+	public void SimulatedReset()
+	{
+		simulatedLength = 0;
+	}
+
+	private int simulateByte()
+	{
+		System.Threading.Thread.Sleep(1);
+
+		//return 0's to end if signal needs to end
+		simulatedLength ++;
+		if(simulatedLength > simulatedMaxLength)
+			return 0;
+
+		//get new value
+		int simValue;
+		if(simulatedGoingUp)
+			simValue = rand.Next(0, 4);
+		else
+			simValue = rand.Next(-4, 0);
+
+		//change direction if needed
+		if(simulatedGoingUp && angleNow > simulatedMaxValue)
+			simulatedGoingUp = false;
+		else if(! simulatedGoingUp && angleNow < -1 * simulatedMaxValue)
+			simulatedGoingUp = true;
+
+		return simValue;
 	}
 
 	private int convertByte(int b)

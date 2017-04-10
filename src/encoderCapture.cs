@@ -100,9 +100,9 @@ public abstract class EncoderCapture
 	protected bool inertialCalibrated;
 
 	//capture is simulated (a signal file is readed)
-	private static bool simulated = false;
-	private int [] simulatedInts;
-	private int simulatedCount;
+	private bool simulated = false;
+	//private int [] simulatedInts;
+	//private int simulatedCount;
 
 	
 	// ---- private stuff ----
@@ -110,7 +110,7 @@ public abstract class EncoderCapture
 
 
 	//if cont (continuous mode), then will not end when too much time passed before start
-	public void InitGlobal (int widthG, int heightG, int time, int timeEnd, bool cont, string eccon, string port, bool capturingInertialBG, bool showOnlyBars)
+	public void InitGlobal (int widthG, int heightG, int time, int timeEnd, bool cont, string eccon, string port, bool capturingInertialBG, bool showOnlyBars, bool simulated)
 	{
 		this.widthG = widthG;
 		this.heightG = heightG;
@@ -118,7 +118,8 @@ public abstract class EncoderCapture
 		this.eccon = eccon;
 		this.capturingInertialBG = capturingInertialBG;
 		this.showOnlyBars = showOnlyBars;
-		
+		this.simulated = simulated;
+
 		//---- a) open port -----
 		if(! simulated && ! capturingInertialBG) {
 			LogB.Debug("runEncoderCaptureCsharp start port:", port);
@@ -210,11 +211,14 @@ public abstract class EncoderCapture
 
 	public bool Capture(string outputData1, EncoderRProcCapture encoderRProcCapture, bool compujump)
 	{
+		/*
+		 * removed at 1.7.0
 		if(simulated) {
 			bool success = initSimulated();
 			if(! success)
 				return false;
 		}
+		*/
 
 		inertialCalibratedFirstCross0Pos = 0;
 
@@ -528,6 +532,8 @@ public abstract class EncoderCapture
 		return true;
 	}
 
+	/*
+	 * removed at 1.7.0
 	private bool initSimulated()
 	{
 		if(! File.Exists(UtilAll.GetECapSimSignalFileName()))
@@ -537,18 +543,22 @@ public abstract class EncoderCapture
 		simulatedInts = Util.ReadFileAsInts(filename);
 		return true;
 	}
+	*/
 
 
 	protected int readByte()
 	{
+		/*
+		 * removed at 1.7.0
 		if(simulated) {
 			return simulatedInts[simulatedCount ++];
 		} else {
+		*/
 			if(capturingInertialBG)
 				return EncoderCaptureInertialBackgroundStatic.GetNext();
 			else
 				return sp.ReadByte();
-		}
+		//}
 	}
 	protected int convertByte(int b)
 	{
@@ -700,7 +710,6 @@ public abstract class EncoderCapture
 	public void Finish() {
 		finish = true;
 	}
-	
 }
 
 
@@ -896,9 +905,11 @@ public class EncoderCaptureInertial : EncoderCapture
 		else
 			encoderReadedInertialDisc = trimInitialZeros(encoderReadedInertialDisc);
 
+		LogB.Information("Saving to disk");
 		string sep = "";
 		foreach(int k in encoderReadedInertialDisc) {
 			writer.Write(sep + k); //store the raw file (before encoderConfigurationConversions)
+			//LogB.Information(sep + k);
 			sep = ", ";
 		}
 

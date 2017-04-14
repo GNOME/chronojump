@@ -90,6 +90,7 @@ public abstract class EncoderCapture
 	protected bool capturingFirstPhase;
 
 	protected static SerialPort sp;
+	private Random rand;
 	protected bool finish;
 	protected bool capturingInertialBG;
 	protected bool showOnlyBars;
@@ -121,7 +122,12 @@ public abstract class EncoderCapture
 		this.simulated = simulated;
 
 		//---- a) open port -----
-		if(! simulated && ! capturingInertialBG) {
+		if(simulated)
+		{
+			rand = new Random(40);
+			SimulatedReset();
+		}
+		else if(! simulated && ! capturingInertialBG) {
 			LogB.Debug("runEncoderCaptureCsharp start port:", port);
 			sp = new SerialPort(port);
 			sp.BaudRate = 115200;
@@ -545,6 +551,40 @@ public abstract class EncoderCapture
 	}
 	*/
 
+	private bool simulatedGoingUp = false;
+	private int simulatedMaxValue = 400;
+	private int simulatedLength;
+	private int simulatedMaxLength = 4000; //when signal stops
+
+	public void SimulatedReset()
+	{
+		simulatedLength = 0;
+	}
+
+	private int simulateByte()
+	{
+		System.Threading.Thread.Sleep(1);
+
+		//return 0's to end if signal needs to end
+		simulatedLength ++;
+		if(simulatedLength > simulatedMaxLength)
+			return 0;
+
+		//get new value
+		int simValue;
+		if(simulatedGoingUp)
+			simValue = rand.Next(0, 4);
+		else
+			simValue = rand.Next(-4, 0);
+
+		//change direction if needed
+		if(simulatedGoingUp && sum > simulatedMaxValue)
+			simulatedGoingUp = false;
+		else if(! simulatedGoingUp && sum < -1 * simulatedMaxValue)
+			simulatedGoingUp = true;
+
+		return simValue;
+	}
 
 	protected int readByte()
 	{
@@ -556,8 +596,12 @@ public abstract class EncoderCapture
 		*/
 			if(capturingInertialBG)
 				return EncoderCaptureInertialBackgroundStatic.GetNext();
-			else
-				return sp.ReadByte();
+			else {
+				if(simulated)
+					return simulateByte();
+				else
+					return sp.ReadByte();
+			}
 		//}
 	}
 	protected int convertByte(int b)

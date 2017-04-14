@@ -59,9 +59,11 @@ public class CJTests
 		ENCODER_SIGNAL_LOAD,
 		ENCODER_ECC_CON_INVERT,
 		ENCODER_CAPTURE,
+		ENCODER_CAPTURE_CALIBRATE,
 		ENCODER_RECALCULATE,
 		ENCODER_SET_SAVE_REPS,
 		ENCODER_SET_SAVE_REPS_BUCLE,
+		WAIT_5_SECONDS,
 		BUCLE_1_ON,
 		BUCLE_1_OFF,
 		BUCLE_2_ON,
@@ -169,26 +171,28 @@ public class CJTests
 	public static List<Types> SequenceEncoderInertialCapture = new List<Types>
 	{
 		CJTests.Types.MODE_POWERINERTIAL,
-//		CJTests.Types.SESSION_LOAD,
-//		CJTests.Types.BUCLE_1_ON,
-//			CJTests.Types.PERSON_SELECT, //bucle1startPos //repeat from here //when all persons have done a jumps/runs test, will end
+//		CJTests.Types.SESSION_LOAD, //better load it manually because it's a long process
+//		CJTests.Types.ENCODER_CAPTURE_CALIBRATE,
+		CJTests.Types.BUCLE_1_ON,
+			CJTests.Types.PERSON_SELECT, //bucle1startPos //repeat from here //when all persons have done a jumps/runs test, will end
 			CJTests.Types.ENCODER_CAPTURE,
 			CJTests.Types.ENCODER_CAPTURE,
 			CJTests.Types.ENCODER_CAPTURE,
+			CJTests.Types.ENCODER_CAPTURE, //4 captures for each person on simulated session
+		CJTests.Types.BUCLE_1_OFF,
+		CJTests.Types.END
+	};
+	public static List<Types> SequenceEncoderGravitatoryCapture = new List<Types>
+	{
+		CJTests.Types.MODE_POWERGRAVITATORY,
+//		CJTests.Types.SESSION_LOAD, //better load it manually because it's a long process
+		CJTests.Types.BUCLE_1_ON,
+			CJTests.Types.PERSON_SELECT, //bucle1startPos //repeat from here //when all persons have done a jumps/runs test, will end
 			CJTests.Types.ENCODER_CAPTURE,
 			CJTests.Types.ENCODER_CAPTURE,
 			CJTests.Types.ENCODER_CAPTURE,
-			CJTests.Types.ENCODER_CAPTURE,
-			CJTests.Types.ENCODER_CAPTURE,
-			CJTests.Types.ENCODER_CAPTURE,
-			CJTests.Types.ENCODER_CAPTURE,
-			CJTests.Types.ENCODER_CAPTURE,
-			CJTests.Types.ENCODER_CAPTURE,
-			CJTests.Types.ENCODER_CAPTURE,
-			CJTests.Types.ENCODER_CAPTURE,
-			CJTests.Types.ENCODER_CAPTURE,
-			CJTests.Types.ENCODER_CAPTURE,
-//		CJTests.Types.BUCLE_1_OFF,
+			CJTests.Types.ENCODER_CAPTURE, //4 captures for each person on simulated session
+		CJTests.Types.BUCLE_1_OFF,
 		CJTests.Types.END
 	};
 
@@ -389,6 +393,10 @@ public partial class ChronoJumpWindow
 			case CJTests.Types.ENCODER_CAPTURE:
 				chronojumpWindowTestsEncoderCapture();
 				break;
+			case CJTests.Types.ENCODER_CAPTURE_CALIBRATE:
+				chronojumpWindowTestsEncoderCaptureCalibrate();
+				callNext = true;
+				break;
 			case CJTests.Types.ENCODER_RECALCULATE:
 				chronojumpWindowTestsEncoderRecalculate();
 				break;
@@ -398,6 +406,10 @@ public partial class ChronoJumpWindow
 				break;
 			case CJTests.Types.ENCODER_SET_SAVE_REPS_BUCLE:
 				chronojumpWindowTestsEncoderSetSaveRepsBucle();
+				break;
+			case CJTests.Types.WAIT_5_SECONDS:
+				chronojumpWindowTestsWait5seconds();
+				callNext = true;
 				break;
 		}
 
@@ -441,6 +453,20 @@ public partial class ChronoJumpWindow
 				select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSSIMPLE);
 			else
 				radio_menuitem_mode_runs_simple.Active = true;
+		}
+		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY)
+		{
+			if(radio_menuitem_mode_power_gravitatory.Active)
+				select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERGRAVITATORY);
+			else
+				radio_menuitem_mode_power_gravitatory.Active = true;
+		}
+		else if(m == Constants.Menuitem_modes.POWERINERTIAL)
+		{
+			if(radio_menuitem_mode_power_inertial.Active)
+				select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERINERTIAL);
+			else
+				radio_menuitem_mode_power_inertial.Active = true;
 		}
 		
 		LogB.TestEnd("chronojumpWindowTestsMode");
@@ -590,6 +616,15 @@ public partial class ChronoJumpWindow
 		LogB.TestEnd("chronojumpWindowTestsEncoderCapture");
 	}
 
+	private void chronojumpWindowTestsEncoderCaptureCalibrate()
+	{
+		LogB.TestStart("chronojumpWindowTestsEncoderCaptureCalibrate");
+
+		on_button_encoder_inertial_calibrate_clicked (new Object (), new EventArgs ());
+
+		LogB.TestEnd("chronojumpWindowTestsEncoderCaptureCalibrate");
+	}
+
 	private void chronojumpWindowTestsEncoderRecalculate()
 	{
 		LogB.TestStart("chronojumpWindowTestsEncoderRecalculate");
@@ -678,6 +713,16 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
+	private void chronojumpWindowTestsWait5seconds()
+	{
+		LogB.TestStart("chronojumpWindowTestsWait5seconds");
+
+		System.Threading.Thread.Sleep(5000);
+
+		LogB.TestEnd("chronojumpWindowTestsWait5seconds");
+	}
+
+
 	void testsReport()
 	{
 		if(testsSuccededCount > 0 || testsFailedCount > 0)

@@ -43,6 +43,7 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.HBox hbox_gui_tests;
 	[Widget] Gtk.SpinButton spin_gui_tests;
+	[Widget] Gtk.ComboBox combo_gui_tests;
 	[Widget] Gtk.Button button_carles;
 	
 	[Widget] Gtk.Viewport viewport_chronojump_logo;
@@ -2337,7 +2338,7 @@ public partial class ChronoJumpWindow
 
 		if(reportWin != null)
 			reportWin.FillTreeView();
-		
+
 		chronojumpWindowTestsNext();
 	}
 	
@@ -6252,12 +6253,39 @@ LogB.Debug("X");
 		preferencesWin.DebugActivated();
 	}
 
-	private void on_button_gui_tests_clicked (object o, EventArgs args) {
-		chronojumpWindowTestsStart(Convert.ToInt32(spin_gui_tests.Value),
-				//CJTests.SequenceChangeMultitest
-				//CJTests.SequenceRJsSimulatedFinishCancel
-				CJTests.SequenceEncoderInertialCapture
-				);
+	private void on_button_gui_tests_clicked (object o, EventArgs args)
+	{
+		string selected = UtilGtk.ComboGetActive(combo_gui_tests);
+		if(selected == "")
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Need to select one test");
+			return;
+		}
+
+		if (selected == "EncoderGravitatoryCapture" || selected == "EncoderInertialCapture")
+		{
+			if (currentSession == null)
+			{
+				new DialogMessage(Constants.MessageTypes.WARNING, "Need to load SIMULATED session");
+				return;
+			}
+
+			if (selected == "EncoderGravitatoryCapture")
+				chronojumpWindowTestsStart(
+						Convert.ToInt32(spin_gui_tests.Value),
+						CJTests.SequenceEncoderGravitatoryCapture);
+			else // (selected == "EncoderInertialCapture")
+				chronojumpWindowTestsStart(
+						Convert.ToInt32(spin_gui_tests.Value),
+						CJTests.SequenceEncoderInertialCapture);
+		}
+		else
+			new DialogMessage(Constants.MessageTypes.WARNING, "Selected test: " + selected);
+
+		/* other tests:
+		//CJTests.SequenceChangeMultitest
+		//CJTests.SequenceRJsSimulatedFinishCancel
+		*/
 	}
 	
 	private void on_button_carles_clicked (object o, EventArgs args)

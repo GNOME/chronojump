@@ -1140,6 +1140,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -3018,13 +3021,14 @@ Carles</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkButton" id="button_encoder_person_change1">
+                                                  <widget class="GtkButton" id="button_contacts_person_change">
                                                     <property name="width_request">80</property>
                                                     <property name="height_request">40</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
                                                     <property name="tooltip" translatable="yes">Person</property>
+                                                    <signal name="clicked" handler="on_button_top_person_change_clicked" swapped="no"/>
                                                     <child>
                                                       <widget class="GtkImage" id="image_person1">
                                                         <property name="visible">True</property>
@@ -14243,7 +14247,7 @@ Concentric</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
                                                     <property name="tooltip" translatable="yes">Person</property>
-                                                    <signal name="clicked" handler="on_button_encoder_person_change_clicked" swapped="no"/>
+                                                    <signal name="clicked" handler="on_button_top_person_change_clicked" swapped="no"/>
                                                     <child>
                                                       <widget class="GtkImage" id="image_person">
                                                         <property name="visible">True</property>
@@ -19512,6 +19516,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

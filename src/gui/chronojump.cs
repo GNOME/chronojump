@@ -2622,31 +2622,31 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_button_encoder_person_change_clicked (object o, EventArgs args) 
+	private void on_button_top_person_change_clicked (object o, EventArgs args)
 	{
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID, 
 				false); //means: do not returnPersonAndPSlist
 
 		personSelectWin = PersonSelectWindow.Show(app1, myPersons);
-		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_encoder_person_add_person);
-		personSelectWin.FakeButtonEditPerson.Clicked += new EventHandler(on_button_encoder_person_edit_person);
-		personSelectWin.FakeButtonDeletePerson.Clicked += new EventHandler(on_button_encoder_person_delete_person);
-		personSelectWin.FakeButtonDone.Clicked += new EventHandler(on_button_encoder_person_change_done);
+		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_top_person_add_person);
+		personSelectWin.FakeButtonEditPerson.Clicked += new EventHandler(on_button_top_person_edit_person);
+		personSelectWin.FakeButtonDeletePerson.Clicked += new EventHandler(on_button_top_person_delete_person);
+		personSelectWin.FakeButtonDone.Clicked += new EventHandler(on_button_top_person_change_done);
 	}
-	private void on_button_encoder_person_add_person(object o, EventArgs args)
+	private void on_button_top_person_add_person(object o, EventArgs args)
 	{
 		person_add_single_called_from_person_select_window = true;
 		person_add_single();
 	}
-	private void on_button_encoder_person_edit_person(object o, EventArgs args)
+	private void on_button_top_person_edit_person(object o, EventArgs args)
 	{
 		currentPerson = personSelectWin.SelectedPerson; 
 		
 		person_edit_single_called_from_person_select_window = true;
 		person_edit_single();
 	}
-	private void on_button_encoder_person_delete_person(object o, EventArgs args)
+	private void on_button_top_person_delete_person(object o, EventArgs args)
 	{
 		currentPerson = personSelectWin.SelectedPerson;
 		
@@ -2659,7 +2659,7 @@ public partial class ChronoJumpWindow
 		personSelectWin.Update(myPersons);
 		personSelectWin.Button_delete_confirm_focus(false, false);
 	}
-	private void on_button_encoder_person_change_done(object o, EventArgs args) 
+	private void on_button_top_person_change_done(object o, EventArgs args)
 	{
 		currentPerson = personSelectWin.SelectedPerson; 
 		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
@@ -2883,7 +2883,8 @@ public partial class ChronoJumpWindow
 			 * interface has to change to YESPERSON (meaning no_signal).
 			 * But, if there's no person shoud continue on NOPERSON
 			 */
-			if(selectRowTreeView_persons(treeview_persons, 0))
+			if(currentPerson != null &&
+					selectRowTreeView_persons(treeview_persons, myTreeViewPersons.FindRow(currentPerson.UniqueID)))
 				encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 			
 			blankEncoderInterface();
@@ -6523,6 +6524,7 @@ LogB.Debug("X");
 		button_edit_current_person.Sensitive = false;
 		button_delete_current_person.Sensitive = false;
 	
+		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;
 		
 		//notebooks
@@ -6553,6 +6555,7 @@ LogB.Debug("X");
 		button_person_add_single.Sensitive = true;
 		button_person_add_multiple.Sensitive = true;
 		
+		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;
 		
 		menuSessionSensitive(true);
@@ -6652,6 +6655,7 @@ LogB.Debug("X");
 		
 		button_execute_test.Sensitive = false;
 		
+		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;
 
 		encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
@@ -6709,6 +6713,7 @@ LogB.Debug("X");
 
 		button_execute_test.Sensitive = true;
 
+		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;
 
 		if(encoderCaptureCurves != null && encoderCaptureCurves.Count > 0)

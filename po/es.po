@@ -3931,7 +3931,7 @@ msgstr "Por favor, actualícese a la nueva versión."
 
 #: ../src/chronojump.cs:465
 msgid "Chronojump crashed before."
-msgstr "ChronoJump ha fallado anteriormente"
+msgstr "Chronojump ha fallado anteriormente"
 
 #: ../src/chronojump.cs:466 ../src/gui/old/chronojumpServerOld.cs:71
 msgid "Please, update to new version: "
@@ -3948,7 +3948,7 @@ msgstr "Abrir Chronojump"
 #: ../src/chronojump.cs:728
 #, csharp-format
 msgid "Chronojump {0} crashed before."
-msgstr "ChronoJump {0} ha fallado anteriormente"
+msgstr "Chronojump {0} ha fallado anteriormente"
 
 #: ../src/chronojump.cs:729
 msgid ""
@@ -5613,13 +5613,13 @@ msgid "Threshold for other tests"
 msgstr "Umbral para otros tests"
 
 #: ../src/gui/dialogThreshold.cs:91
-msgid "Spurius signals are common on electronics."
+msgid "Spurious signals are common on electronics."
 msgstr "En electrónica son habituales las señales espurias ."
 
 #: ../src/gui/dialogThreshold.cs:92
 msgid ""
 "Threshold refers to the minimum value measurable and is the common way to clean "
-"this spurius signals."
+"this spurious signals."
 msgstr ""
 "El umbral se refiere al mínimo valor mensurable y es un método común para "
 "limpiar señales espurias."
@@ -6881,7 +6881,7 @@ msgstr "metros"
 #: ../src/gui/run.cs:982
 msgid ""
 "Vertical distance between\n"
-"stairs third and nine."
+"stair steps third and nine."
 msgstr ""
 "Distancia vertical entre\n"
 "escalones tercero y noveno."
@@ -9352,7 +9352,7 @@ msgstr "Dispersión"
 
 #: ../src/stats/main.cs:1520
 msgid "Chronojump Graph"
-msgstr "ChronoJump - gráfico"
+msgstr "Chronojump - gráfico"
 
 #: ../src/stats/potency.cs:61
 msgid "Person's Weight"

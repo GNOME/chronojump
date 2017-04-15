@@ -3597,7 +3597,7 @@ comments</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Able to go around the cone without touching it, without going outside the  marked area, and keeping up the pace.</property>
+                        <property name="label" translatable="yes">Able to go around the cone without touching it, without going outside the marked area, and keeping up the pace.</property>
                         <property name="wrap">True</property>
                       </widget>
                       <packing>

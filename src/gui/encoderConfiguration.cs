@@ -482,7 +482,7 @@ public class EncoderConfigurationWindow
 	void on_button_encoder_capture_inertial_accuracy_clicked (object o, EventArgs args) {
 		new DialogMessage(Constants.MessageTypes.WARNING, 
 				Catalog.GetString("Calculation of dynamic variables like power in conical machines is not very accurate because current method is not using the variation of the cone diameter as a variable.") + "\n\n" +
-				Catalog.GetString("Future versions will include a better way to calcule this. Sorry for the inconvenience."));
+				Catalog.GetString("Future versions will include a better way to calculate this. Sorry for the inconvenience."));
 	}
 
 

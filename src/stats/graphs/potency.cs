@@ -52,7 +52,7 @@ public class GraphPotency : StatPotency
 		*/
 		this.operation = "";
 
-		CurrentGraphData.WindowTitle = Catalog.GetString("ChronoJump graph");
+		CurrentGraphData.WindowTitle = Catalog.GetString("Chronojump graph");
 		//title is shown on the graph except it's a report, then title will be on the html
 		if(myStatTypeStruct.ToReport) {
 			CurrentGraphData.GraphTitle = "";

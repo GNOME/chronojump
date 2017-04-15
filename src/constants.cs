@@ -656,7 +656,7 @@ public class Constants
 		//Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") + 
 		Catalog.GetString("Jumps with TC and TF:") + " " + Catalog.GetString("Developed by Chronojump team") + 
 		"\n" +
-		Catalog.GetString("Calcule the potential energies on fall and after the jump.") + "\n" + 
+		Catalog.GetString("Calculate the potential energies on fall and after the jump.") + "\n" +
 		Catalog.GetString("Divide them by time during force is applied.") +
 		"\n\n" +
 		//P = mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tt;

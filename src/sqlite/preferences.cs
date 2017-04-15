@@ -51,7 +51,7 @@ class SqlitePreferences : Sqlite
 					Insert ("chronopicPort", Constants.ChronopicDefaultPortLinux, dbcmdTr);
 
 				//appearance
-				Insert ("maximized", "False", dbcmdTr);
+				Insert ("maximized", Preferences.MaximizedTypes.NO.ToString(), dbcmdTr);
 				Insert ("personWinHide", "False", dbcmdTr);
 				Insert ("encoderCaptureShowOnlyBars", "False", dbcmdTr);
 				Insert ("digitsNumber", "3", dbcmdTr);
@@ -205,7 +205,8 @@ class SqlitePreferences : Sqlite
 
 	 		//these are sent to preferences window
 			if(reader[0].ToString() == "maximized")
-				preferences.maximized = reader[1].ToString() == "True";
+				preferences.maximized = (Preferences.MaximizedTypes)
+					Enum.Parse(typeof(Preferences.MaximizedTypes), reader[1].ToString());
 			else if(reader[0].ToString() == "personWinHide")
 				preferences.personWinHide = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderCaptureShowOnlyBars")

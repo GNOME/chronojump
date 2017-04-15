@@ -99,10 +99,14 @@ public partial class ChronoJumpWindow
 		 * But note this has to be executed only if it has changed!!
 		 */
 
-		if(configChronojump.Maximized)
-			app1.Maximize();
-		else
+		if(configChronojump.Maximized == Preferences.MaximizedTypes.NO)
+		{
 			app1.Unmaximize();
+			app1.Decorated = true;
+		} else {
+			app1.Maximize();
+			app1.Decorated = (configChronojump.Maximized != Preferences.MaximizedTypes.YESUNDECORATED);
+		}
 
 		if(configChronojump.CustomButtons)
 		{
@@ -186,7 +190,7 @@ public partial class ChronoJumpWindow
 		if(configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE || configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY)
 		{
 			main_menu.Visible = false;
-			app1.Decorated = false;
+			//app1.Decorated = false;
 			hbox_menu_and_preferences_outside_menu.Visible = true;
 
 			if(configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE)

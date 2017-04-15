@@ -26,7 +26,7 @@ public class Config
 {
 	public enum SessionModeEnum { STANDARD, UNIQUE, MONTHLY }
 
-	public bool Maximized;
+	public Preferences.MaximizedTypes Maximized;
 	public bool CustomButtons;
 	public bool UseVideo;
 	public bool OnlyEncoderGravitatory;
@@ -42,7 +42,7 @@ public class Config
 
 	public Config()
 	{
-		Maximized = false;
+		Maximized = Preferences.MaximizedTypes.NO;
 		CustomButtons = false;
 		UseVideo = true;
 		

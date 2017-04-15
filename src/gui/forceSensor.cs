@@ -25,6 +25,7 @@ using System.Threading;
 using Gtk;
 using Glade;
 using System.Text; //StringBuilder
+//using System.Collections.Generic; //List<T>
 
 public partial class ChronoJumpWindow 
 {
@@ -118,6 +119,7 @@ public partial class ChronoJumpWindow
 	//non GTK on this method
 	private void forceSensorCaptureDo()
 	{
+		//lastChangedTime = 0;
 		SerialPort port = new SerialPort(forceSensorPortName, 115200);
 		port.Open();
 		Thread.Sleep(2500); //sleep to let arduino start reading
@@ -151,6 +153,8 @@ public partial class ChronoJumpWindow
 
 			writer.WriteLine(time.ToString() + ";" + force.ToString());
 			forceSensorLast = force;
+
+			//changeSlideIfNeeded(time, force);
 		}
 		port.WriteLine("Stop");
 		writer.Flush();
@@ -237,5 +241,46 @@ public partial class ChronoJumpWindow
 		else
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpen);
 	}
+
+
+	/*
+	double lastChangedTime; //changeSlideCode
+	private void changeSlideIfNeeded(double time, double force)
+	{
+		if(force > 100) {
+			//changeSlide if one second or more elapsed since last change
+			if(time - lastChangedTime >= 1)
+			{
+				changeSlide(true);
+				lastChangedTime = time;
+			}
+		}
+		if(force < -100) {
+			//changeSlide if one second or more elapsed since last change
+			if(time - lastChangedTime >= 1)
+			{
+				changeSlide(false);
+				lastChangedTime = time;
+			}
+		}
+	}
+	private bool changeSlide(bool next)
+	{
+		string executable = "";
+		if(next)
+			executable = "pathTo/testing-stuff/" + "slideNext.sh";
+		else
+			executable = "pathTo/testing-stuff/" + "slidePrior.sh";
+		List<string> parameters = new List<string>();
+
+		LogB.Information("\nCalling slide ----->");
+
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
+
+		LogB.Information("\n<------ Done calling slide");
+		return execute_result.success;
+	}
+	*/
+
 }
 

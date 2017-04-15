@@ -380,7 +380,7 @@ namespace LongoMatch.Gui
 				recbutton.Sensitive = true;
 				MessageDialog md = new MessageDialog((Gtk.Window)this.Toplevel, DialogFlags.Modal,
 				                                     MessageType.Question, ButtonsType.YesNo,
-				                                     Catalog.GetString("Device reconnected." +
+				                                     Catalog.GetString("Device reconnected. " +
 				                                     	"Do you want to restart the capture?"));
 				md.Icon=Stetic.IconLoader.LoadIcon(md, "longomatch", Gtk.IconSize.Dialog);
 				if (md.Run() == (int)ResponseType.Yes){

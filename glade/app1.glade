@@ -11453,7 +11453,7 @@ after time</property>
                                                             <widget class="GtkLabel" id="label46">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">mark_consecutives</property>
+                                                            <property name="label" translatable="yes">mark consecutives</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">1</property>
@@ -13407,7 +13407,7 @@ Concentric</property>
                                                             <widget class="GtkLabel" id="label203">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Excentric-
+                                                            <property name="label" translatable="yes">Eccentric-
 Concentric</property>
                                                             <property name="justify">center</property>
                                                             </widget>
@@ -13457,7 +13457,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Body weight,
-low ressistance</property>
+low resistance</property>
                                                             <property name="justify">center</property>
                                                             </widget>
                                                             <packing>
@@ -13876,7 +13876,7 @@ low ressistance</property>
                                                             <widget class="GtkLabel" id="label168">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Excentric-
+                                                            <property name="label" translatable="yes">Eccentric-
 Concentric</property>
                                                             <property name="justify">center</property>
                                                             </widget>

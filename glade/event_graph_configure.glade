@@ -154,7 +154,7 @@
               <widget class="GtkLabel" id="label274">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Vertical Axe</property>
+                <property name="label" translatable="yes">Vertical Axis</property>
                 <property name="use_markup">True</property>
               </widget>
               <packing>

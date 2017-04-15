@@ -428,7 +428,6 @@ public class Constants
 	public static string FileNameRunsInterval = "stock_right_left.png";
 	public static string FileNameEncoderGravitatory = "stock_down.png";
 	public static string FileNameEncoderInertial = "stock_inertial.png";
-	public static string FileNameReactionTime = "reaction_time_menu.png";
 	public static string FileNamePulse = "pulse_menu.png";
 	public static string FileNameMultiChronopic = "multichronopic_menu.png";
 	
@@ -713,7 +712,11 @@ public class Constants
 		JUMPS, RUNS, ENCODERGRAVITATORY, ENCODERINERTIAL
 	}
 
-	public enum Menuitem_modes { JUMPSSIMPLE, JUMPSREACTIVE, RUNSSIMPLE, RUNSINTERVALLIC, POWERGRAVITATORY, POWERINERTIAL, OTHER }
+	public enum Menuitem_modes {
+		JUMPSSIMPLE, JUMPSREACTIVE,
+		RUNSSIMPLE, RUNSINTERVALLIC,
+		POWERGRAVITATORY, POWERINERTIAL,
+		FORCESENSOR, RT, OTHER }
 
 	public static string All = "All";
 	public static string None = "None";

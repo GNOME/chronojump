@@ -243,6 +243,12 @@ RESOURCES = \
 	../glade/splash_window.glade \
 	../glade/stats_select_sessions.glade \
 	../images/mini/no_image.png,mini/no_image.png \
+	../images/selector-jumps.png,selector-jumps.png \
+	../images/selector-runs.png,selector-runs.png \
+	../images/selector-encoder.png,selector-encoder.png \
+	../images/selector-force.png,selector-force.png \
+	../images/selector-rt.png,selector-rt.png \
+	../images/selector-multichronopic.png,selector-multichronopic.png \
 	../images/chronojump-jumps-small.png,chronojump-jumps-small.png \
 	../images/chronojump-runs-small.png,chronojump-runs-small.png \
 	../images/chronojump-encoder-small.png,chronojump-encoder-small.png \

@@ -47,8 +47,10 @@ public class PreferencesWindow
 
 	//appearance tab
 	[Widget] Gtk.CheckButton check_appearance_maximized;
+	[Widget] Gtk.CheckButton check_appearance_maximized_undecorated;
 	[Widget] Gtk.CheckButton check_appearance_person_win_hide;
 	[Widget] Gtk.CheckButton check_appearance_encoder_only_bars;
+	[Widget] Gtk.Alignment alignment_undecorated;
 	[Widget] Gtk.Alignment alignment_restart;
 
 	//database tab
@@ -201,10 +203,17 @@ public class PreferencesWindow
 		PreferencesWindowBox.createComboLanguage();
 
 		//appearence tab
-		if(preferences.maximized)
-			PreferencesWindowBox.check_appearance_maximized.Active = true;
-		else
+		if(preferences.maximized == Preferences.MaximizedTypes.NO)
+		{
 			PreferencesWindowBox.check_appearance_maximized.Active = false;
+			PreferencesWindowBox.alignment_undecorated.Visible = false;
+		}
+		else {
+			PreferencesWindowBox.check_appearance_maximized.Active = true;
+			PreferencesWindowBox.alignment_undecorated.Visible = true;
+			PreferencesWindowBox.check_appearance_maximized_undecorated.Active =
+				(preferences.maximized == Preferences.MaximizedTypes.YESUNDECORATED);
+		}
 
 		if(preferences.personWinHide)
 			PreferencesWindowBox.check_appearance_person_win_hide.Active = true;
@@ -428,6 +437,11 @@ public class PreferencesWindow
 		combo_camera.Active = UtilGtk.ComboMakeActive(devices, devices[current]);
 	}
 		
+	private void on_check_appearance_maximized_toggled (object obj, EventArgs args)
+	{
+		alignment_undecorated.Visible = check_appearance_maximized.Active;
+	}
+
 	private void on_check_appearance_encoder_only_bars_toggled (object obj, EventArgs args) 
 	{
 		alignment_restart.Visible = ! check_appearance_encoder_only_bars.Active;
@@ -946,7 +960,6 @@ public class PreferencesWindow
 		button_accept.Sensitive = ! start;
 	}
 
-
 	//change stuff in Sqlite and in preferences object that will be retrieved by GetPreferences
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
@@ -954,10 +967,13 @@ public class PreferencesWindow
 
 
 		//appearance tab
-		if( preferences.maximized != PreferencesWindowBox.check_appearance_maximized.Active ) {
-			SqlitePreferences.Update("maximized", PreferencesWindowBox.check_appearance_maximized.Active.ToString(), true);
-			preferences.maximized = PreferencesWindowBox.check_appearance_maximized.Active;
+		Preferences.MaximizedTypes maximizedTypeFromGUI = get_maximized_from_gui();
+		if(preferences.maximized != maximizedTypeFromGUI)
+		{
+			SqlitePreferences.Update("maximized", maximizedTypeFromGUI.ToString(), true);
+			preferences.maximized = maximizedTypeFromGUI;
 		}
+
 		if( preferences.personWinHide != PreferencesWindowBox.check_appearance_person_win_hide.Active ) {
 			SqlitePreferences.Update("personWinHide", PreferencesWindowBox.check_appearance_person_win_hide.Active.ToString(), true);
 			preferences.personWinHide = PreferencesWindowBox.check_appearance_person_win_hide.Active;
@@ -1248,6 +1264,17 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.preferences_win.Hide();
 		PreferencesWindowBox = null;
+	}
+
+	private Preferences.MaximizedTypes get_maximized_from_gui()
+	{
+		if( ! PreferencesWindowBox.check_appearance_maximized.Active )
+			return Preferences.MaximizedTypes.NO;
+
+		if( ! PreferencesWindowBox.check_appearance_maximized_undecorated.Active )
+			return Preferences.MaximizedTypes.YES;
+
+		return Preferences.MaximizedTypes.YESUNDECORATED;
 	}
 
 	private bool preferencesChange(string prefName, bool prefValue, bool bNew) 

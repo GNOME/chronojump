@@ -28,7 +28,8 @@ public class Preferences
 	 */
 
 	//appearance tab
-	public bool maximized;
+	public enum MaximizedTypes { NO, YES, YESUNDECORATED};
+	public MaximizedTypes maximized;
 	public bool personWinHide;
 	public bool encoderCaptureShowOnlyBars;
 

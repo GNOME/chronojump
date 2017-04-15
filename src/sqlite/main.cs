@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.40";
+	static string lastChronojumpDatabaseVersion = "1.41";
 
 	public Sqlite() {
 	}
@@ -2153,11 +2153,19 @@ class Sqlite
 			{
 				LogB.SQL("Added to preferences: maximized, personWinHide, encoderCaptureShowOnlyBars");
 
-				SqlitePreferences.Insert ("maximized", "False");
+				SqlitePreferences.Insert ("maximized", "0");
 				SqlitePreferences.Insert ("personWinHide", "False");
 				SqlitePreferences.Insert ("encoderCaptureShowOnlyBars", "False");
 
 				currentVersion = updateVersion("1.40");
+			}
+			if(currentVersion == "1.40")
+			{
+				LogB.SQL("Updated preferences maximized: from true/false to no/yes/undecorated");
+
+				SqlitePreferences.Update ("maximized", Preferences.MaximizedTypes.NO.ToString(), true);
+
+				currentVersion = updateVersion("1.41");
 			}
 
 
@@ -2337,6 +2345,7 @@ class Sqlite
 		SqliteTrigger.createTableTrigger();
 
 		//changes [from - to - desc]
+		//1.40 - 1.41 Converted DB to 1.41 Updated preferences maximized: from true/false to no/yes/undecorated
 		//1.39 - 1.40 Converted DB to 1.40 Added to preferences: maximized, personWinHide, encoderCaptureShowOnlyBars
 		//1.38 - 1.39 Converted DB to 1.39 Created trigger table 
 		//1.37 - 1.38 Converted DB to 1.38 encoderConfiguration always with 12 values. Empty encoderConfiguration list_d as '' instead of '-1' or '0'

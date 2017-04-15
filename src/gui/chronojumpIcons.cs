@@ -55,6 +55,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_add_test3;
 	[Widget] Gtk.Image image_add_test4;
 
+	[Widget] Gtk.Image image_selector_start_jumps;
+	[Widget] Gtk.Image image_selector_start_runs;
+	[Widget] Gtk.Image image_selector_start_encoder;
+	[Widget] Gtk.Image image_selector_start_force_sensor;
+	[Widget] Gtk.Image image_selector_start_rt;
+	[Widget] Gtk.Image image_selector_start_other;
+
 	//encoder images
 	[Widget] Gtk.Image image_recalculate;
 	[Widget] Gtk.Image image_encoder_configuration;
@@ -211,20 +218,22 @@ public partial class ChronoJumpWindow
 		 * <------ end of material design icons
 		 */
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-jumps.png");
+		image_selector_start_jumps.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-runs.png");
+		image_selector_start_runs.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-encoder.png");
+		image_selector_start_encoder.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-force.png");
+		image_selector_start_force_sensor.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-rt.png");
+		image_selector_start_rt.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-multichronopic.png");
+		image_selector_start_other.Pixbuf = pixbuf;
+
 		/*
 		 * gui for small screens
 		 */
-		viewport_selector_start_jumps.ModifyBg(StateType.Normal, new Gdk.Color(0x0b,0x48,0x6b));
-		label_selector_start_jumps_simple.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
-		label_selector_start_jumps_reactive.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
-		
-		viewport_selector_start_runs.ModifyBg(StateType.Normal, new Gdk.Color(0x3b,0x86,0x86));
-		label_selector_start_runs_simple.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
-		label_selector_start_runs_intervallic.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
-		
-		viewport_selector_start_encoder.ModifyBg(StateType.Normal, new Gdk.Color(0x79,0xbd,0x98));
-		label_selector_start_encoder_gravitatory.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
-		label_selector_start_encoder_inertial.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumps);
 		image_mode_jumps_small.Pixbuf = pixbuf;
@@ -235,16 +244,18 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRunsInterval);
 		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameReactionTime);
-		image_mode_reaction_times_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNamePulse);
 		image_mode_pulses_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameMultiChronopic);
 		image_mode_multi_chronopic_small.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_menu.png");
-		image_mode_force_sensor_small.Pixbuf = pixbuf;
 		
-		
+		label_start_selector_jumps.Text = "<b>" + label_start_selector_jumps.Text + "</b>";
+		label_start_selector_races.Text = "<b>" + label_start_selector_races.Text + "</b>";
+		label_start_selector_encoder.Text = "<b>" + label_start_selector_encoder.Text + "</b>";
+		label_start_selector_jumps.UseMarkup = true;
+		label_start_selector_races.UseMarkup = true;
+		label_start_selector_encoder.UseMarkup = true;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsFallCalculate);
 		extra_windows_jumps_image_dj_fall_calculate.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsFallPredefined);
@@ -436,17 +447,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameAutoPersonRemoveIcon);
 		image_auto_person_remove.Pixbuf = pixbuf;
 				
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorJumps);
-		image_selector_start_jumps.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorRuns);
-		image_selector_start_runs.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorEncoderGravitatory);
-		image_selector_start_encoder_gravitatory.Pixbuf = pixbuf;
-		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorEncoderInertial);
-		//image_selector_start_encoder_inertial.Pixbuf = pixbuf;
-
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo320); //changed to 270 for the presentation
 		image_presentation_logo.Pixbuf = pixbuf;
-
 	}
 }

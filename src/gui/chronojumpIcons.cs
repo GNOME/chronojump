@@ -61,6 +61,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_selector_start_force_sensor;
 	[Widget] Gtk.Image image_selector_start_rt;
 	[Widget] Gtk.Image image_selector_start_other;
+	[Widget] Gtk.Image image_selector_start_cancel;
 
 	//encoder images
 	[Widget] Gtk.Image image_recalculate;
@@ -127,6 +128,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		image_button_cancel.Pixbuf = pixbuf;
 		image_encoder_capture_cancel.Pixbuf = pixbuf;
+		image_selector_start_cancel.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
 		image_manage_persons.Pixbuf = pixbuf;
@@ -240,13 +242,13 @@ public partial class ChronoJumpWindow
 		 * gui for small screens
 		 */
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumps);
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
 		image_mode_jumps_small.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsRJ);
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
 		image_mode_jumps_reactive_small.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRuns);
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
 		image_mode_runs_small.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRunsInterval);
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
 		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNamePulse);

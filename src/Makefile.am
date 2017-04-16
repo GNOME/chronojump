@@ -391,7 +391,11 @@ RESOURCES = \
 	../images/md/ic_looks_one_blue_24dp_1x.png,one.png \
 	../images/md/ic_add_circle_blue_24dp_1x.png,image_add_test.png \
 	../images/md/ic_all_inclusive_blue_24dp_1x.png,cont.png \
+	../images/md/ic_jump_simple_blue_24dp_1x.png,image_jump_simple.png \
+	../images/md/ic_jump_reactive_blue_24dp_1x.png,image_jump_reactive.png \
 	../images/md/ic_directions_run_blue_24dp_2x.png,run.png \
+	../images/md/ic_directions_run_simple_blue_24dp_1x.png,image_run_simple.png \
+	../images/md/ic_directions_run_multiple_blue_24dp_1x.png,image_run_multiple.png \
 	../images/md/ic_build_blue_24dp_1x.png,image_build.png \
 	../images/md/ic_edit_blue_24dp_1x.png,image_edit.png \
 	../images/md/ic_add_blue_24dp_1x.png,image_add.png \

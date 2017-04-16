@@ -422,10 +422,6 @@ public class Constants
 	public static string FileNameCSVName1Icon = "import-csv-name-1-column.png";
 	public static string FileNameCSVName2Icon = "import-csv-name-2-columns.png";
 
-	public static string FileNameJumps = "stock_up.png";
-	public static string FileNameJumpsRJ = "stock_up_down.png";
-	public static string FileNameRuns = "stock_right.png";
-	public static string FileNameRunsInterval = "stock_right_left.png";
 	public static string FileNameEncoderGravitatory = "stock_down.png";
 	public static string FileNameEncoderInertial = "stock_inertial.png";
 	public static string FileNamePulse = "pulse_menu.png";

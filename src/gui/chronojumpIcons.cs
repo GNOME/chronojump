@@ -89,6 +89,11 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogoTransparent);
 		image_chronojump_logo.Pixbuf = pixbuf;
 
+		//hide label_version_hidden
+		label_version_hidden.ModifyFg(StateType.Normal, new Gdk.Color(0x0e,0x1e,0x46));
+		//show label_version on white
+		label_version.ModifyFg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+
 		//change colors of tests mode
 
 		/*

@@ -369,7 +369,8 @@ RESOURCES = \
 	../images/md/ic_settings_backup_restore_blue_24dp_1x.png,image_inertia.png \
 	../images/md/ic_timer_blue_24dp_1x.png,image_capture.png \
 	../images/md/ic_timer_blue_24dp_2x.png,image_capture_big.png \
-	../images/md/ic_cancel_blue_24dp_1x.png,image_cancel.png \
+	../images/md/ic_last_page_blue_24dp_1x.png,finish.png \
+	../images/md/ic_cancel_red_24dp_1x.png,image_cancel.png \
 	../images/md/ic_insert_chart_blue_24dp_1x.png,image_analyze.png \
 	../images/md/ic_fast_forward_blue_24dp_1x.png,image_sprint.png \
 	../images/md/ic_developer_board_blue_24dp_1x.png,image_chronopic_connect.png \
@@ -419,7 +420,6 @@ RESOURCES = \
 	../images/pulse_menu.png,pulse_menu.png \
 	../images/multichronopic_menu.png,multichronopic_menu.png \
 	../images/force_sensor_menu.png,force_sensor_menu.png \
-	../images/finish.png,finish.png \
 	../images/gtk-cancel.png,gtk-cancel.png \
 	../images/gtk-zoom-fit.png,gtk-zoom-fit.png \
 	../images/gtk-zoom-in.png,gtk-zoom-in.png \

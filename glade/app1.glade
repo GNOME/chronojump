@@ -1035,7 +1035,7 @@
                                               <widget class="GtkVBox" id="vbox80">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="spacing">20</property>
+                                                <property name="spacing">30</property>
                                                 <child>
                                                   <widget class="GtkNotebook" id="notebook_start_selector2">
                                                     <property name="visible">True</property>
@@ -1582,11 +1582,41 @@
                                                     <property name="layout_style">center</property>
                                                     <child>
                                                       <widget class="GtkButton" id="button_start_cancel">
-                                                        <property name="label" translatable="yes">Back</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <signal name="clicked" handler="on_button_start_cancel_clicked" swapped="no"/>
+                                                        <child>
+                                                          <widget class="GtkHBox" id="hbox38">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_selector_start_cancel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label16">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Cancel</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                        </child>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>

@@ -97,7 +97,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
-	[Widget] Gtk.Box vbox_encoder_signal_comment;
+	[Widget] Gtk.VBox vbox_encoder_signal_comment;
 	[Widget] Gtk.TextView textview_encoder_signal_comment;
 	[Widget] Gtk.Button button_encoder_signal_save_comment;
 	[Widget] Gtk.MenuItem menuitem_export_encoder_signal;

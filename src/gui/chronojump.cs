@@ -84,6 +84,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_mode_contacts_sprint;
 
 	[Widget] Gtk.Label label_version;
+	[Widget] Gtk.Label label_version_hidden; //just to have logo aligned on the middle
 	//[Widget] Gtk.Image image_selector_start_encoder_inertial;
 	[Widget] Gtk.Label label_start_selector_jumps;
 	[Widget] Gtk.Label label_start_selector_races;
@@ -624,6 +625,7 @@ public partial class ChronoJumpWindow
 	
 		string buildVersion = UtilAll.ReadVersionFromBuildInfo();
 		label_version.Text = buildVersion;
+		label_version_hidden.Text = buildVersion;
 		LogB.Information("Build version:" + buildVersion);
 
 		LeastSquares ls = new LeastSquares();

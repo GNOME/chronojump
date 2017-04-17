@@ -6304,7 +6304,7 @@ LogB.Debug("X");
 		encoderRProcCapture.Debug = true;
 		encoderRProcAnalyze.Debug = true;
 		LogB.PrintAllThreads = true;
-	
+
 		hbox_gui_tests.Visible = true;
 		button_carles.Visible = true;
 

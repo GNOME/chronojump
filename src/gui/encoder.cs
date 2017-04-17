@@ -4737,6 +4737,7 @@ public partial class ChronoJumpWindow
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureBG));
 
 			LogB.ThreadStart();
+			LogB.Mute = true; //mute logs to improve stability (encoder inertial test only works with muted log
 			encoderThreadBG.Start();
 		}
 
@@ -4861,6 +4862,7 @@ public partial class ChronoJumpWindow
 			encoderButtonsSensitive(encoderSensEnum.PROCESSINGCAPTURE);
 
 			LogB.ThreadStart();
+			LogB.Mute = true; //mute logs to improve stability (encoder inertial test only works with muted log
 			encoderThread.Start();
 		} else if(
 				action == encoderActions.CURVES || 
@@ -5226,7 +5228,7 @@ public partial class ChronoJumpWindow
 
 		Thread.Sleep (50);
 
-		//don't plot info here because this is sorking all the time
+		//don't plot info here because this is working all the time
 		//LogB.Information(" CapBG:"+ encoderThreadBG.ThreadState.ToString());
 
 		if(newValue < -100000 || newValue > 100000)

@@ -159,6 +159,7 @@ public static class LogB
 	 * default behaviour is to print only when on GTK thread, and messages from other threads
 	 * will be stored and printed by GTK thread before what it needs to print
 	 */
+	public static bool Mute = false;
 	public static bool PrintAllThreads = false;
 
 	private static bool debugging = false;
@@ -173,6 +174,9 @@ public static class LogB
 
 	public static void Commit(LogEntryType type, string message, string details, bool showUser)
 	{
+		if(Mute)
+			return;
+
 		if(message == null)
 			message = "";
 

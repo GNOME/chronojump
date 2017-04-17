@@ -228,8 +228,15 @@ public abstract class EncoderCapture
 
 		inertialCalibratedFirstCross0Pos = 0;
 
-		LogB.Information("sum = " + sum.ToString());
-		LogB.Information("sumInertialDisc = " + sumInertialDisc.ToString());
+		if(capturingInertialBG)
+		{
+			/*
+			 * reset capture list. If not done here, list will grow at each set
+			 * also this fixes the initial 0s after a set
+			 */
+			EncoderCaptureInertialBackgroundStatic.Initialize();
+		}
+
 		do {
 			try {
 				byteReaded = readByte();
@@ -372,9 +379,6 @@ public abstract class EncoderCapture
 				if(directionNow != directionLastMSecond) {
 					directionLastMSecond = directionNow;
 					directionChangeCount = 0;
-
-		LogB.Information("sum = " + sum.ToString());
-		LogB.Information("sumInertialDisc = " + sumInertialDisc.ToString());
 
 				} 
 				else if(directionNow != directionCompleted) {
@@ -595,7 +599,7 @@ public abstract class EncoderCapture
 		} else {
 		*/
 			if(capturingInertialBG)
-				return EncoderCaptureInertialBackgroundStatic.GetNext();
+				return (int) EncoderCaptureInertialBackgroundStatic.GetNext();
 			else {
 				if(simulated)
 					return simulateByte();

@@ -78,7 +78,7 @@ public class EncoderCaptureInertialBackground
 			angleNow += byteReaded;
 
 			if(StoreData)
-				EncoderCaptureInertialBackgroundStatic.ListCaptured.Add(byteReaded);
+				EncoderCaptureInertialBackgroundStatic.ListCaptured.Add((short) byteReaded);
 			//LogB.Information("angleNow = " + angleNow.ToString());
 		} while (! finishBG);
 
@@ -96,7 +96,7 @@ public class EncoderCaptureInertialBackground
 	private bool simulatedGoingUp = false;
 	private int simulatedMaxValue = 400;
 	private int simulatedLength;
-	private int simulatedMaxLength = 4000; //when signal stops
+	private int simulatedMaxLength = 10000; //ms when signal starts to shows 0s (will be stopped 3s again, depending on preferences)
 
 	public void SimulatedReset()
 	{
@@ -154,7 +154,7 @@ public class EncoderCaptureInertialBackground
  */
 public static class EncoderCaptureInertialBackgroundStatic
 {
-	public static List<int> ListCaptured;
+	public static List<short> ListCaptured;
 	private static int pos;
 
 	//abort allow to finish the capture process and don't get waiting GetNext forever
@@ -163,7 +163,7 @@ public static class EncoderCaptureInertialBackgroundStatic
 	public static void Start()
 	{
 		abort = false;
-		ListCaptured = new List<int> ();
+		ListCaptured = new List<short> ();
 		Initialize();
 	}
 
@@ -174,16 +174,17 @@ public static class EncoderCaptureInertialBackgroundStatic
 	}
 
 	//TODO: write nicer
-	public static int GetNext()
+	public static short GetNext()
 	{
 		if(abort)
 			return 0;
 
 		do {
-			if(ListCaptured.Count > pos)
+			if(ListCaptured != null && ListCaptured.Count > pos)
 				return ListCaptured[pos ++];
 
-			System.Threading.Thread.Sleep(25);
+			//LogB.Information("Problems at GetNext, L.Count: " + ListCaptured.Count.ToString() + ";pos: " + pos.ToString());
+			System.Threading.Thread.Sleep(5);
 		} while (! abort);
 
 		return 0;

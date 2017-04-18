@@ -2857,7 +2857,7 @@ public partial class ChronoJumpWindow
 				radio_mode_contacts_sprint.Show();
 			}
 			radio_mode_contacts_jumps_profile.Hide();
-			if(radio_mode_contacts_jumps_profile.Active)
+			if(radio_mode_contacts_sprint.Active)
 				radio_mode_contacts_capture.Active = true;
 		}
 		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL) 

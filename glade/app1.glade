@@ -1592,6 +1592,7 @@
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <signal name="clicked" handler="on_button_start_cancel_clicked" swapped="no"/>
+                                                        <accelerator key="Escape" signal="clicked"/>
                                                         <child>
                                                           <widget class="GtkHBox" id="hbox38">
                                                             <property name="visible">True</property>

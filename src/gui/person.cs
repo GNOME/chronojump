@@ -1509,7 +1509,8 @@ public class PersonAddModifyWindow
 		string errorMessage = "";
 
 		//Check if person name exists and weight is > 0
-		string personName = entry1.Text;
+		string personName = Util.MakeValidSQLAndFileName(entry1.Text);
+
 		if(personName == "")
 			errorMessage += "\n" + Catalog.GetString("Please, write the name of the person.");
 		if((double) spinbutton_weight.Value == 0)
@@ -1519,12 +1520,11 @@ public class PersonAddModifyWindow
 			return;
 		}
 
-
 		bool personExists;
 		if(adding)
-			personExists = Sqlite.Exists (false, Constants.PersonTable, Util.RemoveTilde(personName));
+			personExists = Sqlite.Exists (false, Constants.PersonTable, personName);
 		else
-			personExists = SqlitePerson.ExistsAndItsNotMe (currentPerson.UniqueID, Util.RemoveTilde(personName));
+			personExists = SqlitePerson.ExistsAndItsNotMe (currentPerson.UniqueID, personName);
 
 		if(personExists) 
 			errorMessage += string.Format(Catalog.GetString("Person: '{0}' exists. Please, use another name"), 
@@ -1583,11 +1583,12 @@ public class PersonAddModifyWindow
 			SqliteRun.Update(mRun.UniqueID, mRun.Type, mRun.Distance.ToString(), mRun.Time.ToString(), mRun.PersonID, mRun.Description);
 		}
 
+		string personName = Util.MakeValidSQLAndFileName(entry1.Text);
 
 		if(adding) {
 			//here we add rows in the database
 			LogB.Information("Going to insert person");
-			currentPerson = new Person (entry1.Text, sex, dateTime, 
+			currentPerson = new Person (personName, sex, dateTime,
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					textview_description.Buffer.Text,
@@ -1604,7 +1605,7 @@ public class PersonAddModifyWindow
 			LogB.Information("inserted both");
 		} else {
 			//here we update rows in the database
-			currentPerson = new Person (currentPerson.UniqueID, entry1.Text, sex, dateTime, 
+			currentPerson = new Person (currentPerson.UniqueID, personName, sex, dateTime,
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					textview_description.Buffer.Text,

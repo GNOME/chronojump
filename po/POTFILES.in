@@ -91,6 +91,7 @@ src/gui/run.cs
 src/gui/runType.cs
 src/gui/server.cs
 src/gui/session.cs
+src/gui/sprint.cs
 src/gui/stats.cs
 src/executeProcess.cs
 src/json.cs

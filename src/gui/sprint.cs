@@ -24,6 +24,7 @@ using Glade;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
+using Mono.Unix;
 
 
 public partial class ChronoJumpWindow
@@ -216,21 +217,21 @@ public partial class ChronoJumpWindow
 	{
 		if(! GetSelectedSprint(treeview_runs_interval_sprint))
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Error");
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error"));
 			return;
 		}
 
 		if(currentPersonSession.Weight == 0)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING,
-					"Error, weight of the person cannot be 0");
+					Catalog.GetString("Error, weight of the person cannot be 0"));
 			return;
 		}
 
 		if(currentPersonSession.Height == 0)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING,
-					"Error, height of the person cannot be 0");
+					Catalog.GetString("Error, height of the person cannot be 0"));
 			return;
 		}
 
@@ -244,7 +245,7 @@ public partial class ChronoJumpWindow
 
 		if(! success)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Problems on sprint R script.");
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("This data does not seem a sprint."));
 			return;
 		}
 
@@ -254,8 +255,6 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetSprintImage(),
 				image_sprint);
 		image_sprint.Sensitive = true;
-
-		new DialogMessage(Constants.MessageTypes.INFO, "Ok");
 	}
 
 }

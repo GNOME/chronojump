@@ -278,6 +278,29 @@ public class Util
 		return false;
 	}
 
+	public static string MakeValidSQLAndFileName(string name)
+	{
+		name = MakeValidFileName(MakeValidSQL(name));
+		name = name.Replace(@"\","");
+
+		return name;
+	}
+	//http://stackoverflow.com/a/847251
+	public static string MakeValidFileName(string name)
+	{
+		string invalidChars = System.Text.RegularExpressions.Regex.Escape( new string( System.IO.Path.GetInvalidFileNameChars() ) );
+		string invalidRegStr = string.Format( @"([{0}]*\.+$)|([{0}]+)", invalidChars );
+
+		return System.Text.RegularExpressions.Regex.Replace( name, invalidRegStr, "_" );
+	}
+	public static string MakeValidSQL(string str)
+	{
+		StringBuilder myStringBuilder = new StringBuilder(str);
+		myStringBuilder.Replace("'", " ");
+		myStringBuilder.Replace("\"", " ");
+		return myStringBuilder.ToString();
+	}
+
 	public static string RemoveTilde(string myString) 
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);
@@ -304,7 +327,7 @@ public class Util
 		myStringBuilder.Replace(".", " ");
 		return myStringBuilder.ToString();
 	}
-	
+
 	public static string RemoveTab(string myString) 
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);

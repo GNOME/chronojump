@@ -122,6 +122,40 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted2;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted3;
 
+	//force sensor tab
+	[Widget] Gtk.HBox hbox_force_1;
+	[Widget] Gtk.HBox hbox_force_2;
+	[Widget] Gtk.HBox hbox_force_3;
+	[Widget] Gtk.HBox hbox_force_4;
+	[Widget] Gtk.CheckButton check_force_1;
+	[Widget] Gtk.CheckButton check_force_2;
+	[Widget] Gtk.CheckButton check_force_3;
+	[Widget] Gtk.CheckButton check_force_4;
+	[Widget] Gtk.ComboBox combo_force_1_function;
+	[Widget] Gtk.ComboBox combo_force_2_function;
+	[Widget] Gtk.ComboBox combo_force_3_function;
+	[Widget] Gtk.ComboBox combo_force_4_function;
+	[Widget] Gtk.ComboBox combo_force_1_type;
+	[Widget] Gtk.ComboBox combo_force_2_type;
+	[Widget] Gtk.ComboBox combo_force_3_type;
+	[Widget] Gtk.ComboBox combo_force_4_type;
+	[Widget] Gtk.HBox hbox_force_1_at_ms;
+	[Widget] Gtk.HBox hbox_force_2_at_ms;
+	[Widget] Gtk.HBox hbox_force_3_at_ms;
+	[Widget] Gtk.HBox hbox_force_4_at_ms;
+	[Widget] Gtk.HBox hbox_force_1_at_percent;
+	[Widget] Gtk.HBox hbox_force_2_at_percent;
+	[Widget] Gtk.HBox hbox_force_3_at_percent;
+	[Widget] Gtk.HBox hbox_force_4_at_percent;
+	[Widget] Gtk.HBox hbox_force_1_from;
+	[Widget] Gtk.HBox hbox_force_2_from;
+	[Widget] Gtk.HBox hbox_force_3_from;
+	[Widget] Gtk.HBox hbox_force_4_from;
+	[Widget] Gtk.HBox hbox_force_1_to;
+	[Widget] Gtk.HBox hbox_force_2_to;
+	[Widget] Gtk.HBox hbox_force_3_to;
+	[Widget] Gtk.HBox hbox_force_4_to;
+
 	//multimedia tab
 	[Widget] Gtk.CheckButton checkbutton_volume;
 	[Widget] Gtk.Box hbox_combo_camera;
@@ -165,6 +199,7 @@ public class PreferencesWindow
 	const int RUNSPAGE = 3;
 	const int ENCODERCAPTUREPAGE = 4;
 	const int ENCODEROTHERPAGE = 5;
+	const int FORCEPAGE = 6;
 
 
 	PreferencesWindow () {
@@ -383,6 +418,9 @@ public class PreferencesWindow
 		//done here and not in glade to be shown with the decimal point of user language	
 		PreferencesWindowBox.label_encoder_con.Text = (0.7).ToString();
 	
+		//force
+		PreferencesWindowBox.createForceCombos();
+
 		//language -->
 		if(preferences.language == "")
 			PreferencesWindowBox.radio_language_detected.Active = true;
@@ -450,6 +488,109 @@ public class PreferencesWindow
 	private void on_checkbutton_encoder_capture_fully_extended_toggled(object obj, EventArgs args) {
 		hbox_encoder_capture_fully_extended.Visible = checkbutton_encoder_capture_fully_extended.Active;
 	}
+
+
+	// ---- Force sensor stuff
+
+	private void on_check_force_1_clicked (object o, EventArgs args)
+	{
+		hbox_force_1.Visible = (check_force_1.Active);
+	}
+	private void on_check_force_2_clicked (object o, EventArgs args)
+	{
+		hbox_force_2.Visible = (check_force_2.Active);
+	}
+	private void on_check_force_3_clicked (object o, EventArgs args)
+	{
+		hbox_force_3.Visible = (check_force_3.Active);
+	}
+	private void on_check_force_4_clicked (object o, EventArgs args)
+	{
+		hbox_force_4.Visible = (check_force_4.Active);
+	}
+
+	private static string [] forceTypes = {
+		"Instantaneous", "Average", "% Force max", "RFD max"
+	};
+	private static string [] forceTypesTranslated = {
+		Catalog.GetString("Instantaneous"), Catalog.GetString("Average"),
+		Catalog.GetString("% Force max"), Catalog.GetString("RFD max")
+	};
+	private void createForceCombos ()
+	{
+		combo_force_1_function.Active = 0;
+		combo_force_2_function.Active = 0;
+		combo_force_3_function.Active = 0;
+		combo_force_4_function.Active = 0;
+
+		UtilGtk.ComboUpdate(combo_force_1_type, forceTypesTranslated, "");
+		UtilGtk.ComboUpdate(combo_force_2_type, forceTypesTranslated, "");
+		UtilGtk.ComboUpdate(combo_force_3_type, forceTypesTranslated, "");
+		UtilGtk.ComboUpdate(combo_force_4_type, forceTypesTranslated, "");
+	}
+
+	private void on_combo_force_type_changed (object o, EventArgs args)
+	{
+		Gtk.ComboBox combo = o as ComboBox;
+		if (o == null)
+			return;
+
+		if(combo == combo_force_1_type)
+			combo_force_visibility(
+					UtilGtk.ComboGetActive(combo_force_1_type),
+					hbox_force_1_at_ms,
+					hbox_force_1_at_percent,
+					hbox_force_1_from,
+					hbox_force_1_to);
+		else if(combo == combo_force_2_type)
+			combo_force_visibility(
+					UtilGtk.ComboGetActive(combo_force_2_type),
+					hbox_force_2_at_ms,
+					hbox_force_2_at_percent,
+					hbox_force_2_from,
+					hbox_force_2_to);
+		else if(combo == combo_force_3_type)
+			combo_force_visibility(
+					UtilGtk.ComboGetActive(combo_force_3_type),
+					hbox_force_3_at_ms,
+					hbox_force_3_at_percent,
+					hbox_force_3_from,
+					hbox_force_3_to);
+		else if(combo == combo_force_4_type)
+			combo_force_visibility(
+					UtilGtk.ComboGetActive(combo_force_4_type),
+					hbox_force_4_at_ms,
+					hbox_force_4_at_percent,
+					hbox_force_4_from,
+					hbox_force_4_to);
+	}
+
+	private void combo_force_visibility (string selected, Gtk.HBox at_ms, Gtk.HBox at_percent, Gtk.HBox from, Gtk.HBox to)
+	{
+		//valid for active == "" and active == "RFD max"
+		at_ms.Visible = false;
+		at_percent.Visible = false;
+		from.Visible = false;
+		to.Visible = false;
+
+		//LogB.Information("Selected:" + selected + ";");
+
+		if(selected == Catalog.GetString("Instantaneous"))
+		{
+			at_ms.Visible = true;
+		}
+		else if(selected == Catalog.GetString("Average"))
+		{
+			from.Visible = true;
+			to.Visible = true;
+		}
+		else if(selected == Catalog.GetString("% Force max"))
+		{
+			at_percent.Visible = true;
+		}
+	}
+
+	// ---- end of Force sensor stuff
 
 
 	// ---- Language stuff

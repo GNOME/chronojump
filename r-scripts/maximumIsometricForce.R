@@ -23,16 +23,16 @@
 
 prepareGraph <- function(os, pngFile, width, height)
 {
-	if(os == "Windows")
-		Cairo(width, height, file = pngFile, type="png", bg="white")
-	else
-		png(pngFile, width=width, height=height)
-	        #pdf(file = "/tmp/maxIsomForce.pdf", width=width, height=height)
+        if(os == "Windows")
+                Cairo(width, height, file = pngFile, type="png", bg="white")
+        else
+                png(pngFile, width=width, height=height)
+        #pdf(file = "/tmp/maxIsomForce.pdf", width=width, height=height)
 }
 
 endGraph <- function()
 {
-	dev.off()
+        dev.off()
 }
 
 assignOptions <- function(options)
@@ -70,14 +70,15 @@ options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 
 #-------------- assign options -------------
 op <- assignOptions(options)
+print(op)
 
 
 #Fits the data to the model f = fmax*(1 - exp(-K*t))
 #Important! It fits the data with the axes moved to initf and startTime. The real maximum force is fmax + initf
 getForceModel <- function(time, force, startTime, # startTime is the instant when the force start to increase
-                   fmaxi,           # fmaxi is the initial value for the force. For numeric purpouses
-                   initf)              # initf is the sustained force before the increase
-        {
+                          fmaxi,           # fmaxi is the initial value for the force. For numeric purpouses
+                          initf)              # initf is the sustained force before the increase
+{
         timeTrimmed = time[which(time == startTime):length(time)]
         forceTrimmed = force[which(time == startTime):length(time)]
         timeTrimmed = timeTrimmed -  startTime
@@ -96,6 +97,8 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         
         #Instantaneous RFD
         rfd = getRFD(originalTest)
+        print(originalTest)
+        print(rfd)
         
         #Finding the decrease of the foce to detect the end of the maximum voluntary force
         trimmingSamples = getTrimmingSamples(originalTest, rfd, averageLength = averageLength, percentChange = percentChange)
@@ -110,16 +113,14 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         fmax.raw = max(originalTest$force)
         
         #Trimming the data before and after contraction
-        print(paste("StartSample :", startSample))
-        print(paste("EndSample :", endSample))
         test = originalTest[startSample:endSample,]
-
+        
         f.smoothed = getMovingAverageForce(originalTest, averageLength = averageLength) #Running average with equal weight averageLength seconds
         fmax.smoothed = max(f.smoothed, na.rm =T)
         
         model = getForceModel(test$time, test$force, startTime, fmax.smoothed, initf)
         f.fitted = initf + model$fmax*(1-exp(-model$K*(originalTest$time - startTime)))
- 
+        
         
         f0.raw = test$force[1]                                                       #Force at t=0ms. ATENTION. This value is different than initf
         f100.raw = test$force[which.min(abs(test$time - (startTime + 0.1)))]         #Force at t=100ms
@@ -176,11 +177,10 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
                     endTime = endTime))
 }
 
-#drawDynamicsFromLoadCell <- function(dynamics, pdfFilename = "/tmp/loadCellsMaxIsomForce.pdf", vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F, hline50fmax.raw=F, hline50fmax.fitted=F,
 drawDynamicsFromLoadCell <- function(
-				     dynamics, vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F,
-				     hline50fmax.raw=F, hline50fmax.fitted=F,
-				     rfdDrawingOptions, xlimits = NA)
+        dynamics, vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F,
+        hline50fmax.raw=F, hline50fmax.fitted=F,
+        rfdDrawingOptions, xlimits = NA)
 {
         par(mar = c(5, 4, 6, 4))
         
@@ -255,10 +255,7 @@ drawDynamicsFromLoadCell <- function(
         print(paste("op$drawRfdOptions =", op$drawRfdOptions))
         for (n in 1:length(rfdDrawingOptions))
         {
-                print("----------------------------------------")
-                print(paste("n =", n))
                 options = readRFDOptions(op$drawRfdOptions[n])
-                print(options)
                 
                 RFD = NULL
                 sample2 = NA
@@ -300,9 +297,8 @@ drawDynamicsFromLoadCell <- function(
                                 RFD = dynamics$fmax.fitted*(exp( -dynamics$k.fitted * options$start) - exp( -dynamics$k.fitted * options$end)) / (options$end - options$start)
                                 #Y coordinate of a point of the line
                                 pointForce1 = dynamics$fmax.fitted*(1 - exp( -dynamics$k.fitted * options$start)) + dynamics$initf
-                                
                         } else if(options$rfdFunction == "raw")
-                                {
+                        {
                                 sample1 =  which.min(abs(dynamics$time - dynamics$startTime - options$start))
                                 sample2 = which.min(abs(dynamics$time - dynamics$startTime - options$end))
                                 
@@ -320,17 +316,16 @@ drawDynamicsFromLoadCell <- function(
                         {
                                 #Force that is the % of the raw fmax
                                 fpfmax = dynamics$fmax.raw*options$start/100
-                                print(paste("fpfmax =", fpfmax))
                                 
                                 #Translating options$start to time in seconds
                                 options$start = dynamics$time[which.min(abs(dynamics$f.fitted - fpfmax))] - dynamics$startTime
                                 
-                                #dynamics$tfmax.raw * options$start / 100 - dynamics$startTime
+                                #RFD at the point with a % of the fmax.raw
                                 RFD = dynamics$fmax.fitted * dynamics$k.fitted * exp(-dynamics$k.fitted * options$start)
                                 
                                 #Y coordinate of a point of the line
                                 pointForce1 = dynamics$fmax.fitted*(1 - exp(-dynamics$k.fitted * options$start)) + dynamics$initf
-                                        
+                                
                         } else if(options$rfdFunction == "raw")
                         {
                                 #Calculing at which sample force is equal to the percent of fmax specified in options$start
@@ -349,6 +344,7 @@ drawDynamicsFromLoadCell <- function(
                 {
                         if (options$rfdFunction == "fitted")
                         {
+                                #max is always in the initial point.
                                 
                         } else if(options$rfdFunction == "raw")
                         {
@@ -371,7 +367,6 @@ drawDynamicsFromLoadCell <- function(
                 
                 #The Y coordinate of the line at t=0
                 intercept = pointForce1 - RFD * (dynamics$startTime + options$start)
-                print(paste("Intercept =", intercept))
                 
                 #The slope of the line seen in the screen(pixels units), NOT in the time-force units
                 windowSlope = RFD*(plotHeight/yHeight)/(plotWidth/xWidth)
@@ -383,10 +378,6 @@ drawDynamicsFromLoadCell <- function(
                      srt=atan(windowSlope)*180/pi, pos = 2, col = color)
                 #Drawing the points where the line touch the function
                 points(x = c(options$start + dynamics$startTime, options$end), y = c(pointForce1, pointForce2), col = color)
-                print(paste("startTime =", dynamics$startTime))
-                print(paste("options$start =", options$start))
-                print(paste("RFD :", RFD))
-                print(paste("PointForce1 =", pointForce1))
         }
         
         #Plotting instantaneous RFD
@@ -437,7 +428,7 @@ getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf
         
 }
 
-#Finds the sample in which thpercentChangee force decrease a given percentage of the maximum force.
+#Finds the sample in which the force decrease a given percentage of the maximum force.
 #The maximum force is calculed from the moving average of averageLength seconds
 getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.1, percentChange = 5)
 {
@@ -469,7 +460,6 @@ getRFD <- function(test)
 {
         #Instantaneous RFD
         rfd = rep(NA, length(test$time))
-        print(paste("RFD length :",length(test$time)))
         for (n in 2:(length(test$time) - 1))
         {
                 rfd[n] = (test$force[n + 1] - test$force[n - 1])/(test$time[n + 1] - test$time[n - 1])
@@ -490,11 +480,12 @@ readRFDOptions <- function(optionsStr)
         options = unlist(strsplit(optionsStr, "\\;"))
         
         return(list(
-        rfdFunction     = options[1],            # raw or fitted
-        type            = options[2],            # instantaeous, average, %fmax, rfdmax
-        start           = as.numeric(options[3]),            # second at which the analysis starts
-        end             = as.numeric(options[4])             # second at which the analysis ends
-))
+                rfdFunction     = options[1],            # raw or fitted
+                type            = options[2],            # instantaeous, average, %fmax, rfdmax
+                #start and end can be in seconds (instant and average RFD), percentage (%fmax) or -1 if not needed
+                start           = as.numeric(options[3]),            # instant at which the analysis starts
+                end             = as.numeric(options[4])             # instant at which the analysis ends
+        ))
 }
 
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)

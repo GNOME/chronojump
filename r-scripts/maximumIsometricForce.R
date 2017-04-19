@@ -206,6 +206,10 @@ drawDynamicsFromLoadCell <- function(
                      main = dynamics$nameOfFile, yaxs= "i", xaxs = "i")
         }
         
+        #Plotting impulse (area under the curve)
+        polygon(c(dynamics$time[dynamics$startSample:dynamics$endSample], dynamics$time[dynamics$endSample], dynamics$time[dynamics$startSample]),
+                c(dynamics$f.raw[dynamics$startSample:dynamics$endSample], 0, 0), col = "grey")
+
         #Plotting not analysed data
         lines(dynamics$time[1:dynamics$startSample] , dynamics$f.raw[1:dynamics$startSample], col = "grey") #Pre-analysis
         lines(dynamics$time[dynamics$endSample: dynamics$totalSample] , dynamics$f.raw[dynamics$endSample: dynamics$totalSample], col = "grey") #Post-analysis

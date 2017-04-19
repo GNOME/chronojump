@@ -90,29 +90,6 @@ splitTime <- function(Vmax, K, position, tolerance = 0.001, initTime = 1)
         return(t)
 }
 
-#Given x(t) = Vmax*(t + (1/K)*exp(-K*t)) -Vmax - 1/K
-# x1 = x(t1)    eq. (1)
-# x2 = x(t2)    eq. (2)
-#Isolating Vmax from the first expressiona and sustituting in the second one we have:
-# x2*(t1 + exp(-K*t1)/K - 1/K) = x1*(t2 + exp(-K*t2)/K -1/K)    eq. (3)
-#Passing all the terms of (3) at the left of the equation to have the form y(K) = 0
-#Using the iterative Newton's method of the tangent aproximation to find K
-#Derivative: y'(K) =  (x2/x1)*(t1 - exp(-K*t1)*(K*t1 + 1)/K^2 + 1/K^2) + exp(-K*t2)*(K*t2 +1) - 1/K^2
-getSprintFrom2SplitTimes <- function(x1, x2, t1, t2, tolerance = 0.0001, initK = 1)
-{
-        #We have to find the K where y = 0.
-        K = initK
-        y = (x2/x1)*( t1 + exp(-K*t1)/K - 1/K) - t2 - exp(-K*t2)/K + 1/K
-        while (abs(y) > tolerance){
-                derivY = (x2/x1)*(t1 - exp(-K*t1)*(K*t1 + 1)/K^2 + 1/K^2) + exp(-K*t2)*(K*t2 +1) - 1/K^2
-                K = K - y / derivY
-                y = (x2/x1)*( t1 + exp(-K*t1)/K - 1/K) - t2 - exp(-K*t2)/K + 1/K
-        }
-        #Calculing Vmax substituting the K found in the eq. (1)
-        Vmax = x1/(t1 + exp(-K*t1)/K -1/K)
-        return(list(K = K, Vmax = Vmax))
-}
-
 
 prepareGraph <- function(os, pngFile, width, height)
 {

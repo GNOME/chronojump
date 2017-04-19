@@ -65,7 +65,7 @@ getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
         #if there's only three positions. Substituting x1 = x(t1), and x2 = x(t2) whe have an exact solution.
         #2 variables (K and Vmax) and 2 equations.
         if (length(positions) == 3){
-                return(getSprintFrom2SplitTimes(x1 = positions[2], x2 = positions[3], t1 = splitTimes[2], t2 = splitTimes[3] ))
+                return(getSprintFrom2SplitTimes(positions[2], positions[3], splitTimes[2], splitTimes[3], tolerance = 0.0001, initK = 1 ))
         }
         
         photocell = data.frame(time = splitTimes, position = positions)
@@ -77,6 +77,31 @@ getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
         Vmax = summary(pos.model)$coeff[2,1]
 
         summary(pos.model)$coef[1:2,1]
+        return(list(K = K, Vmax = Vmax))
+}
+
+#Given x(t) = Vmax*(t + (1/K)*exp(-K*t)) -Vmax - 1/K
+# x1 = x(t1)    eq. (1)
+# x2 = x(t2)    eq. (2)
+#Isolating Vmax from the first expressiona and sustituting in the second one we have:
+# x2*(t1 + exp(-K*t1)/K - 1/K) = x1*(t2 + exp(-K*t2)/K -1/K)    eq. (3)
+#Passing all the terms of (3) at the left of the equation to have the form y(K) = 0
+#Using the iterative Newton's method of the tangent aproximation to find K
+#Derivative: y'(K) =  (x2/x1)*(t1 - exp(-K*t1)*(K*t1 + 1)/K^2 + 1/K^2) + exp(-K*t2)*(K*t2 +1) - 1/K^2
+getSprintFrom2SplitTimes <- function(x1, x2, t1, t2, tolerance = 0.0001, initK = 1)
+{
+        #We have to find the K where y = 0.
+        K = initK
+        y = (x2/x1)*( t1 + exp(-K*t1)/K - 1/K) - t2 - exp(-K*t2)/K + 1/K
+        nIterations = 0
+        while ((abs(y) > tolerance) && (nIterations < 10000)){
+                nIterations = nIterations + 1
+                derivY = (x2/x1)*(t1 - exp(-K*t1)*(K*t1 + 1)/K^2 + 1/K^2) + exp(-K*t2)*(K*t2 +1) - 1/K^2
+                K = K - y / derivY
+                y = (x2/x1)*( t1 + exp(-K*t1)/K - 1/K) - t2 - exp(-K*t2)/K + 1/K
+        }
+        #Calculing Vmax substituting the K found in the eq. (1)
+        Vmax = x1/(t1 + exp(-K*t1)/K -1/K)
         return(list(K = K, Vmax = Vmax))
 }
 

@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.41";
+	static string lastChronojumpDatabaseVersion = "1.42";
 
 	public Sqlite() {
 	}
@@ -2168,6 +2168,16 @@ class Sqlite
 				currentVersion = updateVersion("1.41");
 			}
 
+			if(currentVersion == "1.41")
+			{
+				LogB.SQL("Created and default values for ForceSensorRFD");
+
+				SqliteForceSensor.createTableForceRFD();
+				SqliteForceSensor.InsertDefaultValues(true);
+
+				currentVersion = updateVersion("1.42");
+			}
+
 
 			// --- add more updates here
 		
@@ -2344,7 +2354,11 @@ class Sqlite
 		SqliteChronopicRegister.createTableChronopicRegister();
 		SqliteTrigger.createTableTrigger();
 
+		SqliteForceSensor.createTableForceRFD();
+		SqliteForceSensor.InsertDefaultValues(true);
+
 		//changes [from - to - desc]
+		//1.41 - 1.42 Converted DB to 1.42 Created and default values for ForceSensorRFD
 		//1.40 - 1.41 Converted DB to 1.41 Updated preferences maximized: from true/false to no/yes/undecorated
 		//1.39 - 1.40 Converted DB to 1.40 Added to preferences: maximized, personWinHide, encoderCaptureShowOnlyBars
 		//1.38 - 1.39 Converted DB to 1.39 Created trigger table 

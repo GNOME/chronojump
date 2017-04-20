@@ -76,7 +76,7 @@ public class Preferences
 	public string language;
 	public bool RGraphsTranslate;
 	public bool useHeightsOnJumpIndexes;
-	
+
 	/*
 	 * these are NOT sent to preferences window
 	 */

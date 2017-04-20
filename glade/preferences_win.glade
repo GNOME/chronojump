@@ -2898,8 +2898,7 @@ Other</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="active">1</property>
-                                        <property name="items">RAW
-Fitted</property>
+                                        <property name="items"/>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -3199,8 +3198,7 @@ Fitted</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="active">1</property>
-                                        <property name="items">RAW
-Fitted</property>
+                                        <property name="items"/>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -3500,8 +3498,7 @@ Fitted</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="active">1</property>
-                                        <property name="items">RAW
-Fitted</property>
+                                        <property name="items"/>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -3801,8 +3798,7 @@ Fitted</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="active">1</property>
-                                        <property name="items">RAW
-Fitted</property>
+                                        <property name="items"/>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -4054,6 +4050,7 @@ Fitted</property>
                                     <property name="can_focus">True</property>
                                     <property name="can_default">True</property>
                                     <property name="receives_default">False</property>
+                                    <signal name="clicked" handler="on_button_force_rfd_default_clicked" swapped="no"/>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>

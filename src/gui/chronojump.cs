@@ -380,6 +380,7 @@ public partial class ChronoJumpWindow
 	private TreeViewMultiChronopic myTreeViewMultiChronopic;
 	
 	private Preferences preferences;
+	private List<ForceSensorRFD> rfdList;
 
 	private static Person currentPerson;
 	private static Session currentSession;
@@ -547,6 +548,8 @@ public partial class ChronoJumpWindow
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
 		loadPreferences ();
+
+		rfdList = SqliteForceSensor.SelectAll(false);
 
 		createTreeView_persons (treeview_persons);
 
@@ -2690,7 +2693,7 @@ public partial class ChronoJumpWindow
 
 	private void on_preferences_activate (object o, EventArgs args) 
 	{
-		preferencesWin = PreferencesWindow.Show(preferences, getMenuItemMode());
+		preferencesWin = PreferencesWindow.Show(preferences, rfdList, getMenuItemMode());
 		
 		preferencesWin.FakeButtonImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);

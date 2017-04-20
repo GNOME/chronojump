@@ -232,6 +232,8 @@ public class PreferencesWindow
 			PreferencesWindowBox.notebook.GetNthPage(ENCODERCAPTUREPAGE).Hide();
 			PreferencesWindowBox.notebook.GetNthPage(ENCODEROTHERPAGE).Hide();
 		}
+		if(menu_mode !=	Constants.Menuitem_modes.FORCESENSOR)
+			PreferencesWindowBox.notebook.GetNthPage(FORCEPAGE).Hide();
 
 		PreferencesWindowBox.preferences = preferences;
 
@@ -419,7 +421,7 @@ public class PreferencesWindow
 		PreferencesWindowBox.label_encoder_con.Text = (0.7).ToString();
 	
 		//force
-		PreferencesWindowBox.createForceCombos();
+		PreferencesWindowBox.initForceSensor();
 
 		//language -->
 		if(preferences.language == "")
@@ -492,26 +494,30 @@ public class PreferencesWindow
 
 	// ---- Force sensor stuff
 
-	private void on_check_force_1_clicked (object o, EventArgs args)
+	private void initForceSensor ()
+	{
+		createForceCombos();
+
+		check_force_visibilities();
+
+	}
+
+	private void check_force_visibilities()
 	{
 		hbox_force_1.Visible = (check_force_1.Active);
-	}
-	private void on_check_force_2_clicked (object o, EventArgs args)
-	{
 		hbox_force_2.Visible = (check_force_2.Active);
-	}
-	private void on_check_force_3_clicked (object o, EventArgs args)
-	{
 		hbox_force_3.Visible = (check_force_3.Active);
-	}
-	private void on_check_force_4_clicked (object o, EventArgs args)
-	{
 		hbox_force_4.Visible = (check_force_4.Active);
 	}
 
-	private static string [] forceTypes = {
-		"Instantaneous", "Average", "% Force max", "RFD max"
-	};
+	private void on_check_force_clicked (object o, EventArgs args)
+	{
+		check_force_visibilities();
+	}
+
+	//private static string [] forceTypes = {
+	//	"Instantaneous", "Average", "% Force max", "RFD max"
+	//};
 	private static string [] forceTypesTranslated = {
 		Catalog.GetString("Instantaneous"), Catalog.GetString("Average"),
 		Catalog.GetString("% Force max"), Catalog.GetString("RFD max")
@@ -527,6 +533,11 @@ public class PreferencesWindow
 		UtilGtk.ComboUpdate(combo_force_2_type, forceTypesTranslated, "");
 		UtilGtk.ComboUpdate(combo_force_3_type, forceTypesTranslated, "");
 		UtilGtk.ComboUpdate(combo_force_4_type, forceTypesTranslated, "");
+
+		combo_force_1_type.Active = 0;
+		combo_force_2_type.Active = 0;
+		combo_force_3_type.Active = 0;
+		combo_force_4_type.Active = 0;
 	}
 
 	private void on_combo_force_type_changed (object o, EventArgs args)

@@ -70,7 +70,7 @@ class SqliteTrigger : Sqlite
 						typeof(Trigger.Modes), reader[1].ToString()), //mode
 					Convert.ToInt32(reader[2]), 		//modeID
 					Convert.ToInt32(reader[3]), 		//ms
-					Util.StringToBool(reader[4].ToString()),//inOut
+					Util.IntToBool(Convert.ToInt32(reader[4])), 	//inOut
 					reader[5].ToString(), 			//name
 					reader[6].ToString(), 			//color
 					reader[7].ToString()			//comments

@@ -84,6 +84,9 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_speed_km;
 	[Widget] Gtk.RadioButton radio_runs_speed_start_arrival; 
 	[Widget] Gtk.RadioButton radio_runs_speed_start_leaving; 
+	[Widget] Gtk.Image image_races_simple;
+	[Widget] Gtk.Image image_races_intervallic;
+	[Widget] Gtk.Notebook notebook_races_double_contacts;
 	[Widget] Gtk.Box vbox_runs_prevent_double_contact;
 	[Widget] Gtk.CheckButton checkbutton_runs_prevent_double_contact;
 	[Widget] Gtk.SpinButton spinbutton_runs_prevent_double_contact;
@@ -339,6 +342,17 @@ public class PreferencesWindow
 
 
 		//start of double contacts stuff ----
+		Pixbuf pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
+		PreferencesWindowBox.image_races_simple.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
+		PreferencesWindowBox.image_races_intervallic.Pixbuf = pixbuf;
+
+		if(menu_mode ==	Constants.Menuitem_modes.RUNSSIMPLE)
+			PreferencesWindowBox.notebook_races_double_contacts.CurrentPage = 0;
+		else if(menu_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+			PreferencesWindowBox.notebook_races_double_contacts.CurrentPage = 1;
+
 		PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active = 
 			(preferences.runDoubleContactsMode != Constants.DoubleContact.NONE);
 		PreferencesWindowBox.checkbutton_runs_i_prevent_double_contact.Active = 

@@ -101,6 +101,7 @@ SOURCES = \
 	sqlite/encoder.cs\
 	sqlite/encoderConfiguration.cs\
 	sqlite/executeAuto.cs\
+	sqlite/forceSensor.cs\
 	sqlite/jump.cs\
 	sqlite/jumpRj.cs\
 	sqlite/jumpType.cs\

@@ -21,7 +21,117 @@
 using System;
 using System.IO; 		//for detect OS
 using System.Collections.Generic; //List<T>
+using Mono.Unix;
 
+public class ForceSensorRFD
+
+{
+	//if these names change, change FunctionPrint() below
+	public enum Functions { RAW, FITTED } //on SQL is inserted like this
+	private static string function_RAW_name = "RAW";
+	private static string function_FITTED_name = "Fitted";
+
+	//if these names change, change TypePrint() below
+	public enum Types { INSTANTANEOUS, AVERAGE, PERCENT_F_MAX, RFD_MAX } //on SQL is inserted like this
+	private static string type_INSTANTANEOUS_name = "Instantaneous";
+	private static string type_AVERAGE_name = "Average";
+	private static string type_PERCENT_F_MAX_name = "% Force max";
+	private static string type_RFD_MAX_name = "RFD max";
+
+	private string code; //RFD1...4
+	public bool active;
+	public Functions function;
+	public Types type;
+	public int num1;
+	public int num2;
+
+	public ForceSensorRFD(string code, bool active, Functions function, Types type, int num1, int num2)
+	{
+		this.code = code;
+		this.active = active;
+		this.function = function;
+		this.type = type;
+		this.num1 = num1;
+		this.num2 = num2;
+	}
+
+	public static string [] FunctionsArray(bool translated)
+	{
+		if(translated)
+			return new string [] { Catalog.GetString(function_RAW_name), Catalog.GetString(function_FITTED_name) };
+		else
+			return new string [] { function_RAW_name, function_FITTED_name };
+	}
+	public static string [] TypesArray(bool translated)
+	{
+		if(translated)
+			return new string [] {
+				Catalog.GetString(type_INSTANTANEOUS_name), Catalog.GetString(type_AVERAGE_name),
+				Catalog.GetString(type_PERCENT_F_MAX_name), Catalog.GetString(type_RFD_MAX_name)
+			};
+		else
+			return new string [] {
+				type_INSTANTANEOUS_name, type_AVERAGE_name, type_PERCENT_F_MAX_name, type_RFD_MAX_name
+			};
+	}
+
+	public string FunctionPrint(bool translated)
+	{
+		if(function == Functions.RAW) {
+			if(translated)
+				return Catalog.GetString(function_RAW_name);
+			else
+				return function_RAW_name;
+		}
+
+		if(translated)
+			return Catalog.GetString(function_FITTED_name);
+		else
+			return function_FITTED_name;
+	}
+
+	public string TypePrint(bool translated)
+	{
+		if(type == Types.INSTANTANEOUS) {
+			if(translated)
+				return Catalog.GetString(type_INSTANTANEOUS_name);
+			else
+				return type_INSTANTANEOUS_name;
+		}
+		else if(type == Types.AVERAGE) {
+			if(translated)
+				return Catalog.GetString(type_AVERAGE_name);
+			else
+				return type_AVERAGE_name;
+		}
+		else if(type == Types.PERCENT_F_MAX) {
+			if(translated)
+				return Catalog.GetString(type_PERCENT_F_MAX_name);
+			else
+				return type_PERCENT_F_MAX_name;
+		}
+		else { //if(type == Types.RFD_MAX)
+			if(translated)
+				return Catalog.GetString(type_RFD_MAX_name);
+			else
+				return type_RFD_MAX_name;
+		}
+	}
+
+	public string ToSQLInsertString()
+	{
+		return
+			"\"" + code  + "\"" + "," +
+			Util.BoolToInt(active).ToString() + "," +
+			"\"" + function.ToString() + "\"" + "," +
+			"\"" + type.ToString() + "\"" + "," +
+			num1.ToString() + "," +
+			num2.ToString();
+	}
+
+}
+
+/*
 public class ForceSensor
 {
 	double averageLength;
@@ -128,3 +238,4 @@ public class ForceSensor
 		((IDisposable)writer).Dispose();
 	}
 }
+*/

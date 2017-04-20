@@ -27,6 +27,7 @@ using Glade;
 //using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using Mono.Unix;
 using System.Threading;
 using System.Globalization; //CultureInfo stuff
@@ -154,6 +155,22 @@ public class PreferencesWindow
 	[Widget] Gtk.HBox hbox_force_2_from_to;
 	[Widget] Gtk.HBox hbox_force_3_from_to;
 	[Widget] Gtk.HBox hbox_force_4_from_to;
+	[Widget] Gtk.SpinButton spinbutton_force_1_at_ms;
+	[Widget] Gtk.SpinButton spinbutton_force_2_at_ms;
+	[Widget] Gtk.SpinButton spinbutton_force_3_at_ms;
+	[Widget] Gtk.SpinButton spinbutton_force_4_at_ms;
+	[Widget] Gtk.SpinButton spinbutton_force_1_at_percent;
+	[Widget] Gtk.SpinButton spinbutton_force_2_at_percent;
+	[Widget] Gtk.SpinButton spinbutton_force_3_at_percent;
+	[Widget] Gtk.SpinButton spinbutton_force_4_at_percent;
+	[Widget] Gtk.SpinButton spinbutton_force_1_from;
+	[Widget] Gtk.SpinButton spinbutton_force_2_from;
+	[Widget] Gtk.SpinButton spinbutton_force_3_from;
+	[Widget] Gtk.SpinButton spinbutton_force_4_from;
+	[Widget] Gtk.SpinButton spinbutton_force_1_to;
+	[Widget] Gtk.SpinButton spinbutton_force_2_to;
+	[Widget] Gtk.SpinButton spinbutton_force_3_to;
+	[Widget] Gtk.SpinButton spinbutton_force_4_to;
 
 	//multimedia tab
 	[Widget] Gtk.CheckButton checkbutton_volume;
@@ -187,6 +204,7 @@ public class PreferencesWindow
 	static PreferencesWindow PreferencesWindowBox;
 	
 	private Preferences preferences; //stored to update SQL if anything changed
+	private List<ForceSensorRFD> rfdList; //stored to update SQL if anything changed
 	private Thread thread;
 
 	string databaseURL;
@@ -217,7 +235,8 @@ public class PreferencesWindow
 		FakeButtonDebugModeStart = new Gtk.Button();
 	}
 	
-	static public PreferencesWindow Show (Preferences preferences, Constants.Menuitem_modes menu_mode)
+	static public PreferencesWindow Show (Preferences preferences, List <ForceSensorRFD> rfdList,
+			Constants.Menuitem_modes menu_mode)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -235,6 +254,7 @@ public class PreferencesWindow
 			PreferencesWindowBox.notebook.GetNthPage(FORCEPAGE).Hide();
 
 		PreferencesWindowBox.preferences = preferences;
+		PreferencesWindowBox.rfdList = rfdList;
 
 		PreferencesWindowBox.createComboLanguage();
 
@@ -507,8 +527,7 @@ public class PreferencesWindow
 	private void initForceSensor ()
 	{
 		createForceCombos();
-
-		check_force_visibilities();
+		setRFDValues();
 	}
 
 	private void check_force_visibilities()
@@ -524,29 +543,17 @@ public class PreferencesWindow
 		check_force_visibilities();
 	}
 
-	//private static string [] forceTypes = {
-	//	"Instantaneous", "Average", "% Force max", "RFD max"
-	//};
-	private static string [] forceTypesTranslated = {
-		Catalog.GetString("Instantaneous"), Catalog.GetString("Average"),
-		Catalog.GetString("% Force max"), Catalog.GetString("RFD max")
-	};
 	private void createForceCombos ()
 	{
-		combo_force_1_function.Active = 0;
-		combo_force_2_function.Active = 0;
-		combo_force_3_function.Active = 0;
-		combo_force_4_function.Active = 0;
+		UtilGtk.ComboUpdate(combo_force_1_function, ForceSensorRFD.FunctionsArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_2_function, ForceSensorRFD.FunctionsArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_3_function, ForceSensorRFD.FunctionsArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_4_function, ForceSensorRFD.FunctionsArray(true), "");
 
-		UtilGtk.ComboUpdate(combo_force_1_type, forceTypesTranslated, "");
-		UtilGtk.ComboUpdate(combo_force_2_type, forceTypesTranslated, "");
-		UtilGtk.ComboUpdate(combo_force_3_type, forceTypesTranslated, "");
-		UtilGtk.ComboUpdate(combo_force_4_type, forceTypesTranslated, "");
-
-		combo_force_1_type.Active = 0;
-		combo_force_2_type.Active = 0;
-		combo_force_3_type.Active = 0;
-		combo_force_4_type.Active = 0;
+		UtilGtk.ComboUpdate(combo_force_1_type, ForceSensorRFD.TypesArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_2_type, ForceSensorRFD.TypesArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_3_type, ForceSensorRFD.TypesArray(true), "");
+		UtilGtk.ComboUpdate(combo_force_4_type, ForceSensorRFD.TypesArray(true), "");
 	}
 
 	private void on_combo_force_type_changed (object o, EventArgs args)
@@ -585,10 +592,8 @@ public class PreferencesWindow
 	{
 		//valid for active == "" and active == "RFD max"
 		at_ms.Visible = false;
-		at_percent.Visible = false;
 		from_to.Visible = false;
-
-		//LogB.Information("Selected:" + selected + ";");
+		at_percent.Visible = false;
 
 		if(selected == Catalog.GetString("Instantaneous"))
 		{
@@ -602,6 +607,71 @@ public class PreferencesWindow
 		{
 			at_percent.Visible = true;
 		}
+	}
+
+	private void setRFDValues ()
+	{
+		setRFDValue(rfdList[0], check_force_1, combo_force_1_function, combo_force_1_type,
+				hbox_force_1_at_ms, spinbutton_force_1_at_ms,
+				hbox_force_1_at_percent, spinbutton_force_1_at_percent,
+				hbox_force_1_from_to, spinbutton_force_1_from, spinbutton_force_1_to);
+
+		setRFDValue(rfdList[1], check_force_2, combo_force_2_function, combo_force_2_type,
+				hbox_force_2_at_ms, spinbutton_force_2_at_ms,
+				hbox_force_2_at_percent, spinbutton_force_2_at_percent,
+				hbox_force_2_from_to, spinbutton_force_2_from, spinbutton_force_2_to);
+
+		setRFDValue(rfdList[2], check_force_3, combo_force_3_function, combo_force_3_type,
+				hbox_force_3_at_ms, spinbutton_force_3_at_ms,
+				hbox_force_3_at_percent, spinbutton_force_3_at_percent,
+				hbox_force_3_from_to, spinbutton_force_3_from, spinbutton_force_3_to);
+
+		setRFDValue(rfdList[3], check_force_4, combo_force_4_function, combo_force_4_type,
+				hbox_force_4_at_ms, spinbutton_force_4_at_ms,
+				hbox_force_4_at_percent, spinbutton_force_4_at_percent,
+				hbox_force_4_from_to, spinbutton_force_4_from, spinbutton_force_4_to);
+	}
+
+	private void setRFDValue(ForceSensorRFD rfd, Gtk.CheckButton check, Gtk.ComboBox combo_force_function, Gtk.ComboBox combo_force_type,
+				Gtk.HBox hbox_force_at_ms, Gtk.SpinButton spinbutton_force_at_ms,
+				Gtk.HBox hbox_force_at_percent, Gtk.SpinButton spinbutton_force_at_percent,
+				Gtk.HBox hbox_force_from_to, Gtk.SpinButton spinbutton_force_from, Gtk.SpinButton spinbutton_force_to)
+	{
+		check.Active = rfd.active;
+
+		combo_force_function.Active = UtilGtk.ComboMakeActive(combo_force_function, rfd.FunctionPrint(true));
+		combo_force_type.Active = UtilGtk.ComboMakeActive(combo_force_type, rfd.TypePrint(true));
+
+		hbox_force_at_ms.Visible = false;
+		hbox_force_at_percent.Visible = false;
+		hbox_force_from_to.Visible = false;
+
+		if(rfd.type == ForceSensorRFD.Types.INSTANTANEOUS)
+		{
+			hbox_force_at_ms.Visible = true;
+			spinbutton_force_at_ms.Value = rfd.num1;
+		}
+		else if(rfd.type == ForceSensorRFD.Types.AVERAGE)
+		{
+			hbox_force_from_to.Visible = true;
+			spinbutton_force_from.Value = rfd.num1;
+			spinbutton_force_to.Value = rfd.num2;
+		}
+		else if(rfd.type == ForceSensorRFD.Types.PERCENT_F_MAX)
+		{
+			hbox_force_at_percent.Visible = true;
+			spinbutton_force_at_percent.Value = rfd.num1;
+		}
+	}
+
+	private void on_button_force_rfd_default_clicked (object o, EventArgs args)
+	{
+		Sqlite.Open();
+
+		SqliteForceSensor.DeleteAll(true);
+		SqliteForceSensor.InsertDefaultValues(true);
+
+		Sqlite.Close();
 	}
 
 	// ---- end of Force sensor stuff

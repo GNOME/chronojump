@@ -2950,7 +2950,7 @@ Fitted</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkHBox" id="hbox_force_1_from">
+                                      <widget class="GtkHBox" id="hbox_force_1_from_to">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="spacing">6</property>
@@ -2988,39 +2988,15 @@ Fitted</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label87">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label">ms</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">2</property>
-                                          </packing>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">4</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkHBox" id="hbox_force_1_to">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="spacing">6</property>
-                                        <child>
                                           <widget class="GtkLabel" id="label_force_1_to">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">To</property>
+                                            <property name="label">to</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="position">0</property>
+                                            <property name="position">2</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3041,7 +3017,7 @@ Fitted</property>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="position">1</property>
+                                            <property name="position">3</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3053,14 +3029,14 @@ Fitted</property>
                                           <packing>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
-                                            <property name="position">2</property>
+                                            <property name="position">4</property>
                                           </packing>
                                         </child>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">5</property>
+                                        <property name="position">4</property>
                                       </packing>
                                     </child>
                                   </widget>
@@ -3275,7 +3251,7 @@ Fitted</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkHBox" id="hbox_force_2_from">
+                                      <widget class="GtkHBox" id="hbox_force_2_from_to">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="spacing">6</property>
@@ -3313,39 +3289,15 @@ Fitted</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label91">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label">ms</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">2</property>
-                                          </packing>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">4</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkHBox" id="hbox_force_2_to">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="spacing">6</property>
-                                        <child>
                                           <widget class="GtkLabel" id="label_force_2_to">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">To</property>
+                                            <property name="label">to</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="position">0</property>
+                                            <property name="position">2</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3366,11 +3318,11 @@ Fitted</property>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="position">1</property>
+                                            <property name="position">3</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label92">
+                                          <widget class="GtkLabel" id="label91">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="label">ms</property>
@@ -3378,14 +3330,14 @@ Fitted</property>
                                           <packing>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
-                                            <property name="position">2</property>
+                                            <property name="position">4</property>
                                           </packing>
                                         </child>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">5</property>
+                                        <property name="position">4</property>
                                       </packing>
                                     </child>
                                   </widget>
@@ -3600,7 +3552,7 @@ Fitted</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkHBox" id="hbox_force_3_from">
+                                      <widget class="GtkHBox" id="hbox_force_3_from_to">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="spacing">6</property>
@@ -3638,39 +3590,15 @@ Fitted</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label95">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label">ms</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">2</property>
-                                          </packing>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">4</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkHBox" id="hbox_force_3_to">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="spacing">6</property>
-                                        <child>
                                           <widget class="GtkLabel" id="label_force_3_to">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">To</property>
+                                            <property name="label">to</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="position">0</property>
+                                            <property name="position">2</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -3691,11 +3619,11 @@ Fitted</property>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="position">1</property>
+                                            <property name="position">3</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label96">
+                                          <widget class="GtkLabel" id="label95">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="label">ms</property>
@@ -3703,14 +3631,14 @@ Fitted</property>
                                           <packing>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
-                                            <property name="position">2</property>
+                                            <property name="position">4</property>
                                           </packing>
                                         </child>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">5</property>
+                                        <property name="position">4</property>
                                       </packing>
                                     </child>
                                   </widget>
@@ -3925,7 +3853,7 @@ Fitted</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkHBox" id="hbox_force_4_from">
+                                      <widget class="GtkHBox" id="hbox_force_4_from_to">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="spacing">6</property>
@@ -3963,39 +3891,15 @@ Fitted</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label99">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label">ms</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">2</property>
-                                          </packing>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">4</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkHBox" id="hbox_force_4_to">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="spacing">6</property>
-                                        <child>
                                           <widget class="GtkLabel" id="label_force_4_to">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">To</property>
+                                            <property name="label">to</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="position">0</property>
+                                            <property name="position">2</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -4016,11 +3920,11 @@ Fitted</property>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="position">1</property>
+                                            <property name="position">3</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label100">
+                                          <widget class="GtkLabel" id="label99">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="label">ms</property>
@@ -4028,14 +3932,14 @@ Fitted</property>
                                           <packing>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
-                                            <property name="position">2</property>
+                                            <property name="position">4</property>
                                           </packing>
                                         </child>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">5</property>
+                                        <property name="position">4</property>
                                       </packing>
                                     </child>
                                   </widget>
@@ -4050,6 +3954,32 @@ Fitted</property>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
                                 <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkHButtonBox" id="hbuttonbox2">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="layout_style">end</property>
+                                <child>
+                                  <widget class="GtkButton" id="button_force_rfd_default">
+                                    <property name="label">Back to default values</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="can_default">True</property>
+                                    <property name="receives_default">False</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">4</property>
                               </packing>
                             </child>
                           </widget>

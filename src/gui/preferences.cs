@@ -147,14 +147,10 @@ public class PreferencesWindow
 	[Widget] Gtk.HBox hbox_force_2_at_percent;
 	[Widget] Gtk.HBox hbox_force_3_at_percent;
 	[Widget] Gtk.HBox hbox_force_4_at_percent;
-	[Widget] Gtk.HBox hbox_force_1_from;
-	[Widget] Gtk.HBox hbox_force_2_from;
-	[Widget] Gtk.HBox hbox_force_3_from;
-	[Widget] Gtk.HBox hbox_force_4_from;
-	[Widget] Gtk.HBox hbox_force_1_to;
-	[Widget] Gtk.HBox hbox_force_2_to;
-	[Widget] Gtk.HBox hbox_force_3_to;
-	[Widget] Gtk.HBox hbox_force_4_to;
+	[Widget] Gtk.HBox hbox_force_1_from_to;
+	[Widget] Gtk.HBox hbox_force_2_from_to;
+	[Widget] Gtk.HBox hbox_force_3_from_to;
+	[Widget] Gtk.HBox hbox_force_4_from_to;
 
 	//multimedia tab
 	[Widget] Gtk.CheckButton checkbutton_volume;
@@ -499,7 +495,6 @@ public class PreferencesWindow
 		createForceCombos();
 
 		check_force_visibilities();
-
 	}
 
 	private void check_force_visibilities()
@@ -551,38 +546,33 @@ public class PreferencesWindow
 					UtilGtk.ComboGetActive(combo_force_1_type),
 					hbox_force_1_at_ms,
 					hbox_force_1_at_percent,
-					hbox_force_1_from,
-					hbox_force_1_to);
+					hbox_force_1_from_to);
 		else if(combo == combo_force_2_type)
 			combo_force_visibility(
 					UtilGtk.ComboGetActive(combo_force_2_type),
 					hbox_force_2_at_ms,
 					hbox_force_2_at_percent,
-					hbox_force_2_from,
-					hbox_force_2_to);
+					hbox_force_2_from_to);
 		else if(combo == combo_force_3_type)
 			combo_force_visibility(
 					UtilGtk.ComboGetActive(combo_force_3_type),
 					hbox_force_3_at_ms,
 					hbox_force_3_at_percent,
-					hbox_force_3_from,
-					hbox_force_3_to);
+					hbox_force_3_from_to);
 		else if(combo == combo_force_4_type)
 			combo_force_visibility(
 					UtilGtk.ComboGetActive(combo_force_4_type),
 					hbox_force_4_at_ms,
 					hbox_force_4_at_percent,
-					hbox_force_4_from,
-					hbox_force_4_to);
+					hbox_force_4_from_to);
 	}
 
-	private void combo_force_visibility (string selected, Gtk.HBox at_ms, Gtk.HBox at_percent, Gtk.HBox from, Gtk.HBox to)
+	private void combo_force_visibility (string selected, Gtk.HBox at_ms, Gtk.HBox at_percent, Gtk.HBox from_to)
 	{
 		//valid for active == "" and active == "RFD max"
 		at_ms.Visible = false;
 		at_percent.Visible = false;
-		from.Visible = false;
-		to.Visible = false;
+		from_to.Visible = false;
 
 		//LogB.Information("Selected:" + selected + ";");
 
@@ -592,8 +582,7 @@ public class PreferencesWindow
 		}
 		else if(selected == Catalog.GetString("Average"))
 		{
-			from.Visible = true;
-			to.Visible = true;
+			from_to.Visible = true;
 		}
 		else if(selected == Catalog.GetString("% Force max"))
 		{

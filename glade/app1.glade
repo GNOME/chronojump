@@ -1221,6 +1221,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -13995,49 +13998,24 @@ Concentric</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkVPaned" id="vpaned1">
+                                              <widget class="GtkAlignment" id="alignment28">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="top_padding">4</property>
                                                 <child>
-                                                  <widget class="GtkHBox" id="hbox76">
-                                                    <property name="height_request">75</property>
+                                                  <widget class="GtkVPaned" id="vpaned1">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="spacing">12</property>
+                                                    <property name="can_focus">True</property>
                                                     <child>
-                                                      <widget class="GtkScrolledWindow" id="scrolledwindow3">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="hscrollbar_policy">automatic</property>
-                                                        <property name="vscrollbar_policy">automatic</property>
-                                                        <child>
-                                                          <widget class="GtkTreeView" id="treeview_runs_interval_sprint">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="rules_hint">True</property>
-                                                            <property name="enable_search">False</property>
-                                                          </widget>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkHButtonBox" id="hbuttonbox9">
+                                                      <widget class="GtkVBox" id="vbox44">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="border_width">10</property>
+                                                        <property name="spacing">2</property>
                                                         <child>
-                                                          <widget class="GtkButton" id="button_sprint">
-                                                            <property name="label">Sprint</property>
+                                                          <widget class="GtkLabel" id="label_sprint_person_name">
                                                             <property name="visible">True</property>
-                                                            <property name="sensitive">False</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <signal name="clicked" handler="on_button_sprint_clicked" swapped="no"/>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -14045,44 +14023,100 @@ Concentric</property>
                                                             <property name="position">0</property>
                                                           </packing>
                                                         </child>
+                                                        <child>
+                                                          <widget class="GtkHBox" id="hbox76">
+                                                            <property name="height_request">75</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <widget class="GtkScrolledWindow" id="scrolledwindow3">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="hscrollbar_policy">automatic</property>
+                                                            <property name="vscrollbar_policy">automatic</property>
+                                                            <child>
+                                                            <widget class="GtkTreeView" id="treeview_runs_interval_sprint">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="rules_hint">True</property>
+                                                            <property name="enable_search">False</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHButtonBox" id="hbuttonbox9">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="border_width">10</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_sprint">
+                                                            <property name="label">Sprint</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_sprint_clicked" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
                                                       </widget>
                                                       <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">1</property>
+                                                        <property name="resize">False</property>
+                                                        <property name="shrink">False</property>
                                                       </packing>
                                                     </child>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="resize">False</property>
-                                                    <property name="shrink">False</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkScrolledWindow" id="scrolledwindow4">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="hscrollbar_policy">automatic</property>
-                                                    <property name="vscrollbar_policy">automatic</property>
                                                     <child>
-                                                      <widget class="GtkViewport" id="viewport_sprint">
-                                                        <property name="height_request">200</property>
+                                                      <widget class="GtkScrolledWindow" id="scrolledwindow4">
                                                         <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="hscrollbar_policy">automatic</property>
+                                                        <property name="vscrollbar_policy">automatic</property>
                                                         <child>
-                                                          <widget class="GtkImage" id="image_sprint">
+                                                          <widget class="GtkViewport" id="viewport_sprint">
+                                                            <property name="height_request">200</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_sprint">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
                                                           </widget>
                                                         </child>
                                                       </widget>
+                                                      <packing>
+                                                        <property name="resize">True</property>
+                                                        <property name="shrink">False</property>
+                                                      </packing>
                                                     </child>
                                                   </widget>
-                                                  <packing>
-                                                    <property name="resize">True</property>
-                                                    <property name="shrink">False</property>
-                                                  </packing>
                                                 </child>
                                               </widget>
                                               <packing>
@@ -19571,6 +19605,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

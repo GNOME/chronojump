@@ -82,6 +82,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_mode_contacts_analyze;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_profile;
 	[Widget] Gtk.RadioButton radio_mode_contacts_sprint;
+	[Widget] Gtk.Label label_sprint_person_name;
 
 	[Widget] Gtk.Label label_version;
 	[Widget] Gtk.Label label_version_hidden; //just to have logo aligned on the middle
@@ -994,6 +995,7 @@ public partial class ChronoJumpWindow
 		else if(radio_menuitem_mode_runs_intervallic.Active)
 		{
 			updateGraphRunsInterval();
+			label_sprint_person_name.Text = string.Format(Catalog.GetString("Sprints of {0}"), currentPerson.Name);
 			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 		}
 		else if(radio_menuitem_mode_rt.Active)

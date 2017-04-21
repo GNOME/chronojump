@@ -821,7 +821,14 @@ public class RepairRunIntervalWindow
 		
 		runInterval.Tracks = Util.GetNumberOfJumps(timeString, false); //don't need a GetNumberOfRuns, this works
 		runInterval.TimeTotal = Util.GetTotalTime(timeString);
-		runInterval.DistanceTotal = runInterval.TimeTotal * runInterval.DistanceInterval;
+
+		//distanceTotal calculation caring if distances are variable
+		string distancesString = "";
+		if(runInterval.DistanceInterval == -1)
+			distancesString = type.DistancesString;
+
+		runInterval.DistanceTotal = Util.GetRunITotalDistance(runInterval.DistanceInterval, distancesString, runInterval.Tracks);
+
 
 		if(timeString != runInterval.IntervalTimesString)
 			runInterval.IntervalTimesString = timeString;

@@ -78,6 +78,24 @@ class SqliteForceSensor : Sqlite
 		closeIfNeeded(dbconOpened);
 	}
 
+	public static void Update(bool dbconOpened, ForceSensorRFD rfd)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "UPDATE " + table + " SET " +
+			" active = " + Util.BoolToInt(rfd.active).ToString() + "," +
+			" function = \"" + rfd.function.ToString() + "\"" + "," +
+			" type = \"" + rfd.type.ToString() + "\"" + "," +
+			" num1 = " + rfd.num1.ToString() + "," +
+			" num2 = " + rfd.num2.ToString() +
+			" WHERE code = \"" + rfd.code + "\"";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
 	//used when button_force_rfd_default is clicked
 	public static void DeleteAll(bool dbconOpened)
 	{

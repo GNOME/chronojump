@@ -2715,6 +2715,7 @@ public partial class ChronoJumpWindow
 	private void on_preferences_accepted (object o, EventArgs args) 
 	{
 		preferences = preferencesWin.GetPreferences;
+		rfdList = preferencesWin.GetRFDList;
 
 		if(checkbutton_video.Active) {
 			videoCapturePrepare(false); //if error, show message

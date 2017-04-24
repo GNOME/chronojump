@@ -140,6 +140,11 @@ public class ForceSensorRFD
 			num2.ToString();
 	}
 
+	public string ToR()
+	{
+		return function.ToString() + ";" + type.ToString() + ";" + num1.ToString() + ";" + num2.ToString();
+	}
+
 	public static string Function_RAW_name
 	{
 		get { return function_RAW_name; }
@@ -164,6 +169,113 @@ public class ForceSensorRFD
 	public static string Type_RFD_MAX_name
 	{
 		get { return type_RFD_MAX_name; }
+	}
+}
+
+public class ForceSensorGraph
+{
+	List<ForceSensorRFD> rfdList;
+	double averageLength;
+	double percentChange;
+	bool vlineT0;
+	bool vline50fmax_raw;
+	bool vline50fmax_fitted;
+	bool hline50fmax_raw;
+	bool hline50fmax_fitted;
+
+	public ForceSensorGraph(List<ForceSensorRFD> rfdList)
+	{
+		this.rfdList = rfdList;
+
+		averageLength = 0.1;
+		percentChange = 5;
+		vlineT0 = false;
+		vline50fmax_raw = false;
+		vline50fmax_fitted = false;
+		hline50fmax_raw = false;
+		hline50fmax_fitted = false;
+	}
+
+	public bool CallR(int graphWidth, int graphHeight)
+	{
+		string executable = UtilEncoder.RProcessBinURL();
+		List<string> parameters = new List<string>();
+
+		//A) mifcript
+		string mifScript = UtilEncoder.GetmifScript();
+		if(UtilAll.IsWindows())
+			mifScript = mifScript.Replace("\\","/");
+
+		parameters.Insert(0, "\"" + mifScript + "\"");
+
+		//B) tempPath
+		string tempPath = Path.GetTempPath();
+		if(UtilAll.IsWindows())
+			tempPath = tempPath.Replace("\\","/");
+
+		parameters.Insert(1, "\"" + tempPath + "\"");
+
+		//C) writeOptions
+		writeOptionsFile(graphWidth, graphHeight);
+
+		LogB.Information("\nCalling mif R file ----->");
+
+		//D) call process
+		//ExecuteProcess.run (executable, parameters);
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
+		//LogB.Information("Result = " + execute_result.stdout);
+
+		LogB.Information("\n<------ Done calling mif R file.");
+		return execute_result.success;
+	}
+
+	private void writeOptionsFile(int graphWidth, int graphHeight)
+	{
+		string scriptsPath = UtilEncoder.GetSprintPath();
+		if(UtilAll.IsWindows())
+			scriptsPath = scriptsPath.Replace("\\","/");
+
+		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+
+		string scriptOptions =
+			"#os\n" + 			UtilEncoder.OperatingSystemForRGraphs() + "\n" +
+			"#decimalChar\n" + 		localeInfo.NumberDecimalSeparator + "\n" +
+			"#graphWidth\n" + 		graphWidth.ToString() + "\n" +
+			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +
+			"#averageLength\n" + 		Util.ConvertToPoint(averageLength) + "\n" +
+			"#percentChange\n" + 		Util.ConvertToPoint(percentChange) + "\n" +
+			"#vlineT0\n" + 			Util.BoolToRBool(vlineT0) + "\n" +
+			"#vline50fmax.raw\n" + 		Util.BoolToRBool(vline50fmax_raw) + "\n" +
+			"#vline50fmax.fitted\n" + 	Util.BoolToRBool(vline50fmax_fitted) + "\n" +
+			"#hline50fmax.raw\n" + 		Util.BoolToRBool(hline50fmax_raw) + "\n" +
+			"#hline50fmax.fitted\n" + 	Util.BoolToRBool(hline50fmax_fitted) + "\n" +
+			"#RFDs";
+
+		foreach(ForceSensorRFD rfd in rfdList)
+			if(rfd.active)
+				scriptOptions += "\n" + rfd.ToR();
+
+		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");
+		writer.Write(scriptOptions);
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+	}
+
+	public static string GetDataDir(int sessionID)
+	{
+		System.IO.DirectoryInfo folderSession =
+			new System.IO.DirectoryInfo(Util.GetForceSensorSessionDir(sessionID));
+		System.IO.DirectoryInfo folderGeneric =
+			new System.IO.DirectoryInfo(Util.GetForceSensorDir());
+
+		if(folderSession.Exists)
+			return Util.GetForceSensorSessionDir(sessionID);
+		else if(folderGeneric.Exists)
+			return Util.GetForceSensorDir();
+		else
+			return "";
 	}
 }
 

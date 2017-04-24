@@ -35,6 +35,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_value;
 	[Widget] Gtk.Label label_force_sensor_value_min;
 	[Widget] Gtk.VScale vscale_force_sensor;
+	[Widget] Gtk.Viewport viewport_force_sensor_graph;
+	[Widget] Gtk.Image image_force_sensor_graph;
 	
 	CjComboForceSensorPorts comboForceSensorPorts;
 
@@ -227,17 +229,55 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
+	private void on_button_force_sensor_graph_clicked (object o, EventArgs args)
+	{
+		Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog ("Choose file",
+		                                                               app1, FileChooserAction.Open,
+		                                                               "Cancel",ResponseType.Cancel,
+		                                                               "Choose",ResponseType.Accept);
+		string dataDir = ForceSensorGraph.GetDataDir(currentSession.UniqueID);
+		filechooser.SetCurrentFolder(dataDir);
+
+		FileFilter file_filter = new FileFilter();
+		file_filter.AddPattern ("*.csv");
+
+		if (filechooser.Run () == (int)ResponseType.Accept)
+		{
+			File.Copy(filechooser.Filename,
+					Path.GetTempPath() + Path.DirectorySeparatorChar + "cj_mif_Data.csv",
+					true); //can be overwritten
+
+			string imagePath = Path.GetTempPath() + Path.DirectorySeparatorChar + "cj_mif_Graph.png";
+			Util.FileDelete(imagePath);
+			image_force_sensor_graph.Sensitive = false;
+
+			ForceSensorGraph fsg = new ForceSensorGraph(rfdList);
+			bool success = fsg.CallR(
+					viewport_force_sensor_graph.Allocation.Width -5,
+					viewport_force_sensor_graph.Allocation.Height -5);
+
+			if(! success)
+			{
+				new DialogMessage(Constants.MessageTypes.WARNING, "Error doing graph.");
+				filechooser.Destroy ();
+				return;
+			}
+
+			while ( ! Util.FileReadable(imagePath));
+
+			image_force_sensor_graph = UtilGtk.OpenImageSafe(
+					imagePath,
+					image_force_sensor_graph);
+			image_force_sensor_graph.Sensitive = true;
+		}
+		filechooser.Destroy ();
+	}
+
 	private void on_button_force_sensor_data_folder_clicked	(object o, EventArgs args)
 	{
-		System.IO.DirectoryInfo folderSession =
-			new System.IO.DirectoryInfo(Util.GetForceSensorSessionDir(currentSession.UniqueID));
-		System.IO.DirectoryInfo folderGeneric =
-			new System.IO.DirectoryInfo(Util.GetForceSensorDir());
-
-		if(folderSession.Exists)
-			System.Diagnostics.Process.Start(Util.GetForceSensorSessionDir(currentSession.UniqueID));
-		else if(folderGeneric.Exists)
-			System.Diagnostics.Process.Start(Util.GetForceSensorDir());
+		string dataDir = ForceSensorGraph.GetDataDir(currentSession.UniqueID);
+		if(dataDir != "")
+			System.Diagnostics.Process.Start(dataDir);
 		else
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpen);
 	}

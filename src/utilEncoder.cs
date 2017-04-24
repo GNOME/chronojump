@@ -251,7 +251,7 @@ public class UtilEncoder
 		return System.IO.Path.Combine(Util.GetDataDir(), "r-scripts");
 	}
 	public static string GetmifScript() {
-		return System.IO.Path.Combine(GetSprintPath(), "maximumisometricForce.R");
+		return System.IO.Path.Combine(GetSprintPath(), "maximumIsometricForce.R");
 	}
 
 	/********** end of r-scripts paths ************/

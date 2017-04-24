@@ -37,22 +37,23 @@ endGraph <- function()
 
 assignOptions <- function(options)
 {
-        drawRfdOptions = rep(NA, length(options) - 10)
-        for(n in 11:length(options))
+        drawRfdOptions = rep(NA, length(options) - 11)
+        for(n in 12:length(options))
         {
-                drawRfdOptions[n-10]      = options[n] 
+                drawRfdOptions[n-11]      = options[n]
         }
         return(list(
-                os 		= options[1],
-                graphWidth 	= as.numeric(options[2]),
-                graphHeight	= as.numeric(options[3]),
-                averageLength = as.numeric(options[4]),
-                percentChange = as.numeric(options[5]),
-                vlineT0 	= as.numeric(options[6]),
-                vline50fmax.raw 	= as.numeric(options[7]),
-                vline50fmax.fitted 	= as.numeric(options[8]),
-                hline50fmax.raw 	= as.numeric(options[9]),
-                hline50fmax.fitted 	= as.numeric(options[10]),
+                os 			= options[1],
+                decimalChar 		= options[2],
+                graphWidth 		= as.numeric(options[3]),
+                graphHeight		= as.numeric(options[4]),
+                averageLength 		= as.numeric(options[5]),
+                percentChange 		= as.numeric(options[6]),
+                vlineT0 		= options[7],
+                vline50fmax.raw 	= options[8],
+                vline50fmax.fitted 	= options[9],
+                hline50fmax.raw 	= options[10],
+                hline50fmax.fitted 	= options[11],
                 drawRfdOptions          = drawRfdOptions
         ))
 }
@@ -91,7 +92,7 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
 
 getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentChange = 5)
 {
-        originalTest = read.csv(inputFile, header = F, dec = ".", sep = ";", skip = 2)
+        originalTest = read.csv(inputFile, header = F, dec = op$decimalChar, sep = ";", skip = 2)
         colnames(originalTest) <- c("time", "force")
         originalTest$time = as.numeric(originalTest$time)
         
@@ -263,26 +264,28 @@ drawDynamicsFromLoadCell <- function(
                 
                 RFD = NULL
                 sample2 = NA
+                pointForce1 = NA
                 pointForce2 = NA
+                color = ""
                 
-                if(options$rfdFunction == "fitted")
+                if(options$rfdFunction == "FITTED")
                 {
                         color = "blue"
-                } else if(options$rfdFunction == "raw")
+                } else if(options$rfdFunction == "RAW")
                 {
                         color = "black"
                 }
                 
-                if(options$type == "instant") # TODO: || percent ...(all except AVG)
+                if(options$type == "INSTANTANEOUS") # TODO: || percent ...(all except AVG)
                 {
-                        if (options$rfdFunction == "fitted")
+                        if (options$rfdFunction == "FITTED")
                         {
                                 #Slope of the line
                                 RFD = dynamics$fmax.fitted * dynamics$k.fitted * exp(-dynamics$k.fitted * options$start) 
                                 #Y coordinate of a point of the line
                                 pointForce1 = dynamics$fmax.fitted*(1 - exp(-dynamics$k.fitted * options$start)) + dynamics$initf
                                 
-                        } else if(options$rfdFunction == "raw")
+                        } else if(options$rfdFunction == "RAW")
                         {
                                 color = "black"
                                 sample1 =  which.min(abs(dynamics$time - dynamics$startTime - options$start))
@@ -293,15 +296,15 @@ drawDynamicsFromLoadCell <- function(
                                 #Y coordinate of a point of the line
                                 pointForce1 = dynamics$f.raw[sample1]
                         }
-                } else if(options$type == "avg")
+                } else if(options$type == "AVERAGE")
                 {
-                        if (options$rfdFunction == "fitted")
+                        if (options$rfdFunction == "FITTED")
                         {
                                 #Slope of the line
                                 RFD = dynamics$fmax.fitted*(exp( -dynamics$k.fitted * options$start) - exp( -dynamics$k.fitted * options$end)) / (options$end - options$start)
                                 #Y coordinate of a point of the line
                                 pointForce1 = dynamics$fmax.fitted*(1 - exp( -dynamics$k.fitted * options$start)) + dynamics$initf
-                        } else if(options$rfdFunction == "raw")
+                        } else if(options$rfdFunction == "RAW")
                         {
                                 sample1 =  which.min(abs(dynamics$time - dynamics$startTime - options$start))
                                 sample2 = which.min(abs(dynamics$time - dynamics$startTime - options$end))
@@ -313,10 +316,10 @@ drawDynamicsFromLoadCell <- function(
                                 pointForce1 = dynamics$f.raw[sample1]
                         }
                         
-                } else if(options$type == "%fmax")
+                } else if(options$type == "PERCENT_F_MAX")
                 {
                         
-                        if (options$rfdFunction == "fitted")
+                        if (options$rfdFunction == "FITTED")
                         {
                                 #Force that is the % of the raw fmax
                                 fpfmax = dynamics$fmax.raw*options$start/100
@@ -330,7 +333,7 @@ drawDynamicsFromLoadCell <- function(
                                 #Y coordinate of a point of the line
                                 pointForce1 = dynamics$fmax.fitted*(1 - exp(-dynamics$k.fitted * options$start)) + dynamics$initf
                                 
-                        } else if(options$rfdFunction == "raw")
+                        } else if(options$rfdFunction == "RAW")
                         {
                                 #Calculing at which sample force is equal to the percent of fmax specified in options$start
                                 sample1 = which.min(abs(dynamics$f.raw - dynamics$fmax.raw*options$start/100))
@@ -344,13 +347,13 @@ drawDynamicsFromLoadCell <- function(
                                 #Y coordinate of a point of the line
                                 pointForce1 = dynamics$f.raw[sample1]
                         }
-                } else if(options$type == "rfdmax")
+                } else if(options$type == "RFD_MAX")
                 {
-                        if (options$rfdFunction == "fitted")
+                        if (options$rfdFunction == "FITTED")
                         {
                                 #max is always in the initial point.
                                 
-                        } else if(options$rfdFunction == "raw")
+                        } else if(options$rfdFunction == "RAW")
                         {
                                 #Calculing the sample at which the rfd is max
                                 sample1 = which.max(dynamics$rfd)

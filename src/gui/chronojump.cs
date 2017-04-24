@@ -270,6 +270,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Box vbox_execute_test;
 	[Widget] Gtk.Button button_execute_test;
+	[Widget] Gtk.HBox hbox_chronopics_and_threshold;
 	[Widget] Gtk.Viewport viewport_chronopics;
 	//[Widget] Gtk.Label label_chronopic_encoder;
 	//[Widget] Gtk.Image image_chronopic_encoder_no;
@@ -780,6 +781,7 @@ public partial class ChronoJumpWindow
 		notebooks_change(Constants.Menuitem_modes.FORCESENSOR);
 		//on_extra_window_force_sensor_test_changed(obj, args);
 		hbox_results_legend.Visible = false;
+		notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 	}
 
 	public void on_radio_menuitem_mode_rt_toggled (object obj, EventArgs args)
@@ -2808,6 +2810,7 @@ public partial class ChronoJumpWindow
 
 		hbox_other.Visible = false;
 		vbox_last_test_buttons.Sensitive = false;
+		hbox_chronopics_and_threshold.Visible = true;
 
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
@@ -2997,6 +3000,9 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
+			hbox_chronopics_and_threshold.Visible = false;
+			hbox_results_legend.Visible = false;
+			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 		}
 		else if(m == Constants.Menuitem_modes.RT)
 		{

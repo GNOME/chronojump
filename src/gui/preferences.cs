@@ -664,6 +664,61 @@ public class PreferencesWindow
 		}
 	}
 
+	private List<ForceSensorRFD> getRFDValues()
+	{
+		List<ForceSensorRFD> l = new List<ForceSensorRFD>();
+		l.Add(getRFDValue("RFD1", check_force_1, combo_force_1_function, combo_force_1_type,
+				spinbutton_force_1_at_ms, spinbutton_force_1_at_percent,
+				spinbutton_force_1_from, spinbutton_force_1_to));
+		l.Add(getRFDValue("RFD2", check_force_2, combo_force_2_function, combo_force_2_type,
+				spinbutton_force_2_at_ms, spinbutton_force_2_at_percent,
+				spinbutton_force_2_from, spinbutton_force_2_to));
+		l.Add(getRFDValue("RFD3", check_force_3, combo_force_3_function, combo_force_3_type,
+				spinbutton_force_3_at_ms, spinbutton_force_3_at_percent,
+				spinbutton_force_3_from, spinbutton_force_3_to));
+		l.Add(getRFDValue("RFD4", check_force_4, combo_force_4_function, combo_force_4_type,
+				spinbutton_force_4_at_ms, spinbutton_force_4_at_percent,
+				spinbutton_force_4_from, spinbutton_force_4_to));
+		return l;
+	}
+	private ForceSensorRFD getRFDValue(string code, Gtk.CheckButton check, Gtk.ComboBox combo_force_function, Gtk.ComboBox combo_force_type,
+				Gtk.SpinButton spinbutton_force_at_ms, Gtk.SpinButton spinbutton_force_at_percent,
+				Gtk.SpinButton spinbutton_force_from, Gtk.SpinButton spinbutton_force_to)
+	{
+		bool active = check.Active;
+		int num1 = -1;
+		int num2 = -1;
+
+		ForceSensorRFD.Functions function;
+		if(UtilGtk.ComboGetActive(combo_force_function) == ForceSensorRFD.Function_RAW_name)
+			function = ForceSensorRFD.Functions.RAW;
+		else //(UtilGtk.ComboGetActive(combo_force_function) == ForceSensorRFD.Function_FITTED_name)
+			function = ForceSensorRFD.Functions.FITTED;
+
+		ForceSensorRFD.Types type;
+		string typeStr = UtilGtk.ComboGetActive(combo_force_type);
+		if(typeStr == Catalog.GetString(ForceSensorRFD.Type_INSTANTANEOUS_name))
+		{
+			num1 = Convert.ToInt32(spinbutton_force_at_ms.Value);
+			type = ForceSensorRFD.Types.INSTANTANEOUS;
+		}
+		else if(typeStr == Catalog.GetString(ForceSensorRFD.Type_AVERAGE_name))
+		{
+			num1 = Convert.ToInt32(spinbutton_force_from.Value);
+			num2 = Convert.ToInt32(spinbutton_force_to.Value);
+			type = ForceSensorRFD.Types.AVERAGE;
+		}
+		else if(typeStr == Catalog.GetString(ForceSensorRFD.Type_PERCENT_F_MAX_name))
+		{
+			num1 = Convert.ToInt32(spinbutton_force_at_percent.Value);
+			type = ForceSensorRFD.Types.PERCENT_F_MAX;
+		}
+		else // (typeStr == Catalog.GetString(ForceSensorRFD.Type_RFD_MAX_name))
+			type = ForceSensorRFD.Types.RFD_MAX;
+
+		return new ForceSensorRFD(code, active, function, type, num1, num2);
+	}
+
 	private void on_button_force_rfd_default_clicked (object o, EventArgs args)
 	{
 		Sqlite.Open();
@@ -1434,9 +1489,26 @@ public class PreferencesWindow
 
 		SqlitePreferences.Update("encoder1RMMethod", encoder1RMMethod.ToString(), true);
 		preferences.encoder1RMMethod = encoder1RMMethod;
-		
+
+		//---- force sensor
+
+		List<ForceSensorRFD> newRFDList = getRFDValues();
+		int i = 0;
+		foreach(ForceSensorRFD rfd in newRFDList)
+		{
+			if(rfdList[i].Changed(rfd))
+			{
+				SqliteForceSensor.Update(true, rfd);
+				rfdList[i] = rfd;
+			}
+			i ++;
+		}
+
+		// end of force sensor
+
+
 		//---- end of encoder other
-		
+
 		//multimedia ----
 		if( preferences.volumeOn != PreferencesWindowBox.checkbutton_volume.Active ) {
 			SqlitePreferences.Update("volumeOn", PreferencesWindowBox.checkbutton_volume.Active.ToString(), true);
@@ -1535,4 +1607,8 @@ public class PreferencesWindow
 		get { return preferences;  }
 	}
 
+	public List<ForceSensorRFD> GetRFDList
+	{
+		get { return rfdList;  }
+	}
 }

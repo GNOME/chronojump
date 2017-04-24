@@ -38,7 +38,7 @@ public class ForceSensorRFD
 	private static string type_PERCENT_F_MAX_name = "% Force max";
 	private static string type_RFD_MAX_name = "RFD max";
 
-	private string code; //RFD1...4
+	public string code; //RFD1...4
 	public bool active;
 	public Functions function;
 	public Types type;
@@ -53,6 +53,17 @@ public class ForceSensorRFD
 		this.type = type;
 		this.num1 = num1;
 		this.num2 = num2;
+	}
+
+	public bool Changed(ForceSensorRFD newRFD)
+	{
+		if(
+				code == newRFD.code && active == newRFD.active &&
+				function == newRFD.function && type == newRFD.type &&
+				num1 == newRFD.num1 && num2 == newRFD.num2)
+			return false;
+
+		return true;
 	}
 
 	public static string [] FunctionsArray(bool translated)
@@ -129,6 +140,31 @@ public class ForceSensorRFD
 			num2.ToString();
 	}
 
+	public static string Function_RAW_name
+	{
+		get { return function_RAW_name; }
+	}
+	public static string Function_FITTED_name
+	{
+		get { return function_FITTED_name; }
+	}
+
+	public static string Type_INSTANTANEOUS_name
+	{
+		get { return type_INSTANTANEOUS_name; }
+	}
+	public static string Type_AVERAGE_name
+	{
+		get { return type_AVERAGE_name; }
+	}
+	public static string Type_PERCENT_F_MAX_name
+	{
+		get { return type_PERCENT_F_MAX_name; }
+	}
+	public static string Type_RFD_MAX_name
+	{
+		get { return type_RFD_MAX_name; }
+	}
 }
 
 /*

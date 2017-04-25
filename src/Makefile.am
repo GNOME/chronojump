@@ -55,6 +55,7 @@ SOURCES = \
 	gui/networks.cs\
 	gui/queryServer.cs\
 	gui/usefulObjects.cs\
+	gui/trigger.cs\
 	gui/old/chronojumpServerOld.cs\
 	statType.cs\
 	stats/main.cs\

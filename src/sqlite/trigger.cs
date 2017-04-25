@@ -56,7 +56,8 @@ class SqliteTrigger : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 		
-		dbcmd.CommandText = "SELECT * FROM " + table + " WHERE mode = " + mode + " AND modeID = " + modeID;
+		dbcmd.CommandText = "SELECT * FROM " + table +
+			" WHERE mode = \"" + mode + "\" AND modeID = " + modeID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		

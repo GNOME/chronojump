@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.42";
+	static string lastChronojumpDatabaseVersion = "1.43";
 
 	public Sqlite() {
 	}
@@ -2178,6 +2178,39 @@ class Sqlite
 				currentVersion = updateVersion("1.42");
 			}
 
+			if(currentVersion == "1.42")
+			{
+				LogB.SQL("Added exercise params of last capture for next Chronojump start");
+
+				//1 exercise
+				ArrayList encoderExercises =
+					SqliteEncoder.SelectEncoderExercises(true, -1, true);
+
+				if(encoderExercises.Count > 0) {
+					EncoderExercise ex = (EncoderExercise) encoderExercises[0];
+					SqlitePreferences.Insert(SqlitePreferences.EncoderExerciseIDGravitatory, ex.uniqueID.ToString());
+					SqlitePreferences.Insert(SqlitePreferences.EncoderExerciseIDInertial, ex.uniqueID.ToString());
+				}
+				else {
+					SqlitePreferences.Insert (SqlitePreferences.EncoderExerciseIDGravitatory, "1");
+					SqlitePreferences.Insert (SqlitePreferences.EncoderExerciseIDInertial, "1");
+				}
+
+				//2 contraction
+				SqlitePreferences.Insert (SqlitePreferences.EncoderContractionGravitatory, Constants.Concentric);
+				SqlitePreferences.Insert (SqlitePreferences.EncoderContractionInertial, Constants.EccentricConcentric);
+
+				//3 laterality
+				SqlitePreferences.Insert (SqlitePreferences.EncoderLateralityGravitatory, "RL");
+				SqlitePreferences.Insert (SqlitePreferences.EncoderLateralityInertial, "RL");
+
+				//4 mass/weights
+				SqlitePreferences.Insert (SqlitePreferences.EncoderMassGravitatory, "10");
+				SqlitePreferences.Insert (SqlitePreferences.EncoderWeightsInertial, "0");
+
+				currentVersion = updateVersion("1.43");
+			}
+
 
 			// --- add more updates here
 		
@@ -2358,6 +2391,7 @@ class Sqlite
 		SqliteForceSensor.InsertDefaultValues(true);
 
 		//changes [from - to - desc]
+		//1.42 - 1.43 Converted DB to 1.43 Added exercise params of last capture for next Chronojump start
 		//1.41 - 1.42 Converted DB to 1.42 Created and default values for ForceSensorRFD
 		//1.40 - 1.41 Converted DB to 1.41 Updated preferences maximized: from true/false to no/yes/undecorated
 		//1.39 - 1.40 Converted DB to 1.40 Added to preferences: maximized, personWinHide, encoderCaptureShowOnlyBars

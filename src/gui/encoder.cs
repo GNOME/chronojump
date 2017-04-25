@@ -286,6 +286,8 @@ public partial class ChronoJumpWindow
 	Thread encoderThreadBG;
 	
 
+	bool encoderPreferencesSet = false;
+
 	int image_encoder_width;
 	int image_encoder_height;
 
@@ -418,13 +420,15 @@ public partial class ChronoJumpWindow
 		//treeview_encoder_capture_curves.CursorChanged += on_treeview_encoder_capture_curves_cursor_changed;
 		//changed, now unselectable because there are the checkboxes
 
+		array1RM = new ArrayList();
+
 		createEncoderCombos();
 		
 		encoderConfigurationGUIUpdate();
 		
 		//on start it's concentric and powerbars. Eccon-together should be unsensitive	
 		check_encoder_analyze_eccon_together.Sensitive = false;
-		
+
 		//spin_encoder_capture_inertial.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(
 		//			SqlitePreferences.Select("inertialmomentum")));
 		
@@ -447,8 +451,6 @@ public partial class ChronoJumpWindow
 
 		//configInit();
 	
-		array1RM = new ArrayList();
-
 		//triggers
 		triggerList = new TriggerList();
 		showTriggerTab(false);
@@ -671,10 +673,108 @@ public partial class ChronoJumpWindow
 		notebook_encoder_capture_or_exercise_or_instructions.Page = 2;
 	}
 
+	private void setEncoderExerciseOptionsFromPreferences()
+	{
+		Sqlite.Open();
+
+		//1. exercise
+		string exerciseID = "";
+		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
+			exerciseID = SqlitePreferences.Select(SqlitePreferences.EncoderExerciseIDGravitatory, true);
+		else
+			exerciseID = SqlitePreferences.Select(SqlitePreferences.EncoderExerciseIDInertial, true);
+
+		string exerciseNameTranslated = Util.FindOnArray(':', 0, 2, exerciseID.ToString(),
+				encoderExercisesTranslationAndBodyPWeight);
+
+		combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(
+				combo_encoder_exercise_capture, exerciseNameTranslated);
+
+		//2 contraction
+		string contraction = "";
+		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
+			contraction = SqlitePreferences.Select(SqlitePreferences.EncoderContractionGravitatory, true);
+		else
+			contraction = SqlitePreferences.Select(SqlitePreferences.EncoderContractionInertial, true);
+
+		string contractionTranslated = Util.FindOnArray(':',0,1, contraction,
+				encoderEcconTranslation);
+		combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(
+				combo_encoder_eccon, contractionTranslated);
+
+		//3 laterality
+		string laterality = "";
+		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
+			laterality = SqlitePreferences.Select(SqlitePreferences.EncoderLateralityGravitatory, true);
+		else
+			laterality = SqlitePreferences.Select(SqlitePreferences.EncoderLateralityInertial, true);
+
+		string lateralityTranslated = Util.FindOnArray(':',0,1, laterality,
+				encoderLateralityTranslation);
+		combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(
+				combo_encoder_laterality, lateralityTranslated);
+
+		//4 mass / weights
+		string mass = SqlitePreferences.Select(SqlitePreferences.EncoderMassGravitatory, true);
+		entry_raspberry_extra_weight.Text = mass;
+
+		string weights = SqlitePreferences.Select(SqlitePreferences.EncoderWeightsInertial, true);
+		entry_encoder_im_weights_n.Text = weights;
+
+
+		Sqlite.Close();
+	}
+
+	private void saveEncoderExerciseOptionsToPreferences()
+	{
+		//store execution params on SQL for next Chronojump start
+		Sqlite.Open();
+
+		//1 exercise
+		int exerciseID = getExerciseIDFromCombo (exerciseCombos.CAPTURE);
+		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
+			SqlitePreferences.Update (SqlitePreferences.EncoderExerciseIDGravitatory, exerciseID.ToString(), true);
+		else
+			SqlitePreferences.Update (SqlitePreferences.EncoderExerciseIDInertial, exerciseID.ToString(), true);
+
+		//2 contraction
+		string eccon = Util.FindOnArray(':',1,0,
+				UtilGtk.ComboGetActive(combo_encoder_eccon),
+				encoderEcconTranslation);
+		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
+			SqlitePreferences.Update (SqlitePreferences.EncoderContractionGravitatory, eccon, true);
+		else
+			SqlitePreferences.Update (SqlitePreferences.EncoderContractionInertial, eccon, true);
+
+		//3 laterality
+		string laterality = Util.FindOnArray(':',1,0,
+				UtilGtk.ComboGetActive(combo_encoder_laterality),
+				encoderLateralityTranslation);
+		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
+			SqlitePreferences.Update (SqlitePreferences.EncoderLateralityGravitatory, laterality, true);
+		else
+			SqlitePreferences.Update (SqlitePreferences.EncoderLateralityInertial, laterality, true);
+
+		//4 mass / weights
+		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
+			SqlitePreferences.Update (SqlitePreferences.EncoderMassGravitatory,
+					Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)), //when save on sql, do not include person weight
+					true);
+		else
+			SqlitePreferences.Update (SqlitePreferences.EncoderWeightsInertial,
+					spin_encoder_im_weights_n.Value.ToString(),
+					true);
+
+		Sqlite.Close();
+
+	}
+
 	double maxPowerIntersessionOnCapture;
 	//called from main GUI
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
 	{
+		saveEncoderExerciseOptionsToPreferences();
+
 		on_button_encoder_capture_clicked_do (true);
 	}
 
@@ -846,9 +946,10 @@ public partial class ChronoJumpWindow
 	//array1RM variable is not local because we need to perform calculations at each change on displaced_weight
 	void array1RMUpdate (bool returnPersonNameAndExerciseName) 
 	{
-		array1RM = SqliteEncoder.Select1RM(
-				false, currentPerson.UniqueID, -1, //-1: currentSession = all sessions
-				getExerciseIDFromCombo(exerciseCombos.CAPTURE), returnPersonNameAndExerciseName); 
+		if(currentPerson != null)
+			array1RM = SqliteEncoder.Select1RM(
+					false, currentPerson.UniqueID, -1, //-1: currentSession = all sessions
+					getExerciseIDFromCombo(exerciseCombos.CAPTURE), returnPersonNameAndExerciseName);
 	}
 
 	void on_button_encoder_1RM_win_clicked (object o, EventArgs args) 
@@ -3088,6 +3189,9 @@ public partial class ChronoJumpWindow
 	//BODY and EXTRA are at EncoderParams and sent to graph.R	
 	private double findMass(Constants.MassType massType) 
 	{
+		if(currentPersonSession == null)
+			return 0;
+
 		double extraWeight = spin_encoder_extra_weight.Value;
 		if(encoderConfigurationCurrent.has_inertia)
 			extraWeight = 0;

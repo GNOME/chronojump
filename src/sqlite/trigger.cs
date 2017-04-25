@@ -100,7 +100,20 @@ class SqliteTrigger : Sqlite
 		
 		closeIfNeeded(dbconOpened);
 	}
-	
+
+	//on mode == ENCODER, modeID is encoder.uniqueID
+	public static void DeleteByModeID(bool dbconOpened, int modeID)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "Delete FROM " + table + " WHERE modeID = " + modeID;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
+	/*
 	public static void Delete(bool dbconOpened, Trigger trigger)
 	{
 		openIfNeeded(dbconOpened);
@@ -111,6 +124,6 @@ class SqliteTrigger : Sqlite
 		
 		closeIfNeeded(dbconOpened);
 	}
-
+	*/
 }
 

@@ -1600,6 +1600,9 @@ public partial class ChronoJumpWindow
 		//delete related records from encoderSignalCurve table
 		Sqlite.DeleteSelectingField(false, Constants.EncoderSignalCurveTable, 
 				"signalID", signalID.ToString());
+
+		//delete related triggers
+		SqliteTrigger.DeleteByModeID(false, signalID);
 	}
 	
 	void on_button_encoder_export_all_curves_clicked (object o, EventArgs args) 

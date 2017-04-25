@@ -858,6 +858,9 @@ class SqliteSession : Sqlite
 			*/
 			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
 			SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID));
+
+			//delete related triggers
+			SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(eSQL.uniqueID));
 		}
 		
 		//<------- delete from encoder end

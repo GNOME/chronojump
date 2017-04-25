@@ -98,8 +98,6 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         
         #Instantaneous RFD
         rfd = getRFD(originalTest)
-        print(originalTest)
-        print(rfd)
         
         #Finding the decrease of the foce to detect the end of the maximum voluntary force
         trimmingSamples = getTrimmingSamples(originalTest, rfd, averageLength = averageLength, percentChange = percentChange)
@@ -110,6 +108,11 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         endTime = originalTest$time[endSample]
         
         # Initial force. It is needed to perform an initial steady force to avoid jerks and great peaks in the force
+        if(startSample < 11)
+        {
+                print("Not previos steady tension applied before performing the test")
+                return(NA)
+        }
         initf = mean(originalTest$force[1:(startSample - 10)]) #ATENTION. This value is different from f0.raw
         fmax.raw = max(originalTest$force)
         
@@ -183,6 +186,11 @@ drawDynamicsFromLoadCell <- function(
         hline50fmax.raw=F, hline50fmax.fitted=F,
         rfdDrawingOptions, xlimits = NA)
 {
+        if(is.na(dynamics))
+        {
+                print("Dynamics not available:")
+                return()
+        }
         par(mar = c(5, 4, 6, 4))
         
         #Plotting raw data from startTime to endTime (Only the analysed data)

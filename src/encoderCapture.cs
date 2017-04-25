@@ -743,7 +743,12 @@ public abstract class EncoderCapture
 	{
 		triggerList.SQLInsert(signalID);
 	}
-	
+
+	public TriggerList GetTriggers()
+	{
+		return triggerList;
+	}
+
 	//this methods only applies to inertial subclass
 	protected virtual void inertialCheckIfInverted() {
 	}

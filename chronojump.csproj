@@ -1120,6 +1120,7 @@
     <Compile Include="src\forceSensor.cs" />
     <Compile Include="src\sqlite\force.cs" />
     <Compile Include="src\sqlite\forceSensor.cs" />
+    <Compile Include="src\gui\trigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

@@ -81,6 +81,12 @@ public class Trigger
 			;
 	}
 
+	//used on TextView
+	public override string ToString()
+	{
+		return ms.ToString() + ", " + Util.BoolToInOut(inOut).ToString();
+	}
+
 	public int UniqueID {
 		get { return uniqueID; }
 	}
@@ -93,10 +99,18 @@ public class Trigger
 public class TriggerList
 {
 	private List<Trigger> l;
+
+	//constructors
 	public TriggerList()
 	{
 		l = new List<Trigger>();
 	}
+	//from SqliteTrigger.Select()
+	public TriggerList(List<Trigger> l)
+	{
+		this.l = l;
+	}
+
 
 	public void Add(Trigger trigger)
 	{
@@ -115,6 +129,24 @@ public class TriggerList
 		LogB.Information("Printing trigger list");
 		foreach(Trigger trigger in l)
 			LogB.Information(trigger.ToString());
+	}
+
+	//used on TextView
+	public override string ToString()
+	{
+		string s = "";
+		string sep = "";
+		foreach(Trigger trigger in l)
+		{
+			s += sep + trigger.ToString();
+			sep = "\n";
+		}
+		return s;
+	}
+
+	public int Count()
+	{
+		return l.Count;
 	}
 
 	public void SQLInsert(int signalID)

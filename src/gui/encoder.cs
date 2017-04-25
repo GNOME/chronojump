@@ -136,6 +136,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_capture_curves_none;
 	[Widget] Gtk.Button button_encoder_capture_curves_4top;
 	
+	[Widget] Gtk.Notebook notebook_analyze_results;
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_analyze;
 	[Widget] Gtk.ComboBox combo_encoder_exercise_analyze;
 
@@ -447,6 +448,10 @@ public partial class ChronoJumpWindow
 		//configInit();
 	
 		array1RM = new ArrayList();
+
+		//triggers
+		triggerList = new TriggerList();
+		showTriggerTab(false);
 	}
 
 
@@ -1432,6 +1437,14 @@ public partial class ChronoJumpWindow
 
 				encoderConfigurationGUIUpdate();
 				label_encoder_selected.Text = econfSO.name;
+
+				//triggers
+				triggerList = new TriggerList(
+						SqliteTrigger.Select(
+							false, Trigger.Modes.ENCODER,
+							Convert.ToInt32(encoderSignalUniqueID))
+						);
+				showTriggersAndTab();
 			}
 		}
 
@@ -2689,6 +2702,8 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_sensitiveness();
 	
 		hbox_encoder_analyze_current_signal.Visible = true;
+
+		showTriggersAndTab();
 	}
 	
 	private void on_radio_encoder_analyze_individual_current_session_toggled (object obj, EventArgs args) 
@@ -2729,6 +2744,8 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_sensitiveness();
 	
 		hbox_encoder_analyze_current_signal.Visible = false;
+
+		showTriggerTab(false);
 	}
 	
 	private void on_radio_encoder_analyze_individual_all_sessions_toggled (object obj, EventArgs args) 
@@ -2757,6 +2774,8 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_analyze_single.Visible = false;
 		radiobutton_encoder_analyze_side.Visible = false;
 		radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
+
+		showTriggerTab(false);
 	}
 
 	private void on_radio_encoder_analyze_groupal_current_session_toggled (object obj, EventArgs args) 
@@ -2784,6 +2803,8 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_analyze_single.Visible = false;
 		radiobutton_encoder_analyze_side.Visible = false;
 		radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
+
+		showTriggerTab(false);
 	}
 
 
@@ -5772,7 +5793,11 @@ public partial class ChronoJumpWindow
 
 					//save the triggers now that we have an encoderSignalUniqueID
 					if(action == encoderActions.CURVES_AC)
+					{
 						eCapture.SaveTriggers(Convert.ToInt32(encoderSignalUniqueID)); //dbcon is closed
+						triggerList = eCapture.GetTriggers();
+						showTriggersAndTab();
+					}
 
 				} else
 					encoder_pulsebar_capture.Text = "";

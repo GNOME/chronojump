@@ -69,6 +69,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_exercise;
 	[Widget] Gtk.Image image_encoder_exercise1;
 	[Widget] Gtk.Image image_encoder_capture_open;
+	[Widget] Gtk.Image image_encoder_capture_open1;
 	[Widget] Gtk.Image image_encoder_capture_1set;
 	[Widget] Gtk.Image image_encoder_capture_cont;
 	[Widget] Gtk.Image image_encoder_capture_execute;
@@ -171,6 +172,7 @@ public partial class ChronoJumpWindow
 		image_session_load.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
 		image_encoder_capture_open.Pixbuf = pixbuf;
+		image_encoder_capture_open1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "one.png");
 		image_encoder_capture_1set.Pixbuf = pixbuf;

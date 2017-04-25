@@ -22,10 +22,20 @@ using System;
 using System.Data;
 using System.IO;
 using Mono.Data.Sqlite;
+using System.Collections; //ArrayList
 
 
 class SqlitePreferences : Sqlite
 {
+	public const string EncoderExerciseIDGravitatory = "encoderExerciseIDGravitatory";
+	public const string EncoderExerciseIDInertial = "encoderExerciseIDInertial";
+	public const string EncoderContractionGravitatory = "encoderContractionGravitatory";
+	public const string EncoderContractionInertial = "encoderContractionInertial";
+	public const string EncoderLateralityGravitatory = "encoderLateralityGravitatory";
+	public const string EncoderLateralityInertial = "encoderLateralityInertial";
+	public const string EncoderMassGravitatory = "encoderMassGravitatory";
+	public const string EncoderWeightsInertial = "encoderWeightsInertial";
+
 	protected internal static new void createTable()
 	{
 		dbcmd.CommandText = 
@@ -104,6 +114,26 @@ class SqlitePreferences : Sqlite
 				Insert ("encoderSmoothEccCon", "0.6", dbcmdTr);
 				Insert ("encoderSmoothCon", "0.7", dbcmdTr);
 				Insert ("encoder1RMMethod", Constants.Encoder1RMMethod.WEIGHTED2.ToString(), dbcmdTr);
+
+				ArrayList encoderExercises =
+					SqliteEncoder.SelectEncoderExercises(true, -1, true);
+
+				if(encoderExercises.Count > 0) {
+					EncoderExercise ex = (EncoderExercise) encoderExercises[0];
+					Insert (EncoderExerciseIDGravitatory, ex.uniqueID.ToString());
+					Insert (EncoderExerciseIDInertial, ex.uniqueID.ToString());
+				}
+				else {
+					Insert (EncoderExerciseIDGravitatory, "1");
+					Insert (EncoderExerciseIDInertial, "1");
+				}
+
+				Insert (EncoderContractionGravitatory, Constants.Concentric);
+				Insert (EncoderContractionInertial, Constants.EccentricConcentric);
+				Insert (EncoderLateralityGravitatory, "RL");
+				Insert (EncoderLateralityInertial, "RL");
+				Insert (EncoderMassGravitatory, "10");
+				Insert (EncoderWeightsInertial, "0");
 
 				Insert ("videoDevice", "0", dbcmdTr); //first
 				Insert ("inertialmomentum", "0.01", dbcmdTr);

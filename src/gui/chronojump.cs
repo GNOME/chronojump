@@ -2987,6 +2987,12 @@ public partial class ChronoJumpWindow
 			if(changed) {
 				prepareAnalyzeRepetitions ();
 			}
+
+			if(! encoderPreferencesSet)
+			{
+				setEncoderExerciseOptionsFromPreferences();
+				encoderPreferencesSet = true;
+			}
 		} 
 		else if(m == Constants.Menuitem_modes.FORCESENSOR)
 		{

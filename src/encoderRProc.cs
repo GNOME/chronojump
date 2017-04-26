@@ -192,7 +192,7 @@ public class EncoderRProcCapture : EncoderRProc
 	}
 	
 	//here curve is sent compressed (string. eg: "0*5 1 0 -1*3 2")
-	public void SendCurve(int startFrame, string curveCompressed)
+	public bool SendCurve(int startFrame, string curveCompressed)
 	{
 		/*
 		 * curveCompressed print has made crash Chronojump once.
@@ -201,12 +201,39 @@ public class EncoderRProcCapture : EncoderRProc
 		 */
 		//LogB.Information("curveSend [displacement array]",curveCompressed);
 
+
 		//since 1.7.1 it's needed to send the startFrame in order to know the startFrame of the accepted repetitions (on R)
 		//then this data will be used to save the "Best?" repetitions on C# without calling curves on cont mode
-		p.StandardInput.WriteLine(startFrame.ToString());
 
-		p.StandardInput.WriteLine(curveCompressed); 	//this will send some lines because compressed data comes with '\n's
-		p.StandardInput.WriteLine("E");		//this will mean the 'E'nd of the curve. Then data can be uncompressed on R
+		//TODO: a try/catch coluld be good here to solve this errors:
+		//System.IO.IOException: Write fault on path /home/(user)/informatica/progs_meus/chronojump/chronojump/[Unknown]
+		//  at System.IO.FileStream.WriteInternal (System.Byte[] src, Int32 offset, Int32 count) [0x00000] in <filename unknown>:0
+		//  at System.IO.FileStream.Write (System.Byte[] array, Int32 offset, Int32 count) [0x00000] in <filename unknown>:0
+		//  at System.IO.StreamWriter.FlushBytes () [0x00000] in <filename unknown>:0
+		//  at System.IO.StreamWriter.FlushCore () [0x00000] in <filename unknown>:0
+		//  at System.IO.StreamWriter.Write (System.String value) [0x00000] in <filename unknown>:0
+		//  at System.IO.TextWriter.WriteLine (System.String value) [0x00000] in <filename unknown>:0
+		//  at EncoderRProcCapture.SendCurve (Int32 startFrame, System.String curveCompressed) [0x00000] in <filename unknown>:0
+		//  at EncoderCapture.Capture (System.String outputData1, EncoderRProcCapture encoderRProcCapture, Boolean compujump) [0x00000] in <filename unknown>:0
+		//  at ChronoJumpWindow.encoderDoCaptureCsharp () [0x00000] in <filename unknown>:0
+		//
+		// maybe R capture process is dead
+		// this happened capturing after a 20 minutes delay
+
+		/*
+		 * "Write fault on path" error fixed on Mono 4.4:
+		 * http://www.mono-project.com/docs/about-mono/releases/4.4.0/
+		 * https://bugzilla.xamarin.com/show_bug.cgi?id=32905
+		 */
+		try {
+			p.StandardInput.WriteLine(startFrame.ToString());
+			p.StandardInput.WriteLine(curveCompressed); 	//this will send some lines because compressed data comes with '\n's
+			p.StandardInput.WriteLine("E");		//this will mean the 'E'nd of the curve. Then data can be uncompressed on R
+		} catch {
+			return false;
+		}
+
+		return true;
 	}
 
 	protected override void writeOptionsFile()

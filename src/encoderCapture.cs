@@ -497,10 +497,12 @@ public abstract class EncoderCapture
 							if(compujump && Ecca.curvesAccepted == 0)
 								Networks.WakeUpRaspberryIfNeeded();
 
-							encoderRProcCapture.SendCurve(
+							bool success = encoderRProcCapture.SendCurve(
 									ecc.startFrame,
 									UtilEncoder.CompressData(curve, 25)	//compressed
 									);
+							if(! success)
+								cancel = true;
 
 							Ecca.curvesAccepted ++;
 							Ecca.ecc.Add(ecc);

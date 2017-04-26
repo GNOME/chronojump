@@ -2755,7 +2755,7 @@ doProcess <- function(options)
 			maxPowerAtAnyRep <- 0
 			for(i in 1:n) {
 				i.displ <- displacement[curves[i,1]:curves[i,2]]	
-				speed <- getSpeedSafe(i.displ, op$SmoothingOneC)
+				speed <- getSpeed(i.displ, op$SmoothingOneC)
 				accel <- getAccelerationSafe(speed)
 				#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 				accel$y <- accel$y * 1000 
@@ -2818,7 +2818,7 @@ doProcess <- function(options)
 			debugParameters(listN(x, y, maxPowerAtAnyRep, smoothingAll), "paint all smoothing 3")
 
 			#4) create dynamics data for this smoothing
-			speed <- getSpeedSafe(displacementAllSet, smoothingAll)
+			speed <- getSpeed(displacementAllSet, smoothingAll)
 			accel <- getAccelerationSafe(speed)
 			#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 			accel$y <- accel$y * 1000

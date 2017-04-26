@@ -47,7 +47,7 @@ neuromuscularProfileJump <- function(l.context, e1, c, mass, smoothingC)
 
 	#e1f (when force is done)
 	#from max(abs(speed$y)) at e1, to end of e1
-	e1.speed <- getSpeedSafe(e1, smoothingC)
+	e1.speed <- getSpeed(e1, smoothingC)
 	e1.maxspeed.pos <- mean(which(abs(e1.speed$y) == max(abs(e1.speed$y))))
 	e1f <- e1[e1.maxspeed.pos:length(e1)] #TODO: check if has to be determined by force > 0 or a > -9.81 instead of maxspeed
 
@@ -58,7 +58,7 @@ neuromuscularProfileJump <- function(l.context, e1, c, mass, smoothingC)
 	e1f.t <- length(e1f)
 
 	#e1f.fmax <- max Force on e1f
-	e1f.speed <- getSpeedSafe(e1f, smoothingC)
+	e1f.speed <- getSpeed(e1f, smoothingC)
 	e1f.accel <- getAccelerationSafe(e1f.speed)
 	e1f.accel$y <- e1f.accel$y * 1000
 	e1f.force <- mass * (e1f.accel$y + g)
@@ -89,7 +89,7 @@ neuromuscularProfileJump <- function(l.context, e1, c, mass, smoothingC)
 	#----------------
 
 	#find takeoff
-	c.speed <- getSpeedSafe(c, smoothingC)
+	c.speed <- getSpeed(c, smoothingC)
 	c.accel = getAccelerationSafe(c.speed) 
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	c.accel$y <- c.accel$y * 1000
@@ -120,7 +120,7 @@ neuromuscularProfileJump <- function(l.context, e1, c, mass, smoothingC)
 	cl.t <- length(cl)
 	
 	#cl.rfd.avg = average force on cl / cl.t (s) / mass (Kg) #bars EXPLODE
-	cl.speed <- getSpeedSafe(cl, smoothingC)
+	cl.speed <- getSpeed(cl, smoothingC)
 	cl.accel = getAccelerationSafe(cl.speed)
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	cl.accel$y <- cl.accel$y * 1000
@@ -188,7 +188,7 @@ neuromuscularProfileGetData <- function(singleFile, displacement, curves, mass, 
 	count = 1
 	for(i in seq(2,length(curves[,1]),by=2)) {
 		d = displacement[curves[i,1]:curves[i,2]]
-		speed <- getSpeedSafe(d, smoothingC)
+		speed <- getSpeed(d, smoothingC)
 		
 		accel = getAccelerationSafe(speed) 
 		#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
@@ -342,7 +342,7 @@ neuromuscularProfilePlotOther <- function(displacement, l.context, l.mass, smoot
 
 	for(i in 1:3) {
 		d = displacement[as.integer(l.context[[i]]$start.e1):as.integer(l.context[[i]]$end.c)]
-		speed <- getSpeedSafe(d, smoothingC)
+		speed <- getSpeed(d, smoothingC)
 
 		accel = getAccelerationSafe(speed) 
 		#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic

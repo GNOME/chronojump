@@ -265,20 +265,17 @@ findDistanceAbsoluteEC <- function(position)
 	return ( (maxA - minB) + (maxC - minB) )
 }
 	
-
-getSpeedSafe <- function(displacement, smoothing) {
-	#x vector should contain at least 4 different values
-	if(length(displacement) >= 4)
-		return(getSpeed(displacement, smoothing))
-	else
-		return(list(y=rep(0,length(displacement))))
-}
 #unused since 1.6.0 because first and last displacement values make change too much the initial and end curve
 #getSpeedOld <- function(displacement, smoothing) {
 #	#no change affected by encoderConfiguration
 #	return (smooth.spline( 1:length(displacement), displacement, spar=smoothing))
 #}
-getSpeed <- function(displacement, smoothing) {
+getSpeed <- function(displacement, smoothing)
+{
+	#x vector should contain at least 4 different values
+	if(length(displacement) < 4)
+		return(list(y=rep(0,length(displacement))))
+
 	#no change affected by encoderConfiguration
 	
 	#use position because this does not make erronously change the initial and end of the curve
@@ -532,7 +529,7 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 
 	print(c("repOp$eccon, smoothing:", repOp$eccon, smoothing))
 
-	speed <- getSpeedSafe(displacement, smoothing)
+	speed <- getSpeed(displacement, smoothing)
 	
 	accel <- getAccelerationSafe(speed)
 	

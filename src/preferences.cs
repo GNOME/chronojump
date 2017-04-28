@@ -65,6 +65,7 @@ public class Preferences
 	public int encoderCaptureCheckFullyExtendedValue;
 	public Constants.EncoderAutoSaveCurve encoderAutoSaveCurve;
 	public bool encoderShowStartAndDuration;
+	public bool encoderCaptureCutByTriggers;
 	
 	//encoder other
 	public bool encoderPropulsive;

@@ -2295,10 +2295,6 @@ class Sqlite
 		SqlitePerson sqlitePersonObject = new SqlitePerson();
 		sqlitePersonObject.createTable(Constants.PersonTable);
 
-		creationRate ++;
-		SqlitePreferences.createTable();
-		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
-
 		//graphLinkTable
 		SqliteEvent.createGraphLinkTable();
 		creationRate ++;
@@ -2389,6 +2385,10 @@ class Sqlite
 
 		SqliteForceSensor.createTableForceRFD();
 		SqliteForceSensor.InsertDefaultValues(true);
+
+		creationRate ++;
+		SqlitePreferences.createTable();
+		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 
 		//changes [from - to - desc]
 		//1.42 - 1.43 Converted DB to 1.43 Added exercise params of last capture for next Chronojump start

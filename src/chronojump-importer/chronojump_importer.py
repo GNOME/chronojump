@@ -181,7 +181,7 @@ class Database:
         assert len(names) > 0
         return names
 
-    def read(self, table_name, where_condition, join_clause="", group_by_clause=""):
+    def read(self, table_name, where_condition, join_clause="", group_by_clause="", extra_tables=""):
         """ Returns a new table with the contents of this table with where_condition. """
         column_names = self.column_names(table_name)
 
@@ -196,10 +196,15 @@ class Database:
         else:
             group_by = ""
 
-        format_data = {"column_names": ",".join(column_names_with_prefixes), "table_name": table_name,
+        table_names_str = table_name
+        if extra_tables != "":
+            table_names_list = [table_names_str] + extra_tables
+            table_names_str = ",".join(table_names_list)
+
+        format_data = {"column_names": ",".join(column_names_with_prefixes), "table_names_str": table_names_str,
                        "join_clause": join_clause, "where": where_condition, "group_by": group_by}
 
-        sql = "SELECT {column_names} FROM {table_name} {join_clause} {where} {group_by}".format(**format_data)
+        sql = "SELECT {column_names} FROM {table_names_str} {join_clause} {where} {group_by}".format(**format_data)
         self._execute_query_and_log(sql, [])
 
         results = self._cursor.fetchall()
@@ -394,6 +399,9 @@ class ImportSession:
     def import_as_new_session(self, source_session):
         self.source_session = source_session
         self.new_session_id = self._import_session()
+
+        self._import_sport()
+        self._import_speciality()
         self.import_data()
 
     def import_data(self):
@@ -432,6 +440,25 @@ class ImportSession:
                                   avoids_duplicate_column="name")
 
         return session[0].get('new_uniqueID')
+
+    def _import_sport(self):
+        sports = self.source_db.read(table_name="sport",
+                                     where_condition="Sport.uniqueID=Session.personsSportID AND Session.uniqueID={}".format(self.source_session),
+                                     extra_tables=["Session"])
+
+        self.destination_db.write(table=sports,
+                                  matches_columns=["name", "userDefined", "hasSpeciallities", "graphLink"])
+
+    def _import_speciality(self):
+        # It should change the hasSpeciallities: maybe in the original database didn't have but now after
+        # doing this it will have speciallities
+        specialities = self.source_db.read(table_name="speciallity",
+                                     where_condition="Sport.uniqueID=Session.personsSportID AND Speciallity.sportId=Sport.uniqueID AND Session.uniqueID={}".format(self.source_session),
+                                     extra_tables=["Sport", "Session"])
+
+        self.destination_db.write(table=specialities,
+                                  matches_columns=["sportID", "name"])
+
 
     def _import_persons77(self):
         persons77 = self.source_db.read(table_name="Person77",

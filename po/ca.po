@@ -1257,7 +1257,7 @@ msgstr "Analitzar"
 
 #: ../glade/app1.glade.h:266
 msgid "Help on indexes"
-msgstr "Ajuda sobre el índexs"
+msgstr "Ajuda sobre els índexs"
 
 #: ../glade/app1.glade.h:267
 msgid "General recommendations on improving indexes"
@@ -1285,23 +1285,23 @@ msgstr "<b>Reactiu-reflex</b>"
 
 #: ../glade/app1.glade.h:273
 msgid "Ability to mobilise an external resistance."
-msgstr "Capacitat de mobilitzar una massa externa"
+msgstr "Capacitat de mobilitzar una massa externa."
 
 #: ../glade/app1.glade.h:274
 msgid "Ability to mobilise the body mass."
-msgstr "Capacitat de mobilitzar la massa corporal"
+msgstr "Capacitat de mobilitzar la massa corporal."
 
 #: ../glade/app1.glade.h:275
 msgid ""
 "Increasing of strength due to the elastic energy accumulated during the "
 "stretch-shortening cycle."
 msgstr ""
-"Augment de la força degut a l'energia elàstica acumulada durant el cicle de "
+"Augment de la força degut a l'energia elàstica acumulada durant el cicle d'"
 "estirament-escurçament."
 
 #: ../glade/app1.glade.h:276
 msgid "Increasing of strength due to arm movement."
-msgstr "Augment de la força degut al moviment dels braços"
+msgstr "Augment de la força degut al moviment dels braços."
 
 #: ../glade/app1.glade.h:277
 msgid ""
@@ -1606,7 +1606,7 @@ msgid ""
 "then click this button."
 msgstr ""
 "Comenceu la captura amb la corda completament desenrotllada,\n"
-"aleshores pitjeu aquest botó."
+"aleshores premeu aquest botó."
 
 #: ../glade/app1.glade.h:349
 msgid "Calibrate"
@@ -2100,11 +2100,11 @@ msgstr "Caminar mentre es compta enrere des de 15 fins a 0"
 
 #: ../glade/edit_event.glade.h:45
 msgid "Able to coordinate walking with counting without making a mistake."
-msgstr "Capaç de caminar coordinadament mentre es compte sense cap error"
+msgstr "Capaç de caminar coordinadament mentre es compte sense cap error."
 
 #: ../glade/edit_event.glade.h:46
 msgid "Able to coordinate walking with counting with one mistake."
-msgstr "Capaç de caminar coordinadament mentre es compte amb un error"
+msgstr "Capaç de caminar coordinadament mentre es compte amb un error."
 
 #: ../glade/edit_event.glade.h:47
 msgid ""
@@ -3944,7 +3944,7 @@ msgstr "Si us plau, actualitzeu a una nova versió."
 
 #: ../src/chronojump.cs:465
 msgid "Chronojump crashed before."
-msgstr "ChronoJump ha fallat anteriorment"
+msgstr "ChronoJump ha fallat anteriorment."
 
 #: ../src/chronojump.cs:466 ../src/gui/old/chronojumpServerOld.cs:71
 msgid "Please, update to new version: "
@@ -4089,7 +4089,7 @@ msgstr "Noves funcionalitats del firmware."
 
 #: ../src/constants.cs:46
 msgid "Encoder hardware layer."
-msgstr "Capa de maquinari de l'encoder"
+msgstr "Capa de maquinari de l'encoder."
 
 #: ../src/constants.cs:47
 msgid "Skypic, Chronopic, connection between hardware and software."
@@ -4163,7 +4163,7 @@ msgstr "Aquesta anàlisi de cursa no és vàlida perquè no hi ha prou passes."
 #. Do NOT translate this
 #: ../src/constants.cs:192
 msgid "Sorry, this session cannot be modified."
-msgstr "Ho sentim, aquesta sessió no es pot esborrar"
+msgstr "Ho sentim, aquesta sessió no es pot esborrar."
 
 #. SIMULATED session
 #: ../src/constants.cs:193
@@ -4536,7 +4536,7 @@ msgstr ""
 #. Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") +
 #: ../src/constants.cs:658
 msgid "Jumps with TC and TF:"
-msgstr "Salts amb TC i TV"
+msgstr "Salts amb TC i TV:"
 
 #: ../src/constants.cs:658
 msgid "Developed by Chronojump team"
@@ -4796,13 +4796,13 @@ msgid ""
 "the moving pulley attached to the extra load."
 msgstr ""
 "El desmultiplicador de força es refereix a les vegades que la corda entra o "
-"surt de una politja mòbil enganxada a la càrrega extra."
+"surt d'una politja mòbil enganxada a la càrrega extra."
 
 #: ../src/encoder.cs:1340
 msgid "In the example image demultiplier is 2, hence multiplier is 1/2."
 msgstr ""
-"A la imatge de exemple el desmultiplicador és 2, per tant el multiplicador "
-"és 1/2"
+"A la imatge d'exemple el desmultiplicador és 2, per tant el multiplicador "
+"és 1/2."
 
 #: ../src/encoder.cs:1352
 msgid "Linear encoder on inertia machine."
@@ -4849,7 +4849,7 @@ msgstr ""
 
 #: ../src/encoder.cs:1416 ../src/encoder.cs:1456
 msgid "Rotary friction encoder on inertial machine geared up."
-msgstr "Encoder rotatori de fricció en una màquina multiplicada"
+msgstr "Encoder rotatori de fricció en una màquina multiplicada."
 
 #: ../src/encoder.cs:1418 ../src/encoder.cs:1458 ../src/encoder.cs:1517
 #: ../src/encoder.cs:1530
@@ -5638,7 +5638,7 @@ msgstr "Llindar per altres tests"
 
 #: ../src/gui/dialogThreshold.cs:91
 msgid "Spurius signals are common on electronics."
-msgstr "En electrònica les senyals espúries son habituals."
+msgstr "En electrònica els senyals espúries són habituals."
 
 #: ../src/gui/dialogThreshold.cs:92
 msgid ""
@@ -6745,7 +6745,7 @@ msgstr "Repeticions d'encoder"
 
 #: ../src/gui/preferences.cs:549
 msgid "Cannot create directory."
-msgstr "No es pot crear la carpeta"
+msgstr "No es pot crear la carpeta."
 
 #: ../src/gui/preferences.cs:604
 msgid "Copy database to:"
@@ -6840,7 +6840,7 @@ msgstr "temps de reacció"
 
 #: ../src/gui/repetitiveConditions.cs:300
 msgid "You need to activate sounds in preferences / multimedia."
-msgstr "Cal que activar els sons a preferències / multimèdia"
+msgstr "Cal activar els sons a preferències / multimèdia."
 
 #: ../src/gui/report.cs:138
 msgid "Session/s"
@@ -7434,11 +7434,11 @@ msgstr "Protocol"
 
 #: ../src/runType.cs:158
 msgid "CONDITIONS: "
-msgstr "CONDICIONS:"
+msgstr "CONDICIONS: "
 
 #: ../src/runType.cs:160
 msgid "Hands on their waist."
-msgstr "Mans a la seva cintura:"
+msgstr "Mans a la seva cintura."
 
 #: ../src/runType.cs:161
 msgid "In front of a wall in order to avoid distractions."
@@ -7446,7 +7446,7 @@ msgstr "Enfront d'una paret per evitar distraccions."
 
 #: ../src/runType.cs:162
 msgid "INSTRUCTIONS AND DEMONSTRATION: "
-msgstr "INSTRUCCIONS I DEMOSTRACIÓ"
+msgstr "INSTRUCCIONS I DEMOSTRACIÓ: "
 
 #: ../src/runType.cs:163
 msgid ""
@@ -7909,7 +7909,7 @@ msgid ""
 "assessment questionnaire."
 msgstr ""
 "Un cop el test finalitzi, procedeixi a l'edició i podrà completar el "
-"qüestionari de satisfacció"
+"qüestionari de satisfacció."
 
 #: ../src/runType.cs:398
 msgid "Abstract:"
@@ -8927,7 +8927,7 @@ msgstr "Veneçuela"
 
 #: ../src/sqlite/session.cs:190
 msgid "Use this session to simulate tests."
-msgstr "Useu aquesta sessió per simular els tests"
+msgstr "Useu aquesta sessió per simular els tests."
 
 #. "-1:" + Constants.SpeciallityUndefined + ":" + Catalog.GetString(Constants.SpeciallityUndefined),
 #: ../src/sqlite/speciallity.cs:166

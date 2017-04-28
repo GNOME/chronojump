@@ -634,8 +634,62 @@
     <EmbeddedResource Include="images/md/ic_insert_chart_blue_24dp_1x.png">
       <LogicalName>image_analyze.png</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_fast_forward_blue_24dp_1x.png">
+      <LogicalName>image_sprint.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_cancel_red_24dp_1x.png">
+      <LogicalName>image_cancel.png</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="images/md/ic_developer_board_blue_24dp_1x.png">
       <LogicalName>image_chronopic_connect.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_add_circle_blue_24dp_1x.png">
+      <LogicalName>image_add_test.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_timer_blue_24dp_2x.png">
+      <LogicalName>image_capture_big.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_jump_simple_blue_24dp_1x.png">
+      <LogicalName>image_jump_simple.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_jump_reactive_blue_24dp_1x.png">
+      <LogicalName>image_jump_reactive.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_directions_run_multiple_blue_24dp_1x.png">
+      <LogicalName>image_run_multiple.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/ic_directions_run_simple_blue_24dp_1x.png">
+      <LogicalName>image_run_simple.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/inertial_rolled.png">
+      <LogicalName>inertial_rolled.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/inertial_half_rolled.png">
+      <LogicalName>inertial_half_rolled.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/inertial_extended.png">
+      <LogicalName>inertial_extended.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/md/calibrate.png">
+      <LogicalName>calibrate.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/selector-jumps.png">
+      <LogicalName>selector-jumps.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/selector-runs.png">
+      <LogicalName>selector-runs.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/selector-encoder.png">
+      <LogicalName>selector-encoder.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/selector-force.png">
+      <LogicalName>selector-force.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/selector-rt.png">
+      <LogicalName>selector-rt.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images/selector-multichronopic.png">
+      <LogicalName>selector-multichronopic.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images/md/ic_person_blue_24dp_1x.png">
       <LogicalName>image_person.png</LogicalName>
@@ -1118,7 +1172,6 @@
     <Compile Include="src\sqlite\trigger.cs" />
     <Compile Include="src\trigger.cs" />
     <Compile Include="src\forceSensor.cs" />
-    <Compile Include="src\sqlite\force.cs" />
     <Compile Include="src\sqlite\forceSensor.cs" />
     <Compile Include="src\gui\trigger.cs" />
   </ItemGroup>

@@ -116,6 +116,8 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_all;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_none;
 	[Widget] Gtk.CheckButton check_show_start_and_duration;
+	[Widget] Gtk.CheckButton check_encoder_capture_cut_by_triggers;
+	[Widget] Gtk.Image image_encoder_capture_cut_by_triggers_help;
 	
 	//encoder other tab
 	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
@@ -368,6 +370,9 @@ public class PreferencesWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
 		PreferencesWindowBox.image_races_intervallic.Pixbuf = pixbuf;
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
+		PreferencesWindowBox.image_encoder_capture_cut_by_triggers_help.Pixbuf = pixbuf;
+
 		if(menu_mode ==	Constants.Menuitem_modes.RUNSSIMPLE)
 			PreferencesWindowBox.notebook_races_double_contacts.CurrentPage = 0;
 		else if(menu_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
@@ -431,6 +436,7 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_encoder_auto_save_curve_none.Active = true;
 	
 		PreferencesWindowBox.check_show_start_and_duration.Active = preferences.encoderShowStartAndDuration;
+		PreferencesWindowBox.check_encoder_capture_cut_by_triggers.Active = preferences.encoderCaptureCutByTriggers;
 
 
 		//encoder other -->
@@ -475,6 +481,14 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.preferences_win.Show ();
 		return PreferencesWindowBox;
+	}
+
+	private void on_button_encoder_capture_cut_by_triggers_help_clicked (object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.WARNING,
+				"If active, repetitions will be cut from set using triggers." + "\n" +
+				"Triggers will be produced by a button connected to the Chronopic." + "\n\n" +
+				"This will be only used on gravitatory (not on inertial).");
 	}
 	
 	private void createComboEncoderCaptureMainVariable(string v) {
@@ -1462,6 +1476,10 @@ public class PreferencesWindow
 				preferences.encoderShowStartAndDuration,
 				PreferencesWindowBox.check_show_start_and_duration.Active);
 		
+		preferences.encoderCaptureCutByTriggers = preferencesChange(
+				"encoderCaptureCutByTriggers",
+				preferences.encoderCaptureCutByTriggers,
+				PreferencesWindowBox.check_encoder_capture_cut_by_triggers.Active);
 
 		//---- end of encoder capture
 		

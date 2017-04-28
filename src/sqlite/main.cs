@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.43";
+	static string lastChronojumpDatabaseVersion = "1.44";
 
 	public Sqlite() {
 	}
@@ -2210,6 +2210,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.43");
 			}
+			if(currentVersion == "1.43")
+			{
+				LogB.SQL("Added encoderCaptureCutByTriggers to preferences");
+
+				SqlitePreferences.Insert ("encoderCaptureCutByTriggers", "False");
+
+				currentVersion = updateVersion("1.44");
+			}
 
 
 			// --- add more updates here
@@ -2391,6 +2399,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 
 		//changes [from - to - desc]
+		//1.43 - 1.44 Converted DB to 1.44 Added encoderCaptureCutByTriggers to preferences
 		//1.42 - 1.43 Converted DB to 1.43 Added exercise params of last capture for next Chronojump start
 		//1.41 - 1.42 Converted DB to 1.42 Created and default values for ForceSensorRFD
 		//1.40 - 1.41 Converted DB to 1.41 Updated preferences maximized: from true/false to no/yes/undecorated

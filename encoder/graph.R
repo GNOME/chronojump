@@ -124,11 +124,32 @@ translateVector <- function(englishVector) {
 	return(translatedVector)
 }
 
+#this function is called if there are two or more triggersOn
+findCurvesByTriggers <- function(displacement, triggersOn)
+{
+	position <- cumsum(displacement)
+
+	start  <- 0
+	end    <- 0
+	startH <- 0
+
+	#TODO: check problems if there's only on triggerOn
+	print(c("triggersOn:", triggersOn))
+
+	for( i in 1:(length(triggersOn) -1) )
+	{
+		start[i]  <- triggersOn[i]
+		startH[i] <- position[triggersOn[i]]
+		end[i]    <- (triggersOn[i+1] -1)
+	}
+
+	return(as.data.frame(cbind(start, end, startH)))
+}
 
 #this is equal to runEncoderCaptureCsharp()
 #but note getDisplacement hapens before this function, so no need getDisplacement here
 #also don't need byteReadedRaw, and encoderReadedRaw. encoderReaded is 'displacement' here
-findCurvesNew <- function(displacement, eccon, inertial, min_height, draw, title) 
+findCurvesNew <- function(displacement, eccon, inertial, min_height)
 {
 	#---- 1) declare variables ----
 	
@@ -404,22 +425,24 @@ findCurvesNew <- function(displacement, eccon, inertial, min_height, draw, title
 		}
 	}
 
-	if(draw) {
-		lty=1
-		col="black"
-		plot((1:length(position))/1000			#ms -> s
-		     ,position/10,				#mm -> cm
-		     type="l",
-		     xlim=c(1,length(position))/1000,		#ms -> s
-		     xlab="",ylab="",axes=T,
-		     lty=lty,col=col) 
-
-		title(title, cex.main=1, font.main=1)
-		mtext(paste(translateToPrint("time"),"(s)"),side=1,adj=1,line=-1)
-		mtext(paste(translateToPrint("displacement"),"(cm)"),side=2,adj=1,line=-1)
-	}
 	
 	return(as.data.frame(cbind(startStored,endStored,startHStored)))
+}
+
+startCurvesPlot <- function(position, title)
+{
+	lty=1
+	col="black"
+	plot((1:length(position))/1000			#ms -> s
+	     ,position/10,				#mm -> cm
+	     type="l",
+	     xlim=c(1,length(position))/1000,		#ms -> s
+	     xlab="",ylab="",axes=T,
+	     lty=lty,col=col)
+
+	title(title, cex.main=1, font.main=1)
+	mtext(paste(translateToPrint("time"),"(s)"),side=1,adj=1,line=-1)
+	mtext(paste(translateToPrint("displacement"),"(cm)"),side=2,adj=1,line=-1)
 }
 
 kinematicRanges <- function(singleFile, displacement, curves,
@@ -2556,9 +2579,16 @@ doProcess <- function(options)
 			
 		position=cumsum(displacement)
 
-		curves=findCurvesNew(displacement, op$Eccon, isInertial(op$EncoderConfigurationName), 
-				     op$MinHeight, curvesPlot, op$Title)
-		
+		if(length(op$TriggersOn) >= 2)
+			curves <- findCurvesByTriggers(displacement, op$TriggersOn)
+		else
+			curves <- findCurvesNew(displacement, op$Eccon,
+						isInertial(op$EncoderConfigurationName), op$MinHeight)
+
+		if(curvesPlot)
+			startCurvesPlot(position, op$Title)
+
+
 		if(op$Analysis == "curves" || op$Analysis == "curvesAC")
 			curvesPlot = TRUE
 
@@ -2572,22 +2602,27 @@ doProcess <- function(options)
 		#what reduceCurveBySpeed is doing in inertial is adding a value at right, and this value is a descending value
 		#and this produces a high acceleration there
 			
-		for(i in 1:n) {
-			reduceTemp=reduceCurveBySpeed(op$Eccon,
-						      curves[i,1], curves[i,3], #startT, startH
-						      displacement[curves[i,1]:curves[i,2]], #displacement
-						      op$SmoothingOneC
-						      )
+		for(i in 1:n)
+		{
+			#reduceCurveBySpeed only when ! triggers
+			if(length(op$TriggersOn) < 2)
+			{
+				reduceTemp = reduceCurveBySpeed(op$Eccon,
+								curves[i,1], curves[i,3], #startT, startH
+								displacement[curves[i,1]:curves[i,2]], #displacement
+								op$SmoothingOneC
+								)
 
-			#reduceCurveBySpeed, on inertial doesn't do a good right adjust on changing phase,
-			#it adds a value at right, and this value is a descending value that can produce a high acceleration there
-			#delete that value
-			if( isInertial(op$EncoderConfigurationName))
-				reduceTemp[2] = reduceTemp[2] -1
+				#reduceCurveBySpeed, on inertial doesn't do a good right adjust on changing phase,
+				#it adds a value at right, and this value is a descending value that can produce a high acceleration there
+				#delete that value
+				if( isInertial(op$EncoderConfigurationName))
+					reduceTemp[2] = reduceTemp[2] -1
 
-			curves[i,1] = reduceTemp[1]
-			curves[i,2] = reduceTemp[2]
-			curves[i,3] = reduceTemp[3]
+				curves[i,1] = reduceTemp[1]
+				curves[i,2] = reduceTemp[2]
+				curves[i,3] = reduceTemp[3]
+			}
 			
 			myPosition = cumsum(displacement[curves[i,1]:curves[i,2]])
 			if(op$Eccon == "ec")

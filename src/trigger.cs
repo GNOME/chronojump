@@ -91,6 +91,14 @@ public class Trigger
 		get { return uniqueID; }
 	}
 
+	public int Ms {
+		get { return ms; }
+	}
+
+	public bool InOut {
+		get { return inOut; }
+	}
+
 	public int ModeID {
 		set { modeID = value; }
 	}
@@ -98,6 +106,7 @@ public class Trigger
 
 public class TriggerList
 {
+	public const string TriggersNotFoundString = "-1";
 	private List<Trigger> l;
 
 	//constructors
@@ -144,6 +153,23 @@ public class TriggerList
 		return s;
 	}
 
+	public string ToRCurvesString()
+	{
+		if(l.Count == 0)
+			return TriggersNotFoundString;
+
+		string s = "";
+		string sep = "";
+		foreach(Trigger trigger in l)
+		{
+			if(trigger.InOut) {
+				s += sep + trigger.Ms.ToString();
+				sep = ";";
+			}
+		}
+		return s;
+	}
+
 	public int Count()
 	{
 		return l.Count;
@@ -162,6 +188,59 @@ public class TriggerList
 		LogB.Debug("runEncoderCaptureCsharp SQL inserting triggers");
 		SqliteTrigger.InsertList(false, l);
 	}
+
+
+	/*
+	 * start of spurious management
+	 */
+	private int countOn()
+	{
+		int countOn = 0;
+		foreach(Trigger t in l)
+			if(t.InOut)
+				countOn ++;
+
+		return countOn;
+	}
+
+	//if inOut == true will return last "in"
+	private Trigger last(bool inOut)
+	{
+		int i = 0;
+		int lastPos = 0;
+		foreach(Trigger t in l)
+		{
+			if(t.InOut == inOut)
+				lastPos = i;
+			i ++;
+		}
+
+		return l[lastPos];
+	}
+
+	//this newTrigger is an On trigger, compare with last On
+	public bool IsSpurious(Trigger newTrigger)
+	{
+		//cannot be spurious if is the first On
+		if(countOn() == 0)
+			return false;
+
+		//last(true) will check last On trigger
+		if( (newTrigger.Ms - last(true).Ms) < 50 )
+			return true;
+
+		return false;
+	}
+
+	public void RemoveLastOff()
+	{
+		l.Remove(last(false));
+	}
+	/*
+	 * end of spurious management
+	 */
+
+
 	/*
 	public void Write()
 	{

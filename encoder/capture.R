@@ -15,7 +15,9 @@ write("Arriving at capture.R", stderr())
 g = 9.81
 
 #debug = FALSE
-		    
+
+cutByTriggers <- NULL
+
 filenameCompose <- function(curveNum)
 {
 	if(curveNum > 99)
@@ -41,7 +43,8 @@ calcule <- function(displacement, op, curveNum, startInSet)
 	if(length(displacement) < 4)
 		return (curveNum)
 
-	if(abs(sum(displacement)) < op$MinHeight)
+	#minHeight is checked when ! cutByTriggers
+	if(! cutByTriggers && abs(sum(displacement)) < op$MinHeight)
 		return (curveNum)
 
 
@@ -221,13 +224,21 @@ doProcess <- function(options)
 		
 		#cut curve by reduceCurveBySpeed ---->
 
-		reduceTemp = reduceCurveBySpeed(op$Eccon, 
+		start = NULL
+		end = NULL
+		if(cutByTriggers)
+		{
+			start = 1
+			end = length(displacement)
+		} else {
+			reduceTemp = reduceCurveBySpeed(op$Eccon,
 							1, 0, #startT, startH
 							displacement, #displacement
 							op$SmoothingOneC #SmoothingOneC
 							)
-		start = reduceTemp[1]
-		end = reduceTemp[2]
+			start = reduceTemp[1]
+			end = reduceTemp[2]
+		}
 
 		#reduceCurveBySpeed reduces the curve. Then startInSet has to change:
 		print(paste("start:",start))

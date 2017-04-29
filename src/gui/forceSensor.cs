@@ -25,7 +25,7 @@ using System.Threading;
 using Gtk;
 using Glade;
 using System.Text; //StringBuilder
-//using System.Collections.Generic; //List<T>
+using System.Collections.Generic; //List<T>
 
 public partial class ChronoJumpWindow 
 {
@@ -283,7 +283,6 @@ public partial class ChronoJumpWindow
 	}
 
 
-	/*
 	double lastChangedTime; //changeSlideCode
 	private void changeSlideIfNeeded(double time, double force)
 	{
@@ -309,8 +308,10 @@ public partial class ChronoJumpWindow
 		string executable = "";
 		if(next)
 			executable = "pathTo/testing-stuff/" + "slideNext.sh";
+			//executable = "/home/xavier/informatica/progs_meus/chronojump/chronojump/testing-stuff/" + "slideNext.sh";
 		else
 			executable = "pathTo/testing-stuff/" + "slidePrior.sh";
+			//executable = "/home/xavier/informatica/progs_meus/chronojump/chronojump/testing-stuff/" + "slidePrior.sh";
 		List<string> parameters = new List<string>();
 
 		LogB.Information("\nCalling slide ----->");
@@ -320,7 +321,6 @@ public partial class ChronoJumpWindow
 		LogB.Information("\n<------ Done calling slide");
 		return execute_result.success;
 	}
-	*/
 
 }
 

@@ -37,6 +37,7 @@ public abstract class EncoderRProc
 	protected string optionsFile;	
 	protected EncoderStruct es;
 
+
 	public bool StartOrContinue(EncoderStruct es)
 	{
 		status = Status.RUNNING;
@@ -65,6 +66,11 @@ public abstract class EncoderRProc
 
 	protected virtual void writeOptionsFile()
 	{
+	}
+
+	protected virtual string printTriggers()
+	{
+		return TriggerList.TriggersNotFoundString;
 	}
 
 	protected virtual bool startProcess() {
@@ -137,7 +143,10 @@ public abstract class EncoderRProc
 
 public class EncoderRProcCapture : EncoderRProc 
 {
-	public EncoderRProcCapture() {
+	public bool CutByTriggers;
+
+	public EncoderRProcCapture()
+	{
 	}
 	
 	protected override bool startProcess() 
@@ -246,7 +255,8 @@ public class EncoderRProcCapture : EncoderRProc
 				false,	//neuromuscularProfile
 				false,	//translate (graphs)
 				Debug,
-				false	//crossValidate (unactive on capture at the moment)
+				false,	//crossValidate (unactive on capture at the moment)
+				printTriggers()
 				).ToString();
 
 		TextWriter writer = File.CreateText(optionsFile);
@@ -256,6 +266,15 @@ public class EncoderRProcCapture : EncoderRProc
 		((IDisposable)writer).Dispose();
 	}
 
+	protected override string printTriggers()
+	{
+		//just use triggeres tp cut sets into repetitions, or not.
+		//Cut is done in C# but this will change minHeight behaviour and reduceCurveBySpeed
+		if(CutByTriggers)
+			return "1";
+		else
+			return TriggerList.TriggersNotFoundString;
+	}
 
 }
 
@@ -264,6 +283,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 	private string title;
 	private bool neuromuscularProfileDo;
 	private bool translate;
+	private TriggerList triggerList;
 
 	/*
 	 * to avoid problems on some windows. R exports csv to Util.GetEncoderExportTempFileName()
@@ -276,10 +296,11 @@ public class EncoderRProcAnalyze : EncoderRProc
 	public EncoderRProcAnalyze() {
 	}
 
-	public void SendData(string title, bool neuromuscularProfileDo, bool translate) {
+	public void SendData(string title, bool neuromuscularProfileDo, bool translate, TriggerList triggerList) {
 		this.title = title;
 		this.neuromuscularProfileDo = neuromuscularProfileDo;
 		this.translate = translate;
+		this.triggerList = triggerList;
 		
 		CancelRScript = false;
 	}
@@ -486,7 +507,8 @@ public class EncoderRProcAnalyze : EncoderRProc
 				neuromuscularProfileDo,
 				translate,
 				Debug,
-				CrossValidate
+				CrossValidate,
+				printTriggers()
 				).ToString();
 
 		TextWriter writer = File.CreateText(optionsFile);
@@ -494,6 +516,11 @@ public class EncoderRProcAnalyze : EncoderRProc
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
+	}
+
+	protected override string printTriggers()
+	{
+		return triggerList.ToRCurvesString();
 	}
 		
 	private void deleteFile(string filename)

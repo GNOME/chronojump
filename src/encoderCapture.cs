@@ -58,6 +58,8 @@ public abstract class EncoderCapture
 
 	//private BoolMsList boolMsList;
 	private TriggerList triggerList;
+
+	private int lastTriggerOn;
 	
 	/*
 	 * sum: sum ob byteReaded, it's the vertical position
@@ -215,7 +217,7 @@ public abstract class EncoderCapture
 		inertialCalibrated = false;
 	}
 
-	public bool Capture(string outputData1, EncoderRProcCapture encoderRProcCapture, bool compujump)
+	public bool Capture(string outputData1, EncoderRProcCapture encoderRProcCapture, bool compujump, bool cutByTriggers)
 	{
 		/*
 		 * removed at 1.7.0
@@ -226,6 +228,7 @@ public abstract class EncoderCapture
 		}
 		*/
 
+		lastTriggerOn = 0;
 		inertialCalibratedFirstCross0Pos = 0;
 
 		if(capturingInertialBG)
@@ -238,6 +241,7 @@ public abstract class EncoderCapture
 		}
 
 		do {
+			//1 read data
 			try {
 				byteReaded = readByte();
 			} catch {
@@ -249,17 +253,54 @@ public abstract class EncoderCapture
 				break;
 			}
 
+			//2 check if readed data is a trigger
 			if(byteReaded == TRIGGER_ON)
 			{
-				triggerList.Add(new Trigger(Trigger.Modes.ENCODER, i, true));
+				Trigger trigger = new Trigger(Trigger.Modes.ENCODER, i, true);
+				if(triggerList.IsSpurious(trigger))
+				{
+					triggerList.RemoveLastOff();
+					continue;
+				}
+
+				if(cutByTriggers)
+				{
+					ecc = new EncoderCaptureCurve(lastTriggerOn, i);
+					lastTriggerOn = i;
+
+					double [] curve = new double[ecc.endFrame - ecc.startFrame];
+					//int mySum = 0;
+					for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
+						curve[k] = encoderReaded[j];
+						k ++;
+						//mySum += encoderReaded[j];
+					}
+					//ecc.up = (mySum >= 0);
+					ecc.up = true; //make all concentric for the swimming application
+					LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Count);
+
+					bool success = encoderRProcCapture.SendCurve(
+							ecc.startFrame,
+							UtilEncoder.CompressData(curve, 25)	//compressed
+							);
+					if(! success)
+						cancel = true;
+
+					Ecca.curvesAccepted ++;
+					Ecca.ecc.Add(ecc);
+					LogB.Information(ecc.ToString());
+				}
+				triggerList.Add(trigger);
 				continue;
 			}
 			else if(byteReaded == TRIGGER_OFF)
 			{
-				triggerList.Add(new Trigger(Trigger.Modes.ENCODER, i, false));
+				Trigger trigger  = new Trigger(Trigger.Modes.ENCODER, i, false);
+				triggerList.Add(trigger);
 				continue;
 			}
 
+			//3 if is not trigger: convertByte
 			byteReaded = convertByte(byteReaded);
 			//LogB.Information(" byte: " + byteReaded);
 
@@ -394,6 +435,10 @@ public abstract class EncoderCapture
 
 				//but on inertialCalibrated don't send curve until 0 is crossed
 				if(inertialCalibrated && inertialCalibratedFirstCross0Pos == 0)
+					sendCurveMaybe = false;
+
+				//if cutByTriggers, triggers send the curve at the beginning of this method
+				if(cutByTriggers)
 					sendCurveMaybe = false;
 
 				if(sendCurveMaybe)
@@ -756,6 +801,10 @@ public abstract class EncoderCapture
 	}
 	protected virtual bool inertialChangedConToEcc() {
 		return false;
+	}
+
+	public string Eccon {
+		get { return eccon; }
 	}
 
 	public void Cancel() {

@@ -1101,6 +1101,18 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args)
 	{
+		if(triggerList != null && triggerList.Count() > 0 && findEccon(false) != "c")
+		{
+			ConfirmWindow confirmWin = ConfirmWindow.Show(
+					Catalog.GetString("Recalculate this set will remove existing triggers."),
+					Catalog.GetString("Are you sure!"), "");
+			confirmWin.Button_accept.Clicked += new EventHandler(on_button_encoder_recalculate_clicked_do);
+		}
+		else
+			on_button_encoder_recalculate_clicked_do (o, args);
+	}
+	void on_button_encoder_recalculate_clicked_do (object o, EventArgs args)
+	{
 		//record this encoderConfiguration to SQL for next Chronojump open
 		SqliteEncoderConfiguration.UpdateActive(false, currentEncoderGI, encoderConfigurationCurrent);
 		encoderCalculeCurves(encoderActions.CURVES);
@@ -1221,6 +1233,7 @@ public partial class ChronoJumpWindow
 	//this is called by non gtk thread. Don't do gtk stuff here
 	//I suppose reading gtk is ok, changing will be the problem
 	//called on calculatecurves, recalculate and load
+	//analysisSent can be "curves" or "curvesAC"
 	private void encoderDoCurvesGraphR(string analysisSent)
 	{
 		LogB.Debug("encoderDoCurvesGraphR() start");
@@ -1264,10 +1277,20 @@ public partial class ChronoJumpWindow
 		else
 			title += "-(" + Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)) + "Kg)";
 
+		//triggers stuff
+		if(analysisSent == "curvesAC")
+			triggerList = eCapture.GetTriggers();
+
+		//triggers only on concentric
+		if(triggerList == null || findEccon(false) != "c")
+			triggerList = new TriggerList();
+
+		//send data to encoderRProcAnalyze
 		encoderRProcAnalyze.SendData(
 				title,
 				false,	//do not use neuromuscularProfile script
-				preferences.RGraphsTranslate
+				preferences.RGraphsTranslate,
+				triggerList
 				); 
 		bool result = encoderRProcAnalyze.StartOrContinue(es);
 				
@@ -1605,7 +1628,8 @@ public partial class ChronoJumpWindow
 		genericWin.ShowEditRow(false);
 	}
 	
-	protected void on_encoder_load_signal_row_delete_pre (object o, EventArgs args) {
+	protected void on_encoder_load_signal_row_delete_pre (object o, EventArgs args)
+	{
 		if(preferences.askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
 						"Are you sure you want to delete this set?"), Catalog.GetString("Saved repetitions related to this set will also be deleted."), "");
@@ -1613,8 +1637,8 @@ public partial class ChronoJumpWindow
 		} else
 			on_encoder_load_signal_row_delete (o, args);
 	}
-	
-	protected void on_encoder_load_signal_row_delete (object o, EventArgs args) {
+	protected void on_encoder_load_signal_row_delete (object o, EventArgs args)
+	{
 		LogB.Information("row delete at load signal");
 
 		int signalID = genericWin.TreeviewSelectedUniqueID;
@@ -1763,7 +1787,8 @@ public partial class ChronoJumpWindow
 				Util.ChangeSpaceAndMinusForUnderscore(lastEncoderSQLSignal.exerciseName) + 
 					"-(" + displacedMass + "Kg)",
 				false, 			//do not use neuromuscularProfile script
-				preferences.RGraphsTranslate
+				preferences.RGraphsTranslate,
+				new TriggerList()
 				);
 		encoderRProcAnalyze.StartOrContinue(encoderStruct);
 
@@ -2020,7 +2045,6 @@ public partial class ChronoJumpWindow
 			combo_encoder_analyze_curve_num_combo.Active = 
 				UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0].ToString());
 	}
-
 
 	string encoderSaveSignalOrCurve (bool dbconOpened, string mode, int selectedID) 
 	{
@@ -2331,10 +2355,19 @@ public partial class ChronoJumpWindow
 	//I suppose reading gtk is ok, changing will be the problem
 	private void encoderDoCaptureCsharp () 
 	{
+		bool cutByTriggers = false;
+		//triggers only work on gravitatory, concentric
+		if(preferences.encoderCaptureCutByTriggers &&
+				currentEncoderGI == Constants.EncoderGI.GRAVITATORY && eCapture.Eccon == "c")
+			cutByTriggers = true;
+
+		encoderRProcCapture.CutByTriggers = cutByTriggers;
+
 		bool capturedOk = eCapture.Capture(
 				UtilEncoder.GetEncoderDataTempFileName(),
 				encoderRProcCapture,
-				configChronojump.Compujump
+				configChronojump.Compujump,
+				cutByTriggers
 				);
 
 		//wait to ensure capture thread has ended
@@ -2370,10 +2403,13 @@ public partial class ChronoJumpWindow
 	//I suppose reading gtk is ok, changing will be the problem
 	private void encoderDoCaptureCsharpIM () 
 	{
+		encoderRProcCapture.CutByTriggers = false; //do not cutByTriggers on inertial, yet.
+
 		bool capturedOk = eCapture.Capture(
 				UtilEncoder.GetEncoderDataTempFileName(),
 				encoderRProcCapture,
-				false
+				false, 	//compujump
+				false 	//cutByTriggers
 				);
 
 		//wait to ensure capture thread has ended
@@ -2745,10 +2781,16 @@ public partial class ChronoJumpWindow
 				titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise_capture));
 		}
 
+		//triggers only on concentric
+		if(triggerList == null || findEccon(false) != "c")
+			triggerList = new TriggerList();
+
 		encoderRProcAnalyze.SendData(
 				titleStr, 
 				encoderAnalysis == "neuromuscularProfile",
-				preferences.RGraphsTranslate);
+				preferences.RGraphsTranslate,
+				triggerList
+				);
 
 		encoderRProcAnalyze.StartOrContinue(encoderStruct);
 	}
@@ -5902,7 +5944,6 @@ public partial class ChronoJumpWindow
 					if(action == encoderActions.CURVES_AC)
 					{
 						eCapture.SaveTriggers(Convert.ToInt32(encoderSignalUniqueID)); //dbcon is closed
-						triggerList = eCapture.GetTriggers();
 						showTriggersAndTab();
 					}
 

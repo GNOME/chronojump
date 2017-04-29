@@ -488,7 +488,11 @@ public class PreferencesWindow
 		new DialogMessage(Constants.MessageTypes.WARNING,
 				"If active, repetitions will be cut from set using triggers." + "\n" +
 				"Triggers will be produced by a button connected to the Chronopic." + "\n\n" +
-				"This will be only used on gravitatory (not on inertial).");
+				"This will be only used on gravitatory mode, concentric contraction.");
+		/*
+		 * not on ecc-con because we cannot guaranteee that there will be an ecc and con phase,
+		 * and then R findECPhases() will fail
+		 */
 	}
 	
 	private void createComboEncoderCaptureMainVariable(string v) {

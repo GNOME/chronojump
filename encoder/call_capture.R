@@ -20,7 +20,7 @@ scriptCaptureR = options[1]
 
 #comes ".../chronojump-captured"
 #will be ".../chronojump-captured-000.txt", 001 ... 999
-filenameBegins = options[2] 
+filenameBegins = options[2]
 
 source(scriptCaptureR)
 
@@ -28,6 +28,12 @@ DEBUG <- FALSE
 DebugFileName <- paste(options[5], "/chronojump-debug.txt", sep="")
 
 CROSSVALIDATESMOOTH <- FALSE
+
+if(options[33] == 1) {
+	cutByTriggers <- TRUE
+} else {
+	cutByTriggers <- FALSE
+}
 
 
 f <- file("stdin")

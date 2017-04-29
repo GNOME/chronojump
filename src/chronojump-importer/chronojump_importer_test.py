@@ -142,7 +142,7 @@ class TestImporter(unittest.TestCase):
 
     def test_encoder_url(self):
         new_url = chronojump_importer.ImportSession._encoder_url(11, "signal")
-        self.assertEqual(os.path.join("encoder", "data", "11", "signal"), new_url)
+        self.assertEqual(os.path.join("encoder", "11", "data", "signal"), new_url)
 
     def test_database_version(self):
         database_file = "tests/yoyo-source.sqlite"

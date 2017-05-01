@@ -278,11 +278,11 @@ public class Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-		json.Add("person_id", 1);
-		json.Add("person_name", "Joan yjk");
-		json.Add("machine_id", 2);
-		json.Add("machine_name", "Bench press");
-		json.Add("mean_power", 650);
+		json.Add("personId", 1);
+		json.Add("machineId", 1);
+		json.Add("exerciseName", "Lateral");
+		json.Add("meanPowerBestRep", 8100);
+		json.Add("repsAbove50pBest", 8);
 
 		// Converts it to a String
 		String js = json.ToString();

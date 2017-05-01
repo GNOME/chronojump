@@ -32,6 +32,7 @@ public class Json
 {
 	public string ResultMessage;
 	string serverUrl = "http://api.chronojump.org:8080";
+	//string serverUrl = "http://192.168.200.1:8080";
 
 
 	public Json()

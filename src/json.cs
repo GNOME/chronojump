@@ -268,6 +268,10 @@ public class Json
 
 	public bool UploadEncoderData()
 	{
+		return UploadEncoderData(1, 1, "lateral", "8100", 8);
+	}
+	public bool UploadEncoderData(int personId, int machineId, string exerciseName, string meanPowerBestRep, int repsAbove50pBest )
+	{
 		// Create a request using a URL that can receive a post.
 		WebRequest request = WebRequest.Create (serverUrl + "/uploadEncoderData");
 
@@ -275,15 +279,16 @@ public class Json
 		request.Method = "POST";
 
 		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json";
+		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
+		exerciseName = Util.RemoveAccents(exerciseName);
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-		json.Add("personId", 1);
-		json.Add("machineId", 1);
-		json.Add("exerciseName", "Lateral");
-		json.Add("meanPowerBestRep", 8100);
-		json.Add("repsAbove50pBest", 8);
+		json.Add("personId", personId);
+		json.Add("machineId", machineId);
+		json.Add("exerciseName", exerciseName);
+		json.Add("meanPowerBestRep", meanPowerBestRep);
+		json.Add("repsAbove50pBest", repsAbove50pBest);
 
 		// Converts it to a String
 		String js = json.ToString();

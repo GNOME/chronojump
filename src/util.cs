@@ -25,6 +25,7 @@ using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
 using System.Diagnostics; 	//for detect OS
 using System.IO; 		//for detect OS
+using System.Globalization; 	//Unicode
 
 //this class tries to be a space for methods that are used in different classes
 public class Util
@@ -299,6 +300,25 @@ public class Util
 		myStringBuilder.Replace("'", " ");
 		myStringBuilder.Replace("\"", " ");
 		return myStringBuilder.ToString();
+	}
+
+	//to pass latin chars to JSON
+	//http://stackoverflow.com/a/249126
+	public static string RemoveAccents(string text)
+	{
+		var normalizedString = text.Normalize(NormalizationForm.FormD);
+		var stringBuilder = new StringBuilder();
+
+		foreach (var c in normalizedString)
+		{
+			var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+			if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+			{
+				stringBuilder.Append(c);
+			}
+		}
+
+		return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
 	}
 
 	public static string RemoveTilde(string myString) 

@@ -5940,11 +5940,48 @@ public partial class ChronoJumpWindow
 						encoderCaptureSaveCurvesAllNoneBest(preferences.encoderAutoSaveCurve,
 								Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
 
-					//save the triggers now that we have an encoderSignalUniqueID
 					if(action == encoderActions.CURVES_AC)
 					{
+						//1) save the triggers now that we have an encoderSignalUniqueID
 						eCapture.SaveTriggers(Convert.ToInt32(encoderSignalUniqueID)); //dbcon is closed
 						showTriggersAndTab();
+
+						//2) send the json to server
+
+						//get highest meanPower on set
+						double meanPowerHighest = 0;
+						foreach (EncoderCurve curve in encoderCaptureCurves)
+							if(curve.MeanPowerD > meanPowerHighest)
+								meanPowerHighest = curve.MeanPowerD;
+
+						//get reps >= 50 % of highest
+						int repsAbove50pBest = 0;
+						foreach (EncoderCurve curve in encoderCaptureCurves)
+							if(curve.MeanPowerD >= meanPowerHighest / 2.0)
+								repsAbove50pBest ++;
+
+						/*
+						 * problems on Json by accents like "Pressió sobre banc"
+						 * string exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
+						 * right now fixed in json.cs UploadEncoderData()
+						 */
+						Json js = new Json();
+						bool success = js.UploadEncoderData(
+								currentPerson.UniqueID,
+								1,
+								UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
+								Util.ConvertToPoint(meanPowerHighest),
+								repsAbove50pBest);
+
+						if(! success) {
+							LogB.Error(js.ResultMessage);
+							bool showInWindow = false;
+							if(showInWindow)
+								new DialogMessage(
+										"Chronojump",
+										Constants.MessageTypes.WARNING,
+										js.ResultMessage);
+						}
 					}
 
 				} else

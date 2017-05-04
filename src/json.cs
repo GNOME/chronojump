@@ -31,9 +31,14 @@ using Mono.Unix;
 public class Json
 {
 	public string ResultMessage;
-	string serverUrl = "http://api.chronojump.org:8080";
+	static string serverUrl = "http://api.chronojump.org:8080";
 	//string serverUrl = "http://192.168.200.1:8080";
 
+	public static void ChangeServerUrl(string url)
+	{
+		serverUrl = url;
+		LogB.Information("NEW URL MAXXX: " + serverUrl);
+	}
 
 	public Json()
 	{
@@ -265,6 +270,106 @@ public class Json
 		this.ResultMessage = "Ping sent.";
 		return true;
 	}
+
+	public Person GetPersonByRFID(string rfid)
+	{
+		Person person = new Person(-1);
+
+		// Create a request using a URL that can receive a post.
+		WebRequest request = WebRequest.Create (serverUrl + "/getPersonByRFID");
+
+		// Set the Method property of the request to POST.
+		request.Method = "POST";
+
+		// Set the ContentType property of the WebRequest.
+		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
+
+		// Creates the json object
+		JsonObject json = new JsonObject();
+		json.Add("rfid", rfid);
+		
+		// Converts it to a String
+		String js = json.ToString();
+
+		// Writes the json object into the request dataStream
+		Stream dataStream;
+		try {
+			dataStream = request.GetRequestStream ();
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+				serverUrl);
+			return person;
+		}
+
+		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
+
+		dataStream.Close ();
+		
+		HttpWebResponse response;
+		try {
+			response = (HttpWebResponse) request.GetResponse();
+		} catch {
+			this.ResultMessage = 
+				Catalog.GetString("KKKKKKKK") + "\n" +
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
+				serverUrl);
+			return person;
+		}
+
+		string responseFromServer;
+		using (var sr = new StreamReader(response.GetResponseStream()))
+		{
+			responseFromServer = sr.ReadToEnd();
+		}
+
+		LogB.Information("GetPersonByRFID: " + responseFromServer);
+		
+		if(responseFromServer == "")
+			LogB.Information(" Empty "); //mai
+		else if(responseFromServer == "[]")
+			LogB.Information(" Empty2 "); //sempre que no esta el rfid al server
+		else {
+			LogB.Information(" YES "); //TODO: processar: [[2, "(playername)", 82.0, "253,20,150,13"]]
+
+			//patheticDeserialize("[[2, \"(playername)\", 82.0, \"253,20,150,13\"]]");
+			person = patheticPersonDeserialize(responseFromServer);
+		}
+
+		return person;
+
+	}
+	public double LastPersonByRFIDWeight = 0;
+	private Person patheticPersonDeserialize(string str)
+	{
+		LogB.Information("str:|" + str + "|");
+		
+		string id = str.Substring(2, str.IndexOf(',') -2);
+		LogB.Information("id:|" + id + "|");
+
+		str = str.Substring(str.IndexOf('"') +1);
+		//LogB.Information("str:|" + str + "|");
+		
+		string player = str.Substring(0, str.IndexOf('"'));
+		LogB.Information("player:|" + player + "|");
+		
+		str = str.Substring(str.IndexOf(',') +2);
+		//LogB.Information("str:|" + str + "|");
+
+		string weight = str.Substring(0, str.IndexOf(','));
+		LogB.Information("weight:|" + weight + "|");
+		
+	
+		LastPersonByRFIDWeight = Convert.ToDouble(Util.ChangeDecimalSeparator(weight));
+		str = str.Substring(str.IndexOf('"') +1);
+		//LogB.Information("str:|" + str + "|");
+		
+		string rfid = str.Substring(0, str.LastIndexOf('"'));
+		LogB.Information("rfid:|" + rfid + "|");
+
+		return new Person(Convert.ToInt32(id), player, rfid);
+	}
+
 
 	public bool UploadEncoderData()
 	{

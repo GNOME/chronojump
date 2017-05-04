@@ -280,6 +280,7 @@ class SqlitePersonSession : Sqlite
 					Convert.ToInt32(reader[4].ToString()),	//race
 					Convert.ToInt32(reader[5].ToString()),	//countryID
 					reader[6].ToString(),			//description
+					reader[7].ToString(),			//future1: rfid
 					Convert.ToInt32(reader[9].ToString())	//serverUniqueID
 					);
 

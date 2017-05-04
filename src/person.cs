@@ -33,6 +33,7 @@ public class Person {
 	private int race;
 	private int countryID;
 	private string description;
+	private string future1; 	//rfid
 	private int serverUniqueID; //not on server
 
 	public Person() {
@@ -43,12 +44,29 @@ public class Person {
 		this.uniqueID = uniqueID;
 	}
 
+	//coming from compujump server
+	public Person(int uniqueID, string name, string rfid)
+	{
+		this.uniqueID = uniqueID;
+		this.name = name;
+		this.sex = "M";
+		this.dateBorn = DateTime.Now;
+		this.race = Constants.RaceUndefinedID;
+		this.countryID = Constants.CountryUndefinedID; //1
+		this.description = "";
+		this.future1 = rfid;
+		this.serverUniqueID = Constants.ServerUndefinedID;
+		
+		SqlitePerson.Insert(false,  
+				uniqueID.ToString(), name, sex, dateBorn, race, countryID,
+				description, future1, serverUniqueID);
+	}
 
 	//suitable when we load a person from the database for being the current Person
 	//we know uniqueID
 	//used also in class PersonSessionTransaction where we define the uniqueID 
 	public Person(int uniqueID, string name, string sex, DateTime dateBorn, 
-		       int race, int countryID, string description, int serverUniqueID) 
+		       int race, int countryID, string description, string future1, int serverUniqueID) 
 	{
 		//needed by the return of gui/personAddModifyWindow
 		name = Util.RemoveTildeAndColon(name);
@@ -61,13 +79,14 @@ public class Person {
 		this.race = race;
 		this.countryID = countryID;
 		this.description = description;
+		this.future1 = future1;
 		this.serverUniqueID = serverUniqueID; //remember don't do this on server
 	}
 
 	//typical constructor
 	//used when we create new person 
 	//we don't know uniqueID
-	public Person(string name, string sex, DateTime dateBorn, int race, int countryID, string description,
+	public Person(string name, string sex, DateTime dateBorn, int race, int countryID, string description, string future1,
 			int serverUniqueID, bool dbconOpened) 
 	{
 		name = Util.RemoveTildeAndColon(name);
@@ -79,6 +98,7 @@ public class Person {
 		this.race = race;
 		this.countryID = countryID;
 		this.description = description;
+		this.future1 = future1;
 		this.serverUniqueID = serverUniqueID; //remember don't do this on server
 
 		//insert in the person table
@@ -95,7 +115,7 @@ public class Person {
 	public int InsertAtDB (bool dbconOpened, string tableName) {
 		int myID = SqlitePerson.Insert(dbconOpened,  
 				uniqueID.ToString(), name, sex, dateBorn, race, countryID,
-				description, serverUniqueID);
+				description, future1, serverUniqueID);
 		return myID;
 	}
 	
@@ -120,7 +140,7 @@ public class Person {
 	{
 		return uniqueID.ToString() + ", '"  + name + "', '" + sex + "', '" + 
 			UtilDate.ToSql(dateBorn) + "', " + race + ", " + countryID + ", '" +
-			description + "', '', '', " +  //future1, future2
+			description + "', '" + future1 + "', '', " +  //future1, future2
 			serverUniqueID;
 	}
 	

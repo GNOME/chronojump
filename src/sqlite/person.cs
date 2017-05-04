@@ -53,7 +53,7 @@ class SqlitePerson : Sqlite
 	 }
 
 	public static int Insert(bool dbconOpened, string uniqueID, string name, string sex, DateTime dateBorn, 
-			int race, int countryID, string description, int serverUniqueID)
+			int race, int countryID, string description, string future1, int serverUniqueID)
 	{
 		LogB.SQL("going to insert");
 		if(! dbconOpened)
@@ -68,7 +68,7 @@ class SqlitePerson : Sqlite
 		string myString = "INSERT INTO " + Constants.PersonTable + 
 			" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID) VALUES (" + uniqueID + ", \"" +
 			name + "\", \"" + sex + "\", \"" + UtilDate.ToSql(dateBorn) + "\", " + 
-			race + ", " + countryID + ", \"" + description + "\", \"\", \"\", " + serverUniqueID + ")";
+			race + ", " + countryID + ", \"" + description + "\", \"" + future1 + "\", \"\", " + serverUniqueID + ")";
 		
 		dbcmd.CommandText = myString;
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -88,15 +88,21 @@ class SqlitePerson : Sqlite
 
 	//This is like SqlitePersonSession.Selectbut this returns a Person
 	
-	public static Person Select(int uniqueID) {
-		return Select(false, uniqueID);
+	public static Person Select(bool dbconOpened, int uniqueID) {
+		return Select(dbconOpened, " WHERE uniqueID = " + uniqueID);
 	}
-	public static Person Select(bool dbconOpened, int uniqueID)
+	public static Person Select(int uniqueID) {
+		return Select(false, " WHERE uniqueID = " + uniqueID);
+	}
+	public static Person SelectByRFID(string rfid) {
+		return Select(false, " WHERE future1 = \"" + rfid + "\"");
+	}
+	public static Person Select(bool dbconOpened, string whereStr)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonTable + " WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonTable + whereStr;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -114,6 +120,7 @@ class SqlitePerson : Sqlite
 					Convert.ToInt32(reader[4].ToString()), //race
 					Convert.ToInt32(reader[5].ToString()), //countryID
 					reader[6].ToString(), 			//description
+					reader[7].ToString(), 			//future1: rfid
 					Convert.ToInt32(reader[9].ToString()) //serverUniqueID
 					);
 		}
@@ -257,6 +264,7 @@ finishForeach:
 						Convert.ToInt32(reader2[4].ToString()), //race
 						Convert.ToInt32(reader2[5].ToString()), //countryID
 						reader2[6].ToString(), 			//description
+						reader2[7].ToString(), 			//future1: rfid
 						Convert.ToInt32(reader2[9].ToString()) //serverUniqueID
 						);
 				arrayReturn.Add(p);

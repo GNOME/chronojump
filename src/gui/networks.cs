@@ -70,10 +70,20 @@ public partial class ChronoJumpWindow
 	Config configChronojump;
 	private void configInitRead()
 	{
-		//trying new Config class
-		configChronojump = new Config();
+		configChronojump.Read();
+		LogB.Information("PRINT VARS");
+		LogB.Information(configChronojump.Compujump.ToString());
+		LogB.Information(configChronojump.CompujumpServerURL);
+		if(configChronojump.Compujump)
+		{
+			//on compujump cannot add/edit persons, do it from server
+			frame_persons_top.Visible = false;
+			button_contacts_person_change.Visible = false;
+			button_encoder_person_change.Visible = false;
+			//TODO: don't allow edit person on person treeview
 
-		//configChronojump.Read();
+			Json.ChangeServerUrl(configChronojump.CompujumpServerURL);
+		}
 
 		configDo();
 	}
@@ -188,9 +198,11 @@ public partial class ChronoJumpWindow
 			hbox_encoder_sup_capture_analyze_two_buttons.Visible = false;
 		}
 
-		if(configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE || configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY)
+		if(currentSession == null && //this is going to be called one time because currentSession will change
+			       ( configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE || configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY) )
 		{
-			main_menu.Visible = false;
+			LogB.Information("HEREGUAY");
+			//main_menu.Visible = false;
 			//app1.Decorated = false;
 			hbox_menu_and_preferences_outside_menu.Visible = true;
 
@@ -205,6 +217,7 @@ public partial class ChronoJumpWindow
 				} else
 					currentSession = SqliteSession.SelectByName("session");
 			} else {
+				LogB.Information("HEREGUAY2");
 				//configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY
 
 				string yearMonthStr = UtilDate.GetCurrentYearMonthStr();
@@ -243,6 +256,8 @@ public partial class ChronoJumpWindow
 			}
 			
 			on_load_session_accepted();
+			sensitiveGuiYesSession();
+			rfid_start();
 		}
 
 		//TODO
@@ -286,9 +301,62 @@ public partial class ChronoJumpWindow
 		if(Util.FileExists(filePath))
 			label_rfid.Text = Util.ReadFile(filePath, true);
 	}
+	
+	static bool updatingRFIDGuiStuff;
+	static string updatingRFIDGuiStuffNewRFID;
+	//called each second and after a test
+	bool updateRFIDGuiStuff()
+	{
+		if(! updatingRFIDGuiStuff)
+			return false;
+
+		if(updatingRFIDGuiStuffNewRFID == "")
+			return true;
+
+		string rfid = updatingRFIDGuiStuffNewRFID;
+		updatingRFIDGuiStuffNewRFID = ""; //to not be called again //TODO: ensure this is not called two times
+
+		label_rfid.Text = rfid; //take care, maybe cannot read label stuff on a WATCHER
+		Person p = SqlitePerson.SelectByRFID(rfid);
+		if(p.UniqueID == -1)
+		{
+			LogB.Information("RFID person does not exist!!");
+
+			Json js = new Json();
+			p = js.GetPersonByRFID(rfid);
+			if(p.UniqueID == -1) {
+				LogB.Information("Person NOT found on server!");
+				new DialogMessage(Constants.MessageTypes.WARNING,
+						"Aquesta pulsera o jugador no es troba identificada al servidor");
+			}
+			else {
+				LogB.Information("Person found on server!");
+
+				currentPerson = p;
+				currentPersonSession = new PersonSession (
+						currentPerson.UniqueID, currentSession.UniqueID, 
+						0, js.LastPersonByRFIDWeight,
+						Constants.SportUndefinedID, 
+						Constants.SpeciallityUndefinedID, 
+						Constants.LevelUndefinedID,
+						"", false); //comments, dbconOpened
+				person_added();
+			}
+		}
+		else
+			LogB.Information("RFID person exists!!");
+
+		return true;
+	}
+
 
 	Process processRFIDcapture;
 	void on_button_rfid_start_clicked (object o, EventArgs args)
+	{
+		rfid_start();
+	}
+		
+	private void rfid_start()
 	{
 		string script_path = Util.GetRFIDCaptureScript();
 
@@ -302,6 +370,10 @@ public partial class ChronoJumpWindow
 		string filePath = Util.GetRFIDCapturedFile();
 		Util.FileDelete(filePath);
 
+		//create a Timeout function to show changes on process
+		updatingRFIDGuiStuffNewRFID = "";
+		updatingRFIDGuiStuff = true;
+		GLib.Timeout.Add(1000, new GLib.TimeoutHandler(updateRFIDGuiStuff));
 
 		// ---- start process ----
 		//
@@ -342,21 +414,36 @@ public partial class ChronoJumpWindow
 
 	private void rfid_watcher_changed(object source, FileSystemEventArgs e)
 	{
+		LogB.Information("WATCHER");
 		rfid_read();
+		rfid_reading = false;
 
 		//if compujump, wakeup screen if it's off
-		if(configChronojump.Compujump == true)
-			Networks.WakeUpRaspberryIfNeeded();
+		//if(configChronojump.Compujump == true)
+		//	Networks.WakeUpRaspberryIfNeeded();
 	}
 
+	bool rfid_reading = false;
 	private void rfid_read()
 	{
+		//to avoid being called too continuously by watcher
+		if(rfid_reading)
+			return;
+
+		rfid_reading = true;
+
 		string filePath = Util.GetRFIDCapturedFile();
 
 		LogB.Information("Changed file: " +  filePath);
 
 		if(Util.FileExists(filePath))
-			label_rfid.Text = Util.ReadFile(filePath, true);
+		{
+			string rfid = Util.ReadFile(filePath, true);
+			if(rfid != "")
+			{
+				updatingRFIDGuiStuffNewRFID = rfid;
+			}
+		}
 	}
 
 }

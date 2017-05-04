@@ -550,9 +550,7 @@ public partial class ChronoJumpWindow
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
 		loadPreferences ();
-
-		rfdList = SqliteForceSensor.SelectAll(false);
-
+		
 		createTreeView_persons (treeview_persons);
 
 		createTreeView_jumps (treeview_jumps);
@@ -563,6 +561,9 @@ public partial class ChronoJumpWindow
 		createTreeView_reaction_times (treeview_reaction_times);
 		createTreeView_pulses (treeview_pulses);
 		createTreeView_multi_chronopic (false, treeview_multi_chronopic);
+		
+		rfdList = SqliteForceSensor.SelectAll(false);
+
 
 		createComboSelectJumps(true);
 		createComboSelectJumpsRj(true);
@@ -623,6 +624,8 @@ public partial class ChronoJumpWindow
 		cp2016 = new Chronopic2016();
 
 		encoderInitializeStuff();	
+		
+		configInitRead();
 
 		//presentationInit();
 
@@ -2063,6 +2066,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Bye!");
 
 		updatingRestTimes = false;
+		updatingRFIDGuiStuff = false;
 
 		//if capturing on the background finish it
 		if(eCaptureInertialBG != null)
@@ -2470,10 +2474,21 @@ public partial class ChronoJumpWindow
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_person_add_single_accepted);
 	}
 	
-	private void on_person_add_single_accepted (object o, EventArgs args) {
+	private void on_person_add_single_accepted (object o, EventArgs args)
+	{
 		if (personAddModifyWin.CurrentPerson != null)
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;
+			person_added();
+		}
+	}
+
+	private void person_added ()
+	{
+	/*	if (personAddModifyWin.CurrentPerson != null)
+		{
+			currentPerson = personAddModifyWin.CurrentPerson;
+			*/
 			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 			label_person_change();
 			myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
@@ -2510,7 +2525,7 @@ public partial class ChronoJumpWindow
 						false); //means: do not returnPersonAndPSlist
 				personSelectWin.Update(myPersons);
 			}
-		}
+	//	}
 	}
 
 	//show spinbutton window asking for how many people to create	
@@ -3043,6 +3058,7 @@ public partial class ChronoJumpWindow
 		//but don't show if session == UNIQUE
 		if(configChronojump.SessionMode == Config.SessionModeEnum.STANDARD)
 			main_menu.Visible = true;
+		//TODO: show preferences and exit button also on contacts
 
 		if(m != Constants.Menuitem_modes.POWERGRAVITATORY && m != Constants.Menuitem_modes.POWERINERTIAL)
 		{
@@ -6527,6 +6543,7 @@ LogB.Debug("X");
 
 	private void sensitiveGuiNoSession () 
 	{
+		LogB.Information("NO SESSION");
 		notebook_session_person.CurrentPage = 0;
 
 		treeview_persons.Sensitive = false;
@@ -6566,6 +6583,7 @@ LogB.Debug("X");
 	
 	private void sensitiveGuiYesSession () 
 	{
+		LogB.Information("YES SESSION");
 		notebook_session_person.CurrentPage = 1;
 
 		button_image_test_zoom.Sensitive = true;

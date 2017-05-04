@@ -38,10 +38,12 @@ public class Config
 	public bool EncoderAnalyzeHide;
 	public SessionModeEnum SessionMode;
 	public bool Compujump;
+	public string CompujumpServerURL;
 	public string RunScriptOnExit;
 
 	public Config()
 	{
+		/*
 		Maximized = Preferences.MaximizedTypes.NO;
 		CustomButtons = false;
 		UseVideo = true;
@@ -55,8 +57,40 @@ public class Config
 		SessionMode = SessionModeEnum.STANDARD;
 		Compujump = false;
 		RunScriptOnExit = "";
+		*/
 	}
 
+	public void Read()
+	{
+		string contents = Util.ReadFile(UtilAll.GetConfigFileName(), false);
+		if (contents != null && contents != "") 
+		{
+			string line;
+			using (StringReader reader = new StringReader (contents)) {
+				do {
+					line = reader.ReadLine ();
+
+					if (line == null)
+						break;
+					if (line == "" || line[0] == '#')
+						continue;
+
+					string [] parts = line.Split(new char[] {'='});
+					if(parts.Length != 2)
+						continue;
+
+					if(parts[0] == "Compujump" && Util.StringToBool(parts[1]))
+						Compujump = true;
+					else if(parts[0] == "CompujumpServerURL" && parts[1] != "")
+						CompujumpServerURL = parts[1];
+					else if(parts[0] == "SessionMode" && Enum.IsDefined(typeof(SessionModeEnum), parts[1]))
+						SessionMode = (SessionModeEnum) 
+							Enum.Parse(typeof(SessionModeEnum), parts[1]);
+				} while(true);
+			}
+		}
+	}
+	
 	/*
 	public void Read()
 	{

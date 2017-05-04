@@ -2671,6 +2671,7 @@ class Sqlite
 				       pOld.Race,
 				       pOld.CountryID,
 				       pOld.Description,
+				       "", 	//future1: rfid
 				       pOld.ServerUniqueID
 				       );
 			p.InsertAtDB(true, Constants.PersonTable);

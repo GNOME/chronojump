@@ -37,7 +37,6 @@ public class Json
 	public static void ChangeServerUrl(string url)
 	{
 		serverUrl = url;
-		LogB.Information("NEW URL MAXXX: " + serverUrl);
 	}
 
 	public Json()
@@ -311,7 +310,6 @@ public class Json
 			response = (HttpWebResponse) request.GetResponse();
 		} catch {
 			this.ResultMessage = 
-				Catalog.GetString("KKKKKKKK") + "\n" +
 				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
 				serverUrl);
 			return person;
@@ -326,13 +324,11 @@ public class Json
 		LogB.Information("GetPersonByRFID: " + responseFromServer);
 		
 		if(responseFromServer == "")
-			LogB.Information(" Empty "); //mai
+			LogB.Information(" Empty "); //never happens
 		else if(responseFromServer == "[]")
-			LogB.Information(" Empty2 "); //sempre que no esta el rfid al server
+			LogB.Information(" Empty2 "); //when rfid is not on server
 		else {
-			LogB.Information(" YES "); //TODO: processar: [[2, "(playername)", 82.0, "253,20,150,13"]]
-
-			//patheticDeserialize("[[2, \"(playername)\", 82.0, \"253,20,150,13\"]]");
+			//patheticPersonDeserialize("[[2, \"(playername)\", 82.0, \"253,20,150,13\"]]");
 			person = patheticPersonDeserialize(responseFromServer);
 		}
 

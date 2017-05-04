@@ -2485,47 +2485,42 @@ public partial class ChronoJumpWindow
 
 	private void person_added ()
 	{
-	/*	if (personAddModifyWin.CurrentPerson != null)
-		{
-			currentPerson = personAddModifyWin.CurrentPerson;
-			*/
-			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
-			label_person_change();
-			myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
+		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+		label_person_change();
+		myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
 
-			//when adding new person, photos cannot be recorded as currentPerson.UniqueID
-			//because it was undefined. Copy them now
-			if(File.Exists(Util.GetPhotoTempFileName(false)) && File.Exists(Util.GetPhotoTempFileName(true))) {
-				try {
-					File.Move(Util.GetPhotoTempFileName(false), 
-							Util.GetPhotoFileName(false, currentPerson.UniqueID));
-				} catch {
-					File.Copy(Util.GetPhotoTempFileName(false), 
-							Util.GetPhotoFileName(false, currentPerson.UniqueID), true);
-				}
-				try {
-					File.Move(Util.GetPhotoTempFileName(true), 
-							Util.GetPhotoFileName(true, currentPerson.UniqueID));
-				} catch {
-					File.Copy(Util.GetPhotoTempFileName(true), 
-							Util.GetPhotoFileName(true, currentPerson.UniqueID), true);
-				}
+		//when adding new person, photos cannot be recorded as currentPerson.UniqueID
+		//because it was undefined. Copy them now
+		if(File.Exists(Util.GetPhotoTempFileName(false)) && File.Exists(Util.GetPhotoTempFileName(true))) {
+			try {
+				File.Move(Util.GetPhotoTempFileName(false),
+						Util.GetPhotoFileName(false, currentPerson.UniqueID));
+			} catch {
+				File.Copy(Util.GetPhotoTempFileName(false),
+						Util.GetPhotoFileName(false, currentPerson.UniqueID), true);
 			}
-			
-			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
-			if(rowToSelect != -1) {
-				selectRowTreeView_persons(treeview_persons, rowToSelect);
-				sensitiveGuiYesPerson();
-				//appbar2.Push( 1, Catalog.GetString("Successfully added") + " " + currentPerson.Name );
+			try {
+				File.Move(Util.GetPhotoTempFileName(true),
+						Util.GetPhotoFileName(true, currentPerson.UniqueID));
+			} catch {
+				File.Copy(Util.GetPhotoTempFileName(true),
+						Util.GetPhotoFileName(true, currentPerson.UniqueID), true);
 			}
-			
-			if(person_add_single_called_from_person_select_window) {
-				ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
-						currentSession.UniqueID, 
-						false); //means: do not returnPersonAndPSlist
-				personSelectWin.Update(myPersons);
-			}
-	//	}
+		}
+
+		int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
+		if(rowToSelect != -1) {
+			selectRowTreeView_persons(treeview_persons, rowToSelect);
+			sensitiveGuiYesPerson();
+			//appbar2.Push( 1, Catalog.GetString("Successfully added") + " " + currentPerson.Name );
+		}
+
+		if(person_add_single_called_from_person_select_window) {
+			ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+					currentSession.UniqueID,
+					false); //means: do not returnPersonAndPSlist
+			personSelectWin.Update(myPersons);
+		}
 	}
 
 	//show spinbutton window asking for how many people to create	
@@ -6543,7 +6538,6 @@ LogB.Debug("X");
 
 	private void sensitiveGuiNoSession () 
 	{
-		LogB.Information("NO SESSION");
 		notebook_session_person.CurrentPage = 0;
 
 		treeview_persons.Sensitive = false;
@@ -6583,7 +6577,6 @@ LogB.Debug("X");
 	
 	private void sensitiveGuiYesSession () 
 	{
-		LogB.Information("YES SESSION");
 		notebook_session_person.CurrentPage = 1;
 
 		button_image_test_zoom.Sensitive = true;

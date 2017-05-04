@@ -71,11 +71,11 @@ public partial class ChronoJumpWindow
 	private void configInitRead()
 	{
 		configChronojump.Read();
-		LogB.Information("PRINT VARS");
-		LogB.Information(configChronojump.Compujump.ToString());
-		LogB.Information(configChronojump.CompujumpServerURL);
 		if(configChronojump.Compujump)
 		{
+			LogB.Information(configChronojump.Compujump.ToString());
+			LogB.Information(configChronojump.CompujumpServerURL);
+
 			//on compujump cannot add/edit persons, do it from server
 			frame_persons_top.Visible = false;
 			button_contacts_person_change.Visible = false;
@@ -201,7 +201,6 @@ public partial class ChronoJumpWindow
 		if(currentSession == null && //this is going to be called one time because currentSession will change
 			       ( configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE || configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY) )
 		{
-			LogB.Information("HEREGUAY");
 			//main_menu.Visible = false;
 			//app1.Decorated = false;
 			hbox_menu_and_preferences_outside_menu.Visible = true;
@@ -217,7 +216,6 @@ public partial class ChronoJumpWindow
 				} else
 					currentSession = SqliteSession.SelectByName("session");
 			} else {
-				LogB.Information("HEREGUAY2");
 				//configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY
 
 				string yearMonthStr = UtilDate.GetCurrentYearMonthStr();

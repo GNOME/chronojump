@@ -3,7 +3,7 @@ Laser4Handball: Measure handball kicking on a goal by lasers (using Arduino and 
 
 Copyright (C) 2017 Xavier de Blas xaviblas@gmail.com
 Copyright (C) 2017 Xavier Padullés support@chronojump.org
-Copyright (C) 2017 Victor Tremps victortremps@gmail.com 
+Copyright (C) 2017 Victor Tremps victortremps@gmail.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,16 +30,8 @@ This program is not ended because there's a need of a better detectZone after th
 */
 
 int pinPlatform = 2;
-
-int pinLaser0 = 5;
-int pinLaser1 = 6;
-int pinLaser2 = 7;
-int pinLaser3 = 8;
-
-int pinLed0 = 9;
-int pinLed1 = 10;
-int pinLed2 = 11;
-int pinLed3 = 12;
+int pinLaser[4];
+int pinLed[4];
 
 //unsigned int num;
 unsigned int timeStart[4];
@@ -58,11 +50,13 @@ bool exists(unsigned int num)
 void createOrder()
 {
   unsigned int num;
-  timeStart[0] = 10;
-  timeStart[1] = 10;
-  timeStart[2] = 10;
-  timeStart[3] = 10;
 
+  //default value at timeStart:
+  for (int i = 0; i < 4; i ++) {
+    timeStart[i] = 10;
+  }
+
+  //assign a random value
   for (int i = 0; i < 4; i ++) {
     do {
       num = random(0, 4);
@@ -71,14 +65,13 @@ void createOrder()
 
     timeStart[i] = num;
   }
+
   Serial.println("Wait seconds");
-  Serial.print(timeStart[0]);
-  Serial.print(timeStart[1]);
-  Serial.print(timeStart[2]);
-  Serial.print(timeStart[3]);
+  for (int i = 0; i < 4; i ++) {
+    Serial.print(timeStart[i]);
+  }
   Serial.println("------------");
 }
-
 
 
 void setup()
@@ -90,15 +83,21 @@ void setup()
   //reading from a inexistent analogport
   randomSeed(analogRead(0));
 
+  pinLaser[0] = 5;
+  pinLaser[1] = 6;
+  pinLaser[2] = 7;
+  pinLaser[3] = 8;
+
+  pinLed[0] = 9;
+  pinLed[1] = 10;
+  pinLed[2] = 11;
+  pinLed[3] = 12;
+
   pinMode(pinPlatform, INPUT);
-  pinMode(pinLaser0, INPUT);
-  pinMode(pinLaser1, INPUT);
-  pinMode(pinLaser2, INPUT);
-  pinMode(pinLaser3, INPUT);
-  pinMode(pinLed0, OUTPUT);
-  pinMode(pinLed1, OUTPUT);
-  pinMode(pinLed2, OUTPUT);
-  pinMode(pinLed3, OUTPUT);
+  for (int i = 0; i < 4; i ++) {
+    pinMode(pinLaser[i], INPUT);
+    pinMode(pinLed[i], OUTPUT);
+  }
 
   //turnoof lights
   offLeds();
@@ -112,16 +111,16 @@ int detectZone()
   boolean l2 = false;
   boolean l3 = false;
 
-  if (digitalRead(pinLaser0) == HIGH) {
+  if (digitalRead(pinLaser[0]) == HIGH) {
     l0 = true;
   }
-  if (digitalRead(pinLaser1) == HIGH) {
+  if (digitalRead(pinLaser[1]) == HIGH) {
     l1 = true;
   }
-  if (digitalRead(pinLaser2) == HIGH) {
+  if (digitalRead(pinLaser[2]) == HIGH) {
     l2 = true;
   }
-  if (digitalRead(pinLaser3) == HIGH) {
+  if (digitalRead(pinLaser[3]) == HIGH) {
     l3 = true;
   }
   /*
@@ -226,25 +225,15 @@ int lasersSpy()
   unsigned long spyTimeStart;
   unsigned long timeNow;
 
-  boolean e0 = false;
-  boolean e1 = false;
-  boolean e2 = false;
-  boolean e3 = false;
-
-  //initial status
-  if (digitalRead(pinLaser0) == HIGH)
-  {
-    e0 = true;
-  } if (digitalRead(pinLaser1) == HIGH)
-  {
-    e1 = true;
-  } if (digitalRead(pinLaser2) == HIGH)
-  {
-    e2 = true;
+  boolean e[4];
+  for (int i = 0; i < 4; i ++) {
+    e[i] = false;
   }
-  if (digitalRead(pinLaser3) == HIGH)
-  {
-    e3 = true;
+
+  for (int i = 0; i < 4; i ++) {
+    if (digitalRead(pinLaser[i]) == HIGH) {
+      e[i] = true;
+    }
   }
 
   /*
@@ -256,25 +245,11 @@ int lasersSpy()
 
   while (timeNow - spyTimeStart < 1000)
   {
-    if (digitalRead(pinLaser0) != e0)
-    {
-      e0 = !e0;
-      spyPrint(0, timeNow - spyTimeStart, e0);
-    }
-    if (digitalRead(pinLaser1) != e1)
-    {
-      e1 = !e1;
-      spyPrint(1, timeNow - spyTimeStart, e1);
-    }
-    if (digitalRead(pinLaser2) != e2)
-    {
-      e2 = !e2;
-      spyPrint(2, timeNow - spyTimeStart, e2);
-    }
-    if (digitalRead(pinLaser3) != e3)
-    {
-      e3 = !e3;
-      spyPrint(3, timeNow - spyTimeStart, e3);
+    for (int i = 0; i < 4; i ++) {
+      if (digitalRead(pinLaser[i]) != e[i]) {
+        e[i] = !e[i];
+        spyPrint(i, timeNow - spyTimeStart, e[i]);
+      }
     }
     timeNow = millis();
   }
@@ -292,37 +267,17 @@ void spyPrint(int laserNum, unsigned long time, boolean newStatus)
 }
 
 //turn on a random light
+//led on is LOW
 unsigned int OpenThreeLights()
 {
   unsigned int num = random(0, 4); //between 0 and 3 (3 included)
-  if (num == 0)
-  {
-    digitalWrite(pinLed0, HIGH);
-    digitalWrite(pinLed1, LOW);
-    digitalWrite(pinLed2, LOW);
-    digitalWrite(pinLed3, LOW);
-  }
-  if (num == 1)
-  {
-    digitalWrite(pinLed0, LOW);
-    digitalWrite(pinLed1, HIGH);
-    digitalWrite(pinLed2, LOW);
-    digitalWrite(pinLed3, LOW);
-    //TODO: seguir com en el 0
-  }
-  if (num == 2)
-  {
-    digitalWrite(pinLed0, LOW);
-    digitalWrite(pinLed1, LOW);
-    digitalWrite(pinLed2, HIGH);
-    digitalWrite(pinLed3, LOW);
-  }
-  if (num == 3)
-  {
-    digitalWrite(pinLed0, LOW);
-    digitalWrite(pinLed1, LOW);
-    digitalWrite(pinLed2, LOW);
-    digitalWrite(pinLed3, HIGH);
+
+  for (int i = 0; i < 4; i ++) {
+	  if(num == i) {
+		  digitalWrite(pinLed[i], HIGH);
+	  } else {
+		  digitalWrite(pinLed[i], LOW);
+	  }
   }
 
   return num;
@@ -330,10 +285,9 @@ unsigned int OpenThreeLights()
 
 void offLeds()
 {
-  digitalWrite(pinLed0, HIGH);
-  digitalWrite(pinLed1, HIGH);
-  digitalWrite(pinLed2, HIGH);
-  digitalWrite(pinLed3, HIGH);
+  for (int i = 0; i < 4; i ++) {
+    digitalWrite(pinLed[i], HIGH);
+  }
   Serial.println("Lights off!");
   delay(200);
 }
@@ -398,17 +352,17 @@ void loop()
 
     if (failOrLate) {
       Serial.println("FALLAT o TARD!");
-      //activar el pinLaserDeteccio pq no falli a la seguent iteracio
-      digitalWrite(pinLaser0, HIGH);
-      digitalWrite(pinLaser1, HIGH);
-      digitalWrite(pinLaser2, HIGH);
-      digitalWrite(pinLaser3, HIGH);
+      //activate pinLaserDetect to not have a problems at next iteration
+
+      for (int i = 0; i < 4; i ++) {
+	      digitalWrite(pinLaser[i], HIGH);
+      }
     }
     //print the results (reactiontime=temprreaccio, Points)
     else {
-      unsigned long tempsReaccio = millis() - timeStartLeds;
-      Serial.print("Temps reaccio: ");
-      Serial.println(tempsReaccio);
+      unsigned long reactionTime = millis() - timeStartLeds;
+      Serial.print("Reaction time: ");
+      Serial.println(reactionTime);
 
       //delay(10);
       Serial.print("1st Detected: ");

@@ -40,7 +40,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Alignment alignment_encoder_capture_options;
 			
 	//RFID
-	[Widget] Gtk.Label label_rfid;
+	[Widget] Gtk.Label label_rfid_contacts;
+	[Widget] Gtk.Label label_rfid_encoder;
 	
 	//better raspberry controls
 	[Widget] Gtk.Entry entry_raspberry_extra_weight;
@@ -61,7 +62,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_treeview_encoder_at_second_page;
 	
 	//shown when menu is hidden
-	[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu;
+	[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu_contacts;
+	[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu_encoder;
 
 	private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
 	private bool encoderUpdateTreeViewWhileCapturing = true;
@@ -241,7 +243,8 @@ public partial class ChronoJumpWindow
 		{
 			//main_menu.Visible = false;
 			//app1.Decorated = false;
-			hbox_menu_and_preferences_outside_menu.Visible = true;
+			hbox_menu_and_preferences_outside_menu_contacts.Visible = true;
+			hbox_menu_and_preferences_outside_menu_encoder.Visible = true;
 
 			if(configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE)
 			{
@@ -321,7 +324,8 @@ public partial class ChronoJumpWindow
 		}
 		*/
 
-		label_rfid.Visible = (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX);
+		label_rfid_contacts.Visible = (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX);
+		label_rfid_encoder.Visible = (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX);
 	}
 
 	private bool pulseRFID ()
@@ -345,7 +349,8 @@ public partial class ChronoJumpWindow
 		updatingRFIDGuiStuff = true;
 
 		//TODO: this pulseRFID need only the GTK stuff, not the rest
-		label_rfid.Text = capturedRFID; //GTK
+		label_rfid_contacts.Text = capturedRFID; //GTK
+		label_rfid_encoder.Text = capturedRFID; //GTK
 
 		Person p = SqlitePerson.SelectByRFID(capturedRFID);
 		if(p.UniqueID == -1)

@@ -104,8 +104,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_mode_multi_chronopic_small;
 	[Widget] Gtk.Image image_mode_encoder_gravitatory;
 	[Widget] Gtk.Image image_mode_encoder_inertial;
-	[Widget] Gtk.Image image_gravitatory_not_menu;
-	[Widget] Gtk.Image image_inertial_not_menu;
 
 	[Widget] Gtk.Image image_persons_new_1;
 	[Widget] Gtk.Image image_persons_new_plus;
@@ -2950,13 +2948,6 @@ public partial class ChronoJumpWindow
 				//hbox_encoder_capture_1_or_cont.Visible = true;
 				vbox_angle_now.Visible = false;
 
-				if(! radiobutton_gravitatory_not_menu.Active)
-				{
-					radiobutton_dont_follow_signals = true;
-					radiobutton_gravitatory_not_menu.Active = true;
-					radiobutton_dont_follow_signals = false;
-				}
-
 				notebook_encoder_top.Page = 0;
 			} else {
 				menuitem_mode_selected_power_inertial.Visible = true;
@@ -2988,13 +2979,6 @@ public partial class ChronoJumpWindow
 				radio_encoder_capture_1set.Active = true;
 				//hbox_encoder_capture_1_or_cont.Visible = false;
 				vbox_angle_now.Visible = true;
-
-				if(! radiobutton_inertial_not_menu.Active)
-				{
-					radiobutton_dont_follow_signals = true;
-					radiobutton_inertial_not_menu.Active = true;
-					radiobutton_dont_follow_signals = false;
-				}
 
 				notebook_encoder_top.Page = 1;
 			}
@@ -6662,7 +6646,8 @@ LogB.Debug("X");
 	{
 		session_menuitem.Sensitive = false;
 		menuitem_mode.Sensitive = false;
-		hbox_menu_and_preferences_outside_menu.Sensitive = false;
+		hbox_menu_and_preferences_outside_menu_contacts.Sensitive = false;
+		hbox_menu_and_preferences_outside_menu_encoder.Sensitive = false;
 		
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
@@ -6721,7 +6706,8 @@ LogB.Debug("X");
 
 		session_menuitem.Sensitive = true;
 		menuitem_mode.Sensitive = true;
-		hbox_menu_and_preferences_outside_menu.Sensitive = true;
+		hbox_menu_and_preferences_outside_menu_contacts.Sensitive = true;
+		hbox_menu_and_preferences_outside_menu_encoder.Sensitive = true;
 
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"

@@ -104,6 +104,7 @@ public partial class ChronoJumpWindow
 		capturingForce = forceStatus.STARTING;
 		forceProcessFinish = false;
 		forceProcessCancel = false;
+		forceSensorLast = 0;
 		
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -121,8 +122,8 @@ public partial class ChronoJumpWindow
 	//non GTK on this method
 	private void forceSensorCaptureDo()
 	{
-		//lastChangedTime = 0;
-		SerialPort port = new SerialPort(forceSensorPortName, 115200);
+		lastChangedTime = 0;
+		SerialPort port = new SerialPort(forceSensorPortName, 115200); //forceSensor
 		port.Open();
 		Thread.Sleep(2500); //sleep to let arduino start reading
 
@@ -145,12 +146,24 @@ public partial class ChronoJumpWindow
 		TextWriter writer = File.CreateText(fileName);
 		writer.WriteLine("Time (s);Force(N)");
 		str = "";
+		double firstTime = 0;
 		while(! forceProcessFinish && ! forceProcessCancel)
 		{
 			str = port.ReadLine();
+
 			string [] strFull = str.Split(new char[] {';'});
+			//LogB.Information("str: " + str);
+
 			//needed to store double in user locale
 			double time = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[0]));
+
+			//measurement does not start at 0 time. When we start receiving data, mark this as firstTime
+			if(firstTime == 0)
+				firstTime = time;
+
+			//use this to have time starting at 0
+			time -= firstTime;
+
 			double force = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
 
 			writer.WriteLine(time.ToString() + ";" + force.ToString());
@@ -159,6 +172,7 @@ public partial class ChronoJumpWindow
 			//changeSlideIfNeeded(time, force);
 		}
 		port.WriteLine("Stop");
+
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
@@ -225,7 +239,7 @@ public partial class ChronoJumpWindow
 		}
 
 		Thread.Sleep (25);
-		LogB.Information(" ForceSensor:"+ forceThread.ThreadState.ToString());
+//		LogB.Information(" ForceSensor:"+ forceThread.ThreadState.ToString());
 		return true;
 	}
 

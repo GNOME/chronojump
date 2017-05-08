@@ -191,6 +191,7 @@ SOURCES = \
 	log.cs\
 	logB.cs\
 	logConsoleCrayon.cs\
+	RFID.cs\
 	serverPing.cs\
 	serverEvaluator.cs\
 	server.cs\

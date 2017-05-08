@@ -28,6 +28,7 @@ using System.IO; //"File" things
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
 using System.Diagnostics; //Process
+using System.Threading;
 	
 public partial class ChronoJumpWindow 
 {
@@ -39,8 +40,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Alignment alignment_encoder_capture_options;
 			
 	//RFID
-	[Widget] Gtk.HBox hbox_rfid;
-	[Widget] Gtk.Button button_rfid_start;
 	[Widget] Gtk.Label label_rfid;
 	
 	//better raspberry controls
@@ -66,6 +65,13 @@ public partial class ChronoJumpWindow
 
 	private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
 	private bool encoderUpdateTreeViewWhileCapturing = true;
+
+	static Thread threadRFID;
+	public RFID rfid;
+	private static string capturedRFID;
+	private static bool shouldUpdateRFIDGui;
+	private static bool updatingRFIDGuiStuff;
+	private bool rfidProcessCancel;
 		
 	Config configChronojump;
 	private void configInitRead()
@@ -83,10 +89,42 @@ public partial class ChronoJumpWindow
 			//TODO: don't allow edit person on person treeview
 
 			Json.ChangeServerUrl(configChronojump.CompujumpServerURL);
+
+			capturedRFID = "";
+			updatingRFIDGuiStuff = false;
+			shouldUpdateRFIDGui = false;
+			rfidProcessCancel = false;
+
+			rfid = new RFID();
+			rfid.FakeButtonChange.Clicked += new EventHandler(rfidChanged);
+
+			threadRFID = new Thread (new ThreadStart (RFIDStart));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseRFID));
+
+			LogB.ThreadStart();
+			threadRFID.Start();
 		}
 
 		configDo();
 	}
+	private void RFIDStart()
+	{
+		LogB.Information("RFID Start");
+		rfid.Start();
+		//rfid.ChangedEvent += new EventHandler(this.rfidChanged);
+	}
+	private void rfidChanged(object sender, EventArgs e)
+	{
+		if(rfid.Captured != capturedRFID)
+		{
+			LogB.Information("RFID changed to: " + rfid.Captured);
+
+			capturedRFID = rfid.Captured;
+			shouldUpdateRFIDGui = true;
+		} else
+			LogB.Information("RFID doesn't change");
+	}
+
 	private void configInitFromPreferences()
 	{
 		configChronojump = new Config();
@@ -255,7 +293,6 @@ public partial class ChronoJumpWindow
 			
 			on_load_session_accepted();
 			sensitiveGuiYesSession();
-			rfid_start();
 		}
 
 		//TODO
@@ -275,7 +312,7 @@ public partial class ChronoJumpWindow
 			//time, gym, ...
 
 			//show rfid
-			hbox_rfid.Visible = true;
+			label_rfid.Visible = true;
 
 			//to test display, just make sensitive the top controls, but beware there's no session yet and no person
 			notebook_sup.Sensitive = true;
@@ -284,48 +321,43 @@ public partial class ChronoJumpWindow
 		}
 		*/
 
-		hbox_rfid.Visible = (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX);
+		label_rfid.Visible = (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX);
 	}
 
-	//rfid
-	private void rfid_test() {
-		Networks networks = new Networks();
-		networks.Test();
-	}
-	void on_button_rfid_read_clicked (object o, EventArgs args)
+	private bool pulseRFID ()
 	{
-		string filePath = Util.GetRFIDCapturedFile();
-
-		if(Util.FileExists(filePath))
-			label_rfid.Text = Util.ReadFile(filePath, true);
-	}
-	
-	static bool updatingRFIDGuiStuff;
-	static string updatingRFIDGuiStuffNewRFID;
-	//called each second and after a test
-	bool updateRFIDGuiStuff()
-	{
-		if(! updatingRFIDGuiStuff)
+		if(! threadRFID.IsAlive || rfidProcessCancel)
+		{
+			LogB.ThreadEnding();
+			LogB.ThreadEnded();
 			return false;
+		}
 
-		if(updatingRFIDGuiStuffNewRFID == "")
+		//don't allow this method to be called again until ended
+		//Note RFID detection can send many cards (the same) per second
+		if(updatingRFIDGuiStuff)
 			return true;
 
-		string rfid = updatingRFIDGuiStuffNewRFID;
-		updatingRFIDGuiStuffNewRFID = ""; //to not be called again //TODO: ensure this is not called two times
+		if(! shouldUpdateRFIDGui)
+			return true;
 
-		label_rfid.Text = rfid; //take care, maybe cannot read label stuff on a WATCHER
-		Person p = SqlitePerson.SelectByRFID(rfid);
+		shouldUpdateRFIDGui = false;
+		updatingRFIDGuiStuff = true;
+
+		//TODO: this pulseRFID need only the GTK stuff, not the rest
+		label_rfid.Text = capturedRFID; //GTK
+
+		Person p = SqlitePerson.SelectByRFID(capturedRFID);
 		if(p.UniqueID == -1)
 		{
 			LogB.Information("RFID person does not exist!!");
 
 			Json js = new Json();
-			p = js.GetPersonByRFID(rfid);
+			p = js.GetPersonByRFID(capturedRFID);
 			if(p.UniqueID == -1) {
 				LogB.Information("Person NOT found on server!");
 				new DialogMessage(Constants.MessageTypes.WARNING,
-						"Aquesta pulsera o jugador no es troba identificada al servidor");
+						"Aquesta pulsera o jugador no es troba identificada al servidor"); //GTK
 			}
 			else {
 				LogB.Information("Person found on server!");
@@ -338,22 +370,52 @@ public partial class ChronoJumpWindow
 						Constants.SpeciallityUndefinedID, 
 						Constants.LevelUndefinedID,
 						"", false); //comments, dbconOpened
-				person_added();
+				person_added(); //GTK
 			}
 		}
 		else
 			LogB.Information("RFID person exists!!");
 
+		updatingRFIDGuiStuff = false;
+
+		Thread.Sleep (100);
+		LogB.Information(" threadRFID:" + threadRFID.ThreadState.ToString());
+
 		return true;
 	}
 
 
-	Process processRFIDcapture;
+	/*
+	 *
+	 * This code uses a watcher to see changes on a filename
+	 * is thought to be run on a raspberry connected to rfid
+	 * with a Python program reading rfid and changing that file.
+	 *
+	 * Now is not used anymore because new code connects by USB to an Arduino that has the RFID
+	 */
+
+	/*
+	static string updatingRFIDGuiStuffNewRFID;
+
+	private void rfid_test() {
+		Networks networks = new Networks();
+		networks.Test();
+	}
+
+	void on_button_rfid_read_clicked (object o, EventArgs args)
+	{
+		string filePath = Util.GetRFIDCapturedFile();
+
+		if(Util.FileExists(filePath))
+			label_rfid.Text = Util.ReadFile(filePath, true);
+	}
+
+	//Process processRFIDcapture;
 	void on_button_rfid_start_clicked (object o, EventArgs args)
 	{
 		rfid_start();
 	}
-		
+
 	private void rfid_start()
 	{
 		string script_path = Util.GetRFIDCaptureScript();
@@ -443,6 +505,5 @@ public partial class ChronoJumpWindow
 			}
 		}
 	}
-
+	*/
 }
-

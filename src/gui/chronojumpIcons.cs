@@ -28,8 +28,11 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.Image image_mode_main_menu;
 	[Widget] Gtk.Image image_home;
+	[Widget] Gtk.Image image_home1;
 	[Widget] Gtk.Image image_settings;
+	[Widget] Gtk.Image image_settings1;
 	[Widget] Gtk.Image image_quit;
+	[Widget] Gtk.Image image_quit1;
 	[Widget] Gtk.Image image_session_new;
 	[Widget] Gtk.Image image_session_load;
 	[Widget] Gtk.Image image_mode_encoder_capture;
@@ -105,19 +108,20 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_home.png");
 		image_mode_main_menu.Pixbuf = pixbuf;
 		image_home.Pixbuf = pixbuf;
+		image_home1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_settings.png");
 		image_settings.Pixbuf = pixbuf;
+		image_settings1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_quit.png");
 		image_quit.Pixbuf = pixbuf;
+		image_quit1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_gravity.png");
 		image_mode_encoder_gravitatory.Pixbuf = pixbuf;
-		image_gravitatory_not_menu.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
 		image_mode_encoder_inertial.Pixbuf = pixbuf;
-		image_inertial_not_menu.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
 		image_tests_capture.Pixbuf = pixbuf;

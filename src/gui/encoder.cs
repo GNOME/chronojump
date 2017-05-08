@@ -83,9 +83,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_inertial_calibrate;
 	[Widget] Gtk.Label label_wait;
 
-	[Widget] Gtk.RadioButton radiobutton_gravitatory_not_menu;
-	[Widget] Gtk.RadioButton radiobutton_inertial_not_menu;
-
 	
 	[Widget] Gtk.Image image_encoder_bell;
 	[Widget] Gtk.Button button_encoder_capture_cancel;

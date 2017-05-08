@@ -1242,6 +1242,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -3113,11 +3116,111 @@ EncoderInertialCapture</property>
                                                     <property name="position">1</property>
                                                   </packing>
                                                 </child>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label_rfid_contacts">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">2</property>
+                                                  </packing>
+                                                </child>
                                               </widget>
                                               <packing>
                                                 <property name="expand">True</property>
                                                 <property name="fill">False</property>
                                                 <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkHBox" id="hbox_menu_and_preferences_outside_menu_contacts">
+                                                <property name="can_focus">False</property>
+                                                <property name="spacing">20</property>
+                                                <child>
+                                                  <widget class="GtkButton" id="button_menu_outside_menu1">
+                                                    <property name="width_request">50</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="can_default">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="has_tooltip">True</property>
+                                                    <property name="tooltip" translatable="yes">Main menu</property>
+                                                    <property name="relief">half</property>
+                                                    <signal name="clicked" handler="on_menuitem_mode_main_menu_activate" swapped="no"/>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image_home1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-missing-image</property>
+                                                        <property name="icon-size">2</property>
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkButton" id="button_preferences_not_menu1">
+                                                    <property name="width_request">50</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="can_default">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="has_tooltip">True</property>
+                                                    <property name="tooltip" translatable="yes">Preferences</property>
+                                                    <property name="relief">half</property>
+                                                    <signal name="clicked" handler="on_preferences_activate" swapped="no"/>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image_settings1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-missing-image</property>
+                                                        <property name="icon-size">2</property>
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkButton" id="button_preferences_not_menu_quit1">
+                                                    <property name="width_request">50</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="can_default">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="has_tooltip">True</property>
+                                                    <property name="tooltip" translatable="yes">Quit</property>
+                                                    <property name="relief">half</property>
+                                                    <signal name="clicked" handler="on_quit1_activate" swapped="no"/>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image_quit1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-missing-image</property>
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">2</property>
+                                                  </packing>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="pack_type">end</property>
+                                                <property name="position">3</property>
                                               </packing>
                                             </child>
                                           </widget>
@@ -14407,7 +14510,7 @@ Concentric</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkLabel" id="label_rfid">
+                                                  <widget class="GtkLabel" id="label_rfid_encoder">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                   </widget>
@@ -14425,118 +14528,9 @@ Concentric</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkHBox" id="hbox_menu_and_preferences_outside_menu">
+                                              <widget class="GtkHBox" id="hbox_menu_and_preferences_outside_menu_encoder">
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">20</property>
-                                                <child>
-                                                  <widget class="GtkHBox" id="hbox73">
-                                                    <property name="can_focus">False</property>
-                                                    <property name="spacing">20</property>
-                                                    <child>
-                                                      <widget class="GtkRadioButton" id="radiobutton_gravitatory_not_menu">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="tooltip" translatable="yes">Gravitatory</property>
-                                                        <property name="relief">none</property>
-                                                        <property name="active">True</property>
-                                                        <property name="draw_indicator">False</property>
-                                                        <signal name="toggled" handler="on_button_selector_start_encoder_gravitatory_clicked" swapped="no"/>
-                                                        <child>
-                                                          <widget class="GtkHBox" id="hbox121">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">10</property>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_gravitatory_not_menu">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon-size">2</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_gravitatory">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Gravitatory</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                          </widget>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkRadioButton" id="radiobutton_inertial_not_menu">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="tooltip" translatable="yes">Inertial</property>
-                                                        <property name="relief">none</property>
-                                                        <property name="draw_indicator">False</property>
-                                                        <property name="group">radiobutton_gravitatory_not_menu</property>
-                                                        <signal name="toggled" handler="on_button_selector_start_encoder_inertial_clicked" swapped="no"/>
-                                                        <child>
-                                                          <widget class="GtkHBox" id="hbox123">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">12</property>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_inertial_not_menu">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon-size">2</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_inertial">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Inertial</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                          </widget>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
                                                 <child>
                                                   <widget class="GtkButton" id="button_menu_outside_menu">
                                                     <property name="width_request">50</property>
@@ -14547,7 +14541,6 @@ Concentric</property>
                                                     <property name="has_tooltip">True</property>
                                                     <property name="tooltip" translatable="yes">Main menu</property>
                                                     <property name="relief">half</property>
-                                                    <signal name="activate" handler="on_menuitem_mode_main_menu_activate" swapped="no"/>
                                                     <signal name="clicked" handler="on_menuitem_mode_main_menu_activate" swapped="no"/>
                                                     <child>
                                                       <widget class="GtkImage" id="image_home">
@@ -14561,7 +14554,7 @@ Concentric</property>
                                                   <packing>
                                                     <property name="expand">True</property>
                                                     <property name="fill">True</property>
-                                                    <property name="position">1</property>
+                                                    <property name="position">0</property>
                                                   </packing>
                                                 </child>
                                                 <child>
@@ -14587,7 +14580,7 @@ Concentric</property>
                                                   <packing>
                                                     <property name="expand">True</property>
                                                     <property name="fill">True</property>
-                                                    <property name="position">2</property>
+                                                    <property name="position">1</property>
                                                   </packing>
                                                 </child>
                                                 <child>
@@ -14612,7 +14605,7 @@ Concentric</property>
                                                   <packing>
                                                     <property name="expand">True</property>
                                                     <property name="fill">True</property>
-                                                    <property name="position">3</property>
+                                                    <property name="position">2</property>
                                                   </packing>
                                                 </child>
                                               </widget>
@@ -19625,6 +19618,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

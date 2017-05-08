@@ -2066,7 +2066,21 @@ public partial class ChronoJumpWindow
 		LogB.Information("Bye!");
 
 		updatingRestTimes = false;
-		updatingRFIDGuiStuff = false;
+
+		if(threadRFID != null && threadRFID.IsAlive)
+		{
+			LogB.Information("Closing threadRFID");
+
+			rfid.Stop();
+			rfidProcessCancel = true;
+
+			System.Threading.Thread.Sleep(250);
+
+			if(threadRFID.IsAlive)
+			{
+				threadRFID.Abort();
+			}
+		}
 
 		//if capturing on the background finish it
 		if(eCaptureInertialBG != null)
@@ -2081,15 +2095,6 @@ public partial class ChronoJumpWindow
 			//pingThread.Abort();
 			jsPing.PingAbort();
 		}
-
-		//close rfid capture process if it's working
-		if(ExecuteProcess.IsRunning(processRFIDcapture))
-		{
-			LogB.Information("processRFIDcapture is running. Stopping");
-			processRFIDcapture.Kill();
-		} else
-			LogB.Information("processRFIDcapture is NOT running.");
-
 
 		//printing remaining logs in the non-gtk thread
 		LogB.Information("Printing non-GTK thread remaining log");

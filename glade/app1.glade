@@ -1239,6 +1239,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -14404,7 +14407,15 @@ Concentric</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <placeholder/>
+                                                  <widget class="GtkLabel" id="label_rfid">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">2</property>
+                                                  </packing>
                                                 </child>
                                               </widget>
                                               <packing>
@@ -14417,56 +14428,6 @@ Concentric</property>
                                               <widget class="GtkHBox" id="hbox_menu_and_preferences_outside_menu">
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">20</property>
-                                                <child>
-                                                  <widget class="GtkHBox" id="hbox_rfid">
-                                                    <property name="can_focus">False</property>
-                                                    <child>
-                                                      <widget class="GtkButton" id="button_rfid_read">
-                                                        <property name="label">Read RFID</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">True</property>
-                                                        <property name="relief">half</property>
-                                                        <signal name="clicked" handler="on_button_rfid_read_clicked" swapped="no"/>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkButton" id="button_rfid_start">
-                                                        <property name="label">Start RFID</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">True</property>
-                                                        <property name="relief">half</property>
-                                                        <signal name="clicked" handler="on_button_rfid_start_clicked" swapped="no"/>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label_rfid">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">2</property>
-                                                      </packing>
-                                                    </child>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
                                                 <child>
                                                   <widget class="GtkHBox" id="hbox73">
                                                     <property name="can_focus">False</property>
@@ -14573,12 +14534,13 @@ Concentric</property>
                                                   <packing>
                                                     <property name="expand">True</property>
                                                     <property name="fill">True</property>
-                                                    <property name="position">1</property>
+                                                    <property name="position">0</property>
                                                   </packing>
                                                 </child>
                                                 <child>
                                                   <widget class="GtkButton" id="button_menu_outside_menu">
                                                     <property name="width_request">50</property>
+                                                    <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="can_default">True</property>
                                                     <property name="receives_default">True</property>
@@ -14599,7 +14561,7 @@ Concentric</property>
                                                   <packing>
                                                     <property name="expand">True</property>
                                                     <property name="fill">True</property>
-                                                    <property name="position">2</property>
+                                                    <property name="position">1</property>
                                                   </packing>
                                                 </child>
                                                 <child>
@@ -14625,7 +14587,7 @@ Concentric</property>
                                                   <packing>
                                                     <property name="expand">True</property>
                                                     <property name="fill">True</property>
-                                                    <property name="position">3</property>
+                                                    <property name="position">2</property>
                                                   </packing>
                                                 </child>
                                                 <child>
@@ -14650,7 +14612,7 @@ Concentric</property>
                                                   <packing>
                                                     <property name="expand">True</property>
                                                     <property name="fill">True</property>
-                                                    <property name="position">4</property>
+                                                    <property name="position">3</property>
                                                   </packing>
                                                 </child>
                                               </widget>
@@ -19663,6 +19625,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

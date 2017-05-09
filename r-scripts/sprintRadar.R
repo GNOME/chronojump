@@ -41,12 +41,12 @@ op <- assignOptions(options)
 
 
 #Reads a .rad file, trims the header and the last line and finds the curve that best fits with the data of the file.
-getSprintFromRadar <- function(radFile)
+getSprintFromRadar <- function(radFile, decimalSeparator = ",")
 {
         nlines = length(readLines(radFile))     # The number of lines of the file
         #Store the values of the file in the radar variable
         #Skips the 18 first lines and the las line
-        radar = read.fwf(file=radFile, sep="", widths = c(7, 8, 8, 8, 9), dec = ",", skip = 18, n = nlines - 19)
+        radar = read.fwf(file=radFile, sep="", widths = c(7, 8, 8, 8, 9), dec = decimalSeparator, skip = 18, n = nlines - 19)
         radar = radar[1:(length(radar[,1]) -1 ),]  #Trim the last line
         radar[,2] = as.numeric(gsub(",", "\\.", radar[,2])) #Substitute the comas by dots in the second column
         radar = data.frame(t = na.omit(radar[,2]), v= na.omit(radar[,3]), position = na.omit(radar[,5]))
@@ -123,7 +123,7 @@ getRadarDynamicsFromFolder <- function(radDir, athletesFile, splitDistance, resu
                 
                 options(warn = -1)
                 #Adjusting the measured data to the model of getSprintFromRadar
-                model = getSprintFromRadar(paste(radDir, "/", originalFiles[n], sep=""))
+                model = getSprintFromRadar(paste(radDir, "/", originalFiles[n], sep=""), decimalSeparator = decimalSeparator)
                 options(warn = 0)
                 K = model$K
                 Vmax = model$Vmax

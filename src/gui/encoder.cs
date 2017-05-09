@@ -4421,26 +4421,35 @@ public partial class ChronoJumpWindow
 		foreach(EncoderBarsData ebd in data6Variables)
 			data.Add(ebd.GetValue(mainVariable));
 
-		//search max, min, avg
-		double max = -100000;
-		double min = 100000;
+		//Get max min avg values of this set
+		double maxThisSet = -100000;
+		double minThisSet = 100000;
 		double sum = 0;
 
-		if(mainVariable == Constants.MeanPower)
-			max = maxPowerIntersessionOnCapture;
-		
 		foreach(double d in data) {
-			if(d > max)
-				max = d;
-			if(d < min)
-				min = d;
+			if(d > maxThisSet)
+				maxThisSet = d;
+			if(d < minThisSet)
+				minThisSet = d;
 			sum += d;
 		}
-		if(max <= 0)
+		if(maxThisSet <= 0)
 			return;	
-		
+
+		//get maxIntersession and update it if is lower than maxThisSet
+		double maxIntersession = -100000;
+		if(mainVariable == Constants.MeanPower)
+			maxIntersession = maxPowerIntersessionOnCapture;
+
+		if(maxThisSet > maxIntersession)
+			maxIntersession = maxThisSet;
+
+		double maxAbsolute = maxThisSet;
+		if(maxIntersession > maxAbsolute)
+			maxAbsolute = maxIntersession;
+
 		repetitiveConditionsWin.ResetBestSetValue();
-		repetitiveConditionsWin.UpdateBestSetValue(max);
+		repetitiveConditionsWin.UpdateBestSetValue(maxAbsolute);
 
 		int textWidth = 1;
 		int textHeight = 1;
@@ -4465,7 +4474,7 @@ public partial class ChronoJumpWindow
 			left_margin = 2;
 		}
 			
-		layout_encoder_capture_curves_bars_text.FontDescription = Pango.FontDescription.FromString ("Courier 14");
+		layout_encoder_capture_curves_bars_text.FontDescription = Pango.FontDescription.FromString ("Courier 11");
 		layout_encoder_capture_curves_bars_text.FontDescription.Weight = Pango.Weight.Bold;
 		
 		string eccon = findEccon(true);
@@ -4488,13 +4497,13 @@ public partial class ChronoJumpWindow
 		double countSaved = 0;
 		
 		//draw line for person max intersession
-		if(mainVariable == Constants.MeanPower && max > 0)
+		if(mainVariable == Constants.MeanPower && maxIntersession > 0)
 		{
-			layout_encoder_capture_curves_bars.SetMarkup("Person's best");
-			layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight);
+			layout_encoder_capture_curves_bars_text.SetMarkup("Person's best: (" + Util.TrimDecimals(maxIntersession, 1) + "W)");
+			layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);
 			encoder_capture_curves_bars_pixmap.DrawLayout (pen_yellow_encoder_capture,
 						left_margin, top_margin - textHeight,
-						layout_encoder_capture_curves_bars);
+						layout_encoder_capture_curves_bars_text);
 
 			encoder_capture_curves_bars_pixmap.DrawLine(pen_yellow_encoder_capture,
 					left_margin, top_margin,
@@ -4513,7 +4522,7 @@ public partial class ChronoJumpWindow
 			if(d < 0)
 				d *= -1;
 
-			dHeight = Convert.ToInt32(graphHeightSafe * d / max * 1.0);
+			dHeight = Convert.ToInt32(graphHeightSafe * d / maxAbsolute * 1.0);
 			int dBottom = graphHeight - bottom_margin;
 			int dTop = dBottom - dHeight;
 
@@ -4692,16 +4701,16 @@ public partial class ChronoJumpWindow
 			title += "; X" + Catalog.GetString("saved") + " = " + 
 				Util.TrimDecimals( (sumSaved / countSaved), decimals) + 
 				" " + units;
-			
-		title += "]";
 
-		layout_encoder_capture_curves_bars.SetMarkup(title);
+		title += "; Loss: " + Util.TrimDecimals(100.0 * (maxThisSet - minThisSet) / maxThisSet, decimals) + " %]";
+
+		layout_encoder_capture_curves_bars_text.SetMarkup(title);
 		textWidth = 1;
 		textHeight = 1;
-		layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
+		layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);
 		encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
 				Convert.ToInt32( (graphWidth/2) - textWidth/2), 0, //x, y 
-				layout_encoder_capture_curves_bars);
+				layout_encoder_capture_curves_bars_text);
 
 		//end plot title	
 		

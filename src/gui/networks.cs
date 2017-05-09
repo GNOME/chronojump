@@ -79,7 +79,10 @@ public partial class ChronoJumpWindow
 	private void configInitRead()
 	{
 		configChronojump.Read();
-		if(configChronojump.Compujump)
+		if(
+				configChronojump.Compujump &&
+				configChronojump.CompujumpServerURL != null &&
+				configChronojump.CompujumpServerURL != "")
 		{
 			LogB.Information(configChronojump.Compujump.ToString());
 			LogB.Information(configChronojump.CompujumpServerURL);

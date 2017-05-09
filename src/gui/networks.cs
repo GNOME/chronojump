@@ -158,8 +158,8 @@ public partial class ChronoJumpWindow
 			app1.Unmaximize();
 			app1.Decorated = true;
 		} else {
-			app1.Maximize();
 			app1.Decorated = (configChronojump.Maximized != Preferences.MaximizedTypes.YESUNDECORATED);
+			app1.Maximize();
 		}
 
 		if(configChronojump.CustomButtons)

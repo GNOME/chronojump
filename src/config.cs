@@ -38,7 +38,7 @@ public class Config
 	public bool EncoderAnalyzeHide;
 	public SessionModeEnum SessionMode;
 	public bool Compujump;
-	public string CompujumpServerURL;
+	public string CompujumpServerURL = "";
 	public string RunScriptOnExit;
 
 	public Config()

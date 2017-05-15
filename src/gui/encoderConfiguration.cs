@@ -466,10 +466,11 @@ public class EncoderConfigurationWindow
 
 		if(ec.has_inertia) {
 			ec.inertiaMachine = (int) spin_inertia_machine.Value; 
-			ec.inertiaTotal = (int) spin_inertia_machine.Value; 
 			ec.extraWeightN = main_gui_extraWeightN;
 			ec.extraWeightGrams = (int) spin_inertia_mass.Value;
 			ec.extraWeightLength = (double) spin_inertia_length.Value;
+
+			ec.inertiaTotal = UtilEncoder.CalculeInertiaTotal(ec);
 		}
 
 		if(ec.has_gearedDown) {

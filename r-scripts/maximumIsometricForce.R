@@ -186,7 +186,7 @@ drawDynamicsFromLoadCell <- function(
         hline50fmax.raw=F, hline50fmax.fitted=F,
         rfdDrawingOptions, xlimits = NA)
 {
-        if(is.na(dynamics))
+        if(is.na(dynamics$time[1]))
         {
                 print("Dynamics not available:")
                 return()
@@ -215,26 +215,28 @@ drawDynamicsFromLoadCell <- function(
                      main = dynamics$nameOfFile, yaxs= "i", xaxs = "i")
         }
         
-        #Plotting impulse (area under the curve)
-        polygon(c(dynamics$time[dynamics$startSample:dynamics$endSample], dynamics$time[dynamics$endSample], dynamics$time[dynamics$startSample]),
-                c(dynamics$f.raw[dynamics$startSample:dynamics$endSample], 0, 0), col = "grey")
+        text( x = min(which(dynamics$f.raw == max(dynamics$f.raw))/100), y = dynamics$fmax.raw,
+              labels = paste("Fmax = ", round(dynamics$fmax.raw, digits=2), " N", sep=""), pos = 3)
+        
+        #Plotting impulse (area under the curve). Impulse from 0 to 100ms
+        sample100 = which.min(abs(dynamics$time - (dynamics$startTime + 0.1)))
+        polygon(c(dynamics$time[dynamics$startSample:sample100], dynamics$time[sample100], dynamics$time[dynamics$startSample]),
+                c(dynamics$f.raw[dynamics$startSample:sample100], 0, 0), col = "grey")
 
         #Plotting not analysed data
         lines(dynamics$time[1:dynamics$startSample] , dynamics$f.raw[1:dynamics$startSample], col = "grey") #Pre-analysis
         lines(dynamics$time[dynamics$endSample: dynamics$totalSample] , dynamics$f.raw[dynamics$endSample: dynamics$totalSample], col = "grey") #Post-analysis
-        
-        text( x = min(which(dynamics$f.raw == max(dynamics$f.raw))/100), y = dynamics$fmax.raw,
-              labels = paste("Fmax = ", round(dynamics$fmax.raw, digits=2), " N", sep=""), pos = 3)
+
         
         #Plotting fitted data
         lines(dynamics$time, dynamics$f.fitted, col="blue")
-        text(x = dynamics$time[dynamics$totalSample], y = dynamics$fmax.fitted - 30,
-             labels = paste("Fmax =", round(dynamics$fmax.fitted, digits = 2), "N"), pos = 4, col="blue")
+        text(x = dynamics$time[dynamics$totalSample] - 0.1, y = dynamics$fmax.fitted + dynamics$initf,
+             labels = paste("Fmax =", round(dynamics$fmax.fitted + dynamics$initf, digits = 2), "N"), pos = 1, col="blue")
         axis(2, at = dynamics$fmax.fitted + dynamics$initf, labels = round(dynamics$fmax.fitted + dynamics$initf, digits = 2),
              line = 2, col = "blue")
         
         #Plottting smoothed data
-        #lines(dynamics$time, dynamics$f.smoothed, col="grey")
+        lines(dynamics$time, dynamics$f.smoothed, col="grey")
         
         if(vlineT0){
                 abline(v = dynamics$startTime, lty = 2)
@@ -314,14 +316,16 @@ drawDynamicsFromLoadCell <- function(
                                 pointForce1 = dynamics$fmax.fitted*(1 - exp( -dynamics$k.fitted * options$start)) + dynamics$initf
                         } else if(options$rfdFunction == "RAW")
                         {
-                                sample1 =  which.min(abs(dynamics$time - dynamics$startTime - options$start))
-                                sample2 = which.min(abs(dynamics$time - dynamics$startTime - options$end))
+                                
+                                sample1 =  which.min(abs(dynamics$time - dynamics$startTime - options$start/1000))
+                                sample2 = which.min(abs(dynamics$time - dynamics$startTime - options$end/1000))
                                 
                                 #Slope of the line
                                 RFD = (dynamics$f.raw[sample2] - dynamics$f.raw[sample1]) / (dynamics$time[sample2] - dynamics$time[sample1])
                                 
                                 #Y coordinate of a point of the line
                                 pointForce1 = dynamics$f.raw[sample1]
+                                pointForce2 = dynamics$f.raw[sample2]
                         }
                         
                 } else if(options$type == "PERCENT_F_MAX")
@@ -392,7 +396,7 @@ drawDynamicsFromLoadCell <- function(
                      label=paste("RFD =", round(RFD, digits=0), "N/s"),
                      srt=atan(windowSlope)*180/pi, pos = 2, col = color)
                 #Drawing the points where the line touch the function
-                points(x = c(options$start + dynamics$startTime, options$end), y = c(pointForce1, pointForce2), col = color)
+                points(x = c(options$start + dynamics$startTime, options$end/1000 + dynamics$startTime), y = c(pointForce1, pointForce2), col = color)
         }
         
         #Plotting instantaneous RFD
@@ -460,12 +464,11 @@ getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.
                 startSample = startSample + 1
         }
         
-        #Detecting a decrease of percentChange% in the maximum force
-        endSample = min(which((movingAverageForce < maxAverageForce*(100 - percentChange) / 100 &
-                                       test$time > test$time[maxSample])), na.rm = T)
-        if(is.infinite(endSample))
+        endSample = maxSample
+        while(movingAverageForce[endSample] < maxAverageForce*(100 - percentChange) / 100 &
+                                              endSample < length(test$time))
         {
-                endSample = length(test$time)
+                endSample = endSample + 1
         }
         
         return(list(startSample = startSample, endSample = endSample))

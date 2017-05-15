@@ -86,16 +86,78 @@ class SqliteEncoderConfiguration : Sqlite
 		closeIfNeeded(dbconOpened);
 	}
 
+	/*
+	 * IfNameExistsAddSuffix starts --------------------->
+	 */
+	/*
+	 * this method check if a name exists.
+	 * if exists, add a suffix, like _copy
+	 * but if the string already ends with _copy add a number: _copy2
+	 * but if the number already exists, like _copy21, convert into _copy22
+	 * always check that the new string exists.
+	 *
+	 * The main reason of this method is not to have a:
+	 * unnamed_copy_copy_copy_copy (that's very ugly and breaks the interface), and have instead:
+	 * unnamed_copy4
+	 */
 	public static string IfNameExistsAddSuffix(string name, string suffix)
 	{
-		if(Sqlite.Exists(false, Constants.EncoderConfigurationTable, name))
+		Sqlite.Open();
+		if(Sqlite.Exists(true, Constants.EncoderConfigurationTable, name))
 		{
 			do {
-				name += "_" + suffix;
-			} while (Sqlite.Exists(false, Constants.EncoderConfigurationTable, name));
+				name = ifNameExistsAddSuffixDo(name, suffix);
+			} while (Sqlite.Exists(true, Constants.EncoderConfigurationTable, name));
 		}
+		Sqlite.Close();
 		return name;
 	}
+	private static string ifNameExistsAddSuffixDo(string str, string suffix)
+	{
+		//suffixStarts will point to the start of suffix (the last suffix if there's > 1)
+		int suffixStarts = str.LastIndexOf(suffix);
+
+		// 1) if there's no suffix on str: add it
+		if(suffixStarts == -1)
+			return str + suffix;
+
+		// 2) check if there's a number at the end of suffix
+		int numberShouldStart = suffixStarts + suffix.Length;
+		string strBeforeNum = str.Substring(0, numberShouldStart);
+		string strNum = str.Substring(numberShouldStart);
+
+		//Console.WriteLine("suffixStarts: " + suffixStarts.ToString() + "; numberShouldStart: " + numberShouldStart + "; strNum: " + strNum);
+
+		// 2.a) there's nothing after the suffix, write a "2"
+		if(strNum.Length == 0)
+			return str + "2";
+
+		// 2.b) after the last suffix there's something but is not a whole number, add suffix again
+		// eg: unnamed_copyk will be unnamed_copyk2
+		// but unnamed_copyk2 will be unnamed_copyk22 ...
+		if(! Util.IsNumber(strNum, false))
+			return str + "2";
+
+		// 2.c) after the suffix, there's a whole number, add +1 to this number
+		return strBeforeNum + (Convert.ToInt32(strNum) +1);
+	}
+	public static void IfNameExistsAddSuffixDoTests()
+	{
+		string suffix = "_copy";
+		string [] tests = {
+			"_copy2", "_copy75", "_copy",
+			"unnamed_copy2", "unnamed_copy75", "unnamed_copy",
+			"lalala_copy", "_copy2_copy2", "hello_good_morning_copy",
+			"how are you 21", "_copy2k", "_copy2k2" };
+
+		foreach (string test in tests)
+			LogB.Information(test + " -> " + ifNameExistsAddSuffixDo(test, suffix));
+	}
+
+	/*
+	 * <-------------------------- IfNameExistsAddSuffix ends
+	 */
+
 
 	//called on capture, recalculate, load
 	public static void UpdateActive(bool dbconOpened, Constants.EncoderGI encoderGI, EncoderConfiguration econf)

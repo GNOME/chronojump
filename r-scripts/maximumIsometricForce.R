@@ -205,7 +205,7 @@ drawDynamicsFromLoadCell <- function(
                 xmax = xlimits[2]
                 points(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample])
         } else if (is.na(xlimits[1])){
-                xmin = 0
+                xmin = dynamics$time[dynamics$startSample] - 0.5
                 xmax = min(c(dynamics$endTime*1.1 - dynamics$startTime*0.1, dynamics$t0 + 1))
                 xWidth = xmax - xmin
                 plot(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample],
@@ -452,8 +452,8 @@ getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf
 getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.1, percentChange = 5)
 {
         movingAverageForce = getMovingAverageForce(test, averageLength = 0.1)
-        maxAverageForce = max(movingAverageForce, na.rm = T)
-        maxSample = min(which(movingAverageForce == maxAverageForce), na.rm = T)
+        #maxAverageForce = max(movingAverageForce, na.rm = T)
+        #maxSample = min(which(movingAverageForce == maxAverageForce), na.rm = T)
         maxRFD = max(rfd[2:(length(rfd) - 1)])
         
         #Detecting an RFD 
@@ -464,11 +464,20 @@ getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.
                 startSample = startSample + 1
         }
         
-        endSample = maxSample
-        while(movingAverageForce[endSample] < maxAverageForce*(100 - percentChange) / 100 &
+        
+        endSample = startSample + 1
+        maxSample = movingAverageForce[endSample]
+        maxAverageForce = movingAverageForce[maxSample]
+        print(paste("Max:", maxAverageForce))
+        while(movingAverageForce[endSample] > maxAverageForce*(100 - percentChange) / 100 &
                                               endSample < length(test$time))
         {
+                if(movingAverageForce[endSample] > maxAverageForce)
+                {
+                        maxAverageForce = movingAverageForce[endSample]
+                }
                 endSample = endSample + 1
+                print(paste("Average:", movingAverageForce[endSample]))
         }
         
         return(list(startSample = startSample, endSample = endSample))

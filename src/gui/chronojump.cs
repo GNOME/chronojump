@@ -634,14 +634,15 @@ public partial class ChronoJumpWindow
 		label_version_hidden.Text = buildVersion;
 		LogB.Information("Build version:" + buildVersion);
 
+		/*
 		LeastSquares ls = new LeastSquares();
 		ls.Test();
 		LogB.Information(string.Format("coef = {0} {1} {2}", ls.Coef[0], ls.Coef[1], ls.Coef[2]));
+		*/
 
 		restTime = new RestTime();
 		updatingRestTimes = true;
-		//GLib.Timeout.Add(5000, new GLib.TimeoutHandler(updateRestTimes)); //each 5s
-		GLib.Timeout.Add(1000, new GLib.TimeoutHandler(updateRestTimes)); //each s, better for don't have problems sorting data on treeview
+		GLib.Timeout.Add(1000, new GLib.TimeoutHandler(updateRestTimes)); //each s, better than 5s for don't have problems sorting data on treeview
 
 
 		/*

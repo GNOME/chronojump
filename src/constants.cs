@@ -239,8 +239,16 @@ public class Constants
 	public static string TakeOffWeightName = "TakeOffWeight"; //translate (take off?)
 
 
-	public static string SpreadsheetString = "\n\n" + Catalog.GetString("When import from your spreadsheet (OpenOffice, R, MS Excel, ...)\nremember the separator character is semicolon <b>;</b>, or comma <b>,</b>.") + 
-			"\n\n" + Catalog.GetString("This can be changed on preferences.");
+	public static string GetSpreadsheetString(string CSVExportDecimalSeparator)
+	{
+		string sep = ";";
+		if(CSVExportDecimalSeparator != "COMMA")
+			sep = ",";
+
+		return "\n\n" + Catalog.GetString("When import from your spreadsheet (LibreOffice, R, MS Excel, ...)") + "\n" +
+			Catalog.GetString("Remember the separator character is:") + " <b>" + sep + "</b>" + "\n\n" +
+			Catalog.GetString("This can be changed at preferences.");
+	}
 
 /*	OLD, check this
 	public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +

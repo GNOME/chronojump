@@ -931,7 +931,7 @@ public class ExportSessionCSV : ExportSession
 		this.mySession = mySession;
 		this.preferences = preferences;
 	
-		spreadsheetString = Constants.SpreadsheetString;
+		spreadsheetString = Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
 
 		checkFile("CSV");
 	}
@@ -942,8 +942,10 @@ public class ExportSessionCSV : ExportSession
 			//correctly separate the rows with no problems with decimals
 			//delete the ';'
 			exportData[i] = exportData[i].ToString().Replace(";", " ");
-			
+
 			bool latin = true;
+			if(preferences.CSVExportDecimalSeparator != "COMMA")
+				latin = false;
 
 			if(latin) {
 				//put ';' as separator

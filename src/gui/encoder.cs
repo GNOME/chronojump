@@ -1882,7 +1882,7 @@ public partial class ChronoJumpWindow
 							exportFileName);
 					if(checkFileOp == Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL ||
 							checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_AB)
-						myString += Constants.SpreadsheetString;
+						myString += Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
 					new DialogMessage(Constants.MessageTypes.INFO, myString);
 				}
 			} catch {
@@ -1909,7 +1909,7 @@ public partial class ChronoJumpWindow
 		on_button_encoder_export_all_curves_file_selected (exportFileName);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), 
-				exportFileName) + Constants.SpreadsheetString;
+				exportFileName) + Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 	private void on_overwrite_file_encoder_save_image_accepted(object o, EventArgs args)
@@ -1924,7 +1924,7 @@ public partial class ChronoJumpWindow
 		on_button_encoder_save_AB_file_selected (exportFileName);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), 
-				exportFileName) + Constants.SpreadsheetString;
+				exportFileName) + Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 	private void on_overwrite_file_encoder_save_table_accepted(object o, EventArgs args)

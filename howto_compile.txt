@@ -51,7 +51,10 @@ hdiutil create -size 200m ...
 #if on packaging says: "diskimages-helper: DI_kextDriveDisconnect returned 268435459 ((ipc/send) invalid destination port).", free space:
 
 #free space:
-empty trash folder (should be enough)
+empty trash folder (should be enough) ~/.Trash
+rm *.pkg
+rm *.dmg
+
 Find and delete big files:
 du -h -d 1
 delete the pkg, dmg and the "user"/Library/Caches

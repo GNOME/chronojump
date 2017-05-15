@@ -668,7 +668,7 @@ public class EncoderConfigurationWindow
 					else if(econfSO.name != null && econfSO.name != "")
 					{
 						//add more suffixes until name is unique
-						econfSO.name = SqliteEncoderConfiguration.IfNameExistsAddSuffix(econfSO.name, Catalog.GetString("copy"));
+						econfSO.name = SqliteEncoderConfiguration.IfNameExistsAddSuffix(econfSO.name, "_" + Catalog.GetString("copy"));
 
 						SqliteEncoderConfiguration.MarkAllAsUnactive(false, encoderGI);
 						econfSO.active = true;
@@ -785,7 +785,7 @@ public class EncoderConfigurationWindow
 			 * if name has changed, then check if newname already exists on database
 			 * if exists add _copy recursively
 			 */
-			newName = SqliteEncoderConfiguration.IfNameExistsAddSuffix(newName, Catalog.GetString("copy"));
+			newName = SqliteEncoderConfiguration.IfNameExistsAddSuffix(newName, "_" + Catalog.GetString("copy"));
 		}
 		//update entry_save_name if needed
 		if(newName != entry_save_name.Text)
@@ -824,7 +824,7 @@ public class EncoderConfigurationWindow
 			//add a suffix
 			econfSO.name += "_"  + Catalog.GetString("copy");
 			//add more suffixes until name is unique
-			econfSO.name = SqliteEncoderConfiguration.IfNameExistsAddSuffix(econfSO.name, Catalog.GetString("copy"));
+			econfSO.name = SqliteEncoderConfiguration.IfNameExistsAddSuffix(econfSO.name, "_" + Catalog.GetString("copy"));
 
 			SqliteEncoderConfiguration.MarkAllAsUnactive(false, encoderGI);
 			econfSO.active = true;

@@ -653,6 +653,8 @@ public partial class ChronoJumpWindow
 		pingThread.Start();
 
 		//moveStartTestInitial();
+
+		//SqliteEncoderConfiguration.IfNameExistsAddSuffixDoTests();
 	}
 
 

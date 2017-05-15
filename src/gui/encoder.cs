@@ -1539,7 +1539,7 @@ public partial class ChronoJumpWindow
 				//if user has deleted this econfSO, create it again
 				if(econfSO.uniqueID == -1)
 				{
-					string name = SqliteEncoderConfiguration.IfNameExistsAddSuffix(Catalog.GetString("Unnamed"), Catalog.GetString("copy"));
+					string name = SqliteEncoderConfiguration.IfNameExistsAddSuffix(Catalog.GetString("Unnamed"), "_" + Catalog.GetString("copy"));
 
 					econfSO = new EncoderConfigurationSQLObject(
 							-1,				//uniqueID

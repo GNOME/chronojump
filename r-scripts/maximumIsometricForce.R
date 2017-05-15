@@ -236,7 +236,7 @@ drawDynamicsFromLoadCell <- function(
              line = 2, col = "blue")
         
         #Plottting smoothed data
-        lines(dynamics$time, dynamics$f.smoothed, col="grey")
+        #lines(dynamics$time, dynamics$f.smoothed, col="grey")
         
         if(vlineT0){
                 abline(v = dynamics$startTime, lty = 2)
@@ -400,13 +400,13 @@ drawDynamicsFromLoadCell <- function(
         }
         
         #Plotting instantaneous RFD
-        par(new = T)
-        plot(dynamics$time[(dynamics$startSample):dynamics$endSample], dynamics$rfd[(dynamics$startSample):dynamics$endSample],
-             type = "l", col = "red", axes = F,
-             xlim = c(xmin, xmax), xlab = "", ylab = "", yaxs= "i", xaxs = "i")
-        lines(dynamics$time[1:(dynamics$startSample)], dynamics$rfd[1:dynamics$startSample], col = "orange")
-        lines(dynamics$time[dynamics$endSample:dynamics$totalSample], dynamics$rfd[dynamics$endSample:dynamics$totalSample], col = "orange")
-        axis(4, col = "red", line = 1)
+        # par(new = T)
+        # plot(dynamics$time[(dynamics$startSample):dynamics$endSample], dynamics$rfd[(dynamics$startSample):dynamics$endSample],
+        #      type = "l", col = "red", axes = F,
+        #      xlim = c(xmin, xmax), xlab = "", ylab = "", yaxs= "i", xaxs = "i")
+        # lines(dynamics$time[1:(dynamics$startSample)], dynamics$rfd[1:dynamics$startSample], col = "orange")
+        # lines(dynamics$time[dynamics$endSample:dynamics$totalSample], dynamics$rfd[dynamics$endSample:dynamics$totalSample], col = "orange")
+        # axis(4, col = "red", line = 1)
 }
 
 getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf)

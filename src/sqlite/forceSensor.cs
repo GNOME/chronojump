@@ -40,7 +40,7 @@ class SqliteForceSensor : Sqlite
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + table + " ( " +
-			"code TEXT, " + 	//RFD1...4
+			"code TEXT, " + 	//RFD1...4, I (Impulse)
 			"active INT, " + 	//bool
 			"function TEXT, " +
 			"type TEXT, " +
@@ -62,6 +62,18 @@ class SqliteForceSensor : Sqlite
 		Insert(true, new ForceSensorRFD("RFD4", false,
 					ForceSensorRFD.Functions.RAW, ForceSensorRFD.Types.RFD_MAX, -1, -1));
 
+		InsertDefaultValueImpulse(true);
+
+		closeIfNeeded(dbconOpened);
+	}
+
+	public static void InsertDefaultValueImpulse(bool dbconOpened)
+	{
+		openIfNeeded(dbconOpened);
+
+		Insert(true, new ForceSensorImpulse(true,
+					ForceSensorImpulse.Functions.RAW, ForceSensorImpulse.Types.IMP_RANGE, 0, 500));
+
 		closeIfNeeded(dbconOpened);
 	}
 
@@ -77,6 +89,19 @@ class SqliteForceSensor : Sqlite
 
 		closeIfNeeded(dbconOpened);
 	}
+	public static void InsertImpulse(bool dbconOpened, ForceSensorImpulse impulse)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "INSERT INTO " + table +
+			" (code, active, function, type, num1, num2) VALUES (" + impulse.ToSQLInsertString() + ")";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
 
 	public static void Update(bool dbconOpened, ForceSensorRFD rfd)
 	{
@@ -89,6 +114,23 @@ class SqliteForceSensor : Sqlite
 			" num1 = " + rfd.num1.ToString() + "," +
 			" num2 = " + rfd.num2.ToString() +
 			" WHERE code = \"" + rfd.code + "\"";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+	public static void UpdateImpulse(bool dbconOpened, ForceSensorImpulse impulse)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "UPDATE " + table + " SET " +
+			" active = " + Util.BoolToInt(impulse.active).ToString() + "," +
+			" function = \"" + impulse.function.ToString() + "\"" + "," +
+			" type = \"" + impulse.type.ToString() + "\"" + "," +
+			" num1 = " + impulse.num1.ToString() + "," +
+			" num2 = " + impulse.num2.ToString() +
+			" WHERE code = \"" + impulse.code + "\"";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -113,7 +155,7 @@ class SqliteForceSensor : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "SELECT * FROM " + table;
+		dbcmd.CommandText = "SELECT * FROM " + table + " WHERE code != \"I\"";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -140,4 +182,32 @@ class SqliteForceSensor : Sqlite
 		return l;
 	}
 
+	public static ForceSensorImpulse SelectImpulse (bool dbconOpened)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "SELECT * FROM " + table + " WHERE code == \"I\"";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader = dbcmd.ExecuteReader();
+
+		ForceSensorImpulse impulse = null;
+		while(reader.Read()) {
+			impulse = new ForceSensorImpulse(
+					Util.IntToBool(Convert.ToInt32(reader[1])), 	//active
+					(ForceSensorImpulse.Functions) Enum.Parse(
+						typeof(ForceSensorImpulse.Functions), reader[2].ToString()), 	//function
+					(ForceSensorImpulse.Types) Enum.Parse(
+						typeof(ForceSensorImpulse.Types), reader[3].ToString()), //type
+					Convert.ToInt32(reader[4]), 			//num1
+					Convert.ToInt32(reader[5]) 			//num2
+					);
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		return impulse;
+	}
 }

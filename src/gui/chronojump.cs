@@ -381,6 +381,7 @@ public partial class ChronoJumpWindow
 	
 	private Preferences preferences;
 	private List<ForceSensorRFD> rfdList;
+	private ForceSensorImpulse impulse;
 
 	private static Person currentPerson;
 	private static Session currentSession;
@@ -561,6 +562,7 @@ public partial class ChronoJumpWindow
 		createTreeView_multi_chronopic (false, treeview_multi_chronopic);
 		
 		rfdList = SqliteForceSensor.SelectAll(false);
+		impulse = SqliteForceSensor.SelectImpulse(false);
 
 
 		createComboSelectJumps(true);
@@ -2713,7 +2715,7 @@ public partial class ChronoJumpWindow
 
 	private void on_preferences_activate (object o, EventArgs args) 
 	{
-		preferencesWin = PreferencesWindow.Show(preferences, rfdList, getMenuItemMode());
+		preferencesWin = PreferencesWindow.Show(preferences, rfdList, impulse, getMenuItemMode());
 		
 		preferencesWin.FakeButtonImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
@@ -2734,6 +2736,7 @@ public partial class ChronoJumpWindow
 	{
 		preferences = preferencesWin.GetPreferences;
 		rfdList = preferencesWin.GetRFDList;
+		impulse = preferencesWin.GetImpulse;
 
 		if(checkbutton_video.Active) {
 			videoCapturePrepare(false); //if error, show message

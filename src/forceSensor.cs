@@ -24,26 +24,30 @@ using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
 public class ForceSensorRFD
-
 {
 	//if these names change, change FunctionPrint() below
 	public enum Functions { RAW, FITTED } //on SQL is inserted like this
-	private static string function_RAW_name = "RAW";
-	private static string function_FITTED_name = "Fitted";
+	protected static string function_RAW_name = "RAW";
+	protected static string function_FITTED_name = "Fitted";
 
 	//if these names change, change TypePrint() below
-	public enum Types { INSTANTANEOUS, AVERAGE, PERCENT_F_MAX, RFD_MAX } //on SQL is inserted like this
+	public enum Types { INSTANTANEOUS, AVERAGE, PERCENT_F_MAX, RFD_MAX, IMP_UNTIL_PERCENT_F_MAX, IMP_RANGE } //on SQL is inserted like this
 	private static string type_INSTANTANEOUS_name = "Instantaneous";
 	private static string type_AVERAGE_name = "Average";
 	private static string type_PERCENT_F_MAX_name = "% Force max";
 	private static string type_RFD_MAX_name = "RFD max";
 
-	public string code; //RFD1...4
+	public string code; //RFD1...4 //I: on impulse
 	public bool active;
 	public Functions function;
 	public Types type;
 	public int num1;
 	public int num2;
+
+	//constructor for inheritance
+	public ForceSensorRFD()
+	{
+	}
 
 	public ForceSensorRFD(string code, bool active, Functions function, Types type, int num1, int num2)
 	{
@@ -101,7 +105,7 @@ public class ForceSensorRFD
 			return function_FITTED_name;
 	}
 
-	public string TypePrint(bool translated)
+	public virtual string TypePrint(bool translated)
 	{
 		if(type == Types.INSTANTANEOUS) {
 			if(translated)
@@ -172,9 +176,79 @@ public class ForceSensorRFD
 	}
 }
 
+public class ForceSensorImpulse : ForceSensorRFD
+{
+	//if these names change, change TypePrint() below
+	private static string type_IMP_UNTIL_PERCENT_F_MAX_name = "Until % Force max";
+	private static string type_IMP_RANGE_name = "Range";
+
+	public ForceSensorImpulse()
+	{
+	}
+
+	public ForceSensorImpulse(bool active, Functions function, Types type, int num1, int num2)
+	{
+		this.code = "I";
+		this.active = active;
+		this.function = function;
+		this.type = type;
+		this.num1 = num1;
+		this.num2 = num2;
+	}
+
+	public bool Changed(ForceSensorImpulse newImpulse)
+	{
+		if(
+				active == newImpulse.active &&
+				function == newImpulse.function && type == newImpulse.type &&
+				num1 == newImpulse.num1 && num2 == newImpulse.num2)
+			return false;
+
+		return true;
+	}
+
+	public static string [] TypesArrayImpulse(bool translated)
+	{
+		if(translated)
+			return new string [] {
+				Catalog.GetString(type_IMP_UNTIL_PERCENT_F_MAX_name), Catalog.GetString(type_IMP_RANGE_name),
+			};
+		else
+			return new string [] {
+				type_IMP_UNTIL_PERCENT_F_MAX_name, type_IMP_RANGE_name
+			};
+	}
+
+	public override string TypePrint(bool translated)
+	{
+		if(type == Types.IMP_UNTIL_PERCENT_F_MAX) {
+			if(translated)
+				return Catalog.GetString(type_IMP_UNTIL_PERCENT_F_MAX_name);
+			else
+				return type_IMP_UNTIL_PERCENT_F_MAX_name;
+		}
+		else { // if(type == Types.IMP_RANGE)
+			if(translated)
+				return Catalog.GetString(type_IMP_RANGE_name);
+			else
+				return type_IMP_RANGE_name;
+		}
+	}
+
+	public static string Type_IMP_UNTIL_PERCENT_F_MAX_name
+	{
+		get { return type_IMP_UNTIL_PERCENT_F_MAX_name; }
+	}
+	public static string Type_IMP_RANGE_name
+	{
+		get { return type_IMP_RANGE_name; }
+	}
+}
+
 public class ForceSensorGraph
 {
 	List<ForceSensorRFD> rfdList;
+	ForceSensorImpulse impulse;
 	double averageLength;
 	double percentChange;
 	bool vlineT0;
@@ -183,9 +257,10 @@ public class ForceSensorGraph
 	bool hline50fmax_raw;
 	bool hline50fmax_fitted;
 
-	public ForceSensorGraph(List<ForceSensorRFD> rfdList)
+	public ForceSensorGraph(List<ForceSensorRFD> rfdList, ForceSensorImpulse impulse)
 	{
 		this.rfdList = rfdList;
+		this.impulse = impulse;
 
 		averageLength = 0.1;
 		percentChange = 5;
@@ -255,6 +330,13 @@ public class ForceSensorGraph
 		foreach(ForceSensorRFD rfd in rfdList)
 			if(rfd.active)
 				scriptOptions += "\n" + rfd.ToR();
+			else
+				scriptOptions += "\n-1";
+
+		if(impulse.active)
+			scriptOptions += "\n" + impulse.ToR();
+		else
+			scriptOptions += "\n-1";
 
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");
 		writer.Write(scriptOptions);

@@ -265,7 +265,7 @@ public partial class ChronoJumpWindow
 			Util.FileDelete(imagePath);
 			image_force_sensor_graph.Sensitive = false;
 
-			ForceSensorGraph fsg = new ForceSensorGraph(rfdList);
+			ForceSensorGraph fsg = new ForceSensorGraph(rfdList, impulse);
 			bool success = fsg.CallR(
 					viewport_force_sensor_graph.Allocation.Width -5,
 					viewport_force_sensor_graph.Allocation.Height -5);

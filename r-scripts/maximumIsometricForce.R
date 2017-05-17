@@ -226,36 +226,71 @@ drawDynamicsFromLoadCell <- function(
         
         #Plotting Impulse
         
-        if(op$drawImpulseOptions != -1)
+        print("--------Impulse-----------")
+        print(op$drawImpulseOptions)
+        options = readImpulseOptions(op$drawImpulseOptions)
+        
+        if(options$impulseFunction != "-1")
         {
-                print(op$drawImpulseOptions)
-                options = readImpulseOptions(op$drawImpulseOptions)
-                
-                startImpulseSample = which.min(abs(dynamics$time - options$start))
-                endImpulseSample = which.min(abs(dynamics$time - options$end))
-                
-                
-                #Drawing the area under the force curve (Impulse)
-                polygon(c(dynamics$time[startImpulseSample:endImpulseSample], dynamics$time[endImpulseSample] , dynamics$time[startImpulseSample]),
-                        c(dynamics$f.raw[startImpulseSample:endImpulseSample], 0, 0), col = "grey")
-                
-                #Calculation of the impulse
-                #Sum of the area of all the triangles formed with a vertex in the origin and the other vertex in the
-                #n-th and (n+1)-th point of the polygon
-                impulse = 0
-                for(n in startImpulseSample:(endImpulseSample - 1))
+                print(options)
+                if(options$type == "IMP_RANGE")
                 {
-                        #Area of the paralelograms, not the triangle
-                        area = ((dynamics$time[n+1] - dynamics$time[dynamics$startSample]) * dynamics$f.raw[n] - (dynamics$time[n] - dynamics$time[dynamics$startSample]) * dynamics$f.raw[n+1])
-                        impulse = impulse + area
+                        startImpulseSample = which.min(abs(dynamics$time - (dynamics$startTime + options$start/1000)))
+                        endImpulseSample = which.min(abs(dynamics$time - (dynamics$startTime + options$end/1000)))
+                        
+                        if(options$impulseFunction == "RAW")
+                        {
+                                
+                                #Drawing the area under the force curve (Impulse)
+                                polygon(c(dynamics$time[startImpulseSample:endImpulseSample], dynamics$time[endImpulseSample] , dynamics$time[startImpulseSample]),
+                                        c(dynamics$f.raw[startImpulseSample:endImpulseSample], 0, 0), col = "grey")
+                                
+                                #Calculation of the impulse
+                                #Sum of the area of all the triangles formed with a vertex in the origin and the other vertex in the
+                                #n-th and (n+1)-th point of the polygon
+                                impulse = 0
+                                for(n in startImpulseSample:(endImpulseSample - 1))
+                                {
+                                        #Area of the paralelograms, not the triangle
+                                        area = ((dynamics$time[n+1] - dynamics$time[dynamics$startSample]) * dynamics$f.raw[n] - (dynamics$time[n] - dynamics$time[dynamics$startSample]) * dynamics$f.raw[n+1])
+                                        impulse = impulse + area
+                                }
+                                
+                                area = (dynamics$time[endImpulseSample] - dynamics$time[dynamics$startSample]) * dynamics$f.raw[endImpulseSample]
+                                impulse = impulse + area
+                                
+                                #Area under the curve is one half of the sum of the area of paralelograms
+                                impulse = impulse / 2
+                        } else if(options$impulseFunction == "FITTED")
+                        {
+                                
+                                #Drawing the area under the force curve (Impulse)
+                                polygon(c(dynamics$time[startImpulseSample:endImpulseSample], dynamics$time[endImpulseSample] , dynamics$time[startImpulseSample]),
+                                        c(dynamics$f.fitted[startImpulseSample:endImpulseSample], 0, 0), col = "grey")
+                                #Redraw the raw force
+                                lines(x = dynamics$time[startImpulseSample:endImpulseSample] , y = dynamics$f.raw[startImpulseSample:endImpulseSample])
+                                
+                                #Calculation of the impulse
+                                #Sum of the area of all the triangles formed with a vertex in the origin and the other vertex in the
+                                #n-th and (n+1)-th point of the polygon
+                                impulse = 0
+                                for(n in startImpulseSample:(endImpulseSample - 1))
+                                {
+                                        #Area of the paralelograms, not the triangle
+                                        area = ((dynamics$time[n+1] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[n] - (dynamics$time[n] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[n+1])
+                                        impulse = impulse + area
+                                }
+                                
+                                area = (dynamics$time[endImpulseSample] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[endImpulseSample]
+                                impulse = impulse + area
+                                
+                                #Area under the curve is one half of the sum of the area of paralelograms
+                                impulse = impulse / 2
+                        }
+                        
+                        text(x = (dynamics$startTime + (options$end - options$start)*0.66/1000), y = mean(dynamics$f.raw[startImpulseSample:endImpulseSample])*0.66,
+                             labels = paste("Impulse =", round(impulse, digits = 2), "N·s"))
                 }
-                
-                area = (dynamics$time[endImpulseSample] - dynamics$time[dynamics$startSample]) * dynamics$f.raw[endImpulseSample]
-                impulse = impulse + area
-                
-                #Area under the curve is one half of the sum of the area of paralelograms
-                impulse = impulse / 2
-                text(x = dynamics$startTime + (dynamics$endTime - dynamics$startTime)/2)
         }
         
         #Plotting not analysed data
@@ -302,6 +337,7 @@ drawDynamicsFromLoadCell <- function(
         plotHeight = dev.size()[2]*72 - (par()$mar[1] + par()$mar[3])*pixelsPerLine
         
         #Drawing the RFD data
+        print("-----------RFD-----------")
         print(paste("op$drawRfdOptions =", op$drawRfdOptions))
         for (n in 1:length(rfdDrawingOptions))
         {
@@ -512,7 +548,6 @@ getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.
         endSample = startSample + 1
         maxSample = movingAverageForce[endSample]
         maxAverageForce = movingAverageForce[maxSample]
-        print(paste("Max:", maxAverageForce))
         while(movingAverageForce[endSample] > maxAverageForce*(100 - percentChange) / 100 &
                                               endSample < length(test$time))
         {

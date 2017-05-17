@@ -5975,6 +5975,7 @@ public partial class ChronoJumpWindow
 						bool success = js.UploadEncoderData(
 								currentPerson.UniqueID,
 								1,
+								Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)), //this is only for gravitatory
 								UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
 								Util.ConvertToPoint(meanPowerHighest),
 								repsAbove50pBest);

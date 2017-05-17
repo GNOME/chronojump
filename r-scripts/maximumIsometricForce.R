@@ -30,18 +30,23 @@ prepareGraph <- function(os, pngFile, width, height)
         #pdf(file = "/tmp/maxIsomForce.pdf", width=width, height=height)
 }
 
+#Ends the graph
+
 endGraph <- function()
 {
         dev.off()
 }
 
+#Read each non commented line of the Roptions file
+
 assignOptions <- function(options)
 {
-        drawRfdOptions = rep(NA, length(options) - 11)
-        for(n in 12:length(options))
-        {
-                drawRfdOptions[n-11]      = options[n]
-        }
+        drawRfdOptions = rep(NA, 4)
+        drawRfdOptions[1]      = options[12]
+        drawRfdOptions[2]      = options[13]
+        drawRfdOptions[3]      = options[14]
+        drawRfdOptions[4]      = options[15]
+
         return(list(
                 os 			= options[1],
                 decimalChar 		= options[2],
@@ -54,7 +59,8 @@ assignOptions <- function(options)
                 vline50fmax.fitted 	= options[9],
                 hline50fmax.raw 	= options[10],
                 hline50fmax.fitted 	= options[11],
-                drawRfdOptions          = drawRfdOptions
+                drawRfdOptions          = drawRfdOptions,
+                drawImpulseOptions      = options[16]
         ))
 }
 
@@ -218,15 +224,43 @@ drawDynamicsFromLoadCell <- function(
         text( x = min(which(dynamics$f.raw == max(dynamics$f.raw))/100), y = dynamics$fmax.raw,
               labels = paste("Fmax = ", round(dynamics$fmax.raw, digits=2), " N", sep=""), pos = 3)
         
-        #Plotting impulse (area under the curve). Impulse from 0 to 100ms
-        sample100 = which.min(abs(dynamics$time - (dynamics$startTime + 0.1)))
-        polygon(c(dynamics$time[dynamics$startSample:sample100], dynamics$time[sample100], dynamics$time[dynamics$startSample]),
-                c(dynamics$f.raw[dynamics$startSample:sample100], 0, 0), col = "grey")
-
+        #Plotting Impulse
+        
+        if(op$drawImpulseOptions != -1)
+        {
+                options = readImpulseOptions(op$drawImpulseOptions)
+                
+                startImpulseSample = which.min(abs(dynamics$time - options$start))
+                endImpulseSample = which.min(abs(dynamics$time - options$end))
+                
+                
+                #Drawing the area under the force curve (Impulse)
+                polygon(c(dynamics$time[startImpulseSample:endImpulseSample], dynamics$time[endImpulseSample] , dynamics$time[startImpulseSample]),
+                        c(dynamics$f.raw[startImpulseSample:endImpulseSample], 0, 0), col = "grey")
+                
+                #Calculation of the impulse
+                #Sum of the area of all the triangles formed with a vertex in the origin and the other vertex in the
+                #n-th and (n+1)-th point of the polygon
+                impulse = 0
+                for(n in startImpulseSample:(endImpulseSample - 1))
+                {
+                        #Area of the paralelograms, not the triangle
+                        area = ((dynamics$time[n+1] - dynamics$time[dynamics$startSample]) * dynamics$f.raw[n] - (dynamics$time[n] - dynamics$time[dynamics$startSample]) * dynamics$f.raw[n+1])
+                        impulse = impulse + area
+                }
+                
+                area = (dynamics$time[endImpulseSample] - dynamics$time[dynamics$startSample]) * dynamics$f.raw[endImpulseSample]
+                impulse = impulse + area
+                
+                #Area under the curve is one half of the sum of the area of paralelograms
+                impulse = impulse / 2
+                text(x = dynamics$startTime + (dynamics$endTime - dynamics$startTime)/2)
+        }
+        
         #Plotting not analysed data
         lines(dynamics$time[1:dynamics$startSample] , dynamics$f.raw[1:dynamics$startSample], col = "grey") #Pre-analysis
         lines(dynamics$time[dynamics$endSample: dynamics$totalSample] , dynamics$f.raw[dynamics$endSample: dynamics$totalSample], col = "grey") #Post-analysis
-
+        
         
         #Plotting fitted data
         lines(dynamics$time, dynamics$f.fitted, col="blue")
@@ -272,68 +306,75 @@ drawDynamicsFromLoadCell <- function(
         {
                 options = readRFDOptions(op$drawRfdOptions[n])
                 
-                RFD = NULL
-                sample2 = NA
-                pointForce1 = NA
-                pointForce2 = NA
-                color = ""
-                
-                if(options$rfdFunction == "FITTED")
+                if(options = -1)        
                 {
-                        color = "blue"
-                } else if(options$rfdFunction == "RAW")
+                        next
+                } else if(options != -1)
                 {
-                        color = "black"
-                }
-                
-                if(options$type == "INSTANTANEOUS") # TODO: || percent ...(all except AVG)
-                {
-                        if (options$rfdFunction == "FITTED")
+                        
+                        RFD = NULL
+                        sample2 = NA
+                        pointForce1 = NA
+                        pointForce2 = NA
+                        color = ""
+                        
+                        if(options$rfdFunction == "FITTED")
                         {
-                                #Slope of the line
-                                RFD = dynamics$fmax.fitted * dynamics$k.fitted * exp(-dynamics$k.fitted * options$start) 
-                                #Y coordinate of a point of the line
-                                pointForce1 = dynamics$fmax.fitted*(1 - exp(-dynamics$k.fitted * options$start)) + dynamics$initf
-                                
+                                color = "blue"
                         } else if(options$rfdFunction == "RAW")
                         {
                                 color = "black"
-                                sample1 =  which.min(abs(dynamics$time - dynamics$startTime - options$start))
-                                
-                                #Slope of the line
-                                RFD = dynamics$rfd[sample1]
-                                
-                                #Y coordinate of a point of the line
-                                pointForce1 = dynamics$f.raw[sample1]
-                        }
-                } else if(options$type == "AVERAGE")
-                {
-                        if (options$rfdFunction == "FITTED")
-                        {
-                                #Slope of the line
-                                RFD = dynamics$fmax.fitted*(exp( -dynamics$k.fitted * options$start) - exp( -dynamics$k.fitted * options$end)) / (options$end - options$start)
-                                #Y coordinate of a point of the line
-                                pointForce1 = dynamics$fmax.fitted*(1 - exp( -dynamics$k.fitted * options$start)) + dynamics$initf
-                        } else if(options$rfdFunction == "RAW")
-                        {
-                                
-                                sample1 =  which.min(abs(dynamics$time - dynamics$startTime - options$start/1000))
-                                sample2 = which.min(abs(dynamics$time - dynamics$startTime - options$end/1000))
-                                
-                                #Slope of the line
-                                RFD = (dynamics$f.raw[sample2] - dynamics$f.raw[sample1]) / (dynamics$time[sample2] - dynamics$time[sample1])
-                                
-                                #Y coordinate of a point of the line
-                                pointForce1 = dynamics$f.raw[sample1]
-                                pointForce2 = dynamics$f.raw[sample2]
                         }
                         
-                } else if(options$type == "PERCENT_F_MAX")
-                {
-                        
-                        if (options$rfdFunction == "FITTED")
+                        if(options$type == "INSTANTANEOUS") # TODO: || percent ...(all except AVG)
                         {
-                                #Force that is the % of the raw fmax
+                                if (options$rfdFunction == "FITTED")
+                                {
+                                        #Slope of the line
+                                        RFD = dynamics$fmax.fitted * dynamics$k.fitted * exp(-dynamics$k.fitted * options$start) 
+                                        #Y coordinate of a point of the line
+                                        pointForce1 = dynamics$fmax.fitted*(1 - exp(-dynamics$k.fitted * options$start)) + dynamics$initf
+                                        
+                                } else if(options$rfdFunction == "RAW")
+                                {
+                                        color = "black"
+                                        sample1 =  which.min(abs(dynamics$time - dynamics$startTime - options$start))
+                                        
+                                        #Slope of the line
+                                        RFD = dynamics$rfd[sample1]
+                                        
+                                        #Y coordinate of a point of the line
+                                        pointForce1 = dynamics$f.raw[sample1]
+                                }
+                        } else if(options$type == "AVERAGE")
+                        {
+                                if (options$rfdFunction == "FIimpulse = impulse + areaTTED")
+                                {
+                                        #Slope of the line
+                                        RFD = dynamics$fmax.fitted*(exp( -dynamics$k.fitted * options$start) - exp( -dynamics$k.fitted * options$end)) / (options$end - options$start)
+                                        #Y coordinate of a point of the line
+                                        pointForce1 = dynamics$fmax.fitted*(1 - exp( -dynamics$k.fitted * options$start)) + dynamics$initf
+                                } else if(options$rfdFunction == "RAW")
+                                {
+                                        
+                                        sample1 =  which.min(abs(dynamics$time - dynamics$startTime - options$start/1000))
+                                        sample2 = which.min(abs(dynamics$time - dynamics$startTime - options$end/1000))
+                                        
+                                        #Slope of the line
+                                        RFD = (dynamics$f.raw[sample2] - dynamics$f.raw[sample1]) / (dynamics$time[sample2] - dynamics$time[sample1])
+                                        
+                                        #Y coordinate of a point of the line
+                                        pointForce1 = dynamics$f.raw[sample1]
+                                        pointForce2 = dynamics$f.raw[sample2]
+                                }
+                                
+                        } else if(options$type == "PERCENT_F_MAX")
+                        {
+                                
+                                if (options$rfdFunction == "FITTED")
+                                {
+                                        
+                                }        #Force that is the % of the raw fmax
                                 fpfmax = dynamics$fmax.raw*options$start/100
                                 
                                 #Translating options$start to time in seconds
@@ -358,45 +399,45 @@ drawDynamicsFromLoadCell <- function(
                                 
                                 #Y coordinate of a point of the line
                                 pointForce1 = dynamics$f.raw[sample1]
-                        }
-                } else if(options$type == "RFD_MAX")
-                {
-                        if (options$rfdFunction == "FITTED")
+                        } else if(options$type == "RFD_MAX")
                         {
-                                #max is always in the initial point.
-                                
-                        } else if(options$rfdFunction == "RAW")
-                        {
-                                #Calculing the sample at which the rfd is max
-                                sample1 = which.max(dynamics$rfd)
-                                
-                                #Translating options$start to time in seconds
-                                options$start = dynamics$time[sample1] - dynamics$startTime
-                                
-                                #Slope of the line
-                                RFD = dynamics$rfd[sample1]
-                                RFD = dynamics$rfd[sample1]
-                                
-                                #Y coordinate of a point of the line
-                                pointForce1 = dynamics$f.raw[sample1]
+                                if (options$rfdFunction == "FITTED")
+                                {
+                                        #max is always in the initial point.
+                                        
+                                } else if(options$rfdFunction == "RAW")
+                                {
+                                        #Calculing the sample at which the rfd is max
+                                        sample1 = which.max(dynamics$rfd)
+                                        
+                                        #Translating options$start to time in seconds
+                                        options$start = dynamics$time[sample1] - dynamics$startTime
+                                        
+                                        #Slope of the line
+                                        RFD = dynamics$rfd[sample1]
+                                        RFD = dynamics$rfd[sample1]
+                                        
+                                        #Y coordinate of a point of the line
+                                        pointForce1 = dynamics$f.raw[sample1]
+                                        
+                                }
                                 
                         }
                         
+                        #The Y coordinate of the line at t=0
+                        intercept = pointForce1 - RFD * (dynamics$startTime + options$start)
+                        
+                        #The slope of the line seen in the screen(pixels units), NOT in the time-force units
+                        windowSlope = RFD*(plotHeight/yHeight)/(plotWidth/xWidth)
+                        
+                        #Drawing the line
+                        abline(a = intercept, b = RFD, lty = 2, col = color)
+                        text(x = (yHeight - 5 - intercept)/RFD, y = yHeight - 5,
+                             label=paste("RFD =", round(RFD, digits=0), "N/s"),
+                             srt=atan(windowSlope)*180/pi, pos = 2, col = color)
+                        #Drawing the points where the line touch the function
+                        points(x = c(options$start + dynamics$startTime, options$end/1000 + dynamics$startTime), y = c(pointForce1, pointForce2), col = color)
                 }
-                
-                #The Y coordinate of the line at t=0
-                intercept = pointForce1 - RFD * (dynamics$startTime + options$start)
-                
-                #The slope of the line seen in the screen(pixels units), NOT in the time-force units
-                windowSlope = RFD*(plotHeight/yHeight)/(plotWidth/xWidth)
-                
-                #Drawing the line
-                abline(a = intercept, b = RFD, lty = 2, col = color)
-                text(x = (yHeight - 5 - intercept)/RFD, y = yHeight - 5,
-                     label=paste("RFD =", round(RFD, digits=0), "N/s"),
-                     srt=atan(windowSlope)*180/pi, pos = 2, col = color)
-                #Drawing the points where the line touch the function
-                points(x = c(options$start + dynamics$startTime, options$end/1000 + dynamics$startTime), y = c(pointForce1, pointForce2), col = color)
         }
         
         #Plotting instantaneous RFD
@@ -407,6 +448,7 @@ drawDynamicsFromLoadCell <- function(
         # lines(dynamics$time[1:(dynamics$startSample)], dynamics$rfd[1:dynamics$startSample], col = "orange")
         # lines(dynamics$time[dynamics$endSample:dynamics$totalSample], dynamics$rfd[dynamics$endSample:dynamics$totalSample], col = "orange")
         # axis(4, col = "red", line = 1)
+        
 }
 
 getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf)
@@ -504,16 +546,42 @@ getMovingAverageForce <- function(test, averageLength = 0.1)
 #Converts the drawRfdOptions string to a list of parameters
 readRFDOptions <- function(optionsStr)
 {
-        options = unlist(strsplit(optionsStr, "\\;"))
-        
-        return(list(
-                rfdFunction     = options[1],            # raw or fitted
-                type            = options[2],            # instantaeous, average, %fmax, rfdmax
-                #start and end can be in seconds (instant and average RFD), percentage (%fmax) or -1 if not needed
-                start           = as.numeric(options[3]),            # instant at which the analysis starts
-                end             = as.numeric(options[4])             # instant at which the analysis ends
-        ))
+        if(optionsSTR == "-1")          #Not drawing
+        {
+                return(list(rfdFunction = -1))
+        } else
+        {
+                options = unlist(strsplit(optionsStr, "\\;"))
+                
+                return(list(
+                        rfdFunction     = options[1],            # raw or fitted
+                        type            = options[2],            # instantaeous, average, %fmax, rfdmax
+                        #start and end can be in milliseconds (instant and average RFD), percentage (%fmax) or -1 if not needed
+                        start           = as.numeric(options[3]),            # instant at which the analysis starts
+                        end             = as.numeric(options[4])             # instant at which the analysis ends
+                ))
+        } 
 }
+
+#Converts the line string of Roptions to a list of parameters
+readImpulseOptions <- function(optionsStr)
+{
+        if(optionsSTR == "-1")          #Not drawing
+        {
+                return(-1)
+        } else
+        {
+                options = unlist(strsplit(optionsStr, "\\;"))
+                
+                return(list(
+                        impulseFunction     = options[1],                    # raw or fitted
+                        type            = options[2],
+                        start           = as.numeric(options[3]),            # instant at which the analysis starts in ms
+                        end             = as.numeric(options[4])             # instant at which the analysis ends in ms
+                ))
+        } 
+}
+
 
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 dynamics = getDynamicsFromLoadCellFile(dataFile, op$averageLength, op$percentChange)

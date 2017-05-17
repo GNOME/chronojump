@@ -24,6 +24,7 @@ using System.Web;
 using System.IO;
 using System.Json;
 using System.Text;
+using System.Collections;
 using System.Collections.Generic; //Dictionary
 using Mono.Unix;
 
@@ -366,12 +367,13 @@ public class Json
 		return new Person(Convert.ToInt32(id), player, rfid);
 	}
 
-
+	/*
 	public bool UploadEncoderData()
 	{
 		return UploadEncoderData(1, 1, "40.2", "lateral", "8100.5", 8);
 	}
-	public bool UploadEncoderData(int personId, int machineId, string resistance, string exerciseName, string meanPowerBestRep, int repsAbove50pBest )
+	*/
+	public bool UploadEncoderData(int personId, int machineId, string resistance, string exerciseName, UploadEncoderDataObject uo)
 	{
 		// Create a request using a URL that can receive a post.
 		WebRequest request = WebRequest.Create (serverUrl + "/uploadEncoderData");
@@ -385,12 +387,25 @@ public class Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
+
 		json.Add("personId", personId);
 		json.Add("machineId", machineId);
 		json.Add("resistance", resistance);
 		json.Add("exerciseName", exerciseName);
-		json.Add("meanPowerBestRep", meanPowerBestRep);
-		json.Add("repsAbove50pBest", repsAbove50pBest);
+
+		json.Add("numBySpeed", uo.numBySpeed);
+		json.Add("rangeBySpeed", uo.rangeBySpeed);
+		json.Add("vmeanBySpeed", uo.vmeanBySpeed);
+		json.Add("vmaxBySpeed", uo.vmaxBySpeed);
+		json.Add("pmeanBySpeed", uo.pmeanBySpeed);
+		json.Add("pmaxBySpeed", uo.pmaxBySpeed);
+
+		json.Add("numByPower", uo.numByPower);
+		json.Add("rangeByPower", uo.rangeByPower);
+		json.Add("vmeanByPower", uo.vmeanByPower);
+		json.Add("vmaxByPower", uo.vmaxByPower);
+		json.Add("pmeanByPower", uo.pmeanByPower);
+		json.Add("pmaxByPower", uo.pmaxByPower);
 
 		// Converts it to a String
 		String js = json.ToString();
@@ -448,5 +463,85 @@ class JsonUtils
 			LogB.Information ("JsonUtils::valueOrDefault: returning default (" + defaultValue + ") from JSON: " + jsonObject.ToString ());
 			return defaultValue;
 		}
+	}
+}
+
+public class UploadEncoderDataObject
+{
+	//variables calculated BySpeed (by best mean speed)
+	public int numBySpeed;
+	public string rangeBySpeed; //strings with . as decimal point
+	public string vmeanBySpeed;
+	public string vmaxBySpeed;
+	public string pmeanBySpeed;
+	public string pmaxBySpeed;
+
+	//variables calculated ByPower (by best mean power)
+	public int numByPower;
+	public string rangeByPower; //strings with . as decimal point
+	public string vmeanByPower;
+	public string vmaxByPower;
+	public string pmeanByPower;
+	public string pmaxByPower;
+
+	public UploadEncoderDataObject(ArrayList curves)
+	{
+		int nSpeed = getRepBySpeed(curves);
+		int nPower = getRepByPower(curves);
+
+		EncoderCurve curveBySpeed = (EncoderCurve) curves[nSpeed];
+		EncoderCurve curveByPower = (EncoderCurve) curves[nPower];
+
+		rangeBySpeed = Util.ConvertToPoint(curveBySpeed.Height);
+		rangeByPower = Util.ConvertToPoint(curveByPower.Height);
+
+		vmeanBySpeed = Util.ConvertToPoint(curveBySpeed.MeanSpeed);
+		vmeanByPower = Util.ConvertToPoint(curveByPower.MeanSpeed);
+		vmaxBySpeed = Util.ConvertToPoint(curveBySpeed.MaxSpeed);
+		vmaxByPower = Util.ConvertToPoint(curveByPower.MaxSpeed);
+
+		pmeanBySpeed = Util.ConvertToPoint(curveBySpeed.MeanPower);
+		pmeanByPower = Util.ConvertToPoint(curveByPower.MeanPower);
+		pmaxBySpeed = Util.ConvertToPoint(curveBySpeed.PeakPower);
+		pmaxByPower = Util.ConvertToPoint(curveByPower.PeakPower);
+
+		//add +1 to show to user
+		numBySpeed = nSpeed + 1;
+		numByPower = nPower + 1;
+	}
+
+	private int getRepBySpeed(ArrayList curves)
+	{
+		int curveNum = 0;
+		int i = 0;
+		double meanSpeedHighest = 0;
+
+		foreach (EncoderCurve curve in curves)
+		{
+			if(curve.MeanSpeedD > meanSpeedHighest)
+			{
+				meanSpeedHighest = curve.MeanSpeedD;
+				curveNum = i;
+			}
+			i ++;
+		}
+		return curveNum;
+	}
+	private int getRepByPower(ArrayList curves)
+	{
+		int curveNum = 0;
+		int i = 0;
+		double meanPowerHighest = 0;
+
+		foreach (EncoderCurve curve in curves)
+		{
+			if(curve.MeanPowerD > meanPowerHighest)
+			{
+				meanPowerHighest = curve.MeanPowerD;
+				curveNum = i;
+			}
+			i ++;
+		}
+		return curveNum;
 	}
 }

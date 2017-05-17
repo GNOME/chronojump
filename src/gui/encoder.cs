@@ -5953,18 +5953,7 @@ public partial class ChronoJumpWindow
 						showTriggersAndTab();
 
 						//2) send the json to server
-
-						//get highest meanPower on set
-						double meanPowerHighest = 0;
-						foreach (EncoderCurve curve in encoderCaptureCurves)
-							if(curve.MeanPowerD > meanPowerHighest)
-								meanPowerHighest = curve.MeanPowerD;
-
-						//get reps >= 50 % of highest
-						int repsAbove50pBest = 0;
-						foreach (EncoderCurve curve in encoderCaptureCurves)
-							if(curve.MeanPowerD >= meanPowerHighest / 2.0)
-								repsAbove50pBest ++;
+						UploadEncoderDataObject uo = new UploadEncoderDataObject(encoderCaptureCurves);
 
 						/*
 						 * problems on Json by accents like "Pressió sobre banc"
@@ -5977,8 +5966,7 @@ public partial class ChronoJumpWindow
 								1,
 								Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)), //this is only for gravitatory
 								UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
-								Util.ConvertToPoint(meanPowerHighest),
-								repsAbove50pBest);
+								uo);
 
 						if(! success) {
 							LogB.Error(js.ResultMessage);

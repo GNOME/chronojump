@@ -49,8 +49,9 @@ public partial class ChronoJumpWindow
 	 * STOP is when is not used
 	 * STARTING is while is waiting forceSensor to start capturing
 	 * CAPTURING is when data is arriving
+	 * COPIED_TO_TMP means data is on tmp and graph can be called
 	 */
-	enum forceStatus { STOP, STARTING, CAPTURING }
+	enum forceStatus { STOP, STARTING, CAPTURING, COPIED_TO_TMP }
 	static forceStatus capturingForce = forceStatus.STOP;
 
 	static bool forceCaptureStartMark; 	//Just needed to display "Capturing message"
@@ -182,6 +183,13 @@ public partial class ChronoJumpWindow
 
 		if(forceProcessCancel)
 			Util.FileDelete(fileName);
+		else {
+			//call graph
+			File.Copy(fileName,
+					Path.GetTempPath() + Path.DirectorySeparatorChar + "cj_mif_Data.csv",
+					true); //can be overwritten
+			capturingForce = forceStatus.COPIED_TO_TMP;
+		}
 	}
 	
 	private bool pulseGTKForceSensor ()
@@ -190,15 +198,27 @@ public partial class ChronoJumpWindow
 		{
 			LogB.ThreadEnding();
 
-			button_execute_test.Sensitive = true;
 			if(forceProcessFinish)
-				event_execute_label_message.Text = "Saved.";
-			else if(forceProcessCancel)
+			{
+				if(capturingForce == forceStatus.STOP)
+				{
+					Thread.Sleep (25); //Wait file is copied
+					return true;
+				}
+				else if(capturingForce == forceStatus.COPIED_TO_TMP)
+				{
+					event_execute_label_message.Text = "Saved.";
+					Thread.Sleep (250); //Wait a bit to ensure is copied
+					forceSensorDoGraph();
+				}
+			} else if(forceProcessCancel)
 				event_execute_label_message.Text = "Cancelled.";
 			else
 				event_execute_label_message.Text = "";
 
 			LogB.ThreadEnded(); 
+
+			button_execute_test.Sensitive = true;
 
 			return false;
 		}
@@ -261,30 +281,34 @@ public partial class ChronoJumpWindow
 					Path.GetTempPath() + Path.DirectorySeparatorChar + "cj_mif_Data.csv",
 					true); //can be overwritten
 
-			string imagePath = Path.GetTempPath() + Path.DirectorySeparatorChar + "cj_mif_Graph.png";
-			Util.FileDelete(imagePath);
-			image_force_sensor_graph.Sensitive = false;
-
-			ForceSensorGraph fsg = new ForceSensorGraph(rfdList, impulse);
-			bool success = fsg.CallR(
-					viewport_force_sensor_graph.Allocation.Width -5,
-					viewport_force_sensor_graph.Allocation.Height -5);
-
-			if(! success)
-			{
-				new DialogMessage(Constants.MessageTypes.WARNING, "Error doing graph.");
-				filechooser.Destroy ();
-				return;
-			}
-
-			while ( ! Util.FileReadable(imagePath));
-
-			image_force_sensor_graph = UtilGtk.OpenImageSafe(
-					imagePath,
-					image_force_sensor_graph);
-			image_force_sensor_graph.Sensitive = true;
+			forceSensorDoGraph();
 		}
 		filechooser.Destroy ();
+	}
+
+	void forceSensorDoGraph()
+	{
+		string imagePath = Path.GetTempPath() + Path.DirectorySeparatorChar + "cj_mif_Graph.png";
+		Util.FileDelete(imagePath);
+		image_force_sensor_graph.Sensitive = false;
+
+		ForceSensorGraph fsg = new ForceSensorGraph(rfdList, impulse);
+		bool success = fsg.CallR(
+				viewport_force_sensor_graph.Allocation.Width -5,
+				viewport_force_sensor_graph.Allocation.Height -5);
+
+		if(! success)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Error doing graph.");
+			return;
+		}
+
+		while ( ! Util.FileReadable(imagePath));
+
+		image_force_sensor_graph = UtilGtk.OpenImageSafe(
+				imagePath,
+				image_force_sensor_graph);
+		image_force_sensor_graph.Sensitive = true;
 	}
 
 	private void on_button_force_sensor_data_folder_clicked	(object o, EventArgs args)

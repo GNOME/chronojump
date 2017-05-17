@@ -228,6 +228,7 @@ drawDynamicsFromLoadCell <- function(
         
         if(op$drawImpulseOptions != -1)
         {
+                print(op$drawImpulseOptions)
                 options = readImpulseOptions(op$drawImpulseOptions)
                 
                 startImpulseSample = which.min(abs(dynamics$time - options$start))
@@ -306,10 +307,11 @@ drawDynamicsFromLoadCell <- function(
         {
                 options = readRFDOptions(op$drawRfdOptions[n])
                 
-                if(options = -1)        
+                print(options)
+                if(options$rfdFunction == "-1")        
                 {
                         next
-                } else if(options != -1)
+                } else
                 {
                         
                         RFD = NULL
@@ -519,7 +521,6 @@ getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.
                         maxAverageForce = movingAverageForce[endSample]
                 }
                 endSample = endSample + 1
-                print(paste("Average:", movingAverageForce[endSample]))
         }
         
         return(list(startSample = startSample, endSample = endSample))
@@ -546,9 +547,14 @@ getMovingAverageForce <- function(test, averageLength = 0.1)
 #Converts the drawRfdOptions string to a list of parameters
 readRFDOptions <- function(optionsStr)
 {
-        if(optionsSTR == "-1")          #Not drawing
+        if(optionsStr == "-1")          #Not drawing
         {
-                return(list(rfdFunction = -1))
+                return(list(
+                        rfdFunction     = "-1",
+                        type            = "-1",
+                        start           = -1,
+                        end             = -1
+                ))
         } else
         {
                 options = unlist(strsplit(optionsStr, "\\;"))
@@ -566,16 +572,21 @@ readRFDOptions <- function(optionsStr)
 #Converts the line string of Roptions to a list of parameters
 readImpulseOptions <- function(optionsStr)
 {
-        if(optionsSTR == "-1")          #Not drawing
+        if(optionsStr == "-1")          #Not drawing
         {
-                return(-1)
+                return(list(
+                        impulseFunction     = "-1",
+                        type            = "-1",
+                        start           = -1,
+                        end             = -1
+                ))
         } else
         {
                 options = unlist(strsplit(optionsStr, "\\;"))
                 
                 return(list(
-                        impulseFunction     = options[1],                    # raw or fitted
-                        type            = options[2],
+                        impulseFunction     = options[1],                    # RAW or FITTED
+                        type            = options[2],                        # IMP_RANGE or IMP_UNTIL_PERCENT_F_MAX
                         start           = as.numeric(options[3]),            # instant at which the analysis starts in ms
                         end             = as.numeric(options[4])             # instant at which the analysis ends in ms
                 ))

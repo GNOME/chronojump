@@ -795,32 +795,6 @@ public partial class ChronoJumpWindow
 	 */
 
 
-	public void on_radio_menuitem_mode_force_sensor_toggled (object obj, EventArgs args)
-	{
-		vbox_last_test_buttons.Sensitive = false;
-		notebooks_change(Constants.Menuitem_modes.FORCESENSOR);
-		//on_extra_window_force_sensor_test_changed(obj, args);
-		hbox_results_legend.Visible = false;
-		notebook_capture_graph_table.CurrentPage = 1; //"Show table"
-	}
-
-	public void on_radio_menuitem_mode_rt_toggled (object obj, EventArgs args)
-	{
-		vbox_last_test_buttons.Sensitive = false;
-		notebooks_change(Constants.Menuitem_modes.RT);
-		on_extra_window_reaction_times_test_changed(obj, args);
-		hbox_results_legend.Visible = true;
-	}
-
-	public void on_radio_menuitem_mode_other_toggled (object obj, EventArgs args)
-	{
-		vbox_last_test_buttons.Sensitive = false;
-		notebooks_change(Constants.Menuitem_modes.OTHER);
-		hbox_other.Visible = true;
-		on_extra_window_reaction_times_test_changed(obj, args);
-		hbox_results_legend.Visible = true;
-	}
-
 	public void on_radio_mode_pulses_small_toggled (object obj, EventArgs args) {
 		if(radio_mode_pulses_small.Active)
 		{
@@ -2845,6 +2819,10 @@ public partial class ChronoJumpWindow
 		vbox_last_test_buttons.Sensitive = false;
 		hbox_chronopics_and_threshold.Visible = true;
 
+		//all modes except force sensor show the tabs at bottom
+		notebook_capture_graph_table.CurrentPage = 0; //"Show graph"
+		notebook_capture_graph_table.ShowTabs = true;
+
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
 			notebook_sup.CurrentPage = 0;
@@ -3027,7 +3005,10 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 			hbox_chronopics_and_threshold.Visible = false;
 			hbox_results_legend.Visible = false;
+
+			//on force sensor only show table
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
+			notebook_capture_graph_table.ShowTabs = false;
 		}
 		else if(m == Constants.Menuitem_modes.RT)
 		{

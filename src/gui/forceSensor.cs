@@ -100,7 +100,6 @@ public partial class ChronoJumpWindow
 		label_force_sensor_value_max.Text = "0";
 		label_force_sensor_value.Text = "0";
 		label_force_sensor_value_min.Text = "0";
-		notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 
 		capturingForce = forceStatus.STARTING;
 		forceProcessFinish = false;

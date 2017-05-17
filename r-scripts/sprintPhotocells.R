@@ -149,7 +149,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         if(plotFittedPower)
         {
                 par(new=T)
-                plot(time, sprintDynamics$p.fitted, type="l", axes = FALSE, xlab="", ylab="", col="red", ylim=c(0,sprintDynamics$pmax.fitted + 100), yaxs= "i", xaxs = "i")
+                plot(time, sprintDynamics$p.fitted, type="l", axes = FALSE, xlab="", ylab="", col="red", ylim=c(0,sprintDynamics$pmax.fitted + .1 * sprintDynamics$pmax.fitted), yaxs= "i", xaxs = "i")
                 abline(v = sprintDynamics$tpmax.fitted, col="red", lty = 2)
                 axis(side = 4, col ="red", at = seq(0, sprintDynamics$pmax.fitted, by = 200))
                 axis(3, at = sprintDynamics$tpmax.fitted, labels = sprintDynamics$tpmax.fitted)

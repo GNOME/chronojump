@@ -535,8 +535,6 @@ public partial class ChronoJumpWindow
 		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
 		//UtilGtk.ResizeIfNeeded(stats_window);
 
-		//app1.Maximize(); //this was for starting at fullscreen
-
 		report = new Report(-1); //when a session is loaded or created, it will change the report.SessionID value
 		//TODO: check what happens if a session it's deleted
 		//i think report it's deactivated until a new session is created or loaded, 
@@ -636,12 +634,6 @@ public partial class ChronoJumpWindow
 		label_version_hidden.Text = buildVersion;
 		LogB.Information("Build version:" + buildVersion);
 
-		/*
-		LeastSquares ls = new LeastSquares();
-		ls.Test();
-		LogB.Information(string.Format("coef = {0} {1} {2}", ls.Coef[0], ls.Coef[1], ls.Coef[2]));
-		*/
-
 		restTime = new RestTime();
 		updatingRestTimes = true;
 		GLib.Timeout.Add(1000, new GLib.TimeoutHandler(updateRestTimes)); //each s, better than 5s for don't have problems sorting data on treeview
@@ -651,13 +643,35 @@ public partial class ChronoJumpWindow
 		 * start a ping in other thread
 		 * http://www.mono-project.com/docs/gui/gtksharp/responsive-applications/
 		 * Gtk.Application.Invoke
+		 * but only start it if not on Compujump
 		 */
-		pingThread = new Thread (new ThreadStart (pingAtStart));
-		pingThread.Start();
+		if( ! configChronojump.Compujump)
+		{
+			pingThread = new Thread (new ThreadStart (pingAtStart));
+			pingThread.Start();
+		}
 
+		testNewStuff();
+	}
+
+	private void testNewStuff()
+	{
+		//uncomment it to tests the method for add suffixes _copy2, _copy3 to encoderConfiguration
+		//SqliteEncoderConfiguration.IfNameExistsAddSuffixDoTests();
+
+		//Start window with moving widgets. Disabled
 		//moveStartTestInitial();
 
-		//SqliteEncoderConfiguration.IfNameExistsAddSuffixDoTests();
+		//uploadEncoderData test
+		//Json js = new Json();
+		//js.UploadEncoderData();
+
+		//LeastSquares test
+		/*
+		LeastSquares ls = new LeastSquares();
+		ls.Test();
+		LogB.Information(string.Format("coef = {0} {1} {2}", ls.Coef[0], ls.Coef[1], ls.Coef[2]));
+		*/
 	}
 
 
@@ -2092,7 +2106,7 @@ public partial class ChronoJumpWindow
 		cp2016.SerialPortsCloseIfNeeded(true);
 
 		//exit start ping if has not ended
-		if(pingThread.IsAlive)
+		if(pingThread != null && pingThread.IsAlive)
 		{
 			LogB.Information("Closing ping thread");
 			//pingThread.Abort();

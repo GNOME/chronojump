@@ -194,18 +194,19 @@ public partial class ChronoJumpWindow
 	
 	private bool pulseGTKForceSensor ()
 	{
+		//LogB.Information(capturingForce.ToString())
 		if(! forceThread.IsAlive || forceProcessFinish || forceProcessCancel)
 		{
 			LogB.ThreadEnding();
 
 			if(forceProcessFinish)
 			{
-				if(capturingForce == forceStatus.STOP)
+				if(capturingForce != forceStatus.COPIED_TO_TMP)
 				{
 					Thread.Sleep (25); //Wait file is copied
 					return true;
 				}
-				else if(capturingForce == forceStatus.COPIED_TO_TMP)
+				else
 				{
 					event_execute_label_message.Text = "Saved.";
 					Thread.Sleep (250); //Wait a bit to ensure is copied

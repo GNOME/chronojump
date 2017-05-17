@@ -784,7 +784,8 @@ public class PreferencesWindow
 		if(impulse.type == ForceSensorImpulse.Types.IMP_UNTIL_PERCENT_F_MAX)
 		{
 			hbox_force_impulse_until_percent.Visible = true;
-			spinbutton_force_impulse_until_percent.Value = impulse.num1;
+			//num1 is 0
+			spinbutton_force_impulse_until_percent.Value = impulse.num2;
 		}
 		else if(impulse.type == ForceSensorImpulse.Types.IMP_RANGE)
 		{
@@ -810,7 +811,8 @@ public class PreferencesWindow
 
 		if(typeStr == Catalog.GetString(ForceSensorImpulse.Type_IMP_UNTIL_PERCENT_F_MAX_name))
 		{
-			num1 = Convert.ToInt32(spinbutton_force_impulse_until_percent.Value);
+			num1 = 0;
+			num2 = Convert.ToInt32(spinbutton_force_impulse_until_percent.Value);
 			type = ForceSensorImpulse.Types.IMP_UNTIL_PERCENT_F_MAX;
 		}
 		else // if(typeStr == Catalog.GetString(ForceSensorImpulse.Type_IMP_RANGE_name))

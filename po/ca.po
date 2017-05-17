@@ -3071,7 +3071,7 @@ msgstr "s"
 
 #: ../glade/preferences_win.glade.h:49
 msgid "Main variable"
-msgstr "Variables principals"
+msgstr "Variable principal"
 
 #: ../glade/preferences_win.glade.h:50
 msgid "End at n inactivity seconds"

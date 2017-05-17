@@ -6367,6 +6367,8 @@ LogB.Debug("X");
 	
 	private void on_button_carles_clicked (object o, EventArgs args)
 	{
+		return;
+		/*
 		bool showInWindow = true;
 
 		Json js = new Json();
@@ -6388,7 +6390,7 @@ LogB.Debug("X");
 						Constants.MessageTypes.WARNING,
 						js.ResultMessage);
 		}
-
+*/
 		/*
 		new DialogMessage(
 				"Chronojump",

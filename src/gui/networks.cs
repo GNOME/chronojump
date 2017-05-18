@@ -100,14 +100,18 @@ public partial class ChronoJumpWindow
 			shouldUpdateRFIDGui = false;
 			rfidProcessCancel = false;
 
-			rfid = new RFID();
-			rfid.FakeButtonChange.Clicked += new EventHandler(rfidChanged);
+			chronopicRegisterUpdate(false);
+			if(chronopicRegister != null && chronopicRegister.GetRfidPortName() != "")
+			{
+				rfid = new RFID(chronopicRegister.GetRfidPortName());
+				rfid.FakeButtonChange.Clicked += new EventHandler(rfidChanged);
 
-			threadRFID = new Thread (new ThreadStart (RFIDStart));
-			GLib.Idle.Add (new GLib.IdleHandler (pulseRFID));
+				threadRFID = new Thread (new ThreadStart (RFIDStart));
+				GLib.Idle.Add (new GLib.IdleHandler (pulseRFID));
 
-			LogB.ThreadStart();
-			threadRFID.Start();
+				LogB.ThreadStart();
+				threadRFID.Start();
+			}
 		}
 
 		configDo();

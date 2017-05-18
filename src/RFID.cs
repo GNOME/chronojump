@@ -29,18 +29,26 @@ public class RFID
 	private bool stop;
 	//public event EventHandler ChangedEvent; //raised when change RFID vaues
 	private SerialPort port;
+	private string portName;
 	private Gtk.Button fakeButtonChange;
 
-	public RFID()
+	public RFID(string portName)
 	{
+		this.portName = portName;
 		stop = false;
 		fakeButtonChange = new Button();
 	}
 	
 	public void Start()
 	{
-		List<string> l = getPorts(false);	
-		LogB.Information("getPorts");
+		/*
+		 * don't use getPorts that list all the ports
+		 * use chronopicRegister.Rfid portName
+		 */
+		//List<string> l = getPorts(false);
+		//LogB.Information("getPorts");
+		List<string> l = new List<string>();
+		l.Add(portName);
 		
 		string lastRFID = "";
 		string str = "";

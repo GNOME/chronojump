@@ -33,7 +33,7 @@ public class ChronopicRegisterPort
 	public string Port;
 	public bool FTDI;
 	public string SerialNumber;
-	public enum Types { UNKNOWN, CONTACTS, ENCODER }
+	public enum Types { UNKNOWN, CONTACTS, ENCODER, ARDUINO_RFID, ARDUINO_FORCE }
 	public Types Type;
 
 	public bool ConnectedReal; 	//if connexion has been done by ChronopicInit.Do
@@ -283,6 +283,17 @@ public abstract class ChronopicRegister
 			return true;
 
 		return false;
+	}
+
+	public string GetRfidPortName()
+	{
+		foreach (ChronopicRegisterPort crp in crpl.L)
+		{
+			if (crp.Type == ChronopicRegisterPort.Types.ARDUINO_RFID && crp.Port != "")
+				return crp.Port;
+		}
+
+		return "";
 	}
 
 	public ChronopicRegisterPortList Crpl

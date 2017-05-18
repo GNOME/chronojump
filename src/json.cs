@@ -373,7 +373,7 @@ public class Json
 		return UploadEncoderData(1, 1, "40.2", "lateral", "8100.5", 8);
 	}
 	*/
-	public bool UploadEncoderData(int personId, int machineId, string resistance, string exerciseName, UploadEncoderDataObject uo)
+	public bool UploadEncoderData(int personId, int machineId, string exerciseName, string resistance, UploadEncoderDataObject uo)
 	{
 		// Create a request using a URL that can receive a post.
 		WebRequest request = WebRequest.Create (serverUrl + "/uploadEncoderData");
@@ -390,10 +390,12 @@ public class Json
 
 		json.Add("personId", personId);
 		json.Add("machineId", machineId);
-		json.Add("resistance", resistance);
 		json.Add("exerciseName", exerciseName);
+		json.Add("resistance", resistance);
+		json.Add("repetitions", uo.repetitions);
 
 		json.Add("numBySpeed", uo.numBySpeed);
+		json.Add("lossBySpeed", uo.lossBySpeed);
 		json.Add("rangeBySpeed", uo.rangeBySpeed);
 		json.Add("vmeanBySpeed", uo.vmeanBySpeed);
 		json.Add("vmaxBySpeed", uo.vmaxBySpeed);
@@ -401,6 +403,7 @@ public class Json
 		json.Add("pmaxBySpeed", uo.pmaxBySpeed);
 
 		json.Add("numByPower", uo.numByPower);
+		json.Add("lossByPower", uo.lossByPower);
 		json.Add("rangeByPower", uo.rangeByPower);
 		json.Add("vmeanByPower", uo.vmeanByPower);
 		json.Add("vmaxByPower", uo.vmaxByPower);
@@ -468,8 +471,13 @@ class JsonUtils
 
 public class UploadEncoderDataObject
 {
+	private enum byTypes { SPEED, POWER }
+
+	public int repetitions;
+
 	//variables calculated BySpeed (by best mean speed)
 	public int numBySpeed;
+	public int lossBySpeed;
 	public string rangeBySpeed; //strings with . as decimal point
 	public string vmeanBySpeed;
 	public string vmaxBySpeed;
@@ -478,6 +486,7 @@ public class UploadEncoderDataObject
 
 	//variables calculated ByPower (by best mean power)
 	public int numByPower;
+	public int lossByPower;
 	public string rangeByPower; //strings with . as decimal point
 	public string vmeanByPower;
 	public string vmaxByPower;
@@ -486,8 +495,10 @@ public class UploadEncoderDataObject
 
 	public UploadEncoderDataObject(ArrayList curves)
 	{
-		int nSpeed = getRepBySpeed(curves);
-		int nPower = getRepByPower(curves);
+		repetitions = curves.Count;
+
+		int nSpeed = getBestRep(curves, byTypes.SPEED);
+		int nPower = getBestRep(curves, byTypes.POWER);
 
 		EncoderCurve curveBySpeed = (EncoderCurve) curves[nSpeed];
 		EncoderCurve curveByPower = (EncoderCurve) curves[nPower];
@@ -508,40 +519,49 @@ public class UploadEncoderDataObject
 		//add +1 to show to user
 		numBySpeed = nSpeed + 1;
 		numByPower = nPower + 1;
+
+		lossBySpeed = getLoss(curves, byTypes.SPEED);
+		lossByPower = getLoss(curves, byTypes.POWER);
 	}
 
-	private int getRepBySpeed(ArrayList curves)
+	private int getBestRep(ArrayList curves, byTypes by)
 	{
 		int curveNum = 0;
 		int i = 0;
-		double meanSpeedHighest = 0;
+		double highest = 0;
 
 		foreach (EncoderCurve curve in curves)
 		{
-			if(curve.MeanSpeedD > meanSpeedHighest)
+			double compareTo = curve.MeanSpeedD;
+			if(by == byTypes.POWER)
+				compareTo = curve.MeanPowerD;
+
+			if(compareTo > highest)
 			{
-				meanSpeedHighest = curve.MeanSpeedD;
+				highest = compareTo;
 				curveNum = i;
 			}
 			i ++;
 		}
 		return curveNum;
 	}
-	private int getRepByPower(ArrayList curves)
+
+	private int getLoss(ArrayList curves, byTypes by)
 	{
-		int curveNum = 0;
-		int i = 0;
-		double meanPowerHighest = 0;
+		double lowest = 100000;
+		double highest = 0;
 
 		foreach (EncoderCurve curve in curves)
 		{
-			if(curve.MeanPowerD > meanPowerHighest)
-			{
-				meanPowerHighest = curve.MeanPowerD;
-				curveNum = i;
-			}
-			i ++;
+			double compareTo = curve.MeanSpeedD;
+			if(by == byTypes.POWER)
+				compareTo = curve.MeanPowerD;
+
+			if(compareTo < lowest)
+				lowest = compareTo;
+			if(compareTo > highest)
+				highest = compareTo;
 		}
-		return curveNum;
+		return Convert.ToInt32(100.0 * (highest - lowest) / highest);
 	}
 }

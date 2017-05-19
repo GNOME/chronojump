@@ -78,9 +78,13 @@ public class ChronoJump
 		var rBinPath = "";
 		baseDirectory = Util.GetPrefixDir();
 
-		//location of gtkrc file
-		Rc.AddDefaultFile (Util.GetThemeFile());
-		LogB.Information("gtk theme:" + Util.GetThemeFile());
+		/*
+		 * location of gtkrc file
+		 * DISABLED tight now because on windows there are inestabilities on jumps results
+		 * and on Mode menu
+		 */
+		//Rc.AddDefaultFile (Util.GetThemeFile());
+		//LogB.Information("gtk theme:" + Util.GetThemeFile());
 
 		if(UtilAll.IsWindows()) {
 			//Environment.SetEnvironmentVariable ("R_HOME", RelativeToPrefix ("library"));

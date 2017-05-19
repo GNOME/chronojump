@@ -2519,6 +2519,28 @@ class Sqlite
 		creationRate ++;
 	}
 
+	protected static bool tableExists(bool dbconOpened, string tableName)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "SELECT name FROM sqlite_master WHERE type=\"table\" AND name=\"" + tableName + "\"";
+		LogB.SQL(dbcmd.CommandText.ToString());
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		bool exists = false;
+		if (reader.Read())
+			exists = true;
+		//LogB.SQL(string.Format("name exists = {0}", exists.ToString()));
+
+		reader.Close();
+
+		closeIfNeeded(dbconOpened);
+
+		return exists;
+	}
+
 	public static bool Exists(bool dbconOpened, string tableName, string findName)
 	{
 		if(!dbconOpened)

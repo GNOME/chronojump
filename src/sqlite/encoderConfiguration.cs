@@ -39,6 +39,10 @@ class SqliteEncoderConfiguration : Sqlite
 
 	protected internal static void createTableEncoderConfiguration()
 	{
+		//only create it, if not exists (could be a problem updating database, specially from 1.34 - 1.36)
+		if(tableExists(true, Constants.EncoderConfigurationTable))
+			return;
+
 		dbcmd.CommandText =
 			"CREATE TABLE " + Constants.EncoderConfigurationTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +

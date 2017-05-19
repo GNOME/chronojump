@@ -1582,7 +1582,10 @@ public class EncoderConfiguration
 		this.extraWeightN = 	Convert.ToInt32(strFull[8]);
 		this.extraWeightGrams = Convert.ToInt32(strFull[9]);
 		this.extraWeightLength = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[10]));
-		this.list_d.ReadFromSQL(strFull[11]);
+
+		//check needed when updating DB to 1.36
+		if(strFull.Length == 12)
+			this.list_d.ReadFromSQL(strFull[11]);
 	}
 
 	public enum Outputs { ROPTIONS, RCSV, SQL, SQLECWINCOMPARE}

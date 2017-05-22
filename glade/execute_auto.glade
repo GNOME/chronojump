@@ -96,7 +96,7 @@
                                 <property name="height_request">120</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="hadjustment">0 0 580 58 522 580</property>
+                                <property name="hadjustment">0 0 484 48.400000000000006 435.60000000000002 484</property>
                                 <property name="hscrollbar_policy">automatic</property>
                                 <property name="vscrollbar_policy">automatic</property>
                                 <child>
@@ -349,7 +349,7 @@ One set can contain several tests.</property>
                     </child>
                   </widget>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
@@ -831,7 +831,7 @@ One set can contain several tests.</property>
             </child>
           </widget>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">0</property>
           </packing>

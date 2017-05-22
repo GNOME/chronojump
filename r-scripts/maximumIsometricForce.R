@@ -562,7 +562,7 @@ getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.
         
         
         endSample = startSample + 1
-        maxSample = movingAverageForce[endSample]
+        maxSample = endSample
         maxAverageForce = movingAverageForce[maxSample]
         while(movingAverageForce[endSample] > maxAverageForce*(100 - percentChange) / 100 &
                                               endSample < length(test$time))

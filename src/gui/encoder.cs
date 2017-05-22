@@ -5953,29 +5953,37 @@ public partial class ChronoJumpWindow
 						showTriggersAndTab();
 
 						//2) send the json to server
-						UploadEncoderDataObject uo = new UploadEncoderDataObject(encoderCaptureCurves);
+						//check if encoderCaptureCurves > 0
+						//(this is the case of a capture without repetitions or can have on ending cont mode)
 
-						/*
-						 * problems on Json by accents like "Pressió sobre banc"
-						 * string exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
-						 * right now fixed in json.cs UploadEncoderData()
-						 */
-						Json js = new Json();
-						bool success = js.UploadEncoderData(
-								1, //TODO: currentPerson.UniqueID,
-								1,
-								UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
-								Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)), //this is only for gravitatory
-								uo);
+						if(configChronojump.Compujump && encoderCaptureCurves.Count > 0)
+						{
+							UploadEncoderDataObject uo = new UploadEncoderDataObject(encoderCaptureCurves);
 
-						if(! success) {
-							LogB.Error(js.ResultMessage);
-							bool showInWindow = false;
-							if(showInWindow)
-								new DialogMessage(
-										"Chronojump",
-										Constants.MessageTypes.WARNING,
-										js.ResultMessage);
+
+							/*
+							 * Problems on Json by accents like "Pressió sobre banc"
+							 * string exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
+							 * right now fixed in json.cs UploadEncoderData()
+							 */
+
+							Json js = new Json();
+							bool success = js.UploadEncoderData(
+									1, //TODO: currentPerson.UniqueID,
+									1,
+									UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
+									Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)), //this is only for gravitatory
+									uo);
+
+							if(! success) {
+								LogB.Error(js.ResultMessage);
+								bool showInWindow = false;
+								if(showInWindow)
+									new DialogMessage(
+											"Chronojump",
+											Constants.MessageTypes.WARNING,
+											js.ResultMessage);
+							}
 						}
 					}
 

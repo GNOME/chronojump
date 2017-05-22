@@ -268,7 +268,6 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Box vbox_execute_test;
 	[Widget] Gtk.Button button_execute_test;
-	[Widget] Gtk.HBox hbox_chronopics_and_threshold;
 	[Widget] Gtk.Viewport viewport_chronopics;
 	//[Widget] Gtk.Label label_chronopic_encoder;
 	//[Widget] Gtk.Image image_chronopic_encoder_no;
@@ -576,7 +575,6 @@ public partial class ChronoJumpWindow
 		//reaction_times has no combo
 		createComboPulses();
 		//createComboMultiChronopic();
-		createComboForceSensorPorts(true);
 		createdStatsWin = false;
 		
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
@@ -2817,7 +2815,6 @@ public partial class ChronoJumpWindow
 
 		hbox_other.Visible = false;
 		vbox_last_test_buttons.Sensitive = false;
-		hbox_chronopics_and_threshold.Visible = true;
 
 		//all modes except force sensor show the tabs at bottom
 		notebook_capture_graph_table.CurrentPage = 0; //"Show graph"
@@ -3003,7 +3000,6 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
-			hbox_chronopics_and_threshold.Visible = false;
 			hbox_results_legend.Visible = false;
 
 			//on force sensor only show table
@@ -3577,7 +3573,15 @@ public partial class ChronoJumpWindow
 			 * force sensor is not FTDI
 			 on_force_sensor_activate(canCaptureC);
 			 */
-			forceSensorCapture();
+
+			int numForceSensor = chronopicRegister.NumConnectedOfType(
+					ChronopicRegisterPort.Types.ARDUINO_FORCE);
+
+			if(numForceSensor == 0)
+				new DialogMessage(Constants.MessageTypes.WARNING, "Sensor not found.");
+			else
+				forceSensorCapture();
+
 			return;
 		}
 

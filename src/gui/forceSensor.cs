@@ -29,8 +29,6 @@ using System.Collections.Generic; //List<T>
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.HBox hbox_combo_force_sensor_ports;
-	[Widget] Gtk.ComboBox combo_force_sensor_ports;
 	[Widget] Gtk.Label label_force_sensor_value_max;
 	[Widget] Gtk.Label label_force_sensor_value;
 	[Widget] Gtk.Label label_force_sensor_value_min;
@@ -38,8 +36,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_force_sensor_graph;
 	[Widget] Gtk.Image image_force_sensor_graph;
 	
-	CjComboForceSensorPorts comboForceSensorPorts;
-
 	Thread forceThread;
 	static bool forceProcessFinish;
 	static bool forceProcessCancel;
@@ -57,34 +53,10 @@ public partial class ChronoJumpWindow
 	static bool forceCaptureStartMark; 	//Just needed to display "Capturing message"
 	static double forceSensorLast; 		//Needed to display value and move vscale
 
-	private void on_button_force_sensor_ports_reload_clicked(object o, EventArgs args)
-	{
-		createComboForceSensorPorts(false);
-	}
-
-	private void createComboForceSensorPorts(bool create) 
-	{
-		if(comboForceSensorPorts == null)
-			create = true;
-
-		if(create)
-		{
-			//LogB.Information("CREATE");
-			comboForceSensorPorts = new CjComboForceSensorPorts(combo_force_sensor_ports, hbox_combo_force_sensor_ports);
-			combo_force_sensor_ports = comboForceSensorPorts.Combo;
-			//combo_force_sensor_ports.Changed += new EventHandler (on_combo_force_sensor_ports_changed);
-		} else {
-			//LogB.Information("NO CREATE");
-			comboForceSensorPorts.FillNoTranslate();
-			combo_force_sensor_ports = comboForceSensorPorts.Combo;
-		}
-		combo_force_sensor_ports.Sensitive = true;
-	}
-
 	string forceSensorPortName;
 	private void forceSensorCapture()
 	{
-		forceSensorPortName = UtilGtk.ComboGetActive(combo_force_sensor_ports);
+		forceSensorPortName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE).Port;
 		if(forceSensorPortName == null || forceSensorPortName == "")
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, "Please, select port");

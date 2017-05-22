@@ -1254,6 +1254,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -4200,56 +4203,8 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label256">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label">Serial port</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox_combo_force_sensor_ports">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_force_sensor_ports_reload">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="has_tooltip">True</property>
-                                                            <signal name="clicked" handler="on_button_force_sensor_ports_reload_clicked" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image4">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-refresh</property>
-                                                            <property name="icon-size">1</property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkButton" id="button_force_sensor_graph">
-                                                            <property name="label" translatable="yes">Graph</property>
+                                                            <property name="label" translatable="yes">Load file</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -4259,7 +4214,7 @@ EncoderInertialCapture</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="padding">20</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -4274,7 +4229,7 @@ EncoderInertialCapture</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="padding">20</property>
-                                                            <property name="position">4</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -19648,6 +19603,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

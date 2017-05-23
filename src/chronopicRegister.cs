@@ -26,6 +26,7 @@ using System.Collections.Generic; //List<T>
 using System.Diagnostics; 	//for detect OS and for Process
 using System.IO.Ports;
 using FTD2XX_NET;
+using Mono.Unix;
 
 
 public class ChronopicRegisterPort
@@ -61,6 +62,22 @@ public class ChronopicRegisterPort
 	{
 		return "Port: " + Port + " ; FTDI: " + FTDI.ToString() +
 			" ; SerialNumber: " + SerialNumber + " ; Type: " + Type.ToString();
+	}
+
+	public static string TypePrint(Types typeStatic)
+	{
+		if(typeStatic == Types.UNKNOWN)
+			return Catalog.GetString("Unknown");
+		else if(typeStatic == Types.CONTACTS)
+			return Catalog.GetString("Jumps/Races");
+		else if(typeStatic == Types.ENCODER)
+			return Catalog.GetString("Encoder");
+		else if(typeStatic == Types.ARDUINO_RFID)
+			return "RFID";
+		else if(typeStatic == Types.ARDUINO_FORCE)
+			return Catalog.GetString("Force sensor");
+
+		return Catalog.GetString("Unknown");
 	}
 }
 

@@ -24,49 +24,72 @@ using Gdk;
 using Gtk;
 using Mono.Unix;
 
-public class ChronopicRegisterWindowTypes
-{
-	public string SerialNumber;
-	public string Port;
-	public bool Unknown;
-	public bool Contacts;
-	public bool Encoder;
-	public bool Arduino_rfid;
-	public bool Arduino_force;
 
-	public ChronopicRegisterWindowTypes (string serialNumber, string port,
-			bool unknown, bool contacts, bool encoder, bool arduino_rfid, bool arduino_force)
+public class TypePix
+{
+	public ChronopicRegisterPort.Types Type; //public enum Types { UNKNOWN, CONTACTS, ENCODER, ARDUINO_RFID, ARDUINO_FORCE }
+	public Pixbuf Pix;
+
+	public TypePix(ChronopicRegisterPort.Types type, Pixbuf pix)
 	{
-		this.SerialNumber = serialNumber;
-		this.Port = port;
-		this.Unknown = unknown;
-		this.Contacts = contacts;
-		this.Encoder = encoder;
-		this.Arduino_rfid = arduino_rfid;
-		this.Arduino_force = arduino_force;
+		Type = type;
+		Pix = pix;
+	}
+}
+
+public static class TypePixList
+{
+	public static List<TypePix> l;
+
+	//one for each type
+	static TypePixList()
+	{
+		l = new List<TypePix>();
+
+		l.Add(new TypePix(ChronopicRegisterPort.Types.UNKNOWN, new Pixbuf (null, Util.GetImagePath(false) + "board-unknown.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.CONTACTS, new Pixbuf (null, Util.GetImagePath(false) + "board-jump-run.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.ENCODER, new Pixbuf (null, Util.GetImagePath(false) + "board-encoder.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_RFID, new Pixbuf (null, Util.GetImagePath(false) + "board-arduino-rfid.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_FORCE, new Pixbuf (null, Util.GetImagePath(false) + "board-arduino-force.png")));
 	}
 
-	public ChronopicRegisterWindowTypes (ChronopicRegisterPort crp)
+	public static Pixbuf GetPix(ChronopicRegisterPort.Types type)
 	{
-		this.SerialNumber = crp.SerialNumber;
-		this.Port = crp.Port;
+		foreach(TypePix tp in l)
+		{
+			if(tp.Type == type)
+				return tp.Pix;
+		}
 
-		Unknown = false;
-		Contacts = false;
-		Encoder = false;
-		Arduino_rfid = false;
-		Arduino_force = false;
+		return l[0].Pix; //return first value if there are problems
+	}
 
-		if(crp.Type == ChronopicRegisterPort.Types.UNKNOWN)
-			Unknown = true;
-		else if(crp.Type == ChronopicRegisterPort.Types.CONTACTS)
-			Contacts = true;
-		else if(crp.Type == ChronopicRegisterPort.Types.ENCODER)
-			Encoder = true;
-		else if(crp.Type == ChronopicRegisterPort.Types.ARDUINO_RFID)
-			Arduino_rfid = true;
-		else //if(crp.Type == ChronopicRegisterPort.Types.ARDUINO_FORCE)
-			Arduino_force = true;
+	public static TypePix GetPixPrevNext(ChronopicRegisterPort.Types type, string direction)
+	{
+		int currentPos = 0;
+		int nextPos = 0;
+		foreach(TypePix tp in l)
+		{
+			if(tp.Type == type)
+			{
+				if(direction == "LEFT")
+				{
+					nextPos = currentPos -1;
+					if(nextPos < 0)
+						nextPos = 0;
+				} else
+				{
+					nextPos = currentPos +1;
+					if(nextPos > l.Count -1)
+						nextPos = l.Count -1;
+				}
+
+				return(l[nextPos]);
+			}
+			currentPos ++;
+		}
+
+		return(l[0]); //if there are problems, return UNKNOWN value
 	}
 }
 
@@ -76,21 +99,38 @@ public class ChronopicRegisterWindow
 	Gtk.Window chronopic_register_win;
 	Gtk.VBox vbox_main;
 	Gtk.Label label_macOSX;
+	private List<ChronopicRegisterPort> listConnected;
+
 	public Gtk.Button FakeButtonCloseSerialPort;
 
-	public ChronopicRegisterWindow(Gtk.Window app1, List<ChronopicRegisterPort> list)
+	public ChronopicRegisterWindow(Gtk.Window app1, List<ChronopicRegisterPort> listAll)
 	{
 		createWindow(app1);
-		//put an icon to window
-		UtilGtk.IconWindow(chronopic_register_win);
+		UtilGtk.IconWindow(chronopic_register_win); //put an icon to window
+
+		listConnected = new List<ChronopicRegisterPort>();
+
+		//create listConnected with connected chronopics
+		int connectedCount = 0;
+		int unknownCount = 0;
+		foreach(ChronopicRegisterPort crp in listAll)
+		{
+			if(crp.Port != "")
+			{
+				listConnected.Add(crp);
+				connectedCount ++;
+
+				if(crp.Type == ChronopicRegisterPort.Types.UNKNOWN)
+					unknownCount ++;
+			}
+		}
 
 		createVBoxMain();
-		createContent(list);
+		createContent(connectedCount, unknownCount);
 		createButtons();
 
 		chronopic_register_win.ShowAll();
 	}
-
 
 	private void createWindow(Gtk.Window app1)
 	{
@@ -111,117 +151,108 @@ public class ChronopicRegisterWindow
 		chronopic_register_win.Add(vbox_main);
 	}
 
+	Gtk.Table table_main;
 
-	Gtk.TreeView treeview;
-	Gtk.ListStore listStoreAll; //stores the chronopics that have assigned a serial port: They are plugged in.
+	private List<Gtk.Image> list_images;
+	private List<Gtk.Label> list_labels_type;
+	private List<Gtk.Button> list_buttons_left;
+	private List<Gtk.Button> list_buttons_right;
 
-	//based on: ~/informatica/progs_meus/mono/treemodel.cs
-	private void createContent(List<ChronopicRegisterPort> list)
+	private void createTable ()
 	{
-		treeview = new Gtk.TreeView();
+		int rows = listConnected.Count;
 
-		// Create column , cell renderer and add the cell to the serialN column
-		Gtk.TreeViewColumn serialNCol = new Gtk.TreeViewColumn ();
-		serialNCol.Title = " " + Catalog.GetString("Serial Number") + " ";
-		Gtk.CellRendererText serialNCell = new Gtk.CellRendererText ();
-		serialNCol.PackStart (serialNCell, true);
+		Gtk.Label label_serial_title = new Gtk.Label("<b>" + Catalog.GetString("Serial Number") + "</b>");
+		Gtk.Label label_port_title = new Gtk.Label("<b>" + Catalog.GetString("Port") + "</b>");
+		Gtk.Label label_type_title = new Gtk.Label("<b>" + Catalog.GetString("Type") + "</b>");
 
-		// Create column , cell renderer and add the cell to the port column
-		Gtk.TreeViewColumn portCol = new Gtk.TreeViewColumn ();
-		portCol.Title = " Port ";
-		Gtk.CellRendererText portCell = new Gtk.CellRendererText ();
-		portCol.PackStart (portCell, true);
+		label_serial_title.UseMarkup = true;
+		label_port_title.UseMarkup = true;
+		label_type_title.UseMarkup = true;
 
+		label_serial_title.Show();
+		label_port_title.Show();
+		label_type_title.Show();
 
-		//-- cell renderer toggles
+		uint padding = 8;
 
-		Gtk.TreeViewColumn unknownCol = new Gtk.TreeViewColumn ();
-		unknownCol.Title = " " + Catalog.GetString("Not configured") + " ";
-		Gtk.CellRendererToggle unknownCell = new Gtk.CellRendererToggle ();
-		unknownCell.Activatable = true;
-		unknownCell.Radio = true; 	//draw as radiobutton
-		unknownCell.Toggled += new Gtk.ToggledHandler (unknownToggled);
-		unknownCol.PackStart (unknownCell, true);
+		table_main = new Gtk.Table((uint) rows +1, 3, false); //not homogeneous
+		table_main.Attach (label_serial_title, (uint) 1, (uint) 2, 0, 1,
+				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+		table_main.Attach (label_port_title, (uint) 2, (uint) 3, 0, 1,
+				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+		table_main.Attach (label_type_title, (uint) 3, (uint) 4, 0, 1,
+				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
 
-		Gtk.TreeViewColumn contactsCol = new Gtk.TreeViewColumn ();
-		contactsCol.Title = " " + Catalog.GetString("Chronopic") + " \n " + Catalog.GetString("Jumps/Races") + " ";
-		Gtk.CellRendererToggle contactsCell = new Gtk.CellRendererToggle ();
-		contactsCell.Activatable = true;
-		contactsCell.Radio = true; 	//draw as radiobutton
-		contactsCell.Toggled += new Gtk.ToggledHandler (contactsToggled);
-		contactsCol.PackStart (contactsCell, true);
+		list_buttons_left = new List<Gtk.Button>();
+		list_images = new List<Gtk.Image>();
+		list_labels_type = new List<Gtk.Label>();
+		list_buttons_right = new List<Gtk.Button>();
 
-		Gtk.TreeViewColumn encoderCol = new Gtk.TreeViewColumn ();
-		encoderCol.Title = " " + Catalog.GetString("Chronopic") + " \n " + Catalog.GetString("Encoder") + " ";
-		Gtk.CellRendererToggle encoderCell = new Gtk.CellRendererToggle ();
-		encoderCell.Activatable = true;
-		encoderCell.Radio = true; 	//draw as radiobutton
-		encoderCell.Toggled += new Gtk.ToggledHandler (encoderToggled);
-		encoderCol.PackStart (encoderCell, true);
-
-		Gtk.TreeViewColumn arduinoRfidCol = new Gtk.TreeViewColumn ();
-		arduinoRfidCol.Title = " " + Catalog.GetString("Other") + " \n " + Catalog.GetString("RFID") + " ";
-		Gtk.CellRendererToggle arduinoRfidCell = new Gtk.CellRendererToggle ();
-		arduinoRfidCell.Activatable = true;
-		arduinoRfidCell.Radio = true; 	//draw as radiobutton
-		arduinoRfidCell.Toggled += new Gtk.ToggledHandler (arduinoRfidToggled);
-		arduinoRfidCol.PackStart (arduinoRfidCell, true);
-
-		Gtk.TreeViewColumn arduinoForceCol = new Gtk.TreeViewColumn ();
-		arduinoForceCol.Title = " " + Catalog.GetString("Other") + " \n " + Catalog.GetString("Force sensor") + " ";
-		Gtk.CellRendererToggle arduinoForceCell = new Gtk.CellRendererToggle ();
-		arduinoForceCell.Activatable = true;
-		arduinoForceCell.Radio = true; 	//draw as radiobutton
-		arduinoForceCell.Toggled += new Gtk.ToggledHandler (arduinoForceToggled);
-		arduinoForceCol.PackStart (arduinoForceCell, true);
-
-		//-- end of cell renderer toggles
-
-
-		listStoreAll = new Gtk.ListStore (typeof (ChronopicRegisterWindowTypes));
-
-		int connectedCount = 0;
-		int unknownCount = 0;
-		foreach(ChronopicRegisterPort crp in list)
+		for (int count=1; count <= rows; count ++)
 		{
-			if(crp.Port != "")
-			{
-				listStoreAll.AppendValues(new ChronopicRegisterWindowTypes(crp));
-				connectedCount ++;
+			string serialStr = listConnected[count -1].SerialNumber;
+			Gtk.Label label_serial = new Gtk.Label(serialStr);
+			table_main.Attach (label_serial, (uint) 1, (uint) 2, (uint) count, (uint) count +1,
+					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			label_serial.Show();
 
-				if(crp.Type == ChronopicRegisterPort.Types.UNKNOWN)
-					unknownCount ++;
-			}
+			Gtk.Label label_port = new Gtk.Label(listConnected[count -1].Port);
+			table_main.Attach (label_port, (uint) 2, (uint) 3, (uint) count, (uint) count +1,
+					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			label_port.Show();
+
+			Gtk.HBox hbox_type = new Gtk.HBox(false, 6);
+			Button button_left = create_arrow_button(ArrowType.Left, ShadowType.In);
+			button_left.Sensitive = (listConnected[count-1].Type != TypePixList.l[0].Type);
+			button_left.Clicked += on_button_left_clicked;
+			hbox_type.Add(button_left);
+
+			//create image
+			Pixbuf pixbuf = TypePixList.GetPix(listConnected[count-1].Type);
+			Gtk.Image image = new Gtk.Image();
+			image.Pixbuf = pixbuf;
+			hbox_type.Add(image);
+
+			Button button_right = create_arrow_button(ArrowType.Right, ShadowType.In);
+			button_right.Clicked += on_button_right_clicked;
+			button_right.Sensitive = (listConnected[count-1].Type != TypePixList.l[TypePixList.l.Count -1].Type);
+			hbox_type.Add(button_right);
+
+			Gtk.VBox vbox = new Gtk.VBox(false, 4);
+			vbox.Add(hbox_type);
+			Gtk.Label label_type = new Gtk.Label(ChronopicRegisterPort.TypePrint(listConnected[count-1].Type));
+			vbox.Add(label_type);
+
+			table_main.Attach (vbox, (uint) 3, (uint) 4, (uint) count, (uint) count +1,
+					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+
+			list_buttons_left.Add(button_left);
+			list_images.Add(image);
+			list_labels_type.Add(label_type);
+			list_buttons_right.Add(button_right);
 		}
+		table_main.Show();
+	}
 
-		serialNCol.SetCellDataFunc (serialNCell, new Gtk.TreeCellDataFunc (RenderSerialN));
-		portCol.SetCellDataFunc (portCell, new Gtk.TreeCellDataFunc (RenderPort));
-		unknownCol.SetCellDataFunc (unknownCell, new Gtk.TreeCellDataFunc (RenderUnknown));
-		contactsCol.SetCellDataFunc (contactsCell, new Gtk.TreeCellDataFunc (RenderContacts));
-		encoderCol.SetCellDataFunc (encoderCell, new Gtk.TreeCellDataFunc (RenderEncoder));
-		arduinoRfidCol.SetCellDataFunc (arduinoRfidCell, new Gtk.TreeCellDataFunc (RenderArduinoRfid));
-		arduinoForceCol.SetCellDataFunc (arduinoForceCell, new Gtk.TreeCellDataFunc (RenderArduinoForce));
+	static Button create_arrow_button(ArrowType arrow_type, ShadowType  shadow_type )
+	{
+		Button button = new Button ();
+		Arrow  arrow = new Arrow (arrow_type, shadow_type);
 
-		treeview.Model = listStoreAll;
+		button.Add(arrow);
 
-		// Add the columns to the TreeView
-		treeview.AppendColumn (serialNCol);
-		treeview.AppendColumn (portCol);
-		treeview.AppendColumn (unknownCol);
-		treeview.AppendColumn (contactsCol);
-		treeview.AppendColumn (encoderCol);
-		treeview.AppendColumn (arduinoRfidCol);
-		treeview.AppendColumn (arduinoForceCol);
+		button.Show();
+		arrow.Show();
+
+		return button;
+	}
+
+	private void createContent(int connectedCount, int unknownCount)
+	{
+		createTable();
 
 		Gtk.HBox hbox = new Gtk.HBox(false, 12);
-
-		/*
-		//create image
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameChronopic);
-		Gtk.Image image = new Gtk.Image();
-		image.Pixbuf = pixbuf;
-		hbox.Add(image);
-		*/
 
 		//create label
 		Gtk.Label label = new Gtk.Label();
@@ -229,11 +260,7 @@ public class ChronopicRegisterWindow
 		hbox.Add(label);
 
 		Gtk.VBox vboxTV = new Gtk.VBox(false, 12);
-		vboxTV.Add(hbox);
-
-		if(connectedCount > 0)
-			vboxTV.Add(treeview);
-
+		vboxTV.Add(table_main);
 		vbox_main.Add(vboxTV);
 	}
 
@@ -260,155 +287,6 @@ public class ChronopicRegisterWindow
 		}
 
 		return Catalog.GetString("Board not found") + "\n\n" + Catalog.GetString("Connect and reopen this window.");
-	}
-
-	private void RenderSerialN (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-	{
-		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = crwt.SerialNumber;
-	}
-
-	private void RenderPort (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-	{
-		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = crwt.Port;
-	}
-
-	private void RenderUnknown (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-	{
-		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererToggle).Active = crwt.Unknown;
-	}
-
-	private void RenderContacts (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-	{
-		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererToggle).Active = crwt.Contacts;
-	}
-
-	private void RenderEncoder (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-	{
-		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererToggle).Active = crwt.Encoder;
-	}
-
-	private void RenderArduinoRfid (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-	{
-		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererToggle).Active = crwt.Arduino_rfid;
-	}
-
-	private void RenderArduinoForce (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-	{
-		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererToggle).Active = crwt.Arduino_force;
-	}
-
-
-
-	private void unknownToggled (object sender, Gtk.ToggledArgs args)
-	{
-		Gtk.TreeIter iter;
-		listStoreAll.GetIter (out iter, new Gtk.TreePath (args.Path));
-
-		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) listStoreAll.GetValue (iter, 0);
-
-		if(! crwt.Unknown) {
-			crwt.Unknown = true;
-			crwt.Contacts = false;
-			crwt.Encoder = false;
-			crwt.Arduino_rfid = false;
-			crwt.Arduino_force = false;
-		}
-
-		//store on SQL
-		SqliteChronopicRegister.Update(false,
-				new ChronopicRegisterPort(crwt.SerialNumber, ChronopicRegisterPort.Types.UNKNOWN),
-				ChronopicRegisterPort.Types.UNKNOWN);
-	}
-
-	private void contactsToggled (object sender, Gtk.ToggledArgs args)
-	{
-		Gtk.TreeIter iter;
-		listStoreAll.GetIter (out iter, new Gtk.TreePath (args.Path));
-
-		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) listStoreAll.GetValue (iter, 0);
-
-		if(! crwt.Contacts) {
-			crwt.Unknown = false;
-			crwt.Contacts = true;
-			crwt.Encoder = false;
-			crwt.Arduino_rfid = false;
-			crwt.Arduino_force = false;
-		}
-
-		//store on SQL
-		SqliteChronopicRegister.Update(false,
-				new ChronopicRegisterPort(crwt.SerialNumber, ChronopicRegisterPort.Types.CONTACTS),
-				ChronopicRegisterPort.Types.CONTACTS);
-	}
-
-	private void encoderToggled (object sender, Gtk.ToggledArgs args)
-	{
-		Gtk.TreeIter iter;
-		listStoreAll.GetIter (out iter, new Gtk.TreePath (args.Path));
-
-		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) listStoreAll.GetValue (iter, 0);
-
-		if(! crwt.Encoder) {
-			crwt.Unknown = false;
-			crwt.Contacts = false;
-			crwt.Encoder = true;
-			crwt.Arduino_rfid = false;
-			crwt.Arduino_force = false;
-		}
-
-		//store on SQL
-		SqliteChronopicRegister.Update(false,
-				new ChronopicRegisterPort(crwt.SerialNumber, ChronopicRegisterPort.Types.ENCODER),
-				ChronopicRegisterPort.Types.ENCODER);
-	}
-
-	private void arduinoRfidToggled (object sender, Gtk.ToggledArgs args)
-	{
-		Gtk.TreeIter iter;
-		listStoreAll.GetIter (out iter, new Gtk.TreePath (args.Path));
-
-		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) listStoreAll.GetValue (iter, 0);
-
-		if(! crwt.Arduino_rfid) {
-			crwt.Unknown = false;
-			crwt.Contacts = false;
-			crwt.Encoder = false;
-			crwt.Arduino_rfid = true;
-			crwt.Arduino_force = false;
-		}
-
-		//store on SQL
-		SqliteChronopicRegister.Update(false,
-				new ChronopicRegisterPort(crwt.SerialNumber, ChronopicRegisterPort.Types.ARDUINO_RFID),
-				ChronopicRegisterPort.Types.ARDUINO_RFID);
-	}
-
-	private void arduinoForceToggled (object sender, Gtk.ToggledArgs args)
-	{
-		Gtk.TreeIter iter;
-		listStoreAll.GetIter (out iter, new Gtk.TreePath (args.Path));
-
-		ChronopicRegisterWindowTypes crwt = (ChronopicRegisterWindowTypes) listStoreAll.GetValue (iter, 0);
-
-		if(! crwt.Arduino_force) {
-			crwt.Unknown = false;
-			crwt.Contacts = false;
-			crwt.Encoder = false;
-			crwt.Arduino_rfid = false;
-			crwt.Arduino_force = true;
-		}
-
-		//store on SQL
-		SqliteChronopicRegister.Update(false,
-				new ChronopicRegisterPort(crwt.SerialNumber, ChronopicRegisterPort.Types.ARDUINO_FORCE),
-				ChronopicRegisterPort.Types.ARDUINO_FORCE);
 	}
 
 	private void createButtons()
@@ -444,6 +322,64 @@ public class ChronopicRegisterWindow
 		hbox.Add(button_close);
 
 		vbox_main.Add(hbox);
+	}
+
+	private void on_button_left_clicked(object o, EventArgs args)
+	{
+		Button buttonClicked = o as Button;
+		if (o == null)
+			return;
+
+		int count = 0;
+		foreach(Gtk.Button button in list_buttons_left)
+		{
+			if(button == buttonClicked)
+			{
+				TypePix tp = TypePixList.GetPixPrevNext(listConnected[count].Type, "LEFT");
+				listConnected[count].Type = tp.Type;
+				list_images[count].Pixbuf = tp.Pix;
+				list_labels_type[count].Text = ChronopicRegisterPort.TypePrint(listConnected[count].Type);
+
+				buttons_sensitivity(button, list_buttons_right[count], tp.Type);
+				updateSQL(listConnected[count].SerialNumber, tp.Type);
+			}
+			count ++;
+		}
+	}
+	private void on_button_right_clicked(object o, EventArgs args)
+	{
+		Button buttonClicked = o as Button;
+		if (o == null)
+			return;
+
+		int count = 0;
+		foreach(Gtk.Button button in list_buttons_right)
+		{
+			if(button == buttonClicked)
+			{
+				TypePix tp = TypePixList.GetPixPrevNext(listConnected[count].Type, "RIGHT");
+				listConnected[count].Type = tp.Type;
+				list_images[count].Pixbuf = tp.Pix;
+				list_labels_type[count].Text = ChronopicRegisterPort.TypePrint(listConnected[count].Type);
+
+				buttons_sensitivity(list_buttons_left[count], button, tp.Type);
+				updateSQL(listConnected[count].SerialNumber, tp.Type);
+			}
+			count ++;
+		}
+	}
+
+	private void buttons_sensitivity(Gtk.Button left, Gtk.Button right, ChronopicRegisterPort.Types type)
+	{
+		left.Sensitive = (type != TypePixList.l[0].Type);
+		right.Sensitive = (type != TypePixList.l[TypePixList.l.Count -1].Type);
+		//LogB.Information("count + tplcount " + count + "," + TypePixList.l.Count);
+	}
+
+	private void updateSQL(string serialNumber, ChronopicRegisterPort.Types type)
+	{
+		//store on SQL
+		SqliteChronopicRegister.Update(false, new ChronopicRegisterPort(serialNumber, type), type);
 	}
 	
 	private void on_button_close_serial_port_clicked(object o, EventArgs args)

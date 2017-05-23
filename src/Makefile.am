@@ -252,6 +252,11 @@ RESOURCES = \
 	../images/selector-force.png,selector-force.png \
 	../images/selector-rt.png,selector-rt.png \
 	../images/selector-multichronopic.png,selector-multichronopic.png \
+	../images/board-unknown.png,board-unknown.png \
+	../images/board-jump-run.png,board-jump-run.png \
+	../images/board-encoder.png,board-encoder.png \
+	../images/board-arduino-rfid.png,board-arduino-rfid.png \
+	../images/board-arduino-force.png,board-arduino-force.png \
 	../images/chronojump-jumps-small.png,chronojump-jumps-small.png \
 	../images/chronojump-runs-small.png,chronojump-runs-small.png \
 	../images/chronojump-encoder-small.png,chronojump-encoder-small.png \

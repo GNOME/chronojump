@@ -53,8 +53,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_encoder_selected;	
 
 	[Widget] Gtk.Notebook notebook_encoder_top;
+	[Widget] Gtk.Label label_encoder_top_selected;
 	[Widget] Gtk.Label label_encoder_top_exercise;
-	[Widget] Gtk.Label label_encoder_top_eccon;
 	[Widget] Gtk.Label label_encoder_top_laterality;
 	[Widget] Gtk.Label label_encoder_top_extra_mass;
 	[Widget] Gtk.Label label_encoder_top_1RM_percent;
@@ -408,6 +408,7 @@ public partial class ChronoJumpWindow
 		EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY);
 		encoderConfigurationCurrent = econfSO.encoderConfiguration;
 		label_encoder_selected.Text = econfSO.name;
+		label_encoder_top_selected.Text = econfSO.name;
 		
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 		
@@ -480,6 +481,7 @@ public partial class ChronoJumpWindow
 		
 		EncoderConfiguration eConfNew = encoder_configuration_win.GetAcceptedValues();
 		label_encoder_selected.Text = encoder_configuration_win.Entry_save_name;
+		label_encoder_top_selected.Text = encoder_configuration_win.Entry_save_name;
 
 		if(encoderConfigurationCurrent == eConfNew)
 			return;
@@ -1558,6 +1560,7 @@ public partial class ChronoJumpWindow
 
 				encoderConfigurationGUIUpdate();
 				label_encoder_selected.Text = econfSO.name;
+				label_encoder_top_selected.Text = econfSO.name;
 
 				//triggers
 				triggerList = new TriggerList(
@@ -3402,7 +3405,15 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false; //do not show hbox at start
 
 		label_encoder_top_exercise.Text = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
-		label_encoder_top_eccon.Text = UtilGtk.ComboGetActive(combo_encoder_eccon);
+
+		//label_encoder_top_eccon.Text = UtilGtk.ComboGetActive(combo_encoder_eccon);
+		Pixbuf pixbuf;
+		if(UtilGtk.ComboGetActive(combo_encoder_eccon) == Catalog.GetString("Concentric"))
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
+		else
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
+		image_muscle.Pixbuf = pixbuf;
+
 		label_encoder_top_laterality.Text = UtilGtk.ComboGetActive(combo_encoder_laterality);
 		label_encoder_top_extra_mass.Text = Catalog.GetString("Extra mass") + ": " + entry_raspberry_extra_weight.Text + " Kg";
 		label_encoder_top_1RM_percent.Text = label_encoder_1RM_percent.Text + " %1RM";
@@ -3531,7 +3542,13 @@ public partial class ChronoJumpWindow
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
-		label_encoder_top_eccon.Text = UtilGtk.ComboGetActive(combo_encoder_eccon);
+		//label_encoder_top_eccon.Text = UtilGtk.ComboGetActive(combo_encoder_eccon);
+		Pixbuf pixbuf;
+		if(UtilGtk.ComboGetActive(combo_encoder_eccon) == Catalog.GetString("Concentric"))
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
+		else
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
+		image_muscle.Pixbuf = pixbuf;
 	}
 
 	void on_combo_encoder_laterality_changed (object o, EventArgs args)

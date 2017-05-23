@@ -2919,6 +2919,7 @@ public partial class ChronoJumpWindow
 					EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.GRAVITATORY);
 					encoderConfigurationCurrent = econfSO.encoderConfiguration;
 					label_encoder_selected.Text = econfSO.name;
+					label_encoder_top_selected.Text = econfSO.name;
 
 					changed = true;
 				}
@@ -2953,6 +2954,7 @@ public partial class ChronoJumpWindow
 					EncoderConfigurationSQLObject econfSO = SqliteEncoderConfiguration.SelectActive(Constants.EncoderGI.INERTIAL);
 					encoderConfigurationCurrent = econfSO.encoderConfiguration;
 					label_encoder_selected.Text = econfSO.name;
+					label_encoder_top_selected.Text = econfSO.name;
 
 					changed = true;
 				}

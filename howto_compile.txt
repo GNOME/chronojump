@@ -44,6 +44,9 @@ And inside the chronojump directory
 
 make osx-installer
 
+#to be used by Owncloud
+mv file.dmg ~/BinarisMac/
+
 #if there are problems on hdiuti do:
 hdiutil create -size 200m ...
 

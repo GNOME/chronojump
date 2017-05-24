@@ -731,6 +731,7 @@ public partial class ChronoJumpWindow
 	private void loadPreferences () 
 	{
 		preferences = Preferences.LoadAllFromSqlite();
+		LogB.Mute = preferences.muteLogs;
 
 		LogB.Information (string.Format(Catalog.GetString("Chronojump database version file: {0}"), 
 					preferences.databaseVersion));
@@ -2721,6 +2722,7 @@ public partial class ChronoJumpWindow
 	private void on_preferences_accepted (object o, EventArgs args) 
 	{
 		preferences = preferencesWin.GetPreferences;
+		LogB.Mute = preferences.muteLogs;
 		rfdList = preferencesWin.GetRFDList;
 		impulse = preferencesWin.GetImpulse;
 

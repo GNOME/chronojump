@@ -5965,6 +5965,9 @@ public partial class ChronoJumpWindow
 
 					if(action == encoderActions.CURVES_AC)
 					{
+						//1) unMute logs if preferences.muteLogs == true
+						LogB.Mute = preferences.muteLogs;
+
 						//1) save the triggers now that we have an encoderSignalUniqueID
 						eCapture.SaveTriggers(Convert.ToInt32(encoderSignalUniqueID)); //dbcon is closed
 						showTriggersAndTab();

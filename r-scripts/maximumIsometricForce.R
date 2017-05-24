@@ -307,11 +307,11 @@ drawDynamicsFromLoadCell <- function(
         
         #Plotting fitted data
         lines(dynamics$time, dynamics$f.fitted, col="blue")
-        text(x = dynamics$time[dynamics$totalSample] - 0.1, y = dynamics$fmax.fitted + dynamics$initf,
-             labels = paste("Fmax =", round(dynamics$fmax.fitted + dynamics$initf, digits = 2), "N"), pos = 1, col="blue")
+        #text(x = dynamics$time[dynamics$totalSample] - 0.1, y = dynamics$fmax.fitted + dynamics$initf,
+        #     labels = paste("Fmax =", round(dynamics$fmax.fitted + dynamics$initf, digits = 2), "N"), pos = 1, col="blue")
         abline(h = dynamics$fmax.fitted + dynamics$initf, lty = 2, col = "blue")
         text(x = xmin + (xmax - xmin)*0.25, y = dynamics$fmax.fitted + dynamics$initf,
-             labels = paste("Fmax =", round(dynamics$fmax.fitted + dynamics$initf,digits = 2)),
+             labels = paste("Fmax =", round(dynamics$fmax.fitted + dynamics$initf,digits = 2), "N"),
              col = "blue", pos = 3, cex = 1.5)
         
         #Plottting smoothed data

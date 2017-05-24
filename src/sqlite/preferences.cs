@@ -143,6 +143,7 @@ class SqlitePreferences : Sqlite
 				Insert ("useHeightsOnJumpIndexes", "True", dbcmdTr);
 				Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString(), dbcmdTr); 
 				Insert ("email", "", dbcmdTr);
+				Insert ("muteLogs", "False", dbcmdTr);
 				
 				//removed on 1.37
 				//Insert ("encoderConfiguration", new EncoderConfiguration().ToStringOutput(EncoderConfiguration.Outputs.SQL), dbcmdTr);
@@ -242,8 +243,6 @@ class SqlitePreferences : Sqlite
 				preferences.personWinHide = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderCaptureShowOnlyBars")
 				preferences.encoderCaptureShowOnlyBars = reader[1].ToString() == "True";
-			else if(reader[0].ToString() == "digitsNumber")
-				preferences.digitsNumber = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "showPower")
 				preferences.showPower = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "showStiffness")
@@ -256,8 +255,6 @@ class SqlitePreferences : Sqlite
 				preferences.showQIndex = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "showDjIndex")
 				preferences.showDjIndex = reader[1].ToString() == "True";
-			else if(reader[0].ToString() == "askDeletion")
-				preferences.askDeletion = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "weightStatsPercent")
 				preferences.weightStatsPercent = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "heightPreferred")
@@ -337,6 +334,13 @@ class SqlitePreferences : Sqlite
 				preferences.thresholdRuns = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "thresholdOther")
 				preferences.thresholdOther = Convert.ToInt32(reader[1].ToString());
+			//advanced tab
+			else if(reader[0].ToString() == "digitsNumber")
+				preferences.digitsNumber = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == "askDeletion")
+				preferences.askDeletion = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "muteLogs")
+				preferences.muteLogs = reader[1].ToString() == "True";
 
 			else if(reader[0].ToString() == "machineID")
 				preferences.machineID = reader[1].ToString();

@@ -33,14 +33,12 @@ public class Preferences
 	public bool personWinHide;
 	public bool encoderCaptureShowOnlyBars;
 
-	public int digitsNumber;
 	public bool showPower;
 	public bool showStiffness;
 	public bool showInitialSpeed;
 	public bool showAngle;
 	public bool showQIndex;
 	public bool showDjIndex;
-	public bool askDeletion;
 	public bool weightStatsPercent;		//AKA weightPercentPreferred
 	public bool heightPreferred;
 	public bool metersSecondsPreferred;
@@ -77,6 +75,11 @@ public class Preferences
 	public string language;
 	public bool RGraphsTranslate;
 	public bool useHeightsOnJumpIndexes;
+
+	//advanced tab
+	public bool askDeletion;
+	public int digitsNumber;
+	public bool muteLogs;
 
 	/*
 	 * these are NOT sent to preferences window

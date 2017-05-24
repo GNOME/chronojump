@@ -200,6 +200,7 @@ public class PreferencesWindow
 	//advanced tab
 	[Widget] Gtk.ComboBox combo_decimals;
 	[Widget] Gtk.CheckButton checkbutton_ask_deletion;
+	[Widget] Gtk.CheckButton checkbutton_mute_logs;
 	[Widget] Gtk.RadioButton radio_export_latin;
 	[Widget] Gtk.RadioButton radio_export_non_latin;
 	[Widget] Gtk.Label label_advanced_feedback;
@@ -344,11 +345,15 @@ public class PreferencesWindow
 			PreferencesWindowBox.hbox_indexes.Hide();
 		}
 
-		if(preferences.askDeletion)  
+		if(preferences.askDeletion)
 			PreferencesWindowBox.checkbutton_ask_deletion.Active = true; 
 		else 
 			PreferencesWindowBox.checkbutton_ask_deletion.Active = false; 
-		
+
+		if(preferences.muteLogs)
+			PreferencesWindowBox.checkbutton_mute_logs.Active = true;
+		else
+			PreferencesWindowBox.checkbutton_mute_logs.Active = false;
 
 		if(preferences.weightStatsPercent)  
 			PreferencesWindowBox.radio_weight_percent.Active = true; 
@@ -1416,6 +1421,11 @@ public class PreferencesWindow
 		if( preferences.askDeletion != PreferencesWindowBox.checkbutton_ask_deletion.Active ) {
 			SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString(), true);
 			preferences.askDeletion = PreferencesWindowBox.checkbutton_ask_deletion.Active;
+		}
+
+		if( preferences.muteLogs != PreferencesWindowBox.checkbutton_mute_logs.Active ) {
+			SqlitePreferences.Update("muteLogs", PreferencesWindowBox.checkbutton_mute_logs.Active.ToString(), true);
+			preferences.muteLogs = PreferencesWindowBox.checkbutton_mute_logs.Active;
 		}
 
 		if( preferences.weightStatsPercent != PreferencesWindowBox.radio_weight_percent.Active ) {

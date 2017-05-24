@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.45";
+	static string lastChronojumpDatabaseVersion = "1.46";
 
 	public Sqlite() {
 	}
@@ -143,7 +143,7 @@ class Sqlite
 	//because lots of similar transactions have to be done
 	public static void Open()
 	{
-		Console.WriteLine("SQL going to open, status: " + dbcon.State.ToString());
+		LogB.Information("SQL going to open, status: " + dbcon.State.ToString());
 		if(dbcon.State == System.Data.ConnectionState.Closed)
 		{
 			LogB.SQLon();
@@ -2218,7 +2218,6 @@ class Sqlite
 
 				currentVersion = updateVersion("1.44");
 			}
-
 			if(currentVersion == "1.44")
 			{
 				LogB.SQL("Added ForceSensorImpulse value");
@@ -2226,6 +2225,14 @@ class Sqlite
 				SqliteForceSensor.InsertDefaultValueImpulse(true);
 
 				currentVersion = updateVersion("1.45");
+			}
+			if(currentVersion == "1.45")
+			{
+				LogB.SQL("Added muteLogs at preferences");
+
+				SqlitePreferences.Insert ("muteLogs", "False");
+
+				currentVersion = updateVersion("1.46");
 			}
 
 
@@ -2408,6 +2415,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 
 		//changes [from - to - desc]
+		//1.45 - 1.46 Converted DB to 1.46 Added muteLogs at preferences
 		//1.44 - 1.45 Converted DB to 1.45 Added ForceSensorImpulse value
 		//1.43 - 1.44 Converted DB to 1.44 Added encoderCaptureCutByTriggers to preferences
 		//1.42 - 1.43 Converted DB to 1.43 Added exercise params of last capture for next Chronojump start

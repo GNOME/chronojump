@@ -177,12 +177,12 @@ public class ChronopicRegisterWindow
 		uint padding = 8;
 
 		table_main = new Gtk.Table((uint) rows +1, 3, false); //not homogeneous
-		table_main.Attach (label_serial_title, (uint) 1, (uint) 2, 0, 1,
-				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
-		table_main.Attach (label_port_title, (uint) 2, (uint) 3, 0, 1,
-				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
-		table_main.Attach (label_type_title, (uint) 3, (uint) 4, 0, 1,
-				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+		table_main.ColumnSpacing = 8;
+		table_main.RowSpacing = 6;
+
+		table_main.Attach (label_serial_title, (uint) 1, (uint) 2, 0, 1);
+		table_main.Attach (label_port_title, (uint) 2, (uint) 3, 0, 1);
+		table_main.Attach (label_type_title, (uint) 3, (uint) 4, 0, 1);
 
 		list_buttons_left = new List<Gtk.Button>();
 		list_images = new List<Gtk.Image>();
@@ -193,13 +193,11 @@ public class ChronopicRegisterWindow
 		{
 			string serialStr = listConnected[count -1].SerialNumber;
 			Gtk.Label label_serial = new Gtk.Label(serialStr);
-			table_main.Attach (label_serial, (uint) 1, (uint) 2, (uint) count, (uint) count +1,
-					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			table_main.Attach (label_serial, (uint) 1, (uint) 2, (uint) count, (uint) count +1);
 			label_serial.Show();
 
 			Gtk.Label label_port = new Gtk.Label(listConnected[count -1].Port);
-			table_main.Attach (label_port, (uint) 2, (uint) 3, (uint) count, (uint) count +1,
-					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			table_main.Attach (label_port, (uint) 2, (uint) 3, (uint) count, (uint) count +1);
 			label_port.Show();
 
 			Gtk.HBox hbox_type = new Gtk.HBox(false, 6);
@@ -219,13 +217,12 @@ public class ChronopicRegisterWindow
 			button_right.Sensitive = (listConnected[count-1].Type != TypePixList.l[TypePixList.l.Count -1].Type);
 			hbox_type.Add(button_right);
 
-			Gtk.VBox vbox = new Gtk.VBox(false, 4);
+			Gtk.VBox vbox = new Gtk.VBox(false, 2);
 			vbox.Add(hbox_type);
 			Gtk.Label label_type = new Gtk.Label(ChronopicRegisterPort.TypePrint(listConnected[count-1].Type));
 			vbox.Add(label_type);
 
-			table_main.Attach (vbox, (uint) 3, (uint) 4, (uint) count, (uint) count +1,
-					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+			table_main.Attach (vbox, (uint) 3, (uint) 4, (uint) count, (uint) count +1);
 
 			list_buttons_left.Add(button_left);
 			list_images.Add(image);
@@ -250,29 +247,40 @@ public class ChronopicRegisterWindow
 
 	private void createContent(int connectedCount, int unknownCount)
 	{
-		createTable();
-
+		//create top hbox
 		Gtk.HBox hbox = new Gtk.HBox(false, 12);
 
-		//create label
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect_big.png");
+		//hbox image
+		Gtk.Image image = new Gtk.Image();
+		image.Pixbuf = pixbuf;
+		hbox.Add(image);
+
+		//hbox label
 		Gtk.Label label = new Gtk.Label();
 		label.Text = writeLabel(connectedCount, unknownCount);
 		hbox.Add(label);
+		vbox_main.Add(hbox);
 
-		Gtk.VBox vboxTV = new Gtk.VBox(false, 12);
-		vboxTV.Add(table_main);
-		vbox_main.Add(vboxTV);
+		//table
+		if(connectedCount > 0)
+		{
+			createTable();
+			Gtk.VBox vboxTV = new Gtk.VBox(false, 10);
+			vboxTV.Add(table_main);
+			vbox_main.Add(vboxTV);
+		}
 	}
 
-	private string writeLabel(int chronopicsCount, int unknownCount)
+	private string writeLabel(int connectedCount, int unknownCount)
 	{
-		if(chronopicsCount > 0)
+		if(connectedCount > 0)
 		{
 			string str = string.Format(Catalog.GetPluralString(
 						"Found 1 board.",
 						"Found {0} boards.",
-						chronopicsCount),
-					chronopicsCount);
+						connectedCount),
+					connectedCount);
 
 			if(unknownCount > 0)
 			{

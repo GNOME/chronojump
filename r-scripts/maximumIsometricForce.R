@@ -119,7 +119,7 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
                 print("Not previos steady tension applied before performing the test")
                 return(NA)
         }
-        initf = mean(originalTest$force[1:(startSample - 10)]) #ATENTION. This value is different from f0.raw
+        initf = mean(originalTest$force[(startSample - 20):(startSample - 10)]) #ATENTION. This value is different from f0.raw
         fmax.raw = max(originalTest$force)
         
         #Trimming the data before and after contraction
@@ -130,7 +130,6 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         
         model = getForceModel(test$time, test$force, startTime, fmax.smoothed, initf)
         f.fitted = initf + model$fmax*(1-exp(-model$K*(originalTest$time - startTime)))
-        
         
         f0.raw = test$force[1]                                                       #Force at t=0ms. ATENTION. This value is different than initf
         f100.raw = test$force[which.min(abs(test$time - (startTime + 0.1)))]         #Force at t=100ms

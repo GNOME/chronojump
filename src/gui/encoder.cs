@@ -917,7 +917,7 @@ public partial class ChronoJumpWindow
 		else
 			entry_raspberry_extra_weight.Text = spin_encoder_extra_weight.Value.ToString();
 
-		label_encoder_top_extra_mass.Text = Catalog.GetString("Extra mass") + ": " + entry_raspberry_extra_weight.Text + " Kg";
+		label_encoder_top_extra_mass.Text = entry_raspberry_extra_weight.Text + " Kg";
 	}
 
 	void encoder_change_displaced_weight_and_1RM () 
@@ -3415,7 +3415,7 @@ public partial class ChronoJumpWindow
 		image_muscle.Pixbuf = pixbuf;
 
 		label_encoder_top_laterality.Text = UtilGtk.ComboGetActive(combo_encoder_laterality);
-		label_encoder_top_extra_mass.Text = Catalog.GetString("Extra mass") + ": " + entry_raspberry_extra_weight.Text + " Kg";
+		label_encoder_top_extra_mass.Text = entry_raspberry_extra_weight.Text + " Kg";
 		label_encoder_top_1RM_percent.Text = label_encoder_1RM_percent.Text + " %1RM";
 		label_encoder_top_weights.Text = Catalog.GetString("Weights") + ": " + entry_encoder_im_weights_n.Text;
 		label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;

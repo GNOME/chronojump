@@ -174,8 +174,6 @@ public class ChronopicRegisterWindow
 		label_port_title.Show();
 		label_type_title.Show();
 
-		uint padding = 8;
-
 		table_main = new Gtk.Table((uint) rows +1, 3, false); //not homogeneous
 		table_main.ColumnSpacing = 8;
 		table_main.RowSpacing = 6;

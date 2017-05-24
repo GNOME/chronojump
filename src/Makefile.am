@@ -449,6 +449,7 @@ RESOURCES = \
 	../images/chronojump-logo-2013_320.png,chronojump-logo-2013_320.png \
 	../images/chronojump-logo-2013.png,chronojump-logo-2013.png \
 	../images/muscle-concentric.png,muscle-concentric.png \
+	../images/extra-mass.png,extra-mass.png \
 	../images/muscle-excentric-concentric.png,muscle-excentric-concentric.png \
 	../images/encoder-analyze-individual-current-set.png,encoder-analyze-individual-current-set.png \
 	../images/encoder-analyze-individual-current-session.png,encoder-analyze-individual-current-session.png \

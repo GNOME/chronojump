@@ -124,7 +124,10 @@ public partial class ChronoJumpWindow
 	}
 	private void rfidChanged(object sender, EventArgs e)
 	{
-		if(rfid.Captured != capturedRFID)
+		/*
+		 * TODO: only if we are not in the middle of capture, or in cont mode without repetitions
+		 */
+		if(rfid.Captured != capturedRFID && currentSession != null)
 		{
 			LogB.Information("RFID changed to: " + rfid.Captured);
 
@@ -360,6 +363,9 @@ public partial class ChronoJumpWindow
 		label_rfid_encoder.Text = capturedRFID; //GTK
 
 		Person p = SqlitePerson.SelectByRFID(capturedRFID);
+
+		bool currentPersonWasNull = (currentPerson == null);
+		bool pChanged = false;
 		if(p.UniqueID == -1)
 		{
 			LogB.Information("RFID person does not exist!!");
@@ -382,11 +388,40 @@ public partial class ChronoJumpWindow
 						Constants.SpeciallityUndefinedID, 
 						Constants.LevelUndefinedID,
 						"", false); //comments, dbconOpened
+
+				if(js.LastPersonByRFIDImageURL != "")
+				{
+					bool downloaded = js.DownloadImage(js.LastPersonByRFIDImageURL, currentPerson.UniqueID);
+					if(downloaded)
+						File.Copy(
+								Path.Combine(Path.GetTempPath(), currentPerson.UniqueID.ToString()),
+								Util.GetPhotoFileName(false, currentPerson.UniqueID),
+								true); //overwrite
+				}
+
 				person_added(); //GTK
+				pChanged = true;
 			}
 		}
-		else
+		else {
 			LogB.Information("RFID person exists!!");
+			currentPerson = p;
+			personChanged(); //GTK
+			label_person_change();
+			pChanged = true;
+		}
+
+		if(currentPersonWasNull)
+			sensitiveGuiYesPerson();
+
+		/*TODO:
+		if(pChanged)
+		{
+			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
+			if(rowToSelect != -1)
+				selectRowTreeView_persons(treeview_persons, rowToSelect);
+		}
+			*/
 
 		updatingRFIDGuiStuff = false;
 

@@ -2317,8 +2317,12 @@ public partial class ChronoJumpWindow
 		
 		resetAllTreeViews(true); //boolean means: "also persons"
 
-		bool foundPersons = selectRowTreeView_persons(treeview_persons, 0);
-		
+		bool foundPersons = false;
+
+		//on Compujump don't start with first person, wait to it's rfid
+		if( ! configChronojump.Compujump)
+			selectRowTreeView_persons(treeview_persons, 0);
+
 		//show hidden widgets
 		sensitiveGuiNoSession();
 		sensitiveGuiYesSession();

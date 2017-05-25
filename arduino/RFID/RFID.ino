@@ -20,9 +20,10 @@ void setup() {
 void loop() {
 	if (rfid.isCard()) {   //If there is a card close to the reader ...
 		if (rfid.readCardSerial()) {     //Read the card ID
-			cardID = String(rfid.serNum[0]) + "," + String(rfid.serNum[1]) + "," + String(rfid.serNum[2]) +
+                        cardID = "s";            //'s'tart mark
+			cardID += String(rfid.serNum[0]) + "," + String(rfid.serNum[1]) + "," + String(rfid.serNum[2]) +
 				"," + String(rfid.serNum[3]) + "," + String(rfid.serNum[4]);  //Convert to str
-			cardID += ";"; 		//final mark
+			cardID += "e"; 		//'e'nd mark
 			Serial.println(cardID); 	//show on serial monitor
 		}
 	}

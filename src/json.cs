@@ -361,12 +361,47 @@ public class Json
 	
 		LastPersonByRFIDWeight = Convert.ToDouble(Util.ChangeDecimalSeparator(weight));
 		str = str.Substring(str.IndexOf('"') +1);
-		//LogB.Information("str:|" + str + "|");
+		LogB.Information("str:|" + str + "|");
 		
-		string rfid = str.Substring(0, str.LastIndexOf('"'));
+		string rfid = str.Substring(0, str.IndexOf('"'));
 		LogB.Information("rfid:|" + rfid + "|");
 
+		str = str.Substring(str.IndexOf('"') +4);
+		LogB.Information("str:|" + str + "|");
+
+		string image = str.Substring(0, str.LastIndexOf('"'));
+		LogB.Information("image:|" + image + "|");
+		LastPersonByRFIDImageURL = image;
+
 		return new Person(Convert.ToInt32(id), player, rfid);
+	}
+
+
+	//to retrieve images from flask (:5050)
+	private string getImagesUrl()
+	{
+		int posOfLastColon = serverUrl.LastIndexOf(':');
+		return serverUrl.Substring(0, posOfLastColon) + ":5000/static/images/";
+	}
+
+	//imageHalfUrl is "jugadors/*.jpg"
+	public bool DownloadImage(string imageHalfUrl, int personID)
+	{
+		try {
+			using (WebClient client = new WebClient())
+			{
+				LogB.Information ("DownloadImage!!");
+				LogB.Information (getImagesUrl() + imageHalfUrl);
+				LogB.Information (Path.Combine(Path.GetTempPath(), personID.ToString()));
+				client.DownloadFile(new Uri(getImagesUrl() + imageHalfUrl),
+						Path.Combine(Path.GetTempPath(), personID.ToString()));
+			}
+		} catch {
+			LogB.Warning("DownloadImage catched");
+			return false;
+		}
+
+		return true;
 	}
 
 	/*

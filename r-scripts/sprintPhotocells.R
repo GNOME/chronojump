@@ -125,14 +125,16 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         # Fitted speed plotting
         par(new=T)
         plot(time, sprintDynamics$v.fitted, type = "l", xlab="", ylab = "",  ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), yaxs= "i", xaxs = "i") # Fitted data
-        axis(2, at = sprintDynamics$Vmax.fitted, labels = round(sprintDynamics$Vmax.fitted, digits = 2), line = 1, lwd = 0)
+        #axis(2, at = sprintDynamics$Vmax.fitted, labels = round(sprintDynamics$Vmax.fitted, digits = 2), line = 1, lwd = 0)
         abline(h = sprintDynamics$Vmax, lty = 2)
-        mtext(side = 1, line = 5, at = splitTimes[length(splitTimes)]*0.25, cex = 2 , substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax=round(sprintDynamics$Vmax.fitted, digits=3), K=round(sprintDynamics$K.fitted, digits=3))))
+        #mtext(side = 1, line = 5, at = splitTimes[length(splitTimes)]*0.25, cex = 2 , substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax=round(sprintDynamics$Vmax.fitted, digits=3), K=round(sprintDynamics$K.fitted, digits=3))))
+        mtext(side = 1, line = 5, at = splitTimes[length(splitTimes)]*0.25, cex = 2 , substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax="Vmax", K="K")))
         
         if(plotFittedAccel)
         {
                 par(new = T)
-                plot(time, sprintDynamics$a.fitted, type = "l", col = "green", yaxs= "i", xaxs = "i", xlab="", ylab = "", axes = FALSE )
+                plot(time, sprintDynamics$a.fitted, type = "l", col = "green", yaxs= "i", xaxs = "i", xlab="", ylab = "",
+                     ylim=c(0,sprintDynamics$amax.fitted), axes = FALSE )
                 axis(line = 4, side = 4, col ="green", at = seq(0,max(sprintDynamics$a.fitted), by = 1))
         }
         
@@ -140,7 +142,8 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         if(plotFittedForce)
         {
                 par(new=T)
-                plot(time, sprintDynamics$f.fitted, type="l", axes = FALSE, xlab="", ylab="", col="blue", ylim=c(0,sprintDynamics$fmax.fitted), yaxs= "i", xaxs = "i")
+                plot(time, sprintDynamics$f.fitted, type="l", col="blue", yaxs= "i", xaxs = "i", xlab="", ylab="",
+                     ylim=c(0,sprintDynamics$fmax.fitted), axes = FALSE)
                 axis(line = 2, side = 4, col ="blue", at = seq(0, sprintDynamics$fmax.fitted + 100, by = 100))
 
         }
@@ -153,15 +156,30 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
                 abline(v = sprintDynamics$tpmax.fitted, col="red", lty = 2)
                 axis(side = 4, col ="red", at = seq(0, sprintDynamics$pmax.fitted, by = 200))
                 axis(3, at = sprintDynamics$tpmax.fitted, labels = sprintDynamics$tpmax.fitted)
-                text(sprintDynamics$tpmax.fitted, sprintDynamics$pmax.fitted, paste("Pmax fitted =", round(sprintDynamics$pmax.fitted, digits = 2)),  pos = 3)
-                mtext(side = 1, line = 5, at = splitTimes[length(splitTimes)]*0.75, cex = 1.5,
-                      substitute(P(t) == A*e^(-K*t)*(1-e^(-K*t)) + B*(1-e^(-K*t))^3,
-                                        list(A=round(sprintDynamics$Vmax.fitted^2*sprintDynamics$Mass, digits=3),
-                                             B = round(sprintDynamics$Vmax.fitted^3*sprintDynamics$Ka, digits = 3),
-                                             Vmax=round(sprintDynamics$Vmax.fitted, digits=3),
-                                             K=round(sprintDynamics$K.fitted, digits=3)))
-                      , col ="red")
+                #text(sprintDynamics$tpmax.fitted, sprintDynamics$pmax.fitted, paste("Pmax fitted =", round(sprintDynamics$pmax.fitted, digits = 2)),  pos = 3)
+                # mtext(side = 1, line = 5, at = splitTimes[length(splitTimes)]*0.75, cex = 1.5,
+                #       substitute(P(t) == A*e^(-K*t)*(1-e^(-K*t)) + B*(1-e^(-K*t))^3,
+                #                         list(A=round(sprintDynamics$Vmax.fitted^2*sprintDynamics$Mass, digits=3),
+                #                              B = round(sprintDynamics$Vmax.fitted^3*sprintDynamics$Ka, digits = 3),
+                #                              Vmax=round(sprintDynamics$Vmax.fitted, digits=3),
+                #                              K=round(sprintDynamics$K.fitted, digits=3)))
+                #       , col ="red")
         }
+        
+        legend (x = time[length(time)], y = sprintDynamics$pmax.fitted / 2,
+                xjust = 1, yjust = 0.5, cex = 1,
+                legend = c(paste("K =", round(sprintDynamics$K.fitted, digits = 2)),
+                           paste("Vmax =", round(sprintDynamics$Vmax.fitted, digits = 2), "m/s"),
+                           paste("Amax =", round(sprintDynamics$amax.fitted, digits = 2), "m/s²"),
+                           paste("fmax =", round(sprintDynamics$fmax.rel.fitted, digits = 2), "N/Kg"),
+                           paste("pmax =", round(sprintDynamics$pmax.rel.fitted, digits = 2), "W/Kg")),
+                text.col = c("black", "black", "green", "blue", "red"))
+        
+        exportData = list(Mass = sprintDynamics$Mass, Height = sprintDynamics$Height, Temperature = sprintDynamics$Temperature, Vw = sprintDynamics$Vw, Ka = sprintDynamics$Ka, K.fitted = sprintDynamics$K.fitted, Vmax.fitted = sprintDynamics$Vmax,
+                          amax.fitted = sprintDynamics$amax.fitted, fmax.fitted = sprintDynamics$fmax.fitted, fmax.rel.fitted = sprintDynamics$fmax.rel.fitted, sfv.fitted = sprintDynamics$sfv.fitted, sfv.rel.fitted = sprintDynamics$sfv.rel.fitted,
+                          pmax.fitted = sprintDynamics$pmax.fitted, pmax.rel.fitted = sprintDynamics$pmax.rel.fitted, tpmax.fitted = sprintDynamics$tpmax.fitted, F0 = sprintDynamics$F0, F0.rel = sprintDynamics$F0.rel, V0 = sprintDynamics$V0,
+                          sfv.lm = sprintDynamics$sfv.lm, sfv.rel.lm = sprintDynamics$sfv.rel.lm, pmax.lm = sprintDynamics$pmax.lm, pmax.rel.lm = sprintDynamics$pmax.rel.lm)
+        write.csv2(exportData, file = paste(tempPath, "/sprintResults.csv", sep = ""))
         
 }
 

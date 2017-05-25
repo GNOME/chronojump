@@ -5987,13 +5987,16 @@ public partial class ChronoJumpWindow
 							 * right now fixed in json.cs UploadEncoderData()
 							 */
 
+							LogB.Information("calling Upload");
 							Json js = new Json();
 							bool success = js.UploadEncoderData(
-									1, //TODO: currentPerson.UniqueID,
+									currentPerson.UniqueID,
 									1,
 									UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
 									Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)), //this is only for gravitatory
 									uo);
+							LogB.Information(js.ResultMessage);
+							LogB.Information("called Upload");
 
 							if(! success) {
 								LogB.Error(js.ResultMessage);

@@ -329,7 +329,8 @@ public class Json
 		else if(responseFromServer == "[]")
 			LogB.Information(" Empty2 "); //when rfid is not on server
 		else {
-			//patheticPersonDeserialize("[[2, \"(playername)\", 82.0, \"253,20,150,13\"]]");
+			//patheticPersonDeserialize("[[2, \"(playername)\", 82.0, \"253,20,150,13\", \"\"]]");
+			//patheticPersonDeserialize("[[2, \"(playername)\", 82.0, \"253,20,150,13\", \"jugadors/player.jpg\"]]");
 			person = patheticPersonDeserialize(responseFromServer);
 		}
 
@@ -337,6 +338,7 @@ public class Json
 
 	}
 	public double LastPersonByRFIDWeight = 0;
+	public string LastPersonByRFIDImageURL = "";
 	private Person patheticPersonDeserialize(string str)
 	{
 		LogB.Information("str:|" + str + "|");
@@ -345,13 +347,13 @@ public class Json
 		LogB.Information("id:|" + id + "|");
 
 		str = str.Substring(str.IndexOf('"') +1);
-		//LogB.Information("str:|" + str + "|");
+		LogB.Information("str:|" + str + "|");
 		
 		string player = str.Substring(0, str.IndexOf('"'));
 		LogB.Information("player:|" + player + "|");
 		
 		str = str.Substring(str.IndexOf(',') +2);
-		//LogB.Information("str:|" + str + "|");
+		LogB.Information("str:|" + str + "|");
 
 		string weight = str.Substring(0, str.IndexOf(','));
 		LogB.Information("weight:|" + weight + "|");

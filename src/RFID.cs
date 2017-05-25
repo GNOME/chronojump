@@ -70,11 +70,11 @@ public class RFID
 						str = str.Substring(0, str.IndexOf(Environment.NewLine)).Trim();
 					
 					LogB.Information("Yes one line and trim str" + str);
-	
-					//this first line should have a ';' (mark of end of rfid)	
-					if(str.IndexOf(";") > 0)
+
+					//this first line should have a 's' and 'e' (mark of 's'tart and 'e'nd of rfid)
+					if(str.IndexOf('s') == 0 && str[str.Length -1] == 'e')
 					{
-						str = str.Substring(0, str.IndexOf(";"));
+						str = str.Substring(1, str.Length -2);
 
 						if(str != lastRFID)
 						{

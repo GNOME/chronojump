@@ -562,6 +562,6 @@ public class UploadEncoderDataObject
 			if(compareTo > highest)
 				highest = compareTo;
 		}
-		return Convert.ToInt32(100.0 * (highest - lowest) / highest);
+		return Convert.ToInt32(Util.DivideSafeFraction(100.0 * (highest - lowest), highest));
 	}
 }

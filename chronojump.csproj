@@ -1175,6 +1175,7 @@
     <Compile Include="src\sqlite\forceSensor.cs" />
     <Compile Include="src\gui\trigger.cs" />
     <Compile Include="src\rfid.cs" />
+    <Compile Include="src\gui\dialogPersonPopup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

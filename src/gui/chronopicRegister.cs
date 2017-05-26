@@ -201,6 +201,8 @@ public class ChronopicRegisterWindow
 			Gtk.HBox hbox_type = new Gtk.HBox(false, 6);
 			Button button_left = create_arrow_button(ArrowType.Left, ShadowType.In);
 			button_left.Sensitive = (listConnected[count-1].Type != TypePixList.l[0].Type);
+			button_left.CanFocus = false;
+			button_left.IsFocus = false;
 			button_left.Clicked += on_button_left_clicked;
 			hbox_type.Add(button_left);
 
@@ -211,6 +213,8 @@ public class ChronopicRegisterWindow
 			hbox_type.Add(image);
 
 			Button button_right = create_arrow_button(ArrowType.Right, ShadowType.In);
+			button_right.CanFocus = false;
+			button_right.IsFocus = false;
 			button_right.Clicked += on_button_right_clicked;
 			button_right.Sensitive = (listConnected[count-1].Type != TypePixList.l[TypePixList.l.Count -1].Type);
 			hbox_type.Add(button_right);
@@ -310,6 +314,8 @@ public class ChronopicRegisterWindow
 
 		//---- button close start --->
 		Gtk.Button button_close = new Gtk.Button("Close Window");
+		button_close.CanFocus = true;
+		button_close.IsFocus = true;
 		button_close.Clicked += new EventHandler(on_button_close_clicked);
 
 		Gtk.AccelGroup ag = new Gtk.AccelGroup (); //button can be called clicking Escape key

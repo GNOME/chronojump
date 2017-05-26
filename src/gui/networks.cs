@@ -74,6 +74,8 @@ public partial class ChronoJumpWindow
 	private static bool shouldUpdateRFIDGui;
 	private static bool updatingRFIDGuiStuff;
 	private bool rfidProcessCancel;
+
+	DialogPersonPopup dialogPersonPopup;
 		
 	Config configChronojump;
 	private void configInitRead()
@@ -414,14 +416,20 @@ public partial class ChronoJumpWindow
 		if(currentPersonWasNull)
 			sensitiveGuiYesPerson();
 
-		/*TODO:
 		if(pChanged)
 		{
+			/*TODO:
 			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 			if(rowToSelect != -1)
 				selectRowTreeView_persons(treeview_persons, rowToSelect);
-		}
 			*/
+
+			if(dialogPersonPopup != null)
+				dialogPersonPopup.DestroyDialog();
+
+			dialogPersonPopup = new DialogPersonPopup(
+					currentPerson.UniqueID, currentPerson.Name, capturedRFID, "Sample task");
+		}
 
 		updatingRFIDGuiStuff = false;
 

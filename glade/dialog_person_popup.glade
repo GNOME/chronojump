@@ -107,19 +107,44 @@
                     <property name="left_padding">10</property>
                     <property name="right_padding">10</property>
                     <child>
-                      <widget class="GtkScrolledWindow" id="scrolledwindow5">
+                      <widget class="GtkVBox" id="vbox1">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">never</property>
+                        <property name="can_focus">False</property>
                         <child>
-                          <widget class="GtkTextView" id="textview_task">
-                            <property name="visible">True</property>
+                          <widget class="GtkScrolledWindow" id="scrolledwindow5">
                             <property name="can_focus">True</property>
-                            <property name="border_width">2</property>
-                            <property name="editable">False</property>
-                            <property name="cursor_visible">False</property>
+                            <property name="hscrollbar_policy">automatic</property>
+                            <property name="vscrollbar_policy">never</property>
+                            <child>
+                              <widget class="GtkTextView" id="textview_task">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="border_width">2</property>
+                                <property name="editable">False</property>
+                                <property name="cursor_visible">False</property>
+                              </widget>
+                            </child>
                           </widget>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkVBox" id="vbox_tasks">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="spacing">10</property>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
                         </child>
                       </widget>
                     </child>
@@ -129,7 +154,7 @@
                   <widget class="GtkLabel" id="label23">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Task</property>
+                    <property name="label">TODO Tasks</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>

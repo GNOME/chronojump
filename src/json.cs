@@ -80,7 +80,7 @@ public class Json
 		} catch {
 			LogB.Warning("Error sending datastream");
 			this.ResultMessage = Catalog.GetString("Could not send file.") + "\n" + 
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
 						serverUrl);
 			return false;
 		}
@@ -98,7 +98,7 @@ public class Json
 		} catch {
 			LogB.Warning("Error getting response");
 			this.ResultMessage = Catalog.GetString("Could not send file.") + "\n" + 
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
 						serverUrl);
 			return false;
 		}
@@ -404,6 +404,101 @@ public class Json
 		return true;
 	}
 
+	public List<Task> GetTasks(int personID)
+	{
+		// Create a request using a URL that can receive a post.
+		WebRequest request = WebRequest.Create (serverUrl + "/getTasks");
+
+		// Set the Method property of the request to POST.
+		request.Method = "POST";
+
+		// Set the ContentType property of the WebRequest.
+		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
+
+		// Creates the json object
+		JsonObject json = new JsonObject();
+		json.Add("personId", personID.ToString());
+
+		// Converts it to a String
+		String js = json.ToString();
+
+		// Writes the json object into the request dataStream
+		Stream dataStream;
+		try {
+			dataStream = request.GetRequestStream ();
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+				serverUrl);
+			return new List<Task>();
+		}
+
+		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
+		dataStream.Close ();
+
+		HttpWebResponse response;
+		try {
+			response = (HttpWebResponse) request.GetResponse();
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
+				serverUrl);
+			return new List<Task>();
+		}
+
+		string responseFromServer;
+		using (var sr = new StreamReader(response.GetResponseStream()))
+		{
+			responseFromServer = sr.ReadToEnd();
+		}
+
+		LogB.Information("GetTasks: " + responseFromServer);
+
+		if(responseFromServer == "" || responseFromServer == "[]")
+		{
+			LogB.Information(" Empty ");
+			return new List<Task>();
+		}
+
+		return patheticTasksDeserialize(responseFromServer);
+	}
+	private List<Task> patheticTasksDeserialize(string responseFromServer)
+	{
+		List<Task> list = new List<Task>();
+
+		// 	[[1, "one task"], [3, "another task"]]
+
+		//1) convert it to:
+		// 	[1, "one task"], [3, "another task"]
+		responseFromServer = responseFromServer.Substring(1, responseFromServer.Length -2);
+
+		string [] strFull = responseFromServer.Split(new char[] {']'});
+		foreach(string str in strFull)
+		{
+			if(str == null || str == "")
+				continue;
+
+			string s = str;
+			LogB.Information("before: " + s);
+			if(s.StartsWith(", ["))
+				s = s.Substring(3);
+			else
+				s = s.Substring(1);
+
+			//don't use this because comments can have a comma
+			//string [] s2 = s.Split(new char[] {','});
+
+			//get the first comma
+			int sepPos = s.IndexOf(',');
+			string sId = s.Substring(0, sepPos);
+			string sComment = s.Substring(sepPos +1);
+			sComment = sComment.Substring(2, sComment.Length -3); 	//remove initial ' "' and end '"'
+
+			list.Add(new Task(Convert.ToInt32(sId), sComment));
+		}
+		return list;
+	}
+
 	/*
 	public bool UploadEncoderData()
 	{
@@ -600,5 +695,28 @@ public class UploadEncoderDataObject
 				highest = compareTo;
 		}
 		return Convert.ToInt32(Util.DivideSafeFraction(100.0 * (highest - lowest), highest));
+	}
+}
+
+public class Task
+{
+	public int Id;
+	public string Comment;
+
+	public Task()
+	{
+		Id = -1;
+		Comment = "";
+	}
+
+	public Task(int id, string comment)
+	{
+		Id = id;
+		Comment = comment;
+	}
+
+	public override string ToString()
+	{
+		return Id.ToString() + ": " + Comment;
 	}
 }

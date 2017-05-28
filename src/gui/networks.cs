@@ -368,12 +368,12 @@ public partial class ChronoJumpWindow
 
 		bool currentPersonWasNull = (currentPerson == null);
 		bool pChanged = false;
+		Json json = new Json();
 		if(p.UniqueID == -1)
 		{
 			LogB.Information("RFID person does not exist!!");
 
-			Json js = new Json();
-			p = js.GetPersonByRFID(capturedRFID);
+			p = json.GetPersonByRFID(capturedRFID);
 			if(p.UniqueID == -1) {
 				LogB.Information("Person NOT found on server!");
 				new DialogMessage(Constants.MessageTypes.WARNING,
@@ -385,15 +385,15 @@ public partial class ChronoJumpWindow
 				currentPerson = p;
 				currentPersonSession = new PersonSession (
 						currentPerson.UniqueID, currentSession.UniqueID, 
-						0, js.LastPersonByRFIDWeight,
+						0, json.LastPersonByRFIDWeight,
 						Constants.SportUndefinedID, 
 						Constants.SpeciallityUndefinedID, 
 						Constants.LevelUndefinedID,
 						"", false); //comments, dbconOpened
 
-				if(js.LastPersonByRFIDImageURL != "")
+				if(json.LastPersonByRFIDImageURL != "")
 				{
-					bool downloaded = js.DownloadImage(js.LastPersonByRFIDImageURL, currentPerson.UniqueID);
+					bool downloaded = json.DownloadImage(json.LastPersonByRFIDImageURL, currentPerson.UniqueID);
 					if(downloaded)
 						File.Copy(
 								Path.Combine(Path.GetTempPath(), currentPerson.UniqueID.ToString()),
@@ -424,11 +424,13 @@ public partial class ChronoJumpWindow
 				selectRowTreeView_persons(treeview_persons, rowToSelect);
 			*/
 
+			List<Task> tasks = json.GetTasks(currentPerson.UniqueID);
+
 			if(dialogPersonPopup != null)
 				dialogPersonPopup.DestroyDialog();
 
 			dialogPersonPopup = new DialogPersonPopup(
-					currentPerson.UniqueID, currentPerson.Name, capturedRFID, "Sample task");
+					currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks);
 		}
 
 		updatingRFIDGuiStuff = false;

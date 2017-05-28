@@ -20,6 +20,7 @@
 
 using System;
 using System.IO; 
+using System.Collections.Generic; //List
 using Gtk;
 using Gdk;
 using Glade;
@@ -32,7 +33,7 @@ public class DialogPersonPopup
 	[Widget] Gtk.Label label_rfid;
 	[Widget] Gtk.TextView textview_task;
 
-	public DialogPersonPopup (int personID, string name, string rfid, string task)
+	public DialogPersonPopup (int personID, string name, string rfid, List<Task> tasks)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_person_popup.glade", "dialog_person_popup", null);
@@ -61,7 +62,10 @@ public class DialogPersonPopup
 		}
 
 		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.Text =  task;
+		tb.Text = "";
+		foreach(Task t in tasks)
+			tb.Text += t.ToString() + "\n";
+
 		textview_task.Buffer = tb;
 	}
 

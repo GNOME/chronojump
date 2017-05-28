@@ -32,6 +32,10 @@ public class DialogPersonPopup
 	[Widget] Gtk.Image image;
 	[Widget] Gtk.Label label_rfid;
 	[Widget] Gtk.TextView textview_task;
+	[Widget] Gtk.VBox vbox_tasks;
+
+	private List<Gtk.CheckButton> list_checks;
+	private List<int> list_tasks_id;
 
 	public DialogPersonPopup (int personID, string name, string rfid, List<Task> tasks)
 	{
@@ -67,6 +71,45 @@ public class DialogPersonPopup
 			tb.Text += t.ToString() + "\n";
 
 		textview_task.Buffer = tb;
+
+		list_checks = new List<Gtk.CheckButton>();
+		list_tasks_id = new List<int>();
+		foreach(Task t in tasks)
+		{
+			CheckButton check = new Gtk.CheckButton(t.ToString());
+			check.Toggled += on_task_toggled;
+			check.Active = true;
+			vbox_tasks.Add(check);
+
+			list_checks.Add(check);
+			list_tasks_id.Add(t.Id);
+		}
+		vbox_tasks.ShowAll();
+	}
+
+	private void on_task_toggled(object o, EventArgs args)
+	{
+		CheckButton checkToggled = o as CheckButton;
+		if (o == null)
+			return;
+
+		int count = 0;
+		foreach(Gtk.CheckButton check in list_checks)
+		{
+			if(check == checkToggled)
+			{
+				LogB.Information("check toggled row: " + count.ToString());
+				LogB.Information(check.Active.ToString());
+
+				Json json = new Json();
+				/*
+				 * pass negative check because on this dialog "active" means to do task
+				 * on server the boolean is called "done" and means the opposite
+				 */
+				json.UpdateTask(list_tasks_id[count], Util.BoolToInt(! check.Active));
+			}
+			count ++;
+		}
 	}
 
 	public void on_button_close_clicked (object obj, EventArgs args)

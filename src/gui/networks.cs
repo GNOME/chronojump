@@ -91,8 +91,8 @@ public partial class ChronoJumpWindow
 
 			//on compujump cannot add/edit persons, do it from server
 			frame_persons_top.Visible = false;
-			button_contacts_person_change.Visible = false;
-			button_encoder_person_change.Visible = false;
+			//button_contacts_person_change.Visible = false;
+			//button_encoder_person_change.Visible = false;
 			//TODO: don't allow edit person on person treeview
 
 			Json.ChangeServerUrl(configChronojump.CompujumpServerURL);
@@ -425,12 +425,7 @@ public partial class ChronoJumpWindow
 			*/
 
 			List<Task> tasks = json.GetTasks(currentPerson.UniqueID);
-
-			if(dialogPersonPopup != null)
-				dialogPersonPopup.DestroyDialog();
-
-			dialogPersonPopup = new DialogPersonPopup(
-					currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks);
+			showDialogPersonPopup(tasks);
 		}
 
 		updatingRFIDGuiStuff = false;
@@ -439,6 +434,22 @@ public partial class ChronoJumpWindow
 		LogB.Information(" threadRFID:" + threadRFID.ThreadState.ToString());
 
 		return true;
+	}
+
+	private void on_button_person_popup_clicked (object o, EventArgs args)
+	{
+		Json json = new Json();
+		List<Task> tasks = json.GetTasks(currentPerson.UniqueID);
+		showDialogPersonPopup(tasks);
+	}
+
+	private void showDialogPersonPopup(List<Task> tasks)
+	{
+		if(dialogPersonPopup != null)
+			dialogPersonPopup.DestroyDialog();
+
+		dialogPersonPopup = new DialogPersonPopup(
+				currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks);
 	}
 
 

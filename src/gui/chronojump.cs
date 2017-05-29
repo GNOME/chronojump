@@ -2640,8 +2640,16 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_button_top_person_change_clicked (object o, EventArgs args)
+	private void on_button_top_person_clicked (object o, EventArgs args)
 	{
+		//if compujump show person profile at server
+		if(configChronojump.Compujump)
+		{
+			on_button_person_popup_clicked (o, args);
+			return;
+		}
+
+		//if not compujump show person change window
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID, 
 				false); //means: do not returnPersonAndPSlist

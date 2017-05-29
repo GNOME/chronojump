@@ -336,8 +336,10 @@ public partial class ChronoJumpWindow
 		}
 		*/
 
-		label_rfid_contacts.Visible = (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX);
-		label_rfid_encoder.Visible = (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX);
+		//label_rfid_contacts.Visible = (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX);
+		//label_rfid_encoder.Visible = (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX);
+		label_rfid_contacts.Visible = false;
+		label_rfid_encoder.Visible = false;
 	}
 
 	private bool pulseRFID ()
@@ -438,6 +440,9 @@ public partial class ChronoJumpWindow
 
 	private void on_button_person_popup_clicked (object o, EventArgs args)
 	{
+		if(currentPerson == null)
+			return;
+
 		Json json = new Json();
 		List<Task> tasks = json.GetTasks(currentPerson.UniqueID);
 		showDialogPersonPopup(tasks);

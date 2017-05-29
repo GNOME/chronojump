@@ -93,8 +93,10 @@ splitTime <- function(Vmax, K, position, tolerance = 0.001, initTime = 1)
 
 prepareGraph <- function(os, pngFile, width, height)
 {
-	if(os == "Windows")
+	if(os == "Windows"){
+	        library("Cairo")
 		Cairo(width, height, file = pngFile, type="png", bg="white")
+	}
 	else
 		png(pngFile, width=width, height=height)
 }

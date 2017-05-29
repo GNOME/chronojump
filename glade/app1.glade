@@ -1263,6 +1263,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -3152,7 +3155,7 @@ EncoderInertialCapture</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
                                                     <property name="tooltip" translatable="yes">Person</property>
-                                                    <signal name="clicked" handler="on_button_top_person_change_clicked" swapped="no"/>
+                                                    <signal name="clicked" handler="on_button_top_person_clicked" swapped="no"/>
                                                     <child>
                                                       <widget class="GtkImage" id="image_person1">
                                                         <property name="visible">True</property>
@@ -3169,7 +3172,6 @@ EncoderInertialCapture</property>
                                                 </child>
                                                 <child>
                                                   <widget class="GtkLabel" id="label_rfid_contacts">
-                                                    <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                   </widget>
                                                   <packing>
@@ -14485,7 +14487,7 @@ Concentric</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
                                                     <property name="tooltip" translatable="yes">Person</property>
-                                                    <signal name="clicked" handler="on_button_top_person_change_clicked" swapped="no"/>
+                                                    <signal name="clicked" handler="on_button_top_person_clicked" swapped="no"/>
                                                     <child>
                                                       <widget class="GtkImage" id="image_person">
                                                         <property name="visible">True</property>
@@ -14502,7 +14504,6 @@ Concentric</property>
                                                 </child>
                                                 <child>
                                                   <widget class="GtkLabel" id="label_rfid_encoder">
-                                                    <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                   </widget>
                                                   <packing>
@@ -19647,6 +19648,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

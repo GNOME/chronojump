@@ -227,6 +227,8 @@ drawDynamicsFromLoadCell <- function(
         print("--------Impulse-----------")
         print(op$drawImpulseOptions)
         impulseOptions = readImpulseOptions(op$drawImpulseOptions)
+
+	impulseLegend = ""
         
         if(impulseOptions$impulseFunction != "-1")
         {
@@ -247,7 +249,7 @@ drawDynamicsFromLoadCell <- function(
                                 
                         }
                 }
-                
+
                 if(impulseOptions$impulseFunction == "RAW")
                 {
                         
@@ -300,6 +302,8 @@ drawDynamicsFromLoadCell <- function(
                 
                 text(x = (dynamics$startTime + (dynamics$time[endImpulseSample] - dynamics$time[startImpulseSample])*0.66), y = mean(dynamics$f.raw[startImpulseSample:endImpulseSample])*0.66,
                      labels = paste("Impulse =", round(impulse, digits = 2), "N·s"), pos = 4, cex = 1.5)
+
+		impulseLegend = paste("Impulse", impulseOptions$start, "-", impulseOptions$end, " = ", round(impulse, digits = 2), " N·s", sep = "")
         }
         
         #Plotting not analysed data
@@ -523,9 +527,11 @@ drawDynamicsFromLoadCell <- function(
 
                 }
         }
-        
-        legendText = c(legendText, paste("Impulse", impulseOptions$start, "-", impulseOptions$end, " = ", round(impulse, digits = 2), " N·s", sep = ""))
-        legend(x = xmax, y = dynamics$fmax.fitted/2, legend = legendText, xjust = 1, yjust = 0.1, text.col = legendColor)
+
+	if(impulseLegend != "")
+		legendText = c(legendText, impulseLegend)
+
+	legend(x = xmax, y = dynamics$fmax.fitted/2, legend = legendText, xjust = 1, yjust = 0.1, text.col = legendColor)
         
         #Plotting instantaneous RFD
         # par(new = T)

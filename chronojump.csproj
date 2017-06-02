@@ -577,6 +577,12 @@
     <EmbeddedResource Include="images\line_person_max.png">
       <LogicalName>line_person_max.png</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="images\muscle-concentric.png">
+      <LogicalName>muscle-concentric.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\extra-mass.png">
+      <LogicalName>extra-mass.png</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="images\line_person_max_all_sessions.png">
       <LogicalName>line_person_max_all_sessions.png</LogicalName>
     </EmbeddedResource>

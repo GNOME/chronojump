@@ -88,6 +88,7 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
                           fmaxi,           # fmaxi is the initial value for the force. For numeric purpouses
                           initf)              # initf is the sustained force before the increase
 {
+
         timeTrimmed = time[which(time == startTime):length(time)]
         forceTrimmed = force[which(time == startTime):length(time)]
         timeTrimmed = timeTrimmed -  startTime
@@ -196,14 +197,16 @@ drawDynamicsFromLoadCell <- function(
         if(is.na(dynamics$time[1]))
         {
                 print("Dynamics not available:")
-                return()
+                return(NA)
         }
         par(mar = c(6, 4, 6, 4))
         
-        if(dynamics$fmax.fitted > dynamics$fmax.raw*1.5){
+        #Detecting if the duration of the sustained force enough
+        meanForce = mean(dynamics$f.raw[dynamics$startSample:dynamics$endSample])
+        if( meanForce < dynamics$fmax.raw*0.75 ){
                 sustainedForce = F
                 yHeight = dynamics$fmax.raw
-        } else if(dynamics$fmax.fitted <= dynamics$fmax.raw*1.5){
+        } else if( meanForce >= dynamics$fmax.raw*0.75 ){
                 sustainedForce = T
                 yHeight = max(dynamics$fmax.raw, dynamics$fmax.fitted) * 1.1
         }
@@ -229,8 +232,12 @@ drawDynamicsFromLoadCell <- function(
                      main = dynamics$nameOfFile, yaxs= "i", xaxs = "i")
         }
         
+
         if(!sustainedForce){
-                text("Bad execution. Probably not sustained force", adj = c(0.5, 0.5))
+                text(x = (xmax + xmin)/2, y = yHeight/2, labels = "Bad execution. Probably not sustained force", adj = c(0.5, 0.5), cex = 2, col = "red")
+                #Plotting not analysed data
+                lines(dynamics$time[1:dynamics$startSample] , dynamics$f.raw[1:dynamics$startSample], col = "grey") #Pre-analysis
+                lines(dynamics$time[dynamics$endSample: dynamics$totalSample] , dynamics$f.raw[dynamics$endSample: dynamics$totalSample], col = "grey") #Post-analysis
                 return()
         }
         

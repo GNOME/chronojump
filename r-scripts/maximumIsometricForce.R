@@ -162,7 +162,7 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         rfd50pfmax.fitted = model$fmax * model$K * exp(-model$K*(t50fmax.fitted - startTime))
         
         return(list(nameOfFile = inputFile, time = originalTest[, "time"], fmax.fitted = model$fmax, k.fitted = model$K,
-                    startTime = startTime, entTime = endTime,
+                    startTime = startTime, endTime = endTime,
                     startSample = startSample, endSample = endSample,
                     totalSample = length(originalTest$time),
                     initf = initf,
@@ -222,7 +222,7 @@ drawDynamicsFromLoadCell <- function(
                 xmax = xlimits[2]
                 points(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample])
         } else if (is.na(xlimits[1])){
-                xmin = dynamics$time[dynamics$startSample] - 0.5
+                xmin = dynamics$startTime - (dynamics$endTime - dynamics$startTime)*0.1
                 xmax = min(c(dynamics$endTime*1.1 - dynamics$startTime*0.1, dynamics$t0 + 1))
                 xWidth = xmax - xmin
                 plot(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample],

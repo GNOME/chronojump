@@ -134,7 +134,7 @@ public class ChronopicRegisterWindow
 
 	private void createWindow(Gtk.Window app1)
 	{
-		chronopic_register_win = new Gtk.Window (Catalog.GetString("Chronojump electronic board"));
+		chronopic_register_win = new Gtk.Window (Catalog.GetString("Chronojump devices"));
 		chronopic_register_win.AllowGrow = false;
 		chronopic_register_win.Modal = true;
 		chronopic_register_win.TransientFor = app1;
@@ -279,8 +279,8 @@ public class ChronopicRegisterWindow
 		if(connectedCount > 0)
 		{
 			string str = string.Format(Catalog.GetPluralString(
-						"Found 1 board.",
-						"Found {0} boards.",
+						"Found 1 device.",
+						"Found {0} devices.",
 						connectedCount),
 					connectedCount);
 
@@ -288,8 +288,8 @@ public class ChronopicRegisterWindow
 			{
 				str += "\n\n";
 				str += string.Format(Catalog.GetPluralString(
-							"One board is not configured. Please, configure it.",
-							"{0} boards are not configured. Please, configure them.",
+							"One device is not configured. Please, configure it.",
+							"{0} devices are not configured. Please, configure them.",
 							unknownCount),
 						unknownCount) + "\n";
 			}

@@ -296,7 +296,7 @@ public class ChronopicRegisterWindow
 			return str;
 		}
 
-		return Catalog.GetString("Board not found") + "\n\n" + Catalog.GetString("Connect and reopen this window.");
+		return Catalog.GetString("Device not found") + "\n\n" + Catalog.GetString("Connect and reopen this window.");
 	}
 
 	private void createButtons()

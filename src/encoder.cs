@@ -1526,7 +1526,7 @@ public class EncoderConfiguration
 		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALLATERALMOVPULLEY) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 3;
-			image = Constants.FileNameEncoderAxisInertialMovPulley; //TODO
+			image = Constants.FileNameEncoderAxisInertialMovPulleyLateral;
 			code = "Rotary axis - inertial machine - horizontal movement - geared up";
 			text = Catalog.GetString("Rotary axis encoder on inertial machine geared up when person is moving horizontally.") + "\n" +
 				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled") + "\n" +

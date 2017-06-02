@@ -819,6 +819,7 @@ public class Constants
 	public static string FileNameEncoderAxisInertial = "encoder-rotary-axis-inertial.png";
 	public static string FileNameEncoderAxisInertialLateral = "encoder-rotary-axis-inertial-lateral.png";
 	public static string FileNameEncoderAxisInertialMovPulley = "encoder-rotary-axis-inertial-mov-pulley.png";
+	public static string FileNameEncoderAxisInertialMovPulleyLateral = "encoder-rotary-axis-inertial-mov-pulley-lateral.png";
 	public static string FileNameEncoderAxisWithMovPulley = "encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png";
 	
 	public static string FileNameEncoderCalculeIM = "encoder-calcule-im.png";	

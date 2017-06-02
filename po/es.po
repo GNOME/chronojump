@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-02 17:41+0200\n"
-"PO-Revision-Date: 2017-06-02 18:05+0200\n"
+"POT-Creation-Date: 2017-06-02 18:21+0200\n"
+"PO-Revision-Date: 2017-06-02 18:22+0200\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -5563,9 +5563,8 @@ msgstr[0] "Un dispositivo no está configurado. Por favor, configúrelo"
 msgstr[1] "{0} dispositivo no están configurados. Por favor, configúrelos."
 
 #: ../src/gui/chronopicRegister.cs:299
-#, fuzzy
-msgid "Board not found"
-msgstr "Ubicación no encontrada."
+msgid "Device not found"
+msgstr "Dispositivo no encontrado"
 
 #: ../src/gui/chronopicRegister.cs:299
 msgid "Connect and reopen this window."
@@ -9505,6 +9504,10 @@ msgstr "Tiempo de tramo"
 #: ../src/treeViewRun.cs:133
 msgid "Split time"
 msgstr "Tiempo acumulado"
+
+#, fuzzy
+#~ msgid "Board not found"
+#~ msgstr "Ubicación no encontrada."
 
 #~ msgid "Or press '1'"
 #~ msgstr "O pulse «1»"

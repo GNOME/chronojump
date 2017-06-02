@@ -200,8 +200,15 @@ drawDynamicsFromLoadCell <- function(
         }
         par(mar = c(6, 4, 6, 4))
         
+        if(dynamics$fmax.fitted > dynamics$fmax.raw*1.5){
+                sustainedForce = F
+                yHeight = dynamics$fmax.raw
+        } else if(dynamics$fmax.fitted <= dynamics$fmax.raw*1.5){
+                sustainedForce = T
+                yHeight = max(dynamics$fmax.raw, dynamics$fmax.fitted) * 1.1
+        }
+                
         #Plotting raw data from startTime to endTime (Only the analysed data)
-        yHeight = max(dynamics$fmax.raw, dynamics$fmax.fitted) * 1.1
         if (!is.na(xlimits[1])){
                 xWidth = xlimits[2] - xlimits[1]
                 plot(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample],
@@ -220,6 +227,11 @@ drawDynamicsFromLoadCell <- function(
                      xlim = c(xmin, xmax),
                      ylim=c(0, yHeight),
                      main = dynamics$nameOfFile, yaxs= "i", xaxs = "i")
+        }
+        
+        if(!sustainedForce){
+                text("Bad execution. Probably not sustained force", adj = c(0.5, 0.5))
+                return()
         }
         
         #Plotting Impulse

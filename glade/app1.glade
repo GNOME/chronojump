@@ -4585,7 +4585,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkLabel" id="label250">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Board</property>
+                                                            <property name="label" translatable="yes">Device</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -15460,7 +15460,7 @@ Concentric</property>
                                                             <widget class="GtkLabel" id="label132">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">Board</property>
+                                                            <property name="label">Device</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>

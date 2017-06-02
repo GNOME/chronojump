@@ -331,7 +331,7 @@ public class Json
 		else {
 			//patheticPersonDeserialize("[[2, \"(playername)\", 82.0, \"253,20,150,13\", \"\"]]");
 			//patheticPersonDeserialize("[[2, \"(playername)\", 82.0, \"253,20,150,13\", \"jugadors/player.jpg\"]]");
-			person = patheticPersonDeserialize(responseFromServer);
+			person = personDeserialize(responseFromServer);
 		}
 
 		return person;
@@ -339,41 +339,24 @@ public class Json
 	}
 	public double LastPersonByRFIDWeight = 0;
 	public string LastPersonByRFIDImageURL = "";
-	private Person patheticPersonDeserialize(string str)
+	private Person personDeserialize(string strPeople)
 	{
-		LogB.Information("str:|" + str + "|");
-		
-		string id = str.Substring(2, str.IndexOf(',') -2);
-		LogB.Information("id:|" + id + "|");
+		JsonValue jsonPeople = JsonValue.Parse(strPeople);
 
-		str = str.Substring(str.IndexOf('"') +1);
-		LogB.Information("str:|" + str + "|");
-		
-		string player = str.Substring(0, str.IndexOf('"'));
-		LogB.Information("player:|" + player + "|");
-		
-		str = str.Substring(str.IndexOf(',') +2);
-		LogB.Information("str:|" + str + "|");
+		// We receive a list of people but we are interested only on the first one (?)
+		JsonValue person = jsonPeople [0];
 
-		string weight = str.Substring(0, str.IndexOf(','));
-		LogB.Information("weight:|" + weight + "|");
-		
-	
-		LastPersonByRFIDWeight = Convert.ToDouble(Util.ChangeDecimalSeparator(weight));
-		str = str.Substring(str.IndexOf('"') +1);
-		LogB.Information("str:|" + str + "|");
-		
-		string rfid = str.Substring(0, str.IndexOf('"'));
-		LogB.Information("rfid:|" + rfid + "|");
+		Int32 id = person [0];
+		string player = person [1];
+		double weight = person [2];
+		double height = person [3];
+		string rfid = person [4];
+		string image = person [5];
 
-		str = str.Substring(str.IndexOf('"') +4);
-		LogB.Information("str:|" + str + "|");
-
-		string image = str.Substring(0, str.LastIndexOf('"'));
-		LogB.Information("image:|" + image + "|");
+		LastPersonByRFIDWeight = weight;
 		LastPersonByRFIDImageURL = image;
 
-		return new Person(Convert.ToInt32(id), player, rfid);
+		return new Person(id, player, rfid);
 	}
 
 

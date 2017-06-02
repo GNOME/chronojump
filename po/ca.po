@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-02 17:41+0200\n"
-"PO-Revision-Date: 2017-06-02 18:18+0200\n"
+"POT-Creation-Date: 2017-06-02 18:21+0200\n"
+"PO-Revision-Date: 2017-06-02 18:23+0200\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: \n"
 "Language: ca\n"
@@ -5587,8 +5587,8 @@ msgstr[0] "Un dispositiu no està configurat. Siusplau configureu-lo"
 msgstr[1] "{0} dispositius no estan configurats. Siusplau, configureu-los"
 
 #: ../src/gui/chronopicRegister.cs:299
-msgid "Board not found"
-msgstr "Localització no trobada."
+msgid "Device not found"
+msgstr "Dispositiu no trobat"
 
 #: ../src/gui/chronopicRegister.cs:299
 msgid "Connect and reopen this window."
@@ -9539,6 +9539,9 @@ msgstr "Temps parcial"
 #: ../src/treeViewRun.cs:133
 msgid "Split time"
 msgstr "Temps acumulat"
+
+#~ msgid "Board not found"
+#~ msgstr "Localització no trobada."
 
 #~ msgid "Or press '1'"
 #~ msgstr "O premi '1'"

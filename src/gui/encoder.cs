@@ -4321,55 +4321,40 @@ public partial class ChronoJumpWindow
 		Gdk.Point [] paintPoints = new Gdk.Point[toDraw];
 		Gdk.Point [] paintPointsInertial = new Gdk.Point[toDraw];
 
-		//currently disabled points painting on continuous mode
-		if(radio_encoder_capture_cont.Active) {
-			int graphWidth = encoder_capture_signal_drawingarea.Allocation.Width;
-			int graphHeight = encoder_capture_signal_drawingarea.Allocation.Height;
-			
-			layout_encoder_capture_signal.SetMarkup("Graph currently disabled\non continuous mode");
-			int textWidth = 1;
-			int textHeight = 1;
-			layout_encoder_capture_signal.GetPixelSize(out textWidth, out textHeight); 
-			
-			encoder_capture_signal_pixmap.DrawLayout(pen_blue_encoder_capture, 
-					graphWidth/2 - textWidth/2, graphHeight/2 - textHeight/2, layout_encoder_capture_signal);
-		}
-		else {
-			for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j++) 
-			{
-				paintPoints[j] = eCapture.EncoderCapturePoints[i];
+		for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j++)
+		{
+			paintPoints[j] = eCapture.EncoderCapturePoints[i];
 
-				if(refreshAreaOnly) {
-					if(eCapture.EncoderCapturePoints[i].Y > maxY)
-						maxY = eCapture.EncoderCapturePoints[i].Y;
-					if(eCapture.EncoderCapturePoints[i].Y < minY)
-						minY = eCapture.EncoderCapturePoints[i].Y;
-				}
-
+			if(refreshAreaOnly) {
+				if(eCapture.EncoderCapturePoints[i].Y > maxY)
+					maxY = eCapture.EncoderCapturePoints[i].Y;
+				if(eCapture.EncoderCapturePoints[i].Y < minY)
+					minY = eCapture.EncoderCapturePoints[i].Y;
 			}
 
-			if(mode == UpdateEncoderPaintModes.INERTIAL) {
-				for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j ++) 
-				{
-					//only assign the points if they are different than paintPoints
-					if(eCapture.EncoderCapturePointsInertialDisc[i] != eCapture.EncoderCapturePoints[i] &&
-							(i % 800) <= 520 //dashed accepting 520 points and discarding 280
-					  ) {
-						paintPointsInertial[j] = eCapture.EncoderCapturePointsInertialDisc[i];
+		}
 
-						if(refreshAreaOnly) {
-							if(eCapture.EncoderCapturePointsInertialDisc[i].Y > maxY)
-								maxY = eCapture.EncoderCapturePointsInertialDisc[i].Y;
-							if(eCapture.EncoderCapturePointsInertialDisc[i].Y < minY)
-								minY = eCapture.EncoderCapturePointsInertialDisc[i].Y;
-						}
+		if(mode == UpdateEncoderPaintModes.INERTIAL) {
+			for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j ++)
+			{
+				//only assign the points if they are different than paintPoints
+				if(eCapture.EncoderCapturePointsInertialDisc[i] != eCapture.EncoderCapturePoints[i] &&
+						(i % 800) <= 520 //dashed accepting 520 points and discarding 280
+				  ) {
+					paintPointsInertial[j] = eCapture.EncoderCapturePointsInertialDisc[i];
+
+					if(refreshAreaOnly) {
+						if(eCapture.EncoderCapturePointsInertialDisc[i].Y > maxY)
+							maxY = eCapture.EncoderCapturePointsInertialDisc[i].Y;
+						if(eCapture.EncoderCapturePointsInertialDisc[i].Y < minY)
+							minY = eCapture.EncoderCapturePointsInertialDisc[i].Y;
 					}
 				}
-				encoder_capture_signal_pixmap.DrawPoints(pen_gray, paintPointsInertial);
 			}
-			//paint this after the inertial because this should mask the other
-			encoder_capture_signal_pixmap.DrawPoints(pen_black_encoder_capture, paintPoints);
+			encoder_capture_signal_pixmap.DrawPoints(pen_gray, paintPointsInertial);
 		}
+		//paint this after the inertial because this should mask the other
+		encoder_capture_signal_pixmap.DrawPoints(pen_black_encoder_capture, paintPoints);
 		
 
 		//write title
@@ -4995,10 +4980,8 @@ public partial class ChronoJumpWindow
 					eCapture = new EncoderCaptureGravitatory();
 
 				int recordingTime = preferences.encoderCaptureTime;
-				if(radio_encoder_capture_cont.Active)  {
-					recordingTime = 0;
+				if(radio_encoder_capture_cont.Active)
 					encoderProcessFinishContMode = false; //will be true when finish button is pressed
-				}
 
 				string portName = "";
 				if( ! (currentSession.Name == Constants.SessionSimulatedName && testsActive))

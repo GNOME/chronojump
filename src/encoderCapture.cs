@@ -340,7 +340,7 @@ public abstract class EncoderCapture
 							EncoderCapturePoints = new List<Gdk.Point>();
 							EncoderCapturePointsInertialDisc = new List<Gdk.Point>();
 							EncoderCapturePointsCaptured = 0;
-							EncoderCapturePointsPainted = 0; 	//-1 means delete screen
+							EncoderCapturePointsPainted = -1; 	//-1 means delete screen
 						}
 
 						i = -1; //will be 0 on next loop start
@@ -674,8 +674,6 @@ public abstract class EncoderCapture
 	protected virtual void assignEncoderCapturePoints() 
 	{
 		int xWidth = recordingTime;
-		if(cont)
-			xWidth = recordedTimeCont;
 
 		EncoderCapturePoints.Add(new Gdk.Point(
 				Convert.ToInt32(widthG * i / xWidth),
@@ -688,25 +686,33 @@ public abstract class EncoderCapture
 	{
 		//adaptative displayed height
 		//if points go outside the graph, duplicate size of graph
-		if(EncoderCapturePoints[i].Y > heightG || EncoderCapturePoints[i].Y < 0) 
+		bool needToChangeGraph = false;
+		if(EncoderCapturePoints[i].Y > heightG || EncoderCapturePoints[i].Y < 0)
 		{
 			realHeightG *= 2;
-
-			int xWidth = recordingTime;
-			if(cont)
-				xWidth = recordedTimeCont;
-
-			double sum2=0;
-			for(int j=0; j <= i; j ++) {
-				sum2 += encoderReaded[j];
-				EncoderCapturePoints[j] = new Gdk.Point(
-						Convert.ToInt32(widthG * j / xWidth),
-						Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
-						);
-			}
-			EncoderCapturePointsCaptured = i;
-			EncoderCapturePointsPainted = -1; //mark meaning screen should be erased
+			needToChangeGraph = true;
 		}
+		if(cont && i >= recordingTime)
+		{
+			recordingTime *= 2;
+			needToChangeGraph = true;
+		}
+
+		if(! needToChangeGraph)
+			return;
+
+		int xWidth = recordingTime;
+
+		double sum2=0;
+		for(int j=0; j <= i; j ++) {
+			sum2 += encoderReaded[j];
+			EncoderCapturePoints[j] = new Gdk.Point(
+					Convert.ToInt32(widthG * j / xWidth),
+					Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
+					);
+		}
+		EncoderCapturePointsCaptured = i;
+		EncoderCapturePointsPainted = -1; //mark meaning screen should be erased
 	}
 
 	/*
@@ -940,8 +946,8 @@ public class EncoderCaptureInertial : EncoderCapture
 	protected override void assignEncoderCapturePoints() 
 	{
 		int xWidth = recordingTime;
-		if(cont)
-			xWidth = recordedTimeCont;
+//		if(cont)
+//			xWidth = recordedTimeCont;
 
 		EncoderCapturePoints.Add(new Gdk.Point(
 				Convert.ToInt32(widthG * i / xWidth),
@@ -957,33 +963,46 @@ public class EncoderCaptureInertial : EncoderCapture
 	{
 		//adaptative displayed height
 		//if points go outside the graph, duplicate size of graph
+		bool needToChangeGraph = false;
 		if(
-				EncoderCapturePoints[i].Y > heightG || EncoderCapturePoints[i].Y < 0 ||
-				EncoderCapturePointsInertialDisc[i].Y > heightG || 
-				EncoderCapturePointsInertialDisc[i].Y < 0 ) {
+				EncoderCapturePoints[i].Y > heightG ||
+				EncoderCapturePoints[i].Y < 0 ||
+				EncoderCapturePointsInertialDisc[i].Y > heightG ||
+				EncoderCapturePointsInertialDisc[i].Y < 0)
+		{
 			realHeightG *= 2;
-
-			int xWidth = recordingTime;
-			if(cont)
-				xWidth = recordedTimeCont;
-
-			double sum2 = 0;
-			double sum2InertialDisc = 0;
-			for(int j=0; j <= i; j ++) {
-				sum2 += encoderReaded[j];
-				sum2InertialDisc += encoderReadedInertialDisc[j];
-				EncoderCapturePoints[j] = new Gdk.Point(
-						Convert.ToInt32(widthG * j / xWidth),
-						Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
-						);
-				EncoderCapturePointsInertialDisc[j] = new Gdk.Point(
-						Convert.ToInt32(widthG * j / xWidth),
-						Convert.ToInt32( (heightG/2) - ( sum2InertialDisc * heightG / realHeightG) )
-						);
-			}
-			EncoderCapturePointsCaptured = i;
-			EncoderCapturePointsPainted = -1; //mark meaning screen should be erased and start painting from the beginning
+			needToChangeGraph = true;
 		}
+		if(cont && i >= recordingTime)
+		{
+			recordingTime *= 2;
+			needToChangeGraph = true;
+		}
+
+		if(! needToChangeGraph)
+			return;
+
+		int xWidth = recordingTime;
+		//if(cont)
+		//	xWidth = recordedTimeCont;
+
+		double sum2 = 0;
+		double sum2InertialDisc = 0;
+		for(int j=0; j <= i; j ++)
+		{
+			sum2 += encoderReaded[j];
+			sum2InertialDisc += encoderReadedInertialDisc[j];
+			EncoderCapturePoints[j] = new Gdk.Point(
+					Convert.ToInt32(widthG * j / xWidth),
+					Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
+					);
+			EncoderCapturePointsInertialDisc[j] = new Gdk.Point(
+					Convert.ToInt32(widthG * j / xWidth),
+					Convert.ToInt32( (heightG/2) - ( sum2InertialDisc * heightG / realHeightG) )
+					);
+		}
+		EncoderCapturePointsCaptured = i;
+		EncoderCapturePointsPainted = -1; //mark meaning screen should be erased and start painting from the beginning
 	}
 	
 

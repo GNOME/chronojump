@@ -339,19 +339,16 @@ public class Json
 	}
 	public double LastPersonByRFIDWeight = 0;
 	public string LastPersonByRFIDImageURL = "";
-	private Person personDeserialize(string strPeople)
+	private Person personDeserialize(string strPerson)
 	{
-		JsonValue jsonPeople = JsonValue.Parse(strPeople);
+		JsonValue jsonPerson = JsonValue.Parse(strPerson);
 
-		// We receive a list of people but we are interested only on the first one (?)
-		JsonValue person = jsonPeople [0];
-
-		Int32 id = person [0];
-		string player = person [1];
-		double weight = person [2];
-		double height = person [3];
-		string rfid = person [4];
-		string image = person [5];
+		Int32 id = jsonPerson ["id"];
+		string player = jsonPerson ["name"];
+		double weight = jsonPerson ["weight"];
+		double height = jsonPerson ["height"];
+		string rfid = jsonPerson ["rfid"];
+		string image = jsonPerson ["imageName"];
 
 		LastPersonByRFIDWeight = weight;
 		LastPersonByRFIDImageURL = image;

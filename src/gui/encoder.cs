@@ -55,7 +55,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_encoder_top;
 	[Widget] Gtk.Label label_encoder_top_selected;
 	[Widget] Gtk.Label label_encoder_top_exercise;
-	[Widget] Gtk.Label label_encoder_top_laterality;
 	[Widget] Gtk.Label label_encoder_top_extra_mass;
 	[Widget] Gtk.Label label_encoder_top_1RM_percent;
 	[Widget] Gtk.Label label_encoder_top_weights;
@@ -3405,16 +3404,9 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false; //do not show hbox at start
 
 		label_encoder_top_exercise.Text = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
+		setEcconPixbuf();
+		setLateralityPixbuf();
 
-		//label_encoder_top_eccon.Text = UtilGtk.ComboGetActive(combo_encoder_eccon);
-		Pixbuf pixbuf;
-		if(UtilGtk.ComboGetActive(combo_encoder_eccon) == Catalog.GetString("Concentric"))
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
-		else
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
-		image_muscle.Pixbuf = pixbuf;
-
-		label_encoder_top_laterality.Text = UtilGtk.ComboGetActive(combo_encoder_laterality);
 		label_encoder_top_extra_mass.Text = entry_raspberry_extra_weight.Text + " Kg";
 		label_encoder_top_1RM_percent.Text = label_encoder_1RM_percent.Text + " %1RM";
 		label_encoder_top_weights.Text = Catalog.GetString("Weights") + ": " + entry_encoder_im_weights_n.Text;
@@ -3542,7 +3534,11 @@ public partial class ChronoJumpWindow
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
-		//label_encoder_top_eccon.Text = UtilGtk.ComboGetActive(combo_encoder_eccon);
+		setEcconPixbuf();
+	}
+
+	void setEcconPixbuf()
+	{
 		Pixbuf pixbuf;
 		if(UtilGtk.ComboGetActive(combo_encoder_eccon) == Catalog.GetString("Concentric"))
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
@@ -3553,9 +3549,20 @@ public partial class ChronoJumpWindow
 
 	void on_combo_encoder_laterality_changed (object o, EventArgs args)
 	{
-		label_encoder_top_laterality.Text = UtilGtk.ComboGetActive(combo_encoder_laterality);
+		setLateralityPixbuf();
 	}
 
+	void setLateralityPixbuf()
+	{
+		Pixbuf pixbuf;
+		if(UtilGtk.ComboGetActive(combo_encoder_laterality) == Catalog.GetString("R"))
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-right.png");
+		else if(UtilGtk.ComboGetActive(combo_encoder_laterality) == Catalog.GetString("L"))
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-left.png");
+		else
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-both.png");
+		image_laterality.Pixbuf = pixbuf;
+	}
 
 	void on_button_encoder_capture_curves_all_clicked (object o, EventArgs args) {
 		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.ALL, 

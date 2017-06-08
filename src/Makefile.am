@@ -453,6 +453,9 @@ RESOURCES = \
 	../images/muscle-concentric.png,muscle-concentric.png \
 	../images/extra-mass.png,extra-mass.png \
 	../images/muscle-excentric-concentric.png,muscle-excentric-concentric.png \
+	../images/laterality-both.png,laterality-both.png \
+	../images/laterality-right.png,laterality-right.png \
+	../images/laterality-left.png,laterality-left.png \
 	../images/encoder-analyze-individual-current-set.png,encoder-analyze-individual-current-set.png \
 	../images/encoder-analyze-individual-current-session.png,encoder-analyze-individual-current-session.png \
 	../images/encoder-analyze-individual-all-sessions.png,encoder-analyze-individual-all-sessions.png \

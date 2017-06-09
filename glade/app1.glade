@@ -1316,6 +1316,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -14755,7 +14758,6 @@ Concentric</property>
                                                             <widget class="GtkImage" id="image_encoder_top_selected_type">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="tooltip" translatable="yes">Extra mass</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             <packing>
@@ -16106,7 +16108,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="tooltip" translatable="yes">Extra mass</property>
-                                                            <property name="spacing">12</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkImage" id="image_extra_mass">
                                                             <property name="visible">True</property>
@@ -19823,6 +19825,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

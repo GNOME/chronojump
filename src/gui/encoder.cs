@@ -3544,6 +3544,8 @@ public partial class ChronoJumpWindow
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
 		else
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
+
+		image_top_muscle.Pixbuf = pixbuf;
 		image_muscle.Pixbuf = pixbuf;
 	}
 
@@ -3561,6 +3563,8 @@ public partial class ChronoJumpWindow
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-left.png");
 		else
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-both.png");
+
+		image_top_laterality.Pixbuf = pixbuf;
 		image_laterality.Pixbuf = pixbuf;
 	}
 

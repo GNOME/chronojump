@@ -67,7 +67,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_selector_start_cancel;
 
 	//encoder images
+	[Widget] Gtk.Image image_top_muscle;
 	[Widget] Gtk.Image image_muscle;
+	[Widget] Gtk.Image image_top_laterality;
 	[Widget] Gtk.Image image_laterality;
 	[Widget] Gtk.Image image_extra_mass;
 	[Widget] Gtk.Image image_recalculate;
@@ -122,9 +124,11 @@ public partial class ChronoJumpWindow
 		image_quit1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
+		image_top_muscle.Pixbuf = pixbuf;
 		image_muscle.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-both.png");
+		image_top_laterality.Pixbuf = pixbuf;
 		image_laterality.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "extra-mass.png");

@@ -2935,6 +2935,7 @@ public partial class ChronoJumpWindow
 					encoderConfigurationCurrent = econfSO.encoderConfiguration;
 					label_encoder_selected.Text = econfSO.name;
 					label_encoder_top_selected.Text = econfSO.name;
+					setEncoderTypePixbuf();
 
 					changed = true;
 				}
@@ -2970,6 +2971,7 @@ public partial class ChronoJumpWindow
 					encoderConfigurationCurrent = econfSO.encoderConfiguration;
 					label_encoder_selected.Text = econfSO.name;
 					label_encoder_top_selected.Text = econfSO.name;
+					setEncoderTypePixbuf();
 
 					changed = true;
 				}
@@ -3085,6 +3087,20 @@ public partial class ChronoJumpWindow
 		chronopicRegisterUpdate(false);
 
 		chronojumpWindowTestsNext();
+	}
+
+	void setEncoderTypePixbuf()
+	{
+		Pixbuf pixbuf;
+		if(encoderConfigurationCurrent.type == Constants.EncoderType.LINEAR)
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-linear-blue.png");
+		else if(encoderConfigurationCurrent.type == Constants.EncoderType.ROTARYFRICTION)
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-rotary-friction-blue.png");
+		else // if(encoderConfigurationCurrent.type == Constants.EncoderType.ROTARYAXIS)
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "encoder-rotary-axis-blue.png");
+
+		image_encoder_top_selected_type.Pixbuf = pixbuf;
+		image_encoder_selected_type.Pixbuf = pixbuf;
 	}
 
 	/*

@@ -480,6 +480,9 @@ RESOURCES = \
 	../images/encoder-linear.png,encoder-linear.png \
 	../images/encoder-rotary-friction.png,encoder-rotary-friction.png \
 	../images/encoder-rotary-axis.png,encoder-rotary-axis.png \
+	../images/encoder-linear-blue.png,encoder-linear-blue.png \
+	../images/encoder-rotary-friction-blue.png,encoder-rotary-friction-blue.png \
+	../images/encoder-rotary-axis-blue.png,encoder-rotary-axis-blue.png \
 	../images/encoder-linear-free-weight.png,encoder-linear-free-weight.png \
 	../images/encoder-linear-free-weight-inv.png,encoder-linear-free-weight-inv.png \
 	../images/encoder-linear-inertial.png,encoder-linear-inertial.png \

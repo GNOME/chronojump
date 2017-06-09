@@ -3452,6 +3452,10 @@ public partial class ChronoJumpWindow
 		
 	private void createComboAnalyzeCross(bool firstCreation, bool dateOnX) 
 	{
+		string lastActive = "";
+		if(combo_encoder_analyze_cross != null)
+			lastActive = UtilGtk.ComboGetActive(combo_encoder_analyze_cross);
+
 		string [] comboAnalyzeCrossOptions;
 		string [] comboAnalyzeCrossOptionsTranslated;
 	
@@ -3488,7 +3492,8 @@ public partial class ChronoJumpWindow
 
 		UtilGtk.ComboUpdate(combo_encoder_analyze_cross, comboAnalyzeCrossOptionsTranslated, "");
 		combo_encoder_analyze_cross.Active = UtilGtk.ComboMakeActive(combo_encoder_analyze_cross, 
-				Catalog.GetString(comboAnalyzeCrossOptions[0]));
+				//Catalog.GetString(comboAnalyzeCrossOptions[0]));
+				lastActive);
 
 		if(firstCreation) {
 			combo_encoder_analyze_cross.Changed += new EventHandler (on_combo_encoder_analyze_cross_changed);

@@ -45,6 +45,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_gui_tests;
 	[Widget] Gtk.ComboBox combo_gui_tests;
 	[Widget] Gtk.Button button_carles;
+	[Widget] Gtk.Button button_start_quit;
 	
 	[Widget] Gtk.Viewport viewport_chronojump_logo;
 	[Widget] Gtk.Image image_chronojump_logo;

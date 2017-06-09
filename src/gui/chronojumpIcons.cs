@@ -33,6 +33,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_settings1;
 	[Widget] Gtk.Image image_quit;
 	[Widget] Gtk.Image image_quit1;
+	[Widget] Gtk.Image image_quit2;
 	[Widget] Gtk.Image image_session_new;
 	[Widget] Gtk.Image image_session_load;
 	[Widget] Gtk.Image image_mode_encoder_capture;
@@ -123,6 +124,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_quit.png");
 		image_quit.Pixbuf = pixbuf;
 		image_quit1.Pixbuf = pixbuf;
+		image_quit2.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
 		image_top_muscle.Pixbuf = pixbuf;

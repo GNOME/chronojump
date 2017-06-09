@@ -33,9 +33,9 @@
      inkscape:window-height="702"
      id="namedview46"
      showgrid="false"
-     inkscape:zoom="0.61831187"
-     inkscape:cx="-102.93698"
-     inkscape:cy="93.024009"
+     inkscape:zoom="0.42425646"
+     inkscape:cx="120.96036"
+     inkscape:cy="210.83564"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -309,7 +309,7 @@
             <dc:title>Openclipart</dc:title>
           </cc:Agent>
         </dc:publisher>
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
       <cc:License
          rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
@@ -360,4 +360,33 @@
        x="7.3617401"
        y="351.12714"
        style="stroke-width:0.9375px">selection height 24</tspan></text>
+  <g
+     id="g14953"
+     transform="translate(-343.00414,-416.96042)"
+     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/extra-mass.png"
+     inkscape:export-xdpi="8.2591715"
+     inkscape:export-ydpi="8.2591715">
+    <path
+       inkscape:connector-curvature="0"
+       id="path14897"
+       d="m 15.877667,685.19085 147.517473,50.64 -8.3409,-154 -71.338463,-15.58 z"
+       style="fill:none;fill-rule:evenodd;stroke:#0e1e46;stroke-width:15;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path14899"
+       d="m 163.39514,735.83085 145.63943,-45.39 -72.42295,-124.19 -81.55738,15.58 z"
+       style="fill:none;fill-rule:evenodd;stroke:#0e1e46;stroke-width:15;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path14901"
+       d="m 83.715777,562.50085 71.338463,15.58 81.68082,-15.49 -77.46629,-12.57 z"
+       style="fill:#0e1e46;fill-opacity:1;fill-rule:evenodd;stroke:#0e1e46;stroke-width:7.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <ellipse
+       ry="31.667549"
+       rx="31.417465"
+       cy="522.8457"
+       cx="160.17471"
+       id="path4654-3-3"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#0e1e46;stroke-width:18.75;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+  </g>
 </svg>

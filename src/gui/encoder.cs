@@ -51,6 +51,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_encoder_anchorage;
 
 	[Widget] Gtk.Label label_encoder_selected;	
+	[Widget] Gtk.Image image_encoder_top_selected_type;
+	[Widget] Gtk.Image image_encoder_selected_type;
 
 	[Widget] Gtk.Notebook notebook_encoder_top;
 	[Widget] Gtk.Label label_encoder_top_selected;
@@ -408,6 +410,7 @@ public partial class ChronoJumpWindow
 		encoderConfigurationCurrent = econfSO.encoderConfiguration;
 		label_encoder_selected.Text = econfSO.name;
 		label_encoder_top_selected.Text = econfSO.name;
+		setEncoderTypePixbuf();
 		
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 		
@@ -489,6 +492,7 @@ public partial class ChronoJumpWindow
 		
 		encoderConfigurationCurrent = eConfNew;
 		LogB.Information("EncoderConfigurationCurrent = " + encoderConfigurationCurrent.ToStringOutput(EncoderConfiguration.Outputs.SQL));
+		setEncoderTypePixbuf();
 	
 		encoderGuiChangesAfterEncoderConfigurationWin(combo_encoder_anchorage_should_update);
 	}

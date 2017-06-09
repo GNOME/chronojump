@@ -933,12 +933,16 @@ public partial class ChronoJumpWindow
 			load1RM = ((Encoder1RM) array1RM[0]).load1RM; //take only the first in array (will be the last uniqueID)
 
 		if(load1RM == 0 || findMass(Constants.MassType.EXTRA) == 0)
+		{
 			label_encoder_1RM_percent.Text = "";
+			label_encoder_top_1RM_percent.Text = "";
+		}
 		else
+		{
 			label_encoder_1RM_percent.Text = Util.TrimDecimals(
 					(100 * findMass(Constants.MassType.EXTRA) / ( load1RM * 1.0 )).ToString(), 1);
-
-		label_encoder_top_1RM_percent.Text = label_encoder_1RM_percent.Text + " %1RM";
+			label_encoder_top_1RM_percent.Text = label_encoder_1RM_percent.Text + " %1RM";
+		}
 	}
 	
 	// ---- end of change extra weight ----
@@ -3412,7 +3416,12 @@ public partial class ChronoJumpWindow
 		setLateralityPixbuf();
 
 		label_encoder_top_extra_mass.Text = entry_raspberry_extra_weight.Text + " Kg";
-		label_encoder_top_1RM_percent.Text = label_encoder_1RM_percent.Text + " %1RM";
+
+		if(label_encoder_1RM_percent.Text == "")
+			label_encoder_top_1RM_percent.Text = "";
+		else
+			label_encoder_top_1RM_percent.Text = label_encoder_1RM_percent.Text + " %1RM";
+
 		label_encoder_top_weights.Text = Catalog.GetString("Weights") + ": " + entry_encoder_im_weights_n.Text;
 		label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
 	}

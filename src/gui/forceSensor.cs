@@ -123,6 +123,10 @@ public partial class ChronoJumpWindow
 		{
 			str = port.ReadLine();
 
+			//check if there is one and only one ';'
+			if( ! (str.Contains(";") && str.IndexOf(";") == str.LastIndexOf(";")) )
+				continue;
+
 			string [] strFull = str.Split(new char[] {';'});
 			//LogB.Information("str: " + str);
 

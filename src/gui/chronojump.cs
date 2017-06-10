@@ -2107,6 +2107,13 @@ public partial class ChronoJumpWindow
 		encoderRProcCapture.SendEndProcess();
 		encoderRProcAnalyze.SendEndProcess();
 
+		//cancel force capture process
+		if(capturingForce == forceStatus.STARTING || capturingForce == forceStatus.CAPTURING)
+		{
+			LogB.Information("cancelling force capture");
+			forceProcessCancel = true;
+		}
+
 		LogB.Information("Bye3!");
 		
 		Log.End();
@@ -2834,6 +2841,13 @@ public partial class ChronoJumpWindow
 		//all modes except force sensor show the tabs at bottom
 		notebook_capture_graph_table.CurrentPage = 0; //"Show graph"
 		notebook_capture_graph_table.ShowTabs = true;
+
+		//cancel force capture process if mode is changed
+		if(capturingForce == forceStatus.STARTING || capturingForce == forceStatus.CAPTURING)
+		{
+			LogB.Information("cancelling force capture");
+			forceProcessCancel = true;
+		}
 
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{

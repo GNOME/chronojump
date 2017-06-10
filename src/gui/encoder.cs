@@ -4125,10 +4125,18 @@ public partial class ChronoJumpWindow
 	
 
 	/* sensitivity stuff */	
-			
 	//called when a person changes
 	private void encoderPersonChanged() 
 	{
+		//on cont person, exercise and mass can be changed
+		if(eCapture != null && capturingCsharp == encoderCaptureProcess.CAPTURING)
+		{
+			eCapture.Cancel();
+			Thread.Sleep (100);
+			on_button_encoder_capture_clicked (new object(), new EventArgs ());
+			return;
+		}
+
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		
 		array1RMUpdate(false);

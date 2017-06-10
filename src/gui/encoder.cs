@@ -3501,7 +3501,6 @@ public partial class ChronoJumpWindow
 
 		UtilGtk.ComboUpdate(combo_encoder_analyze_cross, comboAnalyzeCrossOptionsTranslated, "");
 		combo_encoder_analyze_cross.Active = UtilGtk.ComboMakeActive(combo_encoder_analyze_cross, 
-				//Catalog.GetString(comboAnalyzeCrossOptions[0]));
 				lastActive);
 
 		if(firstCreation) {

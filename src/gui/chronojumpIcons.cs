@@ -187,7 +187,6 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_exercise.png");
 		image_encoder_exercise.Pixbuf = pixbuf;
-		image_encoder_exercise1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_new_big.png");
 		image_session_new.Pixbuf = pixbuf;
@@ -212,8 +211,10 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
 		image_encoder_exercise_edit.Pixbuf = pixbuf;
 		image_edit_current_person.Pixbuf = pixbuf;
-		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
-		//image_encoder_exercise_close.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+		image_encoder_exercise1.Pixbuf = pixbuf;
+
 
 		/*
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_up.png");

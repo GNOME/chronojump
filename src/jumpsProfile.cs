@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic; //List
 using Cairo;
+using Mono.Unix;
 
 public class JumpsProfileIndex
 {
@@ -72,9 +73,9 @@ public class JumpsProfileIndex
 		Result = calculateIndex(type, higher, lower, dja);
 		
 		if(errorCode == ErrorCodes.NEEDJUMP)
-			ErrorMessage = "Needs to execute jump/s";
+			ErrorMessage = Catalog.GetString("Need to execute jump/s");
 		else if(errorCode == ErrorCodes.NEGATIVE)
-			ErrorMessage = "Bad execution " + jumpLowerName + " is higher than " +  jumpHigherName;
+			ErrorMessage = string.Format(Catalog.GetString("Bad execution: {0} is higher than {1}"), jumpLowerName, jumpHigherName);
 	}
 
 	private double calculateIndex (Types type, double higher, double lower, double dja) 

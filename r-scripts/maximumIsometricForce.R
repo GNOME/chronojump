@@ -211,13 +211,15 @@ drawDynamicsFromLoadCell <- function(
                 yHeight = max(dynamics$fmax.raw, dynamics$fmax.fitted) * 1.1
         }
                 
+	par(mar=c(4,4,1,1))
         #Plotting raw data from startTime to endTime (Only the analysed data)
         if (!is.na(xlimits[1])){
                 xWidth = xlimits[2] - xlimits[1]
                 plot(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample],
                      type="l", xlab="Time[s]", ylab="Force[N]",
                      xlim = xlimits, ylim=c(0, yHeight),
-                     main = dynamics$nameOfFile, yaxs= "i", xaxs = "i")
+                     #main = dynamics$nameOfFile,
+		     yaxs= "i", xaxs = "i")
                 xmin = xlimits[1]
                 xmax = xlimits[2]
                 points(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample])
@@ -229,7 +231,8 @@ drawDynamicsFromLoadCell <- function(
                      type="l", xlab="Time[s]", ylab="Force[N]",
                      xlim = c(xmin, xmax),
                      ylim=c(0, yHeight),
-                     main = dynamics$nameOfFile, yaxs= "i", xaxs = "i")
+                     #main = dynamics$nameOfFile,
+		     yaxs= "i", xaxs = "i")
         }
         
 

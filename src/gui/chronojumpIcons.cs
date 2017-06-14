@@ -77,6 +77,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_laterality_l;
 	[Widget] Gtk.Image image_top_extra_mass;
 	[Widget] Gtk.Image image_extra_mass;
+	[Widget] Gtk.Image image_encoder_inertial_top_weights;
+	[Widget] Gtk.Image image_encoder_inertial_weights;
 	[Widget] Gtk.Image image_recalculate;
 	[Widget] Gtk.Image image_encoder_configuration;
 	[Widget] Gtk.Image image_encoder_exercise;
@@ -150,6 +152,8 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "extra-mass.png");
 		image_top_extra_mass.Pixbuf = pixbuf;
 		image_extra_mass.Pixbuf = pixbuf;
+		image_encoder_inertial_top_weights.Pixbuf = pixbuf;
+		image_encoder_inertial_weights.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_gravity.png");
 		image_mode_encoder_gravitatory.Pixbuf = pixbuf;

@@ -560,7 +560,7 @@ public partial class ChronoJumpWindow
 		else
 			entry_encoder_im_weights_n.Text = spin_encoder_im_weights_n.Value.ToString();
 
-		label_encoder_top_weights.Text = Catalog.GetString("Weights") + ": " + entry_encoder_im_weights_n.Text;
+		label_encoder_top_weights.Text = entry_encoder_im_weights_n.Text;
 	}
 
 	// <---- end of spin_encoder_im_weights_n ----

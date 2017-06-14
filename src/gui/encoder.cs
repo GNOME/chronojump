@@ -1558,8 +1558,9 @@ public partial class ChronoJumpWindow
 				//has to be done here, because if done in encoderThreadStart or in finishPulsebar it crashes 
 				//notebook_video_encoder.CurrentPage = 1;
 				radiobutton_video_encoder_play.Active = true;
-			
+
 				encoderConfigurationCurrent = eSQL.encoderConfiguration;
+				setEncoderTypePixbuf();
 
 				//manage EncoderConfigurationSQLObject
 				SqliteEncoderConfiguration.MarkAllAsUnactive(false, currentEncoderGI);

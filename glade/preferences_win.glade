@@ -1802,12 +1802,10 @@ It starts before and arrives there with some speed.</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkFrame" id="frame9">
+                          <widget class="GtkNotebook" id="notebook_encoder_capture_gi">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label_xalign">0</property>
-                            <property name="label_yalign">0.69999998807907104</property>
-                            <property name="shadow_type">out</property>
+                            <property name="can_focus">True</property>
+                            <signal name="switch_page" handler="on_notebook_encoder_capture_gi_switch_page" swapped="no"/>
                             <child>
                               <widget class="GtkAlignment" id="alignment1">
                                 <property name="visible">True</property>
@@ -1815,45 +1813,20 @@ It starts before and arrives there with some speed.</property>
                                 <property name="border_width">8</property>
                                 <property name="left_padding">12</property>
                                 <child>
-                                  <widget class="GtkHBox" id="hbox24">
+                                  <widget class="GtkVBox" id="vbox34">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="spacing">20</property>
                                     <child>
-                                      <widget class="GtkLabel" id="label67">
+                                      <widget class="GtkHBox" id="hbox24">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">Minimal height</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkHBox" id="hbox_height_gravitatory">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="spacing">4</property>
+                                        <property name="spacing">20</property>
                                         <child>
-                                          <widget class="GtkSpinButton" id="spin_encoder_capture_min_height_gravitatory">
+                                          <widget class="GtkLabel" id="label67">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="has_tooltip">True</property>
-                                            <property name="tooltip" translatable="yes">Minimal height</property>
-                                            <property name="invisible_char">●</property>
-                                            <property name="width_chars">3</property>
-                                            <property name="invisible_char_set">True</property>
-                                            <property name="primary_icon_activatable">False</property>
-                                            <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
-                                            <property name="adjustment">20 1 300 1 10 0</property>
-                                            <property name="climb_rate">1</property>
-                                            <property name="snap_to_ticks">True</property>
-                                            <property name="numeric">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="xalign">0</property>
+                                            <property name="label" translatable="yes">Minimal height</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1862,12 +1835,48 @@ It starts before and arrives there with some speed.</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label81">
+                                          <widget class="GtkHBox" id="hbox_height_gravitatory">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">1</property>
-                                            <property name="label" translatable="yes">cm</property>
-                                            <property name="use_markup">True</property>
+                                            <property name="spacing">4</property>
+                                            <child>
+                                              <widget class="GtkSpinButton" id="spin_encoder_capture_min_height_gravitatory">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="has_tooltip">True</property>
+                                                <property name="tooltip" translatable="yes">Minimal height</property>
+                                                <property name="invisible_char">●</property>
+                                                <property name="width_chars">3</property>
+                                                <property name="invisible_char_set">True</property>
+                                                <property name="primary_icon_activatable">False</property>
+                                                <property name="secondary_icon_activatable">False</property>
+                                                <property name="primary_icon_sensitive">True</property>
+                                                <property name="secondary_icon_sensitive">True</property>
+                                                <property name="adjustment">20 1 300 1 10 0</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="snap_to_ticks">True</property>
+                                                <property name="numeric">True</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label81">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="xalign">1</property>
+                                                <property name="label" translatable="yes">cm</property>
+                                                <property name="use_markup">True</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1877,9 +1886,9 @@ It starts before and arrives there with some speed.</property>
                                         </child>
                                       </widget>
                                       <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">1</property>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                   </widget>
@@ -1887,38 +1896,48 @@ It starts before and arrives there with some speed.</property>
                               </widget>
                             </child>
                             <child>
-                              <widget class="GtkLabel" id="label66">
+                              <widget class="GtkHBox" id="hbox37">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Gravitatory</property>
-                                <property name="use_markup">True</property>
+                                <property name="spacing">10</property>
+                                <child>
+                                  <widget class="GtkImage" id="image_encoder_gravitatory">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="stock">gtk-missing-image</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label109">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Gravitatory</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
                               </widget>
                               <packing>
-                                <property name="type">label_item</property>
+                                <property name="tab_fill">False</property>
+                                <property name="type">tab</property>
                               </packing>
                             </child>
-                          </widget>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkFrame" id="frame10">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label_xalign">0</property>
-                            <property name="label_yalign">0.69999998807907104</property>
-                            <property name="shadow_type">out</property>
                             <child>
-                              <widget class="GtkAlignment" id="alignment10">
+                              <widget class="GtkAlignment" id="alignment_encoder_gravitatory_inertial">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="border_width">8</property>
                                 <property name="left_padding">12</property>
                                 <child>
-                                  <widget class="GtkVBox" id="vbox25">
+                                  <widget class="GtkVBox" id="vbox_encoder_inertial">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="spacing">10</property>
@@ -2119,23 +2138,51 @@ It starts before and arrives there with some speed.</property>
                                   </widget>
                                 </child>
                               </widget>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
                             </child>
                             <child>
-                              <widget class="GtkLabel" id="label68">
+                              <widget class="GtkHBox" id="hbox38">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Inertial</property>
-                                <property name="use_markup">True</property>
+                                <property name="spacing">10</property>
+                                <child>
+                                  <widget class="GtkImage" id="image_encoder_inertial">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="stock">gtk-missing-image</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label110">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Inertial</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
                               </widget>
                               <packing>
-                                <property name="type">label_item</property>
+                                <property name="position">1</property>
+                                <property name="tab_fill">False</property>
+                                <property name="type">tab</property>
                               </packing>
                             </child>
                           </widget>
                           <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">2</property>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                         <child>
@@ -2163,7 +2210,7 @@ It starts before and arrives there with some speed.</property>
                                         <property name="spacing">4</property>
                                         <child>
                                           <widget class="GtkCheckButton" id="check_appearance_encoder_only_bars">
-                                            <property name="label" translatable="yes">On encoder capture show only bars</property>
+                                            <property name="label" translatable="yes">Show only bars</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -2305,7 +2352,7 @@ It starts before and arrives there with some speed.</property>
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
-                            <property name="position">3</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                         <child>
@@ -2547,7 +2594,7 @@ It starts before and arrives there with some speed.</property>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="position">4</property>
+                            <property name="position">3</property>
                           </packing>
                         </child>
                         <child>
@@ -2561,7 +2608,7 @@ It starts before and arrives there with some speed.</property>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="position">5</property>
+                            <property name="position">4</property>
                           </packing>
                         </child>
                         <child>
@@ -2607,7 +2654,7 @@ It starts before and arrives there with some speed.</property>
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
-                            <property name="position">6</property>
+                            <property name="position">5</property>
                           </packing>
                         </child>
                       </widget>

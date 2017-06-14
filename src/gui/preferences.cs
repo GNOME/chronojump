@@ -106,6 +106,10 @@ public class PreferencesWindow
 	[Widget] Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
 	[Widget] Gtk.Box hbox_combo_main_variable;
 	[Widget] Gtk.ComboBox combo_main_variable;
+	[Widget] Gtk.Image image_encoder_gravitatory;
+	[Widget] Gtk.Image image_encoder_inertial;
+	[Widget] Gtk.Notebook notebook_encoder_capture_gi;
+	[Widget] Gtk.VBox vbox_encoder_inertial; //change Visible param to not have a vertical big first page with only one row of info
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_inertial;
 	[Widget] Gtk.CheckButton checkbutton_encoder_capture_fully_extended;
@@ -437,6 +441,22 @@ public class PreferencesWindow
 		PreferencesWindowBox.createComboEncoderCaptureMainVariable(
 				Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_gravity.png");
+		PreferencesWindowBox.image_encoder_gravitatory.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
+		PreferencesWindowBox.image_encoder_inertial.Pixbuf = pixbuf;
+
+		if(menu_mode ==	Constants.Menuitem_modes.POWERGRAVITATORY)
+		{
+			PreferencesWindowBox.vbox_encoder_inertial.Visible = false;
+			PreferencesWindowBox.notebook_encoder_capture_gi.CurrentPage = 0;
+		}
+		else if(menu_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		{
+			PreferencesWindowBox.vbox_encoder_inertial.Visible = true;
+			PreferencesWindowBox.notebook_encoder_capture_gi.CurrentPage = 1;
+		}
+
 		PreferencesWindowBox.spin_encoder_capture_min_height_gravitatory.Value = preferences.encoderCaptureMinHeightGravitatory;
 		PreferencesWindowBox.spin_encoder_capture_min_height_inertial.Value = preferences.encoderCaptureMinHeightInertial;
 		PreferencesWindowBox.checkbutton_encoder_capture_fully_extended.Active = preferences.encoderCaptureCheckFullyExtended;
@@ -499,6 +519,12 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.preferences_win.Show ();
 		return PreferencesWindowBox;
+	}
+
+	//private void on_notebook_encoder_capture_gi_change_current_page (object o, Gtk.ChangeCurrentPageArgs args)
+	private void on_notebook_encoder_capture_gi_switch_page (object o, Gtk.SwitchPageArgs args)
+	{
+		vbox_encoder_inertial.Visible = (PreferencesWindowBox.notebook_encoder_capture_gi.CurrentPage == 1);
 	}
 
 	private void on_button_encoder_capture_cut_by_triggers_help_clicked (object o, EventArgs args)

@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.46";
+	static string lastChronojumpDatabaseVersion = "1.47";
 
 	public Sqlite() {
 	}
@@ -2234,6 +2234,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.46");
 			}
+			if(currentVersion == "1.46")
+			{
+				LogB.SQL("Added encoderCaptureBarplotFontSize at preferences");
+
+				SqlitePreferences.Insert ("encoderCaptureBarplotFontSize", "14");
+
+				currentVersion = updateVersion("1.47");
+			}
 
 
 			// --- add more updates here
@@ -2415,6 +2423,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 
 		//changes [from - to - desc]
+		//1.46 - 1.47 Converted DB to 1.47 Added encoderCaptureBarplotFontSize at preferences
 		//1.45 - 1.46 Converted DB to 1.46 Added muteLogs at preferences
 		//1.44 - 1.45 Converted DB to 1.45 Added ForceSensorImpulse value
 		//1.43 - 1.44 Converted DB to 1.44 Added encoderCaptureCutByTriggers to preferences

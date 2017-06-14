@@ -109,6 +109,7 @@ class SqlitePreferences : Sqlite
 				Insert ("encoderCaptureMinHeightInertial", "5", dbcmdTr);
 				Insert ("encoderCaptureCheckFullyExtended", "True", dbcmdTr);
 				Insert ("encoderCaptureCheckFullyExtendedValue", "4", dbcmdTr);
+				Insert ("encoderCaptureBarplotFontSize", "14", dbcmdTr);
 				Insert ("encoderShowStartAndDuration", "False", dbcmdTr);
 				Insert ("encoderCaptureCutByTriggers", "False", dbcmdTr);
 				Insert ("encoderPropulsive", "True", dbcmdTr);
@@ -280,6 +281,8 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == "encoderAutoSaveCurve")
 				preferences.encoderAutoSaveCurve = (Constants.EncoderAutoSaveCurve) 
 					Enum.Parse(typeof(Constants.EncoderAutoSaveCurve), reader[1].ToString()); 
+			else if(reader[0].ToString() == "encoderCaptureBarplotFontSize")
+				preferences.encoderCaptureBarplotFontSize = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "encoderShowStartAndDuration")
 				preferences.encoderShowStartAndDuration = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderCaptureCutByTriggers")

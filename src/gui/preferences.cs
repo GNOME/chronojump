@@ -115,6 +115,7 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_4top;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_all;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_none;
+	[Widget] Gtk.SpinButton spin_encoder_capture_barplot_font_size;
 	[Widget] Gtk.CheckButton check_show_start_and_duration;
 	[Widget] Gtk.CheckButton check_encoder_capture_cut_by_triggers;
 	[Widget] Gtk.Image image_encoder_capture_cut_by_triggers_help;
@@ -450,7 +451,8 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active = true;
 		else
 			PreferencesWindowBox.radio_encoder_auto_save_curve_none.Active = true;
-	
+
+		PreferencesWindowBox.spin_encoder_capture_barplot_font_size.Value = preferences.encoderCaptureBarplotFontSize;
 		PreferencesWindowBox.check_show_start_and_duration.Active = preferences.encoderShowStartAndDuration;
 		PreferencesWindowBox.check_encoder_capture_cut_by_triggers.Active = preferences.encoderCaptureCutByTriggers;
 
@@ -1578,6 +1580,11 @@ public class PreferencesWindow
 			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.NONE.ToString(), true);
 			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.NONE;
 		}
+
+		preferences.encoderCaptureBarplotFontSize = preferencesChange(
+				"encoderCaptureBarplotFontSize",
+				preferences.encoderCaptureBarplotFontSize,
+				(int) PreferencesWindowBox.spin_encoder_capture_barplot_font_size.Value);
 
 		preferences.encoderShowStartAndDuration = preferencesChange(
 				"encoderShowStartAndDuration",

@@ -4494,8 +4494,8 @@ public partial class ChronoJumpWindow
 
 		int left_margin = 10;
 		int right_margin = 0;
-		int top_margin = 35;
-		int bottom_margin = 20;
+		int top_margin = 20 + 3 * preferences.encoderCaptureBarplotFontSize;
+		int bottom_margin = 8 + preferences.encoderCaptureBarplotFontSize;
 		//bars will be plotted here
 		int graphHeightSafe = graphHeight - (top_margin + bottom_margin);
 	
@@ -4503,16 +4503,20 @@ public partial class ChronoJumpWindow
 
 		//plot bars
 		int sep = 20;	//between reps
+
 		if (data.Count >= 10 && data.Count < 20) {
 			sep = 10;
-			layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 9");
-		} else	if (data.Count >= 20) {
+			layout_encoder_capture_curves_bars.FontDescription =
+				Pango.FontDescription.FromString ("Courier " + (preferences.encoderCaptureBarplotFontSize -2).ToString());
+		} else if (data.Count >= 20) {
 			sep = 2;
-			layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 7");
+			layout_encoder_capture_curves_bars.FontDescription =
+				Pango.FontDescription.FromString ("Courier " + (preferences.encoderCaptureBarplotFontSize -4).ToString());
 			left_margin = 2;
 		}
-			
-		layout_encoder_capture_curves_bars_text.FontDescription = Pango.FontDescription.FromString ("Courier 11");
+
+		layout_encoder_capture_curves_bars_text.FontDescription =
+			Pango.FontDescription.FromString ("Courier " + preferences.encoderCaptureBarplotFontSize.ToString());
 		layout_encoder_capture_curves_bars_text.FontDescription.Weight = Pango.Weight.Bold;
 		
 		string eccon = findEccon(true);
@@ -4537,7 +4541,8 @@ public partial class ChronoJumpWindow
 		//draw line for person max intersession
 		if(mainVariable == Constants.MeanPower && maxIntersession > 0)
 		{
-			layout_encoder_capture_curves_bars_text.SetMarkup("Person's best: (" + Util.TrimDecimals(maxIntersession, 1) + "W)");
+			//layout_encoder_capture_curves_bars_text.SetMarkup("Person's best: (" + Util.TrimDecimals(maxIntersession, 1) + "W)");
+			layout_encoder_capture_curves_bars_text.SetMarkup("Person's best:");
 			layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);
 			encoder_capture_curves_bars_pixmap.DrawLayout (pen_yellow_encoder_capture,
 						left_margin, top_margin - textHeight,
@@ -4546,6 +4551,13 @@ public partial class ChronoJumpWindow
 			encoder_capture_curves_bars_pixmap.DrawLine(pen_yellow_encoder_capture,
 					left_margin, top_margin,
 					graphWidth - right_margin, top_margin);
+
+			layout_encoder_capture_curves_bars_text.SetMarkup(Util.TrimDecimals(maxIntersession, 1) + "W");
+			layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);
+			encoder_capture_curves_bars_pixmap.DrawLayout (pen_yellow_encoder_capture,
+						graphWidth - (right_margin + textWidth),
+						top_margin - textHeight,
+						layout_encoder_capture_curves_bars_text);
 		}
 		
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
@@ -4657,7 +4669,8 @@ public partial class ChronoJumpWindow
 			textHeight = 1;
 			layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
 			encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
-					Convert.ToInt32( (dLeft + dWidth/2) - textWidth/2), dTop - 15, //x, y 
+					Convert.ToInt32( (dLeft + dWidth/2) - textWidth/2), 	//x
+					dTop - (5 + preferences.encoderCaptureBarplotFontSize), //y
 					layout_encoder_capture_curves_bars);
 			//end of: write the result
 
@@ -4740,7 +4753,7 @@ public partial class ChronoJumpWindow
 				Util.TrimDecimals( (sumSaved / countSaved), decimals) + 
 				" " + units;
 
-		title += "; Loss: " + Util.TrimDecimals(100.0 * (maxThisSet - minThisSet) / maxThisSet, decimals) + " %]";
+		title += "; Loss: " + Util.TrimDecimals(100.0 * (maxThisSet - minThisSet) / maxThisSet, decimals) + "%]";
 
 		layout_encoder_capture_curves_bars_text.SetMarkup(title);
 		textWidth = 1;
@@ -5183,7 +5196,8 @@ public partial class ChronoJumpWindow
 		layout_encoder_capture_signal.FontDescription = Pango.FontDescription.FromString ("Courier 10");
 
 		layout_encoder_capture_curves_bars = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
-		layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+		layout_encoder_capture_curves_bars.FontDescription =
+			Pango.FontDescription.FromString ("Courier " + preferences.encoderCaptureBarplotFontSize.ToString());
 		
 		layout_encoder_capture_curves_bars_text = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
 		layout_encoder_capture_curves_bars_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");

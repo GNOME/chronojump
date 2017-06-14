@@ -68,10 +68,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_selector_start_cancel;
 
 	//encoder images
-	[Widget] Gtk.Image image_top_muscle;
-	[Widget] Gtk.Image image_muscle;
+	[Widget] Gtk.Image image_top_eccon;
+	[Widget] Gtk.Image image_encoder_eccon_concentric;
+	[Widget] Gtk.Image image_encoder_eccon_eccentric_concentric;
 	[Widget] Gtk.Image image_top_laterality;
-	[Widget] Gtk.Image image_laterality;
+	[Widget] Gtk.Image image_encoder_laterality_both;
+	[Widget] Gtk.Image image_encoder_laterality_r;
+	[Widget] Gtk.Image image_encoder_laterality_l;
 	[Widget] Gtk.Image image_top_extra_mass;
 	[Widget] Gtk.Image image_extra_mass;
 	[Widget] Gtk.Image image_recalculate;
@@ -127,12 +130,22 @@ public partial class ChronoJumpWindow
 		image_quit2.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
-		image_top_muscle.Pixbuf = pixbuf;
-		image_muscle.Pixbuf = pixbuf;
+		image_top_eccon.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
+		image_encoder_eccon_concentric.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
+		image_encoder_eccon_eccentric_concentric.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-both.png");
 		image_top_laterality.Pixbuf = pixbuf;
-		image_laterality.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-both.png");
+		image_encoder_laterality_both.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-right.png");
+		image_encoder_laterality_r.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-left.png");
+		image_encoder_laterality_l.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "extra-mass.png");
 		image_top_extra_mass.Pixbuf = pixbuf;

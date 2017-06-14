@@ -599,11 +599,8 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsEncoderEccConInvert");
 
-		if(combo_encoder_eccon.Active == 0)
-			combo_encoder_eccon.Active = 1;
-		else
-			combo_encoder_eccon.Active = 0;
-		
+		radio_encoder_eccon_concentric.Active = ! radio_encoder_eccon_concentric.Active;
+
 		LogB.TestEnd("chronojumpWindowTestsEncoderEccConInvert");
 	}
 	

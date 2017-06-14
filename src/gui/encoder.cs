@@ -123,10 +123,11 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_capture;
 	[Widget] Gtk.ComboBox combo_encoder_exercise_capture;
-	[Widget] Gtk.Box hbox_combo_encoder_eccon;
-	[Widget] Gtk.ComboBox combo_encoder_eccon;
-	[Widget] Gtk.Box hbox_combo_encoder_laterality;
-	[Widget] Gtk.ComboBox combo_encoder_laterality;
+	[Widget] Gtk.RadioButton radio_encoder_eccon_concentric;
+	[Widget] Gtk.RadioButton radio_encoder_eccon_eccentric_concentric;
+	[Widget] Gtk.RadioButton radio_encoder_laterality_both;
+	[Widget] Gtk.RadioButton radio_encoder_laterality_r;
+	[Widget] Gtk.RadioButton radio_encoder_laterality_l;
 	[Widget] Gtk.Box hbox_encoder_capture_curves_save_all_none;
 
 	[Widget] Gtk.Button button_encoder_capture_curves_all;
@@ -699,10 +700,7 @@ public partial class ChronoJumpWindow
 		else
 			contraction = SqlitePreferences.Select(SqlitePreferences.EncoderContractionInertial, true);
 
-		string contractionTranslated = Util.FindOnArray(':',0,1, contraction,
-				encoderEcconTranslation);
-		combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(
-				combo_encoder_eccon, contractionTranslated);
+		radio_encoder_eccon_concentric.Active = (contraction == Constants.Concentric);
 
 		//3 laterality
 		string laterality = "";
@@ -711,10 +709,12 @@ public partial class ChronoJumpWindow
 		else
 			laterality = SqlitePreferences.Select(SqlitePreferences.EncoderLateralityInertial, true);
 
-		string lateralityTranslated = Util.FindOnArray(':',0,1, laterality,
-				encoderLateralityTranslation);
-		combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(
-				combo_encoder_laterality, lateralityTranslated);
+		if(laterality == "RL")
+			radio_encoder_laterality_both.Active = true;
+		else if(laterality == "R")
+			radio_encoder_laterality_r.Active = true;
+		else //if(laterality == "L")
+			radio_encoder_laterality_l.Active = true;
 
 		//4 mass / weights
 		string mass = SqlitePreferences.Select(SqlitePreferences.EncoderMassGravitatory, true);
@@ -740,18 +740,22 @@ public partial class ChronoJumpWindow
 			SqlitePreferences.Update (SqlitePreferences.EncoderExerciseIDInertial, exerciseID.ToString(), true);
 
 		//2 contraction
-		string eccon = Util.FindOnArray(':',1,0,
-				UtilGtk.ComboGetActive(combo_encoder_eccon),
-				encoderEcconTranslation);
+		string eccon = Constants.Concentric;
+		if(radio_encoder_eccon_eccentric_concentric.Active)
+			eccon = Constants.EccentricConcentric;
+
 		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
 			SqlitePreferences.Update (SqlitePreferences.EncoderContractionGravitatory, eccon, true);
 		else
 			SqlitePreferences.Update (SqlitePreferences.EncoderContractionInertial, eccon, true);
 
 		//3 laterality
-		string laterality = Util.FindOnArray(':',1,0,
-				UtilGtk.ComboGetActive(combo_encoder_laterality),
-				encoderLateralityTranslation);
+		string laterality = "RL";
+		if(radio_encoder_laterality_r.Active)
+			laterality = "R";
+		else if(radio_encoder_laterality_l.Active)
+			laterality = "L";
+
 		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
 			SqlitePreferences.Update (SqlitePreferences.EncoderLateralityGravitatory, laterality, true);
 		else
@@ -1152,8 +1156,7 @@ public partial class ChronoJumpWindow
 			if(curvesNum == 0) 
 				encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 			else {
-				if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
-						encoderEcconTranslation) != Constants.Concentric) 
+				if(! radio_encoder_eccon_concentric.Active)
 					curvesNum = curvesNum / 2;
 			
 				string [] activeCurvesList = new String[curvesNum +1];
@@ -1213,6 +1216,12 @@ public partial class ChronoJumpWindow
 				videoURL = file;
 		}
 
+		string laterality = Catalog.GetString("RL");
+		if(radio_encoder_laterality_r.Active)
+			laterality = Catalog.GetString("R");
+		else if(radio_encoder_laterality_l.Active)
+			laterality = Catalog.GetString("L");
+
 		//see explanation on the top of this file
 		lastEncoderSQLSignal = new EncoderSQL(
 				"-1",
@@ -1220,7 +1229,7 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID,
 				getExerciseIDFromCombo(exerciseCombos.CAPTURE),	
 				findEccon(true), 	//force ecS (ecc-conc separated)
-				UtilGtk.ComboGetActive(combo_encoder_laterality),
+				laterality,
 				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)), //when save on sql, do not include person weight
 				"",	//signalOrCurve,
 				"", 	//fileSaved,	//to know date do: select substr(name,-23,19) from encoder;
@@ -1444,7 +1453,7 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("ID"),
 			Catalog.GetString("Set"),
 			Catalog.GetString("Exercise"),
-			"RL",
+			Catalog.GetString("Laterality"),
 			Catalog.GetString("Extra weight"),
 			Catalog.GetString("Encoder"),
 			Catalog.GetString("Contraction"),
@@ -1521,9 +1530,20 @@ public partial class ChronoJumpWindow
 				string exerciseNameTranslated =Util.FindOnArray(':', 1, 2, eSQL.exerciseName, 
 						encoderExercisesTranslationAndBodyPWeight);
 				combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture, exerciseNameTranslated);
-				
-				combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, eSQL.ecconLong);
-				combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, eSQL.laterality);
+
+				if(eSQL.ecconLong == Catalog.GetString(Constants.Concentric))
+					radio_encoder_eccon_concentric.Active = true;
+				else
+					radio_encoder_eccon_eccentric_concentric.Active = true;
+
+				//laterality is stored on English but translated on encoder sqlite select
+				if(eSQL.laterality == Catalog.GetString("RL"))
+					radio_encoder_laterality_both.Active = true;
+				else if(eSQL.laterality == Catalog.GetString("R"))
+					radio_encoder_laterality_r.Active = true;
+				else //if(eSQL.laterality == Catalog.GetString("L"))
+					radio_encoder_laterality_l.Active = true;
+
 				spin_encoder_extra_weight.Value = Convert.ToInt32(eSQL.extraWeight);
 				entry_raspberry_extra_weight.Text = Convert.ToInt32(eSQL.extraWeight).ToString();
 
@@ -3263,12 +3283,11 @@ public partial class ChronoJumpWindow
 			return massTotal - (currentPersonSession.Weight * percentBodyWeight / 100.0);
 	}
 
-	private string findEccon(bool forceEcconSeparated) {	
-		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
-					encoderEcconTranslation) == Constants.Concentric) 
+	private string findEccon(bool forceEcconSeparated)
+	{
+		if(radio_encoder_eccon_concentric.Active)
 			return "c";
-		else //if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
-		//			encoderEcconTranslation) == Constants.EccentricConcentric) 
+		else
 		{
 			if(forceEcconSeparated || ! check_encoder_analyze_eccon_together.Active)
 				return "ecS";
@@ -3292,8 +3311,8 @@ public partial class ChronoJumpWindow
 	
 	
 	string [] encoderExercisesTranslationAndBodyPWeight;
-	string [] encoderEcconTranslation;
-	string [] encoderLateralityTranslation;
+//	string [] encoderEcconTranslation;
+//	string [] encoderLateralityTranslation;
 	string [] encoderAnalyzeCrossTranslation;
 	string [] encoderAnalyze1RMTranslation;
 	
@@ -3312,39 +3331,6 @@ public partial class ChronoJumpWindow
 		 * unavailable until find while concentric data on concentric is the same than in ecc-con,
 		 * but is very different than in con-ecc
 		 */
-		//create combo eccon
-		string [] comboEcconOptions = { Constants.Concentric, 
-			Constants.EccentricConcentric//, 
-			//Constants.ConcentricEccentric 
-		};
-		string [] comboEcconOptionsTranslated = { 
-			Catalog.GetString(Constants.Concentric), 
-			Catalog.GetString(Constants.EccentricConcentric)//, 
-			//Catalog.GetString(Constants.ConcentricEccentric) 
-		};
-		encoderEcconTranslation = new String [comboEcconOptions.Length];
-		//for(int j=0; j < 3 ; j++)
-		for(int j=0; j < 2 ; j++)
-			encoderEcconTranslation[j] = comboEcconOptions[j] + ":" + comboEcconOptionsTranslated[j];
-		combo_encoder_eccon = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_encoder_eccon, comboEcconOptionsTranslated, "");
-		combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, 
-				Catalog.GetString(comboEcconOptions[0]));
-		combo_encoder_eccon.Changed += new EventHandler (on_combo_encoder_eccon_changed);
-		
-		//create combo laterality. SqliteEncoder Inserts and Update in english. Select is done translated
-		string [] comboLateralityOptions = { "RL", "R", "L" }; //attention: if this changes, change it also in encoder.cs (EncoderSQL)
-		string [] comboLateralityOptionsTranslated = { 
-			Catalog.GetString("RL"), Catalog.GetString("R"), Catalog.GetString("L") };
-		encoderLateralityTranslation = new String [comboLateralityOptions.Length];
-		for(int j=0; j < 3 ; j++)
-			encoderLateralityTranslation[j] = 
-				comboLateralityOptions[j] + ":" + comboLateralityOptionsTranslated[j];
-		combo_encoder_laterality = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_encoder_laterality, comboLateralityOptionsTranslated, "");
-		combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, 
-				Catalog.GetString(comboLateralityOptions[0]));
-		combo_encoder_laterality.Changed += new EventHandler (on_combo_encoder_laterality_changed);
 
 		//create combo encoder anchorage
 		combo_encoder_anchorage = Gtk.ComboBox.NewText();
@@ -3389,14 +3375,6 @@ public partial class ChronoJumpWindow
 		combo_encoder_exercise_analyze.ShowAll();
 		combo_encoder_exercise_analyze.Sensitive = true;
 
-		hbox_combo_encoder_eccon.PackStart(combo_encoder_eccon, true, true, 0);
-		hbox_combo_encoder_eccon.ShowAll();
-		combo_encoder_eccon.Sensitive = true;
-
-		hbox_combo_encoder_laterality.PackStart(combo_encoder_laterality, true, true, 0);
-		hbox_combo_encoder_laterality.ShowAll();
-		combo_encoder_laterality.Sensitive = true;
-		
 		hbox_combo_encoder_anchorage.PackStart(combo_encoder_anchorage, false, true, 0);
 		hbox_combo_encoder_anchorage.ShowAll();
 		combo_encoder_anchorage.Sensitive = true;
@@ -3543,7 +3521,7 @@ public partial class ChronoJumpWindow
 	}	
 
 
-	void on_combo_encoder_eccon_changed (object o, EventArgs args) 
+	void on_radio_encoder_eccon_toggled (object o, EventArgs args)
 	{
 		//those will be true again when loading a new encoder test or capturing
 		treeview_encoder_capture_curves.Sensitive = false;
@@ -3557,16 +3535,15 @@ public partial class ChronoJumpWindow
 	void setEcconPixbuf()
 	{
 		Pixbuf pixbuf;
-		if(UtilGtk.ComboGetActive(combo_encoder_eccon) == Catalog.GetString("Concentric"))
+		if(radio_encoder_eccon_concentric.Active)
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
 		else
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
 
-		image_top_muscle.Pixbuf = pixbuf;
-		image_muscle.Pixbuf = pixbuf;
+		image_top_eccon.Pixbuf = pixbuf;
 	}
 
-	void on_combo_encoder_laterality_changed (object o, EventArgs args)
+	void on_radio_encoder_laterality_toggled (object o, EventArgs args)
 	{
 		setLateralityPixbuf();
 	}
@@ -3574,15 +3551,14 @@ public partial class ChronoJumpWindow
 	void setLateralityPixbuf()
 	{
 		Pixbuf pixbuf;
-		if(UtilGtk.ComboGetActive(combo_encoder_laterality) == Catalog.GetString("R"))
+		if(radio_encoder_laterality_r.Active)
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-right.png");
-		else if(UtilGtk.ComboGetActive(combo_encoder_laterality) == Catalog.GetString("L"))
+		else if(radio_encoder_laterality_l.Active)
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-left.png");
 		else
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-both.png");
 
 		image_top_laterality.Pixbuf = pixbuf;
-		image_laterality.Pixbuf = pixbuf;
 	}
 
 	void on_button_encoder_capture_curves_all_clicked (object o, EventArgs args) {

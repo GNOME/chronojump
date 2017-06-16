@@ -1328,6 +1328,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -16049,6 +16052,7 @@ Concentric</property>
                                                             <widget class="GtkHBox" id="hbox123">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="radio_encoder_eccon_concentric">
                                                             <property name="visible">True</property>
@@ -16139,7 +16143,6 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -16154,6 +16157,7 @@ Concentric</property>
                                                             <widget class="GtkHBox" id="hbox190">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="radio_encoder_laterality_both">
                                                             <property name="visible">True</property>
@@ -16241,7 +16245,7 @@ Concentric</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
@@ -16289,7 +16293,6 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>
@@ -20070,6 +20073,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

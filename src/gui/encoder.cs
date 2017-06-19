@@ -4155,8 +4155,11 @@ public partial class ChronoJumpWindow
 		
 		treeviewEncoderCaptureRemoveColumns();
 
+		//initialize new captureCurvesBarsData to not having the barplot updated on CONFIGURE or EXPOSE after being painted white
+		captureCurvesBarsData = new ArrayList();
 		if(encoder_capture_curves_bars_pixmap != null)
 			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+
 		if(encoder_capture_signal_pixmap != null)
 			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
 

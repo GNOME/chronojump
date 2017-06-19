@@ -45,8 +45,11 @@ public class EncoderOverviewWindow
 
 		gladeXML.Autoconnect(this);
 		encoder_overview_win.Parent = parent;
-		
-		encoder_overview_win.Title = Catalog.GetString("Encoder Overview");
+
+		if(encoderGI == Constants.EncoderGI.GRAVITATORY)
+			encoder_overview_win.Title = Catalog.GetString("Encoder Overview") + " - " + Catalog.GetString("Gravitatory");
+		else if(encoderGI == Constants.EncoderGI.INERTIAL)
+			encoder_overview_win.Title = Catalog.GetString("Encoder Overview") + " - " + Catalog.GetString("Inertial");
 
 		//put an icon to window
 		UtilGtk.IconWindow(encoder_overview_win);

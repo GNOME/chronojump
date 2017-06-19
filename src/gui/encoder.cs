@@ -690,8 +690,15 @@ public partial class ChronoJumpWindow
 		string exerciseNameTranslated = Util.FindOnArray(':', 0, 2, exerciseID.ToString(),
 				encoderExercisesTranslationAndBodyPWeight);
 
+		/*
+		 * close/open db because "combo_encoder_exercise_capture.Active" changing will call:
+		 * void on_combo_encoder_exercise_capture_changed (object o, EventArgs args)
+		 * and this will call array1RMUpdate() that will close/open SQL
+		 */
+		Sqlite.Close();
 		combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(
 				combo_encoder_exercise_capture, exerciseNameTranslated);
+		Sqlite.Open();
 
 		//2 contraction
 		string contraction = "";

@@ -98,7 +98,6 @@ public class ChronopicRegisterWindow
 {
 	Gtk.Window chronopic_register_win;
 	Gtk.VBox vbox_main;
-	Gtk.Label label_macOSX;
 	private List<ChronopicRegisterPort> listConnected;
 
 	public Gtk.Button FakeButtonCloseSerialPort;
@@ -301,12 +300,26 @@ public class ChronopicRegisterWindow
 
 	private void createButtons()
 	{
-		label_macOSX = new Gtk.Label();
-		label_macOSX.Text = Catalog.GetString("There is a known problem with MacOSX:") + "\n" +
-				Catalog.GetString("If Chronopic is disconnected after jumps or runs execution,\nthat port will be blocked until restart of machine.") + "\n\n" +
-				Catalog.GetString("We are working on a solution.");
+		Frame frame = new Frame();
+		frame.ShadowType = ShadowType.In;
+		frame.LabelXalign = 0f;
+		frame.LabelYalign = 0.5f;
+
+		frame.Label = Catalog.GetString("There is a known problem on macOS:");
+		Gtk.Label label_macOS = new Gtk.Label(
+				Catalog.GetString("If Chronopic is disconnected after jumps or runs execution,\nthat port will be blocked until restart of machine."));
+
+		Gtk.VBox vbox_m = new Gtk.VBox();
+		vbox_m.PackStart(label_macOS, false, false, 8);
+
+		Gtk.HBox hbox_m = new Gtk.HBox();
+		hbox_m.PackStart(vbox_m, false, false, 8);
+
 		if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
-			vbox_main.Add(label_macOSX);
+		{
+			frame.Add(hbox_m);
+			vbox_main.Add(frame);
+		}
 
 		FakeButtonCloseSerialPort = new Gtk.Button();
 		Gtk.Button button_close_serial_port = new Gtk.Button("Close serial port (debug)");

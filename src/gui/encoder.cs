@@ -4447,13 +4447,28 @@ public partial class ChronoJumpWindow
 		double maxThisSet = -100000;
 		double minThisSet = 100000;
 		double sum = 0;
+		int count = 0;
 
-		foreach(double d in data) {
+		string eccon = findEccon(true);
+
+		foreach(double d in data)
+		{
+			sum += d;
+
+			//discardFirstThree repetitions if needed for Loss
+			if(encoderConfigurationCurrent.has_inertia && discardFirstThree &&
+					((eccon == "c" && count < 3) || (eccon != "c" && count < 6)) )
+			{
+				count ++;
+				continue;
+			}
+
 			if(d > maxThisSet)
 				maxThisSet = d;
 			if(d < minThisSet)
 				minThisSet = d;
-			sum += d;
+
+			count ++;
 		}
 		if(maxThisSet <= 0)
 			return;	
@@ -4503,8 +4518,6 @@ public partial class ChronoJumpWindow
 			Pango.FontDescription.FromString ("Courier " + preferences.encoderCaptureBarplotFontSize.ToString());
 		layout_encoder_capture_curves_bars_text.FontDescription.Weight = Pango.Weight.Bold;
 		
-		string eccon = findEccon(true);
-
 		Rectangle rect;
 
 		Gdk.GC my_pen_ecc_con_e; //ecc-con eccentric
@@ -4513,7 +4526,7 @@ public partial class ChronoJumpWindow
 		Gdk.GC my_pen;		//pen we are going to use
 
 		int dLeft = 0;
-		int count = 0;
+		count = 0;
 	
 		//to show saved curves on DoPlot	
 		TreeIter iter;

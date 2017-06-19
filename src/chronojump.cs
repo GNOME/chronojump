@@ -235,15 +235,20 @@ public class ChronoJump
 	bool allSQLCallsDoneOnSqliteThingsThread;
 
 	//used when Chronojump is being running two or more times (quadriple-click on start)
-	bool quitNow = false;	
+	bool quitNowCjTwoTimes = false;
 
 	protected void sqliteThings () {
-		bool crashedBefore = checkIfChronojumpExitAbnormally();
-		if(crashedBefore) {
-			if(chronojumpIsExecutingNTimes()) {
-				quitNow = true;
+		bool badExit = checkIfChronojumpExitAbnormally();
+		if(badExit) {
+			if(chronojumpIsExecutingNTimes())
+			{
+				messageToShowOnBoot += Catalog.GetString("Chronojump is already running") + "\n\n" +
+					Catalog.GetString("Chronojump will exit now.");
+
+				chronojumpHasToExit = true;
+				quitNowCjTwoTimes = true;
 				LogB.Error("Chronojump is already running.");
-				Application.Quit();
+
 				return;
 			}
 			else
@@ -466,7 +471,7 @@ public class ChronoJump
 
 
 		//if chronojump chrashed before
-		if(crashedBefore) {
+		if(badExit) {
 			if( versionAvailableKnown.Length > 0 && new Version(versionAvailableKnown) > new Version(progVersion) ) 
 				messageToShowOnBoot += "\n" + Catalog.GetString("Chronojump crashed before.") + "\n" +
 				       Catalog.GetString("Please, update to new version: ") + versionAvailableKnown + "\n";
@@ -539,15 +544,23 @@ public class ChronoJump
 		//pingEnd = true;
 	}
 
-	protected void readMessageToStart() {
-		if(messageToShowOnBoot.Length > 0) {
+	protected void readMessageToStart()
+	{
+		if(messageToShowOnBoot.Length > 0)
+		{
 			ErrorWindow errorWin;
-			if(chronojumpHasToExit) {
-				messageToShowOnBoot += "\n<b>" + string.Format(Catalog.GetString("Chronojump will exit now.")) + "</b>\n";
+			if(chronojumpHasToExit)
+			{
+				if(quitNowCjTwoTimes) {
+					errorWin = ErrorWindow.Show(messageToShowOnBoot);
+					errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_quit_not_deleting_runningfilename);
+				} else {
+					messageToShowOnBoot += "\n<b>" + string.Format(Catalog.GetString("Chronojump will exit now.")) + "</b>\n";
 
-				errorWin = ErrorWindow.Show(messageToShowOnBoot);
-				errorWin.Show_button_open_database_folder();
-				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_quit);
+					errorWin = ErrorWindow.Show(messageToShowOnBoot);
+					errorWin.Show_button_open_database_folder();
+					errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_quit_nice);
+				}
 			} else { 
 				errorWin = ErrorWindow.Show(messageToShowOnBoot);
 				errorWin.Show_send_log();
@@ -564,16 +577,30 @@ public class ChronoJump
 		startChronojump();
 	}
 
-	private void on_message_boot_accepted_quit (object o, EventArgs args) {
-		try {
-			File.Delete(runningFileName);
-		} catch {
-			//done because if database dir is moved in a chronojump conversion (eg from before installer to installjammer) maybe it will not find this runningFileName
+	private void on_message_boot_accepted_quit_nice (object o, EventArgs args)
+	{
+		quitChronojump(true);
+	}
+	private void on_message_boot_accepted_quit_not_deleting_runningfilename (object o, EventArgs args)
+	{
+		quitChronojump(false);
+	}
+	private void quitChronojump(bool deleteRunningFileName)
+	{
+		if(deleteRunningFileName)
+		{
+			try {
+				File.Delete(runningFileName);
+			} catch {
+				//done because if database dir is moved in a chronojump conversion
+				//(eg from before installer to installjammer) maybe it will not find this runningFileName
+			}
 		}
 		Log.End();
 		//Log.Delete();
 		Application.Quit();
 	}
+
 
 	private void startChronojump() {
 
@@ -623,12 +650,7 @@ public class ChronoJump
 	
 	protected bool PulseGTK ()
 	{
-		if(quitNow) 
-			return false;
-
-		//if( ( needEndSplashWin && pingEnd ) 
-		//		|| ! thread.IsAlive) {
-		if( needEndSplashWin || ! thread.IsAlive ) {
+		if( quitNowCjTwoTimes || needEndSplashWin || ! thread.IsAlive ) {
 			LogB.ThreadEnding();
 			fakeSplashButton.Click();
 

@@ -788,6 +788,10 @@ public partial class ChronoJumpWindow
 	{
 		saveEncoderExerciseOptionsToPreferences();
 
+		//if seeing "show table" move to "show graph"
+		if(notebook_encoder_capture_main.CurrentPage == 1)
+			notebook_encoder_capture_main.CurrentPage = 0;
+
 		on_button_encoder_capture_clicked_do (true);
 	}
 
@@ -3851,8 +3855,13 @@ public partial class ChronoJumpWindow
 	}
 	private void encoder_exercise_show_hide (bool show)
 	{
-		if(show)
+		if(show) {
 			notebook_encoder_capture_or_exercise_or_instructions.Page = 1;
+
+			//if seeing "show table" move to "show graph" (encoder exercise stuff is there)
+			if(notebook_encoder_capture_main.CurrentPage == 1)
+				notebook_encoder_capture_main.CurrentPage = 0;
+		}
 		else
 			notebook_encoder_capture_or_exercise_or_instructions.Page = 0;
 

@@ -4766,7 +4766,8 @@ public partial class ChronoJumpWindow
 
 		if(maxThisSetForLoss > 0)
 			title += "; Loss: " + Util.TrimDecimals(
-					100.0 * (maxThisSetForLoss - minThisSetForLoss) / maxThisSetForLoss, decimals) + "%]";
+					100.0 * (maxThisSetForLoss - minThisSetForLoss) / maxThisSetForLoss, decimals) + "%";
+		title += "]";
 
 		layout_encoder_capture_curves_bars_text.SetMarkup(title);
 		textWidth = 1;

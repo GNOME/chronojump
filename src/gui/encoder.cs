@@ -4458,6 +4458,8 @@ public partial class ChronoJumpWindow
 		//Get max min avg values of this set
 		double maxThisSet = -100000;
 		double minThisSet = 100000;
+		double maxThisSetForLoss = maxThisSet;
+		double minThisSetForLoss = minThisSet;
 		double sum = 0;
 		int count = 0;
 
@@ -4467,18 +4469,18 @@ public partial class ChronoJumpWindow
 		{
 			sum += d;
 
-			//discardFirstThree repetitions if needed for Loss
-			if(encoderConfigurationCurrent.has_inertia && discardFirstThree &&
-					((eccon == "c" && count < 3) || (eccon != "c" && count < 6)) )
-			{
-				count ++;
-				continue;
-			}
-
 			if(d > maxThisSet)
 				maxThisSet = d;
 			if(d < minThisSet)
 				minThisSet = d;
+
+			//discardFirstThree repetitions if needed for Loss
+			if(! ( encoderConfigurationCurrent.has_inertia && discardFirstThree &&
+					((eccon == "c" && count < 3) || (eccon != "c" && count < 6)) ) )
+			{
+				maxThisSetForLoss  = maxThisSet;
+				minThisSetForLoss  = minThisSet;
+			}
 
 			count ++;
 		}
@@ -4762,7 +4764,9 @@ public partial class ChronoJumpWindow
 				Util.TrimDecimals( (sumSaved / countSaved), decimals) + 
 				" " + units;
 
-		title += "; Loss: " + Util.TrimDecimals(100.0 * (maxThisSet - minThisSet) / maxThisSet, decimals) + "%]";
+		if(maxThisSetForLoss > 0)
+			title += "; Loss: " + Util.TrimDecimals(
+					100.0 * (maxThisSetForLoss - minThisSetForLoss) / maxThisSetForLoss, decimals) + "%]";
 
 		layout_encoder_capture_curves_bars_text.SetMarkup(title);
 		textWidth = 1;

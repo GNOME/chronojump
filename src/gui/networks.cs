@@ -64,10 +64,12 @@ public partial class ChronoJumpWindow
 	//config.EncoderCaptureShowOnlyBars
 	[Widget] Gtk.Notebook notebook_encoder_capture_main;
 	[Widget] Gtk.VBox vbox_treeview_encoder_at_second_page;
-	
+
 	//shown when menu is hidden
 	[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu_contacts;
 	[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu_encoder;
+	[Widget] Gtk.Button button_menu_outside_menu;
+	[Widget] Gtk.Button button_menu_outside_menu1;
 
 	private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
 	private bool encoderUpdateTreeViewWhileCapturing = true;
@@ -106,6 +108,8 @@ public partial class ChronoJumpWindow
 			{
 				select_menuitem_mode_toggled(configChronojump.CompujumpStationMode);
 				menuitem_mode.Visible = false;
+				button_menu_outside_menu.Visible = false;
+				button_menu_outside_menu1.Visible = false;
 			}
 
 			Json.ChangeServerUrl(configChronojump.CompujumpServerURL);

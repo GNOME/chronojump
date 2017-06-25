@@ -57,6 +57,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_contacts_person_change;
 	[Widget] Gtk.Button button_encoder_person_change;
 
+	//encoder exercise stuff
+	[Widget] Gtk.Button button_encoder_exercise_edit;
+	[Widget] Gtk.Button button_encoder_exercise_add;
+
 	//config.EncoderCaptureShowOnlyBars
 	[Widget] Gtk.Notebook notebook_encoder_capture_main;
 	[Widget] Gtk.VBox vbox_treeview_encoder_at_second_page;
@@ -94,6 +98,9 @@ public partial class ChronoJumpWindow
 			//button_contacts_person_change.Visible = false;
 			//button_encoder_person_change.Visible = false;
 			//TODO: don't allow edit person on person treeview
+
+			button_encoder_exercise_edit.Visible = false;
+			button_encoder_exercise_add.Visible = false;
 
 			Json.ChangeServerUrl(configChronojump.CompujumpServerURL);
 

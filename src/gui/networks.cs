@@ -102,6 +102,12 @@ public partial class ChronoJumpWindow
 			button_encoder_exercise_edit.Visible = false;
 			button_encoder_exercise_add.Visible = false;
 
+			if(configChronojump.CompujumpStationMode != Constants.Menuitem_modes.UNDEFINED)
+			{
+				select_menuitem_mode_toggled(configChronojump.CompujumpStationMode);
+				menuitem_mode.Visible = false;
+			}
+
 			Json.ChangeServerUrl(configChronojump.CompujumpServerURL);
 
 			capturedRFID = "";

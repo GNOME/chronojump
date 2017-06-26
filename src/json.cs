@@ -357,7 +357,7 @@ public class Json
 	}
 
 
-	//to retrieve images from flask (:5050)
+	//to retrieve images from flask (:5000)
 	private string getImagesUrl()
 	{
 		int posOfLastColon = serverUrl.LastIndexOf(':');
@@ -440,8 +440,42 @@ public class Json
 			return new List<Task>();
 		}
 
-		return patheticTasksDeserialize(responseFromServer);
+		//return patheticTasksDeserialize(responseFromServer);
+		return tasksDeserialize(responseFromServer);
 	}
+	private List<Task> tasksDeserialize(string strTasks)
+	{
+		List<Task> list = new List<Task>();
+		JsonValue jsonTask = JsonValue.Parse(strTasks);
+
+		Int32 id = jsonTask ["id"];
+		char type = jsonTask ["type"];
+
+		if(type == 'F') //'F' Free
+		{
+			string comment = jsonTask ["comment"];
+			list.Add(new Task(id, comment));
+		}
+		else //'P' Parametrized
+		{
+			int personId = jsonTask ["personId"];
+			int stationId = jsonTask ["stationId"];
+			int exerciseId = jsonTask ["exerciseId"];
+			int sets = jsonTask ["sets"];
+			int nreps = jsonTask ["nreps"];
+			float load = jsonTask ["load"];
+			float speed = jsonTask ["speed"];
+			float percentMaxSpeed = jsonTask ["percentMaxSpeed"];
+			string laterality = jsonTask ["laterality"];
+			string comment = jsonTask ["comment"];
+			list.Add(new Task(id, personId, stationId, exerciseId,
+						sets, nreps, load, speed, percentMaxSpeed,
+						laterality, comment));
+		}
+
+		return list;
+	}
+	/*
 	private List<Task> patheticTasksDeserialize(string responseFromServer)
 	{
 		List<Task> list = new List<Task>();
@@ -478,6 +512,7 @@ public class Json
 		}
 		return list;
 	}
+	*/
 
 	public bool UpdateTask(int taskId, int done)
 	{
@@ -738,6 +773,16 @@ public class UploadEncoderDataObject
 public class Task
 {
 	public int Id;
+	public char Type;
+	public int PersonId;
+	public int StationId;
+	public int ExerciseId;
+	public int Sets;
+	public int Nreps;
+	public float Load;
+	public float Speed;
+	public float PercentMaxSpeed;
+	public string Laterality;
 	public string Comment;
 
 	public Task()
@@ -748,12 +793,36 @@ public class Task
 
 	public Task(int id, string comment)
 	{
+		Type = 'F'; //free
+
 		Id = id;
+		Comment = comment;
+	}
+
+	public Task(int id, int personId, int stationId, int exerciseId,
+			int sets, int nreps, float load, float speed, float percentMaxSpeed,
+			string laterality, string comment)
+	{
+		Type = 'P'; //parametrized
+
+		Id = id;
+		PersonId = personId;
+		StationId = stationId;
+		ExerciseId = exerciseId;
+		Sets = sets;
+		Nreps = nreps;
+		Load = load;
+		Speed = speed;
+		PercentMaxSpeed = percentMaxSpeed;
+		Laterality = laterality;
 		Comment = comment;
 	}
 
 	public override string ToString()
 	{
-		return Id.ToString() + ": " + Comment;
+		if(Type == 'F')
+			return Id.ToString() + ": " + Comment;
+		else
+			return Id.ToString() + ": ... : " + Comment; //TODO
 	}
 }

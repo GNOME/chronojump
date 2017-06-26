@@ -39,7 +39,7 @@ public class Config
 	public SessionModeEnum SessionMode;
 	public bool Compujump;
 	public string CompujumpServerURL = "";
-	public int CompujumpStationNum = -1;
+	public int CompujumpStationID = -1;
 	public Constants.Menuitem_modes CompujumpStationMode = Constants.Menuitem_modes.UNDEFINED;
 	public string RunScriptOnExit;
 
@@ -85,8 +85,8 @@ public class Config
 						Compujump = true;
 					else if(parts[0] == "CompujumpServerURL" && parts[1] != "")
 						CompujumpServerURL = parts[1];
-					else if(parts[0] == "CompujumpStationNum" && parts[1] != "" && Util.IsNumber(parts[1], false))
-						CompujumpStationNum = Convert.ToInt32(parts[1]);
+					else if(parts[0] == "CompujumpStationID" && parts[1] != "" && Util.IsNumber(parts[1], false))
+						CompujumpStationID = Convert.ToInt32(parts[1]);
 					else if(parts[0] == "CompujumpStationMode" && Enum.IsDefined(typeof(Constants.Menuitem_modes), parts[1]))
 						CompujumpStationMode = (Constants.Menuitem_modes)
 							Enum.Parse(typeof(Constants.Menuitem_modes), parts[1]);

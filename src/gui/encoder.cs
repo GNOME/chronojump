@@ -6038,8 +6038,9 @@ public partial class ChronoJumpWindow
 							Json js = new Json();
 							bool success = js.UploadEncoderData(
 									currentPerson.UniqueID,
-									1,
-									UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
+									configChronojump.CompujumpStationID,
+									//UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
+									1, //exerciseID
 									Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)), //this is only for gravitatory
 									uo);
 							LogB.Information(js.ResultMessage);

@@ -337,6 +337,7 @@ public class Json
 		return person;
 
 	}
+	public double LastPersonByRFIDHeight = 0;
 	public double LastPersonByRFIDWeight = 0;
 	public string LastPersonByRFIDImageURL = "";
 	private Person personDeserialize(string strPerson)
@@ -350,6 +351,7 @@ public class Json
 		string rfid = jsonPerson ["rfid"];
 		string image = jsonPerson ["imageName"];
 
+		LastPersonByRFIDHeight = height;
 		LastPersonByRFIDWeight = weight;
 		LastPersonByRFIDImageURL = image;
 
@@ -361,7 +363,7 @@ public class Json
 	private string getImagesUrl()
 	{
 		int posOfLastColon = serverUrl.LastIndexOf(':');
-		return serverUrl.Substring(0, posOfLastColon) + ":5000/static/images/";
+		return serverUrl.Substring(0, posOfLastColon) + ":5000/static/images/photos/";
 	}
 
 	//imageHalfUrl is "jugadors/*.jpg"
@@ -577,7 +579,7 @@ public class Json
 		return UploadEncoderData(1, 1, "40.2", "lateral", "8100.5", 8);
 	}
 	*/
-	public bool UploadEncoderData(int personId, int machineId, string exerciseName, string resistance, UploadEncoderDataObject uo)
+	public bool UploadEncoderData(int personId, int stationId, int exerciseId, string resistance, UploadEncoderDataObject uo)
 	{
 		// Create a request using a URL that can receive a post.
 		WebRequest request = WebRequest.Create (serverUrl + "/uploadEncoderData");
@@ -587,14 +589,15 @@ public class Json
 
 		// Set the ContentType property of the WebRequest.
 		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
-		exerciseName = Util.RemoveAccents(exerciseName);
+		//exerciseName = Util.RemoveAccents(exerciseName);
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
 
 		json.Add("personId", personId);
-		json.Add("machineId", machineId);
-		json.Add("exerciseName", exerciseName);
+		json.Add("stationId", stationId);
+		//json.Add("exerciseName", exerciseName);
+		json.Add("exerciseId", exerciseId);
 		json.Add("resistance", resistance);
 		json.Add("repetitions", uo.repetitions);
 

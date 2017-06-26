@@ -406,7 +406,7 @@ public partial class ChronoJumpWindow
 				currentPerson = p;
 				currentPersonSession = new PersonSession (
 						currentPerson.UniqueID, currentSession.UniqueID, 
-						0, json.LastPersonByRFIDWeight,
+						json.LastPersonByRFIDHeight, json.LastPersonByRFIDWeight,
 						Constants.SportUndefinedID, 
 						Constants.SpeciallityUndefinedID, 
 						Constants.LevelUndefinedID,
@@ -429,6 +429,19 @@ public partial class ChronoJumpWindow
 		else {
 			LogB.Information("RFID person exists!!");
 			currentPerson = p;
+
+			PersonSession ps = SqlitePersonSession.Select(false, p.UniqueID, currentSession.UniqueID);
+			if(ps == null)
+				currentPersonSession = new PersonSession (
+						p.UniqueID, currentSession.UniqueID,
+						json.LastPersonByRFIDHeight, json.LastPersonByRFIDWeight,
+						Constants.SportUndefinedID,
+						Constants.SpeciallityUndefinedID,
+						Constants.LevelUndefinedID,
+						"", false); //comments, dbconOpened
+			else
+				currentPersonSession = ps;
+
 			personChanged(); //GTK
 			label_person_change();
 			pChanged = true;

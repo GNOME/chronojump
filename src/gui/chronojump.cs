@@ -2722,7 +2722,7 @@ public partial class ChronoJumpWindow
 
 	private void on_preferences_activate (object o, EventArgs args) 
 	{
-		preferencesWin = PreferencesWindow.Show(preferences, rfdList, impulse, getMenuItemMode());
+		preferencesWin = PreferencesWindow.Show(preferences, rfdList, impulse, current_menuitem_mode);
 		
 		preferencesWin.FakeButtonImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
@@ -2814,10 +2814,13 @@ public partial class ChronoJumpWindow
 		main_menu.Visible = false;
 	}	
 	
+	private Constants.Menuitem_modes current_menuitem_mode;
 	private Constants.Menuitem_modes last_menuitem_mode; //store it to decide not change threshold when change from jumps to jumpsRj
 	private bool last_menuitem_mode_defined = false; //undefined when first time entry on a mode (jumps, jumpRj, ...)
 	private void select_menuitem_mode_toggled(Constants.Menuitem_modes m) 
 	{
+		current_menuitem_mode = m;
+
 		menuitem_mode_selected_jumps_simple.Visible = false;
 		menuitem_mode_selected_jumps_reactive.Visible = false;
 		menuitem_mode_selected_runs_simple.Visible = false;
@@ -3226,6 +3229,11 @@ public partial class ChronoJumpWindow
 	*/
 		
 
+	/*
+	 * used after changing radio
+	 * for other uses, check:
+	 * current_menuitem_mode
+	 */
 	private Constants.Menuitem_modes getMenuItemMode() 
 	{
 		if(radio_menuitem_mode_jumps_simple.Active)
@@ -3597,7 +3605,7 @@ public partial class ChronoJumpWindow
 	DialogThreshold dialogThreshold;
 	private void on_threshold_clicked (object o, EventArgs args)
 	{
-		dialogThreshold = new DialogThreshold(getMenuItemMode(), threshold.GetT);
+		dialogThreshold = new DialogThreshold(current_menuitem_mode, threshold.GetT);
 		dialogThreshold.FakeButtonClose.Clicked += new EventHandler(on_threshold_close);
 	}
 

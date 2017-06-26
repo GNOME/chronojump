@@ -6220,7 +6220,7 @@ public partial class ChronoJumpWindow
 			}
 
 			//on inertial, check after capture if string was not fully extended and was corrected
-			if(getMenuItemMode() == Constants.Menuitem_modes.POWERINERTIAL && 
+			if(current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL &&
 					action == encoderActions.CURVES_AC && 
 					Util.FileExists(UtilEncoder.GetEncoderSpecialDataTempFileName())) 
 			{

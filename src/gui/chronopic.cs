@@ -142,7 +142,7 @@ public partial class ChronoJumpWindow
 	private void changeMultitestFirmwareIfNeeded(int cpCount)
 	{
 		//change multitest stuff
-		threshold.UpdateAtDatabaseIfNeeded(getMenuItemMode());
+		threshold.UpdateAtDatabaseIfNeeded(current_menuitem_mode);
 		if(threshold.ShouldUpdateChronopicFirmware(cpCount))
 		{
 			bool ok = cp2016.ChangeMultitestFirmwarePre(threshold.GetT, cpCount);

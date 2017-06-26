@@ -202,7 +202,8 @@ public class Json
 	public void PingAbort()
 	{
 		requestPingAborting = true;
-		requestPing.Abort(); //cancel an asynchronous request
+		if(requestPing != null)
+			requestPing.Abort(); //cancel an asynchronous request
 	}
 	public bool Ping(string osVersion, string cjVersion, string machineID) 
 	{

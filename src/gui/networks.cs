@@ -90,7 +90,10 @@ public partial class ChronoJumpWindow
 		if(
 				configChronojump.Compujump &&
 				configChronojump.CompujumpServerURL != null &&
-				configChronojump.CompujumpServerURL != "")
+				configChronojump.CompujumpServerURL != "" &&
+				configChronojump.CompujumpStationID != -1 &&
+				configChronojump.CompujumpStationMode != Constants.Menuitem_modes.UNDEFINED
+				)
 		{
 			LogB.Information(configChronojump.Compujump.ToString());
 			LogB.Information(configChronojump.CompujumpServerURL);
@@ -487,6 +490,35 @@ public partial class ChronoJumpWindow
 
 		dialogPersonPopup = new DialogPersonPopup(
 				currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks);
+
+		dialogPersonPopup.Fake_button_start_task.Clicked -= new EventHandler(compujumpTaskStart);
+		dialogPersonPopup.Fake_button_start_task.Clicked += new EventHandler(compujumpTaskStart);
+	}
+
+	private void compujumpTaskStart(object o, EventArgs args)
+	{
+		dialogPersonPopup.Fake_button_start_task.Clicked -= new EventHandler(compujumpTaskStart);
+		Task task = new Task();
+		if(dialogPersonPopup != null)
+		{
+			task = dialogPersonPopup.TaskActive;
+		}
+		dialogPersonPopup.DestroyDialog();
+		LogB.Information("Selected task from gui/networks.cs:" + task.ToString());
+
+		//laterality
+		if(task.Laterality == "RL")
+			radio_encoder_laterality_both.Active = true;
+		else if(task.Laterality == "R")
+			radio_encoder_laterality_r.Active = true;
+		else if(task.Laterality == "L")
+			radio_encoder_laterality_l.Active = true;
+
+		if(task.Load > 0)
+		{
+			entry_raspberry_extra_weight.Text = Convert.ToInt32(task.Load).ToString();
+		}
+
 	}
 
 

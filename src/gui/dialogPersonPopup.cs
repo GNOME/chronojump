@@ -31,11 +31,19 @@ public class DialogPersonPopup
 	[Widget] Gtk.Label label_name;
 	[Widget] Gtk.Image image;
 	[Widget] Gtk.Label label_rfid;
-	[Widget] Gtk.TextView textview_task;
-	[Widget] Gtk.VBox vbox_tasks;
+	[Widget] Gtk.Frame frame_tasks_parametrized;
+	[Widget] Gtk.Frame frame_tasks_free;
+	[Widget] Gtk.VBox vbox_tasks_parametrized;
+	[Widget] Gtk.VBox vbox_tasks_free;
 
 	private List<Gtk.CheckButton> list_checks;
+	private List<Gtk.Button> list_buttons;
 	private List<int> list_tasks_id;
+	private List<int> list_buttons_id;
+
+	private List<Task> list_tasks;
+	private Task taskActive;
+	public Button Fake_button_start_task;
 
 	public DialogPersonPopup (int personID, string name, string rfid, List<Task> tasks)
 	{
@@ -49,6 +57,7 @@ public class DialogPersonPopup
 		label_name.Text = "<b>" + name + "</b>";
 		label_name.UseMarkup = true;
 		label_rfid.Text = rfid;
+		list_tasks = tasks;
 
 		string photoFile = Util.GetPhotoFileName(false, personID);
 		if(File.Exists(photoFile)) {
@@ -65,48 +74,76 @@ public class DialogPersonPopup
 			}
 		}
 
-		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.Text = "";
-		foreach(Task t in tasks)
-			tb.Text += t.ToString() + "\n";
-
-		textview_task.Buffer = tb;
-
 		list_checks = new List<Gtk.CheckButton>();
+		list_buttons = new List<Gtk.Button>();
 		list_tasks_id = new List<int>();
+		list_buttons_id = new List<int>();
+		taskActive = new Task();
+		Fake_button_start_task = new Gtk.Button();
+
+		bool task_parametrized_exist = false;
+		bool task_free_exist = false;
 		foreach(Task t in tasks)
 		{
-			CheckButton check = new Gtk.CheckButton(t.ToString());
-			check.Toggled += on_task_toggled;
-			check.Active = true;
-			vbox_tasks.Add(check);
+			Gtk.Label l = new Gtk.Label(t.ToString());
+			HBox hbox = new Gtk.HBox(false, 12);
+			Button button_do;
 
-			list_checks.Add(check);
+			if(t.Type == 'P')
+			{
+				button_do = new Gtk.Button("Inicia");
+				button_do.Clicked += new EventHandler(button_clicked);
+				hbox.PackStart(button_do, false, false, 0);
+				hbox.PackStart(l, false, false, 0);
+				vbox_tasks_parametrized.PackStart(hbox, false, false, 0);
+				task_parametrized_exist = true;
+			} else // 'F'
+			{
+				button_do = new Gtk.Button("Fet!");
+				button_do.Clicked += new EventHandler(button_clicked);
+				hbox.PackStart(l, false, false, 0);
+				hbox.PackStart(button_do, false, false, 0);
+				vbox_tasks_free.PackStart(hbox, false, false, 0);
+				task_free_exist = true;
+			}
+
+			list_buttons.Add(button_do);
 			list_tasks_id.Add(t.Id);
+			list_buttons_id.Add(t.Id);
 		}
-		vbox_tasks.ShowAll();
+		if(task_parametrized_exist)
+			vbox_tasks_parametrized.ShowAll();
+		else
+			frame_tasks_parametrized.Visible = false;
+
+		if(task_free_exist)
+			vbox_tasks_free.ShowAll();
+		else
+			frame_tasks_free.Visible = false;
 	}
 
-	private void on_task_toggled(object o, EventArgs args)
+	private void button_clicked(object o, EventArgs args)
 	{
-		CheckButton checkToggled = o as CheckButton;
+		Button buttonClicked = o as Button;
 		if (o == null)
 			return;
 
 		int count = 0;
-		foreach(Gtk.CheckButton check in list_checks)
+		foreach(Gtk.Button button in list_buttons)
 		{
-			if(check == checkToggled)
+			if(button == buttonClicked)
 			{
-				LogB.Information("check toggled row: " + count.ToString());
-				LogB.Information(check.Active.ToString());
-
-				Json json = new Json();
-				/*
-				 * pass negative check because on this dialog "active" means to do task
-				 * on server the boolean is called "done" and means the opposite
-				 */
-				json.UpdateTask(list_tasks_id[count], Util.BoolToInt(! check.Active));
+				LogB.Information("Clicked button" + count.ToString());
+				if(list_tasks[count].Type == 'P')
+				{
+					taskActive = list_tasks[count];
+					Fake_button_start_task.Click();
+				} else { // 'F'
+					Json json = new Json();
+					json.UpdateTask(list_tasks_id[count], 1);
+					button.Sensitive = false;
+				}
+				return;
 			}
 			count ++;
 		}
@@ -125,8 +162,13 @@ public class DialogPersonPopup
 	//call this if a new person put his rfid code before showing it's data
 	public void DestroyDialog ()
 	{
-		LogB.Information("Destroying dialogPersonPupopu");
+		LogB.Information("Destroying dialogPersonPopup");
 		dialog_person_popup.Destroy ();
-		LogB.Information("Destroyed dialogPersonPupopu");
+		LogB.Information("Destroyed dialogPersonPopup");
+	}
+
+	public Task TaskActive
+	{
+		get { return taskActive; }
 	}
 }

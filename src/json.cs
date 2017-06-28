@@ -444,8 +444,47 @@ public class Json
 			return new List<Task>();
 		}
 
+
 		List<string> taskStrings = tasksPatheticSeparate(responseFromServer);
 		return tasksDeserialize(taskStrings);
+		// The previous two lines can be replaced (and the methods deleted) by:
+		// return taskDeserializeFromServer (responseFromServer);
+	}
+
+	List<Task> taskDeserializeFromServer(string responseFromServer)
+	{
+		List<Task> tasks = new List<Task>();
+
+		JsonValue jsonTasks = JsonValue.Parse (responseFromServer);
+
+		foreach (JsonValue jsonTask in jsonTasks) {
+			Int32 id = jsonTask ["id"];
+			char type = jsonTask ["type"];
+			int exerciseId = jsonTask ["exerciseId"];
+			string exerciseName = jsonTask ["exerciseName"];
+
+			if(type == 'F') //'F' Free
+			{
+				string comment = jsonTask ["comment"];
+				tasks.Add(new Task(id, exerciseId, exerciseName, comment));
+			}
+			else //'P' Parametrized
+			{
+				int personId = jsonTask ["personId"];
+				int stationId = jsonTask ["stationId"];
+				int sets = jsonTask ["sets"];
+				int nreps = jsonTask ["nreps"];
+				float load = jsonTask ["load"];
+				float speed = jsonTask ["speed"];
+				float percentMaxSpeed = jsonTask ["percentMaxSpeed"];
+				string laterality = jsonTask ["laterality"];
+				string comment = jsonTask ["comment"];
+				tasks.Add(new Task(id, personId, stationId, exerciseId, exerciseName,
+					sets, nreps, load, speed, percentMaxSpeed,
+					laterality, comment));
+			}
+		}
+		return tasks;
 	}
 
 	private List<string> tasksPatheticSeparate(string strTasks)

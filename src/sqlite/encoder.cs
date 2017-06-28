@@ -733,16 +733,22 @@ class SqliteEncoder : Sqlite
 			"future3 TEXT )";	//weightAngle (unused)
 		dbcmd.ExecuteNonQuery();
 	}
-	
-	public static void InsertExercise(bool dbconOpened, string name, int percentBodyWeight, 
+
+	//if uniqueID == -1, NULL will be used (correlative uniqueID)
+	//uniqueID != -1 when an exercise is downloaded from server on compujump and need to have the same uniqueID as server
+	public static void InsertExercise(bool dbconOpened, int uniqueID, string name, int percentBodyWeight,
 			string ressistance, string description, string speed1RM)	 //speed1RM decimal point = '.'
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
 
+		string uniqueIDStr = "NULL";
+		if(uniqueID != -1)
+			uniqueIDStr = uniqueID.ToString();
+
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderExerciseTable +  
 				" (uniqueID, name, percentBodyWeight, ressistance, description, future1, future2, future3)" +
-				" VALUES (NULL, \"" + name + "\", " + percentBodyWeight + ", \"" + 
+				" VALUES (" + uniqueIDStr + ", \"" + name + "\", " + percentBodyWeight + ", \"" +
 				ressistance + "\", \"" + description + "\", \"" + speed1RM + "\", '', '')";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -764,7 +770,7 @@ class SqliteEncoder : Sqlite
 		
 		foreach(string line in iniEncoderExercises) {
 			string [] parts = line.Split(new char[] {':'});
-			InsertExercise(true, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3], parts[4]);
+			InsertExercise(true, -1, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3], parts[4]);
 		}
 
 		addEncoderFreeExercise();
@@ -776,13 +782,13 @@ class SqliteEncoder : Sqlite
 	{
 		bool exists = Sqlite.Exists (true, Constants.EncoderExerciseTable, "Free");
 		if(! exists)
-			InsertExercise(true, "Free", 0, "", "", "");
+			InsertExercise(true, -1, "Free", 0, "", "", "");
 	}
 	protected internal static void addEncoderJumpExercise()
 	{
 		bool exists = Sqlite.Exists (true, Constants.EncoderExerciseTable, "Jump");
 		if(! exists)
-			InsertExercise(true, "Jump", 100, "", "", "");
+			InsertExercise(true, -1, "Jump", 100, "", "", "");
 	}
 	protected internal static void addEncoderInclinedExercises()
 	{
@@ -794,7 +800,7 @@ class SqliteEncoder : Sqlite
 		
 		foreach(string line in iniEncoderExercises) {
 			string [] parts = line.Split(new char[] {':'});
-			InsertExercise(true, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3], parts[4]);
+			InsertExercise(true, -1, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3], parts[4]);
 		}
 	}
 

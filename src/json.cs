@@ -473,9 +473,9 @@ public class Json
 			foreach(string str in strFull)
 			{
 				if(! str.StartsWith("{"))
-					strFull[i] = "{" + str;
+					strFull[i] = "{" + strFull[i];
 				if(! str.EndsWith("}"))
-					strFull[i] = str + "}";
+					strFull[i] = strFull[i] + "}";
 
 				list.Add(strFull[i]);
 				i ++;
@@ -499,17 +499,18 @@ public class Json
 
 			Int32 id = jsonTask ["id"];
 			char type = jsonTask ["type"];
+			int exerciseId = jsonTask ["exerciseId"];
+			string exerciseName = jsonTask ["exerciseName"];
 
 			if(type == 'F') //'F' Free
 			{
 				string comment = jsonTask ["comment"];
-				list.Add(new Task(id, comment));
+				list.Add(new Task(id, exerciseId, exerciseName, comment));
 			}
 			else //'P' Parametrized
 			{
 				int personId = jsonTask ["personId"];
 				int stationId = jsonTask ["stationId"];
-				int exerciseId = jsonTask ["exerciseId"];
 				int sets = jsonTask ["sets"];
 				int nreps = jsonTask ["nreps"];
 				float load = jsonTask ["load"];
@@ -517,7 +518,7 @@ public class Json
 				float percentMaxSpeed = jsonTask ["percentMaxSpeed"];
 				string laterality = jsonTask ["laterality"];
 				string comment = jsonTask ["comment"];
-				list.Add(new Task(id, personId, stationId, exerciseId,
+				list.Add(new Task(id, personId, stationId, exerciseId, exerciseName,
 							sets, nreps, load, speed, percentMaxSpeed,
 							laterality, comment));
 			}
@@ -582,6 +583,83 @@ public class Json
 		this.ResultMessage = "Update task sent.";
 		return true;
 	}
+
+	public EncoderExercise GetEncoderExercise(int exerciseId)
+	{
+		EncoderExercise ex = new EncoderExercise();
+
+		// Create a request using a URL that can receive a post.
+		WebRequest request = WebRequest.Create (serverUrl + "/getEncoderExercise");
+
+		// Set the Method property of the request to POST.
+		request.Method = "POST";
+
+		// Set the ContentType property of the WebRequest.
+		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
+
+		// Creates the json object
+		JsonObject json = new JsonObject();
+		json.Add("exerciseId", exerciseId);
+
+		// Converts it to a String
+		String js = json.ToString();
+
+		// Writes the json object into the request dataStream
+		Stream dataStream;
+		try {
+			dataStream = request.GetRequestStream ();
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+				serverUrl);
+			return ex;
+		}
+
+		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
+
+		dataStream.Close ();
+
+		HttpWebResponse response;
+		try {
+			response = (HttpWebResponse) request.GetResponse();
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+				serverUrl);
+			return ex;
+		}
+
+		string responseFromServer;
+		using (var sr = new StreamReader(response.GetResponseStream()))
+		{
+			responseFromServer = sr.ReadToEnd();
+		}
+
+		LogB.Information("GetEncoderExercise: " + responseFromServer);
+
+		if(responseFromServer == "")
+			LogB.Information(" Empty "); //never happens
+		else if(responseFromServer == "[]")
+			LogB.Information(" Empty2 "); //when rfid is not on server
+		else {
+			ex = encoderExerciseDeserialize(responseFromServer);
+		}
+
+		return ex;
+	}
+	private EncoderExercise encoderExerciseDeserialize(string str)
+	{
+		JsonValue jsonEx = JsonValue.Parse(str);
+
+		Int32 id = jsonEx ["id"];
+		string name = jsonEx ["name"];
+		Int32 stationId = jsonEx ["stationId"];
+		int percentBodyMassDisplaced = jsonEx ["percentBodyMassDisplaced"];
+
+		return new EncoderExercise(id, name, percentBodyMassDisplaced,
+				"", "", 0); //ressitance, description, speed1RM
+	}
+
 
 	/*
 	public bool UploadEncoderData()
@@ -790,6 +868,7 @@ public class Task
 	public int PersonId;
 	public int StationId;
 	public int ExerciseId;
+	public string ExerciseName;
 	public int Sets;
 	public int Nreps;
 	public float Load;
@@ -804,15 +883,17 @@ public class Task
 		Comment = "";
 	}
 
-	public Task(int id, string comment)
+	public Task(int id, int exerciseId, string exerciseName, string comment)
 	{
 		Type = 'F'; //free
 
 		Id = id;
+		ExerciseId = exerciseId;
+		ExerciseName = exerciseName;
 		Comment = comment;
 	}
 
-	public Task(int id, int personId, int stationId, int exerciseId,
+	public Task(int id, int personId, int stationId, int exerciseId, string exerciseName,
 			int sets, int nreps, float load, float speed, float percentMaxSpeed,
 			string laterality, string comment)
 	{
@@ -822,6 +903,7 @@ public class Task
 		PersonId = personId;
 		StationId = stationId;
 		ExerciseId = exerciseId;
+		ExerciseName = exerciseName;
 		Sets = sets;
 		Nreps = nreps;
 		Load = load;
@@ -834,7 +916,7 @@ public class Task
 	public override string ToString()
 	{
 		if(Type == 'F')
-			return Id.ToString() + ": " + Comment;
+			return ExerciseName + ": " + Comment;
 		else {
 			string sep = "";
 			string str = "";
@@ -872,7 +954,7 @@ public class Task
 			{
 				str += "\n" + Comment;
 			}
-			return Id.ToString() + ": " + str;
+			return ExerciseName + ": " + str;
 		}
 	}
 }

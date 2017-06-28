@@ -3417,8 +3417,15 @@ public partial class ChronoJumpWindow
 	}
 	
 	//this is called also when an exercise is deleted to update the combo and the string []
-	protected void createEncoderComboExerciseAndAnalyze() {
+	protected void createEncoderComboExerciseAndAnalyze()
+	{
 		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false, -1, false);
+		if(encoderExercises.Count == 0)
+		{
+			encoderExercisesTranslationAndBodyPWeight = new String [0];
+			return;
+		}
+
 		encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
 		string [] exerciseNamesToCombo = new String [encoderExercises.Count];
 		int i =0;
@@ -4020,7 +4027,7 @@ public partial class ChronoJumpWindow
 							"Error: An exercise named '{0}' already exists."), name));
 		else {
 			if(adding)
-				SqliteEncoder.InsertExercise(false, name, genericWin.SpinIntSelected, 
+				SqliteEncoder.InsertExercise(false, -1, name, genericWin.SpinIntSelected,
 						genericWin.Entry2Selected, genericWin.Entry3Selected,
 						Util.ConvertToPoint(genericWin.SpinDouble2Selected)
 						);
@@ -4030,32 +4037,37 @@ public partial class ChronoJumpWindow
 						Util.ConvertToPoint(genericWin.SpinDouble2Selected)
 						);
 
-			ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false,-1, false);
-			encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
-			string [] exerciseNamesToCombo = new String [encoderExercises.Count];
-			int i =0;
-			foreach(EncoderExercise ex in encoderExercises) {
-				string nameTranslated = ex.name;
-				//do not translated user created exercises
-				//this names are in SqliteEncoder.initializeTableEncoderExercise()
-				if(ex.name == "Bench press" || ex.name == "Squat" || ex.name == "Jump")
-					nameTranslated = Catalog.GetString(ex.name);
-				encoderExercisesTranslationAndBodyPWeight[i] = 
-					ex.uniqueID + ":" + ex.name + ":" + nameTranslated + ":" + ex.percentBodyWeight;
-				exerciseNamesToCombo[i] = Catalog.GetString(ex.name);
-				i++;
-			}
-			UtilGtk.ComboUpdate(combo_encoder_exercise_capture, exerciseNamesToCombo, "");
-			combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture, name);
-			
-			exerciseNamesToCombo = addAllExercisesToComboExerciseAnalyze(exerciseNamesToCombo);
-
-			UtilGtk.ComboUpdate(combo_encoder_exercise_analyze, exerciseNamesToCombo, "");
-			combo_encoder_exercise_analyze.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_analyze, name);
+			updateEncoderExercisesGui(name);
 
 			genericWin.HideAndNull();
 			LogB.Information("done");
 		}
+	}
+
+	private void updateEncoderExercisesGui(string name)
+	{
+		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false,-1, false);
+		encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
+		string [] exerciseNamesToCombo = new String [encoderExercises.Count];
+		int i =0;
+		foreach(EncoderExercise ex in encoderExercises) {
+			string nameTranslated = ex.name;
+			//do not translated user created exercises
+			//this names are in SqliteEncoder.initializeTableEncoderExercise()
+			if(ex.name == "Bench press" || ex.name == "Squat" || ex.name == "Jump")
+				nameTranslated = Catalog.GetString(ex.name);
+			encoderExercisesTranslationAndBodyPWeight[i] =
+				ex.uniqueID + ":" + ex.name + ":" + nameTranslated + ":" + ex.percentBodyWeight;
+			exerciseNamesToCombo[i] = Catalog.GetString(ex.name);
+			i++;
+		}
+		UtilGtk.ComboUpdate(combo_encoder_exercise_capture, exerciseNamesToCombo, "");
+		combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture, name);
+
+		exerciseNamesToCombo = addAllExercisesToComboExerciseAnalyze(exerciseNamesToCombo);
+
+		UtilGtk.ComboUpdate(combo_encoder_exercise_analyze, exerciseNamesToCombo, "");
+		combo_encoder_exercise_analyze.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_analyze, name);
 	}
 	
 	void on_button_encoder_exercise_delete (object o, EventArgs args) 

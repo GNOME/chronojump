@@ -918,6 +918,12 @@ public class EncoderExercise
 			return false;
 	}
 
+	public override string ToString()
+	{
+		return uniqueID.ToString() + ": " + name + " (" + percentBodyWeight.ToString() + "%) " +
+			ressistance + "," + description + "," + speed1RM.ToString();
+	}
+
 	~EncoderExercise() {}
 }
 

@@ -461,8 +461,7 @@ public partial class ChronoJumpWindow
 				selectRowTreeView_persons(treeview_persons, rowToSelect);
 			*/
 
-			List<Task> tasks = json.GetTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
-			showDialogPersonPopup(tasks);
+			getTasksExercisesAndPopup();
 		}
 
 		updatingRFIDGuiStuff = false;
@@ -478,8 +477,52 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null)
 			return;
 
+		getTasksExercisesAndPopup();
+	}
+
+	private void getTasksExercisesAndPopup()
+	{
+		//1) get tasks
 		Json json = new Json();
 		List<Task> tasks = json.GetTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
+
+		//2) get exercises if needed
+		if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERGRAVITATORY ||
+				configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERINERTIAL)
+		{
+			ArrayList encoderExercisesOnLocal = SqliteEncoder.SelectEncoderExercises(false, -1, false);
+			foreach(Task task in tasks)
+			{
+				bool exerciseOnLocal = false;
+				foreach(EncoderExercise exLocal in encoderExercisesOnLocal)
+				{
+					if(task.ExerciseId == exLocal.uniqueID)
+					{
+						LogB.Information("Found:" + task.ExerciseId);
+						exerciseOnLocal = true;
+						break;
+					}
+				}
+				if(! exerciseOnLocal)
+				{
+					LogB.Information("Need to download this exercise:" + task.ExerciseId);
+					EncoderExercise exDownloaded = json.GetEncoderExercise(task.ExerciseId);
+					LogB.Information("Downloaded:" + exDownloaded.ToString());
+
+					//insert on database
+					if(exDownloaded.name != null && exDownloaded.name != "")
+					{
+						SqliteEncoder.InsertExercise(
+								false, exDownloaded.uniqueID, exDownloaded.name, exDownloaded.percentBodyWeight,
+								"", "", ""); //ressitance, description, speed1RM
+						encoderExercisesOnLocal.Add(exDownloaded);
+						updateEncoderExercisesGui(exDownloaded.name);
+					}
+				}
+			}
+		}
+
+		//3) show dialog
 		showDialogPersonPopup(tasks);
 	}
 
@@ -505,6 +548,8 @@ public partial class ChronoJumpWindow
 		}
 		dialogPersonPopup.DestroyDialog();
 		LogB.Information("Selected task from gui/networks.cs:" + task.ToString());
+
+		combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture, task.ExerciseName);
 
 		//laterality
 		if(task.Laterality == "RL")

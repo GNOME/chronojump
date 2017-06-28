@@ -387,7 +387,7 @@ public class Json
 		return true;
 	}
 
-	public List<Task> GetTasks(int personID)
+	public List<Task> GetTasks(int personID, int stationID)
 	{
 		// Create a request using a URL that can receive a post.
 		WebRequest request = WebRequest.Create (serverUrl + "/getTasks");
@@ -401,6 +401,7 @@ public class Json
 		// Creates the json object
 		JsonObject json = new JsonObject();
 		json.Add("personId", personID.ToString());
+		json.Add("stationId", stationID.ToString());
 
 		// Converts it to a String
 		String js = json.ToString();
@@ -526,6 +527,7 @@ public class Json
 	}
 	public bool UpdateTask(int taskId, int done)
 	{
+		LogB.Information("At UpdateTask");
 		// Create a request using a URL that can receive a post.
 		WebRequest request = WebRequest.Create (serverUrl + "/updateTask");
 

@@ -458,7 +458,7 @@ public partial class ChronoJumpWindow
 				selectRowTreeView_persons(treeview_persons, rowToSelect);
 			*/
 
-			List<Task> tasks = json.GetTasks(currentPerson.UniqueID);
+			List<Task> tasks = json.GetTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
 			showDialogPersonPopup(tasks);
 		}
 
@@ -476,7 +476,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		Json json = new Json();
-		List<Task> tasks = json.GetTasks(currentPerson.UniqueID);
+		List<Task> tasks = json.GetTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
 		showDialogPersonPopup(tasks);
 	}
 

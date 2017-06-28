@@ -1331,6 +1331,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -16992,14 +16995,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label111">
+                                                            <widget class="GtkLabel" id="label_encoder_exercise_encoder">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Encoder</property>
                                                             </widget>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkVSeparator" id="vseparator6">
+                                                            <widget class="GtkVSeparator" id="vseparator_encoder_exercise_encoder">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             </widget>
@@ -17009,7 +17012,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox16">
+                                                            <widget class="GtkHBox" id="hbox_encoder_exercise_encoder">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">8</property>
@@ -20073,6 +20076,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

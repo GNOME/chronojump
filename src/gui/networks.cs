@@ -58,6 +58,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_person_change;
 
 	//encoder exercise stuff
+	[Widget] Gtk.Label label_encoder_exercise_encoder;
+	[Widget] Gtk.VSeparator vseparator_encoder_exercise_encoder;
+	[Widget] Gtk.HBox hbox_encoder_exercise_encoder;
 	[Widget] Gtk.Button button_encoder_exercise_edit;
 	[Widget] Gtk.Button button_encoder_exercise_add;
 
@@ -104,6 +107,12 @@ public partial class ChronoJumpWindow
 			//button_encoder_person_change.Visible = false;
 			//TODO: don't allow edit person on person treeview
 
+			//don't allow to change encoderConfiguration
+			label_encoder_exercise_encoder.Visible = false;
+			vseparator_encoder_exercise_encoder.Visible = false;
+			hbox_encoder_exercise_encoder.Visible = false;
+
+			//don't allow to edit exercises
 			button_encoder_exercise_edit.Visible = false;
 			button_encoder_exercise_add.Visible = false;
 

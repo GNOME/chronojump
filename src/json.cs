@@ -443,80 +443,87 @@ public class Json
 			return new List<Task>();
 		}
 
-		//return patheticTasksDeserialize(responseFromServer);
-		return tasksDeserialize(responseFromServer);
+		List<string> taskStrings = tasksPatheticSeparate(responseFromServer);
+		return tasksDeserialize(taskStrings);
 	}
-	private List<Task> tasksDeserialize(string strTasks)
+
+	private List<string> tasksPatheticSeparate(string strTasks)
 	{
-		List<Task> list = new List<Task>();
-		JsonValue jsonTask = JsonValue.Parse(strTasks);
+		/*
+		 * one task:
+		 * [{"load": 40.0, "comment": "", "personId": 1, "speed": 1.0, "exerciseId": 1, "stationId": 1, "nreps": -1, "laterality": "RL", "sets": -1, "done": 0, "type": "P", "id": 1, "percentMaxSpeed": -1.0}]
+		 *
+		 * two tasks:
+		 * [{"load": 40.0, "comment": "", "personId": 1, "speed": 1.0, "exerciseId": 1, "stationId": 1, "nreps": -1, "laterality": "RL", "sets": -1, "done": 0, "type": "P", "id": 1, "percentMaxSpeed": -1.0}, {"load": 3.0, "comment": "", "personId": 1, "speed": 4.0, "exerciseId": 1, "stationId": 1, "nreps": 2, "laterality": "R,L", "sets": 1, "done": 0, "type": "P", "id": 2, "percentMaxSpeed": 5.0}]
+		 */
 
-		Int32 id = jsonTask ["id"];
-		char type = jsonTask ["type"];
+		//first remove the start "[" and end "]"
+		if(strTasks.StartsWith("["))
+			strTasks = strTasks.Substring(1, strTasks.Length -1);
+		if(strTasks.EndsWith("]"))
+			strTasks = strTasks.Substring(0, strTasks.Length -1);
 
-		if(type == 'F') //'F' Free
+		List<string> list = new List<string>();
+
+		if(strTasks.Contains("}, {"))
 		{
-			string comment = jsonTask ["comment"];
-			list.Add(new Task(id, comment));
-		}
-		else //'P' Parametrized
-		{
-			int personId = jsonTask ["personId"];
-			int stationId = jsonTask ["stationId"];
-			int exerciseId = jsonTask ["exerciseId"];
-			int sets = jsonTask ["sets"];
-			int nreps = jsonTask ["nreps"];
-			float load = jsonTask ["load"];
-			float speed = jsonTask ["speed"];
-			float percentMaxSpeed = jsonTask ["percentMaxSpeed"];
-			string laterality = jsonTask ["laterality"];
-			string comment = jsonTask ["comment"];
-			list.Add(new Task(id, personId, stationId, exerciseId,
-						sets, nreps, load, speed, percentMaxSpeed,
-						laterality, comment));
+			string [] strFull = strTasks.Split(new string[] {"}, {"}, StringSplitOptions.RemoveEmptyEntries);
+			int i = 0;
+			foreach(string str in strFull)
+			{
+				if(! str.StartsWith("{"))
+					strFull[i] = "{" + str;
+				if(! str.EndsWith("}"))
+					strFull[i] = str + "}";
+
+				list.Add(strFull[i]);
+				i ++;
+			}
+		} else {
+			list.Add(strTasks);
 		}
 
 		return list;
 	}
-	/*
-	private List<Task> patheticTasksDeserialize(string responseFromServer)
+
+	private List<Task> tasksDeserialize(List<string> strTasksList)
 	{
 		List<Task> list = new List<Task>();
 
-		// 	[[1, "one task"], [3, "another task"]]
-
-		//1) convert it to:
-		// 	[1, "one task"], [3, "another task"]
-		responseFromServer = responseFromServer.Substring(1, responseFromServer.Length -2);
-
-		string [] strFull = responseFromServer.Split(new char[] {']'});
-		foreach(string str in strFull)
+		foreach(string strTask in strTasksList)
 		{
-			if(str == null || str == "")
-				continue;
+			LogB.Information("Going to parse:" + strTask);
+			JsonValue jsonTask = JsonValue.Parse(strTask);
+			LogB.Information("parsed:" + strTask);
 
-			string s = str;
-			LogB.Information("before: " + s);
-			if(s.StartsWith(", ["))
-				s = s.Substring(3);
-			else
-				s = s.Substring(1);
+			Int32 id = jsonTask ["id"];
+			char type = jsonTask ["type"];
 
-			//don't use this because comments can have a comma
-			//string [] s2 = s.Split(new char[] {','});
-
-			//get the first comma
-			int sepPos = s.IndexOf(',');
-			string sId = s.Substring(0, sepPos);
-			string sComment = s.Substring(sepPos +1);
-			sComment = sComment.Substring(2, sComment.Length -3); 	//remove initial ' "' and end '"'
-
-			list.Add(new Task(Convert.ToInt32(sId), sComment));
+			if(type == 'F') //'F' Free
+			{
+				string comment = jsonTask ["comment"];
+				list.Add(new Task(id, comment));
+			}
+			else //'P' Parametrized
+			{
+				int personId = jsonTask ["personId"];
+				int stationId = jsonTask ["stationId"];
+				int exerciseId = jsonTask ["exerciseId"];
+				int sets = jsonTask ["sets"];
+				int nreps = jsonTask ["nreps"];
+				float load = jsonTask ["load"];
+				float speed = jsonTask ["speed"];
+				float percentMaxSpeed = jsonTask ["percentMaxSpeed"];
+				string laterality = jsonTask ["laterality"];
+				string comment = jsonTask ["comment"];
+				list.Add(new Task(id, personId, stationId, exerciseId,
+							sets, nreps, load, speed, percentMaxSpeed,
+							laterality, comment));
+			}
 		}
+
 		return list;
 	}
-	*/
-
 	public bool UpdateTask(int taskId, int done)
 	{
 		// Create a request using a URL that can receive a post.
@@ -826,7 +833,44 @@ public class Task
 	{
 		if(Type == 'F')
 			return Id.ToString() + ": " + Comment;
-		else
-			return Id.ToString() + ": ... : " + Comment; //TODO
+		else {
+			string sep = "";
+			string str = "";
+			if (Sets != -1)
+			{
+				str += sep + "Series = " + Sets.ToString();
+				sep = "; ";
+			}
+			if (Nreps != -1)
+			{
+				str += sep + "Repeticions = " + Nreps.ToString();
+				sep = "; ";
+			}
+			if (Load != -1)
+			{
+				str += sep + "Càrrega = " + Load.ToString();
+				sep = "; ";
+			}
+			if (Speed != -1)
+			{
+				str += sep + "Velocitat = " + Speed.ToString();
+				sep = "; ";
+			}
+			if (PercentMaxSpeed != -1)
+			{
+				str += sep + "Velocitat (%) = " + PercentMaxSpeed.ToString();
+				sep = "; ";
+			}
+			if (Laterality != "")
+			{
+				str += sep + "Lateralitat = " + Laterality;
+				sep = "; ";
+			}
+			if (Comment != "")
+			{
+				str += "\n" + Comment;
+			}
+			return Id.ToString() + ": " + str;
+		}
 	}
 }

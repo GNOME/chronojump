@@ -47,55 +47,56 @@ public class RFID
 		 */
 		//List<string> l = getPorts(false);
 		//LogB.Information("getPorts");
-		List<string> l = new List<string>();
-		l.Add(portName);
+
+		//List<string> l = new List<string>();
+		//l.Add(portName);
 		
 		string lastRFID = "";
 		string str = "";
-		if(findRFIDPort(l))
+
+		LogB.Information("portName: " + portName);
+		port = new SerialPort(portName, 9600); //for the rfid
+		port.Open();
+
+		LogB.Information("AT RFID.cs");
+		while(! stop)
 		{
-			//don't need to open port because it's still opened
-			//port.Open();
-			while(! stop)
+			//str = port.ReadLine(); //don't use this because gets waiting some stop signal
+			if (port.BytesToRead > 0)
 			{
-				LogB.Information("AT RFID.cs");
-				//str = port.ReadLine(); //don't use this because gets waiting some stop signal
-				if (port.BytesToRead > 0)
+				str = port.ReadExisting();
+				LogB.Information("No trim str" + str);
+
+				//get only the first line and trim it
+				if(str.IndexOf(Environment.NewLine) > 0)
+					str = str.Substring(0, str.IndexOf(Environment.NewLine)).Trim();
+
+				LogB.Information("Yes one line and trim str" + str);
+
+				//this first line should have a 's' and 'e' (mark of 's'tart and 'e'nd of rfid)
+				if(str.IndexOf('s') == 0 && str[str.Length -1] == 'e')
 				{
-					str = port.ReadExisting();
-					LogB.Information("No trim str" + str);
+					str = str.Substring(1, str.Length -2);
 
-					//get only the first line and trim it
-					if(str.IndexOf(Environment.NewLine) > 0)
-						str = str.Substring(0, str.IndexOf(Environment.NewLine)).Trim();
-					
-					LogB.Information("Yes one line and trim str" + str);
-
-					//this first line should have a 's' and 'e' (mark of 's'tart and 'e'nd of rfid)
-					if(str.IndexOf('s') == 0 && str[str.Length -1] == 'e')
+					if(str != lastRFID)
 					{
-						str = str.Substring(1, str.Length -2);
+						Captured = str;
 
-						if(str != lastRFID)
-						{
-							Captured = str;
-
-							//Firing the event
-							fakeButtonChange.Click();
-							/*
-							   EventHandler handler = ChangedEvent;
-							   if (handler != null)
-							   handler(this, new EventArgs());
-							   */
-							lastRFID = str;
-						}
+						//Firing the event
+						fakeButtonChange.Click();
+						/*
+						   EventHandler handler = ChangedEvent;
+						   if (handler != null)
+						   handler(this, new EventArgs());
+						   */
+						lastRFID = str;
 					}
 				}
-				Thread.Sleep(100);
 			}
-			LogB.Information("AT RFID.cs: STOPPED");
-			port.Close();
+			Thread.Sleep(100);
 		}
+		LogB.Information("AT RFID.cs: STOPPED");
+		port.Close();
 	}
 
 	public void Stop()

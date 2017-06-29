@@ -877,16 +877,6 @@ public class Task
 		else {
 			string sep = "";
 			string str = "";
-			if (Sets != -1)
-			{
-				str += sep + "Series = " + Sets.ToString();
-				sep = "; ";
-			}
-			if (Nreps != -1)
-			{
-				str += sep + "Repeticions = " + Nreps.ToString();
-				sep = "; ";
-			}
 			if (Laterality == "R" || Laterality == "L")
 			{
 				string lateralityStr = Catalog.GetString("Right");
@@ -899,6 +889,16 @@ public class Task
 			if (Load != -1)
 			{
 				str += sep + "Càrrega = " + Load.ToString() + " Kg";
+				sep = "; ";
+			}
+			if (Sets != -1)
+			{
+				str += sep + "Series = " + Sets.ToString();
+				sep = "; ";
+			}
+			if (Nreps != -1)
+			{
+				str += sep + "Repeticions = " + Nreps.ToString();
 				sep = "; ";
 			}
 			if (Speed != -1)

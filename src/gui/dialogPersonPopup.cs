@@ -37,14 +37,12 @@ public class DialogPersonPopup
 	[Widget] Gtk.VBox vbox_tasks_parametrized;
 	[Widget] Gtk.VBox vbox_tasks_free;
 
-	private List<Gtk.CheckButton> list_checks;
+	private List<Task> list_tasks_fixed; //This list has "R,L" separated
 	private List<Gtk.Button> list_buttons_start;
-	private List<Gtk.Label> list_labels;
 	private List<Gtk.Button> list_buttons_done;
-	private List<int> list_tasks_id;
-	private List<int> list_buttons_id;
+	private List<int> list_buttons_done_id; //this has right id to mark task (also R,L) done
+	private List<Gtk.HBox> list_hboxs_row; //to unsensitive when done!
 
-	private List<Task> list_tasks;
 	private Task taskActive;
 	public Button Fake_button_start_task;
 
@@ -60,13 +58,13 @@ public class DialogPersonPopup
 		label_name.Text = "<b>" + name + "</b>";
 		label_name.UseMarkup = true;
 		label_rfid.Text = rfid;
-		list_tasks = tasks;
 
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
 		image_close.Pixbuf = pixbuf;
 
 		string photoFile = Util.GetPhotoFileName(false, personID);
-		if(File.Exists(photoFile)) {
+		if(File.Exists(photoFile))
+		{
 			try {
 				pixbuf = new Pixbuf (photoFile); //from a file
 				image_person.Pixbuf = pixbuf;
@@ -80,55 +78,62 @@ public class DialogPersonPopup
 			}
 		}
 
-		list_checks = new List<Gtk.CheckButton>();
+		list_tasks_fixed = new List<Task>();
+		list_hboxs_row = new List<Gtk.HBox>();
 		list_buttons_start = new List<Gtk.Button>();
-		list_labels = new List<Gtk.Label>();
 		list_buttons_done = new List<Gtk.Button>();
-		list_tasks_id = new List<int>();
-		list_buttons_id = new List<int>();
+		list_buttons_done_id = new List<int>();
 		taskActive = new Task();
 		Fake_button_start_task = new Gtk.Button();
 
 		bool task_parametrized_exist = false;
 		bool task_free_exist = false;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
+
+		Gtk.HBox hboxRow;
 		foreach(Task t in tasks)
 		{
-			Gtk.Label l = new Gtk.Label(t.ToString());
-			HBox hbox = new Gtk.HBox(false, 12);
-			Button button_start;
+			hboxRow = new Gtk.HBox();
+
+			if(t.Laterality == "R,L")
+			{
+				Gtk.VBox vboxRL = new Gtk.VBox(false, 2);
+
+				Task taskCopy = new Task(t.Id, t.PersonId, t.StationId, t.ExerciseId, t.ExerciseName,
+					t.Sets, t.Nreps, t.Load, t.Speed, t.PercentMaxSpeed,
+					"R", t.Comment);
+				Gtk.HBox hboxStartAndLabel = createHBoxStartAndLabel(taskCopy, pixbuf);
+				vboxRL.PackStart(hboxStartAndLabel, false, false, 0);
+
+				taskCopy = new Task(t.Id, t.PersonId, t.StationId, t.ExerciseId, t.ExerciseName,
+					t.Sets, t.Nreps, t.Load, t.Speed, t.PercentMaxSpeed,
+					"L", t.Comment);
+				hboxStartAndLabel = createHBoxStartAndLabel(taskCopy, pixbuf);
+				vboxRL.PackStart(hboxStartAndLabel, false, false, 0);
+
+				hboxRow.PackStart(vboxRL, false, false, 0);
+			} else {
+				Gtk.HBox hboxStartAndLabel = createHBoxStartAndLabel(t, pixbuf);
+				hboxRow.PackStart(hboxStartAndLabel, false, false, 0);
+			}
 
 			if(t.Type == 'P')
-			{
-				Gtk.Image image = new Gtk.Image();
-				image.Pixbuf = pixbuf;
-
-				button_start = new Gtk.Button(image);
 				task_parametrized_exist = true;
-			} else // 'F'
-			{
-				button_start = new Gtk.Button("Prepara");
+			else //
 				task_free_exist = true;
-			}
-			button_start.Clicked += new EventHandler(button_start_clicked);
 
+			//create button_done (shared on R,L)
 			Gtk.Button button_done = new Gtk.Button("Fet!");
 			button_done.Clicked += new EventHandler(button_done_clicked);
-
-			hbox.PackStart(button_start, false, false, 0);
-			hbox.PackStart(l, false, false, 0);
-			hbox.PackEnd(button_done, false, false, 0);
+			hboxRow.PackEnd(button_done, false, false, 0);
+			list_buttons_done.Add(button_done);
+			list_buttons_done_id.Add(t.Id);
+			list_hboxs_row.Add(hboxRow);
 
 			if(t.Type == 'P')
-				vbox_tasks_parametrized.PackStart(hbox, false, false, 0);
+				vbox_tasks_parametrized.PackStart(hboxRow, false, false, 0);
 			else // 'F'
-				vbox_tasks_free.PackStart(hbox, false, false, 0);
-
-			list_buttons_start.Add(button_start);
-			list_labels.Add(l);
-			list_buttons_done.Add(button_done);
-			list_tasks_id.Add(t.Id);
-			list_buttons_id.Add(t.Id);
+				vbox_tasks_free.PackStart(hboxRow, false, false, 0);
 		}
 
 		if(task_parametrized_exist)
@@ -140,6 +145,35 @@ public class DialogPersonPopup
 			vbox_tasks_free.ShowAll();
 		else
 			frame_tasks_free.Visible = false;
+	}
+
+	private Gtk.HBox createHBoxStartAndLabel(Task t, Pixbuf pixbuf)
+	{
+		Gtk.Label l = new Gtk.Label(t.ToString());
+		HBox hbox = new Gtk.HBox(false, 12);
+		Button button_start;
+
+		if(t.Type == 'P')
+		{
+			Gtk.Image image = new Gtk.Image();
+			image.Pixbuf = pixbuf;
+
+			button_start = new Gtk.Button(image);
+		} else // 'F'
+		{
+			button_start = new Gtk.Button("Prepara");
+		}
+		button_start.Clicked += new EventHandler(button_start_clicked);
+
+		hbox.PackStart(button_start, false, false, 0);
+		hbox.PackStart(l, false, false, 0);
+
+		list_tasks_fixed.Add(t);
+		LogB.Information("createBoxStart....");
+		LogB.Information(t.ToString());
+		list_buttons_start.Add(button_start);
+
+		return hbox;
 	}
 
 	private void button_start_clicked(object o, EventArgs args)
@@ -155,7 +189,7 @@ public class DialogPersonPopup
 			{
 				LogB.Information("Clicked button start: " + count.ToString());
 
-				taskActive = list_tasks[count];
+				taskActive = list_tasks_fixed[count];
 				Fake_button_start_task.Click();
 
 				return;
@@ -178,11 +212,12 @@ public class DialogPersonPopup
 				LogB.Information("Clicked button done: " + count.ToString());
 
 				Json json = new Json();
-				json.UpdateTask(list_tasks_id[count], 1);
+				json.UpdateTask(list_buttons_done_id[count], 1);
 
-				button.Sensitive = false;
-				list_buttons_start[count].Sensitive = false;
-				list_labels[count].Sensitive = false;
+				//button.Sensitive = false;
+				//list_buttons_start[count].Sensitive = false;
+				//list_labels[count].Sensitive = false;
+				list_hboxs_row[count].Sensitive = false;
 
 				return;
 			}

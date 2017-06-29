@@ -573,7 +573,9 @@ public partial class ChronoJumpWindow
 			entry_raspberry_extra_weight.Text = Convert.ToInt32(task.Load).ToString();
 		}
 
-		on_button_encoder_capture_clicked (new object(), new EventArgs ());
+		//start test if task is parametrized
+		if(task.Type == 'P')
+			on_button_encoder_capture_clicked (new object(), new EventArgs ());
 	}
 
 

@@ -47,3 +47,4 @@ CompujumpStationMode=POWERGRAVITATORY
 15) Change CompujumpServerURL or CompujumpStationID or CompujumpStationMode.
     Remember SPACES are NOT allowed immediatelly before or after '='
 16) Open Chronojump
+17) Select preferences (Encoder capture main variable (mean speed?), font size..)

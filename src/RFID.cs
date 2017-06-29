@@ -31,12 +31,14 @@ public class RFID
 	private SerialPort port;
 	private string portName;
 	private Gtk.Button fakeButtonChange;
+	private Gtk.Button fakeButtonDisconnected;
 
 	public RFID(string portName)
 	{
 		this.portName = portName;
 		stop = false;
 		fakeButtonChange = new Button();
+		fakeButtonDisconnected = new Button();
 	}
 	
 	public void Start()
@@ -62,9 +64,18 @@ public class RFID
 		while(! stop)
 		{
 			//str = port.ReadLine(); //don't use this because gets waiting some stop signal
-			if (port.BytesToRead > 0)
+			str = "";
+			try {
+				if (port.BytesToRead > 0)
+					str = port.ReadExisting();
+			} catch (System.IO.IOException) {
+				LogB.Information("Catched reading RFID!");
+				fakeButtonDisconnected.Click();
+				return;
+			}
+
+			if(str != "")
 			{
-				str = port.ReadExisting();
 				LogB.Information("No trim str" + str);
 
 				//get only the first line and trim it
@@ -149,5 +160,10 @@ public class RFID
 	public Gtk.Button FakeButtonChange
 	{
 		get { return fakeButtonChange; }
+	}
+
+	public Gtk.Button FakeButtonDisconnected
+	{
+		get { return fakeButtonDisconnected; }
 	}
 }

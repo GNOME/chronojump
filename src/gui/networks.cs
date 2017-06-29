@@ -81,6 +81,7 @@ public partial class ChronoJumpWindow
 	public RFID rfid;
 	private static string capturedRFID;
 	private static bool shouldUpdateRFIDGui;
+	private static bool shouldShowRFIDDisconnected;
 	private static bool updatingRFIDGuiStuff;
 	private bool rfidProcessCancel;
 
@@ -136,6 +137,7 @@ public partial class ChronoJumpWindow
 			{
 				rfid = new RFID(chronopicRegister.GetRfidPortName());
 				rfid.FakeButtonChange.Clicked += new EventHandler(rfidChanged);
+				rfid.FakeButtonDisconnected.Clicked += new EventHandler(rfidDisconnected);
 
 				threadRFID = new Thread (new ThreadStart (RFIDStart));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseRFID));
@@ -166,6 +168,12 @@ public partial class ChronoJumpWindow
 			shouldUpdateRFIDGui = true;
 		} else
 			LogB.Information("RFID doesn't change");
+	}
+
+	private void rfidDisconnected(object sender, EventArgs e)
+	{
+		shouldShowRFIDDisconnected = true;
+		rfidProcessCancel = true;
 	}
 
 	private void configInitFromPreferences()
@@ -375,6 +383,14 @@ public partial class ChronoJumpWindow
 
 	private bool pulseRFID ()
 	{
+		if(shouldShowRFIDDisconnected)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.RFIDDisconnectedMessage);
+
+			if(dialogPersonPopup != null)
+				dialogPersonPopup.DestroyDialog();
+		}
+
 		if(! threadRFID.IsAlive || rfidProcessCancel)
 		{
 			LogB.ThreadEnding();

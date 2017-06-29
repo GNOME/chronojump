@@ -681,9 +681,11 @@ public class RepetitiveConditionsWindow
 	
 	public bool EncoderMeanSpeedLower {
 		get { return checkbutton_encoder_mean_speed_lower.Active; }
+		set { checkbutton_encoder_mean_speed_lower.Active = value; } //used on Compujump
 	}
 	public double EncoderMeanSpeedLowerValue {
 		get { return Convert.ToDouble(spinbutton_encoder_mean_speed_lower.Value); }
+		set { spinbutton_encoder_mean_speed_lower.Value = value; } //used on Compujump
 	}
 
 	public bool EncoderMaxSpeedHigher {

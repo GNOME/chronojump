@@ -33,9 +33,7 @@ public class DialogPersonPopup
 	[Widget] Gtk.Image image_close;
 	[Widget] Gtk.Label label_rfid;
 	[Widget] Gtk.Frame frame_tasks_parametrized;
-	[Widget] Gtk.Frame frame_tasks_free;
 	[Widget] Gtk.VBox vbox_tasks_parametrized;
-	[Widget] Gtk.VBox vbox_tasks_free;
 
 	private List<Task> list_tasks_fixed; //This list has "R,L" separated
 	private List<Gtk.Button> list_buttons_start;
@@ -87,7 +85,6 @@ public class DialogPersonPopup
 		Fake_button_start_task = new Gtk.Button();
 
 		bool task_parametrized_exist = false;
-		bool task_free_exist = false;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
 
 		Gtk.HBox hboxRow;
@@ -117,10 +114,7 @@ public class DialogPersonPopup
 				hboxRow.PackStart(hboxStartAndLabel, false, false, 0);
 			}
 
-			if(t.Type == 'P')
-				task_parametrized_exist = true;
-			else //
-				task_free_exist = true;
+			task_parametrized_exist = true;
 
 			//create button_done (shared on R,L)
 			Gtk.Button button_done = new Gtk.Button("Fet!");
@@ -130,21 +124,13 @@ public class DialogPersonPopup
 			list_buttons_done_id.Add(t.Id);
 			list_hboxs_row.Add(hboxRow);
 
-			if(t.Type == 'P')
-				vbox_tasks_parametrized.PackStart(hboxRow, false, false, 0);
-			else // 'F'
-				vbox_tasks_free.PackStart(hboxRow, false, false, 0);
+			vbox_tasks_parametrized.PackStart(hboxRow, false, false, 0);
 		}
 
 		if(task_parametrized_exist)
 			vbox_tasks_parametrized.ShowAll();
 		else
 			frame_tasks_parametrized.Visible = false;
-
-		if(task_free_exist)
-			vbox_tasks_free.ShowAll();
-		else
-			frame_tasks_free.Visible = false;
 	}
 
 	private Gtk.HBox createHBoxStartAndLabel(Task t, Pixbuf pixbuf)
@@ -153,16 +139,10 @@ public class DialogPersonPopup
 		HBox hbox = new Gtk.HBox(false, 12);
 		Button button_start;
 
-		if(t.Type == 'P')
-		{
-			Gtk.Image image = new Gtk.Image();
-			image.Pixbuf = pixbuf;
+		Gtk.Image image = new Gtk.Image();
+		image.Pixbuf = pixbuf;
 
-			button_start = new Gtk.Button(image);
-		} else // 'F'
-		{
-			button_start = new Gtk.Button("Prepara");
-		}
+		button_start = new Gtk.Button(image);
 		button_start.Clicked += new EventHandler(button_start_clicked);
 
 		hbox.PackStart(button_start, false, false, 0);

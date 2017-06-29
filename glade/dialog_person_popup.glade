@@ -179,7 +179,7 @@
                   <widget class="GtkLabel" id="label23">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label">Tasques automàtiques</property>
+                    <property name="label">Tasques</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -191,62 +191,6 @@
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkFrame" id="frame_tasks_free">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label_xalign">0</property>
-                <property name="label_yalign">0.69999998807907104</property>
-                <property name="shadow_type">out</property>
-                <child>
-                  <widget class="GtkAlignment" id="alignment1">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="top_padding">10</property>
-                    <property name="bottom_padding">10</property>
-                    <property name="left_padding">10</property>
-                    <property name="right_padding">10</property>
-                    <child>
-                      <widget class="GtkVBox" id="vbox2">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <child>
-                          <widget class="GtkVBox" id="vbox_tasks_free">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="spacing">12</property>
-                            <child>
-                              <placeholder/>
-                            </child>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                      </widget>
-                    </child>
-                  </widget>
-                </child>
-                <child>
-                  <widget class="GtkLabel" id="label1">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label">Tasques lliures</property>
-                    <property name="use_markup">True</property>
-                  </widget>
-                  <packing>
-                    <property name="type">label_item</property>
-                  </packing>
-                </child>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">2</property>
               </packing>
             </child>
           </widget>

@@ -459,26 +459,18 @@ public class Json
 			int exerciseId = jsonTask ["exerciseId"];
 			string exerciseName = jsonTask ["exerciseName"];
 
-			if(type == 'F') //'F' Free
-			{
-				string comment = jsonTask ["comment"];
-				tasks.Add(new Task(id, exerciseId, exerciseName, comment));
-			}
-			else //'P' Parametrized
-			{
-				int personId = jsonTask ["personId"];
-				int stationId = jsonTask ["stationId"];
-				int sets = jsonTask ["sets"];
-				int nreps = jsonTask ["nreps"];
-				float load = jsonTask ["load"];
-				float speed = jsonTask ["speed"];
-				float percentMaxSpeed = jsonTask ["percentMaxSpeed"];
-				string laterality = jsonTask ["laterality"];
-				string comment = jsonTask ["comment"];
-				tasks.Add(new Task(id, personId, stationId, exerciseId, exerciseName,
-					sets, nreps, load, speed, percentMaxSpeed,
-					laterality, comment));
-			}
+			int personId = jsonTask ["personId"];
+			int stationId = jsonTask ["stationId"];
+			int sets = jsonTask ["sets"];
+			int nreps = jsonTask ["nreps"];
+			float load = jsonTask ["load"];
+			float speed = jsonTask ["speed"];
+			float percentMaxSpeed = jsonTask ["percentMaxSpeed"];
+			string laterality = jsonTask ["laterality"];
+			string comment = jsonTask ["comment"];
+			tasks.Add(new Task(id, personId, stationId, exerciseId, exerciseName,
+						sets, nreps, load, speed, percentMaxSpeed,
+						laterality, comment));
 		}
 		return tasks;
 	}
@@ -822,7 +814,7 @@ public class UploadEncoderDataObject
 public class Task
 {
 	public int Id;
-	public char Type;
+	public char Type; //initially 'P'arametrized or 'F'ree. Now all are 'P'
 	public int PersonId;
 	public int StationId;
 	public int ExerciseId;
@@ -839,16 +831,6 @@ public class Task
 	{
 		Id = -1;
 		Comment = "";
-	}
-
-	public Task(int id, int exerciseId, string exerciseName, string comment)
-	{
-		Type = 'F'; //free
-
-		Id = id;
-		ExerciseId = exerciseId;
-		ExerciseName = exerciseName;
-		Comment = comment;
 	}
 
 	public Task(int id, int personId, int stationId, int exerciseId, string exerciseName,
@@ -873,50 +855,46 @@ public class Task
 
 	public override string ToString()
 	{
-		if(Type == 'F')
-			return ExerciseName + ": " + Comment;
-		else {
-			string sep = "";
-			string str = "";
-			if (Laterality == "R" || Laterality == "L")
-			{
-				string lateralityStr = Catalog.GetString("Right");
-				if (Laterality == "L")
-					lateralityStr = Catalog.GetString("Left");
+		string sep = "";
+		string str = "";
+		if (Laterality == "R" || Laterality == "L")
+		{
+			string lateralityStr = Catalog.GetString("Right");
+			if (Laterality == "L")
+				lateralityStr = Catalog.GetString("Left");
 
-				str += sep + lateralityStr;
-				sep = "; ";
-			}
-			if (Load != -1)
-			{
-				str += sep + "Càrrega = " + Load.ToString() + " Kg";
-				sep = "; ";
-			}
-			if (Sets != -1)
-			{
-				str += sep + "Series = " + Sets.ToString();
-				sep = "; ";
-			}
-			if (Nreps != -1)
-			{
-				str += sep + "Repeticions = " + Nreps.ToString();
-				sep = "; ";
-			}
-			if (Speed != -1)
-			{
-				str += sep + "Velocitat = " + Speed.ToString() + " m/s";
-				sep = "; ";
-			}
-			if (PercentMaxSpeed != -1)
-			{
-				str += sep + "Velocitat = " + PercentMaxSpeed.ToString() + " %";
-				sep = "; ";
-			}
-			if (Comment != "")
-			{
-				str += "\n" + Comment;
-			}
-			return ExerciseName + ": " + str;
+			str += sep + lateralityStr;
+			sep = "; ";
 		}
+		if (Load != -1)
+		{
+			str += sep + "Càrrega = " + Load.ToString() + " Kg";
+			sep = "; ";
+		}
+		if (Sets != -1)
+		{
+			str += sep + "Series = " + Sets.ToString();
+			sep = "; ";
+		}
+		if (Nreps != -1)
+		{
+			str += sep + "Repeticions = " + Nreps.ToString();
+			sep = "; ";
+		}
+		if (Speed != -1)
+		{
+			str += sep + "Velocitat = " + Speed.ToString() + " m/s";
+			sep = "; ";
+		}
+		if (PercentMaxSpeed != -1)
+		{
+			str += sep + "Velocitat = " + PercentMaxSpeed.ToString() + " %";
+			sep = "; ";
+		}
+		if (Comment != "")
+		{
+			str += "\n" + Comment;
+		}
+		return ExerciseName + ": " + str;
 	}
 }

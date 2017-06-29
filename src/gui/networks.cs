@@ -568,10 +568,22 @@ public partial class ChronoJumpWindow
 		else if(task.Laterality == "L")
 			radio_encoder_laterality_l.Active = true;
 
+		Pixbuf pixbuf;
 		if(task.Load > 0)
-		{
 			entry_raspberry_extra_weight.Text = Convert.ToInt32(task.Load).ToString();
+
+		if(task.Speed > 0) {
+			repetitiveConditionsWin.EncoderMeanSpeedHigherValue = task.Speed;
+			repetitiveConditionsWin.EncoderMeanSpeedHigher = true;
+			repetitiveConditionsWin.Encoder_show_manual_feedback = true;
+			repetitiveConditionsWin.Notebook_encoder_conditions_page = 1; //speed
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
+		} else {
+			repetitiveConditionsWin.EncoderMeanSpeedHigher = false;
+			repetitiveConditionsWin.Encoder_show_manual_feedback = false;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
 		}
+		image_encoder_bell.Pixbuf = pixbuf;
 
 		//start test if task is parametrized
 		if(task.Type == 'P')

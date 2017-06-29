@@ -361,9 +361,7 @@ public partial class ChronoJumpWindow
 		//not changed because it's small. TODO: do bigger
 		//image_encoder_capture_open.Pixbuf = pixbuf;
 
-
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
 		image_jump_reactive_bell.Pixbuf = pixbuf;
 		image_run_interval_bell.Pixbuf = pixbuf;
 		image_encoder_bell.Pixbuf = pixbuf;

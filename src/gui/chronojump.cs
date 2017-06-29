@@ -6478,27 +6478,66 @@ LogB.Debug("X");
 		repetitiveConditionsWin.View(Constants.BellModes.RUNS, preferences.volumeOn);
 	}
 	
-	private void on_repetitive_conditions_closed(object o, EventArgs args) {
-		//treeview_encoder should be updated (to colorize some cells)
-		//only if there was data
-		//this avoids misbehaviour when bell is pressed and there's no data in treeview
-		EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(1, false);
-		if(curve.N != null) {
-			List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName());
-			encoderUpdateTreeViewCapture(contents); //this updates encoderCaptureCurves
-			
-			findAndMarkSavedCurves(false, false); //SQL closed; don't update curve SQL records (like future1: meanPower)
-			
-			//also update the bars plot (to show colors depending on bells changes)
-			if(captureCurvesBarsData.Count > 0) {
-				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
-				double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
-				double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
-				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
-						repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
-						false);	//not capturing
-			} else
-				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+	private void on_repetitive_conditions_closed(object o, EventArgs args)
+	{
+		//update bell color if feedback exists
+		Constants.Menuitem_modes m = current_menuitem_mode;
+		Pixbuf pixbuf;
+
+		Constants.BellModes bellMode;
+		if(m == Constants.Menuitem_modes.JUMPSREACTIVE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		{
+			bellMode = Constants.BellModes.JUMPS;
+			if(m == Constants.Menuitem_modes.RUNSINTERVALLIC)
+				bellMode = Constants.BellModes.RUNS;
+
+			if(repetitiveConditionsWin.FeedbackActive(bellMode))
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
+			else
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
+
+			if(m == Constants.Menuitem_modes.JUMPSREACTIVE)
+				image_jump_reactive_bell.Pixbuf = pixbuf;
+			else
+				image_run_interval_bell.Pixbuf = pixbuf;
+		}
+		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL)
+		{
+			bellMode = Constants.BellModes.ENCODERGRAVITATORY;
+			if(m == Constants.Menuitem_modes.POWERINERTIAL)
+				bellMode = Constants.BellModes.ENCODERINERTIAL;
+
+			if(repetitiveConditionsWin.FeedbackActive(bellMode))
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
+			else
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
+
+			image_encoder_bell.Pixbuf = pixbuf;
+		}
+
+		if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL)
+		{
+			//treeview_encoder should be updated (to colorize some cells)
+			//only if there was data
+			//this avoids misbehaviour when bell is pressed and there's no data in treeview
+			EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(1, false);
+			if(curve.N != null) {
+				List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName());
+				encoderUpdateTreeViewCapture(contents); //this updates encoderCaptureCurves
+
+				findAndMarkSavedCurves(false, false); //SQL closed; don't update curve SQL records (like future1: meanPower)
+
+				//also update the bars plot (to show colors depending on bells changes)
+				if(captureCurvesBarsData.Count > 0) {
+					string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
+					double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
+					double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
+					plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
+							repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
+							false);	//not capturing
+				} else
+					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+			}
 		}
 	}
 	

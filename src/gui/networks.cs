@@ -604,9 +604,8 @@ public partial class ChronoJumpWindow
 		}
 		image_encoder_bell.Pixbuf = pixbuf;
 
-		//start test if task is parametrized
-		if(task.Type == 'P')
-			on_button_encoder_capture_clicked (new object(), new EventArgs ());
+		//start test
+		on_button_encoder_capture_clicked (new object(), new EventArgs ());
 	}
 
 

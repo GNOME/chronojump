@@ -444,14 +444,10 @@ public class Json
 			return new List<Task>();
 		}
 
-
-		List<string> taskStrings = tasksPatheticSeparate(responseFromServer);
-		return tasksDeserialize(taskStrings);
-		// The previous two lines can be replaced (and the methods deleted) by:
-		// return taskDeserializeFromServer (responseFromServer);
+		return taskDeserializeFromServer (responseFromServer);
 	}
 
-	List<Task> taskDeserializeFromServer(string responseFromServer)
+	private List<Task> taskDeserializeFromServer(string responseFromServer)
 	{
 		List<Task> tasks = new List<Task>();
 
@@ -487,84 +483,6 @@ public class Json
 		return tasks;
 	}
 
-	private List<string> tasksPatheticSeparate(string strTasks)
-	{
-		/*
-		 * one task:
-		 * [{"load": 40.0, "comment": "", "personId": 1, "speed": 1.0, "exerciseId": 1, "stationId": 1, "nreps": -1, "laterality": "RL", "sets": -1, "done": 0, "type": "P", "id": 1, "percentMaxSpeed": -1.0}]
-		 *
-		 * two tasks:
-		 * [{"load": 40.0, "comment": "", "personId": 1, "speed": 1.0, "exerciseId": 1, "stationId": 1, "nreps": -1, "laterality": "RL", "sets": -1, "done": 0, "type": "P", "id": 1, "percentMaxSpeed": -1.0}, {"load": 3.0, "comment": "", "personId": 1, "speed": 4.0, "exerciseId": 1, "stationId": 1, "nreps": 2, "laterality": "R,L", "sets": 1, "done": 0, "type": "P", "id": 2, "percentMaxSpeed": 5.0}]
-		 */
-
-		//first remove the start "[" and end "]"
-		if(strTasks.StartsWith("["))
-			strTasks = strTasks.Substring(1, strTasks.Length -1);
-		if(strTasks.EndsWith("]"))
-			strTasks = strTasks.Substring(0, strTasks.Length -1);
-
-		List<string> list = new List<string>();
-
-		if(strTasks.Contains("}, {"))
-		{
-			string [] strFull = strTasks.Split(new string[] {"}, {"}, StringSplitOptions.RemoveEmptyEntries);
-			int i = 0;
-			foreach(string str in strFull)
-			{
-				if(! str.StartsWith("{"))
-					strFull[i] = "{" + strFull[i];
-				if(! str.EndsWith("}"))
-					strFull[i] = strFull[i] + "}";
-
-				list.Add(strFull[i]);
-				i ++;
-			}
-		} else {
-			list.Add(strTasks);
-		}
-
-		return list;
-	}
-
-	private List<Task> tasksDeserialize(List<string> strTasksList)
-	{
-		List<Task> list = new List<Task>();
-
-		foreach(string strTask in strTasksList)
-		{
-			LogB.Information("Going to parse:" + strTask);
-			JsonValue jsonTask = JsonValue.Parse(strTask);
-			LogB.Information("parsed:" + strTask);
-
-			Int32 id = jsonTask ["id"];
-			char type = jsonTask ["type"];
-			int exerciseId = jsonTask ["exerciseId"];
-			string exerciseName = jsonTask ["exerciseName"];
-
-			if(type == 'F') //'F' Free
-			{
-				string comment = jsonTask ["comment"];
-				list.Add(new Task(id, exerciseId, exerciseName, comment));
-			}
-			else //'P' Parametrized
-			{
-				int personId = jsonTask ["personId"];
-				int stationId = jsonTask ["stationId"];
-				int sets = jsonTask ["sets"];
-				int nreps = jsonTask ["nreps"];
-				float load = jsonTask ["load"];
-				float speed = jsonTask ["speed"];
-				float percentMaxSpeed = jsonTask ["percentMaxSpeed"];
-				string laterality = jsonTask ["laterality"];
-				string comment = jsonTask ["comment"];
-				list.Add(new Task(id, personId, stationId, exerciseId, exerciseName,
-							sets, nreps, load, speed, percentMaxSpeed,
-							laterality, comment));
-			}
-		}
-
-		return list;
-	}
 	public bool UpdateTask(int taskId, int done)
 	{
 		LogB.Information("At UpdateTask");

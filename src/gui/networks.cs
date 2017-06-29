@@ -575,11 +575,14 @@ public partial class ChronoJumpWindow
 		if(task.Speed > 0) {
 			repetitiveConditionsWin.EncoderMeanSpeedHigherValue = task.Speed;
 			repetitiveConditionsWin.EncoderMeanSpeedHigher = true;
+			repetitiveConditionsWin.EncoderMeanSpeedLowerValue = task.Speed / 2;
+			repetitiveConditionsWin.EncoderMeanSpeedHigher = true;
 			repetitiveConditionsWin.Encoder_show_manual_feedback = true;
 			repetitiveConditionsWin.Notebook_encoder_conditions_page = 1; //speed
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
 		} else {
 			repetitiveConditionsWin.EncoderMeanSpeedHigher = false;
+			repetitiveConditionsWin.EncoderMeanSpeedLower = false;
 			repetitiveConditionsWin.Encoder_show_manual_feedback = false;
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
 		}

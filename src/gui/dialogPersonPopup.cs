@@ -90,11 +90,11 @@ public class DialogPersonPopup
 		Gtk.HBox hboxRow;
 		foreach(Task t in tasks)
 		{
-			hboxRow = new Gtk.HBox();
+			hboxRow = new Gtk.HBox(false, 10);
 
 			if(t.Laterality == "R,L")
 			{
-				Gtk.VBox vboxRL = new Gtk.VBox(false, 2);
+				Gtk.VBox vboxRL = new Gtk.VBox(false, 4);
 
 				Task taskCopy = new Task(t.Id, t.PersonId, t.StationId, t.ExerciseId, t.ExerciseName,
 					t.Sets, t.Nreps, t.Load, t.Speed, t.PercentMaxSpeed,
@@ -108,6 +108,8 @@ public class DialogPersonPopup
 				hboxStartAndLabel = createHBoxStartAndLabel(taskCopy, pixbuf);
 				vboxRL.PackStart(hboxStartAndLabel, false, false, 0);
 
+				Gtk.VSeparator vsep = new Gtk.VSeparator();
+				hboxRow.PackStart(vsep, false, false, 0);
 				hboxRow.PackStart(vboxRL, false, false, 0);
 			} else {
 				Gtk.HBox hboxStartAndLabel = createHBoxStartAndLabel(t, pixbuf);
@@ -136,7 +138,7 @@ public class DialogPersonPopup
 	private Gtk.HBox createHBoxStartAndLabel(Task t, Pixbuf pixbuf)
 	{
 		Gtk.Label l = new Gtk.Label(t.ToString());
-		HBox hbox = new Gtk.HBox(false, 12);
+		HBox hbox = new Gtk.HBox(false, 10);
 		Button button_start;
 
 		Gtk.Image image = new Gtk.Image();

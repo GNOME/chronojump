@@ -175,6 +175,7 @@ public class RepetitiveConditionsWindow
 		createComboEncoderAutomaticVariable();
 
 		bestSetValue = 0;
+		notebook_encoder_conditions.CurrentPage = 3; //power
 
 		putNonStandardIcons();
 	}
@@ -227,7 +228,6 @@ public class RepetitiveConditionsWindow
 			hbox_run_conditions.Show();
 			frame_conditions.Show();
 		} else { //encoder (grav and inertial)
-			notebook_encoder_conditions.CurrentPage = 3; //power
 			frame_encoder_automatic_conditions.Show();
 			vbox_encoder_manual.Show();
 			if(checkbutton_encoder_show_manual_feedback.Active)
@@ -646,6 +646,14 @@ public class RepetitiveConditionsWindow
 		return -1;
 	}
 
+	public int Notebook_encoder_conditions_page {
+		set { notebook_encoder_conditions.CurrentPage = value; }
+	}
+
+	public bool Encoder_show_manual_feedback {
+		set { checkbutton_encoder_show_manual_feedback.Active = value; }
+	}
+
 	//height
 	public bool EncoderHeightHigher {
 		get { return checkbutton_encoder_height_higher.Active; }
@@ -664,9 +672,11 @@ public class RepetitiveConditionsWindow
 	//speed
 	public bool EncoderMeanSpeedHigher {
 		get { return checkbutton_encoder_mean_speed_higher.Active; }
+		set { checkbutton_encoder_mean_speed_higher.Active = value; } //used on Compujump
 	}
 	public double EncoderMeanSpeedHigherValue {
 		get { return Convert.ToDouble(spinbutton_encoder_mean_speed_higher.Value); }
+		set { spinbutton_encoder_mean_speed_higher.Value = value; } //used on Compujump
 	}
 	
 	public bool EncoderMeanSpeedLower {

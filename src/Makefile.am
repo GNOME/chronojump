@@ -354,6 +354,8 @@ RESOURCES = \
 	../images/infrared.jpg,infrared.jpg \
 	../images/mini/infrared.jpg,mini/infrared.jpg \
 	../images/md/ic_notifications_blue_24dp_1x.png,stock_bell.png \
+	../images/md/ic_notifications_active_blue_24dp_1x.png,stock_bell_active.png \
+	../images/md/ic_notifications_none_blue_24dp_1x.png,stock_bell_none.png \
 	../images/stock_bell_green.png,stock_bell_green.png \
 	../images/stock_bell_red.png,stock_bell_red.png \
 	../images/line_session_max.png,line_session_max.png \

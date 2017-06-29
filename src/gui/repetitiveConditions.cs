@@ -317,6 +317,36 @@ public class RepetitiveConditionsWindow
 		args.RetVal = true;
 	}
 
+	public bool FeedbackActive (Constants.BellModes bellMode)
+	{
+		if(bellMode == Constants.BellModes.JUMPS)
+		{
+			if(checkbutton_height_greater.Active || checkbutton_height_lower.Active ||
+					checkbutton_tf_greater.Active || checkbutton_tf_lower.Active ||
+					checkbutton_tc_lower.Active || checkbutton_tc_greater.Active ||
+					checkbutton_tf_tc_greater.Active || checkbutton_tf_tc_lower.Active)
+				return true;
+		}
+		else if(bellMode == Constants.BellModes.RUNS)
+		{
+			if(checkbutton_time_lower.Active || checkbutton_time_greater.Active)
+				return true;
+		}
+		else { //encoder (grav and inertial)
+			if(checkbutton_encoder_automatic_greater.Active || checkbutton_encoder_automatic_lower.Active ||
+					checkbutton_encoder_height_higher.Active || checkbutton_encoder_height_lower.Active ||
+					checkbutton_encoder_mean_speed_higher.Active || checkbutton_encoder_mean_speed_lower.Active ||
+					checkbutton_encoder_max_speed_higher.Active || checkbutton_encoder_max_speed_lower.Active ||
+					checkbutton_encoder_mean_force_higher.Active || checkbutton_encoder_mean_force_lower.Active ||
+					checkbutton_encoder_max_force_higher.Active || checkbutton_encoder_max_force_lower.Active ||
+					checkbutton_encoder_power_higher.Active || checkbutton_encoder_power_lower.Active ||
+					checkbutton_encoder_peakpower_higher.Active || checkbutton_encoder_peakpower_lower.Active)
+				return true;
+		}
+
+		return false;
+	}
+
 	public bool VolumeOn {
 		set { volumeOn = value; }
 	}

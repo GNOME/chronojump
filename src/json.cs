@@ -624,7 +624,7 @@ public class Json
 		return UploadEncoderData(1, 1, "40.2", "lateral", "8100.5", 8);
 	}
 	*/
-	public bool UploadEncoderData(int personId, int stationId, int exerciseId, string resistance, UploadEncoderDataObject uo)
+	public bool UploadEncoderData(int personId, int stationId, int exerciseId, string laterality, string resistance, UploadEncoderDataObject uo)
 	{
 		// Create a request using a URL that can receive a post.
 		WebRequest request = WebRequest.Create (serverUrl + "/uploadEncoderData");
@@ -643,6 +643,7 @@ public class Json
 		json.Add("stationId", stationId);
 		//json.Add("exerciseName", exerciseName);
 		json.Add("exerciseId", exerciseId);
+		json.Add("laterality", laterality);
 		json.Add("resistance", resistance);
 		json.Add("repetitions", uo.repetitions);
 

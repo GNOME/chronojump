@@ -887,24 +887,28 @@ public class Task
 				str += sep + "Repeticions = " + Nreps.ToString();
 				sep = "; ";
 			}
+			if (Laterality == "R" || Laterality == "L")
+			{
+				string lateralityStr = Catalog.GetString("Right");
+				if (Laterality == "L")
+					lateralityStr = Catalog.GetString("Left");
+
+				str += sep + lateralityStr;
+				sep = "; ";
+			}
 			if (Load != -1)
 			{
-				str += sep + "Càrrega = " + Load.ToString();
+				str += sep + "Càrrega = " + Load.ToString() + " Kg";
 				sep = "; ";
 			}
 			if (Speed != -1)
 			{
-				str += sep + "Velocitat = " + Speed.ToString();
+				str += sep + "Velocitat = " + Speed.ToString() + " m/s";
 				sep = "; ";
 			}
 			if (PercentMaxSpeed != -1)
 			{
-				str += sep + "Velocitat (%) = " + PercentMaxSpeed.ToString();
-				sep = "; ";
-			}
-			if (Laterality != "")
-			{
-				str += sep + "Lateralitat = " + Laterality;
+				str += sep + "Velocitat = " + PercentMaxSpeed.ToString() + " %";
 				sep = "; ";
 			}
 			if (Comment != "")

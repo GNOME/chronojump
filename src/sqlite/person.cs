@@ -46,7 +46,7 @@ class SqlitePerson : Sqlite
 			"race INT, " + 
 			"countryID INT, " + 
 			"description TEXT, " +	
-			"future1 TEXT, " +	
+			"future1 TEXT, " + //rfid
 			"future2 TEXT, " +	
 			"serverUniqueID INT ) ";
 		dbcmd.ExecuteNonQuery();
@@ -580,6 +580,7 @@ finishForeach:
 			"\", race = " + myPerson.Race +
 			", countryID = " + myPerson.CountryID +
 			", description = \"" + myPerson.Description +
+			"\", future1 = \"" + myPerson.Future1 + 			//rfid
 			"\", serverUniqueID = " + myPerson.ServerUniqueID +
 			" WHERE uniqueID == " + myPerson.UniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());

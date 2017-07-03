@@ -413,17 +413,21 @@ public partial class ChronoJumpWindow
 		label_rfid_contacts.Text = capturedRFID; //GTK
 		label_rfid_encoder.Text = capturedRFID; //GTK
 
-		Person p = SqlitePerson.SelectByRFID(capturedRFID);
+		/*
+		 * This method is shown on diagrams/processes/rfid-local-read.dia
+		 */
+
+		Person pLocal = SqlitePerson.SelectByRFID(capturedRFID);
 
 		bool currentPersonWasNull = (currentPerson == null);
-		bool pChanged = false;
+		bool pChangedShowTasks = false;
 		Json json = new Json();
-		if(p.UniqueID == -1)
+		if(pLocal.UniqueID == -1)
 		{
-			LogB.Information("RFID person does not exist!!");
+			LogB.Information("RFID person does not exist locally!!");
 
-			p = json.GetPersonByRFID(capturedRFID);
-			if(p.UniqueID == -1) {
+			Person pServer = json.GetPersonByRFID(capturedRFID);
+			if(pServer.UniqueID == -1) {
 				LogB.Information("Person NOT found on server!");
 				new DialogMessage(Constants.MessageTypes.WARNING,
 						"Aquesta pulsera o jugador no es troba identificada al servidor"); //GTK
@@ -431,54 +435,60 @@ public partial class ChronoJumpWindow
 			else {
 				LogB.Information("Person found on server!");
 
-				currentPerson = p;
-				currentPersonSession = new PersonSession (
-						currentPerson.UniqueID, currentSession.UniqueID, 
-						json.LastPersonByRFIDHeight, json.LastPersonByRFIDWeight,
-						Constants.SportUndefinedID, 
-						Constants.SpeciallityUndefinedID, 
-						Constants.LevelUndefinedID,
-						"", false); //comments, dbconOpened
+				//personID exists at local DB?
+				//check if this uniqueID already exists on local database (would mean RFID changed on server)
+				bool newPerson = false;
+				pLocal = SqlitePerson.Select(false, pServer.UniqueID);
 
-				if(json.LastPersonByRFIDImageURL != "")
-				{
-					bool downloaded = json.DownloadImage(json.LastPersonByRFIDImageURL, currentPerson.UniqueID);
-					if(downloaded)
-						File.Copy(
-								Path.Combine(Path.GetTempPath(), currentPerson.UniqueID.ToString()),
-								Util.GetPhotoFileName(false, currentPerson.UniqueID),
-								true); //overwrite
+				if(pLocal.UniqueID == -1) {
+					newPerson = true;
+				} else {
+					/*
+					 * id exists, RFID has changed. Changed locally
+					 * Note server don't allow having an rfid of a previous person. Must be historically unique.
+					 */
+
+					pLocal.Future1 = pServer.Future1;
+					SqlitePerson.Update(pLocal);
 				}
 
-				person_added(); //GTK
-				pChanged = true;
+				currentPerson = pLocal;
+				insertAndAssignPersonSessionIfNeeded(json);
+
+				if(newPerson)
+				{
+					if(json.LastPersonByRFIDImageURL != "")
+					{
+						bool downloaded = json.DownloadImage(json.LastPersonByRFIDImageURL, currentPerson.UniqueID);
+						if(downloaded)
+							File.Copy(
+									Path.Combine(Path.GetTempPath(), currentPerson.UniqueID.ToString()),
+									Util.GetPhotoFileName(false, currentPerson.UniqueID),
+									true); //overwrite
+					}
+
+					person_added(); //GTK
+				} else {
+					personChanged(); //GTK
+					label_person_change();
+				}
+				pChangedShowTasks = true;
 			}
 		}
 		else {
-			LogB.Information("RFID person exists!!");
-			currentPerson = p;
-
-			PersonSession ps = SqlitePersonSession.Select(false, p.UniqueID, currentSession.UniqueID);
-			if(ps == null)
-				currentPersonSession = new PersonSession (
-						p.UniqueID, currentSession.UniqueID,
-						json.LastPersonByRFIDHeight, json.LastPersonByRFIDWeight,
-						Constants.SportUndefinedID,
-						Constants.SpeciallityUndefinedID,
-						Constants.LevelUndefinedID,
-						"", false); //comments, dbconOpened
-			else
-				currentPersonSession = ps;
+			LogB.Information("RFID person exists locally!!");
+			currentPerson = pLocal;
+			insertAndAssignPersonSessionIfNeeded(json);
 
 			personChanged(); //GTK
 			label_person_change();
-			pChanged = true;
+			pChangedShowTasks = true;
 		}
 
 		if(currentPersonWasNull)
 			sensitiveGuiYesPerson();
 
-		if(pChanged)
+		if(pChangedShowTasks)
 		{
 			/*TODO:
 			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
@@ -492,9 +502,24 @@ public partial class ChronoJumpWindow
 		updatingRFIDGuiStuff = false;
 
 		Thread.Sleep (100);
-		LogB.Information(" threadRFID:" + threadRFID.ThreadState.ToString());
+		//LogB.Information(" threadRFID:" + threadRFID.ThreadState.ToString());
 
 		return true;
+	}
+
+	private void insertAndAssignPersonSessionIfNeeded(Json json)
+	{
+		PersonSession ps = SqlitePersonSession.Select(false, currentPerson.UniqueID, currentSession.UniqueID);
+		if(ps == null)
+			currentPersonSession = new PersonSession (
+					currentPerson.UniqueID, currentSession.UniqueID,
+					json.LastPersonByRFIDHeight, json.LastPersonByRFIDWeight,
+					Constants.SportUndefinedID,
+					Constants.SpeciallityUndefinedID,
+					Constants.LevelUndefinedID,
+					"", false); //comments, dbconOpened
+		else
+			currentPersonSession = ps;
 	}
 
 	private void on_button_person_popup_clicked (object o, EventArgs args)

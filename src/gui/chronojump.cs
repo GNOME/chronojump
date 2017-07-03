@@ -2486,13 +2486,14 @@ public partial class ChronoJumpWindow
 		if (personAddModifyWin.CurrentPerson != null)
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;
+			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+
 			person_added();
 		}
 	}
 
 	private void person_added ()
 	{
-		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 		label_person_change();
 		myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
 

@@ -56,10 +56,16 @@ public class Person {
 		this.description = "";
 		this.future1 = rfid;
 		this.serverUniqueID = Constants.ServerUndefinedID;
-		
-		SqlitePerson.Insert(false,  
-				uniqueID.ToString(), name, sex, dateBorn, race, countryID,
-				description, future1, serverUniqueID);
+
+		/*
+		 * Before insertion check that uniqueID exists locally
+		 * can happen when there are rfid changes on server
+		 */
+		Person personTemp = SqlitePerson.Select(false, uniqueID);
+		if(personTemp.UniqueID == -1) //does not exist
+			SqlitePerson.Insert(false,
+					uniqueID.ToString(), name, sex, dateBorn, race, countryID,
+					description, future1, serverUniqueID);
 	}
 
 	//suitable when we load a person from the database for being the current Person
@@ -186,7 +192,13 @@ public class Person {
 		get { return description; }
 		set { description = value; }
 	}
-	
+
+	//rfid
+	public string Future1 {
+		get { return future1; }
+		set { future1 = value; }
+	}
+
 	public int ServerUniqueID {
 		get { return serverUniqueID; }
 		set { serverUniqueID = value; }

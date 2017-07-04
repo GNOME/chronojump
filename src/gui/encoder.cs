@@ -1555,7 +1555,6 @@ public partial class ChronoJumpWindow
 				else //if(eSQL.laterality == Catalog.GetString("L"))
 					radio_encoder_laterality_l.Active = true;
 
-				spin_encoder_extra_weight.Value = Convert.ToInt32(eSQL.extraWeight);
 				entry_raspberry_extra_weight.Text = Convert.ToInt32(eSQL.extraWeight).ToString();
 
 				preferences.EncoderChangeMinHeight(eSQL.encoderConfiguration.has_inertia, eSQL.minHeight);

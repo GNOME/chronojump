@@ -81,7 +81,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_encoder_capture_1set;
 	[Widget] Gtk.RadioButton radio_encoder_capture_cont;
 	[Widget] Gtk.Button button_encoder_capture;
+
+	//encoder calibrate/recalibrate widgets
 	[Widget] Gtk.Button button_encoder_inertial_calibrate;
+	[Widget] Gtk.Button button_encoder_inertial_recalibrate;
+	[Widget] Gtk.Label label_calibrate_output_message;
+	[Widget] Gtk.Button button_encoder_inertial_calibrate_close;
 	[Widget] Gtk.Label label_wait;
 
 	
@@ -321,6 +326,7 @@ public partial class ChronoJumpWindow
 	EncoderConfiguration encoderConfigurationCurrent;
 	Constants.EncoderGI currentEncoderGI; //store here to not have to check the GUI and have thread problems
 	bool firstSetOfCont; //used to don't erase the screen on cont after first set
+	bool encoderInertialCalibratedFirstTime; //allow showing the recalibrate button
 
 	/* 
 	 * this contains last EncoderSQL captured, recalculated or loaded
@@ -446,6 +452,9 @@ public partial class ChronoJumpWindow
 		}
 
 		capturingCsharp = encoderCaptureProcess.STOPPED;
+
+		button_encoder_inertial_recalibrate.Visible = false;
+		encoderInertialCalibratedFirstTime = false; //allow show the recalibrate button
 
 		//done here because in Glade we cannot use the TextBuffer.Changed
 		textview_encoder_signal_comment.Buffer.Changed += new EventHandler(on_textview_encoder_signal_comment_key_press_event);
@@ -660,6 +669,10 @@ public partial class ChronoJumpWindow
 		if(! canCaptureEncoder())
 			return;
 
+		//allow show the recalibrate button
+		encoderInertialCalibratedFirstTime = true;
+		label_calibrate_output_message.Text = Catalog.GetString("Calibrated");
+
 		/*
 		 * if user calibrates again: put 0 value
 		 * if calibration was not running: start it
@@ -667,13 +680,27 @@ public partial class ChronoJumpWindow
 		if(encoderThreadBG != null && encoderThreadBG.IsAlive)
 			eCaptureInertialBG.AngleNow = 0;
 		else
-		{
 			encoderThreadStart(encoderActions.CAPTURE_BG);
-		}
 	}
 	void on_button_encoder_inertial_recalibrate_clicked (object o, EventArgs args)
 	{
+		prepareForEncoderInertiaCalibrate();
+	}
+	void prepareForEncoderInertiaCalibrate()
+	{
+		sensitiveGuiEventDoing(radio_encoder_capture_cont.Active);
+		button_encoder_inertial_calibrate.Sensitive = true;
+		button_encoder_inertial_calibrate_close.Sensitive = true;
+		label_wait.Text = " ";
+		label_calibrate_output_message.Text = "";
+		button_encoder_inertial_recalibrate.Visible = true;
 		notebook_encoder_capture_or_exercise_or_instructions.Page = 2;
+	}
+
+	private void on_button_encoder_inertial_calibrate_close_clicked (object o, EventArgs args)
+	{
+		notebook_encoder_capture_or_exercise_or_instructions.Page = 0;
+		sensitiveGuiEventDone();
 	}
 
 	private void setEncoderExerciseOptionsFromPreferences()
@@ -821,17 +848,10 @@ public partial class ChronoJumpWindow
 
 			if(encoderConfigurationCurrent.has_inertia)
 			{
-				//show inertia calibrate instructions. User will click on calibrate and this method will be called again
-
-				sensitiveGuiEventDoing(radio_encoder_capture_cont.Active);
-				button_encoder_inertial_calibrate.Sensitive = true;
-				label_wait.Text = " ";
-				notebook_encoder_capture_or_exercise_or_instructions.Page = 2;
-
+				prepareForEncoderInertiaCalibrate();
 				return;
 			}
 		}
-
 
 		//This notebook has capture (signal plotting), and curves (shows R graph)	
 		if(notebook_encoder_capture.CurrentPage == 1)
@@ -854,7 +874,7 @@ public partial class ChronoJumpWindow
 
 		LogB.Debug("end of Calling encoderThreadStart for capture");
 	}
-	
+
 	void on_button_encoder_capture_calcule_im () 
 	{
 		//check if chronopics have changed
@@ -5450,6 +5470,7 @@ public partial class ChronoJumpWindow
 		if(! shownWaitAtInertialCapture)
 		{
 			button_encoder_inertial_calibrate.Sensitive = false;
+			button_encoder_inertial_calibrate_close.Sensitive = false;
 			label_wait.Text = string.Format("Exercise will start in {0} seconds.", 3);
 			shownWaitAtInertialCapture = true;
 		}

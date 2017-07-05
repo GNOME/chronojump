@@ -609,7 +609,7 @@ public class Json
 				"", "", 0); //ressitance, description, speed1RM
 	}
 
-	public bool UploadSprintData(int personId, string distances, string times)
+	public bool UploadSprintData(int personId, Sprint sprint, double k, double vmax, double amax, double fmax, double pmax )
 	{
 		LogB.Information("calling upload sprint");
 		// Create a request using a URL that can receive a post.
@@ -626,8 +626,13 @@ public class Json
 		JsonObject json = new JsonObject();
 
 		json.Add("personId", personId);
-		json.Add("distances", distances);
-		json.Add("times", times);
+		json.Add("distances", sprint.Positions);
+		json.Add("times", sprint.SplitTimes);
+		json.Add("k", k);
+		json.Add("vmax", vmax);
+		json.Add("amax", amax);
+		json.Add("fmax", fmax);
+		json.Add("pmax", pmax);
 
 		// Converts it to a String
 		String js = json.ToString();

@@ -118,4 +118,12 @@ public class Sprint
 		writer.Close();
 		((IDisposable)writer).Dispose();
 	}
+
+	public string Positions {
+		get { return positions; }
+	}
+
+	public string SplitTimes {
+		get { return splitTimes; }
+	}
 }

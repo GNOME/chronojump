@@ -4454,10 +4454,7 @@ public partial class ChronoJumpWindow
 
 			if(configChronojump.Compujump)
 			{
-				Json js = new Json();
-				js.UploadSprintData(currentPerson.UniqueID,
-						"5;5;5;5", //TODO_ fix this
-						currentRunInterval.IntervalTimesString);
+				calculateSprintAndUpload();
 			}
 		}
 		else if( currentEventExecute.ChronopicDisconnected )
@@ -4465,6 +4462,65 @@ public partial class ChronoJumpWindow
 		
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempRunInterval");
+	}
+
+	private void calculateSprintAndUpload()
+	{
+		string positions = getSprintPositions(
+				currentRunInterval.DistanceInterval, //distanceInterval. == -1 means variable distances
+				currentRunInterval.IntervalTimesString,
+				currentRunIntervalType.DistancesString 	//distancesString
+				);
+		if(positions == "")
+			return;
+
+		positions = Util.ChangeChars(positions, ",", ".");
+		positions = "0;" + positions;
+
+		string splitTimes = getSplitTimes(currentRunInterval.IntervalTimesString);
+		splitTimes = Util.ChangeChars(splitTimes, ",", ".");
+		splitTimes = "0;" + splitTimes;
+
+		sprint = new Sprint(positions,
+				splitTimes,
+				currentPersonSession.Weight, //TODO: can be more if extra weight
+				currentPersonSession.Height,
+				25);
+
+		bool sprintRDoneOk = on_button_sprint_do ();
+		string stringResultsFile = System.IO.Path.GetTempPath() + "sprintResults.csv";
+		string line = "";
+		if(! sprintRDoneOk || ! File.Exists(stringResultsFile))
+			return;
+
+		string contents = Util.ReadFile(stringResultsFile, false);
+		if (contents == null)
+			return;
+
+		using (StringReader reader = new StringReader (contents))
+		{
+			line = reader.ReadLine ();	//headers
+			if(line == null)
+				return;
+
+			line = reader.ReadLine ();	//data
+			if(line == null)
+				return;
+		}
+
+		//"";"Mass";"Height";"Temperature";"Vw";"Ka";"K.fitted";"Vmax.fitted";"amax.fitted";"fmax.fitted";"fmax.rel.fitted";"sfv.fitted";"sfv.rel.fitted";"pmax.fitted";"pmax.rel.fitted";"tpmax.fitted";"F0";"F0.rel";"V0";"sfv.lm";"sfv.rel.lm";"pmax.lm";"pmax.rel.lm"
+		string [] results = line.Split(new char[] {';'});
+		if(results.Length < 14)
+			return;
+
+		double k = Convert.ToDouble(Util.ChangeDecimalSeparator(results[6])); //K.fitted
+		double vmax = Convert.ToDouble(Util.ChangeDecimalSeparator(results[7])); //Vmax.fitted
+		double amax = Convert.ToDouble(Util.ChangeDecimalSeparator(results[8])); //amax.fitted
+		double fmax = Convert.ToDouble(Util.ChangeDecimalSeparator(results[10])); //fmax.rel.fitted
+		double pmax = Convert.ToDouble(Util.ChangeDecimalSeparator(results[14])); //pmax.rel.fitted
+
+		Json js = new Json();
+		js.UploadSprintData(currentPerson.UniqueID, sprint, k, vmax, amax, fmax, pmax);
 	}
 
 	/* ---------------------------------------------------------

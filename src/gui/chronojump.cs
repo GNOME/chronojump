@@ -4456,7 +4456,7 @@ public partial class ChronoJumpWindow
 			{
 				Json js = new Json();
 				js.UploadSprintData(currentPerson.UniqueID,
-						currentRunInterval.DistanceInterval,
+						"5;5;5;5", //TODO_ fix this
 						currentRunInterval.IntervalTimesString);
 			}
 		}

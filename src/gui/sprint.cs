@@ -193,12 +193,10 @@ public partial class ChronoJumpWindow
 		{
 			 string positions = (string) model.GetValue(iter, 2);
 			 positions = Util.ChangeChars(positions, ",", ".");
-			 //add start TODO: check if needed
 			 positions = "0;" + positions;
 
 			 string splitTimes = (string) model.GetValue(iter, 3);
 			 splitTimes = Util.ChangeChars(splitTimes, ",", ".");
-			 //add start TODO: check if needed
 			 splitTimes = "0;" + splitTimes;
 
 			 sprint = new Sprint(
@@ -221,18 +219,23 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		on_button_sprint_do ();
+	}
+
+	private bool on_button_sprint_do ()
+	{
 		if(currentPersonSession.Weight == 0)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING,
 					Catalog.GetString("Error, weight of the person cannot be 0"));
-			return;
+			return false;
 		}
 
 		if(currentPersonSession.Height == 0)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING,
 					Catalog.GetString("Error, height of the person cannot be 0"));
-			return;
+			return false;
 		}
 
 		Util.FileDelete(UtilEncoder.GetSprintImage());
@@ -246,7 +249,7 @@ public partial class ChronoJumpWindow
 		if(! success)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("This data does not seem a sprint."));
-			return;
+			return false;
 		}
 
 		while ( ! Util.FileReadable(UtilEncoder.GetSprintImage()));
@@ -255,6 +258,7 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetSprintImage(),
 				image_sprint);
 		image_sprint.Sensitive = true;
+		return true;
 	}
 
 }

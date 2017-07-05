@@ -609,6 +609,66 @@ public class Json
 				"", "", 0); //ressitance, description, speed1RM
 	}
 
+	public bool UploadSprintData(int personId, string distances, string times)
+	{
+		LogB.Information("calling upload sprint");
+		// Create a request using a URL that can receive a post.
+		WebRequest request = WebRequest.Create (serverUrl + "/uploadSprintData");
+
+		// Set the Method property of the request to POST.
+		request.Method = "POST";
+
+		// Set the ContentType property of the WebRequest.
+		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
+		//exerciseName = Util.RemoveAccents(exerciseName);
+
+		// Creates the json object
+		JsonObject json = new JsonObject();
+
+		json.Add("personId", personId);
+		json.Add("distances", distances);
+		json.Add("times", times);
+
+		// Converts it to a String
+		String js = json.ToString();
+
+		// Writes the json object into the request dataStream
+		Stream dataStream;
+		try {
+			dataStream = request.GetRequestStream ();
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+				serverUrl);
+			return false;
+		}
+
+		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
+
+		dataStream.Close ();
+
+		// Get the response.
+		WebResponse response;
+		try {
+			response = request.GetResponse ();
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+				serverUrl);
+			return false;
+		}
+
+		// Display the status (will be 202, CREATED)
+		Console.WriteLine (((HttpWebResponse)response).StatusDescription);
+
+		// Clean up the streams.
+		dataStream.Close ();
+		response.Close ();
+
+		this.ResultMessage = "Encoder data sent.";
+		return true;
+	}
+
 
 	/*
 	public bool UploadEncoderData()

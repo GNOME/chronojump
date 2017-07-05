@@ -4451,6 +4451,14 @@ public partial class ChronoJumpWindow
 			event_execute_LabelEventValue = currentRunInterval.Tracks;
 
 			addTreeView_runs_interval_sprint (currentRunInterval, currentRunIntervalType);
+
+			if(configChronojump.Compujump)
+			{
+				Json js = new Json();
+				js.UploadSprintData(currentPerson.UniqueID,
+						currentRunInterval.DistanceInterval,
+						currentRunInterval.IntervalTimesString);
+			}
 		}
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();

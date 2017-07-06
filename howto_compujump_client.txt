@@ -16,7 +16,7 @@ $groups
 4) Open Chronojump (database will be created) and identify RFID device
 5) Connect Encoder or photocels
 6) Go to Jumps / device and identify device
-7) On encoder clients go to encoder... Select desired encoder configuration
+7) On encoder clients go to encoder... Select desired encoder configuration (need a user for this!)
 8) Close Chronojump
 
 9) Install sqlite3

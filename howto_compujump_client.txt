@@ -7,29 +7,32 @@ Has to be done on this exact order:
 
 # usermod -a -G dialout username
 
-Close the session in order to ensure that the permissions are assigned. Check with:
+Close the session (reboot?) in order to ensure that the permissions are assigned. Check with:
 
 $groups
 
-2) Install sqlite3
-3) Install Chronojump from GIT: http://chronojump.org/en/linux-compile/
-4) Connect RFID
-5) Open Chronojump (database will be created) and identify RFID device
-6) Go to desired mode (runs, encoder gravitatory, encoder inertial)
-7) Open Simulated session
-8) Create a temporary user (just to access some gui functions)
-9) Connect Encoder or photocels and identify device
-10) Select desired encoder configuration
-11) delete temporary user!!! important to not have conflict with upcoming persons from server
-12) Close Chronojump
+2) Install Chronojump from GIT: http://chronojump.org/en/linux-compile/
+3) Connect RFID
+4) Open Chronojump (database will be created) and identify RFID device
+5) Connect Encoder or photocels
+6) Go to Jumps / device and identify device
+7) On encoder clients go to encoder... Select desired encoder configuration
+8) Close Chronojump
 
-13) delete encoder exercises!!! important to not have conflict with upcoming exercises from server
+9) Install sqlite3
+10) delete encoder exercises!!! important to not have conflict with upcoming exercises from server
 
 $ sqlite3 .local/share/Chronojump/chronojump.db
 delete from encoderExercise;
+
+11) also ensure there are no persons
+
+select * from person77;
+select * from personSession77;
+
 .quit
 
-14) Copy this chronojump_config.txt on .local/share/Chronojump
+12) Copy this chronojump_config.txt on .local/share/Chronojump
 
 #Session modes:
 SessionMode=MONTHLY
@@ -44,7 +47,7 @@ CompujumpStationID=1
 #will start on this mode and could not be changed
 CompujumpStationMode=POWERGRAVITATORY
 
-15) Change CompujumpServerURL or CompujumpStationID or CompujumpStationMode.
+13) Change CompujumpServerURL or CompujumpStationID or CompujumpStationMode.
     Remember SPACES are NOT allowed immediatelly before or after '='
-16) Open Chronojump
-17) Select preferences (Encoder capture main variable (mean speed?), font size..)
+14) Open Chronojump
+15) Select preferences (Encoder capture main variable (mean speed?), font size..)

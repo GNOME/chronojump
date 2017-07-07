@@ -646,6 +646,10 @@ public partial class ChronoJumpWindow
 
 	private void compujumpPersonLogout(object o, EventArgs args)
 	{
+		compujumpPersonLogoutDo();
+	}
+	private void compujumpPersonLogoutDo()
+	{
 		dialogPersonPopup.Fake_button_person_logout.Clicked -= new EventHandler(compujumpPersonLogout);
 
 		currentPerson = null;

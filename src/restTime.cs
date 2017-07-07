@@ -107,7 +107,21 @@ public class RestTime
 		
 		return "";
 	}
-	
+
+	public bool CompujumpPersonNeedLogout(int personID)
+	{
+		foreach(LastTestTime ltt in list)
+			if(ltt.PersonID == personID)
+			{
+				if(LastTestTime.GetSeconds(ltt.RestedTime) > 180) //3 min
+					return true;
+				else
+					return false;
+			}
+
+		return false;
+	}
+
 	public void AddOrModify(int personID, bool print)
 	{
 		if(exists(personID))

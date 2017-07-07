@@ -594,6 +594,9 @@ public partial class ChronoJumpWindow
 
 		dialogPersonPopup.Fake_button_start_task.Clicked -= new EventHandler(compujumpTaskStart);
 		dialogPersonPopup.Fake_button_start_task.Clicked += new EventHandler(compujumpTaskStart);
+
+		dialogPersonPopup.Fake_button_person_logout.Clicked -= new EventHandler(compujumpPersonLogout);
+		dialogPersonPopup.Fake_button_person_logout.Clicked += new EventHandler(compujumpPersonLogout);
 	}
 
 	private void compujumpTaskStart(object o, EventArgs args)
@@ -641,6 +644,16 @@ public partial class ChronoJumpWindow
 		on_button_encoder_capture_clicked (new object(), new EventArgs ());
 	}
 
+	private void compujumpPersonLogout(object o, EventArgs args)
+	{
+		dialogPersonPopup.Fake_button_person_logout.Clicked -= new EventHandler(compujumpPersonLogout);
+
+		currentPerson = null;
+		currentPersonSession = null;
+		sensitiveGuiNoPerson ();
+
+		dialogPersonPopup.DestroyDialog();
+	}
 
 	/*
 	 *

@@ -30,6 +30,7 @@ public class DialogPersonPopup
 	[Widget] Gtk.Dialog dialog_person_popup;
 	[Widget] Gtk.Label label_name;
 	[Widget] Gtk.Image image_person;
+	[Widget] Gtk.Image image_person_logout;
 	[Widget] Gtk.Image image_close;
 	[Widget] Gtk.Label label_rfid;
 	[Widget] Gtk.Frame frame_tasks_parametrized;
@@ -43,6 +44,7 @@ public class DialogPersonPopup
 
 	private Task taskActive;
 	public Button Fake_button_start_task;
+	public Button Fake_button_person_logout;
 
 	public DialogPersonPopup (int personID, string name, string rfid, List<Task> tasks)
 	{
@@ -59,6 +61,9 @@ public class DialogPersonPopup
 
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
 		image_close.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_logout.png");
+		image_person_logout.Pixbuf = pixbuf;
 
 		string photoFile = Util.GetPhotoFileName(false, personID);
 		if(File.Exists(photoFile))
@@ -83,6 +88,7 @@ public class DialogPersonPopup
 		list_buttons_done_id = new List<int>();
 		taskActive = new Task();
 		Fake_button_start_task = new Gtk.Button();
+		Fake_button_person_logout = new Gtk.Button();
 
 		bool task_parametrized_exist = false;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
@@ -205,6 +211,11 @@ public class DialogPersonPopup
 			}
 			count ++;
 		}
+	}
+
+	public void on_button_person_logout_clicked (object obj, EventArgs args)
+	{
+		Fake_button_person_logout.Click();
 	}
 
 	public void on_button_close_clicked (object obj, EventArgs args)

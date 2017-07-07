@@ -4039,6 +4039,12 @@ public partial class ChronoJumpWindow
 
 		myTreeViewPersons.UpdateRestTimes(restTime);
 
+		if( configChronojump.Compujump && currentPerson != null &&
+				restTime.CompujumpPersonNeedLogout(currentPerson.UniqueID) )
+		{
+			compujumpPersonLogoutDo();
+		}
+
 		return true;
 	}
 

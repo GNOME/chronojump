@@ -546,7 +546,8 @@ public class ChronoJump
 
 	protected void readMessageToStart()
 	{
-		if(messageToShowOnBoot.Length > 0)
+		//don't show error message at start if Compujump
+		if(messageToShowOnBoot.Length > 0 && ! configChronojump.Compujump)
 		{
 			ErrorWindow errorWin;
 			if(chronojumpHasToExit)
@@ -689,7 +690,9 @@ public class ChronoJump
 		return true;
 	}
 	
-	private void on_splash_ended(object o, EventArgs args) {
+	Config configChronojump;
+	private void on_splash_ended(object o, EventArgs args)
+	{
 		LogB.Information("splash screen going to END");
 		fakeSplashButton.Clicked -= new EventHandler(on_splash_ended);
 		if(splashWin != null)
@@ -698,6 +701,10 @@ public class ChronoJump
 			SplashWindow.Hide();
 
 		LogB.Information("splash screen ENDED!");
+
+		configChronojump = new Config();
+		configChronojump.Read();
+
 		readMessageToStart();
 	}
 

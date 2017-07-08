@@ -31,6 +31,7 @@ public class RFID
 	private SerialPort port;
 	private string portName;
 	private Gtk.Button fakeButtonChange;
+	private Gtk.Button fakeButtonReopenDialog;
 	private Gtk.Button fakeButtonDisconnected;
 
 	public RFID(string portName)
@@ -38,6 +39,7 @@ public class RFID
 		this.portName = portName;
 		stop = false;
 		fakeButtonChange = new Button();
+		fakeButtonReopenDialog = new Button();
 		fakeButtonDisconnected = new Button();
 	}
 	
@@ -101,10 +103,13 @@ public class RFID
 						   handler(this, new EventArgs());
 						   */
 						lastRFID = str;
+					} else {
+						//Firing the event
+						fakeButtonReopenDialog.Click();
 					}
 				}
 			}
-			Thread.Sleep(100);
+			Thread.Sleep(200);
 		}
 		LogB.Information("AT RFID.cs: STOPPED");
 		port.Close();
@@ -160,6 +165,11 @@ public class RFID
 	public Gtk.Button FakeButtonChange
 	{
 		get { return fakeButtonChange; }
+	}
+
+	public Gtk.Button FakeButtonReopenDialog
+	{
+		get { return fakeButtonReopenDialog; }
 	}
 
 	public Gtk.Button FakeButtonDisconnected

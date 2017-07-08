@@ -84,6 +84,7 @@ public partial class ChronoJumpWindow
 	private static bool shouldShowRFIDDisconnected;
 	private static bool updatingRFIDGuiStuff;
 	private bool rfidProcessCancel;
+	private bool rfidIsDifferent;
 
 	DialogPersonPopup dialogPersonPopup;
 		
@@ -145,6 +146,7 @@ public partial class ChronoJumpWindow
 			{
 				rfid = new RFID(chronopicRegister.GetRfidPortName());
 				rfid.FakeButtonChange.Clicked += new EventHandler(rfidChanged);
+				rfid.FakeButtonReopenDialog.Clicked += new EventHandler(rfidReopenDialog);
 				rfid.FakeButtonDisconnected.Clicked += new EventHandler(rfidDisconnected);
 
 				threadRFID = new Thread (new ThreadStart (RFIDStart));
@@ -168,14 +170,23 @@ public partial class ChronoJumpWindow
 		/*
 		 * TODO: only if we are not in the middle of capture, or in cont mode without repetitions
 		 */
-		if(rfid.Captured != capturedRFID && currentSession != null)
+		if(currentSession != null && rfid.Captured != capturedRFID)
 		{
 			LogB.Information("RFID changed to: " + rfid.Captured);
 
 			capturedRFID = rfid.Captured;
+			rfidIsDifferent = true;
 			shouldUpdateRFIDGui = true;
-		} else
-			LogB.Information("RFID doesn't change");
+		}
+	}
+
+	private void rfidReopenDialog(object sender, EventArgs e)
+	{
+		if(currentSession != null && rfid.Captured == capturedRFID)
+		{
+			rfidIsDifferent = false;
+			shouldUpdateRFIDGui = true;
+		}
 	}
 
 	private void rfidDisconnected(object sender, EventArgs e)
@@ -389,6 +400,7 @@ public partial class ChronoJumpWindow
 		label_rfid_encoder.Visible = false;
 	}
 
+	DialogMessage dialogMessageNotAtServer;
 	private bool pulseRFID ()
 	{
 		if(shouldShowRFIDDisconnected)
@@ -437,8 +449,13 @@ public partial class ChronoJumpWindow
 			Person pServer = json.GetPersonByRFID(capturedRFID);
 			if(pServer.UniqueID == -1) {
 				LogB.Information("Person NOT found on server!");
-				new DialogMessage(Constants.MessageTypes.WARNING,
-						"Aquesta pulsera o jugador no es troba identificada al servidor"); //GTK
+				if(dialogMessageNotAtServer == null || ! dialogMessageNotAtServer.Visible)
+				{
+					dialogMessageNotAtServer = new DialogMessage(Constants.MessageTypes.WARNING,
+							"Aquesta pulsera o jugador no es troba identificada al servidor"); //GTK
+
+					compujumpPersonLogoutDo();
+				}
 			}
 			else {
 				LogB.Information("Person found on server!");
@@ -485,15 +502,18 @@ public partial class ChronoJumpWindow
 		}
 		else {
 			LogB.Information("RFID person exists locally!!");
-			currentPerson = pLocal;
-			insertAndAssignPersonSessionIfNeeded(json);
+			if(rfidIsDifferent || dialogPersonPopup == null || ! dialogPersonPopup.Visible)
+			{
+				currentPerson = pLocal;
+				insertAndAssignPersonSessionIfNeeded(json);
 
-			personChanged(); //GTK
-			label_person_change();
-			pChangedShowTasks = true;
+				personChanged(); //GTK
+				label_person_change();
+				pChangedShowTasks = true;
+			}
 		}
 
-		if(currentPersonWasNull)
+		if(currentPerson != null && currentPersonWasNull)
 			sensitiveGuiYesPerson();
 
 		if(pChangedShowTasks)
@@ -589,6 +609,9 @@ public partial class ChronoJumpWindow
 		if(dialogPersonPopup != null)
 			dialogPersonPopup.DestroyDialog();
 
+		if(dialogMessageNotAtServer != null && dialogMessageNotAtServer.Visible)
+			dialogMessageNotAtServer.on_close_button_clicked(new object(), new EventArgs());
+
 		dialogPersonPopup = new DialogPersonPopup(
 				currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks);
 
@@ -650,13 +673,15 @@ public partial class ChronoJumpWindow
 	}
 	private void compujumpPersonLogoutDo()
 	{
-		dialogPersonPopup.Fake_button_person_logout.Clicked -= new EventHandler(compujumpPersonLogout);
+		if(dialogPersonPopup != null)
+		{
+			dialogPersonPopup.Fake_button_person_logout.Clicked -= new EventHandler(compujumpPersonLogout);
+			dialogPersonPopup.DestroyDialog();
+		}
 
 		currentPerson = null;
 		currentPersonSession = null;
 		sensitiveGuiNoPerson ();
-
-		dialogPersonPopup.DestroyDialog();
 	}
 
 	/*

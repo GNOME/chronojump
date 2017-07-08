@@ -32,6 +32,7 @@ public class DialogMessage
 	[Widget] Gtk.Image image_help;
 		
 	[Widget] Gtk.Box hbox_stiffness_formula;
+	public bool Visible;
 
 	public DialogMessage (string title, Constants.MessageTypes type, string message)
 	{
@@ -57,7 +58,9 @@ public class DialogMessage
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_message.glade", "dialog_message", "chronojump");
 		gladeXML.Autoconnect(this);
-		
+
+		Visible = true;
+
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_message);
 	
@@ -93,11 +96,15 @@ public class DialogMessage
 		dialog_message.Show();	
 	}
 
-	public void on_close_button_clicked (object obj, EventArgs args) {
+	public void on_close_button_clicked (object obj, EventArgs args)
+	{
+		Visible = false;
 		dialog_message.Destroy ();
 	}
 
-	private void on_delete_event (object o, DeleteEventArgs args) {
+	private void on_delete_event (object o, DeleteEventArgs args)
+	{
+		Visible = false;
 		dialog_message.Destroy ();
 	}
 }

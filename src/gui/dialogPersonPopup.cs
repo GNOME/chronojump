@@ -45,6 +45,7 @@ public class DialogPersonPopup
 	private Task taskActive;
 	public Button Fake_button_start_task;
 	public Button Fake_button_person_logout;
+	public bool Visible;
 
 	public DialogPersonPopup (int personID, string name, string rfid, List<Task> tasks)
 	{
@@ -54,6 +55,8 @@ public class DialogPersonPopup
 
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_person_popup);
+
+		Visible = true;
 
 		label_name.Text = "<b>" + name + "</b>";
 		label_name.UseMarkup = true;
@@ -220,11 +223,13 @@ public class DialogPersonPopup
 
 	public void on_button_close_clicked (object obj, EventArgs args)
 	{
+		Visible = false;
 		dialog_person_popup.Destroy ();
 	}
 
 	private void on_delete_event (object o, DeleteEventArgs args)
 	{
+		Visible = false;
 		dialog_person_popup.Destroy ();
 	}
 
@@ -232,7 +237,10 @@ public class DialogPersonPopup
 	public void DestroyDialog ()
 	{
 		LogB.Information("Destroying dialogPersonPopup");
+
+		Visible = false;
 		dialog_person_popup.Destroy ();
+
 		LogB.Information("Destroyed dialogPersonPopup");
 	}
 

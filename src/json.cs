@@ -338,9 +338,11 @@ public class Json
 		return person;
 
 	}
+
 	public double LastPersonByRFIDHeight = 0;
 	public double LastPersonByRFIDWeight = 0;
 	public string LastPersonByRFIDImageURL = "";
+	public bool LastPersonWasInserted = false;
 	private Person personDeserialize(string strPerson)
 	{
 		JsonValue jsonPerson = JsonValue.Parse(strPerson);
@@ -356,7 +358,16 @@ public class Json
 		LastPersonByRFIDWeight = weight;
 		LastPersonByRFIDImageURL = image;
 
-		return new Person(id, player, rfid);
+		Person personTemp = SqlitePerson.Select(false, id);
+		/*
+		 * if personTemp == -1, need to insert this person
+		 * LastPersonWasInserted will be used:
+		 * 	to insert person at person.cs
+		 * 	to know if (it's new person or RFID changed) at gui/networks.cs
+		 */
+		LastPersonWasInserted = (personTemp.UniqueID == -1);
+
+		return new Person(LastPersonWasInserted, id, player, rfid);
 	}
 
 

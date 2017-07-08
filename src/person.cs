@@ -45,7 +45,7 @@ public class Person {
 	}
 
 	//coming from compujump server
-	public Person(int uniqueID, string name, string rfid)
+	public Person(bool insertPerson, int uniqueID, string name, string rfid)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
@@ -61,8 +61,7 @@ public class Person {
 		 * Before insertion check that uniqueID exists locally
 		 * can happen when there are rfid changes on server
 		 */
-		Person personTemp = SqlitePerson.Select(false, uniqueID);
-		if(personTemp.UniqueID == -1) //does not exist
+		if(insertPerson)
 			SqlitePerson.Insert(false,
 					uniqueID.ToString(), name, sex, dateBorn, race, countryID,
 					description, future1, serverUniqueID);

@@ -437,11 +437,12 @@ public partial class ChronoJumpWindow
 		 * This method is shown on diagrams/processes/rfid-local-read.dia
 		 */
 
-		Person pLocal = SqlitePerson.SelectByRFID(capturedRFID);
-
 		bool currentPersonWasNull = (currentPerson == null);
 		bool pChangedShowTasks = false;
 		Json json = new Json();
+
+		//select person by RFID
+		Person pLocal = SqlitePerson.SelectByRFID(capturedRFID);
 		if(pLocal.UniqueID == -1)
 		{
 			LogB.Information("RFID person does not exist locally!!");
@@ -462,14 +463,12 @@ public partial class ChronoJumpWindow
 
 				//personID exists at local DB?
 				//check if this uniqueID already exists on local database (would mean RFID changed on server)
-				bool newPerson = false;
 				pLocal = SqlitePerson.Select(false, pServer.UniqueID);
 
-				if(pLocal.UniqueID == -1) {
-					newPerson = true;
-				} else {
+				if(! json.LastPersonWasInserted)
+				{
 					/*
-					 * id exists, RFID has changed. Changed locally
+					 * id exists locally, RFID has changed. Changed locally
 					 * Note server don't allow having an rfid of a previous person. Must be historically unique.
 					 */
 
@@ -480,7 +479,7 @@ public partial class ChronoJumpWindow
 				currentPerson = pLocal;
 				insertAndAssignPersonSessionIfNeeded(json);
 
-				if(newPerson)
+				if(json.LastPersonWasInserted)
 				{
 					if(json.LastPersonByRFIDImageURL != "")
 					{

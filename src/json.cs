@@ -544,6 +544,78 @@ public class Json
 		return true;
 	}
 
+	//get pending tasks on other stations
+	public List<StationCount> GetOtherStationsWithPendingTasks(int personID, int stationID)
+	{
+		// Create a request using a URL that can receive a post.
+		WebRequest request = WebRequest.Create (serverUrl + "/getOtherStationsWithPendingTasks");
+
+		// Set the Method property of the request to POST.
+		request.Method = "POST";
+
+		// Set the ContentType property of the WebRequest.
+		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
+
+		// Creates the json object
+		JsonObject json = new JsonObject();
+		json.Add("personId", personID.ToString());
+		json.Add("stationId", stationID.ToString());
+
+		// Converts it to a String
+		String js = json.ToString();
+
+		// Writes the json object into the request dataStream
+		Stream dataStream;
+		try {
+			dataStream = request.GetRequestStream ();
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+				serverUrl);
+			return new List<StationCount>();
+		}
+
+		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
+		dataStream.Close ();
+
+		HttpWebResponse response;
+		try {
+			response = (HttpWebResponse) request.GetResponse();
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
+				serverUrl);
+			return new List<StationCount>();
+		}
+
+		string responseFromServer;
+		using (var sr = new StreamReader(response.GetResponseStream()))
+		{
+			responseFromServer = sr.ReadToEnd();
+		}
+
+		LogB.Information("GetOtherStationsWithPendingTasks: " + responseFromServer);
+
+		if(responseFromServer == "" || responseFromServer == "[]")
+		{
+			LogB.Information(" Empty ");
+			return new List<StationCount>();
+		}
+
+		//return taskDeserializeFromServer (responseFromServer);
+		List<StationCount> stations = new List<StationCount>();
+		JsonValue jsonStations = JsonValue.Parse (responseFromServer);
+
+		foreach (JsonValue jsonStation in jsonStations)
+		{
+			string stationName = jsonStation ["stationName"];
+			int tasksCount = jsonStation ["tasksCount"];
+			stations.Add(new StationCount(stationName, tasksCount));
+		}
+		return stations;
+	}
+
+
 	public EncoderExercise GetEncoderExercise(int exerciseId)
 	{
 		EncoderExercise ex = new EncoderExercise();
@@ -972,5 +1044,26 @@ public class Task
 			str += "\n" + Comment;
 		}
 		return ExerciseName + ": " + str;
+	}
+}
+
+public class StationCount
+{
+	private string stationName;
+	private int tasksCount;
+
+	public StationCount()
+	{
+	}
+
+	public StationCount(string name, int count)
+	{
+		stationName = name;
+		tasksCount = count;
+	}
+
+	public override string ToString()
+	{
+		return stationName + " (" + tasksCount.ToString() + ")";
 	}
 }

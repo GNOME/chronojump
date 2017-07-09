@@ -612,11 +612,14 @@ public partial class ChronoJumpWindow
 			}
 		}
 
-		//3) show dialog
-		showDialogPersonPopup(tasks);
+		//3) get other stationsCount
+		List<StationCount> stationsCount = json.GetOtherStationsWithPendingTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
+
+		//4) show dialog
+		showDialogPersonPopup(tasks, stationsCount);
 	}
 
-	private void showDialogPersonPopup(List<Task> tasks)
+	private void showDialogPersonPopup(List<Task> tasks, List<StationCount> stationsCount)
 	{
 		if(dialogPersonPopup != null)
 			dialogPersonPopup.DestroyDialog();
@@ -625,7 +628,7 @@ public partial class ChronoJumpWindow
 			dialogMessageNotAtServer.on_close_button_clicked(new object(), new EventArgs());
 
 		dialogPersonPopup = new DialogPersonPopup(
-				currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks);
+				currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks, stationsCount);
 
 		dialogPersonPopup.Fake_button_start_task.Clicked -= new EventHandler(compujumpTaskStart);
 		dialogPersonPopup.Fake_button_start_task.Clicked += new EventHandler(compujumpTaskStart);

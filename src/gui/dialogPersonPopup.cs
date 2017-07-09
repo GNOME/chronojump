@@ -33,7 +33,7 @@ public class DialogPersonPopup
 	[Widget] Gtk.Image image_person_logout;
 	[Widget] Gtk.Image image_close;
 	[Widget] Gtk.Label label_rfid;
-	[Widget] Gtk.Frame frame_tasks_parametrized;
+	[Widget] Gtk.Notebook notebook;
 	[Widget] Gtk.VBox vbox_tasks_parametrized;
 
 	private List<Task> list_tasks_fixed; //This list has "R,L" separated
@@ -41,13 +41,14 @@ public class DialogPersonPopup
 	private List<Gtk.Button> list_buttons_done;
 	private List<int> list_buttons_done_id; //this has right id to mark task (also R,L) done
 	private List<Gtk.HBox> list_hboxs_row; //to unsensitive when done!
+	[Widget] Gtk.Label label_other_stations;
 
 	private Task taskActive;
 	public Button Fake_button_start_task;
 	public Button Fake_button_person_logout;
 	public bool Visible;
 
-	public DialogPersonPopup (int personID, string name, string rfid, List<Task> tasks)
+	public DialogPersonPopup (int personID, string name, string rfid, List<Task> tasks, List<StationCount> stationsCount)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_person_popup.glade", "dialog_person_popup", null);
@@ -58,6 +59,7 @@ public class DialogPersonPopup
 
 		Visible = true;
 
+		//1) Show top of the window widgets
 		label_name.Text = "<b>" + name + "</b>";
 		label_name.UseMarkup = true;
 		label_rfid.Text = rfid;
@@ -84,6 +86,8 @@ public class DialogPersonPopup
 			}
 		}
 
+
+		//2) Show tasks stuff
 		list_tasks_fixed = new List<Task>();
 		list_hboxs_row = new List<Gtk.HBox>();
 		list_buttons_start = new List<Gtk.Button>();
@@ -138,10 +142,28 @@ public class DialogPersonPopup
 			vbox_tasks_parametrized.PackStart(hboxRow, false, false, 0);
 		}
 
-		if(task_parametrized_exist)
-			vbox_tasks_parametrized.ShowAll();
+		if(! task_parametrized_exist)
+		{
+			Gtk.Label label = new Gtk.Label("There are no pending tasks on this station.");
+			vbox_tasks_parametrized.PackStart(label, false, false, 0);
+		}
+
+		vbox_tasks_parametrized.ShowAll();
+
+		//3) Show other stations tasks
+		string sep = "";
+		string stationsString = "";
+		foreach(StationCount sc in stationsCount)
+		{
+			stationsString += sep + sc.ToString();
+			sep = ", ";
+		}
+
+		if(stationsString == "")
+			label_other_stations.Text = "There are no tasks at other stations";
 		else
-			frame_tasks_parametrized.Visible = false;
+			//label_other_stations.Text = "There are task at this stations:" + "\n\n" + stationsString;
+			label_other_stations.Text = stationsString;
 	}
 
 	private Gtk.HBox createHBoxStartAndLabel(Task t, Pixbuf pixbuf)

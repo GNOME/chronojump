@@ -991,7 +991,8 @@ public partial class ChronoJumpWindow
 		else if(radio_menuitem_mode_runs_intervallic.Active)
 		{
 			updateGraphRunsInterval();
-			label_sprint_person_name.Text = string.Format(Catalog.GetString("Sprints of {0}"), currentPerson.Name);
+			if(currentPerson != null)
+				label_sprint_person_name.Text = string.Format(Catalog.GetString("Sprints of {0}"), currentPerson.Name);
 			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 		}
 		else if(radio_menuitem_mode_rt.Active)

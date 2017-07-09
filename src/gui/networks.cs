@@ -526,6 +526,9 @@ public partial class ChronoJumpWindow
 			getTasksExercisesAndPopup();
 		}
 
+		//Wakeup screen if it's off
+		Networks.WakeUpRaspberryIfNeeded();
+
 		updatingRFIDGuiStuff = false;
 
 		Thread.Sleep (100);

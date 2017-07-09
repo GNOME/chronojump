@@ -68,6 +68,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_encoder_capture_main;
 	[Widget] Gtk.VBox vbox_treeview_encoder_at_second_page;
 
+	//runsInterval
+	[Widget] Gtk.HBox hbox_runs_interval_compujump;
+	[Widget] Gtk.RadioButton radio_run_interval_compujump_5m;
+	[Widget] Gtk.RadioButton radio_run_interval_compujump_10m;
+	[Widget] Gtk.RadioButton radio_run_interval_compujump_15m;
+	[Widget] Gtk.RadioButton radio_run_interval_compujump_20m;
+
 	//shown when menu is hidden
 	[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu_contacts;
 	[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu_encoder;
@@ -128,6 +135,9 @@ public partial class ChronoJumpWindow
 					on_button_selector_start_encoder_gravitatory_clicked(new object (), new EventArgs());
 				else //if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERINERTIAL)
 					on_button_selector_start_encoder_inertial_clicked(new object (), new EventArgs());
+
+				hbox_runs_interval.Visible = false;
+				hbox_runs_interval_compujump.Visible = true;
 
 				menuitem_mode.Visible = false;
 				button_menu_outside_menu.Visible = false;
@@ -635,6 +645,44 @@ public partial class ChronoJumpWindow
 		dialogPersonPopup.DestroyDialog();
 		LogB.Information("Selected task from gui/networks.cs:" + task.ToString());
 
+		if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+			compujumpTaskStartRunInterval(task);
+		else
+			compujumpTaskStartEncoder(task);
+	}
+
+	private void on_run_interval_compujump_type_toggled(object o, EventArgs args)
+	{
+		RadioButton radio = o as RadioButton;
+		if (o == null)
+			return;
+
+		if(radio == radio_run_interval_compujump_5m)
+			combo_select_runs_interval.Active = 0;
+		else if(radio == radio_run_interval_compujump_10m)
+			combo_select_runs_interval.Active = 1;
+		else if(radio == radio_run_interval_compujump_15m)
+			combo_select_runs_interval.Active = 2;
+		else //if(radio == radio_run_interval_compujump_20m)
+			combo_select_runs_interval.Active = 3;
+	}
+
+	private void compujumpTaskStartRunInterval(Task task)
+	{
+		if(task.ExerciseName == "5 m" || task.ExerciseName == "05 m")
+			radio_run_interval_compujump_5m.Active = true;
+		else if(task.ExerciseName == "10 m")
+			radio_run_interval_compujump_10m.Active = true;
+		else if(task.ExerciseName == "15 m")
+			radio_run_interval_compujump_15m.Active = true;
+		else // if(task.ExerciseName == "20 m")
+			radio_run_interval_compujump_20m.Active = true;
+
+		on_button_execute_test_clicked(new object(), new EventArgs());
+	}
+
+	private void compujumpTaskStartEncoder(Task task)
+	{
 		combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture, task.ExerciseName);
 
 		//laterality

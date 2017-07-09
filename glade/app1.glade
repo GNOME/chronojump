@@ -1337,6 +1337,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -4072,12 +4075,16 @@ EncoderInertialCapture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox4">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_runs_interval">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">20</property>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox4">
+                                                            <widget class="GtkHBox" id="hbox16">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">8</property>
@@ -4242,6 +4249,115 @@ EncoderInertialCapture</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_runs_interval_compujump">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">30</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label90">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Races:</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHButtonBox" id="hbuttonbox_runs_interval_compujump">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">30</property>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="radio_run_interval_compujump_5m">
+                                                            <property name="label" translatable="yes">5 m</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <signal name="toggled" handler="on_run_interval_compujump_type_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="radio_run_interval_compujump_10m">
+                                                            <property name="label" translatable="yes">10 m</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">radio_run_interval_compujump_5m</property>
+                                                            <signal name="toggled" handler="on_run_interval_compujump_type_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="radio_run_interval_compujump_15m">
+                                                            <property name="label" translatable="yes">15 m</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">radio_run_interval_compujump_5m</property>
+                                                            <signal name="toggled" handler="on_run_interval_compujump_type_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="radio_run_interval_compujump_20m">
+                                                            <property name="label" translatable="yes">20 m</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">radio_run_interval_compujump_5m</property>
+                                                            <signal name="toggled" handler="on_run_interval_compujump_type_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -17302,7 +17418,7 @@ then click this button.</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_button_encoder_inertial_calibrate_close_clicked" swapped="no"/>
-							    <accelerator key="Escape" signal="clicked"/>
+                                                            <accelerator key="Escape" signal="clicked"/>
                                                             <child>
                                                             <widget class="GtkLabel" id="label89">
                                                             <property name="visible">True</property>
@@ -20124,6 +20240,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

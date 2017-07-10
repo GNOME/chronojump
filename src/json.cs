@@ -615,7 +615,92 @@ public class Json
 		return stations;
 	}
 
+	public List<EncoderExercise> GetStationExercises(int stationId)
+	{
+		List<EncoderExercise> ex_list = new List<EncoderExercise>();
 
+		// Create a request using a URL that can receive a post.
+		WebRequest request = WebRequest.Create (serverUrl + "/getStationExercises");
+
+		// Set the Method property of the request to POST.
+		request.Method = "POST";
+
+		// Set the ContentType property of the WebRequest.
+		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
+
+		// Creates the json object
+		JsonObject json = new JsonObject();
+		json.Add("stationId", stationId);
+
+		// Converts it to a String
+		String js = json.ToString();
+
+		// Writes the json object into the request dataStream
+		Stream dataStream;
+		try {
+			dataStream = request.GetRequestStream ();
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+				serverUrl);
+			return ex_list;
+		}
+
+		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
+
+		dataStream.Close ();
+
+		HttpWebResponse response;
+		try {
+			response = (HttpWebResponse) request.GetResponse();
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+				serverUrl);
+			return ex_list;
+		}
+
+		string responseFromServer;
+		using (var sr = new StreamReader(response.GetResponseStream()))
+		{
+			responseFromServer = sr.ReadToEnd();
+		}
+
+		LogB.Information("GetStationExercises: " + responseFromServer);
+
+		if(responseFromServer == "")
+			LogB.Information(" Empty "); //never happens
+		else if(responseFromServer == "[]")
+			LogB.Information(" Empty2 "); //when rfid is not on server
+		else {
+			ex_list = stationExercisesDeserialize(responseFromServer);
+		}
+
+		return ex_list;
+	}
+	private List<EncoderExercise> stationExercisesDeserialize(string str)
+	{
+		List<EncoderExercise> ex_list = new List<EncoderExercise>();
+
+		JsonValue jsonStationExercises = JsonValue.Parse (str);
+
+		foreach (JsonValue jsonSE in jsonStationExercises)
+		{
+			Int32 id = jsonSE ["id"];
+			string name = jsonSE ["name"];
+			Int32 stationId = jsonSE ["stationId"];
+			int percentBodyMassDisplaced = jsonSE ["percentBodyMassDisplaced"];
+
+			ex_list.Add(new EncoderExercise(id, name, percentBodyMassDisplaced,
+					"", "", 0)); //ressitance, description, speed1RM
+		}
+		return ex_list;
+	}
+
+
+	/*
+	 * Unused, now using the above methods
+	 *
 	public EncoderExercise GetEncoderExercise(int exerciseId)
 	{
 		EncoderExercise ex = new EncoderExercise();
@@ -691,6 +776,7 @@ public class Json
 		return new EncoderExercise(id, name, percentBodyMassDisplaced,
 				"", "", 0); //ressitance, description, speed1RM
 	}
+	*/
 
 	public bool UploadSprintData(int personId, Sprint sprint, double k, double vmax, double amax, double fmax, double pmax )
 	{

@@ -576,38 +576,29 @@ public partial class ChronoJumpWindow
 		Json json = new Json();
 		List<Task> tasks = json.GetTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
 
-		//2) get exercises if needed
+		//2) get exercises and insert if needed (only on encoder)
 		if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERGRAVITATORY ||
 				configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERINERTIAL)
 		{
 			ArrayList encoderExercisesOnLocal = SqliteEncoder.SelectEncoderExercises(false, -1, false);
-			foreach(Task task in tasks)
+			List<EncoderExercise> exRemote_list = json.GetStationExercises(configChronojump.CompujumpStationID);
+
+			foreach(EncoderExercise exRemote in exRemote_list)
 			{
-				bool exerciseOnLocal = false;
+				bool found = false;
 				foreach(EncoderExercise exLocal in encoderExercisesOnLocal)
-				{
-					if(task.ExerciseId == exLocal.uniqueID)
+					if(exLocal.uniqueID == exRemote.uniqueID)
 					{
-						LogB.Information("Found:" + task.ExerciseId);
-						exerciseOnLocal = true;
+						found = true;
 						break;
 					}
-				}
-				if(! exerciseOnLocal)
-				{
-					LogB.Information("Need to download this exercise:" + task.ExerciseId);
-					EncoderExercise exDownloaded = json.GetEncoderExercise(task.ExerciseId);
-					LogB.Information("Downloaded:" + exDownloaded.ToString());
 
-					//insert on database
-					if(exDownloaded.name != null && exDownloaded.name != "")
-					{
-						SqliteEncoder.InsertExercise(
-								false, exDownloaded.uniqueID, exDownloaded.name, exDownloaded.percentBodyWeight,
-								"", "", ""); //ressitance, description, speed1RM
-						encoderExercisesOnLocal.Add(exDownloaded);
-						updateEncoderExercisesGui(exDownloaded.name);
-					}
+				if(! found)
+				{
+					SqliteEncoder.InsertExercise(
+							false, exRemote.uniqueID, exRemote.name, exRemote.percentBodyWeight,
+							"", "", ""); //ressitance, description, speed1RM
+					updateEncoderExercisesGui(exRemote.name);
 				}
 			}
 		}

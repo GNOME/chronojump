@@ -36,7 +36,8 @@ public class PersonSession {
 	private string comments;
 
 	
-	public PersonSession() {
+	public PersonSession()
+	{
 	}
 
 	//loading

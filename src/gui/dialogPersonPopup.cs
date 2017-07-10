@@ -98,7 +98,7 @@ public class DialogPersonPopup
 		Fake_button_person_logout = new Gtk.Button();
 
 		bool task_parametrized_exist = false;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture_big.png");
 
 		Gtk.HBox hboxRow;
 		foreach(Task t in tasks)

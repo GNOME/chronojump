@@ -550,7 +550,7 @@ public partial class ChronoJumpWindow
 	private void insertAndAssignPersonSessionIfNeeded(Json json)
 	{
 		PersonSession ps = SqlitePersonSession.Select(false, currentPerson.UniqueID, currentSession.UniqueID);
-		if(ps == null)
+		if(ps.UniqueID == -1)
 			currentPersonSession = new PersonSession (
 					currentPerson.UniqueID, currentSession.UniqueID,
 					json.LastPersonByRFIDHeight, json.LastPersonByRFIDWeight,

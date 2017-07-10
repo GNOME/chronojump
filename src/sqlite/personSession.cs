@@ -225,6 +225,7 @@ class SqlitePersonSession : Sqlite
 		reader = dbcmd.ExecuteReader();
 	
 		PersonSession ps = new PersonSession();
+		ps.UniqueID = -1;
 		while(reader.Read()) {
 			ps = new PersonSession(
 					Convert.ToInt32(reader[0].ToString()), 	//uniqueID

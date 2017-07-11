@@ -56,6 +56,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_top_encoder_person_name;
 	[Widget] Gtk.Button button_contacts_person_change;
 	[Widget] Gtk.Button button_encoder_person_change;
+	[Widget] Gtk.VBox vbox_encoder_capture_1_or_cont;
 
 	//encoder exercise stuff
 	[Widget] Gtk.Label label_encoder_exercise_encoder;
@@ -120,6 +121,9 @@ public partial class ChronoJumpWindow
 			label_encoder_exercise_encoder.Visible = false;
 			vseparator_encoder_exercise_encoder.Visible = false;
 			hbox_encoder_exercise_encoder.Visible = false;
+
+			//don't show encoder 1-cont buttons
+			vbox_encoder_capture_1_or_cont.Visible = false;
 
 			//don't allow to edit exercises
 			button_encoder_exercise_edit.Visible = false;

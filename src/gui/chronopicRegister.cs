@@ -198,7 +198,7 @@ public class ChronopicRegisterWindow
 			label_port.Show();
 
 			Gtk.HBox hbox_type = new Gtk.HBox(false, 6);
-			Button button_left = create_arrow_button(ArrowType.Left, ShadowType.In);
+			Button button_left = UtilGtk.CreateArrowButton(ArrowType.Left, ShadowType.In);
 			button_left.Sensitive = (listConnected[count-1].Type != TypePixList.l[0].Type);
 			button_left.CanFocus = false;
 			button_left.IsFocus = false;
@@ -211,7 +211,7 @@ public class ChronopicRegisterWindow
 			image.Pixbuf = pixbuf;
 			hbox_type.Add(image);
 
-			Button button_right = create_arrow_button(ArrowType.Right, ShadowType.In);
+			Button button_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In);
 			button_right.CanFocus = false;
 			button_right.IsFocus = false;
 			button_right.Clicked += on_button_right_clicked;
@@ -231,19 +231,6 @@ public class ChronopicRegisterWindow
 			list_buttons_right.Add(button_right);
 		}
 		table_main.Show();
-	}
-
-	static Button create_arrow_button(ArrowType arrow_type, ShadowType  shadow_type )
-	{
-		Button button = new Button ();
-		Arrow  arrow = new Arrow (arrow_type, shadow_type);
-
-		button.Add(arrow);
-
-		button.Show();
-		arrow.Show();
-
-		return button;
 	}
 
 	private void createContent(int connectedCount, int unknownCount)

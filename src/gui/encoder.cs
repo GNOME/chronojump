@@ -3346,7 +3346,10 @@ public partial class ChronoJumpWindow
 //	string [] encoderLateralityTranslation;
 	string [] encoderAnalyzeCrossTranslation;
 	string [] encoderAnalyze1RMTranslation;
-	
+
+	Button button_combo_encoder_exercise_capture_left;
+	Button button_combo_encoder_exercise_capture_right;
+
 	protected void createEncoderCombos() 
 	{
 		//create combo exercises
@@ -3397,7 +3400,23 @@ public partial class ChronoJumpWindow
 		
 		//pack combos
 
-		hbox_combo_encoder_exercise_capture.PackStart(combo_encoder_exercise_capture, true, true, 0);
+		if(configChronojump.Compujump)
+		{
+			button_combo_encoder_exercise_capture_left = UtilGtk.CreateArrowButton(ArrowType.Left, ShadowType.In, 40, 40);
+			button_combo_encoder_exercise_capture_left.Sensitive = false;
+			button_combo_encoder_exercise_capture_left.Clicked += on_button_encoder_exercise_capture_left_clicked;
+			hbox_combo_encoder_exercise_capture.PackStart(button_combo_encoder_exercise_capture_left, true, true, 0);
+
+			hbox_combo_encoder_exercise_capture.PackStart(combo_encoder_exercise_capture, true, true, 10);
+
+			button_combo_encoder_exercise_capture_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In, 40, 40);
+			button_combo_encoder_exercise_capture_right.Sensitive = true;
+			button_combo_encoder_exercise_capture_right.Clicked += on_button_encoder_exercise_capture_right_clicked;
+			hbox_combo_encoder_exercise_capture.PackStart(button_combo_encoder_exercise_capture_right, true, true, 0);
+		} else {
+			hbox_combo_encoder_exercise_capture.PackStart(combo_encoder_exercise_capture, true, true, 0);
+		}
+
 		hbox_combo_encoder_exercise_capture.ShowAll();
 		combo_encoder_exercise_capture.Sensitive = true;
 		
@@ -3434,7 +3453,24 @@ public partial class ChronoJumpWindow
 		label_encoder_top_weights.Text = Catalog.GetString("Weights") + ": " + entry_encoder_im_weights_n.Text;
 		label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
 	}
-	
+
+	private void on_button_encoder_exercise_capture_left_clicked(object o, EventArgs args)
+	{
+		combo_encoder_exercise_capture = UtilGtk.ComboSelectPrevious(combo_encoder_exercise_capture);
+
+		button_combo_encoder_exercise_capture_left.Sensitive = (combo_encoder_exercise_capture.Active > 0);
+		button_combo_encoder_exercise_capture_right.Sensitive = true;
+	}
+	private void on_button_encoder_exercise_capture_right_clicked(object o, EventArgs args)
+	{
+		bool isLast;
+		combo_encoder_exercise_capture = UtilGtk.ComboSelectNext(combo_encoder_exercise_capture, out isLast);
+
+		button_combo_encoder_exercise_capture_left.Sensitive = true;
+		button_combo_encoder_exercise_capture_right.Sensitive = ! isLast;
+	}
+
+
 	//this is called also when an exercise is deleted to update the combo and the string []
 	protected void createEncoderComboExerciseAndAnalyze()
 	{

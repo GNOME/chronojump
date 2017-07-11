@@ -42,6 +42,36 @@ public class UtilGtk
 	 *
 	 */
 
+	public static Gtk.ComboBox ComboSelectPrevious(ComboBox myCombo)
+	{
+		int newPosition = myCombo.Active -1;
+		if(newPosition >= 0)
+			myCombo.Active = newPosition;
+
+		return myCombo;
+	}
+	public static Gtk.ComboBox ComboSelectNext(ComboBox myCombo, out bool isLast)
+	{
+		TreeIter iter;
+		myCombo.Model.GetIterFirst(out iter);
+		int current = myCombo.Active;
+		int count = 0;
+		isLast = false;
+		do {
+			if(count > current)
+			{
+				myCombo.Active = count;
+				isLast = false;
+
+				return myCombo;
+			}
+			count ++;
+		} while (myCombo.Model.IterNext (ref iter));
+
+		isLast = true;
+		return myCombo;
+	}
+
 
 	public static string ComboGetActive(ComboBox myCombo) {
 		TreeIter iter;
@@ -589,6 +619,29 @@ public class UtilGtk
 		l.Text = s;
 		l.UseMarkup = true; 
 		l.TooltipText = Util.RemoveMarkup(s);
+	}
+
+	public static Button CreateArrowButton(ArrowType arrow_type, ShadowType shadow_type)
+	{
+		return CreateArrowButton(arrow_type, shadow_type, -1, -1);
+	}
+	public static Button CreateArrowButton(ArrowType arrow_type, ShadowType shadow_type, int width, int height)
+	{
+		Button button = new Button ();
+
+		if(width > 0)
+			button.WidthRequest = width;
+		if(height > 0)
+			button.HeightRequest = height;
+
+		Arrow  arrow = new Arrow (arrow_type, shadow_type);
+
+		button.Add(arrow);
+
+		button.Show();
+		arrow.Show();
+
+		return button;
 	}
 
 

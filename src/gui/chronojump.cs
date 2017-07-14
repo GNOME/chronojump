@@ -4041,7 +4041,8 @@ public partial class ChronoJumpWindow
 		myTreeViewPersons.UpdateRestTimes(restTime);
 
 		if( configChronojump.Compujump && currentPerson != null &&
-				restTime.CompujumpPersonNeedLogout(currentPerson.UniqueID) )
+				DateTime.Now.Subtract(currentPersonCompujumpLoginTime).TotalMinutes >= 3 && //login time minimum 3'
+				restTime.CompujumpPersonNeedLogout(currentPerson.UniqueID) ) 		     //3' since last executed test
 		{
 			compujumpPersonLogoutDo();
 		}

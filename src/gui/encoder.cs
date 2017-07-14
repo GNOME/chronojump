@@ -32,7 +32,6 @@ using LongoMatch.Gui;
 
 public partial class ChronoJumpWindow 
 {
-
 	[Widget] Gtk.HBox hbox_encoder_capture_top;
 	[Widget] Gtk.Label label_encoder_exercise_mass;
 	[Widget] Gtk.VBox vbox_encoder_exercise_mass;

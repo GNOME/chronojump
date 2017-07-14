@@ -93,6 +93,7 @@ public partial class ChronoJumpWindow
 	private static bool updatingRFIDGuiStuff;
 	private bool rfidProcessCancel;
 	private bool rfidIsDifferent;
+	private DateTime currentPersonCompujumpLoginTime;
 
 	DialogPersonPopup dialogPersonPopup;
 		
@@ -490,6 +491,7 @@ public partial class ChronoJumpWindow
 					SqlitePerson.Update(pLocal);
 				}
 
+				currentPersonCompujumpLoginTime = DateTime.Now;
 				currentPerson = pLocal;
 				insertAndAssignPersonSessionIfNeeded(json);
 
@@ -517,6 +519,7 @@ public partial class ChronoJumpWindow
 			LogB.Information("RFID person exists locally!!");
 			if(rfidIsDifferent || dialogPersonPopup == null || ! dialogPersonPopup.Visible)
 			{
+				currentPersonCompujumpLoginTime = DateTime.Now;
 				currentPerson = pLocal;
 				insertAndAssignPersonSessionIfNeeded(json);
 
@@ -536,7 +539,6 @@ public partial class ChronoJumpWindow
 			if(rowToSelect != -1)
 				selectRowTreeView_persons(treeview_persons, rowToSelect);
 			*/
-
 			getTasksExercisesAndPopup();
 		}
 

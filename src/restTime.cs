@@ -119,7 +119,8 @@ public class RestTime
 					return false;
 			}
 
-		return false;
+		//person has not done any test. DateTime.Now.Subtract(currentPersonCompujumpLoginTime).TotalMinutes will decide
+		return true;
 	}
 
 	public void AddOrModify(int personID, bool print)

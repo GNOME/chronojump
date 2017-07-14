@@ -3396,26 +3396,20 @@ public partial class ChronoJumpWindow
 		//is not an spinbutton because values can be separated: "3,4,7,21"
 		combo_encoder_analyze_curve_num_combo = ComboBox.NewText ();
 		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, Util.StringToStringArray(""), "");
-		
-		
+
+
 		//pack combos
+		button_combo_encoder_exercise_capture_left = UtilGtk.CreateArrowButton(ArrowType.Left, ShadowType.In, 40, 40);
+		button_combo_encoder_exercise_capture_left.Sensitive = false;
+		button_combo_encoder_exercise_capture_left.Clicked += on_button_encoder_exercise_capture_left_clicked;
+		hbox_combo_encoder_exercise_capture.PackStart(button_combo_encoder_exercise_capture_left, true, true, 0);
 
-		if(configChronojump.Compujump)
-		{
-			button_combo_encoder_exercise_capture_left = UtilGtk.CreateArrowButton(ArrowType.Left, ShadowType.In, 40, 40);
-			button_combo_encoder_exercise_capture_left.Sensitive = false;
-			button_combo_encoder_exercise_capture_left.Clicked += on_button_encoder_exercise_capture_left_clicked;
-			hbox_combo_encoder_exercise_capture.PackStart(button_combo_encoder_exercise_capture_left, true, true, 0);
+		hbox_combo_encoder_exercise_capture.PackStart(combo_encoder_exercise_capture, true, true, 10);
 
-			hbox_combo_encoder_exercise_capture.PackStart(combo_encoder_exercise_capture, true, true, 10);
-
-			button_combo_encoder_exercise_capture_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In, 40, 40);
-			button_combo_encoder_exercise_capture_right.Sensitive = true;
-			button_combo_encoder_exercise_capture_right.Clicked += on_button_encoder_exercise_capture_right_clicked;
-			hbox_combo_encoder_exercise_capture.PackStart(button_combo_encoder_exercise_capture_right, true, true, 0);
-		} else {
-			hbox_combo_encoder_exercise_capture.PackStart(combo_encoder_exercise_capture, true, true, 0);
-		}
+		button_combo_encoder_exercise_capture_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In, 40, 40);
+		button_combo_encoder_exercise_capture_right.Sensitive = true;
+		button_combo_encoder_exercise_capture_right.Clicked += on_button_encoder_exercise_capture_right_clicked;
+		hbox_combo_encoder_exercise_capture.PackStart(button_combo_encoder_exercise_capture_right, true, true, 0);
 
 		hbox_combo_encoder_exercise_capture.ShowAll();
 		combo_encoder_exercise_capture.Sensitive = true;

@@ -194,8 +194,10 @@ public class Constants
 	public static string SimulatedTestsNotAllowed = Catalog.GetString("Chronopic is disconnected.") + "\n\n" + 
 		string.Format(Catalog.GetString("If you want to simulate tests, use {0} session."), "SIMULATED");
 
+	//Compujump strings
 	public static string RFIDDisconnectedMessage = Catalog.GetString("RFID cable has been disconnected!") + "\n\n" +
 		Catalog.GetString("Please, connect it and restart Chronojump.");
+	public static string RFIDNotInServerMessage = Catalog.GetString("This RFID is not registered on server.");
 
 	//server
 	public const string ServerPingTable = "SPing"; 

@@ -733,7 +733,10 @@ public partial class ChronoJumpWindow
 		else
 			contraction = SqlitePreferences.Select(SqlitePreferences.EncoderContractionInertial, true);
 
-		radio_encoder_eccon_concentric.Active = (contraction == Constants.Concentric);
+		if(contraction == Constants.Concentric)
+			radio_encoder_eccon_concentric.Active = true;
+		else
+			radio_encoder_eccon_eccentric_concentric.Active = true;
 
 		//3 laterality
 		string laterality = "";

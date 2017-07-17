@@ -369,7 +369,7 @@ public abstract class EncoderCapture
 				sumInertialDisc += byteReaded;
 				encoderReadedInertialDisc.Add(byteReaded);
 
-				if(sumInertialDisc > 0)
+				if(inertialCalibrated && sumInertialDisc > 0)
 					byteReaded *= -1;
 
 				sum += byteReaded;

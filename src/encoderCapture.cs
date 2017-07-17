@@ -62,7 +62,7 @@ public abstract class EncoderCapture
 	private int lastTriggerOn;
 	
 	/*
-	 * sum: sum ob byteReaded, it's the vertical position
+	 * sum: sum on byteReaded, it's the vertical position
 	 * sumInertialDisc: on inertial this has the sum of the disc, while sum has the position of the body (always <= 0 (starting position))
 	 * on inertial we need both
 	 */
@@ -86,8 +86,6 @@ public abstract class EncoderCapture
 	protected int consecutiveZerosMax;
 		
 	//specific of some subclasses
-	protected bool inertialShouldCheckStartDirection;
-	protected bool inertialCaptureDirectionInverted;
 	protected bool lastDirectionStoredIsUp;
 	protected bool capturingFirstPhase;
 
@@ -193,10 +191,6 @@ public abstract class EncoderCapture
 		//or to save this set and wait for the next on cont mode
 		consecutiveZeros = -1;		
 		consecutiveZerosMax = timeEnd * 1000;
-	
-		//only can be true on inertial capture subclass
-		inertialShouldCheckStartDirection = false;
-		inertialCaptureDirectionInverted = false;
 
 		initSpecific();
 
@@ -310,9 +304,6 @@ public abstract class EncoderCapture
 				if(cont)
 					recordedTimeCont ++;
 
-				if(inertialCaptureDirectionInverted)
-					byteReaded *= -1;
-
 				if(byteReaded == 0)
 				{
 					consecutiveZeros ++;
@@ -370,20 +361,20 @@ public abstract class EncoderCapture
 				//on inertialCalibrated set mark where 0 is crossed for the first time
 				if(inertialCalibrated && inertialCalibratedFirstCross0Pos == 0)
 				{
-					if(byteReaded > 0 && sumInertialDisc < 0 && sumInertialDisc + byteReaded >= 0)
-						inertialCalibratedFirstCross0Pos = i;
-					else if(byteReaded < 0 && sumInertialDisc > 0 && sumInertialDisc + byteReaded <= 0)
+					if( ( sumInertialDisc <= 0 && sumInertialDisc + byteReaded > 0 ) ||
+							( sumInertialDisc >= 0 && sumInertialDisc + byteReaded < 0 ) )
 						inertialCalibratedFirstCross0Pos = i;
 				}
 
 				sumInertialDisc += byteReaded;
 				encoderReadedInertialDisc.Add(byteReaded);
 
-				if(inertialChangedConToEcc())
+				if(sumInertialDisc > 0)
 					byteReaded *= -1;
 
 				sum += byteReaded;
 				encoderReaded.Add(byteReaded);
+
 
 				if(! showOnlyBars)
 				{
@@ -391,10 +382,6 @@ public abstract class EncoderCapture
 
 					EncoderCapturePointsCaptured = i;
 				}
-
-				//this only applies to inertial subclass
-				if(inertialShouldCheckStartDirection)
-					inertialCheckIfInverted();
 
 				if(! showOnlyBars)
 					encoderCapturePointsAdaptativeDisplay();
@@ -433,7 +420,11 @@ public abstract class EncoderCapture
 						sendCurveMaybe = true;
 				}
 
-				//but on inertialCalibrated don't send curve until 0 is crossed
+				/*
+				 * on inertialCalibrated don't send curve until 0 is crossed
+				 * this ensures first stored phase will be ecc, that's what the rest of the program is expecting
+				 * TODO: maybe this can be problematic with triggers maybe can be desinchronized, just move values
+				 */
 				if(inertialCalibrated && inertialCalibratedFirstCross0Pos == 0)
 					sendCurveMaybe = false;
 
@@ -463,6 +454,10 @@ public abstract class EncoderCapture
 					LogB.Debug("startFrame",startFrame.ToString());
 					if(startFrame < 0)
 						startFrame = 0;
+
+					//on inertial start when crossing 0 first time
+					if(inertialCalibrated && startFrame < inertialCalibratedFirstCross0Pos)
+						startFrame = inertialCalibratedFirstCross0Pos;
 
 					LogB.Information("TTTT - i," + i.ToString() +
 						       	"; directionChangeCount: " + 
@@ -802,13 +797,6 @@ public abstract class EncoderCapture
 		return triggerList;
 	}
 
-	//this methods only applies to inertial subclass
-	protected virtual void inertialCheckIfInverted() {
-	}
-	protected virtual bool inertialChangedConToEcc() {
-		return false;
-	}
-
 	public string Eccon {
 		get { return eccon; }
 	}
@@ -845,8 +833,6 @@ public class EncoderCaptureGravitatory : EncoderCapture
 
 public class EncoderCaptureInertial : EncoderCapture
 {
-	private bool inertialFirstEccPhaseDone;
-		
 	public EncoderCaptureInertial() 
 	{
 	}
@@ -854,95 +840,18 @@ public class EncoderCaptureInertial : EncoderCapture
 	protected override void initSpecific()
 	{
 		realHeightG = 2 * 5000 ; //5 meters up / 5 meters down
-
-		inertialShouldCheckStartDirection = true;
-
-		inertialFirstEccPhaseDone = false;
 	}
 
 	public override void InitCalibrated(int angleNow)
 	{
 		inertialCalibrated = true;
 		sum = angleNow;
+		if(sum > 0)
+			sum *= -1;
+
 		sumInertialDisc = angleNow;
-
-		if(inertialShouldCheckStartDirection)
-		{
-			inertialCheckIfInverted();
-		}
 	}
 
-	protected override void inertialCheckIfInverted() 
-	{
-		/*
-		 * 1) on inertial, when we start we should go down (because exercise starts in full extension)
-		 * if at the beginning we detect movement as positive means that the encoder is connected backwards or
-		 * the disc is in a position that makes the start in that direction
-		 * we use the '20' to detect when 'some' movement has been done
-		 * Just -1 all the past and future values of this capture
-		 * (we use the 'sum > 0' to know that it's going upwards)
-		 *
-		 * 2) here sum == sumInertialDisc and encoderReaded == encoderReadedInertialDisc
-		 * because this variables change later (when sum < -25 )
-		 */
-		if(Math.Abs(sum) > 20) 
-		{
-			inertialShouldCheckStartDirection = false;
-
-			if(sum > 0) {
-				inertialCaptureDirectionInverted = true;
-				byteReaded *= -1;
-				directionNow *= -1;
-				directionLastMSecond *= -1;
-				sum *= -1;
-				sumInertialDisc *= -1;
-
-				int xWidth = recordingTime;
-				if(cont)
-					xWidth = recordedTimeCont;
-
-				for(int j=0; j <= i; j ++) {
-					encoderReaded[j] *= -1;
-					encoderReadedInertialDisc[j] *= -1;
-				}
-				double sum2=0;
-				for(int j=0; j <= i; j ++) {
-					sum2 += encoderReaded[j];
-
-					if(! showOnlyBars)
-					{
-						EncoderCapturePoints[j] = new Gdk.Point(
-								Convert.ToInt32(widthG * j / xWidth),
-								Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
-								);
-						//same for InertialDisc. Read comment 2 on the top of this method
-						EncoderCapturePointsInertialDisc[j] = new Gdk.Point(
-								Convert.ToInt32(widthG * j / xWidth),
-								Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
-								);
-					}
-				}
-
-				if(! showOnlyBars)
-				{
-					EncoderCapturePointsCaptured = i;
-					EncoderCapturePointsPainted = -1; //mark meaning screen should be erased
-				}
-			}
-		}
-	}
-	
-	protected override bool inertialChangedConToEcc() 
-	{
-		if(byteReaded == 0)
-			return false;
-
-		if(inertialFirstEccPhaseDone && sumInertialDisc > 0)
-			return true;
-
-		return false;
-	}
-	
 	protected override void assignEncoderCapturePoints() 
 	{
 		int xWidth = recordingTime;
@@ -1008,11 +917,6 @@ public class EncoderCaptureInertial : EncoderCapture
 
 	protected override void markDirectionChanged() 
 	{
-		//If min height is very low, a micromovement will be used to cut phases incorrectly
-		//put a safe value like <25 . is below (more negative)  the 20 used on inertialCheckIfInverted
-		if(! inertialFirstEccPhaseDone && sum < 25)
-			inertialFirstEccPhaseDone = true;
-
 		directionChangeCount = 0;
 		directionCompleted = directionNow;
 	}

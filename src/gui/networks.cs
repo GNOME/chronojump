@@ -467,8 +467,7 @@ public partial class ChronoJumpWindow
 				LogB.Information("Person NOT found on server!");
 				if(dialogMessageNotAtServer == null || ! dialogMessageNotAtServer.Visible)
 				{
-					dialogMessageNotAtServer = new DialogMessage(Constants.MessageTypes.WARNING,
-							"Aquesta pulsera o jugador no es troba identificada al servidor"); //GTK
+					dialogMessageNotAtServer = new DialogMessage(Constants.MessageTypes.WARNING, Constants.RFIDNotInServerMessage); //GTK
 
 					compujumpPersonLogoutDo();
 				}

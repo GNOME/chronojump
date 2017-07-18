@@ -43,7 +43,8 @@ public class ChronoJump
 	private string messageToShowOnBoot = "";
 	private string messageCrashedBefore = "";
 	private bool chronojumpHasToExit = false;
-		
+	private Config configChronojump;
+
 	[Widget] Gtk.Button fakeSplashButton; //raised when splash win ended
 	Thread thread;
 	bool needEndSplashWin = false;
@@ -237,7 +238,11 @@ public class ChronoJump
 	//used when Chronojump is being running two or more times (quadriple-click on start)
 	bool quitNowCjTwoTimes = false;
 
-	protected void sqliteThings () {
+	protected void sqliteThings ()
+	{
+		configChronojump = new Config();
+		configChronojump.Read();
+
 		bool badExit = checkIfChronojumpExitAbnormally();
 		if(badExit) {
 			if(chronojumpIsExecutingNTimes())
@@ -690,7 +695,6 @@ public class ChronoJump
 		return true;
 	}
 	
-	Config configChronojump;
 	private void on_splash_ended(object o, EventArgs args)
 	{
 		LogB.Information("splash screen going to END");
@@ -701,9 +705,6 @@ public class ChronoJump
 			SplashWindow.Hide();
 
 		LogB.Information("splash screen ENDED!");
-
-		configChronojump = new Config();
-		configChronojump.Read();
 
 		readMessageToStart();
 	}

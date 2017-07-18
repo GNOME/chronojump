@@ -3474,6 +3474,7 @@ public partial class ChronoJumpWindow
 		try {
 			capturer.Stop();
 		} catch {}
+		LogB.Information("videoCapturePPPPPPPPPPPPPPPPPrepare done !");
 		capturer.Run();
 	}
 	

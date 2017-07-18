@@ -2907,25 +2907,27 @@ doProcess <- function(options)
 				par(new=T)
 			        
 				correctedSpeed = speed$y[0:(curves[1,1] -1)]    #The first part of the graph isn't corrected
-				#The speed at the excentric phase should be negative
-				#Seeing if the speed at the excentric phase is positive or negative
-				if(speed$y[curves[1,1] + 300] > 0)
-				{
-				        sign = -1                               #If the speed is positive it must be changeed the sign of it
-				} else 
-				{
-				        sign = 1                                #If the speed is negative it must to be manteined
-				}
-				
-				
 				#adding the consecutive repetitions to the correctedSpeed
 				for (n in 2:length(curves[,1]))
 				{
-				        correctedSpeed = c(correctedSpeed, sign * (speed$y[curves[n -1, 1]:(curves[n,1] -1 )]))
-				        sign = sign * (-1)
+				        if(speed$y[curves[n -1 , 1]] > 0)    #If the speed is positive it must be changeed the sign of it
+				        {
+				                correctedSpeed = c(correctedSpeed, -1 * (speed$y[curves[n -1, 1]:(curves[n,1] -1 )]))
+				        } else                          #If the speed is negative it must to be manteined               
+				        {
+				                correctedSpeed = c(correctedSpeed, (speed$y[curves[n -1, 1]:(curves[n,1] -1 )]))                             
+				        }
 				}
 				
-				correctedSpeed = c(correctedSpeed, sign *speed$y[curves[length(curves[,1]),1]: length(speed$y)])
+				if(speed$y[curves[length(curves[,1]), 1]] > 0)    #If the speed is positive it must be changeed the sign of it
+				{
+				        correctedSpeed = c(correctedSpeed, -1 * (speed$y[curves[length(curves[,1]), 1]:length(speed$y)]))
+				} else                          #If the speed is negative it must to be manteined               
+				{
+				        correctedSpeed = c(correctedSpeed, speed$y[curves[length(curves[,1]), 1]:length(speed$y)])                        
+				}
+				
+				#correctedSpeed = c(correctedSpeed, speed$y[curves[length(curves[,1]),1]: length(speed$y)])
 				print(paste("CorrectedSpeed length =", length(correctedSpeed)))
 				ylimHeight = max(abs(range(correctedSpeed)))
 				ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side

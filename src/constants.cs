@@ -727,7 +727,7 @@ public class Constants
 		JUMPSSIMPLE, JUMPSREACTIVE,
 		RUNSSIMPLE, RUNSINTERVALLIC,
 		POWERGRAVITATORY, POWERINERTIAL,
-		FORCESENSOR, RT, OTHER }
+		FORCESENSOR, RT, OTHER } //OTHER can be: Multichronopic, Pulse
 
 	public static string All = "All";
 	public static string None = "None";

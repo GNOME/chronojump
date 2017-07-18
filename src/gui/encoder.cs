@@ -583,7 +583,7 @@ public partial class ChronoJumpWindow
 	
 	private void on_button_encoder_bells_clicked(object o, EventArgs args)
 	{
-		if(radio_menuitem_mode_power_gravitatory.Active)
+		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY)
 			repetitiveConditionsWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences.volumeOn);
 		else
 			repetitiveConditionsWin.View(Constants.BellModes.ENCODERINERTIAL, preferences.volumeOn);
@@ -1450,14 +1450,9 @@ public partial class ChronoJumpWindow
 		//TODO: change encSelReps and this will change labels
 		updateUserCurvesLabelsAndCombo(dbconOpened);
 	}
-		
-	private Constants.EncoderGI getEncoderGI() {
-		/*
-		if(radio_menuitem_mode_power_gravitatory.Active)
-			return = Constants.EncoderGI.GRAVITATORY;
-		else //if(radio_menuitem_mode_power_inertial.Active)
-			return = Constants.EncoderGI.INERTIAL;
-			*/
+
+	private Constants.EncoderGI getEncoderGI()
+	{
 		return currentEncoderGI;
 	}
 

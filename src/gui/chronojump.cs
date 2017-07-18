@@ -480,19 +480,19 @@ public partial class ChronoJumpWindow
 	private void on_button_image_test_zoom_clicked(object o, EventArgs args)
 	{
 		EventType myType;
-		if(radio_menuitem_mode_jumps_simple.Active) 
+		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 			myType = currentJumpType;
-		else if(radio_menuitem_mode_jumps_reactive.Active) 
+		else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
 			myType = currentJumpRjType;
-		else if(radio_menuitem_mode_runs_simple.Active) 
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
 			myType = currentRunType;
-		else if(radio_menuitem_mode_runs_intervallic.Active) 
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 			myType = currentRunIntervalType;
-		//else //if(radio_mode_force_sensor_small.Active)
+		//else if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR
 		//	myType = currentForceType;
-		else if(radio_menuitem_mode_rt.Active)
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RT)
 			myType = currentReactionTimeType;
-		else //if(radio_menuitem_mode_other.Active)
+		else //if(current_menuitem_mode == Constants.Menuitem_modes.OTHER
 		{
 			if(radio_mode_multi_chronopic_small.Active)
 				myType = currentMultiChronopicType;
@@ -977,25 +977,25 @@ public partial class ChronoJumpWindow
 		vbox_last_test_buttons.Sensitive = false;
 
 		//1) change on jumps, runs, pulse capture graph
-		if(radio_menuitem_mode_jumps_simple.Active)
+		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{
 			updateGraphJumpsSimple();
 
 			if(notebook_capture_analyze.CurrentPage == 2) //Jumps Profile
 				jumpsProfileDo(true); //calculate data
 		}
-		else if(radio_menuitem_mode_jumps_reactive.Active)
+		else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
 			updateGraphJumpsReactive();
-		else if(radio_menuitem_mode_runs_simple.Active)
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
 			updateGraphRunsSimple();
-		else if(radio_menuitem_mode_runs_intervallic.Active)
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
 			updateGraphRunsInterval();
 			if(currentPerson != null)
 				label_sprint_person_name.Text = string.Format(Catalog.GetString("Sprints of {0}"), currentPerson.Name);
 			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 		}
-		else if(radio_menuitem_mode_rt.Active)
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RT)
 			updateGraphReactionTimes();
 
 		//2) change on encoder
@@ -3624,7 +3624,7 @@ public partial class ChronoJumpWindow
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 
 	{
-		if(radio_menuitem_mode_force_sensor.Active)
+		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
 		{
 			LogB.Debug("radio_mode_force_sensor");
 			/*
@@ -3655,7 +3655,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("numContacts: " + numContacts);
 
 		//check if chronopics have changed
-		if(numContacts >= 2 && radio_menuitem_mode_other.Active && radio_mode_multi_chronopic_small.Active)
+		if(numContacts >= 2 && current_menuitem_mode == Constants.Menuitem_modes.OTHER && radio_mode_multi_chronopic_small.Active)
 		{
 			chronopicConnectionSequenceInit(2);
 		}
@@ -3696,23 +3696,25 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 
-		if(radio_menuitem_mode_jumps_simple.Active) 
+		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{
 			LogB.Debug("radio_menuitem_mode_jumps_simple");
 			on_normal_jump_activate(canCaptureC);
 		}
-		else if(radio_menuitem_mode_jumps_reactive.Active) 
+		else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
 			LogB.Debug("radio_menuitem_mode_jumps_reactive");
 			on_rj_activate(canCaptureC);
 		}
-		else if(radio_menuitem_mode_runs_simple.Active) {
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+		{
 			LogB.Debug("radio_menuitem_mode_runs_simple");
 			extra_window_runs_distance = (double) extra_window_runs_spinbutton_distance.Value;
 			
 			on_normal_run_activate(canCaptureC);
 		}
-		else if(radio_menuitem_mode_runs_intervallic.Active) {
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		{
 			LogB.Debug("radio_mode_runs_i_small");
 			//RSA runs cannot be simulated because it's complicated to manage the countdown event...
 			if(currentRunIntervalType.IsRSA && ! canCaptureC) {
@@ -3726,7 +3728,8 @@ public partial class ChronoJumpWindow
 			
 			on_run_interval_activate(canCaptureC);
 		}
-		else if(radio_menuitem_mode_rt.Active) {
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RT)
+		{
 			LogB.Debug("radio_mode_rt");
 	
 			if(extra_window_radio_reaction_time_discriminative.Active)
@@ -3734,7 +3737,8 @@ public partial class ChronoJumpWindow
 
 			on_reaction_time_activate (canCaptureC);
 		}
-		else if(radio_mode_pulses_small.Active) {
+		else if(radio_mode_pulses_small.Active)
+		{
 			LogB.Debug("radio_mode_pulses");
 			on_pulse_activate (canCaptureC);
 		}
@@ -5120,17 +5124,18 @@ LogB.Debug("X");
 		try {
 			switch (currentEventType.Type) {
 				case EventType.Types.JUMP:
-					if(lastJumpIsSimple && radio_menuitem_mode_jumps_simple.Active) 
+					if(lastJumpIsSimple && current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 						PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject, false);
-					else if (radio_menuitem_mode_jumps_reactive.Active)
+					else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
 						PrepareJumpReactiveGraph(
 								Util.GetLast(currentJumpRj.TvString), Util.GetLast(currentJumpRj.TcString),
 								currentJumpRj.TvString, currentJumpRj.TcString, preferences.volumeOn, repetitiveConditionsWin);
 					break;
 				case EventType.Types.RUN:
-					if(lastRunIsSimple && radio_menuitem_mode_runs_simple.Active) 
+					if(lastRunIsSimple && current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
 						PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, false);
-					else if(radio_menuitem_mode_runs_intervallic.Active) {
+					else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+					{
 						RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type, false);
 						double distanceTotal = Util.GetRunITotalDistance(currentRunInterval.DistanceInterval, 
 								runType.DistancesString, currentRunInterval.Tracks);
@@ -5153,7 +5158,7 @@ LogB.Debug("X");
 					LogB.Information("Cannot update of force sensor");
 					break;
 				case EventType.Types.REACTIONTIME:
-					if(radio_menuitem_mode_rt.Active)
+					if(current_menuitem_mode == Constants.Menuitem_modes.RT)
 						PrepareReactionTimeGraph(currentEventExecute.PrepareEventGraphReactionTimeObject, false);
 					break;
 				case EventType.Types.PULSE:
@@ -6828,11 +6833,11 @@ LogB.Debug("X");
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
 		//notebook_capture_analyze.Sensitive = true; 
 		radio_mode_contacts_analyze.Hide();
-		if(radio_menuitem_mode_jumps_simple.Active)
+		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{
 			radio_mode_contacts_jumps_profile.Hide();
 		}
-		else if(radio_menuitem_mode_runs_intervallic.Active)
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
 			radio_mode_contacts_sprint.Hide();
 		}
@@ -6889,11 +6894,11 @@ LogB.Debug("X");
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
 		//notebook_capture_analyze.Sensitive = true; 
 		radio_mode_contacts_analyze.Visible = true;
-		if(radio_menuitem_mode_jumps_simple.Active)
+		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{
 			radio_mode_contacts_jumps_profile.Show();
 		}
-		else if(radio_menuitem_mode_runs_intervallic.Active)
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
 			radio_mode_contacts_sprint.Show();
 		}
@@ -7026,9 +7031,9 @@ LogB.Debug("X");
 		hbox_jump_auto_controls.Visible  = start;
 
 		radio_mode_contacts_analyze.Visible = ! start;
-		if(radio_menuitem_mode_jumps_reactive.Active)
+		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
 			radio_mode_contacts_jumps_profile.Visible = ! start;
-		else if(radio_menuitem_mode_runs_intervallic.Active)
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 			radio_mode_contacts_sprint.Visible = ! start;
 
 		//when start, put button delete_last_test as not sensitive

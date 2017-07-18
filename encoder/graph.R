@@ -2902,11 +2902,35 @@ doProcess <- function(options)
 			}
 
 			#showSpeed only on gravitatory until speed is fixed on this experimental graph
-			if (showSpeed && ! isInertial(op$EncoderConfigurationName)) {
+			#if (showSpeed && ! isInertial(op$EncoderConfigurationName)) {
+			if (showSpeed ) {
 				par(new=T)
-				ylimHeight = max(abs(range(speed$y)))
+			        
+				correctedSpeed = speed$y[0:(curves[1,1] -1)]    #The first part of the graph isn't corrected
+				#The speed at the excentric phase should be negative
+				#Seeing if the speed at the excentric phase is positive or negative
+				if(speed$y[curves[1,1] + 300] > 0)
+				{
+				        sign = -1                               #If the speed is positive it must be changeed the sign of it
+				} else 
+				{
+				        sign = 1                                #If the speed is negative it must to be manteined
+				}
+				
+				
+				#adding the consecutive repetitions to the correctedSpeed
+				for (n in 2:length(curves[,1]))
+				{
+				        correctedSpeed = c(correctedSpeed, sign * (speed$y[curves[n -1, 1]:(curves[n,1] -1 )]))
+				        sign = sign * (-1)
+				}
+				
+				correctedSpeed = c(correctedSpeed, sign *speed$y[curves[length(curves[,1]),1]: length(speed$y)])
+				print(paste("CorrectedSpeed length =", length(correctedSpeed)))
+				ylimHeight = max(abs(range(correctedSpeed)))
 				ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
-				plot(speed$y, col=cols[1], ylim=ylim, type="l", xlab="",ylab="",axes=F)
+				print(paste("ylim =",ylim))
+				plot(correctedSpeed, col=cols[1], ylim=ylim, type="l", xlab="",ylab="",axes=F)
 				axis(4, col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
 				axisLineRight = axisLineRight +2
 			}

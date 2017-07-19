@@ -602,13 +602,17 @@ public class Constants
 	};
 
 	public static string [] SplashMessages = {
-		Catalog.GetString("Initializing"),		//0
-		Catalog.GetString("Checking database"),		//1
-		Catalog.GetString("Creating database"),		//2
-		Catalog.GetString("Making database backup"),	//3
-		Catalog.GetString("Updating database"),		//4
-		Catalog.GetString("Connecting to server"),	//5
-		Catalog.GetString("Preparing main Window"),	//6
+		"Initializing",			//0
+		"Checking database",		//1
+		"Creating database",		//2
+		"Making database backup",	//3
+		"Updating database",		//4
+		"Connecting to server",		//5
+		"Preparing main Window",	//6
+		"Loading preferences",		//7
+		"Creating widgets", 		//8
+		"Creating encoder widgets", 	//9
+		"Starting main window", 	//10
 	};
 	
 	public static string DatabaseNotFound = Catalog.GetString("Error. Cannot find database.");

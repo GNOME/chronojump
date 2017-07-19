@@ -31,10 +31,9 @@ public class SplashWindow
 	[Widget] Gtk.ProgressBar progressbarRate;
 	[Widget] Gtk.ProgressBar progressbarSubRate;
 	[Widget] Gtk.Label myLabel;
-	[Widget] Gtk.Button button_cancel;
+	[Widget] Gtk.Button button_close;
 
-	
-	public Gtk.Button fakeButtonCancel;
+	[Widget] Gtk.Button fakeButtonClose;
 	public bool FakeButtonCreated = false;
 	
 	static SplashWindow SplashWindowBox;
@@ -48,10 +47,9 @@ public class SplashWindow
 		//put an icon to window
 		UtilGtk.IconWindow(splash_window);
 
-		fakeButtonCancel = new Gtk.Button();
+		FakeButtonClose = new Gtk.Button();
 		FakeButtonCreated = true;
 
-		CancelButtonShow(false);
 		hideAllProgressbars();
 
 		//put logo image
@@ -105,30 +103,17 @@ public class SplashWindow
 	public void UpdateLabel (string text) {
 		myLabel.Text = text;
 	}
-	
-	/* 
-	 * cancel	
-	 * for SPing
-	 */
-	public void CancelButtonShow(bool show) {
-		if(show)
-			button_cancel.Show();
-		else
-			button_cancel.Hide();
-	}
-	
-	protected void on_button_cancel_clicked (object o, EventArgs args)
+
+	public void ShowButtonClose()
 	{
-		fakeButtonCancel.Click();
-	}
-	
-	public Button FakeButtonCancel 
-	{
-		set { fakeButtonCancel = value; }
-		get { return fakeButtonCancel; }
+		button_close.Show();
 	}
 
-			
+	protected void on_button_close_clicked (object o, EventArgs args)
+	{
+		fakeButtonClose.Click();
+		Hide();
+	}
 
 	public void Destroy () {
 		//it seem on some machines (MacOSX) splash_window maybe is Destroyed previously because on_delete_event it's called
@@ -162,5 +147,11 @@ public class SplashWindow
 	private void on_delete_event (object o, DeleteEventArgs args) {
 		splash_window.Destroy ();
 	}
-}
 
+	public Button FakeButtonClose
+	{
+		set { fakeButtonClose = value; }
+		get { return fakeButtonClose; }
+	}
+
+}

@@ -5,8 +5,10 @@
   <widget class="GtkWindow" id="splash_window">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="type">popup</property>
     <property name="title">Chronojump</property>
     <property name="resizable">False</property>
+    <property name="modal">True</property>
     <property name="window_position">center-always</property>
     <property name="type_hint">splashscreen</property>
     <child>
@@ -57,15 +59,13 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <widget class="GtkButton" id="button_cancel">
-                        <property name="label">gtk-cancel</property>
-                        <property name="visible">True</property>
+                      <widget class="GtkButton" id="button_close">
+                        <property name="label">gtk-close</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
-                        <property name="tooltip" translatable="yes">Cancel connection with server</property>
                         <property name="use_stock">True</property>
-                        <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                        <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
                         <accelerator key="Escape" signal="clicked"/>
                       </widget>
                       <packing>

@@ -509,12 +509,11 @@ public partial class ChronoJumpWindow
 	}
 	
 	
-	public ChronoJumpWindow(string progVersion, string progName, string runningFileName)
+	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin)
 	{
 		this.progVersion = progVersion;
 		this.progName = progName;
 		this.runningFileName = runningFileName;
-		
 
 		Glade.XML gxml;
 		gxml = Glade.XML.FromAssembly (Util.GetGladePath() + "app1.glade", "app1", "chronojump");
@@ -543,11 +542,19 @@ public partial class ChronoJumpWindow
 		//put videoOn as false before loading preferences to start always without the camera
 		//this is good if camera produces crash
 		SqlitePreferences.Update("videoOn", "False", false);
+
+		// ------ Loading preferences ------
+
+		splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[7]));
 		
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
 		loadPreferences ();
 		
+		// ------ Creating widgets ------
+
+		splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[8]));
+
 		createTreeView_persons (treeview_persons);
 
 		createTreeView_jumps (treeview_jumps);
@@ -620,14 +627,19 @@ public partial class ChronoJumpWindow
 		threshold = new Threshold();
 		cp2016 = new Chronopic2016();
 
+		// ------ Creating encoder widgets ------
+
+		splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[9]));
+
 		encoderInitializeStuff();	
-		
+
+		LogB.Information("Calling configInitRead from gui / ChronojumpWindow");
 		configInitRead();
 
 		//presentationInit();
 
 		videoCaptureInitialize();
-	
+
 		string buildVersion = UtilAll.ReadVersionFromBuildInfo();
 		label_version.Text = buildVersion;
 		label_version_hidden.Text = buildVersion;
@@ -637,6 +649,9 @@ public partial class ChronoJumpWindow
 		updatingRestTimes = true;
 		GLib.Timeout.Add(1000, new GLib.TimeoutHandler(updateRestTimes)); //each s, better than 5s for don't have problems sorting data on treeview
 
+		// ------ Starting main window ------
+
+		splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[10]));
 
 		/*
 		 * start a ping in other thread
@@ -651,6 +666,13 @@ public partial class ChronoJumpWindow
 		}
 
 		testNewStuff();
+
+		if(splashWin != null)
+			splashWin.Destroy();
+		else
+			SplashWindow.Hide();
+
+		app1.Show();
 	}
 
 	private void testNewStuff()

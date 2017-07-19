@@ -201,8 +201,6 @@ public class ChronoJump
 	new ChronoJump(args);
 	}
 
-	bool createdSplashWin = false;
-
 	public static string RelativeToPrefix(string relativePath) {
 		return System.IO.Path.Combine(baseDirectory, relativePath);
 	}
@@ -214,7 +212,6 @@ public class ChronoJump
 
 		//start threading to show splash window
 		SplashWindow.Show();
-		createdSplashWin = true;
 
 		fakeSplashButton = new Gtk.Button();
 		fakeSplashButton.Clicked += new EventHandler(on_splash_ended);
@@ -405,24 +402,6 @@ public class ChronoJump
 
 		//connect to server to Ping
 		versionAvailable = "";
-		/*
-		pingStart = false;
-		pingEnd = false;
-		
-		// disable server connection on start until server is not working on windows again 
-		bool connectServerAtStart = false;
-		if(connectServerAtStart) {
-			thread = new Thread(new ThreadStart(findVersion));
-			GLib.Idle.Add (new GLib.IdleHandler (PulseGTKPing));
-			thread.Start(); 
-		
-			//wait until pinging process start
-			while(! pingStart) {
-			}
-		}
-		else
-			on_find_version_cancelled(new object(), new EventArgs());
-		*/
 		versionAvailable = Constants.ServerOffline;
 	
 
@@ -510,40 +489,6 @@ public class ChronoJump
 
 	}
 
-	private void findVersion() {
-		LogB.Debug("--1--");
-		//pingStart = true;
-
-		LogB.Debug("--2--");
-		//maybe other thread doesn't create at time the splash win
-		//then just wait
-		while(! createdSplashWin)
-			;
-		
-		LogB.Debug("--2.1--");
-			
-		try {
-			if(splashWin.FakeButtonCreated)
-				LogB.Information("Created splashWin.FakeButton");
-			else
-				LogB.Warning("NOT Created splashWin.FakeButton, si es bloqueja, posar aquí un while (mentre no estigui creat)");
-
-			splashWin.FakeButtonCancel.Clicked += new EventHandler(on_find_version_cancelled);
-
-			LogB.Debug("--3--");
-		} catch {
-			LogB.Warning("Problem with splash win");
-		}
-
-		versionAvailable = Server.Ping(true, progName, UtilAll.ReadVersion()); //doInsertion
-		
-		LogB.Debug("--4--");
-		LogB.Information(" version:  ", versionAvailable);
-		LogB.Debug("\n--5--");
-		//pingEnd = true;
-		LogB.Debug("--6--");
-	}
-		
 	private void on_find_version_cancelled(object o, EventArgs args) {
 		versionAvailable = Constants.ServerOffline;
 		//pingEnd = true;
@@ -558,8 +503,9 @@ public class ChronoJump
 			if(chronojumpHasToExit)
 			{
 				if(quitNowCjTwoTimes) {
-					errorWin = ErrorWindow.Show(messageToShowOnBoot);
-					errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_quit_not_deleting_runningfilename);
+					splashWin.UpdateLabel(messageToShowOnBoot);
+					splashWin.FakeButtonClose.Clicked += new EventHandler(on_message_boot_accepted_quit_not_deleting_runningfilename);
+					splashWin.ShowButtonClose();
 				} else {
 					messageToShowOnBoot += "\n<b>" + string.Format(Catalog.GetString("Chronojump will exit now.")) + "</b>\n";
 
@@ -602,8 +548,15 @@ public class ChronoJump
 				//(eg from before installer to installjammer) maybe it will not find this runningFileName
 			}
 		}
-		Log.End();
-		//Log.Delete();
+
+		if(splashWin != null)
+			splashWin.Destroy();
+		else
+			SplashWindow.Hide();
+
+		if(! quitNowCjTwoTimes)
+			Log.End();
+
 		Application.Quit();
 	}
 
@@ -617,7 +570,7 @@ public class ChronoJump
 		}
 		LogB.SQL("all SQL done! starting Chronojump");
 
-		new ChronoJumpWindow(progVersion, progName, runningFileName);
+		new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin);
 	}
 
 	private static void createBlankDB() {
@@ -649,9 +602,10 @@ public class ChronoJump
 	/* splash window things 
 	 * --------------------*/
 
-	private void splashMessageChange(int messageInt) {
+	private void splashMessageChange(int messageInt)
+	{
 	       splashMessage = Catalog.GetString(Constants.SplashMessages[messageInt]);
-		needUpdateSplashMessage = true;
+	       needUpdateSplashMessage = true;
 	}
 	
 	protected bool PulseGTK ()
@@ -699,37 +653,12 @@ public class ChronoJump
 	{
 		LogB.Information("splash screen going to END");
 		fakeSplashButton.Clicked -= new EventHandler(on_splash_ended);
-		if(splashWin != null)
-			splashWin.Destroy();
-		else
-			SplashWindow.Hide();
 
 		LogB.Information("splash screen ENDED!");
 
 		readMessageToStart();
 	}
 
-	/*
-	protected bool PulseGTKPing ()
-	{
-		if(pulseGTKPingShouldEnd) {
-			splashWin.CancelButtonShow(false);
-			LogB.Information("ping going to END");
-			return false;
-		}
-
-		if(splashShowButton)
-			splashWin.CancelButtonShow(true); //show cancel button on splash win
-		else
-			splashWin.CancelButtonShow(false);
-
-		Thread.Sleep (50);
-		LogB.Debug(" (PulseGTKPing:" + thread.ThreadState.ToString() + ") ");
-		if(thread.ThreadState == System.Threading.ThreadState.Stopped)
-			pulseGTKPingShouldEnd = true;
-		return true;
-	}
-	*/
 	
 	/* ---------------------
 	 * other support methods 

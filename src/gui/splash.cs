@@ -19,9 +19,11 @@
  */
 
 using System;
+using System.IO;
 using Gtk;
 using Gdk;
 using Glade;
+using Mono.Unix;
 
 public class SplashWindow
 {
@@ -33,8 +35,12 @@ public class SplashWindow
 	[Widget] Gtk.Label myLabel;
 	[Widget] Gtk.Button button_close;
 
+	[Widget] Gtk.Button button_open_database_folder;
+	[Widget] Gtk.Button button_open_docs_folder;
+
 	[Widget] Gtk.Button fakeButtonClose;
 	public bool FakeButtonCreated = false;
+	string progVersion = "";
 	
 	static SplashWindow SplashWindowBox;
 
@@ -52,12 +58,16 @@ public class SplashWindow
 
 		hideAllProgressbars();
 
+		//hidden always excepted when called to be shown (see below)
+		button_open_database_folder.Hide();
+		button_open_docs_folder.Hide();
+
 		//put logo image
 		Pixbuf pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo320);
 		image_logo.Pixbuf = pixbuf;
 	}
-	
+
 	static public SplashWindow Show ()
 	{
 		if (SplashWindowBox == null) {
@@ -104,9 +114,48 @@ public class SplashWindow
 		myLabel.Text = text;
 	}
 
+	public void Show_button_open_database_folder () {
+		button_open_database_folder.Show();
+	}
+	private void on_button_open_database_folder_clicked (object o, EventArgs args)
+	{
+		string database_url = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
+		string database_temp_url = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
+
+		System.IO.FileInfo file1 = new System.IO.FileInfo(database_url); //potser cal una arrobar abans (a windows)
+		System.IO.FileInfo file2 = new System.IO.FileInfo(database_temp_url); //potser cal una arrobar abans (a windows)
+
+		if(file1.Exists)
+			System.Diagnostics.Process.Start(Util.GetDatabaseDir());
+		else if(file2.Exists)
+			System.Diagnostics.Process.Start(Util.GetDatabaseTempDir());
+		else
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DatabaseNotFound);
+	}
+
+	public void Show_button_open_docs_folder () {
+		button_open_docs_folder.Show();
+	}
+	private void on_button_open_docs_folder_clicked (object o, EventArgs args)
+	{
+		LogB.Information("Opening docs at: " + Path.GetFullPath(Util.GetManualDir()));
+		try {
+			System.Diagnostics.Process.Start(Path.GetFullPath(Util.GetManualDir()));
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					"Sorry, folder does not exist." + "\n\n" +
+					Path.GetFullPath(Util.GetManualDir())
+					);
+		}
+	}
+
 	public void ShowButtonClose()
 	{
 		button_close.Show();
+	}
+
+	public void Button_close_label (string str) {
+		button_close.Label = str;
 	}
 
 	protected void on_button_close_clicked (object o, EventArgs args)
@@ -144,8 +193,16 @@ public class SplashWindow
 		LogB.Debug("splash_window hide end");
 	}
 
+	public string ProgVersion {
+		set { progVersion = value; }
+	}
+
 	private void on_delete_event (object o, DeleteEventArgs args) {
 		splash_window.Destroy ();
+	}
+
+	public Button Button_close {
+		get { return button_close; }
 	}
 
 	public Button FakeButtonClose

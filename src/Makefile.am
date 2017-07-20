@@ -34,6 +34,7 @@ SOURCES = \
 	gui/person.cs\
 	gui/personSelect.cs\
 	gui/preferences.cs\
+	gui/sendLog.cs\
 	gui/session.cs\
 	gui/stats.cs\
 	gui/presentation.cs\

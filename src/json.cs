@@ -183,8 +183,9 @@ public class Json
 			
 		this.ResultMessage =		
 			Catalog.GetString("Installed version is: ") + currentVersion + "\n" + 
-			Catalog.GetString("Last version published: ") + lastVersionPublished +
-			updateStr;
+			Catalog.GetString("Last version published: ") + lastVersionPublished;
+			// + updateStr;
+			//TODO: add updateStr again when resolved that a experimental 1.7.0-xxx is more advanced than a stable 1.7.0
 		
 		//ChronojumpUpdated = (currentVersion == ResultMessage);
 

@@ -72,7 +72,6 @@ src/gui/encoder.cs
 src/gui/encoderOverview.cs
 src/gui/encoderSelectRepetitions.cs
 src/gui/encoderTreeviews.cs
-src/gui/error.cs
 src/gui/evaluator.cs
 src/gui/event.cs
 src/gui/eventExecute.cs
@@ -94,6 +93,7 @@ src/gui/run.cs
 src/gui/runType.cs
 src/gui/server.cs
 src/gui/session.cs
+src/gui/splash.cs
 src/gui/sprint.cs
 src/gui/stats.cs
 src/executeProcess.cs

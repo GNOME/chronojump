@@ -604,6 +604,7 @@ public class ChronoJump
 	{
 	       splashMessage = Catalog.GetString(Constants.SplashMessages[messageInt]);
 	       needUpdateSplashMessage = true;
+	       System.Threading.Thread.Sleep(50);
 	}
 	
 	protected bool PulseGTK ()

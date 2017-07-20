@@ -509,7 +509,8 @@ public partial class ChronoJumpWindow
 	}
 	
 	
-	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin)
+	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin,
+			bool showSendLog, string sendLogMessage)
 	{
 		this.progVersion = progVersion;
 		this.progName = progName;
@@ -528,8 +529,12 @@ public partial class ChronoJumpWindow
 		//white bg
 		eventbox_image_test.ModifyBg(StateType.Normal, UtilGtk.WHITE);
 	
-		//start with the Mode selector	
-		notebook_start.CurrentPage = 0;
+		if(! showSendLog)
+			notebook_start.CurrentPage = 0; //start with the Mode selector
+		else {
+			show_send_log(sendLogMessage);
+			notebook_start.CurrentPage = 2; //send log
+		}
 
 		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
 		//UtilGtk.ResizeIfNeeded(stats_window);

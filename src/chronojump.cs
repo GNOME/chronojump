@@ -499,34 +499,29 @@ public class ChronoJump
 		//don't show error message at start if Compujump
 		if(messageToShowOnBoot.Length > 0 && ! configChronojump.Compujump)
 		{
-			ErrorWindow errorWin;
 			if(chronojumpHasToExit)
 			{
 				if(quitNowCjTwoTimes) {
 					splashWin.UpdateLabel(messageToShowOnBoot);
 					splashWin.FakeButtonClose.Clicked += new EventHandler(on_message_boot_accepted_quit_not_deleting_runningfilename);
-					splashWin.ShowButtonClose();
 				} else {
 					messageToShowOnBoot += "\n<b>" + string.Format(Catalog.GetString("Chronojump will exit now.")) + "</b>\n";
-
-					errorWin = ErrorWindow.Show(messageToShowOnBoot);
-					errorWin.Show_button_open_database_folder();
-					errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_quit_nice);
+					splashWin.UpdateLabel(messageToShowOnBoot);
+					splashWin.Show_button_open_database_folder();
+					splashWin.Button_close.Clicked += new EventHandler(on_message_boot_accepted_quit_nice);
 				}
-			} else { 
-				errorWin = ErrorWindow.Show(messageToShowOnBoot);
-				errorWin.Show_send_log();
-				errorWin.ProgVersion = progVersion;
-				errorWin.Button_accept_label(Catalog.GetString("Open Chronojump"));
-				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_continue);
+				splashWin.ShowButtonClose();
+			} else {
+				startChronojump(true); //sendLog
 			}
 		} else {
-			startChronojump();
+			startChronojump(false);
 		}
 	}
 
-	private void on_message_boot_accepted_continue (object o, EventArgs args) {
-		startChronojump();
+	private void on_message_boot_accepted_continue (object o, EventArgs args)
+	{
+		startChronojump(false);
 	}
 
 	private void on_message_boot_accepted_quit_nice (object o, EventArgs args)
@@ -561,7 +556,7 @@ public class ChronoJump
 	}
 
 
-	private void startChronojump() {
+	private void startChronojump(bool sendLog) {
 
 		//wait until all sql calls are done in other thread
 		//then there will be no more a try to open an already opened dbcon
@@ -570,7 +565,10 @@ public class ChronoJump
 		}
 		LogB.SQL("all SQL done! starting Chronojump");
 
-		new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin);
+		if(sendLog)
+			new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin, true, messageToShowOnBoot);
+		else
+			new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin, false, "");
 	}
 
 	private static void createBlankDB() {

@@ -176,10 +176,12 @@ public class Json
 		int endPos = strFull[1].LastIndexOf('"') -2;
 
 		string lastVersionPublished = strFull[1].Substring(startPos,endPos); //1.4.9
-			
+
+		/*
 		string updateStr = "";
 		if(currentVersion != lastVersionPublished)
 			updateStr = "\n\n" + Catalog.GetString("Update software at ") + "www.chronojump.org";
+			*/
 			
 		this.ResultMessage =		
 			Catalog.GetString("Installed version is: ") + currentVersion + "\n" + 
@@ -975,7 +977,7 @@ public class UploadEncoderDataObject
 
 	public UploadEncoderDataObject(ArrayList curves)
 	{
-		repetitions = curves.Count;
+		repetitions = curves.Count; //TODO: on ecc-con divide by 2
 
 		int nSpeed = getBestRep(curves, byTypes.SPEED);
 		int nPower = getBestRep(curves, byTypes.POWER);
@@ -1004,6 +1006,8 @@ public class UploadEncoderDataObject
 		lossByPower = getLoss(curves, byTypes.POWER);
 	}
 
+	//TODO: on ecc-con should count [ecc-count] reps
+	//this calculation should be the same than the client gui
 	private int getBestRep(ArrayList curves, byTypes by)
 	{
 		int curveNum = 0;
@@ -1026,6 +1030,8 @@ public class UploadEncoderDataObject
 		return curveNum;
 	}
 
+	//TODO: on ecc-con should count [ecc-count] reps
+	//this calculation should be the same than the client gui
 	private int getLoss(ArrayList curves, byTypes by)
 	{
 		double lowest = 100000;

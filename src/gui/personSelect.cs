@@ -35,12 +35,16 @@ public class PersonSelectWindow
 	[Widget] Gtk.VBox vbox_button_delete_confirm;
 	[Widget] Gtk.Label label_selected_person_name;
 	[Widget] Gtk.Button button_add;
+	[Widget] Gtk.Button button_load;
+	[Widget] Gtk.Image image_person_new;
+	[Widget] Gtk.Image image_person_load;
 	
 	static PersonSelectWindow PersonSelectWindowBox;
 	
 	private ArrayList persons;
 	public Person SelectedPerson;
 	public Gtk.Button FakeButtonAddPerson;
+	public Gtk.Button FakeButtonLoadPerson;
 	public Gtk.Button FakeButtonEditPerson;
 	public Gtk.Button FakeButtonDeletePerson;
 	public Gtk.Button FakeButtonDone;
@@ -56,9 +60,15 @@ public class PersonSelectWindow
 		person_select_window.Parent = parent;
 		
 		FakeButtonAddPerson = new Gtk.Button();
+		FakeButtonLoadPerson = new Gtk.Button();
 		FakeButtonEditPerson = new Gtk.Button();
 		FakeButtonDeletePerson = new Gtk.Button();
 		FakeButtonDone = new Gtk.Button();
+
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_add.png");
+		image_person_new.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
+		image_person_load.Pixbuf = pixbuf;
 	}
 	
 	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons)
@@ -170,6 +180,9 @@ public class PersonSelectWindow
 	private void on_button_add_clicked (object o, EventArgs args) {
 		FakeButtonAddPerson.Click();
 	}
+	private void on_button_load_clicked (object o, EventArgs args) {
+		FakeButtonLoadPerson.Click();
+	}
 	private void on_button_edit_clicked (object o, EventArgs args) {
 		FakeButtonEditPerson.Click();
 	}
@@ -185,10 +198,12 @@ public class PersonSelectWindow
 	private void on_button_delete_yes_clicked (object o, EventArgs args) {
 		FakeButtonDeletePerson.Click();
 	}
-	public void Button_delete_confirm_focus(bool doFocus, bool sensitivePersonButtons) {
+	public void Button_delete_confirm_focus(bool doFocus, bool sensitivePersonButtons)
+	{
 		vbox_button_delete_confirm.Visible = doFocus;
 		table1.Sensitive = ! doFocus;
 		button_add.Sensitive = ! doFocus;
+		button_load.Sensitive = ! doFocus;
 		
 		personButtonsSensitive(sensitivePersonButtons);
 	}

@@ -1354,6 +1354,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -2360,7 +2363,7 @@ EncoderInertialCapture</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Load person</property>
                                                             <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_recuperate_person_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_recuperate_person_from_main_gui" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox98">
                                                             <property name="visible">True</property>
@@ -20254,6 +20257,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

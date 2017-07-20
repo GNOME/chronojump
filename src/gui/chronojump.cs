@@ -2446,14 +2446,22 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 	
-	private void on_recuperate_person_clicked (object o, EventArgs args) {
+	bool person_load_single_called_from_person_select_window;
+	private void on_recuperate_person_from_main_gui (object o, EventArgs args)
+	{
+		person_load_single_called_from_person_select_window = false;
+		person_load_single();
+	}
+
+	private void person_load_single ()
+	{
 		LogB.Information("recuperate person");
 		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession, preferences.digitsNumber);
 		personRecuperateWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_person_accepted);
 	}
 
 	private void on_recuperate_person_accepted (object o, EventArgs args) {
-		LogB.Information("here!!!");
+		LogB.Information("at: on_recuperate_person_accepted");
 		currentPerson = personRecuperateWin.CurrentPerson;
 		currentPersonSession = personRecuperateWin.CurrentPersonSession;
 		label_person_change();
@@ -2465,6 +2473,9 @@ public partial class ChronoJumpWindow
 			selectRowTreeView_persons(treeview_persons, rowToSelect);
 			sensitiveGuiYesPerson();
 		}
+
+		if(person_load_single_called_from_person_select_window)
+			updatePersonSelectWin ();
 	}
 		
 	private void on_recuperate_persons_from_session_clicked (object o, EventArgs args) {
@@ -2493,12 +2504,14 @@ public partial class ChronoJumpWindow
 	}
 
 	bool person_add_single_called_from_person_select_window;
-	private void on_person_add_single_from_main_gui (object o, EventArgs args) {
+	private void on_person_add_single_from_main_gui (object o, EventArgs args)
+	{
 		person_add_single_called_from_person_select_window = false;
 		person_add_single();
 	}
 
-	private void person_add_single () {
+	private void person_add_single ()
+	{
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, 
 				currentSession, new Person(-1), 
 				preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo
@@ -2551,12 +2564,16 @@ public partial class ChronoJumpWindow
 			//appbar2.Push( 1, Catalog.GetString("Successfully added") + " " + currentPerson.Name );
 		}
 
-		if(person_add_single_called_from_person_select_window) {
-			ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
-					currentSession.UniqueID,
-					false); //means: do not returnPersonAndPSlist
-			personSelectWin.Update(myPersons);
-		}
+		if(person_add_single_called_from_person_select_window)
+			updatePersonSelectWin ();
+	}
+
+	private void updatePersonSelectWin ()
+	{
+		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+				currentSession.UniqueID,
+				false); //means: do not returnPersonAndPSlist
+		personSelectWin.Update(myPersons);
 	}
 
 	//show spinbutton window asking for how many people to create	
@@ -2693,6 +2710,7 @@ public partial class ChronoJumpWindow
 
 		personSelectWin = PersonSelectWindow.Show(app1, myPersons);
 		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_top_person_add_person);
+		personSelectWin.FakeButtonLoadPerson.Clicked += new EventHandler(on_button_top_person_load_person);
 		personSelectWin.FakeButtonEditPerson.Clicked += new EventHandler(on_button_top_person_edit_person);
 		personSelectWin.FakeButtonDeletePerson.Clicked += new EventHandler(on_button_top_person_delete_person);
 		personSelectWin.FakeButtonDone.Clicked += new EventHandler(on_button_top_person_change_done);
@@ -2701,6 +2719,11 @@ public partial class ChronoJumpWindow
 	{
 		person_add_single_called_from_person_select_window = true;
 		person_add_single();
+	}
+	private void on_button_top_person_load_person(object o, EventArgs args)
+	{
+		person_load_single_called_from_person_select_window = true;
+		person_load_single();
 	}
 	private void on_button_top_person_edit_person(object o, EventArgs args)
 	{

@@ -444,7 +444,7 @@ public partial class ChronoJumpWindow
 		
 		captureCurvesBarsData = new ArrayList(0);
 
-		playVideoEncoderInitialSetup();
+		//playVideoEncoderInitialSetup(); //TODO: commented until fixed
 
 		capturingCsharp = encoderCaptureProcess.STOPPED;
 
@@ -6485,20 +6485,27 @@ public partial class ChronoJumpWindow
 	}
 
 	static PlayerBin playerEncoder;
+	/*
+	 * TODO: commented until fixed
 	private void playVideoEncoderInitialSetup() //this does not work on raspberry
 	{
 		//TODO: use a try specific... study this further
-		LogB.Information("Prepare video encoder");
+		LogB.Information("Prepare video encoder 0");
 
 		try {
 			playerEncoder = new PlayerBin();
+			LogB.Information("Prepare video encoder 1");
 			viewport_video_play_encoder.Add(playerEncoder);
+			LogB.Information("Prepare video encoder 2");
 			playerEncoder.SeeControlsBox(true);
+			LogB.Information("Prepare video encoder 3");
 		} catch {
 			LogB.Information("Catched on playVideoEncoderInitialSetup");
 			//it crashes on Raspberry, Banana
 		}
+		LogB.Information("Prepare video encoder 4");
 	}
+	*/
 	void playVideoEncoderPrepare(bool play) 
 	{
 		LogB.Information("playVideoEncoderDo", play.ToString());

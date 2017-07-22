@@ -5047,7 +5047,12 @@ public partial class ChronoJumpWindow
 			}
 
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
+			if(image_encoder_width < 0)
+				image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
+
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
+			if(image_encoder_height < 0)
+				image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
 			//don't need to be false because ItemToggled is deactivated during capture
 			treeview_encoder_capture_curves.Sensitive = true;
@@ -5175,9 +5180,14 @@ public partial class ChronoJumpWindow
 					image_encoder_width = Convert.ToInt32(UtilGtk.WidgetWidth(app1) / 2);
 				else
 					image_encoder_width = Convert.ToInt32(UtilGtk.WidgetWidth(app1));
+
+				if(image_encoder_width < 0)
+					image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
 				
 				//-2 to accomadate the width slider without needing a height slider
 				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture) -2;
+				if(image_encoder_height < 0)
+					image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
 				prepareEncoderGraphs(true, true);
 				
@@ -5201,11 +5211,6 @@ public partial class ChronoJumpWindow
 				//don't call directly to prepareEncoderGraphs() here because it's called from a Non-GTK thread
 				needToCallPrepareEncoderGraphs = true; //needToCallPrepareEncoderGraphs will not erase them
 				
-				//this is defined on capture process
-				//image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
-				//image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
-				
-				
 				//_______ 2) run stuff
 				//this does not run a pulseGTK
 				encoderDoCurvesGraphR_curvesAC();
@@ -5215,7 +5220,13 @@ public partial class ChronoJumpWindow
 			
 			//the -5 is because image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(scrolledwindow_image_encoder_analyze)-10;
+			if(image_encoder_width < 0)
+				image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
+
 			image_encoder_height = UtilGtk.WidgetHeight(scrolledwindow_image_encoder_analyze)-10;
+			if(image_encoder_height < 0)
+				image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
+
 			if(encoderAnalysis == "single") {
 				image_encoder_height -= UtilGtk.WidgetHeight(table_encoder_analyze_instant); //to allow hslides and table
 			}
@@ -5542,8 +5553,13 @@ public partial class ChronoJumpWindow
 		if(needToCallPrepareEncoderGraphs) 
 		{
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
+			if(image_encoder_width < 0)
+				image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
+
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
-				
+			if(image_encoder_height < 0)
+				image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
+
 			prepareEncoderGraphs(false, false); //do not erase them
 			needToCallPrepareEncoderGraphs = false;
 		}
@@ -6068,7 +6084,7 @@ public partial class ChronoJumpWindow
 
 					if(action == encoderActions.CURVES_AC)
 					{
-						//1) unMute logs if preferences.muteLogs == true
+						//1) unMute logs if preferences.muteLogs == false
 						LogB.Mute = preferences.muteLogs;
 
 						//1) save the triggers now that we have an encoderSignalUniqueID

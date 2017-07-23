@@ -843,6 +843,8 @@ public class PersonAddModifyWindow
 	GenericWindow genericWin;
 
 	bool adding;
+	private bool descriptionChanging = false;
+	private bool textviewpsChanging = false;
 
 	private Person currentPerson;
 	private Session currentSession;
@@ -1024,6 +1026,8 @@ public class PersonAddModifyWindow
 
 	void on_entries_required_changed (object o, EventArgs args)
 	{
+		entry1.Text = Util.MakeValidSQL(entry1.Text);
+
 		if(entry1.Text.ToString().Length > 0)
 			image_name.Hide();
 		else {
@@ -1209,7 +1213,6 @@ public class PersonAddModifyWindow
 		combo_countries.Sensitive = false;
 	}
 
-
 	private void fillDialog ()
 	{
 		int mySportID;
@@ -1252,6 +1255,8 @@ public class PersonAddModifyWindow
 			TextBuffer tb1 = new TextBuffer (new TextTagTable());
 			tb1.Text = currentPerson.Description;
 			textview_description.Buffer = tb1;
+			textview_description.Buffer.Changed += new EventHandler(descriptionChanged);
+			descriptionChanging = false;
 			
 			serverUniqueID = currentPerson.ServerUniqueID;
 			
@@ -1271,6 +1276,8 @@ public class PersonAddModifyWindow
 			TextBuffer tb2 = new TextBuffer (new TextTagTable());
 			tb2.Text = myPS.Comments;
 			textview_ps_comments.Buffer = tb2;
+			textview_ps_comments.Buffer.Changed += new EventHandler(textviewpsChanged);
+			textviewpsChanging = false;
 		}
 			
 		sport = SqliteSport.Select(false, mySportID);
@@ -1281,8 +1288,37 @@ public class PersonAddModifyWindow
 		combo_levels.Active = UtilGtk.ComboMakeActive(levels, myLevelID + ":" + Util.FindLevelName(myLevelID));
 		
 	}
-		
-	
+
+	private void descriptionChanged(object o,EventArgs args)
+	{
+		if(descriptionChanging)
+			return;
+
+		descriptionChanging = true;
+
+		TextBuffer tb = o as TextBuffer;
+		if (o == null)
+			return;
+
+		tb.Text = Util.MakeValidSQL(tb.Text);
+		descriptionChanging = false;
+	}
+	private void textviewpsChanged(object o,EventArgs args)
+	{
+		if(textviewpsChanging)
+			return;
+
+		textviewpsChanging = true;
+
+		TextBuffer tb = o as TextBuffer;
+		if (o == null)
+			return;
+
+		tb.Text = Util.MakeValidSQL(tb.Text);
+		textviewpsChanging = false;
+	}
+
+
 	void on_button_calendar_clicked (object o, EventArgs args)
 	{
 		DateTime dt = dateTime;

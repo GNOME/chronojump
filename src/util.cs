@@ -296,8 +296,17 @@ public class Util
 	}
 	public static string MakeValidSQL(string str)
 	{
+		/*
+		 * This code sometimes does not work with '
+		 * below code is better
 		char [] trimChars = {'"','\''};
 		return str.Trim(trimChars);
+		*/
+
+		StringBuilder myStringBuilder = new StringBuilder(str);
+		myStringBuilder.Replace("'", "");
+		myStringBuilder.Replace("\"", "");
+		return myStringBuilder.ToString();
 	}
 
 	//to pass latin chars to JSON

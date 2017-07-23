@@ -1255,8 +1255,6 @@ public class PersonAddModifyWindow
 			TextBuffer tb1 = new TextBuffer (new TextTagTable());
 			tb1.Text = currentPerson.Description;
 			textview_description.Buffer = tb1;
-			textview_description.Buffer.Changed += new EventHandler(descriptionChanged);
-			descriptionChanging = false;
 			
 			serverUniqueID = currentPerson.ServerUniqueID;
 			
@@ -1276,10 +1274,13 @@ public class PersonAddModifyWindow
 			TextBuffer tb2 = new TextBuffer (new TextTagTable());
 			tb2.Text = myPS.Comments;
 			textview_ps_comments.Buffer = tb2;
-			textview_ps_comments.Buffer.Changed += new EventHandler(textviewpsChanged);
-			textviewpsChanging = false;
 		}
-			
+
+		textview_description.Buffer.Changed += new EventHandler(descriptionChanged);
+		descriptionChanging = false;
+		textview_ps_comments.Buffer.Changed += new EventHandler(textviewpsChanged);
+		textviewpsChanging = false;
+
 		sport = SqliteSport.Select(false, mySportID);
 		combo_sports.Active = UtilGtk.ComboMakeActive(sportsTranslated, sport.ToString());
 

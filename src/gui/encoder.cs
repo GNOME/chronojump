@@ -6364,13 +6364,15 @@ public partial class ChronoJumpWindow
 		 * (2) update analyze labels and combos
 		 */
 
-		EncoderSQL currentSignalSQL = (EncoderSQL) SqliteEncoder.Select( 	//TODO: aixo falla si no tronar un EncoderSQL, pq no torna si l'acabem d'insertar?
+		ArrayList array = SqliteEncoder.Select(
 				true, Convert.ToInt32(encoderSignalUniqueID), 0, 0, getEncoderGI(),
 				-1, "", EncoderSQL.Eccons.ALL,
-				false, true)[0];
+				false, true);
 
-		if(currentSignalSQL.uniqueID == null)
+		if(array.Count == 0)
 			return;
+
+		EncoderSQL currentSignalSQL = (EncoderSQL) array[0];
 
 		ArrayList data = SqliteEncoder.Select(
 				true, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),

@@ -6144,87 +6144,21 @@ public partial class ChronoJumpWindow
 				LogB.Information(" encoderSignalUniqueID:" + encoderSignalUniqueID);
 				if(encoderSignalUniqueID != "-1")
 				{
-					// TODO: we never use findEccon() return value. We might be able to stop calling findEccon()
-					// since it doesn't seem to do anything else other than returning the value.
-					// This needs to be checked if working on this code.
-					findEccon(true);
-
 					/*
 					 * (0) open Sqlite
-					 * (1) if found curves of this signal
-					 * 	(1a) this curves are with different eccon, or with different encoderConfiguration.name
-					 * 		(1a1) delete the curves (files)
-					 * 		(1a2) delete the curves (encoder table)
-					 * 		(1a3) and also delete from (encoderSignalCurves table)
-					 * 	(1b) or different exercise, or different laterality or different extraWeight, 
-					 * 		or different encoderConfiguration (but the name is the same)
-					 * 		(1b1) update curves with new data
-					 * (2) update analyze labels and combos
-					 * (3) update meanPower on SQL encoder
-					 * (4) close Sqlite
+					 * (1) manageCurvesOfThisSignal
+					 * (2) update meanPower on SQL encoder
+					 * (3) close Sqlite
 					 */
 
-					Sqlite.Open(); // (0)
+					Sqlite.Open();
 
-					bool deletedUserCurves = false;
-					EncoderSQL currentSignalSQL = (EncoderSQL) SqliteEncoder.Select(
-							true, Convert.ToInt32(encoderSignalUniqueID), 0, 0, getEncoderGI(),
-							-1, "", EncoderSQL.Eccons.ALL, 
-							false, true)[0];
+					manageCurvesOfThisSignal();
 
-
-					ArrayList data = SqliteEncoder.Select(
-							true, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
-							-1, "curve", EncoderSQL.Eccons.ALL,  
-							false, true);
-					foreach(EncoderSQL eSQL in data) 
-					{
-						if(currentSignalSQL.GetDate(false) == eSQL.GetDate(false)) 		// (1)
-						{
-							// (1a)
-							if(findEccon(true) != eSQL.eccon || 
-									encoderConfigurationCurrent.name != eSQL.encoderConfiguration.name)
-							{
-								Util.FileDelete(eSQL.GetFullURL(false));					// (1a1)
-								Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));	// (1a2)
-								SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID)); // (1a3)
-								deletedUserCurves = true;
-							} else {							// (1b)
-								if(currentSignalSQL.exerciseID != eSQL.exerciseID)
-									Sqlite.Update(true, Constants.EncoderTable, "exerciseID",
-											"", currentSignalSQL.exerciseID.ToString(),
-											"uniqueID", eSQL.uniqueID.ToString());
-
-								if(currentSignalSQL.extraWeight != eSQL.extraWeight)
-									Sqlite.Update(true, Constants.EncoderTable, "extraWeight",
-											"", currentSignalSQL.extraWeight,
-											"uniqueID", eSQL.uniqueID.ToString());
-
-								if(currentSignalSQL.laterality != eSQL.laterality)
-									Sqlite.Update(true, Constants.EncoderTable, "laterality",
-											"", currentSignalSQL.laterality,
-											"uniqueID", eSQL.uniqueID.ToString());
-								
-								if( currentSignalSQL.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) !=
-										eSQL.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) )
-								{
-									Sqlite.Update(true, Constants.EncoderTable, "encoderConfiguration",
-											"", currentSignalSQL.encoderConfiguration.ToStringOutput(
-												EncoderConfiguration.Outputs.SQL),
-											"uniqueID", eSQL.uniqueID.ToString());
-								}
-							}
-						}
-					}
-					if(deletedUserCurves) {
-						//TODO: change encSelReps and this will change labels
-						updateUserCurvesLabelsAndCombo(true); 	// (2)
-					}
-
-					// (3) update meanPower on SQL encoder
+					//update meanPower on SQL encoder
 					findAndMarkSavedCurves(true, true); //SQL opened; update curve SQL records (like future1: meanPower)
 					
-					Sqlite.Close(); 					// (4)
+					Sqlite.Close();
 
 				}
 				
@@ -6413,6 +6347,80 @@ public partial class ChronoJumpWindow
 				action == encoderActions.CURVES ||	//recalculate
 				action == encoderActions.CURVES_AC) 	//curves after capture
 			chronojumpWindowTestsNext();
+	}
+
+	//sqlite is opened on this method
+	private void manageCurvesOfThisSignal()
+	{
+		/*
+		 * (1) if found curves of this signal
+		 * 	(1a) this curves are with different eccon, or with different encoderConfiguration.name
+		 * 		(1a1) delete the curves (files)
+		 * 		(1a2) delete the curves (encoder table)
+		 * 		(1a3) and also delete from (encoderSignalCurves table)
+		 * 	(1b) or different exercise, or different laterality or different extraWeight,
+		 * 		or different encoderConfiguration (but the name is the same)
+		 * 		(1b1) update curves with new data
+		 * (2) update analyze labels and combos
+		 */
+
+		EncoderSQL currentSignalSQL = (EncoderSQL) SqliteEncoder.Select( 	//TODO: aixo falla si no tronar un EncoderSQL, pq no torna si l'acabem d'insertar?
+				true, Convert.ToInt32(encoderSignalUniqueID), 0, 0, getEncoderGI(),
+				-1, "", EncoderSQL.Eccons.ALL,
+				false, true)[0];
+
+		if(currentSignalSQL.uniqueID == null)
+			return;
+
+		ArrayList data = SqliteEncoder.Select(
+				true, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
+				-1, "curve", EncoderSQL.Eccons.ALL,
+				false, true);
+
+		bool deletedUserCurves = false;
+		foreach(EncoderSQL eSQL in data)
+		{
+			if(currentSignalSQL.GetDate(false) == eSQL.GetDate(false)) 		// (1)
+			{
+				// (1a)
+				if(findEccon(true) != eSQL.eccon ||
+						encoderConfigurationCurrent.name != eSQL.encoderConfiguration.name)
+				{
+					Util.FileDelete(eSQL.GetFullURL(false));					// (1a1)
+					Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));	// (1a2)
+					SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID)); // (1a3)
+					deletedUserCurves = true;
+				} else {							// (1b)
+					if(currentSignalSQL.exerciseID != eSQL.exerciseID)
+						Sqlite.Update(true, Constants.EncoderTable, "exerciseID",
+								"", currentSignalSQL.exerciseID.ToString(),
+								"uniqueID", eSQL.uniqueID.ToString());
+
+					if(currentSignalSQL.extraWeight != eSQL.extraWeight)
+						Sqlite.Update(true, Constants.EncoderTable, "extraWeight",
+								"", currentSignalSQL.extraWeight,
+								"uniqueID", eSQL.uniqueID.ToString());
+
+					if(currentSignalSQL.laterality != eSQL.laterality)
+						Sqlite.Update(true, Constants.EncoderTable, "laterality",
+								"", currentSignalSQL.laterality,
+								"uniqueID", eSQL.uniqueID.ToString());
+
+					if( currentSignalSQL.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) !=
+							eSQL.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) )
+					{
+						Sqlite.Update(true, Constants.EncoderTable, "encoderConfiguration",
+								"", currentSignalSQL.encoderConfiguration.ToStringOutput(
+									EncoderConfiguration.Outputs.SQL),
+								"uniqueID", eSQL.uniqueID.ToString());
+					}
+				}
+			}
+		}
+		if(deletedUserCurves) {
+			//TODO: change encSelReps and this will change labels
+			updateUserCurvesLabelsAndCombo(true); 	// (2)
+		}
 	}
 
 	/*

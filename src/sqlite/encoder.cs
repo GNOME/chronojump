@@ -267,8 +267,10 @@ class SqliteEncoder : Sqlite
 
 		ArrayList array = new ArrayList(1);
 
-		EncoderSQL es = new EncoderSQL();
-		while(reader.Read()) {
+		EncoderSQL eSQL = new EncoderSQL();
+		bool added = false;
+		while(reader.Read())
+		{
 			string [] strFull = reader[15].ToString().Split(new char[] {':'});
 			EncoderConfiguration econf = new EncoderConfiguration(
 				(Constants.EncoderConfigurationNames) 
@@ -290,7 +292,7 @@ class SqliteEncoder : Sqlite
 				videoURL = addURLpath(fixOSpath(reader[14].ToString()));
 			
 			//LogB.SQL(econf.ToString(":", true));
-			es = new EncoderSQL (
+			eSQL = new EncoderSQL (
 					reader[0].ToString(),			//uniqueID
 					Convert.ToInt32(reader[1].ToString()),	//personID	
 					Convert.ToInt32(reader[2].ToString()),	//sessionID
@@ -312,11 +314,16 @@ class SqliteEncoder : Sqlite
 					reader[18].ToString(),			//future3
 					reader[19].ToString()			//EncoderExercise.name
 					);
-			array.Add (es);
+			array.Add (eSQL);
+			added = true;
 		}
+
 		reader.Close();
 		if(! dbconOpened)
 			Sqlite.Close();
+
+		if(! added)
+			array.Add (eSQL);
 
 		return array;
 	}

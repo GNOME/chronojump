@@ -193,6 +193,8 @@ class SqliteEncoder : Sqlite
 	
 	//WARNING because SqliteEncoder.Select may not return nothing, and then cannot be assigned to eSQL
 	//see: delete_encoder_curve(bool dbconOpened, int uniqueID)
+	//and: manageCurvesOfThisSignal
+	//
 	//don't care for the 0, 0, 0  because selection will be based on the myUniqueID and only one row will be returned
 	//or
 	//pass uniqueID==-1 and personID, sessionID, signalOrCurve values, and will return some records
@@ -268,7 +270,6 @@ class SqliteEncoder : Sqlite
 		ArrayList array = new ArrayList(1);
 
 		EncoderSQL eSQL = new EncoderSQL();
-		bool added = false;
 		while(reader.Read())
 		{
 			string [] strFull = reader[15].ToString().Split(new char[] {':'});
@@ -315,15 +316,11 @@ class SqliteEncoder : Sqlite
 					reader[19].ToString()			//EncoderExercise.name
 					);
 			array.Add (eSQL);
-			added = true;
 		}
 
 		reader.Close();
 		if(! dbconOpened)
 			Sqlite.Close();
-
-		if(! added)
-			array.Add (eSQL);
 
 		return array;
 	}

@@ -1981,7 +1981,7 @@ public class PersonAddMultipleWindow {
 					}
 					//if headers are active do not add first row
 					if( ! (headersActive && row == 0) ) {
-						PersonAddMultipleTable pamt = new PersonAddMultipleTable(fullname, maleOrFemale, weight);
+						PersonAddMultipleTable pamt = new PersonAddMultipleTable(Util.MakeValidSQL(fullname), maleOrFemale, weight);
 						array.Add(pamt);
 					}
 					
@@ -2072,6 +2072,7 @@ public class PersonAddMultipleWindow {
 			Gtk.Entry myEntry = new Gtk.Entry();
 			table_main.Attach (myEntry, (uint) 1, (uint) 2, (uint) count, (uint) count +1, 
 					Gtk.AttachOptions.Fill | Gtk.AttachOptions.Expand , Gtk.AttachOptions.Shrink, padding, padding);
+			myEntry.Changed += on_entry_changed;
 			myEntry.Show();
 			entries.Add(myEntry);
 
@@ -2126,7 +2127,16 @@ public class PersonAddMultipleWindow {
 	
 		button_accept.Sensitive = true;
 	}
-		
+
+	void on_entry_changed (object o, EventArgs args)
+	{
+		Gtk.Entry entry = o as Gtk.Entry;
+		if (o == null)
+			return;
+
+		entry.Text = Util.MakeValidSQL(entry.Text);
+	}
+
 	void fillTableFromCSV(ArrayList array) {
 		int i = 0;
 		foreach(PersonAddMultipleTable pamt in array) {

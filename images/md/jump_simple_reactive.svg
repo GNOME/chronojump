@@ -15,9 +15,9 @@
    sodipodi:docname="jump_simple_reactive.svg"
    inkscape:version="0.92.1 r15371"
    style="fill:#000000"
-   inkscape:export-filename="/home/xavier/Baixades/jump_simple.png"
-   inkscape:export-xdpi="128"
-   inkscape:export-ydpi="128">
+   inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/md/ic_jump_reactive_blue_24dp_1x.png"
+   inkscape:export-xdpi="135.53"
+   inkscape:export-ydpi="135.53">
   <metadata
      id="metadata12">
     <rdf:RDF>
@@ -26,7 +26,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -45,9 +45,9 @@
      inkscape:window-height="1017"
      id="namedview8"
      showgrid="false"
-     inkscape:zoom="24.424647"
-     inkscape:cx="0.58378216"
-     inkscape:cy="5.910346"
+     inkscape:zoom="34.541667"
+     inkscape:cx="9.9029653"
+     inkscape:cy="6.074115"
      inkscape:window-x="0"
      inkscape:window-y="26"
      inkscape:window-maximized="1"

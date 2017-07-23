@@ -69,6 +69,7 @@ public class SessionAddEditWindow {
 	string [] levels;
 
 	bool addSession;
+	private bool textviewChanging = false;
 	
 	private Session currentSession;
 	private Gtk.Button fakeButtonAccept;
@@ -121,7 +122,9 @@ public class SessionAddEditWindow {
 
 			//showSportStuffWithLoadedData();
 		}
-			
+
+		textview.Buffer.Changed += new EventHandler(textviewChanged);
+		textviewChanging = false;
 	}
 	
 	static public SessionAddEditWindow Show (Gtk.Window parent, Session currentSession)
@@ -189,10 +192,33 @@ public class SessionAddEditWindow {
 
 	}
 
-	void on_entries_required_changed (object o, EventArgs args) {
+	void on_entries_required_changed (object o, EventArgs args)
+	{
+		entry_name.Text = Util.MakeValidSQL(entry_name.Text);
+
 		showHideButtonAccept();
 	}
-	
+
+	private void on_entry_place_changed (object o, EventArgs args)
+	{
+		entry_place.Text = Util.MakeValidSQL(entry_place.Text);
+	}
+
+	private void textviewChanged(object o,EventArgs args)
+	{
+		if(textviewChanging)
+			return;
+
+		textviewChanging = true;
+
+		TextBuffer tb = o as TextBuffer;
+		if (o == null)
+			return;
+
+		tb.Text = Util.MakeValidSQL(tb.Text);
+		textviewChanging = false;
+	}
+
 	void showHideButtonAccept() {
 		if(entry_name.Text.ToString().Length > 0 &&
 			( ! (!radiobutton_diff_sports.Active && 
@@ -564,7 +590,6 @@ public class SessionAddEditWindow {
 		//check if name of session exists (is owned by other session),
 		//but all is ok if the name is the same as the old name (editing)
 		string name = Util.RemoveTildeAndColon(entry_name.Text);
-		name = Util.RemoveChar(name, '"');
 
 		bool sessionNameExists = Sqlite.Exists (false, Constants.SessionTable, name);
 		if(sessionNameExists && name != currentSession.Name ) {
@@ -592,8 +617,6 @@ public class SessionAddEditWindow {
 
 			string place = Util.RemoveTildeAndColon(entry_place.Text);
 			string comments = Util.RemoveTildeAndColon(textview.Buffer.Text);
-			place = Util.RemoveChar(place, '"');
-			comments = Util.RemoveChar(comments, '"');
 
 			if(addSession) 
 				currentSession = new Session (name, place,

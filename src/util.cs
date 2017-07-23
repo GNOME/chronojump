@@ -296,10 +296,8 @@ public class Util
 	}
 	public static string MakeValidSQL(string str)
 	{
-		StringBuilder myStringBuilder = new StringBuilder(str);
-		myStringBuilder.Replace("'", " ");
-		myStringBuilder.Replace("\"", " ");
-		return myStringBuilder.ToString();
+		char [] trimChars = {'"','\''};
+		return str.Trim(trimChars);
 	}
 
 	//to pass latin chars to JSON

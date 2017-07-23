@@ -59,6 +59,7 @@ public class JumpTypeAddWindow
 	static JumpTypeAddWindow JumpTypeAddWindowBox;
 
 	public bool InsertedSimple;
+	private bool descriptionChanging = false;
 
 	JumpTypeAddWindow (Gtk.Window parent, bool simple) {
 		Glade.XML gladeXML;
@@ -105,6 +106,24 @@ public class JumpTypeAddWindow
 		//if simple don't show nothing
 		label_main_options.Visible = ! simple;
 		table_main_options.Visible = ! simple;
+
+		textview_description.Buffer.Changed += new EventHandler(descriptionChanged);
+		descriptionChanging = false;
+	}
+
+	private void descriptionChanged(object o,EventArgs args)
+	{
+		if(descriptionChanging)
+			return;
+
+		descriptionChanging = true;
+
+		TextBuffer tb = o as TextBuffer;
+		if (o == null)
+			return;
+
+		tb.Text = Util.MakeValidSQL(tb.Text);
+		descriptionChanging = false;
 	}
 
 	void on_button_cancel_clicked (object o, EventArgs args)
@@ -122,7 +141,6 @@ public class JumpTypeAddWindow
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		string name = Util.RemoveTildeAndColonAndDot(entry_name.Text);
-		name = Util.RemoveChar(name, '"');
 
 		//check if this jump type exists, and check it's name is not AllJumpsName
 		bool jumpTypeExists = Sqlite.Exists (false, Constants.JumpTypeTable, name);
@@ -225,15 +243,15 @@ public class JumpTypeAddWindow
 			spin_fixed_num.Sensitive = false;
 		}
 	}
-	
+
 	void on_entries_required_changed (object o, EventArgs args)
 	{
-		if(entry_name.Text.ToString().Length > 0) {
+		entry_name.Text = Util.MakeValidSQL(entry_name.Text);
+
+		if(entry_name.Text.ToString().Length > 0)
 			button_accept.Sensitive = true;
-		}
-		else {
+		else
 			button_accept.Sensitive = false;
-		}
 	}
 		
 	public Button FakeButtonAccept 

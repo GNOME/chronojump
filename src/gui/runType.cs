@@ -81,6 +81,7 @@ public class RunTypeAddWindow
 	static RunTypeAddWindow RunTypeAddWindowBox;
 
 	public bool InsertedSimple;
+	private bool descriptionChanging = false;
 
 	RunTypeAddWindow (Gtk.Window parent, bool simple) {
 		Glade.XML gladeXML;
@@ -146,6 +147,24 @@ public class RunTypeAddWindow
 	
 		combo_distance_different_tracks.Active = 0;
 		reset_hbox_distance_variable (2);
+
+		textview_description.Buffer.Changed += new EventHandler(descriptionChanged);
+		descriptionChanging = false;
+	}
+
+	private void descriptionChanged(object o,EventArgs args)
+	{
+		if(descriptionChanging)
+			return;
+
+		descriptionChanging = true;
+
+		TextBuffer tb = o as TextBuffer;
+		if (o == null)
+			return;
+
+		tb.Text = Util.MakeValidSQL(tb.Text);
+		descriptionChanging = false;
 	}
 		
 	void on_button_cancel_clicked (object o, EventArgs args)
@@ -164,7 +183,6 @@ public class RunTypeAddWindow
 	{
 		//ConsoleB.Information(getEntriesString());
 		string name = Util.RemoveTildeAndColonAndDot(entry_name.Text);
-		name = Util.RemoveChar(name, '"');
 
 		//check if this run type exists, and check it's name is not AllRunsName
 		bool runTypeExists = Sqlite.Exists (false, Constants.RunTypeTable, name);
@@ -385,6 +403,8 @@ public class RunTypeAddWindow
 	
 	void on_entries_required_changed (object o, EventArgs args)
 	{
+		entry_name.Text = Util.MakeValidSQL(entry_name.Text);
+
 		if(entry_name.Text.ToString().Length == 0) {
 			button_accept.Sensitive = false;
 			return;

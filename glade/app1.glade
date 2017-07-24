@@ -1357,6 +1357,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -16116,7 +16119,7 @@ Concentric</property>
                                                             <widget class="GtkHBox" id="hbox86">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="spacing">20</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_combo_encoder_exercise_capture">
                                                             <property name="visible">True</property>
@@ -16132,6 +16135,11 @@ Concentric</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox229">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_exercise_edit">
                                                             <property name="visible">True</property>
@@ -16153,7 +16161,7 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -16177,7 +16185,14 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -20257,6 +20272,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

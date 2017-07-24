@@ -627,6 +627,8 @@ public class EncoderConfigurationWindow
 
 	void on_entry_save_name_changed	(object o, EventArgs args)
 	{
+		entry_save_name.Text = Util.MakeValidSQL(entry_save_name.Text);
+
 		button_apply.Sensitive = (entry_save_name.Text.ToString().Length > 0);
 
 		//TODO: button delete sensitivity depends on being on the treeview
@@ -634,6 +636,7 @@ public class EncoderConfigurationWindow
 
 	void on_entry_save_description_changed (object o, EventArgs args)
 	{
+		entry_save_description.Text = Util.MakeValidSQL(entry_save_description.Text);
 	}
 
 	void on_button_import_clicked (object o, EventArgs args)

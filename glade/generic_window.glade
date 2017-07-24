@@ -75,6 +75,7 @@
                 <property name="secondary_icon_activatable">False</property>
                 <property name="primary_icon_sensitive">True</property>
                 <property name="secondary_icon_sensitive">True</property>
+                <signal name="changed" handler="on_entries_changed" swapped="no"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -273,6 +274,7 @@
                     <property name="secondary_icon_activatable">False</property>
                     <property name="primary_icon_sensitive">True</property>
                     <property name="secondary_icon_sensitive">True</property>
+                    <signal name="changed" handler="on_entries_changed" swapped="no"/>
                   </widget>
                   <packing>
                     <property name="expand">True</property>
@@ -313,6 +315,7 @@
                     <property name="secondary_icon_activatable">False</property>
                     <property name="primary_icon_sensitive">True</property>
                     <property name="secondary_icon_sensitive">True</property>
+                    <signal name="changed" handler="on_entries_changed" swapped="no"/>
                   </widget>
                   <packing>
                     <property name="expand">True</property>
@@ -622,6 +625,7 @@
                         <property name="secondary_icon_activatable">False</property>
                         <property name="primary_icon_sensitive">True</property>
                         <property name="secondary_icon_sensitive">True</property>
+                        <signal name="changed" handler="on_entries_changed" swapped="no"/>
                       </widget>
                       <packing>
                         <property name="left_attach">1</property>

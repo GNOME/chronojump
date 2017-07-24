@@ -97,7 +97,8 @@ public class GenericWindow
 	
 	private TreeStore store;
 	private Constants.ContextMenu genericWinContextMenu;
-	
+	private bool textviewChanging = false;
+
 	//used to read data, see if it's ok, and print an error message.
 	//if all is ok, destroy it with HideAndNull()
 	public bool HideOnAccept;
@@ -312,6 +313,15 @@ public class GenericWindow
 			scrolled_window_treeview.Show();
 	}
 
+	private void on_entries_changed (object o, EventArgs args)
+	{
+		Gtk.Entry entry = o as Gtk.Entry;
+		if (o == null)
+			return;
+
+		entry.Text = Util.MakeValidSQL(entry.Text);
+	}
+
 	public void SetSize(int width, int height) {
 		generic_window.SetDefaultSize(width, height);
 	}
@@ -471,12 +481,31 @@ public class GenericWindow
 		button_middle.Label=str;
 	}
 	
-	public void SetTextview(string str) {
+	public void SetTextview(string str)
+	{
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = str;
 		textview.Buffer = tb;
+
+		textview.Buffer.Changed += new EventHandler(textviewChanged);
+		textviewChanging = false;
 	}
-	
+
+	private void textviewChanged(object o,EventArgs args)
+	{
+		if(textviewChanging)
+			return;
+
+		textviewChanging = true;
+
+		TextBuffer tb = o as TextBuffer;
+		if (o == null)
+			return;
+
+		tb.Text = Util.MakeValidSQL(tb.Text);
+		textviewChanging = false;
+	}
+
 	bool activateRowAcceptsWindow;
 	//data is an ArrayList of strings[], each string [] is a row, each of its strings is a column
 	public void SetTreeview(string [] columnsString, bool addCheckbox, 

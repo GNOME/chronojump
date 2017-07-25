@@ -2902,37 +2902,11 @@ doProcess <- function(options)
 			}
 
 			#showSpeed only on gravitatory until speed is fixed on this experimental graph
-			#if (showSpeed && ! isInertial(op$EncoderConfigurationName)) {
-			if (showSpeed ) {
+			if (showSpeed && ! isInertial(op$EncoderConfigurationName)) {
 				par(new=T)
-			        
-				correctedSpeed = speed$y[0:(curves[1,1] -1)]    #The first part of the graph isn't corrected
-				#adding the consecutive repetitions to the correctedSpeed
-				for (n in 2:length(curves[,1]))
-				{
-				        if(speed$y[curves[n -1 , 1]] > 0)    #If the speed is positive it must be changeed the sign of it
-				        {
-				                correctedSpeed = c(correctedSpeed, -1 * (speed$y[curves[n -1, 1]:(curves[n,1] -1 )]))
-				        } else                          #If the speed is negative it must to be manteined               
-				        {
-				                correctedSpeed = c(correctedSpeed, (speed$y[curves[n -1, 1]:(curves[n,1] -1 )]))                             
-				        }
-				}
-				
-				if(speed$y[curves[length(curves[,1]), 1]] > 0)    #If the speed is positive it must be changeed the sign of it
-				{
-				        correctedSpeed = c(correctedSpeed, -1 * (speed$y[curves[length(curves[,1]), 1]:length(speed$y)]))
-				} else                          #If the speed is negative it must to be manteined               
-				{
-				        correctedSpeed = c(correctedSpeed, speed$y[curves[length(curves[,1]), 1]:length(speed$y)])                        
-				}
-				
-				#correctedSpeed = c(correctedSpeed, speed$y[curves[length(curves[,1]),1]: length(speed$y)])
-				print(paste("CorrectedSpeed length =", length(correctedSpeed)))
-				ylimHeight = max(abs(range(correctedSpeed)))
+				ylimHeight = max(abs(range(speed$y)))
 				ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
-				print(paste("ylim =",ylim))
-				plot(correctedSpeed, col=cols[1], ylim=ylim, type="l", xlab="",ylab="",axes=F)
+				plot(speed$y, col=cols[1], ylim=ylim, type="l", xlab="",ylab="",axes=F)
 				axis(4, col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
 				axisLineRight = axisLineRight +2
 			}

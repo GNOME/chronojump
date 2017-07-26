@@ -275,6 +275,9 @@ public partial class ChronoJumpWindow
 		if(! configChronojump.UseVideo) {
 			alignment_video_encoder.Visible = false;
 		}
+		//restriction for configured Compujump clients
+		if(configChronojump.Compujump)
+			hbox_encoder_im_weights_n.Sensitive = false;
 		
 		//show only power
 		if(configChronojump.OnlyEncoderGravitatory)

@@ -3428,7 +3428,12 @@ public partial class ChronoJumpWindow
 
 		hbox_combo_encoder_anchorage.PackStart(combo_encoder_anchorage, false, true, 0);
 		hbox_combo_encoder_anchorage.ShowAll();
-		combo_encoder_anchorage.Sensitive = true;
+
+		//restriction for configured Compujump clients
+		if(configChronojump.Compujump)
+			combo_encoder_anchorage.Sensitive = false;
+		else
+			combo_encoder_anchorage.Sensitive = true;
 
 		hbox_combo_encoder_analyze_1RM.PackStart(combo_encoder_analyze_1RM, true, true, 0);
 		hbox_combo_encoder_analyze_1RM.ShowAll(); 

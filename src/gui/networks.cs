@@ -118,6 +118,9 @@ public partial class ChronoJumpWindow
 			//button_encoder_person_change.Visible = false;
 			//TODO: don't allow edit person on person treeview
 
+			//dont't show persons_bottom hbox where users can be edited, deleted if persons at lateral is selected on preferences
+			hbox_persons_bottom.Visible = false;
+
 			//don't allow to change encoderConfiguration
 			label_encoder_exercise_encoder.Visible = false;
 			vseparator_encoder_exercise_encoder.Visible = false;

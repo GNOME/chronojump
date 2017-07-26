@@ -254,11 +254,14 @@ public class PreferencesWindow
 	}
 	
 	static public PreferencesWindow Show (Preferences preferences, List <ForceSensorRFD> rfdList, ForceSensorImpulse impulse,
-			Constants.Menuitem_modes menu_mode)
+			Constants.Menuitem_modes menu_mode, bool compujump)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
 		}
+
+		if(compujump)
+			PreferencesWindowBox.check_appearance_person_win_hide.Sensitive = false;
 
 		if(menu_mode !=	Constants.Menuitem_modes.JUMPSSIMPLE && menu_mode != Constants.Menuitem_modes.JUMPSREACTIVE)
 			PreferencesWindowBox.notebook.GetNthPage(JUMPSPAGE).Hide();

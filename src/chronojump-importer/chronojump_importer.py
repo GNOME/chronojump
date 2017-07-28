@@ -510,7 +510,7 @@ class ImportSession:
         jump.update_session_ids(self.new_session_id)
         jump.update_ids("type", jump_types, "old_name", "new_name")
 
-        self.destination_db.write(table=jump, matches_columns=self.destination_db.column_names("Jump", skip_columns=["uniqueID", "personID", "sessionID"]))
+        self.destination_db.write(table=jump, matches_columns=self.destination_db.column_names("Jump", skip_columns=["uniqueID", "personID"]))
 
     def _import_runs(self):
         # Imports RunTypes table

@@ -787,12 +787,19 @@ public class SessionLoadWindow {
 
 	private static int dateColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)
 	{
-		DateTime val1;
-		DateTime val2;
-		val1 = UtilDate.FromSql(model.GetValue(iter1, 1).ToString());
-		val2 = UtilDate.FromSql(model.GetValue(iter2, 1).ToString());
+		var dt1String = (model.GetValue(iter1, 1).ToString());
+		var dt2String = (model.GetValue(iter2, 1).ToString());
 
-		return DateTime.Compare(val1, val2);
+		DateTime dt1;
+		DateTime dt2;
+
+		var converted1 = DateTime.TryParse(dt1String, out dt1);
+		var converted2 = DateTime.TryParse(dt2String, out dt2);
+
+		if(converted1 && converted2)
+			return DateTime.Compare(dt1, dt2);
+		else
+			return 0;
 	}
 	
 	static public SessionLoadWindow Show (Gtk.Window parent, WindowType type)

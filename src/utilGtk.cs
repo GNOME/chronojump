@@ -276,12 +276,6 @@ public class UtilGtk
 	 * Search for dateColumnCompare
 	 *
 	public static int DateColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
-		DateTime val1;
-		DateTime val2;
-		val1 = UtilDate.FromSql(model.GetValue(iter1, 3).ToString());
-		val2 = UtilDate.FromSql(model.GetValue(iter2, 3).ToString());
-
-		return DateTime.Compare(val1, val2);
 	}
 	*/
 

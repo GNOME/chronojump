@@ -52,12 +52,13 @@ public class UtilDate
 	//return datetime
 	public static DateTime FromSql (string date)
 	{
+		LogB.Information("UtilDate.FromSql date: " + date);
 		/*
 		   on report we do a session select with uniqueID = -1
 		   it returns nothing, date has nothing
 		   */
 		if(date == null || date == "")
-			return DateTime.Now;
+			return DateTime.Now; //TODO: ensure this now is year-month-day
 
 		/*
 		   maybe date format is before 0.72 (d/m/Y)

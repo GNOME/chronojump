@@ -8,6 +8,7 @@ VERSION=1.6.2
 git commit -a -m "Bump version $VERSION"
 
 git tag -a "$VERSION"
+(added links to changes here, maybe better on the previous git commit)
 git push
 git push origin --tags
 
@@ -71,7 +72,7 @@ sudo dpkg-divert --rename --remove /etc/xdg/autostart/gnome-keyring-gpg.desktop
 
 export DEBFULLNAME="Xavier de Blas"
 export DEBEMAIL="info@chronojump.org"
-./deb-pkg.sh 1
+./deb-pkg.sh 1 (broken, needs: libmono-sqlite2.0-cil libmono-winforms2.0-cil python-wxgtk2.8)
 
 read carefully screen messages. Once says: successfully uploaded, need to wait 1h 30' aprox, then an email will be sent from launchpad telling if ok or not.
 
@@ -111,7 +112,7 @@ dput chronojump-ppa build-deb/chronojump..._source.changes
 
 macosx stuff
 ------------
-If is for internal use, copy into: /Users/chronojump/BinarisMac/
+If is for internal use, mv into: /Users/chronojump/BinarisMac/
 to be automatically available on owncloud
 
 download (with filezilla is very fast), using owncloud is nice also

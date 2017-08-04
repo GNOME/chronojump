@@ -51,8 +51,11 @@ public class DialogImageTest
 			label_long_description.UseMarkup = true; 
 		}
 
-                Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + myEventType.ImageFileName);
-                image_test.Pixbuf = pixbuf;
+		if(myEventType.ImageFileName != null && myEventType.ImageFileName != "")
+		{
+			Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + myEventType.ImageFileName);
+			image_test.Pixbuf = pixbuf;
+		}
 	}
 
 	public enum ArchiveType { FILE, ASSEMBLY }

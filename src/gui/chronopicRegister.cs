@@ -127,7 +127,10 @@ public class ChronopicRegisterWindow
 		createVBoxMain();
 		createContent(connectedCount, unknownCount);
 		createButtons();
+	}
 
+	public void Show()
+	{
 		chronopic_register_win.ShowAll();
 	}
 

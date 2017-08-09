@@ -414,6 +414,7 @@ public partial class ChronoJumpWindow
 	private static Report report;
 
 	//windows needed
+	ChronopicRegisterWindow chronopicRegisterWin;
 	PreferencesWindow preferencesWin;
 	SessionAddEditWindow sessionAddEditWin;
 	SessionLoadWindow sessionLoadWin;
@@ -507,8 +508,10 @@ public partial class ChronoJumpWindow
 		else
 			new DialogImageTest(myType);
 	}
-	
-	
+
+	bool app1Shown = false;
+	bool needToShowChronopicRegisterWindow;
+
 	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin,
 			bool showSendLog, string sendLogMessage)
 	{
@@ -522,7 +525,11 @@ public partial class ChronoJumpWindow
 
 		//put an icon to window
 		UtilGtk.IconWindow(app1);
-	
+
+		//manage app1 will not be hiding other windows at start
+		app1Shown = false;
+		needToShowChronopicRegisterWindow = false;
+
 		//show chronojump logo on down-left area
 		changeTestImage("", "", "LOGO");
 	
@@ -678,6 +685,11 @@ public partial class ChronoJumpWindow
 			SplashWindow.Hide();
 
 		app1.Show();
+
+		//ensure chronopicRegisterWindow is shown after (on top of) app1
+		app1Shown = true;
+		if(needToShowChronopicRegisterWindow)
+			chronopicRegisterWin.Show();
 	}
 
 	private void testNewStuff()
@@ -7053,11 +7065,15 @@ LogB.Debug("X");
 		if(! cp2016.WindowOpened && chronopicRegister.UnknownFound())
 			openWindow = true;
 
-		if(openWindow) {
-			//ChronopicRegisterWindow crWin = new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
-			//crWin.FakeButtonCloseSerialPort.Clicked += new EventHandler(closeSerialPort);
-			new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
+		if(openWindow)
+		{
+			chronopicRegisterWin = new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
 			cp2016.WindowOpened = true;
+
+			if(app1Shown)
+				chronopicRegisterWin.Show();
+			else
+				needToShowChronopicRegisterWindow = true;
 		}
 	}
 

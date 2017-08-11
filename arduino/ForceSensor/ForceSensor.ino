@@ -56,6 +56,8 @@ boolean capturing = false;
 
 unsigned long lastTime = 0;
 unsigned long currentTime = 0;
+unsigned long elapsedTime = 0;
+unsigned long totalTime = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -68,7 +70,6 @@ void setup() {
 
 void loop() {
 
-  unsigned long elapsedTime = 0;
   if (capturing)
   {
     currentTime = micros();
@@ -81,8 +82,8 @@ void loop() {
     {
       elapsedTime = (4294967295 - lastTime) + currentTime; //Time from the last measure to the overflow event plus the currentTime
     }
-
-    Serial.print(elapsedTime);
+    totalTime += elapsedTime;
+    Serial.print(totalTime);
     Serial.print(";");
     Serial.println(scale.get_units(), 1); //scale.get_units() returns a float
   }
@@ -129,6 +130,8 @@ void serialEvent()
 void start_capture()
 {
   Serial.println("Starting capture...");
+  totalTime = 0;
+  lastTime = micros();
   capturing = true;
 }
 

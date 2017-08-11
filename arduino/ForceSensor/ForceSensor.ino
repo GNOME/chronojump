@@ -83,6 +83,7 @@ void loop() {
       elapsedTime = (4294967295 - lastTime) + currentTime; //Time from the last measure to the overflow event plus the currentTime
     }
     totalTime += elapsedTime;
+    lastTime = currentTime;
     Serial.print(totalTime);
     Serial.print(";");
     Serial.println(scale.get_units(), 1); //scale.get_units() returns a float

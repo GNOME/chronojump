@@ -124,7 +124,7 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.Notebook notebook_encoder_sup;
 	[Widget] Gtk.Notebook notebook_encoder_capture;
-	
+
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_capture;
 	[Widget] Gtk.ComboBox combo_encoder_exercise_capture;
 	[Widget] Gtk.RadioButton radio_encoder_eccon_concentric;
@@ -404,7 +404,6 @@ public partial class ChronoJumpWindow
 	//TODO: on cross, spline and force speed and power speed should have a spar value higher, like 0.7. On the other hand, the other cross graphs, haveload(mass) in the X lot more discrete, there is good to put 0.5
 	
 
-
 	private void encoderInitializeStuff()
 	{
 		encoder_pulsebar_capture.Fraction = 1;
@@ -461,7 +460,6 @@ public partial class ChronoJumpWindow
 		triggerList = new TriggerList();
 		showTriggerTab(false);
 	}
-
 
 	void on_button_encoder_select_clicked (object o, EventArgs args)
 	{
@@ -535,6 +533,22 @@ public partial class ChronoJumpWindow
 	 * spin does not change anything
 	 */
 	
+	//add-remove weights on encoder inertial using '+', '-'
+	private void on_fake_button_encoder_exercise_im_weights_n_plus_clicked(object o, EventArgs args)
+	{
+		if(textview_encoder_signal_comment.IsFocus)
+			textview_encoder_signal_comment.Buffer.Text += '+';
+		else
+			on_button_encoder_im_weights_n_plus_clicked (new object (), new EventArgs ());
+	}
+	private void on_fake_button_encoder_exercise_im_weights_n_minus_clicked(object o, EventArgs args)
+	{
+		if(textview_encoder_signal_comment.IsFocus)
+			textview_encoder_signal_comment.Buffer.Text += '-';
+		else
+			on_button_encoder_im_weights_n_minus_clicked (new object (), new EventArgs ());
+	}
+
 	void on_button_encoder_im_weights_n_minus_clicked (object o, EventArgs args) {
 		changeImWeights(-1);
 	}
@@ -910,6 +924,22 @@ public partial class ChronoJumpWindow
 	 * entry changes de spin
 	 * spin does not change anything
 	 */
+
+	//add-remove weights on encoder gravitatory using '+', '-'
+	private void on_fake_button_encoder_exercise_weight_plus_clicked(object o, EventArgs args)
+	{
+		if(textview_encoder_signal_comment.IsFocus)
+			textview_encoder_signal_comment.Buffer.Text += '+';
+		else
+			on_button_encoder_raspberry_extra_weight_plus_1_clicked (new object (), new EventArgs ());
+	}
+	private void on_fake_button_encoder_exercise_weight_minus_clicked(object o, EventArgs args)
+	{
+		if(textview_encoder_signal_comment.IsFocus)
+			textview_encoder_signal_comment.Buffer.Text += '-';
+		else
+			on_button_encoder_raspberry_extra_weight_minus_1_clicked (new object (), new EventArgs ());
+	}
 	
 	void on_button_encoder_raspberry_extra_weight_minus_10_clicked (object o, EventArgs args) {
 		rapsberryChangeExtraWeight(-10);

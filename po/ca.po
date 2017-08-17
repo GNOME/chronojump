@@ -1534,7 +1534,7 @@ msgstr "Inèrcia"
 
 #: ../glade/app1.glade.h:329
 msgid "Configure"
-msgstr "Congirurar"
+msgstr "Configurar"
 
 #: ../glade/app1.glade.h:330 ../src/gui/encoder.cs:1052
 #: ../src/gui/encoder.cs:1540 ../src/gui/encoderSelectRepetitions.cs:286

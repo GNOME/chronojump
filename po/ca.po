@@ -2597,7 +2597,7 @@ msgstr "Crear un tipus de salt nou a la base de dades"
 
 #: ../glade/jump_type_add.glade.h:6
 msgid "yes"
-msgstr "si"
+msgstr "sí"
 
 #: ../glade/jump_type_add.glade.h:7
 msgid "no"

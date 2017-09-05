@@ -1,0 +1,5 @@
+/home/xavier/Documents/chronojump-no-git/kinoveafiltering-cb3bafc0f6f2/Kinovea.Filtering/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/xavier/Documents/chronojump-no-git/kinoveafiltering-cb3bafc0f6f2/Kinovea.Filtering/bin/Debug/Filterer.pdb
+/home/xavier/Documents/chronojump-no-git/kinoveafiltering-cb3bafc0f6f2/Kinovea.Filtering/bin/Debug/Filterer.dll
+/home/xavier/Documents/chronojump-no-git/kinoveafiltering-cb3bafc0f6f2/Kinovea.Filtering/obj/Debug/Filterer.dll
+/home/xavier/Documents/chronojump-no-git/kinoveafiltering-cb3bafc0f6f2/Kinovea.Filtering/obj/Debug/Filterer.pdb

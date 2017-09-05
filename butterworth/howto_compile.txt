@@ -1,0 +1,9 @@
+provat de muntar amb el develop: muntatge / Munta-ho tot
+m'ha generat el Sample/bin/Debug/Sample.exe
+provar de que es pugui compilar sense monodevelop
+
+executat amb:
+mono Sample.exe
+
+el resultat surt a:
+Data/sample-signal-output.csv 

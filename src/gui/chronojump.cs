@@ -4595,7 +4595,10 @@ public partial class ChronoJumpWindow
 		double pmax = Convert.ToDouble(Util.ChangeDecimalSeparator(results[14])); //pmax.rel.fitted
 
 		Json js = new Json();
-		js.UploadSprintData(currentPerson.UniqueID, sprint, k, vmax, amax, fmax, pmax);
+		js.UploadSprintData(
+				currentPerson.UniqueID,
+				sprint, sprint.GetSplitTimesAsList(),
+				k, vmax, amax, fmax, pmax);
 	}
 
 	/* ---------------------------------------------------------

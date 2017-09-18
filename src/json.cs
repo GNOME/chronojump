@@ -781,11 +781,19 @@ public class Json
 	}
 	*/
 
-	public bool UploadSprintData(int personId, Sprint sprint, double k, double vmax, double amax, double fmax, double pmax )
+	public bool UploadSprintData(int personId, Sprint sprint, List<double> splitTimesL,
+			double k, double vmax, double amax, double fmax, double pmax )
 	{
 		LogB.Information("calling upload sprint");
 		// Create a request using a URL that can receive a post.
 		WebRequest request = WebRequest.Create (serverUrl + "/uploadSprintData");
+
+
+		/*
+		LogB.Information("UploadSprintData doubles:");
+		foreach(double d in splitTimesL)
+			LogB.Information(d.ToString());
+			*/
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
@@ -799,7 +807,25 @@ public class Json
 
 		json.Add("personId", personId);
 		json.Add("distances", sprint.Positions);
-		json.Add("times", sprint.SplitTimes);
+		//json.Add("times", sprint.SplitTimes);
+		json.Add("t1", splitTimesL[1]);
+
+		//splitTimesL starts with a 0 that is not passed
+		if(splitTimesL.Count >= 3)
+			json.Add("t2", splitTimesL[2] - splitTimesL[1]); //return lap (partial time) and not split (accumulated time)
+		else
+			json.Add("t2", "");
+
+		if(splitTimesL.Count >= 4)
+			json.Add("t3", splitTimesL[3] - splitTimesL[2]);
+		else
+			json.Add("t3", "");
+
+		if(splitTimesL.Count >= 5)
+			json.Add("t4", splitTimesL[4] - splitTimesL[3]);
+		else
+			json.Add("t4", "");
+
 		json.Add("k", k);
 		json.Add("vmax", vmax);
 		json.Add("amax", amax);

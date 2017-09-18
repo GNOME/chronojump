@@ -119,6 +119,26 @@ public class Sprint
 		((IDisposable)writer).Dispose();
 	}
 
+	public List<double> GetSplitTimesAsList()
+	{
+		string [] splitTimesArray = splitTimes.Split(new char[] {';'});
+
+		List<double> splitTimesList = new List<double>();
+		int count = 0;
+		foreach(string time in splitTimesArray)
+		{
+			double timeD = Convert.ToDouble(time);
+
+			//convert from milliseconds to seconds
+			if(timeD > 0)
+				timeD /= 1000;
+
+			splitTimesList.Add(timeD);
+		}
+
+		return splitTimesList;
+	}
+
 	public string Positions {
 		get { return positions; }
 	}

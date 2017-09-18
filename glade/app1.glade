@@ -1366,6 +1366,12 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -4453,6 +4459,36 @@ EncoderInertialCapture</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_force_sensor_connect">
+                                                            <property name="label" translatable="yes">Connect</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_force_sensor_connect_clicked" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="padding">20</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_force_sensor_disconnect1">
+                                                            <property name="label" translatable="yes">Disconnect</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_force_sensor_disconnect_clicked" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="padding">20</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -6110,10 +6146,97 @@ after time</property>
                                                             <property name="xscale">0</property>
                                                             <property name="top_padding">8</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label51">
+                                                            <widget class="GtkHBox" id="hbox231">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">force sensor</property>
+                                                            <property name="spacing">20</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_force_sensor_tare">
+                                                            <property name="label" translatable="yes">Tare</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_force_sensor_tare_clicked" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="padding">20</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox230">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_spin_force_sensor">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_force_sensor_calibration_kg_value">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">●</property>
+                                                            <property name="invisible_char_set">True</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">20 0 500 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            <property name="digits">2</property>
+                                                            <property name="numeric">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="calibration_factor_kg_label">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label">Kg</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_force_sensor_calibrate">
+                                                            <property name="label" translatable="yes">Calibrate</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_force_sensor_calibrate_clicked" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -20338,6 +20461,12 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

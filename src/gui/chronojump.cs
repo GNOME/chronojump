@@ -2153,6 +2153,8 @@ public partial class ChronoJumpWindow
 			LogB.Information("cancelling force capture");
 			forceProcessCancel = true;
 		}
+		if(portFSOpened)
+			portFS.Close();
 
 		LogB.Information("Bye3!");
 		

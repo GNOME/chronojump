@@ -35,6 +35,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VScale vscale_force_sensor;
 	[Widget] Gtk.Viewport viewport_force_sensor_graph;
 	[Widget] Gtk.Image image_force_sensor_graph;
+	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	
 	Thread forceThread;
 	static bool forceProcessFinish;
@@ -54,14 +55,109 @@ public partial class ChronoJumpWindow
 	static double forceSensorLast; 		//Needed to display value and move vscale
 
 	string forceSensorPortName;
+	SerialPort portFS;
+	bool portFSOpened;
+
+	//TODO: don't reopen port because arduino makes reset and tare, calibration... is lost
+
+	private void on_button_force_sensor_connect_clicked(object o, EventArgs args)
+	{
+		LogB.Information(" FS connect 0 ");
+		if(chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE) == null)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Force sensor is not connected!");
+			return;
+		}
+
+		LogB.Information(" FS connect 1 ");
+		forceSensorPortName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE).Port;
+		LogB.Information(" FS connect 2 ");
+		if(forceSensorPortName == null || forceSensorPortName == "")
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Please, select port");
+			return;
+		}
+		LogB.Information(" FS connect 3 ");
+
+		portFS = new SerialPort(forceSensorPortName, 115200); //forceSensor
+		LogB.Information(" FS connect 4 ");
+		portFS.Open();
+		portFSOpened = true;
+		Thread.Sleep(2500); //sleep to let arduino start reading
+		event_execute_label_message.Text = "Connected!";
+		LogB.Information(" FS connect 5 ");
+	}
+	private void on_button_force_sensor_disconnect_clicked(object o, EventArgs args)
+	{
+		portFS.Close();
+		portFSOpened = false;
+		event_execute_label_message.Text = "Disconnected!";
+	}
+
+	private void on_button_force_sensor_tare_clicked(object o, EventArgs args)
+	{
+		if(! portFSOpened) //TODO: better check is connected!
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Please, connect!");
+			return;
+		}
+
+		event_execute_label_message.Text = "Taring ...";
+		portFS.WriteLine("tare:");
+
+		string str = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			str = portFS.ReadLine();
+			LogB.Information("init string: " + str);
+		}
+		while(! str.Contains("Taring OK"));
+
+		event_execute_label_message.Text = "Tared!";
+	}
+
+	private void on_button_force_sensor_calibrate_clicked(object o, EventArgs args)
+	{
+		if(! portFSOpened) //TODO: better check is connected!
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Please, connect!");
+			return;
+		}
+
+		event_execute_label_message.Text = "Calibrating ...";
+		LogB.Information("calibrate:" + spin_force_sensor_calibration_kg_value.Value.ToString() + ";");
+		portFS.WriteLine("calibrate:" + spin_force_sensor_calibration_kg_value.Value.ToString() + ";");
+
+		string str = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			str = portFS.ReadLine();
+			LogB.Information("init string: " + str);
+		}
+		while(! str.Contains("Calibrating OK"));
+
+		event_execute_label_message.Text = "Calibrated!";
+	}
+
+
 	private void forceSensorCapture()
 	{
+		//TODO: check is connected!
+		//
+		/*
 		forceSensorPortName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE).Port;
 		if(forceSensorPortName == null || forceSensorPortName == "")
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, "Please, select port");
 			return;
 		}
+		*/
+		if(! portFSOpened) //TODO: better check is connected!
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Please, connect!");
+			return;
+		}
+
 
 		button_execute_test.Sensitive = false;
 		event_execute_button_finish.Sensitive = true;
@@ -95,18 +191,21 @@ public partial class ChronoJumpWindow
 	private void forceSensorCaptureDo()
 	{
 		lastChangedTime = 0;
+		/*
 		SerialPort port = new SerialPort(forceSensorPortName, 115200); //forceSensor
 		port.Open();
 		Thread.Sleep(2500); //sleep to let arduino start reading
+		*/
 
-		port.WriteLine("Start:-920.80:"); //Imp: note decimal is point
+		//port.WriteLine("Start:-920.80:"); //Imp: note decimal is point
+		portFS.WriteLine("start_capture:"); //Imp: note decimal is point
 		string str = "";
 		do {
 			Thread.Sleep(100); //sleep to let arduino start reading
-			str = port.ReadLine();
+			str = portFS.ReadLine();
 			LogB.Information("init string: " + str);
 		}
-		while(! str.StartsWith("StartedOk"));
+		while(! str.Contains("Starting capture"));
 
 		forceCaptureStartMark = true;
 		capturingForce = forceStatus.CAPTURING;
@@ -121,7 +220,7 @@ public partial class ChronoJumpWindow
 		double firstTime = 0;
 		while(! forceProcessFinish && ! forceProcessCancel)
 		{
-			str = port.ReadLine();
+			str = portFS.ReadLine();
 
 			//check if there is one and only one ';'
 			if( ! (str.Contains(";") && str.IndexOf(";") == str.LastIndexOf(";")) )
@@ -129,6 +228,14 @@ public partial class ChronoJumpWindow
 
 			string [] strFull = str.Split(new char[] {';'});
 			//LogB.Information("str: " + str);
+
+			LogB.Information("time: " + strFull[0]);
+			if(! Util.IsNumber(Util.ChangeDecimalSeparator(strFull[0]), true))
+				continue;
+
+			LogB.Information("force: " + strFull[1]);
+			if(! Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
+				continue;
 
 			//needed to store double in user locale
 			double time = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[0]));
@@ -147,14 +254,14 @@ public partial class ChronoJumpWindow
 
 			//changeSlideIfNeeded(time, force);
 		}
-		port.WriteLine("Stop");
+		portFS.WriteLine("end_capture:");
 
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
 		capturingForce = forceStatus.STOP;
 
-		port.Close();
+		//port.Close();
 
 		if(forceProcessCancel)
 			Util.FileDelete(fileName);

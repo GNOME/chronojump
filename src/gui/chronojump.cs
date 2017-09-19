@@ -305,6 +305,30 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_person_add_single;
 	[Widget] Gtk.Button button_person_add_multiple;
 
+	[Widget] Gtk.Label label_contacts_rest_time_1_name;
+	[Widget] Gtk.Label label_contacts_rest_time_2_name;
+	[Widget] Gtk.Label label_contacts_rest_time_3_name;
+	[Widget] Gtk.Label label_contacts_rest_time_4_name;
+	[Widget] Gtk.Label label_contacts_rest_time_5_name;
+
+	[Widget] Gtk.Label label_contacts_rest_time_1_time;
+	[Widget] Gtk.Label label_contacts_rest_time_2_time;
+	[Widget] Gtk.Label label_contacts_rest_time_3_time;
+	[Widget] Gtk.Label label_contacts_rest_time_4_time;
+	[Widget] Gtk.Label label_contacts_rest_time_5_time;
+
+	[Widget] Gtk.Label label_encoder_rest_time_1_name;
+	[Widget] Gtk.Label label_encoder_rest_time_2_name;
+	[Widget] Gtk.Label label_encoder_rest_time_3_name;
+	[Widget] Gtk.Label label_encoder_rest_time_4_name;
+	[Widget] Gtk.Label label_encoder_rest_time_5_name;
+
+	[Widget] Gtk.Label label_encoder_rest_time_1_time;
+	[Widget] Gtk.Label label_encoder_rest_time_2_time;
+	[Widget] Gtk.Label label_encoder_rest_time_3_time;
+	[Widget] Gtk.Label label_encoder_rest_time_4_time;
+	[Widget] Gtk.Label label_encoder_rest_time_5_time;
+
 	[Widget] Gtk.Notebook notebook_execute;
 	[Widget] Gtk.Notebook notebook_results;
 	[Widget] Gtk.Notebook notebook_options_top;
@@ -470,6 +494,10 @@ public partial class ChronoJumpWindow
 	//to control method that is updating restTimes on treeview_persons
 	bool updatingRestTimes = false;
 
+	List<Gtk.Label> labels_rest_time_contacts_names;
+	List<Gtk.Label> labels_rest_time_contacts_times;
+	List<Gtk.Label> labels_rest_time_encoder_names;
+	List<Gtk.Label> labels_rest_time_encoder_times;
 
 	//only called the first time the software runs
 	//and only on windows
@@ -657,6 +685,7 @@ public partial class ChronoJumpWindow
 		label_version_hidden.Text = buildVersion;
 		LogB.Information("Build version:" + buildVersion);
 
+		initializeRestTimeLabels();
 		restTime = new RestTime();
 		updatingRestTimes = true;
 		GLib.Timeout.Add(1000, new GLib.TimeoutHandler(updateRestTimes)); //each s, better than 5s for don't have problems sorting data on treeview
@@ -4094,11 +4123,59 @@ public partial class ChronoJumpWindow
 		} else {
 			event_execute_progressbar_time.Fraction = 1;
 
-			restTime.AddOrModify(currentPerson.UniqueID, true);
+			restTime.AddOrModify(currentPerson.UniqueID, currentPerson.Name, true);
 			updateRestTimes();
 		}
 
 		chronojumpWindowTestsNext();
+	}
+
+	private void initializeRestTimeLabels()
+	{
+		labels_rest_time_contacts_names = new List<Gtk.Label>();
+		labels_rest_time_contacts_times = new List<Gtk.Label>();
+		labels_rest_time_encoder_names = new List<Gtk.Label>();
+		labels_rest_time_encoder_times = new List<Gtk.Label>();
+
+		labels_rest_time_contacts_names.Add(label_contacts_rest_time_1_name);
+		labels_rest_time_contacts_names.Add(label_contacts_rest_time_2_name);
+		labels_rest_time_contacts_names.Add(label_contacts_rest_time_3_name);
+		labels_rest_time_contacts_names.Add(label_contacts_rest_time_4_name);
+		labels_rest_time_contacts_names.Add(label_contacts_rest_time_5_name);
+
+		labels_rest_time_contacts_times.Add(label_contacts_rest_time_1_time);
+		labels_rest_time_contacts_times.Add(label_contacts_rest_time_2_time);
+		labels_rest_time_contacts_times.Add(label_contacts_rest_time_3_time);
+		labels_rest_time_contacts_times.Add(label_contacts_rest_time_4_time);
+		labels_rest_time_contacts_times.Add(label_contacts_rest_time_5_time);
+
+		labels_rest_time_encoder_names.Add(label_encoder_rest_time_1_name);
+		labels_rest_time_encoder_names.Add(label_encoder_rest_time_2_name);
+		labels_rest_time_encoder_names.Add(label_encoder_rest_time_3_name);
+		labels_rest_time_encoder_names.Add(label_encoder_rest_time_4_name);
+		labels_rest_time_encoder_names.Add(label_encoder_rest_time_5_name);
+
+		labels_rest_time_encoder_times.Add(label_encoder_rest_time_1_time);
+		labels_rest_time_encoder_times.Add(label_encoder_rest_time_2_time);
+		labels_rest_time_encoder_times.Add(label_encoder_rest_time_3_time);
+		labels_rest_time_encoder_times.Add(label_encoder_rest_time_4_time);
+		labels_rest_time_encoder_times.Add(label_encoder_rest_time_5_time);
+	}
+
+	private void labels_rest_time_contacts_clean()
+	{
+		for(int i=0; i < 5; i ++) {
+			((Gtk.Label) labels_rest_time_contacts_names[i]).Text = "";
+			((Gtk.Label) labels_rest_time_contacts_times[i]).Text = "";
+		}
+	}
+
+	private void labels_rest_time_encoder_clean()
+	{
+		for(int i=0; i < 5; i ++) {
+			((Gtk.Label) labels_rest_time_encoder_names[i]).Text = "";
+			((Gtk.Label) labels_rest_time_encoder_times[i]).Text = "";
+		}
 	}
 
 	//called each second and after a test
@@ -4107,13 +4184,48 @@ public partial class ChronoJumpWindow
 		if(! updatingRestTimes)
 			return false;
 
-		myTreeViewPersons.UpdateRestTimes(restTime);
-
 		if( configChronojump.Compujump && currentPerson != null &&
 				DateTime.Now.Subtract(currentPersonCompujumpLoginTime).TotalMinutes >= 3 && //login time minimum 3'
 				restTime.CompujumpPersonNeedLogout(currentPerson.UniqueID) ) 		     //3' since last executed test
 		{
 			compujumpPersonLogoutDo();
+		}
+
+		if( ! configChronojump.PersonWinHide)
+		{
+			myTreeViewPersons.UpdateRestTimes(restTime);
+			return true;
+		}
+
+
+		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY ||
+			       current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		{
+			labels_rest_time_encoder_clean();
+			List<LastTestTime> listLastMin = restTime.LastMinList();
+			int count = 0;
+			foreach(LastTestTime ltt in listLastMin)
+			{
+				if(count < 5) //only 5 values
+				{
+					((Gtk.Label) labels_rest_time_encoder_names[count]).Text = ltt.PersonName;
+					((Gtk.Label) labels_rest_time_encoder_times[count]).Text = ltt.RestedTime;
+					count ++;
+				}
+			}
+		} else {
+			labels_rest_time_contacts_clean();
+			List<LastTestTime> listLastMin = restTime.LastMinList();
+			int count = 0;
+			foreach(LastTestTime ltt in listLastMin)
+			{
+				if(count < 5) //only 5 values
+				{
+					((Gtk.Label) labels_rest_time_contacts_names[count]).Text = ltt.PersonName;
+					((Gtk.Label) labels_rest_time_contacts_times[count]).Text = ltt.RestedTime;
+					count ++;
+				}
+			}
 		}
 
 		return true;

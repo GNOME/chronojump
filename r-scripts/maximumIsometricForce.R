@@ -88,7 +88,6 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
                           fmaxi,           # fmaxi is the initial value for the force. For numeric purpouses
                           initf)              # initf is the sustained force before the increase
 {
-
         timeTrimmed = time[which(time == startTime):length(time)]
         forceTrimmed = force[which(time == startTime):length(time)]
         timeTrimmed = timeTrimmed -  startTime
@@ -103,7 +102,7 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
 {
         originalTest = read.csv(inputFile, header = F, dec = op$decimalChar, sep = ";", skip = 2)
         colnames(originalTest) <- c("time", "force")
-        originalTest$time = as.numeric(originalTest$time)
+        originalTest$time = as.numeric(originalTest$time / 1000000)  # Time is converted from microseconds to seconds
         
         #Instantaneous RFD
         rfd = getRFD(originalTest)

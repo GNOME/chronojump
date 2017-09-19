@@ -279,8 +279,8 @@ public partial class ChronoJumpWindow
 			alignment_video_encoder.Visible = false;
 		}
 		//restriction for configured Compujump clients
-		if(configChronojump.Compujump)
-			hbox_encoder_im_weights_n.Sensitive = false;
+		//if(configChronojump.Compujump)
+		//	hbox_encoder_im_weights_n.Sensitive = false;
 		
 		//show only power
 		if(configChronojump.OnlyEncoderGravitatory)

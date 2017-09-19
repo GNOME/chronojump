@@ -6271,7 +6271,7 @@ public partial class ChronoJumpWindow
 
 			if(action == encoderActions.CURVES_AC)
 			{
-				restTime.AddOrModify(currentPerson.UniqueID, true);
+				restTime.AddOrModify(currentPerson.UniqueID, currentPerson.Name, true);
 				updateRestTimes();
 			}
 

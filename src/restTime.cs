@@ -24,12 +24,14 @@ using System.Collections.Generic; //List<T>
 public class LastTestTime
 {
 	private int personID;
+	private string personName;
 	private DateTime time;
 
 	//constructor
-	public LastTestTime(int pID)
+	public LastTestTime(int pID, string pName)
 	{
 		this.personID = pID;
+		this.personName = pName;
 		this.time = DateTime.Now;
 	}
 	
@@ -50,7 +52,7 @@ public class LastTestTime
 		get {
 			TimeSpan ts = DateTime.Now.Subtract(time);
 			if(ts.TotalMinutes >= 60)
-				return maxTimeString; //TODO: check if this is correctly sorted on treeview persons
+				return maxTimeString;
 
 			//add a 0 if values are <10 to order them correctly on treeview persons
 			int m = ts.Minutes;
@@ -64,6 +66,12 @@ public class LastTestTime
 
 			return string.Format("{0}'{1}\"", mStr, sStr);
 		}
+	}
+
+	public int GetTotalMinutes()
+	{
+		TimeSpan ts = DateTime.Now.Subtract(time);
+		return Convert.ToInt32(ts.TotalMinutes);
 	}
 
 	public static int GetSeconds(string restedTime)
@@ -87,21 +95,28 @@ public class LastTestTime
 	{
 		get { return personID; } 
 	}
+
+	public string PersonName
+	{
+		get { return personName; }
+	}
 }
 
 public class RestTime
 {
-	private List<LastTestTime> list;
+	private List<LastTestTime> listAll;
+	private List<LastTestTime> listLastMin; //for Compujump, list of last 20' on the top
 
 	public RestTime()
 	{
 		//initialize list when Chronojump starts
-		list = new List<LastTestTime>();
+		listAll = new List<LastTestTime>();
+		listLastMin = new List<LastTestTime>();
 	}
 	
 	public string RestedTime(int personID)
 	{
-		foreach(LastTestTime ltt in list)
+		foreach(LastTestTime ltt in listAll)
 			if(ltt.PersonID == personID)
 				return ltt.RestedTime;
 		
@@ -110,7 +125,7 @@ public class RestTime
 
 	public bool CompujumpPersonNeedLogout(int personID)
 	{
-		foreach(LastTestTime ltt in list)
+		foreach(LastTestTime ltt in listAll)
 			if(ltt.PersonID == personID)
 			{
 				if(LastTestTime.GetSeconds(ltt.RestedTime) > 180) //3 min
@@ -123,36 +138,54 @@ public class RestTime
 		return true;
 	}
 
-	public void AddOrModify(int personID, bool print)
+	public void AddOrModify(int personID, string personName, bool print)
 	{
-		if(exists(personID))
-			modifyRestTime(personID);
+		//listAll
+		if(exists(listAll, personID))
+			modifyRestTime(listAll, personID);
 		else
-			addRestTime(personID);
+			addRestTime(listAll, personID, personName);
 
 		if(print)
-			foreach(LastTestTime ltt in list)
+			foreach(LastTestTime ltt in listAll)
 				LogB.Information(ltt.ToString());
+
+		//listLastMin
+		if(exists(listLastMin, personID))
+			modifyRestTime(listLastMin, personID);
+		else
+			addRestTime(listLastMin, personID, personName);
 	}
 
-	private bool exists(int personID)
+	private bool exists(List<LastTestTime> l, int personID)
 	{
-		foreach(LastTestTime ltt in list)
+		foreach(LastTestTime ltt in l)
 			if(ltt.PersonID == personID)
 				return true;
 		
 		return false;
 	}
 	
-	private void addRestTime(int personID)
+	private void addRestTime(List<LastTestTime> l, int personID, string personName)
 	{
-		list.Add(new LastTestTime(personID));
+		l.Add(new LastTestTime(personID, personName));
 	}
 	
-	private void modifyRestTime(int personID)
+	private void modifyRestTime(List<LastTestTime> l, int personID)
 	{
-		foreach(LastTestTime ltt in list)
+		foreach(LastTestTime ltt in l)
 			if(ltt.PersonID == personID)
 				ltt.Update();
+	}
+
+	public List<LastTestTime> LastMinList()
+	{
+		foreach(LastTestTime ltt in listLastMin)
+		{
+			if(ltt.GetTotalMinutes() > 20) //20 minutes
+				listLastMin.Remove(ltt);
+		}
+
+		return listLastMin;
 	}
 }

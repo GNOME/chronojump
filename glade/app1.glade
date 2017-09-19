@@ -1372,6 +1372,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -3286,10 +3289,151 @@ EncoderInertialCapture</property>
                                                     <property name="position">2</property>
                                                   </packing>
                                                 </child>
+                                                <child>
+                                                  <widget class="GtkTable" id="table13">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="n_rows">2</property>
+                                                    <property name="n_columns">5</property>
+                                                    <property name="column_spacing">8</property>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_contacts_rest_time_1_name">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_contacts_rest_time_2_name">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">1</property>
+                                                        <property name="right_attach">2</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_contacts_rest_time_3_name">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">2</property>
+                                                        <property name="right_attach">3</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_contacts_rest_time_4_name">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">3</property>
+                                                        <property name="right_attach">4</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_contacts_rest_time_5_name">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">4</property>
+                                                        <property name="right_attach">5</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_contacts_rest_time_1_time">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_contacts_rest_time_2_time">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">1</property>
+                                                        <property name="right_attach">2</property>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_contacts_rest_time_3_time">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">2</property>
+                                                        <property name="right_attach">3</property>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_contacts_rest_time_4_time">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">3</property>
+                                                        <property name="right_attach">4</property>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_contacts_rest_time_5_time">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">4</property>
+                                                        <property name="right_attach">5</property>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">3</property>
+                                                  </packing>
+                                                </child>
                                               </widget>
                                               <packing>
-                                                <property name="expand">True</property>
+                                                <property name="expand">False</property>
                                                 <property name="fill">False</property>
+                                                <property name="padding">30</property>
                                                 <property name="position">2</property>
                                               </packing>
                                             </child>
@@ -14848,10 +14992,151 @@ Concentric</property>
                                                     <property name="position">2</property>
                                                   </packing>
                                                 </child>
+                                                <child>
+                                                  <widget class="GtkTable" id="table14">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="n_rows">2</property>
+                                                    <property name="n_columns">5</property>
+                                                    <property name="column_spacing">8</property>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_encoder_rest_time_1_name">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_encoder_rest_time_2_name">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">1</property>
+                                                        <property name="right_attach">2</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_encoder_rest_time_3_name">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">2</property>
+                                                        <property name="right_attach">3</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_encoder_rest_time_4_name">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">3</property>
+                                                        <property name="right_attach">4</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_encoder_rest_time_5_name">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">4</property>
+                                                        <property name="right_attach">5</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_encoder_rest_time_1_time">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_encoder_rest_time_2_time">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">1</property>
+                                                        <property name="right_attach">2</property>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_encoder_rest_time_3_time">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">2</property>
+                                                        <property name="right_attach">3</property>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_encoder_rest_time_4_time">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">3</property>
+                                                        <property name="right_attach">4</property>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_encoder_rest_time_5_time">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">4</property>
+                                                        <property name="right_attach">5</property>
+                                                        <property name="top_attach">1</property>
+                                                        <property name="bottom_attach">2</property>
+                                                        <property name="x_options">GTK_FILL</property>
+                                                        <property name="y_options"/>
+                                                      </packing>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">3</property>
+                                                  </packing>
+                                                </child>
                                               </widget>
                                               <packing>
-                                                <property name="expand">True</property>
+                                                <property name="expand">False</property>
                                                 <property name="fill">False</property>
+                                                <property name="padding">30</property>
                                                 <property name="position">1</property>
                                               </packing>
                                             </child>
@@ -20461,6 +20746,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

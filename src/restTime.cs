@@ -153,8 +153,28 @@ public class RestTime
 		//listLastMin
 		if(exists(listLastMin, personID))
 			modifyRestTime(listLastMin, personID);
-		else
+		else {
+			//add but have only five values
+			if(listLastMin.Count == 5)
+			{
+				int secondsMax = 0;
+				int seconds;
+				int highestTimePos = 0;
+				for (int i = listLastMin.Count - 1; i >= 0; i--)
+				{
+					seconds = LastTestTime.GetSeconds(listLastMin[i].RestedTime);
+					if(seconds > secondsMax)
+					{
+						secondsMax = seconds;
+						highestTimePos = i;
+					}
+				}
+				listLastMin.RemoveAt(highestTimePos);
+			}
+
+			//add the new value
 			addRestTime(listLastMin, personID, personName);
+		}
 	}
 
 	private bool exists(List<LastTestTime> l, int personID)
@@ -180,10 +200,11 @@ public class RestTime
 
 	public List<LastTestTime> LastMinList()
 	{
-		foreach(LastTestTime ltt in listLastMin)
+		//remove reverse in order to not hung the program on removing while iteratin
+		for (int i = listLastMin.Count - 1; i >= 0; i--)
 		{
-			if(ltt.GetTotalMinutes() > 20) //20 minutes
-				listLastMin.Remove(ltt);
+			if(listLastMin[i].GetTotalMinutes() > 9 )//10 minutes
+				listLastMin.RemoveAt(i);
 		}
 
 		return listLastMin;

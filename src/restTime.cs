@@ -68,10 +68,11 @@ public class LastTestTime
 		}
 	}
 
-	public int GetTotalMinutes()
+	//better a double because an int on > 30" marks as 1 minute
+	public double GetTotalMinutes()
 	{
 		TimeSpan ts = DateTime.Now.Subtract(time);
-		return Convert.ToInt32(ts.TotalMinutes);
+		return ts.TotalMinutes;
 	}
 
 	public static int GetSeconds(string restedTime)
@@ -203,7 +204,7 @@ public class RestTime
 		//remove reverse in order to not hung the program on removing while iteratin
 		for (int i = listLastMin.Count - 1; i >= 0; i--)
 		{
-			if(listLastMin[i].GetTotalMinutes() > 9 )//10 minutes
+			if(listLastMin[i].GetTotalMinutes() > 10 )//10 minutes
 				listLastMin.RemoveAt(i);
 		}
 

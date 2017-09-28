@@ -701,8 +701,7 @@ findPropulsiveEnd <- function(accel, concentric, maxSpeedTInConcentric,
 		propulsiveEndsAt <- -g * sin(anglePush * pi / 180)
 	} else if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
 		massBodyUsed <- getMassBodyByExercise(massBody, exercisePercentBodyWeight)
-		
-		#propulsive phase ends at: [massBodyUsed*sin(anglePush) + massExtra*sin(angleWeight)] / (massBodyUsed + massExtra)
+		#propulsive phase ends at: g * [massBodyUsed*sin(anglePush) + massExtra*sin(angleWeight)] / (massBodyUsed + massExtra)
 		propulsiveEndsAt <- -g * (massBodyUsed * sin(anglePush * pi / 180) + massExtra * sin(angleWeight * pi / 180)) / (massBodyUsed + massExtra)
 	}
 
@@ -825,19 +824,18 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel,
                                    massBody, massExtra, massTotal,
                                    exercisePercentBodyWeight, gearedDown, anglePush, angleWeight) 
 { 
-  force = NULL
-  if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
-    force <- massBody*(accel + g*sin(anglePush * pi / 180)) + massExtra*(accel + g*sin(angleWeight * pi / 180))
-    } else if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY") {
-      force <- massBody*(accel + g*sin(anglePush * pi / 180)) + massExtra*(g*sin(angleWeight * pi / 180) + accel) / gearedDown
-    } else if(encoderConfigurationName == "LINEARONPLANE"){
-      force <- (massBody + massExtra)*(accel + g*sin(anglePush * pi / 180))
-    } else {
-      force <- massTotal*(accel+g)	#g:9.81 (used when movement is against gravity)
-    }
-  power <- force*speed
-
-  return(list(mass=massTotal, force=force, power=power))
+        force = NULL
+        if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
+                force <- massBody*(accel + g*sin(anglePush * pi / 180)) + massExtra*(accel + g*sin(angleWeight * pi / 180))
+        } else if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY") {
+                force <- massBody*(accel + g*sin(anglePush * pi / 180)) + massExtra*(g*sin(angleWeight * pi / 180) + accel) / gearedDown
+        } else if(encoderConfigurationName == "LINEARONPLANE"){
+                force <- (massBody + massExtra)*(accel + g*sin(anglePush * pi / 180))
+        } else {
+                force <- massTotal*(accel+g)	#g:9.81 (used when movement is against gravity)
+        }
+        power <- force*speed
+        return(list(mass=massTotal, force=force, power=power))
 }
 
 #diameter: diameter of the axis (where string is wrapped)

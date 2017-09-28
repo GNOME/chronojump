@@ -827,7 +827,7 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel,
 { 
   force = NULL
   if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
-    force <- massBody*(accel + g*sin(anglePush * pi / 180)) + massExtra*(g*sin(angleWeight * pi / 180) + accel)
+    force <- massBody*(accel + g*sin(anglePush * pi / 180)) + massExtra*(accel + g*sin(angleWeight * pi / 180))
     } else if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY") {
       force <- massBody*(accel + g*sin(anglePush * pi / 180)) + massExtra*(g*sin(angleWeight * pi / 180) + accel) / gearedDown
     } else if(encoderConfigurationName == "LINEARONPLANE"){

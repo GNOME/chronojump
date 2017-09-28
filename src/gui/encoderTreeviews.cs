@@ -1039,16 +1039,21 @@ public partial class ChronoJumpWindow
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		string heightToCm = (Convert.ToDouble(curve.Height)/10).ToString();
-		string myColor = assignColor(
-				Convert.ToDouble(heightToCm),
-				repetitiveConditionsWin.EncoderHeightHigher, 
-				repetitiveConditionsWin.EncoderHeightLower, 
-				repetitiveConditionsWin.EncoderHeightHigherValue,
-				repetitiveConditionsWin.EncoderHeightLowerValue);
-		if(myColor != "")
-			(cell as Gtk.CellRendererText).Foreground = myColor;
-		else
+
+		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+		else {
+			string myColor = assignColor(
+					Convert.ToDouble(heightToCm),
+					repetitiveConditionsWin.EncoderHeightHigher,
+					repetitiveConditionsWin.EncoderHeightLower,
+					repetitiveConditionsWin.EncoderHeightHigherValue,
+					repetitiveConditionsWin.EncoderHeightLowerValue);
+			if(myColor != "")
+				(cell as Gtk.CellRendererText).Foreground = myColor;
+			else
+				(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+		}
 
 		string str = String.Format(UtilGtk.TVNumPrint(heightToCm,5,1),Convert.ToDouble(heightToCm));
 		renderBoldIfNeeded(cell, curve, str);
@@ -1057,20 +1062,24 @@ public partial class ChronoJumpWindow
 	private void RenderMeanSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-
-		string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MeanSpeed);
 		
-		if(myColor == "") 
-			myColor = assignColor(
-					curve.MeanSpeedD,
-					repetitiveConditionsWin.EncoderMeanSpeedHigher, 
-					repetitiveConditionsWin.EncoderMeanSpeedLower, 
-					repetitiveConditionsWin.EncoderMeanSpeedHigherValue,
-					repetitiveConditionsWin.EncoderMeanSpeedLowerValue);
-		if(myColor != "")
-			(cell as Gtk.CellRendererText).Foreground = myColor;
-		else
+		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+		else {
+			string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MeanSpeed);
+
+			if(myColor == "")
+				myColor = assignColor(
+						curve.MeanSpeedD,
+						repetitiveConditionsWin.EncoderMeanSpeedHigher,
+						repetitiveConditionsWin.EncoderMeanSpeedLower,
+						repetitiveConditionsWin.EncoderMeanSpeedHigherValue,
+						repetitiveConditionsWin.EncoderMeanSpeedLowerValue);
+			if(myColor != "")
+				(cell as Gtk.CellRendererText).Foreground = myColor;
+			else
+				(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+		}
 
 		//no need of UtilGtk.TVNumPrint, always has 1 digit on left of decimal
 		string str = String.Format("{0,8:0.000}",Convert.ToDouble(curve.MeanSpeed));
@@ -1081,19 +1090,23 @@ public partial class ChronoJumpWindow
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
-		string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MaxSpeed);
-		
-		if(myColor == "") 
-			myColor = assignColor(
-					curve.MaxSpeedD,
-					repetitiveConditionsWin.EncoderMaxSpeedHigher, 
-					repetitiveConditionsWin.EncoderMaxSpeedLower, 
-					repetitiveConditionsWin.EncoderMaxSpeedHigherValue,
-					repetitiveConditionsWin.EncoderMaxSpeedLowerValue);
-		if(myColor != "")
-			(cell as Gtk.CellRendererText).Foreground = myColor;
-		else
+		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+		else {
+			string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MaxSpeed);
+
+			if(myColor == "")
+				myColor = assignColor(
+						curve.MaxSpeedD,
+						repetitiveConditionsWin.EncoderMaxSpeedHigher,
+						repetitiveConditionsWin.EncoderMaxSpeedLower,
+						repetitiveConditionsWin.EncoderMaxSpeedHigherValue,
+						repetitiveConditionsWin.EncoderMaxSpeedLowerValue);
+			if(myColor != "")
+				(cell as Gtk.CellRendererText).Foreground = myColor;
+			else
+				(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+		}
 
 		//no need of UtilGtk.TVNumPrint, always has 1 digit on left of decimal
 		string str = String.Format("{0,8:0.000}",Convert.ToDouble(curve.MaxSpeed));
@@ -1112,19 +1125,23 @@ public partial class ChronoJumpWindow
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		
-		string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MeanPower);
-		
-		if(myColor == "") 
-			myColor = assignColor(
-					curve.MeanPowerD,
-					repetitiveConditionsWin.EncoderPowerHigher, 
-					repetitiveConditionsWin.EncoderPowerLower, 
-					repetitiveConditionsWin.EncoderPowerHigherValue,
-					repetitiveConditionsWin.EncoderPowerLowerValue);
-		if(myColor != "")
-			(cell as Gtk.CellRendererText).Foreground = myColor;
-		else
+		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+		else {
+			string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MeanPower);
+
+			if(myColor == "")
+				myColor = assignColor(
+						curve.MeanPowerD,
+						repetitiveConditionsWin.EncoderPowerHigher,
+						repetitiveConditionsWin.EncoderPowerLower,
+						repetitiveConditionsWin.EncoderPowerHigherValue,
+						repetitiveConditionsWin.EncoderPowerLowerValue);
+			if(myColor != "")
+				(cell as Gtk.CellRendererText).Foreground = myColor;
+			else
+				(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+		}
 
 		string str = String.Format(UtilGtk.TVNumPrint(curve.MeanPower,7,1),Convert.ToDouble(curve.MeanPower));
 		renderBoldIfNeeded(cell, curve, str);
@@ -1134,19 +1151,23 @@ public partial class ChronoJumpWindow
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
-		string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.PeakPower);
-		
-		if(myColor == "") 
-			myColor = assignColor(
-					curve.PeakPowerD,
-					repetitiveConditionsWin.EncoderPeakPowerHigher, 
-					repetitiveConditionsWin.EncoderPeakPowerLower, 
-					repetitiveConditionsWin.EncoderPeakPowerHigherValue,
-					repetitiveConditionsWin.EncoderPeakPowerLowerValue);
-		if(myColor != "")
-			(cell as Gtk.CellRendererText).Foreground = myColor;
-		else
+		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+		else {
+			string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.PeakPower);
+
+			if(myColor == "")
+				myColor = assignColor(
+						curve.PeakPowerD,
+						repetitiveConditionsWin.EncoderPeakPowerHigher,
+						repetitiveConditionsWin.EncoderPeakPowerLower,
+						repetitiveConditionsWin.EncoderPeakPowerHigherValue,
+						repetitiveConditionsWin.EncoderPeakPowerLowerValue);
+			if(myColor != "")
+				(cell as Gtk.CellRendererText).Foreground = myColor;
+			else
+				(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+		}
 
 		string str = String.Format(UtilGtk.TVNumPrint(curve.PeakPower,7,1),Convert.ToDouble(curve.PeakPower));
 		renderBoldIfNeeded(cell, curve, str);
@@ -1173,19 +1194,23 @@ public partial class ChronoJumpWindow
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
-		string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MeanForce);
-		
-		if(myColor == "") 
-			myColor = assignColor(
-					curve.MeanForceD,
-					repetitiveConditionsWin.EncoderMeanForceHigher, 
-					repetitiveConditionsWin.EncoderMeanForceLower, 
-					repetitiveConditionsWin.EncoderMeanForceHigherValue,
-					repetitiveConditionsWin.EncoderMeanForceLowerValue);
-		if(myColor != "")
-			(cell as Gtk.CellRendererText).Foreground = myColor;
-		else
+		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+		else {
+			string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MeanForce);
+
+			if(myColor == "")
+				myColor = assignColor(
+						curve.MeanForceD,
+						repetitiveConditionsWin.EncoderMeanForceHigher,
+						repetitiveConditionsWin.EncoderMeanForceLower,
+						repetitiveConditionsWin.EncoderMeanForceHigherValue,
+						repetitiveConditionsWin.EncoderMeanForceLowerValue);
+			if(myColor != "")
+				(cell as Gtk.CellRendererText).Foreground = myColor;
+			else
+				(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+		}
 
 		string str = String.Format(UtilGtk.TVNumPrint(curve.MeanForce,7,1),Convert.ToDouble(curve.MeanForce));
 		renderBoldIfNeeded(cell, curve, str);
@@ -1195,19 +1220,23 @@ public partial class ChronoJumpWindow
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		
-		string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MaxForce);
-		
-		if(myColor == "") 
-			myColor = assignColor(
-					curve.MaxForceD,
-					repetitiveConditionsWin.EncoderMaxForceHigher, 
-					repetitiveConditionsWin.EncoderMaxForceLower, 
-					repetitiveConditionsWin.EncoderMaxForceHigherValue,
-					repetitiveConditionsWin.EncoderMaxForceLowerValue);
-		if(myColor != "")
-			(cell as Gtk.CellRendererText).Foreground = myColor;
-		else
+		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+		else {
+			string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MaxForce);
+
+			if(myColor == "")
+				myColor = assignColor(
+						curve.MaxForceD,
+						repetitiveConditionsWin.EncoderMaxForceHigher,
+						repetitiveConditionsWin.EncoderMaxForceLower,
+						repetitiveConditionsWin.EncoderMaxForceHigherValue,
+						repetitiveConditionsWin.EncoderMaxForceLowerValue);
+			if(myColor != "")
+				(cell as Gtk.CellRendererText).Foreground = myColor;
+			else
+				(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+		}
 
 		string str = String.Format(UtilGtk.TVNumPrint(curve.MaxForce,7,1),Convert.ToDouble(curve.MaxForce));
 		renderBoldIfNeeded(cell, curve, str);

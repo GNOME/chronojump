@@ -1540,8 +1540,16 @@ fitCurveCalc <- function(x, y) {
 	coef.a <- fit$coefficient[3]
 	coef.b <- fit$coefficient[2]
 	coef.c <- fit$coefficient[1]
-
-	x1 <- seq(min(x),max(x), (max(x) - min(x))/1000)
+	
+	plotSize = par("usr")
+	
+	#if there's no plot defined plotSize is [0, 1, 0, 1]
+	if (plotSize[1] == 0 && plotSize[2] == 1 && plotSize[3] == 0 && plotSize[4] == 1){
+	        x1 <- seq(min(x),max(x), (max(x) - min(x))/1000)
+	} else {
+	        x1 <- seq(plotSize[1], plotSize[2], (plotSize[2] - plotSize[1]) / 1000)
+	}
+	
 	y1 <- coef.a *x1^2 + coef.b * x1 + coef.c
 
 	return(list(fit, x1, y1))
@@ -1558,14 +1566,30 @@ paintCrossVariablesLaterality <- function(x, y, laterality, colBalls)
 	if(length(unique(laterality)) > 1) 
 	{
 		#if(length(laterality[laterality == "R"]) >= 3 && length(unique(x[laterality == "R"])) > 1)
-	        if(length(unique(x[laterality == "R"])) > 1)
+	        if(length(unique(x[laterality == "R"])) == 2)
 			fitLine(x[laterality=="R"],y[laterality=="R"], "black", 1, 2)
 		#if(length(laterality[laterality == "L"]) >= 3 && length(unique(x[laterality == "L"])) > 1)
-	        if(length(unique(x[laterality == "L"])) > 1)
+	        if(length(unique(x[laterality == "L"])) == 2)
 			fitLine(x[laterality=="L"],y[laterality=="L"], "black", 1, 3)
 		#if(length(laterality[laterality == "RL"]) >= 3 && length(unique(x[laterality == "RL"])) > 1)
-	        if(length(unique(x[laterality == "RL"])) > 1)
+	        if(length(unique(x[laterality == "RL"])) == 2)
 			fitLine(x[laterality=="RL"],y[laterality=="RL"], "black", 1, 4)
+	        
+	        #if(length(laterality[laterality == "R"]) >= 3 && length(unique(x[laterality == "R"])) > 1)
+	        if(length(unique(x[laterality == "R"])) > 2){
+	                fit = fitCurveCalc(x[laterality=="R"],y[laterality=="R"])
+	                fitCurvePlot(fit[[2]], fit[[3]], "black", 1, 2)
+	        }
+	        #if(length(laterality[laterality == "L"]) >= 3 && length(unique(x[laterality == "L"])) > 1)
+	        if(length(unique(x[laterality == "L"])) > 2){
+	                fit = fitCurveCalc(x[laterality=="L"],y[laterality=="L"])
+	                fitCurvePlot(fit[[2]], fit[[3]], "black", 1, 3)
+	        }
+	        #if(length(laterality[laterality == "RL"]) >= 3 && length(unique(x[laterality == "RL"])) > 1)
+	        if(length(unique(x[laterality == "RL"])) > 2){
+	                fit = fitCurveCalc(x[laterality=="RL"],y[laterality=="RL"])
+	                fitCurvePlot(fit[[2]], fit[[3]], "black", 1, 4)
+	        }
 	}
 }
 

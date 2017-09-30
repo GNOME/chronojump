@@ -822,7 +822,7 @@ public partial class ChronoJumpWindow
 
 	}
 
-	double maxPowerIntersessionOnCapture;
+	double maxPowerIntersession;
 	//called from main GUI
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
 	{
@@ -842,8 +842,8 @@ public partial class ChronoJumpWindow
 
 		firstSetOfCont = firstSet;
 
-		maxPowerIntersessionOnCapture = findMaxPowerIntersession();
-		//LogB.Information("maxPower: " + maxPowerIntersessionOnCapture);
+		maxPowerIntersession = findMaxPowerIntersession();
+		//LogB.Information("maxPower: " + maxPowerIntersession);
 
 		if(encoderThreadBG != null && encoderThreadBG.IsAlive) //if we are capturing on the background ...
 		{
@@ -1583,7 +1583,14 @@ public partial class ChronoJumpWindow
 		genericWin.Button_accept.Clicked -= new EventHandler(on_encoder_load_signal_accepted);
 
 		int uniqueID = genericWin.TreeviewSelectedRowID();
-		
+
+		/*
+		 * maxPowerIntersession it's defined (Sqlite select) on capture and after capture
+		 * if we have not captured yet, just Sqlite select now
+		 */
+		if(! repetitiveConditionsWin.EncoderRelativeToSet)
+			maxPowerIntersession = findMaxPowerIntersession();
+
 		genericWin.HideAndNull();
 
 		ArrayList data = SqliteEncoder.Select(
@@ -4591,17 +4598,19 @@ public partial class ChronoJumpWindow
 		if(maxThisSet <= 0)
 			return;	
 
-		//get maxIntersession and update it if is lower than maxThisSet
-		double maxIntersession = -100000;
-		if(mainVariable == Constants.MeanPower)
-			maxIntersession = maxPowerIntersessionOnCapture;
-
-		if(maxThisSet > maxIntersession)
-			maxIntersession = maxThisSet;
-
 		double maxAbsolute = maxThisSet;
-		if(maxIntersession > maxAbsolute)
-			maxAbsolute = maxIntersession;
+		if(! repetitiveConditionsWin.EncoderRelativeToSet)
+		{
+			//relative to historical of this person
+
+			/*
+			 * if there's a set captured but without repetitions saved, maxPowerIntersession will be 0
+			 * and current set (loaded or captured) will have a power that will be out of the graph
+			 * for this reason use maxAbsolute or maxThisSet, whatever is higher
+			 */
+			if(maxPowerIntersession > maxAbsolute)
+				maxAbsolute = maxPowerIntersession;
+		}
 
 		repetitiveConditionsWin.ResetBestSetValue();
 		repetitiveConditionsWin.UpdateBestSetValue(maxAbsolute);
@@ -4654,9 +4663,8 @@ public partial class ChronoJumpWindow
 		double countSaved = 0;
 		
 		//draw line for person max intersession
-		if(mainVariable == Constants.MeanPower && maxIntersession > 0)
+		if(! repetitiveConditionsWin.EncoderRelativeToSet)
 		{
-			//layout_encoder_capture_curves_bars_text.SetMarkup("Person's best: (" + Util.TrimDecimals(maxIntersession, 1) + "W)");
 			layout_encoder_capture_curves_bars_text.SetMarkup("Person's best:");
 			layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);
 			encoder_capture_curves_bars_pixmap.DrawLayout (pen_yellow_encoder_capture,
@@ -4667,7 +4675,7 @@ public partial class ChronoJumpWindow
 					left_margin, top_margin,
 					graphWidth - right_margin, top_margin);
 
-			layout_encoder_capture_curves_bars_text.SetMarkup(Util.TrimDecimals(maxIntersession, 1) + "W");
+			layout_encoder_capture_curves_bars_text.SetMarkup(Util.TrimDecimals(maxAbsolute, 1) + "W");
 			layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);
 			encoder_capture_curves_bars_pixmap.DrawLayout (pen_yellow_encoder_capture,
 						graphWidth - (right_margin + textWidth),
@@ -6106,7 +6114,7 @@ public partial class ChronoJumpWindow
 				}
 
 
-				maxPowerIntersessionOnCapture = findMaxPowerIntersession();
+				maxPowerIntersession = findMaxPowerIntersession();
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
 						repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
 						false);	//not capturing

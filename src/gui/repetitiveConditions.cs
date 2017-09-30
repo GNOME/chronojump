@@ -71,6 +71,8 @@ public class RepetitiveConditionsWindow
 
 	/* encoder */
 	[Widget] Gtk.Frame frame_encoder_automatic_conditions;
+	[Widget] Gtk.RadioButton radio_encoder_relative_to_set;
+	[Widget] Gtk.RadioButton radio_encoder_relative_to_historical;
 	[Widget] Gtk.HBox hbox_combo_encoder_variable_automatic;
 	[Widget] Gtk.ComboBox combo_encoder_variable_automatic;
 	[Widget] Gtk.CheckButton checkbutton_encoder_automatic_greater;
@@ -238,15 +240,31 @@ public class RepetitiveConditionsWindow
 		}
 	}
 		
-	private void createComboEncoderAutomaticVariable() {
+	private void createComboEncoderAutomaticVariable()
+	{
 		combo_encoder_variable_automatic = ComboBox.NewText ();
-		string [] values = { Constants.MeanSpeed, Constants.MaxSpeed, Constants.MeanForce, Constants.MaxForce, Constants.MeanPower, Constants.PeakPower };
-		UtilGtk.ComboUpdate(combo_encoder_variable_automatic, values, "");
-		combo_encoder_variable_automatic.Active = UtilGtk.ComboMakeActive(combo_encoder_variable_automatic, "Mean power");
-		
+
+		comboEncoderAutomaticVariableFillThisSet();
+
 		hbox_combo_encoder_variable_automatic.PackStart(combo_encoder_variable_automatic, false, false, 0);
 		hbox_combo_encoder_variable_automatic.ShowAll();
 		combo_encoder_variable_automatic.Sensitive = true;
+	}
+	//all values
+	private void comboEncoderAutomaticVariableFillThisSet()
+	{
+		string [] values = { Constants.MeanSpeed, Constants.MaxSpeed, Constants.MeanForce, Constants.MaxForce, Constants.MeanPower, Constants.PeakPower };
+
+		UtilGtk.ComboUpdate(combo_encoder_variable_automatic, values, "");
+		combo_encoder_variable_automatic.Active = UtilGtk.ComboMakeActive(combo_encoder_variable_automatic, "Mean power");
+	}
+	//currently only power
+	private void comboEncoderAutomaticVariableFillHistorical()
+	{
+		string [] values = { Constants.MeanPower };
+
+		UtilGtk.ComboUpdate(combo_encoder_variable_automatic, values, "");
+		combo_encoder_variable_automatic.Active = UtilGtk.ComboMakeActive(combo_encoder_variable_automatic, "Mean power");
 	}
 
 	private void putNonStandardIcons() {
@@ -391,6 +409,15 @@ public class RepetitiveConditionsWindow
 	}
 
 	/* encoder */
+
+	void on_radio_encoder_relative_to_toggled (object o, EventArgs args)
+	{
+		if(radio_encoder_relative_to_set.Active)
+			comboEncoderAutomaticVariableFillThisSet();
+		else
+			comboEncoderAutomaticVariableFillHistorical();
+	}
+
 	void on_spinbutton_encoder_automatic_greater_value_changed (object o, EventArgs args) {
 		checkbutton_encoder_automatic_greater.Active = true;
 	}
@@ -609,7 +636,11 @@ public class RepetitiveConditionsWindow
 	private int encoderAutomaticLowerValue {
 		get { return Convert.ToInt32(spinbutton_encoder_automatic_lower.Value); }
 	}
-	
+
+	public bool EncoderRelativeToSet {
+		get { return radio_encoder_relative_to_set.Active; }
+	}
+
 	public double GetMainVariableHigher(string mainVariable) 
 	{
 		if(mainVariable == Constants.MeanSpeed && EncoderMeanSpeedHigher)

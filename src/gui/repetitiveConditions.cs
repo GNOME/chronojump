@@ -156,6 +156,7 @@ public class RepetitiveConditionsWindow
 
 	//static bool volumeOn;
 	bool volumeOn;
+	public Preferences.GstreamerTypes gstreamer;
 
 	private double bestSetValue;
 	
@@ -194,9 +195,8 @@ public class RepetitiveConditionsWindow
 		return RepetitiveConditionsWindowBox;
 	}
 	
-	public void View (Constants.BellModes bellMode, bool volumeOn) {
-		//this.volumeOn = volumeOn;
-
+	public void View (Constants.BellModes bellMode, bool volumeOn, Preferences.GstreamerTypes gstreamer)
+	{
 		//when user "deleted_event" the window
 		if (RepetitiveConditionsWindowBox == null) {
 			RepetitiveConditionsWindowBox = new RepetitiveConditionsWindow (); 
@@ -204,6 +204,7 @@ public class RepetitiveConditionsWindow
 		RepetitiveConditionsWindowBox.showWidgets(bellMode);
 		RepetitiveConditionsWindowBox.repetitive_conditions.Show ();
 		RepetitiveConditionsWindowBox.volumeOn = volumeOn;
+		RepetitiveConditionsWindowBox.gstreamer = gstreamer;
 	}
 
 	void showWidgets(Constants.BellModes bellMode)
@@ -310,9 +311,9 @@ public class RepetitiveConditionsWindow
 	{
 		if(volumeOn) {
 			if (o == button_test_good) 
-				Util.PlaySound(Constants.SoundTypes.GOOD, true);
+				Util.PlaySound(Constants.SoundTypes.GOOD, true, gstreamer);
 			else //button_test_bad
-				Util.PlaySound(Constants.SoundTypes.BAD, true);
+				Util.PlaySound(Constants.SoundTypes.BAD, true, gstreamer);
 		} else
 			new DialogMessage(Constants.MessageTypes.INFO, 
 					Catalog.GetString("You need to activate sounds in preferences / multimedia."));
@@ -367,6 +368,9 @@ public class RepetitiveConditionsWindow
 
 	public bool VolumeOn {
 		set { volumeOn = value; }
+	}
+	public Preferences.GstreamerTypes Gstreamer {
+		set { gstreamer = value; }
 	}
 
 	/* Auto.mark checkbox if spinbutton is changed */

@@ -54,7 +54,8 @@ public class JumpExecute : EventExecute
 
 	//jump execution
 	public JumpExecute(int personID, string personName, int sessionID, string type, double fall, double weight,  
-			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN, bool volumeOn,
+			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN,
+			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd, string description
 			)
 	{
@@ -71,6 +72,7 @@ public class JumpExecute : EventExecute
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
+		this.gstreamer = gstreamer;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 		this.description = description;
@@ -131,7 +133,7 @@ public class JumpExecute : EventExecute
 		if (platformState==Chronopic.Plataforma.ON) {
 			feedbackMessage = Catalog.GetString("You are IN, JUMP when prepared!");
 			needShowFeedbackMessage = true; 
-			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
 
 			loggedState = States.ON;
 
@@ -157,7 +159,7 @@ public class JumpExecute : EventExecute
 			confirmWin = ConfirmWindow.Show(Catalog.GetString(
 						"You are OUT, please enter the platform, prepare for jump and press the 'accept' button"), "", "");
 
-			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
@@ -210,7 +212,7 @@ public class JumpExecute : EventExecute
 			}
 
 			needShowFeedbackMessage = true; 
-			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
 
 
 			//useful also for tracking the jump phases
@@ -246,7 +248,7 @@ public class JumpExecute : EventExecute
 
 			confirmWin = ConfirmWindow.Show(message, "", "");
 
-			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManageFall);
@@ -540,7 +542,8 @@ public class JumpRjExecute : JumpExecute
 			int sessionID, string type, double fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
 			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN, bool allowFinishAfterTime, 
-			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin,
+			bool volumeOn, Preferences.GstreamerTypes gstreamer,
+			RepetitiveConditionsWindow repetitiveConditionsWin,
 			double progressbarLimit, ExecutingGraphData egd
 			)
 	{
@@ -566,6 +569,7 @@ public class JumpRjExecute : JumpExecute
 		this.pDN = pDN;
 		this.allowFinishAfterTime = allowFinishAfterTime;
 		this.volumeOn = volumeOn;
+		this.gstreamer = gstreamer;
 		this.repetitiveConditionsWin = repetitiveConditionsWin;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
@@ -615,12 +619,12 @@ public class JumpRjExecute : JumpExecute
 		if (platformState==Chronopic.Plataforma.OFF && hasFall ) {
 			feedbackMessage = Catalog.GetString("You are OUT, JUMP when prepared!");
 			needShowFeedbackMessage = true; 
-			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
 			success = true;
 		} else if (platformState==Chronopic.Plataforma.ON && ! hasFall ) {
 			feedbackMessage = Catalog.GetString("You are IN, JUMP when prepared!");
 			needShowFeedbackMessage = true; 
-			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
 			success = true;
 		} else {
 			string myMessage = Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button");
@@ -629,7 +633,7 @@ public class JumpRjExecute : JumpExecute
 			}
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(myMessage, "","");
-			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);

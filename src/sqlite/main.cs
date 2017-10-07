@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.47";
+	static string lastChronojumpDatabaseVersion = "1.48";
 
 	public Sqlite() {
 	}
@@ -2242,6 +2242,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.47");
 			}
+			if(currentVersion == "1.47")
+			{
+				LogB.SQL("Updated preferences: added gstreamer");
+
+				SqlitePreferences.Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.GST_0_1.ToString());
+
+				currentVersion = updateVersion("1.48");
+			}
 
 
 			// --- add more updates here
@@ -2423,6 +2431,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 
 		//changes [from - to - desc]
+		//1.47 - 1.48 Converted DB to 1.48 Updated preferences: added gstreamer
 		//1.46 - 1.47 Converted DB to 1.47 Added encoderCaptureBarplotFontSize at preferences
 		//1.45 - 1.46 Converted DB to 1.46 Added muteLogs at preferences
 		//1.44 - 1.45 Converted DB to 1.45 Added ForceSensorImpulse value

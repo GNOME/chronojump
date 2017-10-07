@@ -1316,9 +1316,14 @@ public class Util
 	 * ------------- sound stuff -----------
 	 */
 
-	public static void PlaySound (Constants.SoundTypes mySound, bool volumeOn) {
+	public enum SoundCodes { VOLUME_OFF, OK, PROBLEM_NO_FILE, PROBLEM_OTHER };
+	public static bool TestSound;
+
+	public static SoundCodes PlaySound (Constants.SoundTypes mySound,
+			bool volumeOn, Preferences.GstreamerTypes gstreamer)
+	{
 		if ( ! volumeOn )
-			return;
+			return SoundCodes.VOLUME_OFF;
 		
 		/*
 		 * Using GstreamerMethod because .Net method makes crash some Linux ALSA,
@@ -1327,12 +1332,13 @@ public class Util
 
 		if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX ||
 				UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX )
-			playSoundGstreamer(mySound);
+			return playSoundGstreamer(mySound, gstreamer);
 		else //Windows
-			playSoundWindows(mySound);
+			return playSoundWindows(mySound);
 	}
 	
-	private static void playSoundGstreamer (Constants.SoundTypes mySound) 
+//	private enum gstreamerVersions { GST_0_1, GST_1_0 }
+	private static SoundCodes playSoundGstreamer (Constants.SoundTypes mySound, Preferences.GstreamerTypes gstreamer)
 	{
 		string fileName = "";
 		switch(mySound) {
@@ -1357,29 +1363,52 @@ public class Util
 
 		if(! File.Exists(fileName)) {
 			LogB.Warning("Cannot found this sound file: " + fileName);
-			return;
+			return SoundCodes.PROBLEM_NO_FILE;
 		}
 
+		Process p;
 		try {
 			ProcessStartInfo pinfo = new ProcessStartInfo();
-			string pBin="gst-launch-0.10";
+
+			string pBin= "";
+			if(gstreamer == Preferences.GstreamerTypes.GST_0_1) {
+				pBin="gst-launch-0.10";
+				pinfo.Arguments = "playbin2 " + @"uri=file://" + fileName;
+			}
+			else { //gstreamer == Preferences.GstreamerTypes.GST_1_0
+				pBin="gst-launch-1.0";
+				pinfo.Arguments = "playbin " + @"uri=file://" + fileName;
+			}
 
 			pinfo.FileName=pBin;
-			pinfo.Arguments = "playbin2 " + @"uri=file://" + fileName;
+
 			LogB.Information("Arguments:", pinfo.Arguments);
 			pinfo.CreateNoWindow = true;
 			pinfo.UseShellExecute = false;
 
-			Process p = new Process();
+			if(TestSound)
+				pinfo.RedirectStandardError = true;
+
+			p = new Process();
 			p.StartInfo = pinfo;
 			p.Start();
 		} catch {
 			LogB.Error("Cannot playSoundGstreamer");
+			return SoundCodes.PROBLEM_OTHER;
 		}
+
+		if(TestSound)
+		{
+			string stderr = p.StandardError.ReadToEnd ().TrimEnd ('\n');
+			if(stderr != "")
+				return SoundCodes.PROBLEM_OTHER;
+		}
+
+		return SoundCodes.OK;
 	}
 
 	//maybe in the future this method will be deprecated and it only will be used the Gstreamer method
-	private static void playSoundWindows (Constants.SoundTypes mySound) 
+	private static SoundCodes playSoundWindows (Constants.SoundTypes mySound)
 	{
 		try {
 			switch(mySound) {
@@ -1396,7 +1425,10 @@ public class Util
 			}
 		} catch {
 			LogB.Error("Cannot playSoundWindows");
+			return SoundCodes.PROBLEM_OTHER;
 		}
+
+		return SoundCodes.OK;
 	}
 	
 	/*

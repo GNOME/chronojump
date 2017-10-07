@@ -302,7 +302,7 @@ public class MultiChronopicExecute : EventExecute
 			confirmWin = ConfirmWindow.Show( 
 					string.Format(Catalog.GetString("There's contact in {0}. Please leave."), platformsProblems), "", "");
 
-			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);

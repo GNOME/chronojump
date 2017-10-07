@@ -97,6 +97,10 @@ public class Preferences
 				
 	public int encoderCaptureTimeIM = 120; //hardcoded 2 minutes.
 
+	public enum GstreamerTypes { GST_0_1, GST_1_0 };
+	public GstreamerTypes gstreamer;
+	public static string GstreamerStr = "gstreamer"; //in order to ensure write correctly on SQL
+
 	/*
 	 * these are unused on SqlitePreferences.SelectAll
 	 */

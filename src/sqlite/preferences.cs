@@ -79,6 +79,7 @@ class SqlitePreferences : Sqlite
 				Insert ("language", "", dbcmdTr); 
 				Insert ("allowFinishRjAfterTime", "True", dbcmdTr); 
 				Insert ("volumeOn", "True", dbcmdTr); 
+				Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.GST_0_1.ToString(), dbcmdTr);
 				Insert ("videoOn", "True", dbcmdTr); 
 				Insert ("evaluatorServerID", "-1", dbcmdTr);
 				Insert ("versionAvailable", "", dbcmdTr);
@@ -312,6 +313,9 @@ class SqlitePreferences : Sqlite
 				preferences.allowFinishRjAfterTime = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "volumeOn")
 				preferences.volumeOn = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == Preferences.GstreamerStr)
+				preferences.gstreamer = (Preferences.GstreamerTypes)
+					Enum.Parse(typeof(Preferences.GstreamerTypes), reader[1].ToString());
 			else if(reader[0].ToString() == "videoOn")
 				preferences.videoOn = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "evaluatorServerID")

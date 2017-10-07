@@ -54,7 +54,8 @@ public class PulseExecute : EventExecute
 
 	//execution
 	public PulseExecute(int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
-			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN, bool volumeOn,
+			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN,
+			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			//double progressbarLimit, 
 			ExecutingGraphData egd
 			)
@@ -73,6 +74,7 @@ public class PulseExecute : EventExecute
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
+		this.gstreamer = gstreamer;
 //		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 	
@@ -128,7 +130,7 @@ public class PulseExecute : EventExecute
 
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(myMessage, "", "");
-			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
@@ -138,7 +140,7 @@ public class PulseExecute : EventExecute
 		} else if (platformState==Chronopic.Plataforma.OFF) {
 			feedbackMessage = Catalog.GetString("You are OUT, start when prepared!");
 			needShowFeedbackMessage = true; 
-			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
 
 			loggedState = States.OFF;
 

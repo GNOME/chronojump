@@ -115,6 +115,7 @@ public class RepetitiveConditionsWindow
 
 
 	[Widget] Gtk.Button button_test_good;
+	[Widget] Gtk.Label label_test_sound_result;
 	[Widget] Gtk.Button button_close;
 
 	//bells good (green)
@@ -239,6 +240,8 @@ public class RepetitiveConditionsWindow
 			if(bellMode == Constants.BellModes.ENCODERINERTIAL)
 				checkbutton_inertial_discard_first_three.Show();
 		}
+
+		label_test_sound_result.Text = "";
 	}
 		
 	private void createComboEncoderAutomaticVariable()
@@ -309,11 +312,23 @@ public class RepetitiveConditionsWindow
 
 	void on_button_test_clicked (object o, EventArgs args)
 	{
-		if(volumeOn) {
+		if(volumeOn)
+		{
+			Util.TestSound = true;
+
+			label_test_sound_result.Text = "";
+			Util.SoundCodes sc;
 			if (o == button_test_good) 
-				Util.PlaySound(Constants.SoundTypes.GOOD, true, gstreamer);
+				sc = Util.PlaySound(Constants.SoundTypes.GOOD, true, gstreamer);
 			else //button_test_bad
-				Util.PlaySound(Constants.SoundTypes.BAD, true, gstreamer);
+				sc = Util.PlaySound(Constants.SoundTypes.BAD, true, gstreamer);
+
+			if(sc == Util.SoundCodes.OK)
+				label_test_sound_result.Text = Catalog.GetString("Sound working");
+			else
+				label_test_sound_result.Text = Catalog.GetString("Sound not working");
+
+			Util.TestSound = false;
 		} else
 			new DialogMessage(Constants.MessageTypes.INFO, 
 					Catalog.GetString("You need to activate sounds in preferences / multimedia."));

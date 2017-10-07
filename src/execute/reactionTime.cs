@@ -39,7 +39,8 @@ public class ReactionTimeExecute : EventExecute
 
 	//reactionTime execution
 	public ReactionTimeExecute(int personID, string personName, int sessionID, string type,
-			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN, bool volumeOn,
+			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN,
+			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd, string description
 			)
 	{
@@ -54,6 +55,7 @@ public class ReactionTimeExecute : EventExecute
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
+		this.gstreamer = gstreamer;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 		this.description = description;
@@ -117,7 +119,7 @@ public class ReactionTimeExecute : EventExecute
 		if (canStart) {
 			feedbackMessage = Catalog.GetString("You are IN, RELEASE when prepared!"); //TODO: change this
 			needShowFeedbackMessage = true; 
-			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
 
 			if(StartIn)
 				loggedState = States.ON;
@@ -145,7 +147,7 @@ public class ReactionTimeExecute : EventExecute
 			confirmWin = ConfirmWindow.Show( 
 					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "", ""); //TODO:change this
 			//System.Media.SystemSounds.Beep.Play();
-			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);

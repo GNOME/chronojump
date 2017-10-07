@@ -577,7 +577,7 @@ public partial class ChronoJumpWindow
 	
 	// Reactive jump 
 	public void PrepareJumpReactiveGraph(double lastTv, double lastTc, string tvString, string tcString, 
-			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin) {
+			bool volumeOn, Preferences.GstreamerTypes gstreamer, RepetitiveConditionsWindow repetitiveConditionsWin) {
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
 		if(eventGraphConfigureWin == null)
@@ -612,7 +612,7 @@ public partial class ChronoJumpWindow
 		paintJumpReactive (event_execute_drawingarea, lastTv, lastTc, tvString, tcString, Util.GetAverage(tvString), Util.GetAverage(tcString), 
 				maxValue, minValue, jumps, topMargin, bottomMargin, 
 				bestOrWorstTvTcIndex(true, tvString, tcString), bestOrWorstTvTcIndex(false, tvString, tcString), 
-				volumeOn, repetitiveConditionsWin);
+				volumeOn, gstreamer, repetitiveConditionsWin);
 		
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
@@ -706,7 +706,9 @@ public partial class ChronoJumpWindow
 	// distanceTotal is passed because it can change in variable distances test
 	public void PrepareRunIntervalGraph(double distance, double lastTime, string timesString,
 			double distanceTotal, string distancesString,
-			bool startIn, bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin) {
+			bool startIn, bool volumeOn, Preferences.GstreamerTypes gstreamer,
+			RepetitiveConditionsWindow repetitiveConditionsWin)
+	{
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
 		if(eventGraphConfigureWin == null)
@@ -748,7 +750,7 @@ public partial class ChronoJumpWindow
 				lastTime, timesString, Util.GetAverage(timesString), 
 				maxValue, minValue, tracks, topMargin, bottomMargin,
 				Util.GetPosMax(timesString), Util.GetPosMin(timesString), startIn,
-				volumeOn, repetitiveConditionsWin);
+				volumeOn, gstreamer, repetitiveConditionsWin);
 		
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
@@ -1234,7 +1236,8 @@ public partial class ChronoJumpWindow
 	
 	private void paintJumpReactive (Gtk.DrawingArea drawingarea, double lastTv, double lastTc, string tvString, string tcString, 
 			double avgTV, double avgTC, double maxValue, double minValue, int jumps, 
-			int topMargin, int bottomMargin, int posMax, int posMin, bool volumeOn,
+			int topMargin, int bottomMargin, int posMax, int posMin,
+			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
 		//int topMargin = 10; 
@@ -1372,9 +1375,9 @@ public partial class ChronoJumpWindow
 
 
 			if(showHeightGood || showTfGood || showTcGood || showTfTcGood)
-				Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+				Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn, preferences.gstreamer);
 			if(showHeightBad || showTfBad || showTcBad || showTfTcBad)
-				Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+				Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, preferences.gstreamer);
 
 			if(showHeightGood)
 				event_execute_image_jump_reactive_height_good.Show();
@@ -1431,7 +1434,8 @@ public partial class ChronoJumpWindow
 			double lastTime, string timesString, double avgTime, 
 			double maxValue, double minValue, int tracks, int topMargin, int bottomMargin, 
 			int hightValuePosition, int lowValuePosition, bool startIn,
-			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin)
+			bool volumeOn, Preferences.GstreamerTypes gstreamer,
+			RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
 		//int topMargin = 10; 
 		int ancho=drawingarea.Allocation.Width;
@@ -1577,11 +1581,11 @@ public partial class ChronoJumpWindow
 				showTimeBad = true;
 
 			if(showTimeGood) {
-				Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+				Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn, preferences.gstreamer);
 				event_execute_image_run_interval_time_good.Show();
 			}
 			if(showTimeBad) {
-				Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+				Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, preferences.gstreamer);
 				event_execute_image_run_interval_time_bad.Show();
 			}
 			
@@ -1957,7 +1961,7 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTc,
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.tvString,
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.tcString,
-							preferences.volumeOn, repetitiveConditionsWin);
+							preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
 				}
 				break;
 			case EventType.Types.RUN:
@@ -1976,7 +1980,7 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
 							currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString,
 							currentEventExecute.PrepareEventGraphRunIntervalObject.startIn,
-							volumeOnHere, repetitiveConditionsWin);
+							volumeOnHere, preferences.gstreamer, repetitiveConditionsWin);
 				}
 				break;
 			case EventType.Types.REACTIONTIME:

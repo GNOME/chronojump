@@ -76,6 +76,7 @@ public class EventExecute
 	protected bool needEndEvent;
 	
 	protected bool volumeOn;
+	protected Preferences.GstreamerTypes gstreamer;
 	protected double progressbarLimit;
 	protected RepetitiveConditionsWindow repetitiveConditionsWin;
 
@@ -463,11 +464,11 @@ public class EventExecute
 	}
 
 	protected virtual void goodEvent() {
-		Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+		Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn, gstreamer);
 	} 
 	
 	protected virtual void badEvent() {
-		Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+		Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 	} 
 	
 	public virtual void Manage2() {
@@ -490,7 +491,7 @@ public class EventExecute
 		errorWin = ErrorWindow.Show( 
 				Catalog.GetString("Chronopic seems disconnected. Reconnect again on Chronopic Window."));
 
-		Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+		Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 		errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);
 	}
 	

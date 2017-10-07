@@ -54,7 +54,8 @@ public class RunExecute : EventExecute
 	//run execution
 	public RunExecute(int personID, int sessionID, string type, double distance,   
 			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, 
-			int pDN, bool metersSecondsPreferred, bool volumeOn,
+			int pDN, bool metersSecondsPreferred,
+			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd,
 			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime, 
 			bool speedStartArrival
@@ -72,6 +73,7 @@ public class RunExecute : EventExecute
 		this.pDN = pDN;
 		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.volumeOn = volumeOn;
+		this.gstreamer = gstreamer;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 		this.checkDoubleContactMode = checkDoubleContactMode;
@@ -125,7 +127,7 @@ public class RunExecute : EventExecute
 		if (platformState==Chronopic.Plataforma.ON) {
 			feedbackMessage = Catalog.GetString("You are IN, RUN when prepared!");
 			needShowFeedbackMessage = true; 
-			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
 
 			loggedState = States.ON;
 			startIn = true;
@@ -133,7 +135,7 @@ public class RunExecute : EventExecute
 		} else if (platformState==Chronopic.Plataforma.OFF) {
 			feedbackMessage = Catalog.GetString("You are OUT, RUN when prepared!");
 			needShowFeedbackMessage = true; 
-			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
 
 			loggedState = States.OFF;
 			startIn = false;
@@ -459,7 +461,8 @@ public class RunIntervalExecute : RunExecute
 	//run execution
 	public RunIntervalExecute(int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
 			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN, bool metersSecondsPreferred, 
-			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin,
+			bool volumeOn, Preferences.GstreamerTypes gstreamer,
+			RepetitiveConditionsWindow repetitiveConditionsWin,
 			double progressbarLimit, ExecutingGraphData egd ,
 			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime, 
 			bool speedStartArrival
@@ -495,6 +498,7 @@ public class RunIntervalExecute : RunExecute
 		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
+		this.gstreamer = gstreamer;
 		this.repetitiveConditionsWin = repetitiveConditionsWin;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
@@ -753,7 +757,7 @@ public class RunIntervalExecute : RunExecute
 
 		if (waitSeconds < 0) {
 		       	if(! RSABellDone) {
-				Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+				Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn, gstreamer);
 				RSABellDone = true;
 			}
 			return Catalog.GetString("Go!");

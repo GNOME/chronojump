@@ -595,9 +595,9 @@ public partial class ChronoJumpWindow
 	private void on_button_encoder_bells_clicked(object o, EventArgs args)
 	{
 		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY)
-			repetitiveConditionsWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences.volumeOn);
+			repetitiveConditionsWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences.volumeOn, preferences.gstreamer);
 		else
-			repetitiveConditionsWin.View(Constants.BellModes.ENCODERINERTIAL, preferences.volumeOn);
+			repetitiveConditionsWin.View(Constants.BellModes.ENCODERINERTIAL, preferences.volumeOn, preferences.gstreamer);
 	}
 
 	/*
@@ -4742,7 +4742,7 @@ public partial class ChronoJumpWindow
 				my_pen_con = pen_green_encoder_capture;
 				//play sound if value is high, volumeOn == true, is last value, capturing
 				if(preferences.volumeOn && count == data.Count -1 && capturing)
-					Util.PlaySound(Constants.SoundTypes.GOOD, preferences.volumeOn);
+					Util.PlaySound(Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
 			}
 			else if( ! discarded && ( myColor == UtilGtk.ColorBad || (mainVariableLower != -1 && d <= mainVariableLower) ) )
 			{
@@ -4751,7 +4751,7 @@ public partial class ChronoJumpWindow
 				my_pen_con = pen_red_encoder_capture;
 				//play sound if value is low, volumeOn == true, is last value, capturing
 				if(preferences.volumeOn && count == data.Count -1 && capturing)
-					Util.PlaySound(Constants.SoundTypes.BAD, preferences.volumeOn);
+					Util.PlaySound(Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
 			}
 			else {
 				my_pen_ecc_con_e = pen_blue_dark_encoder_capture;

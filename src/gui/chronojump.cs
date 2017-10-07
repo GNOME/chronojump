@@ -2823,7 +2823,10 @@ public partial class ChronoJumpWindow
 		configInitFromPreferences();
 
 		if(repetitiveConditionsWin != null)
+		{
 			repetitiveConditionsWin.VolumeOn = preferences.volumeOn;
+			repetitiveConditionsWin.Gstreamer = preferences.gstreamer;
+		}
 
 		try {
 			if(createdStatsWin) {
@@ -3964,7 +3967,8 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new JumpExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				//chronopicWin.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
-				cp2016.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
+				cp2016.CP, event_execute_label_message, app1, preferences.digitsNumber,
+				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd, description);
 
 
@@ -4224,7 +4228,8 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID, currentJumpRjType.Name, myFall, jumpWeight, 
 				progressbarLimit, currentJumpRjType.JumpsLimited, 
 				cp2016.CP, event_execute_label_message, app1, preferences.digitsNumber,
-				checkbutton_allow_finish_rj_after_time.Active, preferences.volumeOn, 
+				checkbutton_allow_finish_rj_after_time.Active,
+				preferences.volumeOn, preferences.gstreamer,
 				repetitiveConditionsWin, progressbarLimit, egd
 				);
 		
@@ -4353,7 +4358,8 @@ public partial class ChronoJumpWindow
 				currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
 				cp2016.CP, event_execute_label_message, app1,
-				preferences.digitsNumber, preferences.metersSecondsPreferred, preferences.volumeOn, 
+				preferences.digitsNumber, preferences.metersSecondsPreferred,
+				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd,
 				preferences.runDoubleContactsMode,
 				preferences.runDoubleContactsMS,
@@ -4475,7 +4481,9 @@ public partial class ChronoJumpWindow
 				currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
 				distanceInterval, progressbarLimit, currentRunIntervalType.TracksLimited, 
 				cp2016.CP, event_execute_label_message, app1,
-				preferences.digitsNumber, preferences.metersSecondsPreferred, preferences.volumeOn, repetitiveConditionsWin, 
+				preferences.digitsNumber, preferences.metersSecondsPreferred,
+				preferences.volumeOn, preferences.gstreamer,
+				repetitiveConditionsWin,
 				progressbarLimit, egd,
 				preferences.runIDoubleContactsMode,
 				preferences.runIDoubleContactsMS,
@@ -4683,7 +4691,8 @@ public partial class ChronoJumpWindow
 
 		currentEventExecute = new ReactionTimeExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentReactionTimeType.Name, 
-				cp2016.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
+				cp2016.CP, event_execute_label_message, app1, preferences.digitsNumber,
+				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd, description
 				);
 
@@ -4837,7 +4846,8 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new PulseExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
 				cp2016.CP, event_execute_label_message,
-				app1, preferences.digitsNumber, preferences.volumeOn, egd
+				app1, preferences.digitsNumber,
+				preferences.volumeOn, preferences.gstreamer, egd
 				);
 		
 		if(! canCaptureC)
@@ -5209,7 +5219,8 @@ LogB.Debug("X");
 					else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
 						PrepareJumpReactiveGraph(
 								Util.GetLast(currentJumpRj.TvString), Util.GetLast(currentJumpRj.TcString),
-								currentJumpRj.TvString, currentJumpRj.TcString, preferences.volumeOn, repetitiveConditionsWin);
+								currentJumpRj.TvString, currentJumpRj.TcString,
+								preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
 					break;
 				case EventType.Types.RUN:
 					if(lastRunIsSimple && current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
@@ -5231,7 +5242,7 @@ LogB.Debug("X");
 								distanceTotal,
 								runType.DistancesString,
 								currentRunInterval.StartIn,
-								preferences.volumeOn, repetitiveConditionsWin);
+								preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
 					}
 					break;
 				case EventType.Types.FORCESENSOR:
@@ -6635,11 +6646,11 @@ LogB.Debug("X");
 	}
 		
 	private void on_button_rj_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(Constants.BellModes.JUMPS, preferences.volumeOn);
+		repetitiveConditionsWin.View(Constants.BellModes.JUMPS, preferences.volumeOn, preferences.gstreamer);
 	}
 
 	private void on_button_time_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(Constants.BellModes.RUNS, preferences.volumeOn);
+		repetitiveConditionsWin.View(Constants.BellModes.RUNS, preferences.volumeOn, preferences.gstreamer);
 	}
 	
 	private void on_repetitive_conditions_closed(object o, EventArgs args)

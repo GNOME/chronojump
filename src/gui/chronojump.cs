@@ -2153,6 +2153,8 @@ public partial class ChronoJumpWindow
 			LogB.Information("cancelling force capture");
 			forceProcessCancel = true;
 		}
+		if(forceOtherThread.IsAlive)
+			forceOtherThread.Abort();
 		if(portFSOpened)
 			portFS.Close();
 
@@ -3705,7 +3707,7 @@ public partial class ChronoJumpWindow
 			if(numForceSensor == 0)
 				new DialogMessage(Constants.MessageTypes.WARNING, "Sensor not found.");
 			else
-				forceSensorCapture();
+				on_buttons_force_sensor_clicked(button_execute_test, new EventArgs ());
 
 			return;
 		}

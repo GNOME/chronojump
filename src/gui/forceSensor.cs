@@ -29,6 +29,8 @@ using System.Collections.Generic; //List<T>
 
 public partial class ChronoJumpWindow 
 {
+	[Widget] Gtk.Button button_force_sensor_tare;
+	[Widget] Gtk.Button button_force_sensor_calibrate;
 	[Widget] Gtk.Label label_force_sensor_value_max;
 	[Widget] Gtk.Label label_force_sensor_value;
 	[Widget] Gtk.Label label_force_sensor_value_min;
@@ -37,9 +39,14 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_graph;
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	
-	Thread forceThread;
+	Thread forceCaptureThread;
 	static bool forceProcessFinish;
 	static bool forceProcessCancel;
+
+	Thread forceOtherThread; //for messages on: capture, tare, calibrate
+	static string forceSensorOtherMessage = "";
+	static bool forceSensorOtherMessageShowSeconds;
+	static DateTime forceSensorTimeStart;
 
 	/*
 	 * forceStatus:
@@ -58,15 +65,15 @@ public partial class ChronoJumpWindow
 	SerialPort portFS;
 	bool portFSOpened;
 
-	//TODO: don't reopen port because arduino makes reset and tare, calibration... is lost
+	//Don't reopen port because arduino makes reset and tare, calibration... is lost
 
-	private void on_button_force_sensor_connect_clicked(object o, EventArgs args)
+	private bool forceSensorConnect()
 	{
 		LogB.Information(" FS connect 0 ");
 		if(chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE) == null)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, "Force sensor is not connected!");
-			return;
+			return false;
 		}
 
 		LogB.Information(" FS connect 1 ");
@@ -75,35 +82,138 @@ public partial class ChronoJumpWindow
 		if(forceSensorPortName == null || forceSensorPortName == "")
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, "Please, select port");
-			return;
+			return false;
 		}
 		LogB.Information(" FS connect 3 ");
+		forceSensorOtherMessage = "Connecting ...";
 
 		portFS = new SerialPort(forceSensorPortName, 115200); //forceSensor
 		LogB.Information(" FS connect 4 ");
-		portFS.Open();
+
+		try {
+			portFS.Open();
+		}
+		catch (System.IO.IOException)
+		{
+			return false;
+		}
+
 		portFSOpened = true;
 		Thread.Sleep(2500); //sleep to let arduino start reading
-		event_execute_label_message.Text = "Connected!";
+		forceSensorOtherMessage = "Connected!";
 		LogB.Information(" FS connect 5 ");
+		return true;
 	}
-	private void on_button_force_sensor_disconnect_clicked(object o, EventArgs args)
+	private void forceSensorDisconnect()
 	{
 		portFS.Close();
 		portFSOpened = false;
 		event_execute_label_message.Text = "Disconnected!";
 	}
 
-	private void on_button_force_sensor_tare_clicked(object o, EventArgs args)
+	//Attention: no GTK here!!
+	private bool forceSensorSendCommand(string command, string displayMessage, string errorMessage)
 	{
-		if(! portFSOpened) //TODO: better check is connected!
+		forceSensorOtherMessage = displayMessage;
+
+		try {
+			portFS.WriteLine(command);
+			forceSensorTimeStart = DateTime.Now;
+		}
+		catch (Exception ex)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Please, connect!");
-			return;
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+			{
+				LogB.Information(errorMessage);
+				portFSOpened = false;
+				return false;
+			}
+			//throw;
+		}
+		return true;
+	}
+
+	enum forceSensorOtherModeEnum { TARE, CALIBRATE, CAPTURE_PRE }
+	static forceSensorOtherModeEnum forceSensorOtherMode;
+
+	private void on_buttons_force_sensor_clicked(object o, EventArgs args)
+	{
+		capturingForce = forceStatus.STOP;
+		forceSensorButtonsSensitive(false);
+		forceSensorTimeStart = DateTime.Now;
+		forceSensorOtherMessageShowSeconds = true;
+
+		if(o == (object) button_force_sensor_tare)
+		{
+			forceSensorOtherMode = forceSensorOtherModeEnum.TARE;
+			forceOtherThread = new Thread(new ThreadStart(forceSensorTare));
+		}
+		else if(o == (object) button_force_sensor_calibrate)
+		{
+			forceSensorOtherMode = forceSensorOtherModeEnum.CALIBRATE;
+			forceOtherThread = new Thread(new ThreadStart(forceSensorCalibrate));
+		}
+		else { //if (o == (object) button_execute_test)
+			forceSensorOtherMode = forceSensorOtherModeEnum.CAPTURE_PRE;
+			forceOtherThread = new Thread(new ThreadStart(forceSensorCapturePre));
 		}
 
-		event_execute_label_message.Text = "Taring ...";
-		portFS.WriteLine("tare:");
+		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKForceSensorOther));
+
+		LogB.ThreadStart();
+		forceOtherThread.Start();
+	}
+
+	void forceSensorButtonsSensitive(bool sensitive)
+	{
+		button_force_sensor_tare.Sensitive = sensitive;
+		button_force_sensor_calibrate.Sensitive = sensitive;
+		button_execute_test.Sensitive = sensitive;
+	}
+
+	private bool pulseGTKForceSensorOther ()
+	{
+		if(forceSensorOtherMessage != "")
+		{
+			string secondsStr = "";
+			if(forceSensorOtherMessageShowSeconds)
+			{
+				TimeSpan ts = DateTime.Now.Subtract(forceSensorTimeStart);
+				double seconds = ts.TotalSeconds;
+				secondsStr = " (" + Util.TrimDecimals(seconds, 0) + " s)";
+
+			}
+			event_execute_label_message.Text = forceSensorOtherMessage + secondsStr;
+		}
+
+		if(! forceOtherThread.IsAlive)
+		{
+			LogB.ThreadEnding();
+
+			if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE || forceSensorOtherMode == forceSensorOtherModeEnum.CALIBRATE)
+				forceSensorButtonsSensitive(true);
+			else //if(forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
+				forceSensorCapturePre2();
+
+			return false;
+		}
+
+		//LogB.Information(" ForceSensor:"+ forceOtherThread.ThreadState.ToString());
+		Thread.Sleep (25);
+		return true;
+	}
+
+	//Attention: no GTK here!!
+	private void forceSensorTare()
+	{
+		if(! portFSOpened)
+		{
+			if(! forceSensorConnect())
+				return;
+		}
+
+		if(! forceSensorSendCommand("tare:", "Taring ...", "Catched force taring"))
+			return;
 
 		string str = "";
 		do {
@@ -113,20 +223,22 @@ public partial class ChronoJumpWindow
 		}
 		while(! str.Contains("Taring OK"));
 
-		event_execute_label_message.Text = "Tared!";
+		forceSensorOtherMessageShowSeconds = false;
+		forceSensorOtherMessage = "Tared!";
 	}
 
-	private void on_button_force_sensor_calibrate_clicked(object o, EventArgs args)
+	//Attention: no GTK here!!
+	private void forceSensorCalibrate()
 	{
-		if(! portFSOpened) //TODO: better check is connected!
+		if(! portFSOpened)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Please, connect!");
-			return;
+			if(! forceSensorConnect())
+				return;
 		}
 
-		event_execute_label_message.Text = "Calibrating ...";
-		LogB.Information("calibrate:" + spin_force_sensor_calibration_kg_value.Value.ToString() + ";");
-		portFS.WriteLine("calibrate:" + spin_force_sensor_calibration_kg_value.Value.ToString() + ";");
+		if(! forceSensorSendCommand("calibrate:" + spin_force_sensor_calibration_kg_value.Value.ToString() + ";",
+				"Calibrating ...", "Catched force calibrating"))
+			return;
 
 		string str = "";
 		do {
@@ -136,40 +248,34 @@ public partial class ChronoJumpWindow
 		}
 		while(! str.Contains("Calibrating OK"));
 
-		event_execute_label_message.Text = "Calibrated!";
+		forceSensorOtherMessageShowSeconds = false;
+		forceSensorOtherMessage = "Calibrated!";
 	}
 
-
-	private void forceSensorCapture()
+	//Attention: no GTK here!!
+	private void forceSensorCapturePre()
 	{
-		//TODO: check is connected!
-		//
-		/*
-		forceSensorPortName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE).Port;
-		if(forceSensorPortName == null || forceSensorPortName == "")
+		if(! portFSOpened)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Please, select port");
-			return;
-		}
-		*/
-		if(! portFSOpened) //TODO: better check is connected!
-		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Please, connect!");
-			return;
+			if(! forceSensorConnect())
+				return;
 		}
 
+		forceSensorOtherMessage = "Please, wait ...";
+		capturingForce = forceStatus.STARTING;
+	}
 
+	private void forceSensorCapturePre2()
+	{
 		button_execute_test.Sensitive = false;
 		event_execute_button_finish.Sensitive = true;
 		event_execute_button_cancel.Sensitive = true;
-		event_execute_label_message.Text = "Please, wait ...";
 		forceCaptureStartMark = false;
 		vscale_force_sensor.Value = 0;
 		label_force_sensor_value_max.Text = "0";
 		label_force_sensor_value.Text = "0";
 		label_force_sensor_value_min.Text = "0";
 
-		capturingForce = forceStatus.STARTING;
 		forceProcessFinish = false;
 		forceProcessCancel = false;
 		forceSensorLast = 0;
@@ -180,25 +286,24 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 
-		forceThread = new Thread(new ThreadStart(forceSensorCaptureDo));
-		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKForceSensor));
+		forceCaptureThread = new Thread(new ThreadStart(forceSensorCaptureDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKForceSensorCapture));
 
 		LogB.ThreadStart();
-		forceThread.Start();
+		forceCaptureThread.Start();
 	}
 
 	//non GTK on this method
 	private void forceSensorCaptureDo()
 	{
 		lastChangedTime = 0;
-		/*
-		SerialPort port = new SerialPort(forceSensorPortName, 115200); //forceSensor
-		port.Open();
-		Thread.Sleep(2500); //sleep to let arduino start reading
-		*/
 
-		//port.WriteLine("Start:-920.80:"); //Imp: note decimal is point
-		portFS.WriteLine("start_capture:"); //Imp: note decimal is point
+		if(! forceSensorSendCommand("start_capture:", "", "Catched force capturing"))
+		{
+			forceProcessCancel = true;
+			return;
+		}
+
 		string str = "";
 		do {
 			Thread.Sleep(100); //sleep to let arduino start reading
@@ -274,10 +379,10 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	private bool pulseGTKForceSensor ()
+	private bool pulseGTKForceSensorCapture ()
 	{
 		//LogB.Information(capturingForce.ToString())
-		if(! forceThread.IsAlive || forceProcessFinish || forceProcessCancel)
+		if(! forceCaptureThread.IsAlive || forceProcessFinish || forceProcessCancel)
 		{
 			LogB.ThreadEnding();
 
@@ -301,7 +406,7 @@ public partial class ChronoJumpWindow
 
 			LogB.ThreadEnded(); 
 
-			button_execute_test.Sensitive = true;
+			forceSensorButtonsSensitive(true);
 
 			return false;
 		}
@@ -342,7 +447,7 @@ public partial class ChronoJumpWindow
 		}
 
 		Thread.Sleep (25);
-//		LogB.Information(" ForceSensor:"+ forceThread.ThreadState.ToString());
+//		LogB.Information(" ForceSensor:"+ forceCaptureThread.ThreadState.ToString());
 		return true;
 	}
 
@@ -444,4 +549,3 @@ public partial class ChronoJumpWindow
 	}
 
 }
-

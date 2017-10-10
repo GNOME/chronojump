@@ -3844,6 +3844,10 @@ public partial class ChronoJumpWindow
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
 				button_image_test_zoom.Hide();
 			break;
+			case "FORCESENSOR":
+				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameForceSensor);
+				button_image_test_zoom.Hide();
+			break;
 			case "":
 				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
 				button_image_test_zoom.Hide();
@@ -6378,6 +6382,7 @@ LogB.Debug("X");
 			notebook_execute.CurrentPage = 4;
 			notebook_options_top.CurrentPage = 4;
 			notebook_results.CurrentPage = 4;
+			changeTestImage("", "", "FORCESENSOR");
 		} else if(mode == Constants.Menuitem_modes.RT)
 		{
 			notebook_execute.CurrentPage = 5;

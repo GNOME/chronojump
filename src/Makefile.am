@@ -256,6 +256,7 @@ RESOURCES = \
 	../images/selector-force.png,selector-force.png \
 	../images/selector-rt.png,selector-rt.png \
 	../images/selector-multichronopic.png,selector-multichronopic.png \
+	../images/mini/force_sensor.png,mini/force_sensor.png \
 	../images/board-unknown.png,board-unknown.png \
 	../images/board-jump-run.png,board-jump-run.png \
 	../images/board-encoder.png,board-encoder.png \

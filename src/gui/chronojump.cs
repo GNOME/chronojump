@@ -283,6 +283,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_video_yes;
 	[Widget] Gtk.Image image_video_no;
 
+	//force sensor
+	[Widget] Gtk.HBox hbox_capture_phases_time_record;
 
 	//multiChronopic	
 	[Widget] Gtk.Button button_edit_selected_multi_chronopic;
@@ -6348,6 +6350,9 @@ LogB.Debug("X");
 
 		//LogB.Information("currentPage" + notebook_execute.CurrentPage.ToString());
 		//LogB.Information("desiredPage" + desiredPage.ToString());
+
+		//on capture, show phases, time, record if we are not on forcesensor mode
+		hbox_capture_phases_time_record.Visible = (mode != Constants.Menuitem_modes.FORCESENSOR);
 
 		if(mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{

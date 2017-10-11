@@ -440,9 +440,10 @@ drawDynamicsFromLoadCell <- function(
                                 if (RFDoptions$rfdFunction == "FITTED")
                                 {
                                         #Slope of the line
-                                        RFD = dynamics$fmax.fitted*(exp( -dynamics$k.fitted * RFDoptions$start) - exp( -dynamics$k.fitted * RFDoptions$end)) / (RFDoptions$end - RFDoptions$start)
+                                        RFD = dynamics$fmax.fitted*(exp( -dynamics$k.fitted * RFDoptions$start/1000) - exp( -dynamics$k.fitted * RFDoptions$end/1000)) / (RFDoptions$end/1000 - RFDoptions$start/1000)
                                         #Y coordinate of a point of the line
-                                        pointForce1 = dynamics$fmax.fitted*(1 - exp( -dynamics$k.fitted * RFDoptions$start)) + dynamics$initf
+                                        pointForce1 = dynamics$fmax.fitted*(1 - exp( -dynamics$k.fitted * RFDoptions$start/1000)) + dynamics$initf
+                                        pointForce2 = dynamics$fmax.fitted*(1 - exp( -dynamics$k.fitted * RFDoptions$end/1000)) + dynamics$initf
                                         
                                         legendText = c(legendText, paste("RFD", RFDoptions$start, "-", RFDoptions$end, " = ", round(RFD, digits = 1), " N/s", sep = ""))
                                         legendColor = c(legendColor, "blue")

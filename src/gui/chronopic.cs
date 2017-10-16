@@ -120,8 +120,12 @@ public partial class ChronoJumpWindow
 		cp2016.FakeButtonContactsRealDone.Clicked +=
 			new EventHandler(on_connection_contacts_real_done);
 
-		cp2016.ConnectContactsReal(app1, crp, numCP,
-				Catalog.GetString("Please touch the platform or click Chronopic TEST button"));
+		string message = Catalog.GetString("Please, touch the platform or click Chronopic TEST button.");
+		if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE ||
+				current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+			message = Catalog.GetString("Please, cut photocell barrier or click Chronopic TEST button.");
+
+		cp2016.ConnectContactsReal(app1, crp, numCP, message);
 	}
 
 	private void on_connection_contacts_real_done (object o, EventArgs args)

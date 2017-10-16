@@ -599,7 +599,7 @@ class SqliteEncoder : Sqlite
 			"signalID INT, " +
 			"curveID INT, " +
 			"msCentral INT, " +
-		       	"future1 TEXT )";
+			"future1 TEXT )"; //need future2, future3. Better to use alter table here and on encoder table
 		dbcmd.ExecuteNonQuery();
 	}
 	

@@ -122,7 +122,7 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
                 return(NA)
         }
         initf = mean(originalTest$force[(startSample - 20):(startSample - 10)]) #ATENTION. This value is different from f0.raw
-        fmax.raw = max(originalTest$force)
+        fmax.raw = max(originalTest$force[startSample:endSample])
         
         #Trimming the data before and after contraction
         test = originalTest[startSample:endSample,]
@@ -232,6 +232,7 @@ drawDynamicsFromLoadCell <- function(
                      ylim=c(0, yHeight),
                      #main = dynamics$nameOfFile,
 		     yaxs= "i", xaxs = "i")
+                
         }
         
 

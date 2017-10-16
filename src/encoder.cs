@@ -648,9 +648,9 @@ public class EncoderSQL
 		this.status = status;
 		this.videoURL = videoURL;
 		this.encoderConfiguration = encoderConfiguration;
-		this.future1 = future1;	//on curves: meanPower
-		this.future2 = future2;
-		this.future3 = future3;
+		this.future1 = future1;	//on curves: meanPower. Better use alter table
+		this.future2 = future2; //on curves: meanSpeed
+		this.future3 = future3; //on curves: meanForce
 		this.exerciseName = exerciseName;
 
 		if(eccon == "c")

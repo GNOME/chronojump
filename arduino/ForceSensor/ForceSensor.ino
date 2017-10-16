@@ -37,7 +37,7 @@
 #define DOUT  3
 #define CLK  2
 
-//Version number
+//Version number //it always need to start with: "Force_Sensor-"
 String version = "Force_Sensor-0.1";
 
 HX711 scale(DOUT, CLK);

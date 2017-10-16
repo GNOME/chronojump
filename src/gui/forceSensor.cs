@@ -31,6 +31,7 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.Button button_force_sensor_tare;
 	[Widget] Gtk.Button button_force_sensor_calibrate;
+	[Widget] Gtk.Button button_force_sensor_check_version;
 	[Widget] Gtk.Label label_force_sensor_value_max;
 	[Widget] Gtk.Label label_force_sensor_value;
 	[Widget] Gtk.Label label_force_sensor_value_min;
@@ -133,7 +134,7 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	enum forceSensorOtherModeEnum { TARE, CALIBRATE, CAPTURE_PRE }
+	enum forceSensorOtherModeEnum { TARE, CALIBRATE, CAPTURE_PRE, CHECK_VERSION }
 	static forceSensorOtherModeEnum forceSensorOtherMode;
 
 	private void on_buttons_force_sensor_clicked(object o, EventArgs args)
@@ -153,9 +154,14 @@ public partial class ChronoJumpWindow
 			forceSensorOtherMode = forceSensorOtherModeEnum.CALIBRATE;
 			forceOtherThread = new Thread(new ThreadStart(forceSensorCalibrate));
 		}
-		else { //if (o == (object) button_execute_test)
+		else if (o == (object) button_execute_test)
+		{
 			forceSensorOtherMode = forceSensorOtherModeEnum.CAPTURE_PRE;
 			forceOtherThread = new Thread(new ThreadStart(forceSensorCapturePre));
+		}
+		else { //if (o == (object) button_check_version)
+			forceSensorOtherMode = forceSensorOtherModeEnum.CHECK_VERSION;
+			forceOtherThread = new Thread(new ThreadStart(forceSensorCheckVersion));
 		}
 
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKForceSensorOther));
@@ -168,6 +174,7 @@ public partial class ChronoJumpWindow
 	{
 		button_force_sensor_tare.Sensitive = sensitive;
 		button_force_sensor_calibrate.Sensitive = sensitive;
+		button_force_sensor_check_version.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
 	}
 
@@ -190,7 +197,10 @@ public partial class ChronoJumpWindow
 		{
 			LogB.ThreadEnding();
 
-			if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE || forceSensorOtherMode == forceSensorOtherModeEnum.CALIBRATE)
+			if(
+					forceSensorOtherMode == forceSensorOtherModeEnum.TARE ||
+					forceSensorOtherMode == forceSensorOtherModeEnum.CALIBRATE ||
+					forceSensorOtherMode == forceSensorOtherModeEnum.CHECK_VERSION)
 				forceSensorButtonsSensitive(true);
 			else //if(forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
 				forceSensorCapturePre2();
@@ -207,10 +217,8 @@ public partial class ChronoJumpWindow
 	private void forceSensorTare()
 	{
 		if(! portFSOpened)
-		{
 			if(! forceSensorConnect())
 				return;
-		}
 
 		if(! forceSensorSendCommand("tare:", "Taring ...", "Catched force taring"))
 			return;
@@ -231,13 +239,11 @@ public partial class ChronoJumpWindow
 	private void forceSensorCalibrate()
 	{
 		if(! portFSOpened)
-		{
 			if(! forceSensorConnect())
 				return;
-		}
 
 		if(! forceSensorSendCommand("calibrate:" + spin_force_sensor_calibration_kg_value.Value.ToString() + ";",
-				"Calibrating ...", "Catched force calibrating"))
+					"Calibrating ...", "Catched force calibrating"))
 			return;
 
 		string str = "";
@@ -253,13 +259,33 @@ public partial class ChronoJumpWindow
 	}
 
 	//Attention: no GTK here!!
+	private void forceSensorCheckVersion()
+	{
+		if(! portFSOpened)
+			if(! forceSensorConnect())
+				return;
+
+		if(! forceSensorSendCommand("get_version:", "Checking version ...", "Catched checking version"))
+			return;
+
+		string str = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			str = portFS.ReadLine().Trim();
+			LogB.Information("init string: " + str);
+		}
+		while(! str.Contains("Force_Sensor-"));
+
+		forceSensorOtherMessageShowSeconds = false;
+		forceSensorOtherMessage = str;
+	}
+
+	//Attention: no GTK here!!
 	private void forceSensorCapturePre()
 	{
 		if(! portFSOpened)
-		{
 			if(! forceSensorConnect())
 				return;
-		}
 
 		forceSensorOtherMessage = "Please, wait ...";
 		capturingForce = forceStatus.STARTING;
@@ -378,7 +404,7 @@ public partial class ChronoJumpWindow
 			capturingForce = forceStatus.COPIED_TO_TMP;
 		}
 	}
-	
+
 	private bool pulseGTKForceSensorCapture ()
 	{
 		//LogB.Information(capturingForce.ToString())
@@ -407,6 +433,9 @@ public partial class ChronoJumpWindow
 			LogB.ThreadEnded(); 
 
 			forceSensorButtonsSensitive(true);
+
+			//finish, cancel: sensitive = false
+			hideButtons();
 
 			return false;
 		}

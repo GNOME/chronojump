@@ -6388,6 +6388,7 @@ LogB.Debug("X");
 			notebook_options_top.CurrentPage = 4;
 			notebook_results.CurrentPage = 4;
 			changeTestImage("", "", "FORCESENSOR");
+			event_execute_button_finish.Sensitive = false;
 		} else if(mode == Constants.Menuitem_modes.RT)
 		{
 			notebook_execute.CurrentPage = 5;

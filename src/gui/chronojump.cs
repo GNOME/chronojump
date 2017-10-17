@@ -3703,14 +3703,7 @@ public partial class ChronoJumpWindow
 			 on_force_sensor_activate(canCaptureC);
 			 */
 
-			int numForceSensor = chronopicRegister.NumConnectedOfType(
-					ChronopicRegisterPort.Types.ARDUINO_FORCE);
-
-			if(numForceSensor == 0)
-				new DialogMessage(Constants.MessageTypes.WARNING, "Sensor not found.");
-			else
-				on_buttons_force_sensor_clicked(button_execute_test, new EventArgs ());
-
+			on_buttons_force_sensor_clicked(button_execute_test, new EventArgs ());
 			return;
 		}
 

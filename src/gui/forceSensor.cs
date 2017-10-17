@@ -137,8 +137,19 @@ public partial class ChronoJumpWindow
 	enum forceSensorOtherModeEnum { TARE, CALIBRATE, CAPTURE_PRE, CHECK_VERSION }
 	static forceSensorOtherModeEnum forceSensorOtherMode;
 
+	//buttons: tare, calibrate, check version and capture (via on_button_execute_test_cicked) come here
 	private void on_buttons_force_sensor_clicked(object o, EventArgs args)
 	{
+		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE) == 0)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Sensor not found.");
+			return;
+		}
+
+		if(! portFSOpened)
+			if(! forceSensorConnect())
+				return;
+
 		capturingForce = forceStatus.STOP;
 		forceSensorButtonsSensitive(false);
 		forceSensorTimeStart = DateTime.Now;
@@ -216,10 +227,6 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private void forceSensorTare()
 	{
-		if(! portFSOpened)
-			if(! forceSensorConnect())
-				return;
-
 		if(! forceSensorSendCommand("tare:", "Taring ...", "Catched force taring"))
 			return;
 
@@ -238,10 +245,6 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private void forceSensorCalibrate()
 	{
-		if(! portFSOpened)
-			if(! forceSensorConnect())
-				return;
-
 		if(! forceSensorSendCommand("calibrate:" + spin_force_sensor_calibration_kg_value.Value.ToString() + ";",
 					"Calibrating ...", "Catched force calibrating"))
 			return;
@@ -261,10 +264,6 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private void forceSensorCheckVersion()
 	{
-		if(! portFSOpened)
-			if(! forceSensorConnect())
-				return;
-
 		if(! forceSensorSendCommand("get_version:", "Checking version ...", "Catched checking version"))
 			return;
 
@@ -283,10 +282,6 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private void forceSensorCapturePre()
 	{
-		if(! portFSOpened)
-			if(! forceSensorConnect())
-				return;
-
 		forceSensorOtherMessage = "Please, wait ...";
 		capturingForce = forceStatus.STARTING;
 	}

@@ -335,8 +335,6 @@ drawDynamicsFromLoadCell <- function(
         
         #Plotting fitted data
         lines(dynamics$time, dynamics$f.fitted, col="blue")
-        #text(x = dynamics$time[dynamics$totalSample] - 0.1, y = dynamics$fmax.fitted + dynamics$initf,
-        #     labels = paste("Fmax =", round(dynamics$fmax.fitted + dynamics$initf, digits = 2), "N"), pos = 1, col="blue")
         abline(h = dynamics$fmax.fitted + dynamics$initf, lty = 2, col = "blue")
         text(x = xmin + (xmax - xmin)*0.25, y = dynamics$fmax.fitted + dynamics$initf,
              labels = paste("Fmax =", round(dynamics$fmax.fitted + dynamics$initf,digits = 2), "N"),
@@ -414,10 +412,15 @@ drawDynamicsFromLoadCell <- function(
                         {
                                 if (RFDoptions$rfdFunction == "FITTED")
                                 {
-                                        #Slope of the line
+                                        #Finding the sample at which the RFD is calculated
+                                        sample1 =  which.min(abs(dynamics$time - dynamics$startTime/1000))
+                                        sample2 = NULL #Only one poing in instantaneous
+                                        
+                                        #Slope of the line. Deriving the model:
                                         RFD = dynamics$fmax.fitted * dynamics$k.fitted * exp(-dynamics$k.fitted * RFDoptions$start) 
                                         #Y coordinate of a point of the line
                                         pointForce1 = dynamics$fmax.fitted*(1 - exp(-dynamics$k.fitted * RFDoptions$start)) + dynamics$initf
+                                        pointForce2 = NULL
                                         
                                         legendText = c(legendText, paste("RFD", RFDoptions$start, " = ", round(RFD, digits = 1), " N/s", sep = ""))
                                         legendColor = c(legendColor, "blue")
@@ -425,13 +428,16 @@ drawDynamicsFromLoadCell <- function(
                                 } else if(RFDoptions$rfdFunction == "RAW")
                                 {
                                         color = "black"
+                                        #Finding the sample closest to the desired time
                                         sample1 =  which.min(abs(dynamics$time - dynamics$startTime - RFDoptions$start))
+                                        sample2 = NULL
                                         
                                         #Slope of the line
                                         RFD = dynamics$rfd[sample1]
                                         
                                         #Y coordinate of a point of the line
                                         pointForce1 = dynamics$f.raw[sample1]
+                                        pointForce2 = NULL
                                         
                                         legendText = c(legendText, paste("RFD", RFDoptions$start, " = ", round(RFD, digits = 1), " N/s", sep = ""))
                                         legendColor = c(legendColor, "black")
@@ -440,11 +446,17 @@ drawDynamicsFromLoadCell <- function(
                         {
                                 if (RFDoptions$rfdFunction == "FITTED")
                                 {
+                                        #Finding the closest samples to the desired times
+                                        sample1 = which.min(abs(dynamics$time - (dynamics$startTime + RFDoptions$start/1000)))
+                                        sample2 = which.min(abs(dynamics$time - (dynamics$startTime + RFDoptions$end/1000)))
+                                        
+                                        #Y axis of the points
+                                        pointForce1 = dynamics$f.fitted[sample1]
+                                        pointForce2 = dynamics$f.fitted[sample2]
+                                        
+                                        
                                         #Slope of the line
-                                        RFD = dynamics$fmax.fitted*(exp( -dynamics$k.fitted * RFDoptions$start/1000) - exp( -dynamics$k.fitted * RFDoptions$end/1000)) / (RFDoptions$end/1000 - RFDoptions$start/1000)
-                                        #Y coordinate of a point of the line
-                                        pointForce1 = dynamics$fmax.fitted*(1 - exp( -dynamics$k.fitted * RFDoptions$start/1000)) + dynamics$initf
-                                        pointForce2 = dynamics$fmax.fitted*(1 - exp( -dynamics$k.fitted * RFDoptions$end/1000)) + dynamics$initf
+                                        RFD = (pointForce2 - pointForce1) / (dynamics$time[sample2] - dynamics$time[sample1])
                                         
                                         legendText = c(legendText, paste("RFD", RFDoptions$start, "-", RFDoptions$end, " = ", round(RFD, digits = 1), " N/s", sep = ""))
                                         legendColor = c(legendColor, "blue")
@@ -452,15 +464,15 @@ drawDynamicsFromLoadCell <- function(
                                 } else if(RFDoptions$rfdFunction == "RAW")
                                 {
                                         
-                                        sample1 =  which.min(abs(dynamics$time - dynamics$startTime - RFDoptions$start/1000))
-                                        sample2 = which.min(abs(dynamics$time - dynamics$startTime - RFDoptions$end/1000))
-                                        
-                                        #Slope of the line
-                                        RFD = (dynamics$f.raw[sample2] - dynamics$f.raw[sample1]) / (dynamics$time[sample2] - dynamics$time[sample1])
+                                        sample1 = which.min(abs(dynamics$time - (dynamics$startTime + RFDoptions$start/1000)))
+                                        sample2 = which.min(abs(dynamics$time - (dynamics$startTime + RFDoptions$end/1000)))
                                         
                                         #Y coordinate of a point of the line
                                         pointForce1 = dynamics$f.raw[sample1]
                                         pointForce2 = dynamics$f.raw[sample2]
+                                        
+                                        #Slope of the line
+                                        RFD = (pointForce2 - pointForce1) / (dynamics$time[sample2] - dynamics$time[sample1])
                                         
                                         legendText = c(legendText, paste("RFD", RFDoptions$start, "-", RFDoptions$end, " = ", round(RFD, digits = 1), " N/s", sep = ""))
                                         legendColor = c(legendColor, "black")
@@ -472,18 +484,22 @@ drawDynamicsFromLoadCell <- function(
                                 if (RFDoptions$rfdFunction == "FITTED")
                                 {
                                         
-                                        #Force that is the % of the raw fmax
+                                        #Force that is the % of the fitted fmax
                                         fpfmax = dynamics$fmax.raw*RFDoptions$start/100
                                         
-                                        #Translating RFDoptions$start to time in seconds
                                         percent = RFDoptions$start
-                                        RFDoptions$start = dynamics$time[which.min(abs(dynamics$f.fitted - fpfmax))] - dynamics$startTime
                                         
-                                        #RFD at the point with a % of the fmax.raw
-                                        RFD = dynamics$fmax.fitted * dynamics$k.fitted * exp(-dynamics$k.fitted * RFDoptions$start)
+                                        #Translating RFDoptions$start to time in seconds
+                                        RFDoptions$start = dynamics$time[which.min(abs(dynamics$f.fitted - fpfmax))] - dynamics$startTime
+                                        sample1 = which.min(abs(dynamics$f.fitted - fpfmax))
+                                        sample2 = NULL
+                                        
+                                        #RFD at the point with a % of the fmax.fitted
+                                        RFD = dynamics$fmax.fitted * dynamics$k.fitted * exp(-dynamics$k.fitted * (dynamics$time[sample1] - dynamics$startTime))
                                         
                                         #Y coordinate of a point of the line
-                                        pointForce1 = dynamics$fmax.fitted*(1 - exp(-dynamics$k.fitted * RFDoptions$start)) + dynamics$initf
+                                        pointForce1 = dynamics$f.fitted[sample1]
+                                        pointForce2 = NULL
                                         
                                         legendText = c(legendText, paste("RFD", percent, "%Fmax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
                                         legendColor = c(legendColor, "blue")
@@ -491,7 +507,11 @@ drawDynamicsFromLoadCell <- function(
                                 } else if(RFDoptions$rfdFunction == "RAW")
                                 {
                                         #Calculing at which sample force is equal to the percent of fmax specified in RFDoptions$start
-                                        sample1 = which.min(abs(dynamics$f.raw - dynamics$fmax.raw*RFDoptions$start/100))
+                                        sample1 = which.min(abs(dynamics$f.raw[dynamics$startSample:dynamics$endSample] - dynamics$fmax.raw*RFDoptions$start/100)) + dynamics$startSample
+                                        sample2 = NULL
+                                        
+                                        #Translating RFDoptions$start to time in seconds
+                                        percent = RFDoptions$start
                                         
                                         #Translating RFDoptions$start to time in seconds
                                         RFDoptions$start = dynamics$time[sample1] - dynamics$startTime
@@ -501,8 +521,9 @@ drawDynamicsFromLoadCell <- function(
                                         
                                         #Y coordinate of a point of the line
                                         pointForce1 = dynamics$f.raw[sample1]
+                                        pointForce2 = NULL
                                         
-                                        legendText = c(legendText, paste("RFD", RFDoptions$start, "%", "Fmax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                                        legendText = c(legendText, paste("RFD", percent, "%", "Fmax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
                                         legendColor = c(legendColor, "black")
                                         
                                 }
@@ -546,8 +567,8 @@ drawDynamicsFromLoadCell <- function(
                              label = paste(round(RFD, digits=0), "N/s"),
                              srt=atan(windowSlope)*180/pi, pos = 2, col = color)
                         #Drawing the points where the line touch the function
-                        points(x = c(RFDoptions$start + dynamics$startTime, RFDoptions$end/1000 + dynamics$startTime), y = c(pointForce1, pointForce2), col = color)
-
+                        points(x = c(dynamics$time[sample1], dynamics$time[sample2]), y = c(pointForce1, pointForce2), col = color)
+                        
                 }
         }
 

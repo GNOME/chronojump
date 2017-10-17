@@ -533,6 +533,19 @@ drawDynamicsFromLoadCell <- function(
                                 if (RFDoptions$rfdFunction == "FITTED")
                                 {
                                         #max is always in the initial point.
+                                        RFDoptions$start = 0
+                                        #Finding the sample at which the RFD is calculated
+                                        sample1 =  dynamics$startSample
+                                        sample2 = NULL #Only one point in instantaneous mode
+                                        
+                                        #Slope of the line. Deriving the model:
+                                        RFD = dynamics$fmax.fitted * dynamics$k.fitted
+                                        #Y coordinate of a point of the line
+                                        pointForce1 = dynamics$initf
+                                        pointForce2 = NULL
+                                        
+                                        legendText = c(legendText, paste("RFDMax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                                        legendColor = c(legendColor, "blue")
                                         
                                 } else if(RFDoptions$rfdFunction == "RAW")
                                 {

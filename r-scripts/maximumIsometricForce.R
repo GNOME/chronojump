@@ -555,6 +555,7 @@ drawDynamicsFromLoadCell <- function(
                                 {
                                         #Calculing the sample at which the rfd is max
                                         sample1 = which.max(dynamics$rfd)
+                                        sample2 = NULL
                                         
                                         #Translating RFDoptions$start to time in seconds
                                         RFDoptions$start = dynamics$time[sample1] - dynamics$startTime
@@ -564,6 +565,7 @@ drawDynamicsFromLoadCell <- function(
                                         
                                         #Y coordinate of a point of the line
                                         pointForce1 = dynamics$f.raw[sample1]
+                                        pointForce2 = NULL
                                         
                                         legendText = c(legendText, paste("RFDmax = ", round(RFD, digits = 1), " N/s", sep = ""))
                                         legendColor = c(legendColor, "black")

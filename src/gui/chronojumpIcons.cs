@@ -419,6 +419,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
 		image_encoder_analyze_stats.Pixbuf = pixbuf;
 		image_encoder_analyze_image_save.Pixbuf = pixbuf;
+		image_forcesensor_analyze_image_save.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_encoder_signal_delete.Pixbuf = pixbuf;
 	

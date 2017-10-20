@@ -253,6 +253,9 @@ public class UtilEncoder
 	public static string GetmifScript() {
 		return System.IO.Path.Combine(GetSprintPath(), "maximumIsometricForce.R");
 	}
+	public static string GetmifTempFileName() {
+		return Path.Combine(Path.GetTempPath(), "cj_mif_Graph.png");
+	}
 
 	/********** end of r-scripts paths ************/
 

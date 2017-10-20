@@ -1679,7 +1679,15 @@ public class Util
 		
 		return myFile;
 	}
-	
+
+	public static string RemoveExtension(string myFile)
+	{
+		int posOfDot = myFile.LastIndexOf('.');
+		if (posOfDot > 0)
+			myFile = myFile.Substring(0, posOfDot);
+
+		return myFile;
+	}
 
 	public static bool IntToBool (int myInt) {
 		if(myInt == 1)

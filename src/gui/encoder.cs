@@ -1834,7 +1834,7 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_export_all_curves_clicked (object o, EventArgs args) 
 	{
-		checkFile(Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL);
+		checkFile(Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL);
 	}
 
 	// encoder session overview
@@ -1907,26 +1907,38 @@ public partial class ChronoJumpWindow
 	}
 
 	string exportFileName;	
-	protected void checkFile (Constants.EncoderCheckFileOp checkFileOp)
+	protected void checkFile (Constants.CheckFileOp checkFileOp)
 	{
 		string exportString = ""; 
-		if(checkFileOp == Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL)
+		if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 			exportString = Catalog.GetString ("Export set in CSV format");
-		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE)
+		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
+			checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE)
 			exportString = Catalog.GetString ("Save image");
-		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_AB)
+		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 			exportString = Catalog.GetString ("Export repetition in CSV format");
-		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_TABLE)
+		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
 			exportString = Catalog.GetString ("Save table");
 		
 		string nameString = currentPerson.Name + "_" + currentSession.DateShortAsSQL;
-		if(checkFileOp == Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL)
+
+		//at force sensor we can graph a different person than selected person, so use graph-file loaded
+		if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE)
+		{
+			if(lastForceSensorFile == null || lastForceSensorFile == "")
+				nameString = "unnamed";
+			else
+				nameString = lastForceSensorFile;
+		}
+
+		if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 			nameString += "_encoder_set_export.csv";
-		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE)
+		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
+			checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE)
 			nameString += ".png";
-		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_AB)
+		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 			nameString += "_encoder_repetition_export.csv";
-		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_TABLE)
+		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
 			nameString += "_encoder_curves_table.csv";
 		
 		Gtk.FileChooserDialog fc=
@@ -1942,11 +1954,11 @@ public partial class ChronoJumpWindow
 		{
 			exportFileName = fc.Filename;
 			//add ".csv" if needed
-			if(checkFileOp == Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL ||
-					checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_AB ||
-					checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_TABLE)
+			if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL ||
+					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB ||
+					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
 				exportFileName = Util.AddCsvIfNeeded(exportFileName);
-			else
+			else //ENCODER_ANALYZE_SAVE_IMAGE, FORCESENSOR_SAVE_IMAGE
 				exportFileName = Util.AddPngIfNeeded(exportFileName);
 			try {
 				if (File.Exists(exportFileName)) {
@@ -1960,33 +1972,38 @@ public partial class ChronoJumpWindow
 								"Are you sure you want to overwrite file: "), "", 
 							exportFileName);
 
-					if(checkFileOp == Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL)
+					if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 						confirmWin.Button_accept.Clicked += 
 							new EventHandler(on_overwrite_file_export_all_curves_accepted);
-					else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE)
+					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked += 
 							new EventHandler(on_overwrite_file_encoder_save_image_accepted);
-					else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_AB)
+					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 						confirmWin.Button_accept.Clicked += 
 							new EventHandler(on_overwrite_file_encoder_save_AB_accepted);
-					else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_TABLE)
+					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
 						confirmWin.Button_accept.Clicked += 
 							new EventHandler(on_overwrite_file_encoder_save_table_accepted);
+					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_forcesensor_save_image_accepted);
 
 				} else {
-					if(checkFileOp == Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL)
+					if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 						on_button_encoder_export_all_curves_file_selected (exportFileName);
-					else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE)
+					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE)
 						on_button_encoder_save_image_file_selected (exportFileName);
-					else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_AB)
+					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 						on_button_encoder_save_AB_file_selected (exportFileName);
-					else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_TABLE)
+					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
 						on_button_encoder_save_table_file_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE)
+						on_button_forcesensor_save_image_file_selected (exportFileName);
 
 					string myString = string.Format(Catalog.GetString("Saved to {0}"), 
 							exportFileName);
-					if(checkFileOp == Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL ||
-							checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_AB)
+					if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL ||
+							checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 						myString += Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
 					new DialogMessage(Constants.MessageTypes.INFO, myString);
 				}
@@ -3739,7 +3756,7 @@ public partial class ChronoJumpWindow
 		 * or changing person, loading session, ...
 		 */
 
-		checkFile(Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE);
+		checkFile(Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE);
 	}
 	void on_button_encoder_save_image_file_selected (string destination)
 	{
@@ -3762,7 +3779,7 @@ public partial class ChronoJumpWindow
 		 * No problem. Is nice to play with seinsitiveness, but the reading will be from treeview and not from file
 		 */
 
-		checkFile(Constants.EncoderCheckFileOp.ANALYZE_SAVE_TABLE);
+		checkFile(Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE);
 	}
 
 	void on_button_encoder_save_table_file_selected (string destination)
@@ -5993,7 +6010,7 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_analyze_AB_save_clicked (object o, EventArgs args) 
 	{
-		checkFile(Constants.EncoderCheckFileOp.ANALYZE_SAVE_AB);
+		checkFile(Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB);
 	}
 
 	public void on_drawingarea_encoder_analyze_instant_expose_event(object o, ExposeEventArgs args)

@@ -26,6 +26,7 @@ using Gtk;
 using Glade;
 using System.Text; //StringBuilder
 using System.Collections.Generic; //List<T>
+using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
@@ -39,6 +40,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_force_sensor_graph;
 	[Widget] Gtk.Image image_force_sensor_graph;
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
+	[Widget] Gtk.Button button_force_sensor_image_save;
 	
 	Thread forceCaptureThread;
 	static bool forceProcessFinish;
@@ -48,6 +50,7 @@ public partial class ChronoJumpWindow
 	static string forceSensorOtherMessage = "";
 	static bool forceSensorOtherMessageShowSeconds;
 	static DateTime forceSensorTimeStart;
+	static string lastForceSensorFile = "";
 
 	/*
 	 * forceStatus:
@@ -421,7 +424,10 @@ public partial class ChronoJumpWindow
 					forceSensorDoGraph();
 				}
 			} else if(forceProcessCancel)
+			{
 				event_execute_label_message.Text = "Cancelled.";
+				button_force_sensor_image_save.Sensitive = false;
+			}
 			else
 				event_execute_label_message.Text = "";
 
@@ -487,8 +493,10 @@ public partial class ChronoJumpWindow
 		FileFilter file_filter = new FileFilter();
 		file_filter.AddPattern ("*.csv");
 
+		lastForceSensorFile = "";
 		if (filechooser.Run () == (int)ResponseType.Accept)
 		{
+			lastForceSensorFile = Util.RemoveExtension(Util.GetLastPartOfPath(filechooser.Filename));
 			File.Copy(filechooser.Filename,
 					Path.GetTempPath() + Path.DirectorySeparatorChar + "cj_mif_Data.csv",
 					true); //can be overwritten
@@ -500,7 +508,7 @@ public partial class ChronoJumpWindow
 
 	void forceSensorDoGraph()
 	{
-		string imagePath = Path.GetTempPath() + Path.DirectorySeparatorChar + "cj_mif_Graph.png";
+		string imagePath = UtilEncoder.GetmifTempFileName();
 		Util.FileDelete(imagePath);
 		image_force_sensor_graph.Sensitive = false;
 
@@ -521,7 +529,31 @@ public partial class ChronoJumpWindow
 				imagePath,
 				image_force_sensor_graph);
 		image_force_sensor_graph.Sensitive = true;
+		button_force_sensor_image_save.Sensitive = true;
 	}
+
+	private void on_button_force_sensor_image_save_clicked (object o, EventArgs args)
+	{
+		checkFile(Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE);
+	}
+	void on_button_forcesensor_save_image_file_selected (string destination)
+	{
+		try {
+			File.Copy(UtilEncoder.GetmifTempFileName(), destination, true);
+		} catch {
+			string myString = string.Format(
+					Catalog.GetString("Cannot save file {0} "), destination);
+			new DialogMessage(Constants.MessageTypes.WARNING, myString);
+		}
+	}
+	private void on_overwrite_file_forcesensor_save_image_accepted(object o, EventArgs args)
+	{
+		on_button_forcesensor_save_image_file_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+
 
 	private void on_button_force_sensor_data_folder_clicked	(object o, EventArgs args)
 	{

@@ -361,6 +361,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_signal_delete;
 	[Widget] Gtk.Image image_encoder_inertial_instructions;
 
+	//forcesensor
+	[Widget] Gtk.Image image_forcesensor_analyze_image_save;
 
 	Random rand;
 

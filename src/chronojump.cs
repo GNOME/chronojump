@@ -665,6 +665,8 @@ public class ChronoJump
 	
 	private void chronojumpCrashedBefore() 
 	{
+		Log.CopyOldToCrashed();
+
 		/*
 		  string windowsTextLog = "";
 		  

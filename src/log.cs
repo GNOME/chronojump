@@ -87,8 +87,36 @@ public class Log
 		}
 		*/
 	}
-	
-	
+
+	/*
+	 * On Chronojump starts, Log.Start() is called, this copies chronojump_log.txt to chronojump_log_old.txt
+	 * a bit later sqliteThings calls: checkIfChronojumpExitAbnormally() and here detects if chrased before
+	 * if crashed then the log will be: chronojump_log_old.txt
+	 * move this log to crashed logs folder
+	 */
+	public static void CopyOldToCrashed()
+	{
+		//create dir if not exists
+		string dir = UtilAll.GetLogsCrashedDir();
+		if( ! Directory.Exists(dir)) {
+			try {
+				Directory.CreateDirectory (dir);
+			} catch {
+				return;
+			}
+		}
+
+		string filenameOld = UtilAll.GetLogFileOld();
+
+		//if exists, copy to old
+		if(File.Exists(filenameOld)) {
+			try {
+				File.Copy(filenameOld, UtilAll.GetLogCrashedFileTimeStamp(), true); //can be overwritten
+			} catch {}
+		}
+	}
+
+
 	/*
 	//GetLast should NOT return the newer log: the just created and empty file, 
 	//it should return the just before the last, that's the log of when chronojump crashed last time

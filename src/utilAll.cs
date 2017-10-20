@@ -169,7 +169,19 @@ public class UtilAll
 	public static string GetLogFileOld() {
 		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + Constants.FileNameLogOld);
 	}
-	
+
+	public static string GetLogsCrashedDir() {
+		return Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump" + Path.DirectorySeparatorChar + "logs" +
+				Path.DirectorySeparatorChar + "crashed");
+	}
+	public static string GetLogCrashedFileTimeStamp() {
+		return Path.Combine(GetLogsCrashedDir() +  Path.DirectorySeparatorChar +
+				"crashed_log_" + UtilDate.ToFile(DateTime.Now) + ".txt");
+	}
+
+
 	public static string GetTempDir() {
 		string path = Path.GetTempPath();
 

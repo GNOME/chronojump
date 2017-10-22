@@ -868,7 +868,7 @@ public class Json
 		dataStream.Close ();
 		response.Close ();
 
-		this.ResultMessage = "Encoder data sent.";
+		this.ResultMessage = "Sprint data sent.";
 		return true;
 	}
 

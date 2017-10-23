@@ -41,10 +41,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_graph;
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	[Widget] Gtk.Button button_force_sensor_image_save;
+	[Widget] Gtk.DrawingArea force_capture_drawingarea;
+	Gdk.Pixmap force_capture_pixmap = null;
 	
 	Thread forceCaptureThread;
 	static bool forceProcessFinish;
 	static bool forceProcessCancel;
+	ForceSensorCapturePoints fscPoints;
 
 	Thread forceOtherThread; //for messages on: capture, tare, calibrate
 	static string forceSensorOtherMessage = "";
@@ -68,6 +71,8 @@ public partial class ChronoJumpWindow
 	string forceSensorPortName;
 	SerialPort portFS;
 	bool portFSOpened;
+
+	Gdk.GC pen_black_force_capture;
 
 	//Don't reopen port because arduino makes reset and tare, calibration... is lost
 
@@ -303,7 +308,11 @@ public partial class ChronoJumpWindow
 		forceProcessFinish = false;
 		forceProcessCancel = false;
 		forceSensorLast = 0;
-		
+
+		pen_black_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
+		pen_black_force_capture.Foreground = UtilGtk.BLACK;
+		//pen_black_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 		
@@ -347,6 +356,13 @@ public partial class ChronoJumpWindow
 		writer.WriteLine("Time (s);Force(N)");
 		str = "";
 		double firstTime = 0;
+		fscPoints = new ForceSensorCapturePoints(
+				force_capture_drawingarea.Allocation.Width,
+				force_capture_drawingarea.Allocation.Height
+				);
+		UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
+
+		int count = 0;
 		while(! forceProcessFinish && ! forceProcessCancel)
 		{
 			str = portFS.ReadLine();
@@ -380,6 +396,14 @@ public partial class ChronoJumpWindow
 
 			writer.WriteLine(time.ToString() + ";" + force.ToString());
 			forceSensorLast = force;
+
+			fscPoints.Add(time, force);
+			fscPoints.NumCaptured = count ++;
+			if(fscPoints.OutsideGraph())
+			{
+				fscPoints.Redo();
+				fscPoints.NumPainted = -1;
+			}
 
 			//changeSlideIfNeeded(time, force);
 		}
@@ -449,6 +473,7 @@ public partial class ChronoJumpWindow
 
 		if(capturingForce == forceStatus.CAPTURING)
 		{
+			//------------------- vscale -----------------
 			//A) resize vscale if needed
 			int upper = Convert.ToInt32(vscale_force_sensor.Adjustment.Upper);
 			int lower = Convert.ToInt32(vscale_force_sensor.Adjustment.Lower);
@@ -474,12 +499,120 @@ public partial class ChronoJumpWindow
 				label_force_sensor_value_max.Text = forceSensorLast.ToString();
 			if(forceSensorLast < Convert.ToDouble(label_force_sensor_value_min.Text))
 				label_force_sensor_value_min.Text = forceSensorLast.ToString();
+
+
+			//------------------- realtime graph -----------------
+			if(fscPoints.Points == null || force_capture_drawingarea == null)
+				return true;
+
+			//mark meaning screen should be erased
+			if(fscPoints.NumPainted == -1) {
+				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
+				fscPoints.NumPainted = 0;
+			}
+
+			int last = fscPoints.NumCaptured;
+			int toDraw = fscPoints.NumCaptured - fscPoints.NumPainted;
+
+			//LogB.Information("toDraw: " + toDraw.ToString());
+			//fixes crash at the end
+			if(toDraw == 0)
+				return true;
+
+			Gdk.Point [] paintPoints;
+			if(fscPoints.NumPainted > 1)
+				paintPoints = new Gdk.Point[toDraw +1]; // if something has been painted, connected first point with previous points
+			else
+				paintPoints = new Gdk.Point[toDraw];
+
+			int jStart = 0;
+			if(fscPoints.NumPainted > 1)
+			{
+				// if something has been painted, connected first point with previous points
+				paintPoints[0] = fscPoints.Points[fscPoints.NumPainted];
+				jStart = 1;
+			}
+
+			for(int j=jStart, i = fscPoints.NumPainted +1 ; i <= last ; i ++, j++)
+			{
+				paintPoints[j] = fscPoints.Points[i];
+				LogB.Information("X: " + paintPoints[j].X.ToString() + "; Y: " + paintPoints[j].Y.ToString());
+			}
+			force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
+			force_capture_drawingarea.QueueDraw(); // -- refresh
+			fscPoints.NumPainted = fscPoints.NumCaptured;
 		}
 
 		Thread.Sleep (25);
-//		LogB.Information(" ForceSensor:"+ forceCaptureThread.ThreadState.ToString());
+		//LogB.Information(" ForceSensor:"+ forceCaptureThread.ThreadState.ToString());
 		return true;
 	}
+
+	int force_capture_allocationXOld;
+	bool force_capture_sizeChanged;
+	public void on_force_capture_drawingarea_configure_event(object o, ConfigureEventArgs args)
+	{
+//		if(force_capture_drawingarea == null)
+//			return;
+
+		Gdk.EventConfigure ev = args.Event;
+		Gdk.Window window = ev.Window;
+
+		Gdk.Rectangle allocation = force_capture_drawingarea.Allocation;
+
+		if(force_capture_pixmap == null || force_capture_sizeChanged ||
+				allocation.Width != force_capture_allocationXOld)
+		{
+			force_capture_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
+
+			if(forceCaptureThread != null) //&& capturingCsharp == encoderCaptureProcess.CAPTURING)
+				fscPoints.NumPainted = -1; //mark meaning screen should be erased and start painting from the beginning
+			else
+				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
+
+			force_capture_sizeChanged = false;
+		}
+
+		force_capture_allocationXOld = allocation.Width;
+	}
+	public void on_force_capture_drawingarea_expose_event(object o, ExposeEventArgs args)
+	{
+//		if(force_capture_drawingarea == null)
+//			return;
+
+		/* in some mono installations, configure_event is not called, but expose_event yes.
+		 * Do here the initialization
+		 */
+		//LogB.Debug("EXPOSE");
+
+		Gdk.Rectangle allocation = force_capture_drawingarea.Allocation;
+		if(force_capture_pixmap == null || force_capture_sizeChanged ||
+				allocation.Width != force_capture_allocationXOld) {
+			force_capture_pixmap = new Gdk.Pixmap (force_capture_drawingarea.GdkWindow,
+					allocation.Width, allocation.Height, -1);
+
+			if(forceCaptureThread != null) //&& capturingCsharp == encoderCaptureProcess.CAPTURING)
+				fscPoints.NumPainted = -1; //mark meaning screen should be erased and start painting from the beginning
+			else
+				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
+
+			force_capture_sizeChanged = false;
+		}
+
+		Gdk.Rectangle area = args.Event.Area;
+
+		//sometimes this is called when paint is finished
+		//don't let this erase win
+		if(force_capture_pixmap != null) {
+			args.Event.Window.DrawDrawable(force_capture_drawingarea.Style.WhiteGC, force_capture_pixmap,
+				area.X, area.Y,
+				area.X, area.Y,
+				area.Width, area.Height);
+		}
+
+		force_capture_allocationXOld = allocation.Width;
+	}
+
 
 	private void on_button_force_sensor_graph_clicked (object o, EventArgs args)
 	{

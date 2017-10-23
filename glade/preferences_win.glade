@@ -3134,7 +3134,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_1_at_ms">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">At</property>
+                                            <property name="label" translatable="yes">At</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -3191,7 +3191,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_1_at_percent">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">At</property>
+                                            <property name="label" translatable="yes">At</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -3224,7 +3224,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label86">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">% maximum force</property>
+                                            <property name="label" translatable="yes">% maximum force</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">True</property>
@@ -3248,7 +3248,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_1_from">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">From</property>
+                                            <property name="label" translatable="yes">From</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -3281,7 +3281,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_1_to">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">to</property>
+                                            <property name="label" translatable="yes">to</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -3434,7 +3434,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_2_at_ms">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">At</property>
+                                            <property name="label" translatable="yes">At</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -3491,7 +3491,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_2_at_percent">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">At</property>
+                                            <property name="label" translatable="yes">At</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -3524,7 +3524,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label90">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">% maximum force</property>
+                                            <property name="label" translatable="yes">% maximum force</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">True</property>
@@ -3548,7 +3548,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_2_from">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">From</property>
+                                            <property name="label" translatable="yes">From</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -3581,7 +3581,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_2_to">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">to</property>
+                                            <property name="label" translatable="yes">to</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -3734,7 +3734,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_3_at_ms">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">At</property>
+                                            <property name="label" translatable="yes">At</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -3791,7 +3791,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_3_at_percent">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">At</property>
+                                            <property name="label" translatable="yes">At</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -3824,7 +3824,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label94">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">% maximum force</property>
+                                            <property name="label" translatable="yes">% maximum force</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">True</property>
@@ -3848,7 +3848,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_3_from">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">From</property>
+                                            <property name="label" translatable="yes">From</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -3881,7 +3881,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_3_to">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">to</property>
+                                            <property name="label" translatable="yes">to</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -4034,7 +4034,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_4_at_ms">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">At</property>
+                                            <property name="label" translatable="yes">At</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -4091,7 +4091,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_4_at_percent">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">At</property>
+                                            <property name="label" translatable="yes">At</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -4124,7 +4124,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label98">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">% maximum force</property>
+                                            <property name="label" translatable="yes">% maximum force</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">True</property>
@@ -4148,7 +4148,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_4_from">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">From</property>
+                                            <property name="label" translatable="yes">From</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -4181,7 +4181,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_4_to">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">to</property>
+                                            <property name="label" translatable="yes">to</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -4310,7 +4310,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_impulse_until_percent">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">Until</property>
+                                            <property name="label" translatable="yes">Until</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -4343,7 +4343,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label101">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">% maximum force</property>
+                                            <property name="label" translatable="yes">% maximum force</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">True</property>
@@ -4367,7 +4367,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_impulse_from">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">From</property>
+                                            <property name="label" translatable="yes">From</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -4400,7 +4400,7 @@ Other</property>
                                           <widget class="GtkLabel" id="label_force_impulse_to">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label">to</property>
+                                            <property name="label" translatable="yes">to</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -4469,7 +4469,7 @@ Other</property>
                                 <property name="layout_style">end</property>
                                 <child>
                                   <widget class="GtkButton" id="button_force_rfd_default">
-                                    <property name="label">Back to default values</property>
+                                    <property name="label" translatable="yes">Back to default values</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="can_default">True</property>

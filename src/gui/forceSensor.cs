@@ -76,12 +76,13 @@ public partial class ChronoJumpWindow
 
 	//Don't reopen port because arduino makes reset and tare, calibration... is lost
 
+	//Attention: no GTK here!!
 	private bool forceSensorConnect()
 	{
 		LogB.Information(" FS connect 0 ");
 		if(chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE) == null)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Force sensor is not connected!");
+			forceSensorOtherMessage = "Force sensor is not connected!";
 			return false;
 		}
 
@@ -90,7 +91,7 @@ public partial class ChronoJumpWindow
 		LogB.Information(" FS connect 2 ");
 		if(forceSensorPortName == null || forceSensorPortName == "")
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Please, select port");
+			forceSensorOtherMessage = "Please, select port!";
 			return false;
 		}
 		LogB.Information(" FS connect 3 ");
@@ -154,10 +155,6 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		if(! portFSOpened)
-			if(! forceSensorConnect())
-				return;
-
 		capturingForce = forceStatus.STOP;
 		forceSensorButtonsSensitive(false);
 		forceSensorTimeStart = DateTime.Now;
@@ -195,6 +192,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_calibrate.Sensitive = sensitive;
 		button_force_sensor_check_version.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
+		spin_force_sensor_calibration_kg_value.Sensitive = sensitive;
 	}
 
 	private bool pulseGTKForceSensorOther ()
@@ -235,13 +233,22 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private void forceSensorTare()
 	{
+		if(! portFSOpened)
+			if(! forceSensorConnect())
+				return;
+
 		if(! forceSensorSendCommand("tare:", "Taring ...", "Catched force taring"))
 			return;
 
 		string str = "";
 		do {
 			Thread.Sleep(100); //sleep to let arduino start reading
-			str = portFS.ReadLine();
+			try {
+				str = portFS.ReadLine();
+			} catch {
+				forceSensorOtherMessage = "Disconnected";
+				return;
+			}
 			LogB.Information("init string: " + str);
 		}
 		while(! str.Contains("Taring OK"));
@@ -253,6 +260,10 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private void forceSensorCalibrate()
 	{
+		if(! portFSOpened)
+			if(! forceSensorConnect())
+				return;
+
 		if(! forceSensorSendCommand("calibrate:" + spin_force_sensor_calibration_kg_value.Value.ToString() + ";",
 					"Calibrating ...", "Catched force calibrating"))
 			return;
@@ -260,7 +271,12 @@ public partial class ChronoJumpWindow
 		string str = "";
 		do {
 			Thread.Sleep(100); //sleep to let arduino start reading
-			str = portFS.ReadLine();
+			try {
+				str = portFS.ReadLine();
+			} catch {
+				forceSensorOtherMessage = "Disconnected";
+				return;
+			}
 			LogB.Information("init string: " + str);
 		}
 		while(! str.Contains("Calibrating OK"));
@@ -272,13 +288,22 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private void forceSensorCheckVersion()
 	{
+		if(! portFSOpened)
+			if(! forceSensorConnect())
+				return;
+
 		if(! forceSensorSendCommand("get_version:", "Checking version ...", "Catched checking version"))
 			return;
 
 		string str = "";
 		do {
 			Thread.Sleep(100); //sleep to let arduino start reading
-			str = portFS.ReadLine().Trim();
+			try {
+				str = portFS.ReadLine().Trim();
+			} catch {
+				forceSensorOtherMessage = "Disconnected";
+				return;
+			}
 			LogB.Information("init string: " + str);
 		}
 		while(! str.Contains("Force_Sensor-"));
@@ -290,6 +315,10 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private void forceSensorCapturePre()
 	{
+		if(! portFSOpened)
+			if(! forceSensorConnect())
+				return;
+
 		forceSensorOtherMessage = "Please, wait ...";
 		capturingForce = forceStatus.STARTING;
 	}
@@ -340,7 +369,12 @@ public partial class ChronoJumpWindow
 		string str = "";
 		do {
 			Thread.Sleep(100); //sleep to let arduino start reading
-			str = portFS.ReadLine();
+			try {
+				str = portFS.ReadLine();
+			} catch {
+				forceProcessCancel = true;
+				return;
+			}
 			LogB.Information("init string: " + str);
 		}
 		while(! str.Contains("Starting capture"));

@@ -1396,6 +1396,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -11129,6 +11132,19 @@ after time</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkDrawingArea" id="force_capture_drawingarea">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <signal name="configure_event" handler="on_force_capture_drawingarea_configure_event" swapped="no"/>
+                                                            <signal name="expose_event" handler="on_force_capture_drawingarea_expose_event" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -20823,6 +20839,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -23,6 +23,84 @@ using System.IO; 		//for detect OS
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
+/*
+ * TODO: this class only contains points plot stuff
+ * currently all the code relevant to force sensor actions is on gui/forcesensor.cs
+ * that code should be here and there only the gui stuff
+ */
+public class ForceSensorCapturePoints
+{
+	//ForceCapturePoints stored to be realtime displayed
+	public List<Gdk.Point> Points;
+	public int NumCaptured;
+	public int NumPainted;
+
+	//used to redo all points if change RealWidthG or RealHeightG
+	private List<double> times;
+	private List<double> forces;
+
+	public int RealWidthG = 10000000; //width of graph in microseconds (will be upgraded if needed)
+	public int RealHeightG = 200; //Newtons (will be upgraded if needed)
+
+	private int widthG;
+	private int heightG;
+
+	//initialize
+	public ForceSensorCapturePoints(int widthG, int heightG)
+	{
+		Points = new List<Gdk.Point>();
+		NumCaptured = 0;
+		NumPainted = 0; 	//-1 means delete screen
+		times = new List<double>();
+		forces = new List<double>();
+
+		this.widthG = widthG;
+		this.heightG = heightG;
+	}
+//	int xCount = 10; //just for debugging!!
+
+	public void Add(double time, double force)
+	{
+		times.Add(time);
+		forces.Add(force);
+		Points.Add(new Gdk.Point(
+					Convert.ToInt32(widthG * time / RealWidthG),
+					Convert.ToInt32( (heightG/2) - ( force * heightG / RealHeightG) )
+					));
+	}
+
+	private Gdk.Point getLastPoint()
+	{
+		return Points[Points.Count -1];
+	}
+
+	public bool OutsideGraph()
+	{
+		Gdk.Point p = getLastPoint();
+		if(p.X > widthG)
+		{
+			RealWidthG *= 2;
+			return true;
+		}
+		if(p.Y > heightG /2)
+		{
+			RealHeightG *= 2;
+			return true;
+		}
+		return false;
+	}
+
+	//reprocess all points with new RealWidthG, RealHeightG
+	public void Redo()
+	{
+		for(int i=0; i < NumCaptured; i ++)
+			Points[i] = new Gdk.Point(
+					Convert.ToInt32(widthG * times[i] / RealWidthG),
+					Convert.ToInt32( (heightG/2) - ( forces[i] * heightG / RealHeightG) )
+					);
+	}
+}
+
 public class ForceSensorRFD
 {
 	//if these names change, change FunctionPrint() below

@@ -40,7 +40,7 @@ public class ForceSensorCapturePoints
 	private List<double> forces;
 
 	public int RealWidthG = 10000000; //width of graph in microseconds (will be upgraded if needed)
-	public int RealHeightG = 200; //Newtons (will be upgraded if needed)
+	public int RealHeightG = 500; //Newtons (will be upgraded if needed)
 
 	private int widthG;
 	private int heightG;

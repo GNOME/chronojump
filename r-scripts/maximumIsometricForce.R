@@ -116,11 +116,13 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         endTime = originalTest$time[endSample]
         
         # Initial force. It is needed to perform an initial steady force to avoid jerks and great peaks in the force
-        if(startSample < 11)
+        if(startSample <= 20)
         {
                 print("Not previos steady tension applied before performing the test")
                 return(NA)
         }
+        
+
         initf = mean(originalTest$force[(startSample - 20):(startSample - 10)]) #ATENTION. This value is different from f0.raw
         fmax.raw = max(originalTest$force[startSample:endSample])
         
@@ -638,7 +640,8 @@ getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf
         
 }
 
-#Finds the sample in which the force decrease a given percentage of the maximum force.
+#Finds the sample in which the force start incresing (RFD > 20% of maxRFD)
+#and decrease a given percentage of the maximum force.
 #The maximum force is calculed from the moving average of averageLength seconds
 getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.1, percentChange = 5)
 {

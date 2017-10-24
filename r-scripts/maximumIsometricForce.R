@@ -135,32 +135,9 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         model = getForceModel(test$time, test$force, startTime, fmax.smoothed, initf)
         f.fitted = initf + model$fmax*(1-exp(-model$K*(originalTest$time - startTime)))
         
-        f0.raw = test$force[1]                                                       #Force at t=0ms. ATENTION. This value is different than initf
-        f100.raw = test$force[which.min(abs(test$time - (startTime + 0.1)))]         #Force at t=100ms
-        f100.fitted = model$fmax*(1 - exp( - model$K * 0.1)) + initf
-        f200.raw = test$force[which.min(abs(test$time - (startTime + 0.2)))]         #Force at t=200ms
-        f200.fitted = model$fmax*(1 - exp( - model$K * 0.2)) + initf
-        f90.raw = test$force[which.min(abs(test$time - (startTime + 0.09)))]         #Force at t=90ms
-        f110.raw = test$force[which.min(abs(test$time - (startTime + 0.11)))]        #Force at t=110ms
-        f190.raw = test$force[which.min(abs(test$time - (startTime + 0.19)))]        #Force at t=190ms
-        f210.raw = test$force[which.min(abs(test$time - (startTime + 0.21)))]        #Force at t=210ms
-        f50fmax.raw = test$force[which.min(abs(test$force - fmax.raw/2))]
-        f50fmax.fitted = (model$fmax + initf)/2
-        
-        rfd0.fitted = model$fmax * model$K # RFD at t=0ms using the exponential model
-        rfd100.raw = (f110.raw - f90.raw) / 0.02  #rfd at t= 100ms. Mean value using de previous and the next value and divided by 20ms
-        rfd0_100.raw = (f100.raw - f0.raw) / 0.1  #Mean rfd during t=[0..100]
-        rfd0_100.fitted = (f100.fitted - initf) / 0.1
-        rfd200.raw = (f210.raw - f190.raw) / 0.02
-        rfd0_200.raw = (f200.raw - f0.raw) / 0.2
-        rfd0_200.fitted = (f200.fitted - initf) / 0.2
-        rfd100_200.raw = ((f200.raw - f100.raw) * 10)
-        
-        tfmax.raw = test$time[which.min(abs(test$force - fmax.raw))]
-        t50fmax.raw = test$time[which.min(abs(test$force - fmax.raw/2))]
-        t50fmax.fitted = originalTest$time[which.min(abs(f.fitted - (model$fmax + initf)/ 2))]
-        rfd50pfmax.raw = (test$force[which.min(abs(test$force - fmax.raw/2)) + 1] - test$force[which.min(abs(test$force - fmax.raw/2)) - 1]) * 100 / 2 #RFD at the moment that the force is 50% of the fmax
-        rfd50pfmax.fitted = model$fmax * model$K * exp(-model$K*(t50fmax.fitted - startTime))
+        f0.raw = test$force[1]                                                  # Force at t=0ms. ATENTION. This value is different than initf
+        rfd0.fitted = model$fmax * model$K                                      # RFD at t=0ms using the exponential model
+        tfmax.raw = test$time[which.min(abs(test$force - fmax.raw))]            # Time needed to reach the Fmax
         
         return(list(nameOfFile = inputFile, time = originalTest[, "time"], fmax.fitted = model$fmax, k.fitted = model$K,
                     startTime = startTime, endTime = endTime,
@@ -170,22 +147,7 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
                     f0.raw = f0.raw,
                     fmax.raw = fmax.raw, fmax.smoothed = fmax.smoothed,
                     tfmax.raw = tfmax.raw,
-                    f100.raw = f100.raw,
-                    f100.fitted = f100.fitted,
-                    f200.raw = f200.raw,
-                    f200.fitted = f200.fitted,
-                    f50fmax.raw = f50fmax.raw,
-                    f50fmax.fitted = f50fmax.fitted,
-                    rfd0.fitted = rfd0.fitted,
-                    rfd100.raw = rfd100.raw,
-                    rfd0_100.raw = rfd0_100.raw,
-                    rfd0_100.fitted = rfd0_100.fitted,
-                    rfd0_200.raw = rfd0_200.raw,
-                    rfd0_200.fitted = rfd0_200.fitted,
-                    rfd200.raw = rfd200.raw,
                     rfd = rfd,
-                    t50fmax.raw = t50fmax.raw, rfd50pfmax.raw = rfd50pfmax.raw,
-                    t50fmax.fitted = t50fmax.fitted, rfd50pfmax.fitted = rfd50pfmax.fitted,
                     f.raw = originalTest$force, f.smoothed = f.smoothed, f.fitted = f.fitted,
                     endTime = endTime))
 }

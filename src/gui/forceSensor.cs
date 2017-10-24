@@ -74,13 +74,22 @@ public partial class ChronoJumpWindow
 	bool portFSOpened;
 
 	Gdk.GC pen_black_force_capture;
+	Gdk.GC pen_gray_force_capture;
+	Pango.Layout layout_force_text;
 
 
-	private void pen_black_force_init()
+	private void force_graphs_init()
 	{
 		pen_black_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_black_force_capture.Foreground = UtilGtk.BLACK;
-		//pen_black_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+		pen_black_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+
+		pen_gray_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
+		pen_gray_force_capture.Foreground = UtilGtk.GRAY;
+		pen_gray_force_capture.SetLineAttributes (1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+
+		layout_force_text = new Pango.Layout (force_capture_drawingarea.PangoContext);
+		layout_force_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
 	}
 
 
@@ -169,7 +178,7 @@ public partial class ChronoJumpWindow
 		forceSensorOtherMessageShowSeconds = true;
 
 		if(pen_black_force_capture == null)
-			pen_black_force_init();
+			force_graphs_init();
 
 		if(o == (object) button_force_sensor_tare)
 		{
@@ -726,12 +735,13 @@ public partial class ChronoJumpWindow
 		UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
 
 		if(pen_black_force_capture == null)
-			pen_black_force_init();
+			force_graphs_init();
 
 		List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetmifCSVFileName());
 		bool headersRow = true;
 		double maxForce = 0;
 		double minForce = 0;
+		double lastForce = 0;
 		foreach(string str in contents)
 		{
 			if(headersRow)
@@ -744,12 +754,21 @@ public partial class ChronoJumpWindow
 				{
 					double force = Convert.ToDouble(strFull[1]);
 					fscPoints.Add(Convert.ToInt32(strFull[0]), force);
+
+					lastForce = force;
 					if(force > maxForce)
 						maxForce = force;
 					if(force < minForce)
 						minForce = force;
 				}
 			}
+		}
+
+		forcePaintHLine(0);
+		for(int i = 1; i <= 5 ; i ++)
+		{
+			forcePaintHLine(100 * i);
+			forcePaintHLine(-100 * i);
 		}
 
 		Gdk.Point [] paintPoints = new Gdk.Point[fscPoints.Points.Count];
@@ -759,9 +778,22 @@ public partial class ChronoJumpWindow
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
 		force_capture_drawingarea.QueueDraw(); // -- refresh
 
-		label_force_sensor_value.Text = paintPoints[paintPoints.Length -1].Y.ToString();
+		label_force_sensor_value.Text = lastForce.ToString();
 		label_force_sensor_value_max.Text = maxForce.ToString();
 		label_force_sensor_value_min.Text = minForce.ToString();
+	}
+
+	private void forcePaintHLine(int yForce)
+	{
+		int yPx = fscPoints.GetForceInPx(yForce);
+		force_capture_pixmap.DrawLine(pen_gray_force_capture,
+				0, yPx, force_capture_drawingarea.Allocation.Width, yPx);
+
+		layout_force_text.SetMarkup(yForce.ToString());
+		int textWidth = 1;
+		int textHeight = 1;
+		layout_force_text.GetPixelSize(out textWidth, out textHeight);
+		force_capture_pixmap.DrawLayout (pen_gray_force_capture, 0, yPx, layout_force_text);
 	}
 
 	private void on_button_force_sensor_image_save_clicked (object o, EventArgs args)

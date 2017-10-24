@@ -2157,7 +2157,7 @@ public partial class ChronoJumpWindow
 			LogB.Information("cancelling force capture");
 			forceProcessCancel = true;
 		}
-		if(forceOtherThread.IsAlive)
+		if(forceOtherThread != null && forceOtherThread.IsAlive)
 			forceOtherThread.Abort();
 		if(portFSOpened)
 			portFS.Close();

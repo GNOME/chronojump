@@ -70,12 +70,19 @@ public partial class ChronoJumpWindow
 	static double forceSensorLast; 		//Needed to display value and move vscale
 
 	string forceSensorPortName;
-	SerialPort portFS;
+	SerialPort portFS; //Attention!! Don't reopen port because arduino makes reset and tare, calibration... is lost
 	bool portFSOpened;
 
 	Gdk.GC pen_black_force_capture;
 
-	//Don't reopen port because arduino makes reset and tare, calibration... is lost
+
+	private void pen_black_force_init()
+	{
+		pen_black_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
+		pen_black_force_capture.Foreground = UtilGtk.BLACK;
+		//pen_black_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+	}
+
 
 	//Attention: no GTK here!!
 	private bool forceSensorConnect()
@@ -160,6 +167,9 @@ public partial class ChronoJumpWindow
 		forceSensorButtonsSensitive(false);
 		forceSensorTimeStart = DateTime.Now;
 		forceSensorOtherMessageShowSeconds = true;
+
+		if(pen_black_force_capture == null)
+			pen_black_force_init();
 
 		if(o == (object) button_force_sensor_tare)
 		{
@@ -339,10 +349,6 @@ public partial class ChronoJumpWindow
 		forceProcessCancel = false;
 		forceSensorLast = 0;
 
-		pen_black_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
-		pen_black_force_capture.Foreground = UtilGtk.BLACK;
-		//pen_black_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
-
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 		
@@ -390,7 +396,7 @@ public partial class ChronoJumpWindow
 		TextWriter writer = File.CreateText(fileName);
 		writer.WriteLine("Time (s);Force(N)");
 		str = "";
-		double firstTime = 0;
+		int firstTime = 0;
 		fscPoints = new ForceSensorCapturePoints(
 				force_capture_drawingarea.Allocation.Width,
 				force_capture_drawingarea.Allocation.Height
@@ -417,8 +423,7 @@ public partial class ChronoJumpWindow
 			if(! Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
 				continue;
 
-			//needed to store double in user locale
-			double time = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[0]));
+			int time = Convert.ToInt32(strFull[0]);
 
 			//measurement does not start at 0 time. When we start receiving data, mark this as firstTime
 			if(firstTime == 0)
@@ -457,9 +462,7 @@ public partial class ChronoJumpWindow
 			Util.FileDelete(fileName);
 		else {
 			//call graph
-			File.Copy(fileName,
-					Path.GetTempPath() + Path.DirectorySeparatorChar + "cj_mif_Data.csv",
-					true); //can be overwritten
+			File.Copy(fileName, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
 			capturingForce = forceStatus.COPIED_TO_TMP;
 		}
 	}
@@ -482,7 +485,7 @@ public partial class ChronoJumpWindow
 				{
 					event_execute_label_message.Text = "Saved.";
 					Thread.Sleep (250); //Wait a bit to ensure is copied
-					forceSensorDoGraph();
+					forceSensorDoRFDGraph();
 				}
 			} else if(forceProcessCancel)
 			{
@@ -664,7 +667,7 @@ public partial class ChronoJumpWindow
 	}
 
 
-	private void on_button_force_sensor_graph_clicked (object o, EventArgs args)
+	private void on_button_force_sensor_load_clicked (object o, EventArgs args)
 	{
 		Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog ("Choose file",
 		                                                               app1, FileChooserAction.Open,
@@ -680,16 +683,15 @@ public partial class ChronoJumpWindow
 		if (filechooser.Run () == (int)ResponseType.Accept)
 		{
 			lastForceSensorFile = Util.RemoveExtension(Util.GetLastPartOfPath(filechooser.Filename));
-			File.Copy(filechooser.Filename,
-					Path.GetTempPath() + Path.DirectorySeparatorChar + "cj_mif_Data.csv",
-					true); //can be overwritten
+			File.Copy(filechooser.Filename, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
 
-			forceSensorDoGraph();
+			forceSensorDoRFDGraph();
+			forceSensorDoSignalGraph();
 		}
 		filechooser.Destroy ();
 	}
 
-	void forceSensorDoGraph()
+	void forceSensorDoRFDGraph()
 	{
 		string imagePath = UtilEncoder.GetmifTempFileName();
 		Util.FileDelete(imagePath);
@@ -713,6 +715,40 @@ public partial class ChronoJumpWindow
 				image_force_sensor_graph);
 		image_force_sensor_graph.Sensitive = true;
 		button_force_sensor_image_save.Sensitive = true;
+	}
+
+	void forceSensorDoSignalGraph()
+	{
+		fscPoints = new ForceSensorCapturePoints(
+				force_capture_drawingarea.Allocation.Width,
+				force_capture_drawingarea.Allocation.Height
+				);
+		UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
+
+		if(pen_black_force_capture == null)
+			pen_black_force_init();
+
+		List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetmifCSVFileName());
+		bool headersRow = true;
+		foreach(string str in contents)
+		{
+			if(headersRow)
+				headersRow = false;
+			else {
+				string [] strFull = str.Split(new char[] {';'});
+				if(strFull.Length != 2)
+					continue;
+				if(Util.IsNumber(strFull[0], false) && Util.IsNumber(strFull[1], true))
+					fscPoints.Add(Convert.ToInt32(strFull[0]), Convert.ToDouble(strFull[1]));
+			}
+		}
+
+		Gdk.Point [] paintPoints = new Gdk.Point[fscPoints.Points.Count];
+		for(int i = 0; i < fscPoints.Points.Count; i ++)
+			paintPoints[i] = fscPoints.Points[i];
+
+		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
+		force_capture_drawingarea.QueueDraw(); // -- refresh
 	}
 
 	private void on_button_force_sensor_image_save_clicked (object o, EventArgs args)
@@ -749,7 +785,7 @@ public partial class ChronoJumpWindow
 
 
 	double lastChangedTime; //changeSlideCode
-	private void changeSlideIfNeeded(double time, double force)
+	private void changeSlideIfNeeded(int time, double force)
 	{
 		if(force > 100) {
 			//changeSlide if one second or more elapsed since last change

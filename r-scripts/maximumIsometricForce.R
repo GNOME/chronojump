@@ -605,7 +605,7 @@ getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf
 #Finds the sample in which the force start incresing (RFD > 20% of maxRFD)
 #and decrease a given percentage of the maximum force.
 #The maximum force is calculed from the moving average of averageLength seconds
-getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.1, percentChange = 5)
+getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.1, percentChange = 5, testLength = -1)
 {
         movingAverageForce = getMovingAverageForce(test, averageLength = 0.1)
         #maxAverageForce = max(movingAverageForce, na.rm = T)
@@ -620,19 +620,24 @@ getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.
                 startSample = startSample + 1
         }
         
-        
-        endSample = startSample + 1
-        maxAverageForce = movingAverageForce[endSample]
-        while(movingAverageForce[endSample] > maxAverageForce*(100 - percentChange) / 100 &
-              endSample < length(test$time))
-        {
-                if(movingAverageForce[endSample] > maxAverageForce)
+        if (testLength <= -1){
+                endSample = startSample + 1
+                maxAverageForce = movingAverageForce[endSample]
+                while(movingAverageForce[endSample] > maxAverageForce*(100 - percentChange) / 100 &
+                      endSample < length(test$time))
                 {
-                        maxAverageForce = movingAverageForce[endSample]
+                        if(movingAverageForce[endSample] > maxAverageForce)
+                        {
+                                maxAverageForce = movingAverageForce[endSample]
+                        }
+                        endSample = endSample + 1
                 }
-                endSample = endSample + 1
+        } else if(testLength >= 0 && testLength < 0.1){
+                print("Test interval too short")
+        } else {
+                endSample = which.min(abs(test$time[startSample] + testLength - test$time))
         }
-        
+
         return(list(startSample = startSample, endSample = endSample))
 }
 

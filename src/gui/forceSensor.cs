@@ -36,7 +36,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_value_max;
 	[Widget] Gtk.Label label_force_sensor_value;
 	[Widget] Gtk.Label label_force_sensor_value_min;
-	[Widget] Gtk.VScale vscale_force_sensor;
+	//[Widget] Gtk.VScale vscale_force_sensor;
 	[Widget] Gtk.Viewport viewport_force_sensor_graph;
 	[Widget] Gtk.Image image_force_sensor_graph;
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
@@ -330,7 +330,7 @@ public partial class ChronoJumpWindow
 		event_execute_button_finish.Sensitive = true;
 		event_execute_button_cancel.Sensitive = true;
 		forceCaptureStartMark = false;
-		vscale_force_sensor.Value = 0;
+		//vscale_force_sensor.Value = 0;
 		label_force_sensor_value_max.Text = "0";
 		label_force_sensor_value.Text = "0";
 		label_force_sensor_value_min.Text = "0";
@@ -511,6 +511,7 @@ public partial class ChronoJumpWindow
 		if(capturingForce == forceStatus.CAPTURING)
 		{
 			//------------------- vscale -----------------
+			/*
 			//A) resize vscale if needed
 			int upper = Convert.ToInt32(vscale_force_sensor.Adjustment.Upper);
 			int lower = Convert.ToInt32(vscale_force_sensor.Adjustment.Lower);
@@ -531,6 +532,7 @@ public partial class ChronoJumpWindow
 
 			//B) change the value
 			vscale_force_sensor.Value = forceSensorLast;
+			*/
 			label_force_sensor_value.Text = forceSensorLast.ToString();
 			if(forceSensorLast > Convert.ToDouble(label_force_sensor_value_max.Text))
 				label_force_sensor_value_max.Text = forceSensorLast.ToString();
@@ -611,7 +613,8 @@ public partial class ChronoJumpWindow
 		{
 			force_capture_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 
-			if(forceCaptureThread != null) //&& capturingCsharp == encoderCaptureProcess.CAPTURING)
+			if(forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
+//			if(forceCaptureThread != null) //&& capturingCsharp == encoderCaptureProcess.CAPTURING)
 				fscPoints.NumPainted = -1; //mark meaning screen should be erased and start painting from the beginning
 			else
 				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
@@ -637,7 +640,8 @@ public partial class ChronoJumpWindow
 			force_capture_pixmap = new Gdk.Pixmap (force_capture_drawingarea.GdkWindow,
 					allocation.Width, allocation.Height, -1);
 
-			if(forceCaptureThread != null) //&& capturingCsharp == encoderCaptureProcess.CAPTURING)
+			if(forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
+			//if(forceCaptureThread != null) //&& capturingCsharp == encoderCaptureProcess.CAPTURING)
 				fscPoints.NumPainted = -1; //mark meaning screen should be erased and start painting from the beginning
 			else
 				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);

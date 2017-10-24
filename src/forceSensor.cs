@@ -57,7 +57,6 @@ public class ForceSensorCapturePoints
 		this.widthG = widthG;
 		this.heightG = heightG;
 	}
-//	int xCount = 10; //just for debugging!!
 
 	public void Add(double time, double force)
 	{
@@ -82,7 +81,7 @@ public class ForceSensorCapturePoints
 			RealWidthG *= 2;
 			return true;
 		}
-		if(p.Y > heightG /2)
+		if(p.Y < 0)
 		{
 			RealHeightG *= 2;
 			return true;
@@ -94,10 +93,14 @@ public class ForceSensorCapturePoints
 	public void Redo()
 	{
 		for(int i=0; i < NumCaptured; i ++)
+		{
+			//LogB.Information("RedoPRE X: " + Points[i].X.ToString() + "; Y: " + Points[i].Y.ToString());
 			Points[i] = new Gdk.Point(
 					Convert.ToInt32(widthG * times[i] / RealWidthG),
 					Convert.ToInt32( (heightG/2) - ( forces[i] * heightG / RealHeightG) )
 					);
+			//LogB.Information("RedoPOST X: " + Points[i].X.ToString() + "; Y: " + Points[i].Y.ToString());
+		}
 	}
 }
 

@@ -64,6 +64,7 @@ public partial class ChronoJumpWindow
 	 */
 	enum forceStatus { STOP, STARTING, CAPTURING, COPIED_TO_TMP }
 	static forceStatus capturingForce = forceStatus.STOP;
+	static bool redoingPoints; //don't draw while redoing points (adjusting screen)
 
 	static bool forceCaptureStartMark; 	//Just needed to display "Capturing message"
 	static double forceSensorLast; 		//Needed to display value and move vscale
@@ -432,11 +433,13 @@ public partial class ChronoJumpWindow
 			forceSensorLast = force;
 
 			fscPoints.Add(time, force);
-			fscPoints.NumCaptured = count ++;
+			fscPoints.NumCaptured = ++ count;
 			if(fscPoints.OutsideGraph())
 			{
+				redoingPoints = true;
 				fscPoints.Redo();
 				fscPoints.NumPainted = -1;
+				redoingPoints = false;
 			}
 
 			//changeSlideIfNeeded(time, force);
@@ -536,7 +539,7 @@ public partial class ChronoJumpWindow
 
 
 			//------------------- realtime graph -----------------
-			if(fscPoints.Points == null || force_capture_drawingarea == null)
+			if(redoingPoints || fscPoints.Points == null || force_capture_drawingarea == null)
 				return true;
 
 			//mark meaning screen should be erased
@@ -545,36 +548,45 @@ public partial class ChronoJumpWindow
 				fscPoints.NumPainted = 0;
 			}
 
-			int last = fscPoints.NumCaptured;
-			int toDraw = fscPoints.NumCaptured - fscPoints.NumPainted;
+			//use this integer and this List to not have errors by updating data on the other thread
+			int numCaptured = fscPoints.NumCaptured;
+			List<Gdk.Point> points = fscPoints.Points;
 
-			//LogB.Information("toDraw: " + toDraw.ToString());
+			int toDraw = numCaptured - fscPoints.NumPainted;
+
+			LogB.Information("fscPointsCount: " + points.Count +
+					"; NumCaptured: " + numCaptured + "; NumPainted: " +fscPoints.NumPainted +
+					"; toDraw: " + toDraw.ToString() );
+
 			//fixes crash at the end
 			if(toDraw == 0)
 				return true;
 
 			Gdk.Point [] paintPoints;
-			if(fscPoints.NumPainted > 1)
+			if(fscPoints.NumPainted > 0)
 				paintPoints = new Gdk.Point[toDraw +1]; // if something has been painted, connected first point with previous points
 			else
 				paintPoints = new Gdk.Point[toDraw];
 
 			int jStart = 0;
-			if(fscPoints.NumPainted > 1)
+			int iStart = 0;
+			if(fscPoints.NumPainted > 0)
 			{
 				// if something has been painted, connected first point with previous points
-				paintPoints[0] = fscPoints.Points[fscPoints.NumPainted];
+				paintPoints[0] = points[fscPoints.NumPainted -1];
 				jStart = 1;
+				iStart = fscPoints.NumPainted;
+				//LogB.Information("X: " + paintPoints[0].X.ToString() + "; Y: " + paintPoints[0].Y.ToString());
 			}
 
-			for(int j=jStart, i = fscPoints.NumPainted +1 ; i <= last ; i ++, j++)
+			for(int j=jStart, i = iStart ; i < numCaptured ; i ++, j++)
 			{
-				paintPoints[j] = fscPoints.Points[i];
-				LogB.Information("X: " + paintPoints[j].X.ToString() + "; Y: " + paintPoints[j].Y.ToString());
+				paintPoints[j] = points[i];
+				//LogB.Information("X: " + paintPoints[j].X.ToString() + "; Y: " + paintPoints[j].Y.ToString());
 			}
 			force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
 			force_capture_drawingarea.QueueDraw(); // -- refresh
-			fscPoints.NumPainted = fscPoints.NumCaptured;
+			fscPoints.NumPainted = numCaptured;
 		}
 
 		Thread.Sleep (25);

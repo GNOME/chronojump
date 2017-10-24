@@ -730,6 +730,8 @@ public partial class ChronoJumpWindow
 
 		List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetmifCSVFileName());
 		bool headersRow = true;
+		double maxForce = 0;
+		double minForce = 0;
 		foreach(string str in contents)
 		{
 			if(headersRow)
@@ -739,7 +741,14 @@ public partial class ChronoJumpWindow
 				if(strFull.Length != 2)
 					continue;
 				if(Util.IsNumber(strFull[0], false) && Util.IsNumber(strFull[1], true))
-					fscPoints.Add(Convert.ToInt32(strFull[0]), Convert.ToDouble(strFull[1]));
+				{
+					double force = Convert.ToDouble(strFull[1]);
+					fscPoints.Add(Convert.ToInt32(strFull[0]), force);
+					if(force > maxForce)
+						maxForce = force;
+					if(force < minForce)
+						minForce = force;
+				}
 			}
 		}
 
@@ -749,6 +758,10 @@ public partial class ChronoJumpWindow
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
 		force_capture_drawingarea.QueueDraw(); // -- refresh
+
+		label_force_sensor_value.Text = paintPoints[paintPoints.Length -1].Y.ToString();
+		label_force_sensor_value_max.Text = maxForce.ToString();
+		label_force_sensor_value_min.Text = minForce.ToString();
 	}
 
 	private void on_button_force_sensor_image_save_clicked (object o, EventArgs args)

@@ -64,7 +64,7 @@ void setup() {
 
   
   //The factor to convert the units coming from the cell to the units used in the calibration
-  scale.set_scale(9155555.0); // Usual value  in Chronojump strength gauge
+  scale.set_scale(915.0); // Usual value  in Chronojump strength gauge
 
 }
 

@@ -4601,12 +4601,12 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_force_sensor_graph">
+                                                            <widget class="GtkButton" id="button_force_sensor_load">
                                                             <property name="label" translatable="yes">Load file</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
-                                                            <signal name="clicked" handler="on_button_force_sensor_graph_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_force_sensor_load_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>

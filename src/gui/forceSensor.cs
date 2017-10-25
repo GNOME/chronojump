@@ -713,7 +713,7 @@ public partial class ChronoJumpWindow
 
 		if(! success)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Error doing graph.");
+			event_execute_label_message.Text = "Error doing RFD graph.";
 			return;
 		}
 

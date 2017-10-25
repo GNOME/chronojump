@@ -64,14 +64,22 @@ public class ForceSensorCapturePoints
 		forces.Add(force);
 		Points.Add(new Gdk.Point(
 					Convert.ToInt32(widthG * time / RealWidthG),
-					Convert.ToInt32( (heightG/2) - ( force * heightG / RealHeightG) )
+					GetForceInPx(force)
 					));
 	}
 
 	public int GetForceInPx(double force)
 	{
-		return Convert.ToInt32( (heightG/2) - ( force * heightG / RealHeightG) );
+		//return Convert.ToInt32( (heightG/2) - ( force * heightG / RealHeightG) );
+		return Convert.ToInt32( heightG - ( force * heightG / RealHeightG) -100 );
 	}
+
+	/*
+	public int SetRealWidthG(double time)
+	{
+		RealWidthG = Convert.ToInt32(time / widthG);
+	}
+	*/
 
 	private Gdk.Point getLastPoint()
 	{
@@ -81,20 +89,20 @@ public class ForceSensorCapturePoints
 	public bool OutsideGraph()
 	{
 		Gdk.Point p = getLastPoint();
+		LogB.Information("p.Y: " + p.Y + "; heightG: " +  heightG);
 		if(p.X > widthG)
 		{
 			RealWidthG *= 2;
 			return true;
 		}
-		if(p.Y < 0)
+		if(p.Y < 0 || p.Y > heightG)
 		{
-			RealHeightG *= 2;
+			RealHeightG *= 2; //TODO: adjust differently < 0 than > heightG
 			return true;
 		}
 		return false;
 	}
 
-	//reprocess all points with new RealWidthG, RealHeightG
 	public void Redo()
 	{
 		for(int i=0; i < NumCaptured; i ++)
@@ -102,7 +110,7 @@ public class ForceSensorCapturePoints
 			//LogB.Information("RedoPRE X: " + Points[i].X.ToString() + "; Y: " + Points[i].Y.ToString());
 			Points[i] = new Gdk.Point(
 					Convert.ToInt32(widthG * times[i] / RealWidthG),
-					Convert.ToInt32( (heightG/2) - ( forces[i] * heightG / RealHeightG) )
+					GetForceInPx(forces[i])
 					);
 			//LogB.Information("RedoPOST X: " + Points[i].X.ToString() + "; Y: " + Points[i].Y.ToString());
 		}

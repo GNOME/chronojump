@@ -412,7 +412,6 @@ public partial class ChronoJumpWindow
 				);
 		UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
 
-		int count = 0;
 		while(! forceProcessFinish && ! forceProcessCancel)
 		{
 			str = portFS.ReadLine();
@@ -447,7 +446,7 @@ public partial class ChronoJumpWindow
 			forceSensorLast = force;
 
 			fscPoints.Add(time, force);
-			fscPoints.NumCaptured = ++ count;
+			fscPoints.NumCaptured ++;
 			if(fscPoints.OutsideGraph())
 			{
 				redoingPoints = true;
@@ -754,6 +753,13 @@ public partial class ChronoJumpWindow
 				{
 					double force = Convert.ToDouble(strFull[1]);
 					fscPoints.Add(Convert.ToInt32(strFull[0]), force);
+					fscPoints.NumCaptured ++;
+
+					//redo in case points goes out the graph
+					//TODO: calculate this on loading file counting rows (contents.Count -1)
+					// 	and adjust RealWidthG and RealHeightG
+					if(fscPoints.OutsideGraph())
+						fscPoints.Redo();
 
 					lastForce = force;
 					if(force > maxForce)

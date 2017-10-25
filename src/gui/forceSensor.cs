@@ -74,15 +74,25 @@ public partial class ChronoJumpWindow
 	bool portFSOpened;
 
 	Gdk.GC pen_black_force_capture;
+	Gdk.GC pen_red_force_capture;
 	Gdk.GC pen_gray_force_capture;
 	Pango.Layout layout_force_text;
 
 
 	private void force_graphs_init()
 	{
+		Gdk.Colormap colormap = Gdk.Colormap.System;
+		colormap.AllocColor (ref UtilGtk.BLACK,true,true);
+		colormap.AllocColor (ref UtilGtk.GRAY,true,true);
+		colormap.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
+
 		pen_black_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_black_force_capture.Foreground = UtilGtk.BLACK;
 		pen_black_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+
+		pen_red_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
+		pen_red_force_capture.Foreground = UtilGtk.RED_PLOTS;
+		pen_red_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 
 		pen_gray_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_gray_force_capture.Foreground = UtilGtk.GRAY;
@@ -740,6 +750,8 @@ public partial class ChronoJumpWindow
 		bool headersRow = true;
 		double maxForce = 0;
 		double minForce = 0;
+		int lastTime = 0;
+		int maxForceTime = 0; //time at maxForce
 		double lastForce = 0;
 		foreach(string str in contents)
 		{
@@ -755,33 +767,70 @@ public partial class ChronoJumpWindow
 					fscPoints.Add(Convert.ToInt32(strFull[0]), force);
 					fscPoints.NumCaptured ++;
 
-					//redo in case points goes out the graph
-					//TODO: calculate this on loading file counting rows (contents.Count -1)
-					// 	and adjust RealWidthG and RealHeightG
-					if(fscPoints.OutsideGraph())
-						fscPoints.Redo();
-
+					lastTime = Convert.ToInt32(strFull[0]);
 					lastForce = force;
 					if(force > maxForce)
+					{
 						maxForce = force;
+						maxForceTime = lastTime;
+					}
 					if(force < minForce)
 						minForce = force;
 				}
 			}
 		}
 
+		/*
+		 * redo the graph if last point time is greater than RealWidthG
+		 * or if GetForceInPx(minForce) < 0
+		 * or if getForceInPx(maxForce) > heightG
+		 */
+		if(fscPoints.OutsideGraph(lastTime, minForce, maxForce))
+			fscPoints.Redo();
+
 		forcePaintHLine(0);
-		for(int i = 1; i <= 5 ; i ++)
+		double absoluteMaxForce = maxForce;
+		if(Math.Abs(minForce) > absoluteMaxForce)
+			absoluteMaxForce = Math.Abs(minForce);
+
+		int step = 100;
+		if(absoluteMaxForce < 200)
+			step = 50;
+		if(absoluteMaxForce < 100)
+			step = 25;
+
+		for(int i = step; i <= absoluteMaxForce ; i += step)
 		{
-			forcePaintHLine(100 * i);
-			forcePaintHLine(-100 * i);
+			forcePaintHLine(i);
+			forcePaintHLine(i *-1);
 		}
+
+		int lastTimeInSeconds = lastTime / 1000000; //from microseconds to seconds
+		step = 1;
+		if(lastTimeInSeconds > 10)
+			step = 5;
+		if(lastTimeInSeconds > 50)
+			step = 10;
+		if(lastTimeInSeconds > 100)
+			step = 20;
+
+		for(int i = 0; i <= lastTimeInSeconds ; i += step)
+			forcePaintTimeValue(i);
 
 		Gdk.Point [] paintPoints = new Gdk.Point[fscPoints.Points.Count];
 		for(int i = 0; i < fscPoints.Points.Count; i ++)
 			paintPoints[i] = fscPoints.Points[i];
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
+
+		//draw rectangle in maxForce
+		//force_capture_pixmap.DrawRectangle(pen_red_force_capture, false,
+		//		new Gdk.Rectangle(fscPoints.GetTimeInPx(maxForceTime) -5, fscPoints.GetForceInPx(maxForce) -5, 10, 10));
+
+		//draw circle in maxForce
+		force_capture_pixmap.DrawArc(pen_red_force_capture, false,
+				fscPoints.GetTimeInPx(maxForceTime) -6, fscPoints.GetForceInPx(maxForce) -6, 12, 12, 90 * 64, 360 * 64);
+
 		force_capture_drawingarea.QueueDraw(); // -- refresh
 
 		label_force_sensor_value.Text = lastForce.ToString();
@@ -789,17 +838,35 @@ public partial class ChronoJumpWindow
 		label_force_sensor_value_min.Text = minForce.ToString();
 	}
 
+	private void forcePaintTimeValue(int time)
+	{
+		int xPx = fscPoints.GetTimeInPx(1000000 * time);
+
+		layout_force_text.SetMarkup(time.ToString() + "s");
+		int textWidth = 1;
+		int textHeight = 1;
+		layout_force_text.GetPixelSize(out textWidth, out textHeight);
+		force_capture_pixmap.DrawLayout (pen_gray_force_capture,
+				xPx - textWidth/2, force_capture_drawingarea.Allocation.Height - textHeight, layout_force_text);
+
+		//draw vertical line
+		force_capture_pixmap.DrawLine(pen_gray_force_capture,
+				xPx, 4, xPx, force_capture_drawingarea.Allocation.Height - textHeight -4);
+	}
+
 	private void forcePaintHLine(int yForce)
 	{
 		int yPx = fscPoints.GetForceInPx(yForce);
+		//draw horizontal line
 		force_capture_pixmap.DrawLine(pen_gray_force_capture,
-				0, yPx, force_capture_drawingarea.Allocation.Width, yPx);
+				fscPoints.GetTimeInPx(0), yPx, force_capture_drawingarea.Allocation.Width, yPx);
 
 		layout_force_text.SetMarkup(yForce.ToString());
 		int textWidth = 1;
 		int textHeight = 1;
 		layout_force_text.GetPixelSize(out textWidth, out textHeight);
-		force_capture_pixmap.DrawLayout (pen_gray_force_capture, 0, yPx, layout_force_text);
+		force_capture_pixmap.DrawLayout (pen_gray_force_capture,
+				fscPoints.GetTimeInPx(0) - textWidth -4, yPx - textHeight/2, layout_force_text);
 	}
 
 	private void on_button_force_sensor_image_save_clicked (object o, EventArgs args)

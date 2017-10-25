@@ -309,6 +309,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Notebook notebook_execute;
 	[Widget] Gtk.Notebook notebook_results;
+	[Widget] Gtk.HBox hbox_options_top;
 	[Widget] Gtk.Notebook notebook_options_top;
 		
 	[Widget] Gtk.Frame frame_share_data;
@@ -6348,6 +6349,8 @@ LogB.Debug("X");
 
 		//on capture, show phases, time, record if we are not on forcesensor mode
 		hbox_capture_phases_time_record.Visible = (mode != Constants.Menuitem_modes.FORCESENSOR);
+		hbox_options_top.Visible = (mode != Constants.Menuitem_modes.FORCESENSOR);
+		notebook_options_top.Visible = (mode != Constants.Menuitem_modes.FORCESENSOR);
 
 		if(mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{
@@ -6380,7 +6383,7 @@ LogB.Debug("X");
 		} else if(mode == Constants.Menuitem_modes.FORCESENSOR)
 		{
 			notebook_execute.CurrentPage = 4;
-			notebook_options_top.CurrentPage = 4;
+			notebook_options_top.CurrentPage = 4; //but at FORCESENSOR this notebook is not shown
 			notebook_results.CurrentPage = 4;
 			changeTestImage("", "", "FORCESENSOR");
 			event_execute_button_finish.Sensitive = false;

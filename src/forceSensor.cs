@@ -36,7 +36,7 @@ public class ForceSensorCapturePoints
 	public int NumPainted;
 
 	//used to redo all points if change RealWidthG or RealHeightG
-	private List<double> times;
+	private List<int> times;
 	private List<double> forces;
 
 	public int RealWidthG = 10000000; //width of graph in microseconds (will be upgraded if needed)
@@ -44,6 +44,8 @@ public class ForceSensorCapturePoints
 
 	private int widthG;
 	private int heightG;
+	private int marginLeft = 30; //px
+	private int marginRight = 30; //px
 
 	//initialize
 	public ForceSensorCapturePoints(int widthG, int heightG)
@@ -51,45 +53,42 @@ public class ForceSensorCapturePoints
 		Points = new List<Gdk.Point>();
 		NumCaptured = 0;
 		NumPainted = 0; 	//-1 means delete screen
-		times = new List<double>();
+		times = new List<int>();
 		forces = new List<double>();
 
 		this.widthG = widthG;
 		this.heightG = heightG;
 	}
 
-	public void Add(double time, double force)
+	public void Add(int time, double force)
 	{
 		times.Add(time);
 		forces.Add(force);
-		Points.Add(new Gdk.Point(
-					Convert.ToInt32(widthG * time / RealWidthG),
-					GetForceInPx(force)
-					));
+		Points.Add(new Gdk.Point(GetTimeInPx(time), GetForceInPx(force)));
+	}
+
+	public int GetTimeInPx(int time)
+	{
+		//without 1.0 calculation is done as int producint very buggy value
+		return marginLeft + Convert.ToInt32(1.0 * widthG * time / RealWidthG);
 	}
 
 	public int GetForceInPx(double force)
 	{
-		//return Convert.ToInt32( (heightG/2) - ( force * heightG / RealHeightG) );
-		return Convert.ToInt32( heightG - ( force * heightG / RealHeightG) -100 );
+		return Convert.ToInt32( (heightG/2) - ( force * heightG / RealHeightG) );
+		//return Convert.ToInt32( heightG - ( force * heightG / RealHeightG) -100 );
 	}
-
-	/*
-	public int SetRealWidthG(double time)
-	{
-		RealWidthG = Convert.ToInt32(time / widthG);
-	}
-	*/
 
 	private Gdk.Point getLastPoint()
 	{
 		return Points[Points.Count -1];
 	}
 
+	// this is called while capturing, checks if last captured value is outside the graph
 	public bool OutsideGraph()
 	{
 		Gdk.Point p = getLastPoint();
-		LogB.Information("p.Y: " + p.Y + "; heightG: " +  heightG);
+		//LogB.Information("p.Y: " + p.Y + "; heightG: " +  heightG);
 		if(p.X > widthG)
 		{
 			RealWidthG *= 2;
@@ -102,16 +101,28 @@ public class ForceSensorCapturePoints
 		}
 		return false;
 	}
+	// this is called at load signal, checks if last X is outside the graph and max/min force
+	public bool OutsideGraph(int lastTime, double minForce, double maxForce)
+	{
+		Gdk.Point p = getLastPoint();
+
+		RealWidthG = lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight);
+
+		double absoluteMaxForce = maxForce;
+		if(Math.Abs(minForce) > absoluteMaxForce)
+			absoluteMaxForce = Math.Abs(minForce);
+
+		RealHeightG = Convert.ToInt32(2 * absoluteMaxForce + absoluteMaxForce * .2);
+
+		return true;
+	}
 
 	public void Redo()
 	{
 		for(int i=0; i < NumCaptured; i ++)
 		{
 			//LogB.Information("RedoPRE X: " + Points[i].X.ToString() + "; Y: " + Points[i].Y.ToString());
-			Points[i] = new Gdk.Point(
-					Convert.ToInt32(widthG * times[i] / RealWidthG),
-					GetForceInPx(forces[i])
-					);
+			Points[i] = new Gdk.Point(GetTimeInPx(times[i]), GetForceInPx(forces[i]));
 			//LogB.Information("RedoPOST X: " + Points[i].X.ToString() + "; Y: " + Points[i].Y.ToString());
 		}
 	}

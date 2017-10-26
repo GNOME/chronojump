@@ -30,9 +30,9 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
+	[Widget] Gtk.HBox hbox_force_buttons;
 	[Widget] Gtk.Button button_force_sensor_tare;
 	[Widget] Gtk.Button button_force_sensor_calibrate;
-	[Widget] Gtk.Button button_force_sensor_check_version;
 	[Widget] Gtk.Label label_force_sensor_value_max;
 	[Widget] Gtk.Label label_force_sensor_value;
 	[Widget] Gtk.Label label_force_sensor_value_min;
@@ -220,11 +220,8 @@ public partial class ChronoJumpWindow
 
 	void forceSensorButtonsSensitive(bool sensitive)
 	{
-		button_force_sensor_tare.Sensitive = sensitive;
-		button_force_sensor_calibrate.Sensitive = sensitive;
-		button_force_sensor_check_version.Sensitive = sensitive;
+		hbox_force_buttons.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
-		spin_force_sensor_calibration_kg_value.Sensitive = sensitive;
 	}
 
 	private bool pulseGTKForceSensorOther ()

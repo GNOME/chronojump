@@ -70,7 +70,7 @@ public class ForceSensorCapturePoints
 	public int GetTimeInPx(int time)
 	{
 		//without 1.0 calculation is done as int producint very buggy value
-		return marginLeft + Convert.ToInt32(1.0 * widthG * time / RealWidthG);
+		return marginLeft + Convert.ToInt32(1.0 * (widthG -marginLeft -marginRight) * time / RealWidthG);
 	}
 
 	public int GetForceInPx(double force)

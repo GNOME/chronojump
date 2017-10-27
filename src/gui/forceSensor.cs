@@ -486,9 +486,18 @@ public partial class ChronoJumpWindow
 
 	private bool pulseGTKForceSensorCapture ()
 	{
+		LogB.Information(" fc A ");
+		if(forceCaptureThread == null)
+		{
+			Thread.Sleep (25);
+			return true;
+		}
+
+		LogB.Information(" fc B ");
 		//LogB.Information(capturingForce.ToString())
 		if(! forceCaptureThread.IsAlive || forceProcessFinish || forceProcessCancel)
 		{
+		LogB.Information(" fc C ");
 			LogB.ThreadEnding();
 
 			if(forceProcessFinish)
@@ -512,6 +521,7 @@ public partial class ChronoJumpWindow
 			else
 				event_execute_label_message.Text = "";
 
+		LogB.Information(" fc D ");
 			LogB.ThreadEnded(); 
 
 			forceSensorButtonsSensitive(true);
@@ -522,14 +532,17 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
+		LogB.Information(" fc E ");
 		if(forceCaptureStartMark)
 		{
 			event_execute_label_message.Text = "Capturing ...";
 			forceCaptureStartMark = false;
 		}
+		LogB.Information(" fc F ");
 
 		if(capturingForce == forceStatus.CAPTURING)
 		{
+		LogB.Information(" fc G ");
 			//------------------- vscale -----------------
 			/*
 			//A) resize vscale if needed
@@ -560,36 +573,43 @@ public partial class ChronoJumpWindow
 				label_force_sensor_value_min.Text = forceSensorLast.ToString();
 
 
+		LogB.Information(" fc H ");
 			//------------------- realtime graph -----------------
 			if(redoingPoints || fscPoints.Points == null || force_capture_drawingarea == null)
 				return true;
 
+		LogB.Information(" fc I ");
 			//mark meaning screen should be erased
 			if(fscPoints.NumPainted == -1) {
 				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
 				fscPoints.NumPainted = 0;
 			}
 
+		LogB.Information(" fc J ");
 			//use this integer and this List to not have errors by updating data on the other thread
 			int numCaptured = fscPoints.NumCaptured;
 			List<Gdk.Point> points = fscPoints.Points;
 
+		LogB.Information(" fc K ");
 			int toDraw = numCaptured - fscPoints.NumPainted;
 
 			LogB.Information("fscPointsCount: " + points.Count +
 					"; NumCaptured: " + numCaptured + "; NumPainted: " +fscPoints.NumPainted +
 					"; toDraw: " + toDraw.ToString() );
 
+		LogB.Information(" fc L ");
 			//fixes crash at the end
 			if(toDraw == 0)
 				return true;
 
+		LogB.Information(" fc M ");
 			Gdk.Point [] paintPoints;
 			if(fscPoints.NumPainted > 0)
 				paintPoints = new Gdk.Point[toDraw +1]; // if something has been painted, connected first point with previous points
 			else
 				paintPoints = new Gdk.Point[toDraw];
 
+		LogB.Information(" fc N ");
 			int jStart = 0;
 			int iStart = 0;
 			if(fscPoints.NumPainted > 0)
@@ -600,16 +620,20 @@ public partial class ChronoJumpWindow
 				iStart = fscPoints.NumPainted;
 				//LogB.Information("X: " + paintPoints[0].X.ToString() + "; Y: " + paintPoints[0].Y.ToString());
 			}
+		LogB.Information(" fc O ");
 
 			for(int j=jStart, i = iStart ; i < numCaptured ; i ++, j++)
 			{
 				paintPoints[j] = points[i];
 				//LogB.Information("X: " + paintPoints[j].X.ToString() + "; Y: " + paintPoints[j].Y.ToString());
 			}
+		LogB.Information(" fc P ");
 			force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
 			force_capture_drawingarea.QueueDraw(); // -- refresh
 			fscPoints.NumPainted = numCaptured;
+		LogB.Information(" fc Q ");
 		}
+		LogB.Information(" fc R ");
 
 		Thread.Sleep (25);
 		//LogB.Information(" ForceSensor:"+ forceCaptureThread.ThreadState.ToString());

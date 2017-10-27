@@ -575,7 +575,7 @@ public partial class ChronoJumpWindow
 
 		LogB.Information(" fc H ");
 			//------------------- realtime graph -----------------
-			if(redoingPoints || fscPoints.Points == null || force_capture_drawingarea == null)
+			if(redoingPoints || fscPoints == null || fscPoints.Points == null || force_capture_drawingarea == null)
 				return true;
 
 		LogB.Information(" fc I ");
@@ -586,15 +586,16 @@ public partial class ChronoJumpWindow
 			}
 
 		LogB.Information(" fc J ");
-			//use this integer and this List to not have errors by updating data on the other thread
+			//use these integers and this List to not have errors by updating data on the other thread
 			int numCaptured = fscPoints.NumCaptured;
+			int numPainted = fscPoints.NumPainted;
 			List<Gdk.Point> points = fscPoints.Points;
 
 		LogB.Information(" fc K ");
-			int toDraw = numCaptured - fscPoints.NumPainted;
+			int toDraw = numCaptured - numPainted;
 
-			LogB.Information("fscPointsCount: " + points.Count +
-					"; NumCaptured: " + numCaptured + "; NumPainted: " +fscPoints.NumPainted +
+			LogB.Information("points count: " + points.Count +
+					"; NumCaptured: " + numCaptured + "; NumPainted: " + numPainted +
 					"; toDraw: " + toDraw.ToString() );
 
 		LogB.Information(" fc L ");
@@ -604,7 +605,7 @@ public partial class ChronoJumpWindow
 
 		LogB.Information(" fc M ");
 			Gdk.Point [] paintPoints;
-			if(fscPoints.NumPainted > 0)
+			if(numPainted > 0)
 				paintPoints = new Gdk.Point[toDraw +1]; // if something has been painted, connected first point with previous points
 			else
 				paintPoints = new Gdk.Point[toDraw];
@@ -612,19 +613,19 @@ public partial class ChronoJumpWindow
 		LogB.Information(" fc N ");
 			int jStart = 0;
 			int iStart = 0;
-			if(fscPoints.NumPainted > 0)
+			if(numPainted > 0)
 			{
 				// if something has been painted, connected first point with previous points
-				paintPoints[0] = points[fscPoints.NumPainted -1];
+				paintPoints[0] = points[numPainted -1];
 				jStart = 1;
-				iStart = fscPoints.NumPainted;
+				iStart = numPainted;
 				//LogB.Information("X: " + paintPoints[0].X.ToString() + "; Y: " + paintPoints[0].Y.ToString());
 			}
 		LogB.Information(" fc O ");
-
 			for(int j=jStart, i = iStart ; i < numCaptured ; i ++, j++)
 			{
-				paintPoints[j] = points[i];
+				if(points.Count > i) 	//extra check to avoid going outside of arrays
+					paintPoints[j] = points[i];
 				//LogB.Information("X: " + paintPoints[j].X.ToString() + "; Y: " + paintPoints[j].Y.ToString());
 			}
 		LogB.Information(" fc P ");

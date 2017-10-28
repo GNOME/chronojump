@@ -1913,7 +1913,8 @@ public partial class ChronoJumpWindow
 		if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 			exportString = Catalog.GetString ("Export set in CSV format");
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
-			checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE)
+			checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
+			checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD)
 			exportString = Catalog.GetString ("Save image");
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 			exportString = Catalog.GetString ("Export repetition in CSV format");
@@ -1923,7 +1924,8 @@ public partial class ChronoJumpWindow
 		string nameString = currentPerson.Name + "_" + currentSession.DateShortAsSQL;
 
 		//at force sensor we can graph a different person than selected person, so use graph-file loaded
-		if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE)
+		if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD)
 		{
 			if(lastForceSensorFile == null || lastForceSensorFile == "")
 				nameString = "unnamed";
@@ -1934,7 +1936,8 @@ public partial class ChronoJumpWindow
 		if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 			nameString += "_encoder_set_export.csv";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
-			checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE)
+			checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
+			checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD)
 			nameString += ".png";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 			nameString += "_encoder_repetition_export.csv";
@@ -1958,7 +1961,7 @@ public partial class ChronoJumpWindow
 					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB ||
 					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
 				exportFileName = Util.AddCsvIfNeeded(exportFileName);
-			else //ENCODER_ANALYZE_SAVE_IMAGE, FORCESENSOR_SAVE_IMAGE
+			else //ENCODER_ANALYZE_SAVE_IMAGE, FORCESENSOR_SAVE_IMAGE_SIGNAL, FORCESENSOR_SAVE_IMAGE_RFD
 				exportFileName = Util.AddPngIfNeeded(exportFileName);
 			try {
 				if (File.Exists(exportFileName)) {
@@ -1984,9 +1987,12 @@ public partial class ChronoJumpWindow
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
 						confirmWin.Button_accept.Clicked += 
 							new EventHandler(on_overwrite_file_encoder_save_table_accepted);
-					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE)
+					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL)
 						confirmWin.Button_accept.Clicked +=
-							new EventHandler(on_overwrite_file_forcesensor_save_image_accepted);
+							new EventHandler(on_overwrite_file_forcesensor_save_image_signal_accepted);
+					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_forcesensor_save_image_rfd_accepted);
 
 				} else {
 					if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
@@ -1997,8 +2003,10 @@ public partial class ChronoJumpWindow
 						on_button_encoder_save_AB_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
 						on_button_encoder_save_table_file_selected (exportFileName);
-					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE)
-						on_button_forcesensor_save_image_file_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL)
+						on_button_forcesensor_save_image_signal_file_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD)
+						on_button_forcesensor_save_image_rfd_file_selected (exportFileName);
 
 					string myString = string.Format(Catalog.GetString("Saved to {0}"), 
 							exportFileName);

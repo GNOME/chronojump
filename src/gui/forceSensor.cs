@@ -23,6 +23,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Threading;
 using Gtk;
+using Gdk;
 using Glade;
 using System.Text; //StringBuilder
 using System.Collections.Generic; //List<T>
@@ -40,7 +41,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_force_sensor_graph;
 	[Widget] Gtk.Image image_force_sensor_graph;
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
-	[Widget] Gtk.Button button_force_sensor_image_save;
+	[Widget] Gtk.Button button_force_sensor_image_save_signal;
+	[Widget] Gtk.Button button_force_sensor_image_save_rfd;
 	[Widget] Gtk.DrawingArea force_capture_drawingarea;
 	Gdk.Pixmap force_capture_pixmap = null;
 	
@@ -77,14 +79,15 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_red_force_capture;
 	Gdk.GC pen_gray_force_capture;
 	Pango.Layout layout_force_text;
+	Gdk.Colormap colormapForce = Gdk.Colormap.System;
 
 
 	private void force_graphs_init()
 	{
-		Gdk.Colormap colormap = Gdk.Colormap.System;
-		colormap.AllocColor (ref UtilGtk.BLACK,true,true);
-		colormap.AllocColor (ref UtilGtk.GRAY,true,true);
-		colormap.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
+		colormapForce = Gdk.Colormap.System;
+		colormapForce.AllocColor (ref UtilGtk.BLACK,true,true);
+		colormapForce.AllocColor (ref UtilGtk.GRAY,true,true);
+		colormapForce.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
 
 		pen_black_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_black_force_capture.Foreground = UtilGtk.BLACK;
@@ -516,15 +519,17 @@ LogB.Information(" fc C ");
 			} else if(forceProcessCancel)
 			{
 				event_execute_label_message.Text = "Cancelled.";
-				button_force_sensor_image_save.Sensitive = false;
+				button_force_sensor_image_save_signal.Sensitive = false;
+				button_force_sensor_image_save_rfd.Sensitive = false;
 			}
 			else
 				event_execute_label_message.Text = "";
 
-		LogB.Information(" fc D ");
+LogB.Information(" fc D ");
 			LogB.ThreadEnded(); 
 
 			forceSensorButtonsSensitive(true);
+			button_force_sensor_image_save_signal.Sensitive = true;
 
 			//finish, cancel: sensitive = false
 			hideButtons();
@@ -734,8 +739,8 @@ LogB.Information(" fc R ");
 			lastForceSensorFile = Util.RemoveExtension(Util.GetLastPartOfPath(filechooser.Filename));
 			File.Copy(filechooser.Filename, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
 
-			forceSensorDoRFDGraph();
 			forceSensorDoSignalGraph();
+			forceSensorDoRFDGraph();
 		}
 		filechooser.Destroy ();
 	}
@@ -763,7 +768,7 @@ LogB.Information(" fc R ");
 				imagePath,
 				image_force_sensor_graph);
 		image_force_sensor_graph.Sensitive = true;
-		button_force_sensor_image_save.Sensitive = true;
+		button_force_sensor_image_save_rfd.Sensitive = true;
 	}
 
 	void forceSensorDoSignalGraph()
@@ -867,6 +872,7 @@ LogB.Information(" fc R ");
 		label_force_sensor_value.Text = lastForce.ToString();
 		label_force_sensor_value_max.Text = maxForce.ToString();
 		label_force_sensor_value_min.Text = minForce.ToString();
+		button_force_sensor_image_save_signal.Sensitive = true;
 	}
 
 	private void forcePaintTimeValue(int time)
@@ -900,23 +906,45 @@ LogB.Information(" fc R ");
 				fscPoints.GetTimeInPx(0) - textWidth -4, yPx - textHeight/2, layout_force_text);
 	}
 
-	private void on_button_force_sensor_image_save_clicked (object o, EventArgs args)
+	private void on_button_force_sensor_image_save_signal_clicked (object o, EventArgs args)
 	{
-		checkFile(Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE);
+		checkFile(Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL);
 	}
-	void on_button_forcesensor_save_image_file_selected (string destination)
+	private void on_button_force_sensor_image_save_rfd_clicked (object o, EventArgs args)
 	{
-		try {
-			File.Copy(UtilEncoder.GetmifTempFileName(), destination, true);
-		} catch {
-			string myString = string.Format(
-					Catalog.GetString("Cannot save file {0} "), destination);
-			new DialogMessage(Constants.MessageTypes.WARNING, myString);
-		}
+		checkFile(Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD);
 	}
-	private void on_overwrite_file_forcesensor_save_image_accepted(object o, EventArgs args)
+
+	void on_button_forcesensor_save_image_signal_file_selected (string destination)
 	{
-		on_button_forcesensor_save_image_file_selected (exportFileName);
+		LogB.Information("CREATING PIXBUF");
+		LogB.Information("force_capture_pixmap is null == " + (force_capture_pixmap == null));
+		LogB.Information("colormapForce is null == " + (colormapForce == null));
+		LogB.Information("force_capture_drawingarea is null == " + (force_capture_drawingarea == null));
+		int pixmapW = 0;
+		int pixmapH = 0;
+		force_capture_pixmap.GetSize(out pixmapW, out pixmapH);
+		Gdk.Pixbuf pixbuf = Pixbuf.FromDrawable(force_capture_pixmap, colormapForce,
+				0, 0, 0, 0, pixmapW, pixmapH);
+
+		LogB.Information("Saving");
+		pixbuf.Save(destination,"png");
+	}
+	private void on_overwrite_file_forcesensor_save_image_signal_accepted(object o, EventArgs args)
+	{
+		on_button_forcesensor_save_image_signal_file_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+
+	void on_button_forcesensor_save_image_rfd_file_selected (string destination)
+	{
+		File.Copy(UtilEncoder.GetmifTempFileName(), destination, true);
+	}
+	private void on_overwrite_file_forcesensor_save_image_rfd_accepted(object o, EventArgs args)
+	{
+		on_button_forcesensor_save_image_rfd_file_selected (exportFileName);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);

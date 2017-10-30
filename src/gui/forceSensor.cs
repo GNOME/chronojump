@@ -41,6 +41,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_force_sensor_graph;
 	[Widget] Gtk.Image image_force_sensor_graph;
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
+	[Widget] Gtk.Button button_force_sensor_check_version;
 	[Widget] Gtk.Button button_force_sensor_image_save_signal;
 	[Widget] Gtk.Button button_force_sensor_image_save_rfd;
 	[Widget] Gtk.DrawingArea force_capture_drawingarea;
@@ -265,13 +266,16 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private void forceSensorTare()
 	{
+		// 0 connect if needed
 		if(! portFSOpened)
 			if(! forceSensorConnect())
 				return;
 
+		// 1 send tare command
 		if(! forceSensorSendCommand("tare:", "Taring ...", "Catched force taring"))
 			return;
 
+		// 2 read confirmation data
 		string str = "";
 		do {
 			Thread.Sleep(100); //sleep to let arduino start reading
@@ -285,6 +289,19 @@ public partial class ChronoJumpWindow
 		}
 		while(! str.Contains("Taring OK"));
 
+		// 3 get tare factor
+		if (portFS.BytesToRead > 0)
+			LogB.Information("PRE_get_tare bytes: " + portFS.ReadExisting());
+
+		if(! forceSensorSendCommand("get_tare:", "Checking ...", "Catched at get_tare"))
+			return;
+
+		// 4 update preferences and SQL with new tare
+		str = Util.ChangeDecimalSeparator(portFS.ReadLine().Trim());
+		if(Util.IsNumber(str, true))
+			preferences.UpdateForceSensorTare(Convert.ToDouble(str));
+
+		// 5 print message
 		forceSensorOtherMessageShowSeconds = false;
 		forceSensorOtherMessage = "Tared!";
 	}
@@ -292,14 +309,17 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private void forceSensorCalibrate()
 	{
+		// 0 connect if needed
 		if(! portFSOpened)
 			if(! forceSensorConnect())
 				return;
 
+		// 1 send calibrate command
 		if(! forceSensorSendCommand("calibrate:" + spin_force_sensor_calibration_kg_value.Value.ToString() + ";",
 					"Calibrating ...", "Catched force calibrating"))
 			return;
 
+		// 2 read confirmation data
 		string str = "";
 		do {
 			Thread.Sleep(100); //sleep to let arduino start reading
@@ -313,6 +333,20 @@ public partial class ChronoJumpWindow
 		}
 		while(! str.Contains("Calibrating OK"));
 
+		// 3 get calibration factor
+		if (portFS.BytesToRead > 0)
+			LogB.Information("PRE_get_calibrationfactor bytes: " + portFS.ReadExisting());
+
+		if(! forceSensorSendCommand("get_calibration_factor:", "Checking ...", "Catched at get_calibration_factor"))
+			return;
+
+		// 4 update preferences and SQL with new calibration factor
+		str = Util.ChangeDecimalSeparator(portFS.ReadLine().Trim());
+		if(Util.IsNumber(str, true))
+			preferences.UpdateForceSensorCalibration(
+					spin_force_sensor_calibration_kg_value.Value, Convert.ToDouble(str));
+
+		// 5 print message
 		forceSensorOtherMessageShowSeconds = false;
 		forceSensorOtherMessage = "Calibrated!";
 	}
@@ -797,6 +831,12 @@ LogB.Information(" fc R ");
 				string [] strFull = str.Split(new char[] {';'});
 				if(strFull.Length != 2)
 					continue;
+
+				/*
+				 * TODO: Make this work with decimals as comma and decimals as point
+				 * to fix problems on importing data on different localised computer
+				 */
+
 				if(Util.IsNumber(strFull[0], false) && Util.IsNumber(strFull[1], true))
 				{
 					double force = Convert.ToDouble(strFull[1]);
@@ -960,6 +1000,20 @@ LogB.Information(" fc R ");
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpen);
 	}
 
+	private void showHideForceSensorControls(bool modeForceSensor)
+	{
+		hbox_capture_phases_time_record.Visible = ! modeForceSensor;
+		hbox_options_top.Visible = ! modeForceSensor;
+		notebook_options_top.Visible = ! modeForceSensor;
+
+		button_threshold.Visible = ! modeForceSensor;
+		button_force_sensor_check_version.Visible = modeForceSensor;
+	}
+
+	private void on_button_force_sensor_adjust_help_clicked (object o, EventArgs args)
+	{
+		new DialogMessage("Force sensor adjust data", Constants.MessageTypes.INFO, preferences.GetForceSensorAdjustString());
+	}
 
 	double lastChangedTime; //changeSlideCode
 	private void changeSlideIfNeeded(int time, double force)

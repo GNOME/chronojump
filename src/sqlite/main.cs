@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.48";
+	static string lastChronojumpDatabaseVersion = "1.49";
 
 	public Sqlite() {
 	}
@@ -2250,6 +2250,19 @@ class Sqlite
 
 				currentVersion = updateVersion("1.48");
 			}
+			if(currentVersion == "1.48")
+			{
+				LogB.SQL("Updated preferences: added force sensor tare/calibration stuff");
+
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorTareDateTimeStr, "");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorTareStr, "-1"); //result value from sensor
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCalibrationDateTimeStr, "");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCalibrationWeightStr, "-1");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCalibrationFactorStr, "-1"); //result value from sensor
+
+				currentVersion = updateVersion("1.49");
+			}
+
 
 
 			// --- add more updates here
@@ -2431,6 +2444,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 
 		//changes [from - to - desc]
+		//1.48 - 1.49 Converted DB to 1.49 Updated preferences: added force sensor tare/calibration stuff
 		//1.47 - 1.48 Converted DB to 1.48 Updated preferences: added gstreamer
 		//1.46 - 1.47 Converted DB to 1.47 Added encoderCaptureBarplotFontSize at preferences
 		//1.45 - 1.46 Converted DB to 1.46 Added muteLogs at preferences

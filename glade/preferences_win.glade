@@ -1771,10 +1771,10 @@ It starts before and arrives there with some speed.</property>
                                     <property name="has_tooltip">True</property>
                                     <signal name="clicked" handler="on_button_inactivity_help_clicked" swapped="no"/>
                                     <child>
-                                      <widget class="GtkImage" id="image31">
+                                      <widget class="GtkImage" id="image_encoder_inactivity_help">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="stock">gtk-dialog-info</property>
+                                        <property name="stock">gtk-missing-image</property>
                                         <property name="icon-size">2</property>
                                       </widget>
                                     </child>

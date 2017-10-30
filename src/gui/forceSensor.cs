@@ -141,6 +141,15 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
+		//set adjust parameters
+		if(! forceSensorSendCommand("set_tare:" + preferences.forceSensorTare.ToString() + ";",
+					"Connecting ...", "Catched adjusting tare"))
+			return false;
+
+		if(! forceSensorSendCommand("set_calibration_factor:" + preferences.forceSensorCalibrationFactor.ToString() + ";",
+					"Connecting ...", "Catched adjusting calibration factor"))
+			return false;
+
 		portFSOpened = true;
 		Thread.Sleep(2500); //sleep to let arduino start reading
 		forceSensorOtherMessage = "Connected!";

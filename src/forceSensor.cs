@@ -104,8 +104,6 @@ public class ForceSensorCapturePoints
 	// this is called at load signal, checks if last X is outside the graph and max/min force
 	public bool OutsideGraph(int lastTime, double minForce, double maxForce)
 	{
-		Gdk.Point p = getLastPoint();
-
 		RealWidthG = lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight);
 
 		double absoluteMaxForce = maxForce;

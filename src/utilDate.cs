@@ -37,6 +37,7 @@ public class UtilDate
 	}
 	
 	//records date & time, useful to backup database without having strange chars on filename
+	//used also on SQL when time wants to be stored also
 	public static string ToFile (DateTime dt)
 	{
 		return UtilAll.DigitsCreate(dt.Year,4) + "-" + 

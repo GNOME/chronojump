@@ -94,6 +94,7 @@ public class Util
 	
 	//used for load from the database all numbers with correct decimal separator (locale defined)
 	//used also for the tvString, tcString, and runIntervalTimesString
+	//also used for reading . data coming from force sensor
 	public static string ChangeDecimalSeparator(string myString) {
 		if(myString == "") {
 			return "0";

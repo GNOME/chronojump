@@ -36,6 +36,12 @@ class SqlitePreferences : Sqlite
 	public const string EncoderMassGravitatory = "encoderMassGravitatory";
 	public const string EncoderWeightsInertial = "encoderWeightsInertial";
 
+	public const string ForceSensorTareDateTimeStr = "forceSensorTareDateTime";
+	public const string ForceSensorTareStr = "forceSensorTare";
+	public const string ForceSensorCalibrationDateTimeStr = "forceSensorCalibrationDateTime";
+	public const string ForceSensorCalibrationWeightStr = "forceSensorCalibrationWeight";
+	public const string ForceSensorCalibrationFactorStr = "forceSensorCalibrationFactor";
+
 	protected internal static new void createTable()
 	{
 		dbcmd.CommandText = 
@@ -146,6 +152,11 @@ class SqlitePreferences : Sqlite
 				Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString(), dbcmdTr); 
 				Insert ("email", "", dbcmdTr);
 				Insert ("muteLogs", "False", dbcmdTr);
+				Insert (ForceSensorTareDateTimeStr, "", dbcmdTr);
+				Insert (ForceSensorTareStr, "-1", dbcmdTr); //result value from sensor. Decimal is point!!
+				Insert (ForceSensorCalibrationDateTimeStr, "", dbcmdTr);
+				Insert (ForceSensorCalibrationWeightStr, "-1", dbcmdTr);
+				Insert (ForceSensorCalibrationFactorStr, "-1", dbcmdTr); //result value from sensor. Decimal is point!!
 				
 				//removed on 1.37
 				//Insert ("encoderConfiguration", new EncoderConfiguration().ToStringOutput(EncoderConfiguration.Outputs.SQL), dbcmdTr);
@@ -324,7 +335,6 @@ class SqlitePreferences : Sqlite
 				preferences.versionAvailable = reader[1].ToString();
 			else if(reader[0].ToString() == "runSpeedStartArrival")
 				preferences.runSpeedStartArrival = reader[1].ToString() == "True";
-			
 			else if(reader[0].ToString() == "runDoubleContactsMode")
 				preferences.runDoubleContactsMode = (Constants.DoubleContact) 
 					Enum.Parse(typeof(Constants.DoubleContact), reader[1].ToString()); 
@@ -341,6 +351,24 @@ class SqlitePreferences : Sqlite
 				preferences.thresholdRuns = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "thresholdOther")
 				preferences.thresholdOther = Convert.ToInt32(reader[1].ToString());
+
+			//force sensor tare
+			else if(reader[0].ToString() == ForceSensorTareDateTimeStr)
+				preferences.forceSensorTareDateTime = reader[1].ToString();
+			else if(reader[0].ToString() == ForceSensorTareStr)
+				preferences.forceSensorTare = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+
+			//force sensor calibrate
+			else if(reader[0].ToString() == ForceSensorCalibrationDateTimeStr)
+				preferences.forceSensorCalibrationDateTime = reader[1].ToString();
+			else if(reader[0].ToString() == ForceSensorCalibrationWeightStr)
+				preferences.forceSensorCalibrationWeight = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if(reader[0].ToString() == ForceSensorCalibrationFactorStr)
+				preferences.forceSensorCalibrationFactor = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+
 			//advanced tab
 			else if(reader[0].ToString() == "digitsNumber")
 				preferences.digitsNumber = Convert.ToInt32(reader[1].ToString());
@@ -348,7 +376,6 @@ class SqlitePreferences : Sqlite
 				preferences.askDeletion = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "muteLogs")
 				preferences.muteLogs = reader[1].ToString() == "True";
-
 			else if(reader[0].ToString() == "machineID")
 				preferences.machineID = reader[1].ToString();
 			else if(reader[0].ToString() == "multimediaStorage")

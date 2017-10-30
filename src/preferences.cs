@@ -94,6 +94,12 @@ public class Preferences
 	public string machineID;
 	public Constants.MultimediaStorage multimediaStorage;
 	public string databaseVersion;
+
+	public string forceSensorTareDateTime;
+	public double forceSensorTare;
+	public string forceSensorCalibrationDateTime;
+	public double forceSensorCalibrationWeight;
+	public double forceSensorCalibrationFactor;
 				
 	public int encoderCaptureTimeIM = 120; //hardcoded 2 minutes.
 
@@ -146,6 +152,52 @@ public class Preferences
 		}
 		return changed;
 	}
+
+	//force sensor
+	public void UpdateForceSensorTare(double tare)
+	{
+		if(tare == -1)
+			return;
+
+		//change preferences object and SqlitePreferences
+		DateTime dt = DateTime.Now;
+
+		forceSensorTareDateTime = UtilDate.ToFile(dt);
+		SqlitePreferences.Update(SqlitePreferences.ForceSensorTareDateTimeStr, forceSensorTareDateTime, false);
+
+		forceSensorTare = tare;
+		SqlitePreferences.Update(SqlitePreferences.ForceSensorTareStr, Util.ConvertToPoint(tare), false);
+	}
+	//force sensor
+	public void UpdateForceSensorCalibration(double weight, double calibrationFactor)
+	{
+		if(calibrationFactor == -1)
+			return;
+
+		//change preferences object and SqlitePreferences
+		DateTime dt = DateTime.Now;
+
+		forceSensorCalibrationDateTime = UtilDate.ToFile(dt);
+		SqlitePreferences.Update(SqlitePreferences.ForceSensorCalibrationDateTimeStr, forceSensorCalibrationDateTime, false);
+
+		forceSensorCalibrationWeight = weight;
+		SqlitePreferences.Update(SqlitePreferences.ForceSensorCalibrationWeightStr, Util.ConvertToPoint(weight), false);
+
+		forceSensorCalibrationFactor = calibrationFactor;
+		SqlitePreferences.Update(SqlitePreferences.ForceSensorCalibrationFactorStr, Util.ConvertToPoint(calibrationFactor), false);
+	}
+
+	public string GetForceSensorAdjustString()
+	{
+		return "\nLast tare:" +
+			"\n\t- internal value: " + forceSensorTare.ToString() +
+			"\n\t- at: " + forceSensorTareDateTime +
+			"\n\nLast Calibrate:" +
+			"\n\t- internal value: " + forceSensorCalibrationFactor.ToString() +
+			"\n\t- with: " + forceSensorCalibrationWeight.ToString() +
+			" Kg\n\t- at: " + forceSensorCalibrationDateTime;
+	}
+
 
 	~Preferences() {}
 	   

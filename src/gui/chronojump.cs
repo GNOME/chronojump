@@ -324,6 +324,7 @@ public partial class ChronoJumpWindow
 		
 	[Widget] Gtk.Button button_upload_session;
 	[Widget] Gtk.Button button_activate_chronopics;
+	[Widget] Gtk.Button button_threshold;
 
 	//non standard icons	
 	[Widget] Gtk.Image image_jump_reactive_bell;
@@ -6348,9 +6349,7 @@ LogB.Debug("X");
 		//LogB.Information("desiredPage" + desiredPage.ToString());
 
 		//on capture, show phases, time, record if we are not on forcesensor mode
-		hbox_capture_phases_time_record.Visible = (mode != Constants.Menuitem_modes.FORCESENSOR);
-		hbox_options_top.Visible = (mode != Constants.Menuitem_modes.FORCESENSOR);
-		notebook_options_top.Visible = (mode != Constants.Menuitem_modes.FORCESENSOR);
+		showHideForceSensorControls(mode == Constants.Menuitem_modes.FORCESENSOR);
 
 		if(mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{

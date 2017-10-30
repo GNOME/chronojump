@@ -122,6 +122,7 @@ public class PreferencesWindow
 	[Widget] Gtk.SpinButton spin_encoder_capture_barplot_font_size;
 	[Widget] Gtk.CheckButton check_show_start_and_duration;
 	[Widget] Gtk.CheckButton check_encoder_capture_cut_by_triggers;
+	[Widget] Gtk.Image image_encoder_inactivity_help;
 	[Widget] Gtk.Image image_encoder_capture_cut_by_triggers_help;
 	
 	//encoder other tab
@@ -407,6 +408,7 @@ public class PreferencesWindow
 		PreferencesWindowBox.image_races_intervallic.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
+		PreferencesWindowBox.image_encoder_inactivity_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_encoder_capture_cut_by_triggers_help.Pixbuf = pixbuf;
 
 		if(menu_mode ==	Constants.Menuitem_modes.RUNSSIMPLE)

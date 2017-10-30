@@ -1793,6 +1793,15 @@ public class Util
 		return DivideSafeFraction(Convert.ToDouble(val1), Convert.ToDouble(val2));
 	}
 
+	//Not restricted to values 0-1
+	public static double DivideSafe (double val1, double val2)
+	{
+		if(val1 == 0 || val2 == 0)
+			return 0;
+
+		return val1 / val2;
+	}
+
 	/*
 	//converts all values to positive
 	public static string StringValuesAbsolute (string myString) {

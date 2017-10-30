@@ -75,8 +75,10 @@ public class ForceSensorCapturePoints
 
 	public int GetForceInPx(double force)
 	{
-		return Convert.ToInt32( (heightG/2) - ( force * heightG / RealHeightG) );
-		//return Convert.ToInt32( heightG - ( force * heightG / RealHeightG) -100 );
+		return Convert.ToInt32(
+				(heightG/2)
+				- ( Util.DivideSafe((force * heightG), (1.0 * RealHeightG)) )
+				);
 	}
 
 	private Gdk.Point getLastPoint()

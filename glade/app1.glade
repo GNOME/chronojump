@@ -1417,6 +1417,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -10927,7 +10930,7 @@ after time</property>
                                                             <widget class="GtkHPaned" id="hpaned_force_capture">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
-                                                            <property name="position">400</property>
+                                                            <property name="position">500</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox17">
                                                             <property name="visible">True</property>
@@ -11188,7 +11191,11 @@ after time</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox182">
+                                                            <widget class="GtkHBox" id="hbox_force_rfd">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox231">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
@@ -11280,7 +11287,14 @@ after time</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="resize">True</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="resize">False</property>
                                                             <property name="shrink">False</property>
                                                             </packing>
                                                             </child>
@@ -20978,6 +20992,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

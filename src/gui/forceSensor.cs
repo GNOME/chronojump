@@ -433,6 +433,7 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = false;
 		event_execute_button_finish.Sensitive = true;
 		event_execute_button_cancel.Sensitive = true;
+		button_force_sensor_image_save_signal.Sensitive = false;
 		forceCaptureStartMark = false;
 		//vscale_force_sensor.Value = 0;
 		label_force_sensor_value_max.Text = "0";

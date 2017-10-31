@@ -39,8 +39,8 @@ public class ForceSensorCapturePoints
 	private List<int> times;
 	private List<double> forces;
 
-	public int RealWidthG = 10000000; //width of graph in microseconds (will be upgraded if needed)
-	public int RealHeightG = 500; //Newtons (will be upgraded if needed)
+	public int RealWidthG; //width of graph in microseconds (will be upgraded if needed)
+	public int RealHeightG; //Newtons (will be upgraded if needed)
 
 	private int widthG;
 	private int heightG;
@@ -56,8 +56,16 @@ public class ForceSensorCapturePoints
 		times = new List<int>();
 		forces = new List<double>();
 
+		InitRealWidthHeight();
+
 		this.widthG = widthG;
 		this.heightG = heightG;
+	}
+
+	public void InitRealWidthHeight()
+	{
+		RealWidthG = 10000000; //width of graph in microseconds (will be upgraded if needed)
+		RealHeightG = 1; //Newtons (will be upgraded when needed)
 	}
 
 	public void Add(int time, double force)
@@ -104,17 +112,24 @@ public class ForceSensorCapturePoints
 		return false;
 	}
 	// this is called at load signal, checks if last X is outside the graph and max/min force
-	public bool OutsideGraph(int lastTime, double minForce, double maxForce)
+	public bool OutsideGraph(int lastTime, double maxForce, double minForce)
 	{
-		RealWidthG = lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight);
+		if(lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight) > RealWidthG ||
+				GetForceInPx(minForce) > heightG ||
+				GetForceInPx(maxForce) < 0)
+		{
+			RealWidthG = lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight);
 
-		double absoluteMaxForce = maxForce;
-		if(Math.Abs(minForce) > absoluteMaxForce)
-			absoluteMaxForce = Math.Abs(minForce);
+			double absoluteMaxForce = maxForce;
+			if(Math.Abs(minForce) > absoluteMaxForce)
+				absoluteMaxForce = Math.Abs(minForce);
 
-		RealHeightG = Convert.ToInt32(2 * absoluteMaxForce + absoluteMaxForce * .2);
+			RealHeightG = Convert.ToInt32(2 * absoluteMaxForce + absoluteMaxForce * .2);
 
-		return true;
+			return true;
+		}
+
+		return false;
 	}
 
 	public void Redo()

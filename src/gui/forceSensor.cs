@@ -835,9 +835,14 @@ LogB.Information(" fc R ");
 		image_force_sensor_graph.Sensitive = false;
 
 		ForceSensorGraph fsg = new ForceSensorGraph(rfdList, impulse);
-		bool success = fsg.CallR(
-				viewport_force_sensor_graph.Allocation.Width -5,
-				viewport_force_sensor_graph.Allocation.Height -5);
+		int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);
+		int imageHeight = UtilGtk.WidgetHeight(viewport_force_sensor_graph);
+		if(imageWidth < 300)
+			imageWidth = 300; //Not crash R with a png height of -1 or "figure margins too large"
+		if(imageHeight < 300)
+			imageHeight = 300; //Not crash R with a png height of -1 or "figure margins too large"
+
+		bool success = fsg.CallR(imageWidth -5, imageHeight -5);
 
 		if(! success)
 		{

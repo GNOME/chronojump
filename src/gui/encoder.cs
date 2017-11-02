@@ -6195,7 +6195,7 @@ public partial class ChronoJumpWindow
 									configChronojump.CompujumpStationID,
 									lastEncoderSQLSignal.exerciseID,
 									lastEncoderSQLSignal.LateralityToEnglish(),
-									Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)), //this is only for gravitatory
+									Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)), //this is only for gravitatory
 									uo);
 							LogB.Information(js.ResultMessage);
 							LogB.Information("called Upload");

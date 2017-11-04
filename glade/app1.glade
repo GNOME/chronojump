@@ -175,6 +175,22 @@
                       </widget>
                     </child>
                     <child>
+                      <widget class="GtkImageMenuItem" id="menuitem_force_sensor_open_folder">
+                        <property name="label" translatable="yes">Force sensor - Open data folder</property>
+                        <property name="can_focus">False</property>
+                        <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="activate" handler="on_menuitem_force_sensor_open_folder_activate" swapped="no"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image3">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stock">gtk-open</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
                       <widget class="GtkSeparatorMenuItem" id="separador6">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -1214,6 +1230,9 @@
                                                             <property name="x_options">GTK_EXPAND</property>
                                                             <property name="y_options">GTK_EXPAND</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -4617,7 +4636,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox_force_buttons">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">40</property>
+                                                            <property name="spacing">30</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_force_sensor_load">
                                                             <property name="label" translatable="yes">Load file</property>
@@ -4636,10 +4655,9 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox152">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">20</property>
+                                                            <property name="spacing">10</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label111">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Adjust:</property>
                                                             </widget>
@@ -4653,7 +4671,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox207">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">20</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_force_sensor_tare">
                                                             <property name="label" translatable="yes">Tare</property>
@@ -4772,20 +4790,6 @@ EncoderInertialCapture</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_force_sensor_data_folder">
-                                                            <property name="label" translatable="yes">Open data folder</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <signal name="clicked" handler="on_button_force_sensor_data_folder_clicked" swapped="no"/>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -20992,6 +20996,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

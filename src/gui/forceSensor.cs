@@ -61,6 +61,7 @@ public class ForceSensorValues
 
 public partial class ChronoJumpWindow 
 {
+	[Widget] Gtk.MenuItem menuitem_force_sensor_open_folder;
 	[Widget] Gtk.HBox hbox_force_buttons;
 	[Widget] Gtk.Button button_force_sensor_tare;
 	[Widget] Gtk.Button button_force_sensor_calibrate;
@@ -1055,8 +1056,14 @@ LogB.Information(" fc R ");
 	}
 
 
-	private void on_button_force_sensor_data_folder_clicked	(object o, EventArgs args)
+	private void on_menuitem_force_sensor_open_folder_activate (object o, EventArgs args)
 	{
+		if(currentSession == null || currentSession.UniqueID == null)
+		{
+			System.Diagnostics.Process.Start(ForceSensorGraph.GetDataDir(-1));
+			return;
+		}
+
 		string dataDir = ForceSensorGraph.GetDataDir(currentSession.UniqueID);
 		if(dataDir != "")
 			System.Diagnostics.Process.Start(dataDir);
@@ -1072,6 +1079,8 @@ LogB.Information(" fc R ");
 
 		button_threshold.Visible = ! modeForceSensor;
 		button_force_sensor_check_version.Visible = modeForceSensor;
+
+		menuitem_force_sensor_open_folder.Visible = modeForceSensor;
 	}
 
 	private void on_button_force_sensor_adjust_help_clicked (object o, EventArgs args)

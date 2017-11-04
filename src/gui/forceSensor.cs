@@ -499,7 +499,7 @@ public partial class ChronoJumpWindow
 			currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now) + ".csv";
 
 		TextWriter writer = File.CreateText(fileName);
-		writer.WriteLine("Time (micro s);Force(N)");
+		writer.WriteLine("Time (micros);Force(N)");
 		str = "";
 		int firstTime = 0;
 

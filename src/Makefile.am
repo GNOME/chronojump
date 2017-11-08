@@ -387,6 +387,7 @@ RESOURCES = \
 	../images/md/ic_last_page_blue_24dp_1x.png,finish.png \
 	../images/md/ic_cancel_red_24dp_1x.png,image_cancel.png \
 	../images/md/ic_insert_chart_blue_24dp_1x.png,image_analyze.png \
+	../images/md/ic_assignment_blue_24dp_1x.png,image_analyze_general.png \
 	../images/md/ic_fast_forward_blue_24dp_1x.png,image_sprint.png \
 	../images/md/ic_developer_board_blue_24dp_1x.png,image_chronopic_connect.png \
 	../images/md/ic_developer_board_blue_24dp_2x.png,image_chronopic_connect_big.png \

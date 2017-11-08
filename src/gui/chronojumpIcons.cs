@@ -50,6 +50,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_button_execute;
 	[Widget] Gtk.Image image_tests_capture;
 	[Widget] Gtk.Image image_tests_sprint;
+	[Widget] Gtk.Image image_tests_analyze_general;
 	[Widget] Gtk.Image image_info1;
 	[Widget] Gtk.Image image_info2;
 	[Widget] Gtk.Image image_info3;
@@ -427,7 +428,10 @@ public partial class ChronoJumpWindow
 	
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "spreadsheet.png");
 		image_encoder_analyze_table_save.Pixbuf = pixbuf;
-		
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_analyze_general.png");
+		image_tests_analyze_general.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "jumps-profile-pie.png");
 		image_tab_jumps_profile.Pixbuf = pixbuf;
 		

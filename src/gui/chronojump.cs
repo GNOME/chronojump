@@ -76,13 +76,21 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_sup;
 	[Widget] Gtk.HBox hbox_other;
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
+	[Widget] Gtk.Notebook notebook_analyze; //not encoder
 	[Widget] Gtk.Notebook notebook_capture_graph_table;
 
 	[Widget] Gtk.HBox hbox_contacts_sup_capture_analyze_two_buttons;
+
+	//radio group
 	[Widget] Gtk.RadioButton radio_mode_contacts_capture;
 	[Widget] Gtk.RadioButton radio_mode_contacts_analyze;
+
+	//radio group
+	[Widget] Gtk.Arrow arrow_contacts_sup_capture_analyze;
+	[Widget] Gtk.RadioButton radio_mode_contacts_general;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_profile;
 	[Widget] Gtk.RadioButton radio_mode_contacts_sprint;
+
 	[Widget] Gtk.Label label_sprint_person_name;
 
 	[Widget] Gtk.Label label_version;
@@ -1026,7 +1034,7 @@ public partial class ChronoJumpWindow
 		{
 			updateGraphJumpsSimple();
 
-			if(notebook_capture_analyze.CurrentPage == 2) //Jumps Profile
+			if(notebook_analyze.CurrentPage == 1) //Jumps Profile
 				jumpsProfileDo(true); //calculate data
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
@@ -2929,6 +2937,14 @@ public partial class ChronoJumpWindow
 			forceProcessCancel = true;
 		}
 
+		radio_mode_contacts_capture.Active = true;
+		radio_mode_contacts_general.Active = true;
+		arrow_contacts_sup_capture_analyze.Visible = false;
+		radio_mode_contacts_general.Visible = false;
+		radio_mode_contacts_jumps_profile.Visible = false;
+		radio_mode_contacts_sprint.Visible = false;
+		notebook_analyze.CurrentPage = 0;
+
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
 			notebook_sup.CurrentPage = 0;
@@ -2940,7 +2956,13 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				on_extra_window_jumps_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = true;
-				radio_mode_contacts_jumps_profile.Show();
+
+				if(radio_mode_contacts_analyze.Active)
+				{
+					arrow_contacts_sup_capture_analyze.Visible = true;
+					radio_mode_contacts_general.Visible = true;
+					radio_mode_contacts_jumps_profile.Visible = true;
+				}
 			} else 
 			{
 				menuitem_mode_selected_jumps_reactive.Visible = true;
@@ -2952,9 +2974,6 @@ public partial class ChronoJumpWindow
 				if(radio_mode_contacts_jumps_profile.Active)
 					radio_mode_contacts_capture.Active = true;
 			}
-			radio_mode_contacts_sprint.Hide();
-			if(radio_mode_contacts_sprint.Active)
-				radio_mode_contacts_capture.Active = true;
 		}
 		else if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
@@ -2968,10 +2987,6 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				on_extra_window_runs_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = true;
-
-				radio_mode_contacts_sprint.Hide();
-				if(radio_mode_contacts_sprint.Active)
-					radio_mode_contacts_capture.Active = true;
 			}
 			else
 			{
@@ -2980,7 +2995,13 @@ public partial class ChronoJumpWindow
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = false;
 				createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
-				radio_mode_contacts_sprint.Show();
+
+				if(radio_mode_contacts_analyze.Active)
+				{
+					arrow_contacts_sup_capture_analyze.Visible = true;
+					radio_mode_contacts_general.Visible = true;
+					radio_mode_contacts_sprint.Visible = true;
+				}
 			}
 			radio_mode_contacts_jumps_profile.Hide();
 			if(radio_mode_contacts_sprint.Active)
@@ -3109,9 +3130,8 @@ public partial class ChronoJumpWindow
 			notebooks_change(m);
 //			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
 
-			notebook_capture_analyze.CurrentPage = 0;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
-			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
+			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 			hbox_results_legend.Visible = false;
 
@@ -6753,28 +6773,57 @@ LogB.Debug("X");
 
 	private void on_radio_mode_contacts_capture_toggled (object o, EventArgs args)
 	{
-		if(radio_mode_contacts_capture.Active)
-			notebook_capture_analyze.CurrentPage = 0;
+		if(! radio_mode_contacts_capture.Active)
+			return;
+
+		arrow_contacts_sup_capture_analyze.Visible = false;
+		radio_mode_contacts_general.Visible = false;
+		radio_mode_contacts_jumps_profile.Visible = false;
+		radio_mode_contacts_sprint.Visible = false;
+
+		notebook_capture_analyze.CurrentPage = 0;
 	}
 	private void on_radio_mode_contacts_analyze_toggled (object o, EventArgs args)
 	{
-		if(radio_mode_contacts_analyze.Active)
-			notebook_capture_analyze.CurrentPage = 1;
+		if(! radio_mode_contacts_analyze.Active)
+			return;
+
+		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE ||
+				current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		{
+			arrow_contacts_sup_capture_analyze.Visible = true;
+			radio_mode_contacts_general.Visible = true;
+
+			if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+				radio_mode_contacts_jumps_profile.Visible = true;
+			else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+				radio_mode_contacts_sprint.Visible = true;
+		}
+		else if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+			notebook_analyze.CurrentPage = 3;
+		else
+			notebook_analyze.CurrentPage = 0;
+
+		notebook_capture_analyze.CurrentPage = 1;
+	}
+
+	private void on_radio_mode_contacts_general_toggled (object o, EventArgs args)
+	{
+		if(radio_mode_contacts_general.Active)
+			notebook_analyze.CurrentPage = 0;
 	}
 	private void on_radio_mode_contacts_jumps_profile_toggled (object o, EventArgs args)
 	{
 		if(radio_mode_contacts_jumps_profile.Active)
-			notebook_capture_analyze.CurrentPage = 2;
+		{
+			notebook_analyze.CurrentPage = 1;
+			jumpsProfileDo(true);
+		}
 	}
 	private void on_radio_mode_contacts_sprint_toggled (object o, EventArgs args)
 	{
 		if(radio_mode_contacts_sprint.Active)
-			notebook_capture_analyze.CurrentPage = 3;
-	}
-
-	private void on_notebook_capture_analyze_switch_page (object o, SwitchPageArgs args) {
-		if(notebook_capture_analyze.CurrentPage == 2)
-			jumpsProfileDo(true);
+			notebook_analyze.CurrentPage = 2;
 	}
 
 	private void on_button_jumps_profile_help_clicked (object o, EventArgs args) {

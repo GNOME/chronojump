@@ -390,7 +390,7 @@
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Power</property>
+                        <property name="label" translatable="yes">Encoder</property>
                         <property name="use_underline">True</property>
                       </widget>
                     </child>
@@ -487,14 +487,14 @@
               <widget class="GtkMenuItem" id="menuitem_mode_selected_power_gravitatory">
                 <property name="sensitive">False</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Power (gravitatory)</property>
+                <property name="label" translatable="yes">Encoder (gravitatory)</property>
               </widget>
             </child>
             <child>
               <widget class="GtkMenuItem" id="menuitem_mode_selected_power_inertial">
                 <property name="sensitive">False</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Power (inertial)</property>
+                <property name="label" translatable="yes">Encoder (inertial)</property>
               </widget>
             </child>
             <child>
@@ -1230,6 +1230,9 @@
                                                             <property name="x_options">GTK_EXPAND</property>
                                                             <property name="y_options">GTK_EXPAND</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -14932,6 +14935,7 @@ Concentric</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="border_width">2</property>
+                                                    <property name="spacing">2</property>
                                                     <child>
                                                       <widget class="GtkHBox" id="hbox182">
                                                         <property name="visible">True</property>
@@ -21061,6 +21065,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

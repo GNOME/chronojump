@@ -6884,6 +6884,7 @@ LogB.Debug("X");
 		
 		//notebooks
 		notebook_execute.Sensitive = false;
+		notebook_analyze.Sensitive = false;
 		notebook_results.Sensitive = false;
 		notebook_options_top.Sensitive = false;
 		notebook_encoder_sup.Sensitive = false;
@@ -6930,6 +6931,7 @@ LogB.Debug("X");
 		personChanged();
 		
 		notebook_execute.Sensitive = false;
+		notebook_analyze.Sensitive = false;
 		notebook_results.Sensitive = false;
 		notebook_options_top.Sensitive = false;
 		notebook_encoder_sup.Sensitive = false;
@@ -6951,6 +6953,7 @@ LogB.Debug("X");
 		personChanged();
 		
 		notebook_execute.Sensitive = true;
+		notebook_analyze.Sensitive = true;
 		notebook_results.Sensitive = true;
 		notebook_options_top.Sensitive = true;
 		notebook_encoder_sup.Sensitive = true;

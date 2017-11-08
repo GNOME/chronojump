@@ -62,6 +62,8 @@ public class ForceSensorValues
 public partial class ChronoJumpWindow 
 {
 	[Widget] Gtk.MenuItem menuitem_force_sensor_open_folder;
+
+	//capture tab tab
 	[Widget] Gtk.HBox hbox_force_buttons;
 	[Widget] Gtk.Button button_force_sensor_tare;
 	[Widget] Gtk.Button button_force_sensor_calibrate;
@@ -69,14 +71,17 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_value;
 	[Widget] Gtk.Label label_force_sensor_value_min;
 	//[Widget] Gtk.VScale vscale_force_sensor;
-	[Widget] Gtk.Viewport viewport_force_sensor_graph;
-	[Widget] Gtk.Image image_force_sensor_graph;
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	[Widget] Gtk.Button button_force_sensor_check_version;
 	[Widget] Gtk.Button button_force_sensor_image_save_signal;
-	[Widget] Gtk.Button button_force_sensor_image_save_rfd;
 	[Widget] Gtk.DrawingArea force_capture_drawingarea;
 	Gdk.Pixmap force_capture_pixmap = null;
+
+	//analyze tab
+	[Widget] Gtk.Button button_force_sensor_analyze_load;
+	[Widget] Gtk.Image image_force_sensor_graph;
+	[Widget] Gtk.Viewport viewport_force_sensor_graph;
+	[Widget] Gtk.Button button_force_sensor_image_save_rfd;
 	
 	Thread forceCaptureThread;
 	static bool forceProcessFinish;
@@ -266,6 +271,7 @@ public partial class ChronoJumpWindow
 	{
 		hbox_force_buttons.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
+		button_force_sensor_analyze_load.Sensitive = sensitive;
 	}
 
 	private bool pulseGTKForceSensorOther ()
@@ -807,6 +813,9 @@ LogB.Information(" fc R ");
 
 	private void on_button_force_sensor_load_clicked (object o, EventArgs args)
 	{
+		if (currentSession == null)
+			return;
+
 		Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog ("Choose file",
 		                                                               app1, FileChooserAction.Open,
 		                                                               "Cancel",ResponseType.Cancel,

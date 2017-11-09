@@ -243,6 +243,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ScrolledWindow scrolledwindow_jumps_profile_help;
 	[Widget] Gtk.ScrolledWindow scrolledwindow_jumps_profile_training;
 	[Widget] Gtk.Image image_tab_jumps_profile;
+	[Widget] Gtk.Image image_jumps_profile_save;
 	
 	
 	//runs
@@ -6768,6 +6769,32 @@ LogB.Debug("X");
 	{
 		jumpsProfileDo(false); //do not calculate data
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
+	}
+
+	private void on_button_jumps_profile_save_image_clicked (object o, EventArgs args)
+	{
+		checkFile(Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE);
+	}
+
+	private void on_button_jumps_profile_save_image_selected (string destination)
+	{
+		if(drawingarea_jumps_profile == null)
+			return;
+
+		Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(drawingarea_jumps_profile.GdkWindow, Gdk.Colormap.System,
+				0, 0, 0, 0,
+				UtilGtk.WidgetWidth(drawingarea_jumps_profile),
+				UtilGtk.WidgetHeight(drawingarea_jumps_profile) );
+
+		LogB.Information("Saving");
+		pixbuf.Save(destination,"png");
+	}
+	private void on_overwrite_file_jumps_profile_save_image_accepted (object o, EventArgs args)
+	{
+		on_button_jumps_profile_save_image_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
 

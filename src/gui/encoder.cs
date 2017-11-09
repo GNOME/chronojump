@@ -1912,9 +1912,11 @@ public partial class ChronoJumpWindow
 		string exportString = ""; 
 		if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 			exportString = Catalog.GetString ("Export set in CSV format");
-		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
-			checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
-			checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD)
+		else if(
+				checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD )
 			exportString = Catalog.GetString ("Save image");
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 			exportString = Catalog.GetString ("Export repetition in CSV format");
@@ -1935,9 +1937,11 @@ public partial class ChronoJumpWindow
 
 		if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 			nameString += "_encoder_set_export.csv";
-		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
-			checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
-			checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD)
+		else if(
+				checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD )
 			nameString += ".png";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 			nameString += "_encoder_repetition_export.csv";
@@ -1975,7 +1979,10 @@ public partial class ChronoJumpWindow
 								"Are you sure you want to overwrite file: "), "", 
 							exportFileName);
 
-					if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
+					if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_jumps_profile_save_image_accepted);
+					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 						confirmWin.Button_accept.Clicked += 
 							new EventHandler(on_overwrite_file_export_all_curves_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE)
@@ -1995,7 +2002,9 @@ public partial class ChronoJumpWindow
 							new EventHandler(on_overwrite_file_forcesensor_save_image_rfd_accepted);
 
 				} else {
-					if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
+					if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
+						on_button_jumps_profile_save_image_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 						on_button_encoder_export_all_curves_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE)
 						on_button_encoder_save_image_file_selected (exportFileName);

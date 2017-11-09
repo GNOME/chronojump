@@ -3991,9 +3991,18 @@ public partial class ChronoJumpWindow
 			//if seeing "show table" move to "show graph" (encoder exercise stuff is there)
 			if(notebook_encoder_capture_main.CurrentPage == 1)
 				notebook_encoder_capture_main.CurrentPage = 0;
+
+			//don't show the page 'show table', while exercise or instructions is shown
+			if(notebook_encoder_capture_main.NPages > 0)
+				notebook_encoder_capture_main.GetNthPage(1).Hide();
 		}
-		else
+		else {
 			notebook_encoder_capture_or_exercise_or_instructions.Page = 0;
+
+			//show againthe page 'show table', while exercise or instructions is shown
+			if(notebook_encoder_capture_main.NPages > 0)
+				notebook_encoder_capture_main.GetNthPage(1).Show();
+		}
 
 		main_menu.Sensitive = ! show;
 		hbox_encoder_sup_capture_analyze.Sensitive = ! show;

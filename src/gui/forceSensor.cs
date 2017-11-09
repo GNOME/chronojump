@@ -79,6 +79,7 @@ public partial class ChronoJumpWindow
 
 	//analyze tab
 	[Widget] Gtk.Button button_force_sensor_analyze_load;
+	[Widget] Gtk.Label label_force_sensor_analyze;
 	[Widget] Gtk.Image image_force_sensor_graph;
 	[Widget] Gtk.Viewport viewport_force_sensor_graph;
 	[Widget] Gtk.Button button_force_sensor_image_save_rfd;
@@ -446,6 +447,7 @@ public partial class ChronoJumpWindow
 		label_force_sensor_value_max.Text = "0";
 		label_force_sensor_value.Text = "0";
 		label_force_sensor_value_min.Text = "0";
+		label_force_sensor_analyze.Text = "";
 
 		forceProcessFinish = false;
 		forceProcessCancel = false;
@@ -856,7 +858,7 @@ LogB.Information(" fc R ");
 
 		if(! success)
 		{
-			event_execute_label_message.Text = "Error doing RFD graph.";
+			label_force_sensor_analyze.Text = Catalog.GetString("Error doing graph.");
 			return;
 		}
 

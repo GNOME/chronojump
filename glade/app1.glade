@@ -1451,6 +1451,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -14940,6 +14943,7 @@ Concentric</property>
                                                       <widget class="GtkHBox" id="hbox182">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
+                                                        <property name="spacing">12</property>
                                                         <child>
                                                           <widget class="GtkButton" id="button_force_sensor_analyze_load">
                                                             <property name="label" translatable="yes">Load file</property>
@@ -14952,6 +14956,20 @@ Concentric</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkLabel" id="label_force_sensor_analyze">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="use_markup">True</property>
+                                                            <property name="ellipsize">end</property>
+                                                            <property name="single_line_mode">True</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
                                                           </packing>
                                                         </child>
                                                       </widget>
@@ -21065,6 +21083,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

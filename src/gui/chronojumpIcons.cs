@@ -55,7 +55,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_info2;
 	[Widget] Gtk.Image image_info3;
 	[Widget] Gtk.Image image_info4;
-	[Widget] Gtk.Image image_force_sensor_adjust_help;
 	[Widget] Gtk.Image image_info_sessions_info;
 	[Widget] Gtk.Image image_add_test1;
 	[Widget] Gtk.Image image_add_test2;
@@ -65,7 +64,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_selector_start_jumps;
 	[Widget] Gtk.Image image_selector_start_runs;
 	[Widget] Gtk.Image image_selector_start_encoder;
-	[Widget] Gtk.Image image_selector_start_force_sensor;
 	[Widget] Gtk.Image image_selector_start_rt;
 	[Widget] Gtk.Image image_selector_start_other;
 	[Widget] Gtk.Image image_selector_start_cancel;
@@ -100,8 +98,14 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_inertial_extended;
 	[Widget] Gtk.Image image_encoder_calibrate;
 	[Widget] Gtk.Image image_encoder_recalibrate;
+
+	//force sensor
+	[Widget] Gtk.Image image_selector_start_force_sensor;
+	[Widget] Gtk.Image image_force_sensor_adjust_help;
 	[Widget] Gtk.Image image_force_sensor_capture_load;
 	[Widget] Gtk.Image image_force_sensor_analyze_load;
+	[Widget] Gtk.Image image_force_sensor_tare;
+	[Widget] Gtk.Image image_force_sensor_calibrate;
 
 	private void putNonStandardIcons()
 	{
@@ -159,6 +163,7 @@ public partial class ChronoJumpWindow
 		image_extra_mass.Pixbuf = pixbuf;
 		image_encoder_inertial_top_weights.Pixbuf = pixbuf;
 		image_encoder_inertial_weights.Pixbuf = pixbuf;
+		image_force_sensor_calibrate.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_gravity.png");
 		image_mode_encoder_gravitatory.Pixbuf = pixbuf;
@@ -223,6 +228,8 @@ public partial class ChronoJumpWindow
 		image_force_sensor_capture_load.Pixbuf = pixbuf;
 		image_force_sensor_analyze_load.Pixbuf = pixbuf;
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "zero.png");
+		image_force_sensor_tare.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "one.png");
 		image_encoder_capture_1set.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "cont.png");

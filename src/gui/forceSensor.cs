@@ -1069,7 +1069,7 @@ LogB.Information(" fc R ");
 
 	private void on_menuitem_force_sensor_open_folder_activate (object o, EventArgs args)
 	{
-		if(currentSession == null || currentSession.UniqueID == null)
+		if(currentSession == null || currentSession.UniqueID == -1)
 		{
 			System.Diagnostics.Process.Start(ForceSensorGraph.GetDataDir(-1));
 			return;

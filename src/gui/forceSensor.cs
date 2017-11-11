@@ -627,6 +627,9 @@ LogB.Information(" fc D ");
 			//finish, cancel: sensitive = false
 			hideButtons();
 
+			restTime.AddOrModify(currentPerson.UniqueID, currentPerson.Name, true);
+			updateRestTimes();
+
 			return false;
 		}
 

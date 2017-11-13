@@ -1035,11 +1035,19 @@ public partial class ChronoJumpWindow
 		{
 			updateGraphJumpsSimple();
 
+			update_label_extra_window_jumps_radiobutton_weight_percent_as_kg(
+					(currentJumpType.HasWeight && extra_window_jumps_radiobutton_weight.Active));
+
 			if(notebook_analyze.CurrentPage == 1) //Jumps Profile
 				jumpsProfileDo(true); //calculate data
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
+		{
 			updateGraphJumpsReactive();
+
+			update_label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg(
+					(currentJumpRjType.HasWeight && extra_window_jumps_rj_radiobutton_weight.Active));
+		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
 			updateGraphRunsSimple();
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
@@ -2463,7 +2471,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_export_session_activate(object o, EventArgs args) {
-		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Encoder data will not be exported."), "", "");
+		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Only persons, jumps and races will be exported."), "", "");
 		confirmWin.Button_accept.Clicked += new EventHandler(on_export_session_accepted);
 	}
 

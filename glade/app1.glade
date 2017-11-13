@@ -1472,6 +1472,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -5728,6 +5731,7 @@ EncoderInertialCapture</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="digits">2</property>
                                                             <property name="numeric">True</property>
+                                                            <signal name="value_changed" handler="on_extra_window_jumps_spinbutton_weight_value_changed" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -5765,6 +5769,24 @@ EncoderInertialCapture</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkAlignment" id="alignment30">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="left_padding">20</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_extra_window_jumps_radiobutton_weight_percent_as_kg">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -6278,10 +6300,11 @@ EncoderInertialCapture</property>
                                                             <property name="secondary_icon_activatable">False</property>
                                                             <property name="primary_icon_sensitive">True</property>
                                                             <property name="secondary_icon_sensitive">True</property>
-                                                            <property name="adjustment">10 0 200 1 10 0</property>
+                                                            <property name="adjustment">0 0 200 1 10 0</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="digits">1</property>
                                                             <property name="numeric">True</property>
+                                                            <signal name="value_changed" handler="on_extra_window_jumps_rj_spinbutton_weight_value_changed" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -6291,8 +6314,7 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="extra_window_jumps_rj_radiobutton_weight">
-                                                            <property name="label" translatable="yes">% body
-weight</property>
+                                                            <property name="label" translatable="yes">% body weight</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="use_underline">True</property>
@@ -6322,6 +6344,24 @@ weight</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkAlignment" id="alignment31">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="left_padding">20</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -6338,8 +6378,7 @@ weight</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkCheckButton" id="checkbutton_allow_finish_rj_after_time">
-                                                            <property name="label" translatable="yes">Allow finish
-after time</property>
+                                                            <property name="label" translatable="yes">Allow finish after time</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="has_tooltip">True</property>
@@ -21293,6 +21332,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -982,6 +982,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_jumps_label_weight;
 	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_arms;
 
+	//show weight on kg when percent is selected (SJl, CMJl, ABKl)
+	[Widget] Gtk.Label label_extra_window_jumps_radiobutton_weight_percent_as_kg;
+	[Widget] Gtk.Label label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg;
+
 	//slCMJ	
 	[Widget] Gtk.Box hbox_extra_window_jumps_single_leg_radios;
 	[Widget] Gtk.Notebook notebook_options_after_execute;
@@ -1329,11 +1333,15 @@ public partial class ChronoJumpWindow
 			extra_window_jumps_rj_spinbutton_weight.Visible = show;
 			extra_window_jumps_rj_radiobutton_kg.Visible = show;
 			extra_window_jumps_rj_radiobutton_weight.Visible = show;
+
+			update_label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg(show);
 		} else {
 			extra_window_jumps_label_weight.Visible = show;
 			extra_window_jumps_spinbutton_weight.Visible = show;
 			extra_window_jumps_radiobutton_kg.Visible = show;
 			extra_window_jumps_radiobutton_weight.Visible = show;
+
+			update_label_extra_window_jumps_radiobutton_weight_percent_as_kg(show);
 		}
 	}
 	
@@ -1367,24 +1375,68 @@ public partial class ChronoJumpWindow
 	private void on_extra_window_jumps_radiobutton_kg_toggled (object o, EventArgs args)
 	{
 		extra_window_jumps_option = "Kg";
+		label_extra_window_jumps_radiobutton_weight_percent_as_kg.Visible = false;
 	}
 	
 	private void on_extra_window_jumps_radiobutton_weight_toggled (object o, EventArgs args)
 	{
 		extra_window_jumps_option = "%";
+
+		update_label_extra_window_jumps_radiobutton_weight_percent_as_kg(true);
+		label_extra_window_jumps_radiobutton_weight_percent_as_kg.Visible = true;
 	}
 	
 	private void on_extra_window_jumps_rj_radiobutton_kg_toggled (object o, EventArgs args)
 	{
 		extra_window_jumps_rj_option = "Kg";
+		label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg.Visible = false;
 	}
 	
 	private void on_extra_window_jumps_rj_radiobutton_weight_toggled (object o, EventArgs args)
 	{
 		extra_window_jumps_rj_option = "%";
+
+		update_label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg(true);
+		label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg.Visible = true;
 	}
-	
-	
+
+	private void on_extra_window_jumps_spinbutton_weight_value_changed (object o, EventArgs args)
+	{
+		update_label_extra_window_jumps_radiobutton_weight_percent_as_kg(true);
+	}
+	private void update_label_extra_window_jumps_radiobutton_weight_percent_as_kg(bool show)
+	{
+		if(! show || currentPersonSession == null || currentPersonSession.Weight == 0)
+		{
+			label_extra_window_jumps_radiobutton_weight_percent_as_kg.Text = "";
+			return;
+		}
+
+		label_extra_window_jumps_radiobutton_weight_percent_as_kg.Text =
+			Util.TrimDecimals(Util.WeightFromPercentToKg (
+						(double) extra_window_jumps_spinbutton_weight.Value,
+						currentPersonSession.Weight), 1) + " Kg";
+	}
+
+	private void on_extra_window_jumps_rj_spinbutton_weight_value_changed (object o, EventArgs args)
+	{
+		update_label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg(true);
+	}
+	private void update_label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg(bool show)
+	{
+		if(! show || currentPersonSession == null || currentPersonSession.Weight == 0)
+		{
+			label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg.Text = "";
+			return;
+		}
+
+		label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg.Text =
+			Util.TrimDecimals(Util.WeightFromPercentToKg (
+						(double) extra_window_jumps_rj_spinbutton_weight.Value,
+						currentPersonSession.Weight), 1) + " Kg";
+	}
+
+
 	private string limitString()
 	{
 		if(extra_window_jumps_rj_jumpsLimited) 
@@ -1392,7 +1444,7 @@ public partial class ChronoJumpWindow
 		else 
 			return extra_window_jumps_rj_limited.ToString() + "T";
 	}
-	
+
 	//do not translate this
 	private string slCMJString()
 	{

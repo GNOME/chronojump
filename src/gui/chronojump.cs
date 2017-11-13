@@ -7079,14 +7079,6 @@ LogB.Debug("X");
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
 		//notebook_capture_analyze.Sensitive = true; 
 		radio_mode_contacts_analyze.Visible = true;
-		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
-		{
-			radio_mode_contacts_jumps_profile.Show();
-		}
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
-		{
-			radio_mode_contacts_sprint.Show();
-		}
 
 		help_menuitem.Sensitive = true;
 

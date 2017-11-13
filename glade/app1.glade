@@ -1469,6 +1469,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -3400,7 +3403,7 @@ EncoderInertialCapture</property>
                                             <child>
                                               <widget class="GtkHBox" id="hbox_top_person">
                                                 <property name="can_focus">False</property>
-                                                <property name="spacing">20</property>
+                                                <property name="spacing">30</property>
                                                 <child>
                                                   <widget class="GtkLabel" id="label_top_person_name">
                                                     <property name="visible">True</property>
@@ -5734,8 +5737,7 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_weight">
-                                                            <property name="label" translatable="yes">% body
-weight</property>
+                                                            <property name="label" translatable="yes">% body weight</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="use_underline">True</property>
@@ -21291,6 +21293,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

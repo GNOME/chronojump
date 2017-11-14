@@ -2471,7 +2471,12 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_export_session_activate(object o, EventArgs args) {
-		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Only persons, jumps and races will be exported."), "", "");
+		ConfirmWindow confirmWin = ConfirmWindow.Show(
+				Catalog.GetString("Export will include this data:") +
+				"\n\n" + Catalog.GetString("Persons") +
+				"\n" + Catalog.GetString("Jumps") +
+				"\n" + Catalog.GetString("Races") + "\n"
+				, "", "");
 		confirmWin.Button_accept.Clicked += new EventHandler(on_export_session_accepted);
 	}
 

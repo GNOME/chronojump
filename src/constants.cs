@@ -198,6 +198,7 @@ public class Constants
 	public static string RFIDDisconnectedMessage = Catalog.GetString("RFID cable has been disconnected!") + "\n\n" +
 		Catalog.GetString("Please, connect it and restart Chronojump.");
 	public static string RFIDNotInServerMessage = Catalog.GetString("This RFID is not registered on server.");
+	public static string ServerDisconnectedMessage = Catalog.GetString("Server is disconnected.");
 
 	//server
 	public const string ServerPingTable = "SPing"; 

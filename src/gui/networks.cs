@@ -469,7 +469,20 @@ public partial class ChronoJumpWindow
 			LogB.Information("RFID person does not exist locally!!");
 
 			Person pServer = json.GetPersonByRFID(capturedRFID);
-			if(pServer.UniqueID == -1) {
+
+			if(! json.Connected) {
+				LogB.Information("Server is disconnected!");
+				if(dialogMessageNotAtServer == null || ! dialogMessageNotAtServer.Visible)
+				{
+					dialogMessageNotAtServer = new DialogMessage(
+							Constants.MessageTypes.WARNING,
+							Constants.ServerDisconnectedMessage
+							); //GTK
+
+					compujumpPersonLogoutDo();
+				}
+			}
+			else if(pServer.UniqueID == -1) {
 				LogB.Information("Person NOT found on server!");
 				if(dialogMessageNotAtServer == null || ! dialogMessageNotAtServer.Visible)
 				{
@@ -618,10 +631,10 @@ public partial class ChronoJumpWindow
 		List<StationCount> stationsCount = json.GetOtherStationsWithPendingTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
 
 		//4) show dialog
-		showDialogPersonPopup(tasks, stationsCount);
+		showDialogPersonPopup(tasks, stationsCount, json.Connected);
 	}
 
-	private void showDialogPersonPopup(List<Task> tasks, List<StationCount> stationsCount)
+	private void showDialogPersonPopup(List<Task> tasks, List<StationCount> stationsCount, bool serverConnected)
 	{
 		if(dialogPersonPopup != null)
 			dialogPersonPopup.DestroyDialog();
@@ -630,7 +643,7 @@ public partial class ChronoJumpWindow
 			dialogMessageNotAtServer.on_close_button_clicked(new object(), new EventArgs());
 
 		dialogPersonPopup = new DialogPersonPopup(
-				currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks, stationsCount);
+				currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks, stationsCount, serverConnected);
 
 		dialogPersonPopup.Fake_button_start_task.Clicked -= new EventHandler(compujumpTaskStart);
 		dialogPersonPopup.Fake_button_start_task.Clicked += new EventHandler(compujumpTaskStart);

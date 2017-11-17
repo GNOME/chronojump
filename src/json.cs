@@ -31,6 +31,7 @@ using Mono.Unix;
 
 public class Json
 {
+	private bool connected; //know if server is connected. Do it when there's a change on RFID (pulse)
 	public string ResultMessage;
 	static string serverUrl = "http://api.chronojump.org:8080";
 	//string serverUrl = "http://192.168.200.1:8080";
@@ -277,6 +278,7 @@ public class Json
 
 	public Person GetPersonByRFID(string rfid)
 	{
+		connected = false;
 		Person person = new Person(-1);
 
 		// Create a request using a URL that can receive a post.
@@ -338,6 +340,7 @@ public class Json
 			person = personDeserialize(responseFromServer);
 		}
 
+		connected = true;
 		return person;
 
 	}
@@ -403,6 +406,8 @@ public class Json
 
 	public List<Task> GetTasks(int personID, int stationID)
 	{
+		connected = false;
+
 		// Create a request using a URL that can receive a post.
 		WebRequest request = WebRequest.Create (serverUrl + "/getTasks");
 
@@ -451,6 +456,8 @@ public class Json
 		}
 
 		LogB.Information("GetTasks: " + responseFromServer);
+
+		connected = true;
 
 		if(responseFromServer == "" || responseFromServer == "[]")
 		{
@@ -958,6 +965,9 @@ public class Json
 		return true;
 	}
 
+	public bool Connected {
+		get { return connected; }
+	}
 
 	~Json() {}
 }

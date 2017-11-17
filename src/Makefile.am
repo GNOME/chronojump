@@ -439,6 +439,7 @@ RESOURCES = \
 	../images/pulse_menu.png,pulse_menu.png \
 	../images/multichronopic_menu.png,multichronopic_menu.png \
 	../images/force_sensor_menu.png,force_sensor_menu.png \
+	../images/gtk-apply.png,gtk-apply.png \
 	../images/gtk-cancel.png,gtk-cancel.png \
 	../images/gtk-zoom-fit.png,gtk-zoom-fit.png \
 	../images/gtk-zoom-in.png,gtk-zoom-in.png \

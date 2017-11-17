@@ -36,6 +36,10 @@ public class DialogPersonPopup
 	[Widget] Gtk.Notebook notebook;
 	[Widget] Gtk.VBox vbox_tasks_parametrized;
 
+	[Widget] Gtk.Label label_server_connected;
+	[Widget] Gtk.Image image_server_connected_yes;
+	[Widget] Gtk.Image image_server_connected_no;
+
 	private List<Task> list_tasks_fixed; //This list has "R,L" separated
 	private List<Gtk.Button> list_buttons_start;
 	private List<Gtk.Button> list_buttons_done;
@@ -48,7 +52,8 @@ public class DialogPersonPopup
 	public Button Fake_button_person_logout;
 	public bool Visible;
 
-	public DialogPersonPopup (int personID, string name, string rfid, List<Task> tasks, List<StationCount> stationsCount)
+	public DialogPersonPopup (int personID, string name, string rfid,
+			List<Task> tasks, List<StationCount> stationsCount, bool serverConnected)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_person_popup.glade", "dialog_person_popup", null);
@@ -69,6 +74,22 @@ public class DialogPersonPopup
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_logout.png");
 		image_person_logout.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gtk-apply.png");
+		image_server_connected_yes.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gtk-cancel.png");
+		image_server_connected_no.Pixbuf = pixbuf;
+
+		if(serverConnected)
+		{
+			label_server_connected.Text = "Server is connected";
+			image_server_connected_yes.Visible = true;
+			image_server_connected_no.Visible = false;
+		} else {
+			label_server_connected.Text = Constants.ServerDisconnectedMessage;
+			image_server_connected_yes.Visible = false;
+			image_server_connected_no.Visible = true;
+		}
 
 		string photoFile = Util.GetPhotoFileName(false, personID);
 		if(File.Exists(photoFile))

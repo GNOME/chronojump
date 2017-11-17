@@ -1475,6 +1475,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -7747,10 +7750,10 @@ EncoderInertialCapture</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Finish test (save test until this moment).  Or press 'End'.</property>
+                                                            <property name="tooltip" translatable="yes">Finish test (save test until this moment).  Or press 'Enter'.</property>
                                                             <property name="use_underline">True</property>
                                                             <signal name="clicked" handler="on_event_execute_finish_clicked" swapped="no"/>
-                                                            <accelerator key="End" signal="clicked"/>
+                                                            <accelerator key="Return" signal="clicked"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_button_finish">
                                                             <property name="visible">True</property>
@@ -16491,10 +16494,10 @@ Concentric</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Finish capture (save test until this moment).  Or press 'End'.</property>
+                                                            <property name="tooltip" translatable="yes">Finish capture (save test until this moment).  Or press 'Enter'.</property>
                                                             <property name="use_underline">True</property>
                                                             <signal name="clicked" handler="on_button_encoder_capture_finish_clicked" swapped="no"/>
-                                                            <accelerator key="End" signal="clicked"/>
+                                                            <accelerator key="Return" signal="clicked"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_encoder_capture_finish">
                                                             <property name="visible">True</property>
@@ -21332,6 +21335,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

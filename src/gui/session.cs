@@ -590,6 +590,7 @@ public class SessionAddEditWindow {
 		//check if name of session exists (is owned by other session),
 		//but all is ok if the name is the same as the old name (editing)
 		string name = Util.RemoveTildeAndColon(entry_name.Text);
+		name = Util.RemoveChar(name, '/');
 
 		bool sessionNameExists = Sqlite.Exists (false, Constants.SessionTable, name);
 		if(sessionNameExists && name != currentSession.Name ) {

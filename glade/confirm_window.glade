@@ -43,8 +43,9 @@
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="receives_default">False</property>
+                <property name="has_focus">True</property>
+                <property name="is_focus">True</property>
+                <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_accept_clicked" swapped="no"/>
               </widget>

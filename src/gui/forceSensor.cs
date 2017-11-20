@@ -87,6 +87,7 @@ public partial class ChronoJumpWindow
 	Thread forceCaptureThread;
 	static bool forceProcessFinish;
 	static bool forceProcessCancel;
+	static bool forceProcessError;
 	ForceSensorCapturePoints fscPoints;
 
 	Thread forceOtherThread; //for messages on: capture, tare, calibrate
@@ -94,6 +95,9 @@ public partial class ChronoJumpWindow
 	static bool forceSensorOtherMessageShowSeconds;
 	static DateTime forceSensorTimeStart;
 	static string lastForceSensorFile = "";
+
+	int usbDisconnectedCount = 0;
+	int usbDisconnectedLastTime = 0;
 
 	/*
 	 * forceStatus:
@@ -168,16 +172,18 @@ public partial class ChronoJumpWindow
 		forceSensorOtherMessage = "Connecting ...";
 
 		portFS = new SerialPort(forceSensorPortName, 115200); //forceSensor
-		LogB.Information(" FS connect 4 ");
+		LogB.Information(" FS connect 4: opening port...");
 
 		try {
 			portFS.Open();
 		}
 		catch (System.IO.IOException)
 		{
+			forceSensorOtherMessage = "Force sensor is not connected!";
 			return false;
 		}
 
+		LogB.Information(" FS connect 5: adjusting parameters...");
 		//set adjust parameters
 		if(! forceSensorSendCommand("set_tare:" + preferences.forceSensorTare.ToString() + ";",
 					"Connecting ...", "Catched adjusting tare"))
@@ -190,7 +196,7 @@ public partial class ChronoJumpWindow
 		portFSOpened = true;
 		Thread.Sleep(2500); //sleep to let arduino start reading
 		forceSensorOtherMessage = "Connected!";
-		LogB.Information(" FS connect 5 ");
+		LogB.Information(" FS connect 6: connected!");
 		return true;
 	}
 	private void forceSensorDisconnect()
@@ -277,21 +283,22 @@ public partial class ChronoJumpWindow
 
 	private bool pulseGTKForceSensorOther ()
 	{
+		string secondsStr = "";
 		if(forceSensorOtherMessage != "")
 		{
-			string secondsStr = "";
 			if(forceSensorOtherMessageShowSeconds)
 			{
 				TimeSpan ts = DateTime.Now.Subtract(forceSensorTimeStart);
 				double seconds = ts.TotalSeconds;
 				secondsStr = " (" + Util.TrimDecimals(seconds, 0) + " s)";
-
 			}
-			event_execute_label_message.Text = forceSensorOtherMessage + secondsStr;
 		}
 
-		if(! forceOtherThread.IsAlive)
+		if(forceOtherThread.IsAlive)
+			event_execute_label_message.Text = forceSensorOtherMessage + secondsStr;
+		else
 		{
+			event_execute_label_message.Text = forceSensorOtherMessage;
 			LogB.ThreadEnding();
 
 			if(
@@ -451,6 +458,11 @@ public partial class ChronoJumpWindow
 
 		forceProcessFinish = false;
 		forceProcessCancel = false;
+		forceProcessError = false;
+
+		//To know if USB has been disconnected
+		int usbDisconnectedCount = 0;
+		int usbDisconnectedLastTime = 0;
 
 		//initialize
 		forceSensorValues = new ForceSensorValues();
@@ -482,7 +494,7 @@ public partial class ChronoJumpWindow
 
 		if(! forceSensorSendCommand("start_capture:", "", "Catched force capturing"))
 		{
-			forceProcessCancel = true;
+			forceProcessError = true;
 			return;
 		}
 
@@ -492,7 +504,7 @@ public partial class ChronoJumpWindow
 			try {
 				str = portFS.ReadLine();
 			} catch {
-				forceProcessCancel = true;
+				forceProcessError = true;
 				return;
 			}
 			LogB.Information("init string: " + str);
@@ -511,7 +523,7 @@ public partial class ChronoJumpWindow
 		str = "";
 		int firstTime = 0;
 
-		while(! forceProcessFinish && ! forceProcessCancel)
+		while(! forceProcessFinish && ! forceProcessCancel && ! forceProcessError)
 		{
 			str = portFS.ReadLine();
 
@@ -559,7 +571,27 @@ public partial class ChronoJumpWindow
 
 			//changeSlideIfNeeded(time, force);
 		}
-		portFS.WriteLine("end_capture:");
+		LogB.Information("Calling end_capture");
+		if(! forceSensorSendCommand("end_capture:", "Ending capture ...", "Catched ending capture"))
+		{
+			forceProcessError = true;
+			capturingForce = forceStatus.STOP;
+			Util.FileDelete(fileName);
+			return;
+		}
+
+		LogB.Information("Waiting end_capture");
+		do {
+			Thread.Sleep(10);
+			try {
+				str = portFS.ReadLine();
+			} catch {
+				LogB.Information("Catched waiting end_capture feedback");
+			}
+			LogB.Information("waiting \"Capture ended\" string: " + str);
+		}
+		while(! str.Contains("Capture ended"));
+		LogB.Information("Success: received end_capture");
 
 		writer.Flush();
 		writer.Close();
@@ -568,7 +600,7 @@ public partial class ChronoJumpWindow
 
 		//port.Close();
 
-		if(forceProcessCancel)
+		if(forceProcessCancel || forceProcessError)
 			Util.FileDelete(fileName);
 		else {
 			//call graph
@@ -588,11 +620,9 @@ LogB.Information(" fc A ");
 
 LogB.Information(" fc B ");
 		//LogB.Information(capturingForce.ToString())
-		if(! forceCaptureThread.IsAlive || forceProcessFinish || forceProcessCancel)
+		if(! forceCaptureThread.IsAlive || forceProcessFinish || forceProcessCancel || forceProcessError)
 		{
 LogB.Information(" fc C ");
-			LogB.ThreadEnding();
-
 			if(forceProcessFinish)
 			{
 				if(capturingForce != forceStatus.COPIED_TO_TMP)
@@ -609,16 +639,28 @@ LogB.Information(" fc C ");
 					forceSensorDoSignalGraphPlot();
 					forceSensorDoRFDGraph();
 				}
-			} else if(forceProcessCancel)
+			} else if(forceProcessCancel || forceProcessError)
 			{
-				event_execute_label_message.Text = "Cancelled.";
+				if(forceProcessCancel)
+					event_execute_label_message.Text = "Cancelled.";
+
 				button_force_sensor_image_save_signal.Sensitive = false;
 				button_force_sensor_image_save_rfd.Sensitive = false;
 			}
 			else
 				event_execute_label_message.Text = "";
 
+			LogB.ThreadEnding();
+
+			/*
+			 * ensure forceCaptureThread is ended:
+			 * called: portFS.WriteLine("end_capture:");
+			 * and received feedback from device
+			 */
+			while(forceCaptureThread.IsAlive)
+				Thread.Sleep (250);
 LogB.Information(" fc D ");
+
 			LogB.ThreadEnded(); 
 
 			forceSensorButtonsSensitive(true);
@@ -676,6 +718,23 @@ LogB.Information(" fc H ");
 			//------------------- realtime graph -----------------
 			if(redoingPoints || fscPoints == null || fscPoints.Points == null || force_capture_drawingarea == null)
 				return true;
+
+LogB.Information(" fc H2 ");
+			if(usbDisconnectedLastTime == forceSensorValues.TimeLast)
+			{
+				usbDisconnectedCount ++;
+				if(usbDisconnectedCount >= 20)
+				{
+					event_execute_label_message.Text = "Disconnected!";
+					forceProcessError = true;
+					return true;
+				}
+			}
+			else
+			{
+				usbDisconnectedLastTime = forceSensorValues.TimeLast;
+				usbDisconnectedCount = 0;
+			}
 
 LogB.Information(" fc I ");
 			//mark meaning screen should be erased

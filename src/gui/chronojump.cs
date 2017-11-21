@@ -330,8 +330,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box vbox_last_test_buttons;
 	[Widget] Gtk.Button button_video_play_this_test;
 	[Widget] Gtk.Button button_delete_last_test;
-		
+
 	[Widget] Gtk.Button button_upload_session;
+	[Widget] Gtk.HBox hbox_chronopics_and_more;
 	[Widget] Gtk.Button button_activate_chronopics;
 	[Widget] Gtk.Button button_threshold;
 

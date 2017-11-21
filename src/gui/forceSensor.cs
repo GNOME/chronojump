@@ -276,9 +276,17 @@ public partial class ChronoJumpWindow
 
 	void forceSensorButtonsSensitive(bool sensitive)
 	{
+		//force related buttons
 		hbox_force_buttons.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
 		button_force_sensor_analyze_load.Sensitive = sensitive;
+
+		//other gui buttons
+		main_menu.Sensitive = sensitive;
+		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = sensitive;
+		frame_persons.Sensitive = sensitive;
+		hbox_top_person.Sensitive = sensitive;
+		hbox_chronopics_and_more.Sensitive = sensitive;
 	}
 
 	private bool pulseGTKForceSensorOther ()

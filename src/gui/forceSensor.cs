@@ -523,8 +523,15 @@ public partial class ChronoJumpWindow
 		capturingForce = forceStatus.CAPTURING;
 
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
-		string fileName = Util.GetForceSensorSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar +
-			currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now) + ".csv";
+
+		string nameDate = currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now);
+
+		//fileName to save the csv
+		string fileName = Util.GetForceSensorSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + nameDate + ".csv";
+
+		//lastForceSensorFile to save the images
+		lastForceSensorFile = nameDate;
+
 
 		TextWriter writer = File.CreateText(fileName);
 		writer.WriteLine("Time (micros);Force(N)");

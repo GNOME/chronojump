@@ -96,8 +96,8 @@ public partial class ChronoJumpWindow
 	static DateTime forceSensorTimeStart;
 	static string lastForceSensorFile = "";
 
-	int usbDisconnectedCount = 0;
-	int usbDisconnectedLastTime = 0;
+	int usbDisconnectedCount;
+	int usbDisconnectedLastTime;
 
 	/*
 	 * forceStatus:
@@ -123,6 +123,9 @@ public partial class ChronoJumpWindow
 	Pango.Layout layout_force_text;
 	Gdk.Colormap colormapForce = Gdk.Colormap.System;
 
+	string forceSensorNotConnectedString =
+		Catalog.GetString("Force sensor is not connected!") + " " +
+		Catalog.GetString("Plug cable and click on 'device' button.");
 
 	private void force_graphs_init()
 	{
@@ -156,7 +159,7 @@ public partial class ChronoJumpWindow
 		LogB.Information(" FS connect 0 ");
 		if(chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE) == null)
 		{
-			forceSensorOtherMessage = "Force sensor is not connected!";
+			forceSensorOtherMessage = forceSensorNotConnectedString;
 			return false;
 		}
 
@@ -179,7 +182,7 @@ public partial class ChronoJumpWindow
 		}
 		catch (System.IO.IOException)
 		{
-			forceSensorOtherMessage = "Force sensor is not connected!";
+			forceSensorOtherMessage = forceSensorNotConnectedString;
 			return false;
 		}
 
@@ -236,7 +239,7 @@ public partial class ChronoJumpWindow
 	{
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE) == 0)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Sensor not found.");
+			event_execute_label_message.Text = forceSensorNotConnectedString;
 			return;
 		}
 
@@ -469,8 +472,8 @@ public partial class ChronoJumpWindow
 		forceProcessError = false;
 
 		//To know if USB has been disconnected
-		int usbDisconnectedCount = 0;
-		int usbDisconnectedLastTime = 0;
+		usbDisconnectedCount = 0;
+		usbDisconnectedLastTime = 0;
 
 		//initialize
 		forceSensorValues = new ForceSensorValues();
@@ -658,6 +661,8 @@ LogB.Information(" fc C ");
 			{
 				if(forceProcessCancel)
 					event_execute_label_message.Text = "Cancelled.";
+				else
+					event_execute_label_message.Text = forceSensorNotConnectedString;
 
 				button_force_sensor_image_save_signal.Sensitive = false;
 				button_force_sensor_image_save_rfd.Sensitive = false;

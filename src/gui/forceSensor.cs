@@ -940,9 +940,11 @@ LogB.Information(" fc R ");
 
 		if(! success)
 		{
-			label_force_sensor_analyze.Text = Catalog.GetString("Error doing graph.");
+			label_force_sensor_analyze.Text = Catalog.GetString("Error doing graph.") + " " +
+				Catalog.GetString("Probably not sustained force.");
 			return;
 		}
+		label_force_sensor_analyze.Text = "";
 
 		while ( ! Util.FileReadable(imagePath));
 

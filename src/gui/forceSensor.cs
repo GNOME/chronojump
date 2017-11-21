@@ -186,20 +186,35 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
-		LogB.Information(" FS connect 5: adjusting parameters...");
-		//set adjust parameters
+		LogB.Information(" FS connect 5: let arduino start");
+
+		Thread.Sleep(3000); //sleep to let arduino start reading serial event
+
+		LogB.Information(" FS connect 6: adjusting parameters...");
+
+		//set_tare
 		if(! forceSensorSendCommand("set_tare:" + preferences.forceSensorTare.ToString() + ";",
-					"Connecting ...", "Catched adjusting tare"))
+					"Setting previous tare ...", "Catched adjusting tare"))
 			return false;
 
-		if(! forceSensorSendCommand("set_calibration_factor:" + preferences.forceSensorCalibrationFactor.ToString() + ";",
-					"Connecting ...", "Catched adjusting calibration factor"))
+		//read confirmation data
+		if(! forceSensorReceiveFeedback("Tare set"))
 			return false;
+
+
+		//set_calibration_factor
+		if(! forceSensorSendCommand("set_calibration_factor:" + preferences.forceSensorCalibrationFactor.ToString() + ";",
+					"Setting previous calibration factor ...", "Catched adjusting calibration factor"))
+			return false;
+
+		//read confirmation data
+		if(! forceSensorReceiveFeedback("Calibration factor set"))
+			return false;
+
 
 		portFSOpened = true;
-		Thread.Sleep(2500); //sleep to let arduino start reading
 		forceSensorOtherMessage = "Connected!";
-		LogB.Information(" FS connect 6: connected!");
+		LogB.Information(" FS connect 7: connected and adjusted!");
 		return true;
 	}
 	private void forceSensorDisconnect()
@@ -215,6 +230,7 @@ public partial class ChronoJumpWindow
 		forceSensorOtherMessage = displayMessage;
 
 		try {
+			LogB.Information("Force sensor command |" + command + "|");
 			portFS.WriteLine(command);
 			forceSensorTimeStart = DateTime.Now;
 		}
@@ -228,6 +244,24 @@ public partial class ChronoJumpWindow
 			}
 			//throw;
 		}
+		return true;
+	}
+
+	//use this method for other feedback, but beware some of the commands do a Trim on ReadLine
+	private bool forceSensorReceiveFeedback(string expected)
+	{
+		string str = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			try {
+				str = portFS.ReadLine();
+			} catch {
+				forceSensorOtherMessage = "Disconnected";
+				return false;
+			}
+			LogB.Information("init string: " + str);
+		}
+		while(! str.Contains(expected));
 		return true;
 	}
 

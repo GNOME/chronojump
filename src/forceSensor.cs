@@ -65,7 +65,7 @@ public class ForceSensorCapturePoints
 	public void InitRealWidthHeight()
 	{
 		RealWidthG = 10000000; //width of graph in microseconds (will be upgraded if needed)
-		RealHeightG = 1; //Newtons (will be upgraded when needed)
+		RealHeightG = 60; //Newtons (will be upgraded when needed) (nice to see the +25 -25 marks)
 	}
 
 	public void Add(int time, double force)

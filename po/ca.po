@@ -1441,7 +1441,7 @@ msgstr "Cancel·lar el procés"
 
 #: ../glade/app1.glade.h:309
 msgid "Finish continuous mode"
-msgstr "Finalitzar el modo continu"
+msgstr "Finalitzar el mode continu"
 
 #. 2 button label and sensitiveness
 #. not capturing
@@ -2121,11 +2121,11 @@ msgstr "Caminar mentre es compta enrere des de 15 fins a 0"
 
 #: ../glade/edit_event.glade.h:45
 msgid "Able to coordinate walking with counting without making a mistake."
-msgstr "Capaç de caminar coordinadament mentre es compte sense cap error."
+msgstr "Capaç de caminar coordinadament mentre es compta sense cap error."
 
 #: ../glade/edit_event.glade.h:46
 msgid "Able to coordinate walking with counting with one mistake."
-msgstr "Capaç de caminar coordinadament mentre es compte amb un error."
+msgstr "Capaç de caminar coordinadament mentre es compta amb un error."
 
 #: ../glade/edit_event.glade.h:47
 msgid ""
@@ -3094,12 +3094,12 @@ msgstr "Alçada Mínima"
 
 #: ../glade/preferences_win.glade.h:61
 msgid "Check if string is fully extended at start of capture."
-msgstr "Comprovar si la corda està totalment extesa en iniciar la captura."
+msgstr "Comprovar si la corda està totalment estesa en iniciar la captura."
 
 #: ../glade/preferences_win.glade.h:62
 msgid ""
 "If string is not extended by this value or more, signal will be corrected."
-msgstr "Si la corda no està extesa per aquest valor, la sèrie serà corregida."
+msgstr "Si la corda no està estesa per aquest valor, la sèrie serà corregida."
 
 #: ../glade/preferences_win.glade.h:63
 msgid "Turns"
@@ -3506,7 +3506,7 @@ msgstr "<b>Pic de potència</b> (W)"
 
 #: ../glade/repetitive_conditions.glade.h:28
 msgid "On inertial discard first three repetitions."
-msgstr "En inercials descartar les tres primeres repeticions"
+msgstr "En inercials descartar les tres primeres repeticions."
 
 #: ../glade/repetitive_conditions.glade.h:29
 msgid "Test bells"
@@ -4024,7 +4024,7 @@ msgstr "ChronoJump ha fallat anteriorment."
 
 #: ../src/chronojump.cs:461 ../src/gui/old/chronojumpServerOld.cs:71
 msgid "Please, update to new version: "
-msgstr "Si us plau, actualitzeu Chronojump"
+msgstr "Si us plau, actualitzeu a la nova versió: "
 
 #: ../src/chronojump.cs:692
 #, csharp-format
@@ -4099,7 +4099,7 @@ msgstr "La sessió actual serà modificada. Les dades de:"
 #: ../src/chronojumpImporter.cs:93
 #, csharp-format
 msgid "Will be imported into the current session."
-msgstr "S'importarà a la sessió actual"
+msgstr "S'importarà a la sessió actual."
 
 #: ../src/chronojumpImporter.cs:96
 msgid "Import session?"
@@ -4240,7 +4240,7 @@ msgstr "Ho sentim, aquesta sessió no es pot esborrar."
 #. SIMULATED session
 #: ../src/constants.cs:194
 msgid "Chronopic is disconnected."
-msgstr "El Chronopic està desconnectat"
+msgstr "El Chronopic està desconnectat."
 
 #: ../src/constants.cs:195
 #, csharp-format
@@ -4254,11 +4254,11 @@ msgstr "El cable del RFID s'ha desconnectat"
 
 #: ../src/constants.cs:199
 msgid "Please, connect it and restart Chronojump."
-msgstr "Connecteu-lo i reinicieu el Chronojump"
+msgstr "Connecteu-lo i reinicieu el Chronojump."
 
 #: ../src/constants.cs:200
 msgid "This RFID is not registered on server."
-msgstr "l'RFID no està registrat al servidor"
+msgstr "l'RFID no està registrat al servidor."
 
 #: ../src/constants.cs:207
 msgid "Server is connected."
@@ -4941,7 +4941,7 @@ msgid ""
 "horizontally."
 msgstr ""
 "Encoder rotatori d'eix en una màquina inercial amb multiplicador on la "
-"persona es mou horitzontalment"
+"persona es mou horitzontalment."
 
 #: ../src/execute/event.cs:492
 msgid "Chronopic seems disconnected. Reconnect again on Chronopic Window."
@@ -5441,7 +5441,7 @@ msgstr "atleta actual: "
 
 #: ../src/gui/chronojump.cs:2695
 msgid "Deleted person and all his/her tests on this session."
-msgstr "Esborrat el subjecte actual i tots els seus tests d'aquesta sessió"
+msgstr "Esborrat el subjecte actual i tots els seus tests d'aquesta sessió."
 
 #: ../src/gui/chronojump.cs:2996
 msgid "Sorry, R software is not installed."
@@ -5572,7 +5572,7 @@ msgstr "Esborreu aquest test"
 
 #: ../src/gui/chronojump.cs:6483
 msgid "On analyze tab:"
-msgstr "A la pestanya de analitzar:"
+msgstr "A la pestanya d'analitzar:"
 
 #: ../src/gui/chronojump.cs:6484
 msgid "Zoom change"
@@ -5630,7 +5630,7 @@ msgstr ""
 msgid "Please, cut photocell barrier or click Chronopic TEST button."
 msgstr ""
 "Si us plau, toqueu la barrera fotoelèctrica o premeu el botó TEST del "
-"Chronopic"
+"Chronopic."
 
 #: ../src/gui/chronopicRegister.cs:139
 msgid "Chronojump devices"
@@ -6155,7 +6155,7 @@ msgstr "Força / Data"
 
 #: ../src/gui/encoder.cs:3824
 msgid "Error doing operation."
-msgstr "Error fent l'operació"
+msgstr "Error fent l'operació."
 
 #: ../src/gui/encoder.cs:3825
 msgid "Operation cancelled."
@@ -6443,7 +6443,7 @@ msgstr "Si voleu un port més segur, premeu:"
 
 #: ../src/gui/helpPorts.cs:81
 msgid "Force Chronopic to port <b>COM1 - COM4</b>'."
-msgstr "Forçar port de Chronopic a COM1 - COM4"
+msgstr "Forçar port de Chronopic a <b>COM1 - COM4</b>"
 
 #: ../src/gui/helpPorts.cs:88
 msgid "More information on <b>Chronojump Manual</b>"
@@ -6858,7 +6858,7 @@ msgstr "Importar arxiu de configuració"
 
 #: ../src/gui/preferences.cs:1217
 msgid "Successfully imported."
-msgstr "Importat amb èxit"
+msgstr "Importat amb èxit."
 
 #: ../src/gui/preferences.cs:1309
 msgid ""
@@ -7147,7 +7147,7 @@ msgstr "Error, l'alçada no pot ser 0"
 
 #: ../src/gui/sprint.cs:251
 msgid "This data does not seem a sprint."
-msgstr "Aquestes dades no semblen d'un sprint"
+msgstr "Aquestes dades no semblen d'un sprint."
 
 #.
 #. if is RjEvolution, or runIntervallic show mark consecutives, graph only with lines and transposed

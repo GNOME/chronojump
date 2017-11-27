@@ -34,8 +34,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_quit;
 	[Widget] Gtk.Image image_quit1;
 	[Widget] Gtk.Image image_quit2;
+	[Widget] Gtk.Image image_quit_from_app1;
 	[Widget] Gtk.Image image_session_new;
+	[Widget] Gtk.Image image_session_new2;
 	[Widget] Gtk.Image image_session_load;
+	[Widget] Gtk.Image image_session_edit;
+	[Widget] Gtk.Image image_session_delete;
+	[Widget] Gtk.Image image_session_preferences;
 	[Widget] Gtk.Image image_mode_encoder_capture;
 	[Widget] Gtk.Image image_manage_persons;
 	[Widget] Gtk.Image image_person;
@@ -134,11 +139,13 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_settings.png");
 		image_settings.Pixbuf = pixbuf;
 		image_settings1.Pixbuf = pixbuf;
+		image_session_preferences.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_quit.png");
 		image_quit.Pixbuf = pixbuf;
 		image_quit1.Pixbuf = pixbuf;
 		image_quit2.Pixbuf = pixbuf;
+		image_quit_from_app1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
 		image_top_eccon.Pixbuf = pixbuf;
@@ -220,9 +227,13 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_new_big.png");
 		image_session_new.Pixbuf = pixbuf;
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_new.png");
+		image_session_new2.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open_big.png");
 		image_session_load.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
+		image_session_open.Pixbuf = pixbuf;
 		image_encoder_capture_open.Pixbuf = pixbuf;
 		image_encoder_capture_open1.Pixbuf = pixbuf;
 		image_force_sensor_capture_load.Pixbuf = pixbuf;
@@ -244,6 +255,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
 		image_encoder_exercise_edit.Pixbuf = pixbuf;
 		image_edit_current_person.Pixbuf = pixbuf;
+		image_session_edit.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
 		image_encoder_exercise1.Pixbuf = pixbuf;
@@ -372,8 +384,8 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_multichronopic_run_analysis);
 
 		//open buttons (this is shown better in windows than the default open icon)
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameOpen);
-		image_session_open.Pixbuf = pixbuf;
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameOpen);
+		//image_session_open.Pixbuf = pixbuf;
 		//not changed because it's small. TODO: do bigger
 		//image_encoder_capture_open.Pixbuf = pixbuf;
 
@@ -401,6 +413,7 @@ public partial class ChronoJumpWindow
 		image_jump_type_delete_reactive.Pixbuf = pixbuf;
 		image_run_type_delete_simple.Pixbuf = pixbuf;
 		image_run_type_delete_intervallic.Pixbuf = pixbuf;
+		image_session_delete.Pixbuf = pixbuf;
 		
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
 		//and is not nice that the other are different for an user theme change

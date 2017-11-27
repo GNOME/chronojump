@@ -124,7 +124,7 @@ public partial class ChronoJumpWindow
 	Gdk.Colormap colormapForce = Gdk.Colormap.System;
 
 	string forceSensorNotConnectedString =
-		Catalog.GetString("Force sensor is not connected!") + " " +
+		Catalog.GetString("Force sensor is not detected!") + " " +
 		Catalog.GetString("Plug cable and click on 'device' button.");
 
 	private void force_graphs_init()

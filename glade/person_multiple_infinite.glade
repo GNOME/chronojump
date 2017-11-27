@@ -159,7 +159,7 @@
                         <property name="tooltip" translatable="yes">Open CSV file</property>
                         <signal name="clicked" handler="on_button_csv_load_clicked" swapped="no"/>
                         <child>
-                          <widget class="GtkImage" id="image2">
+                          <widget class="GtkImage" id="image_load">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="stock">gtk-open</property>
@@ -180,7 +180,7 @@
                         <property name="tooltip" translatable="yes">Help</property>
                         <signal name="clicked" handler="on_button_csv_help_clicked" swapped="no"/>
                         <child>
-                          <widget class="GtkImage" id="image1">
+                          <widget class="GtkImage" id="image_info">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="stock">gtk-info</property>
@@ -7095,7 +7095,7 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkImage" id="image3">
+                              <widget class="GtkImage" id="image_load2">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="stock">gtk-open</property>
@@ -7198,6 +7198,7 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                 <property name="can_default">True</property>
                                 <property name="receives_default">False</property>
                                 <signal name="clicked" handler="on_button_csv_help_close_clicked" swapped="no"/>
+				<accelerator key="Escape" signal="clicked"/>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>

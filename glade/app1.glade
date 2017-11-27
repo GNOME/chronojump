@@ -33,10 +33,10 @@
                         <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_new_activate" swapped="no"/>
                         <child internal-child="image">
-                          <widget class="GtkImage" id="image44">
+                          <widget class="GtkImage" id="image_session_new2">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">gtk-new</property>
+                            <property name="stock">gtk-missing-image</property>
                           </widget>
                         </child>
                       </widget>
@@ -54,7 +54,7 @@
                           <widget class="GtkImage" id="image_session_open">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">gtk-open</property>
+                            <property name="stock">gtk-missing-image</property>
                           </widget>
                         </child>
                       </widget>
@@ -69,10 +69,10 @@
                         <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_edit_session_activate" swapped="no"/>
                         <child internal-child="image">
-                          <widget class="GtkImage" id="image11">
+                          <widget class="GtkImage" id="image_session_edit">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">gtk-edit</property>
+                            <property name="stock">gtk-missing-image</property>
                           </widget>
                         </child>
                       </widget>
@@ -88,10 +88,10 @@
                         <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_delete_session_activate" swapped="no"/>
                         <child internal-child="image">
-                          <widget class="GtkImage" id="image12">
+                          <widget class="GtkImage" id="image_session_delete">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">gtk-delete</property>
+                            <property name="stock">gtk-missing-image</property>
                           </widget>
                         </child>
                       </widget>
@@ -198,13 +198,19 @@
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_preferences">
-                        <property name="label">gtk-preferences</property>
+                        <property name="label">Preferences</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_preferences_activate" swapped="no"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image_session_preferences">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stock">gtk-missing-image</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -278,13 +284,20 @@
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="quit1">
-                        <property name="label">gtk-quit</property>
+                        <property name="label">Quit</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_quit1_activate" swapped="no"/>
+                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image_quit_from_app1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stock">gtk-missing-image</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -1230,6 +1243,12 @@
                                                             <property name="x_options">GTK_EXPAND</property>
                                                             <property name="y_options">GTK_EXPAND</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -21337,6 +21356,12 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

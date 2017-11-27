@@ -1741,6 +1741,9 @@ public class PersonAddMultipleWindow {
 	[Widget] Gtk.Image image_csv_noheaders;
 	[Widget] Gtk.Image image_csv_headers_help;
 	[Widget] Gtk.Image image_csv_noheaders_help;
+	[Widget] Gtk.Image image_load;
+	[Widget] Gtk.Image image_load2;
+	[Widget] Gtk.Image image_info;
 	
 	[Widget] Gtk.Table table_headers_1_column;
 	[Widget] Gtk.Table table_no_headers_1_column;
@@ -1839,6 +1842,13 @@ public class PersonAddMultipleWindow {
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVName2Icon);
 		image_name2.Pixbuf = pixbuf;
 		image_name2_help.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
+		image_load.Pixbuf = pixbuf;
+		image_load2.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
+		image_info.Pixbuf = pixbuf;
 	}
 	
 	void tablesVisibility() {

@@ -49,9 +49,6 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
         a.fitted = Vmax*K*exp(-K*time)
         f.fitted = Mass*a.fitted + Ka*(v.fitted - Vw)^2
         p.fitted = f.fitted * v.fitted
-        pmax.fitted = max(p.fitted)                 #TODO: Make an interpolation between the two closest points
-        pmax.rel.fitted = pmax.fitted / Mass
-        tpmax.fitted = time[which.max(p.fitted)]
         
         #Modeling F-v with the wind friction.
         # a(v) = Vmax*K*(1 - v/Vmax)
@@ -67,6 +64,9 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
         V0 = -F0/fvModel$coefficients[2]             # Similar to Vmax.fitted. V0 is the interception of the linear regression with the horizontal axis
         pmax.lm = V0 * F0/4                          # Max Power Using the linear regression. The maximum is found in the middle of the parabole p(v)
         pmax.rel.lm = pmax.lm / Mass
+        pmax.fitted = fmax.fitted * Vmax / 4         # Obtained from the function P(v) = F(v) * v. It is a parabele. The apex is in Vmax/2
+        pmax.rel.fitted = pmax.fitted / Mass
+        tpmax.fitted = log(2) / K                    # Obtained from P'(t) = 0
         
         return(list(Mass = Mass, Height = Height, Temperature = Temperature, Vw = Vw, Ka = Ka, K.fitted = K, Vmax.fitted = Vmax,
                     amax.fitted = amax.fitted, fmax.fitted = fmax.fitted, fmax.rel.fitted = fmax.rel.fitted, sfv.fitted = sfv.fitted, sfv.rel.fitted = sfv.rel.fitted,

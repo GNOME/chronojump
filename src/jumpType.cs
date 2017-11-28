@@ -296,7 +296,16 @@ public class JumpType : EventType
 	
 	public bool Unlimited
 	{
-		get { return unlimited; }
+		get {
+			if(isPredefined) {
+				return unlimited;
+			} else {
+				if(! isRepetitive)
+					return false;
+				else
+					return SqliteJumpType.IsUnlimited(name);
+			}
+		}
 	}
 }
 

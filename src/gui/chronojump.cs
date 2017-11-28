@@ -6507,27 +6507,38 @@ LogB.Debug("X");
 
 	private void on_menuitem_accelerators_activate (object o, EventArgs args) {
 		new DialogMessage(
-				Catalog.GetString("Accelerators help"),
+				Catalog.GetString("Use these keys in order to work faster."),
 				Constants.MessageTypes.INFO, 
-				Catalog.GetString("Use these keys in order to work faster.") + "\n\n" +
-				"- " + Catalog.GetString("Jumps") + "/" +  Catalog.GetString("Races") + ". " +
-				Catalog.GetString("On capture tab:") + "\n\n" +
-				"<tt><b>CTRL+p</b></tt> " + Catalog.GetString("Edit selected person") + "\n" +
-				"<tt><b>CTRL+" + Catalog.GetString("CURSOR_UP") + "</b></tt> " + Catalog.GetString("Select previous person") + "\n" +
-				"<tt><b>CTRL+" + Catalog.GetString("CURSOR_DOWN") + "</b></tt> " + Catalog.GetString("Select next person") + "\n" +
-				"<tt><b>(space)</b></tt> " + Catalog.GetString("Execute test") + "\n" +
-				"<tt><b>v</b></tt> " + Catalog.GetString("Play video of this test") + " " + Catalog.GetString("(if available)")+ "\n" +
-				"<tt><b>d</b></tt> " + Catalog.GetString("Delete this test") + "\n" +
-				"\n- " + Catalog.GetString("Jumps") + "/" +  Catalog.GetString("Races") + ". " +
-				Catalog.GetString("On analyze tab:") + "\n\n" +
-				"<tt><b>z</b></tt> " + Catalog.GetString("Zoom change") + "\n" +
-				"<tt><b>v</b></tt> " + Catalog.GetString("Play video of selected test") + " " + Catalog.GetString("(if available)")+ "\n" +
-				"<tt><b>e</b></tt> " + Catalog.GetString("Edit selected test") + "\n" +
-				"<tt><b>d</b></tt> " + Catalog.GetString("Delete selected test") + "\n" +
-				"<tt><b>r</b></tt> " + Catalog.GetString("Repair selected test") + " " + Catalog.GetString("(if available)") +
-				"\n\n" + "- " + Catalog.GetString("On encoder capture:") + "\n\n" +
-				"<tt><b>+</b></tt> " + Catalog.GetString("Add weight") + "\n" +
-				"<tt><b>-</b></tt> " + Catalog.GetString("Remove weight") + "\n"
+				Catalog.GetString("Persons") + ":\n" +
+				"\t<tt><b>CTRL+p</b></tt> " + Catalog.GetString("Edit selected person") + "\n" +
+				"\t<tt><b>CTRL+" + Catalog.GetString("CURSOR_UP") + "</b></tt> " + Catalog.GetString("Select previous person") + "\n" +
+				"\t<tt><b>CTRL+" + Catalog.GetString("CURSOR_DOWN") + "</b></tt> " + Catalog.GetString("Select next person") + "\n" +
+
+				"\n" + Catalog.GetString("Capture tests") + ":\n" +
+				"\t<tt><b>(Space)</b></tt> " + Catalog.GetString("Execute test") + "\n" +
+				"\t<tt><b>(CTRL+Space)</b></tt> " + Catalog.GetString("Execute test") + " (" + Catalog.GetString("encoder") + ")\n" +
+				"\t<tt><b>(Enter)</b></tt> " + Catalog.GetString("Finish test") + "\n" +
+				"\t<tt><b>(Escape)</b></tt> " + Catalog.GetString("Cancel test") + "\n" +
+
+				"\n" + Catalog.GetString("Jumps") + "/" +  Catalog.GetString("Races") + ". " +
+				Catalog.GetString("On capture tab:") + "\n" +
+				"\t<tt><b>v</b></tt> " + Catalog.GetString("Play video of this test") + " " + Catalog.GetString("(if available)")+ "\n" +
+				"\t<tt><b>d</b></tt> " + Catalog.GetString("Delete this test") + "\n" +
+
+				"\n" + Catalog.GetString("Jumps") + "/" +  Catalog.GetString("Races") + ". " +
+				Catalog.GetString("On analyze tab:") + "\n" +
+				"\t<tt><b>z</b></tt> " + Catalog.GetString("Zoom change") + "\n" +
+				"\t<tt><b>v</b></tt> " + Catalog.GetString("Play video of selected test") + " " + Catalog.GetString("(if available)")+ "\n" +
+				"\t<tt><b>e</b></tt> " + Catalog.GetString("Edit selected test") + "\n" +
+				"\t<tt><b>d</b></tt> " + Catalog.GetString("Delete selected test") + "\n" +
+				"\t<tt><b>r</b></tt> " + Catalog.GetString("Repair selected test") + " " + Catalog.GetString("(if available)") + "\n" +
+
+				"\n" + Catalog.GetString("On encoder capture:") + "\n" +
+				"\t<tt><b>+</b></tt> " + Catalog.GetString("Add weight") + "\n" +
+				"\t<tt><b>-</b></tt> " + Catalog.GetString("Remove weight") + "\n" +
+
+				"\n" + Catalog.GetString("Other") + ":\n" +
+				"\t<tt><b>(Escape)</b></tt> " + Catalog.GetString("Close any window")
 				);
 	}
 	

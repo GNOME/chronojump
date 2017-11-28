@@ -593,6 +593,30 @@ class SqliteJumpType : Sqlite
 		return hasFall;
 	}
 
+	public static bool IsUnlimited(string typeName)
+	{
+		Sqlite.Open();
+		dbcmd.CommandText = "SELECT fixedValue " +
+			" FROM jumpRjType" +
+			" WHERE name == \"" + typeName + "\"";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		bool unlimited = false;
+		while(reader.Read()) {
+			if(reader[0].ToString() == "-1.0" || reader[0].ToString() == "-1") {
+				unlimited = true;
+			}
+		}
+		reader.Close();
+		Sqlite.Close();
+		return unlimited;
+	}
+
 	//updates name	
 	public static void Update(string nameOld, string nameNew)
 	{

@@ -1503,6 +1503,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -2671,16 +2674,16 @@ EncoderInertialCapture</property>
                                                   <widget class="GtkVBox" id="vbox_persons_bottom">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="spacing">6</property>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox_persons_bottom">
+                                                      <widget class="GtkHBox" id="hbox239">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">6</property>
                                                         <child>
-                                                          <widget class="GtkVBox" id="vbox75">
+                                                          <widget class="GtkVBox" id="vbox118">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox91">
                                                             <property name="visible">True</property>
@@ -2762,8 +2765,53 @@ EncoderInertialCapture</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_rest_time">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_rest_show">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="tooltip" translatable="yes">Manage rest time</property>
+                                                            <signal name="clicked" handler="on_button_rest_show_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_rest">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_rest">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                           </widget>
@@ -2774,7 +2822,7 @@ EncoderInertialCapture</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <widget class="GtkVBox" id="vbox78">
+                                                          <widget class="GtkVBox" id="vbox117">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
@@ -2787,10 +2835,11 @@ EncoderInertialCapture</property>
                                                             <property name="tooltip" translatable="yes">Select previous person
 &lt;Control&gt;Up</property>
                                                             <property name="relief">half</property>
+                                                            <property name="yalign">1</property>
                                                             <signal name="clicked" handler="on_treeview_persons_up" swapped="no"/>
                                                             <accelerator key="Up" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
-                                                            <widget class="GtkArrow" id="arrow_up">
+                                                            <widget class="GtkArrow" id="arrow_up1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="arrow_type">up</property>
@@ -2816,7 +2865,7 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_treeview_persons_down" swapped="no"/>
                                                             <accelerator key="Down" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
-                                                            <widget class="GtkArrow" id="arrow_down">
+                                                            <widget class="GtkArrow" id="arrow_down1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="arrow_type">down</property>
@@ -2838,42 +2887,48 @@ EncoderInertialCapture</property>
                                                         </child>
                                                       </widget>
                                                       <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
                                                         <property name="position">0</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox_rest_time">
+                                                      <widget class="GtkAspectFrame" id="aspectframe2">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="spacing">5</property>
+                                                        <property name="label_xalign">0</property>
+                                                        <property name="shadow_type">none</property>
+                                                        <property name="xalign">0</property>
                                                         <child>
-                                                          <widget class="GtkCheckButton" id="checkbutton_rest">
+                                                          <widget class="GtkAlignment" id="alignment34">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="top_padding">2</property>
+                                                            <property name="bottom_padding">2</property>
+                                                            <property name="left_padding">2</property>
+                                                            <property name="right_padding">2</property>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox_rest_time_set">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkCheckButton" id="checkbutton_rest">
+                                                            <property name="label" translatable="yes">Highlight rest</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
-                                                            <property name="tooltip" translatable="yes">Highlight longer resting times than this value</property>
-                                                            <property name="relief">none</property>
                                                             <property name="active">True</property>
-                                                            <property name="draw_indicator">False</property>
+                                                            <property name="draw_indicator">True</property>
                                                             <signal name="clicked" handler="on_checkbutton_rest_clicked" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_rest">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
-                                                            </child>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkHBox" id="hbox_rest_time_values">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_rest_time_values">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="tooltip" translatable="yes">Highlight longer resting times than this value</property>
@@ -2908,7 +2963,7 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label201">
+                                                            <widget class="GtkLabel" id="label253">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label">m</property>
@@ -2956,7 +3011,7 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label253">
+                                                            <widget class="GtkLabel" id="label260">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label">s</property>
@@ -2974,12 +3029,16 @@ EncoderInertialCapture</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
-                                                          </packing>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
                                                         </child>
                                                       </widget>
                                                       <packing>
@@ -21305,6 +21364,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

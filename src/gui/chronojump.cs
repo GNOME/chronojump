@@ -212,8 +212,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_persons_up;
 	[Widget] Gtk.Button button_persons_down;
 	[Widget] Gtk.CheckButton checkbutton_rest;
+	[Widget] Gtk.Label label_rest;
 	[Widget] Gtk.HBox hbox_rest_time;
 	[Widget] Gtk.HBox hbox_rest_time_values;
+	[Widget] Gtk.VBox vbox_rest_time_set;
 	[Widget] Gtk.SpinButton spinbutton_rest_minutes;
 	[Widget] Gtk.SpinButton spinbutton_rest_seconds;
 	[Widget] Gtk.Button button_edit_current_person;
@@ -310,7 +312,7 @@ public partial class ChronoJumpWindow
 	//widgets for enable or disable
 	[Widget] Gtk.Frame frame_persons;
 	[Widget] Gtk.Frame frame_persons_top;
-	[Widget] Gtk.HBox hbox_persons_bottom;
+	[Widget] Gtk.VBox vbox_persons_bottom;
 	[Widget] Gtk.Button button_recuperate_person;
 	[Widget] Gtk.Button button_recuperate_persons_from_session;
 	[Widget] Gtk.Button button_person_add_single;
@@ -673,6 +675,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Build version:" + buildVersion);
 
 		initializeRestTimeLabels();
+		label_rest.Text = get_configured_rest_time_as_string();
 		restTime = new RestTime();
 		updatingRestTimes = true;
 		GLib.Timeout.Add(1000, new GLib.TimeoutHandler(updateRestTimes)); //each s, better than 5s for don't have problems sorting data on treeview
@@ -950,7 +953,7 @@ public partial class ChronoJumpWindow
 	 */
 
 	private void createTreeView_persons (Gtk.TreeView tv) {
-		myTreeViewPersons = new TreeViewPersons(tv, get_rest_time_in_seconds());
+		myTreeViewPersons = new TreeViewPersons(tv, get_configured_rest_time_in_seconds());
 		tv.Selection.Changed += onTreeviewPersonsSelectionEntry;
 	}
 
@@ -1007,7 +1010,7 @@ public partial class ChronoJumpWindow
 	private void treeview_persons_storeReset()
 	{
 		myTreeViewPersons.RemoveColumns();
-		myTreeViewPersons = new TreeViewPersons(treeview_persons, get_rest_time_in_seconds());
+		myTreeViewPersons = new TreeViewPersons(treeview_persons, get_configured_rest_time_in_seconds());
 	}
 	
 	//private void on_treeview_persons_cursor_changed (object o, EventArgs args) {
@@ -4176,25 +4179,46 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
+	private void on_button_rest_show_clicked(object o, EventArgs args)
+	{
+		vbox_rest_time_set.Visible = ! vbox_rest_time_set.Visible;
+	}
+
 	private void on_checkbutton_rest_clicked(object o, EventArgs args)
 	{
+		Pixbuf pixbuf;
 		if(checkbutton_rest.Active) {
 			hbox_rest_time_values.Sensitive = true;
-			myTreeViewPersons.RestSecondsMark = get_rest_time_in_seconds();
+			myTreeViewPersons.RestSecondsMark = get_configured_rest_time_in_seconds();
+			label_rest.Text = get_configured_rest_time_as_string();
+
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");
+			image_rest.Pixbuf = pixbuf;
 		} else {
 			hbox_rest_time_values.Sensitive = false;
 			myTreeViewPersons.RestSecondsMark = 0;
+			label_rest.Text = "";
+
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest_inactive.png");
+			image_rest.Pixbuf = pixbuf;
 		}
 	}
 
 	private void on_spinbutton_rest_time_value_changed(object o, EventArgs args)
 	{
-		myTreeViewPersons.RestSecondsMark = get_rest_time_in_seconds();
+		myTreeViewPersons.RestSecondsMark = get_configured_rest_time_in_seconds();
+		if(checkbutton_rest.Active)
+			label_rest.Text = get_configured_rest_time_as_string();
 	}
 
-	private int get_rest_time_in_seconds()
+	private int get_configured_rest_time_in_seconds()
 	{
 		return 60 * Convert.ToInt32(spinbutton_rest_minutes.Value) + Convert.ToInt32(spinbutton_rest_seconds.Value);
+	}
+
+	private string get_configured_rest_time_as_string()
+	{
+		return Convert.ToInt32(spinbutton_rest_minutes.Value).ToString() + "m " + Convert.ToInt32(spinbutton_rest_seconds.Value).ToString() + "s";
 	}
 
 
@@ -7060,7 +7084,7 @@ LogB.Debug("X");
 			frame_persons_top.Sensitive = false;
 			//treeview_persons is shown (person can be changed)
 			hbox_rest_time.Sensitive = false;
-			hbox_persons_bottom.Sensitive = false;
+			vbox_persons_bottom.Sensitive = false;
 		} else
 			frame_persons.Sensitive = false;
 		
@@ -7113,8 +7137,8 @@ LogB.Debug("X");
 			frame_persons_top.Sensitive = true;
 		if(! hbox_rest_time.Sensitive)
 			hbox_rest_time.Sensitive = true;
-		if(! hbox_persons_bottom.Sensitive)
-			hbox_persons_bottom.Sensitive = true;
+		if(! vbox_persons_bottom.Sensitive)
+			vbox_persons_bottom.Sensitive = true;
 
 		button_execute_test.Sensitive = true;
 

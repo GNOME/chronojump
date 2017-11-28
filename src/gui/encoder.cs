@@ -446,19 +446,26 @@ public partial class ChronoJumpWindow
 
 		playVideoEncoderInitialSetup();
 
+		LogB.Information("after play 0");
 		capturingCsharp = encoderCaptureProcess.STOPPED;
+		LogB.Information("after play 1");
 
 		button_encoder_inertial_recalibrate.Visible = false;
+		LogB.Information("after play 2");
 		encoderInertialCalibratedFirstTime = false; //allow show the recalibrate button
+		LogB.Information("after play 3");
 
 		//done here because in Glade we cannot use the TextBuffer.Changed
 		textview_encoder_signal_comment.Buffer.Changed += new EventHandler(on_textview_encoder_signal_comment_key_press_event);
+		LogB.Information("after play 4");
 
 		//configInit();
 	
 		//triggers
 		triggerList = new TriggerList();
+		LogB.Information("after play 5");
 		showTriggerTab(false);
+		LogB.Information("after play 6");
 	}
 
 	void on_button_encoder_select_clicked (object o, EventArgs args)

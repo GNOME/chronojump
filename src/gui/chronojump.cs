@@ -2567,11 +2567,13 @@ public partial class ChronoJumpWindow
 		//-1 means we are adding a new person
 		//if we were modifying it will be it's uniqueID
 		
+		personAddModifyWin.FakeButtonAccept.Clicked -= new EventHandler(on_person_add_single_accepted);
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_person_add_single_accepted);
 	}
 	
 	private void on_person_add_single_accepted (object o, EventArgs args)
 	{
+		personAddModifyWin.FakeButtonAccept.Clicked -= new EventHandler(on_person_add_single_accepted);
 		if (personAddModifyWin.CurrentPerson != null)
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;

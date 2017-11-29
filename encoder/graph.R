@@ -1164,7 +1164,7 @@ textBox <- function(x,y,text,frontCol,bgCol,xpad=.1,ypad=1){
 } 
 
 
-paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, showTTPP, showRange) 
+paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, height, n, showTTPP, showRange)
 {
         #if there's one or more inertial curves: show inertia instead of mass
         hasInertia <- FALSE
@@ -1224,11 +1224,11 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
         
         bpAngle = 0
         bpDensity = NULL
-        if(Eccon == "ecS") {
-                bpAngle = c(-45,-45,45,45)
-                bpDensity = c(30,30,-1,-1) #concentric will be shown solid
-        }
-        
+	bpAngle = createAngleVector(ecconVector)
+	bpDensity = createDensityVector(ecconVector)
+        #print(c("bpAngle=",bpAngle))
+        #print(c("bpDensity=",bpDensity))
+
         bp <- barplot(powerData,beside=T,col=pafColors[1:2],width=c(1.4,.6),
                       names.arg=paste(myNums," ",laterality,"\n",load,sep=""),xlim=c(1,n*3+.5),cex.name=0.8,
                       xlab="",ylab=paste(translateToPrint("Power"),"(W)"), 
@@ -2281,6 +2281,40 @@ createPchVector <- function(ecconVector)
         
         return (as.numeric(pchVector))
 }
+createAngleVector <- function(ecconVector)
+{
+        angleVector = ecconVector
+	j <- 1
+	for(i in 1:length(ecconVector))
+	{
+		angle <- 45
+		if(ecconVector[i] == "e")
+			angle <- -45
+
+		angleVector[j] <- angle
+		j <- j +1
+		angleVector[j] <- angle
+		j <- j +1
+	}
+	return (as.numeric(angleVector))
+}
+createDensityVector <- function(ecconVector)
+{
+        densityVector = ecconVector
+	j <- 1
+	for(i in 1:length(ecconVector))
+	{
+		density <- -1
+		if(ecconVector[i] == "e")
+			density <- 30
+
+		densityVector[j] <- density
+		j <- j +1
+		densityVector[j] <- density
+		j <- j +1
+	}
+	return (as.numeric(densityVector))
+}
 
 
 #-------------------- EncoderConfiguration conversions --------------------------
@@ -3195,9 +3229,11 @@ doProcess <- function(options)
                 rownames(paf)=rownames(curves)
                 
                 if(op$Analysis == "powerBars") {
+                        ecconVector = createEcconVector(singleFile, op$Eccon, length(curves[,1]), curves[,8])
                         if(! singleFile) 
                                 paintPowerPeakPowerBars(singleFile, op$Title, paf, 
                                                         op$Eccon,	 			#Eccon
+							ecconVector,
                                                         curvesHeight,			#height 
                                                         n, 
                                                         (op$AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
@@ -3206,6 +3242,7 @@ doProcess <- function(options)
                         else 
                                 paintPowerPeakPowerBars(singleFile, op$Title, paf, 
                                                         op$Eccon,					#Eccon
+							ecconVector,
                                                         curvesHeight,			#height 
                                                         n, 
                                                         (op$AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp

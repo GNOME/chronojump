@@ -157,6 +157,11 @@ drawDynamicsFromLoadCell <- function(
         hline50fmax.raw=F, hline50fmax.fitted=F,
         rfdDrawingOptions, xlimits = NA)
 {
+        dynamics$time = dynamics$time - dynamics$startTime
+        dynamics$tfmax.raw = dynamics$tfmax.raw - dynamics$startTime
+        dynamics$endTime = dynamics$endTime - dynamics$startTime
+        dynamics$startTime = 0
+        print(dynamics$time)
         if(is.na(dynamics$time[1]))
         {
                 print("Dynamics not available:")
@@ -178,7 +183,7 @@ drawDynamicsFromLoadCell <- function(
         #Plotting raw data from startTime to endTime (Only the analysed data)
         if (!is.na(xlimits[1])){
                 xWidth = xlimits[2] - xlimits[1]
-                plot(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample],
+                plot(dynamics$time[dynamics$startSample:dynamics$endSample], dynamics$f.raw[dynamics$startSample:dynamics$endSample],
                      type="l", xlab="Time[s]", ylab="Force[N]",
                      xlim = xlimits, ylim=c(0, yHeight),
                      #main = dynamics$nameOfFile,
@@ -187,10 +192,12 @@ drawDynamicsFromLoadCell <- function(
                 xmax = xlimits[2]
                 points(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample])
         } else if (is.na(xlimits[1])){
-                xmin = dynamics$startTime - (dynamics$endTime - dynamics$startTime)*0.1
-                xmax = min(c(dynamics$endTime*1.1 - dynamics$startTime*0.1, dynamics$t0 + 1))
+                #xmin = dynamics$startTime - (dynamics$endTime - dynamics$startTime)*0.1
+                xmin = -0.2
+                #xmax = min(c(dynamics$endTime*1.1 - dynamics$startTime*0.1, dynamics$t0 + 1))
+                xmax = dynamics$endTime*1.1 - dynamics$startTime*0.1
                 xWidth = xmax - xmin
-                plot(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample],
+                plot(dynamics$time[dynamics$startSample:dynamics$endSample], dynamics$f.raw[dynamics$startSample:dynamics$endSample],
                      type="l", xlab="Time[s]", ylab="Force[N]",
                      xlim = c(xmin, xmax),
                      ylim=c(0, yHeight),

@@ -164,25 +164,21 @@ public class ChronopicRegisterWindow
 	{
 		int rows = listConnected.Count;
 
-		Gtk.Label label_serial_title = new Gtk.Label("<b>" + Catalog.GetString("Serial Number") + "</b>");
-		Gtk.Label label_port_title = new Gtk.Label("<b>" + Catalog.GetString("Port") + "</b>");
+		Gtk.Label label_device_title = new Gtk.Label("<b>" + Catalog.GetString("Device") + "</b>");
 		Gtk.Label label_type_title = new Gtk.Label("<b>" + Catalog.GetString("Type") + "</b>");
 
-		label_serial_title.UseMarkup = true;
-		label_port_title.UseMarkup = true;
+		label_device_title.UseMarkup = true;
 		label_type_title.UseMarkup = true;
 
-		label_serial_title.Show();
-		label_port_title.Show();
+		label_device_title.Show();
 		label_type_title.Show();
 
-		table_main = new Gtk.Table((uint) rows +1, 3, false); //not homogeneous
-		table_main.ColumnSpacing = 8;
+		table_main = new Gtk.Table((uint) rows +1, 2, false); //not homogeneous
+		table_main.ColumnSpacing = 20;
 		table_main.RowSpacing = 6;
 
-		table_main.Attach (label_serial_title, (uint) 1, (uint) 2, 0, 1);
-		table_main.Attach (label_port_title, (uint) 2, (uint) 3, 0, 1);
-		table_main.Attach (label_type_title, (uint) 3, (uint) 4, 0, 1);
+		table_main.Attach (label_device_title, (uint) 1, (uint) 2, 0, 1);
+		table_main.Attach (label_type_title, (uint) 2, (uint) 3, 0, 1);
 
 		list_buttons_left = new List<Gtk.Button>();
 		list_images = new List<Gtk.Image>();
@@ -191,42 +187,40 @@ public class ChronopicRegisterWindow
 
 		for (int count=1; count <= rows; count ++)
 		{
-			string serialStr = listConnected[count -1].SerialNumber;
-			Gtk.Label label_serial = new Gtk.Label(serialStr);
-			table_main.Attach (label_serial, (uint) 1, (uint) 2, (uint) count, (uint) count +1);
-			label_serial.Show();
-
-			Gtk.Label label_port = new Gtk.Label(listConnected[count -1].Port);
-			table_main.Attach (label_port, (uint) 2, (uint) 3, (uint) count, (uint) count +1);
-			label_port.Show();
+			string deviceStr = listConnected[count -1].SerialNumber + "\n\n" + listConnected[count -1].Port;
+			Gtk.Label label_device = new Gtk.Label(deviceStr);
+			table_main.Attach (label_device, (uint) 1, (uint) 2, (uint) count, (uint) count +1);
+			label_device.Show();
 
 			Gtk.HBox hbox_type = new Gtk.HBox(false, 6);
-			Button button_left = UtilGtk.CreateArrowButton(ArrowType.Left, ShadowType.In);
+			Button button_left = UtilGtk.CreateArrowButton(ArrowType.Left, ShadowType.In, 50, -1);
 			button_left.Sensitive = (listConnected[count-1].Type != TypePixList.l[0].Type);
 			button_left.CanFocus = false;
 			button_left.IsFocus = false;
 			button_left.Clicked += on_button_left_clicked;
-			hbox_type.Add(button_left);
+			//hbox_type.Add(button_left);
+			hbox_type.PackStart(button_left, true, false, 1);
 
 			//create image
 			Pixbuf pixbuf = TypePixList.GetPix(listConnected[count-1].Type);
 			Gtk.Image image = new Gtk.Image();
 			image.Pixbuf = pixbuf;
 			hbox_type.Add(image);
+			hbox_type.PackStart(image, false, false, 1);
 
-			Button button_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In);
+			Button button_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In, 50, -1);
 			button_right.CanFocus = false;
 			button_right.IsFocus = false;
 			button_right.Clicked += on_button_right_clicked;
 			button_right.Sensitive = (listConnected[count-1].Type != TypePixList.l[TypePixList.l.Count -1].Type);
-			hbox_type.Add(button_right);
+			hbox_type.PackStart(button_right, true, false, 1);
 
 			Gtk.VBox vbox = new Gtk.VBox(false, 2);
 			vbox.Add(hbox_type);
 			Gtk.Label label_type = new Gtk.Label(ChronopicRegisterPort.TypePrint(listConnected[count-1].Type));
 			vbox.Add(label_type);
 
-			table_main.Attach (vbox, (uint) 3, (uint) 4, (uint) count, (uint) count +1);
+			table_main.Attach (vbox, (uint) 2, (uint) 3, (uint) count, (uint) count +1);
 
 			list_buttons_left.Add(button_left);
 			list_images.Add(image);
@@ -277,8 +271,8 @@ public class ChronopicRegisterWindow
 			{
 				str += "\n\n";
 				str += string.Format(Catalog.GetPluralString(
-							"One device is not configured. Please, configure it.",
-							"{0} devices are not configured. Please, configure them.",
+							"One device is not configured. Please, configure it clicking the arrows.",
+							"{0} devices are not configured. Please, configure them clicking the arrows.",
 							unknownCount),
 						unknownCount) + "\n";
 			}

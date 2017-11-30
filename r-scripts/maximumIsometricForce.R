@@ -343,7 +343,11 @@ drawDynamicsFromLoadCell <- function(
         print("-----------RFD-----------")
         print(paste("op$drawRfdOptions =", op$drawRfdOptions))
         
-        legendText = c(paste("Fmax =", round(dynamics$fmax.fitted + dynamics$initf, digits = 2), "N"), paste("K = ", round(dynamics$k.fitted, digits = 2),"s⁻¹"))
+        legendText = c(
+		       paste("Fmax =", round(dynamics$fmax.fitted + dynamics$initf, digits = 2), "N"),
+		       paste("K = ", round(dynamics$k.fitted, digits = 2),"s⁻¹"),
+		       paste("Tau = ", round(1/ dynamics$k.fitted, digits = 2),"s")
+		       )
         legendColor = c("blue", "blue")
         
         #The coordinates where the lines and dots are plotted are calculated with the sampled data in raw and fitted data.

@@ -7111,6 +7111,8 @@ LogB.Debug("X");
 		
 		button_upload_session.Sensitive = false;
 		button_activate_chronopics.Sensitive = false;
+		button_threshold.Sensitive = false;
+		button_auto_start.Sensitive = false;
 		notebook_options_top.Sensitive = false;
 		event_execute_button_update.Sensitive = false;
 		
@@ -7173,6 +7175,8 @@ LogB.Debug("X");
 		
 		button_upload_session.Sensitive = true;
 		button_activate_chronopics.Sensitive = true;
+		button_threshold.Sensitive = true;
+		button_auto_start.Sensitive = true;
 		notebook_options_top.Sensitive = true;
 		event_execute_button_update.Sensitive = true;
 
@@ -7278,6 +7282,7 @@ LogB.Debug("X");
 	private void sensitiveGuiAutoExecuteOrWait (bool execute) {
 		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
 		button_activate_chronopics.Sensitive 	= ! execute;
+		button_threshold.Sensitive 		= ! execute;
 		button_execute_test.Sensitive 		= ! execute;
 		notebook_options_top.Sensitive 		= ! execute;
 		vbox_last_test_buttons.Sensitive 	= ! execute;

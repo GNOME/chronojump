@@ -88,14 +88,15 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
                           fmaxi,           # fmaxi is the initial value for the force. For numeric purpouses
                           initf)              # initf is the sustained force before the increase
 {
-        timeTrimmed = time[which(time == startTime):length(time)]
-        forceTrimmed = force[which(time == startTime):length(time)]
-        timeTrimmed = timeTrimmed -  startTime
-        data = data.frame(time = timeTrimmed, force = forceTrimmed)
+        #We force that the function crosses the (0,0) to better fit the monoexponential
+        force = force
+        time = time - startTime
+        
+        data = data.frame(time = time, force = force)
         model = nls( force ~ fmax*(1-exp(-K*time)), data, start=list(fmax=fmaxi, K=1), control=nls.control(warnOnly=TRUE))
         fmax = summary(model)$coeff[1,1]
         K = summary(model)$coeff[2,1]
-        return(list(fmax = fmax - initf, K = K))
+        return(list(fmax = fmax, K = K))
 }
 
 getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentChange = 5)
@@ -127,19 +128,20 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         fmax.raw = max(originalTest$force[startSample:endSample])
         
         #Trimming the data before and after contraction
-        test = originalTest[startSample:endSample,]
+        testTrimmed = originalTest[startSample:endSample,]
         
         f.smoothed = getMovingAverageForce(originalTest, averageLength = averageLength) #Running average with equal weight averageLength seconds
-        fmax.smoothed = max(f.smoothed, na.rm =T)
+        fmax.smoothed = max(f.smoothed, na.rm = TRUE)
         
-        model = getForceModel(test$time, test$force, startTime, fmax.smoothed, initf)
-        f.fitted = initf + model$fmax*(1-exp(-model$K*(originalTest$time - startTime)))
+        model = getForceModel(testTrimmed$time, testTrimmed$force, startTime, fmax.smoothed, initf)
+        f.fitted =model$fmax*(1-exp(-model$K*(originalTest$time - startTime)))
         
-        f0.raw = test$force[1]                                                  # Force at t=0ms. ATENTION. This value is different than initf
+        f0.raw = testTrimmed$force[1]                                                  # Force at t=0ms. ATENTION. This value is different than initf
         rfd0.fitted = model$fmax * model$K                                      # RFD at t=0ms using the exponential model
-        tfmax.raw = test$time[which.min(abs(test$force - fmax.raw))]            # Time needed to reach the Fmax
+        tfmax.raw = testTrimmed$time[which.min(abs(testTrimmed$force - fmax.raw))]            # Time needed to reach the Fmax
         
-        return(list(nameOfFile = inputFile, time = originalTest[, "time"], fmax.fitted = model$fmax, k.fitted = model$K,
+        return(list(nameOfFile = inputFile, time = originalTest[, "time"],
+                    fmax.fitted = model$fmax, k.fitted = model$K, tau.fitted = 1/model$K,
                     startTime = startTime, endTime = endTime,
                     startSample = startSample, endSample = endSample,
                     totalSample = length(originalTest$time),
@@ -161,7 +163,6 @@ drawDynamicsFromLoadCell <- function(
         dynamics$tfmax.raw = dynamics$tfmax.raw - dynamics$startTime
         dynamics$endTime = dynamics$endTime - dynamics$startTime
         dynamics$startTime = 0
-        print(dynamics$time)
         if(is.na(dynamics$time[1]))
         {
                 print("Dynamics not available:")
@@ -190,11 +191,9 @@ drawDynamicsFromLoadCell <- function(
 		     yaxs= "i", xaxs = "i")
                 xmin = xlimits[1]
                 xmax = xlimits[2]
-                points(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample])
+                #points(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample])
         } else if (is.na(xlimits[1])){
-                #xmin = dynamics$startTime - (dynamics$endTime - dynamics$startTime)*0.1
                 xmin = -0.2
-                #xmax = min(c(dynamics$endTime*1.1 - dynamics$startTime*0.1, dynamics$t0 + 1))
                 xmax = dynamics$endTime*1.1 - dynamics$startTime*0.1
                 xWidth = xmax - xmin
                 plot(dynamics$time[dynamics$startSample:dynamics$endSample], dynamics$f.raw[dynamics$startSample:dynamics$endSample],
@@ -203,7 +202,6 @@ drawDynamicsFromLoadCell <- function(
                      ylim=c(0, yHeight),
                      #main = dynamics$nameOfFile,
 		     yaxs= "i", xaxs = "i")
-                
         }
         
 
@@ -306,14 +304,17 @@ drawDynamicsFromLoadCell <- function(
         
         #Plotting fitted data
         lines(dynamics$time, dynamics$f.fitted, col="blue")
-        abline(h = dynamics$fmax.fitted + dynamics$initf, lty = 2, col = "blue")
-        text(x = xmin + (xmax - xmin)*0.25, y = dynamics$fmax.fitted + dynamics$initf,
-             labels = paste("Fmax =", round(dynamics$fmax.fitted + dynamics$initf,digits = 2), "N"),
+        abline(h = dynamics$fmax.fitted, lty = 2, col = "blue")
+        text(x = xmin + (xmax - xmin)*0.25, y = dynamics$fmax.fitted,
+             labels = paste("Fmax =", round(dynamics$fmax.fitted,digits = 2), "N"),
              col = "blue", pos = 3, cex = 1.5)
         
         #Plottting smoothed data
         #lines(dynamics$time, dynamics$f.smoothed, col="grey")
         
+        #Plotting RFD
+        #lines(dynamics$time, dynamics$rfd/10)
+
         text( x = dynamics$tfmax.raw, y = dynamics$fmax.raw,
               labels = paste("Fmax = ", round(dynamics$fmax.raw, digits=2), " N", sep=""), pos = 3, cex = 1.5)
         points(x = dynamics$tfmax.raw, y = dynamics$fmax.raw)
@@ -327,8 +328,8 @@ drawDynamicsFromLoadCell <- function(
                 text( x = dynamics$t50fmax.raw + 0.5, y = dynamics$fmax.raw/2, labels = paste("Fmax/2 =", round(dynamics$fmax.raw/2, digits=2), "N", sep=""), pos = 3)
         }
         if(hline50fmax.fitted){
-                abline( h = (dynamics$fmax.fitted + dynamics$initf)/2, lty = 2, col = "blue")
-                text( x =dynamics$t50fmax.fitted + 0.5, y = (dynamics$fmax.fitted + dynamics$initf)/2, labels = paste("Fmax/2 =", round((dynamics$fmax.fitted + dynamics$initf)/2, digits=2), "N", sep=""), pos = 1, col="blue")
+                abline( h = (dynamics$fmax.fitted)/2, lty = 2, col = "blue")
+                text( x =dynamics$t50fmax.fitted + 0.5, y = (dynamics$fmax.fitted)/2, labels = paste("Fmax/2 =", round((dynamics$fmax.fitted)/2, digits=2), "N", sep=""), pos = 1, col="blue")
         }
         if(vline50fmax.raw){
                 abline(v = dynamics$t50fmax.raw, lty = 2)
@@ -351,9 +352,9 @@ drawDynamicsFromLoadCell <- function(
         print(paste("op$drawRfdOptions =", op$drawRfdOptions))
         
         legendText = c(
-		       paste("Fmax =", round(dynamics$fmax.fitted + dynamics$initf, digits = 2), "N"),
+		       paste("Fmax =", round(dynamics$fmax.fitted, digits = 2), "N"),
 		       paste("K = ", round(dynamics$k.fitted, digits = 2),"s⁻¹"),
-		       paste("Tau = ", round(1/ dynamics$k.fitted, digits = 2),"s")
+		       paste("Tau = ", round(dynamics$tau.fitted, digits = 2),"s")
 		       )
         legendColor = c("blue", "blue")
         
@@ -467,7 +468,7 @@ drawDynamicsFromLoadCell <- function(
                                 {
                                         
                                         #Force that is the % of the fitted fmax
-                                        fpfmax = (dynamics$fmax.fitted + dynamics$initf)*RFDoptions$start/100
+                                        fpfmax = (dynamics$fmax.fitted)*RFDoptions$start/100
                                         
                                         #Translating RFDoptions$start to time in seconds. Finding the closest sample to the desired time
                                         RFDoptions$start = dynamics$time[which.min(abs(dynamics$f.fitted - fpfmax))] - dynamics$startTime
@@ -558,7 +559,7 @@ drawDynamicsFromLoadCell <- function(
                         
                 }
         }
-
+        
 	if(impulseLegend != "")
 		legendText = c(legendText, impulseLegend)
 
@@ -616,19 +617,31 @@ getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf
 #Finds the sample in which the force start incresing (RFD > 20% of maxRFD)
 #and decrease a given percentage of the maximum force.
 #The maximum force is calculed from the moving average of averageLength seconds
-getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.1, percentChange = 5, testLength = -1)
+getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.1, percentChange = 5, testLength = -1, startDetectingMethod = "SD")
 {
         movingAverageForce = getMovingAverageForce(test, averageLength = 0.1)
-        #maxAverageForce = max(movingAverageForce, na.rm = T)
-        #maxSample = min(which(movingAverageForce == maxAverageForce), na.rm = T)
         maxRFD = max(rfd[2:(length(rfd) - 1)])
         
-        #Detecting an RFD 
-        startSample = 2
-        
-        while(rfd[startSample] <= maxRFD*0.2)
-        {
-                startSample = startSample + 1
+        #Detecting when the force is greater of the mean + 3*SD of 20 samples
+        #See Rate of force development: physiological and methodological considerations. Nicola A. Maffiuletti1 et al.
+        if (startDetectingMethod == "SD"){
+                startSample = 21
+                while(test$force[startSample] < mean(test$force[startSample:(startSample - 20)]) + 3*sd(test$force[startSample:(startSample - 20)]))
+                {
+                        startSample = startSample + 1
+                }
+                
+                while(test$force[startSample] - test$force[startSample -1] >= 0){ #Detecting the sample to decrease
+                        startSample = startSample - 1
+                }
+                
+        #Detecting when accurs a greate growth of the force
+        } else if (startDetectingMethod == "RFD"){
+                startSample = 2
+                while(rfd[startSample] <= maxRFD*0.2)
+                {
+                        startSample = startSample + 1
+                }
         }
         
         if (testLength <= -1){

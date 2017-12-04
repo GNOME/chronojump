@@ -83,7 +83,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_graph;
 	[Widget] Gtk.Viewport viewport_force_sensor_graph;
 	[Widget] Gtk.Button button_force_sensor_image_save_rfd;
-	
+
+	[Widget] Gtk.SpinButton spin_force_duration_seconds;
+	[Widget] Gtk.RadioButton radio_force_duration_seconds;
+
 	Thread forceCaptureThread;
 	static bool forceProcessFinish;
 	static bool forceProcessCancel;
@@ -962,7 +965,12 @@ LogB.Information(" fc R ");
 		Util.FileDelete(imagePath);
 		image_force_sensor_graph.Sensitive = false;
 
-		ForceSensorGraph fsg = new ForceSensorGraph(rfdList, impulse);
+		int duration = -1;
+		if(radio_force_duration_seconds.Active)
+			duration = Convert.ToInt32(spin_force_duration_seconds.Value);
+
+		ForceSensorGraph fsg = new ForceSensorGraph(rfdList, impulse, duration);
+
 		int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);
 		int imageHeight = UtilGtk.WidgetHeight(viewport_force_sensor_graph);
 		if(imageWidth < 300)
@@ -1138,6 +1146,11 @@ LogB.Information(" fc R ");
 		layout_force_text.GetPixelSize(out textWidth, out textHeight);
 		force_capture_pixmap.DrawLayout (pen_gray_force_capture,
 				fscPoints.GetTimeInPx(0) - textWidth -4, yPx - textHeight/2, layout_force_text);
+	}
+
+	private void on_radio_force_rfd_duration_toggled (object o, EventArgs args)
+	{
+		spin_force_duration_seconds.Sensitive = radio_force_duration_seconds.Active;
 	}
 
 	private void on_button_force_sensor_image_save_signal_clicked (object o, EventArgs args)

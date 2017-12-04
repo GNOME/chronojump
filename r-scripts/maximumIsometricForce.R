@@ -62,7 +62,8 @@ assignOptions <- function(options)
                 hline50fmax.raw 	= options[10],
                 hline50fmax.fitted 	= options[11],
                 drawRfdOptions          = drawRfdOptions,
-                drawImpulseOptions      = options[16]
+                drawImpulseOptions      = options[16],
+                testLength 		= as.numeric(options[17])
         ))
 }
 
@@ -109,7 +110,8 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         rfd = getRFD(originalTest)
         
         #Finding the decrease of the foce to detect the end of the maximum voluntary force
-        trimmingSamples = getTrimmingSamples(originalTest, rfd, averageLength = averageLength, percentChange = percentChange)
+        trimmingSamples = getTrimmingSamples(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
+					     testLength = op$testLength)
         startSample = trimmingSamples$startSample
         startTime = originalTest$time[startSample]
         

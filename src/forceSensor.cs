@@ -376,11 +376,13 @@ public class ForceSensorGraph
 	bool vline50fmax_fitted;
 	bool hline50fmax_raw;
 	bool hline50fmax_fitted;
+	int testLength;
 
-	public ForceSensorGraph(List<ForceSensorRFD> rfdList, ForceSensorImpulse impulse)
+	public ForceSensorGraph(List<ForceSensorRFD> rfdList, ForceSensorImpulse impulse, int testLength)
 	{
 		this.rfdList = rfdList;
 		this.impulse = impulse;
+		this.testLength = testLength;
 
 		averageLength = 0.1;
 		percentChange = 5;
@@ -457,6 +459,9 @@ public class ForceSensorGraph
 			scriptOptions += "\n" + impulse.ToR();
 		else
 			scriptOptions += "\n-1";
+
+		scriptOptions +=
+			"\n#testLength\n" + 		testLength.ToString() + "\n";
 
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");
 		writer.Write(scriptOptions);

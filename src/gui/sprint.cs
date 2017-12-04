@@ -38,6 +38,7 @@ public partial class ChronoJumpWindow
 
 	private void createTreeView_runs_interval_sprint (Gtk.TreeView tv)
 	{
+LogB.Information("SPRINT create a");
 		UtilGtk.RemoveColumns(tv);
 		button_sprint.Sensitive = false;
 
@@ -55,6 +56,7 @@ public partial class ChronoJumpWindow
 				typeof (string), typeof (string));
 		tv.Model = storeSprint;
 
+LogB.Information("SPRINT create b");
 		if (currentSession == null || currentPerson == null)
 		      return;
 		
@@ -65,8 +67,10 @@ public partial class ChronoJumpWindow
 		string [] runsArray = SqliteRunInterval.SelectRuns(
 				false, currentSession.UniqueID, currentPerson.UniqueID, "");
 
+LogB.Information("SPRINT create c");
 		foreach (string line in runsArray)
 		{
+LogB.Information("SPRINT create d");
 			//[] lineSplit has run params
 			string [] lineSplit = line.Split(new char[] {':'});
 
@@ -91,25 +95,33 @@ public partial class ChronoJumpWindow
 				Util.TrimDecimals(lineSplit[6], preferences.digitsNumber)
 			};
 			storeSprint.AppendValues (lineParams);
+LogB.Information("SPRINT create e");
 		}
+LogB.Information("SPRINT create f");
 	}
 
 	public void addTreeView_runs_interval_sprint (RunInterval runI, RunType runIType)
 	{
+LogB.Information("SPRINT add 0");
 		if(storeSprint == null)
+LogB.Information("SPRINT add 1");
 		{
 			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
+LogB.Information("SPRINT add 2");
 			return;
 		}
 
+LogB.Information("SPRINT add 3");
 		string positions = getSprintPositions(
 				runI.DistanceInterval, 		//distanceInterval. == -1 means variable distances
 				runI.IntervalTimesString,
 				runIType.DistancesString 	//distancesString
 				);
+LogB.Information("SPRINT add 4");
 		if(positions == "")
 			return;
 
+LogB.Information("SPRINT add 5");
 		TreeIter iter = new TreeIter();
 		bool iterOk = storeSprint.GetIterFirst(out iter);
 		if(iterOk) {
@@ -125,6 +137,7 @@ public partial class ChronoJumpWindow
 			TreePath path = storeSprint.GetPath (iter);
 			treeview_runs_interval_sprint.ScrollToCell (path, null, true, 0, 0);
 		}
+LogB.Information("SPRINT add 6");
 	}
 
 	private string getSprintPositions(double distanceInterval, string intervalTimesString, string distancesString)

@@ -360,7 +360,7 @@
                       <widget class="GtkRadioMenuItem" id="radio_menuitem_mode_jumps_reactive">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Reactive</property>
+                        <property name="label" translatable="yes">Multiple</property>
                         <property name="use_underline">True</property>
                         <property name="draw_as_radio">True</property>
                         <property name="group">radio_menuitem_mode_jumps_simple</property>
@@ -476,7 +476,7 @@
               <widget class="GtkMenuItem" id="menuitem_mode_selected_jumps_reactive">
                 <property name="sensitive">False</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Jumps reactive</property>
+                <property name="label" translatable="yes">Jumps multiple</property>
                 <property name="use_underline">True</property>
               </widget>
             </child>
@@ -1197,7 +1197,7 @@
                                                             <widget class="GtkLabel" id="label71">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Reactive</property>
+                                                            <property name="label" translatable="yes">Multiple</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -4331,7 +4331,7 @@ EncoderInertialCapture</property>
                                                           <widget class="GtkLabel" id="label2">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">jumps reactive</property>
+                                                            <property name="label">jumps multiple</property>
                                                           </widget>
                                                           <packing>
                                                             <property name="position">1</property>
@@ -6501,7 +6501,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkLabel" id="label35">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">jumps reactive</property>
+                                                            <property name="label">jumps multiple</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">1</property>
@@ -9513,7 +9513,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkLabel" id="label14">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">jump reactive</property>
+                                                            <property name="label">jump multiple</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="tab_fill">False</property>

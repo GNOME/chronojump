@@ -1744,7 +1744,8 @@ public class PersonAddMultipleWindow {
 	[Widget] Gtk.Image image_load;
 	[Widget] Gtk.Image image_load2;
 	[Widget] Gtk.Image image_info;
-	
+
+	[Widget] Gtk.Button button_manually_create;
 	[Widget] Gtk.Table table_headers_1_column;
 	[Widget] Gtk.Table table_no_headers_1_column;
 	[Widget] Gtk.Table table_headers_2_columns;
@@ -2029,6 +2030,7 @@ public class PersonAddMultipleWindow {
 	
 	void on_button_manually_create_clicked (object obj, EventArgs args) 
 	{
+		button_manually_create.Sensitive = false;
 		if(created_table) {
 			label_message.Text = tableAlreadyCreatedString;
 			label_message.Visible = true;

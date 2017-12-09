@@ -1729,21 +1729,19 @@ public class PersonAddMultipleWindow {
 	
 	[Widget] Gtk.Window person_multiple_infinite;
 		
+	[Widget] Gtk.VBox vbox_top;
 	[Widget] Gtk.Notebook notebook;
 	
 	[Widget] Gtk.RadioButton radio_csv;
 	[Widget] Gtk.RadioButton radio_manually;
-	[Widget] Gtk.Box hbox_csv;
 	[Widget] Gtk.Box hbox_manually;
 	[Widget] Gtk.SpinButton spin_manually;
 	
 	[Widget] Gtk.Image image_csv_headers;
 	[Widget] Gtk.Image image_csv_noheaders;
-	[Widget] Gtk.Image image_csv_headers_help;
-	[Widget] Gtk.Image image_csv_noheaders_help;
 	[Widget] Gtk.Image image_load;
-	[Widget] Gtk.Image image_load2;
-	[Widget] Gtk.Image image_info;
+	[Widget] Gtk.Label label_csv;
+	[Widget] Gtk.Label label_name;
 
 	[Widget] Gtk.Button button_manually_create;
 	[Widget] Gtk.Table table_headers_1_column;
@@ -1759,8 +1757,6 @@ public class PersonAddMultipleWindow {
 	[Widget] Gtk.CheckButton check_headers;
 	[Widget] Gtk.CheckButton check_name_1_column;
 	
-	[Widget] Gtk.Label label_csv_help;
-
 	//use this to read/write table
 	ArrayList entries;
 	ArrayList radiosM;
@@ -1832,24 +1828,25 @@ public class PersonAddMultipleWindow {
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVHeadersIcon);
 		image_csv_headers.Pixbuf = pixbuf;
-		image_csv_headers_help.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVNoHeadersIcon);
 		image_csv_noheaders.Pixbuf = pixbuf;
-		image_csv_noheaders_help.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVName1Icon);
 		image_name1.Pixbuf = pixbuf;
-		image_name1_help.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVName2Icon);
 		image_name2.Pixbuf = pixbuf;
-		image_name2_help.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
 		image_load.Pixbuf = pixbuf;
-		image_load2.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
-		image_info.Pixbuf = pixbuf;
+		label_csv.Text = Catalog.GetString("CSV file has headers");
+		label_name.Text = Catalog.GetString("Full name in one column");
+
+		//label_csv_help.Text =
+			//"<b>" + Catalog.GetString("Import persons from an spreadsheet. Eg. Excel, LibreOffice, Google Drive.") + "</b>\n\n" +
+			//Catalog.GetString("Open the spreadsheet with the persons data to be added.") + "\n" +
+		//	Catalog.GetString("Spreadsheet structure need to have this structure:");
+		//label_csv_help.UseMarkup = true;
 	}
 	
 	void tablesVisibility() {
@@ -1873,41 +1870,50 @@ public class PersonAddMultipleWindow {
 		button_accept.Sensitive = false;
 	}
 
-	void on_check_headers_toggled (object obj, EventArgs args) {
-		image_csv_headers.Visible = (check_headers.Active == true);
-		image_csv_noheaders.Visible = (check_headers.Active == false);
+	void on_check_headers_toggled (object obj, EventArgs args)
+	{
+		if(check_headers.Active) {
+			image_csv_headers.Visible = true;
+			image_csv_noheaders.Visible = false;
+			label_csv.Text = Catalog.GetString("CSV file has headers");
+
+		} else {
+			image_csv_headers.Visible = false;
+			image_csv_noheaders.Visible = true;
+			label_csv.Text = Catalog.GetString("CSV file does not have headers");
+		}
 
 		tablesVisibility();
 	}
-	
-	void on_check_name_1_column_toggled (object obj, EventArgs args) {
-		image_name1.Visible = (check_name_1_column.Active == true);
-		image_name2.Visible = (check_name_1_column.Active == false);
+
+	void on_check_name_1_column_toggled (object obj, EventArgs args)
+	{
+		if(check_name_1_column.Active) {
+			image_name1.Visible = true;
+			image_name2.Visible = false;
+			label_name.Text = Catalog.GetString("Full name in one column");
+		} else {
+			image_name1.Visible = false;
+			image_name2.Visible = true;
+			label_name.Text = Catalog.GetString("Full name in two columns");
+		}
 		
 		tablesVisibility();
 	}
 	
-	void on_radio_csv_toggled (object obj, EventArgs args) {
-		if(radio_csv.Active) {
-			hbox_csv.Sensitive = true;
-			hbox_manually.Sensitive = false;
-		}
+	void on_radio_csv_toggled (object obj, EventArgs args)
+	{
+		if(radio_csv.Active)
+			notebook.CurrentPage = 1;
 	}
-	void on_radio_manually_toggled (object obj, EventArgs args) {
-		if(radio_manually.Active) {
-			hbox_csv.Sensitive = false;
-			hbox_manually.Sensitive = true;
-		}
+	void on_radio_manually_toggled (object obj, EventArgs args)
+	{
+		if(radio_manually.Active)
+			notebook.CurrentPage = 0;
 	}
 		
 	void on_button_csv_load_clicked (object obj, EventArgs args) 
 	{
-		if(created_table) {
-			label_message.Text = tableAlreadyCreatedString;
-			label_message.Visible = true;
-			return;
-		}
-
 		Gtk.FileChooserDialog fc=
 			new Gtk.FileChooserDialog(Catalog.GetString("Select CSV file"),
 					null,
@@ -2011,38 +2017,21 @@ public class PersonAddMultipleWindow {
 		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
 		fc.Destroy();
 	}
-	
-	
-	void on_button_csv_help_clicked (object obj, EventArgs args) 
-	{
-		label_csv_help.Text =
-			"<b>" + Catalog.GetString("Import persons from an spreadsheet. Eg. Excel, LibreOffice, Google Drive.") + "</b>\n\n" +
-			Catalog.GetString("Open the spreadsheet with the persons data to be added.") + "\n" +
-			Catalog.GetString("Spreadsheet structure need to have this structure:");
-		label_csv_help.UseMarkup = true;
 
-		notebook.CurrentPage = 1;
-	}
-	
-	void on_button_csv_help_close_clicked (object obj, EventArgs args) {
-		notebook.CurrentPage = 0;
-	}
-	
 	void on_button_manually_create_clicked (object obj, EventArgs args) 
 	{
 		button_manually_create.Sensitive = false;
-		if(created_table) {
-			label_message.Text = tableAlreadyCreatedString;
-			label_message.Visible = true;
-			return;
-		}
 
 		rows = Convert.ToInt32(spin_manually.Value);
 
 		createEmptyTable();
 	}
 
-	void createEmptyTable() {
+	void createEmptyTable()
+	{
+		vbox_top.Visible = false;
+		hbox_manually.Visible = false;
+
 		entries = new ArrayList();
 		radiosM = new ArrayList();
 		radiosF = new ArrayList();
@@ -2121,11 +2110,13 @@ public class PersonAddMultipleWindow {
 			sportStuffString += " " + Catalog.GetString("Level") + ":<i>" + Util.FindLevelName(currentSession.PersonsPractice) + "</i>.";
 
 		if(sportStuffString.Length > 0)
+		{
 			sportStuffString = Catalog.GetString("Persons will be created with default session values") + 
 				":\n" + sportStuffString;
-		label_message.Text = sportStuffString;
-		label_message.UseMarkup = true;
-		label_message.Visible = true;
+			label_message.Text = sportStuffString;
+			label_message.UseMarkup = true;
+			label_message.Visible = true;
+		}
 
 		table_main.Show();
 		scrolledwindow.Visible = true;

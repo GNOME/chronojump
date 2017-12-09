@@ -698,17 +698,28 @@ public partial class ChronoJumpWindow
 
 		testNewStuff();
 
-		if(splashWin != null)
-			splashWin.Destroy();
-		else
-			SplashWindow.Hide();
-
+		//show before destroying/hiding app1 to see if this fixes rare problems of exiting/not showing app1
+		LogB.Information("Showing app1");
 		app1.Show();
 
 		//ensure chronopicRegisterWindow is shown after (on top of) app1
 		app1Shown = true;
+
+		if(splashWin != null) {
+			LogB.Information("Destroying splashWin");
+			splashWin.Destroy();
+		}
+		else {
+			LogB.Information("Hiding splashWin");
+			SplashWindow.Hide();
+		}
+
 		if(needToShowChronopicRegisterWindow)
+		{
+			LogB.Information("Show chronopic resgister win");
 			chronopicRegisterWin.Show();
+		}
+		LogB.Information("Chronojump window started");
 	}
 
 	private void testNewStuff()

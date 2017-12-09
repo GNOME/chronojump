@@ -703,13 +703,13 @@
   <rect
      style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1"
      id="rect3163-3-3-5"
-     width="133.49899"
-     height="133.49899"
-     x="417.89899"
-     y="850.27863"
+     width="110"
+     height="130"
+     x="429.89899"
+     y="851.77765"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
+     inkscape:export-xdpi="95.999977"
+     inkscape:export-ydpi="95.999977" />
   <rect
      style="fill:#ffffff;fill-opacity:1;stroke:none"
      id="rect3163-3"
@@ -4230,8 +4230,8 @@
      id="rect3163-3-36"
      width="105.68886"
      height="133.49869"
-     x="257.05725"
-     y="841.89789"
+     x="252.71916"
+     y="848.25995"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/jump_free.png"
      inkscape:export-xdpi="216.17999"
      inkscape:export-ydpi="216.17999" />
@@ -4453,156 +4453,160 @@
          inkscape:export-ydpi="216" />
     </g>
   </g>
-  <path
-     inkscape:connector-curvature="0"
-     style="fill:none;stroke:#0e1e46;stroke-width:2.32092023;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none"
-     d="m 442.70861,908.53133 -0.27721,25.9294 -0.36897,23.2232 -0.20805,15.5203"
-     id="path2784-3-6-3-1"
-     sodipodi:nodetypes="cccc"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     d="m 444.84003,904.83323 c 3.17065,-0.3382 5.4673,-3.1832 5.12913,-6.3541 -0.33816,-3.1708 -3.18316,-5.4674 -6.35381,-5.1293 -3.17107,0.3382 -5.4673,3.1831 -5.12914,6.3539 0.33817,3.171 3.18275,5.4677 6.35382,5.1295 z"
-     id="path2788-7-1-5-4"
-     style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:0.14140254"
-     inkscape:connector-curvature="0"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     inkscape:connector-curvature="0"
-     style="fill:none;stroke:#0e1e46;stroke-width:1.62464416;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 442.62183,908.55003 16.20647,2.6967 7.54613,-16.6313"
-     id="path2792-6-0-6-9"
-     sodipodi:nodetypes="ccc"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     style="fill:none;stroke:#0e1e46;stroke-width:1.62464404;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 437.96632,977.24623 11.22676,-0.066"
-     id="path2794-8-6-2-2"
-     inkscape:connector-curvature="0"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     inkscape:connector-curvature="0"
-     style="fill:#1a1a1a;fill-opacity:1;stroke:#1e1b0c;stroke-width:2.06560731;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 434.52366,979.16423 23.57916,-0.073"
-     id="path2830-3-1-9-0"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     inkscape:connector-curvature="0"
-     style="fill:#1a1a1a;fill-opacity:1;stroke:#1e1b0c;stroke-width:2.06560731;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 505.63826,979.16423 23.57915,-0.073"
-     id="path2834-1-5-1-6"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     inkscape:connector-curvature="0"
-     style="fill:#1a1a1a;fill-opacity:1;stroke:#1e1b0c;stroke-width:2.06560731;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 469.45238,979.20593 23.57914,-0.073"
-     id="path2919-4-9-2-8"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     style="fill:none;stroke:#0e1e46;stroke-width:1.68355179;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 474.9061,971.09593 9.86781,6.1626"
-     id="path2915-2-4-7-9"
-     inkscape:connector-curvature="0"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     style="fill:none;stroke:#0e1e46;stroke-width:2.40507388;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none"
-     d="m 488.48404,915.01323 -12.3166,20.5504 9.01562,15.2919 -8.02324,18.4264"
-     id="path2907-0-9-0-2"
-     sodipodi:nodetypes="cccc"
-     inkscape:connector-curvature="0"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     inkscape:connector-curvature="0"
-     d="m 494.27003,913.06603 c 3.28561,-0.3504 5.66553,-3.2985 5.3151,-6.5844 -0.35042,-3.2858 -3.29857,-5.6657 -6.58418,-5.3153 -3.28605,0.3504 -5.66554,3.2985 -5.31512,6.5843 0.35044,3.2859 3.29815,5.6659 6.5842,5.3154 z"
-     id="path2911-8-0-9-6"
-     style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:0.14652956"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     style="fill:none;stroke:#0e1e46;stroke-width:1.68355167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 488.39986,915.16953 -3.76657,15.8492 7.22529,12.4486"
-     id="path2995-2-9-3-6"
-     sodipodi:nodetypes="ccc"
-     inkscape:connector-curvature="0"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     style="fill:none;stroke:#0e1e46;stroke-width:2.32092023;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none"
-     d="m 520.13223,886.33463 -2.11546,25.9294 -0.36896,23.2232 -0.20806,15.5203"
-     id="path2814-6-1-6-4"
-     sodipodi:nodetypes="cccc"
-     inkscape:connector-curvature="0"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     inkscape:connector-curvature="0"
-     d="m 521.3534,883.24403 c 3.17065,-0.3381 5.4673,-3.1831 5.12913,-6.3541 -0.33816,-3.1707 -3.18316,-5.4674 -6.35381,-5.1293 -3.17107,0.3382 -5.4673,3.1832 -5.12914,6.354 0.33817,3.1709 3.18275,5.4676 6.35382,5.1294 z"
-     id="path2818-9-7-0-9"
-     style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:0.14140254"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     style="fill:none;stroke:#0e1e46;stroke-width:1.62464404;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 516.09523,953.66293 2.88232,10.8506"
-     id="path2822-0-7-6-5"
-     inkscape:connector-curvature="0"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     style="fill:none;stroke:#0e1e46;stroke-width:1.62464416;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 520.98876,886.49403 9.93485,-16.60497 5.09397,-15.24824"
-     id="path2824-4-1-2-0"
-     sodipodi:nodetypes="ccc"
-     inkscape:connector-curvature="0"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     style="fill:none;stroke:#0e1e46;stroke-width:1.62464416;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 518.80704,886.17793 -12.7478,-12.222 -5.66592,-14.53053"
-     id="path3102-8-1-6-4"
-     sodipodi:nodetypes="ccc"
-     inkscape:connector-curvature="0"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     style="fill:none;stroke:#0e1e46;stroke-width:2.32092023;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none"
-     d="m 517.94419,916.13493 9.07021,30.7703"
-     id="path3106-7-5-1-8"
-     sodipodi:nodetypes="cc"
-     inkscape:connector-curvature="0"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
-  <path
-     style="fill:none;stroke:#0e1e46;stroke-width:1.62464404;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 525.9392,949.14173 7.17127,8.6382"
-     id="path3108-1-9-8-7"
-     inkscape:connector-curvature="0"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
-     inkscape:export-xdpi="79.101723"
-     inkscape:export-ydpi="79.101723" />
+  <g
+     id="g5349"
+     transform="translate(-0.77805615)">
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       sodipodi:nodetypes="cccc"
+       id="path2784-3-6-3-1"
+       d="m 442.70861,908.53133 -0.27721,25.9294 -0.36897,23.2232 -0.20805,15.5203"
+       style="fill:none;stroke:#0e1e46;stroke-width:2.32092023;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       inkscape:connector-curvature="0"
+       style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:0.14140254"
+       id="path2788-7-1-5-4"
+       d="m 444.84003,904.83323 c 3.17065,-0.3382 5.4673,-3.1832 5.12913,-6.3541 -0.33816,-3.1708 -3.18316,-5.4674 -6.35381,-5.1293 -3.17107,0.3382 -5.4673,3.1831 -5.12914,6.3539 0.33817,3.171 3.18275,5.4677 6.35382,5.1295 z" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       sodipodi:nodetypes="ccc"
+       id="path2792-6-0-6-9"
+       d="m 442.62183,908.55003 16.20647,2.6967 7.54613,-16.6313"
+       style="fill:none;stroke:#0e1e46;stroke-width:1.62464416;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       inkscape:connector-curvature="0"
+       id="path2794-8-6-2-2"
+       d="m 437.96632,977.24623 11.22676,-0.066"
+       style="fill:none;stroke:#0e1e46;stroke-width:1.62464404;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       id="path2830-3-1-9-0"
+       d="m 434.52366,979.16423 23.57916,-0.073"
+       style="fill:#1a1a1a;fill-opacity:1;stroke:#1e1b0c;stroke-width:2.06560731;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       id="path2834-1-5-1-6"
+       d="m 505.63826,979.16423 23.57915,-0.073"
+       style="fill:#1a1a1a;fill-opacity:1;stroke:#1e1b0c;stroke-width:2.06560731;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       id="path2919-4-9-2-8"
+       d="m 469.45238,979.20593 23.57914,-0.073"
+       style="fill:#1a1a1a;fill-opacity:1;stroke:#1e1b0c;stroke-width:2.06560731;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       inkscape:connector-curvature="0"
+       id="path2915-2-4-7-9"
+       d="m 474.9061,971.09593 9.86781,6.1626"
+       style="fill:none;stroke:#0e1e46;stroke-width:1.68355179;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc"
+       id="path2907-0-9-0-2"
+       d="m 488.48404,915.01323 -12.3166,20.5504 9.01562,15.2919 -8.02324,18.4264"
+       style="fill:none;stroke:#0e1e46;stroke-width:2.40507388;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:0.14652956"
+       id="path2911-8-0-9-6"
+       d="m 494.27003,913.06603 c 3.28561,-0.3504 5.66553,-3.2985 5.3151,-6.5844 -0.35042,-3.2858 -3.29857,-5.6657 -6.58418,-5.3153 -3.28605,0.3504 -5.66554,3.2985 -5.31512,6.5843 0.35044,3.2859 3.29815,5.6659 6.5842,5.3154 z"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       id="path2995-2-9-3-6"
+       d="m 488.39986,915.16953 -3.76657,15.8492 7.22529,12.4486"
+       style="fill:none;stroke:#0e1e46;stroke-width:1.68355167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc"
+       id="path2814-6-1-6-4"
+       d="m 520.13223,886.33463 -2.11546,25.9294 -0.36896,23.2232 -0.20806,15.5203"
+       style="fill:none;stroke:#0e1e46;stroke-width:2.32092023;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:0.14140254"
+       id="path2818-9-7-0-9"
+       d="m 521.3534,883.24403 c 3.17065,-0.3381 5.4673,-3.1831 5.12913,-6.3541 -0.33816,-3.1707 -3.18316,-5.4674 -6.35381,-5.1293 -3.17107,0.3382 -5.4673,3.1832 -5.12914,6.354 0.33817,3.1709 3.18275,5.4676 6.35382,5.1294 z"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       inkscape:connector-curvature="0"
+       id="path2822-0-7-6-5"
+       d="m 516.09523,953.66293 2.88232,10.8506"
+       style="fill:none;stroke:#0e1e46;stroke-width:1.62464404;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       id="path2824-4-1-2-0"
+       d="m 520.98876,886.49403 9.93485,-16.60497 5.09397,-15.24824"
+       style="fill:none;stroke:#0e1e46;stroke-width:1.62464416;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       id="path3102-8-1-6-4"
+       d="m 518.80704,886.17793 -12.7478,-12.222 -5.66592,-14.53053"
+       style="fill:none;stroke:#0e1e46;stroke-width:1.62464416;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       id="path3106-7-5-1-8"
+       d="m 517.94419,916.13493 9.07021,30.7703"
+       style="fill:none;stroke:#0e1e46;stroke-width:2.32092023;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none" />
+    <path
+       inkscape:export-ydpi="79.101723"
+       inkscape:export-xdpi="79.101723"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/mini/jump_free.png"
+       inkscape:connector-curvature="0"
+       id="path3108-1-9-8-7"
+       d="m 525.9392,949.14173 7.17127,8.6382"
+       style="fill:none;stroke:#0e1e46;stroke-width:1.62464404;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
 </svg>

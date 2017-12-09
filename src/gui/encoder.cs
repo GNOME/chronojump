@@ -302,7 +302,6 @@ public partial class ChronoJumpWindow
 	private EncoderAnalyzeInstant eai;
 
 	private ArrayList array1RM;
-	private bool textviewEncoderSignalCommentChanging = false;
 
 	//private static double [] encoderReaded;		//data coming from encoder and converted (can be double)
 	//private static int [] encoderReaded;		//data coming from encoder and converted
@@ -1197,22 +1196,14 @@ public partial class ChronoJumpWindow
 
 	void on_textview_encoder_signal_comment_key_press_event (object o, EventArgs args)
 	{
-		//1 manage ' " on textview avoiding circular calls
-		if(textviewEncoderSignalCommentChanging)
-			return;
-
-		textviewEncoderSignalCommentChanging = true;
-
-		textview_encoder_signal_comment.Buffer.Text =
-			Util.MakeValidSQL(textview_encoder_signal_comment.Buffer.Text);
-
-		textviewEncoderSignalCommentChanging = false;
-
-		//2 button label and sensitiveness
 		button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
 		button_encoder_signal_save_comment.Sensitive = true;
 	}
-	void on_button_encoder_signal_save_comment_clicked (object o, EventArgs args) {
+	void on_button_encoder_signal_save_comment_clicked (object o, EventArgs args)
+	{
+		textview_encoder_signal_comment.Buffer.Text =
+			Util.MakeValidSQL(textview_encoder_signal_comment.Buffer.Text);
+
 		LogB.Debug(encoderSignalUniqueID);
 		if(encoderSignalUniqueID != null && Convert.ToInt32(encoderSignalUniqueID) > 0) {
 			Sqlite.Update(false, Constants.EncoderTable, "description", "", 

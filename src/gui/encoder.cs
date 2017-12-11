@@ -1806,7 +1806,7 @@ public partial class ChronoJumpWindow
 		//find related curves using encoderSignalCurve table
 		ArrayList linkedCurves = SqliteEncoder.SelectSignalCurve(
 				false, signalID, -1, -1, -1);	//DBopened, signal, curve, msStart, msEnd
-		
+
 		//delete related curves: files and records from encoder table
 		foreach(EncoderSignalCurve esc in linkedCurves) 
 		{
@@ -1814,14 +1814,15 @@ public partial class ChronoJumpWindow
 			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
 					false, esc.curveID, -1, -1, Constants.EncoderGI.ALL,
 					-1, "curve", EncoderSQL.Eccons.ALL, false, true)[0];
-			
+
 			//delete file
-			Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
+			if(eSQL != null)
+				Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
 
 			//delete curve from encoder table
 			Sqlite.Delete(false, Constants.EncoderTable, esc.curveID);
 		}
-		
+
 		//delete related records from encoderSignalCurve table
 		Sqlite.DeleteSelectingField(false, Constants.EncoderSignalCurveTable, 
 				"signalID", signalID.ToString());
@@ -1829,7 +1830,7 @@ public partial class ChronoJumpWindow
 		//delete related triggers
 		SqliteTrigger.DeleteByModeID(false, signalID);
 	}
-	
+
 	void on_button_encoder_export_all_curves_clicked (object o, EventArgs args) 
 	{
 		checkFile(Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL);

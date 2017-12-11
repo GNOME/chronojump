@@ -124,7 +124,6 @@ public class Sprint
 		string [] splitTimesArray = splitTimes.Split(new char[] {';'});
 
 		List<double> splitTimesList = new List<double>();
-		int count = 0;
 		foreach(string time in splitTimesArray)
 		{
 			double timeD = Convert.ToDouble(time);

@@ -40,8 +40,8 @@ public class SplashWindow
 
 	[Widget] Gtk.Button fakeButtonClose;
 	public bool FakeButtonCreated = false;
-	string progVersion = "";
-	
+	//string progVersion = "";
+
 	static SplashWindow SplashWindowBox;
 
 	public SplashWindow ()
@@ -193,9 +193,11 @@ public class SplashWindow
 		LogB.Debug("splash_window hide end");
 	}
 
+	/*
 	public string ProgVersion {
-		set { progVersion = value; }
+		set { grogVersion = value; }
 	}
+	*/
 
 	private void on_delete_event (object o, DeleteEventArgs args) {
 		splash_window.Destroy ();

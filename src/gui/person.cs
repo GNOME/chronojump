@@ -1751,9 +1751,7 @@ public class PersonAddMultipleWindow {
 	
 	[Widget] Gtk.Image image_name1;
 	[Widget] Gtk.Image image_name2;
-	[Widget] Gtk.Image image_name1_help;
-	[Widget] Gtk.Image image_name2_help;
-	
+
 	[Widget] Gtk.CheckButton check_headers;
 	[Widget] Gtk.CheckButton check_name_1_column;
 	
@@ -1764,7 +1762,6 @@ public class PersonAddMultipleWindow {
 	ArrayList spins;
 	
 	int rows;
-	bool created_table;
 	
 	[Widget] Gtk.ScrolledWindow scrolledwindow;
 	[Widget] Gtk.Table table_main;
@@ -1780,7 +1777,6 @@ public class PersonAddMultipleWindow {
 	string errorExistsString;
 	string errorWeightString;
 	string errorRepeatedEntryString;
-	string tableAlreadyCreatedString = Catalog.GetString("Table has already been created.");
 
 	
 	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession) {
@@ -1803,8 +1799,6 @@ public class PersonAddMultipleWindow {
 		
 		PersonAddMultipleWindowBox.putNonStandardIcons ();
 		PersonAddMultipleWindowBox.tablesVisibility ();
-
-		PersonAddMultipleWindowBox.created_table = false;
 
 		PersonAddMultipleWindowBox.person_multiple_infinite.Show ();
 		
@@ -2121,13 +2115,7 @@ public class PersonAddMultipleWindow {
 		table_main.Show();
 		scrolledwindow.Visible = true;
 		notebook.CurrentPage = 0;
-			
-		//once loaded table cannot be created again
-		//don't do this: it crashes
-		//button_manually_created.Sensitive = false;
-		//do this:
-		created_table = true;
-	
+
 		button_accept.Sensitive = true;
 	}
 

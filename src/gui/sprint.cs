@@ -104,7 +104,6 @@ LogB.Information("SPRINT create f");
 	{
 LogB.Information("SPRINT add 0");
 		if(storeSprint == null)
-LogB.Information("SPRINT add 1");
 		{
 			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 LogB.Information("SPRINT add 2");

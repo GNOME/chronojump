@@ -72,7 +72,6 @@ public class RepetitiveConditionsWindow
 	/* encoder */
 	[Widget] Gtk.Frame frame_encoder_automatic_conditions;
 	[Widget] Gtk.RadioButton radio_encoder_relative_to_set;
-	[Widget] Gtk.RadioButton radio_encoder_relative_to_historical;
 	[Widget] Gtk.HBox hbox_combo_encoder_variable_automatic;
 	[Widget] Gtk.ComboBox combo_encoder_variable_automatic;
 	[Widget] Gtk.CheckButton checkbutton_encoder_automatic_greater;

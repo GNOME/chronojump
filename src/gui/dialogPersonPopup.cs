@@ -33,7 +33,6 @@ public class DialogPersonPopup
 	[Widget] Gtk.Image image_person_logout;
 	[Widget] Gtk.Image image_close;
 	[Widget] Gtk.Label label_rfid;
-	[Widget] Gtk.Notebook notebook;
 	[Widget] Gtk.VBox vbox_tasks_parametrized;
 
 	[Widget] Gtk.Label label_server_connected;

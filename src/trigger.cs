@@ -95,6 +95,10 @@ public class Trigger
 		get { return ms; }
 	}
 
+	public bool IsNegative {
+		get { return ms < 0; }
+	}
+
 	public bool InOut {
 		get { return inOut; }
 	}
@@ -128,8 +132,15 @@ public class TriggerList
 
 	public void Substract(int msToSubstract)
 	{
-		foreach(Trigger trigger in l)
-			trigger.Substract(msToSubstract);
+		//iterate negative to not fail enumeration if an element is substracted
+		for(int i = l.Count -1 ; i >= 0; i --)
+		{
+			l[i].Substract(msToSubstract);
+
+			//triggers cannot be negative
+			if(l[i].IsNegative)
+				l.RemoveAt(i);
+		}
 	}
 
 	//just to debug

@@ -318,18 +318,21 @@ drawDynamicsFromLoadCell <- function(
         #lines(dynamics$time, dynamics$rfd/100, col = "red")
         
         #Plotting tau
-        abline(v = 0, col = "green", lty = 3)
-        abline(v = dynamics$tau.fitted, col = "green", lty = 3)
-        arrows(x0 = 0, y0 = dynamics$fmax.fitted*0.6321206,
-               x1 = dynamics$tau.fitted, y1 = dynamics$fmax.fitted*0.6321206)
-        text(x = (dynamics$tau.fitted / 2), y = dynamics$fmax.fitted*0.6321206,
-             labels = paste("τ =", round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5)
+        abline(v = dynamics$tau.fitted, col = "green4", lty = 3)
+        abline(h = dynamics$fmax.fitted*0.6321206, col = "green4", lty = 3)
+        points(dynamics$tau.fitted, dynamics$fmax.fitted*0.6321206, col = "green4")
+        arrows(x0 = 0, y0 = dynamics$f0.raw,
+               x1 = dynamics$tau.fitted, y1 = dynamics$f0.raw)
+        text(x = (dynamics$tau.fitted / 2), y = dynamics$f0.raw,
+              labels = paste("τ =", round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5)
+        # text(x = (dynamics$tau.fitted / 2), y = -20,
+        #      labels = paste("τ =", round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, xpd = TRUE)
         
-        arrows(x0 = dynamics$tau.fitted, y0 = 0,
-               x1 = dynamics$tau.fitted, y1 = dynamics$fmax.fitted*0.6321206)
+        arrows(x0 = 0, y0 = 0,
+               x1 = 0, y1 = dynamics$fmax.fitted*0.6321206)
         
-        text(x = (dynamics$tau.fitted), y = dynamics$fmax.fitted*0.6321206 / 2,
-              labels = "63% of fmax", pos = 4, cex = 1.5)
+        text(x = 0, y = dynamics$fmax.fitted*0.6321206 / 2,
+              labels = "63% of fmax", pos = 2, cex = 1.5, srt = 90)
         
         #Plotting fmax.raw
         text( x = dynamics$tfmax.raw, y = dynamics$fmax.raw,

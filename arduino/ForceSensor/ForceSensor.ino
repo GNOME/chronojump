@@ -182,7 +182,7 @@ void set_calibration_factor(String inputString)
   if(stored_calibration != calibration_factor.toFloat()){
     EEPROM.put(calibrationAddress, calibration_factor.toFloat());
   }
-  Serial.print("Calibration factor set");
+  Serial.println("Calibration factor set");
 }
 
 void calibrate(String inputString)

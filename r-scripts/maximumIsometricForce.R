@@ -324,7 +324,7 @@ drawDynamicsFromLoadCell <- function(
         arrows(x0 = 0, y0 = dynamics$f0.raw,
                x1 = dynamics$tau.fitted, y1 = dynamics$f0.raw)
         text(x = (dynamics$tau.fitted / 2), y = dynamics$f0.raw,
-              labels = paste("τ =", round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5)
+              labels = paste("τ =", round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, col = "blue")
         # text(x = (dynamics$tau.fitted / 2), y = -20,
         #      labels = paste("τ =", round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, xpd = TRUE)
         
@@ -332,7 +332,7 @@ drawDynamicsFromLoadCell <- function(
                x1 = 0, y1 = dynamics$fmax.fitted*0.6321206)
         
         text(x = 0, y = dynamics$fmax.fitted*0.6321206 / 2,
-              labels = "63% of fmax", pos = 2, cex = 1.5, srt = 90)
+              labels = "63% of fmax", pos = 2, cex = 1.5, srt = 90, col = "blue")
         
         #Plotting fmax.raw
         text( x = dynamics$tfmax.raw, y = dynamics$fmax.raw,

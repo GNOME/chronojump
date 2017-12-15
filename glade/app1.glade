@@ -1518,6 +1518,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -15260,17 +15263,7 @@ Concentric</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <widget class="GtkLabel" id="label_force_sensor_analyze">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="use_markup">True</property>
-                                                            <property name="single_line_mode">True</property>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                          </packing>
+                                                          <placeholder/>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkHBox" id="hbox240">
@@ -15281,7 +15274,8 @@ Concentric</property>
                                                             <widget class="GtkLabel" id="label201">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Length of analysis:</property>
+                                                            <property name="tooltip" translatable="yes">Length of analysis:</property>
+                                                            <property name="label" translatable="yes">Length:</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -15291,7 +15285,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="radio_force_rfd_duration_percent">
-                                                            <property name="label" translatable="yes">5% after max force</property>
+                                                            <property name="label" translatable="yes">Until 5% decrease in max force</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
@@ -15332,12 +15326,14 @@ Concentric</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
+                                                            <property name="width_chars">4</property>
                                                             <property name="primary_icon_activatable">False</property>
                                                             <property name="secondary_icon_activatable">False</property>
                                                             <property name="primary_icon_sensitive">True</property>
                                                             <property name="secondary_icon_sensitive">True</property>
-                                                            <property name="adjustment">2 1 20 1 10 0</property>
+                                                            <property name="adjustment">1 1 20 0.01 10 0</property>
                                                             <property name="climb_rate">1</property>
+                                                            <property name="digits">2</property>
                                                             <property name="snap_to_ticks">True</property>
                                                             <property name="numeric">True</property>
                                                             </widget>
@@ -15374,7 +15370,24 @@ Concentric</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <child>
-                                                          <widget class="GtkHBox" id="hbox231">
+                                                          <widget class="GtkVBox" id="vbox75">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_force_sensor_analyze">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="use_markup">True</property>
+                                                            <property name="single_line_mode">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox231">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
@@ -15472,6 +15485,13 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -21499,6 +21519,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -503,6 +503,7 @@ public partial class ChronoJumpWindow
 		label_force_sensor_value.Text = "0";
 		label_force_sensor_value_min.Text = "0";
 		label_force_sensor_analyze.Text = "";
+		label_force_sensor_analyze.Visible = false;
 
 		forceProcessFinish = false;
 		forceProcessCancel = false;
@@ -984,8 +985,11 @@ LogB.Information(" fc R ");
 		{
 			label_force_sensor_analyze.Text = Catalog.GetString("Error doing graph.") + " " +
 				Catalog.GetString("Probably not sustained force.");
+			label_force_sensor_analyze.Visible = true;
+
 			return;
 		}
+		label_force_sensor_analyze.Visible = false;
 		label_force_sensor_analyze.Text = "";
 
 		while ( ! Util.FileReadable(imagePath));

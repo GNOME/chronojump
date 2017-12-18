@@ -376,7 +376,7 @@ drawDynamicsFromLoadCell <- function(
 		       paste("K = ", round(dynamics$k.fitted, digits = 2),"s⁻¹"),
 		       paste("τ = ", round(dynamics$tau.fitted, digits = 2),"s")
 		       )
-        legendColor = c("blue", "blue")
+        legendColor = c("blue", "blue", "blue")
         
         #The coordinates where the lines and dots are plotted are calculated with the sampled data in raw and fitted data.
         #The slopes are calculated in that points

@@ -74,6 +74,7 @@ public class Preferences
 	public int videoDeviceNum; 		//AKA videoDevice
 	public string CSVExportDecimalSeparator;
 	public string language;
+	public string crashLogLanguage;
 	public bool RGraphsTranslate;
 	public bool useHeightsOnJumpIndexes;
 

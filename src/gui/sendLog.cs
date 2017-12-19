@@ -32,19 +32,45 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_send_log_no;
 	[Widget] Gtk.Image image_send_log_yes;
 	[Widget] Gtk.Entry entry_send_log;
+	[Widget] Gtk.RadioButton radio_log_catalan;
+	[Widget] Gtk.RadioButton radio_log_spanish;
+	[Widget] Gtk.RadioButton radio_log_english;
+	[Widget] Gtk.RadioButton radio_log_portuguese;
 	[Widget] Gtk.TextView textview_comments;
 	[Widget] Gtk.Button button_send_log;
 	[Widget] Gtk.Label label_send_log_message;
 
 	string emailStored;
-	private void show_send_log(string sendLogMessage) 
+	private void show_send_log(string sendLogMessage, string logLanguage)
 	{
 		label_send_log.Text = sendLogMessage;
 		emailStored = SqlitePreferences.Select("email");
 		if(emailStored != null && emailStored != "" && emailStored != "0")
 			entry_send_log.Text = emailStored;
-		
+
+		//set language radiobuttons
+		if(logLanguage == "Catalan")
+			radio_log_catalan.Active = true;
+		else if(logLanguage == "Spanish")
+			radio_log_spanish.Active = true;
+		else if(logLanguage == "Portuguese")
+			radio_log_portuguese.Active = true;
+		else
+			radio_log_english.Active = true;
+
 		hbox_send_log.Show();
+	}
+
+	private string get_send_log_language()
+	{
+		if(radio_log_catalan.Active)
+			return "Catalan";
+		else if(radio_log_spanish.Active)
+			return "Spanish";
+		else if(radio_log_portuguese.Active)
+			return "Portuguese";
+		else //default english //if(radio_log.english.Active)
+			return "English";
 	}
 
 	private void on_button_send_log_clicked (object o, EventArgs args)
@@ -57,10 +83,15 @@ public partial class ChronoJumpWindow
 		if(email != null && email != "" && email != "0" && email != emailStored)
 			SqlitePreferences.Update("email", email, false);
 
-		//2nd if there are comments, add them at the beginning of the file
-		string comments = textview_comments.Buffer.Text;
+		//2nd add language as comments
+		string language = get_send_log_language();
+		SqlitePreferences.Update("crashLogLanguage", language, false);
+		string comments = "Answer in: " + language + "\n";
+
+		//3rd if there are comments, add them at the beginning of the file
+		comments += textview_comments.Buffer.Text;
 		
-		//2nd send Json
+		//4th send Json
 		Json js = new Json();
 		bool success = js.PostCrashLog(email, comments);
 		

@@ -63,7 +63,8 @@ assignOptions <- function(options)
                 hline50fmax.fitted 	= options[11],
                 drawRfdOptions          = drawRfdOptions,
                 drawImpulseOptions      = options[16],
-                testLength 		= as.numeric(options[17])
+		testLength 		= as.numeric(options[17]),
+		title 	 		= options[18]
         ))
 }
 
@@ -190,6 +191,7 @@ drawDynamicsFromLoadCell <- function(
                      type="l", xlab="Time[s]", ylab="Force[N]",
                      xlim = xlimits, ylim=c(0, yHeight),
                      #main = dynamics$nameOfFile,
+		     main = op$title,
 		     yaxs= "i", xaxs = "i")
                 xmin = xlimits[1]
                 xmax = xlimits[2]
@@ -203,6 +205,7 @@ drawDynamicsFromLoadCell <- function(
                      xlim = c(xmin, xmax),
                      ylim=c(0, yHeight),
                      #main = dynamics$nameOfFile,
+		     main = op$title,
 		     yaxs= "i", xaxs = "i")
         }
         

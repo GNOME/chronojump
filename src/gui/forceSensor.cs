@@ -193,27 +193,34 @@ public partial class ChronoJumpWindow
 
 		Thread.Sleep(3000); //sleep to let arduino start reading serial event
 
-		LogB.Information(" FS connect 6: adjusting parameters...");
+		LogB.Information(" FS connect 6: get version");
 
-		//set_tare
-		if(! forceSensorSendCommand("set_tare:" + preferences.forceSensorTare.ToString() + ";",
-					"Setting previous tare ...", "Catched adjusting tare"))
-			return false;
+		string version = forceSensorCheckVersionDo();
+		LogB.Information("Version found: [" + version + "]");
 
-		//read confirmation data
-		if(! forceSensorReceiveFeedback("Tare set"))
-			return false;
+		if(version == "0.1")
+		{
+			LogB.Information(" FS connect 6b, version 0.1: adjusting parameters...");
+
+			//set_tare
+			if(! forceSensorSendCommand("set_tare:" + preferences.forceSensorTare.ToString() + ";",
+						"Setting previous tare ...", "Catched adjusting tare"))
+				return false;
+
+			//read confirmation data
+			if(! forceSensorReceiveFeedback("Tare set"))
+				return false;
 
 
-		//set_calibration_factor
-		if(! forceSensorSendCommand("set_calibration_factor:" + preferences.forceSensorCalibrationFactor.ToString() + ";",
-					"Setting previous calibration factor ...", "Catched adjusting calibration factor"))
-			return false;
+			//set_calibration_factor
+			if(! forceSensorSendCommand("set_calibration_factor:" + preferences.forceSensorCalibrationFactor.ToString() + ";",
+						"Setting previous calibration factor ...", "Catched adjusting calibration factor"))
+				return false;
 
-		//read confirmation data
-		if(! forceSensorReceiveFeedback("Calibration factor set"))
-			return false;
-
+			//read confirmation data
+			if(! forceSensorReceiveFeedback("Calibration factor set"))
+				return false;
+		}
 
 		portFSOpened = true;
 		forceSensorOtherMessage = "Connected!";
@@ -305,7 +312,7 @@ public partial class ChronoJumpWindow
 		}
 		else { //if (o == (object) button_check_version)
 			forceSensorOtherMode = forceSensorOtherModeEnum.CHECK_VERSION;
-			forceOtherThread = new Thread(new ThreadStart(forceSensorCheckVersion));
+			forceOtherThread = new Thread(new ThreadStart(forceSensorCheckVersionPre));
 		}
 
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKForceSensorOther));
@@ -454,14 +461,20 @@ public partial class ChronoJumpWindow
 	}
 
 	//Attention: no GTK here!!
-	private void forceSensorCheckVersion()
+	private void forceSensorCheckVersionPre()
 	{
 		if(! portFSOpened)
 			if(! forceSensorConnect())
 				return;
 
+		forceSensorCheckVersionDo();
+	}
+
+	//Attention: no GTK here!!
+	private string forceSensorCheckVersionDo()
+	{
 		if(! forceSensorSendCommand("get_version:", "Checking version ...", "Catched checking version"))
-			return;
+			return "";
 
 		string str = "";
 		do {
@@ -470,7 +483,7 @@ public partial class ChronoJumpWindow
 				str = portFS.ReadLine().Trim();
 			} catch {
 				forceSensorOtherMessage = "Disconnected";
-				return;
+				return "";
 			}
 			LogB.Information("init string: " + str);
 		}
@@ -478,6 +491,9 @@ public partial class ChronoJumpWindow
 
 		forceSensorOtherMessageShowSeconds = false;
 		forceSensorOtherMessage = str;
+
+		//return the version without "Force_Sensor-"
+		return(str.Remove(0,13));
 	}
 
 	//Attention: no GTK here!!

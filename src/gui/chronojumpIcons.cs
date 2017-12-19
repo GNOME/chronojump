@@ -111,6 +111,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_analyze_load;
 	[Widget] Gtk.Image image_force_sensor_tare;
 	[Widget] Gtk.Image image_force_sensor_calibrate;
+	[Widget] Gtk.Image image_force_sensor_open_folder;
+	[Widget] Gtk.Image image_force_sensor_check_version;
 
 	private void putNonStandardIcons()
 	{
@@ -171,6 +173,11 @@ public partial class ChronoJumpWindow
 		image_encoder_inertial_top_weights.Pixbuf = pixbuf;
 		image_encoder_inertial_weights.Pixbuf = pixbuf;
 		image_force_sensor_calibrate.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_check.png");
+		image_force_sensor_open_folder.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "zoom.png");
+		image_force_sensor_check_version.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_gravity.png");
 		image_mode_encoder_gravitatory.Pixbuf = pixbuf;

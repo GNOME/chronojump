@@ -62,6 +62,7 @@ public class ForceSensorValues
 public partial class ChronoJumpWindow 
 {
 	[Widget] Gtk.MenuItem menuitem_force_sensor_open_folder;
+	[Widget] Gtk.MenuItem menuitem_force_sensor_check_version;
 
 	//capture tab tab
 	[Widget] Gtk.HBox hbox_force_buttons;
@@ -72,7 +73,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_value_min;
 	//[Widget] Gtk.VScale vscale_force_sensor;
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
-	[Widget] Gtk.Button button_force_sensor_check_version;
 	[Widget] Gtk.Button button_force_sensor_image_save_signal;
 	[Widget] Gtk.DrawingArea force_capture_drawingarea;
 	Gdk.Pixmap force_capture_pixmap = null;
@@ -1246,9 +1246,9 @@ LogB.Information(" fc R ");
 		notebook_options_top.Visible = ! modeForceSensor;
 
 		button_threshold.Visible = ! modeForceSensor;
-		button_force_sensor_check_version.Visible = modeForceSensor;
 
 		menuitem_force_sensor_open_folder.Visible = modeForceSensor;
+		menuitem_force_sensor_check_version.Visible = modeForceSensor;
 	}
 
 	private void on_button_force_sensor_adjust_help_clicked (object o, EventArgs args)

@@ -428,6 +428,8 @@ RESOURCES = \
 	../images/md/inertial_half_rolled.png,inertial_half_rolled.png \
 	../images/md/inertial_extended.png,inertial_extended.png \
 	../images/md/calibrate.png,calibrate.png \
+	../images/md/ic_folder_check_blue_24dp_1x.png,folder_check.png \
+	../images/md/ic_zoom_blue_24dp_1x.png,zoom.png \
 	../images/chronojump_icon.png,chronojump_icon.png \
 	../images/chronojump_icon_graph.png,chronojump_icon_graph.png \
 	../images/stock_right.png,stock_right.png \

@@ -294,7 +294,11 @@ public partial class ChronoJumpWindow
 	int image_encoder_width;
 	int image_encoder_height;
 
-	private string encoderAnalysis="powerBars";
+	private string encoderSelectedAnalysis = "powerBars"; //used to know wich options are selected (cannot be changed during analysis)
+	//this two variables are only for naming user-saved encoder analyze image
+	private string encoderSendedAnalysis = "";
+	private static string encoderLastAnalysis = "";
+
 	private string ecconLast;
 	private string encoderTimeStamp;
 	private string encoderSignalUniqueID;
@@ -1921,8 +1925,15 @@ public partial class ChronoJumpWindow
 			exportString = Catalog.GetString ("Export repetition in CSV format");
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
 			exportString = Catalog.GetString ("Save table");
-		
+
 		string nameString = currentPerson.Name + "_" + currentSession.DateShortAsSQL;
+
+		//on encoder analyze save image, show analysis on filename
+		if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE &&
+				encoderLastAnalysis != "null" && encoderLastAnalysis != "")
+		{
+			nameString += "_" + encoderLastAnalysis;
+		}
 
 		//at force sensor we can graph a different person than selected person, so use graph-file loaded
 		if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
@@ -2380,7 +2391,7 @@ public partial class ChronoJumpWindow
 			}
 		
 			//cannot do inter/intra person with some cross graphs
-			if(encoderAnalysis == "cross") 
+			if(encoderSelectedAnalysis == "cross")
 			{
 				string nameTemp = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
 						encoderAnalyzeCrossTranslation);
@@ -2402,7 +2413,7 @@ public partial class ChronoJumpWindow
 			}
 			
 			//cannot do inter/intra person with some 1RM graphs
-			if(encoderAnalysis == "1RM") 
+			if(encoderSelectedAnalysis == "1RM")
 			{
 				string nameTemp = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
 						encoderAnalyze1RMTranslation);
@@ -2571,10 +2582,10 @@ public partial class ChronoJumpWindow
 		string analysisOptions = getEncoderAnalysisOptions();
 
 		//use this send because we change it to send it to R
-		//but we don't want to change encoderAnalysis because we want to know again if == "cross" (or "1RM")
-		//encoderAnalysis can be "cross" and sendAnalysis be "Speed / Load"
-		//encoderAnalysis can be "1RM" and sendAnalysis be "1RMBadilloBench, ...
-		string sendAnalysis = encoderAnalysis;
+		//but we don't want to change encoderSelectedAnalysis because we want to know again if == "cross" (or "1RM")
+		//encoderSelectedAnalysis can be "cross" and sendAnalysis be "Speed / Load"
+		//encoderSelectedAnalysis can be "1RM" and sendAnalysis be "1RMBadilloBench, ...
+		string sendAnalysis = encoderSelectedAnalysis;
 
 		//see doProcess at encoder/graph.R
 		string analysisVariables = "none"; //cannot be blank
@@ -2647,7 +2658,7 @@ public partial class ChronoJumpWindow
 
 			//neuromuscularProfile works only with ec, do not use c curves
 			EncoderSQL.Eccons ecconSelect = EncoderSQL.Eccons.ALL; 	
-			if(encoderAnalysis == "neuromuscularProfile") {
+			if(encoderSelectedAnalysis == "neuromuscularProfile") {
 				ecconSelect = EncoderSQL.Eccons.ecS; 	
 			}
 
@@ -2719,7 +2730,7 @@ public partial class ChronoJumpWindow
 			//cannot be curves of different exercises
 			//because is 1RM of a person on an exercise
 			//this is checked at: "on_button_encoder_analyze_clicked()"
-			if(encoderAnalysis == "1RM" &&
+			if(encoderSelectedAnalysis == "1RM" &&
 					(my1RMName == "1RM Bench Press" || my1RMName == "1RM Squat" || my1RMName == "1RM Any exercise") )
 			{
 				//get exercise ID
@@ -2854,7 +2865,7 @@ public partial class ChronoJumpWindow
 			Sqlite.Close();	
 
 		} else {	//current set
-			if(encoderAnalysis == "1RM") {
+			if(encoderSelectedAnalysis == "1RM") {
 				if(my1RMName == "1RM Any exercise") {
 					//get speed1RM (from combo)
 					EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
@@ -2908,7 +2919,7 @@ public partial class ChronoJumpWindow
 
 		string titleStr = Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name);
 	
-		if(encoderAnalysis == "neuromuscularProfile")
+		if(encoderSelectedAnalysis == "neuromuscularProfile")
 			titleStr = "Neuromuscular Profile" + "-" + titleStr;
 		else {
 			//on signal show encoder exercise, but not in curves because every curve can be of a different exercise
@@ -2916,13 +2927,23 @@ public partial class ChronoJumpWindow
 				titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise_capture));
 		}
 
+		//used for naming user-saved encoder analyze image
+		if(sendAnalysis == "cross")
+		{
+			string temp = Util.ChangeChars(crossName, " / ", "-");
+			temp = Util.ChangeChars(temp, ",", "-"); //needed for "Speed,Power - Load"
+			encoderSendedAnalysis = temp;
+		}
+		else
+			encoderSendedAnalysis = sendAnalysis;
+
 		//triggers only on concentric
 		if(triggerList == null || findEccon(false) != "c")
 			triggerList = new TriggerList();
 
 		encoderRProcAnalyze.SendData(
 				titleStr, 
-				encoderAnalysis == "neuromuscularProfile",
+				encoderSelectedAnalysis == "neuromuscularProfile",
 				preferences.RGraphsTranslate,
 				triggerList
 				);
@@ -3089,11 +3110,11 @@ public partial class ChronoJumpWindow
 	}
 
 
-	private string getAnalysisVariables(string encoderAnalysis) 
+	private string getAnalysisVariables(string analysis)
 	{
 		string analysisVariables = "none"; //cannot be blank
 
-		if(encoderAnalysis == "powerBars") {
+		if(analysis == "powerBars") {
 			if(check_encoder_analyze_show_time_to_peak_power.Active)
 				analysisVariables = "TimeToPeakPower";
 			else
@@ -3104,7 +3125,7 @@ public partial class ChronoJumpWindow
 			else
 				analysisVariables += ";NoRange";
 		}
-		else {  //(encoderAnalysis == "single" || encoderAnalysis == "side")
+		else {  //analysis == "single" || analysis == "side")
 			if(check_encoder_analyze_show_speed.Active)
 				analysisVariables = "Speed";
 			else
@@ -3140,7 +3161,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
-		encoderAnalysis = "single";
+		encoderSelectedAnalysis = "single";
 		
 		//together, mandatory
 		check_encoder_analyze_eccon_together.Sensitive=false;
@@ -3165,7 +3186,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
-		encoderAnalysis="superpose";
+		encoderSelectedAnalysis = "superpose";
 		
 		//together, mandatory
 		check_encoder_analyze_eccon_together.Sensitive=false;
@@ -3187,7 +3208,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
-		encoderAnalysis = "side";
+		encoderSelectedAnalysis = "side";
 		
 		//together, mandatory
 		check_encoder_analyze_eccon_together.Sensitive=false;
@@ -3209,7 +3230,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=true;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
-		encoderAnalysis="powerBars";
+		encoderSelectedAnalysis = "powerBars";
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;
 		block_check_encoder_analyze_eccon_together_if_needed();
@@ -3232,7 +3253,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_mean_or_max.Visible=true;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
-		encoderAnalysis="cross";
+		encoderSelectedAnalysis = "cross";
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;
 		
@@ -3255,7 +3276,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_mean_or_max.Visible=true;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
-		encoderAnalysis="1RM";
+		encoderSelectedAnalysis = "1RM";
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;
 		
@@ -3278,7 +3299,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
-		encoderAnalysis="neuromuscularProfile";
+		encoderSelectedAnalysis = "neuromuscularProfile";
 		
 		//separated, mandatory
 		check_encoder_analyze_eccon_together.Sensitive=false;
@@ -5326,7 +5347,7 @@ public partial class ChronoJumpWindow
 			if(image_encoder_height < 0)
 				image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
-			if(encoderAnalysis == "single") {
+			if(encoderSelectedAnalysis == "single") {
 				image_encoder_height -= UtilGtk.WidgetHeight(table_encoder_analyze_instant); //to allow hslides and table
 			}
 
@@ -6342,7 +6363,7 @@ public partial class ChronoJumpWindow
 				//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom),
 				//o si es una sola i fa alguna edicio
 				
-				if(encoderAnalysis == "single") {
+				if(encoderSelectedAnalysis == "single") {
 					drawingarea_encoder_analyze_cairo_pixbuf = UtilGtk.OpenPixbufSafe(
 							UtilEncoder.GetEncoderGraphTempFileName(),
 							drawingarea_encoder_analyze_cairo_pixbuf);
@@ -6384,7 +6405,7 @@ public partial class ChronoJumpWindow
 					}
 				}
 
-				if(encoderAnalysis == "single") {
+				if(encoderSelectedAnalysis == "single") {
 					eai = new EncoderAnalyzeInstant();
 					eai.ReadArrayFile(UtilEncoder.GetEncoderInstantDataTempFileName());
 					eai.ReadGraphParams(UtilEncoder.GetEncoderSpecialDataTempFileName());
@@ -6395,8 +6416,9 @@ public partial class ChronoJumpWindow
 					//eai.PrintDebug();
 				}
 
+				encoderLastAnalysis = encoderSendedAnalysis;
 			}
-		
+
 			button_encoder_analyze.Visible = true;
 			hbox_encoder_analyze_progress.Visible = false;
 

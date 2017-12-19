@@ -553,13 +553,6 @@ public partial class ChronoJumpWindow
 		//white bg
 		eventbox_image_test.ModifyBg(StateType.Normal, UtilGtk.WHITE);
 	
-		if(! showSendLog)
-			notebook_start.CurrentPage = 0; //start with the Mode selector
-		else {
-			show_send_log(sendLogMessage);
-			notebook_start.CurrentPage = 2; //send log
-		}
-
 		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
 		//UtilGtk.ResizeIfNeeded(stats_window);
 
@@ -579,6 +572,16 @@ public partial class ChronoJumpWindow
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
 		loadPreferences ();
+
+		//show send log if needed
+
+		if(! showSendLog)
+			notebook_start.CurrentPage = 0; //start with the Mode selector
+		else {
+			show_send_log(sendLogMessage, preferences.crashLogLanguage);
+			notebook_start.CurrentPage = 2; //send log
+		}
+
 		
 		// ------ Creating widgets ------
 

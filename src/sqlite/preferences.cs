@@ -83,6 +83,7 @@ class SqlitePreferences : Sqlite
 				Insert ("heightPreferred", "False", dbcmdTr);
 				Insert ("metersSecondsPreferred", "True", dbcmdTr);
 				Insert ("language", "", dbcmdTr); 
+				Insert ("crashLogLanguage", "", dbcmdTr);
 				Insert ("allowFinishRjAfterTime", "True", dbcmdTr); 
 				Insert ("volumeOn", "True", dbcmdTr); 
 				Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.GST_0_1.ToString(), dbcmdTr);
@@ -315,6 +316,8 @@ class SqlitePreferences : Sqlite
 				preferences.CSVExportDecimalSeparator = reader[1].ToString();
 			else if(reader[0].ToString() == "language")
 				preferences.language = reader[1].ToString();
+			else if(reader[0].ToString() == "crashLogLanguage")
+				preferences.crashLogLanguage = reader[1].ToString();
 			else if(reader[0].ToString() == "RGraphsTranslate")
 				preferences.RGraphsTranslate = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "useHeightsOnJumpIndexes")

@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.49";
+	static string lastChronojumpDatabaseVersion = "1.50";
 
 	public Sqlite() {
 	}
@@ -2262,6 +2262,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.49");
 			}
+			if(currentVersion == "1.49")
+			{
+				LogB.SQL("Updated preferences: added crashLogLanguage");
+
+				SqlitePreferences.Insert ("crashLogLanguage", "English");
+
+				currentVersion = updateVersion("1.50");
+			}
 
 
 
@@ -2444,6 +2452,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 
 		//changes [from - to - desc]
+		//1.49 - 1.50 Converted DB to 1.50 Updated preferences: added crashLogLanguage
 		//1.48 - 1.49 Converted DB to 1.49 Updated preferences: added force sensor tare/calibration stuff
 		//1.47 - 1.48 Converted DB to 1.48 Updated preferences: added gstreamer
 		//1.46 - 1.47 Converted DB to 1.47 Added encoderCaptureBarplotFontSize at preferences

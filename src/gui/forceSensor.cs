@@ -970,7 +970,13 @@ LogB.Information(" fc R ");
 		if(radio_force_duration_seconds.Active)
 			duration = Convert.ToInt32(spin_force_duration_seconds.Value);
 
-		ForceSensorGraph fsg = new ForceSensorGraph(rfdList, impulse, duration);
+		string title = lastForceSensorFile;
+		if (title == null || title == "")
+			title = "unnamed";
+		else
+			title = Util.RemoveChar(title, '_');
+
+		ForceSensorGraph fsg = new ForceSensorGraph(rfdList, impulse, duration, title);
 
 		int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);
 		int imageHeight = UtilGtk.WidgetHeight(viewport_force_sensor_graph);

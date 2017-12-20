@@ -1118,11 +1118,19 @@ LogB.Information(" fc R ");
 		if(Math.Abs(minForce) > absoluteMaxForce)
 			absoluteMaxForce = Math.Abs(minForce);
 
-		int step = 100;
-		if(absoluteMaxForce < 200)
-			step = 50;
-		if(absoluteMaxForce < 100)
-			step = 25;
+		//show 10 steps positive, 10 negative
+		int temp = Convert.ToInt32(absoluteMaxForce / 10.0);
+		int step = temp;
+		if(step <= 10)
+			step = temp;
+		else if(step <= 100)
+			step = temp - (temp % 10);
+		else if(step <= 1000)
+			step = temp - (temp % 100);
+		else if(step <= 10000)
+			step = temp - (temp % 1000);
+		else //if(step <= 100000)
+			step = temp - (temp % 10000);
 
 		for(int i = step; i <= absoluteMaxForce ; i += step)
 		{

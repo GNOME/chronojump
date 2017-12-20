@@ -248,6 +248,7 @@ drawDynamicsFromLoadCell <- function(
 
                 if(impulseOptions$impulseFunction == "RAW")
                 {
+                        impulseColor = "black"
                         
                         #Drawing the area under the force curve (Impulse)
                         polygon(c(dynamics$time[startImpulseSample:endImpulseSample], dynamics$time[endImpulseSample] , dynamics$time[startImpulseSample]),
@@ -271,6 +272,7 @@ drawDynamicsFromLoadCell <- function(
                         impulse = impulse / 2
                 } else if(impulseOptions$impulseFunction == "FITTED")
                 {
+                        impulseColor = "blue"
                         
                         #Drawing the area under the force curve (Impulse)
                         polygon(c(dynamics$time[startImpulseSample:endImpulseSample], dynamics$time[endImpulseSample] , dynamics$time[startImpulseSample]),
@@ -563,9 +565,10 @@ drawDynamicsFromLoadCell <- function(
                         abline(a = intercept, b = RFD, lty = 2, col = color)
                 }
         }
-        
-	if(impulseLegend != "")
+	if(impulseLegend != ""){
 		legendText = c(legendText, impulseLegend)
+                legendColor = c(legendColor, impulseColor)
+	}
 
 	legend(x = xmax, y = dynamics$fmax.fitted/2, legend = legendText, xjust = 1, yjust = 0.1, text.col = legendColor)
 }

@@ -1950,11 +1950,16 @@ public partial class ChronoJumpWindow
 		event_execute_pixmap.DrawLayout (pen_gris, 20, yCp2Out -20, layoutSmall);
 	}
 
-	private void on_event_execute_update_graph_in_progress_clicked(object o, EventArgs args) {
+	private void on_event_execute_update_graph_in_progress_clicked(object o, EventArgs args)
+	{
+		bool animate = true;
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+			animate = false;
+
 		switch (currentEventType.Type) {
 			case EventType.Types.JUMP:
 				if(thisJumpIsSimple) 
-					PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject, true);
+					PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject, animate);
 				else {
 					PrepareJumpReactiveGraph(
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTv, 
@@ -1966,7 +1971,7 @@ public partial class ChronoJumpWindow
 				break;
 			case EventType.Types.RUN:
 				if(thisRunIsSimple)
-					PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, true);
+					PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, animate);
 				else {
 					bool volumeOnHere = preferences.volumeOn;
 					//do not play good or bad sounds at RSA because we need to hear the GO sound
@@ -1984,7 +1989,7 @@ public partial class ChronoJumpWindow
 				}
 				break;
 			case EventType.Types.REACTIONTIME:
-					PrepareReactionTimeGraph(currentEventExecute.PrepareEventGraphReactionTimeObject, true);
+					PrepareReactionTimeGraph(currentEventExecute.PrepareEventGraphReactionTimeObject, animate);
 				break;
 			case EventType.Types.PULSE:
 					PreparePulseGraph(

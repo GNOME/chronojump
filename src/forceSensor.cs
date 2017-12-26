@@ -167,6 +167,16 @@ public class ForceSensorCapturePoints
 			//LogB.Information("RedoPOST X: " + Points[i].X.ToString() + "; Y: " + Points[i].Y.ToString());
 		}
 	}
+
+	public int WidthG
+	{
+		set { widthG = value; }
+	}
+
+	public int HeightG
+	{
+		set { heightG = value; }
+	}
 }
 
 public class ForceSensorRFD

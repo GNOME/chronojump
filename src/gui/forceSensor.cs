@@ -892,8 +892,8 @@ LogB.Information(" fc R ");
 	bool force_capture_sizeChanged;
 	public void on_force_capture_drawingarea_configure_event(object o, ConfigureEventArgs args)
 	{
-//		if(force_capture_drawingarea == null)
-//			return;
+	if(force_capture_drawingarea == null)
+			return;
 
 		Gdk.EventConfigure ev = args.Event;
 		Gdk.Window window = ev.Window;
@@ -908,8 +908,16 @@ LogB.Information(" fc R ");
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
 //			if(forceCaptureThread != null) //&& capturingCsharp == encoderCaptureProcess.CAPTURING)
 				fscPoints.NumPainted = -1; //mark meaning screen should be erased and start painting from the beginning
-			else
-				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
+			else {
+				if(fscPoints == null)
+					UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
+				else {
+					fscPoints.WidthG = allocation.Width;
+					fscPoints.HeightG = allocation.Height;
+					fscPoints.Redo();
+					forceSensorDoSignalGraphPlot();
+				}
+			}
 
 			force_capture_sizeChanged = false;
 		}
@@ -918,8 +926,8 @@ LogB.Information(" fc R ");
 	}
 	public void on_force_capture_drawingarea_expose_event(object o, ExposeEventArgs args)
 	{
-//		if(force_capture_drawingarea == null)
-//			return;
+		if(force_capture_drawingarea == null)
+			return;
 
 		/* in some mono installations, configure_event is not called, but expose_event yes.
 		 * Do here the initialization
@@ -935,8 +943,16 @@ LogB.Information(" fc R ");
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
 			//if(forceCaptureThread != null) //&& capturingCsharp == encoderCaptureProcess.CAPTURING)
 				fscPoints.NumPainted = -1; //mark meaning screen should be erased and start painting from the beginning
-			else
-				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
+			else {
+				if(fscPoints == null)
+					UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
+				else {
+					fscPoints.WidthG = allocation.Width;
+					fscPoints.HeightG = allocation.Height;
+					fscPoints.Redo();
+					forceSensorDoSignalGraphPlot();
+				}
+			}
 
 			force_capture_sizeChanged = false;
 		}

@@ -123,6 +123,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_black_force_capture;
 	Gdk.GC pen_red_force_capture;
 	Gdk.GC pen_gray_force_capture;
+	Gdk.GC pen_gray_force_capture_discont;
 	Pango.Layout layout_force_text;
 	Gdk.Colormap colormapForce = Gdk.Colormap.System;
 
@@ -147,9 +148,13 @@ public partial class ChronoJumpWindow
 		pen_red_force_capture.Foreground = UtilGtk.RED_PLOTS;
 		pen_red_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 
+		pen_gray_force_capture_discont = new Gdk.GC(force_capture_drawingarea.GdkWindow);
+		pen_gray_force_capture_discont.Foreground = UtilGtk.GRAY;
+		pen_gray_force_capture_discont.SetLineAttributes (1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+
 		pen_gray_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_gray_force_capture.Foreground = UtilGtk.GRAY;
-		pen_gray_force_capture.SetLineAttributes (1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+		pen_gray_force_capture.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 
 		layout_force_text = new Pango.Layout (force_capture_drawingarea.PangoContext);
 		layout_force_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
@@ -538,7 +543,7 @@ public partial class ChronoJumpWindow
 				force_capture_drawingarea.Allocation.Height
 				);
 
-		forcePaintHVLines(fscPoints.RealHeightG, -1 * fscPoints.RealHeightG, 10);
+		forcePaintHVLines(ForceSensorCapturePoints.DefaultRealHeightG, ForceSensorCapturePoints.DefaultRealHeightGNeg, 10);
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -1115,15 +1120,16 @@ LogB.Information(" fc R ");
 
 	private void forcePaintHVLines(double maxForce, double minForce, int lastTime)
 	{
-		forcePaintHLine(0);
+		forcePaintHLine(0, true);
 		double absoluteMaxForce = maxForce;
 		if(Math.Abs(minForce) > absoluteMaxForce)
 			absoluteMaxForce = Math.Abs(minForce);
 
-		//show 10 steps positive, 10 negative
-		int temp = Convert.ToInt32(Util.DivideSafe(absoluteMaxForce, 10.0));
+		//show 5 steps positive, 5 negative (if possible)
+		int temp = Convert.ToInt32(Util.DivideSafe(absoluteMaxForce, 5.0));
 		int step = temp;
 
+		//to have values multiples than 10, 100 ...
 		if(step <= 10)
 			step = temp;
 		else if(step <= 100)
@@ -1143,11 +1149,11 @@ LogB.Information(" fc R ");
 		{
 			if(maxForce >= i || ForceSensorCapturePoints.DefaultRealHeightG >= i)
 			{
-				forcePaintHLine(i);
+				forcePaintHLine(i, false);
 			}
 			if(minForce <= (i * -1) || (ForceSensorCapturePoints.DefaultRealHeightGNeg * -1) <= (i * -1))
 			{
-				forcePaintHLine(i *-1);
+				forcePaintHLine(i *-1, false);
 			}
 		}
 
@@ -1161,10 +1167,10 @@ LogB.Information(" fc R ");
 			step = 20;
 
 		for(int i = 0; i <= lastTimeInSeconds ; i += step)
-			forcePaintTimeValue(i);
+			forcePaintTimeValue(i, i == 0);
 	}
 
-	private void forcePaintTimeValue(int time)
+	private void forcePaintTimeValue(int time, bool solid)
 	{
 		int xPx = fscPoints.GetTimeInPx(1000000 * time);
 
@@ -1176,16 +1182,24 @@ LogB.Information(" fc R ");
 				xPx - textWidth/2, force_capture_drawingarea.Allocation.Height - textHeight, layout_force_text);
 
 		//draw vertical line
-		force_capture_pixmap.DrawLine(pen_gray_force_capture,
-				xPx, 4, xPx, force_capture_drawingarea.Allocation.Height - textHeight -4);
+		if(solid)
+			force_capture_pixmap.DrawLine(pen_gray_force_capture,
+					xPx, 4, xPx, force_capture_drawingarea.Allocation.Height - textHeight -4);
+		else
+			force_capture_pixmap.DrawLine(pen_gray_force_capture_discont,
+					xPx, 4, xPx, force_capture_drawingarea.Allocation.Height - textHeight -4);
 	}
 
-	private void forcePaintHLine(int yForce)
+	private void forcePaintHLine(int yForce, bool solid)
 	{
 		int yPx = fscPoints.GetForceInPx(yForce);
 		//draw horizontal line
-		force_capture_pixmap.DrawLine(pen_gray_force_capture,
-				fscPoints.GetTimeInPx(0), yPx, force_capture_drawingarea.Allocation.Width, yPx);
+		if(solid)
+			force_capture_pixmap.DrawLine(pen_gray_force_capture,
+					fscPoints.GetTimeInPx(0), yPx, force_capture_drawingarea.Allocation.Width, yPx);
+		else
+			force_capture_pixmap.DrawLine(pen_gray_force_capture_discont,
+					fscPoints.GetTimeInPx(0), yPx, force_capture_drawingarea.Allocation.Width, yPx);
 
 		layout_force_text.SetMarkup(yForce.ToString());
 		int textWidth = 1;

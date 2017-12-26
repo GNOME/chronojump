@@ -40,12 +40,18 @@ public class ForceSensorCapturePoints
 	private List<double> forces;
 
 	public int RealWidthG; //width of graph in microseconds (will be upgraded if needed)
+
+	public const int DefaultRealHeightG = 20;
+	public const int DefaultRealHeightGNeg = 10;
 	public int RealHeightG; //Newtons (will be upgraded if needed)
+	public int RealHeightGNeg; //Newtons (negative) (will be upgraded if needed)
 
 	private int widthG;
 	private int heightG;
 	private int marginLeft = 45; //px
 	private int marginRight = 30; //px
+	private int marginTop = 30; //px
+	private int marginBottom = 30; //px
 
 	//initialize
 	public ForceSensorCapturePoints(int widthG, int heightG)
@@ -65,7 +71,8 @@ public class ForceSensorCapturePoints
 	public void InitRealWidthHeight()
 	{
 		RealWidthG = 10000000; //width of graph in microseconds (will be upgraded if needed)
-		RealHeightG = 60; //Newtons (will be upgraded when needed) (nice to see the +25 -25 marks)
+		RealHeightG = DefaultRealHeightG; //Newtons (will be upgraded when needed) (nice to see the +25 -25 marks)
+		RealHeightGNeg = DefaultRealHeightGNeg; //Newtons (will be upgraded when needed) (nice to see the +25 -25 marks)
 	}
 
 	public void Add(int time, double force)
@@ -83,9 +90,24 @@ public class ForceSensorCapturePoints
 
 	public int GetForceInPx(double force)
 	{
+		/*
+		 * simmetrical positive / negative
 		return Convert.ToInt32(
 				(heightG/2)
 				- ( Util.DivideSafe((force * heightG), (1.0 * RealHeightG)) )
+				);
+				*/
+		return Convert.ToInt32(
+				heightG
+				- Util.DivideSafe(
+						(force * (heightG - (marginTop + marginBottom))),
+						(1.0 * (RealHeightG + RealHeightGNeg))
+						)
+				- Util.DivideSafe(
+						RealHeightGNeg * (heightG - (marginTop + marginBottom)),
+						(1.0 * (RealHeightG + RealHeightGNeg))
+						)
+				- marginBottom
 				);
 	}
 
@@ -99,17 +121,24 @@ public class ForceSensorCapturePoints
 	{
 		Gdk.Point p = getLastPoint();
 		//LogB.Information("p.Y: " + p.Y + "; heightG: " +  heightG);
+		bool outsideGraph = false;
+
 		if(p.X > widthG)
 		{
 			RealWidthG *= 2;
-			return true;
+			outsideGraph = true;
 		}
-		if(p.Y < 0 || p.Y > heightG)
+		if(p.Y < 0)
 		{
-			RealHeightG *= 2; //TODO: adjust differently < 0 than > heightG
-			return true;
+			RealHeightG *= 2;
+			outsideGraph = true;
 		}
-		return false;
+		else if(p.Y > heightG)
+		{
+			RealHeightGNeg *= 2;
+			outsideGraph = true;
+		}
+		return outsideGraph;
 	}
 	// this is called at load signal, checks if last X is outside the graph and max/min force
 	public bool OutsideGraph(int lastTime, double maxForce, double minForce)
@@ -120,11 +149,8 @@ public class ForceSensorCapturePoints
 		{
 			RealWidthG = lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight);
 
-			double absoluteMaxForce = maxForce;
-			if(Math.Abs(minForce) > absoluteMaxForce)
-				absoluteMaxForce = Math.Abs(minForce);
-
-			RealHeightG = Convert.ToInt32(2 * absoluteMaxForce + absoluteMaxForce * .2);
+			RealHeightG = Convert.ToInt32(maxForce);
+			RealHeightGNeg = Convert.ToInt32(Math.Abs(minForce));
 
 			return true;
 		}

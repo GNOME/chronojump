@@ -537,6 +537,7 @@ public partial class ChronoJumpWindow
 				force_capture_drawingarea.Allocation.Width,
 				force_capture_drawingarea.Allocation.Height
 				);
+
 		forcePaintHVLines(fscPoints.RealHeightG, -1 * fscPoints.RealHeightG, 10);
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
@@ -814,7 +815,8 @@ LogB.Information(" fc I ");
 			//mark meaning screen should be erased
 			if(fscPoints.NumPainted == -1) {
 				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
-				forcePaintHVLines(forceSensorValues.ForceMax, forceSensorValues.ForceMin, fscPoints.RealWidthG);
+				forcePaintHVLines(forceSensorValues.ForceMax * 2, forceSensorValues.ForceMin * 2, fscPoints.RealWidthG);
+				//forcePaintHVLines(forceSensorValues.ForceMax, forceSensorValues.ForceMin, fscPoints.RealWidthG);
 				fscPoints.NumPainted = 0;
 			}
 
@@ -1119,8 +1121,9 @@ LogB.Information(" fc R ");
 			absoluteMaxForce = Math.Abs(minForce);
 
 		//show 10 steps positive, 10 negative
-		int temp = Convert.ToInt32(absoluteMaxForce / 10.0);
+		int temp = Convert.ToInt32(Util.DivideSafe(absoluteMaxForce, 10.0));
 		int step = temp;
+
 		if(step <= 10)
 			step = temp;
 		else if(step <= 100)
@@ -1132,10 +1135,20 @@ LogB.Information(" fc R ");
 		else //if(step <= 100000)
 			step = temp - (temp % 10000);
 
+		//fix crash when no force
+		if(step == 0)
+			step = 1;
+
 		for(int i = step; i <= absoluteMaxForce ; i += step)
 		{
-			forcePaintHLine(i);
-			forcePaintHLine(i *-1);
+			if(maxForce >= i || ForceSensorCapturePoints.DefaultRealHeightG >= i)
+			{
+				forcePaintHLine(i);
+			}
+			if(minForce <= (i * -1) || (ForceSensorCapturePoints.DefaultRealHeightGNeg * -1) <= (i * -1))
+			{
+				forcePaintHLine(i *-1);
+			}
 		}
 
 		int lastTimeInSeconds = lastTime / 1000000; //from microseconds to seconds

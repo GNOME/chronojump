@@ -376,6 +376,8 @@ RESOURCES = \
 	../images/report_view.png,report_view.png \
 	../images/preferences-system.png,preferences-system.png \
 	../images/md/ic_home_blue_24dp_1x.png,image_home.png \
+	../images/md/ic_import_1x.png,import.png \
+	../images/md/ic_export_1x.png,export.png \
 	../images/md/ic_settings_blue_24dp_1x.png,image_settings.png \
 	../images/md/ic_close_red_24dp_1x.png,image_close.png \
 	../images/md/ic_close_blue_24dp_2x.png,image_close_big.png \
@@ -456,8 +458,6 @@ RESOURCES = \
 	../images/import-csv-headers.png,import-csv-headers.png \
 	../images/import-csv-name-1-column.png,import-csv-name-1-column.png \
 	../images/import-csv-name-2-columns.png,import-csv-name-2-columns.png \
-	../images/import-24.png,import.png \
-	../images/export-24.png,export.png \
 	../images/calendar.png,calendar.png \
 	../images/chronojump-logo-transparent.png,chronojump-logo-transparent.png \
 	../images/chronojump-logo-2013_320.png,chronojump-logo-2013_320.png \

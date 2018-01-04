@@ -32,7 +32,9 @@ public class DialogMessage
 	[Widget] Gtk.Image image_help;
 		
 	[Widget] Gtk.Box hbox_stiffness_formula;
+	[Widget] Gtk.Button button_go;
 	public bool Visible;
+	private string button_go_link = "";
 
 	public DialogMessage (string title, Constants.MessageTypes type, string message)
 	{
@@ -48,8 +50,12 @@ public class DialogMessage
 		initialize("", type, message);
 		if(objectToShow == "hbox_stiffness_formula")
 			hbox_stiffness_formula.Show();
+		else if(objectToShow == "button_go_r_mac")
+		{
+			button_go_link = "http://cran.cnr.berkeley.edu/bin/macosx/R-latest.pkg";
+			button_go.Show();
+		}
 	}
-
 
 	private void initialize(string title, Constants.MessageTypes type, string message)
 	{
@@ -58,6 +64,9 @@ public class DialogMessage
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_message.glade", "dialog_message", "chronojump");
 		gladeXML.Autoconnect(this);
+
+		button_go.Visible = false;
+		button_go_link = "";
 
 		Visible = true;
 
@@ -94,6 +103,16 @@ public class DialogMessage
 
 		label_message.Show();	
 		dialog_message.Show();	
+	}
+
+	public void on_button_go_clicked (object obj, EventArgs args)
+	{
+		LogB.Information("Opening browser (r mac install) to: " + button_go_link);
+		try {
+			System.Diagnostics.Process.Start(button_go_link);
+		} catch {
+			label_message.Text = Constants.WebsiteNotFound;
+		}
 	}
 
 	public void on_close_button_clicked (object obj, EventArgs args)

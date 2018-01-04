@@ -2926,6 +2926,11 @@ public partial class ChronoJumpWindow
 
 	private void on_menuitem_mode_main_menu_activate (object o, EventArgs args) 
 	{
+		show_start_page();
+	}
+
+	private void show_start_page()
+	{
 		notebook_start_selector.CurrentPage = 0;
 		notebook_start.CurrentPage = 0;
 		
@@ -3054,7 +3059,9 @@ public partial class ChronoJumpWindow
 				new DialogMessage(Constants.MessageTypes.WARNING,
 						Catalog.GetString("Sorry, R software is not installed.") +
 						"\n" + Catalog.GetString("Please, install it from here:") +
-						"\n\nhttp://cran.cnr.berkeley.edu/bin/macosx/R-latest.pkg");
+						"\n\nhttp://cran.cnr.berkeley.edu/bin/macosx/R-latest.pkg",
+						"button_go_r_mac");
+				show_start_page();
 				return;
 			}
 

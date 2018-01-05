@@ -1843,6 +1843,10 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                 mtext(side = 4, line = 4, "¹Maximum mean power using the F-V profile")
                                                 points(x = V0 / 2, y = V0 * F0 / 4, col = "red")
                                                 text(x = V0 / 2, y = V0 * F0 / 4, labels = paste("Pmax = ",round(F0 * V0 / 4, digits = 2),"W¹", sep =""), pos = 3, col = "red")
+                                                legend(x = V0*1.04, y = V0 * F0 * 0.2, legend = c(paste("F0 = ", round(F0, digits = 0), "N", sep = ""),
+                                                                                    paste("V0 = ", round(V0, digits = 2), "m/s", sep = ""),
+                                                                                    paste("Pmax = ", round(F0*V0/4, digits = 0), "W", sep = ""))
+                                                       , xjust = 1, yjust = 0.1, text.col = c("Blue", "darkgreen", "red"), cex = 1.3)
                                                 
                                         }
                                 }

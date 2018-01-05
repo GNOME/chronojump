@@ -110,8 +110,10 @@ public class SplashWindow
 			progressbarSubRate.Fraction = fraction;
 	}
 	
-	public void UpdateLabel (string text) {
+	public void UpdateLabel (string text)
+	{
 		myLabel.Text = text;
+		myLabel.UseMarkup = true;
 	}
 
 	public void Show_button_open_database_folder () {

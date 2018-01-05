@@ -1800,11 +1800,11 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         if(varX == "Speed" && varY == "Force")
                                         {
                                                 fit = lm(y ~ x)
-                                                x.intercept = -coef(fit)[[1]] / coef(fit)[[2]]
-                                                y.intercept = coef(fit)[[1]]
-                                                
+                                                V0 = -coef(fit)[[1]] / coef(fit)[[2]]
+                                                F0 = coef(fit)[[1]]
+                                                par(mar=c(5,4,4,6))
                                                 plot(x,y,
-                                                     xlim=c(0, max(x,x.intercept)), ylim=c(0, max(y,y.intercept)),
+                                                     xlim=c(0, max(x,V0)), ylim=c(0, max(y,F0)),
                                                      xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
                                                 
                                                 #don't plot box because it's not nice with 0,0 axis
@@ -1817,10 +1817,10 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                 abline(h=0)
                                                 abline(v=0)
                                                 #draw points and mtext
-                                                points(x.intercept,0,col="red")
-                                                points(0,y.intercept,col="red")
-                                                text(x=x.intercept, y=0, paste(round(x.intercept,2), "\n\n\n", sep=""), col="red", cex=.8, adj=0.5)
-                                                text(x=0, y=y.intercept, paste("   ", round(y.intercept,2), sep=""), col="red", cex=.8, adj=0)
+                                                points(V0,0,col="darkgreen")
+                                                points(0,F0,col="blue")
+                                                text(x=V0, y=0, paste("V0=", round(V0,2), "m/s", sep=""), col="darkgreen", pos = 1)
+                                                text(x=0, y=F0, paste("F0=", round(F0,2), "N", sep=""), col="blue", pos = 4)
                                         } else {
                                                 plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
                                         }
@@ -1828,6 +1828,23 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         paintCrossVariablesLaterality(x, y, laterality, colBalls)
                                         
                                         fitLine(x,y, "black", 1, 1)
+                                        
+                                        #Draw the power parabole
+                                        if(varX == "Speed" && varY == "Force")
+                                        {
+                                                xpower = seq(0, V0, by = V0 / 100)
+                                                #ypower = 4 * xpower * (coef(fit)[2]*xpower + coef(fit)[1]) / V0
+                                                ypower = xpower * (coef(fit)[2]*xpower + coef(fit)[1])
+                                                #lines(xpower,ypower)
+                                                par(new=T, mar=c(5,4,4,6))
+                                                plot(xpower,ypower, type="l", axes=F, col = "red", xlab="", ylab="")
+                                                axis(4)
+                                                mtext(side = 4, line = 3, "Power(W)", col = "red")
+                                                mtext(side = 4, line = 4, "¹Maximum mean power using the F-V profile")
+                                                points(x = V0 / 2, y = V0 * F0 / 4, col = "red")
+                                                text(x = V0 / 2, y = V0 * F0 / 4, labels = paste("Pmax = ",round(F0 * V0 / 4, digits = 2),"W¹", sep =""), pos = 3, col = "red")
+                                                
+                                        }
                                 }
                         }
                 }
@@ -1895,7 +1912,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                 uniqueColors=topo.colors(length(unique(seriesName)))
                 
                 #in x axis move a little every series to right in order to compare
-                #seqX = seq(0,length(unique(seriesName))-1,by=1)-(length(unique(seriesName))-1)/2
+                seqX = seq(0,length(unique(seriesName))-1,by=1)-(length(unique(seriesName))-1)/2
                 
                 maxy <- max(y)
                 miny <- min(y)
@@ -1909,12 +1926,10 @@ paintCrossVariables <- function (paf, varX, varY, option,
                         
                         colBalls[thisSerie] = uniqueColors[i]
                         
-
-			#Disabled since 1.7.1-233 because x axis is shown and alter it for graphical purposes produces confusing results
-                        #if(! dateAsX) {
-                        #        #in x axis move a little every series to right in order to compare
-                        #        x[thisSerie] = x[thisSerie] + (seqX[i]/5)
-                        #}
+                        if(! dateAsX) {
+                                #in x axis move a little every series to right in order to compare
+                                x[thisSerie] = x[thisSerie] + (seqX[i]/5)
+                        }
                         
                         #find min/max Y on power
                         if(varY == "Power" && length(unique(x[thisSerie])) >= 3 && ! dateAsX) {
@@ -1926,12 +1941,12 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         miny <- min(y1)
                         } else if(varX == "Speed" && varY == "Force"){
                                 fit = lm(y[thisSerie] ~ x[thisSerie])
-                                x.intercept = -coef(fit)[[1]] / coef(fit)[[2]]
-                                y.intercept = coef(fit)[[1]]
-                                if (y.intercept > maxy)
-                                        maxy = y.intercept
-                                if (x.intercept > maxx)
-                                        maxx = x.intercept
+                                V0 = -coef(fit)[[1]] / coef(fit)[[2]]
+                                F0 = coef(fit)[[1]]
+                                if (F0 > maxy)
+                                        maxy = F0
+                                if (V0 > maxx)
+                                        maxx = V0
                                 miny = 0
                                 minx = 0
                         }
@@ -1954,19 +1969,16 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                 }
                                 else if(varX == "Speed" && varY == "Force") {
                                         fit = lm(y[thisSerie] ~ x[thisSerie])
-                                        x.intercept = -coef(fit)[[1]] / coef(fit)[[2]]
-                                        y.intercept = coef(fit)[[1]]
+                                        V0 = -coef(fit)[[1]] / coef(fit)[[2]]
+                                        F0 = coef(fit)[[1]]
                                         #draw points and mtext
-                                        points(x.intercept,0, col = uniqueColors[i])
-                                        points(0,y.intercept, col = uniqueColors[i])
-                                        text(x=x.intercept, y=0, paste(round(x.intercept,2), "\n\n\n", sep=""), col = uniqueColors[i], cex=.8, adj=0.5)
-                                        text(x=0, y=y.intercept, paste("   ", round(y.intercept,2), sep=""), col = uniqueColors[i], cex=.8, adj=0)
+                                        points(V0,0, col = uniqueColors[i])
+                                        points(0,F0, col = uniqueColors[i])
+                                        text(x=V0, y=0, paste(round(V0,2), "\n\n\n", sep=""), col = uniqueColors[i], cex=.8, adj=0.5)
+                                        text(x=0, y=F0, paste("   ", round(F0,2), sep=""), col = uniqueColors[i], cex=.8, adj=0)
                                         #force x and y axis to start at 0
                                         axis(1,pos=0)
                                         axis(2,pos=0)
-                                        #draw ablines to arrive to the fitLine values
-                                        #abline(h=0)
-                                        #abline(v=0)
                                         fitLine(x[thisSerie],y[thisSerie], uniqueColors[i], 2, 1)
                                         doBox = FALSE
                                 } else
@@ -3252,6 +3264,8 @@ doProcess <- function(options)
                                 ) 
                 }
                 else if(op$Analysis == "cross") {
+			print("printing PAF")
+                        print(paf)
                         mySeries = "1"
                         myDateTime = NULL
                         if(! singleFile) {

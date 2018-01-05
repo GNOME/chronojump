@@ -2385,6 +2385,8 @@ doProcess <- function(options)
         #--- include files ---
         if(op$Analysis == "neuromuscularProfile")
                 source(paste(op$EncoderRScriptsPath, "/neuromuscularProfile.R", sep=""))
+        if(op$Analysis == "pfvProfileEvolution")
+                source(paste(op$EncoderRScriptsPath, "/pfvProfileEvolution", sep=""))
         
         print(op$File)
         print(op$OutputGraph)
@@ -3172,6 +3174,7 @@ doProcess <- function(options)
                 op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise" || 
                 op$Analysis == "curves" || op$Analysis == "curvesAC" ||
                 op$Analysis == "neuromuscularProfile" ||
+                op$Analysis == "pfvProfileEvolution" ||
                 writeCurves) 
         {
                 paf = data.frame()
@@ -3388,6 +3391,9 @@ doProcess <- function(options)
                         writeCurves = FALSE
                         
                         neuromuscularProfileWriteData(npj, op$OutputData1)
+                }
+                else if(op$analysis == "pfvProfileEvolution"){
+                        pfvProfileExecute("/tmp/chronojump-last-encoder-analyze-table.txt")
                 }
                 
                 if(op$Analysis == "curves" || op$Analysis == "curvesAC" || writeCurves) {

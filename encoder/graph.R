@@ -1895,7 +1895,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                 uniqueColors=topo.colors(length(unique(seriesName)))
                 
                 #in x axis move a little every series to right in order to compare
-                seqX = seq(0,length(unique(seriesName))-1,by=1)-(length(unique(seriesName))-1)/2
+                #seqX = seq(0,length(unique(seriesName))-1,by=1)-(length(unique(seriesName))-1)/2
                 
                 maxy <- max(y)
                 miny <- min(y)
@@ -1909,10 +1909,12 @@ paintCrossVariables <- function (paf, varX, varY, option,
                         
                         colBalls[thisSerie] = uniqueColors[i]
                         
-                        if(! dateAsX) {
-                                #in x axis move a little every series to right in order to compare
-                                x[thisSerie] = x[thisSerie] + (seqX[i]/5)
-                        }
+
+			#Disabled since 1.7.1-233 because x axis is shown and alter it for graphical purposes produces confusing results
+                        #if(! dateAsX) {
+                        #        #in x axis move a little every series to right in order to compare
+                        #        x[thisSerie] = x[thisSerie] + (seqX[i]/5)
+                        #}
                         
                         #find min/max Y on power
                         if(varY == "Power" && length(unique(x[thisSerie])) >= 3 && ! dateAsX) {

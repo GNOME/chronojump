@@ -1814,6 +1814,13 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                      xlim=c(0, max(x,V0)), ylim=c(0, max(y,F0)),
                                                      xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
                                                 
+                                                #Calculing optimal load
+                                                mass = unlist(paf$mass)
+                                                speed = unlist(paf$meanSpeed)
+                                                speedFit = lm(speed ~ mass)
+                                                optimLoad = -coef(speedFit)[[1]] / coef(speedFit)[[2]] / 2 - paf$massBody[1]
+                                                
+                                                
                                                 #don't plot box because it's not nice with 0,0 axis
                                                 doBox = FALSE
                                                 
@@ -1850,10 +1857,13 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                 mtext(side = 4, line = 4, "¹Maximum mean power using the F-V profile")
                                                 points(x = V0 / 2, y = V0 * F0 / 4, col = "red")
                                                 text(x = V0 / 2, y = V0 * F0 / 4, labels = paste("Pmax = ",round(F0 * V0 / 4, digits = 2),"W¹", sep =""), pos = 3, col = "red")
-                                                legend(x = V0*1.04, y = V0 * F0 * 0.2, legend = c(paste("F0 = ", round(F0, digits = 0), "N", sep = ""),
-                                                                                    paste("V0 = ", round(V0, digits = 2), "m/s", sep = ""),
-                                                                                    paste("Pmax = ", round(F0*V0/4, digits = 0), "W", sep = ""))
-                                                       , xjust = 1, yjust = 0.1, text.col = c("Blue", "darkgreen", "red"), cex = 1.3)
+                                                legend(x = V0*1.04, y = V0 * F0 * 0.2, xjust = 1, yjust = 0.1,
+                                                       text.col = c("Blue", "darkgreen", "red", "black"), cex = 1.3,
+                                                       legend = c(paste("F0 = ", round(F0, digits = 0), "N", sep = ""),
+                                                                  paste("V0 = ", round(V0, digits = 2), "m/s", sep = ""),
+                                                                  paste("Pmax = ", round(F0*V0/4, digits = 0), "W", sep = "")
+                                                                  #,paste("Load = ", round(optimLoad, digits=1), "Kg", sep = "")),
+                                                                  ))
                                                 
                                         }
                                 }

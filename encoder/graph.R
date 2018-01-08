@@ -1743,6 +1743,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         coef.c <- fit$coefficient[1]
                                         
                                         #2) plot graph
+                                        par(mar=c(5,4,4,5))
                                         plot(x,y, ylim=c(min(c(y,y1)), max(c(y,y1))),
                                              xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
                                         
@@ -1766,12 +1767,12 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         
                                         mtext(paste(
                                                 varYut, " = ", 
-                                                round.scientific(coef.a), " * ", varXplot, "^2 ", plotSign(coef.b), " ",  
-                                                round.scientific(coef.b), " * ", varXplot, " ", plotSign(coef.c), " ", 
+                                                round.scientific(coef.a), " · ", varXplot, "² ", plotSign(coef.b), " ",  
+                                                round.scientific(coef.b), " · ", varXplot, " ", plotSign(coef.c), " ", 
                                                 round.scientific(coef.c), sep=""), side=3, line=1, at=functionAt, adj=functionAdj, cex = .9)
                                         mtext(paste(
-                                                "R^2 = ", round(summary(fit)$r.squared,4),
-                                                "; R^2 (adjusted) = ", round(summary(fit)$adj.r.squared,4),
+                                                "R² = ", round(summary(fit)$r.squared,4),
+                                                "; R² (adjusted) = ", round(summary(fit)$adj.r.squared,4),
                                                 "; p = ", getModelPValueWithStars(fit)
                                                 , sep=""), side =3, line=0, at=functionAt, adj=functionAdj, cex=.9)
                                         #end of plot the function expression, R^2 and p
@@ -1788,12 +1789,18 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                 
                                                 massUnit <- "Kg"
                                                 if(hasInertia)
-                                                        massUnit <- "Kg*cm^2"
+                                                        massUnit <- "Kg·cm²"
                                                 
                                                 #this check is to not have title overlaps on 'speed,power / load' graph
                                                 if(title != "")
                                                         title = paste(title, " (pmax = ", round(pmax,1), " W with ", 
                                                                       round(xmax,1), " ", massUnit, sep="")
+                                                text(xmax, pmax, label = paste("Pmax=", round(pmax,1), "W¹"), pos = 3, col = "red")
+                                                legend(x = par("usr")[2], y = par("usr")[4]-(par("usr")[4] - par("usr")[3])*0.1, 
+                                                       legend = c(paste("Pmax = ", round(pmax,1), "W", sep=""),
+                                                                  paste("Load: ", round(xmax,1), massUnit, sep = "")),
+                                                       xjust = 1, text.col = c("red", "black"), cex = 1.3)
+                                                mtext(text = "¹Mean power parabole using the Power-Load data", side = 4, line = 1, cex = 1.3)
                                         }
                                 }
                                 else {

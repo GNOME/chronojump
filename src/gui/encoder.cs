@@ -143,6 +143,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_analyze;
 	[Widget] Gtk.ComboBox combo_encoder_exercise_analyze;
 
+	[Widget] Gtk.Box hbox_combo_encoder_analyze_cross_sup; //includes "Profile" label and the hbox
 	[Widget] Gtk.Box hbox_combo_encoder_analyze_cross;
 	[Widget] Gtk.ComboBox combo_encoder_analyze_cross;
 	
@@ -3156,7 +3157,7 @@ public partial class ChronoJumpWindow
 	private void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=true;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
-		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_combo_encoder_analyze_cross_sup.Visible=false;
 		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
@@ -3181,7 +3182,7 @@ public partial class ChronoJumpWindow
 	private void on_radiobutton_encoder_analyze_superpose_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=true;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
-		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_combo_encoder_analyze_cross_sup.Visible=false;
 		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
@@ -3203,7 +3204,7 @@ public partial class ChronoJumpWindow
 	private void on_radiobutton_encoder_analyze_side_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
-		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_combo_encoder_analyze_cross_sup.Visible=false;
 		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
@@ -3225,7 +3226,7 @@ public partial class ChronoJumpWindow
 	private void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
-		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_combo_encoder_analyze_cross_sup.Visible=false;
 		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=true;
@@ -3248,7 +3249,7 @@ public partial class ChronoJumpWindow
 	private void on_radiobutton_encoder_analyze_cross_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
-		hbox_combo_encoder_analyze_cross.Visible=true;
+		hbox_combo_encoder_analyze_cross_sup.Visible=true;
 		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=true;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
@@ -3271,7 +3272,7 @@ public partial class ChronoJumpWindow
 	private void on_radiobutton_encoder_analyze_1RM_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
-		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_combo_encoder_analyze_cross_sup.Visible=false;
 		hbox_combo_encoder_analyze_1RM.Visible=true;
 		check_encoder_analyze_mean_or_max.Visible=true;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
@@ -3294,7 +3295,7 @@ public partial class ChronoJumpWindow
 	private void on_radiobutton_encoder_analyze_neuromuscular_profile_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
-		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_combo_encoder_analyze_cross_sup.Visible=false;
 		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
@@ -3658,7 +3659,7 @@ public partial class ChronoJumpWindow
 			hbox_combo_encoder_analyze_cross.PackStart(combo_encoder_analyze_cross, true, true, 0);
 			hbox_combo_encoder_analyze_cross.ShowAll(); 
 			combo_encoder_analyze_cross.Sensitive = true;
-			hbox_combo_encoder_analyze_cross.Visible = false; //do not show hbox at start
+			hbox_combo_encoder_analyze_cross_sup.Visible = false; //do not show hbox at start
 		}
 	}
 		

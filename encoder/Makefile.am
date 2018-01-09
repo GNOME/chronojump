@@ -8,4 +8,5 @@ dist_encoderdata_DATA = pyserial_pyper.py \
 	     graphSmoothingEC.R \
 	     inertia-momentum.R \
 	     neuromuscularProfile.R \
+	     pfvProfileEvolution.R \
 	     util.R

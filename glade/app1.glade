@@ -385,6 +385,12 @@
                       </widget>
                     </child>
                     <child>
+                      <widget class="GtkSeparatorMenuItem" id="menuitem4">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </widget>
+                    </child>
+                    <child>
                       <widget class="GtkMenuItem" id="menuitem2">
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
@@ -416,6 +422,12 @@
                       </widget>
                     </child>
                     <child>
+                      <widget class="GtkSeparatorMenuItem" id="menuitem5">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </widget>
+                    </child>
+                    <child>
                       <widget class="GtkMenuItem" id="menuitem3">
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
@@ -443,6 +455,12 @@
                         <property name="draw_as_radio">True</property>
                         <property name="group">radio_menuitem_mode_jumps_simple</property>
                         <signal name="activate" handler="on_radio_menuitem_mode_activate" swapped="no"/>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkSeparatorMenuItem" id="menuitem6">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                       </widget>
                     </child>
                     <child>

@@ -1795,12 +1795,12 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                 if(title != "")
                                                         title = paste(title, " (pmax = ", round(pmax,1), " W with ", 
                                                                       round(xmax,1), " ", massUnit, sep="")
-                                                text(xmax, pmax, label = paste("Pmax=", round(pmax,1), "W¹"), pos = 3, col = "red")
+                                                text(xmax, pmax, label = paste("Pmax=", round(pmax,1), "W*"), pos = 3, col = "red")
                                                 legend(x = par("usr")[2], y = par("usr")[4]-(par("usr")[4] - par("usr")[3])*0.1, 
                                                        legend = c(paste("Pmax = ", round(pmax,1), "W", sep=""),
                                                                   paste("Load: ", round(xmax,1), massUnit, sep = "")),
                                                        xjust = 1, text.col = c("red", "black"), cex = 1.3)
-                                                mtext(text = "¹Mean power parabole using the Power-Load data", side = 4, line = 1, cex = 1.3)
+                                                mtext(text = paste("*", translateToPrint("Mean power parabole using the Power-Load data"), sep=""), side = 4, line = 1, cex = 1.3)
                                         }
                                 }
                                 else {
@@ -1854,9 +1854,9 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                 plot(xpower,ypower, type="l", axes=F, col = "red", xlab="", ylab="")
                                                 axis(4)
                                                 mtext(side = 4, line = 3, "Power(W)", col = "red")
-                                                mtext(side = 4, line = 4, "¹Maximum mean power using the F-V profile")
+                                                mtext(side = 4, line = 4, paste("*", translateToPrint("Maximum mean power using the F-V profile"), sep=""))
                                                 points(x = V0 / 2, y = V0 * F0 / 4, col = "red")
-                                                text(x = V0 / 2, y = V0 * F0 / 4, labels = paste("Pmax = ",round(F0 * V0 / 4, digits = 2),"W¹", sep =""), pos = 3, col = "red")
+                                                text(x = V0 / 2, y = V0 * F0 / 4, labels = paste("Pmax = ",round(F0 * V0 / 4, digits = 2),"W*", sep =""), pos = 3, col = "red")
                                                 legend(x = V0*1.04, y = V0 * F0 * 0.2, xjust = 1, yjust = 0.1,
                                                        text.col = c("Blue", "darkgreen", "red", "black"), cex = 1.3,
                                                        legend = c(paste("F0 = ", round(F0, digits = 0), "N", sep = ""),

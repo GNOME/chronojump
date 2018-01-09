@@ -968,7 +968,9 @@ public class Constants
 		"Sorry, no repetitions matched your criteria.",
 		"Need at least three jumps",
 		"Laterality", "RL", "R", "L",
-		"Inertia M."
+		"Inertia M.",
+		"Maximum mean power using the F-V profile",
+		"Mean power parabole using the Power-Load data"
 	};
 	/*
 	 * written here in order to be translated
@@ -1015,6 +1017,8 @@ public class Constants
 		Catalog.GetString("Sorry, no repetitions matched your criteria."),
 		Catalog.GetString("Need at least three jumps"),
 		Catalog.GetString("Laterality"), Catalog.GetString("RL"), Catalog.GetString("R"), Catalog.GetString("L"),
-		Catalog.GetString("Inertia M.")
+		Catalog.GetString("Inertia M."),
+		Catalog.GetString("Maximum mean power using the F-V profile"),
+		Catalog.GetString("Mean power parabole using the Power-Load data")
 	};
 }

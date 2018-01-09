@@ -2599,9 +2599,9 @@ public partial class ChronoJumpWindow
 			if(
 					crossName == "Power / Load" || crossName == "Speed / Load" || 
 					crossName == "Force / Load" || crossName == "Speed,Power / Load" || 
-					crossName == "Force / Speed"|| crossName == "Power / Speed" )
+					crossName == "Force,Power / Speed"|| crossName == "Power / Speed" )
 			{
-				//convert: "Force / Speed" in: "Force;Speed;mean"
+				//convert: "Force,Power / Speed" in: "Force,Power;Speed;mean"
 				string [] crossNameFull = crossName.Split(new char[] {' '});
 				analysisVariables = crossNameFull[0] + ";" + crossNameFull[2]; //[1]=="/"
 				if(check_encoder_analyze_mean_or_max.Active)
@@ -3621,12 +3621,12 @@ public partial class ChronoJumpWindow
 		if(! dateOnX) {
 			//create combo analyze cross (variables)
 			comboAnalyzeCrossOptions = new string [] { 
-				"Power / Load", "Speed / Load", "Force / Load", "Speed,Power / Load", "Force / Speed", "Power / Speed"
+				"Power / Load", "Speed / Load", "Force / Load", "Speed,Power / Load", "Force,Power / Speed", "Power / Speed"
 			};
 			comboAnalyzeCrossOptionsTranslated = new string [] { 
 				Catalog.GetString("Power / Load"), Catalog.GetString("Speed / Load"), 
 				Catalog.GetString("Force / Load"), Catalog.GetString("Speed,Power / Load"), 
-				Catalog.GetString("Force / Speed"), Catalog.GetString("Power / Speed")
+				Catalog.GetString("Force,Power / Speed"), Catalog.GetString("Power / Speed")
 			}; //if added more, change the int in the 'for' below
 			encoderAnalyzeCrossTranslation = new String [comboAnalyzeCrossOptions.Length];
 			for(int j=0; j < 6 ; j++)

@@ -1743,7 +1743,6 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         coef.c <- fit$coefficient[1]
                                         
                                         #2) plot graph
-                                        par(mar=c(5,4,4,5))
                                         plot(x,y, ylim=c(min(c(y,y1)), max(c(y,y1))),
                                              xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
                                         
@@ -1800,16 +1799,15 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                        legend = c(paste("Pmax = ", round(pmax,1), "W", sep=""),
                                                                   paste("Load: ", round(xmax,1), massUnit, sep = "")),
                                                        xjust = 1, text.col = c("red", "black"), cex = 1.3)
-                                                mtext(text = paste("*", translateToPrint("Mean power parabole using the Power-Load data"), sep=""), side = 4, line = 1, cex = 1.3)
+                                                mtext(text = paste("*", translateToPrint("Mean power parabole using the Power-Load data"), sep=""), side = 4, line = 4)
                                         }
                                 }
                                 else {
-                                        if(varX == "Speed" && varY == "Force")
+                                        if(varX == "Speed" && varY == "Force") #is "Force,Power" but using Force to have less problems
                                         {
                                                 fit = lm(y ~ x)
                                                 V0 = -coef(fit)[[1]] / coef(fit)[[2]]
                                                 F0 = coef(fit)[[1]]
-                                                par(mar=c(5,4,4,6))
                                                 plot(x,y,
                                                      xlim=c(0, max(x,V0)), ylim=c(0, max(y,F0)),
                                                      xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
@@ -1844,19 +1842,20 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         fitLine(x,y, "black", 1, 1)
                                         
                                         #Draw the power parabole
-                                        if(varX == "Speed" && varY == "Force")
+                                        if(varX == "Speed" && varY == "Force") #is "Force,Power" but using Force to have less problems
                                         {
                                                 xpower = seq(0, V0, by = V0 / 100)
                                                 #ypower = 4 * xpower * (coef(fit)[2]*xpower + coef(fit)[1]) / V0
                                                 ypower = xpower * (coef(fit)[2]*xpower + coef(fit)[1])
                                                 #lines(xpower,ypower)
-                                                par(new=T, mar=c(5,4,4,6))
+                                                par(new=T)
                                                 plot(xpower,ypower, type="l", axes=F, col = "red", xlab="", ylab="")
                                                 axis(4)
                                                 mtext(side = 4, line = 3, "Power(W)", col = "red")
                                                 mtext(side = 4, line = 4, paste("*", translateToPrint("Maximum mean power using the F-V profile"), sep=""))
                                                 points(x = V0 / 2, y = V0 * F0 / 4, col = "red")
-                                                text(x = V0 / 2, y = V0 * F0 / 4, labels = paste("Pmax = ",round(F0 * V0 / 4, digits = 2),"W*", sep =""), pos = 3, col = "red")
+                                                #text(x = V0 / 2, y = V0 * F0 / 4, labels = paste("Pmax = ",round(F0 * V0 / 4, digits = 2),"W*", sep =""), pos = 3, col = "red")
+                                                mtext(side = 3, at = V0 / 2, paste("Pmax = ",round(F0 * V0 / 4, digits = 2),"W*", sep =""), col = "red")
                                                 legend(x = V0*1.04, y = V0 * F0 * 0.2, xjust = 1, yjust = 0.1,
                                                        text.col = c("Blue", "darkgreen", "red", "black"), cex = 1.3,
                                                        legend = c(paste("F0 = ", round(F0, digits = 0), "N", sep = ""),
@@ -1960,7 +1959,8 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         maxy <- max(y1)
                                 if(min(y1) < miny)
                                         miny <- min(y1)
-                        } else if(varX == "Speed" && varY == "Force"){
+                        } else if(varX == "Speed" && varY == "Force") #is "Force,Power" but using Force to have less problems
+			{
                                 fit = lm(y[thisSerie] ~ x[thisSerie])
                                 V0 = -coef(fit)[[1]] / coef(fit)[[2]]
                                 F0 = coef(fit)[[1]]
@@ -1988,7 +1988,8 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         y1 <- temp.list[[3]]
                                         fitCurvePlot(x1, y1, uniqueColors[i], 2, 1)
                                 }
-                                else if(varX == "Speed" && varY == "Force") {
+                                else if(varX == "Speed" && varY == "Force") #is "Force,Power" but using Force to have less problems
+				{
                                         fit = lm(y[thisSerie] ~ x[thisSerie])
                                         V0 = -coef(fit)[[1]] / coef(fit)[[2]]
                                         F0 = coef(fit)[[1]]
@@ -3287,7 +3288,8 @@ doProcess <- function(options)
                                                         (op$AnalysisVariables[2] == "Range") 		#show range
                                 ) 
                 }
-                else if(op$Analysis == "cross") {
+                else if(op$Analysis == "cross")
+		{
 			print("printing PAF")
                         print(paf)
                         mySeries = "1"
@@ -3298,9 +3300,17 @@ doProcess <- function(options)
                         }
                         
                         ecconVector = createEcconVector(singleFile, op$Eccon, length(curves[,1]), curves[,8])
-                        
-                        if(op$AnalysisVariables[1] == "Speed,Power") {
-                                par(mar=c(5,4,5,5))
+                        par(mar=c(5,4,4,6))
+			if(
+			   (op$AnalysisVariables[1] == "Speed" && op$AnalysisVariables[2] == "Load") ||
+			   (op$AnalysisVariables[1] == "Force" && op$AnalysisVariables[2] == "Load") ||
+			   (op$AnalysisVariables[1] == "Power" && op$AnalysisVariables[2] == "Speed") )
+			{
+				par(mar=c(5,4,4,2))
+			}
+
+                        if(op$AnalysisVariables[1] == "Speed,Power")
+			{
                                 analysisVertVars = unlist(strsplit(op$AnalysisVariables[1], "\\,"))
                                 paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[1], op$AnalysisVariables[3], 
                                                     FALSE, NULL,
@@ -3322,7 +3332,11 @@ doProcess <- function(options)
                                                     repOp$diameter, repOp$gearedDown,
                                                     FALSE, FALSE, op$OutputData1) 
                         } else {
-                                par(mar=c(5,4,5,2))
+				#if Force,Power is on Y, then send only force to paintCrossVariables. Power will be added on that function
+				if(op$AnalysisVariables[1] == "Force,Power") {
+					op$AnalysisVariables[1] = "Force";
+				}
+
                                 dateAsX <- FALSE
                                 if(length(op$AnalysisVariables) == 4 && op$AnalysisVariables[4] == "Date")
                                         dateAsX <- TRUE

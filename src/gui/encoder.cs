@@ -100,6 +100,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
 	[Widget] Gtk.VBox vbox_encoder_signal_comment;
+	[Widget] Gtk.Notebook notebook_encoder_signal_comment_and_triggers;
 	[Widget] Gtk.TextView textview_encoder_signal_comment;
 	[Widget] Gtk.Button button_encoder_signal_save_comment;
 	[Widget] Gtk.MenuItem menuitem_export_encoder_signal;
@@ -2500,21 +2501,13 @@ public partial class ChronoJumpWindow
 
 	//this is called by non gtk thread. Don't do gtk stuff here
 	//I suppose reading gtk is ok, changing will be the problem
-	private void encoderDoCaptureCsharp () 
+	private void encoderDoCaptureCsharp ()
 	{
-		bool cutByTriggers = false;
-		//triggers only work on gravitatory, concentric
-		if(preferences.encoderCaptureCutByTriggers &&
-				currentEncoderGI == Constants.EncoderGI.GRAVITATORY && eCapture.Eccon == "c")
-			cutByTriggers = true;
-
-		encoderRProcCapture.CutByTriggers = cutByTriggers;
-
 		bool capturedOk = eCapture.Capture(
 				UtilEncoder.GetEncoderDataTempFileName(),
 				encoderRProcCapture,
 				configChronojump.Compujump,
-				cutByTriggers
+				encoderRProcCapture.CutByTriggers
 				);
 
 		//wait to ensure capture thread has ended
@@ -2548,10 +2541,8 @@ public partial class ChronoJumpWindow
 	//this is called by non gtk thread. Don't do gtk stuff here
 	//don't change properties like setting a Visibility status: Gtk.Widget.set_Visible
 	//I suppose reading gtk is ok, changing will be the problem
-	private void encoderDoCaptureCsharpIM () 
+	private void encoderDoCaptureCsharpIM ()
 	{
-		encoderRProcCapture.CutByTriggers = false; //do not cutByTriggers on inertial, yet.
-
 		bool capturedOk = eCapture.Capture(
 				UtilEncoder.GetEncoderDataTempFileName(),
 				encoderRProcCapture,
@@ -5253,6 +5244,16 @@ public partial class ChronoJumpWindow
 						eCaptureInertialBG.SimulatedReset();
 				}
 
+				bool cutByTriggers = false;
+				//triggers only work on gravitatory, concentric
+				if(preferences.encoderCaptureCutByTriggers &&
+						currentEncoderGI == Constants.EncoderGI.GRAVITATORY && eCapture.Eccon == "c")
+				{
+					cutByTriggers = true;
+					notebook_encoder_signal_comment_and_triggers.Page = 1;
+				}
+				encoderRProcCapture.CutByTriggers = cutByTriggers;
+
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
 			}
@@ -5271,6 +5272,8 @@ public partial class ChronoJumpWindow
 						false,
 						false
 						);
+
+				encoderRProcCapture.CutByTriggers = false; //do not cutByTriggers on inertial, yet.
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharpIM));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureIM));
@@ -5698,6 +5701,8 @@ public partial class ChronoJumpWindow
 				eCaptureInertialBG.StoreData = false;
 
 			finishPulsebar(encoderActions.CURVES_AC);
+
+			notebook_encoder_signal_comment_and_triggers.Page = 0;
 
 			if(encoderProcessCancel) {
 				//stop video		

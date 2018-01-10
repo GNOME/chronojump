@@ -103,6 +103,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_inertial_extended;
 	[Widget] Gtk.Image image_encoder_calibrate;
 	[Widget] Gtk.Image image_encoder_recalibrate;
+	[Widget] Gtk.Image image_encoder_triggers;
 
 	//force sensor
 	[Widget] Gtk.Image image_selector_start_force_sensor;
@@ -532,7 +533,10 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_time_to_pp.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderInertialInstructions);
 		image_encoder_inertial_instructions.Pixbuf = pixbuf;
-		
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers.png");
+		image_encoder_triggers.Pixbuf = pixbuf;
+
 		//auto mode
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameAutoPersonSkipIcon);
 		image_auto_person_skip.Pixbuf = pixbuf;

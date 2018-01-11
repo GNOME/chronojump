@@ -214,6 +214,15 @@ public class TriggerList
 		return countOn;
 	}
 
+	//see encoderCapture.MinimumTwoTriggersOn()
+	public bool MinimumTwoOn()
+	{
+		if(countOn() >= 2)
+			return true;
+
+		return false;
+	}
+
 	//if inOut == true will return last "in"
 	private Trigger last(bool inOut)
 	{

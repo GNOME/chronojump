@@ -6216,6 +6216,13 @@ public partial class ChronoJumpWindow
 						eCapture.SaveTriggers(Convert.ToInt32(encoderSignalUniqueID)); //dbcon is closed
 						showTriggersAndTab();
 
+						if(encoderRProcCapture.CutByTriggers && ! eCapture.MinimumTwoTriggersOn())
+							new DialogMessage(
+									"Chronojump",
+									Constants.MessageTypes.WARNING,
+									"Trigger has not been pressed a minimum of two times." + "\n\n" +
+									"Repetitions have been cut automatically.");
+
 						//2) send the json to server
 						//check if encoderCaptureCurves > 0
 						//(this is the case of a capture without repetitions or can have on ending cont mode)

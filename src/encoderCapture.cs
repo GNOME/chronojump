@@ -797,6 +797,16 @@ public abstract class EncoderCapture
 		return triggerList;
 	}
 
+	/*
+	 * graph.R will findCurvesByTriggers if (length(op$TriggersOn) >= 2)
+	 * else will findCurvesNew (like if not capturing by triggers)
+	 * We need to know what graph.R will do to show a message to user
+	 */
+	public bool MinimumTwoTriggersOn()
+	{
+		return triggerList.MinimumTwoOn();
+	}
+
 	public string Eccon {
 		get { return eccon; }
 	}

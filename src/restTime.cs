@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic; //List<T>
 
+//TODO: new code should use Timespan to make operations with minutes, seconds ...
 public class LastTestTime
 {
 	private int personID;

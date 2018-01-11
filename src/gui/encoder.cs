@@ -347,16 +347,15 @@ public partial class ChronoJumpWindow
 
 	/*
 	 * CAPTURE is the capture from csharp (not from external python)
-	 * CAPTURE_EXTERNAL is deprecated (from Python)
 	 *
 	 * difference between:
 	 * CURVES: calcule and recalculate, autosaves the signal at end
-	 * LOAD curves does snot
+	 * LOAD curves does not save at the end?
 	 *
 	 * CAPTURE_IM records to get the inertia moment but does not calculate curves in R and not updates the treeview
 	 * CURVES_AC (After Capture) is like curves but does not start a new thread (uses same pulse as capture)
 	 */
-	enum encoderActions { CAPTURE_BG, CAPTURE, CAPTURE_EXTERNAL, CURVES, CURVES_AC, LOAD, ANALYZE, CAPTURE_IM, CURVES_IM }
+	enum encoderActions { CAPTURE_BG, CAPTURE, CURVES, CURVES_AC, LOAD, ANALYZE, CAPTURE_IM, CURVES_IM }
 	
 	//STOPPING is used to stop the camera. It has to be called only one time
 	enum encoderCaptureProcess { CAPTURING, STOPPING, STOPPED } 
@@ -1144,8 +1143,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	//action can be CURVES_AC (After Capture) (where signal does not exists, need to define it)
-	//CAPTURE_EXTERNAL, CURVES, LOAD (signal is defined)
-	//CAPTURE_EXTERNAL is not implemented because it's deprecated
+	//CURVES, LOAD (signal is defined)
 	void encoderCalculeCurves(encoderActions action)
 	{
 		if(action == encoderActions.CURVES_AC) 
@@ -2538,6 +2536,7 @@ public partial class ChronoJumpWindow
 			encoderProcessCancel = true;
 	}
 	
+	//this is used only on calculating inertia moment
 	//this is called by non gtk thread. Don't do gtk stuff here
 	//don't change properties like setting a Visibility status: Gtk.Widget.set_Visible
 	//I suppose reading gtk is ok, changing will be the problem

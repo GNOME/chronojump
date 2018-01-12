@@ -433,6 +433,7 @@ RESOURCES = \
 	../images/md/ic_folder_check_blue_24dp_1x.png,folder_check.png \
 	../images/md/ic_zoom_blue_24dp_1x.png,zoom.png \
 	../images/md/trigger_2x.png,image_encoder_triggers.png \
+	../images/md/trigger_no_2x.png,image_encoder_triggers_no.png \
 	../images/chronojump_icon.png,chronojump_icon.png \
 	../images/chronojump_icon_graph.png,chronojump_icon_graph.png \
 	../images/stock_right.png,stock_right.png \

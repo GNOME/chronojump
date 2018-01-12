@@ -2546,7 +2546,7 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderDataTempFileName(),
 				encoderRProcCapture,
 				false, 	//compujump
-				false 	//cutByTriggers
+				Preferences.TriggerTypes.NO_TRIGGERS
 				);
 
 		//wait to ensure capture thread has ended
@@ -5243,15 +5243,16 @@ public partial class ChronoJumpWindow
 						eCaptureInertialBG.SimulatedReset();
 				}
 
-				bool cutByTriggers = false;
 				//triggers only work on gravitatory, concentric
-				if(preferences.encoderCaptureCutByTriggers &&
+				Preferences.TriggerTypes reallyCutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS;
+
+				if(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS &&
 						currentEncoderGI == Constants.EncoderGI.GRAVITATORY && eCapture.Eccon == "c")
 				{
-					cutByTriggers = true;
+					reallyCutByTriggers = preferences.encoderCaptureCutByTriggers;
 					notebook_encoder_signal_comment_and_triggers.Page = 1;
 				}
-				encoderRProcCapture.CutByTriggers = cutByTriggers;
+				encoderRProcCapture.CutByTriggers = reallyCutByTriggers;
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
@@ -5272,7 +5273,7 @@ public partial class ChronoJumpWindow
 						false
 						);
 
-				encoderRProcCapture.CutByTriggers = false; //do not cutByTriggers on inertial, yet.
+				encoderRProcCapture.CutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS; //do not cutByTriggers on inertial, yet.
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharpIM));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureIM));
@@ -6216,11 +6217,12 @@ public partial class ChronoJumpWindow
 						eCapture.SaveTriggers(Convert.ToInt32(encoderSignalUniqueID)); //dbcon is closed
 						showTriggersAndTab();
 
-						if(encoderRProcCapture.CutByTriggers && ! eCapture.MinimumTwoTriggersOn())
+						if(encoderRProcCapture.CutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS &&
+								! eCapture.MinimumOneTriggersOn())
 							new DialogMessage(
 									"Chronojump",
 									Constants.MessageTypes.WARNING,
-									"Trigger has not been pressed a minimum of two times." + "\n\n" +
+									"Not found enought triggers to cut repetitions." + "\n\n" +
 									"Repetitions have been cut automatically.");
 
 						//2) send the json to server

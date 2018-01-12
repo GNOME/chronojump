@@ -143,7 +143,7 @@ public abstract class EncoderRProc
 
 public class EncoderRProcCapture : EncoderRProc 
 {
-	public bool CutByTriggers;
+	public Preferences.TriggerTypes CutByTriggers;
 
 	public EncoderRProcCapture()
 	{
@@ -270,7 +270,7 @@ public class EncoderRProcCapture : EncoderRProc
 	{
 		//just use triggeres tp cut sets into repetitions, or not.
 		//Cut is done in C# but this will change minHeight behaviour and reduceCurveBySpeed
-		if(CutByTriggers)
+		if(CutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS)
 			return "1";
 		else
 			return TriggerList.TriggersNotFoundString;

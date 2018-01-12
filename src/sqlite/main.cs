@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.50";
+	static string lastChronojumpDatabaseVersion = "1.51";
 
 	public Sqlite() {
 	}
@@ -2270,6 +2270,20 @@ class Sqlite
 
 				currentVersion = updateVersion("1.50");
 			}
+			if(currentVersion == "1.50")
+			{
+				LogB.SQL("Updated encoderCaptureCutByTriggers variable");
+
+				string cutStr = SqlitePreferences.Select("encoderCaptureCutByTriggers", true);
+				if(cutStr == "True")
+					SqlitePreferences.Update ("encoderCaptureCutByTriggers",
+							Preferences.TriggerTypes.START_AT_CAPTURE.ToString(), true);
+				else
+					SqlitePreferences.Update ("encoderCaptureCutByTriggers",
+							Preferences.TriggerTypes.NO_TRIGGERS.ToString(), true);
+
+				currentVersion = updateVersion("1.51");
+			}
 
 
 
@@ -2452,6 +2466,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 
 		//changes [from - to - desc]
+		//1.50 - 1.51 Converted DB to 1.51 Updated encoderCaptureCutByTriggers variable
 		//1.49 - 1.50 Converted DB to 1.50 Updated preferences: added crashLogLanguage
 		//1.48 - 1.49 Converted DB to 1.49 Updated preferences: added force sensor tare/calibration stuff
 		//1.47 - 1.48 Converted DB to 1.48 Updated preferences: added gstreamer

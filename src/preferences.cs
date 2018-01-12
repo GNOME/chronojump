@@ -64,7 +64,8 @@ public class Preferences
 	public Constants.EncoderAutoSaveCurve encoderAutoSaveCurve;
 	public int encoderCaptureBarplotFontSize;
 	public bool encoderShowStartAndDuration;
-	public bool encoderCaptureCutByTriggers;
+	public enum TriggerTypes { NO_TRIGGERS, START_AT_CAPTURE, START_AT_FIRST_ON};
+	public TriggerTypes encoderCaptureCutByTriggers;
 	
 	//encoder other
 	public bool encoderPropulsive;

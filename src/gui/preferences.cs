@@ -108,6 +108,7 @@ public class PreferencesWindow
 	[Widget] Gtk.ComboBox combo_main_variable;
 	[Widget] Gtk.Image image_encoder_gravitatory;
 	[Widget] Gtk.Image image_encoder_inertial;
+	[Widget] Gtk.Image image_encoder_triggers;
 	[Widget] Gtk.Notebook notebook_encoder_capture_gi;
 	[Widget] Gtk.VBox vbox_encoder_inertial; //change Visible param to not have a vertical big first page with only one row of info
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
@@ -121,7 +122,11 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_none;
 	[Widget] Gtk.SpinButton spin_encoder_capture_barplot_font_size;
 	[Widget] Gtk.CheckButton check_show_start_and_duration;
-	[Widget] Gtk.CheckButton check_encoder_capture_cut_by_triggers;
+	[Widget] Gtk.RadioButton radio_encoder_triggers_no;
+	[Widget] Gtk.RadioButton radio_encoder_triggers_yes;
+	[Widget] Gtk.VBox vbox_encoder_triggers_yes;
+	[Widget] Gtk.RadioButton radio_encoder_triggers_yes_start_at_capture;
+	[Widget] Gtk.RadioButton radio_encoder_triggers_yes_start_at_first_trigger;
 	[Widget] Gtk.Image image_encoder_inactivity_help;
 	[Widget] Gtk.Image image_encoder_capture_cut_by_triggers_help;
 	
@@ -462,6 +467,8 @@ public class PreferencesWindow
 		PreferencesWindowBox.image_encoder_gravitatory.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
 		PreferencesWindowBox.image_encoder_inertial.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers_no.png");
+		PreferencesWindowBox.image_encoder_triggers.Pixbuf = pixbuf;
 
 		if(menu_mode ==	Constants.Menuitem_modes.POWERGRAVITATORY)
 		{
@@ -491,7 +498,16 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.spin_encoder_capture_barplot_font_size.Value = preferences.encoderCaptureBarplotFontSize;
 		PreferencesWindowBox.check_show_start_and_duration.Active = preferences.encoderShowStartAndDuration;
-		PreferencesWindowBox.check_encoder_capture_cut_by_triggers.Active = preferences.encoderCaptureCutByTriggers;
+
+		if(preferences.encoderCaptureCutByTriggers == Preferences.TriggerTypes.NO_TRIGGERS)
+			PreferencesWindowBox.radio_encoder_triggers_no.Active = true;
+		else {
+			PreferencesWindowBox.radio_encoder_triggers_yes.Active = true;
+			if(preferences.encoderCaptureCutByTriggers == Preferences.TriggerTypes.START_AT_CAPTURE)
+				PreferencesWindowBox.radio_encoder_triggers_yes_start_at_capture.Active = true;
+			else
+				PreferencesWindowBox.radio_encoder_triggers_yes_start_at_first_trigger.Active = true;
+		}
 
 
 		//encoder other -->
@@ -544,18 +560,45 @@ public class PreferencesWindow
 		vbox_encoder_inertial.Visible = (PreferencesWindowBox.notebook_encoder_capture_gi.CurrentPage == 1);
 	}
 
+	/*
+	 * triggers stuff
+	 */
+
+	private void on_radio_encoder_triggers_toggled (object obj, EventArgs args)
+	{
+		Pixbuf pixbuf;
+		if(radio_encoder_triggers_no.Active)
+		{
+			vbox_encoder_triggers_yes.Visible = false;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers_no.png");
+		PreferencesWindowBox.image_encoder_triggers.Pixbuf = pixbuf;
+		} else {
+			vbox_encoder_triggers_yes.Visible = true;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers.png");
+		}
+
+		image_encoder_triggers.Pixbuf = pixbuf;
+	}
+
 	private void on_button_encoder_capture_cut_by_triggers_help_clicked (object o, EventArgs args)
 	{
-		new DialogMessage(Constants.MessageTypes.WARNING,
+		new DialogMessage(
+				"Chronojump triggers",
+				Constants.MessageTypes.INFO,
 				"If active, repetitions will be cut from set using triggers." + "\n" +
 				"Triggers will be produced by a button connected to the Chronopic." + "\n\n" +
-				"This will be only used on gravitatory mode, concentric contraction.");
+				"This will be only used on gravitatory mode, concentric contraction." + "\n\n" +
+				"If inactive, repetitions will be cut automatically (default behaviour).");
 		/*
 		 * not on ecc-con because we cannot guaranteee that there will be an ecc and con phase,
 		 * and then R findECPhases() will fail
 		 */
 	}
-	
+
+	/*
+	 * end of triggers stuff
+	 */
+
 	private void createComboEncoderCaptureMainVariable(string v) {
 		combo_main_variable = ComboBox.NewText ();
 		string [] values = Constants.EncoderVariablesCaptureList;
@@ -1655,11 +1698,27 @@ public class PreferencesWindow
 				"encoderShowStartAndDuration",
 				preferences.encoderShowStartAndDuration,
 				PreferencesWindowBox.check_show_start_and_duration.Active);
-		
-		preferences.encoderCaptureCutByTriggers = preferencesChange(
-				"encoderCaptureCutByTriggers",
-				preferences.encoderCaptureCutByTriggers,
-				PreferencesWindowBox.check_encoder_capture_cut_by_triggers.Active);
+
+		if(PreferencesWindowBox.radio_encoder_triggers_no.Active &&
+				preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS)
+		{
+			SqlitePreferences.Update("encoderCaptureCutByTriggers", Preferences.TriggerTypes.NO_TRIGGERS.ToString(), true);
+			preferences.encoderCaptureCutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS;
+		}
+		else if(PreferencesWindowBox.radio_encoder_triggers_yes.Active &&
+				PreferencesWindowBox.radio_encoder_triggers_yes_start_at_capture.Active &&
+				preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.START_AT_CAPTURE)
+		{
+			SqlitePreferences.Update("encoderCaptureCutByTriggers", Preferences.TriggerTypes.START_AT_CAPTURE.ToString(), true);
+			preferences.encoderCaptureCutByTriggers = Preferences.TriggerTypes.START_AT_CAPTURE;
+		}
+		else if(PreferencesWindowBox.radio_encoder_triggers_yes.Active &&
+				PreferencesWindowBox.radio_encoder_triggers_yes_start_at_first_trigger.Active &&
+				preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.START_AT_FIRST_ON)
+		{
+			SqlitePreferences.Update("encoderCaptureCutByTriggers", Preferences.TriggerTypes.START_AT_FIRST_ON.ToString(), true);
+			preferences.encoderCaptureCutByTriggers = Preferences.TriggerTypes.START_AT_FIRST_ON;
+		}
 
 		//---- end of encoder capture
 		

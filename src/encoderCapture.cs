@@ -211,7 +211,8 @@ public abstract class EncoderCapture
 		inertialCalibrated = false;
 	}
 
-	public bool Capture(string outputData1, EncoderRProcCapture encoderRProcCapture, bool compujump, bool cutByTriggers)
+	public bool Capture(string outputData1, EncoderRProcCapture encoderRProcCapture,
+			bool compujump, Preferences.TriggerTypes cutByTriggers)
 	{
 		/*
 		 * removed at 1.7.0
@@ -224,6 +225,9 @@ public abstract class EncoderCapture
 
 		lastTriggerOn = 0;
 		inertialCalibratedFirstCross0Pos = 0;
+
+		//only for cutByTriggers == Preferences.TriggerTypes.START_AT_FIRST_ON
+		bool firstTriggerHappened = false;
 
 		if(capturingInertialBG)
 		{
@@ -257,7 +261,19 @@ public abstract class EncoderCapture
 					continue;
 				}
 
-				if(cutByTriggers)
+				//TriggerTypes.START_AT_FIRST_ON starts capture at first trigger. So when this happens, reset capture
+				if(cutByTriggers == Preferences.TriggerTypes.START_AT_FIRST_ON && ! firstTriggerHappened)
+				{
+					LogB.Information("Cleaning on capture");
+
+					startCaptureFromHere();
+
+					firstTriggerHappened = true;
+					i = -1; //will be 0 on next loop start
+					continue;
+				}
+
+				if(cutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS)
 				{
 					ecc = new EncoderCaptureCurve(lastTriggerOn, i);
 					lastTriggerOn = i;
@@ -316,23 +332,7 @@ public abstract class EncoderCapture
 						//remove this time on existing trigger records
 						triggerList.Substract(consecutiveZeros);
 
-						consecutiveZeros = -1;
-						encoderReadedInertialDisc = new List<int>();
-						encoderReaded = new List<int>();
-
-						if(capturingInertialBG)
-						{
-							//empty EncoderCaptureInertialBackgroundStatic.ListCaptured
-							EncoderCaptureInertialBackgroundStatic.Initialize();
-						}
-
-						if(! showOnlyBars)
-						{
-							EncoderCapturePoints = new List<Gdk.Point>();
-							EncoderCapturePointsInertialDisc = new List<Gdk.Point>();
-							EncoderCapturePointsCaptured = 0;
-							EncoderCapturePointsPainted = -1; 	//-1 means delete screen
-						}
+						startCaptureFromHere();
 
 						i = -1; //will be 0 on next loop start
 						continue;
@@ -429,7 +429,7 @@ public abstract class EncoderCapture
 					sendCurveMaybe = false;
 
 				//if cutByTriggers, triggers send the curve at the beginning of this method
-				if(cutByTriggers)
+				if(cutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS)
 					sendCurveMaybe = false;
 
 				if(sendCurveMaybe)
@@ -596,6 +596,27 @@ public abstract class EncoderCapture
 		return true;
 	}
 	*/
+
+	private void startCaptureFromHere()
+	{
+		consecutiveZeros = -1;
+		encoderReadedInertialDisc = new List<int>();
+		encoderReaded = new List<int>();
+
+		if(capturingInertialBG)
+		{
+			//empty EncoderCaptureInertialBackgroundStatic.ListCaptured
+			EncoderCaptureInertialBackgroundStatic.Initialize();
+		}
+
+		if(! showOnlyBars)
+		{
+			EncoderCapturePoints = new List<Gdk.Point>();
+			EncoderCapturePointsInertialDisc = new List<Gdk.Point>();
+			EncoderCapturePointsCaptured = 0;
+			EncoderCapturePointsPainted = -1; 	//-1 means delete screen
+		}
+	}
 
 	private bool simulatedGoingUp = false;
 	private int simulatedMaxValue = 400;
@@ -798,13 +819,13 @@ public abstract class EncoderCapture
 	}
 
 	/*
-	 * graph.R will findCurvesByTriggers if (length(op$TriggersOn) >= 2)
+	 * graph.R will findCurvesByTriggers if (length(op$TriggersOn) >= 1)
 	 * else will findCurvesNew (like if not capturing by triggers)
 	 * We need to know what graph.R will do to show a message to user
 	 */
-	public bool MinimumTwoTriggersOn()
+	public bool MinimumOneTriggersOn()
 	{
-		return triggerList.MinimumTwoOn();
+		return triggerList.MinimumOneOn();
 	}
 
 	public string Eccon {

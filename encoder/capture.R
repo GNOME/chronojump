@@ -16,8 +16,6 @@ g = 9.81
 
 #debug = FALSE
 
-cutByTriggers <- NULL
-
 filenameCompose <- function(curveNum)
 {
 	if(curveNum > 99)
@@ -43,8 +41,8 @@ calcule <- function(displacement, op, curveNum, startInSet)
 	if(length(displacement) < 4)
 		return (curveNum)
 
-	#minHeight is checked when ! cutByTriggers
-	if(! cutByTriggers && abs(sum(displacement)) < op$MinHeight)
+	#minHeight is checked when ! using triggers
+	if(op$TriggersOnList != -1 && abs(sum(displacement)) < op$MinHeight)
 		return (curveNum)
 
 
@@ -226,7 +224,7 @@ doProcess <- function(options)
 
 		start = NULL
 		end = NULL
-		if(cutByTriggers)
+		if(op$TriggersOnList != -1)
 		{
 			start = 1
 			end = length(displacement)

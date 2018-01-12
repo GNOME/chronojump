@@ -124,23 +124,28 @@ translateVector <- function(englishVector) {
         return(translatedVector)
 }
 
-#this function is called if there are two or more triggersOn
-findCurvesByTriggers <- function(displacement, triggersOn)
+findCurvesByTriggers <- function(displacement, triggersOnList)
 {
         position <- cumsum(displacement)
         
-        start  <- 0
-        end    <- 0
-        startH <- 0
-        
-        #TODO: check problems if there's only on triggerOn
-        print(c("triggersOn:", triggersOn))
-        
-        for( i in 1:(length(triggersOn) -1) )
+        start  	<- 0
+        end    	<- 0
+        startH 	<- 0
+
+        print(c("triggersOnList:", triggersOnList))
+
+	start[1]  <- 1
+	startH[1] <- 0
+	end[1]    <- (triggersOnList[1] -1)
+
+	if(length(triggersOnList) == 1)
+		return(as.data.frame(cbind(start, end, startH)))
+
+	for( i in 1:(length(triggersOnList) -1) )
         {
-                start[i]  <- triggersOn[i]
-                startH[i] <- position[triggersOn[i]]
-                end[i]    <- (triggersOn[i+1] -1)
+                start[i+1]  <- triggersOnList[i]
+                startH[i+1] <- position[triggersOnList[i]]
+                end[i+1]    <- (triggersOnList[i+1] -1)
         }
         
         return(as.data.frame(cbind(start, end, startH)))
@@ -2714,9 +2719,10 @@ doProcess <- function(options)
                 }
                 
                 position=cumsum(displacement)
-                
-                if(length(op$TriggersOn) >= 2)
-                        curves <- findCurvesByTriggers(displacement, op$TriggersOn)
+
+		#if(usingTriggers)
+		if(op$TriggersOnList != -1)
+                        curves <- findCurvesByTriggers(displacement, op$TriggersOnList)
                 else
                         curves <- findCurvesNew(displacement, op$Eccon,
                                                 isInertial(op$EncoderConfigurationName), op$MinHeight)
@@ -2740,8 +2746,8 @@ doProcess <- function(options)
                 
                 for(i in 1:n)
                 {
-                        #reduceCurveBySpeed only when ! triggers
-                        if(length(op$TriggersOn) < 2)
+			#reduceCurveBySpeed only when ! triggers
+			if(op$TriggersOnList == -1)
                         {
                                 reduceTemp = reduceCurveBySpeed(op$Eccon,
                                                                 curves[i,1], curves[i,3], #startT, startH

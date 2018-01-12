@@ -80,9 +80,10 @@ assignOptions <- function(options) {
 		    OperatingSystem	= options[28],	#if this changes, change it also at call_graph.R
 		    Debug		= options[31],
 		    CrossValidate	= options[32],
-		    TriggersOn		= as.numeric(unlist(strsplit(options[33], "\\;")))
-		    #TriggerOn on capture is +1/-1 to indicate use or not.
-		    #On analyze is first ms where trigger is pressed at each repetition, or -1 if they are not going to be used
+		    TriggersOnList	= as.numeric(unlist(strsplit(options[33], "\\;")))
+		    #TriggersOnList:
+		    # 	at capture is +1/-1 to indicate use or not.
+		    # 	at graph.R is first ms where trigger is pressed at each repetition, or -1 if they are not going to be used
 
 		    #Unassigned here:
 		    #	englishWords [29]

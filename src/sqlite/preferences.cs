@@ -119,7 +119,7 @@ class SqlitePreferences : Sqlite
 				Insert ("encoderCaptureCheckFullyExtendedValue", "4", dbcmdTr);
 				Insert ("encoderCaptureBarplotFontSize", "14", dbcmdTr);
 				Insert ("encoderShowStartAndDuration", "False", dbcmdTr);
-				Insert ("encoderCaptureCutByTriggers", "False", dbcmdTr);
+				Insert ("encoderCaptureCutByTriggers", Preferences.TriggerTypes.NO_TRIGGERS.ToString(), dbcmdTr);
 				Insert ("encoderPropulsive", "True", dbcmdTr);
 				Insert ("encoderSmoothEccCon", "0.6", dbcmdTr);
 				Insert ("encoderSmoothCon", "0.7", dbcmdTr);
@@ -299,7 +299,8 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == "encoderShowStartAndDuration")
 				preferences.encoderShowStartAndDuration = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderCaptureCutByTriggers")
-				preferences.encoderCaptureCutByTriggers = reader[1].ToString() == "True";
+				preferences.encoderCaptureCutByTriggers = (Preferences.TriggerTypes)
+					Enum.Parse(typeof(Preferences.TriggerTypes), reader[1].ToString());
 			//encoder other
 			else if(reader[0].ToString() == "encoderPropulsive")
 				preferences.encoderPropulsive = reader[1].ToString() == "True";

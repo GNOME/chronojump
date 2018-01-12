@@ -214,10 +214,10 @@ public class TriggerList
 		return countOn;
 	}
 
-	//see encoderCapture.MinimumTwoTriggersOn()
-	public bool MinimumTwoOn()
+	//see encoderCapture.MinimumOneTriggersOn()
+	public bool MinimumOneOn()
 	{
-		if(countOn() >= 2)
+		if(countOn() >= 1)
 			return true;
 
 		return false;

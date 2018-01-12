@@ -29,13 +29,6 @@ DebugFileName <- paste(options[5], "/chronojump-debug.txt", sep="")
 
 CROSSVALIDATESMOOTH <- FALSE
 
-if(options[33] == 1) {
-	cutByTriggers <- TRUE
-} else {
-	cutByTriggers <- FALSE
-}
-
-
 f <- file("stdin")
 open(f)
 

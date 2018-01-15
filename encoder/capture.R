@@ -41,8 +41,8 @@ calcule <- function(displacement, op, curveNum, startInSet)
 	if(length(displacement) < 4)
 		return (curveNum)
 
-	#minHeight is checked when ! using triggers
-	if(op$TriggersOnList != -1 && abs(sum(displacement)) < op$MinHeight)
+	#minHeight is checked when ! cut by triggers
+	if(! cutByTriggers(op) && abs(sum(displacement)) < op$MinHeight)
 		return (curveNum)
 
 
@@ -224,7 +224,7 @@ doProcess <- function(options)
 
 		start = NULL
 		end = NULL
-		if(op$TriggersOnList != -1)
+		if(cutByTriggers(op))
 		{
 			start = 1
 			end = length(displacement)

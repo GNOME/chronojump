@@ -37,7 +37,7 @@
 #if(singleFile) define curves using findCurves function
 #if analysis is single: paint 
 #if analysis is side: kinematicRanges will call kinematicsF to know common axes (max and mins) and the call to paint 
-#using curves and powerBars, paf table will be created. This will be used always, because writeCurves (on a file) is always true
+#using curves and powerBars, paf table will be created. This will be used always, because writeCurves (on a file) is always TRUE
 #if(Analysis=="exportCSV") data will be exported to CSV file
 #----------------------------------
 
@@ -500,7 +500,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
                   encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown, #encoderConfiguration stuff
                   title, subtitle, draw, width, showLabels, marShrink, showAxes, legend,
                   Analysis, isPropulsive, inertialType, exercisePercentBodyWeight,
-                  showSpeed, showAccel, showForce, showPower	
+                  showSpeed, showAccel, showForce, showPower,
+		  triggersOnList #will be empty if cutByTriggers
 ) {
         
         meanSpeedE = 0
@@ -582,6 +583,14 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
                 else
                         plot(startX:length(position),yValues,type="l",xlim=c(1,length(position)),ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
                 abline(h=0,lty=3,col="black")
+
+		if(triggersOnList != "" && triggersOnList != -1)
+		{
+			print("triggersOnList-xmin")
+			print(triggersOnList-xmin)
+			abline(v=(triggersOnList-xmin), col="yellow", lwd=2)
+			#mtext(side=3, at=(triggersOnList-xmin), text=(triggersOnList-xmin), cex=.8)
+		}
                 
                 #abline(v=seq(from=0,to=length(position),by=500),lty=3,col="gray")
         }
@@ -1097,7 +1106,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
         #legend, axes and title
         if(draw) {
                 if(legend & showAxes) {
-                        paintVariablesLegend(showSpeed, showAccel, showForce, showPower)
+                        paintVariablesLegend(showSpeed, showAccel, showForce, showPower,
+					     (triggersOnList != "" && triggersOnList != -1))
                 }
                 if(showLabels) {
                         mtext(paste(translateToPrint("time"),"(ms)"),side=1,adj=1,line=-1,cex=.9)
@@ -1106,7 +1116,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
         }
 }
 
-paintVariablesLegend <- function(showSpeed, showAccel, showForce, showPower) 
+paintVariablesLegend <- function(showSpeed, showAccel, showForce, showPower, showTriggers)
 {
         legendText=c(paste(translateToPrint("Distance"),"(mm)"))
         lty=c(1)
@@ -1140,6 +1150,13 @@ paintVariablesLegend <- function(showSpeed, showAccel, showForce, showPower)
                 lty=c(lty,1)
                 lwd=c(lwd,2)
                 colors=c(colors,cols[3]) 
+                ncol=ncol+1
+        }
+        if(showTriggers) {
+                legendText=c(legendText, translateToPrint("Triggers"))
+                lty=c(lty,1)
+                lwd=c(lwd,2)
+                colors=c(colors,"yellow")
                 ncol=ncol+1
         }
         
@@ -2472,7 +2489,7 @@ doProcess <- function(options)
                 par(mar=c(2,2.5,2,1))
         }
         
-        #when a csv is used (it links to lot of files) then singleFile = false
+        #when a csv is used (it links to lot of files) then singleFile = FALSE
         singleFile = TRUE
         if(nchar(op$File) >= 40) {
                 #file="/tmp...../chronojump-encoder-graph-input-multi.csv"
@@ -2676,7 +2693,7 @@ doProcess <- function(options)
                 }
                 
                 print(c("SmoothingsEC:",SmoothingsEC))
-        } else {	#singleFile == True. reads a signal file
+        } else {	#singleFile == TRUE reads a signal file
                 displacement <- scan(file=op$File,sep=",")
                 #if data file ends with comma. Last character will be an NA. remove it
                 #this removes all NAs
@@ -2721,7 +2738,7 @@ doProcess <- function(options)
                 position=cumsum(displacement)
 
 		#if(usingTriggers)
-		if(op$TriggersOnList != -1)
+		if(cutByTriggers(op))
                         curves <- findCurvesByTriggers(displacement, op$TriggersOnList)
                 else
                         curves <- findCurvesNew(displacement, op$Eccon,
@@ -2746,8 +2763,8 @@ doProcess <- function(options)
                 
                 for(i in 1:n)
                 {
-			#reduceCurveBySpeed only when ! triggers
-			if(op$TriggersOnList == -1)
+			#reduceCurveBySpeed only when ! cutBytriggers
+			if(! cutByTriggers(op))
                         {
                                 reduceTemp = reduceCurveBySpeed(op$Eccon,
                                                                 curves[i,1], curves[i,3], #startT, startH
@@ -2890,8 +2907,11 @@ doProcess <- function(options)
                         smoothingPos <- 1
                         if(op$Jump %in% rownames(curves))
                                 smoothingPos <- which(rownames(curves) == op$Jump)
-                        
-                        
+
+			triggersOnList = "";
+		        if(! cutByTriggers(op))
+				triggersOnList = op$TriggersOnList;
+
                         paint(displacement, repOp$eccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
                               1,curves[op$Jump,3],SmoothingsEC[smoothingPos],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
                               repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
@@ -2904,7 +2924,8 @@ doProcess <- function(options)
                               TRUE,	#showAxes
                               TRUE,	#legend
                               op$Analysis, isPropulsive, inertialType, repOp$exPercentBodyWeight,
-                              showSpeed, showAccel, showForce, showPower
+                              showSpeed, showAccel, showForce, showPower,
+			      triggersOnList
                         )
                         
                         
@@ -3042,7 +3063,10 @@ doProcess <- function(options)
                                 abline(v=c(curves[i,1], curves[i,2]), lty=2)
                                 mtext(i, side=3, at=(curves[i,1] + curves[i,2])/2)
                         }
-                        
+
+			if(op$TriggersOnList != "" && op$TriggersOnList != -1)
+				abline(v=op$TriggersOnList, col="yellow", lwd=2);
+
                         #showSpeed only on gravitatory until speed is fixed on this experimental graph
                         if (showSpeed && ! isInertial(op$EncoderConfigurationName)) {
                                 par(new=T)
@@ -3089,7 +3113,8 @@ doProcess <- function(options)
                         if(showSpeed || showAccel || showForce || showPower)
                                 abline(h=0,lty=3,col="black")
                         
-                        paintVariablesLegend(showSpeed && ! isInertial(op$EncoderConfigurationName), showAccel, showForce, showPower)
+                        paintVariablesLegend(showSpeed && ! isInertial(op$EncoderConfigurationName), showAccel, showForce, showPower,
+					     (op$TriggersOnList != "" && op$TriggersOnList != -1))
                 }
                 
                 #needed to align the AB vertical lines on C#
@@ -3132,6 +3157,10 @@ doProcess <- function(options)
                         
                         mySubtitle = paste("curve=", rownames(curves)[i], ", ", repOp$laterality, " ", repOp$massExtra, "Kg", sep="")
                         
+			triggersOnList = "";
+		        if(! cutByTriggers(op))
+				triggersOnList = op$TriggersOnList;
+
                         paint(displacement, repOp$eccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
                               1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
                               repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
@@ -3146,7 +3175,8 @@ doProcess <- function(options)
                               (op$AnalysisVariables[1] == "Speed"), #show speed
                               (op$AnalysisVariables[2] == "Accel"), #show accel
                               (op$AnalysisVariables[3] == "Force"), #show force
-                              (op$AnalysisVariables[4] == "Power")  #show power
+                              (op$AnalysisVariables[4] == "Power"),  #show power
+			      triggersOnList
                         )
                 }
                 par(mfrow=c(1,1))

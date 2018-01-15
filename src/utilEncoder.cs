@@ -334,7 +334,9 @@ public class UtilEncoder
 		return operatingSystem;
 	}
 
-	public static EncoderGraphROptions PrepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate, bool debug, bool crossValidate, string triggerStr)
+	public static EncoderGraphROptions PrepareEncoderGraphOptions(
+			string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate, bool debug, bool crossValidate,
+			bool cutByTriggers, string triggerStr)
 	{
 		string operatingSystem = OperatingSystemForRGraphs();
 			
@@ -389,7 +391,7 @@ public class UtilEncoder
 				title, operatingSystem,
 				Util.StringArrayToString(Constants.EncoderEnglishWords,";"),
 				Util.StringArrayToString(encoderTranslatedWordsOK,";"),
-				debug, crossValidate, triggerStr
+				debug, crossValidate, cutByTriggers, triggerStr
 				);
 	}
 

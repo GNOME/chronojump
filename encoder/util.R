@@ -80,16 +80,32 @@ assignOptions <- function(options) {
 		    OperatingSystem	= options[28],	#if this changes, change it also at call_graph.R
 		    Debug		= options[31],
 		    CrossValidate	= options[32],
-		    TriggersOnList	= as.numeric(unlist(strsplit(options[33], "\\;")))
-		    #TriggersOnList:
-		    # 	at capture is +1/-1 to indicate use or not.
-		    # 	at graph.R is first ms where trigger is pressed at each repetition, or -1 if they are not going to be used
+		    TriggersCut 	= options[33],  #if TRUE ten cut by triggers, else use TriggersOnList (if any) only for vertical ablines on instaneous graphs
+		    TriggersOnList	= as.numeric(unlist(strsplit(options[34], "\\;")))
+
+		    #Triggers:
+		    #  at capture.R
+		    #  		if triggers are used to cut: TriggersCut == TRUE, TriggersOnList == 1
+		    #  		if not use triggers: TriggersCut == FALSE, TriggersOnList == -1 #but nothing will be plotted on capture
+		    #  at graph.R
+		    # 		if triggers are used to cut: TriggersCut == TRUE, TriggersOnList == xxx, yyy, zzz, ...
+		    # 		... but if there are not enough triggers, then just plot
+		    #  		if not use triggers: TriggersCut == FALSE, TriggersOnList == xxx, yyy, zzz, ...
 
 		    #Unassigned here:
 		    #	englishWords [29]
 		    #	translatedWords [30]
 		    ))
 }
+
+cutByTriggers <- function(op)
+{
+	if(op$TriggersCut == TRUE && op$TriggersOnList != -1)
+		return(TRUE);
+
+	return(FALSE);
+}
+
 
 #gearedDown comes as:
 #4 and should be converted to 4

@@ -1380,6 +1380,7 @@ public partial class ChronoJumpWindow
 				title,
 				false,	//do not use neuromuscularProfile script
 				preferences.RGraphsTranslate,
+				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
 				triggerList
 				); 
 		bool result = encoderRProcAnalyze.StartOrContinue(es);
@@ -1893,6 +1894,7 @@ public partial class ChronoJumpWindow
 					"-(" + displacedMass + "Kg)",
 				false, 			//do not use neuromuscularProfile script
 				preferences.RGraphsTranslate,
+				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
 				new TriggerList()
 				);
 		encoderRProcAnalyze.StartOrContinue(encoderStruct);
@@ -2936,6 +2938,7 @@ public partial class ChronoJumpWindow
 				titleStr, 
 				encoderSelectedAnalysis == "neuromuscularProfile",
 				preferences.RGraphsTranslate,
+				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
 				triggerList
 				);
 

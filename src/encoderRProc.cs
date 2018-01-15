@@ -256,6 +256,7 @@ public class EncoderRProcCapture : EncoderRProc
 				false,	//translate (graphs)
 				Debug,
 				false,	//crossValidate (unactive on capture at the moment)
+				(CutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
 				printTriggers()
 				).ToString();
 
@@ -283,6 +284,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 	private string title;
 	private bool neuromuscularProfileDo;
 	private bool translate;
+	private bool cutByTriggers;
 	private TriggerList triggerList;
 
 	/*
@@ -296,10 +298,13 @@ public class EncoderRProcAnalyze : EncoderRProc
 	public EncoderRProcAnalyze() {
 	}
 
-	public void SendData(string title, bool neuromuscularProfileDo, bool translate, TriggerList triggerList) {
+	public void SendData(string title, bool neuromuscularProfileDo, bool translate,
+			bool cutByTriggers, TriggerList triggerList)
+	{
 		this.title = title;
 		this.neuromuscularProfileDo = neuromuscularProfileDo;
 		this.translate = translate;
+		this.cutByTriggers = cutByTriggers;
 		this.triggerList = triggerList;
 		
 		CancelRScript = false;
@@ -508,6 +513,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 				translate,
 				Debug,
 				CrossValidate,
+				cutByTriggers,
 				printTriggers()
 				).ToString();
 

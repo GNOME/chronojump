@@ -44,10 +44,13 @@ assignOptions <- function(options) {
 		    #in Analysis "cross", AnalysisVariables can be "Force;Speed;mean". 1st is Y, 2nd is X. "mean" can also be "max"
 		    #Analysis "cross" can have a double XY plot, AnalysisVariables = "Speed,Power;Load;mean"
 		    #	1st: Speed,power are Y (left and right), 2n: Load is X.
-		    #In interssession, x should be along time. In order to recicle paintCrossVariables, a 4th member is sent: "Date".
+		    #In interssession, x can be date. In order to recicle paintCrossVariables, a 4th member is sent: "Date".
 		    #	Power;Load;mean;Date will be an Power / Date (with Load as seriesName)
 		    #	Speed;Load;mean;Date will be an Speed / Date (with Load as seriesName)
 		    #	Force;Load;mean;Date will be an Force / Date (with Load as seriesName)
+		    #
+		    #Intersession Pmax(F0,V0) has not Date on X, so AnalusisVariables are:
+		    # 	Pmax(F0,V0);Pmax(F0,V0);mean
 		    #
 		    #in Analysis "powerBars", AnalysisVariables can be:
 		    #	"TimeToPeakPower;Range", or eg: "NoTimeToPeakPower;NoRange"

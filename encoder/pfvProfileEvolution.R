@@ -120,11 +120,23 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
         mtext("Maximum mean power using the F-V profile of each session", side = 4, line = -2)
 }
 
-pfvProfileExecute <- function(inputFile,graphMode)
+pfvProfileExecute <- function(analyzeTable)
 {
-        analyzeTable = read.csv(inputFile, dec = ".", sep = ",")
-        colnames(analyzeTable)[2] = "date"
-        pfvProfileDrawProfilesEvolution(analyzeTable)
+	#colnames(analyzeTable)[2] = "date"
+	#if reading from "/tmp/chronojump-last-encoder-analyze-table.txt", "series" is the second column, but
+	#using pafCurves "series" is the first column
+	colnames(analyzeTable)[which(colnames(analyzeTable)=="series")] = "date"
+
+	print("analyzeTable[2,]")
+	print(analyzeTable[2,])
+
+	pfvProfileDrawProfilesEvolution(analyzeTable)
 }
 
-pfvProfileExecute("/tmp/chronojump-last-encoder-analyze-table.txt")
+pfvProfileReadFile <- function(inputFile)
+{
+        analyzeTable = read.csv(inputFile, dec = ".", sep = ",")
+        return(analyzeTable)
+}
+
+#pfvProfileExecute(pfvProfileReadFile("/tmp/chronojump-last-encoder-analyze-table.txt"))

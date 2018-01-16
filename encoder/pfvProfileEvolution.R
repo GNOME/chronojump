@@ -73,7 +73,7 @@ pfvProfileGetAnalysisProfiles <- function(analyzeTable)
 
 #In the plane V0-F0, each point corresponds to a profile.
 #Each profile has unique Pmax. Each isopotential line corresponds to the points that have the same Pmax
-pfvProfileDrawProfilesEvolution <- function(analyzetable)
+pfvProfileDrawProfilesEvolution <- function(analyzeTable)
 {
         profiles = pfvProfileGetAnalysisProfiles(analyzeTable)
         

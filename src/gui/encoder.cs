@@ -5147,7 +5147,10 @@ public partial class ChronoJumpWindow
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureBG));
 
 			LogB.ThreadStart();
-			LogB.Mute = true; //mute logs to improve stability (encoder inertial test only works with muted log
+
+			//mute logs to improve stability (encoder inertial test only works with muted log)
+			LogB.Mute = ! encoderRProcCapture.Debug;
+
 			encoderThreadBG.Start();
 		}
 
@@ -5288,7 +5291,10 @@ public partial class ChronoJumpWindow
 			encoderButtonsSensitive(encoderSensEnum.PROCESSINGCAPTURE);
 
 			LogB.ThreadStart();
-			LogB.Mute = true; //mute logs to improve stability (encoder inertial test only works with muted log
+
+			//mute logs to improve stability (encoder inertial test only works with muted log)
+			LogB.Mute = ! encoderRProcCapture.Debug;
+
 			encoderThread.Start();
 		} else if(
 				action == encoderActions.CURVES || 

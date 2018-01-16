@@ -2429,7 +2429,7 @@ doProcess <- function(options)
         #--- include files ---
         if(op$Analysis == "neuromuscularProfile")
                 source(paste(op$EncoderRScriptsPath, "/neuromuscularProfile.R", sep=""))
-        if(op$Analysis == "pfvProfileEvolution")
+        else if(op$Analysis == "cross" && op$AnalysisVariables[1] == "Pmax(F0,V0)")
                 source(paste(op$EncoderRScriptsPath, "/pfvProfileEvolution.R", sep=""))
         
         print(op$File)
@@ -3223,6 +3223,10 @@ doProcess <- function(options)
         #since Chronojump 1.3.6, encoder analyze has a treeview that can show the curves
         #when an analysis is done, curves file has to be written
         writeCurves = TRUE
+
+	#declare pafCurves
+	pafCurves = NULL
+
         #but don't writeCurves on exportCSV because outputfile is the same 
         if(op$Analysis == "exportCSV" || op$Analysis=="1RMIndirect")
                 writeCurves = FALSE
@@ -3324,7 +3328,7 @@ doProcess <- function(options)
                                                         (op$AnalysisVariables[2] == "Range") 		#show range
                                 ) 
                 }
-                else if(op$Analysis == "cross")
+                else if(op$Analysis == "cross" && op$AnalysisVariables[1] != "Pmax(F0,V0)")
 		{
 			print("printing PAF")
                         print(paf)
@@ -3463,10 +3467,7 @@ doProcess <- function(options)
                         
                         neuromuscularProfileWriteData(npj, op$OutputData1)
                 }
-                else if(op$Analysis == "pfvProfileEvolution"){
-                        pfvProfileExecute(paste(op$EncoderTempPath,"/chronojump-last-encoder-analyze-table.txt",sep=""))
-                }
-                
+
                 if(op$Analysis == "curves" || op$Analysis == "curvesAC" || writeCurves) {
                         #create pafCurves to be printed on CSV. This columns are going to be removed:
                         
@@ -3572,6 +3573,12 @@ doProcess <- function(options)
                         #print("curves written")
                 }
         }
+
+	#Pmax(F0,V0) will use pafCurves
+        if(op$Analysis == "cross" && op$AnalysisVariables[1] == "Pmax(F0,V0)")
+	{
+		pfvProfileExecute(pafCurves)
+	}
         
         if(op$Analysis=="1RMIndirect") {
                 #Q <- getMassBodyByExercise(op$MassBody, op$ExercisePercentBodyWeight) + op$MassExtra

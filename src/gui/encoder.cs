@@ -99,8 +99,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
+	[Widget] Gtk.ProgressBar encoder_pulsebar_rhythm;
+	[Widget] Gtk.Image image_encoder_rhythm;
 	[Widget] Gtk.VBox vbox_encoder_signal_comment;
-	[Widget] Gtk.Notebook notebook_encoder_signal_comment_and_triggers;
+	[Widget] Gtk.Notebook notebook_encoder_signal_comment_rhythm_and_triggers;
 	[Widget] Gtk.TextView textview_encoder_signal_comment;
 	[Widget] Gtk.Button button_encoder_signal_save_comment;
 	[Widget] Gtk.MenuItem menuitem_export_encoder_signal;
@@ -325,6 +327,8 @@ public partial class ChronoJumpWindow
 	private static bool encoderProcessProblems;
 	private static bool encoderProcessFinish;
 	private static bool encoderProcessFinishContMode;
+
+	private static DateTime lastRepetitionDT;
 
 	EncoderConfigurationWindow encoder_configuration_win;
 
@@ -5297,9 +5301,15 @@ public partial class ChronoJumpWindow
 						currentEncoderGI == Constants.EncoderGI.GRAVITATORY && eCapture.Eccon == "c")
 				{
 					reallyCutByTriggers = preferences.encoderCaptureCutByTriggers;
-					notebook_encoder_signal_comment_and_triggers.Page = 1;
-				}
+					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 2;
+				} else
+					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 1;
+
 				encoderRProcCapture.CutByTriggers = reallyCutByTriggers;
+
+				//initialize DateTime for rhythm
+				lastRepetitionDT = DateTime.MinValue;
+				image_encoder_rhythm.Visible = false;
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
@@ -5752,7 +5762,7 @@ public partial class ChronoJumpWindow
 
 			finishPulsebar(encoderActions.CURVES_AC);
 
-			notebook_encoder_signal_comment_and_triggers.Page = 0;
+			notebook_encoder_signal_comment_rhythm_and_triggers.Page = 0;
 
 			if(encoderProcessCancel) {
 				//stop video		
@@ -5765,7 +5775,7 @@ public partial class ChronoJumpWindow
 		if(capturingCsharp == encoderCaptureProcess.CAPTURING) 
 		{
 			updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
-			
+
 			//capturingSendCurveToR(); //unused, done while capturing
 			readingCurveFromR();
 
@@ -5776,6 +5786,11 @@ public partial class ChronoJumpWindow
 
 			if(needToRefreshTreeviewCapture) 
 			{
+				//TODO: is better to do this before when the curves was sent,
+				//not when needToRefreshTreeviewCapture (because this is too later because it's returning from R)
+				lastRepetitionDT = DateTime.Now;
+				image_encoder_rhythm.Visible = false;
+
 				//LogB.Error("HERE YES");
 				//LogB.Error(encoderCaptureStringR);
 
@@ -5797,6 +5812,8 @@ public partial class ChronoJumpWindow
 
 				needToRefreshTreeviewCapture = false;
 			}
+
+			updatePulsebarRhythm();
 
 			//changed trying to fix crash of nuell 27/may/2016
 			//LogB.Debug(" Cap:", encoderThread.ThreadState.ToString());
@@ -5996,7 +6013,24 @@ public partial class ChronoJumpWindow
 			LogB.Warning("catched at updatePulsebar");
 		}
 	}
-	
+
+	private void updatePulsebarRhythm()
+	{
+		//at first repetition don't show pulsebar rhythm (wait first repetition ended)
+		if(lastRepetitionDT == DateTime.MinValue)
+		{
+			encoder_pulsebar_rhythm.Fraction = 0;
+			return;
+		}
+
+		TimeSpan span = DateTime.Now - lastRepetitionDT;
+		double totalSeconds = span.TotalSeconds;
+
+		encoder_pulsebar_rhythm.Fraction = Util.DivideSafeFraction(totalSeconds, 1.0);
+		if(totalSeconds >= 1)
+			image_encoder_rhythm.Visible = true;
+	}
+
 
 	// -------------- drawingarea_encoder_analyze_instant
 	

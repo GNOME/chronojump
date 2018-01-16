@@ -3252,7 +3252,10 @@ doProcess <- function(options)
                         
                         if(! singleFile) {
                                 #only use concentric data	
-                                if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise") & repOp$eccon == "e") {
+                                if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise" ||
+				     (op$Analysis == "cross" && op$AnalysisVariables[1] == "Pmax(F0,V0)")
+				     ) && repOp$eccon == "e")
+				{
                                         discardedCurves = c(i,discardedCurves)
                                         discardingCurves = TRUE
                                         next;

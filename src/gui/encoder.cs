@@ -3759,10 +3759,26 @@ public partial class ChronoJumpWindow
 		if (! radiobutton_encoder_analyze_cross.Active)
 			return;
 
-		check_encoder_analyze_mean_or_max.Sensitive = true;
-		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
-			
+
+		//Pmax(F0,V0) is not translated
+		if(UtilGtk.ComboGetActive(combo_encoder_analyze_cross) == "Pmax(F0,V0)")
+		{
+			check_encoder_intersession_x_is_date.Active = false;
+			check_encoder_intersession_x_is_date.Sensitive = false;
+
+			//eccon has to be ecS (separated), and R will use only "c"
+			check_encoder_analyze_eccon_together.Active = false;
+			check_encoder_analyze_eccon_together.Sensitive = false;
+
+			check_encoder_analyze_mean_or_max.Active = true;
+			check_encoder_analyze_mean_or_max.Sensitive = false;
+		} else {
+			check_encoder_intersession_x_is_date.Sensitive = true;
+			check_encoder_analyze_eccon_together.Sensitive = true;
+			check_encoder_analyze_mean_or_max.Sensitive = true;
+		}
+
 		button_encoder_analyze_sensitiveness();
 	}
 	
@@ -4460,8 +4476,10 @@ public partial class ChronoJumpWindow
 		button_encoder_capture_finish.Sensitive = Util.IntToBool(table[8]);
 		button_encoder_capture_finish_cont.Sensitive = Util.IntToBool(table[8]);
 	}
-	
-	private void button_encoder_analyze_sensitiveness() {
+
+	//only related to button_encoder_analyze
+	private void button_encoder_analyze_sensitiveness()
+	{
 		bool analyze_sensitive = false;
 		if(radio_encoder_analyze_individual_current_set.Active) {
 			int rows = UtilGtk.CountRows(encoderCaptureListStore);

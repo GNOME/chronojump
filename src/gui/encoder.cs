@@ -2474,6 +2474,19 @@ public partial class ChronoJumpWindow
 				}
 			}
 		}
+
+		//TODO: also only do the graph if there's more than one session selected
+		//Pmax(F0,V0) is not translated
+		if( encoderSelectedAnalysis == "cross" &&
+				UtilGtk.ComboGetActive(combo_encoder_analyze_cross) == "Pmax(F0,V0)" &&
+				! radio_encoder_analyze_individual_all_sessions.Active )
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Sorry, this graph is not supported yet.") +
+					"\n\nPmax(f0,V0) only works at intersession.");
+
+			return;
+		}
 	
 		button_encoder_analyze.Visible = false;
 		hbox_encoder_analyze_progress.Visible = true;

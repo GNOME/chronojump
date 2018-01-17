@@ -117,7 +117,7 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
         text(v0, f0, labels = dates, pos = 1, offset = 0.5, cex = 0.75)
         #Pmax of the session
         text(v0, f0, labels = paste(round(pmax, digits = 0), "W", sep=""), pos = 3, offset = 0.5, cex = 0.75)
-        mtext("Maximum mean power using the F-V profile of each session", side = 4, line = -2)
+        mtext("Maximum mean power using the F-V profile of each session", side = 4, line = 2)
 }
 
 pfvProfileExecute <- function(analyzeTable)

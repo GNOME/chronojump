@@ -6014,19 +6014,45 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	//TODO: create a class will all encoder rhythm stuff
 	private void updatePulsebarRhythm()
 	{
 		//at first repetition don't show pulsebar rhythm (wait first repetition ended)
 		if(lastRepetitionDT == DateTime.MinValue)
 		{
 			encoder_pulsebar_rhythm.Fraction = 0;
+			encoder_pulsebar_rhythm.Visible = false;
 			return;
 		}
+
+		encoder_pulsebar_rhythm.Visible = true;
 
 		TimeSpan span = DateTime.Now - lastRepetitionDT;
 		double totalSeconds = span.TotalSeconds;
 
-		encoder_pulsebar_rhythm.Fraction = Util.DivideSafeFraction(totalSeconds, 1.0);
+		//this goes up from 0 to 1 second and beyond
+		//encoder_pulsebar_rhythm.Fraction = Util.DivideSafeFraction(totalSeconds, 1.0);
+		//this simulates ecc and con
+		double phase = Util.DivideSafeFraction(totalSeconds, 1.0);
+		if(phase < 0.5)
+		{
+			//totalSeconds == 0 graph will show 1
+			//totalSeconds == 0.1 graph will show 0.8
+			//totalSeconds == 0.4 graph will show 0.2
+			encoder_pulsebar_rhythm.Fraction = 1 - (phase * 2);
+		}
+		else {
+			//totalSeconds == 0.5 graph will show 0
+			//totalSeconds == 0.75 graph will show 0.5
+			//totalSeconds == 0.9 graph will show 0.8
+			//totalSeconds >= 1 graph will show 1
+			double phaseSup = phase - .5;
+			double fraction = phaseSup * 2;
+			if(fraction > 1)
+				fraction = 1;
+			encoder_pulsebar_rhythm.Fraction = fraction;
+		}
+
 		if(totalSeconds >= 1)
 			image_encoder_rhythm.Visible = true;
 	}

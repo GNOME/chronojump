@@ -3580,7 +3580,9 @@ doProcess <- function(options)
 	#Pmax(F0,V0) will use pafCurves
         if(op$Analysis == "cross" && op$AnalysisVariables[1] == "Pmax(F0,V0)")
 	{
-		pfvProfileExecute(pafCurves)
+		pmaxArray = data.frame(pafCurves$series, as.numeric(pafCurves$meanSpeed), as.numeric(pafCurves$meanForce))
+		colnames(pmaxArray) = c("date", "meanSpeed", "meanForce")
+		pfvProfileExecute(pmaxArray)
 	}
         
         if(op$Analysis=="1RMIndirect") {

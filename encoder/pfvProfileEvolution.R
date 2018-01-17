@@ -122,11 +122,6 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
 
 pfvProfileExecute <- function(analyzeTable)
 {
-	#colnames(analyzeTable)[2] = "date"
-	#if reading from "/tmp/chronojump-last-encoder-analyze-table.txt", "series" is the second column, but
-	#using pafCurves "series" is the first column
-	colnames(analyzeTable)[which(colnames(analyzeTable)=="series")] = "date"
-
 	print("analyzeTable[2,]")
 	print(analyzeTable[2,])
 
@@ -136,6 +131,7 @@ pfvProfileExecute <- function(analyzeTable)
 pfvProfileReadFile <- function(inputFile)
 {
         analyzeTable = read.csv(inputFile, dec = ".", sep = ",")
+	colnames(analyzeTable)[which(colnames(analyzeTable)=="series")] = "date"
         return(analyzeTable)
 }
 

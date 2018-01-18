@@ -1580,6 +1580,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -16862,16 +16865,15 @@ Concentric</property>
                                                             <property name="spacing">8</property>
                                                             <property name="homogeneous">True</property>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox121">
+                                                            <widget class="GtkHBox" id="hbox244">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label289">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label">Rhythm:</property>
+                                                            <property name="label">Rhythm</property>
                                                             <property name="justify">center</property>
                                                             </widget>
                                                             <packing>
@@ -16881,46 +16883,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label286">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="label">(0.5e+0.5c)*5 R3</property>
-                                                            <property name="justify">center</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox243">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <widget class="GtkProgressBar" id="encoder_pulsebar_rhythm">
-                                                            <property name="width_request">100</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="pulse_step">0.050000000000000003</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_encoder_rhythm">
+                                                            <widget class="GtkImage" id="image_encoder_rhythm_alert">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-dialog-warning</property>
@@ -16928,15 +16891,39 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkProgressBar" id="encoder_pulsebar_rhythm_eccon">
+                                                            <property name="width_request">120</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="pulse_step">0.050000000000000003</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkProgressBar" id="encoder_pulsebar_rhythm_wait">
+                                                            <property name="width_request">120</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="pulse_step">0.050000000000000003</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -21756,6 +21743,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

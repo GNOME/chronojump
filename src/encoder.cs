@@ -2106,32 +2106,45 @@ public class EncoderRhythmObject
 {
 	public double EccSeconds;
 	public double ConSeconds;
+	public double RestRepsSeconds; //rest between repetitions
+
+	//cluster stuff
 	public double RepsCluster;
-	public double RestSeconds;
+	public double RestClustersSeconds; //rest between clusters
 
 	public EncoderRhythmObject()
 	{
 		//default 0.5 seconds ecc, 0.5 con, 5 repetitions and rest 3 seconds
 		EccSeconds = 0.5;
 		ConSeconds = 0.5;
+		RestRepsSeconds = 1;
+
 		RepsCluster = 5;
-		RestSeconds = 3;
+		RestClustersSeconds = 6;
 	}
 }
-
 public class EncoderRhythm
 {
+	public string Text;
+	public bool ShowRestingSpinner;
+
 	private DateTime lastRepetitionDT;
 	private EncoderRhythmObject ero;
 	private int nreps;
-	public string Text;
+	//private bool restingBetweenClustersFlag; //to manage lastRepetitionDT when rest finished
+	private bool restClusterTimeEndedFlag;
+
 
 	//constructor
 	public EncoderRhythm()
 	{
+		Text = "";
+		ShowRestingSpinner = false;
+
 		lastRepetitionDT = DateTime.MinValue;
 		ero = new EncoderRhythmObject();
 		nreps = 0;
+		restClusterTimeEndedFlag = false;
 	}
 
 	public bool FirstRepetitionDone()
@@ -2143,12 +2156,26 @@ public class EncoderRhythm
 	{
 		lastRepetitionDT = DateTime.Now;
 		nreps ++;
+		restClusterTimeEndedFlag = false;
 	}
 
-	private bool resting()
+	private bool checkIfRestingBetweenClusters(double totalSeconds)
 	{
+		if(restClusterTimeEndedFlag)
+			return false;
+
 		if(nreps > 0 && nreps % ero.RepsCluster == 0)
-			return true;
+		{
+			if(totalSeconds < ero.RestClustersSeconds)
+				return true;
+			else {
+				//resting time passed, force finish rest,
+				//mark change of lastRepetitionDT to calculate fraction correctly below
+				lastRepetitionDT = DateTime.Now;
+				restClusterTimeEndedFlag = true;
+				return false;
+			}
+		}
 
 		return false;
 	}
@@ -2160,16 +2187,10 @@ public class EncoderRhythm
 		TimeSpan span = DateTime.Now - lastRepetitionDT;
 		double totalSeconds = span.TotalSeconds;
 
-		if(resting())
-		{
+		if(checkIfRestingBetweenClusters(totalSeconds))
 			fraction = GetRestingFraction(totalSeconds);
-			Text = "Resting " + Convert.ToInt32((ero.RestSeconds - totalSeconds)).ToString() + " s";
-		}
 		else
-		{
 			fraction = GetRepetitionFraction(totalSeconds);
-			Text = "";
-		}
 
 		if(fraction < 0)
 			fraction = 0;
@@ -2181,17 +2202,35 @@ public class EncoderRhythm
 
 	public double GetRepetitionFraction(double totalSeconds)
 	{
-		if(totalSeconds < ero.EccSeconds)
+		if(totalSeconds < ero.RestRepsSeconds)
 		{
-			return 1 - (totalSeconds / ero.EccSeconds);
+			Text = "Resting " +
+				Util.TrimDecimals((ero.RestRepsSeconds - totalSeconds),1) +
+				" s";
+			ShowRestingSpinner = true;
+			return 0;
+			//return totalSeconds / ero.RestRepsSeconds;
+		}
+		else if((totalSeconds - ero.RestRepsSeconds) < ero.EccSeconds)
+		{
+			Text = "Excentric";
+			ShowRestingSpinner = false;
+			return 1 - ((totalSeconds - ero.RestRepsSeconds) / ero.EccSeconds);
 		}
 		else {
-			return (totalSeconds - ero.EccSeconds) / ero.ConSeconds;
+			Text = "Concentric";
+			ShowRestingSpinner = false;
+			return (totalSeconds - (ero.RestRepsSeconds + ero.EccSeconds)) / ero.ConSeconds;
 		}
 	}
 
 	public double GetRestingFraction(double totalSeconds)
 	{
-		return totalSeconds / ero.RestSeconds;
+		ShowRestingSpinner = true;
+		Text = "Resting " +
+			Convert.ToInt32((ero.RestClustersSeconds - totalSeconds)).ToString() +
+			" s";
+		//return totalSeconds / ero.RestClustersSeconds;
+		return 0;
 	}
 }

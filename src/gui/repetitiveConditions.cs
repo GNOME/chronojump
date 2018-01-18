@@ -234,6 +234,7 @@ public class RepetitiveConditionsWindow
 		checkbutton_inertial_discard_first_three.Hide();
 
 		notebook_main.GetNthPage(RHYTHMPAGE).Hide();
+		notebook_main.ShowTabs = false;
 
 		if(bellMode == Constants.BellModes.JUMPS) {
 			frame_best_and_worst.Show();
@@ -247,6 +248,8 @@ public class RepetitiveConditionsWindow
 			frame_conditions.Show();
 		} else { //encoder (grav and inertial)
 			frame_encoder_automatic_conditions.Show();
+			notebook_main.ShowTabs = true;
+
 			vbox_encoder_manual.Show();
 			if(checkbutton_encoder_show_manual_feedback.Active)
 				notebook_encoder_conditions.Show();

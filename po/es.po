@@ -1472,7 +1472,7 @@ msgstr "Eliminar serie"
 
 #: ../glade/app1.glade.h:313
 msgid "Feedback"
-msgstr "Comentarios"
+msgstr "Retroalimentación"
 
 #: ../glade/app1.glade.h:314
 #| msgid "Finish capture (save test until this moment).  Or press 'End'."

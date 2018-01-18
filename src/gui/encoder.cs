@@ -6026,6 +6026,7 @@ public partial class ChronoJumpWindow
 		encoder_pulsebar_rhythm.Visible = true;
 		double fraction = encoderRhythm.GetFraction();
 		encoder_pulsebar_rhythm.Fraction = fraction;
+		encoder_pulsebar_rhythm.Text = encoderRhythm.Text;
 
 		if(fraction >= 1)
 			image_encoder_rhythm.Visible = true;

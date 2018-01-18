@@ -2101,3 +2101,54 @@ public class Rx1y2
 		y2 = Convert.ToDouble(Util.ChangeDecimalSeparator(sFull[3]));
 	}
 }
+
+public class EncoderRhythm
+{
+	private DateTime lastRepetitionDT;
+
+	//constructor
+	public EncoderRhythm()
+	{
+		lastRepetitionDT = DateTime.MinValue;
+	}
+
+	public bool FirstRepetitionDone()
+	{
+		return (lastRepetitionDT > DateTime.MinValue);
+	}
+
+	public void SetLastRepetitionDT()
+	{
+		lastRepetitionDT = DateTime.Now;
+	}
+
+	public double GetFraction()
+	{
+		double fraction = 0;
+		TimeSpan span = DateTime.Now - lastRepetitionDT;
+		double totalSeconds = span.TotalSeconds;
+
+		//this goes up from 0 to 1 second and beyond
+		//encoder_pulsebar_rhythm.Fraction = Util.DivideSafeFraction(totalSeconds, 1.0);
+		//this simulates ecc and con
+		double phase = Util.DivideSafeFraction(totalSeconds, 1.0);
+		if(phase < 0.5)
+		{
+			//totalSeconds == 0 graph will show 1
+			//totalSeconds == 0.1 graph will show 0.8
+			//totalSeconds == 0.4 graph will show 0.2
+			fraction = 1 - (phase * 2);
+		}
+		else {
+			//totalSeconds == 0.5 graph will show 0
+			//totalSeconds == 0.75 graph will show 0.5
+			//totalSeconds == 0.9 graph will show 0.8
+			//totalSeconds >= 1 graph will show 1
+			double phaseSup = phase - .5;
+			fraction = phaseSup * 2;
+			if(fraction > 1)
+				fraction = 1;
+		}
+		return fraction;
+	}
+}

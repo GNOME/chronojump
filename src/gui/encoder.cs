@@ -99,8 +99,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
-	[Widget] Gtk.ProgressBar encoder_pulsebar_rhythm;
-	[Widget] Gtk.Image image_encoder_rhythm;
+	[Widget] Gtk.ProgressBar encoder_pulsebar_rhythm_eccon;
+	[Widget] Gtk.ProgressBar encoder_pulsebar_rhythm_wait;
+	[Widget] Gtk.Image image_encoder_rhythm_alert;
 	[Widget] Gtk.VBox vbox_encoder_signal_comment;
 	[Widget] Gtk.Notebook notebook_encoder_signal_comment_rhythm_and_triggers;
 	[Widget] Gtk.TextView textview_encoder_signal_comment;
@@ -5309,7 +5310,7 @@ public partial class ChronoJumpWindow
 
 				//initialize DateTime for rhythm
 				encoderRhythm = new EncoderRhythm();
-				image_encoder_rhythm.Visible = false;
+				image_encoder_rhythm_alert.Visible = false;
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
@@ -5789,7 +5790,7 @@ public partial class ChronoJumpWindow
 				//TODO: is better to do this before when the curves was sent,
 				//not when needToRefreshTreeviewCapture (because this is too later because it's returning from R)
 				encoderRhythm.SetLastRepetitionDT();
-				image_encoder_rhythm.Visible = false;
+				image_encoder_rhythm_alert.Visible = false;
 
 				//LogB.Error("HERE YES");
 				//LogB.Error(encoderCaptureStringR);
@@ -6018,18 +6019,24 @@ public partial class ChronoJumpWindow
 	{
 		if(! encoderRhythm.FirstRepetitionDone())
 		{
-			encoder_pulsebar_rhythm.Fraction = 0;
-			encoder_pulsebar_rhythm.Visible = false;
+			encoder_pulsebar_rhythm_eccon.Fraction = 0;
+			encoder_pulsebar_rhythm_wait.Fraction = 0;
+			encoder_pulsebar_rhythm_eccon.Text = "Waiting 1st rep.";
 			return;
 		}
 
-		encoder_pulsebar_rhythm.Visible = true;
 		double fraction = encoderRhythm.GetFraction();
-		encoder_pulsebar_rhythm.Fraction = fraction;
-		encoder_pulsebar_rhythm.Text = encoderRhythm.Text;
+		encoder_pulsebar_rhythm_eccon.Fraction = fraction;
+		encoder_pulsebar_rhythm_eccon.Text = encoderRhythm.Text;
+
+		//image_encoder_rhythm_wait.Visible = encoderRhythm.ShowRestingSpinner;
+		/*
+		if(encoderRhythm.ShowRestingSpinner)
+			spinner_encoder_rhythm_wait.Spin();
+			*/
 
 		if(fraction >= 1)
-			image_encoder_rhythm.Visible = true;
+			image_encoder_rhythm_alert.Visible = true;
 	}
 
 	// -------------- drawingarea_encoder_analyze_instant

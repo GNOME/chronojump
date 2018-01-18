@@ -2102,14 +2102,36 @@ public class Rx1y2
 	}
 }
 
+public class EncoderRhythmObject
+{
+	public double EccSeconds;
+	public double ConSeconds;
+	public double RepsCluster;
+	public double RestSeconds;
+
+	public EncoderRhythmObject()
+	{
+		//default 0.5 seconds ecc, 0.5 con, 5 repetitions and rest 3 seconds
+		EccSeconds = 0.5;
+		ConSeconds = 0.5;
+		RepsCluster = 5;
+		RestSeconds = 3;
+	}
+}
+
 public class EncoderRhythm
 {
 	private DateTime lastRepetitionDT;
+	private EncoderRhythmObject ero;
+	private int nreps;
+	public string Text;
 
 	//constructor
 	public EncoderRhythm()
 	{
 		lastRepetitionDT = DateTime.MinValue;
+		ero = new EncoderRhythmObject();
+		nreps = 0;
 	}
 
 	public bool FirstRepetitionDone()
@@ -2120,35 +2142,56 @@ public class EncoderRhythm
 	public void SetLastRepetitionDT()
 	{
 		lastRepetitionDT = DateTime.Now;
+		nreps ++;
 	}
 
+	private bool resting()
+	{
+		if(nreps > 0 && nreps % ero.RepsCluster == 0)
+			return true;
+
+		return false;
+	}
+
+	//useful for fraction of the repetition and the rest time
 	public double GetFraction()
 	{
 		double fraction = 0;
 		TimeSpan span = DateTime.Now - lastRepetitionDT;
 		double totalSeconds = span.TotalSeconds;
 
-		//this goes up from 0 to 1 second and beyond
-		//encoder_pulsebar_rhythm.Fraction = Util.DivideSafeFraction(totalSeconds, 1.0);
-		//this simulates ecc and con
-		double phase = Util.DivideSafeFraction(totalSeconds, 1.0);
-		if(phase < 0.5)
+		if(resting())
 		{
-			//totalSeconds == 0 graph will show 1
-			//totalSeconds == 0.1 graph will show 0.8
-			//totalSeconds == 0.4 graph will show 0.2
-			fraction = 1 - (phase * 2);
+			fraction = GetRestingFraction(totalSeconds);
+			Text = "Resting " + Convert.ToInt32((ero.RestSeconds - totalSeconds)).ToString() + " s";
+		}
+		else
+		{
+			fraction = GetRepetitionFraction(totalSeconds);
+			Text = "";
+		}
+
+		if(fraction < 0)
+			fraction = 0;
+		else if(fraction > 1)
+			fraction = 1;
+
+		return fraction;
+	}
+
+	public double GetRepetitionFraction(double totalSeconds)
+	{
+		if(totalSeconds < ero.EccSeconds)
+		{
+			return 1 - (totalSeconds / ero.EccSeconds);
 		}
 		else {
-			//totalSeconds == 0.5 graph will show 0
-			//totalSeconds == 0.75 graph will show 0.5
-			//totalSeconds == 0.9 graph will show 0.8
-			//totalSeconds >= 1 graph will show 1
-			double phaseSup = phase - .5;
-			fraction = phaseSup * 2;
-			if(fraction > 1)
-				fraction = 1;
+			return (totalSeconds - ero.EccSeconds) / ero.ConSeconds;
 		}
-		return fraction;
+	}
+
+	public double GetRestingFraction(double totalSeconds)
+	{
+		return totalSeconds / ero.RestSeconds;
 	}
 }

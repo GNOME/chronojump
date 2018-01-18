@@ -27,6 +27,7 @@ using Mono.Unix;
 public class RepetitiveConditionsWindow 
 {
 	[Widget] Gtk.Window repetitive_conditions;
+	[Widget] Gtk.Notebook notebook_main;
 //	[Widget] Gtk.ScrolledWindow scrolled_conditions;
 
 	[Widget] Gtk.Frame frame_best_and_worst;
@@ -151,7 +152,19 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_encoder_power_lower;
 	[Widget] Gtk.Image image_encoder_peakpower_lower;
 	[Widget] Gtk.Image image_repetitive_test_bad;
-	
+
+	//encoder rhythm
+	[Widget] Gtk.VBox vbox_rhythm_cluster;
+	[Widget] Gtk.CheckButton check_rhythm_use_clusters;
+	[Widget] Gtk.SpinButton	spin_rhythm_ecc;
+	[Widget] Gtk.SpinButton	spin_rhythm_con;
+	[Widget] Gtk.SpinButton	spin_rhythm_rest_reps;
+	[Widget] Gtk.SpinButton	spin_rhythm_reps_cluster;
+	[Widget] Gtk.SpinButton	spin_rhythm_rest_clusters;
+
+	const int FEEDBACKPAGE = 0;
+	const int RHYTHMPAGE = 1;
+
 	public Gtk.Button FakeButtonClose;
 
 	//static bool volumeOn;
@@ -220,6 +233,8 @@ public class RepetitiveConditionsWindow
 		notebook_encoder_conditions.Hide();
 		checkbutton_inertial_discard_first_three.Hide();
 
+		notebook_main.GetNthPage(RHYTHMPAGE).Hide();
+
 		if(bellMode == Constants.BellModes.JUMPS) {
 			frame_best_and_worst.Show();
 			hbox_jump_best_worst.Show();
@@ -238,6 +253,10 @@ public class RepetitiveConditionsWindow
 
 			if(bellMode == Constants.BellModes.ENCODERINERTIAL)
 				checkbutton_inertial_discard_first_three.Show();
+
+			notebook_main.GetNthPage(RHYTHMPAGE).Show();
+			check_rhythm_use_clusters.Active = false;
+			vbox_rhythm_cluster.Visible = false;
 		}
 
 		label_test_sound_result.Text = "";
@@ -547,6 +566,21 @@ public class RepetitiveConditionsWindow
 			return UtilGtk.ColorBad;
 
 		return UtilGtk.ColorNothing;
+	}
+
+	//encoder rhythm
+	private void on_check_rhythm_use_clusters_toggled (object o, EventArgs args)
+	{
+		vbox_rhythm_cluster.Visible = check_rhythm_use_clusters.Active;
+	}
+
+	private void on_button_rhythm_default_clicked (object o, EventArgs args)
+	{
+		spin_rhythm_ecc.Value = 0.5;
+		spin_rhythm_con.Value = 0.5;
+		spin_rhythm_rest_reps.Value = 1;
+		spin_rhythm_reps_cluster.Value = 5;
+		spin_rhythm_rest_clusters.Value = 6;
 	}
 
 	/* JUMPS */

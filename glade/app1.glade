@@ -16873,6 +16873,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
+                                                            <property name="tooltip" translatable="yes">Adaptative rhythm</property>
                                                             <property name="label">Rhythm</property>
                                                             <property name="justify">center</property>
                                                             </widget>

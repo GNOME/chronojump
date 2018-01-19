@@ -6025,17 +6025,13 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		double fraction = encoderRhythm.GetFraction();
-		encoder_pulsebar_rhythm_eccon.Fraction = fraction;
-		encoder_pulsebar_rhythm_eccon.Text = encoderRhythm.Text;
+		encoderRhythm.CalculateFractionsAndText();
+		encoder_pulsebar_rhythm_eccon.Fraction = encoderRhythm.FractionRepetition;
+		encoder_pulsebar_rhythm_eccon.Text = encoderRhythm.TextRepetition;
+		encoder_pulsebar_rhythm_wait.Fraction = encoderRhythm.FractionRest;
+		encoder_pulsebar_rhythm_wait.Text = encoderRhythm.TextRest;
 
-		//image_encoder_rhythm_wait.Visible = encoderRhythm.ShowRestingSpinner;
-		/*
-		if(encoderRhythm.ShowRestingSpinner)
-			spinner_encoder_rhythm_wait.Spin();
-			*/
-
-		if(fraction >= 1)
+		if(encoderRhythm.FractionRepetition >= 1)
 			image_encoder_rhythm_alert.Visible = true;
 	}
 

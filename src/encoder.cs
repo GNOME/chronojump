@@ -2115,17 +2115,17 @@ public class EncoderRhythmObject
 	public EncoderRhythmObject()
 	{
 		//default values
-		EccSeconds = 0.5;
+		EccSeconds = .5;
 		ConSeconds = 0.5;
 		RestRepsSeconds = 1;
 
-		RepsCluster = 5;
+		RepsCluster = 5; //1 is minimum value and means "no use clusters"
 		RestClustersSeconds = 6;
 	}
 
 	public bool UseClusters()
 	{
-		return (RepsCluster > 0);
+		return (RepsCluster > 1);
 	}
 }
 public class EncoderRhythm
@@ -2199,7 +2199,7 @@ public class EncoderRhythm
 		TimeSpan span = DateTime.Now - lastRepetitionDT;
 		double totalSeconds = span.TotalSeconds;
 
-		if(checkIfRestingBetweenClusters(totalSeconds))
+		if(ero.UseClusters() && checkIfRestingBetweenClusters(totalSeconds))
 			calculateClusterRestingFraction(totalSeconds);
 		else
 			calculateRepetitionFraction(totalSeconds);

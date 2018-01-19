@@ -2122,6 +2122,11 @@ public class EncoderRhythmObject
 		RepsCluster = 5;
 		RestClustersSeconds = 6;
 	}
+
+	public bool UseClusters()
+	{
+		return (RepsCluster > 0);
+	}
 }
 public class EncoderRhythm
 {
@@ -2152,6 +2157,11 @@ public class EncoderRhythm
 	public bool FirstRepetitionDone()
 	{
 		return (lastRepetitionDT > DateTime.MinValue);
+	}
+
+	private bool firstInCluster()
+	{
+		return (nreps % ero.RepsCluster == 0);
 	}
 
 	public void SetLastRepetitionDT()
@@ -2198,28 +2208,33 @@ public class EncoderRhythm
 	//reptition has an initial rest phase
 	private void calculateRepetitionFraction(double totalSeconds)
 	{
-		if(totalSeconds < ero.RestRepsSeconds)
+		//first repetition in cluster will not have rest
+		double restRepsSeconds = ero.RestRepsSeconds;
+		if(ero.UseClusters() && firstInCluster())
+			restRepsSeconds = 0;
+
+		if(totalSeconds < restRepsSeconds)
 		{
 			TextRepetition = "";
 			TextRest = "Resting " +
-				Util.TrimDecimals((ero.RestRepsSeconds - totalSeconds),1) +
+				Util.TrimDecimals((restRepsSeconds - totalSeconds),1) +
 				" s";
 			fractionRepetition = 0;
-			fractionRest = totalSeconds / ero.RestRepsSeconds;
+			fractionRest = totalSeconds / restRepsSeconds;
 			return;
 		}
-		else if((totalSeconds - ero.RestRepsSeconds) < ero.EccSeconds)
+		else if((totalSeconds - restRepsSeconds) < ero.EccSeconds)
 		{
 			TextRepetition = "Excentric";
 			TextRest = "";
-			fractionRepetition = 1 - ((totalSeconds - ero.RestRepsSeconds) / ero.EccSeconds);
+			fractionRepetition = 1 - ((totalSeconds - restRepsSeconds) / ero.EccSeconds);
 			fractionRest = 0;
 			return;
 		}
 		else {
 			TextRepetition = "Concentric";
 			TextRest = "";
-			fractionRepetition = (totalSeconds - (ero.RestRepsSeconds + ero.EccSeconds)) / ero.ConSeconds;
+			fractionRepetition = (totalSeconds - (restRepsSeconds + ero.EccSeconds)) / ero.ConSeconds;
 			fractionRest = 0;
 			return;
 		}

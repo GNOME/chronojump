@@ -60,16 +60,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_rt;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_other;
 
-	[Widget] Gtk.MenuItem menuitem_mode_selected_jumps_simple;
-	[Widget] Gtk.MenuItem menuitem_mode_selected_jumps_reactive;
-	[Widget] Gtk.MenuItem menuitem_mode_selected_runs_simple;
-	[Widget] Gtk.MenuItem menuitem_mode_selected_runs_intervallic;
-	[Widget] Gtk.MenuItem menuitem_mode_selected_power_gravitatory;
-	[Widget] Gtk.MenuItem menuitem_mode_selected_power_inertial;
-	[Widget] Gtk.MenuItem menuitem_mode_selected_force_sensor;
-	[Widget] Gtk.MenuItem menuitem_mode_selected_rt;
-	[Widget] Gtk.MenuItem menuitem_mode_selected_other;
-	
 	[Widget] Gtk.Notebook notebook_start; 		//start window or program
 	[Widget] Gtk.Notebook notebook_start_selector; 	//use to display the start images to select different modes
 	[Widget] Gtk.Notebook notebook_start_selector2; //for selection of jumps, runs, encoder
@@ -635,7 +625,6 @@ public partial class ChronoJumpWindow
 		
 		rand = new Random(40);
 	
-		formatModeMenu();	
 		putNonStandardIcons();	
 		eventExecutePutNonStandardIcons();
 		//eventExecuteCreateComboGraphResultsSize();
@@ -781,24 +770,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 */
-
-	private void formatModeMenu() 
-	{
-		((Label) radio_menuitem_mode_jumps_simple.Child).Text = 
-			"   " + ((Label) radio_menuitem_mode_jumps_simple.Child).Text;
-		((Label) radio_menuitem_mode_jumps_reactive.Child).Text = 
-			"   " + ((Label) radio_menuitem_mode_jumps_reactive.Child).Text;
-
-		((Label) radio_menuitem_mode_runs_simple.Child).Text = 
-			"   " + ((Label) radio_menuitem_mode_runs_simple.Child).Text;
-		((Label) radio_menuitem_mode_runs_intervallic.Child).Text = 
-			"   " + ((Label) radio_menuitem_mode_runs_intervallic.Child).Text;
-		
-		((Label) radio_menuitem_mode_power_gravitatory.Child).Text = 
-			"   " + ((Label) radio_menuitem_mode_power_gravitatory.Child).Text;
-		((Label) radio_menuitem_mode_power_inertial.Child).Text = 
-			"   " + ((Label) radio_menuitem_mode_power_inertial.Child).Text;
-	}
 
 
 	private void loadPreferences () 
@@ -2219,6 +2190,42 @@ public partial class ChronoJumpWindow
 		sessionAddEditWin.FakeButtonAccept.Clicked -= new EventHandler(on_new_session_accepted);
 		sessionAddEditWin.FakeButtonAccept.Clicked += new EventHandler(on_new_session_accepted);
 	}
+
+	private void setApp1Title(string sessionName, Constants.Menuitem_modes mode)
+	{
+		string title = progName;
+		if(sessionName != "")
+			title += " - " + sessionName;
+		if(mode != Constants.Menuitem_modes.UNDEFINED)
+		{
+			string modePrint = "";
+			if(mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+				modePrint = Catalog.GetString("Jumps simple");
+			else if(mode == Constants.Menuitem_modes.JUMPSREACTIVE)
+				modePrint = Catalog.GetString("Jumps multiple");
+			else if(mode == Constants.Menuitem_modes.RUNSSIMPLE)
+				modePrint = Catalog.GetString("Races simple");
+			else if(mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+				modePrint = Catalog.GetString("Races intervallic");
+			else if(mode == Constants.Menuitem_modes.POWERGRAVITATORY)
+				modePrint = Catalog.GetString("Encoder (gravitatory)");
+			else if(mode == Constants.Menuitem_modes.POWERINERTIAL)
+				modePrint = Catalog.GetString("Encoder (inertial)");
+			else if(mode == Constants.Menuitem_modes.FORCESENSOR)
+				modePrint = Catalog.GetString("Force sensor");
+			else if(mode == Constants.Menuitem_modes.RT)
+				modePrint = Catalog.GetString("Reaction time");
+			else if(mode == Constants.Menuitem_modes.OTHER)
+				modePrint = Catalog.GetString("Other");
+			else
+				modePrint = ""; //should never happen
+
+			if(modePrint != "")
+				title += " - " + modePrint;
+		}
+
+		app1.Title = title;
+	}
 	
 	private void on_new_session_accepted (object o, EventArgs args) {
 		if(sessionAddEditWin.CurrentSession != null) 
@@ -2229,7 +2236,7 @@ public partial class ChronoJumpWindow
 			//serverUniqueID is undefined until session is updated
 			currentSession.ServerUniqueID = Constants.ServerUndefinedID;
 
-			app1.Title = progName + " - " + currentSession.Name;
+			setApp1Title(currentSession.Name, current_menuitem_mode);
 
 			if(createdStatsWin) {
 				stats_win_initializeSession();
@@ -2282,7 +2289,7 @@ public partial class ChronoJumpWindow
 			currentSession = sessionAddEditWin.CurrentSession;
 			sessionAddEditWin.HideAndNull();
 			
-			app1.Title = progName + " - " + currentSession.Name;
+			setApp1Title(currentSession.Name, current_menuitem_mode);
 
 			if(createdStatsWin) {
 				stats_win_initializeSession();
@@ -2402,7 +2409,7 @@ public partial class ChronoJumpWindow
 	//called from open session OR from gui/networks configInit when config.SessionMode == Config.SessionModeEnum.UNIQUE
 	private void on_load_session_accepted () 
 	{
-		app1.Title = progName + " - " + currentSession.Name;
+		setApp1Title(currentSession.Name, current_menuitem_mode);
 	
 		if(createdStatsWin) {
 			stats_win_initializeSession();
@@ -2467,7 +2474,7 @@ public partial class ChronoJumpWindow
 
 	private void closeSession()
 	{
-		app1.Title = progName + "";
+		setApp1Title("", current_menuitem_mode);
 		definedSession = false;
 		currentSession = null;
 		sensitiveGuiNoSession();
@@ -2936,6 +2943,13 @@ public partial class ChronoJumpWindow
 		
 		//don't show menu bar on start page
 		main_menu.Visible = false;
+
+		//show title
+		string tempSessionName = "";
+		if(currentSession != null)
+			tempSessionName = currentSession.Name;
+
+		setApp1Title(tempSessionName, Constants.Menuitem_modes.UNDEFINED);
 	}	
 	
 	private Constants.Menuitem_modes current_menuitem_mode;
@@ -2943,20 +2957,15 @@ public partial class ChronoJumpWindow
 	private bool last_menuitem_mode_defined = false; //undefined when first time entry on a mode (jumps, jumpRj, ...)
 	private void select_menuitem_mode_toggled(Constants.Menuitem_modes m) 
 	{
+		LogB.Information("MODE", m.ToString());
 		current_menuitem_mode = m;
 
-		menuitem_mode_selected_jumps_simple.Visible = false;
-		menuitem_mode_selected_jumps_reactive.Visible = false;
-		menuitem_mode_selected_runs_simple.Visible = false;
-		menuitem_mode_selected_runs_intervallic.Visible = false;
-		menuitem_mode_selected_power_gravitatory.Visible = false;
-		menuitem_mode_selected_power_inertial.Visible = false;
-		menuitem_mode_selected_force_sensor.Visible = false;
-		menuitem_mode_selected_rt.Visible = false;
-		menuitem_mode_selected_other.Visible = false;
-			
-		LogB.Information("MODE", m.ToString());
-		
+		string tempSessionName = "";
+		if(currentSession != null)
+			tempSessionName = currentSession.Name;
+
+		setApp1Title(tempSessionName, current_menuitem_mode);
+
 		//default for everythong except encoder	
 		menuitem_encoder_session_overview.Visible = false;
 		menuitem_export_encoder_signal.Visible = false;
@@ -2991,7 +3000,6 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			if(m == Constants.Menuitem_modes.JUMPSSIMPLE) 
 			{
-				menuitem_mode_selected_jumps_simple.Visible = true;
 				notebooks_change(m);
 				on_extra_window_jumps_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = true;
@@ -3004,7 +3012,6 @@ public partial class ChronoJumpWindow
 				}
 			} else 
 			{
-				menuitem_mode_selected_jumps_reactive.Visible = true;
 				notebooks_change(m);
 				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = false;
@@ -3022,14 +3029,12 @@ public partial class ChronoJumpWindow
 
 			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
 			{
-				menuitem_mode_selected_runs_simple.Visible = true;
 				notebooks_change(m);
 				on_extra_window_runs_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = true;
 			}
 			else
 			{
-				menuitem_mode_selected_runs_intervallic.Visible = true;
 				notebooks_change(m);
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = false;
@@ -3082,8 +3087,6 @@ public partial class ChronoJumpWindow
 			bool changed = false;
 			if(m == Constants.Menuitem_modes.POWERGRAVITATORY)
 			{
-				menuitem_mode_selected_power_gravitatory.Visible = true;
-
 				//change encoderConfigurationCurrent if needed
 				if(encoderConfigurationCurrent.has_inertia)
 				{
@@ -3118,8 +3121,6 @@ public partial class ChronoJumpWindow
 
 				notebook_encoder_top.Page = 0;
 			} else {
-				menuitem_mode_selected_power_inertial.Visible = true;
-
 				//change encoderConfigurationCurrent if needed
 				if(! encoderConfigurationCurrent.has_inertia)
 				{
@@ -3166,7 +3167,6 @@ public partial class ChronoJumpWindow
 		else if(m == Constants.Menuitem_modes.FORCESENSOR)
 		{
 			notebook_sup.CurrentPage = 0;
-			menuitem_mode_selected_force_sensor.Visible = true;
 			radio_menuitem_mode_force_sensor.Active = true;
 			notebooks_change(m);
 //			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
@@ -3183,7 +3183,6 @@ public partial class ChronoJumpWindow
 		else if(m == Constants.Menuitem_modes.RT)
 		{
 			notebook_sup.CurrentPage = 0;
-			menuitem_mode_selected_rt.Visible = true;
 			radio_menuitem_mode_rt.Active = true;
 			notebooks_change(m);
 			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
@@ -3196,7 +3195,6 @@ public partial class ChronoJumpWindow
 		else {	//m == Constants.Menuitem_modes.OTHER (contacts / other)
 			notebook_sup.CurrentPage = 0;
 			hbox_other.Visible = true;
-			menuitem_mode_selected_other.Visible = true;
 			notebooks_change(m);
 			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
 

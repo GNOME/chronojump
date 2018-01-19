@@ -228,8 +228,7 @@ msgstr "Carreras simples"
 #: ../glade/app1.glade.h:38
 msgid "Races intervallic"
 msgstr ""
-"Carreras con\n"
-"tramos"
+"Carreras con tramos"
 
 #: ../glade/app1.glade.h:39
 msgid "Encoder (gravitatory)"

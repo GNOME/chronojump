@@ -624,7 +624,8 @@ public partial class ChronoJumpWindow
 		definedSession = false;
 		
 		rand = new Random(40);
-	
+
+		formatModeMenu();
 		putNonStandardIcons();	
 		eventExecutePutNonStandardIcons();
 		//eventExecuteCreateComboGraphResultsSize();
@@ -771,6 +772,23 @@ public partial class ChronoJumpWindow
 	}
 */
 
+	private void formatModeMenu()
+	{
+		((Label) radio_menuitem_mode_jumps_simple.Child).Text =
+			"   " + ((Label) radio_menuitem_mode_jumps_simple.Child).Text;
+		((Label) radio_menuitem_mode_jumps_reactive.Child).Text =
+			"   " + ((Label) radio_menuitem_mode_jumps_reactive.Child).Text;
+
+		((Label) radio_menuitem_mode_runs_simple.Child).Text =
+			"   " + ((Label) radio_menuitem_mode_runs_simple.Child).Text;
+		((Label) radio_menuitem_mode_runs_intervallic.Child).Text =
+			"   " + ((Label) radio_menuitem_mode_runs_intervallic.Child).Text;
+
+		((Label) radio_menuitem_mode_power_gravitatory.Child).Text =
+			"   " + ((Label) radio_menuitem_mode_power_gravitatory.Child).Text;
+		((Label) radio_menuitem_mode_power_inertial.Child).Text =
+			"   " + ((Label) radio_menuitem_mode_power_inertial.Child).Text;
+	}
 
 	private void loadPreferences () 
 	{

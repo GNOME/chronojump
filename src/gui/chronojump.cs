@@ -3255,6 +3255,9 @@ public partial class ChronoJumpWindow
 		}
 		last_menuitem_mode_defined = true;
 
+		//notebooks_change also does this, but it's not called on encoder modes
+		showHideForceSensorControls(m == Constants.Menuitem_modes.FORCESENSOR);
+
 		chronopicRegisterUpdate(false);
 
 		chronojumpWindowTestsNext();

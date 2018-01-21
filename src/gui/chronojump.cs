@@ -190,6 +190,7 @@ public partial class ChronoJumpWindow
 	//menus
 	[Widget] Gtk.MenuItem session_menuitem;
 	[Widget] Gtk.MenuItem help_menuitem;
+	[Widget] Gtk.MenuItem menuitem_ping;
 
 	//menu session
 	[Widget] Gtk.MenuItem menuitem_edit_session;
@@ -6682,6 +6683,7 @@ LogB.Debug("X");
 
 		hbox_gui_tests.Visible = true;
 		button_carles.Visible = true;
+		menuitem_ping.Visible = true;
 
 		preferencesWin.DebugActivated();
 	}

@@ -220,6 +220,7 @@ public partial class ChronoJumpWindow
 		configChronojump.Maximized = preferences.maximized;
 		configChronojump.PersonWinHide = preferences.personWinHide;
 		configChronojump.EncoderCaptureShowOnlyBars = preferences.encoderCaptureShowOnlyBars;
+		configChronojump.EncoderUpdateTreeViewWhileCapturing = ! preferences.encoderCaptureShowOnlyBars;
 
 		configDo();
 	}

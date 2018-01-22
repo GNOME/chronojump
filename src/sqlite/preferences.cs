@@ -42,6 +42,12 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorCalibrationWeightStr = "forceSensorCalibrationWeight";
 	public const string ForceSensorCalibrationFactorStr = "forceSensorCalibrationFactor";
 
+	public const string EncoderRhythmEccSecondsStr = "encoderRhythmEccSeconds";
+	public const string EncoderRhythmConSecondsStr = "encoderRhythmConSeconds";
+	public const string EncoderRhythmRestRepsSecondsStr = "encoderRhythmRestRepsSeconds";
+	public const string EncoderRhythmRepsClusterStr = "encoderRhythmRepsCluster";
+	public const string EncoderRhythmRestClusterSecondsStr = "encoderRhythmRestClusterSeconds";
+
 	protected internal static new void createTable()
 	{
 		dbcmd.CommandText = 
@@ -130,20 +136,21 @@ class SqlitePreferences : Sqlite
 
 				if(encoderExercises.Count > 0) {
 					EncoderExercise ex = (EncoderExercise) encoderExercises[0];
-					Insert (EncoderExerciseIDGravitatory, ex.uniqueID.ToString());
-					Insert (EncoderExerciseIDInertial, ex.uniqueID.ToString());
+					Insert (EncoderExerciseIDGravitatory, ex.uniqueID.ToString(), dbcmdTr);
+					Insert (EncoderExerciseIDInertial, ex.uniqueID.ToString(), dbcmdTr);
 				}
 				else {
-					Insert (EncoderExerciseIDGravitatory, "1");
-					Insert (EncoderExerciseIDInertial, "1");
+					Insert (EncoderExerciseIDGravitatory, "1", dbcmdTr);
+					Insert (EncoderExerciseIDInertial, "1", dbcmdTr);
 				}
 
-				Insert (EncoderContractionGravitatory, Constants.Concentric);
-				Insert (EncoderContractionInertial, Constants.EccentricConcentric);
-				Insert (EncoderLateralityGravitatory, "RL");
-				Insert (EncoderLateralityInertial, "RL");
-				Insert (EncoderMassGravitatory, "10");
-				Insert (EncoderWeightsInertial, "0");
+				Insert (EncoderContractionGravitatory, Constants.Concentric, dbcmdTr);
+				Insert (EncoderContractionInertial, Constants.EccentricConcentric, dbcmdTr);
+				Insert (EncoderLateralityGravitatory, "RL", dbcmdTr);
+				Insert (EncoderLateralityInertial, "RL", dbcmdTr);
+				Insert (EncoderMassGravitatory, "10", dbcmdTr);
+				Insert (EncoderWeightsInertial, "0", dbcmdTr);
+
 
 				Insert ("videoDevice", "0", dbcmdTr); //first
 				Insert ("inertialmomentum", "0.01", dbcmdTr);

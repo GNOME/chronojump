@@ -104,6 +104,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_calibrate;
 	[Widget] Gtk.Image image_encoder_recalibrate;
 	[Widget] Gtk.Image image_encoder_triggers;
+	[Widget] Gtk.Image image_encoder_rhythm_rest;
 
 	//force sensor
 	[Widget] Gtk.Image image_selector_start_force_sensor;
@@ -288,6 +289,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");
 		image_rest.Pixbuf = pixbuf;
+		image_encoder_rhythm_rest.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_visibility.png");
 		image_all_persons_events.Pixbuf = pixbuf;

@@ -57,9 +57,25 @@ public class EncoderRhythm
 		RestClustersSeconds = restClustersSeconds;
 	}
 
+	//this also affects to encoder automatic end time. Is deactivated if UseClusters()
 	public bool UseClusters()
 	{
 		return (RepsCluster > 1);
+	}
+
+	//to show or not image_encoder_rhythm_rest
+	public bool UseRest()
+	{
+		if(! Active)
+			return false;
+
+		if(RestRepsSeconds > 0)
+			return true;
+
+		if(UseClusters() && RestClustersSeconds > 0)
+			return true;
+
+		return false;
 	}
 }
 

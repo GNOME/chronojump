@@ -46,7 +46,7 @@ class SqlitePreferences : Sqlite
 	public const string EncoderRhythmConSecondsStr = "encoderRhythmConSeconds";
 	public const string EncoderRhythmRestRepsSecondsStr = "encoderRhythmRestRepsSeconds";
 	public const string EncoderRhythmRepsClusterStr = "encoderRhythmRepsCluster";
-	public const string EncoderRhythmRestClusterSecondsStr = "encoderRhythmRestClusterSeconds";
+	public const string EncoderRhythmRestClustersSecondsStr = "encoderRhythmRestClustersSeconds";
 
 	protected internal static new void createTable()
 	{
@@ -151,6 +151,14 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderMassGravitatory, "10", dbcmdTr);
 				Insert (EncoderWeightsInertial, "0", dbcmdTr);
 
+				//encoderRhythm
+				EncoderRhythm er = new EncoderRhythm();
+				Insert (EncoderRhythmEccSecondsStr, Util.ConvertToPoint(er.EccSeconds), dbcmdTr);
+				Insert (EncoderRhythmConSecondsStr, Util.ConvertToPoint(er.ConSeconds), dbcmdTr);
+				Insert (EncoderRhythmRestRepsSecondsStr, Util.ConvertToPoint(er.RestRepsSeconds), dbcmdTr);
+				Insert (EncoderRhythmRepsClusterStr, Util.ConvertToPoint(er.RepsCluster), dbcmdTr);
+				Insert (EncoderRhythmRestClustersSecondsStr, Util.ConvertToPoint(er.RestClustersSeconds), dbcmdTr);
+
 
 				Insert ("videoDevice", "0", dbcmdTr); //first
 				Insert ("inertialmomentum", "0.01", dbcmdTr);
@@ -239,7 +247,9 @@ class SqlitePreferences : Sqlite
 
 		return myReturn;
 	}
-	
+
+	//Some are sent to preferences window, others not
+	//check: preferences.cs at the top
 	public static Preferences SelectAll () 
 	{
 		Sqlite.Open();
@@ -256,7 +266,6 @@ class SqlitePreferences : Sqlite
 			//LogB.Debug("Reading preferences");
 			//LogB.Information(reader[0].ToString() + ":" + reader[1].ToString());
 
-	 		//these are sent to preferences window
 			if(reader[0].ToString() == "maximized")
 				preferences.maximized = (Preferences.MaximizedTypes)
 					Enum.Parse(typeof(Preferences.MaximizedTypes), reader[1].ToString());
@@ -317,6 +326,23 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == "encoder1RMMethod")
 				preferences.encoder1RMMethod = (Constants.Encoder1RMMethod) 
 					Enum.Parse(typeof(Constants.Encoder1RMMethod), reader[1].ToString()); 
+
+			//encoder rhythm
+			else if(reader[0].ToString() == EncoderRhythmEccSecondsStr)
+				preferences.encoderRhythmEccSeconds = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if(reader[0].ToString() == EncoderRhythmConSecondsStr)
+				preferences.encoderRhythmConSeconds = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if(reader[0].ToString() == EncoderRhythmRestRepsSecondsStr)
+				preferences.encoderRhythmRestRepsSeconds = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if(reader[0].ToString() == EncoderRhythmRepsClusterStr)
+				preferences.encoderRhythmRepsCluster = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == EncoderRhythmRestClustersSecondsStr)
+				preferences.encoderRhythmRestClustersSeconds = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+
 			//video... other
 			else if(reader[0].ToString() == "videoDevice")
 				preferences.videoDeviceNum = Convert.ToInt32(reader[1].ToString());
@@ -330,7 +356,6 @@ class SqlitePreferences : Sqlite
 				preferences.RGraphsTranslate = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "useHeightsOnJumpIndexes")
 				preferences.useHeightsOnJumpIndexes = reader[1].ToString() == "True";
-	 		//these are NOT sent to preferences window
 			else if(reader[0].ToString() == "allowFinishRjAfterTime")
 				preferences.allowFinishRjAfterTime = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "volumeOn")

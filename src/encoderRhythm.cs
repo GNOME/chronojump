@@ -21,17 +21,17 @@
 using System;
 using System.Data;
 
-public class EncoderRhythmObject
+public class EncoderRhythm
 {
 	public double EccSeconds;
 	public double ConSeconds;
 	public double RestRepsSeconds; //rest between repetitions
 
 	//cluster stuff
-	public double RepsCluster;
+	public int RepsCluster;
 	public double RestClustersSeconds; //rest between clusters
 
-	public EncoderRhythmObject()
+	public EncoderRhythm()
 	{
 		//default values
 		EccSeconds = .5;
@@ -42,19 +42,30 @@ public class EncoderRhythmObject
 		RestClustersSeconds = 6;
 	}
 
+	public EncoderRhythm(double eccSeconds, double conSeconds, double restRepsSeconds,
+			int repsCluster, double restClustersSeconds)
+	{
+		EccSeconds = eccSeconds;
+		ConSeconds = conSeconds;
+		RestRepsSeconds = restRepsSeconds;
+
+		RepsCluster = repsCluster;
+		RestClustersSeconds = restClustersSeconds;
+	}
+
 	public bool UseClusters()
 	{
 		return (RepsCluster > 1);
 	}
 }
 
-public class EncoderRhythm
+public class EncoderRhythmExecute
 {
 	public string TextRepetition;
 	public string TextRest;
 
 	private DateTime lastRepetitionDT;
-	private EncoderRhythmObject ero;
+	private EncoderRhythm encoderRhythm;
 	private int nreps;
 	private bool restClusterTimeEndedFlag;
 
@@ -63,13 +74,18 @@ public class EncoderRhythm
 
 
 	//constructor
-	public EncoderRhythm()
+	public EncoderRhythmExecute(EncoderRhythm encoderRhythm)
+	{
+		this.encoderRhythm = encoderRhythm;
+		initialize();
+	}
+
+	private void initialize()
 	{
 		TextRepetition = "";
 		TextRest = "";
 
 		lastRepetitionDT = DateTime.MinValue;
-		ero = new EncoderRhythmObject();
 		nreps = 0;
 		restClusterTimeEndedFlag = false;
 	}
@@ -81,7 +97,7 @@ public class EncoderRhythm
 
 	private bool firstInCluster()
 	{
-		return (nreps % ero.RepsCluster == 0);
+		return (nreps % encoderRhythm.RepsCluster == 0);
 	}
 
 	public void SetLastRepetitionDT()
@@ -96,9 +112,9 @@ public class EncoderRhythm
 		if(restClusterTimeEndedFlag)
 			return false;
 
-		if(nreps > 0 && nreps % ero.RepsCluster == 0)
+		if(nreps > 0 && nreps % encoderRhythm.RepsCluster == 0)
 		{
-			if(totalSeconds < ero.RestClustersSeconds)
+			if(totalSeconds < encoderRhythm.RestClustersSeconds)
 				return true;
 			else {
 				//resting time passed, force finish rest,
@@ -119,7 +135,7 @@ public class EncoderRhythm
 		TimeSpan span = DateTime.Now - lastRepetitionDT;
 		double totalSeconds = span.TotalSeconds;
 
-		if(ero.UseClusters() && checkIfRestingBetweenClusters(totalSeconds))
+		if(encoderRhythm.UseClusters() && checkIfRestingBetweenClusters(totalSeconds))
 			calculateClusterRestingFraction(totalSeconds);
 		else
 			calculateRepetitionFraction(totalSeconds);
@@ -129,8 +145,8 @@ public class EncoderRhythm
 	private void calculateRepetitionFraction(double totalSeconds)
 	{
 		//first repetition in cluster will not have rest
-		double restRepsSeconds = ero.RestRepsSeconds;
-		if(ero.UseClusters() && firstInCluster())
+		double restRepsSeconds = encoderRhythm.RestRepsSeconds;
+		if(encoderRhythm.UseClusters() && firstInCluster())
 			restRepsSeconds = 0;
 
 		if(totalSeconds < restRepsSeconds)
@@ -143,18 +159,18 @@ public class EncoderRhythm
 			fractionRest = totalSeconds / restRepsSeconds;
 			return;
 		}
-		else if((totalSeconds - restRepsSeconds) < ero.EccSeconds)
+		else if((totalSeconds - restRepsSeconds) < encoderRhythm.EccSeconds)
 		{
 			TextRepetition = "Excentric";
 			TextRest = "";
-			fractionRepetition = 1 - ((totalSeconds - restRepsSeconds) / ero.EccSeconds);
+			fractionRepetition = 1 - ((totalSeconds - restRepsSeconds) / encoderRhythm.EccSeconds);
 			fractionRest = 0;
 			return;
 		}
 		else {
 			TextRepetition = "Concentric";
 			TextRest = "";
-			fractionRepetition = (totalSeconds - (restRepsSeconds + ero.EccSeconds)) / ero.ConSeconds;
+			fractionRepetition = (totalSeconds - (restRepsSeconds + encoderRhythm.EccSeconds)) / encoderRhythm.ConSeconds;
 			fractionRest = 0;
 			return;
 		}
@@ -163,9 +179,9 @@ public class EncoderRhythm
 	private void calculateClusterRestingFraction(double totalSeconds)
 	{
 		TextRepetition = "";
-		TextRest = "Resting " + Convert.ToInt32((ero.RestClustersSeconds - totalSeconds)).ToString() + " s";
+		TextRest = "Resting " + Convert.ToInt32((encoderRhythm.RestClustersSeconds - totalSeconds)).ToString() + " s";
 		fractionRepetition = 0;
-		fractionRest = totalSeconds / ero.RestClustersSeconds;
+		fractionRest = totalSeconds / encoderRhythm.RestClustersSeconds;
 		return;
 	}
 

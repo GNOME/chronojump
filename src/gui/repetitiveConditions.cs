@@ -28,7 +28,7 @@ public class RepetitiveConditionsWindow
 {
 	[Widget] Gtk.Window repetitive_conditions;
 	[Widget] Gtk.Notebook notebook_main;
-//	[Widget] Gtk.ScrolledWindow scrolled_conditions;
+	//[Widget] Gtk.ScrolledWindow scrolled_conditions;
 
 	[Widget] Gtk.Frame frame_best_and_worst;
 	[Widget] Gtk.Box hbox_jump_best_worst;
@@ -175,7 +175,8 @@ public class RepetitiveConditionsWindow
 	
 	static RepetitiveConditionsWindow RepetitiveConditionsWindowBox;
 		
-	RepetitiveConditionsWindow () {
+	RepetitiveConditionsWindow ()
+	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "repetitive_conditions.glade", "repetitive_conditions", "chronojump");
 		gladeXML.Autoconnect(this);
@@ -208,19 +209,21 @@ public class RepetitiveConditionsWindow
 		return RepetitiveConditionsWindowBox;
 	}
 	
-	public void View (Constants.BellModes bellMode, bool volumeOn, Preferences.GstreamerTypes gstreamer)
+	public void View (Constants.BellModes bellMode, bool volumeOn, Preferences.GstreamerTypes gstreamer,
+			EncoderRhythm encoderRhythm)
 	{
 		//when user "deleted_event" the window
 		if (RepetitiveConditionsWindowBox == null) {
 			RepetitiveConditionsWindowBox = new RepetitiveConditionsWindow (); 
 		}
-		RepetitiveConditionsWindowBox.showWidgets(bellMode);
+		RepetitiveConditionsWindowBox.showWidgets(bellMode, encoderRhythm);
+
 		RepetitiveConditionsWindowBox.repetitive_conditions.Show ();
 		RepetitiveConditionsWindowBox.volumeOn = volumeOn;
 		RepetitiveConditionsWindowBox.gstreamer = gstreamer;
 	}
 
-	void showWidgets(Constants.BellModes bellMode)
+	void showWidgets(Constants.BellModes bellMode, EncoderRhythm encoderRhythm)
 	{
 		frame_best_and_worst.Hide();
 		frame_conditions.Hide();
@@ -258,8 +261,7 @@ public class RepetitiveConditionsWindow
 				checkbutton_inertial_discard_first_three.Show();
 
 			notebook_main.GetNthPage(RHYTHMPAGE).Show();
-			check_rhythm_use_clusters.Active = false;
-			vbox_rhythm_cluster.Visible = false;
+			encoder_rhythm_set_values(encoderRhythm);
 		}
 
 		label_test_sound_result.Text = "";
@@ -360,7 +362,7 @@ public class RepetitiveConditionsWindow
 	{
 		RepetitiveConditionsWindowBox.repetitive_conditions.Hide();
 		FakeButtonClose.Click();
-//		RepetitiveConditionsWindowBox = null;
+		//RepetitiveConditionsWindowBox = null;
 	}
 
 	void on_delete_event (object o, DeleteEventArgs args)
@@ -579,12 +581,38 @@ public class RepetitiveConditionsWindow
 
 	private void on_button_rhythm_default_clicked (object o, EventArgs args)
 	{
-		spin_rhythm_ecc.Value = 0.5;
-		spin_rhythm_con.Value = 0.5;
-		spin_rhythm_rest_reps.Value = 1;
-		spin_rhythm_reps_cluster.Value = 5;
-		spin_rhythm_rest_clusters.Value = 6;
+		EncoderRhythm encoderRhythm = new EncoderRhythm();
+		encoder_rhythm_set_values(encoderRhythm);
 	}
+
+	private void encoder_rhythm_set_values(EncoderRhythm encoderRhythm)
+	{
+		spin_rhythm_ecc.Value = encoderRhythm.EccSeconds;
+		spin_rhythm_con.Value = encoderRhythm.ConSeconds;
+		spin_rhythm_rest_reps.Value = encoderRhythm.RestRepsSeconds;
+		spin_rhythm_reps_cluster.Value = encoderRhythm.RepsCluster;
+		spin_rhythm_rest_clusters.Value = encoderRhythm.RestClustersSeconds;
+
+		if(encoderRhythm.UseClusters()) {
+			check_rhythm_use_clusters.Active = true;
+			vbox_rhythm_cluster.Visible = true;
+		} else {
+			check_rhythm_use_clusters.Active = false;
+			vbox_rhythm_cluster.Visible = false;
+		}
+	}
+
+	public EncoderRhythm Encoder_rhythm_get_values()
+	{
+		int reps_cluster = Convert.ToInt32(spin_rhythm_reps_cluster.Value);
+		if(! check_rhythm_use_clusters.Active && reps_cluster > 1)
+			reps_cluster = 1;
+
+		return new EncoderRhythm(
+				spin_rhythm_ecc.Value, spin_rhythm_con.Value, spin_rhythm_rest_reps.Value,
+				reps_cluster, spin_rhythm_rest_clusters.Value);
+	}
+
 
 	/* JUMPS */
 	public bool TfTcBest {

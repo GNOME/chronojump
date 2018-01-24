@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.52";
+	static string lastChronojumpDatabaseVersion = "1.53";
 
 	public Sqlite() {
 	}
@@ -2296,12 +2296,21 @@ class Sqlite
 				SqlitePreferences.Insert (SqlitePreferences.EncoderRhythmRestRepsSecondsStr,
 						Util.ConvertToPoint(er.RestRepsSeconds));
 				SqlitePreferences.Insert (SqlitePreferences.EncoderRhythmRepsClusterStr,
-						Util.ConvertToPoint(er.RepsCluster));
+						er.RepsCluster.ToString()); //int
 				SqlitePreferences.Insert (SqlitePreferences.EncoderRhythmRestClustersSecondsStr,
 						Util.ConvertToPoint(er.RestClustersSeconds));
 
 				currentVersion = updateVersion("1.52");
 			}
+			if(currentVersion == "1.52")
+			{
+				LogB.SQL("Added encoderRhtyhm active variable");
+
+				SqlitePreferences.Insert (SqlitePreferences.EncoderRhythmActiveStr, "False");
+
+				currentVersion = updateVersion("1.53");
+			}
+
 
 
 
@@ -2485,6 +2494,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 
 		//changes [from - to - desc]
+		//1.52 - 1.53 Converted DB to 1.53 Added encoderRhtyhm active variable
 		//1.51 - 1.52 Converted DB to 1.52 Added encoderRhtyhm stuff
 		//1.50 - 1.51 Converted DB to 1.51 Updated encoderCaptureCutByTriggers variable
 		//1.49 - 1.50 Converted DB to 1.50 Updated preferences: added crashLogLanguage

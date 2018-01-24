@@ -23,6 +23,7 @@ using System.Data;
 
 public class EncoderRhythm
 {
+	public bool Active;
 	public double EccSeconds;
 	public double ConSeconds;
 	public double RestRepsSeconds; //rest between repetitions
@@ -33,18 +34,21 @@ public class EncoderRhythm
 
 	public EncoderRhythm()
 	{
-		//default values
-		EccSeconds = .5;
-		ConSeconds = 0.5;
-		RestRepsSeconds = 1;
+		Active = false;
 
-		RepsCluster = 5; //1 is minimum value and means "no use clusters"
+		//default values
+		EccSeconds = 0.5;
+		ConSeconds = 0.5;
+		RestRepsSeconds = 0;
+
+		RepsCluster = 1; //1 is default, minimum value and means "no use clusters"
 		RestClustersSeconds = 6;
 	}
 
-	public EncoderRhythm(double eccSeconds, double conSeconds, double restRepsSeconds,
+	public EncoderRhythm(bool active, double eccSeconds, double conSeconds, double restRepsSeconds,
 			int repsCluster, double restClustersSeconds)
 	{
+		Active = active;
 		EccSeconds = eccSeconds;
 		ConSeconds = conSeconds;
 		RestRepsSeconds = restRepsSeconds;

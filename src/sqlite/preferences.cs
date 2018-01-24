@@ -42,6 +42,7 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorCalibrationWeightStr = "forceSensorCalibrationWeight";
 	public const string ForceSensorCalibrationFactorStr = "forceSensorCalibrationFactor";
 
+	public const string EncoderRhythmActiveStr = "encoderRhythmActive";
 	public const string EncoderRhythmEccSecondsStr = "encoderRhythmEccSeconds";
 	public const string EncoderRhythmConSecondsStr = "encoderRhythmConSeconds";
 	public const string EncoderRhythmRestRepsSecondsStr = "encoderRhythmRestRepsSeconds";
@@ -153,6 +154,7 @@ class SqlitePreferences : Sqlite
 
 				//encoderRhythm
 				EncoderRhythm er = new EncoderRhythm();
+				Insert (EncoderRhythmActiveStr, er.Active.ToString(), dbcmdTr);
 				Insert (EncoderRhythmEccSecondsStr, Util.ConvertToPoint(er.EccSeconds), dbcmdTr);
 				Insert (EncoderRhythmConSecondsStr, Util.ConvertToPoint(er.ConSeconds), dbcmdTr);
 				Insert (EncoderRhythmRestRepsSecondsStr, Util.ConvertToPoint(er.RestRepsSeconds), dbcmdTr);
@@ -328,6 +330,8 @@ class SqlitePreferences : Sqlite
 					Enum.Parse(typeof(Constants.Encoder1RMMethod), reader[1].ToString()); 
 
 			//encoder rhythm
+			else if(reader[0].ToString() == EncoderRhythmActiveStr)
+				preferences.encoderRhythmActive = reader[1].ToString() == "True"; //bool
 			else if(reader[0].ToString() == EncoderRhythmEccSecondsStr)
 				preferences.encoderRhythmEccSeconds = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
@@ -338,7 +342,7 @@ class SqlitePreferences : Sqlite
 				preferences.encoderRhythmRestRepsSeconds = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
 			else if(reader[0].ToString() == EncoderRhythmRepsClusterStr)
-				preferences.encoderRhythmRepsCluster = Convert.ToInt32(reader[1].ToString());
+				preferences.encoderRhythmRepsCluster = Convert.ToInt32(reader[1].ToString()); //int
 			else if(reader[0].ToString() == EncoderRhythmRestClustersSecondsStr)
 				preferences.encoderRhythmRestClustersSeconds = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));

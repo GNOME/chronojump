@@ -329,6 +329,7 @@ public partial class ChronoJumpWindow
 	private static bool encoderProcessFinish;
 	private static bool encoderProcessFinishContMode;
 
+	private static EncoderRhythmExecute encoderRhythmExecute;
 	private static EncoderRhythm encoderRhythm;
 
 	EncoderConfigurationWindow encoder_configuration_win;
@@ -611,9 +612,11 @@ public partial class ChronoJumpWindow
 	private void on_button_encoder_bells_clicked(object o, EventArgs args)
 	{
 		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY)
-			repetitiveConditionsWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences.volumeOn, preferences.gstreamer);
+			repetitiveConditionsWin.View(Constants.BellModes.ENCODERGRAVITATORY,
+					preferences.volumeOn, preferences.gstreamer, encoderRhythm);
 		else
-			repetitiveConditionsWin.View(Constants.BellModes.ENCODERINERTIAL, preferences.volumeOn, preferences.gstreamer);
+			repetitiveConditionsWin.View(Constants.BellModes.ENCODERINERTIAL,
+					preferences.volumeOn, preferences.gstreamer, encoderRhythm);
 	}
 
 	/*
@@ -5309,7 +5312,7 @@ public partial class ChronoJumpWindow
 				encoderRProcCapture.CutByTriggers = reallyCutByTriggers;
 
 				//initialize DateTime for rhythm
-				encoderRhythm = new EncoderRhythm();
+				encoderRhythmExecute = new EncoderRhythmExecute(encoderRhythm);
 				image_encoder_rhythm_alert.Visible = false;
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
@@ -5789,7 +5792,7 @@ public partial class ChronoJumpWindow
 			{
 				//TODO: is better to do this before when the curves was sent,
 				//not when needToRefreshTreeviewCapture (because this is too later because it's returning from R)
-				encoderRhythm.SetLastRepetitionDT();
+				encoderRhythmExecute.SetLastRepetitionDT();
 				image_encoder_rhythm_alert.Visible = false;
 
 				//LogB.Error("HERE YES");
@@ -6017,7 +6020,7 @@ public partial class ChronoJumpWindow
 
 	private void updatePulsebarRhythm()
 	{
-		if(! encoderRhythm.FirstRepetitionDone())
+		if(! encoderRhythmExecute.FirstRepetitionDone())
 		{
 			encoder_pulsebar_rhythm_eccon.Fraction = 0;
 			encoder_pulsebar_rhythm_wait.Fraction = 0;
@@ -6025,13 +6028,14 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		encoderRhythm.CalculateFractionsAndText();
-		encoder_pulsebar_rhythm_eccon.Fraction = encoderRhythm.FractionRepetition;
-		encoder_pulsebar_rhythm_eccon.Text = encoderRhythm.TextRepetition;
-		encoder_pulsebar_rhythm_wait.Fraction = encoderRhythm.FractionRest;
-		encoder_pulsebar_rhythm_wait.Text = encoderRhythm.TextRest;
+		encoderRhythmExecute.CalculateFractionsAndText();
+		encoder_pulsebar_rhythm_eccon.Fraction = encoderRhythmExecute.FractionRepetition;
+		encoder_pulsebar_rhythm_eccon.Text = encoderRhythmExecute.TextRepetition;
+		//TODO: this pulsebar should be a sofa and a label with seconds in one decimal
+		encoder_pulsebar_rhythm_wait.Fraction = encoderRhythmExecute.FractionRest;
+		encoder_pulsebar_rhythm_wait.Text = encoderRhythmExecute.TextRest;
 
-		if(encoderRhythm.FractionRepetition >= 1)
+		if(encoderRhythmExecute.FractionRepetition >= 1)
 			image_encoder_rhythm_alert.Visible = true;
 	}
 

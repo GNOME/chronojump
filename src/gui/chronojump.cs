@@ -562,7 +562,7 @@ public partial class ChronoJumpWindow
 		
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
-		loadPreferences ();
+		loadPreferencesAtStart ();
 
 		//show send log if needed
 
@@ -791,7 +791,8 @@ public partial class ChronoJumpWindow
 			"   " + ((Label) radio_menuitem_mode_power_inertial.Child).Text;
 	}
 
-	private void loadPreferences () 
+	//different than on_preferences_activate (opening preferences window)
+	private void loadPreferencesAtStart ()
 	{
 		preferences = Preferences.LoadAllFromSqlite();
 		LogB.Mute = preferences.muteLogs;
@@ -800,6 +801,12 @@ public partial class ChronoJumpWindow
 					preferences.databaseVersion));
 
 		configInitFromPreferences();
+
+		encoderRhythm = new EncoderRhythm(
+				preferences.encoderRhythmEccSeconds, preferences.encoderRhythmConSeconds,
+				preferences.encoderRhythmRestRepsSeconds,
+				preferences.encoderRhythmRepsCluster, preferences.encoderRhythmRestClustersSeconds);
+
 
 		checkbutton_allow_finish_rj_after_time.Active = preferences.allowFinishRjAfterTime;
 
@@ -6770,11 +6777,11 @@ LogB.Debug("X");
 	}
 		
 	private void on_button_rj_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(Constants.BellModes.JUMPS, preferences.volumeOn, preferences.gstreamer);
+		repetitiveConditionsWin.View(Constants.BellModes.JUMPS, preferences.volumeOn, preferences.gstreamer, encoderRhythm);
 	}
 
 	private void on_button_time_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(Constants.BellModes.RUNS, preferences.volumeOn, preferences.gstreamer);
+		repetitiveConditionsWin.View(Constants.BellModes.RUNS, preferences.volumeOn, preferences.gstreamer, encoderRhythm);
 	}
 	
 	private void on_repetitive_conditions_closed(object o, EventArgs args)
@@ -6812,10 +6819,8 @@ LogB.Debug("X");
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
 
 			image_encoder_bell.Pixbuf = pixbuf;
-		}
 
-		if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL)
-		{
+
 			//treeview_encoder should be updated (to colorize some cells)
 			//only if there was data
 			//this avoids misbehaviour when bell is pressed and there's no data in treeview
@@ -6837,6 +6842,11 @@ LogB.Debug("X");
 				} else
 					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 			}
+
+			//rhythm
+			encoderRhythm = repetitiveConditionsWin.Encoder_rhythm_get_values();
+			//updates preferences object and Sqlite preferences
+			preferences.UpdateEncoderRhythm(encoderRhythm);
 		}
 	}
 	

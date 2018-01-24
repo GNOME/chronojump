@@ -97,6 +97,13 @@ public class Preferences
 	public Constants.MultimediaStorage multimediaStorage;
 	public string databaseVersion;
 
+	//encoder rhythm
+	public double encoderRhythmEccSeconds;
+	public double encoderRhythmConSeconds;
+	public double encoderRhythmRestRepsSeconds;
+	public int encoderRhythmRepsCluster;
+	public double encoderRhythmRestClustersSeconds;
+
 	public string forceSensorTareDateTime;
 	public double forceSensorTare;
 	public string forceSensorCalibrationDateTime;
@@ -153,6 +160,44 @@ public class Preferences
 			changed = true;
 		}
 		return changed;
+	}
+
+	public void UpdateEncoderRhythm(EncoderRhythm er)
+	{
+		if(encoderRhythmEccSeconds != er.EccSeconds)
+		{
+			encoderRhythmEccSeconds = er.EccSeconds;
+			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmEccSecondsStr,
+					Util.ConvertToPoint(er.EccSeconds), false);
+		}
+
+		if(encoderRhythmConSeconds != er.ConSeconds)
+		{
+			encoderRhythmConSeconds = er.ConSeconds;
+			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmConSecondsStr,
+					Util.ConvertToPoint(er.ConSeconds), false);
+		}
+
+		if(encoderRhythmRestRepsSeconds != er.RestRepsSeconds)
+		{
+			encoderRhythmRestRepsSeconds = er.RestRepsSeconds;
+			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmRestRepsSecondsStr,
+					Util.ConvertToPoint(er.RestRepsSeconds), false);
+		}
+
+		if(encoderRhythmRepsCluster != er.RepsCluster)
+		{
+			encoderRhythmRepsCluster = er.RepsCluster;
+			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmRepsClusterStr,
+					Util.ConvertToPoint(er.RepsCluster), false);
+		}
+
+		if(encoderRhythmRestClustersSeconds != er.RestClustersSeconds)
+		{
+			encoderRhythmRestClustersSeconds = er.RestClustersSeconds;
+			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmRestClustersSecondsStr,
+					Util.ConvertToPoint(er.RestClustersSeconds), false);
+		}
 	}
 
 	//force sensor

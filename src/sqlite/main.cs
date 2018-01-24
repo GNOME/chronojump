@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.51";
+	static string lastChronojumpDatabaseVersion = "1.52";
 
 	public Sqlite() {
 	}
@@ -2284,6 +2284,25 @@ class Sqlite
 
 				currentVersion = updateVersion("1.51");
 			}
+			if(currentVersion == "1.51")
+			{
+				LogB.SQL("Added encoderRhtyhm stuff");
+
+				EncoderRhythm er = new EncoderRhythm();
+				SqlitePreferences.Insert (SqlitePreferences.EncoderRhythmEccSecondsStr,
+						Util.ConvertToPoint(er.EccSeconds));
+				SqlitePreferences.Insert (SqlitePreferences.EncoderRhythmConSecondsStr,
+						Util.ConvertToPoint(er.ConSeconds));
+				SqlitePreferences.Insert (SqlitePreferences.EncoderRhythmRestRepsSecondsStr,
+						Util.ConvertToPoint(er.RestRepsSeconds));
+				SqlitePreferences.Insert (SqlitePreferences.EncoderRhythmRepsClusterStr,
+						Util.ConvertToPoint(er.RepsCluster));
+				SqlitePreferences.Insert (SqlitePreferences.EncoderRhythmRestClustersSecondsStr,
+						Util.ConvertToPoint(er.RestClustersSeconds));
+
+				currentVersion = updateVersion("1.52");
+			}
+
 
 
 
@@ -2466,6 +2485,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 
 		//changes [from - to - desc]
+		//1.51 - 1.52 Converted DB to 1.52 Added encoderRhtyhm stuff
 		//1.50 - 1.51 Converted DB to 1.51 Updated encoderCaptureCutByTriggers variable
 		//1.49 - 1.50 Converted DB to 1.50 Updated preferences: added crashLogLanguage
 		//1.48 - 1.49 Converted DB to 1.49 Updated preferences: added force sensor tare/calibration stuff

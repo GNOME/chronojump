@@ -2528,7 +2528,8 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderDataTempFileName(),
 				encoderRProcCapture,
 				configChronojump.Compujump,
-				encoderRProcCapture.CutByTriggers
+				encoderRProcCapture.CutByTriggers,
+				encoderRhythm.RestClustersForEncoderCaptureAutoEnding()
 				);
 
 		//wait to ensure capture thread has ended
@@ -2569,7 +2570,8 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderDataTempFileName(),
 				encoderRProcCapture,
 				false, 	//compujump
-				Preferences.TriggerTypes.NO_TRIGGERS
+				Preferences.TriggerTypes.NO_TRIGGERS,
+				0  //encoderRhythm.RestClustersForEncoderCaptureAutoEnding()
 				);
 
 		//wait to ensure capture thread has ended

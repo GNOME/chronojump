@@ -98,6 +98,7 @@ public class Preferences
 	public string databaseVersion;
 
 	//encoder rhythm
+	public bool encoderRhythmActive;
 	public double encoderRhythmEccSeconds;
 	public double encoderRhythmConSeconds;
 	public double encoderRhythmRestRepsSeconds;
@@ -164,39 +165,46 @@ public class Preferences
 
 	public void UpdateEncoderRhythm(EncoderRhythm er)
 	{
+		if(encoderRhythmActive != er.Active)
+		{
+			encoderRhythmActive = er.Active;
+			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmActiveStr,
+					er.Active.ToString(), false); //bool
+		}
+
 		if(encoderRhythmEccSeconds != er.EccSeconds)
 		{
 			encoderRhythmEccSeconds = er.EccSeconds;
 			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmEccSecondsStr,
-					Util.ConvertToPoint(er.EccSeconds), false);
+					Util.ConvertToPoint(er.EccSeconds), false); //double to point
 		}
 
 		if(encoderRhythmConSeconds != er.ConSeconds)
 		{
 			encoderRhythmConSeconds = er.ConSeconds;
 			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmConSecondsStr,
-					Util.ConvertToPoint(er.ConSeconds), false);
+					Util.ConvertToPoint(er.ConSeconds), false); //double to point
 		}
 
 		if(encoderRhythmRestRepsSeconds != er.RestRepsSeconds)
 		{
 			encoderRhythmRestRepsSeconds = er.RestRepsSeconds;
 			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmRestRepsSecondsStr,
-					Util.ConvertToPoint(er.RestRepsSeconds), false);
+					Util.ConvertToPoint(er.RestRepsSeconds), false); //double to point
 		}
 
 		if(encoderRhythmRepsCluster != er.RepsCluster)
 		{
 			encoderRhythmRepsCluster = er.RepsCluster;
 			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmRepsClusterStr,
-					Util.ConvertToPoint(er.RepsCluster), false);
+					er.RepsCluster.ToString(), false); //int
 		}
 
 		if(encoderRhythmRestClustersSeconds != er.RestClustersSeconds)
 		{
 			encoderRhythmRestClustersSeconds = er.RestClustersSeconds;
 			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmRestClustersSecondsStr,
-					Util.ConvertToPoint(er.RestClustersSeconds), false);
+					Util.ConvertToPoint(er.RestClustersSeconds), false); //double to point
 		}
 	}
 

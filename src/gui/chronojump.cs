@@ -803,6 +803,7 @@ public partial class ChronoJumpWindow
 		configInitFromPreferences();
 
 		encoderRhythm = new EncoderRhythm(
+				preferences.encoderRhythmActive,
 				preferences.encoderRhythmEccSeconds, preferences.encoderRhythmConSeconds,
 				preferences.encoderRhythmRestRepsSeconds,
 				preferences.encoderRhythmRepsCluster, preferences.encoderRhythmRestClustersSeconds);

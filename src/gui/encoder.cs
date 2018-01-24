@@ -5298,6 +5298,10 @@ public partial class ChronoJumpWindow
 						eCaptureInertialBG.SimulatedReset();
 				}
 
+				//initialize DateTime for rhythm
+				encoderRhythmExecute = new EncoderRhythmExecute(encoderRhythm);
+				image_encoder_rhythm_alert.Visible = false;
+
 				//triggers only work on gravitatory, concentric
 				Preferences.TriggerTypes reallyCutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS;
 
@@ -5306,14 +5310,10 @@ public partial class ChronoJumpWindow
 				{
 					reallyCutByTriggers = preferences.encoderCaptureCutByTriggers;
 					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 2;
-				} else
+				} else if(encoderRhythm.Active)
 					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 1;
 
 				encoderRProcCapture.CutByTriggers = reallyCutByTriggers;
-
-				//initialize DateTime for rhythm
-				encoderRhythmExecute = new EncoderRhythmExecute(encoderRhythm);
-				image_encoder_rhythm_alert.Visible = false;
 
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
@@ -5817,7 +5817,8 @@ public partial class ChronoJumpWindow
 				needToRefreshTreeviewCapture = false;
 			}
 
-			updatePulsebarRhythm();
+			if(encoderRhythm.Active)
+				updatePulsebarRhythm();
 
 			//changed trying to fix crash of nuell 27/may/2016
 			//LogB.Debug(" Cap:", encoderThread.ThreadState.ToString());

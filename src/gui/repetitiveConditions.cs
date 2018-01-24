@@ -154,7 +154,9 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_repetitive_test_bad;
 
 	//encoder rhythm
+	[Widget] Gtk.CheckButton check_rhythm_active;
 	[Widget] Gtk.VBox vbox_rhythm_cluster;
+	[Widget] Gtk.Frame frame_rhythm;
 	[Widget] Gtk.CheckButton check_rhythm_use_clusters;
 	[Widget] Gtk.SpinButton	spin_rhythm_ecc;
 	[Widget] Gtk.SpinButton	spin_rhythm_con;
@@ -574,6 +576,11 @@ public class RepetitiveConditionsWindow
 	}
 
 	//encoder rhythm
+	private void on_check_rhythm_active_toggled (object o, EventArgs args)
+	{
+		frame_rhythm.Visible = check_rhythm_active.Active;
+	}
+
 	private void on_check_rhythm_use_clusters_toggled (object o, EventArgs args)
 	{
 		vbox_rhythm_cluster.Visible = check_rhythm_use_clusters.Active;
@@ -593,6 +600,8 @@ public class RepetitiveConditionsWindow
 		spin_rhythm_reps_cluster.Value = encoderRhythm.RepsCluster;
 		spin_rhythm_rest_clusters.Value = encoderRhythm.RestClustersSeconds;
 
+		frame_rhythm.Visible = check_rhythm_active.Active;
+
 		if(encoderRhythm.UseClusters()) {
 			check_rhythm_use_clusters.Active = true;
 			vbox_rhythm_cluster.Visible = true;
@@ -609,6 +618,7 @@ public class RepetitiveConditionsWindow
 			reps_cluster = 1;
 
 		return new EncoderRhythm(
+				check_rhythm_active.Active,
 				spin_rhythm_ecc.Value, spin_rhythm_con.Value, spin_rhythm_rest_reps.Value,
 				reps_cluster, spin_rhythm_rest_clusters.Value);
 	}

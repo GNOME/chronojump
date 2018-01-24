@@ -100,7 +100,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_rhythm_eccon;
-	[Widget] Gtk.ProgressBar encoder_pulsebar_rhythm_wait;
+	[Widget] Gtk.Label label_encoder_rhythm_rest;
 	[Widget] Gtk.Image image_encoder_rhythm_alert;
 	[Widget] Gtk.VBox vbox_encoder_signal_comment;
 	[Widget] Gtk.Notebook notebook_encoder_signal_comment_rhythm_and_triggers;
@@ -5311,7 +5311,10 @@ public partial class ChronoJumpWindow
 					reallyCutByTriggers = preferences.encoderCaptureCutByTriggers;
 					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 2;
 				} else if(encoderRhythm.Active)
+				{
 					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 1;
+					image_encoder_rhythm_rest.Visible = encoderRhythm.UseRest();
+				}
 
 				encoderRProcCapture.CutByTriggers = reallyCutByTriggers;
 
@@ -6024,7 +6027,7 @@ public partial class ChronoJumpWindow
 		if(! encoderRhythmExecute.FirstRepetitionDone())
 		{
 			encoder_pulsebar_rhythm_eccon.Fraction = 0;
-			encoder_pulsebar_rhythm_wait.Fraction = 0;
+			label_encoder_rhythm_rest.Text = "";
 			encoder_pulsebar_rhythm_eccon.Text = "Waiting 1st rep.";
 			return;
 		}
@@ -6032,9 +6035,7 @@ public partial class ChronoJumpWindow
 		encoderRhythmExecute.CalculateFractionsAndText();
 		encoder_pulsebar_rhythm_eccon.Fraction = encoderRhythmExecute.FractionRepetition;
 		encoder_pulsebar_rhythm_eccon.Text = encoderRhythmExecute.TextRepetition;
-		//TODO: this pulsebar should be a sofa and a label with seconds in one decimal
-		encoder_pulsebar_rhythm_wait.Fraction = encoderRhythmExecute.FractionRest;
-		encoder_pulsebar_rhythm_wait.Text = encoderRhythmExecute.TextRest;
+		label_encoder_rhythm_rest.Text = encoderRhythmExecute.TextRest;
 
 		if(encoderRhythmExecute.FractionRepetition >= 1)
 			image_encoder_rhythm_alert.Visible = true;

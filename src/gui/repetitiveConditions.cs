@@ -594,6 +594,7 @@ public class RepetitiveConditionsWindow
 
 	private void encoder_rhythm_set_values(EncoderRhythm encoderRhythm)
 	{
+		check_rhythm_active.Active = encoderRhythm.Active;
 		spin_rhythm_ecc.Value = encoderRhythm.EccSeconds;
 		spin_rhythm_con.Value = encoderRhythm.ConSeconds;
 		spin_rhythm_rest_reps.Value = encoderRhythm.RestRepsSeconds;

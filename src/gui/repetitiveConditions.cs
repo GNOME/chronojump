@@ -588,7 +588,12 @@ public class RepetitiveConditionsWindow
 
 	private void on_button_rhythm_default_clicked (object o, EventArgs args)
 	{
+		//have default values
 		EncoderRhythm encoderRhythm = new EncoderRhythm();
+		//But have rhythm active
+		encoderRhythm.Active = true;
+
+		//modify widgets
 		encoder_rhythm_set_values(encoderRhythm);
 	}
 

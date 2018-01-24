@@ -77,6 +77,14 @@ public class EncoderRhythm
 
 		return false;
 	}
+
+	public double RestClustersForEncoderCaptureAutoEnding()
+	{
+		if(Active && UseClusters() && RestClustersSeconds > 0)
+			return RestClustersSeconds;
+
+		return 0;
+	}
 }
 
 public class EncoderRhythmExecute

@@ -3916,9 +3916,13 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkTextView" id="textview1">
+                                      <widget class="GtkTextView" id="textview_encoder_rhythm_clusters">
                                         <property name="visible">True</property>
+                                        <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
+                                        <property name="text" translatable="yes">Set will end when user press Finish or Cancel or
+when there's no change in the encoder during this time:
+1.5 * Rest between clusters</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">True</property>

@@ -212,7 +212,7 @@ public abstract class EncoderCapture
 	}
 
 	public bool Capture(string outputData1, EncoderRProcCapture encoderRProcCapture,
-			bool compujump, Preferences.TriggerTypes cutByTriggers)
+			bool compujump, Preferences.TriggerTypes cutByTriggers, double restClustersSeconds)
 	{
 		/*
 		 * removed at 1.7.0
@@ -345,13 +345,22 @@ public abstract class EncoderCapture
 				//but it has to be moved a little bit first, just to give time to the people
 				//if(consecutiveZeros >= consecutiveZerosMax && sum > 0) #Not OK because sum maybe is 0: +1,+1,-1,-1
 				//if(consecutiveZeros >= consecutiveZerosMax && ecca.ecc.Count > 0) #Not ok because when ecca is created, ecc.Count == 1
-				//
-				//process ends 
-				//when a curve has been found and then there are n seconds of inactivity, or
-				//when a curve has not been found and then there are 2*n seconds of inactivity
+				/*
+				 * process ends
+				 * (
+				 * when a curve has been found and then there are n seconds of inactivity, or
+				 * when not in cont and a curve has not been found and then there are 2*n seconds of inactivity
+				 * ) and if consecutiveZeros > restClustersSeconds * 1.500
+				 *
+				 * 1500 is conversion to milliseconds and * 1.5 to have enough time to move after clusters res
+				 */
 				if(
-						(Ecca.curvesAccepted > 0 && consecutiveZeros >= consecutiveZerosMax) ||
-						(! cont && Ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax)) )
+						(
+						 (Ecca.curvesAccepted > 0 && consecutiveZeros >= consecutiveZerosMax) ||
+						 (! cont && Ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax))
+						) &&
+						(restClustersSeconds == 0 || consecutiveZeros > restClustersSeconds * 1500)
+				  )
 				{
 					finish = true;
 					LogB.Information("SHOULD FINISH");

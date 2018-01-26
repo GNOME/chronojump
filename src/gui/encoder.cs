@@ -5288,7 +5288,8 @@ public partial class ChronoJumpWindow
 						portName,
 						(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
 						configChronojump.EncoderCaptureShowOnlyBars,
-						currentSession.Name == Constants.SessionSimulatedName && testsActive
+						currentSession.Name == Constants.SessionSimulatedName && testsActive,
+						(encoderRhythm.Active && ! encoderConfigurationCurrent.has_inertia) //rhythm only on gravitory now
 						);
 
 				if(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null)
@@ -5312,10 +5313,16 @@ public partial class ChronoJumpWindow
 				{
 					reallyCutByTriggers = preferences.encoderCaptureCutByTriggers;
 					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 2;
-				} else if(encoderRhythm.Active)
+				} else if(encoderRhythm.Active && ! encoderConfigurationCurrent.has_inertia) //rhythm only on gravitory now
 				{
 					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 1;
 					image_encoder_rhythm_rest.Visible = encoderRhythm.UseRest();
+
+					if(encoderRhythm.Active)
+					{
+						eCapture.FakeButtonRhythm.Clicked -= new EventHandler(on_encoder_rhythm_changed);
+						eCapture.FakeButtonRhythm.Clicked += new EventHandler(on_encoder_rhythm_changed);
+					}
 				}
 
 				encoderRProcCapture.CutByTriggers = reallyCutByTriggers;
@@ -5336,7 +5343,8 @@ public partial class ChronoJumpWindow
 						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port,
 						false,
 						false,
-						false
+						false,
+						false //encoderRhythm.Active
 						);
 
 				encoderRProcCapture.CutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS; //do not cutByTriggers on inertial, yet.
@@ -5795,11 +5803,6 @@ public partial class ChronoJumpWindow
 
 			if(needToRefreshTreeviewCapture) 
 			{
-				//TODO: is better to do this before when the curves was sent,
-				//not when needToRefreshTreeviewCapture (because this is too later because it's returning from R)
-				encoderRhythmExecute.SetLastRepetitionDT();
-				image_encoder_rhythm_alert.Visible = false;
-
 				//LogB.Error("HERE YES");
 				//LogB.Error(encoderCaptureStringR);
 
@@ -6030,7 +6033,8 @@ public partial class ChronoJumpWindow
 		{
 			encoder_pulsebar_rhythm_eccon.Fraction = 0;
 			label_encoder_rhythm_rest.Text = "";
-			encoder_pulsebar_rhythm_eccon.Text = "Waiting 1st rep.";
+			image_encoder_rhythm_rest.Visible = false;
+			encoder_pulsebar_rhythm_eccon.Text = "Waiting 1st phase";
 			return;
 		}
 
@@ -6038,9 +6042,15 @@ public partial class ChronoJumpWindow
 		encoder_pulsebar_rhythm_eccon.Fraction = encoderRhythmExecute.FractionRepetition;
 		encoder_pulsebar_rhythm_eccon.Text = encoderRhythmExecute.TextRepetition;
 		label_encoder_rhythm_rest.Text = encoderRhythmExecute.TextRest;
+		image_encoder_rhythm_rest.Visible = encoderRhythmExecute.TextRest != "";
 
-		if(encoderRhythmExecute.FractionRepetition >= 1)
-			image_encoder_rhythm_alert.Visible = true;
+		//TODO: this warning should appear also if value is 0, end of ecc phase
+		//image_encoder_rhythm_alert.Visible = (encoderRhythmExecute.FractionRepetition >= 1);
+	}
+	//no GTK here (just in case)
+	private void on_encoder_rhythm_changed(object o, EventArgs args)
+	{
+		encoderRhythmExecute.ChangePhase(eCapture.RhythmNRep, eCapture.RhythmEcconUp);
 	}
 
 	// -------------- drawingarea_encoder_analyze_instant

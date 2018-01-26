@@ -37,8 +37,8 @@ public class EncoderRhythm
 		Active = false;
 
 		//default values
-		EccSeconds = 0.5;
-		ConSeconds = 0.5;
+		EccSeconds = 1;
+		ConSeconds = 1;
 		RestRepsSeconds = 0;
 
 		RepsCluster = 1; //1 is default, minimum value and means "no use clusters"
@@ -95,10 +95,14 @@ public class EncoderRhythmExecute
 	private DateTime lastRepetitionDT;
 	private EncoderRhythm encoderRhythm;
 	private int nreps;
+	private bool lastIsUp;
 	private bool restClusterTimeEndedFlag;
 
 	private double fractionRepetition;
 	private double fractionRest;
+
+	//true is for con or ecc-con (gravitatory, always end on "con"), false is for con-ecc (inertial)
+	private	bool eccon_ec = true;
 
 
 	//constructor
@@ -128,11 +132,13 @@ public class EncoderRhythmExecute
 		return (nreps % encoderRhythm.RepsCluster == 0);
 	}
 
-	public void SetLastRepetitionDT()
+	public void ChangePhase(int nrep, bool up)
 	{
 		lastRepetitionDT = DateTime.Now;
-		nreps ++;
 		restClusterTimeEndedFlag = false;
+
+		nreps = nrep;
+		lastIsUp = up;
 	}
 
 	private bool checkIfRestingBetweenClusters(double totalSeconds)
@@ -140,7 +146,12 @@ public class EncoderRhythmExecute
 		if(restClusterTimeEndedFlag)
 			return false;
 
-		if(nreps > 0 && nreps % encoderRhythm.RepsCluster == 0)
+		/*
+		 * We are resting when we done more than 0 repetitions, AND
+		 * mod of repetitions by RepsCluster == 0 AND
+		 * if repetition ends on c, whe have done c (or if it ends on e, we have done e)
+		 */
+		if(nreps > 0 && nreps % encoderRhythm.RepsCluster == 0 && lastIsUp == eccon_ec)
 		{
 			if(totalSeconds < encoderRhythm.RestClustersSeconds)
 				return true;
@@ -169,7 +180,6 @@ public class EncoderRhythmExecute
 			calculateRepetitionFraction(totalSeconds);
 	}
 
-	//reptition has an initial rest phase
 	private void calculateRepetitionFraction(double totalSeconds)
 	{
 		//first repetition in cluster will not have rest
@@ -177,7 +187,12 @@ public class EncoderRhythmExecute
 		if(encoderRhythm.UseClusters() && firstInCluster())
 			restRepsSeconds = 0;
 
-		if(totalSeconds < restRepsSeconds)
+		/*
+		 * if ( (we ended concentric and it's ecc-con ||
+		 *    we ended excentric and it's con-ecc) && totalSeconds < restRepsSeconds)
+		 *    then there's a rest between repetitions
+		 */
+		if(lastIsUp == eccon_ec && totalSeconds < restRepsSeconds)
 		{
 			TextRepetition = "";
 			TextRest = "Resting " +
@@ -187,18 +202,25 @@ public class EncoderRhythmExecute
 			fractionRest = totalSeconds / restRepsSeconds;
 			return;
 		}
-		else if((totalSeconds - restRepsSeconds) < encoderRhythm.EccSeconds)
+
+		/*
+		 * if we ended con and repetition ends at con, then substract restRepsSeconds to totalSeconds to calculate fraction
+		 * als when we done ecc and repetition ends at ecc
+		 */
+		if(restRepsSeconds > 0 && lastIsUp == eccon_ec)
+			totalSeconds -= restRepsSeconds;
+
+		if(lastIsUp)
 		{
 			TextRepetition = "Excentric";
 			TextRest = "";
-			fractionRepetition = 1 - ((totalSeconds - restRepsSeconds) / encoderRhythm.EccSeconds);
+			fractionRepetition = 1 - ((totalSeconds) / encoderRhythm.EccSeconds);
 			fractionRest = 0;
 			return;
-		}
-		else {
+		} else {
 			TextRepetition = "Concentric";
 			TextRest = "";
-			fractionRepetition = (totalSeconds - (restRepsSeconds + encoderRhythm.EccSeconds)) / encoderRhythm.ConSeconds;
+			fractionRepetition = (totalSeconds) / encoderRhythm.ConSeconds;
 			fractionRest = 0;
 			return;
 		}

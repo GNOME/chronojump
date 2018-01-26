@@ -22,6 +22,7 @@ using System;
 using System.IO;
 using System.IO.Ports;
 using System.Collections.Generic; //List<T>
+using Gtk;
 
 public abstract class EncoderCapture
 {
@@ -38,6 +39,12 @@ public abstract class EncoderCapture
 	public List<Gdk.Point> EncoderCapturePointsInertialDisc;
 	public int EncoderCapturePointsCaptured;
 	public int EncoderCapturePointsPainted;
+
+	//encoderRhythm stuff
+	private bool useRhythm;
+	public int RhythmNRep; //used to know rest between clusters
+	public bool RhythmEcconUp;
+	private Gtk.Button fakeButtonRhythm;
 
 	// ---- protected stuff ----
 	protected int widthG;
@@ -111,7 +118,9 @@ public abstract class EncoderCapture
 
 
 	//if cont (continuous mode), then will not end when too much time passed before start
-	public void InitGlobal (int widthG, int heightG, int time, int timeEnd, bool cont, string eccon, string port, bool capturingInertialBG, bool showOnlyBars, bool simulated)
+	public void InitGlobal (int widthG, int heightG, int time, int timeEnd,
+			bool cont, string eccon, string port, bool capturingInertialBG, bool showOnlyBars,
+			bool simulated, bool useRhythm)
 	{
 		this.widthG = widthG;
 		this.heightG = heightG;
@@ -120,6 +129,10 @@ public abstract class EncoderCapture
 		this.capturingInertialBG = capturingInertialBG;
 		this.showOnlyBars = showOnlyBars;
 		this.simulated = simulated;
+		this.useRhythm = useRhythm;
+
+		if(useRhythm)
+			fakeButtonRhythm = new Gtk.Button();
 
 		//---- a) open port -----
 		if(simulated)
@@ -145,6 +158,9 @@ public abstract class EncoderCapture
 
 		recordingTime = time * 1000;
 		recordedTimeCont = 1; //not 0 to not have divide by zero problems
+
+		RhythmNRep = 0;
+		RhythmEcconUp = true;
 
 		encoderReaded = new List<int>();
 		encoderReadedInertialDisc = new List<int>();
@@ -539,7 +555,9 @@ public abstract class EncoderCapture
 						 */
 
 
-						if( shouldSendCurve() )
+						//store in a boolean to not call shouldSendCurve() two times because it changes some variables
+						bool shouldSendCurveBool = shouldSendCurve();
+						if(shouldSendCurveBool)
 						{
 							//if compujump, wakeup screen if it's off
 							//do it on the first repetition because it will not be sleeping on the rest of repetitions
@@ -558,6 +576,19 @@ public abstract class EncoderCapture
 							LogB.Information(ecc.ToString());
 
 							lastDirectionStoredIsUp = ecc.up;
+						}
+
+						/*
+						 * manage encoderRhythm stuff
+						 * also on "c" send info if we ended ecc phase
+						 */
+						if( useRhythm && (shouldSendCurveBool || (eccon == "c" && ! ecc.up)) )
+						{
+							LogB.Information("SSC: " + ecc.up.ToString());
+							if( (eccon == "c" && ecc.up) || (eccon != "c" && ! ecc.up))
+								RhythmNRep ++;
+							RhythmEcconUp = ecc.up;
+							fakeButtonRhythm.Click();
 						}
 					}
 
@@ -847,6 +878,11 @@ public abstract class EncoderCapture
 	
 	public void Finish() {
 		finish = true;
+	}
+
+	public Button FakeButtonRhythm
+	{
+		get { return fakeButtonRhythm; }
 	}
 }
 

@@ -47,6 +47,8 @@ public abstract class EncoderCapture
 	public bool RhythmEcconUp;
 	private Gtk.Button fakeButtonRhythm;
 
+	protected bool gravitatoryOrInertial; //currently only used for encoderRhythm
+
 	// ---- protected stuff ----
 	protected int widthG;
 	protected int heightG;
@@ -586,22 +588,15 @@ public abstract class EncoderCapture
 						 */
 						if( useRhythm && (shouldSendCurveBool || (eccon == "c" && ! ecc.up)) )
 						{
-							LogB.Information("SSC: " + ecc.up.ToString());
 							RhythmEcconUp = ecc.up;
 
-							if(rhythmRepsOrPhases)
-							{
-								if(eccon == "c" && ecc.up)
-								{
-									RhythmNRep ++;
-									fakeButtonRhythm.Click();
-								}
-							} else {
-								if( (eccon == "c" && ecc.up) || (eccon != "c" && ! ecc.up))
-									RhythmNRep ++;
+							//on gravitatory phase ends at up, on inertial the opposite
+							if(gravitatoryOrInertial == ecc.up)
+								RhythmNRep ++;
 
+							//if phases always send the phase. On reps only when change rep
+							if(! rhythmRepsOrPhases || gravitatoryOrInertial == ecc.up)
 								fakeButtonRhythm.Click();
-							}
 						}
 					}
 
@@ -916,6 +911,8 @@ public class EncoderCaptureGravitatory : EncoderCapture
 		
 		//just a default value, unused until a curve has been accepted
 		lastDirectionStoredIsUp = true;
+
+		gravitatoryOrInertial = true;
 	}
 }
 
@@ -929,6 +926,8 @@ public class EncoderCaptureInertial : EncoderCapture
 	protected override void initSpecific()
 	{
 		realHeightG = 2 * 5000 ; //5 meters up / 5 meters down
+
+		gravitatoryOrInertial = false;
 	}
 
 	public override void InitCalibrated(int angleNow)

@@ -114,9 +114,11 @@ public class EncoderRhythmExecute
 
 
 	//constructor
-	public EncoderRhythmExecute(EncoderRhythm encoderRhythm)
+	public EncoderRhythmExecute(EncoderRhythm encoderRhythm, bool eccon_ec)
 	{
 		this.encoderRhythm = encoderRhythm;
+		this.eccon_ec = eccon_ec;
+
 		initialize();
 	}
 

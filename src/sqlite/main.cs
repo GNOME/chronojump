@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.53";
+	static string lastChronojumpDatabaseVersion = "1.54";
 
 	public Sqlite() {
 	}
@@ -2310,7 +2310,17 @@ class Sqlite
 
 				currentVersion = updateVersion("1.53");
 			}
+			if(currentVersion == "1.53")
+			{
+				LogB.SQL("Added encoderRhythm variables: repsOrPhases, repSeconds");
 
+				EncoderRhythm er = new EncoderRhythm();
+				SqlitePreferences.Insert (SqlitePreferences.EncoderRhythmRepsOrPhasesStr, er.RepsOrPhases.ToString());
+				SqlitePreferences.Insert (SqlitePreferences.EncoderRhythmRepSecondsStr,
+						Util.ConvertToPoint(er.RepSeconds));
+
+				currentVersion = updateVersion("1.54");
+			}
 
 
 
@@ -2494,6 +2504,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 
 		//changes [from - to - desc]
+		//1.53 - 1.54 Converted DB to 1.54 Added encoderRhythm variables: repOrPhases, repSeconds
 		//1.52 - 1.53 Converted DB to 1.53 Added encoderRhtyhm active variable
 		//1.51 - 1.52 Converted DB to 1.52 Added encoderRhtyhm stuff
 		//1.50 - 1.51 Converted DB to 1.51 Updated encoderCaptureCutByTriggers variable

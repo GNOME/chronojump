@@ -5289,7 +5289,8 @@ public partial class ChronoJumpWindow
 						(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
 						configChronojump.EncoderCaptureShowOnlyBars,
 						currentSession.Name == Constants.SessionSimulatedName && testsActive,
-						(encoderRhythm.Active && ! encoderConfigurationCurrent.has_inertia) //rhythm only on gravitory now
+						(encoderRhythm.Active && ! encoderConfigurationCurrent.has_inertia), //rhythm only on gravitory now
+						encoderRhythm.RepsOrPhases
 						);
 
 				if(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null)
@@ -5344,7 +5345,8 @@ public partial class ChronoJumpWindow
 						false,
 						false,
 						false,
-						false //encoderRhythm.Active
+						false, //encoderRhythm.Active
+						encoderRhythm.RepsOrPhases
 						);
 
 				encoderRProcCapture.CutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS; //do not cutByTriggers on inertial, yet.

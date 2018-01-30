@@ -42,6 +42,7 @@ public abstract class EncoderCapture
 
 	//encoderRhythm stuff
 	private bool useRhythm;
+	private bool rhythmRepsOrPhases;
 	public int RhythmNRep; //used to know rest between clusters
 	public bool RhythmEcconUp;
 	private Gtk.Button fakeButtonRhythm;
@@ -120,7 +121,7 @@ public abstract class EncoderCapture
 	//if cont (continuous mode), then will not end when too much time passed before start
 	public void InitGlobal (int widthG, int heightG, int time, int timeEnd,
 			bool cont, string eccon, string port, bool capturingInertialBG, bool showOnlyBars,
-			bool simulated, bool useRhythm)
+			bool simulated, bool useRhythm, bool rhythmRepsOrPhases)
 	{
 		this.widthG = widthG;
 		this.heightG = heightG;
@@ -130,6 +131,7 @@ public abstract class EncoderCapture
 		this.showOnlyBars = showOnlyBars;
 		this.simulated = simulated;
 		this.useRhythm = useRhythm;
+		this.rhythmRepsOrPhases = rhythmRepsOrPhases;
 
 		if(useRhythm)
 			fakeButtonRhythm = new Gtk.Button();
@@ -585,10 +587,21 @@ public abstract class EncoderCapture
 						if( useRhythm && (shouldSendCurveBool || (eccon == "c" && ! ecc.up)) )
 						{
 							LogB.Information("SSC: " + ecc.up.ToString());
-							if( (eccon == "c" && ecc.up) || (eccon != "c" && ! ecc.up))
-								RhythmNRep ++;
 							RhythmEcconUp = ecc.up;
-							fakeButtonRhythm.Click();
+
+							if(rhythmRepsOrPhases)
+							{
+								if(eccon == "c" && ecc.up)
+								{
+									RhythmNRep ++;
+									fakeButtonRhythm.Click();
+								}
+							} else {
+								if( (eccon == "c" && ecc.up) || (eccon != "c" && ! ecc.up))
+									RhythmNRep ++;
+
+								fakeButtonRhythm.Click();
+							}
 						}
 					}
 

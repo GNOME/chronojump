@@ -24,6 +24,8 @@ using System.Data;
 public class EncoderRhythm
 {
 	public bool Active;
+	public bool RepsOrPhases; //true is by repetition, using RepSeconds. False is by phases, using EccSeconds, ConSeconds
+	public double RepSeconds;
 	public double EccSeconds;
 	public double ConSeconds;
 	public double RestRepsSeconds; //rest between repetitions
@@ -37,18 +39,24 @@ public class EncoderRhythm
 		Active = false;
 
 		//default values
+		RepsOrPhases = true;
+		RepSeconds = 2;
 		EccSeconds = 1;
 		ConSeconds = 1;
+
 		RestRepsSeconds = 0;
 
 		RepsCluster = 1; //1 is default, minimum value and means "no use clusters"
 		RestClustersSeconds = 6;
 	}
 
-	public EncoderRhythm(bool active, double eccSeconds, double conSeconds, double restRepsSeconds,
+	public EncoderRhythm(bool active, bool repsOrPhases,
+			double repSeconds, double eccSeconds, double conSeconds, double restRepsSeconds,
 			int repsCluster, double restClustersSeconds)
 	{
 		Active = active;
+		RepsOrPhases = repsOrPhases;
+		RepSeconds = repSeconds;
 		EccSeconds = eccSeconds;
 		ConSeconds = conSeconds;
 		RestRepsSeconds = restRepsSeconds;
@@ -132,6 +140,10 @@ public class EncoderRhythmExecute
 		return (nreps % encoderRhythm.RepsCluster == 0);
 	}
 
+	/*
+	 * if RepsOrPhases == true (by phases), then ChangePhase will be called when repetition ends
+	 * else will be called when ecc or con ends
+	 */
 	public void ChangePhase(int nrep, bool up)
 	{
 		lastRepetitionDT = DateTime.Now;
@@ -203,6 +215,9 @@ public class EncoderRhythmExecute
 			return;
 		}
 
+		TextRest = "";
+			fractionRest = 0;
+
 		/*
 		 * if we ended con and repetition ends at con, then substract restRepsSeconds to totalSeconds to calculate fraction
 		 * als when we done ecc and repetition ends at ecc
@@ -210,19 +225,18 @@ public class EncoderRhythmExecute
 		if(restRepsSeconds > 0 && lastIsUp == eccon_ec)
 			totalSeconds -= restRepsSeconds;
 
-		if(lastIsUp)
+		if(encoderRhythm.RepsOrPhases)
+		{
+			TextRepetition = "";
+			fractionRepetition = (totalSeconds) / encoderRhythm.RepSeconds;
+		}
+		else if(lastIsUp)
 		{
 			TextRepetition = "Excentric";
-			TextRest = "";
 			fractionRepetition = 1 - ((totalSeconds) / encoderRhythm.EccSeconds);
-			fractionRest = 0;
-			return;
 		} else {
 			TextRepetition = "Concentric";
-			TextRest = "";
 			fractionRepetition = (totalSeconds) / encoderRhythm.ConSeconds;
-			fractionRest = 0;
-			return;
 		}
 	}
 

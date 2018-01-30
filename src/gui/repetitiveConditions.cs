@@ -155,9 +155,12 @@ public class RepetitiveConditionsWindow
 
 	//encoder rhythm
 	[Widget] Gtk.CheckButton check_rhythm_active;
+	[Widget] Gtk.RadioButton radio_rhythm_together;
+	[Widget] Gtk.Notebook notebook_duration_repetition;
 	[Widget] Gtk.VBox vbox_rhythm_cluster;
 	[Widget] Gtk.Frame frame_rhythm;
 	[Widget] Gtk.CheckButton check_rhythm_use_clusters;
+	[Widget] Gtk.SpinButton	spin_rhythm_rep;
 	[Widget] Gtk.SpinButton	spin_rhythm_ecc;
 	[Widget] Gtk.SpinButton	spin_rhythm_con;
 	[Widget] Gtk.SpinButton	spin_rhythm_rest_reps;
@@ -581,6 +584,14 @@ public class RepetitiveConditionsWindow
 		frame_rhythm.Visible = check_rhythm_active.Active;
 	}
 
+	private void on_radio_rhythm_together_toggled (object o, EventArgs args)
+	{
+		if(radio_rhythm_together.Active)
+			notebook_duration_repetition.CurrentPage = 0;
+		else
+			notebook_duration_repetition.CurrentPage = 1;
+	}
+
 	private void on_check_rhythm_use_clusters_toggled (object o, EventArgs args)
 	{
 		vbox_rhythm_cluster.Visible = check_rhythm_use_clusters.Active;
@@ -600,6 +611,8 @@ public class RepetitiveConditionsWindow
 	private void encoder_rhythm_set_values(EncoderRhythm encoderRhythm)
 	{
 		check_rhythm_active.Active = encoderRhythm.Active;
+		radio_rhythm_together.Active = encoderRhythm.RepsOrPhases;
+		spin_rhythm_rep.Value = encoderRhythm.RepSeconds;
 		spin_rhythm_ecc.Value = encoderRhythm.EccSeconds;
 		spin_rhythm_con.Value = encoderRhythm.ConSeconds;
 		spin_rhythm_rest_reps.Value = encoderRhythm.RestRepsSeconds;
@@ -607,6 +620,11 @@ public class RepetitiveConditionsWindow
 		spin_rhythm_rest_clusters.Value = encoderRhythm.RestClustersSeconds;
 
 		frame_rhythm.Visible = check_rhythm_active.Active;
+
+		if(encoderRhythm.RepsOrPhases)
+			notebook_duration_repetition.CurrentPage = 0;
+		else
+			notebook_duration_repetition.CurrentPage = 1;
 
 		if(encoderRhythm.UseClusters()) {
 			check_rhythm_use_clusters.Active = true;
@@ -624,8 +642,9 @@ public class RepetitiveConditionsWindow
 			reps_cluster = 1;
 
 		return new EncoderRhythm(
-				check_rhythm_active.Active,
-				spin_rhythm_ecc.Value, spin_rhythm_con.Value, spin_rhythm_rest_reps.Value,
+				check_rhythm_active.Active, radio_rhythm_together.Active,
+				spin_rhythm_rep.Value, spin_rhythm_ecc.Value, spin_rhythm_con.Value,
+				spin_rhythm_rest_reps.Value,
 				reps_cluster, spin_rhythm_rest_clusters.Value);
 	}
 

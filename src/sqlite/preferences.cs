@@ -43,6 +43,8 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorCalibrationFactorStr = "forceSensorCalibrationFactor";
 
 	public const string EncoderRhythmActiveStr = "encoderRhythmActive";
+	public const string EncoderRhythmRepsOrPhasesStr = "encoderRhythmRepsOrPhases";
+	public const string EncoderRhythmRepSecondsStr = "encoderRhythmRepSeconds";
 	public const string EncoderRhythmEccSecondsStr = "encoderRhythmEccSeconds";
 	public const string EncoderRhythmConSecondsStr = "encoderRhythmConSeconds";
 	public const string EncoderRhythmRestRepsSecondsStr = "encoderRhythmRestRepsSeconds";
@@ -155,6 +157,8 @@ class SqlitePreferences : Sqlite
 				//encoderRhythm
 				EncoderRhythm er = new EncoderRhythm();
 				Insert (EncoderRhythmActiveStr, er.Active.ToString(), dbcmdTr);
+				Insert (EncoderRhythmRepsOrPhasesStr, er.RepsOrPhases.ToString(), dbcmdTr);
+				Insert (EncoderRhythmRepSecondsStr, Util.ConvertToPoint(er.RepSeconds), dbcmdTr);
 				Insert (EncoderRhythmEccSecondsStr, Util.ConvertToPoint(er.EccSeconds), dbcmdTr);
 				Insert (EncoderRhythmConSecondsStr, Util.ConvertToPoint(er.ConSeconds), dbcmdTr);
 				Insert (EncoderRhythmRestRepsSecondsStr, Util.ConvertToPoint(er.RestRepsSeconds), dbcmdTr);
@@ -332,6 +336,11 @@ class SqlitePreferences : Sqlite
 			//encoder rhythm
 			else if(reader[0].ToString() == EncoderRhythmActiveStr)
 				preferences.encoderRhythmActive = reader[1].ToString() == "True"; //bool
+			else if(reader[0].ToString() == EncoderRhythmRepsOrPhasesStr)
+				preferences.encoderRhythmRepsOrPhases = reader[1].ToString() == "True"; //bool
+			else if(reader[0].ToString() == EncoderRhythmRepSecondsStr)
+				preferences.encoderRhythmRepSeconds = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
 			else if(reader[0].ToString() == EncoderRhythmEccSecondsStr)
 				preferences.encoderRhythmEccSeconds = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));

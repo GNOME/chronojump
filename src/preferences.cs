@@ -99,6 +99,8 @@ public class Preferences
 
 	//encoder rhythm
 	public bool encoderRhythmActive;
+	public bool encoderRhythmRepsOrPhases;
+	public double encoderRhythmRepSeconds;
 	public double encoderRhythmEccSeconds;
 	public double encoderRhythmConSeconds;
 	public double encoderRhythmRestRepsSeconds;
@@ -165,47 +167,77 @@ public class Preferences
 
 	public void UpdateEncoderRhythm(EncoderRhythm er)
 	{
+		if(
+				encoderRhythmActive != er.Active ||
+				encoderRhythmRepsOrPhases != er.RepsOrPhases ||
+				encoderRhythmRepSeconds != er.RepSeconds ||
+				encoderRhythmEccSeconds != er.EccSeconds ||
+				encoderRhythmConSeconds != er.ConSeconds ||
+				encoderRhythmRestRepsSeconds != er.RestRepsSeconds ||
+				encoderRhythmRepsCluster != er.RepsCluster ||
+				encoderRhythmRestClustersSeconds != er.RestClustersSeconds
+				)
+			Sqlite.Open();
+		else
+			return;
+
 		if(encoderRhythmActive != er.Active)
 		{
 			encoderRhythmActive = er.Active;
 			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmActiveStr,
-					er.Active.ToString(), false); //bool
+					er.Active.ToString(), true); //bool
+		}
+
+		if(encoderRhythmRepsOrPhases != er.RepsOrPhases)
+		{
+			encoderRhythmRepsOrPhases = er.RepsOrPhases;
+			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmRepsOrPhasesStr,
+					er.RepsOrPhases.ToString(), true); //bool
+		}
+
+		if(encoderRhythmRepSeconds != er.RepSeconds)
+		{
+			encoderRhythmRepSeconds = er.RepSeconds;
+			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmRepSecondsStr,
+					Util.ConvertToPoint(er.RepSeconds), true); //double to point
 		}
 
 		if(encoderRhythmEccSeconds != er.EccSeconds)
 		{
 			encoderRhythmEccSeconds = er.EccSeconds;
 			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmEccSecondsStr,
-					Util.ConvertToPoint(er.EccSeconds), false); //double to point
+					Util.ConvertToPoint(er.EccSeconds), true); //double to point
 		}
 
 		if(encoderRhythmConSeconds != er.ConSeconds)
 		{
 			encoderRhythmConSeconds = er.ConSeconds;
 			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmConSecondsStr,
-					Util.ConvertToPoint(er.ConSeconds), false); //double to point
+					Util.ConvertToPoint(er.ConSeconds), true); //double to point
 		}
 
 		if(encoderRhythmRestRepsSeconds != er.RestRepsSeconds)
 		{
 			encoderRhythmRestRepsSeconds = er.RestRepsSeconds;
 			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmRestRepsSecondsStr,
-					Util.ConvertToPoint(er.RestRepsSeconds), false); //double to point
+					Util.ConvertToPoint(er.RestRepsSeconds), true); //double to point
 		}
 
 		if(encoderRhythmRepsCluster != er.RepsCluster)
 		{
 			encoderRhythmRepsCluster = er.RepsCluster;
 			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmRepsClusterStr,
-					er.RepsCluster.ToString(), false); //int
+					er.RepsCluster.ToString(), true); //int
 		}
 
 		if(encoderRhythmRestClustersSeconds != er.RestClustersSeconds)
 		{
 			encoderRhythmRestClustersSeconds = er.RestClustersSeconds;
 			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmRestClustersSecondsStr,
-					Util.ConvertToPoint(er.RestClustersSeconds), false); //double to point
+					Util.ConvertToPoint(er.RestClustersSeconds), true); //double to point
 		}
+
+		Sqlite.Close();
 	}
 
 	//force sensor

@@ -1674,11 +1674,10 @@ public class Util
 	}
 	private static string addExtensionIfNeeded(string myFile, string extension)
 	{
-		int posOfDot = myFile.LastIndexOf('.');
-		if (posOfDot == -1) 
-			myFile += extension;
-		
-		return myFile;
+		if(myFile.ToLower().EndsWith(extension))
+			return myFile;
+
+		return myFile + extension;
 	}
 
 	public static string RemoveExtension(string myFile)

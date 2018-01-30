@@ -5289,7 +5289,7 @@ public partial class ChronoJumpWindow
 						(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
 						configChronojump.EncoderCaptureShowOnlyBars,
 						currentSession.Name == Constants.SessionSimulatedName && testsActive,
-						(encoderRhythm.Active && ! encoderConfigurationCurrent.has_inertia), //rhythm only on gravitory now
+						(encoderRhythm.Active),
 						encoderRhythm.RepsOrPhases
 						);
 
@@ -5302,8 +5302,11 @@ public partial class ChronoJumpWindow
 						eCaptureInertialBG.SimulatedReset();
 				}
 
-				//initialize DateTime for rhythm
-				encoderRhythmExecute = new EncoderRhythmExecute(encoderRhythm);
+				/*
+				 * initialize DateTime for rhythm
+				 * also variable eccon_ec gravitatory mode is e -> c, inertial is c -> e
+				 */
+				encoderRhythmExecute = new EncoderRhythmExecute(encoderRhythm, ! encoderConfigurationCurrent.has_inertia);
 				image_encoder_rhythm_alert.Visible = false;
 
 				//triggers only work on gravitatory, concentric
@@ -5314,16 +5317,13 @@ public partial class ChronoJumpWindow
 				{
 					reallyCutByTriggers = preferences.encoderCaptureCutByTriggers;
 					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 2;
-				} else if(encoderRhythm.Active && ! encoderConfigurationCurrent.has_inertia) //rhythm only on gravitory now
+				} else if(encoderRhythm.Active)
 				{
 					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 1;
 					image_encoder_rhythm_rest.Visible = encoderRhythm.UseRest();
 
-					if(encoderRhythm.Active)
-					{
-						eCapture.FakeButtonRhythm.Clicked -= new EventHandler(on_encoder_rhythm_changed);
-						eCapture.FakeButtonRhythm.Clicked += new EventHandler(on_encoder_rhythm_changed);
-					}
+					eCapture.FakeButtonRhythm.Clicked -= new EventHandler(on_encoder_rhythm_changed);
+					eCapture.FakeButtonRhythm.Clicked += new EventHandler(on_encoder_rhythm_changed);
 				}
 
 				encoderRProcCapture.CutByTriggers = reallyCutByTriggers;

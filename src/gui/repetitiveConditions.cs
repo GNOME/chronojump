@@ -156,6 +156,7 @@ public class RepetitiveConditionsWindow
 	//encoder rhythm
 	[Widget] Gtk.CheckButton check_rhythm_active;
 	[Widget] Gtk.RadioButton radio_rhythm_together;
+	[Widget] Gtk.RadioButton radio_rhythm_separated;
 	[Widget] Gtk.Notebook notebook_duration_repetition;
 	[Widget] Gtk.VBox vbox_rhythm_cluster;
 	[Widget] Gtk.Frame frame_rhythm;
@@ -611,7 +612,12 @@ public class RepetitiveConditionsWindow
 	private void encoder_rhythm_set_values(EncoderRhythm encoderRhythm)
 	{
 		check_rhythm_active.Active = encoderRhythm.Active;
-		radio_rhythm_together.Active = encoderRhythm.RepsOrPhases;
+
+		if(encoderRhythm.RepsOrPhases)
+			radio_rhythm_together.Active = true;
+		else
+			radio_rhythm_separated.Active = true;
+
 		spin_rhythm_rep.Value = encoderRhythm.RepSeconds;
 		spin_rhythm_ecc.Value = encoderRhythm.EccSeconds;
 		spin_rhythm_con.Value = encoderRhythm.ConSeconds;

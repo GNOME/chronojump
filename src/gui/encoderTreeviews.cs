@@ -138,7 +138,7 @@ public partial class ChronoJumpWindow
 
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 		
-		repetitiveConditionsWin.ResetBestSetValue();
+		repetitiveConditionsWin.ResetBestSetValue(RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK);
 		foreach (EncoderCurve curve in encoderCaptureCurves) {
 			encoderCaptureListStore.AppendValues (curve);
 				
@@ -600,7 +600,7 @@ public partial class ChronoJumpWindow
 
 		encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
 	
-		repetitiveConditionsWin.ResetBestSetValue();
+		repetitiveConditionsWin.ResetBestSetValue(RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK);
 		foreach (EncoderCurve curve in encoderAnalyzeCurves) {
 			encoderAnalyzeListStore.AppendValues (curve);
 		
@@ -1066,7 +1066,9 @@ public partial class ChronoJumpWindow
 		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MeanSpeed);
+			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
+					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
+					curve, Constants.MeanSpeed);
 
 			if(myColor == "")
 				myColor = assignColor(
@@ -1093,7 +1095,9 @@ public partial class ChronoJumpWindow
 		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MaxSpeed);
+			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
+					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
+					curve, Constants.MaxSpeed);
 
 			if(myColor == "")
 				myColor = assignColor(
@@ -1128,7 +1132,9 @@ public partial class ChronoJumpWindow
 		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MeanPower);
+			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
+					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
+					curve, Constants.MeanPower);
 
 			if(myColor == "")
 				myColor = assignColor(
@@ -1154,7 +1160,9 @@ public partial class ChronoJumpWindow
 		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.PeakPower);
+			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
+					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
+					curve, Constants.PeakPower);
 
 			if(myColor == "")
 				myColor = assignColor(
@@ -1197,7 +1205,9 @@ public partial class ChronoJumpWindow
 		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MeanForce);
+			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
+					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
+					curve, Constants.MeanForce);
 
 			if(myColor == "")
 				myColor = assignColor(
@@ -1223,7 +1233,9 @@ public partial class ChronoJumpWindow
 		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(curve, Constants.MaxForce);
+			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
+					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
+					curve, Constants.MaxForce);
 
 			if(myColor == "")
 				myColor = assignColor(

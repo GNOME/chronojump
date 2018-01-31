@@ -4720,8 +4720,9 @@ public partial class ChronoJumpWindow
 				maxAbsolute = maxPowerIntersession;
 		}
 
-		repetitiveConditionsWin.ResetBestSetValue();
-		repetitiveConditionsWin.UpdateBestSetValue(maxAbsolute);
+		repetitiveConditionsWin.ResetBestSetValue(RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE);
+		repetitiveConditionsWin.UpdateBestSetValue(
+				RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, maxAbsolute);
 
 		int textWidth = 1;
 		int textHeight = 1;
@@ -4831,7 +4832,8 @@ public partial class ChronoJumpWindow
 				dWidth = 1;
 
 			//select pen color for bars and sounds
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(d);
+			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
+					RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, d);
 
 			bool discarded = false;
 			if(encoderConfigurationCurrent.has_inertia) {

@@ -177,7 +177,9 @@ public class RepetitiveConditionsWindow
 	bool volumeOn;
 	public Preferences.GstreamerTypes gstreamer;
 
-	private double bestSetValue;
+	public enum BestSetValueEnum { CAPTURE_MAIN_VARIABLE, AUTOMATIC_FEEDBACK}
+	private double bestSetValueCaptureMainVariable;
+	private double bestSetValueAutomaticFeedback;
 	
 	static RepetitiveConditionsWindow RepetitiveConditionsWindowBox;
 		
@@ -197,7 +199,8 @@ public class RepetitiveConditionsWindow
 		
 		createComboEncoderAutomaticVariable();
 
-		bestSetValue = 0;
+		bestSetValueCaptureMainVariable = 0;
+		bestSetValueCaptureMainVariable = 0;
 		notebook_encoder_conditions.CurrentPage = 3; //power
 
 		putNonStandardIcons();
@@ -529,51 +532,71 @@ public class RepetitiveConditionsWindow
 		checkbutton_encoder_peakpower_lower.Active = true;
 	}
 
-			
-	public void ResetBestSetValue() {
-	       bestSetValue = 0;	
+	private double getBestSetValue (BestSetValueEnum b)
+	{
+		if(b == BestSetValueEnum.AUTOMATIC_FEEDBACK)
+			return bestSetValueAutomaticFeedback;
+		else	// b == BestSetValueEnum.CAPTURE_MAIN_VARIABLE
+			return bestSetValueCaptureMainVariable;
 	}
 
-	public void UpdateBestSetValue(EncoderCurve curve) 
+	public void ResetBestSetValue (BestSetValueEnum b)
 	{
+		if(b == BestSetValueEnum.AUTOMATIC_FEEDBACK)
+			bestSetValueAutomaticFeedback = 0;
+		else	// b == BestSetValueEnum.CAPTURE_MAIN_VARIABLE
+			bestSetValueCaptureMainVariable = 0;
+	}
+
+	public void UpdateBestSetValue (EncoderCurve curve)
+	{
+		BestSetValueEnum b = BestSetValueEnum.AUTOMATIC_FEEDBACK;
 		string autoVar = encoderAutomaticVariable;
 		if(encoderAutomaticHigher || encoderAutomaticLower) 
 		{
 			if(autoVar == Constants.MeanSpeed)
-				UpdateBestSetValue(curve.MeanSpeedD);
+				UpdateBestSetValue(b, curve.MeanSpeedD);
 			else if(autoVar == Constants.MaxSpeed)
-				UpdateBestSetValue(curve.MaxSpeedD);
+				UpdateBestSetValue(b, curve.MaxSpeedD);
 			else if(autoVar == Constants.MeanPower)
-				UpdateBestSetValue(curve.MeanPowerD);
+				UpdateBestSetValue(b, curve.MeanPowerD);
 			else if(autoVar == Constants.PeakPower)
-				UpdateBestSetValue(curve.PeakPowerD);
+				UpdateBestSetValue(b, curve.PeakPowerD);
 			else if(autoVar == Constants.MeanForce)
-				UpdateBestSetValue(curve.MeanForceD);
+				UpdateBestSetValue(b, curve.MeanForceD);
 			else if(autoVar == Constants.MaxForce)
-				UpdateBestSetValue(curve.MaxForceD);
+				UpdateBestSetValue(b, curve.MaxForceD);
 		}
 	}
-	public void UpdateBestSetValue(double d) {
-		if(d > bestSetValue)
-			bestSetValue = d;
+	public void UpdateBestSetValue(BestSetValueEnum b, double d)
+	{
+		if(b == BestSetValueEnum.AUTOMATIC_FEEDBACK)
+		{
+			if(d > bestSetValueAutomaticFeedback)
+				bestSetValueAutomaticFeedback = d;
+		} else
+		{ 	// b == BestSetValueEnum.CAPTURE_MAIN_VARIABLE
+			if(d > bestSetValueCaptureMainVariable)
+				bestSetValueCaptureMainVariable = d;
+		}
 	}
 		
 	//called from gui/encoderTreeviews.cs
-	public string AssignColorAutomatic(EncoderCurve curve, string variable)
+	public string AssignColorAutomatic(BestSetValueEnum b, EncoderCurve curve, string variable)
 	{
 		if(encoderAutomaticVariable != variable)
 			return UtilGtk.ColorNothing;
 
 		double currentValue = curve.GetParameter(variable);
 
-		return AssignColorAutomatic(currentValue);
+		return AssignColorAutomatic(b, currentValue);
 	}
-	//called from gui/encoder.cs plotCurvesGraphDoPlot
-	public string AssignColorAutomatic(double currentValue)
+	//called from previous function, gui/encoder.cs plotCurvesGraphDoPlot
+	public string AssignColorAutomatic(BestSetValueEnum b, double currentValue)
 	{
-		if(encoderAutomaticHigher && currentValue > bestSetValue * encoderAutomaticHigherValue / 100)
+		if(encoderAutomaticHigher && currentValue > getBestSetValue(b) * encoderAutomaticHigherValue / 100)
 			return UtilGtk.ColorGood;
-		else if (encoderAutomaticLower && currentValue < bestSetValue * encoderAutomaticLowerValue/ 100)
+		else if (encoderAutomaticLower && currentValue < getBestSetValue(b) * encoderAutomaticLowerValue/ 100)
 			return UtilGtk.ColorBad;
 
 		return UtilGtk.ColorNothing;

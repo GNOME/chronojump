@@ -4251,6 +4251,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_rest_show_clicked(object o, EventArgs args)
 	{
+		label_rest.Visible = vbox_rest_time_set.Visible;
 		vbox_rest_time_set.Visible = ! vbox_rest_time_set.Visible;
 	}
 

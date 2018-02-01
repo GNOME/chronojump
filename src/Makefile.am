@@ -187,7 +187,7 @@ SOURCES = \
 	utilGtk.cs\
 	utilLanguage.cs\
 	utilMath.cs\
-	utilVideo.cs\
+	utilMultimedia.cs\
 	constants.cs\
 	commandLineEncoder.cs\
 	report.cs\

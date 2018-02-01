@@ -1527,6 +1527,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -2751,7 +2754,7 @@ EncoderInertialCapture</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="spacing">6</property>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox245">
+                                                      <widget class="GtkHBox" id="hbox_persons_bottom_person">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">3</property>
@@ -21722,6 +21725,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

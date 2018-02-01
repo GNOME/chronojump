@@ -183,6 +183,9 @@ public partial class ChronoJumpWindow
 		image_current_person_zoom.Pixbuf = pixbuf;
 		image_force_sensor_check_version.Pixbuf = pixbuf;
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
+		image_current_person.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_gravity.png");
 		image_mode_encoder_gravitatory.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");

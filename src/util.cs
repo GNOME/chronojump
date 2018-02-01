@@ -991,12 +991,39 @@ public class Util
 	public static string GetVideoFileNameOnlyFolder (int sessionID) {
 		return GetVideoSessionDir(sessionID);
 	}
+
+	/*
+	 * --------------------- GetPhoto stuff
+	 */
+	//returns the jpg, png or ""
+	public static string UserPhotoURL (bool small, int uniqueID)
+	{
+		string jpeg = GetPhotoFileName (small, uniqueID);
+		if(File.Exists(jpeg))
+			return jpeg;
+
+		string png = GetPhotoPngFileName (small, uniqueID);
+		if(File.Exists(png))
+			return png;
+
+		return "";
+	}
 	
+	//jpg
 	public static string GetPhotoFileName (bool small, int uniqueID) {
 		return GetPhotosDir(small) + Path.DirectorySeparatorChar + uniqueID.ToString() +
 			GetMultimediaExtension(Constants.MultimediaItems.PHOTO);
 	}
-	
+	//png
+	public static string GetPhotoPngFileName (bool small, int uniqueID) {
+		return GetPhotosDir(small) + Path.DirectorySeparatorChar + uniqueID.ToString() +
+			GetMultimediaExtension(Constants.MultimediaItems.PHOTOPNG);
+	}
+
+	/*
+	 * --------------------- End of GetPhoto stuff
+	 */
+
 	public static string GetVideoTempFileName() {
 		return Path.Combine(
 				Path.GetTempPath(), Constants.VideoTemp + 
@@ -1012,11 +1039,23 @@ public class Util
 				Path.GetTempPath(), fileName + GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
 	}
 	
+	public static string GetMultimediaExtension (string filename)
+	{
+		if(UtilMultimedia.GetImageType(filename) == UtilMultimedia.ImageTypes.JPEG)
+			return Constants.ExtensionPhoto;
+		if(UtilMultimedia.GetImageType(filename) == UtilMultimedia.ImageTypes.PNG)
+			return Constants.ExtensionPhotoPng;
+
+		return "";
+	}
+
 	public static string GetMultimediaExtension (Constants.MultimediaItems multimediaItem) {
 		if(multimediaItem == Constants.MultimediaItems.VIDEO)
 			return Constants.ExtensionVideo;
-		else //multimediaItem = Constants.MultimediaItems.PHOTO
+		else if(multimediaItem == Constants.MultimediaItems.PHOTO)
 			return Constants.ExtensionPhoto;
+		else //multimediaItem == Constants.MultimediaItems.PHOTOPNG
+			return Constants.ExtensionPhotoPng;
 	}
 			
 	public static bool CopyTempVideo(int sessionID, Constants.TestTypes type, int uniqueID) {

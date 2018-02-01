@@ -363,10 +363,10 @@ class SqlitePersonSession : Sqlite
 			Delete(true, Constants.PersonTable, Convert.ToInt32(personID));
 
 			//delete photos if any
-			if(File.Exists(Util.GetPhotoFileName(false, Convert.ToInt32(personID))))
-				File.Delete(Util.GetPhotoFileName(false, Convert.ToInt32(personID)));
-			if(File.Exists(Util.GetPhotoFileName(true, Convert.ToInt32(personID))))
-				File.Delete(Util.GetPhotoFileName(true, Convert.ToInt32(personID)));
+			if(File.Exists(Util.UserPhotoURL(false, Convert.ToInt32(personID))))
+				File.Delete(Util.UserPhotoURL(false, Convert.ToInt32(personID)));
+			if(File.Exists(Util.UserPhotoURL(true, Convert.ToInt32(personID))))
+				File.Delete(Util.UserPhotoURL(true, Convert.ToInt32(personID)));
 		}
 
 		//3.- Delete tests

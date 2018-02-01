@@ -788,7 +788,8 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.TextView textview_description;
 	[Widget] Gtk.TextView textview_ps_comments;
 	
-	[Widget] Gtk.Box vbox_photo;
+	[Widget] Gtk.Button button_add_photo_file;
+	[Widget] Gtk.Button button_take_photo;
 	
 	[Widget] Gtk.Label label_date;
 	//[Widget] Gtk.Button button_change_date;
@@ -859,8 +860,9 @@ public class PersonAddModifyWindow
 	//
 	//if we are adding a person, currentPerson.UniqueID it's -1
 	//if we are modifying a person, currentPerson.UniqueID is obviously it's ID
-	//showPhotoStuff is false on raspberry to not use camera
-	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, bool showPhotoStuff) {
+	//showCapturePhoto is false on raspberry to not use camera
+	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, bool showCapturePhoto)
+	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_win.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
@@ -892,30 +894,35 @@ public class PersonAddModifyWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
 		image_zoom.Pixbuf = pixbuf;
 
-		if(showPhotoStuff) {
-			string photoFile = Util.GetPhotoFileName(true, currentPerson.UniqueID);
-			if(File.Exists(photoFile)) {
-				try {
-					pixbuf = new Pixbuf (photoFile); //from a file
-					image_photo_mini.Pixbuf = pixbuf;
-				} catch {
-					//on windows there are problem using the fileNames that are not on temp
-					string tempFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
-							Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
-					File.Copy(photoFile, tempFileName, true);
-					pixbuf = new Pixbuf (tempFileName);
-					image_photo_mini.Pixbuf = pixbuf;
-				}
+		button_take_photo.Visible = showCapturePhoto;
+
+		//delete a -1.png or -1.jpg added before on a new user where "accept" button was not pressed and window was closed
+		deleteOldPhotosIfAny(-1);
+
+		string photoFile = Util.UserPhotoURL(true, currentPerson.UniqueID);
+		if(photoFile != "") {
+			try {
+				pixbuf = new Pixbuf (photoFile); //from a file
+				image_photo_mini.Pixbuf = pixbuf;
+			} catch {
+				//on windows there are problem using the fileNames that are not on temp
+				string tempFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
+						Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
+				File.Copy(photoFile, tempFileName, true);
+				pixbuf = new Pixbuf (tempFileName);
+				image_photo_mini.Pixbuf = pixbuf;
 			}
-			//show zoom button only if big image exists
-			if(File.Exists(Util.GetPhotoFileName(false, currentPerson.UniqueID)))
-				button_zoom.Sensitive = true;
-			else
-				button_zoom.Sensitive = false;
+		}
+		//show zoom button only if big image exists
+		string photoBigFile = Util.UserPhotoURL(false, currentPerson.UniqueID);
+		if(photoBigFile != "")
+		{
+			button_zoom.Sensitive = true;
+			button_add_photo_file.Label = Catalog.GetString("Change photo");
 		}
 		else
-			vbox_photo.Visible = false;
-			
+			button_zoom.Sensitive = false;
+
 		fakeButtonAccept = new Gtk.Button();
 
 		entry1.CanFocus = true;
@@ -933,11 +940,87 @@ public class PersonAddModifyWindow
 				Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
 		if(! adding) {
 			//on windows there are problem using the fileNames that are not on temp
-			string fileName = Util.GetPhotoFileName(false, currentPerson.UniqueID);
+			string fileName = Util.UserPhotoURL(false, currentPerson.UniqueID);
 			File.Copy(fileName, tempFileName, true);
 		}
 
 		new DialogImageTest(currentPerson.Name, tempFileName, DialogImageTest.ArchiveType.FILE);
+	}
+
+	/*
+	 * used when:
+	 * 1.- adding a photo to delete a possible duplicate, eg user 231 has 231.png and now will add 231.jpg
+	 * 2.- start this window to delete a -1.png or -1.jpg added before on a new user where "accept" button was not pressed and window was closed
+	 */
+	private void deleteOldPhotosIfAny(int uniqueID)
+	{
+		LogB.Information("deleteOldPhotosIfAny: " + uniqueID.ToString());
+		string file = Util.UserPhotoURL(false, uniqueID); //default
+		if(file != "")
+			Util.FileDelete(file);
+
+		file  = Util.UserPhotoURL(true, uniqueID); //small
+		if(file != "")
+			Util.FileDelete(file);
+	}
+
+	void on_button_add_photo_file_clicked (object o, EventArgs args)
+	{
+		Gtk.FileChooserDialog fc=
+			new Gtk.FileChooserDialog(Catalog.GetString("Select file"),
+					person_win,
+					FileChooserAction.Open,
+					Catalog.GetString("Cancel"),ResponseType.Cancel,
+					Catalog.GetString("Accept"),ResponseType.Accept
+					);
+
+		fc.Filter = new FileFilter();
+		fc.Filter.AddPattern("*.png");
+		fc.Filter.AddPattern("*.PNG");
+		fc.Filter.AddPattern("*.jpg");
+		fc.Filter.AddPattern("*.JPG");
+		fc.Filter.AddPattern("*.jpeg");
+		fc.Filter.AddPattern("*.JPEG");
+
+		if (fc.Run() == (int)ResponseType.Accept)
+		{
+			bool originalCopySuccess = false;
+			try {
+				deleteOldPhotosIfAny(currentPerson.UniqueID);
+				if(UtilMultimedia.GetImageType(fc.Filename) == UtilMultimedia.ImageTypes.JPEG)
+				{
+					File.Copy(fc.Filename, Util.GetPhotoFileName(false, currentPerson.UniqueID), true); //overwrite
+					originalCopySuccess = true;
+				}
+				else if(UtilMultimedia.GetImageType(fc.Filename) == UtilMultimedia.ImageTypes.PNG)
+				{
+					File.Copy(fc.Filename, Util.GetPhotoPngFileName(false, currentPerson.UniqueID), true); //overwrite
+					originalCopySuccess = true;
+				}
+			}
+			catch {
+				LogB.Warning("Catched! photo cannot be added");
+				new DialogMessage(Constants.MessageTypes.WARNING, string.Format(
+							Catalog.GetString("Cannot save file {0} "), fc.Filename));
+			}
+
+			if(originalCopySuccess)
+			{
+				//mini will be always png from now on (after 1.7.1-213)
+				string filenameMini = Util.GetPhotoPngFileName(true, currentPerson.UniqueID);
+				bool miniSuccess = UtilMultimedia.LoadAndResizeImage(fc.Filename, filenameMini, 150, 150);
+
+				if(miniSuccess)
+				{
+					Pixbuf pixbuf = new Pixbuf (filenameMini);
+					image_photo_mini.Pixbuf = pixbuf;
+					button_add_photo_file.Label = Catalog.GetString("Change photo");
+					button_zoom.Sensitive = true;
+				}
+			}
+		}
+		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		fc.Destroy();
 	}
 
 	Gtk.Window capturerWindow;
@@ -980,7 +1063,10 @@ public class PersonAddModifyWindow
 		capturer.Run();
 	}
 
-	private void on_snapshot_done(Pixbuf pixbuf) {
+	//libCesarplayer method, jpeg
+	private void on_snapshot_done(Pixbuf pixbuf)
+	{
+		deleteOldPhotosIfAny(currentPerson.UniqueID);
 		string fileName = Path.Combine(Path.GetTempPath(), Constants.PhotoTemp +
 				Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
 		
@@ -993,7 +1079,10 @@ public class PersonAddModifyWindow
 		button_zoom.Sensitive = true;
 	}
 
-	private void on_snapshot_mini_done(Pixbuf pixbuf) {
+	//libCesarplayer method, jpeg
+	private void on_snapshot_mini_done(Pixbuf pixbuf)
+	{
+		deleteOldPhotosIfAny(currentPerson.UniqueID);
 		string tempSmallFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
 				Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
 		
@@ -1079,10 +1168,10 @@ public class PersonAddModifyWindow
 	
 	static public PersonAddModifyWindow Show (Gtk.Window parent, 
 			Session mySession, Person currentPerson, int pDN, 
-			Gtk.CheckButton app1_checkbutton_video, bool showPhotoStuff)
+			Gtk.CheckButton app1_checkbutton_video, bool showCapturePhoto)
 	{
 		if (PersonAddModifyWindowBox == null) {
-			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, showPhotoStuff);
+			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, showCapturePhoto);
 		}
 
 		PersonAddModifyWindowBox.pDN = pDN;
@@ -1640,6 +1729,25 @@ public class PersonAddModifyWindow
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
 					textview_ps_comments.Buffer.Text, false); //dbconOpened
 			LogB.Information("inserted both");
+
+			//if we added photo while creating, filename is -1.png or -1.png, change name
+			string photo = Util.UserPhotoURL(false, -1);
+			if(photo != "")
+			{
+				if(UtilMultimedia.GetImageType(photo) == UtilMultimedia.ImageTypes.JPEG)
+					File.Move(photo, Util.GetPhotoFileName(false, currentPerson.UniqueID));
+				else if(UtilMultimedia.GetImageType(photo) == UtilMultimedia.ImageTypes.PNG)
+					File.Move(photo, Util.GetPhotoPngFileName(false, currentPerson.UniqueID));
+			}
+			photo = Util.UserPhotoURL(true, -1);
+			if(photo != "")
+			{
+				if(UtilMultimedia.GetImageType(photo) == UtilMultimedia.ImageTypes.JPEG)
+					File.Move(photo, Util.GetPhotoFileName(true, currentPerson.UniqueID));
+				else if(UtilMultimedia.GetImageType(photo) == UtilMultimedia.ImageTypes.PNG)
+					File.Move(photo, Util.GetPhotoPngFileName(true, currentPerson.UniqueID));
+			}
+
 		} else {
 			//here we update rows in the database
 			currentPerson = new Person (currentPerson.UniqueID, personName, sex, dateTime,

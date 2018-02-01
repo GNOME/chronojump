@@ -516,13 +516,18 @@ public partial class ChronoJumpWindow
 
 				if(json.LastPersonWasInserted)
 				{
-					if(json.LastPersonByRFIDImageURL != "")
+					string imageFile = json.LastPersonByRFIDImageURL;
+					if(imageFile != "")
 					{
+						string image_dest = Util.GetPhotoFileName(false, currentPerson.UniqueID);
+						if(UtilMultimedia.GetImageType(imageFile) == UtilMultimedia.ImageTypes.PNG)
+							image_dest = Util.GetPhotoPngFileName(false, currentPerson.UniqueID);
+
 						bool downloaded = json.DownloadImage(json.LastPersonByRFIDImageURL, currentPerson.UniqueID);
 						if(downloaded)
 							File.Copy(
 									Path.Combine(Path.GetTempPath(), currentPerson.UniqueID.ToString()),
-									Util.GetPhotoFileName(false, currentPerson.UniqueID),
+									image_dest,
 									true); //overwrite
 					}
 

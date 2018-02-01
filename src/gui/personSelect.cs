@@ -241,7 +241,7 @@ public class PersonPhotoButton
 		Gtk.VBox vbox = new Gtk.VBox();
 
 		Gtk.Image image = new Gtk.Image();
-		string photoFile = Util.GetPhotoFileName(true, p.UniqueID);
+		string photoFile = Util.UserPhotoURL(true, p.UniqueID);
 		if(photoFile != "" && File.Exists(photoFile)) {
 			try {
 				Pixbuf pixbuf = new Pixbuf (photoFile); //from a file

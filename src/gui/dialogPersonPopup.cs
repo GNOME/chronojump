@@ -90,16 +90,18 @@ public class DialogPersonPopup
 			image_server_connected_no.Visible = true;
 		}
 
-		string photoFile = Util.GetPhotoFileName(false, personID);
+		//string photoFile = Util.GetPhotoFileName(false, personID);
+		string photoFile = Util.UserPhotoURL(false, personID);
 		if(File.Exists(photoFile))
 		{
 			try {
 				pixbuf = new Pixbuf (photoFile); //from a file
 				image_person.Pixbuf = pixbuf;
 			} catch {
+				string extension = Util.GetMultimediaExtension(photoFile);
 				//on windows there are problem using the fileNames that are not on temp
-				string tempFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
-						Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
+				string tempFileName = Path.Combine(Path.GetTempPath(),
+						Constants.PhotoSmallTemp + extension);
 				File.Copy(photoFile, tempFileName, true);
 				pixbuf = new Pixbuf (tempFileName);
 				image_person.Pixbuf = pixbuf;

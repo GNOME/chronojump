@@ -328,7 +328,7 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_gstreamer_1_0.Active = true;
 		PreferencesWindowBox.label_test_sound_result.Text = "";
 
-		PreferencesWindowBox.createComboCamera(UtilVideo.GetVideoDevices(), preferences.videoDeviceNum);
+		PreferencesWindowBox.createComboCamera(UtilMultimedia.GetVideoDevices(), preferences.videoDeviceNum);
 	
 
 		string [] decs = {"1", "2", "3"};

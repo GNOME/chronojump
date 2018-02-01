@@ -1018,6 +1018,24 @@ public partial class ChronoJumpWindow
 
 		label_top_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>";
 		label_top_encoder_person_name.UseMarkup = true;
+
+		string filenameMini = Util.UserPhotoURL(true, currentPerson.UniqueID);
+		if(filenameMini != "")
+		{
+			Pixbuf pixbuf = new Pixbuf (filenameMini);
+			image_current_person.Pixbuf = pixbuf;
+			button_image_current_person_zoom.Sensitive = true;
+		} else {
+			image_current_person.Pixbuf = null;
+			button_image_current_person_zoom.Sensitive = false;
+		}
+	}
+
+	private void on_button_image_current_person_zoom_clicked(object o, EventArgs args)
+	{
+		new DialogImageTest(currentPerson.Name,
+				Util.UserPhotoURL(false, currentPerson.UniqueID),
+				DialogImageTest.ArchiveType.FILE);
 	}
 	
 	private void treeview_persons_storeReset()

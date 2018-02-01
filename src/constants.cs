@@ -710,10 +710,11 @@ public class Constants
 	}
 	
 	public enum MultimediaItems {
-		PHOTO, VIDEO
+		PHOTO, PHOTOPNG, VIDEO
 	}
 	public const string ExtensionVideo = ".avi";
 	public const string ExtensionPhoto = ".jpg";
+	public const string ExtensionPhotoPng = ".png"; //used for Cairo resized images
 	public const string SmallPhotoDir = "small";
 	public static string MultimediaFileNoExists = Catalog.GetString("Sorry, this multimedia file does not exists.");
 	public static string PhotoTemp = "chronojump-last-photo";

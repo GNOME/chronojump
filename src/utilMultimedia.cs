@@ -50,8 +50,8 @@ public class UtilMultimedia
 	 * IMAGES
 	 */
 
-	private enum ImageTypes { UNKNOWN, PNG, JPEG }
-	private static ImageTypes getImageType(string filename)
+	public enum ImageTypes { UNKNOWN, PNG, JPEG }
+	public static ImageTypes GetImageType(string filename)
 	{
 		if(filename.ToLower().EndsWith("jpeg") || filename.ToLower().EndsWith("jpg"))
 			return ImageTypes.JPEG;
@@ -61,34 +61,35 @@ public class UtilMultimedia
 		return ImageTypes.UNKNOWN;
 	}
 
-	public static void ResizeImages()
+	public static void ResizeImageTests()
 	{
 		string file1 = "/home/xavier/Imatges/tenerife.png";
 		string file2 = "/home/xavier/Imatges/2016-06-07-152244.jpg";
 		string file3 = "/home/xavier/Imatges/humor-desmotivaciones-ofender-lasers.jpeg";
 
-		resizeImage(file1, "/home/xavier/Imatges/prova1.png", 100, 150);
-		resizeImage(file2, "/home/xavier/Imatges/prova2.png", 200, 200);
-		resizeImage(file3, "/home/xavier/Imatges/prova3.png", 400, 350);
+		LoadAndResizeImage(file1, "/home/xavier/Imatges/prova1.png", 100, 150);
+		LoadAndResizeImage(file2, "/home/xavier/Imatges/prova2.png", 200, 200);
+		LoadAndResizeImage(file3, "/home/xavier/Imatges/prova3.png", 400, 350);
 	}
 	
-	private static void resizeImage(string filenameOriginal, string filenameDest, int width, int height)
+	public static bool LoadAndResizeImage(string filenameOriginal, string filenameDest, int width, int height)
 	{
 		ImageSurface imgSurface;
-		if(getImageType(filenameOriginal) == ImageTypes.PNG)
+		if(GetImageType(filenameOriginal) == ImageTypes.PNG)
 		{
 			imgSurface = LoadPngToCairoImageSurface(filenameOriginal);
 		}
-		else if(getImageType(filenameOriginal) == ImageTypes.JPEG)
+		else if(GetImageType(filenameOriginal) == ImageTypes.JPEG)
 		{
 			imgSurface = LoadJpegToCairoImageSurface(filenameOriginal);
 		}
-		else //(getImageType(filenameOriginal) == ImageTypes.UNKNOWN)
+		else //(GetImageType(filenameOriginal) == ImageTypes.UNKNOWN)
 		{
-			return;
+			return false;
 		}
 		
-		ImageSurfaceResize(imgSurface, filenameDest, width, height);
+		bool success = ImageSurfaceResize(imgSurface, filenameDest, width, height);
+		return success;
 	}
 
 	public static ImageSurface LoadJpegToCairoImageSurface(string jpegFilename)
@@ -123,7 +124,7 @@ public class UtilMultimedia
 		return imgSurface;
 	}
 
-	public static void ImageSurfaceResize(ImageSurface imgSurface, string filename_dest,
+	public static bool ImageSurfaceResize(ImageSurface imgSurface, string filename_dest,
 			int width, int height)
 	{
 		Surface surfaceResized = scale_surface(
@@ -134,7 +135,10 @@ public class UtilMultimedia
 			surfaceResized.WriteToPng(filename_dest);
 		} catch {
 			LogB.Warning("Catched at ImageFileResize");
+			return false;
 		}
+
+		return true;
 	}
 
         // Thanks to: Owen Taylor

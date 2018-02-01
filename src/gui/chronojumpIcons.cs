@@ -43,6 +43,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_session_preferences;
 	[Widget] Gtk.Image image_mode_encoder_capture;
 	[Widget] Gtk.Image image_manage_persons;
+	[Widget] Gtk.Image image_current_person_zoom;
 	[Widget] Gtk.Image image_person;
 	[Widget] Gtk.Image image_person1;
 	[Widget] Gtk.Image image_edit_current_person;
@@ -179,6 +180,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_check.png");
 		image_force_sensor_open_folder.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "zoom.png");
+		image_current_person_zoom.Pixbuf = pixbuf;
 		image_force_sensor_check_version.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_gravity.png");

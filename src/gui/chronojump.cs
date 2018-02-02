@@ -209,9 +209,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_rest_time_set;
 	[Widget] Gtk.SpinButton spinbutton_rest_minutes;
 	[Widget] Gtk.SpinButton spinbutton_rest_seconds;
-	[Widget] Gtk.Button button_edit_current_person;
-	[Widget] Gtk.Button button_show_all_person_events;
-	[Widget] Gtk.Button button_delete_current_person;
 	
 	//tests
 	//jumps

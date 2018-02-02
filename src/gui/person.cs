@@ -1008,7 +1008,7 @@ public class PersonAddModifyWindow
 			{
 				//mini will be always png from now on (after 1.7.1-213)
 				string filenameMini = Util.GetPhotoPngFileName(true, currentPerson.UniqueID);
-				bool miniSuccess = UtilMultimedia.LoadAndResizeImage(fc.Filename, filenameMini, 150, 150);
+				bool miniSuccess = UtilMultimedia.LoadAndResizeImage(fc.Filename, filenameMini, 150, -1); //-1: maintain aspect ratio
 
 				if(miniSuccess)
 				{

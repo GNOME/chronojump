@@ -87,7 +87,7 @@ public class UtilMultimedia
 		{
 			return false;
 		}
-		
+
 		bool success = ImageSurfaceResize(imgSurface, filenameDest, width, height);
 		return success;
 	}
@@ -124,9 +124,21 @@ public class UtilMultimedia
 		return imgSurface;
 	}
 
+	//height can be -1 to maintain aspect ratio
 	public static bool ImageSurfaceResize(ImageSurface imgSurface, string filename_dest,
 			int width, int height)
 	{
+		//maintain aspect ratio
+		if(height == -1)
+		{
+			double ratioOriginal = imgSurface.Width / (1.0 * imgSurface.Height);
+			height = Convert.ToInt32( width / ratioOriginal);
+		}
+
+		//return if problems on calculating aspect ratio
+		if(width <= 0 || height <= 0)
+			return false;
+
 		Surface surfaceResized = scale_surface(
 				imgSurface, imgSurface.Width, imgSurface.Height, width, height);
 

@@ -901,6 +901,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_runs_label_distance;
 	[Widget] Gtk.SpinButton extra_window_runs_spinbutton_distance;
 	[Widget] Gtk.Label extra_window_runs_label_distance_units;
+	[Widget] Gtk.CheckButton check_run_simple_with_reaction_time;
 	
 	//options runs interval
 	[Widget] Gtk.Label extra_window_runs_interval_label_distance;
@@ -909,6 +910,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_runs_interval_label_limit;
 	[Widget] Gtk.SpinButton extra_window_runs_interval_spinbutton_limit;
 	[Widget] Gtk.Label extra_window_runs_interval_label_limit_units;
+	[Widget] Gtk.CheckButton check_run_interval_with_reaction_time;
 	
 
 	double extra_window_runs_distance = 100;
@@ -1150,6 +1152,39 @@ public partial class ChronoJumpWindow
 		extra_window_runs_interval_label_limit.Sensitive = sensitive;
 		extra_window_runs_interval_spinbutton_limit.Sensitive = sensitive;
 		extra_window_runs_interval_label_limit_units.Sensitive = sensitive;
+	}
+
+	private bool changingCheckboxesRunWithReactionTime = false;
+	private void on_check_run_simple_with_reaction_time_clicked (object o, EventArgs args)
+	{
+		//avoid cyclic calls
+		if(changingCheckboxesRunWithReactionTime)
+			return;
+
+		changingCheckboxesRunWithReactionTime = true;
+		check_run_interval_with_reaction_time.Active = check_run_simple_with_reaction_time.Active;
+		changingCheckboxesRunWithReactionTime = false;
+	}
+	private void on_check_run_interval_with_reaction_time_clicked (object o, EventArgs args)
+	{
+		//avoid cyclic calls
+		if(changingCheckboxesRunWithReactionTime)
+			return;
+
+		changingCheckboxesRunWithReactionTime = true;
+		check_run_simple_with_reaction_time.Active = check_run_interval_with_reaction_time.Active;
+		changingCheckboxesRunWithReactionTime = false;
+	}
+
+	//valid for simple and for intervallic
+	private void on_button_run_with_reaction_time_help_clicked (object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.INFO,
+				"TODO" +
+				"\nneed new device (introduce name)" +
+				"\ntest will start when person is at start pad and push button is pressed" +
+				"\nreaction time will be in ms and as a comment on Description"
+				);
 	}
 
 }

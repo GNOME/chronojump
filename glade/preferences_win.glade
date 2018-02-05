@@ -1057,14 +1057,49 @@ show elevation as:</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">6</property>
                     <child>
-                      <widget class="GtkLabel" id="label104">
+                      <widget class="GtkHBox" id="hbox45">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="has_tooltip">True</property>
-                        <property name="tooltip" translatable="yes">"Speed start" means when athlete does not start with "contact" on the first platform or photocell.
+                        <property name="spacing">8</property>
+                        <child>
+                          <widget class="GtkLabel" id="label104">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="has_tooltip">True</property>
+                            <property name="tooltip" translatable="yes">"Speed start" means when athlete does not start with "contact" on the first platform or photocell.
 It starts before and arrives there with some speed.</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">What to do on speed start?</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">What to do on speed start?</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkButton" id="button_run_speed_start_help">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="has_tooltip">True</property>
+                            <signal name="clicked" handler="on_button_run_speed_start_help_clicked" swapped="no"/>
+                            <child>
+                              <widget class="GtkImage" id="image_run_speed_start_help">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="stock">gtk-missing-image</property>
+                                <property name="icon-size">2</property>
+                              </widget>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="padding">10</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
                       </widget>
                       <packing>
                         <property name="expand">False</property>

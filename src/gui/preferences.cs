@@ -81,6 +81,7 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_do_not_use_heights_on_jump_indexes;
 			
 	//runs tab	
+	[Widget] Gtk.Image image_run_speed_start_help;
 	[Widget] Gtk.RadioButton radio_speed_ms;
 	[Widget] Gtk.RadioButton radio_speed_km;
 	[Widget] Gtk.RadioButton radio_runs_speed_start_arrival; 
@@ -413,6 +414,7 @@ public class PreferencesWindow
 		PreferencesWindowBox.image_races_intervallic.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
+		PreferencesWindowBox.image_run_speed_start_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_encoder_inactivity_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_encoder_capture_cut_by_triggers_help.Pixbuf = pixbuf;
 
@@ -1028,7 +1030,16 @@ public class PreferencesWindow
 		else
 			hbox_indexes.Hide();
 	}
-	
+
+	private void on_button_run_speed_start_help_clicked (object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.INFO,
+				Catalog.GetString(
+					"\"Speed start\" means when athlete does not start with \"contact\" on the " +
+					"first platform or photocell.\n" +
+					"It starts before and arrives there with some speed."));
+	}
+
 	private void on_checkbutton_runs_prevent_double_contact_toggled (object o, EventArgs args) {
 		vbox_runs_prevent_double_contact.Visible = checkbutton_runs_prevent_double_contact.Active;
 	}

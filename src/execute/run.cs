@@ -37,7 +37,8 @@ public class RunExecute : EventExecute
 
 	//used by the updateTimeProgressBar for display its time information
 	//changes a bit on runSimple and runInterval
-	//explained at each of the updateTimeProgressBar() 
+	//explained at each of the updateTimeProgressBar()
+	//measureRectionTime will be PLATFORM_INI_YES_TIME
 	protected enum runPhases {
 		PRE_RUNNING, PLATFORM_INI_YES_TIME, PLATFORM_INI_NO_TIME, RUNNING, PLATFORM_END
 	}
@@ -47,6 +48,8 @@ public class RunExecute : EventExecute
 	protected int checkDoubleContactTime;
 	
 	protected bool speedStartArrival;	
+	protected bool measureReactionTime;
+	protected double reactionTimeMS; //reaction time in milliseconds
 	
 	public RunExecute() {
 	}
@@ -58,7 +61,7 @@ public class RunExecute : EventExecute
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd,
 			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime, 
-			bool speedStartArrival
+			bool speedStartArrival, bool measureReactionTime
 			)
 	{
 		this.personID = personID;
@@ -79,7 +82,10 @@ public class RunExecute : EventExecute
 		this.checkDoubleContactMode = checkDoubleContactMode;
 		this.checkDoubleContactTime = checkDoubleContactTime;
 		this.speedStartArrival = speedStartArrival;	
-		
+		this.measureReactionTime = measureReactionTime;
+
+		reactionTimeMS = 0;
+
 		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonThreadDyed = new Gtk.Button();
 
@@ -210,7 +216,7 @@ public class RunExecute : EventExecute
 					loggedState = States.ON;
 					
 					if(runPhase == runPhases.PRE_RUNNING) {
-						if(speedStartArrival) {
+						if(speedStartArrival || measureReactionTime) {
 							runPhase = runPhases.PLATFORM_INI_YES_TIME;
 							initializeTimer(); //timerCount = 0
 						} else
@@ -277,7 +283,12 @@ public class RunExecute : EventExecute
 
 							//add the first contact time if PLATFORM_INI_YES_TIME
 							if(timestampFirstContact > 0)
-								timestamp += timestampFirstContact;
+							{
+								if(measureReactionTime)
+									reactionTimeMS = timestampFirstContact;
+								else
+									timestamp += timestampFirstContact;
+							}
 
 							time = timestamp / 1000.0;
 							write();
@@ -336,7 +347,7 @@ public class RunExecute : EventExecute
 		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label:
 		 *		case runPhases.PRE_RUNNING
 		 *   2-  if we are on the platform, it should be a pulse
-		 *   		a) if speedStartArrival (time starts at arriving at platform) 
+		 *   		a) if speedStartArrival (time starts at arriving at platform) || measureReactionTime
 		 *   		then time starts and have to be time value on label:
 		 *			case runPhases.PLATFORM_INI_YES_TIME
 		 *   		b) if ! speedStartArrival (time starts at leaving platform)
@@ -404,7 +415,9 @@ public class RunExecute : EventExecute
 			description = "P = " + Util.TrimDecimals ( (weight * 9.8 * distanceMeters / time).ToString(), pDN) + " (Watts)";
 		} else if(type == "Gesell-DBT") 
 			description = "0";
-		
+
+		if(measureReactionTime && reactionTimeMS > 0)
+			description += Util.TrimDecimals(reactionTimeMS / 1000.0, pDN);
 
 		string table = Constants.RunTable;
 
@@ -465,7 +478,7 @@ public class RunIntervalExecute : RunExecute
 			RepetitiveConditionsWindow repetitiveConditionsWin,
 			double progressbarLimit, ExecutingGraphData egd ,
 			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime, 
-			bool speedStartArrival
+			bool speedStartArrival, bool measureReactionTime
 			)
 	{
 		this.personID = personID;
@@ -505,7 +518,10 @@ public class RunIntervalExecute : RunExecute
 		this.checkDoubleContactMode = checkDoubleContactMode;
 		this.checkDoubleContactTime = checkDoubleContactTime;
 		this.speedStartArrival = speedStartArrival;	
-	
+		this.measureReactionTime = measureReactionTime;
+
+		reactionTimeMS = 0;
+
 		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonThreadDyed = new Gtk.Button();
 
@@ -702,8 +718,14 @@ public class RunIntervalExecute : RunExecute
 
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
-					} else if(runPhase == runPhases.PLATFORM_INI_YES_TIME) {
-						lastTc = timestamp/1000.0;
+					} else if(runPhase == runPhases.PLATFORM_INI_YES_TIME)
+					{
+						if(measureReactionTime)
+						{
+							reactionTimeMS = timestamp;
+							lastTc = 0;
+						} else
+							lastTc = timestamp/1000.0;
 					
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
@@ -790,7 +812,7 @@ public class RunIntervalExecute : RunExecute
 		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label:
 		 *		case runPhases.PRE_RUNNING
 		 *   2-  if we are on the platform, it should be a pulse
-		 *   		a) if speedStartArrival (time starts at arriving at platform) 
+		 *   		a) if speedStartArrival (time starts at arriving at platform) || measureReactionTime
 		 *   		then time starts and have to be time value on label:
 		 *			case runPhases.PLATFORM_INI_YES_TIME
 		 *   		b) if ! speedStartArrival (time starts at leaving platform)
@@ -904,6 +926,10 @@ public class RunIntervalExecute : RunExecute
 		string description = "";
 		if(type == "MTGUG")
 			description = "u u u u u u"; //undefined 6 items of questionnaire
+		//note MTGUG will not have reaction time measurement to have description read correctly by the rest of the software
+		else if(measureReactionTime && reactionTimeMS > 0)
+			description += Util.TrimDecimals(reactionTimeMS / 1000.0, pDN);
+
 
 
 		if(tempTable)

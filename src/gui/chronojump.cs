@@ -4494,7 +4494,8 @@ public partial class ChronoJumpWindow
 				progressbarLimit, egd,
 				preferences.runDoubleContactsMode,
 				preferences.runDoubleContactsMS,
-				preferences.runSpeedStartArrival
+				preferences.runSpeedStartArrival,
+				check_run_simple_with_reaction_time.Active
 				);
 		
 		if (! canCaptureC)
@@ -4618,7 +4619,8 @@ public partial class ChronoJumpWindow
 				progressbarLimit, egd,
 				preferences.runIDoubleContactsMode,
 				preferences.runIDoubleContactsMS,
-				preferences.runSpeedStartArrival
+				preferences.runSpeedStartArrival,
+				check_run_interval_with_reaction_time.Active
 				);
 		
 		

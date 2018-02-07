@@ -421,6 +421,7 @@ RESOURCES = \
 	../images/md/ic_directions_run_blue_24dp_2x.png,run.png \
 	../images/md/ic_directions_run_simple_blue_24dp_1x.png,image_run_simple.png \
 	../images/md/ic_directions_run_multiple_blue_24dp_1x.png,image_run_multiple.png \
+	../images/md/ic_directions_run_track_blue_24dp_1x.png,run_track_distance.png \
 	../images/md/ic_build_blue_24dp_1x.png,image_build.png \
 	../images/md/ic_edit_blue_24dp_1x.png,image_edit.png \
 	../images/md/ic_add_blue_24dp_1x.png,image_add.png \

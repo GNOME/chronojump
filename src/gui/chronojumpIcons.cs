@@ -68,6 +68,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_add_test2;
 	[Widget] Gtk.Image image_add_test3;
 	[Widget] Gtk.Image image_add_test4;
+	[Widget] Gtk.Image image_runs_simple_track_distance;
+	[Widget] Gtk.Image image_runs_interval_track_distance;
 
 	[Widget] Gtk.Image image_selector_start_jumps;
 	[Widget] Gtk.Image image_selector_start_runs;
@@ -153,6 +155,10 @@ public partial class ChronoJumpWindow
 		image_quit1.Pixbuf = pixbuf;
 		image_quit2.Pixbuf = pixbuf;
 		image_quit_from_app1.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_track_distance.png");
+		image_runs_simple_track_distance.Pixbuf = pixbuf;
+		image_runs_interval_track_distance.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
 		image_top_eccon.Pixbuf = pixbuf;

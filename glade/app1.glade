@@ -1533,6 +1533,15 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -5582,7 +5591,7 @@ EncoderInertialCapture</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_options_top">
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">10</property>
+                                                            <property name="spacing">25</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_image_test_zoom">
                                                             <property name="visible">True</property>
@@ -6545,53 +6554,51 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">25</property>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox28">
+                                                            <widget class="GtkButton" id="button_runs_simple_track_distance">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_runs_simple_track_distance_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox246">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="extra_window_runs_label_distance">
+                                                            <widget class="GtkImage" id="image_runs_simple_track_distance">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkSpinButton" id="extra_window_runs_spinbutton_distance">
-                                                            <property name="can_focus">True</property>
-                                                            <property name="invisible_char">●</property>
-                                                            <property name="invisible_char_set">True</property>
-                                                            <property name="primary_icon_activatable">False</property>
-                                                            <property name="secondary_icon_activatable">False</property>
-                                                            <property name="primary_icon_sensitive">True</property>
-                                                            <property name="secondary_icon_sensitive">True</property>
-                                                            <property name="adjustment">100 0 10000 0.10000000000000001 10 0</property>
-                                                            <property name="digits">1</property>
-                                                            <property name="snap_to_ticks">True</property>
-                                                            <property name="numeric">True</property>
-                                                            <property name="update_policy">if-valid</property>
+                                                            <widget class="GtkLabel" id="label_runs_simple_track_distance_value">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="padding">12</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="extra_window_runs_label_distance_units">
+                                                            <widget class="GtkLabel" id="label_runs_simple_track_distance_units">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">2</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             <packing>
@@ -6604,7 +6611,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox239">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkCheckButton" id="check_run_simple_with_reaction_time">
                                                             <property name="label" translatable="yes">Measure reaction time</property>
@@ -6685,7 +6692,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox104">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_runs_interval_label_distance">
                                                             <property name="can_focus">False</property>
@@ -6705,6 +6712,17 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
+                                                            <widget class="GtkImage" id="image_runs_interval_track_distance">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkSpinButton" id="extra_window_runs_interval_spinbutton_distance">
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
@@ -6714,6 +6732,7 @@ EncoderInertialCapture</property>
                                                             <property name="primary_icon_sensitive">True</property>
                                                             <property name="secondary_icon_sensitive">True</property>
                                                             <property name="adjustment">10 0 1000 0.10000000000000001 10 0</property>
+                                                            <property name="climb_rate">0.5</property>
                                                             <property name="digits">1</property>
                                                             <property name="snap_to_ticks">True</property>
                                                             <property name="numeric">True</property>
@@ -6722,7 +6741,7 @@ EncoderInertialCapture</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -6734,7 +6753,7 @@ EncoderInertialCapture</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -6755,7 +6774,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox68">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_runs_interval_label_limit">
                                                             <property name="can_focus">False</property>
@@ -6823,7 +6842,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox245">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkCheckButton" id="check_run_interval_with_reaction_time">
                                                             <property name="label" translatable="yes">Measure reaction time</property>
@@ -21823,6 +21842,15 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

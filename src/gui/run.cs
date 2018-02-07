@@ -898,11 +898,11 @@ public class RepairRunIntervalWindow
 public partial class ChronoJumpWindow
 {
 	//options runs
-	[Widget] Gtk.Label extra_window_runs_label_distance;
-	[Widget] Gtk.SpinButton extra_window_runs_spinbutton_distance;
-	[Widget] Gtk.Label extra_window_runs_label_distance_units;
 	[Widget] Gtk.CheckButton check_run_simple_with_reaction_time;
-	
+	[Widget] Gtk.Button button_runs_simple_track_distance;
+	[Widget] Gtk.Label label_runs_simple_track_distance_value;
+	[Widget] Gtk.Label label_runs_simple_track_distance_units;
+
 	//options runs interval
 	[Widget] Gtk.Label extra_window_runs_interval_label_distance;
 	[Widget] Gtk.SpinButton extra_window_runs_interval_spinbutton_distance;
@@ -980,19 +980,17 @@ public partial class ChronoJumpWindow
 		currentEventType = myRunType;
 		changeTestImage(EventType.Types.RUN.ToString(), myRunType.Name, myRunType.ImageFileName);
 
-		extra_window_runs_label_distance.Text = Catalog.GetString("Lap distance (between barriers)");
-		extra_window_runs_label_distance_units.Text = Catalog.GetString("meters");
+		label_runs_simple_track_distance_units.Text = "m";
 
 		if(myRunType.Distance > 0) {
-			extra_window_runs_spinbutton_distance.Value = myRunType.Distance;
+			label_runs_simple_track_distance_value.Text = myRunType.Distance.ToString();
 			extra_window_showDistanceData(myRunType, true, false);	//visible, sensitive
 		} else {
 			if(myRunType.Name == "Margaria") {
-				extra_window_runs_label_distance.Text = Catalog.GetString("Vertical distance between\nstairs third and nine.");
-				extra_window_runs_label_distance_units.Text = Catalog.GetString("Millimeters.");
-				extra_window_runs_spinbutton_distance.Value = 1050;
+				label_runs_simple_track_distance_value.Text = "1050";
+				label_runs_simple_track_distance_units.Text = "mm";
 			} else {
-				extra_window_runs_spinbutton_distance.Value = extra_window_runs_distance; 
+				label_runs_simple_track_distance_value.Text = extra_window_runs_distance.ToString();
 			}
 			extra_window_showDistanceData(myRunType, true, true);	//visible, sensitive
 		}
@@ -1134,13 +1132,8 @@ public partial class ChronoJumpWindow
 			extra_window_runs_interval_spinbutton_distance.Sensitive = sensitive;
 			extra_window_runs_interval_label_distance_units.Sensitive = sensitive;
 		} else {
-			extra_window_runs_label_distance.Visible = show;
-			extra_window_runs_spinbutton_distance.Visible = show;
-			extra_window_runs_label_distance_units.Visible = show;
-		
-			extra_window_runs_label_distance.Sensitive = sensitive;
-			extra_window_runs_spinbutton_distance.Sensitive = sensitive;
-			extra_window_runs_label_distance_units.Sensitive = sensitive;
+			button_runs_simple_track_distance.Visible = show;
+			button_runs_simple_track_distance.Sensitive = sensitive;
 		}
 	}
 	
@@ -1153,6 +1146,37 @@ public partial class ChronoJumpWindow
 		extra_window_runs_interval_spinbutton_limit.Sensitive = sensitive;
 		extra_window_runs_interval_label_limit_units.Sensitive = sensitive;
 	}
+
+	private void on_button_runs_simple_track_distance_clicked (object o, EventArgs args)
+	{
+		string text = Catalog.GetString("Lap distance (between barriers)");
+		string labelAtLeft = Catalog.GetString("Distance in meters");
+		if(currentRunType.Name == "Margaria")
+		{
+			text = Catalog.GetString("Vertical distance between stairs third and nine.");
+			labelAtLeft = Catalog.GetString("Distance in millimeters");
+		}
+
+		genericWin = GenericWindow.Show(Catalog.GetString("Track distance"), text, Constants.GenericWindowShow.HBOXSPINDOUBLE2);
+
+		genericWin.LabelSpinDouble2 = labelAtLeft;
+		genericWin.SetSpinDouble2Increments(0.1, 1);
+		genericWin.SetSpinDouble2Range(0, 100000.0);
+		genericWin.SetSpinDouble2Digits(1);
+		genericWin.SetSpinDouble2Value(Convert.ToDouble(label_runs_simple_track_distance_value.Text));
+
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_runs_simple_track_distance_accepted);
+		genericWin.Button_accept.Clicked += new EventHandler(on_button_runs_simple_track_distance_accepted);
+	}
+
+	void on_button_runs_simple_track_distance_accepted (object obj, EventArgs args)
+	{
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_runs_simple_track_distance_accepted);
+
+		label_runs_simple_track_distance_value.Text = Util.TrimDecimals(genericWin.SpinDouble2Selected.ToString(),
+				preferences.digitsNumber);
+	}
+
 
 	private bool changingCheckboxesRunWithReactionTime = false;
 	private void on_check_run_simple_with_reaction_time_clicked (object o, EventArgs args)

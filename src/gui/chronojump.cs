@@ -3881,8 +3881,8 @@ public partial class ChronoJumpWindow
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
 		{
 			LogB.Debug("radio_menuitem_mode_runs_simple");
-			extra_window_runs_distance = (double) extra_window_runs_spinbutton_distance.Value;
-			
+			extra_window_runs_distance = Convert.ToDouble(label_runs_simple_track_distance_value.Text);
+
 			on_normal_run_activate(canCaptureC);
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)

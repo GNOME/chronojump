@@ -378,6 +378,9 @@ public class GenericWindow
 	public void SetSpinDouble2Range(double min, double max) {
 		spin_double2.SetRange(min, max);
 	}
+	public void SetSpinDouble2Digits(uint digits) {
+		spin_double2.Digits = digits;
+	}
 	
 	public void SetComboValues(string [] values, string current) {
 		combo = ComboBox.NewText ();

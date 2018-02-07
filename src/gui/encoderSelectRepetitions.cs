@@ -251,7 +251,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		}
 		*/
 		
-		genericWinESR = GenericWindow.Show(false,	//don't show now
+		genericWinESR = GenericWindow.Show(Catalog.GetString("Repetitions"), false,	//don't show now
 				string.Format(Catalog.GetString("Saved repetitions of athlete {0} on this session."), 
 					currentPerson.Name) + "\n" + 
 				Catalog.GetString("Activate the repetitions you want to use clicking on first column.") + "\n" +
@@ -504,7 +504,7 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 	
 	protected override void createGenericWindow() 
 	{
-		genericWinESR = GenericWindow.Show(false,  //don't show now	//TODO: change message
+		genericWinESR = GenericWindow.Show(Catalog.GetString("Repetitions"), false,  //don't show now	//TODO: change message
 				string.Format(Catalog.GetString("Compare repetitions between the following sessions"),
 					currentPerson.Name), bigArray);
 
@@ -675,7 +675,7 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 	
 	protected override void createGenericWindow() 
 	{
-		genericWinESR = GenericWindow.Show(false,	//don't show now
+		genericWinESR = GenericWindow.Show(Catalog.GetString("Persons compare"), false,	//don't show now
 				Catalog.GetString("Select persons to compare"), bigArray);
 
 		genericWinESR.SetTreeview(columnsString, true, data, nonSensitiveRows, Constants.ContextMenu.NONE, false);

@@ -1073,7 +1073,7 @@ public partial class ChronoJumpWindow
 		a3.Add(Constants.GenericWindowShow.BUTTONMIDDLE); a3.Add(true); a3.Add("");
 		bigArray.Add(a3);
 	
-		genericWin = GenericWindow.Show(false,	//don't show now
+		genericWin = GenericWindow.Show("1RM", false,	//don't show now
 				string.Format(Catalog.GetString("Saved 1RM values of athlete {0} in {1} exercise."), 
 					currentPerson.Name, UtilGtk.ComboGetActive(combo_encoder_exercise_capture)) + "\n" + 
 				Catalog.GetString("If you want to delete a row, right click on it.") + "\n" + 
@@ -1551,7 +1551,7 @@ public partial class ChronoJumpWindow
 		a2.Add(Constants.GenericWindowShow.COMBO); a2.Add(true); a2.Add("");
 		bigArray.Add(a2);
 		
-		genericWin = GenericWindow.Show(false,	//don't show now
+		genericWin = GenericWindow.Show(Catalog.GetString("Load set"), false,	//don't show now
 				string.Format(Catalog.GetString("Select set of athlete {0} on this session."), 
 					currentPerson.Name) + "\n" + 
 				Catalog.GetString("If you want to edit or delete a row, right click on it."), bigArray);
@@ -4123,7 +4123,8 @@ public partial class ChronoJumpWindow
 		bigArray.Add(a5);
 		
 		
-		genericWin = GenericWindow.Show(false, Catalog.GetString("Encoder exercise name:"), bigArray);
+		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"),
+				false, Catalog.GetString("Encoder exercise name:"), bigArray);
 		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
 		
 		//genericWin.SetSpinRange(ex.percentBodyWeight, ex.percentBodyWeight); //done this because IsEditable does not affect the cursors
@@ -4181,7 +4182,7 @@ public partial class ChronoJumpWindow
 		bigArray.Add(a5);
 		
 		
-		genericWin = GenericWindow.Show(false,	//don't show now
+		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
 				Catalog.GetString("Write the name of the encoder exercise:"), bigArray);
 		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
 		genericWin.SetSpinRange(0, 100);

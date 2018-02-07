@@ -118,8 +118,7 @@ public class GenericWindow
 	//used to decide if a genericWin has to be recreated
 	public Types Type;
 
-
-	public GenericWindow (string textHeader)
+	public GenericWindow (string title, string textHeader)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "generic_window.glade", "generic_window", "chronojump");
@@ -129,6 +128,7 @@ public class GenericWindow
 		UtilGtk.IconWindow(generic_window);
 		
 		generic_window.Resizable = false;
+		setTitle(title);
 		label_header.Text = textHeader;
 		
 		HideOnAccept = true;
@@ -136,12 +136,14 @@ public class GenericWindow
 	}
 
 	//for an array of widgets
-	static public GenericWindow Show (bool showNow, string textHeader, ArrayList array)
+	static public GenericWindow Show (string title, bool showNow, string textHeader, ArrayList array)
 	{
 		if (GenericWindowBox == null) {
-			GenericWindowBox = new GenericWindow(textHeader);
-		} else
+			GenericWindowBox = new GenericWindow(title, textHeader);
+		} else {
+			GenericWindowBox.setTitle(title);
 			GenericWindowBox.label_header.Text = textHeader;
+		}
 
 		GenericWindowBox.Type = Types.UNDEFINED;
 
@@ -160,12 +162,14 @@ public class GenericWindow
 	}
 
 	//for only one widget
-	static public GenericWindow Show (string textHeader, Constants.GenericWindowShow stuff)
+	static public GenericWindow Show (string title, string textHeader, Constants.GenericWindowShow stuff)
 	{
 		if (GenericWindowBox == null) {
-			GenericWindowBox = new GenericWindow(textHeader);
-		} else
+			GenericWindowBox = new GenericWindow(title, textHeader);
+		} else {
+			GenericWindowBox.setTitle(title);
 			GenericWindowBox.label_header.Text = textHeader;
+		}
 
 		GenericWindowBox.Type = Types.UNDEFINED;
 
@@ -185,8 +189,13 @@ public class GenericWindow
 
 		GenericWindowBox.generic_window.Show ();
 	}
-	
-	
+
+	private void setTitle(string title)
+	{
+		if(title != "")
+			generic_window.Title = "Chronojump - " + title;
+	}
+
 	void hideWidgets() {
 		hbox_error.Hide();
 		entry.Hide();

@@ -350,7 +350,9 @@ public class ReportWindow {
 				comment = statRow[8];
 			}
 			
-			genericWin = GenericWindow.Show(Catalog.GetString("Comment this statistic"), Constants.GenericWindowShow.TEXTVIEW);
+			genericWin = GenericWindow.Show(Catalog.GetString("Add comment"),
+					Catalog.GetString("Comment this statistic"),
+					Constants.GenericWindowShow.TEXTVIEW);
 			genericWin.SetTextview(comment);
 			genericWin.Button_accept.Clicked += new EventHandler(on_comment_add_accepted);
 		}

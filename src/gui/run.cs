@@ -904,9 +904,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_runs_simple_track_distance_units;
 
 	//options runs interval
-	[Widget] Gtk.Label extra_window_runs_interval_label_distance;
-	[Widget] Gtk.SpinButton extra_window_runs_interval_spinbutton_distance;
-	[Widget] Gtk.Label extra_window_runs_interval_label_distance_units;
+	[Widget] Gtk.Button button_runs_interval_track_distance;
+	[Widget] Gtk.Label label_runs_interval_track_distance_value;
+	//[Widget] Gtk.Label label_runs_interval_track_distance_units; //always "m"
 	[Widget] Gtk.Label extra_window_runs_interval_label_limit;
 	[Widget] Gtk.SpinButton extra_window_runs_interval_spinbutton_limit;
 	[Widget] Gtk.Label extra_window_runs_interval_label_limit_units;
@@ -1036,10 +1036,10 @@ public partial class ChronoJumpWindow
 		changeTestImage(EventType.Types.RUN.ToString(), myRunType.Name, myRunType.ImageFileName);
 
 		if(myRunType.Distance > 0) {
-			extra_window_runs_interval_spinbutton_distance.Value = myRunType.Distance;
+			label_runs_interval_track_distance_value.Text = myRunType.Distance.ToString();
 			extra_window_showDistanceData(myRunType, true, false);	//visible, sensitive
 		} else if(myRunType.Distance == 0) {
-			extra_window_runs_interval_spinbutton_distance.Value = extra_window_runs_interval_distance; 
+			label_runs_interval_track_distance_value.Text = extra_window_runs_interval_distance.ToString();
 			extra_window_showDistanceData(myRunType, true, true);	//visible, sensitive
 		} else { //variableDistancesString (eg. MTGUG) don't show anything
 			extra_window_showDistanceData(myRunType, false, false);	//visible, sensitive
@@ -1124,13 +1124,8 @@ public partial class ChronoJumpWindow
 
 	private void extra_window_showDistanceData (RunType myRunType, bool show, bool sensitive ) {
 		if(myRunType.HasIntervals) {
-			extra_window_runs_interval_label_distance.Visible = show;
-			extra_window_runs_interval_spinbutton_distance.Visible = show;
-			extra_window_runs_interval_label_distance_units.Visible = show;
-		
-			extra_window_runs_interval_label_distance.Sensitive = sensitive;
-			extra_window_runs_interval_spinbutton_distance.Sensitive = sensitive;
-			extra_window_runs_interval_label_distance_units.Sensitive = sensitive;
+			button_runs_interval_track_distance.Visible = show;
+			button_runs_interval_track_distance.Sensitive = sensitive;
 		} else {
 			button_runs_simple_track_distance.Visible = show;
 			button_runs_simple_track_distance.Sensitive = sensitive;
@@ -1147,28 +1142,58 @@ public partial class ChronoJumpWindow
 		extra_window_runs_interval_label_limit_units.Sensitive = sensitive;
 	}
 
+	// ----
+	// ---- start of track distance
+	// ----
+
+	// ---- 1) gui calls
+
 	private void on_button_runs_simple_track_distance_clicked (object o, EventArgs args)
 	{
 		string text = Catalog.GetString("Lap distance (between barriers)");
 		string labelAtLeft = Catalog.GetString("Distance in meters");
+
 		if(currentRunType.Name == "Margaria")
 		{
 			text = Catalog.GetString("Vertical distance between stairs third and nine.");
 			labelAtLeft = Catalog.GetString("Distance in millimeters");
 		}
 
+		createGenericWinForTrackDistance(true, text, labelAtLeft,
+				Convert.ToDouble(label_runs_simple_track_distance_value.Text));
+	}
+
+	private void on_button_runs_interval_track_distance_clicked (object o, EventArgs args)
+	{
+		string text = Catalog.GetString("Lap distance (between barriers)");
+		string labelAtLeft = Catalog.GetString("Distance in meters");
+
+		createGenericWinForTrackDistance(false, text, labelAtLeft,
+				Convert.ToDouble(label_runs_interval_track_distance_value.Text));
+	}
+
+	// ---- 2) create genericWin
+
+	private void createGenericWinForTrackDistance(bool simpleOrInterval, string text, string labelAtLeft, double initialValue)
+	{
 		genericWin = GenericWindow.Show(Catalog.GetString("Track distance"), text, Constants.GenericWindowShow.HBOXSPINDOUBLE2);
 
 		genericWin.LabelSpinDouble2 = labelAtLeft;
 		genericWin.SetSpinDouble2Increments(0.1, 1);
 		genericWin.SetSpinDouble2Range(0, 100000.0);
 		genericWin.SetSpinDouble2Digits(1);
-		genericWin.SetSpinDouble2Value(Convert.ToDouble(label_runs_simple_track_distance_value.Text));
+		genericWin.SetSpinDouble2Value(initialValue);
 
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_runs_simple_track_distance_accepted);
-		genericWin.Button_accept.Clicked += new EventHandler(on_button_runs_simple_track_distance_accepted);
+		if(simpleOrInterval) {
+			genericWin.Button_accept.Clicked -= new EventHandler(on_button_runs_simple_track_distance_accepted);
+			genericWin.Button_accept.Clicked += new EventHandler(on_button_runs_simple_track_distance_accepted);
+		} else {
+			genericWin.Button_accept.Clicked -= new EventHandler(on_button_runs_interval_track_distance_accepted);
+			genericWin.Button_accept.Clicked += new EventHandler(on_button_runs_interval_track_distance_accepted);
+		}
 	}
 
+	// ---- 3) return from genericWin
 	void on_button_runs_simple_track_distance_accepted (object obj, EventArgs args)
 	{
 		genericWin.Button_accept.Clicked -= new EventHandler(on_button_runs_simple_track_distance_accepted);
@@ -1177,6 +1202,15 @@ public partial class ChronoJumpWindow
 				preferences.digitsNumber);
 	}
 
+	void on_button_runs_interval_track_distance_accepted (object obj, EventArgs args)
+	{
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_runs_interval_track_distance_accepted);
+
+		label_runs_interval_track_distance_value.Text = Util.TrimDecimals(genericWin.SpinDouble2Selected.ToString(),
+				preferences.digitsNumber);
+	}
+
+	// ---- end of track distance
 
 	private bool changingCheckboxesRunWithReactionTime = false;
 	private void on_check_run_simple_with_reaction_time_clicked (object o, EventArgs args)

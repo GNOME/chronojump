@@ -1542,6 +1542,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -6558,6 +6561,7 @@ EncoderInertialCapture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_button_runs_simple_track_distance_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox246">
@@ -6565,10 +6569,10 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <widget class="GtkImage" id="image_runs_simple_track_distance">
+                                                            <widget class="GtkLabel" id="label286">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="label">|--</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -6596,6 +6600,18 @@ EncoderInertialCapture</property>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label293">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">--|</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -6632,6 +6648,7 @@ EncoderInertialCapture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_button_run_with_reaction_time_help_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_run_simple_with_reaction_time_help">
@@ -6723,6 +6740,9 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkSpinButton" id="extra_window_runs_interval_spinbutton_distance">
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
@@ -6741,7 +6761,7 @@ EncoderInertialCapture</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -6753,8 +6773,11 @@ EncoderInertialCapture</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             </widget>
                                                             <packing>
@@ -21842,6 +21865,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -3895,7 +3895,8 @@ public partial class ChronoJumpWindow
 				return;
 			}
 
-			extra_window_runs_interval_distance = (double) extra_window_runs_interval_spinbutton_distance.Value;
+			//extra_window_runs_interval_distance = (double) extra_window_runs_interval_spinbutton_distance.Value;
+			extra_window_runs_interval_distance = Convert.ToDouble(label_runs_interval_track_distance_value.Text);
 			extra_window_runs_interval_limit = extra_window_runs_interval_spinbutton_limit.Value;
 			
 			on_run_interval_activate(canCaptureC);

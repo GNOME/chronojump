@@ -126,7 +126,7 @@ public class RunTypeAddWindow
 		button_accept.Sensitive = false;
 		spin_fixed_tracks_or_time.Sensitive = false;
 		label_distance.Text = Catalog.GetString("Distance");
-		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		//System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		
 		radiobutton_dist_different.Visible = ! simple;
 		hbox_distance_fixed.Hide();	

@@ -792,6 +792,8 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.HButtonBox hbuttonbox_main;
 	[Widget] Gtk.VBox vbox_error;
 	[Widget] Gtk.Label label_error;
+	[Widget] Gtk.Button button_load_person;
+	[Widget] Gtk.Image image_load_person;
 
 	[Widget] Gtk.Button button_add_photo_file;
 	[Widget] Gtk.Button button_take_photo;
@@ -898,6 +900,9 @@ public class PersonAddModifyWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
 		image_zoom.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
+		image_load_person.Pixbuf = pixbuf;
 
 		button_take_photo.Visible = showCapturePhoto;
 
@@ -1638,7 +1643,9 @@ public class PersonAddModifyWindow
 		}
 	}
 		
-	
+
+	Person loadingPerson;
+
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		string errorMessage = "";
@@ -1653,19 +1660,36 @@ public class PersonAddModifyWindow
 		if(errorMessage.Length > 0)
 		{
 			label_error.Text = errorMessage;
-			showErrorMessage(true);
+			showErrorMessage(true, false);
 			return;
 		}
 
 		bool personExists;
+		bool personLoadable = false; // this person exists but is not in this session
 		if(adding)
+		{
 			personExists = Sqlite.Exists (false, Constants.PersonTable, personName);
+			if(personExists)
+			{
+				Person p = SqlitePerson.Select(false, "WHERE LOWER(name) = LOWER(\"" + personName + "\")");
+				if(p.UniqueID != -1)
+				{
+					personLoadable = ! SqlitePersonSession.PersonSelectExistsInSession(
+							p.UniqueID, currentSession.UniqueID);
+					loadingPerson = p;
+				}
+			}
+		}
 		else
 			personExists = SqlitePerson.ExistsAndItsNotMe (currentPerson.UniqueID, personName);
 
-		if(personExists) 
-			errorMessage += string.Format(Catalog.GetString("Person: '{0}' exists. Please, use another name"), 
+		if(personExists)
+		{
+			errorMessage += string.Format(Catalog.GetString("Person: '{0}' exists. Please, use another name."),
 					Util.RemoveTildeAndColonAndDot(personName) );
+			if(adding && personLoadable)
+				errorMessage += "\n" + Catalog.GetString("Or load this person from another session using this button:");
+		}
 		else {
 			//if weight has changed
 			if(!adding && (double) spinbutton_weight.Value != weightIni) {
@@ -1692,20 +1716,44 @@ public class PersonAddModifyWindow
 		if(errorMessage.Length > 0)
 		{
 			label_error.Text = errorMessage;
-			showErrorMessage(true);
+			//show error message, show button_load_person if adding, personExists and not in this session
+			showErrorMessage(true, adding && personExists && personLoadable);
 		}
 	}
 
-	void on_button_error_go_back_clicked (object o, EventArgs args)
-	{
-		showErrorMessage(false);
-	}
-
-	void showErrorMessage(bool show)
+	private void showErrorMessage(bool show, bool showLoadPerson)
 	{
 		vbox_error.Visible = show;
 		notebook_main.Visible = ! show;
 		hbuttonbox_main.Visible = ! show;
+
+		button_load_person.Visible = showLoadPerson;
+	}
+
+	private void on_button_load_person_clicked (object o, EventArgs args)
+	{
+		currentPerson = loadingPerson;
+		PersonAddModifyWindowBox.person_win.Hide();
+		PersonAddModifyWindowBox = null;
+
+		PersonSession myPS = SqlitePersonSession.Select(false, currentPerson.UniqueID, -1);
+
+		LogB.Information("Going to insert personSession");
+		//this inserts in DB
+		currentPersonSession = new PersonSession (
+				currentPerson.UniqueID, currentSession.UniqueID,
+				myPS.Height, myPS.Weight,
+				myPS.SportID, myPS.SpeciallityID,
+				myPS.Practice,
+				myPS.Comments,
+				false); //dbconOpened
+
+		fakeButtonAccept.Click();
+	}
+
+	private void on_button_error_go_back_clicked (object o, EventArgs args)
+	{
+		showErrorMessage(false, false);
 	}
 
 	void on_convertWeightWin_accepted (object o, EventArgs args) {

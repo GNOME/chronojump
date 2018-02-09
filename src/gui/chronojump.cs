@@ -2633,7 +2633,14 @@ public partial class ChronoJumpWindow
 		personAddModifyWin.FakeButtonAccept.Clicked -= new EventHandler(on_person_add_single_accepted);
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_person_add_single_accepted);
 	}
-	
+
+	/*
+	 * note: while adding, if a person name is written,
+	 * and this name exists in database but not in current session,
+	 * a person load will appear
+	 * and if clicked, this will be called, so this will be used also as a loader
+	 * TODO: unify most of the code of person add and person load
+	 */
 	private void on_person_add_single_accepted (object o, EventArgs args)
 	{
 		personAddModifyWin.FakeButtonAccept.Clicked -= new EventHandler(on_person_add_single_accepted);

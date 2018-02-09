@@ -787,7 +787,12 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.RadioButton radiobutton_woman;
 	[Widget] Gtk.TextView textview_description;
 	[Widget] Gtk.TextView textview_ps_comments;
-	
+
+	[Widget] Gtk.Notebook notebook_main;
+	[Widget] Gtk.HButtonBox hbuttonbox_main;
+	[Widget] Gtk.VBox vbox_error;
+	[Widget] Gtk.Label label_error;
+
 	[Widget] Gtk.Button button_add_photo_file;
 	[Widget] Gtk.Button button_take_photo;
 	
@@ -1645,8 +1650,10 @@ public class PersonAddModifyWindow
 			errorMessage += "\n" + Catalog.GetString("Please, write the name of the person.");
 		if((double) spinbutton_weight.Value == 0)
 			errorMessage += "\n" + Catalog.GetString("Please, complete the weight of the person.");
-		if(errorMessage.Length > 0) {
-			ErrorWindow.Show(errorMessage);
+		if(errorMessage.Length > 0)
+		{
+			label_error.Text = errorMessage;
+			showErrorMessage(true);
 			return;
 		}
 
@@ -1683,7 +1690,22 @@ public class PersonAddModifyWindow
 		}
 
 		if(errorMessage.Length > 0)
-			ErrorWindow.Show(errorMessage);
+		{
+			label_error.Text = errorMessage;
+			showErrorMessage(true);
+		}
+	}
+
+	void on_button_error_go_back_clicked (object o, EventArgs args)
+	{
+		showErrorMessage(false);
+	}
+
+	void showErrorMessage(bool show)
+	{
+		vbox_error.Visible = show;
+		notebook_main.Visible = ! show;
+		hbuttonbox_main.Visible = ! show;
 	}
 
 	void on_convertWeightWin_accepted (object o, EventArgs args) {

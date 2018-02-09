@@ -6985,9 +6985,7 @@ msgstr "El temps total no pot ser més gran."
 
 #: ../src/gui/run.cs:981
 msgid "Lap distance (between barriers)"
-msgstr ""
-"Distància de tram \n"
-"(entre barreres)"
+msgstr "Distància de tram (entre barreres)"
 
 #: ../src/gui/run.cs:982
 msgid "meters"

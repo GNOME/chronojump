@@ -316,18 +316,10 @@ public partial class ChronoJumpWindow
 		}
 		
 		encoderUpdateTreeViewWhileCapturing = configChronojump.EncoderUpdateTreeViewWhileCapturing;
-		
-		if(configChronojump.PersonWinHide)
-		{
-			notebook_session_person.Visible = false;
-			hbox_top_person.Visible = true;
-			hbox_top_person_encoder.Visible = true;
-		} else {
-			notebook_session_person.Visible = true;
-			hbox_top_person.Visible = false;
-			hbox_top_person_encoder.Visible = false;
-		}
-		
+
+		showPersonsOnTop(configChronojump.PersonWinHide);
+		menuitem_view_persons_on_top.Active = configChronojump.PersonWinHide;
+
 		if(configChronojump.EncoderAnalyzeHide) {
 			hbox_encoder_sup_capture_analyze_two_buttons.Visible = false;
 		}

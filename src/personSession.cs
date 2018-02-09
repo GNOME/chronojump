@@ -42,7 +42,8 @@ public class PersonSession {
 
 	//loading
 	//we know uniqueID
-	public PersonSession(int uniqueID, int personID, int sessionID,
+	public PersonSession(int uniqueID,
+			int personID, int sessionID,
 			double height, double weight, int sportID, 
 			int speciallityID, int practice, string comments)
 	{

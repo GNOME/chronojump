@@ -102,7 +102,7 @@ class SqlitePerson : Sqlite
 		if(! dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonTable + whereStr;
+		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonTable + " " + whereStr;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

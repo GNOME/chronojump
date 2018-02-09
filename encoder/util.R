@@ -916,9 +916,9 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
               encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALMOVPULLEY"){
     #With a moving pulley, the displacement of the body is half of the displacement of the rope in the inertial machine side
     #So, the multiplier is 4 instead of 2 to get the rotational kinematics.
-    angle = position.m * 4 / diameter.m
-    angleSpeed = speed * 4 / diameter.m
-    angleAccel = accel * 4 / diameter.m
+    angle = position.m * 2 / gearedDown / diameter.m
+    angleSpeed = speed * 2 / gearedDown / diameter.m
+    angleAccel = accel * 2 / gearedDown / diameter.m
     anglePush = 90 #TODO: send from C#
     #The configuration covers horizontal, vertical and inclined movements
     #If the movement is vertical g*sin(alpha) = g

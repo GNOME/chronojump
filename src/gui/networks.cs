@@ -320,7 +320,7 @@ public partial class ChronoJumpWindow
 		showPersonsOnTop(configChronojump.PersonWinHide);
 		menuitem_view_persons_on_top.Active = configChronojump.PersonWinHide;
 
-		showPersonsPhoto(preferences.personPhoto);
+		showPersonPhoto(preferences.personPhoto);
 		menuitem_view_persons_show_photo.Active = preferences.personPhoto;
 
 

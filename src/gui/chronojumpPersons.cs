@@ -56,10 +56,10 @@ public partial class ChronoJumpWindow
 
 		SqlitePreferences.Update("personPhoto", showPhoto.ToString(), false);
 		preferences.personPhoto = showPhoto;
-		showPersonsPhoto(showPhoto);
+		showPersonPhoto(showPhoto);
 	}
 
-	private void showPersonsPhoto (bool showPhoto)
+	private void showPersonPhoto (bool showPhoto)
 	{
 		if(! menuitem_view_persons_on_top.Active)
 		{

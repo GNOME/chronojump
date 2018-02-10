@@ -50,6 +50,7 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton check_appearance_maximized;
 	[Widget] Gtk.CheckButton check_appearance_maximized_undecorated;
 	[Widget] Gtk.CheckButton check_appearance_person_win_hide;
+	[Widget] Gtk.CheckButton check_appearance_person_photo;
 	[Widget] Gtk.CheckButton check_appearance_encoder_only_bars;
 	[Widget] Gtk.Alignment alignment_undecorated;
 	[Widget] Gtk.Alignment alignment_restart;
@@ -308,6 +309,13 @@ public class PreferencesWindow
 			PreferencesWindowBox.check_appearance_person_win_hide.Active = true;
 		else
 			PreferencesWindowBox.check_appearance_person_win_hide.Active = false;
+
+		PreferencesWindowBox.check_appearance_person_photo.Sensitive = ! preferences.personWinHide;
+
+		if(preferences.personPhoto)
+			PreferencesWindowBox.check_appearance_person_photo.Active = true;
+		else
+			PreferencesWindowBox.check_appearance_person_photo.Active = false;
 
 		if(preferences.encoderCaptureShowOnlyBars)
 			PreferencesWindowBox.check_appearance_encoder_only_bars.Active = true;
@@ -634,6 +642,11 @@ public class PreferencesWindow
 	private void on_check_appearance_maximized_toggled (object obj, EventArgs args)
 	{
 		alignment_undecorated.Visible = check_appearance_maximized.Active;
+	}
+
+	private void on_check_appearance_person_win_hide_toggled (object obj, EventArgs args)
+	{
+		check_appearance_person_photo.Sensitive = ! check_appearance_person_win_hide.Active;
 	}
 
 	private void on_check_appearance_encoder_only_bars_toggled (object obj, EventArgs args) 
@@ -1495,6 +1508,10 @@ public class PreferencesWindow
 		if( preferences.personWinHide != PreferencesWindowBox.check_appearance_person_win_hide.Active ) {
 			SqlitePreferences.Update("personWinHide", PreferencesWindowBox.check_appearance_person_win_hide.Active.ToString(), true);
 			preferences.personWinHide = PreferencesWindowBox.check_appearance_person_win_hide.Active;
+		}
+		if( preferences.personPhoto != PreferencesWindowBox.check_appearance_person_photo.Active ) {
+			SqlitePreferences.Update("personPhoto", PreferencesWindowBox.check_appearance_person_photo.Active.ToString(), true);
+			preferences.personPhoto = PreferencesWindowBox.check_appearance_person_photo.Active;
 		}
 		if( preferences.encoderCaptureShowOnlyBars != PreferencesWindowBox.check_appearance_encoder_only_bars.Active ) {
 			SqlitePreferences.Update("encoderCaptureShowOnlyBars", PreferencesWindowBox.check_appearance_encoder_only_bars.Active.ToString(), true);

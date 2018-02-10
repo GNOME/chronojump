@@ -301,7 +301,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Frame frame_persons;
 	[Widget] Gtk.Frame frame_persons_top;
 	[Widget] Gtk.VBox vbox_persons_bottom;
-	[Widget] Gtk.HBox hbox_persons_bottom_person;
+	[Widget] Gtk.HBox hbox_persons_bottom_photo;
+	[Widget] Gtk.HBox hbox_persons_bottom_no_photo;
 	[Widget] Gtk.Button button_recuperate_person;
 	[Widget] Gtk.Button button_recuperate_persons_from_session;
 	[Widget] Gtk.Button button_person_add_single;
@@ -333,7 +334,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_jump_reactive_repair;
 	[Widget] Gtk.Image image_run_interval_repair;
 	[Widget] Gtk.Image image_pulse_repair;
-	[Widget] Gtk.Image image_person_delete;
 	[Widget] Gtk.Image image_delete_last_test;
 	[Widget] Gtk.Image image_jump_delete;
 	[Widget] Gtk.Image image_jump_reactive_delete;
@@ -2299,7 +2299,8 @@ public partial class ChronoJumpWindow
 
 			//for sure, jumpsExists is false, because we create a new session
 
-			hbox_persons_bottom_person.Sensitive = false;
+			hbox_persons_bottom_photo.Sensitive = false;
+			hbox_persons_bottom_no_photo.Sensitive = false;
 		
 			//update report
 			report.SessionID = currentSession.UniqueID;
@@ -2472,7 +2473,8 @@ public partial class ChronoJumpWindow
 		sensitiveGuiYesSession();
 		definedSession = true;
 		
-		hbox_persons_bottom_person.Sensitive = false;
+		hbox_persons_bottom_photo.Sensitive = false;
+		hbox_persons_bottom_no_photo.Sensitive = false;
 
 		//if there are persons
 		if(foundPersons) {
@@ -7013,7 +7015,8 @@ LogB.Debug("X");
 		button_persons_up.Sensitive = option;
 		button_persons_down.Sensitive = option;
 
-		hbox_persons_bottom_person.Sensitive = option;
+		hbox_persons_bottom_photo.Sensitive = option;
+		hbox_persons_bottom_no_photo.Sensitive = option;
 	}
 
 	private void sensitiveGuiNoSession () 
@@ -7032,7 +7035,8 @@ LogB.Debug("X");
 		button_recuperate_persons_from_session.Sensitive = false;
 		button_person_add_single.Sensitive = false;
 		button_person_add_multiple.Sensitive = false;
-		hbox_persons_bottom_person.Sensitive = false;
+		hbox_persons_bottom_photo.Sensitive = false;
+		hbox_persons_bottom_no_photo.Sensitive = false;
 	
 		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;

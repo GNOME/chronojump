@@ -27,8 +27,9 @@ using Glade;
 public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.CheckMenuItem menuitem_view_persons_on_top;
+	[Widget] Gtk.CheckMenuItem menuitem_view_persons_show_photo;
 
-	private void on_menuitem_view_persons_on_top_toggled(object o, EventArgs args)
+	private void on_menuitem_view_persons_on_top_toggled (object o, EventArgs args)
 	{
 		bool personsOnTop = menuitem_view_persons_on_top.Active;
 		LogB.Information("Toggled: " + personsOnTop.ToString());
@@ -38,10 +39,29 @@ public partial class ChronoJumpWindow
 		showPersonsOnTop(personsOnTop);
 	}
 
-	private void showPersonsOnTop(bool onTop)
+	private void showPersonsOnTop (bool onTop)
 	{
 		notebook_session_person.Visible = ! onTop;
 		hbox_top_person.Visible = onTop;
 		hbox_top_person_encoder.Visible = onTop;
+	}
+
+
+	private void on_menuitem_view_persons_show_photo_toggled (object o, EventArgs args)
+	{
+		bool showPhoto = menuitem_view_persons_show_photo.Active;
+
+		SqlitePreferences.Update("personPhoto", showPhoto.ToString(), false);
+		preferences.personPhoto = showPhoto;
+		showPersonsPhoto(showPhoto);
+	}
+
+	private void showPersonsPhoto (bool showPhoto)
+	{
+		if(! menuitem_view_persons_on_top.Active)
+		{
+			hbox_persons_bottom_photo.Visible = showPhoto;
+			hbox_persons_bottom_no_photo.Visible = ! showPhoto;
+		}
 	}
 }

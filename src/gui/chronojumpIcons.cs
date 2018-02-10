@@ -47,10 +47,14 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_person;
 	[Widget] Gtk.Image image_person1;
 	[Widget] Gtk.Image image_edit_current_person;
+	[Widget] Gtk.Image image_edit_current_person_h;
 	//[Widget] Gtk.Image image_persons_up;
 	//[Widget] Gtk.Image image_persons_down;
 	[Widget] Gtk.Image image_rest;
 	[Widget] Gtk.Image image_all_persons_events;
+	[Widget] Gtk.Image image_all_persons_events_h;
+	[Widget] Gtk.Image image_person_delete;
+	[Widget] Gtk.Image image_person_delete_h;
 	[Widget] Gtk.Image image_chronopic_connect_contacts;
 	[Widget] Gtk.Image image_chronopic_connect_encoder;
 	[Widget] Gtk.Image image_button_execute;
@@ -273,6 +277,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
 		image_encoder_exercise_edit.Pixbuf = pixbuf;
 		image_edit_current_person.Pixbuf = pixbuf;
+		image_edit_current_person_h.Pixbuf = pixbuf;
 		image_session_edit.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
@@ -302,6 +307,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_visibility.png");
 		image_all_persons_events.Pixbuf = pixbuf;
+		image_all_persons_events_h.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "inertial_rolled.png");
 		image_inertial_rolled.Pixbuf = pixbuf;
@@ -420,6 +426,7 @@ public partial class ChronoJumpWindow
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_person_delete.Pixbuf = pixbuf;
+		image_person_delete_h.Pixbuf = pixbuf;
 		image_delete_last_test.Pixbuf = pixbuf;
 		image_jump_delete.Pixbuf = pixbuf;
 		image_jump_reactive_delete.Pixbuf = pixbuf;

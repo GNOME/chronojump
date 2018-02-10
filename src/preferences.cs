@@ -31,6 +31,7 @@ public class Preferences
 	public enum MaximizedTypes { NO, YES, YESUNDECORATED};
 	public MaximizedTypes maximized;
 	public bool personWinHide;
+	public bool personPhoto;
 	public bool encoderCaptureShowOnlyBars;
 
 	public bool showPower;

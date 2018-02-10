@@ -78,6 +78,7 @@ class SqlitePreferences : Sqlite
 				//appearance
 				Insert ("maximized", Preferences.MaximizedTypes.NO.ToString(), dbcmdTr);
 				Insert ("personWinHide", "False", dbcmdTr);
+				Insert ("personPhoto", "True", dbcmdTr);
 				Insert ("encoderCaptureShowOnlyBars", "False", dbcmdTr);
 				Insert ("digitsNumber", "3", dbcmdTr);
 				Insert ("showPower", "True", dbcmdTr);
@@ -277,6 +278,8 @@ class SqlitePreferences : Sqlite
 					Enum.Parse(typeof(Preferences.MaximizedTypes), reader[1].ToString());
 			else if(reader[0].ToString() == "personWinHide")
 				preferences.personWinHide = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "personPhoto")
+				preferences.personPhoto = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderCaptureShowOnlyBars")
 				preferences.encoderCaptureShowOnlyBars = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "showPower")

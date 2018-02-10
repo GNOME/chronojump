@@ -320,6 +320,10 @@ public partial class ChronoJumpWindow
 		showPersonsOnTop(configChronojump.PersonWinHide);
 		menuitem_view_persons_on_top.Active = configChronojump.PersonWinHide;
 
+		showPersonsPhoto(preferences.personPhoto);
+		menuitem_view_persons_show_photo.Active = preferences.personPhoto;
+
+
 		if(configChronojump.EncoderAnalyzeHide) {
 			hbox_encoder_sup_capture_analyze_two_buttons.Visible = false;
 		}

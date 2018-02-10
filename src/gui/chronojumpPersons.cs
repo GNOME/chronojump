@@ -44,6 +44,9 @@ public partial class ChronoJumpWindow
 		notebook_session_person.Visible = ! onTop;
 		hbox_top_person.Visible = onTop;
 		hbox_top_person_encoder.Visible = onTop;
+
+		//show photo option sensitive only when ! onTop
+		menuitem_view_persons_show_photo.Sensitive = ! onTop;
 	}
 
 

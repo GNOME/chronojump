@@ -398,6 +398,7 @@ RESOURCES = \
 	../images/md/ic_person_blue_24dp_1x.png,image_person.png \
 	../images/md/ic_person_logout_blue_24dp_1x.png,image_person_logout.png \
 	../images/md/ic_photo_camera_blue_24dp_2x.png,image_no_photo.png \
+	../images/md/ic_select_blue_24dp_2x.png,image_selected.png \
 	../images/md/ic_cached_blue_24dp_1x.png,image_recalculate.png \
 	../images/md/ic_delete_blue_24dp_1x.png,stock_delete.png \
 	../images/md/ic_create_new_folder_blue_24dp_2x.png,folder_new_big.png \

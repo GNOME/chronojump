@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.54";
+	static string lastChronojumpDatabaseVersion = "1.55";
 
 	public Sqlite() {
 	}
@@ -2321,6 +2321,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.54");
 			}
+			if(currentVersion == "1.54")
+			{
+				LogB.SQL("Added preferences: personPhoto");
+
+				SqlitePreferences.Insert ("personPhoto", "True");
+
+				currentVersion = updateVersion("1.55");
+			}
 
 
 
@@ -2504,6 +2512,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 
 		//changes [from - to - desc]
+		//1.54 - 1.55 Converted DB to 1.55 Added preferences: personPhoto
 		//1.53 - 1.54 Converted DB to 1.54 Added encoderRhythm variables: repOrPhases, repSeconds
 		//1.52 - 1.53 Converted DB to 1.53 Added encoderRhtyhm active variable
 		//1.51 - 1.52 Converted DB to 1.52 Added encoderRhtyhm stuff

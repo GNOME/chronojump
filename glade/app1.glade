@@ -519,6 +519,15 @@
                         <signal name="toggled" handler="on_menuitem_view_persons_on_top_toggled" swapped="no"/>
                       </widget>
                     </child>
+                    <child>
+                      <widget class="GtkCheckMenuItem" id="menuitem_view_persons_show_photo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Show persons photo</property>
+                        <property name="use_underline">True</property>
+                        <signal name="toggled" handler="on_menuitem_view_persons_show_photo_toggled" swapped="no"/>
+                      </widget>
+                    </child>
                   </widget>
                 </child>
               </widget>
@@ -1230,6 +1239,9 @@
                                                             <property name="x_options">GTK_EXPAND</property>
                                                             <property name="y_options">GTK_EXPAND</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -2798,7 +2810,92 @@ EncoderInertialCapture</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="spacing">6</property>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox_persons_bottom_person">
+                                                      <widget class="GtkHBox" id="hbox_persons_bottom_no_photo">
+                                                        <property name="can_focus">False</property>
+                                                        <property name="spacing">2</property>
+                                                        <child>
+                                                          <widget class="GtkButton" id="button_edit_current_person_h">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Edit selected person
+&lt;Control&gt;p</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_edit_current_person_clicked_from_main_gui" swapped="no"/>
+                                                            <accelerator key="p" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_edit_current_person_h">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkButton" id="button_show_all_person_events_h">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Show all tests of this person</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_show_all_person_events_activate" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_all_persons_events_h">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkButton" id="button_delete_current_person_h">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="can_default">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Delete person</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_delete_current_person_from_session_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_person_delete_h">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                          </packing>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkHBox" id="hbox_persons_bottom_photo">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">3</property>
@@ -2931,7 +3028,7 @@ EncoderInertialCapture</property>
                                                       <packing>
                                                         <property name="expand">True</property>
                                                         <property name="fill">True</property>
-                                                        <property name="position">0</property>
+                                                        <property name="position">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -3133,7 +3230,7 @@ EncoderInertialCapture</property>
                                                       <packing>
                                                         <property name="expand">False</property>
                                                         <property name="fill">False</property>
-                                                        <property name="position">1</property>
+                                                        <property name="position">2</property>
                                                       </packing>
                                                     </child>
                                                   </widget>
@@ -21874,6 +21971,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

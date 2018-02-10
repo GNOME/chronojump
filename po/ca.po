@@ -5441,7 +5441,7 @@ msgstr "atleta actual: "
 
 #: ../src/gui/chronojump.cs:2695
 msgid "Deleted person and all his/her tests on this session."
-msgstr "Esborrat el subjecte actual i tots els seus tests d'aquesta sessió."
+msgstr "Esborrat el subjecte i tots els seus tests d'aquesta sessió."
 
 #: ../src/gui/chronojump.cs:2996
 msgid "Sorry, R software is not installed."

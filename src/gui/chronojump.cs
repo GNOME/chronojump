@@ -189,6 +189,7 @@ public partial class ChronoJumpWindow
 
 	//menus
 	[Widget] Gtk.MenuItem session_menuitem;
+	[Widget] Gtk.MenuItem view_menuitem;
 	[Widget] Gtk.MenuItem help_menuitem;
 	[Widget] Gtk.MenuItem menuitem_ping;
 
@@ -7142,6 +7143,7 @@ LogB.Debug("X");
 	private void sensitiveGuiEventDoing (bool cont)
 	{
 		session_menuitem.Sensitive = false;
+		view_menuitem.Sensitive = false;
 		menuitem_mode.Sensitive = false;
 		hbox_menu_and_preferences_outside_menu_contacts.Sensitive = false;
 		hbox_menu_and_preferences_outside_menu_encoder.Sensitive = false;
@@ -7205,6 +7207,7 @@ LogB.Debug("X");
 		LogB.Information(" sensitiveGuiEventDone start ");
 
 		session_menuitem.Sensitive = true;
+		view_menuitem.Sensitive = true;
 		menuitem_mode.Sensitive = true;
 		hbox_menu_and_preferences_outside_menu_contacts.Sensitive = true;
 		hbox_menu_and_preferences_outside_menu_encoder.Sensitive = true;
@@ -7338,6 +7341,7 @@ LogB.Debug("X");
 	private void sensitiveGuiAutoStartEnd (bool start) {
 		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
 		session_menuitem.Sensitive 	= ! start;
+		view_menuitem.Sensitive 	= ! start;
 		menuitem_mode.Sensitive 	= ! start;
 		help_menuitem.Sensitive 	= ! start;
 		frame_persons.Sensitive 	= ! start;

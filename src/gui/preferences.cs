@@ -1053,7 +1053,11 @@ public class PreferencesWindow
 					"first platform or photocell.\n" +
 					"It starts before and arrives there with some speed.") +
 				"\n\n" +
-				Catalog.GetString("Chronojump race reaction time device allows to record reaction time and race time.")
+				Catalog.GetString("Chronojump race reaction time device allows to record reaction time and race time.") +
+				"\n -" +
+				Catalog.GetString("Reaction time is displayed on Description column.") +
+				"\n -" +
+				Catalog.GetString("If first option is choosen, race time includes reaction time.")
 				);
 	}
 

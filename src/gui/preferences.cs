@@ -1046,11 +1046,15 @@ public class PreferencesWindow
 
 	private void on_button_run_speed_start_help_clicked (object o, EventArgs args)
 	{
-		new DialogMessage(Constants.MessageTypes.INFO,
+		new DialogMessage("Chronojump - " + Catalog.GetString("Race measurement"),
+				Constants.MessageTypes.INFO,
 				Catalog.GetString(
 					"\"Speed start\" means when athlete does not start with \"contact\" on the " +
 					"first platform or photocell.\n" +
-					"It starts before and arrives there with some speed."));
+					"It starts before and arrives there with some speed.") +
+				"\n\n" +
+				Catalog.GetString("Chronojump race reaction time device allows to record reaction time and race time.")
+				);
 	}
 
 	private void on_checkbutton_runs_prevent_double_contact_toggled (object o, EventArgs args) {

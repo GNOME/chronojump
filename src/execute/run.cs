@@ -47,7 +47,7 @@ public class RunExecute : EventExecute
 	protected Constants.DoubleContact checkDoubleContactMode;
 	protected int checkDoubleContactTime;
 	
-	protected bool speedStartArrival;	
+	protected bool speedStartArrival; //if speedStartArrival then race time includes reaction time
 	protected bool measureReactionTime;
 	protected double reactionTimeMS; //reaction time in milliseconds
 	
@@ -286,7 +286,9 @@ public class RunExecute : EventExecute
 							{
 								if(measureReactionTime)
 									reactionTimeMS = timestampFirstContact;
-								else
+
+								// measuringReactionTime or not, if speedStartArrival, timestamp should include timpestampFirstContact
+								if(speedStartArrival)
 									timestamp += timestampFirstContact;
 							}
 
@@ -720,13 +722,14 @@ public class RunIntervalExecute : RunExecute
 						needShowFeedbackMessage = true; 
 					} else if(runPhase == runPhases.PLATFORM_INI_YES_TIME)
 					{
+						lastTc = 0;
 						if(measureReactionTime)
-						{
 							reactionTimeMS = timestamp;
-							lastTc = 0;
-						} else
+
+						// measuringReactionTime or not, if speedStartArrival, 1st race time should include lastTc
+						if(speedStartArrival)
 							lastTc = timestamp/1000.0;
-					
+
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
 					} else {

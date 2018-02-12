@@ -67,6 +67,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_info4;
 	[Widget] Gtk.Image image_run_simple_with_reaction_time_help;
 	[Widget] Gtk.Image image_run_interval_with_reaction_time_help;
+	[Widget] Gtk.Image image_reaction_time_device_help;
 	[Widget] Gtk.Image image_info_sessions_info;
 	[Widget] Gtk.Image image_add_test1;
 	[Widget] Gtk.Image image_add_test2;
@@ -223,6 +224,7 @@ public partial class ChronoJumpWindow
 		image_info4.Pixbuf = pixbuf;
 		image_run_simple_with_reaction_time_help.Pixbuf = pixbuf;
 		image_run_interval_with_reaction_time_help.Pixbuf = pixbuf;
+		image_reaction_time_device_help.Pixbuf = pixbuf;
 		image_info_sessions_info.Pixbuf = pixbuf;
 		image_encoder_1RM_info.Pixbuf = pixbuf;
 		image_force_sensor_adjust_help.Pixbuf = pixbuf;

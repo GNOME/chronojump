@@ -29,6 +29,7 @@ using System.IO;
 public class PersonSelectWindow 
 {
 	[Widget] Gtk.Window person_select_window;
+	[Widget] Gtk.Viewport viewport1;
 	[Widget] Gtk.Table table1;
 	[Widget] Gtk.Button button_edit;
 	[Widget] Gtk.Button button_delete;
@@ -58,6 +59,8 @@ public class PersonSelectWindow
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_select_window.glade", "person_select_window", "chronojump");
 		gladeXML.Autoconnect(this);
 		
+		viewport1.HeightRequest = 170 * 3 + 8 * 2 + 4 * 2; //170 is button height, 8 is padding top botton (4+4), 4 the top and bottom of viewport1
+
 		//put an icon to window
 		UtilGtk.IconWindow(person_select_window);
 		person_select_window.Parent = parent;
@@ -122,7 +125,7 @@ public class PersonSelectWindow
 		personButtonsSensitive(false);
 		vbox_button_delete_confirm.Visible = false;
 		list_ppb = new List<PersonPhotoButton>();
-		
+
 		for (int row_i = 0; row_i < rows; row_i ++) {
 			for (int col_i = 0; col_i < cols; col_i ++) 
 			{
@@ -144,10 +147,9 @@ public class PersonSelectWindow
 						Gtk.AttachOptions.Fill, 
 						Gtk.AttachOptions.Fill, 
 						padding, padding);
-				
 			}
 		}
-				
+
 		table1.ShowAll();
 	}
 	
@@ -202,6 +204,28 @@ public class PersonSelectWindow
 		FakeButtonEditPerson.Click();
 	}
 
+	private void on_button_up_clicked (object o, EventArgs args)
+	{
+		vertical_scroll_change(viewport1.Vadjustment.Value - viewport1.Vadjustment.PageSize);
+	}
+
+	private void on_button_down_clicked (object o, EventArgs args)
+	{
+		vertical_scroll_change(viewport1.Vadjustment.Value + viewport1.Vadjustment.PageSize);
+	}
+
+	private void vertical_scroll_change (double newValue)
+	{
+		int min = 0;
+		double max = viewport1.Vadjustment.Upper - viewport1.Vadjustment.PageSize;
+
+		if(newValue < min)
+			newValue = min;
+		else if(newValue > max)
+			newValue = max;
+
+		viewport1.Vadjustment.Value = newValue;
+	}
 
 	//delete person stuff	
 	private void on_button_delete_clicked (object o, EventArgs args) {
@@ -341,6 +365,7 @@ public class PersonPhotoButton
 
 		button = new Button(vbox);
 		button.WidthRequest = 150;
+		button.HeightRequest = 170;
 	}
 
 	private Array getButtonBoxElements (Gtk.Button b)

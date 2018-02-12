@@ -3610,7 +3610,7 @@ msgstr "Duració de la repetició"
 
 #: ../glade/repetitive_conditions.glade.h:39
 msgid "Duration of eccentric phase"
-msgstr "Duració de la fase excènctrica"
+msgstr "Duració de la fase excèntrica"
 
 #: ../glade/repetitive_conditions.glade.h:40
 msgid "Duration of concentric phase"

@@ -42,7 +42,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_flicker;
 	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_discriminative;
 
-	
+	[Widget] Gtk.Button button_reaction_time_device_help;
+
+
 	private void on_extra_window_reaction_times_test_changed(object o, EventArgs args)
 	{
 		hbox_animation_lights.Visible = false;
@@ -68,6 +70,11 @@ public partial class ChronoJumpWindow
 			currentReactionTimeType = new ReactionTimeType("Discriminative");
 			changeTestImage("","", "reaction_time_discriminative.png");
 		}
+
+		button_reaction_time_device_help.Visible = (
+				extra_window_radio_reaction_time_animation_lights.Active ||
+				extra_window_radio_reaction_time_flicker.Active ||
+				extra_window_radio_reaction_time_discriminative.Active );
 
 		currentEventType = currentReactionTimeType;
 	
@@ -99,6 +106,12 @@ public partial class ChronoJumpWindow
 		
 		if(eventGraph.rtsAtSQL.Length > 0)
 			PrepareReactionTimeGraph(eventGraph, false); //don't animate
+	}
+
+
+	private void on_button_reaction_time_device_help_clicked (object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("This test needs Chronojump reaction time device."));
 	}
 
 	// ---- animation lights

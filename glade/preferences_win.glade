@@ -1070,7 +1070,6 @@ show elevation as:</property>
                   <widget class="GtkVBox" id="vbox_run_speed_start">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="spacing">6</property>
                     <child>
                       <widget class="GtkHBox" id="hbox45">
                         <property name="visible">True</property>
@@ -1084,7 +1083,7 @@ show elevation as:</property>
                             <property name="tooltip" translatable="yes">"Speed start" means when athlete does not start with "contact" on the first platform or photocell.
 It starts before and arrives there with some speed.</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">What to do on speed start?</property>
+                            <property name="label" translatable="yes">What to do on speed start or reaction time measurement?</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -1129,7 +1128,7 @@ It starts before and arrives there with some speed.</property>
                         <property name="spacing">4</property>
                         <child>
                           <widget class="GtkRadioButton" id="radio_runs_speed_start_arrival">
-                            <property name="label" translatable="yes">Time starts on arrival at first device</property>
+                            <property name="label" translatable="yes">Race time starts on arrival at first device or pressing push button</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -1144,7 +1143,7 @@ It starts before and arrives there with some speed.</property>
                         </child>
                         <child>
                           <widget class="GtkRadioButton" id="radio_runs_speed_start_leaving">
-                            <property name="label" translatable="yes">Time starts on leaving first device</property>
+                            <property name="label" translatable="yes">Race time starts on leaving first device</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>

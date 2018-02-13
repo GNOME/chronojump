@@ -165,6 +165,8 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton	spin_rhythm_ecc;
 	[Widget] Gtk.SpinButton	spin_rhythm_con;
 	[Widget] Gtk.SpinButton	spin_rhythm_rest_reps;
+	[Widget] Gtk.VBox vbox_rhythm_rest_after;
+	[Widget] Gtk.RadioButton radio_rest_after_ecc;
 	[Widget] Gtk.SpinButton	spin_rhythm_reps_cluster;
 	[Widget] Gtk.SpinButton	spin_rhythm_rest_clusters;
 
@@ -610,10 +612,13 @@ public class RepetitiveConditionsWindow
 
 	private void on_radio_rhythm_together_toggled (object o, EventArgs args)
 	{
-		if(radio_rhythm_together.Active)
+		if(radio_rhythm_together.Active) {
 			notebook_duration_repetition.CurrentPage = 0;
-		else
+			vbox_rhythm_rest_after.Visible = false;
+		} else {
 			notebook_duration_repetition.CurrentPage = 1;
+			vbox_rhythm_rest_after.Visible = true;
+		}
 	}
 
 	private void on_check_rhythm_use_clusters_toggled (object o, EventArgs args)
@@ -636,10 +641,13 @@ public class RepetitiveConditionsWindow
 	{
 		check_rhythm_active.Active = encoderRhythm.Active;
 
-		if(encoderRhythm.RepsOrPhases)
+		if(encoderRhythm.RepsOrPhases) {
 			radio_rhythm_together.Active = true;
-		else
+			vbox_rhythm_rest_after.Visible = false;
+		} else {
 			radio_rhythm_separated.Active = true;
+			vbox_rhythm_rest_after.Visible = true;
+		}
 
 		spin_rhythm_rep.Value = encoderRhythm.RepSeconds;
 		spin_rhythm_ecc.Value = encoderRhythm.EccSeconds;
@@ -673,7 +681,7 @@ public class RepetitiveConditionsWindow
 		return new EncoderRhythm(
 				check_rhythm_active.Active, radio_rhythm_together.Active,
 				spin_rhythm_rep.Value, spin_rhythm_ecc.Value, spin_rhythm_con.Value,
-				spin_rhythm_rest_reps.Value,
+				spin_rhythm_rest_reps.Value, radio_rest_after_ecc.Active,
 				reps_cluster, spin_rhythm_rest_clusters.Value);
 	}
 

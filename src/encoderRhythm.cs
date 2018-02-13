@@ -29,6 +29,7 @@ public class EncoderRhythm
 	public double EccSeconds;
 	public double ConSeconds;
 	public double RestRepsSeconds; //rest between repetitions
+	public bool RestAfterEcc; //rest after eccentric or concentric. Only applies to gravitatory
 
 	//cluster stuff
 	public int RepsCluster;
@@ -45,13 +46,15 @@ public class EncoderRhythm
 		ConSeconds = 1;
 
 		RestRepsSeconds = 0;
+		RestAfterEcc = true;
 
 		RepsCluster = 1; //1 is default, minimum value and means "no use clusters"
 		RestClustersSeconds = 6;
 	}
 
 	public EncoderRhythm(bool active, bool repsOrPhases,
-			double repSeconds, double eccSeconds, double conSeconds, double restRepsSeconds,
+			double repSeconds, double eccSeconds, double conSeconds,
+			double restRepsSeconds, bool restAfterEcc,
 			int repsCluster, double restClustersSeconds)
 	{
 		Active = active;
@@ -59,7 +62,9 @@ public class EncoderRhythm
 		RepSeconds = repSeconds;
 		EccSeconds = eccSeconds;
 		ConSeconds = conSeconds;
+
 		RestRepsSeconds = restRepsSeconds;
+		RestAfterEcc = restAfterEcc;
 
 		RepsCluster = repsCluster;
 		RestClustersSeconds = restClustersSeconds;
@@ -110,14 +115,20 @@ public class EncoderRhythmExecute
 	private double fractionRest;
 
 	//true is for con or ecc-con (gravitatory, always end on "con"), false is for con-ecc (inertial)
-	private	bool eccon_ec = true;
+	//private	bool eccon_ec = true;
+	private	bool gravitatory = true;
+	/*
+	 * on inertial rest is after ecc.
+	 * on gravitatory rest can be after ecc or con (see RestAfterEcc)
+	 */
 
 
 	//constructor
-	public EncoderRhythmExecute(EncoderRhythm encoderRhythm, bool eccon_ec)
+	public EncoderRhythmExecute(EncoderRhythm encoderRhythm, bool gravitatory)
 	{
 		this.encoderRhythm = encoderRhythm;
-		this.eccon_ec = eccon_ec;
+		//this.eccon_ec = eccon_ec;
+		this.gravitatory = gravitatory;
 
 		initialize();
 	}
@@ -155,6 +166,13 @@ public class EncoderRhythmExecute
 		lastIsUp = up;
 	}
 
+	private bool restBetweenRepetitions()
+	{
+		return
+			( gravitatory && lastIsUp != encoderRhythm.RestAfterEcc ) ||
+			( ! gravitatory && ! lastIsUp );
+	}
+
 	private bool checkIfRestingBetweenClusters(double totalSeconds)
 	{
 		if(restClusterTimeEndedFlag)
@@ -165,7 +183,8 @@ public class EncoderRhythmExecute
 		 * mod of repetitions by RepsCluster == 0 AND
 		 * if repetition ends on c, whe have done c (or if it ends on e, we have done e)
 		 */
-		if(nreps > 0 && nreps % encoderRhythm.RepsCluster == 0 && lastIsUp == eccon_ec)
+		//if(nreps > 0 && nreps % encoderRhythm.RepsCluster == 0 && lastIsUp == eccon_ec)
+		if(nreps > 0 && nreps % encoderRhythm.RepsCluster == 0 && restBetweenRepetitions())
 		{
 			if(totalSeconds < encoderRhythm.RestClustersSeconds)
 				return true;
@@ -206,7 +225,8 @@ public class EncoderRhythmExecute
 		 *    we ended excentric and it's con-ecc) && totalSeconds < restRepsSeconds)
 		 *    then there's a rest between repetitions
 		 */
-		if(lastIsUp == eccon_ec && totalSeconds < restRepsSeconds)
+		//if(lastIsUp == eccon_ec && totalSeconds < restRepsSeconds)
+		if (totalSeconds < restRepsSeconds && restBetweenRepetitions())
 		{
 			TextRepetition = "";
 			TextRest = "Resting " +
@@ -222,9 +242,10 @@ public class EncoderRhythmExecute
 
 		/*
 		 * if we ended con and repetition ends at con, then substract restRepsSeconds to totalSeconds to calculate fraction
-		 * als when we done ecc and repetition ends at ecc
+		 * also when we done ecc and repetition ends at ecc
 		 */
-		if(restRepsSeconds > 0 && lastIsUp == eccon_ec)
+		//if(restRepsSeconds > 0 && lastIsUp == eccon_ec)
+		if( restRepsSeconds > 0 && restBetweenRepetitions())
 			totalSeconds -= restRepsSeconds;
 
 		if(encoderRhythm.RepsOrPhases)

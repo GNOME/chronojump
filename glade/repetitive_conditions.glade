@@ -4027,13 +4027,45 @@
                                 <property name="can_focus">False</property>
                                 <property name="top_padding">10</property>
                                 <child>
-                                  <widget class="GtkCheckButton" id="check_rhythm_use_clusters">
-                                    <property name="label" translatable="yes">Use clusters</property>
+                                  <widget class="GtkHBox" id="hbox38">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">False</property>
-                                    <property name="draw_indicator">True</property>
-                                    <signal name="toggled" handler="on_check_rhythm_use_clusters_toggled" swapped="no"/>
+                                    <property name="can_focus">False</property>
+                                    <property name="spacing">8</property>
+                                    <child>
+                                      <widget class="GtkCheckButton" id="check_rhythm_use_clusters">
+                                        <property name="label" translatable="yes">Use clusters</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_check_rhythm_use_clusters_toggled" swapped="no"/>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkButton" id="button_use_clusters_help">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <signal name="clicked" handler="on_button_use_clusters_help_clicked" swapped="no"/>
+                                        <child>
+                                          <widget class="GtkImage" id="image_clusters_info">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="stock">gtk-missing-image</property>
+                                          </widget>
+                                        </child>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
                                   </widget>
                                 </child>
                               </widget>
@@ -4153,21 +4185,6 @@
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
                                         <property name="position">1</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkTextView" id="textview_encoder_rhythm_clusters">
-                                        <property name="visible">True</property>
-                                        <property name="sensitive">False</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="text" translatable="yes">Set will end when user press Finish or Cancel or
-when there's no change in the encoder during this time:
-1.5 * Rest between clusters</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                   </widget>

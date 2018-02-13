@@ -169,6 +169,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.RadioButton radio_rest_after_ecc;
 	[Widget] Gtk.SpinButton	spin_rhythm_reps_cluster;
 	[Widget] Gtk.SpinButton	spin_rhythm_rest_clusters;
+	[Widget] Gtk.Image image_clusters_info;
 
 	const int FEEDBACKPAGE = 0;
 	const int RHYTHMPAGE = 1;
@@ -342,6 +343,9 @@ public class RepetitiveConditionsWindow
 		image_encoder_power_lower.Pixbuf = pixbuf;
 		image_encoder_peakpower_lower.Pixbuf = pixbuf;
 		image_repetitive_test_bad.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
+		image_clusters_info.Pixbuf = pixbuf;
 	}
 
 	void on_button_test_clicked (object o, EventArgs args)
@@ -470,6 +474,7 @@ public class RepetitiveConditionsWindow
 		else
 			comboEncoderAutomaticVariableFillHistorical();
 	}
+
 
 	void on_spinbutton_encoder_automatic_greater_value_changed (object o, EventArgs args) {
 		checkbutton_encoder_automatic_greater.Active = true;
@@ -625,6 +630,18 @@ public class RepetitiveConditionsWindow
 	{
 		vbox_rhythm_cluster.Visible = check_rhythm_use_clusters.Active;
 	}
+
+	private void on_button_use_clusters_help_clicked (object o, EventArgs args)
+	{
+		new DialogMessage(
+				Catalog.GetString("Use clusters"),
+				Constants.MessageTypes.INFO,
+				Catalog.GetString("Use clusters in order to group repetitions inside a set separated by rest time.")
+				+ "\n\n" +
+				Catalog.GetString("Set will end when user press Finish or Cancel or when there's no change in the encoder during this time:\n" +
+					"1.5 * Rest between clusters") );
+	}
+
 
 	private void on_button_rhythm_default_clicked (object o, EventArgs args)
 	{

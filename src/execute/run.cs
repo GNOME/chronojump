@@ -419,7 +419,7 @@ public class RunExecute : EventExecute
 			description = "0";
 
 		if(measureReactionTime && reactionTimeMS > 0)
-			description += Util.TrimDecimals(reactionTimeMS / 1000.0, pDN);
+			description += descriptionAddReactionTime(reactionTimeMS, pDN, speedStartArrival);
 
 		string table = Constants.RunTable;
 
@@ -440,7 +440,20 @@ public class RunExecute : EventExecute
 		needEndEvent = true; //used for hiding some buttons on eventWindow
 	}
 
-	
+	protected string reactionTimeIncludedStr = Catalog.GetString("Included on race time");
+	protected string reactionTimeNotIncludedStr = Catalog.GetString("Not included on race time");
+
+	protected string descriptionAddReactionTime(double rtimeMS, int ndec, bool speedStartArrival)
+	{
+		string str = "";
+		if(speedStartArrival)
+			str = reactionTimeIncludedStr;
+		else
+			str = reactionTimeNotIncludedStr;
+
+		return Util.TrimDecimals(rtimeMS / 1000.0, ndec) + " ms (" + str + ")";
+	}
+
 	public string RunnerName
 	{
 		get { return SqlitePerson.SelectAttribute(personID, Constants.Name); }
@@ -523,6 +536,8 @@ public class RunIntervalExecute : RunExecute
 		this.measureReactionTime = measureReactionTime;
 
 		reactionTimeMS = 0;
+		reactionTimeIncludedStr = Catalog.GetString("Included on race time of first track");
+		reactionTimeNotIncludedStr = Catalog.GetString("Not included on race time of first track");
 
 		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonThreadDyed = new Gtk.Button();
@@ -584,7 +599,7 @@ public class RunIntervalExecute : RunExecute
 					//if we start out, and we arrive to the platform for the first time,
 					//don't record nothing
 					if(runPhase == runPhases.PRE_RUNNING) {
-						if(speedStartArrival) {
+						if(speedStartArrival || measureReactionTime) {
 							runPhase = runPhases.PLATFORM_INI_YES_TIME;
 							//run starts
 							initializeTimer(); //timerCount = 0
@@ -931,7 +946,7 @@ public class RunIntervalExecute : RunExecute
 			description = "u u u u u u"; //undefined 6 items of questionnaire
 		//note MTGUG will not have reaction time measurement to have description read correctly by the rest of the software
 		else if(measureReactionTime && reactionTimeMS > 0)
-			description += Util.TrimDecimals(reactionTimeMS / 1000.0, pDN);
+			description += descriptionAddReactionTime(reactionTimeMS, pDN, speedStartArrival);
 
 
 
@@ -1040,7 +1055,6 @@ public class RunIntervalExecute : RunExecute
 		}
 	}
 	*/
-		
 		
 	~RunIntervalExecute() {}
 }

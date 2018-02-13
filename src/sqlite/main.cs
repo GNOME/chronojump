@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.55";
+	static string lastChronojumpDatabaseVersion = "1.56";
 
 	public Sqlite() {
 	}
@@ -2329,6 +2329,15 @@ class Sqlite
 
 				currentVersion = updateVersion("1.55");
 			}
+			if(currentVersion == "1.55")
+			{
+				LogB.SQL("Added encoder rhythm restAfterEcc");
+
+				SqlitePreferences.Insert (SqlitePreferences.EncoderRhythmRestAfterEccStr, "True");
+
+				currentVersion = updateVersion("1.56");
+			}
+
 
 
 
@@ -2512,6 +2521,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 
 		//changes [from - to - desc]
+		//1.55 - 1.56 Converted DB to 1.56 Added encoder rhythm restAfterEcc
 		//1.54 - 1.55 Converted DB to 1.55 Added preferences: personPhoto
 		//1.53 - 1.54 Converted DB to 1.54 Added encoderRhythm variables: repOrPhases, repSeconds
 		//1.52 - 1.53 Converted DB to 1.53 Added encoderRhtyhm active variable

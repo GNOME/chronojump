@@ -805,7 +805,7 @@ public partial class ChronoJumpWindow
 				preferences.encoderRhythmActive, preferences.encoderRhythmRepsOrPhases,
 				preferences.encoderRhythmRepSeconds,
 				preferences.encoderRhythmEccSeconds, preferences.encoderRhythmConSeconds,
-				preferences.encoderRhythmRestRepsSeconds,
+				preferences.encoderRhythmRestRepsSeconds, preferences.encoderRhythmRestAfterEcc,
 				preferences.encoderRhythmRepsCluster, preferences.encoderRhythmRestClustersSeconds);
 
 

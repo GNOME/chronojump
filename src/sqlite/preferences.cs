@@ -48,6 +48,7 @@ class SqlitePreferences : Sqlite
 	public const string EncoderRhythmEccSecondsStr = "encoderRhythmEccSeconds";
 	public const string EncoderRhythmConSecondsStr = "encoderRhythmConSeconds";
 	public const string EncoderRhythmRestRepsSecondsStr = "encoderRhythmRestRepsSeconds";
+	public const string EncoderRhythmRestAfterEccStr = "encoderRhythmRestAfterEcc";
 	public const string EncoderRhythmRepsClusterStr = "encoderRhythmRepsCluster";
 	public const string EncoderRhythmRestClustersSecondsStr = "encoderRhythmRestClustersSeconds";
 
@@ -163,6 +164,7 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderRhythmEccSecondsStr, Util.ConvertToPoint(er.EccSeconds), dbcmdTr);
 				Insert (EncoderRhythmConSecondsStr, Util.ConvertToPoint(er.ConSeconds), dbcmdTr);
 				Insert (EncoderRhythmRestRepsSecondsStr, Util.ConvertToPoint(er.RestRepsSeconds), dbcmdTr);
+				Insert (EncoderRhythmRestAfterEccStr, er.RestAfterEcc.ToString(), dbcmdTr);
 				Insert (EncoderRhythmRepsClusterStr, Util.ConvertToPoint(er.RepsCluster), dbcmdTr);
 				Insert (EncoderRhythmRestClustersSecondsStr, Util.ConvertToPoint(er.RestClustersSeconds), dbcmdTr);
 
@@ -353,6 +355,8 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == EncoderRhythmRestRepsSecondsStr)
 				preferences.encoderRhythmRestRepsSeconds = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if(reader[0].ToString() == EncoderRhythmRestAfterEccStr)
+				preferences.encoderRhythmRestAfterEcc = reader[1].ToString() == "True"; //bool
 			else if(reader[0].ToString() == EncoderRhythmRepsClusterStr)
 				preferences.encoderRhythmRepsCluster = Convert.ToInt32(reader[1].ToString()); //int
 			else if(reader[0].ToString() == EncoderRhythmRestClustersSecondsStr)

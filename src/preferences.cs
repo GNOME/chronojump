@@ -105,6 +105,7 @@ public class Preferences
 	public double encoderRhythmEccSeconds;
 	public double encoderRhythmConSeconds;
 	public double encoderRhythmRestRepsSeconds;
+	public bool encoderRhythmRestAfterEcc;
 	public int encoderRhythmRepsCluster;
 	public double encoderRhythmRestClustersSeconds;
 
@@ -175,6 +176,7 @@ public class Preferences
 				encoderRhythmEccSeconds != er.EccSeconds ||
 				encoderRhythmConSeconds != er.ConSeconds ||
 				encoderRhythmRestRepsSeconds != er.RestRepsSeconds ||
+				encoderRhythmRestAfterEcc != er.RestAfterEcc ||
 				encoderRhythmRepsCluster != er.RepsCluster ||
 				encoderRhythmRestClustersSeconds != er.RestClustersSeconds
 				)
@@ -222,6 +224,13 @@ public class Preferences
 			encoderRhythmRestRepsSeconds = er.RestRepsSeconds;
 			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmRestRepsSecondsStr,
 					Util.ConvertToPoint(er.RestRepsSeconds), true); //double to point
+		}
+
+		if(encoderRhythmRestAfterEcc != er.RestAfterEcc)
+		{
+			encoderRhythmRestAfterEcc = er.RestAfterEcc;
+			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmRestAfterEccStr,
+					er.RestAfterEcc.ToString(), true); //bool
 		}
 
 		if(encoderRhythmRepsCluster != er.RepsCluster)

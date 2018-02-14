@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-12 09:44+0100\n"
-"PO-Revision-Date: 2018-02-12 10:19+0100\n"
+"PO-Revision-Date: 2018-02-14 17:35+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: \n"
 "Language: ca\n"
@@ -1464,7 +1464,7 @@ msgstr "Ritme adaptatiu"
 
 #: ../glade/app1.glade.h:313
 msgid "Capturing with triggers"
-msgstr "Capturant amb gatells"
+msgstr "Capturant amb triggers"
 
 #: ../glade/app1.glade.h:314 ../src/constants.cs:526
 msgid "Detecting ..."
@@ -3189,7 +3189,7 @@ msgstr "Mostrar l'inici i la duració de cada repetició"
 
 #: ../glade/preferences_win.glade.h:76
 msgid "Do not use triggers"
-msgstr "No usar gatells"
+msgstr "No usar triggers"
 
 #: ../glade/preferences_win.glade.h:77
 msgid "Recommended"
@@ -3205,7 +3205,7 @@ msgstr "La primera repetició comença quan es pitja el botó de captura"
 
 #: ../glade/preferences_win.glade.h:80
 msgid "First repetition starts when trigger button is pressed"
-msgstr "La primera repetició comença quan es pìtja el gatell"
+msgstr "La primera repetició comença quan es pitja el trigger"
 
 #: ../glade/preferences_win.glade.h:81
 msgid ""

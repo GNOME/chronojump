@@ -115,9 +115,6 @@ public class PreferencesWindow
 	[Widget] Gtk.VBox vbox_encoder_inertial; //change Visible param to not have a vertical big first page with only one row of info
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_inertial;
-	[Widget] Gtk.CheckButton checkbutton_encoder_capture_fully_extended;
-	[Widget] Gtk.HBox hbox_encoder_capture_fully_extended;
-	[Widget] Gtk.SpinButton spin_encoder_capture_fully_extended;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_best;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_4top;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_all;
@@ -493,9 +490,6 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.spin_encoder_capture_min_height_gravitatory.Value = preferences.encoderCaptureMinHeightGravitatory;
 		PreferencesWindowBox.spin_encoder_capture_min_height_inertial.Value = preferences.encoderCaptureMinHeightInertial;
-		PreferencesWindowBox.checkbutton_encoder_capture_fully_extended.Active = preferences.encoderCaptureCheckFullyExtended;
-		PreferencesWindowBox.spin_encoder_capture_fully_extended.Value = preferences.encoderCaptureCheckFullyExtendedValue;
-		PreferencesWindowBox.hbox_encoder_capture_fully_extended.Visible = preferences.encoderCaptureCheckFullyExtended;
 		
 		if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BEST)
 			PreferencesWindowBox.radio_encoder_auto_save_curve_best.Active = true;
@@ -652,10 +646,6 @@ public class PreferencesWindow
 	private void on_check_appearance_encoder_only_bars_toggled (object obj, EventArgs args) 
 	{
 		alignment_restart.Visible = ! check_appearance_encoder_only_bars.Active;
-	}
-
-	private void on_checkbutton_encoder_capture_fully_extended_toggled(object obj, EventArgs args) {
-		hbox_encoder_capture_fully_extended.Visible = checkbutton_encoder_capture_fully_extended.Active;
 	}
 
 
@@ -1697,16 +1687,6 @@ public class PreferencesWindow
 				"encoderCaptureMinHeightInertial",
 				preferences.encoderCaptureMinHeightInertial,
 				(int) PreferencesWindowBox.spin_encoder_capture_min_height_inertial.Value);
-
-		preferences.encoderCaptureCheckFullyExtended = preferencesChange(
-				"encoderCaptureCheckFullyExtended",
-				preferences.encoderCaptureCheckFullyExtended,
-				PreferencesWindowBox.checkbutton_encoder_capture_fully_extended.Active);
-		
-		preferences.encoderCaptureCheckFullyExtendedValue = preferencesChange(
-				"encoderCaptureCheckFullyExtendedValue",
-				preferences.encoderCaptureCheckFullyExtendedValue,
-				(int) PreferencesWindowBox.spin_encoder_capture_fully_extended.Value);
 
 		if(PreferencesWindowBox.radio_encoder_auto_save_curve_best.Active) {
 			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString(), true);

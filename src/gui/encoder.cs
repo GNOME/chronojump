@@ -681,14 +681,17 @@ public partial class ChronoJumpWindow
 		int numEncoders = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER);
 		LogB.Information("numEncoders: " + numEncoders);
 		if(numEncoders == 0) {
-			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Encoder is not connected"));
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Device is not connected"));
+			UtilGtk.DeviceColors(viewport_chronopic_encoder, false);
 			return false;
 		}
 		if(numEncoders > 1) {
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("More than 1 encoders are connected"));
+			UtilGtk.DeviceColors(viewport_chronopic_encoder, false);
 			return false;
 		}
 
+		UtilGtk.DeviceColors(viewport_chronopic_encoder, true);
 		return true;
 	}
 

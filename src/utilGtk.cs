@@ -513,6 +513,20 @@ public class UtilGtk
 	private static Gdk.Color chronopicViewportDefaultBg;
 	private static Gdk.Color chronopicLabelsDefaultFg;
 
+	public static void DeviceColors(Gtk.Viewport v, bool connected)
+	{
+		if(! v.Style.Background(StateType.Normal).Equal(v.Style.Background(StateType.Selected)))
+			chronopicViewportDefaultBg = v.Style.Background(StateType.Normal);
+
+		if(connected) {
+			//v.ModifyBg(StateType.Normal, chronopicViewportDefaultBg);
+			v.ModifyBg(StateType.Normal, WHITE);
+		} else {
+			//v.ModifyBg(StateType.Normal, BLUE);
+			v.ModifyBg(StateType.Normal, v.Style.Background(StateType.Selected));
+		}
+	}
+
 	public static void ChronopicColors(Gtk.Viewport v, Gtk.Label l1, Gtk.Label l2, bool connected) {
 		//if(! v.Style.Background(StateType.Normal).Equal(BLUE))
 		if(! v.Style.Background(StateType.Normal).Equal(v.Style.Background(StateType.Selected)))

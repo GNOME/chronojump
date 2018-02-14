@@ -454,7 +454,12 @@ public partial class ChronoJumpWindow
 		image_reaction_times_zoom.Pixbuf = pixbuf;
 		image_pulses_zoom.Pixbuf = pixbuf;
 		image_multi_chronopic_zoom.Pixbuf = pixbuf;
-		
+
+
+		//white background in chronopic viewports
+		UtilGtk.DeviceColors(viewport_chronopics, true);
+		UtilGtk.DeviceColors(viewport_chronopic_encoder, true);
+
 		//encoder
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_powerbars);
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_cross);

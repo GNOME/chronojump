@@ -270,6 +270,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box vbox_execute_test;
 	[Widget] Gtk.Button button_execute_test;
 	[Widget] Gtk.Viewport viewport_chronopics;
+	[Widget] Gtk.Viewport viewport_chronopic_encoder;
 	//[Widget] Gtk.Label label_chronopic_encoder;
 	//[Widget] Gtk.Image image_chronopic_encoder_no;
 	//[Widget] Gtk.Image image_chronopic_encoder_yes;
@@ -3860,10 +3861,12 @@ public partial class ChronoJumpWindow
 			//simulated tests are only allowed on SIMULATED session
 			if(currentSession.Name != Constants.SessionSimulatedName) {
 				new DialogMessage(Constants.MessageTypes.WARNING, Constants.SimulatedTestsNotAllowed);
+	                        UtilGtk.DeviceColors(viewport_chronopics, false);
 				return;
 			}
 			on_button_execute_test_accepted();
 		}
+	        UtilGtk.DeviceColors(viewport_chronopics, true);
 	}
 
 	void on_button_execute_test_accepted ()

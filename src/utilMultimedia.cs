@@ -74,14 +74,27 @@ public class UtilMultimedia
 	
 	public static bool LoadAndResizeImage(string filenameOriginal, string filenameDest, int width, int height)
 	{
+		/*
+		 * to avoid problems on windows with original images on remote hard disk,
+		 * 1st copy to temp and then resize
+		 */
+
+		string tempfile = System.IO.Path.GetTempFileName();
 		ImageSurface imgSurface;
+
 		if(GetImageType(filenameOriginal) == ImageTypes.PNG)
 		{
-			imgSurface = LoadPngToCairoImageSurface(filenameOriginal);
+			//imgSurface = LoadPngToCairoImageSurface(filenameOriginal);
+			tempfile += ".png";
+			File.Copy(filenameOriginal, tempfile, true);
+			imgSurface = LoadPngToCairoImageSurface(tempfile);
 		}
 		else if(GetImageType(filenameOriginal) == ImageTypes.JPEG)
 		{
-			imgSurface = LoadJpegToCairoImageSurface(filenameOriginal);
+			//imgSurface = LoadJpegToCairoImageSurface(filenameOriginal);
+			tempfile += ".jpg";
+			File.Copy(filenameOriginal, tempfile, true);
+			imgSurface = LoadJpegToCairoImageSurface(tempfile);
 		}
 		else //(GetImageType(filenameOriginal) == ImageTypes.UNKNOWN)
 		{

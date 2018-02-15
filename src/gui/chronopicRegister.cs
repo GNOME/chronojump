@@ -279,7 +279,7 @@ public class ChronopicRegisterWindow
 			return str;
 		}
 
-		return Catalog.GetString("Device not found") + "\n\n" + Catalog.GetString("Connect and reopen this window.");
+		return Catalog.GetString("Device not found") + "\n\n" + Catalog.GetString("Connect and reopen device window.");
 	}
 
 	private void createButtons()

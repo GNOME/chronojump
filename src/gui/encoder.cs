@@ -700,7 +700,11 @@ public partial class ChronoJumpWindow
 	EncoderCaptureInertialBackground eCaptureInertialBG; //only created one time
 	void on_button_encoder_inertial_calibrate_clicked (object o, EventArgs args)
 	{
-		if(! canCaptureEncoder())
+		/*
+		 * only call canCaptureEncoder() if we are not capturing in the background
+		 * this avoids problems with recalibrate on windows (port gets missing)
+		 */
+		if( (encoderThreadBG == null || ! encoderThreadBG.IsAlive) && ! canCaptureEncoder() )
 			return;
 
 		//allow show the recalibrate button

@@ -40,15 +40,6 @@ public abstract class EncoderCapture
 	public int EncoderCapturePointsCaptured;
 	public int EncoderCapturePointsPainted;
 
-	//encoderRhythm stuff
-	private bool useRhythm;
-	private bool rhythmRepsOrPhases;
-	public int RhythmNRep; //used to know rest between clusters
-	public bool RhythmEcconUp;
-	private Gtk.Button fakeButtonRhythm;
-
-	protected bool gravitatoryOrInertial; //currently only used for encoderRhythm
-
 	// ---- protected stuff ----
 	protected int widthG;
 	protected int heightG;
@@ -123,7 +114,7 @@ public abstract class EncoderCapture
 	//if cont (continuous mode), then will not end when too much time passed before start
 	public void InitGlobal (int widthG, int heightG, int time, int timeEnd,
 			bool cont, string eccon, string port, bool capturingInertialBG, bool showOnlyBars,
-			bool simulated, bool useRhythm, bool rhythmRepsOrPhases)
+			bool simulated)
 	{
 		this.widthG = widthG;
 		this.heightG = heightG;
@@ -132,11 +123,6 @@ public abstract class EncoderCapture
 		this.capturingInertialBG = capturingInertialBG;
 		this.showOnlyBars = showOnlyBars;
 		this.simulated = simulated;
-		this.useRhythm = useRhythm;
-		this.rhythmRepsOrPhases = rhythmRepsOrPhases;
-
-		if(useRhythm)
-			fakeButtonRhythm = new Gtk.Button();
 
 		//---- a) open port -----
 		if(simulated)
@@ -162,9 +148,6 @@ public abstract class EncoderCapture
 
 		recordingTime = time * 1000;
 		recordedTimeCont = 1; //not 0 to not have divide by zero problems
-
-		RhythmNRep = 0;
-		RhythmEcconUp = true;
 
 		encoderReaded = new List<int>();
 		encoderReadedInertialDisc = new List<int>();
@@ -582,22 +565,6 @@ public abstract class EncoderCapture
 							lastDirectionStoredIsUp = ecc.up;
 						}
 
-						/*
-						 * manage encoderRhythm stuff
-						 * also on "c" send info if we ended ecc phase
-						 */
-						if( useRhythm && (shouldSendCurveBool || (eccon == "c" && ! ecc.up)) )
-						{
-							RhythmEcconUp = ecc.up;
-
-							//on gravitatory phase ends at up, on inertial the opposite
-							if(gravitatoryOrInertial == ecc.up)
-								RhythmNRep ++;
-
-							//if phases always send the phase. On reps only when change rep
-							if(! rhythmRepsOrPhases || gravitatoryOrInertial == ecc.up)
-								fakeButtonRhythm.Click();
-						}
 					}
 
 					//on inertial is different
@@ -887,11 +854,6 @@ public abstract class EncoderCapture
 	public void Finish() {
 		finish = true;
 	}
-
-	public Button FakeButtonRhythm
-	{
-		get { return fakeButtonRhythm; }
-	}
 }
 
 
@@ -911,8 +873,6 @@ public class EncoderCaptureGravitatory : EncoderCapture
 		
 		//just a default value, unused until a curve has been accepted
 		lastDirectionStoredIsUp = true;
-
-		gravitatoryOrInertial = true;
 	}
 }
 
@@ -926,8 +886,6 @@ public class EncoderCaptureInertial : EncoderCapture
 	protected override void initSpecific()
 	{
 		realHeightG = 2 * 5000 ; //5 meters up / 5 meters down
-
-		gravitatoryOrInertial = false;
 	}
 
 	public override void InitCalibrated(int angleNow)

@@ -5294,10 +5294,7 @@ public partial class ChronoJumpWindow
 						portName,
 						(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
 						configChronojump.EncoderCaptureShowOnlyBars,
-						currentSession.Name == Constants.SessionSimulatedName && testsActive,
-						(encoderRhythm.Active),
-						encoderRhythm.RepsOrPhases
-						);
+						currentSession.Name == Constants.SessionSimulatedName && testsActive);
 
 				if(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null)
 				{
@@ -5327,9 +5324,6 @@ public partial class ChronoJumpWindow
 				{
 					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 1;
 					image_encoder_rhythm_rest.Visible = encoderRhythm.UseRest();
-
-					eCapture.FakeButtonRhythm.Clicked -= new EventHandler(on_encoder_rhythm_changed);
-					eCapture.FakeButtonRhythm.Clicked += new EventHandler(on_encoder_rhythm_changed);
 				}
 
 				encoderRProcCapture.CutByTriggers = reallyCutByTriggers;
@@ -5350,10 +5344,7 @@ public partial class ChronoJumpWindow
 						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port,
 						false,
 						false,
-						false,
-						false, //encoderRhythm.Active
-						encoderRhythm.RepsOrPhases
-						);
+						false);
 
 				encoderRProcCapture.CutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS; //do not cutByTriggers on inertial, yet.
 
@@ -5811,6 +5802,21 @@ public partial class ChronoJumpWindow
 
 			if(needToRefreshTreeviewCapture) 
 			{
+				if(! encoderRhythmExecute.FirstPhaseDone)
+				{
+					bool upOrDown = true;
+					string myEccon = findEccon(false);
+					if (myEccon == "c")
+						upOrDown = true;
+					else if (myEccon == "ec" || myEccon == "ecS")
+						upOrDown = false;
+					else // (myEccon == "ce" || myEccon == "ceS")
+						upOrDown = true;
+
+					LogB.Information(encoderRhythm.ToString());
+					encoderRhythmExecute.FirstPhaseDo(upOrDown);
+				}
+
 				//LogB.Error("HERE YES");
 				//LogB.Error(encoderCaptureStringR);
 
@@ -6037,7 +6043,7 @@ public partial class ChronoJumpWindow
 
 	private void updatePulsebarRhythm()
 	{
-		if(! encoderRhythmExecute.FirstRepetitionDone())
+		if(! encoderRhythmExecute.FirstPhaseDone)
 		{
 			encoder_pulsebar_rhythm_eccon.Fraction = 0;
 			label_encoder_rhythm_rest.Text = "";
@@ -6047,18 +6053,10 @@ public partial class ChronoJumpWindow
 		}
 
 		encoderRhythmExecute.CalculateFractionsAndText();
-		encoder_pulsebar_rhythm_eccon.Fraction = encoderRhythmExecute.FractionRepetition;
+		encoder_pulsebar_rhythm_eccon.Fraction = encoderRhythmExecute.Fraction;
 		encoder_pulsebar_rhythm_eccon.Text = encoderRhythmExecute.TextRepetition;
 		label_encoder_rhythm_rest.Text = encoderRhythmExecute.TextRest;
 		image_encoder_rhythm_rest.Visible = encoderRhythmExecute.TextRest != "";
-
-		//TODO: this warning should appear also if value is 0, end of ecc phase
-		//image_encoder_rhythm_alert.Visible = (encoderRhythmExecute.FractionRepetition >= 1);
-	}
-	//no GTK here (just in case)
-	private void on_encoder_rhythm_changed(object o, EventArgs args)
-	{
-		encoderRhythmExecute.ChangePhase(eCapture.RhythmNRep, eCapture.RhythmEcconUp);
 	}
 
 	// -------------- drawingarea_encoder_analyze_instant

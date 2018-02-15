@@ -1813,11 +1813,12 @@ public class Util
 	//avoids divide by zero
 	//thought for being between 0, 1
 	//ideal for progressBars
-	public static double DivideSafeFraction (double val1, double val2) {
-		if(val1 == 0 || val2 == 0)
+	public static double DivideSafeFraction (double num, double denom)
+	{
+		if(num == 0 || denom == 0)
 			return 0;
 
-		double result = val1 / val2;
+		double result = num / denom;
 		
 		if(result > 1)
 			result = 1;

@@ -6198,16 +6198,25 @@ public partial class ChronoJumpWindow
 			g.SetSourceRGBA(0.906, 0.745, 0.098, 1); //Chronojump yellow
 			
 			int xposa = eai.GetVerticalLinePosition(Convert.ToInt32(hscale_encoder_analyze_a.Value));
-			g.MoveTo(xposa, 0);
-			g.LineTo(xposa, drawingarea_encoder_analyze_cairo_pixbuf.Height);
-		
+			encoderAnalyzeInstantVerticalLine(g, xposa);
+
 			if(checkbutton_encoder_analyze_b.Active) {
 				int xposb = eai.GetVerticalLinePosition(Convert.ToInt32(hscale_encoder_analyze_b.Value));
 
 				if(xposb != xposa) {
+					//draw b vertical line
+					encoderAnalyzeInstantVerticalLine(g, xposb);
+
 					g.SetSourceRGBA(0.906, 0.745, 0.098, .5); //Chronojump yellow, half transp
-					g.Rectangle(xposa ,0, xposb-xposa, drawingarea_encoder_analyze_cairo_pixbuf.Height);
-					g.Fill();
+
+					//create rectangle
+					int min = Math.Min(xposa, xposb) +1;
+					int max = Math.Max(xposa, xposb) -1;
+					if(min < max)
+					{
+						g.Rectangle(min ,9 , max-min, drawingarea_encoder_analyze_cairo_pixbuf.Height -18);
+						g.Fill();
+					}
 				}
 			}
 			
@@ -6216,7 +6225,29 @@ public partial class ChronoJumpWindow
 			g.GetTarget ().Dispose ();
 		}
 	}
-	
+
+	private void encoderAnalyzeInstantVerticalLine(Cairo.Context g, int x)
+	{
+		//vertical line
+		g.MoveTo(x, 9);
+		g.LineTo(x, drawingarea_encoder_analyze_cairo_pixbuf.Height);
+		g.Stroke();
+
+		//top triangle
+		g.MoveTo(x -4, 0);
+		g.LineTo(x   , 8);
+		g.LineTo(x +4, 0);
+		g.LineTo(x -4, 0);
+		g.Fill();
+
+		/*
+		//bottom triangle currently not drawn because bottom space changes and half of triangle is not shown
+		g.MoveTo(x -4, drawingarea_encoder_analyze_cairo_pixbuf.Height);
+		g.LineTo(x   , drawingarea_encoder_analyze_cairo_pixbuf.Height -8);
+		g.LineTo(x +4, drawingarea_encoder_analyze_cairo_pixbuf.Height);
+		*/
+	}
+
 	// -------------- end of drawingarea_encoder_analyze_instant
 
 

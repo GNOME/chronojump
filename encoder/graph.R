@@ -588,7 +588,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		{
 			print("triggersOnList-xmin")
 			print(triggersOnList-xmin)
-			abline(v=(triggersOnList-xmin), col="yellow", lwd=2)
+			abline(v=(triggersOnList-xmin), col="yellow3", lwd=2, lty=2)
 			#mtext(side=3, at=(triggersOnList-xmin), text=(triggersOnList-xmin), cex=.8)
 		}
                 
@@ -1154,9 +1154,9 @@ paintVariablesLegend <- function(showSpeed, showAccel, showForce, showPower, sho
         }
         if(showTriggers) {
                 legendText=c(legendText, translateToPrint("Triggers"))
-                lty=c(lty,1)
+                lty=c(lty,2)
                 lwd=c(lwd,2)
-                colors=c(colors,"yellow")
+                colors=c(colors,"yellow3")
                 ncol=ncol+1
         }
         
@@ -3065,7 +3065,7 @@ doProcess <- function(options)
                         }
 
 			if(op$TriggersOnList != "" && op$TriggersOnList != -1)
-				abline(v=op$TriggersOnList, col="yellow", lwd=2);
+				abline(v=op$TriggersOnList, col="yellow3", lwd=2, lty=2);
 
                         #showSpeed only on gravitatory until speed is fixed on this experimental graph
                         if (showSpeed && ! isInertial(op$EncoderConfigurationName)) {

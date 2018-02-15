@@ -154,6 +154,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_repetitive_test_bad;
 
 	//encoder rhythm
+	[Widget] Gtk.Label label_rhythm_tab;
 	[Widget] Gtk.CheckButton check_rhythm_active;
 	[Widget] Gtk.RadioButton radio_rhythm_together;
 	[Widget] Gtk.RadioButton radio_rhythm_separated;
@@ -170,6 +171,9 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton	spin_rhythm_reps_cluster;
 	[Widget] Gtk.SpinButton	spin_rhythm_rest_clusters;
 	[Widget] Gtk.Image image_clusters_info;
+	[Widget] Gtk.HBox hbox_rhythm_rest_reps_value;
+	[Widget] Gtk.CheckButton check_rhythm_rest_reps;
+
 
 	const int FEEDBACKPAGE = 0;
 	const int RHYTHMPAGE = 1;
@@ -207,6 +211,8 @@ public class RepetitiveConditionsWindow
 		notebook_encoder_conditions.CurrentPage = 3; //power
 
 		putNonStandardIcons();
+
+		label_rhythm_tab.Text = Catalog.GetString("Rhythm") + " / " + Catalog.GetString("Protocol");
 	}
 
 	static public RepetitiveConditionsWindow Create ()
@@ -617,18 +623,34 @@ public class RepetitiveConditionsWindow
 
 	private void on_radio_rhythm_together_toggled (object o, EventArgs args)
 	{
-		if(radio_rhythm_together.Active) {
+		if(radio_rhythm_together.Active)
 			notebook_duration_repetition.CurrentPage = 0;
-			vbox_rhythm_rest_after.Visible = false;
-		} else {
+		else
 			notebook_duration_repetition.CurrentPage = 1;
-			vbox_rhythm_rest_after.Visible = true;
-		}
+
+		should_show_vbox_rhythm_rest_after();
+	}
+
+	private void should_show_vbox_rhythm_rest_after()
+	{
+		vbox_rhythm_rest_after.Visible = ( check_rhythm_use_clusters.Active ||
+				( check_rhythm_rest_reps.Active && radio_rhythm_separated.Active ) );
+	}
+
+	private void on_check_rhythm_rest_reps_toggled (object o, EventArgs args)
+	{
+		if(check_rhythm_rest_reps.Active)
+			hbox_rhythm_rest_reps_value.Visible = true;
+		else
+			hbox_rhythm_rest_reps_value.Visible = false;
+
+		should_show_vbox_rhythm_rest_after();
 	}
 
 	private void on_check_rhythm_use_clusters_toggled (object o, EventArgs args)
 	{
 		vbox_rhythm_cluster.Visible = check_rhythm_use_clusters.Active;
+		should_show_vbox_rhythm_rest_after();
 	}
 
 	private void on_button_use_clusters_help_clicked (object o, EventArgs args)
@@ -658,13 +680,10 @@ public class RepetitiveConditionsWindow
 	{
 		check_rhythm_active.Active = encoderRhythm.Active;
 
-		if(encoderRhythm.RepsOrPhases) {
+		if(encoderRhythm.RepsOrPhases)
 			radio_rhythm_together.Active = true;
-			vbox_rhythm_rest_after.Visible = false;
-		} else {
+		else
 			radio_rhythm_separated.Active = true;
-			vbox_rhythm_rest_after.Visible = true;
-		}
 
 		spin_rhythm_rep.Value = encoderRhythm.RepSeconds;
 		spin_rhythm_ecc.Value = encoderRhythm.EccSeconds;
@@ -680,6 +699,9 @@ public class RepetitiveConditionsWindow
 		else
 			notebook_duration_repetition.CurrentPage = 1;
 
+		if(encoderRhythm.RestRepsSeconds < 0.1)
+			check_rhythm_rest_reps.Active = false;
+
 		if(encoderRhythm.UseClusters()) {
 			check_rhythm_use_clusters.Active = true;
 			vbox_rhythm_cluster.Visible = true;
@@ -687,6 +709,8 @@ public class RepetitiveConditionsWindow
 			check_rhythm_use_clusters.Active = false;
 			vbox_rhythm_cluster.Visible = false;
 		}
+
+		should_show_vbox_rhythm_rest_after();
 	}
 
 	public EncoderRhythm Encoder_rhythm_get_values()
@@ -695,11 +719,19 @@ public class RepetitiveConditionsWindow
 		if(! check_rhythm_use_clusters.Active && reps_cluster > 1)
 			reps_cluster = 1;
 
+		//avoid problems like having spin values of: 1.38777878078145E-16 (true story)
+		double restReps = spin_rhythm_rest_reps.Value;
+		if(restReps < 0.1 || ! check_rhythm_rest_reps.Active)
+			restReps = 0;
+		double restClusters = spin_rhythm_rest_clusters.Value;
+		if(restClusters < 0.1)
+			restClusters = 0;
+
 		return new EncoderRhythm(
 				check_rhythm_active.Active, radio_rhythm_together.Active,
 				spin_rhythm_rep.Value, spin_rhythm_ecc.Value, spin_rhythm_con.Value,
-				spin_rhythm_rest_reps.Value, radio_rest_after_ecc.Active,
-				reps_cluster, spin_rhythm_rest_clusters.Value);
+				restReps, radio_rest_after_ecc.Active,
+				reps_cluster, restClusters);
 	}
 
 

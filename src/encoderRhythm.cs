@@ -42,7 +42,7 @@ public class EncoderRhythm
 		Active = false;
 
 		//default values
-		RepsOrPhases = true;
+		RepsOrPhases = false; //it's always Phases (reps was not easy to follow the bar while doing ecc/con)
 		RepSeconds = 2;
 		EccSeconds = 1;
 		ConSeconds = 1;

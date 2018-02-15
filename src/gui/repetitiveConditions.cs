@@ -165,6 +165,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton	spin_rhythm_rep;
 	[Widget] Gtk.SpinButton	spin_rhythm_ecc;
 	[Widget] Gtk.SpinButton	spin_rhythm_con;
+	[Widget] Gtk.Label label_rhythm_ecc_plus_con;
 	[Widget] Gtk.SpinButton	spin_rhythm_rest_reps;
 	[Widget] Gtk.VBox vbox_rhythm_rest_after;
 	[Widget] Gtk.RadioButton radio_rest_after_ecc;
@@ -631,6 +632,11 @@ public class RepetitiveConditionsWindow
 		should_show_vbox_rhythm_rest_after();
 	}
 
+	private void on_spin_rhythm_phases_values_changed (object o, EventArgs args)
+	{
+		label_rhythm_ecc_plus_con.Text = Util.TrimDecimals(spin_rhythm_ecc.Value + spin_rhythm_con.Value, 2);
+	}
+
 	private void should_show_vbox_rhythm_rest_after()
 	{
 		vbox_rhythm_rest_after.Visible = ( check_rhythm_use_clusters.Active ||
@@ -680,12 +686,16 @@ public class RepetitiveConditionsWindow
 	{
 		check_rhythm_active.Active = encoderRhythm.Active;
 
+		/*
 		if(encoderRhythm.RepsOrPhases)
 			radio_rhythm_together.Active = true;
 		else
 			radio_rhythm_separated.Active = true;
+			*/
+		//just before 1.8.0 always use separated
+		radio_rhythm_separated.Active = true;
 
-		spin_rhythm_rep.Value = encoderRhythm.RepSeconds;
+		//spin_rhythm_rep.Value = encoderRhythm.RepSeconds;
 		spin_rhythm_ecc.Value = encoderRhythm.EccSeconds;
 		spin_rhythm_con.Value = encoderRhythm.ConSeconds;
 		spin_rhythm_rest_reps.Value = encoderRhythm.RestRepsSeconds;

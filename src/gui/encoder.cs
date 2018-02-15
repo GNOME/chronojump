@@ -680,8 +680,10 @@ public partial class ChronoJumpWindow
 		chronopicRegisterUpdate(false);
 		int numEncoders = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER);
 		LogB.Information("numEncoders: " + numEncoders);
-		if(numEncoders == 0) {
-			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Device is not connected"));
+		if(numEncoders == 0)
+		{
+			//open device window
+			on_chronopic_encoder_clicked(new object(), new EventArgs());
 			UtilGtk.DeviceColors(viewport_chronopic_encoder, false);
 			return false;
 		}

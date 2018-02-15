@@ -140,6 +140,7 @@ public class ChronopicRegisterWindow
 		chronopic_register_win.AllowGrow = false;
 		chronopic_register_win.Modal = true;
 		chronopic_register_win.TransientFor = app1;
+		chronopic_register_win.WindowPosition = Gtk.WindowPosition.CenterOnParent;
 
 		chronopic_register_win.DeleteEvent += on_delete_event;
 

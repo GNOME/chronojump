@@ -589,10 +589,16 @@ public class PreferencesWindow
 		new DialogMessage(
 				"Chronojump triggers",
 				Constants.MessageTypes.INFO,
-				"If active, repetitions will be cut from set using triggers." + "\n" +
-				"Triggers will be produced by a button connected to the Chronopic." + "\n\n" +
-				"This will be only used on gravitatory mode, concentric contraction." + "\n\n" +
-				"If inactive, repetitions will be cut automatically (default behaviour).");
+				Catalog.GetString("If active, repetitions will be cut from set using triggers.") + "\n" +
+				Catalog.GetString("Trigger signal will be produced by a button connected to the Chronopic.") + "\n\n" +
+				Catalog.GetString("This will be only used on gravitatory mode, concentric contraction.") + "\n\n" +
+				Catalog.GetString("If \"Cut by triggers\" is inactive, repetitions will be cut automatically (default behaviour),") + " " +
+				Catalog.GetString("but pressing trigger button while capturing will plot vertical lines during analyze instant graphs.") + "\n\n" +
+				Catalog.GetString("Encoder Chronopics have trigger functionality since 2017.") + " " +
+			        Catalog.GetString("You can check if your encoder Chronopic accepts triggers pressing test button.") + " " +
+				Catalog.GetString("Your Chronopic is ready for triggers if the green light at the side of Chronopic test button changes it's state on pressing this button.") + " " +
+				Catalog.GetString("At Chronojump website there's a hand push button for using triggers with ease.")
+				);
 		/*
 		 * not on ecc-con because we cannot guaranteee that there will be an ecc and con phase,
 		 * and then R findECPhases() will fail

@@ -151,7 +151,7 @@ msgstr "Navegar per la web del servidor"
 
 #: ../glade/app1.glade.h:24
 msgid "_Mode"
-msgstr "_Mode:"
+msgstr "_Mode"
 
 #: ../glade/app1.glade.h:25
 msgid "Main menu"

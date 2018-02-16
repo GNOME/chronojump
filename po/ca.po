@@ -3193,7 +3193,7 @@ msgstr "No usar triggers"
 
 #: ../glade/preferences_win.glade.h:77
 msgid "Recommended"
-msgstr "Recomanat:"
+msgstr "Recomanat"
 
 #: ../glade/preferences_win.glade.h:78
 msgid "Cut sets into repetitions using triggers"

@@ -2841,9 +2841,13 @@ doProcess <- function(options)
                                 #mtext(at=((curves[i,1]+curves[i,2])/2/1000),	#/1000 ms -> s
                                 #     side=1,text=myLabel, cex=.8, col="blue")
                                 abline(v=c(curves[i,1],curves[i,2])/1000, lty=3, col="gray")
+
+				if(! cutByTriggers(op) && op$TriggersOnList != "" && op$TriggersOnList != -1)
+				{
+					abline(v=op$TriggersOnList/1000, col="yellow3", lwd=2, lty=2)
+				}
                         }
-                        
-                        
+
                         #plot speed
                         par(new=T)	
                         

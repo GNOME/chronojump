@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-16 15:43+0100\n"
-"PO-Revision-Date: 2018-02-16 16:49+0100\n"
+"POT-Creation-Date: 2018-02-16 16:52+0100\n"
+"PO-Revision-Date: 2018-02-16 16:53+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -1707,9 +1707,9 @@ msgstr ")"
 msgid "Select"
 msgstr "Seleccionar"
 
-#: ../glade/app1.glade.h:367
-msgid "Mode:"
-msgstr "Modo:"
+#: ../glade/app1.glade.h:367 ../src/gui/executeAuto.cs:190
+msgid "Mode"
+msgstr "Modo"
 
 #: ../glade/app1.glade.h:368
 msgid "Powerbars"
@@ -3617,8 +3617,8 @@ msgid "Rest between clusters"
 msgstr "Descanso entre agrupaciones"
 
 #: ../glade/repetitive_conditions.glade.h:42
-msgid "On encoder gravitatory rest is done ..."
-msgstr ""
+msgid "On encoder (gravitatory mode) rest starts ..."
+msgstr "En encoder (modo gravitatorio) el descanso empieza ..."
 
 #: ../glade/repetitive_conditions.glade.h:43
 msgid "after eccentric"
@@ -6582,10 +6582,6 @@ msgstr ""
 #: ../src/gui/eventExecute.cs:1949
 msgid "Platforms"
 msgstr "Plataformas"
-
-#: ../src/gui/executeAuto.cs:190
-msgid "Mode"
-msgstr "Modo"
 
 #: ../src/gui/executeAuto.cs:455
 #, csharp-format
@@ -9932,6 +9928,9 @@ msgstr "Tiempo de tramo"
 #: ../src/treeViewRun.cs:133
 msgid "Split time"
 msgstr "Tiempo acumulado"
+
+#~ msgid "Mode:"
+#~ msgstr "Modo:"
 
 #~ msgid "Check if string is fully extended at start of capture."
 #~ msgstr ""

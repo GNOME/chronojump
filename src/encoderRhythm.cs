@@ -348,7 +348,7 @@ public class EncoderRhythmExecute
 			if(currentPhase == phases.RESTCLUSTER)
 				restTime = encoderRhythm.RestClustersSeconds - phaseSeconds;
 
-			textRest = "Resting " + Util.TrimDecimals(restTime, 1) + " s";
+			textRest = string.Format(Catalog.GetString("Resting {0} s"), Util.TrimDecimals(restTime, 1));
 		}
 		LogB.Information("currentPhase = " + currentPhase.ToString());
 	}

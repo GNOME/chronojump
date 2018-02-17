@@ -1595,6 +1595,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -17117,7 +17120,7 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="tooltip" translatable="yes">Adaptative rhythm</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label">Rhythm</property>
+                                                            <property name="label" translatable="yes">Rhythm</property>
                                                             <property name="justify">center</property>
                                                             </widget>
                                                             <packing>
@@ -22020,6 +22023,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

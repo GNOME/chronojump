@@ -2816,7 +2816,8 @@ public partial class ChronoJumpWindow
 		}
 		
 		//if there are no persons
-		if(!foundPersons) {
+		if(! foundPersons) {
+			currentPerson = null;
 			sensitiveGuiNoPerson ();
 			if(createdStatsWin) {
 				stats_win_hide();

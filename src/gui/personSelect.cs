@@ -76,8 +76,6 @@ public class PersonSelectWindow
 		FakeButtonDeletePerson = new Gtk.Button();
 		FakeButtonDone = new Gtk.Button();
 
-		UtilGtk.ViewportColor(viewport_person_name, UtilGtk.YELLOW);
-
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_add.png");
 		image_person_new.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
@@ -94,6 +92,7 @@ public class PersonSelectWindow
 
 		PersonSelectWindowBox.persons = persons;
 		PersonSelectWindowBox.SelectedPerson = currentPerson;
+		PersonSelectWindowBox.viewport_person_name_show_paint();
 
 		PersonSelectWindowBox.createTable();
 		
@@ -106,6 +105,7 @@ public class PersonSelectWindow
 	{
 		this.persons = persons;
 		SelectedPerson = currentPerson;
+		viewport_person_name_show_paint();
 
 		if(currentPerson != null)
 			assignPersonSelectedStuff(currentPerson);
@@ -210,6 +210,16 @@ public class PersonSelectWindow
 			}
 			else if(ppb.Selected)
 				ppb.Select(false);
+		}
+	}
+
+	private void viewport_person_name_show_paint()
+	{
+		if(SelectedPerson == null)
+			viewport_person_name.Visible = false;
+		else {
+			UtilGtk.ViewportColor(viewport_person_name, UtilGtk.YELLOW);
+			viewport_person_name.Visible = true;
 		}
 	}
 

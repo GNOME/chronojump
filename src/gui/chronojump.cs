@@ -2783,7 +2783,7 @@ public partial class ChronoJumpWindow
 
 	
 	private void on_show_all_person_events_activate (object o, EventArgs args) {
-		PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, currentPerson);
+		PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, currentPerson, true);
 	}
 	
 	
@@ -2860,7 +2860,7 @@ public partial class ChronoJumpWindow
 	private void on_button_top_person_show_all_events (object o, EventArgs args)
 	{
 		Person thisPerson = personSelectWin.SelectedPerson;
-		PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, thisPerson);
+		PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, thisPerson, false);
 	}
 	private void on_button_top_person_delete_person(object o, EventArgs args)
 	{

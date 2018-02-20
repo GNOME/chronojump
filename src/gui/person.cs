@@ -2491,24 +2491,27 @@ public class PersonAddMultipleWindow {
 }
 
 //show all events (jumps and runs) of a person in different sessions
-public class PersonShowAllEventsWindow {
+public class PersonShowAllEventsWindow
+{
 	
 	[Widget] Gtk.Window person_show_all_events;
-	
+
 	[Widget] Gtk.CheckButton checkbutton_only_current_session;
-	
-	TreeStore store;
+	[Widget] Gtk.Label label_person;
+
 	[Widget] Gtk.TreeView treeview_person_show_all_events;
 	[Widget] Gtk.Box hbox_combo_persons;
 	[Widget] Gtk.ComboBox combo_persons;
-	
+
+	TreeStore store;
 	static PersonShowAllEventsWindow PersonShowAllEventsWindowBox;
 
 	protected int sessionID;
 	
 	protected Person currentPerson;
 	
-	PersonShowAllEventsWindow (Gtk.Window parent, int sessionID, Person currentPerson) {
+	PersonShowAllEventsWindow (Gtk.Window parent, int sessionID, Person currentPerson)
+	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_show_all_events.glade", "person_show_all_events", "chronojump");
 		gladeXML.Autoconnect(this);
@@ -2519,7 +2522,8 @@ public class PersonShowAllEventsWindow {
 		person_show_all_events.Parent = parent;
 		this.sessionID = sessionID;
 		this.currentPerson = currentPerson;
-	
+
+		label_person.Text = currentPerson.Name;
 		createComboPersons(sessionID, currentPerson.UniqueID.ToString(), currentPerson.Name);
 		createTreeView(treeview_person_show_all_events);
 		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
@@ -2529,11 +2533,23 @@ public class PersonShowAllEventsWindow {
 		fillTreeView(treeview_person_show_all_events,store, currentPerson.UniqueID);
 	}
 	
-	static public PersonShowAllEventsWindow Show (Gtk.Window parent, int sessionID, Person currentPerson)
+	static public PersonShowAllEventsWindow Show (Gtk.Window parent, int sessionID, Person currentPerson, bool allowChangePerson)
 	{
 		if (PersonShowAllEventsWindowBox == null) {
 			PersonShowAllEventsWindowBox = new PersonShowAllEventsWindow (parent, sessionID, currentPerson);
 		}
+
+		if(allowChangePerson)
+		{
+			PersonShowAllEventsWindowBox.checkbutton_only_current_session.Visible = true;
+			PersonShowAllEventsWindowBox.hbox_combo_persons.Visible = true;
+			PersonShowAllEventsWindowBox.label_person.Visible = false;
+		} else {
+			PersonShowAllEventsWindowBox.checkbutton_only_current_session.Visible = false;
+			PersonShowAllEventsWindowBox.hbox_combo_persons.Visible = false;
+			PersonShowAllEventsWindowBox.label_person.Visible = true;
+		}
+
 		PersonShowAllEventsWindowBox.person_show_all_events.Show ();
 		
 		return PersonShowAllEventsWindowBox;

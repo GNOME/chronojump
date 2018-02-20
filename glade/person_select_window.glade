@@ -2431,6 +2431,18 @@
                     <child>
                       <placeholder/>
                     </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                   </widget>
                 </child>
               </widget>
@@ -2448,16 +2460,22 @@
             <property name="can_focus">False</property>
             <property name="spacing">30</property>
             <child>
-              <widget class="GtkVBox" id="vbox2">
+              <widget class="GtkVBox" id="vbox_person">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">10</property>
                 <child>
-                  <widget class="GtkLabel" id="label_selected_person_name">
+                  <widget class="GtkViewport" id="viewport_person_name">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="wrap">True</property>
-                    <property name="width_chars">16</property>
+                    <child>
+                      <widget class="GtkLabel" id="label_selected_person_name">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="wrap">True</property>
+                        <property name="width_chars">16</property>
+                      </widget>
+                    </child>
                   </widget>
                   <packing>
                     <property name="expand">False</property>

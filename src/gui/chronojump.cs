@@ -2303,6 +2303,7 @@ public partial class ChronoJumpWindow
 
 			hbox_persons_bottom_photo.Sensitive = false;
 			hbox_persons_bottom_no_photo.Sensitive = false;
+			label_top_person_name.Text = "";
 		
 			//update report
 			report.SessionID = currentSession.UniqueID;
@@ -2482,8 +2483,13 @@ public partial class ChronoJumpWindow
 		if(foundPersons) {
 			//activate the gui for persons in main window
 			sensitiveGuiYesPerson();
-		} else
+			label_top_person_name.Text = currentPerson.Name;
+		} else {
+			currentPerson = null;
+			label_top_person_name.Text = "";
 			vbox_manage_persons.Visible = true;
+		}
+
 
 
 		//update report

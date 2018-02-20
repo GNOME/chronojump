@@ -120,6 +120,9 @@ public partial class ChronoJumpWindow
 			//button_encoder_person_change.Visible = false;
 			//TODO: don't allow edit person on person treeview
 
+			//don't allow to change persons view options
+			view_menuitem.Visible = false;
+
 			//dont't show persons_bottom hbox where users can be edited, deleted if persons at lateral is selected on preferences
 			vbox_persons_bottom.Visible = false;
 

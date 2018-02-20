@@ -22,6 +22,7 @@
 
 using System;
 using Gtk;
+using Gdk;
 using Glade;
 
 public partial class ChronoJumpWindow
@@ -64,4 +65,27 @@ public partial class ChronoJumpWindow
 		hbox_persons_bottom_photo.Visible = showPhoto;
 		hbox_persons_bottom_no_photo.Visible = ! showPhoto;
 	}
+
+	private void label_person_change()
+	{
+		label_top_person_name.Text = "<b>" + currentPerson.Name + "</b>";
+		label_top_person_name.UseMarkup = true;
+
+		label_top_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>";
+		label_top_encoder_person_name.UseMarkup = true;
+
+		string filenameMini = Util.UserPhotoURL(true, currentPerson.UniqueID);
+		if(filenameMini != "")
+		{
+			Pixbuf pixbuf = new Pixbuf (filenameMini);
+			image_current_person.Pixbuf = pixbuf;
+			button_image_current_person_zoom.Sensitive = true;
+		} else {
+			//image_current_person.Pixbuf = null;
+			Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
+			image_current_person.Pixbuf = pixbuf;
+			button_image_current_person_zoom.Sensitive = false;
+		}
+	}
+
 }

@@ -430,7 +430,8 @@ public partial class ChronoJumpWindow
 	PersonRecuperateWindow personRecuperateWin; 
 	PersonsRecuperateFromOtherSessionWindow personsRecuperateFromOtherSessionWin; 
 	PersonAddModifyWindow personAddModifyWin; 
-	PersonAddMultipleWindow personAddMultipleWin; 
+	PersonAddMultipleWindow personAddMultipleWin;
+	PersonShowAllEventsWindow personShowAllEventsWin;
 	PersonSelectWindow personSelectWin;
 	JumpsMoreWindow jumpsMoreWin;
 	JumpsRjMoreWindow jumpsRjMoreWin;
@@ -1008,28 +1009,6 @@ public partial class ChronoJumpWindow
 			return true;
 		} else {
 			return false;
-		}
-	}
-
-	void label_person_change()
-	{
-		label_top_person_name.Text = "<b>" + currentPerson.Name + "</b>";
-		label_top_person_name.UseMarkup = true;
-
-		label_top_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>";
-		label_top_encoder_person_name.UseMarkup = true;
-
-		string filenameMini = Util.UserPhotoURL(true, currentPerson.UniqueID);
-		if(filenameMini != "")
-		{
-			Pixbuf pixbuf = new Pixbuf (filenameMini);
-			image_current_person.Pixbuf = pixbuf;
-			button_image_current_person_zoom.Sensitive = true;
-		} else {
-			//image_current_person.Pixbuf = null;
-			Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
-			image_current_person.Pixbuf = pixbuf;
-			button_image_current_person_zoom.Sensitive = false;
 		}
 	}
 
@@ -2596,7 +2575,10 @@ public partial class ChronoJumpWindow
 		}
 
 		if(person_load_single_called_from_person_select_window)
+		{
+			personRecuperateWin.HideAndNull();
 			updatePersonSelectWin ();
+		}
 	}
 		
 	private void on_recuperate_persons_from_session_clicked (object o, EventArgs args) {
@@ -2633,7 +2615,7 @@ public partial class ChronoJumpWindow
 
 	private void person_add_single ()
 	{
-		personAddModifyWin = PersonAddModifyWindow.Show(app1, 
+		personAddModifyWin = PersonAddModifyWindow.Show(app1,
 				currentSession, new Person(-1), 
 				preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo
 				);
@@ -2787,9 +2769,10 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	
-	private void on_show_all_person_events_activate (object o, EventArgs args) {
-		PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, currentPerson, true);
+
+	private void on_show_all_person_events_activate (object o, EventArgs args)
+	{
+		personShowAllEventsWin = PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, currentPerson, true);
 	}
 	
 	
@@ -2860,18 +2843,31 @@ public partial class ChronoJumpWindow
 	private void on_button_top_person_edit_person(object o, EventArgs args)
 	{
 		currentPerson = personSelectWin.SelectedPerson; 
+		personChanged();
 		
 		person_edit_single_called_from_person_select_window = true;
 		person_edit_single();
 	}
 	private void on_button_top_person_show_all_events (object o, EventArgs args)
 	{
-		Person thisPerson = personSelectWin.SelectedPerson;
-		PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, thisPerson, false);
+		personShowAllEventsWin = PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, currentPerson, false);
+		personShowAllEventsWin.FakeButtonDone.Clicked -= new EventHandler(on_person_show_all_persons_event_close);
+		personShowAllEventsWin.FakeButtonDone.Clicked += new EventHandler(on_person_show_all_persons_event_close);
 	}
+	private void on_person_show_all_persons_event_close (object o, EventArgs args)
+	{
+		personShowAllEventsWin.FakeButtonDone.Clicked -= new EventHandler(on_person_show_all_persons_event_close);
+
+		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+				currentSession.UniqueID,
+				false); //means: do not returnPersonAndPSlist
+		personSelectWin.Update(myPersons);
+	}
+
 	private void on_button_top_person_delete_person(object o, EventArgs args)
 	{
 		currentPerson = personSelectWin.SelectedPerson;
+		personChanged();
 		
 		//without confirm, because it's already confirmed on PersonSelect
 		on_delete_current_person_from_session_accepted (o, args);
@@ -2889,6 +2885,7 @@ public partial class ChronoJumpWindow
 		label_person_change();
 
 		personChanged();
+		myTreeViewPersons.SelectRowByUniqueID(currentPerson.UniqueID);
 	}
 
 

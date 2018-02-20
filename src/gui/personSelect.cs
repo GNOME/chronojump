@@ -32,6 +32,7 @@ public class PersonSelectWindow
 	[Widget] Gtk.Viewport viewport1;
 	[Widget] Gtk.Table table1;
 	[Widget] Gtk.Button button_edit;
+	[Widget] Gtk.Button button_show_all_events;
 	[Widget] Gtk.Button button_delete;
 	[Widget] Gtk.VBox vbox_button_delete_confirm;
 	[Widget] Gtk.Label label_selected_person_name;
@@ -39,6 +40,7 @@ public class PersonSelectWindow
 	[Widget] Gtk.Button button_load;
 	[Widget] Gtk.Image image_person_new;
 	[Widget] Gtk.Image image_person_load;
+	[Widget] Gtk.Image image_all_persons_events;
 	
 	static PersonSelectWindow PersonSelectWindowBox;
 	
@@ -48,6 +50,7 @@ public class PersonSelectWindow
 	public Gtk.Button FakeButtonAddPerson;
 	public Gtk.Button FakeButtonLoadPerson;
 	public Gtk.Button FakeButtonEditPerson;
+	public Gtk.Button FakeButtonPersonShowAllEvents;
 	public Gtk.Button FakeButtonDeletePerson;
 	public Gtk.Button FakeButtonDone;
 
@@ -68,6 +71,7 @@ public class PersonSelectWindow
 		FakeButtonAddPerson = new Gtk.Button();
 		FakeButtonLoadPerson = new Gtk.Button();
 		FakeButtonEditPerson = new Gtk.Button();
+		FakeButtonPersonShowAllEvents = new Gtk.Button();
 		FakeButtonDeletePerson = new Gtk.Button();
 		FakeButtonDone = new Gtk.Button();
 
@@ -75,6 +79,8 @@ public class PersonSelectWindow
 		image_person_new.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
 		image_person_load.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_visibility.png");
+		image_all_persons_events.Pixbuf = pixbuf;
 	}
 	
 	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons)
@@ -191,6 +197,7 @@ public class PersonSelectWindow
 	private void personButtonsSensitive(bool sensitive)
 	{
 		button_edit.Sensitive = sensitive;
+		button_show_all_events.Sensitive = sensitive;
 		button_delete.Sensitive = sensitive;
 	}
 	
@@ -202,6 +209,10 @@ public class PersonSelectWindow
 	}
 	private void on_button_edit_clicked (object o, EventArgs args) {
 		FakeButtonEditPerson.Click();
+	}
+
+	private void on_button_show_all_events_clicked (object o, EventArgs args) {
+		FakeButtonPersonShowAllEvents.Click();
 	}
 
 	private void on_button_up_clicked (object o, EventArgs args)

@@ -2836,6 +2836,7 @@ public partial class ChronoJumpWindow
 		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_top_person_add_person);
 		personSelectWin.FakeButtonLoadPerson.Clicked += new EventHandler(on_button_top_person_load_person);
 		personSelectWin.FakeButtonEditPerson.Clicked += new EventHandler(on_button_top_person_edit_person);
+		personSelectWin.FakeButtonPersonShowAllEvents.Clicked += new EventHandler(on_button_top_person_show_all_events);
 		personSelectWin.FakeButtonDeletePerson.Clicked += new EventHandler(on_button_top_person_delete_person);
 		personSelectWin.FakeButtonDone.Clicked += new EventHandler(on_button_top_person_change_done);
 	}
@@ -2855,6 +2856,11 @@ public partial class ChronoJumpWindow
 		
 		person_edit_single_called_from_person_select_window = true;
 		person_edit_single();
+	}
+	private void on_button_top_person_show_all_events (object o, EventArgs args)
+	{
+		Person thisPerson = personSelectWin.SelectedPerson;
+		PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, thisPerson);
 	}
 	private void on_button_top_person_delete_person(object o, EventArgs args)
 	{

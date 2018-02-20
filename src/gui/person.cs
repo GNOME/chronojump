@@ -206,6 +206,15 @@ public class PersonRecuperateWindow {
 		}
 	}
 
+	//if called from personRecuperateWindow
+	public void HideAndNull()
+	{
+		if(PersonRecuperateWindowBox.person_recuperate != null)
+			PersonRecuperateWindowBox.person_recuperate.Hide();
+
+		if(PersonRecuperateWindowBox != null)
+			PersonRecuperateWindowBox = null;
+	}
 	
 	protected virtual void on_button_close_clicked (object o, EventArgs args)
 	{
@@ -263,7 +272,7 @@ public class PersonRecuperateWindow {
 		}
 	}
 
-	public Button FakeButtonDone 
+	public Button FakeButtonDone
 	{
 		set { fakeButtonDone = value; }
 		get { return fakeButtonDone; }
@@ -770,7 +779,7 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		on_button_close_clicked (o, new EventArgs());
 	}
 	
-	public new Button FakeButtonDone 
+	public new Button FakeButtonDone
 	{
 		set { fakeButtonDone = value; }
 		get { return fakeButtonDone; }
@@ -2503,6 +2512,8 @@ public class PersonShowAllEventsWindow
 	[Widget] Gtk.Box hbox_combo_persons;
 	[Widget] Gtk.ComboBox combo_persons;
 
+	public Gtk.Button fakeButtonDone;
+
 	TreeStore store;
 	static PersonShowAllEventsWindow PersonShowAllEventsWindowBox;
 
@@ -2522,6 +2533,8 @@ public class PersonShowAllEventsWindow
 		person_show_all_events.Parent = parent;
 		this.sessionID = sessionID;
 		this.currentPerson = currentPerson;
+
+		fakeButtonDone = new Gtk.Button();
 
 		label_person_name.Text = currentPerson.Name;
 		createComboPersons(sessionID, currentPerson.UniqueID.ToString(), currentPerson.Name);
@@ -2633,17 +2646,23 @@ public class PersonShowAllEventsWindow
 					myStr[6], myStr[7], myStr[8], myStr[9], myStr[10], myStr[11]);
 		}
 	}
-	
 
 	protected virtual void on_button_close_clicked (object o, EventArgs args)
 	{
+		fakeButtonDone.Click();
 		PersonShowAllEventsWindowBox.person_show_all_events.Hide();
 		PersonShowAllEventsWindowBox = null;
 	}
 	
 	protected virtual void on_delete_event (object o, DeleteEventArgs args)
 	{
+		fakeButtonDone.Click();
 		PersonShowAllEventsWindowBox.person_show_all_events.Hide();
 		PersonShowAllEventsWindowBox = null;
+	}
+
+	public Button FakeButtonDone
+	{
+		get { return fakeButtonDone; }
 	}
 }

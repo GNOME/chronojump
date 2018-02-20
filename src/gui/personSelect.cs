@@ -101,6 +101,12 @@ public class PersonSelectWindow
 		return PersonSelectWindowBox;
 	}
 
+	//from main gui to not change SelectedPerson
+	public void Update(ArrayList persons)
+	{
+		Update(persons, SelectedPerson);
+	}
+	//from main gui to change SelectedPerson or from this class
 	public void Update(ArrayList persons, Person currentPerson)
 	{
 		this.persons = persons;
@@ -117,6 +123,9 @@ public class PersonSelectWindow
 		LogB.Debug("Recreating table");
 		createTable();
 		table1.Visible = true;
+
+		if(! person_select_window.Visible)
+			person_select_window.Visible = true;
 	}
 
 	private void removeTable() 
@@ -240,17 +249,22 @@ public class PersonSelectWindow
 		button_delete.Sensitive = sensitive;
 	}
 	
-	private void on_button_add_clicked (object o, EventArgs args) {
+	private void on_button_add_clicked (object o, EventArgs args)
+	{
+		person_select_window.Visible = false;
 		FakeButtonAddPerson.Click();
 	}
 	private void on_button_load_clicked (object o, EventArgs args) {
+		person_select_window.Visible = false;
 		FakeButtonLoadPerson.Click();
 	}
 	private void on_button_edit_clicked (object o, EventArgs args) {
+		person_select_window.Visible = false;
 		FakeButtonEditPerson.Click();
 	}
 
 	private void on_button_show_all_events_clicked (object o, EventArgs args) {
+		person_select_window.Visible = false;
 		FakeButtonPersonShowAllEvents.Click();
 	}
 
@@ -305,7 +319,8 @@ public class PersonSelectWindow
 	}
 	
 	//ESC is enabled
-	private void on_button_cancel_clicked (object o, EventArgs args) {
+	private void on_button_close_clicked (object o, EventArgs args)
+	{
 		close_window();
 	}
 	

@@ -30,6 +30,7 @@ public class PersonSelectWindow
 {
 	[Widget] Gtk.Window person_select_window;
 	[Widget] Gtk.Viewport viewport1;
+	[Widget] Gtk.Viewport viewport_person_name;
 	[Widget] Gtk.Table table1;
 	[Widget] Gtk.Button button_edit;
 	[Widget] Gtk.Button button_show_all_events;
@@ -75,6 +76,8 @@ public class PersonSelectWindow
 		FakeButtonDeletePerson = new Gtk.Button();
 		FakeButtonDone = new Gtk.Button();
 
+		UtilGtk.ViewportColor(viewport_person_name, UtilGtk.YELLOW);
+
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_add.png");
 		image_person_new.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
@@ -83,14 +86,15 @@ public class PersonSelectWindow
 		image_all_persons_events.Pixbuf = pixbuf;
 	}
 	
-	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons)
+	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson)
 	{
 		if (PersonSelectWindowBox == null) {
 			PersonSelectWindowBox = new PersonSelectWindow (parent);
 		}
 
 		PersonSelectWindowBox.persons = persons;
-		
+		PersonSelectWindowBox.SelectedPerson = currentPerson;
+
 		PersonSelectWindowBox.createTable();
 		
 		PersonSelectWindowBox.person_select_window.Show ();
@@ -98,9 +102,14 @@ public class PersonSelectWindow
 		return PersonSelectWindowBox;
 	}
 
-	public void Update(ArrayList persons) {
+	public void Update(ArrayList persons, Person currentPerson)
+	{
 		this.persons = persons;
-		
+		SelectedPerson = currentPerson;
+
+		if(currentPerson != null)
+			assignPersonSelectedStuff(currentPerson);
+
 		LogB.Debug("Removing table");
 		table1.Visible = false;
 		removeTable();
@@ -124,16 +133,24 @@ public class PersonSelectWindow
 		uint cols = 4; //each row has 4 columns
 		uint rows = Convert.ToUInt32(Math.Floor(persons.Count / (1.0 * cols) ) +1);
 		int count = 0;
-		
-		label_selected_person_name.Text = "";
-		SelectedPerson = null;
-		selectedFirstClickPersonID = -1;
+
+		if(SelectedPerson == null)
+		{
+			selectedFirstClickPersonID = -1;
+			label_selected_person_name.Text = "";
+		}
+		else {
+			selectedFirstClickPersonID = SelectedPerson.UniqueID;
+			label_selected_person_name.Text = SelectedPerson.Name;
+		}
+
 		personButtonsSensitive(false);
 		vbox_button_delete_confirm.Visible = false;
 		list_ppb = new List<PersonPhotoButton>();
 
-		for (int row_i = 0; row_i < rows; row_i ++) {
-			for (int col_i = 0; col_i < cols; col_i ++) 
+		for (int row_i = 0; row_i < rows; row_i ++)
+		{
+			for (int col_i = 0; col_i < cols; col_i ++)
 			{
 				if(count >= persons.Count)
 					return;
@@ -141,6 +158,14 @@ public class PersonSelectWindow
 				Person p = (Person) persons[count ++];
 
 				PersonPhotoButton ppb = new PersonPhotoButton(p.UniqueID, p.Name); //creates the button
+
+				//select currentPerson
+				if(selectedFirstClickPersonID != -1 && selectedFirstClickPersonID == p.UniqueID)
+				{
+					ppb.Select(true);
+					assignPersonSelectedStuff(p);
+				}
+
 				list_ppb.Add(ppb);
 				Gtk.Button b = ppb.Button;
 
@@ -181,19 +206,23 @@ public class PersonSelectWindow
 
 				foreach(Person p in persons)
 					if(p.UniqueID == ppb.PersonID)
-					{
-						SelectedPerson = p;
-						label_selected_person_name.Text = "<b>" + p.Name + "</b>";
-						label_selected_person_name.UseMarkup = true;
-						personButtonsSensitive(true);
-						selectedFirstClickPersonID = p.UniqueID;
-					}
+						assignPersonSelectedStuff(p);
 			}
 			else if(ppb.Selected)
 				ppb.Select(false);
 		}
 	}
-	
+
+	private void assignPersonSelectedStuff(Person p)
+	{
+		SelectedPerson = p;
+		selectedFirstClickPersonID = p.UniqueID;
+
+		label_selected_person_name.Text = "<b>" + p.Name + "</b>";
+		label_selected_person_name.UseMarkup = true;
+		personButtonsSensitive(true);
+	}
+
 	private void personButtonsSensitive(bool sensitive)
 	{
 		button_edit.Sensitive = sensitive;

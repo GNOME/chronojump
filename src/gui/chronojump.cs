@@ -2703,7 +2703,7 @@ public partial class ChronoJumpWindow
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID,
 				false); //means: do not returnPersonAndPSlist
-		personSelectWin.Update(myPersons);
+		personSelectWin.Update(myPersons, currentPerson);
 	}
 
 	//show spinbutton window asking for how many people to create	
@@ -2782,7 +2782,7 @@ public partial class ChronoJumpWindow
 				ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 						currentSession.UniqueID, 
 						false); //means: do not returnPersonAndPSlist
-				personSelectWin.Update(myPersons);
+				personSelectWin.Update(myPersons, currentPerson);
 			}
 		}
 	}
@@ -2838,7 +2838,7 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID, 
 				false); //means: do not returnPersonAndPSlist
 
-		personSelectWin = PersonSelectWindow.Show(app1, myPersons);
+		personSelectWin = PersonSelectWindow.Show(app1, myPersons, currentPerson);
 		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_top_person_add_person);
 		personSelectWin.FakeButtonLoadPerson.Clicked += new EventHandler(on_button_top_person_load_person);
 		personSelectWin.FakeButtonEditPerson.Clicked += new EventHandler(on_button_top_person_edit_person);
@@ -2878,7 +2878,7 @@ public partial class ChronoJumpWindow
 		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
 				currentSession.UniqueID, 
 				false); //means: do not returnPersonAndPSlist
-		personSelectWin.Update(myPersons);
+		personSelectWin.Update(myPersons, currentPerson);
 		personSelectWin.Button_delete_confirm_focus(false, false);
 	}
 	private void on_button_top_person_change_done(object o, EventArgs args)

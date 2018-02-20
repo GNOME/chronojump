@@ -2497,7 +2497,7 @@ public class PersonShowAllEventsWindow
 	[Widget] Gtk.Window person_show_all_events;
 
 	[Widget] Gtk.CheckButton checkbutton_only_current_session;
-	[Widget] Gtk.Label label_person;
+	[Widget] Gtk.Label label_person_name;
 
 	[Widget] Gtk.TreeView treeview_person_show_all_events;
 	[Widget] Gtk.Box hbox_combo_persons;
@@ -2523,7 +2523,7 @@ public class PersonShowAllEventsWindow
 		this.sessionID = sessionID;
 		this.currentPerson = currentPerson;
 
-		label_person.Text = currentPerson.Name;
+		label_person_name.Text = currentPerson.Name;
 		createComboPersons(sessionID, currentPerson.UniqueID.ToString(), currentPerson.Name);
 		createTreeView(treeview_person_show_all_events);
 		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
@@ -2543,11 +2543,11 @@ public class PersonShowAllEventsWindow
 		{
 			PersonShowAllEventsWindowBox.checkbutton_only_current_session.Visible = true;
 			PersonShowAllEventsWindowBox.hbox_combo_persons.Visible = true;
-			PersonShowAllEventsWindowBox.label_person.Visible = false;
+			PersonShowAllEventsWindowBox.label_person_name.Visible = false;
 		} else {
 			PersonShowAllEventsWindowBox.checkbutton_only_current_session.Visible = false;
 			PersonShowAllEventsWindowBox.hbox_combo_persons.Visible = false;
-			PersonShowAllEventsWindowBox.label_person.Visible = true;
+			PersonShowAllEventsWindowBox.label_person_name.Visible = true;
 		}
 
 		PersonShowAllEventsWindowBox.person_show_all_events.Show ();

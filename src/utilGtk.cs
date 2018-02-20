@@ -527,6 +527,11 @@ public class UtilGtk
 		}
 	}
 
+	public static void ViewportColor(Gtk.Viewport v, Gdk.Color color)
+	{
+		v.ModifyBg(StateType.Normal, color);
+	}
+
 	public static void ChronopicColors(Gtk.Viewport v, Gtk.Label l1, Gtk.Label l2, bool connected) {
 		//if(! v.Style.Background(StateType.Normal).Equal(BLUE))
 		if(! v.Style.Background(StateType.Normal).Equal(v.Style.Background(StateType.Selected)))

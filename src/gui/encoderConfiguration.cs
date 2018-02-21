@@ -875,7 +875,19 @@ public class EncoderConfigurationWindow
 	bool capturing = false;
 	public void Button_encoder_capture_inertial_do_chronopic_ok () 
 	{
+		// 1) don't show vbox_Select_encoder and resize window
+
+		int mainBoxWidth = vbox_select_encoder.Allocation.Width;
+
+		encoder_configuration.GetSize(out windowWidth, out windowHeight);
+
 		vbox_select_encoder.Visible = false;
+
+		encoder_configuration.Resize(windowWidth - mainBoxWidth -15, windowHeight);
+		//15 is glade separation between mainBox (vbox_select_encoder) and notebook_side
+
+		// 2) modifiy oother widgets
+
 		button_encoder_capture_inertial_do.Sensitive = false;
 
 		//adapt capture, cancel and finish	
@@ -885,6 +897,9 @@ public class EncoderConfigurationWindow
 		
 		label_im_feedback.Text = "<b>" + Catalog.GetString("Capturing") + "</b>";
 		label_im_feedback.UseMarkup = true; 
+
+		// 3) mark capturing starts
+
 		capturing = true;
 	}
 

@@ -25,7 +25,8 @@ $groups
 $ sqlite3 .local/share/Chronojump/chronojump.db
 delete from encoderExercise;
 
-11) delete runInterval exercises. And Add these:
+11) if the station will be runInterval:
+delete runInterval exercises. And Add these:
 
 delete from runIntervalType;
 insert into runIntervalType VALUES(1, "5 m", 5.0, 1, 1, 0, "", "");

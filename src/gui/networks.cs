@@ -220,7 +220,8 @@ public partial class ChronoJumpWindow
 
 	private void configInitFromPreferences()
 	{
-		configChronojump = new Config();
+		if(configChronojump == null)
+			configChronojump = new Config();
 
 		configChronojump.Maximized = preferences.maximized;
 		configChronojump.PersonWinHide = preferences.personWinHide;
@@ -232,7 +233,7 @@ public partial class ChronoJumpWindow
 
 	private void configDo()
 	{
-		LogB.Information("Config:\n" + configChronojump.ToString());
+		LogB.Information("Is Compujump?:\n" + configChronojump.Compujump.ToString());
 			
 		/*
 		 * TODO: do an else to any option
@@ -518,7 +519,7 @@ public partial class ChronoJumpWindow
 				if(json.LastPersonWasInserted)
 				{
 					string imageFile = json.LastPersonByRFIDImageURL;
-					if(imageFile != "")
+					if(imageFile != null && imageFile != "")
 					{
 						string image_dest = Util.GetPhotoFileName(false, currentPerson.UniqueID);
 						if(UtilMultimedia.GetImageType(imageFile) == UtilMultimedia.ImageTypes.PNG)

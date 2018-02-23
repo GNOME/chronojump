@@ -453,6 +453,10 @@ public partial class ChronoJumpWindow
 		shouldUpdateRFIDGui = false;
 		updatingRFIDGuiStuff = true;
 
+		//is we are on analyze, switch to capture
+		if(! radio_mode_encoder_capture_small.Active)
+			radio_mode_encoder_capture_small.Active = true;
+
 		//TODO: this pulseRFID need only the GTK stuff, not the rest
 		label_rfid_contacts.Text = capturedRFID; //GTK
 		label_rfid_encoder.Text = capturedRFID; //GTK

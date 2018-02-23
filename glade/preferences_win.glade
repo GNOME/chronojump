@@ -48,7 +48,7 @@
                             <property name="spacing">10</property>
                             <child>
                               <widget class="GtkCheckButton" id="check_appearance_maximized">
-                                <property name="label" translatable="yes">Maximized</property>
+                                <property name="label" translatable="yes">Start Chronojump maximized</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>

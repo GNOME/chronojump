@@ -100,6 +100,8 @@ public partial class ChronoJumpWindow
 	DialogPersonPopup dialogPersonPopup;
 		
 	Config configChronojump;
+	bool maximizeWindowAtStartDone = false;
+
 	private void configInitRead()
 	{
 		configChronojump.Read();
@@ -243,15 +245,20 @@ public partial class ChronoJumpWindow
 		 * But note this has to be executed only if it has changed!!
 		 */
 
-		if(configChronojump.Maximized == Preferences.MaximizedTypes.NO)
+		//only change maximizez status on start
+		if( ! maximizeWindowAtStartDone )
 		{
-			app1.Unmaximize();
-			app1.Decorated = true;
-			button_start_quit.Visible = false;
-		} else {
-			app1.Decorated = (configChronojump.Maximized != Preferences.MaximizedTypes.YESUNDECORATED);
-			app1.Maximize();
-			button_start_quit.Visible = ! app1.Decorated;
+			if(configChronojump.Maximized == Preferences.MaximizedTypes.NO)
+			{
+				app1.Unmaximize();
+				app1.Decorated = true;
+				button_start_quit.Visible = false;
+			} else {
+				app1.Decorated = (configChronojump.Maximized != Preferences.MaximizedTypes.YESUNDECORATED);
+				app1.Maximize();
+				button_start_quit.Visible = ! app1.Decorated;
+			}
+			maximizeWindowAtStartDone = true;
 		}
 
 		if(configChronojump.CustomButtons)

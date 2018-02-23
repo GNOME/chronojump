@@ -5340,7 +5340,7 @@ public partial class ChronoJumpWindow
 			else { //action == encoderActions.CAPTURE_IM)
 
 				eCapture = new EncoderCaptureIMCalc();
-				eCapture.InitGlobal(
+				bool success = eCapture.InitGlobal(
 						encoder_capture_signal_drawingarea.Allocation.Width,
 						encoder_capture_signal_drawingarea.Allocation.Height,
 						preferences.encoderCaptureTimeIM,
@@ -5351,6 +5351,12 @@ public partial class ChronoJumpWindow
 						false,
 						false,
 						false);
+				if(! success)
+				{
+					new DialogMessage(Constants.MessageTypes.WARNING,
+							Catalog.GetString("Sorry, cannot start capture."));
+					return;
+				}
 
 				encoderRProcCapture.CutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS; //do not cutByTriggers on inertial, yet.
 

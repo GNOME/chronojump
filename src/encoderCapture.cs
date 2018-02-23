@@ -112,7 +112,7 @@ public abstract class EncoderCapture
 
 
 	//if cont (continuous mode), then will not end when too much time passed before start
-	public void InitGlobal (int widthG, int heightG, int time, int timeEnd,
+	public bool InitGlobal (int widthG, int heightG, int time, int timeEnd,
 			bool cont, string eccon, string port, bool capturingInertialBG, bool showOnlyBars,
 			bool simulated)
 	{
@@ -130,12 +130,19 @@ public abstract class EncoderCapture
 			rand = new Random(40);
 			SimulatedReset();
 		}
-		else if(! simulated && ! capturingInertialBG) {
+		else if(! simulated && ! capturingInertialBG)
+		{
 			LogB.Debug("runEncoderCaptureCsharp start port:", port);
 			sp = new SerialPort(port);
 			sp.BaudRate = 115200;
 			LogB.Information("sp created");
-			sp.Open();
+
+			try {
+				sp.Open();
+			} catch {
+				LogB.Information("Error: Cannot open port");
+				return false;
+			}
 			LogB.Information("sp opened");
 		}
 		
@@ -203,6 +210,8 @@ public abstract class EncoderCapture
 
 		cancel = false;
 		finish = false;
+
+		return true;
 	}
 
 	protected virtual void initSpecific()

@@ -687,9 +687,11 @@ public partial class ChronoJumpWindow
 		 */
 		if( ! configChronojump.Compujump)
 		{
+			LogB.Information("Ping thread will start");
 			pingThread = new Thread (new ThreadStart (pingAtStart));
 			pingThread.Start();
-		}
+		} else
+			LogB.Information("Ping discarded (Compujump)");
 
 		testNewStuff();
 

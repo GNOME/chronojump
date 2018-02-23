@@ -6134,7 +6134,7 @@ msgstr "Manquen dades."
 
 #: ../src/gui/encoder.cs:1204
 msgid "Recalculate this set will remove existing triggers."
-msgstr "Recalcular aquesta sèrie esborrarà els triggers existents"
+msgstr "Recalcular aquesta sèrie esborrarà els triggers existents."
 
 #: ../src/gui/encoder.cs:1205
 msgid "Are you sure!"
@@ -7058,7 +7058,7 @@ msgstr "Repeticions d'encoder"
 #: ../src/gui/preferences.cs:592
 msgid "If active, repetitions will be cut from set using triggers."
 msgstr ""
-"Si està activa, les repeticions es tallaràn de la sèrie usant el triggers."
+"Si està activa, les repeticions es tallaràn de la sèrie usant el trigger."
 
 #: ../src/gui/preferences.cs:593
 msgid "Trigger signal will be produced by a button connected to the Chronopic."
@@ -7066,7 +7066,7 @@ msgstr "La senyal de trigger la generarà un botó connectat al Chronopic."
 
 #: ../src/gui/preferences.cs:594
 msgid "This will be only used on gravitatory mode, concentric contraction."
-msgstr "Això només es farà servir en el mode gravitatori i fase excèntrica."
+msgstr "Això només es farà servir en el mode gravitatori i fase concèntrica."
 
 #: ../src/gui/preferences.cs:595
 msgid ""

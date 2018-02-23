@@ -1,3 +1,11 @@
+----
+2018 february
+- mono 3.2.8 does not work on compujumps by multiple gtk problems. Updated using mono from website. Version: 5.8.0
+- apt-get install mono-devel mono-complete
+- compilation ok, but on autogen there were problems with System.Data.dll 4.0, but it was impossible to fix. So this have been done:
+	https://github.com/aegif/CmisSync/issues/739
+----
+
 Howto run compujump client.
 Instructions for 1.7.0-390.
 Has to be done on this exact order:
@@ -22,10 +30,14 @@ $groups
 9) Install sqlite3
 10) delete encoder exercises!!! important to not have conflict with upcoming exercises from server
 
+11) Delete existing test types:
+
 $ sqlite3 .local/share/Chronojump/chronojump.db
+
+11a) if the station will be encoder:
 delete from encoderExercise;
 
-11) if the station will be runInterval:
+11b) if the station will be runInterval:
 delete runInterval exercises. And Add these:
 
 delete from runIntervalType;

@@ -41,7 +41,10 @@ public class PersonSelectWindow
 	[Widget] Gtk.Button button_load;
 	[Widget] Gtk.Image image_person_new;
 	[Widget] Gtk.Image image_person_load;
+	[Widget] Gtk.Image image_person_edit;
 	[Widget] Gtk.Image image_all_persons_events;
+	[Widget] Gtk.Image image_person_delete;
+	[Widget] Gtk.Image image_close;
 	
 	static PersonSelectWindow PersonSelectWindowBox;
 	
@@ -80,8 +83,14 @@ public class PersonSelectWindow
 		image_person_new.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
 		image_person_load.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
+		image_person_edit.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_visibility.png");
 		image_all_persons_events.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		image_person_delete.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+		image_close.Pixbuf = pixbuf;
 	}
 	
 	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson)

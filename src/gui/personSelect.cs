@@ -122,9 +122,6 @@ public class PersonSelectWindow
 		SelectedPerson = currentPerson;
 		viewport_person_name_show_paint();
 
-		if(currentPerson != null)
-			assignPersonSelectedStuff(currentPerson);
-
 		LogB.Debug("Removing table");
 		table1.Visible = false;
 		removeTable();
@@ -132,6 +129,13 @@ public class PersonSelectWindow
 		LogB.Debug("Recreating table");
 		createTable();
 		table1.Visible = true;
+
+		table1.Sensitive = true;
+		button_add.Sensitive = true;
+		button_load.Sensitive = true;
+
+		if(currentPerson != null)
+			assignPersonSelectedStuff(currentPerson);
 
 		if(! person_select_window.Visible)
 			person_select_window.Visible = true;
@@ -302,21 +306,21 @@ public class PersonSelectWindow
 
 	//delete person stuff	
 	private void on_button_delete_clicked (object o, EventArgs args) {
-		Button_delete_confirm_focus(true, false);
+		button_delete_confirm_focus(true, false);
 	}
 	private void on_button_delete_no_clicked (object o, EventArgs args) {
-		Button_delete_confirm_focus(false, true);
+		button_delete_confirm_focus(false, true);
 	}
 	private void on_button_delete_yes_clicked (object o, EventArgs args) {
 		FakeButtonDeletePerson.Click();
 	}
-	public void Button_delete_confirm_focus(bool doFocus, bool sensitivePersonButtons)
+	private void button_delete_confirm_focus(bool doFocus, bool sensitivePersonButtons)
 	{
 		vbox_button_delete_confirm.Visible = doFocus;
 		table1.Sensitive = ! doFocus;
 		button_add.Sensitive = ! doFocus;
 		button_load.Sensitive = ! doFocus;
-		
+
 		personButtonsSensitive(sensitivePersonButtons);
 	}
 	//end of delete person stuff	

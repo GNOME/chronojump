@@ -2878,7 +2878,6 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID, 
 				false); //means: do not returnPersonAndPSlist
 		personSelectWin.Update(myPersons, currentPerson);
-		personSelectWin.Button_delete_confirm_focus(false, false);
 	}
 	private void on_button_top_person_change_done(object o, EventArgs args)
 	{

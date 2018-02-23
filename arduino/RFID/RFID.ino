@@ -1,5 +1,3 @@
-#include <SPI.h>
-
 #include <SPI.h>    //Load SPI on Arduino IDE
 #include <RFID.h>   //Load RC522_RFID library (Paul Kourany)
  

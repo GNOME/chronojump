@@ -589,7 +589,7 @@ public class PreferencesWindow
 		new DialogMessage(
 				"Chronojump triggers",
 				Constants.MessageTypes.INFO,
-				Catalog.GetString("If active, repetitions will be cut from set using triggers.") + "\n" +
+				Catalog.GetString("If active, repetitions will be cut from set using triggers.") + " " +
 				Catalog.GetString("Trigger signal will be produced by a button connected to the Chronopic.") + "\n\n" +
 				Catalog.GetString("This will be only used on gravitatory mode, concentric contraction.") + "\n\n" +
 				Catalog.GetString("If \"Cut by triggers\" is inactive, repetitions will be cut automatically (default behaviour),") + " " +

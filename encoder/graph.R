@@ -1670,8 +1670,6 @@ paintCrossVariables <- function (paf, varX, varY, option,
                 seriesName <- xCopy
         }
         
-        nums.print = NULL
-        
         #if only one series
         if(length(unique(seriesName)) == 1) {
                 cexBalls = 1.8
@@ -1692,6 +1690,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                 #bgBallsVector[laterality=="R"] <- "blue"
                 #plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBallsVector,cex=cexBalls,axes=F)
                 
+		numsPrint.done = FALSE
                 
                 if(do1RM != FALSE & do1RM != "0") {	
                         speed1RM = as.numeric(do1RM)
@@ -1866,6 +1865,9 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         #Draw the power parabole
                                         if(varX == "Speed" && varY == "Force") #is "Force,Power" but using Force to have less problems
                                         {
+						paintCrossVariablesNumsPrint(singleFile, Eccon, x, y, adjHor, cexNums)
+						numsPrint.done = TRUE
+
                                                 xpower = seq(0, V0, by = V0 / 100)
                                                 #ypower = 4 * xpower * (coef(fit)[2]*xpower + coef(fit)[1]) / V0
                                                 ypower = xpower * (coef(fit)[2]*xpower + coef(fit)[1])
@@ -1891,34 +1893,8 @@ paintCrossVariables <- function (paf, varX, varY, option,
                         }
                 }
                 
-                #show numbers at the side of names (take care of overlaps)
-                #note stroverlap should be called after plot
-                for(i in 1:length(x)) {
-                        name = i
-                        if( ( Eccon=="ecS" || Eccon=="ceS" ) && singleFile) {
-                                #name = paste(trunc((name+1)/2),ecconVector[i],sep="")
-                                name = trunc((name+1)/2) #don't show e,c whe show the pch
-                        } else {
-                                #name = paste(name,ecconVector[i],sep="")
-                                #don't show e,c, we show the pch
-                        }
-                        
-                        newPoint = data.frame(x=x[i], y=y[i], curveNum=name)
-                        
-                        if(i == 1) {
-                                nums.print = data.frame()
-                                nums.print = rbind(nums.print, newPoint)
-                                colnames(nums.print) = c("x","y","curveNum")
-                        } else {
-                                overlaps = FALSE
-                                if( ! ( is.na(x[i]) && is.na(y[i]) ) )
-                                        overlaps = stroverlapArray(newPoint, nums.print)
-                                if(! overlaps) {
-                                        nums.print = rbind(nums.print, newPoint)
-                                }
-                        }
-                }
-                text(as.numeric(nums.print$x), as.numeric(nums.print$y), paste("  ", nums.print$curveNum), adj=c(adjHor,.5), cex=cexNums)
+		if(! numsPrint.done)
+			paintCrossVariablesNumsPrint(singleFile, Eccon, x, y, adjHor, cexNums)
                 
                 #don't write title two times on 'speed,power / load'
                 if(isAlone == "ALONE" || isAlone =="RIGHT")
@@ -2070,6 +2046,42 @@ paintCrossVariables <- function (paf, varX, varY, option,
         }
         
 }
+
+paintCrossVariablesNumsPrint <- function (singleFile, Eccon, x, y, adjHor, cexNums)
+{
+        nums.print = NULL
+
+	#show numbers at the side of names (take care of overlaps)
+	#note stroverlap should be called after plot
+	for(i in 1:length(x))
+	{
+		name = i
+		if( ( Eccon=="ecS" || Eccon=="ceS" ) && singleFile) {
+			#name = paste(trunc((name+1)/2),ecconVector[i],sep="")
+			name = trunc((name+1)/2) #don't show e,c whe show the pch
+		} else {
+			#name = paste(name,ecconVector[i],sep="")
+			#don't show e,c, we show the pch
+		}
+
+		newPoint = data.frame(x=x[i], y=y[i], curveNum=name)
+
+		if(i == 1) {
+			nums.print = data.frame()
+			nums.print = rbind(nums.print, newPoint)
+			colnames(nums.print) = c("x","y","curveNum")
+		} else {
+			overlaps = FALSE
+			if( ! ( is.na(x[i]) && is.na(y[i]) ) )
+				overlaps = stroverlapArray(newPoint, nums.print)
+			if(! overlaps) {
+				nums.print = rbind(nums.print, newPoint)
+			}
+		}
+	}
+	text(as.numeric(nums.print$x), as.numeric(nums.print$y), paste("  ", nums.print$curveNum), adj=c(adjHor,.5), cex=cexNums)
+}
+
 
 #propulsive!!!!
 paint1RMBadilloExercise <- function (exercise, paf, title, outputData1)

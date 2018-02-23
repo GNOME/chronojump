@@ -2467,6 +2467,18 @@
                     <child>
                       <placeholder/>
                     </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                   </widget>
                 </child>
               </widget>
@@ -2521,7 +2533,7 @@
                         <property name="can_focus">False</property>
                         <property name="spacing">4</property>
                         <child>
-                          <widget class="GtkImage" id="image2">
+                          <widget class="GtkImage" id="image_person_edit">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="stock">gtk-edit</property>
@@ -2619,7 +2631,7 @@
                             <property name="can_focus">False</property>
                             <property name="spacing">4</property>
                             <child>
-                              <widget class="GtkImage" id="image5">
+                              <widget class="GtkImage" id="image_person_delete">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="stock">gtk-remove</property>
@@ -2913,7 +2925,7 @@
                         <property name="can_focus">False</property>
                         <property name="spacing">4</property>
                         <child>
-                          <widget class="GtkImage" id="image4">
+                          <widget class="GtkImage" id="image_close">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="stock">gtk-close</property>

@@ -115,7 +115,7 @@ public class Preferences
 	public double forceSensorCalibrationWeight;
 	public double forceSensorCalibrationFactor;
 				
-	public int encoderCaptureTimeIM = 120; //hardcoded 2 minutes.
+	public int encoderCaptureTimeIM = 180; //hardcoded 3 minutes.
 
 	public enum GstreamerTypes { GST_0_1, GST_1_0 };
 	public GstreamerTypes gstreamer;

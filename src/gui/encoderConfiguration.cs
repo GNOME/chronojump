@@ -92,6 +92,7 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.Image image_import;
 	[Widget] Gtk.Image image_export;
 	[Widget] Gtk.Image image_delete;
+	[Widget] Gtk.Image image_cancel;
 
 	[Widget] Gtk.Entry entry_save_name;
 	[Widget] Gtk.Entry entry_save_description;
@@ -105,6 +106,11 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.Button button_encoder_capture_inertial_do;
 	[Widget] Gtk.Button button_encoder_capture_inertial_cancel;
 	//[Widget] Gtk.Button button_encoder_capture_inertial_finish;
+	[Widget] Gtk.Label label_capture_time;
+	[Widget] Gtk.Label label_im_calc_angle;
+	[Widget] Gtk.Label label_im_calc_oscillations;
+	[Widget] Gtk.Table table_angle_oscillations;
+	[Widget] Gtk.Table table_im_machine_result;
 
 	[Widget] Gtk.Button button_close;
 
@@ -141,6 +147,9 @@ public class EncoderConfigurationWindow
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderCalculeIM);
 		image_encoder_calcule_im.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		image_cancel.Pixbuf = pixbuf;
 
 		//put an icon to window
 		UtilGtk.IconWindow(encoder_configuration);
@@ -894,13 +903,33 @@ public class EncoderConfigurationWindow
 		//label_button_encoder_capture_inertial_do.Visible = false;
 		button_encoder_capture_inertial_cancel.Sensitive = true;
 		//button_encoder_capture_inertial_finish.Sensitive = true;
-		
+
+		table_angle_oscillations.Visible = true;
+		table_im_machine_result.Visible = false;
+
 		label_im_feedback.Text = "<b>" + Catalog.GetString("Capturing") + "</b>";
 		label_im_feedback.UseMarkup = true; 
 
 		// 3) mark capturing starts
 
 		capturing = true;
+	}
+
+	public void EncoderReaded(int sum, int oscillations)
+	{
+		double angle = 0;
+		if(sum != 0)
+			angle = (sum * 360.0) / 200;
+		label_im_calc_angle.Text = Util.TrimDecimals(angle, 1);
+		label_im_calc_oscillations.Text = oscillations.ToString();
+	}
+
+	public void Label_capture_time(int maxTime, int inactivityTime)
+	{
+		label_capture_time.Text =
+			string.Format(Catalog.GetString("Max time: {0} s."), maxTime.ToString()) + "\n" +
+			string.Format(Catalog.GetString("Ends at inactivity during {0} s."), inactivityTime.ToString());
+		label_capture_time.Visible = true;
 	}
 
 	//if error, imResult: 0; message: is error message	
@@ -915,17 +944,22 @@ public class EncoderConfigurationWindow
 		button_encoder_capture_inertial_cancel.Sensitive = false;
 		//button_encoder_capture_inertial_finish.Sensitive = false;
 			
+		label_capture_time.Visible = false;
+
 		if(imResult == 0) {
-			label_im_feedback.Text = "<b>" + message + "</b>";
-			label_im_feedback.UseMarkup = true; 
 			spin_inertia_machine.Value = imResult;
 		} else {
 			//label_im_result_disc.Text = Util.TrimDecimals(imResult, 2);
 			//as int now
 			label_im_result_disc.Text = Convert.ToInt32(imResult).ToString();
 			spin_inertia_machine.Value = imResult;
-			label_im_feedback.Text = "";
+			table_angle_oscillations.Visible = false;
+			table_im_machine_result.Visible = true;
 		}
+
+		label_im_feedback.Text = "<b>" + message + "</b>";
+		label_im_feedback.UseMarkup = true;
+
 		capturing = false;
 	}
 	

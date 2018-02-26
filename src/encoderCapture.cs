@@ -67,7 +67,7 @@ public abstract class EncoderCapture
 	 * sumInertialDisc: on inertial this has the sum of the disc, while sum has the position of the body (always <= 0 (starting position))
 	 * on inertial we need both
 	 */
-	protected double sum;	
+	protected int sum;
 	protected int sumInertialDisc;
 
 	protected int i;
@@ -100,6 +100,9 @@ public abstract class EncoderCapture
 	//signal will be saved from here
 	protected int inertialCalibratedFirstCross0Pos;
 	protected bool inertialCalibrated;
+
+	//Only for IMCalc: go and return is a period. Here we count semiperiods
+	public int IMCalcOscillations;
 
 	//capture is simulated (a signal file is readed)
 	private bool simulated = false;
@@ -863,6 +866,12 @@ public abstract class EncoderCapture
 	public void Finish() {
 		finish = true;
 	}
+
+	//used on inertialIM
+	public int Sum {
+		get { return sum; }
+	}
+
 }
 
 
@@ -1005,6 +1014,8 @@ public class EncoderCaptureInertial : EncoderCapture
 
 public class EncoderCaptureIMCalc : EncoderCapture
 {
+	public static int InactivityEndTime = 3; //end at 3 segons of inactivity
+
 	public EncoderCaptureIMCalc() 
 	{
 	}
@@ -1012,13 +1023,15 @@ public class EncoderCaptureIMCalc : EncoderCapture
 	protected override void initSpecific()
 	{
 		realHeightG = 2 * 500 ; //.5 meter up / .5 meter down
+		IMCalcOscillations = 0;
 	}
 	
 	// on IMCalc we don't need to send data to R and get curves we will call R at the end
-	protected override bool shouldSendCurve() {
+	protected override bool shouldSendCurve()
+	{
+		IMCalcOscillations ++;
 		return false;
 	}
-	
 }
 
 /*

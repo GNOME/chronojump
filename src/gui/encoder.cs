@@ -923,6 +923,9 @@ public partial class ChronoJumpWindow
 			return;
 
 		encoder_configuration_win.Button_encoder_capture_inertial_do_chronopic_ok();
+		encoder_configuration_win.Label_capture_time(
+				preferences.encoderCaptureTimeIM,
+				EncoderCaptureIMCalc.InactivityEndTime);
 		
 		//tis notebook has capture (signal plotting), and curves (shows R graph)	
 		if(notebook_encoder_capture.CurrentPage == 1)
@@ -4554,6 +4557,9 @@ public partial class ChronoJumpWindow
 		if(eCapture.EncoderCapturePoints == null)
 			return;
 
+		if(mode == UpdateEncoderPaintModes.CALCULE_IM)
+			encoder_configuration_win.EncoderReaded(eCapture.Sum, eCapture.IMCalcOscillations);
+
 		//this happens when EncoderCaptureShowOnlyBars=TRUE
 		if(encoder_capture_signal_drawingarea == null || encoder_capture_signal_pixmap == null)
 			return;
@@ -5290,7 +5296,7 @@ public partial class ChronoJumpWindow
 				if( ! (currentSession.Name == Constants.SessionSimulatedName && testsActive))
 					portName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port;
 
-				eCapture.InitGlobal(
+				bool success = eCapture.InitGlobal(
 						encoder_capture_signal_drawingarea.Allocation.Width,
 						encoder_capture_signal_drawingarea.Allocation.Height,
 						recordingTime,
@@ -5301,6 +5307,12 @@ public partial class ChronoJumpWindow
 						(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
 						configChronojump.EncoderCaptureShowOnlyBars,
 						currentSession.Name == Constants.SessionSimulatedName && testsActive);
+				if(! success)
+				{
+					new DialogMessage(Constants.MessageTypes.WARNING,
+							Catalog.GetString("Sorry, cannot start capture."));
+					return;
+				}
 
 				if(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null)
 				{
@@ -5343,8 +5355,8 @@ public partial class ChronoJumpWindow
 				bool success = eCapture.InitGlobal(
 						encoder_capture_signal_drawingarea.Allocation.Width,
 						encoder_capture_signal_drawingarea.Allocation.Height,
-						preferences.encoderCaptureTimeIM,
-						preferences.encoderCaptureInactivityEndTime,
+						preferences.encoderCaptureTimeIM, //two minutes max capture
+						EncoderCaptureIMCalc.InactivityEndTime, //3 seconds
 						false,
 						findEccon(true),
 						chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port,
@@ -6293,8 +6305,8 @@ public partial class ChronoJumpWindow
 						encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
 				}
 			}
-			else if( (action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM) 
-					&& encoderProcessFinish ) {
+			else if(action == encoderActions.CAPTURE && encoderProcessFinish)
+			{
 				encoder_pulsebar_capture.Text = Catalog.GetString("Finished");
 			} 
 			else if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD) 
@@ -6476,7 +6488,7 @@ public partial class ChronoJumpWindow
 				else {
 					//script calculates Kg*m^2 -> GUI needs Kg*cm^2
 					encoder_configuration_win.Button_encoder_capture_inertial_do_ended (
-							Convert.ToDouble(imResultText) * 10000.0, "");
+							Convert.ToDouble(imResultText) * 10000.0, Catalog.GetString("Finished"));
 				}
 
 				encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);

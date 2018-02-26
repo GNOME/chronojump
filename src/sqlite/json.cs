@@ -19,7 +19,7 @@
  */
 
 using System;
-//using System.Collections.Generic; //List<T>
+using System.Collections.Generic; //List<T>
 using Mono.Data.Sqlite;
 
 class SqliteJson : Sqlite
@@ -88,6 +88,66 @@ class SqliteJson : Sqlite
 		closeIfNeeded(dbconOpened);
 	}
 
+	public static List<UploadEncoderDataFullObject> SelectTempEncoder(bool dbconOpened)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "SELECT * FROM " + tableEncoder;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader = dbcmd.ExecuteReader();
+
+		List<UploadEncoderDataFullObject> l = new List<UploadEncoderDataFullObject>();
+		while(reader.Read())
+		{
+			UploadEncoderDataObject uo = new UploadEncoderDataObject(
+					Convert.ToInt32(reader[6]), 		//repetitions
+					Convert.ToInt32(reader[7]), 		//numBySpeed
+					Convert.ToInt32(reader[8]), 		//lossBySpeed
+					reader[9].ToString(), 			//rangeBySpeed
+					reader[10].ToString(), 			//vmeanBySpeed
+					reader[11].ToString(), 			//vmaxBySpeed
+					reader[12].ToString(), 			//pmeanBySpeed
+					reader[13].ToString(), 			//pmaxBySpeed
+					Convert.ToInt32(reader[14]), 		//numByPower
+					Convert.ToInt32(reader[15]), 		//lossByPower
+					reader[16].ToString(), 			//rangeByPower
+					reader[17].ToString(), 			//vmeanByPower
+					reader[18].ToString(), 			//vmaxByPower
+					reader[19].ToString(), 			//pmeanByPower
+					reader[20].ToString() 			//pmaxByPower
+						);
+
+			UploadEncoderDataFullObject o = new UploadEncoderDataFullObject(
+					Convert.ToInt32(reader[0]), 		//uniqueID
+					Convert.ToInt32(reader[1]), 		//personID
+					Convert.ToInt32(reader[2]), 		//stationID
+					Convert.ToInt32(reader[3]), 		//exerciseID
+					reader[4].ToString(), 			//laterality
+					reader[5].ToString(), 			//resistance
+					uo);
+
+			l.Add(o);
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		return l;
+	}
+
+	public static void DeleteTempEncoder(bool dbconOpened, int uniqueID)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "Delete FROM " + tableEncoder + " WHERE uniqueID = " + uniqueID;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
 
 	/*
 	 * SPRINT
@@ -119,6 +179,51 @@ class SqliteJson : Sqlite
 			o.ToSQLInsertString();
 		LogB.SQL(dbcmd.CommandText.ToString());
 
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
+	public static List<UploadSprintDataObject> SelectTempSprint (bool dbconOpened)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "SELECT * FROM " + tableSprint;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader = dbcmd.ExecuteReader();
+
+		List<UploadSprintDataObject> l = new List<UploadSprintDataObject>();
+		while(reader.Read())
+		{
+			UploadSprintDataObject o = new UploadSprintDataObject(
+					Convert.ToInt32(reader[0]), 		//uniqueID
+					Convert.ToInt32(reader[1]), 		//personID
+					reader[2].ToString(), 				//sprintPositions
+					UploadSprintDataObject.SplitTimesStringToList(reader[3].ToString()), //splitTimes
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())), //k
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[5].ToString())), //vmax
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[6].ToString())), //amax
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[7].ToString())), //fmax
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[8].ToString())) //pmax
+					);
+
+			l.Add(o);
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		return l;
+	}
+
+	public static void DeleteTempSprint(bool dbconOpened, int uniqueID)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "Delete FROM " + tableSprint + " WHERE uniqueID = " + uniqueID;
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		closeIfNeeded(dbconOpened);

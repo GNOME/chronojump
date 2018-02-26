@@ -4776,6 +4776,7 @@ public partial class ChronoJumpWindow
 		double pmax = Convert.ToDouble(Util.ChangeDecimalSeparator(results[14])); //pmax.rel.fitted
 
 		UploadSprintDataObject usdo = new UploadSprintDataObject(
+				-1, //uniqueID
 				currentPerson.UniqueID,
 				sprint.Positions, sprint.GetSplitTimesAsList(),
 				k, vmax, amax, fmax, pmax);

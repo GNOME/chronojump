@@ -4775,11 +4775,17 @@ public partial class ChronoJumpWindow
 		double fmax = Convert.ToDouble(Util.ChangeDecimalSeparator(results[10])); //fmax.rel.fitted
 		double pmax = Convert.ToDouble(Util.ChangeDecimalSeparator(results[14])); //pmax.rel.fitted
 
-		Json js = new Json();
-		js.UploadSprintData(
+		UploadSprintDataObject usdo = new UploadSprintDataObject(
 				currentPerson.UniqueID,
-				sprint, sprint.GetSplitTimesAsList(),
+				sprint.Positions, sprint.GetSplitTimesAsList(),
 				k, vmax, amax, fmax, pmax);
+
+		Json js = new Json();
+		if( ! js.UploadSprintData(usdo) )
+		{
+			LogB.Error(js.ResultMessage);
+			SqliteJson.InsertTempSprint(false, usdo); //insert only if could'nt be uploaded
+		}
 	}
 
 	/* ---------------------------------------------------------

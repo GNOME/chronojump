@@ -795,8 +795,7 @@ public class Json
 	}
 	*/
 
-	public bool UploadSprintData(int personId, Sprint sprint, List<double> splitTimesL,
-			double k, double vmax, double amax, double fmax, double pmax )
+	public bool UploadSprintData (UploadSprintDataObject o)
 	{
 		LogB.Information("calling upload sprint");
 		// Create a request using a URL that can receive a post.
@@ -819,32 +818,31 @@ public class Json
 		// Creates the json object
 		JsonObject json = new JsonObject();
 
-		json.Add("personId", personId);
-		json.Add("distances", sprint.Positions);
-		//json.Add("times", sprint.SplitTimes);
-		json.Add("t1", splitTimesL[1]);
+		json.Add("personId", o.personId);
+		json.Add("distances", o.sprintPositions);
+		json.Add("t1", o.splitTimesL[1]);
 
 		//splitTimesL starts with a 0 that is not passed
-		if(splitTimesL.Count >= 3)
-			json.Add("t2", splitTimesL[2] - splitTimesL[1]); //return lap (partial time) and not split (accumulated time)
+		if(o.splitTimesL.Count >= 3)
+			json.Add("t2", o.splitTimesL[2] - o.splitTimesL[1]); //return lap (partial time) and not split (accumulated time)
 		else
 			json.Add("t2", "");
 
-		if(splitTimesL.Count >= 4)
-			json.Add("t3", splitTimesL[3] - splitTimesL[2]);
+		if(o.splitTimesL.Count >= 4)
+			json.Add("t3", o.splitTimesL[3] - o.splitTimesL[2]);
 		else
 			json.Add("t3", "");
 
-		if(splitTimesL.Count >= 5)
-			json.Add("t4", splitTimesL[4] - splitTimesL[3]);
+		if(o.splitTimesL.Count >= 5)
+			json.Add("t4", o.splitTimesL[4] - o.splitTimesL[3]);
 		else
 			json.Add("t4", "");
 
-		json.Add("k", k);
-		json.Add("vmax", vmax);
-		json.Add("amax", amax);
-		json.Add("fmax", fmax);
-		json.Add("pmax", pmax);
+		json.Add("k", o.k);
+		json.Add("vmax", o.vmax);
+		json.Add("amax", o.amax);
+		json.Add("fmax", o.fmax);
+		json.Add("pmax", o.pmax);
 
 		// Converts it to a String
 		String js = json.ToString();
@@ -893,7 +891,7 @@ public class Json
 		return UploadEncoderData(1, 1, "40.2", "lateral", "8100.5", 8);
 	}
 	*/
-	public bool UploadEncoderData(int personId, int stationId, int exerciseId, string laterality, string resistance, UploadEncoderDataObject uo)
+	public bool UploadEncoderData(UploadEncoderDataFullObject o)
 	{
 		// Create a request using a URL that can receive a post.
 		WebRequest request = WebRequest.Create (serverUrl + "/uploadEncoderData");
@@ -908,29 +906,29 @@ public class Json
 		// Creates the json object
 		JsonObject json = new JsonObject();
 
-		json.Add("personId", personId);
-		json.Add("stationId", stationId);
+		json.Add("personId", o.personId);
+		json.Add("stationId", o.stationId);
 		//json.Add("exerciseName", exerciseName);
-		json.Add("exerciseId", exerciseId);
-		json.Add("laterality", laterality);
-		json.Add("resistance", resistance);
-		json.Add("repetitions", uo.repetitions);
+		json.Add("exerciseId", o.exerciseId);
+		json.Add("laterality", o.laterality);
+		json.Add("resistance", o.resistance);
+		json.Add("repetitions", o.uo.repetitions);
 
-		json.Add("numBySpeed", uo.numBySpeed);
-		json.Add("lossBySpeed", uo.lossBySpeed);
-		json.Add("rangeBySpeed", uo.rangeBySpeed);
-		json.Add("vmeanBySpeed", uo.vmeanBySpeed);
-		json.Add("vmaxBySpeed", uo.vmaxBySpeed);
-		json.Add("pmeanBySpeed", uo.pmeanBySpeed);
-		json.Add("pmaxBySpeed", uo.pmaxBySpeed);
+		json.Add("numBySpeed", o.uo.numBySpeed);
+		json.Add("lossBySpeed", o.uo.lossBySpeed);
+		json.Add("rangeBySpeed", o.uo.rangeBySpeed);
+		json.Add("vmeanBySpeed", o.uo.vmeanBySpeed);
+		json.Add("vmaxBySpeed", o.uo.vmaxBySpeed);
+		json.Add("pmeanBySpeed", o.uo.pmeanBySpeed);
+		json.Add("pmaxBySpeed", o.uo.pmaxBySpeed);
 
-		json.Add("numByPower", uo.numByPower);
-		json.Add("lossByPower", uo.lossByPower);
-		json.Add("rangeByPower", uo.rangeByPower);
-		json.Add("vmeanByPower", uo.vmeanByPower);
-		json.Add("vmaxByPower", uo.vmaxByPower);
-		json.Add("pmeanByPower", uo.pmeanByPower);
-		json.Add("pmaxByPower", uo.pmaxByPower);
+		json.Add("numByPower", o.uo.numByPower);
+		json.Add("lossByPower", o.uo.lossByPower);
+		json.Add("rangeByPower", o.uo.rangeByPower);
+		json.Add("vmeanByPower", o.uo.vmeanByPower);
+		json.Add("vmaxByPower", o.uo.vmaxByPower);
+		json.Add("pmeanByPower", o.uo.pmeanByPower);
+		json.Add("pmaxByPower", o.uo.pmaxByPower);
 
 		// Converts it to a String
 		String js = json.ToString();
@@ -992,6 +990,106 @@ class JsonUtils
 			return defaultValue;
 		}
 	}
+}
+
+public class UploadSprintDataObject
+{
+	public int personId;
+	public string sprintPositions;
+	public List<double> splitTimesL;
+	public double k;
+	public double vmax;
+	public double amax;
+	public double fmax;
+	public double pmax;
+
+	public UploadSprintDataObject (int personId, string sprintPositions, List<double> splitTimesL,
+			double k, double vmax, double amax, double fmax, double pmax)
+	{
+		this.personId = personId;
+		this.sprintPositions = sprintPositions;
+		this.splitTimesL = splitTimesL;
+		this.k = k;
+		this.vmax = vmax;
+		this.amax = amax;
+		this.fmax = fmax;
+		this.pmax = pmax;
+	}
+
+	public string ToSQLInsertString ()
+	{
+		return
+			"NULL, " +
+			personId.ToString() + ", " +
+			"\"" + sprintPositions + "\", " +
+			"\"" + splitTimesLToString() + "\", " +
+			Util.ConvertToPoint(k) + ", " +
+			Util.ConvertToPoint(vmax) + ", " +
+			Util.ConvertToPoint(amax) + ", " +
+			Util.ConvertToPoint(fmax) + ", " +
+			Util.ConvertToPoint(pmax) + ")";
+	}
+
+	private string splitTimesLToString()
+	{
+		string str = "";
+		string sep = "";
+		foreach(double d in splitTimesL)
+		{
+			str += sep + Util.ConvertToPoint(d);
+			sep = ";";
+		}
+
+		return str;
+	}
+}
+
+public class UploadEncoderDataFullObject
+{
+	public int personId;
+	public int stationId;
+	public int exerciseId;
+	public string laterality;
+	public string resistance;
+	public UploadEncoderDataObject uo;
+
+	public UploadEncoderDataFullObject(int personId, int stationId, int exerciseId,
+			string laterality, string resistance, UploadEncoderDataObject uo)
+	{
+		this.personId = personId;
+		this.stationId = stationId;
+		this.exerciseId = exerciseId;
+		this.laterality = laterality;
+		this.resistance = resistance;
+		this.uo = uo;
+	}
+
+	public string ToSQLInsertString ()
+	{
+		return
+			"NULL, " +
+			personId.ToString() + ", " +
+			stationId.ToString() + ", " +
+			exerciseId.ToString() + ", " +
+			"\"" + laterality + "\", " +
+			"\"" + resistance + "\", " +
+			uo.repetitions.ToString() + ", " +
+			uo.numBySpeed.ToString() + ", " +
+			uo.lossBySpeed.ToString() + ", " +
+			"\"" + uo.rangeBySpeed.ToString() + "\", " +
+			"\"" + uo.vmeanBySpeed.ToString() + "\"," +
+			"\"" + uo.vmaxBySpeed.ToString() + "\"," +
+			"\"" + uo.pmeanBySpeed.ToString() + "\"," +
+			"\"" + uo.pmaxBySpeed.ToString() + "\"," +
+			uo.numByPower.ToString() + ", " +
+			uo.lossByPower.ToString() + ", " +
+			"\"" + uo.rangeByPower.ToString() + "\", " +
+			"\"" + uo.vmeanByPower.ToString() + "\"," +
+			"\"" + uo.vmaxByPower.ToString() + "\"," +
+			"\"" + uo.pmeanByPower.ToString() + "\"," +
+			"\"" + uo.pmaxByPower.ToString() + "\")";
+	}
+
 }
 
 public class UploadEncoderDataObject
@@ -1072,7 +1170,6 @@ public class UploadEncoderDataObject
 		}
 		return curveNum;
 	}
-
 	//TODO: on ecc-con should count [ecc-count] reps
 	//this calculation should be the same than the client gui
 	private int getLoss(ArrayList curves, byTypes by)

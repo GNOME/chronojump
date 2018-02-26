@@ -6408,18 +6408,23 @@ public partial class ChronoJumpWindow
 
 							LogB.Information("calling Upload");
 							Json js = new Json();
-							bool success = js.UploadEncoderData(
+							UploadEncoderDataFullObject uedfo = new UploadEncoderDataFullObject(
 									currentPerson.UniqueID,
 									configChronojump.CompujumpStationID,
 									lastEncoderSQLSignal.exerciseID,
 									lastEncoderSQLSignal.LateralityToEnglish(),
 									Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)), //this is only for gravitatory
 									uo);
+							bool success = js.UploadEncoderData(uedfo);
+
 							LogB.Information(js.ResultMessage);
 							LogB.Information("called Upload");
 
 							if(! success) {
 								LogB.Error(js.ResultMessage);
+
+								SqliteJson.InsertTempEncoder(false, uedfo);
+
 								bool showInWindow = false;
 								if(showInWindow)
 									new DialogMessage(

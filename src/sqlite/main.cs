@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.56";
+	static string lastChronojumpDatabaseVersion = "1.57";
 
 	public Sqlite() {
 	}
@@ -2337,6 +2337,15 @@ class Sqlite
 
 				currentVersion = updateVersion("1.56");
 			}
+			if(currentVersion == "1.56")
+			{
+				LogB.SQL("Created table UploadEncoderDataTemp, UploadSprintDataTemp");
+
+				SqliteJson.createTableUploadEncoderDataTemp ();
+				SqliteJson.createTableUploadSprintDataTemp ();
+
+				currentVersion = updateVersion("1.57");
+			}
 
 
 
@@ -2520,7 +2529,12 @@ class Sqlite
 		SqlitePreferences.createTable();
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 
+		//compujump json temp tables
+		SqliteJson.createTableUploadEncoderDataTemp ();
+		SqliteJson.createTableUploadSprintDataTemp ();
+
 		//changes [from - to - desc]
+		//1.56 - 1.57 Converted DB to 1.57 Created table UploadEncoderDataTemp, UploadSprintDateTemp
 		//1.55 - 1.56 Converted DB to 1.56 Added encoder rhythm restAfterEcc
 		//1.54 - 1.55 Converted DB to 1.55 Added preferences: personPhoto
 		//1.53 - 1.54 Converted DB to 1.54 Added encoderRhythm variables: repOrPhases, repSeconds

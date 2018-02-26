@@ -122,6 +122,7 @@ SOURCES = \
 	sqlite/reactionTime.cs\
 	sqlite/multiChronopic.cs\
 	sqlite/event.cs\
+	sqlite/json.cs\
 	sqlite/sport.cs\
 	sqlite/speciallity.cs\
 	sqlite/trigger.cs\

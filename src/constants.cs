@@ -172,6 +172,10 @@ public class Constants
 	public const string ReactionTimeTypeTable = "reactionTimeType";
 	public const string GraphLinkTable = "graphLinkTable";
 
+	//json temp tables
+	public const string UploadEncoderDataTempTable = "uploadEncoderDataTemp";
+	public const string UploadSprintDataTempTable = "uploadSprintDataTemp";
+
 	public const string UndefinedDefault = "Undefined";
 	public const string Any = "Any";
 

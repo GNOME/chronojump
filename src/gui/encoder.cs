@@ -6409,6 +6409,7 @@ public partial class ChronoJumpWindow
 							LogB.Information("calling Upload");
 							Json js = new Json();
 							UploadEncoderDataFullObject uedfo = new UploadEncoderDataFullObject(
+									-1, //uniqueID
 									currentPerson.UniqueID,
 									configChronojump.CompujumpStationID,
 									lastEncoderSQLSignal.exerciseID,

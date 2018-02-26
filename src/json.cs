@@ -994,6 +994,7 @@ class JsonUtils
 
 public class UploadSprintDataObject
 {
+	public int uniqueId; //used for SQL load and delete
 	public int personId;
 	public string sprintPositions;
 	public List<double> splitTimesL;
@@ -1003,9 +1004,10 @@ public class UploadSprintDataObject
 	public double fmax;
 	public double pmax;
 
-	public UploadSprintDataObject (int personId, string sprintPositions, List<double> splitTimesL,
+	public UploadSprintDataObject (int uniqueId, int personId, string sprintPositions, List<double> splitTimesL,
 			double k, double vmax, double amax, double fmax, double pmax)
 	{
+		this.uniqueId = uniqueId;
 		this.personId = personId;
 		this.sprintPositions = sprintPositions;
 		this.splitTimesL = splitTimesL;
@@ -1030,6 +1032,19 @@ public class UploadSprintDataObject
 			Util.ConvertToPoint(pmax) + ")";
 	}
 
+	public static List<double> SplitTimesStringToList(string sqlSelectSplitTimes)
+	{
+		List<double> l = new List<double>();
+		if(sqlSelectSplitTimes == null || sqlSelectSplitTimes == "")
+			return l;
+
+		string [] myStringFull = sqlSelectSplitTimes.Split(new char[] {';'});
+		foreach (string time in myStringFull)
+			l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(time)));
+
+		return l;
+	}
+
 	private string splitTimesLToString()
 	{
 		string str = "";
@@ -1046,6 +1061,7 @@ public class UploadSprintDataObject
 
 public class UploadEncoderDataFullObject
 {
+	public int uniqueId; //used for SQL load and delete
 	public int personId;
 	public int stationId;
 	public int exerciseId;
@@ -1053,9 +1069,10 @@ public class UploadEncoderDataFullObject
 	public string resistance;
 	public UploadEncoderDataObject uo;
 
-	public UploadEncoderDataFullObject(int personId, int stationId, int exerciseId,
+	public UploadEncoderDataFullObject(int uniqueId, int personId, int stationId, int exerciseId,
 			string laterality, string resistance, UploadEncoderDataObject uo)
 	{
+		this.uniqueId = uniqueId;
 		this.personId = personId;
 		this.stationId = stationId;
 		this.exerciseId = exerciseId;
@@ -1116,6 +1133,7 @@ public class UploadEncoderDataObject
 	public string pmeanByPower;
 	public string pmaxByPower;
 
+	//constructor called after capture
 	public UploadEncoderDataObject(ArrayList curves)
 	{
 		repetitions = curves.Count; //TODO: on ecc-con divide by 2
@@ -1145,6 +1163,30 @@ public class UploadEncoderDataObject
 
 		lossBySpeed = getLoss(curves, byTypes.SPEED);
 		lossByPower = getLoss(curves, byTypes.POWER);
+	}
+
+	//constructor called on SQL load
+	public UploadEncoderDataObject(int repetitions,
+			int numBySpeed, int lossBySpeed, string rangeBySpeed,
+			string vmeanBySpeed, string vmaxBySpeed, string pmeanBySpeed, string pmaxBySpeed,
+			int numByPower, int lossByPower, string rangeByPower,
+			string vmeanByPower, string vmaxByPower, string pmeanByPower, string pmaxByPower)
+	{
+		this.repetitions = repetitions;
+		this.numBySpeed = numBySpeed;
+		this.lossBySpeed = lossBySpeed;
+		this.rangeBySpeed = rangeBySpeed;
+		this.vmeanBySpeed = vmeanBySpeed;
+		this.vmaxBySpeed = vmaxBySpeed;
+		this.pmeanBySpeed = pmeanBySpeed;
+		this.pmaxBySpeed = pmaxBySpeed;
+		this.numByPower = numByPower;
+		this.lossByPower = lossByPower;
+		this.rangeByPower = rangeByPower;
+		this.vmeanByPower = vmeanByPower;
+		this.vmaxByPower = vmaxByPower;
+		this.pmeanByPower = pmeanByPower;
+		this.pmaxByPower = pmaxByPower;
 	}
 
 	//TODO: on ecc-con should count [ecc-count] reps

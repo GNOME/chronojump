@@ -566,6 +566,35 @@ public partial class ChronoJumpWindow
 			}
 		}
 
+		//----- Start upload temp tests
+		//select UploadTemp tests (have not been uploaded by network errors)
+		List<UploadEncoderDataFullObject> listEncoderTemp = SqliteJson.SelectTempEncoder(false);
+		List<UploadSprintDataObject> listSprintTemp = SqliteJson.SelectTempSprint(false);
+
+		//Upload them
+		if(listEncoderTemp.Count > 0)
+		{
+			foreach(UploadEncoderDataFullObject uedfo in listEncoderTemp)
+			{
+				bool success = json.UploadEncoderData(uedfo);
+				LogB.Information(json.ResultMessage);
+				if(success)
+					SqliteJson.DeleteTempEncoder(false, uedfo.uniqueId); //delete the record
+			}
+		}
+		if(listSprintTemp.Count > 0)
+		{
+			foreach(UploadSprintDataObject usdo in listSprintTemp)
+			{
+				bool success = json.UploadSprintData(usdo);
+				LogB.Information(json.ResultMessage);
+				if(success)
+					SqliteJson.DeleteTempSprint(false, usdo.uniqueId); //delete the record
+			}
+		}
+		//----- End upload temp tests
+
+
 		if(currentPerson != null && currentPersonWasNull)
 			sensitiveGuiYesPerson();
 

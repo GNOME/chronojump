@@ -6082,7 +6082,7 @@ msgstr "Ho sentim, no es poden esborrar files."
 #. button_encoder_capture_inertial_finish.Sensitive = true;
 #: ../src/gui/encoderConfiguration.cs:886
 msgid "Capturing"
-msgstr "Captura"
+msgstr "Capturant"
 
 #. signal is raised and managed in gui/encoder.cs
 #: ../src/gui/encoderConfiguration.cs:919 ../src/gui/encoder.cs:6287

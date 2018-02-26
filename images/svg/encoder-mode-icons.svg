@@ -32,7 +32,7 @@
      id="namedview5689"
      showgrid="false"
      inkscape:zoom="0.48568145"
-     inkscape:cx="10785.367"
+     inkscape:cx="10754.483"
      inkscape:cy="857.85698"
      inkscape:window-x="0"
      inkscape:window-y="26"
@@ -31601,7 +31601,7 @@
             <dc:title>Openclipart</dc:title>
           </cc:Agent>
         </dc:publisher>
-        <dc:title></dc:title>
+        <dc:title />
         <dc:date>2013-08-08T13:03:15</dc:date>
         <dc:description>Simple database or storage symbol. Font is &quot;League Gothic&quot;. Drawn on Inkscape</dc:description>
         <dc:source>http://openclipart.org/detail/181674/database-symbol-by-eternaltyro-181674</dc:source>
@@ -47227,7 +47227,7 @@
        x="7085.3623"
        y="25031.824">This at height = 26 px</tspan></text>
   <g
-     id="g37191"
+     id="g11722"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-calcule-im.png"
      inkscape:export-xdpi="22.4"
      inkscape:export-ydpi="22.4">
@@ -47246,13 +47246,13 @@
        r="293.8046" />
     <text
        id="text6807-5"
-       y="17157.748"
-       x="10484.893"
+       y="17159.748"
+       x="10476.893"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
          style="font-weight:normal;font-size:50px;-inkscape-font-specification:Sans"
-         y="17157.748"
-         x="10484.893"
+         y="17159.748"
+         x="10476.893"
          id="tspan6809-8"
          sodipodi:role="line">weight</tspan></text>
     <text
@@ -47282,7 +47282,7 @@
        sodipodi:cx="-2352.7097"
        sodipodi:type="arc"
        id="path24472"
-       style="opacity:0.5;fill:none;fill-opacity:1;stroke:#090a0d;stroke-width:20.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:60;stroke-opacity:1;paint-order:stroke fill markers;marker-end:url(#marker26145)" />
+       style="opacity:0.5;fill:none;fill-opacity:1;stroke:#090a0d;stroke-width:20.39999962;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:60;stroke-opacity:1;marker-end:url(#marker26145);paint-order:stroke fill markers" />
     <path
        sodipodi:open="true"
        transform="rotate(-37.898138)"
@@ -47295,7 +47295,7 @@
        sodipodi:cx="-2352.7112"
        sodipodi:type="arc"
        id="path24472-3"
-       style="opacity:0.5;fill:none;fill-opacity:1;stroke:#090a0d;stroke-width:20.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:60;stroke-opacity:1;paint-order:stroke fill markers" />
+       style="opacity:0.5;fill:none;fill-opacity:1;stroke:#090a0d;stroke-width:20.39999962;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:60;stroke-opacity:1;paint-order:stroke fill markers" />
     <path
        sodipodi:open="true"
        transform="rotate(-37.898138)"
@@ -47308,7 +47308,7 @@
        sodipodi:cx="-2352.7122"
        sodipodi:type="arc"
        id="path24472-3-6"
-       style="opacity:0.5;fill:none;fill-opacity:1;stroke:#090a0d;stroke-width:20.39999962;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:60;stroke-opacity:1;paint-order:stroke fill markers;marker-start:" />
+       style="opacity:0.5;fill:none;fill-opacity:1;stroke:#090a0d;stroke-width:20.39999962;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:60;stroke-opacity:1;paint-order:stroke fill markers" />
     <path
        sodipodi:open="true"
        transform="rotate(-37.898138)"
@@ -47324,15 +47324,15 @@
        style="opacity:0.5;fill:none;fill-opacity:1;stroke:#090a0d;stroke-width:20.39999962;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:60;stroke-opacity:1;paint-order:stroke fill markers" />
     <text
        id="text6807-53"
-       y="17269.586"
-       x="10450.066"
+       y="17302.529"
+       x="10493.305"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
          style="font-weight:normal;font-size:50px;-inkscape-font-specification:Sans"
-         y="17269.586"
-         x="10450.066"
+         y="17302.529"
+         x="10493.305"
          id="tspan6809-5"
-         sodipodi:role="line">length</tspan></text>
+         sodipodi:role="line">distance</tspan></text>
     <rect
        y="17616.854"
        x="10486.026"

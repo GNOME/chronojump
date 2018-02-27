@@ -1186,8 +1186,10 @@ textBox <- function(x,y,text,frontCol,bgCol,xpad=.1,ypad=1){
 } 
 
 
-paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, height, n, showTTPP, showRange)
+paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, height, n, showTTPP, showRange, totalTime)
 {
+        # 1.- prepare data ------------------------------------------------
+
         #if there's one or more inertial curves: show inertia instead of mass
         hasInertia <- FALSE
         
@@ -1251,6 +1253,8 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, 
         #print(c("bpAngle=",bpAngle))
         #print(c("bpDensity=",bpDensity))
 
+	# 2.- plot main barplot ------------------------------------------------
+
         bp <- barplot(powerData,beside=T,col=pafColors[1:2],width=c(1.4,.6),
                       names.arg=paste(myNums," ",laterality,"\n",load,sep=""),xlim=c(1,n*3+.5),cex.name=0.8,
                       xlab="",ylab=paste(translateToPrint("Power"),"(W)"), 
@@ -1268,6 +1272,8 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, 
         #mtext(translateToPrint("Laterality"),side=1,adj=1,line=0,cex=.9)
         
         axisLineRight=0
+
+	# 3.- plot other variables and their axis ----------------------------------------
         
         #time to peak power
         if(showTTPP) {
@@ -1315,19 +1321,54 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, 
                                 lty=1,col="green")
                 }
         }
-        
+
+	showImpulse = T
+
+	if(showImpulse) {
+		#Impulse
+		#impulse = avg force of all the phase * time of the phase in seconds
+		print("totalTime (s):")
+		print(totalTime / 1000.0)
+		impulse <- paf[,findPosInPaf("Force","")] * ( totalTime / 1000.0 )
+		par(new=T)
+		plot(bp[2,],impulse,type="p",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(impulse)),axes=F,xlab="",ylab="",col="yellow3")
+		print("impulse") #terminal
+		print(impulse)
+	}
+
+	#Work
+	#aqui cal la força instantania
+	#work <- paf[,findPosInPaf("Force","")] * height
+	#par(new=T)
+        #plot(bp[2,],height,type="p",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(height)),axes=F,xlab="",ylab="",col="gray")
+
+        # 4.- legend ------------------------------------------------
+
         legendText = c(powerName, peakPowerName)
         lty=c(0,0)
         lwd=c(1,1)
         pch=c(15,15)
         graphColors=c(pafColors[1],pafColors[2])
+
+	ncol=2
         
+	if(showImpulse) {
+                legendText = c(legendText, translateToPrint("Impulse"))
+                lty=c(lty,NA)
+                lwd=c(lwd,2)
+                pch=c(pch,1)
+                graphColors=c(graphColors,"yellow3")
+		ncol = ncol +1
+	}
         if(showTTPP) {
-                legendText = c(legendText, paste(translateToPrint("Time to Peak Power"),"    ",sep=""))
+                #legendText = c(legendText, paste(translateToPrint("Time to Peak Power"),"    ",sep=""))
+                legendText = c(legendText, translateToPrint("Time to Peak Power"))
+                #legendText = c(legendText, translateToPrint("Time to\nPeak Power"))
                 lty=c(lty,1)
                 lwd=c(lwd,2)
                 pch=c(pch,NA)
                 graphColors=c(graphColors,pafColors[3])
+		ncol = ncol +1
         }
         if(showRange) {
                 legendText = c(legendText, translateToPrint("Range"))
@@ -1335,6 +1376,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, 
                 lwd=c(lwd,2)
                 pch=c(pch,NA)
                 graphColors=c(graphColors,"green")
+		ncol = ncol +1
         }
         
         #plot legend on top exactly out
@@ -1342,10 +1384,10 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, 
         rng=par("usr")
         lg = legend(rng[1], rng[2],
                     col=graphColors, lty=lty, lwd=lwd, pch=pch, 
-                    legend=legendText, ncol=4, bty="n", plot=F)
+                    legend=legendText, ncol=ncol, bty="n", plot=F)
         legend(rng[1], rng[4]+1.25*lg$rect$h,
                col=graphColors, lty=lty, lwd=lwd, pch=pch, 
-               legend=legendText, ncol=4, bty="n", plot=T, xpd=NA)
+               legend=legendText, ncol=ncol, bty="n", plot=T, xpd=NA)
 }
 
 #see paf for more info
@@ -3335,7 +3377,8 @@ doProcess <- function(options)
                                                         curvesHeight,			#height 
                                                         n, 
                                                         (op$AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
-                                                        (op$AnalysisVariables[2] == "Range") 		#show range
+                                                        (op$AnalysisVariables[2] == "Range"), 		#show range
+							curves[,2]-curves[,1] 				#totalTime
                                 )		
                         else 
                                 paintPowerPeakPowerBars(singleFile, op$Title, paf, 
@@ -3344,7 +3387,8 @@ doProcess <- function(options)
                                                         curvesHeight,			#height 
                                                         n, 
                                                         (op$AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
-                                                        (op$AnalysisVariables[2] == "Range") 		#show range
+                                                        (op$AnalysisVariables[2] == "Range"), 		#show range
+							curves[,2]-curves[,1] 				#totalTime
                                 ) 
                 }
                 else if(op$Analysis == "cross" && op$AnalysisVariables[1] != "Pmax(F0,V0)")

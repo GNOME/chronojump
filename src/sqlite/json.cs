@@ -92,7 +92,7 @@ class SqliteJson : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "SELECT * FROM " + tableEncoder;
+		dbcmd.CommandText = "SELECT * FROM " + tableEncoder + " ORDER BY uniqueID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -188,7 +188,7 @@ class SqliteJson : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "SELECT * FROM " + tableSprint;
+		dbcmd.CommandText = "SELECT * FROM " + tableSprint + " ORDER BY uniqueID";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

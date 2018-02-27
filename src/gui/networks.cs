@@ -568,8 +568,11 @@ public partial class ChronoJumpWindow
 
 		//----- Start upload temp tests
 		//select UploadTemp tests (have not been uploaded by network errors)
-		List<UploadEncoderDataFullObject> listEncoderTemp = SqliteJson.SelectTempEncoder(false);
-		List<UploadSprintDataObject> listSprintTemp = SqliteJson.SelectTempSprint(false);
+
+		Sqlite.Open(); // ---------------->
+
+		List<UploadEncoderDataFullObject> listEncoderTemp = SqliteJson.SelectTempEncoder(true);
+		List<UploadSprintDataObject> listSprintTemp = SqliteJson.SelectTempSprint(true);
 
 		//Upload them
 		if(listEncoderTemp.Count > 0)
@@ -579,7 +582,7 @@ public partial class ChronoJumpWindow
 				bool success = json.UploadEncoderData(uedfo);
 				LogB.Information(json.ResultMessage);
 				if(success)
-					SqliteJson.DeleteTempEncoder(false, uedfo.uniqueId); //delete the record
+					SqliteJson.DeleteTempEncoder(true, uedfo.uniqueId); //delete the record
 			}
 		}
 		if(listSprintTemp.Count > 0)
@@ -589,9 +592,12 @@ public partial class ChronoJumpWindow
 				bool success = json.UploadSprintData(usdo);
 				LogB.Information(json.ResultMessage);
 				if(success)
-					SqliteJson.DeleteTempSprint(false, usdo.uniqueId); //delete the record
+					SqliteJson.DeleteTempSprint(true, usdo.uniqueId); //delete the record
 			}
 		}
+
+		Sqlite.Close(); // <----------------
+
 		//----- End upload temp tests
 
 

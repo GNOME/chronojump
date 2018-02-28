@@ -155,6 +155,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_encoder_analyze_1RM;
 	
 	[Widget] Gtk.Box hbox_encoder_analyze_show_powerbars;
+	[Widget] Gtk.CheckButton check_encoder_analyze_show_impulse;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_time_to_peak_power;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_range;
 
@@ -3150,10 +3151,15 @@ public partial class ChronoJumpWindow
 		string analysisVariables = "none"; //cannot be blank
 
 		if(analysis == "powerBars") {
-			if(check_encoder_analyze_show_time_to_peak_power.Active)
-				analysisVariables = "TimeToPeakPower";
+			if(check_encoder_analyze_show_impulse.Active)
+				analysisVariables = "Impulse";
 			else
-				analysisVariables = "NoTimeToPeakPower";
+				analysisVariables = "NoImpulse";
+
+			if(check_encoder_analyze_show_time_to_peak_power.Active)
+				analysisVariables += ";TimeToPeakPower";
+			else
+				analysisVariables += ";NoTimeToPeakPower";
 
 			if(check_encoder_analyze_show_range.Active)
 				analysisVariables += ";Range";

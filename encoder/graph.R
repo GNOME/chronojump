@@ -1186,7 +1186,7 @@ textBox <- function(x,y,text,frontCol,bgCol,xpad=.1,ypad=1){
 } 
 
 
-paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, height, n, showTTPP, showRange, totalTime)
+paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, height, n, showImpulse, showTTPP, showRange, totalTime)
 {
         # 1.- prepare data ------------------------------------------------
 
@@ -1237,8 +1237,12 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, 
         #if(lowerY < 0)
         #	lowerY = 0
         lowerY = 0
-        
-        marginRight = 6
+
+	#showImpulse = T
+
+        marginRight = 9
+        if(! showImpulse)
+                marginRight = marginRight -3
         if(! showTTPP)
                 marginRight = marginRight -3
         if(! showRange)
@@ -1271,10 +1275,31 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, 
         mtext(paste(translateToPrint("Repetition")," \n",translateToPrint(loadWord)," ",sep=""),side=1,at=1,adj=1,line=1,cex=.9)
         #mtext(translateToPrint("Laterality"),side=1,adj=1,line=0,cex=.9)
         
-        axisLineRight=0
+        axisLineRight = 0
 
 	# 3.- plot other variables and their axis ----------------------------------------
         
+	if(showImpulse) {
+		#Impulse
+		#impulse = avg force of all the phase * time of the phase in seconds
+		print("totalTime (s):")
+		print(totalTime / 1000.0)
+		impulse <- paf[,findPosInPaf("Force","")] * ( totalTime / 1000.0 )
+		par(new=T)
+		plot(bp[2,],impulse,type="b",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(impulse)),axes=F,xlab="",ylab="",col="yellow3")
+		print("impulse") #terminal
+		print(impulse)
+
+		axis(4, col="yellow3", line=axisLineRight, padj=-.5)
+                mtext(paste(translateToPrint("Impulse"),"(N*s)"), side=4, line=(axisLineRight-1))
+                axisLineRight = axisLineRight +3
+	}
+
+	#Work
+	#aqui cal la força instantania, per tant caldria modificar el kinematicsF
+	#work <- paf[,findPosInPaf("Force","")] * height
+	#par(new=T)
+        #plot(bp[2,],height,type="p",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(height)),axes=F,xlab="",ylab="",col="gray")
         #time to peak power
         if(showTTPP) {
                 par(new=T, xpd=T)
@@ -1298,8 +1323,8 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, 
                 par(new=T)
                 plot(bp[2,],height,type="p",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(height)),axes=F,xlab="",ylab="",col="green")
                 
-                abline(h=max(height),lty=2, col="green")
-                abline(h=min(height),lty=2, col="green")
+                #abline(h=max(height),lty=2, col="green")
+                #abline(h=min(height),lty=2, col="green")
                 #text(max(bp[,2]),max(height),max(height),adj=c(0,.5),cex=0.8)
                 axis(4, col="green", line=axisLineRight, padj=-.5)
                 mtext(paste(translateToPrint("Range"),"(cm)"), side=4, line=(axisLineRight-1))
@@ -1322,25 +1347,6 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, 
                 }
         }
 
-	showImpulse = T
-
-	if(showImpulse) {
-		#Impulse
-		#impulse = avg force of all the phase * time of the phase in seconds
-		print("totalTime (s):")
-		print(totalTime / 1000.0)
-		impulse <- paf[,findPosInPaf("Force","")] * ( totalTime / 1000.0 )
-		par(new=T)
-		plot(bp[2,],impulse,type="p",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(impulse)),axes=F,xlab="",ylab="",col="yellow3")
-		print("impulse") #terminal
-		print(impulse)
-	}
-
-	#Work
-	#aqui cal la força instantania
-	#work <- paf[,findPosInPaf("Force","")] * height
-	#par(new=T)
-        #plot(bp[2,],height,type="p",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(height)),axes=F,xlab="",ylab="",col="gray")
 
         # 4.- legend ------------------------------------------------
 
@@ -1350,44 +1356,44 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, 
         pch=c(15,15)
         graphColors=c(pafColors[1],pafColors[2])
 
-	ncol=2
+	#ncol=2
         
 	if(showImpulse) {
                 legendText = c(legendText, translateToPrint("Impulse"))
-                lty=c(lty,NA)
-                lwd=c(lwd,2)
-                pch=c(pch,1)
-                graphColors=c(graphColors,"yellow3")
-		ncol = ncol +1
-	}
-        if(showTTPP) {
-                #legendText = c(legendText, paste(translateToPrint("Time to Peak Power"),"    ",sep=""))
-                legendText = c(legendText, translateToPrint("Time to Peak Power"))
-                #legendText = c(legendText, translateToPrint("Time to\nPeak Power"))
                 lty=c(lty,1)
                 lwd=c(lwd,2)
                 pch=c(pch,NA)
-                graphColors=c(graphColors,pafColors[3])
-		ncol = ncol +1
-        }
+                graphColors=c(graphColors,"yellow3")
+		#ncol = ncol +1
+	}
         if(showRange) {
                 legendText = c(legendText, translateToPrint("Range"))
                 lty=c(lty,1)
                 lwd=c(lwd,2)
                 pch=c(pch,NA)
                 graphColors=c(graphColors,"green")
-		ncol = ncol +1
+		#ncol = ncol +1
         }
-        
+        if(showTTPP) {
+                #legendText = c(legendText, paste(translateToPrint("Time to Peak Power"),"    ",sep=""))
+                #legendText = c(legendText, translateToPrint("Time to Peak Power"))
+                legendText = c(legendText, translateToPrint("Time to\nPeak Power")) #TODO: fix this
+                lty=c(lty,1)
+                lwd=c(lwd,2)
+                pch=c(pch,NA)
+                graphColors=c(graphColors,pafColors[3])
+		#ncol = ncol +1
+        }
+
         #plot legend on top exactly out
         #http://stackoverflow.com/a/7322792
         rng=par("usr")
         lg = legend(rng[1], rng[2],
                     col=graphColors, lty=lty, lwd=lwd, pch=pch, 
-                    legend=legendText, ncol=ncol, bty="n", plot=F)
-        legend(rng[1], rng[4]+1.25*lg$rect$h,
+                    legend=legendText, horiz=T, bty="n", plot=F)
+        legend(rng[1], rng[4]+1.10*lg$rect$h, #usually 1.25, here 1.10 to have it below
                col=graphColors, lty=lty, lwd=lwd, pch=pch, 
-               legend=legendText, ncol=ncol, bty="n", plot=T, xpd=NA)
+               legend=legendText, horiz=T, bty="n", plot=T, xpd=NA)
 }
 
 #see paf for more info
@@ -3376,8 +3382,9 @@ doProcess <- function(options)
 							ecconVector,
                                                         curvesHeight,			#height 
                                                         n, 
-                                                        (op$AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
-                                                        (op$AnalysisVariables[2] == "Range"), 		#show range
+                                                        (op$AnalysisVariables[1] == "Impulse"), 	#show impulse
+                                                        (op$AnalysisVariables[2] == "TimeToPeakPower"), #show time to pp
+                                                        (op$AnalysisVariables[3] == "Range"), 		#show range
 							curves[,2]-curves[,1] 				#totalTime
                                 )		
                         else 
@@ -3386,8 +3393,9 @@ doProcess <- function(options)
 							ecconVector,
                                                         curvesHeight,			#height 
                                                         n, 
-                                                        (op$AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
-                                                        (op$AnalysisVariables[2] == "Range"), 		#show range
+                                                        (op$AnalysisVariables[1] == "Impulse"), 	#show impulse
+                                                        (op$AnalysisVariables[2] == "TimeToPeakPower"), #show time to pp
+                                                        (op$AnalysisVariables[3] == "Range"), 		#show range
 							curves[,2]-curves[,1] 				#totalTime
                                 ) 
                 }

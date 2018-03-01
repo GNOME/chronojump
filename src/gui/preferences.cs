@@ -220,6 +220,8 @@ public class PreferencesWindow
 	[Widget] Gtk.Label label_advanced_feedback;
 	[Widget] Gtk.ToggleButton toggle_gc_collect_on_close;
 	[Widget] Gtk.ToggleButton toggle_never_close;
+	[Widget] Gtk.VBox vbox_version;
+	[Widget] Gtk.Label label_progVersion;
 
 
 	[Widget] Gtk.Button button_accept;
@@ -263,14 +265,21 @@ public class PreferencesWindow
 	}
 	
 	static public PreferencesWindow Show (Preferences preferences, List <ForceSensorRFD> rfdList, ForceSensorImpulse impulse,
-			Constants.Menuitem_modes menu_mode, bool compujump)
+			Constants.Menuitem_modes menu_mode, bool compujump, string progVersion)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
 		}
 
 		if(compujump)
+		{
 			PreferencesWindowBox.check_appearance_person_win_hide.Sensitive = false;
+
+			//show version
+			PreferencesWindowBox.vbox_version.Visible = true;
+			PreferencesWindowBox.label_progVersion.Text = "<b>" + progVersion + "</b>";
+			PreferencesWindowBox.label_progVersion.UseMarkup = true;
+		}
 
 		if(menu_mode !=	Constants.Menuitem_modes.JUMPSSIMPLE && menu_mode != Constants.Menuitem_modes.JUMPSREACTIVE)
 			PreferencesWindowBox.notebook.GetNthPage(JUMPSPAGE).Hide();

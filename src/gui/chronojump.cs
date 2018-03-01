@@ -2909,7 +2909,7 @@ public partial class ChronoJumpWindow
 
 	private void on_preferences_activate (object o, EventArgs args) 
 	{
-		preferencesWin = PreferencesWindow.Show(preferences, rfdList, impulse, current_menuitem_mode, configChronojump.Compujump);
+		preferencesWin = PreferencesWindow.Show(preferences, rfdList, impulse, current_menuitem_mode, configChronojump.Compujump, progVersion);
 		
 		preferencesWin.FakeButtonImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);

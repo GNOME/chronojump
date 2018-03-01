@@ -2399,20 +2399,59 @@ public partial class ChronoJumpWindow
 
 	private void on_button_encoder_analyze_clicked (object o, EventArgs args) 
 	{
-		//if userCurves and no data, return
-		if( ! radio_encoder_analyze_individual_current_set.Active)
+		if(radio_encoder_analyze_individual_current_session.Active)
 		{
+			//if current session and no data of this person and session, return
 			ArrayList data = SqliteEncoder.Select(
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
-					getExerciseIDFromCombo(exerciseCombos.ANALYZE), "curve", EncoderSQL.Eccons.ALL, 
+					getExerciseIDFromCombo(exerciseCombos.ANALYZE), "curve", EncoderSQL.Eccons.ALL,
 					false, true);
 
 			if(data.Count == 0) {
-				new DialogMessage(Constants.MessageTypes.WARNING, 
+				new DialogMessage(Constants.MessageTypes.WARNING,
 						Catalog.GetString("Sorry, no repetitions selected."));
 				return;
 			}
+
+			//1RM can be individual current set or individual current session
+			//cannot do 1RM with different exercises (individual current session)
+			if(encoderSelectedAnalysis == "1RM")
+			{
+				string nameTemp = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
+						encoderAnalyze1RMTranslation);
+				if(
+						nameTemp == "1RM Any exercise" ||
+						nameTemp == Catalog.GetString("1RM Any exercise") ||
+						nameTemp == "1RM Bench Press" ||
+						nameTemp == Catalog.GetString("1RM Bench Press") ||
+						nameTemp == "1RM Squat" ||
+						nameTemp == Catalog.GetString("1RM Squat")
+						//no 1RM Indirect because cannot be done with saved curves
+				  ) {
+					bool differentExercises = false;
+					string oldExName = "";
+					foreach(EncoderSQL eSQL in data)
+					{
+						if(eSQL.status == "inactive")
+							continue;
+
+						string exName = eSQL.exerciseName;
+						if(oldExName != "" && exName != oldExName)
+							differentExercises = true;
+						oldExName = exName;
+					}
+					if(differentExercises) {
+						new DialogMessage(Constants.MessageTypes.WARNING,
+								Catalog.GetString("Sorry, cannot calculate 1RM of different exercises.") + "\n" +
+								Catalog.GetString("Please select repetitions of only one exercise type."));
+						return;
+					}
+				}
+			}
+		} //end individual current session
 		
+		if( ! radio_encoder_analyze_individual_current_set.Active)
+		{
 			//cannot do inter/intra person with some cross graphs
 			if(encoderSelectedAnalysis == "cross")
 			{
@@ -2444,9 +2483,9 @@ public partial class ChronoJumpWindow
 				if((radio_encoder_analyze_individual_all_sessions.Active ||
 						radio_encoder_analyze_groupal_current_session.Active) &&
 						(
-						 nameTemp == "1RM Any exercise" || 
+						 nameTemp == "1RM Any exercise" ||
 						 nameTemp == Catalog.GetString("1RM Any exercise") ||
-						 nameTemp == "1RM Bench Press" || 
+						 nameTemp == "1RM Bench Press" ||
 						 nameTemp == Catalog.GetString("1RM Bench Press") ||
 						 nameTemp == "1RM Squat" ||
 						 nameTemp == Catalog.GetString("1RM Squat")
@@ -2464,35 +2503,6 @@ public partial class ChronoJumpWindow
 					return;
 				}
 				
-				//cannot do 1RM with different exercises
-				if(
-						nameTemp == "1RM Any exercise" || 
-						nameTemp == Catalog.GetString("1RM Any exercise") ||
-						nameTemp == "1RM Bench Press" || 
-						nameTemp == Catalog.GetString("1RM Bench Press") ||
-						nameTemp == "1RM Squat" ||
-						nameTemp == Catalog.GetString("1RM Squat")
-						//no 1RM Indirect because cannot be done with saved curves
-				  ) {
-					bool differentExercises = false;
-					string oldExName = "";
-					foreach(EncoderSQL eSQL in data) 
-					{
-						if(eSQL.status == "inactive")
-							continue;
-
-						string exName = eSQL.exerciseName;
-						if(oldExName != "" && exName != oldExName)
-							differentExercises = true;
-						oldExName = exName;
-					}
-					if(differentExercises) {
-						new DialogMessage(Constants.MessageTypes.WARNING, 
-								Catalog.GetString("Sorry, cannot calculate 1RM of different exercises.") + "\n" + 
-								Catalog.GetString("Please select repetitions of only one exercise type."));
-						return;
-					}
-				}
 			}
 		}
 

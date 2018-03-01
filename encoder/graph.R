@@ -1238,8 +1238,6 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, 
         #	lowerY = 0
         lowerY = 0
 
-	#showImpulse = T
-
         marginRight = 9
         if(! showImpulse)
                 marginRight = marginRight -3

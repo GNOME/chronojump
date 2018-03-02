@@ -1439,6 +1439,9 @@ public partial class ChronoJumpWindow
 	//not called on current_set
 	void prepareAnalyzeRepetitions () 
 	{
+		if(currentPerson == null)
+			return;
+
 		if(radio_encoder_analyze_individual_current_session.Active) 
 		{
 			if(encSelReps == null || encSelReps.Type != EncoderSelectRepetitions.Types.INDIVIDUAL_CURRENT_SESSION)
@@ -4392,8 +4395,10 @@ public partial class ChronoJumpWindow
 	{
 		if(radio_encoder_analyze_individual_current_set.Active)
 			updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
-		else
-			prepareAnalyzeRepetitions();
+		else {
+			if(currentPerson != null)
+				prepareAnalyzeRepetitions();
+		}
 	
 		//blank the encoderCaptureListStore
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));

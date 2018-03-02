@@ -7109,7 +7109,8 @@ LogB.Debug("X");
 		button_execute_test.Sensitive = false;
 		
 		encoderButtonsSensitive(encoderSensEnum.NOPERSON);
-		personChanged();
+		//don't cal personChanged because it will make changes on analyze repetitions and currentPerson == null
+		//personChanged();
 		
 		notebook_execute.Sensitive = false;
 		notebook_analyze.Sensitive = false;

@@ -1310,17 +1310,17 @@ LogB.Information(" fc R ");
 	double lastChangedTime; //changeSlideCode
 	private void changeSlideIfNeeded(int time, double force)
 	{
-		if(force > 100) {
+		if(force > 75) {
 			//changeSlide if one second or more elapsed since last change
-			if(time - lastChangedTime >= 1)
+			if(time - lastChangedTime >= 1000000)
 			{
 				changeSlide(true);
 				lastChangedTime = time;
 			}
 		}
-		if(force < -100) {
+		if(force < -75) {
 			//changeSlide if one second or more elapsed since last change
-			if(time - lastChangedTime >= 1)
+			if(time - lastChangedTime >= 1000000)
 			{
 				changeSlide(false);
 				lastChangedTime = time;

@@ -658,9 +658,9 @@ public partial class ChronoJumpWindow
 		if(encGI == Constants.EncoderGI.GRAVITATORY)
 		{
 			//TODO: do a regression to find maxPower with a value of extraWeight unused
-			int extraWeight = Convert.ToInt32(spin_encoder_extra_weight.Value);
+			double extraWeight = Convert.ToDouble(spin_encoder_extra_weight.Value);
 			foreach(EncoderSQL es in arrayTemp)
-				if(Convert.ToInt32(es.extraWeight) == extraWeight && Convert.ToDouble(es.future1) > maxPower)
+				if(Convert.ToDouble(es.extraWeight) == extraWeight && Convert.ToDouble(es.future1) > maxPower)
 					maxPower = Convert.ToDouble(es.future1);
 		}
 		else if(encGI == Constants.EncoderGI.INERTIAL)
@@ -794,7 +794,7 @@ public partial class ChronoJumpWindow
 
 		//4 mass / weights
 		string mass = SqlitePreferences.Select(SqlitePreferences.EncoderMassGravitatory, true);
-		entry_raspberry_extra_weight.Text = mass;
+		spin_encoder_extra_weight.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(mass));
 
 		string weights = SqlitePreferences.Select(SqlitePreferences.EncoderWeightsInertial, true);
 		entry_encoder_im_weights_n.Text = weights;
@@ -974,29 +974,29 @@ public partial class ChronoJumpWindow
 	}
 	
 	void on_button_encoder_raspberry_extra_weight_minus_10_clicked (object o, EventArgs args) {
-		rapsberryChangeExtraWeight(-10);
+		encoderCaptureChangeExtraWeight(-10);
 	}
 	void on_button_encoder_raspberry_extra_weight_minus_1_clicked (object o, EventArgs args) {
-		rapsberryChangeExtraWeight(-1);
+		encoderCaptureChangeExtraWeight(-1);
 	}
 	void on_button_encoder_raspberry_extra_weight_plus_10_clicked (object o, EventArgs args) {
-		rapsberryChangeExtraWeight(+10);
+		encoderCaptureChangeExtraWeight(+10);
 	}
 	void on_button_encoder_raspberry_extra_weight_plus_1_clicked (object o, EventArgs args) {
-		rapsberryChangeExtraWeight(+1);
+		encoderCaptureChangeExtraWeight(+1);
 	}
-	void rapsberryChangeExtraWeight(int change) {
-		/*
-		 * don't change spin to avoid circular problems
-		 * spin_encoder_extra_weight.Value += change;
-		 * change the entry
-		 * */
-		int newValue = Convert.ToInt32(entry_raspberry_extra_weight.Text) + change;
+	void encoderCaptureChangeExtraWeight(int change)
+	{
+		double newValue = spin_encoder_extra_weight.Value + change;
 
 		double min, max;
 		spin_encoder_extra_weight.GetRange(out min, out max);
-		if(newValue >= Convert.ToDouble(min) && newValue <= Convert.ToDouble(max))
-			entry_raspberry_extra_weight.Text = newValue.ToString();
+		if(newValue < min)
+			spin_encoder_extra_weight.Value = min;
+		else if(newValue > max)
+			spin_encoder_extra_weight.Value = max;
+		else
+			spin_encoder_extra_weight.Value = newValue;
 	}
 
 	void on_spin_encoder_extra_weight_value_changed (object o, EventArgs args) 
@@ -1006,42 +1006,14 @@ public partial class ChronoJumpWindow
 		//because then we will be calling SQL at each spinbutton increment
 
 		encoder_change_displaced_weight_and_1RM ();
-	}
-	void on_entry_raspberry_extra_weight_changed (object o, EventArgs args) 
-	{
-		if(entry_raspberry_extra_weight.Text == "" || entry_raspberry_extra_weight.Text == "00")
-		{
-			//if introduced data is empty: leave empty
-			entry_raspberry_extra_weight.Text = "0";
-		}
-		else if(! Util.IsNumber(entry_raspberry_extra_weight.Text, false)) //cannot be decimal
-		{
-			//if introduced data is not number: put old data
-			entry_raspberry_extra_weight.Text = spin_encoder_extra_weight.Value.ToString();
-		}
-		else {
-			//everything is ok: put new data
-			//but if weight is out of range, use min or max
-			int weight = Convert.ToInt32(entry_raspberry_extra_weight.Text);
-			double min = 0;
-			double max = 0;
-			spin_encoder_extra_weight.GetRange(out min, out max);
-			if(weight < min)
-				entry_raspberry_extra_weight.Text = min.ToString();
-			else if(weight > max)
-				entry_raspberry_extra_weight.Text = max.ToString();
-			else
-				spin_encoder_extra_weight.Value = weight;
-		}
 
-		//update top label
-		label_encoder_top_extra_mass.Text = entry_raspberry_extra_weight.Text + " Kg";
+		label_encoder_top_extra_mass.Text = Util.TrimDecimals(spin_encoder_extra_weight.Value, 2) + " Kg";
 	}
 
 	void encoder_change_displaced_weight_and_1RM () 
 	{
 		//displaced weight
-		label_encoder_displaced_weight.Text = (findMass(Constants.MassType.DISPLACED)).ToString();
+		label_encoder_displaced_weight.Text = Util.TrimDecimals(findMass(Constants.MassType.DISPLACED),2);
 
 		double load1RM = 0;
 		if(array1RM.Count > 0)
@@ -1665,7 +1637,7 @@ public partial class ChronoJumpWindow
 				else //if(eSQL.laterality == Catalog.GetString("L"))
 					radio_encoder_laterality_l.Active = true;
 
-				entry_raspberry_extra_weight.Text = Convert.ToInt32(eSQL.extraWeight).ToString();
+				spin_encoder_extra_weight.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(eSQL.extraWeight));
 
 				preferences.EncoderChangeMinHeight(eSQL.encoderConfiguration.has_inertia, eSQL.minHeight);
 				//TODO: show info to user in a dialog,
@@ -3613,7 +3585,7 @@ public partial class ChronoJumpWindow
 		setEcconPixbuf();
 		setLateralityPixbuf();
 
-		label_encoder_top_extra_mass.Text = entry_raspberry_extra_weight.Text + " Kg";
+		label_encoder_top_extra_mass.Text = spin_encoder_extra_weight.Value + " Kg";
 
 		if(label_encoder_1RM_percent.Text == "")
 			label_encoder_top_1RM_percent.Text = "";

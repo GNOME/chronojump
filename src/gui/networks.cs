@@ -44,7 +44,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_rfid_encoder;
 	
 	//better raspberry controls
-	[Widget] Gtk.Entry entry_raspberry_extra_weight;
 	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_no_raspberry;
 	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_raspberry;
 	[Widget] Gtk.HBox hbox_encoder_im_weights_n;
@@ -767,7 +766,7 @@ public partial class ChronoJumpWindow
 
 		Pixbuf pixbuf;
 		if(task.Load > 0)
-			entry_raspberry_extra_weight.Text = Convert.ToInt32(task.Load).ToString();
+			spin_encoder_extra_weight.Value = Convert.ToDouble(task.Load);
 
 		if(task.Speed > 0) {
 			repetitiveConditionsWin.EncoderMeanSpeedHigherValue = task.Speed;

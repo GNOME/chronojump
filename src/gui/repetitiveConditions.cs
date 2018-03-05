@@ -72,9 +72,11 @@ public class RepetitiveConditionsWindow
 
 	/* encoder */
 	[Widget] Gtk.Frame frame_encoder_automatic_conditions;
+	[Widget] Gtk.HBox hbox_combo_encoder_main_variable;
+	[Widget] Gtk.ComboBox combo_encoder_main_variable;
 	[Widget] Gtk.RadioButton radio_encoder_relative_to_set;
-	[Widget] Gtk.HBox hbox_combo_encoder_variable_automatic;
-	[Widget] Gtk.ComboBox combo_encoder_variable_automatic;
+	[Widget] Gtk.RadioButton radio_encoder_relative_to_historical;
+	[Widget] Gtk.Label label_main_variable_text;
 	[Widget] Gtk.CheckButton checkbutton_encoder_automatic_greater;
 	[Widget] Gtk.CheckButton checkbutton_encoder_automatic_lower;
 	[Widget] Gtk.SpinButton spinbutton_encoder_automatic_greater;
@@ -205,7 +207,8 @@ public class RepetitiveConditionsWindow
 		
 		FakeButtonClose = new Gtk.Button();
 		
-		createComboEncoderAutomaticVariable();
+		//createComboEncoderAutomaticVariable();
+		createComboEncoderMainVariable();
 
 		bestSetValueCaptureMainVariable = 0;
 		bestSetValueCaptureMainVariable = 0;
@@ -229,20 +232,20 @@ public class RepetitiveConditionsWindow
 	}
 	
 	public void View (Constants.BellModes bellMode, bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			EncoderRhythm encoderRhythm)
+			Constants.EncoderVariablesCapture encoderMainVariable, EncoderRhythm encoderRhythm)
 	{
 		//when user "deleted_event" the window
 		if (RepetitiveConditionsWindowBox == null) {
 			RepetitiveConditionsWindowBox = new RepetitiveConditionsWindow (); 
 		}
-		RepetitiveConditionsWindowBox.showWidgets(bellMode, encoderRhythm);
+		RepetitiveConditionsWindowBox.showWidgets(bellMode, encoderMainVariable, encoderRhythm);
 
 		RepetitiveConditionsWindowBox.repetitive_conditions.Show ();
 		RepetitiveConditionsWindowBox.volumeOn = volumeOn;
 		RepetitiveConditionsWindowBox.gstreamer = gstreamer;
 	}
 
-	void showWidgets(Constants.BellModes bellMode, EncoderRhythm encoderRhythm)
+	void showWidgets(Constants.BellModes bellMode, Constants.EncoderVariablesCapture encoderMainVariable, EncoderRhythm encoderRhythm)
 	{
 		frame_best_and_worst.Hide();
 		frame_conditions.Hide();
@@ -279,6 +282,9 @@ public class RepetitiveConditionsWindow
 			if(bellMode == Constants.BellModes.ENCODERINERTIAL)
 				checkbutton_inertial_discard_first_three.Show();
 
+			combo_encoder_main_variable.Active = UtilGtk.ComboMakeActive(combo_encoder_main_variable,
+					Constants.GetEncoderVariablesCapture(encoderMainVariable));
+
 			notebook_main.GetNthPage(RHYTHMPAGE).Show();
 			encoder_rhythm_set_values(encoderRhythm);
 		}
@@ -286,31 +292,34 @@ public class RepetitiveConditionsWindow
 		label_test_sound_result.Text = "";
 	}
 		
-	private void createComboEncoderAutomaticVariable()
+	private void createComboEncoderMainVariable()
 	{
-		combo_encoder_variable_automatic = ComboBox.NewText ();
+		combo_encoder_main_variable = ComboBox.NewText ();
 
-		comboEncoderAutomaticVariableFillThisSet();
+		comboEncoderMainVariableFill();
 
-		hbox_combo_encoder_variable_automatic.PackStart(combo_encoder_variable_automatic, false, false, 0);
-		hbox_combo_encoder_variable_automatic.ShowAll();
-		combo_encoder_variable_automatic.Sensitive = true;
+		hbox_combo_encoder_main_variable.PackStart(combo_encoder_main_variable, false, false, 0);
+		hbox_combo_encoder_main_variable.ShowAll();
+		combo_encoder_main_variable.Sensitive = true;
+		combo_encoder_main_variable.Changed += new EventHandler (on_combo_encoder_main_variable_changed);
 	}
-	//all values
-	private void comboEncoderAutomaticVariableFillThisSet()
+
+	private void comboEncoderMainVariableFill()
 	{
 		string [] values = { Constants.MeanSpeed, Constants.MaxSpeed, Constants.MeanForce, Constants.MaxForce, Constants.MeanPower, Constants.PeakPower };
 
-		UtilGtk.ComboUpdate(combo_encoder_variable_automatic, values, "");
-		combo_encoder_variable_automatic.Active = UtilGtk.ComboMakeActive(combo_encoder_variable_automatic, "Mean power");
+		UtilGtk.ComboUpdate(combo_encoder_main_variable, values, "");
 	}
-	//currently only power
-	private void comboEncoderAutomaticVariableFillHistorical()
-	{
-		string [] values = { Constants.MeanPower };
 
-		UtilGtk.ComboUpdate(combo_encoder_variable_automatic, values, "");
-		combo_encoder_variable_automatic.Active = UtilGtk.ComboMakeActive(combo_encoder_variable_automatic, "Mean power");
+	private void on_combo_encoder_main_variable_changed (object o, EventArgs args)
+	{
+		string mainVariable = UtilGtk.ComboGetActive(combo_encoder_main_variable);
+
+		radio_encoder_relative_to_historical.Visible = (mainVariable == "Mean power");
+		if(mainVariable != "Mean power")
+			radio_encoder_relative_to_set.Active = true;
+
+		label_main_variable_text.Text = mainVariable;
 	}
 
 	private void putNonStandardIcons() {
@@ -476,10 +485,12 @@ public class RepetitiveConditionsWindow
 
 	void on_radio_encoder_relative_to_toggled (object o, EventArgs args)
 	{
+		/*
 		if(radio_encoder_relative_to_set.Active)
 			comboEncoderAutomaticVariableFillThisSet();
 		else
 			comboEncoderAutomaticVariableFillHistorical();
+			*/
 	}
 
 
@@ -565,20 +576,20 @@ public class RepetitiveConditionsWindow
 	public void UpdateBestSetValue (EncoderCurve curve)
 	{
 		BestSetValueEnum b = BestSetValueEnum.AUTOMATIC_FEEDBACK;
-		string autoVar = encoderAutomaticVariable;
+		string encoderVar = GetMainVariable;
 		if(encoderAutomaticHigher || encoderAutomaticLower) 
 		{
-			if(autoVar == Constants.MeanSpeed)
+			if(encoderVar == Constants.MeanSpeed)
 				UpdateBestSetValue(b, curve.MeanSpeedD);
-			else if(autoVar == Constants.MaxSpeed)
+			else if(encoderVar == Constants.MaxSpeed)
 				UpdateBestSetValue(b, curve.MaxSpeedD);
-			else if(autoVar == Constants.MeanPower)
+			else if(encoderVar == Constants.MeanPower)
 				UpdateBestSetValue(b, curve.MeanPowerD);
-			else if(autoVar == Constants.PeakPower)
+			else if(encoderVar == Constants.PeakPower)
 				UpdateBestSetValue(b, curve.PeakPowerD);
-			else if(autoVar == Constants.MeanForce)
+			else if(encoderVar == Constants.MeanForce)
 				UpdateBestSetValue(b, curve.MeanForceD);
-			else if(autoVar == Constants.MaxForce)
+			else if(encoderVar == Constants.MaxForce)
 				UpdateBestSetValue(b, curve.MaxForceD);
 		}
 	}
@@ -598,7 +609,7 @@ public class RepetitiveConditionsWindow
 	//called from gui/encoderTreeviews.cs
 	public string AssignColorAutomatic(BestSetValueEnum b, EncoderCurve curve, string variable)
 	{
-		if(encoderAutomaticVariable != variable)
+		if(GetMainVariable != variable)
 			return UtilGtk.ColorNothing;
 
 		double currentValue = curve.GetParameter(variable);
@@ -834,10 +845,6 @@ public class RepetitiveConditionsWindow
 	/* ENCODER */
 	//automatic
 
-	private string encoderAutomaticVariable {
-		get { return UtilGtk.ComboGetActive(combo_encoder_variable_automatic); }
-	}
-
 	private bool encoderAutomaticHigher {
 		get { return checkbutton_encoder_automatic_greater.Active; }
 	}
@@ -853,6 +860,10 @@ public class RepetitiveConditionsWindow
 
 	public bool EncoderRelativeToSet {
 		get { return radio_encoder_relative_to_set.Active; }
+	}
+
+	public string GetMainVariable {
+		get { return UtilGtk.ComboGetActive(combo_encoder_main_variable); }
 	}
 
 	public double GetMainVariableHigher(string mainVariable) 

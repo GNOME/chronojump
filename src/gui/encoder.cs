@@ -614,10 +614,12 @@ public partial class ChronoJumpWindow
 	{
 		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY)
 			repetitiveConditionsWin.View(Constants.BellModes.ENCODERGRAVITATORY,
-					preferences.volumeOn, preferences.gstreamer, encoderRhythm);
+					preferences.volumeOn, preferences.gstreamer,
+					preferences.encoderCaptureMainVariable, encoderRhythm);
 		else
 			repetitiveConditionsWin.View(Constants.BellModes.ENCODERINERTIAL,
-					preferences.volumeOn, preferences.gstreamer, encoderRhythm);
+					preferences.volumeOn, preferences.gstreamer,
+					preferences.encoderCaptureMainVariable, encoderRhythm);
 	}
 
 	/*

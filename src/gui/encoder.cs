@@ -1010,12 +1010,31 @@ public partial class ChronoJumpWindow
 	void on_entry_raspberry_extra_weight_changed (object o, EventArgs args) 
 	{
 		if(entry_raspberry_extra_weight.Text == "" || entry_raspberry_extra_weight.Text == "00")
+		{
+			//if introduced data is empty: leave empty
 			entry_raspberry_extra_weight.Text = "0";
-		else if(Util.IsNumber(entry_raspberry_extra_weight.Text, false)) //cannot be decimal
-			spin_encoder_extra_weight.Value = Convert.ToInt32(entry_raspberry_extra_weight.Text);
-		else
+		}
+		else if(! Util.IsNumber(entry_raspberry_extra_weight.Text, false)) //cannot be decimal
+		{
+			//if introduced data is not number: put old data
 			entry_raspberry_extra_weight.Text = spin_encoder_extra_weight.Value.ToString();
+		}
+		else {
+			//everything is ok: put new data
+			//but if weight is out of range, use min or max
+			int weight = Convert.ToInt32(entry_raspberry_extra_weight.Text);
+			double min = 0;
+			double max = 0;
+			spin_encoder_extra_weight.GetRange(out min, out max);
+			if(weight < min)
+				entry_raspberry_extra_weight.Text = min.ToString();
+			else if(weight > max)
+				entry_raspberry_extra_weight.Text = max.ToString();
+			else
+				spin_encoder_extra_weight.Value = weight;
+		}
 
+		//update top label
 		label_encoder_top_extra_mass.Text = entry_raspberry_extra_weight.Text + " Kg";
 	}
 

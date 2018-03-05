@@ -6828,11 +6828,13 @@ LogB.Debug("X");
 	}
 		
 	private void on_button_rj_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(Constants.BellModes.JUMPS, preferences.volumeOn, preferences.gstreamer, encoderRhythm);
+		repetitiveConditionsWin.View(Constants.BellModes.JUMPS, preferences.volumeOn, preferences.gstreamer,
+				preferences.encoderCaptureMainVariable, encoderRhythm);
 	}
 
 	private void on_button_time_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(Constants.BellModes.RUNS, preferences.volumeOn, preferences.gstreamer, encoderRhythm);
+		repetitiveConditionsWin.View(Constants.BellModes.RUNS, preferences.volumeOn, preferences.gstreamer,
+				preferences.encoderCaptureMainVariable, encoderRhythm);
 	}
 	
 	private void on_repetitive_conditions_closed(object o, EventArgs args)
@@ -6871,6 +6873,13 @@ LogB.Debug("X");
 
 			image_encoder_bell.Pixbuf = pixbuf;
 
+			Constants.EncoderVariablesCapture mainVariable = Constants.SetEncoderVariablesCapture(
+					repetitiveConditionsWin.GetMainVariable);
+			if( preferences.encoderCaptureMainVariable != mainVariable ) {
+				SqlitePreferences.Update("encoderCaptureMainVariable", mainVariable.ToString(), false);
+				preferences.encoderCaptureMainVariable = mainVariable;
+			}
+			string mainVariableStr = mainVariable.ToString();
 
 			//treeview_encoder should be updated (to colorize some cells)
 			//only if there was data
@@ -6884,10 +6893,10 @@ LogB.Debug("X");
 
 				//also update the bars plot (to show colors depending on bells changes)
 				if(captureCurvesBarsData.Count > 0) {
-					string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
-					double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
-					double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
-					plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
+//					string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
+					double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariableStr);
+					double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariableStr);
+					plotCurvesGraphDoPlot(mainVariableStr, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
 							repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
 							false);	//not capturing
 				} else

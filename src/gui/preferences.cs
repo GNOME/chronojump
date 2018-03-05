@@ -106,8 +106,6 @@ public class PreferencesWindow
 	//encoder capture tab
 	[Widget] Gtk.SpinButton spin_encoder_capture_time;
 	[Widget] Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
-	[Widget] Gtk.Box hbox_combo_main_variable;
-	[Widget] Gtk.ComboBox combo_main_variable;
 	[Widget] Gtk.Image image_encoder_gravitatory;
 	[Widget] Gtk.Image image_encoder_inertial;
 	[Widget] Gtk.Image image_encoder_triggers;
@@ -475,9 +473,6 @@ public class PreferencesWindow
 		//encoder capture -->
 		PreferencesWindowBox.spin_encoder_capture_time.Value = preferences.encoderCaptureTime;
 		PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value = preferences.encoderCaptureInactivityEndTime;
-		
-		PreferencesWindowBox.createComboEncoderCaptureMainVariable(
-				Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_gravity.png");
 		PreferencesWindowBox.image_encoder_gravitatory.Pixbuf = pixbuf;
@@ -618,18 +613,6 @@ public class PreferencesWindow
 	 * end of triggers stuff
 	 */
 
-	private void createComboEncoderCaptureMainVariable(string v) {
-		combo_main_variable = ComboBox.NewText ();
-		string [] values = Constants.EncoderVariablesCaptureList;
-		UtilGtk.ComboUpdate(combo_main_variable, values, "");
-		combo_main_variable.Active = UtilGtk.ComboMakeActive(combo_main_variable, v.ToString());
-		
-		hbox_combo_main_variable.PackStart(combo_main_variable, false, false, 0);
-		hbox_combo_main_variable.ShowAll();
-		combo_main_variable.Sensitive = true;
-	}
-
-	
 	private void createComboCamera(string [] devices, int current) {
 		combo_camera = ComboBox.NewText ();
 
@@ -1685,14 +1668,7 @@ public class PreferencesWindow
 				preferences.encoderCaptureInactivityEndTime,
 				(int) PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value);
 
-	
-		Constants.EncoderVariablesCapture mainVariable = Constants.SetEncoderVariablesCapture(
-				UtilGtk.ComboGetActive(PreferencesWindowBox.combo_main_variable));
-		if( preferences.encoderCaptureMainVariable != mainVariable ) {
-			SqlitePreferences.Update("encoderCaptureMainVariable", mainVariable.ToString(), true);
-			preferences.encoderCaptureMainVariable = mainVariable;
-		}
-		
+
 		preferences.encoderCaptureMinHeightGravitatory = preferencesChange(
 				"encoderCaptureMinHeightGravitatory",
 				preferences.encoderCaptureMinHeightGravitatory,

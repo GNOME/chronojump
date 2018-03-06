@@ -6876,10 +6876,10 @@ LogB.Debug("X");
 			Constants.EncoderVariablesCapture mainVariable = Constants.SetEncoderVariablesCapture(
 					repetitiveConditionsWin.GetMainVariable);
 			if( preferences.encoderCaptureMainVariable != mainVariable ) {
-				SqlitePreferences.Update("encoderCaptureMainVariable", mainVariable.ToString(), false);
+				SqlitePreferences.Update("encoderCaptureMainVariable", Constants.GetEncoderVariablesCapture(mainVariable), false);
 				preferences.encoderCaptureMainVariable = mainVariable;
 			}
-			string mainVariableStr = mainVariable.ToString();
+			string mainVariableStr = Constants.GetEncoderVariablesCapture(mainVariable);
 
 			//treeview_encoder should be updated (to colorize some cells)
 			//only if there was data

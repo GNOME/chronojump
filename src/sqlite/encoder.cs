@@ -48,7 +48,7 @@ class SqliteEncoder : Sqlite
 			"exerciseID INT, " +
 			"eccon TEXT, " +	//"c" or "ec"
 			"laterality TEXT, " +	//"RL" "R" "L". stored in english
-			"extraWeight TEXT, " +	//string because can contain "33%" or "50Kg"
+			"extraWeight TEXT, " +	//string
 			"signalOrCurve TEXT, " + //"signal" or "curve"
 			"filename TEXT, " +
 			"url TEXT, " +		//URL of data of signals and curves. stored as relative
@@ -84,7 +84,7 @@ class SqliteEncoder : Sqlite
 			" VALUES (" + es.uniqueID + ", " +
 			es.personID + ", " + es.sessionID + ", " +
 			es.exerciseID + ", \"" + es.eccon + "\", \"" +
-			es.LateralityToEnglish() + "\", \"" + es.extraWeight + "\", \"" +
+			es.LateralityToEnglish() + "\", \"" + Util.ConvertToPoint(es.extraWeight) + "\", \"" +
 			es.signalOrCurve + "\", \"" + es.filename + "\", \"" +
 			removeURLpath(es.url) + "\", " + 
 			es.time + ", " + es.minHeight + ", \"" + es.description + 
@@ -131,7 +131,7 @@ class SqliteEncoder : Sqlite
 				", exerciseID = " + es.exerciseID +
 				", eccon = \"" + es.eccon +
 				"\", laterality = \"" + es.LateralityToEnglish() +
-				"\", extraWeight = \"" + es.extraWeight +
+				"\", extraWeight = \"" + Util.ConvertToPoint(es.extraWeight) +
 				"\", signalOrCurve = \"" + es.signalOrCurve +
 				"\", filename = \"" + es.filename +
 				"\", url = \"" + removeURLpath(es.url) +
@@ -300,7 +300,7 @@ class SqliteEncoder : Sqlite
 					Convert.ToInt32(reader[3].ToString()),	//exerciseID
 					reader[4].ToString(),			//eccon
 					Catalog.GetString(reader[5].ToString()),//laterality
-					reader[6].ToString(),			//extraWeight
+					Util.ChangeDecimalSeparator(reader[6].ToString()),	//extraWeight
 					reader[7].ToString(),			//signalOrCurve
 					reader[8].ToString(),			//filename
 					addURLpath(fixOSpath(reader[9].ToString())),	//url
@@ -565,7 +565,7 @@ class SqliteEncoder : Sqlite
 					reader[0].ToString(), 	//person name
 					reader[1].ToString(), 	//person sex
 					reader[3].ToString(), 	//encoder exercise name
-					reader[4].ToString(),	//extra mass
+					Util.ChangeDecimalSeparator(reader[4].ToString()),	//extra mass
 					reader[5].ToString()	//power
 				};
 				array.Add (s);

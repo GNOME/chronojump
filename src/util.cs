@@ -30,6 +30,18 @@ using System.Globalization; 	//Unicode
 //this class tries to be a space for methods that are used in different classes
 public class Util
 {
+	/*
+	 * sometimes two doubles are similar "human eye" but different when they are compared with equal
+	 * just return true if the difference between them is lower than 0.1
+	 */
+	public static bool SimilarDouble (double a, double b)
+	{
+		if(Math.Abs(a - b) < 0.1)
+			return true;
+
+		return false;
+	}
+
 	//all numbers are saved in database with '.' as decimal separator (method for numbers)
 	public static string ConvertToPoint (double myDouble)
 	{

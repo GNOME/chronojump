@@ -661,9 +661,11 @@ public partial class ChronoJumpWindow
 		{
 			//TODO: do a regression to find maxPower with a value of extraWeight unused
 			double extraWeight = Convert.ToDouble(spin_encoder_extra_weight.Value);
-			foreach(EncoderSQL es in arrayTemp)
-				if(Convert.ToDouble(es.extraWeight) == extraWeight && Convert.ToDouble(es.future1) > maxPower)
+			foreach(EncoderSQL es in arrayTemp) {
+				if(Util.SimilarDouble(Convert.ToDouble(Util.ChangeDecimalSeparator(es.extraWeight)), extraWeight) &&
+						Convert.ToDouble(es.future1) > maxPower)
 					maxPower = Convert.ToDouble(es.future1);
+			}
 		}
 		else if(encGI == Constants.EncoderGI.INERTIAL)
 		{
@@ -6364,6 +6366,7 @@ public partial class ChronoJumpWindow
 
 
 				maxPowerIntersession = findMaxPowerIntersession();
+
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
 						repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
 						false);	//not capturing

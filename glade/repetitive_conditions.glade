@@ -1746,9 +1746,15 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <child>
-                                          <widget class="GtkLabel" id="label_main_variable_text">
+                                          <widget class="GtkAlignment" id="alignment23">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
+                                            <child>
+                                              <widget class="GtkLabel" id="label_main_variable_text">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                              </widget>
+                                            </child>
                                           </widget>
                                           <packing>
                                             <property name="expand">True</property>

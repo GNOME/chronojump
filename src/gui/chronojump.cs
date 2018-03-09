@@ -6876,7 +6876,7 @@ LogB.Debug("X");
 			Constants.EncoderVariablesCapture mainVariable = Constants.SetEncoderVariablesCapture(
 					repetitiveConditionsWin.GetMainVariable);
 			if( preferences.encoderCaptureMainVariable != mainVariable ) {
-				SqlitePreferences.Update("encoderCaptureMainVariable", Constants.GetEncoderVariablesCapture(mainVariable), false);
+				SqlitePreferences.Update("encoderCaptureMainVariable", mainVariable.ToString(), false);
 				preferences.encoderCaptureMainVariable = mainVariable;
 			}
 			string mainVariableStr = Constants.GetEncoderVariablesCapture(mainVariable);

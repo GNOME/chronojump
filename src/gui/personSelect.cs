@@ -29,6 +29,7 @@ using System.IO;
 public class PersonSelectWindow 
 {
 	[Widget] Gtk.Window person_select_window;
+	[Widget] Gtk.Notebook notebook;
 	[Widget] Gtk.Viewport viewport1;
 	[Widget] Gtk.Viewport viewport_person_name;
 	[Widget] Gtk.Table table1;
@@ -39,11 +40,17 @@ public class PersonSelectWindow
 	[Widget] Gtk.Label label_selected_person_name;
 	[Widget] Gtk.Button button_add;
 	[Widget] Gtk.Button button_load;
+	[Widget] Gtk.Button button_manage_persons;
+	[Widget] Gtk.Image image_manage_persons;
 	[Widget] Gtk.Image image_person_new;
+	[Widget] Gtk.Image image_persons_new_plus;
 	[Widget] Gtk.Image image_person_load;
+	[Widget] Gtk.Image image_persons_open_plus;
 	[Widget] Gtk.Image image_person_edit;
 	[Widget] Gtk.Image image_all_persons_events;
 	[Widget] Gtk.Image image_person_delete;
+	[Widget] Gtk.Image image_manage_persons_cancel;
+	[Widget] Gtk.HBox hbox_up_down_close;
 	[Widget] Gtk.Image image_close;
 	
 	static PersonSelectWindow PersonSelectWindowBox;
@@ -79,16 +86,25 @@ public class PersonSelectWindow
 		FakeButtonDeletePerson = new Gtk.Button();
 		FakeButtonDone = new Gtk.Button();
 
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_add.png");
+		Pixbuf pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
+		image_manage_persons.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_add.png");
 		image_person_new.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_group_add.png");
+		image_persons_new_plus.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
 		image_person_load.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_group_outline.png");
+		image_persons_open_plus.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
 		image_person_edit.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_visibility.png");
 		image_all_persons_events.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_person_delete.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		image_manage_persons_cancel.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
 		image_close.Pixbuf = pixbuf;
 	}
@@ -102,6 +118,10 @@ public class PersonSelectWindow
 		PersonSelectWindowBox.persons = persons;
 		PersonSelectWindowBox.SelectedPerson = currentPerson;
 		PersonSelectWindowBox.viewport_person_name_show_paint();
+
+		PersonSelectWindowBox.notebook.CurrentPage = 0;
+		PersonSelectWindowBox.button_manage_persons.Sensitive = true;
+		PersonSelectWindowBox.hbox_up_down_close.Sensitive = true;
 
 		PersonSelectWindowBox.createTable();
 		
@@ -122,6 +142,8 @@ public class PersonSelectWindow
 		SelectedPerson = currentPerson;
 		viewport_person_name_show_paint();
 
+		notebook.CurrentPage = 0;
+
 		LogB.Debug("Removing table");
 		table1.Visible = false;
 		removeTable();
@@ -129,10 +151,8 @@ public class PersonSelectWindow
 		LogB.Debug("Recreating table");
 		createTable();
 		table1.Visible = true;
-
 		table1.Sensitive = true;
-		button_add.Sensitive = true;
-		button_load.Sensitive = true;
+		button_manage_persons.Sensitive = true;
 
 		if(currentPerson != null)
 			assignPersonSelectedStuff(currentPerson);
@@ -163,7 +183,8 @@ public class PersonSelectWindow
 		}
 		else {
 			selectedFirstClickPersonID = SelectedPerson.UniqueID;
-			label_selected_person_name.Text = SelectedPerson.Name;
+			label_selected_person_name.Text = "<b>" + SelectedPerson.Name + "</b>";
+			label_selected_person_name.UseMarkup = true;
 		}
 
 		personButtonsSensitive(false);
@@ -261,7 +282,25 @@ public class PersonSelectWindow
 		button_show_all_events.Sensitive = sensitive;
 		button_delete.Sensitive = sensitive;
 	}
-	
+
+	private void on_button_manage_persons_clicked (object o, EventArgs args)
+	{
+		notebook.CurrentPage = 1;
+
+		personButtonsSensitive (false);
+		button_manage_persons.Sensitive = false;
+		hbox_up_down_close.Sensitive = false;
+	}
+
+	private void on_button_manage_persons_cancel_clicked (object o, EventArgs args)
+	{
+		notebook.CurrentPage = 0;
+
+		personButtonsSensitive (SelectedPerson != null);
+		button_manage_persons.Sensitive = true;
+		hbox_up_down_close.Sensitive = true;
+	}
+
 	private void on_button_add_clicked (object o, EventArgs args)
 	{
 		person_select_window.Visible = false;
@@ -271,6 +310,16 @@ public class PersonSelectWindow
 		person_select_window.Visible = false;
 		FakeButtonLoadPerson.Click();
 	}
+	private void on_button_person_add_multiple_clicked (object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.INFO, "TODO");
+	}
+	private void on_button_recuperate_persons_from_session_clicked (object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.INFO, "TODO");
+	}
+
+
 	private void on_button_edit_clicked (object o, EventArgs args) {
 		person_select_window.Visible = false;
 		FakeButtonEditPerson.Click();

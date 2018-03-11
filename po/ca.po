@@ -398,11 +398,11 @@ msgstr "Administra els temps de descans"
 
 #: ../glade/app1.glade.h:78
 msgid "Highlight rest"
-msgstr "Resalta el descans"
+msgstr "Ressalta el descans"
 
 #: ../glade/app1.glade.h:79
 msgid "Highlight longer resting times than this value"
-msgstr "Resaltar temps de descans superiors a aquest valor"
+msgstr "Ressaltar temps de descans superiors a aquest valor"
 
 #: ../glade/app1.glade.h:80 ../glade/encoder_configuration.glade.h:33
 msgid "Capture"
@@ -1900,7 +1900,7 @@ msgstr "Anglès"
 
 #: ../glade/app1.glade.h:415
 msgid "Portuguese"
-msgstr "Portugués"
+msgstr "Portuguès"
 
 #: ../glade/app1.glade.h:416
 msgid "Add comments"
@@ -2338,7 +2338,7 @@ msgid ""
 "to the center of the loads."
 msgstr ""
 "Distància del centre de l'eix\n"
-"al centre de les càrregues"
+"al centre de les càrregues."
 
 #: ../glade/encoder_configuration.glade.h:16
 msgid "Distance: center-loads"
@@ -2881,7 +2881,7 @@ msgstr "Foto"
 
 #: ../glade/person_win.glade.h:11
 msgid "Add photo"
-msgstr "Afegir fotografía"
+msgstr "Afegir fotografia"
 
 #: ../glade/person_win.glade.h:12
 msgid "Take snapshot"
@@ -3139,11 +3139,11 @@ msgstr "Finalitzar en n segons d'inactivitat"
 
 #: ../glade/preferences_win.glade.h:59
 msgid "Minimal height"
-msgstr "Alçada Mínima"
+msgstr "Alçada mínima"
 
 #: ../glade/preferences_win.glade.h:62
 msgid "Minimal length"
-msgstr "Longitut mínima."
+msgstr "Longitud mínima"
 
 #: ../glade/preferences_win.glade.h:64
 msgid "Show only bars"
@@ -3604,7 +3604,7 @@ msgstr "Duració de la fase excèntrica"
 
 #: ../glade/repetitive_conditions.glade.h:35
 msgid "Duration of concentric phase"
-msgstr "Duració de la fase concéntrica"
+msgstr "Duració de la fase concèntrica"
 
 #: ../glade/repetitive_conditions.glade.h:36
 msgid "Total duration"
@@ -4625,7 +4625,7 @@ msgstr ""
 
 #: ../src/constants.cs:531
 msgid "Check Chronojump software website."
-msgstr "Revisi la pàgina web de Chronojump"
+msgstr "Revisi la pàgina web de Chronojump."
 
 #: ../src/constants.cs:573
 msgid "Africa"
@@ -4928,7 +4928,7 @@ msgstr "D"
 
 #: ../src/constants.cs:1022
 msgid "Maximum mean power using the F-V profile"
-msgstr "Máxima potència mitjana usant el perfil F-V"
+msgstr "Màxima potència mitjana usant el perfil F-V"
 
 #: ../src/constants.cs:1023
 msgid "Mean power parabole using the Power-Load data"
@@ -5041,7 +5041,7 @@ msgstr "Encoder rotatori de fricció en l'eix de politja."
 
 #: ../src/encoder.cs:1395
 msgid "Rotary friction encoder on weighted moving pulley."
-msgstr "Encoder rotatori de fricció en una politja mòbil llastrada"
+msgstr "Encoder rotatori de fricció en una politja mòbil llastrada."
 
 #: ../src/encoder.cs:1404
 msgid "Rotary friction encoder on inertial machine side."
@@ -5814,7 +5814,7 @@ msgstr "Afegri pes"
 
 #: ../src/gui/chronojump.cs:6645
 msgid "Remove weight"
-msgstr "Treieu el pes"
+msgstr "Traieu el pes"
 
 #: ../src/gui/chronojump.cs:6648
 msgid "Close any window"
@@ -5825,7 +5825,7 @@ msgid "translator-credits"
 msgstr ""
 "Xavier Padullés <x.padulles@gmail.com>, 2015-2017\n"
 "Samuel Capellera <samuelcm@blanquerna.url.edu>, 2017\n"
-"Jordi Mas i Hernàndez <jmas@softcatala.org>, 2008, 2011 (fixes typos)\n"
+"Jordi Mas i Hernàndez <jmas@softcatala.org>, 2008, 2011, 2018 (fixes typos)\n"
 "Xavier de Blas <xaviblas@gmail.com>, 2007-2011\n"
 "Elisabet Bermejo <elibermejo@gmail.com>, 2007."
 
@@ -5854,8 +5854,8 @@ msgstr "Dispositius Chronojump"
 #, csharp-format
 msgid "Found 1 device."
 msgid_plural "Found {0} devices."
-msgstr[0] "1 dispositiu trobat"
-msgstr[1] "{0} dispositius trobats"
+msgstr[0] "1 dispositiu trobat."
+msgstr[1] "{0} dispositius trobats."
 
 #: ../src/gui/chronopicRegister.cs:275
 #, csharp-format
@@ -7058,11 +7058,11 @@ msgstr "Repeticions d'encoder"
 #: ../src/gui/preferences.cs:592
 msgid "If active, repetitions will be cut from set using triggers."
 msgstr ""
-"Si està activa, les repeticions es tallaràn de la sèrie usant el trigger."
+"Si està activa, les repeticions es tallaran de la sèrie usant el trigger."
 
 #: ../src/gui/preferences.cs:593
 msgid "Trigger signal will be produced by a button connected to the Chronopic."
-msgstr "La senyal de trigger la generarà un botó connectat al Chronopic."
+msgstr "El senyal de trigger la generarà un botó connectat al Chronopic."
 
 #: ../src/gui/preferences.cs:594
 msgid "This will be only used on gravitatory mode, concentric contraction."
@@ -7073,7 +7073,7 @@ msgid ""
 "If \"Cut by triggers\" is inactive, repetitions will be cut automatically "
 "(default behaviour),"
 msgstr ""
-"Si la opció \"Tallar les repeticions usant els triggers\" està desactivada, "
+"Si l'opció \"Tallar les repeticions usant els triggers\" està desactivada, "
 "les repeticions es tallaran automàticament (per defecte)"
 
 #: ../src/gui/preferences.cs:596
@@ -7082,18 +7082,18 @@ msgid ""
 "analyze instant graphs."
 msgstr ""
 "però pitjar el botó de trigger durant la captura dibuixarà una línia "
-"vertical a la gràfica de anàlisi instantànea."
+"vertical a la gràfica d'anàlisi instantània."
 
 #: ../src/gui/preferences.cs:597
 msgid "Encoder Chronopics have trigger functionality since 2017."
-msgstr "El Chronopic de encoder te la funcionalitat de trigger des de el 2017."
+msgstr "El Chronopic de encoder té la funcionalitat de trigger des del 2017."
 
 #: ../src/gui/preferences.cs:598
 msgid ""
 "You can check if your encoder Chronopic accepts triggers pressing test "
 "button."
 msgstr ""
-"Podeu comprovar si el vostre Chronopic accepta triggers pressionant el botò "
+"Podeu comprovar si el vostre Chronopic accepta triggers pressionant el botó "
 "de test."
 
 #: ../src/gui/preferences.cs:599
@@ -7102,7 +7102,7 @@ msgid ""
 "Chronopic test button changes it's state on pressing this button."
 msgstr ""
 "El vostre Chronopic accepta triggers si al pressionar el botó de test "
-"s'encèn el LED verd del costat del botó."
+"s'encén el LED verd del costat del botó."
 
 #: ../src/gui/preferences.cs:600
 msgid ""
@@ -7235,7 +7235,7 @@ msgstr "vats"
 
 #: ../src/gui/reactionTime.cs:114
 msgid "This test needs Chronojump reaction time device."
-msgstr "Aquest test requereix el dispositiu de temps de reació de Chronojump"
+msgstr "Aquest test requereix el dispositiu de temps de reacció de Chronojump"
 
 #: ../src/gui/reactionTime.cs:349
 msgid "reaction time"
@@ -7258,7 +7258,7 @@ msgid ""
 "Use clusters in order to group repetitions inside a set separated by rest "
 "time."
 msgstr ""
-"Usar agrupacions separardes per temps de descans, per tal d'agrupar "
+"Usar agrupacions separades per temps de descans, per tal d'agrupar "
 "repeticions dintre d'una sèrie."
 
 #: ../src/gui/repetitiveConditions.cs:669

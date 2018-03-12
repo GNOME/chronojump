@@ -32,11 +32,11 @@ public class Util
 {
 	/*
 	 * sometimes two doubles are similar "human eye" but different when they are compared with equal
-	 * just return true if the difference between them is lower than 0.1
+	 * just return true if the difference between them is lower than 0.001
 	 */
 	public static bool SimilarDouble (double a, double b)
 	{
-		if(Math.Abs(a - b) < 0.1)
+		if(Math.Abs(a - b) < 0.001)
 			return true;
 
 		return false;

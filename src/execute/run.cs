@@ -658,6 +658,7 @@ public class RunIntervalExecute : RunExecute
 						}
 
 						double myRaceTime = lastTc + timestamp/1000.0;
+						LogB.Information(string.Format("RACE ({0}) TC: {1}; TV: {2}; TOTALTIME: {3}", tracks, lastTc, timestamp/1000.0, myRaceTime));
 
 						if(intervalTimesString.Length > 0) { equal = "="; }
 						intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();

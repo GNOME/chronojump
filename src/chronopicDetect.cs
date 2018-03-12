@@ -324,7 +324,7 @@ public class ChronopicStartReactionTimeAnimation : ChronopicAuto
 				b = 0x74;
 			else if(CharToSend == "T") //green and buzzer
 				b = 0x54;
-			else if(CharToSend == "y") //red green
+			else if(CharToSend == "y") //red green #TODO: maybe should be 79 https://www.asciitable.com/
 				b = 0x76;
 			else if(CharToSend == "Z")
 				b = 0x5A;

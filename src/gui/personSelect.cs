@@ -59,6 +59,7 @@ public class PersonSelectWindow
 	private int selectedFirstClickPersonID; //contains the uniqueID of person selected on first button click
 	public Person SelectedPerson;
 	public Gtk.Button FakeButtonAddPerson;
+	public Gtk.Button FakeButtonAddPersonMultiple;
 	public Gtk.Button FakeButtonLoadPerson;
 	public Gtk.Button FakeButtonEditPerson;
 	public Gtk.Button FakeButtonPersonShowAllEvents;
@@ -80,6 +81,7 @@ public class PersonSelectWindow
 		person_select_window.Parent = parent;
 		
 		FakeButtonAddPerson = new Gtk.Button();
+		FakeButtonAddPersonMultiple = new Gtk.Button();
 		FakeButtonLoadPerson = new Gtk.Button();
 		FakeButtonEditPerson = new Gtk.Button();
 		FakeButtonPersonShowAllEvents = new Gtk.Button();
@@ -313,7 +315,8 @@ public class PersonSelectWindow
 	}
 	private void on_button_person_add_multiple_clicked (object o, EventArgs args)
 	{
-		new DialogMessage(Constants.MessageTypes.INFO, "TODO");
+		person_select_window.Visible = false;
+		FakeButtonAddPersonMultiple.Click();
 	}
 	private void on_button_recuperate_persons_from_session_clicked (object o, EventArgs args)
 	{

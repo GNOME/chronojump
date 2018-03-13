@@ -209,7 +209,7 @@ public class PersonRecuperateWindow {
 	//if called from personRecuperateWindow
 	public void HideAndNull()
 	{
-		if(PersonRecuperateWindowBox.person_recuperate != null)
+		if(PersonRecuperateWindowBox != null)
 			PersonRecuperateWindowBox.person_recuperate.Hide();
 
 		if(PersonRecuperateWindowBox != null)

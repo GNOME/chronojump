@@ -153,6 +153,7 @@ public class PersonSelectWindow
 		table1.Visible = true;
 		table1.Sensitive = true;
 		button_manage_persons.Sensitive = true;
+		hbox_up_down_close.Sensitive = true;
 
 		if(currentPerson != null)
 			assignPersonSelectedStuff(currentPerson);

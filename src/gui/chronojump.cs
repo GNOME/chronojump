@@ -2692,13 +2692,24 @@ public partial class ChronoJumpWindow
 		personSelectWin.Update(myPersons, currentPerson);
 	}
 
+	bool person_add_multiple_called_from_person_select_window;
 	//show spinbutton window asking for how many people to create	
-	private void on_person_add_multiple_clicked (object o, EventArgs args) {
+	private void on_person_add_multiple_from_main_gui (object o, EventArgs args)
+	{
+		person_add_multiple_called_from_person_select_window = false;
+		person_add_multiple();
+	}
+
+	private void person_add_multiple ()
+	{
 		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession);
+		personAddMultipleWin.Button_accept.Clicked -= new EventHandler(on_person_add_multiple_accepted);
 		personAddMultipleWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_accepted);
 	}
 	
-	private void on_person_add_multiple_accepted (object o, EventArgs args) {
+	private void on_person_add_multiple_accepted (object o, EventArgs args)
+	{
+		personAddMultipleWin.Button_accept.Clicked -= new EventHandler(on_person_add_multiple_accepted);
 		if (personAddMultipleWin.CurrentPerson != null)
 		{
 			currentPerson = personAddMultipleWin.CurrentPerson;
@@ -2719,6 +2730,9 @@ public partial class ChronoJumpWindow
 				//		personAddMultipleWin.PersonsCreatedCount);
 				//appbar2.Push( 1, Catalog.GetString(myString) );
 			}
+
+			if(person_add_multiple_called_from_person_select_window)
+				updatePersonSelectWin ();
 		}
 	}
 	
@@ -2828,6 +2842,7 @@ public partial class ChronoJumpWindow
 
 		personSelectWin = PersonSelectWindow.Show(app1, myPersons, currentPerson);
 		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_top_person_add_person);
+		personSelectWin.FakeButtonAddPersonMultiple.Clicked += new EventHandler(on_button_top_person_add_person_multiple);
 		personSelectWin.FakeButtonLoadPerson.Clicked += new EventHandler(on_button_top_person_load_person);
 		personSelectWin.FakeButtonEditPerson.Clicked += new EventHandler(on_button_top_person_edit_person);
 		personSelectWin.FakeButtonPersonShowAllEvents.Clicked += new EventHandler(on_button_top_person_show_all_events);
@@ -2838,6 +2853,11 @@ public partial class ChronoJumpWindow
 	{
 		person_add_single_called_from_person_select_window = true;
 		person_add_single();
+	}
+	private void on_button_top_person_add_person_multiple(object o, EventArgs args)
+	{
+		person_add_multiple_called_from_person_select_window = true;
+		person_add_multiple();
 	}
 	private void on_button_top_person_load_person(object o, EventArgs args)
 	{

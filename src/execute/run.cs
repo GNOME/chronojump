@@ -50,7 +50,12 @@ public class RunExecute : EventExecute
 	protected bool speedStartArrival; //if speedStartArrival then race time includes reaction time
 	protected bool measureReactionTime;
 	protected double reactionTimeMS; //reaction time in milliseconds
-	
+
+	//double contacts stuff
+	protected double timestampDCFlightTimes; 	//sum of the flight times that happen in small time
+	protected double timestampDCContactTimes; 	//sum of the contact times that happen in small time
+	protected double timestampDCn; 			//number of flight times in double contacts period
+
 	public RunExecute() {
 	}
 
@@ -185,15 +190,20 @@ public class RunExecute : EventExecute
 		LogB.ThreadStart(); 
 		thread.Start(); 
 	}
-	
+
+	protected void timestampDCInitValues()
+	{
+		timestampDCFlightTimes = 0;
+		timestampDCContactTimes = 0;
+		timestampDCn = 0;
+	}
+
 	protected override void waitEvent ()
 	{
 		double timestamp = 0;
 		double timestampFirstContact = 0; //used when runPhase == runPhases.PLATFORM_INI_YES_TIME;
 
-		double timestampDCFlightTimes = -1; //sum of the flight times that happen in small time
-		double timestampDCContactTimes = -1;//sum of the contact times that happen in small time
-		double timestampDCn = 0; //number of flight times
+		timestampDCInitValues();
 
 		bool success = false;
 		bool ok;
@@ -315,7 +325,7 @@ public class RunExecute : EventExecute
 					loggedState = States.OFF;
 
 					if(checkDoubleContactMode != Constants.DoubleContact.NONE && timestampDCn > 0)
-						timestampDCContactTimes += timestamp;
+						timestampDCContactTimes += timestamp; //TODO: print before here every timestampDCContactTime to understand better what's readed on Chronopic
 					else {
 						if(runPhase == runPhases.PLATFORM_INI_YES_TIME)
 							timestampFirstContact = timestamp;
@@ -570,9 +580,7 @@ public class RunIntervalExecute : RunExecute
 		lastTc = 0;
 		distanceIntervalFixed = distanceInterval;
 
-		double timestampDCFlightTimes = -1; //sum of the flight times that happen in small time
-		double timestampDCContactTimes = -1;//sum of the contact times that happen in small time
-		double timestampDCn = 0; //number of flight times
+		timestampDCInitValues();
 		
 		//prepare variables to allow being cancelled or finished
 		if(! simulated)
@@ -653,6 +661,9 @@ public class RunIntervalExecute : RunExecute
 											 timestampDCContactTimes) 
 											/ timestampDCn;
 									}
+
+									//init values of timestampDC for next track
+									timestampDCInitValues();
 								}
 							}
 						}

@@ -2465,7 +2465,8 @@ public partial class ChronoJumpWindow
 		if(foundPersons) {
 			//activate the gui for persons in main window
 			sensitiveGuiYesPerson();
-			label_top_person_name.Text = currentPerson.Name;
+			label_top_person_name.Text = "<b>" + currentPerson.Name + "</b>";
+			label_top_person_name.UseMarkup = true;
 		} else {
 			currentPerson = null;
 			label_top_person_name.Text = "";

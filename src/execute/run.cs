@@ -668,6 +668,7 @@ public class RunIntervalExecute : RunExecute
 							}
 						}
 
+						//note in double contacts mode timestamp can have added DCFlightTimes and DCContactTimes. So contact time is not only on lastTc
 						double myRaceTime = lastTc + timestamp/1000.0;
 						LogB.Information(string.Format("RACE ({0}) TC: {1}; TV: {2}; TOTALTIME: {3}", tracks, lastTc, timestamp/1000.0, myRaceTime));
 
@@ -740,22 +741,21 @@ public class RunIntervalExecute : RunExecute
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
 					//it's out, was inside (= has abandoned platform)
 							
+					lastTc = 0;
 					if(runPhase == runPhases.PLATFORM_INI_NO_TIME) {
 						//run starts
 						initializeTimer();
-						lastTc = 0;
 
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
 					} else if(runPhase == runPhases.PLATFORM_INI_YES_TIME)
 					{
-						lastTc = 0;
 						if(measureReactionTime)
 							reactionTimeMS = timestamp;
 
 						// measuringReactionTime or not, if speedStartArrival, 1st race time should include lastTc
 						if(speedStartArrival)
-							lastTc = timestamp/1000.0;
+							lastTc = timestamp / 1000.0;
 
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
@@ -763,7 +763,7 @@ public class RunIntervalExecute : RunExecute
 						if(checkDoubleContactMode != Constants.DoubleContact.NONE && timestampDCn > 0)
 							timestampDCContactTimes += timestamp;
 						else 
-							  lastTc = timestamp/1000.0;
+							lastTc = timestamp / 1000.0;
 						
 						
 						//RSA

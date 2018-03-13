@@ -112,7 +112,7 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         
         #Finding the decrease of the foce to detect the end of the maximum voluntary force
         trimmingSamples = getTrimmingSamples(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
-					     testLength = op$testLength)
+					     testLength = op$testLength, startDetectingMethod = "SD")
         startSample = trimmingSamples$startSample
         startTime = originalTest$time[startSample]
         
@@ -329,9 +329,9 @@ drawDynamicsFromLoadCell <- function(
         arrows(x0 = 0, y0 = dynamics$f0.raw,
                x1 = dynamics$tau.fitted, y1 = dynamics$f0.raw)
         text(x = (dynamics$tau.fitted / 2), y = dynamics$f0.raw,
-              labels = paste("τ =", round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, col = "blue")
+              labels = paste(round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, col = "blue")
         # text(x = (dynamics$tau.fitted / 2), y = -20,
-        #      labels = paste("τ =", round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, xpd = TRUE)
+        #      labels = paste(round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, xpd = TRUE)
         
         arrows(x0 = 0, y0 = 0,
                x1 = 0, y1 = dynamics$fmax.fitted*0.6321206)
@@ -378,8 +378,8 @@ drawDynamicsFromLoadCell <- function(
         
         legendText = c(
 		       paste("Fmax =", round(dynamics$fmax.fitted, digits = 2), "N"),
-		       paste("K = ", round(dynamics$k.fitted, digits = 2),"s⁻¹"),
-		       paste("τ = ", round(dynamics$tau.fitted, digits = 2),"s")
+		       paste("K = ", round(dynamics$k.fitted, digits = 2),"s^-1"),
+		       paste("tau = ", round(dynamics$tau.fitted, digits = 2),"s")
 		       )
         legendColor = c("blue", "blue", "blue")
         
@@ -618,26 +618,29 @@ getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.
 {
         movingAverageForce = getMovingAverageForce(test, averageLength = 0.1)
         maxRFD = max(rfd[2:(length(rfd) - 1)])
+        maxRFDSample = which.max(rfd[2:(length(rfd) - 1)])
         
         #Detecting when the force is greater of the mean + 3*SD of 20 samples
+        #If in various sample the force are greater, the last one before the maxRFD are taken
         #See Rate of force development: physiological and methodological considerations. Nicola A. Maffiuletti1 et al.
+        
+        startSample = NULL
         if (startDetectingMethod == "SD"){
-                startSample = 21
-                while(test$force[startSample] < mean(test$force[startSample:(startSample - 20)]) + 3*sd(test$force[startSample:(startSample - 20)]))
+                for(currentSample in 21:maxRFDSample)
                 {
-                        startSample = startSample + 1
+                        if(test$force[currentSample] < mean(test$force[currentSample:(currentSample - 20)]) + 3*sd(test$force[currentSample:(currentSample - 20)]))
+                                startSample = currentSample
                 }
                 
-                while(test$force[startSample] - test$force[startSample -1] >= 0){ #Detecting the sample to decrease
+                while(test$force[startSample] - test$force[startSample -1] >= 0){ #Going back to the last sample that decreased
                         startSample = startSample - 1
                 }
-                
-        #Detecting when accurs a greate growth of the force
+        #Detecting when accurs a great growth of the force (great RFD)
         } else if (startDetectingMethod == "RFD"){
-                startSample = 2
-                while(rfd[startSample] <= maxRFD*0.2)
+                for(currentSample in 2:maxRFDSample)
                 {
-                        startSample = startSample + 1
+                        if(rfd[currentSample] <= maxRFD*0.2)
+                                startSample = currentSample
                 }
         }
         

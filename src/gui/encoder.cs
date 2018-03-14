@@ -4109,6 +4109,8 @@ public partial class ChronoJumpWindow
 		hbox_encoder_capture_top.Sensitive = ! show;
 		vpaned_encoder_capture_video_and_set_graph.Sensitive = ! show;
 		button_encoder_inertial_recalibrate.Sensitive = ! show;
+		hbox_top_person.Sensitive = ! show;
+		hbox_top_person_encoder.Sensitive = ! show;
 	}
 
 	//info is now info and edit (all values can be changed), and detete (there's delete button)

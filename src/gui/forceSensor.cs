@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2017-2018   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -77,15 +77,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.DrawingArea force_capture_drawingarea;
 	Gdk.Pixmap force_capture_pixmap = null;
 
-	//analyze tab
-	[Widget] Gtk.Button button_force_sensor_analyze_load;
-	[Widget] Gtk.Label label_force_sensor_analyze;
-	[Widget] Gtk.Image image_force_sensor_graph;
-	[Widget] Gtk.Viewport viewport_force_sensor_graph;
-	[Widget] Gtk.Button button_force_sensor_image_save_rfd;
-
-	[Widget] Gtk.SpinButton spin_force_duration_seconds;
-	[Widget] Gtk.RadioButton radio_force_duration_seconds;
 
 	Thread forceCaptureThread;
 	static bool forceProcessFinish;
@@ -970,7 +961,6 @@ LogB.Information(" fc R ");
 
 		force_capture_allocationXOld = allocation.Width;
 	}
-
 
 	private void on_button_force_sensor_load_clicked (object o, EventArgs args)
 	{

@@ -23,6 +23,7 @@ SOURCES = \
 	gui/event.cs\
 	gui/executeAuto.cs\
 	gui/forceSensor.cs\
+	gui/forceSensorAnalyze.cs\
 	gui/guiTests.cs\
 	gui/jump.cs\
 	gui/jumpsProfile.cs\

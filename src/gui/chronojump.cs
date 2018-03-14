@@ -593,6 +593,7 @@ public partial class ChronoJumpWindow
 		
 		rfdList = SqliteForceSensor.SelectAll(false);
 		impulse = SqliteForceSensor.SelectImpulse(false);
+		initForceSensor();
 
 
 		createComboSelectJumps(true);
@@ -2931,7 +2932,7 @@ public partial class ChronoJumpWindow
 
 	private void on_preferences_activate (object o, EventArgs args) 
 	{
-		preferencesWin = PreferencesWindow.Show(preferences, rfdList, impulse, current_menuitem_mode, configChronojump.Compujump, progVersion);
+		preferencesWin = PreferencesWindow.Show(preferences, current_menuitem_mode, configChronojump.Compujump, progVersion);
 		
 		preferencesWin.FakeButtonImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
@@ -2952,8 +2953,6 @@ public partial class ChronoJumpWindow
 	{
 		preferences = preferencesWin.GetPreferences;
 		LogB.Mute = preferences.muteLogs;
-		rfdList = preferencesWin.GetRFDList;
-		impulse = preferencesWin.GetImpulse;
 
 		if(checkbutton_video.Active) {
 			videoCapturePrepare(false); //if error, show message

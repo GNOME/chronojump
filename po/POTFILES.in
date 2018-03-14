@@ -78,6 +78,7 @@ src/gui/event.cs
 src/gui/eventExecute.cs
 src/gui/executeAuto.cs
 src/gui/forceSensor.cs
+src/gui/forceSensorAnalyze.cs
 src/gui/genericWindow.cs
 src/gui/helpPorts.cs
 src/gui/jump.cs

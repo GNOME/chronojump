@@ -739,6 +739,7 @@ public partial class ChronoJumpWindow
 		ls.Test();
 		LogB.Information(string.Format("coef = {0} {1} {2}", ls.Coef[0], ls.Coef[1], ls.Coef[2]));
 		*/
+		//new VersionCompareTests();
 	}
 
 

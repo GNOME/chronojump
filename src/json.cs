@@ -187,13 +187,11 @@ public class Json
 		string str =
 			Catalog.GetString("Installed version is: ") + currentVersion + "\n" + 
 			Catalog.GetString("Last version published: ") + lastVersionPublished;
-			// + updateStr;
-			//TODO: add updateStr again when resolved that a experimental 1.7.0-xxx is more advanced than a stable 1.7.0
 
-		if(currentVersion == lastVersionPublished)
-			str += "\n\n" + Catalog.GetString("Your software is updated!");
-		else
-			str += "\n\n" + Catalog.GetString("Update software at ") + "www.chronojump.org";
+		VersionCompare vCompare = new VersionCompare(
+				new Version31(currentVersion),
+				new Version31(lastVersionPublished));
+		str += "\n\n" + vCompare.ResultStr;
 
 		this.ResultMessage = str;
 		

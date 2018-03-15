@@ -248,6 +248,9 @@ public class Constants
 	public static string TakeOffName = "TakeOff"; //translate (take off?)
 	public static string TakeOffWeightName = "TakeOffWeight"; //translate (take off?)
 
+	public static string SoftwareUpdated = Catalog.GetString("Your software is updated!");
+	public static string SoftwareNeedUpdate = Catalog.GetString("Update software at ") + "www.chronojump.org";
+	public static string SoftwareNewerThanPublised = "Your software is more updated than last published version.\n\nPlease, don't Update!";
 
 	public static string GetSpreadsheetString(string CSVExportDecimalSeparator)
 	{

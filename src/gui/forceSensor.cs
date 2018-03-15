@@ -89,6 +89,7 @@ public partial class ChronoJumpWindow
 	static bool forceSensorOtherMessageShowSeconds;
 	static DateTime forceSensorTimeStart;
 	static string lastForceSensorFile = "";
+	static string lastForceSensorFullPath = "";
 
 	int usbDisconnectedCount;
 	int usbDisconnectedLastTime;
@@ -509,6 +510,7 @@ public partial class ChronoJumpWindow
 		event_execute_button_finish.Sensitive = true;
 		event_execute_button_cancel.Sensitive = true;
 		button_force_sensor_image_save_signal.Sensitive = false;
+		button_force_sensor_analyze_recalculate.Sensitive = false;
 		forceCaptureStartMark = false;
 		//vscale_force_sensor.Value = 0;
 		label_force_sensor_value_max.Text = "0";
@@ -717,6 +719,7 @@ LogB.Information(" fc C ");
 
 				button_force_sensor_image_save_signal.Sensitive = false;
 				button_force_sensor_image_save_rfd.Sensitive = false;
+				button_force_sensor_analyze_recalculate.Sensitive = false;
 			}
 			else
 				event_execute_label_message.Text = "";
@@ -736,6 +739,7 @@ LogB.Information(" fc D ");
 
 			forceSensorButtonsSensitive(true);
 			button_force_sensor_image_save_signal.Sensitive = true;
+			button_force_sensor_analyze_recalculate.Sensitive = true;
 
 			//finish, cancel: sensitive = false
 			hideButtons();
@@ -981,13 +985,27 @@ LogB.Information(" fc R ");
 		if (filechooser.Run () == (int)ResponseType.Accept)
 		{
 			lastForceSensorFile = Util.RemoveExtension(Util.GetLastPartOfPath(filechooser.Filename));
-			File.Copy(filechooser.Filename, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
+			lastForceSensorFullPath = filechooser.Filename; //used on recalculate
 
-			forceSensorDoSignalGraph();
-			forceSensorDoRFDGraph();
+			forceSensorCopyTempAndDoGraphs();
 		}
 		filechooser.Destroy ();
 	}
+
+	private void on_button_force_sensor_analyze_recalculate_clicked (object o, EventArgs args)
+	{
+		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
+			forceSensorCopyTempAndDoGraphs();
+	}
+
+	private void forceSensorCopyTempAndDoGraphs()
+	{
+		File.Copy(lastForceSensorFullPath, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
+
+		forceSensorDoSignalGraph();
+		forceSensorDoRFDGraph();
+	}
+
 
 	void forceSensorDoRFDGraph()
 	{
@@ -1122,6 +1140,7 @@ LogB.Information(" fc R ");
 		label_force_sensor_value_max.Text = forceSensorValues.ForceMax.ToString();
 		label_force_sensor_value_min.Text = forceSensorValues.ForceMin.ToString();
 		button_force_sensor_image_save_signal.Sensitive = true;
+		button_force_sensor_analyze_recalculate.Sensitive = true;
 	}
 
 	private void forcePaintHVLines(double maxForce, double minForce, int lastTime)

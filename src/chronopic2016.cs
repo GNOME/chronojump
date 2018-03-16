@@ -353,7 +353,7 @@ public class Chronopic2016
 
 			string ms = "";
 			bool success = false;
-			int tryNum = 10; //try to connect ten times
+			int tryNum = 30; //try to connect 30 times. Linux is ok with 1, but... Windows and Mac users get what they bought
 			do {
 				//read if ok
 				ca = new ChronopicAutoCheckDebounce();

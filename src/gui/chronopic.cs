@@ -126,6 +126,12 @@ public partial class ChronoJumpWindow
 			message = Catalog.GetString("Please, cut photocell barrier or click Chronopic TEST button.");
 
 		cp2016.ConnectContactsReal(app1, crp, numCP, message);
+
+		//manage show threshold stuff
+		threshold.ChronopicFirmwareReconnected(numCP); 	//t_stored_on_chronopic will be 50, and later firmware will be changed
+		label_threshold.Text = Catalog.GetString("Threshold") + " " + threshold.GetLabel() + " ms";
+		if(threshold.GetT == 50)
+			label_threshold.Text += " (" + Catalog.GetString("Applied") + ")";
 	}
 
 	private void on_connection_contacts_real_done (object o, EventArgs args)
@@ -150,9 +156,13 @@ public partial class ChronoJumpWindow
 		if(threshold.ShouldUpdateChronopicFirmware(cpCount))
 		{
 			bool ok = cp2016.ChangeMultitestFirmwarePre(threshold.GetT, cpCount);
-			if(ok)
+			if(ok) {
 				threshold.ChronopicFirmwareUpdated(cpCount);
+				label_threshold.Text += " (" + Catalog.GetString("Applied") + ")";
+			} else
+				label_threshold.Text += " (" + Catalog.GetString("Failed") + ")";
 		}
+
 
 		connectingSequence = connectingSequenceEnum.END;
 		chronopicConnectionSequenceDo();

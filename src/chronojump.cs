@@ -175,9 +175,9 @@ public class ChronoJump
 			 * We need here! to define the language from the beginning
 			 * so we use language = "" if version is prior to 1.25
 			 */
-			string currentVersion = SqlitePreferences.Select("databaseVersion", false);
-			double currentVersionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(currentVersion));
-			if(currentVersionDouble < Convert.ToDouble(Util.ChangeDecimalSeparator("1.25")))
+			string currentDBVersion = SqlitePreferences.Select("databaseVersion", false);
+			double currentDBVersionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(currentDBVersion));
+			if(currentDBVersionDouble < Convert.ToDouble(Util.ChangeDecimalSeparator("1.25")))
 				language = "";
 			else
 				language = SqlitePreferences.Select("language", false);

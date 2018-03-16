@@ -80,21 +80,35 @@ public class Threshold
 		}
 	}
 
-	//cpCount 1: first chronopic; 2: second (on multichronopic)
-	public bool ShouldUpdateChronopicFirmware(int cpCount)
+	//numCP 1: first chronopic; 2: second (on multichronopic)
+	public bool ShouldUpdateChronopicFirmware(int numCP)
 	{
-		if(cpCount == 1)
+		if(numCP == 1)
 			return t != t_stored_on_chronopic;
 		else //2
 			return t != t_stored_on_chronopic2;
 	}
-	//cpCount 1: first chronopic; 2: second (on multichronopic)
-	public void ChronopicFirmwareUpdated(int cpCount)
+	//numCP 1: first chronopic; 2: second (on multichronopic)
+	public void ChronopicFirmwareUpdated(int numCP)
 	{
-		if(cpCount == 1)
+		if(numCP == 1)
 			t_stored_on_chronopic = t;
 		else //2
 			t_stored_on_chronopic2 = t;
+	}
+
+	public void ChronopicFirmwareReconnected(int numCP)
+	{
+		/*
+		 * if Chronopic has been disconnected or is connected for the first time,
+		 * make t_stored_on_chronopic = 50 (default value)
+		 * and if we are on runs or with a different threshold,
+		 * chronpic threshold will be updated
+		 */
+		if(numCP == 1)
+			t_stored_on_chronopic = 50;
+		else //2
+			t_stored_on_chronopic2 = 50;
 	}
 
 	public string GetLabel()

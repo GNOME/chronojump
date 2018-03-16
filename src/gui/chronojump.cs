@@ -4207,7 +4207,7 @@ public partial class ChronoJumpWindow
 		//createChronopicWindow(true, "");
 		//chronopicWin.Connected = false;
 	}
-		
+
 	private void on_test_finished_can_touch_gtk (object o, EventArgs args)
 	{
 		currentEventExecute.FakeButtonThreadDyed.Clicked -= new EventHandler(on_test_finished_can_touch_gtk);

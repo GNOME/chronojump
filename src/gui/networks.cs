@@ -40,8 +40,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Alignment alignment_encoder_capture_options;
 			
 	//RFID
-	[Widget] Gtk.Label label_rfid_contacts;
-	[Widget] Gtk.Label label_rfid_encoder;
+	[Widget] Gtk.Label label_rfid_wait;
+	[Widget] Gtk.Label label_rfid_encoder_wait;
 	
 	//better raspberry controls
 	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_no_raspberry;
@@ -92,6 +92,8 @@ public partial class ChronoJumpWindow
 	private static bool shouldUpdateRFIDGui;
 	private static bool shouldShowRFIDDisconnected;
 	private static bool updatingRFIDGuiStuff;
+	private static bool networksRunIntervalCanChangePersonSQLReady;
+	private static DateTime startedRFIDWait;
 	private bool rfidProcessCancel;
 	private bool rfidIsDifferent;
 	private DateTime currentPersonCompujumpLoginTime;
@@ -164,6 +166,7 @@ public partial class ChronoJumpWindow
 			updatingRFIDGuiStuff = false;
 			shouldUpdateRFIDGui = false;
 			rfidProcessCancel = false;
+			networksRunIntervalCanChangePersonSQLReady = true;
 
 			chronopicRegisterUpdate(false);
 			if(chronopicRegister != null && chronopicRegister.GetRfidPortName() != "")
@@ -187,6 +190,8 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information("RFID Start");
 		rfid.Start();
+		startedRFIDWait = DateTime.MinValue;
+		LogB.Information("networksRI: " + networksRunIntervalCanChangePersonSQLReady.ToString());
 		//rfid.ChangedEvent += new EventHandler(this.rfidChanged);
 	}
 	private void rfidChanged(object sender, EventArgs e)
@@ -198,9 +203,17 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information("RFID changed to: " + rfid.Captured);
 
-			capturedRFID = rfid.Captured;
-			rfidIsDifferent = true;
-			shouldUpdateRFIDGui = true;
+			if( ! networksRunIntervalCanChangePersonSQLReady ||
+					(eCapture != null && capturingCsharp == encoderCaptureProcess.CAPTURING) )
+			{
+				startedRFIDWait = DateTime.Now;
+				LogB.Information("... but we are on the middle of capture");
+			} else {
+				capturedRFID = rfid.Captured;
+				rfidIsDifferent = true;
+
+				shouldUpdateRFIDGui = true;
+			}
 		}
 	}
 
@@ -424,10 +437,8 @@ public partial class ChronoJumpWindow
 		}
 		*/
 
-		//label_rfid_contacts.Visible = (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX);
-		//label_rfid_encoder.Visible = (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX);
-		label_rfid_contacts.Visible = false;
-		label_rfid_encoder.Visible = false;
+		label_rfid_wait.Visible = false;
+		label_rfid_encoder_wait.Visible = false;
 	}
 
 	DialogMessage dialogMessageNotAtServer;
@@ -443,10 +454,33 @@ public partial class ChronoJumpWindow
 
 		if(! threadRFID.IsAlive || rfidProcessCancel)
 		{
+			label_rfid_wait.Visible = false;
+			label_rfid_encoder_wait.Visible = false;
+
 			LogB.ThreadEnding();
 			LogB.ThreadEnded();
 			return false;
 		}
+
+		/*
+		 * if we are on the middle of an encoderCapture, just show a wait message
+		 * to avoid problems of SQL on encoder capture stuff and on person login stuff
+		 */
+		TimeSpan span = DateTime.Now - startedRFIDWait;
+		if(span.TotalSeconds < 2) {
+			label_rfid_wait.Visible = true;
+			label_rfid_encoder_wait.Visible = true;
+		} else {
+			label_rfid_wait.Visible = false;
+			label_rfid_encoder_wait.Visible = false;
+		}
+
+		if( ! networksRunIntervalCanChangePersonSQLReady ||
+				(eCapture != null && capturingCsharp == encoderCaptureProcess.CAPTURING) )
+			return true;
+
+		//---- end of checking if we are on the middle of capture.
+
 
 		//don't allow this method to be called again until ended
 		//Note RFID detection can send many cards (the same) per second
@@ -462,10 +496,6 @@ public partial class ChronoJumpWindow
 		//is we are on analyze, switch to capture
 		if(! radio_mode_encoder_capture_small.Active)
 			radio_mode_encoder_capture_small.Active = true;
-
-		//TODO: this pulseRFID need only the GTK stuff, not the rest
-		label_rfid_contacts.Text = capturedRFID; //GTK
-		label_rfid_encoder.Text = capturedRFID; //GTK
 
 		/*
 		 * This method is shown on diagrams/processes/rfid-local-read.dia

@@ -656,7 +656,10 @@ public class RunIntervalExecute : RunExecute
 								timestampDCFlightTimes += timestamp;
 								runEI.ChangePhase(RunExecuteInspector.Phases.IN,
 									string.Format("RUNNING, DOUBLECONTACT, timestamp: {0}, " +
-										"has been added to timestampDCFLightTimes: {1}", timestamp/1000.0, timestampDCFlightTimes/1000.0));
+										"has been added to timestampDCFLightTimes: {1}",
+										Math.Round(timestamp/1000.0, 3),
+										Math.Round(timestampDCFlightTimes/1000.0, 3)
+										));
 
 								continue;
 							}
@@ -674,7 +677,8 @@ public class RunIntervalExecute : RunExecute
 										runEIString = string.Format("RUNNING, DoubleContactMode.FIRST, timestamp was: {0} " +
 												"added DCFLightTimes: {1} and DCContactTimes: {2}, " +
 												"now timestamp is: {3}",
-												timestampTemp/1000.0, timestampDCFlightTimes/1000.0, timestampDCContactTimes/1000.0, timestamp/1000.0);
+												Math.Round(timestampTemp/1000.0, 3), Math.Round(timestampDCFlightTimes/1000.0, 3),
+												Math.Round(timestampDCContactTimes/1000.0, 3), Math.Round(timestamp/1000.0, 3));
 									}
 									else if(checkDoubleContactMode == 
 											Constants.DoubleContact.LAST) {
@@ -696,7 +700,9 @@ public class RunIntervalExecute : RunExecute
 										runEIString = string.Format("RUNNING, DoubleContactMode.AVERAGE, timestamp was: {0} " +
 												"added (DCFLightTimes: {1} + DCContactTimes: {2}) / n: {3}, " +
 												"now timestamp is: {4}",
-												timestampTemp/1000.0, timestampDCFlightTimes/1000.0, timestampDCContactTimes/1000.0, timestampDCn/1000.0, timestamp/1000.0);
+												Math.Round(timestampTemp/1000.0, 3), Math.Round(timestampDCFlightTimes/1000.0, 3),
+												Math.Round(timestampDCContactTimes/1000.0, 3), Math.Round(timestampDCn/1000.0, 3),
+												Math.Round(timestamp/1000.0, 3));
 									}
 
 									//init values of timestampDC for next track
@@ -708,7 +714,7 @@ public class RunIntervalExecute : RunExecute
 						//note in double contacts mode timestamp can have added DCFlightTimes and DCContactTimes. So contact time is not only on lastTc
 						double myRaceTime = lastTc + timestamp/1000.0;
 
-						runEI.ChangePhase(RunExecuteInspector.Phases.IN, runEIString + "; trackTime: " + myRaceTime.ToString());
+						runEI.ChangePhase(RunExecuteInspector.Phases.IN, runEIString + "; trackTime: " + Math.Round(myRaceTime, 3));
 
 						LogB.Information(string.Format("RACE ({0}) TC: {1}; TV: {2}; TOTALTIME: {3}", tracks, lastTc, timestamp/1000.0, myRaceTime));
 
@@ -799,7 +805,7 @@ public class RunIntervalExecute : RunExecute
 						{
 							lastTc = timestamp / 1000.0;
 							runEI.ChangePhase(RunExecuteInspector.Phases.OUT,
-								string.Format("SpeedStartArrival, tc = {0}", lastTc));
+								string.Format("SpeedStartArrival, tc = {0}", Math.Round(lastTc, 3)));
 						}
 
 						feedbackMessage = "";
@@ -809,12 +815,12 @@ public class RunIntervalExecute : RunExecute
 						{
 							timestampDCContactTimes += timestamp;
 							runEI.ChangePhase(RunExecuteInspector.Phases.OUT,
-								string.Format("RUNNING double contact, timestampDCContactTimes = {0}", timestampDCContactTimes/1000.0));
+								string.Format("RUNNING double contact, timestampDCContactTimes = {0}", Math.Round(timestampDCContactTimes/1000.0, 3)));
 						}
 						else {
 							lastTc = timestamp / 1000.0;
 							runEI.ChangePhase(RunExecuteInspector.Phases.OUT,
-								string.Format("RUNNING, tc = {0}", lastTc));
+								string.Format("RUNNING, tc = {0}", Math.Round(lastTc, 3)));
 						}
 						
 						

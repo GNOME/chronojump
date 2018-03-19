@@ -1634,6 +1634,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -3763,8 +3766,9 @@ EncoderInertialCapture</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkLabel" id="label_rfid_contacts">
+                                                  <widget class="GtkLabel" id="label_rfid_wait">
                                                     <property name="can_focus">False</property>
+                                                    <property name="label" translatable="yes">Please, Wait!</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">True</property>
@@ -17788,8 +17792,9 @@ Concentric</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkLabel" id="label_rfid_encoder">
+                                                  <widget class="GtkLabel" id="label_rfid_encoder_wait">
                                                     <property name="can_focus">False</property>
+                                                    <property name="label" translatable="yes">Please, wait!</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">True</property>
@@ -23811,6 +23816,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

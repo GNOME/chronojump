@@ -4673,8 +4673,9 @@ public partial class ChronoJumpWindow
 				preferences.runSpeedStartArrival,
 				check_run_interval_with_reaction_time.Active
 				);
-		
-		
+
+		networksRunIntervalCanChangePersonSQLReady = false;
+
 		//suitable for limited by tracks and time
 		if(! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -4745,6 +4746,8 @@ public partial class ChronoJumpWindow
 		
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempRunInterval");
+
+		networksRunIntervalCanChangePersonSQLReady = true;
 	}
 
 	private void calculateSprintAndUpload()

@@ -439,6 +439,7 @@ RESOURCES = \
 	../images/md/inertial_extended.png,inertial_extended.png \
 	../images/md/calibrate.png,calibrate.png \
 	../images/md/ic_folder_check_blue_24dp_1x.png,folder_check.png \
+	../images/md/ic_test_inspect_blue_24dp_1x.png,image_test_inspect.png \
 	../images/md/ic_zoom_blue_24dp_1x.png,zoom.png \
 	../images/md/trigger_2x.png,image_encoder_triggers.png \
 	../images/md/trigger_no_2x.png,image_encoder_triggers_no.png \

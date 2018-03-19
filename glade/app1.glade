@@ -8712,12 +8712,19 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_inspect_last_test">
-                                                            <property name="label">Inspect</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Inspect</property>
                                                             <signal name="clicked" handler="on_button_inspect_last_test_clicked" swapped="no"/>
                                                             <accelerator key="v" signal="clicked"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_test_inspect">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>

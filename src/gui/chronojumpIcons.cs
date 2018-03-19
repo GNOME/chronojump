@@ -73,6 +73,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_add_test2;
 	[Widget] Gtk.Image image_add_test3;
 	[Widget] Gtk.Image image_add_test4;
+	[Widget] Gtk.Image image_test_inspect;
 
 	[Widget] Gtk.Image image_selector_start_jumps;
 	[Widget] Gtk.Image image_selector_start_runs;
@@ -237,6 +238,9 @@ public partial class ChronoJumpWindow
 		image_add_test2.Pixbuf = pixbuf;
 		image_add_test3.Pixbuf = pixbuf;
 		image_add_test4.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_test_inspect.png");
+		image_test_inspect.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect.png");
 		image_chronopic_connect_contacts.Pixbuf = pixbuf;

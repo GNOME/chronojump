@@ -324,6 +324,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box vbox_last_test_buttons;
 	[Widget] Gtk.Button button_video_play_this_test;
 	[Widget] Gtk.Button button_delete_last_test;
+	[Widget] Gtk.Button button_inspect_last_test;
 
 	[Widget] Gtk.Button button_upload_session;
 	[Widget] Gtk.HBox hbox_chronopics_and_more;
@@ -3078,6 +3079,7 @@ public partial class ChronoJumpWindow
 		radio_mode_contacts_jumps_profile.Visible = false;
 		radio_mode_contacts_sprint.Visible = false;
 		notebook_analyze.CurrentPage = 0;
+		button_inspect_last_test.Visible = false;
 
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
@@ -3132,6 +3134,8 @@ public partial class ChronoJumpWindow
 					radio_mode_contacts_general.Visible = true;
 					radio_mode_contacts_sprint.Visible = true;
 				}
+
+				button_inspect_last_test.Visible = true;
 			}
 			radio_mode_contacts_jumps_profile.Hide();
 			if(radio_mode_contacts_sprint.Active)
@@ -4688,6 +4692,7 @@ public partial class ChronoJumpWindow
 	{
 		//test can be deleted if not cancelled
 		button_delete_last_test.Sensitive = ! currentEventExecute.Cancel;
+		button_inspect_last_test.Sensitive = ! currentEventExecute.Cancel;
 
 		if ( ! currentEventExecute.Cancel ) {
 			currentRunInterval = (RunInterval) currentEventExecute.EventDone;
@@ -5886,6 +5891,12 @@ LogB.Debug("X");
 				on_delete_selected_multi_chronopic_clicked(o, args);
 				break;
 		}
+	}
+
+	private void on_button_inspect_last_test_clicked (object o, EventArgs args)
+	{
+		if(currentEventExecute != null)
+			new DialogMessage(Constants.MessageTypes.INFO, currentEventExecute.GetInspectorMessages());
 	}
 
 	private void deleted_last_test_update_widgets() {

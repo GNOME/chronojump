@@ -1631,6 +1631,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -8675,6 +8678,11 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox254">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
                                                             <widget class="GtkButton" id="button_video_play_this_test">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
@@ -8690,6 +8698,28 @@ EncoderInertialCapture</property>
                                                             <property name="stock">gtk-media-play</property>
                                                             <property name="icon-size">1</property>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_inspect_last_test">
+                                                            <property name="label">Inspect</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <signal name="clicked" handler="on_button_inspect_last_test_clicked" swapped="no"/>
+                                                            <accelerator key="v" signal="clicked"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
                                                             </child>
                                                             </widget>
                                                             <packing>
@@ -23781,6 +23811,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

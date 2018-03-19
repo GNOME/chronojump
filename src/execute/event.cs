@@ -140,8 +140,6 @@ public class EventExecute
 	//on animation lights and discriminative should be false
 	public bool StartIn = true;
 	public Gtk.Button FakeButtonReactionTimeStart;
-	
-	
 
 	//protected EventExecuteWindow eventExecuteWin;
 	//protected ChronoJumpWindow app1;
@@ -473,7 +471,12 @@ public class EventExecute
 	
 	public virtual void Manage2() {
 	}
-	
+
+	public virtual string GetInspectorMessages()
+	{
+		return "";
+	}
+
 	//from confirm_window cancel button (thread has not started)
 	//this is NOT called when a event has started and user click on "Cancel"
 	protected void cancel_event_before_start(object o, EventArgs args)
@@ -545,3 +548,31 @@ public class EventExecute
 	   
 }
 
+public class InOut
+{
+	private bool contactIn;
+	private DateTime dt;
+	private string message;
+
+	public InOut (bool contactIn, DateTime dt, string message)
+	{
+		this.contactIn = contactIn;
+		this.dt = dt;
+		this.message = message;
+	}
+
+	public override string ToString()
+	{
+		string str = "\n- ";
+		if(contactIn)
+			str += "IN / ";
+		else
+			str += "OUT / ";
+
+		str += dt.ToShortTimeString();
+		if(message != "")
+			str += " / " + message;
+
+		return str;
+	}
+}

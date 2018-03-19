@@ -426,6 +426,8 @@ public class ChronoJump
 
 		Sqlite.Open();
 
+//TODO: fix this to the new code
+
 		string versionAvailableKnown = SqlitePreferences.Select("versionAvailable", true);
 		if( versionAvailable != Constants.ServerOffline && new Version(versionAvailable) > new Version(progVersion) ) {
 			//check if available version is higher than known available version

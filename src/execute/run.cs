@@ -20,7 +20,7 @@
 
 using System;
 using System.Data;
-
+using System.Collections.Generic; //List
 using System.Threading;
 using System.IO.Ports;
 using Mono.Unix;
@@ -492,6 +492,7 @@ public class RunIntervalExecute : RunExecute
 	bool RSABellDone;
 
 	//private Chronopic cp;
+	private static RunExecuteInspector runEI;
 
 	public RunIntervalExecute() {
 	}
@@ -586,6 +587,13 @@ public class RunIntervalExecute : RunExecute
 		if(! simulated)
 			Chronopic.InitCancelAndFinish();
 
+		runEI = new RunExecuteInspector(
+				RunExecuteInspector.Types.RUN_INTERVAL,
+				speedStartArrival,
+				checkDoubleContactMode,
+				checkDoubleContactTime
+				);
+		runEI.ChangePhase(RunExecuteInspector.Phases.START);
 		do {
 			if(simulated) 
 				ok = true;
@@ -611,8 +619,15 @@ public class RunIntervalExecute : RunExecute
 							runPhase = runPhases.PLATFORM_INI_YES_TIME;
 							//run starts
 							initializeTimer(); //timerCount = 0
+
+							runEI.ChangePhase(RunExecuteInspector.Phases.IN,
+								"TimerStart");
 						} else
+						{
 							runPhase = runPhases.PLATFORM_INI_NO_TIME;
+							runEI.ChangePhase(RunExecuteInspector.Phases.IN,
+								"No timer start until leave plaform");
+						}
 
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
@@ -627,6 +642,8 @@ public class RunIntervalExecute : RunExecute
 						if(simulated)
 							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 
+						string runEIString = "";
+
 						if(checkDoubleContactMode != Constants.DoubleContact.NONE) {
 							if(timestamp <= checkDoubleContactTime) {
 								/*
@@ -637,6 +654,10 @@ public class RunIntervalExecute : RunExecute
 								 */
 								timestampDCn ++;
 								timestampDCFlightTimes += timestamp;
+								runEI.ChangePhase(RunExecuteInspector.Phases.IN,
+									string.Format("RUNNING, DOUBLECONTACT, timestamp: {0}, " +
+										"has been added to timestampDCFLightTimes: {1}", timestamp/1000.0, timestampDCFlightTimes/1000.0));
+
 								continue;
 							}
 							else {
@@ -645,21 +666,37 @@ public class RunIntervalExecute : RunExecute
 											Constants.DoubleContact.FIRST) {
 										/* user want first flight time,
 										   then add all DC times*/
+
+										double timestampTemp = timestamp;
 										timestamp += timestampDCFlightTimes + 
 											timestampDCContactTimes;
+
+										runEIString = string.Format("RUNNING, DoubleContactMode.FIRST, timestamp was: {0} " +
+												"added DCFLightTimes: {1} and DCContactTimes: {2}, " +
+												"now timestamp is: {3}",
+												timestampTemp/1000.0, timestampDCFlightTimes/1000.0, timestampDCContactTimes/1000.0, timestamp/1000.0);
 									}
 									else if(checkDoubleContactMode == 
 											Constants.DoubleContact.LAST) {
 										//user want last flight time, take that
 										// so we don't need to change timestamp. Or we could do (it triggers a warning):
 										// timestamp = timestamp;
+
+										runEIString = string.Format("RUNNING, DoubleContactMode.LAST" +
+												"do not change timestamp, timestamp is: {0}", timestamp/1000.0);
 									}
 									else {	/* do the avg of all flights and contacts
 										   then add to last timestamp */
+										double timestampTemp = timestamp;
 										timestamp += 
 											(timestampDCFlightTimes + 
 											 timestampDCContactTimes) 
 											/ timestampDCn;
+
+										runEIString = string.Format("RUNNING, DoubleContactMode.AVERAGE, timestamp was: {0} " +
+												"added (DCFLightTimes: {1} + DCContactTimes: {2}) / n: {3}, " +
+												"now timestamp is: {4}",
+												timestampTemp/1000.0, timestampDCFlightTimes/1000.0, timestampDCContactTimes/1000.0, timestampDCn/1000.0, timestamp/1000.0);
 									}
 
 									//init values of timestampDC for next track
@@ -670,6 +707,9 @@ public class RunIntervalExecute : RunExecute
 
 						//note in double contacts mode timestamp can have added DCFlightTimes and DCContactTimes. So contact time is not only on lastTc
 						double myRaceTime = lastTc + timestamp/1000.0;
+
+						runEI.ChangePhase(RunExecuteInspector.Phases.IN, runEIString + "; trackTime: " + myRaceTime.ToString());
+
 						LogB.Information(string.Format("RACE ({0}) TC: {1}; TV: {2}; TOTALTIME: {3}", tracks, lastTc, timestamp/1000.0, myRaceTime));
 
 						if(intervalTimesString.Length > 0) { equal = "="; }
@@ -740,11 +780,12 @@ public class RunIntervalExecute : RunExecute
 				}
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
 					//it's out, was inside (= has abandoned platform)
-							
+
 					lastTc = 0;
 					if(runPhase == runPhases.PLATFORM_INI_NO_TIME) {
 						//run starts
 						initializeTimer();
+						runEI.ChangePhase(RunExecuteInspector.Phases.OUT, "Timer start");
 
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
@@ -755,15 +796,26 @@ public class RunIntervalExecute : RunExecute
 
 						// measuringReactionTime or not, if speedStartArrival, 1st race time should include lastTc
 						if(speedStartArrival)
+						{
 							lastTc = timestamp / 1000.0;
+							runEI.ChangePhase(RunExecuteInspector.Phases.OUT,
+								string.Format("SpeedStartArrival, tc = {0}", lastTc));
+						}
 
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
 					} else {
 						if(checkDoubleContactMode != Constants.DoubleContact.NONE && timestampDCn > 0)
+						{
 							timestampDCContactTimes += timestamp;
-						else 
+							runEI.ChangePhase(RunExecuteInspector.Phases.OUT,
+								string.Format("RUNNING double contact, timestampDCContactTimes = {0}", timestampDCContactTimes/1000.0));
+						}
+						else {
 							lastTc = timestamp / 1000.0;
+							runEI.ChangePhase(RunExecuteInspector.Phases.OUT,
+								string.Format("RUNNING, tc = {0}", lastTc));
+						}
 						
 						
 						//RSA
@@ -788,6 +840,7 @@ public class RunIntervalExecute : RunExecute
 				}
 			}
 		} while ( ! success && ! cancel && ! finish );
+		runEI.ChangePhase(RunExecuteInspector.Phases.END);
 
 		if (finish) {
 			runPhase = runPhases.PLATFORM_END;
@@ -1014,6 +1067,11 @@ public class RunIntervalExecute : RunExecute
 			needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 		}
 	}
+
+	public override string GetInspectorMessages()
+	{
+		return runEI.ToString();
+	}
 	
 	/*
 	public string IntervalTimesString
@@ -1071,3 +1129,72 @@ public class RunIntervalExecute : RunExecute
 	~RunIntervalExecute() {}
 }
 
+public class RunExecuteInspector
+{
+	public enum Types { RUN_SIMPLE, RUN_INTERVAL }
+	private Types type;
+
+	public enum Phases { START, IN, OUT, END }
+	private DateTime dtStarted;
+	private DateTime dtEnded;
+
+	private bool speedStartArrival;
+	Constants.DoubleContact checkDoubleContactMode;
+	int checkDoubleContactTime;
+
+	private List<InOut> listInOut;
+
+
+	//constructor
+	public RunExecuteInspector(Types type, bool speedStartArrival,
+			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime)
+	{
+		this.type = type;
+		this.speedStartArrival = speedStartArrival;
+		this.checkDoubleContactMode = checkDoubleContactMode;
+		this.checkDoubleContactTime = checkDoubleContactTime;
+
+		listInOut = new List<InOut>();
+	}
+
+	//public methods
+
+	public void ChangePhase(Phases phase)
+	{
+		ChangePhase(phase, "");
+	}
+	public void ChangePhase(Phases phase, string message)
+	{
+		DateTime dt = DateTime.Now;
+
+		if(phase == Phases.START)
+			dtStarted = dt;
+		else if(phase == Phases.END)
+			dtEnded = dt;
+		else // (phase == Phases.IN || phases == Phases.OUT)
+		{
+			InOut inOut = new InOut(phase == Phases.IN, dt, message);
+			listInOut.Add(inOut);
+			//listInOut.Add(new InOut(phase == Phases.IN, dt, message));
+		}
+	}
+
+	public override string ToString()
+	{
+		string report = "Report of race started at: " + dtStarted.ToShortTimeString();
+		report += "\n" + "Type: " + type.ToString();
+		report += "\n" + "SpeedStartArrival: " + speedStartArrival;
+		report += "\n" + "CheckDoubleContactMode: " + checkDoubleContactMode;
+		report += "\n" + "CheckDoubleContactTime: " + checkDoubleContactTime;
+
+		report += "\n" + "Chronopic changes:";
+		foreach(InOut inOut in listInOut)
+		{
+			report += inOut.ToString();
+		}
+		report += "\n\n";
+		report += "\n" + "Ended: " + dtEnded.ToShortTimeString();
+
+		return report;
+	}
+}

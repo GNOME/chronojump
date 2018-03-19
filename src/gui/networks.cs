@@ -221,8 +221,15 @@ public partial class ChronoJumpWindow
 	{
 		if(currentSession != null && rfid.Captured == capturedRFID)
 		{
-			rfidIsDifferent = false;
-			shouldUpdateRFIDGui = true;
+			if( ! networksRunIntervalCanChangePersonSQLReady ||
+					(eCapture != null && capturingCsharp == encoderCaptureProcess.CAPTURING) )
+			{
+				startedRFIDWait = DateTime.Now;
+				LogB.Information("... but we are on the middle of capture");
+			} else {
+				rfidIsDifferent = false;
+				shouldUpdateRFIDGui = true;
+			}
 		}
 	}
 

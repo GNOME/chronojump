@@ -701,7 +701,7 @@ public class RunIntervalExecute : RunExecute
 												"added (DCFLightTimes: {1} + DCContactTimes: {2}) / n: {3}, " +
 												"now timestamp is: {4}",
 												Math.Round(timestampTemp/1000.0, 3), Math.Round(timestampDCFlightTimes/1000.0, 3),
-												Math.Round(timestampDCContactTimes/1000.0, 3), Math.Round(timestampDCn/1000.0, 3),
+												Math.Round(timestampDCContactTimes/1000.0, 3), timestampDCn,
 												Math.Round(timestamp/1000.0, 3));
 									}
 
@@ -714,7 +714,9 @@ public class RunIntervalExecute : RunExecute
 						//note in double contacts mode timestamp can have added DCFlightTimes and DCContactTimes. So contact time is not only on lastTc
 						double myRaceTime = lastTc + timestamp/1000.0;
 
-						runEI.ChangePhase(RunExecuteInspector.Phases.IN, runEIString + "; trackTime: " + Math.Round(myRaceTime, 3));
+						runEI.ChangePhase(RunExecuteInspector.Phases.IN, runEIString +
+								string.Format("; timestamp: {0}; <b>trackTime: {1}</b>",
+									Math.Round(timestamp/1000.0, 3), Math.Round(myRaceTime, 3)));
 
 						LogB.Information(string.Format("RACE ({0}) TC: {1}; TV: {2}; TOTALTIME: {3}", tracks, lastTc, timestamp/1000.0, myRaceTime));
 

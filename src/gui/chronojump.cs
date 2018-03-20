@@ -5899,7 +5899,9 @@ LogB.Debug("X");
 	private void on_button_inspect_last_test_clicked (object o, EventArgs args)
 	{
 		if(currentEventExecute != null)
-			new DialogMessage(Constants.MessageTypes.INFO, currentEventExecute.GetInspectorMessages());
+			new DialogMessage("Chronojump " + Catalog.GetString("Inspector"),
+					Constants.MessageTypes.INSPECT, currentEventExecute.GetInspectorMessages(),
+					true); //show scrolledwindow vertical bar
 	}
 
 	private void deleted_last_test_update_widgets() {

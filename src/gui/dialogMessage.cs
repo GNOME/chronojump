@@ -19,35 +19,42 @@
  */
 
 using System;
+using Gdk;
 using Gtk;
 using Glade;
 
 public class DialogMessage
 {
 	[Widget] Gtk.Dialog dialog_message;
+	[Widget] Gtk.ScrolledWindow scrolledwindow;
 	[Widget] Gtk.Label label_message;
 
 	[Widget] Gtk.Image image_warning;
 	[Widget] Gtk.Image image_info;
 	[Widget] Gtk.Image image_help;
-		
+	[Widget] Gtk.Image image_inspect;
+
 	[Widget] Gtk.Box hbox_stiffness_formula;
 	[Widget] Gtk.Button button_go;
 	public bool Visible;
 	private string button_go_link = "";
 
-	public DialogMessage (string title, Constants.MessageTypes type, string message)
-	{
-		initialize(title, type, message);
-	}
 	public DialogMessage (Constants.MessageTypes type, string message)
 	{
-		initialize("", type, message);
+		initialize("", type, message, false);
+	}
+	public DialogMessage (string title, Constants.MessageTypes type, string message)
+	{
+		initialize(title, type, message, false);
+	}
+	public DialogMessage (string title, Constants.MessageTypes type, string message, bool showScrolledWinBar)
+	{
+		initialize(title, type, message, showScrolledWinBar);
 	}
 	//special caller to show stiffness formula or others
 	public DialogMessage (Constants.MessageTypes type, string message, string objectToShow)
 	{
-		initialize("", type, message);
+		initialize("", type, message, false);
 		if(objectToShow == "hbox_stiffness_formula")
 			hbox_stiffness_formula.Show();
 		else if(objectToShow == "button_go_r_mac")
@@ -57,7 +64,7 @@ public class DialogMessage
 		}
 	}
 
-	private void initialize(string title, Constants.MessageTypes type, string message)
+	private void initialize(string title, Constants.MessageTypes type, string message, bool showScroledWinBar)
 	{
 		LogB.Information("Dialog message: " + message);
 
@@ -83,23 +90,35 @@ public class DialogMessage
 		label_message.Text = message; 
 		label_message.UseMarkup = true; 
 
+		image_warning.Hide();
+		image_info.Hide();
+		image_help.Hide();
+		image_inspect.Hide();
+
 		switch (type) {
 			case Constants.MessageTypes.WARNING:
 				image_warning.Show();
-				image_info.Hide();
-				image_help.Hide();
 			break;
 			case Constants.MessageTypes.INFO:
-				image_warning.Hide();
 				image_info.Show();
-				image_help.Hide();
 			break;
 			case Constants.MessageTypes.HELP:
-				image_warning.Hide();
-				image_info.Hide();
 				image_help.Show();
 			break;
+			case Constants.MessageTypes.INSPECT:
+				Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_test_inspect.png");
+				image_inspect.Pixbuf = pixbuf;
+				image_inspect.Show();
+			break;
 		}
+
+		if(showScroledWinBar)
+		{
+			dialog_message.HeightRequest = 600;
+			scrolledwindow.SetPolicy(PolicyType.Never, PolicyType.Automatic);
+		}
+		else
+			scrolledwindow.SetPolicy(PolicyType.Never, PolicyType.Never);
 
 		label_message.Show();	
 		dialog_message.Show();	

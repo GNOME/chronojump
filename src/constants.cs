@@ -649,7 +649,7 @@ public class Constants
 
 	//for dialog windows
 	public enum MessageTypes {
-		WARNING, INFO, HELP
+		WARNING, INFO, HELP, INSPECT
 	}
 
 	public static string No = Catalog.GetString("No");

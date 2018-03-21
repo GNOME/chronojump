@@ -3118,6 +3118,7 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = 0;
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
+			button_inspect_last_test.Visible = true;
 
 			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
 			{
@@ -3138,8 +3139,6 @@ public partial class ChronoJumpWindow
 					radio_mode_contacts_general.Visible = true;
 					radio_mode_contacts_sprint.Visible = true;
 				}
-
-				button_inspect_last_test.Visible = true;
 			}
 			radio_mode_contacts_jumps_profile.Hide();
 			if(radio_mode_contacts_sprint.Active)

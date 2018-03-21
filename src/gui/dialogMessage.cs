@@ -114,7 +114,7 @@ public class DialogMessage
 
 		if(showScroledWinBar)
 		{
-			dialog_message.HeightRequest = 600;
+			dialog_message.HeightRequest = 450;
 			scrolledwindow.SetPolicy(PolicyType.Never, PolicyType.Automatic);
 		}
 		else

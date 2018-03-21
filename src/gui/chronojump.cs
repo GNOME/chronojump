@@ -566,7 +566,8 @@ public partial class ChronoJumpWindow
 
 		// ------ Loading preferences ------
 
-		splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[7]));
+		if(splashWin != null)
+			splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[7]));
 		
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
@@ -584,7 +585,8 @@ public partial class ChronoJumpWindow
 		
 		// ------ Creating widgets ------
 
-		splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[8]));
+		if(splashWin != null)
+			splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[8]));
 
 		createTreeView_persons (treeview_persons);
 
@@ -661,7 +663,8 @@ public partial class ChronoJumpWindow
 
 		// ------ Creating encoder widgets ------
 
-		splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[9]));
+		if(splashWin != null)
+			splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[9]));
 
 		encoderInitializeStuff();	
 
@@ -680,7 +683,8 @@ public partial class ChronoJumpWindow
 
 		// ------ Starting main window ------
 
-		splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[10]));
+		if(splashWin != null)
+			splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[10]));
 
 		/*
 		 * start a ping in other thread

@@ -230,8 +230,12 @@ public class RunExecute : EventExecute
 			
 			if (ok && !cancel) {
 				//LogB.Information("timestamp:" + timestamp);
-				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
-					//has arrived
+				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF)
+				{
+					/*
+					 * ---------------------------- has arrived ---------------------
+					 */
+
 					loggedState = States.ON;
 					
 					if(runPhase == runPhases.PRE_RUNNING) {
@@ -274,7 +278,7 @@ public class RunExecute : EventExecute
 								timestampDCFlightTimes += timestamp;
 								runEI.ChangePhase(RunExecuteInspector.Phases.IN,
 									string.Format("RUNNING, DOUBLECONTACT, timestamp: {0}, " +
-										"has been added to timestampDCFLightTimes: {1}",
+										"has been added to timestampDCFlightTimes: {1}",
 										Math.Round(timestamp/1000.0, 3),
 										Math.Round(timestampDCFlightTimes/1000.0, 3)
 										));
@@ -290,7 +294,7 @@ public class RunExecute : EventExecute
 											timestampDCContactTimes;
 
 										runEIString = string.Format("RUNNING, DoubleContactMode.FIRST, timestamp was: {0} " +
-												"added DCFLightTimes: {1} and DCContactTimes: {2}, " +
+												"added DCFlightTimes: {1} and DCContactTimes: {2}, " +
 												"now timestamp is: {3}",
 												Math.Round(timestampTemp/1000.0, 3), Math.Round(timestampDCFlightTimes/1000.0, 3),
 												Math.Round(timestampDCContactTimes/1000.0, 3), Math.Round(timestamp/1000.0, 3));
@@ -304,7 +308,8 @@ public class RunExecute : EventExecute
 										runEIString = string.Format("RUNNING, DoubleContactMode.LAST " +
 												"do not change timestamp, timestamp is: {0}", timestamp/1000.0);
 									}
-									else {	/* do the avg of all flights and contacts
+									else {	// checkDoubleContactMode == AVERAGE
+										/* do the avg of all flights and contacts
 										   then add to last timestamp */
 										double timestampTemp = timestamp;
 										timestamp += 
@@ -313,7 +318,7 @@ public class RunExecute : EventExecute
 											/ timestampDCn;
 
 										runEIString = string.Format("RUNNING, DoubleContactMode.AVERAGE, timestamp was: {0} " +
-												"added (DCFLightTimes: {1} + DCContactTimes: {2}) / n: {3}, " +
+												"added (DCFlightTimes: {1} + DCContactTimes: {2}) / n: {3}, " +
 												"now timestamp is: {4}",
 												Math.Round(timestampTemp/1000.0, 3), Math.Round(timestampDCFlightTimes/1000.0, 3),
 												Math.Round(timestampDCContactTimes/1000.0, 3), timestampDCn,
@@ -361,8 +366,11 @@ public class RunExecute : EventExecute
 						}
 					}
 				}
-				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
-					//it's out, was inside (= has abandoned platform)
+				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON)
+				{
+					/*
+					 * ------------------it's out has abandoned photocell ----------------------
+					 */
 					//don't record time
 						
 					//change the automata state
@@ -665,8 +673,12 @@ public class RunIntervalExecute : RunExecute
 				if(distanceInterval == -1)
 					distanceIntervalFixed = Util.GetRunIVariableDistancesStringRow(distancesString, (int) tracks);
 
-				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
-					//has arrived
+				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF)
+				{
+					/*
+					 * ---------------------------- has arrived ---------------------
+					 */
+
 					loggedState = States.ON;
 					
 					//show RSA count down only on air		
@@ -716,7 +728,7 @@ public class RunIntervalExecute : RunExecute
 								timestampDCFlightTimes += timestamp;
 								runEI.ChangePhase(RunExecuteInspector.Phases.IN,
 									string.Format("RUNNING, DOUBLECONTACT, timestamp: {0}, " +
-										"has been added to timestampDCFLightTimes: {1}",
+										"has been added to timestampDCFlightTimes: {1}",
 										Math.Round(timestamp/1000.0, 3),
 										Math.Round(timestampDCFlightTimes/1000.0, 3)
 										));
@@ -735,7 +747,7 @@ public class RunIntervalExecute : RunExecute
 											timestampDCContactTimes;
 
 										runEIString = string.Format("RUNNING, DoubleContactMode.FIRST, timestamp was: {0} " +
-												"added DCFLightTimes: {1} and DCContactTimes: {2}, " +
+												"added DCFlightTimes: {1} and DCContactTimes: {2}, " +
 												"now timestamp is: {3}",
 												Math.Round(timestampTemp/1000.0, 3), Math.Round(timestampDCFlightTimes/1000.0, 3),
 												Math.Round(timestampDCContactTimes/1000.0, 3), Math.Round(timestamp/1000.0, 3));
@@ -749,7 +761,8 @@ public class RunIntervalExecute : RunExecute
 										runEIString = string.Format("RUNNING, DoubleContactMode.LAST " +
 												"do not change timestamp, timestamp is: {0}", timestamp/1000.0);
 									}
-									else {	/* do the avg of all flights and contacts
+									else {	// checkDoubleContactMode == AVERAGE
+										/* do the avg of all flights and contacts
 										   then add to last timestamp */
 										double timestampTemp = timestamp;
 										timestamp += 
@@ -758,7 +771,7 @@ public class RunIntervalExecute : RunExecute
 											/ timestampDCn;
 
 										runEIString = string.Format("RUNNING, DoubleContactMode.AVERAGE, timestamp was: {0} " +
-												"added (DCFLightTimes: {1} + DCContactTimes: {2}) / n: {3}, " +
+												"added (DCFlightTimes: {1} + DCContactTimes: {2}) / n: {3}, " +
 												"now timestamp is: {4}",
 												Math.Round(timestampTemp/1000.0, 3), Math.Round(timestampDCFlightTimes/1000.0, 3),
 												Math.Round(timestampDCContactTimes/1000.0, 3), timestampDCn,
@@ -846,8 +859,11 @@ public class RunIntervalExecute : RunExecute
 							needSensitiveButtonFinish = true;
 					}
 				}
-				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
-					//it's out, was inside (= has abandoned platform)
+				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON)
+				{
+					/*
+					 * ------------------it's out has abandoned photocell ----------------------
+					 */
 
 					lastTc = 0;
 					if(runPhase == runPhases.PLATFORM_INI_NO_TIME) {

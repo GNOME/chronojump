@@ -537,6 +537,11 @@ public partial class ChronoJumpWindow
 		//put an icon to window
 		UtilGtk.IconWindow(app1);
 
+		string buildVersion = UtilAll.ReadVersionFromBuildInfo();
+		label_version.Text = buildVersion;
+		label_version_hidden.Text = buildVersion;
+		LogB.Information("Build version:" + buildVersion);
+
 		//manage app1 will not be hiding other windows at start
 		app1Shown = false;
 		needToShowChronopicRegisterWindow = false;
@@ -666,11 +671,6 @@ public partial class ChronoJumpWindow
 		//presentationInit();
 
 		videoCaptureInitialize();
-
-		string buildVersion = UtilAll.ReadVersionFromBuildInfo();
-		label_version.Text = buildVersion;
-		label_version_hidden.Text = buildVersion;
-		LogB.Information("Build version:" + buildVersion);
 
 		initializeRestTimeLabels();
 		label_rest.Text = get_configured_rest_time_as_string();

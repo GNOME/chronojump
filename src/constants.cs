@@ -926,8 +926,17 @@ public class Constants
 	
 	public enum EncoderAutoSaveCurve { ALL, NONE, BEST, FROM4TOPENULTIMATE }
 
+	//BIGGEST_TC will be the default mode.
+	// - at END of each track: track ends before the biggest TC (just before the trunk arrives)
+	// - at START of each track:
+	// 	- if starting on contact:
+	// 		time starts when leaving it. Usually will be with the biggest part (trunk),
+	// 		and maybe later there's a foot, so leaving the contact on the first time is the beginning.
+	// 	- on speed start, if there are double contacts,
+	// 		- if "race starts at arriving at platform", then race will start before big tc (trunk)
+	// 		- else, race will start after big tc (trunk)
 	public enum DoubleContact {
-		NONE, FIRST, AVERAGE, LAST
+		NONE, FIRST, AVERAGE, LAST, BIGGEST_TC
 	}
 	
 	//DISPLACED means: total

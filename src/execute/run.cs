@@ -56,8 +56,11 @@ public class RunExecute : EventExecute
 	protected double timestampDCContactTimes; 	//sum of the contact times that happen in small time
 	protected double timestampDCn; 			//number of flight times in double contacts period
 
+	//static because they are used on both threads at the same time
 	protected static RunExecuteInspector runEI;
-
+	protected static RunDoubleContact runDC;
+	//protected static RunPhaseTimeList runPTL;
+	protected static bool success;
 
 	public RunExecute() {
 	}
@@ -208,7 +211,7 @@ public class RunExecute : EventExecute
 
 		timestampDCInitValues();
 
-		bool success = false;
+		success = false;
 		bool ok;
 
 		//prepare variables to allow being cancelled or finished
@@ -230,12 +233,8 @@ public class RunExecute : EventExecute
 			
 			if (ok && !cancel) {
 				//LogB.Information("timestamp:" + timestamp);
-				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF)
+				if (has_arrived()) // timestamp is tf
 				{
-					/*
-					 * ---------------------------- has arrived ---------------------
-					 */
-
 					loggedState = States.ON;
 					
 					if(runPhase == runPhases.PRE_RUNNING) {
@@ -366,14 +365,10 @@ public class RunExecute : EventExecute
 						}
 					}
 				}
-				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON)
+				else if (has_lifted()) // timestamp is tc
 				{
-					/*
-					 * ------------------it's out has abandoned photocell ----------------------
-					 */
 					//don't record time
 						
-					//change the automata state
 					loggedState = States.OFF;
 
 					if(checkDoubleContactMode != Constants.DoubleContact.NONE && timestampDCn > 0)
@@ -412,6 +407,15 @@ public class RunExecute : EventExecute
 			}
 		} while ( ! success && ! cancel );
 		runEI.ChangePhase(RunExecuteInspector.Phases.END);
+	}
+
+	protected bool has_arrived()
+	{
+		return (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF);
+	}
+	protected bool has_lifted()
+	{
+		return (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON);
 	}
 	
 	protected override bool shouldFinishByTime() {
@@ -530,7 +534,10 @@ public class RunExecute : EventExecute
 
 	public override string GetInspectorMessages()
 	{
-		return runEI.ToString();
+		if(runPTL != null)
+			return runEI.ToString() + "\n\n" + runPTL.ToString() + "\n\n" + runPTL.InListForPaintingToString();
+		else
+			return runEI.ToString();
 	}
 
 	public string RunnerName
@@ -547,16 +554,20 @@ public class RunIntervalExecute : RunExecute
 	double distanceTotal;
 	double timeTotal;
 	double distanceInterval;
-	string intervalTimesString;
-	double tracks; //double because if we limit by time (runType tracksLimited false), we do n.nn tracks
 	string limited; //the teorically values, eleven runs: "11=R" (time recorded in "time"), 10 seconds: "10=T" (tracks recorded in tracks)
 	double limitAsDouble;	//-1 for non limited (unlimited repetitive run until "finish" is clicked)
 	bool tracksLimited;
 
-
 	string distancesString; //if distances are variable (distanceInterval == -1), this is used
 	double distanceIntervalFixed; //if distanceInterval == -1, then Fixed is the corresponding base on distancesString
-	double lastTc;		//useful to know time on contact platform because intervalTimesString does not differentiate
+
+	//static because they are used on both threads at the same time
+	static double tracks; //double because if we limit by time (runType tracksLimited false), we do n.nn tracks
+	static string intervalTimesString;
+	//since trackDone is called by PulseGTK (onTimer)
+	static double lastTc;		//useful to know time on contact platform because intervalTimesString does not differentiate
+	static double lastTf; 		//used when no double contacts mode
+	static DateTime timerLastTf; //this two will be protected and in runSimpleExecute
 							
 	bool RSABellDone;
 
@@ -625,7 +636,9 @@ public class RunIntervalExecute : RunExecute
 		
 		needUpdateEventProgressBar = false;
 		needUpdateGraph = false;
-		
+		needCallTrackDone = false;
+		needCheckIfTrackEnded = false;
+
 		timesForSavingRepetitive = 1; //number of times that this repetive event needs for being recorded in temporal table
 
 		//initialize eventDone as a RunInterval
@@ -633,11 +646,13 @@ public class RunIntervalExecute : RunExecute
 	}
 
 
+	private string equal;
+	private int countForSavingTempTable;
 	protected override void waitEvent ()
 	{
 		double timestamp = 0;
-		bool success = false;
-		string equal = "";
+		success = false;
+		equal = "";
 		
 		//initialize variables
 		intervalTimesString = "";
@@ -645,12 +660,14 @@ public class RunIntervalExecute : RunExecute
 		bool ok;
 		timerCount = 0;
 		//bool initialized = false;
-		int countForSavingTempTable = 0;
+		countForSavingTempTable = 0;
+
 		lastTc = 0;
 		distanceIntervalFixed = distanceInterval;
 
 		timestampDCInitValues();
-		
+		timerLastTf = DateTime.MinValue;
+
 		//prepare variables to allow being cancelled or finished
 		if(! simulated)
 			Chronopic.InitCancelAndFinish();
@@ -662,23 +679,33 @@ public class RunIntervalExecute : RunExecute
 				checkDoubleContactTime
 				);
 		runEI.ChangePhase(RunExecuteInspector.Phases.START);
+
+		//initialize runDC
+		runDC = new RunDoubleContact(
+				checkDoubleContactMode,
+				checkDoubleContactTime
+				);
+		runPTL = new RunPhaseTimeList();
+
+		bool exitWaitEventBucle = false;
+		int countBucle = 0; //just for debug now
 		do {
 			if(simulated) 
 				ok = true;
 			else 
 				ok = cp.Read_event(out timestamp, out platformState);
-		
-	
-			if (ok && !cancel && !finish) {
+
+			LogB.Information(string.Format("countBucle = {0}; platformState = {1}; lastTc = {2}; lastTf = {3}", countBucle, platformState, lastTc, lastTf));
+			countBucle ++;
+
+
+			if (ok && ! cancel && ! finish)
+			{
 				if(distanceInterval == -1)
 					distanceIntervalFixed = Util.GetRunIVariableDistancesStringRow(distancesString, (int) tracks);
 
-				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF)
+				if (has_arrived()) //timestamp is TF
 				{
-					/*
-					 * ---------------------------- has arrived ---------------------
-					 */
-
 					loggedState = States.ON;
 					
 					//show RSA count down only on air		
@@ -714,156 +741,24 @@ public class RunIntervalExecute : RunExecute
 						if(simulated)
 							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 
-						//prevent double contact stuff
-						string runEIString = "";
-						if(checkDoubleContactMode != Constants.DoubleContact.NONE) {
-							if(timestamp <= checkDoubleContactTime) {
-								/*
-								   when checking double contact
-								   first time that timestamp < checkDoubleContactTime
-								   and we arrived (it's a flight time)
-								   record this time as timestampDCFlightTimes
-								 */
-								timestampDCn ++;
-								timestampDCFlightTimes += timestamp;
-								runEI.ChangePhase(RunExecuteInspector.Phases.IN,
-									string.Format("RUNNING, DOUBLECONTACT, timestamp: {0}, " +
-										"has been added to timestampDCFlightTimes: {1}",
-										Math.Round(timestamp/1000.0, 3),
-										Math.Round(timestampDCFlightTimes/1000.0, 3)
-										));
-
-								continue;
-							}
-							else {
-								if(timestampDCn > 0) {
-									if(checkDoubleContactMode == 
-											Constants.DoubleContact.FIRST) {
-										/* user want first flight time,
-										   then add all DC times*/
-
-										double timestampTemp = timestamp;
-										timestamp += timestampDCFlightTimes + 
-											timestampDCContactTimes;
-
-										runEIString = string.Format("RUNNING, DoubleContactMode.FIRST, timestamp was: {0} " +
-												"added DCFlightTimes: {1} and DCContactTimes: {2}, " +
-												"now timestamp is: {3}",
-												Math.Round(timestampTemp/1000.0, 3), Math.Round(timestampDCFlightTimes/1000.0, 3),
-												Math.Round(timestampDCContactTimes/1000.0, 3), Math.Round(timestamp/1000.0, 3));
-									}
-									else if(checkDoubleContactMode == 
-											Constants.DoubleContact.LAST) {
-										//user want last flight time, take that
-										// so we don't need to change timestamp. Or we could do (it triggers a warning):
-										// timestamp = timestamp;
-
-										runEIString = string.Format("RUNNING, DoubleContactMode.LAST " +
-												"do not change timestamp, timestamp is: {0}", timestamp/1000.0);
-									}
-									else {	// checkDoubleContactMode == AVERAGE
-										/* do the avg of all flights and contacts
-										   then add to last timestamp */
-										double timestampTemp = timestamp;
-										timestamp += 
-											(timestampDCFlightTimes + 
-											 timestampDCContactTimes) 
-											/ timestampDCn;
-
-										runEIString = string.Format("RUNNING, DoubleContactMode.AVERAGE, timestamp was: {0} " +
-												"added (DCFlightTimes: {1} + DCContactTimes: {2}) / n: {3}, " +
-												"now timestamp is: {4}",
-												Math.Round(timestampTemp/1000.0, 3), Math.Round(timestampDCFlightTimes/1000.0, 3),
-												Math.Round(timestampDCContactTimes/1000.0, 3), timestampDCn,
-												Math.Round(timestamp/1000.0, 3));
-									}
-
-									//init values of timestampDC for next track
-									timestampDCInitValues();
-								}
-							}
+						if(runDC.UseDoubleContacts())
+						{
+							runDC.DoneTF (timestamp);
+							timerLastTf = DateTime.Now;
+							needCheckIfTrackEnded = true;
+						} else
+						{
+							lastTf = timestamp;
+							//trackDone();
+							needCallTrackDone = true;
 						}
 
-						//note in double contacts mode timestamp can have added DCFlightTimes and DCContactTimes. So contact time is not only on lastTc
-						double myRaceTime = lastTc + timestamp/1000.0;
-
-						runEI.ChangePhase(RunExecuteInspector.Phases.IN, runEIString +
-								string.Format("; timestamp: {0}; <b>trackTime: {1}</b>",
-									Math.Round(timestamp/1000.0, 3), Math.Round(myRaceTime, 3)));
-
-						LogB.Information(string.Format("RACE ({0}) TC: {1}; TV: {2}; TOTALTIME: {3}", tracks, lastTc, timestamp/1000.0, myRaceTime));
-
-						if(intervalTimesString.Length > 0) { equal = "="; }
-						intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
-						updateTimerCountWithChronopicData(intervalTimesString);
-						tracks ++;	
-
-						//save temp table if needed
-						countForSavingTempTable ++;
-						if(countForSavingTempTable == timesForSavingRepetitive) {
-								writeRunInterval(true); //tempTable
-								countForSavingTempTable = 0;
-						}
-					
-						if(limitAsDouble == -1) {
-							//has arrived, unlimited
-							updateProgressBar= new UpdateProgressBar (
-									true, //isEvent
-									true, //unlimited: activity mode
-									tracks
-									);  
-							needUpdateEventProgressBar = true;
-						}
-						else {
-							//has arrived, limited
-							if (tracksLimited) {
-								//has arrived, limited by tracks
-								if(tracks >= limitAsDouble) 
-								{
-									runPhase = runPhases.PLATFORM_END;
-
-									//finished
-									writeRunInterval(false); //tempTable = false
-									success = true;
-								}
-								//progressBarEventOrTimePreExecution(
-								updateProgressBar= new UpdateProgressBar (
-										true, //isEvent
-										true, //tracksLimited: percentageMode
-										tracks
-										);  
-								needUpdateEventProgressBar = true;
-							} else {
-								//has arrived, limited by time
-								updateProgressBar= new UpdateProgressBar (
-										true, //isEvent
-										false, //timeLimited: activity mode
-										tracks
-										);  
-								needUpdateEventProgressBar = true;
-							}
-						}
-
-						distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
-
-						//update graph
-						PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
-								distanceIntervalFixed, myRaceTime, intervalTimesString, 
-								distanceTotal, distancesString, startIn);
-
-						needUpdateGraphType = eventType.RUNINTERVAL;
-						needUpdateGraph = true;
-
-						//put button_finish as sensitive when first jump is done (there's something recordable)
-						if(tracks == 1)
-							needSensitiveButtonFinish = true;
+						runPTL.AddTF(timestamp);
 					}
 				}
-				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON)
+				else if (has_lifted()) //timestamp is TC
 				{
-					/*
-					 * ------------------it's out has abandoned photocell ----------------------
-					 */
+					loggedState = States.OFF;
 
 					lastTc = 0;
 					if(runPhase == runPhases.PLATFORM_INI_NO_TIME) {
@@ -884,22 +779,23 @@ public class RunIntervalExecute : RunExecute
 							lastTc = timestamp / 1000.0;
 							runEI.ChangePhase(RunExecuteInspector.Phases.OUT,
 								string.Format("SpeedStartArrival, tc = {0}", Math.Round(lastTc, 3)));
+							runPTL.AddTC(timestamp);
 						}
 
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
 					} else {
-						if(checkDoubleContactMode != Constants.DoubleContact.NONE && timestampDCn > 0)
+						runEI.ChangePhase(RunExecuteInspector.Phases.OUT,
+								string.Format("SpeedStartArrival, timestamp = {0}", timestamp));
+
+						if(runDC.UseDoubleContacts())
 						{
-							timestampDCContactTimes += timestamp;
-							runEI.ChangePhase(RunExecuteInspector.Phases.OUT,
-								string.Format("RUNNING double contact, timestampDCContactTimes = {0}", Math.Round(timestampDCContactTimes/1000.0, 3)));
+							runDC.DoneTC(timestamp);
 						}
 						else {
 							lastTc = timestamp / 1000.0;
-							runEI.ChangePhase(RunExecuteInspector.Phases.OUT,
-								string.Format("RUNNING, tc = {0}", Math.Round(lastTc, 3)));
 						}
+						runPTL.AddTC(timestamp);
 						
 						
 						//RSA
@@ -916,14 +812,30 @@ public class RunIntervalExecute : RunExecute
 
 					}
 
-						
 					runPhase = runPhases.RUNNING;
-
-					//change the automata state
-					loggedState = States.OFF;
 				}
 			}
-		} while ( ! success && ! cancel && ! finish );
+
+			exitWaitEventBucle = false;
+			if(success || cancel || finish)
+			{
+				if(runDC.UseDoubleContacts())
+				{
+					LogB.Information(string.Format("success: {0}, cancel: {1}, finish: {2}", success, cancel, finish));
+					while(needCheckIfTrackEnded)
+					{
+						LogB.Information("WAITING 100 MS TO EXIT BUCLE");
+						//TODO: checks what happens with cancel... in the pulse thread, will change this boolean? needCheckIfTrackEnded
+						Thread.Sleep(100);
+					}
+
+					exitWaitEventBucle = true;
+				}
+				else
+					exitWaitEventBucle = true;
+			}
+
+		} while ( ! exitWaitEventBucle );
 		runEI.ChangePhase(RunExecuteInspector.Phases.END);
 
 		if (finish) {
@@ -939,6 +851,116 @@ public class RunIntervalExecute : RunExecute
 			}
 		}
 	}
+
+	//this will be protected and in run simple execute class
+	protected override bool lastTfCheckTimeEnded()
+	{
+		TimeSpan span = DateTime.Now - timerLastTf;
+		if(span.TotalMilliseconds > checkDoubleContactTime * 1.5)
+		{
+			timerLastTf = DateTime.Now;
+			return true;
+		}
+		return false;
+	}
+
+	//this will be protected and in run simple execute class
+	//big change in 1.8.1: this will be called from GTK thread
+	//so don't write to SQL here
+	//and use static variables where needed
+	protected override void trackDone()
+	{
+		double myTrackTime = 0;
+		if(runDC.UseDoubleContacts())
+			myTrackTime = runDC.GetTrackTimeInSecondsAndEmptyLists(); //will come in seconds
+		else {
+			//note in double contacts mode timestamp can have added DCFlightTimes and DCContactTimes. So contact time is not only on lastTc
+			myTrackTime = lastTc + lastTf/1000.0;
+		}
+
+		//runEI.ChangePhase(RunExecuteInspector.Phases.IN, runEIString +
+		runEI.ChangePhase(RunExecuteInspector.Phases.IN, //runEIString +
+				string.Format("; timestamp: {0}; <b>trackTime: {1}</b>",
+					Math.Round(lastTf/1000.0, 3), Math.Round(myTrackTime, 3)));
+
+		LogB.Information(string.Format("RACE ({0}) TC: {1}; TV: {2}; TOTALTIME: {3}", tracks, lastTc, lastTf/1000.0, myTrackTime));
+
+		if(intervalTimesString.Length > 0) { equal = "="; }
+		intervalTimesString = intervalTimesString + equal + myTrackTime.ToString();
+		updateTimerCountWithChronopicData(intervalTimesString);
+		tracks ++;
+
+		/*
+		 * Attention:
+		 * don't do this because we are on GTK thread right now
+		 * and here we are touching SQL
+		 *
+		//save temp table if needed
+		countForSavingTempTable ++;
+		if(countForSavingTempTable == timesForSavingRepetitive) {
+			writeRunInterval(true); //tempTable
+			countForSavingTempTable = 0;
+		}
+		*/
+
+		if(limitAsDouble == -1) {
+			//has arrived, unlimited
+			updateProgressBar= new UpdateProgressBar (
+					true, //isEvent
+					true, //unlimited: activity mode
+					tracks
+					);
+			needUpdateEventProgressBar = true;
+		}
+		else {
+			//has arrived, limited
+			if (tracksLimited) {
+				//has arrived, limited by tracks
+				if(tracks >= limitAsDouble) 
+				{
+					runPhase = runPhases.PLATFORM_END;
+
+					//finished
+					writeRunInterval(false); //tempTable = false
+					success = true;
+
+					//as we will be on waitEvent do { ok = cp.Read_event ... }
+					//call this to end Read_cambio called by Read_event
+			                Chronopic.FinishDo();
+				}
+				//progressBarEventOrTimePreExecution(
+				updateProgressBar= new UpdateProgressBar (
+						true, //isEvent
+						true, //tracksLimited: percentageMode
+						tracks
+						);
+				needUpdateEventProgressBar = true;
+			} else {
+				//has arrived, limited by time
+				updateProgressBar= new UpdateProgressBar (
+						true, //isEvent
+						false, //timeLimited: activity mode
+						tracks
+						);
+				needUpdateEventProgressBar = true;
+			}
+		}
+
+		distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
+
+		//update graph
+		PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
+				distanceIntervalFixed, myTrackTime, intervalTimesString,
+				distanceTotal, distancesString, startIn);
+
+		needUpdateGraphType = eventType.RUNINTERVAL;
+		needUpdateGraph = true;
+
+		//put button_finish as sensitive when first jump is done (there's something recordable)
+		if(tracks == 1)
+			needSensitiveButtonFinish = true;
+	}
+
 
 	protected override string countDownMessage() {
 		double waitSeconds = Util.GetRunIVariableDistancesThisRowIsRSA(distancesString, Convert.ToInt32(tracks))
@@ -1119,7 +1141,8 @@ public class RunIntervalExecute : RunExecute
 					);
 
 			//define the created object
-			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracksHere, description, limitString, Util.BoolToNegativeInt(simulated), !startIn); 
+			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString,
+					tracksHere, description, limitString, Util.BoolToNegativeInt(simulated), !startIn); 
 
 			/*
 			string tempValuesString;
@@ -1206,70 +1229,4 @@ public class RunIntervalExecute : RunExecute
 	*/
 		
 	~RunIntervalExecute() {}
-}
-
-public class RunExecuteInspector
-{
-	public enum Types { RUN_SIMPLE, RUN_INTERVAL }
-	private Types type;
-
-	public enum Phases { START, IN, OUT, END }
-	private DateTime dtStarted;
-	private DateTime dtEnded;
-
-	private bool speedStartArrival;
-	Constants.DoubleContact checkDoubleContactMode;
-	int checkDoubleContactTime;
-
-	private List<InOut> listInOut;
-
-
-	//constructor
-	public RunExecuteInspector(Types type, bool speedStartArrival,
-			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime)
-	{
-		this.type = type;
-		this.speedStartArrival = speedStartArrival;
-		this.checkDoubleContactMode = checkDoubleContactMode;
-		this.checkDoubleContactTime = checkDoubleContactTime;
-
-		listInOut = new List<InOut>();
-	}
-
-	//public methods
-
-	public void ChangePhase(Phases phase)
-	{
-		ChangePhase(phase, "");
-	}
-	public void ChangePhase(Phases phase, string message)
-	{
-		DateTime dt = DateTime.Now;
-
-		if(phase == Phases.START)
-			dtStarted = dt;
-		else if(phase == Phases.END)
-			dtEnded = dt;
-		else // (phase == Phases.IN || phases == Phases.OUT)
-		{
-			InOut inOut = new InOut(phase == Phases.IN, dt, message);
-			listInOut.Add(inOut);
-			//listInOut.Add(new InOut(phase == Phases.IN, dt, message));
-		}
-	}
-
-	public override string ToString()
-	{
-		string report = string.Format("Report of race started at: {0}; ended at: {1}", dtStarted.ToShortTimeString(), dtEnded.ToShortTimeString());
-		report += "\n" + "Type: " + type.ToString();
-		report += "\n" + "SpeedStartArrival: " + speedStartArrival;
-		report += "\n" + "CheckDoubleContactMode: " + checkDoubleContactMode;
-		report += "\n" + "CheckDoubleContactTime: " + checkDoubleContactTime;
-		report += "\n" + "Chronopic changes:";
-		foreach(InOut inOut in listInOut)
-		{
-			report += inOut.ToString();
-		}
-		return report;
-	}
 }

@@ -57,6 +57,8 @@ public class EventExecute
 	}
 	protected eventType needUpdateGraphType;
 	
+	protected bool needCallTrackDone;
+	protected bool needCheckIfTrackEnded; //Races with double contacts wait some ms to see if other contact appears
 	protected bool needShowCountDown;	//RSA
 
 	//protected string syncMessage;
@@ -82,6 +84,8 @@ public class EventExecute
 
 	protected ExecutingGraphData egd;
 	
+	//for runs
+	public RunPhaseTimeList runPTL;
 
 
 	//better as private and don't inherit, don't know why
@@ -312,7 +316,22 @@ public class EventExecute
 			egd.Button_finish.Sensitive = true;
 			needSensitiveButtonFinish = false;
 		}
-		
+
+		// races specific --------------------------------->
+
+		//Race track with DoubleContacts mode NONE
+		if(needCallTrackDone)
+		{
+			trackDone();
+			needCallTrackDone = false;
+		}
+		//Race track with DoubleContacts mode != NONE
+		if(needCheckIfTrackEnded && lastTfCheckTimeEnded())
+		{
+			trackDone();
+			needCheckIfTrackEnded = false;
+		}
+
 		//RSA
 		if(needShowCountDown) 
 		{
@@ -325,6 +344,7 @@ public class EventExecute
 			needShowFeedbackMessage = false;
 		}
 		
+		// <-------------------------- end of races specific
 		
 		//check if it should finish by time
 		if(shouldFinishByTime()) {
@@ -333,6 +353,8 @@ public class EventExecute
 		} 
 	}
 	
+	// races specific --------------------------------->
+
 	private void runATouchPlatform() {
 		UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
 	}
@@ -340,7 +362,18 @@ public class EventExecute
 	public void RunANoStrides() {
 		UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
 	}
-	
+
+	protected virtual bool lastTfCheckTimeEnded()
+	{
+		return true;
+	}
+
+	protected virtual void trackDone()
+	{
+	}
+
+	// <-------------------------- end of races specific
+
 	protected void progressBarEventOrTimePreExecution (bool isEvent, bool percentageMode, double events) 
 	{
 		if (isEvent) 
@@ -477,6 +510,11 @@ public class EventExecute
 		return "";
 	}
 
+	public RunPhaseTimeList RunPTL
+	{
+		get { return runPTL; }
+	}
+
 	//from confirm_window cancel button (thread has not started)
 	//this is NOT called when a event has started and user click on "Cancel"
 	protected void cancel_event_before_start(object o, EventArgs args)
@@ -546,6 +584,37 @@ public class EventExecute
 
 	~EventExecute() {}
 	   
+}
+
+public class PhaseTime
+{
+	private bool contactIn;
+	private double duration;
+
+	public PhaseTime (bool contactIn, double duration)
+	{
+		this.contactIn = contactIn;
+		this.duration = duration;
+	}
+
+	public override string ToString()
+	{
+		string strMode = "IN";
+		if(! contactIn)
+			strMode = "OUT";
+
+		//TODO: use a printf mode to have always same digits
+		return "\n" + Math.Round(Util.DivideSafe(duration, 1000.0), 3) + " - " + strMode;
+	}
+
+	public bool IsContact
+	{
+		get { return contactIn; }
+	}
+	public double Duration
+	{
+		get { return duration; }
+	}
 }
 
 public class InOut

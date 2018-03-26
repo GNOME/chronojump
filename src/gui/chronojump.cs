@@ -366,6 +366,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze_table_save;
 	[Widget] Gtk.Image image_encoder_signal_delete;
 	[Widget] Gtk.Image image_encoder_inertial_instructions;
+	[Widget] Gtk.Label label_gravitatory_vpf_propulsive;
 
 	//forcesensor
 	[Widget] Gtk.Image image_forcesensor_analyze_image_save;
@@ -3211,6 +3212,7 @@ public partial class ChronoJumpWindow
 				}
 				//hbox_encoder_capture_1_or_cont.Visible = true;
 				vbox_angle_now.Visible = false;
+				label_gravitatory_vpf_propulsive.Visible = true;
 
 				notebook_encoder_top.Page = 0;
 			} else {
@@ -3243,6 +3245,7 @@ public partial class ChronoJumpWindow
 				radio_encoder_capture_1set.Active = true;
 				//hbox_encoder_capture_1_or_cont.Visible = false;
 				vbox_angle_now.Visible = true;
+				label_gravitatory_vpf_propulsive.Visible = false;
 
 				notebook_encoder_top.Page = 1;
 			}

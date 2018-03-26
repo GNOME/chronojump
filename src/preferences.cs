@@ -47,7 +47,7 @@ public class Preferences
 
 	public Constants.DoubleContact runDoubleContactsMode; //default LAST
 	public int runDoubleContactsMS; //milliseconds
-	public Constants.DoubleContact runIDoubleContactsMode; //default AVERAGE
+	public Constants.DoubleContact runIDoubleContactsMode; //As 1.8.1 is NONE or BIGGEST_TC
 	public int runIDoubleContactsMS; //milliseconds
 
 	public int thresholdJumps;

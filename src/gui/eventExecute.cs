@@ -707,7 +707,7 @@ public partial class ChronoJumpWindow
 	public void PrepareRunIntervalGraph(double distance, double lastTime, string timesString,
 			double distanceTotal, string distancesString,
 			bool startIn, bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			RepetitiveConditionsWindow repetitiveConditionsWin)
+			RepetitiveConditionsWindow repetitiveConditionsWin, RunPhaseTimeList runPTL)
 	{
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
@@ -750,7 +750,7 @@ public partial class ChronoJumpWindow
 				lastTime, timesString, Util.GetAverage(timesString), 
 				maxValue, minValue, tracks, topMargin, bottomMargin,
 				Util.GetPosMax(timesString), Util.GetPosMin(timesString), startIn,
-				volumeOn, gstreamer, repetitiveConditionsWin);
+				volumeOn, gstreamer, repetitiveConditionsWin, runPTL);
 		
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
@@ -1435,7 +1435,7 @@ public partial class ChronoJumpWindow
 			double maxValue, double minValue, int tracks, int topMargin, int bottomMargin, 
 			int hightValuePosition, int lowValuePosition, bool startIn,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			RepetitiveConditionsWindow repetitiveConditionsWin)
+			RepetitiveConditionsWindow repetitiveConditionsWin, RunPhaseTimeList runPTL)
 	{
 		//int topMargin = 10; 
 		int ancho=drawingarea.Allocation.Width;
@@ -1478,8 +1478,24 @@ public partial class ChronoJumpWindow
 			Gdk.GC myPen = pen_rojo; //default value
 			double myValue = 0;
 
+			foreach (string inPTL in runPTL.InListForPainting())
+			{
+				string [] inPTLFull = inPTL.Split(new char[] {':'});
+				int xStart = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
+							(Convert.ToDouble(inPTLFull[0]) / timeTotal));
+
+				int xEnd = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
+						(Convert.ToDouble(inPTLFull[1]) / timeTotal));
+
+				//don't plot the TCs after current track
+				if(Convert.ToDouble(inPTLFull[0]) < timeTotal)
+					event_execute_pixmap.DrawRectangle(pen_gris, true,
+							new Rectangle (xStart, alto-bottomMargin-4, xEnd-xStart, 4));
+			}
+
 			foreach (string myTime in myTimesStringFull) 
 			{
+				LogB.Information(myTime.ToString());
 				myTimeDouble = Convert.ToDouble(myTime);
 				if(myTimeDouble < 0)
 					myTimeDouble = 0;
@@ -1979,13 +1995,17 @@ public partial class ChronoJumpWindow
 						volumeOnHere = false;
 
 					PrepareRunIntervalGraph(
+							//TODO: pass most of this as (including RunPTL)
+							//new PrepareEventGraphRunIntervalObject(distance, lastTime, ...)
 							currentEventExecute.PrepareEventGraphRunIntervalObject.distance, 
 							currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
 							currentEventExecute.PrepareEventGraphRunIntervalObject.timesString,
 							currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
 							currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString,
 							currentEventExecute.PrepareEventGraphRunIntervalObject.startIn,
-							volumeOnHere, preferences.gstreamer, repetitiveConditionsWin);
+							volumeOnHere, preferences.gstreamer, repetitiveConditionsWin,
+							currentEventExecute.RunPTL
+							);
 				}
 				break;
 			case EventType.Types.REACTIONTIME:

@@ -134,6 +134,7 @@ SOURCES = \
 	execute/event.cs\
 	execute/jump.cs\
 	execute/run.cs\
+	execute/runObjects.cs\
 	execute/pulse.cs\
 	execute/reactionTime.cs\
 	execute/multiChronopic.cs\

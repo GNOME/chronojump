@@ -5443,7 +5443,9 @@ LogB.Debug("X");
 								distanceTotal,
 								runType.DistancesString,
 								currentRunInterval.StartIn,
-								preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
+								preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin,
+								currentEventExecute.RunPTL
+								);
 					}
 					break;
 				case EventType.Types.FORCESENSOR:

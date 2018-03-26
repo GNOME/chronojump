@@ -1482,7 +1482,6 @@ It starts before and arrives there with some speed.</property>
                                             </child>
                                             <child>
                                               <widget class="GtkAlignment" id="alignment15">
-                                                <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="left_padding">12</property>
                                                 <child>
@@ -1542,6 +1541,19 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="expand">True</property>
                                                 <property name="fill">True</property>
                                                 <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label57">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="xalign">0</property>
+                                                <property name="label" translatable="yes">Each track ends before biggest contact time.</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">3</property>
                                               </packing>
                                             </child>
                                           </widget>

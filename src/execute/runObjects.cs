@@ -59,9 +59,14 @@ public class RunPhaseInfoManage
 {
 	private List<RunPhaseInfo> list;
 
+	//TCs and TFs before startPos have been added as tracks
+	//do not count again in track operations
+	private int startPos;
+
 	public RunPhaseInfoManage ()
 	{
 		list = new List<RunPhaseInfo>();
+		startPos = 0;
 	}
 		
 	public void Add (RunPhaseInfo rpi)
@@ -71,6 +76,7 @@ public class RunPhaseInfoManage
 
 	public int GetPosOfBiggestTC ()
 	{
+		LogB.Information("startPos at GetPosOfBiggestTC: " + startPos.ToString());
 		//if there's no tc, return -1, track duration will be tf duration
 		//if there's one tc, return -1, track duration will be tc+tf duration
 		if(countTCs() < 2)
@@ -83,7 +89,8 @@ public class RunPhaseInfoManage
 		int posBiggest = 0;
 		foreach(RunPhaseInfo rpi in list)
 		{
-			if(pos > 0 && rpi.IsContact() && rpi.Duration > max) //pos > 0 to not allow first tc to be the biggest
+			//pos > startPos +1 to not allow first tc to be the biggest
+			if(pos > startPos +1 && rpi.IsContact() && rpi.Duration > max)
 			{
 				max = rpi.Duration;
 				posBiggest = pos;
@@ -97,35 +104,38 @@ public class RunPhaseInfoManage
 	//if pos == -1 return all
 	public double SumUntilPos(int pos)
 	{
+		int countStart = 0;
 		double sum = 0;
 
-		if(pos == -1) {
+		if(pos == -1)
+		{
 			foreach(RunPhaseInfo rpi in list)
-				sum += rpi.Duration;
-		} else {
-			int count = 0;
-			foreach(RunPhaseInfo rpi in list)
-				if(count ++ < pos)
+				if(countStart ++ >= startPos)
 					sum += rpi.Duration;
+		} else {
+			int countEnd = 0;
+			foreach(RunPhaseInfo rpi in list)
+			{
+				if(countStart >= startPos && countEnd < pos)
+					sum += rpi.Duration;
+
+				countStart ++;
+				countEnd ++;
+			}
 		}
 
 		return sum;
 	}
-	
-	//if pos == -1 empty all
-	public void EmtpyListUntilPos(int pos)
-	{
-		if(pos == -1)
-			list = new List<RunPhaseInfo>();
-		else {
-			List<RunPhaseInfo> listNew = new List<RunPhaseInfo>();
-			int count = 0;
-			foreach(RunPhaseInfo rpi in list)
-				if(count ++ >= pos)
-					listNew.Add(rpi);
 
-			list = listNew;
-		}
+	public void UpdateStartPos (int bigTCPosition)
+	{
+		//if bigTCPosition == -1 , startPos will be one element more than list
+		//else bigTCPosition is the pos of the tc that cut the track. This tc has to be added on next track
+
+		if(bigTCPosition == -1)
+			startPos = list.Count;
+		else
+			startPos = bigTCPosition;
 	}
 			
 	public string PrintList()
@@ -139,9 +149,10 @@ public class RunPhaseInfoManage
 
 	private int countTCs()
 	{
+		int countStart = 0;
 		int count = 0;
 		foreach(RunPhaseInfo rpi in list)
-			if(rpi.IsContact())
+			if(countStart ++ >= startPos && rpi.IsContact())
 				count ++;
 
 		return count;
@@ -149,6 +160,11 @@ public class RunPhaseInfoManage
 
 	public int LastPositionOfList {
 		get { return list.Count -1; }
+	}
+
+	//to debug
+	public int StartPos {
+		get { return startPos; }
 	}
 }
 
@@ -202,7 +218,7 @@ public class RunDoubleContact
 	}
 
 	//this wait will be done by C#
-	public double GetTrackTimeInSecondsAndEmptyLists()
+	public double GetTrackTimeInSecondsAndUpdateStartPos()
 	{
 		double trackTime = 0;
 		/*
@@ -230,8 +246,10 @@ public class RunDoubleContact
 		int bigTCPosition = rpim.GetPosOfBiggestTC();
 		double sum = rpim.SumUntilPos(bigTCPosition);
 
-		LogB.Information(string.Format("\n----------------\ngetDCBiggestTC, list: {0}, bigTCPosition: {1}, sum: {2}", rpim.PrintList(), bigTCPosition, sum));
+		LogB.Information(string.Format("\n----------------\ngetDCBiggestTC, list: {0}, startPos: {1}, bigTCPosition: {2}, sum: {3}",
+					rpim.PrintList(), rpim.StartPos, bigTCPosition, sum));
 
+		//fix problem of a tc + tf lower than checkTime
 		if(sum < checkTime)
 		{
 			while (sum < checkTime && bigTCPosition +2 <= rpim.LastPositionOfList)
@@ -242,7 +260,8 @@ public class RunDoubleContact
 			}
 		}
 
-		rpim.EmtpyListUntilPos(bigTCPosition);
+		//rpim.EmptyListUntilPos(bigTCPosition);
+		rpim.UpdateStartPos(bigTCPosition);
 
 		return sum;
 	}

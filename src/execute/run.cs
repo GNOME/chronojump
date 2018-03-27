@@ -872,7 +872,7 @@ public class RunIntervalExecute : RunExecute
 	{
 		double myTrackTime = 0;
 		if(runDC.UseDoubleContacts())
-			myTrackTime = runDC.GetTrackTimeInSecondsAndEmptyLists(); //will come in seconds
+			myTrackTime = runDC.GetTrackTimeInSecondsAndUpdateStartPos(); //will come in seconds
 		else {
 			//note in double contacts mode timestamp can have added DCFlightTimes and DCContactTimes. So contact time is not only on lastTc
 			myTrackTime = lastTc + lastTf/1000.0;

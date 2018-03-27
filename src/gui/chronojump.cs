@@ -2110,9 +2110,13 @@ public partial class ChronoJumpWindow
 
 
 	/* ---------------------------------------------------------
-	 * ----------------  DELETE EVENT, QUIT  -----------------------
+	 * ----------------  MINIMIZE, DELETE EVENT, QUIT  ---------
 	 *  --------------------------------------------------------
 	 */
+
+	private void on_button_minimize_clicked (object o, EventArgs args) {
+		app1.Iconify();
+	}
 
 	private void on_delete_event (object o, DeleteEventArgs args) {
 		args.RetVal = true;

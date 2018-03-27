@@ -864,6 +864,11 @@ public class RunIntervalExecute : RunExecute
 		return false;
 	}
 
+	protected override void updateRunPhaseInfoManage()
+	{
+		runDC.UpdateList();
+	}
+
 	//this will be protected and in run simple execute class
 	//big change in 1.8.1: this will be called from GTK thread
 	//so don't write to SQL here
@@ -877,6 +882,10 @@ public class RunIntervalExecute : RunExecute
 			//note in double contacts mode timestamp can have added DCFlightTimes and DCContactTimes. So contact time is not only on lastTc
 			myTrackTime = lastTc + lastTf/1000.0;
 		}
+
+		//solve possible problems of bad copied data between threads on start
+		if(myTrackTime == 0)
+			return;
 
 		//runEI.ChangePhase(RunExecuteInspector.Phases.IN, runEIString +
 		runEI.ChangePhase(RunExecuteInspector.Phases.IN, //runEIString +

@@ -319,6 +319,8 @@ public class EventExecute
 
 		// races specific --------------------------------->
 
+		updateRunPhaseInfoManage();
+
 		//Race track with DoubleContacts mode NONE
 		if(needCallTrackDone)
 		{
@@ -366,6 +368,10 @@ public class EventExecute
 	protected virtual bool lastTfCheckTimeEnded()
 	{
 		return true;
+	}
+
+	protected virtual void updateRunPhaseInfoManage()
+	{
 	}
 
 	protected virtual void trackDone()

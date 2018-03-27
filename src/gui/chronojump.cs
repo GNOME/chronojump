@@ -681,6 +681,7 @@ public partial class ChronoJumpWindow
 		restTime = new RestTime();
 		updatingRestTimes = true;
 		GLib.Timeout.Add(1000, new GLib.TimeoutHandler(updateRestTimes)); //each s, better than 5s for don't have problems sorting data on treeview
+		timeMarginAfterCapture = DateTime.Now;
 
 		// ------ Starting main window ------
 
@@ -4276,16 +4277,34 @@ public partial class ChronoJumpWindow
 	}
 
 	//called each second and after a test
+	DateTime timeMarginAfterCapture;
 	bool updateRestTimes()
 	{
 		if(! updatingRestTimes)
 			return false;
 
-		if( configChronojump.Compujump && currentPerson != null &&
+		//Compujump manage autologout
+		if( configChronojump.Compujump && compujumpAutologout && currentPerson != null &&
 				DateTime.Now.Subtract(currentPersonCompujumpLoginTime).TotalMinutes >= 3 && //login time minimum 3'
 				restTime.CompujumpPersonNeedLogout(currentPerson.UniqueID) ) 		     //3' since last executed test
 		{
-			compujumpPersonLogoutDo();
+			//if capturing runInterval or encoder, don't autologout
+			if( ! networksRunIntervalCanChangePersonSQLReady ||
+					(eCapture != null && capturingCsharp == encoderCaptureProcess.CAPTURING) )
+			{
+				/*
+				 * and set timeMarginAfterCapture variable to have a delay between
+				 * encoderCaptureProcess != CAPTURING and restTime is updated (after capture).
+				 * This will not allow to autologout just at end of capture, because it will be a margin of 10 seconds
+				 * and then also the restTime.CompujumpPersonNeedLogout will add 3 extra minutes
+				 */
+				 timeMarginAfterCapture = DateTime.Now;
+			}
+			else {
+				TimeSpan span = DateTime.Now - timeMarginAfterCapture;
+				if(span.TotalSeconds > 10)
+					compujumpPersonLogoutDo();
+			}
 		}
 
 		if( ! configChronojump.PersonWinHide)

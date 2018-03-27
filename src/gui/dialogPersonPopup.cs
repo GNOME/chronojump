@@ -31,6 +31,7 @@ public class DialogPersonPopup
 	[Widget] Gtk.Label label_name;
 	[Widget] Gtk.Image image_person;
 	[Widget] Gtk.Image image_person_logout;
+	[Widget] Gtk.CheckButton checkbutton_autologout;
 	[Widget] Gtk.Image image_close;
 	[Widget] Gtk.Label label_rfid;
 	[Widget] Gtk.VBox vbox_tasks_parametrized;
@@ -49,7 +50,9 @@ public class DialogPersonPopup
 	private Task taskActive;
 	public Button Fake_button_start_task;
 	public Button Fake_button_person_logout;
+	public Button Fake_button_person_autologout_changed;
 	public bool Visible;
+	public bool Autologout;
 
 	public DialogPersonPopup (int personID, string name, string rfid,
 			List<Task> tasks, List<StationCount> stationsCount, bool serverConnected)
@@ -108,6 +111,9 @@ public class DialogPersonPopup
 			}
 		}
 
+		//set autologout by default is true
+		Autologout = true;
+		checkbutton_autologout.Active = true;
 
 		//2) Show tasks stuff
 		list_tasks_fixed = new List<Task>();
@@ -118,6 +124,7 @@ public class DialogPersonPopup
 		taskActive = new Task();
 		Fake_button_start_task = new Gtk.Button();
 		Fake_button_person_logout = new Gtk.Button();
+		Fake_button_person_autologout_changed = new Gtk.Button();
 
 		bool task_parametrized_exist = false;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture_big.png");
@@ -263,6 +270,12 @@ public class DialogPersonPopup
 	public void on_button_person_logout_clicked (object obj, EventArgs args)
 	{
 		Fake_button_person_logout.Click();
+	}
+
+	private void on_checkbutton_autologout_toggled (object o, EventArgs args)
+	{
+		Autologout = checkbutton_autologout.Active;
+		Fake_button_person_autologout_changed.Click();
 	}
 
 	public void on_button_close_clicked (object obj, EventArgs args)

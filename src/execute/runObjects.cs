@@ -68,10 +68,18 @@ public class RunPhaseInfoManage
 		list = new List<RunPhaseInfo>();
 		startPos = 0;
 	}
-		
+
+	/*
 	public void Add (RunPhaseInfo rpi)
 	{
 		list.Add(rpi);
+	}
+	*/
+
+	public void UpdateListUsing (List<RunPhaseInfo> listCaptureThread)
+	{
+		for(int i = list.Count; i < listCaptureThread.Count ; i ++)
+			list.Add(listCaptureThread[i]);
 	}
 
 	public int GetPosOfBiggestTC ()
@@ -137,7 +145,7 @@ public class RunPhaseInfoManage
 		else
 			startPos = bigTCPosition;
 	}
-			
+
 	public string PrintList()
 	{
 		string str = "\n";
@@ -181,6 +189,8 @@ public class RunDoubleContact
 	
 	private double timeAcumulated;
 
+	private List<RunPhaseInfo> listCaptureThread; //this list contains TCs and TFs from capture thread
+
 	//constructor ------------------------------------------
 	public RunDoubleContact (Constants.DoubleContact mode, int checkTime)
 	{
@@ -190,9 +200,14 @@ public class RunDoubleContact
 		lastTc = 0;
 		timeAcumulated = 0;
 		rpim = new RunPhaseInfoManage();
+		listCaptureThread = new List<RunPhaseInfo>();
 	}
 
 	//public methods ---------------------------------------
+
+	/*
+	 * ---------------------- start of called by capture thread -------------->
+	 */
 
 	public bool UseDoubleContacts ()
 	{
@@ -202,7 +217,7 @@ public class RunDoubleContact
 	public void DoneTC (double timestamp)
 	{
 		lastTc = timestamp;
-		rpim.Add(new RunPhaseInfo(RunPhaseInfo.Types.CONTACT, timeAcumulated, timestamp));
+		listCaptureThread.Add(new RunPhaseInfo(RunPhaseInfo.Types.CONTACT, timeAcumulated, timestamp));
 		timeAcumulated += timestamp;
 		LogB.Information(string.Format("DoneTC -> lastTc: {0}", lastTc));
 	}
@@ -213,8 +228,22 @@ public class RunDoubleContact
 					"lastTc + timestamp <= checkTime ?, lastTc: {0}; timestamp: {1}; checkTime: {2}",
 					lastTc, timestamp, checkTime));
 
-		rpim.Add(new RunPhaseInfo(RunPhaseInfo.Types.FLIGHT, timeAcumulated, timestamp));
+		listCaptureThread.Add(new RunPhaseInfo(RunPhaseInfo.Types.FLIGHT, timeAcumulated, timestamp));
 		timeAcumulated += timestamp;
+	}
+
+	/*
+	 * <---------------------- end of called by capture thread --------------
+	 */
+
+	/*
+	 * ---------------------- start of called by GTK thread ---------------->
+	 */
+
+	//Copies from listWill to list
+	public void UpdateList()
+	{
+		rpim.UpdateListUsing (listCaptureThread);
 	}
 
 	//this wait will be done by C#
@@ -238,6 +267,10 @@ public class RunDoubleContact
 
 		return trackTime;
 	}
+
+	/*
+	 * <---------------------- end of called by GTK thread --------------
+	 */
 
 	//private methods --------------------------------------
 	

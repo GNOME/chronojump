@@ -1640,6 +1640,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -3984,6 +3987,31 @@ EncoderInertialCapture</property>
                                                   </packing>
                                                 </child>
                                                 <child>
+                                                  <widget class="GtkButton" id="button_preferences_not_menu_minimize">
+                                                    <property name="width_request">50</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="can_default">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="has_tooltip">True</property>
+                                                    <property name="relief">half</property>
+                                                    <signal name="clicked" handler="on_button_minimize_clicked" swapped="no"/>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image_minimize">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-missing-image</property>
+                                                        <property name="icon-size">2</property>
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">2</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
                                                   <widget class="GtkButton" id="button_preferences_not_menu_quit1">
                                                     <property name="width_request">50</property>
                                                     <property name="visible">True</property>
@@ -4005,7 +4033,7 @@ EncoderInertialCapture</property>
                                                   <packing>
                                                     <property name="expand">True</property>
                                                     <property name="fill">True</property>
-                                                    <property name="position">2</property>
+                                                    <property name="position">3</property>
                                                   </packing>
                                                 </child>
                                               </widget>
@@ -18017,6 +18045,31 @@ Concentric</property>
                                                   </packing>
                                                 </child>
                                                 <child>
+                                                  <widget class="GtkButton" id="button_preferences_not_menu_minimize1">
+                                                    <property name="width_request">50</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="can_default">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="has_tooltip">True</property>
+                                                    <property name="relief">half</property>
+                                                    <signal name="clicked" handler="on_button_minimize_clicked" swapped="no"/>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image_minimize1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-missing-image</property>
+                                                        <property name="icon-size">2</property>
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">2</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
                                                   <widget class="GtkButton" id="button_preferences_not_menu_quit">
                                                     <property name="width_request">50</property>
                                                     <property name="visible">True</property>
@@ -18038,7 +18091,7 @@ Concentric</property>
                                                   <packing>
                                                     <property name="expand">True</property>
                                                     <property name="fill">True</property>
-                                                    <property name="position">2</property>
+                                                    <property name="position">3</property>
                                                   </packing>
                                                 </child>
                                               </widget>
@@ -23857,6 +23910,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

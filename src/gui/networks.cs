@@ -97,6 +97,7 @@ public partial class ChronoJumpWindow
 	private bool rfidProcessCancel;
 	private bool rfidIsDifferent;
 	private DateTime currentPersonCompujumpLoginTime;
+	private bool compujumpAutologout;
 
 	DialogPersonPopup dialogPersonPopup;
 		
@@ -720,6 +721,8 @@ public partial class ChronoJumpWindow
 		//3) get other stationsCount
 		List<StationCount> stationsCount = json.GetOtherStationsWithPendingTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
 
+		compujumpAutologout = true;
+
 		//4) show dialog
 		showDialogPersonPopup(tasks, stationsCount, json.Connected);
 	}
@@ -740,6 +743,9 @@ public partial class ChronoJumpWindow
 
 		dialogPersonPopup.Fake_button_person_logout.Clicked -= new EventHandler(compujumpPersonLogout);
 		dialogPersonPopup.Fake_button_person_logout.Clicked += new EventHandler(compujumpPersonLogout);
+
+		dialogPersonPopup.Fake_button_person_autologout_changed.Clicked -= new EventHandler(compujumpPersonAutoLogoutChanged);
+		dialogPersonPopup.Fake_button_person_autologout_changed.Clicked += new EventHandler(compujumpPersonAutoLogoutChanged);
 	}
 
 	private void compujumpTaskStart(object o, EventArgs args)
@@ -840,6 +846,11 @@ public partial class ChronoJumpWindow
 		currentPerson = null;
 		currentPersonSession = null;
 		sensitiveGuiNoPerson ();
+	}
+
+	private void compujumpPersonAutoLogoutChanged(object o, EventArgs args)
+	{
+		compujumpAutologout = dialogPersonPopup.Autologout;
 	}
 
 	/*

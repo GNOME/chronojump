@@ -5292,6 +5292,8 @@ public partial class ChronoJumpWindow
 				deleteAllCapturedCurveFiles();
 
 				capturingCsharp = encoderCaptureProcess.CAPTURING;
+				if(compujumpAutologout != null)
+					compujumpAutologout.StartCapturingEncoder();
 			}
 
 
@@ -5897,12 +5899,18 @@ public partial class ChronoJumpWindow
 			button_encoder_capture_finish_cont.Sensitive = false;
 
 			capturingCsharp = encoderCaptureProcess.STOPPED;
+
+			if(compujumpAutologout != null)
+				compujumpAutologout.EndCapturingEncoder();
 		} else {	//STOPPED	
 			LogB.Debug("at pulseGTKEncoderCaptureAndCurves stopped");		
 			//do curves, capturingCsharp has ended
 			updatePulsebar(encoderActions.CURVES); //activity on pulsebar
 			//LogB.Debug(" Cur:", encoderThread.ThreadState.ToString());
 			LogB.Information(" Cur:" + encoderThread.ThreadState.ToString());
+
+			if(compujumpAutologout != null)
+				compujumpAutologout.EndCapturingEncoder();
 		}
 			
 		Thread.Sleep (50);
@@ -6565,6 +6573,9 @@ public partial class ChronoJumpWindow
 			if(encoderProcessCancel) {
 				encoder_pulsebar_analyze.Text = Catalog.GetString("Cancelled");
 			} else {
+				if(compujumpAutologout != null)
+					compujumpAutologout.UpdateLastEncoderAnalyzeTime();
+
 				//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom),
 				//o si es una sola i fa alguna edicio
 				

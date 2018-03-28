@@ -55,7 +55,7 @@ public class DialogPersonPopup
 	public bool Autologout;
 
 	public DialogPersonPopup (int personID, string name, string rfid,
-			List<Task> tasks, List<StationCount> stationsCount, bool serverConnected)
+			List<Task> tasks, List<StationCount> stationsCount, bool serverConnected, bool Autologout)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_person_popup.glade", "dialog_person_popup", null);
@@ -65,6 +65,7 @@ public class DialogPersonPopup
 		UtilGtk.IconWindow(dialog_person_popup);
 
 		Visible = true;
+		this.Autologout = Autologout;
 
 		//1) Show top of the window widgets
 		label_name.Text = "<b>" + name + "</b>";
@@ -111,10 +112,6 @@ public class DialogPersonPopup
 			}
 		}
 
-		//set autologout by default is true
-		Autologout = true;
-		checkbutton_autologout.Active = true;
-
 		//2) Show tasks stuff
 		list_tasks_fixed = new List<Task>();
 		list_hboxs_row = new List<Gtk.HBox>();
@@ -125,6 +122,8 @@ public class DialogPersonPopup
 		Fake_button_start_task = new Gtk.Button();
 		Fake_button_person_logout = new Gtk.Button();
 		Fake_button_person_autologout_changed = new Gtk.Button();
+
+		checkbutton_autologout.Active = Autologout;
 
 		bool task_parametrized_exist = false;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture_big.png");

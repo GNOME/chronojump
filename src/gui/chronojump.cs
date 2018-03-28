@@ -681,7 +681,6 @@ public partial class ChronoJumpWindow
 		restTime = new RestTime();
 		updatingRestTimes = true;
 		GLib.Timeout.Add(1000, new GLib.TimeoutHandler(updateRestTimes)); //each s, better than 5s for don't have problems sorting data on treeview
-		timeMarginAfterCapture = DateTime.Now;
 
 		// ------ Starting main window ------
 
@@ -4277,33 +4276,27 @@ public partial class ChronoJumpWindow
 	}
 
 	//called each second and after a test
-	DateTime timeMarginAfterCapture;
 	bool updateRestTimes()
 	{
 		if(! updatingRestTimes)
 			return false;
 
 		//Compujump manage autologout
-		if( configChronojump.Compujump && compujumpAutologout && currentPerson != null &&
-				DateTime.Now.Subtract(currentPersonCompujumpLoginTime).TotalMinutes >= 3 && //login time minimum 3'
-				restTime.CompujumpPersonNeedLogout(currentPerson.UniqueID) ) 		     //3' since last executed test
+		if( currentPerson != null && configChronojump.Compujump && compujumpAutologout != null)
 		{
-			//if capturing runInterval or encoder, don't autologout
-			if( ! networksRunIntervalCanChangePersonSQLReady ||
-					(eCapture != null && capturingCsharp == encoderCaptureProcess.CAPTURING) )
+			if(compujumpAutologout.ShouldILogoutNow())
+					//restTime.CompujumpPersonNeedLogout(currentPerson.UniqueID), 		     //3' since last executed test
 			{
+				compujumpPersonLogoutDo();
+
+				label_logout_seconds.Text = "";
+				label_logout_seconds_encoder.Text = "";
+			} else {
 				/*
-				 * and set timeMarginAfterCapture variable to have a delay between
-				 * encoderCaptureProcess != CAPTURING and restTime is updated (after capture).
-				 * This will not allow to autologout just at end of capture, because it will be a margin of 10 seconds
-				 * and then also the restTime.CompujumpPersonNeedLogout will add 3 extra minutes
-				 */
-				 timeMarginAfterCapture = DateTime.Now;
-			}
-			else {
-				TimeSpan span = DateTime.Now - timeMarginAfterCapture;
-				if(span.TotalSeconds > 10)
-					compujumpPersonLogoutDo();
+				 * TODO: implement when it's nicer and only is displayed when 10 seconds remain
+				label_logout_seconds.Text = compujumpAutologout.RemainingSeconds(false);
+				label_logout_seconds_encoder.Text = compujumpAutologout.RemainingSeconds(false);
+				*/
 			}
 		}
 
@@ -4703,7 +4696,8 @@ public partial class ChronoJumpWindow
 				check_run_interval_with_reaction_time.Active
 				);
 
-		networksRunIntervalCanChangePersonSQLReady = false;
+		if(compujumpAutologout != null)
+			compujumpAutologout.StartCapturingRunInterval();
 
 		//suitable for limited by tracks and time
 		if(! canCaptureC)
@@ -4776,7 +4770,8 @@ public partial class ChronoJumpWindow
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempRunInterval");
 
-		networksRunIntervalCanChangePersonSQLReady = true;
+		if(compujumpAutologout != null)
+			compujumpAutologout.EndCapturingRunInterval();
 	}
 
 	private void calculateSprintAndUpload()

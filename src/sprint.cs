@@ -126,7 +126,7 @@ public class Sprint
 		List<double> splitTimesList = new List<double>();
 		foreach(string time in splitTimesArray)
 		{
-			double timeD = Convert.ToDouble(time);
+			double timeD = Convert.ToDouble(Util.ChangeDecimalSeparator(time));
 
 			//convert from milliseconds to seconds
 			if(timeD > 0)

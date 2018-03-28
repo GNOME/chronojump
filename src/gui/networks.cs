@@ -42,6 +42,9 @@ public partial class ChronoJumpWindow
 	//RFID
 	[Widget] Gtk.Label label_rfid_wait;
 	[Widget] Gtk.Label label_rfid_encoder_wait;
+
+	[Widget] Gtk.Label label_logout_seconds;
+	[Widget] Gtk.Label label_logout_seconds_encoder;
 	
 	//better raspberry controls
 	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_no_raspberry;
@@ -96,8 +99,9 @@ public partial class ChronoJumpWindow
 	private static DateTime startedRFIDWait;
 	private bool rfidProcessCancel;
 	private bool rfidIsDifferent;
-	private DateTime currentPersonCompujumpLoginTime;
-	private bool compujumpAutologout;
+	//private bool compujumpAutologout;
+	//private static CompujumpAutologout compujumpAutologout;
+	private CompujumpAutologout compujumpAutologout;
 
 	DialogPersonPopup dialogPersonPopup;
 		
@@ -204,8 +208,7 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information("RFID changed to: " + rfid.Captured);
 
-			if( ! networksRunIntervalCanChangePersonSQLReady ||
-					(eCapture != null && capturingCsharp == encoderCaptureProcess.CAPTURING) )
+			if(isCompujumpCapturing ())
 			{
 				startedRFIDWait = DateTime.Now;
 				LogB.Information("... but we are on the middle of capture");
@@ -222,8 +225,7 @@ public partial class ChronoJumpWindow
 	{
 		if(currentSession != null && rfid.Captured == capturedRFID)
 		{
-			if( ! networksRunIntervalCanChangePersonSQLReady ||
-					(eCapture != null && capturingCsharp == encoderCaptureProcess.CAPTURING) )
+			if(isCompujumpCapturing ())
 			{
 				startedRFIDWait = DateTime.Now;
 				LogB.Information("... but we are on the middle of capture");
@@ -483,8 +485,7 @@ public partial class ChronoJumpWindow
 			label_rfid_encoder_wait.Visible = false;
 		}
 
-		if( ! networksRunIntervalCanChangePersonSQLReady ||
-				(eCapture != null && capturingCsharp == encoderCaptureProcess.CAPTURING) )
+		if(isCompujumpCapturing ())
 			return true;
 
 		//---- end of checking if we are on the middle of capture.
@@ -560,7 +561,6 @@ public partial class ChronoJumpWindow
 					SqlitePerson.Update(pLocal);
 				}
 
-				currentPersonCompujumpLoginTime = DateTime.Now;
 				currentPerson = pLocal;
 				insertAndAssignPersonSessionIfNeeded(json);
 
@@ -593,7 +593,6 @@ public partial class ChronoJumpWindow
 			LogB.Information("RFID person exists locally!!");
 			if(rfidIsDifferent || dialogPersonPopup == null || ! dialogPersonPopup.Visible)
 			{
-				currentPersonCompujumpLoginTime = DateTime.Now;
 				currentPerson = pLocal;
 				insertAndAssignPersonSessionIfNeeded(json);
 
@@ -643,6 +642,8 @@ public partial class ChronoJumpWindow
 
 		if(pChangedShowTasks)
 		{
+			compujumpAutologout = new CompujumpAutologout();
+
 			/*TODO:
 			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 			if(rowToSelect != -1)
@@ -681,6 +682,10 @@ public partial class ChronoJumpWindow
 	{
 		if(currentPerson == null)
 			return;
+
+		//update login time
+		if(compujumpAutologout != null)
+			compujumpAutologout.UpdateLoginTime();
 
 		getTasksExercisesAndPopup();
 	}
@@ -721,8 +726,6 @@ public partial class ChronoJumpWindow
 		//3) get other stationsCount
 		List<StationCount> stationsCount = json.GetOtherStationsWithPendingTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
 
-		compujumpAutologout = true;
-
 		//4) show dialog
 		showDialogPersonPopup(tasks, stationsCount, json.Connected);
 	}
@@ -736,7 +739,8 @@ public partial class ChronoJumpWindow
 			dialogMessageNotAtServer.on_close_button_clicked(new object(), new EventArgs());
 
 		dialogPersonPopup = new DialogPersonPopup(
-				currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks, stationsCount, serverConnected);
+				currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks, stationsCount,
+				serverConnected, compujumpAutologout.Active);
 
 		dialogPersonPopup.Fake_button_start_task.Clicked -= new EventHandler(compujumpTaskStart);
 		dialogPersonPopup.Fake_button_start_task.Clicked += new EventHandler(compujumpTaskStart);
@@ -850,7 +854,16 @@ public partial class ChronoJumpWindow
 
 	private void compujumpPersonAutoLogoutChanged(object o, EventArgs args)
 	{
-		compujumpAutologout = dialogPersonPopup.Autologout;
+		compujumpAutologout.Active = dialogPersonPopup.Autologout;
+	}
+
+	//are we capturing runInterval or encoder?
+	private bool isCompujumpCapturing ()
+	{
+		if(compujumpAutologout == null)
+			return false;
+
+		return(compujumpAutologout.IsCompujumpCapturing());
 	}
 
 	/*
@@ -974,4 +987,148 @@ public partial class ChronoJumpWindow
 		}
 	}
 	*/
+
+}
+
+//Class for manage autologout on Compujump
+//TODO: expand this class to manage better resttime and clearer
+public class CompujumpAutologout
+{
+	public bool Active;
+	public DateTime lastEncoderAnalyzeTime;
+
+	private bool capturingRunInterval;
+	private bool capturingEncoder;
+
+	private DateTime loginTime;
+	private DateTime lastRunIntervalTime;
+	private DateTime lastEncoderCaptureTime;
+	private int logoutMinutes = 3;
+
+	public CompujumpAutologout ()
+	{
+		Active = true;
+		loginTime = DateTime.Now;
+
+		capturingRunInterval = false;
+		capturingEncoder = false;
+
+		lastRunIntervalTime = DateTime.MinValue;
+		lastEncoderCaptureTime = DateTime.MinValue;
+		lastEncoderAnalyzeTime = DateTime.MinValue;
+	}
+
+	public void UpdateLoginTime()
+	{
+		loginTime = DateTime.Now;
+	}
+
+	public void StartCapturingRunInterval()
+	{
+		capturingRunInterval = true;
+	}
+	public void EndCapturingRunInterval()
+	{
+		capturingRunInterval = false;
+		lastRunIntervalTime = DateTime.Now;
+	}
+
+	public void StartCapturingEncoder()
+	{
+		capturingEncoder = true;
+	}
+	public void EndCapturingEncoder()
+	{
+		capturingEncoder = false;
+		lastEncoderCaptureTime = DateTime.Now;
+	}
+
+	public void UpdateLastEncoderAnalyzeTime()
+	{
+		lastEncoderAnalyzeTime = DateTime.Now;
+	}
+
+	public bool IsCompujumpCapturing()
+	{
+		return (capturingRunInterval || capturingEncoder);
+	}
+
+	//mSinceLogin: time in 'm'inutes since login
+	private double mSinceLogin()
+	{
+		return DateTime.Now.Subtract(loginTime).TotalMinutes;
+	}
+	private double mSinceRunInterval()
+	{
+		return DateTime.Now.Subtract(lastRunIntervalTime).TotalMinutes;
+	}
+	private double mSinceEncoderCapture()
+	{
+		return DateTime.Now.Subtract(lastEncoderCaptureTime).TotalMinutes;
+	}
+	private double mSinceEncoderAnalyze()
+	{
+		return DateTime.Now.Subtract(lastEncoderAnalyzeTime).TotalMinutes;
+	}
+
+	//decide if use has to be autologout now
+	public bool ShouldILogoutNow()
+			//bool moreThanThreeMinutesSinceLastCapture
+	{
+		if(IsCompujumpCapturing())
+			return false;
+
+		if(Active &&
+				mSinceLogin() >= logoutMinutes &&
+	//			moreThanThreeMinutesSinceLastCapture &&
+				mSinceRunInterval() >= logoutMinutes &&
+				mSinceEncoderCapture() >= logoutMinutes &&
+				mSinceEncoderAnalyze() >= logoutMinutes
+				)
+			return true;
+
+		return false;
+	}
+
+	//showAll is for debug, user will see only one value
+	//TODO: separate between minutes and seconds and only display when remaining 10 seconds
+	public string RemainingSeconds(bool showAll)
+	{
+		if(! Active)
+			return "";
+
+		double elapsed = logoutMinutes - mSinceLogin();
+
+		string strAll = "Logout in (minutes): " + string.Format("login: {0}", Math.Round(elapsed, 2));
+		double maxTime = elapsed;
+
+		if(lastRunIntervalTime > DateTime.MinValue)
+		{
+			elapsed = logoutMinutes - mSinceRunInterval();
+			strAll += string.Format("; lastRunI: {0}", Math.Round(elapsed, 2));
+			if(elapsed > maxTime)
+			       maxTime = elapsed;
+		}
+
+		if(lastEncoderCaptureTime > DateTime.MinValue)
+		{
+			elapsed = logoutMinutes - mSinceEncoderCapture();
+			strAll += string.Format("; lastECapture {0}", Math.Round(elapsed, 2));
+			if(elapsed > maxTime)
+			       maxTime = elapsed;
+		}
+
+		if(lastEncoderAnalyzeTime > DateTime.MinValue)
+		{
+			elapsed = logoutMinutes - mSinceEncoderAnalyze();
+			strAll += string.Format("; lastEAnalyze: {0}", Math.Round(elapsed, 2));
+			if(elapsed > maxTime)
+			       maxTime = elapsed;
+		}
+
+		if(showAll)
+			return strAll;
+		else
+			return "Logout in\n" + Math.Round(maxTime, 2) + " min.";
+	}
 }

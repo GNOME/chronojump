@@ -164,6 +164,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_accel;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_force;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_power;
+	[Widget] Gtk.CheckButton checkbutton_encoder_analyze_side_share_x;
 	
 	[Widget] Gtk.CheckButton checkbutton_crossvalidate;
 	[Widget] Gtk.Button button_encoder_analyze;
@@ -2683,7 +2684,7 @@ public partial class ChronoJumpWindow
 			}
 		}
 		
-		if(sendAnalysis == "powerBars" || sendAnalysis == "single" || sendAnalysis == "side")
+		if(sendAnalysis == "powerBars" || sendAnalysis == "single" || sendAnalysis == "side" || sendAnalysis == "sideShareX")
 			analysisVariables = getAnalysisVariables(sendAnalysis);
 
 		if( ! radio_encoder_analyze_individual_current_set.Active) //not current set
@@ -3174,7 +3175,7 @@ public partial class ChronoJumpWindow
 			else
 				analysisVariables += ";NoRange";
 		}
-		else {  //analysis == "single" || analysis == "side")
+		else {  //analysis == "single" || analysis == "side" || analysis == "sideShareX"
 			if(check_encoder_analyze_show_speed.Active)
 				analysisVariables = "Speed";
 			else
@@ -3210,6 +3211,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
+		checkbutton_encoder_analyze_side_share_x.Visible = false;
 		encoderSelectedAnalysis = "single";
 		
 		//together, mandatory
@@ -3235,6 +3237,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
+		checkbutton_encoder_analyze_side_share_x.Visible = false;
 		encoderSelectedAnalysis = "superpose";
 		
 		//together, mandatory
@@ -3257,7 +3260,12 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
-		encoderSelectedAnalysis = "side";
+		checkbutton_encoder_analyze_side_share_x.Visible = true;
+
+		if(checkbutton_encoder_analyze_side_share_x.Active)
+			encoderSelectedAnalysis = "sideShareX";
+		else
+			encoderSelectedAnalysis = "side";
 		
 		//together, mandatory
 		check_encoder_analyze_eccon_together.Sensitive=false;
@@ -3271,6 +3279,13 @@ public partial class ChronoJumpWindow
 		encoderButtonsSensitive(encoderSensEnumStored);
 		button_encoder_analyze_sensitiveness();
 	}
+	private void on_checkbutton_encoder_analyze_side_share_x_toggled (object o, EventArgs args)
+	{
+		if(checkbutton_encoder_analyze_side_share_x.Active)
+			encoderSelectedAnalysis = "sideShareX";
+		else
+			encoderSelectedAnalysis = "side";
+	}
 	private void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
@@ -3279,6 +3294,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=true;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
+		checkbutton_encoder_analyze_side_share_x.Visible = false;
 		encoderSelectedAnalysis = "powerBars";
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;
@@ -3302,6 +3318,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_mean_or_max.Visible=true;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
+		checkbutton_encoder_analyze_side_share_x.Visible = false;
 		encoderSelectedAnalysis = "cross";
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;
@@ -3325,6 +3342,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_mean_or_max.Visible=true;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
+		checkbutton_encoder_analyze_side_share_x.Visible = false;
 		encoderSelectedAnalysis = "1RM";
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;
@@ -3348,6 +3366,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
+		checkbutton_encoder_analyze_side_share_x.Visible = false;
 		encoderSelectedAnalysis = "neuromuscularProfile";
 		
 		//separated, mandatory

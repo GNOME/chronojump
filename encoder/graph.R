@@ -495,7 +495,7 @@ canJump <- function(encoderConfigurationName)
 }
 
 
-paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
+paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, superpose, highlight,
                   startX, startH, smoothingOneEC, smoothingOneC, massBody, massExtra, 
                   encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown, #encoderConfiguration stuff
                   title, subtitle, draw, width, showLabels, marShrink, showAxes, legend,
@@ -545,7 +545,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
         if(draw) {
                 #three vertical axis inspired on http://www.r-bloggers.com/multiple-y-axis-in-a-r-plot/
                 par(mar=c(3, 3.5, 5, marginRight))
-                if(marShrink) #used on "side" compare
+                if(marShrink) #used on "side" && "sideShareX" compare
                         par(mar=c(1, 1, 4, 1))
                 
                 #plot distance
@@ -555,9 +555,14 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
                 #	xlab="time (ms)"
                 #	ylab="Left: distance (mm); Right: speed (m/s), force (N), power (W)"
                 #}
+
+		xlim=xrange
+                if(xlim[1]=="undefined") { xlim=c(1,length(position)) }
+
                 ylim=yrange
                 if(ylim[1]=="undefined") { ylim=NULL }
-                plot(position-min(position),type="n",xlim=c(1,length(position)),ylim=ylim,xlab=xlab, ylab=ylab, col="gray", axes=F)
+
+		plot(position-min(position),type="n",xlim=xlim,ylim=ylim,xlab=xlab, ylab=ylab, col="gray", axes=F)
                 
                 title(main=title,line=-2,outer=T)
                 mtext(subtitle,side=1,adj=0,cex=.8)
@@ -574,14 +579,14 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
                         colNormal="gray30"
                 yValues = position[startX:length(position)]-min(position[startX:length(position)])
                 if(highlight==FALSE) {
-                        plot(startX:length(position),yValues,type="l",xlim=c(1,length(position)),ylim=ylim,
+                        plot(startX:length(position),yValues,type="l",xlim=xlim,ylim=ylim,
                              xlab="",ylab="",col="black",lty=lty[1],lwd=2,axes=F)
                         par(new=T)
-                        plot(startX:length(position),yValues,type="h",xlim=c(1,length(position)),ylim=ylim,
+                        plot(startX:length(position),yValues,type="h",xlim=xlim,ylim=ylim,
                              xlab="",ylab="",col="grey90",lty=lty[1],lwd=1,axes=F)
                 }
                 else
-                        plot(startX:length(position),yValues,type="l",xlim=c(1,length(position)),ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
+                        plot(startX:length(position),yValues,type="l",xlim=xlim,ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
                 abline(h=0,lty=3,col="black")
 
 		if(triggersOnList != "" && triggersOnList != -1)
@@ -607,6 +612,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
         #speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
         accel$y <- accel$y * 1000
         
+	xlim=xrange
+        if(xlim[1]=="undefined") { xlim=c(1,length(displacement)) }
         
         #if(draw & !superpose) 
         #	segments(x0=speed.ext$maxindex,y0=0,x1=speed.ext$maxindex,y1=speed$y[speed.ext$maxindex],col=cols[1])
@@ -742,10 +749,10 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
                 
                 if(highlight==FALSE)
                         plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
-                             xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col=cols[1],lty=lty[1],lwd=1,axes=F)
+                             xlim=xlim,ylim=ylim,xlab="",ylab="",col=cols[1],lty=lty[1],lwd=1,axes=F)
                 else
                         plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
-                             xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
+                             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
                 
         }
         
@@ -856,10 +863,10 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
                         par(new=T)
                         if(highlight==FALSE)
                                 plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
-                                     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="magenta",lty=lty[2],lwd=1,axes=F)
+                                     xlim=xlim,ylim=ylim,xlab="",ylab="",col="magenta",lty=lty[2],lwd=1,axes=F)
                         else
                                 plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
-                                     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+                                     xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
                 }
                 
                 #show propulsive stuff if line if differentiation is relevant (propulsivePhase ends before the end of the movement)
@@ -911,10 +918,10 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
                 par(new=T)
                 if(highlight==FALSE)
                         plot(startX:length(force),force[startX:length(force)],type="l",
-                             xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col=cols[2],lty=lty[2],lwd=1,axes=F)
+                             xlim=xlim,ylim=ylim,xlab="",ylab="",col=cols[2],lty=lty[2],lwd=1,axes=F)
                 else
                         plot(startX:length(force),force[startX:length(force)],type="l",
-                             xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+                             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
                 if(showAxes) {
                         axis(4, col=cols[2], lty=lty[2], line=axisLineRight, lwd=1, padj=-.5)
                         axisLineRight = axisLineRight +2
@@ -924,10 +931,10 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
                         #print("dynamics$forceDisc")
                         #print(dynamics$forceDisc)
                         par(new=T)
-                        plot(dynamics$forceDisc, col="blue", xlab="", ylab="", xlim=c(1,length(displacement)),ylim=ylim, type="p", pch=1, axes=F);
+                        plot(dynamics$forceDisc, col="blue", xlab="", ylab="", xlim=xlim,ylim=ylim, type="p", pch=1, axes=F);
                         
                         par(new=T)
-                        plot(dynamics$forceBody, col="blue", xlab="", ylab="", xlim=c(1,length(displacement)),ylim=ylim, type="p", pch=3, axes=F);
+                        plot(dynamics$forceBody, col="blue", xlab="", ylab="", xlim=xlim,ylim=ylim, type="p", pch=3, axes=F);
                 }
         }
         
@@ -1005,18 +1012,18 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
                 par(new=T);
                 if(highlight==FALSE)
                         plot(startX:length(power),power[startX:length(power)],type="l",
-                             xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col=cols[3],lty=lty[3],lwd=2,axes=F)
+                             xlim=xlim,ylim=ylim,xlab="",ylab="",col=cols[3],lty=lty[3],lwd=2,axes=F)
                 else
                         plot(startX:length(power),power[startX:length(power)],type="l",
-                             xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
+                             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
                 
                 
                 if(isInertial(encoderConfigurationName) && debugOld) {
                         par(new=T)
-                        plot(dynamics$powerDisc, col="orangered3", xlab="", ylab="", xlim=c(1,length(displacement)),ylim=ylim, type="p", pch=1, axes=F);
+                        plot(dynamics$powerDisc, col="orangered3", xlab="", ylab="", xlim=xlim, ylim=ylim, type="p", pch=1, axes=F);
                         
                         par(new=T)
-                        plot(dynamics$powerBody, col="orangered3", xlab="", ylab="", xlim=c(1,length(displacement)),ylim=ylim, type="p", pch=3, axes=F);
+                        plot(dynamics$powerBody, col="orangered3", xlab="", ylab="", xlim=xlim, ylim=ylim, type="p", pch=3, axes=F);
                 }
                 
                 
@@ -2346,6 +2353,17 @@ find.mfrow <- function(n) {
         else return(c(3, ceiling(n/3)))
 }
 
+find.xrange <- function(singleFile, displacement, curves) {
+        n=length(curves[,1])
+        x.max = 0
+        for(i in 1:n) {
+                x.current = length(displacement[curves[i,1]:curves[i,2]])
+                if(max(x.current) > x.max)
+                        x.max = max(x.current)
+        }
+        return (c(0,x.max))
+}
+
 find.yrange <- function(singleFile, displacement, curves) {
         n=length(curves[,1])
         y.max = 0
@@ -2974,7 +2992,7 @@ doProcess <- function(options)
 		        if(! cutByTriggers(op))
 				triggersOnList = op$TriggersOnList;
 
-                        paint(displacement, repOp$eccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
+                        paint(displacement, repOp$eccon, myStart, myEnd, "undefined","undefined","undefined",FALSE,FALSE,
                               1,curves[op$Jump,3],SmoothingsEC[smoothingPos],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
                               repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
                               paste(op$Title, " ", op$Analysis, " ", repOp$eccon, ". ", myCurveStr, sep=""),
@@ -3191,10 +3209,15 @@ doProcess <- function(options)
                 write("done!", stderr())
         }
         
-        if(op$Analysis=="side") {
+        if(op$Analysis=="side" || op$Analysis=="sideShareX") {
                 #comparar 6 salts, falta que xlim i ylim sigui el mateix
                 par(mfrow=find.mfrow(n))
                 
+		xrange="undefined"
+		if(op$Analysis=="sideShareX") {
+	                xrange=find.xrange(singleFile, displacement, curves)
+		}
+
                 yrange=find.yrange(singleFile, displacement, curves)
                 
                 #if !singleFile kinematicRanges takes the 'curves' values
@@ -3223,7 +3246,7 @@ doProcess <- function(options)
 		        if(! cutByTriggers(op))
 				triggersOnList = op$TriggersOnList;
 
-                        paint(displacement, repOp$eccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
+                        paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges,FALSE,FALSE,
                               1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
                               repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
                               myTitle,mySubtitle,

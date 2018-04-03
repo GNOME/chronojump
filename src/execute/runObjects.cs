@@ -323,7 +323,12 @@ public class RunPhaseTimeList
 	public override string ToString()
 	{
 		string str = "";
-		foreach(PhaseTime pt in listPhaseTime)
+
+		//This is problematic (Collection was modified; enumeration operation may not execute) if other thread is changing it:
+		//foreach(PhaseTime pt in listPhaseTime)
+		//solution:
+		List<PhaseTime> listPhaseTimeShallowCloned = new List<PhaseTime>(listPhaseTime);
+		foreach(PhaseTime pt in listPhaseTimeShallowCloned)
 			str += pt.ToString();
 
 		return str;
@@ -334,7 +339,12 @@ public class RunPhaseTimeList
 		List<string> list_in = new List<string>();
 		int currentMS = 0;
 		int startInMS = -1;
-		foreach(PhaseTime pt in listPhaseTime)
+
+		//This is problematic (Collection was modified; enumeration operation may not execute) if other thread is changing it:
+		//foreach(PhaseTime pt in listPhaseTime)
+		//solution:
+		List<PhaseTime> listPhaseTimeShallowCloned = new List<PhaseTime>(listPhaseTime);
+		foreach(PhaseTime pt in listPhaseTimeShallowCloned)
 		{
 			if(pt.IsContact)
 				startInMS = currentMS;

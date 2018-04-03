@@ -238,6 +238,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze_cross;
 	[Widget] Gtk.Image image_encoder_analyze_1RM;
 	[Widget] Gtk.Image image_encoder_analyze_side;
+	[Widget] Gtk.Image image_encoder_analyze_superpose;
 	[Widget] Gtk.Image image_encoder_analyze_single;
 	[Widget] Gtk.Image image_encoder_analyze_nmp;
 	[Widget] Gtk.HBox hbox_encoder_analyze_intersession;
@@ -248,7 +249,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_analyze_help;
 
 
-	//[Widget] Gtk.RadioButton radiobutton_encoder_analyze_superpose;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_superpose;
 	[Widget] Gtk.CheckButton check_encoder_analyze_eccon_together;
 	[Widget] Gtk.Image image_encoder_analyze_eccon_together;
 	[Widget] Gtk.Image image_encoder_analyze_eccon_separated;
@@ -2684,8 +2685,11 @@ public partial class ChronoJumpWindow
 			}
 		}
 		
-		if(sendAnalysis == "powerBars" || sendAnalysis == "single" || sendAnalysis == "side" || sendAnalysis == "sideShareX")
+		if(sendAnalysis == "powerBars" || sendAnalysis == "single" ||
+				sendAnalysis == "side" || sendAnalysis == "sideShareX" || sendAnalysis == "superpose")
+		{
 			analysisVariables = getAnalysisVariables(sendAnalysis);
+		}
 
 		if( ! radio_encoder_analyze_individual_current_set.Active) //not current set
 		{
@@ -3175,7 +3179,7 @@ public partial class ChronoJumpWindow
 			else
 				analysisVariables += ";NoRange";
 		}
-		else {  //analysis == "single" || analysis == "side" || analysis == "sideShareX"
+		else {  //analysis == "single" || analysis == "side" || analysis == "sideShareX" || sendAnalysis == "superpose"
 			if(check_encoder_analyze_show_speed.Active)
 				analysisVariables = "Speed";
 			else
@@ -3228,10 +3232,9 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_sensitiveness();
 	}
 
-	/*
 	private void on_radiobutton_encoder_analyze_superpose_toggled (object obj, EventArgs args) {
-		hbox_encoder_analyze_curve_num.Visible=true;
-		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
+		hbox_encoder_analyze_curve_num.Visible=false;
+		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross_sup.Visible=false;
 		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=false;
@@ -3249,9 +3252,10 @@ public partial class ChronoJumpWindow
 		//restore 1RM Bench Press sensitiveness
 		check_encoder_analyze_mean_or_max.Sensitive = true;
 		
+		encoderButtonsSensitive(encoderSensEnumStored);
 		button_encoder_analyze_sensitiveness();
 	}
-	*/
+
 	private void on_radiobutton_encoder_analyze_side_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;

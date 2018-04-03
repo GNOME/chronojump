@@ -494,8 +494,7 @@ canJump <- function(encoderConfigurationName)
         return(FALSE)
 }
 
-
-paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, superpose, highlight,
+paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, superpose, nrep, highlight,
                   startX, startH, smoothingOneEC, smoothingOneC, massBody, massExtra, 
                   encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown, #encoderConfiguration stuff
                   title, subtitle, draw, width, showLabels, marShrink, showAxes, legend,
@@ -519,7 +518,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
         
         #eccons ec and ecS is the same here (only show one curve)
         #receive data as cumulative sum
-        lty=c(1,1,1)
+        #lty=c(1,1,1)
         
         print(c("xmin,xmax",xmin,xmax))
         
@@ -541,6 +540,21 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
         
         #all in meters
         #position=position/1000
+
+	#set colors
+        colPosition = "black"
+	colSpeed = cols[1]
+	colAccel = "magenta"
+	colForce = cols[2]
+	colPower = cols[3]
+
+	ltyPosition = 1
+	ltySpeed = 1
+	ltyAccel = 1
+	ltyForce = 1
+	ltyPower = 1
+
+	superposeSeqCharsN = 5
         
         if(draw) {
                 #three vertical axis inspired on http://www.r-bloggers.com/multiple-y-axis-in-a-r-plot/
@@ -574,20 +588,34 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                 }
                 
                 par(new=T)
-                colNormal="black"
-                if(superpose)
-                        colNormal="gray30"
+#                if(superpose)
+#                        colNormal="gray30"
                 yValues = position[startX:length(position)]-min(position[startX:length(position)])
-                if(highlight==FALSE) {
+#                if(highlight==FALSE) {
                         plot(startX:length(position),yValues,type="l",xlim=xlim,ylim=ylim,
-                             xlab="",ylab="",col="black",lty=lty[1],lwd=2,axes=F)
-                        par(new=T)
-                        plot(startX:length(position),yValues,type="h",xlim=xlim,ylim=ylim,
-                             xlab="",ylab="",col="grey90",lty=lty[1],lwd=1,axes=F)
-                }
-                else
-                        plot(startX:length(position),yValues,type="l",xlim=xlim,ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
-                abline(h=0,lty=3,col="black")
+                             xlab="",ylab="",col=colPosition,lty=ltyPosition,lwd=2,axes=F)
+
+		if(superpose)
+			addRepCharsAboveLine(yValues, colPosition, nrep)
+
+		if(! superpose) {
+			par(new=T)
+			plot(startX:length(position),yValues,type="h",xlim=xlim,ylim=ylim,
+			     xlab="",ylab="",col="grey90",lty=lty[1],lwd=1,axes=F)
+		}
+#                }
+#                else
+#                       plot(startX:length(position),yValues,type="l",xlim=xlim,ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
+
+		if(nrep == 1)
+		{
+			abline(h=0,lty=3,col="black")
+
+			#always (single or side) show 0 line
+			if(showSpeed || showAccel || showForce || showPower)
+				abline(h=0,lty=3,col="black")
+		}
+
 
 		if(triggersOnList != "" && triggersOnList != -1)
 		{
@@ -733,8 +761,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
         #startX = inertialECstart #deactivated
         
         # ---- end of inertialECstart ----
-        
-        
+
         if(draw & showSpeed) {
                 ylimHeight = max(abs(range(speed$y)))
                 ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
@@ -747,12 +774,15 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                 #if(inertialType == "ri" && eccon == "ce")
                 #	speedPlot=abs(speed$y)
                 
-                if(highlight==FALSE)
+                #if(highlight==FALSE)
                         plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
-                             xlim=xlim,ylim=ylim,xlab="",ylab="",col=cols[1],lty=lty[1],lwd=1,axes=F)
-                else
-                        plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
-                             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
+                             xlim=xlim,ylim=ylim,xlab="",ylab="",col=colSpeed,lty=ltySpeed,lwd=1,axes=F)
+
+		if(superpose)
+			addRepCharsAboveLine(speedPlot, colSpeed, nrep)
+                #else
+                #        plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
+                #             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
                 
         }
         
@@ -806,7 +836,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
         }
         
         if(eccon == "c") {
-                if(showSpeed) {
+                if(showSpeed && ! superpose) {
                         arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
                 }
         } else {
@@ -815,7 +845,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                 else
                         meanSpeedE = mean(speed$y[landing:max(eccentric)])
                 
-                if(showSpeed) {
+                if(showSpeed && ! superpose) {
                         if(landing == -1)
                                 arrows(x0=startX,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
                         else
@@ -831,44 +861,44 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                 if(knRanges[1] != "undefined")
                         ylim = knRanges$accely
                 
-                
-                #always (single or side) show 0 line
-                abline(h=0,lty=3,col="black")
-                
                 #plot the speed axis
                 if(showAxes & showSpeed) {
                         if(eccon == "c") {
                                 axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedC),
                                      labels=c(min(axTicks(4)),0,max(axTicks(4)),
                                               round(meanSpeedC,1)),
-                                     col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
+                                     col=colSpeed, lty=ltySpeed, line=axisLineRight, lwd=1, padj=-.5)
                                 axis(4, at=meanSpeedC,
                                      labels="Xc",
-                                     col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-2)
+                                     col=colSpeed, lty=ltySpeed, line=axisLineRight, lwd=1, padj=-2)
                         }
                         else {
                                 axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedE,meanSpeedC),
                                      labels=c(min(axTicks(4)),0,max(axTicks(4)),
                                               round(meanSpeedE,1),
                                               round(meanSpeedC,1)),
-                                     col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
+                                     col=colSpeed, lty=ltySpeed, line=axisLineRight, lwd=1, padj=-.5)
                                 axis(4, at=c(meanSpeedE,meanSpeedC),
                                      labels=labelsXeXc,
-                                     col=cols[1], lty=lty[1], line=axisLineRight, lwd=0, padj=-2)
+                                     col=colSpeed, lty=ltySpeed, line=axisLineRight, lwd=0, padj=-2)
                         }
                         axisLineRight = axisLineRight +2
                 }
-                
+
                 if(showAccel) {
                         par(new=T)
-                        if(highlight==FALSE)
+                        #if(highlight==FALSE)
                                 plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
-                                     xlim=xlim,ylim=ylim,xlab="",ylab="",col="magenta",lty=lty[2],lwd=1,axes=F)
-                        else
-                                plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
-                                     xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+                                     xlim=xlim,ylim=ylim,xlab="",ylab="",col=colAccel,lty=ltyAccel,lwd=1,axes=F)
+
+			if(superpose)
+				addRepCharsAboveLine(accel$y, colAccel, nrep)
+
+                        #else
+                        #        plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
+                        #             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
                 }
-                
+
                 #show propulsive stuff if line if differentiation is relevant (propulsivePhase ends before the end of the movement)
                 if(isPropulsive & propulsiveEnd < length(displacement)) {
                         #propulsive stuff
@@ -880,7 +910,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                 }
                 
                 if(showAxes & showAccel) {
-                        axis(4, col="magenta", lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
+                        axis(4, col=colAccel, lty=ltyAccel, line=axisLineRight, lwd=1, padj=-.5)
                         axisLineRight = axisLineRight +2
                 }
                 #mtext(text=paste("max accel:",round(max(accel$y),3)),side=3,at=which(accel$y == max(accel$y)),cex=.8,col=cols[1],line=2)
@@ -916,14 +946,18 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                 if(knRanges[1] != "undefined")
                         ylim = knRanges$force
                 par(new=T)
-                if(highlight==FALSE)
+                #if(highlight==FALSE)
                         plot(startX:length(force),force[startX:length(force)],type="l",
-                             xlim=xlim,ylim=ylim,xlab="",ylab="",col=cols[2],lty=lty[2],lwd=1,axes=F)
-                else
-                        plot(startX:length(force),force[startX:length(force)],type="l",
-                             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+                             xlim=xlim,ylim=ylim,xlab="",ylab="",col=colForce,lty=ltyForce,lwd=1,axes=F)
+                #else
+                #        plot(startX:length(force),force[startX:length(force)],type="l",
+                #             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+
+		if(superpose)
+			addRepCharsAboveLine(force, colForce, nrep)
+
                 if(showAxes) {
-                        axis(4, col=cols[2], lty=lty[2], line=axisLineRight, lwd=1, padj=-.5)
+                        axis(4, col=colForce, lty=ltyForce, line=axisLineRight, lwd=1, padj=-.5)
                         axisLineRight = axisLineRight +2
                 }
                 
@@ -1009,14 +1043,21 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                 ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
                 if(knRanges[1] != "undefined")
                         ylim = knRanges$power
-                par(new=T);
-                if(highlight==FALSE)
+                par(new=T)
+
+		lwdPower = 2
+		if(superpose)
+			lwdPower = 1
+
+                #if(highlight==FALSE)
                         plot(startX:length(power),power[startX:length(power)],type="l",
-                             xlim=xlim,ylim=ylim,xlab="",ylab="",col=cols[3],lty=lty[3],lwd=2,axes=F)
-                else
-                        plot(startX:length(power),power[startX:length(power)],type="l",
-                             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
-                
+                             xlim=xlim,ylim=ylim,xlab="",ylab="",col=colPower,lty=ltyPower,lwd=lwdPower,axes=F)
+                #else
+                #        plot(startX:length(power),power[startX:length(power)],type="l",
+                #             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
+
+		if(superpose)
+			addRepCharsAboveLine(power, colPower, nrep)
                 
                 if(isInertial(encoderConfigurationName) && debugOld) {
                         par(new=T)
@@ -1033,18 +1074,23 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                 }
                 
                 if(eccon == "c") {
-                        arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
+			if(! superpose) {
+	                        arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
+			}
                 } else {
-                        if(landing == -1) {
+                        if(landing == -1)
                                 meanPowerE = mean(power[startX:max(eccentric)])
-                                arrows(x0=startX,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
-                        }
-                        else {
+			else
                                 meanPowerE = mean(power[landing:max(eccentric)])
-                                arrows(x0=landing,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
-                        }
-                        
-                        arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
+
+			if(! superpose) {
+				if(landing == -1)
+					arrows(x0=startX,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
+				else
+					arrows(x0=landing,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
+
+				arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
+			}
                 }
                 
                 if(showAxes) {
@@ -1052,20 +1098,20 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                                 axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanPowerC),
                                      labels=c(min(axTicks(4)),0,max(axTicks(4)),
                                               round(meanPowerC,1)),
-                                     col=cols[3], lty=lty[1], line=axisLineRight, lwd=2, padj=-.5)
+                                     col=colPower, lty=ltyPower, line=axisLineRight, lwd=2, padj=-.5)
                                 axis(4, at=meanPowerC,
                                      labels="Xc",
-                                     col=cols[3], lty=lty[1], line=axisLineRight, lwd=2, padj=-2)
+                                     col=colPower, lty=ltyPower, line=axisLineRight, lwd=2, padj=-2)
                         }
                         else {
                                 axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanPowerE,meanPowerC),
                                      labels=c(min(axTicks(4)),0,max(axTicks(4)),
                                               round(meanPowerE,1),
                                               round(meanPowerC,1)),
-                                     col=cols[3], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
+                                     col=colPower, lty=ltyPower, line=axisLineRight, lwd=1, padj=-.5)
                                 axis(4, at=c(meanPowerE,meanPowerC),
                                      labels=labelsXeXc,
-                                     col=cols[3], lty=lty[1], line=axisLineRight, lwd=0, padj=-2)
+                                     col=colPower, lty=ltyPower, line=axisLineRight, lwd=0, padj=-2)
                         }
                         axisLineRight = axisLineRight +2
                 }
@@ -1112,7 +1158,14 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
         #TODO: fix this to show only the cinematic values selected by user
         #legend, axes and title
         if(draw) {
-                if(legend & showAxes) {
+		#show 0 line
+		if(nrep == 1 && (showSpeed || showAccel || showForce || showPower))
+		{
+			abline(h=0,lty=3,col="black")
+		}
+
+                #if(legend & showAxes) {}
+                if(legend) {
                         paintVariablesLegend(showSpeed, showAccel, showForce, showPower,
 					     (triggersOnList != "" && triggersOnList != -1))
                 }
@@ -1125,38 +1178,50 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
 
 paintVariablesLegend <- function(showSpeed, showAccel, showForce, showPower, showTriggers)
 {
+	colPosition = "black"
+	colSpeed = cols[1]
+	colAccel = "magenta"
+	colForce = cols[2]
+	colPower = cols[3]
+
+	ltyPosition = 1
+	ltySpeed = 1
+	ltyAccel = 1
+	ltyForce = 1
+	ltyPower = 1
+
         legendText=c(paste(translateToPrint("Distance"),"(mm)"))
-        lty=c(1)
+        lty=c(ltyPosition)
         lwd=c(2)
-        colors=c("black") 
+        colors=c(colPosition)
         ncol=1
         
         if(showSpeed) {
                 legendText=c(legendText, paste(translateToPrint("Speed"),"(m/s)"))
-                lty=c(lty,1)
+                lty=c(lty,ltySpeed)
                 lwd=c(lwd,2)
-                colors=c(colors,cols[1]) 
+                colors=c(colors,colSpeed)
                 ncol=ncol+1
         }
         if(showAccel) {
                 legendText=c(legendText, paste(translateToPrint("Accel."),"(m/s²)"))
-                lty=c(lty,1)
+                lty=c(lty,ltyAccel)
                 lwd=c(lwd,2)
-                colors=c(colors,"magenta") 
+                colors=c(colors,colAccel)
                 ncol=ncol+1
         }
         if(showForce) {
                 legendText=c(legendText, paste(translateToPrint("Force"),"(N)"))
-                lty=c(lty,1)
+                lty=c(lty,ltyForce)
                 lwd=c(lwd,2)
-                colors=c(colors,cols[2]) 
+                colors=c(colors,colForce)
                 ncol=ncol+1
         }
         if(showPower) {
                 legendText=c(legendText, paste(translateToPrint("Power"),"(W)"))
-                lty=c(lty,1)
+                lty=c(lty,ltyPower)
                 lwd=c(lwd,2)
-                colors=c(colors,cols[3]) 
+                colors=c(colors,colPower)
                 ncol=ncol+1
         }
         if(showTriggers) {
@@ -1182,6 +1247,13 @@ paintVariablesLegend <- function(showSpeed, showAccel, showForce, showPower, sho
                col=colors, 
                cex=1, bg="white", ncol=ncol, bty="n", plot=T, xpd=NA)
 }
+
+addRepCharsAboveLine <- function(variable, col, label)
+{
+	seqChars = seq(from=1, to=length(variable), length.out=5)
+	text(x=seqChars, y=variable[seqChars], labels=label, col=col, adj=c(.5,0)) #this adjust writes letter on the top of line
+}
+
 
 textBox <- function(x,y,text,frontCol,bgCol,xpad=.1,ypad=1){
         
@@ -2992,7 +3064,7 @@ doProcess <- function(options)
 		        if(! cutByTriggers(op))
 				triggersOnList = op$TriggersOnList;
 
-                        paint(displacement, repOp$eccon, myStart, myEnd, "undefined","undefined","undefined",FALSE,FALSE,
+                        paint(displacement, repOp$eccon, myStart, myEnd, "undefined","undefined","undefined",FALSE,1,FALSE,
                               1,curves[op$Jump,3],SmoothingsEC[smoothingPos],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
                               repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
                               paste(op$Title, " ", op$Analysis, " ", repOp$eccon, ". ", myCurveStr, sep=""),
@@ -3240,13 +3312,13 @@ doProcess <- function(options)
                         if(i == 1)
                                 myTitle = paste(op$Title)
                         
-                        mySubtitle = paste("curve=", rownames(curves)[i], ", ", repOp$laterality, " ", repOp$massExtra, "Kg", sep="")
+                        mySubtitle = paste("Repetition=", rownames(curves)[i], ", ", repOp$laterality, " ", repOp$massExtra, "Kg", sep="")
                         
 			triggersOnList = "";
 		        if(! cutByTriggers(op))
 				triggersOnList = op$TriggersOnList;
 
-                        paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges,FALSE,FALSE,
+                        paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges,FALSE,i,FALSE,
                               1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
                               repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
                               myTitle,mySubtitle,
@@ -3266,7 +3338,8 @@ doProcess <- function(options)
                 }
                 par(mfrow=c(1,1))
         }
-        #	if(op$Analysis=="superpose") {	#TODO: fix on ec startH
+
+	if(op$Analysis=="superpose") {	#TODO: fix on ec startH
         #		#falta fer un graf amb les 6 curves sobreposades i les curves de potencia (per exemple) sobrepossades
         #		#fer que acabin al mateix punt encara que no iniciin en el mateix
         #		#arreglar que els eixos de l'esq han de seguir un ylim,
@@ -3303,7 +3376,59 @@ doProcess <- function(options)
         #		}
         #		par(new=F)
         #		#print(knRanges)
-        #	}
+
+		xrange=find.xrange(singleFile, displacement, curves)
+		yrange=find.yrange(singleFile, displacement, curves)
+
+		#if !singleFile kinematicRanges takes the 'curves' values
+		knRanges=kinematicRanges(singleFile, displacement, curves,
+					 op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
+					 op$EncoderConfigurationName,op$diameter,op$diameterExt,
+					 op$anglePush,op$angleWeight,op$inertiaMomentum,op$gearedDown,
+					 SmoothingsEC, op$SmoothingOneC,
+					 g, op$Eccon, isPropulsive)
+
+		for(i in 1:n) {
+			repOp <- assignRepOptions(
+						  singleFile, curves, i,
+						  op$MassBody, op$MassExtra, op$Eccon, op$ExercisePercentBodyWeight,
+						  op$EncoderConfigurationName, op$diameter, op$diameterExt,
+						  op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
+						  "") #laterality
+
+			myTitle = ""
+			if(i == 1)
+				myTitle = paste(op$Title)
+
+			#mySubtitle = paste("curve=", rownames(curves)[i], ", ", repOp$laterality, " ", repOp$massExtra, "Kg", sep="")
+
+			triggersOnList = "";
+			if(! cutByTriggers(op))
+				triggersOnList = op$TriggersOnList;
+
+			#TODO: highlight can ve used asking user if want to highlight any repetition, and this will be lwd=2 or 3
+
+			paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges, TRUE, i, FALSE,
+			      1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
+			      repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
+			      myTitle, "", #title, subtitle
+			      TRUE,	#draw
+			      op$Width,
+			      FALSE,	#showLabels
+			      TRUE,	#marShrink
+			      FALSE,	#showAxes
+			      (i==1),	#legend
+			      op$Analysis, isPropulsive, inertialType, repOp$exPercentBodyWeight,
+			      (op$AnalysisVariables[1] == "Speed"), #show speed
+			      (op$AnalysisVariables[2] == "Accel"), #show accel
+			      (op$AnalysisVariables[3] == "Force"), #show force
+			      (op$AnalysisVariables[4] == "Power"),  #show power
+			      triggersOnList
+			      )
+
+			par(new=T)
+		}
+	} #end of superpose
         
         #since Chronojump 1.3.6, encoder analyze has a treeview that can show the curves
         #when an analysis is done, curves file has to be written

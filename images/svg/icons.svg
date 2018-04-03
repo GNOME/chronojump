@@ -7256,16 +7256,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4.5930988"
-     inkscape:cx="486.05667"
-     inkscape:cy="100.39133"
+     inkscape:zoom="4.0390625"
+     inkscape:cx="88.05039"
+     inkscape:cy="313.10745"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1014"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
      inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-y="26"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -7288,11 +7288,6 @@
        orientation="1,0"
        position="142.02884,180.25602"
        id="guide4687"
-       inkscape:locked="false" />
-    <sodipodi:guide
-       orientation="1,0"
-       position="131.5577,160.7895"
-       id="guide4689"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="1,0"
@@ -7338,6 +7333,11 @@
        position="287.18606,209.26778"
        orientation="1,0"
        id="guide6489"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="136.07737,314.83172"
+       orientation="1,0"
+       id="guide3073"
        inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
@@ -7430,7 +7430,7 @@
        inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-analyze-single.png"
        inkscape:export-xdpi="89.989998"
        inkscape:export-ydpi="89.989998"
-       transform="translate(0,-13.72549)">
+       transform="translate(30.986869,-13.72549)">
       <rect
          y="1003.9698"
          x="14.208096"
@@ -7442,13 +7442,13 @@
          transform="translate(-3.4494629e-6,1.1705907e-4)"
          id="g5217">
         <path
-           style="fill:none;stroke:#ffffff;stroke-width:2.71259522;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           style="fill:none;stroke:#ffffff;stroke-width:2.71259522;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            d="m 17.03509,1016.4423 c 6.83937,0.041 1.801391,-8.8682 10.346018,-8.9454"
            id="path3792-5-6-0"
            inkscape:connector-curvature="0"
            sodipodi:nodetypes="cc" />
         <path
-           style="fill:none;stroke:#000000;stroke-width:1.93756807;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           style="fill:none;stroke:#000000;stroke-width:1.93756807;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            d="m 17.158939,1016.4823 c 5.990696,-0.1088 2.447411,-9.3744 10.09832,-9.015"
            id="path3792-5-6"
            inkscape:connector-curvature="0"
@@ -7460,7 +7460,7 @@
        inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-analyze-nmp.png"
        inkscape:export-xdpi="89.989998"
        inkscape:export-ydpi="89.989998"
-       transform="translate(0,-13.72549)">
+       transform="translate(30.986869,-13.72549)">
       <rect
          y="1003.9698"
          x="39.249966"
@@ -7469,7 +7469,7 @@
          id="rect2985-5"
          style="fill:#ffffff;fill-opacity:0;fill-rule:nonzero;stroke:none" />
       <g
-         transform="translate(-0.02496958,0)"
+         transform="translate(-0.02496958)"
          id="g5229">
         <rect
            style="fill:#4c00ff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-opacity:1"
@@ -7479,7 +7479,7 @@
            x="39.896626"
            y="1007.9548" />
         <rect
-           style="fill:#00ff4d;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           style="fill:#00ff4d;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            id="rect3967-9-2"
            width="4.4440165"
            height="6.3793139"
@@ -7530,23 +7530,23 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       x="9.081933"
+       x="40.068802"
        y="981.80341"
        id="text3938-3-5-7-5-9"><tspan
          sodipodi:role="line"
          id="tspan3940-6-4-1-9-8"
-         x="9.081933"
+         x="40.068802"
          y="981.80341"
          style="font-size:2px;line-height:1.25;font-family:sans-serif">encoder-analyze-single.png</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       x="28.738205"
+       x="59.725075"
        y="978.15656"
        id="text3938-3-5-7-5-9-8"><tspan
          sodipodi:role="line"
          id="tspan3940-6-4-1-9-8-2"
-         x="28.738205"
+         x="59.725075"
          y="978.15656"
          style="font-size:2px;line-height:1.25;font-family:sans-serif">encoder-analyze-nmp.png</tspan></text>
     <g
@@ -11307,5 +11307,56 @@
            inkscape:connector-curvature="0" />
       </g>
     </g>
+    <g
+       id="g3270"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-analyze-superpose.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
+      <rect
+         y="988.12585"
+         x="17.239494"
+         height="16"
+         width="16"
+         id="rect2985-6-61"
+         style="fill:#ffffff;fill-opacity:0;fill-rule:nonzero;stroke:none" />
+      <g
+         id="g3217">
+        <path
+           style="fill:none;stroke:#ffffff;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 19.385634,1000.5985 c 6.437049,0.072 3.658257,-8.99198 11.98625,-9.06918"
+           id="path3792-5-6-0-7"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="fill:none;stroke:#ffffff;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 19.385636,1000.624 c 6.437046,0.072 5.019954,-6.54713 11.986247,-6.25296"
+           id="path3792-5-6-0-7-2"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="fill:none;stroke:#ff6347;stroke-width:1.20000005;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 19.509486,1000.664 c 5.990692,-0.1088 4.582357,-6.26067 11.862339,-6.26067"
+           id="path3792-5-6-9-0"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="fill:none;stroke:#4c00ff;stroke-width:1.20000005;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 19.509483,1000.6385 c 5.990696,-0.1088 4.180486,-9.40534 11.831395,-9.04594"
+           id="path3792-5-6-9"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+      </g>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="11.457384"
+       y="976.92218"
+       id="text3938-3-5-7-5-9-2"><tspan
+         sodipodi:role="line"
+         id="tspan3940-6-4-1-9-8-8"
+         x="11.457384"
+         y="976.92218"
+         style="font-size:2px;line-height:1.25;font-family:sans-serif">encoder-analyze-superpose.png</tspan></text>
   </g>
 </svg>

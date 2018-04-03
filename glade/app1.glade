@@ -1658,6 +1658,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -22414,6 +22417,31 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_superpose">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Superpose</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">radiobutton_encoder_analyze_powerbars</property>
+                                                            <signal name="toggled" handler="on_radiobutton_encoder_analyze_superpose_toggled" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_analyze_superpose">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">5</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_neuromuscular_profile">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
@@ -22436,7 +22464,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">5</property>
+                                                            <property name="position">6</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -23948,6 +23976,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

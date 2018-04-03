@@ -233,6 +233,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_1RM;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_side;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_superpose;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_neuromuscular_profile;
 	[Widget] Gtk.Image image_encoder_analyze_powerbars;
 	[Widget] Gtk.Image image_encoder_analyze_cross;
@@ -249,7 +250,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_analyze_help;
 
 
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_superpose;
 	[Widget] Gtk.CheckButton check_encoder_analyze_eccon_together;
 	[Widget] Gtk.Image image_encoder_analyze_eccon_together;
 	[Widget] Gtk.Image image_encoder_analyze_eccon_separated;
@@ -3001,20 +3001,22 @@ public partial class ChronoJumpWindow
 	}
 		
 	/*
-	 * 1) neuromuscular should be separated
-	 * 2) if we are analyzing current set and it's concentric separate phases button has to be unsensitive
-	 * 3) single and side are together
+	 * 1 neuromuscular should be separated
+	 * 2 if we are analyzing current set and it's concentric separate phases button has to be unsensitive
+	 * 3 single, side and superpose are together
 	 */
 	private void block_check_encoder_analyze_eccon_together_if_needed() 
 	{
-		if(radiobutton_encoder_analyze_neuromuscular_profile.Active) { // 1)
+		if(radiobutton_encoder_analyze_neuromuscular_profile.Active) { // 1
 			//separated, mandatory
 			check_encoder_analyze_eccon_together.Sensitive = false;
 			check_encoder_analyze_eccon_together.Active = false;
 		}
 		else if( 
-				( radio_encoder_analyze_individual_current_set.Active && findEccon(false) == "c" ) || // 2)
-				radiobutton_encoder_analyze_single.Active || radiobutton_encoder_analyze_side.Active // 3)
+				( radio_encoder_analyze_individual_current_set.Active && findEccon(false) == "c" ) || // 2
+				radiobutton_encoder_analyze_single.Active ||
+					radiobutton_encoder_analyze_side.Active ||
+					radiobutton_encoder_analyze_superpose.Active // 3
 		  ) {
 			//together, mandatory
 			check_encoder_analyze_eccon_together.Sensitive = false;
@@ -3044,6 +3046,7 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_analyze_1RM.Visible = (currentEncoderGI == Constants.EncoderGI.GRAVITATORY);
 		radiobutton_encoder_analyze_single.Visible = true;
 		radiobutton_encoder_analyze_side.Visible = true;
+		radiobutton_encoder_analyze_superpose.Visible = true;
 		radiobutton_encoder_analyze_neuromuscular_profile.Visible = (currentEncoderGI == Constants.EncoderGI.GRAVITATORY);
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
@@ -3086,6 +3089,7 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_analyze_1RM.Visible = (currentEncoderGI == Constants.EncoderGI.GRAVITATORY);
 		radiobutton_encoder_analyze_single.Visible = true;
 		radiobutton_encoder_analyze_side.Visible = true;
+		radiobutton_encoder_analyze_superpose.Visible = true;
 		radiobutton_encoder_analyze_neuromuscular_profile.Visible = (currentEncoderGI == Constants.EncoderGI.GRAVITATORY);
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
@@ -3124,6 +3128,7 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_analyze_1RM.Visible = false;
 		radiobutton_encoder_analyze_single.Visible = false;
 		radiobutton_encoder_analyze_side.Visible = false;
+		radiobutton_encoder_analyze_superpose.Visible = false;
 		radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
 
 		showTriggerTab(false);
@@ -3153,6 +3158,7 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_analyze_1RM.Visible = false;
 		radiobutton_encoder_analyze_single.Visible = false;
 		radiobutton_encoder_analyze_side.Visible = false;
+		radiobutton_encoder_analyze_superpose.Visible = false;
 		radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
 
 		showTriggerTab(false);

@@ -489,6 +489,7 @@ RESOURCES = \
 	../images/encoder-analyze-cross.png,encoder-analyze-cross.png \
 	../images/encoder-analyze-1RM.png,encoder-analyze-1RM.png \
 	../images/encoder-analyze-side.png,encoder-analyze-side.png \
+	../images/encoder-analyze-superpose.png,encoder-analyze-superpose.png \
 	../images/encoder-analyze-single.png,encoder-analyze-single.png \
 	../images/encoder-analyze-nmp.png,encoder-analyze-nmp.png \
 	../images/encoder-analyze-eccon-together.png,encoder-analyze-eccon-together.png \

@@ -481,6 +481,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_powerbars);
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_cross);
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_side);
+		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_superpose);
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_single);
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_neuromuscular_profile);
 		
@@ -547,6 +548,8 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSideIcon);
 		image_encoder_analyze_side.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSuperposeIcon);
+		image_encoder_analyze_superpose.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSingleIcon);
 		image_encoder_analyze_single.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeNmpIcon);

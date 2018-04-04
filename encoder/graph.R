@@ -494,7 +494,7 @@ canJump <- function(encoderConfigurationName)
         return(FALSE)
 }
 
-paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, superpose, nrep, highlight,
+paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, paintMode, nrep, highlight,
                   startX, startH, smoothingOneEC, smoothingOneC, massBody, massExtra, 
                   encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown, #encoderConfiguration stuff
                   title, subtitle, draw, width, showLabels, marShrink, showAxes, legend,
@@ -595,10 +595,9 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                         plot(startX:length(position),yValues,type="l",xlim=xlim,ylim=ylim,
                              xlab="",ylab="",col=colPosition,lty=ltyPosition,lwd=2,axes=F)
 
-		if(superpose)
+		if(paintMode == "superpose")
 			addRepCharsAboveLine(yValues, colPosition, nrep)
-
-		if(! superpose) {
+		else {
 			par(new=T)
 			plot(startX:length(position),yValues,type="h",xlim=xlim,ylim=ylim,
 			     xlab="",ylab="",col="grey90",lty=lty[1],lwd=1,axes=F)
@@ -607,7 +606,8 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
 #                else
 #                       plot(startX:length(position),yValues,type="l",xlim=xlim,ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
 
-		if(nrep == 1)
+		# show horizontal bars on all graphs except on superpose (on this mode only on first graph)
+		if(paintMode != "superpose" || nrep == 1)
 		{
 			abline(h=0,lty=3,col="black")
 
@@ -778,7 +778,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                         plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
                              xlim=xlim,ylim=ylim,xlab="",ylab="",col=colSpeed,lty=ltySpeed,lwd=1,axes=F)
 
-		if(superpose)
+		if(paintMode == "superpose")
 			addRepCharsAboveLine(speedPlot, colSpeed, nrep)
                 #else
                 #        plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
@@ -786,7 +786,8 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                 
         }
         
-        if(draw & showSpeed & !superpose) {
+        if(draw & showSpeed & paintMode != "superpose")
+	{
                 abline(v=maxSpeedT, col=cols[1])
                 points(maxSpeedT, max(speed$y),col=cols[1])
                 mtext(text=paste(round(max(speed$y),2),"m/s",sep=""),side=3,
@@ -836,7 +837,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
         }
         
         if(eccon == "c") {
-                if(showSpeed && ! superpose) {
+                if(showSpeed && paintMode != "superpose") {
                         arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
                 }
         } else {
@@ -845,7 +846,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                 else
                         meanSpeedE = mean(speed$y[landing:max(eccentric)])
                 
-                if(showSpeed && ! superpose) {
+                if(showSpeed && ! paintMode != "superpose") {
                         if(landing == -1)
                                 arrows(x0=startX,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
                         else
@@ -891,7 +892,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                                 plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
                                      xlim=xlim,ylim=ylim,xlab="",ylab="",col=colAccel,lty=ltyAccel,lwd=1,axes=F)
 
-			if(superpose)
+			if(paintMode == "superpose")
 				addRepCharsAboveLine(accel$y, colAccel, nrep)
 
                         #else
@@ -953,7 +954,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                 #        plot(startX:length(force),force[startX:length(force)],type="l",
                 #             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
 
-		if(superpose)
+		if(paintMode == "superpose")
 			addRepCharsAboveLine(force, colForce, nrep)
 
                 if(showAxes) {
@@ -976,7 +977,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
         #if it was a eccon concentric-eccentric, will be useful to calculate flight time
         #but this eccon will be not done
         #if(draw & (!superpose || (superpose & highlight)) & isJump) 
-        if(draw & (!superpose || (superpose & highlight)) & exercisePercentBodyWeight == 100) {
+        if(draw & (paintMode != "superpose" || (paintMode == "superpose" & highlight)) & exercisePercentBodyWeight == 100) {
                 weight=mass*g
                 abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
                 text(x=length(force),y=weight,labels=paste(translateToPrint("Weight"),"(N)"),cex=.8,adj=c(.5,0),col=cols[2])
@@ -1046,7 +1047,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                 par(new=T)
 
 		lwdPower = 2
-		if(superpose)
+		if(paintMode == "superpose")
 			lwdPower = 1
 
                 #if(highlight==FALSE)
@@ -1056,7 +1057,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                 #        plot(startX:length(power),power[startX:length(power)],type="l",
                 #             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
 
-		if(superpose)
+		if(paintMode == "superpose")
 			addRepCharsAboveLine(power, colPower, nrep)
                 
                 if(isInertial(encoderConfigurationName) && debugOld) {
@@ -1074,7 +1075,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                 }
                 
                 if(eccon == "c") {
-			if(! superpose) {
+			if(paintMode != "superpose") {
 	                        arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
 			}
                 } else {
@@ -1083,7 +1084,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
 			else
                                 meanPowerE = mean(power[landing:max(eccentric)])
 
-			if(! superpose) {
+			if(paintMode != "superpose") {
 				if(landing == -1)
 					arrows(x0=startX,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
 				else
@@ -1120,7 +1121,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
         #time to arrive to peak power
         powerTemp <- power[startX:length(power)]
         peakPowerT <- min(which(power == max(powerTemp)))
-        if(draw & !superpose & showPower) {
+        if(draw & paintMode != "superpose" & showPower) {
                 abline(v=peakPowerT, col=cols[3])
                 points(peakPowerT, max(powerTemp),col=cols[3])
                 mtext(text=paste(round(max(powerTemp),1),"W",sep=""),side=3,
@@ -1142,7 +1143,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
         #time to arrive to peak power negative on con-ecc
         if(eccon=="ce") {
                 peakPowerTneg=min(which(power == min(power)))
-                if(draw & !superpose) {
+                if(draw & paintMode != "superpose") {
                         abline(v=peakPowerTneg, col=cols[3])
                         points(peakPowerTneg, min(power),col=cols[3])
                         mtext(text=paste(round(min(power),1),"W",sep=""),side=1,line=-1,at=peakPowerTneg,adj=.5,cex=.8,col=cols[3])
@@ -1173,6 +1174,10 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, sup
                         mtext(paste(translateToPrint("time"),"(ms)"),side=1,adj=1,line=-1,cex=.9)
                         mtext(paste(translateToPrint("displacement"),"(mm)"),side=2,adj=1,line=-1,cex=.9)
                 }
+
+		#on sideShareX draw a box to see better graphs (to undertand better white space)
+		if(paintMode == "sideShareX")
+			box(col="gray", lty=2)
         }
 }
 
@@ -3064,7 +3069,7 @@ doProcess <- function(options)
 		        if(! cutByTriggers(op))
 				triggersOnList = op$TriggersOnList;
 
-                        paint(displacement, repOp$eccon, myStart, myEnd, "undefined","undefined","undefined",FALSE,1,FALSE,
+                        paint(displacement, repOp$eccon, myStart, myEnd, "undefined","undefined","undefined",op$Analysis,1,FALSE,
                               1,curves[op$Jump,3],SmoothingsEC[smoothingPos],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
                               repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
                               paste(op$Title, " ", op$Analysis, " ", repOp$eccon, ". ", myCurveStr, sep=""),
@@ -3318,7 +3323,7 @@ doProcess <- function(options)
 		        if(! cutByTriggers(op))
 				triggersOnList = op$TriggersOnList;
 
-                        paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges,FALSE,i,FALSE,
+                        paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges,op$Analysis,i,FALSE,
                               1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
                               repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
                               myTitle,mySubtitle,
@@ -3408,7 +3413,7 @@ doProcess <- function(options)
 
 			#TODO: highlight can ve used asking user if want to highlight any repetition, and this will be lwd=2 or 3
 
-			paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges, TRUE, i, FALSE,
+			paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges, op$Analysis, i, FALSE,
 			      1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
 			      repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
 			      myTitle, "", #title, subtitle

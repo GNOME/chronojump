@@ -417,7 +417,6 @@ public class ChronoJump
 			LogB.Error(js.ResultMessage);
 			*/
 
-		
 		allSQLCallsDoneOnSqliteThingsThread = false;
 			
 		//wait until pinging ends (or it's cancelled)
@@ -498,8 +497,7 @@ public class ChronoJump
 
 	protected void readMessageToStart()
 	{
-		//don't show error message at start if Compujump
-		if(messageToShowOnBoot.Length > 0 && ! configChronojump.Compujump)
+		if(messageToShowOnBoot.Length > 0)
 		{
 			if(chronojumpHasToExit)
 			{
@@ -514,7 +512,10 @@ public class ChronoJump
 				}
 				splashWin.ShowButtonClose();
 			} else {
-				startChronojump(true); //sendLog
+				if(configChronojump.Compujump)
+					startChronojump(false); //don't sendLog
+				else
+					startChronojump(true); //sendLog
 			}
 		} else {
 			startChronojump(false);
@@ -611,7 +612,10 @@ public class ChronoJump
 	
 	protected bool PulseGTK ()
 	{
-		if( quitNowCjTwoTimes || needEndSplashWin || ! thread.IsAlive ) {
+		if( quitNowCjTwoTimes || needEndSplashWin || ! thread.IsAlive )
+		{
+			LogB.Information(string.Format("pulseGTK ending conditions: {0}, {1}, {2}",
+						quitNowCjTwoTimes, needEndSplashWin, ! thread.IsAlive));
 			LogB.ThreadEnding();
 			fakeSplashButton.Click();
 

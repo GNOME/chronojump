@@ -160,6 +160,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_range;
 
 	[Widget] Gtk.Box hbox_encoder_analyze_show_SAFE;
+	[Widget] Gtk.CheckButton check_encoder_analyze_show_position;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_speed;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_accel;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_force;
@@ -3186,10 +3187,15 @@ public partial class ChronoJumpWindow
 				analysisVariables += ";NoRange";
 		}
 		else {  //analysis == "single" || analysis == "side" || analysis == "sideShareX" || sendAnalysis == "superpose"
-			if(check_encoder_analyze_show_speed.Active)
-				analysisVariables = "Speed";
+			if(check_encoder_analyze_show_position.Active)
+				analysisVariables = "Position";
 			else
-				analysisVariables = "NoSpeed";
+				analysisVariables = "NoPosition";
+
+			if(check_encoder_analyze_show_speed.Active)
+				analysisVariables += ";Speed";
+			else
+				analysisVariables += ";NoSpeed";
 
 			if(check_encoder_analyze_show_accel.Active)
 				analysisVariables += ";Accel";

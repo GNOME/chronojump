@@ -485,6 +485,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_single);
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_neuromuscular_profile);
 		
+		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_position);
 		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_speed);
 		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_accel);
 		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_force);

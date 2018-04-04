@@ -56,7 +56,7 @@ assignOptions <- function(options) {
 		    #	"TimeToPeakPower;Range", or eg: "NoTimeToPeakPower;NoRange"
 		    #
 		    #in Analysis "single" or "side", AnalysisVariables can be:
-		    #	"Speed;Accel;Force;Power", or eg: "NoSpeed;NoAccel;Force;Power"
+		    #	"Position;Speed;Accel;Force;Power", or eg: "NoPosition;NoSpeed;NoAccel;Force;Power"
 		    #
 		    #in Analysis = "1RMAnyExercise"
 		    #AnalysisVariables = "0.185;method". speed1RM = 0.185m/s

@@ -499,7 +499,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                   encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown, #encoderConfiguration stuff
                   title, subtitle, draw, width, showLabels, marShrink, showAxes, legend,
                   Analysis, isPropulsive, inertialType, exercisePercentBodyWeight,
-                  showSpeed, showAccel, showForce, showPower,
+                  showPosition, showSpeed, showAccel, showForce, showPower,
 		  triggersOnList #will be empty if cutByTriggers
 ) {
         
@@ -584,36 +584,36 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 
                 if(showAxes) {
                         axis(1) 	#can be added xmin
-                        axis(2)
+			if(showPosition)
+				axis(2)
                 }
                 
-                par(new=T)
-#                if(superpose)
-#                        colNormal="gray30"
-                yValues = position[startX:length(position)]-min(position[startX:length(position)])
-#                if(highlight==FALSE) {
-                        plot(startX:length(position),yValues,type="l",xlim=xlim,ylim=ylim,
-                             xlab="",ylab="",col=colPosition,lty=ltyPosition,lwd=2,axes=F)
-
-		if(paintMode == "superpose")
-			addRepCharsAboveLine(yValues, colPosition, nrep)
-		else {
-			par(new=T)
-			plot(startX:length(position),yValues,type="h",xlim=xlim,ylim=ylim,
-			     xlab="",ylab="",col="grey90",lty=lty[1],lwd=1,axes=F)
-		}
-#                }
-#                else
-#                       plot(startX:length(position),yValues,type="l",xlim=xlim,ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
-
-		# show horizontal bars on all graphs except on superpose (on this mode only on first graph)
-		if(paintMode != "superpose" || nrep == 1)
+		if(showPosition)
 		{
-			abline(h=0,lty=3,col="black")
+			par(new=T)
+			#                if(superpose)
+			#                        colNormal="gray30"
+			yValues = position[startX:length(position)]-min(position[startX:length(position)])
+			#                if(highlight==FALSE) {
+			plot(startX:length(position),yValues,type="l",xlim=xlim,ylim=ylim,
+			     xlab="",ylab="",col=colPosition,lty=ltyPosition,lwd=2,axes=F)
 
-			#always (single or side) show 0 line
-			if(showSpeed || showAccel || showForce || showPower)
+			if(paintMode == "superpose")
+				addRepCharsAboveLine(yValues, colPosition, nrep)
+			else {
+				par(new=T)
+				plot(startX:length(position),yValues,type="h",xlim=xlim,ylim=ylim,
+				     xlab="",ylab="",col="grey90",lty=lty[1],lwd=1,axes=F)
+			}
+			#                }
+			#                else
+			#                       plot(startX:length(position),yValues,type="l",xlim=xlim,ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
+
+			# show horizontal bars on all graphs except on superpose (on this mode only on first graph)
+			if(paintMode != "superpose" || nrep == 1)
+			{
 				abline(h=0,lty=3,col="black")
+			}
 		}
 
 
@@ -1160,19 +1160,21 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         #legend, axes and title
         if(draw) {
 		#show 0 line
-		if(nrep == 1 && (showSpeed || showAccel || showForce || showPower))
+		if( (paintMode != "superpose" || nrep == 1) &&
+		   (showSpeed || showAccel || showForce || showPower) )
 		{
 			abline(h=0,lty=3,col="black")
 		}
 
                 #if(legend & showAxes) {}
                 if(legend) {
-                        paintVariablesLegend(showSpeed, showAccel, showForce, showPower,
+                        paintVariablesLegend(showPosition, showSpeed, showAccel, showForce, showPower,
 					     (triggersOnList != "" && triggersOnList != -1))
                 }
                 if(showLabels) {
                         mtext(paste(translateToPrint("time"),"(ms)"),side=1,adj=1,line=-1,cex=.9)
-                        mtext(paste(translateToPrint("displacement"),"(mm)"),side=2,adj=1,line=-1,cex=.9)
+			if(showPosition)
+				mtext(paste(translateToPrint("displacement"),"(mm)"),side=2,adj=1,line=-1,cex=.9)
                 }
 
 		#on sideShareX draw a box to see better graphs (to undertand better white space)
@@ -1181,7 +1183,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         }
 }
 
-paintVariablesLegend <- function(showSpeed, showAccel, showForce, showPower, showTriggers)
+paintVariablesLegend <- function(showPosition, showSpeed, showAccel, showForce, showPower, showTriggers)
 {
 	colPosition = "black"
 	colSpeed = cols[1]
@@ -1195,11 +1197,19 @@ paintVariablesLegend <- function(showSpeed, showAccel, showForce, showPower, sho
 	ltyForce = 1
 	ltyPower = 1
 
-        legendText=c(paste(translateToPrint("Distance"),"(mm)"))
-        lty=c(ltyPosition)
-        lwd=c(2)
-        colors=c(colPosition)
-        ncol=1
+	legendText=NULL
+	lty=NULL
+	lwd=NULL
+	colors=NULL
+	ncol=0
+
+        if(showPosition) {
+		legendText=c(legendText, paste(translateToPrint("Distance"),"(mm)"))
+		lty=c(lty,ltyPosition)
+		lwd=c(lwd,2)
+		colors=c(colors,colPosition)
+		ncol=ncol+1
+	}
         
         if(showSpeed) {
                 legendText=c(legendText, paste(translateToPrint("Speed"),"(m/s)"))
@@ -1236,8 +1246,10 @@ paintVariablesLegend <- function(showSpeed, showAccel, showForce, showPower, sho
                 colors=c(colors,"yellow3")
                 ncol=ncol+1
         }
-        
-        
+
+	if(ncol == 0)
+		return()
+
         #plot legend on top exactly out
         #http://stackoverflow.com/a/7322792
         rng=par("usr")
@@ -3033,10 +3045,11 @@ doProcess <- function(options)
         
         if(op$Analysis=="single") 
         {
-                showSpeed <- (op$AnalysisVariables[1] == "Speed")
-                showAccel <- (op$AnalysisVariables[2] == "Accel")
-                showForce <- (op$AnalysisVariables[3] == "Force")
-                showPower <- (op$AnalysisVariables[4] == "Power")
+                showPosition <- (op$AnalysisVariables[1] == "Position")
+                showSpeed <- (op$AnalysisVariables[2] == "Speed")
+                showAccel <- (op$AnalysisVariables[3] == "Accel")
+                showForce <- (op$AnalysisVariables[4] == "Force")
+                showPower <- (op$AnalysisVariables[5] == "Power")
                 df = NULL
                 
                 if(op$Jump>0) {
@@ -3081,7 +3094,7 @@ doProcess <- function(options)
                               TRUE,	#showAxes
                               TRUE,	#legend
                               op$Analysis, isPropulsive, inertialType, repOp$exPercentBodyWeight,
-                              showSpeed, showAccel, showForce, showPower,
+                              showPosition, showSpeed, showAccel, showForce, showPower,
 			      triggersOnList
                         )
                         
@@ -3205,9 +3218,16 @@ doProcess <- function(options)
                         
                         
                         par(mar=c(3, 3.5, 5, marginRight))
-                        plot(position,	#mm
-                             type="l", xlab="", ylab="",axes=T, lty=1,col="black") 
-                        title(main="All set (experimental!)",line=-2,outer=T)
+			if(showPosition)
+			{
+				plot(position,	#mm
+				     type="l", xlab="", ylab="",axes=T, lty=1,col="black")
+			} else {
+				plot(position,	#mm
+				     type="n", xlab="", ylab="",axes=F, lty=1,col="black")
+				axis(1)
+			}
+			title(main="All set (experimental!)",line=-2,outer=T)
                         
                         mtext(paste(translateToPrint("time"),"(ms)"),side=1,adj=1,line=-1)
                         #mtext(paste(translateToPrint("displacement"),"(mm)"),side=2,adj=1,line=-1)
@@ -3270,7 +3290,7 @@ doProcess <- function(options)
                         if(showSpeed || showAccel || showForce || showPower)
                                 abline(h=0,lty=3,col="black")
                         
-                        paintVariablesLegend(showSpeed && ! isInertial(op$EncoderConfigurationName), showAccel, showForce, showPower,
+                        paintVariablesLegend(showPosition, showSpeed && ! isInertial(op$EncoderConfigurationName), showAccel, showForce, showPower,
 					     (op$TriggersOnList != "" && op$TriggersOnList != -1))
                 }
                 
@@ -3334,10 +3354,11 @@ doProcess <- function(options)
                               FALSE,	#showAxes
                               FALSE,	#legend
                               op$Analysis, isPropulsive, inertialType, repOp$exPercentBodyWeight,
-                              (op$AnalysisVariables[1] == "Speed"), #show speed
-                              (op$AnalysisVariables[2] == "Accel"), #show accel
-                              (op$AnalysisVariables[3] == "Force"), #show force
-                              (op$AnalysisVariables[4] == "Power"),  #show power
+                              (op$AnalysisVariables[1] == "Position"), #show position
+                              (op$AnalysisVariables[2] == "Speed"), #show speed
+                              (op$AnalysisVariables[3] == "Accel"), #show accel
+                              (op$AnalysisVariables[4] == "Force"), #show force
+                              (op$AnalysisVariables[5] == "Power"),  #show power
 			      triggersOnList
                         )
                 }
@@ -3424,10 +3445,11 @@ doProcess <- function(options)
 			      FALSE,	#showAxes
 			      (i==1),	#legend
 			      op$Analysis, isPropulsive, inertialType, repOp$exPercentBodyWeight,
-			      (op$AnalysisVariables[1] == "Speed"), #show speed
-			      (op$AnalysisVariables[2] == "Accel"), #show accel
-			      (op$AnalysisVariables[3] == "Force"), #show force
-			      (op$AnalysisVariables[4] == "Power"),  #show power
+                              (op$AnalysisVariables[1] == "Position"), #show position
+			      (op$AnalysisVariables[2] == "Speed"), #show speed
+			      (op$AnalysisVariables[3] == "Accel"), #show accel
+			      (op$AnalysisVariables[4] == "Force"), #show force
+			      (op$AnalysisVariables[5] == "Power"),  #show power
 			      triggersOnList
 			      )
 

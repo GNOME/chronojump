@@ -159,13 +159,22 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_time_to_peak_power;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_range;
 
-	[Widget] Gtk.Box hbox_encoder_analyze_show_SAFE;
+	[Widget] Gtk.Button button_encoder_analyze_mode_options;
+	[Widget] Gtk.HBox hbox_encoder_analyze_instantaneous;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_position;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_speed;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_accel;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_force;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_power;
 	[Widget] Gtk.CheckButton checkbutton_encoder_analyze_side_share_x;
+
+	[Widget] Gtk.Frame frame_encoder_analyze_options;
+	[Widget] Gtk.Table table_encoder_analyze_options;
+	[Widget] Gtk.Label label_encoder_analyze_show_SAFE_position;
+	[Widget] Gtk.Image image_encoder_analyze_show_SAFE_speed;
+	[Widget] Gtk.Image image_encoder_analyze_show_SAFE_accel;
+	[Widget] Gtk.Image image_encoder_analyze_show_SAFE_force;
+	[Widget] Gtk.Image image_encoder_analyze_show_SAFE_power;
 	
 	[Widget] Gtk.CheckButton checkbutton_crossvalidate;
 	[Widget] Gtk.Button button_encoder_analyze;
@@ -232,17 +241,26 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_cross;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_1RM;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_instantaneous;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_side;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_superpose;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_all_set;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_neuromuscular_profile;
 	[Widget] Gtk.Image image_encoder_analyze_powerbars;
 	[Widget] Gtk.Image image_encoder_analyze_cross;
 	[Widget] Gtk.Image image_encoder_analyze_1RM;
+	[Widget] Gtk.Image image_encoder_analyze_instantaneous;
+	[Widget] Gtk.Image image_encoder_analyze_single;
 	[Widget] Gtk.Image image_encoder_analyze_side;
 	[Widget] Gtk.Image image_encoder_analyze_superpose;
-	[Widget] Gtk.Image image_encoder_analyze_single;
+	[Widget] Gtk.Image image_encoder_analyze_all_set;
 	[Widget] Gtk.Image image_encoder_analyze_nmp;
+	[Widget] Gtk.Image image_encoder_analyze_selected_single;
+	[Widget] Gtk.Image image_encoder_analyze_selected_side;
+	[Widget] Gtk.Image image_encoder_analyze_selected_superpose;
+	[Widget] Gtk.Image image_encoder_analyze_selected_all_set;
+	[Widget] Gtk.Label label_encoder_analyze_selected;
 	[Widget] Gtk.HBox hbox_encoder_analyze_intersession;
 	[Widget] Gtk.CheckButton check_encoder_intersession_x_is_date;
 	[Widget] Gtk.HBox hbox_combo_encoder_analyze_weights;
@@ -1252,14 +1270,13 @@ public partial class ChronoJumpWindow
 			else {
 				if(! radio_encoder_eccon_concentric.Active)
 					curvesNum = curvesNum / 2;
-			
-				string [] activeCurvesList = new String[curvesNum +1];
-				activeCurvesList[0] = Catalog.GetString("All");
-				for(int i=1; i <= curvesNum; i++)
-					activeCurvesList[i] = i.ToString();
+
+				string [] activeCurvesList = new String[curvesNum];
+				for(int i=0; i < curvesNum; i++)
+					activeCurvesList[i] = (i+1).ToString();
 				UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
 				combo_encoder_analyze_curve_num_combo.Active = 
-					UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[1]);
+					UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
 				
 				encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 			}
@@ -2190,11 +2207,10 @@ public partial class ChronoJumpWindow
 		if(rows == 0)
 			activeCurvesList = Util.StringToStringArray("");
 		else {
-			activeCurvesList = new String[rows +1];
-			activeCurvesList[0] = Catalog.GetString("All");
-			for(int i=1; i <= rows; i++)
-				activeCurvesList[i] = i.ToString();
-			defaultValue = 1;
+			activeCurvesList = new String[rows];
+			for(int i=0; i < rows; i++)
+				activeCurvesList[i] = (i+1).ToString();
+			defaultValue = 0;
 		}
 
 		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
@@ -2686,7 +2702,7 @@ public partial class ChronoJumpWindow
 			}
 		}
 		
-		if(sendAnalysis == "powerBars" || sendAnalysis == "single" ||
+		if(sendAnalysis == "powerBars" || sendAnalysis == "single" || sendAnalysis == "singleAllSet" ||
 				sendAnalysis == "side" || sendAnalysis == "sideShareX" || sendAnalysis == "superpose")
 		{
 			analysisVariables = getAnalysisVariables(sendAnalysis);
@@ -2931,9 +2947,14 @@ public partial class ChronoJumpWindow
 			}
 			
 			//if combo_encoder_analyze_curve_num_combo "All" is selected, then use a 0, else get the number
-			int curveNum = 0; //all
-			if(Util.IsNumber(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo), false))
-				curveNum = Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo));
+			int curveNum = 0;
+			if(radiobutton_encoder_analyze_all_set.Active)
+				curveNum = 0;
+			else if(radiobutton_encoder_analyze_single.Active)
+			{
+				if(Util.IsNumber(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo), false))
+					curveNum = Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo));
+			}
 
 			ep = new EncoderParams(
 					preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia), 
@@ -3186,7 +3207,8 @@ public partial class ChronoJumpWindow
 			else
 				analysisVariables += ";NoRange";
 		}
-		else {  //analysis == "single" || analysis == "side" || analysis == "sideShareX" || sendAnalysis == "superpose"
+		else {  //analysis == "single" || analysis == "singleAllSet" ||
+			//analysis == "side" || analysis == "sideShareX" || sendAnalysis == "superpose"
 			if(check_encoder_analyze_show_position.Active)
 				analysisVariables = "Position";
 			else
@@ -3219,89 +3241,6 @@ public partial class ChronoJumpWindow
 
 	//encoder analysis modes
 
-	private void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
-		hbox_encoder_analyze_curve_num.Visible=true;
-		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
-		hbox_combo_encoder_analyze_cross_sup.Visible=false;
-		hbox_combo_encoder_analyze_1RM.Visible=false;
-		check_encoder_analyze_mean_or_max.Visible=false;
-		hbox_encoder_analyze_show_powerbars.Visible=false;
-		hbox_encoder_analyze_show_SAFE.Visible=true;
-		checkbutton_encoder_analyze_side_share_x.Visible = false;
-		encoderSelectedAnalysis = "single";
-		
-		//together, mandatory
-		check_encoder_analyze_eccon_together.Sensitive=false;
-		check_encoder_analyze_eccon_together.Active = true;
-	
-		button_encoder_analyze_help.Visible = false;
-		label_encoder_analyze_side_max.Visible = false;
-
-		//restore 1RM Bench Press sensitiveness
-		check_encoder_analyze_mean_or_max.Sensitive = true;
-		
-		encoderButtonsSensitive(encoderSensEnumStored);
-		button_encoder_analyze_sensitiveness();
-	}
-
-	private void on_radiobutton_encoder_analyze_superpose_toggled (object obj, EventArgs args) {
-		hbox_encoder_analyze_curve_num.Visible=false;
-		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
-		hbox_combo_encoder_analyze_cross_sup.Visible=false;
-		hbox_combo_encoder_analyze_1RM.Visible=false;
-		check_encoder_analyze_mean_or_max.Visible=false;
-		hbox_encoder_analyze_show_powerbars.Visible=false;
-		hbox_encoder_analyze_show_SAFE.Visible=true;
-		checkbutton_encoder_analyze_side_share_x.Visible = false;
-		encoderSelectedAnalysis = "superpose";
-		
-		//together, mandatory
-		check_encoder_analyze_eccon_together.Sensitive=false;
-		check_encoder_analyze_eccon_together.Active = true;
-		
-		button_encoder_analyze_help.Visible = false;
-		
-		//restore 1RM Bench Press sensitiveness
-		check_encoder_analyze_mean_or_max.Sensitive = true;
-		
-		encoderButtonsSensitive(encoderSensEnumStored);
-		button_encoder_analyze_sensitiveness();
-	}
-
-	private void on_radiobutton_encoder_analyze_side_toggled (object obj, EventArgs args) {
-		hbox_encoder_analyze_curve_num.Visible=false;
-		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
-		hbox_combo_encoder_analyze_cross_sup.Visible=false;
-		hbox_combo_encoder_analyze_1RM.Visible=false;
-		check_encoder_analyze_mean_or_max.Visible=false;
-		hbox_encoder_analyze_show_powerbars.Visible=false;
-		hbox_encoder_analyze_show_SAFE.Visible=true;
-		checkbutton_encoder_analyze_side_share_x.Visible = true;
-
-		if(checkbutton_encoder_analyze_side_share_x.Active)
-			encoderSelectedAnalysis = "sideShareX";
-		else
-			encoderSelectedAnalysis = "side";
-		
-		//together, mandatory
-		check_encoder_analyze_eccon_together.Sensitive=false;
-		check_encoder_analyze_eccon_together.Active = true;
-
-		button_encoder_analyze_help.Visible = false;
-		
-		//restore 1RM Bench Press sensitiveness
-		check_encoder_analyze_mean_or_max.Sensitive = true;
-		
-		encoderButtonsSensitive(encoderSensEnumStored);
-		button_encoder_analyze_sensitiveness();
-	}
-	private void on_checkbutton_encoder_analyze_side_share_x_toggled (object o, EventArgs args)
-	{
-		if(checkbutton_encoder_analyze_side_share_x.Active)
-			encoderSelectedAnalysis = "sideShareX";
-		else
-			encoderSelectedAnalysis = "side";
-	}
 	private void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
@@ -3309,7 +3248,7 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=true;
-		hbox_encoder_analyze_show_SAFE.Visible=false;
+		hbox_encoder_analyze_instantaneous.Visible=false;
 		checkbutton_encoder_analyze_side_share_x.Visible = false;
 		encoderSelectedAnalysis = "powerBars";
 		
@@ -3333,7 +3272,7 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=true;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
-		hbox_encoder_analyze_show_SAFE.Visible=false;
+		hbox_encoder_analyze_instantaneous.Visible=false;
 		checkbutton_encoder_analyze_side_share_x.Visible = false;
 		encoderSelectedAnalysis = "cross";
 		
@@ -3357,7 +3296,7 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_analyze_1RM.Visible=true;
 		check_encoder_analyze_mean_or_max.Visible=true;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
-		hbox_encoder_analyze_show_SAFE.Visible=false;
+		hbox_encoder_analyze_instantaneous.Visible=false;
 		checkbutton_encoder_analyze_side_share_x.Visible = false;
 		encoderSelectedAnalysis = "1RM";
 		
@@ -3381,7 +3320,7 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_analyze_1RM.Visible=false;
 		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
-		hbox_encoder_analyze_show_SAFE.Visible=false;
+		hbox_encoder_analyze_instantaneous.Visible=false;
 		checkbutton_encoder_analyze_side_share_x.Visible = false;
 		encoderSelectedAnalysis = "neuromuscularProfile";
 		
@@ -3392,12 +3331,147 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_help.Visible = true;
 		label_encoder_analyze_side_max.Visible = false;
 		check_encoder_analyze_mean_or_max.Sensitive = false;
-		
+
 		encoderButtonsSensitive(encoderSensEnumStored);
 		button_encoder_analyze_sensitiveness();
 	}
 	
 	//end of encoder analysis modes
+
+	//encoder analysis instantaneous options
+
+	private void on_radiobutton_encoder_analyze_instantaneous_toggled (object obj, EventArgs args)
+	{
+		//hbox_encoder_analyze_curve_num.Visible=true; //defined in "4 radiobuttons"
+		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
+		hbox_combo_encoder_analyze_cross_sup.Visible=false;
+		hbox_combo_encoder_analyze_1RM.Visible=false;
+		check_encoder_analyze_mean_or_max.Visible=false;
+		hbox_encoder_analyze_show_powerbars.Visible=false;
+		hbox_encoder_analyze_instantaneous.Visible=true;
+		//checkbutton_encoder_analyze_side_share_x.Visible = false; //defined in "4 radiobuttons"
+		encoderSelectedAnalysis = "single";
+
+		//together, mandatory
+		check_encoder_analyze_eccon_together.Sensitive=false;
+		check_encoder_analyze_eccon_together.Active = true;
+
+		button_encoder_analyze_help.Visible = false;
+		label_encoder_analyze_side_max.Visible = false;
+
+		//restore 1RM Bench Press sensitiveness
+		check_encoder_analyze_mean_or_max.Sensitive = true;
+
+		//4 radiobuttons
+		if(radiobutton_encoder_analyze_single.Active)
+			encoder_instantaneous_gui("single");
+		else if(radiobutton_encoder_analyze_side.Active)
+			encoder_instantaneous_gui("side");
+		else if(radiobutton_encoder_analyze_superpose.Active)
+			encoder_instantaneous_gui("superpose");
+		else if(radiobutton_encoder_analyze_all_set.Active)
+			encoder_instantaneous_gui("singleAllSet");
+
+		encoderButtonsSensitive(encoderSensEnumStored);
+		button_encoder_analyze_sensitiveness();
+	}
+
+	private void on_button_encoder_analyze_mode_options_clicked (object o, EventArgs args)
+	{
+		encoderAnalyzeOptionsSensitivity(false);
+	}
+	private void on_button_encoder_analyze_mode_options_close_clicked (object o, EventArgs args)
+	{
+		encoderAnalyzeOptionsSensitivity(true);
+	}
+
+	private void encoderAnalyzeOptionsSensitivity(bool s) //s for sensitive. When show options frame is ! s
+	{
+		frame_encoder_analyze_options.Visible = ! s;
+
+		table_encoder_analyze_options.Sensitive = s;
+		main_menu.Sensitive = s;
+		notebook_session_person.Sensitive = s;
+		hbox_encoder_sup_capture_analyze_two_buttons.Sensitive = s;
+		hbox_top_person_encoder.Sensitive = s;
+	}
+
+	private void on_radiobutton_encoder_analyze_instantaneous_options_toggled (object o, EventArgs args)
+	{
+		hbox_encoder_analyze_curve_num.Visible = false;
+		checkbutton_encoder_analyze_side_share_x.Visible = false;
+
+		if(o == (object) radiobutton_encoder_analyze_single)
+			encoder_instantaneous_gui("single");
+		else if(o == (object) radiobutton_encoder_analyze_side)
+			encoder_instantaneous_gui("side");
+		else if(o == (object) radiobutton_encoder_analyze_superpose)
+			encoder_instantaneous_gui("superpose");
+		else if(o == (object) radiobutton_encoder_analyze_all_set)
+			encoder_instantaneous_gui("singleAllSet");
+	}
+
+	private void encoder_instantaneous_gui (string mode)
+	{
+		if(mode == "single")
+		{
+			encoderSelectedAnalysis = "single";
+			image_encoder_analyze_selected_single.Visible = (radiobutton_encoder_analyze_single.Active);
+			label_encoder_analyze_selected.Text = Catalog.GetString("Single repetition");
+
+			hbox_encoder_analyze_curve_num.Visible=true;
+		}
+		else if (mode == "side")
+		{
+			if(checkbutton_encoder_analyze_side_share_x.Active)
+				encoderSelectedAnalysis = "sideShareX";
+			else
+				encoderSelectedAnalysis = "side";
+
+			image_encoder_analyze_selected_side.Visible = (radiobutton_encoder_analyze_side.Active);
+			label_encoder_analyze_selected.Text = Catalog.GetString("Side compare");
+
+			checkbutton_encoder_analyze_side_share_x.Visible = true;
+		}
+		else if (mode == "superpose")
+		{
+			encoderSelectedAnalysis = "superpose";
+
+			image_encoder_analyze_selected_superpose.Visible = (radiobutton_encoder_analyze_superpose.Active);
+			label_encoder_analyze_selected.Text = Catalog.GetString("Superpose");
+		}
+		else if (mode == "singleAllSet")
+		{
+			encoderSelectedAnalysis = "singleAllSet"; //TODO: define all this
+
+			image_encoder_analyze_selected_all_set.Visible = (radiobutton_encoder_analyze_all_set.Active);
+			label_encoder_analyze_selected.Text = Catalog.GetString("All set");
+		}
+	}
+
+	private void on_checkbutton_encoder_analyze_side_share_x_toggled (object o, EventArgs args)
+	{
+		if(checkbutton_encoder_analyze_side_share_x.Active)
+			encoderSelectedAnalysis = "sideShareX";
+		else
+			encoderSelectedAnalysis = "side";
+	}
+
+	private void on_check_encoder_analyze_show_option_toggled (object o, EventArgs args)
+	{
+		if(o == (object) check_encoder_analyze_show_position)
+			label_encoder_analyze_show_SAFE_position.Visible = (check_encoder_analyze_show_position.Active);
+		else if(o == (object) check_encoder_analyze_show_speed)
+			image_encoder_analyze_show_SAFE_speed.Visible = (check_encoder_analyze_show_speed.Active);
+		else if(o == (object) check_encoder_analyze_show_accel)
+			image_encoder_analyze_show_SAFE_accel.Visible = (check_encoder_analyze_show_accel.Active);
+		else if(o == (object) check_encoder_analyze_show_force)
+			image_encoder_analyze_show_SAFE_force.Visible = (check_encoder_analyze_show_force.Active);
+		else if(o == (object) check_encoder_analyze_show_power)
+			image_encoder_analyze_show_SAFE_power.Visible = (check_encoder_analyze_show_power.Active);
+	}
+
+	//end of encoder analysis instantaneous options
 
 	private void on_check_encoder_analyze_eccon_together_toggled (object obj, EventArgs args) {
 		image_encoder_analyze_eccon_together.Visible = check_encoder_analyze_eccon_together.Active;
@@ -5286,11 +5360,11 @@ public partial class ChronoJumpWindow
 			}
 
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
-			if(image_encoder_width < 0)
+			if(image_encoder_width < 100)
 				image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
-			if(image_encoder_height < 0)
+			if(image_encoder_height < 100)
 				image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
 			//don't need to be false because ItemToggled is deactivated during capture
@@ -5460,12 +5534,12 @@ public partial class ChronoJumpWindow
 				else
 					image_encoder_width = Convert.ToInt32(UtilGtk.WidgetWidth(app1));
 
-				if(image_encoder_width < 0)
+				if(image_encoder_width < 100)
 					image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
 				
 				//-2 to accomadate the width slider without needing a height slider
 				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture) -2;
-				if(image_encoder_height < 0)
+				if(image_encoder_height < 100)
 					image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
 				prepareEncoderGraphs(true, true);
@@ -5499,16 +5573,15 @@ public partial class ChronoJumpWindow
 			
 			//the -5 is because image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(scrolledwindow_image_encoder_analyze)-10;
-			if(image_encoder_width < 0)
+			if(image_encoder_width < 100)
 				image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
 			image_encoder_height = UtilGtk.WidgetHeight(scrolledwindow_image_encoder_analyze)-10;
-			if(image_encoder_height < 0)
+			if(image_encoder_height < 100)
 				image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
-			if(encoderSelectedAnalysis == "single") {
+			if(encoderSelectedAnalysis == "single" || encoderSelectedAnalysis == "singleAllSet")
 				image_encoder_height -= UtilGtk.WidgetHeight(table_encoder_analyze_instant); //to allow hslides and table
-			}
 
 			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
 			encoderRProcAnalyze.status = EncoderRProc.Status.WAITING;
@@ -5832,11 +5905,11 @@ public partial class ChronoJumpWindow
 		if(needToCallPrepareEncoderGraphs) 
 		{
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
-			if(image_encoder_width < 0)
+			if(image_encoder_width < 100)
 				image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
-			if(image_encoder_height < 0)
+			if(image_encoder_height < 100)
 				image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
 			prepareEncoderGraphs(false, false); //do not erase them
@@ -6614,7 +6687,7 @@ public partial class ChronoJumpWindow
 				//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom),
 				//o si es una sola i fa alguna edicio
 				
-				if(encoderSelectedAnalysis == "single") {
+				if(encoderSelectedAnalysis == "single" || encoderSelectedAnalysis == "singleAllSet") {
 					drawingarea_encoder_analyze_cairo_pixbuf = UtilGtk.OpenPixbufSafe(
 							UtilEncoder.GetEncoderGraphTempFileName(),
 							drawingarea_encoder_analyze_cairo_pixbuf);
@@ -6656,7 +6729,7 @@ public partial class ChronoJumpWindow
 					}
 				}
 
-				if(encoderSelectedAnalysis == "single") {
+				if(encoderSelectedAnalysis == "single" || encoderSelectedAnalysis == "singleAllSet") {
 					eai = new EncoderAnalyzeInstant();
 					eai.ReadArrayFile(UtilEncoder.GetEncoderInstantDataTempFileName());
 					eai.ReadGraphParams(UtilEncoder.GetEncoderSpecialDataTempFileName());

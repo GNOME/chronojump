@@ -469,9 +469,11 @@ public class Constants
 	public static string FileNameEncoderAnalyzePowerbarsIcon = "encoder-analyze-powerbars.png";
 	public static string FileNameEncoderAnalyzeCrossIcon = "encoder-analyze-cross.png";
 	public static string FileNameEncoderAnalyze1RMIcon = "encoder-analyze-1RM.png";
+	public static string FileNameEncoderAnalyzeInstantaneousIcon = "encoder-analyze-instantaneous.png";
+	public static string FileNameEncoderAnalyzeSingleIcon = "encoder-analyze-single.png";
 	public static string FileNameEncoderAnalyzeSideIcon = "encoder-analyze-side.png";
 	public static string FileNameEncoderAnalyzeSuperposeIcon = "encoder-analyze-superpose.png";
-	public static string FileNameEncoderAnalyzeSingleIcon = "encoder-analyze-single.png";
+	public static string FileNameEncoderAnalyzeAllSetIcon = "encoder-analyze-all-set.png";
 	public static string FileNameEncoderAnalyzeNmpIcon = "encoder-analyze-nmp.png";
 	
 	public static string FileNameEncoderAnalyzeEcconTogetherIcon = "encoder-analyze-eccon-together.png";

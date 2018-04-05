@@ -116,6 +116,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_recalibrate;
 	[Widget] Gtk.Image image_encoder_triggers;
 	[Widget] Gtk.Image image_encoder_rhythm_rest;
+	[Widget] Gtk.Image image_encoder_analyze_mode_options;
+	[Widget] Gtk.Image image_encoder_analyze_mode_options_close;
 
 	//force sensor
 	[Widget] Gtk.Image image_selector_start_force_sensor;
@@ -256,9 +258,11 @@ public partial class ChronoJumpWindow
 		image_recalculate.Pixbuf = pixbuf;
 		image_force_sensor_analyze_recalculate.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_build.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_build_24.png");
 		image_encoder_configuration.Pixbuf = pixbuf;
 		image_force_sensor_analyze_options.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_build_16.png");
+		image_encoder_analyze_mode_options.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_exercise.png");
 		image_encoder_exercise.Pixbuf = pixbuf;
@@ -300,6 +304,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
 		image_encoder_exercise1.Pixbuf = pixbuf;
 		image_force_sensor_analyze_options_close.Pixbuf = pixbuf;
+		image_encoder_analyze_mode_options_close.Pixbuf = pixbuf;
 
 
 
@@ -477,12 +482,11 @@ public partial class ChronoJumpWindow
 		UtilGtk.DeviceColors(viewport_chronopics, true);
 		UtilGtk.DeviceColors(viewport_chronopic_encoder, true);
 
+
 		//encoder
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_powerbars);
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_cross);
-		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_side);
-		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_superpose);
-		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_single);
+		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_instantaneous);
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_neuromuscular_profile);
 		
 		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_position);
@@ -547,12 +551,20 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_1RM.Pixbuf = pixbuf;
 		image_encoder_analyze_1RM_save.Pixbuf = pixbuf;
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeInstantaneousIcon);
+		image_encoder_analyze_instantaneous.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSideIcon);
 		image_encoder_analyze_side.Pixbuf = pixbuf;
+		image_encoder_analyze_selected_side.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSuperposeIcon);
 		image_encoder_analyze_superpose.Pixbuf = pixbuf;
+		image_encoder_analyze_selected_superpose.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSingleIcon);
 		image_encoder_analyze_single.Pixbuf = pixbuf;
+		image_encoder_analyze_selected_single.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeAllSetIcon);
+		image_encoder_analyze_all_set.Pixbuf = pixbuf;
+		image_encoder_analyze_selected_all_set.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeNmpIcon);
 		image_encoder_analyze_nmp.Pixbuf = pixbuf;
 		
@@ -563,12 +575,16 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSpeedIcon);
 		image_encoder_analyze_speed.Pixbuf = pixbuf;
+		image_encoder_analyze_show_SAFE_speed.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeAccelIcon);
 		image_encoder_analyze_accel.Pixbuf = pixbuf;
+		image_encoder_analyze_show_SAFE_accel.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeForceIcon);
 		image_encoder_analyze_force.Pixbuf = pixbuf;
+		image_encoder_analyze_show_SAFE_force.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzePowerIcon);
 		image_encoder_analyze_power.Pixbuf = pixbuf;
+		image_encoder_analyze_show_SAFE_power.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeMeanIcon);
 		image_encoder_analyze_mean.Pixbuf = pixbuf;

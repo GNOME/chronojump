@@ -429,7 +429,8 @@ RESOURCES = \
 	../images/md/ic_directions_run_simple_blue_24dp_1x.png,image_run_simple.png \
 	../images/md/ic_directions_run_multiple_blue_24dp_1x.png,image_run_multiple.png \
 	../images/md/ic_directions_run_track_blue_24dp_1x.png,run_track_distance.png \
-	../images/md/ic_build_blue_24dp_1x.png,image_build.png \
+	../images/md/ic_build_blue_24dp_1x.png,image_build_24.png \
+	../images/md/ic_build_blue_16dp_1x.png,image_build_16.png \
 	../images/md/ic_edit_blue_24dp_1x.png,image_edit.png \
 	../images/md/ic_add_blue_24dp_1x.png,image_add.png \
 	../images/md/ic_info_outline_blue_24dp_1x.png,image_info.png \
@@ -488,9 +489,11 @@ RESOURCES = \
 	../images/encoder-analyze-powerbars.png,encoder-analyze-powerbars.png \
 	../images/encoder-analyze-cross.png,encoder-analyze-cross.png \
 	../images/encoder-analyze-1RM.png,encoder-analyze-1RM.png \
+	../images/encoder-analyze-instantaneous.png,encoder-analyze-instantaneous.png \
+	../images/encoder-analyze-single.png,encoder-analyze-single.png \
 	../images/encoder-analyze-side.png,encoder-analyze-side.png \
 	../images/encoder-analyze-superpose.png,encoder-analyze-superpose.png \
-	../images/encoder-analyze-single.png,encoder-analyze-single.png \
+	../images/encoder-analyze-all-set.png,encoder-analyze-all-set.png \
 	../images/encoder-analyze-nmp.png,encoder-analyze-nmp.png \
 	../images/encoder-analyze-eccon-together.png,encoder-analyze-eccon-together.png \
 	../images/encoder-analyze-eccon-separated.png,encoder-analyze-eccon-separated.png \

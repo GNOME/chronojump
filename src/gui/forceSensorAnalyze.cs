@@ -120,7 +120,6 @@ public partial class ChronoJumpWindow
 		notebook_session_person.Sensitive = s;
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = s;
 		hbox_top_person.Sensitive = s;
-		hbox_top_person_encoder.Sensitive = s;
 	}
 
 	private void on_button_force_sensor_analyze_options_clicked (object o, EventArgs args)

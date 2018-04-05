@@ -3043,7 +3043,7 @@ doProcess <- function(options)
         #print(curves)
         
         
-        if(op$Analysis=="single") 
+        if(op$Analysis == "single" || op$Analysis == "singleAllSet")
         {
                 showPosition <- (op$AnalysisVariables[1] == "Position")
                 showSpeed <- (op$AnalysisVariables[2] == "Speed")
@@ -3052,7 +3052,8 @@ doProcess <- function(options)
                 showPower <- (op$AnalysisVariables[5] == "Power")
                 df = NULL
                 
-                if(op$Jump>0) {
+		if(op$Analysis == "single")
+		{
                         myStart = curves[op$Jump,1]
                         myEnd = curves[op$Jump,2]
                         
@@ -3118,7 +3119,9 @@ doProcess <- function(options)
                         
                         #prepare dataframe (will be written later)
                         df=data.frame(cbind(getPositionSmoothed(kn$displ,smoothingTemp), kn$speedy, kn$accely, kn$force, kn$power))
-                } else {
+                }
+		else 	# op$Analysis == "singleAllSet"
+		{
                         #1) find maxPowerAtAnyRep
                         maxPowerAtAnyRep <- 0
                         for(i in 1:n) {

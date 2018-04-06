@@ -872,7 +872,9 @@ public class RunIntervalExecute : RunExecute
 
 	protected override void updateRunPhaseInfoManage()
 	{
-		runDC.UpdateList();
+		//check if it's defined at beginning of race
+		if(runDC != null)
+			runDC.UpdateList();
 	}
 
 	//this will be protected and in run simple execute class

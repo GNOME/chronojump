@@ -753,6 +753,9 @@ public class RunIntervalExecute : RunExecute
 							needCallTrackDone = true;
 						}
 
+						runEI.ChangePhase(RunExecuteInspector.Phases.IN, //runEIString +
+								string.Format("Arrived (preparing track) timestamp: {0}", Math.Round(timestamp, 3)));
+
 						runPTL.AddTF(timestamp);
 					}
 				}
@@ -855,12 +858,15 @@ public class RunIntervalExecute : RunExecute
 	//this will be protected and in run simple execute class
 	protected override bool lastTfCheckTimeEnded()
 	{
+		LogB.Information("In lastTfCheckTimeEnded()");
 		TimeSpan span = DateTime.Now - timerLastTf;
 		if(span.TotalMilliseconds > checkDoubleContactTime * 1.5)
 		{
 			timerLastTf = DateTime.Now;
+			LogB.Information("... ended success");
 			return true;
 		}
+		LogB.Information("... ended NOT success");
 		return false;
 	}
 
@@ -875,6 +881,7 @@ public class RunIntervalExecute : RunExecute
 	//and use static variables where needed
 	protected override void trackDone()
 	{
+		LogB.Information("In trackDone()");
 		double myTrackTime = 0;
 		if(runDC.UseDoubleContacts())
 			myTrackTime = runDC.GetTrackTimeInSecondsAndUpdateStartPos(); //will come in seconds

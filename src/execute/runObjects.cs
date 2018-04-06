@@ -85,6 +85,11 @@ public class RunPhaseInfoManage
 	public int GetPosOfBiggestTC ()
 	{
 		LogB.Information("startPos at GetPosOfBiggestTC: " + startPos.ToString());
+
+		//Read below message: "Message oneTCAfterTheTf"
+		if(countTCs() == 1 && oneTCAfterTheTf())
+			return 1;
+
 		//if there's no tc, return -1, track duration will be tf duration
 		//if there's one tc, return -1, track duration will be tc+tf duration
 		if(countTCs() < 2)
@@ -164,6 +169,27 @@ public class RunPhaseInfoManage
 				count ++;
 
 		return count;
+	}
+
+	/*
+	 * "Message oneTCAfterTheTf"
+	 * if in first track there's only one TC, take care because maybe it has been after the TF
+	 * it can happen because tc will be lower than the margin: 300 ms (checktime) + 1.5 * checktime
+	 * so first will be the TF, then waiting margin... but TC happens, and then track is processed, track should not include this tf
+	 */
+	private bool oneTCAfterTheTf()
+	{
+		if(list.Count != 2)
+			return false;
+
+		RunPhaseInfo first = (RunPhaseInfo) list[0];
+		RunPhaseInfo second = (RunPhaseInfo) list[1];
+
+		//check if firt is TF and second TC
+		if(! first.IsContact() && second.IsContact())
+			return true;
+
+		return false;
 	}
 
 	public int LastPositionOfList {
@@ -423,7 +449,7 @@ public class RunExecuteInspector
 
 	public override string ToString()
 	{
-		string report = string.Format("Report of race started at: {0}; ended at: {1}", dtStarted.ToShortTimeString(), dtEnded.ToShortTimeString());
+		string report = string.Format("RunExecuteInspector RunEI report of race started: {0}; ended: {1}", dtStarted.ToShortTimeString(), dtEnded.ToShortTimeString());
 		report += "\n" + "Type: " + type.ToString();
 		report += "\n" + "SpeedStartArrival: " + speedStartArrival;
 		report += "\n" + "CheckDoubleContactMode: " + checkDoubleContactMode;

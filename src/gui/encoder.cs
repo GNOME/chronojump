@@ -3037,9 +3037,10 @@ public partial class ChronoJumpWindow
 		}
 		else if( 
 				( radio_encoder_analyze_individual_current_set.Active && findEccon(false) == "c" ) || // 2
-				radiobutton_encoder_analyze_single.Active ||
+				( radiobutton_encoder_analyze_instantaneous.Active &&
+				(radiobutton_encoder_analyze_single.Active ||
 					radiobutton_encoder_analyze_side.Active ||
-					radiobutton_encoder_analyze_superpose.Active // 3
+					radiobutton_encoder_analyze_superpose.Active) ) // 3
 		  ) {
 			//together, mandatory
 			check_encoder_analyze_eccon_together.Sensitive = false;
@@ -3410,6 +3411,9 @@ public partial class ChronoJumpWindow
 			encoder_instantaneous_gui("superpose");
 		else if(o == (object) radiobutton_encoder_analyze_all_set)
 			encoder_instantaneous_gui("singleAllSet");
+
+		encoderButtonsSensitive(encoderSensEnumStored);
+		button_encoder_analyze_sensitiveness();
 	}
 
 	private void encoder_instantaneous_gui (string mode)
@@ -4623,7 +4627,7 @@ public partial class ChronoJumpWindow
 			  )
 			 );
 		//max 12 graphs on side compare
-		if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
+		if(analyze_sensitive && radiobutton_encoder_analyze_instantaneous.Active && radiobutton_encoder_analyze_side.Active) {
 			analyze_sensitive = curvesNumOkToSideCompare();
 			label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
 		} else
@@ -4651,13 +4655,13 @@ public partial class ChronoJumpWindow
 			//button_encoder_analyze.Sensitive = encoderTimeStamp != null;
 			
 			analyze_sensitive = (rows > 0);
-			if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
+			if(analyze_sensitive && radiobutton_encoder_analyze_instantaneous.Active && radiobutton_encoder_analyze_side.Active) {
 				analyze_sensitive = curvesNumOkToSideCompare();
 				label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
 			}
 		} else {
 			analyze_sensitive = (currentPerson != null && encSelReps.RepsActive > 0);
-			if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
+			if(analyze_sensitive && radiobutton_encoder_analyze_instantaneous.Active && radiobutton_encoder_analyze_side.Active) {
 				analyze_sensitive = curvesNumOkToSideCompare();
 				label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
 			}

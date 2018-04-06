@@ -3879,6 +3879,9 @@ public partial class ChronoJumpWindow
 			stopCapturingInertialBG();
 		}
 
+		if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC && compujumpAutologout != null)
+			compujumpAutologout.StartCapturingRunInterval();
+
 		chronopicRegisterUpdate(false);
 
 		int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
@@ -4695,9 +4698,6 @@ public partial class ChronoJumpWindow
 				preferences.runSpeedStartArrival,
 				check_run_interval_with_reaction_time.Active
 				);
-
-		if(compujumpAutologout != null)
-			compujumpAutologout.StartCapturingRunInterval();
 
 		//suitable for limited by tracks and time
 		if(! canCaptureC)

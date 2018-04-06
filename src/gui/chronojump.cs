@@ -4300,6 +4300,16 @@ public partial class ChronoJumpWindow
 				label_logout_seconds.Text = compujumpAutologout.RemainingSeconds(false);
 				label_logout_seconds_encoder.Text = compujumpAutologout.RemainingSeconds(false);
 				*/
+				string logoutSecondsStr = "";
+				if(! compujumpAutologout.IsCompujumpCapturing())
+				{
+					int remainingSeconds = compujumpAutologout.RemainingSeconds();
+					if(remainingSeconds <= 10)
+						logoutSecondsStr = string.Format("Logout\nin {0} s", compujumpAutologout.RemainingSeconds());
+				}
+
+				label_logout_seconds.Text = logoutSecondsStr;
+				label_logout_seconds_encoder.Text = logoutSecondsStr;
 			}
 		}
 

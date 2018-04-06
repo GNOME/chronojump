@@ -1090,9 +1090,45 @@ public class CompujumpAutologout
 		return false;
 	}
 
+	private double sSinceLogin()
+	{
+		return DateTime.Now.Subtract(loginTime).TotalSeconds;
+	}
+	private double sSinceRunInterval()
+	{
+		return DateTime.Now.Subtract(lastRunIntervalTime).TotalSeconds;
+	}
+	private double sSinceEncoderCapture()
+	{
+		return DateTime.Now.Subtract(lastEncoderCaptureTime).TotalSeconds;
+	}
+	private double sSinceEncoderAnalyze()
+	{
+		return DateTime.Now.Subtract(lastEncoderAnalyzeTime).TotalSeconds;
+	}
+	public int RemainingSeconds ()
+	{
+		int logoutDefaultS = logoutMinutes * 60;
+		double seconds = 0;
+
+		if(sSinceLogin() > seconds)
+			seconds = logoutDefaultS - sSinceLogin();
+
+		if(lastRunIntervalTime > DateTime.MinValue && logoutDefaultS - sSinceRunInterval() > seconds)
+			seconds = logoutDefaultS - sSinceRunInterval();
+
+		if(lastEncoderCaptureTime > DateTime.MinValue && logoutDefaultS - sSinceEncoderCapture() > seconds)
+			seconds = logoutDefaultS - sSinceEncoderCapture();
+
+		if(lastEncoderAnalyzeTime > DateTime.MinValue && logoutDefaultS - sSinceEncoderAnalyze() > seconds)
+			seconds = logoutDefaultS - sSinceEncoderAnalyze();
+
+		return Convert.ToInt32(seconds);
+	}
+
 	//showAll is for debug, user will see only one value
 	//TODO: separate between minutes and seconds and only display when remaining 10 seconds
-	public string RemainingSeconds(bool showAll)
+	public string RemainingSecondsOld(bool showAll)
 	{
 		if(! Active)
 			return "";

@@ -698,7 +698,8 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                         concentric=mean(speed.ext$cross[crossMinRow,2]+1):length(displacement)
                 }
                 
-                if(draw) {
+                if(draw && paintMode != "superpose")
+		{
                         abline(v=max(eccentric),col=cols[1])
                         abline(v=min(concentric),col=cols[1])
                         #mtext(text=paste(max(eccentric)," ",sep=""),side=1,at=max(eccentric),adj=1,cex=.8,col=cols[1])
@@ -846,7 +847,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 else
                         meanSpeedE = mean(speed$y[landing:max(eccentric)])
                 
-                if(showSpeed && ! paintMode != "superpose") {
+                if(showSpeed && paintMode != "superpose") {
                         if(landing == -1)
                                 arrows(x0=startX,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
                         else

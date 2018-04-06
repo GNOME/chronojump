@@ -605,9 +605,9 @@ public class PhaseTime
 
 	public override string ToString()
 	{
-		string strMode = "IN";
+		string strMode = "IN (TC)";
 		if(! contactIn)
-			strMode = "OUT";
+			strMode = "OUT (TF)";
 
 		//TODO: use a printf mode to have always same digits
 		return "\n" + Math.Round(Util.DivideSafe(duration, 1000.0), 3) + " - " + strMode;

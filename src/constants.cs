@@ -479,6 +479,7 @@ public class Constants
 	public static string FileNameEncoderAnalyzeEcconTogetherIcon = "encoder-analyze-eccon-together.png";
 	public static string FileNameEncoderAnalyzeEcconSeparatedIcon = "encoder-analyze-eccon-separated.png";
 	
+	public static string FileNameEncoderAnalyzePositionIcon = "encoder-analyze-position.png";
 	public static string FileNameEncoderAnalyzeSpeedIcon = "encoder-analyze-speed.png";
 	public static string FileNameEncoderAnalyzeAccelIcon = "encoder-analyze-accel.png";
 	public static string FileNameEncoderAnalyzeForceIcon = "encoder-analyze-force.png";

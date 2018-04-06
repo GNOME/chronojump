@@ -170,7 +170,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Frame frame_encoder_analyze_options;
 	[Widget] Gtk.Table table_encoder_analyze_options;
-	[Widget] Gtk.Label label_encoder_analyze_show_SAFE_position;
+	[Widget] Gtk.Image image_encoder_analyze_show_SAFE_position;
 	[Widget] Gtk.Image image_encoder_analyze_show_SAFE_speed;
 	[Widget] Gtk.Image image_encoder_analyze_show_SAFE_accel;
 	[Widget] Gtk.Image image_encoder_analyze_show_SAFE_force;
@@ -273,6 +273,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze_eccon_together;
 	[Widget] Gtk.Image image_encoder_analyze_eccon_separated;
 	
+	[Widget] Gtk.Image image_encoder_analyze_position;
 	[Widget] Gtk.Image image_encoder_analyze_speed;
 	[Widget] Gtk.Image image_encoder_analyze_accel;
 	[Widget] Gtk.Image image_encoder_analyze_force;
@@ -3460,7 +3461,7 @@ public partial class ChronoJumpWindow
 	private void on_check_encoder_analyze_show_option_toggled (object o, EventArgs args)
 	{
 		if(o == (object) check_encoder_analyze_show_position)
-			label_encoder_analyze_show_SAFE_position.Visible = (check_encoder_analyze_show_position.Active);
+			image_encoder_analyze_show_SAFE_position.Visible = (check_encoder_analyze_show_position.Active);
 		else if(o == (object) check_encoder_analyze_show_speed)
 			image_encoder_analyze_show_SAFE_speed.Visible = (check_encoder_analyze_show_speed.Active);
 		else if(o == (object) check_encoder_analyze_show_accel)

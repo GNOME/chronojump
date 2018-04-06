@@ -573,6 +573,9 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeEcconSeparatedIcon);
 		image_encoder_analyze_eccon_separated.Pixbuf = pixbuf;
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzePositionIcon);
+		image_encoder_analyze_position.Pixbuf = pixbuf;
+		image_encoder_analyze_show_SAFE_position.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSpeedIcon);
 		image_encoder_analyze_speed.Pixbuf = pixbuf;
 		image_encoder_analyze_show_SAFE_speed.Pixbuf = pixbuf;

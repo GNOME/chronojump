@@ -497,6 +497,7 @@ RESOURCES = \
 	../images/encoder-analyze-nmp.png,encoder-analyze-nmp.png \
 	../images/encoder-analyze-eccon-together.png,encoder-analyze-eccon-together.png \
 	../images/encoder-analyze-eccon-separated.png,encoder-analyze-eccon-separated.png \
+	../images/encoder-analyze-position.png,encoder-analyze-position.png \
 	../images/encoder-analyze-speed.png,encoder-analyze-speed.png \
 	../images/encoder-analyze-accel.png,encoder-analyze-accel.png \
 	../images/encoder-analyze-force.png,encoder-analyze-force.png \

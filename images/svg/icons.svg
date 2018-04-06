@@ -7248,6 +7248,17 @@
        y1="21.865999"
        x2="29.955999"
        y2="43.144001" />
+    <linearGradient
+       id="eraserFill-6">
+      <stop
+         id="stop5742_1-1"
+         offset="0.0000000"
+         style="stop-color:#ffffff;stop-opacity:1" />
+      <stop
+         id="stop5744_1-5"
+         offset="1.0000000"
+         style="stop-color:#f3b698;stop-opacity:1" />
+    </linearGradient>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -7256,9 +7267,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.7578996"
-     inkscape:cx="122.80214"
-     inkscape:cy="319.32099"
+     inkscape:zoom="1.2931686"
+     inkscape:cx="321.23616"
+     inkscape:cy="199.89658"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
@@ -7276,7 +7287,7 @@
      inkscape:snap-global="false">
     <sodipodi:guide
        orientation="0,1"
-       position="117.90375,196.78693"
+       position="23.455264,196.39654"
        id="guide4353"
        inkscape:locked="false" />
     <sodipodi:guide
@@ -7325,11 +7336,6 @@
        id="guide6720"
        inkscape:locked="false" />
     <sodipodi:guide
-       position="296.21612,212.58169"
-       orientation="0,1"
-       id="guide6487"
-       inkscape:locked="false" />
-    <sodipodi:guide
        position="287.18606,209.26778"
        orientation="1,0"
        id="guide6489"
@@ -7343,6 +7349,21 @@
        position="203.97274,316.60733"
        orientation="1,0"
        id="guide6521"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="68.713819,211.39347"
+       orientation="0,1"
+       id="guide6837"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="67.181983,213.36297"
+       orientation="0,1"
+       id="guide6839"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="52.575517,227.14363"
+       orientation="0,1"
+       id="guide6841"
        inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
@@ -11512,5 +11533,34 @@
          x="23.570536"
          y="975.02356"
          style="font-size:2px;line-height:1.25;font-family:sans-serif">encoder-analyze-all-set.png</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="-97.630188"
+       y="1079.1968"
+       id="text3938-3-00-06"><tspan
+         sodipodi:role="line"
+         id="tspan3940-6-5-32"
+         x="-97.630188"
+         y="1079.1968"
+         style="font-size:2px;line-height:1.25;font-family:sans-serif">encoder-analyze-position.png</tspan></text>
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:0;stroke:none;stroke-width:1.20000005;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect6727"
+       width="20"
+       height="20"
+       x="-89.284592"
+       y="1079.9078" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="-94.028122"
+       y="1089.7882"
+       id="text3938-3-00-06-2"><tspan
+         sodipodi:role="line"
+         id="tspan3940-6-5-32-2"
+         x="-94.028122"
+         y="1089.7882"
+         style="font-size:2px;line-height:1.25;font-family:sans-serif">( see xcf folder )</tspan></text>
   </g>
 </svg>

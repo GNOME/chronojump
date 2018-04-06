@@ -366,16 +366,42 @@ public class RunPhaseTimeList
 		int currentMS = 0;
 		int startInMS = -1;
 
+		// 1) create a copy of listPhaseTime in order to do foreach without problems with other thread that adds records
 		//This is problematic (Collection was modified; enumeration operation may not execute) if other thread is changing it:
 		//foreach(PhaseTime pt in listPhaseTime)
 		//solution:
 		List<PhaseTime> listPhaseTimeShallowCloned = new List<PhaseTime>(listPhaseTime);
+
+		/*
+		 * 2) check if we started in because 1st TC has to be counted in the track
+		 * but 2nd TC has to be the end of the first track
+		 * we need this to synchronize correctly
+		 */
+		bool startedIn = false;
+		if(listPhaseTimeShallowCloned.Count >= 1)
+		{
+			PhaseTime ptFirst = (PhaseTime) listPhaseTimeShallowCloned[0];
+			if(ptFirst.IsContact)
+				startedIn = true;
+		}
+
+		// 3) add elements to the list
+		LogB.Information("InListForPainting foreach:");
+		bool firstTrack = true;
 		foreach(PhaseTime pt in listPhaseTimeShallowCloned)
 		{
+			LogB.Information(pt.ToString());
 			if(pt.IsContact)
 				startInMS = currentMS;
 			else if(startInMS >= 0)
+			{
 				list_in.Add(startInMS/1000.0 + ":" + currentMS/1000.0); //in seconds
+				if(startedIn && firstTrack)
+				{
+					currentMS = 0; //reset currentMS in order to synchronize correctly
+					firstTrack = false;
+				}
+			}
 
 			currentMS += Convert.ToInt32(pt.Duration);
 		}

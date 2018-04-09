@@ -110,6 +110,7 @@ src/report.cs
 src/runType.cs
 src/server.cs
 src/serverPing.cs
+src/sprint.cs
 src/sqlite/country.cs
 src/sqlite/encoder.cs
 src/sqlite/main.cs

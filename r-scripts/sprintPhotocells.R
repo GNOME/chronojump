@@ -155,7 +155,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
                 plot(time, sprintDynamics$p.fitted, type="l", axes = FALSE, xlab="", ylab="", col="red", ylim=c(0,sprintDynamics$pmax.fitted + .1 * sprintDynamics$pmax.fitted), yaxs= "i", xaxs = "i")
                 abline(v = sprintDynamics$tpmax.fitted, col="red", lty = 2)
                 axis(side = 4, col ="red", at = seq(0, sprintDynamics$pmax.fitted, by = 200))
-                axis(3, at = sprintDynamics$tpmax.fitted, labels = sprintDynamics$tpmax.fitted)
+                axis(3, at = sprintDynamics$tpmax.fitted, labels = round(sprintDynamics$tpmax.fitted, 3))
                 #text(sprintDynamics$tpmax.fitted, sprintDynamics$pmax.fitted, paste("Pmax fitted =", round(sprintDynamics$pmax.fitted, digits = 2)),  pos = 3)
                 # mtext(side = 1, line = 5, at = splitTimes[length(splitTimes)]*0.75, cex = 1.5,
                 #       substitute(P(t) == A*e^(-K*t)*(1-e^(-K*t)) + B*(1-e^(-K*t))^3,

@@ -1313,7 +1313,9 @@ LogB.Information(" fc R ");
 
 	private void on_button_force_sensor_adjust_help_clicked (object o, EventArgs args)
 	{
-		new DialogMessage("Force sensor adjust data", Constants.MessageTypes.INFO, preferences.GetForceSensorAdjustString());
+		new DialogMessage("Force sensor adjust data", Constants.MessageTypes.INFO,
+				Catalog.GetString("We recommend to tare before calibrating.") + "\n" +
+				preferences.GetForceSensorAdjustString());
 	}
 
 	double lastChangedTime; //changeSlideCode

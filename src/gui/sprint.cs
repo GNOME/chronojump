@@ -38,7 +38,7 @@ public partial class ChronoJumpWindow
 
 	private void createTreeView_runs_interval_sprint (Gtk.TreeView tv)
 	{
-LogB.Information("SPRINT create a");
+		LogB.Information("SPRINT create START");
 		UtilGtk.RemoveColumns(tv);
 		button_sprint.Sensitive = false;
 
@@ -56,7 +56,6 @@ LogB.Information("SPRINT create a");
 				typeof (string), typeof (string));
 		tv.Model = storeSprint;
 
-LogB.Information("SPRINT create b");
 		if (currentSession == null || currentPerson == null)
 		      return;
 		
@@ -67,10 +66,8 @@ LogB.Information("SPRINT create b");
 		string [] runsArray = SqliteRunInterval.SelectRuns(
 				false, currentSession.UniqueID, currentPerson.UniqueID, "");
 
-LogB.Information("SPRINT create c");
 		foreach (string line in runsArray)
 		{
-LogB.Information("SPRINT create d");
 			//[] lineSplit has run params
 			string [] lineSplit = line.Split(new char[] {':'});
 
@@ -95,48 +92,44 @@ LogB.Information("SPRINT create d");
 				Util.TrimDecimals(lineSplit[6], preferences.digitsNumber)
 			};
 			storeSprint.AppendValues (lineParams);
-LogB.Information("SPRINT create e");
 		}
-LogB.Information("SPRINT create f");
+		LogB.Information("SPRINT create END");
 	}
 
 	public void addTreeView_runs_interval_sprint (RunInterval runI, RunType runIType)
 	{
-LogB.Information("SPRINT add 0");
+		LogB.Information("SPRINT add START");
 		if(storeSprint == null)
 		{
 			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
-LogB.Information("SPRINT add 2");
 			return;
 		}
 
-LogB.Information("SPRINT add 3");
 		string positions = getSprintPositions(
 				runI.DistanceInterval, 		//distanceInterval. == -1 means variable distances
 				runI.IntervalTimesString,
 				runIType.DistancesString 	//distancesString
 				);
-LogB.Information("SPRINT add 4");
 		if(positions == "")
 			return;
 
-LogB.Information("SPRINT add 5");
 		TreeIter iter = new TreeIter();
 		bool iterOk = storeSprint.GetIterFirst(out iter);
-		if(iterOk) {
-			iter = storeSprint.AppendValues (
-					runI.Type,
-					runI.UniqueID.ToString(),
-					positions,
-					getSplitTimes(runI.IntervalTimesString),
-					Util.TrimDecimals(runI.TimeTotal, preferences.digitsNumber)
-					);
+		if(! iterOk)
+			iter = new TreeIter();
 
-			//scroll treeview if needed
-			TreePath path = storeSprint.GetPath (iter);
-			treeview_runs_interval_sprint.ScrollToCell (path, null, true, 0, 0);
-		}
-LogB.Information("SPRINT add 6");
+		iter = storeSprint.AppendValues (
+				runI.Type,
+				runI.UniqueID.ToString(),
+				positions,
+				getSplitTimes(runI.IntervalTimesString),
+				Util.TrimDecimals(runI.TimeTotal, preferences.digitsNumber)
+				);
+
+		//scroll treeview if needed
+		TreePath path = storeSprint.GetPath (iter);
+		treeview_runs_interval_sprint.ScrollToCell (path, null, true, 0, 0);
+		LogB.Information("SPRINT add END");
 	}
 
 	private string getSprintPositions(double distanceInterval, string intervalTimesString, string distancesString)

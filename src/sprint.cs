@@ -21,6 +21,7 @@
 using System;
 using System.IO; 		//for detect OS
 using System.Collections.Generic; //List<T>
+using Mono.Unix;
 
 public class Sprint
 {
@@ -31,6 +32,7 @@ public class Sprint
 	private double mass;
 	private double personHeight;
 	private double tempC;
+	private string errorMessage;
 
 	public Sprint(string positions, string splitTimes,
 			double mass, double personHeight, double tempC)
@@ -40,6 +42,8 @@ public class Sprint
 		this.mass = mass;
 		this.personHeight = personHeight;
 		this.tempC = tempC;
+
+		errorMessage = "";
 	}
 
 	/*
@@ -138,11 +142,91 @@ public class Sprint
 		return splitTimesList;
 	}
 
+	/*
+	 * if there are double contacts problems and first contacts are very close,
+	 * R algorithm gets very slow and program seems frozen
+	 */
+	public bool IsDataOk()
+	{
+		List<double> speedsL = speedAsDoubleL();
+		double speedMax = -1;
+		int trackMax = 1;
+		int count = 1;
+
+		foreach(double speed in speedsL)
+		{
+			LogB.Information("speed: " + speed.ToString());
+			if(speedMax < 0)
+				speedMax = speed;
+			else if( (2 * speed) < speedMax)
+			{
+				errorMessage = string.Format(
+							Catalog.GetString("Track {0} ({1} m/s) is much faster than track {2} ({3} m/s)."),
+							trackMax, Math.Round(speedMax,2), count, Math.Round(speed, 2));
+				return false;
+			}
+			else if(speed > speedMax)
+			{
+				speedMax = speed;
+				trackMax = count;
+			}
+
+			count ++;
+		}
+
+		errorMessage = "";
+		return true;
+	}
+
+	private List<double> speedAsDoubleL()
+	{
+		List<double> speedsL = new List<double>();
+		List<double> positionsL = positionsAsDoubleL();
+		List<double> splitTimesL = splitTimesAsDoubleL();
+
+		//start with 1 because at 0 is the first contact
+		for(int i = 1; i < positionsL.Count ; i ++)
+		{
+			double speed = 1.0 * (positionsL[i] - positionsL[i-1]) /
+				(1.0 * (splitTimesL[i] - splitTimesL[i-1]));
+			speedsL.Add(speed);
+		}
+		return speedsL;
+	}
+
+	private List<double> positionsAsDoubleL()
+	{
+		List<double> l = new List<double>();
+		string [] positionsFull = positions.Split(new char[] {';'});
+		foreach(string p in positionsFull)
+		{
+			double d = Convert.ToDouble(Util.ChangeDecimalSeparator(p));
+			l.Add(d);
+		}
+		return l;
+	}
+
+	private List<double> splitTimesAsDoubleL()
+	{
+		List<double> l = new List<double>();
+		string [] splitTimesFull = splitTimes.Split(new char[] {';'});
+		foreach(string s in splitTimesFull)
+		{
+			double d = Convert.ToDouble(Util.ChangeDecimalSeparator(s));
+			l.Add(d);
+		}
+		return l;
+	}
+
 	public string Positions {
 		get { return positions; }
 	}
 
 	public string SplitTimes {
 		get { return splitTimes; }
+	}
+
+	public string ErrorMessage {
+		get { return errorMessage; }
 	}
 }

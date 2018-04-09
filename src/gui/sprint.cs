@@ -250,6 +250,14 @@ LogB.Information("SPRINT add 6");
 			return false;
 		}
 
+		if(! sprint.IsDataOk())
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("This data does not seem a sprint.") + "\n\n" +
+					sprint.ErrorMessage);
+			return false;
+		}
+
 		Util.FileDelete(UtilEncoder.GetSprintImage());
 
 		image_sprint.Sensitive = false;

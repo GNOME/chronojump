@@ -1890,7 +1890,8 @@ paintCrossVariables <- function (paf, varX, varY, option,
                 }
                 else {
                         #if less than 3 different X then cannot calculate fittings. Just plot here to not crash on stroverlap (after)
-                        if(length(unique(x)) < 3) {
+                        if((varY == "Power" && varX == "Load" && length(unique(x)) < 3) ||
+                           length(unique(x)) < 2) {
                                 plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
                                 
                                 paintCrossVariablesLaterality(x, y, laterality, colBalls)

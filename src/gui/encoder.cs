@@ -1205,6 +1205,11 @@ public partial class ChronoJumpWindow
 		eCapture.Cancel();
 	}
 
+	void on_button_encoder_analyze_cancel_clicked (object o, EventArgs args)
+	{
+		encoderProcessCancel = true;
+	}
+
 	void on_button_encoder_capture_finish_clicked (object o, EventArgs args) 
 	{
 		eCapture.Finish();
@@ -2539,6 +2544,7 @@ public partial class ChronoJumpWindow
 	
 		button_encoder_analyze.Visible = false;
 		hbox_encoder_analyze_progress.Visible = true;
+		button_encoder_analyze_cancel.Sensitive = true;
 
 		encoderThreadStart(encoderActions.ANALYZE);
 	}
@@ -4639,7 +4645,6 @@ public partial class ChronoJumpWindow
 			(Util.IntToBool(table[6]) && ! radio_encoder_analyze_individual_current_set.Active);
 		
 		button_encoder_capture_cancel.Sensitive = Util.IntToBool(table[7]);
-		button_encoder_analyze_cancel.Sensitive = Util.IntToBool(table[7]);
 		
 		button_encoder_capture_finish.Sensitive = Util.IntToBool(table[8]);
 		button_encoder_capture_finish_cont.Sensitive = Util.IntToBool(table[8]);
@@ -6750,6 +6755,7 @@ public partial class ChronoJumpWindow
 
 			button_encoder_analyze.Visible = true;
 			hbox_encoder_analyze_progress.Visible = false;
+			button_encoder_analyze_cancel.Sensitive = false;
 
 			encoder_pulsebar_analyze.Fraction = 1;
 			encoderButtonsSensitive(encoderSensEnumStored);

@@ -118,6 +118,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_rhythm_rest;
 	[Widget] Gtk.Image image_encoder_analyze_mode_options;
 	[Widget] Gtk.Image image_encoder_analyze_mode_options_close;
+	[Widget] Gtk.Image image_encoder_analyze_cancel;
 
 	//force sensor
 	[Widget] Gtk.Image image_selector_start_force_sensor;
@@ -220,6 +221,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		image_button_cancel.Pixbuf = pixbuf;
 		image_encoder_capture_cancel.Pixbuf = pixbuf;
+		image_encoder_analyze_cancel.Pixbuf = pixbuf;
 		image_selector_start_cancel.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");

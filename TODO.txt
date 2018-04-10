@@ -1,4 +1,92 @@
-TODO: 
+----------
+2018 TODO:
+----------
+
+curses simples:
+- cal mirar si a simples passem el runPTL i com,
+-  sobretot vigilar la funció de update que no li passem un currentEventExecute que no existeix
+- i grafica lateral a la dreta on es vegi de dalt a baix, o dalt a baix lo dels TCs
+
+a analisi de sensor de f, si posa mes segons dels que existeixen, que quedi capat en el max de segons
+
+
+carregar multiples persones des de person top window
+
+que a graph.R single es pugui veure f mitjana i a mitjana. fmitjana segur pq hi ha els valors al treeview.
+
+andoni diu que si fem make distcheck veurem l'error i que s'arreglara posant-los a EXTRA_DIST
+funciona pel Makefile.in 1er, pero no per la resta de coses que son per la compilacio
+
+  ------------------------------------------------------
+  arreglant compilacio dels tar.gz
+  atencio pq els del git funcionen perfecte i es compilen amb autogen (he actualitzat info a la web)
+  en canvi els del ftp no van be i tenen aquests problemes que de moment solvento copiant 4 arxius:
+  ------------------------------------------------------
+
+  pq vagi el ./configure
+  ~/informatica/progs_meus/chronojump/chronojump/build-deb/chronojump-1.7.1-8-gf1d4baf8~trusty2/chronojump_server$ cp ../../../chronojump_server/Makefile.in .
+  fallos del make:
+(1)
+	make[3]: Entering directory '/home/xavier/informatica/progs_meus/chronojump/chronojump/build-deb/chronojump-1.7.1-8-gf1d4baf8~trusty2/chronopic-firmware/chronopic-firmwarecord'
+	make[3]: ** No rule to make target 'chronopic-firmware-multitest.hex', needed by 'all-am'.  Stop.
+(1 solucio)
+	xavier@d2015:~/informatica/progs_meus/chronojump/chronojump/build-deb/chronojump-1.7.1-8-gf1d4baf8~trusty2/chronopic-firmware/chronopic-firmwarecord$ cp ../../../../chronopic-firmware/chronopic-firmwarecord/chronopic-firmware-multitest.hex
+
+(2)
+	Making all in rfid
+	make[1]: Entering directory '/home/xavier/informatica/progs_meus/chronojump/chronojump/build-deb/chronojump-1.7.1-8-gf1d4baf8~trusty2/rfid'
+	make[1]: ** No rule to make target 'chronojump_rfid_capture.py', needed by 'all-am'.  Stop.
+(2 solucio)
+	~/informatica/progs_meus/chronojump/chronojump/build-deb/chronojump-1.7.1-8-gf1d4baf8~trusty2/rfid$ cp ../../../rfid/chronojump_rfid_capture.py .
+	~/informatica/progs_meus/chronojump/chronojump/build-deb/chronojump-1.7.1-8-gf1d4baf8~trusty2/rfid$ cp ../../../rfid/MFRC522.py .
+
+(3)
+	error CS1566: Error reading resource file `./../images/encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png'
+	error CS1566: Error reading resource file `./../images/encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png'
+(3 solucio)
+	~/informatica/progs_meus/chronojump/chronojump/build-deb/chronojump-1.7.1-8-gf1d4baf8~trusty2/images$ cp ../../../images/encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png .
+	~/informatica/progs_meus/chronojump/chronojump/build-deb/chronojump-1.7.1-8-gf1d4baf8~trusty2/images$ cp ../../../images/encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png .
+
+
+	a l'sprint sembla que lo del decimal com a punt o coma no acaba d'anar bé perque pugen t1,t2,t3,t4 com a 0
+	xavip mirarà a veure si pot arreglar lo de el R pq no es quedi parat
+	ara tal i com està al club de 1er nivell, estem desactivant la primera pq tenim problemes amb els dobles contactes, hem desactivat dobles contactes a les preferencies i han de sortir des de la segona dempeus, i les dades que pugen son amb t1,t2,t3,t4 == 0
+	Pendent:
+1) arreglar lo de les t1,t4 al software provant amb el meu i actualitzar-lis la maquina sprint (la 18)
+	2) arreglar lo dels dobles contactes pq funcioni be. FET!
+	3) tornar a posar la barrera 1 tornar a activar els dobles contactes
+
+	Compujump: posar controls de finestra més grans!! per slide de treeview
+
+	1RM i carga necesaria para la max potencia calculats automaticament
+	comptant les 3 ultimes setmanes con mas preferencia de la ultima
+
+	Compujump: comprovar pq no va el 1RM a press banca a primer mode, potser li falta la dada a ejercicio
+
+	fuerza / velocidad que salga sólo dos puntos
+
+	Si una repeticion inicial o final es mucho peor que el resto (30% de perdida de velocidad respecto a la media (no se si incluyendo estas),
+			entonces que salga ventana para decir si se tienen en cuenta o no para la pérdida
+			cuando se aprete algun boton se corregira la perdida y se subira
+			si no se apreta en 30 segundos, entonces sube toda la serie
+
+			intersession, o 1 sessio, poder a analisis date on x que surti una finestra de threshold o algo que es vegi la millora
+
+			que al analitzar grafic es pugui enviar mail al entrenador del club de primer nivell
+
+			lo de grafiques galgues amb analisi instantani tipus encoder, sembla que no es tan dificil
+			la cosa és fer una classe pare de la EncoderAnalyzeInstant, i un fill seria aquest i l'altre el de força
+			crec que es pot reaprofitar molta cosa
+
+
+
+
+
+
+
+----------------
+REALLY OLD TODO:
+----------------
 
 continue with titles and subtitles for all graphs
 fix global, jumper, rjEvolution

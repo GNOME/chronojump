@@ -93,9 +93,6 @@ public class PreferencesWindow
 	[Widget] Gtk.Box vbox_runs_prevent_double_contact;
 	[Widget] Gtk.CheckButton checkbutton_runs_prevent_double_contact;
 	[Widget] Gtk.SpinButton spinbutton_runs_prevent_double_contact;
-	[Widget] Gtk.RadioButton radio_runs_prevent_double_contact_first;
-	[Widget] Gtk.RadioButton radio_runs_prevent_double_contact_average;
-	[Widget] Gtk.RadioButton radio_runs_prevent_double_contact_last;
 	[Widget] Gtk.Box vbox_runs_i_prevent_double_contact;
 	[Widget] Gtk.CheckButton checkbutton_runs_i_prevent_double_contact;
 	[Widget] Gtk.SpinButton spinbutton_runs_i_prevent_double_contact;
@@ -354,6 +351,7 @@ public class PreferencesWindow
 
 
 		//start of double contacts stuff ----
+
 		Pixbuf pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
 		PreferencesWindowBox.image_races_simple.Pixbuf = pixbuf;
@@ -379,15 +377,7 @@ public class PreferencesWindow
 			preferences.runDoubleContactsMS;
 		PreferencesWindowBox.spinbutton_runs_i_prevent_double_contact.Value = 
 			preferences.runIDoubleContactsMS;
-			
-		if(preferences.runDoubleContactsMode != Constants.DoubleContact.NONE) {
-			if(preferences.runDoubleContactsMode == Constants.DoubleContact.FIRST)
-				PreferencesWindowBox.radio_runs_prevent_double_contact_first.Active = true;
-			else if(preferences.runDoubleContactsMode == Constants.DoubleContact.AVERAGE)
-				PreferencesWindowBox.radio_runs_prevent_double_contact_average.Active = true;
-			else // Constants.DoubleContact.LAST  DEFAULT
-				PreferencesWindowBox.radio_runs_prevent_double_contact_last.Active = true;
-		}
+
 		//---- end of double contacts stuff		
 
 
@@ -1228,21 +1218,9 @@ public class PreferencesWindow
 		}
 		else if(PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active) 
 		{
-			//1.2 mode has changed between FIRST, AVERAGE or LAST
-			if( PreferencesWindowBox.radio_runs_prevent_double_contact_first.Active &&
-					(preferences.runDoubleContactsMode != Constants.DoubleContact.FIRST) ) {
-				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.FIRST.ToString(), true);
-				preferences.runDoubleContactsMode = Constants.DoubleContact.FIRST;
-			}
-			else if( PreferencesWindowBox.radio_runs_prevent_double_contact_average.Active &&
-					(preferences.runDoubleContactsMode != Constants.DoubleContact.AVERAGE) ) {
-				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.AVERAGE.ToString(), true);
-				preferences.runDoubleContactsMode = Constants.DoubleContact.AVERAGE;
-			}
-			else if( PreferencesWindowBox.radio_runs_prevent_double_contact_last.Active &&
-					(preferences.runDoubleContactsMode != Constants.DoubleContact.LAST) ) {
-				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.LAST.ToString(), true);
-				preferences.runDoubleContactsMode = Constants.DoubleContact.LAST;
+			if( preferences.runDoubleContactsMode != Constants.DoubleContact.BIGGEST_TC ) {
+				SqlitePreferences.Update("runDoubleContactsMode", Constants.DoubleContact.BIGGEST_TC.ToString(), true);
+				preferences.runDoubleContactsMode = Constants.DoubleContact.BIGGEST_TC;
 			}
 
 			if(preferences.runDoubleContactsMS != (int) PreferencesWindowBox.spinbutton_runs_prevent_double_contact.Value) {

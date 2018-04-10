@@ -3090,6 +3090,24 @@ public partial class ChronoJumpWindow
 		notebook_analyze.CurrentPage = 0;
 		button_inspect_last_test.Visible = false;
 
+		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
+		if(
+				( m == Constants.Menuitem_modes.POWERGRAVITATORY ||
+				  m == Constants.Menuitem_modes.POWERINERTIAL ||
+				  m == Constants.Menuitem_modes.FORCESENSOR ) &&
+				UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX &&
+				! Util.FileExists(Constants.ROSX) )
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Sorry, R software is not installed.") +
+					"\n" + Catalog.GetString("Please, install it from here:") +
+					"\n\nhttp://cran.cnr.berkeley.edu/bin/macosx/R-latest.pkg",
+					"button_go_r_mac");
+			show_start_page();
+			return;
+		}
+
+
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
 			notebook_sup.CurrentPage = 0;
@@ -3154,19 +3172,6 @@ public partial class ChronoJumpWindow
 			menuitem_encoder_session_overview.Visible = true;
 			menuitem_export_encoder_signal.Visible = true;
 			menuitem_export_csv.Visible = false;
-
-			//on OSX R is not installed by default. Check if it's installed. Needed for encoder
-			if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX &&
-					! Util.FileExists(Constants.ROSX) )
-			{
-				new DialogMessage(Constants.MessageTypes.WARNING,
-						Catalog.GetString("Sorry, R software is not installed.") +
-						"\n" + Catalog.GetString("Please, install it from here:") +
-						"\n\nhttp://cran.cnr.berkeley.edu/bin/macosx/R-latest.pkg",
-						"button_go_r_mac");
-				show_start_page();
-				return;
-			}
 
 			notebook_sup.CurrentPage = 1;
 

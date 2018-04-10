@@ -1281,66 +1281,15 @@ It starts before and arrives there with some speed.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkAlignment" id="alignment29">
+                                              <widget class="GtkLabel" id="label58">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="left_padding">12</property>
-                                                <child>
-                                                  <widget class="GtkVBox" id="vbox86">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="spacing">4</property>
-                                                    <child>
-                                                      <widget class="GtkRadioButton" id="radio_runs_prevent_double_contact_first">
-                                                        <property name="label" translatable="yes">Take first contact</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="active">True</property>
-                                                        <property name="draw_indicator">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkRadioButton" id="radio_runs_prevent_double_contact_average">
-                                                        <property name="label" translatable="yes">Take average</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="draw_indicator">True</property>
-                                                        <property name="group">radio_runs_prevent_double_contact_first</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkRadioButton" id="radio_runs_prevent_double_contact_last">
-                                                        <property name="label" translatable="yes">Take last contact (recommended)</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="draw_indicator">True</property>
-                                                        <property name="group">radio_runs_prevent_double_contact_first</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">2</property>
-                                                      </packing>
-                                                    </child>
-                                                  </widget>
-                                                </child>
+                                                <property name="xalign">0</property>
+                                                <property name="label" translatable="yes">Each track ends before biggest contact time.</property>
                                               </widget>
                                               <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
                                                 <property name="position">2</property>
                                               </packing>
                                             </child>
@@ -1481,69 +1430,6 @@ It starts before and arrives there with some speed.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkAlignment" id="alignment15">
-                                                <property name="can_focus">False</property>
-                                                <property name="left_padding">12</property>
-                                                <child>
-                                                  <widget class="GtkVBox" id="vbox31">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="spacing">4</property>
-                                                    <child>
-                                                      <widget class="GtkRadioButton" id="radio_runs_i_prevent_double_contact_first">
-                                                        <property name="label" translatable="yes">Take first contact</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="active">True</property>
-                                                        <property name="draw_indicator">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkRadioButton" id="radio_runs_i_prevent_double_contact_average">
-                                                        <property name="label" translatable="yes">Take average (recommended)</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="draw_indicator">True</property>
-                                                        <property name="group">radio_runs_i_prevent_double_contact_first</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkRadioButton" id="radio_runs_i_prevent_double_contact_last">
-                                                        <property name="label" translatable="yes">Take last contact</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="draw_indicator">True</property>
-                                                        <property name="group">radio_runs_i_prevent_double_contact_first</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">2</property>
-                                                      </packing>
-                                                    </child>
-                                                  </widget>
-                                                </child>
-                                              </widget>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">2</property>
-                                              </packing>
-                                            </child>
-                                            <child>
                                               <widget class="GtkLabel" id="label57">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
@@ -1553,7 +1439,7 @@ It starts before and arrives there with some speed.</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">3</property>
+                                                <property name="position">2</property>
                                               </packing>
                                             </child>
                                           </widget>

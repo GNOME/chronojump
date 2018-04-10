@@ -994,6 +994,12 @@ LogB.Information(" fc R ");
 
 	private void on_button_force_sensor_analyze_recalculate_clicked (object o, EventArgs args)
 	{
+		if(! Util.FileExists(lastForceSensorFullPath))
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFound);
+			return;
+		}
+
 		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
 			forceSensorCopyTempAndDoGraphs();
 	}

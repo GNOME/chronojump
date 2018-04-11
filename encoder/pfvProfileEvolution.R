@@ -100,10 +100,6 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
         #v = seq(vlimits[1], vlimits[2], by = (vlimits[2] - vlimits[1]) / 100)
         f = seq(0, flimits[2], by = flimits[2] / 100)
         v = seq(0, vlimits[2], by = vlimits[2] / 100)
-        print("--------V:")
-        print(v)
-        print("--------F:")
-        print(f)
         
         #Create a grid with all the combinations of the force and velocity values
         fv <- expand.grid(f,v)
@@ -120,7 +116,7 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
                 lty = 2, nlevels = 30, method = "edge")
         
         #Plot the evolution of the session profile
-        arrows(v0[1:4], f0[1:4], v0[2:5], f0[2:5], length = 0.15, col = "red")
+        arrows(v0[1:(length(v0) -1)], f0[1:(length(v0) -1)], v0[2:length(v0)], f0[2:length(v0)], length = 0.15, col = "red")
         points(v0, f0)
         
         #Date of the session

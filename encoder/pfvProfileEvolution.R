@@ -79,6 +79,12 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
         
         f0 = profiles$f0
         v0 = profiles$v0
+        if(min(v0) <= 0 || min(f0) <= 0){
+                plot(0,0,type="n",axes=F,xlab="",ylab="")
+                text(x=0,y=0,translateToPrint("Some of the F-V profiles is wrong.\nProbably the F0 or V0 is negative"),cex=1.5)
+                dev.off()
+                quit()
+}
         pmax = f0*v0/4
         dates = profiles$dates
         
@@ -94,6 +100,10 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
         #v = seq(vlimits[1], vlimits[2], by = (vlimits[2] - vlimits[1]) / 100)
         f = seq(0, flimits[2], by = flimits[2] / 100)
         v = seq(0, vlimits[2], by = vlimits[2] / 100)
+        print("--------V:")
+        print(v)
+        print("--------F:")
+        print(f)
         
         #Create a grid with all the combinations of the force and velocity values
         fv <- expand.grid(f,v)

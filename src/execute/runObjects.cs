@@ -82,13 +82,76 @@ public class RunPhaseInfoManage
 			list.Add(listCaptureThread[i]);
 	}
 
+	/*
+	 * check double contacts at start:
+	 * if ! speedStart: start at contact first contact will be TF (race starts at beginning)
+	 * if   speedStart: start before contact (race starts related to biggest_TC
+	 * 	if(speedStartArrival) 	first contact will be TC (start at beginning of biggest_TC)
+	 * 	else 			first contact will be TF (start at end of biggest_TC)
+	 */
+	//return the double contact tc+tf at beginning
+	public int IsStartDoubleContact(bool speedStart, int checkTime)
+	{
+		if(! speedStart)
+			return 0;
+
+		//--- from now on speedStart
+
+		bool first = true;
+		int startAt = 0;
+
+		double maxTCDuration = 0;
+		int maxTCPosition = 0;
+		bool speedStartArrival = true;
+
+		if(list.Count > 0)
+		{
+			RunPhaseInfo firstRPI = (RunPhaseInfo) list[0];
+			if(! firstRPI.IsContact()) //is TF
+			{
+				speedStartArrival = false;
+				if (firstRPI.Duration < checkTime)
+					startAt = 1;
+				else
+					return 0;
+			}
+		}
+
+		RunPhaseInfo tcRPI;
+		RunPhaseInfo tfRPI;
+		for(int i = startAt +1; i < list.Count; i +=2)
+		{
+			tcRPI = (RunPhaseInfo) list[i-1];
+			tfRPI = (RunPhaseInfo) list[i];
+
+			if(tcRPI.Duration > maxTCDuration)
+			{
+				maxTCDuration = tcRPI.Duration;
+				maxTCPosition = i;
+			}
+
+			if(tcRPI.Duration + tfRPI.Duration >= checkTime)
+			{
+				if(speedStartArrival)
+					return maxTCPosition -1;
+				else
+					return maxTCPosition;
+			}
+		}
+
+		if(speedStartArrival)
+			return maxTCPosition -1;
+		else
+			return maxTCPosition;
+	}
+
 	public int GetPosOfBiggestTC ()
 	{
 		LogB.Information("startPos at GetPosOfBiggestTC: " + startPos.ToString());
 
 		//Read below message: "Message oneTCAfterTheTf"
 		if(countTCs() == 1 && oneTCAfterTheTf())
-			return 1;
+			return startPos +1;
 
 		//if there's no tc, return -1, track duration will be tf duration
 		//if there's one tc, return -1, track duration will be tc+tf duration
@@ -160,6 +223,7 @@ public class RunPhaseInfoManage
 		return str;
 	}
 
+	//note it starts at startPos
 	private int countTCs()
 	{
 		int countStart = 0;
@@ -179,7 +243,7 @@ public class RunPhaseInfoManage
 	 */
 	private bool oneTCAfterTheTf()
 	{
-		if(list.Count != 2)
+		if(list.Count - startPos != 2)
 			return false;
 
 		RunPhaseInfo first = (RunPhaseInfo) list[0];
@@ -207,6 +271,7 @@ public class RunDoubleContact
 {
 	private Constants.DoubleContact mode;
 	private int checkTime;
+	public bool SpeedStart; //comes with speed or started in contact with the photocell
 
 	private RunPhaseInfoManage rpim;
 
@@ -216,6 +281,7 @@ public class RunDoubleContact
 	private double timeAcumulated;
 
 	private List<RunPhaseInfo> listCaptureThread; //this list contains TCs and TFs from capture thread
+	private bool firstTrackDone;
 
 	//constructor ------------------------------------------
 	public RunDoubleContact (Constants.DoubleContact mode, int checkTime)
@@ -227,6 +293,7 @@ public class RunDoubleContact
 		timeAcumulated = 0;
 		rpim = new RunPhaseInfoManage();
 		listCaptureThread = new List<RunPhaseInfo>();
+		firstTrackDone = false;
 	}
 
 	//public methods ---------------------------------------
@@ -275,17 +342,29 @@ public class RunDoubleContact
 	//this wait will be done by C#
 	public double GetTrackTimeInSecondsAndUpdateStartPos()
 	{
-		double trackTime = 0;
-		/*
-		if(mode == Constants.FoubleContact.FIRST)
-			timestamp = getDCFirst();
-		else if(mode == Constants.FoubleContact.LAST)
-			timestamp = getDCLast();
-		else if(mode == Constants.FoubleContact.AVERAGE)
-			timestamp = getDCAverage();
-		else // if(mode == Constants.FoubleContact.BIGGEST_TC)
-		*/
-			trackTime = getDCBiggestTC(); //superhardcoded
+		if(! firstTrackDone)
+		{
+			//count TCs coming from double contacts at start
+			int countDC_TCsAtStart = rpim.IsStartDoubleContact(SpeedStart, checkTime);
+			//should work for many double contacts at start
+			LogB.Information(string.Format("IsStartDoubleContact: {0}", countDC_TCsAtStart));
+
+			if(countDC_TCsAtStart > 0)
+			{
+				rpim.UpdateStartPos(countDC_TCsAtStart);
+
+				firstTrackDone = true;
+				return -1 * countDC_TCsAtStart;
+			}
+			else if(! SpeedStart)
+			{
+				firstTrackDone = true;
+				return -1000; //TODO: fix this, separate GetTrackTimeIn... in two functions, don't return negative positions as double
+			}
+		}
+
+		double trackTime = getDCBiggestTC();
+		firstTrackDone = true;
 
 		//in seconds
 		if(trackTime > 0)
@@ -319,7 +398,6 @@ public class RunDoubleContact
 			}
 		}
 
-		//rpim.EmptyListUntilPos(bigTCPosition);
 		rpim.UpdateStartPos(bigTCPosition);
 
 		return sum;
@@ -331,9 +409,13 @@ public class RunPhaseTimeList
 {
 	private List<PhaseTime> listPhaseTime;
 
+	//if there are double contacts at start, first run phase info (0) will not be used
+	public int FirstRPI;
+
 	public RunPhaseTimeList()
 	{
 		listPhaseTime = new List<PhaseTime>();
+		FirstRPI = 0;
 	}
 	
 	public void AddTC(double timestamp)
@@ -385,25 +467,52 @@ public class RunPhaseTimeList
 				startedIn = true;
 		}
 
+		//if FirstRPI is 1 then inverted the startedIn
+		if(FirstRPI == 1)
+			startedIn = ! startedIn;
+
 		// 3) add elements to the list
 		LogB.Information("InListForPainting foreach:");
-		bool firstTrack = true;
+		int count = 0;
+		double negativeValues = 0; //double contacts times at start
 		foreach(PhaseTime pt in listPhaseTimeShallowCloned)
 		{
 			LogB.Information(pt.ToString());
+
+			if(FirstRPI > count)
+			{
+				negativeValues += pt.Duration/1000.0;
+				LogB.Information("InListForPaainting negativeValues = " + negativeValues.ToString());
+			}
+
 			if(pt.IsContact)
 				startInMS = currentMS;
 			else if(startInMS >= 0)
-			{
 				list_in.Add(startInMS/1000.0 + ":" + currentMS/1000.0); //in seconds
-				if(startedIn && firstTrack)
-				{
-					currentMS = 0; //reset currentMS in order to synchronize correctly
-					firstTrack = false;
-				}
-			}
 
 			currentMS += Convert.ToInt32(pt.Duration);
+
+			LogB.Information(string.Format("End of iteration: {0}, pt.IsContact: {1}, startInMS: {2}, currentMS: {3}",
+						count, pt.IsContact, startInMS, currentMS));
+
+			count ++;
+
+		}
+
+		//manage the negative values
+		if(negativeValues > 0)
+		{
+			LogB.Information("Fixing negative values (double contacts times at start)");
+			for (int i = 0; i < list_in.Count; i ++)
+			{
+				LogB.Information(string.Format("PRE i: {0}, list_in[{0}]: {1}", i, list_in[i]));
+
+				string [] strFull = list_in[i].Split(new char[] {':'});
+				list_in[i] = (Convert.ToDouble(strFull[0]) - negativeValues).ToString() + ":" +
+					(Convert.ToDouble(strFull[1]) - negativeValues).ToString();
+
+				LogB.Information(string.Format("POST i: {0}, list_in[{0}]: {1}", i, list_in[i]));
+			}
 		}
 
 		return list_in;

@@ -241,6 +241,7 @@ public class RunExecute : EventExecute
 				);
 		runPTL = new RunPhaseTimeList();
 
+		bool firstFromChronopicReceived = false;
 		bool exitWaitEventBucle = false;
 		do {
 			if(simulated)
@@ -250,6 +251,12 @@ public class RunExecute : EventExecute
 			
 			if (ok && ! cancel && ! finish)
 			{
+				if( ! firstFromChronopicReceived )
+				{
+					runDC.SpeedStart = has_arrived();
+					firstFromChronopicReceived = true;
+				}
+
 				onlyInterval_CalculateDistanceIntervalFixed();
 
 				//LogB.Information("timestamp:" + timestamp);
@@ -332,6 +339,7 @@ public class RunExecute : EventExecute
 							lastTc = timestamp / 1000.0;
 							runEI.ChangePhase(RunExecuteInspector.Phases.OUT,
 								string.Format("SpeedStartArrival, tc = {0}", Math.Round(lastTc, 3)));
+							runDC.DoneTC(timestamp);
 							runPTL.AddTC(timestamp);
 						}
 
@@ -406,6 +414,7 @@ public class RunExecute : EventExecute
 			{
 				LogB.Information("WAITING 100 MS TO EXIT BUCLE");
 				//TODO: checks what happens with cancel... in the pulse thread, will change this boolean? needCheckIfTrackEnded
+				//TODO: also think on what happens if needCheckIfTrackEnded never gets negative
 				Thread.Sleep(100);
 			}
 
@@ -422,7 +431,6 @@ public class RunExecute : EventExecute
 			runDC.UpdateList();
 	}
 
-	//this will be protected and in run simple execute class
 	protected override bool lastTfCheckTimeEnded()
 	{
 		LogB.Information("In lastTfCheckTimeEnded()");
@@ -452,13 +460,23 @@ public class RunExecute : EventExecute
 			trackTime = lastTc + lastTf/1000.0;
 		}
 
+		//check if start is double contact
+		if(trackTime < 0)
+		{
+			if( ! runDC.SpeedStart )
+				runPTL.FirstRPI = 0;
+			else
+				runPTL.FirstRPI = Convert.ToInt32(Math.Abs(trackTime)); //TODO: take care, is better GetTrackTimInSeconds... returns some int, read another value, or if trackTime == -1 then read a variable that will come with the FirstRPI value
+
+			return;
+		}
+
 		LogB.Information("trackTime: " + trackTime.ToString());
 		//solve possible problems of bad copied data between threads on start
 		if(trackTime == 0)
 			return;
 
-		//runEI.ChangePhase(RunExecuteInspector.Phases.IN, runEIString +
-		runEI.ChangePhase(RunExecuteInspector.Phases.IN, //runEIString +
+		runEI.ChangePhase(RunExecuteInspector.Phases.IN,
 				string.Format("; timestamp: {0}; <b>trackTime: {1}</b>",
 					Math.Round(lastTf/1000.0, 3), Math.Round(trackTime, 3)));
 

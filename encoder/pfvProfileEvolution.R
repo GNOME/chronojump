@@ -112,7 +112,7 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
         par(mar=c(5,4,4,5))
         contour(x = v, y = f, z = power,
                 main = "Pmax(F0,V0) evolution", xlab = "V0 (m/s)", ylab = "F0 (N)",
-                xlim = vlimits, ylim = flimits,
+                xlim = vlimits, ylim = flimits, vfont = NULL,
                 lty = 2, nlevels = 30, method = "edge")
         
         #Plot the evolution of the session profile

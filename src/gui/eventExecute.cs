@@ -1465,21 +1465,31 @@ public partial class ChronoJumpWindow
 			}
 			*/
 
-			double negativePTLTime = 0;
-			double timeTotalWithNegativePTL = timeTotal;
+			double negativePTLTime = 0; //negativePTL at beginning and last TC at end
+			double timeTotalWithExtraPTL = timeTotal;
 
 			List<string> runPTLInListForPainting = runPTL.InListForPainting();
 			if(runPTLInListForPainting.Count > 0)
 			{
+				//last TC value
+				string [] inPTLLastFull = runPTLInListForPainting[runPTLInListForPainting.Count -1].Split(new char[] {':'});
+				double lastValue = Convert.ToDouble(inPTLLastFull[1]);
+
+				timeTotalWithExtraPTL = lastValue;
+
+				//negative values
 				string [] inPTL0Full = runPTLInListForPainting[0].Split(new char[] {':'});
 				double firstValue = Convert.ToDouble(inPTL0Full[0]);
+
 				if(firstValue < 0)
 				{
 					negativePTLTime = Math.Abs(firstValue);
-					timeTotalWithNegativePTL += negativePTLTime;
+					timeTotalWithExtraPTL += negativePTLTime;
 				}
+
 			}
 			LogB.Information("negativePTLTime: " + negativePTLTime);
+			LogB.Information("timeTotalWithExtraPTL: " + timeTotalWithExtraPTL);
 
 
 			//paint reference guide black and green if needed
@@ -1501,13 +1511,13 @@ public partial class ChronoJumpWindow
 			{
 				string [] inPTLFull = inPTL.Split(new char[] {':'});
 				int xStart = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
-							(Convert.ToDouble(inPTLFull[0]) + negativePTLTime) / timeTotalWithNegativePTL);
+							(Convert.ToDouble(inPTLFull[0]) + negativePTLTime) / timeTotalWithExtraPTL);
 
 				int xEnd = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
-						(Convert.ToDouble(inPTLFull[1]) + negativePTLTime) / timeTotalWithNegativePTL);
+						(Convert.ToDouble(inPTLFull[1]) + negativePTLTime) / timeTotalWithExtraPTL);
 
 				//don't plot the TCs after current track
-				if(Convert.ToDouble(inPTLFull[0]) + negativePTLTime < timeTotalWithNegativePTL)
+				//if(Convert.ToDouble(inPTLFull[0]) + negativePTLTime < timeTotalWithExtraPTL)
 					event_execute_pixmap.DrawRectangle(pen_gris, true,
 							new Rectangle (xStart, alto-bottomMargin-4, xEnd-xStart, 4));
 			}
@@ -1534,30 +1544,30 @@ public partial class ChronoJumpWindow
 				int xStart = event_execute_rightMargin;
 				if(myTimeDoubleAccumulated - myTimeDouble > 0 || negativePTLTime > 0)
 					xStart = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) * 
-							(myTimeDoubleAccumulated + negativePTLTime - myTimeDouble) / timeTotalWithNegativePTL);
+							(myTimeDoubleAccumulated + negativePTLTime - myTimeDouble) / timeTotalWithExtraPTL);
 
 				int xEnd = event_execute_rightMargin;
 				if(myTimeDoubleAccumulated > 0)
 					xEnd = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) * 
-							(myTimeDoubleAccumulated + negativePTLTime) / timeTotalWithNegativePTL);
+							(myTimeDoubleAccumulated + negativePTLTime) / timeTotalWithExtraPTL);
 
 				/*
-				LogB.Information(string.Format("ancho: {0}, (ancho - 2*event_execute_rightMargin): {1}, timeTotal: {2}, timeTotalWithNegativePTL: {3}",
-							ancho, (ancho - 2*event_execute_rightMargin), timeTotal, timeTotalWithNegativePTL ));
+				LogB.Information(string.Format("ancho: {0}, (ancho - 2*event_execute_rightMargin): {1}, timeTotal: {2}, timeTotalWithExtraPTL: {3}",
+							ancho, (ancho - 2*event_execute_rightMargin), timeTotal, timeTotalWithExtraPTL ));
 
 				LogB.Information(string.Format("xStart: {0}, b: {1}, c: {2}, num: {3}, numDenom: {4}, numDenom*anchoright: {5}, xStartCalc: {6}, xStart: {7}",
 							myTimeDoubleAccumulated, negativePTLTime, myTimeDouble,
 							(myTimeDoubleAccumulated + negativePTLTime - myTimeDouble),
-							(myTimeDoubleAccumulated + negativePTLTime - myTimeDouble) / timeTotalWithNegativePTL,
-							Convert.ToInt32((ancho - 2*event_execute_rightMargin) * (myTimeDoubleAccumulated + negativePTLTime) / timeTotalWithNegativePTL),
+							(myTimeDoubleAccumulated + negativePTLTime - myTimeDouble) / timeTotalWithExtraPTL,
+							Convert.ToInt32((ancho - 2*event_execute_rightMargin) * (myTimeDoubleAccumulated + negativePTLTime) / timeTotalWithExtraPTL),
 							event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
-							(myTimeDoubleAccumulated + negativePTLTime - myTimeDouble) / timeTotalWithNegativePTL),
+							(myTimeDoubleAccumulated + negativePTLTime - myTimeDouble) / timeTotalWithExtraPTL),
 							xStart
 							));
 				LogB.Information(string.Format("xEnd: {0}, b: {1}, num: {2}, numDenom: {3}, xEnd: {4}",
 							myTimeDoubleAccumulated, negativePTLTime,
 							(myTimeDoubleAccumulated + negativePTLTime),
-							(myTimeDoubleAccumulated + negativePTLTime) / timeTotalWithNegativePTL,
+							(myTimeDoubleAccumulated + negativePTLTime) / timeTotalWithExtraPTL,
 							xEnd
 							));
 				*/

@@ -47,7 +47,8 @@ public class RunExecute : EventExecute
 	protected Constants.DoubleContact checkDoubleContactMode;
 	protected int checkDoubleContactTime;
 	
-	protected bool speedStartArrival; //if speedStartArrival then race time includes reaction time
+	protected bool speedStart; 	  //if we started before the contact
+	protected bool speedStartArrival; //(preferences) if true then race time includes reaction time
 	protected bool measureReactionTime;
 	protected double reactionTimeMS; //reaction time in milliseconds
 
@@ -64,6 +65,8 @@ public class RunExecute : EventExecute
 	protected static RunDoubleContact runDC;
 	protected static bool success;
 	protected RunExecuteInspector.Types runEIType;
+
+//	protected bool firstTrackDone;
 
 	public RunExecute() {
 	}
@@ -215,6 +218,7 @@ public class RunExecute : EventExecute
 		success = false;
 		timerCount = 0;
 		lastTc = 0;
+		//firstTrackDone = false;
 
 		double timestamp = 0;
 		bool ok;
@@ -237,7 +241,8 @@ public class RunExecute : EventExecute
 		//initialize runDC
 		runDC = new RunDoubleContact(
 				checkDoubleContactMode,
-				checkDoubleContactTime
+				checkDoubleContactTime,
+				speedStartArrival
 				);
 		runPTL = new RunPhaseTimeList();
 
@@ -253,6 +258,7 @@ public class RunExecute : EventExecute
 			{
 				if( ! firstFromChronopicReceived )
 				{
+					speedStart = has_arrived();
 					runDC.SpeedStart = has_arrived();
 					firstFromChronopicReceived = true;
 				}
@@ -297,7 +303,6 @@ public class RunExecute : EventExecute
 						//prevent double contact stuff
 						if(runDC.UseDoubleContacts())
 						{
-							LogB.Information("CALLED-DONETF");
 							runDC.DoneTF (timestamp);
 							timerLastTf = DateTime.Now;
 							needCheckIfTrackEnded = true;
@@ -326,6 +331,15 @@ public class RunExecute : EventExecute
 						initializeTimer(); //timerCount = 0
 						runEI.ChangePhase(RunExecuteInspector.Phases.OUT, "Timer start");
 
+						/*
+						 * Stored the TC because we need it to decide
+						 * if time will starts after this contact or
+						 * other double contacts that will come just after
+						 * depending on biggest tc
+						 */
+						runDC.DoneTC(timestamp, false);
+						runPTL.AddTC(timestamp);
+
 						feedbackMessage = "";
 						needShowFeedbackMessage = true;
 					}
@@ -339,7 +353,7 @@ public class RunExecute : EventExecute
 							lastTc = timestamp / 1000.0;
 							runEI.ChangePhase(RunExecuteInspector.Phases.OUT,
 								string.Format("SpeedStartArrival, tc = {0}", Math.Round(lastTc, 3)));
-							runDC.DoneTC(timestamp);
+							runDC.DoneTC(timestamp, true);
 							runPTL.AddTC(timestamp);
 						}
 
@@ -350,13 +364,10 @@ public class RunExecute : EventExecute
 								string.Format("SpeedStartArrival, timestamp = {0}", timestamp));
 
 						if(runDC.UseDoubleContacts())
-						{
-							LogB.Information("CALLED-DONETC");
-							runDC.DoneTC(timestamp);
-						}
-						else {
+							runDC.DoneTC(timestamp, true);
+						else
 							lastTc = timestamp / 1000.0;
-						}
+
 						runPTL.AddTC(timestamp);
 
 						onlyInterval_SetRSAVariables();
@@ -433,15 +444,15 @@ public class RunExecute : EventExecute
 
 	protected override bool lastTfCheckTimeEnded()
 	{
-		LogB.Information("In lastTfCheckTimeEnded()");
+		//LogB.Information("In lastTfCheckTimeEnded()");
 		TimeSpan span = DateTime.Now - timerLastTf;
 		if(span.TotalMilliseconds > checkDoubleContactTime * 1.5)
 		{
 			timerLastTf = DateTime.Now;
-			LogB.Information("... ended success");
+			LogB.Information("lastTfCheckTimeEnded: success");
 			return true;
 		}
-		LogB.Information("... ended NOT success");
+		//LogB.Information("... ended NOT success");
 		return false;
 	}
 
@@ -454,21 +465,42 @@ public class RunExecute : EventExecute
 		LogB.Information("In trackDone()");
 		//double myTrackTime = 0;
 		if(runDC.UseDoubleContacts())
-			trackTime = runDC.GetTrackTimeInSecondsAndUpdateStartPos(); //will come in seconds
-		else {
-			//note in double contacts mode timestamp can have added DCFlightTimes and DCContactTimes. So contact time is not only on lastTc
-			trackTime = lastTc + lastTf/1000.0;
-		}
-
-		//check if start is double contact
-		if(trackTime < 0)
 		{
-			if( ! runDC.SpeedStart )
-				runPTL.FirstRPI = 0;
-			else
-				runPTL.FirstRPI = Convert.ToInt32(Math.Abs(trackTime)); //TODO: take care, is better GetTrackTimInSeconds... returns some int, read another value, or if trackTime == -1 then read a variable that will come with the FirstRPI value
+			if(! runDC.FirstTrackDone)
+			{
+				//TODO: take care because maybe more data can come than just the start, eg:
+				//
+				//_ __ _   (300ms < > 450ms)      _ _ _        (450ms...)
+				//
+				//all above line can be processed at once
+				//so IsStartDoubleContact will be false
+				//because all the tc,tf are processed and tf in the middle is greater than 300ms
+				//so start will be marked in the first _
+				//when should be done in the second _
+				if(runDC.IsStartDoubleContact())
+				{
+					int posOfBiggestTC = runDC.GetPosOfBiggestTC(false);
 
-			return;
+					if(speedStart && ! speedStartArrival)
+						runPTL.FirstRPIs = posOfBiggestTC +1;
+					else
+						runPTL.FirstRPIs = posOfBiggestTC;
+
+					runDC.UpdateStartPos(posOfBiggestTC);
+					return;
+				}
+
+				//if is not double contact then track will be created
+			}
+
+			trackTime = runDC.GetTrackTimeInSecondsAndUpdateStartPos(); //will come in seconds
+			runDC.FirstTrackDone = true;
+		}
+		else {
+			//note in double contacts mode timestamp can have added
+			//DCFlightTimes and DCContactTimes.
+			//So contact time is not only on lastTc
+			trackTime = lastTc + lastTf/1000.0;
 		}
 
 		LogB.Information("trackTime: " + trackTime.ToString());
@@ -797,7 +829,7 @@ public class RunIntervalExecute : RunExecute
 
 	protected override void trackDoneRunSpecificStuff ()
 	{
-		LogB.Information(string.Format("RACE ({0}) TC: {1}; TV: {2}; TOTALTIME: {3}", tracks, lastTc, lastTf/1000.0, trackTime));
+		LogB.Information(string.Format("RACE TRACK ({0}) TC: {1}; TV: {2}; TOTALTIME: {3}", tracks, lastTc, lastTf/1000.0, trackTime));
 
 		if(intervalTimesString.Length > 0) { equal = "="; }
 		intervalTimesString = intervalTimesString + equal + trackTime.ToString();

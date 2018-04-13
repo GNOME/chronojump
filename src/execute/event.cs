@@ -235,6 +235,7 @@ public class EventExecute
 		}
 	
 		Thread.Sleep (50);
+		//Thread.Sleep (25);
 		//LogB.Debug(thread.ThreadState.ToString());
 		return true;
 	}

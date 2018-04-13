@@ -447,6 +447,7 @@ public class RunExecute : EventExecute
 		//LogB.Information("In lastTfCheckTimeEnded()");
 		TimeSpan span = DateTime.Now - timerLastTf;
 		if(span.TotalMilliseconds > checkDoubleContactTime * 1.5)
+//		if(span.TotalMilliseconds > checkDoubleContactTime * 1.1) //TODO: try different values
 		{
 			timerLastTf = DateTime.Now;
 			LogB.Information("lastTfCheckTimeEnded: success");
@@ -462,7 +463,13 @@ public class RunExecute : EventExecute
 	//and use static variables where needed
 	protected override void trackDone()
 	{
-		LogB.Information("In trackDone()");
+		LogB.Information("In trackDone() A");
+
+		runDC.TrackDoneHasToBeCalledAgain = false;
+		if(success)
+			return;
+
+		LogB.Information("In trackDone() B");
 		//double myTrackTime = 0;
 		if(runDC.UseDoubleContacts())
 		{
@@ -521,6 +528,14 @@ public class RunExecute : EventExecute
 					Math.Round(lastTf/1000.0, 3), Math.Round(trackTime, 3)));
 
 		trackDoneRunSpecificStuff();
+
+		/*
+		 * searching GetPosOfBiggestTC maybe two different tracks found
+		 * so call this method again to process the other
+		 */
+		if(! success && runDC.TrackDoneHasToBeCalledAgain)
+			trackDone();
+
 	}
 
 	protected virtual void trackDoneRunSpecificStuff ()
@@ -909,6 +924,7 @@ public class RunIntervalExecute : RunExecute
 
 		needUpdateGraphType = eventType.RUNINTERVAL;
 		needUpdateGraph = true;
+		//fakeButtonUpdateGraph.Click();
 
 		//put button_finish as sensitive when first jump is done (there's something recordable)
 		if(tracks == 1)

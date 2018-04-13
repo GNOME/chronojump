@@ -57,6 +57,7 @@ public class RunPhaseInfo
 //manage RunPhaseInfo list
 public class RunPhaseInfoManage
 {
+	public bool TrackDoneHasToBeCalledAgain;
 	private List<RunPhaseInfo> list;
 
 	//TCs and TFs before startPos have been added as tracks
@@ -67,6 +68,7 @@ public class RunPhaseInfoManage
 	{
 		list = new List<RunPhaseInfo>();
 		startPos = 0;
+		TrackDoneHasToBeCalledAgain = false;
 	}
 
 	/*
@@ -189,32 +191,54 @@ public class RunPhaseInfoManage
 	}
 	*/
 
-	public int GetPosOfBiggestTC (bool started)
+	public int GetPosOfBiggestTC (bool started, int checkTime)
 	{
 		LogB.Information("startPos at GetPosOfBiggestTC: " + startPos.ToString());
+		TrackDoneHasToBeCalledAgain = false;
 
 		//Read below message: "Message oneTCAfterTheTf"
 		if(countTCs() == 1 && oneTCAfterTheTf())
 			return startPos +1;
 
-		/*
-		 * if there's more than one tc, return the pos of bigger tc,
-		 * but first tc cannot be the biggest,
-		 * because first tc will be always added (and first tf)
-		 */
 		double max = 0;
 		int pos = 0;
 		int posBiggest = 0;
+		double lastTcDuration = 0;
+
 		foreach(RunPhaseInfo rpi in list)
 		{
-			if(rpi.IsContact() && rpi.Duration > max)
+			/*
+			 * first time we need to know if first TC is greater than the others
+			 * but once started, we care for endings of each track,
+			 * do not use the first value because it's the TC of previous track
+			 */
+			if( (started && pos >= startPos +1) || (! started && pos >= startPos) )
 			{
 				/*
-				 * first time we need to know if first TC is greater than the others
-				 * but once started, we care for endings of each track,
-				 * do not use the first value because it's the TC of previous track
+				 * record tc duration as lastTcDuration and add to td duration to see if is greater than checktime
+				 * this allows to return biggest_tc of one track without messing with next track that maybe is captured
+				 * this happens because double contacts is eg: 300 and trackDone is calle at 300 * 1,5
+				 * But then trackDone has to be called again!
 				 */
-				if( (started && pos >= startPos +1) || (! started && pos >= startPos) )
+				if(rpi.IsContact())
+					lastTcDuration = rpi.Duration;
+				else if(! rpi.IsContact() && lastTcDuration + rpi.Duration > checkTime)
+				{
+					//check if there's another track in this set
+					for(int i = pos + 2; i < list.Count; i += 2)
+					{
+						RunPhaseInfo tcRPI = (RunPhaseInfo) list[i-1];
+						RunPhaseInfo tfRPI = (RunPhaseInfo) list[i];
+
+						if(tcRPI.Duration + tfRPI.Duration > checkTime)
+							TrackDoneHasToBeCalledAgain = true;
+					}
+
+					return posBiggest;
+				}
+
+				//record posBiggest position
+				if(rpi.IsContact() && rpi.Duration > max)
 				{
 					max = rpi.Duration;
 					posBiggest = pos;
@@ -334,6 +358,7 @@ public class RunDoubleContact
 {
 	public bool SpeedStart; 	//comes with speed or started in contact with the photocell
 	public bool FirstTrackDone; 	//the manage of speedStartArrival has been done
+	public bool TrackDoneHasToBeCalledAgain;
 
 	private Constants.DoubleContact mode;
 	private int checkTime;
@@ -361,6 +386,7 @@ public class RunDoubleContact
 		rpim = new RunPhaseInfoManage();
 		listCaptureThread = new List<RunPhaseInfo>();
 		FirstTrackDone = false;
+		TrackDoneHasToBeCalledAgain = false;
 	}
 
 	//public methods ---------------------------------------
@@ -420,39 +446,18 @@ public class RunDoubleContact
 		return isDC;
 	}
 
-	/*
-	public int GetStartPosition()
-	{
-		//count TCs coming from double contacts at start
-		int countDC_TCsAtStart = rpim.IsStartDoubleContact(SpeedStart, checkTime);
-		//should work for many double contacts at start
-		LogB.Information(string.Format("IsStartDoubleContact: {0}", countDC_TCsAtStart));
-//		FirstTrackDone = true;
-
-		if(countDC_TCsAtStart > 0)
-		{
-			LogB.Information(" GetStartPosition A ");
-			rpim.UpdateStartPos(countDC_TCsAtStart);
-
-			return countDC_TCsAtStart;
-		}
-		else if(! SpeedStart)
-		{
-			LogB.Information(" GetStartPosition B ");
-			return 0;
-		}
-
-		LogB.Information(" GetStartPosition C ");
-		return 0;
-	}
-	*/
-
 	public int GetPosOfBiggestTC(bool started)
 	{
-		//return rpim.GetPosOfBiggestTC();
+		int pos = rpim.GetPosOfBiggestTC(started, checkTime);
 
-		int pos = rpim.GetPosOfBiggestTC(started);
-		LogB.Information(string.Format("GetPosOfBiggestTC list: {0}, pos: {1}", rpim.PrintList(), pos));
+		if(rpim.TrackDoneHasToBeCalledAgain)
+		{
+			TrackDoneHasToBeCalledAgain = true;
+			//rpim.TrackDoneHasToBeCalledAgain = false;
+		}
+
+		LogB.Information(string.Format("GetPosOfBiggestTC list: {0}, pos: {1}, hasToBeCaledAgain: {2}",
+					rpim.PrintList(), pos, TrackDoneHasToBeCalledAgain));
 
 		return pos;
 	}

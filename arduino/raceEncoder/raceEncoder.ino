@@ -7,6 +7,7 @@ volatile unsigned long changingTime = 0;
 unsigned long elapsedTime = 0;
 unsigned long totalTime = 0;
 unsigned long lastTime = 0;
+//int position = 0;
 
 //Version of the firmware
 String version = "Race_Encoder-0.1";
@@ -94,6 +95,7 @@ void start_capture()
   totalTime = 0;
   lastTime = micros();
   capturing = true;
+  encoderDisplacement = 0;
 }
 
 void end_capture()

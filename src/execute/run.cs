@@ -489,8 +489,16 @@ public class RunExecute : EventExecute
 					runDC.UpdateStartPos(posOfBiggestTC);
 					return;
 				}
+				else
+				{
+					//if leaving: start pos will be on first TF
+					if(speedStart && ! speedStartArrival && runPTL.FirstRPIs == 0)
+					{
+						runPTL.FirstRPIs = 1;
+						runDC.UpdateStartPos(1);
+					}
+				}
 
-				//if is not double contact then track will be created
 			}
 
 			trackTime = runDC.GetTrackTimeInSecondsAndUpdateStartPos(); //will come in seconds

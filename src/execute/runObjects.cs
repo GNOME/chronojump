@@ -601,7 +601,8 @@ public class RunPhaseTimeList
 
 		//when track ends, last phase is a TC, add it
 		if(ptLast != null && ptLast.IsContact)
-			list_in.Add(currentMS/1000.0 + ":" + (currentMS + ptLast.Duration)/1000.0); //in seconds
+			list_in.Add( startInMS/1000.0 + ":" +
+					(startInMS + ptLast.Duration)/1000.0); //in seconds
 
 		//manage the negative values
 		if(negativeValues > 0)

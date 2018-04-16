@@ -68,10 +68,31 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
         pmax.rel.fitted = pmax.fitted / Mass
         tpmax.fitted = log(2) / K                    # Obtained from P'(t) = 0
         
-        return(list(Mass = Mass, Height = Height, Temperature = Temperature, Vw = Vw, Ka = Ka, K.fitted = K, Vmax.fitted = Vmax,
-                    amax.fitted = amax.fitted, fmax.fitted = fmax.fitted, fmax.rel.fitted = fmax.rel.fitted, sfv.fitted = sfv.fitted, sfv.rel.fitted = sfv.rel.fitted,
-                    pmax.fitted = pmax.fitted, pmax.rel.fitted = pmax.rel.fitted, tpmax.fitted = tpmax.fitted, F0 = F0, F0.rel = F0.rel, V0 = V0,
-                    sfv.lm = sfv.lm, sfv.rel.lm = sfv.rel.lm, pmax.lm = pmax.lm, pmax.rel.lm = pmax.rel.lm, v.fitted = v.fitted, a.fitted = a.fitted, f.fitted = f.fitted, p.fitted = p.fitted ))
+        return(list(Mass = Mass,
+                    Height = Height, Temperature = Temperature,
+                    Vw = Vw,
+                    Ka = Ka,
+                    K.fitted = K,
+                    Vmax.fitted = Vmax,
+                    amax.fitted = amax.fitted,
+                    fmax.fitted = fmax.fitted,
+                    fmax.rel.fitted = fmax.rel.fitted,
+                    sfv.fitted = sfv.fitted,
+                    sfv.rel.fitted = sfv.rel.fitted,
+                    pmax.fitted = pmax.fitted,
+                    pmax.rel.fitted = pmax.rel.fitted,
+                    tpmax.fitted = tpmax.fitted,
+                    F0 = F0,
+                    F0.rel = F0.rel,
+                    V0 = V0,
+                    sfv.lm = sfv.lm,
+                    sfv.rel.lm = sfv.rel.lm,
+                    pmax.lm = pmax.lm,
+                    pmax.rel.lm = pmax.rel.lm,
+                    v.fitted = v.fitted,
+                    a.fitted = a.fitted,
+                    f.fitted = f.fitted,
+                    p.fitted = p.fitted ))
 }
 
 #Finds the time correspondig to a given position in the formula x(t) = Vmax*(t + (1/K)*exp(-K*t)) -Vmax - 1/K
@@ -104,18 +125,4 @@ prepareGraph <- function(os, pngFile, width, height)
 endGraph <- function()
 {
 	dev.off()
-}
-
-assignOptions <- function(options) {
-	return(list(
-		    scriptsPath	= options[1],
-		    positions  	= as.numeric(unlist(strsplit(options[2], "\\;"))),
-		    splitTimes 	= as.numeric(unlist(strsplit(options[3], "\\;"))),
-		    mass 	= as.numeric(options[4]),
-		    personHeight = as.numeric(options[5]),
-		    tempC 	= as.numeric(options[6]),
-		    os 		= options[7],
-		    graphWidth 	= as.numeric(options[8]),
-		    graphHeight	= as.numeric(options[9])
-		    ))
 }

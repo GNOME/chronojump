@@ -175,10 +175,28 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
                            paste("pmax =", round(sprintDynamics$pmax.rel.fitted, digits = 2), "W/Kg")),
                 text.col = c("black", "black", "green", "blue", "red"))
         
-        exportData = list(Mass = sprintDynamics$Mass, Height = sprintDynamics$Height, Temperature = sprintDynamics$Temperature, Vw = sprintDynamics$Vw, Ka = sprintDynamics$Ka, K.fitted = sprintDynamics$K.fitted, Vmax.fitted = sprintDynamics$Vmax,
-                          amax.fitted = sprintDynamics$amax.fitted, fmax.fitted = sprintDynamics$fmax.fitted, fmax.rel.fitted = sprintDynamics$fmax.rel.fitted, sfv.fitted = sprintDynamics$sfv.fitted, sfv.rel.fitted = sprintDynamics$sfv.rel.fitted,
-                          pmax.fitted = sprintDynamics$pmax.fitted, pmax.rel.fitted = sprintDynamics$pmax.rel.fitted, tpmax.fitted = sprintDynamics$tpmax.fitted, F0 = sprintDynamics$F0, F0.rel = sprintDynamics$F0.rel, V0 = sprintDynamics$V0,
-                          sfv.lm = sprintDynamics$sfv.lm, sfv.rel.lm = sprintDynamics$sfv.rel.lm, pmax.lm = sprintDynamics$pmax.lm, pmax.rel.lm = sprintDynamics$pmax.rel.lm)
+        exportData = list(Mass = sprintDynamics$Mass,
+                          Height = sprintDynamics$Height,
+                          Temperature = sprintDynamics$Temperature,
+                          Vw = sprintDynamics$Vw,
+                          Ka = sprintDynamics$Ka,
+                          K.fitted = sprintDynamics$K.fitted,
+                          Vmax.fitted = sprintDynamics$Vmax,
+                          amax.fitted = sprintDynamics$amax.fitted,
+                          fmax.fitted = sprintDynamics$fmax.fitted,
+                          fmax.rel.fitted = sprintDynamics$fmax.rel.fitted,
+                          sfv.fitted = sprintDynamics$sfv.fitted,
+                          sfv.rel.fitted = sprintDynamics$sfv.rel.fitted,
+                          sfv.lm = sprintDynamics$sfv.lm,
+                          sfv.rel.lm = sprintDynamics$sfv.rel.lm,
+                          pmax.fitted = sprintDynamics$pmax.fitted,
+                          pmax.rel.fitted = sprintDynamics$pmax.rel.fitted,
+                          tpmax.fitted = sprintDynamics$tpmax.fitted,
+                          F0 = sprintDynamics$F0,
+                          F0.rel = sprintDynamics$F0.rel,
+                          V0 = sprintDynamics$V0,
+                          pmax.lm = sprintDynamics$pmax.lm,
+                          pmax.rel.lm = sprintDynamics$pmax.rel.lm)
         write.csv2(exportData, file = paste(tempPath, "/sprintResults.csv", sep = ""))
         
 }
@@ -190,6 +208,20 @@ testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC)
 	print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
 
 	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = "Testing graph")
+}
+
+assignOptions <- function(options) {
+        return(list(
+                scriptsPath	= options[1],
+                positions  	= as.numeric(unlist(strsplit(options[2], "\\;"))),
+                splitTimes 	= as.numeric(unlist(strsplit(options[3], "\\;"))),
+                mass 	= as.numeric(options[4]),
+                personHeight = as.numeric(options[5]),
+                tempC 	= as.numeric(options[6]),
+                os 		= options[7],
+                graphWidth 	= as.numeric(options[8]),
+                graphHeight	= as.numeric(options[9])
+        ))
 }
 
 #----- execute code

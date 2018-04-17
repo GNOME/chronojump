@@ -20,7 +20,7 @@
 
 #This code uses splitTimes: accumulated time (not lap time)
 
-
+source(paste(options[1], "/scripts-util.R", sep=""))
 
 #Calculates all kinematic and dynamic variables using the sprint parameters (K and Vmax) and the conditions of the test (Mass and Height of the subject,
 #Temperature in the moment of the test and Velocity of the wind).
@@ -112,17 +112,3 @@ splitTime <- function(Vmax, K, position, tolerance = 0.001, initTime = 1)
 }
 
 
-prepareGraph <- function(os, pngFile, width, height)
-{
-	if(os == "Windows"){
-	        library("Cairo")
-		Cairo(width, height, file = pngFile, type="png", bg="white")
-	}
-	else
-		png(pngFile, width=width, height=height)
-}
-
-endGraph <- function()
-{
-	dev.off()
-}

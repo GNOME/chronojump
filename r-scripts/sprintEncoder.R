@@ -167,6 +167,7 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
         sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, mass, tempC, personHeight)
         print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
         drawSprintFromEncoder(sprint = sprint, sprintDynamics = sprintDynamics, title = "Testing graph")
+        exportSprintDynamics(sprintDynamics)
 }
 
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)

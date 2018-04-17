@@ -733,6 +733,7 @@ readImpulseOptions <- function(optionsStr)
 }
 
 #Function to get the interpolated force at a given time in seconds)
+#TODO: use interpolateXAtY from scripts-util.R
 getForceAtTime <- function(time, force, desiredTime){
         #find the closest sample
         closestSample = which.min(abs(time - desiredTime))
@@ -759,6 +760,7 @@ getForceAtTime <- function(time, force, desiredTime){
 }
 
 #Function to get the interpolated time at a given force in N
+#TODO: use interpolateXAtY from scripts-util.R
 getTimeAtForce <- function(time, force, desiredForce){
         #find the closest sample
         nextSample = 1

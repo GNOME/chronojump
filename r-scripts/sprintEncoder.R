@@ -30,6 +30,7 @@ options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 #-------------- load sprintUtil.R -------------
 #options[1] is scriptsPath
 source(paste(options[1], "/sprintUtil.R", sep=""))
+source(paste(options[1], "/scripts-util.R", sep=""))
 
 assignOptions <- function(options) {
         return(list(
@@ -105,7 +106,6 @@ drawSprintFromEncoder <- function(sprint, sprintDynamics, title = "Test graph")
         while(lapPosition < sprint$testLength)
         {
                 lapTime = interpolateXAtY(sprint$time, sprint$rawPosition, lapPosition)
-                
                 abline(v = lapTime)
                 abline(h = lapPosition, lty = 3)
                 points(lapTime, lapPosition)
@@ -159,25 +159,6 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength)
         print(paste("endTime = ",totalTime[end], "s"))
         print(paste("endPosition = ",position[end], "m"))
         return(list(start = start, end = end ))
-}
-
-#Function to get the interpolated x at a given y
-#TODO: Include this function in scripts-util.R
-interpolateXAtY <- function(X, Y, desiredY){
-        #find the closest sample
-        nextSample = 1
-        while (Y[nextSample] < desiredY){
-                nextSample = nextSample +1
-        }
-        
-        previousSample = nextSample - 1
-        
-        if(Y[nextSample] == desiredY){
-                desiredX = X[nextSample]
-        } else {
-                desiredX = X[previousSample] + (desiredY  - Y[previousSample]) * (X[nextSample] - X[previousSample]) / (Y[nextSample] - Y[previousSample])
-        }
-        return(desiredX)
 }
 
 testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)

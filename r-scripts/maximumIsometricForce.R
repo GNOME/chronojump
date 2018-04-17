@@ -21,24 +21,6 @@
 
 #Rscript path_to/maximumIsometricForce.R path_tmp
 
-prepareGraph <- function(os, pngFile, width, height)
-{
-        if(os == "Windows"){
-                library("Cairo")
-                Cairo(width, height, file = pngFile, type="png", bg="white")
-        }
-        else
-                png(pngFile, width=width, height=height)
-        #pdf(file = "/tmp/maxIsomForce.pdf", width=width, height=height)
-}
-
-#Ends the graph
-
-endGraph <- function()
-{
-        dev.off()
-}
-
 #Read each non commented line of the Roptions file
 
 assignOptions <- function(options)
@@ -82,6 +64,8 @@ options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 #-------------- assign options -------------
 op <- assignOptions(options)
 print(op)
+
+source("/usr/local/share/chronojump/r-scripts/scripts-util.R") #TODO: Read spcriptPath from Roptions.txt
 
 
 #Fits the data to the model f = fmax*(1 - exp(-K*t))
@@ -435,10 +419,10 @@ drawDynamicsFromLoadCell <- function(
                                 } else if(RFDoptions$rfdFunction == "RAW")
                                 {
                                         #Slope of the line of the sampled point.
-                                        RFD = getForceAtTime(dynamics$time, dynamics$rfd, time1)
+                                        RFD = interpolateXAtY(dynamics$rfd, dynamics$time, time1)
                                         
                                         #Y coordinate of a point of the line
-                                        force1 = getForceAtTime(dynamics$time, dynamics$f.raw, RFDoptions$start)
+                                        force1 = interpolateXAtY(dynamics$f.raw, dynamics$time, RFDoptions$start)
                                         
                                         legendText = c(legendText, paste("RFD", RFDoptions$start*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
                                         legendColor = c(legendColor, "black")
@@ -466,8 +450,8 @@ drawDynamicsFromLoadCell <- function(
                                         
                                 } else if(RFDoptions$rfdFunction == "RAW")
                                 {
-                                        force1 = getForceAtTime(dynamics$time, dynamics$f.raw, RFDoptions$start)
-                                        force2 = getForceAtTime(dynamics$time, dynamics$f.raw, RFDoptions$end)
+                                        force1 = interpolateXAtY(dynamics$f.raw, dynamics$time, RFDoptions$start)
+                                        force2 = interpolateXAtY(dynamics$f.raw, dynamics$time, RFDoptions$end)
                                         
                                         #Slope of the line
                                         RFD = (force2 - force1) / (time2 - time1)
@@ -496,13 +480,13 @@ drawDynamicsFromLoadCell <- function(
                                         
                                 } else if(RFDoptions$rfdFunction == "RAW")
                                 {
-                                        time1 = getTimeAtForce(dynamics$time, dynamics$f.raw, dynamics$fmax.raw * percent / 100)
+                                        time1 = interpolateXAtY(dynamics$time, dynamics$f.raw, dynamics$fmax.raw * percent / 100)
                                         
                                         #Slope of the line
-                                        RFD = getForceAtTime(dynamics$time, dynamics$rfd, time1)
+                                        RFD = interpolateXAtY(dynamics$rfd, dynamics$time, time1)
                                         
                                         #Y coordinate of a point of the line
-                                        force1 = getForceAtTime(dynamics$time, dynamics$f.raw, time1)
+                                        force1 = interpolateXAtY(dynamics$f.raw, dynamics$time, time1)
                                         
                                         legendText = c(legendText, paste("RFD", percent, "%", "Fmax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
                                         legendColor = c(legendColor, "black")
@@ -731,53 +715,6 @@ readImpulseOptions <- function(optionsStr)
                 ))
         } 
 }
-
-#Function to get the interpolated force at a given time in seconds)
-#TODO: use interpolateXAtY from scripts-util.R
-getForceAtTime <- function(time, force, desiredTime){
-        #find the closest sample
-        closestSample = which.min(abs(time - desiredTime))
-        
-        if(time[closestSample] - desiredTime >= 0){
-                previousSample = closestSample - 1
-                nextSample = closestSample
-        } else if(time[closestSample] - desiredTime < 0){
-                previousSample = closestSample
-                nextSample = closestSample + 1
-        }
-        print("Samples:")
-        print(paste(previousSample, nextSample))
-        print("Times:")
-        print(paste(time[previousSample], time[nextSample]))
-        print("Forces:")
-        print(paste(force[previousSample], force[nextSample]))
-        
-        #Interpolation between two samples
-        desiredForce = force[previousSample] + ((force[nextSample] - force[previousSample]) / (time[nextSample] - time[previousSample]))*(desiredTime - time[previousSample])
-        print("DesiredForce:")
-        print(desiredForce)
-        return(desiredForce)
-}
-
-#Function to get the interpolated time at a given force in N
-#TODO: use interpolateXAtY from scripts-util.R
-getTimeAtForce <- function(time, force, desiredForce){
-        #find the closest sample
-        nextSample = 1
-        while (force[nextSample] < desiredForce){
-                nextSample = nextSample +1
-        }
-        
-        previousSample = nextSample - 1
-        
-        if(force[nextSample] == desiredForce){
-                desiredTime = time[nextSample]
-        } else {
-                desiredTime = time[previousSample] + (desiredForce  - force[previousSample]) * (time[nextSample] - time[previousSample]) / (force[nextSample] - force[previousSample])
-        }
-        return(desiredTime)
-}
-
 
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 dynamics = getDynamicsFromLoadCellFile(dataFile, op$averageLength, op$percentChange)

@@ -34,11 +34,24 @@ options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 #options[1] is scriptsPath
 source(paste(options[1], "/sprintUtil.R", sep=""))
 
+
+assignOptions <- function(options) {
+        return(list(
+                scriptsPath	= options[1],
+                positions  	= as.numeric(unlist(strsplit(options[2], "\\;"))),
+                splitTimes 	= as.numeric(unlist(strsplit(options[3], "\\;"))),
+                mass 	= as.numeric(options[4]),
+                personHeight = as.numeric(options[5]),
+                tempC 	= as.numeric(options[6]),
+                os 		= options[7],
+                graphWidth 	= as.numeric(options[8]),
+                graphHeight	= as.numeric(options[9])
+        ))
+}
+
 #-------------- assign options -------------
 op <- assignOptions(options)
 #print(op$positions)
-
-
 
 #Returns the K and Vmax parameters of the sprint using a number of pairs (time, position)
 getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
@@ -208,20 +221,6 @@ testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC)
 	print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
 
 	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = "Testing graph")
-}
-
-assignOptions <- function(options) {
-        return(list(
-                scriptsPath	= options[1],
-                positions  	= as.numeric(unlist(strsplit(options[2], "\\;"))),
-                splitTimes 	= as.numeric(unlist(strsplit(options[3], "\\;"))),
-                mass 	= as.numeric(options[4]),
-                personHeight = as.numeric(options[5]),
-                tempC 	= as.numeric(options[6]),
-                os 		= options[7],
-                graphWidth 	= as.numeric(options[8]),
-                graphHeight	= as.numeric(options[9])
-        ))
 }
 
 #----- execute code

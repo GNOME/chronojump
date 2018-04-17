@@ -93,10 +93,26 @@ drawSprintFromEncoder <- function(sprint, sprintDynamics, title = "Test graph")
              main = paste(50, "PPR"), xlab = "Time (s)", ylab = "Position (m)", type = "l")
         print(sprint$time)
         print(sprint$rawPosition)
-        raceTime = sprint$time[sprint$endSample]   #TODO: interpolate values as in force sensor.
+        raceTime = interpolateXAtY(sprint$time, sprint$rawPosition, sprint$testLength)
         abline(v = raceTime)
+        abline(h = sprint$testLength, lty = 3)
+        points(raceTime, sprint$testLength)
         mtext(side = 3, at = raceTime, text = paste(sprint$testLength, "m", sep=""))
         mtext(side = 1, at = raceTime, text = paste(round(raceTime, digits = 3), "s", sep=""))
+        
+        #Calculing 5m lap times
+        lapPosition = 5
+        while(lapPosition < sprint$testLength)
+        {
+                lapTime = interpolateXAtY(sprint$time, sprint$rawPosition, lapPosition)
+                
+                abline(v = lapTime)
+                abline(h = lapPosition, lty = 3)
+                points(lapTime, lapPosition)
+                mtext(side = 3, at = lapTime, text = paste(lapPosition, "m", sep=""))
+                mtext(side = 1, at = lapTime, text = paste(round(lapTime, digits = 3), "s", sep=""))
+                lapPosition = lapPosition + 5
+        }
         
         # Getting values from the exponential model. Used for numerical calculations
         time.fitted = seq(0,sprint$time[length(sprint$time)], by = 0.01)      
@@ -143,6 +159,25 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength)
         print(paste("endTime = ",totalTime[end], "s"))
         print(paste("endPosition = ",position[end], "m"))
         return(list(start = start, end = end ))
+}
+
+#Function to get the interpolated x at a given y
+#TODO: Include this function in scripts-util.R
+interpolateXAtY <- function(X, Y, desiredY){
+        #find the closest sample
+        nextSample = 1
+        while (Y[nextSample] < desiredY){
+                nextSample = nextSample +1
+        }
+        
+        previousSample = nextSample - 1
+        
+        if(Y[nextSample] == desiredY){
+                desiredX = X[nextSample]
+        } else {
+                desiredX = X[previousSample] + (desiredY  - Y[previousSample]) * (X[nextSample] - X[previousSample]) / (Y[nextSample] - Y[previousSample])
+        }
+        return(desiredX)
 }
 
 testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)

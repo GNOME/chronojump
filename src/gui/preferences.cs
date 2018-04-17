@@ -135,6 +135,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Table table_gstreamer;
 	[Widget] Gtk.RadioButton radio_gstreamer_0_1;
 	[Widget] Gtk.RadioButton radio_gstreamer_1_0;
+	[Widget] Gtk.RadioButton radio_sound_systemsounds;
 	[Widget] Gtk.Label label_test_sound_result;
 	[Widget] Gtk.Box hbox_combo_camera;
 	[Widget] Gtk.ComboBox combo_camera;
@@ -269,8 +270,10 @@ public class PreferencesWindow
 
 		if(preferences.gstreamer == Preferences.GstreamerTypes.GST_0_1)
 			PreferencesWindowBox.radio_gstreamer_0_1.Active = true;
-		else
+		else if(preferences.gstreamer == Preferences.GstreamerTypes.GST_1_0)
 			PreferencesWindowBox.radio_gstreamer_1_0.Active = true;
+		else //(preferences.gstreamer == Preferences.GstreamerTypes.SYSTEMSOUNDS)
+			PreferencesWindowBox.radio_sound_systemsounds.Active = true;
 		PreferencesWindowBox.label_test_sound_result.Text = "";
 
 		PreferencesWindowBox.createComboCamera(UtilMultimedia.GetVideoDevices(), preferences.videoDeviceNum);
@@ -572,8 +575,10 @@ public class PreferencesWindow
 
 		if(radio_gstreamer_0_1.Active)
 			sc = Util.PlaySound(Constants.SoundTypes.GOOD, true, Preferences.GstreamerTypes.GST_0_1);
-		else // radio_gstreamer_1_0.Active
+		else if(radio_gstreamer_1_0.Active)
 			sc = Util.PlaySound(Constants.SoundTypes.GOOD, true, Preferences.GstreamerTypes.GST_1_0);
+		else
+			sc = Util.PlaySound(Constants.SoundTypes.GOOD, true, Preferences.GstreamerTypes.SYSTEMSOUNDS);
 
 		if(sc == Util.SoundCodes.OK)
 			label_test_sound_result.Text = Catalog.GetString("Sound working");
@@ -1362,15 +1367,20 @@ public class PreferencesWindow
 			preferences.volumeOn = PreferencesWindowBox.checkbutton_volume.Active;
 		}
 
-		if( preferences.gstreamer == Preferences.GstreamerTypes.GST_0_1 && radio_gstreamer_1_0.Active)
+		if( preferences.gstreamer != Preferences.GstreamerTypes.GST_1_0 && radio_gstreamer_1_0.Active)
 		{
 			SqlitePreferences.Update(Preferences.GstreamerStr, Preferences.GstreamerTypes.GST_1_0.ToString(), true);
 			preferences.gstreamer = Preferences.GstreamerTypes.GST_1_0;
 		}
-		else if( preferences.gstreamer == Preferences.GstreamerTypes.GST_1_0 && radio_gstreamer_0_1.Active)
+		else if( preferences.gstreamer != Preferences.GstreamerTypes.GST_0_1 && radio_gstreamer_0_1.Active)
 		{
 			SqlitePreferences.Update(Preferences.GstreamerStr, Preferences.GstreamerTypes.GST_0_1.ToString(), true);
 			preferences.gstreamer = Preferences.GstreamerTypes.GST_0_1;
+		}
+		else if( preferences.gstreamer != Preferences.GstreamerTypes.SYSTEMSOUNDS && radio_sound_systemsounds.Active)
+		{
+			SqlitePreferences.Update(Preferences.GstreamerStr, Preferences.GstreamerTypes.SYSTEMSOUNDS.ToString(), true);
+			preferences.gstreamer = Preferences.GstreamerTypes.SYSTEMSOUNDS;
 		}
 
 		if( preferences.videoDeviceNum != UtilGtk.ComboGetActivePos(combo_camera) ) {

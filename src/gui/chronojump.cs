@@ -746,6 +746,11 @@ public partial class ChronoJumpWindow
 		LogB.Information(string.Format("coef = {0} {1} {2}", ls.Coef[0], ls.Coef[1], ls.Coef[2]));
 		*/
 		//new VersionCompareTests();
+		if(configChronojump.PlaySoundsFromFile)
+		{
+			Util.CreateSoundList();
+			Util.UseSoundList = true;
+		}
 	}
 
 

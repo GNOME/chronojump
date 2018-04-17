@@ -42,6 +42,7 @@ public class Config
 	public int CompujumpStationID = -1;
 	public Constants.Menuitem_modes CompujumpStationMode = Constants.Menuitem_modes.UNDEFINED;
 	public string RunScriptOnExit;
+	public bool PlaySoundsFromFile;
 
 	public Config()
 	{
@@ -93,6 +94,8 @@ public class Config
 					else if(parts[0] == "SessionMode" && Enum.IsDefined(typeof(SessionModeEnum), parts[1]))
 						SessionMode = (SessionModeEnum) 
 							Enum.Parse(typeof(SessionModeEnum), parts[1]);
+					else if(parts[0] == "PlaySoundsFromFile" && Util.StringToBool(parts[1]))
+						PlaySoundsFromFile = true;
 				} while(true);
 			}
 		}

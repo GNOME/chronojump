@@ -1382,36 +1382,21 @@ public class Util
 		 * and some MacOSX users have 300% CPU
 		 */
 
-		if( UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX ||
-				UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX )
-			return playSoundGstreamer(mySound, gstreamer);
-		else //Windows
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.WINDOWS ||
+				gstreamer == Preferences.GstreamerTypes.SYSTEMSOUNDS)
 			return playSoundWindows(mySound);
+		else
+			return playSoundGstreamer(mySound, gstreamer);
 	}
 	
-//	private enum gstreamerVersions { GST_0_1, GST_1_0 }
+//	private enum gstreamerVersions { GST_0_1, GST_1_0, SYSTEMSOUNDS }
 	private static SoundCodes playSoundGstreamer (Constants.SoundTypes mySound, Preferences.GstreamerTypes gstreamer)
 	{
 		string fileName = "";
-		switch(mySound) {
-			case Constants.SoundTypes.CAN_START:
-				fileName = "123804__kendallbear__kendallklap1.wav";
-				//author: kendallbear
-				//https://www.freesound.org/people/kendallbear/sounds/123804/
-				break;
-			case Constants.SoundTypes.GOOD:
-				fileName = "135936__bradwesson__collectcoin.wav";
-				//author: bradwesson
-				//https://www.freesound.org/people/bradwesson/sounds/135936/
-				break;
-			case Constants.SoundTypes.BAD:
-				fileName = "142608__autistic-lucario__error.wav";
-				//author: Autistic Lucario
-				//https://www.freesound.org/people/Autistic%20Lucario/sounds/142608/
-				break;
-		}
-
-		fileName = Util.GetSoundsDir() + Path.DirectorySeparatorChar + fileName;
+		if(! UseSoundList)
+			fileName = getSound(mySound); //default chronojump
+		else
+			fileName = getSoundFromSoundList(); //espectacle
 
 		if(! File.Exists(fileName)) {
 			LogB.Warning("Cannot found this sound file: " + fileName);
@@ -1483,6 +1468,79 @@ public class Util
 		return SoundCodes.OK;
 	}
 	
+	private static string getSound (Constants.SoundTypes mySound)
+	{
+		string fileName = "";
+		switch(mySound) {
+			case Constants.SoundTypes.CAN_START:
+				fileName = "123804__kendallbear__kendallklap1.wav";
+				//author: kendallbear
+				//https://www.freesound.org/people/kendallbear/sounds/123804/
+				break;
+			case Constants.SoundTypes.GOOD:
+				fileName = "135936__bradwesson__collectcoin.wav";
+				//author: bradwesson
+				//https://www.freesound.org/people/bradwesson/sounds/135936/
+				break;
+			case Constants.SoundTypes.BAD:
+				fileName = "142608__autistic-lucario__error.wav";
+				//author: Autistic Lucario
+				//https://www.freesound.org/people/Autistic%20Lucario/sounds/142608/
+				break;
+		}
+
+		fileName = Util.GetSoundsDir() + Path.DirectorySeparatorChar + fileName;
+		return fileName;
+	}
+
+	public static bool UseSoundList;
+	static List<string> soundList;
+	static int soundListPos;
+
+	public static string getSoundsFileName() {
+		return Path.Combine(UtilAll.GetApplicationDataDir() +  Path.DirectorySeparatorChar + "sounds.txt");
+	}
+
+	public static void CreateSoundList()
+	{
+		soundList = new List<string>();
+		soundListPos = 0;
+		string contents = Util.ReadFile(getSoundsFileName(), false);
+		if (contents != null && contents != "")
+		{
+			string line;
+			using (StringReader reader = new StringReader (contents)) {
+				do {
+					line = reader.ReadLine ();
+
+					if (line == null)
+						break;
+					if (line == "" || line[0] == '#')
+						continue;
+
+					soundList.Add(line);
+				} while(true);
+			}
+		}
+	}
+
+	//called on trigger use
+	public static void NextSongInList()
+	{
+		if(soundList == null)
+			return;
+
+		soundListPos ++;
+		if(soundListPos >= soundList.Count)
+			soundListPos = 0;
+	}
+
+	private static string getSoundFromSoundList()
+	{
+		return soundList[soundListPos];
+	}
+
+
 	/*
 	 * ------------- end of sound stuff -----------
 	 */

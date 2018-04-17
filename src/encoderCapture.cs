@@ -227,7 +227,7 @@ public abstract class EncoderCapture
 	}
 
 	public bool Capture(string outputData1, EncoderRProcCapture encoderRProcCapture,
-			bool compujump, Preferences.TriggerTypes cutByTriggers, double restClustersSeconds)
+			bool compujump, Preferences.TriggerTypes cutByTriggers, double restClustersSeconds, bool playSoundsFromFile)
 	{
 		/*
 		 * removed at 1.7.0
@@ -275,6 +275,9 @@ public abstract class EncoderCapture
 					triggerList.RemoveLastOff();
 					continue;
 				}
+
+				if(playSoundsFromFile)
+					Util.NextSongInList();
 
 				//TriggerTypes.START_AT_FIRST_ON starts capture at first trigger. So when this happens, reset capture
 				if(cutByTriggers == Preferences.TriggerTypes.START_AT_FIRST_ON && ! firstTriggerHappened)

@@ -2576,7 +2576,8 @@ public partial class ChronoJumpWindow
 				encoderRProcCapture,
 				configChronojump.Compujump,
 				encoderRProcCapture.CutByTriggers,
-				encoderRhythm.RestClustersForEncoderCaptureAutoEnding()
+				encoderRhythm.RestClustersForEncoderCaptureAutoEnding(),
+				configChronojump.PlaySoundsFromFile
 				);
 
 		//wait to ensure capture thread has ended
@@ -2618,7 +2619,8 @@ public partial class ChronoJumpWindow
 				encoderRProcCapture,
 				false, 	//compujump
 				Preferences.TriggerTypes.NO_TRIGGERS,
-				0  //encoderRhythm.RestClustersForEncoderCaptureAutoEnding()
+				0,  //encoderRhythm.RestClustersForEncoderCaptureAutoEnding()
+				false //configChronojump.PlaySoundsFromFile
 				);
 
 		//wait to ensure capture thread has ended

@@ -750,6 +750,7 @@ public partial class ChronoJumpWindow
 		{
 			Util.CreateSoundList();
 			Util.UseSoundList = true;
+			captureContWithCurves = false; //note set and reps are not currently saved
 		}
 	}
 

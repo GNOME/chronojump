@@ -1530,9 +1530,19 @@ public class Util
 		if(soundList == null)
 			return;
 
-		soundListPos ++;
-		if(soundListPos >= soundList.Count)
+		if(soundListPos +1 >= soundList.Count)
 			soundListPos = 0;
+		else
+			soundListPos ++;
+
+		/*
+		 * done like above instead of below code,
+		 * to ensure soundListPos will not be outside the array when the other thread reads
+		 *
+		 * soundListPos ++;
+		 * if(soundListPos >= soundList.Count)
+		 * 	soundListPos = 0;
+		 */
 	}
 
 	private static string getSoundFromSoundList()

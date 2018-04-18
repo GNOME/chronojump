@@ -423,6 +423,8 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_blue_dark_encoder_capture;
 	Gdk.GC pen_blue_light_encoder_capture;
 	Gdk.GC pen_yellow_encoder_capture;
+	Gdk.GC pen_colors_foreground_encoder_capture;
+	Gdk.GC pen_colors_background_encoder_capture;
 	
 	Gdk.GC pen_white_encoder_capture;
 	Gdk.GC pen_selected_encoder_capture;
@@ -4905,6 +4907,14 @@ public partial class ChronoJumpWindow
 			left_margin = 2;
 		}
 
+		if(configChronojump.PlaySoundsFromFile)
+		{
+			sep = 2;
+			layout_encoder_capture_curves_bars.FontDescription =
+				Pango.FontDescription.FromString ("Courier " + (preferences.encoderCaptureBarplotFontSize -4).ToString());
+			left_margin = 2;
+		}
+
 		layout_encoder_capture_curves_bars_text.FontDescription =
 			Pango.FontDescription.FromString ("Courier " + preferences.encoderCaptureBarplotFontSize.ToString());
 		layout_encoder_capture_curves_bars_text.FontDescription.Weight = Pango.Weight.Bold;
@@ -4946,9 +4956,32 @@ public partial class ChronoJumpWindow
 						top_margin - textHeight,
 						layout_encoder_capture_curves_bars_text);
 		}
+
+		if(configChronojump.PlaySoundsFromFile)
+		{
+			Gdk.Color col = new Gdk.Color();
+
+			//foreground
+			Gdk.Color.Parse(colorListFG[colorListPos], ref col);
+			colormap.AllocColor (ref col, true,true);
+			pen_colors_foreground_encoder_capture.Foreground = col;
+
+			//background
+			Gdk.Color.Parse(colorListBG[colorListPos], ref col);
+			colormap.AllocColor (ref col, true,true);
+			pen_colors_background_encoder_capture.Foreground = col;
+
+			colorListPos ++;
+			if (colorListPos >= colorListFG.Length || colorListPos >= colorListBG.Length)
+				colorListPos = 0;
+
+			rect = new Rectangle(0, 0, graphWidth, graphHeight);
+			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_colors_background_encoder_capture, true, rect);
+		}
 		
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
-		foreach(double dFor in data) {
+		foreach(double dFor in data)
+		{
 			int dWidth = 0;
 			int dHeight = 0;
 
@@ -5040,6 +5073,9 @@ public partial class ChronoJumpWindow
 			} else {
 				my_pen = my_pen_con;
 			}
+
+			if(configChronojump.PlaySoundsFromFile)
+				my_pen = pen_colors_foreground_encoder_capture;
 
 			//paint bar:	
 			rect = new Rectangle(dLeft, dTop, dWidth, dHeight);
@@ -5625,6 +5661,8 @@ public partial class ChronoJumpWindow
 		button_encoder_capture_finish_cont.Visible = radio_encoder_capture_cont.Active;
 	}
 
+	//TODO: this has to be done every capture or just the first?
+	Gdk.Colormap colormap;
 	void prepareEncoderGraphs(bool eraseBars, bool eraseSignal) 
 	{
 		LogB.Debug("prepareEncoderGraphs() start (should be on first thread: GTK)");
@@ -5663,8 +5701,10 @@ public partial class ChronoJumpWindow
 		pen_blue_dark_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
 		pen_blue_light_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
 		pen_yellow_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_colors_foreground_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_colors_background_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
 
-		Gdk.Colormap colormap = Gdk.Colormap.System;
+		colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref UtilGtk.BLACK,true,true);
 		colormap.AllocColor (ref UtilGtk.GRAY,true,true);
 		colormap.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
@@ -5700,6 +5740,28 @@ public partial class ChronoJumpWindow
 		
 		LogB.Debug("prepareEncoderGraphs() end");
 	}
+
+	//R rainbow(30)
+	string [] colorListFG = {
+		"#4C00FF", "#2A00FF", "#0800FF", "#0019FF", "#003CFF",
+		"#005DFF", "#0080FF", "#00A2FF", "#00C3FF", "#00E5FF",
+		"#00FF4D", "#00FF2B", "#00FF08", "#1AFF00", "#3CFF00",
+		"#5DFF00", "#80FF00", "#A2FF00", "#C3FF00", "#E6FF00",
+		"#FFFF00", "#FFF514", "#FFEC28", "#FFE53C", "#FFE04F",
+		"#FFDC63", "#FFDB77", "#FFDB8B", "#FFDD9F", "#FFE0B3"
+	};
+
+	//R c(cm.colors(15), rev(cm.colors(15)))
+	string [] colorListBG = {
+		"#80FFFF", "#92FFFF", "#A4FFFF", "#B6FFFF", "#C8FFFF", "#DBFFFF",
+		"#EDFFFF", "#FFFFFF", "#FFEDFF", "#FFDBFF", "#FFC8FF", "#FFB6FF",
+		"#FFA4FF", "#FF92FF", "#FF80FF", "#FF80FF", "#FF92FF", "#FFA4FF",
+		"#FFB6FF", "#FFC8FF", "#FFDBFF", "#FFEDFF", "#FFFFFF", "#EDFFFF",
+		"#DBFFFF", "#C8FFFF", "#B6FFFF", "#A4FFFF", "#92FFFF", "#80FFFF"
+	};
+
+
+	int colorListPos = 0;
 
 
 

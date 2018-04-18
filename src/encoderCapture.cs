@@ -269,15 +269,18 @@ public abstract class EncoderCapture
 			//2 check if readed data is a trigger
 			if(byteReaded == TRIGGER_ON)
 			{
+				if(playSoundsFromFile)
+				{
+					Util.NextSongInList();
+					continue;
+				}
+
 				Trigger trigger = new Trigger(Trigger.Modes.ENCODER, i, true);
 				if(triggerList.IsSpurious(trigger))
 				{
 					triggerList.RemoveLastOff();
 					continue;
 				}
-
-				if(playSoundsFromFile)
-					Util.NextSongInList();
 
 				//TriggerTypes.START_AT_FIRST_ON starts capture at first trigger. So when this happens, reset capture
 				if(cutByTriggers == Preferences.TriggerTypes.START_AT_FIRST_ON && ! firstTriggerHappened)

@@ -326,8 +326,12 @@ public abstract class EncoderCapture
 			}
 			else if(byteReaded == TRIGGER_OFF)
 			{
-				Trigger trigger  = new Trigger(Trigger.Modes.ENCODER, i, false);
-				triggerList.Add(trigger);
+				if(! playSoundsFromFile)
+				{
+					Trigger trigger  = new Trigger(Trigger.Modes.ENCODER, i, false);
+					triggerList.Add(trigger);
+				}
+
 				continue;
 			}
 

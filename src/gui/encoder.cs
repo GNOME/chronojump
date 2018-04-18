@@ -6528,7 +6528,7 @@ public partial class ChronoJumpWindow
 				double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
 
-				if(radio_encoder_capture_cont.Active && ! captureContWithCurves)
+				if(action == encoderActions.CURVES_AC && radio_encoder_capture_cont.Active && ! captureContWithCurves)
 				{
 					//will use captureCurvesBarsData (created on capture)
 					LogB.Information("at fff with captureCurvesBarsData =");

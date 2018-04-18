@@ -184,6 +184,10 @@ public class EncoderGraphROptions
 		this.crossValidate = crossValidate;
 		this.cutByTriggers = cutByTriggers;
 		this.triggerList = triggerList;
+
+		//ensure triggerList is not null or blank
+		if(triggerList == null || triggerList == "")
+			triggerList = "-1";
 	}
 
 	public override string ToString() {

@@ -244,6 +244,9 @@ public abstract class EncoderCapture
 		//only for cutByTriggers == Preferences.TriggerTypes.START_AT_FIRST_ON
 		bool firstTriggerHappened = false;
 
+		//playSoundsFromFile
+		DateTime lastTriggeredSound = DateTime.MinValue;
+
 		if(capturingInertialBG)
 		{
 			/*
@@ -271,7 +274,13 @@ public abstract class EncoderCapture
 			{
 				if(playSoundsFromFile)
 				{
-					Util.NextSongInList();
+					TimeSpan ts = DateTime.Now.Subtract(lastTriggeredSound);
+					if(ts.TotalMilliseconds > 50)
+					{
+						Util.NextSongInList();
+						lastTriggeredSound = DateTime.Now;
+					}
+
 					continue;
 				}
 

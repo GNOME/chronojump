@@ -500,7 +500,8 @@ public class ForceSensorGraph
 
 		scriptOptions +=
 			"\n#testLength\n" + 		testLength.ToString() + "\n" +
-			"#title\n" + 			title + "\n";
+			"#title\n" + 			title + "\n" +
+			"#scriptsPath\n" + 		UtilEncoder.GetmifPath() + "\n";
 
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");
 		writer.Write(scriptOptions);

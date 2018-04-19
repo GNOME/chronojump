@@ -46,7 +46,8 @@ assignOptions <- function(options)
                 drawRfdOptions          = drawRfdOptions,
                 drawImpulseOptions      = options[16],
 		testLength 		= as.numeric(options[17]),
-		title 	 		= options[18]
+		title 	 		= options[18],
+                scriptsPath 		= options[19]
         ))
 }
 
@@ -65,7 +66,7 @@ options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 op <- assignOptions(options)
 print(op)
 
-source("/usr/local/share/chronojump/r-scripts/scripts-util.R") #TODO: Read spcriptPath from Roptions.txt
+source(paste(op$scriptsPath, "/scripts-util.R", sep=""))
 
 
 #Fits the data to the model f = fmax*(1 - exp(-K*t))

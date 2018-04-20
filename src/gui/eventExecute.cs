@@ -1468,18 +1468,17 @@ public partial class ChronoJumpWindow
 			double negativePTLTime = 0; //negativePTL at beginning and last TC at end
 			double timeTotalWithExtraPTL = timeTotal;
 
-			List<string> runPTLInListForPainting = runPTL.InListForPainting();
+			List<RunPhaseTimeListObject> runPTLInListForPainting = runPTL.InListForPainting();
 			if(runPTLInListForPainting.Count > 0)
 			{
 				//last TC value
-				string [] inPTLLastFull = runPTLInListForPainting[runPTLInListForPainting.Count -1].Split(new char[] {':'});
-				double lastValue = Convert.ToDouble(inPTLLastFull[1]);
+				RunPhaseTimeListObject rptlfp = (RunPhaseTimeListObject) runPTLInListForPainting[runPTLInListForPainting.Count -1];
+				timeTotalWithExtraPTL = rptlfp.tcEnd;
 
-				timeTotalWithExtraPTL = lastValue;
 
 				//negative values
-				string [] inPTL0Full = runPTLInListForPainting[0].Split(new char[] {':'});
-				double firstValue = Convert.ToDouble(inPTL0Full[0]);
+				rptlfp = (RunPhaseTimeListObject) runPTLInListForPainting[0];
+				double firstValue = rptlfp.tcStart;
 
 				if(firstValue < 0)
 				{
@@ -1493,8 +1492,10 @@ public partial class ChronoJumpWindow
 
 
 			//paint reference guide black and green if needed
-			drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
+			drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide,
+					alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
+			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide,
+					alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
 
 			string [] myTimesStringFull = timesString.Split(new char[] {'='});
 			int count = 0;
@@ -1505,21 +1506,42 @@ public partial class ChronoJumpWindow
 
 			Gdk.GC myPen = pen_rojo; //default value
 			double myValue = 0;
+			int lastChunkStart = 0;
+			int chunkMargins = 4;
 
-			foreach (string inPTL in runPTL.InListForPainting())
-			//foreach (string inPTL in runPTLInListForPainting)
+			foreach (RunPhaseTimeListObject inPTL in runPTL.InListForPainting())
 			{
-				string [] inPTLFull = inPTL.Split(new char[] {':'});
 				int xStart = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
-							(Convert.ToDouble(inPTLFull[0]) + negativePTLTime) / timeTotalWithExtraPTL);
+							(inPTL.tcStart + negativePTLTime) / timeTotalWithExtraPTL);
 
 				int xEnd = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
-						(Convert.ToDouble(inPTLFull[1]) + negativePTLTime) / timeTotalWithExtraPTL);
+						(inPTL.tcEnd + negativePTLTime) / timeTotalWithExtraPTL);
 
-				//don't plot the TCs after current track
-				//if(Convert.ToDouble(inPTLFull[0]) + negativePTLTime < timeTotalWithExtraPTL)
-					event_execute_pixmap.DrawRectangle(pen_gris, true,
-							new Rectangle (xStart, alto-bottomMargin-4, xEnd-xStart, 4));
+				event_execute_pixmap.DrawRectangle(pen_gris, true,
+						new Rectangle (xStart, alto-bottomMargin-4, xEnd-xStart, 4));
+
+				//manage chunks indications
+				if(inPTL.phase == RunPhaseTimeListObject.Phases.START)
+				{
+					//draw the vertical start line
+					event_execute_pixmap.DrawLine(pen_gris,
+							xStart - chunkMargins, alto-bottomMargin -4,
+							xStart - chunkMargins, alto-bottomMargin -(4 + chunkMargins));
+					lastChunkStart = xStart;
+				}
+				else if(inPTL.phase == RunPhaseTimeListObject.Phases.END)
+				{
+					//draw the vertical end line
+					event_execute_pixmap.DrawLine(pen_gris,
+							xEnd + chunkMargins, alto-bottomMargin -4,
+							xEnd + chunkMargins, alto-bottomMargin -(4 + chunkMargins));
+
+					//draw the horizontal start-end line
+					event_execute_pixmap.DrawLine(pen_gris,
+							lastChunkStart - chunkMargins, alto-bottomMargin -(4 + chunkMargins),
+							xEnd + chunkMargins, alto-bottomMargin -(4 + chunkMargins));
+				}
+
 			}
 
 			foreach (string myTime in myTimesStringFull) 

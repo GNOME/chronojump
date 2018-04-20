@@ -59,13 +59,16 @@ public class RunPhaseInfoManage
 {
 	public bool TrackDoneHasToBeCalledAgain;
 	private List<RunPhaseInfo> list;
+	private int checkTime;
 
 	//TCs and TFs before startPos have been added as tracks
 	//do not count again in track operations
 	private int startPos;
 
-	public RunPhaseInfoManage ()
+	public RunPhaseInfoManage (int checkTime)
 	{
+		this.checkTime = checkTime;
+
 		list = new List<RunPhaseInfo>();
 		startPos = 0;
 		TrackDoneHasToBeCalledAgain = false;
@@ -88,7 +91,7 @@ public class RunPhaseInfoManage
 	 * check first TF if exists or all TC+TF pairs to see if all are lower than checkTime (eg 300ms)
 	 * return true if all are <= checkTime
 	 */
-	public bool IsStartDoubleContact(int checkTime)
+	public bool IsStartDoubleContact()
 	{
 		LogB.Information("At rpim IsStartDoubleContact A");
 		int startAt = 0;
@@ -124,74 +127,55 @@ public class RunPhaseInfoManage
 		return true;
 	}
 
-	/*
-	 * check double contacts at start:
-	 * if ! speedStart: start at contact first contact will be TF (race starts at beginning)
-	 * if   speedStart: start before contact (race starts related to biggest_TC
-	 * 	if(speedStartArrival) 	first contact will be TC (start at beginning of biggest_TC)
-	 * 	else 			first contact will be TF (start at end of biggest_TC)
-	 */
-		/*
-		 * aixo sera la funció start double contact position()
-		 * maybe not used because GetPosOfBiggestTC will be recicled
-		 *
-		 *
-	//return the double contact tc+tf at beginning
-		if(! speedStart)
-			return 0;
+	private int findTracksInThisChunk(int forStartPos)
+	{
+		int tracks = 0;
+		RunPhaseInfo firstRPI = (RunPhaseInfo) list[0];
+		if(! firstRPI.IsContact())
+			forStartPos ++;
 
-		//--- from now on speedStart
-
-		//bool first = true;
-		int startAt = 0;
-
-		double maxTCDuration = 0;
-		int maxTCPosition = 0;
-		bool speedStartArrival = true;
-
-		if(list.Count > 0)
+		//i will be tf, i-1 will be tc
+		for(int i = forStartPos + 1; i < list.Count; i += 2)
 		{
-			RunPhaseInfo firstRPI = (RunPhaseInfo) list[0];
-			if(! firstRPI.IsContact()) //is TF
-			{
-				speedStartArrival = false;
-				if (firstRPI.Duration < checkTime)
-					startAt = 1;
-				else
-					return 0;
-			}
+			RunPhaseInfo tcRPI = (RunPhaseInfo) list[i-1];
+			RunPhaseInfo tfRPI = (RunPhaseInfo) list[i];
+
+			if(tcRPI.Duration + tfRPI.Duration > checkTime)
+				tracks ++;
 		}
 
-		RunPhaseInfo tcRPI;
-		RunPhaseInfo tfRPI;
-		for(int i = startAt +1; i < list.Count; i +=2)
-		{
-			tcRPI = (RunPhaseInfo) list[i-1];
-			tfRPI = (RunPhaseInfo) list[i];
-
-			if(tcRPI.Duration > maxTCDuration)
-			{
-				maxTCDuration = tcRPI.Duration;
-				maxTCPosition = i;
-			}
-
-			if(tcRPI.Duration + tfRPI.Duration >= checkTime)
-			{
-				if(speedStartArrival)
-					return maxTCPosition -1;
-				else
-					return maxTCPosition;
-			}
-		}
-
-		if(speedStartArrival)
-			return maxTCPosition -1;
-		else
-			return maxTCPosition;
+		return tracks;
 	}
-	*/
 
-	public int GetPosOfBiggestTC (bool started, int checkTime)
+	//find the position of the first big tf of the chunk
+	private int findTfPosOfChunk(int forStartPos)
+	{
+		RunPhaseInfo firstRPI = (RunPhaseInfo) list[0];
+		if(! firstRPI.IsContact())
+			forStartPos ++;
+
+		//i will be tf, i-1 will be tc
+		int i;
+		for(i = forStartPos + 1; i < list.Count; i += 2)
+		{
+			RunPhaseInfo tcRPI = (RunPhaseInfo) list[i-1];
+			RunPhaseInfo tfRPI = (RunPhaseInfo) list[i];
+
+			LogB.Information(string.Format("at findTfPosOfChunk: i:{0}, tc:{1}, tf:{2}",
+						i, tcRPI, tfRPI));
+			if(tcRPI.Duration + tfRPI.Duration > checkTime)
+			{
+				LogB.Information("YES!");
+				return i;
+			}
+		}
+
+		//we are supposed to not arrive here
+		return forStartPos;
+	}
+
+
+	public int GetPosOfBiggestTC (bool started)
 	{
 		LogB.Information("startPos at GetPosOfBiggestTC: " + startPos.ToString());
 		TrackDoneHasToBeCalledAgain = false;
@@ -201,58 +185,74 @@ public class RunPhaseInfoManage
 			return startPos +1;
 
 		double max = 0;
-		int pos = 0;
 		int posBiggest = 0;
 		double lastTcDuration = 0;
 
-		foreach(RunPhaseInfo rpi in list)
+		/*
+		 * first time we need to know if first TC is greater than the others
+		 * but once started, we care for endings of each track,
+		 * do not use the first value because it's the TC of previous track
+		 */
+		int forStartPos;
+		if(started)
+			forStartPos = startPos +1;
+		else
+			forStartPos = startPos;
+
+		LogB.Information("forStartPos A: " + forStartPos.ToString());
+
+		int tracks = findTracksInThisChunk(forStartPos);
+		LogB.Information("findTracksInThisChunk tracks: " + tracks.ToString());
+
+		//on track starts, maybe there are some tc+tf pairs before the big tf
+		//A is the track start
+		//B is the big tf, we should find biggest tc after this tf
+		// A   __   ___B                      __  ___
+		if(tracks >= 1)
 		{
-			/*
-			 * first time we need to know if first TC is greater than the others
-			 * but once started, we care for endings of each track,
-			 * do not use the first value because it's the TC of previous track
-			 */
-			if( (started && pos >= startPos +1) || (! started && pos >= startPos) )
-			{
-				/*
-				 * record tc duration as lastTcDuration and add to td duration to see if is greater than checktime
-				 * this allows to return biggest_tc of one track without messing with next track that maybe is captured
-				 * this happens because double contacts is eg: 300 and trackDone is calle at 300 * 1,5
-				 * But then trackDone has to be called again!
-				 */
-				if(rpi.IsContact())
-					lastTcDuration = rpi.Duration;
-				else if(! rpi.IsContact() && lastTcDuration + rpi.Duration > checkTime)
-				{
-					//check if there's another track in this set
-					for(int i = pos + 2; i < list.Count; i += 2)
-					{
-						RunPhaseInfo tcRPI = (RunPhaseInfo) list[i-1];
-						RunPhaseInfo tfRPI = (RunPhaseInfo) list[i];
-
-						if(tcRPI.Duration + tfRPI.Duration > checkTime)
-							TrackDoneHasToBeCalledAgain = true;
-					}
-
-					return posBiggest;
-				}
-
-				//record posBiggest position
-				if(rpi.IsContact() && rpi.Duration > max)
-				{
-					max = rpi.Duration;
-					posBiggest = pos;
-				}
-			}
-
-			pos ++;
+			forStartPos = findTfPosOfChunk(forStartPos);
+			//note forStartPos has changed and following findTfPosOfChunk will start from this tf
 		}
+
+		LogB.Information("forStartPos B: " + forStartPos.ToString());
+
+		//this will be the pos of the tf of second Track if exists
+		int forEnds = list.Count;
+		if(tracks >= 2)
+		{
+			forEnds = findTfPosOfChunk(forStartPos);
+			TrackDoneHasToBeCalledAgain = true;
+		}
+
+		LogB.Information("forEnds: " + forEnds.ToString());
+
+		for(int pos = forStartPos; pos < forEnds; pos ++)
+		{
+			RunPhaseInfo rpi = (RunPhaseInfo) list[pos];
+
+			LogB.Information("rpi: " + rpi.ToString());
+			/*
+			 * record tc duration as lastTcDuration and add to tf duration to see if is greater than checktime
+			 * this allows to return biggest_tc of one track without messing with next track that maybe is captured
+			 * this happens because double contacts is eg: 300 and trackDone is calle at 300 * 1,5
+			 * But then trackDone has to be called again!
+			 */
+			if(rpi.IsContact())
+				lastTcDuration = rpi.Duration;
+
+			//record posBiggest position
+			if(rpi.IsContact() && rpi.Duration > max)
+			{
+				max = rpi.Duration;
+				posBiggest = pos;
+			}
+		}
+
 		return posBiggest;
 	}
 
 	//if pos == -1 return all
 	public double SumUntilPos(int pos, bool firstTrackDone, bool speedStartArrival)
-	//public double SumUntilPos(int pos)
 	{
 		LogB.Information(string.Format("SumUntilPos: startAt: {0}, until pos: {1}, firstTrackDone: {2}, speedStartArrival: {3}",
 					startPos, pos, firstTrackDone, speedStartArrival));
@@ -383,7 +383,7 @@ public class RunDoubleContact
 
 		lastTc = 0;
 		timeAcumulated = 0;
-		rpim = new RunPhaseInfoManage();
+		rpim = new RunPhaseInfoManage(checkTime);
 		listCaptureThread = new List<RunPhaseInfo>();
 		FirstTrackDone = false;
 		TrackDoneHasToBeCalledAgain = false;
@@ -441,14 +441,14 @@ public class RunDoubleContact
 		LogB.Information("At RunDC IsStartDoubleContact");
 		//return rpim.IsStartDoubleContact(checkTime);
 
-		bool isDC = rpim.IsStartDoubleContact(checkTime);
+		bool isDC = rpim.IsStartDoubleContact();
 		LogB.Information("IsStartDoubleContact: " + isDC.ToString());
 		return isDC;
 	}
 
 	public int GetPosOfBiggestTC(bool started)
 	{
-		int pos = rpim.GetPosOfBiggestTC(started, checkTime);
+		int pos = rpim.GetPosOfBiggestTC(started);
 
 		if(rpim.TrackDoneHasToBeCalledAgain)
 		{
@@ -456,7 +456,7 @@ public class RunDoubleContact
 			//rpim.TrackDoneHasToBeCalledAgain = false;
 		}
 
-		LogB.Information(string.Format("GetPosOfBiggestTC list: {0}, pos: {1}, hasToBeCaledAgain: {2}",
+		LogB.Information(string.Format("GetPosOfBiggestTC list: {0}, pos: {1}, hasToBeCalledAgain: {2}",
 					rpim.PrintList(), pos, TrackDoneHasToBeCalledAgain));
 
 		return pos;
@@ -512,12 +512,15 @@ public class RunDoubleContact
 public class RunPhaseTimeList
 {
 	private List<PhaseTime> listPhaseTime;
+	private int checkTime;
 
 	//if there are double contacts at start, first run phase infos will not be used
 	public int FirstRPIs;
 
-	public RunPhaseTimeList()
+	public RunPhaseTimeList(int checkTime)
 	{
+		this.checkTime = checkTime;
+
 		listPhaseTime = new List<PhaseTime>();
 		FirstRPIs = 0;
 	}
@@ -546,9 +549,9 @@ public class RunPhaseTimeList
 		return str;
 	}
 
-	public List<string> InListForPainting()
+	public List<RunPhaseTimeListObject> InListForPainting()
 	{
-		List<string> list_in = new List<string>();
+		List<RunPhaseTimeListObject> list_in = new List<RunPhaseTimeListObject>();
 		int currentMS = 0;
 		int startInMS = -1;
 
@@ -580,6 +583,10 @@ public class RunPhaseTimeList
 		int count = 0;
 		double negativeValues = 0; //double contacts times at start
 		PhaseTime ptLast = null;
+
+		RunPhaseTimeListObject.Phases currentPhase = RunPhaseTimeListObject.Phases.START;
+		RunPhaseTimeListObject rptloToAdd = null;
+
 		foreach(PhaseTime pt in listPhaseTimeShallowCloned)
 		{
 			LogB.Information(pt.ToString());
@@ -593,7 +600,30 @@ public class RunPhaseTimeList
 			if(pt.IsContact)
 				startInMS = currentMS;
 			else if(startInMS >= 0)
-				list_in.Add(startInMS/1000.0 + ":" + currentMS/1000.0); //in seconds
+			{
+				//see if previous has ended to mark as END or STARTEND
+				if(rptloToAdd != null)
+				{
+					if(startInMS/1000.0 - rptloToAdd.tcStart > checkTime/1000.0)
+					{
+						if(rptloToAdd.phase == RunPhaseTimeListObject.Phases.START)
+							rptloToAdd.phase = RunPhaseTimeListObject.Phases.STARTANDEND;
+						else
+							rptloToAdd.phase = RunPhaseTimeListObject.Phases.END;
+
+						currentPhase = RunPhaseTimeListObject.Phases.START;
+					} else
+						currentPhase = RunPhaseTimeListObject.Phases.MIDDLE;
+
+					list_in.Add(rptloToAdd);
+				}
+
+				//this will be added in next iteration of flight (! pt.IsContact)
+				rptloToAdd = new RunPhaseTimeListObject(
+						currentPhase,
+						startInMS/1000.0,
+						currentMS/1000.0);
+			}
 
 			currentMS += Convert.ToInt32(pt.Duration);
 
@@ -604,10 +634,30 @@ public class RunPhaseTimeList
 			count ++;
 		}
 
+		//add pending rptl
+		if(startInMS/1000.0 - rptloToAdd.tcStart > checkTime/1000.0)
+		{
+			if(rptloToAdd.phase == RunPhaseTimeListObject.Phases.START)
+				rptloToAdd.phase = RunPhaseTimeListObject.Phases.STARTANDEND;
+			else
+				rptloToAdd.phase = RunPhaseTimeListObject.Phases.END;
+		}
+
+		list_in.Add(rptloToAdd);
+
 		//when track ends, last phase is a TC, add it
 		if(ptLast != null && ptLast.IsContact)
-			list_in.Add( startInMS/1000.0 + ":" +
-					(startInMS + ptLast.Duration)/1000.0); //in seconds
+		{
+			RunPhaseTimeListObject rptloLast = new RunPhaseTimeListObject(
+						RunPhaseTimeListObject.Phases.END,
+						startInMS/1000.0,
+						(startInMS + ptLast.Duration)/1000.0);
+
+			if(rptloToAdd.phase == RunPhaseTimeListObject.Phases.START)
+				rptloLast.phase = RunPhaseTimeListObject.Phases.STARTANDEND;
+
+			list_in.Add(rptloLast);
+		}
 
 		//manage the negative values
 		if(negativeValues > 0)
@@ -617,11 +667,10 @@ public class RunPhaseTimeList
 			{
 				LogB.Information(string.Format("PRE i: {0}, list_in[{0}]: {1}", i, list_in[i]));
 
-				string [] strFull = list_in[i].Split(new char[] {':'});
-				list_in[i] = (Convert.ToDouble(strFull[0]) - negativeValues).ToString() + ":" +
-					(Convert.ToDouble(strFull[1]) - negativeValues).ToString();
-
-				LogB.Information(string.Format("POST i: {0}, list_in[{0}]: {1}", i, list_in[i]));
+				RunPhaseTimeListObject rptlo = (RunPhaseTimeListObject) list_in[i];
+				rptlo.tcStart -= negativeValues;
+				rptlo.tcEnd -= negativeValues;
+				list_in[i] = rptlo;
 			}
 		}
 
@@ -632,13 +681,37 @@ public class RunPhaseTimeList
 	public string InListForPaintingToString()
 	{
 		string str = "Contact in time list:\n";
-		List<string> list_in = InListForPainting();
-		foreach(string s in list_in)
-			str += s + "\n";
+		List<RunPhaseTimeListObject> list_in = InListForPainting();
+		foreach(RunPhaseTimeListObject rptlo in list_in)
+			str += rptlo.ToString() + "\n";
 
 		return str;
 	}
 
+}
+
+public class RunPhaseTimeListObject
+{
+	//each contact can be start of a chunk, middle, end or startandend
+	//this is important for the drawing in gui/eventExecute.cs
+	public enum Phases { START, MIDDLE, END, STARTANDEND }
+	public Phases phase;
+	public double tcStart;
+	public double tcEnd;
+
+	public RunPhaseTimeListObject (Phases phase, double tcStart, double tcEnd)
+	{
+		this.phase = phase;
+		this.tcStart = tcStart;
+		this.tcEnd = tcEnd;
+	}
+
+	public override string ToString()
+	{
+		return phase.ToString() + ":" +
+			Math.Round(tcStart, 3).ToString() + ":" +
+			Math.Round(tcEnd, 3).ToString();
+	}
 }
 
 //currently used for simple runs

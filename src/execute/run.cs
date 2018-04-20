@@ -244,7 +244,7 @@ public class RunExecute : EventExecute
 				checkDoubleContactTime,
 				speedStartArrival
 				);
-		runPTL = new RunPhaseTimeList();
+		runPTL = new RunPhaseTimeList(checkDoubleContactTime);
 
 		bool firstFromChronopicReceived = false;
 		bool exitWaitEventBucle = false;

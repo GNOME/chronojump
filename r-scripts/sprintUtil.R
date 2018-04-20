@@ -72,6 +72,7 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
                     Height = Height, Temperature = Temperature,
                     Vw = Vw,
                     Ka = Ka,
+                    t.fitted = time,
                     K.fitted = K,
                     Vmax.fitted = Vmax,
                     amax.fitted = amax.fitted,

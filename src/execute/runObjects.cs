@@ -90,39 +90,35 @@ public class RunPhaseInfoManage
 	/*
 	 * check first TF if exists or all TC+TF pairs to see if all are lower than checkTime (eg 300ms)
 	 * return true if all are <= checkTime
+	 * if ! speedStart (started inside), don't count first contact time
 	 */
-	public bool IsStartDoubleContact()
+	public bool IsStartDoubleContact(bool speedStart)
 	{
 		LogB.Information("At rpim IsStartDoubleContact A");
 		int startAt = 0;
 
-		//first TF if exists
-		if(list.Count > 0)
-		{
-			RunPhaseInfo firstRPI = (RunPhaseInfo) list[0];
-			if(! firstRPI.IsContact()) //is TF
-			{
-				if(firstRPI.Duration > checkTime)
-					return false;
-
-				startAt = 1;
-			}
-		}
-		LogB.Information("At rpim IsStartDoubleContact B");
-
 		//TC+TF pairs
 		RunPhaseInfo tcRPI;
 		RunPhaseInfo tfRPI;
+		bool firstPair = true;
 		for(int i = startAt +1; i < list.Count; i +=2)
 		{
 			tcRPI = (RunPhaseInfo) list[i-1];
 			tfRPI = (RunPhaseInfo) list[i];
 
-			LogB.Information("At rpim IsStartDoubleContact C");
-			if(tcRPI.Duration + tfRPI.Duration > checkTime)
-				return false;
+			LogB.Information("At rpim IsStartDoubleContact B");
+			if(firstPair && ! speedStart) {
+				//if ! speedStart (started inside), don't count first contact time
+				if(tfRPI.Duration > checkTime)
+					return false;
+			}
+			else {
+				if(tcRPI.Duration + tfRPI.Duration > checkTime)
+					return false;
+			}
+			firstPair = false;
 		}
-		LogB.Information("At rpim IsStartDoubleContact D");
+		LogB.Information("At rpim IsStartDoubleContact C");
 
 		return true;
 	}
@@ -177,7 +173,7 @@ public class RunPhaseInfoManage
 
 	public int GetPosOfBiggestTC (bool started)
 	{
-		LogB.Information("startPos at GetPosOfBiggestTC: " + startPos.ToString());
+		LogB.Information(string.Format("startPos at GetPosOfBiggestTC: {0}, started: {1}", startPos, started));
 		TrackDoneHasToBeCalledAgain = false;
 
 		//Read below message: "Message oneTCAfterTheTf"
@@ -439,9 +435,8 @@ public class RunDoubleContact
 	public bool IsStartDoubleContact()
 	{
 		LogB.Information("At RunDC IsStartDoubleContact");
-		//return rpim.IsStartDoubleContact(checkTime);
 
-		bool isDC = rpim.IsStartDoubleContact();
+		bool isDC = rpim.IsStartDoubleContact(SpeedStart);
 		LogB.Information("IsStartDoubleContact: " + isDC.ToString());
 		return isDC;
 	}
@@ -511,6 +506,8 @@ public class RunDoubleContact
 //decide if use this or inspector
 public class RunPhaseTimeList
 {
+	public bool SpeedStart;
+
 	private List<PhaseTime> listPhaseTime;
 	private int checkTime;
 
@@ -574,10 +571,6 @@ public class RunPhaseTimeList
 //				startedIn = true;
 		}
 
-		//if FirstRPIs is 1 then inverted the startedIn
-//		if(FirstRPIs == 1)
-//			startedIn = ! startedIn;
-
 		// 3) add elements to the list
 		LogB.Information("InListForPainting foreach:");
 		int count = 0;
@@ -604,7 +597,17 @@ public class RunPhaseTimeList
 				//see if previous has ended to mark as END or STARTEND
 				if(rptloToAdd != null)
 				{
-					if(startInMS/1000.0 - rptloToAdd.tcStart > checkTime/1000.0)
+					bool thisPhaseEnds = false;
+					if(list_in.Count == 0 && ! SpeedStart)
+					{
+						//on ! speedStart first tc+tf pair, count only tf
+						if(startInMS/1000.0 - rptloToAdd.tcEnd > checkTime/1000.0)
+							thisPhaseEnds = true;
+					}
+					else if(startInMS/1000.0 - rptloToAdd.tcStart > checkTime/1000.0)
+						thisPhaseEnds = true;
+
+					if(thisPhaseEnds)
 					{
 						if(rptloToAdd.phase == RunPhaseTimeListObject.Phases.START)
 							rptloToAdd.phase = RunPhaseTimeListObject.Phases.STARTANDEND;
@@ -649,12 +652,12 @@ public class RunPhaseTimeList
 		if(ptLast != null && ptLast.IsContact)
 		{
 			RunPhaseTimeListObject rptloLast = new RunPhaseTimeListObject(
-						RunPhaseTimeListObject.Phases.END,
+						RunPhaseTimeListObject.Phases.STARTANDEND,
 						startInMS/1000.0,
 						(startInMS + ptLast.Duration)/1000.0);
 
 			if(rptloToAdd.phase == RunPhaseTimeListObject.Phases.START)
-				rptloLast.phase = RunPhaseTimeListObject.Phases.STARTANDEND;
+				rptloLast.phase = RunPhaseTimeListObject.Phases.END;
 
 			list_in.Add(rptloLast);
 		}

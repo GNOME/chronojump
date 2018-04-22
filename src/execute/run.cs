@@ -260,6 +260,7 @@ public class RunExecute : EventExecute
 				{
 					speedStart = has_arrived();
 					runDC.SpeedStart = has_arrived();
+					runPTL.SpeedStart = has_arrived();
 					firstFromChronopicReceived = true;
 				}
 
@@ -486,12 +487,16 @@ public class RunExecute : EventExecute
 				//when should be done in the second _
 				if(runDC.IsStartDoubleContact())
 				{
-					int posOfBiggestTC = runDC.GetPosOfBiggestTC(false);
+					int posOfBiggestTC = 0;
+					if(speedStart)
+						posOfBiggestTC = runDC.GetPosOfBiggestTC(false);
 
-					if(speedStart && ! speedStartArrival)
+					if(speedStart && ! speedStartArrival) 		//speed start and leaving
 						runPTL.FirstRPIs = posOfBiggestTC +1;
-					else
+					else if(speedStart && speedStartArrival) 	//speed start and arrival
 						runPTL.FirstRPIs = posOfBiggestTC;
+					else 						//no speed start (measure on leaving first contact)
+						runPTL.FirstRPIs = posOfBiggestTC +1;
 
 					runDC.UpdateStartPos(posOfBiggestTC);
 					return;
@@ -499,7 +504,7 @@ public class RunExecute : EventExecute
 				else
 				{
 					//if leaving: start pos will be on first TF
-					if(speedStart && ! speedStartArrival && runPTL.FirstRPIs == 0)
+					if( runPTL.FirstRPIs == 0 && (! speedStart || (speedStart && ! speedStartArrival)) )
 					{
 						runPTL.FirstRPIs = 1;
 						runDC.UpdateStartPos(1);

@@ -656,7 +656,8 @@ public class RunPhaseTimeList
 						startInMS/1000.0,
 						(startInMS + ptLast.Duration)/1000.0);
 
-			if(rptloToAdd.phase == RunPhaseTimeListObject.Phases.START)
+			if(rptloToAdd.phase == RunPhaseTimeListObject.Phases.START ||
+					rptloToAdd.phase == RunPhaseTimeListObject.Phases.MIDDLE)
 				rptloLast.phase = RunPhaseTimeListObject.Phases.END;
 
 			list_in.Add(rptloLast);

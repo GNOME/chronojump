@@ -104,8 +104,8 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 }
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title = "Test graph",
-                                  plotRawSpeed = TRUE, plotRawAccel = TRUE, plotRawForce = FALSE, plotRawPower = FALSE,
-                                  plotFittedSpeed = TRUE, plotFittedAccel = FALSE, plotFittedForce = FALSE, plotFittedPower = FALSE)
+                                  plotRawSpeed = TRUE, plotRawAccel = TRUE, plotRawForce = TRUE, plotRawPower = FALSE,
+                                  plotFittedSpeed = TRUE, plotFittedAccel = FALSE, plotFittedForce = TRUE, plotFittedPower = FALSE)
 {
         #Plotting position
         # plot(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample], sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],

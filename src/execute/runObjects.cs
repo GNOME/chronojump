@@ -58,7 +58,7 @@ public class RunPhaseInfo
 public class RunPhaseInfoManage
 {
 	public bool TrackDoneHasToBeCalledAgain;
-	private List<RunPhaseInfo> list;
+	private static List<RunPhaseInfo> list;
 	private int checkTime;
 
 	//TCs and TFs before startPos have been added as tracks

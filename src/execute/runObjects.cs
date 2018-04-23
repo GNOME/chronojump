@@ -248,7 +248,7 @@ public class RunPhaseInfoManage
 	}
 
 	//if pos == -1 return all
-	public double SumUntilPos(int pos, bool firstTrackDone, bool speedStartArrival)
+	public double SumUntilPos(int pos, bool firstTrackDone, bool speedStart, bool speedStartArrival)
 	{
 		LogB.Information(string.Format("SumUntilPos: startAt: {0}, until pos: {1}, firstTrackDone: {2}, speedStartArrival: {3}",
 					startPos, pos, firstTrackDone, speedStartArrival));
@@ -263,8 +263,13 @@ public class RunPhaseInfoManage
 		{
 			if(countStart >= startPos && countEnd < pos)
 			{
-				//if it has not firstTrackDone 1st track take care of leaving or not to count the related tc)
-				if(! firstTrackDone && sum == 0 && rpi.IsContact() && ! speedStartArrival)
+				/*
+				 * if it has not firstTrackDone 1st track take care of leaving or not to count the related tc)
+				 * do not count it if
+				 *  	started inside (! speedStart) or
+				 *  	speed start but start on leaving
+				 */
+				if( ! firstTrackDone && sum == 0 && rpi.IsContact() && (! speedStart || ! speedStartArrival) )
 				{
 					//do nothing
 				}
@@ -483,7 +488,7 @@ public class RunDoubleContact
 	private double getDCBiggestTC()
 	{
 		int bigTCPosition = GetPosOfBiggestTC(true);
-		double sum = rpim.SumUntilPos(bigTCPosition, FirstTrackDone, speedStartArrival);
+		double sum = rpim.SumUntilPos(bigTCPosition, FirstTrackDone, SpeedStart, speedStartArrival);
 		LogB.Information(string.Format("trackDoing getDBBiggestTC bigTCPosition: {0}, Sum: {1}", bigTCPosition, sum));
 
 		//fix problem of a tc + tf lower than checkTime
@@ -492,7 +497,7 @@ public class RunDoubleContact
 			while (sum < checkTime && bigTCPosition +2 <= rpim.LastPositionOfList)
 			{
 				bigTCPosition += 2;
-				sum = rpim.SumUntilPos(bigTCPosition, FirstTrackDone, speedStartArrival);
+				sum = rpim.SumUntilPos(bigTCPosition, FirstTrackDone, SpeedStart, speedStartArrival);
 				LogB.Information(string.Format("SUM was < checkTime. New bigTCPosition: {0}, New Sum: {1}", bigTCPosition, sum));
 			}
 		}

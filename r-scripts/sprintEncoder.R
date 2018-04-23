@@ -104,7 +104,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 }
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title = "Test graph",
-                                  plotRawSpeed = TRUE, plotRawAccel = TRUE, plotRawForce = TRUE, plotRawPower = FALSE,
+                                  plotRawMeanSpeed = TRUE, plotRawSpeed = TRUE, plotRawAccel = TRUE, plotRawForce = TRUE, plotRawPower = FALSE,
                                   plotFittedSpeed = TRUE, plotFittedAccel = FALSE, plotFittedForce = TRUE, plotFittedPower = FALSE)
 {
         #Plotting position
@@ -139,44 +139,55 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
         #Plotting rawSpeed
         ylimits = c(0, sprintRawDynamics$rawVmax*1.05)
         xlimits =c(0, sprintRawDynamics$time[sprintRawDynamics$endSample]*1.05)
-        plot(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample], sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
-             #plot(sprintRawDynamics$time, sprintRawDynamics$rawSpeed,
-             type = "l",
-             ylim = ylimits, xlim = xlimits,
-             main = title, xlab = "Time(s)", ylab = "Speed(m/s)",
-             yaxs = "i", xaxs = "i")
+        #Calculing 5m lap times
+        splitPosition = 5
+        splitTime = interpolateXAtY(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
+                                  sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
+                                  splitPosition)
+        meanSpeed = splitPosition / splitTime
+        while(splitPosition[length(splitPosition)] + 5 < sprintRawDynamics$testLength)
+        {
+                splitPosition = c(splitPosition, splitPosition[length(splitPosition)] + 5)
+                splitTime = c(splitTime, interpolateXAtY(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
+                                                     sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
+                                                     splitPosition[length(splitPosition)]))
+                meanSpeed = c(meanSpeed, (splitPosition[length(splitPosition)] - splitPosition[length(splitPosition) -1]) /
+                                      (splitTime[length(splitTime)] - splitTime[length(splitTime) -1]))
+        }
+        splitPosition = c(splitPosition, sprintRawDynamics$testLength)
+        splitTime = c(splitTime, interpolateXAtY(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
+                                             sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
+                                             sprintRawDynamics$testLength))
+        meanSpeed = c(meanSpeed, (splitPosition[length(splitPosition)] - splitPosition[length(splitPosition) -1]) /
+                              (splitTime[length(splitTime)] - splitTime[length(splitTime) -1]))
+        
+        if(plotRawMeanSpeed)
+        {
+                barplot(height = meanSpeed, width = diff(c(0,splitTime)), space = 0,
+                        ylim = ylimits,
+                        main = title, xlab = "Time(s)", ylab = "Speed(m/s)",
+                        yaxs = "i", xaxs = "i")
+                lines(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
+                      sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample:sprintRawDynamics$endSample])
+                lapTime = diff(c(0, splitTime))
+                textXPos = c(0,splitTime[1:length(splitTime) -1]) + lapTime/2
+                text(textXPos, meanSpeed, round(meanSpeed, digits = 2), pos = 3)
+                text(textXPos, 0, paste(round(lapTime, digits = 3), "s", sep = ""), pos = 3)
+        } else
+        {
+                plot(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
+                     sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
+                     type = "l", lty = 3, ylim = ylimits,
+                     main = title, xlab = "Time(s)", ylab = "Speed(m/s)",
+                     yaxs = "i", xaxs = "i")
+        }
+        
+        abline(v = splitTime, lty = 3)
+        mtext(side = 3, at = splitTime, text = paste(splitPosition, "m", sep=""))
+        mtext(side = 1, at = splitTime, text = paste(round(splitTime, digits = 3), "s", sep=""))
+        
         legendText = paste("Vmax.raw =", round(max(sprintRawDynamics$rawSpeed), digits = 2), "m/s")
         legendColor = "black"
-        
-        #Calculing 5m lap times
-        lapPosition = 5
-        while(lapPosition < sprintRawDynamics$testLength)
-        {
-                #print(paste("lapPosition :", lapPosition))
-                lapTime = interpolateXAtY(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
-                                          sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample], lapPosition)
-                abline(v = lapTime)
-                #abline(h = lapPosition, lty = 3)
-                #points(lapTime, lapPosition)
-                mtext(side = 3, at = lapTime, text = paste(lapPosition, "m", sep=""))
-                mtext(side = 1, at = lapTime, text = paste(round(lapTime, digits = 3), "s", sep=""))
-                lapPosition = lapPosition + 5
-        }
-        #Plot the total time of the test
-        lapPosition = sprintRawDynamics$testLength
-        lapTime = interpolateXAtY(sprintRawDynamics$time, sprintRawDynamics$rawPosition, lapPosition)
-        abline(v = lapTime)
-        #abline(h = lapPosition, lty = 3)
-        #points(lapTime, lapPosition)
-        mtext(side = 3, at = lapTime, text = paste(lapPosition, "m", sep=""))
-        mtext(side = 1, at = lapTime, text = paste(round(lapTime, digits = 3), "s", sep=""))
-        lapPosition = lapPosition + 5
-        
-        # par(new = TRUE)
-        # plot(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample], sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
-        #            main = paste(50, "PPR"), xlab = "Time (s)", ylab = "Position (m)", type = "l", yaxs= "i", xaxs = "i")
-        # abline(h = 5)
-        
 
         if (plotFittedSpeed)
         {
@@ -312,6 +323,8 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength)
         
         #Detecting when starts the braking phase
         endSample = which.min(abs(position - testLength))
+        if(position[endSample] < testLength)
+                endSample = endSample +1
         return(list(start = startSample, end = endSample ))
 }
 

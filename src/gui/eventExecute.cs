@@ -114,6 +114,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_results_data;
 	
 	[Widget] Gtk.DrawingArea event_execute_drawingarea;
+	[Widget] Gtk.DrawingArea event_execute_drawingarea_run_simple_double_contacts;
 	/*
 	[Widget] Gtk.Box hbox_combo_graph_results_width;
 	[Widget] Gtk.Box hbox_combo_graph_results_height;
@@ -124,6 +125,7 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Alignment event_execute_alignment_drawingarea;
 	//static Gdk.Pixmap event_execute_pixmap = null;
 	Gdk.Pixmap event_execute_pixmap = null;
+	Gdk.Pixmap event_execute_run_simple_double_contacts_pixmap = null;
 	
 
 	string event_execute_label_simulated;
@@ -155,6 +157,7 @@ public partial class ChronoJumpWindow
 	Pango.Layout layoutSmall;
 	Pango.Layout layoutMid;
 	Pango.Layout layoutBig;
+	Pango.Layout layoutMid_run_simple;
 
 	static EventGraphConfigureWindow eventGraphConfigureWin;
 	
@@ -239,6 +242,9 @@ public partial class ChronoJumpWindow
 		layoutBig = new Pango.Layout (event_execute_drawingarea.PangoContext);
 		layoutBig.FontDescription = Pango.FontDescription.FromString ("Courier 14");
 		//layoutBig.Alignment = Pango.Alignment.Center; //doesn't work, see GetPixelSize below
+
+		layoutMid_run_simple = new Pango.Layout (event_execute_drawingarea_run_simple_double_contacts.PangoContext);
+		layoutMid_run_simple.FontDescription = Pango.FontDescription.FromString ("Courier 9");
 	}
 	private ExecutingGraphData event_execute_prepareForTest () 
 	{
@@ -456,7 +462,7 @@ public partial class ChronoJumpWindow
 
 		allocationXOld = allocation.Width;
 	}
-	
+
 	public void on_event_execute_drawingarea_expose_event(object o, ExposeEventArgs args)
 	{
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
@@ -486,6 +492,55 @@ public partial class ChronoJumpWindow
 	}
 
 	
+	int allocationXOld_run_simple;
+	bool sizeChanged_run_simple;
+	public void on_event_execute_drawingarea_run_simple_double_contacts_expose_event(object o, ExposeEventArgs args)
+	{
+		/* in some mono installations, configure_event is not called, but expose_event yes.
+		 * Do here the initialization
+		 */
+
+		Gdk.Rectangle allocation = event_execute_drawingarea_run_simple_double_contacts.Allocation;
+		if(event_execute_run_simple_double_contacts_pixmap == null || sizeChanged_run_simple || allocation.Width != allocationXOld_run_simple) {
+			event_execute_run_simple_double_contacts_pixmap = new Gdk.Pixmap (event_execute_drawingarea_run_simple_double_contacts.GdkWindow, allocation.Width, allocation.Height, -1);
+			UtilGtk.ErasePaint(event_execute_drawingarea_run_simple_double_contacts, event_execute_run_simple_double_contacts_pixmap);
+
+			sizeChanged_run_simple = false;
+		}
+
+		Gdk.Rectangle area = args.Event.Area;
+
+		//sometimes this is called when pait is finished
+		//don't let this erase win
+		if(event_execute_run_simple_double_contacts_pixmap != null) {
+			args.Event.Window.DrawDrawable(event_execute_drawingarea_run_simple_double_contacts.Style.WhiteGC, event_execute_run_simple_double_contacts_pixmap,
+				area.X, area.Y,
+				area.X, area.Y,
+				area.Width, area.Height);
+		}
+
+		allocationXOld_run_simple = allocation.Width;
+	}
+
+	public void on_event_execute_drawingarea_run_simple_double_contacts_configure_event(object o, ConfigureEventArgs args)
+	{
+		Gdk.EventConfigure ev = args.Event;
+		Gdk.Window window = ev.Window;
+
+		Gdk.Rectangle allocation = event_execute_drawingarea_run_simple_double_contacts.Allocation;
+
+		if(event_execute_run_simple_double_contacts_pixmap == null || sizeChanged_run_simple || allocation.Width != allocationXOld_run_simple) {
+			event_execute_run_simple_double_contacts_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
+
+			UtilGtk.ErasePaint(event_execute_drawingarea_run_simple_double_contacts, event_execute_run_simple_double_contacts_pixmap);
+
+			sizeChanged_run_simple = false;
+		}
+
+		allocationXOld_run_simple = allocation.Width;
+	}
+
+
 
 	// simple and DJ jump	
 	public void PrepareJumpSimpleGraph(PrepareEventGraphJumpSimple eventGraph, bool animate)
@@ -656,7 +711,14 @@ public partial class ChronoJumpWindow
 			
 
 	// run simple
+	// called from srg/gui/run updateGraphRunsSimple ()
 	public void PrepareRunSimpleGraph(PrepareEventGraphRunSimple eventGraph, bool animate)
+	{
+		PrepareRunSimpleGraph(eventGraph, animate, null);
+	}
+
+	//standard call
+	public void PrepareRunSimpleGraph(PrepareEventGraphRunSimple eventGraph, bool animate, RunPhaseTimeList runPTL)
 	{
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
@@ -694,9 +756,12 @@ public partial class ChronoJumpWindow
 		*/
 			minValue = eventGraphConfigureWin.Min;
 		//}
-			
+
+			UtilGtk.ClearDrawingArea(event_execute_drawingarea_run_simple_double_contacts,
+					event_execute_run_simple_double_contacts_pixmap);
+
 			paintRunSimple (event_execute_drawingarea, eventGraph,
-					maxValue, minValue, topMargin, bottomMargin, animate);
+					maxValue, minValue, topMargin, bottomMargin, animate, runPTL);
 		
 		
 		// -- refresh
@@ -1111,22 +1176,46 @@ public partial class ChronoJumpWindow
 	}
 
 	private void paintRunSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphRunSimple eventGraph,
-			double maxValue, double minValue, int topMargin, int bottomMargin, bool animate)
+			double maxValue, double minValue, int topMargin, int bottomMargin, bool animate,
+			RunPhaseTimeList runPTL)
 	{
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
 		//fix problem on show graph at Chronojump start
-		if(event_execute_drawingarea == null || event_execute_pixmap == null)
+		if(event_execute_drawingarea == null ||
+				event_execute_pixmap == null ||
+				event_execute_drawingarea_run_simple_double_contacts == null ||
+				event_execute_run_simple_double_contacts_pixmap == null)
 			return;
 
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
+		UtilGtk.ErasePaint(event_execute_drawingarea_run_simple_double_contacts, event_execute_run_simple_double_contacts_pixmap);
 		//writeMarginsText(maxValue, minValue, alto);
 		
 		//check now here that we will have not division by zero problems
 		if(maxValue - minValue <= 0)
 			return;
 		
+		double timeTotal = eventGraph.time;
+		// start of contact chunks
+		if(runPTL != null)
+		{
+			List<RunPhaseTimeListObject> runPTLInListForPainting = runPTL.InListForPainting();
+
+			double negativePTLTime = getRunSRunINegativePTLTime(runPTLInListForPainting);
+			double timeTotalWithExtraPTL = getRunSRunITimeTotalWithExtraPTLTime (timeTotal, runPTLInListForPainting, negativePTLTime);
+
+			LogB.Information(string.Format("timeTotal: {0}, negativePTLTime: {1}, timeTotalWithExtraPTL: {2}",
+						timeTotal, negativePTLTime, timeTotalWithExtraPTL));
+
+
+			int ancho2 = event_execute_drawingarea_run_simple_double_contacts.Allocation.Width;
+			paintRunSRunIContactChunks(event_execute_run_simple_double_contacts_pixmap, 20, ancho2, 0,
+					runPTLInListForPainting, timeTotal, timeTotalWithExtraPTL, negativePTLTime, true);
+		}
+		// end of contact chunks
+
 		/*
 		//paint reference guide black and green if needed
 		drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
@@ -1138,7 +1227,9 @@ public partial class ChronoJumpWindow
 		drawGuideOrAVG(pen_black_90, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
 		drawGuideOrAVG(pen_black_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
 		drawGuideOrAVG(pen_magenta, eventGraph.personMAXAtSQLAllSessions, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-		
+
+
+
 		//if currentPerson has not run on this session, 
 		// if has run on another session, magenta line: personMAXAtSQLAllSessions will be displayed
 		// if other persons have run on this session, eventGraph.sessionMAXAtSQL and eventGraph.sessionAVGAtSQL will be displayed
@@ -1181,7 +1272,8 @@ public partial class ChronoJumpWindow
 			
 		addUnitsToLabel("m/s");
 	}
-	
+
+
 	private void paintReactionTime (Gtk.DrawingArea drawingarea, PrepareEventGraphReactionTime eventGraph,
 			double maxValue, double minValue, int topMargin, int bottomMargin, bool animate)
 	{
@@ -1459,28 +1551,32 @@ public partial class ChronoJumpWindow
 		return timeTotalWithExtraPTL + negativePTLTime;
 	}
 
-	void paintRunSRunIContactChunks(int alto, int ancho, int bottomMargin,
-			List<RunPhaseTimeListObject> runPTLInListForPainting, double timeTotalWithExtraPTL, double negativePTLTime)
+	void paintRunSRunIContactChunks(Gdk.Pixmap pixmap, int alto, int ancho, int bottomMargin,
+			List<RunPhaseTimeListObject> runPTLInListForPainting,
+			double timeTotal, double timeTotalWithExtraPTL, double negativePTLTime,
+			bool drawStartEnd)
 	{
 		int lastChunkStart = 0;
 		int chunkMargins = 4;
 
+		LogB.Information("CONTACT CHUNKS");
 		foreach (RunPhaseTimeListObject inPTL in runPTLInListForPainting)
 		{
+			LogB.Information("inPTL: " + inPTL.ToString());
 			int xStart = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
 					(inPTL.tcStart + negativePTLTime) / timeTotalWithExtraPTL);
 
 			int xEnd = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
 					(inPTL.tcEnd + negativePTLTime) / timeTotalWithExtraPTL);
 
-			event_execute_pixmap.DrawRectangle(pen_gris, true,
+			pixmap.DrawRectangle(pen_gris, true,
 					new Rectangle (xStart, alto-bottomMargin-4, xEnd-xStart, 4));
 
 			//manage chunks indications
 			if(inPTL.phase == RunPhaseTimeListObject.Phases.START)
 			{
 				//draw the vertical start line
-				event_execute_pixmap.DrawLine(pen_gris,
+				pixmap.DrawLine(pen_gris,
 						xStart - chunkMargins, alto-bottomMargin -4,
 						xStart - chunkMargins, alto-bottomMargin -(4 + chunkMargins));
 				lastChunkStart = xStart;
@@ -1488,17 +1584,44 @@ public partial class ChronoJumpWindow
 			else if(inPTL.phase == RunPhaseTimeListObject.Phases.END)
 			{
 				//draw the vertical end line
-				event_execute_pixmap.DrawLine(pen_gris,
+				pixmap.DrawLine(pen_gris,
 						xEnd + chunkMargins, alto-bottomMargin -4,
 						xEnd + chunkMargins, alto-bottomMargin -(4 + chunkMargins));
 
 				//draw the horizontal start-end line
-				event_execute_pixmap.DrawLine(pen_gris,
+				pixmap.DrawLine(pen_gris,
 						lastChunkStart - chunkMargins, alto-bottomMargin -(4 + chunkMargins),
 						xEnd + chunkMargins, alto-bottomMargin -(4 + chunkMargins));
 			}
 
 		}
+
+		if(! drawStartEnd)
+			return;
+
+		//paint start vertical line (only on run simple)
+		int xStart2 = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
+				(negativePTLTime) / timeTotalWithExtraPTL) -1;
+		pixmap.DrawLine(pen_azul, xStart2, 10, xStart2, 20);
+
+		int lWidth = 1;
+		int lHeight = 1;
+		layoutMid_run_simple.SetMarkup("Start");
+		layoutMid_run_simple.GetPixelSize(out lWidth, out lHeight);
+		event_execute_run_simple_double_contacts_pixmap.DrawLayout (pen_azul,
+				xStart2 -lWidth/2, 0 - lHeight/4, layoutMid_run_simple);
+
+		//paint end vertical line (only on run simple)
+		int xEnd2 = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
+				(timeTotal + negativePTLTime) / timeTotalWithExtraPTL);
+		pixmap.DrawLine(pen_azul, xEnd2, 10, xEnd2, 20);
+
+		layoutMid_run_simple.SetMarkup("End");
+		layoutMid_run_simple.GetPixelSize(out lWidth, out lHeight);
+		event_execute_run_simple_double_contacts_pixmap.DrawLayout (pen_azul,
+				xEnd2 -lWidth/2, 0 - lHeight/4, layoutMid_run_simple);
+
+		pixmap.DrawRectangle(pen_gris, false, new Rectangle (0, 0, ancho -1, alto -1));
 	}
 
 	private void paintRunInterval (Gtk.DrawingArea drawingarea, double distance, double distanceTotal, string distancesString, 
@@ -1535,8 +1658,6 @@ public partial class ChronoJumpWindow
 			}
 			*/
 
-			List<RunPhaseTimeListObject> runPTLInListForPainting = runPTL.InListForPainting();
-
 			//paint reference guide black and green if needed
 			drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide,
 					alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
@@ -1554,14 +1675,22 @@ public partial class ChronoJumpWindow
 			double myValue = 0;
 
 			// start of contact chunks
-			double negativePTLTime = getRunSRunINegativePTLTime(runPTLInListForPainting);
-			double timeTotalWithExtraPTL = getRunSRunITimeTotalWithExtraPTLTime (timeTotal, runPTLInListForPainting, negativePTLTime);
+			double negativePTLTime = 0;
+			double timeTotalWithExtraPTL = timeTotal;
+			if(runPTL != null)
+			{
+				List<RunPhaseTimeListObject> runPTLInListForPainting = runPTL.InListForPainting();
 
-			LogB.Information(string.Format("timeTotal: {0}, negativePTLTime: {1}, timeTotalWithExtraPTL: {2}",
-						timeTotal, negativePTLTime, timeTotalWithExtraPTL));
+				negativePTLTime = getRunSRunINegativePTLTime(runPTLInListForPainting);
+				timeTotalWithExtraPTL = getRunSRunITimeTotalWithExtraPTLTime (timeTotal, runPTLInListForPainting, negativePTLTime);
+
+				LogB.Information(string.Format("timeTotal: {0}, negativePTLTime: {1}, timeTotalWithExtraPTL: {2}",
+							timeTotal, negativePTLTime, timeTotalWithExtraPTL));
 
 
-			paintRunSRunIContactChunks(alto, ancho, bottomMargin, runPTLInListForPainting, timeTotalWithExtraPTL, negativePTLTime);
+				paintRunSRunIContactChunks(event_execute_pixmap, alto, ancho, bottomMargin,
+						runPTLInListForPainting, timeTotal, timeTotalWithExtraPTL, negativePTLTime, false);
+			}
 			// end of contact chunks
 
 			foreach (string myTime in myTimesStringFull) 
@@ -2079,7 +2208,9 @@ public partial class ChronoJumpWindow
 				break;
 			case EventType.Types.RUN:
 				if(thisRunIsSimple)
-					PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, animate);
+					PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, animate,
+							currentEventExecute.RunPTL
+							);
 				else {
 					bool volumeOnHere = preferences.volumeOn;
 					//do not play good or bad sounds at RSA because we need to hear the GO sound

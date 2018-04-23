@@ -1431,6 +1431,76 @@ public partial class ChronoJumpWindow
 			event_execute_label_jump_reactive_tf_tc_avg.Text = "0";
 	}
 
+	double getRunSRunINegativePTLTime (List<RunPhaseTimeListObject> runPTLInListForPainting)
+	{
+		if(runPTLInListForPainting.Count > 0)
+		{
+			//get first TC start value
+			RunPhaseTimeListObject rptlfp = (RunPhaseTimeListObject) runPTLInListForPainting[0];
+			double firstValue = rptlfp.tcStart;
+
+			if(firstValue < 0)
+				return Math.Abs(firstValue);
+		}
+
+		return 0;
+	}
+
+	double getRunSRunITimeTotalWithExtraPTLTime (double timeTotal, List<RunPhaseTimeListObject> runPTLInListForPainting, double negativePTLTime)
+	{
+		double timeTotalWithExtraPTL = timeTotal;
+		if(runPTLInListForPainting.Count > 0)
+		{
+			//get last TC end value
+			RunPhaseTimeListObject rptlfp = (RunPhaseTimeListObject) runPTLInListForPainting[runPTLInListForPainting.Count -1];
+			timeTotalWithExtraPTL = rptlfp.tcEnd;
+		}
+
+		return timeTotalWithExtraPTL + negativePTLTime;
+	}
+
+	void paintRunSRunIContactChunks(int alto, int ancho, int bottomMargin,
+			List<RunPhaseTimeListObject> runPTLInListForPainting, double timeTotalWithExtraPTL, double negativePTLTime)
+	{
+		int lastChunkStart = 0;
+		int chunkMargins = 4;
+
+		foreach (RunPhaseTimeListObject inPTL in runPTLInListForPainting)
+		{
+			int xStart = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
+					(inPTL.tcStart + negativePTLTime) / timeTotalWithExtraPTL);
+
+			int xEnd = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
+					(inPTL.tcEnd + negativePTLTime) / timeTotalWithExtraPTL);
+
+			event_execute_pixmap.DrawRectangle(pen_gris, true,
+					new Rectangle (xStart, alto-bottomMargin-4, xEnd-xStart, 4));
+
+			//manage chunks indications
+			if(inPTL.phase == RunPhaseTimeListObject.Phases.START)
+			{
+				//draw the vertical start line
+				event_execute_pixmap.DrawLine(pen_gris,
+						xStart - chunkMargins, alto-bottomMargin -4,
+						xStart - chunkMargins, alto-bottomMargin -(4 + chunkMargins));
+				lastChunkStart = xStart;
+			}
+			else if(inPTL.phase == RunPhaseTimeListObject.Phases.END)
+			{
+				//draw the vertical end line
+				event_execute_pixmap.DrawLine(pen_gris,
+						xEnd + chunkMargins, alto-bottomMargin -4,
+						xEnd + chunkMargins, alto-bottomMargin -(4 + chunkMargins));
+
+				//draw the horizontal start-end line
+				event_execute_pixmap.DrawLine(pen_gris,
+						lastChunkStart - chunkMargins, alto-bottomMargin -(4 + chunkMargins),
+						xEnd + chunkMargins, alto-bottomMargin -(4 + chunkMargins));
+			}
+
+		}
+	}
+
 	private void paintRunInterval (Gtk.DrawingArea drawingarea, double distance, double distanceTotal, string distancesString, 
 			double lastTime, string timesString, double avgTime, 
 			double maxValue, double minValue, int tracks, int topMargin, int bottomMargin, 
@@ -1465,31 +1535,7 @@ public partial class ChronoJumpWindow
 			}
 			*/
 
-			double negativePTLTime = 0; //negativePTL at beginning and last TC at end
-			double timeTotalWithExtraPTL = timeTotal;
-
 			List<RunPhaseTimeListObject> runPTLInListForPainting = runPTL.InListForPainting();
-			if(runPTLInListForPainting.Count > 0)
-			{
-				//last TC value
-				RunPhaseTimeListObject rptlfp = (RunPhaseTimeListObject) runPTLInListForPainting[runPTLInListForPainting.Count -1];
-				timeTotalWithExtraPTL = rptlfp.tcEnd;
-
-
-				//negative values
-				rptlfp = (RunPhaseTimeListObject) runPTLInListForPainting[0];
-				double firstValue = rptlfp.tcStart;
-
-				if(firstValue < 0)
-				{
-					negativePTLTime = Math.Abs(firstValue);
-					timeTotalWithExtraPTL += negativePTLTime;
-				}
-
-			}
-			LogB.Information("negativePTLTime: " + negativePTLTime);
-			LogB.Information("timeTotalWithExtraPTL: " + timeTotalWithExtraPTL);
-
 
 			//paint reference guide black and green if needed
 			drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide,
@@ -1506,43 +1552,17 @@ public partial class ChronoJumpWindow
 
 			Gdk.GC myPen = pen_rojo; //default value
 			double myValue = 0;
-			int lastChunkStart = 0;
-			int chunkMargins = 4;
 
-			foreach (RunPhaseTimeListObject inPTL in runPTL.InListForPainting())
-			{
-				int xStart = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
-							(inPTL.tcStart + negativePTLTime) / timeTotalWithExtraPTL);
+			// start of contact chunks
+			double negativePTLTime = getRunSRunINegativePTLTime(runPTLInListForPainting);
+			double timeTotalWithExtraPTL = getRunSRunITimeTotalWithExtraPTLTime (timeTotal, runPTLInListForPainting, negativePTLTime);
 
-				int xEnd = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
-						(inPTL.tcEnd + negativePTLTime) / timeTotalWithExtraPTL);
+			LogB.Information(string.Format("timeTotal: {0}, negativePTLTime: {1}, timeTotalWithExtraPTL: {2}",
+						timeTotal, negativePTLTime, timeTotalWithExtraPTL));
 
-				event_execute_pixmap.DrawRectangle(pen_gris, true,
-						new Rectangle (xStart, alto-bottomMargin-4, xEnd-xStart, 4));
 
-				//manage chunks indications
-				if(inPTL.phase == RunPhaseTimeListObject.Phases.START)
-				{
-					//draw the vertical start line
-					event_execute_pixmap.DrawLine(pen_gris,
-							xStart - chunkMargins, alto-bottomMargin -4,
-							xStart - chunkMargins, alto-bottomMargin -(4 + chunkMargins));
-					lastChunkStart = xStart;
-				}
-				else if(inPTL.phase == RunPhaseTimeListObject.Phases.END)
-				{
-					//draw the vertical end line
-					event_execute_pixmap.DrawLine(pen_gris,
-							xEnd + chunkMargins, alto-bottomMargin -4,
-							xEnd + chunkMargins, alto-bottomMargin -(4 + chunkMargins));
-
-					//draw the horizontal start-end line
-					event_execute_pixmap.DrawLine(pen_gris,
-							lastChunkStart - chunkMargins, alto-bottomMargin -(4 + chunkMargins),
-							xEnd + chunkMargins, alto-bottomMargin -(4 + chunkMargins));
-				}
-
-			}
+			paintRunSRunIContactChunks(alto, ancho, bottomMargin, runPTLInListForPainting, timeTotalWithExtraPTL, negativePTLTime);
+			// end of contact chunks
 
 			foreach (string myTime in myTimesStringFull) 
 			{

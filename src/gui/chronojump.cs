@@ -3068,7 +3068,10 @@ public partial class ChronoJumpWindow
 
 		setApp1Title(tempSessionName, current_menuitem_mode);
 
-		//default for everythong except encoder	
+		//run simple will be the only one with its drawing are
+		event_execute_drawingarea_run_simple_double_contacts.Visible = false;
+
+		//default for everything except encoder
 		menuitem_encoder_session_overview.Visible = false;
 		menuitem_export_encoder_signal.Visible = false;
 		menuitem_export_csv.Visible = true;
@@ -3154,6 +3157,7 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				on_extra_window_runs_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = true;
+				event_execute_drawingarea_run_simple_double_contacts.Visible = true;
 			}
 			else
 			{
@@ -5464,7 +5468,8 @@ LogB.Debug("X");
 					break;
 				case EventType.Types.RUN:
 					if(lastRunIsSimple && current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
-						PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, false);
+						PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, false,
+								currentEventExecute.RunPTL);
 					else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 					{
 						RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type, false);

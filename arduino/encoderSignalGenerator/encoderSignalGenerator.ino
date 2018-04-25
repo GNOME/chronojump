@@ -37,7 +37,7 @@ void loop() {
     delay(1);
     eccentric(repRange,(int) random(200, 3000));
     delay(1);
-    if(random(0,1) > 0.95){
+    if(random(100) > 95){
       delay(10000);
     }
 }

@@ -136,6 +136,7 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_gstreamer_0_1;
 	[Widget] Gtk.RadioButton radio_gstreamer_1_0;
 	[Widget] Gtk.RadioButton radio_sound_systemsounds;
+	[Widget] Gtk.HBox hbox_not_recommended_when_not_on_windows;
 	[Widget] Gtk.Label label_test_sound_result;
 	[Widget] Gtk.Box hbox_combo_camera;
 	[Widget] Gtk.ComboBox combo_camera;
@@ -266,7 +267,14 @@ public class PreferencesWindow
 		else 
 			PreferencesWindowBox.checkbutton_volume.Active = false; 
 
-		PreferencesWindowBox.table_gstreamer.Visible = ! UtilAll.IsWindows();
+		if(UtilAll.IsWindows())
+		{
+			PreferencesWindowBox.table_gstreamer.Visible = false;
+			PreferencesWindowBox.hbox_not_recommended_when_not_on_windows.Visible = false;
+		} else {
+			PreferencesWindowBox.table_gstreamer.Visible = true;
+			PreferencesWindowBox.hbox_not_recommended_when_not_on_windows.Visible = true;
+		}
 
 		if(preferences.gstreamer == Preferences.GstreamerTypes.GST_0_1)
 			PreferencesWindowBox.radio_gstreamer_0_1.Active = true;

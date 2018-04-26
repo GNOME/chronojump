@@ -207,7 +207,7 @@ public class PersonRecuperateWindow {
 	}
 
 	//if called from personRecuperateWindow
-	public void HideAndNull()
+	public virtual void HideAndNull()
 	{
 		if(PersonRecuperateWindowBox != null)
 			PersonRecuperateWindowBox.person_recuperate.Hide();
@@ -620,6 +620,15 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	
 		//check if there are rows checked for having sensitive or not in recuperate button
 		buttonRecuperateChangeSensitiveness();
+	}
+
+	public override void HideAndNull()
+	{
+		if(PersonsRecuperateFromOtherSessionWindowBox != null)
+			PersonsRecuperateFromOtherSessionWindowBox.person_recuperate.Hide();
+
+		if(PersonsRecuperateFromOtherSessionWindowBox != null)
+			PersonsRecuperateFromOtherSessionWindowBox = null;
 	}
 
 }

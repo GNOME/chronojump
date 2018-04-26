@@ -2607,7 +2607,14 @@ public partial class ChronoJumpWindow
 		}
 	}
 		
-	private void on_recuperate_persons_from_session_clicked (object o, EventArgs args) {
+	bool person_load_multiple_called_from_person_select_window;
+	private void on_recuperate_persons_from_session_at_main_gui (object o, EventArgs args)
+	{
+		person_load_multiple_called_from_person_select_window = false;
+		person_load_multiple();
+	}
+
+	private void person_load_multiple () {
 		LogB.Information("recuperate persons from other session");
 		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession);
 		personsRecuperateFromOtherSessionWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
@@ -2624,6 +2631,12 @@ public partial class ChronoJumpWindow
 		if(rowToSelect != -1) {
 			selectRowTreeView_persons(treeview_persons, rowToSelect);
 			sensitiveGuiYesPerson();
+		}
+
+		if(person_load_multiple_called_from_person_select_window)
+		{
+			personsRecuperateFromOtherSessionWin.HideAndNull();
+			updatePersonSelectWin ();
 		}
 	}
 
@@ -2866,6 +2879,7 @@ public partial class ChronoJumpWindow
 		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_top_person_add_person);
 		personSelectWin.FakeButtonAddPersonMultiple.Clicked += new EventHandler(on_button_top_person_add_person_multiple);
 		personSelectWin.FakeButtonLoadPerson.Clicked += new EventHandler(on_button_top_person_load_person);
+		personSelectWin.FakeButtonLoadPersonMultiple.Clicked += new EventHandler(on_button_top_person_load_person_multiple);
 		personSelectWin.FakeButtonEditPerson.Clicked += new EventHandler(on_button_top_person_edit_person);
 		personSelectWin.FakeButtonPersonShowAllEvents.Clicked += new EventHandler(on_button_top_person_show_all_events);
 		personSelectWin.FakeButtonDeletePerson.Clicked += new EventHandler(on_button_top_person_delete_person);
@@ -2885,6 +2899,11 @@ public partial class ChronoJumpWindow
 	{
 		person_load_single_called_from_person_select_window = true;
 		person_load_single();
+	}
+	private void on_button_top_person_load_person_multiple(object o, EventArgs args)
+	{
+		person_load_multiple_called_from_person_select_window = true;
+		person_load_multiple();
 	}
 	private void on_button_top_person_edit_person(object o, EventArgs args)
 	{

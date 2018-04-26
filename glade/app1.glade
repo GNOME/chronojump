@@ -2796,7 +2796,7 @@ EncoderInertialCapture</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Load persons from other session</property>
                                                             <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_recuperate_persons_from_session_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_recuperate_persons_from_session_at_main_gui" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox99">
                                                             <property name="visible">True</property>

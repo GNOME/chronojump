@@ -2203,8 +2203,12 @@ public partial class ChronoJumpWindow
 				Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar + "chronojump.db");
 		
 		LogB.Information("Bye2!");
-		
-		encoderRProcCapture.SendEndProcess();
+
+		if(radio_encoder_capture_cont.Active)
+			on_button_encoder_capture_finish_cont_clicked(new object(), new EventArgs());
+		else
+			encoderRProcCapture.SendEndProcess();
+
 		encoderRProcAnalyze.SendEndProcess();
 
 		//cancel force capture process

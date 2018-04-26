@@ -185,6 +185,10 @@ public class ChronoJump
 			Sqlite.DisConnect();
 	
 			if(language != "") {
+				//convert pt-BR to pt_BR
+				if(language.Contains("-"))
+					language = language.Replace("-", "_");
+
 				Environment.SetEnvironmentVariable ("LANGUAGE", language); //works
 #if OSTYPE_WINDOWS
 				g_setenv ("LANGUAGE", language, true);

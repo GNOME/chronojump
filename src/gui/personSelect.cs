@@ -61,6 +61,7 @@ public class PersonSelectWindow
 	public Gtk.Button FakeButtonAddPerson;
 	public Gtk.Button FakeButtonAddPersonMultiple;
 	public Gtk.Button FakeButtonLoadPerson;
+	public Gtk.Button FakeButtonLoadPersonMultiple;
 	public Gtk.Button FakeButtonEditPerson;
 	public Gtk.Button FakeButtonPersonShowAllEvents;
 	public Gtk.Button FakeButtonDeletePerson;
@@ -83,6 +84,7 @@ public class PersonSelectWindow
 		FakeButtonAddPerson = new Gtk.Button();
 		FakeButtonAddPersonMultiple = new Gtk.Button();
 		FakeButtonLoadPerson = new Gtk.Button();
+		FakeButtonLoadPersonMultiple = new Gtk.Button();
 		FakeButtonEditPerson = new Gtk.Button();
 		FakeButtonPersonShowAllEvents = new Gtk.Button();
 		FakeButtonDeletePerson = new Gtk.Button();
@@ -320,9 +322,9 @@ public class PersonSelectWindow
 	}
 	private void on_button_recuperate_persons_from_session_clicked (object o, EventArgs args)
 	{
-		new DialogMessage(Constants.MessageTypes.INFO, "TODO");
+		person_select_window.Visible = false;
+		FakeButtonLoadPersonMultiple.Click();
 	}
-
 
 	private void on_button_edit_clicked (object o, EventArgs args) {
 		person_select_window.Visible = false;

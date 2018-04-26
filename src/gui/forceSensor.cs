@@ -676,6 +676,7 @@ public partial class ChronoJumpWindow
 		else {
 			//call graph
 			File.Copy(fileName, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
+			lastForceSensorFullPath = fileName;
 			capturingForce = forceStatus.COPIED_TO_TMP;
 		}
 	}

@@ -2009,7 +2009,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         #Draw the power parabole
                                         if(varX == "Speed" && varY == "Force") #is "Force,Power" but using Force to have less problems
                                         {
-						paintCrossVariablesNumsPrint(singleFile, Eccon, x, y, adjHor, cexNums)
+						paintCrossVariablesNumsPrint(singleFile, Eccon, x, y, adjHor, cexNums, laterality)
 						numsPrint.done = TRUE
 
                                                 xpower = seq(0, V0, by = V0 / 100)
@@ -2038,7 +2038,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                 }
                 
 		if(! numsPrint.done)
-			paintCrossVariablesNumsPrint(singleFile, Eccon, x, y, adjHor, cexNums)
+			paintCrossVariablesNumsPrint(singleFile, Eccon, x, y, adjHor, cexNums, laterality)
                 
                 #don't write title two times on 'speed,power / load'
                 if(isAlone == "ALONE" || isAlone =="RIGHT")
@@ -2191,7 +2191,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
         
 }
 
-paintCrossVariablesNumsPrint <- function (singleFile, Eccon, x, y, adjHor, cexNums)
+paintCrossVariablesNumsPrint <- function (singleFile, Eccon, x, y, adjHor, cexNums, laterality)
 {
         nums.print = NULL
 
@@ -2223,7 +2223,9 @@ paintCrossVariablesNumsPrint <- function (singleFile, Eccon, x, y, adjHor, cexNu
 			}
 		}
 	}
-	text(as.numeric(nums.print$x), as.numeric(nums.print$y), paste("  ", nums.print$curveNum), adj=c(adjHor,.5), cex=cexNums)
+        print(nums.print)
+        print(laterality)
+	text(as.numeric(nums.print$x), as.numeric(nums.print$y), paste("   ", nums.print$curveNum, laterality[nums.print$curveNum], sep = ""), adj=c(adjHor,.5), cex=cexNums)
 }
 
 

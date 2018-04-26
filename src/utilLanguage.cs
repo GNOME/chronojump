@@ -47,6 +47,8 @@ public class UtilLanguage
 				if (File.Exists (Path.Combine (dirpath, "LC_MESSAGES", filename))) {
 					try {
 						string localeName = Path.GetFileName(dirpath).Replace("_", "-");
+						//pt_BR will be pt-BR. This is needed to have them on the list at gui/preferences
+
 						langs.Add(new CultureInfo (localeName));
 					} catch (Exception ex) {
 						LogB.Warning (ex.ToString());

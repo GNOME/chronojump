@@ -103,6 +103,11 @@ public partial class ChronoJumpWindow
 			curvesCount ++;
 
 			string [] cells = line.Split(new char[] {','});
+
+			//check if data is ok
+			if(! fixDecimalsWillWork(true, cells))
+				return curvesCount;
+
 			cells = fixDecimals(true, cells);
 			
 			/*
@@ -553,6 +558,11 @@ public partial class ChronoJumpWindow
 				curvesCount ++;
 
 				string [] cells = line.Split(new char[] {','});
+
+				//check if data is ok
+				if(! fixDecimalsWillWork(false, cells))
+					return curvesCount;
+
 				cells = fixDecimals(false, cells);
 				
 				
@@ -1372,6 +1382,17 @@ public partial class ChronoJumpWindow
 
 	/* end of rendering neuromuscular cols */
 	
+	//check if there are enought cells, sometimes file is created but data is not completely written
+	private bool fixDecimalsWillWork(bool captureOrAnalyze, string [] cells)
+	{
+		LogB.Information(string.Format("captureOrAnalyze: {0}, cells.Length: {1}", captureOrAnalyze, cells.Length));
+		if(captureOrAnalyze && cells.Length < 18) 		//from 0 to 17
+			return false;
+		else if(! captureOrAnalyze && cells.Length < 20) 	//from 0 to 19
+			return false;
+
+		return true;
+	}
 	//captureOrAnalyze is true on capture, false on analyze
 	private string [] fixDecimals(bool captureOrAnalyze, string [] cells) 
 	{

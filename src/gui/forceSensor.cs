@@ -1324,7 +1324,8 @@ LogB.Information(" fc R ");
 		notebook_options_top.Visible = true;
 		notebook_options_at_execute_button.CurrentPage = 2;
 		forceSensorCaptureAdjustSensitivity(false);
-		event_execute_label_message.Text = Catalog.GetString("We recommend to tare before calibrating.");
+		//event_execute_label_message.Text = Catalog.GetString("If you want to calibrate, please tare first.");
+		event_execute_label_message.Text = "If you want to calibrate, please tare first.";
 	}
 	private void on_button_force_sensor_adjust_close_clicked (object o, EventArgs args)
 	{

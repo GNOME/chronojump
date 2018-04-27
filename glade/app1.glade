@@ -8930,12 +8930,27 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkFrame" id="frame7">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label_xalign">0</property>
+                                                            <property name="label_yalign">0</property>
+                                                            <property name="shadow_type">in</property>
+                                                            <child>
                                                             <widget class="GtkDrawingArea" id="event_execute_drawingarea_run_simple_double_contacts">
                                                             <property name="height_request">20</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <signal name="configure_event" handler="on_event_execute_drawingarea_run_simple_double_contacts_configure_event" swapped="no"/>
                                                             <signal name="expose_event" handler="on_event_execute_drawingarea_run_simple_double_contacts_expose_event" swapped="no"/>
+                                                            </widget>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            <packing>
+                                                            <property name="type">label_item</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>

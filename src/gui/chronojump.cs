@@ -4595,6 +4595,10 @@ public partial class ChronoJumpWindow
 			Constants.RunTable, //tableName
 			currentRunType.Name 
 			);
+
+		UtilGtk.ClearDrawingArea(event_execute_drawingarea_run_simple_double_contacts,
+				event_execute_run_simple_double_contacts_pixmap);
+
 		event_execute_button_cancel.Sensitive = true;
 
 		ExecutingGraphData egd = event_execute_prepareForTest ();

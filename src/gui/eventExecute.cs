@@ -1620,8 +1620,6 @@ public partial class ChronoJumpWindow
 		layoutMid_run_simple.GetPixelSize(out lWidth, out lHeight);
 		event_execute_run_simple_double_contacts_pixmap.DrawLayout (pen_azul,
 				xEnd2 -lWidth/2, 0 - lHeight/4, layoutMid_run_simple);
-
-		pixmap.DrawRectangle(pen_gris, false, new Rectangle (0, 0, ancho -1, alto -1));
 	}
 
 	private void paintRunInterval (Gtk.DrawingArea drawingarea, double distance, double distanceTotal, string distancesString, 

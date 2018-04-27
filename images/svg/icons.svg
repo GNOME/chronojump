@@ -7267,14 +7267,14 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.2931686"
-     inkscape:cx="321.23616"
-     inkscape:cy="199.89658"
+     inkscape:zoom="5.0505742"
+     inkscape:cx="107.47103"
+     inkscape:cy="274.57348"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
-     inkscape:window-width="1366"
-     inkscape:window-height="705"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
      inkscape:window-x="0"
      inkscape:window-y="26"
      inkscape:window-maximized="1"
@@ -7384,6 +7384,13 @@
      id="capa1"
      transform="translate(104.13506,-966.91272)">
     <rect
+       style="opacity:1;fill:#ff9955;fill-opacity:1;stroke:#ffffff;stroke-width:1.20000005;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect26269"
+       width="126.52026"
+       height="49.499321"
+       x="-72.2575"
+       y="1016.5933" />
+    <rect
        style="fill:none;stroke:#2c2b32;stroke-width:1.77681351;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect8771"
        width="288.52313"
@@ -7393,24 +7400,24 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       x="-53.334869"
-       y="958.17468"
+       x="-28.585209"
+       y="1029.6517"
        id="text3938"><tspan
          sodipodi:role="line"
          id="tspan3940"
-         x="-53.334869"
-         y="958.17468"
+         x="-28.585209"
+         y="1029.6517"
          style="font-size:2px;line-height:1.25;font-family:sans-serif">encoder-analyze-eccon-together.png</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       x="-52.643112"
-       y="1042.9796"
+       x="-27.101461"
+       y="1055.2555"
        id="text3938-3"><tspan
          sodipodi:role="line"
          id="tspan3940-6"
-         x="-52.643112"
-         y="1042.9796"
+         x="-27.101461"
+         y="1055.2555"
          style="font-size:2px;line-height:1.25;font-family:sans-serif">encoder-analyze-eccon-separated.png</tspan></text>
     <text
        xml:space="preserve"
@@ -11562,5 +11569,21 @@
          x="-94.028122"
          y="1089.7882"
          style="font-size:2px;line-height:1.25;font-family:sans-serif">( see xcf folder )</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:6.90595198px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-33.741638"
+       y="1039.4357"
+       id="text26273"><tspan
+         sodipodi:role="line"
+         id="tspan26271"
+         x="-33.741638"
+         y="1039.4357"
+         style="stroke-width:1px">Unused. See:</tspan><tspan
+         sodipodi:role="line"
+         x="-33.741638"
+         y="1048.0681"
+         style="stroke-width:1px"
+         id="tspan26275">contraction-laterality.svg</tspan></text>
   </g>
 </svg>

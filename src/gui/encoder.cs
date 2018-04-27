@@ -159,7 +159,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_time_to_peak_power;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_range;
 
-	[Widget] Gtk.Button button_encoder_analyze_mode_options;
 	[Widget] Gtk.HBox hbox_encoder_analyze_instantaneous;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_position;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_speed;

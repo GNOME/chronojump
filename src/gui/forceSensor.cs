@@ -285,7 +285,6 @@ public partial class ChronoJumpWindow
 		}
 
 		capturingForce = forceStatus.STOP;
-		forceSensorButtonsSensitive(false);
 		forceSensorTimeStart = DateTime.Now;
 		forceSensorOtherMessageShowSeconds = true;
 
@@ -304,10 +303,12 @@ public partial class ChronoJumpWindow
 		}
 		else if (o == (object) button_execute_test)
 		{
+			forceSensorButtonsSensitive(false);
 			forceSensorOtherMode = forceSensorOtherModeEnum.CAPTURE_PRE;
 			forceOtherThread = new Thread(new ThreadStart(forceSensorCapturePre));
 		}
 		else { //if (o == (object) button_check_version)
+			forceSensorButtonsSensitive(false);
 			forceSensorOtherMode = forceSensorOtherModeEnum.CHECK_VERSION;
 			forceOtherThread = new Thread(new ThreadStart(forceSensorCheckVersionPre));
 		}
@@ -353,10 +354,10 @@ public partial class ChronoJumpWindow
 			event_execute_label_message.Text = forceSensorOtherMessage;
 			LogB.ThreadEnding();
 
-			if(
-					forceSensorOtherMode == forceSensorOtherModeEnum.TARE ||
-					forceSensorOtherMode == forceSensorOtherModeEnum.CALIBRATE ||
-					forceSensorOtherMode == forceSensorOtherModeEnum.CHECK_VERSION)
+			if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE ||
+				forceSensorOtherMode == forceSensorOtherModeEnum.CALIBRATE)
+				return false;
+			else if(forceSensorOtherMode == forceSensorOtherModeEnum.CHECK_VERSION)
 				forceSensorButtonsSensitive(true);
 			else //if(forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
 				forceSensorCapturePre2();
@@ -1309,7 +1310,7 @@ LogB.Information(" fc R ");
 	private void showHideForceSensorControls(bool modeForceSensor)
 	{
 		hbox_capture_phases_time_record.Visible = ! modeForceSensor;
-		hbox_options_top.Visible = ! modeForceSensor;
+		button_image_test_zoom.Visible = ! modeForceSensor;
 		notebook_options_top.Visible = ! modeForceSensor;
 
 		button_threshold.Visible = ! modeForceSensor;
@@ -1318,10 +1319,38 @@ LogB.Information(" fc R ");
 		menuitem_force_sensor_check_version.Visible = modeForceSensor;
 	}
 
+	private void on_button_force_sensor_adjust_clicked (object o, EventArgs args)
+	{
+		notebook_options_top.Visible = true;
+		notebook_options_at_execute_button.CurrentPage = 2;
+		forceSensorCaptureAdjustSensitivity(false);
+		event_execute_label_message.Text = Catalog.GetString("We recommend to tare before calibrating.");
+	}
+	private void on_button_force_sensor_adjust_close_clicked (object o, EventArgs args)
+	{
+		notebook_options_top.Visible = false;
+		notebook_options_at_execute_button.CurrentPage = 0;
+		forceSensorCaptureAdjustSensitivity(true);
+	}
+
+	private void forceSensorCaptureAdjustSensitivity(bool s) //s for sensitive. When adjusting s = false
+	{
+		hbox_force_buttons.Sensitive = s;
+
+		button_activate_chronopics.Sensitive = s;
+		image_test.Sensitive = s;
+		button_execute_test.Sensitive = s;
+		button_force_sensor_image_save_signal.Sensitive = s;
+
+		main_menu.Sensitive = s;
+		notebook_session_person.Sensitive = s;
+		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = s;
+		hbox_top_person.Sensitive = s;
+	}
+
 	private void on_button_force_sensor_adjust_help_clicked (object o, EventArgs args)
 	{
 		new DialogMessage("Force sensor adjust data", Constants.MessageTypes.INFO,
-				Catalog.GetString("We recommend to tare before calibrating.") + "\n" +
 				preferences.GetForceSensorAdjustString());
 	}
 

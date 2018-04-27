@@ -312,7 +312,6 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Notebook notebook_execute;
 	[Widget] Gtk.Notebook notebook_results;
-	[Widget] Gtk.HBox hbox_options_top;
 	[Widget] Gtk.Notebook notebook_options_top;
 		
 	[Widget] Gtk.Frame frame_share_data;
@@ -4218,7 +4217,7 @@ public partial class ChronoJumpWindow
 					//unsensitive slCMJ options 
 					hbox_extra_window_jumps_single_leg_radios.Sensitive = false;
 					//but show the input cm
-					notebook_options_after_execute.CurrentPage = 1;
+					notebook_options_at_execute_button.CurrentPage = 1;
 				}
 				SqliteJump.UpdateDescription(Constants.JumpTable, 
 						currentJump.UniqueID, currentJump.Description);
@@ -6663,7 +6662,7 @@ LogB.Debug("X");
 		} else if(mode == Constants.Menuitem_modes.FORCESENSOR)
 		{
 			notebook_execute.CurrentPage = 4;
-			notebook_options_top.CurrentPage = 4; //but at FORCESENSOR this notebook is not shown
+			notebook_options_top.CurrentPage = 4; //but at FORCESENSOR this notebook is not shown until adjust button is clicked
 			notebook_results.CurrentPage = 4;
 			changeTestImage("", "", "FORCESENSOR");
 			event_execute_button_finish.Sensitive = false;

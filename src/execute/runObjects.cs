@@ -789,3 +789,33 @@ public class RunExecuteInspector
 		return report;
 	}
 }
+
+public class RunChangeImage
+{
+	public enum Types { NONE, RUNNING, PHOTOCELL }
+	private Types last;
+	private Types current;
+
+	//constructor, don't show any image
+	public RunChangeImage()
+	{
+		last = Types.NONE;
+		current = Types.NONE;
+	}
+
+	public bool ShouldBeChanged()
+	{
+		if(current == last)
+			return false;
+
+		last = current;
+		return true;
+	}
+
+	//accesssor: get/change current image
+	public Types Current {
+		get { return current; }
+		set { current = value; }
+	}
+
+}

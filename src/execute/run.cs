@@ -63,8 +63,12 @@ public class RunExecute : EventExecute
 	//static because they are used on both threads at the same time
 	protected static RunExecuteInspector runEI;
 	protected static RunDoubleContact runDC;
+	protected static RunChangeImage runChangeImage;
 	protected static bool success;
 	protected RunExecuteInspector.Types runEIType;
+
+	protected Gtk.Image image_run_execute_running;
+	protected Gtk.Image image_run_execute_photocell;
 
 //	protected bool firstTrackDone;
 
@@ -78,7 +82,8 @@ public class RunExecute : EventExecute
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd,
 			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime, 
-			bool speedStartArrival, bool measureReactionTime
+			bool speedStartArrival, bool measureReactionTime,
+			Gtk.Image image_run_execute_running, Gtk.Image image_run_execute_photocell
 			)
 	{
 		this.personID = personID;
@@ -100,6 +105,8 @@ public class RunExecute : EventExecute
 		this.checkDoubleContactTime = checkDoubleContactTime;
 		this.speedStartArrival = speedStartArrival;	
 		this.measureReactionTime = measureReactionTime;
+		this.image_run_execute_running = image_run_execute_running;
+		this.image_run_execute_photocell = image_run_execute_photocell;
 
 		reactionTimeMS = 0;
 
@@ -147,6 +154,7 @@ public class RunExecute : EventExecute
 			platformState = chronopicInitialValue(cp);
 		
 		LogB.Debug("MANAGE(b)!!!!");
+		runChangeImage = new RunChangeImage();
 
 		//you can start ON or OFF the platform, 
 		//we record always de TF (or time between we abandonate the platform since we arrive)
@@ -158,6 +166,7 @@ public class RunExecute : EventExecute
 			loggedState = States.ON;
 			startIn = true;
 			runPhase = runPhases.PLATFORM_INI_NO_TIME;
+			runChangeImage.Current = RunChangeImage.Types.PHOTOCELL;
 		} else if (platformState==Chronopic.Plataforma.OFF) {
 			feedbackMessage = Catalog.GetString("You are OUT, RUN when prepared!");
 			needShowFeedbackMessage = true; 
@@ -166,6 +175,7 @@ public class RunExecute : EventExecute
 			loggedState = States.OFF;
 			startIn = false;
 			runPhase = runPhases.PRE_RUNNING;
+			runChangeImage.Current = RunChangeImage.Types.RUNNING;
 		}
 		else { //UNKNOW (Chronopic disconnected, port changed, ...)
 			chronopicHasBeenDisconnected();
@@ -270,6 +280,7 @@ public class RunExecute : EventExecute
 				if (has_arrived()) // timestamp is tf
 				{
 					loggedState = States.ON;
+					runChangeImage.Current = RunChangeImage.Types.PHOTOCELL;
 
 					onlyInterval_NeedShowCountDownFalse();
 
@@ -323,6 +334,7 @@ public class RunExecute : EventExecute
 				else if (has_lifted()) // timestamp is tc
 				{
 					loggedState = States.OFF;
+					runChangeImage.Current = RunChangeImage.Types.RUNNING;
 
 					lastTc = 0;
 
@@ -382,11 +394,10 @@ public class RunExecute : EventExecute
 			if(success || cancel || finish)
 			{
 				exitWaitEventBucle = waitToExitWaitEventBucle();
+				runChangeImage.Current = RunChangeImage.Types.NONE;
 			}
 
 		} while ( ! exitWaitEventBucle );
-
-		runEI.ChangePhase(RunExecuteInspector.Phases.END);
 
 		onlyInterval_FinishWaitEventWrite();
 	}
@@ -436,6 +447,33 @@ public class RunExecute : EventExecute
 			return true;
 	}
 
+	protected override void runChangeImageIfNeeded()
+	{
+		if(! runChangeImage.ShouldBeChanged())
+			return;
+
+		if(runChangeImage.Current == RunChangeImage.Types.RUNNING)
+		{
+			image_run_execute_running.Visible = true;
+			image_run_execute_photocell.Visible = false;
+		}
+		else if(runChangeImage.Current == RunChangeImage.Types.PHOTOCELL)
+		{
+			image_run_execute_running.Visible = false;
+			image_run_execute_photocell.Visible = true;
+		} else
+		{
+			image_run_execute_running.Visible = false;
+			image_run_execute_photocell.Visible = false;
+		}
+	}
+
+	protected override void runChangeImageForceHide()
+	{
+		image_run_execute_running.Visible = false;
+		image_run_execute_photocell.Visible = false;
+	}
+
 	protected override void updateRunPhaseInfoManage()
 	{
 		//check if it's defined at beginning of race
@@ -448,7 +486,6 @@ public class RunExecute : EventExecute
 		//LogB.Information("In lastTfCheckTimeEnded()");
 		TimeSpan span = DateTime.Now - timerLastTf;
 		if(span.TotalMilliseconds > checkDoubleContactTime * 1.5)
-//		if(span.TotalMilliseconds > checkDoubleContactTime * 1.1) //TODO: try different values
 		{
 			timerLastTf = DateTime.Now;
 			LogB.Information("lastTfCheckTimeEnded: success");
@@ -735,7 +772,8 @@ public class RunIntervalExecute : RunExecute
 			RepetitiveConditionsWindow repetitiveConditionsWin,
 			double progressbarLimit, ExecutingGraphData egd ,
 			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime, 
-			bool speedStartArrival, bool measureReactionTime
+			bool speedStartArrival, bool measureReactionTime,
+			Gtk.Image image_run_execute_running, Gtk.Image image_run_execute_photocell
 			)
 	{
 		this.personID = personID;
@@ -776,6 +814,8 @@ public class RunIntervalExecute : RunExecute
 		this.checkDoubleContactTime = checkDoubleContactTime;
 		this.speedStartArrival = speedStartArrival;	
 		this.measureReactionTime = measureReactionTime;
+		this.image_run_execute_running = image_run_execute_running;
+		this.image_run_execute_photocell = image_run_execute_photocell;
 
 		reactionTimeMS = 0;
 		reactionTimeIncludedStr = Catalog.GetString("Included on race time of first track");

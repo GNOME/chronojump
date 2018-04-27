@@ -2,22 +2,17 @@
 2018 TODO:
 ----------
 
+mail compujump
+
 Club de futbol:
 	a l'sprint sembla que lo del decimal com a punt o coma no acaba d'anar bé perque pugen t1,t2,t3,t4 com a 0
 	xavip mirarà a veure si pot arreglar lo de el R pq no es quedi parat
 	ara tal i com està al club de 1er nivell, estem desactivant la primera pq tenim problemes amb els dobles contactes, hem desactivat dobles contactes a les preferencies i han de sortir des de la segona dempeus, i les dades que pugen son amb t1,t2,t3,t4 == 0
 	Pendent:
-1) arreglar lo de les t1,t4 al software provant amb el meu i actualitzar-lis la maquina sprint (la 18)
+1) arreglar lo de les t1,t4 al software provant amb el meu i actualitzar-lis la maquina sprint (la 18) FET
 	2) arreglar lo dels dobles contactes pq funcioni be. FET!
 	3) tornar a posar la barrera 1 tornar a activar els dobles contactes
 
-
-curses simples:
-- cal mirar si a simples passem el runPTL i com,
--  sobretot vigilar la funció de update que no li passem un currentEventExecute que no existeix
-- i grafica lateral a la dreta on es vegi de dalt a baix, o dalt a baix lo dels TCs
-
-carregar multiples persones des de person top window
 
 que a graph.R single es pugui veure f mitjana i a mitjana. fmitjana segur pq hi ha els valors al treeview.
 lo ideal seria que hi hagues una funcio cridada pel paint i que ho faci per cadascun de: v, f, p

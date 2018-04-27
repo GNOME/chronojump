@@ -227,7 +227,11 @@ public class EventExecute
 		//then thread is dead
 
 		if ( ! thread.IsAlive || cancel) {
-			LogB.ThreadEnding(); 
+			LogB.ThreadEnding();
+
+			//don't show any of the runChangeImage icons
+			runChangeImageForceHide();
+
 			fakeButtonThreadDyed.Click();
 
 			LogB.ThreadEnded(); 
@@ -320,6 +324,8 @@ public class EventExecute
 
 		// races specific --------------------------------->
 
+		runChangeImageIfNeeded();
+
 		updateRunPhaseInfoManage();
 
 		//Race track with DoubleContacts mode NONE
@@ -369,6 +375,14 @@ public class EventExecute
 	protected virtual bool lastTfCheckTimeEnded()
 	{
 		return true;
+	}
+
+	protected virtual void runChangeImageIfNeeded()
+	{
+	}
+
+	protected virtual void runChangeImageForceHide()
+	{
 	}
 
 	protected virtual void updateRunPhaseInfoManage()

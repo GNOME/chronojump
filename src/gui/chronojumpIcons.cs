@@ -84,6 +84,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_selector_start_other;
 	[Widget] Gtk.Image image_selector_start_cancel;
 
+	//run
+	[Widget] Gtk.Image image_run_execute_running;
+	[Widget] Gtk.Image image_run_execute_photocell;
+
 	//encoder images
 	[Widget] Gtk.Image image_top_eccon;
 	[Widget] Gtk.Image image_encoder_eccon_concentric;
@@ -375,6 +379,11 @@ public partial class ChronoJumpWindow
 		image_mode_runs_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
 		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run.png");
+		image_run_execute_running.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_photocell.png");
+		image_run_execute_photocell.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNamePulse);
 		image_mode_pulses_small.Pixbuf = pixbuf;

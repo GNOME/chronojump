@@ -4619,7 +4619,9 @@ public partial class ChronoJumpWindow
 				preferences.runDoubleContactsMode,
 				preferences.runDoubleContactsMS,
 				preferences.runSpeedStartArrival,
-				check_run_simple_with_reaction_time.Active
+				check_run_simple_with_reaction_time.Active,
+				image_run_execute_running,
+				image_run_execute_photocell
 				);
 		
 		if (! canCaptureC)
@@ -4744,7 +4746,9 @@ public partial class ChronoJumpWindow
 				preferences.runIDoubleContactsMode,
 				preferences.runIDoubleContactsMS,
 				preferences.runSpeedStartArrival,
-				check_run_interval_with_reaction_time.Active
+				check_run_interval_with_reaction_time.Active,
+				image_run_execute_running,
+				image_run_execute_photocell
 				);
 
 		//suitable for limited by tracks and time

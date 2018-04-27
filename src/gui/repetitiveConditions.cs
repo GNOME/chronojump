@@ -34,6 +34,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Box hbox_jump_best_worst;
 	[Widget] Gtk.Box hbox_run_best_worst;
 	
+	[Widget] Gtk.VBox vbox_encoder_stuff;
 	[Widget] Gtk.Frame frame_conditions;
 
 	/* jumps */	
@@ -257,6 +258,7 @@ public class RepetitiveConditionsWindow
 		vbox_encoder_manual.Hide();
 		notebook_encoder_conditions.Hide();
 		checkbutton_inertial_discard_first_three.Hide();
+		vbox_encoder_stuff.Hide();
 
 		notebook_main.GetNthPage(RHYTHMPAGE).Hide();
 		notebook_main.ShowTabs = false;
@@ -272,6 +274,7 @@ public class RepetitiveConditionsWindow
 			hbox_run_conditions.Show();
 			frame_conditions.Show();
 		} else { //encoder (grav and inertial)
+			vbox_encoder_stuff.Show();
 			frame_encoder_automatic_conditions.Show();
 			notebook_main.ShowTabs = true;
 

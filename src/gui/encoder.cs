@@ -3075,6 +3075,7 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_exercise_analyze.Visible = false;
 		
 		//this analysis only when not comparing
+		radiobutton_encoder_analyze_instantaneous.Visible = true;
 		radiobutton_encoder_analyze_powerbars.Visible = true;
 		radiobutton_encoder_analyze_1RM.Visible = (currentEncoderGI == Constants.EncoderGI.GRAVITATORY);
 		radiobutton_encoder_analyze_single.Visible = true;
@@ -3118,6 +3119,7 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_exercise_analyze.Visible = true;
 
 		//this analysis only when not comparing
+		radiobutton_encoder_analyze_instantaneous.Visible = true;
 		radiobutton_encoder_analyze_powerbars.Visible = true;
 		radiobutton_encoder_analyze_1RM.Visible = (currentEncoderGI == Constants.EncoderGI.GRAVITATORY);
 		radiobutton_encoder_analyze_single.Visible = true;
@@ -3157,6 +3159,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_intersession.Visible = true;
 		
 		//this analysis only when not comparing
+		radiobutton_encoder_analyze_instantaneous.Visible = false;
 		radiobutton_encoder_analyze_powerbars.Visible = false;
 		radiobutton_encoder_analyze_1RM.Visible = false;
 		radiobutton_encoder_analyze_single.Visible = false;
@@ -3187,6 +3190,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_intersession.Visible = false;
 		
 		//this analysis only when not comparing
+		radiobutton_encoder_analyze_instantaneous.Visible = false;
 		radiobutton_encoder_analyze_powerbars.Visible = false;
 		radiobutton_encoder_analyze_1RM.Visible = false;
 		radiobutton_encoder_analyze_single.Visible = false;

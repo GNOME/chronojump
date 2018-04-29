@@ -3081,6 +3081,8 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_analyze_single.Visible = true;
 		radiobutton_encoder_analyze_side.Visible = true;
 		radiobutton_encoder_analyze_superpose.Visible = true;
+		radiobutton_encoder_analyze_all_set.Visible = true;
+
 		radiobutton_encoder_analyze_neuromuscular_profile.Visible = (currentEncoderGI == Constants.EncoderGI.GRAVITATORY);
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
@@ -3125,6 +3127,12 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_analyze_single.Visible = true;
 		radiobutton_encoder_analyze_side.Visible = true;
 		radiobutton_encoder_analyze_superpose.Visible = true;
+
+		//all_set only available on current signal mode
+		if(radiobutton_encoder_analyze_all_set.Active)
+			radiobutton_encoder_analyze_single.Active = true;
+		radiobutton_encoder_analyze_all_set.Visible = false;
+
 		radiobutton_encoder_analyze_neuromuscular_profile.Visible = (currentEncoderGI == Constants.EncoderGI.GRAVITATORY);
 
 		check_encoder_analyze_eccon_together.Sensitive = true;
@@ -3376,6 +3384,11 @@ public partial class ChronoJumpWindow
 
 		//restore 1RM Bench Press sensitiveness
 		check_encoder_analyze_mean_or_max.Sensitive = true;
+
+		//all_set only available on current signal mode
+		if(! radio_encoder_analyze_individual_current_set.Active && radiobutton_encoder_analyze_all_set.Active)
+			radiobutton_encoder_analyze_single.Active = true;
+		radiobutton_encoder_analyze_all_set.Visible = radio_encoder_analyze_individual_current_set.Active;
 
 		//4 radiobuttons
 		if(radiobutton_encoder_analyze_single.Active)

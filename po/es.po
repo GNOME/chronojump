@@ -458,7 +458,7 @@ msgstr "Espere."
 
 #: ../glade/app1.glade.h:89 ../glade/preferences_win.glade.h:1
 msgid "Preferences"
-msgstr "_Preferencias"
+msgstr "Preferencias"
 
 #: ../glade/app1.glade.h:90 ../glade/query_server_window.glade.h:4
 #: ../src/gui/executeAuto.cs:502

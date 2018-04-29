@@ -45,11 +45,11 @@ public partial class ChronoJumpWindow
 		tv.HeadersVisible=true;
 
 		int count = 0;
-		tv.AppendColumn ("Type", new CellRendererText(), "text", count++);
+		tv.AppendColumn (Catalog.GetString("Type"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ("ID", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Distances", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Split times", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Total time", new CellRendererText(), "text", count++);
+		tv.AppendColumn (Catalog.GetString("Distances"), new CellRendererText(), "text", count++);
+		tv.AppendColumn (Catalog.GetString("Split times"), new CellRendererText(), "text", count++);
+		tv.AppendColumn (Catalog.GetString("Total time"), new CellRendererText(), "text", count++);
 
 		storeSprint = new TreeStore(
 				typeof (string), typeof (string), typeof (string),

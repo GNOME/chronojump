@@ -1915,7 +1915,7 @@ msgstr "Superponer"
 #: ../glade/app1.glade.h:412 ../src/gui/encoder.cs:3453
 #| msgid "All tests"
 msgid "All set"
-msgstr "Todas las pruebas"
+msgstr "Toda la serie"
 
 #: ../glade/app1.glade.h:413
 msgid "Same X scale"

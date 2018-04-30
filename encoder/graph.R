@@ -902,7 +902,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 }
 
                 #show propulsive stuff if line if differentiation is relevant (propulsivePhase ends before the end of the movement)
-                if(isPropulsive & propulsiveEnd < length(displacement)) {
+                if(showAccel && isPropulsive & propulsiveEnd < length(displacement)) {
                         #propulsive stuff
                         segments(0,-9.81,length(accel$y),-9.81,lty=3,col="magenta")
                         #abline(v=propulsiveEnd,lty=3,col="magenta")
@@ -3448,8 +3448,8 @@ doProcess <- function(options)
 			      TRUE,	#draw
 			      op$Width,
 			      FALSE,	#showLabels
-			      TRUE,	#marShrink
-			      FALSE,	#showAxes
+			      FALSE,	#marShrink
+			      TRUE,	#showAxes
 			      (i==1),	#legend
 			      op$Analysis, isPropulsive, inertialType, repOp$exPercentBodyWeight,
                               (op$AnalysisVariables[1] == "Position"), #show position

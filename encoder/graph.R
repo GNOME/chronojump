@@ -1795,8 +1795,12 @@ paintCrossVariables <- function (paf, varX, varY, option,
         isPowerLoad = FALSE
         if( (varX == "Load" || varX == "Inertia") && varY == "Power" )
                 isPowerLoad = TRUE
+        if(! dateAsX)
+        {
+                varXut = addUnitsAndTranslate(varX)
+        } else
+                varXut = "Date"
         
-        varXut = addUnitsAndTranslate(varX)
         varYut = addUnitsAndTranslate(varY)
         
         

@@ -42,7 +42,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_force_duration_seconds;
 
 	//analyze options
-	[Widget] Gtk.Notebook notebook_force_analyze;
+	[Widget] Gtk.Notebook notebook_force_sensor_analyze; //decide between automatic and manual
+	[Widget] Gtk.RadioButton radiobutton_force_sensor_analyze_automatic;
+	[Widget] Gtk.RadioButton radiobutton_force_sensor_analyze_manual;
+	[Widget] Gtk.HBox hbox_force_sensor_analyze_automatic_options;
+	[Widget] Gtk.Notebook notebook_force_analyze_automatic;
 	[Widget] Gtk.Button button_force_sensor_analyze_options;
 	[Widget] Gtk.HBox hbox_force_1;
 	[Widget] Gtk.HBox hbox_force_2;
@@ -98,7 +102,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spinbutton_force_4_to;
 	[Widget] Gtk.SpinButton spinbutton_force_impulse_to;
 
-
 	/*
 	 * analyze options -------------------------->
 	 */
@@ -124,7 +127,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_force_sensor_analyze_options_clicked (object o, EventArgs args)
 	{
-		notebook_force_analyze.CurrentPage = 1;
+		notebook_force_analyze_automatic.CurrentPage = 1;
 		forceSensorAnalyzeOptionsSensitivity(false);
 	}
 
@@ -155,7 +158,7 @@ public partial class ChronoJumpWindow
 
 		// 2 change sensitivity of widgets
 
-		notebook_force_analyze.CurrentPage = 0;
+		notebook_force_analyze_automatic.CurrentPage = 0;
 		forceSensorAnalyzeOptionsSensitivity(true);
 	}
 
@@ -460,4 +463,419 @@ public partial class ChronoJumpWindow
 	{
 		get { return impulse;  }
 	}
+
+	[Widget] Gtk.DrawingArea force_sensor_ai_drawingarea;
+	[Widget] Gtk.HScale hscale_force_sensor_ai_a;
+	[Widget] Gtk.HScale hscale_force_sensor_ai_b;
+	[Widget] Gtk.CheckButton checkbutton_force_sensor_ai_b;
+	[Widget] Gtk.Label label_force_sensor_ai_time_a;
+	[Widget] Gtk.Label label_force_sensor_ai_force_a;
+	[Widget] Gtk.HBox hbox_buttons_scale_force_sensor_ai_b;
+	[Widget] Gtk.Label label_force_sensor_ai_diff;
+	[Widget] Gtk.Label label_force_sensor_ai_average;
+	[Widget] Gtk.Label label_force_sensor_ai_max;
+	[Widget] Gtk.Label label_force_sensor_ai_time_b;
+	[Widget] Gtk.Label label_force_sensor_ai_time_diff;
+	[Widget] Gtk.Label label_force_sensor_ai_force_b;
+	[Widget] Gtk.Label label_force_sensor_ai_force_diff;
+	[Widget] Gtk.Label label_force_sensor_ai_force_average;
+	[Widget] Gtk.Label label_force_sensor_ai_force_max;
+
+	ForceSensorAnalyzeInstant fsAI;
+
+	private void on_radiobutton_force_sensor_analyze_automatic_toggled (object o, EventArgs args)
+	{
+		if(! radiobutton_force_sensor_analyze_automatic.Active)
+			return;
+
+		hbox_force_sensor_analyze_automatic_options.Visible = true;
+		notebook_force_sensor_analyze.CurrentPage = 0;
+	}
+	bool force_sensor_ai_drawingareaShown = false;
+	private void on_radiobutton_force_sensor_analyze_manual_toggled (object o, EventArgs args)
+	{
+		if(! radiobutton_force_sensor_analyze_manual.Active)
+			return;
+
+		hbox_force_sensor_analyze_automatic_options.Visible = false;
+		notebook_force_sensor_analyze.CurrentPage = 1;
+		force_sensor_ai_drawingareaShown = true;
+		forceSensorDoGraphAI();
+	}
+
+	private void forceSensorDoGraphAI()
+	{
+		if(lastForceSensorFullPath == null || lastForceSensorFullPath == "")
+			return;
+
+		fsAI = new ForceSensorAnalyzeInstant(
+				lastForceSensorFullPath,
+				force_sensor_ai_drawingarea.Allocation.Width,
+				force_sensor_ai_drawingarea.Allocation.Height
+				);
+
+		forceSensorAIPlot();
+
+		//ranges should have max value the number of the lines of csv file minus the header
+		hscale_force_sensor_ai_a.SetRange(0, fsAI.GetLength() -1);
+		hscale_force_sensor_ai_b.SetRange(0, fsAI.GetLength() -1);
+
+		//to update values
+		on_hscale_force_sensor_ai_a_value_changed (new object (), new EventArgs ());
+	}
+
+	Gdk.Colormap colormapForceAI;// = Gdk.Colormap.System;
+	Gdk.Pixmap force_sensor_ai_pixmap = null;
+	Gdk.GC pen_black_force_ai; 		//signal
+	Gdk.GC pen_blue_force_ai; 		//RFD
+	Gdk.GC pen_red_force_ai; 		//RFD max
+	Gdk.GC pen_gray_discont_force_ai; 	//vertical lines
+	Gdk.GC pen_yellow_force_ai; 		//0 force
+
+	private void forceSensorAIPlot()
+	{
+		//UtilGtk.ErasePaint(force_sensor_ai_drawingarea, force_sensor_ai_pixmap);
+
+		LogB.Information(
+				"forceSensorAIPlot() " +
+				(pen_black_force_ai == null).ToString() +
+				(colormapForceAI == null).ToString() +
+				(force_sensor_ai_drawingarea == null).ToString() +
+				(force_sensor_ai_pixmap == null).ToString());
+
+		if(force_sensor_ai_pixmap == null || pen_black_force_ai == null)
+			force_ai_graphs_init();
+
+		forceSensorAIChanged = true; //to actually plot
+		force_sensor_ai_drawingarea.QueueDraw(); // -- refresh
+	}
+
+	Pango.Layout layout_force_ai_text;
+	private void force_ai_graphs_init()
+	{
+		colormapForceAI = Gdk.Colormap.System;
+		colormapForceAI.AllocColor (ref UtilGtk.BLACK,true,true);
+		colormapForceAI.AllocColor (ref UtilGtk.BLUE_PLOTS,true,true);
+		colormapForceAI.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
+		colormapForceAI.AllocColor (ref UtilGtk.GRAY,true,true);
+		bool success = colormapForceAI.AllocColor (ref UtilGtk.YELLOW,true,true);
+		LogB.Information("Yellow success!: " + success.ToString()); //sempre dona success
+
+		pen_black_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
+		//potser llegir els valors de la Gdk.GC
+		try{
+		LogB.Information("Gdk.GC screen: " + pen_black_force_ai.Screen.ToString());
+		} catch { LogB.Information("CATCHED at screen"); }
+
+		pen_blue_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
+		pen_red_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
+		pen_yellow_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
+		pen_gray_discont_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
+
+		pen_black_force_ai.Foreground = UtilGtk.BLACK;
+		pen_blue_force_ai.Foreground = UtilGtk.BLUE_PLOTS;
+		pen_red_force_ai.Foreground = UtilGtk.RED_PLOTS;
+		pen_yellow_force_ai.Foreground = UtilGtk.YELLOW;
+		pen_gray_discont_force_ai.Foreground = UtilGtk.GRAY;
+
+		//pen_black_force_ai.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+		//this makes the lines less spiky:
+		pen_black_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		pen_blue_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		pen_red_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		pen_yellow_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		pen_gray_discont_force_ai.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+
+		layout_force_ai_text = new Pango.Layout (force_sensor_ai_drawingarea.PangoContext);
+		layout_force_ai_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+	}
+
+	int force_sensor_ai_allocationXOld;
+	bool force_sensor_ai_sizeChanged;
+	public void on_force_sensor_ai_drawingarea_configure_event (object o, ConfigureEventArgs args)
+	{
+		LogB.Information("CONFIGURE force_sensor_ai_drawingarea_exposeai START");
+		if(force_sensor_ai_drawingarea == null)
+			return;
+
+		Gdk.EventConfigure ev = args.Event;
+		Gdk.Window window = ev.Window;
+
+		Gdk.Rectangle allocation = force_sensor_ai_drawingarea.Allocation;
+
+		if(force_sensor_ai_pixmap == null || force_sensor_ai_sizeChanged ||
+				allocation.Width != force_sensor_ai_allocationXOld)
+		{
+			force_sensor_ai_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
+
+			UtilGtk.ErasePaint(force_sensor_ai_drawingarea, force_sensor_ai_pixmap);
+
+			force_sensor_ai_sizeChanged = false;
+		}
+
+		force_sensor_ai_allocationXOld = allocation.Width;
+		LogB.Information("CONFIGURE force_sensor_ai_drawingarea_exposeai END");
+	}
+	public void on_force_sensor_ai_drawingarea_expose_event (object o, ExposeEventArgs args)
+	{
+		LogB.Information("EXPOSE force_sensor_ai_drawingarea_expose START");
+		if(force_sensor_ai_drawingarea == null)
+			return;
+
+		/* in some mono installations, configure_event is not called, but expose_event yes.
+		 * Do here the initialization
+		 */
+
+		Gdk.Rectangle allocation = force_sensor_ai_drawingarea.Allocation;
+		if(force_sensor_ai_pixmap == null || force_sensor_ai_sizeChanged ||
+				allocation.Width != force_sensor_ai_allocationXOld ||
+				forceSensorAIChanged)
+		{
+			if(forceSensorAIChanged)
+				forceSensorAIChanged = false;
+
+			force_sensor_ai_pixmap = new Gdk.Pixmap (force_sensor_ai_drawingarea.GdkWindow,
+					allocation.Width, allocation.Height, -1);
+
+			UtilGtk.ErasePaint(force_sensor_ai_drawingarea, force_sensor_ai_pixmap);
+			if(fsAI != null)
+			{
+				LogB.Information("EXPOSE 5");
+
+				// 1) create paintPoints
+				Gdk.Point [] paintPoints = new Gdk.Point[fsAI.FscAIPoints.Points.Count];
+				for(int i = 0; i < fsAI.FscAIPoints.Points.Count; i ++)
+					paintPoints[i] = fsAI.FscAIPoints.Points[i];
+
+				// 2) draw horizontal 0 line
+				force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
+						0, fsAI.GetPxAtForce(0), allocation.Width, fsAI.GetPxAtForce(0));
+				force_sensor_ai_pixmap.DrawLines(pen_black_force_ai, paintPoints);
+
+				// 3) create hscaleLower and higher values (A, B at the moment)
+				int hscaleLower = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+				int hscaleHigher = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+
+				// 4) paint vertical yellow lines A, B and write letter
+				int xposA = fsAI.GetVerticalLinePosition(hscaleLower, fsAI.GetLength());
+				force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
+						xposA, 20, xposA, allocation.Height);
+
+				layout_force_ai_text.SetMarkup("A");
+				int textWidth = 1;
+				int textHeight = 1;
+				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+				force_sensor_ai_pixmap.DrawLayout (pen_yellow_force_ai,
+						xposA - textWidth/2, 0,
+						layout_force_ai_text);
+
+				int xposB = 0;
+				if(checkbutton_force_sensor_ai_b.Active && hscaleLower != hscaleHigher)
+				{
+					xposB = fsAI.GetVerticalLinePosition(hscaleHigher, fsAI.GetLength());
+					force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
+							xposB, 20, xposB, allocation.Height);
+
+					layout_force_ai_text.SetMarkup("B");
+					textWidth = 1;
+					textHeight = 1;
+					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+					force_sensor_ai_pixmap.DrawLayout (pen_yellow_force_ai,
+							xposB - textWidth/2, 0,
+							layout_force_ai_text);
+				}
+
+				if(checkbutton_force_sensor_ai_b.Active)
+				{
+					/*
+					 * 5) Invert AB if needed to paint correctly blue and red lines
+					 * making it work also when B is higher than A
+					 */
+					if(hscaleLower > hscaleHigher)
+					{
+						hscaleLower = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+						hscaleHigher = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+						int temp = xposA;
+						xposA = xposB;
+						xposB = temp;
+					}
+
+					if(hscaleHigher != hscaleLower)
+					{
+						//6) calculate and paint RFD
+						double forceA = fsAI.GetForce(hscaleLower);
+						double forceB = fsAI.GetForce(hscaleHigher);
+
+						force_sensor_ai_pixmap.DrawLine(pen_blue_force_ai,
+								xposA, fsAI.GetPxAtForce(forceA),
+								xposB, fsAI.GetPxAtForce(forceB));
+
+						layout_force_ai_text.SetMarkup(string.Format("RFD A-B: {0:0.#} N/s",
+									Math.Round(fsAI.CalculateRFD(hscaleLower, hscaleHigher), 1) ));
+						textWidth = 1;
+						textHeight = 1;
+						layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+						force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
+								allocation.Width -textWidth -10, allocation.Height/2 -20,
+								layout_force_ai_text);
+
+						// 7) calculate and paint max RFD
+						//value of count that produce the max RFD (between the previous and next value)
+						int countRFDMax = hscaleLower;
+						layout_force_ai_text.SetMarkup(string.Format("RFD Max: {0:0.#} N/s",
+									Math.Round(fsAI.CalculateMaxRFDInRange(
+											hscaleLower+1, hscaleHigher-1, //avoid having data out of possible
+											out countRFDMax), 1) ));
+
+						layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+						force_sensor_ai_pixmap.DrawLayout (pen_red_force_ai,
+								allocation.Width -textWidth -10, allocation.Height/2,
+								layout_force_ai_text);
+
+
+						xposA = fsAI.GetVerticalLinePosition(countRFDMax -1, fsAI.GetLength());
+						xposB = fsAI.GetVerticalLinePosition(countRFDMax +1, fsAI.GetLength());
+
+						/*
+						 * do not paint segment, it's too small
+						 force_sensor_ai_pixmap.DrawLine(pen_red_force_ai,
+						 xposA, fsAI.GetPxAtForce(fsAI.GetForce(hscaleLowerMax)),
+						 xposB, fsAI.GetPxAtForce(fsAI.GetForce(hscaleHigherMax)) );
+						 */
+
+						//calculate line (not segment)
+						int segXA = xposA;
+						int segXB = xposB;
+						int segYA = fsAI.GetPxAtForce(fsAI.GetForce(countRFDMax -1));
+						int segYB = fsAI.GetPxAtForce(fsAI.GetForce(countRFDMax +1));
+						double slope = Math.Abs(
+								Util.DivideSafe( segYB - segYA,
+									(1.0 * (segXB- segXA)) )
+								);
+						//LogB.Information(string.Format("segXA: {0}, segXB: {1}, segYA: {2}, segYB: {3}, slope: {4}",
+						//			segXA, segXB, segYA, segYB, slope));
+
+
+						int lineXA = segXA - Convert.ToInt32(Util.DivideSafe(
+									(allocation.Height - segYA),
+									slope));
+						int lineXB = segXB + Convert.ToInt32(Util.DivideSafe(
+									(segYB - 0),
+									slope));
+						int lineYA = allocation.Height;
+						int lineYB = 0;
+
+						force_sensor_ai_pixmap.DrawLine(pen_red_force_ai,
+								lineXA, lineYA,
+								lineXB, lineYB);
+					}
+				}
+				LogB.Information("EXPOSE 6");
+			}
+
+			force_sensor_ai_sizeChanged = false;
+		}
+
+		Gdk.Rectangle area = args.Event.Area;
+
+		//sometimes this is called when paint is finished
+		//don't let this erase win
+		if(force_sensor_ai_pixmap != null) {
+			args.Event.Window.DrawDrawable(force_sensor_ai_drawingarea.Style.WhiteGC, force_sensor_ai_pixmap,
+				area.X, area.Y,
+				area.X, area.Y,
+				area.Width, area.Height);
+		}
+
+		force_sensor_ai_allocationXOld = allocation.Width;
+		LogB.Information("EXPOSE END");
+	}
+
+	bool forceSensorAIChanged = false;
+	private void on_hscale_force_sensor_ai_a_value_changed (object o, EventArgs args)
+	{
+		if(fsAI == null)
+			return;
+
+		int count = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
+		label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForce(count), 1).ToString();
+
+		if(checkbutton_force_sensor_ai_b.Active)
+			force_sensor_analyze_instant_calculate_params();
+
+		forceSensorAIChanged = true;
+		force_sensor_ai_drawingarea.QueueDraw(); //will fire ExposeEvent
+	}
+	private void on_hscale_force_sensor_ai_b_value_changed (object o, EventArgs args)
+	{
+		if(fsAI == null)
+			return;
+
+		int count = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
+		label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForce(count), 1).ToString();
+
+		force_sensor_analyze_instant_calculate_params();
+
+		forceSensorAIChanged = true;
+		force_sensor_ai_drawingarea.QueueDraw(); //will fire ExposeEvent
+	}
+
+	private void on_button_hscale_force_sensor_ai_a_pre_clicked (object o, EventArgs args)
+	{
+		hscale_force_sensor_ai_a.Value -= 1;
+	}
+	private void on_button_hscale_force_sensor_ai_a_post_clicked (object o, EventArgs args)
+	{
+		hscale_force_sensor_ai_a.Value += 1;
+	}
+	private void on_button_hscale_force_sensor_ai_b_pre_clicked (object o, EventArgs args)
+	{
+		hscale_force_sensor_ai_b.Value -= 1;
+	}
+	private void on_button_hscale_force_sensor_ai_b_post_clicked (object o, EventArgs args)
+	{
+		hscale_force_sensor_ai_b.Value += 1;
+	}
+	private void on_checkbutton_force_sensor_ai_b_toggled (object o, EventArgs args)
+	{
+		bool visible = checkbutton_force_sensor_ai_b.Active;
+		hscale_force_sensor_ai_b.Visible = visible;
+		hbox_buttons_scale_force_sensor_ai_b.Visible = visible;
+
+		label_force_sensor_ai_diff.Visible = visible;
+		label_force_sensor_ai_average.Visible = visible;
+		label_force_sensor_ai_max.Visible = visible;
+		label_force_sensor_ai_time_b.Visible = visible;
+		label_force_sensor_ai_time_diff.Visible = visible;
+
+		label_force_sensor_ai_force_b.Visible = visible;
+		label_force_sensor_ai_force_diff.Visible = visible;
+		label_force_sensor_ai_force_average.Visible = visible;
+		label_force_sensor_ai_force_max.Visible = visible;
+
+		forceSensorAIChanged = true; //to actually plot
+		force_sensor_ai_drawingarea.QueueDraw(); // -- refresh
+	}
+
+	private void force_sensor_analyze_instant_calculate_params()
+	{
+		int countA = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		int countB = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+
+		double timeA = fsAI.GetTimeMS(countA);
+		double timeB = fsAI.GetTimeMS(countB);
+		double forceA = fsAI.GetForce(countA);
+		double forceB = fsAI.GetForce(countB);
+		bool success = fsAI.CalculateRangeParams(countA, countB);
+		if(success) {
+			label_force_sensor_ai_time_diff.Text = Math.Round(timeB - timeA, 1).ToString();
+			label_force_sensor_ai_force_diff.Text = Math.Round(forceB - forceA, 1).ToString();
+			label_force_sensor_ai_force_average.Text = Math.Round(fsAI.ForceAVG, 1).ToString();
+			label_force_sensor_ai_force_max.Text = Math.Round(fsAI.ForceMAX, 1).ToString();
+		}
+	}
+
+
 }

@@ -665,7 +665,8 @@ public class UtilGtk
 	 */
 
 	
-	public static void ErasePaint(Gtk.DrawingArea da, Gdk.Pixmap px) {
+	public static void ErasePaint(Gtk.DrawingArea da, Gdk.Pixmap px)
+	{
 		px.DrawRectangle (da.Style.WhiteGC, true, 0, 0, da.Allocation.Width, da.Allocation.Height);
 		da.QueueDraw(); // -- refresh
 	}

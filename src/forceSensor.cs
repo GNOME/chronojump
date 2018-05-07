@@ -84,7 +84,7 @@ public class ForceSensorCapturePoints
 
 	public int GetTimeInPx(int time)
 	{
-		//without 1.0 calculation is done as int producint very buggy value
+		//without 1.0 calculation is done as int producing very buggy value
 		return marginLeft + Convert.ToInt32(1.0 * (widthG -marginLeft -marginRight) * time / RealWidthG);
 	}
 
@@ -115,6 +115,66 @@ public class ForceSensorCapturePoints
 	{
 		return Points[Points.Count -1];
 	}
+
+	// TODO: do all this in an inherited class
+	public int GetLength()
+	{
+		return times.Count;
+	}
+
+	public int GetLastTime()
+	{
+		return times[times.Count -1];
+	}
+
+	public double GetLastForce()
+	{
+		return forces[forces.Count -1];
+	}
+
+	public double GetTimeAtCount(int count)
+	{
+		return times[count];
+	}
+	public double GetForceAtCount(int count)
+	{
+		return forces[count];
+	}
+	public void GetAverageAndMaxForce(int countA, int countB, out double avg, out double max)
+	{
+		if(countA == countB) {
+			avg = forces[countA];
+			max = forces[countA];
+			return;
+		}
+
+		double sum = 0;
+		max = 0;
+		for(int i = countA; i <= countB; i ++) {
+			sum += forces[i];
+			if(forces[i] > max)
+				max = forces[i];
+		}
+
+		avg = sum / (countB - countA);
+	}
+	public double GetRFD(int countA, int countB)
+	{
+		double calc = (forces[countB] - forces[countA]) / (times[countB]/1000000.0 - times[countA]/1000000.0); //microsec to sec
+		//LogB.Information(string.Format("GetRFD {0}, {1}, {2}, {3}, {4}, {5}, RFD: {6}",
+		// 	countA, countB, forces[countA], forces[countB], times[countA], times[countB], calc));
+		return calc;
+	}
+	public int MarginLeft
+	{
+		get { return marginLeft; }
+	}
+	public int MarginRight
+	{
+		get { return marginRight; }
+	}
+	// TODO: end of... do all this in an inherited class
+
 
 	// this is called while capturing, checks if last captured value is outside the graph
 	public bool OutsideGraph()
@@ -161,11 +221,7 @@ public class ForceSensorCapturePoints
 	public void Redo()
 	{
 		for(int i=0; i < NumCaptured; i ++)
-		{
-			//LogB.Information("RedoPRE X: " + Points[i].X.ToString() + "; Y: " + Points[i].Y.ToString());
 			Points[i] = new Gdk.Point(GetTimeInPx(times[i]), GetForceInPx(forces[i]));
-			//LogB.Information("RedoPOST X: " + Points[i].X.ToString() + "; Y: " + Points[i].Y.ToString());
-		}
 	}
 
 	public int WidthG
@@ -526,111 +582,161 @@ public class ForceSensorGraph
 	}
 }
 
-/*
-public class ForceSensor
+public class ForceSensorAnalyzeInstant
 {
-	double averageLength;
-	double percentChange;
-	bool vlineT0;
-	bool vline50fmax_raw;
-	bool vline50fmax_fitted;
-	bool hline50fmax_raw;
-	bool hline50fmax_fitted;
-	bool rfd0_fitted;
-	bool rfd100_raw;
-	bool rfd0_100_raw;
-	bool rfd0_100_fitted;
-	bool rfd200_raw;
-	bool rfd0_200_raw;
-	bool rfd0_200_fitted;
-	bool rfd50fmax_raw;
-	bool rfd50fmax_fitted;
+	public double ForceAVG;
+	public double ForceMAX;
 
-	public ForceSensor()
+	private ForceSensorCapturePoints fscAIPoints; //Analyze Instant
+	private ForceSensorValues forceSensorValues;
+	private int graphWidth;
+	private int graphHeight;
+
+	public ForceSensorAnalyzeInstant(string file, int graphWidth, int graphHeight)
 	{
-		averageLength = 0.1; 
-		percentChange = 5;
-		vlineT0 = false;
-		vline50fmax_raw = false;
-		vline50fmax_fitted = false;
-		hline50fmax_raw = false;
-		hline50fmax_fitted = false;
-		rfd0_fitted = false;
-		rfd100_raw = false;
-		rfd0_100_raw = false;
-		rfd0_100_fitted = false;
-		rfd200_raw = false;
-		rfd0_200_raw = false;
-		rfd0_200_fitted = false;
-		rfd50fmax_raw = false;
-		rfd50fmax_fitted = false;
+		this.graphWidth = graphWidth;
+		this.graphHeight = graphHeight;
+
+		readFile(file);
+
+		//ensure points fit on display
+		if(fscAIPoints.OutsideGraph(forceSensorValues.TimeLast, forceSensorValues.ForceMax, forceSensorValues.ForceMin))
+			fscAIPoints.Redo();
 	}
 
-	public bool CallR(int graphWidth, int graphHeight)
+	private void readFile(string file)
 	{
-		string executable = UtilEncoder.RProcessBinURL();
-		List<string> parameters = new List<string>();
+		fscAIPoints = new ForceSensorCapturePoints(graphWidth, graphHeight);
 
-		//A) mifcript
-		string mifScript = UtilEncoder.GetmifScript();
-		if(UtilAll.IsWindows())
-			mifScript = mifScript.Replace("\\","/");
+//TODO: check file exists...
+		List<string> contents = Util.ReadFileAsStringList(file);
+		bool headersRow = true;
 
-		parameters.Insert(0, "\"" + mifScript + "\"");
+		//initialize
+		forceSensorValues = new ForceSensorValues();
 
-		//B) tempPath
-		string tempPath = Path.GetTempPath();
-		if(UtilAll.IsWindows())
-			tempPath = tempPath.Replace("\\","/");
+		foreach(string str in contents)
+		{
+			if(headersRow)
+				headersRow = false;
+			else {
+				string [] strFull = str.Split(new char[] {';'});
+				if(strFull.Length != 2)
+					continue;
 
-		parameters.Insert(1, "\"" + tempPath + "\"");
+				/*
+				 * TODO: Make this work with decimals as comma and decimals as point
+				 * to fix problems on importing data on different localised computer
+				 */
 
-		//C) writeOptions
-		writeOptionsFile(graphWidth, graphHeight);
+				if(Util.IsNumber(strFull[0], false) && Util.IsNumber(strFull[1], true))
+				{
+					int time = Convert.ToInt32(strFull[0]);
+					double force = Convert.ToDouble(strFull[1]);
 
-		LogB.Information("\nCalling mif R file ----->");
+					fscAIPoints.Add(time, force);
+					fscAIPoints.NumCaptured ++;
 
-		//D) call process
-		//ExecuteProcess.run (executable, parameters);
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
-		//LogB.Information("Result = " + execute_result.stdout);
-
-		LogB.Information("\n<------ Done calling mif R file.");
-		return execute_result.success;
+					forceSensorValues.TimeLast = time;
+					forceSensorValues.ForceLast = force;
+					forceSensorValues.SetMaxMinIfNeeded(force, time);
+				}
+			}
+		}
 	}
 
-	private void writeOptionsFile(int graphWidth, int graphHeight)
+	//gets an instant value
+	public double GetTimeMS(int count)
 	{
-		string scriptsPath = UtilEncoder.GetSprintPath();
-		if(UtilAll.IsWindows())
-			scriptsPath = scriptsPath.Replace("\\","/");
-
-		string scriptOptions =
-			"#os\n" + 			UtilEncoder.OperatingSystemForRGraphs() + "\n" +
-			"#graphWidth\n" + 		graphWidth.ToString() + "\n" +
-			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +
-			"#averageLength\n" + 		Util.ConvertToPoint(averageLength) + "\n" +
-			"#percentChange\n" + 		Util.ConvertToPoint(percentChange) + "\n" +
-			"#vlineT0\n" + 			Util.BoolToRBool(vlineT0) + "\n" +
-			"#vline50fmax.raw\n" + 		Util.BoolToRBool(vline50fmax_raw) + "\n" +
-			"#vline50fmax.fitted\n" + 	Util.BoolToRBool(vline50fmax_fitted) + "\n" +
-			"#hline50fmax.raw\n" + 		Util.BoolToRBool(hline50fmax_raw) + "\n" +
-			"#hline50fmax.fitted\n" + 	Util.BoolToRBool(hline50fmax_fitted) + "\n" +
-			"#rfd0.fitted\n" + 		Util.BoolToRBool(rfd0_fitted) + "\n" +
-			"#rfd100.raw\n" + 		Util.BoolToRBool(rfd100_raw) + "\n" +
-			"#rfd0_100.raw\n" + 		Util.BoolToRBool(rfd0_100_raw) + "\n" +
-			"#rfd0_100.fitted\n" + 		Util.BoolToRBool(rfd0_100_fitted) + "\n" +
-			"#rfd200.raw\n" + 		Util.BoolToRBool(rfd200_raw) + "\n" +
-			"#rfd0_200.raw\n" + 		Util.BoolToRBool(rfd0_200_raw) + "\n" +
-			"#rfd0_200.fitted\n" + 		Util.BoolToRBool(rfd0_200_fitted) + "\n" +
-			"#rfd50fmax.raw\n" + 		Util.BoolToRBool(rfd50fmax_raw) + "\n" +
-			"#rfd50fmax.fitted\n" + 	Util.BoolToRBool(rfd50fmax_fitted);
-
-		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");
-		writer.Write(scriptOptions);
-		writer.Flush();
-		writer.Close();
-		((IDisposable)writer).Dispose();
+		return fscAIPoints.GetTimeAtCount(count) / 1000.0; //microseconds to milliseconds
 	}
+	public double GetForce(int count)
+	{
+		return fscAIPoints.GetForceAtCount(count);
+	}
+
+	public int GetLength()
+	{
+		LogB.Information("GetLength: " + fscAIPoints.GetLength());
+		return fscAIPoints.GetLength();
+	}
+
+	public int GetVerticalLinePosition(int currentPos, int totalPos)
+	{
+		LogB.Information(string.Format("currentPos: {0}, totalPos: {1}", currentPos, totalPos));
+		//this can be called on expose event before calculating needed parameters
+		if(graphWidth == 0)
+			return 0;
+
+		int leftMargin = fscAIPoints.MarginLeft;
+		int rightMargin = fscAIPoints.MarginRight;
+
+		// rule of three
+		double px = Util.DivideSafe(
+				(graphWidth - leftMargin - rightMargin) * currentPos,
+				totalPos);
+
+		// fix margin
+		//px = px + plt.x1 * graphWidth;
+		px = px + leftMargin;
+
+		return Convert.ToInt32(px);
+	}
+
+	public int GetPxAtForce(double f)
+	{
+		return fscAIPoints.GetForceInPx(f);
+	}
+
+	//calculates from a range
+	public bool CalculateRangeParams(int countA, int countB)
+	{
+		//countA --; //converts from starting at 1 (graph) to starting at 0 (data)
+		//countB --; //converts from starting at 1 (graph) to starting at 0 (data)
+
+		//countA will be the lowest and countB the highest to calcule Avg and max correctly no matter if B is before A
+		if(countA > countB) {
+			int temp = countA;
+			countA = countB;
+			countB = temp;
+		}
+
+		fscAIPoints.GetAverageAndMaxForce(countA, countB, out ForceAVG, out ForceMAX);
+
+		return true;
+	}
+
+	public double CalculateRFD(int countA, int countB)
+	{
+		return fscAIPoints.GetRFD(countA, countB);
+	}
+
+	/*
+	 * Calculates RFD in a point using previous and next point
+	 */
+//TODO: fer que es vagi recordant el max en un rang determinat pq no s'hagi de tornar a calcular
+	public double CalculateMaxRFDInRange(int countA, int countB, out int countRFDMax)
+	{
+		double max = 0;
+		double current = 0;
+		countRFDMax = countA; //count where maxRFD is found
+
+		for(int i = countA; i < countB ; i ++)
+		{
+			current = fscAIPoints.GetRFD(i-1, i+1);
+			if(current > max)
+			{
+				max = current;
+				countRFDMax = i;
+			}
+		}
+
+		return max;
+	}
+
+	public ForceSensorCapturePoints FscAIPoints
+	{
+		get { return fscAIPoints; }
+	}
+
 }
-*/

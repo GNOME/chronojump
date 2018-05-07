@@ -711,6 +711,10 @@ LogB.Information(" fc C ");
 					fscPoints.InitRealWidthHeight();
 					forceSensorDoSignalGraphPlot();
 					forceSensorDoRFDGraph();
+
+					//if drawingarea has still not shown, don't paint graph because GC screen is not defined
+					if(force_sensor_ai_drawingareaShown)
+						forceSensorDoGraphAI();
 				}
 			} else if(forceProcessCancel || forceProcessError)
 			{
@@ -889,7 +893,7 @@ LogB.Information(" fc R ");
 	bool force_capture_sizeChanged;
 	public void on_force_capture_drawingarea_configure_event(object o, ConfigureEventArgs args)
 	{
-	if(force_capture_drawingarea == null)
+		if(force_capture_drawingarea == null)
 			return;
 
 		Gdk.EventConfigure ev = args.Event;
@@ -990,6 +994,10 @@ LogB.Information(" fc R ");
 			lastForceSensorFullPath = filechooser.Filename; //used on recalculate
 
 			forceSensorCopyTempAndDoGraphs();
+
+			//if drawingarea has still not shown, don't paint graph because GC screen is not defined
+			if(force_sensor_ai_drawingareaShown)
+				forceSensorDoGraphAI();
 		}
 		filechooser.Destroy ();
 	}

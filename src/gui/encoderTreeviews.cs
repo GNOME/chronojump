@@ -494,8 +494,12 @@ public partial class ChronoJumpWindow
 	public string [] GetTreeviewEncoderAnalyzeHeaders(bool screenOrCSV)
 	{
 		string timeUnits = "(s)";
+		string distanceUnits = "(cm)";
 		if(! screenOrCSV)
+		{
 			timeUnits = "(ms)";
+			distanceUnits = "(mm)";
+		}
 
 		string [] treeviewEncoderAnalyzeHeaders = {
 			Catalog.GetString("Repetition") + "\n",
@@ -507,7 +511,7 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Inertia M.") + "\n(Kg*cm^2)",
 			Catalog.GetString("Start") + "\n" + timeUnits,
 			Catalog.GetString("Duration") + "\n" + timeUnits,
-			Catalog.GetString("Distance") + "\n(cm)",
+			Catalog.GetString("Distance") + "\n" + distanceUnits,
 			"v" + "\n(m/s)",
 			"vmax" + "\n(m/s)",
 			"t->vmax" + "\n" + timeUnits,

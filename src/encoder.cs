@@ -1968,6 +1968,7 @@ public class EncoderAnalyzeInstant
 		if(ini == end) {
 			listAVG = dlist[ini];
 			listMAX = dlist[ini];
+			return;
 		}
 
 		double sum = 0;

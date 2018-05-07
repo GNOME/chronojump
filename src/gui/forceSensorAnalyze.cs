@@ -36,7 +36,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_analyze;
 	[Widget] Gtk.Image image_force_sensor_graph;
 	[Widget] Gtk.Viewport viewport_force_sensor_graph;
-	[Widget] Gtk.Button button_force_sensor_image_save_rfd;
+	[Widget] Gtk.Button button_force_sensor_image_save_rfd_auto;
+	[Widget] Gtk.Button button_force_sensor_image_save_rfd_manual;
 
 	[Widget] Gtk.SpinButton spin_force_duration_seconds;
 	[Widget] Gtk.RadioButton radio_force_duration_seconds;
@@ -669,6 +670,9 @@ public partial class ChronoJumpWindow
 	private void forceSensorAnalyzeManualGraphDo(Rectangle allocation)
 	{
 		LogB.Information("forceSensorAnalyzeManualGraphDo() START");
+
+		button_force_sensor_image_save_rfd_manual.Sensitive = true;
+
 		// 1) create paintPoints
 		Gdk.Point [] paintPoints = new Gdk.Point[fsAI.FscAIPoints.Points.Count];
 		for(int i = 0; i < fsAI.FscAIPoints.Points.Count; i ++)

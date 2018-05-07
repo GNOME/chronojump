@@ -724,7 +724,8 @@ LogB.Information(" fc C ");
 					event_execute_label_message.Text = forceSensorNotConnectedString;
 
 				button_force_sensor_image_save_signal.Sensitive = false;
-				button_force_sensor_image_save_rfd.Sensitive = false;
+				button_force_sensor_image_save_rfd_auto.Sensitive = false;
+				button_force_sensor_image_save_rfd_manual.Sensitive = false;
 				button_force_sensor_analyze_recalculate.Sensitive = false;
 			}
 			else
@@ -1067,7 +1068,7 @@ LogB.Information(" fc R ");
 				imagePath,
 				image_force_sensor_graph);
 		image_force_sensor_graph.Sensitive = true;
-		button_force_sensor_image_save_rfd.Sensitive = true;
+		button_force_sensor_image_save_rfd_auto.Sensitive = true;
 	}
 
 	void forceSensorDoSignalGraph()
@@ -1259,9 +1260,13 @@ LogB.Information(" fc R ");
 	{
 		checkFile(Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL);
 	}
-	private void on_button_force_sensor_image_save_rfd_clicked (object o, EventArgs args)
+	private void on_button_force_sensor_image_save_rfd_auto_clicked (object o, EventArgs args)
 	{
-		checkFile(Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD);
+		checkFile(Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO);
+	}
+	private void on_button_force_sensor_image_save_rfd_manual_clicked (object o, EventArgs args)
+	{
+		checkFile(Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL);
 	}
 
 	void on_button_forcesensor_save_image_signal_file_selected (string destination)
@@ -1287,13 +1292,36 @@ LogB.Information(" fc R ");
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
-	void on_button_forcesensor_save_image_rfd_file_selected (string destination)
+	void on_button_forcesensor_save_image_rfd_auto_file_selected (string destination)
 	{
 		File.Copy(UtilEncoder.GetmifTempFileName(), destination, true);
 	}
-	private void on_overwrite_file_forcesensor_save_image_rfd_accepted(object o, EventArgs args)
+	private void on_overwrite_file_forcesensor_save_image_rfd_auto_accepted(object o, EventArgs args)
 	{
-		on_button_forcesensor_save_image_rfd_file_selected (exportFileName);
+		on_button_forcesensor_save_image_rfd_auto_file_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+
+	void on_button_forcesensor_save_image_rfd_manual_file_selected (string destination)
+	{
+		LogB.Information("CREATING PIXBUF");
+		LogB.Information("force_sensor_ai_pixmap is null == " + (force_sensor_ai_pixmap == null));
+		LogB.Information("colormapForceAI is null == " + (colormapForceAI == null));
+		LogB.Information("force_sensor_ai_drawingarea is null == " + (force_sensor_ai_drawingarea == null));
+		int pixmapW = 0;
+		int pixmapH = 0;
+		force_sensor_ai_pixmap.GetSize(out pixmapW, out pixmapH);
+		Gdk.Pixbuf pixbuf = Pixbuf.FromDrawable(force_sensor_ai_pixmap, colormapForceAI,
+				0, 0, 0, 0, pixmapW, pixmapH);
+
+		LogB.Information("Saving");
+		pixbuf.Save(destination,"png");
+	}
+	private void on_overwrite_file_forcesensor_save_image_rfd_manual_accepted(object o, EventArgs args)
+	{
+		on_button_forcesensor_save_image_rfd_manual_file_selected (exportFileName);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);

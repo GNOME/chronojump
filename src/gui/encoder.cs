@@ -1967,7 +1967,8 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD )
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL )
 			exportString = Catalog.GetString ("Save image");
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 			exportString = Catalog.GetString ("Export repetition in CSV format");
@@ -1984,8 +1985,9 @@ public partial class ChronoJumpWindow
 		}
 
 		//at force sensor we can graph a different person than selected person, so use graph-file loaded
-		if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD)
+		if( checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL )
 		{
 			if(lastForceSensorFile == null || lastForceSensorFile == "")
 				nameString = "unnamed";
@@ -1999,7 +2001,8 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD )
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL )
 			nameString += ".png";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 			nameString += "_encoder_repetition_export.csv";
@@ -2023,7 +2026,8 @@ public partial class ChronoJumpWindow
 					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB ||
 					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
 				exportFileName = Util.AddCsvIfNeeded(exportFileName);
-			else //ENCODER_ANALYZE_SAVE_IMAGE, FORCESENSOR_SAVE_IMAGE_SIGNAL, FORCESENSOR_SAVE_IMAGE_RFD
+			else 	//ENCODER_ANALYZE_SAVE_IMAGE, FORCESENSOR_SAVE_IMAGE_SIGNAL,
+				//FORCESENSOR_SAVE_IMAGE_RFD_AUTO, FORCESENSOR_SAVE_IMAGE_RFD_MANUAL
 				exportFileName = Util.AddPngIfNeeded(exportFileName);
 			try {
 				if (File.Exists(exportFileName)) {
@@ -2055,9 +2059,12 @@ public partial class ChronoJumpWindow
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_forcesensor_save_image_signal_accepted);
-					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD)
+					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO)
 						confirmWin.Button_accept.Clicked +=
-							new EventHandler(on_overwrite_file_forcesensor_save_image_rfd_accepted);
+							new EventHandler(on_overwrite_file_forcesensor_save_image_rfd_auto_accepted);
+					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_forcesensor_save_image_rfd_manual_accepted);
 
 				} else {
 					if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
@@ -2072,8 +2079,10 @@ public partial class ChronoJumpWindow
 						on_button_encoder_save_table_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL)
 						on_button_forcesensor_save_image_signal_file_selected (exportFileName);
-					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD)
-						on_button_forcesensor_save_image_rfd_file_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO)
+						on_button_forcesensor_save_image_rfd_auto_file_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL)
+						on_button_forcesensor_save_image_rfd_manual_file_selected (exportFileName);
 
 					string myString = string.Format(Catalog.GetString("Saved to {0}"), 
 							exportFileName);

@@ -1712,6 +1712,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -12052,7 +12055,7 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <widget class="GtkImage" id="image_forcesensor_analyze_image_save1">
+                                                            <widget class="GtkImage" id="image_forcesensor_analyze_save_signal">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -16116,20 +16119,20 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_force_sensor_image_save_rfd">
+                                                            <widget class="GtkButton" id="button_force_sensor_image_save_rfd_auto">
                                                             <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="tooltip" translatable="yes">Save image</property>
-                                                            <signal name="clicked" handler="on_button_force_sensor_image_save_rfd_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_force_sensor_image_save_rfd_auto_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox114">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <widget class="GtkImage" id="image_forcesensor_analyze_image_save">
+                                                            <widget class="GtkImage" id="image_forcesensor_analyze_save_rfd_auto">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -19386,6 +19389,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -19409,19 +19415,20 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_force_sensor_image_save_rfd1">
+                                                            <widget class="GtkButton" id="button_force_sensor_image_save_rfd_manual">
                                                             <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="tooltip" translatable="yes">Save image</property>
+                                                            <signal name="clicked" handler="on_button_force_sensor_image_save_rfd_manual_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox125">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <widget class="GtkImage" id="image_forcesensor_analyze_image_save4">
+                                                            <widget class="GtkImage" id="image_forcesensor_analyze_save_rfd_manual">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -26450,6 +26457,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -712,7 +712,7 @@ public partial class ChronoJumpWindow
 			textHeight = 1;
 			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 			force_sensor_ai_pixmap.DrawLayout (pen_yellow_force_ai,
-					xposB - textWidth/2, allocation.Height -20,
+					xposB - textWidth/2, allocation.Height - textHeight,
 					layout_force_ai_text);
 		}
 

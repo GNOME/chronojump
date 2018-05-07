@@ -471,6 +471,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton checkbutton_force_sensor_ai_b;
 	[Widget] Gtk.Label label_force_sensor_ai_time_a;
 	[Widget] Gtk.Label label_force_sensor_ai_force_a;
+	[Widget] Gtk.Label label_force_sensor_ai_rfd_a;
 	[Widget] Gtk.HBox hbox_buttons_scale_force_sensor_ai_b;
 	[Widget] Gtk.Label label_force_sensor_ai_diff;
 	[Widget] Gtk.Label label_force_sensor_ai_average;
@@ -481,6 +482,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_ai_force_diff;
 	[Widget] Gtk.Label label_force_sensor_ai_force_average;
 	[Widget] Gtk.Label label_force_sensor_ai_force_max;
+	[Widget] Gtk.Label label_force_sensor_ai_rfd_b;
+	[Widget] Gtk.Label label_force_sensor_ai_rfd_diff;
+	[Widget] Gtk.Label label_force_sensor_ai_rfd_average;
+	[Widget] Gtk.Label label_force_sensor_ai_rfd_max;
 
 	ForceSensorAnalyzeInstant fsAI;
 
@@ -758,7 +763,7 @@ public partial class ChronoJumpWindow
 					xposA, fsAI.GetPxAtForce(forceA),
 					xposB, fsAI.GetPxAtForce(forceB));
 
-			layout_force_ai_text.SetMarkup(string.Format("RFD A-B: {0:0.#} N/s",
+			layout_force_ai_text.SetMarkup(string.Format("RFD A-B AVG: {0:0.#} N/s",
 						Math.Round(fsAI.CalculateRFD(hscaleLower, hscaleHigher), 1) ));
 			textWidth = 1;
 			textHeight = 1;
@@ -830,6 +835,11 @@ public partial class ChronoJumpWindow
 		label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 		label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForce(count), 1).ToString();
 
+		if(count > 0 && count < fsAI.GetLength() -1)
+			label_force_sensor_ai_rfd_a.Text = Math.Round(fsAI.CalculateRFD(count -1, count +1), 1).ToString();
+		else
+			label_force_sensor_ai_rfd_a.Text = "";
+
 		if(checkbutton_force_sensor_ai_b.Active)
 			force_sensor_analyze_instant_calculate_params();
 
@@ -844,6 +854,11 @@ public partial class ChronoJumpWindow
 		int count = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
 		label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 		label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForce(count), 1).ToString();
+
+		if(count > 0 && count < fsAI.GetLength() -1)
+			label_force_sensor_ai_rfd_b.Text = Math.Round(fsAI.CalculateRFD(count -1, count +1), 1).ToString();
+		else
+			label_force_sensor_ai_rfd_b.Text = "";
 
 		force_sensor_analyze_instant_calculate_params();
 
@@ -884,6 +899,11 @@ public partial class ChronoJumpWindow
 		label_force_sensor_ai_force_average.Visible = visible;
 		label_force_sensor_ai_force_max.Visible = visible;
 
+		label_force_sensor_ai_rfd_b.Visible = visible;
+		label_force_sensor_ai_rfd_diff.Visible = visible;
+		label_force_sensor_ai_rfd_average.Visible = visible;
+		label_force_sensor_ai_rfd_max.Visible = visible;
+
 		forceSensorAIChanged = true; //to actually plot
 		force_sensor_ai_drawingarea.QueueDraw(); // -- refresh
 	}
@@ -904,6 +924,59 @@ public partial class ChronoJumpWindow
 			label_force_sensor_ai_force_average.Text = Math.Round(fsAI.ForceAVG, 1).ToString();
 			label_force_sensor_ai_force_max.Text = Math.Round(fsAI.ForceMAX, 1).ToString();
 		}
+
+		double rfdA = 0;
+		double rfdB = 0;
+		bool rfdADefined = false;
+		bool rfdBDefined = false;
+		if(countA > 0 && countA < fsAI.GetLength() -1)
+		{
+			rfdA = Math.Round(fsAI.CalculateRFD(countA -1, countA +1), 1);
+			rfdADefined = true;
+		}
+
+		if(countB > 0 && countB < fsAI.GetLength() -1)
+		{
+			rfdB = Math.Round(fsAI.CalculateRFD(countB -1, countB +1), 1);
+			rfdBDefined = true;
+		}
+
+		if(rfdADefined)
+			label_force_sensor_ai_rfd_a.Text = rfdA.ToString();
+		else
+			label_force_sensor_ai_rfd_a.Text = "";
+
+		if(rfdBDefined)
+			label_force_sensor_ai_rfd_b.Text = rfdB.ToString();
+		else
+			label_force_sensor_ai_rfd_b.Text = "";
+
+		if(rfdADefined && rfdBDefined)
+		{
+			// 0) invert counts if needed
+			if(countA > countB)
+			{
+				int temp = countA;
+				countA = countB;
+				countB = temp;
+			}
+
+			// 1) diff
+			label_force_sensor_ai_rfd_diff.Text = (rfdB - rfdA).ToString();
+
+			// 2) AVG TODO:
+
+			// 3) max
+			int countRFDMax = countA;
+			double rfdMax = Math.Round(fsAI.CalculateMaxRFDInRange(
+						countA, countB,
+						out countRFDMax), 1);
+			label_force_sensor_ai_rfd_max.Text = rfdMax.ToString();
+		} else {
+			label_force_sensor_ai_rfd_diff.Text = "";
+			label_force_sensor_ai_rfd_max.Text = "";
+		}
+
 	}
 
 

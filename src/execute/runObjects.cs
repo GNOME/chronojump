@@ -514,13 +514,15 @@ public class RunPhaseTimeList
 	public bool SpeedStart;
 
 	private List<PhaseTime> listPhaseTime;
+	private Constants.DoubleContact checkDoubleContactMode;
 	private int checkTime;
 
 	//if there are double contacts at start, first run phase infos will not be used
 	public int FirstRPIs;
 
-	public RunPhaseTimeList(int checkTime)
+	public RunPhaseTimeList(Constants.DoubleContact checkDoubleContactMode, int checkTime)
 	{
+		this.checkDoubleContactMode = checkDoubleContactMode;
 		this.checkTime = checkTime;
 
 		listPhaseTime = new List<PhaseTime>();
@@ -549,6 +551,12 @@ public class RunPhaseTimeList
 			str += pt.ToString();
 
 		return str;
+	}
+
+	//to show tc chunks or not on gui/eventExecute.cs
+	public bool UseDoubleContacts()
+	{
+		return (checkDoubleContactMode != Constants.DoubleContact.NONE);
 	}
 
 	public List<RunPhaseTimeListObject> InListForPainting()

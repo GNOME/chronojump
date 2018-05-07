@@ -1199,7 +1199,7 @@ public partial class ChronoJumpWindow
 		
 		double timeTotal = eventGraph.time;
 		// start of contact chunks
-		if(runPTL != null)
+		if(runPTL != null && runPTL.UseDoubleContacts())
 		{
 			List<RunPhaseTimeListObject> runPTLInListForPainting = runPTL.InListForPainting();
 
@@ -1675,7 +1675,7 @@ public partial class ChronoJumpWindow
 			// start of contact chunks
 			double negativePTLTime = 0;
 			double timeTotalWithExtraPTL = timeTotal;
-			if(runPTL != null)
+			if(runPTL != null && runPTL.UseDoubleContacts())
 			{
 				List<RunPhaseTimeListObject> runPTLInListForPainting = runPTL.InListForPainting();
 

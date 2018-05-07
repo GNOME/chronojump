@@ -368,8 +368,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_gravitatory_vpf_propulsive;
 
 	//forcesensor
-	[Widget] Gtk.Image image_forcesensor_analyze_image_save;
-	[Widget] Gtk.Image image_forcesensor_analyze_image_save1;
+	[Widget] Gtk.Image image_forcesensor_analyze_save_signal;
+	[Widget] Gtk.Image image_forcesensor_analyze_save_rfd_auto;
+	[Widget] Gtk.Image image_forcesensor_analyze_save_rfd_manual;
 
 	Random rand;
 

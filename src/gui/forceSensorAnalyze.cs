@@ -686,14 +686,14 @@ public partial class ChronoJumpWindow
 		// 4) paint vertical yellow lines A, B and write letter
 		int xposA = fsAI.GetVerticalLinePosition(hscaleLower, fsAI.GetLength());
 		force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
-				xposA, 20, xposA, allocation.Height);
+				xposA, 0, xposA, allocation.Height -20);
 
 		layout_force_ai_text.SetMarkup("A");
 		int textWidth = 1;
 		int textHeight = 1;
 		layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 		force_sensor_ai_pixmap.DrawLayout (pen_yellow_force_ai,
-				xposA - textWidth/2, 0,
+				xposA - textWidth/2, allocation.Height - textHeight,
 				layout_force_ai_text);
 
 		int xposB = 0;
@@ -701,14 +701,14 @@ public partial class ChronoJumpWindow
 		{
 			xposB = fsAI.GetVerticalLinePosition(hscaleHigher, fsAI.GetLength());
 			force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
-					xposB, 20, xposB, allocation.Height);
+					xposB, 0, xposB, allocation.Height -20);
 
 			layout_force_ai_text.SetMarkup("B");
 			textWidth = 1;
 			textHeight = 1;
 			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 			force_sensor_ai_pixmap.DrawLayout (pen_yellow_force_ai,
-					xposB - textWidth/2, 0,
+					xposB - textWidth/2, allocation.Height -20,
 					layout_force_ai_text);
 		}
 

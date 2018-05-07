@@ -604,11 +604,17 @@ public partial class ChronoJumpWindow
 		Gdk.Rectangle allocation = force_sensor_ai_drawingarea.Allocation;
 
 		if(force_sensor_ai_pixmap == null || force_sensor_ai_sizeChanged ||
-				allocation.Width != force_sensor_ai_allocationXOld)
+				allocation.Width != force_sensor_ai_allocationXOld ||
+				forceSensorAIChanged)
 		{
 			force_sensor_ai_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 
 			UtilGtk.ErasePaint(force_sensor_ai_drawingarea, force_sensor_ai_pixmap);
+			if(fsAI != null)
+			{
+				fsAI.RedoGraph(allocation.Width, allocation.Height);
+				forceSensorAnalyzeManualGraphDo(allocation);
+			}
 
 			force_sensor_ai_sizeChanged = false;
 		}
@@ -625,8 +631,9 @@ public partial class ChronoJumpWindow
 		/* in some mono installations, configure_event is not called, but expose_event yes.
 		 * Do here the initialization
 		 */
-
 		Gdk.Rectangle allocation = force_sensor_ai_drawingarea.Allocation;
+		//LogB.Information(string.Format("width changed?: {0}, {1}", allocation.Width, force_sensor_ai_allocationXOld));
+
 		if(force_sensor_ai_pixmap == null || force_sensor_ai_sizeChanged ||
 				allocation.Width != force_sensor_ai_allocationXOld ||
 				forceSensorAIChanged)
@@ -639,139 +646,7 @@ public partial class ChronoJumpWindow
 
 			UtilGtk.ErasePaint(force_sensor_ai_drawingarea, force_sensor_ai_pixmap);
 			if(fsAI != null)
-			{
-				LogB.Information("EXPOSE 5");
-
-				// 1) create paintPoints
-				Gdk.Point [] paintPoints = new Gdk.Point[fsAI.FscAIPoints.Points.Count];
-				for(int i = 0; i < fsAI.FscAIPoints.Points.Count; i ++)
-					paintPoints[i] = fsAI.FscAIPoints.Points[i];
-
-				// 2) draw horizontal 0 line
-				force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
-						0, fsAI.GetPxAtForce(0), allocation.Width, fsAI.GetPxAtForce(0));
-				force_sensor_ai_pixmap.DrawLines(pen_black_force_ai, paintPoints);
-
-				// 3) create hscaleLower and higher values (A, B at the moment)
-				int hscaleLower = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
-				int hscaleHigher = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
-
-				// 4) paint vertical yellow lines A, B and write letter
-				int xposA = fsAI.GetVerticalLinePosition(hscaleLower, fsAI.GetLength());
-				force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
-						xposA, 20, xposA, allocation.Height);
-
-				layout_force_ai_text.SetMarkup("A");
-				int textWidth = 1;
-				int textHeight = 1;
-				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-				force_sensor_ai_pixmap.DrawLayout (pen_yellow_force_ai,
-						xposA - textWidth/2, 0,
-						layout_force_ai_text);
-
-				int xposB = 0;
-				if(checkbutton_force_sensor_ai_b.Active && hscaleLower != hscaleHigher)
-				{
-					xposB = fsAI.GetVerticalLinePosition(hscaleHigher, fsAI.GetLength());
-					force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
-							xposB, 20, xposB, allocation.Height);
-
-					layout_force_ai_text.SetMarkup("B");
-					textWidth = 1;
-					textHeight = 1;
-					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-					force_sensor_ai_pixmap.DrawLayout (pen_yellow_force_ai,
-							xposB - textWidth/2, 0,
-							layout_force_ai_text);
-				}
-
-				if(checkbutton_force_sensor_ai_b.Active)
-				{
-					/*
-					 * 5) Invert AB if needed to paint correctly blue and red lines
-					 * making it work also when B is higher than A
-					 */
-					if(hscaleLower > hscaleHigher)
-					{
-						hscaleLower = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
-						hscaleHigher = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
-						int temp = xposA;
-						xposA = xposB;
-						xposB = temp;
-					}
-
-					if(hscaleHigher != hscaleLower)
-					{
-						//6) calculate and paint RFD
-						double forceA = fsAI.GetForce(hscaleLower);
-						double forceB = fsAI.GetForce(hscaleHigher);
-
-						force_sensor_ai_pixmap.DrawLine(pen_blue_force_ai,
-								xposA, fsAI.GetPxAtForce(forceA),
-								xposB, fsAI.GetPxAtForce(forceB));
-
-						layout_force_ai_text.SetMarkup(string.Format("RFD A-B: {0:0.#} N/s",
-									Math.Round(fsAI.CalculateRFD(hscaleLower, hscaleHigher), 1) ));
-						textWidth = 1;
-						textHeight = 1;
-						layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-						force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
-								allocation.Width -textWidth -10, allocation.Height/2 -20,
-								layout_force_ai_text);
-
-						// 7) calculate and paint max RFD
-						//value of count that produce the max RFD (between the previous and next value)
-						int countRFDMax = hscaleLower;
-						layout_force_ai_text.SetMarkup(string.Format("RFD Max: {0:0.#} N/s",
-									Math.Round(fsAI.CalculateMaxRFDInRange(
-											hscaleLower+1, hscaleHigher-1, //avoid having data out of possible
-											out countRFDMax), 1) ));
-
-						layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-						force_sensor_ai_pixmap.DrawLayout (pen_red_force_ai,
-								allocation.Width -textWidth -10, allocation.Height/2,
-								layout_force_ai_text);
-
-
-						xposA = fsAI.GetVerticalLinePosition(countRFDMax -1, fsAI.GetLength());
-						xposB = fsAI.GetVerticalLinePosition(countRFDMax +1, fsAI.GetLength());
-
-						/*
-						 * do not paint segment, it's too small
-						 force_sensor_ai_pixmap.DrawLine(pen_red_force_ai,
-						 xposA, fsAI.GetPxAtForce(fsAI.GetForce(hscaleLowerMax)),
-						 xposB, fsAI.GetPxAtForce(fsAI.GetForce(hscaleHigherMax)) );
-						 */
-
-						//calculate line (not segment)
-						int segXA = xposA;
-						int segXB = xposB;
-						int segYA = fsAI.GetPxAtForce(fsAI.GetForce(countRFDMax -1));
-						int segYB = fsAI.GetPxAtForce(fsAI.GetForce(countRFDMax +1));
-						double slope = Math.Abs(
-								Util.DivideSafe( segYB - segYA,
-									(1.0 * (segXB- segXA)) )
-								);
-						//LogB.Information(string.Format("segXA: {0}, segXB: {1}, segYA: {2}, segYB: {3}, slope: {4}",
-						//			segXA, segXB, segYA, segYB, slope));
-
-
-						int lineXA = segXA - Convert.ToInt32(Util.DivideSafe(
-									(allocation.Height - segYA),
-									slope));
-						int lineXB = segXB + Convert.ToInt32(Util.DivideSafe(
-									(segYB - 0),
-									slope));
-						int lineYA = allocation.Height;
-						int lineYB = 0;
-
-						force_sensor_ai_pixmap.DrawLine(pen_red_force_ai,
-								lineXA, lineYA,
-								lineXB, lineYB);
-					}
-				}
-				LogB.Information("EXPOSE 6");
-			}
+				forceSensorAnalyzeManualGraphDo(allocation);
 
 			force_sensor_ai_sizeChanged = false;
 		}
@@ -789,6 +664,140 @@ public partial class ChronoJumpWindow
 
 		force_sensor_ai_allocationXOld = allocation.Width;
 		LogB.Information("EXPOSE END");
+	}
+
+	private void forceSensorAnalyzeManualGraphDo(Rectangle allocation)
+	{
+		LogB.Information("forceSensorAnalyzeManualGraphDo() START");
+		// 1) create paintPoints
+		Gdk.Point [] paintPoints = new Gdk.Point[fsAI.FscAIPoints.Points.Count];
+		for(int i = 0; i < fsAI.FscAIPoints.Points.Count; i ++)
+			paintPoints[i] = fsAI.FscAIPoints.Points[i];
+
+		// 2) draw horizontal 0 line
+		force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
+				0, fsAI.GetPxAtForce(0), allocation.Width, fsAI.GetPxAtForce(0));
+		force_sensor_ai_pixmap.DrawLines(pen_black_force_ai, paintPoints);
+
+		// 3) create hscaleLower and higher values (A, B at the moment)
+		int hscaleLower = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		int hscaleHigher = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+
+		// 4) paint vertical yellow lines A, B and write letter
+		int xposA = fsAI.GetVerticalLinePosition(hscaleLower, fsAI.GetLength());
+		force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
+				xposA, 20, xposA, allocation.Height);
+
+		layout_force_ai_text.SetMarkup("A");
+		int textWidth = 1;
+		int textHeight = 1;
+		layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+		force_sensor_ai_pixmap.DrawLayout (pen_yellow_force_ai,
+				xposA - textWidth/2, 0,
+				layout_force_ai_text);
+
+		int xposB = 0;
+		if(checkbutton_force_sensor_ai_b.Active && hscaleLower != hscaleHigher)
+		{
+			xposB = fsAI.GetVerticalLinePosition(hscaleHigher, fsAI.GetLength());
+			force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
+					xposB, 20, xposB, allocation.Height);
+
+			layout_force_ai_text.SetMarkup("B");
+			textWidth = 1;
+			textHeight = 1;
+			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+			force_sensor_ai_pixmap.DrawLayout (pen_yellow_force_ai,
+					xposB - textWidth/2, 0,
+					layout_force_ai_text);
+		}
+
+		if(! checkbutton_force_sensor_ai_b.Active)
+			return;
+
+		/*
+		 * 5) Invert AB if needed to paint correctly blue and red lines
+		 * making it work also when B is higher than A
+		 */
+		if(hscaleLower > hscaleHigher)
+		{
+			hscaleLower = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+			hscaleHigher = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+			int temp = xposA;
+			xposA = xposB;
+			xposB = temp;
+		}
+
+		if(hscaleHigher != hscaleLower)
+		{
+			//6) calculate and paint RFD
+			double forceA = fsAI.GetForce(hscaleLower);
+			double forceB = fsAI.GetForce(hscaleHigher);
+
+			force_sensor_ai_pixmap.DrawLine(pen_blue_force_ai,
+					xposA, fsAI.GetPxAtForce(forceA),
+					xposB, fsAI.GetPxAtForce(forceB));
+
+			layout_force_ai_text.SetMarkup(string.Format("RFD A-B: {0:0.#} N/s",
+						Math.Round(fsAI.CalculateRFD(hscaleLower, hscaleHigher), 1) ));
+			textWidth = 1;
+			textHeight = 1;
+			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+			force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
+					allocation.Width -textWidth -10, allocation.Height/2 -20,
+					layout_force_ai_text);
+
+			// 7) calculate and paint max RFD
+			//value of count that produce the max RFD (between the previous and next value)
+			int countRFDMax = hscaleLower;
+			layout_force_ai_text.SetMarkup(string.Format("RFD Max: {0:0.#} N/s",
+						Math.Round(fsAI.CalculateMaxRFDInRange(
+								hscaleLower+1, hscaleHigher-1, //avoid having data out of possible
+								out countRFDMax), 1) ));
+
+			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+			force_sensor_ai_pixmap.DrawLayout (pen_red_force_ai,
+					allocation.Width -textWidth -10, allocation.Height/2,
+					layout_force_ai_text);
+
+
+			xposA = fsAI.GetVerticalLinePosition(countRFDMax -1, fsAI.GetLength());
+			xposB = fsAI.GetVerticalLinePosition(countRFDMax +1, fsAI.GetLength());
+
+			/*
+			 * do not paint segment, it's too small
+			 force_sensor_ai_pixmap.DrawLine(pen_red_force_ai,
+			 xposA, fsAI.GetPxAtForce(fsAI.GetForce(hscaleLowerMax)),
+			 xposB, fsAI.GetPxAtForce(fsAI.GetForce(hscaleHigherMax)) );
+			 */
+
+			//calculate line (not segment)
+			int segXA = xposA;
+			int segXB = xposB;
+			int segYA = fsAI.GetPxAtForce(fsAI.GetForce(countRFDMax -1));
+			int segYB = fsAI.GetPxAtForce(fsAI.GetForce(countRFDMax +1));
+			double slope = Math.Abs(
+					Util.DivideSafe( segYB - segYA,
+						(1.0 * (segXB- segXA)) )
+					);
+			//LogB.Information(string.Format("segXA: {0}, segXB: {1}, segYA: {2}, segYB: {3}, slope: {4}",
+			//			segXA, segXB, segYA, segYB, slope));
+
+
+			int lineXA = segXA - Convert.ToInt32(Util.DivideSafe(
+						(allocation.Height - segYA),
+						slope));
+			int lineXB = segXB + Convert.ToInt32(Util.DivideSafe(
+						(segYB - 0),
+						slope));
+			int lineYA = allocation.Height;
+			int lineYB = 0;
+
+			force_sensor_ai_pixmap.DrawLine(pen_red_force_ai,
+					lineXA, lineYA,
+					lineXB, lineYB);
+		}
+		LogB.Information("forceSensorAnalyzeManualGraphDo() END");
 	}
 
 	bool forceSensorAIChanged = false;

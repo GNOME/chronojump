@@ -645,6 +645,17 @@ public class ForceSensorAnalyzeInstant
 		}
 	}
 
+	//When B checkbutton is clicked or window is resized
+	public void RedoGraph(int graphWidth, int graphHeight)
+	{
+		this.graphWidth = graphWidth;
+		this.graphHeight = graphHeight;
+		fscAIPoints.WidthG = graphWidth;
+		fscAIPoints.HeightG = graphHeight;
+
+		fscAIPoints.Redo();
+	}
+
 	//gets an instant value
 	public double GetTimeMS(int count)
 	{

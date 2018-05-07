@@ -769,7 +769,7 @@ public partial class ChronoJumpWindow
 			textHeight = 1;
 			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 			force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
-					allocation.Width -textWidth -10, allocation.Height/2 -20,
+					allocation.Width -textWidth -10, allocation.Height/2 -40,
 					layout_force_ai_text);
 
 			// 8) calculate and paint max RFD
@@ -786,7 +786,7 @@ public partial class ChronoJumpWindow
 
 			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 			force_sensor_ai_pixmap.DrawLayout (pen_red_force_ai,
-					allocation.Width -textWidth -10, allocation.Height/2,
+					allocation.Width -textWidth -10, allocation.Height/2 -20,
 					layout_force_ai_text);
 
 
@@ -825,6 +825,18 @@ public partial class ChronoJumpWindow
 			force_sensor_ai_pixmap.DrawLine(pen_red_force_ai,
 					lineXA, lineYA,
 					lineXB, lineYB);
+
+			// 9) calculate and paint impulse
+			layout_force_ai_text.SetMarkup(string.Format("Impulse: {0:0.#} N*s",
+						Math.Round(fsAI.CalculateImpulse(
+								hscaleLower, hscaleHigher), 1) ));
+
+			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+			force_sensor_ai_pixmap.DrawLayout (pen_black_force_ai,
+					allocation.Width -textWidth -10, allocation.Height/2,
+					layout_force_ai_text);
+
+
 		}
 		LogB.Information("forceSensorAnalyzeManualGraphDo() END");
 	}

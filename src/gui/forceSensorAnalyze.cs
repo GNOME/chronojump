@@ -774,10 +774,14 @@ public partial class ChronoJumpWindow
 
 			// 8) calculate and paint max RFD
 			//value of count that produce the max RFD (between the previous and next value)
+
+			if(hscaleLower == 0 || hscaleHigher >= fsAI.GetLength() -1)
+				return;
+
 			int countRFDMax = hscaleLower;
 			layout_force_ai_text.SetMarkup(string.Format("RFD Max: {0:0.#} N/s",
 						Math.Round(fsAI.CalculateMaxRFDInRange(
-								hscaleLower+1, hscaleHigher-1, //avoid having data out of possible
+								hscaleLower, hscaleHigher,
 								out countRFDMax), 1) ));
 
 			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
@@ -951,7 +955,7 @@ public partial class ChronoJumpWindow
 		else
 			label_force_sensor_ai_rfd_b.Text = "";
 
-		if(rfdADefined && rfdBDefined)
+		if(rfdADefined && rfdBDefined && countA != countB)
 		{
 			// 0) invert counts if needed
 			if(countA > countB)
@@ -962,9 +966,10 @@ public partial class ChronoJumpWindow
 			}
 
 			// 1) diff
-			label_force_sensor_ai_rfd_diff.Text = (rfdB - rfdA).ToString();
+			label_force_sensor_ai_rfd_diff.Text = Math.Round(rfdB - rfdA, 1).ToString();
 
-			// 2) AVG TODO:
+			// 2) Average:
+			label_force_sensor_ai_rfd_average.Text = Math.Round(fsAI.CalculateRFD(countA, countB), 1).ToString();
 
 			// 3) max
 			int countRFDMax = countA;
@@ -974,10 +979,10 @@ public partial class ChronoJumpWindow
 			label_force_sensor_ai_rfd_max.Text = rfdMax.ToString();
 		} else {
 			label_force_sensor_ai_rfd_diff.Text = "";
+			label_force_sensor_ai_rfd_average.Text = "";
 			label_force_sensor_ai_rfd_max.Text = "";
 		}
 
 	}
-
 
 }

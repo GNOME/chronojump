@@ -712,11 +712,27 @@ public partial class ChronoJumpWindow
 					layout_force_ai_text);
 		}
 
+		// 5) if only A calculate RFD and exit
 		if(! checkbutton_force_sensor_ai_b.Active)
+		{
+			//calculate the instantaneous RFD of A and return
+			int instant = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+			if(instant > 0 && instant < fsAI.GetLength() -1)
+			{
+				layout_force_ai_text.SetMarkup(string.Format("RFD: {0:0.#} N/s",
+							Math.Round(fsAI.CalculateRFD(instant -1, instant +1), 1) ));
+				textWidth = 1;
+				textHeight = 1;
+				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+				force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
+						allocation.Width -textWidth -10, allocation.Height/2 -20,
+						layout_force_ai_text);
+			}
 			return;
+		}
 
 		/*
-		 * 5) Invert AB if needed to paint correctly blue and red lines
+		 * 6) Invert AB if needed to paint correctly blue and red lines
 		 * making it work also when B is higher than A
 		 */
 		if(hscaleLower > hscaleHigher)
@@ -730,7 +746,7 @@ public partial class ChronoJumpWindow
 
 		if(hscaleHigher != hscaleLower)
 		{
-			//6) calculate and paint RFD
+			//7) calculate and paint RFD
 			double forceA = fsAI.GetForce(hscaleLower);
 			double forceB = fsAI.GetForce(hscaleHigher);
 
@@ -747,7 +763,7 @@ public partial class ChronoJumpWindow
 					allocation.Width -textWidth -10, allocation.Height/2 -20,
 					layout_force_ai_text);
 
-			// 7) calculate and paint max RFD
+			// 8) calculate and paint max RFD
 			//value of count that produce the max RFD (between the previous and next value)
 			int countRFDMax = hscaleLower;
 			layout_force_ai_text.SetMarkup(string.Format("RFD Max: {0:0.#} N/s",

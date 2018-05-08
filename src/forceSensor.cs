@@ -685,7 +685,7 @@ public class ForceSensorAnalyzeInstant
 		return fscAIPoints.GetLength();
 	}
 
-	public int GetVerticalLinePosition(int currentPos, int totalPos)
+	public int GetXFromSampleCount(int currentPos, int totalPos)
 	{
 		LogB.Information(string.Format("currentPos: {0}, totalPos: {1}", currentPos, totalPos));
 		//this can be called on expose event before calculating needed parameters
@@ -695,10 +695,20 @@ public class ForceSensorAnalyzeInstant
 		int leftMargin = fscAIPoints.MarginLeft;
 		int rightMargin = fscAIPoints.MarginRight;
 
-		// rule of three
+		/*
+		 * note samples don't come at same time separation, so this does not work:
 		double px = Util.DivideSafe(
 				(graphWidth - leftMargin - rightMargin) * currentPos,
-				totalPos);
+				totalPos -1); //-1 ok
+				//fscAIPoints.RealWidthG);
+		*/
+		//get the time of sample
+		double currentTime = fscAIPoints.GetTimeAtCount(currentPos);
+		double lastTime = fscAIPoints.GetLastTime();
+
+		double px = Util.DivideSafe(
+				(graphWidth - leftMargin - rightMargin) * currentTime,
+				lastTime);
 
 		// fix margin
 		//px = px + plt.x1 * graphWidth;
@@ -715,9 +725,6 @@ public class ForceSensorAnalyzeInstant
 	//calculates from a range
 	public bool CalculateRangeParams(int countA, int countB)
 	{
-		//countA --; //converts from starting at 1 (graph) to starting at 0 (data)
-		//countB --; //converts from starting at 1 (graph) to starting at 0 (data)
-
 		//countA will be the lowest and countB the highest to calcule Avg and max correctly no matter if B is before A
 		if(countA > countB) {
 			int temp = countA;
@@ -761,6 +768,25 @@ public class ForceSensorAnalyzeInstant
 		}
 
 		return max;
+	}
+
+	public int CalculateXOfTangentLine(int x0, int y0, double RFD, int y, int height)
+	{
+		/*
+		 * x0 and y0 are coordinated of RFD point
+		 * RFD is the RFD value
+		 * x is the returned value for an x value
+		 * height is used to transform the y's in order to make following formula work
+		 *
+		 * y = RFD * x + y0 - x0*RFD
+		 * y - y0 + x0*RFD = x*RFD
+		 * x = (y - y0 + x0*RFD) / RFD
+		 */
+
+		y0 = height - y0;
+		y = height -y;
+
+		return Convert.ToInt32(Util.DivideSafe(y - y0 + x0*RFD, RFD));
 	}
 
 	public ForceSensorCapturePoints FscAIPoints

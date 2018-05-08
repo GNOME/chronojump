@@ -686,14 +686,17 @@ public partial class ChronoJumpWindow
 		// 2) draw horizontal 0 line
 		force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
 				0, fsAI.GetPxAtForce(0), allocation.Width, fsAI.GetPxAtForce(0));
-		force_sensor_ai_pixmap.DrawLines(pen_black_force_ai, paintPoints);
 
-		// 3) create hscaleLower and higher values (A, B at the moment)
+		// 3) paint points as line (can be done also with DrawPoints to debug)
+		force_sensor_ai_pixmap.DrawLines(pen_black_force_ai, paintPoints);
+		//force_sensor_ai_pixmap.DrawPoints(pen_black_force_ai, paintPoints);
+
+		// 4) create hscaleLower and higher values (A, B at the moment)
 		int hscaleLower = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 		int hscaleHigher = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
 
-		// 4) paint vertical yellow lines A, B and write letter
-		int xposA = fsAI.GetVerticalLinePosition(hscaleLower, fsAI.GetLength());
+		// 5) paint vertical yellow lines A, B and write letter
+		int xposA = fsAI.GetXFromSampleCount(hscaleLower, fsAI.GetLength());
 		force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
 				xposA, 0, xposA, allocation.Height -20);
 
@@ -708,7 +711,7 @@ public partial class ChronoJumpWindow
 		int xposB = 0;
 		if(checkbutton_force_sensor_ai_b.Active && hscaleLower != hscaleHigher)
 		{
-			xposB = fsAI.GetVerticalLinePosition(hscaleHigher, fsAI.GetLength());
+			xposB = fsAI.GetXFromSampleCount(hscaleHigher, fsAI.GetLength());
 			force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
 					xposB, 0, xposB, allocation.Height -20);
 
@@ -721,7 +724,7 @@ public partial class ChronoJumpWindow
 					layout_force_ai_text);
 		}
 
-		// 5) if only A calculate RFD and exit
+		// 6) if only A calculate RFD and exit
 		if(! checkbutton_force_sensor_ai_b.Active)
 		{
 			//calculate the instantaneous RFD of A and return
@@ -741,7 +744,7 @@ public partial class ChronoJumpWindow
 		}
 
 		/*
-		 * 6) Invert AB if needed to paint correctly blue and red lines
+		 * 7) Invert AB if needed to paint correctly blue and red lines
 		 * making it work also when B is higher than A
 		 */
 		if(hscaleLower > hscaleHigher)
@@ -755,7 +758,7 @@ public partial class ChronoJumpWindow
 
 		if(hscaleHigher != hscaleLower)
 		{
-			//7) calculate and paint RFD
+			//8) calculate and paint RFD
 			double forceA = fsAI.GetForce(hscaleLower);
 			double forceB = fsAI.GetForce(hscaleHigher);
 
@@ -772,7 +775,7 @@ public partial class ChronoJumpWindow
 					allocation.Width -textWidth -10, allocation.Height/2 -40,
 					layout_force_ai_text);
 
-			// 8) calculate and paint max RFD
+			// 9) calculate and paint max RFD (circle and line)
 			//value of count that produce the max RFD (between the previous and next value)
 
 			if(hscaleLower == 0 || hscaleHigher >= fsAI.GetLength() -1)
@@ -789,44 +792,21 @@ public partial class ChronoJumpWindow
 					allocation.Width -textWidth -10, allocation.Height/2 -20,
 					layout_force_ai_text);
 
+			int rfdX = fsAI.GetXFromSampleCount(countRFDMax, fsAI.GetLength());
+			int rfdY = fsAI.GetPxAtForce(fsAI.GetForce(countRFDMax));
 
-			xposA = fsAI.GetVerticalLinePosition(countRFDMax -1, fsAI.GetLength());
-			xposB = fsAI.GetVerticalLinePosition(countRFDMax +1, fsAI.GetLength());
+			// draw a circle of 12 points width/length, move it 6 points top/left to have it centered
+			force_sensor_ai_pixmap.DrawArc(pen_red_force_ai, false,
+					rfdX -6, rfdY -6,
+					12, 12, 90 * 64, 360 * 64);
 
-			/*
-			 * do not paint segment, it's too small
-			 force_sensor_ai_pixmap.DrawLine(pen_red_force_ai,
-			 xposA, fsAI.GetPxAtForce(fsAI.GetForce(hscaleLowerMax)),
-			 xposB, fsAI.GetPxAtForce(fsAI.GetForce(hscaleHigherMax)) );
-			 */
-
-			//calculate line (not segment)
-			int segXA = xposA;
-			int segXB = xposB;
-			int segYA = fsAI.GetPxAtForce(fsAI.GetForce(countRFDMax -1));
-			int segYB = fsAI.GetPxAtForce(fsAI.GetForce(countRFDMax +1));
-			double slope = Math.Abs(
-					Util.DivideSafe( segYB - segYA,
-						(1.0 * (segXB- segXA)) )
-					);
-			//LogB.Information(string.Format("segXA: {0}, segXB: {1}, segYA: {2}, segYB: {3}, slope: {4}",
-			//			segXA, segXB, segYA, segYB, slope));
-
-
-			int lineXA = segXA - Convert.ToInt32(Util.DivideSafe(
-						(allocation.Height - segYA),
-						slope));
-			int lineXB = segXB + Convert.ToInt32(Util.DivideSafe(
-						(segYB - 0),
-						slope));
-			int lineYA = allocation.Height;
-			int lineYB = 0;
-
+			int xAtBottom = fsAI.CalculateXOfTangentLine(rfdX, rfdY, fsAI.GetForce(countRFDMax), allocation.Height, allocation.Height);
+			int xAtTop = fsAI.CalculateXOfTangentLine(rfdX, rfdY, fsAI.GetForce(countRFDMax), 0, allocation.Height);
 			force_sensor_ai_pixmap.DrawLine(pen_red_force_ai,
-					lineXA, lineYA,
-					lineXB, lineYB);
+					xAtBottom, allocation.Height,
+					xAtTop, 0);
 
-			// 9) calculate and paint impulse
+			// 10) calculate and paint impulse
 			layout_force_ai_text.SetMarkup(string.Format("Impulse: {0:0.#} N*s",
 						Math.Round(fsAI.CalculateImpulse(
 								hscaleLower, hscaleHigher), 1) ));
@@ -928,6 +908,10 @@ public partial class ChronoJumpWindow
 	{
 		int countA = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 		int countB = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+
+		//avoid problems of GTK misreading of hscale on a notebook change or load file
+		if(countA < 0 || countA > fsAI.GetLength() -1 || countB < 0 || countB > fsAI.GetLength() -1)
+			return;
 
 		double timeA = fsAI.GetTimeMS(countA);
 		double timeB = fsAI.GetTimeMS(countB);

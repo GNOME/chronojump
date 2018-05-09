@@ -674,7 +674,7 @@ public class ForceSensorAnalyzeInstant
 	{
 		return fscAIPoints.GetTimeAtCount(count) / 1000.0; //microseconds to milliseconds
 	}
-	public double GetForce(int count)
+	public double GetForceAtCount(int count)
 	{
 		return fscAIPoints.GetForceAtCount(count);
 	}
@@ -770,10 +770,12 @@ public class ForceSensorAnalyzeInstant
 		return max;
 	}
 
+	/* this method is not working
 	public int CalculateXOfTangentLine(int x0, int y0, double RFD, int y, int height)
 	{
+	*/
 		/*
-		 * x0 and y0 are coordinated of RFD point
+		 * x0 and y0 are coordinates of RFD point
 		 * RFD is the RFD value
 		 * x is the returned value for an x value
 		 * height is used to transform the y's in order to make following formula work
@@ -782,11 +784,36 @@ public class ForceSensorAnalyzeInstant
 		 * y - y0 + x0*RFD = x*RFD
 		 * x = (y - y0 + x0*RFD) / RFD
 		 */
-
+	/*
 		y0 = height - y0;
 		y = height -y;
 
 		return Convert.ToInt32(Util.DivideSafe(y - y0 + x0*RFD, RFD));
+	}
+	*/
+
+	public void CalculateRFDTangentLine(int countRFDMax, out int lineXStart, out int lineXEnd, out int lineYStart, out int lineYEnd)
+	{
+		int segXBefore = GetXFromSampleCount(countRFDMax -1, GetLength());
+		int segXAfter = GetXFromSampleCount(countRFDMax +1, GetLength());
+		int segYBefore = GetPxAtForce(GetForceAtCount(countRFDMax -1));
+		int segYAfter = GetPxAtForce(GetForceAtCount(countRFDMax +1));
+
+		double slope = Math.Abs(
+				Util.DivideSafe( segYAfter - segYBefore,
+					(1.0 * (segXAfter- segXBefore)) )
+				);
+		//LogB.Information(string.Format("segXA: {0}, segXB: {1}, segYA: {2}, segYB: {3}, slope: {4}",
+		//			segXA, segXB, segYA, segYB, slope));
+
+		lineXStart = segXBefore - Convert.ToInt32(Util.DivideSafe(
+					(graphHeight - segYBefore),
+					slope));
+		lineXEnd = segXAfter + Convert.ToInt32(Util.DivideSafe(
+					(segYAfter - 0),
+					slope));
+		lineYStart = graphHeight;
+		lineYEnd = 0;
 	}
 
 	public ForceSensorCapturePoints FscAIPoints

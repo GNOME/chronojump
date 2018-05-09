@@ -794,23 +794,26 @@ public class ForceSensorAnalyzeInstant
 
 	public void CalculateRFDTangentLine(int countRFDMax, out int lineXStart, out int lineXEnd, out int lineYStart, out int lineYEnd)
 	{
-		int segXBefore = GetXFromSampleCount(countRFDMax -1, GetLength());
-		int segXAfter = GetXFromSampleCount(countRFDMax +1, GetLength());
-		int segYBefore = GetPxAtForce(GetForceAtCount(countRFDMax -1));
-		int segYAfter = GetPxAtForce(GetForceAtCount(countRFDMax +1));
+		// 1) calculate X and Y of points before and after RFD
+		int pointXBefore = GetXFromSampleCount(countRFDMax -1, GetLength());
+		int pointXAfter = GetXFromSampleCount(countRFDMax +1, GetLength());
+		int pointYBefore = GetPxAtForce(GetForceAtCount(countRFDMax -1));
+		int pointYAfter = GetPxAtForce(GetForceAtCount(countRFDMax +1));
 
-		double slope = Math.Abs(
-				Util.DivideSafe( segYAfter - segYBefore,
-					(1.0 * (segXAfter- segXBefore)) )
-				);
-		//LogB.Information(string.Format("segXA: {0}, segXB: {1}, segYA: {2}, segYB: {3}, slope: {4}",
-		//			segXA, segXB, segYA, segYB, slope));
+		// 2) calculate the slope of the line that could pass across this points
+		double slope = Math.Abs( Util.DivideSafe( pointYAfter - pointYBefore,
+					(1.0 * (pointXAfter- pointXBefore)) ) );
 
-		lineXStart = segXBefore - Convert.ToInt32(Util.DivideSafe(
-					(graphHeight - segYBefore),
+		// 3) get the RFD point
+		int pointXRFD = GetXFromSampleCount(countRFDMax, GetLength());
+		int pointYRFD = GetPxAtForce(GetForceAtCount(countRFDMax));
+
+		// 4) calculate line that cross RFD point with calculated slope
+		lineXStart = pointXRFD - Convert.ToInt32(Util.DivideSafe(
+					(graphHeight - pointYRFD),
 					slope));
-		lineXEnd = segXAfter + Convert.ToInt32(Util.DivideSafe(
-					(segYAfter - 0),
+		lineXEnd = pointXRFD + Convert.ToInt32(Util.DivideSafe(
+					(pointYRFD - 0),
 					slope));
 		lineYStart = graphHeight;
 		lineYEnd = 0;

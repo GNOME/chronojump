@@ -523,8 +523,8 @@ public partial class ChronoJumpWindow
 		forceSensorAIPlot();
 
 		//ranges should have max value the number of the lines of csv file minus the header
-		hscale_force_sensor_ai_a.SetRange(0, fsAI.GetLength() -1);
-		hscale_force_sensor_ai_b.SetRange(0, fsAI.GetLength() -1);
+		hscale_force_sensor_ai_a.SetRange(1, fsAI.GetLength() -2);
+		hscale_force_sensor_ai_b.SetRange(1, fsAI.GetLength() -2);
 
 		//to update values
 		on_hscale_force_sensor_ai_a_value_changed (new object (), new EventArgs ());

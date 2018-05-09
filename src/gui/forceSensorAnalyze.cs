@@ -566,6 +566,7 @@ public partial class ChronoJumpWindow
 		colormapForceAI.AllocColor (ref UtilGtk.GRAY,true,true);
 		bool success = colormapForceAI.AllocColor (ref UtilGtk.YELLOW,true,true);
 		LogB.Information("Yellow success!: " + success.ToString()); //sempre dona success
+		colormapForceAI.AllocColor (ref UtilGtk.GREEN_PLOTS,true,true);
 
 		pen_black_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		//potser llegir els valors de la Gdk.GC
@@ -675,6 +676,7 @@ public partial class ChronoJumpWindow
 	private void forceSensorAnalyzeManualGraphDo(Rectangle allocation)
 	{
 		LogB.Information("forceSensorAnalyzeManualGraphDo() START");
+		bool debug = false;
 
 		button_force_sensor_image_save_rfd_manual.Sensitive = true;
 
@@ -688,8 +690,10 @@ public partial class ChronoJumpWindow
 				0, fsAI.GetPxAtForce(0), allocation.Width, fsAI.GetPxAtForce(0));
 
 		// 3) paint points as line (can be done also with DrawPoints to debug)
-		force_sensor_ai_pixmap.DrawLines(pen_black_force_ai, paintPoints);
-		//force_sensor_ai_pixmap.DrawPoints(pen_black_force_ai, paintPoints);
+		if(debug)
+			force_sensor_ai_pixmap.DrawPoints(pen_black_force_ai, paintPoints);
+		else
+			force_sensor_ai_pixmap.DrawLines(pen_black_force_ai, paintPoints);
 
 		// 4) create hscaleLower and higher values (A, B at the moment)
 		int hscaleLower = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
@@ -759,8 +763,8 @@ public partial class ChronoJumpWindow
 		if(hscaleHigher != hscaleLower)
 		{
 			//8) calculate and paint RFD
-			double forceA = fsAI.GetForce(hscaleLower);
-			double forceB = fsAI.GetForce(hscaleHigher);
+			double forceA = fsAI.GetForceAtCount(hscaleLower);
+			double forceB = fsAI.GetForceAtCount(hscaleHigher);
 
 			force_sensor_ai_pixmap.DrawLine(pen_blue_force_ai,
 					xposA, fsAI.GetPxAtForce(forceA),
@@ -793,18 +797,32 @@ public partial class ChronoJumpWindow
 					layout_force_ai_text);
 
 			int rfdX = fsAI.GetXFromSampleCount(countRFDMax, fsAI.GetLength());
-			int rfdY = fsAI.GetPxAtForce(fsAI.GetForce(countRFDMax));
+			int rfdY = fsAI.GetPxAtForce(fsAI.GetForceAtCount(countRFDMax));
 
 			// draw a circle of 12 points width/length, move it 6 points top/left to have it centered
 			force_sensor_ai_pixmap.DrawArc(pen_red_force_ai, false,
 					rfdX -6, rfdY -6,
 					12, 12, 90 * 64, 360 * 64);
 
-			int xAtBottom = fsAI.CalculateXOfTangentLine(rfdX, rfdY, fsAI.GetForce(countRFDMax), allocation.Height, allocation.Height);
-			int xAtTop = fsAI.CalculateXOfTangentLine(rfdX, rfdY, fsAI.GetForce(countRFDMax), 0, allocation.Height);
+			// plot tangent line
+			/*
+			 * This method is not working
+			int xAtBottom = fsAI.CalculateXOfTangentLine(rfdX, rfdY, fsAI.GetForceAtCount(countRFDMax), allocation.Height, allocation.Height);
+			int xAtTop = fsAI.CalculateXOfTangentLine(rfdX, rfdY, fsAI.GetForceAtCount(countRFDMax), 0, allocation.Height);
 			force_sensor_ai_pixmap.DrawLine(pen_red_force_ai,
 					xAtBottom, allocation.Height,
 					xAtTop, 0);
+					*/
+
+			//calculate line
+			int lineXStart; int lineXEnd;
+			int lineYStart; int lineYEnd;
+			fsAI.CalculateRFDTangentLine(countRFDMax, out lineXStart, out lineXEnd, out lineYStart, out lineYEnd);
+			force_sensor_ai_pixmap.DrawLine(pen_red_force_ai, lineXStart, lineYStart, lineXEnd, lineYEnd);
+
+			if(debug)
+				plotRFDLineDebugConstruction(countRFDMax);
+
 
 			// 10) calculate and paint impulse
 			layout_force_ai_text.SetMarkup(string.Format("Impulse: {0:0.#} N*s",
@@ -821,6 +839,27 @@ public partial class ChronoJumpWindow
 		LogB.Information("forceSensorAnalyzeManualGraphDo() END");
 	}
 
+	private void plotRFDLineDebugConstruction(int countRFDMax)
+	{
+		/*
+		 * debug plotting points before and after RFD
+		 * draw a circle of 6 points width/length, move it 3 points top/left to have it centered
+		 */
+		int debugPointsBeforeRFD = 4;
+		int debugPointsAfterRFD = 4;
+		for(int i = countRFDMax - debugPointsBeforeRFD; i <= countRFDMax + debugPointsAfterRFD; i ++)
+		{
+			if(i < 0 || i > fsAI.GetLength() -1)
+				continue;
+
+			int segXDebug = fsAI.GetXFromSampleCount(i, fsAI.GetLength());
+			int segYDebug = fsAI.GetPxAtForce(fsAI.GetForceAtCount(i));
+			force_sensor_ai_pixmap.DrawArc(pen_black_force_ai, false,
+					segXDebug -3, segYDebug -3,
+					6, 6, 90 * 64, 360 * 64);
+		}
+	}
+
 	bool forceSensorAIChanged = false;
 	private void on_hscale_force_sensor_ai_a_value_changed (object o, EventArgs args)
 	{
@@ -829,7 +868,7 @@ public partial class ChronoJumpWindow
 
 		int count = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 		label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
-		label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForce(count), 1).ToString();
+		label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
 
 		if(count > 0 && count < fsAI.GetLength() -1)
 			label_force_sensor_ai_rfd_a.Text = Math.Round(fsAI.CalculateRFD(count -1, count +1), 1).ToString();
@@ -849,7 +888,7 @@ public partial class ChronoJumpWindow
 
 		int count = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
 		label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
-		label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForce(count), 1).ToString();
+		label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
 
 		if(count > 0 && count < fsAI.GetLength() -1)
 			label_force_sensor_ai_rfd_b.Text = Math.Round(fsAI.CalculateRFD(count -1, count +1), 1).ToString();
@@ -915,8 +954,8 @@ public partial class ChronoJumpWindow
 
 		double timeA = fsAI.GetTimeMS(countA);
 		double timeB = fsAI.GetTimeMS(countB);
-		double forceA = fsAI.GetForce(countA);
-		double forceB = fsAI.GetForce(countB);
+		double forceA = fsAI.GetForceAtCount(countA);
+		double forceB = fsAI.GetForceAtCount(countB);
 		bool success = fsAI.CalculateRangeParams(countA, countB);
 		if(success) {
 			label_force_sensor_ai_time_diff.Text = Math.Round(timeB - timeA, 1).ToString();

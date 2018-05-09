@@ -566,7 +566,6 @@ public partial class ChronoJumpWindow
 		colormapForceAI.AllocColor (ref UtilGtk.GRAY,true,true);
 		bool success = colormapForceAI.AllocColor (ref UtilGtk.YELLOW,true,true);
 		LogB.Information("Yellow success!: " + success.ToString()); //sempre dona success
-		colormapForceAI.AllocColor (ref UtilGtk.GREEN_PLOTS,true,true);
 
 		pen_black_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		//potser llegir els valors de la Gdk.GC

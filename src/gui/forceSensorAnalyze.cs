@@ -781,8 +781,15 @@ public partial class ChronoJumpWindow
 					xposA, fsAI.GetPxAtForce(forceA),
 					xposB, fsAI.GetPxAtForce(forceB));
 
-			layout_force_ai_text.SetMarkup(string.Format("RFD A-B AVG: {0:0.#} N/s",
-						Math.Round(fsAI.CalculateRFD(hscaleLower, hscaleHigher), 1) ));
+			layout_force_ai_text.SetMarkup(string.Format("A-B statistics"));
+			textWidth = 1;
+			textHeight = 1;
+			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+			force_sensor_ai_pixmap.DrawLayout (pen_black_force_ai,
+					allocation.Width -textWidth -10, allocation.Height/2 -60,
+					layout_force_ai_text);
+
+			layout_force_ai_text.SetMarkup(string.Format("RFD AVG: {0} N/s", label_force_sensor_ai_rfd_average.Text));
 			textWidth = 1;
 			textHeight = 1;
 			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
@@ -797,10 +804,7 @@ public partial class ChronoJumpWindow
 				return;
 
 			int countRFDMax = hscaleLower;
-			layout_force_ai_text.SetMarkup(string.Format("RFD Max: {0:0.#} N/s",
-						Math.Round(fsAI.CalculateMaxRFDInRange(
-								hscaleLower, hscaleHigher,
-								out countRFDMax), 1) ));
+			layout_force_ai_text.SetMarkup(string.Format("RFD Max: {0} N/s", label_force_sensor_ai_rfd_max.Text));
 
 			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 			force_sensor_ai_pixmap.DrawLayout (pen_red_force_ai,

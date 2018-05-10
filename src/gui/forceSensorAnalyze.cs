@@ -800,11 +800,12 @@ public partial class ChronoJumpWindow
 			// 9) calculate and paint max RFD (circle and line)
 			//value of count that produce the max RFD (between the previous and next value)
 
-			if(hscaleLower == 0 || hscaleHigher >= fsAI.GetLength() -1)
+			if(hscaleLower <= 0 || hscaleHigher >= fsAI.GetLength() -1)
 				return;
 
-			int countRFDMax = hscaleLower;
-			layout_force_ai_text.SetMarkup(string.Format("RFD Max: {0} N/s", label_force_sensor_ai_rfd_max.Text));
+			layout_force_ai_text.SetMarkup(string.Format("RFD Max: {0} N/s",
+						Math.Round(fsAI.LastRFDMax, 1) ));
+			int countRFDMax = fsAI.LastRFDMaxCount;
 
 			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 			force_sensor_ai_pixmap.DrawLayout (pen_red_force_ai,
@@ -829,14 +830,17 @@ public partial class ChronoJumpWindow
 					xAtTop, 0);
 					*/
 
-			//calculate line
-			int lineXStart; int lineXEnd;
-			int lineYStart; int lineYEnd;
-			fsAI.CalculateRFDTangentLine(countRFDMax, out lineXStart, out lineXEnd, out lineYStart, out lineYEnd);
-			force_sensor_ai_pixmap.DrawLine(pen_red_force_ai, lineXStart, lineYStart, lineXEnd, lineYEnd);
+			if(countRFDMax -1 >= 0 && countRFDMax +1 < fsAI.GetLength() -1)
+			{
+				//calculate line
+				int lineXStart; int lineXEnd;
+				int lineYStart; int lineYEnd;
+				fsAI.CalculateRFDTangentLine(countRFDMax, out lineXStart, out lineXEnd, out lineYStart, out lineYEnd);
+				force_sensor_ai_pixmap.DrawLine(pen_red_force_ai, lineXStart, lineYStart, lineXEnd, lineYEnd);
 
-			if(debug)
-				plotRFDLineDebugConstruction(countRFDMax);
+				if(debug)
+					plotRFDLineDebugConstruction(countRFDMax);
+			}
 
 
 			// 10) calculate and paint impulse
@@ -959,6 +963,7 @@ public partial class ChronoJumpWindow
 		else
 			button_force_sensor_analyze_AB_save.Visible = false;
 
+		force_sensor_analyze_instant_calculate_params();
 		forceSensorAIChanged = true; //to actually plot
 		force_sensor_ai_drawingarea.QueueDraw(); // -- refresh
 	}
@@ -1027,11 +1032,12 @@ public partial class ChronoJumpWindow
 			label_force_sensor_ai_rfd_average.Text = Math.Round(fsAI.CalculateRFD(countA, countB), 1).ToString();
 
 			// 3) max
-			int countRFDMax = countA;
-			double rfdMax = Math.Round(fsAI.CalculateMaxRFDInRange(
-						countA, countB,
-						out countRFDMax), 1);
-			label_force_sensor_ai_rfd_max.Text = rfdMax.ToString();
+			fsAI.CalculateMaxRFDInRange(countA, countB);
+
+			//LogB.Information(string.Format("fsAI.LastRFDMax: {0}", fsAI.LastRFDMax));
+			//LogB.Information(string.Format("fsAI.LastRFDMaxCount: {0}", fsAI.LastRFDMaxCount));
+
+			label_force_sensor_ai_rfd_max.Text = Math.Round(fsAI.LastRFDMax, 1).ToString();
 		} else {
 			label_force_sensor_ai_rfd_diff.Text = "";
 			label_force_sensor_ai_rfd_average.Text = "";

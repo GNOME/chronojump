@@ -751,13 +751,15 @@ public class ForceSensorAnalyzeInstant
 	 * Calculates RFD in a point using previous and next point
 	 */
 //TODO: fer que es vagi recordant el max en un rang determinat pq no s'hagi de tornar a calcular
-	public double CalculateMaxRFDInRange(int countA, int countB, out int countRFDMax)
+	public double LastRFDMax;
+	public int LastRFDMaxCount;
+	public void CalculateMaxRFDInRange(int countA, int countB)
 	{
 		double max = 0;
 		double current = 0;
-		countRFDMax = countA; //count where maxRFD is found
+		int countRFDMax = countA; //count where maxRFD is found
 
-		for(int i = countA; i < countB ; i ++)
+		for(int i = countA; i < countB; i ++)
 		{
 			current = fscAIPoints.GetRFD(i-1, i+1);
 			if(current > max)
@@ -767,7 +769,9 @@ public class ForceSensorAnalyzeInstant
 			}
 		}
 
-		return max;
+		//stored to read them from forceSensorAnalyze manual table and graph
+		LastRFDMax = max;
+		LastRFDMaxCount = countRFDMax;
 	}
 
 	/* this method is not working
@@ -794,6 +798,8 @@ public class ForceSensorAnalyzeInstant
 
 	public void CalculateRFDTangentLine(int countRFDMax, out int lineXStart, out int lineXEnd, out int lineYStart, out int lineYEnd)
 	{
+		LogB.Information(string.Format("CalculateRFDTangentLine: {0}" , countRFDMax));
+
 		// 1) calculate X and Y of points before and after RFD
 		int pointXBefore = GetXFromSampleCount(countRFDMax -1, GetLength());
 		int pointXAfter = GetXFromSampleCount(countRFDMax +1, GetLength());
@@ -819,6 +825,7 @@ public class ForceSensorAnalyzeInstant
 		lineYEnd = 0;
 	}
 
+	//TODO: better if all this time, force, rfd params are on this class, so don't need to read labels from main gui
 	public void ExportToCSV(int countA, int countB, string selectedFileName, string sepString,
 			double timeA, double timeB, double timeDiff,
 			double forceA, double forceB, double forceDiff, double forceAvg, double forceMax,

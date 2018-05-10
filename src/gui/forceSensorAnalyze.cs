@@ -38,6 +38,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_force_sensor_graph;
 	[Widget] Gtk.Button button_force_sensor_image_save_rfd_auto;
 	[Widget] Gtk.Button button_force_sensor_image_save_rfd_manual;
+	[Widget] Gtk.Button button_force_sensor_analyze_AB_save;
 
 	[Widget] Gtk.SpinButton spin_force_duration_seconds;
 	[Widget] Gtk.RadioButton radio_force_duration_seconds;
@@ -687,6 +688,8 @@ public partial class ChronoJumpWindow
 		bool debug = false;
 
 		button_force_sensor_image_save_rfd_manual.Sensitive = true;
+		if(checkbutton_force_sensor_ai_b.Active)
+			button_force_sensor_analyze_AB_save.Visible = true;
 
 		// 1) create paintPoints
 		Gdk.Point [] paintPoints = new Gdk.Point[fsAI.FscAIPoints.Points.Count];
@@ -947,6 +950,11 @@ public partial class ChronoJumpWindow
 		label_force_sensor_ai_rfd_average.Visible = visible;
 		label_force_sensor_ai_rfd_max.Visible = visible;
 
+		if(visible && canDoForceSensorAnalyzeAB())
+			button_force_sensor_analyze_AB_save.Visible = true;
+		else
+			button_force_sensor_analyze_AB_save.Visible = false;
+
 		forceSensorAIChanged = true; //to actually plot
 		force_sensor_ai_drawingarea.QueueDraw(); // -- refresh
 	}
@@ -1025,7 +1033,58 @@ public partial class ChronoJumpWindow
 			label_force_sensor_ai_rfd_average.Text = "";
 			label_force_sensor_ai_rfd_max.Text = "";
 		}
+	}
 
+	private bool canDoForceSensorAnalyzeAB()
+	{
+		return (Util.FileExists(lastForceSensorFullPath) &&
+				label_force_sensor_ai_time_diff.Visible &&
+				label_force_sensor_ai_time_diff.Text != null &&
+				Util.IsNumber(label_force_sensor_ai_time_diff.Text, true) );
+	}
+
+	private void on_button_force_sensor_analyze_AB_save_clicked (object o, EventArgs args)
+	{
+		if (canDoForceSensorAnalyzeAB())
+			checkFile(Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB);
+		else {
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFound);
+			return;
+		}
+	}
+	void on_button_force_sensor_save_AB_file_selected (string selectedFileName)
+	{
+		fsAI.ExportToCSV(getLowestForceSensorABScale(), getHighestForceSensorABScale(),
+				selectedFileName, preferences.CSVExportDecimalSeparator,
+				Convert.ToDouble(label_force_sensor_ai_time_a.Text),
+				Convert.ToDouble(label_force_sensor_ai_time_b.Text),
+				Convert.ToDouble(label_force_sensor_ai_time_diff.Text),
+				Convert.ToDouble(label_force_sensor_ai_force_a.Text),
+				Convert.ToDouble(label_force_sensor_ai_force_b.Text),
+				Convert.ToDouble(label_force_sensor_ai_force_diff.Text),
+				Convert.ToDouble(label_force_sensor_ai_force_average.Text),
+				Convert.ToDouble(label_force_sensor_ai_force_max.Text),
+				Convert.ToDouble(label_force_sensor_ai_rfd_a.Text),
+				Convert.ToDouble(label_force_sensor_ai_rfd_b.Text),
+				Convert.ToDouble(label_force_sensor_ai_rfd_diff.Text),
+				Convert.ToDouble(label_force_sensor_ai_rfd_average.Text),
+				Convert.ToDouble(label_force_sensor_ai_rfd_max.Text)
+				);
+	}
+
+	private int getLowestForceSensorABScale()
+	{
+		if(Convert.ToInt32(hscale_force_sensor_ai_a.Value) <= Convert.ToInt32(hscale_force_sensor_ai_b.Value))
+			return Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		else
+			return Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+	}
+	private int getHighestForceSensorABScale()
+	{
+		if(Convert.ToInt32(hscale_force_sensor_ai_a.Value) <= Convert.ToInt32(hscale_force_sensor_ai_b.Value))
+			return Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		else
+			return Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 	}
 
 }

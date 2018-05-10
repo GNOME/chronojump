@@ -819,6 +819,68 @@ public class ForceSensorAnalyzeInstant
 		lineYEnd = 0;
 	}
 
+	public void ExportToCSV(int countA, int countB, string selectedFileName, string sepString,
+			double timeA, double timeB, double timeDiff,
+			double forceA, double forceB, double forceDiff, double forceAvg, double forceMax,
+			double rfdA, double rfdB, double rfdDiff, double rfdAvg, double rfdMax
+			)
+	{
+		//this overwrites if needed
+		TextWriter writer = File.CreateText(selectedFileName);
+
+		string sep = " ";
+		if (sepString == "COMMA")
+			sep = ";";
+		else
+			sep = ",";
+
+		string header =
+			"" + sep +
+			Catalog.GetString("Time") + sep +
+			Catalog.GetString("Force") + sep +
+			Catalog.GetString("RFD");
+
+		//write header
+		writer.WriteLine(header);
+
+		//write statistics
+		writer.WriteLine(
+				Catalog.GetString("Difference") + sep +
+				Util.DoubleToCSV(timeDiff, sepString) + sep +
+				Util.DoubleToCSV(forceDiff, sepString) + sep +
+				Util.DoubleToCSV(rfdDiff, sepString) );
+
+		writer.WriteLine(
+				Catalog.GetString("Average") + sep +
+				"" + sep +
+				Util.DoubleToCSV(forceAvg, sepString) + sep +
+				Util.DoubleToCSV(rfdAvg, sepString) );
+
+		writer.WriteLine(
+				Catalog.GetString("Maximum") + sep +
+				"" + sep +
+				Util.DoubleToCSV(forceMax, sepString) + sep +
+				Util.DoubleToCSV(rfdMax, sepString) );
+
+		//blank line
+		writer.WriteLine();
+
+		//write header
+		writer.WriteLine(header);
+
+		//write data
+		for(int i = countA; i <= countB; i ++)
+			writer.WriteLine(
+					(i+1).ToString() + sep +
+					Util.DoubleToCSV(fscAIPoints.GetTimeAtCount(i), sepString) + sep +
+					Util.DoubleToCSV(fscAIPoints.GetForceAtCount(i), sepString) + sep +
+					Util.DoubleToCSV(CalculateRFD(i-1, i+1), sepString) );
+
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+	}
+
 	public ForceSensorCapturePoints FscAIPoints
 	{
 		get { return fscAIPoints; }

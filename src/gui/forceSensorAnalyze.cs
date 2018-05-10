@@ -520,6 +520,15 @@ public partial class ChronoJumpWindow
 				force_sensor_ai_drawingarea.Allocation.Height
 				);
 
+		/*
+		 * position the hscales on the left to avoid loading a csv
+		 * with less data rows than current csv and having scales out of the graph
+		//hscale_force_sensor_ai_a.ValuePos = Gtk.PositionType.Left; //doesn't work
+		//hscale_force_sensor_ai_b.ValuePos = Gtk.PositionType.Left; //doesn't work
+		*/
+		hscale_force_sensor_ai_a.Value = 1;
+		hscale_force_sensor_ai_b.Value = 1;
+
 		forceSensorAIPlot();
 
 		//ranges should have max value the number of the lines of csv file minus the header

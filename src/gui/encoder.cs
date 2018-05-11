@@ -478,7 +478,9 @@ public partial class ChronoJumpWindow
 		
 		captureCurvesBarsData = new ArrayList(0);
 
-		playVideoEncoderInitialSetup();
+
+		if(UtilAll.GetOSEnum() != UtilAll.OperatingSystems.LINUX)
+			playVideoEncoderInitialSetup();
 
 		LogB.Information("after play 0");
 		capturingCsharp = encoderCaptureProcess.STOPPED;
@@ -7089,7 +7091,7 @@ public partial class ChronoJumpWindow
 			LogB.Information("Prepare video encoder 3");
 		} catch {
 			LogB.Information("Catched on playVideoEncoderInitialSetup");
-			//it crashes on Raspberry, Banana
+			//it crashes on Raspberry, Banana, (and since 2018 on Linux (Debian))
 		}
 		LogB.Information("Prepare video encoder 4");
 	}

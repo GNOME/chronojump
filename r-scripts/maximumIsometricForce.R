@@ -376,6 +376,9 @@ drawDynamicsFromLoadCell <- function(
                 
                 print(paste("---- RFD number", n, "--------"))
                 print(options)
+                if(RFDoptions$type == "AVERAGE" & (RFDoptions$start == RFDoptions$end)){
+                        RFDoptions$type = "INSTANTANEOUS"
+                }
                 if(RFDoptions$rfdFunction == "-1")        
                 {
                         next

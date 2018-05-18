@@ -30,6 +30,7 @@ SOURCES = \
 	gui/jumpType.cs\
 	gui/restTime.cs\
 	gui/run.cs\
+	gui/runEncoder.cs\
 	gui/runType.cs\
 	gui/reactionTime.cs\
 	gui/pulse.cs\
@@ -268,6 +269,7 @@ RESOURCES = \
 	../images/board-encoder.png,board-encoder.png \
 	../images/board-arduino-rfid.png,board-arduino-rfid.png \
 	../images/board-arduino-force.png,board-arduino-force.png \
+	../images/board-arduino-run-encoder.png,board-arduino-run-encoder.png \
 	../images/chronojump-jumps-small.png,chronojump-jumps-small.png \
 	../images/chronojump-runs-small.png,chronojump-runs-small.png \
 	../images/chronojump-encoder-small.png,chronojump-encoder-small.png \

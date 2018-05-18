@@ -4874,8 +4874,21 @@ public partial class ChronoJumpWindow
 		int graphHeight=encoder_capture_curves_bars_drawingarea.Allocation.Height;
 	
 		ArrayList data = new ArrayList (data6Variables.Count);
+		int count = 0;
+		int showNRepetitions = -1; //default: -1: show all. 10: only display last 10 repetitions
+		if(configChronojump.PlaySoundsFromFile)
+			showNRepetitions = 10; //TODO: put an option on preferences to allow any user use this
+
 		foreach(EncoderBarsData ebd in data6Variables)
-			data.Add(ebd.GetValue(mainVariable));
+		{
+			//when capture ended, show all repetitions
+			if(showNRepetitions == -1 || ! capturing)
+				data.Add(ebd.GetValue(mainVariable));
+			else if(data6Variables.Count <= showNRepetitions || count >= data6Variables.Count - showNRepetitions)
+				data.Add(ebd.GetValue(mainVariable));
+			count ++;
+		}
+		count = 0;
 
 		//Get max min avg values of this set
 		double maxThisSet = -100000;
@@ -4883,7 +4896,6 @@ public partial class ChronoJumpWindow
 		double maxThisSetForLoss = maxThisSet;
 		double minThisSetForLoss = minThisSet;
 		double sum = 0;
-		int count = 0;
 
 		string eccon = findEccon(true);
 
@@ -5168,6 +5180,9 @@ public partial class ChronoJumpWindow
 			{
 				int startX = Convert.ToInt32(dLeft + dWidth/2);
 				string bottomText = (count +1).ToString();
+				if(showNRepetitions > 0 && capturing && data6Variables.Count > showNRepetitions)
+					bottomText = ( (data6Variables.Count - showNRepetitions) + count +1).ToString();
+
 				if (eccon != "c") {
 					startX = dLeft;
 					bottomText = ((count +1) / 2).ToString();

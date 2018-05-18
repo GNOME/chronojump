@@ -2220,7 +2220,7 @@ public partial class ChronoJumpWindow
 		encoderRProcAnalyze.SendEndProcess();
 
 		//cancel force capture process
-		if(capturingForce == forceStatus.STARTING || capturingForce == forceStatus.CAPTURING)
+		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
 			LogB.Information("cancelling force capture");
 			forceProcessCancel = true;
@@ -2231,7 +2231,7 @@ public partial class ChronoJumpWindow
 			portFS.Close();
 
 		//cancel runEncoder capture process
-		if(capturingRunEncoder == runEncoderStatus.STARTING || capturingRunEncoder == runEncoderStatus.CAPTURING)
+		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
 		{
 			LogB.Information("cancelling runEncoder capture");
 			runEncoderProcessCancel = true;
@@ -3127,7 +3127,7 @@ public partial class ChronoJumpWindow
 		notebook_capture_graph_table.ShowTabs = true;
 
 		//cancel force capture process if mode is changed
-		if(capturingForce == forceStatus.STARTING || capturingForce == forceStatus.CAPTURING)
+		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
 			LogB.Information("cancelling force capture");
 			forceProcessCancel = true;
@@ -3859,13 +3859,13 @@ public partial class ChronoJumpWindow
 	{
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 
-		if(capturingForce == forceStatus.STARTING || capturingForce == forceStatus.CAPTURING)
+		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
 			LogB.Information("cancel clicked on force");
 			forceProcessCancel = true;
 			return;
 		}
-		if(capturingRunEncoder == runEncoderStatus.STARTING || capturingRunEncoder == runEncoderStatus.CAPTURING)
+		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
 		{
 			LogB.Information("cancel clicked on runEncoder");
 			runEncoderProcessCancel = true;
@@ -3901,13 +3901,13 @@ public partial class ChronoJumpWindow
 		//to avoid doble finish or cancel while finishing
 		hideButtons();
 
-		if(capturingForce == forceStatus.STARTING || capturingForce == forceStatus.CAPTURING)
+		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
 			LogB.Information("finish clicked on force");
 			forceProcessFinish = true;
 			return;
 		}
-		if(capturingRunEncoder == runEncoderStatus.STARTING || capturingRunEncoder == runEncoderStatus.CAPTURING)
+		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
 		{
 			LogB.Information("finish clicked on runEncoder");
 			runEncoderProcessFinish = true;

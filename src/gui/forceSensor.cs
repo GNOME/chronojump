@@ -95,14 +95,14 @@ public partial class ChronoJumpWindow
 	int usbDisconnectedLastTime;
 
 	/*
-	 * forceStatus:
+	 * arduinoCaptureStatus:
 	 * STOP is when is not used
 	 * STARTING is while is waiting forceSensor to start capturing
 	 * CAPTURING is when data is arriving
 	 * COPIED_TO_TMP means data is on tmp and graph can be called
 	 */
-	enum forceStatus { STOP, STARTING, CAPTURING, COPIED_TO_TMP }
-	static forceStatus capturingForce = forceStatus.STOP;
+	enum arduinoCaptureStatus { STOP, STARTING, CAPTURING, COPIED_TO_TMP }
+	static arduinoCaptureStatus capturingForce = arduinoCaptureStatus.STOP;
 	static bool redoingPoints; //don't draw while redoing points (adjusting screen)
 
 	static bool forceCaptureStartMark; 	//Just needed to display "Capturing message"
@@ -284,7 +284,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		capturingForce = forceStatus.STOP;
+		capturingForce = arduinoCaptureStatus.STOP;
 		forceSensorTimeStart = DateTime.Now;
 		forceSensorOtherMessageShowSeconds = true;
 
@@ -502,7 +502,7 @@ public partial class ChronoJumpWindow
 				return;
 
 		forceSensorOtherMessage = "Please, wait ...";
-		capturingForce = forceStatus.STARTING;
+		capturingForce = arduinoCaptureStatus.STARTING;
 	}
 
 	private void forceSensorCapturePre2()
@@ -577,7 +577,7 @@ public partial class ChronoJumpWindow
 		while(! str.Contains("Starting capture"));
 
 		forceCaptureStartMark = true;
-		capturingForce = forceStatus.CAPTURING;
+		capturingForce = arduinoCaptureStatus.CAPTURING;
 
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
 
@@ -647,7 +647,7 @@ public partial class ChronoJumpWindow
 		if(! forceSensorSendCommand("end_capture:", "Ending capture ...", "Catched ending capture"))
 		{
 			forceProcessError = true;
-			capturingForce = forceStatus.STOP;
+			capturingForce = arduinoCaptureStatus.STOP;
 			Util.FileDelete(fileName);
 			return;
 		}
@@ -668,7 +668,7 @@ public partial class ChronoJumpWindow
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
-		capturingForce = forceStatus.STOP;
+		capturingForce = arduinoCaptureStatus.STOP;
 
 		//port.Close();
 
@@ -678,27 +678,27 @@ public partial class ChronoJumpWindow
 			//call graph
 			File.Copy(fileName, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
 			lastForceSensorFullPath = fileName;
-			capturingForce = forceStatus.COPIED_TO_TMP;
+			capturingForce = arduinoCaptureStatus.COPIED_TO_TMP;
 		}
 	}
 
 	private bool pulseGTKForceSensorCapture ()
 	{
-LogB.Information(" fc A ");
+LogB.Information(" re A ");
 		if(forceCaptureThread == null)
 		{
 			Thread.Sleep (25);
 			return true;
 		}
 
-LogB.Information(" fc B ");
+LogB.Information(" re B ");
 		//LogB.Information(capturingForce.ToString())
 		if(! forceCaptureThread.IsAlive || forceProcessFinish || forceProcessCancel || forceProcessError)
 		{
-LogB.Information(" fc C ");
+LogB.Information(" re C ");
 			if(forceProcessFinish)
 			{
-				if(capturingForce != forceStatus.COPIED_TO_TMP)
+				if(capturingForce != arduinoCaptureStatus.COPIED_TO_TMP)
 				{
 					Thread.Sleep (25); //Wait file is copied
 					return true;
@@ -740,7 +740,7 @@ LogB.Information(" fc C ");
 			 */
 			while(forceCaptureThread.IsAlive)
 				Thread.Sleep (250);
-LogB.Information(" fc D ");
+LogB.Information(" re D ");
 
 			LogB.ThreadEnded(); 
 
@@ -757,17 +757,17 @@ LogB.Information(" fc D ");
 			return false;
 		}
 
-LogB.Information(" fc E ");
+LogB.Information(" re E ");
 		if(forceCaptureStartMark)
 		{
 			event_execute_label_message.Text = "Capturing ...";
 			forceCaptureStartMark = false;
 		}
-LogB.Information(" fc F ");
+LogB.Information(" re F ");
 
-		if(capturingForce == forceStatus.CAPTURING)
+		if(capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
-LogB.Information(" fc G ");
+LogB.Information(" re G ");
 			//------------------- vscale -----------------
 			/*
 			//A) resize vscale if needed
@@ -796,12 +796,12 @@ LogB.Information(" fc G ");
 			label_force_sensor_value_min.Text = forceSensorValues.ForceMin.ToString();
 
 
-LogB.Information(" fc H ");
+LogB.Information(" re H ");
 			//------------------- realtime graph -----------------
 			if(redoingPoints || fscPoints == null || fscPoints.Points == null || force_capture_drawingarea == null)
 				return true;
 
-LogB.Information(" fc H2 ");
+LogB.Information(" re H2 ");
 			if(usbDisconnectedLastTime == forceSensorValues.TimeLast)
 			{
 				usbDisconnectedCount ++;
@@ -818,7 +818,7 @@ LogB.Information(" fc H2 ");
 				usbDisconnectedCount = 0;
 			}
 
-LogB.Information(" fc I ");
+LogB.Information(" re I ");
 			//mark meaning screen should be erased
 			if(fscPoints.NumPainted == -1) {
 				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
@@ -827,32 +827,32 @@ LogB.Information(" fc I ");
 				fscPoints.NumPainted = 0;
 			}
 
-LogB.Information(" fc J ");
+LogB.Information(" re J ");
 			//use these integers and this List to not have errors by updating data on the other thread
 			int numCaptured = fscPoints.NumCaptured;
 			int numPainted = fscPoints.NumPainted;
 			List<Gdk.Point> points = fscPoints.Points;
 
-LogB.Information(" fc K ");
+LogB.Information(" re K ");
 			int toDraw = numCaptured - numPainted;
 
 			LogB.Information("points count: " + points.Count +
 					"; NumCaptured: " + numCaptured + "; NumPainted: " + numPainted +
 					"; toDraw: " + toDraw.ToString() );
 
-LogB.Information(" fc L ");
+LogB.Information(" re L ");
 			//fixes crash at the end
 			if(toDraw == 0)
 				return true;
 
-LogB.Information(" fc M ");
+LogB.Information(" re M ");
 			Gdk.Point [] paintPoints;
 			if(numPainted > 0)
 				paintPoints = new Gdk.Point[toDraw +1]; // if something has been painted, connected first point with previous points
 			else
 				paintPoints = new Gdk.Point[toDraw];
 
-LogB.Information(" fc N ");
+LogB.Information(" re N ");
 			int jStart = 0;
 			int iStart = 0;
 			if(numPainted > 0)
@@ -863,14 +863,14 @@ LogB.Information(" fc N ");
 				iStart = numPainted;
 				//LogB.Information("X: " + paintPoints[0].X.ToString() + "; Y: " + paintPoints[0].Y.ToString());
 			}
-LogB.Information(" fc O ");
+LogB.Information(" re O ");
 			for(int j=jStart, i = iStart ; i < numCaptured ; i ++, j++)
 			{
 				if(points.Count > i) 	//extra check to avoid going outside of arrays
 					paintPoints[j] = points[i];
 				//LogB.Information("X: " + paintPoints[j].X.ToString() + "; Y: " + paintPoints[j].Y.ToString());
 			}
-LogB.Information(" fc P ");
+LogB.Information(" re P ");
 			force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
 			force_capture_drawingarea.QueueDraw(); // -- refresh
 
@@ -881,9 +881,9 @@ LogB.Information(" fc P ");
 			if(fscPoints.NumPainted != -1)
 				fscPoints.NumPainted = numCaptured;
 
-LogB.Information(" fc Q ");
+LogB.Information(" re Q ");
 		}
-LogB.Information(" fc R ");
+LogB.Information(" re R ");
 
 		Thread.Sleep (25);
 		//LogB.Information(" ForceSensor:"+ forceCaptureThread.ThreadState.ToString());

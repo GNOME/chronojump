@@ -146,7 +146,13 @@ ssh to chronojump server
 su
 vi /etc/chronojump.conf
 
-Update: chronojump_stable_version (4 numbers, eg. 1.4.9.0)
+Change: chronojump_stable_version (4 numbers, eg. 1.4.9.0)
+
+example for major version:
+chronojump_stable_version=1.8.1
+
+example for minor version:
+chronojump_stable_version=1.8.1-37-g2e4a586
 
 /etc/init.d/gunicorn restart
 verify:

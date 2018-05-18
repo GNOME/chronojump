@@ -3132,6 +3132,13 @@ public partial class ChronoJumpWindow
 			LogB.Information("cancelling force capture");
 			forceProcessCancel = true;
 		}
+		//cancel runEncoder capture process if mode is changed
+		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
+		{
+			LogB.Information("cancelling runEncoder capture");
+			runEncoderProcessCancel = true;
+		}
+
 
 		radio_mode_contacts_capture.Active = true;
 		radio_mode_contacts_general.Active = true;

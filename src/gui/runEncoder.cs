@@ -42,15 +42,7 @@ public partial class ChronoJumpWindow
 
 	//int usbDisconnectedCount;
 	//int usbDisconnectedLastTime;
-	/*
-	 * runEncoderStatus:
-	 * STOP is when is not used
-	 * STARTING is while is waiting run encoder sensor to start capturing
-	 * CAPTURING is when data is arriving
-	 * COPIED_TO_TMP means data is on tmp and graph can be called
-	 */
-	enum runEncoderStatus { STOP, STARTING, CAPTURING, COPIED_TO_TMP }
-	static runEncoderStatus capturingRunEncoder = runEncoderStatus.STOP;
+	static arduinoCaptureStatus capturingRunEncoder = arduinoCaptureStatus.STOP;
 	/*
 	static bool redoingPoints; //don't draw while redoing points (adjusting screen)
 
@@ -168,7 +160,7 @@ public partial class ChronoJumpWindow
 				return false;
 
 		event_execute_label_message.Text = "Please, wait ...";
-		capturingRunEncoder = runEncoderStatus.STARTING;
+		capturingRunEncoder = arduinoCaptureStatus.STARTING;
 
 		button_execute_test.Sensitive = false;
 		event_execute_button_finish.Sensitive = true;
@@ -233,7 +225,7 @@ public partial class ChronoJumpWindow
 		while(! str.Contains("Starting capture"));
 
 		//forceCaptureStartMark = true;
-		capturingRunEncoder = runEncoderStatus.CAPTURING;
+		capturingRunEncoder = arduinoCaptureStatus.CAPTURING;
 
 		Util.CreateRunEncoderSessionDirIfNeeded (currentSession.UniqueID);
 
@@ -307,7 +299,7 @@ public partial class ChronoJumpWindow
 		if(! runEncoderSendCommand("end_capture:", "Ending capture ...", "Catched ending capture"))
 		{
 			runEncoderProcessError = true;
-			capturingRunEncoder = runEncoderStatus.STOP;
+			capturingRunEncoder = arduinoCaptureStatus.STOP;
 			Util.FileDelete(fileName);
 			return;
 		}
@@ -328,7 +320,7 @@ public partial class ChronoJumpWindow
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
-		capturingRunEncoder = runEncoderStatus.STOP;
+		capturingRunEncoder = arduinoCaptureStatus.STOP;
 
 		//port.Close();
 
@@ -338,7 +330,7 @@ public partial class ChronoJumpWindow
 			//call graph
 			File.Copy(fileName, UtilEncoder.GetRunEncoderCSVFileName(), true); //can be overwritten
 			lastRunEncoderFullPath = fileName;
-			capturingRunEncoder = runEncoderStatus.COPIED_TO_TMP;
+			capturingRunEncoder = arduinoCaptureStatus.COPIED_TO_TMP;
 		}
 	}
 			
@@ -370,7 +362,7 @@ LogB.Information(" fc C ");
 			{
 LogB.Information(" fc C finish");
 /*
-				if(capturingRunEncoder != runEncoderStatus.COPIED_TO_TMP)
+				if(capturingRunEncoder != arduinoCaptureStatus.COPIED_TO_TMP)
 				{
 					Thread.Sleep (25); //Wait file is copied
 					return true;
@@ -442,7 +434,7 @@ LogB.Information(" fc E ");
 		*/
 LogB.Information(" fc F ");
 
-		if(capturingRunEncoder == runEncoderStatus.CAPTURING)
+		if(capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
 		{
 LogB.Information(" fc G ");
 

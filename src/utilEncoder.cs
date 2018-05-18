@@ -247,9 +247,20 @@ public class UtilEncoder
 		return System.IO.Path.Combine(Path.GetTempPath(), "sprintGraph.png");
 	}
 
-	public static string GetmifPath() {
+	public static string GetScriptsPath() {
 		return System.IO.Path.Combine(Util.GetDataDir(), "r-scripts");
 	}
+
+	public static string GetRunEncoderScript() {
+		return System.IO.Path.Combine(GetSprintPath(), "sprintEncoder.R");
+	}
+	public static string GetRunEncoderCSVFileName() {
+		return Path.Combine(Path.GetTempPath(), "cj_run_encoder_data.csv");
+	}
+	public static string GetRunEncoderTempFileName() {
+		return Path.Combine(Path.GetTempPath(), "cj_run_encoder_graph.png");
+	}
+
 	public static string GetmifScript() {
 		return System.IO.Path.Combine(GetSprintPath(), "maximumIsometricForce.R");
 	}

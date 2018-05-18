@@ -422,6 +422,17 @@
                       </widget>
                     </child>
                     <child>
+                      <widget class="GtkRadioMenuItem" id="radio_menuitem_mode_runs_encoder">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label">Encoder races</property>
+                        <property name="use_underline">True</property>
+                        <property name="draw_as_radio">True</property>
+                        <property name="group">radio_menuitem_mode_jumps_simple</property>
+                        <signal name="activate" handler="on_radio_menuitem_mode_activate" swapped="no"/>
+                      </widget>
+                    </child>
+                    <child>
                       <widget class="GtkSeparatorMenuItem" id="menuitem5">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -1239,6 +1250,9 @@
                                                             <property name="x_options">GTK_EXPAND</property>
                                                             <property name="y_options">GTK_EXPAND</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -5595,6 +5609,39 @@ EncoderInertialCapture</property>
                                                             <property name="type">tab</property>
                                                           </packing>
                                                         </child>
+                                                        <child>
+                                                          <widget class="GtkHBox" id="hbox286">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label368">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">race encoder stuff</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="position">8</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkLabel" id="label367">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">runs encoder</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="position">8</property>
+                                                            <property name="tab_fill">False</property>
+                                                            <property name="type">tab</property>
+                                                          </packing>
+                                                        </child>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -8304,6 +8351,39 @@ EncoderInertialCapture</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">7</property>
+                                                            <property name="tab_fill">False</property>
+                                                            <property name="type">tab</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox288">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label370">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">race encoder stuff</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">8</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label369">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">runs encoder</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">8</property>
                                                             <property name="tab_fill">False</property>
                                                             <property name="type">tab</property>
                                                             </packing>
@@ -12770,6 +12850,51 @@ EncoderInertialCapture</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">7</property>
+                                                            <property name="tab_fill">False</property>
+                                                            <property name="type">tab</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox132">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="border_width">8</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox290">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label372">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">race encoder stuff</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">8</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label371">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">runs encoder</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">8</property>
                                                             <property name="tab_fill">False</property>
                                                             <property name="type">tab</property>
                                                             </packing>
@@ -18300,27 +18425,6 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -26539,6 +26643,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

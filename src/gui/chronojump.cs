@@ -54,6 +54,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps_reactive;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs_simple;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs_intervallic;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs_encoder;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_power_gravitatory;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_power_inertial;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_force_sensor;
@@ -501,6 +502,8 @@ public partial class ChronoJumpWindow
 			myType = currentRunType;
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 			myType = currentRunIntervalType;
+		//else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		//	myType = currentRunIntervalType;
 		//else if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR
 		//	myType = currentForceType;
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RT)
@@ -802,6 +805,8 @@ public partial class ChronoJumpWindow
 			"   " + ((Label) radio_menuitem_mode_runs_simple.Child).Text;
 		((Label) radio_menuitem_mode_runs_intervallic.Child).Text =
 			"   " + ((Label) radio_menuitem_mode_runs_intervallic.Child).Text;
+		((Label) radio_menuitem_mode_runs_encoder.Child).Text =
+			"   " + ((Label) radio_menuitem_mode_runs_encoder.Child).Text;
 
 		((Label) radio_menuitem_mode_power_gravitatory.Child).Text =
 			"   " + ((Label) radio_menuitem_mode_power_gravitatory.Child).Text;
@@ -1090,6 +1095,9 @@ public partial class ChronoJumpWindow
 				label_sprint_person_name.Text = string.Format(Catalog.GetString("Sprints of {0}"), currentPerson.Name);
 			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 		}
+		//else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		//{
+		//}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RT)
 			updateGraphReactionTimes();
 
@@ -2222,6 +2230,15 @@ public partial class ChronoJumpWindow
 		if(portFSOpened)
 			portFS.Close();
 
+		//cancel runEncoder capture process
+		if(capturingRunEncoder == runEncoderStatus.STARTING || capturingRunEncoder == runEncoderStatus.CAPTURING)
+		{
+			LogB.Information("cancelling runEncoder capture");
+			runEncoderProcessCancel = true;
+		}
+		if(portREOpened)
+			portRE.Close();
+
 		LogB.Information("Bye3!");
 		
 		Log.End();
@@ -2259,6 +2276,9 @@ public partial class ChronoJumpWindow
 				modePrint = Catalog.GetString("Races simple");
 			else if(mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 				modePrint = Catalog.GetString("Races intervallic");
+			else if(mode == Constants.Menuitem_modes.RUNSENCODER)
+				//modePrint = Catalog.GetString("Races with encoder");
+				modePrint = "Races with encoder";
 			else if(mode == Constants.Menuitem_modes.POWERGRAVITATORY)
 				modePrint = Catalog.GetString("Encoder (gravitatory)");
 			else if(mode == Constants.Menuitem_modes.POWERINERTIAL)
@@ -3145,6 +3165,7 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = 0;
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
+			button_threshold.Visible = true;
 			if(m == Constants.Menuitem_modes.JUMPSSIMPLE) 
 			{
 				notebooks_change(m);
@@ -3173,6 +3194,7 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = 0;
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
+			button_threshold.Visible = true;
 			button_inspect_last_test.Visible = true;
 
 			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
@@ -3311,12 +3333,32 @@ public partial class ChronoJumpWindow
 
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
+			button_threshold.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 			hbox_results_legend.Visible = false;
 
 			//on force sensor only show table
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 			notebook_capture_graph_table.ShowTabs = false;
+		}
+		else if(m == Constants.Menuitem_modes.RUNSENCODER)
+		{
+			notebook_sup.CurrentPage = 0;
+			radio_menuitem_mode_runs_encoder.Active = true;
+			notebooks_change(m);
+//			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
+
+			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
+			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
+			button_threshold.Visible = false;
+			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
+			hbox_results_legend.Visible = false;
+
+			/*
+			//on force sensor only show table
+			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
+			notebook_capture_graph_table.ShowTabs = false;
+			*/
 		}
 		else if(m == Constants.Menuitem_modes.RT)
 		{
@@ -3328,6 +3370,7 @@ public partial class ChronoJumpWindow
 			notebook_capture_analyze.CurrentPage = 0;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
+			button_threshold.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 		}
 		else {	//m == Constants.Menuitem_modes.OTHER (contacts / other)
@@ -3339,6 +3382,7 @@ public partial class ChronoJumpWindow
 			notebook_capture_analyze.CurrentPage = 0;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
+			button_threshold.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 		}
 
@@ -3521,6 +3565,8 @@ public partial class ChronoJumpWindow
 			return Constants.Menuitem_modes.RUNSSIMPLE;
 		else if(radio_menuitem_mode_runs_intervallic.Active)
 			return Constants.Menuitem_modes.RUNSINTERVALLIC;
+		else if(radio_menuitem_mode_runs_encoder.Active)
+			return Constants.Menuitem_modes.RUNSENCODER;
 		else if(radio_menuitem_mode_power_gravitatory.Active)
 			return Constants.Menuitem_modes.POWERGRAVITATORY;
 		else if(radio_menuitem_mode_power_inertial.Active)
@@ -3583,6 +3629,13 @@ public partial class ChronoJumpWindow
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSINTERVALLIC);
 		else
 			radio_menuitem_mode_runs_intervallic.Active = true;
+	}
+	private void on_button_selector_start_runs_encoder_clicked(object o, EventArgs args)
+	{
+		if(radio_menuitem_mode_runs_encoder.Active)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSENCODER);
+		else
+			radio_menuitem_mode_runs_encoder.Active = true;
 	}
 	
 	private void on_button_selector_start_encoder_clicked(object o, EventArgs args) 
@@ -3812,6 +3865,12 @@ public partial class ChronoJumpWindow
 			forceProcessCancel = true;
 			return;
 		}
+		if(capturingRunEncoder == runEncoderStatus.STARTING || capturingRunEncoder == runEncoderStatus.CAPTURING)
+		{
+			LogB.Information("cancel clicked on runEncoder");
+			runEncoderProcessCancel = true;
+			return;
+		}
 
 		LogB.Information("cancel clicked one");
 
@@ -3848,6 +3907,13 @@ public partial class ChronoJumpWindow
 			forceProcessFinish = true;
 			return;
 		}
+		if(capturingRunEncoder == runEncoderStatus.STARTING || capturingRunEncoder == runEncoderStatus.CAPTURING)
+		{
+			LogB.Information("finish clicked on runEncoder");
+			runEncoderProcessFinish = true;
+			return;
+		}
+
 
 		LogB.Information("finish clicked one");
 
@@ -3908,6 +3974,16 @@ public partial class ChronoJumpWindow
 			 */
 
 			on_buttons_force_sensor_clicked(button_execute_test, new EventArgs ());
+			return;
+		}
+		if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		{
+			LogB.Debug("radio_mode_runs_encoder");
+			/*
+			 * runs encoder is not FTDI
+			 */
+
+			on_runs_encoder_capture_clicked ();
 			return;
 		}
 
@@ -4051,6 +4127,11 @@ public partial class ChronoJumpWindow
 			break;
 			case "FORCESENSOR":
 				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameForceSensor);
+				button_image_test_zoom.Hide();
+			break;
+			case "RUNSENCODER":
+				//pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameRunEncoder);
+				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
 				button_image_test_zoom.Hide();
 			break;
 			case "":
@@ -6660,6 +6741,13 @@ LogB.Debug("X");
 			notebook_results.CurrentPage = 3;
 			changeTestImage(EventType.Types.RUN.ToString(), 
 					currentRunIntervalType.Name, currentRunIntervalType.ImageFileName);
+		} else if(mode == Constants.Menuitem_modes.RUNSENCODER)
+		{
+			notebook_execute.CurrentPage = 8;
+			notebook_options_top.CurrentPage = 8;
+			notebook_results.CurrentPage = 8;
+			changeTestImage("", "", "RUNSENCODER");
+			event_execute_button_finish.Sensitive = false;
 		} else if(mode == Constants.Menuitem_modes.FORCESENSOR)
 		{
 			notebook_execute.CurrentPage = 4;

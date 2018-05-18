@@ -1349,7 +1349,7 @@ LogB.Information(" fc R ");
 		button_image_test_zoom.Visible = ! modeForceSensor;
 		notebook_options_top.Visible = ! modeForceSensor;
 
-		button_threshold.Visible = ! modeForceSensor;
+		//button_threshold.Visible = ! modeForceSensor;
 
 		menuitem_force_sensor_open_folder.Visible = modeForceSensor;
 		menuitem_force_sensor_check_version.Visible = modeForceSensor;

@@ -34,7 +34,7 @@ public class ChronopicRegisterPort
 	public string Port;
 	public bool FTDI;
 	public string SerialNumber;
-	public enum Types { UNKNOWN, CONTACTS, ENCODER, ARDUINO_RFID, ARDUINO_FORCE }
+	public enum Types { UNKNOWN, CONTACTS, ENCODER, ARDUINO_RFID, ARDUINO_FORCE, ARDUINO_RUN_ENCODER }
 	public Types Type;
 
 	public bool ConnectedReal; 	//if connexion has been done by ChronopicInit.Do
@@ -76,6 +76,8 @@ public class ChronopicRegisterPort
 			return "RFID";
 		else if(typeStatic == Types.ARDUINO_FORCE)
 			return Catalog.GetString("Force sensor");
+		else if(typeStatic == Types.ARDUINO_RUN_ENCODER)
+			return "Run encoder (experimental)";
 
 		return Catalog.GetString("Unknown");
 	}

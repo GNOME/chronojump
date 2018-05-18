@@ -27,7 +27,7 @@ using Mono.Unix;
 
 public class TypePix
 {
-	public ChronopicRegisterPort.Types Type; //public enum Types { UNKNOWN, CONTACTS, ENCODER, ARDUINO_FORCE, ARDUINO_RFID }
+	public ChronopicRegisterPort.Types Type; //public enum Types { UNKNOWN, CONTACTS, ENCODER, ARDUINO_FORCE, ARDUINO_RFID, ARDUINO_RUN_ENCODER_ }
 	public Pixbuf Pix;
 
 	public TypePix(ChronopicRegisterPort.Types type, Pixbuf pix)
@@ -51,6 +51,7 @@ public static class TypePixList
 		l.Add(new TypePix(ChronopicRegisterPort.Types.ENCODER, new Pixbuf (null, Util.GetImagePath(false) + "board-encoder.png")));
 		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_FORCE, new Pixbuf (null, Util.GetImagePath(false) + "board-arduino-force.png")));
 		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_RFID, new Pixbuf (null, Util.GetImagePath(false) + "board-arduino-rfid.png")));
+		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER, new Pixbuf (null, Util.GetImagePath(false) + "board-arduino-run-encoder.png")));
 	}
 
 	public static Pixbuf GetPix(ChronopicRegisterPort.Types type)

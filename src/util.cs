@@ -975,6 +975,44 @@ public class Util
 	 * <--------------- end of force sensor suff
 	 */
 
+	/*
+	 * run encoder suff ------------------>
+	 */
+
+	//to store run encoder data and graphs
+	public static string GetRunEncoderDir()
+	{
+		return Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump" + Path.DirectorySeparatorChar + "runEncoder");
+	}
+	public static void CreateRunEncoderDirIfNeeded ()
+	{
+		string dir = GetRunEncoderDir();
+		if( ! Directory.Exists(dir)) {
+			Directory.CreateDirectory (dir);
+			LogB.Information ("created dir:", dir);
+		}
+	}
+
+	//runEncoder organized by sessions.
+	public static string GetRunEncoderSessionDir (int sessionID)
+	{
+		return GetRunEncoderDir() + Path.DirectorySeparatorChar + sessionID.ToString();
+	}
+	public static void CreateRunEncoderSessionDirIfNeeded (int sessionID)
+	{
+		string dir = GetRunEncoderSessionDir(sessionID);
+		if( ! Directory.Exists(dir)) {
+			Directory.CreateDirectory (dir);
+			LogB.Information ("created dir:", dir);
+		}
+	}
+
+	/*
+	 * <--------------- end of force sensor suff
+	 */
+
 
 	//videos ar organized by sessions. Photos no.	
 	public static string GetVideoSessionDir (int sessionID) {

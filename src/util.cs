@@ -1588,6 +1588,15 @@ public class Util
 		return soundList[soundListPos];
 	}
 
+	public static bool SoundIsPum()
+	{
+		return (soundList[soundListPos].EndsWith("we_will_rock_you_pum.wav"));
+	}
+	public static bool SoundIsPam()
+	{
+		return (soundList[soundListPos].EndsWith("we_will_rock_you_pam.wav"));
+	}
+
 
 	/*
 	 * ------------- end of sound stuff -----------

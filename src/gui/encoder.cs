@@ -407,6 +407,7 @@ public partial class ChronoJumpWindow
 	Pango.Layout layout_encoder_capture_signal;
 	Pango.Layout layout_encoder_capture_curves_bars;
 	Pango.Layout layout_encoder_capture_curves_bars_text; //e, c
+	Pango.Layout layout_encoder_capture_curves_bars_superbig; //PlaySounds wewillrockyou
 
  
 	Gdk.GC pen_black_encoder_capture;
@@ -5015,7 +5016,7 @@ public partial class ChronoJumpWindow
 						layout_encoder_capture_curves_bars_text);
 		}
 
-		if(configChronojump.PlaySoundsFromFile)
+		if(configChronojump.PlaySoundsFromFile) //TODO: move this to another function/file
 		{
 			Gdk.Color col = new Gdk.Color();
 
@@ -5252,7 +5253,32 @@ public partial class ChronoJumpWindow
 				layout_encoder_capture_curves_bars_text);
 
 		//end plot title	
-		
+
+		//display We Will Rock You words
+		if( configChronojump.PlaySoundsFromFile && (Util.SoundIsPum() || Util.SoundIsPam()) ) //TODO: move this to another function/file
+		{
+			string titleSound = "PUM";
+			if(Util.SoundIsPam())
+				titleSound = "PAM";
+
+			layout_encoder_capture_curves_bars_superbig.SetMarkup(titleSound);
+			textWidth = 1;
+			textHeight = 1;
+			layout_encoder_capture_curves_bars_superbig.GetPixelSize(out textWidth, out textHeight);
+
+			//rect = new Rectangle(dLeft, dTop, dWidth, dHeight);
+			rect = new Rectangle(
+					Convert.ToInt32( (graphWidth/2) - (textWidth/2) -30),
+					Convert.ToInt32( (graphHeight/2) - (textHeight/2) ), //textHeight is too high on Courier font 300
+					textWidth + 60,
+					textHeight);
+			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_black_encoder_capture, true, rect);
+
+			encoder_capture_curves_bars_pixmap.DrawLayout (pen_red_light_encoder_capture,
+					Convert.ToInt32( (graphWidth/2) - textWidth/2),
+					Convert.ToInt32( (graphHeight/2) - textHeight/2),
+					layout_encoder_capture_curves_bars_superbig);
+		}
 
 		encoder_capture_curves_bars_drawingarea.QueueDraw(); 			// -- refresh
 		encoder_capture_curves_bars_drawingarea.Visible = true;
@@ -5744,6 +5770,9 @@ public partial class ChronoJumpWindow
 		
 		layout_encoder_capture_curves_bars_text = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
 		layout_encoder_capture_curves_bars_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+
+		layout_encoder_capture_curves_bars_superbig = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
+		layout_encoder_capture_curves_bars_superbig.FontDescription = Pango.FontDescription.FromString ("Courier 300");
 
 		//defined as encoder_capture_curves_bars_drawingarea instead of encoder_capture_signal_drawingarea
 		//because the 2nd is null if config.EncoderCaptureShowOnlyBars == TRUE

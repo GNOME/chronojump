@@ -81,6 +81,7 @@ class SqlitePreferences : Sqlite
 				Insert ("personWinHide", "False", dbcmdTr);
 				Insert ("personPhoto", "True", dbcmdTr);
 				Insert ("encoderCaptureShowOnlyBars", "False", dbcmdTr);
+				Insert ("encoderCaptureShowNRepetitions", "-1", dbcmdTr);
 				Insert ("digitsNumber", "3", dbcmdTr);
 				Insert ("showPower", "True", dbcmdTr);
 				Insert ("showStiffness", "True", dbcmdTr);
@@ -284,6 +285,8 @@ class SqlitePreferences : Sqlite
 				preferences.personPhoto = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderCaptureShowOnlyBars")
 				preferences.encoderCaptureShowOnlyBars = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "encoderCaptureShowNRepetitions")
+				preferences.encoderCaptureShowNRepetitions = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "showPower")
 				preferences.showPower = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "showStiffness")

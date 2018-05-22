@@ -4876,9 +4876,7 @@ public partial class ChronoJumpWindow
 	
 		ArrayList data = new ArrayList (data6Variables.Count);
 		int count = 0;
-		int showNRepetitions = -1; //default: -1: show all. 10: only display last 10 repetitions
-		if(configChronojump.PlaySoundsFromFile)
-			showNRepetitions = 10; //TODO: put an option on preferences to allow any user use this
+		int showNRepetitions = preferences.encoderCaptureShowNRepetitions;
 
 		foreach(EncoderBarsData ebd in data6Variables)
 		{

@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.57";
+	static string lastChronojumpDatabaseVersion = "1.58";
 
 	public Sqlite() {
 	}
@@ -2346,7 +2346,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.57");
 			}
+			if(currentVersion == "1.57")
+			{
+				LogB.SQL("Added to preferences: encoderCaptureShowNRepetitions");
 
+				SqlitePreferences.Insert ("encoderCaptureShowNRepetitions", "-1");
+
+				currentVersion = updateVersion("1.58");
+			}
 
 
 
@@ -2534,6 +2541,7 @@ class Sqlite
 		SqliteJson.createTableUploadSprintDataTemp ();
 
 		//changes [from - to - desc]
+		//1.57 - 1.58 Converted DB to 1.58 Added to preferences: encoderCaptureShowNRepetitions
 		//1.56 - 1.57 Converted DB to 1.57 Created table UploadEncoderDataTemp, UploadSprintDateTemp
 		//1.55 - 1.56 Converted DB to 1.56 Added encoder rhythm restAfterEcc
 		//1.54 - 1.55 Converted DB to 1.55 Added preferences: personPhoto

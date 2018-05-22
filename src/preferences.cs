@@ -33,6 +33,7 @@ public class Preferences
 	public bool personWinHide;
 	public bool personPhoto;
 	public bool encoderCaptureShowOnlyBars;
+	public int encoderCaptureShowNRepetitions;
 
 	public bool showPower;
 	public bool showStiffness;

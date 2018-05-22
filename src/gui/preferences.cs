@@ -51,9 +51,7 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton check_appearance_maximized_undecorated;
 	[Widget] Gtk.CheckButton check_appearance_person_win_hide;
 	[Widget] Gtk.CheckButton check_appearance_person_photo;
-	[Widget] Gtk.CheckButton check_appearance_encoder_only_bars;
 	[Widget] Gtk.Alignment alignment_undecorated;
-	[Widget] Gtk.Alignment alignment_restart;
 
 	//database tab
 	[Widget] Gtk.Button button_data_folder_open;
@@ -107,11 +105,16 @@ public class PreferencesWindow
 	[Widget] Gtk.VBox vbox_encoder_inertial; //change Visible param to not have a vertical big first page with only one row of info
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_inertial;
+	[Widget] Gtk.CheckButton check_appearance_encoder_only_bars;
+	[Widget] Gtk.HBox hbox_restart;
+	[Widget] Gtk.SpinButton spin_encoder_capture_show_only_some_bars;
+	[Widget] Gtk.RadioButton radio_encoder_capture_show_all_bars;
+	[Widget] Gtk.RadioButton radio_encoder_capture_show_only_some_bars;
+	[Widget] Gtk.SpinButton spin_encoder_capture_barplot_font_size;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_best;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_4top;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_all;
 	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_none;
-	[Widget] Gtk.SpinButton spin_encoder_capture_barplot_font_size;
 	[Widget] Gtk.CheckButton check_show_start_and_duration;
 	[Widget] Gtk.RadioButton radio_encoder_triggers_no;
 	[Widget] Gtk.RadioButton radio_encoder_triggers_yes;
@@ -120,7 +123,7 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_encoder_triggers_yes_start_at_first_trigger;
 	[Widget] Gtk.Image image_encoder_inactivity_help;
 	[Widget] Gtk.Image image_encoder_capture_cut_by_triggers_help;
-	
+
 	//encoder other tab
 	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
 	[Widget] Gtk.SpinButton spin_encoder_smooth_con;
@@ -260,6 +263,10 @@ public class PreferencesWindow
 		else
 			PreferencesWindowBox.check_appearance_encoder_only_bars.Active = false;
 
+		if(preferences.encoderCaptureShowNRepetitions < 0)
+			PreferencesWindowBox.radio_encoder_capture_show_all_bars.Active = true;
+		else
+			PreferencesWindowBox.radio_encoder_capture_show_only_some_bars.Active = true;
 
 		//multimedia tab
 		if(preferences.volumeOn)  
@@ -487,6 +494,15 @@ public class PreferencesWindow
 		return PreferencesWindowBox;
 	}
 
+	private void on_radio_encoder_capture_show_all_bars_toggled (object o, EventArgs args)
+	{
+		spin_encoder_capture_show_only_some_bars.Sensitive = false;
+	}
+	private void on_radio_encoder_capture_show_only_some_bars_toggled (object o, EventArgs args)
+	{
+		spin_encoder_capture_show_only_some_bars.Sensitive = true;
+	}
+
 	//private void on_notebook_encoder_capture_gi_change_current_page (object o, Gtk.ChangeCurrentPageArgs args)
 	private void on_notebook_encoder_capture_gi_switch_page (object o, Gtk.SwitchPageArgs args)
 	{
@@ -568,7 +584,7 @@ public class PreferencesWindow
 
 	private void on_check_appearance_encoder_only_bars_toggled (object obj, EventArgs args) 
 	{
-		alignment_restart.Visible = ! check_appearance_encoder_only_bars.Active;
+		hbox_restart.Visible = ! check_appearance_encoder_only_bars.Active;
 	}
 
 
@@ -1145,10 +1161,6 @@ public class PreferencesWindow
 			SqlitePreferences.Update("personPhoto", PreferencesWindowBox.check_appearance_person_photo.Active.ToString(), true);
 			preferences.personPhoto = PreferencesWindowBox.check_appearance_person_photo.Active;
 		}
-		if( preferences.encoderCaptureShowOnlyBars != PreferencesWindowBox.check_appearance_encoder_only_bars.Active ) {
-			SqlitePreferences.Update("encoderCaptureShowOnlyBars", PreferencesWindowBox.check_appearance_encoder_only_bars.Active.ToString(), true);
-			preferences.encoderCaptureShowOnlyBars = PreferencesWindowBox.check_appearance_encoder_only_bars.Active;
-		}
 		
 		if( preferences.digitsNumber != Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals)) ) {
 			SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), true);
@@ -1290,6 +1302,23 @@ public class PreferencesWindow
 				"encoderCaptureMinHeightInertial",
 				preferences.encoderCaptureMinHeightInertial,
 				(int) PreferencesWindowBox.spin_encoder_capture_min_height_inertial.Value);
+
+		if( preferences.encoderCaptureShowOnlyBars != PreferencesWindowBox.check_appearance_encoder_only_bars.Active ) {
+			SqlitePreferences.Update("encoderCaptureShowOnlyBars", PreferencesWindowBox.check_appearance_encoder_only_bars.Active.ToString(), true);
+			preferences.encoderCaptureShowOnlyBars = PreferencesWindowBox.check_appearance_encoder_only_bars.Active;
+		}
+
+		if( preferences.encoderCaptureShowNRepetitions > 0 && PreferencesWindowBox.radio_encoder_capture_show_all_bars.Active )
+		{
+			SqlitePreferences.Update("encoderCaptureShowNRepetitions", "-1", true);
+			preferences.encoderCaptureShowNRepetitions = -1;
+		}
+		else if( PreferencesWindowBox.radio_encoder_capture_show_only_some_bars.Active &&
+				preferences.encoderCaptureShowNRepetitions != (int) PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value) {
+			SqlitePreferences.Update("encoderCaptureShowNRepetitions",
+					PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value.ToString(), true);
+			preferences.encoderCaptureShowNRepetitions = (int) PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value;
+		}
 
 		if(PreferencesWindowBox.radio_encoder_auto_save_curve_best.Active) {
 			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString(), true);

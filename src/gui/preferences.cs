@@ -258,16 +258,6 @@ public class PreferencesWindow
 		else
 			PreferencesWindowBox.check_appearance_person_photo.Active = false;
 
-		if(preferences.encoderCaptureShowOnlyBars)
-			PreferencesWindowBox.check_appearance_encoder_only_bars.Active = true;
-		else
-			PreferencesWindowBox.check_appearance_encoder_only_bars.Active = false;
-
-		if(preferences.encoderCaptureShowNRepetitions < 0)
-			PreferencesWindowBox.radio_encoder_capture_show_all_bars.Active = true;
-		else
-			PreferencesWindowBox.radio_encoder_capture_show_only_some_bars.Active = true;
-
 		//multimedia tab
 		if(preferences.volumeOn)  
 			PreferencesWindowBox.checkbutton_volume.Active = true; 
@@ -430,6 +420,20 @@ public class PreferencesWindow
 		PreferencesWindowBox.spin_encoder_capture_min_height_gravitatory.Value = preferences.encoderCaptureMinHeightGravitatory;
 		PreferencesWindowBox.spin_encoder_capture_min_height_inertial.Value = preferences.encoderCaptureMinHeightInertial;
 		
+		if(preferences.encoderCaptureShowOnlyBars)
+			PreferencesWindowBox.check_appearance_encoder_only_bars.Active = true;
+		else
+			PreferencesWindowBox.check_appearance_encoder_only_bars.Active = false;
+
+		if(preferences.encoderCaptureShowNRepetitions < 0) {
+			PreferencesWindowBox.radio_encoder_capture_show_all_bars.Active = true;
+			PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value = 10;
+		} else {
+			PreferencesWindowBox.radio_encoder_capture_show_only_some_bars.Active = true;
+			PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value = preferences.encoderCaptureShowNRepetitions;
+		}
+
+
 		if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BEST)
 			PreferencesWindowBox.radio_encoder_auto_save_curve_best.Active = true;
 		else if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE)

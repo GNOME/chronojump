@@ -14853,7 +14853,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Ability to mobilise an external resistance.</property>
+                                                            <property name="label" translatable="yes">Related to the part of the absolute force that can be activated voluntarily.</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="left_attach">1</property>
@@ -14867,7 +14867,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Ability to mobilise the body mass.</property>
+                                                            <property name="label" translatable="yes">Ability to mobilise a submaximal load at a maximum speed.</property>
                                                             <property name="justify">center</property>
                                                             </widget>
                                                             <packing>

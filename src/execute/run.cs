@@ -843,6 +843,7 @@ public class RunIntervalExecute : RunExecute
 		distanceIntervalFixed = distanceInterval;
 		tracks = 0;
 		countForSavingTempTable = 0;
+		finishByTimeReturnedTrueAtThisCapture = false;
 
 		//initialize eventDone as a RunInterval
 		eventDone = new RunInterval();
@@ -1000,20 +1001,37 @@ public class RunIntervalExecute : RunExecute
 
 	}
 
-	protected override bool shouldFinishByTime() {
+	static bool finishByTimeReturnedTrueAtThisCapture;
+	protected override bool shouldFinishByTime()
+	{
+		//do not call FinishDo n times while waiting catchedTimeOut there
+		if(finishByTimeReturnedTrueAtThisCapture)
+			return false;
+
 		//check if it should finish now (time limited, not unlimited and time exceeded)
 		//check that the run started
 		//if( ! tracksLimited && limitAsDouble != -1 && timerCount > limitAsDouble 
-		if( ! tracksLimited && limitAsDouble != -1 && Util.GetTotalTime(intervalTimesString) > limitAsDouble 
+		if( ! tracksLimited && limitAsDouble != -1
 				&& !(runPhase == runPhases.PRE_RUNNING) 
 				&& !(runPhase == runPhases.PLATFORM_INI_NO_TIME)
 				&& !(runPhase == runPhases.PLATFORM_INI_YES_TIME)
+				&& timerLastTf > DateTime.MinValue
+				&& (Util.GetTotalTime(intervalTimesString) + (DateTime.Now - timerLastTf).TotalSeconds) > limitAsDouble
 				) 
+		{
+			LogB.Information("shouldFinishByTime finishes Chronopic calling FinishDo");
+			//as we will be on waitEvent do { ok = cp.Read_event ... }
+			//call this to end Read_cambio called by Read_event
+			Chronopic.FinishDo();
+
+			finishByTimeReturnedTrueAtThisCapture = true;
+
 			return true;
+		}
 		else
 			return false;
 	}
-	
+
 	protected override void updateTimeProgressBar() {
 		/* 4 situations:
 		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label:

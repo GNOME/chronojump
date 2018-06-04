@@ -37,43 +37,66 @@ public static class JumpsProfileGraph
 		//3 calculate sum
 		double sum = 0;
 		foreach(JumpsProfileIndex jpi in l_jpi)
-			sum += jpi.Result;
-		
+			if(jpi.Result >= 0)
+				sum += jpi.Result;
+
 		//4 prepare font
 		g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 		int textHeight = 12;
 		g.SetFontSize(textHeight);
+
+		if(sum == 0)
+		{
+			//draw an "invisible" rectangle just to set the graphics context
+			drawRoundedRectangle (0, 0, 0, 0, 0, g, new Cairo.Color(1, 1, 1));
+			printText(100, 100, 24, textHeight, "TODO: Text about which jumps have to be done", g);
+			g.GetTarget().Dispose ();
+			g.Dispose ();
+			return;
+		}
+
 
 		//5 plot arcs
 		if(sum > 0 ) {
 			double acc = 0; //accumulated
 			foreach(JumpsProfileIndex jpi in l_jpi) {
 				double percent = 2 * jpi.Result / sum; //*2 to be in range 0*pi - 2*pi
-				plotArc(200, 200, 150, acc -.5, acc + percent -.5, g, jpi.Color); //-.5 to start at top of the pie
-				acc += percent;
+				if(percent > 0)
+				{
+					plotArc(200, 200, 150, acc -.5, acc + percent -.5, g, jpi.Color); //-.5 to start at top of the pie
+					acc += percent;
+				}
 			}
 		}
 
 		//6 draw legend at right
-		int y = 50;
+		int legendX = findLegendTextXPos(l_jpi, sum, 400);
+		int y = 40;
+		LogB.Information(string.Format("legendX: {0}, textHeight: {1}", legendX, textHeight));
 		//R seq(from=50,to=(350-24),length.out=5)
 		//[1] 50 119 188 257 326 #difference is 69
-		foreach(JumpsProfileIndex jpi in l_jpi) {
-			drawRoundedRectangle (400,  y, 40, 24, 6, g, jpi.Color);
-			
-			double percent = 0;
-			if(sum > 0)
-				percent = 100 * jpi.Result / sum;
+		//g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
+		foreach(JumpsProfileIndex jpi in l_jpi)
+		{
+			double percent = 100 * Util.DivideSafe(jpi.Result, sum);
+			LogB.Information("percent: " + percent.ToString());
+			LogB.Information("jpi.Text: " + jpi.Text);
 
-			printText(460,  y, 24, textHeight, Util.TrimDecimals(percent, 1) + jpi.Text, g);
+
+			printText(legendX,  y, 24, textHeight, Util.TrimDecimals(percent, 1) + jpi.Text, g);
+			if(percent != 0)
+				drawRoundedRectangle (legendX,  y+30 , Convert.ToInt32(2 * percent), 20, 4, g, jpi.Color);
+
 			y += 69;
 		}
+		//g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 	
 		//7 print errors (if any)
 		g.SetSourceRGB(0.5, 0, 0);
 		y = 70;
 		foreach(JumpsProfileIndex jpi in l_jpi) {
-			printText(460,  y, 24, textHeight, jpi.ErrorMessage, g);
+			if(jpi.ErrorMessage != "")
+				printText(legendX +12,  y, 24, textHeight, jpi.ErrorMessage, g);
 			y += 69;
 		}
 		
@@ -109,6 +132,13 @@ public static class JumpsProfileGraph
 	{
 		g.Save ();
 
+		//manage negative widths
+		if(width < 0)
+		{
+			x += width; //it will shift to the left (width is negative)
+			width *= -1;
+		}
+
 		if ((radius > height / 2) || (radius > width / 2))
 			radius = min (height / 2, width / 2);
 
@@ -138,6 +168,22 @@ public static class JumpsProfileGraph
 				minp = i;
 
 		return arr[minp];
+	}
+
+	//if there are negative values, move legendXPos to the right to not overpolot the pie chart
+	private static int findLegendTextXPos(List<JumpsProfileIndex> l_jpi, double sum, int defaultValue)
+	{
+		if(sum == 0)
+			return defaultValue;
+
+		int min = 0;
+		foreach(JumpsProfileIndex jpi in l_jpi)
+		{
+			int percent = Convert.ToInt32(2 * 100 * jpi.Result / sum);
+			if(percent < min)
+				min = percent;
+		}
+		return defaultValue + Math.Abs(min);
 	}
 
 	//save to png with http://www.mono-project.com/docs/tools+libraries/libraries/Mono.Cairo/tutorial/ stroke

@@ -71,9 +71,9 @@ public class JumpsProfileIndex
 		
 		ErrorMessage = "";
 		Result = calculateIndex(type, higher, lower, dja);
-		
+
 		if(errorCode == ErrorCodes.NEEDJUMP)
-			ErrorMessage = Catalog.GetString("Need to execute jump/s");
+			ErrorMessage = Catalog.GetString("Need to execute jump/s"); //TODO: write which jumps
 		else if(errorCode == ErrorCodes.NEGATIVE)
 			ErrorMessage = string.Format(Catalog.GetString("Bad execution: {0} is higher than {1}"), jumpLowerName, jumpHigherName);
 	}
@@ -97,7 +97,7 @@ public class JumpsProfileIndex
 
 		if(lower > higher) {
 			errorCode = ErrorCodes.NEGATIVE;
-			return 0;
+			//return 0;
 		}
 
 		return (higher - lower) / dja;

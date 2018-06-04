@@ -236,8 +236,19 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ScrolledWindow scrolledwindow_jumps_profile_training;
 	[Widget] Gtk.Image image_tab_jumps_profile;
 	[Widget] Gtk.Image image_jumps_profile_save;
-	
-	
+
+	[Widget] Gtk.HBox hbox_jumps_profile_jumps_done;
+	[Widget] Gtk.Image image_jumps_profile_sj_yes;
+	[Widget] Gtk.Image image_jumps_profile_sj_no;
+	[Widget] Gtk.Image image_jumps_profile_sjl_yes;
+	[Widget] Gtk.Image image_jumps_profile_sjl_no;
+	[Widget] Gtk.Image image_jumps_profile_cmj_yes;
+	[Widget] Gtk.Image image_jumps_profile_cmj_no;
+	[Widget] Gtk.Image image_jumps_profile_abk_yes;
+	[Widget] Gtk.Image image_jumps_profile_abk_no;
+	[Widget] Gtk.Image image_jumps_profile_dja_yes;
+	[Widget] Gtk.Image image_jumps_profile_dja_no;
+
 	//runs
 	[Widget] Gtk.Button button_edit_selected_run;
 	[Widget] Gtk.Button button_video_play_selected_run;
@@ -7140,9 +7151,25 @@ LogB.Debug("X");
 		}
 
 		if(calculateData)
+		{
 			jumpsProfile.Calculate(currentPerson.UniqueID, currentSession.UniqueID);
 
-		JumpsProfileGraph.Do(jumpsProfile.GetIndexes(), drawingarea_jumps_profile);
+			if(jumpsProfile.AllJumpsDone)
+				hbox_jumps_profile_jumps_done.Visible = false;
+			else {
+				hbox_jumps_profile_jumps_done.Visible = true;
+				JumpsProfileGraph.ShowDoneJumps(jumpsProfile.JumpsDone,
+						image_jumps_profile_sj_yes, image_jumps_profile_sj_no,
+						image_jumps_profile_sjl_yes, image_jumps_profile_sjl_no,
+						image_jumps_profile_cmj_yes, image_jumps_profile_cmj_no,
+						image_jumps_profile_abk_yes, image_jumps_profile_abk_no,
+						image_jumps_profile_dja_yes, image_jumps_profile_dja_no
+						);
+			}
+		}
+
+		JumpsProfileGraph.Do(jumpsProfile.GetIndexes(), drawingarea_jumps_profile,
+				currentPerson.Name + "(" + currentSession.DateShort + ")");
 	}
 	private void on_drawingarea_jumps_profile_expose_event (object o, ExposeEventArgs args) 
 	{

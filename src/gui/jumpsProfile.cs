@@ -1,4 +1,15 @@
 /*
+Que hi hagi caselles del que falta a dalt de la imatge de jumps profile
+aixi si guarden la imatge no sortira
+o que estiguin en la imatge si falten salts
+
+i a la part superior de la imatge que surti la persona i la data
+
+i canviar els fors al pintar
+posar un missatge si falten totes les dades
+i si hi ha dades que hi hagi un for per cada capacitat i que es cridi a una funcio que posi el text, la barra, missatge d'error si cal
+*/
+/*
  * This file is part of ChronoJump
  *
  * ChronoJump is free software; you can redistribute it and/or modify
@@ -25,7 +36,34 @@ using Cairo;
 
 public static class JumpsProfileGraph
 {
-	public static void Do (List<JumpsProfileIndex> l_jpi, DrawingArea area) 
+	public static void ShowDoneJumps(List<JumpsProfile.YesNo> jumpsDone,
+			Gtk.Image image_jumps_profile_sj_yes, Gtk.Image image_jumps_profile_sj_no,
+			Gtk.Image image_jumps_profile_sjl_yes, Gtk.Image image_jumps_profile_sjl_no,
+			Gtk.Image image_jumps_profile_cmj_yes, Gtk.Image image_jumps_profile_cmj_no,
+			Gtk.Image image_jumps_profile_abk_yes, Gtk.Image image_jumps_profile_abk_no,
+			Gtk.Image image_jumps_profile_dja_yes, Gtk.Image image_jumps_profile_dja_no
+			)
+	{
+		showDoneJump(jumpsDone[0] == JumpsProfile.YesNo.YES, image_jumps_profile_sj_yes, image_jumps_profile_sj_no);
+		showDoneJump(jumpsDone[1] == JumpsProfile.YesNo.YES, image_jumps_profile_sjl_yes, image_jumps_profile_sjl_no);
+		showDoneJump(jumpsDone[2] == JumpsProfile.YesNo.YES, image_jumps_profile_cmj_yes, image_jumps_profile_cmj_no);
+		showDoneJump(jumpsDone[3] == JumpsProfile.YesNo.YES, image_jumps_profile_abk_yes, image_jumps_profile_abk_no);
+		showDoneJump(jumpsDone[4] == JumpsProfile.YesNo.YES, image_jumps_profile_dja_yes, image_jumps_profile_dja_no);
+	}
+
+	private static void showDoneJump(bool done, Gtk.Image image_yes, Gtk.Image image_no)
+	{
+		if(done) {
+			image_yes.Visible = true;
+			image_no.Visible = false;
+		}
+		else {
+			image_yes.Visible = false;
+			image_no.Visible = true;
+		}
+	}
+
+	public static void Do (List<JumpsProfileIndex> l_jpi, DrawingArea area, string title)
 	{
 		//1 create context
 		Cairo.Context g = Gdk.CairoHelper.Create (area.GdkWindow);
@@ -47,9 +85,8 @@ public static class JumpsProfileGraph
 
 		if(sum == 0)
 		{
-			//draw an "invisible" rectangle just to set the graphics context
-			drawRoundedRectangle (0, 0, 0, 0, 0, g, new Cairo.Color(1, 1, 1));
-			printText(100, 100, 24, textHeight, "TODO: Text about which jumps have to be done", g);
+			g.SetSourceRGB(0,0,0);
+			printText(100, 100, 24, textHeight, "Please, perform the needed jumps marked in red above.", g);
 			g.GetTarget().Dispose ();
 			g.Dispose ();
 			return;

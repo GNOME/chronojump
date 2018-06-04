@@ -75,7 +75,7 @@ public class JumpsProfileIndex
 		if(errorCode == ErrorCodes.NEEDJUMP)
 			ErrorMessage = Catalog.GetString("Need to execute jump/s"); //TODO: write which jumps
 		else if(errorCode == ErrorCodes.NEGATIVE)
-			ErrorMessage = string.Format(Catalog.GetString("Bad execution: {0} is higher than {1}"), jumpLowerName, jumpHigherName);
+			ErrorMessage = string.Format(Catalog.GetString("Negative index: {0} is higher than {1}"), jumpLowerName, jumpHigherName);
 	}
 
 	private double calculateIndex (Types type, double higher, double lower, double dja) 
@@ -117,6 +117,10 @@ public class JumpsProfile
 	private JumpsProfileIndex jpi3;
 	private JumpsProfileIndex jpi4;
 
+	public enum YesNo { YES, NO }
+	public List<YesNo> JumpsDone;
+	public bool AllJumpsDone;
+
 	public JumpsProfile() {
 	}
 
@@ -135,6 +139,8 @@ public class JumpsProfile
 		jpi2 = new JumpsProfileIndex(JumpsProfileIndex.Types.CELAST, "CMJ", "SJ", cmj, sj, dja);
 		jpi3 = new JumpsProfileIndex(JumpsProfileIndex.Types.CARMS, "ABK", "CMJ", abk, cmj, dja);
 		jpi4 = new JumpsProfileIndex(JumpsProfileIndex.Types.FREACT, "DJa", "ABK", dja, abk, dja);
+
+		fillListJumpsDone(sj, sjl, cmj, abk, dja);
 	}
 
 	public List<JumpsProfileIndex> GetIndexes()
@@ -146,5 +152,25 @@ public class JumpsProfile
 		l.Add(jpi3);
 		l.Add(jpi4);
 		return l;
+	}
+
+	private void fillListJumpsDone(double sj, double sjl, double cmj, double abk, double dja)
+	{
+		AllJumpsDone = true;
+		JumpsDone = new List<YesNo>();
+		JumpsDone.Add(fillJump(sj));
+		JumpsDone.Add(fillJump(sjl));
+		JumpsDone.Add(fillJump(cmj));
+		JumpsDone.Add(fillJump(abk));
+		JumpsDone.Add(fillJump(dja));
+	}
+
+	private YesNo fillJump(double j)
+	{
+		if(j > 0)
+			return YesNo.YES;
+
+		AllJumpsDone = false;
+		return YesNo.NO;
 	}
 }

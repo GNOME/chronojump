@@ -423,7 +423,6 @@
                     </child>
                     <child>
                       <widget class="GtkRadioMenuItem" id="radio_menuitem_mode_runs_encoder">
-                        <property name="visible">False</property>
                         <property name="can_focus">False</property>
                         <property name="label">Races with encoder</property>
                         <property name="use_underline">True</property>
@@ -1250,6 +1249,9 @@
                                                             <property name="x_options">GTK_EXPAND</property>
                                                             <property name="y_options">GTK_EXPAND</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -14632,6 +14634,267 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <child>
+                                                      <widget class="GtkHBox" id="hbox_jumps_profile_jumps_done">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="border_width">10</property>
+                                                        <property name="spacing">20</property>
+                                                        <child>
+                                                          <widget class="GtkLabel" id="label373">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Jumps</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="padding">40</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkTable" id="table9">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="n_rows">2</property>
+                                                            <property name="n_columns">5</property>
+                                                            <property name="column_spacing">20</property>
+                                                            <property name="row_spacing">4</property>
+                                                            <property name="homogeneous">True</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label375">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">SJ</property>
+                                                            </widget>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label376">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">SJl (100%)</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label377">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">CMJ</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label378">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">ABK</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">3</property>
+                                                            <property name="right_attach">4</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label379">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">DJa</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">4</property>
+                                                            <property name="right_attach">5</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox292">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_jumps_profile_sj_yes">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-yes</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_jumps_profile_sj_no">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-no</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox293">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_jumps_profile_sjl_yes">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-yes</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_jumps_profile_sjl_no">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-no</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox294">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_jumps_profile_cmj_yes">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-yes</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_jumps_profile_cmj_no">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-no</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox295">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_jumps_profile_abk_yes">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-yes</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_jumps_profile_abk_no">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-no</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">3</property>
+                                                            <property name="right_attach">4</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox296">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_jumps_profile_dja_yes">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-yes</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_jumps_profile_dja_no">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-no</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">4</property>
+                                                            <property name="right_attach">5</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
                                                       <widget class="GtkHBox" id="hbox191">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
@@ -14709,7 +14972,7 @@ on current Chronojump version.</property>
                                                       <packing>
                                                         <property name="expand">True</property>
                                                         <property name="fill">True</property>
-                                                        <property name="position">0</property>
+                                                        <property name="position">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -14749,7 +15012,7 @@ on current Chronojump version.</property>
                                                       <packing>
                                                         <property name="expand">False</property>
                                                         <property name="fill">False</property>
-                                                        <property name="position">1</property>
+                                                        <property name="position">2</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -14984,7 +15247,7 @@ on current Chronojump version.</property>
                                                       <packing>
                                                         <property name="expand">False</property>
                                                         <property name="fill">False</property>
-                                                        <property name="position">2</property>
+                                                        <property name="position">3</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -15795,7 +16058,7 @@ Concentric</property>
                                                       <packing>
                                                         <property name="expand">False</property>
                                                         <property name="fill">True</property>
-                                                        <property name="position">3</property>
+                                                        <property name="position">4</property>
                                                       </packing>
                                                     </child>
                                                   </widget>
@@ -18425,27 +18688,6 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -26643,6 +26885,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

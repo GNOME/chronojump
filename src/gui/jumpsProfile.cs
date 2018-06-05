@@ -1,14 +1,4 @@
-/*
-Que hi hagi caselles del que falta a dalt de la imatge de jumps profile
-aixi si guarden la imatge no sortira
-o que estiguin en la imatge si falten salts
 
-i a la part superior de la imatge que surti la persona i la data
-
-i canviar els fors al pintar
-posar un missatge si falten totes les dades
-i si hi ha dades que hi hagi un for per cada capacitat i que es cridi a una funcio que posi el text, la barra, missatge d'error si cal
-*/
 /*
  * This file is part of ChronoJump
  *
@@ -63,7 +53,7 @@ public static class JumpsProfileGraph
 		}
 	}
 
-	public static void Do (List<JumpsProfileIndex> l_jpi, DrawingArea area, string title)
+	public static void Do (List<JumpsProfileIndex> l_jpi, DrawingArea area, string title, string date)
 	{
 		//1 create context
 		Cairo.Context g = Gdk.CairoHelper.Create (area.GdkWindow);
@@ -86,7 +76,8 @@ public static class JumpsProfileGraph
 		if(sum == 0)
 		{
 			g.SetSourceRGB(0,0,0);
-			printText(100, 100, 24, textHeight, "Please, perform the needed jumps marked in red above.", g);
+			g.SetFontSize(16);
+			printText(100, 100, 24, textHeight, "Please, perform the needed jumps marked in red above.", g, false);
 			g.GetTarget().Dispose ();
 			g.Dispose ();
 			return;
@@ -104,28 +95,34 @@ public static class JumpsProfileGraph
 					acc += percent;
 				}
 			}
+			//fix last radius line, because ClosePath has been disabled
+			g.MoveTo (200,50);
+			g.LineTo (200, 200);
+			g.LineWidth = 2;
+			g.Stroke ();
 		}
 
 		//6 draw legend at right
 		int legendX = findLegendTextXPos(l_jpi, sum, 400);
 		int y = 40;
-		LogB.Information(string.Format("legendX: {0}, textHeight: {1}", legendX, textHeight));
 		//R seq(from=50,to=(350-24),length.out=5)
 		//[1] 50 119 188 257 326 #difference is 69
 		//g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
 		foreach(JumpsProfileIndex jpi in l_jpi)
 		{
 			double percent = 100 * Util.DivideSafe(jpi.Result, sum);
-			LogB.Information("percent: " + percent.ToString());
-			LogB.Information("jpi.Text: " + jpi.Text);
-
-
-			printText(legendX,  y, 24, textHeight, Util.TrimDecimals(percent, 1) + jpi.Text, g);
+			printText(legendX,  y, 24, textHeight, Util.TrimDecimals(percent, 1) + jpi.Text, g, false);
 			if(percent != 0)
 				drawRoundedRectangle (legendX,  y+30 , Convert.ToInt32(2 * percent), 20, 4, g, jpi.Color);
 
 			y += 69;
 		}
+		//print title and date
+		g.SetFontSize(18);
+		printText(200, y, 0, textHeight, title, g, true);
+		g.SetFontSize(textHeight);
+		printText(200, y+20, 0, textHeight, "Chronojump profile (" + date + ")", g, true);
+
 		//g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 	
 		//7 print errors (if any)
@@ -133,7 +130,7 @@ public static class JumpsProfileGraph
 		y = 70;
 		foreach(JumpsProfileIndex jpi in l_jpi) {
 			if(jpi.ErrorMessage != "")
-				printText(legendX +12,  y, 24, textHeight, jpi.ErrorMessage, g);
+				printText(legendX +12,  y, 24, textHeight, jpi.ErrorMessage, g, false);
 			y += 69;
 		}
 		
@@ -148,7 +145,9 @@ public static class JumpsProfileGraph
 		//pie chart
 		g.MoveTo (centerx,  centery);
 		g.Arc(centerx, centery, radius, start * Math.PI, end * Math.PI);
-		g.ClosePath();
+
+		//commented because gets ugly on last radius line (specially if angle is low)
+		//g.ClosePath();
 		g.SetSourceRGB(color.R, color.G, color.B);
 		g.FillPreserve ();
 
@@ -156,10 +155,17 @@ public static class JumpsProfileGraph
 		g.LineWidth = 2;
 		g.Stroke ();
 	}
-	
-	private static void printText (int x, int y, int height, int textHeight, string text, Cairo.Context g) 
+
+	private static void printText (int x, int y, int height, int textHeight, string text, Cairo.Context g, bool centered)
 	{
-		g.MoveTo(x, ((y+y+height)/2) + textHeight/2.0);
+		int moveToLeft = 0;
+		if(centered)
+		{
+			Cairo.TextExtents te;
+			te = g.TextExtents(text);
+			moveToLeft = Convert.ToInt32(te.Width/2);
+		}
+		g.MoveTo( x - moveToLeft, ((y+y+height)/2) + textHeight/2 );
 		g.ShowText(text);
 	}
 

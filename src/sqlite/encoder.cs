@@ -512,7 +512,7 @@ class SqliteEncoder : Sqlite
 					reader[0].ToString(), 	//person name
 					reader[1].ToString(), 	//person sex
 					reader[3].ToString(), 	//encoder exercise name
-					reader[4].ToString()	//sets count
+					reader[5].ToString()	//sets count
 				};
 				array.Add (s);
 			}

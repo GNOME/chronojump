@@ -1743,6 +1743,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -14634,26 +14637,30 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox_jumps_profile_jumps_done">
+                                                      <widget class="GtkAlignment" id="alignment26">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="border_width">10</property>
-                                                        <property name="spacing">20</property>
+                                                        <property name="top_padding">12</property>
+                                                        <property name="left_padding">50</property>
                                                         <child>
-                                                          <widget class="GtkLabel" id="label373">
+                                                          <widget class="GtkHBox" id="hbox_jumps_profile_jumps_done">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">20</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label373">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Jumps</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="padding">40</property>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkTable" id="table9">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkTable" id="table9">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="n_rows">2</property>
@@ -14880,12 +14887,14 @@ on current Chronojump version.</property>
                                                             <property name="bottom_attach">2</property>
                                                             </packing>
                                                             </child>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
-                                                          </packing>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
                                                         </child>
                                                       </widget>
                                                       <packing>
@@ -18688,27 +18697,6 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -26885,6 +26873,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

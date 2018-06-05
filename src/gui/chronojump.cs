@@ -7169,7 +7169,7 @@ LogB.Debug("X");
 		}
 
 		JumpsProfileGraph.Do(jumpsProfile.GetIndexes(), drawingarea_jumps_profile,
-				currentPerson.Name + "(" + currentSession.DateShort + ")");
+				currentPerson.Name, currentSession.DateShort);
 	}
 	private void on_drawingarea_jumps_profile_expose_event (object o, ExposeEventArgs args) 
 	{

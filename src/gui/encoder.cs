@@ -1968,6 +1968,7 @@ public partial class ChronoJumpWindow
 			exportString = Catalog.GetString ("Export set in CSV format");
 		else if(
 				checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
@@ -2004,6 +2005,7 @@ public partial class ChronoJumpWindow
 			nameString += "_encoder_set_export.csv";
 		else if(
 				checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
@@ -2052,6 +2054,9 @@ public partial class ChronoJumpWindow
 					if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_jumps_profile_save_image_accepted);
+					if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_runs_sprint_save_image_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 						confirmWin.Button_accept.Clicked += 
 							new EventHandler(on_overwrite_file_export_all_curves_accepted);
@@ -2080,6 +2085,8 @@ public partial class ChronoJumpWindow
 				} else {
 					if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
 						on_button_jumps_profile_save_image_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
+						on_button_runs_sprint_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 						on_button_encoder_export_all_curves_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE)

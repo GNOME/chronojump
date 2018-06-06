@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.IO;
 using Gtk;
 using Glade;
 using System.Text; //StringBuilder
@@ -272,6 +273,30 @@ public partial class ChronoJumpWindow
 				image_sprint);
 		image_sprint.Sensitive = true;
 		return true;
+	}
+
+	private void on_button_sprint_save_image_clicked (object o, EventArgs args)
+	{
+		checkFile(Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE);
+	}
+
+	private void on_button_runs_sprint_save_image_selected (string destination)
+	{
+		try {
+			File.Copy(UtilEncoder.GetSprintImage(), destination, true);
+		} catch {
+			string myString = string.Format(
+					Catalog.GetString("Cannot save file {0} "), destination);
+			new DialogMessage(Constants.MessageTypes.WARNING, myString);
+		}
+	}
+
+	private void on_overwrite_file_runs_sprint_save_image_accepted (object o, EventArgs args)
+	{
+		on_button_runs_sprint_save_image_selected(exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
 }

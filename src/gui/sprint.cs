@@ -43,6 +43,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("SPRINT create START");
 		UtilGtk.RemoveColumns(tv);
 		button_sprint.Sensitive = false;
+		image_sprint.Sensitive = false;
 		button_sprint_save_image.Sensitive = false;
 
 		tv.HeadersVisible=true;

@@ -33,6 +33,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_sprint;
 	[Widget] Gtk.Viewport viewport_sprint;
 	[Widget] Gtk.Image image_sprint;
+	[Widget] Gtk.Button button_sprint_save_image;
 
 	static Sprint sprint;
 	TreeStore storeSprint;
@@ -42,6 +43,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("SPRINT create START");
 		UtilGtk.RemoveColumns(tv);
 		button_sprint.Sensitive = false;
+		button_sprint_save_image.Sensitive = false;
 
 		tv.HeadersVisible=true;
 
@@ -230,6 +232,7 @@ public partial class ChronoJumpWindow
 
 	private bool on_button_sprint_do ()
 	{
+		button_sprint_save_image.Sensitive = false;
 		if(currentPersonSession.Weight == 0)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING,
@@ -272,6 +275,7 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetSprintImage(),
 				image_sprint);
 		image_sprint.Sensitive = true;
+		button_sprint_save_image.Sensitive = true;
 		return true;
 	}
 

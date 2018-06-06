@@ -45,7 +45,8 @@ assignOptions <- function(options) {
                 tempC 	= as.numeric(options[6]),
                 os 		= options[7],
                 graphWidth 	= as.numeric(options[8]),
-                graphHeight	= as.numeric(options[9])
+                graphHeight	= as.numeric(options[9]),
+                personName	= options[10]
         ))
 }
 
@@ -193,19 +194,19 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         exportSprintDynamics(sprintDynamics)
 }
 
-testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC)
+testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC, personName)
 {
 	sprint = getSprintFromPhotocell(position = positions, splitTimes = splitTimes)
 	sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, mass, tempC, personHeight, maxTime = max(splitTimes))
 	print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
 
-	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = "Testing graph")
+	drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = personName)
 }
 
 #----- execute code
 
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-testPhotocellsCJ(op$positions, op$splitTimes, op$mass, op$personHeight, op$tempC)
+testPhotocellsCJ(op$positions, op$splitTimes, op$mass, op$personHeight, op$tempC, op$personName)
 endGraph()
 
 

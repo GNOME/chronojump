@@ -58,7 +58,7 @@ public class Sprint
 	}
 	*/
 
-	public bool CallR(int graphWidth, int graphHeight)
+	public bool CallR(int graphWidth, int graphHeight, string personName)
 	{
 		string executable = UtilEncoder.RProcessBinURL();
 		List<string> parameters = new List<string>();
@@ -78,7 +78,7 @@ public class Sprint
 		parameters.Insert(1, "\"" + tempPath + "\"");
 
 		//C) writeOptions
-		writeOptionsFile(graphWidth, graphHeight);
+		writeOptionsFile(graphWidth, graphHeight, personName);
 
 		LogB.Information("\nCalling sprint.R ----->");
 
@@ -91,7 +91,7 @@ public class Sprint
 		return execute_result.success;
 	}
 
-	private void writeOptionsFile(int graphWidth, int graphHeight)
+	private void writeOptionsFile(int graphWidth, int graphHeight, string personName)
 	{
 		/*
 		string scriptOptions =
@@ -114,7 +114,8 @@ public class Sprint
 			"#tempC\n" + 		tempC + "\n" +
 			"#os\n" + 		UtilEncoder.OperatingSystemForRGraphs() + "\n" +
 			"#graphWidth\n" + 	graphWidth.ToString() + "\n" +
-			"#graphHeight\n" + 	graphHeight.ToString() + "\n";
+			"#graphHeight\n" + 	graphHeight.ToString() + "\n" +
+			"#personName\n" + 	personName + "\n";
 
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");
 		writer.Write(scriptOptions);

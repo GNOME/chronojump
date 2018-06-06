@@ -262,7 +262,8 @@ public partial class ChronoJumpWindow
 
 		bool success = sprint.CallR(
 				viewport_sprint.Allocation.Width -5,
-				viewport_sprint.Allocation.Height -5);
+				viewport_sprint.Allocation.Height -5,
+				currentPerson.Name);
 
 		if(! success)
 		{

@@ -7010,7 +7010,8 @@ LogB.Debug("X");
 	
 	private void on_button_carles_clicked (object o, EventArgs args)
 	{
-		return;
+		new ForcePlatform();
+
 		/*
 		bool showInWindow = true;
 

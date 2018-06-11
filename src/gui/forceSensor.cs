@@ -105,7 +105,7 @@ public partial class ChronoJumpWindow
 	static arduinoCaptureStatus capturingForce = arduinoCaptureStatus.STOP;
 	static bool redoingPoints; //don't draw while redoing points (adjusting screen)
 
-	static bool forceCaptureStartMark; 	//Just needed to display "Capturing message"
+	static bool forceCaptureStartMark; 	//Just needed to display Capturing message (with seconds)
 	static ForceSensorValues forceSensorValues;
 
 	string forceSensorPortName;
@@ -577,6 +577,7 @@ public partial class ChronoJumpWindow
 		while(! str.Contains("Starting capture"));
 
 		forceCaptureStartMark = true;
+		forceSensorTimeStart = DateTime.Now; //to have an active count of capture time
 		capturingForce = arduinoCaptureStatus.CAPTURING;
 
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
@@ -760,8 +761,8 @@ LogB.Information(" re D ");
 LogB.Information(" re E ");
 		if(forceCaptureStartMark)
 		{
-			event_execute_label_message.Text = "Capturing ...";
-			forceCaptureStartMark = false;
+			event_execute_label_message.Text = "Capturing" +
+					" (" + Util.TrimDecimals(DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds, 0) + " s)";
 		}
 LogB.Information(" re F ");
 

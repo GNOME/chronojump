@@ -146,6 +146,20 @@ public partial class ChronoJumpWindow
 
 	private void on_runs_encoder_capture_clicked ()
 	{
+		if(currentPersonSession.Weight == 0)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Error, weight of the person cannot be 0"));
+			return;
+		}
+
+		if(currentPersonSession.Height == 0)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Error, height of the person cannot be 0"));
+			return;
+		}
+
 		runEncoderButtonsSensitive(false);
 		bool connected = runEncoderCapturePre();
 		if(! connected)
@@ -327,13 +341,36 @@ public partial class ChronoJumpWindow
 		if(runEncoderProcessCancel || runEncoderProcessError)
 			Util.FileDelete(fileName);
 		else {
-			//call graph
+			//call graph. Prepare data
 			File.Copy(fileName, UtilEncoder.GetRunEncoderCSVFileName(), true); //can be overwritten
 			lastRunEncoderFullPath = fileName;
 			capturingRunEncoder = arduinoCaptureStatus.COPIED_TO_TMP;
+
+			//create graph
+			RunEncoderGraph reg = new RunEncoderGraph(
+					 30, 				//TODO: 30 hardcoded
+					 currentPersonSession.Weight,  	//TODO: can be more if extra weight
+					 currentPersonSession.Height,
+					 25); 				//TODO: hardcoded
+			reg.CallR(1699, 768); 				//TODO: hardcoded
+
+			//TODO: check better if png is saved and have a cancel button
+			while(! File.Exists(UtilEncoder.GetSprintEncoderImage()))
+			{
+				Thread.Sleep(500);
+				try {
+					File.Copy(UtilEncoder.GetSprintEncoderImage(),
+							Util.GetRunEncoderSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + 
+							lastRunEncoderFile + 	//nameDate
+							".png",
+							true); //can be overwritten
+				} catch {
+					LogB.Information("Couldn't copy the file");
+				}
+			}
 		}
 	}
-			
+
 	private string readFromRunEncoderIfDataArrived()
 	{
 		string str = "";

@@ -164,6 +164,7 @@ SOURCES = \
 	person.cs\
 	personSession.cs\
 	run.cs\
+	runEncoder.cs\
 	runType.cs\
 	pulse.cs\
 	pulseType.cs\

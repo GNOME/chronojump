@@ -246,6 +246,9 @@ public class UtilEncoder
 	public static string GetSprintImage() {
 		return System.IO.Path.Combine(Path.GetTempPath(), "sprintGraph.png");
 	}
+	public static string GetSprintEncoderImage() {
+		return System.IO.Path.Combine(Path.GetTempPath(), "sprintEncoderGraph.png");
+	}
 
 	public static string GetScriptsPath() {
 		return System.IO.Path.Combine(Util.GetDataDir(), "r-scripts");

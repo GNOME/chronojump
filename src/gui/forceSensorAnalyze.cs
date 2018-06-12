@@ -688,6 +688,7 @@ public partial class ChronoJumpWindow
 		bool debug = false;
 
 		button_force_sensor_image_save_rfd_manual.Sensitive = true;
+		checkbutton_force_sensor_ai_b.Sensitive = true;
 		if(checkbutton_force_sensor_ai_b.Active)
 			button_force_sensor_analyze_AB_save.Visible = true;
 
@@ -963,7 +964,9 @@ public partial class ChronoJumpWindow
 		else
 			button_force_sensor_analyze_AB_save.Visible = false;
 
-		force_sensor_analyze_instant_calculate_params();
+		if(fsAI != null)
+			force_sensor_analyze_instant_calculate_params();
+
 		forceSensorAIChanged = true; //to actually plot
 		force_sensor_ai_drawingarea.QueueDraw(); // -- refresh
 	}

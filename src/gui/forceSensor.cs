@@ -725,9 +725,10 @@ LogB.Information(" re C ");
 					event_execute_label_message.Text = forceSensorNotConnectedString;
 
 				button_force_sensor_image_save_signal.Sensitive = false;
+				button_force_sensor_analyze_recalculate.Sensitive = false;
 				button_force_sensor_image_save_rfd_auto.Sensitive = false;
 				button_force_sensor_image_save_rfd_manual.Sensitive = false;
-				button_force_sensor_analyze_recalculate.Sensitive = false;
+				checkbutton_force_sensor_ai_b.Sensitive = false;
 			}
 			else
 				event_execute_label_message.Text = "";

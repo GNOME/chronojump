@@ -22,7 +22,7 @@ args <- commandArgs(TRUE)
 
 tempPath <- args[1]
 optionsFile <- paste(tempPath, "/Roptions.txt", sep="")
-pngFile <- paste(tempPath, "/sprintGraph.png", sep="")
+pngFile <- paste(tempPath, "/sprintEncoderGraph.png", sep="")
 
 #-------------- scan options file -------------
 options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")

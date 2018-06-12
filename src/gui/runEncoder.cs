@@ -50,6 +50,7 @@ public partial class ChronoJumpWindow
 	static ForceSensorValues forceSensorValues;
 
 	*/
+	static string captureEndedMessage;
 	string runEncoderPortName;
 	SerialPort portRE; //Attention!! Don't reopen port because arduino makes reset
 	bool portREOpened;
@@ -173,7 +174,11 @@ public partial class ChronoJumpWindow
 			if(! runEncoderConnect())
 				return false;
 
+		if(File.Exists(UtilEncoder.GetSprintEncoderImage()))
+			Util.FileDelete(UtilEncoder.GetSprintEncoderImage());
+
 		event_execute_label_message.Text = "Please, wait ...";
+		captureEndedMessage = "";
 		capturingRunEncoder = arduinoCaptureStatus.STARTING;
 
 		button_execute_test.Sensitive = false;
@@ -344,7 +349,6 @@ public partial class ChronoJumpWindow
 			//call graph. Prepare data
 			File.Copy(fileName, UtilEncoder.GetRunEncoderCSVFileName(), true); //can be overwritten
 			lastRunEncoderFullPath = fileName;
-			capturingRunEncoder = arduinoCaptureStatus.COPIED_TO_TMP;
 
 			//create graph
 			RunEncoderGraph reg = new RunEncoderGraph(
@@ -354,20 +358,32 @@ public partial class ChronoJumpWindow
 					 25); 				//TODO: hardcoded
 			reg.CallR(1699, 768); 				//TODO: hardcoded
 
+			DateTime runEncoderGraphStarted = DateTime.Now;
 			//TODO: check better if png is saved and have a cancel button
-			while(! File.Exists(UtilEncoder.GetSprintEncoderImage()))
-			{
+
+			while(! File.Exists(UtilEncoder.GetSprintEncoderImage()) && DateTime.Now.Subtract(runEncoderGraphStarted).TotalSeconds < 5)
 				Thread.Sleep(500);
+
+			if(File.Exists(UtilEncoder.GetSprintEncoderImage()))
+			{
+				LogB.Information("File exists on png, trying to copy");
 				try {
 					File.Copy(UtilEncoder.GetSprintEncoderImage(),
-							Util.GetRunEncoderSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + 
+							Util.GetRunEncoderSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar +
 							lastRunEncoderFile + 	//nameDate
 							".png",
 							true); //can be overwritten
+					captureEndedMessage = " (Everything Ok. png on runEncoder folder)";
 				} catch {
 					LogB.Information("Couldn't copy the file");
+					captureEndedMessage = " (Crated png but only on /tmp, could not copy file)";
 				}
+			} else {
+				LogB.Information("File does not exist on png (after 5 seconds)");
+				captureEndedMessage = "(png not created, problem doing the graph)";
 			}
+
+			capturingRunEncoder = arduinoCaptureStatus.COPIED_TO_TMP;
 		}
 	}
 
@@ -398,7 +414,6 @@ LogB.Information(" fc C ");
 			if(runEncoderProcessFinish)
 			{
 LogB.Information(" fc C finish");
-/*
 				if(capturingRunEncoder != arduinoCaptureStatus.COPIED_TO_TMP)
 				{
 					Thread.Sleep (25); //Wait file is copied
@@ -406,8 +421,7 @@ LogB.Information(" fc C finish");
 				}
 				else
 				{
-*/
-					event_execute_label_message.Text = "Saved.";
+					event_execute_label_message.Text = "Saved." + captureEndedMessage;
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 
 					/*
@@ -419,7 +433,7 @@ LogB.Information(" fc C finish");
 					if(force_sensor_ai_drawingareaShown)
 						forceSensorDoGraphAI();
 					*/
-//				}
+				}
 LogB.Information(" fc C finish 2");
 			} else if(runEncoderProcessCancel || runEncoderProcessError)
 			{

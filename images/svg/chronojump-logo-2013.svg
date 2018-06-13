@@ -12,12 +12,12 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.92.1 r15371"
-   width="7.8000002cm"
-   height="2.0999999cm"
+   width="14.692999cm"
+   height="3.9433639cm"
    sodipodi:docname="chronojump-logo-2013.svg"
-   inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump-logo-register.png"
-   inkscape:export-xdpi="299.89484"
-   inkscape:export-ydpi="299.89484">
+   inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump-1-tinta.png"
+   inkscape:export-xdpi="300.15997"
+   inkscape:export-ydpi="300.15997">
   <title
      id="title3738">RooSign</title>
   <defs
@@ -55,15 +55,15 @@
      objecttolerance="10"
      gridtolerance="10"
      guidetolerance="10"
-     inkscape:pageopacity="1"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1366"
-     inkscape:window-height="705"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="2.5125014"
-     inkscape:cx="167.03538"
-     inkscape:cy="37.030005"
+     inkscape:zoom="1.4921335"
+     inkscape:cx="132.90377"
+     inkscape:cy="-3.2554641"
      inkscape:window-x="0"
      inkscape:window-y="26"
      inkscape:window-maximized="1"
@@ -78,93 +78,93 @@
      units="cm">
     <sodipodi:guide
        orientation="1,0"
-       position="104.50598,-788.52962"
+       position="204.97947,2105.018"
        id="guide6483"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="1,0"
-       position="31.438438,29.325916"
+       position="131.91193,2922.8736"
        id="guide6995"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="0,1"
-       position="429.65877,6.9379308"
+       position="530.13226,2900.4856"
        id="guide6997"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="0,1"
-       position="437.06363,21.494932"
+       position="537.53712,2915.0426"
        id="guide7023"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="0,1"
-       position="1745.9751,-273.32335"
+       position="1846.4486,2620.2243"
        id="guide3170"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="1,0"
-       position="1702.7623,-994.14956"
+       position="1803.2358,1899.3981"
        id="guide5719"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="0,1"
-       position="1710.9249,-1001.4449"
+       position="1811.3984,1892.1027"
        id="guide5721"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="1,0"
-       position="1529.2818,-1037.3806"
+       position="1629.7553,1856.167"
        id="guide5753"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="0,1"
-       position="1539.2192,-1047.6173"
+       position="1639.6927,1845.9303"
        id="guide5755"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="1,0"
-       position="4402.4145,-1700.9978"
+       position="4502.888,1192.5498"
        id="guide6371"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="0,1"
-       position="4402.2057,-1697.0769"
+       position="4502.6792,1196.4707"
        id="guide6373"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="1,0"
-       position="3605.0542,-586.96452"
+       position="3705.5277,2306.5831"
        id="guide6709"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="1,0"
-       position="3533.1625,-668.86655"
+       position="3633.636,2224.6811"
        id="guide6711"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="0,1"
-       position="3525.4239,-597.12464"
+       position="3625.8974,2296.423"
        id="guide6715"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="0,1"
-       position="4293.7565,-1436.9039"
+       position="4394.23,1456.6437"
        id="guide6837"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="0,1"
-       position="3741.6742,-1418.3979"
+       position="3842.1477,1475.1497"
        id="guide6839"
        inkscape:locked="false" />
     <sodipodi:guide
        orientation="0,1"
-       position="4354.4503,-1430.2836"
+       position="4454.9238,1463.264"
        id="guide7989"
        inkscape:locked="false" />
   </sodipodi:namedview>
   <g
      id="g3810"
-     transform="matrix(0.56753851,0,0,0.56753851,-371.05152,24.499693)"
+     transform="matrix(0.56753851,0,0,0.56753851,-270.57803,-2799.3775)"
      style="stroke-width:1.76199496">
     <text
        inkscape:export-ydpi="155.58435"
@@ -269,7 +269,7 @@
   </g>
   <g
      id="g3299"
-     transform="translate(8.814697,-525.07117)">
+     transform="translate(109.28818,-3348.9484)">
     <path
        sodipodi:nodetypes="cccccccccccccccc"
        id="path3623-5-9"
@@ -319,29 +319,29 @@
      id="rect3361"
      width="888.01343"
      height="653.11298"
-     x="2488.6599"
-     y="2090.8359" />
+     x="2589.1333"
+     y="-733.04126" />
   <rect
      style="fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3472-6"
      width="565.00067"
      height="163.85793"
-     x="2595.0615"
-     y="2534.1472" />
+     x="2695.5349"
+     y="-289.72998" />
   <rect
      style="fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3472"
      width="565.00067"
      height="163.85793"
-     x="2559.1208"
-     y="2157.7378" />
+     x="2659.5942"
+     y="-666.1394" />
   <rect
      style="fill:#0e1e46;fill-opacity:0;stroke:none;stroke-width:2.03414798;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
      id="rect7192"
      width="1313.4858"
      height="740.10431"
-     x="3148.1201"
-     y="851.72473"
+     x="3248.5935"
+     y="-1972.1525"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
      inkscape:export-xdpi="68"
      inkscape:export-ydpi="68" />
@@ -350,46 +350,46 @@
      id="rect3495-5-3"
      width="555.32593"
      height="149.04053"
-     x="1253.031"
-     y="337.85617" />
+     x="1353.5045"
+     y="-2486.021" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129"
      width="11.595164"
      height="77.527626"
-     x="1285.2794"
-     y="353.38315" />
+     x="1385.7529"
+     y="-2470.4941" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-5"
      width="11.595164"
      height="77.527626"
-     x="1351.1713"
-     y="353.38315" />
+     x="1451.6448"
+     y="-2470.4941" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-51"
      width="11.595164"
      height="77.527626"
-     x="1417.063"
-     y="353.38315" />
+     x="1517.5365"
+     y="-2470.4941" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-1"
      width="11.595164"
      height="77.527626"
-     x="1482.9548"
-     y="353.38315" />
+     x="1583.4283"
+     y="-2470.4941" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-0"
      width="11.595164"
      height="77.527626"
-     x="1548.8466"
-     y="353.38315" />
+     x="1649.3201"
+     y="-2470.4941" />
   <g
      id="g3782"
-     transform="translate(-1373.027,-116.31811)">
+     transform="translate(-1272.5535,-2940.1953)">
     <rect
        transform="matrix(0.73674207,0.67617388,-0.70304259,0.71114775,0,0)"
        ry="16.729086"
@@ -463,7 +463,7 @@
   </metadata>
   <g
      id="g4418"
-     transform="translate(0,-69.645152)">
+     transform="translate(100.47349,-2893.5223)">
     <g
        transform="translate(-166.68108,2.8215244)"
        id="g3291">
@@ -518,7 +518,7 @@
   </g>
   <g
      id="g4429"
-     transform="translate(0,-69.645152)">
+     transform="translate(100.47349,-2893.5223)">
     <g
        transform="translate(-178.58955,134.25001)"
        id="g3282">
@@ -576,27 +576,27 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="284.53958"
-     y="-698.93451"
+     x="385.01306"
+     y="-3522.8118"
      id="text3276"><tspan
        sodipodi:role="line"
        id="tspan3278"
-       x="284.53958"
-       y="-698.93451"
+       x="385.01306"
+       y="-3522.8118"
        style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">Bold, transparent, yellowish,</tspan><tspan
        sodipodi:role="line"
-       x="284.53958"
-       y="-645.6012"
+       x="385.01306"
+       y="-3469.4785"
        id="tspan3280"
        style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">chronojump with black background letters,</tspan><tspan
        id="tspan3369"
        sodipodi:role="line"
-       x="284.53958"
-       y="-592.26782"
+       x="385.01306"
+       y="-3416.145"
        style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">Boscosystem with spaces between letters</tspan><tspan
        sodipodi:role="line"
-       x="284.53958"
-       y="-538.93451"
+       x="385.01306"
+       y="-3362.8118"
        id="tspan4625"
        style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">width:295px</tspan></text>
   <g
@@ -604,7 +604,7 @@
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump-logo-2013_320.png"
      inkscape:export-xdpi="55.32"
      inkscape:export-ydpi="55.32"
-     transform="translate(0,-69.645152)">
+     transform="translate(100.47349,-2893.5223)">
     <rect
        y="393.53085"
        x="0"
@@ -719,54 +719,54 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="284.08124"
-     y="239.77852"
+     x="384.55472"
+     y="-2584.0986"
      id="text3251-7-3"><tspan
        sodipodi:role="line"
        id="tspan3253-8-8"
-       x="284.08124"
-       y="239.77852"
+       x="384.55472"
+       y="-2584.0986"
        style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">Same as above but with blue background</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="298.27829"
-     y="553.09985"
+     x="398.75177"
+     y="-2270.7773"
      id="text3251-7-3-8"><tspan
        sodipodi:role="line"
        id="tspan3253-8-8-8"
-       x="298.27829"
-       y="553.09985"
+       x="398.75177"
+       y="-2270.7773"
        style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">width 165: chronojump-logo-2013.png</tspan><tspan
        sodipodi:role="line"
-       x="298.27829"
-       y="606.43317"
+       x="398.75177"
+       y="-2217.4441"
        id="tspan3077"
        style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">width 320: chronojump-logo-2013_320.png</tspan><tspan
        sodipodi:role="line"
-       x="305.06995"
-       y="659.76654"
+       x="405.54343"
+       y="-2164.1106"
        id="tspan3075"
        style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672"> </tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="280.68646"
-     y="1888.0652"
+     x="381.15994"
+     y="-935.81201"
      id="text3146"><tspan
        sodipodi:role="line"
-       x="280.68646"
-       y="1888.0652"
+       x="381.15994"
+       y="-935.81201"
        id="tspan3150"
        style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">chronojump_icon_google_appd.png  143x59</tspan><tspan
        sodipodi:role="line"
-       x="287.84827"
-       y="1944.3051"
+       x="388.32175"
+       y="-879.57214"
        id="tspan3240"
        style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672"> </tspan></text>
   <g
      id="g3188"
-     transform="translate(-134.25228,-69.645152)"
+     transform="translate(-33.778792,-2893.5223)"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_icon_512.png"
      inkscape:export-xdpi="250.42999"
      inkscape:export-ydpi="250.42999">
@@ -816,292 +816,292 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="-486.02206"
-     y="875.6189"
+     x="-385.54858"
+     y="-1948.2583"
      id="text3244"><tspan
        sodipodi:role="line"
        id="tspan3246"
-       x="-486.02206"
-       y="875.6189"
+       x="-385.54858"
+       y="-1948.2583"
        style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">4</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1349.4868"
-     y="40.591717"
+     x="1449.9603"
+     y="-2783.2854"
      id="text3248"><tspan
        sodipodi:role="line"
        id="tspan3250"
-       x="1349.4868"
-       y="40.591717"
+       x="1449.9603"
+       y="-2783.2854"
        style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672"> </tspan></text>
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 1585.231,400.17362 c 29.102,50.19429 85.5206,-40.39455 90.6986,-42.18823 4.7654,-5.99056 25.1361,-13.29635 50.0405,25.31294 4.1728,5.32209 16.3237,9.36324 22.5183,-3.01344 -0.9809,1.15058 -9.573,-7.47693 -15.0121,-12.05379 6.4768,2.67555 12.0373,0.93641 20.0162,10.8484 5.7412,0.21514 12.8185,1.19698 21.8928,7.83496 6.8258,7.77365 -13.3066,5.15744 -21.2673,7.23226 -15.0122,8.59962 -13.1742,24.80714 -24.3948,21.09412 -7.3215,22.49562 -13.4693,23.02358 -17.5142,18.68336 17.1113,-14.24902 8.0131,-21.04069 0,-21.09411 -11.2092,2.95632 -9.5699,19.41793 -2.502,41.58554 20.4333,-0.13007 34.6114,7.24594 49.4151,7.83495 -11.5696,8.23676 -19.0642,-2.81253 -53.1682,-0.60267 -8.4787,-32.07752 -27.5662,-60.32166 -55.0446,-57.85815 -51.4126,38.71806 -58.4345,19.1377 -65.6783,-3.61614 z"
+     d="m 1685.7045,-2423.7036 c 29.102,50.1943 85.5206,-40.3945 90.6986,-42.1882 4.7654,-5.9906 25.1361,-13.2964 50.0405,25.3129 4.1728,5.3221 16.3237,9.3633 22.5183,-3.0134 -0.9809,1.1506 -9.573,-7.4769 -15.0121,-12.0538 6.4768,2.6756 12.0373,0.9364 20.0162,10.8484 5.7412,0.2151 12.8185,1.197 21.8928,7.835 6.8258,7.7736 -13.3066,5.1574 -21.2673,7.2322 -15.0122,8.5996 -13.1742,24.8072 -24.3948,21.0941 -7.3215,22.4957 -13.4693,23.0236 -17.5142,18.6834 17.1113,-14.249 8.0131,-21.0407 0,-21.0941 -11.2092,2.9563 -9.5699,19.4179 -2.502,41.5855 20.4333,-0.13 34.6114,7.246 49.4151,7.835 -11.5696,8.2367 -19.0642,-2.8125 -53.1682,-0.6027 -8.4787,-32.0775 -27.5662,-60.3216 -55.0446,-57.8581 -51.4126,38.718 -58.4345,19.1377 -65.6783,-3.6162 z"
      id="path3623-5-9-4-5"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1283.3802"
-     y="431.35199"
+     x="1383.8538"
+     y="-2392.5251"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6"
-       x="1283.3802"
-       y="431.35199"
+       x="1383.8538"
+       y="-2392.5251"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1281.2466"
-     y="429.2182"
+     x="1381.7201"
+     y="-2394.6589"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4"
-       x="1281.2466"
-       y="429.2182"
+       x="1381.7201"
+       y="-2394.6589"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1333.1533"
-     y="465.49792"
+     x="1433.5409"
+     y="-2360.7944"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4"
-       x="1333.1533"
-       y="465.49792"
+       x="1433.5409"
+       y="-2360.7944"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-4"
      width="555.32593"
      height="149.04053"
-     x="1882.5267"
-     y="337.04227" />
+     x="1983.0002"
+     y="-2486.835" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-3"
      width="11.595164"
      height="26.054304"
-     x="1927.5751"
-     y="352.56921" />
+     x="2028.0486"
+     y="-2471.3081" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-5-0"
      width="11.595164"
      height="26.054304"
-     x="1991.8669"
-     y="352.56921" />
+     x="2092.3403"
+     y="-2471.3081" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-51-5"
      width="11.595164"
      height="26.054304"
-     x="2056.1587"
-     y="352.56921" />
+     x="2156.6321"
+     y="-2471.3081" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-1-6"
      width="11.595164"
      height="26.054304"
-     x="2120.4504"
-     y="352.56921" />
+     x="2220.9238"
+     y="-2471.3081" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-0-5"
      width="11.595164"
      height="26.054304"
-     x="2184.7424"
-     y="352.56921" />
+     x="2285.2158"
+     y="-2471.3081" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 2214.7267,399.35967 c 29.102,50.19428 85.5206,-40.39455 90.6986,-42.18823 4.7654,-5.99056 25.1361,-13.29636 50.0405,25.31294 4.1728,5.32209 16.3236,9.36324 22.5183,-3.01344 -0.9809,1.15058 -9.573,-7.47693 -15.0122,-12.0538 6.4768,2.67556 12.0374,0.93642 20.0163,10.84841 5.7412,0.21513 12.8185,1.19698 21.8928,7.83495 6.8258,7.77366 -13.3066,5.15744 -21.2673,7.23227 -15.0122,8.59962 -13.1742,24.80714 -24.3948,21.09412 -7.3215,22.49562 -13.4694,23.02358 -17.5143,18.68336 17.1114,-14.24902 8.0132,-21.04069 0,-21.09411 -11.2091,2.95632 -9.5698,19.41793 -2.5019,41.58554 20.4332,-0.13007 34.6114,7.24594 49.4151,7.83495 -11.5696,8.23676 -19.0642,-2.81253 -53.1682,-0.60268 -8.4787,-32.07751 -27.5662,-60.32165 -55.0446,-57.85814 -51.4126,38.71806 -58.4345,19.1377 -65.6783,-3.61614 z"
+     d="m 2315.2002,-2424.5175 c 29.102,50.1943 85.5206,-40.3946 90.6986,-42.1883 4.7654,-5.9905 25.1361,-13.2963 50.0405,25.313 4.1728,5.3221 16.3236,9.3632 22.5183,-3.0135 -0.9809,1.1506 -9.573,-7.4769 -15.0122,-12.0538 6.4768,2.6756 12.0374,0.9365 20.0163,10.8485 5.7412,0.2151 12.8185,1.1969 21.8928,7.8349 6.8258,7.7737 -13.3066,5.1574 -21.2673,7.2323 -15.0122,8.5996 -13.1742,24.8071 -24.3948,21.0941 -7.3215,22.4956 -13.4694,23.0236 -17.5143,18.6834 17.1114,-14.2491 8.0132,-21.0407 0,-21.0942 -11.2091,2.9564 -9.5698,19.418 -2.5019,41.5856 20.4332,-0.1301 34.6114,7.2459 49.4151,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6026 -8.4787,-32.0776 -27.5662,-60.3217 -55.0446,-57.8582 -51.4126,38.7181 -58.4345,19.1377 -65.6783,-3.6161 z"
      id="path3623-5-9-4-5-5"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1912.8759"
-     y="430.53802"
+     x="2013.3494"
+     y="-2393.3391"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5"
-       x="1912.8759"
-       y="430.53802"
+       x="2013.3494"
+       y="-2393.3391"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1910.7423"
-     y="428.40424"
+     x="2011.2158"
+     y="-2395.4729"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4"
-       x="1910.7423"
-       y="428.40424"
+       x="2011.2158"
+       y="-2395.4729"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1962.111"
-     y="464.68329"
+     x="2062.4985"
+     y="-2361.6091"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8"
-       x="1962.111"
-       y="464.68329"
+       x="2062.4985"
+       y="-2361.6091"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-4-3"
      width="555.32593"
      height="161.52802"
-     x="3087.5686"
-     y="334.13086" />
+     x="3188.042"
+     y="-2489.7463" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 3419.7686,396.44827 c 29.102,50.19428 85.5206,-40.39455 90.6986,-42.18824 4.7654,-5.99056 25.1361,-13.29635 50.0405,25.31294 4.1728,5.32209 16.3237,9.36325 22.5183,-3.01344 -0.9809,1.15058 -9.573,-7.47693 -15.0121,-12.05379 6.4768,2.67555 12.0373,0.93642 20.0162,10.84841 5.7412,0.21513 12.8185,1.19698 21.8928,7.83495 6.8258,7.77365 -13.3066,5.15744 -21.2673,7.23227 -15.0122,8.59961 -13.1742,24.80713 -24.3948,21.09412 -7.3215,22.49562 -13.4693,23.02357 -17.5142,18.68336 17.1113,-14.24902 8.0131,-21.04069 0,-21.09411 -11.2092,2.95632 -9.5699,19.41793 -2.502,41.58553 20.4333,-0.13007 34.6114,7.24595 49.4151,7.83496 -11.5696,8.23676 -19.0642,-2.81253 -53.1682,-0.60268 -8.4787,-32.07751 -27.5662,-60.32165 -55.0446,-57.85814 -51.4126,38.71806 -58.4345,19.13769 -65.6783,-3.61614 z"
+     d="m 3520.2421,-2427.4289 c 29.102,50.1943 85.5206,-40.3946 90.6986,-42.1883 4.7654,-5.9905 25.1361,-13.2963 50.0405,25.313 4.1728,5.3221 16.3237,9.3632 22.5183,-3.0135 -0.9809,1.1506 -9.573,-7.4769 -15.0121,-12.0538 6.4768,2.6756 12.0373,0.9365 20.0162,10.8485 5.7412,0.2151 12.8185,1.1969 21.8928,7.8349 6.8258,7.7737 -13.3066,5.1574 -21.2673,7.2323 -15.0122,8.5996 -13.1742,24.8071 -24.3948,21.0941 -7.3215,22.4956 -13.4693,23.0236 -17.5142,18.6834 17.1113,-14.2491 8.0131,-21.0407 0,-21.0942 -11.2092,2.9564 -9.5699,19.418 -2.502,41.5856 20.4333,-0.1301 34.6114,7.2459 49.4151,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6026 -8.4787,-32.0776 -27.5662,-60.3217 -55.0446,-57.8582 -51.4126,38.7181 -58.4345,19.1377 -65.6783,-3.6161 z"
      id="path3623-5-9-4-5-5-2"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3117.9177"
-     y="427.62665"
+     x="3218.3911"
+     y="-2396.2505"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7"
-       x="3117.9177"
-       y="427.62665"
+       x="3218.3911"
+       y="-2396.2505"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3115.7842"
-     y="425.49286"
+     x="3216.2576"
+     y="-2398.3843"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5"
-       x="3115.7842"
-       y="425.49286"
+       x="3216.2576"
+       y="-2398.3843"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3166.1233"
-     y="461.76935"
+     x="3266.511"
+     y="-2364.5232"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2"
-       x="3166.1233"
-       y="461.76935"
+       x="3266.511"
+       y="-2364.5232"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-5-0-3-2"
      width="11.595164"
      height="23.406376"
-     x="473.06427"
-     y="-3244.0447"
+     x="-2350.813"
+     y="-3344.5181"
      transform="rotate(90)" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-5-0-3-2-1"
      width="11.595164"
      height="23.406376"
-     x="473.06427"
-     y="-3191.9202"
+     x="-2350.813"
+     y="-3292.3936"
      transform="rotate(90)" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-5-0-3-2-9"
      width="11.595164"
      height="23.406376"
-     x="473.06427"
-     y="-3296.1694"
+     x="-2350.813"
+     y="-3396.6428"
      transform="rotate(90)" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-5-0-3-2-4"
      width="11.595164"
      height="23.406376"
-     x="473.06427"
-     y="-3348.2942"
+     x="-2350.813"
+     y="-3448.7676"
      transform="rotate(90)" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-5-0-3-2-7"
      width="11.595164"
      height="23.406376"
-     x="473.06427"
-     y="-3400.4189"
+     x="-2350.813"
+     y="-3500.8923"
      transform="rotate(90)" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-5-0-3-2-6"
      width="11.595164"
      height="23.406376"
-     x="473.06427"
-     y="-3452.5437"
+     x="-2350.813"
+     y="-3553.0171"
      transform="rotate(90)" />
   <rect
      style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3"
      width="555.32593"
      height="149.04053"
-     x="1269.0702"
-     y="574.03601" />
+     x="1369.5437"
+     y="-2249.8413" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 1601.2703,636.3535 c 29.102,50.19424 85.5205,-40.39456 90.6986,-42.18827 4.7654,-5.99051 25.1361,-13.29632 50.0405,25.31296 4.1728,5.32213 16.3236,9.3632 22.5183,-3.01344 -0.9809,1.15061 -9.573,-7.47691 -15.0122,-12.05376 6.4768,2.67552 12.0374,0.93643 20.0162,10.84843 5.7413,0.21504 12.8186,1.1969 21.8928,7.83488 6.8258,7.77365 -13.3065,5.15744 -21.2673,7.23232 -15.0121,8.59957 -13.1742,24.80714 -24.3947,21.09408 -7.3215,22.49568 -13.4694,23.02357 -17.5143,18.68341 17.1114,-14.24907 8.0131,-21.04075 0,-21.09419 -11.2092,2.95638 -9.5698,19.41792 -2.502,41.5856 20.4333,-0.13013 34.6115,7.24587 49.4152,7.83488 -11.5696,8.2368 -19.0642,-2.81248 -53.1682,-0.60266 -8.4787,-32.07744 -27.5662,-60.3216 -55.0446,-57.85814 -51.4126,38.71808 -58.4346,19.13771 -65.6783,-3.6161 z"
+     d="m 1701.7438,-2187.5237 c 29.102,50.1942 85.5205,-40.3946 90.6986,-42.1883 4.7654,-5.9905 25.1361,-13.2963 50.0405,25.313 4.1728,5.3221 16.3236,9.3632 22.5183,-3.0134 -0.9809,1.1506 -9.573,-7.477 -15.0122,-12.0538 6.4768,2.6755 12.0374,0.9364 20.0162,10.8484 5.7413,0.2151 12.8186,1.1969 21.8928,7.8349 6.8258,7.7737 -13.3065,5.1574 -21.2673,7.2323 -15.0121,8.5996 -13.1742,24.8072 -24.3947,21.0941 -7.3215,22.4957 -13.4694,23.0236 -17.5143,18.6834 17.1114,-14.2491 8.0131,-21.0407 0,-21.0942 -11.2092,2.9564 -9.5698,19.4179 -2.502,41.5856 20.4333,-0.1301 34.6115,7.2459 49.4152,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6027 -8.4787,-32.0774 -27.5662,-60.3216 -55.0446,-57.8581 -51.4126,38.7181 -58.4346,19.1377 -65.6783,-3.6161 z"
      id="path3623-5-9-4-5-2"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1299.4194"
-     y="667.5318"
+     x="1399.8929"
+     y="-2156.3455"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6"
-       x="1299.4194"
-       y="667.5318"
+       x="1399.8929"
+       y="-2156.3455"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1297.2858"
-     y="665.39795"
+     x="1397.7593"
+     y="-2158.4792"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3"
-       x="1297.2858"
-       y="665.39795"
+       x="1397.7593"
+       y="-2158.4792"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1349.179"
-     y="701.87982"
+     x="1449.5665"
+     y="-2124.4126"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2"
-       x="1349.179"
-       y="701.87982"
+       x="1449.5665"
+       y="-2124.4126"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <g
      id="g5723"
-     transform="translate(89.051904,-451.13031)">
+     transform="translate(189.52539,-3275.0075)">
     <circle
        id="path5715"
        style="fill:none;stroke:#ffffff;stroke-width:3.20000005;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -1116,7 +1116,7 @@
   </g>
   <path
      style="fill:none;stroke:#e7be19;stroke-width:3.20000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 1532.5267,645.32896 21.3686,-19.07488"
+     d="m 1633.0002,-2178.5482 21.3686,-19.0749"
      id="path5717-4"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="cc" />
@@ -1125,125 +1125,125 @@
      id="rect3495-5-3-4-9"
      width="555.32593"
      height="149.04053"
-     x="2482.9172"
-     y="334.33536" />
+     x="2583.3906"
+     y="-2489.5417" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-3-6"
      width="21.333334"
      height="26.054304"
-     x="2515.1655"
-     y="349.8623" />
+     x="2615.6389"
+     y="-2474.0149" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-5-0-0"
      width="42.666668"
      height="26.054304"
-     x="2588.4438"
-     y="349.8623" />
+     x="2688.9172"
+     y="-2474.0149" />
   <rect
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3129-51-5-6"
      width="85.333336"
      height="26.054304"
-     x="2683.0552"
-     y="349.8623" />
+     x="2783.5286"
+     y="-2474.0149" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 2815.1172,396.65277 c 29.102,50.19429 85.5206,-40.39455 90.6986,-42.18823 4.7654,-5.99056 25.1361,-13.29636 50.0405,25.31293 4.1728,5.32209 16.3236,9.36325 22.5183,-3.01344 -0.9809,1.15059 -9.573,-7.47692 -15.0121,-12.05379 6.4768,2.67555 12.0373,0.93642 20.0162,10.84841 5.7412,0.21513 12.8185,1.19698 21.8928,7.83495 6.8258,7.77366 -13.3066,5.15744 -21.2673,7.23227 -15.0122,8.59961 -13.1742,24.80713 -24.3948,21.09412 -7.3215,22.49562 -13.4693,23.02357 -17.5143,18.68336 17.1114,-14.24902 8.0132,-21.04069 0,-21.09411 -11.2091,2.95632 -9.5698,19.41793 -2.5019,41.58555 20.4333,-0.13007 34.6114,7.24594 49.4151,7.83495 -11.5696,8.23676 -19.0642,-2.81253 -53.1682,-0.60268 -8.4787,-32.07752 -27.5662,-60.32166 -55.0446,-57.85815 -51.4126,38.71806 -58.4345,19.13769 -65.6783,-3.61614 z"
+     d="m 2915.5907,-2427.2244 c 29.102,50.1943 85.5206,-40.3946 90.6986,-42.1883 4.7654,-5.9905 25.1361,-13.2963 50.0405,25.313 4.1728,5.3221 16.3236,9.3632 22.5183,-3.0135 -0.9809,1.1506 -9.573,-7.4769 -15.0121,-12.0538 6.4768,2.6756 12.0373,0.9365 20.0162,10.8485 5.7412,0.2151 12.8185,1.1969 21.8928,7.8349 6.8258,7.7737 -13.3066,5.1574 -21.2673,7.2323 -15.0122,8.5996 -13.1742,24.8071 -24.3948,21.0941 -7.3215,22.4956 -13.4693,23.0236 -17.5143,18.6834 17.1114,-14.2491 8.0132,-21.0407 0,-21.0942 -11.2091,2.9564 -9.5698,19.418 -2.5019,41.5856 20.4333,-0.1301 34.6114,7.2459 49.4151,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6026 -8.4787,-32.0776 -27.5662,-60.3217 -55.0446,-57.8582 -51.4126,38.7181 -58.4345,19.1377 -65.6783,-3.6161 z"
      id="path3623-5-9-4-5-5-6"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2513.2664"
-     y="427.83112"
+     x="2613.7397"
+     y="-2396.0461"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-6"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-3"
-       x="2513.2664"
-       y="427.83112"
+       x="2613.7397"
+       y="-2396.0461"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2511.1328"
-     y="425.69733"
+     x="2611.6062"
+     y="-2398.1799"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-4"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-7"
-       x="2511.1328"
-       y="425.69733"
+       x="2611.6062"
+       y="-2398.1799"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2561.9885"
-     y="461.97412"
+     x="2662.3762"
+     y="-2364.3184"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-4"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-7"
-       x="2561.9885"
-       y="461.97412"
+       x="2662.3762"
+       y="-2364.3184"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3-2"
      width="668.62402"
      height="149.04053"
-     x="1904.1638"
-     y="569.75806" />
+     x="2004.6373"
+     y="-2254.1191" />
   <circle
      style="fill:none;stroke:#ffffff;stroke-width:4.26666689;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path5715-7"
-     cx="2459.8032"
-     cy="641.16418"
+     cx="2560.2766"
+     cy="-2182.7129"
      r="70.430168" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 2364.0316,632.07556 c 29.1019,50.19424 85.5205,-40.39456 90.6985,-42.18826 4.7655,-5.99051 25.1361,-13.29632 50.0406,25.31296 4.1728,5.32213 16.3236,9.3632 22.5183,-3.01344 -0.9809,1.15061 -9.5731,-7.47691 -15.0122,-12.05376 6.4768,2.67552 12.0373,0.93642 20.0162,10.84842 5.7412,0.21504 12.8186,1.19691 21.8928,7.83488 6.8258,7.77366 -13.3065,5.15744 -21.2673,7.23232 -15.0122,8.59958 -13.1742,24.80715 -24.3948,21.09408 -7.3215,22.49568 -13.4693,23.02358 -17.5142,18.68342 17.1114,-14.24907 8.0131,-21.04075 0,-21.09419 -11.2092,2.95637 -9.5698,19.41792 -2.502,41.5856 20.4333,-0.13013 34.6114,7.24587 49.4152,7.83488 -11.5696,8.2368 -19.0642,-2.81248 -53.1682,-0.60267 -8.4788,-32.07744 -27.5662,-60.3216 -55.0446,-57.85813 -51.4126,38.71808 -58.4346,19.13771 -65.6783,-3.61611 z"
+     d="m 2464.5051,-2191.8016 c 29.1019,50.1942 85.5205,-40.3946 90.6985,-42.1883 4.7655,-5.9905 25.1361,-13.2963 50.0406,25.313 4.1728,5.3221 16.3236,9.3632 22.5183,-3.0135 -0.9809,1.1506 -9.5731,-7.4769 -15.0122,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.215 12.8186,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3065,5.1574 -21.2673,7.2323 -15.0122,8.5996 -13.1742,24.8071 -24.3948,21.0941 -7.3215,22.4956 -13.4693,23.0235 -17.5142,18.6834 17.1114,-14.2491 8.0131,-21.0408 0,-21.0942 -11.2092,2.9564 -9.5698,19.4179 -2.502,41.5856 20.4333,-0.1301 34.6114,7.2459 49.4152,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6027 -8.4788,-32.0774 -27.5662,-60.3216 -55.0446,-57.8581 -51.4126,38.7181 -58.4346,19.1377 -65.6783,-3.6161 z"
      id="path3623-5-9-4-5-2-9"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1934.5131"
-     y="663.25403"
+     x="2034.9866"
+     y="-2160.623"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-7"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-5"
-       x="1934.5131"
-       y="663.25403"
+       x="2034.9866"
+       y="-2160.623"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1932.3794"
-     y="661.12018"
+     x="2032.8529"
+     y="-2162.7571"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-3"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-2"
-       x="1932.3794"
-       y="661.12018"
+       x="2032.8529"
+       y="-2162.7571"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1983.7297"
-     y="697.59814"
+     x="2084.1174"
+     y="-2128.6943"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-1"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-5"
-       x="1983.7297"
-       y="697.59814"
+       x="2084.1174"
+       y="-2128.6943"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <path
      style="fill:none;stroke:#ffffff;stroke-width:6.97082233;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 2457.025,644.16186 51.468,-51.46806"
+     d="m 2557.4985,-2179.7153 51.468,-51.4681"
      id="path5717-1"
      inkscape:connector-curvature="0" />
   <rect
@@ -1251,51 +1251,51 @@
      id="rect3495-5-3-3-4"
      width="555.32593"
      height="149.04053"
-     x="1300.4967"
-     y="803.55389" />
+     x="1400.9702"
+     y="-2020.3232" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 1632.697,865.87152 c 29.1019,50.19424 85.5205,-40.39456 90.6985,-42.18826 4.7655,-5.99051 25.1361,-13.29632 50.0406,25.31296 4.1728,5.32213 16.3236,9.3632 22.5182,-3.01344 -0.9809,1.15061 -9.573,-7.47691 -15.0121,-12.05376 6.4768,2.67552 12.0373,0.93642 20.0162,10.84842 5.7412,0.21504 12.8186,1.19691 21.8928,7.83488 6.8258,7.77366 -13.3066,5.15744 -21.2673,7.23232 -15.0122,8.59958 -13.1742,24.80715 -24.3948,21.09408 -7.3215,22.49568 -13.4693,23.02358 -17.5142,18.68342 17.1113,-14.24907 8.0131,-21.04075 0,-21.09419 -11.2092,2.95637 -9.5698,19.41792 -2.502,41.5856 20.4333,-0.13013 34.6114,7.24587 49.4152,7.83488 -11.5696,8.2368 -19.0643,-2.81248 -53.1683,-0.60267 -8.4787,-32.07744 -27.5661,-60.3216 -55.0445,-57.85813 -51.4126,38.71808 -58.4346,19.13771 -65.6783,-3.61611 z"
+     d="m 1733.1705,-1958.0057 c 29.1019,50.1943 85.5205,-40.3945 90.6985,-42.1882 4.7655,-5.9905 25.1361,-13.2964 50.0406,25.3129 4.1728,5.3222 16.3236,9.3632 22.5182,-3.0134 -0.9809,1.1506 -9.573,-7.4769 -15.0121,-12.0538 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.2151 12.8186,1.197 21.8928,7.8349 6.8258,7.7737 -13.3066,5.1575 -21.2673,7.2323 -15.0122,8.5996 -13.1742,24.8072 -24.3948,21.0941 -7.3215,22.4957 -13.4693,23.0236 -17.5142,18.6834 17.1113,-14.249 8.0131,-21.0407 0,-21.0941 -11.2092,2.9563 -9.5698,19.4179 -2.502,41.5856 20.4333,-0.1302 34.6114,7.2458 49.4152,7.8348 -11.5696,8.2368 -19.0643,-2.8124 -53.1683,-0.6026 -8.4787,-32.0775 -27.5661,-60.3216 -55.0445,-57.8582 -51.4126,38.7181 -58.4346,19.1377 -65.6783,-3.6161 z"
      id="path3623-5-9-4-5-2-6"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1330.8459"
-     y="897.04974"
+     x="1431.3195"
+     y="-1926.8274"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7"
-       x="1330.8459"
-       y="897.04974"
+       x="1431.3195"
+       y="-1926.8274"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1328.7124"
-     y="894.91589"
+     x="1429.1859"
+     y="-1928.9613"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7"
-       x="1328.7124"
-       y="894.91589"
+       x="1429.1859"
+       y="-1928.9613"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1380.5785"
-     y="931.59418"
+     x="1480.9661"
+     y="-1894.6982"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6"
-       x="1380.5785"
-       y="931.59418"
+       x="1480.9661"
+       y="-1894.6982"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <g
      id="g5917"
-     transform="translate(-1397.7172,-317.54992)">
+     transform="translate(-1297.2437,-3141.4271)">
     <circle
        id="path5715-5"
        style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.03960776;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -1313,57 +1313,57 @@
      id="rect3495-5-3-3-4-3"
      width="555.32593"
      height="149.04053"
-     x="1299.7642"
-     y="986.27393" />
+     x="1400.2377"
+     y="-1837.6033" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 1631.9645,1048.5915 c 29.102,50.1943 85.5205,-40.3946 90.6985,-42.1883 4.7655,-5.9906 25.1361,-13.29637 50.0406,25.313 4.1728,5.3221 16.3236,9.3632 22.5183,-3.0135 -0.9809,1.1507 -9.573,-7.4769 -15.0122,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.215 12.8186,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3065,5.1574 -21.2673,7.2323 -15.0121,8.5996 -13.1742,24.8073 -24.3948,21.0941 -7.3215,22.4958 -13.4693,23.0237 -17.5142,18.6835 17.1114,-14.2491 8.0131,-21.0408 0,-21.0943 -11.2092,2.9564 -9.5698,19.418 -2.502,41.5857 20.4333,-0.1301 34.6114,7.2459 49.4152,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6027 -8.4788,-32.0774 -27.5662,-60.3217 -55.0446,-57.8582 -51.4126,38.7182 -58.4346,19.1378 -65.6783,-3.6161 z"
+     d="m 1732.438,-1775.2857 c 29.102,50.1943 85.5205,-40.3946 90.6985,-42.1883 4.7655,-5.9906 25.1361,-13.2964 50.0406,25.313 4.1728,5.3221 16.3236,9.3632 22.5183,-3.0135 -0.9809,1.1507 -9.573,-7.4769 -15.0122,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.215 12.8186,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3065,5.1574 -21.2673,7.2323 -15.0121,8.5996 -13.1742,24.8073 -24.3948,21.0941 -7.3215,22.4958 -13.4693,23.0237 -17.5142,18.6835 17.1114,-14.2491 8.0131,-21.0408 0,-21.0943 -11.2092,2.9564 -9.5698,19.418 -2.502,41.5857 20.4333,-0.1301 34.6114,7.2459 49.4152,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6027 -8.4788,-32.0774 -27.5662,-60.3217 -55.0446,-57.8582 -51.4126,38.7182 -58.4346,19.1378 -65.6783,-3.6161 z"
      id="path3623-5-9-4-5-2-6-2"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1330.1134"
-     y="1079.7698"
+     x="1430.5869"
+     y="-1744.1074"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-7"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-8"
-       x="1330.1134"
-       y="1079.7698"
+       x="1430.5869"
+       y="-1744.1074"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1327.9799"
-     y="1077.636"
+     x="1428.4534"
+     y="-1746.2412"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-1"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-1"
-       x="1327.9799"
-       y="1077.636"
+       x="1428.4534"
+       y="-1746.2412"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1379.8468"
-     y="1114.4706"
+     x="1480.2344"
+     y="-1711.8219"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-7"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-3"
-       x="1379.8468"
-       y="1114.4706"
+       x="1480.2344"
+       y="-1711.8219"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <circle
      style="fill:none;stroke:#ffffff;stroke-width:2.13333344;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path5715-5-7"
-     cx="1767.8823"
-     cy="1075.566"
+     cx="1868.3558"
+     cy="-1748.3112"
      r="7.0024977" />
   <path
      style="fill:none;stroke:#ffffff;stroke-width:1.60000002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 1767.6061,1075.864 5.1172,-5.1172"
+     d="m 1868.0796,-1748.0132 5.1172,-5.1172"
      id="path5717-6-1"
      inkscape:connector-curvature="0" />
   <rect
@@ -1371,51 +1371,51 @@
      id="rect3495-5-3-3-4-5"
      width="555.32593"
      height="149.04053"
-     x="1889.5197"
-     y="805.98004" />
+     x="1989.9932"
+     y="-2017.8972" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 2221.7199,868.29766 c 29.102,50.19424 85.5205,-40.39456 90.6986,-42.18827 4.7654,-5.99051 25.1361,-13.29632 50.0405,25.31296 4.1728,5.32213 16.3236,9.3632 22.5183,-3.01344 -0.9809,1.15061 -9.573,-7.47691 -15.0122,-12.05376 6.4768,2.67552 12.0374,0.93643 20.0162,10.84843 5.7413,0.21504 12.8186,1.1969 21.8928,7.83488 6.8258,7.77365 -13.3065,5.15744 -21.2673,7.23232 -15.0121,8.59957 -13.1742,24.80714 -24.3947,21.09408 -7.3215,22.49568 -13.4694,23.02357 -17.5143,18.68341 17.1114,-14.24907 8.0131,-21.04075 0,-21.09419 -11.2092,2.95638 -9.5698,19.41792 -2.502,41.5856 20.4333,-0.13013 34.6115,7.24587 49.4152,7.83485 -11.5696,8.2368 -19.0642,-2.81245 -53.1682,-0.60263 -8.4787,-32.07744 -27.5662,-60.3216 -55.0446,-57.85814 -51.4126,38.71808 -58.4346,19.13771 -65.6783,-3.6161 z"
+     d="m 2322.1934,-1955.5795 c 29.102,50.1942 85.5205,-40.3946 90.6986,-42.1883 4.7654,-5.9905 25.1361,-13.2963 50.0405,25.313 4.1728,5.3221 16.3236,9.3632 22.5183,-3.0135 -0.9809,1.1506 -9.573,-7.4769 -15.0122,-12.0537 6.4768,2.6755 12.0374,0.9364 20.0162,10.8484 5.7413,0.215 12.8186,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3065,5.1574 -21.2673,7.2323 -15.0121,8.5996 -13.1742,24.8071 -24.3947,21.0941 -7.3215,22.4956 -13.4694,23.0235 -17.5143,18.6834 17.1114,-14.2491 8.0131,-21.0408 0,-21.0942 -11.2092,2.9564 -9.5698,19.4179 -2.502,41.5856 20.4333,-0.1301 34.6115,7.2459 49.4152,7.8348 -11.5696,8.2368 -19.0642,-2.8124 -53.1682,-0.6026 -8.4787,-32.0774 -27.5662,-60.3216 -55.0446,-57.8581 -51.4126,38.718 -58.4346,19.1377 -65.6783,-3.6161 z"
      id="path3623-5-9-4-5-2-6-9"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1919.8689"
-     y="899.47589"
+     x="2020.3424"
+     y="-1924.4014"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-4"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-2"
-       x="1919.8689"
-       y="899.47589"
+       x="2020.3424"
+       y="-1924.4014"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1917.7352"
-     y="897.34204"
+     x="2018.2087"
+     y="-1926.5352"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-9"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-3"
-       x="1917.7352"
-       y="897.34204"
+       x="2018.2087"
+       y="-1926.5352"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1969.098"
-     y="934.02246"
+     x="2069.4856"
+     y="-1892.27"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-3"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-2"
-       x="1969.098"
-       y="934.02246"
+       x="2069.4856"
+       y="-1892.27"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <g
      id="g5917-7"
-     transform="matrix(1.1117378,0,0,1.1117378,-1153.8786,-446.73998)">
+     transform="matrix(1.1117378,0,0,1.1117378,-1053.4051,-3270.6172)">
     <circle
        id="path5715-5-1"
        style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.03960776;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -1433,65 +1433,65 @@
      id="rect6019"
      width="6.6435895"
      height="10.551583"
-     x="2504.6511"
-     y="-281.27234"
+     x="1309.7772"
+     y="-2841.8687"
      transform="rotate(27.053312)" />
   <rect
      style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3-4-3-4"
      width="555.32593"
      height="149.04053"
-     x="1891.4355"
-     y="986.68481" />
+     x="1991.9091"
+     y="-1837.1924" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 2223.6358,1049.0026 c 29.102,50.1943 85.5206,-40.3946 90.6986,-42.1883 4.7654,-5.9906 25.1361,-13.29637 50.0405,25.313 4.1728,5.3221 16.3237,9.3632 22.5183,-3.0135 -0.9809,1.1506 -9.573,-7.4769 -15.0121,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.215 12.8185,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3066,5.1574 -21.2673,7.2323 -15.0122,8.5996 -13.1742,24.8073 -24.3948,21.0941 -7.3215,22.4958 -13.4693,23.0237 -17.5142,18.6835 17.1113,-14.2491 8.0131,-21.0409 0,-21.0943 -11.2092,2.9564 -9.5699,19.418 -2.502,41.5857 20.4333,-0.1301 34.6114,7.2459 49.4151,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6027 -8.4787,-32.0774 -27.5662,-60.3217 -55.0446,-57.8582 -51.4126,38.7182 -58.4345,19.1378 -65.6783,-3.6161 z"
+     d="m 2324.1093,-1774.8746 c 29.102,50.1943 85.5206,-40.3946 90.6986,-42.1883 4.7654,-5.9906 25.1361,-13.2964 50.0405,25.313 4.1728,5.3221 16.3237,9.3632 22.5183,-3.0135 -0.9809,1.1506 -9.573,-7.4769 -15.0121,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.215 12.8185,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3066,5.1574 -21.2673,7.2323 -15.0122,8.5996 -13.1742,24.8073 -24.3948,21.0941 -7.3215,22.4958 -13.4693,23.0237 -17.5142,18.6835 17.1113,-14.2491 8.0131,-21.0409 0,-21.0943 -11.2092,2.9564 -9.5699,19.418 -2.502,41.5857 20.4333,-0.1301 34.6114,7.2459 49.4151,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6027 -8.4787,-32.0774 -27.5662,-60.3217 -55.0446,-57.8582 -51.4126,38.7182 -58.4345,19.1378 -65.6783,-3.6161 z"
      id="path3623-5-9-4-5-2-6-2-0"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1921.7848"
-     y="1080.1808"
+     x="2022.2583"
+     y="-1743.6964"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-7-0"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-8-5"
-       x="1921.7848"
-       y="1080.1808"
+       x="2022.2583"
+       y="-1743.6964"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1919.6511"
-     y="1078.0469"
+     x="2020.1246"
+     y="-1745.8303"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-1-6"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-1-0"
-       x="1919.6511"
-       y="1078.0469"
+       x="2020.1246"
+       y="-1745.8303"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1971.0127"
-     y="1114.8818"
+     x="2071.4004"
+     y="-1711.4106"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-7-1"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-3-3"
-       x="1971.0127"
-       y="1114.8818"
+       x="2071.4004"
+       y="-1711.4106"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <circle
      style="fill:#0e1e46;fill-opacity:1;stroke:#ffffff;stroke-width:2.13333344;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path5715-5-7-4"
-     cx="2359.5537"
-     cy="1075.9771"
+     cx="2460.0271"
+     cy="-1747.9001"
      r="7.0024977" />
   <path
      style="fill:none;stroke:#ffffff;stroke-width:1.60000002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 2359.2774,1076.2751 5.1173,-5.1172"
+     d="m 2459.7509,-1747.6021 5.1173,-5.1172"
      id="path5717-6-1-6"
      inkscape:connector-curvature="0" />
   <rect
@@ -1499,98 +1499,98 @@
      id="rect3495-5-3-3-4-5-7"
      width="555.32593"
      height="149.04053"
-     x="2463.2261"
-     y="807.33386" />
+     x="2563.6995"
+     y="-2016.5433" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 2795.4263,869.65136 c 29.102,50.19424 85.5206,-40.39456 90.6986,-42.18826 4.7654,-5.99051 25.1361,-13.29632 50.0405,25.31296 4.1728,5.32213 16.3237,9.3632 22.5183,-3.01344 -0.9809,1.15061 -9.573,-7.47691 -15.0121,-12.05376 6.4768,2.67552 12.0373,0.93642 20.0162,10.84842 5.7412,0.21504 12.8185,1.19691 21.8928,7.83488 6.8258,7.77366 -13.3066,5.15744 -21.2673,7.23232 -15.0122,8.59958 -13.1742,24.80715 -24.3948,21.09408 -7.3215,22.49568 -13.4693,23.02358 -17.5142,18.68342 17.1113,-14.24907 8.0131,-21.04075 0,-21.09419 -11.2092,2.95637 -9.5698,19.41792 -2.502,41.5856 20.4333,-0.13013 34.6114,7.24584 49.4151,7.83484 -11.5696,8.2368 -19.0642,-2.81244 -53.1682,-0.6026 -8.4787,-32.07747 -27.5662,-60.32163 -55.0446,-57.85816 -51.4125,38.71808 -58.4345,19.13771 -65.6783,-3.61611 z"
+     d="m 2895.8998,-1954.2258 c 29.102,50.1942 85.5206,-40.3946 90.6986,-42.1883 4.7654,-5.9905 25.1361,-13.2963 50.0405,25.313 4.1728,5.3221 16.3237,9.3632 22.5183,-3.0135 -0.9809,1.1506 -9.573,-7.4769 -15.0121,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.215 12.8185,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3066,5.1574 -21.2673,7.2323 -15.0122,8.5996 -13.1742,24.8071 -24.3948,21.0941 -7.3215,22.4956 -13.4693,23.0235 -17.5142,18.6834 17.1113,-14.2491 8.0131,-21.0408 0,-21.0942 -11.2092,2.9564 -9.5698,19.4179 -2.502,41.5856 20.4333,-0.1301 34.6114,7.2458 49.4151,7.8348 -11.5696,8.2368 -19.0642,-2.8124 -53.1682,-0.6026 -8.4787,-32.0774 -27.5662,-60.3216 -55.0446,-57.8581 -51.4125,38.7181 -58.4345,19.1377 -65.6783,-3.6161 z"
      id="path3623-5-9-4-5-2-6-9-3"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2493.5752"
-     y="900.82965"
+     x="2594.0486"
+     y="-1923.0476"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-4-4"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-2-9"
-       x="2493.5752"
-       y="900.82965"
+       x="2594.0486"
+       y="-1923.0476"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2491.4417"
-     y="898.6958"
+     x="2591.915"
+     y="-1925.1814"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-9-6"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-3-4"
-       x="2491.4417"
-       y="898.6958"
+       x="2591.915"
+       y="-1925.1814"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2542.3145"
-     y="935.37726"
+     x="2642.7021"
+     y="-1890.9152"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-3-4"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-2-8"
-       x="2542.3145"
-       y="935.37726"
+       x="2642.7021"
+       y="-1890.9152"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3-4-3-4-9"
      width="555.32593"
      height="149.04053"
-     x="1892.8832"
-     y="1165.286" />
+     x="1993.3567"
+     y="-1658.5912" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 2225.0834,1227.6038 c 29.102,50.1943 85.5205,-40.3946 90.6986,-42.1883 4.7654,-5.9905 25.1361,-13.2963 50.0405,25.3129 4.1728,5.3222 16.3236,9.3632 22.5183,-3.0134 -0.9809,1.1506 -9.573,-7.4769 -15.0122,-12.0538 6.4768,2.6756 12.0374,0.9365 20.0163,10.8485 5.7412,0.215 12.8185,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3066,5.1574 -21.2674,7.2323 -15.0121,8.5995 -13.1741,24.8072 -24.3947,21.0941 -7.3215,22.4957 -13.4694,23.0236 -17.5143,18.6835 17.1114,-14.2491 8.0132,-21.0409 0,-21.0943 -11.2091,2.9564 -9.5698,19.418 -2.5019,41.5857 20.4332,-0.1301 34.6114,7.2459 49.4151,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6027 -8.4787,-32.0774 -27.5662,-60.3217 -55.0446,-57.8582 -51.4126,38.7181 -58.4346,19.1378 -65.6783,-3.6161 z"
+     d="m 2325.5569,-1596.2734 c 29.102,50.1943 85.5205,-40.3946 90.6986,-42.1883 4.7654,-5.9905 25.1361,-13.2963 50.0405,25.3129 4.1728,5.3222 16.3236,9.3632 22.5183,-3.0134 -0.9809,1.1506 -9.573,-7.4769 -15.0122,-12.0538 6.4768,2.6756 12.0374,0.9365 20.0163,10.8485 5.7412,0.215 12.8185,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3066,5.1574 -21.2674,7.2323 -15.0121,8.5995 -13.1741,24.8072 -24.3947,21.0941 -7.3215,22.4957 -13.4694,23.0236 -17.5143,18.6835 17.1114,-14.2491 8.0132,-21.0409 0,-21.0943 -11.2091,2.9564 -9.5698,19.418 -2.5019,41.5857 20.4332,-0.1301 34.6114,7.2459 49.4151,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6027 -8.4787,-32.0774 -27.5662,-60.3217 -55.0446,-57.8582 -51.4126,38.7181 -58.4346,19.1378 -65.6783,-3.6161 z"
      id="path3623-5-9-4-5-2-6-2-0-7"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1923.2324"
-     y="1258.7819"
+     x="2023.7059"
+     y="-1565.0953"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-7-0-9"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-8-5-4"
-       x="1923.2324"
-       y="1258.7819"
+       x="2023.7059"
+       y="-1565.0953"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1921.0989"
-     y="1256.6479"
+     x="2021.5724"
+     y="-1567.2292"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-1-6-3"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-1-0-3"
-       x="1921.0989"
-       y="1256.6479"
+       x="2021.5724"
+       y="-1567.2292"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="1972.459"
-     y="1293.6357"
+     x="2072.8467"
+     y="-1532.6567"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-7-1-1"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-3-3-4"
-       x="1972.459"
-       y="1293.6357"
+       x="2072.8467"
+       y="-1532.6567"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <g
      id="g6168"
-     transform="translate(-1398.1683,-315.15685)">
+     transform="translate(-1297.6948,-3139.034)">
     <circle
        id="path5715-5-7-4-6"
        style="fill:#0e1e46;fill-opacity:1;stroke:#ffffff;stroke-width:2.13333344;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -1605,19 +1605,19 @@
   </g>
   <path
      style="fill:#ffffff;stroke:#ffffff;stroke-width:1.06666672px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="m 2931.9105,901.91856 -3.634,-3.9456 3.7333,-6.46634 5.234,1.1744 z"
+     d="m 3032.384,-1921.9586 -3.634,-3.9456 3.7333,-6.4664 5.234,1.1744 z"
      id="path6215"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="ccccc" />
   <circle
      style="fill:#0e1e46;fill-opacity:1;stroke:#ffffff;stroke-width:1.15577126;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path5715-5-1-5-1"
-     cx="2939.4155"
-     cy="900.0932"
+     cx="3039.8889"
+     cy="-1923.7839"
      r="7.7849417" />
   <path
      style="fill:#0e1e46;fill-opacity:1;stroke:#ffffff;stroke-width:1.77878046;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 2939.1084,900.42459 5.6889,-5.68907"
+     d="m 3039.5819,-1923.4526 5.6889,-5.6891"
      id="path5717-6-3-5-3"
      inkscape:connector-curvature="0" />
   <rect
@@ -1625,63 +1625,63 @@
      id="rect3495-5-3-3-4-5-7-1"
      width="555.32593"
      height="149.04053"
-     x="2465.6406"
-     y="986.88806" />
+     x="2566.114"
+     y="-1836.9891" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 2797.8409,1049.2057 c 29.1019,50.1942 85.5205,-40.3946 90.6985,-42.1883 4.7655,-5.9906 25.1361,-13.29637 50.0405,25.313 4.1728,5.3221 16.3237,9.3632 22.5183,-3.0135 -0.9809,1.1506 -9.573,-7.4769 -15.0121,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.215 12.8186,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3066,5.1574 -21.2673,7.2323 -15.0122,8.5996 -13.1742,24.8071 -24.3948,21.0941 -7.3215,22.4957 -13.4693,23.0235 -17.5142,18.6834 17.1113,-14.2491 8.0131,-21.0408 0,-21.0942 -11.2092,2.9564 -9.5698,19.4179 -2.502,41.5856 20.4333,-0.1301 34.6114,7.2459 49.4151,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6027 -8.4787,-32.0774 -27.5662,-60.3216 -55.0446,-57.8581 -51.4125,38.7181 -58.4345,19.1377 -65.6782,-3.6161 z"
+     d="m 2898.3144,-1774.6715 c 29.1019,50.1942 85.5205,-40.3946 90.6985,-42.1883 4.7655,-5.9906 25.1361,-13.2964 50.0405,25.313 4.1728,5.3221 16.3237,9.3632 22.5183,-3.0135 -0.9809,1.1506 -9.573,-7.4769 -15.0121,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.215 12.8186,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3066,5.1574 -21.2673,7.2323 -15.0122,8.5996 -13.1742,24.8071 -24.3948,21.0941 -7.3215,22.4957 -13.4693,23.0235 -17.5142,18.6834 17.1113,-14.2491 8.0131,-21.0408 0,-21.0942 -11.2092,2.9564 -9.5698,19.4179 -2.502,41.5856 20.4333,-0.1301 34.6114,7.2459 49.4151,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6027 -8.4787,-32.0774 -27.5662,-60.3216 -55.0446,-57.8581 -51.4125,38.7181 -58.4345,19.1377 -65.6782,-3.6161 z"
      id="path3623-5-9-4-5-2-6-9-3-4"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2495.9897"
-     y="1080.384"
+     x="2596.4631"
+     y="-1743.4932"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-4-4-8"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-2-9-7"
-       x="2495.9897"
-       y="1080.384"
+       x="2596.4631"
+       y="-1743.4932"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2493.8562"
-     y="1078.2501"
+     x="2594.3296"
+     y="-1745.6271"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-9-6-1"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-3-4-5"
-       x="2493.8562"
-       y="1078.2501"
+       x="2594.3296"
+       y="-1745.6271"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2544.7268"
-     y="1115.0851"
+     x="2645.1145"
+     y="-1711.2074"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-3-4-1"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-2-8-7"
-       x="2544.7268"
-       y="1115.0851"
+       x="2645.1145"
+       y="-1711.2074"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <path
      style="fill:#ffffff;stroke:#ffffff;stroke-width:1.06666672px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="m 2934.325,1081.4729 -3.634,-3.9456 3.7333,-6.4664 5.234,1.1744 z"
+     d="m 3034.7985,-1742.4043 -3.634,-3.9456 3.7333,-6.4664 5.234,1.1744 z"
      id="path6215-4"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="ccccc" />
   <circle
      style="fill:#0e1e46;fill-opacity:1;stroke:#ffffff;stroke-width:1.15577126;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path5715-5-1-5-1-7"
-     cx="2941.8301"
-     cy="1079.6476"
+     cx="3042.3035"
+     cy="-1744.2296"
      r="7.7849417" />
   <path
      style="fill:#0e1e46;fill-opacity:1;stroke:#e7be19;stroke-width:1.77878046;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 2941.5229,1079.9789 5.6889,-5.6891"
+     d="m 3041.9964,-1743.8983 5.6889,-5.6891"
      id="path5717-6-3-5-3-3"
      inkscape:connector-curvature="0" />
   <rect
@@ -1689,51 +1689,51 @@
      id="rect3495-5-3-3-4-5-7-1-9"
      width="555.32593"
      height="149.04053"
-     x="2466.1792"
-     y="1173.3798" />
+     x="2566.6526"
+     y="-1650.4974" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 2798.3796,1235.6972 c 29.102,50.1942 85.5206,-40.3946 90.6986,-42.1883 4.7654,-5.9905 25.1361,-13.2963 50.0405,25.313 4.1728,5.3221 16.3236,9.3632 22.5183,-3.0135 -0.9809,1.1507 -9.573,-7.4769 -15.0121,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.2151 12.8185,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3066,5.1574 -21.2673,7.2323 -15.0122,8.5996 -13.1742,24.8072 -24.3948,21.0941 -7.3215,22.4957 -13.4693,23.0236 -17.5143,18.6834 17.1114,-14.2491 8.0132,-21.0407 0,-21.0942 -11.2091,2.9564 -9.5698,19.4179 -2.5019,41.5856 20.4333,-0.1301 34.6114,7.2459 49.4151,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6027 -8.4787,-32.0774 -27.5662,-60.3216 -55.0446,-57.8581 -51.4126,38.7181 -58.4345,19.1377 -65.6783,-3.6161 z"
+     d="m 2898.8531,-1588.18 c 29.102,50.1942 85.5206,-40.3946 90.6986,-42.1883 4.7654,-5.9905 25.1361,-13.2963 50.0405,25.313 4.1728,5.3221 16.3236,9.3632 22.5183,-3.0135 -0.9809,1.1507 -9.573,-7.4769 -15.0121,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.2151 12.8185,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3066,5.1574 -21.2673,7.2323 -15.0122,8.5996 -13.1742,24.8072 -24.3948,21.0941 -7.3215,22.4957 -13.4693,23.0236 -17.5143,18.6834 17.1114,-14.2491 8.0132,-21.0407 0,-21.0942 -11.2091,2.9564 -9.5698,19.4179 -2.5019,41.5856 20.4333,-0.1301 34.6114,7.2459 49.4151,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6027 -8.4787,-32.0774 -27.5662,-60.3216 -55.0446,-57.8581 -51.4126,38.7181 -58.4345,19.1377 -65.6783,-3.6161 z"
      id="path3623-5-9-4-5-2-6-9-3-4-8"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2496.5283"
-     y="1266.8756"
+     x="2597.0017"
+     y="-1557.0016"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-4-4-8-4"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-2-9-7-6"
-       x="2496.5283"
-       y="1266.8756"
+       x="2597.0017"
+       y="-1557.0016"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2494.3948"
-     y="1264.7417"
+     x="2594.8682"
+     y="-1559.1355"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-9-6-1-3"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-3-4-5-4"
-       x="2494.3948"
-       y="1264.7417"
+       x="2594.8682"
+       y="-1559.1355"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2545.2654"
-     y="1301.7363"
+     x="2645.6531"
+     y="-1524.5562"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-3-4-1-8"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-2-8-7-1"
-       x="2545.2654"
-       y="1301.7363"
+       x="2645.6531"
+       y="-1524.5562"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <g
      id="g6420"
-     transform="rotate(-60,3211.5941,2726.4337)">
+     transform="rotate(-60,816.28145,1227.4825)">
     <path
        sodipodi:nodetypes="ccccc"
        inkscape:connector-curvature="0"
@@ -1768,85 +1768,85 @@
      id="rect3495-5-3-3-4-5-7-1-9-5"
      width="555.32593"
      height="149.04053"
-     x="2477.8408"
-     y="1348.762" />
+     x="2578.3142"
+     y="-1475.1152" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 2810.0414,1411.0795 c 29.102,50.1942 85.5205,-40.3946 90.6985,-42.1883 4.7655,-5.9905 25.1362,-13.2963 50.0406,25.313 4.1728,5.3221 16.3236,9.3632 22.5183,-3.0135 -0.9809,1.1507 -9.573,-7.4769 -15.0122,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7413,0.215 12.8186,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3065,5.1574 -21.2673,7.2323 -15.0121,8.5996 -13.1742,24.8072 -24.3948,21.0941 -7.3214,22.4957 -13.4693,23.0236 -17.5142,18.6834 17.1114,-14.2491 8.0131,-21.0407 0,-21.0942 -11.2092,2.9564 -9.5698,19.4179 -2.502,41.5856 20.4333,-0.1301 34.6114,7.2459 49.4152,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6027 -8.4788,-32.0774 -27.5662,-60.3216 -55.0446,-57.8581 -51.4126,38.7181 -58.4346,19.1377 -65.6783,-3.6161 z"
+     d="m 2910.5149,-1412.7977 c 29.102,50.1942 85.5205,-40.3946 90.6985,-42.1883 4.7655,-5.9905 25.1362,-13.2963 50.0406,25.313 4.1728,5.3221 16.3236,9.3632 22.5183,-3.0135 -0.9809,1.1507 -9.573,-7.4769 -15.0122,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7413,0.215 12.8186,1.1969 21.8928,7.8349 6.8258,7.7736 -13.3065,5.1574 -21.2673,7.2323 -15.0121,8.5996 -13.1742,24.8072 -24.3948,21.0941 -7.3214,22.4957 -13.4693,23.0236 -17.5142,18.6834 17.1114,-14.2491 8.0131,-21.0407 0,-21.0942 -11.2092,2.9564 -9.5698,19.4179 -2.502,41.5856 20.4333,-0.1301 34.6114,7.2459 49.4152,7.8349 -11.5696,8.2368 -19.0642,-2.8125 -53.1682,-0.6027 -8.4788,-32.0774 -27.5662,-60.3216 -55.0446,-57.8581 -51.4126,38.7181 -58.4346,19.1377 -65.6783,-3.6161 z"
      id="path3623-5-9-4-5-2-6-9-3-4-8-7"
      sodipodi:nodetypes="cccccccccccccccc" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2508.1899"
-     y="1442.2578"
+     x="2608.6633"
+     y="-1381.6194"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-6-1-4-4-8-4-5"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-6-7-2-9-7-6-0"
-       x="2508.1899"
-       y="1442.2578"
+       x="2608.6633"
+       y="-1381.6194"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2506.0564"
-     y="1440.124"
+     x="2606.5298"
+     y="-1383.7532"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-6-8-9-6-1-3-0"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-3-7-3-4-5-4-2"
-       x="2506.0564"
-       y="1440.124"
+       x="2606.5298"
+       y="-1383.7532"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2556.917"
-     y="1477.2686"
+     x="2657.3047"
+     y="-1349.0239"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-5-9-3-4-1-8-8"
      transform="scale(1.0008553,0.99914544)"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-2-6-2-8-7-1-7"
-       x="2556.917"
-       y="1477.2686"
+       x="2657.3047"
+       y="-1349.0239"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#e7bd19;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <path
      style="fill:#e7be19;fill-opacity:1;stroke:#ffffff;stroke-width:1.06666672px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="m 2946.5423,1443.6272 -3.6339,-3.9454 3.7333,-6.4664 5.2339,1.1744 z"
+     d="m 3047.0158,-1380.25 -3.6339,-3.9454 3.7333,-6.4664 5.2339,1.1744 z"
      id="path6215-4-5-8-5"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="ccccc" />
   <circle
      style="fill:#0e1e46;fill-opacity:1;stroke:#ffffff;stroke-width:1.15577126;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path5715-5-1-5-1-7-2-4-2"
-     cx="2953.123"
-     cy="1441.2683"
+     cx="3053.5964"
+     cy="-1382.6089"
      r="7.7849417" />
   <path
      style="fill:none;stroke:#ffffff;stroke-width:1.15200007;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 2953.2313,1441.6152 6.476,3.7141 c -1.6029,2.9069 -6.2738,4.9082 -10.221,2.7669 z"
+     d="m 3053.7048,-1382.262 6.476,3.7141 c -1.6029,2.9069 -6.2738,4.9082 -10.221,2.7669 z"
      id="path6325-8-0"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="cccc" />
   <circle
      style="fill:none;stroke:#ffffff;stroke-width:1.15199995;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path5715-5-1-5-1-7-2-4-6-8"
-     cx="2953.123"
-     cy="1441.2683"
+     cx="3053.5964"
+     cy="-1382.6089"
      r="7.7849417" />
   <rect
      style="fill:#0e1e46;fill-opacity:0;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3-4-5-7-1-9-9"
      width="555.32593"
      height="149.04053"
-     x="3205.3862"
-     y="1172.2086"
+     x="3305.8596"
+     y="-1651.6686"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
      inkscape:export-xdpi="68"
      inkscape:export-ydpi="68" />
   <g
      id="g7050"
-     transform="translate(0,-66.523309)"
+     transform="translate(100.47349,-2890.4005)"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
      inkscape:export-xdpi="68"
      inkscape:export-ydpi="68">
@@ -1928,14 +1928,14 @@
      id="rect3495-5-3-3-4-5-7-1-9-9-2"
      width="555.32593"
      height="149.04053"
-     x="3849.0139"
-     y="949.83508"
+     x="3949.4873"
+     y="-1874.0421"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
      inkscape:export-xdpi="68"
      inkscape:export-ydpi="68" />
   <g
      id="g7040"
-     transform="translate(0,-276.40896)"
+     transform="translate(100.47349,-3100.2862)"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
      inkscape:export-xdpi="68"
      inkscape:export-ydpi="68">
@@ -1993,8 +1993,8 @@
      id="rect3495-5-3-3-4-5-7-1-9-9-2-7"
      width="555.32593"
      height="149.04053"
-     x="3205.3862"
-     y="1391.4403"
+     x="3305.8596"
+     y="-1432.4369"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
      inkscape:export-xdpi="68"
      inkscape:export-ydpi="68" />
@@ -2003,8 +2003,8 @@
      id="rect3129-5-0-3-2-6-7-3-2"
      width="22.246674"
      height="72.899727"
-     x="1870.9829"
-     y="-4840.2686"
+     x="-1644.7656"
+     y="-2846.415"
      transform="matrix(-0.59569872,0.80320796,-1,0,0,0)"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
      inkscape:export-xdpi="68"
@@ -2012,7 +2012,7 @@
   <path
      inkscape:connector-curvature="0"
      style="fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 3537.5861,1451.464 c 29.102,50.1944 85.5206,-40.3945 90.6986,-42.1881 4.7654,-5.9907 25.1361,-13.2965 50.0405,25.3128 4.1728,5.3221 16.3237,9.3633 22.5183,-3.0134 -0.9809,1.1506 -9.573,-7.4769 -15.0121,-12.0538 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.2152 12.8185,1.1971 21.8928,7.835 6.8258,7.7737 -13.3066,5.1575 -21.2673,7.2322 -15.0122,8.5997 -13.1742,24.8072 -24.3948,21.0942 -7.3215,22.4956 -13.4693,23.0236 -17.5142,18.6833 17.1113,-14.249 8.0131,-21.0406 0,-21.094 -11.2092,2.9562 -9.5699,19.4179 -2.502,41.5854 20.4333,-0.13 34.6114,7.246 49.4151,7.835 -11.5696,8.2367 -19.0642,-2.8126 -53.1682,-0.6026 -8.4787,-32.0776 -27.5662,-60.3217 -55.0446,-57.8582 -51.4126,38.718 -58.4345,19.1377 -65.6783,-3.6162 z"
+     d="m 3638.0596,-1372.4132 c 29.102,50.1944 85.5206,-40.3945 90.6986,-42.1881 4.7654,-5.9907 25.1361,-13.2965 50.0405,25.3128 4.1728,5.3221 16.3237,9.3633 22.5183,-3.0134 -0.9809,1.1506 -9.573,-7.4769 -15.0121,-12.0538 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.2152 12.8185,1.1971 21.8928,7.835 6.8258,7.7737 -13.3066,5.1575 -21.2673,7.2322 -15.0122,8.5997 -13.1742,24.8072 -24.3948,21.0942 -7.3215,22.4956 -13.4693,23.0236 -17.5142,18.6833 17.1113,-14.249 8.0131,-21.0406 0,-21.094 -11.2092,2.9562 -9.5699,19.4179 -2.502,41.5854 20.4333,-0.13 34.6114,7.246 49.4151,7.835 -11.5696,8.2367 -19.0642,-2.8126 -53.1682,-0.6026 -8.4787,-32.0776 -27.5662,-60.3217 -55.0446,-57.8582 -51.4126,38.718 -58.4345,19.1377 -65.6783,-3.6162 z"
      id="path3623-5-9-4-5-5-2-3-0-0"
      sodipodi:nodetypes="cccccccccccccccc"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
@@ -2021,36 +2021,36 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3235.7354"
-     y="1482.6423"
+     x="3336.2087"
+     y="-1341.2349"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
      inkscape:export-xdpi="68"
      inkscape:export-ydpi="68"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3"
-       x="3235.7354"
-       y="1482.6423"
+       x="3336.2087"
+       y="-1341.2349"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3233.6018"
-     y="1480.5087"
+     x="3334.0752"
+     y="-1343.3685"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
      inkscape:export-xdpi="68"
      inkscape:export-ydpi="68"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6"
-       x="3233.6018"
-       y="1480.5087"
+       x="3334.0752"
+       y="-1343.3685"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3283.8401"
-     y="1522.2786"
+     x="3384.2278"
+     y="-1304.0139"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9"
      transform="scale(1.0008553,0.99914544)"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
@@ -2058,12 +2058,12 @@
      inkscape:export-ydpi="68"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1"
-       x="3283.8401"
-       y="1522.2786"
+       x="3384.2278"
+       y="-1304.0139"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc00;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <g
      id="g7897"
-     transform="translate(-1365.8148,625.96094)">
+     transform="translate(-1265.3413,-2197.9163)">
     <rect
        inkscape:export-ydpi="68"
        inkscape:export-xdpi="68"
@@ -2135,13 +2135,13 @@
      id="rect3495-5-6"
      width="555.32593"
      height="149.04053"
-     x="3205.3862"
-     y="952.97681"
+     x="3305.8596"
+     y="-1870.9004"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
      inkscape:export-xdpi="68"
      inkscape:export-ydpi="68" />
   <g
-     transform="translate(3205.3862,952.98943)"
+     transform="translate(3305.8597,-1870.8878)"
      id="g3299-9-9"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
      inkscape:export-xdpi="68"
@@ -2193,20 +2193,20 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:bold;font-size:12.80000019px;line-height:0%;font-family:sans-serif;-inkscape-font-specification:'Sans Bold';letter-spacing:0px;word-spacing:0px;fill:#e7be19;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3408.4243"
-     y="935.48981"
+     x="3508.8977"
+     y="-1888.3875"
      id="text6931"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
      inkscape:export-xdpi="68"
      inkscape:export-ydpi="68"><tspan
        sodipodi:role="line"
        id="tspan6933"
-       x="3408.4243"
-       y="935.48981"
+       x="3508.8977"
+       y="-1888.3875"
        style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">Actual</tspan></text>
   <g
      id="g7873"
-     transform="translate(-1370.7683,169.75663)">
+     transform="translate(-1270.2948,-2654.1206)">
     <rect
        inkscape:export-ydpi="68"
        inkscape:export-xdpi="68"
@@ -2291,7 +2291,7 @@
   </g>
   <g
      id="g7885"
-     transform="translate(627.72334,-571.53417)"
+     transform="translate(728.19683,-3395.4114)"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova.png"
      inkscape:export-xdpi="68"
      inkscape:export-ydpi="68">
@@ -2373,14 +2373,14 @@
      id="rect3495-5-3-3-4-5-7-1-9-9-2-7-3-1"
      width="555.32593"
      height="149.04053"
-     x="3880.7649"
-     y="1379.6287"
+     x="3981.2383"
+     y="-1444.2485"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435" />
   <path
      style="fill:none;stroke:#ffffff;stroke-width:2.29333353;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 4316.0811,1505.946 h 87.945"
+     d="m 4416.5546,-1317.9312 h 87.945"
      id="path7825-9-7"
      inkscape:connector-curvature="0"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
@@ -2389,7 +2389,7 @@
   <path
      inkscape:connector-curvature="0"
      style="fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 4212.9649,1439.6525 c 29.102,50.1943 85.5205,-40.3946 90.6986,-42.1882 4.7654,-5.9906 25.1361,-13.2964 50.0405,25.3129 4.1728,5.3221 16.3236,9.3633 22.5183,-3.0134 -0.9809,1.1506 -9.573,-7.477 -15.0122,-12.0538 6.4768,2.6755 12.0374,0.9364 20.0162,10.8484 5.7413,0.2152 12.8186,1.197 21.8928,7.835 6.8259,7.7737 -13.3065,5.1574 -21.2673,7.2322 -15.0121,8.5997 -13.1741,24.8072 -24.3947,21.0942 -7.3215,22.4956 -13.4694,23.0236 -17.5143,18.6833 17.1114,-14.2491 8.0131,-21.0406 0,-21.0941 -11.2091,2.9563 -9.5698,19.418 -2.5019,41.5855 20.4332,-0.13 34.6114,7.246 49.4151,7.835 -11.5696,8.2367 -19.0642,-2.8126 -53.1682,-0.6027 -8.4787,-32.0775 -27.5662,-60.3217 -55.0446,-57.8581 -51.4126,38.718 -58.4346,19.1377 -65.6783,-3.6162 z"
+     d="m 4313.4384,-1384.2247 c 29.102,50.1943 85.5205,-40.3946 90.6986,-42.1882 4.7654,-5.9906 25.1361,-13.2964 50.0405,25.3129 4.1728,5.3221 16.3236,9.3633 22.5183,-3.0134 -0.9809,1.1506 -9.573,-7.477 -15.0122,-12.0538 6.4768,2.6755 12.0374,0.9364 20.0162,10.8484 5.7413,0.2152 12.8186,1.197 21.8928,7.835 6.8259,7.7737 -13.3065,5.1574 -21.2673,7.2322 -15.0121,8.5997 -13.1741,24.8072 -24.3947,21.0942 -7.3215,22.4956 -13.4694,23.0236 -17.5143,18.6833 17.1114,-14.2491 8.0131,-21.0406 0,-21.0941 -11.2091,2.9563 -9.5698,19.418 -2.5019,41.5855 20.4332,-0.13 34.6114,7.246 49.4151,7.835 -11.5696,8.2367 -19.0642,-2.8126 -53.1682,-0.6027 -8.4787,-32.0775 -27.5662,-60.3217 -55.0446,-57.8581 -51.4126,38.718 -58.4346,19.1377 -65.6783,-3.6162 z"
      id="path3623-5-9-4-5-5-2-3-0-0-42-7"
      sodipodi:nodetypes="cccccccccccccccc"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
@@ -2398,36 +2398,36 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3911.114"
-     y="1470.8308"
+     x="4011.5874"
+     y="-1353.0464"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5"
-       x="3911.114"
-       y="1470.8308"
+       x="4011.5874"
+       y="-1353.0464"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3908.9805"
-     y="1468.697"
+     x="4009.4539"
+     y="-1355.1802"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5"
-       x="3908.9805"
-       y="1468.697"
+       x="4009.4539"
+       y="-1355.1802"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3958.6416"
-     y="1513.7665"
+     x="4059.0293"
+     y="-1312.526"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8"
      transform="scale(1.0008553,0.99914544)"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
@@ -2435,12 +2435,12 @@
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3"
-       x="3958.6416"
-       y="1513.7665"
+       x="4059.0293"
+       y="-1312.526"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <path
      style="fill:none;stroke:#ffffff;stroke-width:2.29333353;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 4316.0811,1511.5151 h 87.945"
+     d="m 4416.5546,-1312.3621 h 87.945"
      id="path7825-9-7-0"
      inkscape:connector-curvature="0"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
@@ -2449,8 +2449,8 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2638.8359"
-     y="2294.9956"
+     x="2739.2236"
+     y="-531.29681"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0"
      transform="scale(1.0008553,0.99914544)"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
@@ -2458,16 +2458,16 @@
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9"
-       x="2638.8359"
-       y="2294.9956"
+       x="2739.2236"
+       y="-531.29681"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:0;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3-4-5-7-1-9-9-2-7-3-1-1"
      width="555.32593"
      height="149.04053"
-     x="2559.8306"
-     y="2164.2437"
+     x="2660.304"
+     y="-659.63354"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435" />
@@ -2476,7 +2476,7 @@
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
      inkscape:export-xdpi="155"
      inkscape:export-ydpi="155"
-     transform="translate(-1320.1383,446.6619)">
+     transform="translate(-1219.6648,-2377.2153)">
     <rect
        inkscape:export-ydpi="155"
        inkscape:export-xdpi="155"
@@ -2521,7 +2521,7 @@
   <path
      inkscape:connector-curvature="0"
      style="fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 2892.0303,2224.2676 c 29.102,50.1944 85.5205,-40.3945 90.6986,-42.1881 4.7654,-5.9906 25.1361,-13.2964 50.0405,25.3128 4.1728,5.3222 16.3236,9.3633 22.5183,-3.0134 -0.9809,1.1506 -9.573,-7.4769 -15.0122,-12.0538 6.4768,2.6756 12.0374,0.9365 20.0162,10.8485 5.7413,0.2151 12.8186,1.197 21.8928,7.835 6.8258,7.7736 -13.3065,5.1574 -21.2673,7.2322 -15.0121,8.5996 -13.1742,24.8071 -24.3947,21.0942 -7.3215,22.4955 -13.4694,23.0235 -17.5143,18.6833 17.1114,-14.2491 8.0131,-21.0407 0,-21.0941 -11.2092,2.9562 -9.5698,19.4179 -2.502,41.5855 20.4333,-0.1301 34.6115,7.2459 49.4152,7.835 -11.5696,8.2367 -19.0642,-2.8126 -53.1682,-0.6027 -8.4787,-32.0776 -27.5662,-60.3217 -55.0446,-57.8581 -51.4126,38.7179 -58.4346,19.1377 -65.6783,-3.6163 z"
+     d="m 2992.5038,-599.6096 c 29.102,50.1944 85.5205,-40.3945 90.6986,-42.1881 4.7654,-5.9906 25.1361,-13.2964 50.0405,25.3128 4.1728,5.3222 16.3236,9.3633 22.5183,-3.0134 -0.9809,1.1506 -9.573,-7.4769 -15.0122,-12.0538 6.4768,2.6756 12.0374,0.9365 20.0162,10.8485 5.7413,0.2151 12.8186,1.197 21.8928,7.835 6.8258,7.7736 -13.3065,5.1574 -21.2673,7.2322 -15.0121,8.5996 -13.1742,24.8071 -24.3947,21.0942 -7.3215,22.4955 -13.4694,23.0235 -17.5143,18.6833 17.1114,-14.2491 8.0131,-21.0407 0,-21.0941 -11.2092,2.9562 -9.5698,19.4179 -2.502,41.5855 20.4333,-0.1301 34.6115,7.2459 49.4152,7.835 -11.5696,8.2367 -19.0642,-2.8126 -53.1682,-0.6027 -8.4787,-32.0776 -27.5662,-60.3217 -55.0446,-57.8581 -51.4126,38.7179 -58.4346,19.1377 -65.6783,-3.6163 z"
      id="path3623-5-9-4-5-5-2-3-0-0-42-7-9"
      sodipodi:nodetypes="cccccccccccccccc"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
@@ -2530,36 +2530,36 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2590.1797"
-     y="2255.4456"
+     x="2690.6531"
+     y="-568.43164"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3-6"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5-4"
-       x="2590.1797"
-       y="2255.4456"
+       x="2690.6531"
+       y="-568.43164"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2588.0461"
-     y="2253.312"
+     x="2688.5195"
+     y="-570.56519"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8"
-       x="2588.0461"
-       y="2253.312"
+       x="2688.5195"
+       y="-570.56519"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2626.1577"
-     y="2668.5686"
+     x="2726.5454"
+     y="-157.72383"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0-7-9"
      transform="scale(1.0008553,0.99914544)"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
@@ -2567,16 +2567,16 @@
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9-6-1"
-       x="2626.1577"
-       y="2668.5686"
+       x="2726.5454"
+       y="-157.72383"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:0;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3-4-5-7-1-9-9-2-7-3-1-1-8-3"
      width="555.32593"
      height="149.04053"
-     x="2599.7031"
-     y="2537.4971"
+     x="2700.1765"
+     y="-286.38013"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435" />
@@ -2585,8 +2585,8 @@
      id="rect8047-9-5"
      width="12.8"
      height="7.9754024"
-     x="3033.7844"
-     y="2658.5249"
+     x="3134.2578"
+     y="-165.35229"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
      inkscape:export-xdpi="155"
      inkscape:export-ydpi="155" />
@@ -2595,8 +2595,8 @@
      id="rect8047-8-8-5"
      width="12.8"
      height="7.9754024"
-     x="3114.7429"
-     y="2658.5249"
+     x="3215.2163"
+     y="-165.35229"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
      inkscape:export-xdpi="155"
      inkscape:export-ydpi="155" />
@@ -2605,8 +2605,8 @@
      id="rect8047-8-5-83-1"
      width="12.8"
      height="7.9754024"
-     x="3060.77"
-     y="2658.5249"
+     x="3161.2434"
+     y="-165.35229"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
      inkscape:export-xdpi="155"
      inkscape:export-ydpi="155" />
@@ -2615,15 +2615,15 @@
      id="rect8047-8-5-8-1-4"
      width="12.8"
      height="6.1903796"
-     x="3087.7566"
-     y="2660.3101"
+     x="3188.23"
+     y="-163.56714"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
      inkscape:export-xdpi="155"
      inkscape:export-ydpi="155" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 2931.9028,2597.5212 c 29.102,50.1943 85.5206,-40.3946 90.6986,-42.1882 4.7654,-5.9906 25.1361,-13.2964 50.0405,25.3129 4.1728,5.3221 16.3236,9.3633 22.5183,-3.0135 -0.9809,1.1507 -9.573,-7.4769 -15.0121,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.2152 12.8185,1.197 21.8928,7.835 6.8258,7.7737 -13.3066,5.1574 -21.2673,7.2322 -15.0122,8.5997 -13.1742,24.8072 -24.3948,21.0942 -7.3215,22.4956 -13.4693,23.0236 -17.5143,18.6833 17.1114,-14.2491 8.0132,-21.0406 0,-21.0941 -11.2091,2.9563 -9.5698,19.4179 -2.5019,41.5855 20.4333,-0.13 34.6114,7.246 49.4151,7.835 -11.5696,8.2367 -19.0642,-2.8126 -53.1682,-0.6027 -8.4787,-32.0775 -27.5662,-60.3217 -55.0446,-57.8581 -51.4126,38.718 -58.4345,19.1377 -65.6783,-3.6162 z"
+     d="m 3032.3763,-226.356 c 29.102,50.1943 85.5206,-40.3946 90.6986,-42.1882 4.7654,-5.9906 25.1361,-13.2964 50.0405,25.3129 4.1728,5.3221 16.3236,9.3633 22.5183,-3.0135 -0.9809,1.1507 -9.573,-7.4769 -15.0121,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.2152 12.8185,1.197 21.8928,7.835 6.8258,7.7737 -13.3066,5.1574 -21.2673,7.2322 -15.0122,8.5997 -13.1742,24.8072 -24.3948,21.0942 -7.3215,22.4956 -13.4693,23.0236 -17.5143,18.6833 17.1114,-14.2491 8.0132,-21.0406 0,-21.0941 -11.2091,2.9563 -9.5698,19.4179 -2.5019,41.5855 20.4333,-0.13 34.6114,7.246 49.4151,7.835 -11.5696,8.2367 -19.0642,-2.8126 -53.1682,-0.6027 -8.4787,-32.0775 -27.5662,-60.3217 -55.0446,-57.8581 -51.4126,38.718 -58.4345,19.1377 -65.6783,-3.6162 z"
      id="path3623-5-9-4-5-5-2-3-0-0-42-7-9-8-1"
      sodipodi:nodetypes="cccccccccccccccc"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
@@ -2632,36 +2632,36 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2630.052"
-     y="2628.6992"
+     x="2730.5254"
+     y="-195.17798"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3-6-6-9"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5-4-9-8"
-       x="2630.052"
-       y="2628.6992"
+       x="2730.5254"
+       y="-195.17798"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="2627.9182"
-     y="2626.5654"
+     x="2728.3916"
+     y="-197.31177"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4-3-0"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1"
-       x="2627.9182"
-       y="2626.5654"
+       x="2728.3916"
+       y="-197.31177"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3905.7832"
-     y="1743.3719"
+     x="4006.1709"
+     y="-1082.9205"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0-7-9-0"
      transform="scale(1.0008553,0.99914544)"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
@@ -2669,21 +2669,21 @@
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9-6-1-2"
-       x="3905.7832"
-       y="1743.3719"
+       x="4006.1709"
+       y="-1082.9205"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:0;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3-4-5-7-1-9-9-2-7-3-1-1-8-3-7"
      width="555.32593"
      height="149.04053"
-     x="3880.4226"
-     y="1613.0912"
+     x="3980.896"
+     y="-1210.786"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435" />
   <g
-     transform="translate(2.1622335,-104.4906)"
+     transform="translate(102.63572,-2928.3678)"
      id="g8117-6"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
      inkscape:export-xdpi="155"
@@ -2732,7 +2732,7 @@
   <path
      inkscape:connector-curvature="0"
      style="fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 4212.6224,1673.1151 c 29.102,50.1944 85.5205,-40.3945 90.6986,-42.1881 4.7654,-5.9907 25.1361,-13.2965 50.0405,25.3128 4.1728,5.3221 16.3236,9.3633 22.5183,-3.0134 -0.9809,1.1506 -9.573,-7.4769 -15.0122,-12.0538 6.4768,2.6755 12.0374,0.9364 20.0162,10.8484 5.7413,0.2152 12.8186,1.197 21.8928,7.835 6.8259,7.7737 -13.3065,5.1575 -21.2673,7.2322 -15.0121,8.5997 -13.1742,24.8072 -24.3947,21.0942 -7.3215,22.4956 -13.4694,23.0236 -17.5143,18.6833 17.1114,-14.249 8.0131,-21.0406 0,-21.0941 -11.2092,2.9563 -9.5698,19.418 -2.502,41.5855 20.4333,-0.13 34.6115,7.246 49.4152,7.835 -11.5696,8.2367 -19.0642,-2.8126 -53.1682,-0.6026 -8.4787,-32.0776 -27.5662,-60.3217 -55.0446,-57.8582 -51.4126,38.718 -58.4346,19.1377 -65.6783,-3.6162 z"
+     d="m 4313.0959,-1150.7621 c 29.102,50.1944 85.5205,-40.3945 90.6986,-42.1881 4.7654,-5.9907 25.1361,-13.2965 50.0405,25.3128 4.1728,5.3221 16.3236,9.3633 22.5183,-3.0134 -0.9809,1.1506 -9.573,-7.4769 -15.0122,-12.0538 6.4768,2.6755 12.0374,0.9364 20.0162,10.8484 5.7413,0.2152 12.8186,1.197 21.8928,7.835 6.8259,7.7737 -13.3065,5.1575 -21.2673,7.2322 -15.0121,8.5997 -13.1742,24.8072 -24.3947,21.0942 -7.3215,22.4956 -13.4694,23.0236 -17.5143,18.6833 17.1114,-14.249 8.0131,-21.0406 0,-21.0941 -11.2092,2.9563 -9.5698,19.418 -2.502,41.5855 20.4333,-0.13 34.6115,7.246 49.4152,7.835 -11.5696,8.2367 -19.0642,-2.8126 -53.1682,-0.6026 -8.4787,-32.0776 -27.5662,-60.3217 -55.0446,-57.8582 -51.4126,38.718 -58.4346,19.1377 -65.6783,-3.6162 z"
      id="path3623-5-9-4-5-5-2-3-0-0-42-7-9-8-1-9"
      sodipodi:nodetypes="cccccccccccccccc"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
@@ -2741,36 +2741,36 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3910.7717"
-     y="1704.2932"
+     x="4011.2451"
+     y="-1119.584"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3-6-6-9-6"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5-4-9-8-6"
-       x="3910.7717"
-       y="1704.2932"
+       x="4011.2451"
+       y="-1119.584"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3908.6377"
-     y="1702.1597"
+     x="4009.1111"
+     y="-1121.7175"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4-3-0-5"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1-9"
-       x="3908.6377"
-       y="1702.1597"
+       x="4009.1111"
+       y="-1121.7175"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3939.3979"
-     y="1955.9548"
+     x="4039.7856"
+     y="-870.33759"
      id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0-7-9-0-1"
      transform="scale(1.0008553,0.99914544)"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
@@ -2778,21 +2778,21 @@
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9-6-1-2-4"
-       x="3939.3979"
-       y="1955.9548"
+       x="4039.7856"
+       y="-870.33759"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffcc01;fill-opacity:1;stroke-width:1.06666672">B o s c o s y s t e m ®</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:0;stroke:none;stroke-width:1.06666672"
      id="rect3495-5-3-3-4-5-7-1-9-9-2-7-3-1-1-8-3-7-5"
      width="555.32593"
      height="149.04053"
-     x="3870.2393"
-     y="1825.4923"
+     x="3970.7126"
+     y="-998.38489"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435" />
   <g
-     transform="translate(-8.0211901,107.91057)"
+     transform="translate(92.452298,-2715.9666)"
      id="g8117-6-8"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
      inkscape:export-xdpi="155"
@@ -2841,7 +2841,7 @@
   <path
      inkscape:connector-curvature="0"
      style="fill:#ffcc01;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     d="m 4202.4391,1885.5163 c 29.102,50.1943 85.5206,-40.3946 90.6986,-42.1882 4.7654,-5.9906 25.1361,-13.2964 50.0405,25.3129 4.1728,5.3221 16.3237,9.3633 22.5183,-3.0135 -0.9809,1.1507 -9.573,-7.4769 -15.0121,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.2152 12.8185,1.197 21.8928,7.835 6.8258,7.7736 -13.3066,5.1574 -21.2673,7.2322 -15.0122,8.5997 -13.1742,24.8072 -24.3948,21.0942 -7.3215,22.4956 -13.4693,23.0236 -17.5142,18.6833 17.1113,-14.2491 8.0131,-21.0406 0,-21.0941 -11.2092,2.9563 -9.5698,19.4179 -2.502,41.5855 20.4333,-0.13 34.6114,7.246 49.4151,7.835 -11.5696,8.2367 -19.0642,-2.8126 -53.1682,-0.6027 -8.4787,-32.0775 -27.5662,-60.3217 -55.0446,-57.8581 -51.4125,38.718 -58.4345,19.1377 -65.6783,-3.6162 z"
+     d="m 4302.9126,-938.3609 c 29.102,50.1943 85.5206,-40.3946 90.6986,-42.1882 4.7654,-5.9906 25.1361,-13.2964 50.0405,25.3129 4.1728,5.3221 16.3237,9.3633 22.5183,-3.0135 -0.9809,1.1507 -9.573,-7.4769 -15.0121,-12.0537 6.4768,2.6755 12.0373,0.9364 20.0162,10.8484 5.7412,0.2152 12.8185,1.197 21.8928,7.835 6.8258,7.7736 -13.3066,5.1574 -21.2673,7.2322 -15.0122,8.5997 -13.1742,24.8072 -24.3948,21.0942 -7.3215,22.4956 -13.4693,23.0236 -17.5142,18.6833 17.1113,-14.2491 8.0131,-21.0406 0,-21.0941 -11.2092,2.9563 -9.5698,19.4179 -2.502,41.5855 20.4333,-0.13 34.6114,7.246 49.4151,7.835 -11.5696,8.2367 -19.0642,-2.8126 -53.1682,-0.6027 -8.4787,-32.0775 -27.5662,-60.3217 -55.0446,-57.8581 -51.4125,38.718 -58.4345,19.1377 -65.6783,-3.6162 z"
      id="path3623-5-9-4-5-5-2-3-0-0-42-7-9-8-1-9-0"
      sodipodi:nodetypes="cccccccccccccccc"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
@@ -2850,34 +2850,34 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3900.5884"
-     y="1916.6945"
+     x="4001.0618"
+     y="-907.18274"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3-6-6-9-6-9"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5-4-9-8-6-1"
-       x="3900.5884"
-       y="1916.6945"
+       x="4001.0618"
+       y="-907.18274"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#000000;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="3898.4543"
-     y="1914.5608"
+     x="3998.9277"
+     y="-909.31641"
      id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4-3-0-5-8"
      inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
      inkscape:export-xdpi="155.58435"
      inkscape:export-ydpi="155.58435"><tspan
        sodipodi:role="line"
        id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1-9-1"
-       x="3898.4543"
-       y="1914.5608"
+       x="3998.9277"
+       y="-909.31641"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672">CHRONOJUMP</tspan></text>
   <g
      id="g3725"
-     transform="translate(0,-69.645152)">
+     transform="translate(100.47349,-2893.5223)">
     <text
        inkscape:export-ydpi="155.58435"
        inkscape:export-xdpi="155.58435"
@@ -2991,17 +2991,17 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="291.41629"
-     y="-135.10297"
+     x="391.88977"
+     y="-2958.9802"
      id="text3251-7-3-6"><tspan
        sodipodi:role="line"
        id="tspan3253-8-8-6"
-       x="291.41629"
-       y="-135.10297"
+       x="391.88977"
+       y="-2958.9802"
        style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">Same as above but with the points (platform)</tspan></text>
   <g
      id="g3473"
-     transform="translate(-149.26036,435.22737)"
+     transform="translate(-48.786872,-2388.6498)"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_icon_google_apps.png"
      inkscape:export-xdpi="28.860001"
      inkscape:export-ydpi="28.860001">
@@ -3051,37 +3051,37 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="253.5136"
-     y="1012.6249"
+     x="353.98709"
+     y="-1811.2523"
      id="text3146-2"><tspan
        sodipodi:role="line"
-       x="253.5136"
-       y="1012.6249"
+       x="353.98709"
+       y="-1811.2523"
        id="tspan3150-0"
        style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">chronojump_icon.png  48x48</tspan><tspan
        sodipodi:role="line"
-       x="253.5136"
-       y="1068.8649"
+       x="353.98709"
+       y="-1755.0125"
        id="tspan3240-3"
        style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">then on Gimp save as .ico</tspan><tspan
        sodipodi:role="line"
-       x="260.67538"
-       y="1125.1047"
+       x="361.14886"
+       y="-1698.7726"
        id="tspan3501"
        style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672"> </tspan><tspan
        sodipodi:role="line"
-       x="260.67542"
-       y="1181.3446"
+       x="361.1489"
+       y="-1642.5326"
        id="tspan3497"
        style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">for macosx, save as chronojump_icon_512.png 512x512 </tspan><tspan
        sodipodi:role="line"
-       x="253.51361"
-       y="1237.5845"
+       x="353.98709"
+       y="-1586.2927"
        id="tspan3499"
        style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">and then do (from Linux with icnsutils installed)</tspan><tspan
        sodipodi:role="line"
-       x="253.51361"
-       y="1293.8245"
+       x="353.98709"
+       y="-1530.0529"
        id="tspan3503"
        style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">png2icns icon.icns chronojump_icon_512.png</tspan></text>
   <g
@@ -3089,7 +3089,7 @@
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_flickr_header.png"
      inkscape:export-xdpi="177.02"
      inkscape:export-ydpi="177.02"
-     transform="translate(-51.787262,440.82928)">
+     transform="translate(48.686226,-2383.0479)">
     <rect
        y="1584.7679"
        x="67.414261"
@@ -3204,12 +3204,12 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="333.22565"
-     y="2482.8672"
+     x="433.69913"
+     y="-341.01001"
      id="text3146-2-3"><tspan
        sodipodi:role="line"
-       x="333.22565"
-       y="2482.8672"
+       x="433.69913"
+       y="-341.01001"
        id="tspan3240-3-4"
        style="font-size:44.99191666px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">chronojump_flickr_header.png  1024px width</tspan></text>
   <rect
@@ -3217,25 +3217,25 @@
      id="rect3495-5-9-4"
      width="555.32593"
      height="149.04053"
-     x="33.060612"
-     y="2261.2947"
+     x="133.5341"
+     y="-562.58252"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_flickr_header.png"
      inkscape:export-xdpi="177.02"
      inkscape:export-ydpi="177.02" />
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06666672"
-     x="-44.389084"
-     y="2550.3621"
+     x="56.084404"
+     y="-273.51514"
      id="text3622"><tspan
        sodipodi:role="line"
        id="tspan3624"
-       x="-44.389084"
-       y="2550.3621"
+       x="56.084404"
+       y="-273.51514"
        style="font-size:42.66666794px;line-height:1.25;font-family:sans-serif;stroke-width:1.06666672">better, this , only blue</tspan></text>
   <g
      id="g3810-3"
-     transform="translate(6.247592,-22.438784)">
+     transform="translate(106.72108,-2846.316)">
     <text
        inkscape:export-ydpi="155.58435"
        inkscape:export-xdpi="155.58435"
@@ -3336,4 +3336,92 @@
          id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1-9-1-3-6-0"
          sodipodi:role="line">CHRONOJUMP</tspan></text>
   </g>
+  <g
+     id="g5091"
+     transform="translate(100.47349,-2823.8772)">
+    <text
+       inkscape:export-ydpi="155.58435"
+       inkscape:export-xdpi="155.58435"
+       inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
+       transform="scale(1.0008553,0.99914544)"
+       id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0-7-9-0-1-1-5-7-3"
+       y="2955.5669"
+       x="-32.801289"
+       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.47635651px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:Ubuntu;fill:#ffffff;fill-opacity:1;stroke-width:1.06666672"
+         y="2955.5669"
+         x="-32.801289"
+         id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9-6-1-2-4-1-4-6-5"
+         sodipodi:role="line">B o s c o s y s t e m ®</tspan></text>
+    <rect
+       inkscape:export-ydpi="155"
+       inkscape:export-xdpi="155"
+       inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
+       y="2945.2781"
+       x="334.07959"
+       height="7.9754024"
+       width="9.3826647"
+       id="rect8047-1-7-1-5-1-2"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672" />
+    <rect
+       inkscape:export-ydpi="155"
+       inkscape:export-xdpi="155"
+       inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
+       y="2945.2781"
+       x="415.03809"
+       height="7.9754024"
+       width="9.3826647"
+       id="rect8047-8-8-9-8-6-0-9"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672" />
+    <rect
+       inkscape:export-ydpi="155"
+       inkscape:export-xdpi="155"
+       inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
+       y="2945.2781"
+       x="361.06592"
+       height="7.9754024"
+       width="9.3826647"
+       id="rect8047-8-5-9-9-1-2-9-1"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672" />
+    <rect
+       inkscape:export-ydpi="155"
+       inkscape:export-xdpi="155"
+       inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
+       y="2947.0632"
+       x="388.05176"
+       height="6.1903796"
+       width="9.3826647"
+       id="rect8047-8-5-8-9-8-3-5-6-2"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672" />
+    <path
+       id="path3623-5-9-4-5-5-2-3-0-0-42-7-9-8-1-9-0-6-5-8-70"
+       d="m 332.54883,2837.2832 c -5.59216,0.1257 -9.57431,2.5563 -11.36133,4.8027 -2.7517,0.9532 -19.97338,26.9832 -39.87695,43.6348 0.064,0.1389 0.12728,0.2685 0.1914,0.4082 1.13091,2.4234 2.24151,4.9086 3.33203,7.4531 0.29713,0.658 0.52932,1.1973 0.8125,1.8301 2.08162,-1.4059 4.23937,-2.9129 6.5,-4.5547 0.70595,-1.5975 1.41625,-3.1804 2.13868,-4.7285 1.13091,-2.4638 2.24151,-4.8059 3.33203,-7.0273 1.09052,-2.2215 2.08017,-4.1 2.96875,-5.6348 h 6.9082 c 0.36351,3.0696 0.70618,6.3409 1.0293,9.8144 0.17811,1.8925 0.34253,3.8236 0.49609,5.7774 3.75018,1.0497 7.29927,2.6999 10.63672,4.8711 v -19.8574 c 1.77715,-0.4039 3.7363,-0.666 5.87695,-0.7871 2.18104,-0.1616 4.18052,-0.2422 5.99805,-0.2422 6.09884,0 10.76297,1.1106 13.99414,3.332 3.27156,2.2214 4.9082,5.6963 4.9082,10.4219 0,2.4637 -0.44345,4.5842 -1.33203,6.3613 -0.84818,1.7368 -2.10183,3.1699 -3.75781,4.3008 -1.65598,1.0905 -3.6756,1.8987 -6.05859,2.4238 -2.38299,0.5251 -5.10812,0.7871 -8.17774,0.7871 h -3.26172 c 10.7695,10.8506 18.68774,27.3744 23.36719,45.0781 34.104,-2.2099 41.59837,8.8403 53.16797,0.6036 -14.8037,-0.589 -28.98272,-7.966 -49.41602,-7.836 -7.0679,-22.1676 -8.70724,-38.6277 2.50196,-41.584 8.0131,0.053 17.1113,6.8447 0,21.0938 4.0449,4.3403 10.19412,3.812 17.51562,-18.6836 11.2206,3.713 9.38233,-12.4941 24.39453,-21.0938 7.9607,-2.0748 28.09338,0.5413 21.26758,-7.2324 -9.0743,-6.638 -16.15333,-7.6207 -21.89453,-7.8359 -7.9789,-9.912 -13.53882,-8.1722 -20.01562,-10.8477 5.43909,4.5768 14.03081,13.2035 15.01171,12.0528 -6.1946,12.3768 -18.34477,8.3357 -22.51757,3.0136 -15.56525,-24.1308 -29.35942,-30.3247 -38.67969,-30.1152 z m -0.47266,42.3633 c -1.9387,0 -3.53307,0.061 -4.78515,0.1816 v 14.2989 h 3.69531 c 3.67546,0 6.50333,-0.5059 8.48242,-1.5157 1.97909,-1.0501 2.9668,-3.0093 2.9668,-5.8769 0,-1.3733 -0.26205,-2.5242 -0.78711,-3.4532 -0.52507,-0.9289 -1.25073,-1.6546 -2.17969,-2.1796 -0.92896,-0.5251 -2.04152,-0.8899 -3.33398,-1.0918 -1.25208,-0.2424 -2.60457,-0.3633 -4.0586,-0.3633 z m -101.23047,5.2051 v 0.5195 c 3.22408,10.0686 6.54886,19.3366 13.89844,22.9434 0.50135,-0.3261 0.95975,-0.7097 1.36914,-1.1622 0.80779,-0.8481 1.41446,-1.9386 1.81836,-3.2714 0.43782,-1.3533 0.65769,-2.965 0.66406,-4.8282 -6.4763,-1.1735 -12.53863,-5.4797 -17.75,-14.2011 z m 70.77149,0.4902 c -0.32393,0.6773 -0.73864,1.5592 -1.14844,2.4297 0.45534,0.012 0.90904,0.031 1.35937,0.061 -0.0684,-0.8324 -0.13548,-1.6671 -0.21093,-2.4902 z m -25.52539,4.4668 c -0.86494,0.63 -1.73346,1.2282 -2.60352,1.8105 -0.20626,2.8674 -0.38792,5.7738 -0.52734,8.7481 -0.0382,0.9785 -0.0667,1.887 -0.10352,2.8555 2.30075,-1.2298 4.74213,-2.6477 7.33399,-4.2637 -0.21399,-0.4847 -0.40547,-0.9473 -0.62696,-1.4395 -0.68662,-1.6156 -1.37392,-3.1716 -2.06054,-4.666 -0.50016,-1.0886 -0.95482,-2.0635 -1.41211,-3.0449 z m -10.06836,6.1113 c -3.26699,1.5589 -6.52703,2.6707 -9.73242,3.1758 v 0.6055 c 0,2.4234 -0.34268,4.6446 -1.0293,6.664 -0.40775,1.2742 -0.97665,2.431 -1.67383,3.4961 3.33311,-0.2253 7.20948,-1.1914 11.75,-3.0468 0.0386,-0.73 0.0692,-1.407 0.10938,-2.1465 0.19228,-2.9483 0.38389,-5.8506 0.57617,-8.7481 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       inkscape:connector-curvature="0" />
+    <text
+       inkscape:export-ydpi="155.58435"
+       inkscape:export-xdpi="155.58435"
+       inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
+       id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4-3-0-5-8-5-5-4-6"
+       y="2913.3188"
+       x="-73.495163"
+       style="font-style:normal;font-weight:normal;font-size:12.80000019px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.06666672"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:60.58449554px;line-height:1.25;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu Medium';fill:#ffffff;fill-opacity:1;stroke-width:1.06666672"
+         y="2913.3188"
+         x="-73.495163"
+         id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1-9-1-3-6-2-0"
+         sodipodi:role="line">CHRONOJUMP</tspan></text>
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="173.37543"
+     y="245.05234"
+     id="text5095"><tspan
+       sodipodi:role="line"
+       id="tspan5093"
+       x="173.37543"
+       y="245.05234">1 tinta</tspan></text>
 </svg>

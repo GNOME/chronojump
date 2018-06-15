@@ -530,6 +530,7 @@ public partial class ChronoJumpWindow
 		*/
 		hscale_force_sensor_ai_a.Value = 1;
 		hscale_force_sensor_ai_b.Value = 1;
+		force_sensor_last_ab = 1;
 
 		forceSensorAIPlot();
 
@@ -934,7 +935,7 @@ public partial class ChronoJumpWindow
 		forceSensorAIChanged = true;
 		force_sensor_ai_drawingarea.QueueDraw(); //will fire ExposeEvent
 	}
-	int force_sensor_last_ab = 0;
+	int force_sensor_last_ab = 1;
 	private void on_hscale_force_sensor_ai_ab_value_changed (object o, EventArgs args)
 	{
 		if(fsAI == null || fsAI.GetLength() == 0)

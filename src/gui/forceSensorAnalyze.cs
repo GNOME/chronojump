@@ -469,6 +469,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.DrawingArea force_sensor_ai_drawingarea;
 	[Widget] Gtk.HScale hscale_force_sensor_ai_a;
 	[Widget] Gtk.HScale hscale_force_sensor_ai_b;
+	[Widget] Gtk.HScale hscale_force_sensor_ai_ab;
 	[Widget] Gtk.CheckButton checkbutton_force_sensor_ai_b;
 	[Widget] Gtk.Label label_force_sensor_ai_time_a;
 	[Widget] Gtk.Label label_force_sensor_ai_force_a;
@@ -535,6 +536,7 @@ public partial class ChronoJumpWindow
 		//ranges should have max value the number of the lines of csv file minus the header
 		hscale_force_sensor_ai_a.SetRange(1, fsAI.GetLength() -2);
 		hscale_force_sensor_ai_b.SetRange(1, fsAI.GetLength() -2);
+		hscale_force_sensor_ai_ab.SetRange(1, fsAI.GetLength() -2);
 
 		//to update values
 		on_hscale_force_sensor_ai_a_value_changed (new object (), new EventArgs ());
@@ -884,6 +886,7 @@ public partial class ChronoJumpWindow
 	}
 
 	bool forceSensorAIChanged = false;
+	bool updateForceSensorHScales = true;
 	private void on_hscale_force_sensor_ai_a_value_changed (object o, EventArgs args)
 	{
 		if(fsAI == null || fsAI.GetLength() == 0)
@@ -899,7 +902,12 @@ public partial class ChronoJumpWindow
 			label_force_sensor_ai_rfd_a.Text = "";
 
 		if(checkbutton_force_sensor_ai_b.Active)
+		{
 			force_sensor_analyze_instant_calculate_params();
+			updateForceSensorHScales = false;
+			hscale_force_sensor_ai_ab.Value = Convert.ToInt32(hscale_force_sensor_ai_a.Value + hscale_force_sensor_ai_b.Value) / 2;
+			updateForceSensorHScales = true;
+		}
 
 		forceSensorAIChanged = true;
 		force_sensor_ai_drawingarea.QueueDraw(); //will fire ExposeEvent
@@ -919,9 +927,28 @@ public partial class ChronoJumpWindow
 			label_force_sensor_ai_rfd_b.Text = "";
 
 		force_sensor_analyze_instant_calculate_params();
+		updateForceSensorHScales = false;
+		hscale_force_sensor_ai_ab.Value = Convert.ToInt32(hscale_force_sensor_ai_a.Value + hscale_force_sensor_ai_b.Value) / 2;
+		updateForceSensorHScales = true;
 
 		forceSensorAIChanged = true;
 		force_sensor_ai_drawingarea.QueueDraw(); //will fire ExposeEvent
+	}
+	int force_sensor_last_ab = 0;
+	private void on_hscale_force_sensor_ai_ab_value_changed (object o, EventArgs args)
+	{
+		if(fsAI == null || fsAI.GetLength() == 0)
+			return;
+
+		//avoid circular calls
+		if(updateForceSensorHScales)
+		{
+			int difference = Convert.ToInt32(hscale_force_sensor_ai_ab.Value) - force_sensor_last_ab;
+			hscale_force_sensor_ai_a.Value += difference;
+			hscale_force_sensor_ai_b.Value += difference;
+		}
+
+		force_sensor_last_ab = Convert.ToInt32(hscale_force_sensor_ai_ab.Value);
 	}
 
 	private void on_button_hscale_force_sensor_ai_a_pre_clicked (object o, EventArgs args)
@@ -945,6 +972,7 @@ public partial class ChronoJumpWindow
 		bool visible = checkbutton_force_sensor_ai_b.Active;
 		hscale_force_sensor_ai_b.Visible = visible;
 		hbox_buttons_scale_force_sensor_ai_b.Visible = visible;
+		hscale_force_sensor_ai_ab.Visible = visible;
 
 		label_force_sensor_ai_diff.Visible = visible;
 		label_force_sensor_ai_average.Visible = visible;

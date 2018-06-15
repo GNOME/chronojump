@@ -684,6 +684,9 @@ public partial class ChronoJumpWindow
 
 	private void forceSensorAnalyzeManualGraphDo(Rectangle allocation)
 	{
+		if(fsAI.GetLength() == 0)
+			return;
+
 		LogB.Information("forceSensorAnalyzeManualGraphDo() START");
 		bool debug = false;
 
@@ -883,7 +886,7 @@ public partial class ChronoJumpWindow
 	bool forceSensorAIChanged = false;
 	private void on_hscale_force_sensor_ai_a_value_changed (object o, EventArgs args)
 	{
-		if(fsAI == null)
+		if(fsAI == null || fsAI.GetLength() == 0)
 			return;
 
 		int count = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
@@ -903,7 +906,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_hscale_force_sensor_ai_b_value_changed (object o, EventArgs args)
 	{
-		if(fsAI == null)
+		if(fsAI == null || fsAI.GetLength() == 0)
 			return;
 
 		int count = Convert.ToInt32(hscale_force_sensor_ai_b.Value);

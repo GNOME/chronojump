@@ -117,7 +117,7 @@ msgstr "Exportar sesión a formato _XML"
 
 #: ../glade/app1.glade.h:15
 msgid "Force sensor - Open data folder"
-msgstr "Forzar sensor - Abrir carpeta de datos"
+msgstr "Sensor de fuerza - Abrir carpeta de datos"
 
 #: ../glade/app1.glade.h:16
 msgid "Force sensor - Check version"

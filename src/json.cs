@@ -1111,6 +1111,7 @@ public class UploadEncoderDataObject
 {
 	private enum byTypes { SPEED, POWER }
 
+	public string eccon; //"c" or "ec"
 	public int repetitions;
 
 	//variables calculated BySpeed (by best mean speed)
@@ -1132,9 +1133,17 @@ public class UploadEncoderDataObject
 	public string pmaxByPower;
 
 	//constructor called after capture
-	public UploadEncoderDataObject(ArrayList curves)
+	public UploadEncoderDataObject(ArrayList curves, string eccon)
 	{
-		repetitions = curves.Count; //TODO: on ecc-con divide by 2
+		if(eccon == "c")
+			calculeObjectCon (curves);
+		else
+			calculeObjectEccCon (curves);
+	}
+
+	private void calculeObjectCon (ArrayList curves)
+	{
+		repetitions = curves.Count;
 
 		int nSpeed = getBestRep(curves, byTypes.SPEED);
 		int nPower = getBestRep(curves, byTypes.POWER);
@@ -1163,6 +1172,36 @@ public class UploadEncoderDataObject
 		lossByPower = getLoss(curves, byTypes.POWER);
 	}
 
+	private void calculeObjectEccCon (ArrayList curves)
+	{
+		repetitions = curves.Count / 2;
+		EncoderSignal eSignal = new EncoderSignal(curves);
+
+		//this n is the n of the ecc curve
+		int nSpeed = eSignal.FindPosOfBestEccCon(Constants.MeanSpeed);
+		int nPower = eSignal.FindPosOfBestEccCon(Constants.MeanPower);
+
+		rangeBySpeed = Util.ConvertToPoint( eSignal.GetEccConMax(nSpeed, Constants.Range) );
+		rangeByPower = Util.ConvertToPoint( eSignal.GetEccConMax(nPower, Constants.Range) );
+
+		vmeanBySpeed = Util.ConvertToPoint( eSignal.GetEccConMean(nSpeed, Constants.MeanSpeed) );
+		vmeanByPower = Util.ConvertToPoint( eSignal.GetEccConMean(nPower, Constants.MeanSpeed) );
+		vmaxBySpeed = Util.ConvertToPoint( eSignal.GetEccConMax(nSpeed, Constants.MaxSpeed) );
+		vmaxByPower = Util.ConvertToPoint( eSignal.GetEccConMax(nPower, Constants.MaxSpeed) );
+
+		pmeanBySpeed = Util.ConvertToPoint( eSignal.GetEccConMean(nSpeed, Constants.MeanPower) );
+		pmeanByPower = Util.ConvertToPoint( eSignal.GetEccConMean(nPower, Constants.MeanPower) );
+		pmaxBySpeed = Util.ConvertToPoint( eSignal.GetEccConMax(nSpeed, Constants.PeakPower) );
+		pmaxByPower = Util.ConvertToPoint( eSignal.GetEccConMax(nPower, Constants.PeakPower) );
+
+		//add +1 to show to user
+		numBySpeed = (nSpeed /2) + 1;
+		numByPower = (nPower /2) + 1;
+
+		lossBySpeed = eSignal.GetEccConLoss(Constants.MeanSpeed);
+		lossByPower = eSignal.GetEccConLoss(Constants.MeanPower);
+	}
+
 	//constructor called on SQL load
 	public UploadEncoderDataObject(int repetitions,
 			int numBySpeed, int lossBySpeed, string rangeBySpeed,
@@ -1187,8 +1226,6 @@ public class UploadEncoderDataObject
 		this.pmaxByPower = pmaxByPower;
 	}
 
-	//TODO: on ecc-con should count [ecc-count] reps
-	//this calculation should be the same than the client gui
 	private int getBestRep(ArrayList curves, byTypes by)
 	{
 		int curveNum = 0;
@@ -1210,8 +1247,7 @@ public class UploadEncoderDataObject
 		}
 		return curveNum;
 	}
-	//TODO: on ecc-con should count [ecc-count] reps
-	//this calculation should be the same than the client gui
+
 	private int getLoss(ArrayList curves, byTypes by)
 	{
 		double lowest = 100000;

@@ -340,6 +340,8 @@ public class EncoderCurve
 
 	public double GetParameter(string parameter) {
 		switch(parameter) {
+			case Constants.Range:
+				return Math.Abs(Convert.ToDouble(Height));
 			case Constants.MeanSpeed:
 				return Convert.ToDouble(MeanSpeed);
 			case Constants.MaxSpeed:
@@ -386,7 +388,7 @@ public class EncoderCurve
 		else
 			return Util.ChangeChars(str, ":::", ",");
 	}
-	
+
 	public double MeanSpeedD { get { return Convert.ToDouble(MeanSpeed); } }
 	public double MaxSpeedD  { get { return Convert.ToDouble(MaxSpeed);  } }
 	public double MeanPowerD { get { return Convert.ToDouble(MeanPower); } }
@@ -458,7 +460,55 @@ public class EncoderSignal
 		}
 		return bestValuePos;
 	}
-	
+
+	public double GetEccConMean(int eccPos, string variable)
+	{
+		return(
+				(
+				((EncoderCurve) curves[eccPos]).GetParameter(variable) +
+				((EncoderCurve) curves[eccPos +1]).GetParameter(variable)
+				) /2 );
+	}
+
+	//use also with range
+	public double GetEccConMax(int eccPos, string variable)
+	{
+		double eccValue = Math.Abs( ((EncoderCurve) curves[eccPos]).GetParameter(variable));
+		double conValue = Math.Abs( ((EncoderCurve) curves[eccPos +1]).GetParameter(variable));
+
+		if(eccValue > conValue)
+			return eccValue;
+		return conValue;
+	}
+
+	public int GetEccConLoss(string variable)
+	{
+		double lowest = 100000;
+		double highest = 0;
+		double eccValue = 0;
+		double conValue = 0;
+		bool ecc = true;
+		foreach (EncoderCurve curve in curves)
+		{
+			double compareTo = curve.MeanSpeedD;
+			if(variable == Constants.MeanPower)
+				compareTo = curve.MeanPowerD;
+
+			if(ecc)
+				eccValue = compareTo;
+			else {
+				conValue = compareTo;
+				if( ( (eccValue + conValue) / 2 ) > highest)
+					highest = (eccValue + conValue) / 2;
+				if( ( (eccValue + conValue) / 2 ) < lowest)
+					lowest = (eccValue + conValue) / 2;
+			}
+			ecc = ! ecc;
+		}
+		return Convert.ToInt32(Util.DivideSafe(100.0 * (highest - lowest), highest));
+
+	}
+
 	~EncoderSignal() {}
 }
 

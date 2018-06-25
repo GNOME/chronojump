@@ -1275,8 +1275,12 @@ public partial class ChronoJumpWindow
 		} else {
 			treeviewEncoderCaptureRemoveColumns();
 			int curvesNum = createTreeViewEncoderCapture(contents);
-			if(curvesNum == 0) 
+			if(curvesNum == 0) {
 				encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
+				if(configChronojump.EncoderCaptureShowOnlyBars)
+					new DialogMessage(Constants.MessageTypes.WARNING,
+							Catalog.GetString("Sorry, no repetitions matched your criteria."));
+			}
 			else {
 				if(! radio_encoder_eccon_concentric.Active)
 					curvesNum = curvesNum / 2;

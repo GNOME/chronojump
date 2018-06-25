@@ -880,6 +880,7 @@ public class Constants
 		LINEAR, ROTARYFRICTION, ROTARYAXIS
 	}	
 
+	public const string Range = "Range";
 	public const string MeanSpeed = "Mean speed";
 	public const string MaxSpeed = "Max speed";
 	public const string MeanForce = "Mean force";

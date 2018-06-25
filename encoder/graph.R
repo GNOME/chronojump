@@ -294,7 +294,7 @@ findCurvesNew <- function(displacement, eccon, inertial, min_height)
                                                         sendCurve = FALSE
                                                 if( (eccon == "ec" || eccon == "ecS") && directionToStoreIsCon && capturingFirstPhase )
                                                         sendCurve = FALSE
-                                                
+
                                                 #on ec, ecS don't have store two curves in the same direction
                                                 if( (eccon == "ec" || eccon == "ecS") && 
                                                     ! is.null(directionStoredIsCon) && 

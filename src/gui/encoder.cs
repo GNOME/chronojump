@@ -6701,7 +6701,8 @@ public partial class ChronoJumpWindow
 
 						if(configChronojump.Compujump && encoderCaptureCurves.Count > 0)
 						{
-							UploadEncoderDataObject uo = new UploadEncoderDataObject(encoderCaptureCurves);
+							UploadEncoderDataObject uo = new UploadEncoderDataObject(
+									encoderCaptureCurves, lastEncoderSQLSignal.eccon);
 
 
 							/*

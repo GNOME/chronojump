@@ -2568,7 +2568,7 @@ quitIfNoData <- function(curvesPlot, n, curves, outputData1, minHeight)
                         plot(0,0,type="n",axes=F,xlab="",ylab="")
                 
                 text(x=0, y=0, adj=0, cex=1.2, col="red",
-                     paste(translateToPrint("Sorry, no curves matched your criteria."),"\nMin height is = ",minHeight/10,"cm"))
+                     paste(translateToPrint("Sorry, no repetitions matched your criteria."),"\nMin height is = ",minHeight/10,"cm"))
                 dev.off()
                 write("", outputData1)
                 quit()

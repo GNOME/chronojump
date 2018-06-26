@@ -31,15 +31,15 @@
 #include <gst/gst.h>
 
 /* GStreamer Interfaces */
-#include <gst/interfaces/xoverlay.h>
-#include <gst/interfaces/navigation.h>
-#include <gst/interfaces/colorbalance.h>
+#include <gst/video/videooverlay.h>
+#include <gst/video/navigation.h>
+#include <gst/video/colorbalance.h>
 /* for detecting sources of errors */
 #include <gst/video/gstvideosink.h>
 #include <gst/video/video.h>
-#include <gst/audio/gstbaseaudiosink.h>
+#include <gst/audio/gstaudiobasesink.h>
 /* for pretty multichannel strings */
-#include <gst/audio/multichannel.h>
+#include <gst/audio/audio.h>
 
 
 /* for missing decoder/demuxer detection */
@@ -142,7 +142,7 @@ struct BaconVideoWidgetPrivate
 
   GstElement *play;
   GstElement *video_sink;
-  GstXOverlay *xoverlay;        /* protect with lock */
+  GstVideoOverlay *xoverlay;        /* protect with lock */
   GstColorBalance *balance;     /* protect with lock */
   GstNavigation *navigation;    /* protect with lock */
   guint interface_update_id;    /* protect with lock */
@@ -348,7 +348,7 @@ bacon_video_widget_realize_event (GtkWidget * widget, BaconVideoWidget *bvw)
   GdkWindow *window = gtk_widget_get_window (widget);
 
   if (!gdk_window_ensure_native (window))
-    g_error ("Couldn't create native window needed for GstXOverlay!");
+    g_error ("Couldn't create native window needed for GstVideoOverlay!");
 
   bvw->priv->window_handle = gst_get_window_handle (window);
 }
@@ -477,7 +477,7 @@ static gboolean
 bacon_video_widget_video_expose_event (GtkWidget * widget, GdkEventExpose * event,
     BaconVideoWidget *bvw)
 {
-  GstXOverlay *xoverlay;
+  GstVideoOverlay *xoverlay;
   GdkWindow *win;
 
   if (event && event->count > 0)
@@ -755,10 +755,10 @@ bvw_handle_application_message (BaconVideoWidget * bvw, GstMessage * msg)
 {
   const gchar *msg_name;
 
-  msg_name = gst_structure_get_name (msg->structure);
+  msg_name = gst_message_src_name(msg);
   g_return_if_fail (msg_name != NULL);
 
-  GST_DEBUG ("Handling application message: %" GST_PTR_FORMAT, msg->structure);
+  GST_DEBUG ("Handling application message: %" GST_PTR_FORMAT, gst_message_get_structure(msg));
 
   if (strcmp (msg_name, "stream-changed") == 0) {
     bvw_update_stream_info (bvw);
@@ -773,11 +773,11 @@ bvw_handle_element_message (BaconVideoWidget * bvw, GstMessage * msg)
   const gchar *type_name = NULL;
   gchar *src_name;
 
-  src_name = gst_object_get_name (msg->src);
-  if (msg->structure)
-    type_name = gst_structure_get_name (msg->structure);
+  src_name = gst_message_src_name (msg);
+  if (gst_message_get_structure(msg) != NULL)
+    type_name = gst_message_get_structure (msg);
 
-  GST_DEBUG ("from %s: %" GST_PTR_FORMAT, src_name, msg->structure);
+  GST_DEBUG ("from %s: %" GST_PTR_FORMAT, src_name, gst_message_get_structure(msg));
 
   if (type_name == NULL)
     goto unhandled;
@@ -785,7 +785,7 @@ bvw_handle_element_message (BaconVideoWidget * bvw, GstMessage * msg)
   if (strcmp (type_name, "redirect") == 0) {
     const gchar *new_location;
 
-    new_location = gst_structure_get_string (msg->structure, "new-location");
+    new_location = gst_structure_get_string (gst_message_get_structure(msg), "new-location");
     GST_DEBUG ("Got redirect to '%s'", GST_STR_NULL (new_location));
 
     if (new_location && *new_location) {
@@ -799,7 +799,7 @@ bvw_handle_element_message (BaconVideoWidget * bvw, GstMessage * msg)
     if (!bvw->priv->buffering) {
       gint percent = 0;
 
-      if (gst_structure_get_int (msg->structure, "percent", &percent))
+      if (gst_structure_get_int (gst_message_get_structure(msg), "percent", &percent))
         g_signal_emit (bvw, bvw_signals[SIGNAL_BUFFERING], 0, percent);
     }
     goto done;
@@ -1086,7 +1086,7 @@ bvw_bus_message_cb (GstBus * bus, GstMessage * message, gpointer data)
       gint percent = 0;
 
       /* FIXME: use gst_message_parse_buffering() once core 0.10.11 is out */
-      gst_structure_get_int (message->structure, "buffer-percent", &percent);
+      gst_structure_get_int (gst_message_get_structure(message), "buffer-percent", &percent);
       g_signal_emit (bvw, bvw_signals[SIGNAL_BUFFERING], 0, percent);
 
       if (percent >= 100) {
@@ -1329,7 +1329,7 @@ bvw_query_timeout (BaconVideoWidget * bvw)
 
   /* check length/pos of stream */
   prev_len = bvw->priv->stream_length;
-  if (gst_element_query_duration (bvw->priv->play, &fmt, &len)) {
+  if (gst_element_query_duration (bvw->priv->play, fmt, &len)) {
     if (len != -1 && fmt == GST_FORMAT_TIME) {
       bvw->priv->stream_length = len / GST_MSECOND;
       if (bvw->priv->stream_length != prev_len) {
@@ -1340,7 +1340,7 @@ bvw_query_timeout (BaconVideoWidget * bvw)
     GST_INFO ("could not get duration");
   }
 
-  if (gst_element_query_position (bvw->priv->play, &fmt, &pos)) {
+  if (gst_element_query_position (bvw->priv->play, fmt, &pos)) {
     if (pos != -1 && fmt == GST_FORMAT_TIME) {
       got_time_tick (GST_ELEMENT (bvw->priv->play), pos, bvw);
     }
@@ -3580,7 +3580,7 @@ bacon_video_widget_get_accurate_current_time (BaconVideoWidget * bvw)
   fmt = GST_FORMAT_TIME;
   pos = -1;
 
-  gst_element_query_position (bvw->priv->play, &fmt, &pos);
+  gst_element_query_position (bvw->priv->play, fmt, &pos);
 
   return pos / GST_MSECOND;
 
@@ -3606,7 +3606,7 @@ bacon_video_widget_get_stream_length (BaconVideoWidget * bvw)
     GstFormat fmt = GST_FORMAT_TIME;
     gint64 len = -1;
 
-    if (gst_element_query_duration (bvw->priv->play, &fmt, &len)
+    if (gst_element_query_duration (bvw->priv->play, fmt, &len)
         && len != -1) {
       bvw->priv->stream_length = len / GST_MSECOND;
     }
@@ -3807,27 +3807,21 @@ bvw_get_caps_of_current_stream (BaconVideoWidget * bvw,
 static gboolean
 audio_caps_have_LFE (GstStructure * s)
 {
-  GstAudioChannelPosition *positions;
-  gint i, channels;
+	guint64 mask;
+	int channels;
 
-  if (!gst_structure_get_value (s, "channel-positions") ||
-      !gst_structure_get_int (s, "channels", &channels)) {
-    return FALSE;
-  }
+	if (!gst_structure_get_int (s, "channels", &channels) ||
+			channels == 0)
+		return FALSE;
 
-  positions = gst_audio_get_channel_positions (s);
-  if (positions == NULL)
-    return FALSE;
+	if (!gst_structure_get (s, "channel-mask", GST_TYPE_BITMASK, &mask, NULL))
+		return FALSE;
 
-  for (i = 0; i < channels; ++i) {
-    if (positions[i] == GST_AUDIO_CHANNEL_POSITION_LFE) {
-      g_free (positions);
-      return TRUE;
-    }
-  }
+	if (mask & GST_AUDIO_CHANNEL_POSITION_LFE1 ||
+			mask & GST_AUDIO_CHANNEL_POSITION_LFE2)
+		return TRUE;
 
-  g_free (positions);
-  return FALSE;
+	return FALSE;
 }
 
 static void
@@ -4147,14 +4141,30 @@ bacon_video_widget_get_metadata_pixbuf (BaconVideoWidget * bvw,
 {
   GdkPixbufLoader *loader;
   GdkPixbuf *pixbuf;
+  GstMemory *memory;
+  GstMapInfo info;
+
+  memory = gst_buffer_get_memory (buffer, 0);
+  if (!memory) {
+    GST_WARNING("could not get memory for buffer");
+    return NULL;
+  }
+
+  if (!gst_memory_map (memory, &info, GST_MAP_READ)) {
+    GST_WARNING("could not map memory buffer");
+    return NULL;
+  }
 
   loader = gdk_pixbuf_loader_new ();
-  if (!gdk_pixbuf_loader_write (loader, buffer->data, buffer->size, NULL)) {
+  if (!gdk_pixbuf_loader_write (loader, info.data, info.size, NULL)) {
+
     g_object_unref (loader);
+    gst_memory_unmap (memory, &info);
     return NULL;
   }
   if (!gdk_pixbuf_loader_close (loader, NULL)) {
     g_object_unref (loader);
+    gst_memory_unmap (memory, &info);
     return NULL;
   }
 
@@ -4174,7 +4184,8 @@ bacon_video_widget_get_best_image (BaconVideoWidget * bvw)
   for (i = 0;; i++) {
     const GValue *value;
     GstBuffer *buffer;
-    GstStructure *caps_struct;
+    GstSample *sample;
+    const GstStructure *caps_struct;
     int type;
 
     value = gst_tag_list_get_value_index (bvw->priv->tagcache,
@@ -4182,9 +4193,8 @@ bacon_video_widget_get_best_image (BaconVideoWidget * bvw)
     if (value == NULL)
       break;
 
-    buffer = gst_value_get_buffer (value);
-
-    caps_struct = gst_caps_get_structure (buffer->caps, 0);
+    sample = gst_value_get_sample (value);
+    caps_struct = gst_sample_get_info (sample);
     gst_structure_get_enum (caps_struct,
         "image-type", GST_TYPE_TAG_IMAGE_TYPE, &type);
     if (type == GST_TAG_IMAGE_TYPE_UNDEFINED) {
@@ -4516,12 +4526,12 @@ bvw_element_msg_sync (GstBus * bus, GstMessage * msg, gpointer data)
 
   g_assert (msg->type == GST_MESSAGE_ELEMENT);
 
-  if (msg->structure == NULL)
+  if (gst_message_get_structure(msg) == NULL)
     return;
 
   /* This only gets sent if we haven't set an ID yet. This is our last
    * chance to set it before the video sink will create its own window */
-  if (gst_structure_has_name (msg->structure, "prepare-xwindow-id")) {
+  if (gst_structure_has_name (gst_message_get_structure(msg), "prepare-xwindow-id")) {
     GstObject *sender = GST_MESSAGE_SRC (msg);
 
     GST_INFO ("Handling sync prepare-xwindow-id message");
@@ -4803,7 +4813,7 @@ bacon_video_widget_new (int width, int height, BvwUseType type, GError ** err)
   }
 
   /* we want to catch "prepare-xwindow-id" element messages synchronously */
-  gst_bus_set_sync_handler (bvw->priv->bus, gst_bus_sync_signal_handler, bvw);
+  gst_bus_set_sync_handler (bvw->priv->bus, gst_bus_sync_signal_handler, bvw, NULL);
 
   bvw->priv->sig_bus_sync =
       g_signal_connect (bvw->priv->bus, "sync-message::element",

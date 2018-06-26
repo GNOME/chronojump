@@ -26,8 +26,7 @@
 #include <stdio.h>
 
 #include <gst/app/gstappsrc.h>
-#include <gst/interfaces/xoverlay.h>
-#include <gst/interfaces/propertyprobe.h>
+#include <gst/video/videooverlay.h>
 #include <gst/gst.h>
 #include <gst/video/video.h>
 
@@ -134,7 +133,7 @@ struct GstCameraCapturerPrivate
   GMutex *recording_lock;
 
   /*Overlay */
-  GstXOverlay *xoverlay;        /* protect with lock */
+  GstVideoOverlay *xoverlay;        /* protect with lock */
   guintptr window_handle;
 
   /*Videobox */
@@ -177,7 +176,7 @@ static gboolean
 gst_camera_capturer_configure_event (GtkWidget * widget,
     GdkEventConfigure * event, GstCameraCapturer * gcc)
 {
-  GstXOverlay *xoverlay = NULL;
+  GstVideoOverlay *xoverlay = NULL;
 
   g_return_val_if_fail (gcc != NULL, FALSE);
   g_return_val_if_fail (GST_IS_CAMERA_CAPTURER (gcc), FALSE);
@@ -198,7 +197,7 @@ gst_camera_capturer_realize_event (GtkWidget * widget)
   GdkWindow *window = gtk_widget_get_window (widget);
 
   if (!gdk_window_ensure_native (window))
-    g_error ("Couldn't create native window needed for GstXOverlay!");
+    g_error ("Couldn't create native window needed for GstVideoOverlay!");
 
   /* Connect to configure event on the top level window */
   g_signal_connect (G_OBJECT (gtk_widget_get_toplevel (widget)),
@@ -211,7 +210,7 @@ static gboolean
 gst_camera_capturer_expose_event (GtkWidget * widget, GdkEventExpose * event)
 {
   GstCameraCapturer *gcc = GST_CAMERA_CAPTURER (widget);
-  GstXOverlay *xoverlay;
+  GstVideoOverlay *xoverlay;
   gboolean draw_logo;
   GdkWindow *win;
 
@@ -1687,12 +1686,12 @@ gcc_element_msg_sync (GstBus * bus, GstMessage * msg, gpointer data)
 
   g_assert (msg->type == GST_MESSAGE_ELEMENT);
 
-  if (msg->structure == NULL)
+  if (gst_message_get_structure(msg) == NULL)
     return;
 
   /* This only gets sent if we haven't set an ID yet. This is our last
    * chance to set it before the video sink will create its own window */
-  if (gst_structure_has_name (msg->structure, "prepare-xwindow-id")) {
+  if (gst_structure_has_name (gst_message_get_structure(msg), "prepare-xwindow-id")) {
 
     if (gcc->priv->xoverlay == NULL) {
       GstObject *sender = GST_MESSAGE_SRC (msg);
@@ -1750,7 +1749,10 @@ GList *
 gst_camera_capturer_enum_devices (gchar * device_name)
 {
   GstElement *device;
-  GstPropertyProbe *probe;
+  /* GstPropertyProbe *probe; */
+  /* https://gstreamer.freedesktop.org/documentation/application-development/appendix/porting-1-0.html
+   * The GstPropertyProbe interface was removed. There is no replacement for it in GStreamer 1.0.x and 1.2.x, but since version 1.4 there is a more featureful replacement for device discovery and feature querying provided by GstDeviceMonitor, GstDevice, and friends. See the "GStreamer Device Discovery and Device Probing" documentation.
+   */
   GValueArray *va;
   gchar *prop_name;
   GList *list = NULL;
@@ -1761,7 +1763,7 @@ gst_camera_capturer_enum_devices (gchar * device_name)
     goto finish;
   gst_element_set_state (device, GST_STATE_READY);
   gst_element_get_state (device, NULL, NULL, 5 * GST_SECOND);
-  probe = GST_PROPERTY_PROBE (device);
+  /* probe = GST_PROPERTY_PROBE (device); */
 
   if (!g_strcmp0 (device_name, "dv1394src"))
     prop_name = "guid";
@@ -1772,9 +1774,11 @@ gst_camera_capturer_enum_devices (gchar * device_name)
   else
     prop_name = "device-name";
 
+  /*
   va = gst_property_probe_get_values_name (probe, prop_name);
   if (!va)
     goto finish;
+    */
 
   for (i = 0; i < va->n_values; ++i) {
     GValue *v = g_value_array_get_nth (va, i);
@@ -2095,7 +2099,7 @@ gst_camera_capturer_new (gchar * filename, GError ** err)
       G_CALLBACK (gcc_bus_message_cb), gcc);
 
   /* we want to catch "prepare-xwindow-id" element messages synchronously */
-  gst_bus_set_sync_handler (gcc->priv->bus, gst_bus_sync_signal_handler, gcc);
+  gst_bus_set_sync_handler (gcc->priv->bus, gst_bus_sync_signal_handler, gcc, NULL);
 
   gcc->priv->sig_bus_sync =
       g_signal_connect (gcc->priv->bus, "sync-message::element",

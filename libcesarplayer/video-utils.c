@@ -280,7 +280,7 @@ gst_get_window_handle(GdkWindow *window)
 }
 
 void
-gst_set_window_handle(GstXOverlay *xoverlay, guintptr window_handle)
+gst_set_window_handle(GstVideoOverlay *xoverlay, guintptr window_handle)
 {
   gst_x_overlay_set_window_handle (xoverlay, window_handle);
 }

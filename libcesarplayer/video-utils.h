@@ -28,7 +28,7 @@
  */
 
 #include <gst/gst.h>
-#include <gst/interfaces/xoverlay.h>
+#include <gst/video/videooverlay.h>
 #include <gdk/gdk.h>
 #if defined (GDK_WINDOWING_X11)
 #include <gdk/gdkx.h>
@@ -64,7 +64,7 @@ gboolean totem_ratio_fits_screen (GdkWindow * window, int video_width,
 
 void init_backend (int argc, char **argv);
 guintptr gst_get_window_handle (GdkWindow *window);
-void gst_set_window_handle (GstXOverlay *overlay, guintptr window_handle);
+void gst_set_window_handle (GstVideoOverlay *overlay, guintptr window_handle);
 void init_debug();
 
 

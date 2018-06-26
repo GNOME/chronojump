@@ -34,14 +34,14 @@ feed_fakesrc (GstElement * src, GstBuffer * buf, GstPad * pad, gpointer data)
   GstBuffer *in_buf = GST_BUFFER (data);
 
   g_assert (GST_BUFFER_SIZE (buf) >= GST_BUFFER_SIZE (in_buf));
-  g_assert (!GST_BUFFER_FLAG_IS_SET (buf, GST_BUFFER_FLAG_READONLY));
+  g_assert (!GST_BUFFER_FLAG_IS_SET (buf, GST_MEMORY_FLAG_READONLY));
 
   gst_buffer_set_caps (buf, GST_BUFFER_CAPS (in_buf));
 
   memcpy (GST_BUFFER_DATA (buf), GST_BUFFER_DATA (in_buf),
       GST_BUFFER_SIZE (in_buf));
 
-  GST_BUFFER_SIZE (buf) = GST_BUFFER_SIZE (in_buf);
+  gst_buffer_set_size (buf, gst_buffer_get_size (in_buf));
 
   GST_DEBUG ("feeding buffer %p, size %u, caps %" GST_PTR_FORMAT,
       buf, GST_BUFFER_SIZE (buf), GST_BUFFER_CAPS (buf));

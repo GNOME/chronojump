@@ -823,7 +823,7 @@ gve_query_timeout (GstVideoEditor * gve)
   gchar *title;
   gint64 stop_time = gve->priv->stop_times[gve->priv->active_segment];
 
-  if (gst_element_query_position (gve->priv->main_pipeline, &fmt, &pos)) {
+  if (gst_element_query_position (gve->priv->main_pipeline, fmt, &pos)) {
     if (pos != -1 && fmt == GST_FORMAT_TIME) {
       g_signal_emit (gve,
           gve_signals[SIGNAL_PERCENT_COMPLETED],
@@ -833,7 +833,7 @@ gve_query_timeout (GstVideoEditor * gve)
     GST_INFO ("could not get position");
   }
 
-  if (gst_element_query_position (gve->priv->video_encoder, &fmt, &pos)) {
+  if (gst_element_query_position (gve->priv->video_encoder, fmt, &pos)) {
     if (stop_time - pos <= 0) {
 
       gve->priv->active_segment++;

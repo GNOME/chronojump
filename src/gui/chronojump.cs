@@ -322,8 +322,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_results;
 	[Widget] Gtk.Notebook notebook_options_top;
 		
-	[Widget] Gtk.Frame frame_share_data;
-	
 	[Widget] Gtk.EventBox eventbox_image_test;
 	[Widget] Gtk.Image image_test;
 	[Widget] Gtk.Button button_image_test_zoom;
@@ -7337,7 +7335,6 @@ LogB.Debug("X");
 		notebook_options_top.Sensitive = false;
 		notebook_encoder_sup.Sensitive = false;
 		vbox_stats.Sensitive = false;
-		frame_share_data.Sensitive = false;
 		
 		vbox_last_test_buttons.Sensitive = false;
 		vbox_execute_test.Sensitive = false;
@@ -7364,7 +7361,6 @@ LogB.Debug("X");
 		
 		menuSessionSensitive(true);
 		vbox_stats.Sensitive = true;
-		frame_share_data.Sensitive = true;
 		
 		//changeTestImage("", "", "LOGO");
 	}

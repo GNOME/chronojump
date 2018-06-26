@@ -38,9 +38,11 @@ public class Event
 	//used to select an event at Sqlite.addSimulatedInEventTables
 	public Event(string [] eventString) {
 	}
-	
+
+	/*	
 	public virtual void HolaServer (ChronojumpServer myServer) {
 	}
+	*/
 
 	
 	public virtual int InsertAtDB (bool dbconOpened, string tableName) {

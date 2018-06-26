@@ -59,10 +59,8 @@ SOURCES = \
 	gui/dialogServerStats.cs\
 	gui/evaluator.cs\
 	gui/networks.cs\
-	gui/queryServer.cs\
 	gui/usefulObjects.cs\
 	gui/trigger.cs\
-	gui/old/chronojumpServerOld.cs\
 	statType.cs\
 	stats/main.cs\
 	stats/chronojumpProfile.cs\
@@ -139,7 +137,6 @@ SOURCES = \
 	execute/pulse.cs\
 	execute/reactionTime.cs\
 	execute/multiChronopic.cs\
-	../chronojump_server/ChronojumpServer.cs\
 	AssemblyInfo.cs\
 	buildInfo.cs\
 	chronojump.cs\
@@ -205,7 +202,6 @@ SOURCES = \
 	RFID.cs\
 	serverPing.cs\
 	serverEvaluator.cs\
-	server.cs\
 	staticClassState.cs\
 	chronopic.cs\
 	chronopic2016.cs\

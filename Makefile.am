@@ -1,17 +1,16 @@
 EXTRA_DIST = win32/chronojump_innosetup.iss.in \
 	     win32/Makefile.in glade/*.glade \
-	     src/chronojump-importer/chronojump_importer.py \
-	     chronojump_server/Makefile.in
+	     src/chronojump-importer/chronojump_importer.py
 
 CLEANFILES = win32/Makefile win32/chronojump_innosetup.iss
 
 ACLOCAL_AMFLAGS = -I build/m4 -I build/m4/shave -I build/m4/shamrock
 
 SUBDIRS = build chronopic-firmware rfid \
-	  encoder r-scripts data src po manual #chronojump_server (disabled)
+	  encoder r-scripts data src po manual
 
 if OSTYPE_LINUX
-SUBDIRS += chronopic-tests #chronojump_server (disabled)
+SUBDIRS += chronopic-tests
 endif
 
 if OSTYPE_WINDOWS

@@ -220,7 +220,7 @@ public class ChronoJump
 		fakeSplashButton = new Gtk.Button();
 		fakeSplashButton.Clicked += new EventHandler(on_splash_ended);
 
-		LongoMatch.Video.Capturer.GstCameraCapturer.InitBackend("");
+		//LongoMatch.Video.Capturer.GstCameraCapturer.InitBackend("");
 
 		thread = new Thread(new ThreadStart(sqliteThings));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));

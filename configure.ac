@@ -174,10 +174,6 @@ src/buildInfo.cs
 src/chronojump
 src/chronojump.desktop
 src/Mini/chronojump_mini
-libcesarplayer/Makefile
-CesarPlayer/Makefile
-CesarPlayer/AssemblyInfo.cs
-CesarPlayer/CesarPlayer.dll.config
 win32/chronojump_innosetup.iss
 win32/Makefile
 data/Makefile

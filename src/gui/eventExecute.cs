@@ -26,9 +26,6 @@ using System.Collections; //ArrayList
 using System.Collections.Generic; //List
 using Mono.Unix;
 using Gdk; //for the EventMask
-using LongoMatch.Gui;
-using LongoMatch.Video.Capturer;
-using LongoMatch.Video.Common;
 
 
 
@@ -250,7 +247,7 @@ public partial class ChronoJumpWindow
 	{
 		checkbutton_video.Sensitive = false;
 		if(preferences.videoOn) {
-			capturer.ClickRec();
+			//capturer.ClickRec();
 			//label_video_feedback.Text = Catalog.GetString("Recording");
 			label_video_feedback.Text = "Rec.";
 		}
@@ -2263,8 +2260,8 @@ public partial class ChronoJumpWindow
 		checkbutton_video.Sensitive = true;
 		if(preferences.videoOn) {	
 			label_video_feedback.Text = "";
-			capturer.ClickStop();
-			videoCapturePrepare(false); //if error, show message
+			//capturer.ClickStop();
+			//videoCapturePrepare(false); //if error, show message
 		}
 	}
 	
@@ -2419,8 +2416,8 @@ public partial class ChronoJumpWindow
 		if(preferences.videoOn) {
 			//it will be recorded on temp, but chronojump will move it to chronojump/multimedia folders
 			label_video_feedback.Text = "";
-			capturer.ClickStop();
-			videoCapturePrepare(false); //if error, show message
+			//capturer.ClickStop();
+			//videoCapturePrepare(false); //if error, show message
 		}
 	}
 	

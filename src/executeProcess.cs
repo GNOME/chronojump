@@ -274,4 +274,33 @@ class ExecuteProcess
 		return false;
 	}
 
+	public static bool CallR(string script)
+	{
+		string executable = UtilEncoder.RProcessBinURL();
+		List<string> parameters = new List<string>();
+
+		//A) fix script name
+		if(UtilAll.IsWindows())
+			script = script.Replace("\\","/");
+
+		parameters.Insert(0, "\"" + script + "\"");
+
+		//B) tempPath
+		string tempPath = Path.GetTempPath();
+		if(UtilAll.IsWindows())
+			tempPath = tempPath.Replace("\\","/");
+
+		parameters.Insert(1, "\"" + tempPath + "\"");
+
+		LogB.Information("\nCalling R file ----->");
+
+		//C) call process
+		//ExecuteProcess.run (executable, parameters);
+		Result execute_result = run (executable, parameters);
+		//LogB.Information("Result = " + execute_result.stdout);
+
+		LogB.Information("\n<------ Done calling R file.");
+		return execute_result.success;
+	}
+
 }

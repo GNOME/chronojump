@@ -165,7 +165,6 @@ src/Mini/Makefile
 src/chronojump-importer/Makefile
 rfid/Makefile
 po/Makefile.in
-chronojump_server/Makefile
 encoder/Makefile
 r-scripts/Makefile
 manual/Makefile

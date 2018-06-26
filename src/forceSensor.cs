@@ -502,35 +502,9 @@ public class ForceSensorGraph
 
 	public bool CallR(int graphWidth, int graphHeight)
 	{
-		string executable = UtilEncoder.RProcessBinURL();
-		List<string> parameters = new List<string>();
-
-		//A) mifcript
-		string mifScript = UtilEncoder.GetmifScript();
-		if(UtilAll.IsWindows())
-			mifScript = mifScript.Replace("\\","/");
-
-		parameters.Insert(0, "\"" + mifScript + "\"");
-
-		//B) tempPath
-		string tempPath = Path.GetTempPath();
-		if(UtilAll.IsWindows())
-			tempPath = tempPath.Replace("\\","/");
-
-		parameters.Insert(1, "\"" + tempPath + "\"");
-
-		//C) writeOptions
+		LogB.Information("\nforceSensor CallR ----->");
 		writeOptionsFile(graphWidth, graphHeight);
-
-		LogB.Information("\nCalling mif R file ----->");
-
-		//D) call process
-		//ExecuteProcess.run (executable, parameters);
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
-		//LogB.Information("Result = " + execute_result.stdout);
-
-		LogB.Information("\n<------ Done calling mif R file.");
-		return execute_result.success;
+		return ExecuteProcess.CallR(UtilEncoder.GetmifScript());
 	}
 
 	private void writeOptionsFile(int graphWidth, int graphHeight)

@@ -60,35 +60,9 @@ public class Sprint
 
 	public bool CallR(int graphWidth, int graphHeight, string personName)
 	{
-		string executable = UtilEncoder.RProcessBinURL();
-		List<string> parameters = new List<string>();
-
-		//A) photocellsScript
-		string photocellsScript = UtilEncoder.GetSprintPhotocellsScript();
-		if(UtilAll.IsWindows())
-			photocellsScript = photocellsScript.Replace("\\","/");
-
-		parameters.Insert(0, "\"" + photocellsScript + "\"");
-
-		//B) tempPath
-		string tempPath = Path.GetTempPath();
-		if(UtilAll.IsWindows())
-			tempPath = tempPath.Replace("\\","/");
-
-		parameters.Insert(1, "\"" + tempPath + "\"");
-
-		//C) writeOptions
+		LogB.Information("\nsprint CallR ----->");
 		writeOptionsFile(graphWidth, graphHeight, personName);
-
-		LogB.Information("\nCalling sprint.R ----->");
-
-		//D) call process
-		//ExecuteProcess.run (executable, parameters);
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
-		//LogB.Information("Result = " + execute_result.stdout);
-
-		LogB.Information("\n<------ Done calling sprint.R.");
-		return execute_result.success;
+		return ExecuteProcess.CallR(UtilEncoder.GetSprintPhotocellsScript());
 	}
 
 	private void writeOptionsFile(int graphWidth, int graphHeight, string personName)

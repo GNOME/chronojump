@@ -37,38 +37,11 @@ public class RunEncoderGraph
 		this.tempC = tempC;
 	}
 
-	//moure la majoria d'aixo a ExecuteProcess per reciclar-ho a gui/runEncoder.cs linia 335
 	public bool CallR(int graphWidth, int graphHeight)
 	{
-		string executable = UtilEncoder.RProcessBinURL();
-		List<string> parameters = new List<string>();
-
-		//A) script
-		string script = UtilEncoder.GetRunEncoderScript();
-		if(UtilAll.IsWindows())
-			script = script.Replace("\\","/");
-
-		parameters.Insert(0, "\"" + script + "\"");
-
-		//B) tempPath
-		string tempPath = Path.GetTempPath();
-		if(UtilAll.IsWindows())
-			tempPath = tempPath.Replace("\\","/");
-
-		parameters.Insert(1, "\"" + tempPath + "\"");
-
-		//C) writeOptions
+		LogB.Information("\nrunEncoder CallR ----->");
 		writeOptionsFile(graphWidth, graphHeight);
-
-		LogB.Information("\nCalling R file ----->");
-
-		//D) call process
-		//ExecuteProcess.run (executable, parameters);
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
-		//LogB.Information("Result = " + execute_result.stdout);
-
-		LogB.Information("\n<------ Done calling R file.");
-		return execute_result.success;
+		return ExecuteProcess.CallR(UtilEncoder.GetRunEncoderScript());
 	}
 
 	private void writeOptionsFile(int graphWidth, int graphHeight)

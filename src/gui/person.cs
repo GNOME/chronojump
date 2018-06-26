@@ -29,9 +29,6 @@ using System.Collections.Generic; //List
 using Mono.Unix;
 using System.Threading;
 using System.IO; 
-using LongoMatch.Gui;
-using LongoMatch.Video.Capturer;
-using LongoMatch.Video.Common;
 
 //load person (jumper)
 public class PersonRecuperateWindow {
@@ -1052,9 +1049,12 @@ public class PersonAddModifyWindow
 	}
 
 	Gtk.Window capturerWindow;
-	CapturerBin capturer;
+	//CapturerBin capturer;
 	void on_button_take_photo_clicked (object o, EventArgs args) 
 	{
+		/*
+		 * TODO: reimplement this with ffmpeg
+		 *
 		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
 		if(devices.Count == 0) {
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.CameraNotFound);
@@ -1089,6 +1089,7 @@ public class PersonAddModifyWindow
 		capturerWindow.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose(); person_win.Show(); };
 		
 		capturer.Run();
+		*/
 	}
 
 	//libCesarplayer method, jpeg
@@ -1120,8 +1121,10 @@ public class PersonAddModifyWindow
 		if(!adding)
 			File.Copy(tempSmallFileName, Util.GetPhotoFileName(true, currentPerson.UniqueID), true); //overwrite
 		
+		/*
 		capturer.Close();
 		capturer.Dispose();
+		*/
 		capturerWindow.Hide();
 
 		person_win.Show();

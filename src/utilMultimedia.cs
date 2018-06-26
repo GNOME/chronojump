@@ -35,6 +35,9 @@ public class UtilMultimedia
 	 */
 
 	public static string [] GetVideoDevices () {
+		/*
+		 * TODO: reimplement this with ffmpeg
+		 *
 		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
 		string [] devicesStr = new String[devices.Count];
 		int count = 0;
@@ -44,6 +47,8 @@ public class UtilMultimedia
 			LogB.Information(dev.ID.ToString());
 		}
 		return devicesStr;
+		*/
+		return new String[0];
 	}
 
 	/*

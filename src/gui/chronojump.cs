@@ -28,10 +28,6 @@ using Mono.Unix;
 using System.IO; //"File" things
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List
-using LongoMatch.Gui;
-using LongoMatch.Video.Capturer;
-using LongoMatch.Video.Common;
-using LongoMatch.Video.Utils;
 using System.Threading;
 using System.Diagnostics;
 
@@ -3741,11 +3737,16 @@ public partial class ChronoJumpWindow
 			}
 
 			if(notebook_sup.CurrentPage == 0) {
+				/*
+				 * TODO:
 				//remove video capture from encoder tab
 				viewport_video_capture_encoder.Remove(capturer);
 				//add in contacts tab
 				hbox_video_capture.PackStart(capturer, true, true, 0);
+				*/
 			} else {
+				/*
+				 * TODO:
 				//remove video capture from contacts tab
 				hbox_video_capture.Remove(capturer);
 				//add in encoder tab
@@ -3759,6 +3760,7 @@ public partial class ChronoJumpWindow
 				//radiobutton_video_encoder_capture.Active = true;
 				if(viewport_video_capture_encoder.Child == null)
 					viewport_video_capture_encoder.Add(capturer);
+					*/
 			}
 		
 			if(wasActive) 
@@ -3768,18 +3770,25 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	CapturerBin capturer;
+	//CapturerBin capturer;
 	private void videoCaptureInitialize() 
 	{
+		/*
+		 * TODO: reimplement this with ffmpeg
+		 *
 		capturer = new CapturerBin();
 		
 		hbox_video_capture.PackStart(capturer, true, true, 0);
 		
 		videoCapturePrepare(false); //if error, show message
+		*/
 	}
 
 	int videoDeviceNum = 0;	
 	private void videoCapturePrepare(bool showErrorMessage) {
+		/*
+		 * TODO: reimplement this with ffmpeg
+		 *
 		LogB.Information("videoCapturePPPPPPPPPPPPPPPPPrepare");
 		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
 		if(devices.Count == 0) {
@@ -3822,6 +3831,7 @@ public partial class ChronoJumpWindow
 		} catch {}
 		LogB.Information("videoCapturePPPPPPPPPPPPPPPPPrepare done !");
 		capturer.Run();
+		*/
 	}
 	
 	
@@ -5916,6 +5926,9 @@ LogB.Debug("X");
 	//Not used on encoder	
 	private bool playVideo(string fileName, bool play) 
 	{
+		/*
+		 * TODO: reimplement this with ffmpeg
+		 *
 		if(File.Exists(fileName)) {
 			LogB.Information("Play video starting...");
 			PlayerBin player = new PlayerBin();
@@ -5935,6 +5948,7 @@ LogB.Debug("X");
 			}
 			return true;	
 		}
+		*/
 		return false;	
 	}
 

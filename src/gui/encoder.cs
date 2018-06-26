@@ -27,7 +27,6 @@ using System.Collections.Generic; //List<T>
 using System.Threading;
 using Mono.Unix;
 using System.Diagnostics; 	//for detect OS and for Process
-using LongoMatch.Gui;
 
 
 public partial class ChronoJumpWindow 
@@ -7111,6 +7110,9 @@ public partial class ChronoJumpWindow
 	
 	/* video stuff */
 	private void encoderStartVideoRecord() {
+		/*
+		 * TODO: reimplement this with ffmpeg
+		 *
 		LogB.Information("Starting video if selected on preferences");
 		checkbutton_video_encoder.Sensitive = false;
 		if(preferences.videoOn) {
@@ -7118,9 +7120,13 @@ public partial class ChronoJumpWindow
 			label_video_feedback_encoder.Text = "Rec.";
 		}
 		//viewport_video_capture_encoder.Sensitive = false;
+		//*/
 	}
 
 	private void encoderStopVideoRecord() {
+		/*
+		 * TODO: reimplement this with ffmpeg
+		 *
 		LogB.Information("Stopping video");
 		checkbutton_video_encoder.Sensitive = true;
 		if(preferences.videoOn) {
@@ -7128,11 +7134,15 @@ public partial class ChronoJumpWindow
 			capturer.ClickStop();
 			videoCapturePrepare(false); //if error, show message
 		}
+		*/
 	}
 
-	static PlayerBin playerEncoder;
+	//static PlayerBin playerEncoder;
 	private void playVideoEncoderInitialSetup() //this does not work on raspberry
 	{
+		/*
+		 * TODO: reimplement this with ffmpeg
+		 *
 		//TODO: use a try specific... study this further
 		LogB.Information("Prepare video encoder 0");
 
@@ -7148,10 +7158,14 @@ public partial class ChronoJumpWindow
 			//it crashes on Raspberry, Banana, (and since 2018 on Linux (Debian))
 		}
 		LogB.Information("Prepare video encoder 4");
+		*/
 	}
 
 	void playVideoEncoderPrepare(bool play) 
 	{
+		/*
+		 * TODO: reimplement this with ffmpeg
+		 *
 		LogB.Information("playVideoEncoderDo", play.ToString());
 		string file = Util.GetVideoFileName(currentSession.UniqueID, 
 				Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID));
@@ -7173,6 +7187,7 @@ public partial class ChronoJumpWindow
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Catalog.GetString("Sorry, file not found"));
 		}
+		*/
 	}	
 	
 	public void on_radiobutton_video_encoder_capture_toggled (object obj, EventArgs args) {

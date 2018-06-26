@@ -26,8 +26,6 @@ using System.Collections; //ArrayList
 using System.IO;
 using System.Threading;
 using Mono.Unix;
-using LongoMatch.Gui;
-using LongoMatch.Video.Player;
 
 
 //--------------------------------------------------------
@@ -311,6 +309,9 @@ public class EditEventWindow
 	}
 
 	private void on_button_video_watch_clicked (object o, EventArgs args) {
+		/*
+		 * TODO: reimplement this with ffmpeg
+
 		if(File.Exists(videoFileName)) { 
 			LogB.Information("Exists and clicked " + videoFileName);
 
@@ -325,6 +326,7 @@ public class EditEventWindow
 			d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {player.Close(); player.Dispose();};
 			player.Play(); 
 		}
+		*/
 	}
 
 	private void on_button_video_url_clicked (object o, EventArgs args) {

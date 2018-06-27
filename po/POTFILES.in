@@ -1,13 +1,6 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
 [encoding: UTF-8]
-CesarPlayer/Capturer/FakeCapturer.cs
-CesarPlayer/gtk-gui/LongoMatch.Gui.CapturerBin.cs
-CesarPlayer/gtk-gui/LongoMatch.Gui.PlayerBin.cs
-CesarPlayer/Gui/CapturerBin.cs
-CesarPlayer/Utils/Device.cs
-CesarPlayer/Utils/MediaFile.cs
-CesarPlayer/Utils/PreviewMediaFile.cs
 glade/app1.glade
 glade/confirm_window.glade
 glade/convert_weight.glade
@@ -27,8 +20,8 @@ glade/evaluator_window.glade
 glade/event_graph_configure.glade
 glade/execute_auto.glade
 glade/generic_window.glade
-glade/jump_type_add.glade
 glade/jumps_runs_more.glade
+glade/jump_type_add.glade
 glade/person_multiple_infinite.glade
 glade/person_recuperate.glade
 glade/person_select_window.glade
@@ -45,12 +38,10 @@ glade/session_load.glade
 glade/session_upload.glade
 glade/splash_window.glade
 glade/stats_select_sessions.glade
-libcesarplayer/bacon-video-widget-gst-0.10.c
-libcesarplayer/video-utils.c
 src/chronojump.cs
 src/chronojumpImporter.cs
-src/chronopic.cs
 src/chronopic2016.cs
+src/chronopic.cs
 src/chronopicRegister.cs
 src/constants.cs
 src/encoder.cs
@@ -58,6 +49,7 @@ src/encoderRhythm.cs
 src/execute/event.cs
 src/execute/jump.cs
 src/execute/multiChronopic.cs
+src/executeProcess.cs
 src/execute/pulse.cs
 src/execute/reactionTime.cs
 src/execute/run.cs
@@ -77,18 +69,18 @@ src/gui/evaluator.cs
 src/gui/event.cs
 src/gui/eventExecute.cs
 src/gui/executeAuto.cs
-src/gui/forceSensor.cs
 src/gui/forceSensorAnalyze.cs
+src/gui/forceSensor.cs
 src/gui/genericWindow.cs
 src/gui/helpPorts.cs
 src/gui/jump.cs
 src/gui/jumpType.cs
 src/gui/multiChronopic.cs
 src/gui/old/chronojumpServerOld.cs
+src/gui/old/queryServer.cs
 src/gui/person.cs
 src/gui/preferences.cs
 src/gui/pulse.cs
-src/gui/queryServer.cs
 src/gui/reactionTime.cs
 src/gui/repetitiveConditions.cs
 src/gui/report.cs
@@ -101,15 +93,14 @@ src/gui/session.cs
 src/gui/splash.cs
 src/gui/sprint.cs
 src/gui/stats.cs
-src/executeProcess.cs
 src/json.cs
 src/jumpsProfile.cs
 src/jumpType.cs
 src/Mini/chronojump_mini.cs
+src/old/server.cs
 src/pulseType.cs
 src/report.cs
 src/runType.cs
-src/server.cs
 src/serverPing.cs
 src/sprint.cs
 src/sqlite/country.cs
@@ -164,9 +155,3 @@ src/treeViewPerson.cs
 src/treeViewPulse.cs
 src/treeViewReactionTime.cs
 src/treeViewRun.cs
-glade/encoder_overview.glade
-src/gui/encoderOverview.cs
-glade/encoder_overview.glade
-src/gui/encoderOverview.cs
-glade/encoder_overview.glade
-src/gui/encoderOverview.cs

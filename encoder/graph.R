@@ -3824,7 +3824,17 @@ doProcess <- function(options)
                         #print("---- 3 ----")
                         #print(pafCurves)
                         
-                        write.csv(pafCurves, op$OutputData1, quote=FALSE)
+                        #write.csv(pafCurves, op$OutputData1, quote=FALSE)
+			#we create pafCurvesWrite and mantain pafCurves because pafCurves is used on Pmax(F0,V0)
+			pafCurvesWrite = pafCurves
+                        if(! singleFile)
+			{
+				if( length(pafCurvesWrite[,1]) > length(curves[,7]) )
+					pafCurvesWrite[,1] = c( curves[,7], rep(NA, length(pafCurvesWrite[,1]) - length(curves[,7])) )
+				else
+					pafCurvesWrite[,1] = curves[,7]
+			}
+			write.csv(pafCurvesWrite, op$OutputData1, quote=FALSE)
                         #print("curves written")
                 }
         }

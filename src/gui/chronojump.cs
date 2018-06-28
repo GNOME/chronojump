@@ -331,7 +331,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_delete_last_test;
 	[Widget] Gtk.Button button_inspect_last_test;
 
-	[Widget] Gtk.Button button_upload_session;
 	[Widget] Gtk.HBox hbox_chronopics_and_more;
 	[Widget] Gtk.Button button_activate_chronopics;
 	[Widget] Gtk.Button button_threshold;
@@ -7477,7 +7476,6 @@ LogB.Debug("X");
 		hbox_other_pulses.Sensitive = false;
 		vbox_last_test_buttons.Sensitive = false;
 		
-		button_upload_session.Sensitive = false;
 		button_activate_chronopics.Sensitive = false;
 		button_threshold.Sensitive = false;
 		button_auto_start.Sensitive = false;
@@ -7542,7 +7540,6 @@ LogB.Debug("X");
 		//hbox_multi_chronopic_buttons.Sensitive = true;
 		vbox_last_test_buttons.Sensitive = true;
 		
-		button_upload_session.Sensitive = true;
 		button_activate_chronopics.Sensitive = true;
 		button_threshold.Sensitive = true;
 		button_auto_start.Sensitive = true;

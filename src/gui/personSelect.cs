@@ -38,8 +38,6 @@ public class PersonSelectWindow
 	[Widget] Gtk.Button button_delete;
 	[Widget] Gtk.VBox vbox_button_delete_confirm;
 	[Widget] Gtk.Label label_selected_person_name;
-	[Widget] Gtk.Button button_add;
-	[Widget] Gtk.Button button_load;
 	[Widget] Gtk.Button button_manage_persons;
 	[Widget] Gtk.Image image_manage_persons;
 	[Widget] Gtk.Image image_person_new;
@@ -373,8 +371,8 @@ public class PersonSelectWindow
 	{
 		vbox_button_delete_confirm.Visible = doFocus;
 		table1.Sensitive = ! doFocus;
-		button_add.Sensitive = ! doFocus;
-		button_load.Sensitive = ! doFocus;
+		button_manage_persons.Sensitive = ! doFocus;
+		hbox_up_down_close.Sensitive = ! doFocus;
 
 		personButtonsSensitive(sensitivePersonButtons);
 	}

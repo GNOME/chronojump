@@ -1816,12 +1816,12 @@ paintCrossVariables <- function (paf, varX, varY, option,
                 x <- as.Date(dateTime)
                 seriesName <- xCopy
         }
-        
+        cexNums = 1
+        adjHor = 0
+
         #if only one series
         if(length(unique(seriesName)) == 1) {
                 cexBalls = 1.8
-                cexNums = 1
-                adjHor = 0
                 colBalls="blue"
                 bgBalls="lightBlue"
                 if(isAlone == "RIGHT") {
@@ -2124,9 +2124,23 @@ paintCrossVariables <- function (paf, varX, varY, option,
                 plot(x,y, xlim = xlim, ylim=ylim, xlab=varXut, ylab="", type="n", axes = FALSE, doBox = FALSE)
                 points(x,y, pch=19, col=colBalls, cex=1.8)
                 
-                for(i in 1:length(seriesName)) {
+		#laterality stuff
+		laterality = as.vector(paf[,findPosInPaf("Laterality","")])
+		#print(c("laterality more than one serie", laterality))
+		lateralityCount = 1
+		for(i in 1:length(unique(seriesName)))
+		{
                         thisSerie = which(seriesName == unique(seriesName)[i])
-                        
+
+			lateralityThisSerie = laterality[lateralityCount:(lateralityCount -1 + length(x[thisSerie]))]
+			lateralityCount = lateralityCount + length(x[thisSerie])
+			#print(c("laterality this serie", lateralityThisSerie))
+			paintCrossVariablesLaterality(x[thisSerie], y[thisSerie], lateralityThisSerie, colBalls[thisSerie])
+		}
+
+		for(i in 1:length(seriesName)) {
+                        thisSerie = which(seriesName == unique(seriesName)[i])
+
                         if(length(unique(x[thisSerie])) >= 3) {
                                 if(varY == "Power" && ! dateAsX) {
                                         temp.list <- fitCurveCalc(x[thisSerie],y[thisSerie])
@@ -2153,6 +2167,9 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         fitLine(x[thisSerie],y[thisSerie], uniqueColors[i], 2, 1)
                         }
                 }
+
+		#singleFile will be always false here (more than one serie)
+		paintCrossVariablesNumsPrint(singleFile, Eccon, x, y, adjHor, cexNums, laterality)
                 
                 #difficult to create a title in series graphs
                 title(paste(varXut,"/",varYut), cex.main=1, font.main=2)

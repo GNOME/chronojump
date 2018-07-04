@@ -134,12 +134,6 @@ class ExecuteProcess
 	 */
 	public static bool RunAtBackground(Process process, string file_name, List<string> parameters)
 	{
-		if(! File.Exists(parameters[0]))
-		{
-			LogB.Debug ("ExecuteProcess does not exist parameter: " + parameters[0]);
-			return false;
-		}
-
 		ProcessStartInfo processStartInfo = new ProcessStartInfo();
 
 		processStartInfo.FileName = file_name;

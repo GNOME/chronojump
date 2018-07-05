@@ -810,9 +810,14 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.Button button_load_person;
 	[Widget] Gtk.Image image_load_person;
 
+	[Widget] Gtk.Image image_photo_from_file;
+	[Widget] Gtk.Image image_photo_start_camera;
+	[Widget] Gtk.Image image_photo_do;
+
 	[Widget] Gtk.Button button_add_photo_file;
 	[Widget] Gtk.Button button_take_photo_start_camera;
 	[Widget] Gtk.Button button_take_photo_do;
+	[Widget] Gtk.HBox hbox_camera;
 	
 	[Widget] Gtk.Label label_date;
 	//[Widget] Gtk.Button button_change_date;
@@ -920,10 +925,17 @@ public class PersonAddModifyWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
 		image_load_person.Pixbuf = pixbuf;
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_attachment.png");
+		image_photo_from_file.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
+		image_photo_start_camera.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_do.png");
+		image_photo_do.Pixbuf = pixbuf;
+
 		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
-			button_take_photo_start_camera.Visible = true;
+			hbox_camera.Visible = true;
 		else
-			button_take_photo_start_camera.Visible = showCapturePhoto;
+			hbox_camera.Visible = showCapturePhoto;
 
 		//delete a -1.png or -1.jpg added before on a new user where "accept" button was not pressed and window was closed
 		deleteOldPhotosIfAny(-1);
@@ -947,7 +959,7 @@ public class PersonAddModifyWindow
 		if(photoBigFile != "")
 		{
 			button_zoom.Sensitive = true;
-			button_add_photo_file.Label = Catalog.GetString("Change photo");
+			//button_add_photo_file.Label = Catalog.GetString("Change photo");
 		}
 		else
 			button_zoom.Sensitive = false;
@@ -1050,7 +1062,7 @@ public class PersonAddModifyWindow
 	{
 		Pixbuf pixbuf = new Pixbuf (filenameMini);
 		image_photo_mini.Pixbuf = pixbuf;
-		button_add_photo_file.Label = Catalog.GetString("Change photo");
+		//button_add_photo_file.Label = Catalog.GetString("Change photo");
 		button_zoom.Sensitive = true;
 	}
 
@@ -1069,7 +1081,7 @@ public class PersonAddModifyWindow
 		}
 
 		button_take_photo_start_camera.Sensitive = false;
-		button_take_photo_do.Visible = true;
+		button_take_photo_do.Sensitive = true;
 
 		/*
 		 * TODO: reimplement this with ffmpeg
@@ -1128,7 +1140,7 @@ public class PersonAddModifyWindow
 		}
 
 		button_take_photo_start_camera.Sensitive = true;
-		button_take_photo_do.Visible = false;
+		button_take_photo_do.Sensitive = false;
 	}
 
 	//libCesarplayer method, jpeg
@@ -1246,6 +1258,7 @@ public class PersonAddModifyWindow
 
 		PersonAddModifyWindowBox.pDN = pDN;
 		PersonAddModifyWindowBox.app1_checkbutton_video = app1_checkbutton_video;
+		PersonAddModifyWindowBox.button_take_photo_do.Sensitive = false;
 
 		PersonAddModifyWindowBox.person_win.Show ();
 

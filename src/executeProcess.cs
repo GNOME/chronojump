@@ -132,7 +132,7 @@ class ExecuteProcess
 	 * don't call WaitForExit(), kill it on Chronojump exit
 	 * returns false if there are problems calling it
 	 */
-	public static bool RunAtBackground(Process process, string file_name, List<string> parameters)
+	public static bool RunAtBackground(Process process, string file_name, List<string> parameters, bool redirectInput)
 	{
 		ProcessStartInfo processStartInfo = new ProcessStartInfo();
 
@@ -151,7 +151,7 @@ class ExecuteProcess
 
 		processStartInfo.CreateNoWindow = true;
 		processStartInfo.UseShellExecute = false;
-		processStartInfo.RedirectStandardInput = false;
+		processStartInfo.RedirectStandardInput = redirectInput; //note UseShellExecute has to be false to be able to redirect
 		processStartInfo.RedirectStandardError = true;
 		processStartInfo.RedirectStandardOutput = true;
 

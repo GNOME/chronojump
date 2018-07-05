@@ -811,7 +811,8 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.Image image_load_person;
 
 	[Widget] Gtk.Button button_add_photo_file;
-	[Widget] Gtk.Button button_take_photo;
+	[Widget] Gtk.Button button_take_photo_start_camera;
+	[Widget] Gtk.Button button_take_photo_do;
 	
 	[Widget] Gtk.Label label_date;
 	//[Widget] Gtk.Button button_change_date;
@@ -919,7 +920,10 @@ public class PersonAddModifyWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
 		image_load_person.Pixbuf = pixbuf;
 
-		button_take_photo.Visible = showCapturePhoto;
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+			button_take_photo_start_camera.Visible = true;
+		else
+			button_take_photo_start_camera.Visible = showCapturePhoto;
 
 		//delete a -1.png or -1.jpg added before on a new user where "accept" button was not pressed and window was closed
 		deleteOldPhotosIfAny(-1);
@@ -1034,24 +1038,39 @@ public class PersonAddModifyWindow
 				//mini will be always png from now on (after 1.7.1-213)
 				string filenameMini = Util.GetPhotoPngFileName(true, currentPerson.UniqueID);
 				bool miniSuccess = UtilMultimedia.LoadAndResizeImage(fc.Filename, filenameMini, 150, -1); //-1: maintain aspect ratio
-
 				if(miniSuccess)
-				{
-					Pixbuf pixbuf = new Pixbuf (filenameMini);
-					image_photo_mini.Pixbuf = pixbuf;
-					button_add_photo_file.Label = Catalog.GetString("Change photo");
-					button_zoom.Sensitive = true;
-				}
+					showMiniPhoto(filenameMini);
 			}
 		}
 		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
 		fc.Destroy();
 	}
 
-	Gtk.Window capturerWindow;
-	//CapturerBin capturer;
-	void on_button_take_photo_clicked (object o, EventArgs args) 
+	private void showMiniPhoto(string filenameMini)
 	{
+		Pixbuf pixbuf = new Pixbuf (filenameMini);
+		image_photo_mini.Pixbuf = pixbuf;
+		button_add_photo_file.Label = Catalog.GetString("Change photo");
+		button_zoom.Sensitive = true;
+	}
+
+	Gtk.Window capturerWindow;
+	Webcam webcam;
+	//CapturerBin capturer;
+	void on_button_take_photo_start_camera_clicked (object o, EventArgs args)
+	{
+		webcam = new Webcam();
+		Webcam.Result result = webcam.MplayerCall();
+		if (! result.success)
+		{
+			LogB.Debug ("Webcam Mplayer error: ", result.error);
+			new DialogMessage (Constants.MessageTypes.WARNING, result.error);
+			return;
+		}
+
+		button_take_photo_start_camera.Sensitive = false;
+		button_take_photo_do.Visible = true;
+
 		/*
 		 * TODO: reimplement this with ffmpeg
 		 *
@@ -1090,6 +1109,26 @@ public class PersonAddModifyWindow
 		
 		capturer.Run();
 		*/
+	}
+	void on_button_take_photo_do_clicked (object o, EventArgs args)
+	{
+		if(webcam == null)
+			return;
+
+		if(webcam.DoSnapshot())
+		{
+			File.Copy(Util.GetMplayerPhotoTempFileNamePost(), Util.GetPhotoPngFileName(false, currentPerson.UniqueID), true); //overwrite
+
+			string filenameMini = Util.GetPhotoPngFileName(true, currentPerson.UniqueID);
+			bool miniSuccess = UtilMultimedia.LoadAndResizeImage(
+					Util.GetPhotoPngFileName(false, currentPerson.UniqueID),
+					filenameMini, 150, -1); //-1: maintain aspect ratio
+			if(miniSuccess)
+				showMiniPhoto(filenameMini);
+		}
+
+		button_take_photo_start_camera.Sensitive = true;
+		button_take_photo_do.Visible = false;
 	}
 
 	//libCesarplayer method, jpeg
@@ -1879,6 +1918,9 @@ public class PersonAddModifyWindow
 	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
+		if(webcam != null && webcam.Running)
+			webcam.ExitCamera();
+
 		PersonAddModifyWindowBox.person_win.Hide();
 		PersonAddModifyWindowBox = null;
 	}
@@ -1886,8 +1928,11 @@ public class PersonAddModifyWindow
 	//void on_person_modify_delete_event (object o, EventArgs args)
 	void on_person_win_delete_event (object o, DeleteEventArgs args)
 	{
-			PersonAddModifyWindowBox.person_win.Hide();
-			PersonAddModifyWindowBox = null;
+		if(webcam != null && webcam.Running)
+			webcam.ExitCamera();
+
+		PersonAddModifyWindowBox.person_win.Hide();
+		PersonAddModifyWindowBox = null;
 	}
 	
 	

@@ -214,7 +214,8 @@ SOURCES = \
 	oldCodeNeedToDBConvert/personSession.cs\
 	oldCodeNeedToDBConvert/sqlite/person.cs\
 	oldCodeNeedToDBConvert/sqlite/personSession.cs\
-	oldCodeNeedToDBConvert/sqlite/session.cs
+	oldCodeNeedToDBConvert/sqlite/session.cs\
+	webcam.cs
 
 RESOURCES = \
 	../glade/app1.glade \

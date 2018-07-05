@@ -1074,6 +1074,21 @@ public class Util
 	 * --------------------- End of GetPhoto stuff
 	 */
 
+	//Pre: filename without 0001.png
+	public static string GetMplayerPhotoTempFileNamePre()
+	{
+		string fileName = Constants.PhotoTemp;
+
+		return Path.Combine(Path.GetTempPath(), Constants.PhotoTemp);
+	}
+
+	//Pre: filename with 0001.png
+	public static string GetMplayerPhotoTempFileNamePost()
+	{
+		return GetMplayerPhotoTempFileNamePre() + "0001.png";
+	}
+
+
 	public static string GetVideoTempFileName() {
 		return Path.Combine(
 				Path.GetTempPath(), Constants.VideoTemp + 

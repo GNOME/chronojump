@@ -1074,6 +1074,7 @@ public class PersonAddModifyWindow
 			webcam.ExitCamera();
 			image_photo_start_end_camera.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
 			button_take_photo_do.Sensitive = false;
+			button_take_photo_start_end_camera.TooltipText = Catalog.GetString("Start webcam");
 
 			return;
 		}
@@ -1090,6 +1091,7 @@ public class PersonAddModifyWindow
 
 		image_photo_start_end_camera.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_end_camera.png");
 		button_take_photo_do.Sensitive = true;
+		button_take_photo_start_end_camera.TooltipText = Catalog.GetString("Stop webcam");
 
 		/*
 		 * TODO: reimplement this with ffmpeg

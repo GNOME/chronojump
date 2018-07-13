@@ -811,11 +811,11 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.Image image_load_person;
 
 	[Widget] Gtk.Image image_photo_from_file;
-	[Widget] Gtk.Image image_photo_start_camera;
+	[Widget] Gtk.Image image_photo_start_end_camera;
 	[Widget] Gtk.Image image_photo_do;
 
 	[Widget] Gtk.Button button_add_photo_file;
-	[Widget] Gtk.Button button_take_photo_start_camera;
+	[Widget] Gtk.Button button_take_photo_start_end_camera;
 	[Widget] Gtk.Button button_take_photo_do;
 	[Widget] Gtk.HBox hbox_camera;
 	
@@ -919,18 +919,15 @@ public class PersonAddModifyWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "calendar.png"); //from asssembly
 		image_calendar.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "zoom.png");
 		image_zoom.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
 		image_load_person.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_attachment.png");
-		image_photo_from_file.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
-		image_photo_start_camera.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_do.png");
-		image_photo_do.Pixbuf = pixbuf;
+		image_photo_from_file.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_attachment.png");
+		image_photo_start_end_camera.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
+		image_photo_do.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_do.png");
 
 		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
 			hbox_camera.Visible = true;
@@ -1069,8 +1066,19 @@ public class PersonAddModifyWindow
 	Gtk.Window capturerWindow;
 	Webcam webcam;
 	//CapturerBin capturer;
-	void on_button_take_photo_start_camera_clicked (object o, EventArgs args)
+	void on_button_take_photo_start_end_camera_clicked (object o, EventArgs args)
 	{
+		// A) end if it's running
+		if(webcam != null && webcam.Running)
+		{
+			webcam.ExitCamera();
+			image_photo_start_end_camera.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
+			button_take_photo_do.Sensitive = false;
+
+			return;
+		}
+
+		// B) start if it's not running
 		webcam = new Webcam();
 		Webcam.Result result = webcam.MplayerCall();
 		if (! result.success)
@@ -1080,7 +1088,7 @@ public class PersonAddModifyWindow
 			return;
 		}
 
-		button_take_photo_start_camera.Sensitive = false;
+		image_photo_start_end_camera.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_end_camera.png");
 		button_take_photo_do.Sensitive = true;
 
 		/*
@@ -1139,7 +1147,7 @@ public class PersonAddModifyWindow
 				showMiniPhoto(filenameMini);
 		}
 
-		button_take_photo_start_camera.Sensitive = true;
+		image_photo_start_end_camera.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
 		button_take_photo_do.Sensitive = false;
 	}
 

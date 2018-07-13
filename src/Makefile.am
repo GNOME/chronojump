@@ -384,6 +384,7 @@ RESOURCES = \
 	../images/preferences-system.png,preferences-system.png \
 	../images/md/baseline_attachment_blue_24dp.png,image_attachment.png \
 	../images/md/baseline_photo_camera_start_blue_24dp.png,image_photo_start_camera.png \
+	../images/md/baseline_photo_camera_end_blue_24dp.png,image_photo_end_camera.png \
 	../images/md/baseline_photo_camera_do_red_24dp.png,image_photo_do.png \
 	../images/md/ic_home_blue_24dp_1x.png,image_home.png \
 	../images/md/ic_import_1x.png,import.png \

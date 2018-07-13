@@ -279,7 +279,7 @@
                         <property name="n_rows">2</property>
                         <property name="n_columns">2</property>
                         <property name="column_spacing">20</property>
-                        <property name="row_spacing">4</property>
+                        <property name="row_spacing">2</property>
                         <child>
                           <widget class="GtkLabel" id="label21">
                             <property name="visible">True</property>
@@ -321,6 +321,8 @@
                             <property name="spacing">4</property>
                             <child>
                               <widget class="GtkImage" id="image_photo_mini">
+                                <property name="width_request">150</property>
+                                <property name="height_request">150</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="stock">gtk-missing-image</property>
@@ -368,14 +370,14 @@
                                         <property name="can_focus">False</property>
                                         <property name="spacing">2</property>
                                         <child>
-                                          <widget class="GtkButton" id="button_take_photo_start_camera">
+                                          <widget class="GtkButton" id="button_take_photo_start_end_camera">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="tooltip" translatable="yes">Start webcam</property>
-                                            <signal name="clicked" handler="on_button_take_photo_start_camera_clicked" swapped="no"/>
+                                            <signal name="clicked" handler="on_button_take_photo_start_end_camera_clicked" swapped="no"/>
                                             <child>
-                                              <widget class="GtkImage" id="image_photo_start_camera">
+                                              <widget class="GtkImage" id="image_photo_start_end_camera">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="stock">gtk-missing-image</property>
@@ -596,9 +598,6 @@
                                         <property name="bottom_attach">2</property>
                                         <property name="y_options">GTK_FILL</property>
                                       </packing>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
                                     </child>
                                     <child>
                                       <placeholder/>
@@ -990,6 +989,9 @@
                                         <property name="left_attach">2</property>
                                         <property name="right_attach">3</property>
                                       </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
                                     </child>
                                     <child>
                                       <placeholder/>

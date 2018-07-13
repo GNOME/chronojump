@@ -63,11 +63,11 @@ class Webcam
 		//TODO: check /dev/video0 or video1 or nothing
 		string executable = "mplayer";
 		List<string> parameters = new List<string>();
-		//"-noborder -nosound -tv driver=v4l2:gain=1:width=640:height=480:device=/dev/video0:fps=10:outfmt=rgb16 tv:// -vf screenshot=/tmp/ChronojumpPhoto
+		//-noborder -nosound -tv driver=v4l2:gain=1:width=400:height=400:device=/dev/video0:fps=10:outfmt=rgb16 tv:// -vf screenshot=/tmp/ChronojumpPhoto
 		parameters.Insert (0, "-noborder"); //on X11 can be: title "Chronojump"". -noborder makes no accept 's', or 'q'
 		parameters.Insert (1, "-nosound");
 		parameters.Insert (2, "-tv");
-		parameters.Insert (3, "driver=v4l2:gain=1:width=640:height=480:device=/dev/video0:fps=10:outfmt=rgb16");
+		parameters.Insert (3, "driver=v4l2:gain=1:width=400:height=400:device=/dev/video0:fps=10:outfmt=rgb16");
 		parameters.Insert (4, "tv://");
 		parameters.Insert (5, "-vf");
 		parameters.Insert (6, "screenshot=" + Util.GetMplayerPhotoTempFileNamePre());

@@ -56,6 +56,9 @@ public class DialogImageTest
 			Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + myEventType.ImageFileName);
 			image_test.Pixbuf = pixbuf;
 		}
+
+		dialog_image_test.WidthRequest = 640;
+		dialog_image_test.HeightRequest = 480;
 	}
 
 	public enum ArchiveType { FILE, ASSEMBLY }
@@ -63,6 +66,12 @@ public class DialogImageTest
 	//in a future do a DialogImage class (with this). And the inherit to DialogImageTest
 	public DialogImageTest (string title, string imagePath, ArchiveType archiveType)
 	{
+		if(archiveType == ArchiveType.FILE && ! File.Exists(imagePath))
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.MultimediaFileNoExists);
+			return;
+		}
+
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_image_test.glade", "dialog_image_test", "chronojump");
 		gladeXML.Autoconnect(this);
@@ -75,17 +84,15 @@ public class DialogImageTest
 
 		scrolledwindow28.Hide();
 	
-		if(archiveType == ArchiveType.FILE) {
-			if(File.Exists(imagePath)) {
-				Pixbuf pixbuf = new Pixbuf (imagePath);
-				image_test.Pixbuf = pixbuf;
-			} else 
-				new DialogMessage(Constants.MessageTypes.WARNING, Constants.MultimediaFileNoExists);
-		} else { //ASSEMBLY
-			Pixbuf pixbuf = new Pixbuf (null, imagePath);
-			image_test.Pixbuf = pixbuf;
-		}
+		Pixbuf pixbuf;
+		if(archiveType == ArchiveType.FILE)
+			pixbuf = new Pixbuf (imagePath);
+		else //ASSEMBLY
+			pixbuf = new Pixbuf (null, imagePath);
 
+		image_test.Pixbuf = pixbuf;
+		dialog_image_test.WidthRequest = pixbuf.Width + 40; //allocate vertical scrollbar if needed
+		dialog_image_test.HeightRequest = pixbuf.Height + 85; //allocate button close
 	}
 				
 	public void on_close_button_clicked (object obj, EventArgs args) {

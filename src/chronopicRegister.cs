@@ -67,7 +67,7 @@ public class ChronopicRegisterPort
 	public static string TypePrint(Types typeStatic)
 	{
 		if(typeStatic == Types.UNKNOWN)
-			return Catalog.GetString("Unknown");
+			return Catalog.GetString("Not configured");
 		else if(typeStatic == Types.CONTACTS)
 			return Catalog.GetString("Jumps/Races");
 		else if(typeStatic == Types.ENCODER)

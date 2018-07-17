@@ -4338,9 +4338,6 @@ public partial class ChronoJumpWindow
 			myTreeViewJumps.PersonWeight = currentPersonSession.Weight;
 			myTreeViewJumps.Add(currentPerson.Name, currentJump);
 			
-			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
-			showHideActionEventButtons(true, "Jump"); //show
-		
 			if(createdStatsWin) {
 				showUpdateStatsAndHideData(true);
 			}
@@ -4364,6 +4361,9 @@ public partial class ChronoJumpWindow
 		if(! webcam.RecordEnd (currentSession.UniqueID, Constants.TestTypes.JUMP, currentJump.UniqueID))
 			new DialogMessage(Constants.MessageTypes.WARNING,
 					Catalog.GetString("Sorry, video cannot be stored."));
+
+		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
+		showHideActionEventButtons(true, "Jump"); //show
 	}
 
 	private void chronopicDisconnectedWhileExecuting() {
@@ -4638,9 +4638,6 @@ public partial class ChronoJumpWindow
 			myTreeViewJumpsRj.PersonWeight = currentPersonSession.Weight;
 			myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
 			
-			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
-			showHideActionEventButtons(true, "JumpRj"); //show
-
 			if(createdStatsWin) {
 				showUpdateStatsAndHideData(true);
 			}
@@ -4664,6 +4661,10 @@ public partial class ChronoJumpWindow
 		if(! webcam.RecordEnd (currentSession.UniqueID, Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID))
 			new DialogMessage(Constants.MessageTypes.WARNING,
 					Catalog.GetString("Sorry, video cannot be stored."));
+
+		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
+		showHideActionEventButtons(true, "JumpRj"); //show
+
 	}
 
 	/* ---------------------------------------------------------

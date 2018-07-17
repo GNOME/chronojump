@@ -1709,6 +1709,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -8944,10 +8947,10 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_video_play_last_test_clicked" swapped="no"/>
                                                             <accelerator key="v" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image22">
+                                                            <widget class="GtkImage" id="image_video_play_this_test">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-media-play</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">1</property>
                                                             </widget>
                                                             </child>
@@ -10857,10 +10860,10 @@ EncoderInertialCapture</property>
                                                             <property name="tooltip" translatable="yes">Play Video</property>
                                                             <signal name="clicked" handler="on_video_play_selected_jump_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image45">
+                                                            <widget class="GtkImage" id="image_video_play_selected_jump">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-media-play</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">1</property>
                                                             </widget>
                                                             </child>
@@ -11170,10 +11173,10 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_video_play_selected_jump_rj_clicked" swapped="no"/>
                                                             <accelerator key="v" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image46">
+                                                            <widget class="GtkImage" id="image_video_play_selected_jump_rj">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-media-play</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">1</property>
                                                             </widget>
                                                             </child>
@@ -11523,10 +11526,10 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_video_play_selected_run_clicked" swapped="no"/>
                                                             <accelerator key="v" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image47">
+                                                            <widget class="GtkImage" id="image_video_play_selected_run">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-media-play</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">1</property>
                                                             </widget>
                                                             </child>
@@ -11732,10 +11735,10 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_video_play_selected_run_interval_clicked" swapped="no"/>
                                                             <accelerator key="v" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image48">
+                                                            <widget class="GtkImage" id="image_video_play_selected_run_interval">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-media-play</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">1</property>
                                                             </widget>
                                                             </child>
@@ -12228,10 +12231,10 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_video_play_selected_reaction_time_clicked" swapped="no"/>
                                                             <accelerator key="v" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image49">
+                                                            <widget class="GtkImage" id="image_video_play_selected_reaction_time">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-media-play</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">1</property>
                                                             </widget>
                                                             </child>
@@ -12428,10 +12431,10 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_video_play_selected_pulse_clicked" swapped="no"/>
                                                             <accelerator key="v" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image50">
+                                                            <widget class="GtkImage" id="image_video_play_selected_pulse">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-media-play</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">1</property>
                                                             </widget>
                                                             </child>
@@ -12659,10 +12662,10 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_video_play_selected_multi_chronopic_clicked" swapped="no"/>
                                                             <accelerator key="v" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image51">
+                                                            <widget class="GtkImage" id="image_video_play_selected_multi_chronopic">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-media-play</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">1</property>
                                                             </widget>
                                                             </child>
@@ -19340,42 +19343,6 @@ Concentric</property>
                                                             <placeholder/>
                                                             </child>
                                                             <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_rfd_a">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -19645,6 +19612,9 @@ Concentric</property>
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkCheckButton" id="checkbutton_force_sensor_ai_b">
                                                             <property name="width_request">30</property>
                                                             <property name="visible">True</property>
@@ -19702,6 +19672,9 @@ Concentric</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -23605,10 +23578,10 @@ then click this button.</property>
                                                             <property name="group">radiobutton_video_encoder_capture</property>
                                                             <signal name="toggled" handler="on_radiobutton_video_encoder_play_toggled" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image55">
+                                                            <widget class="GtkImage" id="image_video_encoder_play">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-media-play</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -26823,6 +26796,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

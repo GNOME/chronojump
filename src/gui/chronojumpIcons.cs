@@ -139,6 +139,17 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_analyze_options_close;
 	[Widget] Gtk.Image image_force_sensor_analyze_recalculate;
 
+	//video play icons
+	[Widget] Gtk.Image image_video_play_this_test;
+	[Widget] Gtk.Image image_video_encoder_play;
+	[Widget] Gtk.Image image_video_play_selected_jump;
+	[Widget] Gtk.Image image_video_play_selected_jump_rj;
+	[Widget] Gtk.Image image_video_play_selected_run;
+	[Widget] Gtk.Image image_video_play_selected_run_interval;
+	[Widget] Gtk.Image image_video_play_selected_pulse;
+	[Widget] Gtk.Image image_video_play_selected_reaction_time;
+	[Widget] Gtk.Image image_video_play_selected_multi_chronopic;
+
 	private void putNonStandardIcons()
 	{
 		Pixbuf pixbuf;
@@ -491,6 +502,17 @@ public partial class ChronoJumpWindow
 		image_pulses_zoom.Pixbuf = pixbuf;
 		image_multi_chronopic_zoom.Pixbuf = pixbuf;
 
+		//video play icons
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "video_play.png");
+		image_video_play_this_test.Pixbuf = pixbuf;
+		image_video_encoder_play.Pixbuf = pixbuf;
+		image_video_play_selected_jump.Pixbuf = pixbuf;
+		image_video_play_selected_jump_rj.Pixbuf = pixbuf;
+		image_video_play_selected_run.Pixbuf = pixbuf;
+		image_video_play_selected_run_interval.Pixbuf = pixbuf;
+		image_video_play_selected_pulse.Pixbuf = pixbuf;
+		image_video_play_selected_reaction_time.Pixbuf = pixbuf;
+		image_video_play_selected_multi_chronopic.Pixbuf = pixbuf;
 
 		//white background in chronopic viewports
 		UtilGtk.DeviceColors(viewport_chronopics, true);

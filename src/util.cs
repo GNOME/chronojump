@@ -1027,6 +1027,8 @@ public class Util
 		}
 	}
 
+//TODO: now using mp4, ensure old avi can be also retrieved
+
 	//returns absolute path, but in encoder this URL is stored in database as relative to be able to move data between computers
 	//see SqliteEncoder.removeURLpath
 	public static string GetVideoFileName (int sessionID, Constants.TestTypes testType, int uniqueID) {
@@ -1139,6 +1141,19 @@ public class Util
 			return true;
 		} else
 			return false;
+	}
+
+	public static void DeleteTempPhotosAndVideo()
+	{
+		LogB.Information("Deleting temp files");
+		var dir = new DirectoryInfo(Path.GetTempPath());
+		foreach(var file in dir.EnumerateFiles(Constants.PhotoTemp + "*" +
+					GetMultimediaExtension(Constants.MultimediaItems.PHOTOPNG)))
+			file.Delete();
+
+		LogB.Information("Deleting temp video");
+		if(File.Exists(GetVideoTempFileName()))
+			File.Delete(GetVideoTempFileName());
 	}
 	
 	public static void DeleteVideo(int sessionID, Constants.TestTypes type, int uniqueID) {

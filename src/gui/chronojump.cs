@@ -4209,6 +4209,8 @@ public partial class ChronoJumpWindow
 	 */
 
 	
+	Webcam webcam;
+
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (bool canCaptureC)
 	{
@@ -4291,6 +4293,9 @@ public partial class ChronoJumpWindow
 
 		//UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, chronopicWin.Connected);
 
+		webcam = new Webcam();
+		Webcam.Result result = webcam.MplayerCapture();
+		webcam.RecordStart();
 
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -4330,12 +4335,6 @@ public partial class ChronoJumpWindow
 						currentJump.UniqueID, currentJump.Description);
 			}
 
-			//move video file if exists
-			if(preferences.videoOn)
-				if (! Util.CopyTempVideo(currentSession.UniqueID, Constants.TestTypes.JUMP, currentJump.UniqueID))
-					new DialogMessage(Constants.MessageTypes.WARNING, 
-							Catalog.GetString("Sorry, video cannot be stored."));
-
 			myTreeViewJumps.PersonWeight = currentPersonSession.Weight;
 			myTreeViewJumps.Add(currentPerson.Name, currentJump);
 			
@@ -4361,6 +4360,10 @@ public partial class ChronoJumpWindow
 			execute_auto_select();
 			sensitiveGuiAutoExecuteOrWait (false);
 		}
+
+		if(! webcam.RecordEnd (currentSession.UniqueID, Constants.TestTypes.JUMP, currentJump.UniqueID))
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Sorry, video cannot be stored."));
 	}
 
 	private void chronopicDisconnectedWhileExecuting() {
@@ -4594,6 +4597,9 @@ public partial class ChronoJumpWindow
 				repetitiveConditionsWin, progressbarLimit, egd
 				);
 		
+		webcam = new Webcam();
+		Webcam.Result result = webcam.MplayerCapture();
+		webcam.RecordStart();
 		
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps
@@ -4618,11 +4624,6 @@ public partial class ChronoJumpWindow
 		if ( ! currentEventExecute.Cancel ) {
 			currentJumpRj = (JumpRj) currentEventExecute.EventDone;
 			
-			//move video file if exists
-			if(preferences.videoOn)
-				if(! Util.CopyTempVideo(currentSession.UniqueID, Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID))
-					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
-
 			//if user clicked in finish earlier
 			if(currentEventExecute.Finish) {
 				currentJumpRj.Jumps = Util.GetNumberOfJumps(currentJumpRj.TvString, false);
@@ -4659,6 +4660,10 @@ public partial class ChronoJumpWindow
 		
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempJumpRj");
+
+		if(! webcam.RecordEnd (currentSession.UniqueID, Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID))
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Sorry, video cannot be stored."));
 	}
 
 	/* ---------------------------------------------------------
@@ -5923,6 +5928,9 @@ LogB.Debug("X");
 	//Not used on encoder	
 	private bool playVideo(string fileName, bool play) 
 	{
+		webcam = new Webcam();
+		Webcam.Result result = webcam.MplayerPlay(fileName);
+
 		/*
 		 * TODO: reimplement this with ffmpeg
 		 *

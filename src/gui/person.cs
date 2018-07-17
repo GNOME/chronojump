@@ -1081,7 +1081,7 @@ public class PersonAddModifyWindow
 
 		// B) start if it's not running
 		webcam = new Webcam();
-		Webcam.Result result = webcam.MplayerCall();
+		Webcam.Result result = webcam.MplayerCapture();
 		if (! result.success)
 		{
 			LogB.Debug ("Webcam Mplayer error: ", result.error);
@@ -1137,7 +1137,7 @@ public class PersonAddModifyWindow
 		if(webcam == null)
 			return;
 
-		if(webcam.DoSnapshot())
+		if(webcam.Snapshot())
 		{
 			File.Copy(Util.GetMplayerPhotoTempFileNamePost(), Util.GetPhotoPngFileName(false, currentPerson.UniqueID), true); //overwrite
 

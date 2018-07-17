@@ -724,7 +724,8 @@ public class Constants
 	public enum MultimediaItems {
 		PHOTO, PHOTOPNG, VIDEO
 	}
-	public const string ExtensionVideo = ".avi";
+	//public const string ExtensionVideo = ".avi";
+	public const string ExtensionVideo = ".mp4";
 	public const string ExtensionPhoto = ".jpg";
 	public const string ExtensionPhotoPng = ".png"; //used for Cairo resized images
 	public const string SmallPhotoDir = "small";

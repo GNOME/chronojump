@@ -47,12 +47,20 @@ class Webcam
 		}
 	}
 
+	/*
+	 * constructor
+	 */
+
 	public Webcam()
 	{
 		Running = false;
 	}
 
-	public Result MplayerCall()
+	/*
+	 * public methods
+	 */
+
+	public Result MplayerCapture()
 	{
 		if(process != null)
 			return new Result (false, "");
@@ -63,7 +71,7 @@ class Webcam
 		//TODO: check /dev/video0 or video1 or nothing
 		string executable = "mplayer";
 		List<string> parameters = new List<string>();
-		//-noborder -nosound -tv driver=v4l2:gain=1:width=400:height=400:device=/dev/video0:fps=10:outfmt=rgb16 tv:// -vf screenshot=/tmp/ChronojumpPhoto
+		//-noborder -nosound -tv driver=v4l2:gain=1:width=400:height=400:device=/dev/video0:fps=10:outfmt=rgb16 tv:// -vf screenshot=/tmp/chronojump-last-photo
 		parameters.Insert (0, "-noborder"); //on X11 can be: title "Chronojump"". -noborder makes no accept 's', or 'q'
 		parameters.Insert (1, "-nosound");
 		parameters.Insert (2, "-tv");
@@ -82,18 +90,43 @@ class Webcam
 		}
 
 		streamWriter = process.StandardInput;
+
 		Running = true;
 		return new Result (true, "");
 	}
 
-	public bool DoSnapshot()
+	public Result MplayerPlay(string filename)
+	{
+		if(process != null || filename == "")
+			return new Result (false, "");
+
+		string executable = "mplayer";
+		List<string> parameters = new List<string>();
+		//-noborder -nosound -tv driver=v4l2:gain=1:width=400:height=400:device=/dev/video0:fps=10:outfmt=rgb16 tv:// -vf screenshot=/tmp/ChronojumpPhoto
+		parameters.Insert (0, filename);
+		//parameters.Insert (0, "-noborder"); //on X11 can be: title "Chronojump"". -noborder makes no accept 's', or 'q'
+
+		process = new Process();
+		bool success = ExecuteProcess.RunAtBackground (process, executable, parameters, false);
+		if(! success)
+		{
+			process = null;
+			return new Result (false, "", Constants.MplayerNotInstalled);
+		}
+
+		Running = true;
+		return new Result (true, "");
+	}
+
+
+	public bool Snapshot()
 	{
 		if(process == null || streamWriter == null)
 			return false;
 
 		bool exitAtFirstSnapshot = true;
 
-		if(! doSnapshot())
+		if(! snapshotDo())
 			return false;
 
 		if(exitAtFirstSnapshot)
@@ -105,14 +138,39 @@ class Webcam
 		return true;
 	}
 
-	private bool doSnapshot()
+	public bool RecordStart()
 	{
-		try {
-			streamWriter.Write('s');
-		} catch {
-			//maybe Mplayer window has been closed by user
+		if(process == null || streamWriter == null)
 			return false;
-		}
+
+		if(! recordStartOrEndDo())
+			return false;
+
+		return true;
+	}
+
+	public bool RecordEnd(int sessionID, Constants.TestTypes testType, int testID)
+	{
+		if(process == null || streamWriter == null)
+			return false;
+
+		//System.Threading.Thread.Sleep(2000); //TODO: play with this to see if cut better video at end
+		if(! recordStartOrEndDo())
+			return false;
+
+		ExitCamera();
+
+		//Convert video to the name and format expected
+		if(! convertImagesToVideo())
+			return false;
+
+		//Copy the video to expected place
+		if (! Util.CopyTempVideo(sessionID, testType, testID))
+			return false;
+
+		//Delete temp photos and video
+		Util.DeleteTempPhotosAndVideo();
+
 		return true;
 	}
 
@@ -133,4 +191,47 @@ class Webcam
 		process = null;
 		Running = false;
 	}
+
+	/*
+	 * private methods
+	 */
+
+	private bool snapshotDo()
+	{
+		try {
+			streamWriter.Write('s');
+		} catch {
+			//maybe Mplayer window has been closed by user
+			return false;
+		}
+		return true;
+	}
+
+	private bool recordStartOrEndDo()
+	{
+		try {
+			streamWriter.Write('S');
+		} catch {
+			//maybe Mplayer window has been closed by user
+			return false;
+		}
+		return true;
+	}
+
+	private bool convertImagesToVideo()
+	{
+		string executable = "ffmpeg";
+		List<string> parameters = new List<string>();
+		//ffmpeg -framerate 20 -y -i chronojump-last-photo%04d.png output.mp4
+		parameters.Insert (0, "-framerate");
+		parameters.Insert (1, "20");
+		parameters.Insert (2, "-y"); //force overwrite without asking
+		parameters.Insert (3, "-i"); //input files
+		parameters.Insert (4, Util.GetMplayerPhotoTempFileNamePre() + "%04d.png");
+		parameters.Insert (5, Util.GetVideoTempFileName());
+
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
+		return execute_result.success;
+	}
+
 }

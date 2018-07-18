@@ -2201,7 +2201,7 @@ public class PersonAddMultipleWindow {
 			} catch {
 				LogB.Warning("Catched, maybe is used by another program");
 				new DialogMessage(Constants.MessageTypes.WARNING, 
-						Catalog.GetString("Sorry, video cannot be stored.") + "\n\n" +
+						Constants.FileCannotSave + "\n\n" +
 						Catalog.GetString("Maybe this file is opened by an SpreadSheet software like Excel. Please, close that program.")
 						);
 				fc.Destroy();

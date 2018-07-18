@@ -877,6 +877,7 @@ public class PersonAddModifyWindow
 
 	private Person currentPerson;
 	private Session currentSession;
+	private string videoDevice;
 	private PersonSession currentPersonSession;
 	private string sex = Constants.M;
 	private double weightIni;
@@ -1081,7 +1082,7 @@ public class PersonAddModifyWindow
 
 		// B) start if it's not running
 		webcam = new Webcam();
-		Webcam.Result result = webcam.MplayerCapture();
+		Webcam.Result result = webcam.MplayerCapture(videoDevice);
 		if (! result.success)
 		{
 			LogB.Debug ("Webcam Mplayer error: ", result.error);
@@ -1260,7 +1261,8 @@ public class PersonAddModifyWindow
 	
 	static public PersonAddModifyWindow Show (Gtk.Window parent, 
 			Session mySession, Person currentPerson, int pDN, 
-			Gtk.CheckButton app1_checkbutton_video, bool showCapturePhoto)
+			Gtk.CheckButton app1_checkbutton_video, bool showCapturePhoto,
+			string videoDevice)
 	{
 		if (PersonAddModifyWindowBox == null) {
 			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, showCapturePhoto);
@@ -1269,6 +1271,7 @@ public class PersonAddModifyWindow
 		PersonAddModifyWindowBox.pDN = pDN;
 		PersonAddModifyWindowBox.app1_checkbutton_video = app1_checkbutton_video;
 		PersonAddModifyWindowBox.button_take_photo_do.Sensitive = false;
+		PersonAddModifyWindowBox.videoDevice = videoDevice;
 
 		PersonAddModifyWindowBox.person_win.Show ();
 

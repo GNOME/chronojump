@@ -2680,7 +2680,8 @@ public partial class ChronoJumpWindow
 	{
 		personAddModifyWin = PersonAddModifyWindow.Show(app1,
 				currentSession, new Person(-1), 
-				preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo
+				preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
+				preferences.videoDevice
 				);
 		//-1 means we are adding a new person
 		//if we were modifying it will be it's uniqueID
@@ -2805,7 +2806,8 @@ public partial class ChronoJumpWindow
 		LogB.Information("modify person");
 
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, 
-				preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo
+				preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
+				preferences.videoDevice
 				); 
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}
@@ -4211,12 +4213,19 @@ public partial class ChronoJumpWindow
 	Webcam webcam;
 	private void webcamRecordStart()
 	{
+		if(preferences.videoDevice == "")
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Video device is not configured. Check preferences / Multimedia.");
+			return;
+		}
+
 		webcam = new Webcam();
-		Webcam.Result result = webcam.MplayerCapture();
+		Webcam.Result result = webcam.MplayerCapture(preferences.videoDevice);
 		if(result.success)
 			webcam.RecordStart();
 	}
 
+	//TODO: manage don't call here if webcamRecordStart has not succeeded
 	private void webcamRecordEnd(Constants.TestTypes testType, int testID)
 	{
 		Webcam.Result result = webcam.RecordEnd (currentSession.UniqueID, testType, testID);

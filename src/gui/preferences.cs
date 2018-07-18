@@ -143,6 +143,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Label label_test_sound_result;
 	[Widget] Gtk.Box hbox_combo_camera;
 	[Widget] Gtk.ComboBox combo_camera;
+	[Widget] Gtk.Label label_no_cameras;
 
 	//language tab
 	[Widget] Gtk.Box hbox_combo_language;
@@ -263,6 +264,8 @@ public class PreferencesWindow
 			PreferencesWindowBox.checkbutton_volume.Active = true; 
 		else 
 			PreferencesWindowBox.checkbutton_volume.Active = false; 
+
+		PreferencesWindowBox.label_no_cameras.Visible = false;
 
 		if(UtilAll.IsWindows())
 		{
@@ -558,22 +561,25 @@ public class PreferencesWindow
 	 * end of triggers stuff
 	 */
 
-	private void createComboCamera(string [] devices, int current) {
+	private void createComboCamera(List<string> devices, int current) {
 		combo_camera = ComboBox.NewText ();
 
-		if(devices.Length == 0) {
-			devices = Util.StringToStringArray(Constants.CameraNotFound);
+		if(devices.Count == 0) {
+			//devices = Util.StringToStringArray(Constants.CameraNotFound);
+			label_no_cameras.Visible = true;
 			current = 0;
+			return;
 		}
 		
-		UtilGtk.ComboUpdate(combo_camera, devices, "");
+		UtilGtk.ComboUpdate(combo_camera, devices);
 		hbox_combo_camera.PackStart(combo_camera, true, true, 0);
 		hbox_combo_camera.ShowAll();
 
-		if(current >= devices.Length)
+		if(current >= devices.Count)
 			current = 0;
 		
-		combo_camera.Active = UtilGtk.ComboMakeActive(devices, devices[current]);
+		//TODO: take care with this as maybe devices are: "video0, video2"
+		//combo_camera.Active = UtilGtk.ComboMakeActive(devices, devices[current]);
 	}
 		
 	private void on_check_appearance_maximized_toggled (object obj, EventArgs args)

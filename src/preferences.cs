@@ -74,7 +74,7 @@ public class Preferences
 	public double encoderSmoothCon;
 	public Constants.Encoder1RMMethod encoder1RMMethod;
 	
-	public int videoDeviceNum; 		//AKA videoDevice
+	public string videoDevice;
 	public string CSVExportDecimalSeparator;
 	public string language;
 	public string crashLogLanguage;

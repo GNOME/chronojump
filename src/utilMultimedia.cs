@@ -55,7 +55,8 @@ public class UtilMultimedia
 		//on Linux search for video0, video1, ...
 		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
 		{
-			var dir = new DirectoryInfo("/dev");
+			string prefix = "/dev/";
+			var dir = new DirectoryInfo(prefix);
 			foreach(var file in dir.EnumerateFiles("video*"))
 				/*
 				 * return 0, 1, ...
@@ -63,8 +64,8 @@ public class UtilMultimedia
 						char.IsNumber(file.Name, 5) ) 		//and it's a number
 					list.Add(Convert.ToInt32(file.Name[5])); 			//0 or 1, or ...
 					*/
-				//return "video0", "video1", ...
-				list.Add(file.Name);
+				//return "/dev/video0", "/dev/video1", ...
+				list.Add(prefix + file.Name);
 		}
 
 		return list;

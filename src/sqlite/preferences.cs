@@ -170,7 +170,7 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderRhythmRestClustersSecondsStr, Util.ConvertToPoint(er.RestClustersSeconds), dbcmdTr);
 
 
-				Insert ("videoDevice", "0", dbcmdTr); //first
+				Insert ("videoDevice", "", dbcmdTr); //first
 				Insert ("inertialmomentum", "0.01", dbcmdTr);
 				Insert ("CSVExportDecimalSeparator", Util.GetDecimalSeparatorFromLocale(), dbcmdTr);
 				Insert ("RGraphsTranslate", "True", dbcmdTr);
@@ -368,7 +368,7 @@ class SqlitePreferences : Sqlite
 
 			//video... other
 			else if(reader[0].ToString() == "videoDevice")
-				preferences.videoDeviceNum = Convert.ToInt32(reader[1].ToString());
+				preferences.videoDevice = reader[1].ToString();
 			else if(reader[0].ToString() == "CSVExportDecimalSeparator")
 				preferences.CSVExportDecimalSeparator = reader[1].ToString();
 			else if(reader[0].ToString() == "language")

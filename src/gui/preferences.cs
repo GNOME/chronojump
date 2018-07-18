@@ -284,7 +284,7 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_sound_systemsounds.Active = true;
 		PreferencesWindowBox.label_test_sound_result.Text = "";
 
-		PreferencesWindowBox.createComboCamera(UtilMultimedia.GetVideoDevices(), preferences.videoDeviceNum);
+		PreferencesWindowBox.createComboCamera(UtilMultimedia.GetVideoDevices(), preferences.videoDevice);
 	
 
 		string [] decs = {"1", "2", "3"};
@@ -561,13 +561,13 @@ public class PreferencesWindow
 	 * end of triggers stuff
 	 */
 
-	private void createComboCamera(List<string> devices, int current) {
+	private void createComboCamera(List<string> devices, string current) {
 		combo_camera = ComboBox.NewText ();
 
 		if(devices.Count == 0) {
 			//devices = Util.StringToStringArray(Constants.CameraNotFound);
 			label_no_cameras.Visible = true;
-			current = 0;
+			current = "";
 			return;
 		}
 		
@@ -575,11 +575,10 @@ public class PreferencesWindow
 		hbox_combo_camera.PackStart(combo_camera, true, true, 0);
 		hbox_combo_camera.ShowAll();
 
-		if(current >= devices.Count)
-			current = 0;
+		//if(current >= devices.Count)
+		//	current = 0;
 		
-		//TODO: take care with this as maybe devices are: "video0, video2"
-		//combo_camera.Active = UtilGtk.ComboMakeActive(devices, devices[current]);
+		combo_camera.Active = UtilGtk.ComboMakeActive(combo_camera, current);
 	}
 		
 	private void on_check_appearance_maximized_toggled (object obj, EventArgs args)
@@ -1430,9 +1429,9 @@ public class PreferencesWindow
 			preferences.gstreamer = Preferences.GstreamerTypes.SYSTEMSOUNDS;
 		}
 
-		if( preferences.videoDeviceNum != UtilGtk.ComboGetActivePos(combo_camera) ) {
-			SqlitePreferences.Update("videoDevice", UtilGtk.ComboGetActivePos(combo_camera).ToString(), true);
-			preferences.videoDeviceNum = UtilGtk.ComboGetActivePos(combo_camera);
+		if( preferences.videoDevice != UtilGtk.ComboGetActive(combo_camera) ) {
+			SqlitePreferences.Update("videoDevice", UtilGtk.ComboGetActive(combo_camera), true);
+			preferences.videoDevice = UtilGtk.ComboGetActive(combo_camera);
 		}
 		
 

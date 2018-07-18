@@ -4311,7 +4311,8 @@ public partial class ChronoJumpWindow
 
 		//UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, chronopicWin.Connected);
 
-		webcamRecordStart();
+		if(preferences.videoOn)
+			webcamRecordStart();
 
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -4374,7 +4375,8 @@ public partial class ChronoJumpWindow
 			sensitiveGuiAutoExecuteOrWait (false);
 		}
 
-		webcamRecordEnd (Constants.TestTypes.JUMP, currentJump.UniqueID);
+		if(preferences.videoOn)
+			webcamRecordEnd (Constants.TestTypes.JUMP, currentJump.UniqueID);
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		showHideActionEventButtons(true, "Jump"); //show
@@ -4611,7 +4613,8 @@ public partial class ChronoJumpWindow
 				repetitiveConditionsWin, progressbarLimit, egd
 				);
 		
-		webcamRecordStart();
+		if(preferences.videoOn)
+			webcamRecordStart();
 		
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps
@@ -4670,7 +4673,8 @@ public partial class ChronoJumpWindow
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempJumpRj");
 
-		webcamRecordEnd (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
+		if(preferences.videoOn)
+			webcamRecordEnd (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		showHideActionEventButtons(true, "JumpRj"); //show

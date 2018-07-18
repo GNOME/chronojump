@@ -3839,8 +3839,17 @@ public partial class ChronoJumpWindow
 		image_video_no.Visible = ! myVideo;
 	}
 	
-	private void on_checkbutton_video_clicked(object o, EventArgs args) {
-		if(checkbutton_video.Active) {
+	private void on_checkbutton_video_clicked(object o, EventArgs args)
+	{
+		if(checkbutton_video.Active)
+		{
+			if(preferences.videoDevice == "" || preferences.videoDevice == "0")
+			{
+				new DialogMessage(Constants.MessageTypes.WARNING, "Video device is not configured. Check Preferences / Multimedia.");
+				checkbutton_video.Active = false;
+				return;
+			}
+
 			preferences.videoOn = true;
 			SqlitePreferences.Update("videoOn", "True", false);
 		} else {
@@ -3857,8 +3866,17 @@ public partial class ChronoJumpWindow
 		videoCapturePrepare(true); //if error, show message
 	}
 
-	private void on_checkbutton_video_encoder_clicked(object o, EventArgs args) {
-		if(checkbutton_video_encoder.Active) {
+	private void on_checkbutton_video_encoder_clicked(object o, EventArgs args)
+	{
+		if(checkbutton_video_encoder.Active)
+		{
+			if(preferences.videoDevice == "" || preferences.videoDevice == "0")
+			{
+				new DialogMessage(Constants.MessageTypes.WARNING, "Video device is not configured. Check Preferences / Multimedia.");
+				checkbutton_video_encoder.Active = false;
+				return;
+			}
+
 			preferences.videoOn = true;
 			SqlitePreferences.Update("videoOn", "True", false);
 		} else {
@@ -4215,7 +4233,7 @@ public partial class ChronoJumpWindow
 	{
 		if(preferences.videoDevice == "" || preferences.videoDevice == "0")
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Video device is not configured. Check preferences / Multimedia.");
+			new DialogMessage(Constants.MessageTypes.WARNING, "Video device is not configured. Check Preferences / Multimedia.");
 			return;
 		}
 

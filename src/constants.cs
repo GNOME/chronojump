@@ -540,7 +540,11 @@ public class Constants
 	public static string FindDriverNeed = Catalog.GetString("Chronopic driver has to be installed.");
 	public static string FindDriverWindows = Catalog.GetString("If you have problems connecting with Chronopic, ensure you have the <b>driver</b> installed at 'Windows Start Menu / Chronojump / Install Chronopic driver'."); 
 	public static string FindDriverOthers = Catalog.GetString("Check Chronojump software website.");
-	public static string MplayerNotInstalled = string.Format(Catalog.GetString("Error. {0} is not installed."), "Mplayer");
+	public static string MplayerNotInstalled = string.Format(Catalog.GetString("Error. {0} is not installed."), "mplayer");
+	public static string FfmpegNotInstalled = string.Format(Catalog.GetString("Error. {0} is not installed."), "ffmpeg");
+	public static string MplayerClosed = string.Format(Catalog.GetString("Error. {0} has been closed."), "mplayer");
+	public static string MplayerCannotSave = string.Format(Catalog.GetString("Error. {0} cannot save video."), "mplayer");
+	public static string VideoNothingCaptured = Catalog.GetString("Error. Nothing has been captured.");
 
 //	public static System.Media.SystemSound SoundCanStart = System.Media.SystemSounds.Question; 
 //	public static System.Media.SystemSounds SoundGood = System.Media.SystemSounds.Exclamation; 

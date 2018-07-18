@@ -138,40 +138,43 @@ class Webcam
 		return true;
 	}
 
-	public bool RecordStart()
+	public Result RecordStart()
 	{
 		if(process == null || streamWriter == null)
-			return false;
+			return new Result (false, "", Constants.MplayerClosed);
 
 		if(! recordStartOrEndDo())
-			return false;
+			return new Result (false, "", Constants.MplayerCannotSave);
 
-		return true;
+		return new Result (true, "");
 	}
 
-	public bool RecordEnd(int sessionID, Constants.TestTypes testType, int testID)
+	public Result RecordEnd(int sessionID, Constants.TestTypes testType, int testID)
 	{
 		if(process == null || streamWriter == null)
-			return false;
+			return new Result (false, "", Constants.MplayerClosed);
 
 		//System.Threading.Thread.Sleep(2000); //TODO: play with this to see if cut better video at end
 		if(! recordStartOrEndDo())
-			return false;
+			return new Result (false, "", Constants.MplayerCannotSave);
 
 		ExitCamera();
 
+		if(! findIfThereAreImagesToConvert())
+			return new Result (false, "", Constants.VideoNothingCaptured);
+
 		//Convert video to the name and format expected
 		if(! convertImagesToVideo())
-			return false;
+			return new Result (false, "", Constants.FfmpegNotInstalled);
 
 		//Copy the video to expected place
 		if (! Util.CopyTempVideo(sessionID, testType, testID))
-			return false;
+			return new Result (false, "", Constants.FileCopyProblem);
 
 		//Delete temp photos and video
 		Util.DeleteTempPhotosAndVideo();
 
-		return true;
+		return new Result (true, "");
 	}
 
 	public void ExitCamera()
@@ -216,6 +219,11 @@ class Webcam
 			return false;
 		}
 		return true;
+	}
+
+	private bool findIfThereAreImagesToConvert()
+	{
+		return (File.Exists(Util.GetMplayerPhotoTempFileNamePre() + "0001.png"));
 	}
 
 	private bool convertImagesToVideo()

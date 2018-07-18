@@ -4204,12 +4204,30 @@ public partial class ChronoJumpWindow
 	}
 
 	/* ---------------------------------------------------------
-	 * ----------------  JUMPS EXECUTION (no RJ) ----------------
+	 * ----------------  Webcam manage on execution ------------
 	 *  --------------------------------------------------------
 	 */
 
-	
 	Webcam webcam;
+	private void webcamRecordStart()
+	{
+		webcam = new Webcam();
+		Webcam.Result result = webcam.MplayerCapture();
+		if(result.success)
+			webcam.RecordStart();
+	}
+
+	private void webcamRecordEnd(Constants.TestTypes testType, int testID)
+	{
+		Webcam.Result result = webcam.RecordEnd (currentSession.UniqueID, testType, testID);
+		if(! result.success)
+			new DialogMessage(Constants.MessageTypes.WARNING, result.error);
+	}
+
+	/* ---------------------------------------------------------
+	 * ----------------  JUMPS EXECUTION (no RJ) ----------------
+	 *  --------------------------------------------------------
+	 */
 
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (bool canCaptureC)
@@ -4293,9 +4311,7 @@ public partial class ChronoJumpWindow
 
 		//UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, chronopicWin.Connected);
 
-		webcam = new Webcam();
-		Webcam.Result result = webcam.MplayerCapture();
-		webcam.RecordStart();
+		webcamRecordStart();
 
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -4358,9 +4374,7 @@ public partial class ChronoJumpWindow
 			sensitiveGuiAutoExecuteOrWait (false);
 		}
 
-		if(! webcam.RecordEnd (currentSession.UniqueID, Constants.TestTypes.JUMP, currentJump.UniqueID))
-			new DialogMessage(Constants.MessageTypes.WARNING,
-					Catalog.GetString("Sorry, video cannot be stored."));
+		webcamRecordEnd (Constants.TestTypes.JUMP, currentJump.UniqueID);
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		showHideActionEventButtons(true, "Jump"); //show
@@ -4597,9 +4611,7 @@ public partial class ChronoJumpWindow
 				repetitiveConditionsWin, progressbarLimit, egd
 				);
 		
-		webcam = new Webcam();
-		Webcam.Result result = webcam.MplayerCapture();
-		webcam.RecordStart();
+		webcamRecordStart();
 		
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps
@@ -4658,9 +4670,7 @@ public partial class ChronoJumpWindow
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempJumpRj");
 
-		if(! webcam.RecordEnd (currentSession.UniqueID, Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID))
-			new DialogMessage(Constants.MessageTypes.WARNING,
-					Catalog.GetString("Sorry, video cannot be stored."));
+		webcamRecordEnd (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		showHideActionEventButtons(true, "JumpRj"); //show

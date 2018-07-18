@@ -3783,7 +3783,7 @@ public partial class ChronoJumpWindow
 		*/
 	}
 
-	int videoDeviceNum = 0;	
+	//int videoDeviceNum = 0;
 	private void videoCapturePrepare(bool showErrorMessage) {
 		/*
 		 * TODO: reimplement this with ffmpeg
@@ -4213,7 +4213,7 @@ public partial class ChronoJumpWindow
 	Webcam webcam;
 	private void webcamRecordStart()
 	{
-		if(preferences.videoDevice == "")
+		if(preferences.videoDevice == "" || preferences.videoDevice == "0")
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, "Video device is not configured. Check preferences / Multimedia.");
 			return;

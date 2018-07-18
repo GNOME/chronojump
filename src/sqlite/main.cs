@@ -1384,7 +1384,7 @@ class Sqlite
 			if(currentVersion == "0.91") {
 				Sqlite.Open();
 				
-				SqlitePreferences.Insert("videoDevice", "0");
+				SqlitePreferences.Insert("videoDevice", "");
 				LogB.SQL("Added videoDevice to preferences");
 				
 				SqlitePreferences.Update ("databaseVersion", "0.92", true); 

@@ -4789,7 +4789,10 @@ public partial class ChronoJumpWindow
 				image_run_execute_running,
 				image_run_execute_photocell
 				);
-		
+
+		if(preferences.videoOn)
+			webcamRecordStart();
+
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
 			
@@ -4808,11 +4811,6 @@ public partial class ChronoJumpWindow
 
 		if ( ! currentEventExecute.Cancel ) {
 			currentRun = (Run) currentEventExecute.EventDone;
-			
-			//move video file if exists
-			if(preferences.videoOn)
-				if(! Util.CopyTempVideo(currentSession.UniqueID, Constants.TestTypes.RUN, currentRun.UniqueID))
-					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
 			
 			currentRun.MetersSecondsPreferred = preferences.metersSecondsPreferred;
 
@@ -4835,6 +4833,9 @@ public partial class ChronoJumpWindow
 		}
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
+
+		if(preferences.videoOn && webcam.Running)
+			webcamRecordEnd (Constants.TestTypes.RUN, currentRun.UniqueID);
 	}
 
 	/* ---------------------------------------------------------
@@ -4917,6 +4918,9 @@ public partial class ChronoJumpWindow
 				image_run_execute_photocell
 				);
 
+		if(preferences.videoOn)
+			webcamRecordStart();
+
 		//suitable for limited by tracks and time
 		if(! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -4938,11 +4942,6 @@ public partial class ChronoJumpWindow
 
 		if ( ! currentEventExecute.Cancel ) {
 			currentRunInterval = (RunInterval) currentEventExecute.EventDone;
-
-			//move video file if exists
-			if(preferences.videoOn)
-				if(! Util.CopyTempVideo(currentSession.UniqueID, Constants.TestTypes.RUN_I, currentRunInterval.UniqueID))
-					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
 
 			currentRunInterval.MetersSecondsPreferred = preferences.metersSecondsPreferred;
 
@@ -4987,6 +4986,9 @@ public partial class ChronoJumpWindow
 		
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempRunInterval");
+
+		if(preferences.videoOn && webcam.Running)
+			webcamRecordEnd (Constants.TestTypes.RUN_I, currentRunInterval.UniqueID);
 
 		if(compujumpAutologout != null)
 			compujumpAutologout.EndCapturingRunInterval();
@@ -5133,6 +5135,9 @@ public partial class ChronoJumpWindow
 				progressbarLimit, egd, description
 				);
 
+		if(preferences.videoOn)
+			webcamRecordStart();
+
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
 	
@@ -5203,11 +5208,6 @@ public partial class ChronoJumpWindow
 
 			currentReactionTime = (ReactionTime) currentEventExecute.EventDone;
 			
-			//move video file if exists
-			if(preferences.videoOn)
-				if(! Util.CopyTempVideo(currentSession.UniqueID, Constants.TestTypes.RT, currentReactionTime.UniqueID))
-					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
-			
 			myTreeViewReactionTimes.Add(currentPerson.Name, currentReactionTime);
 			
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
@@ -5222,6 +5222,9 @@ public partial class ChronoJumpWindow
 		}
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
+
+		if(preferences.videoOn && webcam.Running)
+			webcamRecordEnd (Constants.TestTypes.RT, currentReactionTime.UniqueID);
 	}
 
 	/* ---------------------------------------------------------
@@ -5287,6 +5290,9 @@ public partial class ChronoJumpWindow
 				preferences.volumeOn, preferences.gstreamer, egd
 				);
 		
+		if(preferences.videoOn)
+			webcamRecordStart();
+
 		if(! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
 		
@@ -5321,11 +5327,6 @@ public partial class ChronoJumpWindow
 			
 			currentPulse = (Pulse) currentEventExecute.EventDone;
 			
-			//move video file if exists
-			if(preferences.videoOn)
-				if(! Util.CopyTempVideo(currentSession.UniqueID, Constants.TestTypes.PULSE, currentPulse.UniqueID))
-					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
-
 			myTreeViewPulses.Add(currentPerson.Name, currentPulse);
 			
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
@@ -5343,6 +5344,9 @@ public partial class ChronoJumpWindow
 		}
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
+
+		if(preferences.videoOn && webcam.Running)
+			webcamRecordEnd (Constants.TestTypes.PULSE, currentPulse.UniqueID);
 	}
 
 	/* ---------------------------------------------------------
@@ -5569,6 +5573,8 @@ public partial class ChronoJumpWindow
 				app1, egd
 				);
 
+		if(preferences.videoOn)
+			webcamRecordStart();
 
 		//mark to only get inside on_multi_chronopic_finished one time
 		multiFinishing = false;
@@ -5612,12 +5618,6 @@ LogB.Debug("U");
 LogB.Debug("V");
 			currentMultiChronopic = (MultiChronopic) currentEventExecute.EventDone;
 LogB.Debug("W");
-			//move video file if exists
-			if(preferences.videoOn)
-				if(! Util.CopyTempVideo(currentSession.UniqueID, 
-							Constants.TestTypes.MULTICHRONOPIC, currentMultiChronopic.UniqueID))
-					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
-
 			//this produces also a crash:
 			//new DialogMessage(Constants.MessageTypes.INFO, "Please, touch a platform now.");
 
@@ -5639,6 +5639,9 @@ LogB.Debug("X");
 		}
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
+
+		if(preferences.videoOn && webcam.Running)
+			webcamRecordEnd (Constants.TestTypes.MULTICHRONOPIC, currentMultiChronopic.UniqueID);
 	}
 		
 

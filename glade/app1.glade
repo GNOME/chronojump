@@ -8671,15 +8671,53 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox59">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkTable" id="table16">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="n_rows">2</property>
+                                                            <property name="n_columns">2</property>
+                                                            <property name="column_spacing">4</property>
+                                                            <property name="row_spacing">4</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkCheckButton" id="checkbutton_video">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Record video (on / off)</property>
-                                                            <property name="relief">none</property>
                                                             <property name="active">True</property>
-                                                            <property name="draw_indicator">True</property>
+                                                            <property name="draw_indicator">False</property>
                                                             <signal name="clicked" handler="on_checkbutton_video_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox106">
@@ -8688,11 +8726,9 @@ EncoderInertialCapture</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <widget class="GtkImage" id="image_video_yes">
-                                                            <property name="width_request">16</property>
-                                                            <property name="height_request">16</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-media-record</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">1</property>
                                                             </widget>
                                                             <packing>
@@ -8703,11 +8739,9 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkImage" id="image_video_no">
-                                                            <property name="width_request">16</property>
-                                                            <property name="height_request">16</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-no</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">1</property>
                                                             </widget>
                                                             <packing>
@@ -8719,10 +8753,28 @@ EncoderInertialCapture</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_video_play_this_test">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Play Video (v)</property>
+                                                            <signal name="clicked" handler="on_video_play_last_test_clicked" swapped="no"/>
+                                                            <accelerator key="v" signal="clicked"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_video_play_this_test">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -8731,16 +8783,15 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -8949,28 +9000,7 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">2</property>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_video_play_this_test">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Play Video (v)</property>
-                                                            <signal name="clicked" handler="on_video_play_last_test_clicked" swapped="no"/>
-                                                            <accelerator key="v" signal="clicked"/>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_video_play_this_test">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon-size">1</property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_inspect_last_test">

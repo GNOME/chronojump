@@ -364,6 +364,9 @@ public partial class ChronoJumpWindow
 		image_encoder_calibrate.Pixbuf = pixbuf;
 		image_encoder_recalibrate.Pixbuf = pixbuf;
 
+		image_video_yes.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
+		image_video_no.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_end_camera.png");
+
 		/*
 		 * <------ end of material design icons
 		 */

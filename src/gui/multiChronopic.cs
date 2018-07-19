@@ -53,7 +53,7 @@ public partial class ChronoJumpWindow
 		else if(extra_window_radio_multichronopic_run_analysis.Active) 
 			currentMultiChronopicType = new MultiChronopicType(Constants.RunAnalysisName);
 
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		/*
 		 *	disabled on 1.6.3

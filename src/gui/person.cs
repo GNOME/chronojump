@@ -1082,7 +1082,8 @@ public class PersonAddModifyWindow
 
 		// B) start if it's not running
 		webcam = new Webcam();
-		Webcam.Result result = webcam.MplayerCapture(videoDevice);
+		Webcam.Result result = webcam.MplayerCapture(videoDevice,
+				Webcam.CaptureTypes.PHOTO);
 		if (! result.success)
 		{
 			LogB.Debug ("Webcam Mplayer error: ", result.error);

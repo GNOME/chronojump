@@ -4237,7 +4237,8 @@ public partial class ChronoJumpWindow
 		}
 
 		webcam = new Webcam();
-		Webcam.Result result = webcam.MplayerCapture(preferences.videoDevice);
+		Webcam.Result result = webcam.MplayerCapture(preferences.videoDevice,
+				Webcam.CaptureTypes.VIDEO);
 		if(result.success)
 		{
 			webcam.RecordStart();

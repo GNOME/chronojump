@@ -60,7 +60,8 @@ class Webcam
 	 * public methods
 	 */
 
-	public Result MplayerCapture(string videoDevice)
+	public enum CaptureTypes { PHOTO, VIDEO }
+	public Result MplayerCapture(string videoDevice, CaptureTypes captureType)
 	{
 		if(process != null)
 			return new Result (false, "");
@@ -71,13 +72,25 @@ class Webcam
 		string executable = "mplayer";
 		List<string> parameters = new List<string>();
 		//-noborder -nosound -tv driver=v4l2:gain=1:width=400:height=400:device=/dev/video0:fps=10:outfmt=rgb16 tv:// -vf screenshot=/tmp/chronojump-last-photo
-		parameters.Insert (0, "-noborder"); //on X11 can be: title "Chronojump"". -noborder makes no accept 's', or 'q'
-		parameters.Insert (1, "-nosound");
-		parameters.Insert (2, "-tv");
-		parameters.Insert (3, "driver=v4l2:gain=1:width=400:height=400:device=" + videoDevice + ":fps=10:outfmt=rgb16");
-		parameters.Insert (4, "tv://");
-		parameters.Insert (5, "-vf");
-		parameters.Insert (6, "screenshot=" + Util.GetMplayerPhotoTempFileNamePre());
+		//parameters.Insert (0, "-noborder"); //on X11 can be: title "Chronojump"". -noborder makes no accept 's', or 'q'
+
+		int i = 0;
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+		{
+			parameters.Insert (i ++, "-title"); //on X11 can be: title "Chronojump"". -noborder makes no accept 's', or 'q'
+			if(captureType == CaptureTypes.PHOTO)
+				parameters.Insert (i ++, "Chronojump snapshot");
+			else //if(captureType == CaptureTypes.VIDEO)
+				parameters.Insert (i ++, "Chronojump video record");
+		} else
+			parameters.Insert (i ++, "-noborder");
+
+		parameters.Insert (i ++, "-nosound");
+		parameters.Insert (i ++, "-tv");
+		parameters.Insert (i ++, "driver=v4l2:gain=1:width=400:height=400:device=" + videoDevice + ":fps=10:outfmt=rgb16");
+		parameters.Insert (i ++, "tv://");
+		parameters.Insert (i ++, "-vf");
+		parameters.Insert (i ++, "screenshot=" + Util.GetMplayerPhotoTempFileNamePre());
 
 		process = new Process();
 		bool success = ExecuteProcess.RunAtBackground (process, executable, parameters, true); //redirectInput
@@ -103,6 +116,13 @@ class Webcam
 		List<string> parameters = new List<string>();
 		parameters.Insert (0, filename);
 		//parameters.Insert (0, "-noborder"); //on X11 can be: title "Chronojump"". -noborder makes no accept 's', or 'q'
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+		{
+			parameters.Insert (0, "-title"); //on X11 can be: title "Chronojump"". -noborder makes no accept 's', or 'q'
+			parameters.Insert (1, "Chronojump video");
+		} else
+			parameters.Insert (0, "-noborder");
+
 
 		process = new Process();
 		bool success = ExecuteProcess.RunAtBackground (process, executable, parameters, false);

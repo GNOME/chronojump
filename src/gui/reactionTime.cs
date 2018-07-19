@@ -51,7 +51,7 @@ public partial class ChronoJumpWindow
 		hbox_flicker_lights.Visible = false;
 		hbox_discriminative_lights.Visible = false;
 
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		changeTestImage("","", "reaction_time.png");
 

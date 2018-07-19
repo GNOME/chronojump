@@ -326,7 +326,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_test;
 	[Widget] Gtk.Button button_image_test_zoom;
 	[Widget] Gtk.Image image_test_zoom;
-	[Widget] Gtk.Box vbox_last_test_buttons;
 	[Widget] Gtk.Button button_video_play_this_test;
 	[Widget] Gtk.Button button_delete_last_test;
 	[Widget] Gtk.Button button_inspect_last_test;
@@ -896,7 +895,7 @@ public partial class ChronoJumpWindow
 	public void on_radio_mode_pulses_small_toggled (object obj, EventArgs args) {
 		if(radio_mode_pulses_small.Active)
 		{
-			vbox_last_test_buttons.Sensitive = false;
+			sensitiveLastTestButtons(false);
 			notebooks_change(Constants.Menuitem_modes.OTHER);
 			on_extra_window_pulses_test_changed(obj, args);
 			hbox_results_legend.Visible = false;
@@ -906,7 +905,7 @@ public partial class ChronoJumpWindow
 	public void on_radio_mode_multi_chronopic_small_toggled (object obj, EventArgs args) {
 		if(radio_mode_multi_chronopic_small.Active)
 		{
-			vbox_last_test_buttons.Sensitive = false;
+			sensitiveLastTestButtons(false);
 			notebooks_change(Constants.Menuitem_modes.OTHER);
 			on_extra_window_multichronopic_test_changed(obj, args);
 			hbox_results_legend.Visible = false;
@@ -1070,7 +1069,7 @@ public partial class ChronoJumpWindow
 
 	private void personChanged()
 	{
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		//1) change on jumps, runs, pulse capture graph
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
@@ -1236,7 +1235,7 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information("Cursor changed");
 
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who jumps
@@ -1336,7 +1335,7 @@ public partial class ChronoJumpWindow
 
 	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args)
 	{
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who jumps
@@ -1438,7 +1437,7 @@ public partial class ChronoJumpWindow
 
 	private void on_treeview_runs_cursor_changed (object o, EventArgs args)
 	{
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who runs
@@ -1534,7 +1533,7 @@ public partial class ChronoJumpWindow
 
 	private void on_treeview_runs_interval_cursor_changed (object o, EventArgs args)
 	{
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who runs
@@ -1624,7 +1623,7 @@ public partial class ChronoJumpWindow
 
 	private void on_treeview_reaction_times_cursor_changed (object o, EventArgs args)
 	{
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who is executing
@@ -1707,7 +1706,7 @@ public partial class ChronoJumpWindow
 
 	private void on_treeview_pulses_cursor_changed (object o, EventArgs args)
 	{
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who is executing
@@ -1808,7 +1807,7 @@ public partial class ChronoJumpWindow
 	private void on_treeview_multi_chronopic_cursor_changed (object o, EventArgs args)
 	{
 		LogB.Information("Cursor changed");
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who does events
@@ -2006,7 +2005,7 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText); 
@@ -2020,7 +2019,7 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText); 
@@ -2034,7 +2033,7 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText); 
@@ -2048,7 +2047,7 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText); 
@@ -2118,7 +2117,7 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		string myText = UtilGtk.ComboGetActive(combo);
 
@@ -3126,7 +3125,7 @@ public partial class ChronoJumpWindow
 		menuitem_export_csv.Visible = true;
 
 		hbox_other.Visible = false;
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 
 		//all modes except force sensor show the tabs at bottom
 		notebook_capture_graph_table.CurrentPage = 0; //"Show graph"
@@ -6148,7 +6147,7 @@ LogB.Debug("X");
 	}
 
 	private void deleted_last_test_update_widgets() {
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 		UtilGtk.ClearDrawingArea(event_execute_drawingarea, event_execute_pixmap);
 		notebook_results_data.CurrentPage = 3; //shows "deleted test"
 	}
@@ -7385,7 +7384,7 @@ LogB.Debug("X");
 		notebook_encoder_sup.Sensitive = false;
 		vbox_stats.Sensitive = false;
 		
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 		vbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
 
@@ -7524,7 +7523,7 @@ LogB.Debug("X");
 		hbox_runs_interval.Sensitive = false;
 		hbox_other_mc.Sensitive = false;
 		hbox_other_pulses.Sensitive = false;
-		vbox_last_test_buttons.Sensitive = false;
+		sensitiveLastTestButtons(false);
 		
 		button_activate_chronopics.Sensitive = false;
 		button_threshold.Sensitive = false;
@@ -7588,7 +7587,7 @@ LogB.Debug("X");
 		hbox_other_mc.Sensitive = true;
 		hbox_other_pulses.Sensitive = true;
 		//hbox_multi_chronopic_buttons.Sensitive = true;
-		vbox_last_test_buttons.Sensitive = true;
+		sensitiveLastTestButtons(true);
 		
 		button_activate_chronopics.Sensitive = true;
 		button_threshold.Sensitive = true;
@@ -7615,7 +7614,13 @@ LogB.Debug("X");
 		}
 		LogB.Information(" sensitiveGuiEventDone end ");
 	}
-	
+
+	//to sensitive on and off the play_this_test and delete_this_test
+	private void sensitiveLastTestButtons(bool sensitive)
+	{
+		button_video_play_this_test.Sensitive = sensitive;
+		button_delete_last_test.Sensitive = sensitive;
+	}
 	/*
 	 * sensitive GUI on executeAuto methods 
 	 */
@@ -7702,7 +7707,7 @@ LogB.Debug("X");
 		button_threshold.Sensitive 		= ! execute;
 		button_execute_test.Sensitive 		= ! execute;
 		notebook_options_top.Sensitive 		= ! execute;
-		vbox_last_test_buttons.Sensitive 	= ! execute;
+		sensitiveLastTestButtons(! execute);
 	}
 
 

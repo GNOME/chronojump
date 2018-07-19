@@ -246,11 +246,6 @@ public partial class ChronoJumpWindow
 	private ExecutingGraphData event_execute_prepareForTest () 
 	{
 		checkbutton_video.Sensitive = false;
-		if(preferences.videoOn) {
-			//capturer.ClickRec();
-			//label_video_feedback.Text = Catalog.GetString("Recording");
-			label_video_feedback.Text = "Rec.";
-		}
 
 		ExecutingGraphData executingGraphData = new ExecutingGraphData(
 				event_execute_button_cancel, event_execute_button_finish, 

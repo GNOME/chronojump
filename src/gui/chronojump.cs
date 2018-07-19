@@ -4239,15 +4239,25 @@ public partial class ChronoJumpWindow
 		webcam = new Webcam();
 		Webcam.Result result = webcam.MplayerCapture(preferences.videoDevice);
 		if(result.success)
+		{
 			webcam.RecordStart();
+			label_video_feedback.Text = "Rec.";
+		}
+		else
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, result.error);
+			button_video_play_this_test.Sensitive = false;
+		}
 	}
 
-	//TODO: manage don't call here if webcamRecordStart has not succeeded
-	private void webcamRecordEnd(Constants.TestTypes testType, int testID)
+	private void webcamRecordEnd (Constants.TestTypes testType, int testID)
 	{
 		Webcam.Result result = webcam.RecordEnd (currentSession.UniqueID, testType, testID);
 		if(! result.success)
+		{
 			new DialogMessage(Constants.MessageTypes.WARNING, result.error);
+			button_video_play_this_test.Sensitive = false;
+		}
 	}
 
 	/* ---------------------------------------------------------
@@ -4401,7 +4411,7 @@ public partial class ChronoJumpWindow
 			sensitiveGuiAutoExecuteOrWait (false);
 		}
 
-		if(preferences.videoOn)
+		if(preferences.videoOn && webcam.Running)
 			webcamRecordEnd (Constants.TestTypes.JUMP, currentJump.UniqueID);
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
@@ -4699,7 +4709,7 @@ public partial class ChronoJumpWindow
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempJumpRj");
 
-		if(preferences.videoOn)
+		if(preferences.videoOn && webcam.Running)
 			webcamRecordEnd (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown

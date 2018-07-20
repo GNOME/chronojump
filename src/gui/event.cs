@@ -19,6 +19,7 @@
  */
 
 using System;
+using Gdk;
 using Gtk;
 using Glade;
 using System.Text; //StringBuilder
@@ -79,9 +80,9 @@ public class EditEventWindow
 	[Widget] protected Gtk.Label label_mistakes;
 	[Widget] protected Gtk.SpinButton spin_mistakes;
 
-	[Widget] protected Gtk.Label label_video_yes;
-	[Widget] protected Gtk.Label label_video_no;
+	[Widget] protected Gtk.Label label_video_yes_no;
 	[Widget] protected Gtk.Button button_video_watch;
+	[Widget] protected Gtk.Image image_video_watch;
 	[Widget] protected Gtk.Button button_video_url;
 	protected string videoFileName = "";
 	
@@ -150,7 +151,7 @@ public class EditEventWindow
 
 		return EditEventWindowBox;
 	}
-	
+
 	protected virtual void initializeValues () {
 		typeOfTest = Constants.TestTypes.JUMP;
 		showType = true;
@@ -173,6 +174,8 @@ public class EditEventWindow
 	protected void fillDialog (Event myEvent)
 	{
 		fillWindowTitleAndLabelHeader();
+
+		image_video_watch.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "video_play.png");
 
 		string id = myEvent.UniqueID.ToString();
 		if(myEvent.Simulated == Constants.Simulated) 
@@ -296,37 +299,25 @@ public class EditEventWindow
 		//show video if available	
 		videoFileName = Util.GetVideoFileName(myEvent.SessionID, typeOfTest, myEvent.UniqueID);
 		if(File.Exists(videoFileName)) {
-			label_video_yes.Visible = true;
-			label_video_no.Visible = false;
+			label_video_yes_no.Text = Catalog.GetString("Yes");
 			button_video_watch.Sensitive = true;
 			button_video_url.Sensitive = true;
 		} else {
-			label_video_yes.Visible = false;
-			label_video_no.Visible = true;
+			label_video_yes_no.Text = Catalog.GetString("No");
 			button_video_watch.Sensitive = false;
 			button_video_url.Sensitive = false;
 		}
 	}
 
-	private void on_button_video_watch_clicked (object o, EventArgs args) {
-		/*
-		 * TODO: reimplement this with ffmpeg
-
-		if(File.Exists(videoFileName)) { 
+	private void on_button_video_watch_clicked (object o, EventArgs args)
+	{
+		if(File.Exists(videoFileName))
+		{
 			LogB.Information("Exists and clicked " + videoFileName);
 
-			PlayerBin player = new PlayerBin();
-			player.Open(videoFileName);
-
-			Gtk.Window d = new Gtk.Window(Catalog.GetString("Playing video"));
-			d.Add(player);
-			d.Modal = true;
-			d.SetDefaultSize(500,400);
-			d.ShowAll();
-			d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {player.Close(); player.Dispose();};
-			player.Play(); 
+			Webcam webcam = new Webcam();
+			Webcam.Result result = webcam.MplayerPlay(videoFileName);
 		}
-		*/
 	}
 
 	private void on_button_video_url_clicked (object o, EventArgs args) {

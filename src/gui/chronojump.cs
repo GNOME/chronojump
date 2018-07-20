@@ -329,6 +329,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_video_play_this_test;
 	[Widget] Gtk.Button button_delete_last_test;
 	[Widget] Gtk.Button button_inspect_last_test;
+	[Widget] Gtk.VBox vbox_last_test_buttons;
 
 	[Widget] Gtk.HBox hbox_chronopics_and_more;
 	[Widget] Gtk.Button button_activate_chronopics;
@@ -7640,8 +7641,10 @@ LogB.Debug("mc finished 5");
 	//to sensitive on and off the play_this_test and delete_this_test
 	private void sensitiveLastTestButtons(bool sensitive)
 	{
-		button_video_play_this_test.Sensitive = sensitive;
-		button_delete_last_test.Sensitive = sensitive;
+		//button_video_play_this_test.Sensitive = sensitive;
+		//button_delete_last_test.Sensitive = sensitive;
+		vbox_last_test_buttons.Sensitive = sensitive;
+
 	}
 	/*
 	 * sensitive GUI on executeAuto methods 

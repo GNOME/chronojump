@@ -1081,9 +1081,8 @@ public class PersonAddModifyWindow
 		}
 
 		// B) start if it's not running
-		webcam = new Webcam();
-		Webcam.Result result = webcam.MplayerCapture(videoDevice,
-				Webcam.CaptureTypes.PHOTO);
+		webcam = new Webcam(videoDevice);
+		Webcam.Result result = webcam.MplayerCapture(Webcam.CaptureTypes.PHOTO);
 		if (! result.success)
 		{
 			LogB.Debug ("Webcam Mplayer error: ", result.error);
@@ -1141,7 +1140,7 @@ public class PersonAddModifyWindow
 
 		if(webcam.Snapshot())
 		{
-			File.Copy(Util.GetMplayerPhotoTempFileNamePost(), Util.GetPhotoPngFileName(false, currentPerson.UniqueID), true); //overwrite
+			File.Copy(Util.GetMplayerPhotoTempFileNamePost(videoDevice), Util.GetPhotoPngFileName(false, currentPerson.UniqueID), true); //overwrite
 
 			string filenameMini = Util.GetPhotoPngFileName(true, currentPerson.UniqueID);
 			bool miniSuccess = UtilMultimedia.LoadAndResizeImage(

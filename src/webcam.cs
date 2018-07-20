@@ -23,13 +23,14 @@ using System.Diagnostics;
 using System;
 using System.IO;
 
-
+//todo separate in different classes (inherited)
 class Webcam
 {
 	public bool Running;
 
 	private Process process;
 	private StreamWriter streamWriter;
+	private string videoDevice;
 
 	// Result struct holds the output, error and success operations. It's used to pass
 	// errors from different layers (e.g. executing Python scripts) to the UI layer
@@ -48,12 +49,20 @@ class Webcam
 	}
 
 	/*
-	 * constructor
+	 * constructor for capture
 	 */
 
+	public Webcam(string videoDevice)
+	{
+		this.videoDevice = videoDevice;
+		Running = false;
+	}
+
+	/*
+	 * constructor for play
+	 */
 	public Webcam()
 	{
-		Running = false;
 	}
 
 	/*
@@ -61,12 +70,13 @@ class Webcam
 	 */
 
 	public enum CaptureTypes { PHOTO, VIDEO }
-	public Result MplayerCapture(string videoDevice, CaptureTypes captureType)
+
+	public Result MplayerCapture(CaptureTypes captureType)
 	{
 		if(process != null)
 			return new Result (false, "");
 
-		string tempFile = Util.GetMplayerPhotoTempFileNamePost();
+		string tempFile = Util.GetMplayerPhotoTempFileNamePost(videoDeviceToFilename());
 		Util.FileDelete(tempFile);
 
 		string executable = "mplayer";
@@ -90,7 +100,7 @@ class Webcam
 		parameters.Insert (i ++, "driver=v4l2:gain=1:width=400:height=400:device=" + videoDevice + ":fps=10:outfmt=rgb16");
 		parameters.Insert (i ++, "tv://");
 		parameters.Insert (i ++, "-vf");
-		parameters.Insert (i ++, "screenshot=" + Util.GetMplayerPhotoTempFileNamePre());
+		parameters.Insert (i ++, "screenshot=" + Util.GetMplayerPhotoTempFileNamePre(videoDeviceToFilename()));
 
 		process = new Process();
 		bool success = ExecuteProcess.RunAtBackground (process, executable, parameters, true); //redirectInput
@@ -241,7 +251,7 @@ class Webcam
 
 	private bool findIfThereAreImagesToConvert()
 	{
-		return (File.Exists(Util.GetMplayerPhotoTempFileNamePre() + "0001.png"));
+		return (File.Exists(Util.GetMplayerPhotoTempFileNamePre(videoDeviceToFilename()) + "0001.png"));
 	}
 
 	private bool convertImagesToVideo()
@@ -253,11 +263,17 @@ class Webcam
 		parameters.Insert (1, "20");
 		parameters.Insert (2, "-y"); //force overwrite without asking
 		parameters.Insert (3, "-i"); //input files
-		parameters.Insert (4, Util.GetMplayerPhotoTempFileNamePre() + "%04d.png");
+		parameters.Insert (4, Util.GetMplayerPhotoTempFileNamePre(videoDeviceToFilename()) + "%04d.png");
 		parameters.Insert (5, Util.GetVideoTempFileName());
 
 		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
 		return execute_result.success;
+	}
+
+	// convert /dev/video0 to _dev_video0
+	private string videoDeviceToFilename()
+	{
+		return Util.ChangeChars(videoDevice, "/", "_");
 	}
 
 }

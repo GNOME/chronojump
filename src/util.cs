@@ -438,10 +438,10 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 	
-	public static string ChangeChars(string str, string charIni, string charEnd) 
+	public static string ChangeChars(string str, string charBefore, string charAfter)
 	{
 		StringBuilder myStringBuilder = new StringBuilder(str);
-		myStringBuilder.Replace(charIni, charEnd);
+		myStringBuilder.Replace(charBefore, charAfter);
 		return myStringBuilder.ToString();
 	}
 
@@ -1076,18 +1076,22 @@ public class Util
 	 * --------------------- End of GetPhoto stuff
 	 */
 
+	/*
+	 * --------------------- Start of video stuff
+	 */
+
 	//Pre: filename without 0001.png
-	public static string GetMplayerPhotoTempFileNamePre()
+	public static string GetMplayerPhotoTempFileNamePre(string videoDevice)
 	{
 		string fileName = Constants.PhotoTemp;
 
-		return Path.Combine(Path.GetTempPath(), Constants.PhotoTemp);
+		return Path.Combine(Path.GetTempPath(), Constants.PhotoTemp + "-" + videoDevice + "-");
 	}
 
 	//Pre: filename with 0001.png
-	public static string GetMplayerPhotoTempFileNamePost()
+	public static string GetMplayerPhotoTempFileNamePost(string videoDevice)
 	{
-		return GetMplayerPhotoTempFileNamePre() + "0001.png";
+		return GetMplayerPhotoTempFileNamePre(videoDevice) + "0001.png";
 	}
 
 
@@ -1106,6 +1110,7 @@ public class Util
 				Path.GetTempPath(), fileName + GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
 	}
 	
+
 	public static string GetMultimediaExtension (string filename)
 	{
 		if(UtilMultimedia.GetImageType(filename) == UtilMultimedia.ImageTypes.JPEG)
@@ -1143,11 +1148,12 @@ public class Util
 			return false;
 	}
 
-	public static void DeleteTempPhotosAndVideo()
+	public static void DeleteTempPhotosAndVideo(string videoDevice)
 	{
 		LogB.Information("Deleting temp files");
 		var dir = new DirectoryInfo(Path.GetTempPath());
-		foreach(var file in dir.EnumerateFiles(Constants.PhotoTemp + "*" +
+		foreach(var file in dir.EnumerateFiles(
+					Constants.PhotoTemp + "-" + videoDevice + "-" + "*" +
 					GetMultimediaExtension(Constants.MultimediaItems.PHOTOPNG)))
 			file.Delete();
 

@@ -200,7 +200,7 @@ class Webcam
 			return new Result (false, "", Constants.FileCopyProblem);
 
 		//Delete temp photos and video
-		Util.DeleteTempPhotosAndVideo();
+		Util.DeleteTempPhotosAndVideo(videoDeviceToFilename());
 
 		return new Result (true, "");
 	}

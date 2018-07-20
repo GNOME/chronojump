@@ -4412,7 +4412,7 @@ public partial class ChronoJumpWindow
 			sensitiveGuiAutoExecuteOrWait (false);
 		}
 
-		if(preferences.videoOn && webcam.Running)
+		if(preferences.videoOn && webcam != null && webcam.Running)
 			webcamRecordEnd (Constants.TestTypes.JUMP, currentJump.UniqueID);
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
@@ -4710,7 +4710,7 @@ public partial class ChronoJumpWindow
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempJumpRj");
 
-		if(preferences.videoOn && webcam.Running)
+		if(preferences.videoOn && webcam != null && webcam.Running)
 			webcamRecordEnd (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
@@ -4835,7 +4835,7 @@ public partial class ChronoJumpWindow
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
 
-		if(preferences.videoOn && webcam.Running)
+		if(preferences.videoOn && webcam != null && webcam.Running)
 			webcamRecordEnd (Constants.TestTypes.RUN, currentRun.UniqueID);
 	}
 
@@ -4988,7 +4988,7 @@ public partial class ChronoJumpWindow
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempRunInterval");
 
-		if(preferences.videoOn && webcam.Running)
+		if(preferences.videoOn && webcam != null && webcam.Running)
 			webcamRecordEnd (Constants.TestTypes.RUN_I, currentRunInterval.UniqueID);
 
 		if(compujumpAutologout != null)
@@ -5224,7 +5224,7 @@ public partial class ChronoJumpWindow
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
 
-		if(preferences.videoOn && webcam.Running)
+		if(preferences.videoOn && webcam != null && webcam.Running)
 			webcamRecordEnd (Constants.TestTypes.RT, currentReactionTime.UniqueID);
 	}
 
@@ -5346,7 +5346,7 @@ public partial class ChronoJumpWindow
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
 
-		if(preferences.videoOn && webcam.Running)
+		if(preferences.videoOn && webcam != null && webcam.Running)
 			webcamRecordEnd (Constants.TestTypes.PULSE, currentPulse.UniqueID);
 	}
 
@@ -5641,7 +5641,7 @@ LogB.Debug("X");
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
 
-		if(preferences.videoOn && webcam.Running)
+		if(preferences.videoOn && webcam != null && webcam.Running)
 			webcamRecordEnd (Constants.TestTypes.MULTICHRONOPIC, currentMultiChronopic.UniqueID);
 	}
 		

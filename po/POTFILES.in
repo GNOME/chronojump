@@ -155,4 +155,4 @@ src/treeViewPerson.cs
 src/treeViewPulse.cs
 src/treeViewReactionTime.cs
 src/treeViewRun.cs
-src/webcamMplayer.cs
+src/webcam.cs

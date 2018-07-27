@@ -4270,7 +4270,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("wRS at gui chronojump.cs 0, videoDevice: " + videoDevice);
 
 		w = new Webcam(videoDevice);
-		Webcam.Result result = w.MplayerCapture(Webcam.CaptureTypes.VIDEO);
+		Webcam.Result result = w.CapturePrepare (Webcam.CaptureTypes.VIDEO);
 
 		LogB.Information("wRS at gui chronojump.cs 1, videoDevice: " + videoDevice);
 		if(! result.success)
@@ -4290,7 +4290,7 @@ public partial class ChronoJumpWindow
 	}
 	private void webcamRecordStart(ref Webcam w)
 	{
-		w.RecordStart();
+		w.VideoCaptureStart();
 		label_video_feedback.Text = "Rec."; //note: don't need to display this message on both cameras
 	}
 
@@ -4301,7 +4301,7 @@ public partial class ChronoJumpWindow
 	private bool webcamRecordEnd (ref Webcam w)
 	{
 		LogB.Information("webcamRecordEnd call 0");
-		Webcam.Result result = w.RecordEnd ();
+		Webcam.Result result = w.VideoCaptureEnd ();
 
 		LogB.Information("webcamRecordEnd call 1");
 		if(! result.success)
@@ -6087,7 +6087,7 @@ LogB.Debug("mc finished 5");
 	private bool playVideo(string fileName, bool play) 
 	{
 		webcam = new Webcam();
-		Webcam.Result result = webcam.MplayerPlay(fileName);
+		Webcam.Result result = webcam.Play(fileName);
 
 		/*
 		 * TODO: reimplement this with ffmpeg

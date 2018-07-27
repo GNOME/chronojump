@@ -71,7 +71,7 @@ class Webcam
 
 	public enum CaptureTypes { PHOTO, VIDEO }
 
-	public Result MplayerCapture(CaptureTypes captureType)
+	public Result CapturePrepare (CaptureTypes captureType)
 	{
 		if(process != null)
 			return new Result (false, "");
@@ -132,7 +132,7 @@ class Webcam
 		return new Result (true, "");
 	}
 
-	public Result MplayerPlay(string filename)
+	public Result Play(string filename)
 	{
 		if(process != null || filename == "")
 			return new Result (false, "");
@@ -181,7 +181,7 @@ class Webcam
 		return true;
 	}
 
-	public Result RecordStart()
+	public Result VideoCaptureStart()
 	{
 		if(process == null || streamWriter == null)
 			return new Result (false, "", Constants.MplayerClosed);
@@ -193,7 +193,7 @@ class Webcam
 	}
 
 	//short process, to do end capture (good if there's more than one camera to end capture all at same time)
-	public Result RecordEnd()
+	public Result VideoCaptureEnd()
 	{
 		if(process == null || streamWriter == null)
 			return new Result (false, "", Constants.MplayerClosed);

@@ -1,5 +1,3 @@
-//Remember to add to POTFILES.in
-
 /*
  * This file is part of ChronoJump
  *
@@ -24,20 +22,9 @@ using System.Collections.Generic; //List
 using System.Diagnostics;
 using System;
 using System.IO;
-using Mono.Unix;
 
 public class WebcamMplayer : Webcam
 {
-	//messages
-	private static string programMplayerNotInstalled =
-		string.Format(Catalog.GetString("Error. {0} is not installed."), "mplayer");
-	private static string programFfmpegNotInstalled =
-		string.Format(Catalog.GetString("Error. {0} is not installed."), "ffmpeg");
-	private static string programMplayerClosed =
-		string.Format(Catalog.GetString("Error. {0} has been closed."), "mplayer");
-	private static string programMplayerCannotSave =
-		string.Format(Catalog.GetString("Error. {0} cannot save video."), "mplayer");
-	
 	private StreamWriter streamWriter;
 
 	public WebcamMplayer (string videoDevice)

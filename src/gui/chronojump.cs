@@ -4228,32 +4228,99 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 
+	/*
+	 * TODO:
+	 * if there are two cameras
+	 * have two webcam and call: webcamRecordStart and webcamRecordEnd two times
+	 * take care pngs of 2n camera have to be in different area
+	 * maybe use on /tmp/chronojump-video0 /tmp/chronojump-video1 ...
+	 * and at the end merge both mp4s with:
+	 *
+	 * ffmpeg \
+	 *  -i RUN-12.mp4 \
+	 *  -i RUN-11.mp4 \
+	 *  -filter_complex '[0:v]pad=iw*2:ih[int];[int][1:v]overlay=W/2:0[vid]' \
+	 *  -map [vid] \
+	 *  -c:v libx264 \
+	 *  -crf 23 \
+	 *  -preset veryfast \
+	 *  output.mp4
+	 *
+	 *  https://unix.stackexchange.com/questions/233832/merge-two-video-clips-into-one-placing-them-next-to-each-other
+	 *  2nd solution merges audios
+	 *  3a solucio diu que la primera perd molts frames
+	 */
+
+
 	Webcam webcam;
-	private void webcamRecordStart()
+	Webcam webcam2;
+	private bool webcamRecordPrepare (string videoDevice)
+	{
+		return webcamRecordPrepare (ref webcam, videoDevice);
+	}
+	private bool webcamRecordPrepare (ref Webcam w, string videoDevice)
 	{
 		if(preferences.videoDevice == "" || preferences.videoDevice == "0")
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, "Video device is not configured. Check Preferences / Multimedia.");
-			return;
+			return false;
 		}
 
-		webcam = new Webcam(preferences.videoDevice);
-		Webcam.Result result = webcam.MplayerCapture(Webcam.CaptureTypes.VIDEO);
-		if(result.success)
-		{
-			webcam.RecordStart();
-			label_video_feedback.Text = "Rec.";
-		}
-		else
+		//w = new Webcam(preferences.videoDevice);
+		LogB.Information("wRS at gui chronojump.cs 0, videoDevice: " + videoDevice);
+
+		w = new Webcam(videoDevice);
+		Webcam.Result result = w.MplayerCapture(Webcam.CaptureTypes.VIDEO);
+
+		LogB.Information("wRS at gui chronojump.cs 1, videoDevice: " + videoDevice);
+		if(! result.success)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, result.error);
 			button_video_play_this_test.Sensitive = false;
+			return false;
 		}
+
+		LogB.Information("wRS at gui chronojump.cs 2, videoDevice: " + videoDevice);
+		return true;
 	}
 
-	private void webcamRecordEnd (Constants.TestTypes testType, int testID)
+	private void webcamRecordStart()
 	{
-		Webcam.Result result = webcam.RecordEnd (currentSession.UniqueID, testType, testID);
+		webcamRecordStart (ref webcam);
+	}
+	private void webcamRecordStart(ref Webcam w)
+	{
+		w.RecordStart();
+		label_video_feedback.Text = "Rec."; //note: don't need to display this message on both cameras
+	}
+
+	private bool webcamRecordEnd()
+	{
+		return webcamRecordEnd(ref webcam);
+	}
+	private bool webcamRecordEnd (ref Webcam w)
+	{
+		LogB.Information("webcamRecordEnd call 0");
+		Webcam.Result result = w.RecordEnd ();
+
+		LogB.Information("webcamRecordEnd call 1");
+		if(! result.success)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, result.error);
+			button_video_play_this_test.Sensitive = false;
+			return false;
+		}
+		LogB.Information("webcamRecordEnd call 2");
+		return true;
+	}
+
+	private void webcamExitAndFinish (Constants.TestTypes testType, int testID)
+	{
+		webcamExitAndFinish (ref webcam, testType, testID);
+	}
+	private void webcamExitAndFinish (ref Webcam w, Constants.TestTypes testType, int testID)
+	{
+		Webcam.Result result = w.ExitAndFinish (currentSession.UniqueID, testType, testID);
 		if(! result.success)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, result.error);
@@ -4349,7 +4416,8 @@ public partial class ChronoJumpWindow
 		//UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, chronopicWin.Connected);
 
 		if(preferences.videoOn)
-			webcamRecordStart();
+			if(webcamRecordPrepare(preferences.videoDevice))
+				webcamRecordStart();
 
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -4413,7 +4481,8 @@ public partial class ChronoJumpWindow
 		}
 
 		if(preferences.videoOn && webcam != null && webcam.Running)
-			webcamRecordEnd (Constants.TestTypes.JUMP, currentJump.UniqueID);
+			if(webcamRecordEnd ())
+				webcamExitAndFinish (Constants.TestTypes.JUMP, currentJump.UniqueID);
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		//this has to be after webcamRecordEnd in order to see if video is created
@@ -4652,7 +4721,14 @@ public partial class ChronoJumpWindow
 				);
 		
 		if(preferences.videoOn)
+		{
+			//do this to start them at the "same moment"
+			bool webcamPrepared = webcamRecordPrepare(preferences.videoDevice);
+			bool webcam2Prepared = webcamRecordPrepare(ref webcam2, "/dev/video1");
+
 			webcamRecordStart();
+			webcamRecordStart(ref webcam2);
+		}
 		
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps
@@ -4711,8 +4787,18 @@ public partial class ChronoJumpWindow
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempJumpRj");
 
+		//do this to start them at the "same moment"
+		bool webcamRecordEndedOk = false;
+		bool webcam2RecordEndedOk = false;
 		if(preferences.videoOn && webcam != null && webcam.Running)
-			webcamRecordEnd (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
+			webcamRecordEndedOk = webcamRecordEnd ();
+		if(preferences.videoOn && webcam2 != null && webcam2.Running)
+			webcam2RecordEndedOk = webcamRecordEnd (ref webcam2);
+
+		if(webcamRecordEndedOk)
+			webcamExitAndFinish (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
+		if(webcam2RecordEndedOk)
+			webcamExitAndFinish (ref webcam2, Constants.TestTypes.JUMP_RJ, -1 * currentJumpRj.UniqueID);
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		//this has to be after webcamRecordEnd in order to see if video is created
@@ -4794,7 +4880,8 @@ public partial class ChronoJumpWindow
 				);
 
 		if(preferences.videoOn)
-			webcamRecordStart();
+			if(webcamRecordPrepare(preferences.videoDevice))
+				webcamRecordStart();
 
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -4820,7 +4907,8 @@ public partial class ChronoJumpWindow
 			myTreeViewRuns.Add(currentPerson.Name, currentRun);
 
 			if(preferences.videoOn && webcam != null && webcam.Running)
-				webcamRecordEnd (Constants.TestTypes.RUN, currentRun.UniqueID);
+				if(webcamRecordEnd ())
+					webcamExitAndFinish (Constants.TestTypes.RUN, currentRun.UniqueID);
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
@@ -4923,7 +5011,8 @@ public partial class ChronoJumpWindow
 				);
 
 		if(preferences.videoOn)
-			webcamRecordStart();
+			if(webcamRecordPrepare(preferences.videoDevice))
+				webcamRecordStart();
 
 		//suitable for limited by tracks and time
 		if(! canCaptureC)
@@ -4962,7 +5051,8 @@ public partial class ChronoJumpWindow
 			myTreeViewRunsInterval.Add(currentPerson.Name, currentRunInterval);
 
 			if(preferences.videoOn && webcam != null && webcam.Running)
-				webcamRecordEnd (Constants.TestTypes.RUN_I, currentRunInterval.UniqueID);
+				if(webcamRecordEnd ())
+					webcamExitAndFinish (Constants.TestTypes.RUN_I, currentRunInterval.UniqueID);
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
@@ -5141,7 +5231,8 @@ public partial class ChronoJumpWindow
 				);
 
 		if(preferences.videoOn)
-			webcamRecordStart();
+			if(webcamRecordPrepare(preferences.videoDevice))
+				webcamRecordStart();
 
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -5216,7 +5307,8 @@ public partial class ChronoJumpWindow
 			myTreeViewReactionTimes.Add(currentPerson.Name, currentReactionTime);
 
 			if(preferences.videoOn && webcam != null && webcam.Running)
-				webcamRecordEnd (Constants.TestTypes.RT, currentReactionTime.UniqueID);
+				if(webcamRecordEnd ())
+					webcamExitAndFinish (Constants.TestTypes.RT, currentReactionTime.UniqueID);
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
@@ -5297,7 +5389,8 @@ public partial class ChronoJumpWindow
 				);
 		
 		if(preferences.videoOn)
-			webcamRecordStart();
+			if(webcamRecordPrepare(preferences.videoDevice))
+				webcamRecordStart();
 
 		if(! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -5336,7 +5429,8 @@ public partial class ChronoJumpWindow
 			myTreeViewPulses.Add(currentPerson.Name, currentPulse);
 
 			if(preferences.videoOn && webcam != null && webcam.Running)
-				webcamRecordEnd (Constants.TestTypes.PULSE, currentPulse.UniqueID);
+				if(webcamRecordEnd ())
+					webcamExitAndFinish (Constants.TestTypes.PULSE, currentPulse.UniqueID);
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created
@@ -5581,7 +5675,8 @@ public partial class ChronoJumpWindow
 				);
 
 		if(preferences.videoOn)
-			webcamRecordStart();
+			if(webcamRecordPrepare(preferences.videoDevice))
+				webcamRecordStart();
 
 		//mark to only get inside on_multi_chronopic_finished one time
 		multiFinishing = false;
@@ -5639,7 +5734,8 @@ LogB.Debug("mc finished 4");
 LogB.Debug("mc finished 5");
 
 			if(preferences.videoOn && webcam != null && webcam.Running)
-				webcamRecordEnd (Constants.TestTypes.MULTICHRONOPIC, currentMultiChronopic.UniqueID);
+				if(webcamRecordEnd ())
+					webcamExitAndFinish (Constants.TestTypes.MULTICHRONOPIC, currentMultiChronopic.UniqueID);
 
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			//this has to be after webcamRecordEnd in order to see if video is created

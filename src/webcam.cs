@@ -111,6 +111,21 @@ class Webcam
 			return new Result (false, "", Constants.MplayerNotInstalled);
 		}
 
+		/*
+		 * experimental double camera start
+		 */
+		/*
+		List<string> parametersB = parameters;
+		parametersB[4] = "driver=v4l2:gain=1:width=400:height=400:device=/dev/video1:fps=10:outfmt=rgb16";
+		parametersB[7] = "screenshot=/tmp/b/chronojump-last-photo";
+		Process processB = new Process();
+		ExecuteProcess.RunAtBackground (processB, executable, parametersB, true); //redirectInput
+		*/
+		/*
+		 * experimental double camera end
+		 */
+
+
 		streamWriter = process.StandardInput;
 
 		Running = true;
@@ -177,7 +192,8 @@ class Webcam
 		return new Result (true, "");
 	}
 
-	public Result RecordEnd(int sessionID, Constants.TestTypes testType, int testID)
+	//short process, to do end capture (good if there's more than one camera to end capture all at same time)
+	public Result RecordEnd()
 	{
 		if(process == null || streamWriter == null)
 			return new Result (false, "", Constants.MplayerClosed);
@@ -186,6 +202,11 @@ class Webcam
 		if(! recordStartOrEndDo())
 			return new Result (false, "", Constants.MplayerCannotSave);
 
+		return new Result (true, "");
+	}
+
+	public Result ExitAndFinish (int sessionID, Constants.TestTypes testType, int testID)
+	{
 		ExitCamera();
 
 		if(! findIfThereAreImagesToConvert())

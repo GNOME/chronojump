@@ -4269,7 +4269,7 @@ public partial class ChronoJumpWindow
 		//w = new Webcam(preferences.videoDevice);
 		LogB.Information("wRS at gui chronojump.cs 0, videoDevice: " + videoDevice);
 
-		w = new Webcam(videoDevice);
+		w = new WebcamMplayer (videoDevice);
 		Webcam.Result result = w.CapturePrepare (Webcam.CaptureTypes.VIDEO);
 
 		LogB.Information("wRS at gui chronojump.cs 1, videoDevice: " + videoDevice);
@@ -6086,7 +6086,7 @@ LogB.Debug("mc finished 5");
 	//Not used on encoder	
 	private bool playVideo(string fileName, bool play) 
 	{
-		webcam = new Webcam();
+		webcam = new WebcamMplayer ();
 		Webcam.Result result = webcam.Play(fileName);
 
 		/*

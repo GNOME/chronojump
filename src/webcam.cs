@@ -18,7 +18,6 @@
  *  Copyright (C) 2018   Xavier de Blas <xaviblas@gmail.com> 
  */
 
-using System.Collections.Generic; //List
 using System.Diagnostics;
 using System;
 using System.IO;
@@ -48,24 +47,6 @@ public abstract class Webcam
 	}
 
 	/*
-	 * constructor for capture
-	 */
-
-	public Webcam(string videoDevice)
-	{
-		this.videoDevice = videoDevice;
-		Running = false;
-	}
-
-	/*
-	 * constructor for play
-	 */
-
-	public Webcam()
-	{
-	}
-
-	/*
 	 * public methods
 	 */
 
@@ -87,7 +68,7 @@ public abstract class Webcam
 	public abstract void ExitCamera();
 
 	/*
-	 * private methods
+	 * protected methods
 	 */
 
 	// convert /dev/video0 to _dev_video0

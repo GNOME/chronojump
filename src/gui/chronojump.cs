@@ -532,7 +532,7 @@ public partial class ChronoJumpWindow
 	bool needToShowChronopicRegisterWindow;
 
 	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin,
-			bool showSendLog, string sendLogMessage)
+			bool showSendLog, string startMessage)
 	{
 		this.progVersion = progVersion;
 		this.progName = progName;
@@ -581,12 +581,14 @@ public partial class ChronoJumpWindow
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
 		loadPreferencesAtStart ();
 
-		//show send log if needed
-
-		if(! showSendLog)
+		//show send log if needed or other messages
+		if(! showSendLog) {
 			notebook_start.CurrentPage = 0; //start with the Mode selector
+			if(startMessage != "")
+				new DialogMessage(Constants.MessageTypes.WARNING, startMessage);
+		}
 		else {
-			show_send_log(sendLogMessage, preferences.crashLogLanguage);
+			show_send_log(startMessage, preferences.crashLogLanguage);
 			notebook_start.CurrentPage = 2; //send log
 		}
 

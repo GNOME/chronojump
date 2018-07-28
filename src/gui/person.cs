@@ -1140,7 +1140,8 @@ public class PersonAddModifyWindow
 
 		if(webcam.Snapshot())
 		{
-			File.Copy(Util.GetMplayerPhotoTempFileNamePost(videoDevice), Util.GetPhotoPngFileName(false, currentPerson.UniqueID), true); //overwrite
+			File.Copy(Util.GetMplayerPhotoTempFileNamePost(Util.ChangeChars(videoDevice, "/", "_")),
+						Util.GetPhotoPngFileName(false, currentPerson.UniqueID), true); //overwrite
 
 			string filenameMini = Util.GetPhotoPngFileName(true, currentPerson.UniqueID);
 			bool miniSuccess = UtilMultimedia.LoadAndResizeImage(

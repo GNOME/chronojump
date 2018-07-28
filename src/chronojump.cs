@@ -573,10 +573,7 @@ public class ChronoJump
 		}
 		LogB.SQL("all SQL done! starting Chronojump");
 
-		if(sendLog)
-			new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin, true, messageToShowOnBoot);
-		else
-			new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin, false, "");
+		new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin, sendLog, messageToShowOnBoot);
 	}
 
 	private static void createBlankDB() {

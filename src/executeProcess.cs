@@ -65,6 +65,10 @@ class ExecuteProcess
 		return result;
 	}
 
+	public static Result run(string file_name)
+	{
+		return runDo (file_name, new List<string>());
+	}
 	public static Result run(string file_name, List<string> parameters)
 	{
 		return runDo (file_name, parameters);

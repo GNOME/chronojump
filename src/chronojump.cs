@@ -397,8 +397,6 @@ public class ChronoJump
 			createRunningFileName(runningFileName);
 		}
 		
-		
-
 
 		//splashMessageChange(5);  //check for new version
 		splashMessageChange(5);  //connecting to server
@@ -573,8 +571,29 @@ public class ChronoJump
 		}
 		LogB.SQL("all SQL done! starting Chronojump");
 
-		new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin, sendLog, messageToShowOnBoot);
+		string topMessage = "";
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX && ! linuxUserHasDialout())
+			topMessage = Catalog.GetString("Need dialout permissions to read from device.") + "\n" +
+				Catalog.GetString("Check software page on Chronojump website");
+
+		new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin, sendLog, messageToShowOnBoot, topMessage);
 	}
+
+	private bool linuxUserHasDialout()
+	{
+		LogB.Information("Finding dialout:");
+		string executable = "groups";
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable);
+		if(execute_result.success)
+		{
+			LogB.Information(execute_result.stdout);
+			return (execute_result.stdout.Contains("dialout"));
+		}
+
+		//if script has failed, don't bother the user
+		return true;
+	}
+
 
 	private static void createBlankDB() {
 		LogB.SQL("Creating blank database");

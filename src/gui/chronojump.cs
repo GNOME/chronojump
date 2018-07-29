@@ -65,6 +65,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
 	[Widget] Gtk.Notebook notebook_analyze; //not encoder
 	[Widget] Gtk.Notebook notebook_capture_graph_table;
+	[Widget] Gtk.HBox hbox_message_at_start;
+	[Widget] Gtk.Label label_message_at_start;
 
 	[Widget] Gtk.HBox hbox_contacts_sup_capture_analyze_two_buttons;
 
@@ -532,7 +534,7 @@ public partial class ChronoJumpWindow
 	bool needToShowChronopicRegisterWindow;
 
 	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin,
-			bool showSendLog, string startMessage)
+			bool showSendLog, string sendLogMessage, string topMessage)
 	{
 		this.progVersion = progVersion;
 		this.progName = progName;
@@ -581,14 +583,16 @@ public partial class ChronoJumpWindow
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
 		loadPreferencesAtStart ();
 
-		//show send log if needed or other messages
-		if(! showSendLog) {
-			notebook_start.CurrentPage = 0; //start with the Mode selector
-			if(startMessage != "")
-				new DialogMessage(Constants.MessageTypes.WARNING, startMessage);
+		if(topMessage != "") {
+			label_message_at_start.Text = topMessage;
+			hbox_message_at_start.Visible = true;
 		}
+
+		//show send log if needed or other messages
+		if(! showSendLog)
+			notebook_start.CurrentPage = 0; //start with the Mode selector
 		else {
-			show_send_log(startMessage, preferences.crashLogLanguage);
+			show_send_log(sendLogMessage, preferences.crashLogLanguage);
 			notebook_start.CurrentPage = 2; //send log
 		}
 

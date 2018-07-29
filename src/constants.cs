@@ -263,6 +263,8 @@ public class Constants
 			Catalog.GetString("This can be changed at preferences.");
 	}
 
+	public static string JumpsProfileNeededJumps = Catalog.GetString("Please, perform the needed jumps marked in red above.");
+
 /*	OLD, check this
 	public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
 		"(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +

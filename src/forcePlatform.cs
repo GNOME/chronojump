@@ -76,12 +76,19 @@ public class ForcePlatform
 	{	
 		LogB.Information("Serial port opened. Start reading");
 
-		for(int i = 0; i < 100; i ++)
+		writer.WriteLine("S1;S2;S3;S4");
+		for(int i = 0; i < 400; i ++)
 		{
 			if(readRowMark())
 				readForceValues();
 			else
 				LogB.Information("problem reading row mark");
+
+			/*
+			int b = sp.ReadByte();
+			LogB.Information(b.ToString());
+			writer.WriteLine(b.ToString());
+			*/
 		}
 	}
 
@@ -116,7 +123,7 @@ public class ForcePlatform
 
 	private void printDataRow(List<int> dataRow)
 	{
-		string row = string.Format("{0}:{1}:{2}:{3}", dataRow[0], dataRow[1], dataRow[2], dataRow[3]);
+		string row = string.Format("{0};{1};{2};{3}", dataRow[0], dataRow[1], dataRow[2], dataRow[3]);
 		LogB.Information("DataRow: " + row);
 		if(saveToFile)
 			writer.WriteLine(row);

@@ -179,14 +179,31 @@ class ExecuteProcess
 		return true;
 	}
 
-	public static bool IsRunning(Process p)
+
+	//better method than below
+	//https://stackoverflow.com/a/262291
+	public static bool IsRunning2 (Process process, string executable)
+	{
+		Process[] pNameArray = Process.GetProcessesByName("ffmpeg");
+		if (pNameArray.Length == 0)
+			return false;
+
+		foreach(Process p in pNameArray)
+			if(p.Id == process.Id)
+				return true;
+
+		return false;
+	}
+
+	//This seems is not working with ffmpeg capture, try method obove
+	public static bool IsRunning(Process process)
 	{
 		LogB.Debug("calling Process.IsRunning()");
-		if(p == null) {
-			LogB.Debug("p == null");
+		if(process == null) {
+			LogB.Debug("process == null");
 			return false;
 		} else {
-			if(isRunningThisProcess(p))
+			if(isRunningThisProcess(process))
 				return true;
 		}
 

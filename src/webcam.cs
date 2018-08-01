@@ -40,6 +40,9 @@ public abstract class Webcam
 
 	protected Process process;
 	protected string videoDevice;
+	protected StreamWriter streamWriter;
+	protected string captureExecutable = "";
+
 
 	// Result struct holds the output, error and success operations. It's used to pass
 	// errors from different layers (e.g. executing Python scripts) to the UI layer
@@ -88,6 +91,7 @@ public abstract class Webcam
 		return Util.ChangeChars(videoDevice, "/", "_");
 	}
 
+	protected abstract void deleteTempFiles();
 }
 
 /*
@@ -131,7 +135,8 @@ public class WebcamManage
 		//w = new Webcam(preferences.videoDevice);
 		LogB.Information("wRS at gui chronojump.cs 0, videoDevice: " + videoDevice);
 
-		w = new WebcamMplayer (videoDevice);
+		//w = new WebcamMplayer (videoDevice);
+		w = new WebcamFfmpeg (videoDevice);
 		Webcam.Result result = w.CapturePrepare (Webcam.CaptureTypes.VIDEO);
 
 		LogB.Information("wRS at gui chronojump.cs 1, videoDevice: " + videoDevice);
@@ -190,5 +195,4 @@ public class WebcamManage
 	{
 		return webcam.ExitAndFinish (sessionID, testType, testID);
 	}
-
 }

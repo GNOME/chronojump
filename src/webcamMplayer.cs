@@ -25,8 +25,6 @@ using System.IO;
 
 public class WebcamMplayer : Webcam
 {
-	private StreamWriter streamWriter;
-
 	public WebcamMplayer (string videoDevice)
 	{
 		this.videoDevice = videoDevice;
@@ -34,11 +32,12 @@ public class WebcamMplayer : Webcam
 	}
 
 	/*
-	 * constructor for play
+	 * constructor for Play
 	 */
 
 	public WebcamMplayer ()
 	{
+		captureExecutable = "mplayer";
 	}
 
 	public override Result CapturePrepare (CaptureTypes captureType)
@@ -49,7 +48,6 @@ public class WebcamMplayer : Webcam
 		string tempFile = Util.GetMplayerPhotoTempFileNamePost(videoDeviceToFilename());
 		Util.FileDelete(tempFile);
 
-		string executable = "mplayer";
 		List<string> parameters = new List<string>();
 		//-noborder -nosound -tv driver=v4l2:gain=1:width=400:height=400:device=/dev/video0:fps=10:outfmt=rgb16 tv:// -vf screenshot=/tmp/chronojump-last-photo
 		//parameters.Insert (0, "-noborder"); //on X11 can be: title "Chronojump"". -noborder makes no accept 's', or 'q'
@@ -73,7 +71,7 @@ public class WebcamMplayer : Webcam
 		parameters.Insert (i ++, "screenshot=" + Util.GetMplayerPhotoTempFileNamePre(videoDeviceToFilename()));
 
 		process = new Process();
-		bool success = ExecuteProcess.RunAtBackground (process, executable, parameters, true); //redirectInput
+		bool success = ExecuteProcess.RunAtBackground (process, captureExecutable, parameters, true); //redirectInput
 		if(! success)
 		{
 			streamWriter = null;
@@ -89,7 +87,7 @@ public class WebcamMplayer : Webcam
 		   parametersB[4] = "driver=v4l2:gain=1:width=400:height=400:device=/dev/video1:fps=10:outfmt=rgb16";
 		   parametersB[7] = "screenshot=/tmp/b/chronojump-last-photo";
 		   Process processB = new Process();
-		   ExecuteProcess.RunAtBackground (processB, executable, parametersB, true); //redirectInput
+		   ExecuteProcess.RunAtBackground (processB, captureExecutable, parametersB, true); //redirectInput
 		   */
 		/*
 		 * experimental double camera end
@@ -97,8 +95,8 @@ public class WebcamMplayer : Webcam
 
 
 		streamWriter = process.StandardInput;
-
 		Running = true;
+
 		return new Result (true, "");
 	}
 
@@ -190,7 +188,7 @@ public class WebcamMplayer : Webcam
 			return new Result (false, "", Constants.FileCopyProblem);
 
 		//Delete temp photos and video
-		Util.DeleteTempPhotosAndVideo(videoDeviceToFilename());
+		deleteTempFiles();
 
 		return new Result (true, "");
 	}
@@ -211,6 +209,24 @@ public class WebcamMplayer : Webcam
 		streamWriter = null;
 		process = null;
 		Running = false;
+	}
+
+	/*
+	 * protected methods
+	 */
+
+	protected override void deleteTempFiles()
+	{
+		LogB.Information("Deleting temp files");
+		var dir = new DirectoryInfo(Path.GetTempPath());
+		foreach(var file in dir.EnumerateFiles(
+					Constants.PhotoTemp + "-" + videoDeviceToFilename() + "-" + "*" +
+					Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTOPNG)))
+			file.Delete();
+
+		LogB.Information("Deleting temp video");
+		if(File.Exists(Util.GetVideoTempFileName()))
+			File.Delete(Util.GetVideoTempFileName());
 	}
 
 	/*

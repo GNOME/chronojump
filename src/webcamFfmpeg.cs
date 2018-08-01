@@ -63,6 +63,7 @@ public class WebcamFfmpeg : Webcam
 	{
 		process = new Process();
 		List<string> parameters = createParametersOnlyCapture();
+		//List<string> parameters = createParametersCaptureAndDelayedView();
 		bool success = ExecuteProcess.RunAtBackground (process, captureExecutable, parameters, true); //redirectInput
 		if(! success)
 		{
@@ -98,6 +99,43 @@ public class WebcamFfmpeg : Webcam
 
 		return parameters;
 	}
+
+	//Care: press q two times, one for each process on the tee
+	//or only one on the ffplay process
+	private List<string> createParametersCaptureAndDelayedView()
+	{
+		//ffmpeg -y -f v4l2 -i /dev/video0 -map 0 -c:v libx264 -f tee "output.mkv|[f=nut]pipe:" | ffplay pipe:
+		List<string> parameters = new List<string>();
+
+		int i = 0;
+		parameters.Insert (i ++, "-y"); //overwrite
+		parameters.Insert (i ++, "-f");
+		parameters.Insert (i ++, "v4l2");
+		parameters.Insert (i ++, "-i");
+		parameters.Insert (i ++, videoDevice);
+		parameters.Insert (i ++, "-map");
+		parameters.Insert (i ++, "0");
+		parameters.Insert (i ++, "-c:v");
+		parameters.Insert (i ++, "libx264");
+		parameters.Insert (i ++, "-f");
+		parameters.Insert (i ++, "tee");
+		parameters.Insert (i ++, "'" + Util.GetVideoTempFileName() + "|[f=nut]pipe:'");
+		parameters.Insert (i ++, "|");
+		parameters.Insert (i ++, "ffplay");
+		parameters.Insert (i ++, "pipe:");
+
+		return parameters;
+	}
+
+	/*
+	 * there are problems calling the process with the "|"
+	 * better call a shell script like this:
+	 * ffmpeg_capture_and_play.sh
+	 *
+	 * #!/bin/bash
+	 * ffmpeg -y -f v4l2 -i /dev/video0 -map 0 -c:v libx264 -f tee "/tmp/chronojump-last-video.mp4|[f=nut]pipe:" | ffplay pipe:
+	 */
+
 
 	public override Result VideoCaptureEnd()
 	{

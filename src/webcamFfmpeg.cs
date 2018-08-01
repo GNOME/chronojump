@@ -61,17 +61,27 @@ public class WebcamFfmpeg : Webcam
 
 	public override Result VideoCaptureStart()
 	{
+		process = new Process();
+		List<string> parameters = createParametersOnlyCapture();
+		bool success = ExecuteProcess.RunAtBackground (process, captureExecutable, parameters, true); //redirectInput
+		if(! success)
+		{
+			streamWriter = null;
+			process = null;
+			return new Result (false, "", programFfmpegNotInstalled);
+		}
+
+		streamWriter = process.StandardInput;
+		Running = true;
+
+		return new Result (true, "");
+	}
+
+	private List<string> createParametersOnlyCapture()
+	{
+		// ffmpeg -y -f v4l2 -framerate 30 -video_size 640x480 -input_format mjpeg -i /dev/video0 out.mp4
 		List<string> parameters = new List<string>();
 
-		/*
-		 * A) only capture
-		 * ffmpeg -y -f v4l2 -framerate 30 -video_size 640x480 -input_format mjpeg -i /dev/video0 out.mp4
-		 *
-		 * B) capture while watching delayed video
-		 * ffmpeg -f v4l2 -i /dev/video0 -map 0 -c:v libx264 -f tee "output.mkv|[f=nut]pipe:" | ffplay pipe:
-		 */
-
-		//A)
 		int i = 0;
 		parameters.Insert (i ++, "-y"); //overwrite
 		parameters.Insert (i ++, "-f");
@@ -86,19 +96,7 @@ public class WebcamFfmpeg : Webcam
 		parameters.Insert (i ++, videoDevice);
 		parameters.Insert (i ++, Util.GetVideoTempFileName());
 
-		process = new Process();
-		bool success = ExecuteProcess.RunAtBackground (process, captureExecutable, parameters, true); //redirectInput
-		if(! success)
-		{
-			streamWriter = null;
-			process = null;
-			return new Result (false, "", programFfmpegNotInstalled);
-		}
-
-		streamWriter = process.StandardInput;
-		Running = true;
-
-		return new Result (true, "");
+		return parameters;
 	}
 
 	public override Result VideoCaptureEnd()

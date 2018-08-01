@@ -184,7 +184,7 @@ class ExecuteProcess
 	//https://stackoverflow.com/a/262291
 	public static bool IsRunning2 (Process process, string executable)
 	{
-		Process[] pNameArray = Process.GetProcessesByName("ffmpeg");
+		Process[] pNameArray = Process.GetProcessesByName(process.ProcessName);
 		if (pNameArray.Length == 0)
 			return false;
 

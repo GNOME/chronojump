@@ -216,6 +216,7 @@ SOURCES = \
 	oldCodeNeedToDBConvert/sqlite/personSession.cs\
 	oldCodeNeedToDBConvert/sqlite/session.cs\
 	webcam.cs\
+	webcamFfmpeg.cs\
 	webcamMplayer.cs
 
 RESOURCES = \

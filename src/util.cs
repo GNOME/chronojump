@@ -1148,20 +1148,6 @@ public class Util
 			return false;
 	}
 
-	public static void DeleteTempPhotosAndVideo(string videoDevice)
-	{
-		LogB.Information("Deleting temp files");
-		var dir = new DirectoryInfo(Path.GetTempPath());
-		foreach(var file in dir.EnumerateFiles(
-					Constants.PhotoTemp + "-" + videoDevice + "-" + "*" +
-					GetMultimediaExtension(Constants.MultimediaItems.PHOTOPNG)))
-			file.Delete();
-
-		LogB.Information("Deleting temp video");
-		if(File.Exists(GetVideoTempFileName()))
-			File.Delete(GetVideoTempFileName());
-	}
-	
 	public static void DeleteVideo(int sessionID, Constants.TestTypes type, int uniqueID) {
 		string fileName = GetVideoFileName(sessionID, type, uniqueID);
 		if(File.Exists(fileName)) 

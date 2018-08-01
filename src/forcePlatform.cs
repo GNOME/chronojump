@@ -74,9 +74,15 @@ public class ForcePlatform
 
 	private void capture()
 	{	
-		LogB.Information("Serial port opened. Start reading");
+		LogB.Information("Serial port opened. Send capture message");
 
-		writer.WriteLine("S1;S2;S3;S4");
+		System.Threading.Thread.Sleep(3000); //sleep to let arduino start reading serial event
+		sp.WriteLine("start_capture:");
+		LogB.Information("'start_capture:' sent");
+		System.Threading.Thread.Sleep(100); //sleep to let arduino start reading
+
+
+		writer.WriteLine("Time;S1;S2;S3;S4");
 		for(int i = 0; i < 400; i ++)
 		{
 			if(readRowMark())
@@ -90,6 +96,9 @@ public class ForcePlatform
 			writer.WriteLine(b.ToString());
 			*/
 		}
+		LogB.Information("capture ended");
+		sp.WriteLine("end_capture:");
+		LogB.Information("'end_capture:' sent");
 	}
 
 	private bool readRowMark()
@@ -109,13 +118,24 @@ public class ForcePlatform
 	{
 		LogB.Debug("readed start mark Ok");
 		List<int> dataRow = new List<int>();
+
+		//read time, four bytes
+		int t0 = sp.ReadByte(); //least significative
+		int t1 = sp.ReadByte(); //most significative
+		int t2 = sp.ReadByte(); //most significative
+		int t3 = sp.ReadByte(); //most significative
+		dataRow.Add(Convert.ToInt32(
+				Math.Pow(256,3) * t3 +
+				Math.Pow(256,2) * t2 +
+				Math.Pow(256,1) * t1 +
+				Math.Pow(256,0) * t0));
+
+		//read data, four sensors, 1 byte each
 		for(int i = 0; i < 4; i ++)
 		{
 			int b0 = sp.ReadByte(); //least significative
 			int b1 = sp.ReadByte(); //most significative
 			dataRow.Add(256 * b1 + b0);
-			//int readed = 256 * sp.ReadByte() + sp.ReadByte();
-			//LogB.Information(sp.ReadByte().ToString() + "_" + sp.ReadByte().ToString());
 		}
 			
 		printDataRow(dataRow);
@@ -123,7 +143,7 @@ public class ForcePlatform
 
 	private void printDataRow(List<int> dataRow)
 	{
-		string row = string.Format("{0};{1};{2};{3}", dataRow[0], dataRow[1], dataRow[2], dataRow[3]);
+		string row = string.Format("{0};{1};{2};{3};{4}", dataRow[0], dataRow[1], dataRow[2], dataRow[3], dataRow[4]);
 		LogB.Information("DataRow: " + row);
 		if(saveToFile)
 			writer.WriteLine(row);

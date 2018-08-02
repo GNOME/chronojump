@@ -4074,9 +4074,13 @@ public partial class ChronoJumpWindow
 			cp2016.SerialPortsCloseIfNeeded(true);
 
 			//simulated tests are only allowed on SIMULATED session
-			if(currentSession.Name != Constants.SessionSimulatedName) {
-				new DialogMessage(Constants.MessageTypes.WARNING, Constants.SimulatedTestsNotAllowed);
-	                        UtilGtk.DeviceColors(viewport_chronopics, false);
+			if(currentSession.Name != Constants.SessionSimulatedName)
+			{
+				//new DialogMessage(Constants.MessageTypes.WARNING, Constants.SimulatedTestsNotAllowed);
+	                        //UtilGtk.DeviceColors(viewport_chronopics, false);
+				//open device window
+				chronopicRegisterUpdate(true);
+
 				return;
 			}
 			on_button_execute_test_accepted();

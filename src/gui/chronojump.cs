@@ -7747,9 +7747,14 @@ LogB.Debug("mc finished 5");
 		/*
 		 * openWindow: false, just generates the list,
 		 * but if first time since cjump running and there are unknown Chronopics, window is opened
-		 */
 		if(! cp2016.WindowOpened && chronopicRegister.UnknownFound())
 			openWindow = true;
+
+			removed this because now contacts tests and encoder open device on pressing capture button when
+			- some device is connected
+			- that device is not configured
+			O: do the same for force sensor and runEncoder
+		 */
 
 		if(openWindow)
 		{

@@ -7170,8 +7170,6 @@ LogB.Debug("mc finished 5");
 	
 	private void on_button_carles_clicked (object o, EventArgs args)
 	{
-		new ForcePlatform();
-
 		/*
 		bool showInWindow = true;
 

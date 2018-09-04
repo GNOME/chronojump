@@ -1,3 +1,10 @@
+//La camera 1 va mes rapid que la 0, provar de canviar i activatr primer la 1 a veure que tal
+
+//- Arreglar problema de no coincidencia entre imatge mini i imatge gran, per exemple session6, atleta 1
+//- modo simulado curses 4 curses no acaba la ultima
+//TODO: que es pugui seleccionar si es vol una webcam o 2
+
+
 /*
  * This file is part of ChronoJump
  *

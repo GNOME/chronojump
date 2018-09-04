@@ -1,4 +1,51 @@
 /*
+
+*****
+superbo capture i play amb el play amb una mica de lag:
+https://bbs.archlinux.org/viewtopic.php?id=225376
+$ ffmpeg -f v4l2 -i /dev/video0 -map 0 -c:v libx264 -f tee "output.mkv|[f=nut]pipe:" | ffplay pipe:
+*****
+
+provant ara multicamera amb:
+https://superuser.com/questions/1262690/capture-multiple-camera-in-sync
+$ ffmpeg -rtbufsize 1M -r 30 -i /dev/video0 -rtbufsize 1M -r 30 -i /dev/video1 -framerate 30 -map 0 -y output1_1.mp4 -framerate 30 -map 1 -y output2_1.mp4
+*/
+
+
+//provant altre cop lo de la captura amb ffmpeg i ara va millor al parar, potser és per updates del kernel o pq els fps son més els de la camera:
+//ffmpeg -f v4l2 -framerate 30 -video_size 640x480 -input_format mjpeg -i /dev/video0 out.mp4
+//ffmpeg -f v4l2 -framerate 30 -video_size 640x480 -input_format mjpeg -i /dev/video0 out.mkv
+//
+//provar que hi hagi opcio de fer-ho amb visio al moment: mplayer
+//o amb previsio mplayer i després captura ffmpeg sense visio
+
+/* manera xul.la de fer tot amb mplayer i ffmpeg i alhora pero cal coses al kernel:
+ * https://unix.stackexchange.com/questions/343832/how-to-read-a-webcam-that-is-already-used-by-a-background-capture
+ * $ sudo modprobe v4l2loopback devices=1
+ * si falla:
+ * $ sudo apt-get install v4l2loopback-dkms
+ * $ ffmpeg -f video4linux2  -i /dev/video0 -codec copy -f v4l2 /dev/video1
+ * llavors a una terminal es pot fer:
+ * $ mplayer -tv driver=v4l2:gain=1:width=400:height=400:device=/dev/video1:fps=30:outfmt=rgb16 tv://
+ * i a l'altra:
+ * $ ffmpeg -y -f v4l2 -r 25 -i /dev/video1 out.mp4
+ el que no entenc és pq al final agafem les dos /dev/video1
+ be, aixo es el que diu la web
+
+ de fet es pot passar de mplayer i usar sempre ffmpeg i ffplay (els dos al paquet ffmpeg) per a veure mentre capturem:
+ ffplay -f video4linux2 -video_size 400x400 -i /dev/video1
+ i per a veure el video despres:
+ ffplay out.mp4
+
+ una altra solucio seria usant gstreamer camerabin2 que ho fa tot, pero està unstable:
+ https://www.freedesktop.org/software/gstreamer-sdk/data/docs/2012.5/gst-plugins-bad-plugins-0.10/gst-plugins-bad-plugins-camerabin2.html
+
+ tema diferents sistemes operatius:
+ http://trac.ffmpeg.org/wiki/Capture/Webcam
+
+ */
+
+/*
  * This file is part of ChronoJump
  *
  * ChronoJump is free software; you can redistribute it and/or modify

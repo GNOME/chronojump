@@ -4902,27 +4902,30 @@ public partial class ChronoJumpWindow
 		//Get max min avg values of this set
 		double maxThisSet = -100000;
 		double minThisSet = 100000;
-		double maxThisSetForLoss = maxThisSet;
-		double minThisSetForLoss = minThisSet;
-		double sum = 0;
+
+		//know not-discarded phases
+		double countValid = 0;
+		double sumValid = 0;
 
 		string eccon = findEccon(true);
 
 		foreach(double d in data)
 		{
-			sum += d;
+			if(
+					encoderConfigurationCurrent.has_inertia && count == 0
+					||
+					( encoderConfigurationCurrent.has_inertia && discardFirstThree &&
+					  ((eccon == "c" && count < 3) || (eccon != "c" && count < 6)) )
+			  )
+				LogB.Information("Discarded phase");
+			else {
+				countValid ++;
+				sumValid += d;
 
-			if(d > maxThisSet)
-				maxThisSet = d;
-			if(d < minThisSet)
-				minThisSet = d;
-
-			//discardFirstThree repetitions if needed for Loss
-			if(! ( encoderConfigurationCurrent.has_inertia && discardFirstThree &&
-					((eccon == "c" && count < 3) || (eccon != "c" && count < 6)) ) )
-			{
-				maxThisSetForLoss  = maxThisSet;
-				minThisSetForLoss  = minThisSet;
+				if(d > maxThisSet)
+					maxThisSet = d;
+				if(d < minThisSet)
+					minThisSet = d;
 			}
 
 			count ++;
@@ -4936,6 +4939,7 @@ public partial class ChronoJumpWindow
 			//relative to historical of this person
 
 			/*
+			 *
 			 * if there's a set captured but without repetitions saved, maxPowerIntersession will be 0
 			 * and current set (loaded or captured) will have a power that will be out of the graph
 			 * for this reason use maxAbsolute or maxThisSet, whatever is higher
@@ -5131,6 +5135,10 @@ public partial class ChronoJumpWindow
 				//on inertial devices "ec" or "ecS", the first ecc has to be gray
 				if(encoderConfigurationCurrent.has_inertia && count == 0)
 					my_pen = pen_gray;
+				//on inertial if discard first three, they have to be gray
+				else if( encoderConfigurationCurrent.has_inertia && discardFirstThree &&
+						((eccon == "c" && count < 3) || (eccon != "c" && count < 6)) )
+					my_pen = pen_gray;
 				else {
 					if(isEven) //par, concentric
 						my_pen = my_pen_ecc_con_c;
@@ -5138,7 +5146,11 @@ public partial class ChronoJumpWindow
 						my_pen = my_pen_ecc_con_e;
 				}
 			} else {
-				my_pen = my_pen_con;
+				if( encoderConfigurationCurrent.has_inertia && discardFirstThree &&
+						((eccon == "c" && count < 3) || (eccon != "c" && count < 6)) )
+					my_pen = pen_gray;
+				else
+					my_pen = my_pen_con;
 			}
 
 			if(configChronojump.PlaySoundsFromFile)
@@ -5239,7 +5251,7 @@ public partial class ChronoJumpWindow
 		
 		//add avg and avg of saved values
 		string title = mainVariable + " [X = " + 
-			Util.TrimDecimals( (sum / data.Count), decimals) + 
+			Util.TrimDecimals( (sumValid / countValid), decimals) +
 			" " + units;
 
 		if(countSaved > 0)
@@ -5247,9 +5259,9 @@ public partial class ChronoJumpWindow
 				Util.TrimDecimals( (sumSaved / countSaved), decimals) + 
 				" " + units;
 
-		if(maxThisSetForLoss > 0)
+		if(maxThisSet > 0)
 			title += "; Loss: " + Util.TrimDecimals(
-					100.0 * (maxThisSetForLoss - minThisSetForLoss) / maxThisSetForLoss, decimals) + "%";
+					100.0 * (maxThisSet - minThisSet) / maxThisSet, decimals) + "%";
 		title += "]";
 
 		layout_encoder_capture_curves_bars_text.SetMarkup(title);

@@ -1939,8 +1939,8 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                 round.scientific(coef.b), " · ", varXplot, " ", plotSign(coef.c), " ", 
                                                 round.scientific(coef.c), sep=""), side=3, line=1, at=functionAt, adj=functionAdj, cex = .9)
                                         mtext(paste(
-                                                "R² = ", round(summary(fit)$r.squared,4),
-                                                "; R² (adjusted) = ", round(summary(fit)$adj.r.squared,4),
+                                                "R^2 = ", round(summary(fit)$r.squared,4),
+                                                "; R^2 (adjusted) = ", round(summary(fit)$adj.r.squared,4),
                                                 "; p = ", getModelPValueWithStars(fit)
                                                 , sep=""), side =3, line=0, at=functionAt, adj=functionAdj, cex=.9)
                                         #end of plot the function expression, R^2 and p
@@ -2009,6 +2009,21 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         paintCrossVariablesLaterality(x, y, laterality, colBalls)
                                         
                                         fitLine(x,y, "black", 1, 1)
+                                        
+                                        #Display formula of the Force / Load fitted line
+                                        if((varX == "Load" || varX == "Inertia") && varY == "Force")
+                                        {
+                                                fit = lm(y ~ x)
+                                                mtext(side = 3, line = 1,
+                                                      text = paste("Force = ", round(fit$coefficients[2], digits = 3),
+                                                                   "·Load +  " , round(fit$coefficients[1], digits = 3), sep = ""),
+                                                      at = max(x), adj = 1, cex = 1.2)
+                                                mtext(paste(
+                                                        "R^2 = ", round(summary(fit)$r.squared,4),
+                                                        "; R^2 (adjusted) = ", round(summary(fit)$adj.r.squared,4),
+                                                        "; p = ", getModelPValueWithStars(fit)
+                                                        , sep=""), side =3, line=0, at = max(x), adj = 1, cex=.9)
+                                        }
                                         
                                         #Draw the power parabole
                                         if(varX == "Speed" && varY == "Force") #is "Force,Power" but using Force to have less problems

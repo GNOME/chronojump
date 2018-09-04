@@ -23,8 +23,8 @@ Adafruit_ADS1015 loadCell;
 
 
 //Version number
-//it always need to start with: "Force_Platform-"
-String version = "Force_Platform-0.1";
+//it always need to start with: "Force_Sensor-" Since 0.3 data is sent in binary format
+String version = "Force_Sensor-0.3";
 
 int offset[] = {0, 0, 0, 0};
 float calibrationFactor[] = {0.0, 0.0, 0.0, 0.0};
@@ -210,7 +210,7 @@ void serialEvent()
 
 void start_capture()
 {
-  //Serial.println("Starting capture...");
+  Serial.println("Starting capture...");
   totalTime = 0;
   lastTime = micros();
   capturing = true;

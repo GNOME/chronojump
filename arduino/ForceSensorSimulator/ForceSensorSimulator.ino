@@ -43,6 +43,7 @@ void setup(void)
 {
 
   Serial.begin(115200);
+  //Serial.begin(250000);
 
   loadCell.begin();
   loadCell.setGain(GAIN_TWO);
@@ -62,40 +63,40 @@ void loop(void)
     //sendLong(micros());
 
     int current = 0;
-    
+
     for (int i = 0; i < 100; i++)
     {
-    currentTime = micros();
-    //
-    //    //Reading each of the 4 sensors
-    //    for (int sensor = 0; sensor <= 3; sensor++)
-    //    {
-    //      offsettedData[sensor] = readOffsetedData(sensor);
-    //      //      total[sensor] += offsettedData[sensor];
-    //    }
+      currentTime = micros();
+      //
+      //    //Reading each of the 4 sensors
+      //    for (int sensor = 0; sensor <= 3; sensor++)
+      //    {
+      //      offsettedData[sensor] = readOffsetedData(sensor);
+      //      //      total[sensor] += offsettedData[sensor];
+      //    }
 
 
-    Serial.write(0xff);
-    Serial.write(0xff);
-    Serial.write(0xff);
-    Serial.write(0xff);
+      Serial.write(0xff);
+      Serial.write(0xff);
+      Serial.write(0xff);
+      Serial.write(0xff);
 
-    //Managing the timer overflow
-    if (currentTime > lastTime)      //No overflow
-    {
-      elapsedTime = currentTime - lastTime;
-    } else  if (currentTime <= lastTime)  //Overflow
-    {
-      elapsedTime = (4294967295 - lastTime) + currentTime; //Time from the last measure to the overflow event plus the currentTime
-    }
-    totalTime += elapsedTime;
-    lastTime = currentTime;
-    sendLong(totalTime);
+      //Managing the timer overflow
+      if (currentTime > lastTime)      //No overflow
+      {
+        elapsedTime = currentTime - lastTime;
+      } else  if (currentTime <= lastTime)  //Overflow
+      {
+        elapsedTime = (4294967295 - lastTime) + currentTime; //Time from the last measure to the overflow event plus the currentTime
+      }
+      totalTime += elapsedTime;
+      lastTime = currentTime;
+      sendLong(totalTime);
 
-    sendInt(current++);
-    sendInt(current++);
-    sendInt(current++);
-    sendInt(current++);
+      sendInt(current++);
+      sendInt(current++);
+      sendInt(current++);
+      sendInt(current++);
     }
   }
 }

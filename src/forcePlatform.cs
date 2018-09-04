@@ -79,8 +79,19 @@ public class ForcePlatform
 		System.Threading.Thread.Sleep(3000); //sleep to let arduino start reading serial event
 		sp.WriteLine("start_capture:");
 		LogB.Information("'start_capture:' sent");
-		System.Threading.Thread.Sleep(100); //sleep to let arduino start reading
 
+		string str = "";
+		do {
+			System.Threading.Thread.Sleep(100); //sleep to let arduino start reading
+			try {
+				str = sp.ReadLine();
+			} catch {
+				LogB.Warning("Catched at capture");
+				return;
+			}
+			LogB.Information("init string: " + str);
+		}
+		while(! str.Contains("Starting capture"));
 
 		writer.WriteLine("Time;S1;S2;S3;S4");
 		for(int i = 0; i < 400; i ++)

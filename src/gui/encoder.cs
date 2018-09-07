@@ -4903,6 +4903,9 @@ public partial class ChronoJumpWindow
 		double maxThisSet = -100000;
 		double minThisSet = 100000;
 
+		//ForCalcs is to calculate avg and loss
+		double maxThisSetValid = maxThisSet;
+		double minThisSetValid = minThisSet;
 		//know not-discarded phases
 		double countValid = 0;
 		double sumValid = 0;
@@ -4911,6 +4914,11 @@ public partial class ChronoJumpWindow
 
 		foreach(double d in data)
 		{
+			if(d > maxThisSet)
+				maxThisSet = d;
+			if(d < minThisSet)
+				minThisSet = d;
+
 			if(
 					encoderConfigurationCurrent.has_inertia && count == 0
 					||
@@ -4922,10 +4930,10 @@ public partial class ChronoJumpWindow
 				countValid ++;
 				sumValid += d;
 
-				if(d > maxThisSet)
-					maxThisSet = d;
-				if(d < minThisSet)
-					minThisSet = d;
+				if(d > maxThisSetValid)
+					maxThisSetValid = d;
+				if(d < minThisSetValid)
+					minThisSetValid = d;
 			}
 
 			count ++;
@@ -5259,9 +5267,9 @@ public partial class ChronoJumpWindow
 				Util.TrimDecimals( (sumSaved / countSaved), decimals) + 
 				" " + units;
 
-		if(maxThisSet > 0)
+		if(maxThisSetValid > 0)
 			title += "; Loss: " + Util.TrimDecimals(
-					100.0 * (maxThisSet - minThisSet) / maxThisSet, decimals) + "%";
+					100.0 * (maxThisSetValid - minThisSetValid) / maxThisSetValid, decimals) + "%";
 		title += "]";
 
 		layout_encoder_capture_curves_bars_text.SetMarkup(title);

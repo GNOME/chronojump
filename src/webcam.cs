@@ -1,5 +1,14 @@
 /*
 
+17 setembre 2018
+
+ffmpeg builds on windows only work on Windows 7 and above
+info en directshow per windows:
+https://trac.ffmpeg.org/wiki/DirectShow
+amb el del xavi padu el ffplay funciona pero el ffmpeg capture sembla que no va pq cal tocar el rtbufsize
+sí que va, tot i que va millor amv un -rtbufsize 702000k
+el problema es que el winwows media player no ho reprodueix, pero el ffplay sí (i el vlc també)
+
 *****
 superbo capture i play amb el play amb una mica de lag:
 https://bbs.archlinux.org/viewtopic.php?id=225376
@@ -148,10 +157,12 @@ public class WebcamManage
 {
 	Webcam webcam;
 	Webcam webcam2;
+	private UtilAll.OperatingSystems os;
 	//TODO: implement an List<T> of objects containing webcam and video device
 
 	public WebcamManage()
 	{
+		os = UtilAll.GetOSEnum();
 	}
 
 	// 1 camera
@@ -183,7 +194,7 @@ public class WebcamManage
 		LogB.Information("wRS at gui chronojump.cs 0, videoDevice: " + videoDevice);
 
 		//w = new WebcamMplayer (videoDevice);
-		w = new WebcamFfmpeg (videoDevice);
+		w = new WebcamFfmpeg (os, videoDevice);
 		Webcam.Result result = w.CapturePrepare (Webcam.CaptureTypes.VIDEO);
 
 		LogB.Information("wRS at gui chronojump.cs 1, videoDevice: " + videoDevice);

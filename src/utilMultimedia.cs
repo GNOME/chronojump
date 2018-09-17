@@ -50,25 +50,37 @@ public class UtilMultimedia
 		return devicesStr;
 		*/
 
-		List<string> list = new List<string>();
 
 		//on Linux search for video0, video1, ...
 		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
-		{
-			string prefix = "/dev/";
-			var dir = new DirectoryInfo(prefix);
-			foreach(var file in dir.EnumerateFiles("video*"))
-				/*
-				 * return 0, 1, ...
-				if( file.Name.Length > 5 && 				//there's something more than "video", like "video0" or "video1", ...
-						char.IsNumber(file.Name, 5) ) 		//and it's a number
-					list.Add(Convert.ToInt32(file.Name[5])); 			//0 or 1, or ...
-					*/
-				//return "/dev/video0", "/dev/video1", ...
-				list.Add(prefix + file.Name);
-		}
+			return GetVideoDevicesLinux();
+		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.WINDOWS)
+			return GetVideoDevicesWindows();
+		else
+			return new List<string>();
+	}
+
+	public static List<string> GetVideoDevicesLinux ()
+	{
+		List<string> list = new List<string>();
+		string prefix = "/dev/";
+		var dir = new DirectoryInfo(prefix);
+		foreach(var file in dir.EnumerateFiles("video*"))
+			/*
+			 * return 0, 1, ...
+			 if( file.Name.Length > 5 && 				//there's something more than "video", like "video0" or "video1", ...
+			 char.IsNumber(file.Name, 5) ) 		//and it's a number
+			 list.Add(Convert.ToInt32(file.Name[5])); 			//0 or 1, or ...
+			 */
+			//return "/dev/video0", "/dev/video1", ...
+			list.Add(prefix + file.Name);
 
 		return list;
+	}
+
+	public static List<string> GetVideoDevicesWindows ()
+	{
+		return WebcamFfmpegGetDevicesWindows.GetDevices();
 	}
 
 	/*

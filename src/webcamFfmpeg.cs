@@ -22,11 +22,15 @@ using System.Collections.Generic; //List
 using System.Diagnostics;
 using System;
 using System.IO;
+using System.Text.RegularExpressions; //Regex
 
 public class WebcamFfmpeg : Webcam
 {
-	public WebcamFfmpeg (string videoDevice)
+	private UtilAll.OperatingSystems os;
+
+	public WebcamFfmpeg (UtilAll.OperatingSystems os, string videoDevice)
 	{
+		this.os = os;
 		this.videoDevice = videoDevice;
 		captureExecutable = "ffmpeg";
 		Running = false;
@@ -85,14 +89,23 @@ public class WebcamFfmpeg : Webcam
 
 		int i = 0;
 		parameters.Insert (i ++, "-y"); //overwrite
+
 		parameters.Insert (i ++, "-f");
-		parameters.Insert (i ++, "v4l2");
+		if(os == UtilAll.OperatingSystems.LINUX)
+			parameters.Insert (i ++, "v4l2");
+		else //windows
+			parameters.Insert (i ++, "dshow");
+
 		parameters.Insert (i ++, "-framerate");
 		parameters.Insert (i ++, "30");
 		parameters.Insert (i ++, "-video_size");
 		parameters.Insert (i ++, "640x480");
-		parameters.Insert (i ++, "-input_format");
-		parameters.Insert (i ++, "mjpeg");
+
+		if(os == UtilAll.OperatingSystems.LINUX) {
+			parameters.Insert (i ++, "-input_format");
+			parameters.Insert (i ++, "mjpeg");
+		}
+
 		parameters.Insert (i ++, "-i");
 		parameters.Insert (i ++, videoDevice);
 		parameters.Insert (i ++, Util.GetVideoTempFileName());
@@ -109,8 +122,13 @@ public class WebcamFfmpeg : Webcam
 
 		int i = 0;
 		parameters.Insert (i ++, "-y"); //overwrite
+
 		parameters.Insert (i ++, "-f");
-		parameters.Insert (i ++, "v4l2");
+		if(os == UtilAll.OperatingSystems.LINUX)
+			parameters.Insert (i ++, "v4l2");
+		else //windows
+			parameters.Insert (i ++, "dshow");
+
 		parameters.Insert (i ++, "-i");
 		parameters.Insert (i ++, videoDevice);
 		parameters.Insert (i ++, "-map");
@@ -195,4 +213,57 @@ public class WebcamFfmpeg : Webcam
 			File.Delete(Util.GetVideoTempFileName());
 	}
 
+}
+
+
+public static class WebcamFfmpegGetDevicesWindows
+{
+	public static List<string> GetDevices()
+	{
+		string executable = "ffmpeg";
+		List<string> parameters = createParameters();
+
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
+		if(! execute_result.success)
+		{
+			LogB.Information("WebcamFfmpegGetDevicesWindows error: " + execute_result.stderr);
+			return new List<string>();
+		}
+		else
+			return parse(execute_result.stdout);
+	}
+
+	private static List<string> createParameters()
+	{
+		//ffmpeg -list_devices true -f dshow -i dummy
+		List<string> parameters = new List<string>();
+
+		int i = 0;
+		parameters.Insert (i ++, "-list_devices");
+		parameters.Insert (i ++, "true");
+		parameters.Insert (i ++, "-f");
+		parameters.Insert (i ++, "dshow");
+		parameters.Insert (i ++, "-i");
+		parameters.Insert (i ++, "dummy");
+
+		return parameters;
+	}
+
+	private static List<string> parse(string devicesOutput)
+	{
+		//https://stackoverflow.com/a/1547483
+		string[] lines = devicesOutput.Split(
+				new[] { Environment.NewLine },
+				StringSplitOptions.None
+				);
+
+		List<string> parsedList = new List<string>();
+		foreach(string l in lines)
+		{
+			foreach(Match match in Regex.Matches(l, "\"([^\"]*)\""))
+				parsedList.Add(match.ToString());
+		}
+
+		return parsedList;
+	}
 }

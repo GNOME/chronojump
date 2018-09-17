@@ -2207,6 +2207,7 @@ public partial class ChronoJumpWindow
 		encoderSignalUniqueID = "-1";
 		image_encoder_capture.Sensitive = false;
 		treeviewEncoderCaptureRemoveColumns();
+		updateEncoderAnalyzeExercisesPre();
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 		
 		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
@@ -2218,9 +2219,78 @@ public partial class ChronoJumpWindow
 		encoder_capture_curves_bars_drawingarea.Visible = false;
 	}
 
+	/*
+	 * called on:
+	 * radio_encoder_analyze_ (when changes)
+	 * on captured set
+	 * on delete set
+	 * on change exercise of set
+	 * on change player
+	 * on change session
+	 */
+	private void updateEncoderAnalyzeExercisesPre()
+	{
+		string selected = UtilGtk.ComboGetActive(combo_encoder_exercise_analyze);
+
+		createEncoderComboExerciseAndAnalyze();
+
+		if(radio_encoder_analyze_individual_current_session.Active)
+			updateEncoderAnalyzeExercises(false, currentPerson.UniqueID, currentSession.UniqueID, selected);
+		else if(radio_encoder_analyze_individual_all_sessions.Active)
+			updateEncoderAnalyzeExercises(false, currentPerson.UniqueID, -1, selected);
+		else if(radio_encoder_analyze_groupal_current_session.Active)
+			updateEncoderAnalyzeExercises(false, -1, currentSession.UniqueID, selected);
+	}
+	private void updateEncoderAnalyzeExercises(bool dbconOpened, int personID, int sessionID, string selectedPreviously)
+	{
+		LogB.Information("updateEncoderAnalyzeExercises()");
+		List<int> listFound = SqliteEncoder.SelectAnalyzeExercisesInCurves (dbconOpened, personID, sessionID, currentEncoderGI);
+		foreach(int i in listFound)
+			LogB.Information(i.ToString());
+
+		List<int> rowsToRemove = new List<int>();
+		TreeIter iter;
+		if(! combo_encoder_exercise_analyze.Model.GetIterFirst(out iter))
+			return;
+
+		int count = 0;
+		do {
+			string str = (string) combo_encoder_exercise_analyze.Model.GetValue (iter, 0);
+			if(count == 0)
+			{
+				//at the moment don't delete All exercises,
+				//but in the future do it if there's less than 2
+				count ++;
+				continue;
+			}
+
+			int exID = getExerciseIDFromName (str);
+
+			if(listFound.IndexOf(exID) == -1)
+				rowsToRemove.Add(count);
+
+			count ++;
+		} while (combo_encoder_exercise_analyze.Model.IterNext (ref iter));
+
+		//remove them starting at end to have the indexes ok
+		if(rowsToRemove.Count == 0)
+			return;
+
+		for (int i = rowsToRemove.Count - 1; i >= 0; i--)
+		{
+			//LogB.Information("Deleting row: " + rowsToRemove[i]);
+			UtilGtk.ComboDelByPosition(combo_encoder_exercise_analyze, rowsToRemove[i]);
+		}
+
+		combo_encoder_exercise_analyze.Active = UtilGtk.ComboMakeActive(
+				combo_encoder_exercise_analyze, selectedPreviously);
+	}
 
 	private void updateUserCurvesLabelsAndCombo(bool dbconOpened) 
 	{
+
+		LogB.Information("updateUserCurvesLabelsAndCombo()");
+
 		label_encoder_user_curves_active_num.Text = encSelReps.RepsActive.ToString();
 		label_encoder_user_curves_all_num.Text = encSelReps.RepsAll.ToString();
 		
@@ -3146,6 +3216,7 @@ public partial class ChronoJumpWindow
 		if(! radio_encoder_analyze_individual_current_session.Active)
 			return;
 		
+		updateEncoderAnalyzeExercisesPre();
 		prepareAnalyzeRepetitions();
 
 		/*
@@ -3196,6 +3267,7 @@ public partial class ChronoJumpWindow
 		if(! radio_encoder_analyze_individual_all_sessions.Active)
 			return;
 		
+		updateEncoderAnalyzeExercisesPre();
 		prepareAnalyzeRepetitions();
 	
 		hbox_encoder_analyze_current_signal.Visible = false;
@@ -3228,6 +3300,7 @@ public partial class ChronoJumpWindow
 		if(! radio_encoder_analyze_groupal_current_session.Active)
 			return;
 	
+		updateEncoderAnalyzeExercisesPre();
 		prepareAnalyzeRepetitions();
 
 		hbox_encoder_analyze_current_signal.Visible = false;
@@ -4567,6 +4640,7 @@ public partial class ChronoJumpWindow
 		encoder_change_displaced_weight_and_1RM ();
 	
 		blankEncoderInterface();
+		updateEncoderAnalyzeExercisesPre();
 	}
 	
 	/* called on:
@@ -6638,6 +6712,7 @@ public partial class ChronoJumpWindow
 			else if(action == encoderActions.CAPTURE && encoderProcessFinish)
 			{
 				encoder_pulsebar_capture.Text = Catalog.GetString("Finished");
+				updateEncoderAnalyzeExercisesPre();
 			} 
 			else if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD) 
 			{

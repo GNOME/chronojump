@@ -884,6 +884,57 @@ class SqliteEncoder : Sqlite
 		return array;
 	}
 
+	//gets a list of the exercises in curves to show them on encoder analyze tab
+	//-1 if all sessions or all persons
+	public static List<int> SelectAnalyzeExercisesInCurves (bool dbconOpened, int personID, int sessionID, Constants.EncoderGI encoderGI)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		string whereStr = " WHERE signalOrCurve = 'curve' ";
+
+		if(personID != -1)
+			whereStr += " AND " + Constants.EncoderTable + ".personID = " + personID;
+
+		if(sessionID != -1)
+			whereStr += " AND " + Constants.EncoderTable + ".sessionID = " + sessionID;
+
+		dbcmd.CommandText = "SELECT exerciseID, encoderConfiguration FROM " + Constants.EncoderTable + whereStr +
+			" ORDER BY exerciseID";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		List<int> l = new List<int>();
+
+		while(reader.Read())
+		{
+			//discard if != encoderGI
+			string [] strFull = reader[1].ToString().Split(new char[] {':'});
+			EncoderConfiguration econf = new EncoderConfiguration(
+				(Constants.EncoderConfigurationNames)
+				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
+
+			//if encoderGI != ALL discard non wanted repetitions
+			if(encoderGI == Constants.EncoderGI.GRAVITATORY && econf.has_inertia)
+				continue;
+			else if(encoderGI == Constants.EncoderGI.INERTIAL && ! econf.has_inertia)
+				continue;
+
+			int exID = Convert.ToInt32(reader[0].ToString());
+			//Add to list l if not exists
+			if(l.IndexOf(exID) == -1)
+				l.Add(exID);
+		}
+
+		reader.Close();
+		if(! dbconOpened)
+			Sqlite.Close();
+
+		return l;
+	}
 
 	public static ArrayList SelectEncoderRowsOfAnExercise(bool dbconOpened, int exerciseID) 
 	{

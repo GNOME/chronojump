@@ -136,6 +136,11 @@ public class UtilGtk
 		}
 	}
 
+	public static void ComboDelByPosition(ComboBox myCombo, int pos)
+	{
+		myCombo.RemoveText(pos);
+	}
+
 	public static void ComboDelThisValue(ComboBox myCombo, string toRemove) {
 		int i=0;
 		TreeIter iter;

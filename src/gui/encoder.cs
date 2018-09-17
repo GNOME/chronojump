@@ -1868,13 +1868,17 @@ public partial class ChronoJumpWindow
 		foreach(EncoderSignalCurve esc in linkedCurves) 
 		{
 			//select related curves to find URL
-			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
+			ArrayList array = SqliteEncoder.Select(
 					false, esc.curveID, -1, -1, Constants.EncoderGI.ALL,
-					-1, "curve", EncoderSQL.Eccons.ALL, false, true)[0];
+					-1, "curve", EncoderSQL.Eccons.ALL, false, true);
 
-			//delete file
-			if(eSQL != null)
-				Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
+			if (array != null && array.Count > 0)
+			{
+				EncoderSQL eSQL = (EncoderSQL) array[0];
+				//delete file
+				if(eSQL != null)
+					Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
+			}
 
 			//delete curve from encoder table
 			Sqlite.Delete(false, Constants.EncoderTable, esc.curveID);

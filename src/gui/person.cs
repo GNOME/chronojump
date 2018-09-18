@@ -2048,13 +2048,15 @@ public class PersonAddMultipleWindow {
 
 	private Person currentPerson;
 	Session currentSession;
+	char columnDelimiter;
 	int personsCreatedCount;
 	string errorExistsString;
 	string errorWeightString;
 	string errorRepeatedEntryString;
 
 	
-	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession) {
+	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession, char columnDelimiter)
+	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_multiple_infinite.glade", "person_multiple_infinite", null);
 		gladeXML.Autoconnect(this);
@@ -2064,12 +2066,13 @@ public class PersonAddMultipleWindow {
 	
 		person_multiple_infinite.Parent = parent;
 		this.currentSession = currentSession;
+		this.columnDelimiter = columnDelimiter;
 	}
 	
-	static public PersonAddMultipleWindow Show (Gtk.Window parent, Session currentSession)
+	static public PersonAddMultipleWindow Show (Gtk.Window parent, Session currentSession, char columnDelimiter)
 	{
 		if (PersonAddMultipleWindowBox == null) {
-			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, currentSession);
+			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, currentSession, columnDelimiter);
 		}
 		
 		PersonAddMultipleWindowBox.putNonStandardIcons ();
@@ -2215,6 +2218,7 @@ public class PersonAddMultipleWindow {
 			List<string> columns = new List<string>();
 			using (var reader = new CsvFileReader(fc.Filename))
 			{
+				reader.ChangeDelimiter(columnDelimiter);
 				bool headersActive = check_headers.Active;
 				bool name1Column = check_name_1_column.Active;
 				int row = 0;

@@ -81,6 +81,10 @@ public abstract class CsvFileCommon
     /// These are special characters in CSV files. If a column contains any
     /// of these characters, the entire column is wrapped in double quotes.
     /// </summary>
+    ///
+    /// First char has to be , or ; depending on preferences latin or not
+    /// see method ChangeDelimiter()
+    ///
     protected char[] SpecialChars = new char[] { ',', '"', '\r', '\n' };
 
     // Indexes into SpecialChars for characters with specific meaning
@@ -141,6 +145,11 @@ public class CsvFileReader : CsvFileCommon, IDisposable
     {
         Reader = new StreamReader(path);
         EmptyLineBehavior = emptyLineBehavior;
+    }
+
+    public void ChangeDelimiter(char delimiter)
+    {
+	    Delimiter = delimiter;
     }
 
     /// <summary>

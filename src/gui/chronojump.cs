@@ -2775,11 +2775,7 @@ public partial class ChronoJumpWindow
 
 	private void person_add_multiple ()
 	{
-		char columnDelimiter = ',';
-		if(preferences.CSVExportDecimalSeparator == "COMMA")
-			columnDelimiter = ';';
-
-		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession, columnDelimiter);
+		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession, preferences.CSVColumnDelimiter);
 		personAddMultipleWin.Button_accept.Clicked -= new EventHandler(on_person_add_multiple_accepted);
 		personAddMultipleWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_accepted);
 	}

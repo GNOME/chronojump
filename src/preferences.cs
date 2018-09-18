@@ -296,6 +296,16 @@ public class Preferences
 			" Kg\n\t- at: " + forceSensorCalibrationDateTime;
 	}
 
+	public char CSVColumnDelimiter
+	{
+		get {
+			char columnDelimiter = ',';
+			if(CSVExportDecimalSeparator == "COMMA")
+				columnDelimiter = ';';
+
+			return columnDelimiter;
+		}
+	}
 
 	~Preferences() {}
 	   

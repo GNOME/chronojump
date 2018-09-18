@@ -32,7 +32,11 @@ public class WebcamFfmpeg : Webcam
 	{
 		this.os = os;
 		this.videoDevice = videoDevice;
+
 		captureExecutable = "ffmpeg";
+		if(os == UtilAll.OperatingSystems.WINDOWS)
+			captureExecutable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
+
 		Running = false;
 	}
 

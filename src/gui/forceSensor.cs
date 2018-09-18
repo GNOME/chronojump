@@ -112,6 +112,9 @@ public partial class ChronoJumpWindow
 	SerialPort portFS; //Attention!! Don't reopen port because arduino makes reset and tare, calibration... is lost
 	bool portFSOpened;
 
+	//TODO: clean this
+	bool forceSensorBinary = false;
+
 	Gdk.GC pen_black_force_capture;
 	Gdk.GC pen_red_force_capture;
 	Gdk.GC pen_gray_force_capture;
@@ -189,6 +192,13 @@ public partial class ChronoJumpWindow
 		LogB.Information(" FS connect 5: let arduino start");
 
 		Thread.Sleep(3000); //sleep to let arduino start reading serial event
+
+		//At the moment, binary code do not check version, tare, calibrate
+		if(forceSensorBinary)
+		{
+			portFSOpened = true;
+			return true;
+		}
 
 		LogB.Information(" FS connect 6: get version");
 
@@ -552,6 +562,47 @@ public partial class ChronoJumpWindow
 		forceCaptureThread.Start();
 	}
 
+	private bool readBinaryRowMark()
+	{
+		if(portFS.ReadByte() != 255)
+			return false;
+
+		LogB.Debug("reading mark... 255,");
+		for(int j = 0; j < 3; j ++)
+			if(portFS.ReadByte() != 255)
+				return false;
+
+		return true;
+	}
+
+	private List<int> readBinaryForceValues()
+	{
+		LogB.Debug("readed start mark Ok");
+		List<int> dataRow = new List<int>();
+
+		//read time, four bytes
+		int t0 = portFS.ReadByte(); //least significative
+		int t1 = portFS.ReadByte(); //most significative
+		int t2 = portFS.ReadByte(); //most significative
+		int t3 = portFS.ReadByte(); //most significative
+		dataRow.Add(Convert.ToInt32(
+				Math.Pow(256,3) * t3 +
+				Math.Pow(256,2) * t2 +
+				Math.Pow(256,1) * t1 +
+				Math.Pow(256,0) * t0));
+
+		//read data, four sensors, 1 byte each
+		for(int i = 0; i < 4; i ++)
+		{
+			int b0 = portFS.ReadByte(); //least significative
+			int b1 = portFS.ReadByte(); //most significative
+			dataRow.Add(256 * b1 + b0);
+		}
+
+		return dataRow;
+		//printDataRow(dataRow);
+	}
+
 	//non GTK on this method
 	private void forceSensorCaptureDo()
 	{
@@ -564,6 +615,7 @@ public partial class ChronoJumpWindow
 		}
 
 		string str = "";
+
 		do {
 			Thread.Sleep(100); //sleep to let arduino start reading
 			try {
@@ -596,26 +648,45 @@ public partial class ChronoJumpWindow
 		str = "";
 		int firstTime = 0;
 
+		//LogB.Information("pre bucle");
+		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
 		while(! forceProcessFinish && ! forceProcessCancel && ! forceProcessError)
 		{
-			str = portFS.ReadLine();
+			LogB.Information("at bucle");
+			int time = 0;
+			double force = 0;
 
-			//check if there is one and only one ';'
-			if( ! (str.Contains(";") && str.IndexOf(";") == str.LastIndexOf(";")) )
-				continue;
+			if(forceSensorBinary)
+			{
+				if(! readBinaryRowMark())
+					continue;
+				LogB.Information("at bucle2");
 
-			string [] strFull = str.Split(new char[] {';'});
-			//LogB.Information("str: " + str);
+				List<int> binaryReaded = readBinaryForceValues();
+				time = binaryReaded[0];
+				force = binaryReaded[1];
+			}
+			else {
+				str = portFS.ReadLine();
 
-			LogB.Information("time: " + strFull[0]);
-			if(! Util.IsNumber(Util.ChangeDecimalSeparator(strFull[0]), true))
-				continue;
+				//check if there is one and only one ';'
+				if( ! (str.Contains(";") && str.IndexOf(";") == str.LastIndexOf(";")) )
+					continue;
 
-			LogB.Information("force: " + strFull[1]);
-			if(! Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
-				continue;
+				string [] strFull = str.Split(new char[] {';'});
+				//LogB.Information("str: " + str);
 
-			int time = Convert.ToInt32(strFull[0]);
+				LogB.Information("time: " + strFull[0]);
+				if(! Util.IsNumber(Util.ChangeDecimalSeparator(strFull[0]), true))
+					continue;
+
+				LogB.Information("force: " + strFull[1]);
+				if(! Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
+					continue;
+
+				time = Convert.ToInt32(strFull[0]);
+				force = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
+			}
 
 			//measurement does not start at 0 time. When we start receiving data, mark this as firstTime
 			if(firstTime == 0)
@@ -624,7 +695,7 @@ public partial class ChronoJumpWindow
 			//use this to have time starting at 0
 			time -= firstTime;
 
-			double force = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
+			LogB.Information(string.Format("time: {0}, force: {1}", time, force));
 			writer.WriteLine(time.ToString() + ";" + force.ToString());
 
 			forceSensorValues.TimeLast = time;
@@ -644,6 +715,8 @@ public partial class ChronoJumpWindow
 
 			//changeSlideIfNeeded(time, force);
 		}
+
+		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
 		LogB.Information("Calling end_capture");
 		if(! forceSensorSendCommand("end_capture:", "Ending capture ...", "Catched ending capture"))
 		{

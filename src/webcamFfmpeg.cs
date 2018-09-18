@@ -225,6 +225,9 @@ public static class WebcamFfmpegGetDevicesWindows
 	public static List<string> GetDevices()
 	{
 		string executable = "ffmpeg";
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.WINDOWS)
+			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
+
 		List<string> parameters = createParameters();
 
 		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);

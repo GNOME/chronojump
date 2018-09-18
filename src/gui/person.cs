@@ -2029,7 +2029,9 @@ public class PersonAddMultipleWindow {
 
 	[Widget] Gtk.CheckButton check_headers;
 	[Widget] Gtk.CheckButton check_name_1_column;
-	
+
+	[Widget] Gtk.Label label_column_separator;
+
 	//use this to read/write table
 	ArrayList entries;
 	ArrayList radiosM;
@@ -2113,6 +2115,11 @@ public class PersonAddMultipleWindow {
 
 		label_csv.Text = Catalog.GetString("CSV file has headers");
 		label_name.Text = Catalog.GetString("Full name in one column");
+
+		label_column_separator.Text = string.Format(Catalog.GetString(
+					"Expected column separator character is '<b>{0}</b>'"), columnDelimiter) +
+			"\n" + Catalog.GetString("You can change this on Preferences / Language.");
+		label_column_separator.UseMarkup = true;
 
 		//label_csv_help.Text =
 			//"<b>" + Catalog.GetString("Import persons from an spreadsheet. Eg. Excel, LibreOffice, Google Drive.") + "</b>\n\n" +

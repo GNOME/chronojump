@@ -2845,7 +2845,7 @@ msgid ""
 "To differentiate between male and female,\n"
 "use the values 1/0, or m/f, or M/F on the genre column."
 msgstr ""
-" Per diferenciar entre home i dona,\n"
+"Per diferenciar entre home i dona,\n"
 "useu els valors 1/0 o m/f o M/F a la columna de gènere."
 
 #: ../glade/person_multiple_infinite.glade.h:17

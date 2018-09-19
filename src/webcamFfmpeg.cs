@@ -258,6 +258,8 @@ public static class WebcamFfmpegGetDevicesWindows
 
 	private static List<string> parse(string devicesOutput)
 	{
+		LogB.Information("Called parse");
+		LogB.Information("stdout: " + devicesOutput);
 		//https://stackoverflow.com/a/1547483
 		string[] lines = devicesOutput.Split(
 				new[] { Environment.NewLine },
@@ -267,8 +269,12 @@ public static class WebcamFfmpegGetDevicesWindows
 		List<string> parsedList = new List<string>();
 		foreach(string l in lines)
 		{
+			LogB.Information("line: " + l);
 			foreach(Match match in Regex.Matches(l, "\"([^\"]*)\""))
+			{
+				LogB.Information("add match: " + match.ToString());
 				parsedList.Add(match.ToString());
+			}
 		}
 
 		return parsedList;

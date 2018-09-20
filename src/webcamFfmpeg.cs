@@ -111,8 +111,12 @@ public class WebcamFfmpeg : Webcam
 		}
 
 		parameters.Insert (i ++, "-i");
-		parameters.Insert (i ++, videoDevice);
-		parameters.Insert (i ++, Util.GetVideoTempFileName());
+		if(os == UtilAll.OperatingSystems.LINUX)
+			parameters.Insert (i ++, "\"" + videoDevice + "\"");
+		else //windows
+			parameters.Insert (i ++, "video=\"" + videoDevice + "\"");
+
+		parameters.Insert (i ++, "\"" + Util.GetVideoTempFileName() + "\"");
 
 		return parameters;
 	}
@@ -134,13 +138,19 @@ public class WebcamFfmpeg : Webcam
 			parameters.Insert (i ++, "dshow");
 
 		parameters.Insert (i ++, "-i");
-		parameters.Insert (i ++, videoDevice);
+		if(os == UtilAll.OperatingSystems.LINUX)
+			parameters.Insert (i ++, "\"" + videoDevice + "\"");
+		else //windows
+			parameters.Insert (i ++, "video=\"" + videoDevice + "\"");
+
 		parameters.Insert (i ++, "-map");
 		parameters.Insert (i ++, "0");
 		parameters.Insert (i ++, "-c:v");
 		parameters.Insert (i ++, "libx264");
 		parameters.Insert (i ++, "-f");
 		parameters.Insert (i ++, "tee");
+
+		//TODO: Think on the \" for windows and maybe also for other OSes
 		parameters.Insert (i ++, "'" + Util.GetVideoTempFileName() + "|[f=nut]pipe:'");
 		parameters.Insert (i ++, "|");
 		parameters.Insert (i ++, "ffplay");

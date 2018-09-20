@@ -234,6 +234,16 @@ public static class WebcamFfmpegGetDevicesWindows
 		if(! execute_result.success)
 		{
 			LogB.Information("WebcamFfmpegGetDevicesWindows error: " + execute_result.stderr);
+
+			/*
+			 * on Windows the -i dummy produces an error, so stderr exists and success is false
+			 * stdout has the list of devices and stderr also
+			 * check if in stdout there's the: "DirectShow video devices" string and if not exists, really we have an error
+			 */
+			if(execute_result.stdout != null && execute_result.stdout != "" &&
+					execute_result.stdout.Contains("DirectShow video devices"))
+				return parse(execute_result.stdout);
+
 			return new List<string>();
 		}
 		else
@@ -260,7 +270,11 @@ public static class WebcamFfmpegGetDevicesWindows
 	{
 		LogB.Information("Called parse");
 		LogB.Information("stdout: " + devicesOutput);
-		//https://stackoverflow.com/a/1547483
+
+		/*
+		 * break the big string in \n strings
+		 * https://stackoverflow.com/a/1547483
+		 */
 		string[] lines = devicesOutput.Split(
 				new[] { Environment.NewLine },
 				StringSplitOptions.None
@@ -275,6 +289,10 @@ public static class WebcamFfmpegGetDevicesWindows
 				LogB.Information("add match: " + match.ToString());
 				parsedList.Add(match.ToString());
 			}
+
+			//after the list of video devices comes the list of audio devices, skip it
+			if(l.Contains("DirectShow audio devices"))
+				break;
 		}
 
 		return parsedList;

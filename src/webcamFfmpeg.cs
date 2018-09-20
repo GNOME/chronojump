@@ -231,6 +231,13 @@ public static class WebcamFfmpegGetDevicesWindows
 		List<string> parameters = createParameters();
 
 		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
+
+		LogB.Information("---- stdout: ----");
+		LogB.Information(execute_result.stdout);
+		LogB.Information("---- stderr: ----");
+		LogB.Information(execute_result.stderr);
+		LogB.Information("-----------------");
+
 		if(! execute_result.success)
 		{
 			LogB.Information("WebcamFfmpegGetDevicesWindows error: " + execute_result.stderr);
@@ -242,7 +249,17 @@ public static class WebcamFfmpegGetDevicesWindows
 			 */
 			if(execute_result.stdout != null && execute_result.stdout != "" &&
 					execute_result.stdout.Contains("DirectShow video devices"))
+			{
+				LogB.Information("Calling parse with stdout");
 				return parse(execute_result.stdout);
+			}
+
+			if(execute_result.stderr != null && execute_result.stderr != "" &&
+					execute_result.stderr.Contains("DirectShow video devices"))
+			{
+				LogB.Information("Calling parse with stderr");
+				return parse(execute_result.stderr);
+			}
 
 			return new List<string>();
 		}
@@ -269,7 +286,6 @@ public static class WebcamFfmpegGetDevicesWindows
 	private static List<string> parse(string devicesOutput)
 	{
 		LogB.Information("Called parse");
-		LogB.Information("stdout: " + devicesOutput);
 
 		/*
 		 * break the big string in \n strings

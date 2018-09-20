@@ -302,8 +302,10 @@ public static class WebcamFfmpegGetDevicesWindows
 			LogB.Information("line: " + l);
 			foreach(Match match in Regex.Matches(l, "\"([^\"]*)\""))
 			{
-				LogB.Information("add match: " + match.ToString());
-				parsedList.Add(match.ToString());
+				//remove quotes from the match (at beginning and end)
+				string s = Util.RemoveChar(match.ToString(), '"');
+				LogB.Information("add match: " + s);
+				parsedList.Add(s);
 			}
 
 			//after the list of video devices comes the list of audio devices, skip it

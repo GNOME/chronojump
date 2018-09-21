@@ -312,8 +312,9 @@ public static class WebcamFfmpegGetDevicesWindows
 			LogB.Information("line: " + l);
 			foreach(Match match in Regex.Matches(l, "\"([^\"]*)\""))
 			{
-				//remove quotes from the match (at beginning and end)
-				string s = Util.RemoveChar(match.ToString(), '"');
+				//remove quotes from the match (at beginning and end) to add it in SQL
+				string s = match.ToString().Substring(1, match.ToString().Length -2);
+
 				LogB.Information("add match: " + s);
 				parsedList.Add(s);
 			}

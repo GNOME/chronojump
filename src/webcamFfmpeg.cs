@@ -112,11 +112,11 @@ public class WebcamFfmpeg : Webcam
 
 		parameters.Insert (i ++, "-i");
 		if(os == UtilAll.OperatingSystems.LINUX)
-			parameters.Insert (i ++, "\"" + videoDevice + "\"");
+			parameters.Insert (i ++, videoDevice);
 		else //windows
-			parameters.Insert (i ++, "video=\"" + videoDevice + "\"");
+			parameters.Insert (i ++, "video=" + videoDevice);
 
-		parameters.Insert (i ++, "\"" + Util.GetVideoTempFileName() + "\"");
+		parameters.Insert (i ++, Util.GetVideoTempFileName());
 
 		return parameters;
 	}
@@ -139,9 +139,9 @@ public class WebcamFfmpeg : Webcam
 
 		parameters.Insert (i ++, "-i");
 		if(os == UtilAll.OperatingSystems.LINUX)
-			parameters.Insert (i ++, "\"" + videoDevice + "\"");
+			parameters.Insert (i ++, videoDevice);
 		else //windows
-			parameters.Insert (i ++, "video=\"" + videoDevice + "\"");
+			parameters.Insert (i ++, "video=" + videoDevice);
 
 		parameters.Insert (i ++, "-map");
 		parameters.Insert (i ++, "0");

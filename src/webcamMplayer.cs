@@ -71,7 +71,7 @@ public class WebcamMplayer : Webcam
 		parameters.Insert (i ++, "screenshot=" + Util.GetMplayerPhotoTempFileNamePre(videoDeviceToFilename()));
 
 		process = new Process();
-		bool success = ExecuteProcess.RunAtBackground (process, captureExecutable, parameters, true); //redirectInput
+		bool success = ExecuteProcess.RunAtBackground (ref process, captureExecutable, parameters, true); //redirectInput
 		if(! success)
 		{
 			streamWriter = null;
@@ -118,7 +118,7 @@ public class WebcamMplayer : Webcam
 
 
 		process = new Process();
-		bool success = ExecuteProcess.RunAtBackground (process, executable, parameters, false);
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false);
 		if(! success)
 		{
 			process = null;

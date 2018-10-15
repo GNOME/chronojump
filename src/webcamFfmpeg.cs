@@ -72,7 +72,7 @@ public class WebcamFfmpeg : Webcam
 		process = new Process();
 		List<string> parameters = createParametersOnlyCapture();
 		//List<string> parameters = createParametersCaptureAndDelayedView();
-		bool success = ExecuteProcess.RunAtBackground (process, captureExecutable, parameters, true); //redirectInput
+		bool success = ExecuteProcess.RunAtBackground (ref process, captureExecutable, parameters, true); //redirectInput
 		if(! success)
 		{
 			streamWriter = null;

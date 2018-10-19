@@ -196,20 +196,29 @@ public class WebcamFfmpeg : Webcam
 		LogB.Information("streamWriter is null: " + (streamWriter == null).ToString());
 		try {
 			streamWriter.Write('q');
-			streamWriter.Flush();
+			//streamWriter.Flush(); //seems is not needed
 		} catch {
-			//maybe Mplayer window has been closed by user
+			//maybe capturer process (could be a window) has been closed by user
 			process = null;
 			Running = false;
 			return;
 		}
 
+                Console.WriteLine("closing ...");
+                process.Close();
+                Console.WriteLine("done!");
+
+		/*
+		 * above process.Close() will end the process
+		 * if not, play with kill
+		 *
 		//System.Threading.Thread.Sleep(500);
 		//better check if process still exists to later copy the video
 		do {
 			LogB.Information("waiting 100 ms to end Ffmpeg");
 			System.Threading.Thread.Sleep(100);
 		} while(ExecuteProcess.IsRunning2(process, captureExecutable));
+		*/
 
 		streamWriter = null;
 		process = null;

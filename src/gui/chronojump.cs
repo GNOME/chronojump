@@ -7685,7 +7685,7 @@ LogB.Debug("mc finished 5");
 		hbox_other_mc.Sensitive = true;
 		hbox_other_pulses.Sensitive = true;
 		//hbox_multi_chronopic_buttons.Sensitive = true;
-		//sensitiveLastTestButtons(true);
+		sensitiveLastTestButtons(true);
 		
 		button_activate_chronopics.Sensitive = true;
 		button_threshold.Sensitive = true;
@@ -7709,17 +7709,18 @@ LogB.Debug("mc finished 5");
 					LogB.Information("sensitiveGuiEventDone default");
 					break;
 			}
+			button_delete_last_test.Sensitive = true;
 		}
+		else
+			sensitiveLastTestButtons(false);
+
 		LogB.Information(" sensitiveGuiEventDone end ");
 	}
 
 	//to sensitive on and off the play_this_test and delete_this_test
 	private void sensitiveLastTestButtons(bool sensitive)
 	{
-		//button_video_play_this_test.Sensitive = sensitive;
-		//button_delete_last_test.Sensitive = sensitive;
 		vbox_last_test_buttons.Sensitive = sensitive;
-
 	}
 	/*
 	 * sensitive GUI on executeAuto methods 

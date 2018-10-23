@@ -170,7 +170,7 @@ unsigned char discriminative_running = 0;
 unsigned char discriminative_light_signal;
 
 char version_major = '1';
-char version_minor = '1';
+char version_minor = '2';
 
 
 
@@ -227,6 +227,11 @@ void isr(void) __interrupt 0
 		// Caused by a change on B port
 		else if (RBIF == 1)
 		{
+			//-- Inhabilite B port interruption
+			// wade : take care
+			RBIE = 0;	
+			//-- Remove interruption flag
+			RBIF = 0;
 			if (reset == 1)
 			{
 				//-- It's the first event after reset
@@ -248,11 +253,6 @@ void isr(void) __interrupt 0
 			status = STAT_DEBOUNCE;
 			//-- start debouncing timer on a tick
 			TMR0 = TICK;
-			//-- Remove interruption flag
-			RBIF = 0;
-			//-- Inhabilite B port interruption
-			// wade : take care
-			RBIE = 0;	
 		}
 		//********************************************************
 		//* Routine of interruption of timer1
@@ -973,7 +973,7 @@ void main(void)
 		    input_new = read_input();
 		    //-- Compare new input with stable input
 		    if (input_new == input)
-		    {
+                    {
 			//-- It came an spurious pulse (change with a duration
 			//-- lower than debounce time). It's ignored.
 			//-- We continue like if nothing happened
@@ -1032,6 +1032,9 @@ void main(void)
 		update_led();
 		//-- Activate port B interruption
 		portb_int_enable();
+                input_new = read_input();
+                if (input_new != input)
+                    RBIF = 1;
 	    }
 	} // end of if (option == 0)
 	

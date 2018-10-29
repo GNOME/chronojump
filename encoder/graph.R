@@ -1728,37 +1728,38 @@ fitCurvePlot <- function(x1, y1, col, lwd, lty) {
         lines(x1, y1, col=col, lwd=lwd, lty=lty)
 }
 
-paintCrossVariablesLaterality <- function(x, y, laterality, colBalls) 
+paintCrossVariablesLaterality <- function(x, y, laterality, colBalls, varX = "Load", varY = "Power") 
 {
         points(x[laterality=="L"], y[laterality=="L"], type="p", cex=1, col=colBalls, pch=3) # font=5, pch=220) #172, 220 don't looks good
         points(x[laterality=="R"], y[laterality=="R"], type="p", cex=1, col=colBalls, pch=4) # font=5, pch=222) #174, 222 don't looks good
         
         if(length(unique(laterality)) > 1) 
         {
-                #if(length(laterality[laterality == "R"]) >= 3 && length(unique(x[laterality == "R"])) > 1)
-                if(length(unique(x[laterality == "R"])) == 2)
-                        fitLine(x[laterality=="R"],y[laterality=="R"], "black", 1, 2)
-                #if(length(laterality[laterality == "L"]) >= 3 && length(unique(x[laterality == "L"])) > 1)
-                if(length(unique(x[laterality == "L"])) == 2)
-                        fitLine(x[laterality=="L"],y[laterality=="L"], "black", 1, 3)
-                #if(length(laterality[laterality == "RL"]) >= 3 && length(unique(x[laterality == "RL"])) > 1)
-                if(length(unique(x[laterality == "RL"])) == 2)
-                        fitLine(x[laterality=="RL"],y[laterality=="RL"], "black", 1, 4)
-                
-                #if(length(laterality[laterality == "R"]) >= 3 && length(unique(x[laterality == "R"])) > 1)
-                if(length(unique(x[laterality == "R"])) > 2){
-                        fit = fitCurveCalc(x[laterality=="R"],y[laterality=="R"])
-                        fitCurvePlot(fit[[2]], fit[[3]], "black", 1, 2)
-                }
-                #if(length(laterality[laterality == "L"]) >= 3 && length(unique(x[laterality == "L"])) > 1)
-                if(length(unique(x[laterality == "L"])) > 2){
-                        fit = fitCurveCalc(x[laterality=="L"],y[laterality=="L"])
-                        fitCurvePlot(fit[[2]], fit[[3]], "black", 1, 3)
-                }
-                #if(length(laterality[laterality == "RL"]) >= 3 && length(unique(x[laterality == "RL"])) > 1)
-                if(length(unique(x[laterality == "RL"])) > 2){
-                        fit = fitCurveCalc(x[laterality=="RL"],y[laterality=="RL"])
-                        fitCurvePlot(fit[[2]], fit[[3]], "black", 1, 4)
+                if (varX == "Load" & varY == "Power")
+                {
+                        #if(length(laterality[laterality == "R"]) >= 3 && length(unique(x[laterality == "R"])) > 1)
+                        if(length(unique(x[laterality == "R"])) > 2){
+                                fit = fitCurveCalc(x[laterality=="R"],y[laterality=="R"])
+                                fitCurvePlot(fit[[2]], fit[[3]], "black", 1, 2)
+                        }
+                        #if(length(laterality[laterality == "L"]) >= 3 && length(unique(x[laterality == "L"])) > 1)
+                        if(length(unique(x[laterality == "L"])) > 2){
+                                fit = fitCurveCalc(x[laterality=="L"],y[laterality=="L"])
+                                fitCurvePlot(fit[[2]], fit[[3]], "black", 1, 3)
+                        }
+                        #if(length(laterality[laterality == "RL"]) >= 3 && length(unique(x[laterality == "RL"])) > 1)
+                        if(length(unique(x[laterality == "RL"])) > 2){
+                                fit = fitCurveCalc(x[laterality=="RL"],y[laterality=="RL"])
+                                fitCurvePlot(fit[[2]], fit[[3]], "black", 1, 4)
+                        }
+                } else
+                {
+                        if(length(unique(x[laterality == "R"])) >= 2)
+                                fitLine(x[laterality=="R"],y[laterality=="R"], "black", 1, 2)
+                        if(length(unique(x[laterality == "L"])) >= 2)
+                                fitLine(x[laterality=="L"],y[laterality=="L"], "black", 1, 3)
+                        if(length(unique(x[laterality == "RL"])) >= 2)
+                                fitLine(x[laterality=="RL"],y[laterality=="RL"], "black", 1, 4)
                 }
         }
 }
@@ -1898,7 +1899,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                            length(unique(x)) < 2 ) {
                                 plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
                                 
-                                paintCrossVariablesLaterality(x, y, laterality, colBalls)
+                                paintCrossVariablesLaterality(x, y, laterality, colBalls, varX = varX, varY = varY)
                         } else {
                                 if(varY == "Power" && ! dateAsX) {
                                         #1) fitCurveCalc is calculated first to know plot ylim (curve has to be inside the plot)
@@ -1915,7 +1916,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         plot(x,y, ylim=c(min(c(y,y1)), max(c(y,y1))),
                                              xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
                                         
-                                        paintCrossVariablesLaterality(x, y, laterality, colBalls)
+                                        paintCrossVariablesLaterality(x, y, laterality, colBalls, varX = varX, varY = varY)
                                         
                                         #3) add curve
                                         fitCurvePlot(x1, y1, "black", 1, 1)
@@ -2006,7 +2007,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                 plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
                                         }
                                         
-                                        paintCrossVariablesLaterality(x, y, laterality, colBalls)
+                                        paintCrossVariablesLaterality(x, y, laterality, colBalls, varX = varX, varY = varY)
                                         
                                         fitLine(x,y, "black", 1, 1)
                                         
@@ -2150,7 +2151,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
 			lateralityThisSerie = laterality[lateralityCount:(lateralityCount -1 + length(x[thisSerie]))]
 			lateralityCount = lateralityCount + length(x[thisSerie])
 			#print(c("laterality this serie", lateralityThisSerie))
-			paintCrossVariablesLaterality(x[thisSerie], y[thisSerie], lateralityThisSerie, colBalls[thisSerie])
+			paintCrossVariablesLaterality(x[thisSerie], y[thisSerie], lateralityThisSerie, colBalls[thisSerie], varX = varX, varY = varY)
 		}
 
 		for(i in 1:length(seriesName)) {

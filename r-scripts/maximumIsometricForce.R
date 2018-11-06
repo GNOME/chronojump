@@ -72,7 +72,7 @@ source(paste(op$scriptsPath, "/scripts-util.R", sep=""))
 #Fits the data to the model f = fmax*(1 - exp(-K*t))
 #Important! It fits the data with the axes moved to initf and startTime. The real maximum force is fmax + initf
 getForceModel <- function(time, force, startTime, # startTime is the instant when the force start to increase
-                          fmaxi,           # fmaxi is the initial value for the force. For numeric purpouses
+                          fmaxi,           # fmaxi is the initial value for the fmax. For numeric purpouses
                           initf)              # initf is the sustained force before the increase
 {
         #We force that the function crosses the (0,0) to better fit the monoexponential
@@ -81,12 +81,13 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
         
         data = data.frame(time = time, force = force)
         model = nls( force ~ fmax*(1-exp(-K*time)), data, start=list(fmax=fmaxi, K=1), control=nls.control(warnOnly=TRUE))
+
         fmax = summary(model)$coeff[1,1]
         K = summary(model)$coeff[2,1]
-        return(list(fmax = fmax, K = K))
+        return(list(fmax = fmax, K = K, error =sum(residuals(model)^2)))
 }
 
-getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentChange = 5)
+getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentChange = 5, bestFit = TRUE)
 {
         originalTest = read.csv(inputFile, header = F, dec = op$decimalChar, sep = ";", skip = 2)
         colnames(originalTest) <- c("time", "force")
@@ -115,13 +116,53 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         initf = mean(originalTest$force[(startSample - 20):(startSample - 10)]) #ATENTION. This value is different from f0.raw
         fmax.raw = max(originalTest$force[startSample:endSample])
         
+        f.smoothed = getMovingAverageForce(originalTest, averageLength = averageLength) #Running average with equal weight averageLength seconds
+        fmax.smoothed = max(f.smoothed, na.rm = TRUE)
+        lastError = 1E16
         #Trimming the data before and after contraction
         testTrimmed = originalTest[startSample:endSample,]
         
-        f.smoothed = getMovingAverageForce(originalTest, averageLength = averageLength) #Running average with equal weight averageLength seconds
-        fmax.smoothed = max(f.smoothed, na.rm = TRUE)
-        
         model = getForceModel(testTrimmed$time, testTrimmed$force, startTime, fmax.smoothed, initf)
+        print("-----Error-------")
+        print(model$error)
+        
+        
+        if(bestFit)     #looking for the startSample that best fits the data
+        {
+                while(model$error < lastError)
+                {
+                        lastError = model$error
+                        
+                        startSample = startSample + 1
+                        startTime = originalTest$time[startSample]
+                        
+                        
+                        endSample = endSample + 1
+                        endTime = originalTest$time[endSample]
+                        
+                        
+                        #Trimming the data before and after contraction
+                        testTrimmed = originalTest[startSample:endSample,]
+                        
+                        model = getForceModel(testTrimmed$time, testTrimmed$force, startTime, fmax.smoothed, initf)
+                        print("-----Error-------")
+                        print(model$error)
+                }
+                
+                #going back to the last sample
+                startSample = startSample - 1
+                startTime = originalTest$time[startSample]
+                
+                endTime = originalTest$time[endSample]
+                
+                
+                #Trimming the data before and after contraction
+                testTrimmed = originalTest[startSample:endSample,]
+                
+                model = getForceModel(testTrimmed$time, testTrimmed$force, startTime, fmax.smoothed, initf)
+        }
+        
+        
         f.fitted =model$fmax*(1-exp(-model$K*(originalTest$time - startTime)))
         
         f0.raw = testTrimmed$force[1]                                                  # Force at t=0ms. ATENTION. This value is different than initf
@@ -631,7 +672,7 @@ getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.
                                 startSample = currentSample
                 }
         }
-        
+        #Using the decrease of the force to detect endingSample
         if (testLength <= -1){
                 endSample = startSample + 1
                 maxAverageForce = movingAverageForce[endSample]
@@ -646,6 +687,8 @@ getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.
                 }
         } else if(testLength >= 0 && testLength < 0.1){
                 print("Test interval too short")
+                
+        #Using the fixed time to detect endSample
         } else {
                 endSample = which.min(abs(test$time[startSample] + testLength - test$time))
         }

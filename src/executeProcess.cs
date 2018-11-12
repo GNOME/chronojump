@@ -179,10 +179,27 @@ class ExecuteProcess
 		return true;
 	}
 
+	/*
+	 * This is the best method because it does not need the process,
+	 * note that process maybe is null
+	 * and some code in IsRunning2old will fail
+	 */
+	public static bool IsRunning3 (int processID, string executable)
+	{
+		Process[] pNameArray = Process.GetProcessesByName(Util.GetLastPartOfPath(executable));
+		if (pNameArray.Length == 0)
+			return false;
 
+		foreach(Process p in pNameArray)
+			if(p.Id == processID)
+				return true;
+
+		return false;
+	}
+	/*
 	//better method than below
 	//https://stackoverflow.com/a/262291
-	public static bool IsRunning2 (Process process, string executable)
+	public static bool IsRunning2old (Process process, string executable)
 	{
 		Process[] pNameArray = Process.GetProcessesByName(Util.GetLastPartOfPath(process.ProcessName));
 		if (pNameArray.Length == 0)
@@ -194,6 +211,7 @@ class ExecuteProcess
 
 		return false;
 	}
+	*/
 
 	//This seems is not working with ffmpeg capture, try method obove
 	public static bool IsRunning(Process process)

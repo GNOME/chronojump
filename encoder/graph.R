@@ -2884,7 +2884,7 @@ doProcess <- function(options)
                 n=length(curves[,1])
                 quitIfNoData(curvesPlot, n, curves, op$OutputData1, op$MinHeight)
                 
-                #print(curves, stderr())
+                print(curves, stderr())
                 
                 #find SmoothingsEC. TODO: fix this
                 if(CROSSVALIDATESMOOTH) {
@@ -3782,9 +3782,24 @@ doProcess <- function(options)
                         else {
                                 if(discardingCurves)
                                         curvesHeight = curvesHeight[-discardedCurves]
+
+				#by default use sessions as seriesNames
+				mySeriesNames = curves[,9]
+
+				#special config separate by days
+				separateSessionInDays = TRUE #TODO: pass this from GUI
+				if(separateSessionInDays)
+				{
+					chunks = unlist(strsplit(curves[,7], " ")) #separate "2018-09-06 12:12:4" in two chunks
+					chunks = chunks[seq(1, length(chunks), by = 2)]
+					print("chunks: ")
+					print(chunks)
+					mySeriesNames = chunks
+				}
+
                                 
                                 pafCurves = cbind(
-                                        curves[,9],		#seriesName
+                                        mySeriesNames,		#seriesName
                                         curves[,4],		#exerciseName
                                         curves[,5],		#massBody
                                         curves[,6],		#massExtra
@@ -3876,6 +3891,8 @@ doProcess <- function(options)
 	#Pmax(F0,V0) will use pafCurves
         if(op$Analysis == "cross" && op$AnalysisVariables[1] == "Pmax(F0,V0)")
 	{
+		print("KKKKKKKK")
+		print(pafCurves)
 		pmaxArray = data.frame(pafCurves$series, as.numeric(pafCurves$meanSpeed), as.numeric(pafCurves$meanForce))
 		colnames(pmaxArray) = c("date", "meanSpeed", "meanForce")
 		pfvProfileExecute(pmaxArray)

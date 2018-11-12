@@ -139,4 +139,18 @@ splitTime <- function(Vmax, K, position, tolerance = 0.001, initTime = 1)
         return(t)
 }
 
-
+drawFVProfile <- function(F0, V0, pngFile)
+{
+        #png(pngFile)
+        par(mar = c(5.1, 4.1, 4.1, 5.1))
+        v = seq(0, V0, by = 0.01)
+        p = (F0 -F0*v/V0)*v
+        plot(c(V0, 0),c(0, F0), type = "l", axes = F, xlab = "Speed [m/s]", ylab = "Force [N]")
+        axis(1, pos = 0)
+        axis(2, pos = 0)
+        par(new = T)
+        plot(v, p, axes = F, type = "l", col = "red", ylab = "", xlab = "")
+        axis(4, pos = V0)
+        mtext(text = "Power [W]", side = 4, line = 2, col = "red")
+        #dev.off()
+}

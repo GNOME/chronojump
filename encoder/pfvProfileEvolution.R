@@ -77,8 +77,12 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
 {
         profiles = pfvProfileGetAnalysisProfiles(analyzeTable)
         
-        f0 = profiles$f0
-        v0 = profiles$v0
+        #Clean the data and discard the wrong profiles
+        correctProfiles = which(profiles$f0 > 0 & profiles$v0 > 0)
+        f0 = profiles$f0[correctProfiles]
+        v0 = profiles$v0[correctProfiles]
+        dates = profiles$dates[correctProfiles]
+        
         if(min(v0) <= 0 || min(f0) <= 0){
                 plot(0,0,type="n",axes=F,xlab="",ylab="")
                 text(x=0,y=0,translateToPrint("Some of the F-V profiles is wrong.\nProbably the F0 or V0 is negative"),cex=1.5)
@@ -86,7 +90,6 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
                 quit()
 }
         pmax = f0*v0/4
-        dates = profiles$dates
         
         flimits = c(min(f0) - (max(f0) - min(f0))*0.1, max(f0) + (max(f0) - min(f0))*0.1)
         vlimits = c(min(v0) - (max(v0) - min(v0))*0.1, max(v0) + (max(v0) - min(v0))*0.1)
@@ -133,12 +136,3 @@ pfvProfileExecute <- function(analyzeTable)
 
 	pfvProfileDrawProfilesEvolution(analyzeTable)
 }
-
-pfvProfileReadFile <- function(inputFile)
-{
-        analyzeTable = read.csv(inputFile, dec = ".", sep = ",")
-	colnames(analyzeTable)[which(colnames(analyzeTable)=="series")] = "date"
-        return(analyzeTable)
-}
-
-#pfvProfileExecute(pfvProfileReadFile("/tmp/chronojump-last-encoder-analyze-table.txt"))

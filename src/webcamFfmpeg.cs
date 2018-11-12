@@ -27,6 +27,7 @@ using System.Text.RegularExpressions; //Regex
 public class WebcamFfmpeg : Webcam
 {
 	private UtilAll.OperatingSystems os;
+	private int processID;
 
 	public WebcamFfmpeg (UtilAll.OperatingSystems os, string videoDevice)
 	{
@@ -80,6 +81,7 @@ public class WebcamFfmpeg : Webcam
 			return new Result (false, "", programFfmpegNotInstalled);
 		}
 
+		processID = process.Id;
 		streamWriter = process.StandardInput;
 		Running = true;
 
@@ -210,15 +212,12 @@ public class WebcamFfmpeg : Webcam
 
 		/*
 		 * above process.Close() will end the process
-		 * if not, play with kill
-		 *
-		//System.Threading.Thread.Sleep(500);
-		//better check if process still exists to later copy the video
+		 * without using this file copied from /tmp maybe is not finished, so a bad ended file is copied to .local/share/Chronojump/multimedia/video
+		*/
 		do {
 			LogB.Information("waiting 100 ms to end Ffmpeg");
 			System.Threading.Thread.Sleep(100);
-		} while(ExecuteProcess.IsRunning2(process, captureExecutable));
-		*/
+		} while(ExecuteProcess.IsRunning3(processID, captureExecutable));
 
 		streamWriter = null;
 		process = null;

@@ -325,7 +325,7 @@ class MyFrame(wx.Frame):
       #----------------------------------------
       #-- Obtener el nombre
       #file = str(self.text_ctrl_2.GetLineText(0))
-      file = os.path.join(DATADIR, 'chronojump', 'firmware', 'chronopic-firmware-multitest.hex')
+      file = os.path.join(DATADIR, 'chronojump', 'firmware', 'chronopic-firmware-multitest-1.2.hex')
 
       #-- Si no hay ningun fichero especificado: Error
       if file=="":

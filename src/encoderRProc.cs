@@ -32,6 +32,7 @@ public abstract class EncoderRProc
 	public Status status;
 	public bool Debug = false;
 	public bool CrossValidate;
+	public bool SeparateSessionInDays;
 	public int CurvesReaded;
 
 	protected string optionsFile;	
@@ -257,7 +258,8 @@ public class EncoderRProcCapture : EncoderRProc
 				Debug,
 				false,	//crossValidate (unactive on capture at the moment)
 				(CutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
-				printTriggers()
+				printTriggers(),
+				false 	//separateSessionInDays (false at capture)
 				).ToString();
 
 		TextWriter writer = File.CreateText(optionsFile);
@@ -514,7 +516,8 @@ public class EncoderRProcAnalyze : EncoderRProc
 				Debug,
 				CrossValidate,
 				cutByTriggers,
-				printTriggers()
+				printTriggers(),
+				SeparateSessionInDays
 				).ToString();
 
 		TextWriter writer = File.CreateText(optionsFile);

@@ -3790,8 +3790,7 @@ doProcess <- function(options)
 				mySeriesNames = curves[,9]
 
 				#special config separate by days
-				separateSessionInDays = TRUE #TODO: pass this from GUI
-				if(separateSessionInDays)
+				if(op$SeparateSessionInDays)
 				{
 					chunks = unlist(strsplit(curves[,7], " ")) #separate "2018-09-06 12:12:4" in two chunks
 					chunks = chunks[seq(1, length(chunks), by = 2)]

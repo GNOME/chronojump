@@ -84,7 +84,7 @@ assignOptions <- function(options) {
 		    Debug		= options[31],
 		    CrossValidate	= options[32],
 		    TriggersCut 	= options[33],  #if TRUE ten cut by triggers, else use TriggersOnList (if any) only for vertical ablines on instaneous graphs
-		    TriggersOnList	= as.numeric(unlist(strsplit(options[34], "\\;")))
+		    TriggersOnList	= as.numeric(unlist(strsplit(options[34], "\\;"))),
 
 		    #Triggers:
 		    #  at capture.R
@@ -98,6 +98,7 @@ assignOptions <- function(options) {
 		    #Unassigned here:
 		    #	englishWords [29]
 		    #	translatedWords [30]
+		    SeparateSessionInDays = options[35]
 		    ))
 }
 

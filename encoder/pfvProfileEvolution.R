@@ -83,12 +83,15 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
         v0 = profiles$v0[correctProfiles]
         dates = profiles$dates[correctProfiles]
         
+        print("profiles:")
+        print(profiles)
+        
         if(min(v0) <= 0 || min(f0) <= 0){
                 plot(0,0,type="n",axes=F,xlab="",ylab="")
                 text(x=0,y=0,translateToPrint("Some of the F-V profiles is wrong.\nProbably the F0 or V0 is negative"),cex=1.5)
                 dev.off()
                 quit()
-}
+        }
         pmax = f0*v0/4
         
         flimits = c(min(f0) - (max(f0) - min(f0))*0.1, max(f0) + (max(f0) - min(f0))*0.1)
@@ -122,12 +125,35 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
         arrows(v0[1:(length(v0) -1)], f0[1:(length(v0) -1)], v0[2:length(v0)], f0[2:length(v0)], length = 0.15, col = "red")
         points(v0, f0)
         
-        #Date of the session
-        text(v0, f0, labels = dates, pos = 1, offset = 0.5, cex = 0.75)
-        #Pmax of the session
-        text(v0, f0, labels = paste(round(pmax, digits = 0), "W", sep=""), pos = 3, offset = 0.5, cex = 0.75)
+        #Detecting if is there are close points
+        minYDistance = (max(f0) - min(f0)) / 20
+        minXDistance = ((max(v0) - min(v0)) / 20)
+        
+        #Each point(profile) must be compared to the other points
+        for (currentProfile in 1:length(f0))
+        {
+                paintCurrentDate = TRUE
+                text(v0[currentProfile], f0[currentProfile], labels = currentProfile, pos = 2, adj = 1, cex = 0.75)
+                for(comparingProfile in 1:length(f0))
+                {
+                        if(abs(f0[comparingProfile] - f0[currentProfile]) < minYDistance &    #Not far enough vertically
+                           abs(v0[comparingProfile] - v0[currentProfile]) < minXDistance &    #Not far enaugh horizontally
+                           currentProfile != comparingProfile)                                #We are not comparing the same point
+                        {
+                                paintCurrentDate = FALSE
+                                break()
+                        }
+                }
+                if(paintCurrentDate) #No other profiles overlaps with the current one
+                {
+                        #Date of the session
+                        text(v0[currentProfile], f0[currentProfile], labels = dates[currentProfile], pos = 1, offset = 0.5, cex = 0.75)
+                        #Pmax of the session
+                        text(v0[currentProfile], f0[currentProfile], labels = paste(round(pmax[currentProfile], digits = 0), "W", sep=""), pos = 3, offset = 0.5, cex = 0.75)
+                }
+        }
         mtext("Maximum mean power using the F-V profile of each session", side = 4, line = 2)
-        if(length(profiles) != length(f0)) #If there are discarded dates
+        if(length(profiles$f0) != length(f0)) #If there are discarded dates
         {
                 mtext("Dates discarded due an incorrect profile:", side = 3, line = 1.5, col = "red", at = vlimits[1], adj = 0)
                 mtext(paste(profiles$dates[-correctProfiles], collapse = ", "), side = 3, line = 0.5, col = "red", at = vlimits[1], adj = 0)

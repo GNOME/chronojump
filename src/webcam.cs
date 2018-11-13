@@ -97,7 +97,7 @@ public abstract class Webcam
 	protected Process process;
 	protected string videoDevice;
 	protected StreamWriter streamWriter;
-	protected string captureExecutable = "";
+	protected string executable = "";
 
 
 	// Result struct holds the output, error and success operations. It's used to pass

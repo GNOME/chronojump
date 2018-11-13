@@ -6105,7 +6105,7 @@ LogB.Debug("mc finished 5");
 	//Not used on encoder	
 	private bool playVideo(string fileName, bool play) 
 	{
-		webcam = new WebcamMplayer ();
+		webcam = new WebcamFfmpeg (UtilAll.GetOSEnum());
 		Webcam.Result result = webcam.Play(fileName);
 
 		/*

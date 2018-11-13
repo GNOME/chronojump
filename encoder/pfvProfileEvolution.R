@@ -127,6 +127,11 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
         #Pmax of the session
         text(v0, f0, labels = paste(round(pmax, digits = 0), "W", sep=""), pos = 3, offset = 0.5, cex = 0.75)
         mtext("Maximum mean power using the F-V profile of each session", side = 4, line = 2)
+        if(length(profiles) != length(f0)) #If there are discarded dates
+        {
+                mtext("Dates discarded due an incorrect profile:", side = 3, line = 1.5, col = "red", at = vlimits[1], adj = 0)
+                mtext(paste(profiles$dates[-correctProfiles], collapse = ", "), side = 3, line = 0.5, col = "red", at = vlimits[1], adj = 0)
+        }
 }
 
 pfvProfileExecute <- function(analyzeTable)

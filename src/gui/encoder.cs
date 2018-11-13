@@ -261,6 +261,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_encoder_analyze_selected;
 	[Widget] Gtk.HBox hbox_encoder_analyze_intersession;
 	[Widget] Gtk.CheckButton check_encoder_intersession_x_is_date;
+	[Widget] Gtk.CheckButton check_encoder_separate_session_in_days;
 	[Widget] Gtk.HBox hbox_combo_encoder_analyze_weights;
 	[Widget] Gtk.ComboBox combo_encoder_analyze_weights;
 	
@@ -3171,7 +3172,7 @@ public partial class ChronoJumpWindow
 			check_encoder_analyze_eccon_together.Active = true;
 		}
 	}
-	
+
 	private void on_radio_encoder_analyze_individual_current_set_toggled (object obj, EventArgs args) 
 	{
 		if(! radio_encoder_analyze_individual_current_set.Active)
@@ -3203,6 +3204,8 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
 		hbox_encoder_analyze_intersession.Visible = false;
+		check_encoder_separate_session_in_days.Active = false;
+		check_encoder_separate_session_in_days.Visible = false;
 			
 		button_encoder_analyze_sensitiveness();
 	
@@ -3254,6 +3257,8 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_eccon_together.Sensitive = true;
 		block_check_encoder_analyze_eccon_together_if_needed();
 		hbox_encoder_analyze_intersession.Visible = false;
+		check_encoder_separate_session_in_days.Active = false;
+		check_encoder_separate_session_in_days.Visible = false;
 			
 		button_encoder_analyze_sensitiveness();
 	
@@ -3283,6 +3288,9 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_analyze_cross.Active = true;
 		hbox_encoder_analyze_intersession.Visible = true;
 		
+		check_encoder_separate_session_in_days.Visible = true;
+		set_check_encoder_separate_session_in_days();
+
 		//this analysis only when not comparing
 		radiobutton_encoder_analyze_instantaneous.Visible = false;
 		radiobutton_encoder_analyze_powerbars.Visible = false;
@@ -3294,7 +3302,7 @@ public partial class ChronoJumpWindow
 
 		showTriggerTab(false);
 	}
-
+		
 	private void on_radio_encoder_analyze_groupal_current_session_toggled (object obj, EventArgs args) 
 	{
 		if(! radio_encoder_analyze_groupal_current_session.Active)
@@ -3314,6 +3322,8 @@ public partial class ChronoJumpWindow
 		//active cross. The only available for comparing	
 		radiobutton_encoder_analyze_cross.Active = true;
 		hbox_encoder_analyze_intersession.Visible = false;
+		check_encoder_separate_session_in_days.Active = false;
+		check_encoder_separate_session_in_days.Visible = false;
 		
 		//this analysis only when not comparing
 		radiobutton_encoder_analyze_instantaneous.Visible = false;
@@ -3377,6 +3387,13 @@ public partial class ChronoJumpWindow
 		}
 		
 		return analysisVariables;
+	}
+
+	private void set_check_encoder_separate_session_in_days()
+	{
+		check_encoder_separate_session_in_days.Sensitive = ! check_encoder_intersession_x_is_date.Active;
+		if(check_encoder_intersession_x_is_date.Active)
+			check_encoder_separate_session_in_days.Active = false;
 	}
 
 
@@ -3992,7 +4009,14 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	void on_check_encoder_intersession_x_is_date_toggled (object o, EventArgs args) {
+	//to avoid circular calls
+	private bool encoder_x_is_date_session_in_days_nofollow = false;
+
+	void on_check_encoder_intersession_x_is_date_toggled (object o, EventArgs args)
+	{
+		if(encoder_x_is_date_session_in_days_nofollow)
+			return;
+
 		createComboAnalyzeCross(false, check_encoder_intersession_x_is_date.Active);
 		
 		if(check_encoder_intersession_x_is_date.Active) {
@@ -4000,7 +4024,27 @@ public partial class ChronoJumpWindow
 			combo_encoder_analyze_weights.Visible = true;
 		} else
 			combo_encoder_analyze_weights.Visible = false;
-	}	
+
+		encoder_x_is_date_session_in_days_nofollow = true;
+		set_check_encoder_separate_session_in_days();
+		encoder_x_is_date_session_in_days_nofollow = false;
+	}
+
+	void on_check_encoder_separate_session_in_days_toggled (object o, EventArgs args)
+	{
+		if(encoder_x_is_date_session_in_days_nofollow)
+			return;
+
+		check_encoder_intersession_x_is_date.Sensitive = ! check_encoder_separate_session_in_days.Active;
+
+		if(check_encoder_separate_session_in_days.Active)
+		{
+			encoder_x_is_date_session_in_days_nofollow = true;
+			check_encoder_intersession_x_is_date.Active = false;
+			encoder_x_is_date_session_in_days_nofollow = false;
+		}
+	}
+
 
 
 	void on_radio_encoder_eccon_toggled (object o, EventArgs args)
@@ -5826,9 +5870,10 @@ public partial class ChronoJumpWindow
 
 			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
 			encoderRProcAnalyze.status = EncoderRProc.Status.WAITING;
-	
+
 			encoderRProcAnalyze.CrossValidate = checkbutton_crossvalidate.Active;
-		
+			encoderRProcAnalyze.SeparateSessionInDays = check_encoder_separate_session_in_days.Active;
+
 			encoderThread = new Thread(new ThreadStart(encoderDoAnalyze));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
 

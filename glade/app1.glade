@@ -1784,6 +1784,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -19286,42 +19289,6 @@ Concentric</property>
                                                             <placeholder/>
                                                             </child>
                                                             <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_rfd_a">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -19603,6 +19570,9 @@ Concentric</property>
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkCheckButton" id="checkbutton_force_sensor_ai_b">
                                                             <property name="width_request">30</property>
                                                             <property name="visible">True</property>
@@ -19660,6 +19630,9 @@ Concentric</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -24787,6 +24760,21 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkCheckButton" id="check_encoder_separate_session_in_days">
+                                                            <property name="label" translatable="yes">By days</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Separate session by days</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <signal name="toggled" handler="on_check_encoder_separate_session_in_days_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">5</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_combo_encoder_analyze_cross_sup">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
@@ -24820,7 +24808,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">5</property>
+                                                            <property name="position">6</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -24833,7 +24821,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">6</property>
+                                                            <property name="position">7</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -24844,7 +24832,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">7</property>
+                                                            <property name="position">8</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -25220,7 +25208,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">8</property>
+                                                            <property name="position">9</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -25233,7 +25221,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">9</property>
+                                                            <property name="position">10</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -26793,6 +26781,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

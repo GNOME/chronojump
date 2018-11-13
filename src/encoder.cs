@@ -161,6 +161,7 @@ public class EncoderGraphROptions
 	public bool crossValidate;
 	private bool cutByTriggers;
 	private string triggerList;
+	public bool separateSessionInDays;
 	
 	public EncoderGraphROptions(
 			string inputData, string outputGraph, string outputData1, 
@@ -168,7 +169,8 @@ public class EncoderGraphROptions
 			EncoderParams ep,
 			string title, string operatingSystem,
 			string englishWords, string translatedWords,
-			bool debug, bool crossValidate, bool cutByTriggers, string triggerList)
+			bool debug, bool crossValidate, bool cutByTriggers, string triggerList,
+			bool separateSessionInDays)
 	{
 		this.inputData = inputData;
 		this.outputGraph = outputGraph;
@@ -184,6 +186,7 @@ public class EncoderGraphROptions
 		this.crossValidate = crossValidate;
 		this.cutByTriggers = cutByTriggers;
 		this.triggerList = triggerList;
+		this.separateSessionInDays = separateSessionInDays;
 
 		//ensure triggerList is not null or blank
 		if(triggerList == null || triggerList == "")
@@ -205,7 +208,8 @@ public class EncoderGraphROptions
 			"#debug\n" +		Util.BoolToRBool(debug) + "\n" +
 			"#crossValidate\n" +	Util.BoolToRBool(crossValidate) + "\n" +
 			"#cutByTriggers\n" +	Util.BoolToRBool(cutByTriggers) + "\n" +
-			"#triggerList\n" +	triggerList + "\n";
+			"#triggerList\n" +	triggerList + "\n" +
+			"#separateSessionInDays\n" +	Util.BoolToRBool(separateSessionInDays) + "\n";
 	}
 	
 

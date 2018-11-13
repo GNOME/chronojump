@@ -2123,15 +2123,18 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         miny <- min(y1)
                         } else if(varX == "Speed" && varY == "Force") #is "Force,Power" but using Force to have less problems
 			{
-                                fit = lm(y[thisSerie] ~ x[thisSerie])
-                                V0 = -coef(fit)[[1]] / coef(fit)[[2]]
-                                F0 = coef(fit)[[1]]
-                                if (F0 > maxy)
-                                        maxy = F0
-                                if (V0 > maxx)
-                                        maxx = V0
-                                miny = 0
-                                minx = 0
+                                if(length(y[thisSerie]) > 1) #At least 2 points needed
+                                {
+                                        fit = lm(y[thisSerie] ~ x[thisSerie])
+                                        V0 = -coef(fit)[[1]] / coef(fit)[[2]]
+                                        F0 = coef(fit)[[1]]
+                                        if (F0 > maxy)
+                                                maxy = F0
+                                        if (V0 > maxx)
+                                                maxx = V0
+                                        miny = 0
+                                        minx = 0
+                                }
                         }
                 }
                 ylim <- c(miny, maxy)

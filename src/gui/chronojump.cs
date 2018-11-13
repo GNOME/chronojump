@@ -297,6 +297,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_video_capture;
 	[Widget] Gtk.Label label_video_feedback;
 	[Widget] Gtk.CheckButton checkbutton_video;
+	[Widget] Gtk.Button button_video_preview;
 	//[Widget] Gtk.Label label_video;
 	[Widget] Gtk.Image image_video_yes;
 	[Widget] Gtk.Image image_video_no;
@@ -3873,7 +3874,8 @@ public partial class ChronoJumpWindow
 		checkbutton_video_encoder.Clicked -= new EventHandler(on_checkbutton_video_encoder_clicked);
 		checkbutton_video_encoder.Active = preferences.videoOn;
 		checkbutton_video_encoder.Clicked += new EventHandler(on_checkbutton_video_encoder_clicked);
-		
+
+		button_video_preview.Visible = checkbutton_video.Active;
 		changeVideoButtons(preferences.videoOn);
 		
 		videoCapturePrepare(true); //if error, show message
@@ -4277,6 +4279,7 @@ public partial class ChronoJumpWindow
 		if(! preferences.videoOn || webcamManage == null)
 			return;
 
+		button_video_preview.Visible = false;
 		string errorMessage = "";
 		if(ncams == 1 && webcamManage.RecordPrepare(preferences.videoDevice).success)
 		{
@@ -6102,11 +6105,23 @@ LogB.Debug("mc finished 5");
 	//TODO: manage different playVideo. Playing is very different than capturing, separate it.
 	Webcam webcam;
 
-	//Not used on encoder	
-	private bool playVideo(string fileName, bool play) 
+	private void on_button_video_preview_clicked (object o, EventArgs args)
 	{
-		webcam = new WebcamFfmpeg (UtilAll.GetOSEnum());
-		Webcam.Result result = webcam.Play(fileName);
+		playPreview();
+	}
+	private void playPreview ()
+	{
+		//constructor for playpreview
+		webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), preferences.videoDevice);
+		Webcam.Result result = webcam.PlayPreview ();
+	}
+
+	//Not used on encoder	
+	private void playVideo (string fileName)
+	{
+		//constructor for playpreview
+		webcam = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "");
+		Webcam.Result result = webcam.PlayFile (fileName);
 
 		/*
 		 * TODO: reimplement this with ffmpeg
@@ -6131,7 +6146,6 @@ LogB.Debug("mc finished 5");
 			return true;	
 		}
 		*/
-		return false;	
 	}
 
 
@@ -6172,56 +6186,56 @@ LogB.Debug("mc finished 5");
 				break;
 		}
 
-		playVideo(Util.GetVideoFileName(currentSession.UniqueID, type, id), true);
+		playVideo(Util.GetVideoFileName(currentSession.UniqueID, type, id));
 	}
 
 	private void on_video_play_selected_jump_clicked (object o, EventArgs args) {
 		if (myTreeViewJumps.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.JUMP,
-						myTreeViewJumps.EventSelectedID), true);
+						myTreeViewJumps.EventSelectedID));
 	}
 
 	private void on_video_play_selected_jump_rj_clicked (object o, EventArgs args) {
 		if (myTreeViewJumpsRj.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.JUMP_RJ,
-						myTreeViewJumpsRj.EventSelectedID), true);
+						myTreeViewJumpsRj.EventSelectedID));
 	}
 
 	private void on_video_play_selected_run_clicked (object o, EventArgs args) {
 		if (myTreeViewRuns.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.RUN,
-						myTreeViewRuns.EventSelectedID), true);
+						myTreeViewRuns.EventSelectedID));
 	}
 
 	private void on_video_play_selected_run_interval_clicked (object o, EventArgs args) {
 		if (myTreeViewRunsInterval.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.RUN_I,
-						myTreeViewRunsInterval.EventSelectedID), true);
+						myTreeViewRunsInterval.EventSelectedID));
 	}
 
 	private void on_video_play_selected_reaction_time_clicked (object o, EventArgs args) {
 		if (myTreeViewReactionTimes.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.RT,
-						myTreeViewReactionTimes.EventSelectedID), true);
+						myTreeViewReactionTimes.EventSelectedID));
 	}
 
 	private void on_video_play_selected_pulse_clicked (object o, EventArgs args) {
 		if (myTreeViewPulses.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.PULSE,
-						myTreeViewPulses.EventSelectedID), true);
+						myTreeViewPulses.EventSelectedID));
 	}
 
 	private void on_video_play_selected_multi_chronopic_clicked (object o, EventArgs args) {
 		if (myTreeViewMultiChronopic.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.MULTICHRONOPIC,
-						myTreeViewMultiChronopic.EventSelectedID), true);
+						myTreeViewMultiChronopic.EventSelectedID));
 	}
 
 	/* ---------------------------------------------------------

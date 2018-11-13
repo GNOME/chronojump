@@ -7253,6 +7253,7 @@ public partial class ChronoJumpWindow
 	/* end of thread stuff */
 	
 	/* video stuff */
+
 	private void encoderStartVideoRecord() {
 		/*
 		 * TODO: reimplement this with ffmpeg

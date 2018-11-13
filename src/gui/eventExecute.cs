@@ -2255,6 +2255,7 @@ public partial class ChronoJumpWindow
 		checkbutton_video.Sensitive = true;
 		if(preferences.videoOn) {	
 			label_video_feedback.Text = "";
+			button_video_preview.Visible = true;
 			//capturer.ClickStop();
 			//videoCapturePrepare(false); //if error, show message
 		}
@@ -2411,6 +2412,7 @@ public partial class ChronoJumpWindow
 		if(preferences.videoOn) {
 			//it will be recorded on temp, but chronojump will move it to chronojump/multimedia folders
 			label_video_feedback.Text = "";
+			button_video_preview.Visible = true;
 			//capturer.ClickStop();
 			//videoCapturePrepare(false); //if error, show message
 		}

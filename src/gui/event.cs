@@ -316,7 +316,7 @@ public class EditEventWindow
 			LogB.Information("Exists and clicked " + videoFileName);
 
 			Webcam webcam = new WebcamMplayer ();
-			Webcam.Result result = webcam.Play(videoFileName);
+			Webcam.Result result = webcam.PlayFile(videoFileName);
 		}
 	}
 

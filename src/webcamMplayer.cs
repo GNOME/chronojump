@@ -37,7 +37,7 @@ public class WebcamMplayer : Webcam
 
 	public WebcamMplayer ()
 	{
-		captureExecutable = "mplayer";
+		executable = "mplayer";
 	}
 
 	public override Result CapturePrepare (CaptureTypes captureType)
@@ -71,7 +71,7 @@ public class WebcamMplayer : Webcam
 		parameters.Insert (i ++, "screenshot=" + Util.GetMplayerPhotoTempFileNamePre(videoDeviceToFilename()));
 
 		process = new Process();
-		bool success = ExecuteProcess.RunAtBackground (ref process, captureExecutable, parameters, true); //redirectInput
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, true); //redirectInput
 		if(! success)
 		{
 			streamWriter = null;
@@ -87,7 +87,7 @@ public class WebcamMplayer : Webcam
 		   parametersB[4] = "driver=v4l2:gain=1:width=400:height=400:device=/dev/video1:fps=10:outfmt=rgb16";
 		   parametersB[7] = "screenshot=/tmp/b/chronojump-last-photo";
 		   Process processB = new Process();
-		   ExecuteProcess.RunAtBackground (processB, captureExecutable, parametersB, true); //redirectInput
+		   ExecuteProcess.RunAtBackground (processB, executable, parametersB, true); //redirectInput
 		   */
 		/*
 		 * experimental double camera end
@@ -105,7 +105,7 @@ public class WebcamMplayer : Webcam
 		if(process != null || filename == "")
 			return new Result (false, "");
 
-		string executable = "mplayer";
+		executable = "mplayer";
 		List<string> parameters = new List<string>();
 		parameters.Insert (0, filename);
 		//parameters.Insert (0, "-noborder"); //on X11 can be: title "Chronojump"". -noborder makes no accept 's', or 'q'
@@ -262,7 +262,7 @@ public class WebcamMplayer : Webcam
 
 	private bool convertImagesToVideo()
 	{
-		string executable = "ffmpeg";
+		executable = "ffmpeg";
 		List<string> parameters = new List<string>();
 		//ffmpeg -framerate 20 -y -i chronojump-last-photo%04d.png output.mp4
 		parameters.Insert (0, "-framerate");

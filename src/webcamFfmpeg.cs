@@ -34,20 +34,26 @@ public class WebcamFfmpeg : Webcam
 		this.os = os;
 		this.videoDevice = videoDevice;
 
-		captureExecutable = "ffmpeg";
+		executable = "ffmpeg";
 		if(os == UtilAll.OperatingSystems.WINDOWS)
-			captureExecutable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
+			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
 
 		Running = false;
 	}
 
 	/*
 	 * constructor for Play
-
-	public WebcamFfmpeg ()
-	{
-	}
 	 */
+
+	public WebcamFfmpeg (UtilAll.OperatingSystems os)
+	{
+		this.os = os;
+
+		executable = "ffplay";
+		if(os == UtilAll.OperatingSystems.WINDOWS)
+			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay.exe");
+	}
+
 
 	public override Result CapturePrepare (CaptureTypes captureType)
 	{
@@ -59,7 +65,20 @@ public class WebcamFfmpeg : Webcam
 
 	public override Result Play(string filename)
 	{
-		//only implemented on mplayer
+		if(process != null || filename == "")
+			return new Result (false, "");
+
+		List<string> parameters = createParametersPlay(filename);
+
+		process = new Process();
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false);
+		if(! success)
+		{
+			process = null;
+			return new Result (false, "", programFfmpegNotInstalled);
+		}
+
+		Running = true;
 		return new Result (true, "");
 	}
 	public override bool Snapshot()
@@ -73,7 +92,7 @@ public class WebcamFfmpeg : Webcam
 		process = new Process();
 		List<string> parameters = createParametersOnlyCapture();
 		//List<string> parameters = createParametersCaptureAndDelayedView();
-		bool success = ExecuteProcess.RunAtBackground (ref process, captureExecutable, parameters, true); //redirectInput
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, true); //redirectInput
 		if(! success)
 		{
 			streamWriter = null;
@@ -86,6 +105,14 @@ public class WebcamFfmpeg : Webcam
 		Running = true;
 
 		return new Result (true, "");
+	}
+
+	private List<string> createParametersPlay(string filename)
+	{
+		// ffplay out.mp4
+		List<string> parameters = new List<string>();
+		parameters.Insert (0, filename);
+		return parameters;
 	}
 
 	private List<string> createParametersOnlyCapture()
@@ -219,7 +246,7 @@ public class WebcamFfmpeg : Webcam
 		do {
 			LogB.Information("waiting 100 ms to end Ffmpeg");
 			System.Threading.Thread.Sleep(100);
-		} while(ExecuteProcess.IsRunning3(processID, captureExecutable));
+		} while(ExecuteProcess.IsRunning3(processID, executable));
 
 		streamWriter = null;
 		process = null;

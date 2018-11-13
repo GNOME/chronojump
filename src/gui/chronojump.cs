@@ -4744,7 +4744,8 @@ public partial class ChronoJumpWindow
 				repetitiveConditionsWin, progressbarLimit, egd
 				);
 		
-		webcamStart (2);
+		//webcamStart (2);
+		webcamStart (1);
 		
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps
@@ -4804,10 +4805,14 @@ public partial class ChronoJumpWindow
 		Sqlite.DeleteTempEvents("tempJumpRj");
 
 		//stop camera (storing value or not)
-		if(currentEventExecute.Cancel || currentJumpRj == null)
-			webcamEndTwoCams (Constants.TestTypes.JUMP_RJ, -1);
-		else
-			webcamEndTwoCams (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
+		if(currentEventExecute.Cancel || currentJumpRj == null) {
+			//webcamEndTwoCams (Constants.TestTypes.JUMP_RJ, -1);
+			webcamEnd (Constants.TestTypes.JUMP_RJ, -1);
+		}
+		else {
+			//webcamEndTwoCams (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
+			webcamEnd (Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
+		}
 
 		//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown
 		//this has to be after webcamRecordEnd in order to see if video is created

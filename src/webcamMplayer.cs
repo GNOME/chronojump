@@ -100,7 +100,13 @@ public class WebcamMplayer : Webcam
 		return new Result (true, "");
 	}
 
-	public override Result Play(string filename)
+	public override Result PlayPreview ()
+	{
+		//not implemented
+		return new Result (false, "");
+	}
+
+	public override Result PlayFile (string filename)
 	{
 		if(process != null || filename == "")
 			return new Result (false, "");

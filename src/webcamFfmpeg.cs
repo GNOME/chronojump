@@ -29,31 +29,30 @@ public class WebcamFfmpeg : Webcam
 	private UtilAll.OperatingSystems os;
 	private int processID;
 
-	public WebcamFfmpeg (UtilAll.OperatingSystems os, string videoDevice)
+	// constructor ----------------------------------
+
+	public WebcamFfmpeg (Webcam.Action action, UtilAll.OperatingSystems os, string videoDevice)
 	{
 		this.os = os;
 		this.videoDevice = videoDevice;
 
-		executable = "ffmpeg";
-		if(os == UtilAll.OperatingSystems.WINDOWS)
-			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
+		if(action == Webcam.Action.CAPTURE)
+		{
+			executable = "ffmpeg";
+			if(os == UtilAll.OperatingSystems.WINDOWS)
+				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
+		}
+		else // PLAYPREVIEW || PLAYFILE
+		{
+			executable = "ffplay";
+			if(os == UtilAll.OperatingSystems.WINDOWS)
+				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay.exe");
+		}
 
 		Running = false;
 	}
 
-	/*
-	 * constructor for Play
-	 */
-
-	public WebcamFfmpeg (UtilAll.OperatingSystems os)
-	{
-		this.os = os;
-
-		executable = "ffplay";
-		if(os == UtilAll.OperatingSystems.WINDOWS)
-			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay.exe");
-	}
-
+	// public methods ----------------------------------
 
 	public override Result CapturePrepare (CaptureTypes captureType)
 	{
@@ -63,12 +62,12 @@ public class WebcamFfmpeg : Webcam
 		return new Result (true, "");
 	}
 
-	public override Result Play(string filename)
+	public override Result PlayPreview ()
 	{
-		if(process != null || filename == "")
+		if(process != null)
 			return new Result (false, "");
 
-		List<string> parameters = createParametersPlay(filename);
+		List<string> parameters = createParametersPlayPreview();
 
 		process = new Process();
 		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false);
@@ -81,6 +80,26 @@ public class WebcamFfmpeg : Webcam
 		Running = true;
 		return new Result (true, "");
 	}
+
+	public override Result PlayFile (string filename)
+	{
+		if(process != null || filename == "")
+			return new Result (false, "");
+
+		List<string> parameters = createParametersPlayFile (filename);
+
+		process = new Process();
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false);
+		if(! success)
+		{
+			process = null;
+			return new Result (false, "", programFfmpegNotInstalled);
+		}
+
+		Running = true;
+		return new Result (true, "");
+	}
+
 	public override bool Snapshot()
 	{
 		//only implemented on mplayer
@@ -107,7 +126,20 @@ public class WebcamFfmpeg : Webcam
 		return new Result (true, "");
 	}
 
-	private List<string> createParametersPlay(string filename)
+	// private methods ----------------------------------
+
+	private List<string> createParametersPlayPreview()
+	{
+		// ffplay /dev/video0
+		List<string> parameters = new List<string>();
+		int i=0;
+		parameters.Insert (i++, videoDevice);
+		parameters.Insert (i++, "-window_title");
+		parameters.Insert (i++, "Chronojump webcam preview");
+		return parameters;
+	}
+
+	private List<string> createParametersPlayFile(string filename)
 	{
 		// ffplay out.mp4
 		List<string> parameters = new List<string>();

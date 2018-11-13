@@ -93,6 +93,7 @@ public abstract class Webcam
 		string.Format(Catalog.GetString("Error. {0} cannot save video."), "mplayer");
 
 	public bool Running;
+	public enum Action { CAPTURE, PLAYPREVIEW, PLAYFILE }
 
 	protected Process process;
 	protected string videoDevice;
@@ -124,7 +125,9 @@ public abstract class Webcam
 
 	public abstract Result CapturePrepare (CaptureTypes captureType);
 
-	public abstract Result Play(string filename);
+	public abstract Result PlayPreview();
+
+	public abstract Result PlayFile(string filename);
 
 	public abstract bool Snapshot();
 
@@ -194,7 +197,7 @@ public class WebcamManage
 		LogB.Information("wRS at gui chronojump.cs 0, videoDevice: " + videoDevice);
 
 		//w = new WebcamMplayer (videoDevice);
-		w = new WebcamFfmpeg (os, videoDevice);
+		w = new WebcamFfmpeg (Webcam.Action.CAPTURE, os, videoDevice);
 		Webcam.Result result = w.CapturePrepare (Webcam.CaptureTypes.VIDEO);
 
 		LogB.Information("wRS at gui chronojump.cs 1, videoDevice: " + videoDevice);

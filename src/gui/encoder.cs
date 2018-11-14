@@ -885,6 +885,12 @@ public partial class ChronoJumpWindow
 	//called from main GUI
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
 	{
+		if(! selectedEncoderExerciseExists())
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Need to create/select an exercise.");
+			return;
+		}
+
 		saveEncoderExerciseOptionsToPreferences();
 
 		//if seeing "show table" move to "show graph"
@@ -4415,9 +4421,22 @@ public partial class ChronoJumpWindow
 		hbox_top_person_encoder.Sensitive = ! show;
 	}
 
+	//useful when there are no exercises (have been removed from database)
+	bool selectedEncoderExerciseExists ()
+	{
+		return (getExerciseIDFromCombo(exerciseCombos.CAPTURE) != -1);
+	}
+
+
 	//info is now info and edit (all values can be changed), and detete (there's delete button)
 	void on_button_encoder_exercise_edit_clicked (object o, EventArgs args) 
 	{
+		if(! selectedEncoderExerciseExists())
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Need to create/select an exercise.");
+			return;
+		}
+
 		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
 				false, getExerciseIDFromCombo(exerciseCombos.CAPTURE), false)[0];
 

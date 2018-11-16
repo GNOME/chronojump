@@ -180,12 +180,42 @@ class ExecuteProcess
 	}
 
 	/*
+	 * xungo pq sembla que crea un nou process i l'associa amb el que estem avaluant
+	 *
+	public static bool IsRunning4 (int processID)
+	{
+		try {
+			Process p = Process.GetProcessById(processID);
+			if(p == null)
+			{
+				LogB.Information("process does not exist (null)");
+				return false;
+			}
+		} catch {
+			LogB.Information("process does not exist (catch)");
+			return false;
+		}
+
+		LogB.Information("process is running!");
+		return true;
+	}
+	*/
+	/*
 	 * This is the best method because it does not need the process,
 	 * note that process maybe is null
 	 * and some code in IsRunning2old will fail
 	 */
 	public static bool IsRunning3 (int processID, string executable)
 	{
+		//Debug
+		Process[] allThisMachine = Process.GetProcesses();
+		LogB.Information("All processes in this machine:");
+		foreach(Process p in allThisMachine)
+			LogB.Information(p.ToString());
+
+		//Debug
+		LogB.Information("LastPartOfPath of executable: " + Util.GetLastPartOfPath(executable));
+
 		Process[] pNameArray = Process.GetProcessesByName(Util.GetLastPartOfPath(executable));
 		if (pNameArray.Length == 0)
 			return false;

@@ -208,13 +208,31 @@ class ExecuteProcess
 	public static bool IsRunning3 (int processID, string executable)
 	{
 		//Debug
+		Process[] pdebug;
+
+		LogB.Information("executable: ffmpeg");
+		pdebug = Process.GetProcessesByName("ffmpeg");
+		LogB.Information((pdebug.Length == 0).ToString());
+
+		LogB.Information("LastPartOfPath of executable: " + Util.GetLastPartOfPath(executable));
+		pdebug = Process.GetProcessesByName(Util.GetLastPartOfPath(executable));
+		LogB.Information((pdebug.Length == 0).ToString());
+
+		LogB.Information("executable: " + executable);
+		pdebug = Process.GetProcessesByName(executable);
+		LogB.Information((pdebug.Length == 0).ToString());
+
+		//Debug
 		Process[] allThisMachine = Process.GetProcesses();
 		LogB.Information("All processes in this machine:");
 		foreach(Process p in allThisMachine)
-			LogB.Information(p.ToString());
-
-		//Debug
-		LogB.Information("LastPartOfPath of executable: " + Util.GetLastPartOfPath(executable));
+		{
+			try {
+				LogB.Information(p.ToString()); //this is problematic on windows
+			} catch {
+				LogB.Information("catched at IsRunning3");
+			}
+		}
 
 		Process[] pNameArray = Process.GetProcessesByName(Util.GetLastPartOfPath(executable));
 		if (pNameArray.Length == 0)

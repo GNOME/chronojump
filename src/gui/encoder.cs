@@ -4556,16 +4556,24 @@ public partial class ChronoJumpWindow
 		genericWin.ShowNow();
 	}
 	
-	void on_button_encoder_exercise_edit_accepted (object o, EventArgs args) {
-		encoder_exercise_edit(false);
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_edit_accepted);
+	void on_button_encoder_exercise_edit_accepted (object o, EventArgs args)
+	{
+		if(encoder_exercise_edit(false))
+		{
+			genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_edit_accepted);
+			genericWin.HideAndNull();
+		}
 	}
-	void on_button_encoder_exercise_add_accepted (object o, EventArgs args) {
-		encoder_exercise_edit(true);
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_add_accepted);
+	void on_button_encoder_exercise_add_accepted (object o, EventArgs args)
+	{
+		if(encoder_exercise_edit(true))
+		{
+			genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_add_accepted);
+			genericWin.HideAndNull();
+		}
 	}
 			
-	void encoder_exercise_edit (bool adding) 
+	bool encoder_exercise_edit (bool adding)
 	{
 		string name = Util.RemoveTildeAndColonAndDot(genericWin.EntrySelected);
 		name = Util.RemoveChar(name, '"');
@@ -4593,10 +4601,11 @@ public partial class ChronoJumpWindow
 						);
 
 			updateEncoderExercisesGui(name);
-
-			genericWin.HideAndNull();
 			LogB.Information("done");
+			return true;
 		}
+
+		return false;
 	}
 
 	private void updateEncoderExercisesGui(string name)

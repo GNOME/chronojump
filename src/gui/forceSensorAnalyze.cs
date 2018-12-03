@@ -144,7 +144,7 @@ public partial class ChronoJumpWindow
 		{
 			if(rfdList[i].Changed(rfd))
 			{
-				SqliteForceSensor.Update(true, rfd);
+				SqliteForceSensorRFD.Update(true, rfd);
 				rfdList[i] = rfd;
 			}
 			i ++;
@@ -153,7 +153,7 @@ public partial class ChronoJumpWindow
 		ForceSensorImpulse newImpulse = getImpulseValue();
 		if(newImpulse.Changed(impulse))
 		{
-			SqliteForceSensor.UpdateImpulse(true, newImpulse);
+			SqliteForceSensorRFD.UpdateImpulse(true, newImpulse);
 			impulse = newImpulse;
 		}
 		Sqlite.Close();
@@ -440,11 +440,11 @@ public partial class ChronoJumpWindow
 	{
 		Sqlite.Open();
 
-		SqliteForceSensor.DeleteAll(true);
-		SqliteForceSensor.InsertDefaultValues(true);
+		SqliteForceSensorRFD.DeleteAll(true);
+		SqliteForceSensorRFD.InsertDefaultValues(true);
 
-		rfdList = SqliteForceSensor.SelectAll(false);
-		impulse = SqliteForceSensor.SelectImpulse(false);
+		rfdList = SqliteForceSensorRFD.SelectAll(false);
+		impulse = SqliteForceSensorRFD.SelectImpulse(false);
 
 		setRFDValues();
 		setImpulseValue();

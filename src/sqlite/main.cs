@@ -2172,8 +2172,8 @@ class Sqlite
 			{
 				LogB.SQL("Created and default values for ForceSensorRFD");
 
-				SqliteForceSensor.createTableForceRFD();
-				SqliteForceSensor.InsertDefaultValues(true);
+				SqliteForceSensorRFD.createTable();
+				SqliteForceSensorRFD.InsertDefaultValues(true);
 
 				currentVersion = updateVersion("1.42");
 			}
@@ -2222,7 +2222,7 @@ class Sqlite
 			{
 				LogB.SQL("Added ForceSensorImpulse value");
 
-				SqliteForceSensor.InsertDefaultValueImpulse(true);
+				SqliteForceSensorRFD.InsertDefaultValueImpulse(true);
 
 				currentVersion = updateVersion("1.45");
 			}
@@ -2529,8 +2529,8 @@ class Sqlite
 		SqliteChronopicRegister.createTableChronopicRegister();
 		SqliteTrigger.createTableTrigger();
 
-		SqliteForceSensor.createTableForceRFD();
-		SqliteForceSensor.InsertDefaultValues(true);
+		SqliteForceSensorRFD.createTable();
+		SqliteForceSensorRFD.InsertDefaultValues(true);
 
 		creationRate ++;
 		SqlitePreferences.createTable();

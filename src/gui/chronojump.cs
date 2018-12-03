@@ -621,8 +621,8 @@ public partial class ChronoJumpWindow
 		createTreeView_pulses (treeview_pulses);
 		createTreeView_multi_chronopic (false, treeview_multi_chronopic);
 		
-		rfdList = SqliteForceSensor.SelectAll(false);
-		impulse = SqliteForceSensor.SelectImpulse(false);
+		rfdList = SqliteForceSensorRFD.SelectAll(false);
+		impulse = SqliteForceSensorRFD.SelectImpulse(false);
 		initForceSensor();
 
 

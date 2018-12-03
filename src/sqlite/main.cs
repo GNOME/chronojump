@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.58";
+	static string lastChronojumpDatabaseVersion = "1.59";
 
 	public Sqlite() {
 	}
@@ -2354,6 +2354,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.58");
 			}
+			if(currentVersion == "1.58")
+			{
+				LogB.SQL("Created ForceSensorExercise");
+
+				SqliteForceSensorExercise.createTable();
+
+				currentVersion = updateVersion("1.59");
+			}
 
 
 
@@ -2529,6 +2537,7 @@ class Sqlite
 		SqliteChronopicRegister.createTableChronopicRegister();
 		SqliteTrigger.createTableTrigger();
 
+		SqliteForceSensorExercise.createTable();
 		SqliteForceSensorRFD.createTable();
 		SqliteForceSensorRFD.InsertDefaultValues(true);
 
@@ -2541,6 +2550,7 @@ class Sqlite
 		SqliteJson.createTableUploadSprintDataTemp ();
 
 		//changes [from - to - desc]
+		//1.58 - 1.59 Converted DB to 1.59 Created ForceSensorExercise
 		//1.57 - 1.58 Converted DB to 1.58 Added to preferences: encoderCaptureShowNRepetitions
 		//1.56 - 1.57 Converted DB to 1.57 Created table UploadEncoderDataTemp, UploadSprintDateTemp
 		//1.55 - 1.56 Converted DB to 1.56 Added encoder rhythm restAfterEcc

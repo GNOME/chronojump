@@ -20,6 +20,7 @@
 
 using System;
 //using System.Data;
+using System.Collections;
 using System.Collections.Generic; //List<T>
 using Mono.Data.Sqlite;
 
@@ -43,8 +44,8 @@ class SqliteForceSensorExercise : Sqlite
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
 			"percentBodyWeight INT, " +
-			"ressistance TEXT, " +
-			"angle INT, " +
+			"resistance TEXT, " +
+			"angleDefault INT, " +
 			"description TEXT )";
 		dbcmd.ExecuteNonQuery();
 	}
@@ -52,7 +53,7 @@ class SqliteForceSensorExercise : Sqlite
 	//undefined defaultAngle will be 1000
 	//note execution can have a different angle than the default angle
 	public static void Insert (bool dbconOpened, int uniqueID, string name, int percentBodyWeight,
-			string ressistance, int angleDefault, string description)
+			string resistance, int angleDefault, string description)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -62,14 +63,65 @@ class SqliteForceSensorExercise : Sqlite
 			uniqueIDStr = uniqueID.ToString();
 
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, name, percentBodyWeight, ressistance, angleDefault, description)" +
+				" (uniqueID, name, percentBodyWeight, resistance, angleDefault, description)" +
 				" VALUES (" + uniqueIDStr + ", \"" + name + "\", " + percentBodyWeight + ", \"" +
-				ressistance + "\", " + angleDefault + ", \"" + description + "\")";
+				resistance + "\", " + angleDefault + ", \"" + description + "\")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
 			Sqlite.Close();
+	}
+
+	public static ArrayList Select (bool dbconOpened, int uniqueID, bool onlyNames)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		string uniqueIDStr = "";
+		if(uniqueID != -1)
+			uniqueIDStr = " WHERE " + table + ".uniqueID = " + uniqueID;
+
+		if(onlyNames)
+			dbcmd.CommandText = "SELECT name FROM " + table + uniqueIDStr;
+		else
+			dbcmd.CommandText = "SELECT * FROM " + table + uniqueIDStr;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList array = new ArrayList(1);
+		ForceSensorExercise ex = new ForceSensorExercise();
+
+		if(onlyNames) {
+			while(reader.Read()) {
+				ex = new ForceSensorExercise (reader[0].ToString());
+				array.Add(ex);
+			}
+		} else {
+			while(reader.Read()) {
+				int angleDefault = 0;
+
+				ex = new ForceSensorExercise (
+						Convert.ToInt32(reader[0].ToString()),	//uniqueID
+						reader[1].ToString(),			//name
+						Convert.ToInt32(reader[2].ToString()),	//percentBodyWeight
+						reader[3].ToString(),			//resistance
+						angleDefault,
+						reader[4].ToString()			//description
+						);
+				array.Add(ex);
+			}
+		}
+
+		reader.Close();
+		if(! dbconOpened)
+			Sqlite.Close();
+
+		return array;
 	}
 
 }

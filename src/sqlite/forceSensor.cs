@@ -23,20 +23,70 @@ using System;
 using System.Collections.Generic; //List<T>
 using Mono.Data.Sqlite;
 
-class SqliteForceSensor : Sqlite
+class SqliteForceSensorExercise : Sqlite
 {
-	private static string table = Constants.ForceRFDTable;
+	private static string table = Constants.ForceSensorExerciseTable;
 
-	public SqliteForceSensor() {
+	public SqliteForceSensorExercise() {
 	}
 
-	~SqliteForceSensor() {}
+	~SqliteForceSensorExercise() {}
 
 	/*
 	 * create and initialize tables
 	 */
 
-	protected internal static void createTableForceRFD()
+	protected internal static void createTable()
+	{
+		dbcmd.CommandText =
+			"CREATE TABLE " + table + " ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"name TEXT, " +
+			"percentBodyWeight INT, " +
+			"ressistance TEXT, " +
+			"angle INT, " +
+			"description TEXT )";
+		dbcmd.ExecuteNonQuery();
+	}
+
+	//undefined defaultAngle will be 1000
+	//note execution can have a different angle than the default angle
+	public static void Insert (bool dbconOpened, int uniqueID, string name, int percentBodyWeight,
+			string ressistance, int angleDefault, string description)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		string uniqueIDStr = "NULL";
+		if(uniqueID != -1)
+			uniqueIDStr = uniqueID.ToString();
+
+		dbcmd.CommandText = "INSERT INTO " + table +
+				" (uniqueID, name, percentBodyWeight, ressistance, angleDefault, description)" +
+				" VALUES (" + uniqueIDStr + ", \"" + name + "\", " + percentBodyWeight + ", \"" +
+				ressistance + "\", " + angleDefault + ", \"" + description + "\")";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		if(! dbconOpened)
+			Sqlite.Close();
+	}
+
+}
+
+{
+	private static string table = Constants.ForceRFDTable;
+
+	public SqliteForceSensorRFD() {
+	}
+
+	~SqliteForceSensorRFD() {}
+
+	/*
+	 * create and initialize tables
+	 */
+
+	protected internal static void createTable()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + table + " ( " +

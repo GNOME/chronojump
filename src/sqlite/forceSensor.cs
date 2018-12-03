@@ -74,6 +74,8 @@ class SqliteForceSensorExercise : Sqlite
 
 }
 
+
+class SqliteForceSensorRFD : Sqlite
 {
 	private static string table = Constants.ForceRFDTable;
 

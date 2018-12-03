@@ -26,6 +26,7 @@ using Gtk;
 using Gdk;
 using Glade;
 using System.Text; //StringBuilder
+using System.Collections;
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
@@ -65,7 +66,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_force_sensor_check_version;
 
 	//capture tab tab
-	[Widget] Gtk.HBox hbox_force_buttons;
+	[Widget] Gtk.HBox hbox_force_capture_buttons;
+	[Widget] Gtk.Box hbox_combo_force_sensor_exercise;
+	[Widget] Gtk.ComboBox combo_force_sensor_exercise;
+	[Widget] Gtk.Alignment alignment_force_sensor_adjust;
 	[Widget] Gtk.Button button_force_sensor_tare;
 	[Widget] Gtk.Button button_force_sensor_calibrate;
 	[Widget] Gtk.Label label_force_sensor_value_max;
@@ -125,6 +129,16 @@ public partial class ChronoJumpWindow
 	string forceSensorNotConnectedString =
 		Catalog.GetString("Force sensor is not detected!") + " " +
 		Catalog.GetString("Plug cable and click on 'device' button.");
+
+
+	private void initForceSensor ()
+	{
+		createForceExerciseCombo();
+		createForceAnalyzeCombos();
+		setRFDValues();
+		setImpulseValue();
+	}
+
 
 	private void force_graphs_init()
 	{
@@ -332,7 +346,7 @@ public partial class ChronoJumpWindow
 	void forceSensorButtonsSensitive(bool sensitive)
 	{
 		//force related buttons
-		hbox_force_buttons.Sensitive = sensitive;
+		hbox_force_capture_buttons.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
 		button_force_sensor_analyze_load.Sensitive = sensitive;
 
@@ -1422,9 +1436,6 @@ LogB.Information(" re R ");
 	{
 		hbox_capture_phases_time_record.Visible = ! modeForceSensor;
 		button_image_test_zoom.Visible = ! modeForceSensor;
-		notebook_options_top.Visible = ! modeForceSensor;
-
-		//button_threshold.Visible = ! modeForceSensor;
 
 		menuitem_force_sensor_open_folder.Visible = modeForceSensor;
 		menuitem_force_sensor_check_version.Visible = modeForceSensor;
@@ -1432,21 +1443,27 @@ LogB.Information(" re R ");
 
 	private void on_button_force_sensor_adjust_clicked (object o, EventArgs args)
 	{
-		notebook_options_top.Visible = true;
+		hbox_force_capture_buttons.Sensitive = false;
+		button_force_sensor_adjust.Sensitive = false;
+		alignment_force_sensor_adjust.Visible = true;
 		notebook_options_at_execute_button.CurrentPage = 2;
+
 		forceSensorCaptureAdjustSensitivity(false);
 		event_execute_label_message.Text = Catalog.GetString("If you want to calibrate, please tare first.");
 	}
 	private void on_button_force_sensor_adjust_close_clicked (object o, EventArgs args)
 	{
-		notebook_options_top.Visible = false;
+		hbox_force_capture_buttons.Sensitive = true;
+		button_force_sensor_adjust.Sensitive = true;
+		alignment_force_sensor_adjust.Visible = false;
 		notebook_options_at_execute_button.CurrentPage = 0;
+
 		forceSensorCaptureAdjustSensitivity(true);
 	}
 
 	private void forceSensorCaptureAdjustSensitivity(bool s) //s for sensitive. When adjusting s = false
 	{
-		hbox_force_buttons.Sensitive = s;
+		hbox_force_capture_buttons.Sensitive = s;
 
 		button_activate_chronopics.Sensitive = s;
 		image_test.Sensitive = s;
@@ -1464,6 +1481,134 @@ LogB.Information(" re R ");
 		new DialogMessage("Force sensor adjust data", Constants.MessageTypes.INFO,
 				preferences.GetForceSensorAdjustString());
 	}
+
+	// -------------------------------- exercise stuff --------------------
+
+
+	private void createForceExerciseCombo ()
+	{
+		//force_sensor_exercise
+
+		combo_force_sensor_exercise = ComboBox.NewText ();
+		fillForceSensorExerciseCombo();
+
+//		combo_force_sensor_exercise.Changed += new EventHandler (on_combo_force_sensor_exercise_changed);
+		hbox_combo_force_sensor_exercise.PackStart(combo_force_sensor_exercise, true, true, 0);
+		hbox_combo_force_sensor_exercise.ShowAll();
+	}
+
+	//TODO: implement this with id:name like exerciseNameTranslated but without translation
+	private void fillForceSensorExerciseCombo()
+	{
+		ArrayList forceSensorExercises = SqliteForceSensorExercise.Select (false, -1, true);
+		if(forceSensorExercises.Count == 0)
+			return;
+
+		string [] exerciseNamesToCombo = new String [forceSensorExercises.Count];
+		int i =0;
+		foreach(ForceSensorExercise ex in forceSensorExercises)
+			exerciseNamesToCombo[i++] = ex.Name;
+
+		UtilGtk.ComboUpdate(combo_force_sensor_exercise, exerciseNamesToCombo, "");
+		combo_force_sensor_exercise.Active = 0;
+	}
+
+	//info is now info and edit (all values can be changed), and detete (there's delete button)
+	void on_button_force_sensor_exercise_edit_clicked (object o, EventArgs args)
+	{
+		if(UtilGtk.ComboGetActive(combo_force_sensor_exercise) == "")
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Need to create/select an exercise.");
+			return;
+		}
+
+		//TODO
+	}
+
+	private void on_button_force_sensor_exercise_add_clicked (object o, EventArgs args)
+	{
+		ArrayList bigArray = new ArrayList();
+
+		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+		ArrayList a3 = new ArrayList();
+		ArrayList a4 = new ArrayList();
+		//ArrayList a5 = new ArrayList();
+
+		//0 is the widgget to show; 1 is the editable; 2 id default value
+		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add("");
+		bigArray.Add(a1);
+
+		a2.Add(Constants.GenericWindowShow.SPININT); a2.Add(true); a2.Add("");
+		bigArray.Add(a2);
+
+		a3.Add(Constants.GenericWindowShow.ENTRY2); a3.Add(true); a3.Add("");
+		bigArray.Add(a3);
+
+		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(true); a4.Add("");
+		bigArray.Add(a4);
+
+		//a5.Add(Constants.GenericWindowShow.SPININT2); a5.Add(true); a5.Add("");
+		//bigArray.Add(a5);
+
+
+		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
+				Catalog.GetString("Write the name of the force sensor exercise:"), bigArray);
+		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
+		genericWin.SetSpinRange(0, 100);
+		genericWin.LabelEntry2 = Catalog.GetString("Resistance");
+		genericWin.LabelEntry3 = Catalog.GetString("Description");
+		//genericWin.LabelSpinInt2 = Catalog.GetString("Default angle");
+		//genericWin.SetSpin2Range(0,180);
+
+		genericWin.SetButtonAcceptLabel(Catalog.GetString("Add"));
+
+		genericWin.HideOnAccept = false;
+
+		genericWin.Button_accept.Clicked += new EventHandler(on_button_force_sensor_exercise_add_accepted);
+		genericWin.ShowNow();
+	}
+
+	void on_button_force_sensor_exercise_add_accepted (object o, EventArgs args)
+	{
+		if(force_sensor_exercise_add())
+		{
+			genericWin.Button_accept.Clicked -= new EventHandler(on_button_force_sensor_exercise_add_accepted);
+			genericWin.HideAndNull();
+		}
+	}
+
+	bool force_sensor_exercise_add ()
+	{
+		string name = Util.RemoveTildeAndColonAndDot(genericWin.EntrySelected);
+		name = Util.RemoveChar(name, '"');
+
+		LogB.Information("force_sensor_exercise_add - Trying to insert: " + name);
+
+		if(name == "")
+			genericWin.SetLabelError(Catalog.GetString("Error: Missing name of exercise."));
+		else if (Sqlite.Exists(false, Constants.ForceSensorExerciseTable, name))
+			genericWin.SetLabelError(string.Format(Catalog.GetString(
+							"Error: An exercise named '{0}' already exists."), name));
+		else {
+			SqliteForceSensorExercise.Insert(false, -1, name, genericWin.SpinIntSelected,
+					genericWin.Entry2Selected,
+					genericWin.SpinInt2Selected,
+					genericWin.Entry3Selected
+					);
+
+			fillForceSensorExerciseCombo();
+
+			LogB.Information("done");
+			return true;
+		}
+
+		return false;
+	}
+
+	// -------------------------------- end of exercise stuff --------------------
+
+	// ------------------------------------------------ slides stuff for presentations
 
 	double lastChangedTime; //changeSlideCode
 	private void changeSlideIfNeeded(int time, double force)
@@ -1503,5 +1648,7 @@ LogB.Information(" re R ");
 		LogB.Information("\n<------ Done calling slide");
 		return execute_result.success;
 	}
+
+	// ------------------------------------------------ end of slides stuff for presentations
 
 }

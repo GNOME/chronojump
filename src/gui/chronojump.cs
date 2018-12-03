@@ -344,6 +344,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_chronopics_and_more;
 	[Widget] Gtk.Button button_activate_chronopics;
 	[Widget] Gtk.Button button_threshold;
+	[Widget] Gtk.Button button_force_sensor_adjust;
 
 	//non standard icons	
 	[Widget] Gtk.Image image_jump_reactive_bell;
@@ -3193,6 +3194,7 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = true;
+			button_force_sensor_adjust.Visible = false;
 			if(m == Constants.Menuitem_modes.JUMPSSIMPLE) 
 			{
 				notebooks_change(m);
@@ -3222,6 +3224,7 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = true;
+			button_force_sensor_adjust.Visible = false;
 			button_inspect_last_test.Visible = true;
 
 			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
@@ -3361,6 +3364,7 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = false;
+			button_force_sensor_adjust.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 			hbox_results_legend.Visible = false;
 
@@ -3378,6 +3382,7 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			button_threshold.Visible = false;
+			button_force_sensor_adjust.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 			hbox_results_legend.Visible = false;
 
@@ -3398,6 +3403,7 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			button_threshold.Visible = true;
+			button_force_sensor_adjust.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 		}
 		else {	//m == Constants.Menuitem_modes.OTHER (contacts / other)
@@ -3410,6 +3416,7 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			button_threshold.Visible = true;
+			button_force_sensor_adjust.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 		}
 
@@ -7536,6 +7543,7 @@ LogB.Debug("mc finished 5");
 		sensitiveLastTestButtons(false);
 		vbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
+		button_force_sensor_adjust.Sensitive = false;
 
 		encoderButtonsSensitive(encoderSensEnum.NOSESSION);
 		
@@ -7555,6 +7563,7 @@ LogB.Debug("mc finished 5");
 		
 		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;
+		button_force_sensor_adjust.Sensitive = false;
 		
 		menuSessionSensitive(true);
 		vbox_stats.Sensitive = true;
@@ -7581,6 +7590,7 @@ LogB.Debug("mc finished 5");
 		
 		menuPersonSelectedSensitive(false);
 		vbox_execute_test.Sensitive = false;
+		button_force_sensor_adjust.Sensitive = false;
 
 		label_top_person_name.Text = "";
 		label_top_encoder_person_name.Text = "";
@@ -7615,6 +7625,7 @@ LogB.Debug("mc finished 5");
 		combo_select_runs_interval.Sensitive = true;
 		combo_result_runs_interval.Sensitive = true;
 		combo_pulses.Sensitive = true;
+		button_force_sensor_adjust.Sensitive = true;
 		
 		vbox_execute_test.Sensitive = true;
 	}
@@ -7676,6 +7687,7 @@ LogB.Debug("mc finished 5");
 		
 		button_activate_chronopics.Sensitive = false;
 		button_threshold.Sensitive = false;
+		button_force_sensor_adjust.Sensitive = false;
 		button_auto_start.Sensitive = false;
 		notebook_options_top.Sensitive = false;
 		event_execute_button_update.Sensitive = false;
@@ -7740,6 +7752,7 @@ LogB.Debug("mc finished 5");
 		
 		button_activate_chronopics.Sensitive = true;
 		button_threshold.Sensitive = true;
+		button_force_sensor_adjust.Sensitive = true;
 		button_auto_start.Sensitive = true;
 		notebook_options_top.Sensitive = true;
 		event_execute_button_update.Sensitive = true;

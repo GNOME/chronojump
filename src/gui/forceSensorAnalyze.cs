@@ -164,13 +164,6 @@ public partial class ChronoJumpWindow
 		forceSensorAnalyzeOptionsSensitivity(true);
 	}
 
-	private void initForceSensor ()
-	{
-		createForceCombos();
-		setRFDValues();
-		setImpulseValue();
-	}
-
 	private void check_force_visibilities()
 	{
 		hbox_force_1.Visible = (check_force_1.Active);
@@ -185,7 +178,7 @@ public partial class ChronoJumpWindow
 		check_force_visibilities();
 	}
 
-	private void createForceCombos ()
+	private void createForceAnalyzeCombos ()
 	{
 		UtilGtk.ComboUpdate(combo_force_1_function, ForceSensorRFD.FunctionsArray(true), "");
 		UtilGtk.ComboUpdate(combo_force_2_function, ForceSensorRFD.FunctionsArray(true), "");

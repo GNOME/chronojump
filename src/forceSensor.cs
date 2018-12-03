@@ -23,6 +23,40 @@ using System.IO; 		//for detect OS
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
+public class ForceSensorExercise
+{
+	private int uniqueID;
+	private string name;
+	private int percentBodyWeight;
+	private string resistance;
+	private int angleDefault;
+	private string description;
+
+	public ForceSensorExercise()
+	{
+	}
+
+	public ForceSensorExercise(string name)
+	{
+		this.name = name;
+	}
+
+	public ForceSensorExercise(int uniqueID, string name, int percentBodyWeight, string resistance, int angleDefault, string description)
+	{
+		this.uniqueID = uniqueID;
+		this.name = name;
+		this.percentBodyWeight = percentBodyWeight;
+		this.resistance = resistance;
+		this.angleDefault = angleDefault;
+		this.description = description;
+	}
+
+	public string Name
+	{
+		get { return name; }
+	}
+}
+
 /*
  * TODO: this class only contains points plot stuff
  * currently all the code relevant to force sensor actions is on gui/forcesensor.cs

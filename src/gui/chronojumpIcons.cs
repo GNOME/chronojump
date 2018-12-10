@@ -140,6 +140,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_analyze_options;
 	[Widget] Gtk.Image image_force_sensor_analyze_options_close;
 	[Widget] Gtk.Image image_force_sensor_analyze_recalculate;
+	[Widget] Gtk.Image image_force_sensor_exercise_edit;
 
 	//video play icons
 	[Widget] Gtk.Image image_video_play_this_test;
@@ -322,6 +323,7 @@ public partial class ChronoJumpWindow
 		image_encoder_exercise_add.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
 		image_encoder_exercise_edit.Pixbuf = pixbuf;
+		image_force_sensor_exercise_edit.Pixbuf = pixbuf;
 		image_edit_current_person.Pixbuf = pixbuf;
 		image_edit_current_person_h.Pixbuf = pixbuf;
 		image_session_edit.Pixbuf = pixbuf;

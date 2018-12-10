@@ -109,9 +109,8 @@ public class GenericWindow
 	public int TreeviewSelectedUniqueID;
 	private int commentColumn;
 
-	//used on encoder edit exercise
-	public int uniqueID;
-	public string nameUntranslated;
+	public int uniqueID; 			//used on encoder & forceSensor edit exercise
+	public string nameUntranslated;		//used on encoder edit exercise
 
 	public enum Types { UNDEFINED, ENCODER_SESSION_LOAD, 
 		ENCODER_SEL_REPS_IND_CURRENT_SESS, ENCODER_SEL_REPS_IND_ALL_SESS, ENCODER_SEL_REPS_GROUP_CURRENT_SESS };

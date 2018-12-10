@@ -1650,7 +1650,7 @@ LogB.Information(" re R ");
 
 	bool force_sensor_exercise_do_add_or_edit (bool adding)
 	{
-		string name = Util.RemoveTildeAndColonAndDot(genericWin.EntrySelected);
+		string name = Util.MakeValidSQLAndFileName(Util.RemoveTildeAndColonAndDot(genericWin.EntrySelected));
 		name = Util.RemoveChar(name, '"');
 
 		if(adding)

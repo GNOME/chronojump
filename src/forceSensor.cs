@@ -51,14 +51,35 @@ public class ForceSensorExercise
 		this.description = description;
 	}
 
+	public override string ToString()
+	{
+		return uniqueID.ToString() + ":" + name + ":" + percentBodyWeight.ToString() + ":" +
+			resistance + ":" + angleDefault.ToString() + ":" + description;
+	}
+
 	public int UniqueID
 	{
 		get { return uniqueID; }
 	}
-
 	public string Name
 	{
 		get { return name; }
+	}
+	public int PercentBodyWeight
+	{
+		get { return percentBodyWeight; }
+	}
+	public string Resistance
+	{
+		get { return resistance; }
+	}
+	public int AngleDefault
+	{
+		get { return angleDefault; }
+	}
+	public string Description
+	{
+		get { return description; }
 	}
 }
 

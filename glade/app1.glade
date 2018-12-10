@@ -5307,6 +5307,29 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">8</property>
                                                             <child>
+                                                            <widget class="GtkButton" id="button_force_sensor_exercise_edit">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Edit exercise type</property>
+                                                            <signal name="clicked" handler="on_button_force_sensor_exercise_edit_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_force_sensor_exercise_edit">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-new</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkButton" id="button_force_sensor_exercise_add">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
@@ -5326,7 +5349,7 @@ EncoderInertialCapture</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -21881,7 +21904,6 @@ Concentric</property>
                                                             <widget class="GtkHBox" id="hbox_combo_encoder_exercise_capture">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="tooltip" translatable="yes">Exercise</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>

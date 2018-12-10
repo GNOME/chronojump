@@ -4549,7 +4549,7 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_exercise_edit_accepted (object o, EventArgs args)
 	{
-		if(encoder_exercise_edit(false))
+		if(encoder_exercise_do_add_or_edit(false))
 		{
 			genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_edit_accepted);
 			genericWin.HideAndNull();
@@ -4557,14 +4557,14 @@ public partial class ChronoJumpWindow
 	}
 	void on_button_encoder_exercise_add_accepted (object o, EventArgs args)
 	{
-		if(encoder_exercise_edit(true))
+		if(encoder_exercise_do_add_or_edit(true))
 		{
 			genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_add_accepted);
 			genericWin.HideAndNull();
 		}
 	}
 			
-	bool encoder_exercise_edit (bool adding)
+	bool encoder_exercise_do_add_or_edit (bool adding)
 	{
 		string name = Util.RemoveTildeAndColonAndDot(genericWin.EntrySelected);
 		name = Util.RemoveChar(name, '"');

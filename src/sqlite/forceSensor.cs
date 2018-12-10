@@ -73,6 +73,32 @@ class SqliteForceSensorExercise : Sqlite
 			Sqlite.Close();
 	}
 
+	public static void Update (bool dbconOpened, ForceSensorExercise ex)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		/*
+		   string uniqueIDStr = "NULL";
+		   if(ex.UniqueID != -1)
+			   uniqueIDStr = ex.UniqueID.ToString();
+		   */
+
+		dbcmd.CommandText = "UPDATE " + table + " SET " +
+			" name = \"" + ex.Name +
+			"\", percentBodyWeight = " + ex.PercentBodyWeight +
+			", resistance = \"" + ex.Resistance +
+			"\", angleDefault = " + ex.AngleDefault +
+			", description = \"" + ex.Description +
+			"\" WHERE uniqueID = " + ex.UniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		if(! dbconOpened)
+			Sqlite.Close();
+	}
+
 	public static ArrayList Select (bool dbconOpened, int uniqueID, bool onlyNames)
 	{
 		if(! dbconOpened)
@@ -111,7 +137,7 @@ class SqliteForceSensorExercise : Sqlite
 						Convert.ToInt32(reader[2].ToString()),	//percentBodyWeight
 						reader[3].ToString(),			//resistance
 						angleDefault,
-						reader[4].ToString()			//description
+						reader[5].ToString()			//description
 						);
 				array.Add(ex);
 			}

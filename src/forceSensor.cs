@@ -51,6 +51,11 @@ public class ForceSensorExercise
 		this.description = description;
 	}
 
+	public int UniqueID
+	{
+		get { return uniqueID; }
+	}
+
 	public string Name
 	{
 		get { return name; }

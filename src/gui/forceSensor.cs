@@ -1485,6 +1485,8 @@ LogB.Information(" re R ");
 	// -------------------------------- exercise stuff --------------------
 
 
+	string [] forceSensorComboExercisesString; //id:name (no translations, use user language)
+
 	private void createForceExerciseCombo ()
 	{
 		//force_sensor_exercise
@@ -1502,12 +1504,20 @@ LogB.Information(" re R ");
 	{
 		ArrayList forceSensorExercises = SqliteForceSensorExercise.Select (false, -1, true);
 		if(forceSensorExercises.Count == 0)
+		{
+			forceSensorComboExercisesString = new String [0];
 			return;
+		}
 
+		forceSensorComboExercisesString = new String [forceSensorExercises.Count];
 		string [] exerciseNamesToCombo = new String [forceSensorExercises.Count];
 		int i =0;
 		foreach(ForceSensorExercise ex in forceSensorExercises)
-			exerciseNamesToCombo[i++] = ex.Name;
+		{
+			exerciseNamesToCombo[i] = ex.Name;
+			forceSensorComboExercisesString[i] = ex.UniqueID + ":" + ex.Name;
+			i++;
+		}
 
 		UtilGtk.ComboUpdate(combo_force_sensor_exercise, exerciseNamesToCombo, "");
 		combo_force_sensor_exercise.Active = 0;

@@ -648,13 +648,13 @@ public partial class ChronoJumpWindow
 
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
 
-		string nameDate = currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now);
+		string personExDate = currentPerson.Name + "_" + UtilGtk.ComboGetActive(combo_force_sensor_exercise) + "_" + UtilDate.ToFile(DateTime.Now);
 
 		//fileName to save the csv
-		string fileName = Util.GetForceSensorSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + nameDate + ".csv";
+		string fileName = Util.GetForceSensorSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + personExDate + ".csv";
 
 		//lastForceSensorFile to save the images
-		lastForceSensorFile = nameDate;
+		lastForceSensorFile = personExDate;
 
 
 		TextWriter writer = File.CreateText(fileName);

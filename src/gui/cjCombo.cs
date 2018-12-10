@@ -22,6 +22,38 @@ using System;
 using System.Collections.Generic; //List<T>
 using Gtk;
 
+public partial class ChronoJumpWindow
+{
+	int getExerciseIDFromName (string [] comboArrayString, string name, bool comboWithTranslation)
+	{
+		LogB.Information("getExerciseIDFromName for: " + name);
+
+		string idFound = "";
+
+		if(comboWithTranslation)
+		{
+			//first try translated
+			idFound = Util.FindOnArray(':', 2, 0, name, comboArrayString);
+			if(Util.IsNumber(idFound, false))
+				return Convert.ToInt32(idFound);
+		}
+
+		//second try english (or if comboWithTranslation == false, then this is the only name
+		idFound = Util.FindOnArray(':', 1, 0, name, comboArrayString);
+		if(Util.IsNumber(idFound, false))
+			return Convert.ToInt32(idFound);
+
+		//third, send error value
+		return -1;
+	}
+
+
+	int getExerciseIDFromAnyCombo(Gtk.ComboBox combo, string [] comboArrayString, bool comboWithTranslation)
+	{
+		return getExerciseIDFromName(comboArrayString, UtilGtk.ComboGetActive(combo), false);
+	}
+}
+
 public class CjCombo
 {
 	protected Gtk.ComboBox combo;

@@ -680,7 +680,7 @@ public partial class ChronoJumpWindow
 		//finding historical maxPower of a person in an exercise
 		Constants.EncoderGI encGI = getEncoderGI();
 		ArrayList arrayTemp = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, -1, encGI,
-					getExerciseIDFromCombo(exerciseCombos.CAPTURE), "curve", EncoderSQL.Eccons.ALL,
+					getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE), "curve", EncoderSQL.Eccons.ALL,
 					false, false);
 		double maxPower = 0;
 		if(encGI == Constants.EncoderGI.GRAVITATORY)
@@ -839,7 +839,7 @@ public partial class ChronoJumpWindow
 		Sqlite.Open();
 
 		//1 exercise
-		int exerciseID = getExerciseIDFromCombo (exerciseCombos.CAPTURE);
+		int exerciseID = getExerciseIDFromEncoderCombo (exerciseCombos.CAPTURE);
 		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
 			SqlitePreferences.Update (SqlitePreferences.EncoderExerciseIDGravitatory, exerciseID.ToString(), true);
 		else
@@ -1078,7 +1078,7 @@ public partial class ChronoJumpWindow
 		if(currentPerson != null)
 			array1RM = SqliteEncoder.Select1RM(
 					false, currentPerson.UniqueID, -1, //-1: currentSession = all sessions
-					getExerciseIDFromCombo(exerciseCombos.CAPTURE), returnPersonNameAndExerciseName);
+					getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE), returnPersonNameAndExerciseName);
 	}
 
 	void on_button_encoder_1RM_win_clicked (object o, EventArgs args) 
@@ -1162,7 +1162,7 @@ public partial class ChronoJumpWindow
 		
 		double d = genericWin.SpinDouble2Selected;
 		int uniqueID = SqliteEncoder.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID, 
-				getExerciseIDFromCombo (exerciseCombos.CAPTURE), genericWin.SpinDouble2Selected);
+				getExerciseIDFromEncoderCombo (exerciseCombos.CAPTURE), genericWin.SpinDouble2Selected);
 
 		genericWin.Row_add(new string[] {
 				uniqueID.ToString(), currentPerson.Name, UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
@@ -1358,7 +1358,7 @@ public partial class ChronoJumpWindow
 				"-1",
 				currentPerson.UniqueID,
 				currentSession.UniqueID,
-				getExerciseIDFromCombo(exerciseCombos.CAPTURE),	
+				getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE),
 				findEccon(true), 	//force ecS (ecc-conc separated)
 				laterality,
 				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)), //when save on sql, do not include person weight
@@ -1499,7 +1499,7 @@ public partial class ChronoJumpWindow
 			return; //error
 
 		encSelReps.PassVariables(currentPerson, currentSession, currentEncoderGI,
-				button_encoder_analyze, getExerciseIDFromCombo(exerciseCombos.ANALYZE),
+				button_encoder_analyze, getExerciseIDFromEncoderCombo(exerciseCombos.ANALYZE),
 				preferences.askDeletion);
 
 		encSelReps.Do();
@@ -2271,7 +2271,9 @@ public partial class ChronoJumpWindow
 				continue;
 			}
 
-			int exID = getExerciseIDFromName (str);
+			int exID = getExerciseIDFromName (
+					encoderExercisesTranslationAndBodyPWeight,
+					str, true);
 
 			if(listFound.IndexOf(exID) == -1)
 				rowsToRemove.Add(count);
@@ -2307,7 +2309,7 @@ public partial class ChronoJumpWindow
 		{
 			ArrayList data = SqliteEncoder.Select(
 					dbconOpened, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
-					getExerciseIDFromCombo(exerciseCombos.ANALYZE),
+					getExerciseIDFromEncoderCombo(exerciseCombos.ANALYZE),
 					"curve", EncoderSQL.Eccons.ALL, 
 					false, true);
 			updateComboEncoderAnalyzeCurveNumSavedReps(data);
@@ -2550,7 +2552,7 @@ public partial class ChronoJumpWindow
 			//if current session and no data of this person and session, return
 			ArrayList data = SqliteEncoder.Select(
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
-					getExerciseIDFromCombo(exerciseCombos.ANALYZE), "curve", EncoderSQL.Eccons.ALL,
+					getExerciseIDFromEncoderCombo(exerciseCombos.ANALYZE), "curve", EncoderSQL.Eccons.ALL,
 					false, true);
 
 			if(data.Count == 0) {
@@ -2871,7 +2873,7 @@ public partial class ChronoJumpWindow
 				//this is a need for "single" to select on display correct curve
 				data = SqliteEncoder.Select(
 						false, -1, currentPerson.UniqueID, currentSession.UniqueID, getEncoderGI(),
-						getExerciseIDFromCombo(exerciseCombos.ANALYZE),
+						getExerciseIDFromEncoderCombo(exerciseCombos.ANALYZE),
 						"curve", ecconSelect, 
 						false, true);
 			}
@@ -2883,7 +2885,7 @@ public partial class ChronoJumpWindow
 							Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
 							currentSession.UniqueID,
 							getEncoderGI(),
-							getExerciseIDFromCombo(exerciseCombos.ANALYZE),
+							getExerciseIDFromEncoderCombo(exerciseCombos.ANALYZE),
 							"curve", EncoderSQL.Eccons.ALL, 
 							false, //onlyActive=false. Means: all saved repetitions
 							true);
@@ -2903,7 +2905,7 @@ public partial class ChronoJumpWindow
 							currentPerson.UniqueID, 
 							Util.FetchID(encSelReps.EncoderCompareInter[i].ToString()),
 							getEncoderGI(),
-							getExerciseIDFromCombo(exerciseCombos.ANALYZE),
+							getExerciseIDFromEncoderCombo(exerciseCombos.ANALYZE),
 							"curve", EncoderSQL.Eccons.ALL,
 							false, //onlyActive=false. Means: all saved repetitions
 							true);
@@ -3066,7 +3068,7 @@ public partial class ChronoJumpWindow
 				if(my1RMName == "1RM Any exercise") {
 					//get speed1RM (from combo)
 					EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
-							false, getExerciseIDFromCombo(exerciseCombos.CAPTURE), false)[0];
+							false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE), false)[0];
 
 					sendAnalysis = "1RMAnyExercise";
 					analysisVariables = Util.ConvertToPoint(ex.speed1RM) + ";" + 
@@ -4276,7 +4278,7 @@ public partial class ChronoJumpWindow
 
 			/*
 			exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
-			exerciseID = getExerciseIDFromCombo (exerciseCombos.CAPTURE);
+			exerciseID = getExerciseIDFromEncoderCombo (exerciseCombos.CAPTURE);
 			*/
 
 			/*
@@ -4302,7 +4304,7 @@ public partial class ChronoJumpWindow
 			*/
 		}
 		else {
-			exerciseID = getExerciseIDFromTable();
+			exerciseID = getExerciseIDFromEncoderTable();
 
 			SqliteEncoder.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID,
 					exerciseID, load1RM);
@@ -4316,40 +4318,29 @@ public partial class ChronoJumpWindow
 	}
 
 
-
-	int getExerciseIDFromName (string name) {
-		LogB.Information("getExerciseIDFromName for: " + name);
-
-		//first try translated
-		string idFound = Util.FindOnArray(':', 2, 0, name, 
-				encoderExercisesTranslationAndBodyPWeight);
-		if(Util.IsNumber(idFound, false))
-			return Convert.ToInt32(idFound);
-		
-		//second try english
-		idFound = Util.FindOnArray(':', 1, 0, name, 
-				encoderExercisesTranslationAndBodyPWeight);
-		if(Util.IsNumber(idFound, false))
-			return Convert.ToInt32(idFound);
-		
-		//third, send error value
-		return -1;
-	}
-
 	enum exerciseCombos { CAPTURE, ANALYZE }
 	
-	int getExerciseIDFromCombo (exerciseCombos combo) {
+	int getExerciseIDFromEncoderCombo (exerciseCombos combo) {
 		if(combo == exerciseCombos.CAPTURE)
-			return getExerciseIDFromName (UtilGtk.ComboGetActive(combo_encoder_exercise_capture));
+			//return getExerciseIDFromName (UtilGtk.ComboGetActive(combo_encoder_exercise_capture));
+			return getExerciseIDFromAnyCombo (
+					combo_encoder_exercise_capture,
+					encoderExercisesTranslationAndBodyPWeight, true);
 		else
-			return getExerciseIDFromName (UtilGtk.ComboGetActive(combo_encoder_exercise_analyze));
+			//return getExerciseIDFromName (UtilGtk.ComboGetActive(combo_encoder_exercise_analyze));
+			return getExerciseIDFromAnyCombo (
+					combo_encoder_exercise_analyze,
+					encoderExercisesTranslationAndBodyPWeight, true);
 	}
 
-	int getExerciseIDFromTable () {
-		return getExerciseIDFromName (getExerciseNameFromTable());
+	int getExerciseIDFromEncoderTable () {
+		//return getExerciseIDFromName (getExerciseNameFromEncoderTable());
+		return getExerciseIDFromName (
+				encoderExercisesTranslationAndBodyPWeight,
+				getExerciseNameFromEncoderTable(), true);
 	}
 	
-	string getExerciseNameFromTable () { //from first data row
+	string getExerciseNameFromEncoderTable () { //from first data row
 		ArrayList array = getTreeViewCurves(encoderAnalyzeListStore);
 		return ( (EncoderCurve) array[0] ).Exercise;
 	}
@@ -4424,7 +4415,7 @@ public partial class ChronoJumpWindow
 	//useful when there are no exercises (have been removed from database)
 	bool selectedEncoderExerciseExists ()
 	{
-		return (getExerciseIDFromCombo(exerciseCombos.CAPTURE) != -1);
+		return (getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE) != -1);
 	}
 
 
@@ -4438,7 +4429,7 @@ public partial class ChronoJumpWindow
 		}
 
 		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
-				false, getExerciseIDFromCombo(exerciseCombos.CAPTURE), false)[0];
+				false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE), false)[0];
 
 		ArrayList bigArray = new ArrayList();
 
@@ -7109,7 +7100,7 @@ public partial class ChronoJumpWindow
 				 my1RMName == "1RM Any exercise" || my1RMName == "1RM Indirect") );
 			/*
 			 * TODO: currently disabled because 
-			 * on_button_encoder_analyze_1RM_save_clicked () reads getExerciseNameFromTable()
+			 * on_button_encoder_analyze_1RM_save_clicked () reads getExerciseNameFromEncoderTable()
 			 * and encoderAnalyzeListStore is not created because "1RM Indirect" 
 			 * currently prints no data on OutputData1
 			 *

@@ -592,6 +592,9 @@ public partial class ChronoJumpWindow
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
 		loadPreferencesAtStart ();
 
+		//TODO: make this visible for all systems when it finally works
+		checkbutton_video.Visible = (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX);
+
 		if(topMessage != "") {
 			label_message_at_start.Text = topMessage;
 			hbox_message_at_start.Visible = true;

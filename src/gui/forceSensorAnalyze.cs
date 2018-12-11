@@ -938,8 +938,23 @@ public partial class ChronoJumpWindow
 		if(updateForceSensorHScales)
 		{
 			int difference = Convert.ToInt32(hscale_force_sensor_ai_ab.Value) - force_sensor_last_ab;
-			hscale_force_sensor_ai_a.Value += difference;
-			hscale_force_sensor_ai_b.Value += difference;
+			int aValue = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+			int bValue = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+			//if a or b are at max, don't move the ab to the right
+			//if a or b are at min, don't move the ab to the left
+			if(
+					( difference > 0 && aValue < fsAI.GetLength() -2 && bValue < fsAI.GetLength() -2 ) ||
+					( difference < 0 && aValue > 1 && bValue > 1 ) )
+			{
+				//move a and b
+				hscale_force_sensor_ai_a.Value += difference;
+				hscale_force_sensor_ai_b.Value += difference;
+			} else {
+				//do not move ab (so also a and b will not be moved)
+				updateForceSensorHScales = false;
+				hscale_force_sensor_ai_ab.Value = force_sensor_last_ab;
+				updateForceSensorHScales = true;
+			}
 		}
 
 		force_sensor_last_ab = Convert.ToInt32(hscale_force_sensor_ai_ab.Value);

@@ -4607,9 +4607,9 @@ public partial class ChronoJumpWindow
 		int i =0;
 		foreach(EncoderExercise ex in encoderExercises) {
 			string nameTranslated = ex.name;
-			//do not translated user created exercises
-			//this names are in SqliteEncoder.initializeTableEncoderExercise()
-			if(ex.name == "Bench press" || ex.name == "Squat" || ex.name == "Jump")
+			//Translate Chronojump already created exercises in SqliteEncoder.initializeTableEncoderExercise()
+			//but do not translate user created exercises
+			if(ex.name == "Bench press" || ex.name == "Squat" || ex.name == "Jump" || ex.name == "Free")
 				nameTranslated = Catalog.GetString(ex.name);
 			encoderExercisesTranslationAndBodyPWeight[i] =
 				ex.uniqueID + ":" + ex.name + ":" + nameTranslated + ":" + ex.percentBodyWeight;

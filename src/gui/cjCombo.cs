@@ -50,7 +50,7 @@ public partial class ChronoJumpWindow
 
 	int getExerciseIDFromAnyCombo(Gtk.ComboBox combo, string [] comboArrayString, bool comboWithTranslation)
 	{
-		return getExerciseIDFromName(comboArrayString, UtilGtk.ComboGetActive(combo), false);
+		return getExerciseIDFromName(comboArrayString, UtilGtk.ComboGetActive(combo), comboWithTranslation);
 	}
 }
 

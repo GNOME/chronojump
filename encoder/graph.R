@@ -3255,7 +3255,7 @@ doProcess <- function(options)
                         
                         axisLineRight = 0
                         marginRight = 8.5
-                        if (! showSpeed || isInertial(op$EncoderConfigurationName))
+                        if (! showSpeed)
                                 marginRight = marginRight -2
                         if(! showAccel)
                                 marginRight = marginRight -2
@@ -3292,12 +3292,31 @@ doProcess <- function(options)
 			if(op$TriggersOnList != "" && op$TriggersOnList != -1)
 				abline(v=op$TriggersOnList, col="yellow3", lwd=2, lty=2);
 
-                        #showSpeed only on gravitatory until speed is fixed on this experimental graph
-                        if (showSpeed && ! isInertial(op$EncoderConfigurationName)) {
+                        if (showSpeed){
+                                
+                                speedCorrected = speed$y
+                                
+                                #If the speed at the firs repetition has the right sign, we change it because we will
+                                #start changing in the first repetition
+                                if(mean(speedCorrected[(curves[1,"endStored"] - 100):curves[1,"endStored"]]) > 0){
+                                        changingRep = 2
+                                        speedCorrected[1:curves[1,"startStored"]] = -speedCorrected[1:curves[1,"startStored"]]
+                                } else if(mean(speedCorrected[(curves[1,"endStored"] - 100):curves[1,"endStored"]]) < 0){
+                                        changingRep = 1
+                                }
+                                
+                                #Changing the sign of each repetition alternately (changed, NOTchanged, changed, NOTchanged,....)
+                                while(changingRep <= length(curves[,"startStored"]))
+                                {
+                                        speedCorrected[curves[changingRep,"startStored"]:curves[changingRep,"endStored"]] = -speedCorrected[curves[changingRep,"startStored"]:curves[changingRep,"endStored"]]
+                                        changingRep = changingRep +2
+                                }
+                                
                                 par(new=T)
                                 ylimHeight = max(abs(range(speed$y)))
                                 ylim=c(- 1.05 * ylimHeight, 1.05 * ylimHeight)	#put 0 in the middle, and have 5% margin at each side
-                                plot(speed$y, col=cols[1], ylim=ylim, type="l", xlab="",ylab="",axes=F)
+                                #plot(speed$y, col=cols[1], ylim=ylim, type="l", xlab="",ylab="",axes=F)
+                                plot(speedCorrected, col=cols[1], ylim=ylim, type="l", xlab="",ylab="",axes=F)
                                 axis(4, col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
                                 axisLineRight = axisLineRight +2
                         }

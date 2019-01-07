@@ -116,6 +116,7 @@ public partial class ChronoJumpWindow
 	SerialPort portFS; //Attention!! Don't reopen port because arduino makes reset and tare, calibration... is lost
 	bool portFSOpened;
 
+
 	Gdk.GC pen_black_force_capture;
 	Gdk.GC pen_red_force_capture;
 	Gdk.GC pen_gray_force_capture;
@@ -612,7 +613,14 @@ public partial class ChronoJumpWindow
 		{
 			int b0 = portFS.ReadByte(); //least significative
 			int b1 = portFS.ReadByte(); //most significative
-			dataRow.Add(256 * b1 + b0);
+
+			int readedNum = 256 * b1 + b0;
+			//care for negative values
+			if(readedNum > 32768)
+				readedNum = -1 * (65536 - readedNum);
+
+			dataRow.Add(readedNum);
+			//LogB.Information(string.Format("b0: {0}, b1: {1}, readedNum: {2}", b0, b1, readedNum));
 		}
 
 		return dataRow;

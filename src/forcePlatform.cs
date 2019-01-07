@@ -146,7 +146,13 @@ public class ForcePlatform
 		{
 			int b0 = sp.ReadByte(); //least significative
 			int b1 = sp.ReadByte(); //most significative
-			dataRow.Add(256 * b1 + b0);
+
+			int readedNum = 256 * b1 + b0;
+			//care for negative values
+			if(readedNum > 32768)
+				readedNum = -1 * (65536 - readedNum);
+
+			dataRow.Add(readedNum);
 		}
 			
 		printDataRow(dataRow);

@@ -189,7 +189,7 @@ void serialEvent()
 
 void start_capture()
 {
-  //Serial.println("Starting capture...");
+  Serial.println("Starting capture...");
   totalTime = 0;
   lastTime = micros();
   capturing = true;

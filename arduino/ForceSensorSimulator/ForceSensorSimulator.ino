@@ -60,7 +60,7 @@ void loop(void)
     //sendLong(initSymbol); //sembla que abans dels 4 255 aixo envia 2 bytes que no son 255, o aquests 2 bytes van al final dels 4 del for
     //sendLong(micros());
 
-    int currentSimulatedValue = 0;
+    int currentSimulatedValue = -100;
 
     for (int i = 0; i < 100; i++)
     {
@@ -95,6 +95,9 @@ void loop(void)
       sendInt(currentSimulatedValue ++);
       sendInt(currentSimulatedValue ++);
       sendInt(currentSimulatedValue ++);
+
+      if(currentSimulatedValue > 100)
+	currentSimulatedValue = -100;
     }
   }
 }

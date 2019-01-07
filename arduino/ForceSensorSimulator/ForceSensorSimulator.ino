@@ -37,8 +37,6 @@ unsigned long totalTime = 0;
 //Wether the sensor has to capture or not
 boolean capturing = false;
 
-int current;
-
 void setup(void)
 {
 
@@ -62,7 +60,7 @@ void loop(void)
     //sendLong(initSymbol); //sembla que abans dels 4 255 aixo envia 2 bytes que no son 255, o aquests 2 bytes van al final dels 4 del for
     //sendLong(micros());
 
-    int current = 0;
+    int currentSimulatedValue = 0;
 
     for (int i = 0; i < 100; i++)
     {
@@ -93,10 +91,10 @@ void loop(void)
       lastTime = currentTime;
       sendLong(totalTime);
 
-      sendInt(current++);
-      sendInt(current++);
-      sendInt(current++);
-      sendInt(current++);
+      sendInt(currentSimulatedValue ++);
+      sendInt(currentSimulatedValue ++);
+      sendInt(currentSimulatedValue ++);
+      sendInt(currentSimulatedValue ++);
     }
   }
 }

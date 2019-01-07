@@ -141,7 +141,7 @@ public class ForcePlatform
 				Math.Pow(256,1) * t1 +
 				Math.Pow(256,0) * t0));
 
-		//read data, four sensors, 1 byte each
+		//read data, four sensors, 2 bytes each
 		for(int i = 0; i < 4; i ++)
 		{
 			int b0 = sp.ReadByte(); //least significative

@@ -65,7 +65,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_force_sensor_open_folder;
 	[Widget] Gtk.MenuItem menuitem_force_sensor_check_version;
 
-	//capture tab tab
+	//capture tab
 	[Widget] Gtk.HBox hbox_force_capture_buttons;
 	[Widget] Gtk.Box hbox_combo_force_sensor_exercise;
 	[Widget] Gtk.ComboBox combo_force_sensor_exercise;
@@ -115,9 +115,6 @@ public partial class ChronoJumpWindow
 	string forceSensorPortName;
 	SerialPort portFS; //Attention!! Don't reopen port because arduino makes reset and tare, calibration... is lost
 	bool portFSOpened;
-
-	//TODO: clean this
-	bool forceSensorBinary = false;
 
 	Gdk.GC pen_black_force_capture;
 	Gdk.GC pen_red_force_capture;
@@ -208,7 +205,7 @@ public partial class ChronoJumpWindow
 		Thread.Sleep(3000); //sleep to let arduino start reading serial event
 
 		//At the moment, binary code do not check version, tare, calibrate
-		if(forceSensorBinary)
+		if(forceSensorBinaryCapture())
 		{
 			portFSOpened = true;
 			return true;
@@ -576,6 +573,11 @@ public partial class ChronoJumpWindow
 		forceCaptureThread.Start();
 	}
 
+	private bool forceSensorBinaryCapture()
+	{
+		return check_force_sensor_capture_binary.Active;
+	}
+
 	private bool readBinaryRowMark()
 	{
 		if(portFS.ReadByte() != 255)
@@ -661,6 +663,7 @@ public partial class ChronoJumpWindow
 		writer.WriteLine("Time (micros);Force(N)");
 		str = "";
 		int firstTime = 0;
+		bool forceSensorBinary = forceSensorBinaryCapture();
 
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));

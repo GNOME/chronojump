@@ -3920,11 +3920,18 @@ public partial class ChronoJumpWindow
 			exerciseNamesToCombo[i] = Catalog.GetString(ex.name);
 			i++;
 		}
-		
+
+		//get previous combo_encoder_exercise_capture value
+		string previousExerciseCapture = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
+
 		UtilGtk.ComboUpdate(combo_encoder_exercise_capture, exerciseNamesToCombo, "");
-		combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture, 
-				Catalog.GetString(((EncoderExercise) encoderExercises[0]).name));
-	
+		if(previousExerciseCapture == "")
+			combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture,
+					Catalog.GetString(((EncoderExercise) encoderExercises[0]).name));
+		else
+			combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture,
+					previousExerciseCapture);
+
 		exerciseNamesToCombo = addAllExercisesToComboExerciseAnalyze(exerciseNamesToCombo);
 		
 		UtilGtk.ComboUpdate(combo_encoder_exercise_analyze, exerciseNamesToCombo, "");

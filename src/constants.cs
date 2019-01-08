@@ -1000,7 +1000,9 @@ public class Constants
 		"Laterality", "RL", "R", "L",
 		"Inertia M.",
 		"Maximum mean power using the F-V profile",
-		"Mean power parabole using the Power-Load data"
+		"Mean power parabole using the Power-Load data",
+		"Propulsive",
+		"Non propulsive"
 	};
 	/*
 	 * written here in order to be translated
@@ -1049,6 +1051,8 @@ public class Constants
 		Catalog.GetString("Laterality"), Catalog.GetString("RL"), Catalog.GetString("R"), Catalog.GetString("L"),
 		Catalog.GetString("Inertia M."),
 		Catalog.GetString("Maximum mean power using the F-V profile"),
-		Catalog.GetString("Mean power parabole using the Power-Load data")
+		Catalog.GetString("Mean power parabole using the Power-Load data"),
+		Catalog.GetString("Propulsive"),
+		Catalog.GetString("Non propulsive")
 	};
 }

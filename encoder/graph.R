@@ -902,8 +902,12 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 }
 
                 #show propulsive stuff if line if differentiation is relevant (propulsivePhase ends before the end of the movement)
-                if(isPropulsive & propulsiveEnd < length(displacement)) {
+                if(paintMode != "superpose" & isPropulsive & propulsiveEnd < length(displacement)) {
                         abline(v=propulsiveEnd,lty=1,col=cols[2])
+			mtext(text=paste(translateToPrint("Propulsive"), " ", sep=""),
+			      side=1,at=propulsiveEnd,adj=1,cex=.8,col=cols[2],line=-1)
+			mtext(text=paste(" ", translateToPrint("Non propulsive"), sep=""),
+			      side=1,at=propulsiveEnd,adj=0,cex=.8,col=cols[2],line=-1)
 			if(showAccel) {
 				segments(0,-9.81,length(accel$y),-9.81,lty=3,col="magenta")
 				points(propulsiveEnd, -g, col="magenta")

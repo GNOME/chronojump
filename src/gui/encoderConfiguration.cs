@@ -672,10 +672,14 @@ public class EncoderConfigurationWindow
 					{
 						if(encoderGI == Constants.EncoderGI.GRAVITATORY)
 							new DialogMessage(Constants.MessageTypes.WARNING,
-									Catalog.GetString("Imported configuration must be gravitatory."));
+									Catalog.GetString("Chronojump is currently in gravitory mode.") + "\n" +
+									Catalog.GetString("Selected configuration is inertial.") + "\n\n" +
+									Catalog.GetString("If you still want to import it, change to inertial mode."));
 						else if(encoderGI == Constants.EncoderGI.INERTIAL)
 							new DialogMessage(Constants.MessageTypes.WARNING,
-									Catalog.GetString("Imported configuration must be inertial."));
+									Catalog.GetString("Chronojump is currently in inertial mode.") + "\n" +
+									Catalog.GetString("Selected configuration is gravitatory.") + "\n\n" +
+									Catalog.GetString("If you still want to import it, change to gravitatory mode."));
 					}
 					else if(econfSO.name != null && econfSO.name != "")
 					{

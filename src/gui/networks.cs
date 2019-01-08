@@ -73,6 +73,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_encoder_capture_main;
 	[Widget] Gtk.VBox vbox_treeview_encoder_at_second_page;
 
+	//encoder ...
+	[Widget] Gtk.Button button_encoder_monthly_change_current_session;
+
 	//runsInterval
 	[Widget] Gtk.HBox hbox_runs_interval_compujump;
 	[Widget] Gtk.RadioButton radio_run_interval_compujump_5m;

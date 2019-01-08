@@ -3214,7 +3214,9 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_intersession.Visible = false;
 		check_encoder_separate_session_in_days.Active = false;
 		check_encoder_separate_session_in_days.Visible = false;
-			
+
+		button_encoder_monthly_change_current_session.Visible = false;
+
 		button_encoder_analyze_sensitiveness();
 	
 		hbox_encoder_analyze_current_signal.Visible = true;
@@ -3267,7 +3269,9 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_intersession.Visible = false;
 		check_encoder_separate_session_in_days.Active = false;
 		check_encoder_separate_session_in_days.Visible = false;
-			
+
+		button_encoder_monthly_change_current_session.Visible = configChronojump.CompujumpUserIsAdmin(currentPerson);
+
 		button_encoder_analyze_sensitiveness();
 	
 		hbox_encoder_analyze_current_signal.Visible = false;
@@ -3308,6 +3312,8 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_analyze_superpose.Visible = false;
 		radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
 
+		button_encoder_monthly_change_current_session.Visible = false;
+
 		showTriggerTab(false);
 	}
 		
@@ -3332,7 +3338,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_intersession.Visible = false;
 		check_encoder_separate_session_in_days.Active = false;
 		check_encoder_separate_session_in_days.Visible = false;
-		
+
 		//this analysis only when not comparing
 		radiobutton_encoder_analyze_instantaneous.Visible = false;
 		radiobutton_encoder_analyze_powerbars.Visible = false;
@@ -3341,6 +3347,8 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_analyze_side.Visible = false;
 		radiobutton_encoder_analyze_superpose.Visible = false;
 		radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
+
+		button_encoder_monthly_change_current_session.Visible = false;
 
 		showTriggerTab(false);
 	}

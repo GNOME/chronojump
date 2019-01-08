@@ -40,6 +40,7 @@ public class Config
 	public bool Compujump;
 	public string CompujumpServerURL = "";
 	public int CompujumpStationID = -1;
+	public int CompujumpAdminID = -1; //undefined
 	public Constants.Menuitem_modes CompujumpStationMode = Constants.Menuitem_modes.UNDEFINED;
 	public string RunScriptOnExit;
 	public bool PlaySoundsFromFile;
@@ -88,6 +89,8 @@ public class Config
 						CompujumpServerURL = parts[1];
 					else if(parts[0] == "CompujumpStationID" && parts[1] != "" && Util.IsNumber(parts[1], false))
 						CompujumpStationID = Convert.ToInt32(parts[1]);
+					else if(parts[0] == "CompujumpAdminID" && parts[1] != "" && Util.IsNumber(parts[1], false))
+						CompujumpAdminID = Convert.ToInt32(parts[1]);
 					else if(parts[0] == "CompujumpStationMode" && Enum.IsDefined(typeof(Constants.Menuitem_modes), parts[1]))
 						CompujumpStationMode = (Constants.Menuitem_modes)
 							Enum.Parse(typeof(Constants.Menuitem_modes), parts[1]);
@@ -100,7 +103,17 @@ public class Config
 			}
 		}
 	}
-	
+
+	//p is currentPerson
+	public bool CompujumpUserIsAdmin(Person p)
+	{
+		LogB.Information("CompujumpUserIsAdmin ?");
+		LogB.Information(string.Format("{0}, {1}", p.UniqueID, CompujumpAdminID));
+		LogB.Information(string.Format("{0}, {1}, {2}", p != null, Compujump, p.UniqueID == CompujumpAdminID));
+
+		return (p != null && Compujump && p.UniqueID == CompujumpAdminID);
+	}
+
 	/*
 	public void Read()
 	{

@@ -653,6 +653,9 @@ public partial class ChronoJumpWindow
 				selectRowTreeView_persons(treeview_persons, rowToSelect);
 			*/
 			getTasksExercisesAndPopup();
+
+			//load current session if MONTHLY and current session is not current month and currentPerson is not compumpAdminID
+			compujumpPersonChangedShouldChangeSession();
 		}
 
 		//Wakeup screen if it's off
@@ -664,6 +667,20 @@ public partial class ChronoJumpWindow
 		//LogB.Information(" threadRFID:" + threadRFID.ThreadState.ToString());
 
 		return true;
+	}
+
+	//load current session if MONTHLY and current session is not current month and currentPerson is not compumpAdminID
+	private void compujumpPersonChangedShouldChangeSession()
+	{
+		string yearMonthStr = UtilDate.GetCurrentYearMonthStr();
+		if(
+				configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY &&
+				currentSession.Name != yearMonthStr &&
+				! configChronojump.CompujumpUserIsAdmin(currentPerson) )
+		{
+			currentSession = SqliteSession.SelectByName(yearMonthStr);
+			on_load_session_accepted();
+		}
 	}
 
 	private void insertAndAssignPersonSessionIfNeeded(Json json)

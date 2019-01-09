@@ -592,7 +592,9 @@ public partial class ChronoJumpWindow
 		loadPreferencesAtStart ();
 
 		//TODO: make this visible for all systems when it finally works
-		checkbutton_video.Visible = (UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX);
+		checkbutton_video.Visible = (
+				UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX ||
+				UtilAll.GetOSEnum() == UtilAll.OperatingSystems.WINDOWS);
 
 		if(topMessage != "") {
 			label_message_at_start.Text = topMessage;

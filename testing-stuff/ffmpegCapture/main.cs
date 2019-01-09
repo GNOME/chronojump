@@ -30,6 +30,7 @@ class FfmpegCapture
 	private string captureExecutable = "ffmpeg";
         private StreamWriter streamWriter;
 	private	Process process;
+	private int processID;
 	protected static internal string programFfmpegNotInstalled =
 		string.Format("Error. {0} is not installed.", "ffmpeg");
 	public bool Running;
@@ -128,6 +129,7 @@ class FfmpegCapture
 			return;
 		}
 
+		processID = process.Id;
 		streamWriter = process.StandardInput;
 		Running = true;
 
@@ -144,6 +146,7 @@ class FfmpegCapture
 		//return new Result (true, "");
 	}
 
+	//TODO: on Windows or old machines adjust rtbufsize parameter, on our tests we have problems with default 3041280
 	private List<string> createParametersOnlyCapture()
 	{
 		// ffmpeg -y -f v4l2 -framerate 30 -video_size 640x480 -input_format mjpeg -i /dev/video0 out.mp4
@@ -229,14 +232,16 @@ class FfmpegCapture
 
 	public Result ExitAndFinish (int sessionID, Constants.TestTypes testType, int testID)
 	{
-		ExitCamera();
+		ExitCamera(); //this works
+
+		//testing this now
 
 		//Copy the video to expected place
-		//if (! Util.CopyTempVideo(sessionID, testType, testID))
-		//	return new Result (false, "", Constants.FileCopyProblem);
+		if (! Util.CopyTempVideo(sessionID, testType, testID))
+			return new Result (false, "", Constants.FileCopyProblem);
 
 		//Delete temp video
-		//deleteTempFiles();
+		deleteTempFiles();
 
 		return new Result (true, "");
 	}
@@ -279,6 +284,12 @@ class FfmpegCapture
 			System.Threading.Thread.Sleep(100);
 		} while(ExecuteProcess.IsRunning2(process, captureExecutable));
 		*/
+
+		do {
+			Console.WriteLine("waiting 100 ms to end Ffmpeg");
+			System.Threading.Thread.Sleep(100);
+                } while(ExecuteProcess.IsRunning3(processID, "ffmpeg")); //note on Linux and Windows we need to check ffmpeg and not ffmpeg.exe
+
 
 		streamWriter = null;
 		process = null;

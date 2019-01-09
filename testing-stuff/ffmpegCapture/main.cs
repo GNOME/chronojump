@@ -165,7 +165,7 @@ class FfmpegCapture
                 List<string> parameters = createParametersPlayFile (filename);
 
                 process = new Process();
-                bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, false, false);
+                bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, true, false);
                 if(! success)
                 {
                         process = null;

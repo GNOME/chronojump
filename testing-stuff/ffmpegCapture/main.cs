@@ -120,7 +120,8 @@ class FfmpegCapture
 		process = new Process();
 		List<string> parameters = createParametersOnlyCapture();
 		//List<string> parameters = createParametersCaptureAndDelayedView();
-		bool success = ExecuteProcess.RunAtBackground (ref process, captureExecutable, parameters, true); //redirectInput
+		bool success = ExecuteProcess.RunAtBackground (ref process, captureExecutable, parameters,
+				true, false, true); //createNoWindow, useShellExecute, redirectInput
 		if(! success)
 		{
 			streamWriter = null;
@@ -140,11 +141,41 @@ class FfmpegCapture
 			Console.WriteLine(countA.ToString());
 		}
 	
-		ExitAndFinish (0, Constants.TestTypes.RUN, 1);
+		int sessionID = 0;
+		Constants.TestTypes testType = Constants.TestTypes.RUN;
+		int testID = 1;
+		ExitAndFinish (sessionID, testType, testID);
 
+		Console.WriteLine("Recorded, copied, and deleted ok. Now we are going to play it");
+
+		PlayFile(Util.GetVideoFileName(sessionID, testType, testID));
 
 		//return new Result (true, "");
 	}
+
+       public Result PlayFile (string filename)
+        {
+		string executable = "ffplay";
+		if(os == UtilAll.OperatingSystems.WINDOWS)
+			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay.exe");
+
+                if(process != null || filename == "")
+                        return new Result (false, "");
+
+                List<string> parameters = createParametersPlayFile (filename);
+
+                process = new Process();
+                bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, false, false);
+                if(! success)
+                {
+                        process = null;
+                        return new Result (false, "", programFfmpegNotInstalled);
+                }
+
+                Running = true;
+                return new Result (true, "");
+        }
+
 
 	//TODO: on Windows or old machines adjust rtbufsize parameter, on our tests we have problems with default 3041280
 	private List<string> createParametersOnlyCapture()
@@ -219,6 +250,15 @@ class FfmpegCapture
 
 		return parameters;
 	}
+
+	private List<string> createParametersPlayFile(string filename)
+	{
+		// ffplay out.mp4
+		List<string> parameters = new List<string>();
+		parameters.Insert (0, filename);
+		return parameters;
+	}
+
 
 	/*
 	 * there are problems calling the process with the "|"

@@ -130,4 +130,19 @@ public class Util
                                 Path.DirectorySeparatorChar + "videos"); 
         }     	
 
+	public static string GetLastPartOfPath (string fileName) {
+		//gets a complete url with report directory path and return only last part of path
+		//useful for linking images as relative and not absolute in export to HTML
+		//works on win and linux
+		int temp1 = fileName.LastIndexOf('\\');
+		int temp2 = fileName.LastIndexOf('/');
+		int posOfBar = 0;
+		if(temp1>temp2)
+			posOfBar = temp1;
+		else
+			posOfBar = temp2;
+
+		string lastPartOfPath = fileName.Substring(posOfBar+1, fileName.Length - posOfBar -1);
+		return lastPartOfPath;
+	}
 }

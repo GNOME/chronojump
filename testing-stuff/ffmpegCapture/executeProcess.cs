@@ -179,7 +179,55 @@ class ExecuteProcess
 		return true;
 	}
 
+        public static bool IsRunning3 (int processID, string executable)
+        {
+                Console.WriteLine("\nCalled IsRunning3\n");
+                //Debug
+                Process[] pdebug;
 
+                Console.WriteLine("running with executable: " + executable);
+                pdebug = Process.GetProcessesByName(executable);
+                Console.WriteLine((pdebug.Length > 0).ToString());
+
+		/*
+                Console.WriteLine("running with LastPartOfPath of executable: " + Util.GetLastPartOfPath(executable));
+                pdebug = Process.GetProcessesByName(Util.GetLastPartOfPath(executable));
+                Console.WriteLine((pdebug.Length > 0).ToString());
+
+                Console.WriteLine("running with executable: " + executable);
+                pdebug = Process.GetProcessesByName(executable);
+                Console.WriteLine((pdebug.Length > 0).ToString());
+		*/
+
+                //Debug
+                Process[] allThisMachine = Process.GetProcesses();
+                Console.WriteLine("All processes in this machine containing: " + executable);
+                foreach(Process p in allThisMachine)
+                {
+                        try {
+				if(p.ToString().Contains(executable))
+					Console.WriteLine(p.ToString()); //this is problematic on windows
+                        } catch {
+                                Console.WriteLine("catched at IsRunning3");
+                        }
+                }
+
+                //Process[] pNameArray = Process.GetProcessesByName(Util.GetLastPartOfPath(executable));
+                Process[] pNameArray = Process.GetProcessesByName(executable);
+                if (pNameArray.Length == 0)
+                        return false;
+
+                Console.WriteLine("Found one or more " + executable + " process, checking Id");
+                foreach(Process p in pNameArray)
+                        if(p.Id == processID)
+                                return true;
+
+		Console.WriteLine("This Id is not running");
+
+                return false;
+        }
+
+	/*
 	//better method than below
 	//https://stackoverflow.com/a/262291
 	public static bool IsRunning2 (Process process, string executable)
@@ -194,6 +242,7 @@ class ExecuteProcess
 
 		return false;
 	}
+	*/
 
 	//This seems is not working with ffmpeg capture, try method obove
 	public static bool IsRunning(Process process)

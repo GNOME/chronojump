@@ -207,40 +207,48 @@ class ExecuteProcess
 	 */
 	public static bool IsRunning3 (int processID, string executable)
 	{
+                LogB.Information("\nCalled IsRunning3\n");
 		//Debug
 		Process[] pdebug;
 
-		LogB.Information("executable: ffmpeg");
-		pdebug = Process.GetProcessesByName("ffmpeg");
-		LogB.Information((pdebug.Length == 0).ToString());
-
-		LogB.Information("LastPartOfPath of executable: " + Util.GetLastPartOfPath(executable));
-		pdebug = Process.GetProcessesByName(Util.GetLastPartOfPath(executable));
-		LogB.Information((pdebug.Length == 0).ToString());
-
-		LogB.Information("executable: " + executable);
+		LogB.Information("running with executable: " + executable);
 		pdebug = Process.GetProcessesByName(executable);
-		LogB.Information((pdebug.Length == 0).ToString());
+		LogB.Information((pdebug.Length > 0).ToString());
+
+		/*
+		LogB.Information("running with LastPartOfPath of executable: " + Util.GetLastPartOfPath(executable));
+		pdebug = Process.GetProcessesByName(Util.GetLastPartOfPath(executable));
+		LogB.Information((pdebug.Length > 0).ToString());
+
+		LogB.Information("running with executable: " + executable);
+		pdebug = Process.GetProcessesByName(executable);
+		LogB.Information((pdebug.Length > 0).ToString());
+		*/
 
 		//Debug
 		Process[] allThisMachine = Process.GetProcesses();
-		LogB.Information("All processes in this machine:");
+                LogB.Information("All processes in this machine containing: " + executable);
 		foreach(Process p in allThisMachine)
 		{
 			try {
-				LogB.Information(p.ToString()); //this is problematic on windows
+                                if(p.ToString().Contains(executable))
+					 LogB.Information(p.ToString()); //this is problematic on windows
 			} catch {
 				LogB.Information("catched at IsRunning3");
 			}
 		}
 
-		Process[] pNameArray = Process.GetProcessesByName(Util.GetLastPartOfPath(executable));
+		//Process[] pNameArray = Process.GetProcessesByName(Util.GetLastPartOfPath(executable));
+                Process[] pNameArray = Process.GetProcessesByName(executable);
 		if (pNameArray.Length == 0)
 			return false;
 
+                Console.WriteLine("Found one or more " + executable + " process, checking Id");
 		foreach(Process p in pNameArray)
 			if(p.Id == processID)
 				return true;
+
+		Console.WriteLine("This Id is not running");
 
 		return false;
 	}

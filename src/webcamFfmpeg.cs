@@ -70,7 +70,7 @@ public class WebcamFfmpeg : Webcam
 		List<string> parameters = createParametersPlayPreview();
 
 		process = new Process();
-		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false);
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, false, false);
 		if(! success)
 		{
 			process = null;
@@ -89,7 +89,7 @@ public class WebcamFfmpeg : Webcam
 		List<string> parameters = createParametersPlayFile (filename);
 
 		process = new Process();
-		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false);
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, false, false);
 		if(! success)
 		{
 			process = null;
@@ -111,7 +111,7 @@ public class WebcamFfmpeg : Webcam
 		process = new Process();
 		List<string> parameters = createParametersOnlyCapture();
 		//List<string> parameters = createParametersCaptureAndDelayedView();
-		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, true); //redirectInput
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, true, false, true); //redirectInput
 		if(! success)
 		{
 			streamWriter = null;

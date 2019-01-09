@@ -133,7 +133,18 @@ public class WebcamFfmpeg : Webcam
 		// ffplay /dev/video0
 		List<string> parameters = new List<string>();
 		int i=0;
-		parameters.Insert (i++, videoDevice);
+
+		parameters.Insert (i ++, "-f");
+		if(os == UtilAll.OperatingSystems.LINUX)
+			parameters.Insert (i ++, "v4l2");
+		else 	//windows
+			parameters.Insert (i ++, "dshow");
+
+		if(os == UtilAll.OperatingSystems.LINUX)
+			parameters.Insert (i ++, videoDevice);
+		else
+			parameters.Insert (i ++, "video=" + videoDevice);
+
 		parameters.Insert (i++, "-window_title");
 		parameters.Insert (i++, "Chronojump webcam preview");
 		return parameters;
@@ -278,7 +289,7 @@ public class WebcamFfmpeg : Webcam
 		do {
 			LogB.Information("waiting 100 ms to end Ffmpeg");
 			System.Threading.Thread.Sleep(100);
-		} while(ExecuteProcess.IsRunning3(processID, executable));
+		} while(ExecuteProcess.IsRunning3(processID, "ffmpeg")); //note on Linux and Windows we need to check ffmpeg and not ffmpeg.exe
 
 		streamWriter = null;
 		process = null;

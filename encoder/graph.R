@@ -1706,11 +1706,15 @@ fitLine <- function(x, y, col, lwd, lty) {
 }
 
 fitCurveCalc <- function(x, y) {
-        write("x,y",stderr())
-        write(c(x,y),stderr())
+        write("fitCurveCalc 0",stderr())
+        write(c("x: ",x),stderr())
+        write(c("y: ",y),stderr())
         
-        fit = lm(y ~ x + I(x^2))
+	#convert x to numeric
+	x=as.numeric(x)
+	fit = lm(y ~ x + I(x^2))
         
+        write("fitCurveCalc 1",stderr())
         coef.a <- fit$coefficient[3]
         coef.b <- fit$coefficient[2]
         coef.c <- fit$coefficient[1]
@@ -1726,6 +1730,7 @@ fitCurveCalc <- function(x, y) {
         
         y1 <- coef.a *x1^2 + coef.b * x1 + coef.c
         
+        write("fitCurveCalc done!",stderr())
         return(list(fit, x1, y1))
 }
 fitCurvePlot <- function(x1, y1, col, lwd, lty) {
@@ -1734,6 +1739,7 @@ fitCurvePlot <- function(x1, y1, col, lwd, lty) {
 
 paintCrossVariablesLaterality <- function(x, y, laterality, colBalls, varX = "Load", varY = "Power") 
 {
+        write("paintCrossVariablesLaterality 0",stderr())
         points(x[laterality=="L"], y[laterality=="L"], type="p", cex=1, col=colBalls, pch=3) # font=5, pch=220) #172, 220 don't looks good
         points(x[laterality=="R"], y[laterality=="R"], type="p", cex=1, col=colBalls, pch=4) # font=5, pch=222) #174, 222 don't looks good
         
@@ -1766,6 +1772,7 @@ paintCrossVariablesLaterality <- function(x, y, laterality, colBalls, varX = "Lo
                                 fitLine(x[laterality=="RL"],y[laterality=="RL"], "black", 1, 4)
                 }
         }
+        write("paintCrossVariablesLaterality done!",stderr())
 }
 
 #option: mean or max
@@ -2158,6 +2165,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
 			lateralityThisSerie = laterality[lateralityCount:(lateralityCount -1 + length(x[thisSerie]))]
 			lateralityCount = lateralityCount + length(x[thisSerie])
 			#print(c("laterality this serie", lateralityThisSerie))
+
 			paintCrossVariablesLaterality(x[thisSerie], y[thisSerie], lateralityThisSerie, colBalls[thisSerie], varX = varX, varY = varY)
 		}
 

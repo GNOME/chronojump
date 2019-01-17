@@ -16,10 +16,9 @@
 */
 
 #include <Wire.h>
-#include <Adafruit_ADS1015.h>
-#include <EEPROM.h>
+#include <MCP3304.h>
 
-Adafruit_ADS1015 loadCell;
+MCP3304 loadCell(10);
 
 
 //Version number
@@ -42,8 +41,6 @@ void setup(void)
 
   Serial.begin(115200);
 
-  loadCell.begin();
-  loadCell.setGain(GAIN_TWO);
   tare();
   // Serial.println("taring complete");
 }
@@ -103,7 +100,7 @@ void tare(void)
   {
     for (int sensor = 0; sensor <= 3; sensor++)
     {
-      total[sensor] += loadCell.readADC_SingleEnded(sensor);
+      total[sensor] += loadCell.readAdc(sensor,1);
     }
   }
 
@@ -116,7 +113,7 @@ void tare(void)
 
 int readOffsetedData(int sensor)
 {
-  return (loadCell.readADC_SingleEnded(sensor) - offset[sensor]);
+  return (loadCell.readAdc(sensor,1) - offset[sensor]);
 }
 
 void calibrate(float load)
@@ -221,4 +218,3 @@ void get_version()
 {
   Serial.println(version);
 }
-

@@ -4200,6 +4200,15 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	void on_button_encoder_analyze_image_compujump_send_email_clicked (object o, EventArgs args)
+	{
+		if(configChronojump.CompujumpUserIsAdmin(currentPerson))
+			compujumpSendEmail(Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE);
+		else
+			if(rfidWaitingAdmin != null)
+				rfidWaitingAdmin.Start();
+	}
+
 	void on_button_encoder_analyze_table_save_clicked (object o, EventArgs args)
 	{
 		/* file is in:
@@ -4752,6 +4761,7 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze.Sensitive = false;
 		treeview_encoder_analyze_curves.Sensitive = false;
 		button_encoder_analyze_image_save.Sensitive = false;
+		button_encoder_analyze_image_compujump_send_email.Sensitive = false;
 		button_encoder_analyze_AB_save.Sensitive = false;
 		button_encoder_analyze_table_save.Sensitive = false;
 		button_encoder_analyze_1RM_save.Visible = false;
@@ -5914,6 +5924,7 @@ public partial class ChronoJumpWindow
 			encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
 			treeview_encoder_analyze_curves.Sensitive = false;
 			button_encoder_analyze_image_save.Sensitive = false;
+			button_encoder_analyze_image_compujump_send_email.Sensitive = false;
 			button_encoder_analyze_AB_save.Sensitive = false;
 			button_encoder_analyze_table_save.Sensitive = false;
 			button_encoder_analyze_1RM_save.Visible = false;
@@ -7006,6 +7017,7 @@ public partial class ChronoJumpWindow
 			image_encoder_analyze.Sensitive = false;
 			treeview_encoder_analyze_curves.Sensitive = false;
 			button_encoder_analyze_image_save.Sensitive = false;
+			button_encoder_analyze_image_compujump_send_email.Sensitive = false;
 			button_encoder_analyze_AB_save.Sensitive = false;
 			button_encoder_analyze_table_save.Sensitive = false;
 			button_encoder_analyze_1RM_save.Visible = false;
@@ -7104,6 +7116,7 @@ public partial class ChronoJumpWindow
 			treeview_encoder_analyze_curves.Sensitive = true;
 			
 			button_encoder_analyze_image_save.Sensitive = true;
+			button_encoder_analyze_image_compujump_send_email.Sensitive = true;
 			button_encoder_analyze_AB_save.Sensitive = true;
 			button_encoder_analyze_table_save.Sensitive = true;
 			

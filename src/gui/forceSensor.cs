@@ -316,11 +316,13 @@ public partial class ChronoJumpWindow
 
 		if(o == (object) button_force_sensor_tare)
 		{
+			alignment_force_sensor_adjust.Sensitive = false;
 			forceSensorOtherMode = forceSensorOtherModeEnum.TARE;
 			forceOtherThread = new Thread(new ThreadStart(forceSensorTare));
 		}
 		else if(o == (object) button_force_sensor_calibrate)
 		{
+			alignment_force_sensor_adjust.Sensitive = false;
 			forceSensorOtherMode = forceSensorOtherModeEnum.CALIBRATE;
 			forceOtherThread = new Thread(new ThreadStart(forceSensorCalibrate));
 		}
@@ -379,7 +381,10 @@ public partial class ChronoJumpWindow
 
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE ||
 				forceSensorOtherMode == forceSensorOtherModeEnum.CALIBRATE)
+			{
+				alignment_force_sensor_adjust.Sensitive = true;
 				return false;
+			}
 			else if(forceSensorOtherMode == forceSensorOtherModeEnum.CHECK_VERSION)
 				forceSensorButtonsSensitive(true);
 			else //if(forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)

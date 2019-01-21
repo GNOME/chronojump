@@ -75,6 +75,7 @@ public partial class ChronoJumpWindow
 
 	//encoder ...
 	[Widget] Gtk.Button button_encoder_monthly_change_current_session;
+	[Widget] Gtk.Button button_encoder_analyze_image_compujump_send_email;
 
 	//runsInterval
 	[Widget] Gtk.HBox hbox_runs_interval_compujump;
@@ -105,6 +106,8 @@ public partial class ChronoJumpWindow
 	//private bool compujumpAutologout;
 	//private static CompujumpAutologout compujumpAutologout;
 	private CompujumpAutologout compujumpAutologout;
+
+	private static RFIDWaitingAdmin rfidWaitingAdmin;
 
 	DialogPersonPopup dialogPersonPopup;
 		
@@ -190,20 +193,25 @@ public partial class ChronoJumpWindow
 				LogB.ThreadStart();
 				threadRFID.Start();
 			}
+
+			if(configChronojump.CompujumpAdminEmail != "")
+				button_encoder_analyze_image_compujump_send_email.Visible = true;
 		}
 
 		configDo();
 	}
 	private void RFIDStart()
 	{
+		startedRFIDWait = DateTime.MinValue;
+		rfidWaitingAdmin = new RFIDWaitingAdmin();
+		LogB.Information("networksRI: " + networksRunIntervalCanChangePersonSQLReady.ToString());
+
 		LogB.Information("RFID Start");
 		rfid.Start();
-		startedRFIDWait = DateTime.MinValue;
-		LogB.Information("networksRI: " + networksRunIntervalCanChangePersonSQLReady.ToString());
-		//rfid.ChangedEvent += new EventHandler(this.rfidChanged);
 	}
 	private void rfidChanged(object sender, EventArgs e)
 	{
+		LogB.Information("at rfidChanged");
 		/*
 		 * TODO: only if we are not in the middle of capture, or in cont mode without repetitions
 		 */
@@ -215,11 +223,21 @@ public partial class ChronoJumpWindow
 			{
 				startedRFIDWait = DateTime.Now;
 				LogB.Information("... but we are on the middle of capture");
-			} else {
-				capturedRFID = rfid.Captured;
-				rfidIsDifferent = true;
-
-				shouldUpdateRFIDGui = true;
+			}
+			else {
+				if(rfidWaitingAdmin != null && rfidWaitingAdmin.Waiting)
+				{
+					LogB.Information("Checking if an email has to be sent");
+					Person pLocal = SqlitePerson.SelectByRFID(rfid.Captured);
+					if(configChronojump.CompujumpUserIsAdmin(pLocal.UniqueID))
+						compujumpSendEmail(Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE);
+					else
+						LogB.Information("RFID should be the RFID of AdminID, not this: " + rfid.Captured);
+				} else {
+					capturedRFID = rfid.Captured;
+					rfidIsDifferent = true;
+					shouldUpdateRFIDGui = true;
+				}
 			}
 		}
 	}
@@ -488,19 +506,52 @@ public partial class ChronoJumpWindow
 			label_rfid_encoder_wait.Visible = false;
 		}
 
-		if(isCompujumpCapturing ())
+		if(isCompujumpCapturing ()) {
+			Thread.Sleep (100);
 			return true;
+		}
 
 		//---- end of checking if we are on the middle of capture.
+
+		//to send email with analyzed image to the admin
+		if(rfidWaitingAdmin != null)
+		{
+			if(rfidWaitingAdmin.ShowGuiMessage)
+			{
+				new DialogMessage(Constants.MessageTypes.INFO,
+						"Sent Email to: " + configChronojump.CompujumpAdminEmail);
+				rfidWaitingAdmin = new RFIDWaitingAdmin();
+			}
+
+			if(rfidWaitingAdmin.Waiting)
+			{
+				if(rfidWaitingAdmin.RestSeconds() != -1) {
+					label_rfid_encoder_wait.Text =
+						string.Format("Please, identify with admin ID wristband before {0} seconds", rfidWaitingAdmin.RestSeconds());
+					label_rfid_encoder_wait.Visible = true;
+				} else {
+					rfidWaitingAdmin = new RFIDWaitingAdmin();
+					label_rfid_encoder_wait.Text = "";
+					label_rfid_encoder_wait.Visible = false;
+				}
+				Thread.Sleep (100);
+				return true;
+			} else
+				label_rfid_encoder_wait.Text = "";
+		}
 
 
 		//don't allow this method to be called again until ended
 		//Note RFID detection can send many cards (the same) per second
-		if(updatingRFIDGuiStuff)
+		if(updatingRFIDGuiStuff) {
+			Thread.Sleep (100);
 			return true;
+		}
 
-		if(! shouldUpdateRFIDGui)
+		if(! shouldUpdateRFIDGui) {
+			Thread.Sleep (100);
 			return true;
+		}
 
 		shouldUpdateRFIDGui = false;
 		updatingRFIDGuiStuff = true;
@@ -886,6 +937,15 @@ public partial class ChronoJumpWindow
 		return(compujumpAutologout.IsCompujumpCapturing());
 	}
 
+	private void compujumpSendEmail(Constants.CheckFileOp op)
+	{
+		if(op == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE)
+		{
+			LogB.Information("Send Email to: " + configChronojump.CompujumpAdminEmail);
+			rfidWaitingAdmin.ShowGuiMessage = true;
+		}
+	}
+
 	/*
 	 *
 	 * This code uses a watcher to see changes on a filename
@@ -1186,5 +1246,40 @@ public class CompujumpAutologout
 			return strAll;
 		else
 			return "Logout in\n" + Math.Round(maxTime, 2) + " min.";
+	}
+}
+
+//this class manages the wating of admin wristband in tasks like sending an email with the analyze image
+public class RFIDWaitingAdmin
+{
+	public bool Waiting;
+	public bool ShowGuiMessage;
+
+	private static DateTime startedDT; //time to wait ID of the admin to have access to "higher" methods
+	private const int secondsLimit = 5; //5 seconds to use the admin ID
+
+	//constructor
+	public RFIDWaitingAdmin()
+	{
+		Waiting = false;
+		ShowGuiMessage = false;
+		startedDT = DateTime.MinValue;
+		LogB.Information("RFIDWaitingAdmin constructed!");
+	}
+
+	public void Start()
+	{
+		startedDT = DateTime.Now; //start countdown
+		Waiting = true;
+	}
+
+	//we have to capture before this time in seconds
+	public int RestSeconds()
+	{
+		TimeSpan span = DateTime.Now - startedDT;
+		if (Waiting && span.TotalSeconds < secondsLimit)
+			return Convert.ToInt32(Math.Round(secondsLimit - span.TotalSeconds, 0));
+		else
+			return -1;
 	}
 }

@@ -219,7 +219,15 @@ public class Json
 		requestPingAborting = false;
 
 		// Create a request using a URL that can receive a post. 
-		requestPing = WebRequest.Create (serverUrl + "/ping");
+		try {
+			requestPing = WebRequest.Create (serverUrl + "/ping");
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+						serverUrl) + "\n\nMaybe proxy is not configured";
+			//System.Net.WebRequest.GetSystemWebProxy System.NullReferenceException: Object reference not set to an instance of an object
+			return false;
+		}
 
 		// Set the Method property of the request to POST.
 		requestPing.Method = "POST";

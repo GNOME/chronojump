@@ -60,7 +60,8 @@ public class Json
 					"----------\nUser comments:\n" + comments + "\n----------\n", filePath);
 
 		// Create a request using a URL that can receive a post. 
-		WebRequest request = WebRequest.Create (serverUrl + "/backtrace/" + UtilAll.ReadVersionFromBuildInfo() + "-" + email);
+		if (! createWebRequest(requestType.GENERIC, "/backtrace/" + UtilAll.ReadVersionFromBuildInfo() + "-" + email))
+			return false;
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
@@ -143,7 +144,8 @@ public class Json
 	public bool GetLastVersion(string currentVersion) 
 	{
 		// Create a request using a URL that can receive a post. 
-		WebRequest request = WebRequest.Create (serverUrl + "/version");
+		if (! createWebRequest(requestType.GENERIC, "/version"))
+			return false;
 		
 		// Set the Method property of the request to GET.
 		request.Method = "GET";
@@ -200,6 +202,7 @@ public class Json
 		return true;
 	}
 
+	WebRequest request; //generic request (for all methods except ping)
 	/*
 	 * if software just started, ping gets stuck by network problems, and user try to exit software,
 	 * thread.Abort doesn't kill the thread properly
@@ -218,16 +221,8 @@ public class Json
 	{
 		requestPingAborting = false;
 
-		// Create a request using a URL that can receive a post. 
-		try {
-			requestPing = WebRequest.Create (serverUrl + "/ping");
-		} catch {
-			this.ResultMessage =
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
-						serverUrl) + "\n\nMaybe proxy is not configured";
-			//System.Net.WebRequest.GetSystemWebProxy System.NullReferenceException: Object reference not set to an instance of an object
+		if (! createWebRequest(requestType.PING, "/ping"))
 			return false;
-		}
 
 		// Set the Method property of the request to POST.
 		requestPing.Method = "POST";
@@ -973,6 +968,26 @@ public class Json
 		response.Close ();
 
 		this.ResultMessage = "Encoder data sent.";
+		return true;
+	}
+
+	enum requestType { GENERIC, PING };
+	bool createWebRequest(requestType rt, string webService)
+	{
+		try {
+			if(rt == requestType.GENERIC)
+				request = WebRequest.Create (serverUrl + webService);
+			else //(rt == requestType.PING)
+				requestPing = WebRequest.Create (serverUrl + webService);
+
+		} catch {
+			this.ResultMessage =
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+						serverUrl) + "\n\nMaybe proxy is not configured";
+			//System.Net.WebRequest.GetSystemWebProxy System.NullReferenceException: Object reference not set to an instance of an object
+			return false;
+		}
+
 		return true;
 	}
 

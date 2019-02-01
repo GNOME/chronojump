@@ -77,15 +77,8 @@ public class Json
 
 		// Get the request stream.
 		Stream dataStream;
-		try {
-			dataStream = request.GetRequestStream ();
-		} catch {
-			LogB.Warning("Error sending datastream");
-			this.ResultMessage = Catalog.GetString("Could not send file.") + "\n" + 
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
-						serverUrl);
+		if(! getWebRequestStream (request, out dataStream, Catalog.GetString("Could not send file.")))
 			return false;
-		}
 
 		// Write the data to the request stream.
 		dataStream.Write (byteArray, 0, byteArray.Length);
@@ -95,15 +88,9 @@ public class Json
         
 		// Get the response.
 		WebResponse response;
-		try {
-			response = request.GetResponse ();
-		} catch {
-			LogB.Warning("Error getting response");
-			this.ResultMessage = Catalog.GetString("Could not send file.") + "\n" + 
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
-						serverUrl);
+		if(! getWebResponse (request, out response, Catalog.GetString("Could not send file.")))
 			return false;
-		}
+
 
 		// Display the status.
 		LogB.Information(((HttpWebResponse)response).StatusDescription);
@@ -154,15 +141,8 @@ public class Json
 		//request.ContentType = "application/x-www-form-urlencoded";
 		
 		HttpWebResponse response;
-		try {
-			response = (HttpWebResponse) request.GetResponse();
-		} catch {
-			this.ResultMessage = 
-				Catalog.GetString("Could not get last version.") + "\n" +
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
-				serverUrl);
+		if(! getHttpWebResponse (request, out response, Catalog.GetString("Could not get last version.")))
 			return false;
-		}
 
 		string responseFromServer;
 		using (var sr = new StreamReader(response.GetResponseStream()))
@@ -241,14 +221,9 @@ public class Json
 
 		// Writes the json object into the request dataStream
 		Stream dataStream;
-		try {
-			dataStream = requestPing.GetRequestStream ();
-		} catch {
-			this.ResultMessage = 
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
-				serverUrl);
+		if(! getWebRequestStream (requestPing, out dataStream, "Could not send ping (A)."))
 			return false;
-		}
+
 		if(requestPingAborting) {
 			LogB.Information("Aborted from PingAbort");
 			return false;
@@ -260,14 +235,9 @@ public class Json
 
 		// Get the response.
 		WebResponse response;
-		try {
-			response = requestPing.GetResponse ();
-		} catch {
-			this.ResultMessage = 
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
-				serverUrl);
+		if(! getWebResponse (requestPing, out response, "Could not send ping (B)."))
 			return false;
-		}
+
 		if(requestPingAborting) {
 			LogB.Information("Aborted from PingAbort");
 			return false;
@@ -290,7 +260,8 @@ public class Json
 		Person person = new Person(-1);
 
 		// Create a request using a URL that can receive a post.
-		WebRequest request = WebRequest.Create (serverUrl + "/getPersonByRFID");
+		if (! createWebRequest(requestType.GENERIC, "/getPersonByRFID"))
+			return person;
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
@@ -307,28 +278,16 @@ public class Json
 
 		// Writes the json object into the request dataStream
 		Stream dataStream;
-		try {
-			dataStream = request.GetRequestStream ();
-		} catch {
-			this.ResultMessage =
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
-				serverUrl);
+		if(! getWebRequestStream (request, out dataStream, "Cannot get person by RFID."))
 			return person;
-		}
 
 		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
 
 		dataStream.Close ();
 		
 		HttpWebResponse response;
-		try {
-			response = (HttpWebResponse) request.GetResponse();
-		} catch {
-			this.ResultMessage = 
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
-				serverUrl);
+		if(! getHttpWebResponse (request, out response, "Cannot get person by RFID."))
 			return person;
-		}
 
 		string responseFromServer;
 		using (var sr = new StreamReader(response.GetResponseStream()))
@@ -417,7 +376,8 @@ public class Json
 		connected = false;
 
 		// Create a request using a URL that can receive a post.
-		WebRequest request = WebRequest.Create (serverUrl + "/getTasks");
+		if (! createWebRequest(requestType.GENERIC, "/getTasks"))
+			return new List<Task>();
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
@@ -435,27 +395,15 @@ public class Json
 
 		// Writes the json object into the request dataStream
 		Stream dataStream;
-		try {
-			dataStream = request.GetRequestStream ();
-		} catch {
-			this.ResultMessage =
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
-				serverUrl);
+		if(! getWebRequestStream (request, out dataStream, "Cannot get tasks."))
 			return new List<Task>();
-		}
 
 		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
 		dataStream.Close ();
 
 		HttpWebResponse response;
-		try {
-			response = (HttpWebResponse) request.GetResponse();
-		} catch {
-			this.ResultMessage =
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
-				serverUrl);
+		if(! getHttpWebResponse (request, out response, "Cannot get tasks."))
 			return new List<Task>();
-		}
 
 		string responseFromServer;
 		using (var sr = new StreamReader(response.GetResponseStream()))
@@ -508,7 +456,8 @@ public class Json
 	{
 		LogB.Information("At UpdateTask");
 		// Create a request using a URL that can receive a post.
-		WebRequest request = WebRequest.Create (serverUrl + "/updateTask");
+		if (! createWebRequest(requestType.GENERIC, "/updateTask"))
+			return false;
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
@@ -527,14 +476,8 @@ public class Json
 
 		// Writes the json object into the request dataStream
 		Stream dataStream;
-		try {
-			dataStream = request.GetRequestStream ();
-		} catch {
-			this.ResultMessage =
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
-				serverUrl);
+		if(! getWebRequestStream (request, out dataStream, "Cannot update task"))
 			return false;
-		}
 
 		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
 
@@ -542,14 +485,8 @@ public class Json
 
 		// Get the response.
 		WebResponse response;
-		try {
-			response = request.GetResponse ();
-		} catch {
-			this.ResultMessage =
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
-				serverUrl);
+		if(! getWebResponse (request, out response, "Cannot update task"))
 			return false;
-		}
 
 		// Display the status (will be 202, CREATED)
 		Console.WriteLine (((HttpWebResponse)response).StatusDescription);
@@ -566,7 +503,8 @@ public class Json
 	public List<StationCount> GetOtherStationsWithPendingTasks(int personID, int stationID)
 	{
 		// Create a request using a URL that can receive a post.
-		WebRequest request = WebRequest.Create (serverUrl + "/getOtherStationsWithPendingTasks");
+		if (! createWebRequest(requestType.GENERIC, "/getOtherStationsWithPendingTasks"))
+			return new List<StationCount>();
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
@@ -584,27 +522,15 @@ public class Json
 
 		// Writes the json object into the request dataStream
 		Stream dataStream;
-		try {
-			dataStream = request.GetRequestStream ();
-		} catch {
-			this.ResultMessage =
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
-				serverUrl);
+		if(! getWebRequestStream (request, out dataStream, Catalog.GetString("Could not get tasks from other sessions.")))
 			return new List<StationCount>();
-		}
 
 		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
 		dataStream.Close ();
 
 		HttpWebResponse response;
-		try {
-			response = (HttpWebResponse) request.GetResponse();
-		} catch {
-			this.ResultMessage =
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
-				serverUrl);
+		if(! getHttpWebResponse (request, out response, Catalog.GetString("Could not get tasks from other sessions.")))
 			return new List<StationCount>();
-		}
 
 		string responseFromServer;
 		using (var sr = new StreamReader(response.GetResponseStream()))
@@ -638,7 +564,8 @@ public class Json
 		List<EncoderExercise> ex_list = new List<EncoderExercise>();
 
 		// Create a request using a URL that can receive a post.
-		WebRequest request = WebRequest.Create (serverUrl + "/getStationExercises");
+		if (! createWebRequest(requestType.GENERIC, "/getStationExercises"))
+			return ex_list;
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
@@ -655,28 +582,17 @@ public class Json
 
 		// Writes the json object into the request dataStream
 		Stream dataStream;
-		try {
-			dataStream = request.GetRequestStream ();
-		} catch {
-			this.ResultMessage =
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
-				serverUrl);
+		if(! getWebRequestStream (request, out dataStream, Catalog.GetString("Could not get station exercises.")))
 			return ex_list;
-		}
 
 		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
 
 		dataStream.Close ();
 
 		HttpWebResponse response;
-		try {
-			response = (HttpWebResponse) request.GetResponse();
-		} catch {
-			this.ResultMessage =
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
-				serverUrl);
+		if(! getHttpWebResponse (request, out response, Catalog.GetString("Could not get station exercises.")))
 			return ex_list;
-		}
+
 
 		string responseFromServer;
 		using (var sr = new StreamReader(response.GetResponseStream()))
@@ -800,8 +716,8 @@ public class Json
 	{
 		LogB.Information("calling upload sprint");
 		// Create a request using a URL that can receive a post.
-		WebRequest request = WebRequest.Create (serverUrl + "/uploadSprintData");
-
+		if (! createWebRequest(requestType.GENERIC, "/uploadSprintData"))
+			return false;
 
 		/*
 		LogB.Information("UploadSprintData doubles:");
@@ -850,14 +766,8 @@ public class Json
 
 		// Writes the json object into the request dataStream
 		Stream dataStream;
-		try {
-			dataStream = request.GetRequestStream ();
-		} catch {
-			this.ResultMessage =
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
-				serverUrl);
+		if(! getWebRequestStream (request, out dataStream, Catalog.GetString("Could not upload sprint data.")))
 			return false;
-		}
 
 		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
 
@@ -865,14 +775,9 @@ public class Json
 
 		// Get the response.
 		WebResponse response;
-		try {
-			response = request.GetResponse ();
-		} catch {
-			this.ResultMessage =
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
-				serverUrl);
+		if(! getWebResponse (request, out response, Catalog.GetString("Could not upload sprint data.")))
 			return false;
-		}
+
 
 		// Display the status (will be 202, CREATED)
 		Console.WriteLine (((HttpWebResponse)response).StatusDescription);
@@ -895,7 +800,8 @@ public class Json
 	public bool UploadEncoderData(UploadEncoderDataFullObject o)
 	{
 		// Create a request using a URL that can receive a post.
-		WebRequest request = WebRequest.Create (serverUrl + "/uploadEncoderData");
+		if (! createWebRequest(requestType.GENERIC, "/uploadEncoderData"))
+			return false;
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
@@ -936,14 +842,8 @@ public class Json
 
 		// Writes the json object into the request dataStream
 		Stream dataStream;
-		try {
-			dataStream = request.GetRequestStream ();
-		} catch {
-			this.ResultMessage =
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
-				serverUrl);
+		if(! getWebRequestStream (request, out dataStream, Catalog.GetString("Could not upload encoder data.")))
 			return false;
-		}
 
 		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
 
@@ -951,14 +851,8 @@ public class Json
 
 		// Get the response.
 		WebResponse response;
-		try {
-			response = request.GetResponse ();
-		} catch {
-			this.ResultMessage =
-				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
-				serverUrl);
+		if(! getWebResponse (request, out response, Catalog.GetString("Could not upload encoder data.")))
 			return false;
-		}
 
 		// Display the status (will be 202, CREATED)
 		Console.WriteLine (((HttpWebResponse)response).StatusDescription);
@@ -990,6 +884,54 @@ public class Json
 
 		return true;
 	}
+
+	bool getWebRequestStream(WebRequest req, out Stream dataStream, string errMessage)
+	{
+		dataStream = null;
+
+		try {
+			dataStream = req.GetRequestStream ();
+		} catch {
+			this.ResultMessage = errMessage + "\n" +
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+				serverUrl);
+			return false;
+		}
+
+		return true;
+	}
+
+	bool getWebResponse(WebRequest req, out WebResponse response, string errMessage)
+	{
+		response = null;
+
+		try {
+			response = req.GetResponse ();
+		} catch {
+			this.ResultMessage = errMessage + "\n" +
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+				serverUrl);
+			return false;
+		}
+
+		return true;
+	}
+	bool getHttpWebResponse(WebRequest req, out HttpWebResponse response, string errMessage)
+	{
+		response = null;
+
+		try {
+			response = (HttpWebResponse) req.GetResponse ();
+		} catch {
+			this.ResultMessage = errMessage + "\n" +
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
+				serverUrl);
+			return false;
+		}
+
+		return true;
+	}
+
 
 	public bool Connected {
 		get { return connected; }

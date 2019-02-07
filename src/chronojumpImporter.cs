@@ -279,7 +279,7 @@ class ChronojumpImporter
 			parameters.Insert (0, importer_script_path);
 		}
 
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (importer_executable, parameters);
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (importer_executable, parameters, true, true);
 
 		if (execute_result.exitCode != 0) {
 			// Python interpretar was executed but the Python file wasn't found or the script failed

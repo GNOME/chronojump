@@ -24,6 +24,8 @@ using System;
 using System.IO;
 using System.Text.RegularExpressions; //Regex
 
+//note the stdout and stderr redirection to false is to fix problems with windows
+
 public class WebcamFfmpeg : Webcam
 {
 	private UtilAll.OperatingSystems os;
@@ -70,7 +72,7 @@ public class WebcamFfmpeg : Webcam
 		List<string> parameters = createParametersPlayPreview();
 
 		process = new Process();
-		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, false, false);
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, false, false, false, false);
 		if(! success)
 		{
 			process = null;
@@ -89,7 +91,7 @@ public class WebcamFfmpeg : Webcam
 		List<string> parameters = createParametersPlayFile (filename);
 
 		process = new Process();
-		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, false, false);
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, false, false, false, false);
 		if(! success)
 		{
 			process = null;
@@ -111,7 +113,7 @@ public class WebcamFfmpeg : Webcam
 		process = new Process();
 		List<string> parameters = createParametersOnlyCapture();
 		//List<string> parameters = createParametersCaptureAndDelayedView();
-		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, true, false, true); //redirectInput
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, true, false, true, false, false); //redirectInput, not output, not stderr
 		if(! success)
 		{
 			streamWriter = null;
@@ -320,7 +322,7 @@ public static class WebcamFfmpegGetDevicesWindows
 
 		List<string> parameters = createParameters();
 
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);
 
 		LogB.Information("---- stdout: ----");
 		LogB.Information(execute_result.stdout);

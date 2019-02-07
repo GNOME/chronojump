@@ -6140,7 +6140,7 @@ LogB.Debug("mc finished 5");
 			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/debug.bat");
 
 		LogB.Information("Calling debug: " + executable);
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable);
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, true, true);
 		LogB.Information("Called debug.");
 	}
 

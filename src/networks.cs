@@ -59,7 +59,7 @@ public class Networks
 		List<string> parameters = new List<string>();
 
 		parameters.Insert (0, "-q");
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);
 
 		bool on = screenIsOn(execute_result.stdout);
 		LogB.Information("Screen is on?" + on.ToString());
@@ -74,7 +74,7 @@ public class Networks
 			parameters.Insert (4, "on");
 		}
 
-		execute_result = ExecuteProcess.run (executable, parameters);
+		execute_result = ExecuteProcess.run (executable, parameters, true, true);
 		LogB.Information("Result = " + execute_result.stdout);
 	}
 

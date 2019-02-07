@@ -71,7 +71,7 @@ public class WebcamMplayer : Webcam
 		parameters.Insert (i ++, "screenshot=" + Util.GetMplayerPhotoTempFileNamePre(videoDeviceToFilename()));
 
 		process = new Process();
-		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, true, false, true); //redirectInput
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, true, false, true, true, true); //redirectInput, redirectOutput, redirectError
 		if(! success)
 		{
 			streamWriter = null;
@@ -124,7 +124,7 @@ public class WebcamMplayer : Webcam
 
 
 		process = new Process();
-		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, true, false);
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, true, false, true, true);
 		if(! success)
 		{
 			process = null;
@@ -278,7 +278,7 @@ public class WebcamMplayer : Webcam
 		parameters.Insert (4, Util.GetMplayerPhotoTempFileNamePre(videoDeviceToFilename()) + "%04d.png");
 		parameters.Insert (5, Util.GetVideoTempFileName());
 
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);
 		return execute_result.success;
 	}
 

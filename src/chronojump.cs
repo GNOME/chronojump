@@ -583,7 +583,7 @@ public class ChronoJump
 	{
 		LogB.Information("Finding dialout:");
 		string executable = "groups";
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable);
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, true, true);
 		if(execute_result.success)
 		{
 			LogB.Information(execute_result.stdout);

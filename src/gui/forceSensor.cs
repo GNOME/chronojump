@@ -1765,7 +1765,7 @@ LogB.Information(" re R ");
 
 		LogB.Information("\nCalling slide ----->");
 
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters);
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);
 
 		LogB.Information("\n<------ Done calling slide");
 		return execute_result.success;

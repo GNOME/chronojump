@@ -56,7 +56,7 @@ class ExecuteProcess
 
 	public static Result runShowErrorIfNotStarted(string file_name, List<string> parameters)
 	{
-		Result result = run(file_name, parameters);
+		Result result = run(file_name, parameters, true, true);
 
 		if (result.exitCode == Result.ERROR_CANT_START) {
 			new DialogMessage (Constants.MessageTypes.WARNING, result.errorMessage);
@@ -65,18 +65,18 @@ class ExecuteProcess
 		return result;
 	}
 
-	public static Result run(string file_name)
+	public static Result run(string file_name, bool redirectOutput, bool redirectStderr)
 	{
-		return runDo (file_name, new List<string>());
+		return runDo (file_name, new List<string>(), redirectOutput, redirectStderr);
 	}
-	public static Result run(string file_name, List<string> parameters)
+	public static Result run(string file_name, List<string> parameters, bool redirectOutput, bool redirectStderr)
 	{
-		return runDo (file_name, parameters);
+		return runDo (file_name, parameters, redirectOutput, redirectStderr);
 	}
 
 	// Executes file_name without creating a Window and without using the shell
 	// with the parameters. Waits that it finishes it. Returns the stdout and stderr.
-	private static Result runDo(string file_name, List<string> parameters)
+	private static Result runDo(string file_name, List<string> parameters, bool redirectOutput, bool redirectStderr)
 	{
 		Process process = new Process();
 		ProcessStartInfo processStartInfo = new ProcessStartInfo();
@@ -97,8 +97,8 @@ class ExecuteProcess
 		processStartInfo.CreateNoWindow = true;
 		processStartInfo.UseShellExecute = false;
 		processStartInfo.RedirectStandardInput = false;
-		processStartInfo.RedirectStandardError = true;
-		processStartInfo.RedirectStandardOutput = true;
+		processStartInfo.RedirectStandardError = redirectOutput;
+		processStartInfo.RedirectStandardOutput = redirectStderr;
 
 		process.StartInfo = processStartInfo;
 
@@ -117,8 +117,12 @@ class ExecuteProcess
 			return new Result ("", "", Result.ERROR_CANT_START, errorMessage);
 		}
 
-		string stdout = process.StandardOutput.ReadToEnd().TrimEnd ('\n');
-		string stderr = process.StandardError.ReadToEnd ().TrimEnd ('\n');
+		string stdout = "";
+		string stderr = "";
+		if (redirectOutput)
+			stdout = process.StandardOutput.ReadToEnd().TrimEnd ('\n');
+		if (redirectStderr)
+			stderr = process.StandardError.ReadToEnd ().TrimEnd ('\n');
 
 		process.WaitForExit ();
 
@@ -137,7 +141,7 @@ class ExecuteProcess
 	 * returns false if there are problems calling it
 	 */
 	public static bool RunAtBackground(ref Process process, string file_name, List<string> parameters,
-			bool createNoWindow, bool useShellExecute, bool redirectInput)
+			bool createNoWindow, bool useShellExecute, bool redirectInput, bool redirectOutput, bool redirectStderr)
 	{
 		ProcessStartInfo processStartInfo = new ProcessStartInfo();
 
@@ -157,8 +161,8 @@ class ExecuteProcess
 		processStartInfo.CreateNoWindow = createNoWindow;
 		processStartInfo.UseShellExecute = useShellExecute;
 		processStartInfo.RedirectStandardInput = redirectInput; //note UseShellExecute has to be false to be able to redirect
-		processStartInfo.RedirectStandardError = true;
-		processStartInfo.RedirectStandardOutput = true;
+		processStartInfo.RedirectStandardError = redirectOutput;
+		processStartInfo.RedirectStandardOutput = redirectStderr;
 
 		process.StartInfo = processStartInfo;
 
@@ -386,7 +390,7 @@ class ExecuteProcess
 
 		//C) call process
 		//ExecuteProcess.run (executable, parameters);
-		Result execute_result = run (executable, parameters);
+		Result execute_result = run (executable, parameters, true, true);
 		//LogB.Information("Result = " + execute_result.stdout);
 
 		LogB.Information("\n<------ Done calling R file.");

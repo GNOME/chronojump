@@ -6133,6 +6133,17 @@ LogB.Debug("mc finished 5");
 		Webcam.Result result = webcam.PlayPreview ();
 	}
 
+	private void on_button_video_debug_clicked (object o, EventArgs args)
+	{
+		string executable = "debug";
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.WINDOWS)
+			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/debug.bat");
+
+		LogB.Information("Calling debug: " + executable);
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable);
+		LogB.Information("Called debug.");
+	}
+
 	//Not used on encoder	
 	private void playVideo (string fileName)
 	{

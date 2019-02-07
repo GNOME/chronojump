@@ -2608,7 +2608,7 @@ public partial class ChronoJumpWindow
 						new DialogMessage(Constants.MessageTypes.WARNING,
 								string.Format(
 									Catalog.GetString("Sorry, parameter: 'speed at 1RM' on exercise: '{0}' cannot be 0 for this analysis."),
-									eSQL.exerciseName) + "\n" +
+									eSQL.exerciseName) + "\n\n" +
 								Catalog.GetString("Please edit exercise parameters on capture tab."));
 						return;
 					}

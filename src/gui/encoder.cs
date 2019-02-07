@@ -2562,11 +2562,12 @@ public partial class ChronoJumpWindow
 			}
 
 			//1RM can be individual current set or individual current session
-			//cannot do 1RM with different exercises (individual current session)
 			if(encoderSelectedAnalysis == "1RM")
 			{
 				string nameTemp = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
 						encoderAnalyze1RMTranslation);
+
+				//cannot do 1RM with different exercises (individual current session)
 				if(
 						nameTemp == "1RM Any exercise" ||
 						nameTemp == Catalog.GetString("1RM Any exercise") ||
@@ -2592,6 +2593,23 @@ public partial class ChronoJumpWindow
 						new DialogMessage(Constants.MessageTypes.WARNING,
 								Catalog.GetString("Sorry, cannot calculate 1RM of different exercises.") + "\n" +
 								Catalog.GetString("Please select repetitions of only one exercise type."));
+						return;
+					}
+				}
+
+				//cannot do 1RM Any exercise without the "speed at 1RM" exercise parameter
+				if(nameTemp == "1RM Any exercise" || nameTemp == Catalog.GetString("1RM Any exercise"))
+				{
+					EncoderSQL eSQL = (EncoderSQL) data[0];
+					EncoderExercise exTemp = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
+						false , eSQL.exerciseID, false)[0];
+
+					if(exTemp.speed1RM == 0) {
+						new DialogMessage(Constants.MessageTypes.WARNING,
+								string.Format(
+									Catalog.GetString("Sorry, parameter: 'speed at 1RM' on exercise: '{0}' cannot be 0 for this analysis."),
+									eSQL.exerciseName) + "\n" +
+								Catalog.GetString("Please edit exercise parameters on capture tab."));
 						return;
 					}
 				}
@@ -2666,7 +2684,7 @@ public partial class ChronoJumpWindow
 
 			return;
 		}
-	
+
 		button_encoder_analyze.Visible = false;
 		hbox_encoder_analyze_progress.Visible = true;
 		button_encoder_analyze_cancel.Sensitive = true;

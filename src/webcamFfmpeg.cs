@@ -69,11 +69,8 @@ public class WebcamFfmpeg : Webcam
 
 		List<string> parameters = createParametersPlayPreview();
 
-		//process = new Process();
-		//bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, false, false);
-		ExecuteProcess.Result r = ExecuteProcess.run (executable, parameters);
-		return new Result(r.success, r.stdout, r.stderr);
-		/*
+		process = new Process();
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, false, false);
 		if(! success)
 		{
 			process = null;
@@ -82,7 +79,6 @@ public class WebcamFfmpeg : Webcam
 
 		Running = true;
 		return new Result (true, "");
-		*/
 	}
 
 	public override Result PlayFile (string filename)
@@ -92,11 +88,8 @@ public class WebcamFfmpeg : Webcam
 
 		List<string> parameters = createParametersPlayFile (filename);
 
-		//process = new Process();
-		//bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, false, false);
-		ExecuteProcess.Result r = ExecuteProcess.run (executable, parameters);
-		return new Result(r.success, r.stdout, r.stderr);
-		/*
+		process = new Process();
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, false, false, false);
 		if(! success)
 		{
 			process = null;
@@ -105,7 +98,6 @@ public class WebcamFfmpeg : Webcam
 
 		Running = true;
 		return new Result (true, "");
-		*/
 	}
 
 	public override bool Snapshot()

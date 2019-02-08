@@ -151,6 +151,4 @@ void serialEvent()
     Serial.println("mode = " + inputString);
     mode = inputString.toInt();
   }
-
 }
-

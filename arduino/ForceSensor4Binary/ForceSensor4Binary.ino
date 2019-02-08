@@ -17,6 +17,7 @@
 
 #include <Wire.h>
 #include <MCP3304.h>
+#include <EEPROM.h>
 
 MCP3304 loadCell(10);
 
@@ -39,10 +40,11 @@ boolean capturing = false;
 void setup(void)
 {
 
-  Serial.begin(115200);
+  Serial.begin(1000000);
+  Wire.setClock(1000000);
 
   tare();
-  // Serial.println("taring complete");
+  Serial.println("taring complete");
 }
 
 void loop(void)
@@ -59,12 +61,22 @@ void loop(void)
 
     currentTime = micros();
 
-    //Reading each of the 4 sensors
-    for (int sensor = 0; sensor <= 3; sensor++)
-    {
-      offsettedData[sensor] = readOffsetedData(sensor);
-      //      total[sensor] += offsettedData[sensor];
+    int nReadings = 10;
+    int nsensors = 1;
+    for (int i = 1; i <= nReadings; i++)
+   {
+      //Reading each of the 4 sensors
+      for (int sensor = 0; sensor <= nsensors -1; sensor++)
+      {
+        offsettedData[sensor] = readOffsetedData(sensor);
+        total[sensor] += offsettedData[sensor];
+      }
     }
+      for (int sensor = 0; sensor <= nsensors -1; sensor++)
+      {
+        offsettedData[sensor] = total[sensor]/nReadings;
+      }
+
 
     //Managing the timer overflow
     if (currentTime > lastTime)      //No overflow
@@ -100,7 +112,7 @@ void tare(void)
   {
     for (int sensor = 0; sensor <= 3; sensor++)
     {
-      total[sensor] += loadCell.readAdc(sensor,1);
+      total[sensor] += loadCell.readAdc(sensor, 1);
     }
   }
 
@@ -113,7 +125,7 @@ void tare(void)
 
 int readOffsetedData(int sensor)
 {
-  return (loadCell.readAdc(sensor,1) - offset[sensor]);
+  return (loadCell.readAdc(sensor, 1) - offset[sensor]);
 }
 
 void calibrate(float load)

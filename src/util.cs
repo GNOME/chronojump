@@ -1141,6 +1141,9 @@ public class Util
 				File.Move(origin, destination);
 			} catch {
 			*/
+				//check size before copyiing. To know if file has been copied while is not fully written
+				LogB.Information("sizeOrigin: " + (new System.IO.FileInfo(origin).Length).ToString());
+
 				File.Copy(origin, destination, true); //can be overwritten
 			//}
 			return true;

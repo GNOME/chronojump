@@ -91,7 +91,7 @@ public class WebcamFfmpeg : Webcam
 		List<string> parameters = createParametersPlayFile (filename);
 
 		process = new Process();
-		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, truee, false, false, false, false);
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, true, false, false, false, false);
 		if(! success)
 		{
 			process = null;
@@ -288,6 +288,12 @@ public class WebcamFfmpeg : Webcam
 		 * above process.Close() will end the process
 		 * without using this file copied from /tmp maybe is not finished, so a bad ended file is copied to .local/share/Chronojump/multimedia/video
 		*/
+
+		do {
+			LogB.Information("waiting 100 ms to tmp capture file being unlocked");
+			System.Threading.Thread.Sleep(100);
+		} while( ExecuteProcess.IsFileLocked(new System.IO.FileInfo(Util.GetVideoTempFileName())) );
+
 		do {
 			LogB.Information("waiting 100 ms to end Ffmpeg");
 			System.Threading.Thread.Sleep(100);

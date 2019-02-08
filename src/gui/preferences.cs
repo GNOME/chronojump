@@ -144,6 +144,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Box hbox_combo_camera;
 	[Widget] Gtk.ComboBox combo_camera;
 	[Widget] Gtk.Label label_no_cameras;
+	[Widget] Gtk.Label label_webcam_windows;
 
 	//language tab
 	[Widget] Gtk.Box hbox_combo_language;
@@ -266,6 +267,9 @@ public class PreferencesWindow
 			PreferencesWindowBox.checkbutton_volume.Active = false; 
 
 		PreferencesWindowBox.label_no_cameras.Visible = false;
+
+		if(UtilAll.IsWindows())
+			PreferencesWindowBox.label_webcam_windows.Visible = true;
 
 		if(UtilAll.IsWindows())
 		{

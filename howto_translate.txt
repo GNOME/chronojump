@@ -36,7 +36,7 @@ Changed also the mail of es translator, and: "Project-Id-Version: es\n"
 for ** UPDATE ** , i do:
 
 1.- check for missing files
-chronojump/po $ intltool-update -m
+chronojump/po $ ./intltool-update -m
 
 2.- add missing files to POTFILES.in
 if all are needed:

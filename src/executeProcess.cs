@@ -327,6 +327,7 @@ class ExecuteProcess
 
 	public static bool IsFileLocked(FileInfo finfo)
 	{
+		LogB.Information("Checking file lock at IsFileLocked ...");
 		//https://stackoverflow.com/a/937558
 		FileStream stream = null;
 
@@ -338,6 +339,7 @@ class ExecuteProcess
 			//still being written to
 			//or being processed by another thread
 			//or does not exist (has already been processed)
+			LogB.Information("Catched! at IsFileLocked: is locked!");
 			return true;
 		}
 		finally {
@@ -346,6 +348,7 @@ class ExecuteProcess
 		}
 
 		//file is not locked
+		LogB.Information("is NOT locked!");
 		return false;
 	}
 

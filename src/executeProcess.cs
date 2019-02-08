@@ -325,6 +325,30 @@ class ExecuteProcess
 	}
 	*/
 
+	public static bool IsFileLocked(FileInfo finfo)
+	{
+		//https://stackoverflow.com/a/937558
+		FileStream stream = null;
+
+		try {
+			stream = finfo.Open(FileMode.Open, FileAccess.Read, FileShare.None);
+		}
+		catch (IOException) {
+			//the file is unavailable because it is:
+			//still being written to
+			//or being processed by another thread
+			//or does not exist (has already been processed)
+			return true;
+		}
+		finally {
+			if (stream != null)
+				stream.Close();
+		}
+
+		//file is not locked
+		return false;
+	}
+
 	/*
 	 * The process.Responding only works on GUI processes
 	 * So, here we send a "ping" expecting to see the result in short time

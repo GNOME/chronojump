@@ -315,8 +315,16 @@ public class EditEventWindow
 		{
 			LogB.Information("Exists and clicked " + videoFileName);
 
-			Webcam webcam = new WebcamMplayer ();
-			Webcam.Result result = webcam.PlayFile(videoFileName);
+			/*
+			 * using mplayer
+			 *
+			 * Webcam webcam = new WebcamMplayer ();
+			 * Webcam.Result result = webcam.PlayFile(videoFileName);
+			 */
+
+			//using ffmpeg
+			Webcam webcam = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "");
+			Webcam.Result result = webcam.PlayFile (videoFileName);
 		}
 	}
 

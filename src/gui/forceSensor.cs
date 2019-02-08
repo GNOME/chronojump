@@ -190,7 +190,7 @@ public partial class ChronoJumpWindow
 		forceSensorOtherMessage = "Connecting ...";
 
 		portFS = new SerialPort(forceSensorPortName, 115200); //forceSensor
-		//portFS = new SerialPort(forceSensorPortName, 250000); //forceSensor
+		//portFS = new SerialPort(forceSensorPortName, 1000000); //forceSensor
 		LogB.Information(" FS connect 4: opening port...");
 
 		try {

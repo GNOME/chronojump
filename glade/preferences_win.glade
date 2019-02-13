@@ -3411,7 +3411,7 @@ Other</property>
                     <child>
                       <widget class="GtkLabel" id="label_webcam_windows">
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">On Windows at lest Windows 7 is required.</property>
+                        <property name="label" translatable="yes">On Windows at least Windows 7 is required.</property>
                       </widget>
                       <packing>
                         <property name="expand">True</property>

@@ -391,6 +391,7 @@ public partial class ChronoJumpWindow
 			while(! File.Exists(UtilEncoder.GetSprintEncoderImage()) && DateTime.Now.Subtract(runEncoderGraphStarted).TotalSeconds < 5)
 				Thread.Sleep(500);
 
+			captureEndedMessage = "Data on raceAnalyzer folder";
 			if(File.Exists(UtilEncoder.GetSprintEncoderImage()))
 			{
 				LogB.Information("File exists on png, trying to copy");
@@ -400,14 +401,14 @@ public partial class ChronoJumpWindow
 							lastRunEncoderFile + 	//nameDate
 							".png",
 							true); //can be overwritten
-					captureEndedMessage = " (Everything Ok. png on runEncoder folder)";
+					captureEndedMessage += " (png too)";
 				} catch {
 					LogB.Information("Couldn't copy the file");
-					captureEndedMessage = " (Crated png but only on /tmp, could not copy file)";
+					captureEndedMessage += " (Created png but only on tmp folder, could not copy file)";
 				}
 			} else {
 				LogB.Information("File does not exist on png (after 5 seconds)");
-				captureEndedMessage = "(png not created, problem doing the graph)";
+				captureEndedMessage += " (png not created, problem doing the graph)";
 			}
 
 			capturingRunEncoder = arduinoCaptureStatus.COPIED_TO_TMP;

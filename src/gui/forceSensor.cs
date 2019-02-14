@@ -1452,8 +1452,6 @@ LogB.Information(" re R ");
 	private void showHideForceSensorControls(bool modeForceSensor)
 	{
 		hbox_capture_phases_time_record.Visible = ! modeForceSensor;
-		button_image_test_zoom.Visible = ! modeForceSensor;
-
 		menuitem_force_sensor_open_folder.Visible = modeForceSensor;
 		menuitem_force_sensor_check_version.Visible = modeForceSensor;
 	}

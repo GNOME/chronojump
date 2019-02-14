@@ -87,19 +87,27 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
         print(profiles)
         
         if(min(v0) <= 0 || min(f0) <= 0){
-                plot(0,0,type="n",axes=F,xlab="",ylab="")
-                text(x=0,y=0,translateToPrint("Some of the F-V profiles is wrong.\nProbably the F0 or V0 is negative"),cex=1.5)
-                dev.off()
-                quit()
-        }
+		plot(0,0,type="n",axes=F,xlab="",ylab="")
+		text(x=0,y=0,translateToPrint("Some of the F-V profiles is wrong.\nProbably the F0 or V0 is negative (A)"),cex=1.5)
+		dev.off()
+		quit()
+	}
         pmax = f0*v0/4
         
         flimits = c(min(f0) - (max(f0) - min(f0))*0.1, max(f0) + (max(f0) - min(f0))*0.1)
         vlimits = c(min(v0) - (max(v0) - min(v0))*0.1, max(v0) + (max(v0) - min(v0))*0.1)
         #flimits = c(min(f0)*0.9, max(f0)*1.1)
-        #vlimits = c(min(v0)*0.9, max(v0)*1.1)
-        
-        
+	#vlimits = c(min(v0)*0.9, max(v0)*1.1)
+
+	if(is.nan(flimits[2]) || is.infinite(flimits[2]) || is.nan(vlimits[2]) || is.infinite(vlimits[2]))
+	{
+		plot(0,0,type="n",axes=F,xlab="",ylab="")
+		text(x=0,y=0,translateToPrint("Some of the F-V profiles is wrong.\nProbably the F0 or V0 is negative (B)"),cex=1.5)
+		dev.off()
+		quit()
+	}
+
+
         #To plot the isopotentials we need to cerate the surface of the P(f,v) function
         #Creating equidistant values for force and velocity axes
         #f = seq(flimits[1], flimits[2], by = (flimits[2] - flimits[1]) / 100)

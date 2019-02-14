@@ -5773,7 +5773,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkLabel" id="label368">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">race encoder stuff</property>
+                                                            <property name="label">race encoder stuff EXPERIMENTAL</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -8597,7 +8597,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkLabel" id="label370">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">race encoder stuff</property>
+                                                            <property name="label">race encoder stuff EXPERIMENTAL</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -13187,7 +13187,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkLabel" id="label372">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">race encoder stuff</property>
+                                                            <property name="label">race encoder stuff EXPERIMENTAL</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>

@@ -3824,10 +3824,10 @@ doProcess <- function(options)
 				if(op$SeparateSessionInDays)
 				{
 					chunks = unlist(strsplit(curves[,7], " ")) #separate "2018-09-06 12:12:4" in two chunks
-					chunks = chunks[seq(1, length(chunks), by = 2)]
+					chunks = chunks[seq(1, length(chunks), by = 2)] #this takes only odd elements
 					print("chunks: ")
 					print(chunks)
-					mySeriesNames = chunks
+					mySeriesNames = chunks #mySeriesNames will be: "2018-09-06" (so different series will have the same series number and analyzed together)
 				}
 
                                 

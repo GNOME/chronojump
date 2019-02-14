@@ -162,7 +162,10 @@ public class EncoderGraphROptions
 	private bool cutByTriggers;
 	private string triggerList;
 	public bool separateSessionInDays;
-	
+	public AnalysisModes analysisMode; //the four analysisModes
+
+	public enum AnalysisModes { CAPTURE, INDIVIDUAL_CURRENT_SET, INDIVIDUAL_CURRENT_SESSION, INDIVIDUAL_ALL_SESSIONS, GROUPAL_CURRENT_SESSION }
+
 	public EncoderGraphROptions(
 			string inputData, string outputGraph, string outputData1, 
 			string encoderRPath, string encoderTempPath,
@@ -170,7 +173,7 @@ public class EncoderGraphROptions
 			string title, string operatingSystem,
 			string englishWords, string translatedWords,
 			bool debug, bool crossValidate, bool cutByTriggers, string triggerList,
-			bool separateSessionInDays)
+			bool separateSessionInDays, AnalysisModes analysisMode)
 	{
 		this.inputData = inputData;
 		this.outputGraph = outputGraph;
@@ -187,6 +190,7 @@ public class EncoderGraphROptions
 		this.cutByTriggers = cutByTriggers;
 		this.triggerList = triggerList;
 		this.separateSessionInDays = separateSessionInDays;
+		this.analysisMode = analysisMode;
 
 		//ensure triggerList is not null or blank
 		if(triggerList == null || triggerList == "")
@@ -209,7 +213,8 @@ public class EncoderGraphROptions
 			"#crossValidate\n" +	Util.BoolToRBool(crossValidate) + "\n" +
 			"#cutByTriggers\n" +	Util.BoolToRBool(cutByTriggers) + "\n" +
 			"#triggerList\n" +	triggerList + "\n" +
-			"#separateSessionInDays\n" +	Util.BoolToRBool(separateSessionInDays) + "\n";
+			"#separateSessionInDays\n" +	Util.BoolToRBool(separateSessionInDays) + "\n" +
+			"#analysisMode\n" + 	analysisMode.ToString() + "\n";
 	}
 	
 

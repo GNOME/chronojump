@@ -1437,7 +1437,8 @@ public partial class ChronoJumpWindow
 				false,	//do not use neuromuscularProfile script
 				preferences.RGraphsTranslate,
 				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
-				triggerList
+				triggerList,
+				getAnalysisMode()
 				); 
 		bool result = encoderRProcAnalyze.StartOrContinue(es);
 				
@@ -1958,12 +1959,29 @@ public partial class ChronoJumpWindow
 				false, 			//do not use neuromuscularProfile script
 				preferences.RGraphsTranslate,
 				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
-				new TriggerList()
+				new TriggerList(),
+				getAnalysisMode()
 				);
 		encoderRProcAnalyze.StartOrContinue(encoderStruct);
 
 		//encoder_pulsebar_capture.Text = string.Format(Catalog.GetString(
 		//			"Exported to {0}."), UtilEncoder.GetEncoderExportTempFileName());
+	}
+
+	private EncoderGraphROptions.AnalysisModes getAnalysisMode()
+	{
+		EncoderGraphROptions.AnalysisModes am = EncoderGraphROptions.AnalysisModes.INDIVIDUAL_CURRENT_SET; //default
+
+		if(radio_encoder_analyze_individual_current_set.Active)
+			am = EncoderGraphROptions.AnalysisModes.INDIVIDUAL_CURRENT_SET;
+		else if(radio_encoder_analyze_individual_current_session.Active)
+			am = EncoderGraphROptions.AnalysisModes.INDIVIDUAL_CURRENT_SESSION;
+		else if(radio_encoder_analyze_individual_all_sessions.Active)
+			am = EncoderGraphROptions.AnalysisModes.INDIVIDUAL_ALL_SESSIONS;
+		else if(radio_encoder_analyze_groupal_current_session.Active)
+			am = EncoderGraphROptions.AnalysisModes.GROUPAL_CURRENT_SESSION;
+
+		return am;
 	}
 						
 	void on_button_encoder_save_AB_file_selected (string selectedFileName)
@@ -3168,7 +3186,8 @@ public partial class ChronoJumpWindow
 				encoderSelectedAnalysis == "neuromuscularProfile",
 				preferences.RGraphsTranslate,
 				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
-				triggerList
+				triggerList,
+				getAnalysisMode()
 				);
 
 		encoderRProcAnalyze.StartOrContinue(encoderStruct);

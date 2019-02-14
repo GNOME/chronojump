@@ -259,8 +259,8 @@ public class EncoderRProcCapture : EncoderRProc
 				false,	//crossValidate (unactive on capture at the moment)
 				(CutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
 				printTriggers(),
-				false 	//separateSessionInDays (false at capture)
-				).ToString();
+				false, 	//separateSessionInDays (false at capture)
+				EncoderGraphROptions.AnalysisModes.CAPTURE).ToString();
 
 		TextWriter writer = File.CreateText(optionsFile);
 		writer.Write(scriptOptions);
@@ -288,6 +288,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 	private bool translate;
 	private bool cutByTriggers;
 	private TriggerList triggerList;
+	private EncoderGraphROptions.AnalysisModes analysisMode;
 
 	/*
 	 * to avoid problems on some windows. R exports csv to Util.GetEncoderExportTempFileName()
@@ -301,13 +302,14 @@ public class EncoderRProcAnalyze : EncoderRProc
 	}
 
 	public void SendData(string title, bool neuromuscularProfileDo, bool translate,
-			bool cutByTriggers, TriggerList triggerList)
+			bool cutByTriggers, TriggerList triggerList, EncoderGraphROptions.AnalysisModes analysisMode)
 	{
 		this.title = title;
 		this.neuromuscularProfileDo = neuromuscularProfileDo;
 		this.translate = translate;
 		this.cutByTriggers = cutByTriggers;
 		this.triggerList = triggerList;
+		this.analysisMode = analysisMode;
 		
 		CancelRScript = false;
 	}
@@ -517,7 +519,8 @@ public class EncoderRProcAnalyze : EncoderRProc
 				CrossValidate,
 				cutByTriggers,
 				printTriggers(),
-				SeparateSessionInDays
+				SeparateSessionInDays,
+				analysisMode
 				).ToString();
 
 		TextWriter writer = File.CreateText(optionsFile);

@@ -100,15 +100,8 @@ public partial class ChronoJumpWindow
 
 		LogB.Information(" RE connect 6: get version");
 
-		/*
 		string version = runEncoderCheckVersionDo();
 		LogB.Information("Version found: [" + version + "]");
-
-		if(version == "0.1")
-		{
-			LogB.Information(" RE connect 6b, version 0.1: adjusting parameters...");
-		}
-		*/
 
 		portREOpened = true;
 		event_execute_label_message.Text = "Connected!";
@@ -121,6 +114,33 @@ public partial class ChronoJumpWindow
 		portREOpened = false;
 		event_execute_label_message.Text = "Disconnected!";
 	}
+
+	private string runEncoderCheckVersionDo()
+	{
+		if(! runEncoderSendCommand("get_version:", "Checking version ...", "Catched checking version"))
+			return "";
+
+		string str = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			try {
+				str = portRE.ReadLine().Trim();
+			} catch {
+				//forceSensorOtherMessage = "Disconnected";
+				LogB.Information("catched! checking version");
+				return "";
+			}
+			LogB.Information("init string: " + str);
+		}
+		while(! str.Contains("Race_Analyzer-"));
+
+		//forceSensorOtherMessageShowSeconds = false;
+		//forceSensorOtherMessage = str;
+
+		//return the version without "Race_Analyzer-"
+		return(str.Remove(0,14));
+	}
+
 
 	//Attention: no GTK here!!
 	private bool runEncoderSendCommand(string command, string displayMessage, string errorMessage)

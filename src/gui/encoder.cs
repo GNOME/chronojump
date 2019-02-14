@@ -3318,7 +3318,6 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_analyze_cross.Active = true;
 		hbox_encoder_analyze_intersession.Visible = true;
 		
-		check_encoder_separate_session_in_days.Visible = true;
 		set_check_encoder_separate_session_in_days();
 
 		//this analysis only when not comparing
@@ -3425,9 +3424,17 @@ public partial class ChronoJumpWindow
 
 	private void set_check_encoder_separate_session_in_days()
 	{
-		check_encoder_separate_session_in_days.Sensitive = ! check_encoder_intersession_x_is_date.Active;
-		if(check_encoder_intersession_x_is_date.Active)
+		bool neededConditions =
+			! check_encoder_intersession_x_is_date.Active &&
+			encoderSelectedAnalysis == "cross" &&
+			UtilGtk.ComboGetActive(combo_encoder_analyze_cross) == "Pmax(F0,V0)";
+
+		check_encoder_separate_session_in_days.Sensitive = neededConditions;
+
+		if(! neededConditions)
 			check_encoder_separate_session_in_days.Active = false;
+
+		check_encoder_separate_session_in_days.Visible = neededConditions;
 	}
 
 
@@ -4170,6 +4177,8 @@ public partial class ChronoJumpWindow
 			check_encoder_analyze_eccon_together.Sensitive = true;
 			check_encoder_analyze_mean_or_max.Sensitive = true;
 		}
+
+		set_check_encoder_separate_session_in_days();
 
 		button_encoder_analyze_sensitiveness();
 	}

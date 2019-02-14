@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-08 17:50+0100\n"
-"PO-Revision-Date: 2019-02-08 18:22+0100\n"
+"PO-Revision-Date: 2019-02-08 18:42+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: \n"
 "Language: ca\n"
@@ -1651,7 +1651,7 @@ msgstr "Moment d'inèrcia"
 #: ../src/gui/encoder.cs:3909 ../src/gui/encoder.cs:5012
 #: ../src/gui/encoder.cs:5016 ../src/gui/encoderTreeviews.cs:511
 msgid "Inertia M."
-msgstr "Moment d'inèrcia"
+msgstr "M. d'inèrcia"
 
 #: ../glade/app1.glade.h:360
 msgid "Kg*cm^2"

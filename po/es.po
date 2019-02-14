@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-08 17:50+0100\n"
-"PO-Revision-Date: 2019-02-08 18:02+0100\n"
+"PO-Revision-Date: 2019-02-08 18:42+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -78,8 +78,8 @@ msgid ""
 "Useful to export to a Spreadsheet like MS Excel, LibreOffice or Google "
 "Spreadsheets"
 msgstr ""
-"Útil para exportar a una hoja de cálculo como MS Excel o LibreOffice u hojas "
-"de cálculo de Google"
+"Útil para exportar a una hoja de cálculo como MS Excel o LibreOffice u hojas de "
+"cálculo de Google"
 
 #: ../glade/app1.glade.h:14
 msgid "Export session to _XML"
@@ -115,9 +115,8 @@ msgstr "Menú principal"
 msgid "Jumps"
 msgstr "Saltos"
 
-#: ../glade/app1.glade.h:21 ../glade/report_window.glade.h:4
-#: ../src/constants.cs:392 ../src/gui/convertWeight.cs:61
-#: ../src/gui/convertWeight.cs:108
+#: ../glade/app1.glade.h:21 ../glade/report_window.glade.h:4 ../src/constants.cs:392
+#: ../src/gui/convertWeight.cs:61 ../src/gui/convertWeight.cs:108
 msgid "Simple"
 msgstr "Simple"
 
@@ -156,8 +155,7 @@ msgstr "Inercial"
 msgid "Force sensor"
 msgstr "Sensor de fuerza"
 
-#: ../glade/app1.glade.h:29 ../src/gui/chronojump.cs:2312
-#: ../src/gui/session.cs:852
+#: ../glade/app1.glade.h:29 ../src/gui/chronojump.cs:2312 ../src/gui/session.cs:852
 msgid "Reaction time"
 msgstr "Tiempo de reacción"
 
@@ -216,8 +214,7 @@ msgid "Quit"
 msgstr "Salir"
 
 #: ../glade/app1.glade.h:43 ../glade/execute_auto.glade.h:4
-#: ../glade/person_select_window.glade.h:2
-#: ../glade/repetitive_conditions.glade.h:50
+#: ../glade/person_select_window.glade.h:2 ../glade/repetitive_conditions.glade.h:50
 msgid "page 1"
 msgstr "página 1"
 
@@ -248,8 +245,8 @@ msgstr "La resistencia es la inercia"
 #: ../glade/app1.glade.h:50 ../glade/person_select_window.glade.h:12
 #: ../src/exportSession.cs:75 ../src/gui/encoderConfiguration.cs:657
 #: ../src/gui/encoderConfiguration.cs:714 ../src/gui/encoder.cs:2039
-#: ../src/gui/person.cs:1012 ../src/gui/person.cs:2200
-#: ../src/gui/preferences.cs:841 ../src/gui/preferences.cs:914
+#: ../src/gui/person.cs:1012 ../src/gui/person.cs:2200 ../src/gui/preferences.cs:841
+#: ../src/gui/preferences.cs:914
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -387,12 +384,11 @@ msgid "Pulses"
 msgstr "Pulsos"
 
 #. column where the uniqueID of event will be (and will be hidden)
-#: ../glade/app1.glade.h:81 ../glade/edit_event.glade.h:6
-#: ../src/gui/encoder.cs:1095 ../src/gui/encoder.cs:4694
-#: ../src/gui/encoderOverview.cs:110 ../src/gui/encoderOverview.cs:118
-#: ../src/gui/executeAuto.cs:501 ../src/stats/runIntervallic.cs:64
-#: ../src/treeViewMultiChronopic.cs:30 ../src/treeViewPulse.cs:46
-#: ../src/treeViewReactionTime.cs:30
+#: ../glade/app1.glade.h:81 ../glade/edit_event.glade.h:6 ../src/gui/encoder.cs:1095
+#: ../src/gui/encoder.cs:4694 ../src/gui/encoderOverview.cs:110
+#: ../src/gui/encoderOverview.cs:118 ../src/gui/executeAuto.cs:501
+#: ../src/stats/runIntervallic.cs:64 ../src/treeViewMultiChronopic.cs:30
+#: ../src/treeViewPulse.cs:46 ../src/treeViewReactionTime.cs:30
 msgid "Person"
 msgstr "Atleta"
 
@@ -633,8 +629,8 @@ msgstr "Caída"
 msgid "Both"
 msgstr "Ambas"
 
-#: ../glade/app1.glade.h:138 ../glade/edit_event.glade.h:8
-#: ../src/gui/jump.cs:1761 ../src/gui/run.cs:1485
+#: ../glade/app1.glade.h:138 ../glade/edit_event.glade.h:8 ../src/gui/jump.cs:1761
+#: ../src/gui/run.cs:1485
 msgid "Limited by"
 msgstr "Limitado por"
 
@@ -644,8 +640,7 @@ msgstr "Permitir terminar después del tiempo"
 
 #: ../glade/app1.glade.h:140
 msgid ""
-"If a multiple jump is limited by time, and time has running out, allow finish "
-"jump"
+"If a multiple jump is limited by time, and time has running out, allow finish jump"
 msgstr ""
 "Si un salto múltiple está limitado por tiempo, y el tiempo se ha agotado, "
 "permitir terminar el salto"
@@ -706,10 +701,9 @@ msgstr "fase de pulso"
 #: ../glade/app1.glade.h:153 ../glade/edit_event.glade.h:19
 #: ../glade/repetitive_conditions.glade.h:38 ../src/gui/jump.cs:627
 #: ../src/gui/jump.cs:722 ../src/gui/jump.cs:746 ../src/gui/jump.cs:880
-#: ../src/gui/jump.cs:1223 ../src/gui/old/queryServer.cs:785
-#: ../src/gui/pulse.cs:248 ../src/gui/pulse.cs:319 ../src/gui/pulse.cs:425
-#: ../src/gui/run.cs:617 ../src/gui/run.cs:698 ../src/gui/run.cs:797
-#: ../src/gui/run.cs:1050
+#: ../src/gui/jump.cs:1223 ../src/gui/old/queryServer.cs:785 ../src/gui/pulse.cs:248
+#: ../src/gui/pulse.cs:319 ../src/gui/pulse.cs:425 ../src/gui/run.cs:617
+#: ../src/gui/run.cs:698 ../src/gui/run.cs:797 ../src/gui/run.cs:1050
 msgid "seconds"
 msgstr "segundos"
 
@@ -764,8 +758,7 @@ msgstr "O pulse 'spacio'"
 
 #: ../glade/app1.glade.h:166
 msgid "Finish test (save test until this moment).  Or press 'Enter'."
-msgstr ""
-"Finalizar prueba (guardar las pruebas hasta este momento). O pulse Intro."
+msgstr "Finalizar prueba (guardar las pruebas hasta este momento). O pulse Intro."
 
 #: ../glade/app1.glade.h:167
 msgid "Cancel test. Or press 'escape'."
@@ -777,8 +770,8 @@ msgstr "Cancelar prueba. O pulse Esc."
 msgid "Phases"
 msgstr "Fases"
 
-#: ../glade/app1.glade.h:169 ../glade/edit_event.glade.h:11
-#: ../src/encoder.cs:2076 ../src/exportSession.cs:428 ../src/exportSession.cs:568
+#: ../glade/app1.glade.h:169 ../glade/edit_event.glade.h:11 ../src/encoder.cs:2076
+#: ../src/exportSession.cs:428 ../src/exportSession.cs:568
 #: ../src/exportSession.cs:720 ../src/exportSession.cs:781
 #: ../src/exportSession.cs:866 ../src/forceSensor.cs:880
 #: ../src/gui/old/queryServer.cs:116 ../src/gui/old/queryServer.cs:784
@@ -864,8 +857,8 @@ msgstr "Actualizar"
 
 #: ../glade/app1.glade.h:187 ../glade/repetitive_conditions.glade.h:9
 #: ../src/exportSession.cs:320 ../src/exportSession.cs:495
-#: ../src/gui/convertWeight.cs:122 ../src/gui/jump.cs:687
-#: ../src/stats/djIndex.cs:35 ../src/stats/djPower.cs:35 ../src/stats/djQ.cs:35
+#: ../src/gui/convertWeight.cs:122 ../src/gui/jump.cs:687 ../src/stats/djIndex.cs:35
+#: ../src/stats/djPower.cs:35 ../src/stats/djQ.cs:35
 #: ../src/stats/graphs/rjEvolution.cs:104 ../src/stats/rjEvolution.cs:72
 #: ../src/stats/rjEvolution.cs:77 ../src/stats/rjIndex.cs:34
 #: ../src/stats/rjPotencyBosco.cs:34 ../src/treeViewJump.cs:70
@@ -889,11 +882,11 @@ msgstr "TV"
 
 #: ../glade/app1.glade.h:189 ../glade/person_win.glade.h:24
 #: ../glade/repetitive_conditions.glade.h:10 ../src/exportSession.cs:263
-#: ../src/exportSession.cs:324 ../src/exportSession.cs:497
-#: ../src/gui/person.cs:1527 ../src/stats/djIndex.cs:33
-#: ../src/stats/djPower.cs:33 ../src/stats/djQ.cs:33 ../src/stats/potency.cs:63
-#: ../src/stats/sjCmjAbk.cs:53 ../src/stats/sjCmjAbkPlus.cs:63
-#: ../src/treeViewJump.cs:33 ../src/treeViewMultiChronopic.cs:228
+#: ../src/exportSession.cs:324 ../src/exportSession.cs:497 ../src/gui/person.cs:1527
+#: ../src/stats/djIndex.cs:33 ../src/stats/djPower.cs:33 ../src/stats/djQ.cs:33
+#: ../src/stats/potency.cs:63 ../src/stats/sjCmjAbk.cs:53
+#: ../src/stats/sjCmjAbkPlus.cs:63 ../src/treeViewJump.cs:33
+#: ../src/treeViewMultiChronopic.cs:228
 msgid "Height"
 msgstr "Altura"
 
@@ -912,13 +905,12 @@ msgstr "Último tramo"
 #. don't plot AVG and SD rows
 #. if multisession, add AVG and SD cols
 #. don't plot AVG row on multisession
-#: ../glade/app1.glade.h:193 ../src/exportSession.cs:506
-#: ../src/exportSession.cs:668 ../src/exportSession.cs:786
-#: ../src/exportSession.cs:888 ../src/stats/graphs/djIndex.cs:111
-#: ../src/stats/graphs/djPower.cs:116 ../src/stats/graphs/djQ.cs:111
-#: ../src/stats/graphs/fv.cs:109 ../src/stats/graphs/fv.cs:149
-#: ../src/stats/graphs/global.cs:108 ../src/stats/graphs/global.cs:165
-#: ../src/stats/graphs/jumpIndexes.cs:142
+#: ../glade/app1.glade.h:193 ../src/exportSession.cs:506 ../src/exportSession.cs:668
+#: ../src/exportSession.cs:786 ../src/exportSession.cs:888
+#: ../src/stats/graphs/djIndex.cs:111 ../src/stats/graphs/djPower.cs:116
+#: ../src/stats/graphs/djQ.cs:111 ../src/stats/graphs/fv.cs:109
+#: ../src/stats/graphs/fv.cs:149 ../src/stats/graphs/global.cs:108
+#: ../src/stats/graphs/global.cs:165 ../src/stats/graphs/jumpIndexes.cs:142
 #: ../src/stats/graphs/jumpSimpleSubtraction.cs:109
 #: ../src/stats/graphs/potency.cs:110 ../src/stats/graphs/rjIndex.cs:110
 #: ../src/stats/graphs/rjPotencyBosco.cs:122 ../src/stats/graphs/runSimple.cs:99
@@ -950,10 +942,9 @@ msgid "Last lap"
 msgstr "Último tramo"
 
 #. print Total, AVG, SD
-#: ../glade/app1.glade.h:196 ../src/exportSession.cs:503
-#: ../src/exportSession.cs:665 ../src/exportSession.cs:784
-#: ../src/treeViewJump.cs:424 ../src/treeViewPulse.cs:130
-#: ../src/treeViewRun.cs:256
+#: ../glade/app1.glade.h:196 ../src/exportSession.cs:503 ../src/exportSession.cs:665
+#: ../src/exportSession.cs:784 ../src/treeViewJump.cs:424
+#: ../src/treeViewPulse.cs:130 ../src/treeViewRun.cs:256
 msgid "Total"
 msgstr "Total"
 
@@ -1005,8 +996,7 @@ msgid "Stiffness"
 msgstr "Rigidez"
 
 #. this.heightPreferred = heightPreferred;
-#: ../glade/app1.glade.h:206 ../src/stats/global.cs:52
-#: ../src/stats/sjCmjAbk.cs:52
+#: ../glade/app1.glade.h:206 ../src/stats/global.cs:52 ../src/stats/sjCmjAbk.cs:52
 msgid "Jump"
 msgstr "Salto"
 
@@ -1092,9 +1082,9 @@ msgstr "Actual"
 
 #: ../glade/app1.glade.h:227 ../src/gui/genericWindow.cs:406
 #: ../src/gui/genericWindow.cs:436 ../src/gui/genericWindow.cs:442
-#: ../src/gui/genericWindow.cs:737 ../src/gui/person.cs:303
-#: ../src/gui/person.cs:415 ../src/gui/person.cs:469 ../src/gui/stats.cs:214
-#: ../src/gui/stats.cs:522 ../src/gui/stats.cs:983
+#: ../src/gui/genericWindow.cs:737 ../src/gui/person.cs:303 ../src/gui/person.cs:415
+#: ../src/gui/person.cs:469 ../src/gui/stats.cs:214 ../src/gui/stats.cs:522
+#: ../src/gui/stats.cs:983
 msgid "Selected"
 msgstr "Seleccionado"
 
@@ -1108,9 +1098,9 @@ msgid "Session"
 msgstr "Sesión"
 
 #: ../glade/app1.glade.h:230 ../src/gui/genericWindow.cs:403
-#: ../src/gui/genericWindow.cs:456 ../src/gui/person.cs:301
-#: ../src/gui/person.cs:428 ../src/gui/stats.cs:211 ../src/gui/stats.cs:963
-#: ../src/gui/stats.cs:1319 ../src/report.cs:275 ../src/stats/main.cs:239
+#: ../src/gui/genericWindow.cs:456 ../src/gui/person.cs:301 ../src/gui/person.cs:428
+#: ../src/gui/stats.cs:211 ../src/gui/stats.cs:963 ../src/gui/stats.cs:1319
+#: ../src/report.cs:275 ../src/stats/main.cs:239
 msgid "All"
 msgstr "Todos"
 
@@ -1273,8 +1263,7 @@ msgid "<b>Reactive-reflex</b>"
 msgstr "<b>Reflejo reactivo</b>"
 
 #: ../glade/app1.glade.h:270
-msgid ""
-"Related to the part of the absolute force that can be activated voluntarily."
+msgid "Related to the part of the absolute force that can be activated voluntarily."
 msgstr ""
 "Relacionado con la parte de la fuerza absoluta que se puede activar "
 "voluntariamente."
@@ -1285,8 +1274,8 @@ msgstr "Capacidad de movilizar la carga submáxima a la máxima velocidad."
 
 #: ../glade/app1.glade.h:272
 msgid ""
-"Increasing of strength due to the elastic energy accumulated during the "
-"stretch-shortening cycle."
+"Increasing of strength due to the elastic energy accumulated during the stretch-"
+"shortening cycle."
 msgstr ""
 "Aumento de la fuerza por la energía elástica acumulada durante el ciclo de "
 "estiramiento-acortamiento."
@@ -1535,8 +1524,7 @@ msgstr "Retroalimentación"
 
 #: ../glade/app1.glade.h:335
 msgid "Finish capture (save test until this moment).  Or press 'Enter'."
-msgstr ""
-"Finalizar captura (guardar las pruebas hasta este momento). O pulse Intro."
+msgstr "Finalizar captura (guardar las pruebas hasta este momento). O pulse Intro."
 
 #: ../glade/app1.glade.h:336
 msgid "Cancel process. Or press 'escape'."
@@ -1547,8 +1535,7 @@ msgid "Finish continuous mode"
 msgstr "Terminar modo continuo"
 
 #. not capturing
-#: ../glade/app1.glade.h:338 ../src/gui/encoder.cs:1256
-#: ../src/gui/encoder.cs:6871
+#: ../glade/app1.glade.h:338 ../src/gui/encoder.cs:1256 ../src/gui/encoder.cs:6871
 msgid "Save comment"
 msgstr "Guardar comentario"
 
@@ -1603,9 +1590,8 @@ msgstr "Guardar"
 
 #. put none in combo
 #: ../glade/app1.glade.h:348 ../src/gui/genericWindow.cs:404
-#: ../src/gui/genericWindow.cs:471 ../src/gui/person.cs:302
-#: ../src/gui/person.cs:432 ../src/gui/stats.cs:212 ../src/gui/stats.cs:998
-#: ../src/stats/main.cs:246
+#: ../src/gui/genericWindow.cs:471 ../src/gui/person.cs:302 ../src/gui/person.cs:432
+#: ../src/gui/stats.cs:212 ../src/gui/stats.cs:998 ../src/stats/main.cs:246
 msgid "None"
 msgstr "Ninguno"
 
@@ -1651,11 +1637,11 @@ msgstr "Momento de la inercia"
 
 #: ../glade/app1.glade.h:359 ../glade/encoder_configuration.glade.h:12
 #: ../src/constants.cs:1052 ../src/gui/encoder.cs:561 ../src/gui/encoder.cs:615
-#: ../src/gui/encoder.cs:1422 ../src/gui/encoder.cs:1851
-#: ../src/gui/encoder.cs:3909 ../src/gui/encoder.cs:5012
-#: ../src/gui/encoder.cs:5016 ../src/gui/encoderTreeviews.cs:511
+#: ../src/gui/encoder.cs:1422 ../src/gui/encoder.cs:1851 ../src/gui/encoder.cs:3909
+#: ../src/gui/encoder.cs:5012 ../src/gui/encoder.cs:5016
+#: ../src/gui/encoderTreeviews.cs:511
 msgid "Inertia M."
-msgstr "Inercia M."
+msgstr "M. Inercia"
 
 #: ../glade/app1.glade.h:360
 msgid "Kg*cm^2"
@@ -1673,12 +1659,11 @@ msgstr "Configurar"
 #. bigArray.Add(a5);
 #. a5.Add(Constants.GenericWindowShow.SPININT2); a5.Add(true); a5.Add("");
 #. bigArray.Add(a5);
-#: ../glade/app1.glade.h:363 ../src/gui/encoder.cs:1096
-#: ../src/gui/encoder.cs:1585 ../src/gui/encoder.cs:4508
-#: ../src/gui/encoder.cs:4567 ../src/gui/encoderOverview.cs:112
-#: ../src/gui/encoderOverview.cs:120 ../src/gui/encoderSelectRepetitions.cs:215
-#: ../src/gui/encoderTreeviews.cs:507 ../src/gui/forceSensor.cs:1584
-#: ../src/gui/forceSensor.cs:1634
+#: ../glade/app1.glade.h:363 ../src/gui/encoder.cs:1096 ../src/gui/encoder.cs:1585
+#: ../src/gui/encoder.cs:4508 ../src/gui/encoder.cs:4567
+#: ../src/gui/encoderOverview.cs:112 ../src/gui/encoderOverview.cs:120
+#: ../src/gui/encoderSelectRepetitions.cs:215 ../src/gui/encoderTreeviews.cs:507
+#: ../src/gui/forceSensor.cs:1584 ../src/gui/forceSensor.cs:1634
 msgid "Exercise"
 msgstr "Ejercicio"
 
@@ -2011,8 +1996,8 @@ msgid ""
 "Weight of jumps is stored as a '%' of jumper's weight. As the weight of jumper "
 "changed, you need to solve new jump's weight."
 msgstr ""
-"El peso de los salto se almacena en «%» del peso del saltador. Como el peso "
-"del saltador ha cambiado, debe cambiar el nuevo peso del salto."
+"El peso de los salto se almacena en «%» del peso del saltador. Como el peso del "
+"saltador ha cambiado, debe cambiar el nuevo peso del salto."
 
 #: ../glade/convert_weight.glade.h:4
 msgid "Old jumper weight"
@@ -2138,8 +2123,7 @@ msgstr "Tiempo de vuelo"
 #: ../glade/edit_event.glade.h:4 ../glade/jump_type_add.glade.h:8
 #: ../src/gui/encoder.cs:1587 ../src/gui/encoderSelectRepetitions.cs:217
 #: ../src/gui/encoderTreeviews.cs:509 ../src/gui/jump.cs:1546
-#: ../src/gui/jump.cs:1764 ../src/stats/sjCmjAbkPlus.cs:57
-#: ../src/treeViewJump.cs:31
+#: ../src/gui/jump.cs:1764 ../src/stats/sjCmjAbkPlus.cs:57 ../src/treeViewJump.cs:31
 msgid "Extra weight"
 msgstr "Peso adicional"
 
@@ -2225,8 +2209,7 @@ msgstr ""
 
 #: ../glade/edit_event.glade.h:30
 msgid "Able to stand up using hands in a steady and controlled action."
-msgstr ""
-"Capaz de levantarse usando las manos en una acción preparada y controlada."
+msgstr "Capaz de levantarse usando las manos en una acción preparada y controlada."
 
 #: ../glade/edit_event.glade.h:31
 msgid "Able to stand up using hands after multiple attempts."
@@ -2273,8 +2256,7 @@ msgstr ""
 #: ../glade/edit_event.glade.h:42
 msgid "Able to kick ball with difficulty finding balance."
 msgstr ""
-"Capaz de dar una patada a una pelota con dificultad para encontrar el "
-"equilibrio."
+"Capaz de dar una patada a una pelota con dificultad para encontrar el equilibrio."
 
 #: ../glade/edit_event.glade.h:43
 msgid "Walk whilst counting backwards from 15 to 0"
@@ -2289,8 +2271,7 @@ msgid "Able to coordinate walking with counting with one mistake."
 msgstr "Capaz de coordinar pasear y contar con un error."
 
 #: ../glade/edit_event.glade.h:46
-msgid ""
-"Poor coordination between walking and counting with more than one mistake."
+msgid "Poor coordination between walking and counting with more than one mistake."
 msgstr "Coordinación pobre entre andar y contar con más de un error."
 
 #: ../glade/edit_event.glade.h:47
@@ -2303,8 +2284,8 @@ msgstr "Ir alrededor de un cono"
 
 #: ../glade/edit_event.glade.h:49
 msgid ""
-"Able to go around the cone without touching it, without going outside the "
-"marked area, but slowing down the pace."
+"Able to go around the cone without touching it, without going outside the marked "
+"area, but slowing down the pace."
 msgstr ""
 "Capaz de ir alrededor de un cono sin tocarlo, sin salir del área marcada pero "
 "reduciendo el paso."
@@ -2315,8 +2296,8 @@ msgstr "Capaz de ir alrededor con signos obvios de inseguridad."
 
 #: ../glade/edit_event.glade.h:51
 msgid ""
-"Able to go around the cone without touching it, without going outside the "
-"marked area, and keeping up the pace."
+"Able to go around the cone without touching it, without going outside the marked "
+"area, and keeping up the pace."
 msgstr ""
 "Capaz de ir alrededor de un cono sin tocarlo, sin salir del área marcada y "
 "manteniendo el ritmo."
@@ -2335,16 +2316,16 @@ msgstr ""
 
 #: ../glade/edit_event.glade.h:54
 msgid ""
-"Able to walk, stepping one foot into each circle, touching one or needing to "
-"take an extra step outside the rings to regain balance."
+"Able to walk, stepping one foot into each circle, touching one or needing to take "
+"an extra step outside the rings to regain balance."
 msgstr ""
-"Capaz de andar, metiendo cada pie en cada círculo, tocando uno o necesitando "
-"un paso adicional fuera de los anillos para recobrar el equilibrio."
+"Capaz de andar, metiendo cada pie en cada círculo, tocando uno o necesitando un "
+"paso adicional fuera de los anillos para recobrar el equilibrio."
 
 #: ../glade/edit_event.glade.h:55
 msgid ""
-"Able to walk stepping one foot in each circle, touching more than one, or "
-"needing more than one extra step to regain balance."
+"Able to walk stepping one foot in each circle, touching more than one, or needing "
+"more than one extra step to regain balance."
 msgstr ""
 "Capaz de andar, metiendo cada pie en cada círculo, tocándo más de uno o "
 "necesitando más de un paso adicional para recuperar el equilibrio."
@@ -2402,8 +2383,7 @@ msgid ""
 "Average diameter (cm) of the cone or axis where the rope is wrapped on each "
 "anchorage."
 msgstr ""
-"Diámetro medio (cm) del cono o el eje donde se enrolla la cuerda con cada "
-"anclaje"
+"Diámetro medio (cm) del cono o el eje donde se enrolla la cuerda con cada anclaje"
 
 #: ../glade/encoder_configuration.glade.h:9
 msgid "Push angle"
@@ -2439,8 +2419,8 @@ msgid ""
 "Eg. value = 2, means person does twice force at half speed."
 msgstr ""
 "Relación Velocidad de la máquina / Velocidad de la persona.\n"
-"Ejemplo: Un valor de 2 implica que la persona hace el doble de fuerza a la "
-"mitad de la velocidad"
+"Ejemplo: Un valor de 2 implica que la persona hace el doble de fuerza a la mitad "
+"de la velocidad"
 
 #: ../glade/encoder_configuration.glade.h:19
 msgid "Force multiplier"
@@ -2576,9 +2556,9 @@ msgstr "Fecha de nacimiento"
 
 #: ../glade/evaluator_window.glade.h:11 ../glade/person_win.glade.h:23
 #: ../glade/session_add_edit.glade.h:14 ../src/exportSession.cs:248
-#: ../src/exportSession.cs:265 ../src/gui/session.cs:864
-#: ../src/gui/session.cs:1185 ../src/report.cs:231 ../src/runType.cs:197
-#: ../src/runType.cs:214 ../src/runType.cs:283 ../src/runType.cs:304
+#: ../src/exportSession.cs:265 ../src/gui/session.cs:864 ../src/gui/session.cs:1185
+#: ../src/report.cs:231 ../src/runType.cs:197 ../src/runType.cs:214
+#: ../src/runType.cs:283 ../src/runType.cs:304
 msgid "Comments"
 msgstr "Comentarios"
 
@@ -2981,8 +2961,8 @@ msgstr "mujer"
 #. decimals
 #: ../glade/person_win.glade.h:6 ../src/constants.cs:1033
 #: ../src/exportSession.cs:263 ../src/exportSession.cs:305
-#: ../src/exportSession.cs:402 ../src/gui/person.cs:1543
-#: ../src/gui/person.cs:2322 ../src/stats/djPower.cs:37
+#: ../src/exportSession.cs:402 ../src/gui/person.cs:1543 ../src/gui/person.cs:2322
+#: ../src/stats/djPower.cs:37
 msgid "Weight"
 msgstr "Peso"
 
@@ -3173,8 +3153,8 @@ msgstr "Unidades de velocidad:"
 
 #: ../glade/preferences_win.glade.h:38 ../src/gui/preferences.cs:701
 msgid ""
-"\"Speed start\" means when athlete does not start with \"contact\" on the "
-"first platform or photocell.\n"
+"\"Speed start\" means when athlete does not start with \"contact\" on the first "
+"platform or photocell.\n"
 "It starts before and arrives there with some speed."
 msgstr ""
 "«Inicio de velocidad» el atleta no comienza con el «contacto» en la primera "
@@ -3683,8 +3663,7 @@ msgstr "Duración total"
 msgid "Rest between repetitions"
 msgstr "Descanso entre repeticiones"
 
-#: ../glade/repetitive_conditions.glade.h:40
-#: ../src/gui/repetitiveConditions.cs:679
+#: ../glade/repetitive_conditions.glade.h:40 ../src/gui/repetitiveConditions.cs:679
 msgid "Use clusters"
 msgstr "Usar agrupaciones"
 
@@ -3963,8 +3942,8 @@ msgstr ""
 #: ../src/chronojump.cs:358
 #, csharp-format
 msgid ""
-"If you have no data on your database (you just installed Chronojump), you can "
-"fix this problem deleting this file: {0}"
+"If you have no data on your database (you just installed Chronojump), you can fix "
+"this problem deleting this file: {0}"
 msgstr ""
 "Si no tiene ningún dato en su base de datos (acaba de instalara Chronojump), "
 "puede arreglar este problema borrando este archivo: {0}"
@@ -3981,8 +3960,8 @@ msgstr ""
 
 #: ../src/chronojump.cs:374
 msgid ""
-"If your Drop Jumps were executed using the arms, please rename them manually "
-"as 'DJa'."
+"If your Drop Jumps were executed using the arms, please rename them manually as "
+"'DJa'."
 msgstr ""
 "Si sus saltos DJ se ejecutaban usando los brazos, por favor renombrelos 'DJa' "
 "manualmente."
@@ -3992,8 +3971,8 @@ msgstr ""
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
 msgstr ""
-"Lo siento, esta versión de Chronojump ({0}) es demasiado antigua para su base "
-"de datos."
+"Lo siento, esta versión de Chronojump ({0}) es demasiado antigua para su base de "
+"datos."
 
 #: ../src/chronojump.cs:383
 msgid "Please update Chronojump"
@@ -4041,8 +4020,8 @@ msgstr "Chronojump {0} ha fallado anteriormente"
 
 #: ../src/chronojump.cs:722
 msgid ""
-"Please, fill your email and click on 'Send error log' in order to fix this "
-"fast and contact you if appropriate."
+"Please, fill your email and click on 'Send error log' in order to fix this fast "
+"and contact you if appropriate."
 msgstr ""
 "Rellene su correo-e y pulse en «Enviar informe de error» para corregir esto "
 "rápidamente y contactarle si es necesario."
@@ -4230,8 +4209,8 @@ msgstr "Squat"
 #. EventExecute::RunANoStrides() and I'm not sure that are used. Left it here for now to avoid any regressions.
 #: ../src/constants.cs:163
 msgid ""
-"Always remember to touch platform at ending. If you don't do it, Chronojump "
-"will crash at next execution."
+"Always remember to touch platform at ending. If you don't do it, Chronojump will "
+"crash at next execution."
 msgstr ""
 "Recuerde de tocar la plataforma al terminar. Si no lo hace, Chronojump se "
 "bloqueará en la siguiente prueba."
@@ -4286,8 +4265,7 @@ msgid ""
 "Or maybe you are not connected to the Internet or your firewall is restricting "
 "connections"
 msgstr ""
-"O quizás no esté conectado a Internet, o su Firewall esté restringiendo "
-"conexiones"
+"O quizás no esté conectado a Internet, o su Firewall esté restringiendo conexiones"
 
 #. Josep Ma Padullés test
 #. translate (take off?)
@@ -4302,8 +4280,7 @@ msgstr "Actualizar software a"
 
 #: ../src/constants.cs:262
 msgid "Importing from your spreadsheet (LibreOffice, R, MS Excel, ...)"
-msgstr ""
-"Importar desde una hoja de cálculo. Ej. Excel, LibreOffice, Google Drive."
+msgstr "Importar desde una hoja de cálculo. Ej. Excel, LibreOffice, Google Drive."
 
 #: ../src/constants.cs:263
 msgid "Remember the separator character is:"
@@ -4500,8 +4477,8 @@ msgstr "Se debe instalar el controlador de la Chronopic."
 
 #: ../src/constants.cs:544
 msgid ""
-"If you have problems connecting with Chronopic, ensure you have the <b>driver</"
-"b> installed at 'Windows Start Menu / Chronojump / Install Chronopic driver'."
+"If you have problems connecting with Chronopic, ensure you have the <b>driver</b> "
+"installed at 'Windows Start Menu / Chronojump / Install Chronopic driver'."
 msgstr ""
 "Si tiene problemas para conectarse a la Chronopic, asegúrese de que tiene "
 "instalado el <b>controlador</b> en «Menú inicio de Windows / Chronojump / "
@@ -4548,11 +4525,11 @@ msgid "Tests are <b>simulated</b> until Chronopic is connected."
 msgstr "Las pruebas son <b>simuladas</b> hasta que se conecte Chronopic."
 
 #. Catalog.GetString("Angles") + ":" +
-#: ../src/constants.cs:599 ../src/exportSession.cs:330
-#: ../src/exportSession.cs:432 ../src/exportSession.cs:571
-#: ../src/exportSession.cs:627 ../src/exportSession.cs:722
-#: ../src/exportSession.cs:764 ../src/exportSession.cs:824
-#: ../src/gui/eventExecute.cs:188 ../src/gui/eventExecute.cs:620
+#: ../src/constants.cs:599 ../src/exportSession.cs:330 ../src/exportSession.cs:432
+#: ../src/exportSession.cs:571 ../src/exportSession.cs:627
+#: ../src/exportSession.cs:722 ../src/exportSession.cs:764
+#: ../src/exportSession.cs:824 ../src/gui/eventExecute.cs:188
+#: ../src/gui/eventExecute.cs:620
 msgid "Simulated"
 msgstr "Simulado"
 
@@ -4668,8 +4645,8 @@ msgstr "Saltos sin TC: potencia de Lewis Peak 1974 (W)"
 msgid ""
 "P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in meters)"
 msgstr ""
-"P = SQRT(4.9) * 9.8 * (peso del cuerpo+peso adicional) * SQRT(altura del salto "
-"en metros)"
+"P = SQRT(4.9) * 9.8 * (peso del cuerpo+peso adicional) * SQRT(altura del salto en "
+"metros)"
 
 #: ../src/constants.cs:704
 msgid "If you want to use other formulas, go to Analyze."
@@ -4876,22 +4853,21 @@ msgstr "Codificador lineal en un plano inclinado."
 #: ../src/encoder.cs:1386 ../src/encoder.cs:1397 ../src/encoder.cs:1408
 msgid "Suitable also for horizontal movement. Just set a 0 push angle."
 msgstr ""
-"También es adecuado para movimiento horizontal. Simplemente establezca un "
-"ángulo de empuje 0."
+"También es adecuado para movimiento horizontal. Simplemente establezca un ángulo "
+"de empuje 0."
 
 #: ../src/encoder.cs:1396 ../src/encoder.cs:1407
 msgid "Linear encoder on a inclined plane moving a weight in different angle."
 msgstr ""
-"Codificador lineal en un plano inclinado moviendo un peso en un ángulo "
-"diferente."
+"Codificador lineal en un plano inclinado moviendo un peso en un ángulo diferente."
 
 #: ../src/encoder.cs:1409
 msgid ""
-"Force demultiplier refers to the times the rope comes in and comes out from "
-"the moving pulley attached to the extra load."
+"Force demultiplier refers to the times the rope comes in and comes out from the "
+"moving pulley attached to the extra load."
 msgstr ""
-"La desmultiplicación de la fuerza se refiere a las veces que la cuerda pasa "
-"por la polea móvil acoplada a la carga extra."
+"La desmultiplicación de la fuerza se refiere a las veces que la cuerda pasa por "
+"la polea móvil acoplada a la carga extra."
 
 #: ../src/encoder.cs:1410
 msgid "In the example image demultiplier is 2, hence multiplier is 1/2."
@@ -4912,11 +4888,11 @@ msgstr "Configuración no recomendada. Use un codificador rotatorio."
 #: ../src/encoder.cs:1527 ../src/encoder.cs:1564 ../src/encoder.cs:1575
 #: ../src/encoder.cs:1586 ../src/encoder.cs:1599
 msgid ""
-"On inertial machines, 'd' means the average diameter where the pull-push "
-"string is rolled"
+"On inertial machines, 'd' means the average diameter where the pull-push string "
+"is rolled"
 msgstr ""
-"En las máquinas inerciales, «d» se refiere al diámetro medio donde se enrolla "
-"la cuerda de tirón-empuje."
+"En las máquinas inerciales, «d» se refiere al diámetro medio donde se enrolla la "
+"cuerda de tirón-empuje."
 
 #: ../src/encoder.cs:1436
 msgid "Rotary friction encoder on pulley."
@@ -4952,8 +4928,7 @@ msgstr "La máquina de inercia gira dos veces más rápidamente que el cuerpo."
 
 #: ../src/encoder.cs:1502
 msgid "Rotary friction encoder on inertial machine axis."
-msgstr ""
-"Codificador de fricción por rotación sobre el eje de la máquina de inercia."
+msgstr "Codificador de fricción por rotación sobre el eje de la máquina de inercia."
 
 #: ../src/encoder.cs:1543
 msgid "Rotary axis encoder on pulley axis."
@@ -4968,8 +4943,7 @@ msgid "Rotary axis encoder on inertial machine."
 msgstr "Codificador del eje de rotación de la máquina de inercia."
 
 #: ../src/encoder.cs:1574
-msgid ""
-"Rotary axis encoder on inertial machine when person is moving horizontally."
+msgid "Rotary axis encoder on inertial machine when person is moving horizontally."
 msgstr ""
 "Codificador rotatorio de eje en máquina inercial cuando el atleta se mueve "
 "horizontalmente."
@@ -4983,8 +4957,8 @@ msgid ""
 "Rotary axis encoder on inertial machine geared up when person is moving "
 "horizontally."
 msgstr ""
-"Codificador rotatorio de eje en máquina inercial multiplicada en que el atleta "
-"se mueve horizontalmente."
+"Codificador rotatorio de eje en máquina inercial multiplicada en que el atleta se "
+"mueve horizontalmente."
 
 #: ../src/encoderRhythm.cs:352
 #, csharp-format
@@ -4997,19 +4971,16 @@ msgstr ""
 "Parece que Chronopic está desconectado. Reconéctelo de nuevo en la ventana de "
 "Chronopic."
 
-#: ../src/execute/jump.cs:134 ../src/execute/jump.cs:210
-#: ../src/execute/jump.cs:625
+#: ../src/execute/jump.cs:134 ../src/execute/jump.cs:210 ../src/execute/jump.cs:625
 msgid "You are IN, JUMP when prepared!"
 msgstr "Está DENTRO, cuando esté preparado, SALTE!"
 
-#: ../src/execute/jump.cs:160 ../src/execute/jump.cs:247
-#: ../src/execute/jump.cs:632
+#: ../src/execute/jump.cs:160 ../src/execute/jump.cs:247 ../src/execute/jump.cs:632
 msgid ""
-"You are OUT, please enter the platform, prepare for jump and press the "
-"'accept' button"
+"You are OUT, please enter the platform, prepare for jump and press the 'accept' "
+"button"
 msgstr ""
-"Está FUERA, entre en la plataforma, prepárese para saltar y pulse el botón "
-"aceptar"
+"Está FUERA, entre en la plataforma, prepárese para saltar y pulse el botón aceptar"
 
 #: ../src/execute/jump.cs:207 ../src/execute/jump.cs:620
 msgid "You are OUT, JUMP when prepared!"
@@ -5072,11 +5043,11 @@ msgstr ""
 
 #: ../src/execute/pulse.cs:129
 msgid ""
-"You are IN, please leave the platform, prepare for start, and press the "
-"'accept' button!"
+"You are IN, please leave the platform, prepare for start, and press the 'accept' "
+"button!"
 msgstr ""
-"Está DENTRO, por favor, salga de la plataforma, prepárese para iniciar y pulse "
-"el botón 'aceptar'!"
+"Está DENTRO, por favor, salga de la plataforma, prepárese para iniciar y pulse el "
+"botón 'aceptar'!"
 
 #: ../src/execute/pulse.cs:141
 msgid "You are OUT, start when prepared!"
@@ -5159,9 +5130,8 @@ msgstr "No se puede exportar al archivo {0} "
 #. 3) show message
 #: ../src/exportSession.cs:161 ../src/gui/chronojump.cs:7440
 #: ../src/gui/encoderConfiguration.cs:740 ../src/gui/encoderConfiguration.cs:767
-#: ../src/gui/encoder.cs:2121 ../src/gui/encoder.cs:2152
-#: ../src/gui/encoder.cs:2160 ../src/gui/encoder.cs:2167
-#: ../src/gui/encoder.cs:2175 ../src/gui/encoder.cs:2182
+#: ../src/gui/encoder.cs:2121 ../src/gui/encoder.cs:2152 ../src/gui/encoder.cs:2160
+#: ../src/gui/encoder.cs:2167 ../src/gui/encoder.cs:2175 ../src/gui/encoder.cs:2182
 #: ../src/gui/forceSensor.cs:1397 ../src/gui/forceSensor.cs:1409
 #: ../src/gui/forceSensor.cs:1432 ../src/gui/sprint.cs:304
 #, csharp-format
@@ -5311,8 +5281,8 @@ msgstr "Velocidad media"
 msgid "Distance interval"
 msgstr "Distancia de tramo"
 
-#: ../src/exportSession.cs:624 ../src/gui/chronojump.cs:5014
-#: ../src/gui/run.cs:1518 ../src/gui/run.cs:1586 ../src/gui/run.cs:1638
+#: ../src/exportSession.cs:624 ../src/gui/chronojump.cs:5014 ../src/gui/run.cs:1518
+#: ../src/gui/run.cs:1586 ../src/gui/run.cs:1638
 msgid "Laps"
 msgstr "Tramos"
 
@@ -5523,8 +5493,8 @@ msgstr "Exportar hasta incluir estos datos:"
 
 #: ../src/gui/chronojump.cs:2880
 msgid ""
-"Are you sure you want to delete the current person and all his/her tests "
-"(jumps, races, pulses, ...) from this session?\n"
+"Are you sure you want to delete the current person and all his/her tests (jumps, "
+"races, pulses, ...) from this session?\n"
 "(His/her personal data and tests in other sessions will remain intact.)"
 msgstr ""
 "¿Seguro que desea borrar el atleta actual de esta sesión y todas sus pruebas "
@@ -5721,8 +5691,8 @@ msgstr ""
 #: ../src/gui/chronojump.cs:8030
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr ""
-"Programado para realizar pruebas de desarrollo. Chronojump fallará y se "
-"cerrará ahora."
+"Programado para realizar pruebas de desarrollo. Chronojump fallará y se cerrará "
+"ahora."
 
 #: ../src/gui/chronopic.cs:123
 msgid "Please, touch the platform or click Chronopic TEST button."
@@ -5756,8 +5726,7 @@ msgstr[1] "{0} dispositivos encontrados"
 msgid "One device is not configured. Please, configure it clicking the arrows."
 msgid_plural ""
 "{0} devices are not configured. Please, configure them clicking the arrows."
-msgstr[0] ""
-"Un dispositivo no está configurado. Configúrelo pulsando en las flechas."
+msgstr[0] "Un dispositivo no está configurado. Configúrelo pulsando en las flechas."
 msgstr[1] ""
 "{0} dispositivos no están configurados. Configúrelos pulsando en las flechas."
 
@@ -5824,11 +5793,11 @@ msgstr "En electrónica son habituales las señales espurias ."
 
 #: ../src/gui/dialogThreshold.cs:92
 msgid ""
-"Threshold refers to the minimum value measurable and is the common way to "
-"clean this spurius signals."
+"Threshold refers to the minimum value measurable and is the common way to clean "
+"this spurius signals."
 msgstr ""
-"El umbral se refiere al mínimo valor mensurable y es un método común para "
-"limpiar señales espurias."
+"El umbral se refiere al mínimo valor mensurable y es un método común para limpiar "
+"señales espurias."
 
 #: ../src/gui/dialogThreshold.cs:93
 msgid "Threshold should be a value lower than expected values."
@@ -5836,11 +5805,9 @@ msgstr "El umbral debe ser un valor inferior a los valores esperados."
 
 #: ../src/gui/dialogThreshold.cs:95
 msgid ""
-"On database three different thresholds are stored: jumps, races and other "
-"tests."
+"On database three different thresholds are stored: jumps, races and other tests."
 msgstr ""
-"En la base de datos hay tres umbrales guardados: saltos, carreras y otros "
-"tests."
+"En la base de datos hay tres umbrales guardados: saltos, carreras y otros tests."
 
 #: ../src/gui/dialogThreshold.cs:96
 msgid "If you change these values they will be stored once test is executed."
@@ -5851,8 +5818,8 @@ msgid ""
 "Usually threshold values should not be changed but this option is useful for "
 "special cases."
 msgstr ""
-"Normalmente el valor del umbral no se debería cambiar, pero esta opción es "
-"útil en ciertos casos."
+"Normalmente el valor del umbral no se debería cambiar, pero esta opción es útil "
+"en ciertos casos."
 
 #: ../src/gui/dialogThreshold.cs:102 ../src/gui/dialogThreshold.cs:115
 msgid "Default value: 50 ms."
@@ -5876,8 +5843,8 @@ msgstr ""
 
 #: ../src/gui/dialogThreshold.cs:105
 msgid ""
-"This jumper should change his technique, but if it's difficult, a solution is "
-"to increase threshold."
+"This jumper should change his technique, but if it's difficult, a solution is to "
+"increase threshold."
 msgstr ""
 "El saltador debería cambiar la técnica, aunque suele ser difícil. Una posible "
 "solución es aumentar el umbral"
@@ -5892,11 +5859,10 @@ msgstr "En carreras con fotocélulas 10 ms es el valor por defecto."
 
 #: ../src/gui/dialogThreshold.cs:111
 msgid ""
-"As Chronojump manages double contacts on photocells, changing threshold value "
-"is not very common."
+"As Chronojump manages double contacts on photocells, changing threshold value is "
+"not very common."
 msgstr ""
-"Como Chronojump gestiona los dobles contactos, no es habitual cambiar el "
-"umbral."
+"Como Chronojump gestiona los dobles contactos, no es habitual cambiar el umbral."
 
 #: ../src/gui/dialogThreshold.cs:116
 msgid "Depending on the test, user could change values."
@@ -5905,8 +5871,8 @@ msgstr "Según el test, el usuario puede cambiar el valor."
 #: ../src/gui/encoderConfiguration.cs:494
 msgid ""
 "Calculation of dynamic variables like power in conical machines is not very "
-"accurate because current method is not using the variation of the cone "
-"diameter as a variable."
+"accurate because current method is not using the variation of the cone diameter "
+"as a variable."
 msgstr ""
 "EL cálculo de variables dinámicas, como la potencia en máquinas cónicas, no es "
 "muy preciso, ya que el método actual no usa la variación del diámetro del cono "
@@ -5978,8 +5944,8 @@ msgid "Export to file"
 msgstr "Exportar a un archivo"
 
 #: ../src/gui/encoderConfiguration.cs:747 ../src/gui/encoder.cs:2131
-#: ../src/gui/encoder.cs:4216 ../src/gui/encoder.cs:4278
-#: ../src/gui/person.cs:1043 ../src/gui/sprint.cs:295
+#: ../src/gui/encoder.cs:4216 ../src/gui/encoder.cs:4278 ../src/gui/person.cs:1043
+#: ../src/gui/sprint.cs:295
 #, csharp-format
 msgid "Cannot save file {0} "
 msgstr "No se puede guardar el archivo {0} "
@@ -6139,18 +6105,16 @@ msgid "Sorry, no repetitions selected."
 msgstr "No hay repeticiones seleccionadas."
 
 #. cannot do 1RM Any exercise without the "speed at 1RM" exercise parameter
-#: ../src/gui/encoder.cs:2573 ../src/gui/encoder.cs:2601
-#: ../src/gui/encoder.cs:2653 ../src/gui/encoder.cs:3837
+#: ../src/gui/encoder.cs:2573 ../src/gui/encoder.cs:2601 ../src/gui/encoder.cs:2653
+#: ../src/gui/encoder.cs:3837
 msgid "1RM Any exercise"
 msgstr "1RM cualquier ejercicio"
 
-#: ../src/gui/encoder.cs:2575 ../src/gui/encoder.cs:2655
-#: ../src/gui/encoder.cs:3837
+#: ../src/gui/encoder.cs:2575 ../src/gui/encoder.cs:2655 ../src/gui/encoder.cs:3837
 msgid "1RM Bench Press"
 msgstr "1RM press de banca"
 
-#: ../src/gui/encoder.cs:2577 ../src/gui/encoder.cs:2657
-#: ../src/gui/encoder.cs:3838
+#: ../src/gui/encoder.cs:2577 ../src/gui/encoder.cs:2657 ../src/gui/encoder.cs:3838
 msgid "1RM Squat"
 msgstr "Squat 1RM"
 
@@ -6165,8 +6129,7 @@ msgstr "Por favor, seleccione repeticiones de un único tipo de ejercicio."
 #: ../src/gui/encoder.cs:2610
 #, csharp-format
 msgid ""
-"Sorry, parameter: 'speed at 1RM' on exercise: '{0}' cannot be 0 for this "
-"analysis."
+"Sorry, parameter: 'speed at 1RM' on exercise: '{0}' cannot be 0 for this analysis."
 msgstr ""
 "Lo sentimos, el parámetro \"velocidad a 1RM\" del ejercicio:{0}' no puede ser 0"
 
@@ -6179,8 +6142,7 @@ msgstr "Por favor, los parámetros del ejercicio en la pestaña de captura."
 msgid "Speed,Power / Load"
 msgstr "Velocidad, potencia / carga"
 
-#: ../src/gui/encoder.cs:2634 ../src/gui/encoder.cs:2661
-#: ../src/gui/encoder.cs:2682
+#: ../src/gui/encoder.cs:2634 ../src/gui/encoder.cs:2661 ../src/gui/encoder.cs:2682
 msgid "Sorry, this graph is not supported yet."
 msgstr "Este gráfico todavía no está soportado"
 
@@ -6207,9 +6169,9 @@ msgstr "Drive = Promedio del impulso concéntrico relativo"
 
 #: ../src/gui/encoder.cs:3695
 msgid ""
-"General trends to try to develop an 'equilibrated' neuromuscular profile "
-"(always add individual considerations as previous or actual injuries, sport "
-"specificity, muscular chains, etc.)."
+"General trends to try to develop an 'equilibrated' neuromuscular profile (always "
+"add individual considerations as previous or actual injuries, sport specificity, "
+"muscular chains, etc.)."
 msgstr ""
 "Recomendaciones para intentar desarrollar un perfil neuromuscular "
 "«equilibrado» (hay que tener en cuenta también las lesiones actuales o "
@@ -6220,18 +6182,18 @@ msgid ""
 "If one of the metrics is under developed (weak) compared with the other two, "
 "prescribe exercises that emphasize its development."
 msgstr ""
-"Si una de las métricas es baja comparada con las otras dos, prescribir "
-"ejercicios que enfaticen su desarrollo."
+"Si una de las métricas es baja comparada con las otras dos, prescribir ejercicios "
+"que enfaticen su desarrollo."
 
 #: ../src/gui/encoder.cs:3697
 msgid ""
 "If one of the metrics is over developed (extreme) compared with the other two, "
-"prescribe exercises to emphasize those, but paying attention to flexibility "
-"and relaxation of over working muscles."
+"prescribe exercises to emphasize those, but paying attention to flexibility and "
+"relaxation of over working muscles."
 msgstr ""
 "Si una de las métricas está muy por encima respecto las otras dos, prescribir "
-"ejercicios para mejorar las otras, pero cuidando la flexibilidad y relajación "
-"de los músculos que hacen el sobresfuerzo."
+"ejercicios para mejorar las otras, pero cuidando la flexibilidad y relajación de "
+"los músculos que hacen el sobresfuerzo."
 
 #: ../src/gui/encoder.cs:3699
 msgid "General guidelines to improve the neuromuscular profile:"
@@ -6255,20 +6217,18 @@ msgstr ""
 msgid ""
 "Explode: Perform exercises that develop force in short time, and maximum force."
 msgstr ""
-"Explosión: realizar ejercicios que desarrollen la fuerza en tiempo corto y "
-"máxima fuerza."
+"Explosión: realizar ejercicios que desarrollen la fuerza en tiempo corto y máxima "
+"fuerza."
 
 #: ../src/gui/encoder.cs:3705
 msgid "Drive: Perform exercises where force is developed during more time."
 msgstr ""
-"Drive: realizar ejercicios donde la fuerza se desarrolle a lo largo de más "
-"tiempo."
+"Drive: realizar ejercicios donde la fuerza se desarrolle a lo largo de más tiempo."
 
 #: ../src/gui/encoder.cs:3707
 msgid "Analysis uses the best three jumps using 'jump height' criterion."
 msgstr ""
-"EL análisis usa los tres mejores saltos usando el criterio de «altura del "
-"salto»."
+"EL análisis usa los tres mejores saltos usando el criterio de «altura del salto»."
 
 #: ../src/gui/encoder.cs:3708
 msgid "Lapuente and De Blas. Adapted from Wagner:"
@@ -6644,8 +6604,8 @@ msgstr "Las versiones actualizadas se podrán encontrar aquí:"
 #: ../src/gui/helpPorts.cs:99
 msgid "Click with the right button on <i>MyPC</i> icon at desktop or Start Menu."
 msgstr ""
-"En el escritorio o en el menú Inicio, hacer clic en el icono de <i>Mi PC</i> "
-"con el botón derecho."
+"En el escritorio o en el menú Inicio, hacer clic en el icono de <i>Mi PC</i> con "
+"el botón derecho."
 
 #: ../src/gui/helpPorts.cs:100
 msgid "Note <i>MyPC</i> can be called <i>System</i> in Windows Vista."
@@ -6657,9 +6617,9 @@ msgid ""
 "because can be a link to the real <i>MyPC</i> icon, if you cannot see "
 "<i>Properties</i>, please use another MyPC icon."
 msgstr ""
-"Usted podría tener un icono de <i>Mi PC</i> que no disponga de <i>Propiedades</"
-"i> debido a que podría ser un enlace al icono real de <i>Mi PC</i>, Si usted "
-"no puede ver las <i>Propiedades</i>, por favor use otro icono de Mi PC."
+"Usted podría tener un icono de <i>Mi PC</i> que no disponga de <i>Propiedades</i> "
+"debido a que podría ser un enlace al icono real de <i>Mi PC</i>, Si usted no "
+"puede ver las <i>Propiedades</i>, por favor use otro icono de Mi PC."
 
 #: ../src/gui/helpPorts.cs:102
 msgid "Select <i>properties</i> (last option)."
@@ -6680,8 +6640,8 @@ msgstr "Clic en el ’+’ que hay a la izquierda de <i>Puertos COM y LPT</i>."
 #: ../src/gui/helpPorts.cs:106
 msgid "The port name will be what it's written like COM? on the USB-serial line."
 msgstr ""
-"El puerto será el que se indique como COM? a la derecha de la línea que dice "
-"USB-serial."
+"El puerto será el que se indique como COM? a la derecha de la línea que dice USB-"
+"serial."
 
 #: ../src/gui/helpPorts.cs:106
 msgid "Eg: if it's written COM7, then you should write COM7 at Chronopic window."
@@ -6700,8 +6660,8 @@ msgstr ""
 #: ../src/gui/helpPorts.cs:115
 msgid "Find the port as explained at <i>Check Chronopic port</i>."
 msgstr ""
-"Encontrar el puerto tal y como se explica en <i>Comprobar el puerto de "
-"Chronopic</i>"
+"Encontrar el puerto tal y como se explica en <i>Comprobar el puerto de Chronopic</"
+"i>"
 
 #: ../src/gui/helpPorts.cs:116
 msgid ""
@@ -6726,8 +6686,8 @@ msgstr "Seleccione COM1, COM2, COM3 o COM4 en la lista que aparece."
 #: ../src/gui/helpPorts.cs:120
 msgid "If COM1 - COM4 are <i>used</i>, then select unused ports below 10."
 msgstr ""
-"Si los puertos COM1 - COM4 están <i>usados</i>, entonces seleccionar algún "
-"puerto no usado inferior al 10."
+"Si los puertos COM1 - COM4 están <i>usados</i>, entonces seleccionar algún puerto "
+"no usado inferior al 10."
 
 #: ../src/gui/helpPorts.cs:120
 msgid ""
@@ -6766,8 +6726,8 @@ msgid ""
 "This jump type starts inside, the first time should be a flight time."
 msgstr ""
 "\n"
-"Este tipo de salto debe comenzar dentro de la plataforma, el primer tiempo "
-"debe ser un tiempo de vuelo."
+"Este tipo de salto debe comenzar dentro de la plataforma, el primer tiempo debe "
+"ser un tiempo de vuelo."
 
 #: ../src/gui/jump.cs:660
 #, csharp-format
@@ -6886,12 +6846,12 @@ msgstr "Incluir / Descartar atletas"
 
 #: ../src/gui/person.cs:676
 msgid ""
-"All persons checked at first column will be uploaded into database with his/"
-"her tests on this session.\n"
+"All persons checked at first column will be uploaded into database with his/her "
+"tests on this session.\n"
 "If you want that a person is not uploaded, just uncheck it."
 msgstr ""
-"Todos los atleta marcados en la primera columna, se subirán al servidor con "
-"sus pruebas en esta sesión.\n"
+"Todos los atleta marcados en la primera columna, se subirán al servidor con sus "
+"pruebas en esta sesión.\n"
 "Si no desea subir un atleta, desmárquelo."
 
 #: ../src/gui/person.cs:974
@@ -7081,13 +7041,13 @@ msgstr "Los Chronopics tienen la funcionalidad del trigger desde 2017"
 msgid ""
 "You can check if your encoder Chronopic accepts triggers pressing test button."
 msgstr ""
-"Puede comprobar si su Chronopic de encoder acepta triggers pulsando el botón "
-"de test."
+"Puede comprobar si su Chronopic de encoder acepta triggers pulsando el botón de "
+"test."
 
 #: ../src/gui/preferences.cs:551
 msgid ""
-"Your Chronopic is ready for triggers if the green light at the side of "
-"Chronopic test button changes it's state on pressing this button."
+"Your Chronopic is ready for triggers if the green light at the side of Chronopic "
+"test button changes it's state on pressing this button."
 msgstr ""
 "Su Chronopic está preparado para triggers si al pulsar el botón de test se "
 "enciende el LED verde de al lado."
@@ -7096,8 +7056,7 @@ msgstr ""
 msgid ""
 "At Chronojump website there's a hand push button for using triggers with ease."
 msgstr ""
-"En la web de Chronojump encontrarà un pulsador para usar triggers con "
-"facilidad."
+"En la web de Chronojump encontrarà un pulsador para usar triggers con facilidad."
 
 #: ../src/gui/preferences.cs:617 ../src/gui/repetitiveConditions.cs:384
 msgid "Sound working"
@@ -7113,11 +7072,10 @@ msgstr "Medidas de la carrera"
 
 #: ../src/gui/preferences.cs:705
 msgid ""
-"Chronojump race reaction time device allows to record reaction time and race "
-"time."
+"Chronojump race reaction time device allows to record reaction time and race time."
 msgstr ""
-"El dispositivo Chronojump de tiempo de reacción le permite registrar el tiempo "
-"de reacción y de carrera."
+"El dispositivo Chronojump de tiempo de reacción le permite registrar el tiempo de "
+"reacción y de carrera."
 
 #: ../src/gui/preferences.cs:707
 msgid "Reaction time is displayed on Description column."
@@ -7126,8 +7084,8 @@ msgstr "El tiempo de reacción se muestra en la columna de descripción."
 #: ../src/gui/preferences.cs:709
 msgid "If first option is choosen, race time includes reaction time."
 msgstr ""
-"Si se selecciona la primera opción, el tiempo de la carrera incluye el tiempo "
-"de reacción."
+"Si se selecciona la primera opción, el tiempo de la carrera incluye el tiempo de "
+"reacción."
 
 #: ../src/gui/preferences.cs:783
 msgid "Cannot create directory."
@@ -7168,16 +7126,16 @@ msgstr "Importado correctamente."
 msgid ""
 "If a repetition has been found, test will end at selected inactivity seconds."
 msgstr ""
-"Si se ha encontrado la repetición, la prueba terminará al pasar los segundos "
-"de inactividad."
+"Si se ha encontrado la repetición, la prueba terminará al pasar los segundos de "
+"inactividad."
 
 #: ../src/gui/preferences.cs:1036
 msgid ""
-"If a repetition has not been found, test will end at selected inactivity "
-"seconds (x2)."
+"If a repetition has not been found, test will end at selected inactivity seconds "
+"(x2)."
 msgstr ""
-"Si no se ha encontrado la repetición, la prueba terminará al pasar los "
-"segundos de inactividad (x2)."
+"Si no se ha encontrado la repetición, la prueba terminará al pasar los segundos "
+"de inactividad (x2)."
 
 #: ../src/gui/preferences.cs:1037
 msgid "This will let the person to have more time to start movement."
@@ -7216,8 +7174,7 @@ msgstr "Debe activar los sonidos en la ventana preferencias - Multimedia"
 msgid ""
 "Use clusters in order to group repetitions inside a set separated by rest time."
 msgstr ""
-"Usar agrupaciones separadas por descanso para agrupar repeticiones de una "
-"serie."
+"Usar agrupaciones separadas por descanso para agrupar repeticiones de una serie."
 
 #: ../src/gui/repetitiveConditions.cs:683
 msgid ""
@@ -7333,16 +7290,14 @@ msgid "On RSA tests, rest time counts as a \"lap\"."
 msgstr "En las pruebas RSA, el tiempo de descanso cuenta como una «pista»."
 
 #: ../src/gui/runType.cs:376
-msgid ""
-"You should write the time in seconds after a capital 'R' (meaning \"Rest\")."
+msgid "You should write the time in seconds after a capital 'R' (meaning \"Rest\")."
 msgstr ""
 "Debe escribir el tiempo en segundos después de la letra mayúscula «R» (que "
 "significa «Descanso»)"
 
 #: ../src/gui/runType.cs:377
 msgid "Eg. Aziz et al. (2000) test repeats 8 times the following sequence:"
-msgstr ""
-"Ej: la prueba de Aziz et al (2000) repite 8 veces la siguiente secuencia:"
+msgstr "Ej: la prueba de Aziz et al (2000) repite 8 veces la siguiente secuencia:"
 
 #: ../src/gui/runType.cs:378
 msgid "Run 40 meters, rest 30 seconds."
@@ -7643,11 +7598,11 @@ msgstr "Reactivar el salto de forma ilimitada (hasta pulsar el botón Finalizar)
 
 #: ../src/jumpType.cs:197
 msgid ""
-"Run between two photocells recording contact and flight times in contact "
-"platform/s."
+"Run between two photocells recording contact and flight times in contact platform/"
+"s."
 msgstr ""
-"Correr entre dos fotocélulas registrando tiempos de contacto y de vuelo en la/"
-"s plataforma/s de contacto."
+"Correr entre dos fotocélulas registrando tiempos de contacto y de vuelo en la/s "
+"plataforma/s de contacto."
 
 #: ../src/jumpType.cs:198
 msgid "Until finish button is clicked."
@@ -7722,8 +7677,8 @@ msgid ""
 "Office, we recommend to use .csv extension.\n"
 "eg: 'test.csv'"
 msgstr ""
-"Si lo desea abrir con una hoja de cálculo como Gnumeric, Open Office o MS "
-"Office, le recomendamos que use la extensión .csv\n"
+"Si lo desea abrir con una hoja de cálculo como Gnumeric, Open Office o MS Office, "
+"le recomendamos que use la extensión .csv\n"
 "Por ejemplo: 'test.csv'"
 
 #: ../src/Mini/chronojump_mini.cs:308
@@ -7758,8 +7713,7 @@ msgstr "Se ha subido correctamente el evaluador con ID: {0}"
 #, csharp-format
 msgid "Evaluator {0} has not been correctly uploaded. Maybe codes doesn't match."
 msgstr ""
-"El evaluator {0} no se ha subido correctamente. Quizás los códigos no "
-"concuerden."
+"El evaluator {0} no se ha subido correctamente. Quizás los códigos no concuerden."
 
 #: ../src/pulseType.cs:45
 msgid "Pulse free"
@@ -7767,11 +7721,11 @@ msgstr "Pulso libre"
 
 #: ../src/pulseType.cs:47
 msgid ""
-"User executes a pulse without a predefined tempo. <i>Difference</i> will show "
-"the difference between a pulse and it's preceding pulse."
+"User executes a pulse without a predefined tempo. <i>Difference</i> will show the "
+"difference between a pulse and it's preceding pulse."
 msgstr ""
-"El usuario ejecuta un pulso sin un tiempo predefinido. <i>Diferencia</i> "
-"mostrará la diferencia entre un pulso y el pulso anterior."
+"El usuario ejecuta un pulso sin un tiempo predefinido. <i>Diferencia</i> mostrará "
+"la diferencia entre un pulso y el pulso anterior."
 
 #: ../src/pulseType.cs:53
 msgid "Pulse custom"
@@ -7779,13 +7733,13 @@ msgstr "Configurar pulso"
 
 #: ../src/pulseType.cs:55
 msgid ""
-"User executes a pulse trying to follow a predefined tempo and optionally with "
-"a fixed number of pulsations. <i>Difference</i> will show the difference "
-"between a a pulse and the predefined pulse."
+"User executes a pulse trying to follow a predefined tempo and optionally with a "
+"fixed number of pulsations. <i>Difference</i> will show the difference between a "
+"a pulse and the predefined pulse."
 msgstr ""
 "El usuario ejecuta un pulso tratando de seguir un tiempo predefinido y, "
-"opcionalmente,con un número fijo de pulsaciones. <i> Diferencia</i> mostrará "
-"lala diferencia entre el pulso y el pulso predefinido."
+"opcionalmente,con un número fijo de pulsaciones. <i> Diferencia</i> mostrará lala "
+"diferencia entre el pulso y el pulso predefinido."
 
 #: ../src/report.cs:160
 msgid "without subjumps"
@@ -7841,8 +7795,7 @@ msgstr "Pequeña descripción"
 
 #: ../src/runType.cs:145
 msgid "Subjects had to walk over the bar as fast as possible."
-msgstr ""
-"Las personas tienen que caminar sobre la barra tan rápido como sea posible."
+msgstr "Las personas tienen que caminar sobre la barra tan rápido como sea posible."
 
 #: ../src/runType.cs:146
 msgid "From one platform to another without falling down."
@@ -7901,14 +7854,13 @@ msgid ""
 "You have to walk on this bar as fast as possible 'like this', if you touch the "
 "ground just continue."
 msgstr ""
-"Tiene que caminar en esta barra tan rápido como le sea posible «tal que así», "
-"si toca el suelo, simplemente continúe."
+"Tiene que caminar en esta barra tan rápido como le sea posible «tal que así», si "
+"toca el suelo, simplemente continúe."
 
 #: ../src/runType.cs:164
 msgid ""
 "'Like this' means normal, with a foot in front of the other, not side by side."
-msgstr ""
-"«Como esto» significa normal, con un pie enfrente del otro, no lado a lado."
+msgstr "«Como esto» significa normal, con un pie enfrente del otro, no lado a lado."
 
 #: ../src/runType.cs:166
 msgid "SCORE: "
@@ -7919,8 +7871,8 @@ msgid ""
 "Time will start since first platform is touched, and will stop when second "
 "platform is reached."
 msgstr ""
-"El tiempo comenzará cuando se toque la primera plataforma y se parará al "
-"llegar a la segunda plataforma."
+"El tiempo comenzará cuando se toque la primera plataforma y se parará al llegar a "
+"la segunda plataforma."
 
 #: ../src/runType.cs:169
 msgid "The best of 2 attempts will be recorded."
@@ -7939,8 +7891,8 @@ msgid ""
 "This test is part of a battery for the USA Women's Soccer Team. The NFL use a "
 "very similar test for the NFL Combine Testing, the 20 yard shuttle."
 msgstr ""
-"Esta prueba es parte de un conjunto del equipo de fútbol femenino de los "
-"Estados Unidos. La NFL usa una prueba similar."
+"Esta prueba es parte de un conjunto del equipo de fútbol femenino de los Estados "
+"Unidos. La NFL usa una prueba similar."
 
 #: ../src/runType.cs:189 ../src/runType.cs:266
 msgid "Purpose"
@@ -7961,25 +7913,25 @@ msgstr "Procedimiento"
 
 #: ../src/runType.cs:193
 msgid ""
-"Set up three marker cones in a straight line, exactly five yards apart - cones "
-"B, A(center) and C. At each cone place a line across using marking tape. The "
-"timer is positioned at the level of the center A cone, facing the athlete. The "
-"athlete straddles the center cone A with feet an equal distance apart and "
-"parallel to the line of cones. When ready, the athlete runs to cone B "
-"(touching the line with either foot), turns and accelerates to cone C "
-"(touching the line), and finishes by accelerating through the line at cone A. "
-"The stopwatch is started on the first movement of the athlete and stops the "
-"watch when the athlete’s torso crosses the center line."
+"Set up three marker cones in a straight line, exactly five yards apart - cones B, "
+"A(center) and C. At each cone place a line across using marking tape. The timer "
+"is positioned at the level of the center A cone, facing the athlete. The athlete "
+"straddles the center cone A with feet an equal distance apart and parallel to the "
+"line of cones. When ready, the athlete runs to cone B (touching the line with "
+"either foot), turns and accelerates to cone C (touching the line), and finishes "
+"by accelerating through the line at cone A. The stopwatch is started on the first "
+"movement of the athlete and stops the watch when the athlete’s torso crosses the "
+"center line."
 msgstr ""
 "Sitúe tres conos en una línea recta, separados cinco yardas exactamente - los "
-"conos B, A (centro) y C. Coloque en cada cono una línea usando cinta de "
-"marcar. El temporizador se posiciona en el nivel del centro de un cono, frente "
-"al atleta. El atleta extiende a ambos lados del cono centro A con los pies una "
-"distancia igual y paralela a la línea de conos. Cuando esté listo, el atleta "
-"corre al cono B (tocar la línea con cualquiera de los pies), se da vuelta y "
-"acelera hasta el cono C (que toca la línea), y termina la aceleración a través "
-"de la línea en el cono A. El cronómetro se inicia en el primer movimiento de "
-"el atleta y se detiene cuando el torso del atleta cruza la línea central."
+"conos B, A (centro) y C. Coloque en cada cono una línea usando cinta de marcar. "
+"El temporizador se posiciona en el nivel del centro de un cono, frente al atleta. "
+"El atleta extiende a ambos lados del cono centro A con los pies una distancia "
+"igual y paralela a la línea de conos. Cuando esté listo, el atleta corre al cono "
+"B (tocar la línea con cualquiera de los pies), se da vuelta y acelera hasta el "
+"cono C (que toca la línea), y termina la aceleración a través de la línea en el "
+"cono A. El cronómetro se inicia en el primer movimiento de el atleta y se detiene "
+"cuando el torso del atleta cruza la línea central."
 
 #: ../src/runType.cs:195 ../src/runType.cs:273
 msgid "Scoring"
@@ -7991,12 +7943,11 @@ msgstr "Grabar el mejor tiempo de dos intentos."
 
 #: ../src/runType.cs:198
 msgid ""
-"Encourage athletes to accelerate through the finish line to maximize their "
-"result."
+"Encourage athletes to accelerate through the finish line to maximize their result."
 msgstr ""
 "Animar a los atletas para acelerar hasta la línea de meta para mejorar sus "
-"resultados.Anime a los atletas a acelerar hacia la línea de final para "
-"conseguir un mejor resultado."
+"resultados.Anime a los atletas a acelerar hacia la línea de final para conseguir "
+"un mejor resultado."
 
 #: ../src/runType.cs:200 ../src/runType.cs:217 ../src/runType.cs:252
 #: ../src/runType.cs:286 ../src/runType.cs:308
@@ -8009,33 +7960,33 @@ msgstr "Prueba de agilidad 505"
 
 #: ../src/runType.cs:212
 msgid ""
-"Markers are set up 5 and 15 meters from a line marked on the ground. The "
-"athlete runs from the 15 meter marker towards the line (run in distance to "
-"build up speed) and through the 5 m markers, turns on the line and runs back "
-"through the 5 m markers. The time is recorded from when the athletes first "
-"runs through the 5 meter marker, and stopped when they return through these "
-"markers (that is, the time taken to cover the 5 m up and back distance - 10 m "
-"total). The best of two trails is recorded. The turning ability on each leg "
-"should be tested. The subject should be encouraged to not overstep the line by "
-"too much, as this will increase their time."
+"Markers are set up 5 and 15 meters from a line marked on the ground. The athlete "
+"runs from the 15 meter marker towards the line (run in distance to build up "
+"speed) and through the 5 m markers, turns on the line and runs back through the 5 "
+"m markers. The time is recorded from when the athletes first runs through the 5 "
+"meter marker, and stopped when they return through these markers (that is, the "
+"time taken to cover the 5 m up and back distance - 10 m total). The best of two "
+"trails is recorded. The turning ability on each leg should be tested. The subject "
+"should be encouraged to not overstep the line by too much, as this will increase "
+"their time."
 msgstr ""
 "Las marcas se disponen a 5 y 15 metros de una línea marcada en el suelo. El "
 "atleta corre desde la marca de 15 metros hacia la línea (distancia de carrera "
 "inicial para conseguir velocidad)  y entre las dos marcas de 5m , gira en la "
 "línea y corre hacia atrás hasta las marcas de 5m. El tiempo que se registra es "
 "desde que el atleta llega por primera vez a la marca de 5m, hasta que vuelve a "
-"pisar dicha marcas  (o sea, el tiempo que ha necesitado para recorrer los 5m "
-"de ida y vuelta - 10m en total). Se registra el mejor de dos intentos. Se debe "
+"pisar dicha marcas  (o sea, el tiempo que ha necesitado para recorrer los 5m de "
+"ida y vuelta - 10m en total). Se registra el mejor de dos intentos. Se debe "
 "registrar la capacidad en el giro con cada pierna. Se le anima al atleta a no "
 "«pisar demasiado» la línea, ya que esto aumentaría el tiempo."
 
 #: ../src/runType.cs:215
 msgid ""
-"This is a test of 180 degree turning ability. This ability may not be "
-"applicable to some sports."
+"This is a test of 180 degree turning ability. This ability may not be applicable "
+"to some sports."
 msgstr ""
-"Esta prueba es óptima para registrar la capacidad en el giro de 180 grados. "
-"Esta capacidad no es aplicable a algunos deportes."
+"Esta prueba es óptima para registrar la capacidad en el giro de 180 grados. Esta "
+"capacidad no es aplicable a algunos deportes."
 
 #: ../src/runType.cs:226
 msgid "Illinois Agility test"
@@ -8043,31 +7994,28 @@ msgstr "Prueba de agilidad Illinois"
 
 #: ../src/runType.cs:229
 msgid ""
-"The length of the course is 10 meters and the width (distance between the "
-"start and finish points) is 5 meters. Four cones are used to mark the start, "
-"finish and the two turning points. Another four cones are placed down the "
-"center an equal distance apart. Each cone in the center is spaced 3.3 meters "
-"apart."
+"The length of the course is 10 meters and the width (distance between the start "
+"and finish points) is 5 meters. Four cones are used to mark the start, finish and "
+"the two turning points. Another four cones are placed down the center an equal "
+"distance apart. Each cone in the center is spaced 3.3 meters apart."
 msgstr ""
-"La longitud de la carrera es 10 metros y la anchura (distancia entre los "
-"puntos de inicio y final) es 5 metros. Se usan cuatro conos para marcar la "
-"salida, final y los dos puntos de giro. Otros cuatro conos se sitúan en el "
-"centro y separados a igual distancia. Cada cono central está 3,3 metros "
-"separado del resto."
+"La longitud de la carrera es 10 metros y la anchura (distancia entre los puntos "
+"de inicio y final) es 5 metros. Se usan cuatro conos para marcar la salida, final "
+"y los dos puntos de giro. Otros cuatro conos se sitúan en el centro y separados a "
+"igual distancia. Cada cono central está 3,3 metros separado del resto."
 
 #: ../src/runType.cs:232
 msgid ""
 "Subjects should lie on their front (head to the start line) and hands by their "
-"shoulders. On the 'Go' command the stopwatch is started, and the athlete gets "
-"up as quickly as possible and runs around the course in the direction "
-"indicated, without knocking the cones over, to the finish line, at which the "
-"timing is stopped."
+"shoulders. On the 'Go' command the stopwatch is started, and the athlete gets up "
+"as quickly as possible and runs around the course in the direction indicated, "
+"without knocking the cones over, to the finish line, at which the timing is "
+"stopped."
 msgstr ""
 "Los atletas se tumbarán boca abajo (con la cabeza en la línea de salida) y las "
-"manos en sus hombros. A la señal de «Salida» se inicia el cronómetro y el "
-"atleta se levanta tan rápido como puede y corre la carrera en la dirección "
-"indicada, sin tirar ningún cono, hasta la línea de final, momento en que se "
-"para el reloj."
+"manos en sus hombros. A la señal de «Salida» se inicia el cronómetro y el atleta "
+"se levanta tan rápido como puede y corre la carrera en la dirección indicada, sin "
+"tirar ningún cono, hasta la línea de final, momento en que se para el reloj."
 
 #: ../src/runType.cs:234
 msgid "Results"
@@ -8077,8 +8025,8 @@ msgstr "Resultados"
 msgid "The table below gives some rating scores (in seconds) for the test"
 msgstr ""
 "La tabla de debajo proporciona algunas puntuaciones (en segundos) para la "
-"pruebaLa tabla de abajo muestra cualificaciones de resultados (en segundos) "
-"para esta prueba"
+"pruebaLa tabla de abajo muestra cualificaciones de resultados (en segundos) para "
+"esta prueba"
 
 #: ../src/runType.cs:236
 msgid "Rating"
@@ -8114,12 +8062,12 @@ msgstr "Ventajas"
 
 #: ../src/runType.cs:244
 msgid ""
-"This is a simple test to administer, requiring little equipment. Can test "
-"players ability to turn in different directions, and different angles."
+"This is a simple test to administer, requiring little equipment. Can test players "
+"ability to turn in different directions, and different angles."
 msgstr ""
-"Esta prueba es fácil de realizar, se requiere poco equipamiento. Puede mostrar "
-"la capacidad de los deportistas de girar en diferentes direcciones y en "
-"diferentes ángulos."
+"Esta prueba es fácil de realizar, se requiere poco equipamiento. Puede mostrar la "
+"capacidad de los deportistas de girar en diferentes direcciones y en diferentes "
+"ángulos."
 
 #: ../src/runType.cs:246
 msgid "Disadvantages"
@@ -8127,15 +8075,14 @@ msgstr "Desventajas"
 
 #: ../src/runType.cs:247
 msgid ""
-"Choice of footwear and surface of area can effect times greatly. Results can "
-"be subject to timing inconsistencies, which may be overcome by using timing "
-"gates. Cannot distinguish between left and right turning ability."
+"Choice of footwear and surface of area can effect times greatly. Results can be "
+"subject to timing inconsistencies, which may be overcome by using timing gates. "
+"Cannot distinguish between left and right turning ability."
 msgstr ""
 "La elección del calzado y la superficie donde se realiza pueden afectar "
 "considerablemente en el resultado. Los resultados pueden estar sujetos a "
-"problemas de medición, que pueden ser solucionados usando células infrarrojas. "
-"No puede diferenciar entre la capacidad de giro hacia la izquierda y la "
-"derecha."
+"problemas de medición, que pueden ser solucionados usando células infrarrojas. No "
+"puede diferenciar entre la capacidad de giro hacia la izquierda y la derecha."
 
 #: ../src/runType.cs:249 ../src/runType.cs:276
 msgid "Variations"
@@ -8146,9 +8093,9 @@ msgid ""
 "The starting and finishing sides can be swapped, so that turning direction is "
 "changed."
 msgstr ""
-"Puede invertirse el inicio y final, así la dirección de giro cambia.Los lados "
-"de comienzo y final se pueden cambiar, de forma que también se cambia la "
-"dirección de giro."
+"Puede invertirse el inicio y final, así la dirección de giro cambia.Los lados de "
+"comienzo y final se pueden cambiar, de forma que también se cambia la dirección "
+"de giro."
 
 #: ../src/runType.cs:262
 msgid "Shuttle Run Agility test"
@@ -8156,45 +8103,43 @@ msgstr "Prueba de Agilidad Shuttle Run"
 
 #: ../src/runType.cs:264
 msgid ""
-"This test describes the procedures as used in the President's Challenge "
-"Fitness Awards. The variations listed give other ways to also perform this "
-"test."
+"This test describes the procedures as used in the President's Challenge Fitness "
+"Awards. The variations listed give other ways to also perform this test."
 msgstr ""
 "Esta prueba describe los procedimientos que se usan en los premios de gimnasia "
-"Desafío del presidente. Las variaciones listadas también proporcionan otro "
-"camino para realizar la prueba."
+"Desafío del presidente. Las variaciones listadas también proporcionan otro camino "
+"para realizar la prueba."
 
 #: ../src/runType.cs:267
 msgid "This is a test of speed and agility, important in many sports."
-msgstr ""
-"Este es una prueba de velocidad y agilidad, importante en muchos deportes."
+msgstr "Este es una prueba de velocidad y agilidad, importante en muchos deportes."
 
 #: ../src/runType.cs:270
 msgid ""
-"This test requires the person to run back and forth between two parallel lines "
-"as fast as possible. Set up two lines of cones 30 feet apart or use line "
-"markings, and place two blocks of wood or a similar object behind one of the "
-"lines. Starting at the line opposite the blocks, on the signal 'Ready? Go!' "
-"the participant runs to the other line, picks up a block and returns to place "
-"it behind the starting line, then returns to pick up the second block, then "
-"runs with it back across the line."
+"This test requires the person to run back and forth between two parallel lines as "
+"fast as possible. Set up two lines of cones 30 feet apart or use line markings, "
+"and place two blocks of wood or a similar object behind one of the lines. "
+"Starting at the line opposite the blocks, on the signal 'Ready? Go!' the "
+"participant runs to the other line, picks up a block and returns to place it "
+"behind the starting line, then returns to pick up the second block, then runs "
+"with it back across the line."
 msgstr ""
 "Esta prueba requiere que las personas corran atrás y adelante entre dos líneas "
-"paralelas lo mas rápidamente posible. Establezca dos líneas de conos "
-"distanciadas 30 pies o use líneas marcadas y ponga dos bloques de madera o un "
-"objeto similar detrás de una de las líneas. Empezando por la línea enfrente de "
-"los bloques. en la señal «¿Listo? ¡Adelante!» los participantes correrán hacia "
-"la otra línea, levantarán un bloque y volverán para colocarlo detrás del "
-"comienzo de la línea, después volverán para levantar el segundo bloque, "
-"después correrán con él a través de la línea."
+"paralelas lo mas rápidamente posible. Establezca dos líneas de conos distanciadas "
+"30 pies o use líneas marcadas y ponga dos bloques de madera o un objeto similar "
+"detrás de una de las líneas. Empezando por la línea enfrente de los bloques. en "
+"la señal «¿Listo? ¡Adelante!» los participantes correrán hacia la otra línea, "
+"levantarán un bloque y volverán para colocarlo detrás del comienzo de la línea, "
+"después volverán para levantar el segundo bloque, después correrán con él a "
+"través de la línea."
 
 #: ../src/runType.cs:274
 msgid ""
-"Two or more trails may be performed, and the quickest time is recorded. "
-"Results are recorded to the nearest tenth of a second."
+"Two or more trails may be performed, and the quickest time is recorded. Results "
+"are recorded to the nearest tenth of a second."
 msgstr ""
-"Se pueden realizar dos o más registros podrían y se graba el tiempo más "
-"rápido. El resultado se registra con la décima más cercana al segundo."
+"Se pueden realizar dos o más registros podrían y se graba el tiempo más rápido. "
+"El resultado se registra con la décima más cercana al segundo."
 
 #: ../src/runType.cs:276 ../src/runType.cs:301
 msgid "Modifications"
@@ -8209,8 +8154,8 @@ msgid ""
 msgstr ""
 "El procedimiento de la prueba puede variar cambiando el número de tramos "
 "ejecutados, la distancia entre tramos (algunos usan 10 metros en lugar de 30 "
-"pies) y quitando la necesidad de que el atleta tenga que recoger y llevar "
-"objetos en los puntos de giro."
+"pies) y quitando la necesidad de que el atleta tenga que recoger y llevar objetos "
+"en los puntos de giro."
 
 #: ../src/runType.cs:281
 msgid ""
@@ -8222,12 +8167,12 @@ msgstr ""
 
 #: ../src/runType.cs:284
 msgid ""
-"The blocks should be placed at the line, not thrown across them. Also make "
-"sure the participants run through the finish line to maximize their score."
+"The blocks should be placed at the line, not thrown across them. Also make sure "
+"the participants run through the finish line to maximize their score."
 msgstr ""
 "Los bloques se deberían colocar en la línea, no lanzados a través de ellos. "
-"También asegúrese de que los participantes corran continuando la línea final "
-"para aumentar sus puntuaciones."
+"También asegúrese de que los participantes corran continuando la línea final para "
+"aumentar sus puntuaciones."
 
 #: ../src/runType.cs:296
 msgid "ZigZag Agility test"
@@ -8235,36 +8180,36 @@ msgstr "Prueba de agilidad ZigZag"
 
 #: ../src/runType.cs:299
 msgid ""
-"Similar to the Shuttle Run test, this test requires the athlete to run a "
-"course in the shortest possible time. A standard zig zag course is with four "
-"cones placed on the corners of a rectangle 10 by 16 feet, with one more cone "
-"placed in the centre. If the cones are labelled 1 to 4 around the rectangle "
-"going along the longer side first, and the centre cone is C, the test begins "
-"at 1, then to C, 2, 3, C, 4, then back to 1."
+"Similar to the Shuttle Run test, this test requires the athlete to run a course "
+"in the shortest possible time. A standard zig zag course is with four cones "
+"placed on the corners of a rectangle 10 by 16 feet, with one more cone placed in "
+"the centre. If the cones are labelled 1 to 4 around the rectangle going along the "
+"longer side first, and the centre cone is C, the test begins at 1, then to C, 2, "
+"3, C, 4, then back to 1."
 msgstr ""
-"Similar al Shuttle Run, esta prueba requiere que el atleta corra una carrera "
-"en el mínimo tiempo posible. Para realizar una carrera zig zag estándar, se "
-"colocan cuatro conos en las esquinas de un rectángule de 10 por 16 pies (3,05 "
-"x 4,87m), con un cono más en el centro. Los conos son etiquetados con los "
-"números 1 a 4 alrededor del rectángulo de manera que se vaya primero hacia el "
-"lado largo, y el cono del centro es denominado C. La prueba inicia en 1,  "
-"después C, 2, 3, C, 4, y otra vez hacia 1."
+"Similar al Shuttle Run, esta prueba requiere que el atleta corra una carrera en "
+"el mínimo tiempo posible. Para realizar una carrera zig zag estándar, se colocan "
+"cuatro conos en las esquinas de un rectángule de 10 por 16 pies (3,05 x 4,87m), "
+"con un cono más en el centro. Los conos son etiquetados con los números 1 a 4 "
+"alrededor del rectángulo de manera que se vaya primero hacia el lado largo, y el "
+"cono del centro es denominado C. La prueba inicia en 1,  después C, 2, 3, C, 4, y "
+"otra vez hacia 1."
 
 #: ../src/runType.cs:302
 msgid ""
-"This test procedure can be modified by changing the distance between cones, "
-"and the number of circuits performed."
+"This test procedure can be modified by changing the distance between cones, and "
+"the number of circuits performed."
 msgstr ""
-"Este procedimiento de prueba se puede modificar para cambiar la distancia "
-"entre los conos, y el numero de circuitos realizados."
+"Este procedimiento de prueba se puede modificar para cambiar la distancia entre "
+"los conos, y el numero de circuitos realizados."
 
 #: ../src/runType.cs:305
 msgid ""
-"The total distance run should not be too great so that fatigue does not become "
-"a factor."
+"The total distance run should not be too great so that fatigue does not become a "
+"factor."
 msgstr ""
-"La distancia total recorrida no debería ser importante para que la fatiga no "
-"se convierta en un factor."
+"La distancia total recorrida no debería ser importante para que la fatiga no se "
+"convierta en un factor."
 
 #: ../src/runType.cs:327
 msgid "Margaria-Kalamen"
@@ -8301,55 +8246,54 @@ msgstr "Prueba «Levantarse y caminar» de tiempo modificado"
 #. this intervallic race has different distance for each lap
 #: ../src/runType.cs:390
 msgid ""
-"The instructions given to perform the test were as follows: \"Sit down with "
-"your back resting on the back of the chair and with your two arms resting on "
-"your legs. When you hear the word 'go', stand up without using your arms, kick "
-"the ball in front of you as hard as you possibly can, using the instep of the "
-"foot you feel the safest. Then walk at your normal pace while counting "
-"backwards from 15 to 0 out loud. Turn around back the cone, without touching "
-"it, and go back to your seat, stepping into the circles, trying not to touch "
-"any of them. Finally, sit down again, trying not to use your arms\"."
+"The instructions given to perform the test were as follows: \"Sit down with your "
+"back resting on the back of the chair and with your two arms resting on your "
+"legs. When you hear the word 'go', stand up without using your arms, kick the "
+"ball in front of you as hard as you possibly can, using the instep of the foot "
+"you feel the safest. Then walk at your normal pace while counting backwards from "
+"15 to 0 out loud. Turn around back the cone, without touching it, and go back to "
+"your seat, stepping into the circles, trying not to touch any of them. Finally, "
+"sit down again, trying not to use your arms\"."
 msgstr ""
 "Las instrucciones proporcionadas para realizar la prueba son las siguientes: "
-"«sentarse con la espalda en el respaldo de la silla y los dos brazos "
-"descansando sobre las piernas. Al oír la palabra «caminar», levantarse sin "
-"usar los brazos, patear la pelota en frente tan fuerte como sea posible, "
-"usando el paso que le resulte más seguro. Después caminar a ritmo normal a la "
-"vez que se cuenta hacia atrás en voz alta de 15 a 0. Dar la vuelta al cono, "
-"sin tocarlo, e ir de vuelta al asiento, pisando dentro de los círculos, "
-"intentando no tocar ninguno de ellos. Finalmente, sentarse de nuevo, "
-"intentando no usar los brazos»."
+"«sentarse con la espalda en el respaldo de la silla y los dos brazos descansando "
+"sobre las piernas. Al oír la palabra «caminar», levantarse sin usar los brazos, "
+"patear la pelota en frente tan fuerte como sea posible, usando el paso que le "
+"resulte más seguro. Después caminar a ritmo normal a la vez que se cuenta hacia "
+"atrás en voz alta de 15 a 0. Dar la vuelta al cono, sin tocarlo, e ir de vuelta "
+"al asiento, pisando dentro de los círculos, intentando no tocar ninguno de ellos. "
+"Finalmente, sentarse de nuevo, intentando no usar los brazos»."
 
 #: ../src/runType.cs:392
 msgid ""
 "The stopwatches were activated on the word 'go' and the button that saved the "
 "time intervals was pressed also after the following stages: when the subject "
 "stood up and kicked the ball; when the ball passed the 8 m line; and when the "
-"subject returned to the seated position in the same chair (42 cm height from "
-"the seat to the ground). The total time needed to perform the test provided a "
-"quantitative evaluation of performance. A qualitative evaluation was performed "
-"by the completion of an AQ. This AQ assesses 6 items with a Likert scale from "
-"0 to 3, where 0 is the equivalent to needing help in order to perform the "
-"task, and 3 is equivalent to performing the task unaided with no mistakes. The "
-"maximum points that can be attained are 18. The items assessed were: (1) "
-"standing up from the chair, (2) kicking the ball, (3) walking whilst counting "
-"backwards from 15 to 0, (4) walking around the cone, (5) walking whilst "
-"stepping into the circles, and (6) sitting back down again."
+"subject returned to the seated position in the same chair (42 cm height from the "
+"seat to the ground). The total time needed to perform the test provided a "
+"quantitative evaluation of performance. A qualitative evaluation was performed by "
+"the completion of an AQ. This AQ assesses 6 items with a Likert scale from 0 to "
+"3, where 0 is the equivalent to needing help in order to perform the task, and 3 "
+"is equivalent to performing the task unaided with no mistakes. The maximum points "
+"that can be attained are 18. The items assessed were: (1) standing up from the "
+"chair, (2) kicking the ball, (3) walking whilst counting backwards from 15 to 0, "
+"(4) walking around the cone, (5) walking whilst stepping into the circles, and "
+"(6) sitting back down again."
 msgstr ""
 "Los relojes se activaron con la palabra «caminar» y el botón que guardó los "
-"intervalos de tiempo se pulsó también después de las siguientes etapas: cuando "
-"el atleta se levantó y golpeó la pelota; cuando la pelota pasó la línea de los "
-"8 m; y cuando el atleta volvió a la posición sentada en la misma silla (42 cm "
-"de altura del asiento al suelo). El tiempo total requerido para realizar la "
-"prueba proporcionó una evaluación cuantitativa del rendimiento. Se realizó una "
+"intervalos de tiempo se pulsó también después de las siguientes etapas: cuando el "
+"atleta se levantó y golpeó la pelota; cuando la pelota pasó la línea de los 8 m; "
+"y cuando el atleta volvió a la posición sentada en la misma silla (42 cm de "
+"altura del asiento al suelo). El tiempo total requerido para realizar la prueba "
+"proporcionó una evaluación cuantitativa del rendimiento. Se realizó una "
 "evaluación cualitativa al rellenar un cuestionario de evaluación. Este "
 "cuestionario de evaluación valora 6 elementos con una escala Likert de 0 a 3, "
 "donde 0 es el equivalente a necesitar ayuda para realizar la prueba, y 3 es el "
 "equivalente a realizar la tarea sin ayuda y sin cometer errores. La mayor "
 "puntuación que se puede obtener es 18. Los elementos evaluados fueron: (1) "
-"levantarse de la silla, (2) golpear la pelota, (3) caminar a la vez que se "
-"cuenta hacia atrás de 15 a 0, (4) caminar alrededor del cono, (5) caminar a la "
-"vez que se pisa dentro de los círculos, y (6) sentarse de nuevo."
+"levantarse de la silla, (2) golpear la pelota, (3) caminar a la vez que se cuenta "
+"hacia atrás de 15 a 0, (4) caminar alrededor del cono, (5) caminar a la vez que "
+"se pisa dentro de los círculos, y (6) sentarse de nuevo."
 
 #: ../src/runType.cs:393
 msgid "Assessment questionnaire"
@@ -8360,8 +8304,8 @@ msgid ""
 "Once the test finishes proceed to edit and you will be able to complete the "
 "assessment questionnaire."
 msgstr ""
-"Una vez que la prueba finaliza proceda a editar y podrá completar el "
-"cuestionario de evaluación."
+"Una vez que la prueba finaliza proceda a editar y podrá completar el cuestionario "
+"de evaluación."
 
 #: ../src/runType.cs:398
 msgid "Abstract:"
@@ -9688,49 +9632,47 @@ msgstr "F reactiva"
 msgid "Dj Index"
 msgstr "Índice Dj"
 
-#: ../src/stats/djIndex.cs:116 ../src/stats/djPower.cs:118
-#: ../src/stats/djQ.cs:116 ../src/stats/jumpIndexes.cs:127
-#: ../src/stats/jumpSimpleSubtraction.cs:112 ../src/stats/rjAVGSD.cs:180
-#: ../src/stats/rjEvolution.cs:259 ../src/stats/rjIndex.cs:118
-#: ../src/stats/rjPotencyBosco.cs:120 ../src/stats/runIntervallic.cs:246
-#: ../src/stats/runSimple.cs:114 ../src/stats/sjCmjAbk.cs:114
-#: ../src/stats/sjCmjAbkPlus.cs:133
+#: ../src/stats/djIndex.cs:116 ../src/stats/djPower.cs:118 ../src/stats/djQ.cs:116
+#: ../src/stats/jumpIndexes.cs:127 ../src/stats/jumpSimpleSubtraction.cs:112
+#: ../src/stats/rjAVGSD.cs:180 ../src/stats/rjEvolution.cs:259
+#: ../src/stats/rjIndex.cs:118 ../src/stats/rjPotencyBosco.cs:120
+#: ../src/stats/runIntervallic.cs:246 ../src/stats/runSimple.cs:114
+#: ../src/stats/sjCmjAbk.cs:114 ../src/stats/sjCmjAbkPlus.cs:133
 #, csharp-format
 msgid "First value"
 msgid_plural "First {0} values"
 msgstr[0] "Primer valor"
 msgstr[1] "Primeros {0} valores"
 
-#: ../src/stats/djIndex.cs:119 ../src/stats/djPower.cs:121
-#: ../src/stats/djQ.cs:119 ../src/stats/fv.cs:111 ../src/stats/global.cs:102
-#: ../src/stats/jumpIndexes.cs:130 ../src/stats/jumpSimpleSubtraction.cs:115
-#: ../src/stats/rjAVGSD.cs:183 ../src/stats/rjEvolution.cs:262
-#: ../src/stats/rjIndex.cs:121 ../src/stats/rjPotencyBosco.cs:123
-#: ../src/stats/runIntervallic.cs:249 ../src/stats/runSimple.cs:117
-#: ../src/stats/sjCmjAbk.cs:117 ../src/stats/sjCmjAbkPlus.cs:136
+#: ../src/stats/djIndex.cs:119 ../src/stats/djPower.cs:121 ../src/stats/djQ.cs:119
+#: ../src/stats/fv.cs:111 ../src/stats/global.cs:102 ../src/stats/jumpIndexes.cs:130
+#: ../src/stats/jumpSimpleSubtraction.cs:115 ../src/stats/rjAVGSD.cs:183
+#: ../src/stats/rjEvolution.cs:262 ../src/stats/rjIndex.cs:121
+#: ../src/stats/rjPotencyBosco.cs:123 ../src/stats/runIntervallic.cs:249
+#: ../src/stats/runSimple.cs:117 ../src/stats/sjCmjAbk.cs:117
+#: ../src/stats/sjCmjAbkPlus.cs:136
 #, csharp-format
 msgid "Max value of each person"
 msgid_plural "Max {0} values of each person"
 msgstr[0] "Máximo valor de cada saltador"
 msgstr[1] "Máximos {0} valores de cada saltador"
 
-#: ../src/stats/djIndex.cs:126 ../src/stats/djPower.cs:128
-#: ../src/stats/djQ.cs:126 ../src/stats/fv.cs:118 ../src/stats/global.cs:109
-#: ../src/stats/jumpIndexes.cs:137 ../src/stats/jumpSimpleSubtraction.cs:122
-#: ../src/stats/potency.cs:132 ../src/stats/rjIndex.cs:128
-#: ../src/stats/rjPotencyBosco.cs:130 ../src/stats/runSimple.cs:124
-#: ../src/stats/sjCmjAbk.cs:124 ../src/stats/sjCmjAbkPlus.cs:143
+#: ../src/stats/djIndex.cs:126 ../src/stats/djPower.cs:128 ../src/stats/djQ.cs:126
+#: ../src/stats/fv.cs:118 ../src/stats/global.cs:109 ../src/stats/jumpIndexes.cs:137
+#: ../src/stats/jumpSimpleSubtraction.cs:122 ../src/stats/potency.cs:132
+#: ../src/stats/rjIndex.cs:128 ../src/stats/rjPotencyBosco.cs:130
+#: ../src/stats/runSimple.cs:124 ../src/stats/sjCmjAbk.cs:124
+#: ../src/stats/sjCmjAbkPlus.cs:143
 msgid " various sessions "
 msgstr "varias sesiones"
 
-#: ../src/stats/djIndex.cs:129 ../src/stats/djPower.cs:131
-#: ../src/stats/djQ.cs:129 ../src/stats/fv.cs:121 ../src/stats/global.cs:112
-#: ../src/stats/jumpIndexes.cs:140 ../src/stats/jumpSimpleSubtraction.cs:125
-#: ../src/stats/potency.cs:135 ../src/stats/rjAVGSD.cs:193
-#: ../src/stats/rjEvolution.cs:272 ../src/stats/rjIndex.cs:131
-#: ../src/stats/rjPotencyBosco.cs:133 ../src/stats/runIntervallic.cs:258
-#: ../src/stats/runSimple.cs:127 ../src/stats/sjCmjAbk.cs:127
-#: ../src/stats/sjCmjAbkPlus.cs:146
+#: ../src/stats/djIndex.cs:129 ../src/stats/djPower.cs:131 ../src/stats/djQ.cs:129
+#: ../src/stats/fv.cs:121 ../src/stats/global.cs:112 ../src/stats/jumpIndexes.cs:140
+#: ../src/stats/jumpSimpleSubtraction.cs:125 ../src/stats/potency.cs:135
+#: ../src/stats/rjAVGSD.cs:193 ../src/stats/rjEvolution.cs:272
+#: ../src/stats/rjIndex.cs:131 ../src/stats/rjPotencyBosco.cs:133
+#: ../src/stats/runIntervallic.cs:258 ../src/stats/runSimple.cs:127
+#: ../src/stats/sjCmjAbk.cs:127 ../src/stats/sjCmjAbkPlus.cs:146
 msgid " session "
 msgstr " sesión "
 
@@ -9742,8 +9684,8 @@ msgstr "{0} en Dj Índice [(tv-tc)/tc * 100] aplicado a {1} en {2}"
 #: ../src/stats/djPower.cs:135
 #, csharp-format
 msgid ""
-"{0} in Dj Power [mass * g * (fallHeight + 1.226 * (tv^2) ) / (tc+tv)] applied "
-"to {1} on {2}"
+"{0} in Dj Power [mass * g * (fallHeight + 1.226 * (tv^2) ) / (tc+tv)] applied to "
+"{1} on {2}"
 msgstr ""
 "{0} en Dj Power [masa * g * (altura de caída + 1.226 * (tv^2) ) / (tc+tv)] "
 "aplicado a {1} on {2}"
@@ -9784,10 +9726,9 @@ msgstr "{0} en algunos saltos y estadisticos en {1}{2}"
 #: ../src/stats/graphs/djIndex.cs:52 ../src/stats/graphs/djPower.cs:53
 #: ../src/stats/graphs/djQ.cs:52 ../src/stats/graphs/fv.cs:58
 #: ../src/stats/graphs/global.cs:51 ../src/stats/graphs/jumpIndexes.cs:79
-#: ../src/stats/graphs/jumpSimpleSubtraction.cs:61
-#: ../src/stats/graphs/potency.cs:55 ../src/stats/graphs/rjAVGSD.cs:55
-#: ../src/stats/graphs/rjEvolution.cs:65 ../src/stats/graphs/rjIndex.cs:53
-#: ../src/stats/graphs/rjPotencyBosco.cs:55
+#: ../src/stats/graphs/jumpSimpleSubtraction.cs:61 ../src/stats/graphs/potency.cs:55
+#: ../src/stats/graphs/rjAVGSD.cs:55 ../src/stats/graphs/rjEvolution.cs:65
+#: ../src/stats/graphs/rjIndex.cs:53 ../src/stats/graphs/rjPotencyBosco.cs:55
 #: ../src/stats/graphs/runIntervallic.cs:65 ../src/stats/graphs/runSimple.cs:51
 #: ../src/stats/graphs/sjCmjAbk.cs:50 ../src/stats/graphs/sjCmjAbkPlus.cs:51
 msgid "Chronojump graph"
@@ -9803,8 +9744,7 @@ msgstr "Resta entre {0} {1} y {0} {2}"
 msgid "{0} in index {1} on {2}"
 msgstr "{0} en índice {1} en {2}"
 
-#: ../src/stats/jumpSimpleSubtraction.cs:60
-#: ../src/stats/jumpSimpleSubtraction.cs:61
+#: ../src/stats/jumpSimpleSubtraction.cs:60 ../src/stats/jumpSimpleSubtraction.cs:61
 msgid "Result"
 msgstr "Resultado"
 
@@ -10006,16 +9946,15 @@ msgstr "Error. {0} no puede guardar el vídeo."
 
 #~ msgid ""
 #~ "Chronojump has a server in order to share data between users.\n"
-#~ "Data is collected by users contributions and server generates statistics "
-#~ "and graphs.\n"
-#~ "Anyone can check server stats and graphs and easily make querys to the "
-#~ "server."
+#~ "Data is collected by users contributions and server generates statistics and "
+#~ "graphs.\n"
+#~ "Anyone can check server stats and graphs and easily make querys to the server."
 #~ msgstr ""
 #~ "Chronojump dispone de un servidor para compartir datos entre usuarios.\n"
 #~ "Los datos son una contribución por los usuarios y el servidor genera "
 #~ "estadísticas y gráficas.\n"
-#~ "Cualquiera puede ver las estadísticas y las gráficas, y realizar consultas "
-#~ "al servidor de forma sencilla."
+#~ "Cualquiera puede ver las estadísticas y las gráficas, y realizar consultas al "
+#~ "servidor de forma sencilla."
 
 #~ msgid "Check data"
 #~ msgstr "Comprobar datos"
@@ -10048,8 +9987,8 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ msgstr "Exportar a hoja de cálculo"
 
 #~ msgid ""
-#~ "The requested audio output was not found. Please select another audio "
-#~ "output in the Multimedia Systems Selector."
+#~ "The requested audio output was not found. Please select another audio output "
+#~ "in the Multimedia Systems Selector."
 #~ msgstr ""
 #~ "No se encontró la salida de sonido solicitada. Seleccione otra salida de "
 #~ "sonido en el Selector de sistemas multimedia."
@@ -10057,8 +9996,7 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ msgid "Location not found."
 #~ msgstr "Ubicación no encontrada."
 
-#~ msgid ""
-#~ "Could not open location; you might not have permission to open the file."
+#~ msgid "Could not open location; you might not have permission to open the file."
 #~ msgstr ""
 #~ "No se pudo abrir la ubicación; quizá no tiene permiso para abrir el archivo."
 
@@ -10072,16 +10010,15 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ "sistemas multimedia."
 
 #~ msgid ""
-#~ "The audio output is in use by another application. Please select another "
-#~ "audio output in the Multimedia Systems Selector. You may want to consider "
-#~ "using a sound server."
+#~ "The audio output is in use by another application. Please select another audio "
+#~ "output in the Multimedia Systems Selector. You may want to consider using a "
+#~ "sound server."
 #~ msgstr ""
-#~ "La salida de sonido la está usando otra aplicación. Seleccione otra salida "
-#~ "de sonido en el Selector de sistemas multimedia. Quizá deba considerar usar "
-#~ "un servidor de sonido."
+#~ "La salida de sonido la está usando otra aplicación. Seleccione otra salida de "
+#~ "sonido en el Selector de sistemas multimedia. Quizá deba considerar usar un "
+#~ "servidor de sonido."
 
-#~ msgid ""
-#~ "The playback of this movie requires a %s plugin which is not installed."
+#~ msgid "The playback of this movie requires a %s plugin which is not installed."
 #~ msgstr ""
 #~ "La reproducción de esta película requiere un complemento %s que no está "
 #~ "instalado."
@@ -10092,13 +10029,12 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ "\n"
 #~ "%s"
 #~ msgstr ""
-#~ "La reproducción de esta película requiere los siguientes decodificadores, "
-#~ "que no están instalados:\n"
+#~ "La reproducción de esta película requiere los siguientes decodificadores, que "
+#~ "no están instalados:\n"
 #~ "\n"
 #~ "%s"
 
-#~ msgid ""
-#~ "Cannot play this file over the network. Try downloading it to disk first."
+#~ msgid "Cannot play this file over the network. Try downloading it to disk first."
 #~ msgstr ""
 #~ "No se puede reproducir este archivo a través de la red. Intente descargarlo "
 #~ "primero."
@@ -10128,8 +10064,8 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ "Failed to create a GStreamer play object. Please check your GStreamer "
 #~ "installation."
 #~ msgstr ""
-#~ "Falló al crear el objeto de reproducción GStreamer. Compruebe su "
-#~ "instalación de GStreamer."
+#~ "Falló al crear el objeto de reproducción GStreamer. Compruebe su instalación "
+#~ "de GStreamer."
 
 #~ msgid ""
 #~ "Failed to open video output. It may not be available. Please select another "
@@ -10139,13 +10075,12 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ "otra salida de vídeo en el Selector de sistemas multimedia"
 
 #~ msgid ""
-#~ "Could not find the video output. You may need to install additional "
-#~ "GStreamer plugins, or select another video output in the Multimedia Systems "
-#~ "Selector."
+#~ "Could not find the video output. You may need to install additional GStreamer "
+#~ "plugins, or select another video output in the Multimedia Systems Selector."
 #~ msgstr ""
-#~ "No se pudo encontrar la salida de vídeo. Quizá necesite instalar "
-#~ "complementos adicionales de GStreamer, o seleccionar otra salida de vídeo "
-#~ "en el Selector de sistemas multimedia."
+#~ "No se pudo encontrar la salida de vídeo. Quizá necesite instalar complementos "
+#~ "adicionales de GStreamer, o seleccionar otra salida de vídeo en el Selector de "
+#~ "sistemas multimedia."
 
 #~ msgid ""
 #~ "Failed to open audio output. You may not have permission to open the sound "
@@ -10157,13 +10092,12 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ "Seleccione otra salida de sonido en el Selector de sistemas multimedia."
 
 #~ msgid ""
-#~ "Could not find the audio output. You may need to install additional "
-#~ "GStreamer plugins, or select another audio output in the Multimedia Systems "
-#~ "Selector."
+#~ "Could not find the audio output. You may need to install additional GStreamer "
+#~ "plugins, or select another audio output in the Multimedia Systems Selector."
 #~ msgstr ""
-#~ "No se pudo encontrar la salida de sonido. Quizá necesite instalar "
-#~ "complementos adicionales de GStreamer, o seleccionar otra salida de sonido "
-#~ "en el Selector de sistemas multimedia."
+#~ "No se pudo encontrar la salida de sonido. Quizá necesite instalar complementos "
+#~ "adicionales de GStreamer, o seleccionar otra salida de sonido en el Selector "
+#~ "de sistemas multimedia."
 
 #~ msgctxt "long time format"
 #~ msgid "%d:%02d:%02d"
@@ -10247,8 +10181,7 @@ msgstr "Error. {0} no puede guardar el vídeo."
 
 #~ msgid ""
 #~ "If string is not extended by this value or more, signal will be corrected."
-#~ msgstr ""
-#~ "Si la cuerda no está extendida por este valor, la serie será corregida"
+#~ msgstr "Si la cuerda no está extendida por este valor, la serie será corregida"
 
 #~ msgid "Turns"
 #~ msgstr "Vueltas"
@@ -10297,8 +10230,7 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ msgid "Table has already been created."
 #~ msgstr "Ya se ha creado la tabla."
 
-#~ msgid ""
-#~ "Import persons from an spreadsheet. Eg. Excel, LibreOffice, Google Drive."
+#~ msgid "Import persons from an spreadsheet. Eg. Excel, LibreOffice, Google Drive."
 #~ msgstr ""
 #~ "Importar atletas desde una hoja de cálculo. Ej. Excel, LibreOffice, Google "
 #~ "Drive."
@@ -10439,8 +10371,8 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ "remember the separator character is semicolon <b>;</b>, or comma <b>,</b>."
 #~ msgstr ""
 #~ "Cuando lo importe de hoja de cálculo (OpenOffice, R, MS Excel, ...)\n"
-#~ "recuerde que el carácter separador es el punto y coma : <b>;</b> o la coma "
-#~ "<b>,</b>."
+#~ "recuerde que el carácter separador es el punto y coma : <b>;</b> o la coma <b>,"
+#~ "</b>."
 
 #~ msgid "Found 1 Chronopic."
 #~ msgid_plural "Found {0} Chronopics."
@@ -10534,8 +10466,8 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ msgid ""
 #~ "Please, touch the contact platform on Chronopic/s [{0}] for full finishing."
 #~ msgstr ""
-#~ "Toque la plataforma correspondiente a el/los Chronopic/s [{0}] para "
-#~ "finalizar completamente."
+#~ "Toque la plataforma correspondiente a el/los Chronopic/s [{0}] para finalizar "
+#~ "completamente."
 
 #~ msgid "Then press this button:\n"
 #~ msgstr "Pulsar este botón:\n"
@@ -10547,11 +10479,11 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ msgstr "Conéctelo(s) de  nuevo y configurelo(s) en la ventana de Chronopic."
 
 #~ msgid ""
-#~ "If you just plugged Chronopic cable and expected port is not listed, close "
-#~ "and open again this window."
+#~ "If you just plugged Chronopic cable and expected port is not listed, close and "
+#~ "open again this window."
 #~ msgstr ""
-#~ "Si acaba de conectar el cable y el puerto esperado no se ha listado, cierre "
-#~ "y abra otra vez esta ventana."
+#~ "Si acaba de conectar el cable y el puerto esperado no se ha listado, cierre y "
+#~ "abra otra vez esta ventana."
 
 #~ msgid "If you have problems connecting with Chronopic, press help button."
 #~ msgstr ""
@@ -10736,19 +10668,17 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ msgid "Please, fix this before uploading:"
 #~ msgstr "Por favor, arregle esto antes de subir los datos:"
 
-#~ msgid ""
-#~ "Or when upload session again, mark these persons as not to be uploaded."
+#~ msgid "Or when upload session again, mark these persons as not to be uploaded."
 #~ msgstr ""
-#~ "O la próxima vez que suba una sesión, marque dichos atletas para que no "
-#~ "suban al servidor."
+#~ "O la próxima vez que suba una sesión, marque dichos atletas para que no suban "
+#~ "al servidor."
 
 #~ msgid "Session will be uploaded to server."
 #~ msgstr "La sesión será subida al servidor."
 
 #~ msgid "Names, date of birth and descriptions of persons will be hidden."
 #~ msgstr ""
-#~ "Los nombres, fechas de nacimiento y descripciones de los atletas se "
-#~ "ocultarán."
+#~ "Los nombres, fechas de nacimiento y descripciones de los atletas se ocultarán."
 
 #~ msgid "You can upload again this session if you add more data or persons."
 #~ msgstr ""
@@ -10774,12 +10704,11 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ msgstr "Por favor, toque la plataforma para cancelar completamente."
 
 #~ msgid ""
-#~ "Please, touch the contact platform on Chronopic/s [{0}] for full "
-#~ "cancelling.\n"
+#~ "Please, touch the contact platform on Chronopic/s [{0}] for full cancelling.\n"
 #~ "Then press button\n"
 #~ msgstr ""
-#~ "Toque la plataforma correspondiente a el/los Chronopic/s [{0}] para "
-#~ "cancelar completamente.\n"
+#~ "Toque la plataforma correspondiente a el/los Chronopic/s [{0}] para cancelar "
+#~ "completamente.\n"
 #~ "Después pulse el botón\n"
 
 #~ msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
@@ -10941,8 +10870,8 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ "Después pulse el botón:\n"
 
 #~ msgid ""
-#~ "Please, open docs folder and follow instructions on 'chronojump_crash.pdf' "
-#~ "in order to be fixed fast."
+#~ "Please, open docs folder and follow instructions on 'chronojump_crash.pdf' in "
+#~ "order to be fixed fast."
 #~ msgstr ""
 #~ "Abra la carpeta de documentos y siga las instrucciones del archivo "
 #~ "«chronojump_crash.pdf» para corregirlo rápidamente."
@@ -10982,8 +10911,7 @@ msgstr "Error. {0} no puede guardar el vídeo."
 
 #~ msgid "Need at least three jumps executed on the odd concentric phases"
 #~ msgstr ""
-#~ "Necesita un mínimo de tres saltos ejecutados en las fases concéntricas "
-#~ "impares"
+#~ "Necesita un mínimo de tres saltos ejecutados en las fases concéntricas impares"
 
 #~ msgid "Load signal"
 #~ msgstr "Cargar señal"
@@ -11053,16 +10981,16 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #~ msgstr "tramos (m)"
 
 #~ msgid ""
-#~ "Chronojump {0} crashed before. If this problem persist, please, report it "
-#~ "at forums:"
+#~ "Chronojump {0} crashed before. If this problem persist, please, report it at "
+#~ "forums:"
 #~ msgstr ""
-#~ "Chronojump {0} ha fallado anteriormente. Si este problema persiste, por "
-#~ "favor informe en los foros:"
+#~ "Chronojump {0} ha fallado anteriormente. Si este problema persiste, por favor "
+#~ "informe en los foros:"
 
 #~ msgid "Remember to describe on Chronojump software forum how crash happened."
 #~ msgstr ""
-#~ "Recuerde explicar como sucedió en fallo en el foro de Chronojump (apartado "
-#~ "de Software)."
+#~ "Recuerde explicar como sucedió en fallo en el foro de Chronojump (apartado de "
+#~ "Software)."
 
 #~ msgid "Error. Cannot find database"
 #~ msgstr "Error. No se encuentra la base de datos"

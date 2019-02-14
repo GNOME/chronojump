@@ -254,14 +254,14 @@ public class UtilEncoder
 		return System.IO.Path.Combine(Util.GetDataDir(), "r-scripts");
 	}
 
-	public static string GetRunEncoderScript() {
+	public static string GetRaceAnalyzerScript() {
 		return System.IO.Path.Combine(GetSprintPath(), "sprintEncoder.R");
 	}
-	public static string GetRunEncoderCSVFileName() {
-		return Path.Combine(Path.GetTempPath(), "cj_run_encoder_data.csv");
+	public static string GetRaceAnalyzerCSVFileName() {
+		return Path.Combine(Path.GetTempPath(), "cj_race_analyzer_data.csv");
 	}
-	public static string GetRunEncoderTempFileName() {
-		return Path.Combine(Path.GetTempPath(), "cj_run_encoder_graph.png");
+	public static string GetRaceAnalyzerTempFileName() {
+		return Path.Combine(Path.GetTempPath(), "cj_race_analyzer_graph.png");
 	}
 
 	public static string GetmifScript() {

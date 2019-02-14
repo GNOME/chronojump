@@ -32,6 +32,12 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
+	[Widget] Gtk.SpinButton race_analyzer_spinbutton_distance;
+	[Widget] Gtk.SpinButton race_analyzer_spinbutton_temperature;
+
+	int race_analyzer_distance;
+	int race_analyzer_temperature;
+
 	Thread runEncoderCaptureThread;
 	static bool runEncoderProcessFinish;
 	static bool runEncoderProcessCancel;
@@ -180,6 +186,9 @@ public partial class ChronoJumpWindow
 					Catalog.GetString("Error, height of the person cannot be 0"));
 			return;
 		}
+
+		race_analyzer_distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
+		race_analyzer_temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
 
 		runEncoderButtonsSensitive(false);
 		bool connected = runEncoderCapturePre();
@@ -377,12 +386,14 @@ public partial class ChronoJumpWindow
 			File.Copy(fileName, UtilEncoder.GetRaceAnalyzerCSVFileName(), true); //can be overwritten
 			lastRunEncoderFullPath = fileName;
 
+		race_analyzer_distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
+		race_analyzer_temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
 			//create graph
 			RunEncoderGraph reg = new RunEncoderGraph(
-					 30, 				//TODO: 30 hardcoded
+					 race_analyzer_distance,
 					 currentPersonSession.Weight,  	//TODO: can be more if extra weight
 					 currentPersonSession.Height,
-					 25); 				//TODO: hardcoded
+					 race_analyzer_temperature);
 			reg.CallR(1699, 768); 				//TODO: hardcoded
 
 			DateTime runEncoderGraphStarted = DateTime.Now;

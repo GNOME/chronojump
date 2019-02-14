@@ -3830,7 +3830,6 @@ doProcess <- function(options)
 					mySeriesNames = chunks #mySeriesNames will be: "2018-09-06" (so different series will have the same series number and analyzed together)
 				}
 
-                                
                                 pafCurves = cbind(
                                         mySeriesNames,		#seriesName
                                         curves[,4],		#exerciseName
@@ -3911,10 +3910,14 @@ doProcess <- function(options)
 			pafCurvesWrite = pafCurves
                         if(! singleFile)
 			{
+				myTimestamps = curves[,7]
 				if( length(pafCurvesWrite[,1]) > length(curves[,7]) )
-					pafCurvesWrite[,1] = c( curves[,7], rep(NA, length(pafCurvesWrite[,1]) - length(curves[,7])) )
+					myTimestamps = c( myTimestamps, rep(NA, length(pafCurvesWrite[,1]) - length(curves[,7])) )
+
+				if(op$AnalysisMode == "GROUPAL_CURRENT_SESSION")
+					pafCurvesWrite[,1] = paste(pafCurves[,1], myTimestamps) #pafCurves[,1] is the name, needed on 4th analysis mode
 				else
-					pafCurvesWrite[,1] = curves[,7]
+					pafCurvesWrite[,1] = myTimestamps
 			}
 			write.csv(pafCurvesWrite, op$OutputData1, quote=FALSE)
                         #print("curves written")

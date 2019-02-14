@@ -98,7 +98,8 @@ assignOptions <- function(options) {
 		    #Unassigned here:
 		    #	englishWords [29]
 		    #	translatedWords [30]
-		    SeparateSessionInDays = options[35]
+		    SeparateSessionInDays = options[35],
+		    AnalysisMode 	 = options[36]
 		    ))
 }
 

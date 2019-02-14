@@ -266,19 +266,19 @@ public partial class ChronoJumpWindow
 		//forceCaptureStartMark = true;
 		capturingRunEncoder = arduinoCaptureStatus.CAPTURING;
 
-		Util.CreateRunEncoderSessionDirIfNeeded (currentSession.UniqueID);
+		Util.CreateRaceAnalyzerSessionDirIfNeeded (currentSession.UniqueID);
 
 		string nameDate = currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now);
 
 		//fileName to save the csv
-		string fileName = Util.GetRunEncoderSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + nameDate + ".csv";
+		string fileName = Util.GetRaceAnalyzerSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + nameDate + ".csv";
 
 		//lastRunEncoderFile to save the images
 		lastRunEncoderFile = nameDate;
 
 
 		TextWriter writer = File.CreateText(fileName);
-		writer.WriteLine("Pulses;Time(useconds)");
+		writer.WriteLine("Pulses;Time(useconds);Force(N)");
 		str = "";
 		int firstTime = 0;
 
@@ -302,11 +302,13 @@ public partial class ChronoJumpWindow
 				continue;
 
 			//check if there is one and only one ';'
-			if( ! (str.Contains(";") && str.IndexOf(";") == str.LastIndexOf(";")) )
-				continue;
+			//if( ! (str.Contains(";") && str.IndexOf(";") == str.LastIndexOf(";")) )
 
 			string [] strFull = str.Split(new char[] {';'});
-			//LogB.Information("str: " + str);
+			LogB.Information("captured str: " + str);
+
+			if(strFull.Length != 3)
+				continue;
 
 			LogB.Information("pulses: " + strFull[0]);
 			if(! Util.IsNumber(strFull[0], false))
@@ -314,6 +316,10 @@ public partial class ChronoJumpWindow
 
 			LogB.Information("time microseconds: " + strFull[1]);
 			if(! Util.IsNumber(strFull[1], false))
+				continue;
+
+			LogB.Information("force avg (N): " + strFull[1]);
+			if(! Util.IsNumber(strFull[2], false))
 				continue;
 
 			/*
@@ -330,7 +336,8 @@ public partial class ChronoJumpWindow
 			*/
 			int pulse = Convert.ToInt32(strFull[0]);
 			int time = Convert.ToInt32(strFull[1]);
-			writer.WriteLine(pulse.ToString() + ";" + time.ToString());
+			int force = Convert.ToInt32(strFull[2]);
+			writer.WriteLine(pulse.ToString() + ";" + time.ToString() + ";" + force.ToString());
 		}
 		LogB.Information(string.Format("FINISHED WITH conditions: {0}-{1}-{2}",
 						runEncoderProcessFinish, runEncoderProcessCancel, runEncoderProcessError));
@@ -367,7 +374,7 @@ public partial class ChronoJumpWindow
 			Util.FileDelete(fileName);
 		else {
 			//call graph. Prepare data
-			File.Copy(fileName, UtilEncoder.GetRunEncoderCSVFileName(), true); //can be overwritten
+			File.Copy(fileName, UtilEncoder.GetRaceAnalyzerCSVFileName(), true); //can be overwritten
 			lastRunEncoderFullPath = fileName;
 
 			//create graph
@@ -389,7 +396,7 @@ public partial class ChronoJumpWindow
 				LogB.Information("File exists on png, trying to copy");
 				try {
 					File.Copy(UtilEncoder.GetSprintEncoderImage(),
-							Util.GetRunEncoderSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar +
+							Util.GetRaceAnalyzerSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar +
 							lastRunEncoderFile + 	//nameDate
 							".png",
 							true); //can be overwritten
@@ -412,7 +419,7 @@ public partial class ChronoJumpWindow
 		string str = "";
 		if (portRE.BytesToRead > 0)
 			str = portRE.ReadLine();
-			//LogB.Information("PRE_get_calibrationfactor bytes: " + portFS.ReadExisting());
+			//LogB.Information("PRE_get_calibrationfactor bytes: " + portRE.ReadExisting());
 
 		return str;
 	}

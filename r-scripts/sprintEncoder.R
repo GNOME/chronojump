@@ -60,7 +60,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         Ka = 0.5*ro*Af*Cd
         
         encoderCarrera = read.csv2(file = filename, sep = ";")
-        colnames(encoderCarrera) = c("displacement", "time")
+        colnames(encoderCarrera) = c("displacement", "time", "force")
         totalTime = encoderCarrera$time/1E6     #Converting microseconds to seconds
         elapsedTime = diff(c(0,totalTime))      #The elapsed time between each sample
         

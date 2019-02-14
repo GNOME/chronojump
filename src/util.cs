@@ -980,15 +980,15 @@ public class Util
 	 */
 
 	//to store run encoder data and graphs
-	public static string GetRunEncoderDir()
+	public static string GetRaceAnalyzerDir()
 	{
 		return Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump" + Path.DirectorySeparatorChar + "runEncoder");
+				"Chronojump" + Path.DirectorySeparatorChar + "raceAnalyzer");
 	}
-	public static void CreateRunEncoderDirIfNeeded ()
+	public static void CreateRaceAnalyzerDirIfNeeded ()
 	{
-		string dir = GetRunEncoderDir();
+		string dir = GetRaceAnalyzerDir();
 		if( ! Directory.Exists(dir)) {
 			Directory.CreateDirectory (dir);
 			LogB.Information ("created dir:", dir);
@@ -996,13 +996,13 @@ public class Util
 	}
 
 	//runEncoder organized by sessions.
-	public static string GetRunEncoderSessionDir (int sessionID)
+	public static string GetRaceAnalyzerSessionDir (int sessionID)
 	{
-		return GetRunEncoderDir() + Path.DirectorySeparatorChar + sessionID.ToString();
+		return GetRaceAnalyzerDir() + Path.DirectorySeparatorChar + sessionID.ToString();
 	}
-	public static void CreateRunEncoderSessionDirIfNeeded (int sessionID)
+	public static void CreateRaceAnalyzerSessionDirIfNeeded (int sessionID)
 	{
-		string dir = GetRunEncoderSessionDir(sessionID);
+		string dir = GetRaceAnalyzerSessionDir(sessionID);
 		if( ! Directory.Exists(dir)) {
 			Directory.CreateDirectory (dir);
 			LogB.Information ("created dir:", dir);

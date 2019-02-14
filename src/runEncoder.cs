@@ -41,7 +41,7 @@ public class RunEncoderGraph
 	{
 		LogB.Information("\nrunEncoder CallR ----->");
 		writeOptionsFile(graphWidth, graphHeight);
-		return ExecuteProcess.CallR(UtilEncoder.GetRunEncoderScript());
+		return ExecuteProcess.CallR(UtilEncoder.GetRaceAnalyzerScript());
 	}
 
 	private void writeOptionsFile(int graphWidth, int graphHeight)
@@ -55,7 +55,7 @@ public class RunEncoderGraph
 
 		string scriptOptions =
 			"#scriptsPath\n" + 		UtilEncoder.GetScriptsPath() + "\n" +
-			"#filename\n" + 		UtilEncoder.GetRunEncoderCSVFileName() + "\n" +
+			"#filename\n" + 		UtilEncoder.GetRaceAnalyzerCSVFileName() + "\n" +
 			"#mass\n" + 			Util.ConvertToPoint(mass) + "\n" +
 			"#personHeight\n" + 		Util.ConvertToPoint(personHeight / 100.0) + "\n" + //send it in meters
 			"#tempC\n" + 			tempC + "\n" +

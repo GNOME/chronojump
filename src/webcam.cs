@@ -1,5 +1,19 @@
 /*
 
+15 Feb 2019
+
+//play 2 seconds of video and autoexit. works:
+//ffplay JUMP_RJ-252.mp4 -autoexit -t 2
+//but on webcam show it does not exit
+//ffplay /dev/video0 -autoexit -t 2
+
+//one solution will be to open camera with ffplay, close it pressing any button (keyboard or mouse):
+//ffplay /dev/video0 -exitonkeydown -exitonmousedown
+//and then press make photo that will be:
+//webcam make picture on second two
+//ffmpeg -f video4linux2 -s 640x480 -i /dev/video0 -ss 0:0:2 -frames 1 /tmp/out.jpg
+
+
 17 setembre 2018
 
 ffmpeg builds on windows only work on Windows 7 and above
@@ -126,6 +140,7 @@ public abstract class Webcam
 	public abstract Result CapturePrepare (CaptureTypes captureType);
 
 	public abstract Result PlayPreview();
+	public abstract Result PlayPreviewNoBackground();
 
 	public abstract Result PlayFile(string filename);
 

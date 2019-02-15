@@ -72,16 +72,43 @@ public class WebcamFfmpeg : Webcam
 		List<string> parameters = createParametersPlayPreview();
 
 		process = new Process();
-		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, true, false, false, false, false);
+		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, true, false, true, false, false);
 		if(! success)
 		{
 			process = null;
 			return new Result (false, "", programFfmpegNotInstalled);
 		}
 
+		streamWriter = process.StandardInput;
 		Running = true;
 		return new Result (true, "");
 	}
+	public override Result PlayPreviewNoBackground () //experimental
+	{
+		List<string> parameters = createParametersPlayPreview();
+
+		process = new Process();
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, false, false);
+		if(! execute_result.success)
+		{
+			return new Result (false, "", programFfmpegNotInstalled);
+		}
+
+		return new Result (true, "");
+	}
+
+	//snapshot in 2 seconds
+	public override bool Snapshot ()
+	{
+		executable = "ffmpeg";
+		List<string> parameters = createParametersSnapshot();
+
+		process = new Process();
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, false, false);
+		return execute_result.success;
+	}
+
+
 
 	public override Result PlayFile (string filename)
 	{
@@ -100,12 +127,6 @@ public class WebcamFfmpeg : Webcam
 
 		Running = true;
 		return new Result (true, "");
-	}
-
-	public override bool Snapshot()
-	{
-		//only implemented on mplayer
-		return true;
 	}
 
 	public override Result VideoCaptureStart()
@@ -147,8 +168,42 @@ public class WebcamFfmpeg : Webcam
 		else
 			parameters.Insert (i ++, "video=" + videoDevice);
 
+		parameters.Insert (i++, "-exitonkeydown");
+		parameters.Insert (i++, "-exitonmousedown");
 		parameters.Insert (i++, "-window_title");
-		parameters.Insert (i++, "Chronojump webcam preview");
+		parameters.Insert (i++, "Preview. Press any key to exit.");
+		return parameters;
+	}
+
+	//ffmpeg -f v4l2 -s 400x400 -i /dev/video0 -ss 0:0:2 -frames 1 /tmp/out.jpg
+	private List<string> createParametersSnapshot()
+	{
+		// ffplay /dev/video0
+		List<string> parameters = new List<string>();
+		int i=0;
+
+		parameters.Insert (i ++, "-f");
+		if(os == UtilAll.OperatingSystems.LINUX)
+			parameters.Insert (i ++, "v4l2");
+		else 	//windows
+			parameters.Insert (i ++, "dshow");
+
+		parameters.Insert (i ++, "-s");
+		parameters.Insert (i ++, "400x400");
+
+		parameters.Insert (i ++, "-i");
+		if(os == UtilAll.OperatingSystems.LINUX)
+			parameters.Insert (i ++, videoDevice);
+		else
+			parameters.Insert (i ++, "video=" + videoDevice);
+
+		parameters.Insert (i ++, "-ss");
+		parameters.Insert (i ++, "0:0:2");
+		parameters.Insert (i ++, "-frames");
+		parameters.Insert (i ++, "1");
+		parameters.Insert (i ++, Util.GetWebcamPhotoTempFileNamePost(videoDeviceToFilename()));
+		parameters.Insert (i ++, "-y"); //overwrite
+
 		return parameters;
 	}
 
@@ -272,7 +327,7 @@ public class WebcamFfmpeg : Webcam
 		LogB.Information("streamWriter is null: " + (streamWriter == null).ToString());
 		try {
 			streamWriter.Write('q');
-			//streamWriter.Flush(); //seems is not needed
+			streamWriter.Flush(); //seems is not needed
 		} catch {
 			//maybe capturer process (could be a window) has been closed by user
 			process = null;
@@ -289,10 +344,16 @@ public class WebcamFfmpeg : Webcam
 		 * without using this file copied from /tmp maybe is not finished, so a bad ended file is copied to .local/share/Chronojump/multimedia/video
 		*/
 
+		bool exitBucle = false;
 		do {
 			LogB.Information("waiting 100 ms to tmp capture file being unlocked");
 			System.Threading.Thread.Sleep(100);
-		} while( ExecuteProcess.IsFileLocked(new System.IO.FileInfo(Util.GetVideoTempFileName())) );
+
+			if (! File.Exists(Util.GetVideoTempFileName())) //PlayPreview does not have tmp file
+				exitBucle = true;
+			else if( ! ExecuteProcess.IsFileLocked(new System.IO.FileInfo(Util.GetVideoTempFileName())) ) //we are capturing, wait file is not locked
+				exitBucle = true;
+		} while(! exitBucle);
 
 		do {
 			LogB.Information("waiting 100 ms to end Ffmpeg");

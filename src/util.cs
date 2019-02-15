@@ -1081,7 +1081,7 @@ public class Util
 	 */
 
 	//Pre: filename without 0001.png
-	public static string GetMplayerPhotoTempFileNamePre(string videoDevice)
+	public static string GetWebcamPhotoTempFileNamePre(string videoDevice)
 	{
 		string fileName = Constants.PhotoTemp;
 
@@ -1089,9 +1089,9 @@ public class Util
 	}
 
 	//Pre: filename with 0001.png
-	public static string GetMplayerPhotoTempFileNamePost(string videoDevice)
+	public static string GetWebcamPhotoTempFileNamePost(string videoDevice)
 	{
-		return GetMplayerPhotoTempFileNamePre(videoDevice) + "0001.png";
+		return GetWebcamPhotoTempFileNamePre(videoDevice) + "0001.png";
 	}
 
 

@@ -1074,73 +1074,33 @@ public class PersonAddModifyWindow
 		{
 			webcam.ExitCamera();
 			image_photo_start_end_camera.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
-			button_take_photo_do.Sensitive = false;
 			button_take_photo_start_end_camera.TooltipText = Catalog.GetString("Start webcam");
 
 			return;
 		}
 
 		// B) start if it's not running
-		webcam = new WebcamMplayer (videoDevice);
-		Webcam.Result result = webcam.CapturePrepare (Webcam.CaptureTypes.PHOTO);
+		//webcam = new WebcamMplayer (videoDevice);
+		//Webcam.Result result = webcam.CapturePrepare (Webcam.CaptureTypes.PHOTO);
+		//constructor for playpreview
+		webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), videoDevice);
+		Webcam.Result result = webcam.PlayPreviewNoBackground ();
+
 		if (! result.success)
 		{
-			LogB.Debug ("Webcam Mplayer error: ", result.error);
+			LogB.Debug ("Webcam Ffmpeg error: ", result.error);
 			new DialogMessage (Constants.MessageTypes.WARNING, result.error);
 			return;
 		}
-
-		image_photo_start_end_camera.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_end_camera.png");
-		button_take_photo_do.Sensitive = true;
-		button_take_photo_start_end_camera.TooltipText = Catalog.GetString("Stop webcam");
-
-		/*
-		 * TODO: reimplement this with ffmpeg
-		 *
-		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
-		if(devices.Count == 0) {
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.CameraNotFound);
-			return;
-		}
-
-		//deactivate camera to allow camera on edit person. videoOn will have same value to light checkbutton again later
-		app1_checkbutton_video.Active = false;
-
-		capturer = new CapturerBin();
-		CapturePropertiesStruct s = new CapturePropertiesStruct();
-
-		s.DeviceID = devices[0].ID;
-
-		s.CaptureSourceType = CaptureSourceType.System;
-
-		capturer.CaptureProperties = s;
-		capturer.Type = CapturerType.Snapshot;
-		capturer.Visible=true;
-		capturer.NewSnapshot += on_snapshot_done;
-		capturer.NewSnapshotMini += on_snapshot_mini_done;
-
-		capturerWindow = new Gtk.Window("Capturer");
-		capturerWindow.Add(capturer);
-		capturerWindow.Modal=true;
-		capturerWindow.SetDefaultSize(400,400);
-
-		person_win.Hide();
-
-		capturerWindow.ShowAll();
-		capturerWindow.Present();
-		capturerWindow.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose(); person_win.Show(); };
-		
-		capturer.Run();
-		*/
 	}
 	void on_button_take_photo_do_clicked (object o, EventArgs args)
 	{
 		if(webcam == null)
-			return;
+			webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), videoDevice);
 
 		if(webcam.Snapshot())
 		{
-			File.Copy(Util.GetMplayerPhotoTempFileNamePost(Util.ChangeChars(videoDevice, "/", "_")),
+			File.Copy(Util.GetWebcamPhotoTempFileNamePost(Util.ChangeChars(videoDevice, "/", "_")),
 						Util.GetPhotoPngFileName(false, currentPerson.UniqueID), true); //overwrite
 
 			string filenameMini = Util.GetPhotoPngFileName(true, currentPerson.UniqueID);
@@ -1152,7 +1112,6 @@ public class PersonAddModifyWindow
 		}
 
 		image_photo_start_end_camera.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
-		button_take_photo_do.Sensitive = false;
 	}
 
 	//libCesarplayer method, jpeg
@@ -1271,7 +1230,6 @@ public class PersonAddModifyWindow
 
 		PersonAddModifyWindowBox.pDN = pDN;
 		PersonAddModifyWindowBox.app1_checkbutton_video = app1_checkbutton_video;
-		PersonAddModifyWindowBox.button_take_photo_do.Sensitive = false;
 		PersonAddModifyWindowBox.videoDevice = videoDevice;
 
 		PersonAddModifyWindowBox.person_win.Show ();

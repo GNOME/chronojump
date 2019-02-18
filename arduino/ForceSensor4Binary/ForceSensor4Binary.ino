@@ -37,6 +37,9 @@ unsigned long totalTime = 0;
 //Wether the sensor has to capture or not
 boolean capturing = false;
 
+//wether the tranmission is in binary format or not
+boolean binaryFormat = false;
+
 void setup(void)
 {
 
@@ -64,18 +67,18 @@ void loop(void)
     int nReadings = 10;
     int nsensors = 1;
     for (int i = 1; i <= nReadings; i++)
-   {
+    {
       //Reading each of the 4 sensors
-      for (int sensor = 0; sensor <= nsensors -1; sensor++)
+      for (int sensor = 0; sensor <= nsensors - 1; sensor++)
       {
         offsettedData[sensor] = readOffsetedData(sensor);
         total[sensor] += offsettedData[sensor];
       }
     }
-      for (int sensor = 0; sensor <= nsensors -1; sensor++)
-      {
-        offsettedData[sensor] = total[sensor]/nReadings;
-      }
+    for (int sensor = 0; sensor <= nsensors - 1; sensor++)
+    {
+      offsettedData[sensor] = total[sensor] / nReadings;
+    }
 
 
     //Managing the timer overflow
@@ -206,6 +209,8 @@ void serialEvent()
     //        set_tare(inputString);
   } else if (commandString == "tare") {
     tare();
+  } else if (commandString == "get_transmission_format") {
+    get_transmission_format();
   } else {
     Serial.println("Not a valid command");
   }
@@ -229,4 +234,15 @@ void end_capture()
 void get_version()
 {
   Serial.println(version);
+}
+
+void get_transmission_format()
+{
+  if (binaryFormat)
+  {
+    Serial.println("binary");
+  } else
+  {
+    Serial.println("text");
+  }
 }

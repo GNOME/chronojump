@@ -141,6 +141,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_analyze_options_close;
 	[Widget] Gtk.Image image_force_sensor_analyze_recalculate;
 	[Widget] Gtk.Image image_force_sensor_exercise_edit;
+	[Widget] Gtk.Image image_force_sensor_laterality_both;
+	[Widget] Gtk.Image image_force_sensor_laterality_r;
+	[Widget] Gtk.Image image_force_sensor_laterality_l;
 
 	//video play icons
 	[Widget] Gtk.Image image_video_play_this_test;
@@ -204,13 +207,16 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-both.png");
 		image_top_laterality.Pixbuf = pixbuf;
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-both.png");
 		image_encoder_laterality_both.Pixbuf = pixbuf;
+		image_force_sensor_laterality_both.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-right.png");
 		image_encoder_laterality_r.Pixbuf = pixbuf;
+		image_force_sensor_laterality_r.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-left.png");
 		image_encoder_laterality_l.Pixbuf = pixbuf;
+		image_force_sensor_laterality_l.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "extra-mass.png");
 		image_top_extra_mass.Pixbuf = pixbuf;

@@ -67,8 +67,13 @@ public partial class ChronoJumpWindow
 
 	//capture tab
 	[Widget] Gtk.HBox hbox_force_capture_buttons;
-	[Widget] Gtk.Box hbox_combo_force_sensor_exercise;
+	[Widget] Gtk.HBox hbox_combo_force_sensor_exercise;
 	[Widget] Gtk.ComboBox combo_force_sensor_exercise;
+	[Widget] Gtk.RadioButton radio_force_sensor_laterality_both;
+	[Widget] Gtk.RadioButton radio_force_sensor_laterality_l;
+	[Widget] Gtk.RadioButton radio_force_sensor_laterality_r;
+	[Widget] Gtk.TextView textview_force_sensor_capture_comment;
+	[Widget] Gtk.HBox hbox_force_sensor_lat_and_comments;
 	[Widget] Gtk.Alignment alignment_force_sensor_adjust;
 	[Widget] Gtk.Button button_force_sensor_tare;
 	[Widget] Gtk.Button button_force_sensor_calibrate;
@@ -348,6 +353,7 @@ public partial class ChronoJumpWindow
 	{
 		//force related buttons
 		hbox_force_capture_buttons.Sensitive = sensitive;
+		hbox_force_sensor_lat_and_comments.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
 		button_force_sensor_analyze_load.Sensitive = sensitive;
 
@@ -664,13 +670,17 @@ public partial class ChronoJumpWindow
 
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
 
-		string personExDate = currentPerson.Name + "_" + UtilGtk.ComboGetActive(combo_force_sensor_exercise) + "_" + UtilDate.ToFile(DateTime.Now);
+		string fileNamePre = currentPerson.Name + "_" +
+			UtilGtk.ComboGetActive(combo_force_sensor_exercise) + "_" +
+			getLaterality() + "_" +
+			getCaptureComment() + //includes "_" if it's no empty
+			UtilDate.ToFile(DateTime.Now);
 
 		//fileName to save the csv
-		string fileName = Util.GetForceSensorSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + personExDate + ".csv";
+		string fileName = Util.GetForceSensorSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + fileNamePre + ".csv";
 
 		//lastForceSensorFile to save the images
-		lastForceSensorFile = personExDate;
+		lastForceSensorFile = fileNamePre;
 
 
 		TextWriter writer = File.CreateText(fileName);
@@ -1460,7 +1470,10 @@ LogB.Information(" re R ");
 	{
 		hbox_force_capture_buttons.Sensitive = false;
 		button_force_sensor_adjust.Sensitive = false;
+
+		hbox_force_sensor_lat_and_comments.Visible = false;
 		alignment_force_sensor_adjust.Visible = true;
+
 		notebook_options_at_execute_button.CurrentPage = 2;
 
 		forceSensorCaptureAdjustSensitivity(false);
@@ -1470,7 +1483,10 @@ LogB.Information(" re R ");
 	{
 		hbox_force_capture_buttons.Sensitive = true;
 		button_force_sensor_adjust.Sensitive = true;
+
+		hbox_force_sensor_lat_and_comments.Visible = true;
 		alignment_force_sensor_adjust.Visible = false;
+
 		notebook_options_at_execute_button.CurrentPage = 0;
 
 		forceSensorCaptureAdjustSensitivity(true);
@@ -1727,6 +1743,29 @@ LogB.Information(" re R ");
 
 
 	// -------------------------------- end of exercise stuff --------------------
+
+	// -------------------------------- laterality and comment stuff -------------
+
+	private string getLaterality()
+	{
+		if(radio_force_sensor_laterality_both.Active)
+			return Catalog.GetString("Both");
+		else if(radio_force_sensor_laterality_l.Active)
+			return Catalog.GetString("Left");
+		else //if(radio_force_sensor_laterality_r.Active)
+			return Catalog.GetString("Right");
+	}
+
+	private string getCaptureComment()
+	{
+		string s = Util.MakeValidSQL(textview_force_sensor_capture_comment.Buffer.Text);
+		if(s != "")
+			s += "_";
+
+		return s;
+	}
+
+	// -------------------------------- end of laterality and comment stuff ------
 
 	// ------------------------------------------------ slides stuff for presentations
 

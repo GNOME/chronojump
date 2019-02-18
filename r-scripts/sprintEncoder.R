@@ -296,19 +296,29 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength)
         #The test starts when the speed is grater than 1
         startSample = 0
         startingSample = FALSE
-        while(!startingSample)
+        while(!startingSample & startSample < (length(speed)-2))
         {
                 startSample = startSample +1
                 if(accel[startSample+1] > 5)
                 {
-                        #Looking is after 2 seconds the position has increased a meter at least.
-                        sampleAfterSecond = which.min(totalTime - (totalTime[startSample] +1) )
-                        positionAfterSecnod = position[sampleAfterSecond]
-                        if(abs(positionAfterSecnod - position[startSample]) > 2){
+                        print(paste("accel[", startSample +1 ,"] = ", accel[startSample + 1], sep = ""))
+                        
+                        #Looking is after 1 seconds the position has increased  at least 2m.
+                        sampleAfterSecond = which.min(abs(totalTime - (totalTime[startSample] +1)))
+                        print(paste("sampleAfterSecond =", sampleAfterSecond))
+                        positionAfterSecond = position[sampleAfterSecond]
+                        if(abs(positionAfterSecond - position[startSample]) > 2){
                                 startingSample = TRUE
                         }
                 }
         }
+        
+        if(startSample == (length(speed) -2))
+        {
+                print("No start detected")
+                return()
+        }
+        
         
         #Going back in the time to find a really slow velocity
         while(speed[startSample] > 0.5)

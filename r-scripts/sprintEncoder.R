@@ -293,6 +293,11 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
 #Detecting where the sprint start and stops
 getTrimmingSamples <- function(totalTime, position, speed, accel, testLength)
 {
+        if(position[length(position)] < 5){
+                print("Sprint too short")
+                return()
+        }
+                
         #The test starts when the speed is grater than 1
         startSample = 0
         startingSample = FALSE

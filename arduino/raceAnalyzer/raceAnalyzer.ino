@@ -255,9 +255,9 @@ void get_transmission_format()
 {
   if (binaryFormat)
   {
-    Serial.print("binary");
+    Serial.println("binary");
   } else
   {
-    Serial.print("text");
+    Serial.println("text");
   }
 }

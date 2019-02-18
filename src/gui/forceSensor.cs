@@ -75,6 +75,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TextView textview_force_sensor_capture_comment;
 	[Widget] Gtk.HBox hbox_force_sensor_lat_and_comments;
 	[Widget] Gtk.Alignment alignment_force_sensor_adjust;
+	[Widget] Gtk.VSeparator vseparator_force_sensor_camera_space;
 	[Widget] Gtk.Button button_force_sensor_tare;
 	[Widget] Gtk.Button button_force_sensor_calibrate;
 	[Widget] Gtk.Label label_force_sensor_value_max;
@@ -120,6 +121,7 @@ public partial class ChronoJumpWindow
 	string forceSensorPortName;
 	SerialPort portFS; //Attention!! Don't reopen port because arduino makes reset and tare, calibration... is lost
 	bool portFSOpened;
+	bool forceSensorBinaryCapture;
 
 
 	Gdk.GC pen_black_force_capture;
@@ -211,13 +213,6 @@ public partial class ChronoJumpWindow
 
 		Thread.Sleep(3000); //sleep to let arduino start reading serial event
 
-		//At the moment, binary code do not check version, tare, calibrate
-		if(forceSensorBinaryCapture())
-		{
-			portFSOpened = true;
-			return true;
-		}
-
 		LogB.Information(" FS connect 6: get version");
 
 		string version = forceSensorCheckVersionDo();
@@ -246,6 +241,13 @@ public partial class ChronoJumpWindow
 			if(! forceSensorReceiveFeedback("Calibration factor set"))
 				return false;
 		}
+
+		bool forceSensorBinaryCapture = false;
+                double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(version));
+		if(versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.3"))) //from 0.3 versions can be binary
+			forceSensorBinaryCapture = forceSensorCheckBinaryCapture();
+
+		LogB.Information("forceSensorBinaryCapture = " + forceSensorBinaryCapture.ToString());
 
 		portFSOpened = true;
 		forceSensorOtherMessage = "Connected!";
@@ -529,6 +531,31 @@ public partial class ChronoJumpWindow
 	}
 
 	//Attention: no GTK here!!
+	private bool forceSensorCheckBinaryCapture()
+	{
+		if(! forceSensorSendCommand("get_transmission_format:", "Checking transmission format ...", "Catched checking transmission format"))
+			return false;
+
+		string str = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			try {
+				str = portFS.ReadLine().Trim();
+			} catch {
+				forceSensorOtherMessage = "Disconnected";
+				return false;
+			}
+			LogB.Information("init string: " + str);
+		}
+		while(! (str.Contains("binary") || str.Contains("text")) );
+
+		forceSensorOtherMessageShowSeconds = false;
+		forceSensorOtherMessage = str;
+
+		return (str == "binary");
+	}
+
+	//Attention: no GTK here!!
 	private void forceSensorCapturePre()
 	{
 		if(! portFSOpened)
@@ -584,11 +611,6 @@ public partial class ChronoJumpWindow
 
 		LogB.ThreadStart();
 		forceCaptureThread.Start();
-	}
-
-	private bool forceSensorBinaryCapture()
-	{
-		return check_force_sensor_capture_binary.Active;
 	}
 
 	private bool readBinaryRowMark()
@@ -687,7 +709,7 @@ public partial class ChronoJumpWindow
 		writer.WriteLine("Time (micros);Force(N)");
 		str = "";
 		int firstTime = 0;
-		bool forceSensorBinary = forceSensorBinaryCapture();
+//		bool forceSensorBinary = forceSensorBinaryCapture();
 
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
@@ -697,7 +719,7 @@ public partial class ChronoJumpWindow
 			int time = 0;
 			double force = 0;
 
-			if(forceSensorBinary)
+			if(forceSensorBinaryCapture)
 			{
 				if(! readBinaryRowMark())
 					continue;
@@ -1461,7 +1483,8 @@ LogB.Information(" re R ");
 
 	private void showHideForceSensorControls(bool modeForceSensor)
 	{
-		hbox_capture_phases_time_record.Visible = ! modeForceSensor;
+		hbox_capture_phases_time.Visible = ! modeForceSensor;
+		vseparator_force_sensor_camera_space.Visible = modeForceSensor; //extra space before camera on force sensor
 		menuitem_force_sensor_open_folder.Visible = modeForceSensor;
 		menuitem_force_sensor_check_version.Visible = modeForceSensor;
 	}

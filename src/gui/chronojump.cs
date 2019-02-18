@@ -301,7 +301,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_video_no;
 
 	//force sensor
-	[Widget] Gtk.HBox hbox_capture_phases_time_record;
+	[Widget] Gtk.HBox hbox_capture_phases_time;
 
 	//multiChronopic	
 	[Widget] Gtk.Button button_edit_selected_multi_chronopic;
@@ -343,7 +343,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_activate_chronopics;
 	[Widget] Gtk.Button button_threshold;
 	[Widget] Gtk.Button button_force_sensor_adjust;
-	[Widget] Gtk.CheckButton check_force_sensor_capture_binary;
 
 	//non standard icons	
 	[Widget] Gtk.Image image_jump_reactive_bell;
@@ -3199,7 +3198,6 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = true;
 			button_force_sensor_adjust.Visible = false;
-			check_force_sensor_capture_binary.Visible = false;
 			if(m == Constants.Menuitem_modes.JUMPSSIMPLE) 
 			{
 				notebooks_change(m);
@@ -3230,7 +3228,6 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = true;
 			button_force_sensor_adjust.Visible = false;
-			check_force_sensor_capture_binary.Visible = false;
 			button_inspect_last_test.Visible = true;
 
 			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
@@ -3371,7 +3368,6 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = false;
 			button_force_sensor_adjust.Visible = true;
-			check_force_sensor_capture_binary.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 			hbox_results_legend.Visible = false;
 
@@ -3390,7 +3386,6 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			button_threshold.Visible = false;
 			button_force_sensor_adjust.Visible = false;
-			check_force_sensor_capture_binary.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 			hbox_results_legend.Visible = false;
 
@@ -3412,7 +3407,6 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			button_threshold.Visible = true;
 			button_force_sensor_adjust.Visible = false;
-			check_force_sensor_capture_binary.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 		}
 		else {	//m == Constants.Menuitem_modes.OTHER (contacts / other)
@@ -3426,7 +3420,6 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			button_threshold.Visible = true;
 			button_force_sensor_adjust.Visible = false;
-			check_force_sensor_capture_binary.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 		}
 
@@ -7555,7 +7548,6 @@ LogB.Debug("mc finished 5");
 		vbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
 		button_force_sensor_adjust.Sensitive = false;
-		check_force_sensor_capture_binary.Sensitive = false;
 
 		encoderButtonsSensitive(encoderSensEnum.NOSESSION);
 		
@@ -7576,7 +7568,6 @@ LogB.Debug("mc finished 5");
 		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;
 		button_force_sensor_adjust.Sensitive = false;
-		check_force_sensor_capture_binary.Sensitive = false;
 		
 		menuSessionSensitive(true);
 		vbox_stats.Sensitive = true;
@@ -7604,7 +7595,6 @@ LogB.Debug("mc finished 5");
 		menuPersonSelectedSensitive(false);
 		vbox_execute_test.Sensitive = false;
 		button_force_sensor_adjust.Sensitive = false;
-		check_force_sensor_capture_binary.Sensitive = false;
 
 		label_top_person_name.Text = "";
 		label_top_encoder_person_name.Text = "";
@@ -7640,7 +7630,6 @@ LogB.Debug("mc finished 5");
 		combo_result_runs_interval.Sensitive = true;
 		combo_pulses.Sensitive = true;
 		button_force_sensor_adjust.Sensitive = true;
-		check_force_sensor_capture_binary.Sensitive = true;
 		
 		vbox_execute_test.Sensitive = true;
 	}
@@ -7703,7 +7692,6 @@ LogB.Debug("mc finished 5");
 		button_activate_chronopics.Sensitive = false;
 		button_threshold.Sensitive = false;
 		button_force_sensor_adjust.Sensitive = false;
-		check_force_sensor_capture_binary.Sensitive = false;
 		button_auto_start.Sensitive = false;
 		notebook_options_top.Sensitive = false;
 		event_execute_button_update.Sensitive = false;
@@ -7769,7 +7757,6 @@ LogB.Debug("mc finished 5");
 		button_activate_chronopics.Sensitive = true;
 		button_threshold.Sensitive = true;
 		button_force_sensor_adjust.Sensitive = true;
-		check_force_sensor_capture_binary.Sensitive = true;
 		button_auto_start.Sensitive = true;
 		notebook_options_top.Sensitive = true;
 		event_execute_button_update.Sensitive = true;

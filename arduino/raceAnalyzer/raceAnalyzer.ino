@@ -25,6 +25,9 @@ float calibrationFactor = 0;
 //Wether the sensor has to capture or not
 boolean capturing = false;
 
+//wether the tranmission is in binary format or not
+boolean binaryFormat = false;
+
 void setup() {
   pinMode (encoderPinA, INPUT);
   pinMode (encoderPinB, INPUT);
@@ -124,6 +127,8 @@ void serialEvent()
     get_pps();
   } else if (commandString == "tare") {
     tare();
+  } else if (commandString == "get_transmission_format"){
+        get_transmission_format();
     //  } else if (commandString == "get_calibration_factor") {
     //    get_calibration_factor();
     //  } else if (commandString == "set_calibration_factor") {
@@ -244,4 +249,15 @@ void sendFloat(float f) {
   Serial.write(b[3]); //Most significant byte
   Serial.flush();
   return;
+}
+
+void get_transmission_format()
+{
+  if (binaryFormat)
+  {
+    Serial.print("binary");
+  } else
+  {
+    Serial.print("text");
+  }
 }

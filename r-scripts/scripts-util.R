@@ -1,7 +1,18 @@
 #Function to get the interpolated x at a given y
 interpolateXAtY <- function(X, Y, desiredY){
+        if(max(Y) < desiredY){
+                print("desiredY is greater than max(Y)")
+                return(max(Y))
+        }
+                
         #find the closest sample
         nextSample = 1
+        print("X:")
+        print(X)
+        print("Y:")
+        print(Y)
+        print("desiredY:")
+        print(desiredY)
         while (Y[nextSample] < desiredY){
                 nextSample = nextSample +1
         }

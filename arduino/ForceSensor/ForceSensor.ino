@@ -39,7 +39,7 @@
 #define CLK  2
 
 //Version number //it always need to start with: "Force_Sensor-"
-String version = "Force_Sensor-0.2";
+String version = "Force_Sensor-0.3";
 
 
 int tareAddress = 0;
@@ -58,6 +58,9 @@ float weight = 0.0;
 
 //Wether the sensor has to capture or not
 boolean capturing = false;
+
+//wether the tranmission is in binary format or not
+boolean binaryFormat = false;
 
 unsigned long lastTime = 0;
 unsigned long currentTime = 0;
@@ -141,6 +144,8 @@ void serialEvent()
         set_tare(inputString);
       } else if (commandString == "tare"){
         tare();
+      } else if (commandString == "get_transmission_format"){
+        get_transmission_format();
       } else {
         Serial.println("Not a valid command");
       }
@@ -231,3 +236,13 @@ String get_command_argument(String inputString)
   return(inputString.substring(inputString.lastIndexOf(":") + 1, inputString.lastIndexOf(";")));
 }
 
+void get_transmission_format()
+{
+  if (binaryFormat)
+  {
+    Serial.print("binary");
+  } else
+  {
+    Serial.print("text");
+  }
+}

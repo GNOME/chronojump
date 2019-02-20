@@ -7,6 +7,7 @@ Adafruit_ADS1115 loadCell;
 int encoderPinA = 3;
 int encoderPinB = 4;
 volatile int encoderDisplacement = 0;
+int lastEncoderDisplacement = 0;
 volatile unsigned long changingTime = 0;
 unsigned long elapsedTime = 0;
 unsigned long totalTime = 0;
@@ -24,6 +25,9 @@ float calibrationFactor = 0;
 
 //Wether the sensor has to capture or not
 boolean capturing = false;
+
+//Wether the encoder has reached the number of pulses per sample or not
+boolean processSample = false;
 
 //wether the tranmission is in binary format or not
 boolean binaryFormat = false;
@@ -48,24 +52,23 @@ void setup() {
 }
 
 void loop() {
-  int offsettedData = 0;
   long int total = 0;
   int nReadings = 0;
-  int meanOffsettedData = 0;
+  int offsettedData = 0;
+  
 
   if (capturing)
   {
 
     //With a diameter is of 160mm, each pulse is 2.513274mm. 4 pulses equals 1.00531cm
-    while (abs(encoderDisplacement) < pps ) {
+    while (!processSample) {
       offsettedData = readOffsettedData(0);
       total += offsettedData;
       nReadings++;
     }
 
-    int lastEncoderDisplacement = encoderDisplacement; //Assigned to another variable for in the case that encoder displacement changes before printing it
     unsigned long Time = changingTime;
-    encoderDisplacement = 0;
+    //int lastEncoderDisplacement = encoderDisplacement; //Assigned to another variable for in the case that encoder displacement changes before printing it
 
     //Managing the timer overflow
     if (Time > lastTime)      //No overflow
@@ -76,7 +79,7 @@ void loop() {
       elapsedTime = (4294967295 - lastTime) + Time; //Time from the last measure to the overflow event plus the changingTime
     }
     totalTime += elapsedTime;
-    meanOffsettedData = total / nReadings;
+    int meanOffsettedData = total / nReadings;
     lastTime = Time;
     
       //Sending in text mode
@@ -85,6 +88,8 @@ void loop() {
     Serial.print(totalTime);
     Serial.print(";");
     Serial.println(offsettedData);
+
+    processSample = false;
 
 //    //Sending in binary mode
 //    sendInt(lastEncoderDisplacement);
@@ -104,10 +109,15 @@ void changingA() {
   changingTime = micros();
   if (digitalRead(encoderPinB) == HIGH) {
     encoderDisplacement--;
-    digitalWrite(13, HIGH);
+    //digitalWrite(13, HIGH);
   } else {
     encoderDisplacement++;
-    digitalWrite(13, LOW);
+    //digitalWrite(13, LOW);
+  }
+  if (abs(encoderDisplacement) >= pps){
+    lastEncoderDisplacement = encoderDisplacement;
+    encoderDisplacement = 0;
+    processSample = true;
   }
 }
 

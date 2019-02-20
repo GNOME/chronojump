@@ -55,7 +55,7 @@ void loop() {
   long int total = 0;
   int nReadings = 0;
   int offsettedData = 0;
-  
+
 
   if (capturing)
   {
@@ -65,6 +65,12 @@ void loop() {
       offsettedData = readOffsettedData(0);
       total += offsettedData;
       nReadings++;
+      if (Serial.available() > 0) {
+        changingTime = micros();
+        lastEncoderDisplacement = encoderDisplacement;
+        encoderDisplacement = 0;
+        processSample = true;
+      }
     }
 
     unsigned long Time = changingTime;
@@ -81,8 +87,8 @@ void loop() {
     totalTime += elapsedTime;
     int meanOffsettedData = total / nReadings;
     lastTime = Time;
-    
-      //Sending in text mode
+
+    //Sending in text mode
     Serial.print(lastEncoderDisplacement);
     Serial.print(";");
     Serial.print(totalTime);
@@ -91,17 +97,17 @@ void loop() {
 
     processSample = false;
 
-//    //Sending in binary mode
-//    sendInt(lastEncoderDisplacement);
-//    sendInt(totalTime);
-//    sendInt(offsettedData);
-//
-//    //End of the binari sample
-//    Serial.write(0xff);
-//    Serial.write(0xff);
-//    Serial.write(0xff);
-//    Serial.write(0xff);
-   
+    //    //Sending in binary mode
+    //    sendInt(lastEncoderDisplacement);
+    //    sendInt(totalTime);
+    //    sendInt(offsettedData);
+    //
+    //    //End of the binari sample
+    //    Serial.write(0xff);
+    //    Serial.write(0xff);
+    //    Serial.write(0xff);
+    //    Serial.write(0xff);
+
   }
 }
 
@@ -114,7 +120,7 @@ void changingA() {
     encoderDisplacement++;
     //digitalWrite(13, LOW);
   }
-  if (abs(encoderDisplacement) >= pps){
+  if (abs(encoderDisplacement) >= pps) {
     lastEncoderDisplacement = encoderDisplacement;
     encoderDisplacement = 0;
     processSample = true;
@@ -137,8 +143,8 @@ void serialEvent()
     get_pps();
   } else if (commandString == "tare") {
     tare();
-  } else if (commandString == "get_transmission_format"){
-        get_transmission_format();
+  } else if (commandString == "get_transmission_format") {
+    get_transmission_format();
     //  } else if (commandString == "get_calibration_factor") {
     //    get_calibration_factor();
     //  } else if (commandString == "set_calibration_factor") {

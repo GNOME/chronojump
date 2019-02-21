@@ -1,0 +1,208 @@
+/*
+ * This file is part of ChronoJump
+ *
+ * ChronoJump is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or   
+ *    (at your option) any later version.
+ *              
+ * ChronoJump is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ *    GNU General Public License for more details.
+ *                      
+ * You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software 
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *              
+ * Copyright (C) 2019   Xavier de Blas <xaviblas@gmail.com> 
+ */
+
+//compile:
+//mcs yomoClientSQLGenerator.cs -r:Mono.Data.Sqlite -r:System.Data
+
+using System;
+using System.IO; //"File" things. TextWriter. Path
+using Mono.Data.Sqlite;
+
+class YomoClientGenerator
+{
+	// start of configuration variables ---->
+
+	//private static string dbPath = "~/.local/share/Chronojump/database"; //aixi no va
+	private static string dbPath = "/home/xavier/.local/share/Chronojump/database";
+	private static bool debug = false;
+	private static bool createTables = false;
+	
+	int schools = 200;
+	int groupsBySchool = 10;
+	int femaleByGroup = 50;
+	int maleByGroup = 50;
+
+	// <---- end of configuration variables
+
+        private static SqliteConnection dbcon;
+	protected static SqliteCommand dbcmd;
+
+
+	public static void Main(string[] args)
+	{
+		sqliteCreateConnection();
+		sqliteOpen();
+
+		new YomoClientGenerator();
+
+		sqliteClose();
+	}
+
+	// ---- sqlite main methods ----
+
+	private static void sqliteCreateConnection()
+	{
+		dbcon = new SqliteConnection ();
+	        string sqlFile = dbPath + Path.DirectorySeparatorChar + "chronojumpYomo.db";
+		Console.WriteLine(sqlFile);
+		dbcon.ConnectionString = "version = 3; Data source = " + sqlFile;
+		dbcmd = dbcon.CreateCommand();
+	}
+	private static void sqliteOpen()
+	{
+		dbcon.Open();
+	}
+	private static void sqliteClose()
+	{
+		dbcon.Close();
+	}
+	
+	// ---- end of sqlite main methods ----
+
+	// ---- generator ----
+	public YomoClientGenerator()
+	{
+		if(createTables)
+			createDatabaseTablesForDebug (); //aixo no caldrà
+
+		generate();
+	}
+
+	// ---- generator helpful methods----
+
+	//aixo no caldra
+	private void createDatabaseTablesForDebug ()
+	{
+		createSessionTable();
+		createPersonTable();
+		createPersonSessionTable();
+	}
+
+	private void createSessionTable()
+	{
+		dbcmd.CommandText =
+			"CREATE TABLE session ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"name TEXT, " +
+			"place TEXT, " +
+			"date TEXT, " +  //YYYY-MM-DD since db 0.72
+			"personsSportID INT, " +
+			"personsSpeciallityID INT, " +
+			"personsPractice INT, " + //also called "level"
+			"comments TEXT, " +
+			"serverUniqueID INT " +
+			" ) ";
+		dbcmd.ExecuteNonQuery();
+	}
+
+ 	private void createPersonTable()
+	{
+		dbcmd.CommandText =
+			"CREATE TABLE person77 ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"name TEXT, " +
+			"sex TEXT, " +
+			"dateborn TEXT, " + //YYYY-MM-DD since db 0.72
+			"race INT, " +
+			"countryID INT, " +
+			"description TEXT, " +
+			"future1 TEXT, " + //rfid
+			"future2 TEXT, " +
+			"serverUniqueID INT ) ";
+		dbcmd.ExecuteNonQuery();
+	}
+
+	private void createPersonSessionTable()
+	{
+		dbcmd.CommandText =
+			"CREATE TABLE personSession77 ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"personID INT, " +
+			"sessionID INT, " +
+			"height FLOAT, " +
+			"weight FLOAT, " +
+			"sportID INT, " +
+			"speciallityID INT, " +
+			"practice INT, " + //also called "level"
+			"comments TEXT, " +
+			"future1 TEXT, " +
+			"future2 TEXT)";
+		dbcmd.ExecuteNonQuery();
+	}
+
+	private void generate ()
+	{
+		int sessionID = 0;
+		int personID = 0;
+		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+
+				for(int s = 0; s < schools ; s ++)
+					for(int g = 0; g < groupsBySchool ; g ++, sessionID ++)
+					{
+						insertSession(dbcmdTr, sessionID, string.Format("{0}-{1}", s, g), "", "2019-02-21");
+						string sex = "F";
+						for(int p = 0; p < femaleByGroup + maleByGroup; p ++, personID ++)
+						{
+							insertPerson(dbcmdTr, personID, string.Format("{0}-{1}-{2}", s, g, p), sex);
+							if(p > femaleByGroup)
+								sex = "M";
+							insertPersonSession(dbcmdTr, personID, sessionID);
+						}
+					}
+			}
+			tr.Commit();
+		}
+	}
+
+	private void insertSession (SqliteCommand mycmd, int uniqueID, string name, string place, string date)
+	{
+		string str = "INSERT INTO session (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments, serverUniqueID)" +
+			" VALUES (" + uniqueID + ", \""	+ name + "\", \"" + place + "\", \"" + date + "\", -1, -1, -1, \"\", -1)";
+
+		executeQuery(mycmd, str);
+	}
+	private void insertPerson(SqliteCommand mycmd, int uniqueID, string name, string sex)
+	{
+		string str = "INSERT INTO person77 (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID) VALUES (" +
+			uniqueID + ", \"" + name + "\", \"" + sex + "\", \"0001-01-01\", -1, 1, \"\", \"\", \"\", -1)";
+
+		executeQuery(mycmd, str);
+	}	
+	private void insertPersonSession(SqliteCommand mycmd, int personID, int sessionID)
+	{
+		string str = "INSERT INTO personSession77 (uniqueID, personID, sessionID, height, weight, " +
+			"sportID, speciallityID, practice, comments, future1, future2)" +
+			" VALUES (NULL, " + personID + ", " + sessionID + ",0.0,50.0,1,-1,-1,'','','')";
+
+		executeQuery(mycmd, str);
+	}
+
+	private void executeQuery(SqliteCommand mycmd, string str)
+	{
+		mycmd.CommandText = str;
+		if (debug)
+			Console.WriteLine(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
+	}
+}

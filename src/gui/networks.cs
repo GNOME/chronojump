@@ -199,7 +199,7 @@ public partial class ChronoJumpWindow
 		}
 
 		if(configChronojump.Exhibition)
-			frame_exhibition.Visible = true;
+			exhibitionGuiAtStart(configChronojump.ExhibitionStationType);
 
 		configDo();
 	}

@@ -30,8 +30,19 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_exhibition_4;
 	[Widget] Gtk.Label label_persons; //persons text show the top of manage persons. Hidden on exhibition to be more clear (1,2,3,4)
 
-	private void exhibitionGuiAtStart()
+	private void exhibitionGuiAtStart(ExhibitionTest.testTypes exhibitionStationType)
 	{
+		if(exhibitionStationType == ExhibitionTest.testTypes.JUMP)
+			on_button_selector_start_jumps_simple_clicked (new object (), new EventArgs());
+		else if(exhibitionStationType == ExhibitionTest.testTypes.RUN)
+			on_button_selector_start_runs_simple_clicked (new object (), new EventArgs());
+		else if(exhibitionStationType == ExhibitionTest.testTypes.INERTIAL)
+			on_button_selector_start_encoder_inertial_clicked (new object (), new EventArgs());
+		else if(exhibitionStationType == ExhibitionTest.testTypes.FORCE_ROPE ||
+				exhibitionStationType == ExhibitionTest.testTypes.FORCE_SHOT)
+			on_button_selector_start_force_sensor_clicked (new object (), new EventArgs());
+
+		frame_exhibition.Visible = true;
 		notebook_session_person.CurrentPage = 1;
 		frame_persons.Sensitive = true;
 		spin_exhibition_school.Value = 0; //need to assign an inital value (if not it shows blank value)

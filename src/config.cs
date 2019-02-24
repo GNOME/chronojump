@@ -46,6 +46,10 @@ public class Config
 	public string RunScriptOnExit;
 	public bool PlaySoundsFromFile;
 
+	public bool Exhibition; //like YOMO. does not have rfid capture, user autologout management, and automatic configuration of gui
+	public string ExhibitionServerURL = "";
+	public int ExhibitionStationID = -1;
+
 	public Config()
 	{
 		/*
@@ -102,6 +106,12 @@ public class Config
 							Enum.Parse(typeof(SessionModeEnum), parts[1]);
 					else if(parts[0] == "PlaySoundsFromFile" && Util.StringToBool(parts[1]))
 						PlaySoundsFromFile = true;
+					else if(parts[0] == "Exhibition" && Util.StringToBool(parts[1]))
+						Exhibition = true;
+					else if(parts[0] == "ExhibitionServerURL" && parts[1] != "")
+						ExhibitionServerURL = parts[1];
+					else if(parts[0] == "ExhibitionStationID" && parts[1] != "" && Util.IsNumber(parts[1], false))
+						ExhibitionStationID = Convert.ToInt32(parts[1]);
 				} while(true);
 			}
 		}

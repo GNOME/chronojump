@@ -932,6 +932,8 @@ public class Json
 		return true;
 	}
 
+	//table created with:
+	//CREATE TABLE exhibitionTest(dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, sessionID INT NOT NULL, personID INT NOT NULL, testType CHAR(10), result DOUBLE);
 	public bool UploadExhibitionTest(ExhibitionTest et)
 	{
 		// Create a request using a URL that can receive a post.
@@ -950,8 +952,8 @@ public class Json
 
 		json.Add("sessionID", et.sessionID);
 		json.Add("personID", et.personID);
-		json.Add("testType", et.testType.ToString()); //todo: check how this enum is uploaded
-		json.Add("result", et.result);
+		json.Add("testType", et.testType.ToString());
+		json.Add("result", et.resultToJson);
 
 		// Converts it to a String
 		String js = json.ToString();
@@ -1398,7 +1400,7 @@ public class ExhibitionTest
 	public int personID;
 	public enum testTypes { JUMP, RUN, FORCE_ROPE, FORCE_SHOT, INERTIAL }; //run will be a an intervallic run
 	public testTypes testType;
-	public float result;
+	public double result;
 	/* result is:
 	 * 	on jumps is height
 	 * 	on runs is maximum speed ?
@@ -1407,7 +1409,7 @@ public class ExhibitionTest
 	 * 	on inertial is mean power of the maximum repetiton
 	 */
 
-	public ExhibitionTest(int sessionID, int personID, testTypes testType, float result)
+	public ExhibitionTest(int sessionID, int personID, testTypes testType, double result)
 	{
 		this.sessionID = sessionID;
 		this.personID = personID;
@@ -1415,6 +1417,10 @@ public class ExhibitionTest
 		this.result = result;
 	}
 
-	~ExhibitionTest() {}
+	//convert to decimal point and str
+	public string resultToJson {
+		get { return Util.ConvertToPoint(result); }
+	}
 
+	~ExhibitionTest() {}
 }

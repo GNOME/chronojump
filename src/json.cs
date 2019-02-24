@@ -932,6 +932,55 @@ public class Json
 		return true;
 	}
 
+	public bool UploadExhibitionTest(ExhibitionTest et)
+	{
+		// Create a request using a URL that can receive a post.
+		if (! createWebRequest(requestType.GENERIC, "/uploadExhibitionTestData"))
+			return false;
+
+		// Set the Method property of the request to POST.
+		request.Method = "POST";
+
+		// Set the ContentType property of the WebRequest.
+		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
+		//exerciseName = Util.RemoveAccents(exerciseName);
+
+		// Creates the json object
+		JsonObject json = new JsonObject();
+
+		json.Add("sessionID", et.sessionID);
+		json.Add("personID", et.personID);
+		json.Add("testType", et.testType.ToString()); //todo: check how this enum is uploaded
+		json.Add("result", et.result);
+
+		// Converts it to a String
+		String js = json.ToString();
+
+		// Writes the json object into the request dataStream
+		Stream dataStream;
+		if(! getWebRequestStream (request, out dataStream, "Could not upload exhibition test data (A)."))
+			return false;
+
+		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
+
+		dataStream.Close ();
+
+		// Get the response.
+		WebResponse response;
+		if(! getWebResponse (request, out response, "Could not upload exhibition test data (B)."))
+			return false;
+
+		// Display the status (will be 202, CREATED)
+		Console.WriteLine (((HttpWebResponse)response).StatusDescription);
+
+		// Clean up the streams.
+		dataStream.Close ();
+		response.Close ();
+
+		this.ResultMessage = "Exhibition test data sent.";
+		return true;
+	}
+
 
 	public bool Connected {
 		get { return connected; }
@@ -1340,4 +1389,32 @@ public class StationCount
 	{
 		return stationName + " (" + tasksCount.ToString() + ")";
 	}
+}
+
+//eg. YOMO
+public class ExhibitionTest
+{
+	public int sessionID; //includes school and class-group
+	public int personID;
+	public enum testTypes { JUMP, RUN, FORCE_ROPE, FORCE_SHOT, INERTIAL }; //run will be a an intervallic run
+	public testTypes testType;
+	public float result;
+	/* result is:
+	 * 	on jumps is height
+	 * 	on runs is maximum speed ?
+	 * 	on pull rope is maximum force
+	 * 	on shot is maximum force
+	 * 	on inertial is mean power of the maximum repetiton
+	 */
+
+	public ExhibitionTest(int sessionID, int personID, testTypes testType, float result)
+	{
+		this.sessionID = sessionID;
+		this.personID = personID;
+		this.testType = testType;
+		this.result = result;
+	}
+
+	~ExhibitionTest() {}
+
 }

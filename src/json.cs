@@ -950,7 +950,8 @@ public class Json
 		// Creates the json object
 		JsonObject json = new JsonObject();
 
-		json.Add("sessionID", et.sessionID);
+		json.Add("schoolID", et.schoolID);
+		json.Add("groupID", et.groupID);
 		json.Add("personID", et.personID);
 		json.Add("testType", et.testType.ToString());
 		json.Add("result", et.resultToJson);
@@ -1396,7 +1397,8 @@ public class StationCount
 //eg. YOMO
 public class ExhibitionTest
 {
-	public int sessionID; //includes school and class-group
+	public int schoolID;
+	public int groupID;
 	public int personID;
 	public enum testTypes { JUMP, RUN, INERTIAL, FORCE_ROPE, FORCE_SHOT };
 	public testTypes testType;
@@ -1409,9 +1411,10 @@ public class ExhibitionTest
 	 * 	on inertial is mean power of the maximum repetiton
 	 */
 
-	public ExhibitionTest(int sessionID, int personID, testTypes testType, double result)
+	public ExhibitionTest(int schoolID, int groupID, int personID, testTypes testType, double result)
 	{
-		this.sessionID = sessionID;
+		this.schoolID = schoolID;
+		this.groupID = groupID;
 		this.personID = personID;
 		this.testType = testType;
 		this.result = result;

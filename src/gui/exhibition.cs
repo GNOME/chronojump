@@ -136,7 +136,10 @@ public partial class ChronoJumpWindow
 	private void uploadExhibitionTest(ExhibitionTest.testTypes tt, double result)
 	{
 		Json js = new Json();
-		ExhibitionTest et = new ExhibitionTest(currentSession.UniqueID, currentPerson.UniqueID, tt, result);
+		ExhibitionTest et = new ExhibitionTest(Convert.ToInt32(spin_exhibition_school.Value),
+				Convert.ToInt32(spin_exhibition_group.Value),
+				currentPerson.UniqueID, tt, result);
+
 		if( ! js.UploadExhibitionTest (et))
 		{
 			LogB.Error(js.ResultMessage);

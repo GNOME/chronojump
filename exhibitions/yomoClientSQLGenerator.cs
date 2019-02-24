@@ -38,8 +38,10 @@ class YomoClientGenerator
 	//private static string dbPath = "~/.local/share/Chronojump/database"; //aixi no va
 	private static string username = "xavier";
 	private static string dbPath = "/home/" + username + "/.local/share/Chronojump/database";
+	private static string database = "chronojump.db";
 	private static bool debug = false;
 	private static bool createTables = false;
+	private static bool shouldDestroyOldData = true;
 	
 	int schools = 200;
 	int groupsBySchool = 10;
@@ -67,7 +69,7 @@ class YomoClientGenerator
 	private static void sqliteCreateConnection()
 	{
 		dbcon = new SqliteConnection ();
-	        string sqlFile = dbPath + Path.DirectorySeparatorChar + "chronojumpYomo.db";
+	        string sqlFile = dbPath + Path.DirectorySeparatorChar + database;
 		Console.WriteLine(sqlFile);
 		dbcon.ConnectionString = "version = 3; Data source = " + sqlFile;
 		dbcmd = dbcon.CreateCommand();
@@ -88,11 +90,25 @@ class YomoClientGenerator
 	{
 		if(createTables)
 			createDatabaseTablesForDebug (); //aixo no caldrà
+		else if(shouldDestroyOldData)
+			destroyOldData();
 
 		generate();
 	}
 
 	// ---- generator helpful methods----
+
+	private void destroyOldData()
+	{
+		string str = "DELETE FROM session";
+		executeQuery(dbcmd, str);
+
+		str = "DELETE FROM personSession77";
+		executeQuery(dbcmd, str);
+
+		str = "DELETE FROM person77";
+		executeQuery(dbcmd, str);
+	}
 
 	//aixo no caldra
 	private void createDatabaseTablesForDebug ()
@@ -171,8 +187,8 @@ class YomoClientGenerator
 						string sex = "F";
 						for(int p = 0; p < femaleByGroup + maleByGroup; p ++, personID ++)
 						{
-							insertPerson(dbcmdTr, personID, string.Format("{0}-{1}-{2}", s, g, p), sex);
-							if(p > femaleByGroup)
+							insertPerson(dbcmdTr, personID, string.Format("{0}-{1}-{2:00}", s, g, p), sex);
+							if(p >= femaleByGroup -1)
 								sex = "M";
 							insertPersonSession(dbcmdTr, personID, sessionID);
 						}
@@ -185,7 +201,7 @@ class YomoClientGenerator
 	private void insertSession (SqliteCommand mycmd, int uniqueID, string name, string place, string date)
 	{
 		string str = "INSERT INTO session (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments, serverUniqueID)" +
-			" VALUES (" + uniqueID + ", \""	+ name + "\", \"" + place + "\", \"" + date + "\", -1, -1, -1, \"\", -1)";
+			" VALUES (" + uniqueID + ", \""	+ name + "\", \"" + place + "\", \"" + date + "\", 1, -1, -1, \"\", -1)";
 
 		executeQuery(mycmd, str);
 	}

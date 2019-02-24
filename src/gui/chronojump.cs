@@ -4505,7 +4505,7 @@ public partial class ChronoJumpWindow
 			if(! execute_auto_doing)
 				sensitiveGuiYesEvent();
 
-			if(configChronojump.Exhibition)
+			if(configChronojump.Exhibition && configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.JUMP)
 				uploadExhibitionTest(ExhibitionTest.testTypes.JUMP, Convert.ToDouble(Util.GetHeightInCentimeters(currentJump.Tv.ToString())));
 		} 
 		else if( currentEventExecute.ChronopicDisconnected )
@@ -4949,7 +4949,7 @@ public partial class ChronoJumpWindow
 			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
 			event_execute_LabelTimeValue = currentRun.Time;
 
-			if(configChronojump.Exhibition)
+			if(configChronojump.Exhibition && configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.RUN)
 				uploadExhibitionTest(ExhibitionTest.testTypes.RUN, currentRun.Time);
 		}
 		else if( currentEventExecute.ChronopicDisconnected )

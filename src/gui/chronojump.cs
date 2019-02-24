@@ -696,6 +696,8 @@ public partial class ChronoJumpWindow
 
 		LogB.Information("Calling configInitRead from gui / ChronojumpWindow");
 		configInitRead();
+		if(configChronojump.Exhibition)
+			exhibitionGuiAtStart();
 
 		//presentationInit();
 
@@ -4504,6 +4506,10 @@ public partial class ChronoJumpWindow
 			//unhide buttons for delete last jump
 			if(! execute_auto_doing)
 				sensitiveGuiYesEvent();
+
+			if(configChronojump.Exhibition)
+				uploadExhibitionTest(ExhibitionTest.testTypes.JUMP, Convert.ToDouble(Util.GetHeightInCentimeters(currentJump.Tv.ToString())));
+
 		} 
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
@@ -7516,7 +7522,10 @@ LogB.Debug("mc finished 5");
 
 	private void sensitiveGuiNoSession () 
 	{
-		notebook_session_person.CurrentPage = 0;
+		if(configChronojump.Exhibition)
+			notebook_session_person.CurrentPage = 1;
+		else
+			notebook_session_person.CurrentPage = 0;
 
 		treeview_persons.Sensitive = false;
 		

@@ -22,6 +22,7 @@ SOURCES = \
 	gui/eventGraphConfigure.cs\
 	gui/event.cs\
 	gui/executeAuto.cs\
+	gui/exhibition.cs\
 	gui/forceSensor.cs\
 	gui/forceSensorAnalyze.cs\
 	gui/guiTests.cs\

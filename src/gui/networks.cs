@@ -198,6 +198,9 @@ public partial class ChronoJumpWindow
 				button_encoder_analyze_image_compujump_send_email.Visible = true;
 		}
 
+		if(configChronojump.Exhibition)
+			frame_exhibition.Visible = true;
+
 		configDo();
 	}
 	private void RFIDStart()

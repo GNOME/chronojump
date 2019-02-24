@@ -47,8 +47,11 @@ public class Config
 	public bool PlaySoundsFromFile;
 
 	public bool Exhibition; //like YOMO. does not have rfid capture, user autologout management, and automatic configuration of gui
-	public string ExhibitionServerURL = "";
-	public int ExhibitionStationID = -1;
+	/*
+	 * unused because the default serverURL chronojump.org is ok:
+	 * public string ExhibitionServerURL = "";
+	 * public int ExhibitionStationID = -1;
+	 */
 
 	public Config()
 	{
@@ -108,10 +111,12 @@ public class Config
 						PlaySoundsFromFile = true;
 					else if(parts[0] == "Exhibition" && Util.StringToBool(parts[1]))
 						Exhibition = true;
+					/*
 					else if(parts[0] == "ExhibitionServerURL" && parts[1] != "")
 						ExhibitionServerURL = parts[1];
 					else if(parts[0] == "ExhibitionStationID" && parts[1] != "" && Util.IsNumber(parts[1], false))
 						ExhibitionStationID = Convert.ToInt32(parts[1]);
+						*/
 				} while(true);
 			}
 		}

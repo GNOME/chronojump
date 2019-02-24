@@ -1398,7 +1398,7 @@ public class ExhibitionTest
 {
 	public int sessionID; //includes school and class-group
 	public int personID;
-	public enum testTypes { JUMP, RUN, FORCE_ROPE, FORCE_SHOT, INERTIAL }; //run will be a an intervallic run
+	public enum testTypes { JUMP, RUN, INERTIAL, FORCE_ROPE, FORCE_SHOT };
 	public testTypes testType;
 	public double result;
 	/* result is:

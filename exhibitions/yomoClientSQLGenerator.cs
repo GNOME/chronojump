@@ -27,10 +27,17 @@ using Mono.Data.Sqlite;
 
 class YomoClientGenerator
 {
+
+	/*
+	 * atencio pq la sessio 0 tindria que ser la SIMULATED
+	 * o una altra opcio es que es borressin les sessions: a part de tota la resta
+	 */
+
 	// start of configuration variables ---->
 
 	//private static string dbPath = "~/.local/share/Chronojump/database"; //aixi no va
-	private static string dbPath = "/home/xavier/.local/share/Chronojump/database";
+	private static string username = "xavier";
+	private static string dbPath = "/home/" + username + "/.local/share/Chronojump/database";
 	private static bool debug = false;
 	private static bool createTables = false;
 	

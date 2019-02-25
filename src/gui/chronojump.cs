@@ -7577,7 +7577,7 @@ LogB.Debug("mc finished 5");
 		
 		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;
-		button_force_sensor_adjust.Sensitive = false;
+		button_force_sensor_adjust.Sensitive = true;
 		
 		menuSessionSensitive(true);
 		vbox_stats.Sensitive = true;
@@ -7604,7 +7604,6 @@ LogB.Debug("mc finished 5");
 		
 		menuPersonSelectedSensitive(false);
 		vbox_execute_test.Sensitive = false;
-		button_force_sensor_adjust.Sensitive = false;
 
 		label_top_person_name.Text = "";
 		label_top_encoder_person_name.Text = "";
@@ -7639,7 +7638,6 @@ LogB.Debug("mc finished 5");
 		combo_select_runs_interval.Sensitive = true;
 		combo_result_runs_interval.Sensitive = true;
 		combo_pulses.Sensitive = true;
-		button_force_sensor_adjust.Sensitive = true;
 		
 		vbox_execute_test.Sensitive = true;
 	}

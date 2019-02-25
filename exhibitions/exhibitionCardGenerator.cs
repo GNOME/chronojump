@@ -25,11 +25,15 @@ using System;
 using System.IO; //"File" things. TextWriter. Path
 using Mono.Data.Sqlite;
 
+public static class Options
+{
+	public static int MaleStartID = 100;
+	public static string DbPath = ".";
+	public static string Database = "exhibitionCardGenerator.db";
+}
+
 public class ExhibitionCardGenerator
 {
-	private static string dbPath = ".";
-	private static string database = "exhibitionCardGenerator.db";
-        
 	private static SqliteConnection dbcon;
 	protected static SqliteCommand dbcmd;
 	
@@ -109,7 +113,7 @@ public class ExhibitionCardGenerator
 		string sex = Console.ReadLine();
 		Person.SexTypes st = Person.SexParse(sex);
 
-		Person p = new Person(-1, schoolID, groupID, st);
+		Person p = new Person(schoolID, groupID, st);
 		p.Insert(dbcmd);
 	}
 
@@ -125,7 +129,7 @@ public class ExhibitionCardGenerator
 	private static void sqliteCreateConnection()
 	{
 		dbcon = new SqliteConnection ();
-	        string sqlFile = dbPath + Path.DirectorySeparatorChar + database;
+	        string sqlFile = Options.DbPath + Path.DirectorySeparatorChar + Options.Database;
 		Console.WriteLine(sqlFile);
 		dbcon.ConnectionString = "version = 3; Data source = " + sqlFile;
 		dbcmd = dbcon.CreateCommand();
@@ -185,6 +189,9 @@ public class School
 
 	public static void CreateTable(SqliteCommand dbcmd)
 	{
+		dbcmd.CommandText = "DROP TABLE IF EXISTS " + table;
+		dbcmd.ExecuteNonQuery();
+
 		dbcmd.CommandText =
 			"CREATE TABLE " + table + " (" +
 			"id INTEGER PRIMARY KEY, " +
@@ -240,6 +247,9 @@ public class Group
 
 	public static void CreateTable(SqliteCommand dbcmd)
 	{
+		dbcmd.CommandText = "DROP TABLE IF EXISTS " + table;
+		dbcmd.ExecuteNonQuery();
+
 		dbcmd.CommandText =
 			"CREATE TABLE " + table + " (" +
 			"id INTEGER PRIMARY KEY, " +
@@ -252,7 +262,7 @@ public class Group
 
 public class Person
 {
-	int id;
+	//int id;
 	int schoolID;
 	int groupID;
 	SexTypes sex;
@@ -261,17 +271,48 @@ public class Person
 
 	public enum SexTypes { F, M };
 
-	public Person(int id, int schoolID, int groupID, SexTypes sex)
+	//public Person(int id, int schoolID, int groupID, SexTypes sex)
+	public Person(int schoolID, int groupID, SexTypes sex)
 	{
-		this.id = id;
+		//this.id = id;
 		this.schoolID = schoolID;
 		this.groupID = groupID;
 		this.sex = sex;
 	}
 
+	private int getNextIDLikeThis(SqliteCommand dbcmd)
+	{
+		dbcmd.CommandText = "SELECT MAX(id) FROM " + table + " WHERE schoolID = " + schoolID +
+			" AND groupID = " + groupID + " AND sex = \"" + sex.ToString() + "\"";
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		int lastID = 0;
+		while(reader.Read()) {
+			if(reader[0].ToString() != "")
+				lastID = Convert.ToInt32(reader[0].ToString());
+		}
+		reader.Close();
+
+		//females start at 0, males start at Options.MaleStartID
+		if(lastID == 0)
+		{
+			if(sex == SexTypes.F)
+				return 0;
+			else
+				return Options.MaleStartID;
+		} else
+			return lastID + 1;
+	}
+
 	public void Insert(SqliteCommand dbcmd)
 	{
-		dbcmd.CommandText = "INSERT INTO " + table + " (id, schoolID, groupID, sex) VALUES (NULL, " +
+		int nextID = getNextIDLikeThis(dbcmd);
+
+		dbcmd.CommandText = "INSERT INTO " + table + " (id, schoolID, groupID, sex) VALUES (" + nextID + ", " +
 			schoolID + ", " + groupID + ", \"" + sex.ToString() + "\")";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -279,12 +320,16 @@ public class Person
 
 	public static void CreateTable(SqliteCommand dbcmd)
 	{
+		dbcmd.CommandText = "DROP TABLE IF EXISTS " + table;
+		dbcmd.ExecuteNonQuery();
+
 		dbcmd.CommandText =
 			"CREATE TABLE " + table + " (" +
-			"id INTEGER PRIMARY KEY, " +
+			"id INT, " +
 			"schoolID INT, " +
 			"groupID INT, " +
-			"sex TEXT)";
+			"sex TEXT, " +
+			"personID INT)";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}

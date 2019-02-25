@@ -1851,6 +1851,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -2680,7 +2683,7 @@ EncoderInertialCapture</property>
                                                             <property name="secondary_icon_activatable">False</property>
                                                             <property name="primary_icon_sensitive">True</property>
                                                             <property name="secondary_icon_sensitive">True</property>
-                                                            <property name="adjustment">0 0 199 1 10 0</property>
+                                                            <property name="adjustment">0 0 299 1 10 0</property>
                                                             <property name="numeric">True</property>
                                                             </widget>
                                                             <packing>
@@ -2903,7 +2906,7 @@ EncoderInertialCapture</property>
                                                             <property name="secondary_icon_activatable">False</property>
                                                             <property name="primary_icon_sensitive">True</property>
                                                             <property name="secondary_icon_sensitive">True</property>
-                                                            <property name="adjustment">0 0 9 1 10 0</property>
+                                                            <property name="adjustment">0 0 49 1 10 0</property>
                                                             <property name="numeric">True</property>
                                                             </widget>
                                                             <packing>
@@ -2927,6 +2930,7 @@ EncoderInertialCapture</property>
                                                             <property name="homogeneous">True</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_exhibition_group_left10">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
@@ -3023,6 +3027,7 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_exhibition_group_right10">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
@@ -20198,12 +20203,6 @@ Concentric</property>
                                                             <placeholder/>
                                                             </child>
                                                             <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkCheckButton" id="checkbutton_force_sensor_ai_b">
                                                             <property name="width_request">30</property>
                                                             <property name="visible">True</property>
@@ -20261,6 +20260,9 @@ Concentric</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -27494,6 +27496,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

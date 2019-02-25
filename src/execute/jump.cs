@@ -48,6 +48,7 @@ public class JumpExecute : EventExecute
 	protected static jumpPhases jumpPhase;
 
 	private int angle = -1;
+	private bool avoidGraph;
 	
 	public JumpExecute() {
 	}
@@ -56,7 +57,8 @@ public class JumpExecute : EventExecute
 	public JumpExecute(int personID, string personName, int sessionID, string type, double fall, double weight,  
 			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			double progressbarLimit, ExecutingGraphData egd, string description
+			double progressbarLimit, ExecutingGraphData egd, string description,
+			bool avoidGraph //on configChronojump.Exhibition do not show graph because it gets too slow with big database
 			)
 	{
 		this.personID = personID;
@@ -76,6 +78,7 @@ public class JumpExecute : EventExecute
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 		this.description = description;
+		this.avoidGraph = avoidGraph;
 	
 		if(TypeHasFall) {
 			hasFall = true;
@@ -470,10 +473,13 @@ public class JumpExecute : EventExecute
 		//define the created object
 		eventDone = new Jump(uniqueID, personID, sessionID, type, tv, tc, fall, 
 				weight, description, angle, Util.BoolToNegativeInt(simulated)); 
-		
-		PrepareEventGraphJumpSimpleObject = new PrepareEventGraphJumpSimple(tv, tc, sessionID, personID, table, type);
-		needUpdateGraphType = eventType.JUMP;
-		needUpdateGraph = true;
+
+		if(! avoidGraph)
+		{
+			PrepareEventGraphJumpSimpleObject = new PrepareEventGraphJumpSimple(tv, tc, sessionID, personID, table, type);
+			needUpdateGraphType = eventType.JUMP;
+			needUpdateGraph = true;
+		}
 		
 		needEndEvent = true; //used for hiding some buttons on eventWindow
 	}

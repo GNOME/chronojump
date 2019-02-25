@@ -43,10 +43,10 @@ class YomoClientGenerator
 	private static bool createTables = false;
 	private static bool shouldDestroyOldData = true;
 	
-	int schools = 200;
-	int groupsBySchool = 10;
-	int femaleByGroup = 50;
-	int maleByGroup = 50;
+	int schools = 300;
+	int groupsBySchool = 50;
+	int femaleByGroup = 100;
+	int maleByGroup = 100;
 
 	// <---- end of configuration variables
 
@@ -173,27 +173,38 @@ class YomoClientGenerator
 	private void generate ()
 	{
 		int sessionID = 0;
-		int personID = 0;
+		bool needToCreatePersons = true;
+
 		using(SqliteTransaction tr = dbcon.BeginTransaction())
 		{
 			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
 			{
 				dbcmdTr.Transaction = tr;
 
+				Console.WriteLine("Generating schools ({0}), groups and persons.", schools);
 				for(int s = 0; s < schools ; s ++)
+				{
+					Console.Write("{0} ", s);
 					for(int g = 0; g < groupsBySchool ; g ++, sessionID ++)
 					{
-						insertSession(dbcmdTr, sessionID, string.Format("{0}-{1}", s, g), "", "2019-02-21");
+						insertSession(dbcmdTr, sessionID, string.Format("{0}-{1}", s, g), "", "2019-02-25");
 						string sex = "F";
-						for(int p = 0; p < femaleByGroup + maleByGroup; p ++, personID ++)
+						for(int p = 0; p < femaleByGroup + maleByGroup; p ++)
 						{
-							insertPerson(dbcmdTr, personID, string.Format("{0}-{1}-{2:00}", s, g, p), sex);
-							if(p >= femaleByGroup -1)
-								sex = "M";
-							insertPersonSession(dbcmdTr, personID, sessionID);
+							if(needToCreatePersons)
+							{
+								insertPerson(dbcmdTr, p, string.Format("{0:000}", p), sex);
+
+								if(p >= femaleByGroup -1)
+									sex = "M";
+							}
+							insertPersonSession(dbcmdTr, p, sessionID);
 						}
+						needToCreatePersons = false;
 					}
+				}
 			}
+			Console.WriteLine("\nInserting all to SQL. Please wait!");
 			tr.Commit();
 		}
 	}

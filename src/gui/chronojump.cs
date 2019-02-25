@@ -1050,6 +1050,8 @@ public partial class ChronoJumpWindow
 			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
 			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			label_person_change();
+			TreePath path = model.GetPath (iter);
+			tv.ScrollToCell (path, null, true, 0, 0);
 		
 			return true;
 		} else {

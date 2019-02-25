@@ -23,6 +23,7 @@
 
 using System;
 using System.IO; //"File" things. TextWriter. Path
+using System.Collections.Generic; //Dictionary, List<T>
 using Mono.Data.Sqlite;
 
 public static class Options
@@ -30,6 +31,9 @@ public static class Options
 	public static int MaleStartID = 100;
 	public static string DbPath = ".";
 	public static string Database = "exhibitionCardGenerator.db";
+	public static ConsoleColor ColorDefault = ConsoleColor.Blue;
+	public static ConsoleColor ColorHigh = ConsoleColor.White;
+	public static bool Debug = false;
 }
 
 public class ExhibitionCardGenerator
@@ -49,76 +53,165 @@ public class ExhibitionCardGenerator
 		
 	public ExhibitionCardGenerator()
 	{
-		int option;
-		do {
-			Console.WriteLine("\n1 add school; 2 list schools; 3 add group to school; 4 list groups; 5 add person; 9 create tables; 0 exit");
-			option = Int32.Parse(Console.ReadLine());
-			Console.WriteLine("selected: " + option);
-			if(option == 1)
-				schoolAdd();
-			else if(option == 2)
-				schoolList();
-			else if(option == 3)
-				groupAdd();
-			else if(option == 4)
-				groupList();
-			else if(option == 5)
-				personAdd();
-			else if(option == 9)
-				createTables();
-		} while (option != 0);
-
+		menu();
 	}
-				
+
+	private void menu()
+	{
+		List<School> l_school = new List<School>();
+		string option;
+		do {
+			Console.Clear();
+			l_school = schoolList(); //generate school list
+			foreach (School school in l_school)
+				school.PrettyPrint();
+			Console.WriteLine();
+
+			if(l_school.Count > 0)
+				printOption("", "codi", " (per seleccionar escola); ");
+
+			printOption("", "a", "fegir escola; ");
+			printOption("esborrar ", "t", "aules (ho esborra tot); ");
+			printOption("", "s", "ortir; ? ");
+
+			option = Console.ReadLine();
+			if(l_school.Count > 0 && isNumber(option))
+			{
+				School s = getSchoolFromID(l_school, Convert.ToInt32(option));
+				if(s.ID != -1)
+					submenu(s);
+			}
+			else if(option == "a")
+				schoolAdd();
+			else if(option == "t")
+				createTables();
+		} while (option != "s");
+	}
+
+	private void submenu(School s)
+	{
+		List<Group> l_group = new List<Group>();
+		string option;
+		do {
+			Console.Clear();
+			l_group = groupList(s); //show groups
+			foreach (Group group in l_group)
+				group.PrettyPrint();
+			Console.WriteLine();
+
+			if(l_group.Count > 0)
+				printOption("", "codi", " (afegir persona en aquest grup); ");
+
+			printOption("afegir ", "g", "rup; ");
+			printOption("", "s", "ortir al Menu d'escoles; ? ");
+
+			option = Console.ReadLine();
+			if(l_group.Count > 0 && isNumber(option) && groupExists(l_group, Convert.ToInt32(option)))
+				personAdd(s.ID, Convert.ToInt32(option));
+			else if(option == "g")
+				groupAdd(s.ID);
+		} while (option != "s");
+	}
+
+	private School getSchoolFromID (List <School> l_school, int id)
+	{
+		foreach (School s in l_school)
+			if(s.ID == id)
+				return s;
+
+		return new School(-1, "");
+	}
+
+	private bool isNumber(string str)
+	{
+		//false if it's blank
+		if(str.Length == 0)
+			return false;
+
+		int numI;
+		if (int.TryParse(str, out numI))
+			return true;
+
+		return false;
+	}
+
+	private bool groupExists(List <Group> l_group, int id)
+	{
+		foreach (Group g in l_group)
+			if(g.ID == id)
+				return true;
+
+		return false;
+	}
+
+	private void printOption(string textPre, string op, string textPost)
+	{
+		Console.ForegroundColor = Options.ColorDefault;
+		Console.Write(textPre);
+
+		Console.ForegroundColor = Options.ColorHigh;
+		Console.Write(op);
+
+		Console.ForegroundColor = Options.ColorDefault;
+		Console.Write(textPost);
+	}
+
 	private void schoolAdd()
 	{
-		Console.Write("Write school name: ");
+		Console.Write("Escriu el nom de l'escola: ");
 		string name = Console.ReadLine();
 		School s = new School(-1, name);
 		s.Insert(dbcmd);
 	}
-	private void schoolList()
+	private List<School> schoolList()
 	{
-		School.List(dbcmd);
+		Console.WriteLine("--- Chronojump exhibitions - Menu d'Escoles ---\n"); //fer algo de borrar pantalla, mirar lo de wheelchair
+		return School.List(dbcmd);
 	}
 	
-	private void groupAdd()
+	private void groupAdd(int schoolID)
 	{
-		Console.Write("Write school id: ");
-		int schoolID = Int32.Parse(Console.ReadLine());
-
-		Console.Write("Write new group name: ");
+		Console.Write("Escriu el nom del grup: ");
 		string groupName = Console.ReadLine();
 
 		Group g = new Group(-1, schoolID, groupName);
 		g.Insert(dbcmd);
 	}
-	private void groupList()
+	private List<Group> groupList(School s)
 	{
-		Console.Write("Write school id: ");
-		int schoolID = Int32.Parse(Console.ReadLine());
-
-		Group.List(dbcmd, schoolID);
+		Console.WriteLine(string.Format("--- Grups de l'escola: {0} ---\n", s.Name));
+		return Group.List(dbcmd, s.ID);
 	}
 
-	private void personAdd()
+	private void personAdd(int schoolID, int groupID)
 	{
-		Console.Write("Write school id: ");
-		int schoolID = Int32.Parse(Console.ReadLine());
+		Person.SexTypes st = Person.SexTypes.UNKNOWN;
+		do {
+			Console.WriteLine("'F' female or 'M' male? ");
+			string sex = Console.ReadLine();
+			st = Person.SexParse(sex);
+		} while(st == Person.SexTypes.UNKNOWN);
 
-		Console.Write("Write group id: ");
-		int groupID = Int32.Parse(Console.ReadLine());
-
-		Console.Write("'F' female or 'M' male? ");
-		string sex = Console.ReadLine();
-		Person.SexTypes st = Person.SexParse(sex);
-
-		Person p = new Person(schoolID, groupID, st);
+		Person p = new Person(-1, schoolID, groupID, st);
 		p.Insert(dbcmd);
+
+		p.PrintCard();
+		Console.WriteLine();
+		string option;
+		do {
+			printOption("", "s", "ortir al menu anterior; ? ");
+			option = Console.ReadLine();
+		} while (option != "s");
 	}
 
 	private void createTables()
 	{
+		Console.WriteLine("\nEstàs segur de que vols esborrar tot i crear les taules des de zero?");
+		Console.WriteLine("Per esborrar tot escriu 'Y' i pulsa enter. Qualsevol altra cosa per cancel.lar");
+		string option = Console.ReadLine();
+		if (option != "Y")
+			return;
+
 		School.CreateTable(dbcmd);
 		Group.CreateTable(dbcmd);
 		Person.CreateTable(dbcmd);
@@ -148,43 +241,78 @@ public class ExhibitionCardGenerator
 
 public class School
 {
-	int id;
-	string fullname;
+	private int id;
+	private string name;
 	static string table = "school";
 
-	public School(int id, string fullname)
+	public School(int id, string name)
 	{
 		this.id = id;
-		this.fullname = fullname;
+		this.name = name;
 	}
 
 	public override string ToString()
 	{
-		return string.Format("{0}:{1}", id.ToString(), fullname);
+		return string.Format("{0}:{1}", id.ToString(), name);
+	}
+	public void PrettyPrint()
+	{
+		Console.ForegroundColor = Options.ColorHigh;
+		Console.Write(id.ToString());
+
+		Console.ForegroundColor = Options.ColorDefault;
+		Console.WriteLine(": " + name);
+	}
+
+	//this helps to start autoincrement at 0 instead of 1
+	private int getNextIDLikeThis(SqliteCommand dbcmd)
+	{
+		dbcmd.CommandText = "SELECT MAX(id) FROM " + table;
+		if(Options.Debug)
+			Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		int lastID = -1;
+		while(reader.Read()) {
+			if(reader[0].ToString() != "")
+				lastID = Convert.ToInt32(reader[0].ToString());
+		}
+		reader.Close();
+		return lastID + 1;
 	}
 
 	public void Insert(SqliteCommand dbcmd)
 	{
-		dbcmd.CommandText = "INSERT INTO " + table + " (id, fullname) VALUES (NULL, \"" +
-			fullname + "\")";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		int nextID = getNextIDLikeThis(dbcmd);
+
+		dbcmd.CommandText = "INSERT INTO " + table + " (id, name) VALUES (" + nextID + ", \"" +
+			name + "\")";
+		if(Options.Debug)
+			Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
 
-	public static void List(SqliteCommand dbcmd)
+	public static List<School> List(SqliteCommand dbcmd)
 	{
 		dbcmd.CommandText = "SELECT * FROM " + table;
 		dbcmd.ExecuteNonQuery();
 		
+		List<School> l_school = new List<School>();
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
 			School s = new School(
 					Convert.ToInt32(reader[0].ToString()),
 					reader[1].ToString());
-			Console.WriteLine(s.ToString());
+			if(Options.Debug)
+				Console.WriteLine(s.ToString());
+			l_school.Add(s);
 		}
 		reader.Close();
+		return l_school;
 	}
 
 	public static void CreateTable(SqliteCommand dbcmd)
@@ -195,17 +323,25 @@ public class School
 		dbcmd.CommandText =
 			"CREATE TABLE " + table + " (" +
 			"id INTEGER PRIMARY KEY, " +
-			"fullname TEXT)";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+			"name TEXT)";
+		if(Options.Debug)
+			Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
+	}
+
+	public int ID {
+		get { return id; }
+	}
+	public string Name {
+		get { return name; }
 	}
 }
 
 public class Group
 {
-	int id;
-	int schoolID;
-	string name;
+	private int id;
+	private int schoolID;
+	private string name;
 	static string table = "groupClass";
 
 	public Group(int id, int schoolID, string name)
@@ -217,22 +353,55 @@ public class Group
 
 	public override string ToString()
 	{
-		return string.Format("{0}:{1}:{2}", id.ToString(), schoolID.ToString(), name);
+		//return string.Format("{0}:{1}:{2}", id.ToString(), schoolID.ToString(), name);
+		return string.Format("{0}:{1}", id.ToString(), name); //do not show schoolID to not confuse the user
+	}
+	public void PrettyPrint()
+	{
+		Console.ForegroundColor = Options.ColorHigh;
+		Console.Write(id.ToString());
+
+		Console.ForegroundColor = Options.ColorDefault;
+		Console.WriteLine(": " + name);
+	}
+
+	//this helps to start at 0 instead of 1
+	private int getNextIDLikeThis(SqliteCommand dbcmd)
+	{
+		dbcmd.CommandText = "SELECT MAX(id) FROM " + table + " WHERE schoolID = " + schoolID;
+		if(Options.Debug)
+			Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		int lastID = -1;
+		while(reader.Read()) {
+			if(reader[0].ToString() != "")
+				lastID = Convert.ToInt32(reader[0].ToString());
+		}
+		reader.Close();
+		return lastID + 1;
 	}
 
 	public void Insert(SqliteCommand dbcmd)
 	{
-		dbcmd.CommandText = "INSERT INTO " + table + " (id, schoolID, name) VALUES (NULL," +
+		int nextID = getNextIDLikeThis(dbcmd);
+
+		dbcmd.CommandText = "INSERT INTO " + table + " (id, schoolID, name) VALUES (" + nextID + ", " +
 			schoolID + ", \"" + name + "\")";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		if(Options.Debug)
+			Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
 
-	public static void List(SqliteCommand dbcmd, int schoolID)
+	public static List<Group> List(SqliteCommand dbcmd, int schoolID)
 	{
 		dbcmd.CommandText = "SELECT * FROM " + table + " WHERE schoolID = " + schoolID;
 		dbcmd.ExecuteNonQuery();
 		
+		List<Group> l_group = new List<Group>();
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -240,9 +409,12 @@ public class Group
 					Convert.ToInt32(reader[0].ToString()),
 					Convert.ToInt32(reader[1].ToString()),
 					reader[2].ToString());
-			Console.WriteLine(g.ToString());
+			if(Options.Debug)
+				Console.WriteLine(g.ToString());
+			l_group.Add(g);
 		}
 		reader.Close();
+		return l_group;
 	}
 
 	public static void CreateTable(SqliteCommand dbcmd)
@@ -252,29 +424,33 @@ public class Group
 
 		dbcmd.CommandText =
 			"CREATE TABLE " + table + " (" +
-			"id INTEGER PRIMARY KEY, " +
+			"id INT NOT NULL, " +
 			"schoolID INT, " +
 			"name TEXT)";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		if(Options.Debug)
+			Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
+	}
+
+	public int ID {
+		get { return id; }
 	}
 }
 
 public class Person
 {
-	//int id;
+	int id;
 	int schoolID;
 	int groupID;
 	SexTypes sex;
 	//string name;
 	static string table = "person";
 
-	public enum SexTypes { F, M };
+	public enum SexTypes { F, M, UNKNOWN };
 
-	//public Person(int id, int schoolID, int groupID, SexTypes sex)
-	public Person(int schoolID, int groupID, SexTypes sex)
+	public Person(int id, int schoolID, int groupID, SexTypes sex)
 	{
-		//this.id = id;
+		this.id = id;
 		this.schoolID = schoolID;
 		this.groupID = groupID;
 		this.sex = sex;
@@ -284,13 +460,14 @@ public class Person
 	{
 		dbcmd.CommandText = "SELECT MAX(id) FROM " + table + " WHERE schoolID = " + schoolID +
 			" AND groupID = " + groupID + " AND sex = \"" + sex.ToString() + "\"";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		if(Options.Debug)
+			Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
-		int lastID = 0;
+		int lastID = -1;
 		while(reader.Read()) {
 			if(reader[0].ToString() != "")
 				lastID = Convert.ToInt32(reader[0].ToString());
@@ -298,13 +475,9 @@ public class Person
 		reader.Close();
 
 		//females start at 0, males start at Options.MaleStartID
-		if(lastID == 0)
-		{
-			if(sex == SexTypes.F)
-				return 0;
-			else
-				return Options.MaleStartID;
-		} else
+		if(lastID == -1 && sex == SexTypes.M)
+			return Options.MaleStartID;
+		else
 			return lastID + 1;
 	}
 
@@ -314,8 +487,11 @@ public class Person
 
 		dbcmd.CommandText = "INSERT INTO " + table + " (id, schoolID, groupID, sex) VALUES (" + nextID + ", " +
 			schoolID + ", " + groupID + ", \"" + sex.ToString() + "\")";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		if(Options.Debug)
+			Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
+
+		this.id = nextID;
 	}
 
 	public static void CreateTable(SqliteCommand dbcmd)
@@ -325,12 +501,12 @@ public class Person
 
 		dbcmd.CommandText =
 			"CREATE TABLE " + table + " (" +
-			"id INT, " +
+			"id INT NOT NULL, " +
 			"schoolID INT, " +
 			"groupID INT, " +
-			"sex TEXT, " +
-			"personID INT)";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+			"sex TEXT)";
+		if(Options.Debug)
+			Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
 
@@ -338,7 +514,28 @@ public class Person
 	{
 		if(sex == "M" || sex == "m")
 			return SexTypes.M;
-		else
+		else if(sex == "F" || sex == "f")
 			return SexTypes.F;
+
+		return SexTypes.UNKNOWN;
+	}
+
+	public void PrintCard()
+	{
+		Console.WriteLine("\n-- Targeta --");
+		Console.ForegroundColor = Options.ColorDefault;
+		Console.Write("Codi: ");
+		Console.ForegroundColor = Options.ColorHigh;
+		Console.WriteLine(id);
+
+		Console.ForegroundColor = Options.ColorDefault;
+		Console.Write("Grup: ");
+		Console.ForegroundColor = Options.ColorHigh;
+		Console.WriteLine(groupID);
+
+		Console.ForegroundColor = Options.ColorDefault;
+		Console.Write("Escola: ");
+		Console.ForegroundColor = Options.ColorHigh;
+		Console.WriteLine(schoolID);
 	}
 }

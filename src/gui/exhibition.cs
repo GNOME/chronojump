@@ -27,8 +27,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Frame frame_exhibition;
 	[Widget] Gtk.SpinButton spin_exhibition_school;
 	[Widget] Gtk.SpinButton spin_exhibition_group;
-	[Widget] Gtk.Label label_exhibition_4;
-	[Widget] Gtk.Label label_persons; //persons text show the top of manage persons. Hidden on exhibition to be more clear (1,2,3,4)
+	[Widget] Gtk.SpinButton spin_exhibition_id;
 
 	private void exhibitionGuiAtStart(ExhibitionTest.testTypes exhibitionStationType)
 	{
@@ -46,11 +45,10 @@ public partial class ChronoJumpWindow
 		frame_exhibition.Visible = true;
 		notebook_session_person.CurrentPage = 1;
 		frame_persons.Sensitive = true;
+		frame_persons_top.Visible = false;
 		spin_exhibition_school.Value = 0; //need to assign an inital value (if not it shows blank value)
 		spin_exhibition_group.Value = 0;
 
-		label_exhibition_4.Visible = true;
-		label_persons.Visible = false;
 		button_persons_up.SetSizeRequest (45,10);
 		button_persons_down.SetSizeRequest (45,10);
 	}
@@ -125,11 +123,57 @@ public partial class ChronoJumpWindow
 
 	//---- end of spin_exhibition_group stuff
 
-	private void on_button_exhibition_session_load_clicked (object o, EventArgs args)
+	//---- spin_exhibition_id stuff
+
+	private void on_button_exhibition_id_left10_clicked (object o, EventArgs args)
 	{
-		currentSession = SqliteSession.SelectByName(string.Format("{0}-{1}", spin_exhibition_school.Value, spin_exhibition_group.Value));
-		on_load_session_accepted();
-		sensitiveGuiYesSession();
+		exhibitionIdChange(-10);
+	}
+	private void on_button_exhibition_id_left_clicked (object o, EventArgs args)
+	{
+		exhibitionIdChange(-1);
+	}
+	private void on_button_exhibition_id_right10_clicked (object o, EventArgs args)
+	{
+		exhibitionIdChange(+10);
+	}
+	private void on_button_exhibition_id_right_clicked (object o, EventArgs args)
+	{
+		exhibitionIdChange(+1);
+	}
+
+	void exhibitionIdChange(int change)
+	{
+		double newValue = spin_exhibition_id.Value + change;
+
+		double min, max;
+		spin_exhibition_id.GetRange(out min, out max);
+		if(newValue < min)
+			spin_exhibition_id.Value = min;
+		else if(newValue > max)
+			spin_exhibition_id.Value = max;
+		else
+			spin_exhibition_id.Value = newValue;
+	}
+
+	//---- end of spin_exhibition_group stuff
+	private void on_button_exhibition_select_clicked (object o, EventArgs args)
+	{
+		//select session
+		string newSessionName = string.Format("{0}-{1}", spin_exhibition_school.Value, spin_exhibition_group.Value);
+		if(currentSession == null || currentSession.Name != newSessionName)
+		{
+			currentSession = SqliteSession.SelectByName(newSessionName);
+			on_load_session_accepted();
+			sensitiveGuiYesSession();
+		}
+
+		//select person
+		int rowToSelect = myTreeViewPersons.FindRow(Convert.ToInt32(spin_exhibition_id.Value));
+		if(rowToSelect != -1) {
+			selectRowTreeView_persons(treeview_persons, rowToSelect);
+			sensitiveGuiYesPerson();
+		}
 	}
 
 	//---- json upload

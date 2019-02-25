@@ -2645,16 +2645,16 @@ EncoderInertialCapture</property>
                                                             <property name="border_width">4</property>
                                                             <property name="spacing">16</property>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox135">
+                                                            <widget class="GtkVBox" id="vbox137">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox307">
+                                                            <widget class="GtkHBox" id="hbox315">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label383">
+                                                            <widget class="GtkLabel" id="label197">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label">(1)</property>
@@ -2666,10 +2666,10 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label385">
+                                                            <widget class="GtkLabel" id="label389">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">Escola</property>
+                                                            <property name="label">Id</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -2678,7 +2678,7 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkSpinButton" id="spin_exhibition_school">
+                                                            <widget class="GtkSpinButton" id="spin_exhibition_id">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
@@ -2686,7 +2686,7 @@ EncoderInertialCapture</property>
                                                             <property name="secondary_icon_activatable">False</property>
                                                             <property name="primary_icon_sensitive">True</property>
                                                             <property name="secondary_icon_sensitive">True</property>
-                                                            <property name="adjustment">0 0 299 1 10 0</property>
+                                                            <property name="adjustment">0 0 199 1 10 0</property>
                                                             <property name="numeric">True</property>
                                                             </widget>
                                                             <packing>
@@ -2703,29 +2703,29 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox299">
+                                                            <widget class="GtkHBox" id="hbox316">
                                                             <property name="height_request">50</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <property name="homogeneous">True</property>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_exhibition_school_left10">
+                                                            <widget class="GtkButton" id="button_exhibition_id_left10">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_button_exhibition_school_left10_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_exhibition_id_left10_clicked" swapped="no"/>
                                                             <accelerator key="Down" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox306">
+                                                            <widget class="GtkHBox" id="hbox317">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="homogeneous">True</property>
                                                             <child>
-                                                            <widget class="GtkArrow" id="arrow2">
+                                                            <widget class="GtkArrow" id="arrow13">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">1</property>
@@ -2738,7 +2738,7 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkArrow" id="arrow3">
+                                                            <widget class="GtkArrow" id="arrow14">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
@@ -2760,17 +2760,17 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_exhibition_school_left">
+                                                            <widget class="GtkButton" id="button_exhibition_id_left">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_button_exhibition_school_left_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_exhibition_id_left_clicked" swapped="no"/>
                                                             <accelerator key="Down" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
-                                                            <widget class="GtkArrow" id="arrow1">
+                                                            <widget class="GtkArrow" id="arrow15">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="arrow_type">left</property>
@@ -2784,17 +2784,17 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_exhibition_school_right">
+                                                            <widget class="GtkButton" id="button_exhibition_id_right">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_button_exhibition_school_right_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_exhibition_id_right_clicked" swapped="no"/>
                                                             <accelerator key="Down" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
-                                                            <widget class="GtkArrow" id="arrow4">
+                                                            <widget class="GtkArrow" id="arrow16">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             </widget>
@@ -2807,22 +2807,22 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_exhibition_school_right10">
+                                                            <widget class="GtkButton" id="button_exhibition_id_right10">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="relief">half</property>
-                                                            <signal name="clicked" handler="on_button_exhibition_school_right10_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_button_exhibition_id_right10_clicked" swapped="no"/>
                                                             <accelerator key="Down" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox309">
+                                                            <widget class="GtkHBox" id="hbox318">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="homogeneous">True</property>
                                                             <child>
-                                                            <widget class="GtkArrow" id="arrow5">
+                                                            <widget class="GtkArrow" id="arrow17">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">1</property>
@@ -2834,7 +2834,7 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkArrow" id="arrow6">
+                                                            <widget class="GtkArrow" id="arrow18">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
@@ -2893,7 +2893,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkLabel" id="label386">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">Grup-classe</property>
+                                                            <property name="label">Grade</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -3093,12 +3093,16 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox314">
+                                                            <widget class="GtkVBox" id="vbox135">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">20</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label388">
+                                                            <widget class="GtkHBox" id="hbox307">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label383">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label">(3)</property>
@@ -3110,12 +3114,194 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_exhibition_session_load">
-                                                            <property name="label">Selecciona</property>
+                                                            <widget class="GtkLabel" id="label385">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">School</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_exhibition_school">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
+                                                            <property name="invisible_char">●</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">0 0 299 1 10 0</property>
+                                                            <property name="numeric">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox299">
+                                                            <property name="height_request">50</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <property name="homogeneous">True</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_exhibition_school_left10">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
-                                                            <signal name="clicked" handler="on_button_exhibition_session_load_clicked" swapped="no"/>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_button_exhibition_school_left10_clicked" swapped="no"/>
+                                                            <accelerator key="Down" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox306">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="homogeneous">True</property>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow2">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">1</property>
+                                                            <property name="arrow_type">left</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow3">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="arrow_type">left</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_exhibition_school_left">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="can_default">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_button_exhibition_school_left_clicked" swapped="no"/>
+                                                            <accelerator key="Down" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="arrow_type">left</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_exhibition_school_right">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="can_default">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_button_exhibition_school_right_clicked" swapped="no"/>
+                                                            <accelerator key="Down" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow4">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_exhibition_school_right10">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="can_default">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_button_exhibition_school_right10_clicked" swapped="no"/>
+                                                            <accelerator key="Down" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox309">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="homogeneous">True</property>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow5">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow6">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -3128,6 +3314,44 @@ EncoderInertialCapture</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox314">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">20</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label388">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">(4)</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_exhibition_select">
+                                                            <property name="label">Selecciona</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_exhibition_select_clicked" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                           </widget>
@@ -3171,17 +3395,6 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_exhibition_4">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label">(4)</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkButton" id="button_manage_persons">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
@@ -3203,7 +3416,7 @@ EncoderInertialCapture</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -3217,7 +3430,7 @@ EncoderInertialCapture</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -3281,7 +3494,7 @@ EncoderInertialCapture</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="pack_type">end</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </widget>

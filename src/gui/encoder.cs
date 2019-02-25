@@ -6977,6 +6977,15 @@ public partial class ChronoJumpWindow
 											js.ResultMessage);
 							}
 						}
+						else if(configChronojump.Exhibition &&
+								configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.INERTIAL &&
+								encoderCaptureCurves.Count > 0)
+						{
+							UploadEncoderDataObject uo = new UploadEncoderDataObject(
+									encoderCaptureCurves, lastEncoderSQLSignal.eccon);
+							uploadExhibitionTest(ExhibitionTest.testTypes.INERTIAL, Convert.ToDouble(uo.pmeanByPower));
+
+						}
 					}
 
 				} else

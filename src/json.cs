@@ -933,7 +933,7 @@ public class Json
 	}
 
 	//table created with:
-	//CREATE TABLE exhibitionTest(dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, sessionID INT NOT NULL, personID INT NOT NULL, testType CHAR(10), result DOUBLE);
+	//CREATE TABLE exhibitionTest(dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, schoolID INT NOT NULL, groupID INT NOT NULL, personID INT NOT NULL, testType CHAR(10), result DOUBLE);
 	public bool UploadExhibitionTest(ExhibitionTest et)
 	{
 		// Create a request using a URL that can receive a post.
@@ -1418,6 +1418,16 @@ public class ExhibitionTest
 		this.personID = personID;
 		this.testType = testType;
 		this.result = result;
+	}
+
+	public string ToSQLTempInsertString()
+	{
+		return
+			schoolID.ToString() + ", " +
+			groupID.ToString() + ", " +
+			personID.ToString() + ", \"" +
+			testType.ToString() + "\", " +
+			resultToJson;
 	}
 
 	//convert to decimal point and str

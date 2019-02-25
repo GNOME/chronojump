@@ -26,6 +26,7 @@ class SqliteJson : Sqlite
 {
 	private static string tableEncoder = Constants.UploadEncoderDataTempTable;
 	private static string tableSprint = Constants.UploadSprintDataTempTable;
+	private static string tableExhibitionTest = Constants.UploadExhibitionTestTempTable;
 
 	public SqliteJson() {
 	}
@@ -224,6 +225,36 @@ class SqliteJson : Sqlite
 
 		dbcmd.CommandText = "Delete FROM " + tableSprint + " WHERE uniqueID = " + uniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
+	/*
+	 * EXHIBITION //right now does not upload to server when connection returns
+	 */
+
+	protected internal static void createTableUploadExhibitionTestTemp()
+	{
+		dbcmd.CommandText =
+			"CREATE TABLE " + tableExhibitionTest + " (" +
+			"schoolID INT, " +
+			"groupID INT, " +
+			"personID INT, " +
+			"testType TEXT, " +
+			"result DOUBLE)";
+		dbcmd.ExecuteNonQuery();
+	}
+
+	public static void InsertTempExhibitionTest (bool dbconOpened, ExhibitionTest et)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "INSERT INTO " + tableExhibitionTest +
+			" (schoolID, groupID, personID, testType, result) VALUES (" +
+			et.ToSQLTempInsertString() + ")";
+		LogB.SQL(dbcmd.CommandText.ToString());
+
 		dbcmd.ExecuteNonQuery();
 
 		closeIfNeeded(dbconOpened);

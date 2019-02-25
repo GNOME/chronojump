@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2019   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.59";
+	static string lastChronojumpDatabaseVersion = "1.60";
 
 	public Sqlite() {
 	}
@@ -2362,6 +2362,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.59");
 			}
+			if(currentVersion == "1.59")
+			{
+				LogB.SQL("Created table UploadExhibitionTestTemp");
+
+				SqliteJson.createTableUploadExhibitionTestTemp ();
+
+				currentVersion = updateVersion("1.60");
+			}
 
 
 
@@ -2548,8 +2556,10 @@ class Sqlite
 		//compujump json temp tables
 		SqliteJson.createTableUploadEncoderDataTemp ();
 		SqliteJson.createTableUploadSprintDataTemp ();
+		SqliteJson.createTableUploadExhibitionTestTemp ();
 
 		//changes [from - to - desc]
+		//1.59 - 1.60 Converted DB to 1.60 Created table UploadExhibitionTestTemp
 		//1.58 - 1.59 Converted DB to 1.59 Created ForceSensorExercise
 		//1.57 - 1.58 Converted DB to 1.58 Added to preferences: encoderCaptureShowNRepetitions
 		//1.56 - 1.57 Converted DB to 1.57 Created table UploadEncoderDataTemp, UploadSprintDateTemp

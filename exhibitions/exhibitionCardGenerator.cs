@@ -47,18 +47,20 @@ public class ExhibitionCardGenerator
 	{
 		int option;
 		do {
-			Console.WriteLine("1 add school; 2 list schools; 3 add group to school; 4 list groups; 9 create tables; 0 exit");
+			Console.WriteLine("\n1 add school; 2 list schools; 3 add group to school; 4 list groups; 5 add person; 9 create tables; 0 exit");
 			option = Int32.Parse(Console.ReadLine());
 			Console.WriteLine("selected: " + option);
 			if(option == 1)
 				schoolAdd();
-			if(option == 2)
+			else if(option == 2)
 				schoolList();
-			if(option == 3)
+			else if(option == 3)
 				groupAdd();
-			if(option == 4)
+			else if(option == 4)
 				groupList();
-			if(option == 9)
+			else if(option == 5)
+				personAdd();
+			else if(option == 9)
 				createTables();
 		} while (option != 0);
 
@@ -94,6 +96,23 @@ public class ExhibitionCardGenerator
 
 		Group.List(dbcmd, schoolID);
 	}
+
+	private void personAdd()
+	{
+		Console.Write("Write school id: ");
+		int schoolID = Int32.Parse(Console.ReadLine());
+
+		Console.Write("Write group id: ");
+		int groupID = Int32.Parse(Console.ReadLine());
+
+		Console.Write("'F' female or 'M' male? ");
+		string sex = Console.ReadLine();
+		Person.SexTypes st = Person.SexParse(sex);
+
+		Person p = new Person(-1, schoolID, groupID, st);
+		p.Insert(dbcmd);
+	}
+
 	private void createTables()
 	{
 		School.CreateTable(dbcmd);
@@ -234,22 +253,26 @@ public class Group
 public class Person
 {
 	int id;
+	int schoolID;
+	int groupID;
 	SexTypes sex;
 	//string name;
 	static string table = "person";
 
 	public enum SexTypes { F, M };
 
-	public Person(int id, SexTypes sex)
+	public Person(int id, int schoolID, int groupID, SexTypes sex)
 	{
 		this.id = id;
+		this.schoolID = schoolID;
+		this.groupID = groupID;
 		this.sex = sex;
 	}
 
 	public void Insert(SqliteCommand dbcmd)
 	{
-		dbcmd.CommandText = "INSERT INTO " + table + " (id, sex) VALUES (NULL, \"" +
-			sex.ToString() + "\")";
+		dbcmd.CommandText = "INSERT INTO " + table + " (id, schoolID, groupID, sex) VALUES (NULL, " +
+			schoolID + ", " + groupID + ", \"" + sex.ToString() + "\")";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -259,8 +282,18 @@ public class Person
 		dbcmd.CommandText =
 			"CREATE TABLE " + table + " (" +
 			"id INTEGER PRIMARY KEY, " +
+			"schoolID INT, " +
+			"groupID INT, " +
 			"sex TEXT)";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
+	}
+
+	public static SexTypes SexParse(string sex)
+	{
+		if(sex == "M" || sex == "m")
+			return SexTypes.M;
+		else
+			return SexTypes.F;
 	}
 }

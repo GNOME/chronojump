@@ -853,6 +853,12 @@ LogB.Information(" re C ");
 					//if drawingarea has still not shown, don't paint graph because GC screen is not defined
 					if(force_sensor_ai_drawingareaShown)
 						forceSensorDoGraphAI();
+
+					if( configChronojump.Exhibition &&
+							( configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_ROPE ||
+							  configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_SHOT ) )
+						uploadExhibitionTest(configChronojump.ExhibitionStationType, forceSensorValues.ForceMax);
+
 				}
 			} else if(forceProcessCancel || forceProcessError)
 			{

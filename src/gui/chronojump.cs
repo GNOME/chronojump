@@ -42,6 +42,7 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.Window app1;
 	[Widget] Gtk.MenuBar main_menu;
+	[Widget] Gtk.MenuItem menuitem_open_session;
 	[Widget] Gtk.MenuItem menuitem_mode;
 	
 	[Widget] Gtk.HBox hbox_gui_tests;

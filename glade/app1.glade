@@ -25,7 +25,7 @@
                   <widget class="GtkMenu" id="session_menu">
                     <property name="can_focus">False</property>
                     <child>
-                      <widget class="GtkImageMenuItem" id="session_new">
+                      <widget class="GtkImageMenuItem" id="menuitem_new_session">
                         <property name="label" translatable="yes">New session</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -42,7 +42,7 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkImageMenuItem" id="open1">
+                      <widget class="GtkImageMenuItem" id="menuitem_open_session">
                         <property name="label" translatable="yes">_Load</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -1255,6 +1255,9 @@
                                                             <property name="x_options">GTK_EXPAND</property>
                                                             <property name="y_options">GTK_EXPAND</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -20201,12 +20204,6 @@ Concentric</property>
                                                             <placeholder/>
                                                             </child>
                                                             <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkCheckButton" id="checkbutton_force_sensor_ai_b">
                                                             <property name="width_request">30</property>
                                                             <property name="visible">True</property>
@@ -20264,6 +20261,9 @@ Concentric</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -27494,6 +27494,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

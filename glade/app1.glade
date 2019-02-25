@@ -1854,6 +1854,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -2701,6 +2704,7 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox299">
+                                                            <property name="height_request">50</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -2924,6 +2928,7 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox311">
+                                                            <property name="height_request">50</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -20197,12 +20202,6 @@ Concentric</property>
                                                             <placeholder/>
                                                             </child>
                                                             <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkCheckButton" id="checkbutton_force_sensor_ai_b">
                                                             <property name="width_request">30</property>
                                                             <property name="visible">True</property>
@@ -20260,6 +20259,9 @@ Concentric</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -27496,6 +27498,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

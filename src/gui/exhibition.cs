@@ -144,8 +144,7 @@ public partial class ChronoJumpWindow
 		if( ! js.UploadExhibitionTest (et))
 		{
 			LogB.Error(js.ResultMessage);
-			//TODO
-			//SqliteJson.InsertTempExhibitionTest(false, et); //insert only if could'nt be uploaded
+			SqliteJson.InsertTempExhibitionTest(false, et); //insert only if could'nt be uploaded
 		}
 	}
 

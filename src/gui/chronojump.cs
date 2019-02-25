@@ -7624,7 +7624,9 @@ LogB.Debug("mc finished 5");
 		notebook_results.Sensitive = true;
 		notebook_options_top.Sensitive = true;
 		notebook_encoder_sup.Sensitive = true;
-		treeview_persons.Sensitive = true;
+
+		if(! configChronojump.Exhibition)
+			treeview_persons.Sensitive = true;
 		
 		menuPersonSelectedSensitive(true);
 	

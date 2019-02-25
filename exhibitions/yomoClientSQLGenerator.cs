@@ -36,7 +36,7 @@ class YomoClientGenerator
 	// start of configuration variables ---->
 
 	//private static string dbPath = "~/.local/share/Chronojump/database"; //aixi no va
-	private static string username = "xavier";
+	private static string username = "cj";
 	private static string dbPath = "/home/" + username + "/.local/share/Chronojump/database";
 	private static string database = "chronojump.db";
 	private static bool debug = false;

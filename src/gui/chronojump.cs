@@ -1096,7 +1096,8 @@ public partial class ChronoJumpWindow
 		//1) change on jumps, runs, pulse capture graph
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{
-			updateGraphJumpsSimple();
+			if(! configChronojump.Exhibition)
+				updateGraphJumpsSimple();
 
 			update_label_extra_window_jumps_radiobutton_weight_percent_as_kg(
 					(currentJumpType.HasWeight && extra_window_jumps_radiobutton_weight.Active));
@@ -1154,44 +1155,37 @@ public partial class ChronoJumpWindow
 	}
 		
 
-	private void resetAllTreeViews( bool alsoPersons) {
-		if(alsoPersons) {
-			//load the persons treeview
+	private void resetAllTreeViews(bool fill, bool resetPersons, bool fillPersons)
+	{
+		//persons
+		if(resetPersons) {
 			treeview_persons_storeReset();
-			fillTreeView_persons();
+			if(fillPersons)
+				fillTreeView_persons();
 		}
+
+		treeview_jumps_storeReset();
+		treeview_jumps_rj_storeReset();
+		treeview_runs_storeReset();
+		treeview_runs_interval_storeReset();
+		treeview_pulses_storeReset();
+		treeview_reaction_times_storeReset();
 
 		//Leave SQL opened in all this process
 		Sqlite.Open(); // ------------------------------
 
-		//load the jumps treeview
-		treeview_jumps_storeReset();
-		fillTreeView_jumps(Constants.AllJumpsName, true);
+		treeview_multi_chronopic_storeReset(true); //this neeed DB
 
-		//load the jumps_rj treeview_rj
-		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(Constants.AllJumpsName, true);
-
-		//load the runs treeview
-		treeview_runs_storeReset();
-		fillTreeView_runs(Constants.AllRunsName, true);
-
-		//load the runs_interval treeview
-		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(Constants.AllRunsName, true);
-
-		//load the pulses treeview
-		treeview_pulses_storeReset();
-		fillTreeView_pulses(Constants.AllPulsesName, true);
-
-		//load the reaction_times treeview
-		treeview_reaction_times_storeReset();
-		fillTreeView_reaction_times("reactionTime", true);
-
-		//load the multiChronopic treeview
-		treeview_multi_chronopic_storeReset(true);
-		fillTreeView_multi_chronopic(true);
-		
+		if(fill)
+		{
+			fillTreeView_jumps(Constants.AllJumpsName, true);
+			fillTreeView_jumps_rj(Constants.AllJumpsName, true);
+			fillTreeView_runs(Constants.AllRunsName, true);
+			fillTreeView_runs_interval(Constants.AllRunsName, true);
+			fillTreeView_pulses(Constants.AllPulsesName, true);
+			fillTreeView_reaction_times("reactionTime", true);
+			fillTreeView_multi_chronopic(true);
+		}
 
 		//close SQL opened in all this process
 		Sqlite.Close(); // ------------------------------
@@ -2339,7 +2333,7 @@ public partial class ChronoJumpWindow
 				stats_win_initializeSession();
 			}
 		
-			resetAllTreeViews(true); //boolean means: "also persons"
+			resetAllTreeViews(false, true, false); //fill, resetPersons, fillPersons
 
 			vbox_manage_persons.Visible = true;
 
@@ -2508,11 +2502,10 @@ public partial class ChronoJumpWindow
 	{
 		setApp1Title(currentSession.Name, current_menuitem_mode);
 	
-		if(createdStatsWin) {
+		if(createdStatsWin && ! configChronojump.Exhibition) //slow Sqlite calls for Exhibition big data
 			stats_win_initializeSession();
-		}
-		
-		resetAllTreeViews(true); //boolean means: "also persons"
+
+		resetAllTreeViews(! configChronojump.Exhibition, true, true); //fill, resetPersons, fillPersons
 
 		bool foundPersons = false;
 
@@ -2539,8 +2532,6 @@ public partial class ChronoJumpWindow
 			label_top_person_name.Text = "";
 			vbox_manage_persons.Visible = true;
 		}
-
-
 
 		//update report
 		report.SessionID = currentSession.UniqueID;
@@ -2891,7 +2882,7 @@ public partial class ChronoJumpWindow
 		SqlitePersonSession.DeletePersonFromSessionAndTests(
 				currentSession.UniqueID.ToString(), currentPerson.UniqueID.ToString());
 		
-		resetAllTreeViews(true); //boolean means: "also persons"
+		resetAllTreeViews(false, true, false); //fill, resetPersons, fillPersons
 		bool foundPersons = selectRowTreeView_persons(treeview_persons, 0);
 			
 		if(createdStatsWin) {
@@ -5926,7 +5917,8 @@ LogB.Debug("mc finished 5");
 			fillTreeView_jumps(UtilGtk.ComboGetActive(combo_result_jumps));
 		}
 		
-		updateGraphJumpsSimple();
+		if(! configChronojump.Exhibition)
+			updateGraphJumpsSimple();
 
 		if(createdStatsWin) 
 			stats_win_fillTreeView_stats(false, false);
@@ -6392,7 +6384,8 @@ LogB.Debug("mc finished 5");
 			//but don't need to update widgets
 		}
 		
-		updateGraphJumpsSimple();
+		if(! configChronojump.Exhibition)
+			updateGraphJumpsSimple();
 
 		//if auto mode, show last person/test again
 		if(execute_auto_doing) {

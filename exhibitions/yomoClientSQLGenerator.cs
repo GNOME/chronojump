@@ -100,7 +100,16 @@ class YomoClientGenerator
 
 	private void destroyOldData()
 	{
-		string str = "DELETE FROM session";
+		string str = "DELETE FROM jump";
+		executeQuery(dbcmd, str);
+
+		str = "DELETE FROM run";
+		executeQuery(dbcmd, str);
+
+		str = "DELETE FROM encoder";
+		executeQuery(dbcmd, str);
+
+		str = "DELETE FROM session";
 		executeQuery(dbcmd, str);
 
 		str = "DELETE FROM personSession77";

@@ -1169,7 +1169,8 @@ public partial class ChronoJumpWindow
 			extra_window_jumps_spin_single_leg_angle.Value = 90;
 		}
 
-		updateGraphJumpsSimple();
+		if(! configChronojump.Exhibition)
+			updateGraphJumpsSimple();
 	}
 	private void updateGraphJumpsSimple () 
 	{

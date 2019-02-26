@@ -71,8 +71,9 @@ public class ExhibitionCardGenerator
 				printOption("", "codi", " (per seleccionar escola); ");
 
 			printOption("", "a", "fegir escola; ");
+			printOption("", "b:nom", " busca escola; ");
 			printOption("esborrar ", "t", "aules (ho esborra tot); ");
-			printOption("", "s", "ortir; ? ");
+			printOption("", "q", "uit; ? ");
 
 			option = Console.ReadLine();
 			if(l_school.Count > 0 && isNumber(option))
@@ -83,9 +84,20 @@ public class ExhibitionCardGenerator
 			}
 			else if(option == "a")
 				schoolAdd();
+			else if(option.StartsWith("b:"))
+			{
+				string [] strFull = option.Split(new char[] {':'});
+				//Console.WriteLine("has escrit: [" + option + "]");
+				if(strFull.Length == 2)
+				{
+					schoolFind(strFull[1]);
+					printOption("", "(enter)", " ?");
+					option = Console.ReadLine();
+				}
+			}
 			else if(option == "t")
 				createTables();
-		} while (option != "s");
+		} while (option != "q");
 	}
 
 	private void submenu(School s)
@@ -103,14 +115,14 @@ public class ExhibitionCardGenerator
 				printOption("", "codi", " (afegir persona en aquest grup); ");
 
 			printOption("afegir ", "g", "rup; ");
-			printOption("", "s", "ortir al Menu d'escoles; ? ");
+			printOption("", "q", "uit al Menu d'escoles; ? ");
 
 			option = Console.ReadLine();
 			if(l_group.Count > 0 && isNumber(option) && groupExists(l_group, Convert.ToInt32(option)))
 				personAdd(s.ID, Convert.ToInt32(option));
 			else if(option == "g")
 				groupAdd(s.ID);
-		} while (option != "s");
+		} while (option != "q");
 	}
 
 	private School getSchoolFromID (List <School> l_school, int id)
@@ -163,6 +175,10 @@ public class ExhibitionCardGenerator
 		School s = new School(-1, name);
 		s.Insert(dbcmd);
 	}
+	private void schoolFind(string str)
+	{
+		School.Find(dbcmd, str);
+	}
 	private List<School> schoolList()
 	{
 		Console.WriteLine("--- Chronojump exhibitions - Menu d'Escoles ---\n"); //fer algo de borrar pantalla, mirar lo de wheelchair
@@ -197,11 +213,12 @@ public class ExhibitionCardGenerator
 
 		p.PrintCard();
 		Console.WriteLine();
-		string option;
-		do {
-			printOption("", "s", "ortir al menu anterior; ? ");
-			option = Console.ReadLine();
-		} while (option != "s");
+//		string option;
+//		do {
+			printOption("", "(enter)", " ?");
+//			option = Console.ReadLine();
+			Console.ReadLine();
+//		} while (option != "q");
 	}
 
 	private void createTables()
@@ -262,6 +279,25 @@ public class School
 
 		Console.ForegroundColor = Options.ColorDefault;
 		Console.WriteLine(": " + name);
+	}
+
+	public static void Find(SqliteCommand dbcmd, string str)
+	{
+		dbcmd.CommandText = "SELECT * FROM " + table + " WHERE name LIKE LOWER (\"%" + str + "%\")";
+		if(Options.Debug)
+			Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		while(reader.Read()) {
+			School s = new School(
+					Convert.ToInt32(reader[0].ToString()),
+					reader[1].ToString());
+			s.PrettyPrint();
+		}
+		reader.Close();
 	}
 
 	//this helps to start autoincrement at 0 instead of 1

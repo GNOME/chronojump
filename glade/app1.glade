@@ -1857,6 +1857,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -9770,11 +9773,35 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_event_execute_finish_clicked" swapped="no"/>
                                                             <accelerator key="Return" signal="clicked"/>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox319">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">5</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_button_finish">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-goto-last</property>
                                                             <property name="icon-size">2</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label390">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">Finalitza</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -9796,11 +9823,35 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_event_execute_button_cancel_clicked" swapped="no"/>
                                                             <accelerator key="Escape" signal="clicked"/>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox320">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_button_cancel">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-cancel</property>
                                                             <property name="icon-size">2</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label391">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">Cancel.la</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -20409,12 +20460,6 @@ Concentric</property>
                                                             <placeholder/>
                                                             </child>
                                                             <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkCheckButton" id="checkbutton_force_sensor_ai_b">
                                                             <property name="width_request">30</property>
                                                             <property name="visible">True</property>
@@ -20472,6 +20517,9 @@ Concentric</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -27711,6 +27759,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

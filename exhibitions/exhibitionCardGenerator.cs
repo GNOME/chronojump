@@ -115,6 +115,8 @@ public class ExhibitionCardGenerator
 			else if(option == "e")
 			{
 				new Statistics(dbcmd);
+				printOption("", "(enter)", " ?");
+				option = Console.ReadLine();
 			}
 			else if(option == "t")
 				createTablesPrepare();
@@ -379,7 +381,6 @@ public class School
 
 		int count = 0;
 		while(reader.Read()) {
-			Console.WriteLine("readed: [" + reader[0].ToString());
 			if(reader[0].ToString() != "")
 				count = Convert.ToInt32(reader[0].ToString());
 		}
@@ -706,18 +707,68 @@ public class Statistics
 	public Statistics(SqliteCommand dbcmd)
 	{
 		this.dbcmd = dbcmd;
+
+		Console.WriteLine("\n--- Estadístiques ---");
+		Console.WriteLine("\nTotal de alumnes: " + totalPersons().ToString());
+		Console.WriteLine("\nTotal de centre: " + totalSchools().ToString());
+		Console.WriteLine("\nRanking de centres (per nombre de inscrits): ");
+		schoolsRanking();
 	}
 
-	private void totalPersons()
+	private int totalPersons()
 	{
+		dbcmd.CommandText = "SELECT count(*) FROM person";
+		if(Options.Debug)
+			Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		int count = 0;
+		while(reader.Read()) {
+			if(reader[0].ToString() != "")
+				count = Convert.ToInt32(reader[0].ToString());
+		}
+		reader.Close();
+		return count;
 	}
 
-	private void totalSchools()
+	private int totalSchools()
 	{
+		dbcmd.CommandText = "SELECT count(*) FROM school";
+		if(Options.Debug)
+			Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		int count = 0;
+		while(reader.Read()) {
+			if(reader[0].ToString() != "")
+				count = Convert.ToInt32(reader[0].ToString());
+		}
+		reader.Close();
+		return count;
 	}
 
 	private void schoolsRanking()
 	{
+		dbcmd.CommandText = "SELECT school.name, count(*) AS conta FROM person, school WHERE person.schoolID = school.id GROUP BY person.schoolID ORDER BY conta DESC LIMIT 10";
+		if(Options.Debug)
+			Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		//Console.WriteLine("Escola: Participants");
+		while(reader.Read()) {
+			if(reader[0].ToString() != "")
+				Console.WriteLine(string.Format("- {0}: {1}", reader[0], reader[1]));
+		}
+		reader.Close();
 	}
 }
 

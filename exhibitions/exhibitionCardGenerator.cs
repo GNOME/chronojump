@@ -54,6 +54,9 @@ public class ExhibitionCardGenerator
 		
 	public ExhibitionCardGenerator()
 	{
+		if(! School.TableExists(dbcmd))
+			createTablesPrepare();
+
 		menu();
 	}
 
@@ -72,7 +75,8 @@ public class ExhibitionCardGenerator
 				printOption("", "codi", " (per seleccionar escola); ");
 
 			printOption("", "a", "fegir escola; ");
-			printOption("", "b:nom", " busca escola; ");
+			printOption("", "b", "usca escola; ");
+			printOption("", "e", "stadístiques; ");
 			printOption("esborrar ", "t", "aules (ho esborra tot); ");
 			printOption("", "q", "uit; ? ");
 
@@ -88,6 +92,7 @@ public class ExhibitionCardGenerator
 				School s = schoolAdd();
 				submenu(s, true);
 			}
+			/*
 			else if(option.StartsWith("b:"))
 			{
 				string [] strFull = option.Split(new char[] {':'});
@@ -99,8 +104,20 @@ public class ExhibitionCardGenerator
 					option = Console.ReadLine();
 				}
 			}
+			*/
+			else if(option == "b")
+			{
+				Console.Write(" text buscat: ");
+				schoolFind(Console.ReadLine());
+				printOption("", "(enter)", " ?");
+				option = Console.ReadLine();
+			}
+			else if(option == "e")
+			{
+				new Statistics(dbcmd);
+			}
 			else if(option == "t")
-				createTables();
+				createTablesPrepare();
 		} while (option != "q");
 	}
 
@@ -287,7 +304,7 @@ public class ExhibitionCardGenerator
 		return 0; //return this if there are errors
 	}
 
-	private void createTables()
+	private void createTablesPrepare()
 	{
 		Console.WriteLine("\nEstàs segur de que vols esborrar tot i crear les taules des de zero?");
 		Console.WriteLine("Per esborrar tot escriu 'Y' i pulsa enter. Qualsevol altra cosa per cancel.lar");
@@ -295,11 +312,16 @@ public class ExhibitionCardGenerator
 		if (option != "Y")
 			return;
 
+		createTablesDo();
+	}
+
+	private void createTablesDo()
+	{
 		School.CreateTable(dbcmd);
 		Group.CreateTable(dbcmd);
 		Person.CreateTable(dbcmd);
 	}
-	
+
 	// ---- sqlite main methods ----
 
 	private static void sqliteCreateConnection()
@@ -345,6 +367,24 @@ public class School
 
 		Console.ForegroundColor = Options.ColorDefault;
 		Console.WriteLine(": " + name);
+	}
+
+	public static bool TableExists(SqliteCommand dbcmd)
+	{
+		dbcmd.CommandText = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='school'";
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		int count = 0;
+		while(reader.Read()) {
+			Console.WriteLine("readed: [" + reader[0].ToString());
+			if(reader[0].ToString() != "")
+				count = Convert.ToInt32(reader[0].ToString());
+		}
+		reader.Close();
+		return (count == 1);
 	}
 
 	public static void Find(SqliteCommand dbcmd, string str)
@@ -658,3 +698,26 @@ public class Person
 		get { return id; }
 	}
 }
+
+public class Statistics
+{
+	private SqliteCommand dbcmd;
+
+	public Statistics(SqliteCommand dbcmd)
+	{
+		this.dbcmd = dbcmd;
+	}
+
+	private void totalPersons()
+	{
+	}
+
+	private void totalSchools()
+	{
+	}
+
+	private void schoolsRanking()
+	{
+	}
+}
+

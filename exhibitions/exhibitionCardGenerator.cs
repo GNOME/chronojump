@@ -30,8 +30,8 @@ public static class Options
 {
 	public static int MaleStartID = 100;
 	public static string DbPath = ".";
-	//public static string Database = "exhibitionCardGenerator.db";
-	public static string Database = "prova.db";
+	public static string Database = "exhibitionCardGenerator.db";
+	//public static string Database = "prova.db";
 	public static ConsoleColor ColorDefault = ConsoleColor.Blue;
 	public static ConsoleColor ColorHigh = ConsoleColor.White;
 	public static bool Debug = false;
@@ -213,25 +213,78 @@ public class ExhibitionCardGenerator
 
 	private void personAdd(int schoolID, int groupID)
 	{
-		Person.SexTypes st = Person.SexTypes.UNKNOWN;
+		Person.SexTypes st;
+		int numPersons = 0;
+		bool allOk;
 		do {
-			printOption("\n", "F", "emale, or ");
-			printOption("", "M", "ale");
-			string sex = Console.ReadLine();
-			st = Person.SexParse(sex);
-		} while(st == Person.SexTypes.UNKNOWN);
+			st = Person.SexTypes.UNKNOWN;
+			allOk = false;
 
-		Person p = new Person(-1, schoolID, groupID, st);
-		p.Insert(dbcmd);
+			printOption("\n", "F", "emale; ");
+			printOption("", "M", "ale; ");
+			printOption("or eg. ", "5M", " (to insert 5 males) ? ");
+			string option = Console.ReadLine();
 
-		p.PrintCard();
-		Console.WriteLine();
-//		string option;
-//		do {
-			printOption("", "(enter)", " ?");
-//			option = Console.ReadLine();
-			Console.ReadLine();
-//		} while (option != "q");
+			if(option.EndsWith("M") || option.EndsWith("m"))
+				st = Person.SexTypes.M;
+			else if(option.EndsWith("F") || option.EndsWith("f"))
+				st = Person.SexTypes.F;
+
+			if(st != Person.SexTypes.UNKNOWN)
+			{
+				if(option.Length == 1) {
+					numPersons = 1;
+					allOk = true;
+				} else {
+					numPersons = parseNumPersonsAndSex(option);
+					allOk = (numPersons > 0);
+				}
+			}
+		} while(! allOk);
+
+		if(numPersons == 1)
+		{
+			Person p = new Person(-1, schoolID, groupID, st);
+			p.Insert(dbcmd);
+			p.PrintCard();
+			Console.WriteLine();
+		}
+		else if(numPersons > 1)
+		{
+			int min = 0;
+			int max = 0;
+			for(int i=0; i < numPersons; i++)
+			{
+				Person p = new Person(-1, schoolID, groupID, st);
+ 				p.Insert(dbcmd);
+
+				if(i==0)
+					min = p.ID;
+				max = p.ID;
+			}
+			Person.PrintCardMultiple(min, max, groupID, schoolID);
+		}
+
+		printOption("", "(enter)", " ?");
+		Console.ReadLine();
+	}
+
+	private bool isMale(string option)
+	{
+		return (option == "M" || option == "m");
+	}
+	private bool isFemale(string option)
+	{
+		return (option == "F" || option == "f");
+	}
+	private int parseNumPersonsAndSex(string option)
+	{
+		string optionWithoutSexLetter = option.Substring(0, option.Length -1);
+		Console.WriteLine("parsing [" + optionWithoutSexLetter + "]");
+		if(isNumber(optionWithoutSexLetter))
+			return Convert.ToInt32(optionWithoutSexLetter);
+
+		return 0; //return this if there are errors
 	}
 
 	private void createTables()
@@ -490,10 +543,10 @@ public class Group
 
 public class Person
 {
-	int id;
-	int schoolID;
-	int groupID;
-	SexTypes sex;
+	private int id;
+	private int schoolID;
+	private int groupID;
+	private SexTypes sex;
 	//string name;
 	static string table = "person";
 
@@ -561,16 +614,6 @@ public class Person
 		dbcmd.ExecuteNonQuery();
 	}
 
-	public static SexTypes SexParse(string sex)
-	{
-		if(sex == "M" || sex == "m")
-			return SexTypes.M;
-		else if(sex == "F" || sex == "f")
-			return SexTypes.F;
-
-		return SexTypes.UNKNOWN;
-	}
-
 	public void PrintCard()
 	{
 		Console.WriteLine("\n-- Targeta --");
@@ -588,5 +631,30 @@ public class Person
 		Console.Write("Escola: ");
 		Console.ForegroundColor = Options.ColorHigh;
 		Console.WriteLine(schoolID);
+		Console.ForegroundColor = Options.ColorDefault;
+	}
+
+	public static void PrintCardMultiple(int idMin, int idMax, int groupID, int schoolID)
+	{
+		Console.WriteLine("\n-- Targetes --");
+		Console.ForegroundColor = Options.ColorDefault;
+		Console.Write("Codi: ");
+		Console.ForegroundColor = Options.ColorHigh;
+		Console.WriteLine(string.Format("{0}-{1}", idMin, idMax));
+
+		Console.ForegroundColor = Options.ColorDefault;
+		Console.Write("Grup: ");
+		Console.ForegroundColor = Options.ColorHigh;
+		Console.WriteLine(groupID);
+
+		Console.ForegroundColor = Options.ColorDefault;
+		Console.Write("Escola: ");
+		Console.ForegroundColor = Options.ColorHigh;
+		Console.WriteLine(schoolID);
+		Console.ForegroundColor = Options.ColorDefault;
+	}
+
+	public int ID {
+		get { return id; }
 	}
 }

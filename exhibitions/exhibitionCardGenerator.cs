@@ -30,7 +30,8 @@ public static class Options
 {
 	public static int MaleStartID = 100;
 	public static string DbPath = ".";
-	public static string Database = "exhibitionCardGenerator.db";
+	//public static string Database = "exhibitionCardGenerator.db";
+	public static string Database = "prova.db";
 	public static ConsoleColor ColorDefault = ConsoleColor.Blue;
 	public static ConsoleColor ColorHigh = ConsoleColor.White;
 	public static bool Debug = false;
@@ -80,10 +81,13 @@ public class ExhibitionCardGenerator
 			{
 				School s = getSchoolFromID(l_school, Convert.ToInt32(option));
 				if(s.ID != -1)
-					submenu(s);
+					submenu(s, false);
 			}
 			else if(option == "a")
-				schoolAdd();
+			{
+				School s = schoolAdd();
+				submenu(s, true);
+			}
 			else if(option.StartsWith("b:"))
 			{
 				string [] strFull = option.Split(new char[] {':'});
@@ -100,7 +104,7 @@ public class ExhibitionCardGenerator
 		} while (option != "q");
 	}
 
-	private void submenu(School s)
+	private void submenu(School s, bool addingGroup)
 	{
 		List<Group> l_group = new List<Group>();
 		string option;
@@ -111,17 +115,24 @@ public class ExhibitionCardGenerator
 				group.PrettyPrint();
 			Console.WriteLine();
 
-			if(l_group.Count > 0)
-				printOption("", "codi", " (afegir persona en aquest grup); ");
-
-			printOption("afegir ", "g", "rup; ");
-			printOption("", "q", "uit al Menu d'escoles; ? ");
-
-			option = Console.ReadLine();
-			if(l_group.Count > 0 && isNumber(option) && groupExists(l_group, Convert.ToInt32(option)))
-				personAdd(s.ID, Convert.ToInt32(option));
-			else if(option == "g")
+			if(addingGroup) {
+				Console.Write("Afegint grup a la nova escola... ");
 				groupAdd(s.ID);
+				addingGroup = false;
+				option = "g";
+			} else {
+				if(l_group.Count > 0)
+					printOption("", "codi", " (afegir persona en aquest grup); ");
+
+				printOption("afegir ", "g", "rup; ");
+				printOption("", "q", "uit al Menu d'escoles; ? ");
+
+				option = Console.ReadLine();
+				if(l_group.Count > 0 && isNumber(option) && groupExists(l_group, Convert.ToInt32(option)))
+					personAdd(s.ID, Convert.ToInt32(option));
+				else if(option == "g")
+					groupAdd(s.ID);
+			}
 		} while (option != "q");
 	}
 
@@ -168,12 +179,13 @@ public class ExhibitionCardGenerator
 		Console.Write(textPost);
 	}
 
-	private void schoolAdd()
+	private School schoolAdd()
 	{
 		Console.Write("Escriu el nom de l'escola: ");
 		string name = Console.ReadLine();
 		School s = new School(-1, name);
 		s.Insert(dbcmd);
+		return s;
 	}
 	private void schoolFind(string str)
 	{
@@ -203,7 +215,8 @@ public class ExhibitionCardGenerator
 	{
 		Person.SexTypes st = Person.SexTypes.UNKNOWN;
 		do {
-			Console.WriteLine("'F' female or 'M' male? ");
+			printOption("\n", "F", "emale, or ");
+			printOption("", "M", "ale");
 			string sex = Console.ReadLine();
 			st = Person.SexParse(sex);
 		} while(st == Person.SexTypes.UNKNOWN);
@@ -329,6 +342,8 @@ public class School
 		if(Options.Debug)
 			Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
+
+		this.id=nextID;
 	}
 
 	public static List<School> List(SqliteCommand dbcmd)

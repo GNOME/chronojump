@@ -108,9 +108,27 @@ public class ExhibitionCardGenerator
 			else if(option == "b")
 			{
 				Console.Write(" text buscat: ");
-				schoolFind(Console.ReadLine());
-				printOption("", "(enter)", " ?");
+				List <School> l = schoolFind(Console.ReadLine());
+				if(l.Count > 0)
+					printOption("", "codi", " seleccionar aquesta escola; ");
+
+				printOption("", "q", "uit al Menu d'escoles; ? ");
 				option = Console.ReadLine();
+
+				if(l.Count > 0 && isNumber(option))
+				{
+					School s = new School(-1, "");
+					foreach(School sTemp in l)
+						if(sTemp.ID == Convert.ToInt32(option))
+							s = sTemp;
+
+					if(s.ID != -1)
+						submenu(s, false);
+				}
+
+				//need to do this in order to not exit the program
+				if(option == "q")
+					option = "nothing";
 			}
 			else if(option == "e")
 			{
@@ -177,9 +195,9 @@ public class ExhibitionCardGenerator
 		return false;
 	}
 
-	private bool groupExists(List <Group> l_group, int id)
+	private bool groupExists(List <Group> l, int id)
 	{
-		foreach (Group g in l_group)
+		foreach (Group g in l)
 			if(g.ID == id)
 				return true;
 
@@ -206,9 +224,9 @@ public class ExhibitionCardGenerator
 		s.Insert(dbcmd);
 		return s;
 	}
-	private void schoolFind(string str)
+	private List<School> schoolFind(string str)
 	{
-		School.Find(dbcmd, str);
+		return School.Find(dbcmd, str);
 	}
 	private List<School> schoolList()
 	{
@@ -388,13 +406,14 @@ public class School
 		return (count == 1);
 	}
 
-	public static void Find(SqliteCommand dbcmd, string str)
+	public static List<School> Find(SqliteCommand dbcmd, string str)
 	{
 		dbcmd.CommandText = "SELECT * FROM " + table + " WHERE name LIKE LOWER (\"%" + str + "%\")";
 		if(Options.Debug)
 			Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
+		List<School> l_school = new List<School>();
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
@@ -403,8 +422,10 @@ public class School
 					Convert.ToInt32(reader[0].ToString()),
 					reader[1].ToString());
 			s.PrettyPrint();
+			l_school.Add(s);
 		}
 		reader.Close();
+		return l_school;
 	}
 
 	//this helps to start autoincrement at 0 instead of 1

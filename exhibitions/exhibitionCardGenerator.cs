@@ -110,7 +110,7 @@ public class ExhibitionCardGenerator
 				Console.Write(" text buscat: ");
 				List <School> l = schoolFind(Console.ReadLine());
 				if(l.Count > 0)
-					printOption("", "codi", " seleccionar aquesta escola; ");
+					printOption("\n", "codi", " seleccionar aquesta escola; ");
 
 				printOption("", "q", "uit al Menu d'escoles; ? ");
 				option = Console.ReadLine();

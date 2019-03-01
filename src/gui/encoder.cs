@@ -6983,7 +6983,7 @@ public partial class ChronoJumpWindow
 						{
 							UploadEncoderDataObject uo = new UploadEncoderDataObject(
 									encoderCaptureCurves, lastEncoderSQLSignal.eccon);
-							SqliteJson.UploadExhibitionTest(getExhibitionTestFromGui(ExhibitionTest.testTypes.INERTIAL, Convert.ToDouble(uo.pmeanByPower)));
+							SqliteJson.UploadExhibitionTest(getExhibitionTestFromGui(ExhibitionTest.testTypes.INERTIAL, Convert.ToDouble(uo.pmeanByPowerAsDouble)));
 
 						}
 					}

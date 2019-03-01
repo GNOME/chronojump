@@ -857,7 +857,7 @@ LogB.Information(" re C ");
 					if( configChronojump.Exhibition &&
 							( configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_ROPE ||
 							  configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_SHOT ) )
-						uploadExhibitionTest(configChronojump.ExhibitionStationType, forceSensorValues.ForceMax);
+						SqliteJson.UploadExhibitionTest(getExhibitionTestFromGui(configChronojump.ExhibitionStationType, forceSensorValues.ForceMax));
 
 				}
 			} else if(forceProcessCancel || forceProcessError)

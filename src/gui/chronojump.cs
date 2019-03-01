@@ -4500,7 +4500,7 @@ public partial class ChronoJumpWindow
 				sensitiveGuiYesEvent();
 
 			if(configChronojump.Exhibition && configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.JUMP)
-				uploadExhibitionTest(ExhibitionTest.testTypes.JUMP, Convert.ToDouble(Util.GetHeightInCentimeters(currentJump.Tv.ToString())));
+				SqliteJson.UploadExhibitionTest(getExhibitionTestFromGui(ExhibitionTest.testTypes.JUMP, Convert.ToDouble(Util.GetHeightInCentimeters(currentJump.Tv.ToString()))));
 		} 
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
@@ -4944,7 +4944,7 @@ public partial class ChronoJumpWindow
 			event_execute_LabelTimeValue = currentRun.Time;
 
 			if(configChronojump.Exhibition && configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.RUN)
-				uploadExhibitionTest(ExhibitionTest.testTypes.RUN, currentRun.Time);
+				SqliteJson.UploadExhibitionTest(getExhibitionTestFromGui(ExhibitionTest.testTypes.RUN, currentRun.Time));
 		}
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();

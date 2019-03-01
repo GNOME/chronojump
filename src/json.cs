@@ -1149,6 +1149,8 @@ public class UploadEncoderDataObject
 	public string pmeanByPower;
 	public string pmaxByPower;
 
+	public double  pmeanByPowerAsDouble;
+
 	//constructor called after capture
 	public UploadEncoderDataObject(ArrayList curves, string eccon)
 	{
@@ -1181,6 +1183,8 @@ public class UploadEncoderDataObject
 		pmaxBySpeed = Util.ConvertToPoint(curveBySpeed.PeakPower);
 		pmaxByPower = Util.ConvertToPoint(curveByPower.PeakPower);
 
+		pmeanByPowerAsDouble = Convert.ToDouble(curveByPower.MeanPower);
+
 		//add +1 to show to user
 		numBySpeed = nSpeed + 1;
 		numByPower = nPower + 1;
@@ -1210,6 +1214,8 @@ public class UploadEncoderDataObject
 		pmeanByPower = Util.ConvertToPoint( eSignal.GetEccConMean(nPower, Constants.MeanPower) );
 		pmaxBySpeed = Util.ConvertToPoint( eSignal.GetEccConMax(nSpeed, Constants.PeakPower) );
 		pmaxByPower = Util.ConvertToPoint( eSignal.GetEccConMax(nPower, Constants.PeakPower) );
+
+		pmeanByPowerAsDouble = Convert.ToDouble( eSignal.GetEccConMean(nPower, Constants.MeanPower) );
 
 		//add +1 to show to user
 		numBySpeed = (nSpeed /2) + 1;

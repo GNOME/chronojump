@@ -201,7 +201,7 @@ public partial class ChronoJumpWindow
 		if(configChronojump.Exhibition)
 		{
 			exhibitionGuiAtStart(configChronojump.ExhibitionStationType);
-			uploadExhibitionTestsPending();
+			SqliteJson.UploadExhibitionTestsPending();
 		}
 
 		configDo();

@@ -234,6 +234,45 @@ class SqliteJson : Sqlite
 	 * EXHIBITION //right now does not upload to server when connection returns
 	 */
 
+	public static void UploadExhibitionTest(ExhibitionTest et)
+	{
+		Json js = new Json();
+		if( ! js.UploadExhibitionTest (et))
+		{
+			LogB.Error(js.ResultMessage);
+			SqliteJson.InsertTempExhibitionTest(false, et); //insert only if could'nt be uploaded
+		}
+	}
+
+	//each one record needs 0.9 seconds
+	public static void UploadExhibitionTestsPending()
+	{
+		Json json = new Json();
+		Sqlite.Open(); // ---------------->
+
+		List<ExhibitionTest> listEtTemp = SqliteJson.SelectTempExhibitionTest(true);
+		if(listEtTemp.Count > 0)
+		{
+			using(SqliteTransaction tr = dbcon.BeginTransaction())
+			{
+				using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+				{
+					dbcmdTr.Transaction = tr;
+
+					foreach(ExhibitionTest et in listEtTemp)
+					{
+						bool success = json.UploadExhibitionTest(et);
+						LogB.Information(json.ResultMessage);
+						if(success)
+							SqliteJson.DeleteTempExhibitionTest(true, et, dbcmdTr); //delete the record
+					}
+				}
+				tr.Commit();
+			}
+		}
+		Sqlite.Close(); // <----------------
+	}
+
 	protected internal static void createTableUploadExhibitionTestTemp()
 	{
 		dbcmd.CommandText =
@@ -293,16 +332,20 @@ class SqliteJson : Sqlite
 
 	public static void DeleteTempExhibitionTest(bool dbconOpened, ExhibitionTest et)
 	{
+		DeleteTempExhibitionTest(dbconOpened, et, dbcmd);
+	}
+	public static void DeleteTempExhibitionTest(bool dbconOpened, ExhibitionTest et, SqliteCommand mycmd)
+	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "Delete FROM " + tableExhibitionTest + " WHERE " +
+		mycmd.CommandText = "Delete FROM " + tableExhibitionTest + " WHERE " +
 			"schoolID = " + et.schoolID + " AND " +
 			"groupID = " + et.groupID + " AND " +
 			"personID = " + et.personID + " AND " +
 			"testType = \"" + et.testType.ToString() + "\" AND " +
 			"result = " + et.resultToJson;
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
+		LogB.SQL(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
 
 		closeIfNeeded(dbconOpened);
 	}

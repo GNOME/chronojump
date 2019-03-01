@@ -21,7 +21,6 @@
 using System;
 using Gtk;
 using Glade;
-using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow 
 {
@@ -177,41 +176,13 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	//---- json upload
-
-	private void uploadExhibitionTest(ExhibitionTest.testTypes tt, double result)
+	//read from the widgets
+	//read testTypes and result
+	private ExhibitionTest getExhibitionTestFromGui(ExhibitionTest.testTypes tt, double result)
 	{
-		Json js = new Json();
-		ExhibitionTest et = new ExhibitionTest(Convert.ToInt32(spin_exhibition_school.Value),
+		return new ExhibitionTest(Convert.ToInt32(spin_exhibition_school.Value),
 				Convert.ToInt32(spin_exhibition_group.Value),
 				currentPerson.UniqueID, tt, result);
-
-		if( ! js.UploadExhibitionTest (et))
-		{
-			LogB.Error(js.ResultMessage);
-			SqliteJson.InsertTempExhibitionTest(false, et); //insert only if could'nt be uploaded
-		}
-	}
-
-	private void uploadExhibitionTestsPending()
-	{
-		Json json = new Json();
-		Sqlite.Open(); // ---------------->
-
-		List<ExhibitionTest> listEtTemp = SqliteJson.SelectTempExhibitionTest(true);
-		if(listEtTemp.Count > 0)
-		{
-			foreach(ExhibitionTest et in listEtTemp)
-			{
-				bool success = json.UploadExhibitionTest(et);
-				LogB.Information(json.ResultMessage);
-				if(success)
-					SqliteJson.DeleteTempExhibitionTest(true, et); //delete the record
-			}
-		}
-
-		Sqlite.Close(); // <----------------
-
 	}
 
 }

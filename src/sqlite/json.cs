@@ -244,15 +244,18 @@ class SqliteJson : Sqlite
 		}
 	}
 
-	//each one record needs 0.9 seconds
+	//At YOMO free network without transaction each record needs 0.9 seconds
+	//At YOMO free network with transaction each record needs 0.3 seconds
 	public static void UploadExhibitionTestsPending()
 	{
 		Json json = new Json();
 		Sqlite.Open(); // ---------------->
 
+		int countSucceded = 0;
 		List<ExhibitionTest> listEtTemp = SqliteJson.SelectTempExhibitionTest(true);
 		if(listEtTemp.Count > 0)
 		{
+			LogB.Information("Starting to upload {0} exhibitionTests...");
 			using(SqliteTransaction tr = dbcon.BeginTransaction())
 			{
 				using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
@@ -262,13 +265,16 @@ class SqliteJson : Sqlite
 					foreach(ExhibitionTest et in listEtTemp)
 					{
 						bool success = json.UploadExhibitionTest(et);
-						LogB.Information(json.ResultMessage);
-						if(success)
+						//LogB.Information(json.ResultMessage);
+						if(success) {
+							countSucceded ++;
 							SqliteJson.DeleteTempExhibitionTest(true, et, dbcmdTr); //delete the record
+						}
 					}
 				}
 				tr.Commit();
 			}
+			LogB.Information(string.Format("Done! succeded {0}/{1}", countSucceded, listEtTemp.Count));
 		}
 		Sqlite.Close(); // <----------------
 	}
@@ -344,7 +350,7 @@ class SqliteJson : Sqlite
 			"personID = " + et.personID + " AND " +
 			"testType = \"" + et.testType.ToString() + "\" AND " +
 			"result = " + et.resultToJson;
-		LogB.SQL(mycmd.CommandText.ToString());
+		//LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();
 
 		closeIfNeeded(dbconOpened);

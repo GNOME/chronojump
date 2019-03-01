@@ -199,7 +199,10 @@ public partial class ChronoJumpWindow
 		}
 
 		if(configChronojump.Exhibition)
+		{
 			exhibitionGuiAtStart(configChronojump.ExhibitionStationType);
+			uploadExhibitionTestsPending();
+		}
 
 		configDo();
 	}

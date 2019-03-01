@@ -260,5 +260,52 @@ class SqliteJson : Sqlite
 		closeIfNeeded(dbconOpened);
 	}
 
+	public static List<ExhibitionTest> SelectTempExhibitionTest (bool dbconOpened)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "SELECT * FROM " + tableExhibitionTest + " ORDER BY personID";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader = dbcmd.ExecuteReader();
+
+		List<ExhibitionTest> l = new List<ExhibitionTest>();
+		while(reader.Read())
+		{
+			ExhibitionTest et = new ExhibitionTest(
+					Convert.ToInt32(reader[0]), 		//schoolID
+					Convert.ToInt32(reader[1]), 		//groupID
+					Convert.ToInt32(reader[2]), 		//personID
+					(ExhibitionTest.testTypes) Enum.Parse(
+						typeof(ExhibitionTest.testTypes), reader[3].ToString()),    //testType
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())) //result
+					);
+
+			l.Add(et);
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		return l;
+	}
+
+	public static void DeleteTempExhibitionTest(bool dbconOpened, ExhibitionTest et)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "Delete FROM " + tableExhibitionTest + " WHERE " +
+			"schoolID = " + et.schoolID + " AND " +
+			"groupID = " + et.groupID + " AND " +
+			"personID = " + et.personID + " AND " +
+			"testType = \"" + et.testType.ToString() + "\" AND " +
+			"result = " + et.resultToJson;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
 }
 

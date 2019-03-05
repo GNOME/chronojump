@@ -142,7 +142,6 @@ public partial class ChronoJumpWindow
 
 			//don't allow to change encoderConfiguration
 			label_encoder_exercise_encoder.Visible = false;
-			vseparator_encoder_exercise_encoder.Visible = false;
 			hbox_encoder_exercise_encoder.Visible = false;
 
 			//don't show encoder 1-cont buttons

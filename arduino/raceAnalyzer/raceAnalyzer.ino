@@ -11,8 +11,8 @@ int lastEncoderDisplacement = 0;
 volatile unsigned long changingTime = 0;
 unsigned long elapsedTime = 0;
 unsigned long totalTime = 0;
-unsigned long lastTime = 0;
-//int position = 0;
+unsigned long lastSampleTime = 0;
+unsigned long sampleTime = 0;
 
 //Version of the firmware
 String version = "Race_Analyzer-0.1";
@@ -73,20 +73,19 @@ void loop() {
       }
     }
 
-    unsigned long Time = changingTime;
     //int lastEncoderDisplacement = encoderDisplacement; //Assigned to another variable for in the case that encoder displacement changes before printing it
 
     //Managing the timer overflow
-    if (Time > lastTime)      //No overflow
+    if (sampleTime > lastSampleTime)      //No overflow
     {
-      elapsedTime = Time - lastTime;
-    } else  if (Time <= lastTime)  //Overflow
+      elapsedTime = sampleTime -  lastSampleTime;
+    } else  if (sampleTime <=  lastSampleTime)  //Overflow
     {
-      elapsedTime = (4294967295 - lastTime) + Time; //Time from the last measure to the overflow event plus the changingTime
+      elapsedTime = (4294967295 -  lastSampleTime) + sampleTime; //Time from the last measure to the overflow event plus the changingTime
     }
     totalTime += elapsedTime;
     int meanOffsettedData = total / nReadings;
-    lastTime = Time;
+     lastSampleTime = sampleTime;
 
     //Sending in text mode
     Serial.print(lastEncoderDisplacement);
@@ -121,7 +120,8 @@ void changingA() {
     //digitalWrite(13, LOW);
   }
   if (abs(encoderDisplacement) >= pps) {
-    lastEncoderDisplacement = encoderDisplacement;
+    lastEncoderDisplacement = encoderDisplacement;  //We need to save this value because it can change very quickly
+    sampleTime = changingTime;                      //We need to save this value because it can change very quickly
     encoderDisplacement = 0;
     processSample = true;
   }
@@ -165,7 +165,7 @@ void start_capture()
 {
   Serial.println("Starting capture...");
   totalTime = 0;
-  lastTime = micros();
+  lastSampleTime = micros();
   capturing = true;
   encoderDisplacement = 0;
 }

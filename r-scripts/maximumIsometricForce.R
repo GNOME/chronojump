@@ -281,21 +281,8 @@ drawDynamicsFromLoadCell <- function(
                                 c(dynamics$f.raw[startImpulseSample:endImpulseSample], 0, 0), col = "grey")
                         
                         #Calculation of the impulse
-                        #Sum of the area of all the triangles formed with a vertex in the origin and the other vertex in the
-                        #n-th and (n+1)-th point of the polygon
-                        impulse = 0
-                        for(n in startImpulseSample:(endImpulseSample - 1))
-                        {
-                                #Area of the paralelograms, not the triangle
-                                area = ((dynamics$time[n+1] - dynamics$time[dynamics$startSample]) * dynamics$f.raw[n] - (dynamics$time[n] - dynamics$time[dynamics$startSample]) * dynamics$f.raw[n+1])
-                                impulse = impulse + area
-                        }
-                        
-                        area = (dynamics$time[endImpulseSample] - dynamics$time[dynamics$startSample]) * dynamics$f.raw[endImpulseSample]
-                        impulse = impulse + area
-                        
-                        #Area under the curve is one half of the sum of the area of paralelograms
-                        impulse = impulse / 2
+                        impulse = getAreaUnderCurve(dynamics$time[startImpulseSample:endImpulseSample], dynamics$f.raw[startImpulseSample:endImpulseSample])
+             
                 } else if(impulseOptions$impulseFunction == "FITTED")
                 {
                         impulseColor = "blue"
@@ -309,19 +296,21 @@ drawDynamicsFromLoadCell <- function(
                         #Calculation of the impulse
                         #Sum of the area of all the triangles formed with a vertex in the origin and the other vertex in the
                         #n-th and (n+1)-th point of the polygon
-                        impulse = 0
-                        for(n in startImpulseSample:(endImpulseSample - 1))
-                        {
-                                #Area of the paralelograms, not the triangle
-                                area = ((dynamics$time[n+1] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[n] - (dynamics$time[n] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[n+1])
-                                impulse = impulse + area
-                        }
-                        
-                        area = (dynamics$time[endImpulseSample] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[endImpulseSample]
-                        impulse = impulse + area
-                        
+                        # impulse = 0
+                        # for(n in startImpulseSample:(endImpulseSample - 1))
+                        # {
+                        #         #Area of the paralelograms, not the triangle
+                        #         area = ((dynamics$time[n+1] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[n] - (dynamics$time[n] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[n+1])
+                        #         impulse = impulse + area
+                        # }
+                        # 
+                        # area = (dynamics$time[endImpulseSample] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[endImpulseSample]
+                        # impulse = impulse + area
                         #Area under the curve is one half of the sum of the area of paralelograms
-                        impulse = impulse / 2
+                        #impulse = impulse / 2
+                        impulse = getAreaUnderCurve(dynamics$time[startImpulseSample:endImpulseSample], dynamics$f.fitted[startImpulseSample:endImpulseSample])
+                        
+                        
                 }
                 
                 text(x = (dynamics$startTime + (dynamics$time[endImpulseSample] - dynamics$time[startImpulseSample])*0.66), y = mean(dynamics$f.raw[startImpulseSample:endImpulseSample])*0.66,

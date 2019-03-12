@@ -116,7 +116,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 }
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title = "Test graph",
-                                  plotRawMeanSpeed = TRUE, plotRawSpeed = TRUE, plotRawAccel = FALSE, plotRawForce = FALSE, plotMeanRawForce = TRUE, plotRawPower = FALSE, plotRawMeanPower = TRUE,
+                                  plotRawMeanSpeed = TRUE, plotRawSpeed = TRUE, plotRawAccel = FALSE, plotRawForce = FALSE, plotMeanRawForce = TRUE, plotRawPower = FALSE, plotMeanRawPower = TRUE,
                                   plotFittedSpeed = TRUE, plotFittedAccel = FALSE, plotFittedForce = FALSE, plotFittedPower = FALSE)
 {
         #Plotting position
@@ -281,11 +281,31 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
                         legendColor = c(legendColor, "blue")
                 }
                 axis(side = 4, col = "blue", line = 2)
+        }     
+
+        if(plotMeanRawForce)
+        {
+                par(new = TRUE)
+                ylimits = c(min(sprintRawDynamics$rawForce[sprintRawDynamics$startSample:sprintRawDynamics$endSample])*0.95,
+                            max(c(sprintRawDynamics$rawFmax, sprintFittedDynamics$fmax.fitted)*1.05))
+                plot(NULL, NULL,
+                     ylim = ylimits,
+                     xlim = c(sprintRawDynamics$time[sprintRawDynamics$startSample], sprintRawDynamics$time[sprintRawDynamics$endSample]),
+                     xlab = "", ylab = "",
+                     axes = FALSE, yaxs = "i", xaxs = "i")
+                text(splitTime[1]*0.2, meanForce[1], paste(round(meanForce[1], digits = 2), "N"), col = "blue")
+                for(n in 1:length(meanForce))
+                {
+                        text(splitTime[n] + (splitTime[n+1] - splitTime[n])*0.2, meanForce[n+1], paste(round(meanForce[n+1], digits = 2), "N"), col = "blue")
+                        
+                }
+                axis(side = 4, col = "blue", line = 2)
         }
         
         if(plotRawPower|| plotFittedPower)
         {
-                ylimits = c(min(sprintRawDynamics$rawPower[sprintRawDynamics$startSample:sprintRawDynamics$endSample])*0.95, max(c(sprintRawDynamics$rawPmax, sprintFittedDynamics$pmax.fitted)*1.05))
+                ylimits = c(min(sprintRawDynamics$rawPower[sprintRawDynamics$startSample:sprintRawDynamics$endSample])*0.95,
+                            max(c(sprintRawDynamics$rawPmax, sprintFittedDynamics$pmax.fitted)*1.05))
                 if (plotRawPower)
                 {
                         #Plotting rawForce
@@ -311,6 +331,27 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
                 }
                 axis(side = 4, col = "red", line = 4)
         }
+        
+        
+        if(plotMeanRawPower)
+        {
+                par(new = TRUE)
+                ylimits = c(min(sprintRawDynamics$rawPower[sprintRawDynamics$startSample:sprintRawDynamics$endSample])*0.95,
+                            max(c(sprintRawDynamics$rawPmax, sprintFittedDynamics$pmax.fitted)*1.05))
+                plot(NULL, NULL,
+                     ylim = ylimits,
+                     xlim = c(sprintRawDynamics$time[sprintRawDynamics$startSample], sprintRawDynamics$time[sprintRawDynamics$endSample]),
+                     xlab = "", ylab = "",
+                     axes = FALSE, yaxs = "i", xaxs = "i")
+                text(splitTime[1]*0.8, meanPower[1], paste(round(meanPower[1], digits = 2), "W"), col = "red")
+                for(n in 1:length(meanPower))
+                {
+                        text(splitTime[n] + (splitTime[n+1] - splitTime[n])*0.8, meanPower[n+1], paste(round(meanPower[n+1], digits = 2), "W"), col = "red")
+                        
+                }
+                axis(side = 4, col = "red", line = 4)
+        }
+
         plotSize = par("usr")
         legend(x = plotSize[2], y = plotSize[3] + (plotSize[4] - plotSize[3])*0.66,
                 xjust = 1, yjust = 0.5, cex = 1,

@@ -20,8 +20,10 @@ String version = "Race_Analyzer-0.1";
 int pps = 40; //Pulses Per Sample. How many pulses are needed to get a sample
 int ppsAddress = 0; //Where is stored the pps value in the EEPROM
 
-int offset = 0;
-float calibrationFactor = 0;
+int offset = 14230;
+int offsetAddress = 2;
+float calibrationFactor = 0.140142;
+int calibrationAddress = 4;
 
 //Wether the sensor has to capture or not
 boolean capturing = false;
@@ -52,9 +54,11 @@ void setup() {
 }
 
 void loop() {
+  //double total = 0;
   long int total = 0;
   int nReadings = 0;
   int offsettedData = 0;
+  float force = 0;
 
 
   if (capturing)
@@ -63,7 +67,10 @@ void loop() {
     //With a diameter is of 160mm, each pulse is 2.513274mm. 4 pulses equals 1.00531cm
     while (!processSample) {
       offsettedData = readOffsettedData(0);
-      total += offsettedData;
+      //Serial.println(offsettedData);
+      total +=  offsettedData;
+      //force = readOffsettedData(0);
+      //total += force;
       nReadings++;
       if (Serial.available() > 0) {
         changingTime = micros();
@@ -84,7 +91,7 @@ void loop() {
       elapsedTime = (4294967295 -  lastSampleTime) + sampleTime; //Time from the last measure to the overflow event plus the changingTime
     }
     totalTime += elapsedTime;
-    int meanOffsettedData = total / nReadings;
+    double meanForce = total / nReadings;
      lastSampleTime = sampleTime;
 
     //Sending in text mode
@@ -92,7 +99,7 @@ void loop() {
     Serial.print(";");
     Serial.print(totalTime);
     Serial.print(";");
-    Serial.println(offsettedData);
+    Serial.println(total / nReadings);
 
     processSample = false;
 
@@ -151,10 +158,10 @@ void serialEvent()
     //    set_calibration_factor(inputString);
     //  } else if (commandString == "calibrate") {
     //    calibrate(inputString);
-    //  } else if (commandString == "get_tare") {
-    //    get_tare();
-    //  } else if (commandString == "set_tare") {
-    //    set_tare(inputString);
+    //  } else if (commandString == "get_offset") {
+    //    get_offset();
+    //  } else if (commandString == "set_offset") {
+    //    set_offset(inputString);
   } else {
     Serial.println("Not a valid command");
   }
@@ -210,7 +217,7 @@ void tare(void)
   }
 
   offset = total / 100;
-  EEPROM.put(0, offset);
+  EEPROM.put(offsetAddress, offset);
 }
 
 int readOffsettedData(int sensor)
@@ -227,8 +234,8 @@ void calibrate(float load)
     total += readOffsettedData(0);
   }
 
-  calibrationFactor = load / (total / 1000.0);
-  EEPROM.put(6, calibrationFactor);
+  calibrationFactor = load * 9.81 / (total / 1000.0);
+  EEPROM.put(calibrationAddress, calibrationFactor);
 }
 
 float readForce(int sensor)
@@ -276,4 +283,32 @@ void get_transmission_format()
   {
     Serial.println("text");
   }
+}
+
+void set_calibration_factor(String inputString)
+{
+  //Reading the argument of the command. Located within the ":" and the ";"
+  String calibration_factor = get_command_argument(inputString);
+  //Serial.println(calibration_factor.toFloat());
+  calibrationFactor = calibration_factor.toFloat();
+  float stored_calibration = 0.0f;
+  EEPROM.get(calibrationAddress, stored_calibration);
+  if(stored_calibration != calibrationFactor){
+    EEPROM.put(calibrationAddress, calibrationFactor);
+  }
+  Serial.println("Calibration factor set");
+}
+
+void set_offset(String inputString)
+{
+  String offsetString = get_command_argument(inputString);
+  long value = offsetString.toInt();
+  offset = value;
+  int stored_offset = 0;
+  EEPROM.get(offsetAddress, stored_offset);
+  if(stored_offset != value){
+    EEPROM.put(offsetAddress, value);
+    Serial.println("updated");
+  }
+  Serial.println("offset set");
 }

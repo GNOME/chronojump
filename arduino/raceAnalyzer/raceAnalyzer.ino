@@ -92,7 +92,7 @@ void loop() {
     }
     totalTime += elapsedTime;
     double meanForce = total / nReadings;
-     lastSampleTime = sampleTime;
+    lastSampleTime = sampleTime;
 
     //Sending in text mode
     Serial.print(lastEncoderDisplacement);
@@ -152,16 +152,16 @@ void serialEvent()
     tare();
   } else if (commandString == "get_transmission_format") {
     get_transmission_format();
-    //  } else if (commandString == "get_calibration_factor") {
-    //    get_calibration_factor();
-    //  } else if (commandString == "set_calibration_factor") {
-    //    set_calibration_factor(inputString);
-    //  } else if (commandString == "calibrate") {
-    //    calibrate(inputString);
-    //  } else if (commandString == "get_offset") {
-    //    get_offset();
-    //  } else if (commandString == "set_offset") {
-    //    set_offset(inputString);
+  } else if (commandString == "get_calibration_factor") {
+    get_calibration_factor();
+  } else if (commandString == "set_calibration_factor") {
+    set_calibration_factor(inputString);
+  } else if (commandString == "calibrate") {
+    calibrate(inputString);
+  } else if (commandString == "get_offset") {
+    get_offset();
+  } else if (commandString == "set_offset") {
+    set_offset(inputString);
   } else {
     Serial.println("Not a valid command");
   }
@@ -225,8 +225,11 @@ int readOffsettedData(int sensor)
   return (loadCell.readADC_SingleEnded(sensor) - offset);
 }
 
-void calibrate(float load)
+void calibrate(String inputString)
 {
+  //Reading the argument of the command. Located within the ":" and the ";"
+  String loadString = get_command_argument(inputString);
+  float load = loadString.toFloat();
   float calibrationFactor = 0;
   float total = 0;
   for (int i = 1; i <= 1000;  i++)
@@ -293,7 +296,7 @@ void set_calibration_factor(String inputString)
   calibrationFactor = calibration_factor.toFloat();
   float stored_calibration = 0.0f;
   EEPROM.get(calibrationAddress, stored_calibration);
-  if(stored_calibration != calibrationFactor){
+  if (stored_calibration != calibrationFactor) {
     EEPROM.put(calibrationAddress, calibrationFactor);
   }
   Serial.println("Calibration factor set");
@@ -306,9 +309,19 @@ void set_offset(String inputString)
   offset = value;
   int stored_offset = 0;
   EEPROM.get(offsetAddress, stored_offset);
-  if(stored_offset != value){
+  if (stored_offset != value) {
     EEPROM.put(offsetAddress, value);
     Serial.println("updated");
   }
   Serial.println("offset set");
+}
+
+void get_offset(void)
+{
+  Serial.println(offset);
+}
+
+void get_calibration_factor(void)
+{
+  Serial.println(calibrationFactor);
 }

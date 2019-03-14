@@ -4439,7 +4439,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new JumpExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				//chronopicWin.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
-				cp2016.CP, event_execute_label_message, app1, preferences.digitsNumber,
+				cp2016.CP, app1, preferences.digitsNumber,
 				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd, description, configChronojump.Exhibition);
 
@@ -4748,7 +4748,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new JumpRjExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpRjType.Name, myFall, jumpWeight, 
 				progressbarLimit, currentJumpRjType.JumpsLimited, 
-				cp2016.CP, event_execute_label_message, app1, preferences.digitsNumber,
+				cp2016.CP, app1, preferences.digitsNumber,
 				checkbutton_allow_finish_rj_after_time.Active,
 				preferences.volumeOn, preferences.gstreamer,
 				repetitiveConditionsWin, progressbarLimit, egd
@@ -4890,7 +4890,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new RunExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				cp2016.CP, event_execute_label_message, app1,
+				cp2016.CP, app1,
 				preferences.digitsNumber, preferences.metersSecondsPreferred,
 				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd,
@@ -5023,7 +5023,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new RunIntervalExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
 				distanceInterval, progressbarLimit, currentRunIntervalType.TracksLimited, 
-				cp2016.CP, event_execute_label_message, app1,
+				cp2016.CP, app1,
 				preferences.digitsNumber, preferences.metersSecondsPreferred,
 				preferences.volumeOn, preferences.gstreamer,
 				repetitiveConditionsWin,
@@ -5251,7 +5251,7 @@ public partial class ChronoJumpWindow
 
 		currentEventExecute = new ReactionTimeExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentReactionTimeType.Name, 
-				cp2016.CP, event_execute_label_message, app1, preferences.digitsNumber,
+				cp2016.CP, app1, preferences.digitsNumber,
 				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd, description
 				);
@@ -5410,7 +5410,7 @@ public partial class ChronoJumpWindow
 
 		currentEventExecute = new PulseExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
-				cp2016.CP, event_execute_label_message,
+				cp2016.CP,
 				app1, preferences.digitsNumber,
 				preferences.volumeOn, preferences.gstreamer, egd
 				);

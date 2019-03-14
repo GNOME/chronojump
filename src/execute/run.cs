@@ -77,7 +77,7 @@ public class RunExecute : EventExecute
 
 	//run execution
 	public RunExecute(int personID, int sessionID, string type, double distance,   
-			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, 
+			Chronopic cp, Gtk.Window app,
 			int pDN, bool metersSecondsPreferred,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd,
@@ -92,7 +92,6 @@ public class RunExecute : EventExecute
 		this.distance = distance;
 		
 		this.cp = cp;
-		this.event_execute_label_message = event_execute_label_message;
 		this.app = app;
 
 		this.pDN = pDN;
@@ -770,7 +769,7 @@ public class RunIntervalExecute : RunExecute
 
 	//run execution
 	public RunIntervalExecute(int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
-			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN, bool metersSecondsPreferred, 
+			Chronopic cp, Gtk.Window app, int pDN, bool metersSecondsPreferred,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			RepetitiveConditionsWindow repetitiveConditionsWin,
 			double progressbarLimit, ExecutingGraphData egd ,
@@ -803,7 +802,6 @@ public class RunIntervalExecute : RunExecute
 		
 		
 		this.cp = cp;
-		this.event_execute_label_message = event_execute_label_message;
 		this.app = app;
 
 		this.metersSecondsPreferred = metersSecondsPreferred;

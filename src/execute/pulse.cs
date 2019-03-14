@@ -54,7 +54,7 @@ public class PulseExecute : EventExecute
 
 	//execution
 	public PulseExecute(int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
-			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN,
+			Chronopic cp, Gtk.Window app, int pDN,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			//double progressbarLimit, 
 			ExecutingGraphData egd
@@ -69,7 +69,6 @@ public class PulseExecute : EventExecute
 		
 	
 		this.cp = cp;
-		this.event_execute_label_message = event_execute_label_message;
 		this.app = app;
 
 		this.pDN = pDN;

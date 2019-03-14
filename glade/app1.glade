@@ -9767,6 +9767,7 @@ EncoderInertialCapture</property>
                                                             <child>
                                                             <widget class="GtkButton" id="event_execute_button_finish">
                                                             <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
@@ -9784,12 +9785,12 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkImage" id="image_button_finish">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-goto-last</property>
+                                                            <property name="stock">gtk-floppy</property>
                                                             <property name="icon-size">2</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -9800,8 +9801,8 @@ EncoderInertialCapture</property>
                                                             <property name="label" translatable="yes">Finish</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -9838,8 +9839,8 @@ EncoderInertialCapture</property>
                                                             <property name="icon-size">2</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -9850,8 +9851,8 @@ EncoderInertialCapture</property>
                                                             <property name="label" translatable="yes">Cancel</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>

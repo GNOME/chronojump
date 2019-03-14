@@ -251,6 +251,7 @@ public partial class ChronoJumpWindow
 				event_execute_button_cancel, event_execute_button_finish, 
 				event_execute_label_message,  
 				event_execute_label_event_value,  event_execute_label_time_value,
+				label_video_feedback,
 				event_execute_progressbar_event,  event_execute_progressbar_time);
 		
 		return executingGraphData;

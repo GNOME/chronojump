@@ -271,4 +271,10 @@ public class WebcamManage
 	{
 		return webcam.ExitAndFinish (sessionID, testType, testID);
 	}
+
+	public static bool RecordingFileStarted ()
+	{
+		FileInfo file = new FileInfo(Util.GetVideoTempFileName());
+		return (file.Exists && file.Length > 0);
+	}
 }

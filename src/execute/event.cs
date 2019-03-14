@@ -353,7 +353,21 @@ public class EventExecute
 		}
 		
 		// <-------------------------- end of races specific
-		
+
+		//camera stuff: show something when record really starts
+		if(webcamStarting)
+		{
+			if(! checkWebcamFileStarted)
+			{
+				if(WebcamManage.RecordingFileStarted ())
+				{
+					LogB.Information("WebcamManage.RecodingFileStarted");
+					UtilGtk.PrintLabelWithTooltip(egd.Label_video_feedback, "Recording video.");
+					checkWebcamFileStarted = true;
+				}
+			}
+		}
+
 		//check if it should finish by time
 		if(shouldFinishByTime()) {
 			finish = true;
@@ -598,6 +612,12 @@ public class EventExecute
 		get { return eventDone; }
 	}
 	
+	private bool webcamStarting = false;
+	private bool checkWebcamFileStarted = false;
+	public bool WebcamStarting {
+		set { webcamStarting = value; }
+	}
+
 	// multi Chronopic stuff
 	public int Chronopics { get { return chronopics; } }
 

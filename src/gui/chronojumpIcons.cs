@@ -247,9 +247,6 @@ public partial class ChronoJumpWindow
 		image_tests_sprint.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
-		image_button_cancel.Pixbuf = pixbuf;
-		image_encoder_capture_cancel.Pixbuf = pixbuf;
-		image_encoder_analyze_cancel.Pixbuf = pixbuf;
 		image_selector_start_cancel.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
@@ -505,6 +502,10 @@ public partial class ChronoJumpWindow
 		image_run_type_delete_simple.Pixbuf = pixbuf;
 		image_run_type_delete_intervallic.Pixbuf = pixbuf;
 		image_session_delete.Pixbuf = pixbuf;
+
+		image_button_cancel.Pixbuf = pixbuf;
+		image_encoder_capture_cancel.Pixbuf = pixbuf;
+		image_encoder_analyze_cancel.Pixbuf = pixbuf;
 		
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
 		//and is not nice that the other are different for an user theme change
@@ -577,7 +578,8 @@ public partial class ChronoJumpWindow
 		image_encoder_capture_execute.Pixbuf = pixbuf;
 		*/
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "finish.png"); //gnome (white)
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "finish.png"); //gnome (white)
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "floppy.png");
 		image_button_finish.Pixbuf = pixbuf;
 		image_encoder_capture_finish.Pixbuf = pixbuf;
 

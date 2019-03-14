@@ -402,6 +402,7 @@ RESOURCES = \
 	../images/md/ic_timer_blue_24dp_1x.png,image_capture.png \
 	../images/md/ic_timer_blue_24dp_2x.png,image_capture_big.png \
 	../images/md/ic_last_page_blue_24dp_1x.png,finish.png \
+	../images/gtk-floppy.png,floppy.png \
 	../images/md/ic_cancel_red_24dp_1x.png,image_cancel.png \
 	../images/md/ic_insert_chart_blue_24dp_1x.png,image_analyze.png \
 	../images/md/ic_assignment_blue_24dp_1x.png,image_analyze_general.png \

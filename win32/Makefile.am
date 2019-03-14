@@ -14,7 +14,6 @@ deploy:
 	cp ../chronopic-firmware/chronopic-firmwarecord/dist/* dist/bin/chronopic-firmwarecord-dir/
 	
 	make install -C ../
-	cp ${prefix}/bin/libcesarplayer-0.dll dist/bin
 	cp -r ${prefix}/lib/chronojump dist/lib/
 	cp -r ${prefix}/share/chronojump dist/share/
 	mkdir dist/bin/x64

@@ -39,7 +39,7 @@ public class ReactionTimeExecute : EventExecute
 
 	//reactionTime execution
 	public ReactionTimeExecute(int personID, string personName, int sessionID, string type,
-			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN,
+			Chronopic cp, Gtk.Window app, int pDN,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd, string description
 			)
@@ -50,7 +50,6 @@ public class ReactionTimeExecute : EventExecute
 		this.type = type;
 		
 		this.cp = cp;
-		this.event_execute_label_message = event_execute_label_message;
 		this.app = app;
 
 		this.pDN = pDN;

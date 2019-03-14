@@ -55,7 +55,7 @@ public class JumpExecute : EventExecute
 
 	//jump execution
 	public JumpExecute(int personID, string personName, int sessionID, string type, double fall, double weight,  
-			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN,
+			Chronopic cp, Gtk.Window app, int pDN,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd, string description,
 			bool avoidGraph //on configChronojump.Exhibition do not show graph because it gets too slow with big database
@@ -69,7 +69,6 @@ public class JumpExecute : EventExecute
 		this.weight = weight;
 		
 		this.cp = cp;
-		this.event_execute_label_message = event_execute_label_message;
 		this.app = app;
 
 		this.pDN = pDN;
@@ -547,7 +546,7 @@ public class JumpRjExecute : JumpExecute
 	public JumpRjExecute(int personID, string personName, 
 			int sessionID, string type, double fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
-			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN, bool allowFinishAfterTime, 
+			Chronopic cp, Gtk.Window app, int pDN, bool allowFinishAfterTime,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			RepetitiveConditionsWindow repetitiveConditionsWin,
 			double progressbarLimit, ExecutingGraphData egd
@@ -569,7 +568,6 @@ public class JumpRjExecute : JumpExecute
 		}
 		
 		this.cp = cp;
-		this.event_execute_label_message = event_execute_label_message;
 		this.app = app;
 
 		this.pDN = pDN;

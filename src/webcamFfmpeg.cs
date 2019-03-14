@@ -131,6 +131,9 @@ public class WebcamFfmpeg : Webcam
 
 	public override Result VideoCaptureStart()
 	{
+		//Delete temp video if exists
+		deleteTempFiles();
+
 		process = new Process();
 		List<string> parameters = createParametersOnlyCapture();
 		//List<string> parameters = createParametersCaptureAndDelayedView();

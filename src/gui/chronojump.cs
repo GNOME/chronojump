@@ -4288,12 +4288,12 @@ public partial class ChronoJumpWindow
 		if(ncams == 1 && webcamManage.RecordPrepare(preferences.videoDevice).success)
 		{
 			webcamManage.RecordStart(1);
-			label_video_feedback.Text = "Rec.";
+			label_video_feedback.Text = "Preparing camera";
 		}
 		else if(ncams == 2 && webcamManage.RecordPrepare(preferences.videoDevice, "/dev/video1").success)
 		{
 			webcamManage.RecordStart(2);
-			label_video_feedback.Text = "Rec.";
+			label_video_feedback.Text = "Preparing camera";
 		}
 		//TODO depending on errorMessage:
 		//new DialogMessage(Constants.MessageTypes.WARNING, result.error);
@@ -4447,6 +4447,7 @@ public partial class ChronoJumpWindow
 		//UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, chronopicWin.Connected);
 
 		webcamStart (1);
+		currentEventExecute.WebcamStarting = (preferences.videoOn && webcamManage != null); //to show info on label_video_feedback
 
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -4455,7 +4456,7 @@ public partial class ChronoJumpWindow
 			currentEventExecute.Manage();
 		else 
 			currentEventExecute.ManageFall();
-		
+
 		thisJumpIsSimple = true; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
@@ -4756,14 +4757,15 @@ public partial class ChronoJumpWindow
 		
 		//webcamStart (2);
 		webcamStart (1);
-		
+		currentEventExecute.WebcamStarting = (preferences.videoOn && webcamManage != null); //to show info on label_video_feedback
+
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps
 		if(! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
 		
 		currentEventExecute.Manage();
-		
+
 		thisJumpIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
@@ -4903,6 +4905,7 @@ public partial class ChronoJumpWindow
 				);
 
 		webcamStart (1);
+		currentEventExecute.WebcamStarting = (preferences.videoOn && webcamManage != null); //to show info on label_video_feedback
 
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -5037,6 +5040,7 @@ public partial class ChronoJumpWindow
 				);
 
 		webcamStart (1);
+		currentEventExecute.WebcamStarting = (preferences.videoOn && webcamManage != null); //to show info on label_video_feedback
 
 		//suitable for limited by tracks and time
 		if(! canCaptureC)
@@ -5257,6 +5261,7 @@ public partial class ChronoJumpWindow
 				);
 
 		webcamStart (1);
+		currentEventExecute.WebcamStarting = (preferences.videoOn && webcamManage != null); //to show info on label_video_feedback
 
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -5416,6 +5421,7 @@ public partial class ChronoJumpWindow
 				);
 		
 		webcamStart (1);
+		currentEventExecute.WebcamStarting = (preferences.videoOn && webcamManage != null); //to show info on label_video_feedback
 
 		if(! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -5703,6 +5709,7 @@ public partial class ChronoJumpWindow
 				);
 
 		webcamStart (1);
+		currentEventExecute.WebcamStarting = (preferences.videoOn && webcamManage != null); //to show info on label_video_feedback
 
 		//mark to only get inside on_multi_chronopic_finished one time
 		multiFinishing = false;
@@ -6114,7 +6121,7 @@ LogB.Debug("mc finished 5");
 	 */
 
 	//TODO: manage different playVideo. Playing is very different than capturing, separate it.
-	Webcam webcam;
+	Webcam webcamPlay;
 
 	private void on_button_video_preview_clicked (object o, EventArgs args)
 	{
@@ -6123,8 +6130,8 @@ LogB.Debug("mc finished 5");
 	private void playPreview ()
 	{
 		//constructor for playpreview
-		webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), preferences.videoDevice);
-		Webcam.Result result = webcam.PlayPreview ();
+		webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), preferences.videoDevice);
+		Webcam.Result result = webcamPlay.PlayPreview ();
 	}
 
 	private void on_button_video_debug_clicked (object o, EventArgs args)
@@ -6142,8 +6149,8 @@ LogB.Debug("mc finished 5");
 	private void playVideo (string fileName)
 	{
 		//constructor for playpreview
-		webcam = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "");
-		Webcam.Result result = webcam.PlayFile (fileName);
+		webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "");
+		Webcam.Result result = webcamPlay.PlayFile (fileName);
 
 		/*
 		 * TODO: reimplement this with ffmpeg

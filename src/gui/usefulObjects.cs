@@ -31,6 +31,7 @@ public class ExecutingGraphData
 	public Gtk.Label Label_message;
 	public Gtk.Label Label_event_value;
 	public Gtk.Label Label_time_value;
+	public Gtk.Label Label_video_feedback;
 	public Gtk.ProgressBar Progressbar_event;
 	public Gtk.ProgressBar Progressbar_time;
 	
@@ -38,6 +39,7 @@ public class ExecutingGraphData
 			Gtk.Button Button_cancel, Gtk.Button Button_finish, 
 			Gtk.Label Label_message,
 			Gtk.Label Label_event_value, Gtk.Label Label_time_value,
+			Gtk.Label Label_video_feedback,
 			Gtk.ProgressBar Progressbar_event, Gtk.ProgressBar Progressbar_time) 
 	{
 		this.Button_cancel =  Button_cancel;
@@ -45,6 +47,7 @@ public class ExecutingGraphData
 		this.Label_message =  Label_message;
 		this.Label_event_value =  Label_event_value;
 		this.Label_time_value =  Label_time_value;
+		this.Label_video_feedback = Label_video_feedback;
 		this.Progressbar_event =  Progressbar_event;
 		this.Progressbar_time =  Progressbar_time;
 	}

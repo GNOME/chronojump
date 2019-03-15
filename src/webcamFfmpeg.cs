@@ -308,9 +308,12 @@ public class WebcamFfmpeg : Webcam
 	}
 
         //can pass a -1 uniqueID if test is cancelled
-	public override Result ExitAndFinish (int sessionID, Constants.TestTypes testType, int testID)
+	public override Result ExitAndFinish (int sessionID, Constants.TestTypes testType, int testID, bool moveTempFiles)
 	{
 		ExitCamera();
+
+		if(! moveTempFiles)
+			return new Result (true, "");
 
 		//Copy the video to expected place
 		//but only if the test has not been cancelled

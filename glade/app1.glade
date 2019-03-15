@@ -1869,6 +1869,12 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -20440,18 +20446,6 @@ Concentric</property>
                                                             <placeholder/>
                                                             </child>
                                                             <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkCheckButton" id="checkbutton_force_sensor_ai_b">
                                                             <property name="width_request">30</property>
                                                             <property name="visible">True</property>
@@ -20509,6 +20503,12 @@ Concentric</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -22493,7 +22493,160 @@ Concentric</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <placeholder/>
+                                                          <widget class="GtkAlignment" id="alignment45">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="right_padding">6</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_video_encoder">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_video_encoder_capturing">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_video_encoder_yes1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_feedback">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_video_encoder_no_capturing">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkCheckButton" id="checkbutton_video_encoder">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Record video (on / off)</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <signal name="clicked" handler="on_checkbutton_video_encoder_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox322">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_video_encoder_yes">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_video_encoder_no">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_video_encoder_preview">
+                                                            <property name="label" translatable="yes">Preview</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="tooltip" translatable="yes">Preview video</property>
+                                                            <signal name="clicked" handler="on_button_video_encoder_preview_clicked" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_video_play_this_test_encoder">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Play Video (v)</property>
+                                                            <signal name="clicked" handler="on_button_video_play_this_test_encoder_clicked" swapped="no"/>
+                                                            <accelerator key="v" signal="clicked"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_video_play_this_test_encoder">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
                                                         </child>
                                                       </widget>
                                                       <packing>
@@ -24463,7 +24616,6 @@ then click this button.</property>
                                                         <child>
                                                           <widget class="GtkAlignment" id="alignment_video_encoder">
                                                             <property name="width_request">275</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="border_width">4</property>
                                                             <child>
@@ -24488,7 +24640,6 @@ then click this button.</property>
                                                             <property name="tooltip" translatable="yes">Record</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
-                                                            <signal name="toggled" handler="on_radiobutton_video_encoder_capture_toggled" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image2">
                                                             <property name="visible">True</property>
@@ -24511,7 +24662,6 @@ then click this button.</property>
                                                             <property name="tooltip" translatable="yes">Play</property>
                                                             <property name="draw_indicator">False</property>
                                                             <property name="group">radiobutton_video_encoder_capture</property>
-                                                            <signal name="toggled" handler="on_radiobutton_video_encoder_play_toggled" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_video_encoder_play">
                                                             <property name="visible">True</property>
@@ -24534,7 +24684,6 @@ then click this button.</property>
                                                             <property name="tooltip" translatable="yes">Options</property>
                                                             <property name="draw_indicator">False</property>
                                                             <property name="group">radiobutton_video_encoder_capture</property>
-                                                            <signal name="toggled" handler="on_radiobutton_video_encoder_options_toggled" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image56">
                                                             <property name="visible">True</property>
@@ -24608,14 +24757,13 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkCheckButton" id="checkbutton_video_encoder">
+                                                            <widget class="GtkCheckButton" id="checkbutton_video_encoder_old">
                                                             <property name="label" translatable="yes">Record video on capture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="tooltip" translatable="yes">Record video (on / off)</property>
                                                             <property name="draw_indicator">True</property>
-                                                            <signal name="clicked" handler="on_checkbutton_video_encoder_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -24625,7 +24773,7 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_video_feedback_encoder">
+                                                            <widget class="GtkLabel" id="label_video_encoder_feedback_old">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="use_markup">True</property>
@@ -27760,6 +27908,12 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

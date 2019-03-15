@@ -183,7 +183,7 @@ public class WebcamMplayer : Webcam
 	}
 
 
-	public override Result ExitAndFinish (int sessionID, Constants.TestTypes testType, int testID)
+	public override Result ExitAndFinish (int sessionID, Constants.TestTypes testType, int testID, bool moveTempFiles)
 	{
 		ExitCamera();
 
@@ -193,6 +193,9 @@ public class WebcamMplayer : Webcam
 		//Convert video to the name and format expected
 		if(! convertImagesToVideo())
 			return new Result (false, "", programFfmpegNotInstalled);
+
+		if(! moveTempFiles)
+			return new Result (true, "");
 
 		//Copy the video to expected place
 		if (! Util.CopyTempVideo(sessionID, testType, testID))

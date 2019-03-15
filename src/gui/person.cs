@@ -811,7 +811,7 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.Image image_load_person;
 
 	[Widget] Gtk.Image image_photo_from_file;
-	[Widget] Gtk.Image image_photo_start_end_camera;
+	[Widget] Gtk.Image image_photo_preview;
 	[Widget] Gtk.Image image_photo_do;
 
 	[Widget] Gtk.Button button_add_photo_file;
@@ -927,7 +927,7 @@ public class PersonAddModifyWindow
 		image_load_person.Pixbuf = pixbuf;
 
 		image_photo_from_file.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_attachment.png");
-		image_photo_start_end_camera.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
+		image_photo_preview.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_preview.png");
 		image_photo_do.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_do.png");
 
 		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
@@ -1073,7 +1073,6 @@ public class PersonAddModifyWindow
 		if(webcam != null && webcam.Running)
 		{
 			webcam.ExitCamera();
-			image_photo_start_end_camera.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
 			button_take_photo_start_end_camera.TooltipText = Catalog.GetString("Start webcam");
 
 			return;
@@ -1111,7 +1110,6 @@ public class PersonAddModifyWindow
 				showMiniPhoto(filenameMini);
 		}
 
-		image_photo_start_end_camera.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
 	}
 
 	//libCesarplayer method, jpeg

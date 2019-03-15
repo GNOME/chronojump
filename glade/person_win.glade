@@ -359,7 +359,7 @@
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">4</property>
                                                 <child>
-                                                  <widget class="GtkImage" id="image_photo_start_end_camera">
+                                                  <widget class="GtkImage" id="image_photo_preview">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="stock">gtk-missing-image</property>
@@ -646,9 +646,6 @@
                                         <property name="bottom_attach">2</property>
                                         <property name="y_options">GTK_FILL</property>
                                       </packing>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
                                     </child>
                                     <child>
                                       <placeholder/>
@@ -1028,6 +1025,9 @@
                                         <property name="left_attach">2</property>
                                         <property name="right_attach">3</property>
                                       </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
                                     </child>
                                     <child>
                                       <placeholder/>

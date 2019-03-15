@@ -94,8 +94,8 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         # print(forceBody)
         # print("forceRope:")
         # print(encoderCarrera$force)
-        print("power:")
-        print(power)
+        # print("power:")
+        # print(power)
         
         #Finding when the sprint starts
         trimmingSamples = getTrimmingSamples(totalTime, position, speed, accel, testLength)
@@ -398,6 +398,14 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength)
         while(speed[startSample] > 0.5)
         {
                 startSample = startSample -1
+                
+                #If the sprint doesn't start at a null speed, the first sample is used
+                #In old versions of RaceAnalyzer it was possible to start with a high speed.
+                if(startSample == 0)
+                {
+                        startSample = 1
+                        break
+                }
         }
         
         #Zeroing time to the initial acceleration sample

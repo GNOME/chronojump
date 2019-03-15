@@ -3448,15 +3448,28 @@ public partial class ChronoJumpWindow
 				}
 			}
 		}
-		last_menuitem_mode_defined = true;
 
-		//notebooks_change also does this, but it's not called on encoder modes
-		showHideForceSensorControls(m == Constants.Menuitem_modes.FORCESENSOR);
+		//on capture, show phases, time, record if we are not on forcesensor mode
+		showHideCaptureSpecificControls (m);
+
+		last_menuitem_mode_defined = true;
 
 		chronopicRegisterUpdate(false);
 
 		chronojumpWindowTestsNext();
 	}
+
+	//forceSensor and runEncoder have some specific stuff as they do not have DB yet
+	private void showHideCaptureSpecificControls(Constants.Menuitem_modes m)
+	{
+		hbox_capture_phases_time.Visible = (m != Constants.Menuitem_modes.FORCESENSOR && m != Constants.Menuitem_modes.RUNSENCODER);
+
+		showWebcamCapture (m != Constants.Menuitem_modes.FORCESENSOR && m != Constants.Menuitem_modes.RUNSENCODER);
+
+		menuitem_force_sensor_open_folder.Visible = (m == Constants.Menuitem_modes.FORCESENSOR);
+		menuitem_force_sensor_check_version.Visible = (m == Constants.Menuitem_modes.FORCESENSOR);
+	}
+
 
 	void setEncoderTypePixbuf()
 	{
@@ -6968,9 +6981,6 @@ LogB.Debug("mc finished 5");
 
 		//LogB.Information("currentPage" + notebook_execute.CurrentPage.ToString());
 		//LogB.Information("desiredPage" + desiredPage.ToString());
-
-		//on capture, show phases, time, record if we are not on forcesensor mode
-		showHideForceSensorControls(mode == Constants.Menuitem_modes.FORCESENSOR);
 
 		if(mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{

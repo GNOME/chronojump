@@ -75,8 +75,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TextView textview_force_sensor_capture_comment;
 	[Widget] Gtk.HBox hbox_force_sensor_lat_and_comments;
 	[Widget] Gtk.Alignment alignment_force_sensor_adjust;
-	[Widget] Gtk.VSeparator vseparator_force_sensor_camera_space;
-	[Widget] Gtk.VBox vbox_contacts_camera;
 	[Widget] Gtk.Button button_force_sensor_tare;
 	[Widget] Gtk.Button button_force_sensor_calibrate;
 	[Widget] Gtk.Label label_force_sensor_value_max;
@@ -1486,21 +1484,6 @@ LogB.Information(" re R ");
 			System.Diagnostics.Process.Start(dataDir);
 		else
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpen);
-	}
-
-	private void showHideForceSensorControls(bool modeForceSensor)
-	{
-		hbox_capture_phases_time.Visible = ! modeForceSensor;
-
-		//make it visible when camera works on force sensor (before we need database stuff for forcesensor)
-		//vseparator_force_sensor_camera_space.Visible = modeForceSensor; //extra space before camera on force sensor
-		vseparator_force_sensor_camera_space.Visible = false; //extra space before camera on force sensor
-		//vbox_contacts_camera.Visible = true; //should be visible on all contacts, but right now hide it on force sensor
-		vbox_contacts_camera.Visible = ! modeForceSensor;
-		button_video_play_this_test.Visible = ! modeForceSensor; //should be visible on all contacts, but right now hide it on force sensor
-
-		menuitem_force_sensor_open_folder.Visible = modeForceSensor;
-		menuitem_force_sensor_check_version.Visible = modeForceSensor;
 	}
 
 	private void on_button_force_sensor_adjust_clicked (object o, EventArgs args)

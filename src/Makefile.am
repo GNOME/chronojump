@@ -62,6 +62,7 @@ SOURCES = \
 	gui/networks.cs\
 	gui/usefulObjects.cs\
 	gui/trigger.cs\
+	gui/webcam.cs\
 	statType.cs\
 	stats/main.cs\
 	stats/chronojumpProfile.cs\

@@ -920,7 +920,7 @@ public class PersonAddModifyWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "calendar.png"); //from asssembly
 		image_calendar.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "zoom.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "portrait_zoom.png");
 		image_zoom.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");

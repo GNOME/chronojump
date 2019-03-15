@@ -61,7 +61,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         
         encoderCarrera = read.csv2(file = filename, sep = ";")
         colnames(encoderCarrera) = c("displacement", "time", "force")
-        encoderCarrera$force = encoderCarrera$force * 0.140142 /2
+        encoderCarrera$force = encoderCarrera$force * 0.140142 /2  #TODO: Implement the calibration factor comming from the arduino
         totalTime = encoderCarrera$time/1E6     #Converting microseconds to seconds
         elapsedTime = diff(c(0,totalTime))      #The elapsed time between each sample
         

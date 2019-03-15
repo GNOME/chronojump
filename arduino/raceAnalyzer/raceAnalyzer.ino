@@ -173,6 +173,13 @@ void start_capture()
   Serial.println("Starting capture...");
   totalTime = 0;
   lastSampleTime = micros();
+
+  //First sample with a low speed is mandatory to good detection of the start
+  Serial.print(0);
+  Serial.print(";");
+  Serial.print(lastSampleTime);
+  Serial.print(";");
+  Serial.println(0);
   capturing = true;
   encoderDisplacement = 0;
 }

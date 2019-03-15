@@ -10145,11 +10145,41 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_video_preview">
-                                                            <property name="label" translatable="yes">Preview</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="tooltip" translatable="yes">Preview video</property>
                                                             <signal name="clicked" handler="on_button_video_preview_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox321">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_video_preview">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label392">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Preview</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -22595,11 +22625,17 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_video_encoder_preview">
-                                                            <property name="label" translatable="yes">Preview</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="tooltip" translatable="yes">Preview video</property>
                                                             <signal name="clicked" handler="on_button_video_encoder_preview_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_video_encoder_preview">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>

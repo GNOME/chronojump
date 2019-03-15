@@ -155,6 +155,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_video_play_selected_pulse;
 	[Widget] Gtk.Image image_video_play_selected_reaction_time;
 	[Widget] Gtk.Image image_video_play_selected_multi_chronopic;
+	[Widget] Gtk.Image image_video_preview;
+	[Widget] Gtk.Image image_video_encoder_preview;
 
 	private void putNonStandardIcons()
 	{
@@ -378,6 +380,10 @@ public partial class ChronoJumpWindow
 		image_video_encoder_yes.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
 		image_video_no.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_end_camera.png");
 		image_video_encoder_no.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_end_camera.png");
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_preview.png");
+		image_video_preview.Pixbuf = pixbuf;
+		image_video_encoder_preview.Pixbuf = pixbuf;
 
 		/*
 		 * <------ end of material design icons

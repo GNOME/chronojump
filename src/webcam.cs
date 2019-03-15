@@ -151,7 +151,7 @@ public abstract class Webcam
 	//short process, to do end capture (good if there's more than one camera to end capture all at same time)
 	public abstract Result VideoCaptureEnd();
 
-	public abstract Result ExitAndFinish (int sessionID, Constants.TestTypes testType, int testID);
+	public abstract Result ExitAndFinish (int sessionID, Constants.TestTypes testType, int testID, bool moveTempFiles);
 
 	public abstract void ExitCamera();
 
@@ -177,6 +177,8 @@ public class WebcamManage
 	Webcam webcam2;
 	private UtilAll.OperatingSystems os;
 	//TODO: implement an List<T> of objects containing webcam and video device
+
+	public enum GuiContactsEncoder { CONTACTS, ENCODER }
 
 	public WebcamManage()
 	{
@@ -259,17 +261,20 @@ public class WebcamManage
 		return result;
 	}
 
-	public Webcam.Result ExitAndFinish (int ncam, int sessionID, Constants.TestTypes testType, int testID)
+	public Webcam.Result ExitAndFinish (int ncam, int sessionID,
+			Constants.TestTypes testType, int testID, GuiContactsEncoder guiContactsEncoder)
 	{
+		bool moveTempFiles = guiContactsEncoder == GuiContactsEncoder.CONTACTS;
 		if(ncam == 1)
-			return exitAndFinishDo (ref webcam, sessionID, testType, testID);
+			return exitAndFinishDo (ref webcam, sessionID, testType, testID, moveTempFiles);
 		else //ncam == 2
-			return exitAndFinishDo (ref webcam2, sessionID, testType, testID);
+			return exitAndFinishDo (ref webcam2, sessionID, testType, testID, moveTempFiles);
 	}
 
-	private Webcam.Result exitAndFinishDo (ref Webcam webcam, int sessionID, Constants.TestTypes testType, int testID)
+	private Webcam.Result exitAndFinishDo (ref Webcam webcam, int sessionID,
+			Constants.TestTypes testType, int testID, bool moveTempFiles)
 	{
-		return webcam.ExitAndFinish (sessionID, testType, testID);
+		return webcam.ExitAndFinish (sessionID, testType, testID, moveTempFiles);
 	}
 
 	public static bool RecordingFileStarted ()

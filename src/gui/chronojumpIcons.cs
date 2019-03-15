@@ -147,7 +147,7 @@ public partial class ChronoJumpWindow
 
 	//video play icons
 	[Widget] Gtk.Image image_video_play_this_test;
-	[Widget] Gtk.Image image_video_encoder_play;
+	[Widget] Gtk.Image image_video_play_this_test_encoder;
 	[Widget] Gtk.Image image_video_play_selected_jump;
 	[Widget] Gtk.Image image_video_play_selected_jump_rj;
 	[Widget] Gtk.Image image_video_play_selected_run;
@@ -375,7 +375,9 @@ public partial class ChronoJumpWindow
 		image_encoder_recalibrate.Pixbuf = pixbuf;
 
 		image_video_yes.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
+		image_video_encoder_yes.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
 		image_video_no.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_end_camera.png");
+		image_video_encoder_no.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_end_camera.png");
 
 		/*
 		 * <------ end of material design icons
@@ -522,7 +524,7 @@ public partial class ChronoJumpWindow
 		//video play icons
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "video_play.png");
 		image_video_play_this_test.Pixbuf = pixbuf;
-		image_video_encoder_play.Pixbuf = pixbuf;
+		image_video_play_this_test_encoder.Pixbuf = pixbuf;
 		image_video_play_selected_jump.Pixbuf = pixbuf;
 		image_video_play_selected_jump_rj.Pixbuf = pixbuf;
 		image_video_play_selected_run.Pixbuf = pixbuf;

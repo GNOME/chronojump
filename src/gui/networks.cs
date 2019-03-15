@@ -337,9 +337,11 @@ public partial class ChronoJumpWindow
 			hbox_encoder_analyze_signal_or_curves.HeightRequest = 40;
 			button_encoder_analyze.SetSizeRequest(120,40);
 		}
+		/*
 		if(! configChronojump.UseVideo) {
 			alignment_video_encoder.Visible = false;
 		}
+		*/
 		//restriction for configured Compujump clients
 		//if(configChronojump.Compujump)
 		//	hbox_encoder_im_weights_n.Sensitive = false;

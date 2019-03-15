@@ -110,21 +110,7 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.VPaned vpaned_encoder_main;
 	[Widget] Gtk.VPaned vpaned_encoder_capture_video_and_set_graph;
-		
-	//encoder video
-	[Widget] Gtk.Alignment alignment_video_encoder;
-	[Widget] Gtk.Notebook notebook_video_encoder;
-	[Widget] Gtk.Viewport viewport_video_capture_encoder;
-	[Widget] Gtk.Viewport viewport_video_play_encoder;
-	[Widget] Gtk.RadioButton radiobutton_video_encoder_capture;
-	[Widget] Gtk.RadioButton radiobutton_video_encoder_play;
-	[Widget] Gtk.RadioButton radiobutton_video_encoder_options;
-	[Widget] Gtk.Label label_video_encoder_filename;
-	[Widget] Gtk.TextView textview_video_encoder_folder;
-	[Widget] Gtk.Button button_video_encoder_open_folder;
-	[Widget] Gtk.Label label_video_feedback_encoder;
-	[Widget] Gtk.CheckButton checkbutton_video_encoder;
-	
+
 	[Widget] Gtk.Notebook notebook_encoder_sup;
 	[Widget] Gtk.Notebook notebook_encoder_capture;
 
@@ -935,8 +921,6 @@ public partial class ChronoJumpWindow
 		if(notebook_encoder_capture.CurrentPage == 1)
 			notebook_encoder_capture.PrevPage();
 
-		radiobutton_video_encoder_capture.Active = true;
-
 		sensitiveGuiEventDoing(radio_encoder_capture_cont.Active);
 
 		LogB.Debug("Calling encoderThreadStart for capture");
@@ -1691,10 +1675,9 @@ public partial class ChronoJumpWindow
 				textview_encoder_signal_comment.Buffer.Text = eSQL.description;
 				encoderTimeStamp = eSQL.GetDate(false); 
 				encoderSignalUniqueID = eSQL.uniqueID;
-			
+
 				//has to be done here, because if done in encoderThreadStart or in finishPulsebar it crashes 
-				//notebook_video_encoder.CurrentPage = 1;
-				radiobutton_video_encoder_play.Active = true;
+				button_video_play_this_test_encoder.Sensitive = (eSQL.videoURL != "");
 
 				encoderConfigurationCurrent = eSQL.encoderConfiguration;
 				setEncoderTypePixbuf();
@@ -2523,7 +2506,6 @@ public partial class ChronoJumpWindow
 				encoderSignalUniqueID = myID;
 				feedback = Catalog.GetString("Set saved");
 			
-				viewport_video_play_encoder.Sensitive = false;
 				//copy video	
 				if(preferences.videoOn) {
 					if(Util.CopyTempVideo(currentSession.UniqueID, 
@@ -2535,11 +2517,9 @@ public partial class ChronoJumpWindow
 						//need assign uniqueID to update and add the URL of video
 						eSQL.uniqueID = encoderSignalUniqueID;
 						SqliteEncoder.Update(dbconOpened, eSQL);
-					
-						//notebook_video_encoder.CurrentPage = 1;
-						radiobutton_video_encoder_play.Active  = true;
-						
-						viewport_video_play_encoder.Sensitive = true;
+
+						button_video_play_this_test_encoder.Sensitive = true;
+
 
 					} else {
 						new DialogMessage(Constants.MessageTypes.WARNING, 
@@ -4811,6 +4791,8 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_AB_save.Sensitive = false;
 		button_encoder_analyze_table_save.Sensitive = false;
 		button_encoder_analyze_1RM_save.Visible = false;
+
+		button_video_play_this_test_encoder.Sensitive = false;
 	}
 
 	private void encoderButtonsSensitive(encoderSensEnum option) 
@@ -5754,8 +5736,14 @@ public partial class ChronoJumpWindow
 
 			//eccaCreated = false;
 
-			if(action == encoderActions.CAPTURE) {
-				encoderStartVideoRecord();
+			if(action == encoderActions.CAPTURE)
+			{
+				webcamManage = new WebcamManage();
+				bool camStarted = webcamStart (WebcamManage.GuiContactsEncoder.ENCODER, 1);
+				if(camStarted)
+					webcamEncoderFileStarted = WebcamEncoderFileStarted.NEEDTOCHECK;
+				else
+					webcamEncoderFileStarted = WebcamEncoderFileStarted.NOCAMERA;
 
 				//remove treeview columns
 				if( ! (action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) )
@@ -6340,7 +6328,7 @@ public partial class ChronoJumpWindow
 
 			if(encoderProcessCancel) {
 				//stop video		
-				encoderStopVideoRecord();
+				webcamEnd (Constants.TestTypes.ENCODER, -1);
 			}
 
 			LogB.ThreadEnded(); 
@@ -6397,6 +6385,13 @@ public partial class ChronoJumpWindow
 				needToRefreshTreeviewCapture = false;
 			}
 
+			if(webcamEncoderFileStarted == WebcamEncoderFileStarted.NEEDTOCHECK)
+				if(WebcamManage.RecordingFileStarted ())
+				{
+					webcamEncoderFileStarted = WebcamEncoderFileStarted.RECORDSTARTED;
+					label_video_encoder_feedback.Text = "Recording video.";
+				}
+
 			if(encoderRhythm.Active)
 				updatePulsebarRhythm();
 
@@ -6405,7 +6400,7 @@ public partial class ChronoJumpWindow
 			//LogB.Information(" Cap:" + encoderThread.ThreadState.ToString());
 		} else if(capturingCsharp == encoderCaptureProcess.STOPPING) {
 			//stop video		
-			encoderStopVideoRecord();
+			webcamEnd (Constants.TestTypes.ENCODER, -1); //this will end but file will be copied later (when we have encoderSignalUniqueID)
 
 			//don't allow to press cancel or finish
 			button_encoder_capture_cancel.Sensitive = false;
@@ -7021,18 +7016,6 @@ public partial class ChronoJumpWindow
 				}
 				
 				playVideoEncoderPrepare(false); //do not play
-				
-				//set encoder video labels
-				string videofile = Util.GetVideoFileName(currentSession.UniqueID, 
-						Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID));
-				if(videofile != null && videofile != "" && File.Exists(videofile)) {
-					label_video_encoder_filename.Text = Util.GetVideoFileNameOnlyName(
-							Constants.TestTypes.ENCODER, 
-							Convert.ToInt32(encoderSignalUniqueID));
-					textview_video_encoder_folder.Buffer.Text = Util.GetVideoFileNameOnlyFolder(currentSession.UniqueID);
-					button_video_encoder_open_folder.Visible = true;
-				} else
-					button_video_encoder_open_folder.Visible = false;
 			}
 
 			if(action == encoderActions.CAPTURE_IM && ! encoderProcessCancel && ! encoderProcessProblems) 
@@ -7436,23 +7419,9 @@ public partial class ChronoJumpWindow
 		}
 		*/
 	}	
-	
-	public void on_radiobutton_video_encoder_capture_toggled (object obj, EventArgs args) {
-		if(radiobutton_video_encoder_capture.Active) {
-			notebook_video_encoder.CurrentPage = 0;
-		}
-	}
-	public void on_radiobutton_video_encoder_play_toggled (object obj, EventArgs args) {
-		if(radiobutton_video_encoder_play.Active) {
-			notebook_video_encoder.CurrentPage = 1;
-		}
-	}
-	public void on_radiobutton_video_encoder_options_toggled (object obj, EventArgs args) {
-		if(radiobutton_video_encoder_options.Active) {
-			notebook_video_encoder.CurrentPage = 2;
-		}
-	}
+
 	public void on_button_video_encoder_open_folder_clicked (object obj, EventArgs args) {
+		/*
 		string dir = textview_video_encoder_folder.Buffer.Text;
 		try {
 			System.Diagnostics.Process.Start(dir); 
@@ -7461,6 +7430,7 @@ public partial class ChronoJumpWindow
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Constants.DirectoryCannotOpen + "\n\n" + dir);
 		}
+		*/
 	}
 
 	/* end of video stuff */

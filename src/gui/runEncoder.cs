@@ -34,6 +34,7 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_distance;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_temperature;
+	[Widget] Gtk.Image image_race_encoder_graph;
 
 	int race_analyzer_distance;
 	int race_analyzer_temperature;
@@ -463,6 +464,10 @@ LogB.Information(" fc C finish");
 					event_execute_label_message.Text = "Saved." + captureEndedMessage;
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 
+					runEncoderAnalyzeOpenImage();
+					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
+					notebook_capture_analyze.CurrentPage = 1;
+
 					/*
 					fscPoints.InitRealWidthHeight();
 					forceSensorDoSignalGraphPlot();
@@ -569,6 +574,14 @@ LogB.Information(" fc R ");
 		frame_persons.Sensitive = sensitive;
 		hbox_top_person.Sensitive = sensitive;
 		hbox_chronopics_and_more.Sensitive = sensitive;
+	}
+
+	void runEncoderAnalyzeOpenImage()
+	{
+		string imagePath = UtilEncoder.GetSprintEncoderImage();
+		image_race_encoder_graph = UtilGtk.OpenImageSafe(
+				imagePath,
+				image_race_encoder_graph);
 	}
 
 }

@@ -476,7 +476,7 @@ public partial class ChronoJumpWindow
 	
 	private string progVersion;
 	private string progName;
-	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, SPRINT, FORCESENSOR }
+	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, SPRINT, FORCESENSOR, RACEENCODER }
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 
@@ -3369,7 +3369,7 @@ public partial class ChronoJumpWindow
 //			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
 
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
-			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
+			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = false;
 			button_force_sensor_adjust.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
@@ -7033,10 +7033,12 @@ LogB.Debug("mc finished 5");
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.FORCESENSOR);
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 		else
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 
-		notebook_capture_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSPROFILE);
+		notebook_capture_analyze.CurrentPage = 1;
 	}
 
 	private void on_radio_mode_contacts_general_toggled (object o, EventArgs args)

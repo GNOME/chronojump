@@ -476,6 +476,7 @@ public partial class ChronoJumpWindow
 	
 	private string progVersion;
 	private string progName;
+	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, SPRINT, FORCESENSOR }
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 
@@ -1093,7 +1094,7 @@ public partial class ChronoJumpWindow
 			update_label_extra_window_jumps_radiobutton_weight_percent_as_kg(
 					(currentJumpType.HasWeight && extra_window_jumps_radiobutton_weight.Active));
 
-			if(notebook_analyze.CurrentPage == 1) //Jumps Profile
+			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSPROFILE))
 				jumpsProfileDo(true); //calculate data
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
@@ -3155,7 +3156,7 @@ public partial class ChronoJumpWindow
 		radio_mode_contacts_general.Visible = false;
 		radio_mode_contacts_jumps_profile.Visible = false;
 		radio_mode_contacts_sprint.Visible = false;
-		notebook_analyze.CurrentPage = 0;
+		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 		button_inspect_last_test.Visible = false;
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
@@ -7031,30 +7032,30 @@ LogB.Debug("mc finished 5");
 				radio_mode_contacts_sprint.Visible = true;
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
-			notebook_analyze.CurrentPage = 3;
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.FORCESENSOR);
 		else
-			notebook_analyze.CurrentPage = 0;
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 
-		notebook_capture_analyze.CurrentPage = 1;
+		notebook_capture_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSPROFILE);
 	}
 
 	private void on_radio_mode_contacts_general_toggled (object o, EventArgs args)
 	{
 		if(radio_mode_contacts_general.Active)
-			notebook_analyze.CurrentPage = 0;
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 	}
 	private void on_radio_mode_contacts_jumps_profile_toggled (object o, EventArgs args)
 	{
 		if(radio_mode_contacts_jumps_profile.Active)
 		{
-			notebook_analyze.CurrentPage = 1;
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSPROFILE);
 			jumpsProfileDo(true);
 		}
 	}
 	private void on_radio_mode_contacts_sprint_toggled (object o, EventArgs args)
 	{
 		if(radio_mode_contacts_sprint.Active)
-			notebook_analyze.CurrentPage = 2;
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.SPRINT);
 	}
 
 	/* ---------------------------------------------------------

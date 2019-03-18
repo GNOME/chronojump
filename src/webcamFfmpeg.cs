@@ -30,11 +30,13 @@ public class WebcamFfmpeg : Webcam
 {
 	private UtilAll.OperatingSystems os;
 	private int processID;
+	private Action action;
 
 	// constructor ----------------------------------
 
 	public WebcamFfmpeg (Webcam.Action action, UtilAll.OperatingSystems os, string videoDevice)
 	{
+		this.action = action;
 		this.os = os;
 		this.videoDevice = videoDevice;
 
@@ -331,40 +333,58 @@ public class WebcamFfmpeg : Webcam
 	{
 		LogB.Information("Exit camera");
 		LogB.Information("streamWriter is null: " + (streamWriter == null).ToString());
-		try {
-			streamWriter.Write('q');
-			streamWriter.Flush(); //seems is not needed
-		} catch {
-			//maybe capturer process (could be a window) has been closed by user
-			process = null;
-			Running = false;
-			return;
+		LogB.Information("Action: " + action.ToString());
+
+		if(action == Action.PLAYPREVIEW || action == Action.PLAYFILE)
+		{
+			LogB.Information("killing ...");
+			try {
+				process.Kill();
+			}
+			catch {
+				LogB.Information("catched!");
+			}
+			LogB.Information("done!");
+		} else
+		{ //action == Action.CAPTURE
+			try {
+				streamWriter.Write('q');
+				streamWriter.Flush(); //seems is not needed
+			} catch {
+				//maybe capturer process (could be a window) has been closed by user
+				process = null;
+				Running = false;
+				return;
+			}
+
+			LogB.Information("closing ...");
+			process.Close();
+			LogB.Information("done!");
 		}
 
-                Console.WriteLine("closing ...");
-                process.Close();
-                Console.WriteLine("done!");
+		if (action == Action.CAPTURE)
+		{
+			/*
+			 * above process.Close() will end the process
+			 * without using this file copied from /tmp maybe is not finished, so a bad ended file is copied to .local/share/Chronojump/multimedia/video
+			 */
 
-		/*
-		 * above process.Close() will end the process
-		 * without using this file copied from /tmp maybe is not finished, so a bad ended file is copied to .local/share/Chronojump/multimedia/video
-		*/
+			bool exitBucle = false;
+			do {
+				LogB.Information("waiting 100 ms to tmp capture file being unlocked");
+				System.Threading.Thread.Sleep(100);
 
-		bool exitBucle = false;
-		do {
-			LogB.Information("waiting 100 ms to tmp capture file being unlocked");
-			System.Threading.Thread.Sleep(100);
+				if (! File.Exists(Util.GetVideoTempFileName())) //PlayPreview does not have tmp file
+					exitBucle = true;
+				else if( ! ExecuteProcess.IsFileLocked(new System.IO.FileInfo(Util.GetVideoTempFileName())) ) //we are capturing, wait file is not locked
+					exitBucle = true;
+			} while(! exitBucle);
 
-			if (! File.Exists(Util.GetVideoTempFileName())) //PlayPreview does not have tmp file
-				exitBucle = true;
-			else if( ! ExecuteProcess.IsFileLocked(new System.IO.FileInfo(Util.GetVideoTempFileName())) ) //we are capturing, wait file is not locked
-				exitBucle = true;
-		} while(! exitBucle);
-
-		do {
-			LogB.Information("waiting 100 ms to end Ffmpeg");
-			System.Threading.Thread.Sleep(100);
-		} while(ExecuteProcess.IsRunning3(processID, "ffmpeg")); //note on Linux and Windows we need to check ffmpeg and not ffmpeg.exe
+			do {
+				LogB.Information("waiting 100 ms to end Ffmpeg");
+				System.Threading.Thread.Sleep(100);
+			} while(ExecuteProcess.IsRunning3(processID, "ffmpeg")); //note on Linux and Windows we need to check ffmpeg and not ffmpeg.exe
+		}
 
 		streamWriter = null;
 		process = null;

@@ -347,12 +347,12 @@
                                         <property name="can_focus">False</property>
                                         <property name="spacing">2</property>
                                         <child>
-                                          <widget class="GtkButton" id="button_take_photo_start_end_camera">
+                                          <widget class="GtkButton" id="button_take_photo_preview_camera">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
-                                            <property name="tooltip" translatable="yes">Start webcam</property>
-                                            <signal name="clicked" handler="on_button_take_photo_start_end_camera_clicked" swapped="no"/>
+                                            <property name="tooltip" translatable="yes">Preview</property>
+                                            <signal name="clicked" handler="on_button_take_photo_preview_camera_clicked" swapped="no"/>
                                             <child>
                                               <widget class="GtkHBox" id="hbox7">
                                                 <property name="visible">True</property>
@@ -646,9 +646,6 @@
                                         <property name="bottom_attach">2</property>
                                         <property name="y_options">GTK_FILL</property>
                                       </packing>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
                                     </child>
                                     <child>
                                       <placeholder/>
@@ -1025,6 +1022,9 @@
                                         <property name="left_attach">2</property>
                                         <property name="right_attach">3</property>
                                       </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
                                     </child>
                                     <child>
                                       <placeholder/>

@@ -815,7 +815,6 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.Image image_photo_do;
 
 	[Widget] Gtk.Button button_add_photo_file;
-	[Widget] Gtk.Button button_take_photo_start_end_camera;
 	[Widget] Gtk.Button button_take_photo_do;
 	[Widget] Gtk.HBox hbox_camera;
 	
@@ -1067,15 +1066,13 @@ public class PersonAddModifyWindow
 	Gtk.Window capturerWindow;
 	Webcam webcam;
 	//CapturerBin capturer;
-	void on_button_take_photo_start_end_camera_clicked (object o, EventArgs args)
+	void on_button_take_photo_preview_camera_clicked (object o, EventArgs args)
 	{
 		// A) end if it's running
 		if(webcam != null && webcam.Running)
 		{
 			webcam.ExitCamera();
-			button_take_photo_start_end_camera.TooltipText = Catalog.GetString("Start webcam");
-
-			return;
+			//return;
 		}
 
 		// B) start if it's not running
@@ -1083,7 +1080,8 @@ public class PersonAddModifyWindow
 		//Webcam.Result result = webcam.CapturePrepare (Webcam.CaptureTypes.PHOTO);
 		//constructor for playpreview
 		webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), videoDevice);
-		Webcam.Result result = webcam.PlayPreviewNoBackground ();
+		//Webcam.Result result = webcam.PlayPreviewNoBackground ();
+		Webcam.Result result = webcam.PlayPreview ();
 
 		if (! result.success)
 		{
@@ -1096,6 +1094,10 @@ public class PersonAddModifyWindow
 	{
 		if(webcam == null)
 			webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), videoDevice);
+		else if(webcam != null && webcam.Running)
+		{
+			webcam.ExitCamera();
+		}
 
 		if(webcam.Snapshot())
 		{
@@ -1892,6 +1894,8 @@ public class PersonAddModifyWindow
 			SqlitePersonSession.Update (currentPersonSession); 
 		}
 
+		if(webcam != null && webcam.Running)
+			webcam.ExitCamera();
 
 		PersonAddModifyWindowBox.person_win.Hide();
 		PersonAddModifyWindowBox = null;

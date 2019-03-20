@@ -51,6 +51,7 @@ op <- assignOptions(options)
 
 getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0)
 {
+        print("#####Entering in getSprintFromEncoder###############")
         # Constants for the air friction modeling
         ro0 = 1.293
         Pb = 760
@@ -76,7 +77,6 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         encoderCarrera$displacement = encoderCarrera$displacement * 30 / 12267
         position = cumsum(encoderCarrera$displacement)
         speed = encoderCarrera$displacement / elapsedTime
-        #accel = c(0,diff(speed)/elapsedTime[2:length(elapsedTime)])
         accel = (speed[3] - speed[1]) / (totalTime[3] - totalTime[1])
         for(i in 3:(length(speed) -1))
         {
@@ -86,6 +86,8 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         forceBody = accel * Mass + Ka*(speed - Vw)^2
         totalForce = forceBody + encoderCarrera$force
         power = totalForce * speed
+        # print("position:")
+        # print(position)
         # print("speed:")
         # print(speed)
         # print("accel:")
@@ -97,6 +99,34 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         # print("power:")
         # print(power)
         
+        
+        # #Checking if the sprint is long enough
+        # longEnough = TRUE
+        # if(position[length(position)] <= testLength){
+        #         longEnough = FALSE
+        #         return(list(longEnough = longEnough))
+        # }
+        
+        #Checking that the position reaches at least testLength
+        if(max(position) < testLength)
+        {
+                plot(totalTime, position, type = "l",
+                     ylim = c(min(position), testLength)*1.05,
+                     xlab = "Time (s)", ylab = "Position (m)")
+                abline(h = testLength, lty = 2)
+                text(x = (totalTime[length(totalTime)] + totalTime[1])/2,
+                     y = testLength,
+                     labels = (paste("Configured test length :", testLength, "m", sep = "")),
+                     pos = 3)
+                text(x = (totalTime[length(totalTime)] + totalTime[1])/2, testLength /2,
+                     labels = "The capture does not reach the length of the test", cex = 2, pos = 3)
+                print("Capture too short")
+                longEnough = FALSE
+                return(list(longEnough = longEnough))
+        } else{
+                longEnough = TRUE
+        }
+        
         #Finding when the sprint starts
         trimmingSamples = getTrimmingSamples(totalTime, position, speed, accel, testLength)
         print(trimmingSamples)
@@ -105,14 +135,41 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         #Zeroing position to the initial acceleration sample
         position = position - position[trimmingSamples$start]
         data = data.frame(time = time[trimmingSamples$start:trimmingSamples$end], speed = speed[trimmingSamples$start:trimmingSamples$end])
-        model = nls(speed ~ Vmax*(1-exp(-K*time)), data,
-                    start = list(Vmax = max(speed), K = 1), control=nls.control(warnOnly=TRUE))
-        Vmax =summary(model)$coeff[1,1]
-        K = summary(model)$coeff[2,1]
+        print(data)
+        
+        print("Trying nls")
+        regression = tryNLS(data)
+        
+        print("regression:")
+        print(regression)
+        print(paste("longEnough:", longEnough))
+        print(paste("regressionDone:", regression$regressionDone))
+        
+        if (!regression$regressionDone)
+        {
+                print("NLS regression problem")
+                plot(totalTime, speed, type = "l",
+                     #ylim = c(min(speed), testLength)*1.05,
+                     xlab = "Time (s)", ylab = "Speed (m/s)")
+                #abline(h = testLength, lty = 2)
+                # text(x = (totalTime[length(totalTime)] + totalTime[1])/2,
+                #      y = testLength,
+                #      labels = (paste("Configured test length :", testLength, "m", sep = "")),
+                #      pos = 3)
+                text(x = (totalTime[length(totalTime)] + totalTime[1])/2, max(speed) /2,
+                     labels = "The graph doesn't seem a sprint", cex = 2, pos = 3)
+                return(list(longEnough = longEnough, regressionDone = regression$regressionDone))
+        }
+        
+                
+        #model = nls(speed ~ Vmax*(1-exp(-K*time)), data,
+        #            start = list(Vmax = max(speed), K = 1), control=nls.control(warnOnly=TRUE))
+        Vmax =summary(regression$model)$coeff[1,1]
+        K = summary(regression$model)$coeff[2,1]
         return(list(Vmax = Vmax, K = K,
                     time = time, rawPosition = position, rawSpeed = speed, rawAccel = accel, rawForce = totalForce, rawPower = power,
                     rawVmax = max(speed[trimmingSamples$start:trimmingSamples$end]), rawAmax = max(accel[trimmingSamples$start:trimmingSamples$end]), rawFmax = max(totalForce[trimmingSamples$start:trimmingSamples$end]), rawPmax = max(power[trimmingSamples$start:trimmingSamples$end]),
-                    startSample = trimmingSamples$start, endSample = trimmingSamples$end, testLength = testLength))
+                    startSample = trimmingSamples$start, endSample = trimmingSamples$end, testLength = testLength, longEnough = longEnough, regressionDone = regression$regressionDone))
 }
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title = "Test graph",
@@ -129,9 +186,10 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
         # mtext(side = 3, at = raceTime, text = paste(sprintRawDynamics$testLength, "m", sep=""))
         # mtext(side = 1, at = raceTime, text = paste(round(raceTime, digits = 3), "s", sep=""))
 
+        print("#######Entering plotSprintFromEncoder###########")
         par(mar = c(7, 4, 5, 6.5))
         
-        #Checking that the position reach at least testLength
+        #Checking that the position reaches at least testLength
         if(max(sprintRawDynamics$rawPosition) < sprintRawDynamics$testLength)
         {
                 plot(sprintRawDynamics$time, sprintRawDynamics$rawPosition, type = "l",
@@ -152,7 +210,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
         ylimits = c(0, sprintRawDynamics$rawVmax*1.05)
         xlimits =c(0, sprintRawDynamics$time[sprintRawDynamics$endSample]*1.05)
         #Calculing 5m lap times
-        splitPosition = 5
+        splitPosition = min(sprintRawDynamics$testLength, 5)
         splitTime = interpolateXAtY(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
                                   sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
                                   splitPosition)
@@ -362,11 +420,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
 #Detecting where the sprint start and stops
 getTrimmingSamples <- function(totalTime, position, speed, accel, testLength)
 {
-        if(position[length(position)] < 5){
-                print("Sprint too short")
-                return()
-        }
-                
+        print("#########Entering getTrimmingSamples###########33")
         #The test starts when the speed is grater than 1
         startSample = 0
         startingSample = FALSE
@@ -377,11 +431,11 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength)
                 {
                         print(paste("accel[", startSample +1 ,"] = ", accel[startSample + 1], sep = ""))
                         
-                        #Looking is after 1 seconds the position has increased  at least 2m.
+                        #Looking iF after 1 seconds the position has increased  at least 1m.
                         sampleAfterSecond = which.min(abs(totalTime - (totalTime[startSample] +1)))
                         print(paste("sampleAfterSecond =", sampleAfterSecond))
                         positionAfterSecond = position[sampleAfterSecond]
-                        if(abs(positionAfterSecond - position[startSample]) > 2){
+                        if(abs(positionAfterSecond - position[startSample]) > 1){
                                 startingSample = TRUE
                         }
                 }
@@ -417,16 +471,39 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength)
         endSample = which.min(abs(position - testLength))
         if(position[endSample] < testLength)
                 endSample = endSample +1
-        return(list(start = startSample, end = endSample ))
+        return(list(start = startSample, end = endSample, errorInStart = !startingSample ))
+}
+tryNLS <- function(data){
+        print("#######Entering tryNLS#########")
+        tryCatch (
+                {
+                        model = nls(speed ~ Vmax*(1-exp(-K*time)), data,
+                                    start = list(Vmax = max(data[,"speed"]), K = 1), control=nls.control(warnOnly=TRUE))
+                        print("model:")
+                        print(model)
+                        return(list(regressionDone = TRUE, model = model))
+                }, 
+                error=function(cond)
+                { 
+                        message(cond)
+                        return(list(regressionDone = FALSE))
+                }
+        )
 }
 
 testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
 {
         sprintRawDynamics = getSprintFromEncoder(filename, testLength, op$mass, op$tempC, op$personHeight)
-        sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, mass, tempC, personHeight)
-        print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
-        plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics, title = "Testing graph")
-        exportSprintDynamics(sprintFittedDynamics)
+        print("sprintRawDynamics:")
+        print(sprintRawDynamics)
+        if (sprintRawDynamics$longEnough & sprintRawDynamics$regressionDone)
+        {
+                sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, mass, tempC, personHeight)
+                print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
+                plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics, title = "Testing graph")
+                exportSprintDynamics(sprintFittedDynamics)
+        } else
+                print("Couldn't calculate the sprint model")
 }
 
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)

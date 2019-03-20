@@ -11,7 +11,7 @@ int lastEncoderDisplacement = 0;
 volatile unsigned long changingTime = 0;
 unsigned long elapsedTime = 0;
 unsigned long totalTime = 0;
-unsigned long lastSampleTime = 0;
+unsigned long lastSampleTime = micros();
 unsigned long sampleTime = 0;
 
 //Version of the firmware
@@ -171,13 +171,15 @@ void serialEvent()
 void start_capture()
 {
   Serial.println("Starting capture...");
+
   totalTime = 0;
   lastSampleTime = micros();
+  sampleTime = lastSampleTime +1;
 
   //First sample with a low speed is mandatory to good detection of the start
   Serial.print(0);
   Serial.print(";");
-  Serial.print(lastSampleTime);
+  Serial.print(1);
   Serial.print(";");
   Serial.println(0);
   capturing = true;

@@ -219,7 +219,7 @@ String get_command_argument(String inputString)
 
 void tare(void)
 {
-  int total = 0;
+  long int total = 0;
   for (int i = 1; i <= 100;  i++)
   {
     total += loadCell.readADC_SingleEnded(0);
@@ -227,6 +227,7 @@ void tare(void)
 
   offset = total / 100;
   EEPROM.put(offsetAddress, offset);
+  Serial.println("Taring OK");
 }
 
 int readOffsettedData(int sensor)
@@ -248,6 +249,7 @@ void calibrate(String inputString)
 
   calibrationFactor = load * 9.81 / (total / 1000.0);
   EEPROM.put(calibrationAddress, calibrationFactor);
+  Serial.println("Calibrating OK");
 }
 
 float readForce(int sensor)

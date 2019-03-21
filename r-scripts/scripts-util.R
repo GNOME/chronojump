@@ -29,14 +29,14 @@ interpolateXAtY <- function(X, Y, desiredY){
 getAreaUnderCurve <- function(x, y)
 {
         print("Calculating Area")
-        print("X:")
-        print(x)
-        print("Y:")
-        print(y)
+        # print("X:")
+        # print(x)
+        # print("Y:")
+        # print(y)
         x = c(x, x[length(x)], x[1])
         y = c(y, 0, 0)
         totalArea = 0
-        print(paste("V",1," = ", "(",x[1 + 1] - x[1],",", y[1 + 1] - y[1], ")", sep = ""))
+        # print(paste("V",1," = ", "(",x[1 + 1] - x[1],",", y[1 + 1] - y[1], ")", sep = ""))
         for(i in 2:(length(x) -1))
         {
                 parallelogramArea = ((x[i + 1] - x[1])* (y[i] - y[1]) - (x[i] - x[1]) * (y[i+1] - y[1]))
@@ -46,7 +46,7 @@ getAreaUnderCurve <- function(x, y)
                 
                 totalArea = totalArea + parallelogramArea
         }
-        print(paste("toalArea:", totalArea/2))
+        # print(paste("toalArea:", totalArea/2))
         return(totalArea/2) #The area of the parallelograms are twice the triangles areas
 }
 

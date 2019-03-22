@@ -1582,7 +1582,7 @@ LogB.Information(" re R ");
 	{
 		if(UtilGtk.ComboGetActive(combo_force_sensor_exercise) == "")
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Need to create/select an exercise.");
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to create/select an exercise."));
 			return;
 		}
 

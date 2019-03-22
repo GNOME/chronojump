@@ -639,19 +639,19 @@ public class ForceSensorAnalyzeInstant
 	private int graphWidth;
 	private int graphHeight;
 
-	public ForceSensorAnalyzeInstant(string file, int graphWidth, int graphHeight)
+	public ForceSensorAnalyzeInstant(string file, int graphWidth, int graphHeight, double start, double end)
 	{
 		this.graphWidth = graphWidth;
 		this.graphHeight = graphHeight;
 
-		readFile(file);
+		readFile(file, start, end);
 
 		//ensure points fit on display
 		if(fscAIPoints.OutsideGraph(forceSensorValues.TimeLast, forceSensorValues.ForceMax, forceSensorValues.ForceMin))
 			fscAIPoints.Redo();
 	}
 
-	private void readFile(string file)
+	private void readFile(string file, double start, double end)
 	{
 		fscAIPoints = new ForceSensorCapturePoints(graphWidth, graphHeight);
 
@@ -678,7 +678,19 @@ public class ForceSensorAnalyzeInstant
 
 				if(Util.IsNumber(strFull[0], false) && Util.IsNumber(strFull[1], true))
 				{
-					int time = Convert.ToInt32(strFull[0]);
+					double timeD = Convert.ToDouble(strFull[0]);
+
+					//start can be -1 meaning that no zoom has to be applied
+					if(start != -1)
+					{
+						if(timeD < start || timeD > end)
+							continue;
+
+						//put time at 0
+						timeD -= Convert.ToInt32(start);
+					}
+
+					int time = Convert.ToInt32(timeD);
 					double force = Convert.ToDouble(strFull[1]);
 
 					fscAIPoints.Add(time, force);

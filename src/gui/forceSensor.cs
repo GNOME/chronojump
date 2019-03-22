@@ -851,7 +851,10 @@ LogB.Information(" re C ");
 
 					//if drawingarea has still not shown, don't paint graph because GC screen is not defined
 					if(force_sensor_ai_drawingareaShown)
+					{
+						forceSensorZoomDefaultValues();
 						forceSensorDoGraphAI();
+					}
 
 					if( configChronojump.Exhibition &&
 							( configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_ROPE ||
@@ -1142,7 +1145,10 @@ LogB.Information(" re R ");
 
 			//if drawingarea has still not shown, don't paint graph because GC screen is not defined
 			if(force_sensor_ai_drawingareaShown)
+			{
+				forceSensorZoomDefaultValues();
 				forceSensorDoGraphAI();
+			}
 		}
 		filechooser.Destroy ();
 	}

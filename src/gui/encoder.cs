@@ -873,7 +873,7 @@ public partial class ChronoJumpWindow
 	{
 		if(! selectedEncoderExerciseExists())
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Need to create/select an exercise.");
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to create/select an exercise."));
 			return;
 		}
 
@@ -4474,7 +4474,7 @@ public partial class ChronoJumpWindow
 	{
 		if(! selectedEncoderExerciseExists())
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Need to create/select an exercise.");
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to create/select an exercise."));
 			return;
 		}
 

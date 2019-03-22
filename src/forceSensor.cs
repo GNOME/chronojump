@@ -687,7 +687,7 @@ public class ForceSensorAnalyzeInstant
 							continue;
 
 						//put time at 0
-						timeD -= Convert.ToInt32(start);
+						timeD -= start;
 					}
 
 					int time = Convert.ToInt32(timeD);

@@ -39,6 +39,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_force_sensor_image_save_rfd_auto;
 	[Widget] Gtk.Button button_force_sensor_image_save_rfd_manual;
 	[Widget] Gtk.Button button_force_sensor_analyze_AB_save;
+	[Widget] Gtk.Button button_force_sensor_ai_zoom;
 
 	[Widget] Gtk.SpinButton spin_force_duration_seconds;
 	[Widget] Gtk.RadioButton radio_force_duration_seconds;
@@ -509,11 +510,33 @@ public partial class ChronoJumpWindow
 		if(lastForceSensorFullPath == null || lastForceSensorFullPath == "")
 			return;
 
+		double zoomA = -1;
+		double zoomB = -1;
+		if(forceSensorZoomApplied && checkbutton_force_sensor_ai_b.Active &&
+				Util.IsNumber(label_force_sensor_ai_time_a.Text, true) &&
+				Util.IsNumber(label_force_sensor_ai_time_b.Text, true))
+		{
+			zoomA = fsAI.GetTimeMS(Convert.ToInt32(hscale_force_sensor_ai_a.Value)) * 1000;
+			zoomB = fsAI.GetTimeMS(Convert.ToInt32(hscale_force_sensor_ai_b.Value)) * 1000;
+
+			//do not zoom if both are the same
+			if(zoomA == zoomB)
+			{
+				zoomA = -1;
+				zoomB = -1;
+			} else if(zoomA > zoomB) //invert if needed
+			{
+				double temp = zoomA;
+				zoomA = zoomB;
+				zoomB = temp;
+			}
+		}
+
 		fsAI = new ForceSensorAnalyzeInstant(
 				lastForceSensorFullPath,
 				force_sensor_ai_drawingarea.Allocation.Width,
-				force_sensor_ai_drawingarea.Allocation.Height
-				);
+				force_sensor_ai_drawingarea.Allocation.Height,
+				zoomA, zoomB);
 
 		/*
 		 * position the hscales on the left to avoid loading a csv
@@ -679,6 +702,24 @@ public partial class ChronoJumpWindow
 
 		force_sensor_ai_allocationXOld = allocation.Width;
 		LogB.Information("EXPOSE END");
+	}
+
+
+	private bool forceSensorZoomApplied;
+	private void forceSensorZoomDefaultValues()
+	{
+		forceSensorZoomApplied = false;
+	}
+	private void on_button_force_sensor_ai_zoom_clicked (object o, EventArgs args)
+	{
+		forceSensorZoomApplied = ! forceSensorZoomApplied;
+
+		if(forceSensorZoomApplied)
+			button_force_sensor_ai_zoom.Label = "Unzoom [A-B]";
+		else
+			button_force_sensor_ai_zoom.Label = "Zoom [A-B]";
+
+		forceSensorDoGraphAI();
 	}
 
 	private void forceSensorAnalyzeManualGraphDo(Rectangle allocation)
@@ -1001,6 +1042,8 @@ public partial class ChronoJumpWindow
 		label_force_sensor_ai_rfd_diff.Visible = visible;
 		label_force_sensor_ai_rfd_average.Visible = visible;
 		label_force_sensor_ai_rfd_max.Visible = visible;
+
+		button_force_sensor_ai_zoom.Visible = visible;
 
 		if(visible && canDoForceSensorAnalyzeAB())
 			button_force_sensor_analyze_AB_save.Visible = true;

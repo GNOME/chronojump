@@ -1878,6 +1878,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -17890,14 +17893,14 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="radiobutton_force_sensor_analyze_automatic">
-                                                            <property name="label" translatable="yes">Automatic</property>
+                                                            <widget class="GtkRadioButton" id="radiobutton_force_sensor_analyze_manual">
+                                                            <property name="label" translatable="yes">General analysis</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
-                                                            <signal name="toggled" handler="on_radiobutton_force_sensor_analyze_automatic_toggled" swapped="no"/>
+                                                            <signal name="toggled" handler="on_radiobutton_force_sensor_analyze_manual_toggled" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -17906,15 +17909,15 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="radiobutton_force_sensor_analyze_manual">
-                                                            <property name="label" translatable="yes">Manual</property>
+                                                            <widget class="GtkRadioButton" id="radiobutton_force_sensor_analyze_automatic">
+                                                            <property name="label" translatable="yes">RFD Automatic</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
-                                                            <property name="group">radiobutton_force_sensor_analyze_automatic</property>
-                                                            <signal name="toggled" handler="on_radiobutton_force_sensor_analyze_manual_toggled" swapped="no"/>
+                                                            <property name="group">radiobutton_force_sensor_analyze_manual</property>
+                                                            <signal name="toggled" handler="on_radiobutton_force_sensor_analyze_automatic_toggled" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -20533,6 +20536,12 @@ Concentric</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -28022,6 +28031,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

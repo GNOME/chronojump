@@ -137,6 +137,7 @@ public partial class ChronoJumpWindow
 
 	private void initForceSensor ()
 	{
+		notebook_force_sensor_analyze.CurrentPage = 1; 	//start on 1: force_general_analysis
 		createForceExerciseCombo();
 		createForceAnalyzeCombos();
 		setRFDValues();

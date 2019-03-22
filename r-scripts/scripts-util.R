@@ -1,14 +1,14 @@
 #Function to get the interpolated x at a given y
 interpolateXAtY <- function(X, Y, desiredY){
         if(max(Y) < desiredY){
-                print("desiredY is greater than max(Y)")
+                # print("desiredY is greater than max(Y)")
                 return(max(Y))
         }
                 
         #find the closest sample
         nextSample = 1
-        print("Calculating the interpolation")
-        print(paste("desiredY:", desiredY))
+        # print("Calculating the interpolation")
+        # print(paste("desiredY:", desiredY))
         while (Y[nextSample] < desiredY){
                 nextSample = nextSample +1
         }
@@ -20,7 +20,7 @@ interpolateXAtY <- function(X, Y, desiredY){
         } else {
                 correspondingX = X[previousSample] + (desiredY  - Y[previousSample]) * (X[nextSample] - X[previousSample]) / (Y[nextSample] - Y[previousSample])
         }
-        print(paste("CorrespondingX:", correspondingX))
+        # print(paste("CorrespondingX:", correspondingX))
         return(correspondingX)
 }
 
@@ -50,18 +50,41 @@ getAreaUnderCurve <- function(x, y)
         return(totalArea/2) #The area of the parallelograms are twice the triangles areas
 }
 
+getAreaUnderCurve2 <- function(x, y)
+{
+        print("Calculating Area")
+        # print("X:")
+        # print(x)
+        # print("Y:")
+        # print(y)
+
+        totalArea = 0
+        # print(paste("V",1," = ", "(",x[1 + 1] - x[1],",", y[1 + 1] - y[1], ")", sep = ""))
+        for(i in 1:length(x))
+        {
+                barArea = y[i]*(x[i+1] - x[i])
+                
+                # print(paste("V",i," = ", "(",x[i + 1] - x[1],",", y[i + 1] - y[1], ")", sep = ""))
+                # print(parallelogramArea/2)
+                
+                totalArea = totalArea + barArea
+        }
+        # print(paste("toalArea:", totalArea/2))
+        return(totalArea/2) #The area of the parallelograms are twice the triangles areas
+}
+
 #Calculates the mean of a curve interval
 getMeanValue <- function(X, Y, startX, endX)
 {
-        print(paste("Calculating mean In the X range of [", startX, ",", endX, "]"))
+        print(paste("Calculating mean in the X range of [", startX, ",", endX, "]"))
         
         
         #Calculating the value of Y corresponding at startX
-        print("Calculating the first Y value")
+        #print("Calculating the first Y value")
         startY = interpolateXAtY(X = Y, Y = X, desiredY = startX) #The order are changed because we are looking for the Y value instead of X value
         
         #Calculating the last value using the interpolation
-        print("Calculating the last Y value")
+        #print("Calculating the last Y value")
         endY = interpolateXAtY(X = Y, Y = X, desiredY = endX) #The order are changed because we are looking for the Y value instead of X value
 
         X = X[which(X > startX & X < endX)]
@@ -72,6 +95,7 @@ getMeanValue <- function(X, Y, startX, endX)
         
         #calculating the area under the curve (integral)
         area = getAreaUnderCurve(X , Y)
+
         return(area / (X[length(X)] - X[1]))
 }
 

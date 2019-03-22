@@ -60,23 +60,23 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         Af = 0.2025*(Height^0.725)*(Mass^0.425)*0.266 # Model of the frontal area
         Ka = 0.5*ro*Af*Cd
         
-        encoderCarrera = read.csv2(file = filename, sep = ";")
-        colnames(encoderCarrera) = c("displacement", "time", "force")
-        encoderCarrera$force = encoderCarrera$force * 0.140142 /2  #TODO: Implement the calibration factor comming from the arduino
-        totalTime = encoderCarrera$time/1E6     #Converting microseconds to seconds
+        raceAnalyzer = read.csv2(file = filename, sep = ";")
+        colnames(raceAnalyzer) = c("displacement", "time", "force")
+        raceAnalyzer$force = raceAnalyzer$force * 0.140142 /2  #TODO: Implement the calibration factor comming from the arduino
+        totalTime = raceAnalyzer$time/1E6     #Converting microseconds to seconds
         elapsedTime = diff(c(0,totalTime))      #The elapsed time between each sample
         
         #The encoder can be used with both loose ends of the rope. This means that the encoder can rotate
         #in both directions. We considre always the speed as positive.
-        if(mean(encoderCarrera$displacement) < 0)
-                encoderCarrera$displacement = -encoderCarrera$displacement
+        if(mean(raceAnalyzer$displacement) < 0)
+                raceAnalyzer$displacement = -raceAnalyzer$displacement
         diameter = 0.16         #Diameter of the pulley
-        #encoderCarrera$displacement = encoderCarrera$displacement * 2 * pi * diameter / 200
+        #raceAnalyzer$displacement = raceAnalyzer$displacement * 2 * pi * diameter / 200
         #In 30m there are 12267 pulses.
         #TODO: measure this several times to have an accurate value
-        encoderCarrera$displacement = encoderCarrera$displacement * 30 / 12267
-        position = cumsum(encoderCarrera$displacement)
-        speed = encoderCarrera$displacement / elapsedTime
+        raceAnalyzer$displacement = raceAnalyzer$displacement * 30 / 12267
+        position = cumsum(raceAnalyzer$displacement)
+        speed = raceAnalyzer$displacement / elapsedTime
         accel = (speed[3] - speed[1]) / (totalTime[3] - totalTime[1])
         for(i in 3:(length(speed) -1))
         {
@@ -84,7 +84,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         }
         accel = c(accel[1],accel, accel[length(accel)])
         forceBody = accel * Mass + Ka*(speed - Vw)^2
-        totalForce = forceBody + encoderCarrera$force
+        totalForce = forceBody + raceAnalyzer$force
         power = totalForce * speed
         # print("position:")
         # print(position)
@@ -92,10 +92,10 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         # print(speed)
         # print("accel:")
         # print(accel)
-        # print("forceBody:")
-        # print(forceBody)
-        # print("forceRope:")
-        # print(encoderCarrera$force)
+        print("forceBody:")
+        print(forceBody)
+        print("forceRope:")
+        print(raceAnalyzer$force)
         # print("power:")
         # print(power)
         
@@ -135,7 +135,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         #Zeroing position to the initial acceleration sample
         position = position - position[trimmingSamples$start]
         data = data.frame(time = time[trimmingSamples$start:trimmingSamples$end], speed = speed[trimmingSamples$start:trimmingSamples$end])
-        print(data)
+        #print(data)
         
         print("Trying nls")
         regression = tryNLS(data)
@@ -174,7 +174,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title = "Test graph",
                                   plotRawMeanSpeed = TRUE, plotRawSpeed = TRUE, plotRawAccel = FALSE, plotRawForce = FALSE, plotMeanRawForce = TRUE, plotRawPower = FALSE, plotMeanRawPower = TRUE,
-                                  plotFittedSpeed = TRUE, plotFittedAccel = FALSE, plotFittedForce = FALSE, plotFittedPower = FALSE)
+                                  plotFittedSpeed = TRUE, plotFittedAccel = FALSE, plotFittedForce = FALSE, plotFittedPower = TRUE)
 {
         #Plotting position
         # plot(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample], sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
@@ -315,6 +315,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
         if(plotRawForce|| plotFittedForce)
         {
                 ylimits = c(min(sprintRawDynamics$rawForce[sprintRawDynamics$startSample:sprintRawDynamics$endSample])*0.95, max(c(sprintRawDynamics$rawFmax, sprintFittedDynamics$fmax.fitted)*1.05))
+                #ylimits = c(0,sprintFittedDynamics$fmax.fitted)
                 if (plotRawForce)
                 {
                         #Plotting rawForce
@@ -339,6 +340,8 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
                         legendColor = c(legendColor, "blue")
                 }
                 axis(side = 4, col = "blue", line = 2)
+                print("Mean force from the model")
+                print(getMeanValue(sprintFittedDynamics$t.fitted, sprintRawDynamics$force.fitted, 0, 1.004))
         }     
 
         if(plotMeanRawForce)
@@ -357,7 +360,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
                         text(splitTime[n] + (splitTime[n+1] - splitTime[n])*0.2, meanForce[n+1], paste(round(meanForce[n+1], digits = 2), "N"), col = "blue")
                         
                 }
-                axis(side = 4, col = "blue", line = 2)
+                #axis(side = 4, col = "blue", line = 2)
         }
         
         if(plotRawPower|| plotFittedPower)
@@ -479,8 +482,8 @@ tryNLS <- function(data){
                 {
                         model = nls(speed ~ Vmax*(1-exp(-K*time)), data,
                                     start = list(Vmax = max(data[,"speed"]), K = 1), control=nls.control(warnOnly=TRUE))
-                        print("model:")
-                        print(model)
+                        # print("model:")
+                        # print(model)
                         return(list(regressionDone = TRUE, model = model))
                 }, 
                 error=function(cond)
@@ -494,8 +497,8 @@ tryNLS <- function(data){
 testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
 {
         sprintRawDynamics = getSprintFromEncoder(filename, testLength, op$mass, op$tempC, op$personHeight)
-        print("sprintRawDynamics:")
-        print(sprintRawDynamics)
+        # print("sprintRawDynamics:")
+        # print(sprintRawDynamics)
         if (sprintRawDynamics$longEnough & sprintRawDynamics$regressionDone)
         {
                 sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, mass, tempC, personHeight)

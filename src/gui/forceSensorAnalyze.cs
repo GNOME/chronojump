@@ -610,6 +610,9 @@ public partial class ChronoJumpWindow
 		if(force_sensor_ai_drawingarea == null)
 			return;
 
+		force_sensor_ai_drawingareaShown = true;
+		forceSensorDoGraphAI();
+
 		Gdk.EventConfigure ev = args.Event;
 		Gdk.Window window = ev.Window;
 

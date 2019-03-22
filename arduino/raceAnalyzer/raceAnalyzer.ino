@@ -29,7 +29,7 @@ int calibrationAddress = 4;
 boolean capturing = false;
 
 //Wether the encoder has reached the number of pulses per sample or not
-boolean processSample = false;
+boolean procesSample = false;
 
 //wether the tranmission is in binary format or not
 boolean binaryFormat = false;
@@ -65,7 +65,7 @@ void loop() {
   {
 
     //With a diameter is of 160mm, each pulse is 2.513274mm. 4 pulses equals 1.00531cm
-    while (!processSample) {
+    while (!procesSample) {
       offsettedData = readOffsettedData(0);
       //Serial.println(offsettedData);
       total +=  offsettedData;
@@ -76,7 +76,7 @@ void loop() {
         changingTime = micros();
         lastEncoderDisplacement = encoderDisplacement;
         encoderDisplacement = 0;
-        processSample = true;
+        procesSample = true;
       }
     }
 
@@ -101,7 +101,7 @@ void loop() {
     Serial.print(";");
     Serial.println(total / nReadings);
 
-    processSample = false;
+    procesSample = false;
 
     //    //Sending in binary mode
     //    sendInt(lastEncoderDisplacement);
@@ -130,12 +130,16 @@ void changingA() {
     lastEncoderDisplacement = encoderDisplacement;  //We need to save this value because it can change very quickly
     sampleTime = changingTime;                      //We need to save this value because it can change very quickly
     encoderDisplacement = 0;
-    processSample = true;
+    procesSample = true;
   }
 }
 
 void serialEvent()
 {
+  //Sending a command interrupts the data aquisition process
+  detachInterrupt(digitalPinToInterrupt(encoderPinA));
+  capturing = false;
+  procesSample = false;
   String inputString = Serial.readString();
   String commandString = inputString.substring(0, inputString.lastIndexOf(":"));
   if (commandString == "start_capture") {
@@ -166,6 +170,7 @@ void serialEvent()
     Serial.println("Not a valid command");
   }
   inputString = "";
+  attachInterrupt(digitalPinToInterrupt(encoderPinA), changingA, RISING);
 }
 
 void start_capture()

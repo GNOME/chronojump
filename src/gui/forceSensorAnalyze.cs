@@ -715,7 +715,7 @@ public partial class ChronoJumpWindow
 		forceSensorZoomApplied = ! forceSensorZoomApplied;
 
 		if(forceSensorZoomApplied)
-			button_force_sensor_ai_zoom.Label = "Unzoom [A-B]";
+			button_force_sensor_ai_zoom.Label = "Zoom out";
 		else
 			button_force_sensor_ai_zoom.Label = "Zoom [A-B]";
 

@@ -5,7 +5,8 @@ https://bugzilla.gnome.org/show_bug.cgi?id=731080
 
 Download: http://ftp.gnome.org/pub/GNOME/sources/glade3/3.8/
 
-$ tar xJvf glade3-3.8.5.tar.xz
+$ tar xJvf glade3-3.8.6.tar.xz
+$ ./configure
 $ make
 $ su
 # make install

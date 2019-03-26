@@ -1148,6 +1148,12 @@ public partial class ChronoJumpWindow
 
 	private void on_button_force_sensor_analyze_AB_save_clicked (object o, EventArgs args)
 	{
+		if (label_force_sensor_ai_time_a.Text == label_force_sensor_ai_time_b.Text)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "A nd B cannot be the same");
+			return;
+		}
+
 		if (canDoForceSensorAnalyzeAB())
 			checkFile(Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB);
 		else {

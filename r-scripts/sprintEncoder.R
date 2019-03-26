@@ -62,7 +62,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         
         raceAnalyzer = read.csv2(file = filename, sep = ";")
         colnames(raceAnalyzer) = c("displacement", "time", "force")
-        raceAnalyzer$force = raceAnalyzer$force * 0.140142 /2  #TODO: Implement the calibration factor comming from the arduino
+        raceAnalyzer$force = (raceAnalyzer$force + 13544) * 0.2 /2  #TODO: Implement the calibration factor comming from the arduino
         totalTime = raceAnalyzer$time/1E6     #Converting microseconds to seconds
         elapsedTime = diff(c(0,totalTime))      #The elapsed time between each sample
         
@@ -86,18 +86,22 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         forceBody = accel * Mass + Ka*(speed - Vw)^2
         totalForce = forceBody + raceAnalyzer$force
         power = totalForce * speed
+        # print("time:")
+        # print(raceAnalyzer$time)
+        # print("elapsedTime:")
+        # print(elapsedTime)
         # print("position:")
         # print(position)
         # print("speed:")
         # print(speed)
         # print("accel:")
         # print(accel)
-        print("forceBody:")
-        print(forceBody)
-        print("forceRope:")
-        print(raceAnalyzer$force)
-        # print("power:")
-        # print(power)
+        # print("forceBody:")
+        # print(forceBody)
+        # print("forceRope:")
+        # print(raceAnalyzer$force)
+        print("power:")
+        print(power)
         
         
         # #Checking if the sprint is long enough
@@ -174,7 +178,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title = "Test graph",
                                   plotRawMeanSpeed = TRUE, plotRawSpeed = TRUE, plotRawAccel = FALSE, plotRawForce = FALSE, plotMeanRawForce = TRUE, plotRawPower = FALSE, plotMeanRawPower = TRUE,
-                                  plotFittedSpeed = TRUE, plotFittedAccel = FALSE, plotFittedForce = FALSE, plotFittedPower = TRUE)
+                                  plotFittedSpeed = TRUE, plotFittedAccel = FALSE, plotFittedForce = FALSE, plotFittedPower = FALSE)
 {
         #Plotting position
         # plot(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample], sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],

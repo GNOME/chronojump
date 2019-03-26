@@ -77,7 +77,10 @@ getAreaUnderCurve2 <- function(x, y)
 getMeanValue <- function(X, Y, startX, endX)
 {
         print(paste("Calculating mean in the X range of [", startX, ",", endX, "]"))
-        
+        # print("x:")
+        # print(X)
+        # print("y:")
+        # print(Y)
         
         #Calculating the value of Y corresponding at startX
         #print("Calculating the first Y value")

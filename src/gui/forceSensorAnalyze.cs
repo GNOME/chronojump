@@ -1022,6 +1022,10 @@ public partial class ChronoJumpWindow
 	}
 	private void on_checkbutton_force_sensor_ai_b_toggled (object o, EventArgs args)
 	{
+		int count = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
+		label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
+
 		bool visible = checkbutton_force_sensor_ai_b.Active;
 		hscale_force_sensor_ai_b.Visible = visible;
 		hbox_buttons_scale_force_sensor_ai_b.Visible = visible;

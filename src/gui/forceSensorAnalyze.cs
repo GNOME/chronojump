@@ -625,6 +625,46 @@ public partial class ChronoJumpWindow
 		layout_force_ai_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
 	}
 
+	private void forcePaintAnalyzeGeneralTimeValue(int time, bool solid)
+	{
+		int xPx = fsAI.FscAIPoints.GetTimeInPx(1000000 * time);
+
+		layout_force_ai_text.SetMarkup(time.ToString() + "s");
+		int textWidth = 1;
+		int textHeight = 1;
+		layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+		force_sensor_ai_pixmap.DrawLayout (pen_gray_discont_force_ai,
+				xPx - textWidth/2, force_sensor_ai_drawingarea.Allocation.Height - textHeight, layout_force_ai_text);
+
+		//draw vertical line
+		if(solid)
+			force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
+					xPx, 4, xPx, force_sensor_ai_drawingarea.Allocation.Height - textHeight -4);
+		else
+			force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
+					xPx, 4, xPx, force_sensor_ai_drawingarea.Allocation.Height - textHeight -4);
+	}
+
+	private void forcePaintAnalyzeGeneralHLine(int yForce, bool solid)
+	{
+		int yPx = fsAI.FscAIPoints.GetForceInPx(yForce);
+		//draw horizontal line
+		if(solid)
+			force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
+					fsAI.FscAIPoints.GetTimeInPx(0), yPx, force_sensor_ai_drawingarea.Allocation.Width, yPx);
+		else
+			force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
+					fsAI.FscAIPoints.GetTimeInPx(0), yPx, force_sensor_ai_drawingarea.Allocation.Width, yPx);
+
+		layout_force_ai_text.SetMarkup(yForce.ToString());
+		int textWidth = 1;
+		int textHeight = 1;
+		layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+		force_sensor_ai_pixmap.DrawLayout (pen_gray_discont_force_ai,
+				fsAI.FscAIPoints.GetTimeInPx(0) - textWidth -4, yPx - textHeight/2, layout_force_ai_text);
+	}
+
+
 	int force_sensor_ai_allocationXOld;
 	bool force_sensor_ai_sizeChanged;
 	public void on_force_sensor_ai_drawingarea_configure_event (object o, ConfigureEventArgs args)
@@ -734,6 +774,9 @@ public partial class ChronoJumpWindow
 		checkbutton_force_sensor_ai_b.Sensitive = true;
 		if(checkbutton_force_sensor_ai_b.Active)
 			button_force_sensor_analyze_AB_save.Visible = true;
+
+		if(! forceSensorZoomApplied)
+			forcePaintHVLines(ForceSensorGraphs.ANALYSIS_GENERAL, forceSensorValues.ForceMax, forceSensorValues.ForceMin, forceSensorValues.TimeLast);
 
 		// 1) create paintPoints
 		Gdk.Point [] paintPoints = new Gdk.Point[fsAI.FscAIPoints.Points.Count];

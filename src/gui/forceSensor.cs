@@ -598,7 +598,7 @@ public partial class ChronoJumpWindow
 				force_capture_drawingarea.Allocation.Height
 				);
 
-		forcePaintHVLines(ForceSensorCapturePoints.DefaultRealHeightG, ForceSensorCapturePoints.DefaultRealHeightGNeg, 10);
+		forcePaintHVLines(ForceSensorGraphs.CAPTURE, ForceSensorCapturePoints.DefaultRealHeightG, ForceSensorCapturePoints.DefaultRealHeightGNeg, 10);
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -969,7 +969,7 @@ LogB.Information(" re I ");
 			//mark meaning screen should be erased
 			if(fscPoints.NumPainted == -1) {
 				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
-				forcePaintHVLines(forceSensorValues.ForceMax * 2, forceSensorValues.ForceMin * 2, fscPoints.RealWidthG);
+				forcePaintHVLines(ForceSensorGraphs.CAPTURE, forceSensorValues.ForceMax * 2, forceSensorValues.ForceMin * 2, fscPoints.RealWidthG);
 				//forcePaintHVLines(forceSensorValues.ForceMax, forceSensorValues.ForceMin, fscPoints.RealWidthG);
 				fscPoints.NumPainted = 0;
 			}
@@ -1283,7 +1283,7 @@ LogB.Information(" re R ");
 		if(fscPoints.OutsideGraph(forceSensorValues.TimeLast, forceSensorValues.ForceMax, forceSensorValues.ForceMin))
 			fscPoints.Redo();
 
-		forcePaintHVLines(forceSensorValues.ForceMax, forceSensorValues.ForceMin, forceSensorValues.TimeLast);
+		forcePaintHVLines(ForceSensorGraphs.CAPTURE, forceSensorValues.ForceMax, forceSensorValues.ForceMin, forceSensorValues.TimeLast);
 
 		Gdk.Point [] paintPoints = new Gdk.Point[fscPoints.Points.Count];
 		for(int i = 0; i < fscPoints.Points.Count; i ++)
@@ -1310,9 +1310,11 @@ LogB.Information(" re R ");
 		button_force_sensor_analyze_recalculate.Sensitive = true;
 	}
 
-	private void forcePaintHVLines(double maxForce, double minForce, int lastTime)
+	private enum ForceSensorGraphs { CAPTURE, ANALYSIS_GENERAL }
+
+	private void forcePaintHVLines(ForceSensorGraphs fsg, double maxForce, double minForce, int lastTime)
 	{
-		forcePaintHLine(0, true);
+		forcePaintHLine(fsg, 0, true);
 		double absoluteMaxForce = maxForce;
 		if(Math.Abs(minForce) > absoluteMaxForce)
 			absoluteMaxForce = Math.Abs(minForce);
@@ -1341,11 +1343,11 @@ LogB.Information(" re R ");
 		{
 			if(maxForce >= i || ForceSensorCapturePoints.DefaultRealHeightG >= i)
 			{
-				forcePaintHLine(i, false);
+				forcePaintHLine(fsg, i, false);
 			}
 			if(minForce <= (i * -1) || (ForceSensorCapturePoints.DefaultRealHeightGNeg * -1) <= (i * -1))
 			{
-				forcePaintHLine(i *-1, false);
+				forcePaintHLine(fsg, i *-1, false);
 			}
 		}
 
@@ -1359,10 +1361,17 @@ LogB.Information(" re R ");
 			step = 20;
 
 		for(int i = 0; i <= lastTimeInSeconds ; i += step)
-			forcePaintTimeValue(i, i == 0);
+			forcePaintTimeValue(fsg, i, i == 0);
 	}
 
-	private void forcePaintTimeValue(int time, bool solid)
+	private void forcePaintTimeValue(ForceSensorGraphs fsg, int time, bool solid)
+	{
+		if(fsg == ForceSensorGraphs.CAPTURE)
+			forcePaintCaptureTimeValue(time, solid);
+		else if(fsg == ForceSensorGraphs.ANALYSIS_GENERAL)
+			forcePaintAnalyzeGeneralTimeValue(time, solid);
+	}
+	private void forcePaintCaptureTimeValue(int time, bool solid)
 	{
 		int xPx = fscPoints.GetTimeInPx(1000000 * time);
 
@@ -1382,7 +1391,14 @@ LogB.Information(" re R ");
 					xPx, 4, xPx, force_capture_drawingarea.Allocation.Height - textHeight -4);
 	}
 
-	private void forcePaintHLine(int yForce, bool solid)
+	private void forcePaintHLine(ForceSensorGraphs fsg, int yForce, bool solid)
+	{
+		if(fsg == ForceSensorGraphs.CAPTURE)
+			forcePaintCaptureHLine(yForce, solid);
+		else if(fsg == ForceSensorGraphs.ANALYSIS_GENERAL)
+			forcePaintAnalyzeGeneralHLine(yForce, solid);
+	}
+	private void forcePaintCaptureHLine(int yForce, bool solid)
 	{
 		int yPx = fscPoints.GetForceInPx(yForce);
 		//draw horizontal line

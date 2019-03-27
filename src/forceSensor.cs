@@ -291,6 +291,11 @@ public class ForceSensorCapturePoints
 		return false;
 	}
 
+	public void Zoom(int lastTime) //on zoom adjust width
+	{
+		RealWidthG = lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight);
+	}
+
 	public void Redo()
 	{
 		for(int i=0; i < NumCaptured; i ++)
@@ -645,6 +650,13 @@ public class ForceSensorAnalyzeInstant
 		this.graphHeight = graphHeight;
 
 		readFile(file, start, end);
+
+		//on zoom adjust width
+		if(start >= 0 || end >= 0)
+		{
+			fscAIPoints.Zoom(forceSensorValues.TimeLast);
+			fscAIPoints.Redo();
+		}
 
 		//ensure points fit on display
 		if(fscAIPoints.OutsideGraph(forceSensorValues.TimeLast, forceSensorValues.ForceMax, forceSensorValues.ForceMin))

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2019-03-18 14:52+0000\n"
-"PO-Revision-Date: 2019-03-21 18:25+0100\n"
+"POT-Creation-Date: 2019-03-22 18:09+0000\n"
+"PO-Revision-Date: 2019-03-28 12:51+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 3.31.90\n"
+"X-Generator: Gtranslator 3.32.0\n"
 
 #: ../glade/app1.glade.h:1 ../glade/error_window.glade.h:1
 #: ../glade/generic_window.glade.h:1
@@ -631,7 +631,7 @@ msgid "Fall"
 msgstr "Caída"
 
 #: ../glade/app1.glade.h:137 ../glade/edit_event.glade.h:68
-#: ../src/gui/forceSensor.cs:1772 ../src/sqlite/main.cs:1463
+#: ../src/gui/forceSensor.cs:1773 ../src/sqlite/main.cs:1463
 msgid "Both"
 msgstr "Ambas"
 
@@ -661,13 +661,13 @@ msgstr "Medir tiempo de reacción"
 msgid "Laterality"
 msgstr "Lateralidad"
 
-#: ../glade/app1.glade.h:143 ../src/gui/forceSensor.cs:1774 ../src/json.cs:1344
+#: ../glade/app1.glade.h:143 ../src/gui/forceSensor.cs:1775 ../src/json.cs:1344
 #: ../src/sqlite/main.cs:1469
 msgid "Left"
 msgstr "Izquierda"
 
 #. if(radio_force_sensor_laterality_r.Active)
-#: ../glade/app1.glade.h:144 ../src/gui/forceSensor.cs:1776 ../src/json.cs:1342
+#: ../glade/app1.glade.h:144 ../src/gui/forceSensor.cs:1777 ../src/json.cs:1342
 #: ../src/sqlite/main.cs:1466
 msgid "Right"
 msgstr "Derecha"
@@ -808,7 +808,6 @@ msgstr ""
 "Finalizar prueba (guardar las pruebas hasta este momento). O pulse Intro."
 
 #: ../glade/app1.glade.h:173
-#| msgid "Finished"
 msgid "Finish"
 msgstr "Fin"
 
@@ -1447,12 +1446,14 @@ msgid "Analysis:"
 msgstr "Análisis:"
 
 #: ../glade/app1.glade.h:308
-msgid "Automatic"
-msgstr "Automático"
+#| msgid "General data"
+msgid "General analysis"
+msgstr "Análisis general"
 
 #: ../glade/app1.glade.h:309
-msgid "Manual"
-msgstr "Manual"
+#| msgid "Automatic"
+msgid "RFD Automatic"
+msgstr "RFA automático"
 
 #: ../glade/app1.glade.h:310
 msgid "Recalculate"
@@ -1710,8 +1711,8 @@ msgstr "Configurar"
 #: ../src/gui/encoder.cs:1570 ../src/gui/encoder.cs:4516
 #: ../src/gui/encoder.cs:4575 ../src/gui/encoderOverview.cs:112
 #: ../src/gui/encoderOverview.cs:120 ../src/gui/encoderSelectRepetitions.cs:215
-#: ../src/gui/encoderTreeviews.cs:507 ../src/gui/forceSensor.cs:1618
-#: ../src/gui/forceSensor.cs:1668
+#: ../src/gui/encoderTreeviews.cs:507 ../src/gui/forceSensor.cs:1619
+#: ../src/gui/forceSensor.cs:1669
 msgid "Exercise"
 msgstr "Ejercicio"
 
@@ -2525,7 +2526,7 @@ msgstr "Nombre"
 #: ../src/exportSession.cs:763 ../src/exportSession.cs:823
 #: ../src/gui/encoderConfiguration.cs:574 ../src/gui/encoder.cs:4525
 #: ../src/gui/encoder.cs:4580 ../src/gui/executeAuto.cs:191
-#: ../src/gui/forceSensor.cs:1625 ../src/gui/forceSensor.cs:1673
+#: ../src/gui/forceSensor.cs:1626 ../src/gui/forceSensor.cs:1674
 #: ../src/gui/jump.cs:1548 ../src/gui/jump.cs:1766 ../src/gui/person.cs:117
 #: ../src/gui/run.cs:1297 ../src/gui/run.cs:1487 ../src/runType.cs:192
 #: ../src/runType.cs:228 ../src/runType.cs:269 ../src/runType.cs:298
@@ -5194,8 +5195,8 @@ msgstr "No se puede exportar al archivo {0} "
 #: ../src/gui/encoderConfiguration.cs:767 ../src/gui/encoder.cs:2122
 #: ../src/gui/encoder.cs:2153 ../src/gui/encoder.cs:2161
 #: ../src/gui/encoder.cs:2168 ../src/gui/encoder.cs:2176
-#: ../src/gui/encoder.cs:2183 ../src/gui/forceSensor.cs:1434
-#: ../src/gui/forceSensor.cs:1446 ../src/gui/forceSensor.cs:1469
+#: ../src/gui/encoder.cs:2183 ../src/gui/forceSensor.cs:1435
+#: ../src/gui/forceSensor.cs:1447 ../src/gui/forceSensor.cs:1470
 #: ../src/gui/sprint.cs:304
 #, csharp-format
 msgid "Saved to {0}"
@@ -6047,6 +6048,12 @@ msgstr "Hay conectados más de un encoder"
 msgid "Calibrated"
 msgstr "Calibrado"
 
+#: ../src/gui/encoder.cs:876 ../src/gui/encoder.cs:4477
+#: ../src/gui/forceSensor.cs:1585
+#| msgid "Could not get station exercises."
+msgid "Need to create/select an exercise."
+msgstr "Debe crear/seleccionar un ejercicio."
+
 #: ../src/gui/encoder.cs:1081
 msgid "Load 1RM"
 msgstr "Cargar 1RM"
@@ -6370,7 +6377,7 @@ msgid "Displaced body weight"
 msgstr "Peso corporal desplazado"
 
 #: ../src/gui/encoder.cs:4524 ../src/gui/encoder.cs:4579
-#: ../src/gui/forceSensor.cs:1624 ../src/gui/forceSensor.cs:1672
+#: ../src/gui/forceSensor.cs:1625 ../src/gui/forceSensor.cs:1673
 msgid "Resistance"
 msgstr "Resistencia"
 
@@ -6394,15 +6401,15 @@ msgstr "Escriba el nombre del ejercicio:"
 #.
 #. genericWin.LabelSpinInt2 = Catalog.GetString("Default angle");
 #. genericWin.SetSpin2Range(0,180);
-#: ../src/gui/encoder.cs:4592 ../src/gui/forceSensor.cs:1677
+#: ../src/gui/encoder.cs:4592 ../src/gui/forceSensor.cs:1678
 msgid "Add"
 msgstr "Añadir"
 
-#: ../src/gui/encoder.cs:4628 ../src/gui/forceSensor.cs:1713
+#: ../src/gui/encoder.cs:4628 ../src/gui/forceSensor.cs:1714
 msgid "Error: Missing name of exercise."
 msgstr "Error: falta el nombre del ejercicio"
 
-#: ../src/gui/encoder.cs:4631 ../src/gui/forceSensor.cs:1716
+#: ../src/gui/encoder.cs:4631 ../src/gui/forceSensor.cs:1717
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Error: ya existe un ejercicio llamado «{0}»."
@@ -6419,7 +6426,7 @@ msgstr "No se puede eliminar este ejercicio."
 msgid "Please delete first the following repetitions:"
 msgstr "Elimine primero las siguientes repeticiones:"
 
-#: ../src/gui/encoder.cs:4726 ../src/gui/forceSensor.cs:1761
+#: ../src/gui/encoder.cs:4726 ../src/gui/forceSensor.cs:1762
 msgid "Exercise deleted."
 msgstr "Ejercicio eliminado."
 
@@ -6613,29 +6620,29 @@ msgstr "Sensor de fuerza no detectado."
 msgid "Plug cable and click on 'device' button."
 msgstr "Conecte el cable y pulse en el botón «dispositivo»."
 
-#: ../src/gui/forceSensor.cs:1199
+#: ../src/gui/forceSensor.cs:1200
 msgid "Error doing graph."
 msgstr "Error al hacer el gráfico."
 
-#: ../src/gui/forceSensor.cs:1200
+#: ../src/gui/forceSensor.cs:1201
 msgid "Probably not sustained force."
 msgstr "Probablemente no es fuerza sostenida."
 
-#: ../src/gui/forceSensor.cs:1500
+#: ../src/gui/forceSensor.cs:1501
 msgid "If you want to calibrate, please tare first."
 msgstr "Si quiere calibrar tare primero."
 
 #. don't show now
-#: ../src/gui/forceSensor.cs:1619
+#: ../src/gui/forceSensor.cs:1620
 msgid "Force sensor exercise:"
 msgstr "Sensor de fuerza del ejercicio:"
 
-#: ../src/gui/forceSensor.cs:1620 ../src/gui/forceSensor.cs:1670
+#: ../src/gui/forceSensor.cs:1621 ../src/gui/forceSensor.cs:1671
 msgid "Involved body weight"
 msgstr "Peso corporal involucrado"
 
 #. don't show now
-#: ../src/gui/forceSensor.cs:1669
+#: ../src/gui/forceSensor.cs:1670
 msgid "Write the name of the force sensor exercise:"
 msgstr "Escriba el nombre del sensor de fuerza del ejercicio:"
 
@@ -10007,6 +10014,9 @@ msgstr "Error. {0} se ha cerrado."
 msgid "Error. {0} cannot save video."
 msgstr "Error. {0} no puede guardar el vídeo."
 
+#~ msgid "Manual"
+#~ msgstr "Manual"
+
 #~ msgid "Start webcam"
 #~ msgstr "Iniciar cámara web"
 
@@ -10714,9 +10724,6 @@ msgstr "Error. {0} no puede guardar el vídeo."
 
 #~ msgid "Sessions"
 #~ msgstr "Sesiones"
-
-#~ msgid "General data"
-#~ msgstr "Datos generales"
 
 #~ msgid "Intervallic runs"
 #~ msgstr "carrera con tramos"

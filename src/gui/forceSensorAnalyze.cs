@@ -806,8 +806,7 @@ public partial class ChronoJumpWindow
 		if(checkbutton_force_sensor_ai_b.Active)
 			button_force_sensor_analyze_AB_save.Visible = true;
 
-		if(! forceSensorZoomApplied)
-			forcePaintHVLines(ForceSensorGraphs.ANALYSIS_GENERAL, forceSensorValues.ForceMax, forceSensorValues.ForceMin, forceSensorValues.TimeLast);
+		forcePaintHVLines(ForceSensorGraphs.ANALYSIS_GENERAL, forceSensorValues.ForceMax, forceSensorValues.ForceMin, forceSensorValues.TimeLast);
 
 		// 1) create paintPoints
 		Gdk.Point [] paintPoints = new Gdk.Point[fsAI.FscAIPoints.Points.Count];

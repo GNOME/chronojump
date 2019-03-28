@@ -105,6 +105,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spinbutton_force_4_to;
 	[Widget] Gtk.SpinButton spinbutton_force_impulse_to;
 
+	[Widget] Gtk.Button button_hscale_force_sensor_ai_a_pre;
+	[Widget] Gtk.Button button_hscale_force_sensor_ai_a_post;
+	[Widget] Gtk.Button button_hscale_force_sensor_ai_b_pre;
+	[Widget] Gtk.Button button_hscale_force_sensor_ai_b_post;
+
 	/*
 	 * analyze options -------------------------->
 	 */
@@ -1024,6 +1029,7 @@ public partial class ChronoJumpWindow
 			updateForceSensorHScales = true;
 		}
 
+		forceSensorAnalyzeGeneralButtonHscaleSensitiveness();
 		forceSensorAIChanged = true;
 		force_sensor_ai_drawingarea.QueueDraw(); //will fire ExposeEvent
 	}
@@ -1050,6 +1056,7 @@ public partial class ChronoJumpWindow
 		hscale_force_sensor_ai_ab.Value = Convert.ToInt32(hscale_force_sensor_ai_a.Value + hscale_force_sensor_ai_b.Value) / 2;
 		updateForceSensorHScales = true;
 
+		forceSensorAnalyzeGeneralButtonHscaleSensitiveness();
 		forceSensorAIChanged = true;
 		force_sensor_ai_drawingarea.QueueDraw(); //will fire ExposeEvent
 	}
@@ -1083,6 +1090,20 @@ public partial class ChronoJumpWindow
 		}
 
 		force_sensor_last_ab = Convert.ToInt32(hscale_force_sensor_ai_ab.Value);
+	}
+
+	private void forceSensorAnalyzeGeneralButtonHscaleSensitiveness()
+	{
+		//note ai_a can be working with ai_b or alone (depending on checkbutton_force_sensor_ai_b)
+
+		button_hscale_force_sensor_ai_a_pre.Sensitive = hscale_force_sensor_ai_a.Value > 1;
+
+		button_hscale_force_sensor_ai_a_post.Sensitive = ( hscale_force_sensor_ai_a.Value < fsAI.GetLength() -2 &&
+				(! checkbutton_force_sensor_ai_b.Active || hscale_force_sensor_ai_a.Value < hscale_force_sensor_ai_b.Value) );
+
+		button_hscale_force_sensor_ai_b_pre.Sensitive = hscale_force_sensor_ai_b.Value > hscale_force_sensor_ai_a.Value;
+
+		button_hscale_force_sensor_ai_b_post.Sensitive = hscale_force_sensor_ai_b.Value < fsAI.GetLength() -2;
 	}
 
 	private void on_button_hscale_force_sensor_ai_a_pre_clicked (object o, EventArgs args)

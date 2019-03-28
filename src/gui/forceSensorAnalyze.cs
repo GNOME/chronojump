@@ -581,6 +581,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_red_force_ai; 		//RFD max
 	Gdk.GC pen_gray_discont_force_ai; 	//vertical lines
 	Gdk.GC pen_yellow_force_ai; 		//0 force
+	Gdk.GC pen_white_force_ai; 		//white box to ensure yellow text is not overlapped
 
 	private void forceSensorAIPlot()
 	{
@@ -601,6 +602,7 @@ public partial class ChronoJumpWindow
 	}
 
 	Pango.Layout layout_force_ai_text;
+	Pango.Layout layout_force_ai_text_big;
 	private void force_ai_graphs_init()
 	{
 		colormapForceAI = Gdk.Colormap.System;
@@ -611,6 +613,8 @@ public partial class ChronoJumpWindow
 		bool success = colormapForceAI.AllocColor (ref UtilGtk.YELLOW,true,true);
 		LogB.Information("Yellow success!: " + success.ToString()); //sempre dona success
 
+		colormapForceAI.AllocColor (ref UtilGtk.WHITE,true,true);
+
 		pen_black_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		//potser llegir els valors de la Gdk.GC
 		try{
@@ -620,12 +624,14 @@ public partial class ChronoJumpWindow
 		pen_blue_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_red_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_yellow_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
+		pen_white_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_gray_discont_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 
 		pen_black_force_ai.Foreground = UtilGtk.BLACK;
 		pen_blue_force_ai.Foreground = UtilGtk.BLUE_PLOTS;
 		pen_red_force_ai.Foreground = UtilGtk.RED_PLOTS;
 		pen_yellow_force_ai.Foreground = UtilGtk.YELLOW;
+		pen_white_force_ai.Foreground = UtilGtk.WHITE;
 		pen_gray_discont_force_ai.Foreground = UtilGtk.GRAY;
 
 		//pen_black_force_ai.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
@@ -635,11 +641,14 @@ public partial class ChronoJumpWindow
 
 		pen_blue_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		pen_red_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
-		pen_yellow_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		pen_yellow_force_ai.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		pen_white_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		pen_gray_discont_force_ai.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 
 		layout_force_ai_text = new Pango.Layout (force_sensor_ai_drawingarea.PangoContext);
 		layout_force_ai_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+		layout_force_ai_text_big = new Pango.Layout (force_sensor_ai_drawingarea.PangoContext);
+		layout_force_ai_text_big.FontDescription = Pango.FontDescription.FromString ("Courier 12");
 	}
 
 	private void forcePaintAnalyzeGeneralTimeValue(int time, bool solid)
@@ -837,13 +846,18 @@ public partial class ChronoJumpWindow
 		force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
 				xposA, 0, xposA, allocation.Height -20);
 
-		layout_force_ai_text.SetMarkup("A");
+		layout_force_ai_text_big.SetMarkup("A");
 		int textWidth = 1;
 		int textHeight = 1;
-		layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+		layout_force_ai_text_big.GetPixelSize(out textWidth, out textHeight);
+
+		//draw white rectangle on the end to ensure A is shown
+		Rectangle rect = new Rectangle(xposA - (textWidth -1), allocation.Height - textHeight, 2 * (textWidth -1), textHeight);
+		force_sensor_ai_pixmap.DrawRectangle(pen_white_force_ai, true, rect);
+
 		force_sensor_ai_pixmap.DrawLayout (pen_yellow_force_ai,
 				xposA - textWidth/2, allocation.Height - textHeight,
-				layout_force_ai_text);
+				layout_force_ai_text_big);
 
 		int xposB = 0;
 		if(checkbutton_force_sensor_ai_b.Active && hscaleLower != hscaleHigher)
@@ -852,13 +866,18 @@ public partial class ChronoJumpWindow
 			force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
 					xposB, 0, xposB, allocation.Height -20);
 
-			layout_force_ai_text.SetMarkup("B");
+			layout_force_ai_text_big.SetMarkup("B");
 			textWidth = 1;
 			textHeight = 1;
-			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+			layout_force_ai_text_big.GetPixelSize(out textWidth, out textHeight);
+
+			//draw white rectangle on the end to ensure A is shown
+			rect = new Rectangle(xposB - (textWidth -1), allocation.Height - textHeight, 2 * (textWidth -1), textHeight);
+			force_sensor_ai_pixmap.DrawRectangle(pen_white_force_ai, true, rect);
+
 			force_sensor_ai_pixmap.DrawLayout (pen_yellow_force_ai,
 					xposB - textWidth/2, allocation.Height - textHeight,
-					layout_force_ai_text);
+					layout_force_ai_text_big);
 		}
 
 		// 6) if only A calculate RFD and exit

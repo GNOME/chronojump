@@ -85,7 +85,7 @@ public abstract class EncoderCapture
 	//this will be used to stop encoder automatically	
 	protected int consecutiveZeros;
 	protected int consecutiveZerosMax;
-		
+	protected bool automaticallyEndByTime;	
 	//specific of some subclasses
 	protected bool lastDirectionStoredIsUp;
 	protected bool capturingFirstPhase;
@@ -204,6 +204,7 @@ public abstract class EncoderCapture
 		//or to save this set and wait for the next on cont mode
 		consecutiveZeros = -1;		
 		consecutiveZerosMax = timeEnd * 1000;
+		automaticallyEndByTime = (timeEnd >= 0);
 
 		initSpecific();
 
@@ -389,6 +390,7 @@ public abstract class EncoderCapture
 				 * 1500 is conversion to milliseconds and * 1.5 to have enough time to move after clusters res
 				 */
 				if(
+						automaticallyEndByTime &&
 						(
 						 (Ecca.curvesAccepted > 0 && consecutiveZeros >= consecutiveZerosMax) ||
 						 (! cont && Ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax))

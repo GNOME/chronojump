@@ -97,6 +97,8 @@ public class PreferencesWindow
 	
 	//encoder capture tab
 	[Widget] Gtk.SpinButton spin_encoder_capture_time;
+	[Widget] Gtk.CheckButton check_encoder_capture_inactivity_end_time;
+	[Widget] Gtk.HBox hbox_encoder_capture_inactivity_time;
 	[Widget] Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
 	[Widget] Gtk.Image image_encoder_gravitatory;
 	[Widget] Gtk.Image image_encoder_inertial;
@@ -403,8 +405,19 @@ public class PreferencesWindow
 
 	
 		//encoder capture -->
+
 		PreferencesWindowBox.spin_encoder_capture_time.Value = preferences.encoderCaptureTime;
-		PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value = preferences.encoderCaptureInactivityEndTime;
+
+		if(preferences.encoderCaptureInactivityEndTime < 0) {
+			PreferencesWindowBox.check_encoder_capture_inactivity_end_time.Active = false;
+			PreferencesWindowBox.hbox_encoder_capture_inactivity_time.Sensitive = false;
+			PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value = 3;
+		} else {
+			PreferencesWindowBox.check_encoder_capture_inactivity_end_time.Active = true;
+			PreferencesWindowBox.hbox_encoder_capture_inactivity_time.Sensitive = true;
+			PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value = preferences.encoderCaptureInactivityEndTime;
+		}
+
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_gravity.png");
 		PreferencesWindowBox.image_encoder_gravitatory.Pixbuf = pixbuf;
@@ -512,6 +525,11 @@ public class PreferencesWindow
 	private void on_radio_encoder_capture_show_only_some_bars_toggled (object o, EventArgs args)
 	{
 		spin_encoder_capture_show_only_some_bars.Sensitive = true;
+	}
+
+	private void on_check_encoder_capture_inactivity_end_time_clicked (object o, EventArgs args)
+	{
+		hbox_encoder_capture_inactivity_time.Sensitive = check_encoder_capture_inactivity_end_time.Active;
 	}
 
 	//private void on_notebook_encoder_capture_gi_change_current_page (object o, Gtk.ChangeCurrentPageArgs args)
@@ -1300,11 +1318,16 @@ public class PreferencesWindow
 				preferences.encoderCaptureTime,
 				(int) PreferencesWindowBox.spin_encoder_capture_time.Value);
 
-		preferences.encoderCaptureInactivityEndTime = preferencesChange(
-				"encoderCaptureInactivityEndTime",
-				preferences.encoderCaptureInactivityEndTime,
-				(int) PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value);
-
+		if(! PreferencesWindowBox.check_encoder_capture_inactivity_end_time.Active)
+		{
+			SqlitePreferences.Update("encoderCaptureInactivityEndTime", "-1", true);
+			preferences.encoderCaptureInactivityEndTime = -1;
+		} else {
+			preferences.encoderCaptureInactivityEndTime = preferencesChange(
+					"encoderCaptureInactivityEndTime",
+					preferences.encoderCaptureInactivityEndTime,
+					(int) PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value);
+		}
 
 		preferences.encoderCaptureMinHeightGravitatory = preferencesChange(
 				"encoderCaptureMinHeightGravitatory",

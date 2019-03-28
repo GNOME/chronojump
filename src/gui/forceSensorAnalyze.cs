@@ -555,6 +555,10 @@ public partial class ChronoJumpWindow
 		hscale_force_sensor_ai_b.SetRange(1, fsAI.GetLength() -2);
 		hscale_force_sensor_ai_ab.SetRange(1, fsAI.GetLength() -2);
 
+		//on zoom put hscale B at the right
+		if(zoomB >= 0)
+			hscale_force_sensor_ai_b.Value = fsAI.GetLength() -1;
+
 		//to update values
 		on_hscale_force_sensor_ai_a_value_changed (new object (), new EventArgs ());
 	}

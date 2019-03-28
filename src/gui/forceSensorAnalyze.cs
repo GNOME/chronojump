@@ -1003,6 +1003,10 @@ public partial class ChronoJumpWindow
 		if(fsAI == null || fsAI.GetLength() == 0)
 			return;
 
+		//do not allow A to be higher than B (fix multiple possible problems)
+		if(checkbutton_force_sensor_ai_b.Active && hscale_force_sensor_ai_a.Value > hscale_force_sensor_ai_b.Value)
+			hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_b.Value;
+
 		int count = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 		label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 		label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
@@ -1027,6 +1031,10 @@ public partial class ChronoJumpWindow
 	{
 		if(fsAI == null || fsAI.GetLength() == 0)
 			return;
+
+		//do not allow B to be lower than A (fix multiple possible problems)
+		if(hscale_force_sensor_ai_b.Value < hscale_force_sensor_ai_a.Value)
+			hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_a.Value;
 
 		int count = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
 		label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();

@@ -1453,7 +1453,7 @@ msgstr "Análisis general"
 #: ../glade/app1.glade.h:309
 #| msgid "Automatic"
 msgid "RFD Automatic"
-msgstr "RFA automático"
+msgstr "RFD automático"
 
 #: ../glade/app1.glade.h:310
 msgid "Recalculate"

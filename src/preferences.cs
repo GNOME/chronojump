@@ -57,7 +57,7 @@ public class Preferences
 	
 	//encoder capture
 	public int encoderCaptureTime;
-	public int encoderCaptureInactivityEndTime;
+	public int encoderCaptureInactivityEndTime; // -1 if not automatically end
 	public Constants.EncoderVariablesCapture encoderCaptureMainVariable;
 	public int encoderCaptureMinHeightGravitatory;
 	public int encoderCaptureMinHeightInertial;

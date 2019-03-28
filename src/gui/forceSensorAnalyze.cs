@@ -516,19 +516,25 @@ public partial class ChronoJumpWindow
 				Util.IsNumber(label_force_sensor_ai_time_a.Text, true) &&
 				Util.IsNumber(label_force_sensor_ai_time_b.Text, true))
 		{
-			zoomA = fsAI.GetTimeMS(Convert.ToInt32(hscale_force_sensor_ai_a.Value)) * 1000;
-			zoomB = fsAI.GetTimeMS(Convert.ToInt32(hscale_force_sensor_ai_b.Value)) * 1000;
+			//invert hscales if needed
+			int firstValue = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+			int secondValue = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+
+			if(firstValue > secondValue) {
+				int temp = firstValue;
+				firstValue = secondValue;
+				secondValue = firstValue;
+			}
+
+			//-1 and +1 to have the points at the edges to calcule the RFDs
+			zoomA = fsAI.GetTimeMS(firstValue -1) * 1000;
+			zoomB = fsAI.GetTimeMS(secondValue +1) * 1000;
 
 			//do not zoom if both are the same
 			if(zoomA == zoomB)
 			{
 				zoomA = -1;
 				zoomB = -1;
-			} else if(zoomA > zoomB) //invert if needed
-			{
-				double temp = zoomA;
-				zoomA = zoomB;
-				zoomB = temp;
 			}
 		}
 
@@ -756,6 +762,10 @@ public partial class ChronoJumpWindow
 	{
 		forceSensorZoomApplied = false;
 	}
+	private int hscale_force_sensor_ai_a_BeforeZoom = 0;
+	private int hscale_force_sensor_ai_a_AtZoom = 0;
+	private int hscale_force_sensor_ai_b_BeforeZoom = 0;
+	private int hscale_force_sensor_ai_b_AtZoom = 0;
 	private void on_button_force_sensor_ai_zoom_clicked (object o, EventArgs args)
 	{
 		forceSensorZoomApplied = ! forceSensorZoomApplied;
@@ -765,7 +775,22 @@ public partial class ChronoJumpWindow
 		else
 			button_force_sensor_ai_zoom.Label = "Zoom [A-B]";
 
+		//store hscale a to help return to position on unzoom
+		if(forceSensorZoomApplied) {
+			hscale_force_sensor_ai_a_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+			hscale_force_sensor_ai_b_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		} else {
+			hscale_force_sensor_ai_a_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+			hscale_force_sensor_ai_b_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		}
+
 		forceSensorDoGraphAI();
+
+		if(! forceSensorZoomApplied)
+		{
+			hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_a_BeforeZoom + (hscale_force_sensor_ai_a_AtZoom -1);
+			hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_a_BeforeZoom + (hscale_force_sensor_ai_b_AtZoom -1);
+		}
 	}
 
 	private void forceSensorAnalyzeManualGraphDo(Rectangle allocation)

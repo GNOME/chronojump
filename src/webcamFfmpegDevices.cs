@@ -30,6 +30,8 @@ public abstract class WebcamFfmpegGetDevices
 	public abstract List<string> GetDevices();
 
 	protected abstract List<string> createParameters();
+
+	protected abstract List<string> parse(string devicesOutput);
 }
 
 public class WebcamFfmpegGetDevicesLinux : WebcamFfmpegGetDevices
@@ -60,6 +62,11 @@ public class WebcamFfmpegGetDevicesLinux : WebcamFfmpegGetDevices
 	{
 		return new List<string>();
 	}
+
+	protected override List<string> parse(string devicesOutput)
+	{
+		return new List<string>();
+	}
 }
 
 
@@ -71,10 +78,7 @@ public class WebcamFfmpegGetDevicesWindows : WebcamFfmpegGetDevices
 
 	public override List<string> GetDevices()
 	{
-		string executable = "ffmpeg";
-		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.WINDOWS)
-			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
-
+		string executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
 		List<string> parameters = createParameters();
 
 		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);
@@ -130,7 +134,7 @@ public class WebcamFfmpegGetDevicesWindows : WebcamFfmpegGetDevices
 		return parameters;
 	}
 
-	private List<string> parse(string devicesOutput)
+	protected override List<string> parse(string devicesOutput)
 	{
 		LogB.Information("Called parse");
 
@@ -173,11 +177,65 @@ public class WebcamFfmpegGetDevicesMac : WebcamFfmpegGetDevices
 
 	public override List<string> GetDevices()
 	{
-		return new List<string>();
+		string executable = "ffmpeg";
+		List<string> parameters = createParameters();
+
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);
+
+		LogB.Information("---- stdout: ----");
+		LogB.Information(execute_result.stdout);
+		LogB.Information("---- stderr: ----");
+		LogB.Information(execute_result.stderr);
+		LogB.Information("-----------------");
+
+		if(! execute_result.success)
+		{
+			/*
+			LogB.Information("WebcamFfmpegGetDevicesMac stdout: " + execute_result.stdout);
+			LogB.Information("WebcamFfmpegGetDevicesMac error: " + execute_result.stderr);
+			*/
+
+			return new List<string>();
+		}
+		else
+			return parse(execute_result.stdout);
 	}
 
 	protected override List<string> createParameters()
 	{
-		return new List<string>();
+		//ffmpeg -f avfoundation -list_devices true -i ""
+		List<string> parameters = new List<string>();
+
+		int i = 0;
+		parameters.Insert (i ++, "-f");
+		parameters.Insert (i ++, "avfoundation");
+		parameters.Insert (i ++, "-list_devices");
+		parameters.Insert (i ++, "true");
+		parameters.Insert (i ++, "-i");
+		parameters.Insert (i ++, "\"\"");
+
+		return parameters;
+	}
+
+	protected override List<string> parse(string devicesOutput)
+	{
+		LogB.Information("Called parse");
+
+		/*
+		 * break the big string in \n strings
+		 * https://stackoverflow.com/a/1547483
+		 */
+		string[] lines = devicesOutput.Split(
+				new[] { Environment.NewLine },
+				StringSplitOptions.None
+				);
+
+		List<string> parsedList = new List<string>();
+		foreach(string l in lines)
+		{
+			parsedList.Add(l);
+		}
+
+		return parsedList;
 	}
 }

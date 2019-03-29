@@ -36,20 +36,6 @@ public class UtilMultimedia
 
 	public static List<string> GetVideoDevices ()
 	{
-		/*
-		 * TODO: reimplement this with ffmpeg
-		 *
-		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
-		string [] devicesStr = new String[devices.Count];
-		int count = 0;
-		LogB.Information("Searching video devices");
-		foreach(LongoMatch.Video.Utils.Device dev in devices) {
-			devicesStr[count++] = dev.ID.ToString();
-			LogB.Information(dev.ID.ToString());
-		}
-		return devicesStr;
-		*/
-
 		WebcamFfmpegGetDevices w;
 
 		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
@@ -57,7 +43,6 @@ public class UtilMultimedia
 		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.WINDOWS)
 			w = new WebcamFfmpegGetDevicesWindows();
 		else
-			//return new List<string>();
 			w = new WebcamFfmpegGetDevicesMac();
 
 		return w.GetDevices();

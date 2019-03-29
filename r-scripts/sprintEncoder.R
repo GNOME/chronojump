@@ -62,7 +62,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         
         raceAnalyzer = read.csv2(file = filename, sep = ";")
         colnames(raceAnalyzer) = c("displacement", "time", "force")
-        raceAnalyzer$force = (raceAnalyzer$force + 13544) * 0.2 /2  #TODO: Implement the calibration factor comming from the arduino
+        raceAnalyzer$force = (raceAnalyzer$force) * 0.175806451613 /2  #TODO: Implement the calibration factor comming from the arduino
         totalTime = raceAnalyzer$time/1E6     #Converting microseconds to seconds
         elapsedTime = diff(c(0,totalTime))      #The elapsed time between each sample
         

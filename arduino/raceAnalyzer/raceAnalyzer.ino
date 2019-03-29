@@ -20,7 +20,8 @@ String version = "Race_Analyzer-0.1";
 int pps = 40; //Pulses Per Sample. How many pulses are needed to get a sample
 int ppsAddress = 0; //Where is stored the pps value in the EEPROM
 
-int offset = 14230;
+int offset = 0;
+
 int offsetAddress = 2;
 float calibrationFactor = 0.140142;
 int calibrationAddress = 4;
@@ -44,7 +45,7 @@ void setup() {
   loadCell.begin();
   loadCell.setGain(GAIN_ONE);
   //tare();
-
+  EEPROM.get(offsetAddress, offset);;
   //EEPROM.get(ppsAddress, pps);
   //Using the rising flank of the A photocell we have a 200 PPR.
   attachInterrupt(digitalPinToInterrupt(encoderPinA), changingA, RISING);
@@ -334,7 +335,9 @@ void set_offset(String inputString)
 
 void get_offset(void)
 {
-  Serial.println(offset);
+  int stored_offset = 0;
+  EEPROM.get(offsetAddress, stored_offset);
+  Serial.println(stored_offset);
 }
 
 void get_calibration_factor(void)

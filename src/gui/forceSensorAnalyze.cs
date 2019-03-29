@@ -1048,7 +1048,7 @@ public partial class ChronoJumpWindow
 			updateForceSensorHScales = true;
 		}
 
-		forceSensorAnalyzeGeneralButtonHscaleSensitiveness();
+		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		forceSensorAIChanged = true;
 		force_sensor_ai_drawingarea.QueueDraw(); //will fire ExposeEvent
 	}
@@ -1075,7 +1075,7 @@ public partial class ChronoJumpWindow
 		hscale_force_sensor_ai_ab.Value = Convert.ToInt32(hscale_force_sensor_ai_a.Value + hscale_force_sensor_ai_b.Value) / 2;
 		updateForceSensorHScales = true;
 
-		forceSensorAnalyzeGeneralButtonHscaleSensitiveness();
+		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		forceSensorAIChanged = true;
 		force_sensor_ai_drawingarea.QueueDraw(); //will fire ExposeEvent
 	}
@@ -1111,7 +1111,7 @@ public partial class ChronoJumpWindow
 		force_sensor_last_ab = Convert.ToInt32(hscale_force_sensor_ai_ab.Value);
 	}
 
-	private void forceSensorAnalyzeGeneralButtonHscaleSensitiveness()
+	private void forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness()
 	{
 		//note ai_a can be working with ai_b or alone (depending on checkbutton_force_sensor_ai_b)
 
@@ -1123,6 +1123,8 @@ public partial class ChronoJumpWindow
 		button_hscale_force_sensor_ai_b_pre.Sensitive = hscale_force_sensor_ai_b.Value > hscale_force_sensor_ai_a.Value;
 
 		button_hscale_force_sensor_ai_b_post.Sensitive = hscale_force_sensor_ai_b.Value < fsAI.GetLength() -2;
+
+		button_force_sensor_ai_zoom.Sensitive = forceSensorZoomApplied || hscale_force_sensor_ai_a.Value != hscale_force_sensor_ai_b.Value;
 	}
 
 	private void on_button_hscale_force_sensor_ai_a_pre_clicked (object o, EventArgs args)

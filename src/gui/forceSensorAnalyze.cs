@@ -1029,7 +1029,7 @@ public partial class ChronoJumpWindow
 
 		//do not allow A to be higher than B (fix multiple possible problems)
 		if(checkbutton_force_sensor_ai_b.Active && hscale_force_sensor_ai_a.Value > hscale_force_sensor_ai_b.Value)
-			hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_b.Value;
+			hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_a.Value;
 
 		int count = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 		label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
@@ -1059,7 +1059,7 @@ public partial class ChronoJumpWindow
 
 		//do not allow B to be lower than A (fix multiple possible problems)
 		if(hscale_force_sensor_ai_b.Value < hscale_force_sensor_ai_a.Value)
-			hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_a.Value;
+			hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_b.Value;
 
 		int count = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
 		label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
@@ -1116,12 +1116,9 @@ public partial class ChronoJumpWindow
 		//note ai_a can be working with ai_b or alone (depending on checkbutton_force_sensor_ai_b)
 
 		button_hscale_force_sensor_ai_a_pre.Sensitive = hscale_force_sensor_ai_a.Value > 1;
+		button_hscale_force_sensor_ai_b_pre.Sensitive = hscale_force_sensor_ai_b.Value > 1;
 
-		button_hscale_force_sensor_ai_a_post.Sensitive = ( hscale_force_sensor_ai_a.Value < fsAI.GetLength() -2 &&
-				(! checkbutton_force_sensor_ai_b.Active || hscale_force_sensor_ai_a.Value < hscale_force_sensor_ai_b.Value) );
-
-		button_hscale_force_sensor_ai_b_pre.Sensitive = hscale_force_sensor_ai_b.Value > hscale_force_sensor_ai_a.Value;
-
+		button_hscale_force_sensor_ai_a_post.Sensitive = hscale_force_sensor_ai_a.Value < fsAI.GetLength() -2;
 		button_hscale_force_sensor_ai_b_post.Sensitive = hscale_force_sensor_ai_b.Value < fsAI.GetLength() -2;
 
 		button_force_sensor_ai_zoom.Sensitive = forceSensorZoomApplied || hscale_force_sensor_ai_a.Value != hscale_force_sensor_ai_b.Value;

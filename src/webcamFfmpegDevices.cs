@@ -233,7 +233,19 @@ public class WebcamFfmpegGetDevicesMac : WebcamFfmpegGetDevices
 		List<string> parsedList = new List<string>();
 		foreach(string l in lines)
 		{
-			parsedList.Add(l);
+			LogB.Information("line: " + l);
+			foreach(Match match in Regex.Matches(l, "\"([^\"]*)\""))
+			{
+				//remove quotes from the match (at beginning and end) to add it in SQL
+				string s = match.ToString().Substring(1, match.ToString().Length -2);
+
+				LogB.Information("add match: " + s);
+				parsedList.Add(s);
+			}
+
+			//after the list of video devices comes the list of audio devices, skip it
+			if(l.Contains("AVFoundation audio devices"))
+				break;
 		}
 
 		return parsedList;

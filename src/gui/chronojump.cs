@@ -2874,7 +2874,7 @@ public partial class ChronoJumpWindow
 		SqlitePersonSession.DeletePersonFromSessionAndTests(
 				currentSession.UniqueID.ToString(), currentPerson.UniqueID.ToString());
 		
-		resetAllTreeViews(false, true, false); //fill, resetPersons, fillPersons
+		resetAllTreeViews(false, true, true); //fill, resetPersons, fillPersons
 		bool foundPersons = selectRowTreeView_persons(treeview_persons, 0);
 			
 		if(createdStatsWin) {

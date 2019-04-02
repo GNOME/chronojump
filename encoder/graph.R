@@ -943,7 +943,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         #if(draw & (!superpose || (superpose & highlight)) & isJump) 
         if(draw & (paintMode != "superpose" || (paintMode == "superpose" & highlight)) & exercisePercentBodyWeight == 100) {
                 weight=mass*g
-                abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
+                abline(h=weight,lty=3,col=cols[2]) #body force, lower than this, person in the air (in a jump)
                 text(x=length(force),y=weight,labels=paste(translateToPrint("Weight"),"(N)"),cex=.8,adj=c(.5,0),col=cols[2])
                 
                 #define like this, because if eccentric == 0, length(eccentric) == 1

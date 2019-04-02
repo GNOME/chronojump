@@ -831,31 +831,10 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         }
         
         #---------------- speed stuff ------------>
-        
-        meanSpeedC = mean(speed$y[min(concentric):max(concentric)])
-        if(isPropulsive) {
-                meanSpeedC = mean(speed$y[min(concentric):propulsiveEnd])
-        }
-        
-        if(eccon == "c") {
-                if(showSpeed && paintMode != "superpose") {
-                        arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
-                }
-        } else {
-                if(landing == -1)
-                        meanSpeedE = mean(speed$y[startX:max(eccentric)])
-                else
-                        meanSpeedE = mean(speed$y[landing:max(eccentric)])
-                
-                if(showSpeed && paintMode != "superpose") {
-                        if(landing == -1)
-                                arrows(x0=startX,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
-                        else
-                                arrows(x0=landing,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
-                        
-                        arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
-                }
-        }
+
+	if(draw && showSpeed)
+		axisLineRight = paintMeansArrowsAxis(speed$y, paintMode == "superpose", eccon, isPropulsive, landing,
+				     showAxes, axisLineRight, concentric, propulsiveEnd, eccentric, colSpeed, ltySpeed, labelsXeXc)
         
         if(draw) {
                 ylimHeight = max(abs(range(accel$y)))
@@ -863,12 +842,6 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 if(knRanges[1] != "undefined")
                         ylim = knRanges$accely
                 
-                #plot the speed axis
-                if(showAxes & showSpeed) {
-			paintAxis(paintMode == "superpose", eccon, meanSpeedC, meanSpeedE, axisLineRight, colSpeed,ltySpeed)
-                        axisLineRight = axisLineRight +2
-                }
-
                 if(showAccel) {
                         par(new=T)
                         #if(highlight==FALSE)
@@ -1082,7 +1055,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 }
                 
                 if(showAxes) {
-			paintAxis(paintMode == "superpose", eccon, meanPowerC, meanPowerE, axisLineRight, colPower, ltyPower)
+			paintAxis(paintMode == "superpose", eccon, meanPowerC, meanPowerE, axisLineRight, colPower, ltyPower, labelsXeXc)
                         axisLineRight = axisLineRight +2
                 }
         }
@@ -1152,9 +1125,43 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         }
 }
 
+paintMeansArrowsAxis <- function(vect, superpose, eccon, isPropulsive, landing,
+				 showAxes, axisLineRight, concentric, propulsiveEnd, eccentric, col, lty, labelsXeXc)
+{
+	meanC = mean(vect[min(concentric):max(concentric)])
+	if(isPropulsive) {
+		meanC = mean(vect[min(concentric):propulsiveEnd])
+	}
+
+	if(eccon == "c") {
+		if(! superpose)
+			arrows(x0=min(concentric),y0=meanC,x1=propulsiveEnd,y1=meanC,col=col,code=3)
+	} else {
+		if(landing == -1)
+			meanE = mean(vect[startX:max(eccentric)])
+		else
+			meanE = mean(vect[landing:max(eccentric)])
+
+		if(! superpose) {
+			if(landing == -1)
+				arrows(x0=startX,y0=meanE,x1=max(eccentric),y1=meanE,col=col,code=3)
+			else
+				arrows(x0=landing,y0=meanE,x1=max(eccentric),y1=meanE,col=col,code=3)
+
+			arrows(x0=min(concentric),y0=meanC,x1=propulsiveEnd,y1=meanC,col=col,code=3)
+		}
+	}
+
+	if(showAxes) {
+		paintAxis(superpose, eccon, meanC, meanE, axisLineRight, col,lty, labelsXeXc)
+		axisLineRight = axisLineRight +2;
+	}
+
+	return (axisLineRight)
+}
 
 #on paint different axis on the right are plotted depending on superpose and eccon
-paintAxis <- function(superpose, eccon, meanC, meanE, axisLineRight, col, lty)
+paintAxis <- function(superpose, eccon, meanC, meanE, axisLineRight, col, lty, labelsXeXc)
 {
 	if(eccon == "c") {
 		if(! superpose) {

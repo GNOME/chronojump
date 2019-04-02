@@ -2133,7 +2133,8 @@ public partial class ChronoJumpWindow
 	//no need of reationTimes because is done in:
 	//gui/reactionTime on_extra_window_reaction_times_test_changed()
 	
-	private void on_combo_pulses_changed(object o, EventArgs args) {
+	private void on_combo_pulses_changed(object o, EventArgs args)
+	{
 		//combo_pulses.Changed -= new EventHandler (on_combo_pulses_changed);
 
 		ComboBox combo = o as ComboBox;
@@ -3090,9 +3091,13 @@ public partial class ChronoJumpWindow
 			//currently no combo_multi_chronopic
 			treeview_multi_chronopic_storeReset(false);
 			fillTreeView_multi_chronopic();
+
+			if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY){
+				label_gravitatory_vpf_propulsive.Visible = preferences.encoderPropulsive;
+			}
 		}
-		catch 
-		{
+		catch {
+			LogB.Information("catched at on_preferences_accepted ()");
 		}
 	}
 
@@ -3310,7 +3315,7 @@ public partial class ChronoJumpWindow
 				}
 				//hbox_encoder_capture_1_or_cont.Visible = true;
 				vbox_angle_now.Visible = false;
-				label_gravitatory_vpf_propulsive.Visible = true;
+				label_gravitatory_vpf_propulsive.Visible = preferences.encoderPropulsive;
 
 				notebook_encoder_top.Page = 0;
 			} else {

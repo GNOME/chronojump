@@ -1028,36 +1028,8 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                         plot(dynamics$powerBody, col="orangered3", xlab="", ylab="", xlim=xlim, ylim=ylim, type="p", pch=3, axes=F);
                 }
                 
-                
-                meanPowerC = mean(power[min(concentric):max(concentric)])
-                if(isPropulsive) {
-                        meanPowerC = mean(power[min(concentric):propulsiveEnd])
-                }
-                
-                if(eccon == "c") {
-			if(paintMode != "superpose") {
-	                        arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
-			}
-                } else {
-                        if(landing == -1)
-                                meanPowerE = mean(power[startX:max(eccentric)])
-			else
-                                meanPowerE = mean(power[landing:max(eccentric)])
-
-			if(paintMode != "superpose") {
-				if(landing == -1)
-					arrows(x0=startX,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
-				else
-					arrows(x0=landing,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
-
-				arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
-			}
-                }
-                
-                if(showAxes) {
-			paintAxis(paintMode == "superpose", eccon, meanPowerC, meanPowerE, axisLineRight, colPower, ltyPower, labelsXeXc)
-                        axisLineRight = axisLineRight +2
-                }
+		axisLineRight = paintMeansArrowsAxis(power, paintMode == "superpose", eccon, isPropulsive, landing,
+				     showAxes, axisLineRight, concentric, propulsiveEnd, eccentric, colPower, ltyPower, labelsXeXc)
         }
         
         #time to arrive to peak power
@@ -1129,9 +1101,8 @@ paintMeansArrowsAxis <- function(vect, superpose, eccon, isPropulsive, landing,
 				 showAxes, axisLineRight, concentric, propulsiveEnd, eccentric, col, lty, labelsXeXc)
 {
 	meanC = mean(vect[min(concentric):max(concentric)])
-	if(isPropulsive) {
+	if(isPropulsive)
 		meanC = mean(vect[min(concentric):propulsiveEnd])
-	}
 
 	if(eccon == "c") {
 		if(! superpose)

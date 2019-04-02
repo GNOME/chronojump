@@ -3493,7 +3493,7 @@ doProcess <- function(options)
 
 			#TODO: highlight can ve used asking user if want to highlight any repetition, and this will be lwd=2 or 3
 
-			paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges, op$Analysis, i, FALSE,
+			paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges, op$Analysis, rownames(curves)[i], FALSE,
 			      1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
 			      repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
 			      myTitle, "", #title, subtitle

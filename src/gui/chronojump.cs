@@ -1607,7 +1607,12 @@ public partial class ChronoJumpWindow
 	private void fillTreeView_reaction_times (string filter) {
 		fillTreeView_reaction_times (filter, false);
 	}
-	private void fillTreeView_reaction_times (string filter, bool dbconOpened) {
+	private void fillTreeView_reaction_times (string filter, bool dbconOpened)
+	{
+		//do not crash if arrive here with no session
+		if(currentSession == null)
+			return;
+
 		string [] myRTs = SqliteReactionTime.SelectReactionTimes(dbconOpened, currentSession.UniqueID, -1, "", 
 				Sqlite.Orders_by.DEFAULT, -1);
 
@@ -1690,7 +1695,12 @@ public partial class ChronoJumpWindow
 	private void fillTreeView_pulses (string filter) {
 		fillTreeView_pulses (filter, false);
 	}
-	private void fillTreeView_pulses (string filter, bool dbconOpened) {
+	private void fillTreeView_pulses (string filter, bool dbconOpened)
+	{
+		//do not crash if arrive here with no session
+		if(currentSession == null)
+			return;
+
 		string [] myPulses = SqlitePulse.SelectPulses(dbconOpened, currentSession.UniqueID, -1);
 		myTreeViewPulses.Fill(myPulses, filter);
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewPulses, treeview_pulses);
@@ -1785,7 +1795,12 @@ public partial class ChronoJumpWindow
 	private void fillTreeView_multi_chronopic () {
 		fillTreeView_multi_chronopic (false);
 	}
-	private void fillTreeView_multi_chronopic (bool dbconOpened) {
+	private void fillTreeView_multi_chronopic (bool dbconOpened)
+	{
+		//do not crash if arrive here with no session
+		if(currentSession == null)
+			return;
+
 		string [] mcs = SqliteMultiChronopic.SelectTests(dbconOpened, currentSession.UniqueID, -1);
 		myTreeViewMultiChronopic.Fill(mcs, "");
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewMultiChronopic, treeview_multi_chronopic);

@@ -600,14 +600,6 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
 
 			if(paintMode == "superpose")
 				addRepCharsAboveLine(yValues, colPosition, nrep)
-			else {
-				par(new=T)
-				plot(startX:length(position),yValues,type="h",xlim=xlim,ylim=ylim,
-				     xlab="",ylab="",col="grey90",lty=lty[1],lwd=1,axes=F)
-			}
-			#                }
-			#                else
-			#                       plot(startX:length(position),yValues,type="l",xlim=xlim,ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
 
 			# show horizontal bars on all graphs except on superpose (on this mode only on first graph)
 			if(paintMode != "superpose" || nrep == 1)
@@ -735,8 +727,13 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 if(eccon != "c")
                         propulsiveEnd = length(eccentric) + length(isometric) + propulsiveEnd
         }
-        
-        
+
+	if(paintMode != "superpose") {
+		polygon(c(startX:propulsiveEnd, propulsiveEnd, startX),
+			c(yValues[startX:propulsiveEnd], min(yValues), min(yValues)),
+			col="grey90")
+	}
+
         print(c("propulsiveEnd at paint", propulsiveEnd))
         
         

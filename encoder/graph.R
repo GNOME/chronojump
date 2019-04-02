@@ -871,8 +871,10 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 }
                 
                 if(showAxes & showAccel) {
-                        axis(4, col=colAccel, lty=ltyAccel, line=axisLineRight, lwd=1, padj=-.5)
-                        axisLineRight = axisLineRight +2
+                        #axis(4, col=colAccel, lty=ltyAccel, line=axisLineRight, lwd=1, padj=-.5)
+                        #axisLineRight = axisLineRight +2
+			axisLineRight = paintMeansArrowsAxis(accel$y, paintMode == "superpose", eccon, isPropulsive, landing,
+							     showAxes, axisLineRight, concentric, propulsiveEnd, eccentric, colAccel, ltyAccel, labelsXeXc)
                 }
                 #mtext(text=paste("max accel:",round(max(accel$y),3)),side=3,at=which(accel$y == max(accel$y)),cex=.8,col=cols[1],line=2)
         }
@@ -917,10 +919,12 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
 		if(paintMode == "superpose")
 			addRepCharsAboveLine(force, colForce, nrep)
 
-                if(showAxes) {
-                        axis(4, col=colForce, lty=ltyForce, line=axisLineRight, lwd=1, padj=-.5)
-                        axisLineRight = axisLineRight +2
-                }
+     #           if(showAxes) {
+                        #axis(4, col=colForce, lty=ltyForce, line=axisLineRight, lwd=1, padj=-.5)
+                        #axisLineRight = axisLineRight +2
+			axisLineRight = paintMeansArrowsAxis(force, paintMode == "superpose", eccon, isPropulsive, landing,
+							     showAxes, axisLineRight, concentric, propulsiveEnd, eccentric, colForce, ltyForce, labelsXeXc)
+      #          }
                 
                 if(isInertial(encoderConfigurationName) && debugOld) {
                         #print("dynamics$forceDisc")

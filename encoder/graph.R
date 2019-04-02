@@ -865,25 +865,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 
                 #plot the speed axis
                 if(showAxes & showSpeed) {
-                        if(eccon == "c") {
-                                axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedC),
-                                     labels=c(min(axTicks(4)),0,max(axTicks(4)),
-                                              round(meanSpeedC,1)),
-                                     col=colSpeed, lty=ltySpeed, line=axisLineRight, lwd=1, padj=-.5)
-                                axis(4, at=meanSpeedC,
-                                     labels="Xc",
-                                     col=colSpeed, lty=ltySpeed, line=axisLineRight, lwd=1, padj=-2)
-                        }
-                        else {
-                                axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedE,meanSpeedC),
-                                     labels=c(min(axTicks(4)),0,max(axTicks(4)),
-                                              round(meanSpeedE,1),
-                                              round(meanSpeedC,1)),
-                                     col=colSpeed, lty=ltySpeed, line=axisLineRight, lwd=1, padj=-.5)
-                                axis(4, at=c(meanSpeedE,meanSpeedC),
-                                     labels=labelsXeXc,
-                                     col=colSpeed, lty=ltySpeed, line=axisLineRight, lwd=0, padj=-2)
-                        }
+			paintAxis(paintMode == "superpose", eccon, meanSpeedC, meanSpeedE, axisLineRight, colSpeed,ltySpeed)
                         axisLineRight = axisLineRight +2
                 }
 
@@ -1100,25 +1082,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 }
                 
                 if(showAxes) {
-                        if(eccon == "c") {
-                                axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanPowerC),
-                                     labels=c(min(axTicks(4)),0,max(axTicks(4)),
-                                              round(meanPowerC,1)),
-                                     col=colPower, lty=ltyPower, line=axisLineRight, lwd=2, padj=-.5)
-                                axis(4, at=meanPowerC,
-                                     labels="Xc",
-                                     col=colPower, lty=ltyPower, line=axisLineRight, lwd=2, padj=-2)
-                        }
-                        else {
-                                axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanPowerE,meanPowerC),
-                                     labels=c(min(axTicks(4)),0,max(axTicks(4)),
-                                              round(meanPowerE,1),
-                                              round(meanPowerC,1)),
-                                     col=colPower, lty=ltyPower, line=axisLineRight, lwd=1, padj=-.5)
-                                axis(4, at=c(meanPowerE,meanPowerC),
-                                     labels=labelsXeXc,
-                                     col=colPower, lty=ltyPower, line=axisLineRight, lwd=0, padj=-2)
-                        }
+			paintAxis(paintMode == "superpose", eccon, meanPowerC, meanPowerE, axisLineRight, colPower, ltyPower)
                         axisLineRight = axisLineRight +2
                 }
         }
@@ -1186,6 +1150,43 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
 		if(paintMode == "sideShareX")
 			box(col="gray", lty=2)
         }
+}
+
+
+#on paint different axis on the right are plotted depending on superpose and eccon
+paintAxis <- function(superpose, eccon, meanC, meanE, axisLineRight, col, lty)
+{
+	if(eccon == "c") {
+		if(! superpose) {
+			axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanC),
+			     labels=c(min(axTicks(4)),0,max(axTicks(4)),
+				      round(meanC,1)),
+			     col=col, lty=lty, line=axisLineRight, lwd=2, padj=-.5)
+			axis(4, at=meanC,
+			     labels="Xc",
+			     col=col, lty=lty, line=axisLineRight, lwd=2, padj=-2)
+		} else {
+			axis(4, at=c(min(axTicks(4)),0,max(axTicks(4))),
+			     labels=c(min(axTicks(4)),0,max(axTicks(4))),
+			     col=col, lty=lty, line=axisLineRight, lwd=2, padj=-.5)
+		}
+	}
+	else {
+		if(! superpose) {
+			axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanE,meanC),
+			     labels=c(min(axTicks(4)),0,max(axTicks(4)),
+				      round(meanE,1),
+				      round(meanC,1)),
+			     col=col, lty=lty, line=axisLineRight, lwd=1, padj=-.5)
+			axis(4, at=c(meanE,meanC),
+			     labels=labelsXeXc,
+			     col=col, lty=lty, line=axisLineRight, lwd=0, padj=-2)
+		} else {
+			axis(4, at=c(min(axTicks(4)),0,max(axTicks(4))),
+			     labels=c(min(axTicks(4)),0,max(axTicks(4))),
+			     col=col, lty=lty, line=axisLineRight, lwd=1, padj=-.5)
+		}
+	}
 }
 
 paintVariablesLegend <- function(showPosition, showSpeed, showAccel, showForce, showPower, showTriggers)

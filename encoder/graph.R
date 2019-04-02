@@ -830,7 +830,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         #---------------- speed stuff ------------>
 
 	if(draw && showSpeed)
-		axisLineRight = paintMeansArrowsAxis(speed$y, paintMode == "superpose", eccon, isPropulsive, landing,
+		axisLineRight = paintMeansArrowsAxis(speed$y, paintMode == "superpose", eccon, isPropulsive, startX, landing,
 				     showAxes, axisLineRight, concentric, propulsiveEnd, eccentric, colSpeed, ltySpeed, labelsXeXc)
         
         if(draw) {
@@ -870,7 +870,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 if(showAxes & showAccel) {
                         #axis(4, col=colAccel, lty=ltyAccel, line=axisLineRight, lwd=1, padj=-.5)
                         #axisLineRight = axisLineRight +2
-			axisLineRight = paintMeansArrowsAxis(accel$y, paintMode == "superpose", eccon, isPropulsive, landing,
+			axisLineRight = paintMeansArrowsAxis(accel$y, paintMode == "superpose", eccon, isPropulsive, startX, landing,
 							     showAxes, axisLineRight, concentric, propulsiveEnd, eccentric, colAccel, ltyAccel, labelsXeXc)
                 }
                 #mtext(text=paste("max accel:",round(max(accel$y),3)),side=3,at=which(accel$y == max(accel$y)),cex=.8,col=cols[1],line=2)
@@ -919,7 +919,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
      #           if(showAxes) {
                         #axis(4, col=colForce, lty=ltyForce, line=axisLineRight, lwd=1, padj=-.5)
                         #axisLineRight = axisLineRight +2
-			axisLineRight = paintMeansArrowsAxis(force, paintMode == "superpose", eccon, isPropulsive, landing,
+			axisLineRight = paintMeansArrowsAxis(force, paintMode == "superpose", eccon, isPropulsive, startX, landing,
 							     showAxes, axisLineRight, concentric, propulsiveEnd, eccentric, colForce, ltyForce, labelsXeXc)
       #          }
                 
@@ -1029,7 +1029,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                         plot(dynamics$powerBody, col="orangered3", xlab="", ylab="", xlim=xlim, ylim=ylim, type="p", pch=3, axes=F);
                 }
                 
-		axisLineRight = paintMeansArrowsAxis(power, paintMode == "superpose", eccon, isPropulsive, landing,
+		axisLineRight = paintMeansArrowsAxis(power, paintMode == "superpose", eccon, isPropulsive, startX, landing,
 				     showAxes, axisLineRight, concentric, propulsiveEnd, eccentric, colPower, ltyPower, labelsXeXc)
         }
         
@@ -1098,7 +1098,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
         }
 }
 
-paintMeansArrowsAxis <- function(vect, superpose, eccon, isPropulsive, landing,
+paintMeansArrowsAxis <- function(vect, superpose, eccon, isPropulsive, startX, landing,
 				 showAxes, axisLineRight, concentric, propulsiveEnd, eccentric, col, lty, labelsXeXc)
 {
 	meanC = mean(vect[min(concentric):max(concentric)])

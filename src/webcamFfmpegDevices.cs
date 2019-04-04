@@ -212,7 +212,8 @@ public class WebcamFfmpegGetDevicesMac : WebcamFfmpegGetDevices
 		parameters.Insert (i ++, "-list_devices");
 		parameters.Insert (i ++, "true");
 		parameters.Insert (i ++, "-i");
-		parameters.Insert (i ++, "\"\"");
+		//parameters.Insert (i ++, "\"\"");
+		parameters.Insert (i ++, "''");
 
 		return parameters;
 	}

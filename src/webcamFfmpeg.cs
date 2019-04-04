@@ -25,6 +25,7 @@ using System.IO;
 using System.Text.RegularExpressions; //Regex
 
 //note the stdout and stderr redirection to false is to fix problems with windows
+//on OSX we have copied it with sudo to /usr/local/bin it will be better if we put the binary of ffmpeg and ffplay on binaries on Chronojump installation
 
 public class WebcamFfmpeg : Webcam
 {

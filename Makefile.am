@@ -27,6 +27,7 @@ ChangeLog:
 dist: ChangeLog
 
 if OSTYPE_OS_X
+SUBDIRS += ffmpegBinariesMac
 export CHRONOJUMP_VERSION = @PACKAGE_VERSION@
 export CHRONOJUMP_COMMIT = origin/@GIT_BRANCH@
 CERBERO_COMMAND = /Users/chronojump/cerbero/cerbero-uninstalled -c /Users/chronojump/cerbero/cerbero-extras/chronojump.cbc

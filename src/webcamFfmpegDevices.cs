@@ -225,26 +225,29 @@ public abstract class WebcamFfmpegGetDevicesWinMac : WebcamFfmpegGetDevices
 				StringSplitOptions.None
 				);
 
+		bool started = false;
 		foreach(string l in lines)
 		{
 			LogB.Information("line: " + l);
-			foreach(Match match in Regex.Matches(l, "\"([^\"]*)\""))
+
+			//devices start after the videoDevString line
+			if(! started)
 			{
-				//remove quotes from the match (at beginning and end) to add it in SQL
-				string s = match.ToString().Substring(1, match.ToString().Length -2);
+				if(l.Contains(videoDevString))
+					started = true;
 
-				LogB.Information("add match: " + s);
-				if(s.Length < 3)
-					break;
-
-				wd_list.Add(new WebcamDevice(s[1].ToString(), s)); //code will be char 1: "[0] my device"
+				continue;
 			}
+
+			parseMatch(l);
 
 			//after the list of video devices comes the list of audio devices, skip it
 			if(l.Contains(audioDevString))
 				break;
 		}
 	}
+
+	protected abstract void parseMatch(string l);
 
 	protected bool executableExists()
 	{
@@ -278,6 +281,21 @@ public class WebcamFfmpegGetDevicesWindows : WebcamFfmpegGetDevicesWinMac
 
 		return parameters;
 	}
+
+	protected override void parseMatch(string l)
+	{
+		foreach(Match match in Regex.Matches(l, "\"([^\"]*)\""))
+		{
+			//remove quotes from the match (at beginning and end) to add it in SQL
+			string s = match.ToString().Substring(1, match.ToString().Length -2);
+
+			LogB.Information("add match: " + s);
+			if(s.Length < 3)
+				break;
+
+			wd_list.Add(new WebcamDevice(s[1].ToString(), s)); //code will be char 1: "[0] my device"
+		}
+	}
 }
 
 public class WebcamFfmpegGetDevicesMac : WebcamFfmpegGetDevicesWinMac
@@ -305,5 +323,25 @@ public class WebcamFfmpegGetDevicesMac : WebcamFfmpegGetDevicesWinMac
 		parameters.Insert (i ++, "''");
 
 		return parameters;
+	}
+
+	protected override void parseMatch(string l)
+	{
+		if(! l.Contains("AVFoundation input device"))
+			return;
+
+		int firstBracketEnd = l.IndexOf(']');
+		if(firstBracketEnd > 0 && l.Length > firstBracketEnd + 2)
+		{
+			string s = l.Substring(firstBracketEnd);
+			int secondBracketStart = s.IndexOf('[');
+
+			if(secondBracketStart > 0 && s.Length > secondBracketStart + 2)
+			{
+				s = s.Substring(secondBracketStart);
+				LogB.Information("MAC matchPARSE: ***" + s + "***");
+				wd_list.Add(new WebcamDevice(s[1].ToString(), s));
+			}
+		}
 	}
 }

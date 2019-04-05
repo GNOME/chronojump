@@ -34,7 +34,7 @@ public class UtilMultimedia
 	 * VIDEO
 	 */
 
-	public static List<string> GetVideoDevices ()
+	public static WebcamDeviceList GetVideoDevices ()
 	{
 		WebcamFfmpegGetDevices w;
 
@@ -45,7 +45,9 @@ public class UtilMultimedia
 		else
 			w = new WebcamFfmpegGetDevicesMac();
 
-		return w.GetDevices();
+		WebcamDeviceList wd_list = w.GetDevices();
+
+		return wd_list;
 	}
 
 

@@ -743,6 +743,7 @@ public class Constants
 	public static string RunStartInitialSpeedNo = Catalog.GetString("Standing start. Started without initial speed.");
 	
 	public static string CameraNotFound = Catalog.GetString("Sorry, no cameras found.");
+	public static string FfmpegNotInstalled = "Software ffmpeg is not installed, please check instructions on chronojump website (software page)";
 	
 	public enum BellModes {
 		JUMPS, RUNS, ENCODERGRAVITATORY, ENCODERINERTIAL

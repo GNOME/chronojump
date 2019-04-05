@@ -111,6 +111,8 @@ public abstract class Webcam
 
 	protected Process process;
 	protected string videoDevice;
+	protected string videoDeviceResolution;
+	protected string videoDeviceFramerate;
 	protected StreamWriter streamWriter;
 	protected string executable = "";
 
@@ -186,15 +188,15 @@ public class WebcamManage
 	}
 
 	// 1 camera
-	public Webcam.Result RecordPrepare (string videoDevice)
+	public Webcam.Result RecordPrepare (string videoDevice, string videoDeviceResolution, string videoDeviceFramerate)
 	{
-		return recordPrepareDo (ref webcam, videoDevice);
+		return recordPrepareDo (ref webcam, videoDevice, videoDeviceResolution, videoDeviceFramerate);
 	}
 	// 2 cameras
-	public Webcam.Result RecordPrepare (string videoDevice, string videoDevice2)
+	public Webcam.Result RecordPrepare (string videoDevice, string videoDevice2, string videoDeviceResolution, string videoDeviceFramerate)
 	{
-		Webcam.Result result1 = recordPrepareDo (ref webcam, videoDevice);
-		Webcam.Result result2 = recordPrepareDo (ref webcam2, videoDevice2);
+		Webcam.Result result1 = recordPrepareDo (ref webcam, videoDevice, videoDeviceResolution, videoDeviceFramerate);
+		Webcam.Result result2 = recordPrepareDo (ref webcam2, videoDevice2, videoDeviceResolution, videoDeviceFramerate);
 
 		return new Webcam.Result (
 			result1.success && result2.success,
@@ -202,7 +204,7 @@ public class WebcamManage
 			result1.error + result2.error
 			);
 	}
-	private Webcam.Result recordPrepareDo (ref Webcam w, string videoDevice)
+	private Webcam.Result recordPrepareDo (ref Webcam w, string videoDevice, string videoDeviceResolution, string videoDeviceFramerate)
 	{
 		if(videoDevice == "" || videoDevice == "0")
 		{
@@ -214,7 +216,7 @@ public class WebcamManage
 		LogB.Information("wRS at gui chronojump.cs 0, videoDevice: " + videoDevice);
 
 		//w = new WebcamMplayer (videoDevice);
-		w = new WebcamFfmpeg (Webcam.Action.CAPTURE, os, videoDevice);
+		w = new WebcamFfmpeg (Webcam.Action.CAPTURE, os, videoDevice, videoDeviceResolution, videoDeviceFramerate);
 		Webcam.Result result = w.CapturePrepare (Webcam.CaptureTypes.VIDEO);
 
 		LogB.Information("wRS at gui chronojump.cs 1, videoDevice: " + videoDevice);

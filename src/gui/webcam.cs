@@ -363,7 +363,7 @@ public partial class ChronoJumpWindow
 	{
 		if(checkbutton_video.Active)
 		{
-			if(preferences.videoDevice == "" || preferences.videoDevice == "0")
+			if(preferences.videoDevice == "") //on mac can be "0"... || preferences.videoDevice == "0")
 			{
 				new DialogMessage(Constants.MessageTypes.WARNING, "Video device is not configured. Check Preferences / Multimedia.");
 				checkbutton_video.Active = false;
@@ -390,7 +390,7 @@ public partial class ChronoJumpWindow
 	{
 		if(checkbutton_video_encoder.Active)
 		{
-			if(preferences.videoDevice == "" || preferences.videoDevice == "0")
+			if(preferences.videoDevice == "") //on mac can be "0"... || preferences.videoDevice == "0")
 			{
 				new DialogMessage(Constants.MessageTypes.WARNING, "Video device is not configured. Check Preferences / Multimedia.");
 				checkbutton_video_encoder.Active = false;

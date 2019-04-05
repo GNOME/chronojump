@@ -145,6 +145,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Label label_test_sound_result;
 	[Widget] Gtk.Box hbox_combo_camera;
 	[Widget] Gtk.ComboBox combo_camera;
+	[Widget] Gtk.HBox hbox_camera_resolution_framerate;
 	[Widget] Gtk.Box hbox_combo_camera_resolution;
 	[Widget] Gtk.ComboBox combo_camera_resolution;
 	[Widget] Gtk.Box hbox_combo_camera_framerate;
@@ -600,6 +601,8 @@ public class PreferencesWindow
 			label_no_cameras.Text = wd_list.Error;
 			label_no_cameras.Visible = true;
 			current = "";
+
+			hbox_camera_resolution_framerate.Visible = false;
 			return;
 		}
 		

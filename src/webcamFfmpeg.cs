@@ -34,11 +34,13 @@ public class WebcamFfmpeg : Webcam
 
 	// constructor ----------------------------------
 
-	public WebcamFfmpeg (Webcam.Action action, UtilAll.OperatingSystems os, string videoDevice)
+	public WebcamFfmpeg (Webcam.Action action, UtilAll.OperatingSystems os, string videoDevice, string videoDeviceResolution, string videoDeviceFramerate)
 	{
 		this.action = action;
 		this.os = os;
 		this.videoDevice = videoDevice;
+		this.videoDeviceResolution = videoDeviceResolution;
+		this.videoDeviceFramerate = videoDeviceFramerate;
 
 		if(action == Webcam.Action.CAPTURE)
 		{
@@ -235,9 +237,16 @@ public class WebcamFfmpeg : Webcam
 			parameters.Insert (i ++, "dshow");
 
 		parameters.Insert (i ++, "-framerate");
-		parameters.Insert (i ++, "30");
+		if(videoDeviceFramerate != "" && Util.IsNumber(videoDeviceFramerate, false))
+			parameters.Insert (i ++, videoDeviceFramerate);
+		else
+			parameters.Insert (i ++, "30");
+
 		parameters.Insert (i ++, "-video_size");
-		parameters.Insert (i ++, "640x480");
+		if(videoDeviceResolution != "")
+			parameters.Insert (i ++, videoDeviceResolution);
+		else
+			parameters.Insert (i ++, "640x480");
 
 		if(os == UtilAll.OperatingSystems.LINUX) {
 			parameters.Insert (i ++, "-input_format");

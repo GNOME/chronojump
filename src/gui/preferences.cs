@@ -145,6 +145,10 @@ public class PreferencesWindow
 	[Widget] Gtk.Label label_test_sound_result;
 	[Widget] Gtk.Box hbox_combo_camera;
 	[Widget] Gtk.ComboBox combo_camera;
+	[Widget] Gtk.Box hbox_combo_camera_resolution;
+	[Widget] Gtk.ComboBox combo_camera_resolution;
+	[Widget] Gtk.Box hbox_combo_camera_framerate;
+	[Widget] Gtk.ComboBox combo_camera_framerate;
 	[Widget] Gtk.Label label_no_cameras;
 	[Widget] Gtk.Label label_webcam_windows;
 
@@ -290,7 +294,9 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_sound_systemsounds.Active = true;
 		PreferencesWindowBox.label_test_sound_result.Text = "";
 
-		PreferencesWindowBox.createComboCamera(UtilMultimedia.GetVideoDevices(), preferences.videoDevice);
+		PreferencesWindowBox.createComboCamera(UtilMultimedia.GetVideoDevices(), preferences.videoDevice,
+				preferences.videoDeviceResolution, preferences.videoDeviceFramerate);
+
 	
 
 		string [] decs = {"1", "2", "3"};
@@ -583,8 +589,10 @@ public class PreferencesWindow
 	 * end of triggers stuff
 	 */
 
-	private void createComboCamera(WebcamDeviceList wd_list, string current)
+	private void createComboCamera(WebcamDeviceList wd_list, string current, string resolution, string framerate)
 	{
+		//videoDevice
+
 		combo_camera = ComboBox.NewText ();
 
 		if(wd_list.Count() == 0) {
@@ -604,6 +612,31 @@ public class PreferencesWindow
 		//	current = 0;
 		
 		combo_camera.Active = UtilGtk.ComboMakeActive(combo_camera, current);
+
+		//resolution
+
+		combo_camera_resolution = ComboBox.NewText ();
+		//string [] resolutions = { "320x240", "640x480", "1280x720" };
+		List<string> resolutions = new List<string>();
+		resolutions.Add("320x240");
+		resolutions.Add("640x480");
+		resolutions.Add("1280x720");
+		UtilGtk.ComboUpdate(combo_camera_resolution, resolutions);
+		hbox_combo_camera_resolution.PackStart(combo_camera_resolution, true, true, 0);
+		hbox_combo_camera_resolution.ShowAll();
+		combo_camera_resolution.Active = UtilGtk.ComboMakeActive(combo_camera_resolution, resolution);
+
+		//framerate
+
+		combo_camera_framerate = ComboBox.NewText ();
+		//string [] framerates = { "30", "60" };
+		List<string> framerates = new List<string>();
+		framerates.Add("30");
+		framerates.Add("60");
+		UtilGtk.ComboUpdate(combo_camera_framerate, framerates);
+		hbox_combo_camera_framerate.PackStart(combo_camera_framerate, true, true, 0);
+		hbox_combo_camera_framerate.ShowAll();
+		combo_camera_framerate.Active = UtilGtk.ComboMakeActive(combo_camera_framerate, framerate);
 	}
 		
 	private void on_check_appearance_maximized_toggled (object obj, EventArgs args)
@@ -1459,11 +1492,24 @@ public class PreferencesWindow
 			preferences.gstreamer = Preferences.GstreamerTypes.SYSTEMSOUNDS;
 		}
 
+		//camera stuff
+
 		if( preferences.videoDevice != UtilGtk.ComboGetActive(combo_camera) ) {
 			SqlitePreferences.Update("videoDevice", UtilGtk.ComboGetActive(combo_camera), true);
 			preferences.videoDevice = UtilGtk.ComboGetActive(combo_camera);
 		}
-		
+
+		if( preferences.videoDeviceResolution != UtilGtk.ComboGetActive(combo_camera_resolution) ) {
+			SqlitePreferences.Update("videoDeviceResolution", UtilGtk.ComboGetActive(combo_camera_resolution), true);
+			preferences.videoDeviceResolution = UtilGtk.ComboGetActive(combo_camera_resolution);
+		}
+
+		if( preferences.videoDeviceFramerate != UtilGtk.ComboGetActive(combo_camera_framerate) ) {
+			SqlitePreferences.Update("videoDeviceFramerate", UtilGtk.ComboGetActive(combo_camera_framerate), true);
+			preferences.videoDeviceFramerate = UtilGtk.ComboGetActive(combo_camera_framerate);
+		}
+
+		//end of camera stuff
 
 		if(PreferencesWindowBox.radio_export_latin.Active) {
 			SqlitePreferences.Update("CSVExportDecimalSeparator","COMMA", true); 

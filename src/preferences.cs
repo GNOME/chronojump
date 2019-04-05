@@ -75,6 +75,8 @@ public class Preferences
 	public Constants.Encoder1RMMethod encoder1RMMethod;
 	
 	public string videoDevice;
+	public string videoDeviceResolution;
+	public string videoDeviceFramerate;
 	public string CSVExportDecimalSeparator;
 	public string language;
 	public string crashLogLanguage;

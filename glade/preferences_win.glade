@@ -3402,7 +3402,6 @@ Other</property>
                     <child>
                       <widget class="GtkLabel" id="label_no_cameras">
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Sorry, no cameras found.</property>
                       </widget>
                       <packing>
                         <property name="expand">True</property>

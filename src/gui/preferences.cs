@@ -583,17 +583,20 @@ public class PreferencesWindow
 	 * end of triggers stuff
 	 */
 
-	private void createComboCamera(List<string> devices, string current) {
+	private void createComboCamera(WebcamDeviceList wd_list, string current)
+	{
 		combo_camera = ComboBox.NewText ();
 
-		if(devices.Count == 0) {
+		if(wd_list.Count() == 0) {
 			//devices = Util.StringToStringArray(Constants.CameraNotFound);
+			label_no_cameras.Text = wd_list.Error;
 			label_no_cameras.Visible = true;
 			current = "";
 			return;
 		}
 		
-		UtilGtk.ComboUpdate(combo_camera, devices);
+		UtilGtk.ComboUpdate(combo_camera, wd_list.GetCodes());
+		//UtilGtk.ComboUpdate(combo_camera, wd_list.GetFullnames());
 		hbox_combo_camera.PackStart(combo_camera, true, true, 0);
 		hbox_combo_camera.ShowAll();
 

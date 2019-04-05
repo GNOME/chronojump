@@ -25,24 +25,113 @@ using System.IO;
 using System.Text.RegularExpressions; //Regex
 
 
+public class WebcamDevice
+{
+	//on mac it is returned a code and a device, like:
+	//[0] FaceTime HD Camera 	//this is the webcam
+	//[1] Capture screen 0 		//this is to screencapture
+	//
+	//on Linux it is returned a filename (it will be the code)
+	//
+	//on windows ...
+	//
+	//object is a device and fullname
+	private string code;
+	private string fullname;
+
+	public WebcamDevice(string code, string fullname)
+	{
+		this.code = code;
+		this.fullname = fullname;
+	}
+
+	public string Code
+	{
+		get { return code; }
+	}
+
+	public string Fullname
+	{
+		get { return fullname; }
+	}
+}
+
+public class WebcamDeviceList
+{
+	private List<WebcamDevice> wd_list;
+	public string Error;
+
+	// constructors
+
+	public WebcamDeviceList()
+	{
+		Error = "";
+		wd_list = new List<WebcamDevice>();
+	}
+
+	public WebcamDeviceList(List<WebcamDevice> wd_list)
+	{
+		Error = "";
+		this.wd_list = wd_list;
+	}
+
+	// public methods
+
+	public void Add(WebcamDevice wd)
+	{
+		wd_list.Add(wd);
+	}
+
+	public int Count()
+	{
+		return wd_list.Count;
+	}
+
+	public List<string> GetCodes()
+	{
+		List<string> l = new List<string>();
+		foreach(WebcamDevice wd in wd_list)
+			l.Add(wd.Code);
+
+		return l;
+	}
+
+	public List<string> GetFullnames()
+	{
+		List<string> l = new List<string>();
+		foreach(WebcamDevice wd in wd_list)
+			l.Add(wd.Fullname);
+
+		return l;
+	}
+}
+
 public abstract class WebcamFfmpegGetDevices
 {
-	public abstract List<string> GetDevices();
+	//protected List<WebcamDevice> webcamDevice;
+	protected WebcamDeviceList wd_list;
 
-	protected abstract List<string> createParameters();
+	//update codes and names lists
+	public abstract WebcamDeviceList GetDevices();
 
-	protected abstract List<string> parse(string devicesOutput);
+	protected void initialize ()
+	{
+		LogB.Information(" called initialize ");
+		wd_list = new WebcamDeviceList();
+	}
 }
 
 public class WebcamFfmpegGetDevicesLinux : WebcamFfmpegGetDevices
 {
 	public WebcamFfmpegGetDevicesLinux()
 	{
+		initialize();
 	}
 
-	public override List<string> GetDevices()
+	public override WebcamDeviceList GetDevices()
 	{
-		List<string> list = new List<string>();
+		LogB.Information("GetDevices");
+		LogB.Information(string.Format("wd_list is null: ", wd_list == null));
 		string prefix = "/dev/";
 		var dir = new DirectoryInfo(prefix);
 		foreach(var file in dir.EnumerateFiles("video*"))
@@ -53,32 +142,25 @@ public class WebcamFfmpegGetDevicesLinux : WebcamFfmpegGetDevices
 			 list.Add(Convert.ToInt32(file.Name[5])); 			//0 or 1, or ...
 			 */
 			//return "/dev/video0", "/dev/video1", ...
-			list.Add(prefix + file.Name);
+			wd_list.Add(new WebcamDevice(
+						prefix + file.Name,
+						prefix + file.Name + " default camera"));
 
-		return list;
-	}
-
-	protected override List<string> createParameters()
-	{
-		return new List<string>();
-	}
-
-	protected override List<string> parse(string devicesOutput)
-	{
-		return new List<string>();
+		return wd_list;
 	}
 }
 
-
-public class WebcamFfmpegGetDevicesWindows : WebcamFfmpegGetDevices
+//Windows and mac share similar behaviour on ffmpeg get devices
+public abstract class WebcamFfmpegGetDevicesWinMac : WebcamFfmpegGetDevices
 {
-	public WebcamFfmpegGetDevicesWindows()
-	{
-	}
+	protected string executable;
+	protected string videoDevString;
+	protected string audioDevString;
 
-	public override List<string> GetDevices()
+	protected abstract List<string> createParameters();
+
+	public override WebcamDeviceList GetDevices()
 	{
-		string executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
 		List<string> parameters = createParameters();
 
 		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);
@@ -89,33 +171,96 @@ public class WebcamFfmpegGetDevicesWindows : WebcamFfmpegGetDevices
 		LogB.Information(execute_result.stderr);
 		LogB.Information("-----------------");
 
+		LogB.Information("pre");
 		if(! execute_result.success)
 		{
-			LogB.Information("WebcamFfmpegGetDevicesWindows error: " + execute_result.stderr);
+			LogB.Information("no success");
+			if( ! executableExists())
+			{
+				LogB.Information(string.Format("File {0} does not exists, but note execuble can be on path", executable));
+				wd_list.Error = Constants.FfmpegNotInstalled;
+				return wd_list;
+			}
 
 			/*
 			 * on Windows the -i dummy produces an error, so stderr exists and success is false
+			 * on Mac the -i "" produces an error, so stderr exists and success is false
 			 * stdout has the list of devices and stderr also
-			 * check if in stdout there's the: "DirectShow video devices" string and if not exists, really we have an error
+			 * check if in stdout there's the: videoDevString and if not exists, really we have an error
 			 */
 			if(execute_result.stdout != null && execute_result.stdout != "" &&
-					execute_result.stdout.Contains("DirectShow video devices"))
+					execute_result.stdout.Contains(videoDevString))
 			{
 				LogB.Information("Calling parse with stdout");
-				return parse(execute_result.stdout);
+				parse(execute_result.stdout);
+				return wd_list;
 			}
 
 			if(execute_result.stderr != null && execute_result.stderr != "" &&
-					execute_result.stderr.Contains("DirectShow video devices"))
+					execute_result.stderr.Contains(videoDevString))
 			{
 				LogB.Information("Calling parse with stderr");
-				return parse(execute_result.stderr);
+				parse(execute_result.stderr);
+				return wd_list;
 			}
 
-			return new List<string>();
+			wd_list.Error = Constants.CameraNotFound;
 		}
 		else
-			return parse(execute_result.stdout);
+			parse(execute_result.stdout);
+
+		return wd_list;
+	}
+
+	protected void parse(string devicesOutput)
+	{
+		LogB.Information("Called parse");
+
+		/*
+		 * break the big string in \n strings
+		 * https://stackoverflow.com/a/1547483
+		 */
+		string[] lines = devicesOutput.Split(
+				new[] { Environment.NewLine },
+				StringSplitOptions.None
+				);
+
+		foreach(string l in lines)
+		{
+			LogB.Information("line: " + l);
+			foreach(Match match in Regex.Matches(l, "\"([^\"]*)\""))
+			{
+				//remove quotes from the match (at beginning and end) to add it in SQL
+				string s = match.ToString().Substring(1, match.ToString().Length -2);
+
+				LogB.Information("add match: " + s);
+				if(s.Length < 3)
+					break;
+
+				wd_list.Add(new WebcamDevice(s[1].ToString(), s)); //code will be char 1: "[0] my device"
+			}
+
+			//after the list of video devices comes the list of audio devices, skip it
+			if(l.Contains(audioDevString))
+				break;
+		}
+	}
+
+	protected bool executableExists()
+	{
+		return File.Exists(executable);
+	}
+
+}
+
+public class WebcamFfmpegGetDevicesWindows : WebcamFfmpegGetDevicesWinMac
+{
+	public WebcamFfmpegGetDevicesWindows()
+	{
+		initialize();
+		executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
+		videoDevString = "DirectShow video devices";
+		audioDevString = "DirectShow audio devices";
 	}
 
 	protected override List<string> createParameters()
@@ -133,72 +278,16 @@ public class WebcamFfmpegGetDevicesWindows : WebcamFfmpegGetDevices
 
 		return parameters;
 	}
-
-	protected override List<string> parse(string devicesOutput)
-	{
-		LogB.Information("Called parse");
-
-		/*
-		 * break the big string in \n strings
-		 * https://stackoverflow.com/a/1547483
-		 */
-		string[] lines = devicesOutput.Split(
-				new[] { Environment.NewLine },
-				StringSplitOptions.None
-				);
-
-		List<string> parsedList = new List<string>();
-		foreach(string l in lines)
-		{
-			LogB.Information("line: " + l);
-			foreach(Match match in Regex.Matches(l, "\"([^\"]*)\""))
-			{
-				//remove quotes from the match (at beginning and end) to add it in SQL
-				string s = match.ToString().Substring(1, match.ToString().Length -2);
-
-				LogB.Information("add match: " + s);
-				parsedList.Add(s);
-			}
-
-			//after the list of video devices comes the list of audio devices, skip it
-			if(l.Contains("DirectShow audio devices"))
-				break;
-		}
-
-		return parsedList;
-	}
 }
 
-public class WebcamFfmpegGetDevicesMac : WebcamFfmpegGetDevices
+public class WebcamFfmpegGetDevicesMac : WebcamFfmpegGetDevicesWinMac
 {
 	public WebcamFfmpegGetDevicesMac()
 	{
-	}
-
-	public override List<string> GetDevices()
-	{
-		string executable = "ffmpeg";
-		List<string> parameters = createParameters();
-
-		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);
-
-		LogB.Information("---- stdout: ----");
-		LogB.Information(execute_result.stdout);
-		LogB.Information("---- stderr: ----");
-		LogB.Information(execute_result.stderr);
-		LogB.Information("-----------------");
-
-		if(! execute_result.success)
-		{
-			/*
-			LogB.Information("WebcamFfmpegGetDevicesMac stdout: " + execute_result.stdout);
-			LogB.Information("WebcamFfmpegGetDevicesMac error: " + execute_result.stderr);
-			*/
-
-			return new List<string>();
-		}
-		else
-			return parse(execute_result.stdout);
+		initialize();
+		executable = "ffmpeg";
+		videoDevString = "AVFoundation video devices";
+		audioDevString = "AVFoundation audio devices";
 	}
 
 	protected override List<string> createParameters()
@@ -216,39 +305,5 @@ public class WebcamFfmpegGetDevicesMac : WebcamFfmpegGetDevices
 		parameters.Insert (i ++, "''");
 
 		return parameters;
-	}
-
-	protected override List<string> parse(string devicesOutput)
-	{
-		LogB.Information("Called parse");
-
-		/*
-		 * break the big string in \n strings
-		 * https://stackoverflow.com/a/1547483
-		 */
-		string[] lines = devicesOutput.Split(
-				new[] { Environment.NewLine },
-				StringSplitOptions.None
-				);
-
-		List<string> parsedList = new List<string>();
-		foreach(string l in lines)
-		{
-			LogB.Information("line: " + l);
-			foreach(Match match in Regex.Matches(l, "\"([^\"]*)\""))
-			{
-				//remove quotes from the match (at beginning and end) to add it in SQL
-				string s = match.ToString().Substring(1, match.ToString().Length -2);
-
-				LogB.Information("add match: " + s);
-				parsedList.Add(s);
-			}
-
-			//after the list of video devices comes the list of audio devices, skip it
-			if(l.Contains("AVFoundation audio devices"))
-				break;
-		}
-
-		return parsedList;
 	}
 }

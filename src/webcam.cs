@@ -208,7 +208,7 @@ public class WebcamManage
 	}
 	private Webcam.Result recordPrepareDo (ref Webcam w, string videoDevice, string videoDeviceResolution, string videoDeviceFramerate)
 	{
-		if(videoDevice == "" || videoDevice == "0")
+		if(videoDevice == "")
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, "Video device is not configured. Check Preferences / Multimedia.");
 			return new Webcam.Result (false, "");

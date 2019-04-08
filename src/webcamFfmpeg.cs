@@ -176,13 +176,31 @@ public class WebcamFfmpeg : Webcam
 		parameters.Insert (i ++, "-f");
 		if(os == UtilAll.OperatingSystems.LINUX)
 			parameters.Insert (i ++, "v4l2");
-		else 	//windows
+		else if (os == UtilAll.OperatingSystems.WINDOWS)
 			parameters.Insert (i ++, "dshow");
+		else 	//mac
+			parameters.Insert (i ++, "avfoundation");
+
+		parameters.Insert (i ++, "-framerate");
+		if(videoDeviceFramerate != "" && Util.IsNumber(videoDeviceFramerate, false))
+			parameters.Insert (i ++, videoDeviceFramerate);
+		else
+			parameters.Insert (i ++, "30");
+
+		parameters.Insert (i ++, "-video_size");
+		if(videoDeviceResolution != "")
+			parameters.Insert (i ++, videoDeviceResolution);
+		else
+			parameters.Insert (i ++, "640x480");
 
 		if(os == UtilAll.OperatingSystems.LINUX)
 			parameters.Insert (i ++, videoDevice);
-		else
+		else if (os == UtilAll.OperatingSystems.WINDOWS)
 			parameters.Insert (i ++, "video=" + videoDevice);
+		else {	//mac
+			parameters.Insert (i ++, "-i");
+			parameters.Insert (i ++, videoDevice);
+		}
 
 		parameters.Insert (i++, "-exitonkeydown");
 		parameters.Insert (i++, "-exitonmousedown");
@@ -201,8 +219,10 @@ public class WebcamFfmpeg : Webcam
 		parameters.Insert (i ++, "-f");
 		if(os == UtilAll.OperatingSystems.LINUX)
 			parameters.Insert (i ++, "v4l2");
-		else 	//windows
+		else if (os == UtilAll.OperatingSystems.WINDOWS)
 			parameters.Insert (i ++, "dshow");
+		else 	//mac
+			parameters.Insert (i ++, "avfoundation");
 
 		parameters.Insert (i ++, "-s");
 		parameters.Insert (i ++, "400x400");
@@ -210,8 +230,12 @@ public class WebcamFfmpeg : Webcam
 		parameters.Insert (i ++, "-i");
 		if(os == UtilAll.OperatingSystems.LINUX)
 			parameters.Insert (i ++, videoDevice);
-		else
+		else if (os == UtilAll.OperatingSystems.WINDOWS)
 			parameters.Insert (i ++, "video=" + videoDevice);
+		else {	//mac
+			parameters.Insert (i ++, "-i");
+			parameters.Insert (i ++, videoDevice);
+		}
 
 		parameters.Insert (i ++, "-ss");
 		parameters.Insert (i ++, "0:0:2");
@@ -242,8 +266,10 @@ public class WebcamFfmpeg : Webcam
 		parameters.Insert (i ++, "-f");
 		if(os == UtilAll.OperatingSystems.LINUX)
 			parameters.Insert (i ++, "v4l2");
-		else //windows
+		else if (os == UtilAll.OperatingSystems.WINDOWS)
 			parameters.Insert (i ++, "dshow");
+		else 	//mac
+			parameters.Insert (i ++, "avfoundation");
 
 		parameters.Insert (i ++, "-framerate");
 		if(videoDeviceFramerate != "" && Util.IsNumber(videoDeviceFramerate, false))
@@ -265,8 +291,12 @@ public class WebcamFfmpeg : Webcam
 		parameters.Insert (i ++, "-i");
 		if(os == UtilAll.OperatingSystems.LINUX)
 			parameters.Insert (i ++, videoDevice);
-		else //windows
+		else if (os == UtilAll.OperatingSystems.WINDOWS)
 			parameters.Insert (i ++, "video=" + videoDevice);
+		else {	//mac
+			parameters.Insert (i ++, "-i");
+			parameters.Insert (i ++, videoDevice);
+		}
 
 		parameters.Insert (i ++, Util.GetVideoTempFileName());
 
@@ -286,14 +316,20 @@ public class WebcamFfmpeg : Webcam
 		parameters.Insert (i ++, "-f");
 		if(os == UtilAll.OperatingSystems.LINUX)
 			parameters.Insert (i ++, "v4l2");
-		else //windows
+		else if (os == UtilAll.OperatingSystems.WINDOWS)
 			parameters.Insert (i ++, "dshow");
+		else 	//mac
+			parameters.Insert (i ++, "avfoundation");
 
 		parameters.Insert (i ++, "-i");
 		if(os == UtilAll.OperatingSystems.LINUX)
 			parameters.Insert (i ++, videoDevice);
-		else //windows
+		else if (os == UtilAll.OperatingSystems.WINDOWS)
 			parameters.Insert (i ++, "video=" + videoDevice);
+		else {	//mac
+			parameters.Insert (i ++, "-i");
+			parameters.Insert (i ++, videoDevice);
+		}
 
 		parameters.Insert (i ++, "-map");
 		parameters.Insert (i ++, "0");

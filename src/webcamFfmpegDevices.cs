@@ -284,16 +284,21 @@ public class WebcamFfmpegGetDevicesWindows : WebcamFfmpegGetDevicesWinMac
 
 	protected override void parseMatch(string l)
 	{
+		int i=0;
+		string name = "";
+		//on windows, on each device, first line is the name and second line is the code
 		foreach(Match match in Regex.Matches(l, "\"([^\"]*)\""))
 		{
 			//remove quotes from the match (at beginning and end) to add it in SQL
 			string s = match.ToString().Substring(1, match.ToString().Length -2);
 
-			LogB.Information("add match: " + s);
-			if(s.Length < 3)
-				break;
-
-			wd_list.Add(new WebcamDevice(s[1].ToString(), s)); //code will be char 1: "[0] my device"
+			if (i % 2 == 0) //even (par)
+				name = s;
+			else {
+				LogB.Information(string.Format("add match: code: {0} ; name: {1}", s, name));
+				wd_list.Add(new WebcamDevice(s, name));
+			}
+			i++;
 		}
 	}
 }

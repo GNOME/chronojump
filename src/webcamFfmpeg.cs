@@ -232,10 +232,8 @@ public class WebcamFfmpeg : Webcam
 			parameters.Insert (i ++, videoDevice);
 		else if (os == UtilAll.OperatingSystems.WINDOWS)
 			parameters.Insert (i ++, "video=" + videoDevice);
-		else {	//mac
-			parameters.Insert (i ++, "-i");
+		else	//mac
 			parameters.Insert (i ++, videoDevice);
-		}
 
 		parameters.Insert (i ++, "-ss");
 		parameters.Insert (i ++, "0:0:2");
@@ -293,10 +291,8 @@ public class WebcamFfmpeg : Webcam
 			parameters.Insert (i ++, videoDevice);
 		else if (os == UtilAll.OperatingSystems.WINDOWS)
 			parameters.Insert (i ++, "video=" + videoDevice);
-		else {	//mac
-			parameters.Insert (i ++, "-i");
+		else 	//mac
 			parameters.Insert (i ++, videoDevice);
-		}
 
 		parameters.Insert (i ++, Util.GetVideoTempFileName());
 
@@ -326,10 +322,8 @@ public class WebcamFfmpeg : Webcam
 			parameters.Insert (i ++, videoDevice);
 		else if (os == UtilAll.OperatingSystems.WINDOWS)
 			parameters.Insert (i ++, "video=" + videoDevice);
-		else {	//mac
-			parameters.Insert (i ++, "-i");
+		else	//mac
 			parameters.Insert (i ++, videoDevice);
-		}
 
 		parameters.Insert (i ++, "-map");
 		parameters.Insert (i ++, "0");

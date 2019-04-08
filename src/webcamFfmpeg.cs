@@ -47,12 +47,16 @@ public class WebcamFfmpeg : Webcam
 			executable = "ffmpeg";
 			if(os == UtilAll.OperatingSystems.WINDOWS)
 				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
+			if(os == UtilAll.OperatingSystems.MACOSX)
+				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg");
 		}
 		else // PLAYPREVIEW || PLAYFILE
 		{
 			executable = "ffplay";
 			if(os == UtilAll.OperatingSystems.WINDOWS)
 				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay.exe");
+			if(os == UtilAll.OperatingSystems.MACOSX)
+				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay");
 		}
 
 		Running = false;
@@ -80,7 +84,7 @@ public class WebcamFfmpeg : Webcam
 		if(! success)
 		{
 			process = null;
-			return new Result (false, "", programFfmpegNotInstalled);
+			return new Result (false, "", programFfplayNotInstalled);
 		}
 
 		streamWriter = process.StandardInput;
@@ -95,7 +99,7 @@ public class WebcamFfmpeg : Webcam
 		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, false, false);
 		if(! execute_result.success)
 		{
-			return new Result (false, "", programFfmpegNotInstalled);
+			return new Result (false, "", programFfplayNotInstalled);
 		}
 
 		return new Result (true, "");
@@ -105,6 +109,11 @@ public class WebcamFfmpeg : Webcam
 	public override bool Snapshot ()
 	{
 		executable = "ffmpeg";
+		if(os == UtilAll.OperatingSystems.WINDOWS)
+			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
+		if(os == UtilAll.OperatingSystems.MACOSX)
+			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg");
+
 		List<string> parameters = createParametersSnapshot();
 
 		process = new Process();
@@ -126,7 +135,7 @@ public class WebcamFfmpeg : Webcam
 		if(! success)
 		{
 			process = null;
-			return new Result (false, "", programFfmpegNotInstalled);
+			return new Result (false, "", programFfplayNotInstalled);
 		}
 
 		Running = true;

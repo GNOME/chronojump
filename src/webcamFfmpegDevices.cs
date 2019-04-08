@@ -303,7 +303,7 @@ public class WebcamFfmpegGetDevicesMac : WebcamFfmpegGetDevicesWinMac
 	public WebcamFfmpegGetDevicesMac()
 	{
 		initialize();
-		executable = "ffmpeg";
+		executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg");
 		videoDevString = "AVFoundation video devices";
 		audioDevString = "AVFoundation audio devices";
 	}

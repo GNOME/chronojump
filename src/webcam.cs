@@ -101,6 +101,8 @@ public abstract class Webcam
 		string.Format(Catalog.GetString("Error. {0} is not installed."), "mplayer");
 	protected static internal string programFfmpegNotInstalled =
 		string.Format(Catalog.GetString("Error. {0} is not installed."), "ffmpeg");
+	protected static internal string programFfplayNotInstalled =
+		string.Format(Catalog.GetString("Error. {0} is not installed."), "ffplay");
 	protected static internal string programMplayerClosed =
 		string.Format(Catalog.GetString("Error. {0} has been closed."), "mplayer");
 	protected static internal string programMplayerCannotSave =

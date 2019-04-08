@@ -104,6 +104,15 @@ public class WebcamDeviceList
 
 		return l;
 	}
+
+	public string GetCodeOfFullname(string fullname)
+	{
+		foreach(WebcamDevice wd in wd_list)
+			if(wd.Fullname == fullname)
+				return wd.Code;
+
+		return "";
+	}
 }
 
 public abstract class WebcamFfmpegGetDevices
@@ -144,7 +153,7 @@ public class WebcamFfmpegGetDevicesLinux : WebcamFfmpegGetDevices
 			//return "/dev/video0", "/dev/video1", ...
 			wd_list.Add(new WebcamDevice(
 						prefix + file.Name,
-						prefix + file.Name + " default camera"));
+						prefix + file.Name + " (default camera)"));
 
 		return wd_list;
 	}

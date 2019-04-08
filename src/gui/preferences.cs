@@ -195,6 +195,7 @@ public class PreferencesWindow
 	const int ENCODERCAPTUREPAGE = 4;
 	const int ENCODEROTHERPAGE = 5;
 
+	static private WebcamDeviceList wd_list;
 
 	PreferencesWindow () {
 		Glade.XML gladeXML;
@@ -295,8 +296,8 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_sound_systemsounds.Active = true;
 		PreferencesWindowBox.label_test_sound_result.Text = "";
 
-		PreferencesWindowBox.createComboCamera(UtilMultimedia.GetVideoDevices(), preferences.videoDevice,
-				preferences.videoDeviceResolution, preferences.videoDeviceFramerate);
+		wd_list = UtilMultimedia.GetVideoDevices();
+		PreferencesWindowBox.createComboCamera(preferences.videoDevice, preferences.videoDeviceResolution, preferences.videoDeviceFramerate);
 
 	
 
@@ -590,7 +591,7 @@ public class PreferencesWindow
 	 * end of triggers stuff
 	 */
 
-	private void createComboCamera(WebcamDeviceList wd_list, string current, string resolution, string framerate)
+	private void createComboCamera(string current, string resolution, string framerate)
 	{
 		//videoDevice
 
@@ -606,8 +607,8 @@ public class PreferencesWindow
 			return;
 		}
 		
-		UtilGtk.ComboUpdate(combo_camera, wd_list.GetCodes());
-		//UtilGtk.ComboUpdate(combo_camera, wd_list.GetFullnames());
+		//UtilGtk.ComboUpdate(combo_camera, wd_list.GetCodes());
+		UtilGtk.ComboUpdate(combo_camera, wd_list.GetFullnames());
 		hbox_combo_camera.PackStart(combo_camera, true, true, 0);
 		hbox_combo_camera.ShowAll();
 
@@ -1497,9 +1498,10 @@ public class PreferencesWindow
 
 		//camera stuff
 
-		if( preferences.videoDevice != UtilGtk.ComboGetActive(combo_camera) ) {
-			SqlitePreferences.Update("videoDevice", UtilGtk.ComboGetActive(combo_camera), true);
-			preferences.videoDevice = UtilGtk.ComboGetActive(combo_camera);
+		string cameraCode = wd_list.GetCodeOfFullname(UtilGtk.ComboGetActive(combo_camera));
+		if( cameraCode != "" && preferences.videoDevice != cameraCode ) {
+			SqlitePreferences.Update("videoDevice", cameraCode, true);
+			preferences.videoDevice = cameraCode;
 		}
 
 		if( preferences.videoDeviceResolution != UtilGtk.ComboGetActive(combo_camera_resolution) ) {

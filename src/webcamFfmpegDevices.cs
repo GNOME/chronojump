@@ -157,6 +157,10 @@ public abstract class WebcamFfmpegGetDevicesWinMac : WebcamFfmpegGetDevices
 	protected string videoDevString;
 	protected string audioDevString;
 
+	//windows specific
+	protected bool doingName; //used only in Windows where device name and code come in two lines
+	protected string deviceName;
+
 	protected abstract List<string> createParameters();
 
 	public override WebcamDeviceList GetDevices()
@@ -226,6 +230,7 @@ public abstract class WebcamFfmpegGetDevicesWinMac : WebcamFfmpegGetDevices
 				);
 
 		bool started = false;
+		doingName = true;
 		foreach(string l in lines)
 		{
 			LogB.Information("line: " + l);
@@ -284,21 +289,22 @@ public class WebcamFfmpegGetDevicesWindows : WebcamFfmpegGetDevicesWinMac
 
 	protected override void parseMatch(string l)
 	{
-		int i=0;
-		string name = "";
+		LogB.Information(string.Format("parseMatch: {0}", l));
 		//on windows, on each device, first line is the name and second line is the code
 		foreach(Match match in Regex.Matches(l, "\"([^\"]*)\""))
 		{
+			LogB.Information(string.Format("\nmatch: {0}", match));
 			//remove quotes from the match (at beginning and end) to add it in SQL
 			string s = match.ToString().Substring(1, match.ToString().Length -2);
 
-			if (i % 2 == 0) //even (par)
-				name = s;
-			else {
-				LogB.Information(string.Format("add match: code: {0} ; name: {1}", s, name));
-				wd_list.Add(new WebcamDevice(s, name));
+			if (doingName) {
+				deviceName = s;
+				LogB.Information(string.Format("deviceName: {0}", deviceName));
+			} else {
+				LogB.Information(string.Format("add match: code: {0} ; name: {1}", s, deviceName));
+				wd_list.Add(new WebcamDevice(s, deviceName));
 			}
-			i++;
+			doingName = ! doingName;
 		}
 	}
 }

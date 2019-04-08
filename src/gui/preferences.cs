@@ -152,6 +152,7 @@ public class PreferencesWindow
 	[Widget] Gtk.ComboBox combo_camera_framerate;
 	[Widget] Gtk.Label label_no_cameras;
 	[Widget] Gtk.Label label_webcam_windows;
+	[Widget] Gtk.Image image_video_preview;
 
 	//language tab
 	[Widget] Gtk.Box hbox_combo_language;
@@ -242,6 +243,7 @@ public class PreferencesWindow
 		PreferencesWindowBox.preferences = preferences;
 
 		PreferencesWindowBox.createComboLanguage();
+		Pixbuf pixbuf;
 
 		//appearence tab
 		if(preferences.maximized == Preferences.MaximizedTypes.NO)
@@ -299,6 +301,8 @@ public class PreferencesWindow
 		wd_list = UtilMultimedia.GetVideoDevices();
 		PreferencesWindowBox.createComboCamera(preferences.videoDevice, preferences.videoDeviceResolution, preferences.videoDeviceFramerate);
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_preview.png");
+		PreferencesWindowBox.image_video_preview.Pixbuf = pixbuf;
 	
 
 		string [] decs = {"1", "2", "3"};
@@ -377,7 +381,6 @@ public class PreferencesWindow
 
 		//start of double contacts stuff ----
 
-		Pixbuf pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
 		PreferencesWindowBox.image_races_simple.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
@@ -681,6 +684,17 @@ public class PreferencesWindow
 			label_test_sound_result.Text = Catalog.GetString("Sound not working");
 
 		Util.TestSound = false;
+	}
+
+	private void on_button_video_preview_clicked (object o, EventArgs args)
+	{
+		string cameraCode = wd_list.GetCodeOfFullname(UtilGtk.ComboGetActive(combo_camera));
+		if(cameraCode == "")
+			return;
+
+		Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(),
+				cameraCode, UtilGtk.ComboGetActive(combo_camera_resolution), UtilGtk.ComboGetActive(combo_camera_framerate));
+		Webcam.Result result = webcamPlay.PlayPreviewNoBackground ();
 	}
 
 	// ---- end of multimedia stuff

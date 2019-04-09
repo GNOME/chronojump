@@ -889,7 +889,8 @@ public class PersonAddModifyWindow
 	//if we are adding a person, currentPerson.UniqueID it's -1
 	//if we are modifying a person, currentPerson.UniqueID is obviously it's ID
 	//showCapturePhoto is false on raspberry to not use camera
-	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, bool showCapturePhoto)
+	//PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, bool showCapturePhoto)
+	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_win.glade", "person_win", null);
@@ -929,10 +930,10 @@ public class PersonAddModifyWindow
 		image_photo_preview.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_preview.png");
 		image_photo_do.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_do.png");
 
-		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+		//if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
 			hbox_camera.Visible = true;
-		else
-			hbox_camera.Visible = showCapturePhoto;
+		//else
+		//	hbox_camera.Visible = showCapturePhoto;
 
 		//delete a -1.png or -1.jpg added before on a new user where "accept" button was not pressed and window was closed
 		deleteOldPhotosIfAny(-1);
@@ -1221,11 +1222,13 @@ public class PersonAddModifyWindow
 	
 	static public PersonAddModifyWindow Show (Gtk.Window parent, 
 			Session mySession, Person currentPerson, int pDN, 
-			Gtk.CheckButton app1_checkbutton_video, bool showCapturePhoto,
+			//Gtk.CheckButton app1_checkbutton_video, bool showCapturePhoto,
+			Gtk.CheckButton app1_checkbutton_video,
 			string videoDevice)
 	{
 		if (PersonAddModifyWindowBox == null) {
-			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, showCapturePhoto);
+			//PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, showCapturePhoto);
+			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson);
 		}
 
 		PersonAddModifyWindowBox.pDN = pDN;

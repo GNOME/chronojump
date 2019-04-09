@@ -2703,7 +2703,8 @@ public partial class ChronoJumpWindow
 	{
 		personAddModifyWin = PersonAddModifyWindow.Show(app1,
 				currentSession, new Person(-1), 
-				preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
+				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
+				preferences.digitsNumber, checkbutton_video,
 				preferences.videoDevice
 				);
 		//-1 means we are adding a new person
@@ -2829,7 +2830,8 @@ public partial class ChronoJumpWindow
 		LogB.Information("modify person");
 
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, 
-				preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
+				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
+				preferences.digitsNumber, checkbutton_video,
 				preferences.videoDevice
 				); 
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);

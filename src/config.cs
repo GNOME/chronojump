@@ -28,7 +28,7 @@ public class Config
 
 	public Preferences.MaximizedTypes Maximized;
 	public bool CustomButtons;
-	public bool UseVideo;
+	//public bool UseVideo;
 	public bool OnlyEncoderGravitatory;
 	public bool OnlyEncoderInertial;
 	public bool EncoderCaptureShowOnlyBars;

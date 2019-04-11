@@ -47,6 +47,8 @@ public partial class ChronoJumpWindow
 
 	private enum WebcamEncoderFileStarted { NEEDTOCHECK, RECORDSTARTED, NOCAMERA }
 	private WebcamEncoderFileStarted webcamEncoderFileStarted;
+	private WebcamEndParams webcamEndParams;
+
 
 	//should be visible on all contacts, but right now hide it on force sensor and runEncoder
 	//but we need database stuff first
@@ -146,7 +148,6 @@ public partial class ChronoJumpWindow
 			button_video_play_this_test_encoder.Sensitive = s; //TODO:jugar amb la sensitivitat de aixo quan hi ha o no signalUniqueID 
 	}
 
-
 	//can pass a -1 uniqueID if test is cancelled
 	private void webcamEnd (Constants.TestTypes testType, int uniqueID)
 	{
@@ -168,17 +169,52 @@ public partial class ChronoJumpWindow
 			return;
 
 		Webcam.Result result = webcamManage.RecordEnd (1);
-		if(result.success)
-		{
-			Webcam.Result resultExit = webcamManage.ExitAndFinish (1, currentSession.UniqueID, testType, uniqueID, guiContactsEncoder);
-			if(uniqueID != -1 && ! resultExit.success)
-				new DialogMessage(Constants.MessageTypes.WARNING, resultExit.error);
-		}
-		else
-			new DialogMessage(Constants.MessageTypes.WARNING, result.error);
 
-		//button_video_play_this_test.Sensitive = result.success;
-		button_video_play_this_test_sensitive (guiContactsEncoder, result.success);
+		if(! result.success)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, result.error);
+			button_video_play_this_test_sensitive (webcamEndParams.guiContactsEncoder, false);
+
+			return;
+		}
+
+		webcamEndParams = new WebcamEndParams(1, currentSession.UniqueID, testType, uniqueID, guiContactsEncoder);
+
+		LogB.Information("Preparing to call webcamEndDo() in 2s");
+		GLib.Timeout.Add(2000, new GLib.TimeoutHandler(webcamEndDo)); //call it later to be able to have some video on a short test like a jump.
+	}
+
+	private bool webcamEndDo()
+	{
+		LogB.Information("Called webcamEndDo()");
+		Webcam.Result resultExit = webcamManage.ExitAndFinish (webcamEndParams.camera, webcamEndParams.sessionID,
+				webcamEndParams.testType, webcamEndParams.uniqueID, webcamEndParams.guiContactsEncoder);
+
+		if(webcamEndParams.uniqueID != -1 && ! resultExit.success)
+			new DialogMessage(Constants.MessageTypes.WARNING, resultExit.error);
+
+		button_video_play_this_test_sensitive (webcamEndParams.guiContactsEncoder, resultExit.success);
+
+		return false; //do not call this Timeout routine again
+	}
+
+	//to be able to pass data to webcamEndDo
+	public struct WebcamEndParams
+	{
+		public int camera;
+		public int sessionID;
+		public Constants.TestTypes testType;
+		public int uniqueID;
+		public WebcamManage.GuiContactsEncoder guiContactsEncoder;
+
+		public WebcamEndParams (int camera, int sessionID, Constants.TestTypes testType, int uniqueID, WebcamManage.GuiContactsEncoder guiContactsEncoder)
+		{
+			this.camera = camera;
+			this.sessionID = sessionID;
+			this.testType = testType;
+			this.uniqueID = uniqueID;
+			this.guiContactsEncoder = guiContactsEncoder;
+		}
 	}
 
 	//do this to start them at the "same moment"

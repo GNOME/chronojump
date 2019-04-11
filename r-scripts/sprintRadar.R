@@ -70,6 +70,7 @@ getRadarDynamicsFromFolder <- function(radDir, athletesFile, splitDistance, resu
         Cd = 0.9                        #Drag coefficient
         
         athletes = read.csv(file = athletesFile, sep = ";", dec = ",")
+        colnames(athletes) = c("File", "Mass", "Temperature", "Height", "Vw")
         
         #Looking for all .rad files
         originalFiles = list.files(path=radDir, pattern="*.rad")

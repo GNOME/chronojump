@@ -21,6 +21,7 @@
 using System;
 using Gtk;
 using Glade;
+using System.IO; //"File" things
 
 public partial class ChronoJumpWindow 
 {
@@ -148,6 +149,72 @@ public partial class ChronoJumpWindow
 			button_video_play_this_test_encoder.Sensitive = s; //TODO:jugar amb la sensitivitat de aixo quan hi ha o no signalUniqueID 
 	}
 
+	/*
+	 * in the past we pass here an string, and an option was ALL
+	 * now we use Menuitem_modes an UNDEFINED will work as ALL
+	 */
+	private void button_video_play_selected_test(Constants.Menuitem_modes m)
+	{
+		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.UNDEFINED)
+			button_video_play_selected_jump.Sensitive =
+				(myTreeViewJumps.EventSelectedID > 0 &&
+				 File.Exists(Util.GetVideoFileName(
+						 currentSession.UniqueID,
+						 Constants.TestTypes.JUMP,
+						 myTreeViewJumps.EventSelectedID)));
+
+		if(m == Constants.Menuitem_modes.JUMPSREACTIVE || m == Constants.Menuitem_modes.UNDEFINED)
+			button_video_play_selected_jump_rj.Sensitive =
+				(myTreeViewJumpsRj.EventSelectedID > 0
+				 && File.Exists(Util.GetVideoFileName(
+						 currentSession.UniqueID,
+						 Constants.TestTypes.JUMP_RJ,
+						 myTreeViewJumpsRj.EventSelectedID)));
+
+		if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.UNDEFINED)
+			button_video_play_selected_run.Sensitive =
+				(myTreeViewRuns.EventSelectedID > 0 &&
+				 File.Exists(Util.GetVideoFileName(
+						 currentSession.UniqueID,
+						 Constants.TestTypes.RUN,
+						 myTreeViewRuns.EventSelectedID)));
+
+		if(m == Constants.Menuitem_modes.RUNSINTERVALLIC || m == Constants.Menuitem_modes.UNDEFINED)
+			button_video_play_selected_run_interval.Sensitive =
+				(myTreeViewRunsInterval.EventSelectedID > 0
+				 && File.Exists(Util.GetVideoFileName(
+						 currentSession.UniqueID,
+						 Constants.TestTypes.RUN_I,
+						 myTreeViewRunsInterval.EventSelectedID)));
+
+
+		if(m == Constants.Menuitem_modes.RT || m == Constants.Menuitem_modes.UNDEFINED)
+			button_video_play_selected_reaction_time.Sensitive =
+				(myTreeViewReactionTimes.EventSelectedID > 0 &&
+				 File.Exists(Util.GetVideoFileName(
+						 currentSession.UniqueID,
+						 Constants.TestTypes.RT,
+						 myTreeViewReactionTimes.EventSelectedID)));
+
+		if(m == Constants.Menuitem_modes.OTHER || m == Constants.Menuitem_modes.UNDEFINED)
+		{
+			button_video_play_selected_pulse.Sensitive =
+				(myTreeViewPulses.EventSelectedID > 0 &&
+				 File.Exists(Util.GetVideoFileName(
+						 currentSession.UniqueID,
+						 Constants.TestTypes.PULSE,
+						 myTreeViewPulses.EventSelectedID)));
+
+			button_video_play_selected_multi_chronopic.Sensitive =
+				(myTreeViewMultiChronopic.EventSelectedID > 0
+				 && File.Exists(Util.GetVideoFileName(
+						 currentSession.UniqueID,
+						 Constants.TestTypes.MULTICHRONOPIC,
+						 myTreeViewMultiChronopic.EventSelectedID)));
+		}
+	}
+
+
 	//can pass a -1 uniqueID if test is cancelled
 	private void webcamEnd (Constants.TestTypes testType, int uniqueID)
 	{
@@ -162,18 +229,18 @@ public partial class ChronoJumpWindow
 			hbox_video_encoder_capturing.Visible = false;
 		}
 
-		//button_video_play_this_test.Sensitive = false;
-		button_video_play_this_test_sensitive (guiContactsEncoder, false);
-
 		if(! preferences.videoOn || webcamManage == null)
+		{
+			button_video_play_this_test_sensitive (guiContactsEncoder, false);
 			return;
+		}
 
 		Webcam.Result result = webcamManage.RecordEnd (1);
 
 		if(! result.success)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, result.error);
-			button_video_play_this_test_sensitive (webcamEndParams.guiContactsEncoder, false);
+			button_video_play_this_test_sensitive (guiContactsEncoder, false);
 
 			return;
 		}
@@ -194,6 +261,7 @@ public partial class ChronoJumpWindow
 			new DialogMessage(Constants.MessageTypes.WARNING, resultExit.error);
 
 		button_video_play_this_test_sensitive (webcamEndParams.guiContactsEncoder, resultExit.success);
+		button_video_play_selected_test(current_menuitem_mode);
 
 		return false; //do not call this Timeout routine again
 	}
@@ -261,6 +329,7 @@ public partial class ChronoJumpWindow
 
 		//button_video_play_this_test.Sensitive = (uniqueID != -1 && errorMessage == "");
 		button_video_play_this_test_sensitive (guiContactsEncoder, (uniqueID != -1 && errorMessage == ""));
+		button_video_play_selected_test(current_menuitem_mode);
 	}
 
 

@@ -615,6 +615,7 @@ public class EventExecute
 	private bool webcamStarting = false;
 	private bool checkWebcamFileStarted = false;
 	public bool WebcamStarting {
+		get { return webcamStarting; }
 		set { webcamStarting = value; }
 	}
 

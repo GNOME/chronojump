@@ -225,15 +225,15 @@ public class WebcamManage
 		return result;
 	}
 
-	public void RecordStart (int ncams)
+	public bool RecordStart (int ncams)
 	{
-		recordStartDo (ref webcam);
+		return recordStartDo (ref webcam);
 		if(ncams > 1)
-			recordStartDo (ref webcam2);
+			return recordStartDo (ref webcam2);
 	}
-	private void recordStartDo (ref Webcam webcam)
+	private bool recordStartDo (ref Webcam webcam)
 	{
-		webcam.VideoCaptureStart();
+		return webcam.VideoCaptureStart().success;
 	}
 
 	public Webcam.Result RecordEnd(int ncam)

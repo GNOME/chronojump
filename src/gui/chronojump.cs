@@ -7482,87 +7482,32 @@ LogB.Debug("mc finished 5");
 		sensitiveLastTestButtons(! execute);
 	}
 
-
 	private void showHideActionEventButtons(bool show, string type) {
 		bool success = false;
 		bool recordedVideo = false;
+
 		if(type == "ALL" || type == "Jump") {
 			button_edit_selected_jump.Sensitive = show;
 			button_delete_selected_jump.Sensitive = show;
-
-			button_video_play_selected_jump.Sensitive = false;
-			if (myTreeViewJumps.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
-							currentSession.UniqueID, 
-							Constants.TestTypes.JUMP,
-							myTreeViewJumps.EventSelectedID))) {
-				button_video_play_selected_jump.Sensitive = true;
-				recordedVideo = true;
-			}
-
-
-			success = true;
 		} 
 		if (type == "ALL" || type == "JumpRj") {
 			button_edit_selected_jump_rj.Sensitive = show;
 			button_delete_selected_jump_rj.Sensitive = show;
 			button_repair_selected_jump_rj.Sensitive = show;
-
-			button_video_play_selected_jump_rj.Sensitive = false;
-			if (myTreeViewJumpsRj.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
-							currentSession.UniqueID, 
-							Constants.TestTypes.JUMP_RJ,
-							myTreeViewJumpsRj.EventSelectedID))) {
-				button_video_play_selected_jump_rj.Sensitive = true;
-				recordedVideo = true;
-			}
-
-			success = true;
 		} 
 		if (type == "ALL" || type == "Run") {
 			button_edit_selected_run.Sensitive = show;
 			button_delete_selected_run.Sensitive = show;
-
-			button_video_play_selected_run.Sensitive = false;
-			if (myTreeViewRuns.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
-							currentSession.UniqueID, 
-							Constants.TestTypes.RUN,
-							myTreeViewRuns.EventSelectedID))) {
-				button_video_play_selected_run.Sensitive = true;
-				recordedVideo = true;
-			}
-
-			success = true;
 		} 
 		if (type == "ALL" || type == "RunInterval") {
 			button_edit_selected_run_interval.Sensitive = show;
 			button_delete_selected_run_interval.Sensitive = show;
 			button_repair_selected_run_interval.Sensitive = show;
 			
-			button_video_play_selected_run_interval.Sensitive = false;
-			if (myTreeViewRunsInterval.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
-							currentSession.UniqueID, 
-							Constants.TestTypes.RUN_I,
-							myTreeViewRunsInterval.EventSelectedID))) {
-				button_video_play_selected_run_interval.Sensitive = true;
-				recordedVideo = true;
-			}
-
-			success = true;
 		} 
 		if (type == "ALL" || type == "ReactionTime") {
 			button_edit_selected_reaction_time.Sensitive = show;
 			button_delete_selected_reaction_time.Sensitive = show;
-			
-			button_video_play_selected_reaction_time.Sensitive = false;
-			if (myTreeViewReactionTimes.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
-							currentSession.UniqueID, 
-							Constants.TestTypes.RT,
-							myTreeViewReactionTimes.EventSelectedID))) {
-				button_video_play_selected_reaction_time.Sensitive = true;
-				recordedVideo = true;
-			}
-
-			success = true;
 		} 
 		if (type == "ALL" || type == "Pulse") {
 			// menuitem_edit_selected_pulse.Sensitive = show;
@@ -7570,38 +7515,15 @@ LogB.Debug("mc finished 5");
 			button_edit_selected_pulse.Sensitive = show;
 			button_delete_selected_pulse.Sensitive = show;
 			button_repair_selected_pulse.Sensitive = show;
-			
-			button_video_play_selected_pulse.Sensitive = false;
-			if (myTreeViewPulses.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
-							currentSession.UniqueID, 
-							Constants.TestTypes.PULSE,
-							myTreeViewPulses.EventSelectedID))) {
-				button_video_play_selected_pulse.Sensitive = true;
-				recordedVideo = true;
-			}
-
-			success = true;
 		} 
 		if (type == "ALL" || type == Constants.MultiChronopicName) {
 			button_edit_selected_multi_chronopic.Sensitive = show;
 			button_delete_selected_multi_chronopic.Sensitive = show;
 			
-			button_video_play_selected_multi_chronopic.Sensitive = false;
-			if (myTreeViewMultiChronopic.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
-							currentSession.UniqueID, 
-							Constants.TestTypes.MULTICHRONOPIC,
-							myTreeViewMultiChronopic.EventSelectedID))) {
-				button_video_play_selected_multi_chronopic.Sensitive = true;
-				recordedVideo = true;
-			}
-
-			success = true;
 		} 
-		if (!success)
-			LogB.Error(string.Format("Error in showHideActionEventButtons, type: {0}", type));
 
-		LogB.Information("recordedVideo = " + recordedVideo.ToString());
-		//button_video_play_this_test.Sensitive = recordedVideo;
+		button_video_play_selected_test(current_menuitem_mode);
+		//LogB.Information("recordedVideo = " + recordedVideo.ToString());
 	}
 	
 	

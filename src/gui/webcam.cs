@@ -226,7 +226,8 @@ public partial class ChronoJumpWindow
 	//can pass a -1 uniqueID if test is cancelled
 	private void webcamEnd (Constants.TestTypes testType, int uniqueID)
 	{
-		if(! currentEventExecute.WebcamStarting) //no need to stop camera because it is not recording
+		//on contacts tests, we have WebcamStarting. No need to stop camera because it is not recording
+		if(testType != Constants.TestTypes.ENCODER && ! currentEventExecute.WebcamStarting)
 			return;
 
 		WebcamManage.GuiContactsEncoder guiContactsEncoder = WebcamManage.GuiContactsEncoder.CONTACTS;

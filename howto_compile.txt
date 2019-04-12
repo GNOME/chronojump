@@ -44,6 +44,39 @@ And inside the chronojump directory
 
 make osx-installer
 
+#we have not succeded on adding ffmpeg and ffplay binaries using cerbero
+#it works on make install but not on creating the package
+#so this has to be done, adapted from: http://crazyedy.com/tech/?p=535
+#create writeable image
+hdiutil convert Chronojump-version.dmg -format UDRW -o Chronojump-version-ff.dmg
+
+#know size
+hdiutil resize -limits Chronojump-version-ff.dmg
+
+#resize it. 700000 was not enough for ffmpeg and ffplay, but 1000000 worked
+hdiutil resize -sectors 1000000 Chronojump-version-ff.dmg
+
+#Option A) from the command line:
+#check there's no Chronojump mounted: ls /Volumes
+	#if it is, unmount it with:
+	umount /Volumnes/Chronojump
+	#or
+	hdiutil detach /Volumes/Chronojump
+
+hdiutil attach Chronojump-version-ff.dmg 	#attach
+ls /Volumes/Chronojump/Chronojump.app/Contents/Home/bin/
+cp ffmpegBinariesMac/ff* /Volumes/Chronojump/Chronojump.app/Contents/Home/bin/
+hdiutil detach /Volumes/Chronojump
+
+#Option B) from the gui do:
+hdiutil attach Chronojump-version-ff.dmg 	#attach
+#double click on drive icon
+#right click on Chronojump and click "Mostrar el contenido del paquete"
+#copy it to Contents/Home/bin
+
+
+
+
 #to be used by Owncloud
 mv file.dmg ~/BinarisMac/
 

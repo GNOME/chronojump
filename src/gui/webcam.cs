@@ -107,16 +107,24 @@ public partial class ChronoJumpWindow
 		button_video_preview_visibile (guiContactsEncoder, false);
 
 		string errorMessage = "";
-		if(ncams == 1 && webcamManage.RecordPrepare(preferences.videoDevice, preferences.videoDeviceResolution, preferences.videoDeviceFramerate).success)
+		if(ncams == 1)
 		{
-			webcamManage.RecordStart(1);
-			//label_video_feedback.Text = "Preparing camera";
+			if(! webcamManage.RecordPrepare(preferences.videoDevice, preferences.videoDeviceResolution, preferences.videoDeviceFramerate).success)
+				return false;
+
+			if(! webcamManage.RecordStart(1))
+				return false;
+
 			label_video_feedback_text (guiContactsEncoder, "Preparing camera");
 		}
-		else if(ncams == 2 && webcamManage.RecordPrepare(preferences.videoDevice, "/dev/video1", preferences.videoDeviceResolution, preferences.videoDeviceFramerate).success)
+		else if(ncams == 2)
 		{
-			webcamManage.RecordStart(2);
-			//label_video_feedback.Text = "Preparing camera";
+			if(! webcamManage.RecordPrepare(preferences.videoDevice, "/dev/video1", preferences.videoDeviceResolution, preferences.videoDeviceFramerate).success)
+				return false;
+
+			if(! webcamManage.RecordStart(2))
+				return false;
+
 			label_video_feedback_text (guiContactsEncoder, "Preparing camera");
 		}
 		//TODO depending on errorMessage:
@@ -218,6 +226,9 @@ public partial class ChronoJumpWindow
 	//can pass a -1 uniqueID if test is cancelled
 	private void webcamEnd (Constants.TestTypes testType, int uniqueID)
 	{
+		if(! currentEventExecute.WebcamStarting) //no need to stop camera because it is not recording
+			return;
+
 		WebcamManage.GuiContactsEncoder guiContactsEncoder = WebcamManage.GuiContactsEncoder.CONTACTS;
 		if(testType == Constants.TestTypes.ENCODER)
 		{

@@ -5739,8 +5739,7 @@ public partial class ChronoJumpWindow
 			if(action == encoderActions.CAPTURE)
 			{
 				webcamManage = new WebcamManage();
-				bool camStarted = webcamStart (WebcamManage.GuiContactsEncoder.ENCODER, 1);
-				if(camStarted)
+				if(webcamStart (WebcamManage.GuiContactsEncoder.ENCODER, 1))
 					webcamEncoderFileStarted = WebcamEncoderFileStarted.NEEDTOCHECK;
 				else
 					webcamEncoderFileStarted = WebcamEncoderFileStarted.NOCAMERA;

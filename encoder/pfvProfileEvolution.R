@@ -171,7 +171,9 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
 pfvProfileExecute <- function(analyzeTable)
 {
 	print("analyzeTable")
-	print(analyzeTable)
+	#print(analyzeTable[1:(length(analyzeTable[,1]) -3),])
+        print(analyzeTable)
 
-	pfvProfileDrawProfilesEvolution(analyzeTable)
+	#pfvProfileDrawProfilesEvolution(analyzeTable[1:(length(analyzeTable[,1]) -3),])
+        pfvProfileDrawProfilesEvolution(analyzeTable)
 }

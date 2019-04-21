@@ -143,7 +143,9 @@ public class WebcamFfmpegGetDevicesLinux : WebcamFfmpegGetDevices
 		LogB.Information(string.Format("wd_list is null: ", wd_list == null));
 		string prefix = "/dev/";
 		var dir = new DirectoryInfo(prefix);
+		bool found = false;
 		foreach(var file in dir.EnumerateFiles("video*"))
+		{
 			/*
 			 * return 0, 1, ...
 			 if( file.Name.Length > 5 && 				//there's something more than "video", like "video0" or "video1", ...
@@ -154,6 +156,10 @@ public class WebcamFfmpegGetDevicesLinux : WebcamFfmpegGetDevices
 			wd_list.Add(new WebcamDevice(
 						prefix + file.Name,
 						prefix + file.Name + " (default camera)"));
+			found = true;
+		}
+		if(! found)
+			wd_list.Error = Constants.CameraNotFound;
 
 		return wd_list;
 	}

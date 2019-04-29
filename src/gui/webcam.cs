@@ -259,8 +259,16 @@ public partial class ChronoJumpWindow
 
 		webcamEndParams = new WebcamEndParams(1, currentSession.UniqueID, testType, uniqueID, guiContactsEncoder);
 
-		LogB.Information("Preparing to call webcamEndDo() in 2s");
-		GLib.Timeout.Add(2000, new GLib.TimeoutHandler(webcamEndDo)); //call it later to be able to have some video on a short test like a jump.
+		//on encoder do not have a delayed call to not have problems with CopyTempVideo on src/gui/encoder.cs
+		//also on encoder exercise ends when movement has really finished
+		if(testType == Constants.TestTypes.ENCODER)
+		{
+			LogB.Information("Encoder, immediate call to webcamEndDo()");
+			webcamEndDo();
+		} else {
+			LogB.Information("Preparing to call webcamEndDo() in 2s");
+			GLib.Timeout.Add(2000, new GLib.TimeoutHandler(webcamEndDo)); //call it later to be able to have some video on a short test like a jump.
+		}
 	}
 
 	private bool webcamEndDo()

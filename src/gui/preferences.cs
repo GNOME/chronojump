@@ -600,6 +600,13 @@ public class PreferencesWindow
 
 		combo_camera = ComboBox.NewText ();
 
+		/*
+		 * declare both because there is a return just here and if they are undeclred the method:
+		 * on_button_accept_clicked () will fail
+		 */
+		combo_camera_resolution = ComboBox.NewText ();
+		combo_camera_framerate = ComboBox.NewText ();
+
 		if(wd_list.Count() == 0) {
 			//devices = Util.StringToStringArray(Constants.CameraNotFound);
 			label_no_cameras.Text = wd_list.Error;

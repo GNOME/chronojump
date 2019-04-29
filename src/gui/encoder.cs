@@ -2508,21 +2508,20 @@ public partial class ChronoJumpWindow
 			
 				//copy video	
 				if(preferences.videoOn) {
-					if(Util.CopyTempVideo(currentSession.UniqueID, 
-								Constants.TestTypes.ENCODER, 
-								Convert.ToInt32(encoderSignalUniqueID))) {
-						eSQL.videoURL = Util.GetVideoFileName(currentSession.UniqueID, 
-								Constants.TestTypes.ENCODER, 
+					if(Util.CopyTempVideo(currentSession.UniqueID,
+								Constants.TestTypes.ENCODER,
+								Convert.ToInt32(encoderSignalUniqueID)))
+					{
+						eSQL.videoURL = Util.GetVideoFileName(currentSession.UniqueID,
+								Constants.TestTypes.ENCODER,
 								Convert.ToInt32(encoderSignalUniqueID));
 						//need assign uniqueID to update and add the URL of video
 						eSQL.uniqueID = encoderSignalUniqueID;
 						SqliteEncoder.Update(dbconOpened, eSQL);
 
 						button_video_play_this_test_encoder.Sensitive = true;
-
-
 					} else {
-						new DialogMessage(Constants.MessageTypes.WARNING, 
+						new DialogMessage(Constants.MessageTypes.WARNING,
 								Catalog.GetString("Sorry, video cannot be stored."));
 					}
 				}
@@ -6326,7 +6325,8 @@ public partial class ChronoJumpWindow
 			notebook_encoder_signal_comment_rhythm_and_triggers.Page = 0;
 
 			if(encoderProcessCancel) {
-				//stop video		
+				//stop video and will NOT be stored
+				LogB.Information("call to webcamEnd");
 				webcamEnd (Constants.TestTypes.ENCODER, -1);
 			}
 

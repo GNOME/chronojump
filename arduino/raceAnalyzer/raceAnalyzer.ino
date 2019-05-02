@@ -45,7 +45,8 @@ void setup() {
   loadCell.begin();
   loadCell.setGain(GAIN_ONE);
   //tare();
-  EEPROM.get(offsetAddress, offset);;
+  EEPROM.get(offsetAddress, offset);
+  EEPROM.get(calibrationAddress, calibrationFactor);
   //EEPROM.get(ppsAddress, pps);
   //Using the rising flank of the A photocell we have a 200 PPR.
   attachInterrupt(digitalPinToInterrupt(encoderPinA), changingA, RISING);
@@ -341,5 +342,5 @@ void get_offset(void)
 
 void get_calibration_factor(void)
 {
-  Serial.println(calibrationFactor);
+  Serial.println(calibrationFactor, 8);
 }

@@ -153,6 +153,10 @@ public class PreferencesWindow
 	[Widget] Gtk.Label label_no_cameras;
 	[Widget] Gtk.Label label_webcam_windows;
 	[Widget] Gtk.Image image_video_preview;
+	[Widget] Gtk.CheckButton check_camera_stop_after;
+	//[Widget] Gtk.VBox vbox_camera_stop_after;
+	[Widget] Gtk.HBox hbox_camera_stop_after_seconds;
+	[Widget] Gtk.SpinButton spin_camera_stop_after;
 
 	//language tab
 	[Widget] Gtk.Box hbox_combo_language;
@@ -303,7 +307,11 @@ public class PreferencesWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_preview.png");
 		PreferencesWindowBox.image_video_preview.Pixbuf = pixbuf;
-	
+
+		PreferencesWindowBox.spin_camera_stop_after.Value = preferences.videoStopAfter;
+		//PreferencesWindowBox.vbox_camera_stop_after.Visible = (preferences.videoStopAfter > 0);
+		PreferencesWindowBox.hbox_camera_stop_after_seconds.Visible = (preferences.videoStopAfter > 0);
+		PreferencesWindowBox.check_camera_stop_after.Active = (preferences.videoStopAfter > 0);
 
 		string [] decs = {"1", "2", "3"};
 		PreferencesWindowBox.combo_decimals.Active = UtilGtk.ComboMakeActive(
@@ -651,6 +659,12 @@ public class PreferencesWindow
 		hbox_combo_camera_framerate.PackStart(combo_camera_framerate, true, true, 0);
 		hbox_combo_camera_framerate.ShowAll();
 		combo_camera_framerate.Active = UtilGtk.ComboMakeActive(combo_camera_framerate, framerate);
+	}
+
+	private void on_check_camera_stop_after_toggled (object o, EventArgs args)
+	{
+		//vbox_camera_stop_after.Visible = check_camera_stop_after.Active;
+		hbox_camera_stop_after_seconds.Visible = check_camera_stop_after.Active;
 	}
 		
 	private void on_check_appearance_maximized_toggled (object obj, EventArgs args)
@@ -1533,6 +1547,14 @@ public class PreferencesWindow
 		if( preferences.videoDeviceFramerate != UtilGtk.ComboGetActive(combo_camera_framerate) ) {
 			SqlitePreferences.Update("videoDeviceFramerate", UtilGtk.ComboGetActive(combo_camera_framerate), true);
 			preferences.videoDeviceFramerate = UtilGtk.ComboGetActive(combo_camera_framerate);
+		}
+
+		int selected_camera_stop_after = Convert.ToInt32(spin_camera_stop_after.Value);
+		if(! check_camera_stop_after.Active)
+			selected_camera_stop_after = 0;
+		if( preferences.videoStopAfter != selected_camera_stop_after) {
+			SqlitePreferences.Update("videoStopAfter", selected_camera_stop_after.ToString(), true);
+			preferences.videoStopAfter = selected_camera_stop_after;
 		}
 
 		//end of camera stuff

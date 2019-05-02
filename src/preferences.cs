@@ -77,6 +77,7 @@ public class Preferences
 	public string videoDevice;
 	public string videoDeviceResolution;
 	public string videoDeviceFramerate;
+	public int videoStopAfter;
 	public string CSVExportDecimalSeparator;
 	public string language;
 	public string crashLogLanguage;

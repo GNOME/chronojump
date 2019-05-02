@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.61";
+	static string lastChronojumpDatabaseVersion = "1.62";
 
 	public Sqlite() {
 	}
@@ -2378,6 +2378,14 @@ class Sqlite
 				SqlitePreferences.Insert ("videoDeviceFramerate", "");
 
 				currentVersion = updateVersion("1.61");
+			}
+			if(currentVersion == "1.61")
+			{
+				LogB.SQL("Added to preferences: videoStopAfter");
+
+				SqlitePreferences.Insert ("videoStopAfter", "2");
+
+				currentVersion = updateVersion("1.62");
 			}
 
 

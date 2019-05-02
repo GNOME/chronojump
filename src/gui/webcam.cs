@@ -328,8 +328,13 @@ public partial class ChronoJumpWindow
 			LogB.Information("Encoder, immediate call to webcamEndDo()");
 			webcamEndDo();
 		} else {
-			LogB.Information("Preparing to call webcamEndDo() in 2s");
-			GLib.Timeout.Add(2000, new GLib.TimeoutHandler(webcamEndDo)); //call it later to be able to have some video on a short test like a jump.
+			if(preferences.videoStopAfter == 0)
+				webcamEndDo();
+			else {
+				//call it later to be able to have some video on a short test like a jump.
+				LogB.Information(string.Format("Preparing to call webcamEndDo() in {0} s", preferences.videoStopAfter));
+				GLib.Timeout.Add(Convert.ToUInt32(preferences.videoStopAfter * 1000), new GLib.TimeoutHandler(webcamEndDo));
+			}
 		}
 	}
 

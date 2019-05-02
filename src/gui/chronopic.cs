@@ -88,7 +88,7 @@ public partial class ChronoJumpWindow
 				return;
 			} else {
 				button_activate_chronopics.Show();
-				on_button_execute_test_accepted();
+				on_button_execute_test_acceptedPre();
 				return;
 			}
 		}

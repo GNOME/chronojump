@@ -66,6 +66,8 @@ public class EventExecute
 	protected string feedbackMessage;
 	protected bool needShowFeedbackMessage;
 
+	public bool WebcamStarted;
+
 	//instances with the info to create
 	public PrepareEventGraphJumpSimple PrepareEventGraphJumpSimpleObject; 
 	public PrepareEventGraphJumpReactive PrepareEventGraphJumpReactiveObject;
@@ -354,20 +356,6 @@ public class EventExecute
 		
 		// <-------------------------- end of races specific
 
-		//camera stuff: show something when record really starts
-		if(webcamStarting)
-		{
-			if(! checkWebcamFileStarted)
-			{
-				if(WebcamManage.RecordingFileStarted ())
-				{
-					LogB.Information("WebcamManage.RecodingFileStarted");
-					UtilGtk.PrintLabelWithTooltip(egd.Label_video_feedback, "Recording video.");
-					checkWebcamFileStarted = true;
-				}
-			}
-		}
-
 		//check if it should finish by time
 		if(shouldFinishByTime()) {
 			finish = true;
@@ -610,13 +598,6 @@ public class EventExecute
 
 	public Event EventDone {
 		get { return eventDone; }
-	}
-	
-	private bool webcamStarting = false;
-	private bool checkWebcamFileStarted = false;
-	public bool WebcamStarting {
-		get { return webcamStarting; }
-		set { webcamStarting = value; }
 	}
 
 	// multi Chronopic stuff

@@ -22,6 +22,8 @@ using System;
 using Gtk;
 using Glade;
 using System.IO; //"File" things
+using System.Diagnostics;  //Stopwatch
+using System.Threading;
 
 public partial class ChronoJumpWindow 
 {
@@ -44,6 +46,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_video_encoder_no;
 	[Widget] Gtk.Button button_video_play_this_test;
 	[Widget] Gtk.Button button_video_play_this_test_encoder;
+	[Widget] Gtk.ProgressBar pulsebar_webcam;
 
 
 	private enum WebcamEncoderFileStarted { NEEDTOCHECK, RECORDSTARTED, NOCAMERA }
@@ -90,8 +93,11 @@ public partial class ChronoJumpWindow
 
 	WebcamManage webcamManage;
 
-	private bool webcamStart (WebcamManage.GuiContactsEncoder guiContactsEncoder, int ncams)
+	//private bool webcamStart (WebcamManage.GuiContactsEncoder guiContactsEncoder, int ncams, bool waitUntilRecording)
+	private bool webcamStart (WebcamManage.GuiContactsEncoder guiContactsEncoder, int ncams)//, bool waitUntilRecording)
 	{
+		bool waitUntilRecording = true; //only applies to contacts, right now
+
 		if(guiContactsEncoder == WebcamManage.GuiContactsEncoder.ENCODER)
 			hbox_video_encoder.Sensitive = false;
 
@@ -104,7 +110,7 @@ public partial class ChronoJumpWindow
 			hbox_video_encoder_capturing.Visible = true;
 		}
 
-		button_video_preview_visibile (guiContactsEncoder, false);
+		button_video_preview_visible (guiContactsEncoder, false);
 
 		string errorMessage = "";
 		if(ncams == 1)
@@ -127,14 +133,75 @@ public partial class ChronoJumpWindow
 
 			label_video_feedback_text (guiContactsEncoder, "Preparing camera");
 		}
-		//TODO depending on errorMessage:
-		//new DialogMessage(Constants.MessageTypes.WARNING, result.error);
-		//button_video_play_this_test.Sensitive = false;
+
+		if(waitUntilRecording)
+		{
+			webcamStartThreadBeforeTestStatus = statusEnum.NOT_STARTED;
+			webcamStartThread = new Thread (new ThreadStart (webcamStartThreadBeforeTest));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseWebcamGTK));
+			webcamStartThread.Start();
+		}
 
 		return true;
 	}
 
-	private void button_video_preview_visibile (WebcamManage.GuiContactsEncoder guiContactsEncoder, bool visible)
+	Thread webcamStartThread; //TODO: remember to stop/kill this on Chronojump exit
+	private enum statusEnum { NOT_STARTED, STARTING, FAILURE, SUCCESS };
+	static statusEnum webcamStartThreadBeforeTestStatus;
+	static Stopwatch swWebcamStart;
+
+	//Attention: no GTK here
+	private void webcamStartThreadBeforeTest()
+	{
+		bool problems = false;
+		swWebcamStart = new Stopwatch();
+		swWebcamStart.Start();
+		do {
+			System.Threading.Thread.Sleep(100);
+			if(swWebcamStart.Elapsed.TotalSeconds >= 10)
+				problems = true;
+		} while(! WebcamManage.RecordingFileStarted() && ! problems);
+		swWebcamStart.Stop();
+
+		if(problems) {
+			LogB.Information("Problems starting camera.");
+			webcamStartThreadBeforeTestStatus = statusEnum.FAILURE;
+		} else
+			webcamStartThreadBeforeTestStatus = statusEnum.SUCCESS;
+	}
+	private bool pulseWebcamGTK ()
+	{
+		if(webcamStartThreadBeforeTestStatus == statusEnum.NOT_STARTED)
+		{
+			label_video_feedback_text (WebcamManage.GuiContactsEncoder.CONTACTS, "Initializing camera.");
+			pulsebar_webcam.Visible = true;
+			webcamStartThreadBeforeTestStatus = statusEnum.STARTING;
+		}
+
+		if ( ! webcamStartThread.IsAlive )
+		{
+			pulsebar_webcam.Visible = false;
+			if(webcamStartThreadBeforeTestStatus == statusEnum.FAILURE)
+				label_video_feedback_text (WebcamManage.GuiContactsEncoder.CONTACTS, "Problems starting camera.");
+			else if(webcamStartThreadBeforeTestStatus == statusEnum.SUCCESS)
+			{
+				webcamManage.ReallyStarted = true;
+				label_video_feedback_text (WebcamManage.GuiContactsEncoder.CONTACTS, "Recording ...");
+			}
+
+			on_button_execute_test_accepted ();
+
+			LogB.ThreadEnded();
+			return false;
+		}
+
+		pulsebar_webcam.Fraction = Util.DivideSafeFraction(swWebcamStart.Elapsed.TotalSeconds, 10);
+		Thread.Sleep (50);
+		//LogB.Debug(webcamStartThread.ThreadState.ToString());
+		return true;
+	}
+
+	private void button_video_preview_visible (WebcamManage.GuiContactsEncoder guiContactsEncoder, bool visible)
 	{
 		if(guiContactsEncoder == WebcamManage.GuiContactsEncoder.CONTACTS)
 			button_video_preview.Visible = visible;
@@ -226,8 +293,8 @@ public partial class ChronoJumpWindow
 	//can pass a -1 uniqueID if test is cancelled
 	private void webcamEnd (Constants.TestTypes testType, int uniqueID)
 	{
-		//on contacts tests, we have WebcamStarting. No need to stop camera because it is not recording
-		if(testType != Constants.TestTypes.ENCODER && ! currentEventExecute.WebcamStarting)
+		//on contacts tests, we have WebcamStarted. No need to stop camera because it is not recording
+		if(testType != Constants.TestTypes.ENCODER && ! webcamManage.ReallyStarted)
 			return;
 
 		WebcamManage.GuiContactsEncoder guiContactsEncoder = WebcamManage.GuiContactsEncoder.CONTACTS;
@@ -242,18 +309,13 @@ public partial class ChronoJumpWindow
 		}
 
 		if(! preferences.videoOn || webcamManage == null)
-		{
-			button_video_play_this_test_sensitive (guiContactsEncoder, false);
 			return;
-		}
 
 		Webcam.Result result = webcamManage.RecordEnd (1);
 
 		if(! result.success)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, result.error);
-			button_video_play_this_test_sensitive (guiContactsEncoder, false);
-
 			return;
 		}
 
@@ -280,7 +342,8 @@ public partial class ChronoJumpWindow
 		if(webcamEndParams.uniqueID != -1 && ! resultExit.success)
 			new DialogMessage(Constants.MessageTypes.WARNING, resultExit.error);
 
-		button_video_play_this_test_sensitive (webcamEndParams.guiContactsEncoder, resultExit.success);
+		LogB.Information(string.Format("calling button_video_play_this_test_sensitive {0}-{1}-{2}", webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted, resultExit.success));
+		button_video_play_this_test_sensitive (webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted && resultExit.success);
 		button_video_play_selected_test(current_menuitem_mode);
 
 		return false; //do not call this Timeout routine again
@@ -317,7 +380,7 @@ public partial class ChronoJumpWindow
 		}
 
 		//button_video_play_this_test.Sensitive = false;
-		button_video_play_this_test_sensitive (guiContactsEncoder, false);
+		//button_video_play_this_test_sensitive (guiContactsEncoder, false);
 
 		if(! preferences.videoOn || webcamManage == null)
 			return;

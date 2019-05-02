@@ -181,12 +181,14 @@ public class WebcamManage
 	Webcam webcam2;
 	private UtilAll.OperatingSystems os;
 	//TODO: implement an List<T> of objects containing webcam and video device
+	public bool ReallyStarted;
 
 	public enum GuiContactsEncoder { CONTACTS, ENCODER }
 
 	public WebcamManage()
 	{
 		os = UtilAll.GetOSEnum();
+		ReallyStarted = false;
 	}
 
 	// 1 camera

@@ -173,6 +173,7 @@ class SqlitePreferences : Sqlite
 				Insert ("videoDevice", "", dbcmdTr); //first
 				Insert ("videoDeviceResolution", "", dbcmdTr);
 				Insert ("videoDeviceFramerate", "", dbcmdTr);
+				Insert ("videoStopAfter", "2", dbcmdTr);
 				Insert ("inertialmomentum", "0.01", dbcmdTr);
 				Insert ("CSVExportDecimalSeparator", Util.GetDecimalSeparatorFromLocale(), dbcmdTr);
 				Insert ("RGraphsTranslate", "True", dbcmdTr);
@@ -375,6 +376,8 @@ class SqlitePreferences : Sqlite
 				preferences.videoDeviceResolution = reader[1].ToString();
 			else if(reader[0].ToString() == "videoDeviceFramerate")
 				preferences.videoDeviceFramerate = reader[1].ToString();
+			else if(reader[0].ToString() == "videoStopAfter")
+				preferences.videoStopAfter = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "CSVExportDecimalSeparator")
 				preferences.CSVExportDecimalSeparator = reader[1].ToString();
 			else if(reader[0].ToString() == "language")

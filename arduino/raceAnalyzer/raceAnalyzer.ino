@@ -246,7 +246,6 @@ void calibrate(String inputString)
   //Reading the argument of the command. Located within the ":" and the ";"
   String loadString = get_command_argument(inputString);
   float load = loadString.toFloat();
-  float calibrationFactor = 0;
   float total = 0;
   for (int i = 1; i <= 1000;  i++)
   {

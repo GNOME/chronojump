@@ -3944,9 +3944,25 @@ public partial class ChronoJumpWindow
 
 				return;
 			}
-			on_button_execute_test_accepted();
+			on_button_execute_test_acceptedPre();
 		}
 	        UtilGtk.DeviceColors(viewport_chronopics, true);
+	}
+
+	// camera stuff if needed
+	private void on_button_execute_test_acceptedPre()
+	{
+		button_video_play_this_test_sensitive (WebcamManage.GuiContactsEncoder.CONTACTS, false);
+		webcamManage = new WebcamManage();
+		if(! webcamStart (WebcamManage.GuiContactsEncoder.CONTACTS, 1))
+		{
+			on_button_execute_test_accepted();
+			return;
+		}
+
+		bool waitUntilRecording = true;
+		if(! waitUntilRecording)
+			on_button_execute_test_accepted();
 	}
 
 	void on_button_execute_test_accepted ()
@@ -3960,8 +3976,6 @@ public partial class ChronoJumpWindow
 		 */
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
-
-		webcamManage = new WebcamManage();
 
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{
@@ -4183,9 +4197,6 @@ public partial class ChronoJumpWindow
 
 
 		//UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, chronopicWin.Connected);
-
-		currentEventExecute.WebcamStarting =
-			webcamStart (WebcamManage.GuiContactsEncoder.CONTACTS, 1);
 
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -4493,10 +4504,6 @@ public partial class ChronoJumpWindow
 				repetitiveConditionsWin, progressbarLimit, egd
 				);
 		
-		//webcamStart (2);
-		currentEventExecute.WebcamStarting =
-			webcamStart (WebcamManage.GuiContactsEncoder.CONTACTS, 1);
-
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps
 		if(! canCaptureC)
@@ -4642,9 +4649,6 @@ public partial class ChronoJumpWindow
 				image_run_execute_photocell
 				);
 
-		currentEventExecute.WebcamStarting =
-			webcamStart (WebcamManage.GuiContactsEncoder.CONTACTS, 1);
-
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
 			
@@ -4776,9 +4780,6 @@ public partial class ChronoJumpWindow
 				image_run_execute_running,
 				image_run_execute_photocell
 				);
-
-		currentEventExecute.WebcamStarting =
-			webcamStart (WebcamManage.GuiContactsEncoder.CONTACTS, 1);
 
 		//suitable for limited by tracks and time
 		if(! canCaptureC)
@@ -4998,9 +4999,6 @@ public partial class ChronoJumpWindow
 				progressbarLimit, egd, description
 				);
 
-		currentEventExecute.WebcamStarting =
-			webcamStart (WebcamManage.GuiContactsEncoder.CONTACTS, 1);
-
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
 	
@@ -5158,9 +5156,6 @@ public partial class ChronoJumpWindow
 				preferences.volumeOn, preferences.gstreamer, egd
 				);
 		
-		currentEventExecute.WebcamStarting =
-			webcamStart (WebcamManage.GuiContactsEncoder.CONTACTS, 1);
-
 		if(! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
 		
@@ -5445,9 +5440,6 @@ public partial class ChronoJumpWindow
 				extra_window_spin_run_analysis_distance.Value.ToString(),
 				app1, egd
 				);
-
-		currentEventExecute.WebcamStarting =
-			webcamStart (WebcamManage.GuiContactsEncoder.CONTACTS, 1);
 
 		//mark to only get inside on_multi_chronopic_finished one time
 		multiFinishing = false;

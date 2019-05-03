@@ -97,6 +97,8 @@ public partial class ChronoJumpWindow
 	private bool webcamStart (WebcamManage.GuiContactsEncoder guiContactsEncoder, int ncams)//, bool waitUntilRecording)
 	{
 		bool waitUntilRecording = true; //only applies to contacts, right now
+		if(guiContactsEncoder == WebcamManage.GuiContactsEncoder.ENCODER)
+			waitUntilRecording = false;
 
 		if(guiContactsEncoder == WebcamManage.GuiContactsEncoder.ENCODER)
 			hbox_video_encoder.Sensitive = false;

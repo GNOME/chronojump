@@ -154,6 +154,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Label label_webcam_windows;
 	[Widget] Gtk.Image image_video_preview;
 	[Widget] Gtk.CheckButton check_camera_stop_after;
+	[Widget] Gtk.VBox vbox_camera_stop_after_all;
 	//[Widget] Gtk.VBox vbox_camera_stop_after;
 	[Widget] Gtk.HBox hbox_camera_stop_after_seconds;
 	[Widget] Gtk.SpinButton spin_camera_stop_after;
@@ -622,6 +623,7 @@ public class PreferencesWindow
 			current = "";
 
 			hbox_camera_resolution_framerate.Visible = false;
+			vbox_camera_stop_after_all.Visible = false;
 			return;
 		}
 		

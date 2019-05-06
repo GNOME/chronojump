@@ -48,28 +48,34 @@ make osx-installer
 #it works on make install but not on creating the package
 #so this has to be done, adapted from: http://crazyedy.com/tech/?p=535
 #create writeable image
-hdiutil convert Chronojump-version.dmg -format UDRW -o Chronojump-version-ff.dmg
+
+export VERSION=Chronojump-1.8.1-466-g57258ca-x86_64
+hdiutil convert $VERSION.dmg -format UDRW -o $VERSION-ff.dmg
 
 #know size
-hdiutil resize -limits Chronojump-version-ff.dmg
+hdiutil resize -limits $VERSION-ff.dmg
+#note on 1.8.1-466 is:
+# min 	 cur 	 max 
+#514384	514384	18043744
 
-#resize it. 700000 was not enough for ffmpeg and ffplay, but 1000000 worked
-hdiutil resize -sectors 1000000 Chronojump-version-ff.dmg
+#resize it. 700000 was not enough for ffmpeg and ffplay
+hdiutil resize -sectors 730000 $VERSION-ff.dmg
 
 #Option A) from the command line:
-#check there's no Chronojump mounted: ls /Volumes
-	#if it is, unmount it with:
-	umount /Volumnes/Chronojump
+#check there's no Chronojump mounted:
+ls /Volumes
+#if it is, unmount it with:
+	umount /Volumes/Chronojump
 	#or
 	hdiutil detach /Volumes/Chronojump
 
-hdiutil attach Chronojump-version-ff.dmg 	#attach
+hdiutil attach $VERSION-ff.dmg 	#attach
 ls /Volumes/Chronojump/Chronojump.app/Contents/Home/bin/
 cp ffmpegBinariesMac/ff* /Volumes/Chronojump/Chronojump.app/Contents/Home/bin/
 hdiutil detach /Volumes/Chronojump
 
 #Option B) from the gui do:
-hdiutil attach Chronojump-version-ff.dmg 	#attach
+hdiutil attach $VERSION-ff.dmg 	#attach
 #double click on drive icon
 #right click on Chronojump and click "Mostrar el contenido del paquete"
 #copy it to Contents/Home/bin
@@ -78,7 +84,7 @@ hdiutil attach Chronojump-version-ff.dmg 	#attach
 
 
 #to be used by Owncloud
-mv file.dmg ~/BinarisMac/
+mv $VERSION-ff.dmg ~/BinarisMac/
 
 #if there are problems on hdiuti do:
 hdiutil create -size 200m ...

@@ -84,10 +84,10 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
 
         fmax = summary(model)$coeff[1,1]
         K = summary(model)$coeff[2,1]
-        return(list(fmax = fmax, K = K, error =sum(residuals(model)^2)))
+        return(list(fmax = fmax, K = K, error =sum(abs(residuals(model)))))
 }
 
-getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentChange = 5, bestFit = TRUE)
+getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentChange = 5, bestFit = TRUE, testLength = -1)
 {
         originalTest = read.csv(inputFile, header = F, dec = op$decimalChar, sep = ";", skip = 2)
         colnames(originalTest) <- c("time", "force")
@@ -118,35 +118,45 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
         
         f.smoothed = getMovingAverageForce(originalTest, averageLength = averageLength) #Running average with equal weight averageLength seconds
         fmax.smoothed = max(f.smoothed, na.rm = TRUE)
-        lastError = 1E16
+        lastRelativeError = 1E16
         #Trimming the data before and after contraction
         testTrimmed = originalTest[startSample:endSample,]
         
         model = getForceModel(testTrimmed$time, testTrimmed$force, startTime, fmax.smoothed, initf)
-        print("-----Error-------")
-        print(model$error)
+        relativeError = model$error / length(testTrimmed$force)
+        
+        # print(paste("Error:", model$error))
+        # print(paste("length:", length(testTrimmed$force)))
+        # print(paste("Relative Error:", relativeError))
+        # print("--------")
         
         
         if(bestFit)     #looking for the startSample that best fits the data
         {
-                while(model$error < lastError)
+                while(relativeError < lastRelativeError)
                 {
-                        lastError = model$error
+                        lastRelativeError = relativeError
                         
                         startSample = startSample + 1
                         startTime = originalTest$time[startSample]
                         
-                        
-                        endSample = endSample + 1
-                        endTime = originalTest$time[endSample]
+                        #Make this only if testLength = -1
+                        if (testLength != -1){
+                                endSample = endSample + 1
+                                endTime = originalTest$time[endSample]
+                        }
                         
                         
                         #Trimming the data before and after contraction
                         testTrimmed = originalTest[startSample:endSample,]
                         
                         model = getForceModel(testTrimmed$time, testTrimmed$force, startTime, fmax.smoothed, initf)
-                        print("-----Error-------")
-                        print(model$error)
+                        relativeError = model$error / length(testTrimmed$force)
+                        
+                        #print(paste("Error:", model$error))
+                        #print(paste("length:", length(testTrimmed$force)))
+                        #print(paste("Relative Error:", model$error / length(testTrimmed$force)))
+                        #print("--------")
                 }
                 
                 #going back to the last sample
@@ -753,7 +763,8 @@ readImpulseOptions <- function(optionsStr)
 }
 
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-dynamics = getDynamicsFromLoadCellFile(dataFile, op$averageLength, op$percentChange)
+
+dynamics = getDynamicsFromLoadCellFile(dataFile, op$averageLength, op$percentChange, bestFit = TRUE, testLength = -1)
 drawDynamicsFromLoadCell(dynamics, op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
                          op$drawRfdOptions)
 #                         op$drawRfdOptions, xlimits = c(0.5, 1.5))

@@ -190,7 +190,8 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
                     tfmax.raw = tfmax.raw,
                     rfd = rfd,
                     f.raw = originalTest$force, f.smoothed = f.smoothed, f.fitted = f.fitted,
-                    endTime = endTime))
+                    endTime = endTime,
+                    relativeError = relativeError))
 }
 
 drawDynamicsFromLoadCell <- function(
@@ -597,6 +598,9 @@ drawDynamicsFromLoadCell <- function(
 		legendText = c(legendText, impulseLegend)
                 legendColor = c(legendColor, impulseColor)
 	}
+        
+        legendText = c(legendText, paste("MeanError = ", round(dynamics$relativeError, digits = 2), " N", sep =""))
+        legendColor = c(legendColor, "red")
 
 	legend(x = xmax, y = dynamics$fmax.fitted/2, legend = legendText, xjust = 1, yjust = 0.1, text.col = legendColor)
 }

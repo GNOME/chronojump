@@ -17,7 +17,7 @@ unsigned long sampleTime = 0;
 //Version of the firmware
 String version = "Race_Analyzer-0.1";
 
-int pps = 40; //Pulses Per Sample. How many pulses are needed to get a sample
+int pps = 10; //Pulses Per Sample. How many pulses are needed to get a sample
 int ppsAddress = 0; //Where is stored the pps value in the EEPROM
 
 int offset = 0;
@@ -39,19 +39,20 @@ void setup() {
   pinMode (encoderPinA, INPUT);
   pinMode (encoderPinB, INPUT);
   Serial.begin (115200);
-  //Serial.begin (1000000);
   Wire.setClock(1000000);
+
+  EEPROM.get(ppsAddress, pps);
 
   loadCell.begin();
   loadCell.setGain(GAIN_ONE);
   //tare();
   EEPROM.get(offsetAddress, offset);
   EEPROM.get(calibrationAddress, calibrationFactor);
-  //EEPROM.get(ppsAddress, pps);
-  //Using the rising flank of the A photocell we have a 200 PPR.
+
+  //Using the rising flank of the A photocell we have a normal PPR.
   attachInterrupt(digitalPinToInterrupt(encoderPinA), changingA, RISING);
 
-  //Using the CHANGE with both photocells WE CAN HAVE 800 PPR
+  //Using the CHANGE with both photocells WE CAN HAVE four times normal PPR
   //attachInterrupt(digitalPinToInterrupt(encoderPinB), changingB, CHANGE);
 }
 
@@ -181,7 +182,7 @@ void start_capture()
 
   totalTime = 0;
   lastSampleTime = micros();
-  sampleTime = lastSampleTime +1;
+  sampleTime = lastSampleTime + 1;
 
   //First sample with a low speed is mandatory to good detection of the start
   Serial.print(0);
@@ -208,10 +209,13 @@ void get_version()
 void set_pps(String inputString)
 {
   String argument = get_command_argument(inputString);
-  pps = argument.toInt();
-  EEPROM.put(ppsAddress, pps);
-  Serial.print("pps set to: ");
-  Serial.println(pps);
+  int newPps = argument.toInt();
+  if (newPps != pps) {  //Trying to reduce the number of writings
+    EEPROM.put(ppsAddress, newPps);
+    pps = newPps;
+    Serial.print("pps set to: ");
+    Serial.println(pps);
+  }
 }
 
 void get_pps()

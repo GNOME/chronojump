@@ -276,7 +276,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
         mtext(side = 3, at = splitTime, text = paste(splitPosition, "m", sep=""))
         mtext(side = 1, at = splitTime, text = paste(round(splitTime, digits = 3), "s", sep=""))
         
-        legendText = paste("Vmax.raw =", round(max(sprintRawDynamics$rawSpeed), digits = 2), "m/s")
+        legendText = paste("Vmax.raw =", round(sprintRawDynamics$rawVmax, digits = 2), "m/s")
         legendColor = "black"
 
         if (plotFittedSpeed)

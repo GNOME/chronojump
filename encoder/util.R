@@ -531,11 +531,11 @@ assignRepOptions <- function(
 
 
 
-#go here with every single curve
+#go here with every single repetition
 #repOp has the options for this repetition
-#repOp$eccon="c" one time each curve
-#repOp$eccon="ec" one time each curve
-#repOp$eccon="ecS" means ecSeparated. two times each curve: one for "e", one for "c"
+#repOp$eccon="c" one time each repetitions
+#repOp$eccon="ec" one time each repetition
+#repOp$eccon="ecS" means ecSeparated. two times each repetition: one for "e", one for "c"
 #kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWeight,
 #			encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
 #			smoothingOneEC, smoothingOneC, g, eccon, isPropulsive)

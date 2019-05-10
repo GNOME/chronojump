@@ -75,7 +75,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VScale vscale_encoder_capture_inertial_angle_now;
 	[Widget] Gtk.VBox vbox_angle_now;
 	[Widget] Gtk.Label label_encoder_capture_inertial_angle_now;
-	
+	[Widget] Gtk.Label label_encoder_capture_inertial_eccon;
+
 	[Widget] Gtk.RadioButton radio_encoder_capture_1set;
 	[Widget] Gtk.RadioButton radio_encoder_capture_cont;
 	[Widget] Gtk.Button button_encoder_capture;
@@ -127,7 +128,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_capture_curves_best;
 	[Widget] Gtk.Button button_encoder_capture_curves_none;
 	[Widget] Gtk.Button button_encoder_capture_curves_4top;
-	
+
 	[Widget] Gtk.Notebook notebook_analyze_results;
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_analyze;
 	[Widget] Gtk.ComboBox combo_encoder_exercise_analyze;
@@ -2705,6 +2706,7 @@ public partial class ChronoJumpWindow
 		EncoderCaptureInertialBackgroundStatic.Abort();
 		eCaptureInertialBG = null;
 		vscale_encoder_capture_inertial_angle_now.Value = 0;
+		label_encoder_capture_inertial_eccon.Text = "";
 	}
 
 	//this is called by non gtk thread. Don't do gtk stuff here
@@ -6266,6 +6268,11 @@ public partial class ChronoJumpWindow
 		}
 
 		int newValue = eCaptureInertialBG.AngleNow;
+		if(newValue > 0)
+			label_encoder_capture_inertial_eccon.Text = Catalog.GetString("Concentric");
+		else
+			label_encoder_capture_inertial_eccon.Text = Catalog.GetString("Eccentric");
+
 		//resize vscale if needed
 		//0 is at the graphical top. abs(+-100) is on the bottom, but is called adjustment Upper
 		int upper = Convert.ToInt32(vscale_encoder_capture_inertial_angle_now.Adjustment.Upper);

@@ -774,7 +774,7 @@ public class Constants
 	 * https://cran.r-project.org/doc/manuals/r-devel/R-admin.pdf
 	 */
 	public static string ROSX = "/Library/Frameworks/R.framework/Resources/R";
-	public static string RScriptOSX = "/Library/Frameworks/R.framework/Resources/RScript";
+	public static string RScriptOSX = "/Library/Frameworks/R.framework/Resources/Rscript";
 	
 	//public static string EncoderScriptCapturePythonLinux = "pyserial_pyper.py";
 	//public static string EncoderScriptCapturePythonWindows = "pyserial_pyper_windows.exe";

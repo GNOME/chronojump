@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.62";
+	static string lastChronojumpDatabaseVersion = "1.63";
 
 	public Sqlite() {
 	}
@@ -2387,6 +2387,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.62");
 			}
+			if(currentVersion == "1.62")
+			{
+				LogB.SQL("Added to preferences: encoderCaptureInertialDiscardFirstN");
+
+				SqlitePreferences.Insert ("encoderCaptureInertialDiscardFirstN", "3");
+
+				currentVersion = updateVersion("1.63");
+			}
 
 
 
@@ -2576,6 +2584,9 @@ class Sqlite
 		SqliteJson.createTableUploadExhibitionTestTemp ();
 
 		//changes [from - to - desc]
+		//1.62 - 1.63 Converted DB to 1.63 Added to preferences: encoderCaptureInertialDiscardFirstN
+		//1.61 - 1.62 Converted DB to 1.62 Added to preferences: videoStopAfter
+		//1.60 - 1.61 Converted DB to 1.61 Added to preferences: videoDeviceResolution, videoDeviceFramerate
 		//1.59 - 1.60 Converted DB to 1.60 Created table UploadExhibitionTestTemp
 		//1.58 - 1.59 Converted DB to 1.59 Created ForceSensorExercise
 		//1.57 - 1.58 Converted DB to 1.58 Added to preferences: encoderCaptureShowNRepetitions

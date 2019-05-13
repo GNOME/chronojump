@@ -1866,7 +1866,7 @@ It starts before and arrives there with some speed.</property>
                                       <widget class="GtkHBox" id="hbox23">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="spacing">20</property>
+                                        <property name="spacing">16</property>
                                         <child>
                                           <widget class="GtkLabel" id="label64">
                                             <property name="visible">True</property>
@@ -1935,6 +1935,82 @@ It starts before and arrives there with some speed.</property>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
                                         <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkHBox" id="hbox32">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="spacing">16</property>
+                                        <child>
+                                          <widget class="GtkCheckButton" id="checkbutton_encoder_capture_inertial_discard_first_n">
+                                            <property name="label" translatable="yes">On inertial discard first repetitions</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="active">True</property>
+                                            <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_checkbutton_encoder_capture_inertial_discard_first_n_toggled" swapped="no"/>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkHBox" id="hbox_encoder_capture_inertial_discard_first_n">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="spacing">8</property>
+                                            <child>
+                                              <widget class="GtkSpinButton" id="spin_encoder_capture_inertial_discard_first_n">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="has_tooltip">True</property>
+                                                <property name="tooltip" translatable="yes">Minimal height</property>
+                                                <property name="invisible_char">●</property>
+                                                <property name="width_chars">1</property>
+                                                <property name="invisible_char_set">True</property>
+                                                <property name="primary_icon_activatable">False</property>
+                                                <property name="secondary_icon_activatable">False</property>
+                                                <property name="primary_icon_sensitive">True</property>
+                                                <property name="secondary_icon_sensitive">True</property>
+                                                <property name="adjustment">3 1 9 1 10 0</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="snap_to_ticks">True</property>
+                                                <property name="numeric">True</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label79">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label" translatable="yes">Recommended: 3</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
                                       </packing>
                                     </child>
                                   </widget>

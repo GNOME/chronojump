@@ -107,6 +107,9 @@ public class PreferencesWindow
 	[Widget] Gtk.VBox vbox_encoder_inertial; //change Visible param to not have a vertical big first page with only one row of info
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_inertial;
+	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inertial_discard_first_n;
+	[Widget] Gtk.HBox hbox_encoder_capture_inertial_discard_first_n;
+	[Widget] Gtk.SpinButton spin_encoder_capture_inertial_discard_first_n;
 	[Widget] Gtk.CheckButton check_appearance_encoder_only_bars;
 	[Widget] Gtk.HBox hbox_restart;
 	[Widget] Gtk.SpinButton spin_encoder_capture_show_only_some_bars;
@@ -459,7 +462,17 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.spin_encoder_capture_min_height_gravitatory.Value = preferences.encoderCaptureMinHeightGravitatory;
 		PreferencesWindowBox.spin_encoder_capture_min_height_inertial.Value = preferences.encoderCaptureMinHeightInertial;
-		
+
+		if(preferences.encoderCaptureInertialDiscardFirstN > 0) {
+			PreferencesWindowBox.checkbutton_encoder_capture_inertial_discard_first_n.Active = true;
+			PreferencesWindowBox.spin_encoder_capture_inertial_discard_first_n.Value = preferences.encoderCaptureInertialDiscardFirstN;
+			PreferencesWindowBox.hbox_encoder_capture_inertial_discard_first_n.Visible = true;
+		} else {
+			PreferencesWindowBox.checkbutton_encoder_capture_inertial_discard_first_n.Active = false;
+			PreferencesWindowBox.spin_encoder_capture_inertial_discard_first_n.Value = 3;
+			PreferencesWindowBox.hbox_encoder_capture_inertial_discard_first_n.Visible = false;
+		}
+
 		if(preferences.encoderCaptureShowOnlyBars)
 			PreferencesWindowBox.check_appearance_encoder_only_bars.Active = true;
 		else
@@ -682,6 +695,11 @@ public class PreferencesWindow
 	private void on_check_appearance_encoder_only_bars_toggled (object obj, EventArgs args) 
 	{
 		hbox_restart.Visible = ! check_appearance_encoder_only_bars.Active;
+	}
+
+	private void on_checkbutton_encoder_capture_inertial_discard_first_n_toggled (object obj, EventArgs args)
+	{
+		hbox_encoder_capture_inertial_discard_first_n.Visible = (checkbutton_encoder_capture_inertial_discard_first_n.Active);
 	}
 
 
@@ -1415,6 +1433,15 @@ public class PreferencesWindow
 				"encoderCaptureMinHeightInertial",
 				preferences.encoderCaptureMinHeightInertial,
 				(int) PreferencesWindowBox.spin_encoder_capture_min_height_inertial.Value);
+
+		int spinEncoderCaptureDiscardFirstN = Convert.ToInt32(PreferencesWindowBox.spin_encoder_capture_inertial_discard_first_n.Value);
+		if(! checkbutton_encoder_capture_inertial_discard_first_n.Active)
+			spinEncoderCaptureDiscardFirstN = 0;
+		if(spinEncoderCaptureDiscardFirstN != preferences.encoderCaptureInertialDiscardFirstN)
+		{
+			SqlitePreferences.Update("encoderCaptureInertialDiscardFirstN", spinEncoderCaptureDiscardFirstN.ToString(), true);
+			preferences.encoderCaptureInertialDiscardFirstN = spinEncoderCaptureDiscardFirstN;
+		}
 
 		if( preferences.encoderCaptureShowOnlyBars != PreferencesWindowBox.check_appearance_encoder_only_bars.Active ) {
 			SqlitePreferences.Update("encoderCaptureShowOnlyBars", PreferencesWindowBox.check_appearance_encoder_only_bars.Active.ToString(), true);

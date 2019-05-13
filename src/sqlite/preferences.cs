@@ -127,6 +127,7 @@ class SqlitePreferences : Sqlite
 				Insert ("encoderCaptureMainVariable", Constants.EncoderVariablesCapture.MeanPower.ToString(), dbcmdTr);
 				Insert ("encoderCaptureMinHeightGravitatory", "20", dbcmdTr);
 				Insert ("encoderCaptureMinHeightInertial", "5", dbcmdTr);
+				Insert ("encoderCaptureInertialDiscardFirstN", "3", dbcmdTr);
 				Insert ("encoderCaptureCheckFullyExtended", "True", dbcmdTr);
 				Insert ("encoderCaptureCheckFullyExtendedValue", "4", dbcmdTr);
 				Insert ("encoderCaptureBarplotFontSize", "14", dbcmdTr);
@@ -320,6 +321,8 @@ class SqlitePreferences : Sqlite
 				preferences.encoderCaptureMinHeightGravitatory = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "encoderCaptureMinHeightInertial")
 				preferences.encoderCaptureMinHeightInertial = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == "encoderCaptureInertialDiscardFirstN")
+				preferences.encoderCaptureInertialDiscardFirstN = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "encoderCaptureCheckFullyExtended")
 				preferences.encoderCaptureCheckFullyExtended = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderCaptureCheckFullyExtendedValue")

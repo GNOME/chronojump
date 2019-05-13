@@ -176,7 +176,7 @@ public class EncoderRProcCapture : EncoderRProc
 		//pinfo.RedirectStandardOutput = true; 
 
 
-		try {
+//		try {
 			p = new Process();
 			p.StartInfo = pinfo;
 
@@ -193,10 +193,11 @@ public class EncoderRProcCapture : EncoderRProc
 			LogB.Debug("D");
 			
 			LogB.Debug(string.Format("this pid id : {0}", p.Id));
-		} catch {
+/*		} catch {
 			Console.WriteLine("catched at runEncoderCaptureNoRDotNetStart");
 			return false;
 		}
+		*/
 			
 		return true;
 	}

@@ -5072,7 +5072,7 @@ public partial class ChronoJumpWindow
 	
 	//if we are capturing, play sounds
 	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower, 
-			ArrayList data6Variables, bool discardFirstThree, bool capturing) 
+			ArrayList data6Variables, int discardFirstN, bool capturing)
 	{
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
@@ -5114,12 +5114,8 @@ public partial class ChronoJumpWindow
 			if(d < minThisSet)
 				minThisSet = d;
 
-			if(
-					encoderConfigurationCurrent.has_inertia && count == 0
-					||
-					( encoderConfigurationCurrent.has_inertia && discardFirstThree &&
-					  ((eccon == "c" && count < 3) || (eccon != "c" && count < 6)) )
-			  )
+			if( encoderConfigurationCurrent.has_inertia && discardFirstN > 0 &&
+					  ((eccon == "c" && count < discardFirstN) || (eccon != "c" && count < discardFirstN * 2)) )
 				LogB.Information("Discarded phase");
 			else {
 				countValid ++;
@@ -5299,12 +5295,10 @@ public partial class ChronoJumpWindow
 
 			bool discarded = false;
 			if(encoderConfigurationCurrent.has_inertia) {
-				if(eccon == "c" && discardFirstThree && count < 3)
+				if(eccon == "c" && discardFirstN > 0 && count < discardFirstN)
 					discarded = true;
-				else if(eccon != "c" && discardFirstThree && count < 6)
+				else if(eccon != "c" && discardFirstN > 0 && count < discardFirstN * 2)
 					discarded = true;
-				else if ((eccon == "ec" || eccon == "ecS") && count == 0)
-					discarded = true;	//on inertial devices "ec" or "ecS", the first ecc cannot have feedback
 			}
 
 			if( ! discarded && ( myColor == UtilGtk.ColorGood || (mainVariableHigher != -1 && d >= mainVariableHigher) ) )
@@ -5335,12 +5329,9 @@ public partial class ChronoJumpWindow
 			if (eccon == "ec" || eccon == "ecS") {
 				bool isEven = Util.IsEven(count +1);
 				
-				//on inertial devices "ec" or "ecS", the first ecc has to be gray
-				if(encoderConfigurationCurrent.has_inertia && count == 0)
-					my_pen = pen_gray;
-				//on inertial if discard first three, they have to be gray
-				else if( encoderConfigurationCurrent.has_inertia && discardFirstThree &&
-						((eccon == "c" && count < 3) || (eccon != "c" && count < 6)) )
+				//on inertial if discardFirstN , they have to be gray
+				if( encoderConfigurationCurrent.has_inertia && discardFirstN > 0 &&
+						((eccon == "c" && count < discardFirstN) || (eccon != "c" && count < discardFirstN * 2)) )
 					my_pen = pen_gray;
 				else {
 					if(isEven) //par, concentric
@@ -5349,8 +5340,8 @@ public partial class ChronoJumpWindow
 						my_pen = my_pen_ecc_con_e;
 				}
 			} else {
-				if( encoderConfigurationCurrent.has_inertia && discardFirstThree &&
-						((eccon == "c" && count < 3) || (eccon != "c" && count < 6)) )
+				if( encoderConfigurationCurrent.has_inertia && discardFirstN > 0 &&
+						((eccon == "c" && count < discardFirstN) || (eccon != "c" && count < discardFirstN * 2)) )
 					my_pen = pen_gray;
 				else
 					my_pen = my_pen_con;
@@ -5451,6 +5442,9 @@ public partial class ChronoJumpWindow
 			units =  "W";
 			decimals = 1;
 		}
+
+//LogB.Information(string.Format("sumValid: {0}, countValid: {1}, div: {2}", sumValid, countValid, sumValid / countValid));
+//LogB.Information(string.Format("sumSaved: {0}, countSaved: {1}, div: {2}", sumSaved, countSaved, sumSaved / countSaved));
 		
 		//add avg and avg of saved values
 		string title = mainVariable + " [X = " + 
@@ -5513,7 +5507,7 @@ public partial class ChronoJumpWindow
 			double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
 			double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
 			plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
-					repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
+					preferences.encoderCaptureInertialDiscardFirstN,
 					false);	//not capturing
 		} else if( ! ( radio_encoder_capture_cont.Active && ! firstSetOfCont) )
 			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
@@ -6384,7 +6378,7 @@ public partial class ChronoJumpWindow
 				//captureCurvesBarsData.Add(new EncoderBarsData(20, 39, 10, 40));
 
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData, 
-						repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
+						preferences.encoderCaptureInertialDiscardFirstN,
 						true);	//capturing
 				//}
 
@@ -6894,7 +6888,7 @@ public partial class ChronoJumpWindow
 				maxPowerIntersession = findMaxPowerIntersession();
 
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
-						repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
+						preferences.encoderCaptureInertialDiscardFirstN,
 						false);	//not capturing
 		
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");

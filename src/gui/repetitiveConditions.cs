@@ -114,7 +114,6 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spinbutton_encoder_peakpower_higher;
 	[Widget] Gtk.SpinButton spinbutton_encoder_power_lower;
 	[Widget] Gtk.SpinButton spinbutton_encoder_peakpower_lower;
-	[Widget] Gtk.CheckButton checkbutton_inertial_discard_first_three;
 
 
 	[Widget] Gtk.Button button_test_good;
@@ -257,7 +256,6 @@ public class RepetitiveConditionsWindow
 		frame_encoder_automatic_conditions.Hide();
 		vbox_encoder_manual.Hide();
 		notebook_encoder_conditions.Hide();
-		checkbutton_inertial_discard_first_three.Hide();
 		vbox_encoder_stuff.Hide();
 
 		notebook_main.GetNthPage(RHYTHMPAGE).Hide();
@@ -281,9 +279,6 @@ public class RepetitiveConditionsWindow
 			vbox_encoder_manual.Show();
 			if(checkbutton_encoder_show_manual_feedback.Active)
 				notebook_encoder_conditions.Show();
-
-			if(bellMode == Constants.BellModes.ENCODERINERTIAL)
-				checkbutton_inertial_discard_first_three.Show();
 
 			combo_encoder_main_variable.Active = UtilGtk.ComboMakeActive(combo_encoder_main_variable,
 					Constants.GetEncoderVariablesCapture(encoderMainVariable));
@@ -1018,10 +1013,5 @@ public class RepetitiveConditionsWindow
 	public int EncoderPeakPowerLowerValue {
 		get { return Convert.ToInt32(spinbutton_encoder_peakpower_lower.Value); }
 	}
-	
-	public bool EncoderInertialDiscardFirstThree {
-		get { return checkbutton_inertial_discard_first_three.Active; }
-	}
-
 }
 

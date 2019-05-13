@@ -6940,7 +6940,7 @@ LogB.Debug("mc finished 5");
 					double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariableStr);
 					double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariableStr);
 					plotCurvesGraphDoPlot(mainVariableStr, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
-							repetitiveConditionsWin.EncoderInertialDiscardFirstThree,
+							preferences.encoderCaptureInertialDiscardFirstN,
 							false);	//not capturing
 				} else
 					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);

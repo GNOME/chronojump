@@ -61,6 +61,7 @@ public class Preferences
 	public Constants.EncoderVariablesCapture encoderCaptureMainVariable;
 	public int encoderCaptureMinHeightGravitatory;
 	public int encoderCaptureMinHeightInertial;
+	public int encoderCaptureInertialDiscardFirstN;
 	public bool encoderCaptureCheckFullyExtended;
 	public int encoderCaptureCheckFullyExtendedValue;
 	public Constants.EncoderAutoSaveCurve encoderAutoSaveCurve;

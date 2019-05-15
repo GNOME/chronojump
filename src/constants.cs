@@ -939,7 +939,7 @@ public class Constants
 	public enum Encoder1RMMethod { NONWEIGHTED, WEIGHTED, WEIGHTED2, WEIGHTED3 }
 	public enum ContextMenu { NONE, EDITDELETE, DELETE }
 	
-	public enum EncoderAutoSaveCurve { ALL, NONE, BEST, FROM4TOPENULTIMATE }
+	public enum EncoderAutoSaveCurve { ALL, NONE, BEST, FROM4TOPENULTIMATE } //note last mode not need to be 4 because DB 1.63 introduces the config of this value
 
 	//BIGGEST_TC will be the default mode.
 	// - at END of each track: track ends before the biggest TC (just before the trunk arrives)

@@ -424,14 +424,15 @@ public class EncoderSignal
 	}
 
 	//this can be an eccentric or concentric curve
-	public int FindPosOfBest(string variable) {
+	public int FindPosOfBest(int start, string variable)
+	{
 		double bestValue = 0;
-		int bestValuePos = 0;
+		int bestValuePos = start;
 		int i = 0;
 		
 		foreach(EncoderCurve curve in curves) 
 		{
-			if(curve.GetParameter(variable) > bestValue) {
+			if(i >= start && curve.GetParameter(variable) > bestValue) {
 				bestValue = curve.GetParameter(variable);
 				bestValuePos = i;
 			}
@@ -442,13 +443,14 @@ public class EncoderSignal
 	}
 	
 	//this is an ecc-con curve
-	public int FindPosOfBestEccCon(string variable) 
+	//start is a counter of phases not of repetitions
+	public int FindPosOfBestEccCon(int start, string variable)
 	{
 		double eccValue = 0;
 		double conValue = 0;
 
 		double bestValue = 0; //will be ecc-con average
-		int bestValuePos = 0; //will be the position of the ecc
+		int bestValuePos = start; //will be the position of the ecc
 		int i = 0;
 		
 		bool ecc = true;
@@ -458,7 +460,7 @@ public class EncoderSignal
 				eccValue = curve.GetParameter(variable);
 			} else {
 				conValue = curve.GetParameter(variable);
-				if( ( (eccValue + conValue) / 2 ) > bestValue) {
+				if( i >= start && ( (eccValue + conValue) / 2 ) > bestValue) {
 					bestValue = (eccValue + conValue) / 2;
 					bestValuePos = i -1;
 				}

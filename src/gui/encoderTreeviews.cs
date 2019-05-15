@@ -343,15 +343,25 @@ public partial class ChronoJumpWindow
 	{
 		int bestRow = 0;
 		int numRows = 0;
+
+		int inertialStart = 0;
+		if( current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		{
+			if(ecconLast == "c")
+				inertialStart = preferences.encoderCaptureInertialDiscardFirstN;
+			else
+				inertialStart = 2 * preferences.encoderCaptureInertialDiscardFirstN;
+		}
+
 		if(saveOption == Constants.EncoderAutoSaveCurve.BEST || saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE) {
 			if(ecconLast == "c") {
 				//get the concentric curves
 				EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.CON));
-				bestRow = encoderSignal.FindPosOfBest(mainVariable);
+				bestRow = encoderSignal.FindPosOfBest(inertialStart, mainVariable);
 				numRows = encoderSignal.CurvesNum();
 			} else {
 				EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.ALL));
-				bestRow = encoderSignal.FindPosOfBestEccCon(mainVariable); //will be pos of the ecc
+				bestRow = encoderSignal.FindPosOfBestEccCon(inertialStart, mainVariable); //will be pos of the ecc
 				numRows = encoderSignal.CurvesNum();
 			}
 		}
@@ -371,23 +381,33 @@ public partial class ChronoJumpWindow
 		Sqlite.Open();
 
 		bool changeTo;
-		while(iterOk) {
+		while(iterOk)
+		{
 			TreePath path = encoderCaptureListStore.GetPath(iter);
 			
-			bool from4ToPenult = false;
+			//discard first rows
+			bool thisRowDiscarded = false;
+			if( current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL &&
+					( (ecconLast == "c" && i < preferences.encoderCaptureInertialDiscardFirstN) ||
+					(ecconLast != "c" && i < 2 * preferences.encoderCaptureInertialDiscardFirstN) ) )
+			{
+				thisRowDiscarded = true;
+			}
+
+			bool fromValidToPenult = false;
 			if( saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE &&
-					( (ecconLast == "c" && i > 2 && i < numRows -1) ||
-					(ecconLast != "c" && i > 4 && i < numRows -2) ) )
-				from4ToPenult = true;
+					( (ecconLast == "c" && i < numRows -1) ||
+					(ecconLast != "c" && i < numRows -2) ) )
+				fromValidToPenult = true;
 			
 			EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
 			if(
-					(! curve.Record && saveOption == Constants.EncoderAutoSaveCurve.ALL) ||
-					(! curve.Record && saveOption == Constants.EncoderAutoSaveCurve.BEST && i == bestRow) ||
-					(! curve.Record && saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE && from4ToPenult) ||
-					(curve.Record && saveOption == Constants.EncoderAutoSaveCurve.BEST && i != bestRow) ||
-					(curve.Record && saveOption == Constants.EncoderAutoSaveCurve.NONE) ||
-					(curve.Record && saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE && ! from4ToPenult) )
+					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.ALL) ||
+					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.BEST && i == bestRow) ||
+					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE && fromValidToPenult) ||
+					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.BEST && i != bestRow)) ||
+					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.NONE)) ||
+					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE && ! fromValidToPenult)) )
 			{ 
 				changeTo = ! curve.Record;
 				

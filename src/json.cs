@@ -1199,8 +1199,8 @@ public class UploadEncoderDataObject
 		EncoderSignal eSignal = new EncoderSignal(curves);
 
 		//this n is the n of the ecc curve
-		int nSpeed = eSignal.FindPosOfBestEccCon(Constants.MeanSpeed);
-		int nPower = eSignal.FindPosOfBestEccCon(Constants.MeanPower);
+		int nSpeed = eSignal.FindPosOfBestEccCon(0, Constants.MeanSpeed);
+		int nPower = eSignal.FindPosOfBestEccCon(0, Constants.MeanPower);
 
 		rangeBySpeed = Util.ConvertToPoint( eSignal.GetEccConMax(nSpeed, Constants.Range) );
 		rangeByPower = Util.ConvertToPoint( eSignal.GetEccConMax(nPower, Constants.Range) );

@@ -24707,14 +24707,6 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox35">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <widget class="GtkVBox" id="vbox53">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
                                                             <widget class="GtkImage" id="image_inertial_extended">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -24724,74 +24716,6 @@ then click this button.</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_encoder_capture_inertial_eccon">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="angle">90</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_inertial_rolled">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkVScale" id="vscale_encoder_capture_inertial_angle_now">
-                                                            <property name="visible">True</property>
-                                                            <property name="sensitive">False</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="adjustment">0 0 100 1 1 0</property>
-                                                            <property name="restrict_to_fill_level">False</property>
-                                                            <property name="fill_level">0</property>
-                                                            <property name="round_digits">0</property>
-                                                            <property name="digits">0</property>
-                                                            <property name="draw_value">False</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_encoder_capture_inertial_angle_now">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -24819,7 +24743,110 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox35">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox53">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_capture_inertial_ecc">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Eccentric</property>
+                                                            <property name="angle">90</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkVScale" id="vscale_encoder_capture_inertial_angle_now">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="adjustment">0 0 100 1 1 0</property>
+                                                            <property name="restrict_to_fill_level">False</property>
+                                                            <property name="fill_level">0</property>
+                                                            <property name="round_digits">0</property>
+                                                            <property name="digits">0</property>
+                                                            <property name="draw_value">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox140">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_capture_inertial_con">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Concentric</property>
+                                                            <property name="angle">90</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_capture_inertial_angle_now">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_inertial_rolled">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                           </widget>

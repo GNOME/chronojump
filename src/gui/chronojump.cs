@@ -7264,7 +7264,9 @@ LogB.Debug("mc finished 5");
 		
 		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;
-		button_encoder_inertial_recalibrate.Sensitive = false;
+
+		image_inertial_extended.Visible = true;
+		button_encoder_inertial_recalibrate.Visible = false;
 
 		encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
 		
@@ -7323,8 +7325,8 @@ LogB.Debug("mc finished 5");
 		//allow show the recalibrate button
 		if(encoderInertialCalibratedFirstTime)
 		{
+			image_inertial_extended.Visible = false;
 			button_encoder_inertial_recalibrate.Visible = true;
-			button_encoder_inertial_recalibrate.Sensitive = true;
 		}
 
 		if(encoderCaptureCurves != null && encoderCaptureCurves.Count > 0)

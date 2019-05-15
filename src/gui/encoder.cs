@@ -5353,6 +5353,26 @@ public partial class ChronoJumpWindow
 			//paint bar:	
 			rect = new Rectangle(dLeft, dTop, dWidth, dHeight);
 			encoder_capture_curves_bars_pixmap.DrawRectangle(my_pen, true, rect);
+
+			//paint diagonal line to distinguish eccentric-concentric
+			//line is painted before the black outline to fix graphical problems
+			if (eccon == "ec" || eccon == "ecS") {
+				bool isEven = Util.IsEven(count +1);
+
+				if(isEven) {
+					//to see if it is ok
+					//encoder_capture_curves_bars_pixmap.DrawPoint(pen_green_encoder_capture, dLeft +1, dBottom -2);
+					//encoder_capture_curves_bars_pixmap.DrawPoint(pen_yellow_encoder_capture, dLeft + dWidth -2, dTop +1);
+					encoder_capture_curves_bars_pixmap.DrawLine(pen_white_encoder_capture,
+							dLeft, dBottom -1, dLeft + dWidth -2, dTop +1);
+				} else {
+					//encoder_capture_curves_bars_pixmap.DrawPoint(pen_green_encoder_capture, dLeft +1, dTop +1);
+					//encoder_capture_curves_bars_pixmap.DrawPoint(pen_yellow_encoder_capture, dLeft + dWidth -2, dBottom -2);
+					encoder_capture_curves_bars_pixmap.DrawLine(pen_white_encoder_capture,
+							dLeft +1, dTop +1, dLeft + dWidth -2, dBottom -2);
+				}
+			}
+			//paint black outline line on bar
 			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_black_encoder_capture, false, rect);
 
 
@@ -5371,17 +5391,6 @@ public partial class ChronoJumpWindow
 					layout_encoder_capture_curves_bars);
 			//end of: write the result
 
-			//paint diagonal line to distinguish eccentric-concentric	
-			if (eccon == "ec" || eccon == "ecS") {
-				bool isEven = Util.IsEven(count +1);
-				
-				if(isEven)
-					encoder_capture_curves_bars_pixmap.DrawLine(pen_white_encoder_capture, 
-							dLeft, dBottom, dLeft + dWidth, dTop);
-				else
-					encoder_capture_curves_bars_pixmap.DrawLine(pen_white_encoder_capture, 
-							dLeft, dTop, dLeft + dWidth, dBottom);
-			}
 			
 			bool curveSaved = false;	
 			if( iterOk && ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record ) {

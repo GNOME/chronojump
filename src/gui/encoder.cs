@@ -750,7 +750,6 @@ public partial class ChronoJumpWindow
 		button_encoder_inertial_calibrate_close.Sensitive = true;
 		label_wait.Text = " ";
 		label_calibrate_output_message.Text = "";
-		button_encoder_inertial_recalibrate.Visible = true;
 		notebook_encoder_capture_or_exercise_or_instructions.Page = 2;
 	}
 

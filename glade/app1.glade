@@ -24605,7 +24605,6 @@ then click this button.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox209">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
@@ -24613,7 +24612,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">1</property>
-                                                            <property name="label" translatable="yes"> If you want to recalibrate, push this button</property>
+                                                            <property name="label"> If you want to recalibrate, push this button</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>

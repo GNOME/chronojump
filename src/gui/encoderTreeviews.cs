@@ -168,7 +168,7 @@ public partial class ChronoJumpWindow
 		crt.Visible = true;
 		crt.Activatable = true;
 		crt.Active = true;
-		crt.Toggled += ItemToggled;
+		crt.Toggled += EncoderCaptureItemToggled;
 		Gtk.TreeViewColumn column = new Gtk.TreeViewColumn ();
 
 		column.Title = Catalog.GetString("Saved");
@@ -265,18 +265,31 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	void ItemToggled(object o, ToggledArgs args) 
+	void EncoderCaptureItemToggled(object o, ToggledArgs args)
 	{
 		//cannot toggle item while capturing or recalculating
 		if(capturingCsharp == encoderCaptureProcess.CAPTURING ||
 				encoderRProcAnalyze.status == EncoderRProc.Status.RUNNING)
 			return;
 
+		int inertialStart = 0;
+		if( current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		{
+			if(ecconLast == "c")
+				inertialStart = preferences.encoderCaptureInertialDiscardFirstN;
+			else
+				inertialStart = 2 * preferences.encoderCaptureInertialDiscardFirstN;
+		}
+
 		TreeIter iter;
 		int column = 0;
 		if (encoderCaptureListStore.GetIterFromString (out iter, args.Path)) 
 		{
 			int rowNum = Convert.ToInt32(args.Path); //starts at zero
+
+			//do not allow to click a discarded repetition
+			if(rowNum < inertialStart)
+				return;
 			
 			//on "ecS" don't pass the 2nd row, pass always the first
 			//then need to move the iter to previous row

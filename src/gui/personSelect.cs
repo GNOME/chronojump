@@ -444,10 +444,12 @@ public class PersonPhotoButton
 		//image
 		Gtk.Image image = (Gtk.Image) box_elements.GetValue(0); //the image
 
+		Gtk.Viewport viewport = (Gtk.Viewport) box_elements.GetValue(2); //the name
+
 		if(select)
-			assignPhotoToPixbuf(image, false, Util.GetImagePath(false) + "image_selected.png");
+			UtilGtk.ViewportColor(viewport, UtilGtk.YELLOW);
 		else
-			addUserPhotoIfExists(image);
+			UtilGtk.ViewportColorDefault(viewport);
 
 		Selected = select;
 	}
@@ -465,7 +467,8 @@ public class PersonPhotoButton
 		//LogB.Information("UniqueID: " + l.Text.ToString());
 
 		//access name
-		l = (Gtk.Label) box_elements.GetValue(2); //the name
+		Gtk.Viewport v = (Gtk.Viewport) box_elements.GetValue(2); //the name
+		l = (Gtk.Label) v.Child; //the name
 		personName = l.Text;
 		//LogB.Information("Name: " + l.Text.ToString());
 	}
@@ -485,12 +488,17 @@ public class PersonPhotoButton
 		Gtk.Label label_id = new Gtk.Label(personID.ToString());
 		label_id.Visible = false; //hide this to the user
 
+		Gtk.Viewport viewport = new Gtk.Viewport();
+		UtilGtk.ViewportColorDefault(viewport);
 		Gtk.Label label_name = new Gtk.Label(personName);
 		label_name.Visible = true;
+		label_name.Show();
+		viewport.Add(label_name);
+		viewport.Show();
 
 		vbox.PackStart(image); 				//0
 		vbox.PackStart(label_id); 			//1
-		vbox.PackEnd(label_name, false, false, 1); 	//2
+		vbox.PackEnd(viewport, false, false, 1); 	//2 (contains label_name)
 
 		vbox.Show();
 
@@ -499,10 +507,10 @@ public class PersonPhotoButton
 		button.HeightRequest = 170;
 	}
 
-	private Array getButtonBoxElements (Gtk.Button b)
+	private Array getButtonBoxElements (Gtk.Button button)
 	{
 		//access the vbox
-		Gtk.VBox box = (Gtk.VBox) b.Child;
+		Gtk.VBox box = (Gtk.VBox) button.Child;
 
 		/*
 		LogB.Information("printing children");
@@ -510,7 +518,7 @@ public class PersonPhotoButton
 			LogB.Information(w.ToString());
 		*/
 
-		//access the memebers of vbox
+		//access the members of vbox
 		return box.Children;
 	}
 

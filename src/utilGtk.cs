@@ -545,6 +545,17 @@ public class UtilGtk
 	{
 		v.ModifyBg(StateType.Normal, color);
 	}
+	public static void ViewportColorDefault(Gtk.Viewport v)
+	{
+		//v.ModifyBg(StateType.Normal); //resets to the default color
+
+		//create a new viewport and get the color
+		Gtk.Viewport vTemp = new Gtk.Viewport();
+		Gdk.Color colorViewportDefault = vTemp.Style.Background(StateType.Normal);
+
+		//assign the color to our requested viewport
+		v.ModifyBg(StateType.Normal, colorViewportDefault); //resets to the default color
+	}
 
 	public static void ChronopicColors(Gtk.Viewport v, Gtk.Label l1, Gtk.Label l2, bool connected) {
 		//if(! v.Style.Background(StateType.Normal).Equal(BLUE))

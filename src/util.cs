@@ -103,7 +103,7 @@ public class Util
 		else 
 			return("OTHER");
 	}
-	
+
 	//used for load from the database all numbers with correct decimal separator (locale defined)
 	//used also for the tvString, tcString, and runIntervalTimesString
 	//also used for reading . data coming from force sensor

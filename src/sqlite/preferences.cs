@@ -378,7 +378,7 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == "videoDeviceResolution")
 				preferences.videoDeviceResolution = reader[1].ToString();
 			else if(reader[0].ToString() == "videoDeviceFramerate")
-				preferences.videoDeviceFramerate = reader[1].ToString();
+				preferences.videoDeviceFramerate = reader[1].ToString(); //if it is decimal will be always a '.' as needed by ffmpeg
 			else if(reader[0].ToString() == "videoStopAfter")
 				preferences.videoStopAfter = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "CSVExportDecimalSeparator")

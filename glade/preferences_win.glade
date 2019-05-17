@@ -3512,31 +3512,43 @@ Other</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="border_width">8</property>
-                        <property name="spacing">10</property>
+                        <property name="spacing">12</property>
                         <child>
-                          <widget class="GtkLabel" id="label62">
+                          <widget class="GtkHBox" id="hbox46">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Select the camera</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkHBox" id="hbox_combo_camera">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="spacing">16</property>
                             <child>
-                              <placeholder/>
+                              <widget class="GtkLabel" id="label62">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Select the camera:</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkHBox" id="hbox_combo_camera">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
                             </child>
                           </widget>
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
-                            <property name="position">1</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -3546,7 +3558,7 @@ Other</property>
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
-                            <property name="position">2</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                         <child>
@@ -3555,10 +3567,13 @@ Other</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">20</property>
                             <child>
-                              <widget class="GtkHBox" id="hbox25">
+                              <widget class="GtkTable" id="table5">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="spacing">10</property>
+                                <property name="n_rows">2</property>
+                                <property name="n_columns">3</property>
+                                <property name="column_spacing">12</property>
+                                <property name="row_spacing">10</property>
                                 <child>
                                   <widget class="GtkLabel" id="label76">
                                     <property name="visible">True</property>
@@ -3566,9 +3581,19 @@ Other</property>
                                     <property name="label" translatable="yes">Resolution</property>
                                   </widget>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
+                                    <property name="x_options"/>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label78">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Framerate</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="x_options"/>
                                   </packing>
                                 </child>
                                 <child>
@@ -3580,33 +3605,9 @@ Other</property>
                                     </child>
                                   </widget>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="expand">True</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkHBox" id="hbox31">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="spacing">10</property>
-                                <child>
-                                  <widget class="GtkLabel" id="label78">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Framerate</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="x_options"/>
                                   </packing>
                                 </child>
                                 <child>
@@ -3618,68 +3619,218 @@ Other</property>
                                     </child>
                                   </widget>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">1</property>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="x_options"/>
                                   </packing>
                                 </child>
-                              </widget>
-                              <packing>
-                                <property name="expand">True</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkButton" id="button_video_preview">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                                <property name="tooltip" translatable="yes">Preview video</property>
-                                <signal name="clicked" handler="on_button_video_preview_clicked" swapped="no"/>
                                 <child>
-                                  <widget class="GtkHBox" id="hbox321">
-                                    <property name="visible">True</property>
+                                  <widget class="GtkHBox" id="hbox_camera_resolution_custom">
                                     <property name="can_focus">False</property>
-                                    <property name="spacing">4</property>
+                                    <property name="spacing">6</property>
                                     <child>
-                                      <widget class="GtkImage" id="image_video_preview">
+                                      <widget class="GtkSpinButton" id="spin_camera_resolution_custom_width">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="stock">gtk-missing-image</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="has_tooltip">True</property>
+                                        <property name="tooltip" translatable="yes">Width</property>
+                                        <property name="invisible_char">●</property>
+                                        <property name="invisible_char_set">True</property>
+                                        <property name="primary_icon_activatable">False</property>
+                                        <property name="secondary_icon_activatable">False</property>
+                                        <property name="primary_icon_sensitive">True</property>
+                                        <property name="secondary_icon_sensitive">True</property>
+                                        <property name="adjustment">800 50 20000 1 10 0</property>
+                                        <property name="climb_rate">1</property>
+                                        <property name="snap_to_ticks">True</property>
+                                        <property name="numeric">True</property>
                                       </widget>
                                       <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkLabel" id="label392">
+                                      <widget class="GtkLabel" id="label84">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">Preview</property>
+                                        <property name="label">x</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkSpinButton" id="spin_camera_resolution_custom_height">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="has_tooltip">True</property>
+                                        <property name="tooltip" translatable="yes">Height</property>
+                                        <property name="invisible_char">●</property>
+                                        <property name="width_chars">5</property>
+                                        <property name="invisible_char_set">True</property>
+                                        <property name="primary_icon_activatable">False</property>
+                                        <property name="secondary_icon_activatable">False</property>
+                                        <property name="primary_icon_sensitive">True</property>
+                                        <property name="secondary_icon_sensitive">True</property>
+                                        <property name="adjustment">600 50 20000 1 10 0</property>
+                                        <property name="climb_rate">1</property>
+                                        <property name="snap_to_ticks">True</property>
+                                        <property name="numeric">True</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">2</property>
+                                      </packing>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="x_options"/>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkHBox" id="hbox_camera_framerate_custom">
+                                    <property name="can_focus">False</property>
+                                    <property name="spacing">6</property>
+                                    <child>
+                                      <widget class="GtkSpinButton" id="spin_camera_framerate_custom">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="has_tooltip">True</property>
+                                        <property name="tooltip" translatable="yes">Framerate</property>
+                                        <property name="invisible_char">●</property>
+                                        <property name="width_chars">5</property>
+                                        <property name="invisible_char_set">True</property>
+                                        <property name="primary_icon_activatable">False</property>
+                                        <property name="secondary_icon_activatable">False</property>
+                                        <property name="primary_icon_sensitive">True</property>
+                                        <property name="secondary_icon_sensitive">True</property>
+                                        <property name="adjustment">100 5 9999 1 10 0</property>
+                                        <property name="climb_rate">1</property>
+                                        <property name="snap_to_ticks">True</property>
+                                        <property name="numeric">True</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="label85">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label">.</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkEntry" id="entry_camera_framerate_custom_decimals">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="invisible_char">●</property>
+                                        <property name="width_chars">7</property>
+                                        <property name="text" translatable="yes">0</property>
+                                        <property name="primary_icon_activatable">False</property>
+                                        <property name="secondary_icon_activatable">False</property>
+                                        <property name="primary_icon_sensitive">True</property>
+                                        <property name="secondary_icon_sensitive">True</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">True</property>
                                         <property name="fill">True</property>
-                                        <property name="position">1</property>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                   </widget>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                  </packing>
                                 </child>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">2</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkVBox" id="vbox30">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <widget class="GtkButton" id="button_video_preview">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                    <property name="tooltip" translatable="yes">Preview video</property>
+                                    <signal name="clicked" handler="on_button_video_preview_clicked" swapped="no"/>
+                                    <child>
+                                      <widget class="GtkHBox" id="hbox321">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="spacing">4</property>
+                                        <child>
+                                          <widget class="GtkImage" id="image_video_preview">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="stock">gtk-missing-image</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkLabel" id="label392">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label" translatable="yes">Preview</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">False</property>
+                                <property name="position">1</property>
                               </packing>
                             </child>
                           </widget>
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
-                            <property name="position">3</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                         <child>
@@ -3798,7 +3949,7 @@ Other</property>
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
-                            <property name="position">4</property>
+                            <property name="position">3</property>
                           </packing>
                         </child>
                         <child>
@@ -3816,7 +3967,7 @@ Other</property>
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
-                            <property name="position">5</property>
+                            <property name="position">4</property>
                           </packing>
                         </child>
                         <child>
@@ -3828,7 +3979,7 @@ Other</property>
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
-                            <property name="position">6</property>
+                            <property name="position">5</property>
                           </packing>
                         </child>
                       </widget>

@@ -149,6 +149,12 @@ public class PreferencesWindow
 	[Widget] Gtk.Box hbox_combo_camera;
 	[Widget] Gtk.ComboBox combo_camera;
 	[Widget] Gtk.HBox hbox_camera_resolution_framerate;
+	[Widget] Gtk.HBox hbox_camera_resolution_custom;
+	[Widget] Gtk.SpinButton spin_camera_resolution_custom_width;
+	[Widget] Gtk.SpinButton spin_camera_resolution_custom_height;
+	[Widget] Gtk.HBox hbox_camera_framerate_custom;
+	[Widget] Gtk.SpinButton spin_camera_framerate_custom;
+	[Widget] Gtk.Entry entry_camera_framerate_custom_decimals;
 	[Widget] Gtk.Box hbox_combo_camera_resolution;
 	[Widget] Gtk.ComboBox combo_camera_resolution;
 	[Widget] Gtk.Box hbox_combo_camera_framerate;
@@ -618,7 +624,7 @@ public class PreferencesWindow
 
 	private void createComboCamera(string current, string resolution, string framerate)
 	{
-		//videoDevice
+		//1) videoDevice
 
 		combo_camera = ComboBox.NewText ();
 
@@ -639,7 +645,7 @@ public class PreferencesWindow
 			vbox_camera_stop_after_all.Visible = false;
 			return;
 		}
-		
+
 		//UtilGtk.ComboUpdate(combo_camera, wd_list.GetCodes());
 		UtilGtk.ComboUpdate(combo_camera, wd_list.GetFullnames());
 		hbox_combo_camera.PackStart(combo_camera, true, true, 0);
@@ -650,30 +656,72 @@ public class PreferencesWindow
 		
 		combo_camera.Active = UtilGtk.ComboMakeActive(combo_camera, current);
 
-		//resolution
+		//2) resolution
 
 		combo_camera_resolution = ComboBox.NewText ();
-		//string [] resolutions = { "320x240", "640x480", "1280x720" };
 		List<string> resolutions = new List<string>();
 		resolutions.Add("320x240");
 		resolutions.Add("640x480");
 		resolutions.Add("1280x720");
+		resolutions.Add(Catalog.GetString("Custom")); //in SQL will be stored the values not "Custom" text
 		UtilGtk.ComboUpdate(combo_camera_resolution, resolutions);
+
+		bool found = false;
+		foreach(string str in resolutions)
+			if(str == resolution)
+				found = true;
+
+		if(found)
+			combo_camera_resolution.Active = UtilGtk.ComboMakeActive(combo_camera_resolution, resolution);
+		else {
+			combo_camera_resolution.Active = UtilGtk.ComboMakeActive(combo_camera_resolution, Catalog.GetString("Custom"));
+			string [] strFull = resolution.Split('x');
+			if(strFull.Length == 2) {
+				spin_camera_resolution_custom_width.Value = Convert.ToInt32(strFull[0]);
+				spin_camera_resolution_custom_height.Value = Convert.ToInt32(strFull[1]);
+			}
+			hbox_camera_resolution_custom.Visible = true;
+		}
+
 		hbox_combo_camera_resolution.PackStart(combo_camera_resolution, true, true, 0);
 		hbox_combo_camera_resolution.ShowAll();
-		combo_camera_resolution.Active = UtilGtk.ComboMakeActive(combo_camera_resolution, resolution);
+		combo_camera_resolution.Changed += new EventHandler (on_combo_camera_resolution_changed);
 
-		//framerate
+		//3) framerate
 
 		combo_camera_framerate = ComboBox.NewText ();
-		//string [] framerates = { "30", "60" };
 		List<string> framerates = new List<string>();
 		framerates.Add("30");
 		framerates.Add("60");
+		framerates.Add(Catalog.GetString("Custom")); //in SQL will be stored the values not "Custom" text
 		UtilGtk.ComboUpdate(combo_camera_framerate, framerates);
+
+		found = false;
+		foreach(string str in framerates)
+			if(str == framerate)
+				found = true;
+
+		if(found)
+			combo_camera_framerate.Active = UtilGtk.ComboMakeActive(combo_camera_framerate, framerate);
+		else {
+			combo_camera_framerate.Active = UtilGtk.ComboMakeActive(combo_camera_framerate, Catalog.GetString("Custom"));
+			string [] strFull = framerate.Split(new char[] {'.'});
+
+			if(strFull.Length == 1)
+			{
+				spin_camera_framerate_custom.Value = Convert.ToInt32(framerate);
+			}
+			else if(strFull.Length == 2)
+			{
+				spin_camera_framerate_custom.Value = Convert.ToInt32(strFull[0]);
+				entry_camera_framerate_custom_decimals.Text = strFull[1];
+			}
+			hbox_camera_framerate_custom.Visible = true;
+		}
+
 		hbox_combo_camera_framerate.PackStart(combo_camera_framerate, true, true, 0);
 		hbox_combo_camera_framerate.ShowAll();
-		combo_camera_framerate.Active = UtilGtk.ComboMakeActive(combo_camera_framerate, framerate);
+		combo_camera_framerate.Changed += new EventHandler (on_combo_camera_framerate_changed);
 	}
 
 	private void on_check_camera_stop_after_toggled (object o, EventArgs args)
@@ -681,7 +729,16 @@ public class PreferencesWindow
 		//vbox_camera_stop_after.Visible = check_camera_stop_after.Active;
 		hbox_camera_stop_after_seconds.Visible = check_camera_stop_after.Active;
 	}
-		
+
+	private void on_combo_camera_resolution_changed (object o, EventArgs args)
+	{
+		hbox_camera_resolution_custom.Visible = UtilGtk.ComboGetActive(combo_camera_resolution) == Catalog.GetString("Custom");
+	}
+	private void on_combo_camera_framerate_changed (object o, EventArgs args)
+	{
+		hbox_camera_framerate_custom.Visible = UtilGtk.ComboGetActive(combo_camera_framerate) == Catalog.GetString("Custom");
+	}
+
 	private void on_check_appearance_maximized_toggled (object obj, EventArgs args)
 	{
 		alignment_undecorated.Visible = check_appearance_maximized.Active;
@@ -734,8 +791,32 @@ public class PreferencesWindow
 			return;
 
 		Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(),
-				cameraCode, UtilGtk.ComboGetActive(combo_camera_resolution), UtilGtk.ComboGetActive(combo_camera_framerate));
+				cameraCode, getSelectedResolution(), getSelectedFramerate());
 		Webcam.Result result = webcamPlay.PlayPreviewNoBackground ();
+	}
+
+	private string getSelectedResolution()
+	{
+		string selected = UtilGtk.ComboGetActive(combo_camera_resolution);
+		if(selected == Catalog.GetString("Custom"))
+			selected = string.Format("{0}x{1}", spin_camera_resolution_custom_width.Value, spin_camera_resolution_custom_height.Value);
+
+		return selected;
+	}
+	private string getSelectedFramerate()
+	{
+		string selected = UtilGtk.ComboGetActive(combo_camera_framerate);
+		if(selected == Catalog.GetString("Custom"))
+		{
+			string decStr = entry_camera_framerate_custom_decimals.Text;
+			if(decStr != "0" && Util.IsNumber(decStr, false))
+				selected = string.Format("{0}.{1}", spin_camera_framerate_custom.Value, decStr); //decimal in ffmpeg has to be '.'
+			else
+				selected = string.Format("{0}", spin_camera_framerate_custom.Value);
+		}
+
+		LogB.Information("selected framerate: " + selected);
+		return selected;
 	}
 
 	// ---- end of multimedia stuff
@@ -1568,14 +1649,16 @@ public class PreferencesWindow
 			preferences.videoDevice = cameraCode;
 		}
 
-		if( preferences.videoDeviceResolution != UtilGtk.ComboGetActive(combo_camera_resolution) ) {
-			SqlitePreferences.Update("videoDeviceResolution", UtilGtk.ComboGetActive(combo_camera_resolution), true);
-			preferences.videoDeviceResolution = UtilGtk.ComboGetActive(combo_camera_resolution);
+		string resolution = getSelectedResolution();
+		if( preferences.videoDeviceResolution != resolution ) {
+			SqlitePreferences.Update("videoDeviceResolution", resolution, true);
+			preferences.videoDeviceResolution = resolution;
 		}
 
-		if( preferences.videoDeviceFramerate != UtilGtk.ComboGetActive(combo_camera_framerate) ) {
-			SqlitePreferences.Update("videoDeviceFramerate", UtilGtk.ComboGetActive(combo_camera_framerate), true);
-			preferences.videoDeviceFramerate = UtilGtk.ComboGetActive(combo_camera_framerate);
+		string framerate = getSelectedFramerate();
+		if( preferences.videoDeviceFramerate != framerate ) {
+			SqlitePreferences.Update("videoDeviceFramerate", framerate, true);
+			preferences.videoDeviceFramerate = framerate; //if it has decimals, separator should be a point
 		}
 
 		int selected_camera_stop_after = Convert.ToInt32(spin_camera_stop_after.Value);

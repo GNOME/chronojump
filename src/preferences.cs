@@ -77,7 +77,7 @@ public class Preferences
 	
 	public string videoDevice;
 	public string videoDeviceResolution;
-	public string videoDeviceFramerate;
+	public string videoDeviceFramerate; //cannot be a double because decimals seem exactly important on mac. if decimal will have always a '.' as needed by ffmpeg
 	public int videoStopAfter;
 	public string CSVExportDecimalSeparator;
 	public string language;

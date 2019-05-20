@@ -784,6 +784,24 @@ public class PreferencesWindow
 		Util.TestSound = false;
 	}
 
+	//for mac and maybe windows, because in Linux it founds a default mode and it works
+	private void on_button_video_get_supported_modes_clicked (object o, EventArgs args)
+	{
+		string cameraCode = wd_list.GetCodeOfFullname(UtilGtk.ComboGetActive(combo_camera));
+		if(cameraCode == "")
+			return;
+
+		Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(),
+				cameraCode, "8000x8000", "8000"); //select and impossible mode just to get an error on mac, this error will give us the "Supported modes"
+
+		Webcam.Result result = webcamPlay.PlayPreviewNoBackgroundWantStdoutAndStderr();
+
+		//display the result (if any)
+		if(result.output != "")
+			new DialogMessage("Chronojump - Modes of this webcam",
+					Constants.MessageTypes.INFO, result.output);
+	}
+
 	private void on_button_video_preview_clicked (object o, EventArgs args)
 	{
 		string cameraCode = wd_list.GetCodeOfFullname(UtilGtk.ComboGetActive(combo_camera));

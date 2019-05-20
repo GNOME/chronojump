@@ -145,6 +145,7 @@ public abstract class Webcam
 
 	public abstract Result PlayPreview();
 	public abstract Result PlayPreviewNoBackground();
+	public abstract Result PlayPreviewNoBackgroundWantStdoutAndStderr();
 
 	public abstract Result PlayFile(string filename);
 

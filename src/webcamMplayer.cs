@@ -110,6 +110,11 @@ public class WebcamMplayer : Webcam
 		//not implemented
 		return new Result (false, "");
 	}
+	public override Result PlayPreviewNoBackgroundWantStdoutAndStderr() //experimental
+	{
+		//not implemented
+		return new Result (false, "");
+	}
 
 	public override Result PlayFile (string filename)
 	{

@@ -104,6 +104,26 @@ public class WebcamFfmpeg : Webcam
 
 		return new Result (true, "");
 	}
+	//used to know "Supported modes" on mac and maybe on windows
+	public override Result PlayPreviewNoBackgroundWantStdoutAndStderr() //experimental
+	{
+		List<string> parameters = createParametersPlayPreview();
+
+		process = new Process();
+		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);
+		//LogB.Information("Stdout: ", execute_result.stdout);
+		//LogB.Information("Stderr: ", execute_result.stderr);
+		LogB.Information("allOutput: ", execute_result.allOutput);
+
+		string parsed = parseSupportedModes(execute_result.allOutput);
+
+		if(! execute_result.success)
+		{
+			return new Result (false, parsed);
+		}
+
+		return new Result (true, parsed);
+	}
 
 	//snapshot in 2 seconds
 	public override bool Snapshot ()
@@ -438,6 +458,100 @@ public class WebcamFfmpeg : Webcam
 		process = null;
 		Running = false;
 	}
+
+	private string parseSupportedModes(string allOutput)
+	{
+		string str = "";
+
+		/*
+		 * break the big string in \n strings
+		 * https://stackoverflow.com/a/1547483
+		 */
+		string[] lines = allOutput.Split(
+				new[] { Environment.NewLine },
+				StringSplitOptions.None
+				);
+
+		bool started = false;
+		foreach(string l in lines)
+		{
+			LogB.Information("line: " + l);
+
+			//devices start after the videoDevString line
+			if(! started)
+			{
+				if(l.Contains("Supported modes"))
+					started = true;
+
+				continue;
+			}
+
+			str = parseSupportedMode(l) + "\nstdout";
+
+			//after the list of video devices comes the list of audio devices, skip it
+			if(l.Contains("Input/output"))
+				break;
+		}
+		return str;
+	}
+	private string parseSupportedMode(string l) //TODO: currently only for mac
+	{
+		if(! l.Contains("avfoundation"))
+			return "";
+
+		//parse this:
+		//	[avfoundation @ 0x7f849a8be800]   1280x720@[23.999981 23.999981]fps
+		//use: https://regex101.com/r/lZ5mN8/50
+		// 	(\d+)x(\d+)@\[(\d+).(\d+)\s+
+
+		Match match = Regex.Match(l, @"(\d+)x(\d+)@\[(\d+).(\d+)\s+");
+
+		LogB.Information("match group count: ", match.Groups.Count.ToString());
+		if(match.Groups.Count != 5) //first is all match, second is the first int (width), last one is the decimals of the resolution
+			return "";
+
+		return string.Format("Resolution: {0}x{1}, Framerate: {2}.{3}",
+				match.Groups[1].Value, match.Groups[2].Value,
+				match.Groups[3].Value, match.Groups[4].Value);
+	}
+	/* test ParseSupportModes
+	 *
+WebcamFfmpeg.parseSupportedModes(@"[avfoundation @ 0x7f849a8be800] Supported modes:
+[avfoundation @ 0x7f849a8be800]   160x120@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   160x120@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   160x120@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   160x120@[14.999993 14.999993]fps
+[avfoundation @ 0x7f849a8be800]   176x144@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   176x144@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   176x144@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   176x144@[14.999993 14.999993]fps
+[avfoundation @ 0x7f849a8be800]   320x240@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   320x240@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   320x240@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   320x240@[14.999993 14.999993]fps
+[avfoundation @ 0x7f849a8be800]   352x288@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   352x288@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   352x288@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   352x288@[14.999993 14.999993]fps
+[avfoundation @ 0x7f849a8be800]   640x480@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   640x480@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   640x480@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   640x480@[14.999993 14.999993]fps
+[avfoundation @ 0x7f849a8be800]   960x540@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   960x540@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   960x540@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   960x540@[14.999993 14.999993]fps
+[avfoundation @ 0x7f849a8be800]   1024x576@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   1024x576@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   1024x576@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   1024x576@[14.999993 14.999993]fps
+[avfoundation @ 0x7f849a8be800]   1280x720@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   1280x720@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   1280x720@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   1280x720@[14.999993 14.999993]fps
+0: Input/output error");
+*/
+
 
 	/*
 	 * protected methods

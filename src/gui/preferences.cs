@@ -793,6 +793,7 @@ public class PreferencesWindow
 
 		string modesStr = "";
 
+		//TODO: move all this to a class similar to WebcamDevices
 		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
 		{
 			List<string> parameters = new List<string>();
@@ -806,10 +807,31 @@ public class PreferencesWindow
 
 			modesStr = execute_result.stdout;
 		}
+		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.WINDOWS)
+		{
+			string executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
+			//ffmpeg -f dshow -list_options true -i video="USB 2.0 WebCamera"
+			List<string> parameters = new List<string>();
+			parameters.Add("-f");
+			parameters.Add("dshow");
+			parameters.Add("-list_options");
+			parameters.Add("true");
+			parameters.Add("-i");
+			parameters.Add("video=" + cameraCode);
+			ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);
+			if(! execute_result.success) {
+				new DialogMessage("Chronojump - Modes of this webcam",
+						Constants.MessageTypes.WARNING, "Need to install ffmpeg");
+				return;
+			}
+
+			modesStr = execute_result.stdout;
+		}
 		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
 		{
+			//select and impossible mode just to get an error on mac, this error will give us the "Supported modes"
 			Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(),
-					cameraCode, "8000x8000", "8000"); //select and impossible mode just to get an error on mac, this error will give us the "Supported modes"
+					cameraCode, "8000x8000", "8000");
 
 			Webcam.Result result = webcamPlay.PlayPreviewNoBackgroundWantStdoutAndStderr();
 			modesStr = result.output;

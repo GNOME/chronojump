@@ -1796,7 +1796,10 @@ public partial class ChronoJumpWindow
 		}
 
 		genericWin.ShowEditRow(false);
-		//TODO: make the current set on app1 unsensitive, because maybe we changed the already loaded set
+
+		//remove signal from gui just in case the edited signal is the same we have loaded
+		removeSignalFromGuiBecauseDeletedOrCancelled();
+
 		Sqlite.Close();
 	}
 	

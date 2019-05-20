@@ -1748,11 +1748,13 @@ public partial class ChronoJumpWindow
 	
 	protected void on_encoder_load_signal_row_edit_apply (object o, EventArgs args)
 	{
-		LogB.Information("row edit apply at load signal");
-		
+		LogB.Information("row edit apply at load signal. Opening db:");
+
+		Sqlite.Open();
+
 		//1) select set
 		int setID = genericWin.TreeviewSelectedUniqueID;
-		EncoderSQL eSQL_set = (EncoderSQL) SqliteEncoder.Select(false, setID, 0, 0, Constants.EncoderGI.ALL,
+		EncoderSQL eSQL_set = (EncoderSQL) SqliteEncoder.Select(true, setID, 0, 0, Constants.EncoderGI.ALL,
 				-1, "", EncoderSQL.Eccons.ALL, false, true)[0];
 
 		//2) if changed comment, update SQL, and update treeview
@@ -1761,7 +1763,7 @@ public partial class ChronoJumpWindow
 		if(comment != eSQL_set.description)
 		{
 			eSQL_set.description = comment;
-			SqliteEncoder.Update(false, eSQL_set);
+			SqliteEncoder.Update(true, eSQL_set);
 
 			//update treeview
 			genericWin.on_edit_selected_done_update_treeview();
@@ -1775,26 +1777,27 @@ public partial class ChronoJumpWindow
 		{
 			//change stuff on signal
 			EncoderSQL eSQLChangedPerson = eSQL_set.ChangePerson(idName);
-			SqliteEncoder.Update(false, eSQLChangedPerson);
+			SqliteEncoder.Update(true, eSQLChangedPerson);
 			genericWin.RemoveSelectedRow();
 
 			//select linkedReps (if any)
 			ArrayList linkedReps = SqliteEncoder.SelectSignalCurve(
-					false, setID, -1, -1, -1);	//DBopened, signal, curve, msStart, msEnd
+					true, setID, -1, -1, -1);	//DBopened, signal, curve, msStart, msEnd
 
 			//change stuff on repetitions (if any)
 			foreach (EncoderSignalCurve esc in linkedReps)
 			{
-				EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, esc.curveID, 0, 0, Constants.EncoderGI.ALL,
+				EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(true, esc.curveID, 0, 0, Constants.EncoderGI.ALL,
 						-1, "curve", EncoderSQL.Eccons.ALL, false, true)[0];
 
 				eSQLChangedPerson = eSQL.ChangePerson(idName);
-				SqliteEncoder.Update(false, eSQLChangedPerson);
+				SqliteEncoder.Update(true, eSQLChangedPerson);
 			}
 		}
 
 		genericWin.ShowEditRow(false);
 		//TODO: make the current set on app1 unsensitive, because maybe we changed the already loaded set
+		Sqlite.Close();
 	}
 	
 	protected void on_encoder_load_signal_row_delete_pre (object o, EventArgs args)

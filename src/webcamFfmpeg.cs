@@ -104,7 +104,7 @@ public class WebcamFfmpeg : Webcam
 
 		return new Result (true, "");
 	}
-	//used to know "Supported modes" on mac and maybe on windows
+	//used to know "Supported modes" on mac
 	public override Result PlayPreviewNoBackgroundWantStdoutAndStderr() //experimental
 	{
 		List<string> parameters = createParametersPlayPreview();

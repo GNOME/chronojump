@@ -791,15 +791,34 @@ public class PreferencesWindow
 		if(cameraCode == "")
 			return;
 
-		Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(),
-				cameraCode, "8000x8000", "8000"); //select and impossible mode just to get an error on mac, this error will give us the "Supported modes"
+		string modesStr = "";
 
-		Webcam.Result result = webcamPlay.PlayPreviewNoBackgroundWantStdoutAndStderr();
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+		{
+			List<string> parameters = new List<string>();
+			parameters.Add("--list-formats-ext");
+			ExecuteProcess.Result execute_result = ExecuteProcess.run ("v4l2-ctl", parameters, true, true);
+			if(! execute_result.success) {
+				new DialogMessage("Chronojump - Modes of this webcam",
+						Constants.MessageTypes.WARNING, "Need to install v4l2-ctl (on v4l-utils) to know modes");
+				return;
+			}
+
+			modesStr = execute_result.stdout;
+		}
+		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+		{
+			Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(),
+					cameraCode, "8000x8000", "8000"); //select and impossible mode just to get an error on mac, this error will give us the "Supported modes"
+
+			Webcam.Result result = webcamPlay.PlayPreviewNoBackgroundWantStdoutAndStderr();
+			modesStr = result.output;
+		}
 
 		//display the result (if any)
-		if(result.output != "")
+		if(modesStr != "")
 			new DialogMessage("Chronojump - Modes of this webcam",
-					Constants.MessageTypes.INFO, result.output);
+					Constants.MessageTypes.INFO, modesStr, true); //showScrolledWinBar
 	}
 
 	private void on_button_video_preview_clicked (object o, EventArgs args)

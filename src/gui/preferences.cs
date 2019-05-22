@@ -819,13 +819,18 @@ public class PreferencesWindow
 			parameters.Add("-i");
 			parameters.Add("video=" + cameraCode);
 			ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);
+
+			//TODO: check if ffmpeg installed, but take care because right now this always gets error, so we need to not return
+			/*
 			if(! execute_result.success) {
 				new DialogMessage("Chronojump - Modes of this webcam",
 						Constants.MessageTypes.WARNING, "Need to install ffmpeg");
 				return;
 			}
+			*/
 
-			modesStr = execute_result.stdout;
+			//modesStr = execute_result.stdout;
+			modesStr = execute_result.allOutput;
 		}
 		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
 		{

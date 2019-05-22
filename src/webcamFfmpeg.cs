@@ -116,6 +116,8 @@ public class WebcamFfmpeg : Webcam
 		LogB.Information("allOutput: ", execute_result.allOutput);
 
 		string parsed = parseSupportedModes(execute_result.allOutput);
+		//use this to test the parsing method
+		//string parsed = parseSupportedModes(parseSupportedModesTestString);
 
 		if(! execute_result.success)
 		{
@@ -461,7 +463,7 @@ public class WebcamFfmpeg : Webcam
 
 	private string parseSupportedModes(string allOutput)
 	{
-		string str = "";
+		string parsedAll = "Resolution    Framerate\n";
 
 		/*
 		 * break the big string in \n strings
@@ -486,13 +488,15 @@ public class WebcamFfmpeg : Webcam
 				continue;
 			}
 
-			str = parseSupportedMode(l) + "\nstdout";
+			string parsedLine = parseSupportedMode(l);
+			if(parsedLine != "")
+				parsedAll += parsedLine + "\n";
 
 			//after the list of video devices comes the list of audio devices, skip it
 			if(l.Contains("Input/output"))
 				break;
 		}
-		return str;
+		return parsedAll;
 	}
 	private string parseSupportedMode(string l) //TODO: currently only for mac
 	{
@@ -506,17 +510,20 @@ public class WebcamFfmpeg : Webcam
 
 		Match match = Regex.Match(l, @"(\d+)x(\d+)@\[(\d+).(\d+)\s+");
 
-		LogB.Information("match group count: ", match.Groups.Count.ToString());
-		if(match.Groups.Count != 5) //first is all match, second is the first int (width), last one is the decimals of the resolution
-			return "";
+		//TODO: use these lines
+		//LogB.Information("match group count: ", match.Groups.Count.ToString());
+		//if(match.Groups.Count != 5) //first is all match, second is the first int (width), last one is the decimals of the resolution
+		//	return "";
+		LogB.Information("match group count is 5?", (match.Groups.Count == 5).ToString());
+		LogB.Information("match group count is -5?", (match.Groups.Count == -5).ToString());
 
-		return string.Format("Resolution: {0}x{1}, Framerate: {2}.{3}",
+		return string.Format("{0}x{1}    {2}.{3}", //resolution    framerate
 				match.Groups[1].Value, match.Groups[2].Value,
 				match.Groups[3].Value, match.Groups[4].Value);
 	}
-	/* test ParseSupportModes
-	 *
-WebcamFfmpeg.parseSupportedModes(@"[avfoundation @ 0x7f849a8be800] Supported modes:
+
+	// test ParseSupportModes
+	private string parseSupportedModesTestString = @"Supported modes:
 [avfoundation @ 0x7f849a8be800]   160x120@[29.970000 29.970000]fps
 [avfoundation @ 0x7f849a8be800]   160x120@[25.000000 25.000000]fps
 [avfoundation @ 0x7f849a8be800]   160x120@[23.999981 23.999981]fps
@@ -549,8 +556,7 @@ WebcamFfmpeg.parseSupportedModes(@"[avfoundation @ 0x7f849a8be800] Supported mod
 [avfoundation @ 0x7f849a8be800]   1280x720@[25.000000 25.000000]fps
 [avfoundation @ 0x7f849a8be800]   1280x720@[23.999981 23.999981]fps
 [avfoundation @ 0x7f849a8be800]   1280x720@[14.999993 14.999993]fps
-0: Input/output error");
-*/
+0: Input/output error";
 
 
 	/*

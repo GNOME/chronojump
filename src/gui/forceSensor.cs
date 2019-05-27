@@ -607,6 +607,9 @@ public partial class ChronoJumpWindow
 				force_capture_drawingarea.Allocation.Height
 				);
 
+		//draw horizontal rectangle of feedback
+		forceSensorSignalPlotFeedbackRectangle();
+
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE, ForceSensorCapturePoints.DefaultRealHeightG, ForceSensorCapturePoints.DefaultRealHeightGNeg, 10);
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
@@ -978,9 +981,13 @@ LogB.Information(" re I ");
 			//mark meaning screen should be erased
 			if(fscPoints.NumPainted == -1) {
 				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
-				forcePaintHVLines(ForceSensorGraphs.CAPTURE, forceSensorValues.ForceMax * 2, forceSensorValues.ForceMin * 2, fscPoints.RealWidthG);
 				//forcePaintHVLines(forceSensorValues.ForceMax, forceSensorValues.ForceMin, fscPoints.RealWidthG);
 				fscPoints.NumPainted = 0;
+
+				//draw horizontal rectangle of feedback
+				forceSensorSignalPlotFeedbackRectangle();
+
+				forcePaintHVLines(ForceSensorGraphs.CAPTURE, forceSensorValues.ForceMax * 2, forceSensorValues.ForceMin * 2, fscPoints.RealWidthG);
 			}
 
 LogB.Information(" re J ");
@@ -1293,21 +1300,7 @@ LogB.Information(" re R ");
 			fscPoints.Redo();
 
 		//draw horizontal rectangle of feedback
-		int fbkNValue = Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value); //feedback Newtons value
-		int fbkNRange = Convert.ToInt32(spin_force_sensor_capture_feedback_range.Value); //feedback Newtons range (height of the rectangle)
-
-		if(fbkNValue > 0 && fbkNRange > 0)
-		{
-			//int fbkGraphCenter = fscPoints.GetForceInPx(fbkNValue);
-			int fbkGraphRectHeight = fscPoints.GetForceInPx(0) - fscPoints.GetForceInPx(fbkNRange);
-			int fbkGraphRectHalfHeight = Convert.ToInt32( fbkGraphRectHeight /2);
-			int fbkGraphTop = fscPoints.GetForceInPx(fbkNValue) - fbkGraphRectHalfHeight;
-
-			Rectangle rect = new Rectangle(fscPoints.GetTimeInPx(0), fbkGraphTop,
-					force_capture_drawingarea.Allocation.Width -1, fbkGraphRectHeight);
-			force_capture_pixmap.DrawRectangle(pen_yellow_force_capture, true, rect);
-		}
-
+		forceSensorSignalPlotFeedbackRectangle();
 
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE, forceSensorValues.ForceMax, forceSensorValues.ForceMin, forceSensorValues.TimeLast);
 
@@ -1334,6 +1327,25 @@ LogB.Information(" re R ");
 		label_force_sensor_value_min.Text = forceSensorValues.ForceMin.ToString();
 		button_force_sensor_image_save_signal.Sensitive = true;
 		button_force_sensor_analyze_recalculate.Sensitive = true;
+	}
+
+	private void forceSensorSignalPlotFeedbackRectangle()
+	{
+		//draw horizontal rectangle of feedback
+		int fbkNValue = Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value); //feedback Newtons value
+		int fbkNRange = Convert.ToInt32(spin_force_sensor_capture_feedback_range.Value); //feedback Newtons range (height of the rectangle)
+
+		if(fbkNValue > 0 && fbkNRange > 0)
+		{
+			//int fbkGraphCenter = fscPoints.GetForceInPx(fbkNValue);
+			int fbkGraphRectHeight = fscPoints.GetForceInPx(0) - fscPoints.GetForceInPx(fbkNRange);
+			int fbkGraphRectHalfHeight = Convert.ToInt32( fbkGraphRectHeight /2);
+			int fbkGraphTop = fscPoints.GetForceInPx(fbkNValue) - fbkGraphRectHalfHeight;
+
+			Rectangle rect = new Rectangle(fscPoints.GetTimeInPx(0), fbkGraphTop,
+					force_capture_drawingarea.Allocation.Width -1, fbkGraphRectHeight);
+			force_capture_pixmap.DrawRectangle(pen_yellow_force_capture, true, rect);
+		}
 	}
 
 	private enum ForceSensorGraphs { CAPTURE, ANALYSIS_GENERAL }

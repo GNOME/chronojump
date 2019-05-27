@@ -666,6 +666,9 @@ public class PreferencesWindow
 		resolutions.Add(Catalog.GetString("Custom")); //in SQL will be stored the values not "Custom" text
 		UtilGtk.ComboUpdate(combo_camera_resolution, resolutions);
 
+		if(resolution == "") //(first time using this) give a value
+			resolution = "640x480";
+
 		bool found = false;
 		foreach(string str in resolutions)
 			if(str == resolution)
@@ -695,6 +698,9 @@ public class PreferencesWindow
 		framerates.Add("60");
 		framerates.Add(Catalog.GetString("Custom")); //in SQL will be stored the values not "Custom" text
 		UtilGtk.ComboUpdate(combo_camera_framerate, framerates);
+
+		if(framerate == "") //(first time using this) give a value
+			framerate = "30";
 
 		found = false;
 		foreach(string str in framerates)

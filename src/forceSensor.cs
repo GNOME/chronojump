@@ -667,12 +667,14 @@ public class ForceSensorAnalyzeInstant
 	{
 		fscAIPoints = new ForceSensorCapturePoints(graphWidth, graphHeight);
 
-//TODO: check file exists...
 		List<string> contents = Util.ReadFileAsStringList(file);
 		bool headersRow = true;
 
 		//initialize
 		forceSensorValues = new ForceSensorValues();
+
+		if(contents == null)
+			return;
 
 		foreach(string str in contents)
 		{

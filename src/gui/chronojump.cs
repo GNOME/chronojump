@@ -3183,6 +3183,7 @@ public partial class ChronoJumpWindow
 		radio_mode_contacts_sprint.Visible = false;
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 		button_inspect_last_test.Visible = false;
+		vbox_force_capture_feedback.Visible = false;
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
 		if(
@@ -3385,6 +3386,8 @@ public partial class ChronoJumpWindow
 			//on force sensor only show table
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 			notebook_capture_graph_table.ShowTabs = false;
+
+			vbox_force_capture_feedback.Visible = true;
 		}
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 		{

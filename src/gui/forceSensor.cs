@@ -84,8 +84,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	[Widget] Gtk.Button button_force_sensor_image_save_signal;
 	[Widget] Gtk.DrawingArea force_capture_drawingarea;
-	Gdk.Pixmap force_capture_pixmap = null;
+	[Widget] Gtk.VBox vbox_force_capture_feedback;
+	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_at;
+	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_range;
 
+	Gdk.Pixmap force_capture_pixmap = null;
 
 	Thread forceCaptureThread;
 	static bool forceProcessFinish;
@@ -125,6 +128,7 @@ public partial class ChronoJumpWindow
 
 	Gdk.GC pen_black_force_capture;
 	Gdk.GC pen_red_force_capture;
+	Gdk.GC pen_yellow_force_capture;
 	Gdk.GC pen_gray_force_capture;
 	Gdk.GC pen_gray_force_capture_discont;
 	Pango.Layout layout_force_text;
@@ -151,6 +155,7 @@ public partial class ChronoJumpWindow
 		colormapForce.AllocColor (ref UtilGtk.BLACK,true,true);
 		colormapForce.AllocColor (ref UtilGtk.GRAY,true,true);
 		colormapForce.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
+		colormapForce.AllocColor (ref UtilGtk.YELLOW,true,true);
 
 		pen_black_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_black_force_capture.Foreground = UtilGtk.BLACK;
@@ -161,6 +166,10 @@ public partial class ChronoJumpWindow
 		pen_red_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_red_force_capture.Foreground = UtilGtk.RED_PLOTS;
 		pen_red_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+
+		pen_yellow_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
+		pen_yellow_force_capture.Foreground = UtilGtk.YELLOW;
+		pen_yellow_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 
 		pen_gray_force_capture_discont = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_gray_force_capture_discont.Foreground = UtilGtk.GRAY;
@@ -1282,6 +1291,23 @@ LogB.Information(" re R ");
 		 */
 		if(fscPoints.OutsideGraph(forceSensorValues.TimeLast, forceSensorValues.ForceMax, forceSensorValues.ForceMin))
 			fscPoints.Redo();
+
+		//draw horizontal rectangle of feedback
+		int fbkNValue = Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value); //feedback Newtons value
+		int fbkNRange = Convert.ToInt32(spin_force_sensor_capture_feedback_range.Value); //feedback Newtons range (height of the rectangle)
+
+		if(fbkNValue > 0 && fbkNRange > 0)
+		{
+			//int fbkGraphCenter = fscPoints.GetForceInPx(fbkNValue);
+			int fbkGraphRectHeight = fscPoints.GetForceInPx(0) - fscPoints.GetForceInPx(fbkNRange);
+			int fbkGraphRectHalfHeight = Convert.ToInt32( fbkGraphRectHeight /2);
+			int fbkGraphTop = fscPoints.GetForceInPx(fbkNValue) - fbkGraphRectHalfHeight;
+
+			Rectangle rect = new Rectangle(fscPoints.GetTimeInPx(0), fbkGraphTop,
+					force_capture_drawingarea.Allocation.Width -1, fbkGraphRectHeight);
+			force_capture_pixmap.DrawRectangle(pen_yellow_force_capture, true, rect);
+		}
+
 
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE, forceSensorValues.ForceMax, forceSensorValues.ForceMin, forceSensorValues.TimeLast);
 

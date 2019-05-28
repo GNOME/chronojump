@@ -1183,6 +1183,7 @@ LogB.Information(" re R ");
 				forceSensorZoomDefaultValues();
 				forceSensorDoGraphAI();
 			}
+			event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
 		}
 		filechooser.Destroy ();
 	}

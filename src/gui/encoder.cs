@@ -69,6 +69,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_encoder_sup_capture_analyze_two_buttons;
 	[Widget] Gtk.Box hbox_encoder_configuration;
 	[Widget] Gtk.Frame frame_encoder_capture_options;
+	[Widget] Gtk.HBox hbox_encoder_capture_actions;
+	[Widget] Gtk.HPaned hpaned_encoder;
 	
 	[Widget] Gtk.Box hbox_encoder_capture_wait;
 	[Widget] Gtk.Box vbox_encoder_capture_doing;
@@ -4883,10 +4885,8 @@ public partial class ChronoJumpWindow
 				table = doneYesSignal;
 				break;
 		}
-
 		button_encoder_capture.Sensitive = Util.IntToBool(table[0]);
 		hbox_encoder_sup_capture_analyze_two_buttons.Sensitive = Util.IntToBool(table[0]);
-		hbox_encoder_configuration.Sensitive = Util.IntToBool(table[0]);
 		frame_encoder_capture_options.Sensitive = Util.IntToBool(table[0]);
 
 		button_encoder_recalculate.Sensitive = Util.IntToBool(table[1]);
@@ -4962,6 +4962,19 @@ public partial class ChronoJumpWindow
 				analyze_sensitive = false;
 		}
 		button_encoder_analyze.Sensitive = analyze_sensitive;
+	}
+
+	/*
+	 * we want to have device sensitive
+	 * and sensitive/unsensitive the rest of widgets
+	 * suitable to change device without having a person loaded
+	 */
+	private void encoder_sensitive_all_except_device(bool s)
+	{
+		frame_encoder_capture_options.Sensitive = s;
+		hbox_encoder_capture_actions.Sensitive = s;
+		hbox_video_encoder.Sensitive = s;
+		hpaned_encoder.Sensitive = s;
 	}
 
 

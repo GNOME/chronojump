@@ -7134,7 +7134,8 @@ LogB.Debug("mc finished 5");
 		notebook_analyze.Sensitive = false;
 		notebook_results.Sensitive = false;
 		notebook_options_top.Sensitive = false;
-		notebook_encoder_sup.Sensitive = false;
+		encoder_sensitive_all_except_device(false);
+
 		vbox_stats.Sensitive = false;
 		
 		sensitiveLastTestButtons(false);
@@ -7182,7 +7183,8 @@ LogB.Debug("mc finished 5");
 		notebook_analyze.Sensitive = false;
 		notebook_results.Sensitive = false;
 		notebook_options_top.Sensitive = false;
-		notebook_encoder_sup.Sensitive = false;
+		encoder_sensitive_all_except_device(false);
+
 		treeview_persons.Sensitive = false;
 		
 		menuPersonSelectedSensitive(false);
@@ -7204,7 +7206,7 @@ LogB.Debug("mc finished 5");
 		notebook_analyze.Sensitive = true;
 		notebook_results.Sensitive = true;
 		notebook_options_top.Sensitive = true;
-		notebook_encoder_sup.Sensitive = true;
+		encoder_sensitive_all_except_device(true);
 
 		if(! configChronojump.Exhibition)
 			treeview_persons.Sensitive = true;
@@ -7388,7 +7390,6 @@ LogB.Debug("mc finished 5");
 	/*
 	 * sensitive GUI on executeAuto methods 
 	 */
-
 
 	private void chronopicRegisterUpdate(bool openWindow)
 	{

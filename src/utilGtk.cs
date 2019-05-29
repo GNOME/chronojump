@@ -459,6 +459,8 @@ public class UtilGtk
 	public static Gdk.Color BLUE = new Gdk.Color(0x6c,0x77,0xab);
 	public static Gdk.Color BLUE_CLEAR = new Gdk.Color(0xa0,0xa7,0xca);
 	public static Gdk.Color YELLOW = new Gdk.Color(0xff,0xcc,0x01);
+	public static Gdk.Color YELLOW_DARK = new Gdk.Color(0xcd,0xcd,0x00);
+	public static Gdk.Color ORANGE_DARK = new Gdk.Color(0xff,0x7f,0x00);
 	
 	public static Gdk.Color GREEN_PLOTS = new Gdk.Color(0,200,0);
 	public static Gdk.Color RED_PLOTS = new Gdk.Color(200,0,0);

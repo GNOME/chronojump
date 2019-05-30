@@ -216,7 +216,7 @@ public class ForceSensorCapturePoints
 				max = forces[i];
 		}
 
-		avg = sum / (countB - countA);
+		avg = sum / ((countB - countA) +1);
 	}
 	public double GetRFD(int countA, int countB)
 	{

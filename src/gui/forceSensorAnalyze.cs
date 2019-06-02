@@ -775,6 +775,7 @@ public partial class ChronoJumpWindow
 	private void forceSensorZoomDefaultValues()
 	{
 		forceSensorZoomApplied = false;
+		button_force_sensor_ai_zoom.Label = "Zoom [A-B]";
 	}
 	private int hscale_force_sensor_ai_a_BeforeZoom = 0;
 	private int hscale_force_sensor_ai_a_AtZoom = 0;

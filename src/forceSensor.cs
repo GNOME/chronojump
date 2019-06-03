@@ -98,6 +98,8 @@ public class ForceSensorCapturePoints
 	//used to redo all points if change RealWidthG or RealHeightG
 	private List<int> times;
 	private List<double> forces;
+	private double forceMax;
+	private double forceMin;
 
 	public int RealWidthG; //width of graph in microseconds (will be upgraded if needed)
 
@@ -121,6 +123,8 @@ public class ForceSensorCapturePoints
 		NumPainted = 0; 	//-1 means delete screen
 		times = new List<int>();
 		forces = new List<double>();
+		forceMax = 0;
+		forceMin = 10000;
 
 		InitRealWidthHeight();
 
@@ -140,6 +144,11 @@ public class ForceSensorCapturePoints
 		times.Add(time);
 		forces.Add(force);
 		Points.Add(new Gdk.Point(GetTimeInPx(time), GetForceInPx(force)));
+
+		if(force > forceMax)
+			forceMax = force;
+		if(force < forceMin)
+			forceMin = force;
 	}
 
 	public int GetTimeInPx(int time)
@@ -238,6 +247,33 @@ public class ForceSensorCapturePoints
 		double elapsedSeconds = times[countB]/1000000.0 - times[countA]/1000000.0;
 		return sum * Util.DivideSafe(elapsedSeconds, samples);
 	}
+	public void GetVariabilityAndAccuracy(int countA, int countB, int feedbackN, out double variability, out double feedbackDifference)
+	{
+		if(countA == countB)
+		{
+			variability = 0;
+			feedbackDifference = 0;
+			return;
+		}
+
+		// 1) get average
+		double sum = 0;
+		for(int i = countA; i <= countB; i ++)
+			sum += forces[i];
+
+
+		double avg = sum / ((countB - countA) +1);
+
+		// 2) move all the forces to 0 (substracting from average)
+		//    and have them in absolute value
+		double sumAt0 = 0;
+		for(int i = countA; i <= countB; i ++)
+			sumAt0 += Math.Abs(forces[i]-avg);
+
+		variability = Util.DivideSafe(sumAt0, ((countB - countA) +1));
+		feedbackDifference = Math.Abs(feedbackN - avg);
+	}
+
 	public int MarginLeft
 	{
 		get { return marginLeft; }
@@ -283,7 +319,11 @@ public class ForceSensorCapturePoints
 			RealWidthG = lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight);
 
 			RealHeightG = Convert.ToInt32(maxForce);
-			RealHeightGNeg = Convert.ToInt32(Math.Abs(minForce));
+			//RealHeightGNeg = Convert.ToInt32(Math.Abs(minForce));
+			if(minForce < 0)
+				RealHeightGNeg = Convert.ToInt32(Math.Abs(minForce));
+			else
+				RealHeightGNeg = 0;
 
 			return true;
 		}
@@ -293,7 +333,17 @@ public class ForceSensorCapturePoints
 
 	public void Zoom(int lastTime) //on zoom adjust width
 	{
+		//X
 		RealWidthG = lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight);
+
+		//Y
+		RealHeightG = Convert.ToInt32(forceMax);
+		if(forceMin < 0)
+			RealHeightGNeg = Convert.ToInt32(Math.Abs(forceMin));
+		else
+			RealHeightGNeg = -1 * Convert.ToInt32(forceMin);
+
+		//LogB.Information(string.Format("RealHeightG: {0}; RealHeightGNeg: {1}", RealHeightG, RealHeightGNeg));
 	}
 
 	public void Redo()
@@ -310,6 +360,15 @@ public class ForceSensorCapturePoints
 	public int HeightG
 	{
 		set { heightG = value; }
+	}
+
+	public double ForceMax
+	{
+		get { return forceMax; }
+	}
+	public double ForceMin
+	{
+		get { return forceMin; }
 	}
 }
 
@@ -807,6 +866,11 @@ public class ForceSensorAnalyzeInstant
 		return fscAIPoints.GetImpulse(countA, countB);
 	}
 
+	public void CalculateVariabilityAndAccuracy(int countA, int countB,
+			int feedbackN, out double variability, out double feedbackDifference)
+	{
+		fscAIPoints.GetVariabilityAndAccuracy(countA, countB, feedbackN, out variability, out feedbackDifference);
+	}
 	/*
 	 * Calculates RFD in a point using previous and next point
 	 */

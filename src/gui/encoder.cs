@@ -268,6 +268,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze_force;
 	[Widget] Gtk.Image image_encoder_analyze_power;
 	
+	[Widget] Gtk.HBox hbox_encoder_analyze_mean;
+	[Widget] Gtk.HBox hbox_encoder_analyze_max;
 	[Widget] Gtk.Image image_encoder_analyze_mean;
 	[Widget] Gtk.Image image_encoder_analyze_max;
 	[Widget] Gtk.Image image_encoder_analyze_range;
@@ -3715,8 +3717,8 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void on_check_encoder_analyze_mean_or_max_toggled (object obj, EventArgs args) {
-		image_encoder_analyze_mean.Visible = check_encoder_analyze_mean_or_max.Active;
-		image_encoder_analyze_max.Visible = ! check_encoder_analyze_mean_or_max.Active;
+		hbox_encoder_analyze_mean.Visible = check_encoder_analyze_mean_or_max.Active;
+		hbox_encoder_analyze_max.Visible = ! check_encoder_analyze_mean_or_max.Active;
 	}
 	
 	

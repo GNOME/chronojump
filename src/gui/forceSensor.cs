@@ -1605,6 +1605,7 @@ LogB.Information(" re R ");
 		notebook_options_at_execute_button.CurrentPage = 0;
 
 		forceSensorCaptureAdjustSensitivity(true);
+		event_execute_label_message.Text = "";
 	}
 
 	private void forceSensorCaptureAdjustSensitivity(bool s) //s for sensitive. When adjusting s = false

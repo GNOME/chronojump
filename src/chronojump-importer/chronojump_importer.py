@@ -708,7 +708,7 @@ class ImportSession:
             # and after import curves will not be saved on clicking at capture treeview
             # create "curve" folder if not exists
             destination_url = self._encoder_url(session_id, "curve")
-            destination_directory = os.path.join(destination_dself.destination_path, "..", "..", destination_url)
+            destination_directory = os.path.join(self.destination_path, "..", "..", destination_url)
             destination_directory = os.path.abspath(destination_directory)  # os.makedirs() can't handle directories with ".."
             if not os.path.isdir(destination_directory):
                 os.makedirs(destination_directory)

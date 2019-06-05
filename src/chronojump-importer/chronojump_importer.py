@@ -30,6 +30,7 @@ logging.basicConfig(level=logging.INFO)
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2016-2017 Carles Pina i Estany <carles@pina.cat>
+ * Copyright (C) 2019 Xavier de Blas <xaviblas@gmail.com>
  */
 """
 
@@ -702,6 +703,16 @@ class ImportSession:
                 os.makedirs(destination_directory)
 
             shutil.copy(source_file, destination_filename)
+
+            # If on origin there are no curves, curve folder will not be created
+            # and after import curves will not be saved on clicking at capture treeview
+            # create "curve" folder if not exists
+            destination_url = self._encoder_url(session_id, "curve")
+            destination_directory = os.path.join(destination_dself.destination_path, "..", "..", destination_url)
+            destination_directory = os.path.abspath(destination_directory)  # os.makedirs() can't handle directories with ".."
+            if not os.path.isdir(destination_directory):
+                os.makedirs(destination_directory)
+
 
 
 def json_information(database_path):

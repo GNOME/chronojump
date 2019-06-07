@@ -31,7 +31,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_contacts_camera;
 	[Widget] Gtk.CheckButton checkbutton_video;
 	[Widget] Gtk.CheckButton checkbutton_video_encoder;
-	[Widget] Gtk.HBox hbox_video_capture;
+	//[Widget] Gtk.HBox hbox_video_capture;
 	[Widget] Gtk.HBox hbox_video_encoder;
 	[Widget] Gtk.HBox hbox_video_encoder_no_capturing;
 	[Widget] Gtk.HBox hbox_video_encoder_capturing;
@@ -335,6 +335,7 @@ public partial class ChronoJumpWindow
 			else {
 				//call it later to be able to have some video on a short test like a jump.
 				LogB.Information(string.Format("Preparing to call webcamEndDo() in {0} s", preferences.videoStopAfter));
+
 				GLib.Timeout.Add(Convert.ToUInt32(preferences.videoStopAfter * 1000), new GLib.TimeoutHandler(webcamEndDo));
 			}
 		}
@@ -349,9 +350,12 @@ public partial class ChronoJumpWindow
 		if(webcamEndParams.uniqueID != -1 && ! resultExit.success)
 			new DialogMessage(Constants.MessageTypes.WARNING, resultExit.error);
 
-		LogB.Information(string.Format("calling button_video_play_this_test_sensitive {0}-{1}-{2}", webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted, resultExit.success));
+		LogB.Information(string.Format("calling button_video_play_this_test_sensitive {0}-{1}-{2}",
+					webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted, resultExit.success));
 		button_video_play_this_test_sensitive (webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted && resultExit.success);
 		button_video_play_selected_test(current_menuitem_mode);
+
+		sensitiveGuiEventDone();
 
 		return false; //do not call this Timeout routine again
 	}

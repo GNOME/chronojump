@@ -1003,9 +1003,9 @@ public partial class ChronoJumpWindow
 			// 11) calculate and paint variability
 			double variability = 0;
 			double feedbackDiff = 0;
-			int feedbackN = Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value);
+			int feedbackF = Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value);
 
-			fsAI.CalculateVariabilityAndAccuracy(hscaleLower, hscaleHigher, feedbackN, out variability, out feedbackDiff);
+			fsAI.CalculateVariabilityAndAccuracy(hscaleLower, hscaleHigher, feedbackF, out variability, out feedbackDiff);
 
 			layout_force_ai_text.SetMarkup(string.Format("Variability: {0:0.#} N",
 						Math.Round(variability, 1) ));
@@ -1016,9 +1016,9 @@ public partial class ChronoJumpWindow
 					layout_force_ai_text);
 
 			// 12) calculate and paint Accuracy (Feedback difference)
-			if(feedbackN > 0)
+			if(feedbackF > 0)
 			{
-				layout_force_ai_text.SetMarkup(string.Format("Accuracy (vs Feedback): {0:0.#} N",
+				layout_force_ai_text.SetMarkup(string.Format("Error (Feedback): {0:0.#} N",
 							Math.Round(feedbackDiff, 1) ));
 
 				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);

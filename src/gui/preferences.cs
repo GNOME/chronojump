@@ -790,27 +790,6 @@ public class PreferencesWindow
 		Util.TestSound = false;
 	}
 
-	/*
-TODO:
-	moure els mètodes de sota a una classe específica
-		que la classe incorpori el parsejat
-		que al parsejar es pleni una llista de objectes de una altra classe
-		aquesta nova classe seria resolutionFramerate
-		que tindria
-		int width
-		int height
-		List<float> framerate (aixo tambe aniria be pel windows que mostra un min i max de fps per cada resolucio, a linux i mac mostra llista de resolucions i framerates però diferent)
-
-		si conve la llista de objectes resolutionFramerate podria ser un altre objecte que els ordenes i fes prints com calgui, o tingues gets que anessin be per a omplir algun dialeg a gui/preferences
-
-		jo crec que tot aixo hauria d'estar a src/webcamFfmpegSupportedModes.cs
-		on hi hauria les classes:
-		- webcamResolutioFramerate
-		- webcamResolutioFramerateList
-		- i els metodes que hi ha aqui sota per saber els valors (per cada SO)
-		- i els metodes de parseig dels anteriors (per cada SO)
-	*/
-
 	//for mac and maybe windows, because in Linux it founds a default mode and it works
 	private void on_button_video_get_supported_modes_clicked (object o, EventArgs args)
 	{
@@ -818,61 +797,20 @@ TODO:
 		if(cameraCode == "")
 			return;
 
-		string modesStr = "";
+		WebcamFfmpegSupportedModes modes = new WebcamFfmpegSupportedModes ();
+		modes.GetModes(UtilAll.GetOSEnum(), cameraCode);
 
-		//TODO: move all this to a class similar to WebcamDevices
-		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+		if(modes.ErrorStr != "")
 		{
-			List<string> parameters = new List<string>();
-			parameters.Add("--list-formats-ext");
-			ExecuteProcess.Result execute_result = ExecuteProcess.run ("v4l2-ctl", parameters, true, true);
-			if(! execute_result.success) {
-				new DialogMessage("Chronojump - Modes of this webcam",
-						Constants.MessageTypes.WARNING, "Need to install v4l2-ctl (on v4l-utils) to know modes");
-				return;
-			}
-
-			modesStr = execute_result.stdout;
-		}
-		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.WINDOWS)
-		{
-			string executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
-			//ffmpeg -f dshow -list_options true -i video="USB 2.0 WebCamera"
-			List<string> parameters = new List<string>();
-			parameters.Add("-f");
-			parameters.Add("dshow");
-			parameters.Add("-list_options");
-			parameters.Add("true");
-			parameters.Add("-i");
-			parameters.Add("video=" + cameraCode);
-			ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);
-
-			//TODO: check if ffmpeg installed, but take care because right now this always gets error, so we need to not return
-			/*
-			if(! execute_result.success) {
-				new DialogMessage("Chronojump - Modes of this webcam",
-						Constants.MessageTypes.WARNING, "Need to install ffmpeg");
-				return;
-			}
-			*/
-
-			//modesStr = execute_result.stdout;
-			modesStr = execute_result.allOutput;
-		}
-		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
-		{
-			//select and impossible mode just to get an error on mac, this error will give us the "Supported modes"
-			Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(),
-					cameraCode, "8000x8000", "8000");
-
-			Webcam.Result result = webcamPlay.PlayPreviewNoBackgroundWantStdoutAndStderr();
-			modesStr = result.output;
+			new DialogMessage("Chronojump - Modes of this webcam",
+					Constants.MessageTypes.WARNING, modes.ErrorStr);
+			return;
 		}
 
 		//display the result (if any)
-		if(modesStr != "")
+		if(modes.ModesStr != "")
 			new DialogMessage("Chronojump - Modes of this webcam",
-					Constants.MessageTypes.INFO, modesStr, true); //showScrolledWinBar
+					Constants.MessageTypes.INFO, modes.ModesStr, true); //showScrolledWinBar
 	}
 
 	private void on_button_video_preview_clicked (object o, EventArgs args)

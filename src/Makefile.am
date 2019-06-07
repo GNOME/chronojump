@@ -220,6 +220,7 @@ SOURCES = \
 	webcam.cs\
 	webcamFfmpeg.cs\
 	webcamFfmpegDevices.cs\
+	webcamFfmpegSupportedModes.cs\
 	webcamMplayer.cs
 
 RESOURCES = \

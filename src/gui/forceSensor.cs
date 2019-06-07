@@ -75,6 +75,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TextView textview_force_sensor_capture_comment;
 	[Widget] Gtk.HBox hbox_force_sensor_lat_and_comments;
 	[Widget] Gtk.Alignment alignment_force_sensor_adjust;
+	[Widget] Gtk.HBox hbox_force_sensor_adjust_actions;
+	[Widget] Gtk.Label label_force_sensor_adjust;
 	[Widget] Gtk.Button button_force_sensor_tare;
 	[Widget] Gtk.Button button_force_sensor_calibrate;
 	[Widget] Gtk.Label label_force_sensor_value_max;
@@ -350,13 +352,13 @@ public partial class ChronoJumpWindow
 
 		if(o == (object) button_force_sensor_tare)
 		{
-			alignment_force_sensor_adjust.Sensitive = false;
+			hbox_force_sensor_adjust_actions.Sensitive = false;
 			forceSensorOtherMode = forceSensorOtherModeEnum.TARE;
 			forceOtherThread = new Thread(new ThreadStart(forceSensorTare));
 		}
 		else if(o == (object) button_force_sensor_calibrate)
 		{
-			alignment_force_sensor_adjust.Sensitive = false;
+			hbox_force_sensor_adjust_actions.Sensitive = false;
 			forceSensorOtherMode = forceSensorOtherModeEnum.CALIBRATE;
 			forceOtherThread = new Thread(new ThreadStart(forceSensorCalibrate));
 		}
@@ -408,16 +410,22 @@ public partial class ChronoJumpWindow
 		}
 
 		if(forceOtherThread.IsAlive)
-			event_execute_label_message.Text = forceSensorOtherMessage + secondsStr;
+		{
+			if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE ||
+				forceSensorOtherMode == forceSensorOtherModeEnum.CALIBRATE)
+				label_force_sensor_adjust.Text = forceSensorOtherMessage + secondsStr;
+			else
+				event_execute_label_message.Text = forceSensorOtherMessage + secondsStr;
+		}
 		else
 		{
-			event_execute_label_message.Text = forceSensorOtherMessage;
+			label_force_sensor_adjust.Text = forceSensorOtherMessage;
 			LogB.ThreadEnding();
 
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE ||
 				forceSensorOtherMode == forceSensorOtherModeEnum.CALIBRATE)
 			{
-				alignment_force_sensor_adjust.Sensitive = true;
+				hbox_force_sensor_adjust_actions.Sensitive = true;
 				return false;
 			}
 			else if(forceSensorOtherMode == forceSensorOtherModeEnum.CHECK_VERSION)
@@ -1586,26 +1594,32 @@ LogB.Information(" re R ");
 		hbox_force_capture_buttons.Sensitive = false;
 		button_force_sensor_adjust.Sensitive = false;
 
+		button_force_sensor_adjust.Visible = false;
 		hbox_force_sensor_lat_and_comments.Visible = false;
+		notebook_execute.Visible = false;
+		viewport_chronopics.Visible = false;
 		alignment_force_sensor_adjust.Visible = true;
 
 		notebook_options_at_execute_button.CurrentPage = 2;
 
 		forceSensorCaptureAdjustSensitivity(false);
-		event_execute_label_message.Text = Catalog.GetString("If you want to calibrate, please tare first.");
+		label_force_sensor_adjust.Text = Catalog.GetString("If you want to calibrate, please tare first.");
 	}
 	private void on_button_force_sensor_adjust_close_clicked (object o, EventArgs args)
 	{
 		hbox_force_capture_buttons.Sensitive = true;
 		button_force_sensor_adjust.Sensitive = true;
 
+		button_force_sensor_adjust.Visible = true;
 		hbox_force_sensor_lat_and_comments.Visible = true;
+		notebook_execute.Visible = true;
+		viewport_chronopics.Visible = true;
 		alignment_force_sensor_adjust.Visible = false;
 
 		notebook_options_at_execute_button.CurrentPage = 0;
 
 		forceSensorCaptureAdjustSensitivity(true);
-		event_execute_label_message.Text = "";
+		label_force_sensor_adjust.Text = "";
 	}
 
 	private void forceSensorCaptureAdjustSensitivity(bool s) //s for sensitive. When adjusting s = false

@@ -297,7 +297,8 @@ public class Preferences
 			"\n\nLast Calibrate:" +
 			"\n\t- internal value: " + forceSensorCalibrationFactor.ToString() +
 			"\n\t- with: " + forceSensorCalibrationWeight.ToString() +
-			" Kg\n\t- at: " + forceSensorCalibrationDateTime;
+			" Kg\n\t- at: " + forceSensorCalibrationDateTime +
+			"\n\nNote this information is related only to the tares and calibrations of any force sensor on this machine.";
 	}
 
 	public char CSVColumnDelimiter

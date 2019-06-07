@@ -1593,6 +1593,7 @@ LogB.Information(" re R ");
 	{
 		hbox_force_capture_buttons.Sensitive = false;
 		button_force_sensor_adjust.Sensitive = false;
+		vbox_force_capture_feedback.Sensitive = false;
 
 		button_force_sensor_adjust.Visible = false;
 		hbox_force_sensor_lat_and_comments.Visible = false;
@@ -1609,6 +1610,7 @@ LogB.Information(" re R ");
 	{
 		hbox_force_capture_buttons.Sensitive = true;
 		button_force_sensor_adjust.Sensitive = true;
+		vbox_force_capture_feedback.Sensitive = true;
 
 		button_force_sensor_adjust.Visible = true;
 		hbox_force_sensor_lat_and_comments.Visible = true;

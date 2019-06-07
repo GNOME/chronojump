@@ -790,6 +790,27 @@ public class PreferencesWindow
 		Util.TestSound = false;
 	}
 
+	/*
+TODO:
+	moure els mètodes de sota a una classe específica
+		que la classe incorpori el parsejat
+		que al parsejar es pleni una llista de objectes de una altra classe
+		aquesta nova classe seria resolutionFramerate
+		que tindria
+		int width
+		int height
+		List<float> framerate (aixo tambe aniria be pel windows que mostra un min i max de fps per cada resolucio, a linux i mac mostra llista de resolucions i framerates però diferent)
+
+		si conve la llista de objectes resolutionFramerate podria ser un altre objecte que els ordenes i fes prints com calgui, o tingues gets que anessin be per a omplir algun dialeg a gui/preferences
+
+		jo crec que tot aixo hauria d'estar a src/webcamFfmpegSupportedModes.cs
+		on hi hauria les classes:
+		- webcamResolutioFramerate
+		- webcamResolutioFramerateList
+		- i els metodes que hi ha aqui sota per saber els valors (per cada SO)
+		- i els metodes de parseig dels anteriors (per cada SO)
+	*/
+
 	//for mac and maybe windows, because in Linux it founds a default mode and it works
 	private void on_button_video_get_supported_modes_clicked (object o, EventArgs args)
 	{

@@ -354,7 +354,7 @@ public class ChronoJump
 					LogB.Error("problem with sqlite");
 					//check (spanish)
 					//http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
-					string errorMessage = Catalog.GetString("Failed database conversion, ensure you have libsqlite3-0 installed. \nIf problems persist ask in chronojump-list");
+					string errorMessage = Catalog.GetString("Failed database conversion, ensure you have libsqlite3-0 installed.");
 					errorMessage += "\n\n" + string.Format(Catalog.GetString("If you have no data on your database (you just installed Chronojump), you can fix this problem deleting this file: {0}"), 
 							Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db") + 
 						"\n" + Catalog.GetString("And starting Chronojump again.");

@@ -166,6 +166,19 @@ public class WebcamFfmpeg : Webcam
 
 	public override Result VideoCaptureStart()
 	{
+		/*
+		 * TODO: apply also this, but right now we will just unsensitive:
+		 * execute test (contacts and encoder)
+		 * and other camera related buttons
+		 * is complicated because button_execute_test.Sensitive = true happens at different places
+		 * also having this code will help to prevent problems of ffmpeg working all the time and filling users HD
+		 *
+		 * TODO: do some check related to ffmpeg capture time length
+		 */
+		//check if process is running from a previous call:
+		if(ExecuteProcess.IsRunning3 (-1, executable))
+			return new Result (false, "", "ffmpeg is already running");
+
 		//Delete temp video if exists
 		deleteTempFiles();
 

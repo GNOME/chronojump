@@ -2270,6 +2270,12 @@ public partial class ChronoJumpWindow
 			portRE.Close();
 
 		LogB.Information("Bye3!");
+
+		//TODO: if camera is opened close it! Note that this is intended to kill a remaining ffmpeg process
+		//but maybe we will kill any ffmpeg instance open by any other possible program on the computer
+		//maybe better kill ffmpeg before opening other instance
+		//and at end check if it is running that process and kill the last one ffmpeg instance
+		//LogB.Information("Bye4!");
 		
 		Log.End();
 
@@ -4315,8 +4321,11 @@ public partial class ChronoJumpWindow
 		}
 
 		LogB.Information(" cantouch1 ");
-		if(! execute_auto_doing)
+
+		//if webcam started then do not call sensitiveGuiEventDone(), because will be called at webcamEnd (that has a delay)
+		if(! execute_auto_doing && ! webcamManage.ReallyStarted)
 			sensitiveGuiEventDone();
+
 		LogB.Information(" cantouch3 ");
 
 		if (currentEventExecute.Cancel)

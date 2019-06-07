@@ -205,10 +205,16 @@ class ExecuteProcess
 		return true;
 	}
 	*/
+
 	/*
 	 * This is the best method because it does not need the process,
 	 * note that process maybe is null
 	 * and some code in IsRunning2old will fail
+	 *
+	 * To prevent a new instace of ffmpeg to be created,
+	 * if we want to just check if ffmpeg binary is running for any processID pass -1 on processID
+	 * an alternative will be check:
+	 * public static bool IsFileLocked(FileInfo finfo)
 	 */
 	public static bool IsRunning3 (int processID, string executable)
 	{
@@ -219,6 +225,9 @@ class ExecuteProcess
 		LogB.Information("running with executable: " + executable);
 		pdebug = Process.GetProcessesByName(executable);
 		LogB.Information((pdebug.Length > 0).ToString());
+
+		if(processID == -1)
+			return (pdebug.Length > 0);
 
 		/*
 		LogB.Information("running with LastPartOfPath of executable: " + Util.GetLastPartOfPath(executable));

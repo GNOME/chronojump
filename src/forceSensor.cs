@@ -256,13 +256,17 @@ public class ForceSensorCapturePoints
 			return;
 		}
 
+		//calculate numSamples. Note countA and countB are included, so
+		//countA = 2; countB = 4; samples are: 2,3,4; 3 samples
+		int numSamples = (countB - countA) + 1;
+
 		// 1) get average
 		double sum = 0;
 		for(int i = countA; i <= countB; i ++)
 			sum += forces[i];
 
 
-		double avg = sum / ((countB - countA) +1);
+		double avg = sum / numSamples;
 
 		// 2) move all the forces to 0 (substracting from average)
 		//    and have them in absolute value
@@ -270,7 +274,7 @@ public class ForceSensorCapturePoints
 		for(int i = countA; i <= countB; i ++)
 			sumAt0 += Math.Abs(forces[i]-avg);
 
-		variability = Util.DivideSafe(sumAt0, ((countB - countA) +1));
+		variability = Util.DivideSafe(sumAt0, numSamples);
 		feedbackDifference = Math.Abs(feedbackN - avg);
 	}
 

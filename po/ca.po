@@ -2430,7 +2430,7 @@ msgid ""
 "Eg. value = 2, means person does twice force at half speed."
 msgstr ""
 "relació Velocitat de la màquina / Velocitat de la persona.\n"
-"Ex. Un valor de 2 implica doble de força i meitat de velocitat"
+"Ex. Un valor de 2 implica doble de força i meitat de velocitat."
 
 #: ../glade/encoder_configuration.glade.h:19
 msgid "Force multiplier"
@@ -5773,10 +5773,10 @@ msgid "One device is not configured. Please, configure it clicking the arrows."
 msgid_plural ""
 "{0} devices are not configured. Please, configure them clicking the arrows."
 msgstr[0] ""
-"Un dispositiu no està configurat. Siusplau, configureu-lo clicant les "
+"Un dispositiu no està configurat. Si us plau, configureu-lo clicant les "
 "fletxes."
 msgstr[1] ""
-"{0} dispositius no estan configurats. Siusplau, configureu-los clicant a les "
+"{0} dispositius no estan configurats. Si us plau, configureu-los clicant a les "
 "fletxes."
 
 #: ../src/gui/chronopicRegister.cs:284
@@ -6969,7 +6969,7 @@ msgstr "L'atleta: '{0}' ja existeix. Si us plau. Feu servir un altre nom"
 
 #: ../src/gui/person.cs:1778
 msgid "Or load this person from another session using this button:"
-msgstr "O carregueu aquesta persona d'una altre sessió usant aquest botó:"
+msgstr "O carregueu aquesta persona d'una altra sessió usant aquest botó:"
 
 #: ../src/gui/person.cs:2116 ../src/gui/person.cs:2157
 msgid "CSV file has headers"
@@ -8336,7 +8336,7 @@ msgstr ""
 "Les instruccions per executar el test són les següents: \"Seieu amb "
 "l'esquena reposant sobre el respatller de la cadira i amb els dos braços "
 "sobre les cames. Quan sentiu la paraula \"ja\", aixequeu-vos sense usar els "
-"braços, xuteu la pilota enfront vostre tant fort com sigui possible, usant "
+"braços, xuteu la pilota enfront vostre tan fort com sigui possible, usant "
 "l'empenya del peu amb el que us sentiu més segur. Seguidament camineu al "
 "vostre ritme normal comptant enrere des de 15 fins a 0 en veu alta. Gireu al "
 "voltant del con, sense tocar-lo, torneu al vostre seient, trepitjant dintre "

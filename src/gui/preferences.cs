@@ -188,6 +188,8 @@ public class PreferencesWindow
 	[Widget] Gtk.ToggleButton toggle_never_close;
 	[Widget] Gtk.VBox vbox_version;
 	[Widget] Gtk.Label label_progVersion;
+	[Widget] Gtk.Frame frame_networks;
+	[Widget] Gtk.CheckButton check_networks_devices;
 
 
 	[Widget] Gtk.Button button_accept;
@@ -243,7 +245,9 @@ public class PreferencesWindow
 			PreferencesWindowBox.vbox_version.Visible = true;
 			PreferencesWindowBox.label_progVersion.Text = "<b>" + progVersion + "</b>";
 			PreferencesWindowBox.label_progVersion.UseMarkup = true;
+			PreferencesWindowBox.check_networks_devices.Active = preferences.networksAllowChangeDevices;
 		}
+		PreferencesWindowBox.frame_networks.Visible = compujump;
 
 		if(menu_mode !=	Constants.Menuitem_modes.JUMPSSIMPLE && menu_mode != Constants.Menuitem_modes.JUMPSREACTIVE)
 			PreferencesWindowBox.notebook.GetNthPage(JUMPSPAGE).Hide();
@@ -1445,6 +1449,9 @@ public class PreferencesWindow
 			SqlitePreferences.Update("muteLogs", PreferencesWindowBox.checkbutton_mute_logs.Active.ToString(), true);
 			preferences.muteLogs = PreferencesWindowBox.checkbutton_mute_logs.Active;
 		}
+
+		//this is not stored in SQL
+		preferences.networksAllowChangeDevices = PreferencesWindowBox.check_networks_devices.Active;
 
 		if( preferences.weightStatsPercent != PreferencesWindowBox.radio_weight_percent.Active ) {
 			SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.radio_weight_percent.Active.ToString(), true);

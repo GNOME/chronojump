@@ -89,6 +89,7 @@ public class Preferences
 	public bool askDeletion;
 	public int digitsNumber;
 	public bool muteLogs;
+	public bool networksAllowChangeDevices; //managed on preferences;
 
 	/*
 	 * these are NOT sent to preferences window

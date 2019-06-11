@@ -152,6 +152,10 @@ public partial class ChronoJumpWindow
 			button_encoder_exercise_edit.Visible = false;
 			button_encoder_exercise_add.Visible = false;
 
+			//on networks do not allow to change devices until preferences option is checked
+			viewport_chronopics.Sensitive = false;
+			button_activate_chronopics_encoder.Sensitive = false;
+
 			if(configChronojump.CompujumpStationMode != Constants.Menuitem_modes.UNDEFINED)
 			{
 				//select_menuitem_mode_toggled(configChronojump.CompujumpStationMode);

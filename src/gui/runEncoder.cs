@@ -32,6 +32,7 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
+	[Widget] Gtk.MenuItem menuitem_race_analyzer_open_folder;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_distance;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_temperature;
 	[Widget] Gtk.Image image_race_encoder_graph;
@@ -600,6 +601,21 @@ LogB.Information(" fc R ");
 		image_race_encoder_graph = UtilGtk.OpenImageSafe(
 				imagePath,
 				image_race_encoder_graph);
+	}
+
+	private void on_menuitem_race_analyzer_open_folder_activate (object o, EventArgs args)
+	{
+		if(currentSession == null || currentSession.UniqueID == -1)
+		{
+			System.Diagnostics.Process.Start(RunEncoderGraph.GetDataDir(-1));
+			return;
+		}
+
+		string dataDir = RunEncoderGraph.GetDataDir(currentSession.UniqueID);
+		if(dataDir != "")
+			System.Diagnostics.Process.Start(dataDir);
+		else
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpen);
 	}
 
 }

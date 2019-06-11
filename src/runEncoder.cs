@@ -71,4 +71,19 @@ public class RunEncoderGraph
 		writer.Close();
 		((IDisposable)writer).Dispose();
 	}
+
+	public static string GetDataDir(int sessionID)
+	{
+		System.IO.DirectoryInfo folderSession =
+			new System.IO.DirectoryInfo(Util.GetRaceAnalyzerSessionDir(sessionID));
+		System.IO.DirectoryInfo folderGeneric =
+			new System.IO.DirectoryInfo(Util.GetRaceAnalyzerDir());
+
+		if(folderSession.Exists)
+			return Util.GetRaceAnalyzerSessionDir(sessionID);
+		else if(folderGeneric.Exists)
+			return Util.GetRaceAnalyzerDir();
+		else
+			return "";
+	}
 }

@@ -387,43 +387,61 @@ public partial class ChronoJumpWindow
 			File.Copy(fileName, UtilEncoder.GetRaceAnalyzerCSVFileName(), true); //can be overwritten
 			lastRunEncoderFullPath = fileName;
 
-		race_analyzer_distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
-		race_analyzer_temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
-			//create graph
-			RunEncoderGraph reg = new RunEncoderGraph(
-					 race_analyzer_distance,
-					 currentPersonSession.Weight,  	//TODO: can be more if extra weight
-					 currentPersonSession.Height,
-					 race_analyzer_temperature);
-			reg.CallR(1699, 768); 				//TODO: hardcoded
-
-			DateTime runEncoderGraphStarted = DateTime.Now;
-			//TODO: check better if png is saved and have a cancel button
-
-			while(! File.Exists(UtilEncoder.GetSprintEncoderImage()) && DateTime.Now.Subtract(runEncoderGraphStarted).TotalSeconds < 5)
-				Thread.Sleep(500);
-
-			captureEndedMessage = "Data on raceAnalyzer folder";
-			if(File.Exists(UtilEncoder.GetSprintEncoderImage()))
-			{
-				LogB.Information("File exists on png, trying to copy");
-				try {
-					File.Copy(UtilEncoder.GetSprintEncoderImage(),
-							Util.GetRaceAnalyzerSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar +
-							lastRunEncoderFile + 	//nameDate
-							".png",
-							true); //can be overwritten
-					captureEndedMessage += " (png too)";
-				} catch {
-					LogB.Information("Couldn't copy the file");
-					captureEndedMessage += " (Created png but only on tmp folder, could not copy file)";
-				}
-			} else {
-				LogB.Information("File does not exist on png (after 5 seconds)");
-				captureEndedMessage += " (png not created, problem doing the graph)";
-			}
+			forceSensorCaptureGraphDo();
 
 			capturingRunEncoder = arduinoCaptureStatus.COPIED_TO_TMP;
+		}
+	}
+
+	private void on_button_run_encoder_recalculate_clicked (object o, EventArgs args)
+	{
+		race_analyzer_distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
+		race_analyzer_temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
+
+		forceSensorCaptureGraphDo();
+
+		event_execute_label_message.Text = "Recalculated.";
+		Thread.Sleep (250); //Wait a bit to ensure is copied
+
+		runEncoderAnalyzeOpenImage();
+		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
+		radio_mode_contacts_analyze.Active = true;
+	}
+
+	private void forceSensorCaptureGraphDo()
+	{
+		//create graph
+		RunEncoderGraph reg = new RunEncoderGraph(
+				race_analyzer_distance,
+				currentPersonSession.Weight,  	//TODO: can be more if extra weight
+				currentPersonSession.Height,
+				race_analyzer_temperature);
+		reg.CallR(1699, 768); 				//TODO: hardcoded
+
+		DateTime runEncoderGraphStarted = DateTime.Now;
+		//TODO: check better if png is saved and have a cancel button
+
+		while(! File.Exists(UtilEncoder.GetSprintEncoderImage()) && DateTime.Now.Subtract(runEncoderGraphStarted).TotalSeconds < 5)
+			Thread.Sleep(500);
+
+		captureEndedMessage = "Data on raceAnalyzer folder";
+		if(File.Exists(UtilEncoder.GetSprintEncoderImage()))
+		{
+			LogB.Information("File exists on png, trying to copy");
+			try {
+				File.Copy(UtilEncoder.GetSprintEncoderImage(),
+						Util.GetRaceAnalyzerSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar +
+						lastRunEncoderFile + 	//nameDate
+						".png",
+						true); //can be overwritten
+				captureEndedMessage += " (png too)";
+			} catch {
+				LogB.Information("Couldn't copy the file");
+				captureEndedMessage += " (Created png but only on tmp folder, could not copy file)";
+			}
+		} else {
+			LogB.Information("File does not exist on png (after 5 seconds)");
+			captureEndedMessage += " (png not created, problem doing the graph)";
 		}
 	}
 
@@ -466,7 +484,7 @@ LogB.Information(" fc C finish");
 
 					runEncoderAnalyzeOpenImage();
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
-					notebook_capture_analyze.CurrentPage = 1;
+					radio_mode_contacts_analyze.Active = true;
 
 					/*
 					fscPoints.InitRealWidthHeight();

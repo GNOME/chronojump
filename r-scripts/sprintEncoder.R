@@ -74,7 +74,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         #raceAnalyzer$displacement = raceAnalyzer$displacement * 2 * pi * diameter / 200
         #In 30m there are 12267 pulses.
         #TODO: measure this several times to have an accurate value
-        raceAnalyzer$displacement = raceAnalyzer$displacement * 30 / 12267
+        raceAnalyzer$displacement = 4 * raceAnalyzer$displacement * 30 / 12267
         position = cumsum(raceAnalyzer$displacement)
         speed = raceAnalyzer$displacement / elapsedTime
         accel = (speed[3] - speed[1]) / (totalTime[3] - totalTime[1])

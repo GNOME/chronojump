@@ -3500,6 +3500,7 @@ public partial class ChronoJumpWindow
 
 		menuitem_force_sensor_open_folder.Visible = (m == Constants.Menuitem_modes.FORCESENSOR);
 		menuitem_force_sensor_check_version.Visible = (m == Constants.Menuitem_modes.FORCESENSOR);
+		menuitem_race_analyzer_open_folder.Visible = (m == Constants.Menuitem_modes.RUNSENCODER);
 	}
 
 

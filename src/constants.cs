@@ -842,6 +842,7 @@ public class Constants
 	public static string FileNameEncoderLinearOnPlane = "encoder-linear-inclined-plane.png";	
 	public static string FileNameEncoderLinearOnPlaneWeightDiffAngle = "encoder-linear-inclined-plane-weight-diff-angle.png";	
 	public static string FileNameEncoderLinearOnPlaneWeightDiffAngleMovPulley = "encoder-linear-inclined-plane-weight-diff-angle-mov-pulley.png";
+	public static string FileNameEncoderLinearPneumatic = "encoder-linear-pneumatic.png";
 
 	//rotary friction
 	public static string FileNameEncoderFrictionSide = "encoder-rotary-friction-pulley.png";
@@ -864,13 +865,14 @@ public class Constants
 	
 	public static string FileNameEncoderCalculeIM = "encoder-calcule-im.png";	
 
-	public enum EncoderConfigurationNames { //this names are used on graph.R change there also if needed
+	public enum EncoderConfigurationNames { //this names are used on util.R and graph.R change there also if needed
 		// ---- LINEAR ----
 		LINEAR, LINEARINVERTED, LINEARINERTIAL, 
 		WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
 		WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
 		WEIGHTEDMOVPULLEYONLINEARENCODER, 
 		LINEARONPLANE, LINEARONPLANEWEIGHTDIFFANGLE, LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY,
+		PNEUMATIC,
 		// ---- ROTARY FRICTION ----
 		ROTARYFRICTIONSIDE, ROTARYFRICTIONAXIS,
 		WEIGHTEDMOVPULLEYROTARYFRICTION,

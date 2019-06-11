@@ -822,6 +822,8 @@ public class UtilEncoder
 							Constants.EncoderConfigurationNames.LINEARONPLANEWEIGHTDIFFANGLE));
 				list.Add(new EncoderConfiguration(
 							Constants.EncoderConfigurationNames.LINEARONPLANEWEIGHTDIFFANGLEMOVPULLEY));
+				list.Add(new EncoderConfiguration(
+							Constants.EncoderConfigurationNames.PNEUMATIC));
 			} else {
 				list.Add(new EncoderConfiguration(
 							Constants.EncoderConfigurationNames.LINEARINERTIAL));

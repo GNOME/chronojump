@@ -542,6 +542,7 @@ RESOURCES = \
 	../images/encoder-linear-inclined-plane.png,encoder-linear-inclined-plane.png \
 	../images/encoder-linear-inclined-plane-weight-diff-angle.png,encoder-linear-inclined-plane-weight-diff-angle.png \
 	../images/encoder-linear-inclined-plane-weight-diff-angle-mov-pulley.png,encoder-linear-inclined-plane-weight-diff-angle-mov-pulley.png \
+	../images/encoder-linear-pneumatic.png,encoder-linear-pneumatic.png \
 	../images/encoder-rotary-friction-pulley.png,encoder-rotary-friction-pulley.png \
 	../images/encoder-rotary-friction-pulley-axis.png,encoder-rotary-friction-pulley-axis.png \
 	../images/encoder-rotary-friction-side-inertial.png,encoder-rotary-friction-side-inertial.png \

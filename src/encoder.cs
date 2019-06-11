@@ -1420,6 +1420,15 @@ public class EncoderConfiguration
 			has_angle_weight = true;
 			has_gearedDown = true;
 		}
+		if(name == Constants.EncoderConfigurationNames.PNEUMATIC) {
+			type = Constants.EncoderType.LINEAR;
+			position = 10;
+			image = Constants.FileNameEncoderLinearPneumatic;
+			code = "Linear - Pneumatic machine";
+			text = "Linear encoder connected to a pneumatic machine";
+
+			has_angle_push = true;
+		}
 		// ---- inertial
 		else if(name == Constants.EncoderConfigurationNames.LINEARINERTIAL) {
 			type = Constants.EncoderType.LINEAR;

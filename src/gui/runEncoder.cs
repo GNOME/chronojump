@@ -35,10 +35,14 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_race_analyzer_open_folder;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_distance;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_temperature;
+	[Widget] Gtk.SpinButton race_analyzer_spinbutton_graph_width;
+	[Widget] Gtk.SpinButton race_analyzer_spinbutton_graph_height;
 	[Widget] Gtk.Image image_race_encoder_graph;
 
 	int race_analyzer_distance;
 	int race_analyzer_temperature;
+	int race_analyzer_graph_width;
+	int race_analyzer_graph_height;
 
 	Thread runEncoderCaptureThread;
 	static bool runEncoderProcessFinish;
@@ -189,13 +193,20 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		race_analyzer_distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
-		race_analyzer_temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
+		forceSensorReadWidgets();
 
 		runEncoderButtonsSensitive(false);
 		bool connected = runEncoderCapturePre();
 		if(! connected)
 			runEncoderButtonsSensitive(true);
+	}
+
+	private void forceSensorReadWidgets()
+	{
+		race_analyzer_distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
+		race_analyzer_temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
+		race_analyzer_graph_width = Convert.ToInt32(race_analyzer_spinbutton_graph_width.Value);
+		race_analyzer_graph_height = Convert.ToInt32(race_analyzer_spinbutton_graph_height.Value);
 	}
 
 	//TODO: do all this with an "other" thread like in force sensor to allow connecting messages to be displayed
@@ -396,8 +407,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_run_encoder_recalculate_clicked (object o, EventArgs args)
 	{
-		race_analyzer_distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
-		race_analyzer_temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
+		forceSensorReadWidgets();
 
 		forceSensorCaptureGraphDo();
 
@@ -417,7 +427,8 @@ public partial class ChronoJumpWindow
 				currentPersonSession.Weight,  	//TODO: can be more if extra weight
 				currentPersonSession.Height,
 				race_analyzer_temperature);
-		reg.CallR(1699, 768); 				//TODO: hardcoded
+
+		reg.CallR(race_analyzer_graph_width, race_analyzer_graph_height);
 
 		DateTime runEncoderGraphStarted = DateTime.Now;
 		//TODO: check better if png is saved and have a cancel button

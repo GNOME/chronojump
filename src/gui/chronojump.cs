@@ -3055,6 +3055,12 @@ public partial class ChronoJumpWindow
 			videoCapturePrepare(false); //if error, show message
 		}
 
+		if(configChronojump.Compujump)
+		{
+			viewport_chronopics.Sensitive = preferences.networksAllowChangeDevices;
+			button_activate_chronopics_encoder.Sensitive = preferences.networksAllowChangeDevices;
+		}
+
 		//change language works on windows. On Linux let's change the locale
 		//if(UtilAll.IsWindows()) 
 		//	languageChange();

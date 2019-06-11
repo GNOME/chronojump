@@ -114,6 +114,7 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.VPaned vpaned_encoder_main;
 	[Widget] Gtk.VPaned vpaned_encoder_capture_video_and_set_graph;
+	[Widget] Gtk.Button button_activate_chronopics_encoder;
 
 	[Widget] Gtk.Notebook notebook_encoder_sup;
 	[Widget] Gtk.Notebook notebook_encoder_capture;

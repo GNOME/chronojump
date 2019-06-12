@@ -127,17 +127,20 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 
 	public override void GetModes()
 	{
+		bool testParsing = false; //change it to true to test the parsing method
+
+		if(testParsing)
+		{
+			modesStr = parseSupportedModes(parseSupportedModesTestString);
+			return;
+		}
+
 		//select and impossible mode just to get an error on mac, this error will give us the "Supported modes"
 		Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(),
 				cameraCode, "8000x8000", "8000");
 
 		Webcam.Result result = webcamPlay.PlayPreviewNoBackgroundWantStdoutAndStderr();
-
-                string parsed = parseSupportedModes(result.output);
-                //use this to test the parsing method
-                //string parsed = parseSupportedModes(parseSupportedModesTestString);
-
-		modesStr = result.output;
+		modesStr = parseSupportedModes(result.output);
 	}
 
 	protected override string parseSupportedModes(string allOutput)
@@ -154,6 +157,7 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 				);
 
 		bool started = false;
+		bool foundAtLeastOne = false;
 		foreach(string l in lines)
 		{
 			LogB.Information("line: " + l);
@@ -169,12 +173,19 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 
 			string parsedLine = parseSupportedMode(l);
 			if(parsedLine != "")
+			{
 				parsedAll += parsedLine + "\n";
+				foundAtLeastOne = true;
+			}
 
 			//after the list of video devices comes the list of audio devices, skip it
 			if(l.Contains("Input/output"))
 				break;
 		}
+
+		if(! foundAtLeastOne)
+			return "Not found any mode supported for your camera.";
+
 		return parsedAll;
 	}
 

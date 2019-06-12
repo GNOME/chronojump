@@ -20,31 +20,45 @@
 
 using System;
 using System.Collections.Generic; //List<T>
+using System.Text.RegularExpressions; //Regex
 
 
-public class WebcamFfmpegSupportedModes 
+public abstract class WebcamFfmpegSupportedModes
 {
-	private string modesStr;
-	private string errorStr;
+	protected string modesStr;
+	protected string errorStr;
+	protected string cameraCode;
+
+	public abstract void GetModes();
 
 	//for mac and maybe windows, because in Linux it founds a default mode and it works
-	public WebcamFfmpegSupportedModes ()
+	protected void initialize ()
 	{
 		modesStr = "";
 		errorStr = "";
 	}
 
-	public void GetModes(UtilAll.OperatingSystems os, string cameraCode)
+	protected abstract string parseSupportedModes(string allOutput);
+
+	public string ErrorStr
 	{
-		if(os == UtilAll.OperatingSystems.LINUX)
-			getModesLinux();
-		else if(os == UtilAll.OperatingSystems.WINDOWS)
-			getModesWindows(cameraCode);
-		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
-			getModesMac(cameraCode);
+		get { return errorStr;  }
 	}
 
-	private void getModesLinux()
+	public string ModesStr
+	{
+		get { return modesStr;  }
+	}
+}
+
+public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
+{
+	public WebcamFfmpegSupportedModesLinux()
+	{
+		initialize();
+	}
+
+	public override void GetModes()
 	{
 		List<string> parameters = new List<string>();
 		parameters.Add("--list-formats-ext");
@@ -57,7 +71,21 @@ public class WebcamFfmpegSupportedModes
 		modesStr = execute_result.stdout;
 	}
 
-	private void getModesWindows(string cameraCode)
+	protected override string parseSupportedModes(string allOutput)
+	{
+		return "";
+	}
+}
+
+public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
+{
+	public WebcamFfmpegSupportedModesWindows(string cameraCode)
+	{
+		initialize();
+		this.cameraCode = cameraCode;
+	}
+
+	public override void GetModes()
 	{
 		string executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
 		//ffmpeg -f dshow -list_options true -i video="USB 2.0 WebCamera"
@@ -83,23 +111,130 @@ public class WebcamFfmpegSupportedModes
 		modesStr = execute_result.allOutput;
 	}
 
-	private void getModesMac(string cameraCode)
+	protected override string parseSupportedModes(string allOutput)
+	{
+		return "";
+	}
+}
+
+public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
+{
+	public WebcamFfmpegSupportedModesMac(string cameraCode)
+	{
+		initialize();
+		this.cameraCode = cameraCode;
+	}
+
+	public override void GetModes()
 	{
 		//select and impossible mode just to get an error on mac, this error will give us the "Supported modes"
 		Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(),
 				cameraCode, "8000x8000", "8000");
 
 		Webcam.Result result = webcamPlay.PlayPreviewNoBackgroundWantStdoutAndStderr();
+
+                string parsed = parseSupportedModes(result.output);
+                //use this to test the parsing method
+                //string parsed = parseSupportedModes(parseSupportedModesTestString);
+
 		modesStr = result.output;
 	}
 
-	public string ErrorStr
+	protected override string parseSupportedModes(string allOutput)
 	{
-		get { return errorStr;  }
+		string parsedAll = "Resolution    Framerate\n";
+
+		/*
+		 * break the big string in \n strings
+		 * https://stackoverflow.com/a/1547483
+		 */
+		string[] lines = allOutput.Split(
+				new[] { Environment.NewLine },
+				StringSplitOptions.None
+				);
+
+		bool started = false;
+		foreach(string l in lines)
+		{
+			LogB.Information("line: " + l);
+
+			//devices start after the videoDevString line
+			if(! started)
+			{
+				if(l.Contains("Supported modes"))
+					started = true;
+
+				continue;
+			}
+
+			string parsedLine = parseSupportedMode(l);
+			if(parsedLine != "")
+				parsedAll += parsedLine + "\n";
+
+			//after the list of video devices comes the list of audio devices, skip it
+			if(l.Contains("Input/output"))
+				break;
+		}
+		return parsedAll;
 	}
 
-	public string ModesStr
+	private string parseSupportedMode(string l) //TODO: currently only for mac
 	{
-		get { return modesStr;  }
+		if(! l.Contains("avfoundation"))
+			return "";
+
+		//parse this:
+		//	[avfoundation @ 0x7f849a8be800]   1280x720@[23.999981 23.999981]fps
+		//use: https://regex101.com/r/lZ5mN8/50
+		// 	(\d+)x(\d+)@\[(\d+).(\d+)\s+
+
+		Match match = Regex.Match(l, @"(\d+)x(\d+)@\[(\d+).(\d+)\s+");
+
+		//TODO: use these lines
+		//LogB.Information("match group count: ", match.Groups.Count.ToString());
+		//if(match.Groups.Count != 5) //first is all match, second is the first int (width), last one is the decimals of the resolution
+		//	return "";
+		LogB.Information("match group count is 5?", (match.Groups.Count == 5).ToString());
+		LogB.Information("match group count is -5?", (match.Groups.Count == -5).ToString());
+
+		return string.Format("{0}x{1}    {2}.{3}", //resolution    framerate
+				match.Groups[1].Value, match.Groups[2].Value,
+				match.Groups[3].Value, match.Groups[4].Value);
 	}
+
+	// test ParseSupportModes
+	private string parseSupportedModesTestString = @"Supported modes:
+[avfoundation @ 0x7f849a8be800]   160x120@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   160x120@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   160x120@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   160x120@[14.999993 14.999993]fps
+[avfoundation @ 0x7f849a8be800]   176x144@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   176x144@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   176x144@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   176x144@[14.999993 14.999993]fps
+[avfoundation @ 0x7f849a8be800]   320x240@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   320x240@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   320x240@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   320x240@[14.999993 14.999993]fps
+[avfoundation @ 0x7f849a8be800]   352x288@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   352x288@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   352x288@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   352x288@[14.999993 14.999993]fps
+[avfoundation @ 0x7f849a8be800]   640x480@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   640x480@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   640x480@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   640x480@[14.999993 14.999993]fps
+[avfoundation @ 0x7f849a8be800]   960x540@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   960x540@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   960x540@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   960x540@[14.999993 14.999993]fps
+[avfoundation @ 0x7f849a8be800]   1024x576@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   1024x576@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   1024x576@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   1024x576@[14.999993 14.999993]fps
+[avfoundation @ 0x7f849a8be800]   1280x720@[29.970000 29.970000]fps
+[avfoundation @ 0x7f849a8be800]   1280x720@[25.000000 25.000000]fps
+[avfoundation @ 0x7f849a8be800]   1280x720@[23.999981 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   1280x720@[14.999993 14.999993]fps
+0: Input/output error";
 }

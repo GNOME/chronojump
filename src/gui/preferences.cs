@@ -801,20 +801,28 @@ public class PreferencesWindow
 		if(cameraCode == "")
 			return;
 
-		WebcamFfmpegSupportedModes modes = new WebcamFfmpegSupportedModes ();
-		modes.GetModes(UtilAll.GetOSEnum(), cameraCode);
+		WebcamFfmpegSupportedModes wfsm;
 
-		if(modes.ErrorStr != "")
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+                        wfsm = new WebcamFfmpegSupportedModesLinux();
+                else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.WINDOWS)
+                        wfsm = new WebcamFfmpegSupportedModesWindows(cameraCode);
+                else
+                        wfsm = new WebcamFfmpegSupportedModesMac(cameraCode);
+
+		wfsm.GetModes();
+
+		if(wfsm.ErrorStr != "")
 		{
 			new DialogMessage("Chronojump - Modes of this webcam",
-					Constants.MessageTypes.WARNING, modes.ErrorStr);
+					Constants.MessageTypes.WARNING, wfsm.ErrorStr);
 			return;
 		}
 
 		//display the result (if any)
-		if(modes.ModesStr != "")
+		if(wfsm.ModesStr != "")
 			new DialogMessage("Chronojump - Modes of this webcam",
-					Constants.MessageTypes.INFO, modes.ModesStr, true); //showScrolledWinBar
+					Constants.MessageTypes.INFO, wfsm.ModesStr, true); //showScrolledWinBar
 	}
 
 	private void on_button_video_preview_clicked (object o, EventArgs args)

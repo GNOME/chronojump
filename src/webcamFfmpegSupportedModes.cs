@@ -68,11 +68,71 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 			return;
 		}
 
-		modesStr = execute_result.stdout;
+		modesStr = parseSupportedModes(execute_result.stdout);
 	}
 
+	//TODO: have a class that sorts resolutions and framerates
 	protected override string parseSupportedModes(string allOutput)
 	{
+		string parsedAll = "Resolution:\tFramerate";
+
+		/*
+		 * break the big string in \n strings
+		 * https://stackoverflow.com/a/1547483
+		 */
+		string[] lines = allOutput.Split(
+				new[] { Environment.NewLine },
+				StringSplitOptions.None
+				);
+
+		bool foundAtLeastOne = false;
+		foreach(string l in lines)
+		{
+			LogB.Information("line: " + l);
+
+			if(l.Contains("Pixel Format:"))
+			{
+				parsedAll += "\n\n" + l + "\n";
+				continue;
+			}
+
+			if(l.Contains("Size: Discrete") && matchResolution(l) != "")
+				parsedAll += "\n" + matchResolution(l) + ": ";
+
+			if(l.Contains("Interval: Discrete") && l.Contains("fps") && matchFPS(l) != "")
+			{
+				parsedAll += "\t" + matchFPS(l);
+				foundAtLeastOne = true;
+			}
+		}
+
+		if(! foundAtLeastOne)
+			return "Not found any mode supported for your camera.";
+
+		return parsedAll;
+	}
+
+	private string matchResolution(string l)
+	{
+		Match match = Regex.Match(l, @"(\d+)x(\d+)");
+
+		LogB.Information("match group count is 3?", (match.Groups.Count == 3).ToString());
+
+		if(match.Groups.Count == 3)
+			return string.Format("{0}x{1}", match.Groups[1].Value, match.Groups[2].Value);
+
+		return "";
+	}
+
+	private string matchFPS(string l)
+	{
+		Match match = Regex.Match(l, @"\((\d+).(\d+) fps\)");
+
+		LogB.Information("match group count is 3?", (match.Groups.Count == 3).ToString());
+
+		if(match.Groups.Count == 3)
+			return string.Format("{0}.{1}", match.Groups[1].Value, match.Groups[2].Value);
+
 		return "";
 	}
 }

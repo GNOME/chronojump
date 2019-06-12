@@ -20,11 +20,14 @@ String version = "Race_Analyzer-0.1";
 int pps = 10; //Pulses Per Sample. How many pulses are needed to get a sample
 int ppsAddress = 0; //Where is stored the pps value in the EEPROM
 
-int offset = 0;
-
+int offset = 1030;
 int offsetAddress = 2;
+
 float calibrationFactor = 0.140142;
 int calibrationAddress = 4;
+
+float metersPerPulse = 0.0033569564;
+int metersPerPulseAddress = 8;
 
 //Wether the sensor has to capture or not
 boolean capturing = false;
@@ -42,12 +45,36 @@ void setup() {
   Wire.setClock(1000000);
 
   EEPROM.get(ppsAddress, pps);
+    //if pps is 0 it means that it has never been set. We use the default value
+  if (pps == -151){
+    pps = 10;
+    EEPROM.put(ppsAddress, pps);
+  } 
 
   loadCell.begin();
   loadCell.setGain(GAIN_ONE);
-  //tare();
+  
   EEPROM.get(offsetAddress, offset);
+  //if offset is -1 it means that it has never been set. We use the default value
+  if (offset == -1){
+    offset = 1030;
+    EEPROM.put(offsetAddress, offset);
+  } 
+
   EEPROM.get(calibrationAddress, calibrationFactor);
+  //if calibrationFactor is not a number it means that it has never been set. We use the default value
+  if(isnan(calibrationFactor)){
+    calibrationFactor = 0.140142;
+    EEPROM.put(calibrationAddress, calibrationFactor);
+  }
+
+  EEPROM.get(metersPerPulseAddress, metersPerPulse);
+  
+  //if metersPerPulse is not a number it means that it has never been set. We use the default value
+  if (isnan(metersPerPulse)){ 
+    metersPerPulse = 0.140142;
+    EEPROM.put(metersPerPulseAddress, metersPerPulse);
+  }
 
   //Using the rising flank of the A photocell we have a normal PPR.
   attachInterrupt(digitalPinToInterrupt(encoderPinA), changingA, RISING);
@@ -169,6 +196,8 @@ void serialEvent()
     get_offset();
   } else if (commandString == "set_offset") {
     set_offset(inputString);
+  } else if (commandString == "get_mpp") {
+    get_mpp();
   } else {
     Serial.println("Not a valid command");
   }
@@ -347,4 +376,9 @@ void get_offset(void)
 void get_calibration_factor(void)
 {
   Serial.println(calibrationFactor, 8);
+}
+
+void get_mpp(void)
+{
+  Serial.println(metersPerPulse, 8);
 }

@@ -147,6 +147,14 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 
 	public override void GetModes()
 	{
+		bool testParsing = false; //change it to true to test the parsing method
+
+		if(testParsing)
+		{
+			modesStr = parseSupportedModes(parseSupportedModesTestString);
+			return;
+		}
+
 		string executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
 		//ffmpeg -f dshow -list_options true -i video="USB 2.0 WebCamera"
 		List<string> parameters = new List<string>();
@@ -171,10 +179,57 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 		modesStr = execute_result.allOutput;
 	}
 
+	//TODO: have a class that sorts resolutions and framerates
 	protected override string parseSupportedModes(string allOutput)
 	{
+		string parsedAll = "Resolution \tFramerate";
+
+		/*
+		 * break the big string in \n strings
+		 * https://stackoverflow.com/a/1547483
+		 */
+		string[] lines = allOutput.Split(
+				new[] { Environment.NewLine },
+				StringSplitOptions.None
+				);
+
+		bool foundAtLeastOne = false;
+		foreach(string l in lines)
+		{
+			LogB.Information("line: " + l);
+
+			if(l.Contains("pixel_format=") && matchResolutionAndFPS(l) != "")
+			{
+				parsedAll += "\n" + matchResolutionAndFPS(l);
+				foundAtLeastOne = true;
+			}
+		}
+
+		if(! foundAtLeastOne)
+			return "Not found any mode supported for your camera.";
+
+		return parsedAll;
+	}
+
+	private string matchResolutionAndFPS(string l)
+	{
+		//match this:
+		//pixel_format=yuyv422  min s=640x480 fps=5 max s=640x480 fps=30
+		Match match = Regex.Match(l, @"max\s+s=(\d+)x(\d+)\s+fps=(\d+)");
+
+		LogB.Information("match group count is 4?", (match.Groups.Count == 4).ToString());
+
+		if(match.Groups.Count == 4)
+			return string.Format("{0}x{1} \t{2} fps", match.Groups[1].Value, match.Groups[2].Value, match.Groups[3].Value);
+
 		return "";
 	}
+
+	// test ParseSupportModes
+	private string parseSupportedModesTestString = @"
+pixel_format=uyyv422  min s=160x120 fps=5 max s=160x120 fps=30
+pixel_format=uyyv422  min s=176x144 fps=5 max s=176x144 fps=30
+pixel_format=uyyv422  min s=320x240 fps=5 max s=320x240 fps=30";
 }
 
 public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes

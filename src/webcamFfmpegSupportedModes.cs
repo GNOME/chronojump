@@ -176,7 +176,8 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 		   */
 
 		//modesStr = execute_result.stdout;
-		modesStr = execute_result.allOutput;
+		//modesStr = execute_result.allOutput;
+		modesStr = parseSupportedModes(execute_result.allOutput);
 	}
 
 	//TODO: have a class that sorts resolutions and framerates

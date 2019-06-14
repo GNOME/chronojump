@@ -126,6 +126,7 @@ public partial class ChronoJumpWindow
 	SerialPort portFS; //Attention!! Don't reopen port because arduino makes reset and tare, calibration... is lost
 	bool portFSOpened;
 	bool forceSensorBinaryCapture;
+	int forceSensorTopRectangleAtCaptureStart;
 
 
 	Gdk.GC pen_black_force_capture;
@@ -633,7 +634,16 @@ public partial class ChronoJumpWindow
 				force_capture_drawingarea.Allocation.Height
 				);
 
-		forcePaintHVLines(ForceSensorGraphs.CAPTURE, ForceSensorCapturePoints.DefaultRealHeightG, ForceSensorCapturePoints.DefaultRealHeightGNeg, 10);
+		forceSensorTopRectangleAtCaptureStart =
+			Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value +
+					spin_force_sensor_capture_feedback_range.Value /2);
+
+		if(fscPoints.RealHeightG < forceSensorTopRectangleAtCaptureStart)
+			fscPoints.RealHeightG = forceSensorTopRectangleAtCaptureStart;
+
+		LogB.Information("RealHeight = " + fscPoints.RealHeightG.ToString());
+
+		forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, ForceSensorCapturePoints.DefaultRealHeightGNeg, 10);
 		//draw horizontal rectangle of feedback
 		forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
 
@@ -892,6 +902,7 @@ LogB.Information(" re C ");
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 
 					fscPoints.InitRealWidthHeight();
+
 					forceSensorDoSignalGraphPlot();
 					forceSensorDoRFDGraph();
 
@@ -1023,7 +1034,7 @@ LogB.Information(" re I ");
 				//forcePaintHVLines(forceSensorValues.ForceMax, forceSensorValues.ForceMin, fscPoints.RealWidthG);
 				fscPoints.NumPainted = 0;
 
-				forcePaintHVLines(ForceSensorGraphs.CAPTURE, forceSensorValues.ForceMax * 2, forceSensorValues.ForceMin * 2, fscPoints.RealWidthG);
+				forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, forceSensorValues.ForceMin * 2, fscPoints.RealWidthG);
 				//forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.ForceMax * 2, fscPoints.ForceMin * 2, fscPoints.RealWidthG);
 				//draw horizontal rectangle of feedback
 				forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
@@ -1337,10 +1348,15 @@ LogB.Information(" re R ");
 		 * or if GetForceInPx(minForce) < 0
 		 * or if getForceInPx(maxForce) > heightG
 		 */
-		if(fscPoints.OutsideGraph(forceSensorValues.TimeLast, forceSensorValues.ForceMax, forceSensorValues.ForceMin))
+
+		if(fscPoints.OutsideGraph(forceSensorValues.TimeLast,
+					getForceSensorMaxForceIncludingRectangle(forceSensorValues.ForceMax),
+					forceSensorValues.ForceMin))
 			fscPoints.Redo();
 
-		forcePaintHVLines(ForceSensorGraphs.CAPTURE, forceSensorValues.ForceMax, forceSensorValues.ForceMin, forceSensorValues.TimeLast);
+		forcePaintHVLines(ForceSensorGraphs.CAPTURE,
+				getForceSensorMaxForceIncludingRectangle(forceSensorValues.ForceMax),
+				forceSensorValues.ForceMin, forceSensorValues.TimeLast);
 
 		//draw horizontal rectangle of feedback
 		forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
@@ -1371,6 +1387,15 @@ LogB.Information(" re R ");
 		button_force_sensor_analyze_recalculate.Sensitive = true;
 	}
 
+	//This function calculates the max value between the sent force and the top of the feedback rectangle
+	private int getForceSensorMaxForceIncludingRectangle(double forceValue)
+	{
+		if(forceValue > forceSensorTopRectangleAtCaptureStart)
+			return Convert.ToInt32(forceValue);
+		else
+			return forceSensorTopRectangleAtCaptureStart;
+	}
+
 	private void forceSensorSignalPlotFeedbackRectangle(ForceSensorCapturePoints points, Gtk.DrawingArea drawingarea, Gdk.Pixmap pixmap)
 	{
 		//draw horizontal rectangle of feedback
@@ -1393,8 +1418,8 @@ LogB.Information(" re R ");
 					points.GetTimeInPx(0), fbkGraphCenter, drawingarea.Allocation.Width, fbkGraphCenter);
 					*/
 
-			int fbkGraphRectThirdHeight = Convert.ToInt32( fbkGraphRectHeight /3);
-			int fbkGraphInnerTop = fbkGraphTop + fbkGraphRectThirdHeight;
+			//int fbkGraphRectThirdHeight = Convert.ToInt32( fbkGraphRectHeight /3);
+			//int fbkGraphInnerTop = fbkGraphTop + fbkGraphRectThirdHeight;
 			//rect = new Rectangle(points.GetTimeInPx(0), fbkGraphInnerTop,
 			//		drawingarea.Allocation.Width -1, fbkGraphRectThirdHeight);
 			//pixmap.DrawRectangle(pen_orange_dark_force_capture, true, rect);

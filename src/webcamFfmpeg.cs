@@ -309,10 +309,12 @@ public class WebcamFfmpeg : Webcam
 		else
 			parameters.Insert (i ++, "640x480");
 
+		/* Disabled until we do not detect wich formats are available on the device
 		if(os == UtilAll.OperatingSystems.LINUX) {
 			parameters.Insert (i ++, "-input_format");
 			parameters.Insert (i ++, "mjpeg");
 		}
+		*/
 
 		parameters.Insert (i ++, "-i");
 		if(os == UtilAll.OperatingSystems.LINUX)

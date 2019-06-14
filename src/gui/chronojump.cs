@@ -7282,6 +7282,7 @@ LogB.Debug("mc finished 5");
 			frame_persons.Sensitive = false;
 		
 		button_execute_test.Sensitive = false;
+		vbox_contacts_camera.Sensitive = false;
 		
 		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;
@@ -7339,6 +7340,7 @@ LogB.Debug("mc finished 5");
 			vbox_persons_bottom.Sensitive = true;
 
 		button_execute_test.Sensitive = true;
+		vbox_contacts_camera.Sensitive = true;
 
 		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;

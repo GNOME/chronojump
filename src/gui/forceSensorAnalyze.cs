@@ -31,6 +31,7 @@ using Mono.Unix;
 public partial class ChronoJumpWindow 
 {
 	//analyze tab
+	[Widget] Gtk.HBox hbox_force_sensor_analyze_modes;
 	[Widget] Gtk.Button button_force_sensor_analyze_load;
 	[Widget] Gtk.Button button_force_sensor_analyze_recalculate;
 	[Widget] Gtk.Label label_force_sensor_analyze;
@@ -119,6 +120,7 @@ public partial class ChronoJumpWindow
 	{
 		button_force_sensor_analyze_options.Sensitive = s;
 		button_force_sensor_analyze_load.Sensitive = s;
+		hbox_force_sensor_analyze_modes.Sensitive = s;
 
 		if(s)
 			button_force_sensor_analyze_recalculate.Sensitive = button_force_sensor_analyze_recalculate_was_sensitive;

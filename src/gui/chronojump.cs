@@ -6800,6 +6800,7 @@ LogB.Debug("mc finished 5");
 
 		encoderRProcCapture.Debug = true;
 		encoderRProcAnalyze.Debug = true;
+		preferences.debugMode = true; //be used by force sensor
 		LogB.PrintAllThreads = true;
 
 		hbox_gui_tests.Visible = true;

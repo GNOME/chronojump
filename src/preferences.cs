@@ -127,6 +127,8 @@ public class Preferences
 	public GstreamerTypes gstreamer;
 	public static string GstreamerStr = "gstreamer"; //in order to ensure write correctly on SQL
 
+	public bool debugMode;
+
 	/*
 	 * these are unused on SqlitePreferences.SelectAll
 	 */

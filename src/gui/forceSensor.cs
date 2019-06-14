@@ -647,6 +647,14 @@ public partial class ChronoJumpWindow
 		forceCaptureThread = new Thread(new ThreadStart(forceSensorCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKForceSensorCapture));
 
+		if(preferences.debugMode)
+			LogB.Information("Debug mode active. Logs active while force sensor capture");
+		else
+			LogB.Information("Debug mode inactive. Logs INactive while force sensor capture");
+
+		//mute logs if ! debug mode
+		LogB.Mute = ! preferences.debugMode;
+
 		LogB.ThreadStart();
 		forceCaptureThread.Start();
 	}
@@ -926,6 +934,11 @@ LogB.Information(" re C ");
 			while(forceCaptureThread.IsAlive)
 				Thread.Sleep (250);
 LogB.Information(" re D ");
+
+			//1) unMute logs if preferences.muteLogs == false
+			LogB.Mute = preferences.muteLogs;
+			if(! preferences.muteLogs)
+				LogB.Information("muteLogs INactive. Logs active active again");
 
 			LogB.ThreadEnded(); 
 

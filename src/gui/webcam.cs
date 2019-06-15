@@ -138,6 +138,9 @@ public partial class ChronoJumpWindow
 
 		if(waitUntilRecording)
 		{
+			//to not allow to click two times on execute test while camera is starting: unsensitive button now
+			button_execute_test.Sensitive = false;
+
 			webcamStartThreadBeforeTestStatus = statusEnum.NOT_STARTED;
 			webcamStartThread = new Thread (new ThreadStart (webcamStartThreadBeforeTest));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseWebcamGTK));

@@ -276,9 +276,19 @@ public class WebcamFfmpeg : Webcam
 	private List<string> createParametersPlayFile(string filename)
 	{
 		// ffplay -autoexit out.mp4
+		// experimental on Linux to show pts time (not length percentage)
+		// ffplay -vf "drawtext=text='%{pts\:hms}':box=1:x=(w-tw)/2:y=h-(2*lh)" -autoexit out.mp4
+
 		List<string> parameters = new List<string>();
-		parameters.Insert (0, "-autoexit");
-		parameters.Insert (1, filename);
+		int i=0;
+
+		if(os == UtilAll.OperatingSystems.LINUX) { //TODO: check if this works on Mac and Windows
+			parameters.Insert (i++, "-vf");
+			parameters.Insert (i++, "drawtext=text='%{pts\\:hms}':box=1:x=(w-tw)/2:y=h-(2*lh)");
+		}
+
+		parameters.Insert (i ++, "-autoexit");
+		parameters.Insert (i ++, filename);
 		return parameters;
 	}
 

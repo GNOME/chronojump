@@ -275,9 +275,10 @@ public class WebcamFfmpeg : Webcam
 
 	private List<string> createParametersPlayFile(string filename)
 	{
-		// ffplay out.mp4
+		// ffplay -autoexit out.mp4
 		List<string> parameters = new List<string>();
-		parameters.Insert (0, filename);
+		parameters.Insert (0, "-autoexit");
+		parameters.Insert (1, filename);
 		return parameters;
 	}
 

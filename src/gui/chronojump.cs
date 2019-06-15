@@ -7064,7 +7064,14 @@ LogB.Debug("mc finished 5");
 			radio_mode_contacts_general.Visible = true;
 
 			if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+			{
 				radio_mode_contacts_jumps_profile.Visible = true;
+				if(radio_mode_contacts_jumps_profile.Active)
+				{
+					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSPROFILE);
+					jumpsProfileDo(true);
+				}
+			}
 			else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 				radio_mode_contacts_sprint.Visible = true;
 		}

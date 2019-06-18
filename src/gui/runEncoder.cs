@@ -343,18 +343,6 @@ public partial class ChronoJumpWindow
 						));
 		}
 
-		LogB.Information("Processing last received line");
-		str = readFromRunEncoderIfDataArrived();
-		if(checkRunEncoderCaptureLineIsOk(str))
-		{
-			string [] strFull = str.Split(new char[] {';'});
-			writer.WriteLine(string.Format("{0};{1};{2}",
-						Convert.ToInt32(strFull[0]), //pulse
-						Convert.ToInt32(strFull[1]), //time
-						Convert.ToInt32(strFull[2]) //force
-						));
-		}
-
 		LogB.Information(string.Format("FINISHED WITH conditions: {0}-{1}-{2}",
 						runEncoderProcessFinish, runEncoderProcessCancel, runEncoderProcessError));
 		LogB.Information("Calling end_capture");
@@ -371,6 +359,17 @@ public partial class ChronoJumpWindow
 			Thread.Sleep(10);
 			try {
 				str = portRE.ReadLine();
+
+				if(checkRunEncoderCaptureLineIsOk(str))
+				{
+					LogB.Information("Processing last received line");
+					string [] strFull = str.Split(new char[] {';'});
+					writer.WriteLine(string.Format("{0};{1};{2}",
+								Convert.ToInt32(strFull[0]), //pulse
+								Convert.ToInt32(strFull[1]), //time
+								Convert.ToInt32(strFull[2]) //force
+								));
+				}
 			} catch {
 				LogB.Information("Catched waiting end_capture feedback");
 			}

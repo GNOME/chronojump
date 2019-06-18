@@ -167,6 +167,7 @@ public class PreferencesWindow
 	//[Widget] Gtk.VBox vbox_camera_stop_after;
 	[Widget] Gtk.HBox hbox_camera_stop_after_seconds;
 	[Widget] Gtk.SpinButton spin_camera_stop_after;
+	[Widget] Gtk.Label label_video_check_ffmpeg_ffplay_running;
 
 	//language tab
 	[Widget] Gtk.Box hbox_combo_language;
@@ -858,6 +859,33 @@ public class PreferencesWindow
 
 		LogB.Information("selected framerate: " + selected);
 		return selected;
+	}
+
+	private void on_button_video_check_ffmpeg_ffplay_running_clicked(object o, EventArgs args)
+	{
+		string label_result = "Camera is not running.";
+		label_video_check_ffmpeg_ffplay_running.Text = label_result;
+
+		UtilAll.OperatingSystems os = UtilAll.GetOSEnum();
+		bool runningFfmpeg = false;
+		bool runningFfplay = false;
+
+		if(ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutableCapture(os)))
+		{
+			runningFfmpeg = true;
+			label_result = "Capture (ffmpeg) is running";
+		}
+
+		if(ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutablePlay(os)))
+		{
+			runningFfplay = true;
+			if(runningFfmpeg)
+				label_result = "Capture (ffmpeg) & Play (ffplay) are running";
+			else
+				label_result = "Play (ffplay) is running";
+		}
+
+		label_video_check_ffmpeg_ffplay_running.Text = label_result;
 	}
 
 	// ---- end of multimedia stuff

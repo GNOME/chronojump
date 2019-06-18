@@ -126,7 +126,7 @@ public partial class ChronoJumpWindow
 	SerialPort portFS; //Attention!! Don't reopen port because arduino makes reset and tare, calibration... is lost
 	bool portFSOpened;
 	bool forceSensorBinaryCapture;
-	int forceSensorTopRectangleAtCaptureStart;
+	int forceSensorTopRectangleAtOperationStart; //operation can be capture, load
 
 
 	Gdk.GC pen_black_force_capture;
@@ -634,12 +634,10 @@ public partial class ChronoJumpWindow
 				force_capture_drawingarea.Allocation.Height
 				);
 
-		forceSensorTopRectangleAtCaptureStart =
-			Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value +
-					spin_force_sensor_capture_feedback_range.Value /2);
+		setForceSensorTopAtOperationStart();
 
-		if(fscPoints.RealHeightG < forceSensorTopRectangleAtCaptureStart)
-			fscPoints.RealHeightG = forceSensorTopRectangleAtCaptureStart;
+		if(fscPoints.RealHeightG < forceSensorTopRectangleAtOperationStart)
+			fscPoints.RealHeightG = forceSensorTopRectangleAtOperationStart;
 
 		LogB.Information("RealHeight = " + fscPoints.RealHeightG.ToString());
 
@@ -1349,6 +1347,7 @@ LogB.Information(" re R ");
 		 * or if getForceInPx(maxForce) > heightG
 		 */
 
+		setForceSensorTopAtOperationStart();
 		if(fscPoints.OutsideGraph(forceSensorValues.TimeLast,
 					getForceSensorMaxForceIncludingRectangle(forceSensorValues.ForceMax),
 					forceSensorValues.ForceMin))
@@ -1387,13 +1386,19 @@ LogB.Information(" re R ");
 		button_force_sensor_analyze_recalculate.Sensitive = true;
 	}
 
+	private void setForceSensorTopAtOperationStart()
+	{
+		forceSensorTopRectangleAtOperationStart =
+			Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value +
+					spin_force_sensor_capture_feedback_range.Value /2);
+	}
 	//This function calculates the max value between the sent force and the top of the feedback rectangle
 	private int getForceSensorMaxForceIncludingRectangle(double forceValue)
 	{
-		if(forceValue > forceSensorTopRectangleAtCaptureStart)
+		if(forceValue > forceSensorTopRectangleAtOperationStart)
 			return Convert.ToInt32(forceValue);
 		else
-			return forceSensorTopRectangleAtCaptureStart;
+			return forceSensorTopRectangleAtOperationStart;
 	}
 
 	private void forceSensorSignalPlotFeedbackRectangle(ForceSensorCapturePoints points, Gtk.DrawingArea drawingarea, Gdk.Pixmap pixmap)

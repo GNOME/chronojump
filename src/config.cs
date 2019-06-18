@@ -39,6 +39,7 @@ public class Config
 	public SessionModeEnum SessionMode;
 	public bool Compujump;
 	public string CompujumpServerURL = "";
+	public int CompujumpOrganizationID = -1; //Django stations have OrganizationID 1 or more
 	public int CompujumpStationID = -1;
 	public int CompujumpAdminID = -1; //undefined
 	public string CompujumpAdminEmail = ""; //undefined
@@ -96,6 +97,8 @@ public class Config
 						Compujump = true;
 					else if(parts[0] == "CompujumpServerURL" && parts[1] != "")
 						CompujumpServerURL = parts[1];
+					else if(parts[0] == "CompujumpOrganizationID" && parts[1] != "" && Util.IsNumber(parts[1], false))
+						CompujumpOrganizationID = Convert.ToInt32(parts[1]);
 					else if(parts[0] == "CompujumpStationID" && parts[1] != "" && Util.IsNumber(parts[1], false))
 						CompujumpStationID = Convert.ToInt32(parts[1]);
 					else if(parts[0] == "CompujumpAdminID" && parts[1] != "" && Util.IsNumber(parts[1], false))

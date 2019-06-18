@@ -252,7 +252,7 @@ public class DialogPersonPopup
 			{
 				LogB.Information("Clicked button done: " + count.ToString());
 
-				Json json = new Json();
+				JsonCompujump json = new JsonCompujump();
 				json.UpdateTask(list_buttons_done_id[count], 1);
 
 				//button.Sensitive = false;

@@ -578,7 +578,7 @@ public partial class ChronoJumpWindow
 
 		bool currentPersonWasNull = (currentPerson == null);
 		bool pChangedShowTasks = false;
-		Json json = new Json();
+		JsonCompujump json = new JsonCompujump();
 
 		//select person by RFID
 		Person pLocal = SqlitePerson.SelectByRFID(capturedRFID);
@@ -746,7 +746,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void insertAndAssignPersonSessionIfNeeded(Json json)
+	private void insertAndAssignPersonSessionIfNeeded(JsonCompujump json)
 	{
 		PersonSession ps = SqlitePersonSession.Select(false, currentPerson.UniqueID, currentSession.UniqueID);
 		if(ps.UniqueID == -1)
@@ -776,7 +776,7 @@ public partial class ChronoJumpWindow
 	private void getTasksExercisesAndPopup()
 	{
 		//1) get tasks
-		Json json = new Json();
+		JsonCompujump json = new JsonCompujump();
 		List<Task> tasks = json.GetTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
 
 		//2) get exercises and insert if needed (only on encoder)

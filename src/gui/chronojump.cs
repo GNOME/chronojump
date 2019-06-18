@@ -4938,7 +4938,7 @@ public partial class ChronoJumpWindow
 				sprint.Positions, sprint.GetSplitTimesAsList(),
 				k, vmax, amax, fmax, pmax);
 
-		Json js = new Json();
+		JsonCompujump js = new JsonCompujump();
 		if( ! js.UploadSprintData(usdo) )
 		{
 			LogB.Error(js.ResultMessage);

@@ -241,7 +241,7 @@ class ChronojumpImporter
 			foreach(JsonValue session in json["sessions"])
 			{
 				if (session.ContainsKey ("uniqueID") && session ["uniqueID"] == sessionId) {
-					return JsonUtils.valueOrDefault (session, "name", "UNKNOWN");
+					return JsonUtils.ValueOrDefault (session, "name", "UNKNOWN");
 				}
 			}
 			LogB.Information ("Trying to import a session that we can't find the name. Output:" + information.output);
@@ -255,7 +255,7 @@ class ChronojumpImporter
 
 		if (information.success) {
 			JsonValue json = JsonValue.Parse (information.output);
-			return new Result (true, JsonUtils.valueOrDefault(json, "databaseVersion", "0"));
+			return new Result (true, JsonUtils.ValueOrDefault(json, "databaseVersion", "0"));
 		} else {
 			return information;
 		}

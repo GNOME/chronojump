@@ -236,7 +236,7 @@ class SqliteJson : Sqlite
 
 	public static void UploadExhibitionTest(ExhibitionTest et)
 	{
-		Json js = new Json();
+		JsonExhibitions js = new JsonExhibitions();
 		if( ! js.UploadExhibitionTest (et))
 		{
 			LogB.Error(js.ResultMessage);
@@ -248,7 +248,7 @@ class SqliteJson : Sqlite
 	//At YOMO free network with transaction each record needs 0.3 seconds
 	public static void UploadExhibitionTestsPending()
 	{
-		Json json = new Json();
+		JsonExhibitions json = new JsonExhibitions();
 		Sqlite.Open(); // ---------------->
 
 		int countSucceded = 0;

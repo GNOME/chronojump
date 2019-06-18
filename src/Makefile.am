@@ -155,7 +155,10 @@ SOURCES = \
 	forcePlatform.cs\
 	forceSensor.cs\
 	genericObjects.cs\
-	json.cs\
+	json/json.cs\
+	json/utils.cs\
+	json/compujump.cs\
+	json/exhibitions.cs\
 	jump.cs\
 	jumpsProfile.cs\
 	jumpType.cs\

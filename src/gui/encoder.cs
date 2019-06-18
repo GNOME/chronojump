@@ -7000,7 +7000,7 @@ public partial class ChronoJumpWindow
 							 */
 
 							LogB.Information("calling Upload");
-							Json js = new Json();
+							JsonCompujump js = new JsonCompujump();
 							UploadEncoderDataFullObject uedfo = new UploadEncoderDataFullObject(
 									-1, //uniqueID
 									currentPerson.UniqueID,

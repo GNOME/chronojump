@@ -319,29 +319,7 @@ public partial class ChronoJumpWindow
 			 * and then the while above will end with the runEncoderProcessFinish condition
 			 */
 			str = readFromRunEncoderIfDataArrived();
-			//LogB.Information("str: " + str); //TODO: remove this log
-			if(str == "")
-				continue;
-
-			//check if there is one and only one ';'
-			//if( ! (str.Contains(";") && str.IndexOf(";") == str.LastIndexOf(";")) )
-
-			string [] strFull = str.Split(new char[] {';'});
-			LogB.Information("captured str: " + str);
-
-			if(strFull.Length != 3)
-				continue;
-
-			LogB.Information("pulses: " + strFull[0]);
-			if(! Util.IsNumber(strFull[0], false))
-				continue;
-
-			LogB.Information("time microseconds: " + strFull[1]);
-			if(! Util.IsNumber(strFull[1], false))
-				continue;
-
-			LogB.Information("force avg (N): " + strFull[1]);
-			if(! Util.IsNumber(strFull[2], false))
+			if(! checkRunEncoderCaptureLineIsOk(str))
 				continue;
 
 			/*
@@ -356,11 +334,27 @@ public partial class ChronoJumpWindow
 
 			double force = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
 			*/
-			int pulse = Convert.ToInt32(strFull[0]);
-			int time = Convert.ToInt32(strFull[1]);
-			int force = Convert.ToInt32(strFull[2]);
-			writer.WriteLine(pulse.ToString() + ";" + time.ToString() + ";" + force.ToString());
+
+			string [] strFull = str.Split(new char[] {';'});
+			writer.WriteLine(string.Format("{0};{1};{2}",
+						Convert.ToInt32(strFull[0]), //pulse
+						Convert.ToInt32(strFull[1]), //time
+						Convert.ToInt32(strFull[2]) //force
+						));
 		}
+
+		LogB.Information("Processing last received line");
+		str = readFromRunEncoderIfDataArrived();
+		if(checkRunEncoderCaptureLineIsOk(str))
+		{
+			string [] strFull = str.Split(new char[] {';'});
+			writer.WriteLine(string.Format("{0};{1};{2}",
+						Convert.ToInt32(strFull[0]), //pulse
+						Convert.ToInt32(strFull[1]), //time
+						Convert.ToInt32(strFull[2]) //force
+						));
+		}
+
 		LogB.Information(string.Format("FINISHED WITH conditions: {0}-{1}-{2}",
 						runEncoderProcessFinish, runEncoderProcessCancel, runEncoderProcessError));
 		LogB.Information("Calling end_capture");
@@ -465,6 +459,36 @@ public partial class ChronoJumpWindow
 			//LogB.Information("PRE_get_calibrationfactor bytes: " + portRE.ReadExisting());
 
 		return str;
+	}
+
+	private bool checkRunEncoderCaptureLineIsOk(string str)
+	{
+		//LogB.Information("str: " + str); //TODO: remove this log
+		if(str == "")
+			return false;
+
+		//check if there is one and only one ';'
+		//if( ! (str.Contains(";") && str.IndexOf(";") == str.LastIndexOf(";")) )
+
+		string [] strFull = str.Split(new char[] {';'});
+		LogB.Information("captured str: " + str);
+
+		if(strFull.Length != 3)
+			return false;
+
+		LogB.Information("pulses: " + strFull[0]);
+		if(! Util.IsNumber(strFull[0], false))
+			return false;
+
+		LogB.Information("time microseconds: " + strFull[1]);
+		if(! Util.IsNumber(strFull[1], false))
+			return false;
+
+		LogB.Information("force avg (N): " + strFull[1]);
+		if(! Util.IsNumber(strFull[2], false))
+			return false;
+
+		return true;
 	}
 
 	private bool pulseGTKRunEncoderCapture ()

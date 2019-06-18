@@ -42,26 +42,35 @@ public class WebcamFfmpeg : Webcam
 		this.videoDeviceFramerate = videoDeviceFramerate;
 
 		if(action == Webcam.Action.CAPTURE)
-		{
-			executable = "ffmpeg";
-			if(os == UtilAll.OperatingSystems.WINDOWS)
-				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
-			if(os == UtilAll.OperatingSystems.MACOSX)
-				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg");
-		}
+			executable = GetExecutableCapture (os);
 		else // PLAYPREVIEW || PLAYFILE
-		{
-			executable = "ffplay";
-			if(os == UtilAll.OperatingSystems.WINDOWS)
-				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay.exe");
-			if(os == UtilAll.OperatingSystems.MACOSX)
-				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay");
-		}
+			executable = GetExecutablePlay (os);
 
 		Running = false;
 	}
 
 	// public methods ----------------------------------
+
+	public static string GetExecutableCapture(UtilAll.OperatingSystems os)
+	{
+		string e = "ffmpeg";
+		if(os == UtilAll.OperatingSystems.WINDOWS)
+			e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
+		if(os == UtilAll.OperatingSystems.MACOSX)
+			e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg");
+
+		return e;
+	}
+	public static string GetExecutablePlay(UtilAll.OperatingSystems os)
+	{
+		string e = "ffplay";
+		if(os == UtilAll.OperatingSystems.WINDOWS)
+			e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay.exe");
+		if(os == UtilAll.OperatingSystems.MACOSX)
+			e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay");
+
+		return e;
+	}
 
 	public override Result CapturePrepare (CaptureTypes captureType)
 	{

@@ -3975,6 +3975,49 @@ Other</property>
                             <property name="position">4</property>
                           </packing>
                         </child>
+                        <child>
+                          <widget class="GtkHBox" id="hbox21">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="spacing">20</property>
+                            <child>
+                              <widget class="GtkButton" id="button_video_check_ffmpeg_ffplay_running">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <signal name="clicked" handler="on_button_video_check_ffmpeg_ffplay_running_clicked" swapped="no"/>
+                                <child>
+                                  <widget class="GtkLabel" id="label11">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Check if camera is running</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="label_video_check_ffmpeg_ffplay_running">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">5</property>
+                          </packing>
+                        </child>
                       </widget>
                       <packing>
                         <property name="position">1</property>

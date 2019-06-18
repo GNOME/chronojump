@@ -93,7 +93,8 @@ src/gui/session.cs
 src/gui/splash.cs
 src/gui/sprint.cs
 src/gui/stats.cs
-src/json.cs
+src/json/compujump.cs
+src/json/json.cs
 src/jumpsProfile.cs
 src/jumpType.cs
 src/Mini/chronojump_mini.cs

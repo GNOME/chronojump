@@ -102,8 +102,10 @@ void loop() {
       //force = readOffsettedData(0);
       //total += force;
       nReadings++;
+
+      //If some string comes from Serial process the sample
       if (Serial.available() > 0) {
-        changingTime = micros();
+        sampleTime = micros();
         lastEncoderDisplacement = encoderDisplacement;
         encoderDisplacement = 0;
         procesSample = true;

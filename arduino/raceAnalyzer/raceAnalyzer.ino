@@ -26,7 +26,7 @@ int offsetAddress = 2;
 float calibrationFactor = 0.140142;
 int calibrationAddress = 4;
 
-float metersPerPulse = 0.0033569564;
+float metersPerPulse = 0.003003;
 int metersPerPulseAddress = 8;
 
 //Wether the sensor has to capture or not
@@ -38,10 +38,17 @@ boolean procesSample = false;
 //wether the tranmission is in binary format or not
 boolean binaryFormat = false;
 
+//baud rate of the serial communication
+unsigned long baudRate = 1000000;
+
 void setup() {
+
   pinMode (encoderPinA, INPUT);
   pinMode (encoderPinB, INPUT);
-  Serial.begin (115200);
+  Serial.begin (baudRate);
+  Serial.print("Initial setup: Baud rate : ");
+  Serial.println(baudRate);
+
   Wire.setClock(1000000);
 
   EEPROM.get(ppsAddress, pps);
@@ -200,6 +207,10 @@ void serialEvent()
     set_offset(inputString);
   } else if (commandString == "get_mpp") {
     get_mpp();
+  } else if (commandString == "get_baud_rate") {
+    get_baud_rate();
+  } else if (commandString == "set_baud_rate") {
+    set_baud_rate(inputString);
   } else {
     Serial.println("Not a valid command");
   }
@@ -383,4 +394,26 @@ void get_calibration_factor(void)
 void get_mpp(void)
 {
   Serial.println(metersPerPulse, 8);
+}
+
+void get_baud_rate(void)
+{
+  Serial.println(baudRate);
+}
+
+void set_baud_rate(String inputString)
+{
+  String baudRateString = get_command_argument(inputString);
+  baudRate = baudRateString.toInt();
+  //Serial.end();
+  Serial.print("InpuptString = ");
+  Serial.println(baudRateString);
+  Serial.print("Going to change the baud rate ");
+  Serial.println(baudRate);
+  Serial.flush();
+  Serial.begin(baudRate);
+  Serial.flush();
+  delay(10000);
+  Serial.print("Setting baud rate to ");
+  Serial.println(baudRate);
 }

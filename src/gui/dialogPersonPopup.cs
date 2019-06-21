@@ -53,9 +53,10 @@ public class DialogPersonPopup
 	public Button Fake_button_person_autologout_changed;
 	public bool Visible;
 	public bool Autologout;
+	private bool compujumpDjango;
 
 	public DialogPersonPopup (int personID, string name, string rfid,
-			List<Task> tasks, List<StationCount> stationsCount, bool serverConnected, bool Autologout)
+			List<Task> tasks, List<StationCount> stationsCount, bool serverConnected, bool Autologout, bool compujumpDjango)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_person_popup.glade", "dialog_person_popup", null);
@@ -66,6 +67,7 @@ public class DialogPersonPopup
 
 		Visible = true;
 		this.Autologout = Autologout;
+		this.compujumpDjango = compujumpDjango;
 
 		//1) Show top of the window widgets
 		label_name.Text = "<b>" + name + "</b>";
@@ -252,7 +254,7 @@ public class DialogPersonPopup
 			{
 				LogB.Information("Clicked button done: " + count.ToString());
 
-				JsonCompujump json = new JsonCompujump();
+				JsonCompujump json = new JsonCompujump(compujumpDjango);
 				json.UpdateTask(list_buttons_done_id[count], 1);
 
 				//button.Sensitive = false;

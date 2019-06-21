@@ -4938,7 +4938,7 @@ public partial class ChronoJumpWindow
 				sprint.Positions, sprint.GetSplitTimesAsList(),
 				k, vmax, amax, fmax, pmax);
 
-		JsonCompujump js = new JsonCompujump();
+		JsonCompujump js = new JsonCompujump(configChronojump.CompujumpDjango);
 		if( ! js.UploadSprintData(usdo) )
 		{
 			LogB.Error(js.ResultMessage);

@@ -60,6 +60,10 @@ SessionMode=MONTHLY
 
 #Use Compujump
 Compujump=TRUE
+
+#if is Django uncomment this line:
+CompujumpDjango=TRUE
+
 CompujumpServerURL=http://127.0.0.1:8080
 CompujumpStationID=1
 

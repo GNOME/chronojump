@@ -38,8 +38,9 @@ public class Config
 	public bool EncoderAnalyzeHide;
 	public SessionModeEnum SessionMode;
 	public bool Compujump;
+	public bool CompujumpDjango;
 	public string CompujumpServerURL = "";
-	public int CompujumpOrganizationID = -1; //Django stations have OrganizationID 1 or more
+
 	public int CompujumpStationID = -1;
 	public int CompujumpAdminID = -1; //undefined
 	public string CompujumpAdminEmail = ""; //undefined
@@ -76,7 +77,6 @@ public class Config
 
 	public void Read()
 	{
-		string contents = Util.ReadFile(UtilAll.GetConfigFileName(), false);
 		if (contents != null && contents != "") 
 		{
 			string line;
@@ -95,10 +95,10 @@ public class Config
 
 					if(parts[0] == "Compujump" && Util.StringToBool(parts[1]))
 						Compujump = true;
+					else if(parts[0] == "CompujumpDjango" && Util.StringToBool(parts[1]))
+						CompujumpDjango = true;
 					else if(parts[0] == "CompujumpServerURL" && parts[1] != "")
 						CompujumpServerURL = parts[1];
-					else if(parts[0] == "CompujumpOrganizationID" && parts[1] != "" && Util.IsNumber(parts[1], false))
-						CompujumpOrganizationID = Convert.ToInt32(parts[1]);
 					else if(parts[0] == "CompujumpStationID" && parts[1] != "" && Util.IsNumber(parts[1], false))
 						CompujumpStationID = Convert.ToInt32(parts[1]);
 					else if(parts[0] == "CompujumpAdminID" && parts[1] != "" && Util.IsNumber(parts[1], false))

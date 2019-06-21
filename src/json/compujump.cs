@@ -31,8 +31,12 @@ using Mono.Unix;
 
 public class JsonCompujump : Json
 {
-	public JsonCompujump()
+	private bool django;
+
+	public JsonCompujump(bool django)
 	{
+		this.django = django;
+
 		ResultMessage = "";
 	}
 
@@ -53,6 +57,7 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
+
 		json.Add("rfid", rfid);
 		
 		// Converts it to a String
@@ -129,7 +134,11 @@ public class JsonCompujump : Json
 	private string getImagesUrl()
 	{
 		int posOfLastColon = serverUrl.LastIndexOf(':');
-		return serverUrl.Substring(0, posOfLastColon) + ":5000/static/images/photos/";
+
+		if(django)
+			return serverUrl.Substring(0, posOfLastColon) + ":8000/media/";
+		else
+			return serverUrl.Substring(0, posOfLastColon) + ":5000/static/images/photos/";
 	}
 
 	//imageHalfUrl is "jugadors/*.jpg"
@@ -168,6 +177,7 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
+
 		json.Add("personId", personID.ToString());
 		json.Add("stationId", stationID.ToString());
 
@@ -248,7 +258,6 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-
 		json.Add("taskId", taskId);
 		json.Add("done", done);
 
@@ -515,7 +524,6 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-
 		json.Add("personId", o.personId);
 		json.Add("distances", o.sprintPositions);
 		json.Add("t1", o.splitTimesL[1]);
@@ -593,7 +601,6 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-
 		json.Add("personId", o.personId);
 		json.Add("stationId", o.stationId);
 		//json.Add("exerciseName", exerciseName);

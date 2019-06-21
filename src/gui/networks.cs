@@ -578,7 +578,7 @@ public partial class ChronoJumpWindow
 
 		bool currentPersonWasNull = (currentPerson == null);
 		bool pChangedShowTasks = false;
-		JsonCompujump json = new JsonCompujump();
+		JsonCompujump json = new JsonCompujump(configChronojump.CompujumpDjango);
 
 		//select person by RFID
 		Person pLocal = SqlitePerson.SelectByRFID(capturedRFID);
@@ -776,7 +776,7 @@ public partial class ChronoJumpWindow
 	private void getTasksExercisesAndPopup()
 	{
 		//1) get tasks
-		JsonCompujump json = new JsonCompujump();
+		JsonCompujump json = new JsonCompujump(configChronojump.CompujumpDjango);
 		List<Task> tasks = json.GetTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
 
 		//2) get exercises and insert if needed (only on encoder)
@@ -823,7 +823,8 @@ public partial class ChronoJumpWindow
 
 		dialogPersonPopup = new DialogPersonPopup(
 				currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks, stationsCount,
-				serverConnected, compujumpAutologout.Active);
+				serverConnected, compujumpAutologout.Active,
+				configChronojump.CompujumpDjango);
 
 		dialogPersonPopup.Fake_button_start_task.Clicked -= new EventHandler(compujumpTaskStart);
 		dialogPersonPopup.Fake_button_start_task.Clicked += new EventHandler(compujumpTaskStart);

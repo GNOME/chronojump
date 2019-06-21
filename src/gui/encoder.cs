@@ -7000,7 +7000,7 @@ public partial class ChronoJumpWindow
 							 */
 
 							LogB.Information("calling Upload");
-							JsonCompujump js = new JsonCompujump();
+							JsonCompujump js = new JsonCompujump(configChronojump.CompujumpDjango);
 							UploadEncoderDataFullObject uedfo = new UploadEncoderDataFullObject(
 									-1, //uniqueID
 									currentPerson.UniqueID,

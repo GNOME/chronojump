@@ -545,10 +545,20 @@ public class JsonCompujump : Json
 			json.Add("t4", "");
 
 		json.Add("k", o.k);
-		json.Add("vmax", o.vmax);
-		json.Add("amax", o.amax);
-		json.Add("fmax", o.fmax);
-		json.Add("pmax", o.pmax);
+
+		//at django upload this as strings with '.' as decimal separator
+		if(django)
+		{
+			json.Add("vmax", Util.ConvertToPoint(o.vmax));
+			json.Add("amax", Util.ConvertToPoint(o.amax));
+			json.Add("fmax", Util.ConvertToPoint(o.fmax));
+			json.Add("pmax", Util.ConvertToPoint(o.pmax));
+		} else {
+			json.Add("vmax", o.vmax);
+			json.Add("amax", o.amax);
+			json.Add("fmax", o.fmax);
+			json.Add("pmax", o.pmax);
+		}
 
 		// Converts it to a String
 		String js = json.ToString();

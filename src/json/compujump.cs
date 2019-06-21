@@ -544,16 +544,16 @@ public class JsonCompujump : Json
 		else
 			json.Add("t4", "");
 
-		json.Add("k", o.k);
-
 		//at django upload this as strings with '.' as decimal separator
 		if(django)
 		{
+			json.Add("k", Util.ConvertToPoint(o.k));
 			json.Add("vmax", Util.ConvertToPoint(o.vmax));
 			json.Add("amax", Util.ConvertToPoint(o.amax));
 			json.Add("fmax", Util.ConvertToPoint(o.fmax));
 			json.Add("pmax", Util.ConvertToPoint(o.pmax));
 		} else {
+			json.Add("k", o.k);
 			json.Add("vmax", o.vmax);
 			json.Add("amax", o.amax);
 			json.Add("fmax", o.fmax);

@@ -77,6 +77,7 @@ public class Config
 
 	public void Read()
 	{
+		string contents = Util.ReadFile(UtilAll.GetConfigFileName(), false);
 		if (contents != null && contents != "") 
 		{
 			string line;

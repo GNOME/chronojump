@@ -4921,7 +4921,8 @@ public partial class ChronoJumpWindow
 				return;
 		}
 
-		//"";"Mass";"Height";"Temperature";"Vw";"Ka";"K.fitted";"Vmax.fitted";"amax.fitted";"fmax.fitted";"fmax.rel.fitted";"sfv.fitted";"sfv.rel.fitted";"pmax.fitted";"pmax.rel.fitted";"tpmax.fitted";"F0";"F0.rel";"V0";"sfv.lm";"sfv.rel.lm";"pmax.lm";"pmax.rel.lm"
+		//"";"Mass";"Height";"Temperature";"Vw";"Ka";"K.fitted";"Vmax.fitted";"amax.fitted";"fmax.fitted";"fmax.rel.fitted";"sfv.fitted";"sfv.rel.fitted";"sfv.lm";"sfv.rel.lm";"pmax.fitted";"pmax.rel.fitted";"tpmax.fitted";"F0";"F0.rel";"V0";"pmax.lm";"pmax.rel.lm"
+
 		string [] results = line.Split(new char[] {';'});
 		if(results.Length < 14)
 			return;
@@ -4930,7 +4931,7 @@ public partial class ChronoJumpWindow
 		double vmax = Convert.ToDouble(Util.ChangeDecimalSeparator(results[7])); //Vmax.fitted
 		double amax = Convert.ToDouble(Util.ChangeDecimalSeparator(results[8])); //amax.fitted
 		double fmax = Convert.ToDouble(Util.ChangeDecimalSeparator(results[10])); //fmax.rel.fitted
-		double pmax = Convert.ToDouble(Util.ChangeDecimalSeparator(results[14])); //pmax.rel.fitted
+		double pmax = Convert.ToDouble(Util.ChangeDecimalSeparator(results[16])); //pmax.rel.fitted
 
 		UploadSprintDataObject usdo = new UploadSprintDataObject(
 				-1, //uniqueID

@@ -404,6 +404,25 @@ class ExecuteProcess
 		return false;
 	}
 
+	public static bool KillExternalProcess (string executableName)
+	{
+		LogB.Information("searching processes with name: " + executableName);
+		Process[] proc = Process.GetProcessesByName(
+				Path.GetFileNameWithoutExtension(executableName));
+		try {
+			foreach(Process p in proc)
+			{
+				LogB.Information("trying to kill ...");
+				p.Kill();
+				LogB.Information("killed");
+			}
+		} catch {
+			LogB.Information("catched");
+			return false;
+		}
+		return true;
+	}
+
 	public static bool CallR(string script)
 	{
 		string executable = UtilEncoder.RProcessBinURL();

@@ -203,7 +203,8 @@ public class PreferencesWindow
 	public Gtk.Button FakeButtonDebugModeStart;
 	
 	static PreferencesWindow PreferencesWindowBox;
-	
+
+	private UtilAll.OperatingSystems operatingSystem;
 	private Preferences preferences; //stored to update SQL if anything changed
 	private Thread thread;
 
@@ -235,12 +236,15 @@ public class PreferencesWindow
 		FakeButtonDebugModeStart = new Gtk.Button();
 	}
 
-	static public PreferencesWindow Show (Preferences preferences,
+	static public PreferencesWindow Show (
+			Preferences preferences,
 			Constants.Menuitem_modes menu_mode, bool compujump, string progVersion)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
 		}
+
+		PreferencesWindowBox.operatingSystem = UtilAll.GetOSEnum();
 
 		if(compujump)
 		{
@@ -808,9 +812,9 @@ public class PreferencesWindow
 
 		WebcamFfmpegSupportedModes wfsm;
 
-		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+		if(operatingSystem == UtilAll.OperatingSystems.LINUX)
                         wfsm = new WebcamFfmpegSupportedModesLinux();
-                else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.WINDOWS)
+                else if(operatingSystem == UtilAll.OperatingSystems.WINDOWS)
                         wfsm = new WebcamFfmpegSupportedModesWindows(cameraCode);
                 else
                         wfsm = new WebcamFfmpegSupportedModesMac(cameraCode);
@@ -872,18 +876,17 @@ public class PreferencesWindow
 		button_video_ffmpeg_kill.Visible = false;
 		button_video_ffplay_kill.Visible = false;
 
-		UtilAll.OperatingSystems os = UtilAll.GetOSEnum();
 		bool runningFfmpeg = false;
 		bool runningFfplay = false;
 
-		if(ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutableCapture(os)))
+		if(ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutableCapture(operatingSystem)))
 		{
 			runningFfmpeg = true;
 			label_video_check_ffmpeg_running.Text = "Running";
 			button_video_ffmpeg_kill.Visible = true;
 		}
 
-		if(ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutablePlay(os)))
+		if(ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutablePlay(operatingSystem)))
 		{
 			runningFfplay = true;
 			label_video_check_ffplay_running.Text = "Running";
@@ -895,11 +898,25 @@ public class PreferencesWindow
 
 	private void on_button_video_ffmpeg_kill_clicked (object o, EventArgs args)
 	{
-		new DialogMessage(Constants.MessageTypes.INFO, "TODO");
+		if(ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutableCapture(operatingSystem)))
+		{
+			new DialogMessage(Constants.MessageTypes.INFO, "Killed camera process");
+			label_video_check_ffmpeg_running.Text = "Not running";
+			button_video_ffmpeg_kill.Visible = false;
+		}
+		else
+			new DialogMessage(Constants.MessageTypes.WARNING, "Cannot kill camera process");
 	}
 	private void on_button_video_ffplay_kill_clicked (object o, EventArgs args)
 	{
-		new DialogMessage(Constants.MessageTypes.INFO, "TODO");
+		if(ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutablePlay(operatingSystem)))
+		{
+			new DialogMessage(Constants.MessageTypes.INFO, "Killed play process");
+			label_video_check_ffplay_running.Text = "Not running";
+			button_video_ffplay_kill.Visible = false;
+		}
+		else
+			new DialogMessage(Constants.MessageTypes.WARNING, "Cannot kill play process");
 	}
 
 	// ---- end of multimedia stuff

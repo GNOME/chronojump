@@ -2203,6 +2203,10 @@ public partial class ChronoJumpWindow
 			currentEventExecute.Cancel = true;
 			LogB.Information("Done!");
 
+			LogB.Information("Closing camera if opened...");
+			ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutableCapture(UtilAll.GetOSEnum()));
+			LogB.Information("Done!");
+
 			//do not need this, above cancelling is enough
 			//currentEventExecute.ThreadAbort();
 		}

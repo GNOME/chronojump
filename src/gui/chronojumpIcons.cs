@@ -382,10 +382,10 @@ public partial class ChronoJumpWindow
 		image_encoder_calibrate.Pixbuf = pixbuf;
 		image_encoder_recalibrate.Pixbuf = pixbuf;
 
-		image_video_yes.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
-		image_video_encoder_yes.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_start_camera.png");
-		image_video_no.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_end_camera.png");
-		image_video_encoder_no.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_end_camera.png");
+		image_video_yes.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_on.png");
+		image_video_encoder_yes.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_on.png");
+		image_video_no.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_off.png");
+		image_video_encoder_no.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_off.png");
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_preview.png");
 		image_video_preview.Pixbuf = pixbuf;

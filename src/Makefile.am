@@ -396,6 +396,9 @@ RESOURCES = \
 	../images/md/baseline_photo_camera_end_blue_24dp.png,image_photo_end_camera.png \
 	../images/md/baseline_photo_camera_do_red_24dp.png,image_photo_do.png \
 	../images/md/baseline_photo_camera_preview_blue_24dp.png,image_photo_preview.png \
+	../images/md/ic_audio_blue_24dp_1x.png,audio.png \
+	../images/md/ic_videocam_blue_24dp_1x.png,videocamera_on.png \
+	../images/md/ic_videocam_off_blue_24dp_1x.png,videocamera_off.png \
 	../images/md/baseline_play_arrow_blue_24dp.png,video_play.png \
 	../images/md/ic_home_blue_24dp_1x.png,image_home.png \
 	../images/md/ic_import_1x.png,import.png \

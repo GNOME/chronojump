@@ -161,6 +161,8 @@ public class PreferencesWindow
 	[Widget] Gtk.ComboBox combo_camera_framerate;
 	[Widget] Gtk.Label label_no_cameras;
 	[Widget] Gtk.Label label_webcam_windows;
+	[Widget] Gtk.Image image_multimedia_audio;
+	[Widget] Gtk.Image image_multimedia_video;
 	[Widget] Gtk.Image image_video_preview;
 	[Widget] Gtk.CheckButton check_camera_stop_after;
 	[Widget] Gtk.VBox vbox_camera_stop_after_all;
@@ -329,6 +331,10 @@ public class PreferencesWindow
 		wd_list = UtilMultimedia.GetVideoDevices();
 		PreferencesWindowBox.createComboCamera(preferences.videoDevice, preferences.videoDeviceResolution, preferences.videoDeviceFramerate);
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio.png");
+		PreferencesWindowBox.image_multimedia_audio.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_on.png");
+		PreferencesWindowBox.image_multimedia_video.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_preview.png");
 		PreferencesWindowBox.image_video_preview.Pixbuf = pixbuf;
 

@@ -172,6 +172,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Label label_video_check_ffplay_running;
 	[Widget] Gtk.Button button_video_ffmpeg_kill;
 	[Widget] Gtk.Button button_video_ffplay_kill;
+	[Widget] Gtk.Label label_camera_feedback;
 
 	//language tab
 	[Widget] Gtk.Box hbox_combo_language;
@@ -875,6 +876,7 @@ public class PreferencesWindow
 		label_video_check_ffplay_running.Text = "Not running";
 		button_video_ffmpeg_kill.Visible = false;
 		button_video_ffplay_kill.Visible = false;
+		label_camera_feedback.Text = "";
 
 		bool runningFfmpeg = false;
 		bool runningFfplay = false;
@@ -900,23 +902,23 @@ public class PreferencesWindow
 	{
 		if(ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutableCapture(operatingSystem)))
 		{
-			new DialogMessage(Constants.MessageTypes.INFO, "Killed camera process");
+			label_camera_feedback.Text = "Killed camera process";
 			label_video_check_ffmpeg_running.Text = "Not running";
 			button_video_ffmpeg_kill.Visible = false;
 		}
 		else
-			new DialogMessage(Constants.MessageTypes.WARNING, "Cannot kill camera process");
+			label_camera_feedback.Text = "Cannot kill camera process";
 	}
 	private void on_button_video_ffplay_kill_clicked (object o, EventArgs args)
 	{
 		if(ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutablePlay(operatingSystem)))
 		{
-			new DialogMessage(Constants.MessageTypes.INFO, "Killed play process");
+			label_camera_feedback.Text = "Killed play process";
 			label_video_check_ffplay_running.Text = "Not running";
 			button_video_ffplay_kill.Visible = false;
 		}
 		else
-			new DialogMessage(Constants.MessageTypes.WARNING, "Cannot kill play process");
+			label_camera_feedback.Text = "Cannot kill play process";
 	}
 
 	// ---- end of multimedia stuff

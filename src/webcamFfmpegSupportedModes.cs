@@ -86,6 +86,9 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 				);
 
 		bool foundAtLeastOne = false;
+
+		WebcamSupportedModesList wsmList = new WebcamSupportedModesList();
+		WebcamSupportedMode currentMode = null;
 		foreach(string l in lines)
 		{
 			LogB.Information("line: " + l);
@@ -96,18 +99,34 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 				continue;
 			}
 
-			if(l.Contains("Size: Discrete") && matchResolution(l) != "")
-				parsedAll += "\n" + matchResolution(l) + ": ";
+			string resolutionStr = matchResolution(l);
+			if(l.Contains("Size: Discrete") && resolutionStr != "")
+			{
+				parsedAll += "\n" + resolutionStr + ": ";
+
+				if(wsmList.ModeExist(resolutionStr))
+					currentMode = wsmList.GetMode(resolutionStr);
+				else {
+					currentMode = new WebcamSupportedMode(resolutionStr);
+					wsmList.Add(currentMode);
+				}
+			}
 
 			if(l.Contains("Interval: Discrete") && l.Contains("fps") && matchFPS(l) != "")
 			{
 				parsedAll += "\t" + matchFPS(l);
 				foundAtLeastOne = true;
+
+				if(currentMode != null)
+					currentMode.AddFramerate(matchFPS(l));
 			}
 		}
 
 		if(! foundAtLeastOne)
 			return "Not found any mode supported for your camera.";
+
+		wsmList.Sort();
+		LogB.Information("printing list:\n" + wsmList.ToString());
 
 		return parsedAll;
 	}
@@ -364,4 +383,146 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 [avfoundation @ 0x7f849a8be800]   1280x720@[23.999981 23.999981]fps
 [avfoundation @ 0x7f849a8be800]   1280x720@[14.999993 14.999993]fps
 0: Input/output error";
+}
+
+public class WebcamSupportedModesList
+{
+	List<WebcamSupportedMode> l;
+	public WebcamSupportedModesList ()
+	{
+		l = new List<WebcamSupportedMode>();
+	}
+
+	public bool ModeExist (string resolutionStr)
+	{
+		WebcamSupportedMode wsmNew = new WebcamSupportedMode(resolutionStr);
+		foreach (WebcamSupportedMode wsm in l)
+			if(wsm.ResolutionWidth == wsmNew.ResolutionWidth &&
+					wsm.ResolutionHeight == wsmNew.ResolutionHeight)
+				return true;
+
+		return false;
+	}
+
+	//used if ModeExist()
+	public WebcamSupportedMode GetMode (string resolutionStr)
+	{
+		WebcamSupportedMode wsmNew = new WebcamSupportedMode(resolutionStr);
+		foreach (WebcamSupportedMode wsm in l)
+			if(wsm.ResolutionWidth == wsmNew.ResolutionWidth &&
+					wsm.ResolutionHeight == wsmNew.ResolutionHeight)
+				return wsm;
+
+		return null;
+	}
+
+	public void Add (WebcamSupportedMode wsm)
+	{
+		l.Add(wsm);
+	}
+
+	public void Sort()
+	{
+		WebcamSupportedModeSort wsms = new WebcamSupportedModeSort();
+		l.Sort(wsms);
+	}
+
+	public override string ToString()
+	{
+		string str = "";
+		foreach(WebcamSupportedMode wsm in l)
+			str += wsm.ToString() + "\n";
+
+		return str;
+	}
+
+}
+
+//https://www.geeksforgeeks.org/how-to-sort-list-in-c-sharp-set-1/
+//example 2
+public class WebcamSupportedModeSort : IComparer<WebcamSupportedMode>
+{
+	public int Compare(WebcamSupportedMode x, WebcamSupportedMode y)
+	{
+		if(x == null || y == null)
+			return 0;
+
+		return (x.Size).CompareTo(y.Size);
+	}
+}
+public class WebcamSupportedModeSortFramerates : IComparer<string>
+{
+	public int Compare(string x, string y)
+	{
+		if(x == null || y == null)
+			return 0;
+
+		return Convert.ToDouble(Util.ChangeDecimalSeparator(x)).CompareTo(Convert.ToDouble(Util.ChangeDecimalSeparator(y)));
+	}
+}
+
+public class WebcamSupportedMode
+{
+	int resolutionWidth;
+	int resolutionHeight;
+	List<string> framerates;
+
+	public WebcamSupportedMode (string resolutionStr)
+	{
+		string [] strFull = resolutionStr.Split(new char[] {'x'});
+		if(strFull.Length == 2)
+		{
+			this.resolutionWidth = Convert.ToInt32(strFull[0]);
+			this.resolutionHeight = Convert.ToInt32(strFull[1]);
+		}
+		framerates = new List<string>();
+	}
+
+	public void AddFramerate (string f)
+	{
+		framerates.Add(f);
+	}
+
+	public override string ToString()
+	{
+		string str = string.Format("{0}x{1}: ", resolutionWidth, resolutionHeight);
+
+		/*
+		 * unsorted:
+		foreach (string framerate in framerates)
+			str += string.Format("\t{0}", framerate);
+		*/
+
+		//"\nSorting:";
+		WebcamSupportedModeSortFramerates wsmsf = new WebcamSupportedModeSortFramerates();
+		framerates.Sort(wsmsf);
+		foreach (string framerate in framerates)
+			str += string.Format("\t{0}", framerate);
+
+		return str;
+	}
+
+	public int CompareTo( WebcamSupportedMode that )
+	{
+		if ( that == null ) return 1;
+		if ( this.Size > that.Size) return 1;
+		if ( this.Size < that.Size) return -1;
+		return 0;
+	}
+
+	public int ResolutionWidth
+	{
+		get { return resolutionWidth; }
+	}
+	public int ResolutionHeight
+	{
+		get { return resolutionHeight; }
+	}
+
+	public int Size
+	{
+		get { return resolutionWidth * resolutionHeight; }
+	}
+
+	~WebcamSupportedMode() {}
 }

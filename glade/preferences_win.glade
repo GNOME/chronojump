@@ -3987,110 +3987,132 @@ Other</property>
                                 <property name="can_focus">False</property>
                                 <property name="left_padding">12</property>
                                 <child>
-                                  <widget class="GtkHBox" id="hbox21">
+                                  <widget class="GtkVBox" id="vbox33">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="border_width">8</property>
-                                    <property name="spacing">20</property>
                                     <child>
-                                      <widget class="GtkButton" id="button_video_check_ffmpeg_ffplay_running">
+                                      <widget class="GtkHBox" id="hbox21">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">True</property>
-                                        <signal name="clicked" handler="on_button_video_check_ffmpeg_ffplay_running_clicked" swapped="no"/>
-                                        <child>
-                                          <widget class="GtkLabel" id="label11">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">Check if camera is running</property>
-                                          </widget>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkTable" id="table_video_advanced_actions">
                                         <property name="can_focus">False</property>
-                                        <property name="n_rows">2</property>
-                                        <property name="n_columns">3</property>
-                                        <property name="column_spacing">12</property>
-                                        <property name="row_spacing">8</property>
+                                        <property name="border_width">8</property>
+                                        <property name="spacing">20</property>
                                         <child>
-                                          <widget class="GtkLabel" id="label90">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">Capture</property>
-                                          </widget>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkLabel" id="label91">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">Play</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkLabel" id="label_video_check_ffmpeg_running">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkLabel" id="label_video_check_ffplay_running">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                            <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkButton" id="button_video_ffmpeg_kill">
-                                            <property name="label" translatable="yes">Force stop</property>
+                                          <widget class="GtkButton" id="button_video_check_ffmpeg_ffplay_running">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
-                                            <signal name="clicked" handler="on_button_video_ffmpeg_kill_clicked" swapped="no"/>
+                                            <signal name="clicked" handler="on_button_video_check_ffmpeg_ffplay_running_clicked" swapped="no"/>
+                                            <child>
+                                              <widget class="GtkLabel" id="label11">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label" translatable="yes">Check if camera is running</property>
+                                              </widget>
+                                            </child>
                                           </widget>
                                           <packing>
-                                            <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkButton" id="button_video_ffplay_kill">
-                                            <property name="label" translatable="yes">Force stop</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <signal name="clicked" handler="on_button_video_ffplay_kill_clicked" swapped="no"/>
+                                          <widget class="GtkTable" id="table_video_advanced_actions">
+                                            <property name="can_focus">False</property>
+                                            <property name="n_rows">2</property>
+                                            <property name="n_columns">3</property>
+                                            <property name="column_spacing">12</property>
+                                            <property name="row_spacing">8</property>
+                                            <child>
+                                              <widget class="GtkLabel" id="label90">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label" translatable="yes">Capture</property>
+                                              </widget>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label91">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label" translatable="yes">Play</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="top_attach">1</property>
+                                                <property name="bottom_attach">2</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label_video_check_ffmpeg_running">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label_video_check_ffplay_running">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                                <property name="top_attach">1</property>
+                                                <property name="bottom_attach">2</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkButton" id="button_video_ffmpeg_kill">
+                                                <property name="label" translatable="yes">Force stop</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <signal name="clicked" handler="on_button_video_ffmpeg_kill_clicked" swapped="no"/>
+                                              </widget>
+                                              <packing>
+                                                <property name="left_attach">2</property>
+                                                <property name="right_attach">3</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkButton" id="button_video_ffplay_kill">
+                                                <property name="label" translatable="yes">Force stop</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <signal name="clicked" handler="on_button_video_ffplay_kill_clicked" swapped="no"/>
+                                              </widget>
+                                              <packing>
+                                                <property name="left_attach">2</property>
+                                                <property name="right_attach">3</property>
+                                                <property name="top_attach">1</property>
+                                                <property name="bottom_attach">2</property>
+                                              </packing>
+                                            </child>
                                           </widget>
                                           <packing>
-                                            <property name="left_attach">2</property>
-                                            <property name="right_attach">3</property>
-                                            <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
+                                            <property name="expand">True</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">1</property>
                                           </packing>
                                         </child>
                                       </widget>
                                       <packing>
                                         <property name="expand">True</property>
-                                        <property name="fill">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="label_camera_feedback">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>

@@ -2196,6 +2196,17 @@ public partial class ChronoJumpWindow
 
 		updatingRestTimes = false;
 
+		//close contacts capture
+		if(currentEventExecute != null && currentEventExecute.IsThreadRunning())
+		{
+			LogB.Information("Closing contacts capture thread...");
+			currentEventExecute.Cancel = true;
+			LogB.Information("Done!");
+
+			//do not need this, above cancelling is enough
+			//currentEventExecute.ThreadAbort();
+		}
+
 		if(threadRFID != null && threadRFID.IsAlive)
 		{
 			LogB.Information("Closing threadRFID");

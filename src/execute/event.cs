@@ -245,6 +245,14 @@ public class EventExecute
 		return true;
 	}
 
+	//used on Chronojump exit (if user wants to close program while it is capturing
+	public bool IsThreadRunning() {
+		if (thread != null && thread.IsAlive)
+			return true;
+
+		return false;
+	}
+
 	public void ThreadAbort() {
 		thread.Abort();
 	}

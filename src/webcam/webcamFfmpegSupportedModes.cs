@@ -74,7 +74,7 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 	//TODO: have a class that sorts resolutions and framerates
 	protected override string parseSupportedModes(string allOutput)
 	{
-		string parsedAll = "Resolution:\tFramerate";
+		string parsedAll = "";
 
 		/*
 		 * break the big string in \n strings
@@ -86,6 +86,7 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 				);
 
 		bool foundAtLeastOne = false;
+		string currentPixelFormat = "";
 
 		WebcamSupportedModesList wsmList = new WebcamSupportedModesList();
 		WebcamSupportedMode currentMode = null;
@@ -95,15 +96,21 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 
 			if(l.Contains("Pixel Format:"))
 			{
-				parsedAll += "\n\n" + l + "\n";
+				//if we have a list of a previous Pixel Format, print it now
+				if(wsmList.HasRecords ())
+				{
+					parsedAll += printModesList(wsmList, currentPixelFormat);
+					//empty list
+					wsmList = new WebcamSupportedModesList();
+				}
+
+				currentPixelFormat = l;
 				continue;
 			}
 
 			string resolutionStr = matchResolution(l);
 			if(l.Contains("Size: Discrete") && resolutionStr != "")
 			{
-				parsedAll += "\n" + resolutionStr + ": ";
-
 				if(wsmList.ModeExist(resolutionStr))
 					currentMode = wsmList.GetMode(resolutionStr);
 				else {
@@ -114,7 +121,6 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 
 			if(l.Contains("Interval: Discrete") && l.Contains("fps") && matchFPS(l) != "")
 			{
-				parsedAll += "\t" + matchFPS(l);
 				foundAtLeastOne = true;
 
 				if(currentMode != null)
@@ -125,10 +131,16 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 		if(! foundAtLeastOne)
 			return "Not found any mode supported for your camera.";
 
-		wsmList.Sort();
-		LogB.Information("printing list:\n" + wsmList.ToString());
+		parsedAll += printModesList(wsmList, currentPixelFormat);
 
 		return parsedAll;
+	}
+
+	private string printModesList (WebcamSupportedModesList wsmList, string currentPixelFormat)
+	{
+		wsmList.Sort();
+
+		return "\n" + currentPixelFormat + "\nResolution:\tFramerates\n" + wsmList.ToString();
 	}
 
 	private string matchResolution(string l)
@@ -419,6 +431,11 @@ public class WebcamSupportedModesList
 	public void Add (WebcamSupportedMode wsm)
 	{
 		l.Add(wsm);
+	}
+
+	public bool HasRecords ()
+	{
+		return (l.Count > 0);
 	}
 
 	public void Sort()

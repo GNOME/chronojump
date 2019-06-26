@@ -266,6 +266,8 @@ pixel_format=uyyv422  min s=320x240 fps=5 max s=320x240 fps=30";
 
 public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 {
+	private WebcamSupportedModesList wsmList;
+
 	public WebcamFfmpegSupportedModesMac(string cameraCode)
 	{
 		initialize();
@@ -274,8 +276,9 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 
 	public override void GetModes()
 	{
-		bool testParsing = false; //change it to true to test the parsing method
+		wsmList = new WebcamSupportedModesList();
 
+		bool testParsing = false; //change it to true to test the parsing method
 		if(testParsing)
 		{
 			modesStr = parseSupportedModes(parseSupportedModesTestString);
@@ -318,28 +321,24 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 				continue;
 			}
 
-			string parsedLine = parseSupportedMode(l);
-			if(parsedLine != "")
-			{
-				parsedAll += parsedLine + "\n";
-				foundAtLeastOne = true;
-			}
+			parseSupportedMode(l);
 
 			//after the list of video devices comes the list of audio devices, skip it
 			if(l.Contains("Input/output"))
 				break;
 		}
 
-		if(! foundAtLeastOne)
+		if(! wsmList.HasRecords ())
 			return "Not found any mode supported for your camera.";
 
-		return parsedAll;
+		wsmList.Sort();
+		return "Resolution\tFramerates\n" + wsmList.ToString();
 	}
 
-	private string parseSupportedMode(string l) //TODO: currently only for mac
+	private void parseSupportedMode(string l)
 	{
 		if(! l.Contains("avfoundation"))
-			return "";
+			return;
 
 		//parse this:
 		//	[avfoundation @ 0x7f849a8be800]   1280x720@[23.999981 23.999981]fps
@@ -355,9 +354,17 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 		LogB.Information("match group count is 5?", (match.Groups.Count == 5).ToString());
 		LogB.Information("match group count is -5?", (match.Groups.Count == -5).ToString());
 
-		return string.Format("{0}x{1}    {2}.{3}", //resolution    framerate
-				match.Groups[1].Value, match.Groups[2].Value,
-				match.Groups[3].Value, match.Groups[4].Value);
+		string resolutionStr = string.Format("{0}x{1}", match.Groups[1].Value, match.Groups[2].Value);
+		WebcamSupportedMode currentMode = null;
+		if(wsmList.ModeExist(resolutionStr))
+			currentMode = wsmList.GetMode(resolutionStr);
+		else {
+			currentMode = new WebcamSupportedMode(resolutionStr);
+			wsmList.Add(currentMode);
+		}
+
+		string framerate = string.Format("{0}.{1}", match.Groups[3].Value, match.Groups[4].Value);
+		currentMode.AddFramerate(framerate);
 	}
 
 	// test ParseSupportModes

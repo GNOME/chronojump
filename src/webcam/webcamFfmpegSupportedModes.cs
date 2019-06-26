@@ -140,7 +140,7 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 	{
 		wsmList.Sort();
 
-		return "\n" + currentPixelFormat + "\nResolution:\tFramerates\n" + wsmList.ToString();
+		return "\n" + currentPixelFormat + "\nResolution\tFramerates\n" + wsmList.ToString();
 	}
 
 	private string matchResolution(string l)
@@ -502,7 +502,7 @@ public class WebcamSupportedMode
 
 	public override string ToString()
 	{
-		string str = string.Format("{0}x{1}: ", resolutionWidth, resolutionHeight);
+		string str = string.Format("{0}x{1}", resolutionWidth, resolutionHeight);
 
 		/*
 		 * unsorted:

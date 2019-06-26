@@ -220,11 +220,11 @@ SOURCES = \
 	oldCodeNeedToDBConvert/sqlite/person.cs\
 	oldCodeNeedToDBConvert/sqlite/personSession.cs\
 	oldCodeNeedToDBConvert/sqlite/session.cs\
-	webcam.cs\
-	webcamFfmpeg.cs\
-	webcamFfmpegDevices.cs\
-	webcamFfmpegSupportedModes.cs\
-	webcamMplayer.cs
+	webcam/webcam.cs\
+	webcam/webcamFfmpeg.cs\
+	webcam/webcamFfmpegDevices.cs\
+	webcam/webcamFfmpegSupportedModes.cs\
+	webcam/webcamMplayer.cs
 
 RESOURCES = \
 	../glade/app1.glade \

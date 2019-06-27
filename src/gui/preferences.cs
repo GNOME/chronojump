@@ -820,11 +820,11 @@ public class PreferencesWindow
 		WebcamFfmpegSupportedModes wfsm;
 
 		if(operatingSystem == UtilAll.OperatingSystems.LINUX)
-                        wfsm = new WebcamFfmpegSupportedModesLinux();
-                else if(operatingSystem == UtilAll.OperatingSystems.WINDOWS)
-                        wfsm = new WebcamFfmpegSupportedModesWindows(cameraCode);
-                else
-                        wfsm = new WebcamFfmpegSupportedModesMac(cameraCode);
+			wfsm = new WebcamFfmpegSupportedModesLinux();
+		else if(operatingSystem == UtilAll.OperatingSystems.WINDOWS)
+			wfsm = new WebcamFfmpegSupportedModesWindows(cameraCode);
+		else
+			wfsm = new WebcamFfmpegSupportedModesMac(cameraCode);
 
 		wfsm.GetModes();
 

@@ -25,6 +25,7 @@ using System.Text.RegularExpressions; //Regex
 
 public abstract class WebcamFfmpegSupportedModes
 {
+	protected List<WebcamSupportedModesList> wsmListOfLists;
 	protected string modesStr;
 	protected string errorStr;
 	protected string cameraCode;
@@ -34,11 +35,32 @@ public abstract class WebcamFfmpegSupportedModes
 	//for mac and maybe windows, because in Linux it founds a default mode and it works
 	protected void initialize ()
 	{
+		wsmListOfLists = new List<WebcamSupportedModesList>();
 		modesStr = "";
 		errorStr = "";
 	}
 
 	protected abstract string parseSupportedModes(string allOutput);
+
+	protected string printListOfLists()
+	{
+		string nothingFound = "Not found any mode supported for your camera.";
+		string str = "";
+		string sep = "";
+		bool foundAtLeastOne = false;
+		foreach(WebcamSupportedModesList wsmList in wsmListOfLists)
+		{
+			str += sep + wsmList.PixelFormat + "\n";
+			sep = "\n";
+			str += wsmList.ToString();
+			foundAtLeastOne = true;
+		}
+
+		if(foundAtLeastOne)
+			return str;
+		else
+			return nothingFound;
+	}
 
 	public string ErrorStr
 	{
@@ -71,11 +93,8 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 		modesStr = parseSupportedModes(execute_result.stdout);
 	}
 
-	//TODO: have a class that sorts resolutions and framerates
 	protected override string parseSupportedModes(string allOutput)
 	{
-		string parsedAll = "";
-
 		/*
 		 * break the big string in \n strings
 		 * https://stackoverflow.com/a/1547483
@@ -85,31 +104,21 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 				StringSplitOptions.None
 				);
 
-		bool foundAtLeastOne = false;
-		string currentPixelFormat = "";
-
-		WebcamSupportedModesList wsmList = new WebcamSupportedModesList();
+		WebcamSupportedModesList wsmList = null;
 		WebcamSupportedMode currentMode = null;
 		foreach(string l in lines)
 		{
 			LogB.Information("line: " + l);
-
 			if(l.Contains("Pixel Format:"))
 			{
-				//if we have a list of a previous Pixel Format, print it now
-				if(wsmList.HasRecords ())
-				{
-					parsedAll += printModesList(wsmList, currentPixelFormat);
-					//empty list
-					wsmList = new WebcamSupportedModesList();
-				}
+				wsmList = new WebcamSupportedModesList(l);
+				wsmListOfLists.Add(wsmList);
 
-				currentPixelFormat = l;
 				continue;
 			}
 
 			string resolutionStr = matchResolution(l);
-			if(l.Contains("Size: Discrete") && resolutionStr != "")
+			if(wsmList != null && l.Contains("Size: Discrete") && resolutionStr != "")
 			{
 				if(wsmList.ModeExist(resolutionStr))
 					currentMode = wsmList.GetMode(resolutionStr);
@@ -121,26 +130,12 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 
 			if(l.Contains("Interval: Discrete") && l.Contains("fps") && matchFPS(l) != "")
 			{
-				foundAtLeastOne = true;
-
 				if(currentMode != null)
 					currentMode.AddFramerate(matchFPS(l));
 			}
 		}
 
-		if(! foundAtLeastOne)
-			return "Not found any mode supported for your camera.";
-
-		parsedAll += printModesList(wsmList, currentPixelFormat);
-
-		return parsedAll;
-	}
-
-	private string printModesList (WebcamSupportedModesList wsmList, string currentPixelFormat)
-	{
-		wsmList.Sort();
-
-		return "\n" + currentPixelFormat + "\n" + wsmList.ToString();
+		return printListOfLists();
 	}
 
 	private string matchResolution(string l)
@@ -180,8 +175,6 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 
 	public override void GetModes()
 	{
-		wsmList = new WebcamSupportedModesList();
-
 		bool testParsing = false; //change it to true to test the parsing method
 		if(testParsing)
 		{
@@ -221,6 +214,7 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 		 * break the big string in \n strings
 		 * https://stackoverflow.com/a/1547483
 		 */
+		string currentPixelFormat = "";
 		string[] lines = allOutput.Split(
 				new[] { Environment.NewLine },
 				StringSplitOptions.None
@@ -230,14 +224,20 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 		{
 			LogB.Information("line: " + l);
 			if(l.Contains("pixel_format="))
+			{
+				string pixelFormat = parsePixelFormat(l);
+				if(pixelFormat != currentPixelFormat)
+				{
+					wsmList = new WebcamSupportedModesList(pixelFormat);
+					wsmListOfLists.Add(wsmList);
+					currentPixelFormat = pixelFormat;
+				}
+
 				parseSupportedMode(l);
+			}
 		}
 
-		if(! wsmList.HasRecords ())
-			return "Not found any mode supported for your camera.";
-
-		wsmList.Sort();
-		return wsmList.ToString();
+		return printListOfLists();
 	}
 
 	private void parseSupportedMode(string l)
@@ -268,7 +268,16 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 		return;
 	}
 
-	// test ParseSupportModes
+	private string parsePixelFormat(string l)
+	{
+		Match match = Regex.Match(l, @"pixel_format=(\S+)\s+");
+		if(match.Groups.Count == 2)
+			return string.Format("{0}", match.Groups[1].Value);
+
+		return "";
+	}
+
+	// test ParseSupportModes (unsorted to check if sorts well)
 	private string parseSupportedModesTestString = @"
 pixel_format=uyyv422  min s=176x144 fps=5 max s=176x144 fps=30
 pixel_format=uyyv422  min s=160x120 fps=5 max s=160x120 fps=30
@@ -287,8 +296,6 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 
 	public override void GetModes()
 	{
-		wsmList = new WebcamSupportedModesList();
-
 		bool testParsing = false; //change it to true to test the parsing method
 		if(testParsing)
 		{
@@ -316,7 +323,9 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 				);
 
 		bool started = false;
-		bool foundAtLeastOne = false;
+		//on mac seems there is only one pixel format
+		wsmList = new WebcamSupportedModesList("");
+		wsmListOfLists.Add(wsmList);
 		foreach(string l in lines)
 		{
 			LogB.Information("line: " + l);
@@ -337,11 +346,7 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 				break;
 		}
 
-		if(! wsmList.HasRecords ())
-			return "Not found any mode supported for your camera.";
-
-		wsmList.Sort();
-		return wsmList.ToString();
+		return printListOfLists();
 	}
 
 	private void parseSupportedMode(string l)
@@ -416,6 +421,16 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 public class WebcamSupportedModesList
 {
 	List<WebcamSupportedMode> l;
+	string pixelFormat;
+
+	//new constructor, only linux at the moment
+	public WebcamSupportedModesList (string pixelFormat)
+	{
+		this.pixelFormat = pixelFormat;
+
+		l = new List<WebcamSupportedMode>();
+	}
+	//old constructor: win and mac now
 	public WebcamSupportedModesList ()
 	{
 		l = new List<WebcamSupportedMode>();
@@ -469,6 +484,12 @@ public class WebcamSupportedModesList
 		return str;
 	}
 
+	public string PixelFormat
+	{
+		get { return pixelFormat; }
+	}
+
+	~WebcamSupportedModesList() {}
 }
 
 //https://www.geeksforgeeks.org/how-to-sort-list-in-c-sharp-set-1/

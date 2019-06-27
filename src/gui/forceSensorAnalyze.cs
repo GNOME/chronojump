@@ -1009,8 +1009,8 @@ public partial class ChronoJumpWindow
 
 			fsAI.CalculateVariabilityAndAccuracy(hscaleLower, hscaleHigher, feedbackF, out variability, out feedbackDiff);
 
-			layout_force_ai_text.SetMarkup(string.Format("Variability: {0:0.#} N",
-						Math.Round(variability, 1) ));
+			layout_force_ai_text.SetMarkup(string.Format("Variability: {0:0.###} N",
+						Math.Round(variability, 3) ));
 
 			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 			force_sensor_ai_pixmap.DrawLayout (pen_black_force_ai,
@@ -1020,8 +1020,8 @@ public partial class ChronoJumpWindow
 			// 12) calculate and paint Accuracy (Feedback difference)
 			if(feedbackF > 0)
 			{
-				layout_force_ai_text.SetMarkup(string.Format("Error (Feedback): {0:0.#} N",
-							Math.Round(feedbackDiff, 1) ));
+				layout_force_ai_text.SetMarkup(string.Format("Error (Feedback): {0:0.###} N",
+							Math.Round(feedbackDiff, 3) ));
 
 				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 				force_sensor_ai_pixmap.DrawLayout (pen_black_force_ai,

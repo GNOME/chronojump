@@ -140,7 +140,7 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 	{
 		wsmList.Sort();
 
-		return "\n" + currentPixelFormat + "\nResolution\tFramerates\n" + wsmList.ToString();
+		return "\n" + currentPixelFormat + "\n" + wsmList.ToString();
 	}
 
 	private string matchResolution(string l)
@@ -170,6 +170,8 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 
 public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 {
+	private WebcamSupportedModesList wsmList;
+
 	public WebcamFfmpegSupportedModesWindows(string cameraCode)
 	{
 		initialize();
@@ -178,8 +180,9 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 
 	public override void GetModes()
 	{
-		bool testParsing = false; //change it to true to test the parsing method
+		wsmList = new WebcamSupportedModesList();
 
+		bool testParsing = false; //change it to true to test the parsing method
 		if(testParsing)
 		{
 			modesStr = parseSupportedModes(parseSupportedModesTestString);
@@ -214,8 +217,6 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 	//TODO: have a class that sorts resolutions and framerates
 	protected override string parseSupportedModes(string allOutput)
 	{
-		string parsedAll = "Resolution \tFramerate";
-
 		/*
 		 * break the big string in \n strings
 		 * https://stackoverflow.com/a/1547483
@@ -225,25 +226,21 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 				StringSplitOptions.None
 				);
 
-		bool foundAtLeastOne = false;
 		foreach(string l in lines)
 		{
 			LogB.Information("line: " + l);
-
-			if(l.Contains("pixel_format=") && matchResolutionAndFPS(l) != "")
-			{
-				parsedAll += "\n" + matchResolutionAndFPS(l);
-				foundAtLeastOne = true;
-			}
+			if(l.Contains("pixel_format="))
+				parseSupportedMode(l);
 		}
 
-		if(! foundAtLeastOne)
+		if(! wsmList.HasRecords ())
 			return "Not found any mode supported for your camera.";
 
-		return parsedAll;
+		wsmList.Sort();
+		return wsmList.ToString();
 	}
 
-	private string matchResolutionAndFPS(string l)
+	private void parseSupportedMode(string l)
 	{
 		//match this:
 		//pixel_format=yuyv422  min s=640x480 fps=5 max s=640x480 fps=30
@@ -252,15 +249,29 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 		LogB.Information("match group count is 4?", (match.Groups.Count == 4).ToString());
 
 		if(match.Groups.Count == 4)
-			return string.Format("{0}x{1} \t{2} fps", match.Groups[1].Value, match.Groups[2].Value, match.Groups[3].Value);
+		{
+			//return string.Format("{0}x{1} \t{2} fps", match.Groups[1].Value, match.Groups[2].Value, match.Groups[3].Value);
+			string resolutionStr = string.Format("{0}x{1}", match.Groups[1].Value, match.Groups[2].Value);
+			WebcamSupportedMode currentMode = null;
+			if(wsmList.ModeExist(resolutionStr))
+				currentMode = wsmList.GetMode(resolutionStr);
+			else {
+				currentMode = new WebcamSupportedMode(resolutionStr);
+				wsmList.Add(currentMode);
+			}
 
-		return "";
+			string framerate = string.Format("{0}", match.Groups[3].Value);
+
+			currentMode.AddFramerate(framerate);
+		}
+
+		return;
 	}
 
 	// test ParseSupportModes
 	private string parseSupportedModesTestString = @"
-pixel_format=uyyv422  min s=160x120 fps=5 max s=160x120 fps=30
 pixel_format=uyyv422  min s=176x144 fps=5 max s=176x144 fps=30
+pixel_format=uyyv422  min s=160x120 fps=5 max s=160x120 fps=30
 pixel_format=uyyv422  min s=320x240 fps=5 max s=320x240 fps=30";
 }
 
@@ -295,8 +306,6 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 
 	protected override string parseSupportedModes(string allOutput)
 	{
-		string parsedAll = "Resolution    Framerate\n";
-
 		/*
 		 * break the big string in \n strings
 		 * https://stackoverflow.com/a/1547483
@@ -332,7 +341,7 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 			return "Not found any mode supported for your camera.";
 
 		wsmList.Sort();
-		return "Resolution\tFramerates\n" + wsmList.ToString();
+		return wsmList.ToString();
 	}
 
 	private void parseSupportedMode(string l)
@@ -509,7 +518,7 @@ public class WebcamSupportedMode
 
 	public override string ToString()
 	{
-		string str = string.Format("{0}x{1}", resolutionWidth, resolutionHeight);
+		string str = string.Format("\nResolution: {0}x{1}\nFramerates: ", resolutionWidth, resolutionHeight);
 
 		/*
 		 * unsorted:
@@ -520,8 +529,12 @@ public class WebcamSupportedMode
 		//"\nSorting:";
 		WebcamSupportedModeSortFramerates wsmsf = new WebcamSupportedModeSortFramerates();
 		framerates.Sort(wsmsf);
+		string sepChar = "";
 		foreach (string framerate in framerates)
-			str += string.Format("\t{0}", framerate);
+		{
+			str += string.Format("{0}{1}", sepChar, framerate);
+			sepChar = "; ";
+		}
 
 		return str;
 	}

@@ -3195,7 +3195,7 @@ Other</property>
                 <property name="border_width">16</property>
                 <property name="spacing">20</property>
                 <child>
-                  <widget class="GtkNotebook" id="notebook1">
+                  <widget class="GtkNotebook" id="notebook_multimedia">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tab_hborder">10</property>

@@ -156,6 +156,10 @@ public partial class ChronoJumpWindow
 			viewport_chronopics.Sensitive = false;
 			button_activate_chronopics_encoder.Sensitive = false;
 
+			//do not allow camera controls
+			showWebcamCaptureContactsControls (false); //contacts
+			hbox_video_encoder.Visible = false;
+
 			if(configChronojump.CompujumpStationMode != Constants.Menuitem_modes.UNDEFINED)
 			{
 				//select_menuitem_mode_toggled(configChronojump.CompujumpStationMode);

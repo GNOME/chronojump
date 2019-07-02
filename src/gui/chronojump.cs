@@ -2726,7 +2726,7 @@ public partial class ChronoJumpWindow
 				currentSession, new Person(-1), 
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
 				preferences.digitsNumber, checkbutton_video,
-				preferences.videoDevice
+				preferences.videoDevice, configChronojump.Compujump
 				);
 		//-1 means we are adding a new person
 		//if we were modifying it will be it's uniqueID
@@ -2853,7 +2853,7 @@ public partial class ChronoJumpWindow
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, 
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
 				preferences.digitsNumber, checkbutton_video,
-				preferences.videoDevice
+				preferences.videoDevice, configChronojump.Compujump
 				); 
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}
@@ -3511,7 +3511,8 @@ public partial class ChronoJumpWindow
 	{
 		hbox_capture_phases_time.Visible = (m != Constants.Menuitem_modes.FORCESENSOR && m != Constants.Menuitem_modes.RUNSENCODER);
 
-		showWebcamCapture (m != Constants.Menuitem_modes.FORCESENSOR && m != Constants.Menuitem_modes.RUNSENCODER);
+		if(! configChronojump.Compujump)
+			showWebcamCaptureContactsControls (m != Constants.Menuitem_modes.FORCESENSOR && m != Constants.Menuitem_modes.RUNSENCODER);
 
 		menuitem_force_sensor_open_folder.Visible = (m == Constants.Menuitem_modes.FORCESENSOR);
 		menuitem_force_sensor_check_version.Visible = (m == Constants.Menuitem_modes.FORCESENSOR);

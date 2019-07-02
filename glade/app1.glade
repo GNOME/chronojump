@@ -1956,6 +1956,18 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -12752,7 +12764,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox8">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_jumps_zoom">
                                                             <property name="visible">True</property>
@@ -12854,7 +12866,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox139">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_jumps_result_help_power">
                                                             <property name="can_focus">True</property>
@@ -13064,7 +13076,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox84">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_jumps_zoom_rj">
                                                             <property name="visible">True</property>
@@ -13190,7 +13202,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox142">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_jumps_rj_result_help_power">
                                                             <property name="can_focus">True</property>
@@ -13417,7 +13429,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox7">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_runs_zoom">
                                                             <property name="visible">True</property>
@@ -13626,7 +13638,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox6">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_runs_interval_zoom">
                                                             <property name="visible">True</property>
@@ -14123,6 +14135,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox13">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_reaction_times_zoom">
                                                             <property name="visible">True</property>
@@ -14320,7 +14333,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox128">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_pulses_zoom">
                                                             <property name="visible">True</property>
@@ -14553,7 +14566,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox11">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_multi_chronopic_zoom">
                                                             <property name="visible">True</property>
@@ -21071,6 +21084,18 @@ Concentric</property>
                                                             <property name="bottom_attach">5</property>
                                                             <property name="x_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -28581,6 +28606,18 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

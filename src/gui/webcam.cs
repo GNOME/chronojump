@@ -56,7 +56,7 @@ public partial class ChronoJumpWindow
 
 	//should be visible on all contacts, but right now hide it on force sensor and runEncoder
 	//but we need database stuff first
-	public void showWebcamCapture (bool show)
+	public void showWebcamCaptureContactsControls (bool show)
 	{
 		vseparator_force_sensor_camera_space.Visible = false; //extra space before camera on force sensor
 		vbox_contacts_camera.Visible = show;

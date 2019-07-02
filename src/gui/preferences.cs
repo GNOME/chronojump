@@ -146,6 +146,7 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_sound_systemsounds;
 	[Widget] Gtk.HBox hbox_not_recommended_when_not_on_windows;
 	[Widget] Gtk.Label label_test_sound_result;
+	[Widget] Gtk.Notebook notebook_multimedia;
 	[Widget] Gtk.Box hbox_combo_camera;
 	[Widget] Gtk.ComboBox combo_camera;
 	[Widget] Gtk.HBox hbox_camera_resolution_framerate;
@@ -305,6 +306,10 @@ public class PreferencesWindow
 			PreferencesWindowBox.checkbutton_volume.Active = true; 
 		else 
 			PreferencesWindowBox.checkbutton_volume.Active = false; 
+
+		//hide video for compujump
+		if(compujump)
+			PreferencesWindowBox.notebook_multimedia.GetNthPage(1).Hide();
 
 		PreferencesWindowBox.label_no_cameras.Visible = false;
 

@@ -27,6 +27,8 @@ using System.Threading;
 
 public partial class ChronoJumpWindow 
 {
+	[Widget] Gtk.Notebook notebook_last_test_buttons;
+	[Widget] Gtk.ProgressBar progressbar_video_generating;
 	[Widget] Gtk.VSeparator vseparator_force_sensor_camera_space;
 	[Widget] Gtk.VBox vbox_contacts_camera;
 	[Widget] Gtk.CheckButton checkbutton_video;
@@ -154,6 +156,7 @@ public partial class ChronoJumpWindow
 	private enum statusEnum { NOT_STARTED, STARTING, FAILURE, SUCCESS };
 	static statusEnum webcamStartThreadBeforeTestStatus;
 	static Stopwatch swWebcamStart;
+	static Stopwatch swWebcamStop;
 
 	//Attention: no GTK here
 	private void webcamStartThreadBeforeTest()
@@ -339,14 +342,30 @@ public partial class ChronoJumpWindow
 				//call it later to be able to have some video on a short test like a jump.
 				LogB.Information(string.Format("Preparing to call webcamEndDo() in {0} s", preferences.videoStopAfter));
 
-				GLib.Timeout.Add(Convert.ToUInt32(preferences.videoStopAfter * 1000), new GLib.TimeoutHandler(webcamEndDo));
+				notebook_last_test_buttons.CurrentPage = 1;
+				progressbar_video_generating.Text = "Ending video";
+
+				//GLib.Timeout.Add(Convert.ToUInt32(preferences.videoStopAfter * 1000), new GLib.TimeoutHandler(webcamEndDo));
+				//do not done the above method because now we call webcamEndDo to update the progressbar, until preferences.videoStopAfter end
+				swWebcamStop = new Stopwatch();
+				swWebcamStop.Start();
+				GLib.Timeout.Add(50, new GLib.TimeoutHandler(webcamEndDo));
 			}
 		}
 	}
 
 	private bool webcamEndDo()
 	{
-		LogB.Information("Called webcamEndDo()");
+		if(swWebcamStop.Elapsed.TotalSeconds < preferences.videoStopAfter)
+		{
+			//progressbar_video_generating.Pulse();
+			progressbar_video_generating.Fraction = Util.DivideSafeFraction(swWebcamStop.Elapsed.TotalMilliseconds, preferences.videoStopAfter * 1000);
+			return true;
+		}
+
+		swWebcamStart.Stop();
+		progressbar_video_generating.Fraction = 1;
+		LogB.Information("Called webcamEndDo() ending the pulse");
 		Webcam.Result resultExit = webcamManage.ExitAndFinish (webcamEndParams.camera, webcamEndParams.sessionID,
 				webcamEndParams.testType, webcamEndParams.uniqueID, webcamEndParams.guiContactsEncoder);
 
@@ -359,6 +378,7 @@ public partial class ChronoJumpWindow
 		button_video_play_selected_test(current_menuitem_mode);
 
 		sensitiveGuiEventDone();
+		notebook_last_test_buttons.CurrentPage = 0;
 
 		return false; //do not call this Timeout routine again
 	}

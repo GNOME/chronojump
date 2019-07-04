@@ -40,6 +40,62 @@ public abstract class WebcamFfmpegSupportedModes
 		errorStr = "";
 	}
 
+	// start of: used to populated list on combos .....
+
+	public List<string> GetPixelFormats()
+	{
+		if(wsmListOfLists == null || wsmListOfLists.Count == 0)
+			return new List<string>();
+
+		List<string> pixelFormats = new List<string>();
+		foreach(WebcamSupportedModesList wsmList in wsmListOfLists)
+			pixelFormats.Add(wsmList.PixelFormat);
+
+		return pixelFormats;
+	}
+
+	public List<string> PopulateFirstList() //TODO: remove this
+	{
+		if(wsmListOfLists == null || wsmListOfLists.Count == 0)
+			return new List<string>();
+
+		//TODO: be able to choose the pixel format, not just use the first one
+		//return wsmList[0].ToStringList();
+		return wsmListOfLists[0].ResolutionsToStringList();
+	}
+
+	public List<string> PopulateListByPixelFormat(string pixelFormat)
+	{
+		if(pixelFormat == "")
+			return new List<string>();
+
+		return getListByPixelFormat(pixelFormat).ResolutionsToStringList();
+	}
+
+	public List<string> GetFramerates (string pixelFormat, string resolution)
+	{
+		if(pixelFormat == "")
+			return new List<string>();
+
+		WebcamSupportedModesList wsmList = getListByPixelFormat(pixelFormat);
+		WebcamSupportedMode wsm = wsmList.GetMode(resolution);
+		return wsm.FrameratesToStringList();
+	}
+
+	private WebcamSupportedModesList getListByPixelFormat(string pixelFormat)
+	{
+		if(pixelFormat == "" || wsmListOfLists == null || wsmListOfLists.Count == 0)
+			return new WebcamSupportedModesList();
+
+		foreach(WebcamSupportedModesList wsmList in wsmListOfLists)
+			if(wsmList.PixelFormat == pixelFormat)
+				return wsmList;
+
+		return new WebcamSupportedModesList();
+	}
+
+	// ... end of: used to populated list on combos
+
 	protected abstract string parseSupportedModes(string allOutput);
 
 	protected string printListOfLists()
@@ -111,7 +167,9 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 			LogB.Information("line: " + l);
 			if(l.Contains("Pixel Format:"))
 			{
-				wsmList = new WebcamSupportedModesList(l);
+				wsmList = new WebcamSupportedModesList(parsePixelFormat(l));
+
+
 				wsmListOfLists.Add(wsmList);
 
 				continue;
@@ -158,6 +216,34 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 
 		if(match.Groups.Count == 3)
 			return string.Format("{0}.{1}", match.Groups[1].Value, match.Groups[2].Value);
+
+		return "";
+	}
+
+	private string parsePixelFormat(string l)
+	{
+		/*
+		   Pixel Format: 'YUYV'
+		   Name        : YUYV 4:2:2
+		   has to be: yuyv422
+
+		   Pixel Format: 'MJPG' (compressed)
+		   Name        : Motion-JPEG
+		   has to be: mjpeg
+
+		   so we need to parse "Name" line or right now return yuyv422 or mjpeg
+		   */
+
+		Match match = Regex.Match(l, @"Pixel Format: '(\S+)'");
+		if(match.Groups.Count == 2)
+		{
+			if(match.Groups[1].Value == "YUYV")
+				return "yuyv422";
+			else if(match.Groups[1].Value == "MJPG")
+				return "mjpeg";
+			else
+				return string.Format("{0}", match.Groups[1].Value);
+		}
 
 		return "";
 	}
@@ -305,7 +391,7 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 
 		//select and impossible mode just to get an error on mac, this error will give us the "Supported modes"
 		Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(),
-				cameraCode, "8000x8000", "8000");
+				cameraCode, "", "8000x8000", "8000");
 
 		Webcam.Result result = webcamPlay.PlayPreviewNoBackgroundWantStdoutAndStderr();
 		modesStr = parseSupportedModes(result.output);
@@ -324,7 +410,7 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 
 		bool started = false;
 		//on mac seems there is only one pixel format
-		wsmList = new WebcamSupportedModesList("");
+		wsmList = new WebcamSupportedModesList("avfoundation");
 		wsmListOfLists.Add(wsmList);
 		foreach(string l in lines)
 		{
@@ -469,20 +555,36 @@ public class WebcamSupportedModesList
 		return (l.Count > 0);
 	}
 
-	public void Sort()
-	{
-		WebcamSupportedModeSort wsms = new WebcamSupportedModeSort();
-		l.Sort(wsms);
-	}
-
 	public override string ToString()
 	{
+		sort();
 		string str = "";
 		foreach(WebcamSupportedMode wsm in l)
 			str += wsm.ToString() + "\n";
 
 		return str;
 	}
+
+	private void sort()
+	{
+		WebcamSupportedModeSort wsms = new WebcamSupportedModeSort();
+		l.Sort(wsms);
+	}
+
+	// start of: used to populated list on combos .....
+
+	public List<string> ResolutionsToStringList()
+	{
+		sort();
+		List<string> lRes = new List<string> ();
+		foreach(WebcamSupportedMode wsm in l)
+			lRes.Add(wsm.ResolutionString);
+
+		return lRes;
+	}
+
+	// ... end of: used to populated list on combos
+
 
 	public string PixelFormat
 	{
@@ -548,8 +650,7 @@ public class WebcamSupportedMode
 		*/
 
 		//"\nSorting:";
-		WebcamSupportedModeSortFramerates wsmsf = new WebcamSupportedModeSortFramerates();
-		framerates.Sort(wsmsf);
+		sort();
 		string sepChar = "";
 		foreach (string framerate in framerates)
 		{
@@ -558,6 +659,18 @@ public class WebcamSupportedMode
 		}
 
 		return str;
+	}
+
+	public List<string> FrameratesToStringList()
+	{
+		sort();
+		return framerates;
+	}
+
+	private void sort()
+	{
+		WebcamSupportedModeSortFramerates wsmsf = new WebcamSupportedModeSortFramerates();
+		framerates.Sort(wsmsf);
 	}
 
 	public int CompareTo( WebcamSupportedMode that )
@@ -575,6 +688,10 @@ public class WebcamSupportedMode
 	public int ResolutionHeight
 	{
 		get { return resolutionHeight; }
+	}
+	public string ResolutionString
+	{
+		get { return string.Format("{0}x{1}", resolutionWidth, resolutionHeight); }
 	}
 
 	public int Size

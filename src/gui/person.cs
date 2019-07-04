@@ -1075,7 +1075,7 @@ public class PersonAddModifyWindow
 		//webcam = new WebcamMplayer (videoDevice);
 		//Webcam.Result result = webcam.CapturePrepare (Webcam.CaptureTypes.PHOTO);
 		//constructor for playpreview
-		webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), videoDevice, "", "");
+		webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), videoDevice, "", "", "");
 		//Webcam.Result result = webcam.PlayPreviewNoBackground ();
 		Webcam.Result result = webcam.PlayPreview ();
 
@@ -1089,7 +1089,7 @@ public class PersonAddModifyWindow
 	void on_button_take_photo_do_clicked (object o, EventArgs args)
 	{
 		if(webcam == null)
-			webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), videoDevice, "", "");
+			webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), videoDevice, "", "", "");
 		else if(webcam != null && webcam.Running)
 		{
 			webcam.ExitCamera();

@@ -156,11 +156,14 @@ public class PreferencesWindow
 	[Widget] Gtk.HBox hbox_camera_framerate_custom;
 	[Widget] Gtk.SpinButton spin_camera_framerate_custom;
 	[Widget] Gtk.Entry entry_camera_framerate_custom_decimals;
+	[Widget] Gtk.Label label_camera_pixel_format;
+	[Widget] Gtk.HBox hbox_combo_camera_pixel_format;
+	[Widget] Gtk.ComboBox combo_camera_pixel_format;
 	[Widget] Gtk.Box hbox_combo_camera_resolution;
 	[Widget] Gtk.ComboBox combo_camera_resolution;
 	[Widget] Gtk.Box hbox_combo_camera_framerate;
 	[Widget] Gtk.ComboBox combo_camera_framerate;
-	[Widget] Gtk.Label label_no_cameras;
+	[Widget] Gtk.Label label_camera_error;
 	[Widget] Gtk.Label label_webcam_windows;
 	[Widget] Gtk.Image image_multimedia_audio;
 	[Widget] Gtk.Image image_multimedia_video;
@@ -223,6 +226,8 @@ public class PreferencesWindow
 	const int ENCODEROTHERPAGE = 5;
 
 	static private WebcamDeviceList wd_list;
+	private WebcamFfmpegSupportedModes wfsm;
+
 
 	PreferencesWindow () {
 		Glade.XML gladeXML;
@@ -311,7 +316,7 @@ public class PreferencesWindow
 		if(compujump)
 			PreferencesWindowBox.notebook_multimedia.GetNthPage(1).Hide();
 
-		PreferencesWindowBox.label_no_cameras.Visible = false;
+		PreferencesWindowBox.label_camera_error.Visible = false;
 
 		if(UtilAll.IsWindows())
 			PreferencesWindowBox.label_webcam_windows.Visible = true;
@@ -334,7 +339,8 @@ public class PreferencesWindow
 		PreferencesWindowBox.label_test_sound_result.Text = "";
 
 		wd_list = UtilMultimedia.GetVideoDevices();
-		PreferencesWindowBox.createComboCamera(preferences.videoDevice, preferences.videoDeviceResolution, preferences.videoDeviceFramerate);
+		PreferencesWindowBox.createComboCamera(preferences.videoDevice,
+				preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate);
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio.png");
 		PreferencesWindowBox.image_multimedia_audio.Pixbuf = pixbuf;
@@ -647,9 +653,9 @@ public class PreferencesWindow
 	 * end of triggers stuff
 	 */
 
-	private void createComboCamera(string current, string resolution, string framerate)
+	private void createComboCamera(string current, string pixelFormat, string resolution, string framerate)
 	{
-		//1) videoDevice
+		// 1) videoDevice
 
 		combo_camera = ComboBox.NewText ();
 
@@ -657,13 +663,14 @@ public class PreferencesWindow
 		 * declare both because there is a return just here and if they are undeclred the method:
 		 * on_button_accept_clicked () will fail
 		 */
+		combo_camera_pixel_format = ComboBox.NewText ();
 		combo_camera_resolution = ComboBox.NewText ();
 		combo_camera_framerate = ComboBox.NewText ();
 
 		if(wd_list.Count() == 0) {
 			//devices = Util.StringToStringArray(Constants.CameraNotFound);
-			label_no_cameras.Text = wd_list.Error;
-			label_no_cameras.Visible = true;
+			label_camera_error.Text = wd_list.Error;
+			label_camera_error.Visible = true;
 			current = "";
 
 			hbox_camera_resolution_framerate.Visible = false;
@@ -681,7 +688,13 @@ public class PreferencesWindow
 		
 		combo_camera.Active = UtilGtk.ComboMakeActive(combo_camera, current);
 
-		//2) resolution
+		// 2) pixel_format
+
+		hbox_combo_camera_pixel_format.PackStart(combo_camera_pixel_format, true, true, 0);
+		//hbox_combo_camera_pixel_format.ShowAll();
+		combo_camera_pixel_format.Changed += new EventHandler (on_combo_camera_pixel_format_changed);
+
+		// 3) resolution
 
 		combo_camera_resolution = ComboBox.NewText ();
 		List<string> resolutions = new List<string>();
@@ -715,7 +728,7 @@ public class PreferencesWindow
 		hbox_combo_camera_resolution.ShowAll();
 		combo_camera_resolution.Changed += new EventHandler (on_combo_camera_resolution_changed);
 
-		//3) framerate
+		// 4) framerate
 
 		combo_camera_framerate = ComboBox.NewText ();
 		List<string> framerates = new List<string>();
@@ -761,9 +774,27 @@ public class PreferencesWindow
 		hbox_camera_stop_after_seconds.Visible = check_camera_stop_after.Active;
 	}
 
+	private void on_combo_camera_pixel_format_changed (object o, EventArgs args)
+	{
+		string pixelFormat = UtilGtk.ComboGetActive(combo_camera_pixel_format);
+
+		if(pixelFormat != "" && wfsm != null)
+		{
+			UtilGtk.ComboUpdate(combo_camera_resolution, wfsm.PopulateListByPixelFormat(pixelFormat));
+			combo_camera_resolution.Active = 0;
+		}
+	}
 	private void on_combo_camera_resolution_changed (object o, EventArgs args)
 	{
-		hbox_camera_resolution_custom.Visible = UtilGtk.ComboGetActive(combo_camera_resolution) == Catalog.GetString("Custom");
+		string pixelFormat = UtilGtk.ComboGetActive(combo_camera_pixel_format);
+		string resolution = UtilGtk.ComboGetActive(combo_camera_resolution);
+		hbox_camera_resolution_custom.Visible = resolution == Catalog.GetString("Custom");
+
+		if(resolution != "" && resolution != Catalog.GetString("Custom") && wfsm != null)
+		{
+			UtilGtk.ComboUpdate(combo_camera_framerate, wfsm.GetFramerates (pixelFormat, resolution));
+			combo_camera_framerate.Active = 0;
+		}
 	}
 	private void on_combo_camera_framerate_changed (object o, EventArgs args)
 	{
@@ -822,8 +853,6 @@ public class PreferencesWindow
 		if(cameraCode == "")
 			return;
 
-		WebcamFfmpegSupportedModes wfsm;
-
 		if(operatingSystem == UtilAll.OperatingSystems.LINUX)
 			wfsm = new WebcamFfmpegSupportedModesLinux();
 		else if(operatingSystem == UtilAll.OperatingSystems.WINDOWS)
@@ -835,15 +864,38 @@ public class PreferencesWindow
 
 		if(wfsm.ErrorStr != "")
 		{
+			/*
 			new DialogMessage("Chronojump - Modes of this webcam",
 					Constants.MessageTypes.WARNING, wfsm.ErrorStr);
+			*/
+			label_camera_error.Text = wfsm.ErrorStr;
+			label_camera_error.Visible = true;
+
 			return;
 		}
 
+		/*
 		//display the result (if any)
 		if(wfsm.ModesStr != "")
 			new DialogMessage("Chronojump - Modes of this webcam",
 					Constants.MessageTypes.INFO, wfsm.ModesStr, true); //showScrolledWinBar
+		*/
+
+		bool fillCombos = true;
+		if(fillCombos)
+		{
+			UtilGtk.ComboUpdate(combo_camera_resolution, wfsm.PopulateFirstList());
+			combo_camera_resolution.Active = 0;
+
+			//TODO: framerates
+
+			UtilGtk.ComboUpdate(combo_camera_pixel_format, wfsm.GetPixelFormats());
+			combo_camera_pixel_format.Active = 0;
+			hbox_combo_camera_pixel_format.ShowAll();
+
+			label_camera_pixel_format.Visible = true;
+			hbox_combo_camera_pixel_format.Visible = true;
+		}
 	}
 
 	private void on_button_video_preview_clicked (object o, EventArgs args)
@@ -852,11 +904,16 @@ public class PreferencesWindow
 		if(cameraCode == "")
 			return;
 
-		Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(),
-				cameraCode, getSelectedResolution(), getSelectedFramerate());
+		Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), cameraCode,
+				getSelectedPixelFormat(), getSelectedResolution(), getSelectedFramerate());
 		Webcam.Result result = webcamPlay.PlayPreviewNoBackground ();
 	}
 
+	private string getSelectedPixelFormat()
+	{
+		string selected = UtilGtk.ComboGetActive(combo_camera_pixel_format);
+		return selected;
+	}
 	private string getSelectedResolution()
 	{
 		string selected = UtilGtk.ComboGetActive(combo_camera_resolution);
@@ -1763,6 +1820,12 @@ public class PreferencesWindow
 		if( cameraCode != "" && preferences.videoDevice != cameraCode ) {
 			SqlitePreferences.Update("videoDevice", cameraCode, true);
 			preferences.videoDevice = cameraCode;
+		}
+
+		string pixelFormat = getSelectedPixelFormat();
+		if( preferences.videoDevicePixelFormat != pixelFormat ) {
+			SqlitePreferences.Update("videoDevicePixelFormat", pixelFormat, true);
+			preferences.videoDevicePixelFormat = pixelFormat;
 		}
 
 		string resolution = getSelectedResolution();

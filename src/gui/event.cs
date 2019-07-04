@@ -323,7 +323,7 @@ public class EditEventWindow
 			 */
 
 			//using ffmpeg
-			Webcam webcam = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "", "", "");
+			Webcam webcam = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "", "", "", "");
 			Webcam.Result result = webcam.PlayFile (videoFileName);
 		}
 	}

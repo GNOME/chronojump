@@ -119,7 +119,8 @@ public partial class ChronoJumpWindow
 		string errorMessage = "";
 		if(ncams == 1)
 		{
-			if(! webcamManage.RecordPrepare(preferences.videoDevice, preferences.videoDeviceResolution, preferences.videoDeviceFramerate).success)
+			if(! webcamManage.RecordPrepare(preferences.videoDevice, preferences.videoDevicePixelFormat,
+						preferences.videoDeviceResolution, preferences.videoDeviceFramerate).success)
 				return false;
 
 			if(! webcamManage.RecordStart(1))
@@ -655,7 +656,8 @@ public partial class ChronoJumpWindow
 	private void playPreview ()
 	{
 		//constructor for playpreview
-		webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), preferences.videoDevice, preferences.videoDeviceResolution, preferences.videoDeviceFramerate);
+		webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), preferences.videoDevice,
+				preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate);
 		Webcam.Result result = webcamPlay.PlayPreviewNoBackground ();
 	}
 
@@ -674,7 +676,7 @@ public partial class ChronoJumpWindow
 	private void playVideo (string fileName)
 	{
 		//constructor for playpreview
-		webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "", "", "");
+		webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "", "", "", "");
 		Webcam.Result result = webcamPlay.PlayFile (fileName);
 
 		/*

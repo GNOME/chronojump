@@ -172,6 +172,7 @@ class SqlitePreferences : Sqlite
 
 
 				Insert ("videoDevice", "", dbcmdTr); //first
+				Insert ("videoDevicePixelFormat", "", dbcmdTr);
 				Insert ("videoDeviceResolution", "", dbcmdTr);
 				Insert ("videoDeviceFramerate", "", dbcmdTr);
 				Insert ("videoStopAfter", "2", dbcmdTr);
@@ -375,6 +376,8 @@ class SqlitePreferences : Sqlite
 			//video... other
 			else if(reader[0].ToString() == "videoDevice")
 				preferences.videoDevice = reader[1].ToString();
+			else if(reader[0].ToString() == "videoDevicePixelFormat")
+				preferences.videoDevicePixelFormat = reader[1].ToString();
 			else if(reader[0].ToString() == "videoDeviceResolution")
 				preferences.videoDeviceResolution = reader[1].ToString();
 			else if(reader[0].ToString() == "videoDeviceFramerate")

@@ -814,8 +814,9 @@ public class PreferencesWindow
 
 		if(pixelFormat != "" && wfsm != null)
 		{
+			string currentResolution = getSelectedResolution();
 			UtilGtk.ComboUpdate(combo_camera_resolution, wfsm.PopulateListByPixelFormat(pixelFormat));
-			combo_camera_resolution.Active = 0;
+			combo_camera_resolution.Active = UtilGtk.ComboMakeActive(combo_camera_resolution, currentResolution);
 		}
 	}
 	private void on_combo_camera_resolution_changed (object o, EventArgs args)
@@ -826,8 +827,9 @@ public class PreferencesWindow
 
 		if(resolution != "" && resolution != Catalog.GetString("Custom") && wfsm != null)
 		{
+			string currentFramerate = getSelectedFramerate();
 			UtilGtk.ComboUpdate(combo_camera_framerate, wfsm.GetFramerates (pixelFormat, resolution));
-			combo_camera_framerate.Active = 0;
+			combo_camera_framerate.Active = UtilGtk.ComboMakeActive(combo_camera_framerate, currentFramerate);
 		}
 	}
 	private void on_combo_camera_framerate_changed (object o, EventArgs args)
@@ -923,12 +925,9 @@ public class PreferencesWindow
 		bool fillCombos = true;
 		if(fillCombos)
 		{
-			UtilGtk.ComboUpdate(combo_camera_resolution, wfsm.PopulateFirstList());
-			combo_camera_resolution.Active = 0;
-
+			string currentPixelFormat = getSelectedPixelFormat();
 			UtilGtk.ComboUpdate(combo_camera_pixel_format, wfsm.GetPixelFormats());
-			combo_camera_pixel_format.Active = 0;
-			hbox_combo_camera_pixel_format.ShowAll();
+			combo_camera_pixel_format.Active = UtilGtk.ComboMakeActive(combo_camera_pixel_format, currentPixelFormat);
 
 			hbox_combo_camera_pixel_format.Sensitive = true;
 			hbox_combo_camera_resolution.Sensitive = true;

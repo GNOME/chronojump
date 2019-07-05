@@ -703,6 +703,7 @@ public class PreferencesWindow
 
 		hbox_combo_camera_pixel_format.PackStart(combo_camera_pixel_format, true, true, 0);
 		hbox_combo_camera_pixel_format.ShowAll();
+		hbox_combo_camera_pixel_format.Sensitive = false;
 		combo_camera_pixel_format.Changed += new EventHandler (on_combo_camera_pixel_format_changed);
 
 		// 3) resolution
@@ -747,6 +748,7 @@ public class PreferencesWindow
 
 		hbox_combo_camera_resolution.PackStart(combo_camera_resolution, true, true, 0);
 		hbox_combo_camera_resolution.ShowAll();
+		hbox_combo_camera_resolution.Sensitive = false;
 		combo_camera_resolution.Changed += new EventHandler (on_combo_camera_resolution_changed);
 
 		// 4) framerate
@@ -796,6 +798,7 @@ public class PreferencesWindow
 
 		hbox_combo_camera_framerate.PackStart(combo_camera_framerate, true, true, 0);
 		hbox_combo_camera_framerate.ShowAll();
+		hbox_combo_camera_framerate.Sensitive = false;
 		combo_camera_framerate.Changed += new EventHandler (on_combo_camera_framerate_changed);
 	}
 
@@ -926,6 +929,10 @@ public class PreferencesWindow
 			UtilGtk.ComboUpdate(combo_camera_pixel_format, wfsm.GetPixelFormats());
 			combo_camera_pixel_format.Active = 0;
 			hbox_combo_camera_pixel_format.ShowAll();
+
+			hbox_combo_camera_pixel_format.Sensitive = true;
+			hbox_combo_camera_resolution.Sensitive = true;
+			hbox_combo_camera_framerate.Sensitive = true;
 		}
 	}
 

@@ -693,14 +693,24 @@ public class PreferencesWindow
 
 		// 2) pixel_format
 
+		List<string> pixelFormats = new List<string>();
+		if(pixelFormat != "")
+		{
+			pixelFormats.Add(pixelFormat);
+			UtilGtk.ComboUpdate(combo_camera_pixel_format, pixelFormats);
+			combo_camera_pixel_format.Active = 0;
+		}
+
 		hbox_combo_camera_pixel_format.PackStart(combo_camera_pixel_format, true, true, 0);
-		//hbox_combo_camera_pixel_format.ShowAll();
+		hbox_combo_camera_pixel_format.ShowAll();
 		combo_camera_pixel_format.Changed += new EventHandler (on_combo_camera_pixel_format_changed);
 
 		// 3) resolution
 
-		combo_camera_resolution = ComboBox.NewText ();
 		List<string> resolutions = new List<string>();
+		/*
+		 * do not have this default values, just write the option on sqlite (if any)
+		 *
 		resolutions.Add("320x240");
 		resolutions.Add("640x480");
 		resolutions.Add("1280x720");
@@ -709,6 +719,7 @@ public class PreferencesWindow
 
 		if(resolution == "") //(first time using this) give a value
 			resolution = "640x480";
+
 
 		bool found = false;
 		foreach(string str in resolutions)
@@ -726,6 +737,13 @@ public class PreferencesWindow
 			}
 			hbox_camera_resolution_custom.Visible = true;
 		}
+		*/
+		if(resolution != "")
+		{
+			resolutions.Add(resolution);
+			UtilGtk.ComboUpdate(combo_camera_resolution, resolutions);
+			combo_camera_resolution.Active = 0;
+		}
 
 		hbox_combo_camera_resolution.PackStart(combo_camera_resolution, true, true, 0);
 		hbox_combo_camera_resolution.ShowAll();
@@ -735,6 +753,9 @@ public class PreferencesWindow
 
 		combo_camera_framerate = ComboBox.NewText ();
 		List<string> framerates = new List<string>();
+		/*
+		 * do not have this default values, just write the option on sqlite (if any)
+		 *
 		framerates.Add("30");
 		framerates.Add("60");
 		framerates.Add(Catalog.GetString("Custom")); //in SQL will be stored the values not "Custom" text
@@ -764,6 +785,13 @@ public class PreferencesWindow
 				entry_camera_framerate_custom_decimals.Text = strFull[1];
 			}
 			hbox_camera_framerate_custom.Visible = true;
+		}
+		*/
+		if(framerate != "")
+		{
+			framerates.Add(framerate);
+			UtilGtk.ComboUpdate(combo_camera_framerate, framerates);
+			combo_camera_framerate.Active = 0;
 		}
 
 		hbox_combo_camera_framerate.PackStart(combo_camera_framerate, true, true, 0);
@@ -895,14 +923,9 @@ public class PreferencesWindow
 			UtilGtk.ComboUpdate(combo_camera_resolution, wfsm.PopulateFirstList());
 			combo_camera_resolution.Active = 0;
 
-			//TODO: framerates
-
 			UtilGtk.ComboUpdate(combo_camera_pixel_format, wfsm.GetPixelFormats());
 			combo_camera_pixel_format.Active = 0;
 			hbox_combo_camera_pixel_format.ShowAll();
-
-			//label_camera_pixel_format.Visible = true;
-			hbox_combo_camera_pixel_format.Visible = true;
 		}
 	}
 

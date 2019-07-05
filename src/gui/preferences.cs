@@ -169,6 +169,8 @@ public class PreferencesWindow
 	[Widget] Gtk.Image image_multimedia_video;
 	[Widget] Gtk.Image image_video_preview;
 	[Widget] Gtk.CheckButton check_camera_stop_after;
+	[Widget] Gtk.CheckButton check_camera_advanced;
+	[Widget] Gtk.Frame frame_camera_advanced;
 	[Widget] Gtk.VBox vbox_camera_stop_after_all;
 	//[Widget] Gtk.VBox vbox_camera_stop_after;
 	[Widget] Gtk.HBox hbox_camera_stop_after_seconds;
@@ -674,7 +676,8 @@ public class PreferencesWindow
 			current = "";
 
 			hbox_camera_resolution_framerate.Visible = false;
-			vbox_camera_stop_after_all.Visible = false;
+			check_camera_advanced.Visible = false;
+
 			return;
 		}
 
@@ -799,6 +802,11 @@ public class PreferencesWindow
 	private void on_combo_camera_framerate_changed (object o, EventArgs args)
 	{
 		hbox_camera_framerate_custom.Visible = UtilGtk.ComboGetActive(combo_camera_framerate) == Catalog.GetString("Custom");
+	}
+
+	private void on_check_camera_advanced_toggled (object o, EventArgs args)
+	{
+		frame_camera_advanced.Visible = check_camera_advanced.Active;
 	}
 
 	private void on_check_appearance_maximized_toggled (object obj, EventArgs args)

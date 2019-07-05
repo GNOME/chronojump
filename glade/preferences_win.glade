@@ -3815,6 +3815,7 @@ Other</property>
                                 </child>
                                 <child>
                                   <widget class="GtkHBox" id="hbox_combo_camera_pixel_format">
+                                    <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <child>
                                       <placeholder/>

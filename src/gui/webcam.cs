@@ -377,6 +377,7 @@ public partial class ChronoJumpWindow
 		if(webcamEndParams.uniqueID != -1 && ! resultExit.success)
 			new DialogMessage(Constants.MessageTypes.WARNING, resultExit.error);
 
+		button_video_preview_visible (webcamEndParams.guiContactsEncoder, true);
 		LogB.Information(string.Format("calling button_video_play_this_test_sensitive {0}-{1}-{2}",
 					webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted, resultExit.success));
 		button_video_play_this_test_sensitive (webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted && resultExit.success);

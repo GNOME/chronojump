@@ -637,8 +637,16 @@ class ImportSession:
         encoder_signal_curve.concatenate_table(encoder_signal_curve_curves)
         encoder_signal_curve.remove_duplicates()
 
-        encoder_signal_curve.update_ids("signalID", encoder, "old_uniqueID", "new_uniqueID")
-        encoder_signal_curve.update_ids("curveID", encoder, "old_uniqueID", "new_uniqueID")
+        print("encoder_signal_curve before update_ids")
+        for row in encoder_signal_curve:
+            print(str(row.get("signalID")) + " " + str(row.get("curveID")))
+
+        encoder_signal_curve.update_ids("signalID", encoder, "uniqueID", "new_uniqueID")
+        encoder_signal_curve.update_ids("curveID", encoder, "uniqueID", "new_uniqueID")
+
+        print("encoder_signal_curve after update_ids")
+        for row in encoder_signal_curve:
+            print(str(row.get("signalID")) + " " + str(row.get("curveID")))
 
         self.destination_db.write(table=encoder_signal_curve,
                                   avoids_duplicate_column=None,

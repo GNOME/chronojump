@@ -357,15 +357,19 @@ public partial class ChronoJumpWindow
 
 	private bool webcamEndDo()
 	{
-		if(swWebcamStop.Elapsed.TotalSeconds < preferences.videoStopAfter)
+		//note on encoder swWebcamStop is null because the video ends when encoder ends. so do not show the progressbar finishing the video
+		if(swWebcamStart != null || swWebcamStop != null)
 		{
-			//progressbar_video_generating.Pulse();
-			progressbar_video_generating.Fraction = Util.DivideSafeFraction(swWebcamStop.Elapsed.TotalMilliseconds, preferences.videoStopAfter * 1000);
-			return true;
-		}
+			if(swWebcamStop.Elapsed.TotalSeconds < preferences.videoStopAfter)
+			{
+				//progressbar_video_generating.Pulse();
+				progressbar_video_generating.Fraction = Util.DivideSafeFraction(swWebcamStop.Elapsed.TotalMilliseconds, preferences.videoStopAfter * 1000);
+				return true;
+			}
 
-		swWebcamStart.Stop();
-		progressbar_video_generating.Fraction = 1;
+			swWebcamStart.Stop();
+			progressbar_video_generating.Fraction = 1;
+		}
 		LogB.Information("Called webcamEndDo() ending the pulse");
 		Webcam.Result resultExit = webcamManage.ExitAndFinish (webcamEndParams.camera, webcamEndParams.sessionID,
 				webcamEndParams.testType, webcamEndParams.uniqueID, webcamEndParams.guiContactsEncoder);

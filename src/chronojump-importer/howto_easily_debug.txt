@@ -1,0 +1,1 @@
+python chronojump_importer.py "--source" easily-debug/importDB.tmp "--source_base_directory" easily-debug/ChronojumpImportDebug "--destination" "/home/xavier/.local/share/Chronojump/database/chronojump.db" "--source_session" "2"

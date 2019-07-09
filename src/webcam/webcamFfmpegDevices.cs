@@ -366,6 +366,11 @@ public class WebcamFfmpegGetDevicesMac : WebcamFfmpegGetDevicesWinMac
 			{
 				s = s.Substring(secondBracketStart);
 				LogB.Information("MAC matchPARSE: ***" + s + "***");
+
+				//discard screen capture device on mac
+				if(s.ToLower().Contains("capture screen"))
+					return;
+
 				wd_list.Add(new WebcamDevice(s[1].ToString(), s));
 			}
 		}

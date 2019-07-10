@@ -444,8 +444,11 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 		//	[avfoundation @ 0x7f849a8be800]   1280x720@[23.999981 23.999981]fps
 		//use: https://regex101.com/r/lZ5mN8/50
 		// 	(\d+)x(\d+)@\[(\d+).(\d+)\s+
+		// 	noticed that sometimes 1st fps number is 1.0000 and second is the real fps. so use second:
+		// 	(\d+)x(\d+)@\[\d+.\d+\s+(\d+).(\d+)\]fps
 
-		Match match = Regex.Match(l, @"(\d+)x(\d+)@\[(\d+).(\d+)\s+");
+		//Match match = Regex.Match(l, @"(\d+)x(\d+)@\[(\d+).(\d+)\s+");
+		Match match = Regex.Match(l, @"(\d+)x(\d+)@\[\d+.\d+\s+(\d+).(\d+)\]fps");
 
 		//TODO: use these lines
 		//LogB.Information("match group count: ", match.Groups.Count.ToString());
@@ -467,8 +470,14 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 		currentMode.AddFramerate(framerate);
 	}
 
-	// test ParseSupportModes
+	/*
+	 * test ParseSupportModes
+	 * note fps can be separated by , or .
+	 * but on ffmpeg/ffplay must be .
+	 */
 	private string parseSupportedModesTestString = @"Supported modes:
+[avfoundation @ 0x7f849a8be800]   16x12@[1.000000 23.999981]fps
+[avfoundation @ 0x7f849a8be800]   16x12@[1,000000 29,970000]fps
 [avfoundation @ 0x7f849a8be800]   160x120@[29.970000 29.970000]fps
 [avfoundation @ 0x7f849a8be800]   160x120@[25.000000 25.000000]fps
 [avfoundation @ 0x7f849a8be800]   160x120@[23.999981 23.999981]fps

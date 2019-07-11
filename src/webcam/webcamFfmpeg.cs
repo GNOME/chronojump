@@ -235,6 +235,9 @@ public class WebcamFfmpeg : Webcam
 		if(videoDevicePixelFormat != "" && os == UtilAll.OperatingSystems.LINUX) {
 			parameters.Insert (i ++, "-input_format");
 			parameters.Insert (i ++, videoDevicePixelFormat);
+		} else if(videoDevicePixelFormat != "" && os == UtilAll.OperatingSystems.WINDOWS) {
+			parameters.Insert (i ++, "-pixel_format");
+			parameters.Insert (i ++, videoDevicePixelFormat);
 		}
 
 		if(os == UtilAll.OperatingSystems.LINUX)

@@ -5141,9 +5141,9 @@ public partial class ChronoJumpWindow
 		double maxThisSet = -100000;
 		double minThisSet = 100000;
 
-		//ForCalcs is to calculate avg and loss
-		double maxThisSetValid = maxThisSet;
-		double minThisSetValid = minThisSet;
+		//only used for loss. For loss only con phase is used
+		double maxThisSetValidAndCon = maxThisSet;
+		double minThisSetValidAndCon = minThisSet;
 		//know not-discarded phases
 		double countValid = 0;
 		double sumValid = 0;
@@ -5164,10 +5164,13 @@ public partial class ChronoJumpWindow
 				countValid ++;
 				sumValid += d;
 
-				if(d > maxThisSetValid)
-					maxThisSetValid = d;
-				if(d < minThisSetValid)
-					minThisSetValid = d;
+				if(eccon == "c" || Util.IsEven(count +1)) //par
+				{
+					if(d > maxThisSetValidAndCon)
+						maxThisSetValidAndCon = d;
+					if(d < minThisSetValidAndCon)
+						minThisSetValidAndCon = d;
+				}
 			}
 
 			count ++;
@@ -5508,9 +5511,16 @@ public partial class ChronoJumpWindow
 				Util.TrimDecimals( (sumSaved / countSaved), decimals) + 
 				" " + units;
 
-		if(maxThisSetValid > 0)
-			title += "; Loss: " + Util.TrimDecimals(
-					100.0 * (maxThisSetValid - minThisSetValid) / maxThisSetValid, decimals) + "%";
+		string lossString = "; Loss: ";
+		if(eccon != "c")
+			lossString = "; Loss (con): "; //on ecc/con use only con for loss calculation
+
+		if(maxThisSetValidAndCon > 0)
+		{
+			title += lossString + Util.TrimDecimals(
+					100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon, decimals) + "%";
+			LogB.Information(string.Format("Loss at plot: {0}", 100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon));
+		}
 		title += "]";
 
 		layout_encoder_capture_curves_bars_text.SetMarkup(title);

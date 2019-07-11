@@ -316,6 +316,12 @@ public class Preferences
 		}
 	}
 
+	public bool IsVideoConfigured()
+	{
+		return (videoDevice != "" && videoDevicePixelFormat != "" &&
+				videoDeviceResolution != "" && videoDeviceFramerate != "");
+	}
+
 	~Preferences() {}
 	   
 }

@@ -164,13 +164,14 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 		WebcamSupportedMode currentMode = null;
 		foreach(string l in lines)
 		{
-			LogB.Information("line: " + l);
-			if(l.Contains("Pixel Format:"))
+			LogB.Information("\nline: " + l);
+			//note v4l2-ctl packaged for Debian previous to buster prints "Pixel Format:", but on Buster is: "[0]: 'YUYV' (YUYV 4:2:2)"
+			if(l.Contains("Pixel Format:") || l.Contains("YUYV 4:2:2") || l.Contains("MJPG") || l.Contains("Motion-JPEG"))
 			{
 				wsmList = new WebcamSupportedModesList(parsePixelFormat(l));
 
-
 				wsmListOfLists.Add(wsmList);
+				LogB.Information("Added new pixel format list: " + parsePixelFormat(l));
 
 				continue;
 			}
@@ -178,18 +179,24 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 			string resolutionStr = matchResolution(l);
 			if(wsmList != null && l.Contains("Size: Discrete") && resolutionStr != "")
 			{
+				LogB.Information("Is resolution!");
 				if(wsmList.ModeExist(resolutionStr))
 					currentMode = wsmList.GetMode(resolutionStr);
 				else {
 					currentMode = new WebcamSupportedMode(resolutionStr);
+					LogB.Information("Added new mode: " + currentMode.ToString());
 					wsmList.Add(currentMode);
 				}
 			}
 
 			if(l.Contains("Interval: Discrete") && l.Contains("fps") && matchFPS(l) != "")
 			{
+				LogB.Information("Is FPS!");
 				if(currentMode != null)
+				{
+					LogB.Information("Added new FPS: " + matchFPS(l));
 					currentMode.AddFramerate(matchFPS(l));
+				}
 			}
 		}
 
@@ -200,7 +207,7 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 	{
 		Match match = Regex.Match(l, @"(\d+)x(\d+)");
 
-		LogB.Information("match group count is 3?", (match.Groups.Count == 3).ToString());
+		LogB.Information("resolution match group count is 3?", (match.Groups.Count == 3).ToString());
 
 		if(match.Groups.Count == 3)
 			return string.Format("{0}x{1}", match.Groups[1].Value, match.Groups[2].Value);
@@ -212,7 +219,7 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 	{
 		Match match = Regex.Match(l, @"\((\d+).(\d+) fps\)");
 
-		LogB.Information("match group count is 3?", (match.Groups.Count == 3).ToString());
+		LogB.Information("fps match group count is 3?", (match.Groups.Count == 3).ToString());
 
 		if(match.Groups.Count == 3)
 			return string.Format("{0}.{1}", match.Groups[1].Value, match.Groups[2].Value);
@@ -223,6 +230,8 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 	private string parsePixelFormat(string l)
 	{
 		/*
+		   1) previous to Debian Buster:
+
 		   Pixel Format: 'YUYV'
 		   Name        : YUYV 4:2:2
 		   has to be: yuyv422
@@ -232,21 +241,73 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 		   has to be: mjpeg
 
 		   so we need to parse "Name" line or right now return yuyv422 or mjpeg
+
+		   Match match = Regex.Match(l, @"Pixel Format: '(\S+)'");
+
+		   2) At Debian Buster:
+
+		   ioctl: VIDIOC_ENUM_FMT
+			Type: Video Capture
+			[0]: 'YUYV' (YUYV 4:2:2)
+				Size: Discrete 640x480
+					Interval: Discrete 0.033s (30.000 fps)
+
+		   Match match2 = Regex.Match(l, @"'(\S+)'");
 		   */
 
+		//1) previous to Debian Buster:
 		Match match = Regex.Match(l, @"Pixel Format: '(\S+)'");
 		if(match.Groups.Count == 2)
-		{
-			if(match.Groups[1].Value == "YUYV")
-				return "yuyv422";
-			else if(match.Groups[1].Value == "MJPG")
-				return "mjpeg";
-			else
-				return string.Format("{0}", match.Groups[1].Value);
-		}
+			return(parsePixelFormatDo(match.Groups[1].Value));
+
+		//2) At Debian Buster:
+		match = Regex.Match(l, @"'(\S+)'");
+		if(match.Groups.Count == 2)
+			return(parsePixelFormatDo(match.Groups[1].Value));
 
 		return "";
 	}
+
+	private string parsePixelFormatDo(string m)
+	{
+		if(m == "YUYV")
+			return "yuyv422";
+		else if(m == "MJPG")
+			return "mjpeg";
+		else
+			return string.Format("{0}", m);
+	}
+
+	// test ParseSupportModes (unsorted to check if sorts well)
+	private string parseSupportedModesTestString = @"
+ioctl: VIDIOC_ENUM_FMT
+	 Type: Video Capture
+
+	 [0]: 'YUYV' (YUYV 4:2:2)
+		Size: Discrete 640x480
+			Interval: Discrete 0.033s (30.000 fps)
+		Size: Discrete 320x240
+			Interval: Discrete 0.033s (30.000 fps)
+		Size: Discrete 352x288
+			Interval: Discrete 0.033s (30.000 fps)
+
+	[1]: 'MJPG' (Motion-JPEG, compressed)
+		Size: Discrete 640x480
+			Interval: Discrete 0.033s (30.000 fps)
+		Size: Discrete 320x240
+			Interval: Discrete 0.033s (30.000 fps)
+		Size: Discrete 800x448
+			Interval: Discrete 0.033s (30.000 fps)
+			Interval: Discrete 0.040s (25.000 fps)
+			Interval: Discrete 0.050s (20.000 fps)
+			Interval: Discrete 0.067s (15.000 fps)
+		Size: Discrete 960x544
+			Interval: Discrete 0.033s (30.000 fps)
+			Interval: Discrete 0.040s (25.000 fps)
+			Interval: Discrete 0.050s (20.000 fps)
+			Interval: Discrete 0.067s (15.000 fps)
+";
+
 }
 
 public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes

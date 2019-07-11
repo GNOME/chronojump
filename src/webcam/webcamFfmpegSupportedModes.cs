@@ -118,6 +118,9 @@ public abstract class WebcamFfmpegSupportedModes
 			return nothingFound;
 	}
 
+	protected bool testParsing = true;
+	protected abstract string parseSupportedModesTestString();
+
 	public string ErrorStr
 	{
 		get { return errorStr;  }
@@ -138,6 +141,12 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 
 	public override void GetModes()
 	{
+		if(testParsing)
+		{
+			modesStr = parseSupportedModes(parseSupportedModesTestString());
+			return;
+		}
+
 		List<string> parameters = new List<string>();
 		parameters.Add("--list-formats-ext");
 		ExecuteProcess.Result execute_result = ExecuteProcess.run ("v4l2-ctl", parameters, true, true);
@@ -278,8 +287,9 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 			return string.Format("{0}", m);
 	}
 
-	// test ParseSupportModes (unsorted to check if sorts well)
-	private string parseSupportedModesTestString = @"
+	protected override string parseSupportedModesTestString()
+	{
+		return(@"
 ioctl: VIDIOC_ENUM_FMT
 	 Type: Video Capture
 
@@ -306,8 +316,8 @@ ioctl: VIDIOC_ENUM_FMT
 			Interval: Discrete 0.040s (25.000 fps)
 			Interval: Discrete 0.050s (20.000 fps)
 			Interval: Discrete 0.067s (15.000 fps)
-";
-
+");
+	}
 }
 
 public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
@@ -322,10 +332,9 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 
 	public override void GetModes()
 	{
-		bool testParsing = false; //change it to true to test the parsing method
 		if(testParsing)
 		{
-			modesStr = parseSupportedModes(parseSupportedModesTestString);
+			modesStr = parseSupportedModes(parseSupportedModesTestString());
 			return;
 		}
 
@@ -425,10 +434,13 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 	}
 
 	// test ParseSupportModes (unsorted to check if sorts well)
-	private string parseSupportedModesTestString = @"
+	protected override string parseSupportedModesTestString()
+	{
+		return(@"
 pixel_format=uyyv422  min s=176x144 fps=5 max s=176x144 fps=30
 pixel_format=uyyv422  min s=160x120 fps=5 max s=160x120 fps=30
-pixel_format=uyyv422  min s=320x240 fps=5 max s=320x240 fps=30";
+pixel_format=uyyv422  min s=320x240 fps=5 max s=320x240 fps=30");
+	}
 }
 
 public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
@@ -443,10 +455,9 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 
 	public override void GetModes()
 	{
-		bool testParsing = false; //change it to true to test the parsing method
 		if(testParsing)
 		{
-			modesStr = parseSupportedModes(parseSupportedModesTestString);
+			modesStr = parseSupportedModes(parseSupportedModesTestString());
 			return;
 		}
 
@@ -536,7 +547,9 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 	 * note fps can be separated by , or .
 	 * but on ffmpeg/ffplay must be .
 	 */
-	private string parseSupportedModesTestString = @"Supported modes:
+	protected override string parseSupportedModesTestString()
+	{
+		return (@"Supported modes:
 [avfoundation @ 0x7f849a8be800]   16x12@[1.000000 23.999981]fps
 [avfoundation @ 0x7f849a8be800]   16x12@[1,000000 29,970000]fps
 [avfoundation @ 0x7f849a8be800]   160x120@[29.970000 29.970000]fps
@@ -571,7 +584,8 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 [avfoundation @ 0x7f849a8be800]   1280x720@[25.000000 25.000000]fps
 [avfoundation @ 0x7f849a8be800]   1280x720@[23.999981 23.999981]fps
 [avfoundation @ 0x7f849a8be800]   1280x720@[14.999993 14.999993]fps
-0: Input/output error";
+0: Input/output error");
+	}
 }
 
 public class WebcamSupportedModesList

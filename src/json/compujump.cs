@@ -637,6 +637,7 @@ public class JsonCompujump : Json
 
 		// Converts it to a String
 		String js = json.ToString();
+		LogB.Information("json UploadEncoderData: ", js);
 
 		// Writes the json object into the request dataStream
 		Stream dataStream;
@@ -848,8 +849,8 @@ public class UploadEncoderDataObject
 		numBySpeed = nSpeed + 1;
 		numByPower = nPower + 1;
 
-		lossBySpeed = getLoss(curves, byTypes.SPEED);
-		lossByPower = getLoss(curves, byTypes.POWER);
+		lossBySpeed = getConLoss(curves, byTypes.SPEED);
+		lossByPower = getConLoss(curves, byTypes.POWER);
 	}
 
 	private void calculeObjectEccCon (ArrayList curves)
@@ -880,8 +881,10 @@ public class UploadEncoderDataObject
 		numBySpeed = (nSpeed /2) + 1;
 		numByPower = (nPower /2) + 1;
 
-		lossBySpeed = eSignal.GetEccConLoss(Constants.MeanSpeed);
-		lossByPower = eSignal.GetEccConLoss(Constants.MeanPower);
+		//lossBySpeed = eSignal.GetEccConLoss(Constants.MeanSpeed);
+		//lossByPower = eSignal.GetEccConLoss(Constants.MeanPower);
+		lossBySpeed = eSignal.GetEccConLossByOnlyConPhase(Constants.MeanSpeed);
+		lossByPower = eSignal.GetEccConLossByOnlyConPhase(Constants.MeanPower);
 	}
 
 	//constructor called on SQL load
@@ -930,11 +933,12 @@ public class UploadEncoderDataObject
 		return curveNum;
 	}
 
-	private int getLoss(ArrayList curves, byTypes by)
+	private int getConLoss(ArrayList curves, byTypes by)
 	{
 		double lowest = 100000;
 		double highest = 0;
 
+		//int i=0;
 		foreach (EncoderCurve curve in curves)
 		{
 			double compareTo = curve.MeanSpeedD;
@@ -945,6 +949,8 @@ public class UploadEncoderDataObject
 				lowest = compareTo;
 			if(compareTo > highest)
 				highest = compareTo;
+
+			//LogB.Information(string.Format("Loss (con) of {0}; i: {1} is: {2}", by.ToString(), i++, Convert.ToInt32(Util.DivideSafe(100.0 * (highest - lowest), highest))));
 		}
 		return Convert.ToInt32(Util.DivideSafe(100.0 * (highest - lowest), highest));
 	}

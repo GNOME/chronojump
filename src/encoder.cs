@@ -492,6 +492,44 @@ public class EncoderSignal
 		return conValue;
 	}
 
+	public int GetEccConLossByOnlyConPhase(string variable)
+	{
+		double lowest = 100000;
+		double highest = 0;
+		double eccValue = 0;
+		double conValue = 0;
+		bool ecc = true;
+		//int i = 0;
+		foreach (EncoderCurve curve in curves)
+		{
+			if(ecc)
+			{
+				ecc = false;
+				continue;
+			}
+
+			double compareTo = curve.MeanSpeedD;
+			if(variable == Constants.MeanPower)
+				compareTo = curve.MeanPowerD;
+
+			conValue = compareTo;
+			if(compareTo > highest)
+				highest = compareTo;
+			if(compareTo < lowest)
+				lowest = compareTo;
+
+			//LogB.Information(string.Format("Loss ecc/con (by con) of {0}; i: {1} is: {2}", variable, i++,
+			//			Convert.ToInt32(Util.DivideSafe(100.0 * (highest - lowest), highest))));
+
+			ecc = true;
+		}
+		return Convert.ToInt32(Util.DivideSafe(100.0 * (highest - lowest), highest));
+
+	}
+	/*
+	 * this method uses ecc and con and calculates the loss by having the average of them for each repetition
+	 * better do only using the con phase (see above method)
+	 *
 	public int GetEccConLoss(string variable)
 	{
 		double lowest = 100000;
@@ -499,6 +537,7 @@ public class EncoderSignal
 		double eccValue = 0;
 		double conValue = 0;
 		bool ecc = true;
+		//int i = 0;
 		foreach (EncoderCurve curve in curves)
 		{
 			double compareTo = curve.MeanSpeedD;
@@ -514,11 +553,15 @@ public class EncoderSignal
 				if( ( (eccValue + conValue) / 2 ) < lowest)
 					lowest = (eccValue + conValue) / 2;
 			}
+			//LogB.Information(string.Format("Loss ecc/con (ecc?: {0}) of {1}; i: {2} is: {3}", ecc.ToString(), variable, i++,
+			//			Convert.ToInt32(Util.DivideSafe(100.0 * (highest - lowest), highest))));
+
 			ecc = ! ecc;
 		}
 		return Convert.ToInt32(Util.DivideSafe(100.0 * (highest - lowest), highest));
 
 	}
+	*/
 
 	~EncoderSignal() {}
 }

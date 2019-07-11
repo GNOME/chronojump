@@ -3926,6 +3926,7 @@ Other</property>
                                 <child>
                                   <widget class="GtkButton" id="button_video_preview">
                                     <property name="visible">True</property>
+                                    <property name="sensitive">False</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
                                     <property name="tooltip" translatable="yes">Preview video</property>

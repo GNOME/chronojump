@@ -168,6 +168,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Image image_multimedia_audio;
 	[Widget] Gtk.Image image_multimedia_video;
 	[Widget] Gtk.Image image_video_preview;
+	[Widget] Gtk.Button button_video_preview;
 	[Widget] Gtk.CheckButton check_camera_stop_after;
 	[Widget] Gtk.CheckButton check_camera_advanced;
 	[Widget] Gtk.Frame frame_camera_advanced;
@@ -699,6 +700,7 @@ public class PreferencesWindow
 			pixelFormats.Add(pixelFormat);
 			UtilGtk.ComboUpdate(combo_camera_pixel_format, pixelFormats);
 			combo_camera_pixel_format.Active = 0;
+			button_video_preview.Sensitive = true;
 		}
 
 		hbox_combo_camera_pixel_format.PackStart(combo_camera_pixel_format, true, true, 0);
@@ -817,6 +819,7 @@ public class PreferencesWindow
 			string currentResolution = getSelectedResolution();
 			UtilGtk.ComboUpdate(combo_camera_resolution, wfsm.PopulateListByPixelFormat(pixelFormat));
 			combo_camera_resolution.Active = UtilGtk.ComboMakeActive(combo_camera_resolution, currentResolution);
+			button_video_preview.Sensitive = true;
 		}
 	}
 	private void on_combo_camera_resolution_changed (object o, EventArgs args)

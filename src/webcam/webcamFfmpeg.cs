@@ -232,12 +232,15 @@ public class WebcamFfmpeg : Webcam
 		else
 			parameters.Insert (i ++, "640x480");
 
-		if(videoDevicePixelFormat != "" && os == UtilAll.OperatingSystems.LINUX) {
-			parameters.Insert (i ++, "-input_format");
-			parameters.Insert (i ++, videoDevicePixelFormat);
-		} else if(videoDevicePixelFormat != "" && os == UtilAll.OperatingSystems.WINDOWS) {
-			parameters.Insert (i ++, "-pixel_format");
-			parameters.Insert (i ++, videoDevicePixelFormat);
+		if(videoDevicePixelFormat != "")
+		{
+			if(os == UtilAll.OperatingSystems.LINUX) {
+				parameters.Insert (i ++, "-input_format");
+				parameters.Insert (i ++, videoDevicePixelFormat);
+			} else if(os == UtilAll.OperatingSystems.WINDOWS) {
+				parameters.Insert (i ++, "-pixel_format");
+				parameters.Insert (i ++, videoDevicePixelFormat);
+			}
 		}
 
 		if(os == UtilAll.OperatingSystems.LINUX)
@@ -339,12 +342,16 @@ public class WebcamFfmpeg : Webcam
 		else
 			parameters.Insert (i ++, "640x480");
 
-		/* Disabled until we do not detect wich formats are available on the device
-		if(os == UtilAll.OperatingSystems.LINUX) {
-			parameters.Insert (i ++, "-input_format");
-			parameters.Insert (i ++, "mjpeg");
+		if(videoDevicePixelFormat != "")
+		{
+			if(os == UtilAll.OperatingSystems.LINUX) {
+				parameters.Insert (i ++, "-input_format");
+				parameters.Insert (i ++, videoDevicePixelFormat);
+			} else if(os == UtilAll.OperatingSystems.WINDOWS) {
+				parameters.Insert (i ++, "-pixel_format");
+				parameters.Insert (i ++, videoDevicePixelFormat);
+			}
 		}
-		*/
 
 		parameters.Insert (i ++, "-i");
 		if(os == UtilAll.OperatingSystems.LINUX)

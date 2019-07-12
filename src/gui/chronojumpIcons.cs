@@ -126,6 +126,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze_mode_options;
 	[Widget] Gtk.Image image_encoder_analyze_mode_options_close;
 	[Widget] Gtk.Image image_encoder_analyze_cancel;
+	[Widget] Gtk.Image image_encoder_analyze_image_compujump_send_email_image;
+	[Widget] Gtk.Image image_encoder_analyze_image_compujump_send_email_send;
 
 	//force sensor
 	[Widget] Gtk.Image image_selector_start_force_sensor;
@@ -573,6 +575,11 @@ public partial class ChronoJumpWindow
 		image_forcesensor_analyze_save_rfd_auto.Pixbuf = pixbuf;
 		image_forcesensor_analyze_save_rfd_manual.Pixbuf = pixbuf;
 		image_jumps_profile_save.Pixbuf = pixbuf;
+		image_encoder_analyze_image_compujump_send_email_image.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_email.png");
+		image_encoder_analyze_image_compujump_send_email_send.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_encoder_signal_delete.Pixbuf = pixbuf;
 	

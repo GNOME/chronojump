@@ -470,6 +470,7 @@ RESOURCES = \
 	../images/md/trigger_no_2x.png,image_encoder_triggers_no.png \
 	../images/md/baseline_warning_blue_24dp.png,image_warning_blue.png \
 	../images/md/baseline_warning_red_24dp.png,image_warning_red.png \
+	../images/md/baseline_mail_outline_blue_24dp.png,image_email.png \
 	../images/chronojump_icon.png,chronojump_icon.png \
 	../images/chronojump_icon_graph.png,chronojump_icon_graph.png \
 	../images/stock_right.png,stock_right.png \

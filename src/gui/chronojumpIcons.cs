@@ -600,14 +600,14 @@ public partial class ChronoJumpWindow
 		image_forcesensor_analyze_image_save7.Pixbuf = pixbuf;
 		image_sprint_analyze_image_save.Pixbuf = pixbuf;
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "grid.png");
+		image_encoder_analyze_table_save.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_email.png");
 		image_encoder_analyze_image_compujump_send_email_send.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_encoder_signal_delete.Pixbuf = pixbuf;
-	
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "spreadsheet.png");
-		image_encoder_analyze_table_save.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_analyze_general.png");
 		image_tests_analyze_general.Pixbuf = pixbuf;

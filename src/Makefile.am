@@ -473,6 +473,7 @@ RESOURCES = \
 	../images/md/baseline_mail_outline_blue_24dp.png,image_email.png \
 	../images/md/baseline_check_box_blue_24dp.png,image_check.png \
 	../images/md/baseline_save_blue_24dp.png,save.png \
+	../images/md/baseline_grid_on_blue_24dp.png,grid.png \
 	../images/chronojump_icon.png,chronojump_icon.png \
 	../images/chronojump_icon_graph.png,chronojump_icon_graph.png \
 	../images/stock_right.png,stock_right.png \

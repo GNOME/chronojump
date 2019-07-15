@@ -128,6 +128,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze_cancel;
 	[Widget] Gtk.Image image_encoder_analyze_image_compujump_send_email_image;
 	[Widget] Gtk.Image image_encoder_analyze_image_compujump_send_email_send;
+	[Widget] Gtk.Image image_encoder_analyze_check;
 
 	//force sensor
 	[Widget] Gtk.Image image_selector_start_force_sensor;
@@ -679,6 +680,8 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers.png");
 		image_encoder_triggers.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_check.png");
+		image_encoder_analyze_check.Pixbuf = pixbuf;
 
 		//auto mode
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameAutoPersonSkipIcon);

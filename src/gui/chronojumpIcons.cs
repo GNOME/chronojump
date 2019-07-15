@@ -163,6 +163,17 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_video_preview;
 	[Widget] Gtk.Image image_video_encoder_preview;
 
+	[Widget] Gtk.Image image_encoder_analyze_table_save_1;
+	[Widget] Gtk.Image image_encoder_analyze_image_save_1;
+	[Widget] Gtk.Image image_encoder_analyze_1RM_save_1;
+	[Widget] Gtk.Image image_encoder_analyze_image_save_2;
+	[Widget] Gtk.Image image_forcesensor_analyze_image_save2;
+	[Widget] Gtk.Image image_forcesensor_analyze_image_save3;
+	[Widget] Gtk.Image image_forcesensor_analyze_image_save5;
+	[Widget] Gtk.Image image_forcesensor_analyze_image_save6;
+	[Widget] Gtk.Image image_forcesensor_analyze_image_save7;
+	[Widget] Gtk.Image image_sprint_analyze_image_save;
+
 	private void putNonStandardIcons()
 	{
 		Pixbuf pixbuf;
@@ -576,6 +587,18 @@ public partial class ChronoJumpWindow
 		image_forcesensor_analyze_save_rfd_manual.Pixbuf = pixbuf;
 		image_jumps_profile_save.Pixbuf = pixbuf;
 		image_encoder_analyze_image_compujump_send_email_image.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
+		image_encoder_analyze_table_save_1.Pixbuf = pixbuf;
+		image_encoder_analyze_image_save_1.Pixbuf = pixbuf;
+		image_encoder_analyze_1RM_save_1.Pixbuf = pixbuf;
+		image_encoder_analyze_image_save_2.Pixbuf = pixbuf;
+		image_forcesensor_analyze_image_save2.Pixbuf = pixbuf;
+		image_forcesensor_analyze_image_save3.Pixbuf = pixbuf;
+		image_forcesensor_analyze_image_save5.Pixbuf = pixbuf;
+		image_forcesensor_analyze_image_save6.Pixbuf = pixbuf;
+		image_forcesensor_analyze_image_save7.Pixbuf = pixbuf;
+		image_sprint_analyze_image_save.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_email.png");
 		image_encoder_analyze_image_compujump_send_email_send.Pixbuf = pixbuf;

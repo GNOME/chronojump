@@ -14119,7 +14119,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkImage" id="image_forcesensor_analyze_image_save3">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-save</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -16915,7 +16915,7 @@ on current Chronojump version.</property>
                                                             <widget class="GtkImage" id="image_forcesensor_analyze_image_save5">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-save</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -18223,7 +18223,7 @@ Concentric</property>
                                                             <widget class="GtkImage" id="image_sprint_analyze_image_save">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-save</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -18603,7 +18603,7 @@ Concentric</property>
                                                             <widget class="GtkImage" id="image_forcesensor_analyze_image_save2">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-save</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -21269,7 +21269,7 @@ Concentric</property>
                                                             <widget class="GtkImage" id="image_forcesensor_analyze_image_save7">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-save</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -21316,7 +21316,7 @@ Concentric</property>
                                                             <widget class="GtkImage" id="image_forcesensor_analyze_image_save6">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-save</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -30067,7 +30067,7 @@ then click this button.</property>
                                                             <widget class="GtkImage" id="image_encoder_analyze_image_save_1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-save</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -30156,7 +30156,7 @@ then click this button.</property>
                                                             <widget class="GtkImage" id="image_encoder_analyze_1RM_save_1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-save</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -30201,7 +30201,7 @@ then click this button.</property>
                                                             <widget class="GtkImage" id="image_encoder_analyze_image_save_2">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-save</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -30308,7 +30308,7 @@ then click this button.</property>
                                                             <widget class="GtkImage" id="image_encoder_analyze_table_save_1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-save</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>

@@ -568,8 +568,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_range);
 		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_time_to_peak_power);
 
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_analyze.png");
 		image_encoder_analyze_stats.Pixbuf = pixbuf;
 		image_encoder_analyze_image_save.Pixbuf = pixbuf;
 		image_forcesensor_analyze_save_signal.Pixbuf = pixbuf;

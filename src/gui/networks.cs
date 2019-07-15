@@ -723,6 +723,10 @@ public partial class ChronoJumpWindow
 
 			//load current session if MONTHLY and current session is not current month and currentPerson is not compumpAdminID
 			compujumpPersonChangedShouldChangeSession();
+
+			//not allow to change devices if person changed. If you want to change again, go to preferences/advanced networksAllowChangeDevices
+			preferences.networksAllowChangeDevices = false;
+			button_activate_chronopics_encoder.Sensitive = false;
 		}
 
 		//Wakeup screen if it's off
@@ -938,6 +942,10 @@ public partial class ChronoJumpWindow
 		currentPerson = null;
 		currentPersonSession = null;
 		sensitiveGuiNoPerson ();
+
+		//not allow to change devices if person changed. If you want to change again, go to preferences/advanced networksAllowChangeDevices
+		preferences.networksAllowChangeDevices = false;
+		button_activate_chronopics_encoder.Sensitive = false;
 	}
 
 	private void compujumpPersonAutoLogoutChanged(object o, EventArgs args)

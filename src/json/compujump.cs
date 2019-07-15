@@ -788,7 +788,6 @@ public class UploadEncoderDataObject
 {
 	private enum byTypes { SPEED, POWER }
 
-	public string eccon; //"c" or "ec"
 	public int repetitions;
 
 	//variables calculated BySpeed (by best mean speed)
@@ -811,14 +810,43 @@ public class UploadEncoderDataObject
 
 	public double  pmeanByPowerAsDouble;
 
+	private ArrayList curves;
+	private string eccon;
+
 	//constructor called after capture
 	public UploadEncoderDataObject(ArrayList curves, string eccon)
+	{
+		this.curves = curves;
+		this.eccon = eccon;
+	}
+
+	//returns false if on discarding, there are no curves
+	public bool InertialDiscardFirstN(int inertialDiscardFirstN)
+	{
+		if(eccon == "c")
+		{
+			if(curves.Count > inertialDiscardFirstN)
+				curves.RemoveRange(0, inertialDiscardFirstN);
+			else
+				return false;
+		} else {
+			if(curves.Count > inertialDiscardFirstN *2)
+				curves.RemoveRange(0, inertialDiscardFirstN *2);
+			else
+				return false;
+		}
+
+		return true;
+	}
+
+	public void Calcule()
 	{
 		if(eccon == "c")
 			calculeObjectCon (curves);
 		else
 			calculeObjectEccCon (curves);
 	}
+
 
 	private void calculeObjectCon (ArrayList curves)
 	{
@@ -887,7 +915,7 @@ public class UploadEncoderDataObject
 		lossByPower = eSignal.GetEccConLossByOnlyConPhase(Constants.MeanPower);
 	}
 
-	//constructor called on SQL load
+	//constructor called on SQL load SqliteJson.SelectTempEncoder()
 	public UploadEncoderDataObject(int repetitions,
 			int numBySpeed, int lossBySpeed, string rangeBySpeed,
 			string vmeanBySpeed, string vmaxBySpeed, string pmeanBySpeed, string pmaxBySpeed,

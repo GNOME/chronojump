@@ -1971,6 +1971,9 @@
                                                             <placeholder/>
                                                             </child>
                                                             <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkLabel" id="label_start_selector_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -21207,6 +21210,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25896,7 +25902,7 @@ then click this button.</property>
                                                         <property name="n_rows">2</property>
                                                         <property name="n_columns">2</property>
                                                         <property name="column_spacing">12</property>
-                                                        <property name="row_spacing">6</property>
+                                                        <property name="row_spacing">8</property>
                                                         <child>
                                                           <widget class="GtkLabel" id="label87">
                                                             <property name="visible">True</property>
@@ -25906,12 +25912,10 @@ then click this button.</property>
                                                           </widget>
                                                           <packing>
                                                             <property name="x_options">GTK_FILL</property>
-                                                            <property name="y_options"/>
                                                           </packing>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkHBox" id="hbox_encoder_analyze_signal_or_curves">
-                                                            <property name="height_request">30</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">20</property>
@@ -26018,7 +26022,7 @@ then click this button.</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -26034,7 +26038,7 @@ then click this button.</property>
                                                             <property name="label" translatable="yes">Current set</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
@@ -26061,7 +26065,7 @@ then click this button.</property>
                                                             <property name="label" translatable="yes">Load another set</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
@@ -26071,7 +26075,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon-size">1</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -26202,11 +26206,42 @@ then click this button.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_analyze_data_select_curves">
-                                                            <property name="label" translatable="yes">Select</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_button_encoder_analyze_data_select_curves_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox285">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label404">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Select</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_analyze_check">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -27265,7 +27300,7 @@ then click this button.</property>
                                                             <property name="n_rows">2</property>
                                                             <property name="n_columns">2</property>
                                                             <property name="column_spacing">12</property>
-                                                            <property name="row_spacing">6</property>
+                                                            <property name="row_spacing">8</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label350">
                                                             <property name="visible">True</property>
@@ -28653,6 +28688,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

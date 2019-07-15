@@ -6999,43 +6999,7 @@ public partial class ChronoJumpWindow
 
 						if(configChronojump.Compujump && encoderCaptureCurves.Count > 0)
 						{
-							UploadEncoderDataObject uo = new UploadEncoderDataObject(
-									encoderCaptureCurves, lastEncoderSQLSignal.eccon);
-
-
-							/*
-							 * Problems on Json by accents like "Pressió sobre banc"
-							 * string exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
-							 * right now fixed in json.cs UploadEncoderData()
-							 */
-
-							LogB.Information("calling Upload");
-							JsonCompujump js = new JsonCompujump(configChronojump.CompujumpDjango);
-							UploadEncoderDataFullObject uedfo = new UploadEncoderDataFullObject(
-									-1, //uniqueID
-									currentPerson.UniqueID,
-									configChronojump.CompujumpStationID,
-									lastEncoderSQLSignal.exerciseID,
-									lastEncoderSQLSignal.LateralityToEnglish(),
-									Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)), //this is only for gravitatory
-									uo);
-							bool success = js.UploadEncoderData(uedfo);
-
-							LogB.Information(js.ResultMessage);
-							LogB.Information("called Upload");
-
-							if(! success) {
-								LogB.Error(js.ResultMessage);
-
-								SqliteJson.InsertTempEncoder(false, uedfo);
-
-								bool showInWindow = false;
-								if(showInWindow)
-									new DialogMessage(
-											"Chronojump",
-											Constants.MessageTypes.WARNING,
-											js.ResultMessage);
-							}
+							uploadEncoderDataObjectIfPossible();
 						}
 						else if(configChronojump.Exhibition &&
 								configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.INERTIAL &&
@@ -7260,6 +7224,54 @@ public partial class ChronoJumpWindow
 				action == encoderActions.CURVES ||	//recalculate
 				action == encoderActions.CURVES_AC) 	//curves after capture
 			chronojumpWindowTestsNext();
+	}
+
+	private void uploadEncoderDataObjectIfPossible()
+	{
+		UploadEncoderDataObject uo = new UploadEncoderDataObject(encoderCaptureCurves, lastEncoderSQLSignal.eccon);
+
+		if(current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		{
+			//discard first reps on inertial and if there are not enough reps, then do not upload
+			if(! uo.InertialDiscardFirstN(preferences.encoderCaptureInertialDiscardFirstN))
+				return;
+		}
+
+		uo.Calcule();
+
+		/*
+		 * Problems on Json by accents like "Pressió sobre banc"
+		 * string exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise_capture);
+		 * right now fixed in json.cs UploadEncoderData()
+		 */
+
+		LogB.Information("calling Upload");
+		JsonCompujump js = new JsonCompujump(configChronojump.CompujumpDjango);
+		UploadEncoderDataFullObject uedfo = new UploadEncoderDataFullObject(
+				-1, //uniqueID
+				currentPerson.UniqueID,
+				configChronojump.CompujumpStationID,
+				lastEncoderSQLSignal.exerciseID,
+				lastEncoderSQLSignal.LateralityToEnglish(),
+				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)), //this is only for gravitatory
+				uo);
+		bool success = js.UploadEncoderData(uedfo);
+
+		LogB.Information(js.ResultMessage);
+		LogB.Information("called Upload");
+
+		if(! success) {
+			LogB.Error(js.ResultMessage);
+
+			SqliteJson.InsertTempEncoder(false, uedfo);
+
+			bool showInWindow = false;
+			if(showInWindow)
+				new DialogMessage(
+						"Chronojump",
+						Constants.MessageTypes.WARNING,
+						js.ResultMessage);
+		}
 	}
 
 	//sqlite is opened on this method

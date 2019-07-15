@@ -7219,7 +7219,10 @@ LogB.Debug("mc finished 5");
 		encoderButtonsSensitive(encoderSensEnum.NOPERSON);
 		//don't cal personChanged because it will make changes on analyze repetitions and currentPerson == null
 		//personChanged();
-		
+
+		if(notebook_encoder_sup.CurrentPage == 1)
+			notebook_encoder_sup.CurrentPage = 0;
+
 		notebook_execute.Sensitive = false;
 		notebook_analyze.Sensitive = false;
 		notebook_results.Sensitive = false;

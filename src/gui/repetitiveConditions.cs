@@ -114,6 +114,10 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spinbutton_encoder_peakpower_higher;
 	[Widget] Gtk.SpinButton spinbutton_encoder_power_lower;
 	[Widget] Gtk.SpinButton spinbutton_encoder_peakpower_lower;
+	[Widget] Gtk.Button button_encoder_automatic_greater_minus_1;
+	[Widget] Gtk.Button button_encoder_automatic_greater_plus_1;
+	[Widget] Gtk.Button button_encoder_automatic_lower_minus_1;
+	[Widget] Gtk.Button button_encoder_automatic_lower_plus_1;
 
 
 	[Widget] Gtk.Button button_test_good;
@@ -497,6 +501,23 @@ public class RepetitiveConditionsWindow
 	}
 	void on_spinbutton_encoder_automatic_lower_value_changed (object o, EventArgs args) {
 		checkbutton_encoder_automatic_lower.Active = true;
+	}
+
+	void on_button_encoder_automatic_greater_minus_1_clicked (object o, EventArgs args)
+	{
+		spinbutton_encoder_automatic_greater.Value --;
+	}
+	void on_button_encoder_automatic_greater_plus_1_clicked (object o, EventArgs args)
+	{
+		spinbutton_encoder_automatic_greater.Value ++;
+	}
+	void on_button_encoder_automatic_lower_minus_1_clicked (object o, EventArgs args)
+	{
+		spinbutton_encoder_automatic_lower.Value --;
+	}
+	void on_button_encoder_automatic_lower_plus_1_clicked (object o, EventArgs args)
+	{
+		spinbutton_encoder_automatic_lower.Value ++;
 	}
 			
 	void on_checkbutton_encoder_show_manual_feedback_toggled (object o, EventArgs args) {

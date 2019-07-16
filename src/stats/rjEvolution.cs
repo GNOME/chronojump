@@ -282,7 +282,8 @@ public class StatRjEvolution : Stat
 					numContinuous);
 		}
 
-		return string.Format(Catalog.GetString("{0} in Rj Evolution applied to {1} on {2}{3}"), selectedValuesString, jumpType, mySessionString, bestResalted);
+		return string.Format(Catalog.GetString("{0} in Rj Evolution applied to {1} on {2}{3}"), selectedValuesString, jumpType, mySessionString, bestResalted) +
+			". " + Catalog.GetString("Index is [(tfavg-tcavg)/tcavg *100]");
 	}
 }
 

@@ -606,7 +606,7 @@ public partial class ChronoJumpWindow
 
 			preferences.videoOn = true;
 			SqlitePreferences.Update("videoOn", "True", false);
-			event_execute_label_message.Text = Catalog.GetString("Text will be filmed");
+			event_execute_label_message.Text = Catalog.GetString("Tests will be filmed");
 		} else {
 			preferences.videoOn = false;
 			SqlitePreferences.Update("videoOn", "False", false);

@@ -73,8 +73,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
 	[Widget] Gtk.Notebook notebook_analyze; //not encoder
 	[Widget] Gtk.Notebook notebook_capture_graph_table;
-	[Widget] Gtk.HBox hbox_message_at_start;
-	[Widget] Gtk.Label label_message_at_start;
+	[Widget] Gtk.HBox hbox_message_permissions_at_boot;
+	[Widget] Gtk.Label label_message_permissions_at_boot;
+	[Widget] Gtk.HBox hbox_message_camera_at_boot;
 
 	[Widget] Gtk.HBox hbox_contacts_sup_capture_analyze_two_buttons;
 
@@ -534,7 +535,7 @@ public partial class ChronoJumpWindow
 	bool needToShowChronopicRegisterWindow;
 
 	public ChronoJumpWindow(string progVersion, string progName, string runningFileName, SplashWindow splashWin,
-			bool showSendLog, string sendLogMessage, string topMessage)
+			bool showSendLog, string sendLogMessage, string topMessage, bool showCameraStop)
 	{
 		this.progVersion = progVersion;
 		this.progName = progName;
@@ -592,8 +593,8 @@ public partial class ChronoJumpWindow
 		checkbutton_video.Visible = true;
 
 		if(topMessage != "") {
-			label_message_at_start.Text = topMessage;
-			hbox_message_at_start.Visible = true;
+			label_message_permissions_at_boot.Text = topMessage;
+			hbox_message_permissions_at_boot.Visible = true;
 		}
 
 		//show send log if needed or other messages
@@ -603,6 +604,9 @@ public partial class ChronoJumpWindow
 			show_send_log(sendLogMessage, preferences.crashLogLanguage);
 			notebook_start.CurrentPage = 2; //send log
 		}
+
+		if(showCameraStop)
+			hbox_message_camera_at_boot.Visible = true;
 
 		
 		// ------ Creating widgets ------
@@ -652,7 +656,6 @@ public partial class ChronoJumpWindow
 		on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 		on_extra_window_jumps_test_changed(new object(), new EventArgs());
 		//changeTestImage("", "", "LOGO");
-
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
 		definedSession = false;

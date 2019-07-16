@@ -455,6 +455,11 @@ public partial class ChronoJumpWindow
 		button_video_play_selected_test(current_menuitem_mode);
 	}
 
+	private void on_button_camera_stop_at_boot_clicked (object o, EventArgs args)
+	{
+		if(ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutableCapture(UtilAll.GetOSEnum())))
+			hbox_message_camera_at_boot.Visible = false;
+	}
 
 	/*
 	 * videoOn

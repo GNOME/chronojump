@@ -842,7 +842,7 @@ public class PreferencesWindow
 	{
 		string pixelFormat = UtilGtk.ComboGetActive(combo_camera_pixel_format);
 		string resolution = UtilGtk.ComboGetActive(combo_camera_resolution);
-		hbox_camera/resolution_custom.Visible = resolution == Catalog.GetString("Custom");
+		hbox_camera_resolution_custom.Visible = resolution == Catalog.GetString("Custom");
 
 		if(resolution != "" && resolution != Catalog.GetString("Custom") && wfsm != null)
 		{

@@ -24,6 +24,7 @@ using Glade;
 using System.IO; //"File" things
 using System.Diagnostics;  //Stopwatch
 using System.Threading;
+using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
@@ -126,7 +127,7 @@ public partial class ChronoJumpWindow
 			if(! webcamManage.RecordStart(1))
 				return false;
 
-			label_video_feedback_text (guiContactsEncoder, "Preparing camera");
+			label_video_feedback_text (guiContactsEncoder, Catalog.GetString("Preparing camera"));
 		}
 		else if(ncams == 2)
 		{
@@ -136,7 +137,7 @@ public partial class ChronoJumpWindow
 			if(! webcamManage.RecordStart(2))
 				return false;
 
-			label_video_feedback_text (guiContactsEncoder, "Preparing camera");
+			label_video_feedback_text (guiContactsEncoder, Catalog.GetString("Preparing camera"));
 		}
 
 		if(waitUntilRecording)
@@ -182,7 +183,7 @@ public partial class ChronoJumpWindow
 	{
 		if(webcamStartThreadBeforeTestStatus == statusEnum.NOT_STARTED)
 		{
-			label_video_feedback_text (WebcamManage.GuiContactsEncoder.CONTACTS, "Initializing camera.");
+			label_video_feedback_text (WebcamManage.GuiContactsEncoder.CONTACTS, Catalog.GetString("Initializing camera."));
 			pulsebar_webcam.Visible = true;
 			webcamStartThreadBeforeTestStatus = statusEnum.STARTING;
 		}
@@ -191,11 +192,11 @@ public partial class ChronoJumpWindow
 		{
 			pulsebar_webcam.Visible = false;
 			if(webcamStartThreadBeforeTestStatus == statusEnum.FAILURE)
-				label_video_feedback_text (WebcamManage.GuiContactsEncoder.CONTACTS, "Problems starting camera.");
+				label_video_feedback_text (WebcamManage.GuiContactsEncoder.CONTACTS, Catalog.GetString("Problems starting camera."));
 			else if(webcamStartThreadBeforeTestStatus == statusEnum.SUCCESS)
 			{
 				webcamManage.ReallyStarted = true;
-				label_video_feedback_text (WebcamManage.GuiContactsEncoder.CONTACTS, "Recording ...");
+				label_video_feedback_text (WebcamManage.GuiContactsEncoder.CONTACTS, Catalog.GetString("Recording ..."));
 			}
 
 			on_button_execute_test_accepted ();
@@ -344,7 +345,7 @@ public partial class ChronoJumpWindow
 				LogB.Information(string.Format("Preparing to call webcamEndDo() in {0} s", preferences.videoStopAfter));
 
 				notebook_last_test_buttons.CurrentPage = 1;
-				progressbar_video_generating.Text = "Ending video";
+				progressbar_video_generating.Text = Catalog.GetString("Ending video");
 
 				//GLib.Timeout.Add(Convert.ToUInt32(preferences.videoStopAfter * 1000), new GLib.TimeoutHandler(webcamEndDo));
 				//do not done the above method because now we call webcamEndDo to update the progressbar, until preferences.videoStopAfter end
@@ -598,16 +599,18 @@ public partial class ChronoJumpWindow
 		{
 			if(! preferences.IsVideoConfigured())
 			{
-				new DialogMessage(Constants.MessageTypes.WARNING, "Video device is not configured. Check Preferences / Multimedia.");
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Video device is not configured. Check Preferences / Multimedia."));
 				checkbutton_video.Active = false;
 				return;
 			}
 
 			preferences.videoOn = true;
 			SqlitePreferences.Update("videoOn", "True", false);
+			event_execute_label_message.Text = Catalog.GetString("Text will be filmed");
 		} else {
 			preferences.videoOn = false;
 			SqlitePreferences.Update("videoOn", "False", false);
+			event_execute_label_message.Text = "";
 		}
 		//change encoder checkbox but don't raise the signal
 		checkbutton_video_encoder.Clicked -= new EventHandler(on_checkbutton_video_encoder_clicked);
@@ -625,7 +628,7 @@ public partial class ChronoJumpWindow
 		{
 			if(! preferences.IsVideoConfigured())
 			{
-				new DialogMessage(Constants.MessageTypes.WARNING, "Video device is not configured. Check Preferences / Multimedia.");
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Video device is not configured. Check Preferences / Multimedia."));
 				checkbutton_video_encoder.Active = false;
 				return;
 			}

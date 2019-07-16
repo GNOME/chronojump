@@ -87,6 +87,10 @@ public class WebcamFfmpeg : Webcam
 		if(process != null)
 			return new Result (false, "");
 
+		//cannot play preview with camera recording
+		if (ExecuteProcess.IsRunning3 (-1, GetExecutableCapture(os)))
+			return new Result (false, "", "ffmpeg is already running");
+
 		List<string> parameters = createParametersPlayPreview();
 
 		process = new Process();
@@ -103,6 +107,10 @@ public class WebcamFfmpeg : Webcam
 	}
 	public override Result PlayPreviewNoBackground () //experimental
 	{
+		//cannot play preview with camera recording
+		if (ExecuteProcess.IsRunning3 (-1, GetExecutableCapture(os)))
+			return new Result (false, "", "ffmpeg is already running");
+
 		List<string> parameters = createParametersPlayPreview();
 
 		process = new Process();

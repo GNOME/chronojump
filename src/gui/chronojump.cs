@@ -6300,19 +6300,23 @@ LogB.Debug("mc finished 5");
 
 			UtilGtk.ComboUpdate(combo_result_runs, 
 					SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+
+			combo_select_runs.Active = UtilGtk.ComboMakeActive(combo_select_runs, runTypeAddWin.Name);
+			combo_result_runs.Active = UtilGtk.ComboMakeActive(combo_result_runs, runTypeAddWin.Name);
+
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple race type."));
 		} else {
 			createComboSelectRunsInterval(false);
 			
 			UtilGtk.ComboUpdate(combo_result_runs_interval, 
 					SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+
+			combo_select_runs_interval.Active = UtilGtk.ComboMakeActive(combo_select_runs_interval, runTypeAddWin.Name);
+			combo_result_runs_interval.Active = UtilGtk.ComboMakeActive(combo_result_runs_interval, runTypeAddWin.Name);
+
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added intervallic race type."));
 		}
 		updateComboStats();
-		combo_select_runs.Active = 0;
-		combo_select_runs_interval.Active = 0;
-		combo_result_runs.Active = 0;
-		combo_result_runs_interval.Active = 0;
 	}
 
 	//reactiontime has no types

@@ -169,6 +169,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Image image_multimedia_video;
 	[Widget] Gtk.Image image_video_preview;
 	[Widget] Gtk.Button button_video_preview;
+	[Widget] Gtk.Label label_video_preview_error;
 	[Widget] Gtk.CheckButton check_camera_stop_after;
 	[Widget] Gtk.CheckButton check_camera_advanced;
 	[Widget] Gtk.Frame frame_camera_advanced;
@@ -940,13 +941,27 @@ public class PreferencesWindow
 
 	private void on_button_video_preview_clicked (object o, EventArgs args)
 	{
+		label_video_preview_error.Visible = false;
+
+		//this allows us to update the previous label, if not we have to end camera play
+		GLib.Timeout.Add(100, new GLib.TimeoutHandler(button_video_preview_do));
+	}
+	private bool button_video_preview_do ()
+	{
 		string cameraCode = wd_list.GetCodeOfFullname(UtilGtk.ComboGetActive(combo_camera));
 		if(cameraCode == "")
-			return;
+			return false; //do not call again
 
 		Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), cameraCode,
 				getSelectedPixelFormat(), getSelectedResolution(), getSelectedFramerate());
+
 		Webcam.Result result = webcamPlay.PlayPreviewNoBackground ();
+		if(! result.success) {
+			label_video_preview_error.Text = result.error;
+			label_video_preview_error.Visible = true;
+		}
+
+		return false; //do not call again
 	}
 
 	private string getSelectedPixelFormat()

@@ -3943,7 +3943,7 @@ Other</property>
                                             <property name="stock">gtk-missing-image</property>
                                           </widget>
                                           <packing>
-                                            <property name="expand">True</property>
+                                            <property name="expand">False</property>
                                             <property name="fill">True</property>
                                             <property name="position">0</property>
                                           </packing>
@@ -3955,7 +3955,7 @@ Other</property>
                                             <property name="label" translatable="yes">Preview</property>
                                           </widget>
                                           <packing>
-                                            <property name="expand">True</property>
+                                            <property name="expand">False</property>
                                             <property name="fill">True</property>
                                             <property name="position">1</property>
                                           </packing>
@@ -3967,6 +3967,16 @@ Other</property>
                                     <property name="expand">True</property>
                                     <property name="fill">False</property>
                                     <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label_video_preview_error">
+                                    <property name="can_focus">False</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">1</property>
                                   </packing>
                                 </child>
                               </widget>

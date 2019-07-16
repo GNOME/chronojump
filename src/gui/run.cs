@@ -669,7 +669,7 @@ public class RepairRunIntervalWindow
 		//myTreeView.AppendColumn ( Catalog.GetString ("Time"), new CellRendererText(), "text", count++);
 
 		Gtk.TreeViewColumn timeColumn = new Gtk.TreeViewColumn ();
-		timeColumn.Title = Catalog.GetString("TF");
+		timeColumn.Title = Catalog.GetString("Lap time");
 		Gtk.CellRendererText timeCell = new Gtk.CellRendererText ();
 		timeCell.Editable = true;
 		timeCell.Edited += timeCellEdited;

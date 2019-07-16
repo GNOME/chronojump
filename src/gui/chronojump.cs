@@ -6260,19 +6260,23 @@ LogB.Debug("mc finished 5");
 
 			UtilGtk.ComboUpdate(combo_result_jumps, 
 					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), ""); //without filter, only select name
+
+			combo_select_jumps.Active = UtilGtk.ComboMakeActive(combo_select_jumps, jumpTypeAddWin.Name);
+			combo_result_jumps.Active = UtilGtk.ComboMakeActive(combo_result_jumps, jumpTypeAddWin.Name);
+
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple jump type."));
 		} else {
 			createComboSelectJumpsRj(false);
 			
 			UtilGtk.ComboUpdate(combo_result_jumps_rj, 
 					SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
+
+			combo_select_jumps_rj.Active = UtilGtk.ComboMakeActive(combo_select_jumps_rj, jumpTypeAddWin.Name);
+			combo_result_jumps_rj.Active = UtilGtk.ComboMakeActive(combo_result_jumps_rj, jumpTypeAddWin.Name);
+
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added reactive jump type."));
 		}
 		updateComboStats();
-		combo_select_jumps.Active = 0;
-		combo_select_jumps_rj.Active = 0;
-		combo_result_jumps.Active = 0;
-		combo_result_jumps_rj.Active = 0;
 	}
 
 	private void on_run_simple_type_add_activate (object o, EventArgs args) {

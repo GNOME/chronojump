@@ -60,6 +60,7 @@ public class JumpTypeAddWindow
 
 	public bool InsertedSimple;
 	private bool descriptionChanging = false;
+	private string name;
 
 	JumpTypeAddWindow (Gtk.Window parent, bool simple) {
 		Glade.XML gladeXML;
@@ -140,7 +141,7 @@ public class JumpTypeAddWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		string name = Util.RemoveTildeAndColonAndDot(entry_name.Text);
+		name = Util.RemoveTildeAndColonAndDot(entry_name.Text);
 
 		//check if this jump type exists, and check it's name is not AllJumpsName
 		bool jumpTypeExists = Sqlite.Exists (false, Constants.JumpTypeTable, name);
@@ -260,6 +261,10 @@ public class JumpTypeAddWindow
 		get { return fakeButtonAccept; }
 	}
 
+	public string Name
+	{
+		get { return name; }
+	}
 
 }
 

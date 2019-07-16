@@ -78,7 +78,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_add_test4;
 	[Widget] Gtk.Image image_add_test5;
 	[Widget] Gtk.Image image_test_inspect;
-	[Widget] Gtk.Image image_message_at_start;
 
 	[Widget] Gtk.Image image_selector_start_jumps;
 	[Widget] Gtk.Image image_selector_start_runs;
@@ -173,6 +172,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_forcesensor_analyze_image_save6;
 	[Widget] Gtk.Image image_forcesensor_analyze_image_save7;
 	[Widget] Gtk.Image image_sprint_analyze_image_save;
+	[Widget] Gtk.Image image_message_permissions_at_boot;
+	[Widget] Gtk.Image image_camera_at_boot;
 
 	private void putNonStandardIcons()
 	{
@@ -213,7 +214,7 @@ public partial class ChronoJumpWindow
 		image_quit2.Pixbuf = pixbuf;
 		image_quit_from_app1.Pixbuf = pixbuf;
 
-		image_message_at_start.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_warning_red.png");
+		image_message_permissions_at_boot.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_warning_red.png");
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
 		image_top_eccon.Pixbuf = pixbuf;
@@ -400,6 +401,8 @@ public partial class ChronoJumpWindow
 		image_video_encoder_yes.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_on.png");
 		image_video_no.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_off.png");
 		image_video_encoder_no.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_off.png");
+
+		image_camera_at_boot.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_off.png");
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_preview.png");
 		image_video_preview.Pixbuf = pixbuf;

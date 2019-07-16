@@ -576,7 +576,9 @@ public class ChronoJump
 			topMessage = Catalog.GetString("Need dialout permissions to read from device.") + "\n" +
 				Catalog.GetString("Check software page on Chronojump website");
 
-		new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin, sendLog, messageToShowOnBoot, topMessage);
+		bool showCameraStop = (ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutableCapture(UtilAll.GetOSEnum())));
+
+		new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin, sendLog, messageToShowOnBoot, topMessage, showCameraStop);
 	}
 
 	private bool linuxUserHasDialout()

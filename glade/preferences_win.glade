@@ -3541,6 +3541,7 @@ Other</property>
                               <widget class="GtkLabel" id="label62">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Select the camera</property>
                               </widget>
                               <packing>
@@ -3853,6 +3854,9 @@ Other</property>
                                   </packing>
                                 </child>
                                 <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
                                   <widget class="GtkLabel" id="label_camera_pixel_format">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
@@ -3907,9 +3911,6 @@ Other</property>
                                     <property name="top_attach">2</property>
                                     <property name="bottom_attach">3</property>
                                   </packing>
-                                </child>
-                                <child>
-                                  <placeholder/>
                                 </child>
                                 <child>
                                   <widget class="GtkLabel" id="label_camera_pixel_format_current">

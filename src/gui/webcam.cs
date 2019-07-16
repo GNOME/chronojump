@@ -46,7 +46,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_video_yes;
 	[Widget] Gtk.Image image_video_no;
 	[Widget] Gtk.Image image_video_encoder_yes;
+	[Widget] Gtk.Image image_video_encoder_yes1;
 	[Widget] Gtk.Image image_video_encoder_no;
+	[Widget] Gtk.Label label_video_encoder_tests_will_be_filmed;
 	[Widget] Gtk.Button button_video_play_this_test;
 	[Widget] Gtk.Button button_video_play_this_test_encoder;
 	[Widget] Gtk.ProgressBar pulsebar_webcam;
@@ -635,6 +637,11 @@ public partial class ChronoJumpWindow
 
 			preferences.videoOn = true;
 			SqlitePreferences.Update("videoOn", "True", false);
+
+			//this allows to see the label during 500 ms
+			hbox_video_encoder_no_capturing.Visible = false;
+			label_video_encoder_tests_will_be_filmed.Visible = true;
+			GLib.Timeout.Add(1000, new GLib.TimeoutHandler(checkbutton_video_encoder_active_end));
 		} else {
 			preferences.videoOn = false;
 			SqlitePreferences.Update("videoOn", "False", false);
@@ -648,6 +655,14 @@ public partial class ChronoJumpWindow
 
 		//will start on record
 		videoCapturePrepare(true); //if error, show message
+	}
+
+	private bool checkbutton_video_encoder_active_end()
+	{
+		hbox_video_encoder_no_capturing.Visible = true;
+		label_video_encoder_tests_will_be_filmed.Visible = false;
+
+		return false; //do not call this again
 	}
 
 	/* ---------------------------------------------------------

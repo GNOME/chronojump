@@ -420,37 +420,9 @@ public partial class ChronoJumpWindow
 				//configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY
 
 				string yearMonthStr = UtilDate.GetCurrentYearMonthStr();
-				LogB.Information("yearMonthStr: " + yearMonthStr);
-				if(! Sqlite.Exists(false, Constants.SessionTable, yearMonthStr))
-				{
-					//this creates the session and inserts at DB
-					currentSession = new Session(
-							yearMonthStr, "", DateTime.Today,	//name, place, dateTime
-							Constants.SportUndefinedID, Constants.SpeciallityUndefinedID, Constants.LevelUndefinedID,
-							"", Constants.ServerUndefinedID); //comments, serverID
-
-					//insert personSessions from last month
-					string yearLastMonthStr = UtilDate.GetCurrentYearLastMonthStr();
-					if(Sqlite.Exists(false, Constants.SessionTable, yearLastMonthStr))
-					{
-						Session s = SqliteSession.SelectByName(yearLastMonthStr);
-
-						//import all persons from last session
-						List<PersonSession> personSessions = SqlitePersonSession.SelectPersonSessionList(s.UniqueID);
-
-						//convert all personSessions to currentSession
-						//and nullify UniqueID in order to be inserted incrementally by SQL
-						foreach(PersonSession ps in personSessions)
-						{
-							ps.UniqueID = -1;
-							ps.SessionID = currentSession.UniqueID;
-						}
-
-
-						//insert personSessions using a transaction
-						new SqlitePersonSessionTransaction(personSessions);
-					}
-				} else
+				if(needToCreateMonthlySession(yearMonthStr))
+					createMonthlySession(yearMonthStr);
+				else
 					currentSession = SqliteSession.SelectByName(yearMonthStr);
 			}
 			
@@ -486,6 +458,45 @@ public partial class ChronoJumpWindow
 
 		label_rfid_wait.Visible = false;
 		label_rfid_encoder_wait.Visible = false;
+	}
+
+	private bool needToCreateMonthlySession(string yearMonthStr)
+	{
+		LogB.Information("yearMonthStr: " + yearMonthStr);
+
+		return(! Sqlite.Exists(false, Constants.SessionTable, yearMonthStr));
+	}
+
+	private void createMonthlySession(string yearMonthStr)
+	{
+		//this creates the session and inserts at DB
+		currentSession = new Session(
+				yearMonthStr, "", DateTime.Today,	//name, place, dateTime
+				Constants.SportUndefinedID, Constants.SpeciallityUndefinedID, Constants.LevelUndefinedID,
+				"", Constants.ServerUndefinedID); //comments, serverID
+
+		setApp1Title(currentSession.Name, current_menuitem_mode);
+
+		//insert personSessions from last month
+		string yearLastMonthStr = UtilDate.GetCurrentYearLastMonthStr();
+		if(Sqlite.Exists(false, Constants.SessionTable, yearLastMonthStr))
+		{
+			Session s = SqliteSession.SelectByName(yearLastMonthStr);
+
+			//import all persons from last session
+			List<PersonSession> personSessions = SqlitePersonSession.SelectPersonSessionList(s.UniqueID);
+
+			//convert all personSessions to currentSession
+			//and nullify UniqueID in order to be inserted incrementally by SQL
+			foreach(PersonSession ps in personSessions)
+			{
+				ps.UniqueID = -1;
+				ps.SessionID = currentSession.UniqueID;
+			}
+
+			//insert personSessions using a transaction
+			new SqlitePersonSessionTransaction(personSessions);
+		}
 	}
 
 	DialogMessage dialogMessageNotAtServer;
@@ -631,6 +642,10 @@ public partial class ChronoJumpWindow
 					SqlitePerson.Update(pLocal);
 				}
 
+				string yearMonthStr = UtilDate.GetCurrentYearMonthStr();
+				if(needToCreateMonthlySession(yearMonthStr))
+					createMonthlySession(yearMonthStr);
+
 				currentPerson = pLocal;
 				insertAndAssignPersonSessionIfNeeded(json);
 
@@ -663,6 +678,10 @@ public partial class ChronoJumpWindow
 			LogB.Information("RFID person exists locally!!");
 			if(rfidIsDifferent || dialogPersonPopup == null || ! dialogPersonPopup.Visible)
 			{
+				string yearMonthStr = UtilDate.GetCurrentYearMonthStr();
+				if(needToCreateMonthlySession(yearMonthStr))
+					createMonthlySession(yearMonthStr);
+
 				currentPerson = pLocal;
 				insertAndAssignPersonSessionIfNeeded(json);
 

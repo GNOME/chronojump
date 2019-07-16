@@ -157,6 +157,9 @@ public class PreferencesWindow
 	[Widget] Gtk.SpinButton spin_camera_framerate_custom;
 	[Widget] Gtk.Entry entry_camera_framerate_custom_decimals;
 	[Widget] Gtk.Label label_camera_pixel_format;
+	[Widget] Gtk.Label label_camera_pixel_format_current;
+	[Widget] Gtk.Label label_camera_resolution_current;
+	[Widget] Gtk.Label label_camera_framerate_current;
 	[Widget] Gtk.HBox hbox_combo_camera_pixel_format;
 	[Widget] Gtk.ComboBox combo_camera_pixel_format;
 	[Widget] Gtk.Box hbox_combo_camera_resolution;
@@ -701,12 +704,16 @@ public class PreferencesWindow
 			pixelFormats.Add(pixelFormat);
 			UtilGtk.ComboUpdate(combo_camera_pixel_format, pixelFormats);
 			combo_camera_pixel_format.Active = 0;
+
+			label_camera_pixel_format_current.Text = pixelFormat;
+			label_camera_pixel_format_current.Visible = true;
 			button_video_preview.Sensitive = true;
 		}
 
 		hbox_combo_camera_pixel_format.PackStart(combo_camera_pixel_format, true, true, 0);
-		hbox_combo_camera_pixel_format.ShowAll();
-		hbox_combo_camera_pixel_format.Sensitive = false;
+		//not shown because label is shown
+		//hbox_combo_camera_pixel_format.ShowAll();
+		//hbox_combo_camera_pixel_format.Sensitive = false;
 		combo_camera_pixel_format.Changed += new EventHandler (on_combo_camera_pixel_format_changed);
 
 		// 3) resolution
@@ -747,11 +754,15 @@ public class PreferencesWindow
 			resolutions.Add(resolution);
 			UtilGtk.ComboUpdate(combo_camera_resolution, resolutions);
 			combo_camera_resolution.Active = 0;
+
+			label_camera_resolution_current.Text = resolution;
+			label_camera_resolution_current.Visible = true;
 		}
 
 		hbox_combo_camera_resolution.PackStart(combo_camera_resolution, true, true, 0);
-		hbox_combo_camera_resolution.ShowAll();
-		hbox_combo_camera_resolution.Sensitive = false;
+		//not shown because label is shown
+		//hbox_combo_camera_resolution.ShowAll();
+		//hbox_combo_camera_resolution.Sensitive = false;
 		combo_camera_resolution.Changed += new EventHandler (on_combo_camera_resolution_changed);
 
 		// 4) framerate
@@ -797,11 +808,15 @@ public class PreferencesWindow
 			framerates.Add(framerate);
 			UtilGtk.ComboUpdate(combo_camera_framerate, framerates);
 			combo_camera_framerate.Active = 0;
+
+			label_camera_framerate_current.Text = framerate;
+			label_camera_framerate_current.Visible = true;
 		}
 
 		hbox_combo_camera_framerate.PackStart(combo_camera_framerate, true, true, 0);
-		hbox_combo_camera_framerate.ShowAll();
-		hbox_combo_camera_framerate.Sensitive = false;
+		//not shown because label is shown
+		//hbox_combo_camera_framerate.ShowAll();
+		//hbox_combo_camera_framerate.Sensitive = false;
 		combo_camera_framerate.Changed += new EventHandler (on_combo_camera_framerate_changed);
 	}
 
@@ -827,7 +842,7 @@ public class PreferencesWindow
 	{
 		string pixelFormat = UtilGtk.ComboGetActive(combo_camera_pixel_format);
 		string resolution = UtilGtk.ComboGetActive(combo_camera_resolution);
-		hbox_camera_resolution_custom.Visible = resolution == Catalog.GetString("Custom");
+		hbox_camera/resolution_custom.Visible = resolution == Catalog.GetString("Custom");
 
 		if(resolution != "" && resolution != Catalog.GetString("Custom") && wfsm != null)
 		{
@@ -933,9 +948,19 @@ public class PreferencesWindow
 			UtilGtk.ComboUpdate(combo_camera_pixel_format, wfsm.GetPixelFormats());
 			combo_camera_pixel_format.Active = UtilGtk.ComboMakeActive(combo_camera_pixel_format, currentPixelFormat);
 
+			/*
+			//not shown because label is shown
 			hbox_combo_camera_pixel_format.Sensitive = true;
 			hbox_combo_camera_resolution.Sensitive = true;
 			hbox_combo_camera_framerate.Sensitive = true;
+			*/
+			label_camera_pixel_format_current.Visible = false;
+			label_camera_resolution_current.Visible = false;
+			label_camera_framerate_current.Visible = false;
+
+			hbox_combo_camera_pixel_format.ShowAll();
+			hbox_combo_camera_resolution.ShowAll();
+			hbox_combo_camera_framerate.ShowAll();
 		}
 	}
 

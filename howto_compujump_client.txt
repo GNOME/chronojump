@@ -76,3 +76,11 @@ CompujumpStationMode=POWERGRAVITATORY
     Remember SPACES are NOT allowed immediatelly before or after '='
 15) Open Chronojump
 16) Select preferences (Encoder capture main variable (mean speed?), font size..)
+
+17) Config client backups
+     mkdir /home/chronojump/backups
+     mkdir /home/chronojump/backups/Chronojump
+     crontab -e
+     0 3 * * * rsync -a -r --delete /home/chronojump/.local/share/Chronojump/ /home/chronojump/backups/Chronojump/
+
+18) Config mail sending (config_mail.sh)

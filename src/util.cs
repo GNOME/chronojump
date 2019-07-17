@@ -2238,18 +2238,20 @@ public class UtilCopy
 		foreach (DirectoryInfo dir in diArray)
 			if(dir.ToString() != backupDir) //do not copy backup files
 			{
-				CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name), level ++);
-
 				if(level == 0)
 				{
 					BackupMainDirsCount ++;
 					LastMainDir = Util.GetLastPartOfPath (dir.ToString());
 					BackupSecondDirsCount = 0;
+					LogB.Information("at level 0: " + dir);
 				} else if(level == 1) {
 					BackupSecondDirsLength = diArray.Length;
 					BackupSecondDirsCount ++;
 					LastSecondDir = Util.GetLastPartOfPath (dir.ToString());
+					LogB.Information("at level 1: " + dir);
 				}
+				CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name), level +1);
+
 			}
 		foreach (FileInfo file in source.GetFiles())
 			file.CopyTo(Path.Combine(target.FullName, file.Name));

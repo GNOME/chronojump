@@ -1593,7 +1593,7 @@ public class PreferencesWindow
 		pulsebarBackupSecondDirs.Fraction = Util.DivideSafeFraction(uc.BackupSecondDirsCount, uc.BackupSecondDirsLength);
 		pulsebarBackupSecondDirs.Text = uc.LastSecondDir;
 
-		Thread.Sleep (50);
+		Thread.Sleep (10);
 		//LogB.Debug(thread.ThreadState.ToString());
 		return true;
 	}

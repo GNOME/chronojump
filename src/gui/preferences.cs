@@ -60,7 +60,8 @@ public class PreferencesWindow
 	
 	[Widget] Gtk.Button button_db_backup;
 	[Widget] Gtk.Box hbox_backup_doing;
-	[Widget] Gtk.ProgressBar pulsebar;
+	[Widget] Gtk.ProgressBar pulsebarBackupDirs;
+	[Widget] Gtk.ProgressBar pulsebarBackupActivity;
 
 	
 	//jumps tab	
@@ -1324,6 +1325,7 @@ public class PreferencesWindow
 					//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
 					if(check_backup_multimedia_and_encoder.Active)
 					{
+						uc = new UtilCopy();
 						thread = new Thread(new ThreadStart(copyRecursive));
 						GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		
@@ -1397,6 +1399,7 @@ public class PreferencesWindow
 			//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
 			if(check_backup_multimedia_and_encoder.Active) {
 				Directory.Delete(fileCopy, true);
+				uc = new UtilCopy();
 				thread = new Thread(new ThreadStart(copyRecursive));
 				GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		
@@ -1421,8 +1424,20 @@ public class PreferencesWindow
 	/*
 	 * deprecated since 1.6.0. Use backup method below
 	*/
-	private void copyRecursive() {
-		Util.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(fileCopy));
+	static long copyRecursiveElapsedMs;
+	static int backupMainDirsDone;
+	static UtilCopy uc;
+	private void copyRecursive()
+	{
+		copyRecursiveElapsedMs = 0;
+		Stopwatch sw = new Stopwatch();
+		sw.Start();
+
+		//Util.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(fileCopy), out backupMainDirsDone);
+		uc.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(fileCopy), true);
+		sw.Stop();
+
+		copyRecursiveElapsedMs = sw.ElapsedMilliseconds;
 	}
 
 	/*
@@ -1571,17 +1586,19 @@ public class PreferencesWindow
 			return false;
 		}
 	
-		pulsebar.Pulse();
+		pulsebarBackupDirs.Fraction = Util.DivideSafeFraction(uc.BackupMainDirsDone, 6); //6 for: database, encoder, forceSensor, logs, multimedia, raceAnalyzer
+		pulsebarBackupActivity.Pulse();
 		Thread.Sleep (50);
 		//LogB.Debug(thread.ThreadState.ToString());
 		return true;
 	}
 
 	private void endPulse() {
-		pulsebar.Fraction = 1;
+		pulsebarBackupDirs.Fraction = 1;
+		pulsebarBackupActivity.Fraction = 1;
 		backup_doing_sensitive_start_end(false);
 		fc.Hide ();
-		string myString = string.Format(Catalog.GetString("Copied to {0}"), fileCopy);
+		string myString = string.Format(Catalog.GetString("Copied to {0} in {1} ms"), fileCopy, copyRecursiveElapsedMs);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 	

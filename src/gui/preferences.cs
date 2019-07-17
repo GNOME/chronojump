@@ -61,6 +61,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Button button_db_backup;
 	[Widget] Gtk.HBox hbox_backup_doing;
 	[Widget] Gtk.Label label_backup;
+	[Widget] Gtk.ProgressBar pulsebarBackupActivity;
 	[Widget] Gtk.ProgressBar pulsebarBackupDirs;
 	[Widget] Gtk.ProgressBar pulsebarBackupSecondDirs;
 
@@ -1587,21 +1588,22 @@ public class PreferencesWindow
 			return false;
 		}
 	
+		pulsebarBackupActivity.Pulse();
 		pulsebarBackupDirs.Fraction = Util.DivideSafeFraction(uc.BackupMainDirsCount, 6); //6 for: database, encoder, forceSensor, logs, multimedia, raceAnalyzer
 		pulsebarBackupDirs.Text = uc.LastMainDir;
-		//pulsebarBackupActivity.Pulse();
 		pulsebarBackupSecondDirs.Fraction = Util.DivideSafeFraction(uc.BackupSecondDirsCount, uc.BackupSecondDirsLength);
 		pulsebarBackupSecondDirs.Text = uc.LastSecondDir;
 
-		Thread.Sleep (10);
+		Thread.Sleep (30);
 		//LogB.Debug(thread.ThreadState.ToString());
 		return true;
 	}
 
-	private void endPulse() {
+	private void endPulse()
+	{
+		pulsebarBackupActivity.Fraction = 1;
 		pulsebarBackupDirs.Fraction = 1;
 		pulsebarBackupSecondDirs.Fraction = 1;
-		//pulsebarBackupActivity.Fraction = 1;
 		backup_doing_sensitive_start_end(false);
 		fc.Hide ();
 		string myString = string.Format(Catalog.GetString("Copied to {0} in {1} ms"), fileCopy, copyRecursiveElapsedMs);
@@ -1613,8 +1615,9 @@ public class PreferencesWindow
 		if(start)
 			label_backup.Text = Catalog.GetString("Please, wait.");
 
+		pulsebarBackupActivity.Visible = start;
 		hbox_backup_doing.Visible = start;
-	
+
 		button_db_backup.Sensitive = ! start;
 		button_data_folder_open.Sensitive = ! start;
 		

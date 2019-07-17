@@ -2243,12 +2243,12 @@ public class UtilCopy
 					BackupMainDirsCount ++;
 					LastMainDir = Util.GetLastPartOfPath (dir.ToString());
 					BackupSecondDirsCount = 0;
-					LogB.Information("at level 0: " + dir);
+					//LogB.Information("at level 0: " + dir);
 				} else if(level == 1) {
 					BackupSecondDirsLength = diArray.Length;
 					BackupSecondDirsCount ++;
 					LastSecondDir = Util.GetLastPartOfPath (dir.ToString());
-					LogB.Information("at level 1: " + dir);
+					//LogB.Information("at level 1: " + dir);
 				}
 				CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name), level +1);
 

@@ -2213,25 +2213,43 @@ public class Util
 
 public class UtilCopy
 {
-	public int BackupMainDirsDone;
+	public int BackupMainDirsCount;
+	public int BackupSecondDirsCount;
+	public int BackupSecondDirsLength;
+	public string LastMainDir;
+	public string LastSecondDir;
 
 	//to go faster on CopyFilesRecursively
 	static string backupDir = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
 
 	public UtilCopy()
 	{
-		BackupMainDirsDone = 0;
+		BackupMainDirsCount = 0;
+		BackupSecondDirsCount = 0;
+		BackupSecondDirsLength = 0;
+		LastMainDir = "";
+		LastSecondDir = "";
 	}
 
 	//http://stackoverflow.com/a/58779
-	public void CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target, bool mainDir)
+	public void CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target, uint level)
 	{
-		foreach (DirectoryInfo dir in source.GetDirectories())
+		DirectoryInfo [] diArray = source.GetDirectories();
+		foreach (DirectoryInfo dir in diArray)
 			if(dir.ToString() != backupDir) //do not copy backup files
 			{
-				CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name), false);
-				if(mainDir)
-					BackupMainDirsDone ++;
+				CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name), level ++);
+
+				if(level == 0)
+				{
+					BackupMainDirsCount ++;
+					LastMainDir = Util.GetLastPartOfPath (dir.ToString());
+					BackupSecondDirsCount = 0;
+				} else if(level == 1) {
+					BackupSecondDirsLength = diArray.Length;
+					BackupSecondDirsCount ++;
+					LastSecondDir = Util.GetLastPartOfPath (dir.ToString());
+				}
 			}
 		foreach (FileInfo file in source.GetFiles())
 			file.CopyTo(Path.Combine(target.FullName, file.Name));

@@ -59,9 +59,10 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton check_backup_multimedia_and_encoder;
 	
 	[Widget] Gtk.Button button_db_backup;
-	[Widget] Gtk.Box hbox_backup_doing;
+	[Widget] Gtk.HBox hbox_backup_doing;
+	[Widget] Gtk.Label label_backup;
 	[Widget] Gtk.ProgressBar pulsebarBackupDirs;
-	[Widget] Gtk.ProgressBar pulsebarBackupActivity;
+	[Widget] Gtk.ProgressBar pulsebarBackupSecondDirs;
 
 	
 	//jumps tab	
@@ -1337,7 +1338,7 @@ public class PreferencesWindow
 						File.Copy(fileDB, fileCopy);
 					
 						string myString = string.Format(Catalog.GetString("Copied to {0}"), fileCopy);
-						new DialogMessage(Constants.MessageTypes.INFO, myString);
+						label_backup.Text = myString;
 					}
 				}
 			} 
@@ -1413,7 +1414,7 @@ public class PreferencesWindow
 						
 				fc.Hide ();
 				string myString = string.Format(Catalog.GetString("Copied to {0}"), fileCopy);
-				new DialogMessage(Constants.MessageTypes.INFO, myString);
+				label_backup.Text = myString;
 			}
 		} catch {
 			string myString = string.Format(Catalog.GetString("Cannot copy to {0} "), fileCopy);
@@ -1434,7 +1435,7 @@ public class PreferencesWindow
 		sw.Start();
 
 		//Util.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(fileCopy), out backupMainDirsDone);
-		uc.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(fileCopy), true);
+		uc.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(fileCopy), 0);
 		sw.Stop();
 
 		copyRecursiveElapsedMs = sw.ElapsedMilliseconds;
@@ -1586,8 +1587,12 @@ public class PreferencesWindow
 			return false;
 		}
 	
-		pulsebarBackupDirs.Fraction = Util.DivideSafeFraction(uc.BackupMainDirsDone, 6); //6 for: database, encoder, forceSensor, logs, multimedia, raceAnalyzer
-		pulsebarBackupActivity.Pulse();
+		pulsebarBackupDirs.Fraction = Util.DivideSafeFraction(uc.BackupMainDirsCount, 6); //6 for: database, encoder, forceSensor, logs, multimedia, raceAnalyzer
+		pulsebarBackupDirs.Text = uc.LastMainDir;
+		//pulsebarBackupActivity.Pulse();
+		pulsebarBackupSecondDirs.Fraction = Util.DivideSafeFraction(uc.BackupSecondDirsCount, uc.BackupSecondDirsLength);
+		pulsebarBackupSecondDirs.Text = uc.LastSecondDir;
+
 		Thread.Sleep (50);
 		//LogB.Debug(thread.ThreadState.ToString());
 		return true;
@@ -1595,15 +1600,19 @@ public class PreferencesWindow
 
 	private void endPulse() {
 		pulsebarBackupDirs.Fraction = 1;
-		pulsebarBackupActivity.Fraction = 1;
+		pulsebarBackupSecondDirs.Fraction = 1;
+		//pulsebarBackupActivity.Fraction = 1;
 		backup_doing_sensitive_start_end(false);
 		fc.Hide ();
 		string myString = string.Format(Catalog.GetString("Copied to {0} in {1} ms"), fileCopy, copyRecursiveElapsedMs);
-		new DialogMessage(Constants.MessageTypes.INFO, myString);
+		label_backup.Text = myString;
 	}
 	
 	private void backup_doing_sensitive_start_end(bool start) 
 	{
+		if(start)
+			label_backup.Text = Catalog.GetString("Please, wait.");
+
 		hbox_backup_doing.Visible = start;
 	
 		button_db_backup.Sensitive = ! start;

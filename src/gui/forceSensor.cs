@@ -1204,6 +1204,31 @@ LogB.Information(" re R ");
 		if (filechooser.Run () == (int)ResponseType.Accept)
 		{
 			lastForceSensorFile = Util.RemoveExtension(Util.GetLastPartOfPath(filechooser.Filename));
+
+			//try to change currentPerson on loading set
+			ForceSensorLoadTryToAssignPersonAndMore fslt = new ForceSensorLoadTryToAssignPersonAndMore(lastForceSensorFile, currentSession.UniqueID);
+			Person p = fslt.GetPerson();
+			if(p.UniqueID != -1)
+			{
+				currentPerson = p;
+				currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+				if(fslt.Exercise != "")
+					combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, fslt.Exercise);
+				if(fslt.Laterality != "")
+					setLaterality(fslt.Laterality);
+				if(fslt.Comment != "")
+					textview_force_sensor_capture_comment.Buffer.Text = fslt.Comment;
+
+				int rowToSelect = myTreeViewPersons.FindRow(p.UniqueID);
+				if(rowToSelect != -1) {
+					//this will update also currentPerson
+					selectRowTreeView_persons(treeview_persons, rowToSelect);
+				}
+
+				label_person_change();
+				personChanged();
+			}
+
 			lastForceSensorFullPath = filechooser.Filename; //used on recalculate
 
 			forceSensorCopyTempAndDoGraphs();
@@ -1924,11 +1949,20 @@ LogB.Information(" re R ");
 	private string getLaterality()
 	{
 		if(radio_force_sensor_laterality_both.Active)
-			return Catalog.GetString("Both");
+			return Catalog.GetString(Constants.ForceSensorLateralityBoth);
 		else if(radio_force_sensor_laterality_l.Active)
-			return Catalog.GetString("Left");
+			return Catalog.GetString(Constants.ForceSensorLateralityLeft);
 		else //if(radio_force_sensor_laterality_r.Active)
-			return Catalog.GetString("Right");
+			return Catalog.GetString(Constants.ForceSensorLateralityRight);
+	}
+	private void setLaterality(string s)
+	{
+		if(s == Catalog.GetString(Constants.ForceSensorLateralityBoth))
+			radio_force_sensor_laterality_both.Active = true;
+		else if(s == Catalog.GetString(Constants.ForceSensorLateralityLeft))
+			radio_force_sensor_laterality_l.Active = true;
+		else if(s == Catalog.GetString(Constants.ForceSensorLateralityRight))
+			radio_force_sensor_laterality_r.Active = true;
 	}
 
 	private string getCaptureComment()

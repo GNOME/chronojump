@@ -1029,3 +1029,84 @@ public class ForceSensorAnalyzeInstant
 	}
 
 }
+
+//we need this class because we started using foresensor without database (only text files)
+public class ForceSensorLoadTryToAssignPersonAndMore
+{
+	private string filename; //filename comes without extension
+	private int currentSessionID; //we get a person if already exists on that session
+	public string Exercise;
+	public string Laterality;
+	public string Comment;
+
+	public ForceSensorLoadTryToAssignPersonAndMore(string filename, int currentSessionID)
+	{
+		this.filename = filename;
+		this.currentSessionID = currentSessionID;
+
+		Exercise = "";
+		Laterality = "";
+		Comment = "";
+	}
+
+	public Person GetPerson()
+	{
+		string personName = getNameAndMore();
+		if(personName == "")
+			return new Person(-1);
+
+		Person p = SqlitePerson.SelectByName(personName);
+		if(SqlitePersonSession.PersonSelectExistsInSession(p.UniqueID, currentSessionID))
+			return p;
+
+		return new Person(-1);
+	}
+
+	private string getNameAndMore()
+	{
+		string [] strFull = filename.Split(new char[] {'_'});
+
+		/*
+		 * At 1.8.1-95 filename was: personName_date_hour
+		 * Later filename was:
+		 * 	personName_exercisename_laterality_date_hour
+		 * 	or
+		 * 	personName_exercisename_laterality_comment_date_hour
+		 * 	note comment can have more _ so it can be
+		 * 	personName_exercisename_laterality_mycomment_with_some_underscores_date_hour
+		 */
+		if(strFull.Length == 3)
+			return strFull[0];
+		else if(strFull.Length >= 5)
+		{
+			//strFull[1] is the exercise, but check that it existst on database
+			if(Sqlite.Exists(false, Constants.ForceSensorExerciseTable, strFull[1]))
+				Exercise = strFull[1];
+
+			if(
+					strFull[2] == Catalog.GetString(Constants.ForceSensorLateralityBoth) ||
+					strFull[2] == Catalog.GetString(Constants.ForceSensorLateralityLeft) ||
+					strFull[2] == Catalog.GetString(Constants.ForceSensorLateralityRight) )
+				Laterality = strFull[2];
+
+			if(strFull.Length == 6)
+				Comment = strFull[3];
+			else if(strFull.Length > 6) //comments with underscores
+			{
+				string myComment = "";
+				string sep = "";
+				for(int i = 3; i <= strFull.Length -3; i ++)
+				{
+					myComment += sep + strFull[i];
+					sep = "_";
+				}
+
+				Comment = myComment;
+			}
+
+			return strFull[0];
+		}
+
+		return "";
+	}
+}

@@ -1229,10 +1229,10 @@ public class Util
 	public static string GetSoundsDir(){
 		return GetImagesDir();
 	}
-	
-	
+
+	static string backupDir = GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
+
 	public static void BackupDirCreateIfNeeded () {
-		string backupDir = GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
 		if( ! Directory.Exists(backupDir)) {
 			Directory.CreateDirectory (backupDir);
 			LogB.Information ("created backup dir");
@@ -1241,8 +1241,6 @@ public class Util
 
 	public static void BackupDatabase () {
 		string homeDir = GetDatabaseDir();
-		string backupDir = homeDir + Path.DirectorySeparatorChar + "backup";
-		
 		string dateParsed = UtilDate.ToFile(DateTime.Now);
 
 		if(File.Exists(System.IO.Path.Combine(homeDir, "chronojump.db")))
@@ -1251,14 +1249,6 @@ public class Util
 		else {
 			LogB.Error("Error, chronojump.db file doesn't exist!");
 		}
-	}
-
-	//http://stackoverflow.com/a/58779	
-	public static void CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target) {
-		foreach (DirectoryInfo dir in source.GetDirectories())
-			CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name));
-		foreach (FileInfo file in source.GetFiles())
-			file.CopyTo(Path.Combine(target.FullName, file.Name));
 	}
 
 	public static bool FileDelete(string fileName) 
@@ -2218,5 +2208,32 @@ public class Util
 		} catch {
 			LogB.Error("Couldn't Insert text at the beginning of File");
 		}
+	}
+}
+
+public class UtilCopy
+{
+	public int BackupMainDirsDone;
+
+	//to go faster on CopyFilesRecursively
+	static string backupDir = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
+
+	public UtilCopy()
+	{
+		BackupMainDirsDone = 0;
+	}
+
+	//http://stackoverflow.com/a/58779
+	public void CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target, bool mainDir)
+	{
+		foreach (DirectoryInfo dir in source.GetDirectories())
+			if(dir.ToString() != backupDir) //do not copy backup files
+			{
+				CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name), false);
+				if(mainDir)
+					BackupMainDirsDone ++;
+			}
+		foreach (FileInfo file in source.GetFiles())
+			file.CopyTo(Path.Combine(target.FullName, file.Name));
 	}
 }

@@ -3674,10 +3674,9 @@ Other</property>
                             </child>
                             <child>
                               <widget class="GtkLabel" id="label_camera_get_supported">
-                                <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
-                                <property name="label" translatable="yes">Check supported modes</property>
+                                <property name="label">Check supported modes</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -3695,7 +3694,7 @@ Other</property>
                                   <widget class="GtkLabel" id="label86">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Check!</property>
+                                    <property name="label" translatable="yes">Configure</property>
                                   </widget>
                                 </child>
                               </widget>

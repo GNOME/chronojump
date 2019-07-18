@@ -160,6 +160,13 @@ public partial class ChronoJumpWindow
 			showWebcamCaptureContactsControls (false); //contacts
 			hbox_video_encoder.Visible = false;
 
+			//networks always without lateral person win
+			//also this is important for seing label_rfid_encoder_wait
+			SqlitePreferences.Update("personWinHide", "True", false);
+			preferences.personWinHide = true;
+			configChronojump.PersonWinHide = true;
+			showPersonsOnTop(true);
+
 			if(configChronojump.CompujumpStationMode != Constants.Menuitem_modes.UNDEFINED)
 			{
 				//select_menuitem_mode_toggled(configChronojump.CompujumpStationMode);

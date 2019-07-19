@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic; //List<T>
+using System.Diagnostics;  //Stopwatch
 using System.IO.Ports;
 using System.Threading;
 using Gtk;
@@ -26,11 +27,17 @@ using Gtk;
 public class RFID
 {
 	public string Captured;
+
+	private bool waitingAdmin;
+	private string adminRFID;
+	private Stopwatch swWaitingAdminDetected; //count when detected 3 seconds to not detect again
+
 	private bool stop;
 	//public event EventHandler ChangedEvent; //raised when change RFID vaues
 	private SerialPort port;
 	private string portName;
 	private Gtk.Button fakeButtonChange;
+	private Gtk.Button fakeButtonAdminDetected;
 	private Gtk.Button fakeButtonReopenDialog;
 	private Gtk.Button fakeButtonDisconnected;
 
@@ -39,8 +46,13 @@ public class RFID
 		this.portName = portName;
 		stop = false;
 		fakeButtonChange = new Button();
+		fakeButtonAdminDetected = new Button();
 		fakeButtonReopenDialog = new Button();
 		fakeButtonDisconnected = new Button();
+
+		waitingAdmin = false;
+		adminRFID = "";
+		swWaitingAdminDetected = new Stopwatch();
 	}
 	
 	public void Start()
@@ -91,21 +103,44 @@ public class RFID
 				{
 					str = str.Substring(1, str.Length -2);
 
-					if(str != lastRFID)
+					if(waitingAdmin && adminRFID != "")
 					{
-						Captured = str;
+						if(str == adminRFID)
+						{
+							if(! swWaitingAdminDetected.IsRunning)
+							{
+								//start stopwatch
+								swWaitingAdminDetected.Start();
 
-						//Firing the event
-						fakeButtonChange.Click();
-						/*
-						   EventHandler handler = ChangedEvent;
-						   if (handler != null)
-						   handler(this, new EventArgs());
-						   */
-						lastRFID = str;
-					} else {
-						//Firing the event
-						fakeButtonReopenDialog.Click();
+								//fire special signal
+								fakeButtonAdminDetected.Click();
+							} else {
+								//do not allow any other rfid in 2 seconds
+								if(swWaitingAdminDetected.ElapsedMilliseconds > 2000)
+								{
+									swWaitingAdminDetected.Stop();
+									waitingAdmin = false;
+								}
+							}
+						}
+					}
+					else {
+						if(str != lastRFID)
+						{
+							Captured = str;
+
+							//Firing the event
+							fakeButtonChange.Click();
+							/*
+							   EventHandler handler = ChangedEvent;
+							   if (handler != null)
+							   handler(this, new EventArgs());
+							   */
+							lastRFID = str;
+						} else {
+							//Firing the event
+							fakeButtonReopenDialog.Click();
+						}
 					}
 				}
 			}
@@ -118,6 +153,12 @@ public class RFID
 	public void Stop()
 	{
 		stop = true;
+	}
+
+	public void WaitingAdminStart(string adminRFID)
+	{
+		waitingAdmin = true;
+		this.adminRFID = adminRFID;
 	}
 
 	private bool findRFIDPort(List<string> l)
@@ -165,6 +206,11 @@ public class RFID
 	public Gtk.Button FakeButtonChange
 	{
 		get { return fakeButtonChange; }
+	}
+
+	public Gtk.Button FakeButtonAdminDetected
+	{
+		get { return fakeButtonAdminDetected; }
 	}
 
 	public Gtk.Button FakeButtonReopenDialog

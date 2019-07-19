@@ -112,24 +112,41 @@ public class NetworksSendMail
 		ErrorStr = "";
 	}
 
-	public bool Send (string filename, string email)
+	public bool Send (string title, string filename, string email)
 	{
 		//echo "See attached file" |mailx -s "$HOSTNAME Testing attachment" -A /home/chronojump/chronojump/images/calendar.png testing@chronojump.org
 
 		List<string> parameters = new List<string>();
 		parameters.Add("-s");
-		parameters.Add("\"myHostName: myTitle\"");
+		//parameters.Add("\"myHostName: myTitle\"");
+		parameters.Add("ChronojumpNetworks: " + title);
 		parameters.Add("-A");
 		parameters.Add(filename);
 		parameters.Add(email);
 
 		//note redirect output and error is false because if redirect input there are problems redirecting the others
-		ExecuteProcess.Result execute_result = ExecuteProcess.run ("mail.mailutils", parameters, "myBody", false, false);
+		ExecuteProcess.Result execute_result = ExecuteProcess.run ("mail.mailutils", parameters, getBody(title), false, false);
 		if(! execute_result.success) {
 			ErrorStr = "Need to install mail.mailutils";
 		}
 
 		return execute_result.success;
+	}
+
+	//currently on Spanish and Spanish date localization
+	private string getBody(string s)
+	{
+		string [] strFull = s.Split(new char[] {'_'}); //player_YYY-M-D_exercise
+
+		if(strFull.Length < 3)
+			return "";
+
+		string dateString = "";
+		string [] strFullDate = strFull[1].Split(new char[] {'-'});
+		if(strFullDate.Length == 3)
+			dateString = string.Format("Fecha: Día: {0}, Mes: {1}, Año: {2}", strFullDate[2], strFullDate[1], strFullDate[0]);
+
+		return string.Format("Gráfica del jugador: {0}\nTest: {1}\n{2}", strFull[0], strFull[2], dateString);
 	}
 
 	// another option will be use C-sharp methods, see:

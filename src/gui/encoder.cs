@@ -2031,8 +2031,11 @@ public partial class ChronoJumpWindow
 		string nameString = currentPerson.Name + "_" + currentSession.DateShortAsSQL;
 
 		//on encoder analyze save image, show analysis on filename
-		if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE &&
-				encoderLastAnalysis != "null" && encoderLastAnalysis != "")
+		if(
+				( checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SEND_IMAGE )
+				&&
+				encoderLastAnalysis != "null" && encoderLastAnalysis != "" )
 		{
 			nameString += "_" + encoderLastAnalysis;
 		}
@@ -2046,6 +2049,13 @@ public partial class ChronoJumpWindow
 				nameString = "unnamed";
 			else
 				nameString = lastForceSensorFile;
+		}
+
+		//when we send an image we just want to define the name
+		if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SEND_IMAGE)
+		{
+			exportFileName = nameString;
+			return;
 		}
 
 		if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
@@ -4262,8 +4272,10 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_analyze_image_compujump_send_email_clicked (object o, EventArgs args)
 	{
 		if(configChronojump.CompujumpUserIsAdmin(currentPerson))
-			compujumpSendEmail(Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE);
-		else
+		{
+			checkFile(Constants.CheckFileOp.ENCODER_ANALYZE_SEND_IMAGE);
+			compujumpSendEmail(Constants.CheckFileOp.ENCODER_ANALYZE_SEND_IMAGE);
+		} else
 		{
 			LogB.Information("rfidWaitingAdminGuiObjects is null: " + (rfidWaitingAdminGuiObjects == null).ToString());
 			if(rfidWaitingAdminGuiObjects != null)

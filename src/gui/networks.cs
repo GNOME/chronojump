@@ -276,7 +276,8 @@ public partial class ChronoJumpWindow
 
 	private void rfidAdminDetectedSendMail(object sender, EventArgs e)
 	{
-		compujumpSendEmail(Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE);
+		checkFile(Constants.CheckFileOp.ENCODER_ANALYZE_SEND_IMAGE);
+		compujumpSendEmail(Constants.CheckFileOp.ENCODER_ANALYZE_SEND_IMAGE);
 	}
 
 	private void rfidDisconnected(object sender, EventArgs e)
@@ -998,12 +999,12 @@ public partial class ChronoJumpWindow
 	//no GTK here because can be called from rfidChanged()
 	private void compujumpSendEmail(Constants.CheckFileOp op)
 	{
-		if(op == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE)
+		if(op == Constants.CheckFileOp.ENCODER_ANALYZE_SEND_IMAGE)
 		{
 			LogB.Information("Sending Email to: " + configChronojump.CompujumpAdminEmail);
 
 			NetworksSendMail nsm = new NetworksSendMail ();
-			if(nsm.Send(UtilEncoder.GetEncoderGraphTempFileName(), configChronojump.CompujumpAdminEmail))
+			if(nsm.Send(exportFileName, UtilEncoder.GetEncoderGraphTempFileName(), configChronojump.CompujumpAdminEmail))
 			{
 				rfidWaitingAdminGuiObjects.ShowGuiMessageSuccess = true;
 				LogB.Information("Done!");
@@ -1015,6 +1016,7 @@ public partial class ChronoJumpWindow
 			}
 
 		}
+		//other future send email send objects
 	}
 
 	/*

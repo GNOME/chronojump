@@ -22,6 +22,7 @@ using System.Collections.Generic; //List
 using System.Diagnostics;
 using System;
 using System.IO;
+using Mono.Unix;
 
 //note the stdout and stderr redirection to false is to fix problems with windows
 
@@ -263,7 +264,7 @@ public class WebcamFfmpeg : Webcam
 		parameters.Insert (i++, "-exitonkeydown");
 		parameters.Insert (i++, "-exitonmousedown");
 		parameters.Insert (i++, "-window_title");
-		parameters.Insert (i++, "Preview. Press any key to exit.");
+		parameters.Insert (i++, Catalog.GetString("Preview. Press any key to exit."));
 		return parameters;
 	}
 

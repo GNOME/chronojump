@@ -3616,7 +3616,7 @@ Other</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
-                                <property name="label" translatable="yes">Select the camera</property>
+                                <property name="label" translatable="yes">Select camera</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -3933,8 +3933,9 @@ Other</property>
                                   <widget class="GtkLabel" id="label_camera_pixel_format">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="tooltip" translatable="yes">Pixel format</property>
                                     <property name="xalign">0</property>
-                                    <property name="label">Pixel format</property>
+                                    <property name="label" translatable="yes" comments="Substantive">Format</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -4289,7 +4290,7 @@ Other</property>
                                                 <property name="spacing">12</property>
                                                 <child>
                                                   <widget class="GtkCheckButton" id="check_camera_stop_after">
-                                                    <property name="label">Camera will be stopped n seconds after end test</property>
+                                                    <property name="label" translatable="yes">Camera will be stopped n seconds after end test</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
@@ -4335,7 +4336,7 @@ Other</property>
                                                       <widget class="GtkLabel" id="label82">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">seconds</property>
+                                                        <property name="label">s</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">True</property>

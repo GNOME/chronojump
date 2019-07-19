@@ -67,16 +67,21 @@ class ExecuteProcess
 
 	public static Result run(string file_name, bool redirectOutput, bool redirectStderr)
 	{
-		return runDo (file_name, new List<string>(), redirectOutput, redirectStderr);
+		return runDo (file_name, new List<string>(), "", redirectOutput, redirectStderr);
 	}
 	public static Result run(string file_name, List<string> parameters, bool redirectOutput, bool redirectStderr)
 	{
-		return runDo (file_name, parameters, redirectOutput, redirectStderr);
+		return runDo (file_name, parameters, "", redirectOutput, redirectStderr);
+	}
+	public static Result run(string file_name, List<string> parameters, string redirectInputString, bool redirectOutput, bool redirectStderr)
+	{
+		return runDo (file_name, parameters, redirectInputString, redirectOutput, redirectStderr);
 	}
 
 	// Executes file_name without creating a Window and without using the shell
 	// with the parameters. Waits that it finishes it. Returns the stdout and stderr.
-	private static Result runDo(string file_name, List<string> parameters, bool redirectOutput, bool redirectStderr)
+	// redirectInputString is a way to do "|" or "<", better if redirectOutput and redirectStderr are false
+	private static Result runDo(string file_name, List<string> parameters, string redirectInputString, bool redirectOutput, bool redirectStderr)
 	{
 		Process process = new Process();
 		ProcessStartInfo processStartInfo = new ProcessStartInfo();
@@ -96,7 +101,7 @@ class ExecuteProcess
 
 		processStartInfo.CreateNoWindow = true;
 		processStartInfo.UseShellExecute = false;
-		processStartInfo.RedirectStandardInput = false;
+		processStartInfo.RedirectStandardInput = (redirectInputString != "");
 		processStartInfo.RedirectStandardError = redirectOutput;
 		processStartInfo.RedirectStandardOutput = redirectStderr;
 
@@ -123,6 +128,18 @@ class ExecuteProcess
 			stdout = process.StandardOutput.ReadToEnd().TrimEnd ('\n');
 		if (redirectStderr)
 			stderr = process.StandardError.ReadToEnd ().TrimEnd ('\n');
+
+		if(processStartInfo.RedirectStandardInput)
+		{
+			//this does not work because it has no EOF mark
+			//process.StandardInput.WriteLine("redirectInputString");
+			//
+			//this works:
+			StreamWriter sw = process.StandardInput;
+			sw.WriteLine(redirectInputString);
+			sw.Close();
+		}
+
 
 		process.WaitForExit ();
 

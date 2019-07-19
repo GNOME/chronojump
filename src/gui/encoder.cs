@@ -4264,8 +4264,14 @@ public partial class ChronoJumpWindow
 		if(configChronojump.CompujumpUserIsAdmin(currentPerson))
 			compujumpSendEmail(Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE);
 		else
-			if(rfidWaitingAdmin != null)
-				rfidWaitingAdmin.Start();
+		{
+			LogB.Information("rfidWaitingAdminGuiObjects is null: " + (rfidWaitingAdminGuiObjects == null).ToString());
+			if(rfidWaitingAdminGuiObjects != null)
+			{
+				rfid.WaitingAdminStart(SqlitePerson.SelectAttribute(configChronojump.CompujumpAdminID, "future1")); //select rfid
+				rfidWaitingAdminGuiObjects.Start();
+			}
+		}
 	}
 
 	void on_button_encoder_analyze_table_save_clicked (object o, EventArgs args)

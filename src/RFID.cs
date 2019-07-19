@@ -30,7 +30,6 @@ public class RFID
 
 	private bool waitingAdmin;
 	private string adminRFID;
-	private Stopwatch swWaitingAdminDetected; //count when detected 3 seconds to not detect again
 
 	private bool stop;
 	//public event EventHandler ChangedEvent; //raised when change RFID vaues
@@ -52,7 +51,6 @@ public class RFID
 
 		waitingAdmin = false;
 		adminRFID = "";
-		swWaitingAdminDetected = new Stopwatch();
 	}
 	
 	public void Start()
@@ -62,13 +60,10 @@ public class RFID
 		 * use chronopicRegister.Rfid portName
 		 */
 		//List<string> l = getPorts(false);
-		//LogB.Information("getPorts");
-
-		//List<string> l = new List<string>();
-		//l.Add(portName);
 		
 		string lastRFID = "";
 		string str = "";
+		DateTime dtWaitingLastTimeAdminDetected = new DateTime(); //to be able to detect other person after the AdminDetected
 
 		LogB.Information("portName: " + portName);
 		port = new SerialPort(portName, 9600); //for the rfid
@@ -77,6 +72,7 @@ public class RFID
 		LogB.Information("AT RFID.cs");
 		while(! stop)
 		{
+			Thread.Sleep(200);
 			//str = port.ReadLine(); //don't use this because gets waiting some stop signal
 			str = "";
 			try {
@@ -88,64 +84,49 @@ public class RFID
 				return;
 			}
 
-			if(str != "")
+			if(str == "")
+				continue;
+
+			LogB.Information("No trim str" + str);
+
+			//get only the first line and trim it
+			if(str.IndexOf(Environment.NewLine) > 0)
+				str = str.Substring(0, str.IndexOf(Environment.NewLine)).Trim();
+
+			LogB.Information("Yes one line and trim str" + str);
+
+			//this first line should have a 's' and 'e' (mark of 's'tart and 'e'nd of rfid)
+			if( ! (str.IndexOf('s') == 0 && str[str.Length -1] == 'e') )
+				continue;
+
+			str = str.Substring(1, str.Length -2); //remove the 's' and 'e'
+
+			if((DateTime.Now - dtWaitingLastTimeAdminDetected).TotalSeconds <= 3)
+				continue;
+
+			if(waitingAdmin && adminRFID != "")
 			{
-				LogB.Information("No trim str" + str);
-
-				//get only the first line and trim it
-				if(str.IndexOf(Environment.NewLine) > 0)
-					str = str.Substring(0, str.IndexOf(Environment.NewLine)).Trim();
-
-				LogB.Information("Yes one line and trim str" + str);
-
-				//this first line should have a 's' and 'e' (mark of 's'tart and 'e'nd of rfid)
-				if(str.IndexOf('s') == 0 && str[str.Length -1] == 'e')
+				if(str == adminRFID)
 				{
-					str = str.Substring(1, str.Length -2);
+					dtWaitingLastTimeAdminDetected = DateTime.Now;
 
-					//LogB.Information(string.Format("waitingAdmin: {0}, adminRFID: {1}, str: {2}, swRunning: {3}", waitingAdmin, adminRFID, str, swWaitingAdminDetected.IsRunning));
-					if(waitingAdmin && adminRFID != "")
-					{
-						if(str == adminRFID)
-						{
-							if(! swWaitingAdminDetected.IsRunning)
-							{
-								//start stopwatch
-								swWaitingAdminDetected.Start();
+					fakeButtonAdminDetected.Click(); 	//fire special signal
 
-								//fire special signal
-								fakeButtonAdminDetected.Click();
-							} else {
-								//do not allow any other rfid in 2 seconds
-								if(swWaitingAdminDetected.ElapsedMilliseconds > 2000)
-								{
-									swWaitingAdminDetected.Stop();
-									waitingAdmin = false;
-								}
-							}
-						}
-					}
-					else {
-						if(str != lastRFID)
-						{
-							Captured = str;
-
-							//Firing the event
-							fakeButtonChange.Click();
-							/*
-							   EventHandler handler = ChangedEvent;
-							   if (handler != null)
-							   handler(this, new EventArgs());
-							   */
-							lastRFID = str;
-						} else {
-							//Firing the event
-							fakeButtonReopenDialog.Click();
-						}
-					}
+					waitingAdmin = false;
 				}
 			}
-			Thread.Sleep(200);
+			else
+			{
+				if(str != lastRFID)
+				{
+					Captured = str;
+
+					fakeButtonChange.Click(); 		//Firing the event
+
+					lastRFID = str;
+				} else
+					fakeButtonReopenDialog.Click(); 	//Firing the event
+			}
 		}
 		LogB.Information("AT RFID.cs: STOPPED");
 		port.Close();
@@ -192,6 +173,7 @@ public class RFID
 		return(false);
 	}
 
+	/*
 	private List<string> getPorts(bool debug)
 	{
 		//TODO: move that method here
@@ -203,6 +185,7 @@ public class RFID
 		
 		return l;
 	}
+	*/
 	
 	public Gtk.Button FakeButtonChange
 	{

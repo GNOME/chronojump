@@ -103,6 +103,7 @@ public class RFID
 				{
 					str = str.Substring(1, str.Length -2);
 
+					//LogB.Information(string.Format("waitingAdmin: {0}, adminRFID: {1}, str: {2}, swRunning: {3}", waitingAdmin, adminRFID, str, swWaitingAdminDetected.IsRunning));
 					if(waitingAdmin && adminRFID != "")
 					{
 						if(str == adminRFID)

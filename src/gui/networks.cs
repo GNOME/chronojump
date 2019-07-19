@@ -260,7 +260,7 @@ public partial class ChronoJumpWindow
 
 	private void rfidReopenDialog(object sender, EventArgs e)
 	{
-		if(currentSession == null || rfid.Captured == capturedRFID)
+		if(currentSession == null || rfid.Captured != capturedRFID)
 			return;
 
 		if(isCompujumpCapturing ())

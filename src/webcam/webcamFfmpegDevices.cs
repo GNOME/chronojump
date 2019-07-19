@@ -155,7 +155,8 @@ public class WebcamFfmpegGetDevicesLinux : WebcamFfmpegGetDevices
 			//return "/dev/video0", "/dev/video1", ...
 			wd_list.Add(new WebcamDevice(
 						prefix + file.Name,
-						prefix + file.Name + " (default camera)"));
+						//prefix + file.Name + " (default camera)"));
+						prefix + file.Name));
 			found = true;
 		}
 		if(! found)

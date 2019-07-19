@@ -100,3 +100,38 @@ public class Networks
 		return true; //by default screen is on. If detection is wrong user can touch screen
 	}
 }
+
+public class NetworksSendMail
+{
+	//filename is the image
+	//public ExecuteProcess.Result execute_result;
+	public string ErrorStr = "";
+
+	public NetworksSendMail ()
+	{
+		ErrorStr = "";
+	}
+
+	public bool Send (string filename, string email)
+	{
+		//echo "See attached file" |mailx -s "$HOSTNAME Testing attachment" -A /home/chronojump/chronojump/images/calendar.png testing@chronojump.org
+
+		List<string> parameters = new List<string>();
+		parameters.Add("-s");
+		parameters.Add("\"myHostName: myTitle\"");
+		parameters.Add("-A");
+		parameters.Add(filename);
+		parameters.Add(email);
+
+		//note redirect output and error is false because if redirect input there are problems redirecting the others
+		ExecuteProcess.Result execute_result = ExecuteProcess.run ("mail.mailutils", parameters, "myBody", false, false);
+		if(! execute_result.success) {
+			ErrorStr = "Need to install mail.mailutils";
+		}
+
+		return execute_result.success;
+	}
+
+	// another option will be use C-sharp methods, see:
+	// https://stackoverflow.com/questions/2825950/sending-email-with-attachments-from-c-attachments-arrive-as-part-1-2-in-thunde
+}

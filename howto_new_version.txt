@@ -2,6 +2,8 @@
 1) copy manual PDFs from chronojump-docs repository, because in chronojump repository PDFs are not updated
 check is "updated to last version"
 cp ../chronojump-docs/chronojump_manual_e*.pdf manual/
+git commit manual/chronojump_manual_e*.pdf -m "Copied updated manuals from docs repo)"
+git push
 
 2) git tag (Chronojump's version depends on the tag):
 VERSION=1.6.2

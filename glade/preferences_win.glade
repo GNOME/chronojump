@@ -2150,7 +2150,7 @@ It starts before and arrives there with some speed.</property>
                                         <property name="spacing">20</property>
                                         <child>
                                           <widget class="GtkRadioButton" id="radio_encoder_capture_show_all_bars">
-                                            <property name="label" translatable="yes">Show all bars</property>
+                                            <property name="label" translatable="yes">During capture, graph show all repetitions</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
@@ -2171,7 +2171,7 @@ It starts before and arrives there with some speed.</property>
                                             <property name="spacing">4</property>
                                             <child>
                                               <widget class="GtkRadioButton" id="radio_encoder_capture_show_only_some_bars">
-                                                <property name="label" translatable="yes">Show only last bars</property>
+                                                <property name="label" translatable="yes">Show only last repetitions</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
@@ -3669,6 +3669,9 @@ Other</property>
                                 <property name="column_spacing">12</property>
                                 <property name="row_spacing">12</property>
                                 <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
                                   <widget class="GtkLabel" id="label76">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
@@ -3906,6 +3909,9 @@ Other</property>
                                   </packing>
                                 </child>
                                 <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
                                   <widget class="GtkLabel" id="label95">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
@@ -3971,12 +3977,6 @@ Other</property>
                                     <property name="top_attach">3</property>
                                     <property name="bottom_attach">4</property>
                                   </packing>
-                                </child>
-                                <child>
-                                  <placeholder/>
-                                </child>
-                                <child>
-                                  <placeholder/>
                                 </child>
                                 <child>
                                   <placeholder/>

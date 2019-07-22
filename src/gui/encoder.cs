@@ -5140,17 +5140,44 @@ public partial class ChronoJumpWindow
 		int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
 		int graphHeight=encoder_capture_curves_bars_drawingarea.Allocation.Height;
 	
+		string eccon = findEccon(true);
 		ArrayList data = new ArrayList (data6Variables.Count);
 		int count = 0;
 		int showNRepetitions = preferences.encoderCaptureShowNRepetitions;
+		bool lastIsEcc = false;
 
+		//discard repetitions according to showNRepetitions
 		foreach(EncoderBarsData ebd in data6Variables)
 		{
+			LogB.Information(string.Format("count: {0}, value: {1}", count, ebd.GetValue(mainVariable)));
 			//when capture ended, show all repetitions
 			if(showNRepetitions == -1 || ! capturing)
 				data.Add(ebd.GetValue(mainVariable));
-			else if(data6Variables.Count <= showNRepetitions || count >= data6Variables.Count - showNRepetitions)
-				data.Add(ebd.GetValue(mainVariable));
+			else {
+				if(eccon == "c" && ( data6Variables.Count <= showNRepetitions || 	//total repetitions are less than show repetitions threshold ||
+						count >= data6Variables.Count - showNRepetitions ) ) 	//count is from the last group of reps (reps that have to be shown)
+				{
+					data.Add(ebd.GetValue(mainVariable));
+				}
+				else if(eccon != "c" && (
+						data6Variables.Count <= 2 * showNRepetitions ||
+						count >= data6Variables.Count - 2 * showNRepetitions) )
+				{
+					if(! Util.IsEven(count +1))  	//if it is "impar"
+					{
+						LogB.Information("added ecc");
+						data.Add(ebd.GetValue(mainVariable));
+						lastIsEcc = true;
+					} else {  			//it is "par"
+						if(lastIsEcc)
+						{
+							data.Add(ebd.GetValue(mainVariable));
+							LogB.Information("added con");
+							lastIsEcc = false;
+						}
+					}
+				}
+			}
 			count ++;
 		}
 		count = 0;
@@ -5165,8 +5192,6 @@ public partial class ChronoJumpWindow
 		//know not-discarded phases
 		double countValid = 0;
 		double sumValid = 0;
-
-		string eccon = findEccon(true);
 
 		foreach(double d in data)
 		{

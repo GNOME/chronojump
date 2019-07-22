@@ -103,24 +103,6 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkImageMenuItem" id="menuitem_export_encoder_signal">
-                        <property name="label" translatable="yes">Export current encoder set (to raw data)</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="tooltip" translatable="yes">Export set to CSV (Spreadsheet)</property>
-                        <property name="use_stock">False</property>
-                        <property name="always_show_image">True</property>
-                        <signal name="activate" handler="on_button_encoder_export_all_curves_clicked" swapped="no"/>
-                        <child internal-child="image">
-                          <widget class="GtkImage" id="image_export_encoder_signal">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="stock">gtk-missing-image</property>
-                          </widget>
-                        </child>
-                      </widget>
-                    </child>
-                    <child>
                       <widget class="GtkImageMenuItem" id="menuitem_import_chronojump_session">
                         <property name="label" translatable="yes">Import session from another Chronojump database</property>
                         <property name="visible">True</property>
@@ -135,15 +117,6 @@
                             <property name="stock">gtk-missing-image</property>
                           </widget>
                         </child>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkMenuItem" id="menuitem_encoder_session_overview">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Overview of this encoder session</property>
-                        <property name="use_underline">True</property>
-                        <signal name="activate" handler="on_menuitem_encoder_session_overview_activate" swapped="no"/>
                       </widget>
                     </child>
                     <child>
@@ -172,39 +145,6 @@
                         <property name="label" translatable="yes">Export session to _XML</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_export_session_activate" swapped="no"/>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkImageMenuItem" id="menuitem_force_sensor_open_folder">
-                        <property name="label" translatable="yes">Force sensor - Open data folder</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_stock">False</property>
-                        <property name="always_show_image">True</property>
-                        <signal name="activate" handler="on_menuitem_force_sensor_open_folder_activate" swapped="no"/>
-                        <child internal-child="image">
-                          <widget class="GtkImage" id="image_force_sensor_open_folder">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="stock">gtk-open</property>
-                          </widget>
-                        </child>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkImageMenuItem" id="menuitem_force_sensor_check_version">
-                        <property name="label" translatable="yes">Force sensor - Check version</property>
-                        <property name="can_focus">False</property>
-                        <property name="tooltip" translatable="yes">Check version of force sensor firmware.</property>
-                        <property name="use_stock">False</property>
-                        <property name="always_show_image">True</property>
-                        <signal name="activate" handler="on_buttons_force_sensor_clicked" swapped="no"/>
-                        <child internal-child="image">
-                          <widget class="GtkImage" id="image_force_sensor_check_version">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="stock">gtk-missing-image</property>
-                          </widget>
-                        </child>
                       </widget>
                     </child>
                     <child>
@@ -243,11 +183,6 @@
                             <property name="stock">gtk-missing-image</property>
                           </widget>
                         </child>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkSeparatorMenuItem" id="separador8">
-                        <property name="can_focus">False</property>
                       </widget>
                     </child>
                     <child>
@@ -461,6 +396,94 @@
                         <property name="draw_as_radio">True</property>
                         <property name="group">radio_menuitem_mode_jumps_simple</property>
                         <signal name="activate" handler="on_radio_menuitem_mode_activate" swapped="no"/>
+                      </widget>
+                    </child>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkMenuItem" id="encoder_menuitem">
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">_Encoder</property>
+                <property name="use_underline">True</property>
+                <child>
+                  <widget class="GtkMenu" id="menu1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="menuitem_export_encoder_signal">
+                        <property name="label" translatable="yes">Export current set (to raw data)</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="tooltip" translatable="yes">Export set to CSV (Spreadsheet)</property>
+                        <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="activate" handler="on_button_encoder_export_all_curves_clicked" swapped="no"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image_export_encoder_signal">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stock">gtk-missing-image</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkMenuItem" id="menuitem_encoder_session_overview">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Overview of this session</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_menuitem_encoder_session_overview_activate" swapped="no"/>
+                      </widget>
+                    </child>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkMenuItem" id="force_sensor_menuitem">
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">_Force sensor</property>
+                <property name="use_underline">True</property>
+                <child>
+                  <widget class="GtkMenu" id="menu4">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="menuitem_force_sensor_open_folder">
+                        <property name="label" translatable="yes">Open data folder</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="activate" handler="on_menuitem_force_sensor_open_folder_activate" swapped="no"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image_force_sensor_open_folder">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stock">gtk-open</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="menuitem_force_sensor_check_version">
+                        <property name="label" translatable="yes">Force sensor - Check version</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="tooltip" translatable="yes">Check version</property>
+                        <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="activate" handler="on_buttons_force_sensor_clicked" swapped="no"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image_force_sensor_check_version">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stock">gtk-missing-image</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -1348,6 +1371,24 @@
                                                             <property name="x_options">GTK_EXPAND</property>
                                                             <property name="y_options">GTK_EXPAND</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -21327,6 +21368,24 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -28814,6 +28873,24 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -45,6 +45,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_open_session;
 	[Widget] Gtk.MenuItem menuitem_mode;
 	
+	[Widget] Gtk.MenuItem encoder_menuitem;
+	[Widget] Gtk.MenuItem force_sensor_menuitem;
+
 	[Widget] Gtk.HBox hbox_gui_tests;
 	[Widget] Gtk.SpinButton spin_gui_tests;
 	[Widget] Gtk.ComboBox combo_gui_tests;
@@ -3180,8 +3183,7 @@ public partial class ChronoJumpWindow
 		event_execute_drawingarea_run_simple_double_contacts.Visible = false;
 
 		//default for everything except encoder
-		menuitem_encoder_session_overview.Visible = false;
-		menuitem_export_encoder_signal.Visible = false;
+		encoder_menuitem.Visible = false;
 		menuitem_export_csv.Visible = true;
 
 		hbox_other.Visible = false;
@@ -3299,8 +3301,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL) 
 		{
-			menuitem_encoder_session_overview.Visible = true;
-			menuitem_export_encoder_signal.Visible = true;
+			encoder_menuitem.Visible = true;
 			menuitem_export_csv.Visible = false;
 
 			notebook_sup.CurrentPage = 1;
@@ -3517,8 +3518,8 @@ public partial class ChronoJumpWindow
 		if(! configChronojump.Compujump)
 			showWebcamCaptureContactsControls (m != Constants.Menuitem_modes.FORCESENSOR && m != Constants.Menuitem_modes.RUNSENCODER);
 
-		menuitem_force_sensor_open_folder.Visible = (m == Constants.Menuitem_modes.FORCESENSOR);
-		menuitem_force_sensor_check_version.Visible = (m == Constants.Menuitem_modes.FORCESENSOR);
+		force_sensor_menuitem.Visible = (m == Constants.Menuitem_modes.FORCESENSOR);
+
 		menuitem_race_analyzer_open_folder.Visible = (m == Constants.Menuitem_modes.RUNSENCODER);
 	}
 
@@ -7144,7 +7145,6 @@ LogB.Debug("mc finished 5");
 		menuitem_export_csv.Sensitive = option;
 		//menuitem_export_xml.Sensitive = option; not implemented yet
 		menuitem_encoder_session_overview.Sensitive = option;
-
 	}
 	
 	private void menuPersonSelectedSensitive(bool option)

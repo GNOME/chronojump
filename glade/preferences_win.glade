@@ -1822,7 +1822,7 @@ It starts before and arrives there with some speed.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">Minimal height</property>
+                                            <property name="label" translatable="yes">Minimal range of movement</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>

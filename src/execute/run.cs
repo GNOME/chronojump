@@ -967,7 +967,7 @@ public class RunIntervalExecute : RunExecute
 		//update graph
 		PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
 				distanceIntervalFixed, trackTime, intervalTimesString,
-				distanceTotal, distancesString, startIn);
+				distanceTotal, distancesString, startIn, success);
 
 		needUpdateGraphType = eventType.RUNINTERVAL;
 		needUpdateGraph = true;
@@ -1201,7 +1201,7 @@ public class RunIntervalExecute : RunExecute
 
 			PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
 					distanceIntervalFixed, Util.GetLast(intervalTimesString), 
-					intervalTimesString, distanceTotal, distancesString, startIn);
+					intervalTimesString, distanceTotal, distancesString, startIn, true);
 			needUpdateGraphType = eventType.RUNINTERVAL;
 			needUpdateGraph = true;
 

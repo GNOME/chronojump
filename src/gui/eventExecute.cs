@@ -503,7 +503,7 @@ public partial class ChronoJumpWindow
 
 		Gdk.Rectangle area = args.Event.Area;
 
-		//sometimes this is called when pait is finished
+		//sometimes this is called when paint is finished
 		//don't let this erase win
 		if(event_execute_run_simple_double_contacts_pixmap != null) {
 			args.Event.Window.DrawDrawable(event_execute_drawingarea_run_simple_double_contacts.Style.WhiteGC, event_execute_run_simple_double_contacts_pixmap,
@@ -765,7 +765,8 @@ public partial class ChronoJumpWindow
 	// distanceTotal is passed because it can change in variable distances test
 	public void PrepareRunIntervalGraph(double distance, double lastTime, string timesString,
 			double distanceTotal, string distancesString,
-			bool startIn, bool volumeOn, Preferences.GstreamerTypes gstreamer,
+			bool startIn, bool finished,
+			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			RepetitiveConditionsWindow repetitiveConditionsWin, RunPhaseTimeList runPTL)
 	{
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
@@ -808,7 +809,7 @@ public partial class ChronoJumpWindow
 		paintRunInterval (event_execute_drawingarea, distance, distanceTotal, distancesString,
 				lastTime, timesString, Util.GetAverage(timesString), 
 				maxValue, minValue, tracks, topMargin, bottomMargin,
-				Util.GetPosMax(timesString), Util.GetPosMin(timesString), startIn,
+				Util.GetPosMax(timesString), Util.GetPosMin(timesString), startIn, finished,
 				volumeOn, gstreamer, repetitiveConditionsWin, runPTL);
 		
 		// -- refresh
@@ -1205,7 +1206,7 @@ public partial class ChronoJumpWindow
 
 			int ancho2 = event_execute_drawingarea_run_simple_double_contacts.Allocation.Width;
 			paintRunSRunIContactChunks(event_execute_run_simple_double_contacts_pixmap, 20, ancho2, 0,
-					runPTLInListForPainting, timeTotal, timeTotalWithExtraPTL, negativePTLTime, true);
+					runPTLInListForPainting, timeTotal, timeTotalWithExtraPTL, negativePTLTime, true, true);
 		}
 		// end of contact chunks
 
@@ -1554,7 +1555,7 @@ public partial class ChronoJumpWindow
 	void paintRunSRunIContactChunks(Gdk.Pixmap pixmap, int alto, int ancho, int bottomMargin,
 			List<RunPhaseTimeListObject> runPTLInListForPainting,
 			double timeTotal, double timeTotalWithExtraPTL, double negativePTLTime,
-			bool drawStartEnd)
+			bool drawStart, bool drawEnd)
 	{
 		int lastChunkStart = 0;
 		int chunkMargins = 4;
@@ -1596,36 +1597,39 @@ public partial class ChronoJumpWindow
 
 		}
 
-		if(! drawStartEnd)
-			return;
-
-		//paint start vertical line (only on run simple)
-		int xStart2 = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
-				(negativePTLTime) / timeTotalWithExtraPTL) -1;
-		pixmap.DrawLine(pen_azul, xStart2, 10, xStart2, 20);
-
 		int lWidth = 1;
 		int lHeight = 1;
-		layoutMid_run_simple.SetMarkup("Start");
-		layoutMid_run_simple.GetPixelSize(out lWidth, out lHeight);
-		event_execute_run_simple_double_contacts_pixmap.DrawLayout (pen_azul,
-				xStart2 -lWidth/2, 0 - lHeight/4, layoutMid_run_simple);
+		if(drawStart)
+		{
+			//paint start vertical line
+			int xStart2 = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
+					(negativePTLTime) / timeTotalWithExtraPTL) -1;
+			pixmap.DrawLine(pen_azul, xStart2 +1, 10, xStart2 +1, 20);
 
-		//paint end vertical line (only on run simple)
-		int xEnd2 = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
-				(timeTotal + negativePTLTime) / timeTotalWithExtraPTL);
-		pixmap.DrawLine(pen_azul, xEnd2, 10, xEnd2, 20);
+			layoutMid_run_simple.SetMarkup("Start");
+			layoutMid_run_simple.GetPixelSize(out lWidth, out lHeight);
+			pixmap.DrawLayout (pen_azul,
+					xStart2 -lWidth/2, 0 - lHeight/4, layoutMid_run_simple);
+		}
 
-		layoutMid_run_simple.SetMarkup("End");
-		layoutMid_run_simple.GetPixelSize(out lWidth, out lHeight);
-		event_execute_run_simple_double_contacts_pixmap.DrawLayout (pen_azul,
-				xEnd2 -lWidth/2, 0 - lHeight/4, layoutMid_run_simple);
+		if(drawEnd)
+		{
+			//paint end vertical line
+			int xEnd2 = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
+					(timeTotal + negativePTLTime) / timeTotalWithExtraPTL);
+			pixmap.DrawLine(pen_azul, xEnd2, 10, xEnd2, 20);
+
+			layoutMid_run_simple.SetMarkup("End");
+			layoutMid_run_simple.GetPixelSize(out lWidth, out lHeight);
+			pixmap.DrawLayout (pen_azul,
+					xEnd2 -lWidth/2, 0 - lHeight/4, layoutMid_run_simple);
+		}
 	}
 
 	private void paintRunInterval (Gtk.DrawingArea drawingarea, double distance, double distanceTotal, string distancesString, 
 			double lastTime, string timesString, double avgTime, 
 			double maxValue, double minValue, int tracks, int topMargin, int bottomMargin, 
-			int hightValuePosition, int lowValuePosition, bool startIn,
+			int hightValuePosition, int lowValuePosition, bool startIn, bool finished,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			RepetitiveConditionsWindow repetitiveConditionsWin, RunPhaseTimeList runPTL)
 	{
@@ -1687,7 +1691,7 @@ public partial class ChronoJumpWindow
 
 
 				paintRunSRunIContactChunks(event_execute_pixmap, alto, ancho, bottomMargin,
-						runPTLInListForPainting, timeTotal, timeTotalWithExtraPTL, negativePTLTime, false);
+						runPTLInListForPainting, timeTotal, timeTotalWithExtraPTL, negativePTLTime, true, finished);
 			}
 			// end of contact chunks
 
@@ -2224,6 +2228,7 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
 							currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString,
 							currentEventExecute.PrepareEventGraphRunIntervalObject.startIn,
+							currentEventExecute.PrepareEventGraphRunIntervalObject.finished,
 							volumeOnHere, preferences.gstreamer, repetitiveConditionsWin,
 							currentEventExecute.RunPTL
 							);

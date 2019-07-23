@@ -1518,6 +1518,12 @@ public partial class ChronoJumpWindow
 
 	double getRunSRunINegativePTLTime (List<RunPhaseTimeListObject> runPTLInListForPainting)
 	{
+		return 0;
+
+		/*
+		 * inactive because when user stays lot of time (in contact) before the test, with this code the graph will have almost this contact status
+		 * having above return 0; fixed this: https://gitlab.gnome.org/GNOME/chronojump/issues/110
+		 *
 		if(runPTLInListForPainting.Count > 0)
 		{
 			//get first TC start value
@@ -1529,6 +1535,7 @@ public partial class ChronoJumpWindow
 		}
 
 		return 0;
+		*/
 	}
 
 	double getRunSRunITimeTotalWithExtraPTLTime (double timeTotal, List<RunPhaseTimeListObject> runPTLInListForPainting, double negativePTLTime)

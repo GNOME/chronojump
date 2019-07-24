@@ -634,11 +634,13 @@ public partial class ChronoJumpWindow
 		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY)
 			repetitiveConditionsWin.View(Constants.BellModes.ENCODERGRAVITATORY,
 					preferences.volumeOn, preferences.gstreamer,
-					preferences.encoderCaptureMainVariable, encoderRhythm);
+					preferences.encoderCaptureMainVariable, preferences.encoderCaptureSecondaryVariable,
+					encoderRhythm);
 		else
 			repetitiveConditionsWin.View(Constants.BellModes.ENCODERINERTIAL,
 					preferences.volumeOn, preferences.gstreamer,
-					preferences.encoderCaptureMainVariable, encoderRhythm);
+					preferences.encoderCaptureMainVariable, preferences.encoderCaptureSecondaryVariable,
+					encoderRhythm);
 	}
 
 	/*
@@ -5132,8 +5134,8 @@ public partial class ChronoJumpWindow
 	static ArrayList captureCurvesBarsData;
 	
 	//if we are capturing, play sounds
-	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower, 
-			ArrayList data6Variables, int discardFirstN, bool capturing)
+	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower,
+			string secondaryVariable, ArrayList data6Variables, int discardFirstN, bool capturing)
 	{
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
@@ -5155,14 +5157,14 @@ public partial class ChronoJumpWindow
 			if(showNRepetitions == -1 || ! capturing)
 			{
 				data.Add(ebd.GetValue(mainVariable));
-				dataSecondary.Add(ebd.GetValue(Constants.RangeAbsolute));
+				dataSecondary.Add(ebd.GetValue(secondaryVariable));
 			}
 			else {
 				if(eccon == "c" && ( data6Variables.Count <= showNRepetitions || 	//total repetitions are less than show repetitions threshold ||
 						count >= data6Variables.Count - showNRepetitions ) ) 	//count is from the last group of reps (reps that have to be shown)
 				{
 					data.Add(ebd.GetValue(mainVariable));
-					dataSecondary.Add(ebd.GetValue(Constants.RangeAbsolute));
+					dataSecondary.Add(ebd.GetValue(secondaryVariable));
 				}
 				else if(eccon != "c" && (
 						data6Variables.Count <= 2 * showNRepetitions ||
@@ -5172,13 +5174,13 @@ public partial class ChronoJumpWindow
 					{
 						LogB.Information("added ecc");
 						data.Add(ebd.GetValue(mainVariable));
-						dataSecondary.Add(ebd.GetValue(Constants.RangeAbsolute));
+						dataSecondary.Add(ebd.GetValue(secondaryVariable));
 						lastIsEcc = true;
 					} else {  			//it is "par"
 						if(lastIsEcc)
 						{
 							data.Add(ebd.GetValue(mainVariable));
-							dataSecondary.Add(ebd.GetValue(Constants.RangeAbsolute));
+							dataSecondary.Add(ebd.GetValue(secondaryVariable));
 							LogB.Information("added con");
 							lastIsEcc = false;
 						}
@@ -5638,9 +5640,11 @@ public partial class ChronoJumpWindow
 	private void callPlotCurvesGraphDoPlot() {
 		if(captureCurvesBarsData.Count > 0) {
 			string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
+			string secondaryVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureSecondaryVariable);
 			double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
 			double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
-			plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
+			plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower,
+					secondaryVariable, captureCurvesBarsData,
 					preferences.encoderCaptureInertialDiscardFirstN,
 					false);	//not capturing
 		} else if( ! ( radio_encoder_capture_cont.Active && ! firstSetOfCont) )
@@ -6511,11 +6515,13 @@ public partial class ChronoJumpWindow
 				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
 				double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
+				string secondaryVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureSecondaryVariable);
 				//TODO:
 				//captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
 				//captureCurvesBarsData.Add(new EncoderBarsData(20, 39, 10, 40));
 
-				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData, 
+				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower,
+						secondaryVariable, captureCurvesBarsData,
 						preferences.encoderCaptureInertialDiscardFirstN,
 						true);	//capturing
 				//}
@@ -6993,6 +6999,7 @@ public partial class ChronoJumpWindow
 				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
 				double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
+				string secondaryVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureSecondaryVariable);
 
 				if(action == encoderActions.CURVES_AC && radio_encoder_capture_cont.Active && ! captureContWithCurves)
 				{
@@ -7026,7 +7033,8 @@ public partial class ChronoJumpWindow
 
 				maxPowerIntersession = findMaxPowerIntersession();
 
-				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
+				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower,
+						secondaryVariable, captureCurvesBarsData,
 						preferences.encoderCaptureInertialDiscardFirstN,
 						false);	//not capturing
 		

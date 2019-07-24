@@ -82,6 +82,8 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.CheckButton checkbutton_encoder_automatic_lower;
 	[Widget] Gtk.SpinButton spinbutton_encoder_automatic_greater;
 	[Widget] Gtk.SpinButton spinbutton_encoder_automatic_lower;
+	[Widget] Gtk.HBox hbox_combo_encoder_secondary_variable;
+	[Widget] Gtk.ComboBox combo_encoder_secondary_variable;
 
 	[Widget] Gtk.VBox vbox_encoder_manual;
 	[Widget] Gtk.CheckButton checkbutton_encoder_show_manual_feedback;
@@ -212,7 +214,7 @@ public class RepetitiveConditionsWindow
 		FakeButtonClose = new Gtk.Button();
 		
 		//createComboEncoderAutomaticVariable();
-		createComboEncoderMainVariable();
+		createComboEncoderMainAndSecondaryVariables();
 
 		bestSetValueCaptureMainVariable = 0;
 		bestSetValueCaptureMainVariable = 0;
@@ -236,20 +238,24 @@ public class RepetitiveConditionsWindow
 	}
 	
 	public void View (Constants.BellModes bellMode, bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			Constants.EncoderVariablesCapture encoderMainVariable, EncoderRhythm encoderRhythm)
+			Constants.EncoderVariablesCapture encoderMainVariable, Constants.EncoderVariablesCapture encoderSecondaryVariable,
+			EncoderRhythm encoderRhythm)
 	{
 		//when user "deleted_event" the window
 		if (RepetitiveConditionsWindowBox == null) {
 			RepetitiveConditionsWindowBox = new RepetitiveConditionsWindow (); 
 		}
-		RepetitiveConditionsWindowBox.showWidgets(bellMode, encoderMainVariable, encoderRhythm);
+		RepetitiveConditionsWindowBox.showWidgets(bellMode, encoderMainVariable, encoderSecondaryVariable, encoderRhythm);
 
 		RepetitiveConditionsWindowBox.repetitive_conditions.Show ();
 		RepetitiveConditionsWindowBox.volumeOn = volumeOn;
 		RepetitiveConditionsWindowBox.gstreamer = gstreamer;
 	}
 
-	void showWidgets(Constants.BellModes bellMode, Constants.EncoderVariablesCapture encoderMainVariable, EncoderRhythm encoderRhythm)
+	void showWidgets(Constants.BellModes bellMode,
+			Constants.EncoderVariablesCapture encoderMainVariable,
+			Constants.EncoderVariablesCapture encoderSecondaryVariable,
+			EncoderRhythm encoderRhythm)
 	{
 		frame_best_and_worst.Hide();
 		frame_conditions.Hide();
@@ -286,6 +292,8 @@ public class RepetitiveConditionsWindow
 
 			combo_encoder_main_variable.Active = UtilGtk.ComboMakeActive(combo_encoder_main_variable,
 					Constants.GetEncoderVariablesCapture(encoderMainVariable));
+			combo_encoder_secondary_variable.Active = UtilGtk.ComboMakeActive(combo_encoder_secondary_variable,
+					Constants.GetEncoderVariablesCapture(encoderSecondaryVariable));
 
 			notebook_main.GetNthPage(RHYTHMPAGE).Show();
 			encoder_rhythm_set_values(encoderRhythm);
@@ -294,23 +302,32 @@ public class RepetitiveConditionsWindow
 		label_test_sound_result.Text = "";
 	}
 		
-	private void createComboEncoderMainVariable()
+	private void createComboEncoderMainAndSecondaryVariables()
 	{
+		//1 mainVariable
 		combo_encoder_main_variable = ComboBox.NewText ();
-
-		comboEncoderMainVariableFill();
+		comboEncoderVariableFill(combo_encoder_main_variable);
 
 		hbox_combo_encoder_main_variable.PackStart(combo_encoder_main_variable, false, false, 0);
 		hbox_combo_encoder_main_variable.ShowAll();
 		combo_encoder_main_variable.Sensitive = true;
 		combo_encoder_main_variable.Changed += new EventHandler (on_combo_encoder_main_variable_changed);
+
+		//1 secondaryVariable
+		combo_encoder_secondary_variable = ComboBox.NewText ();
+		comboEncoderVariableFill(combo_encoder_secondary_variable);
+
+		hbox_combo_encoder_secondary_variable.PackStart(combo_encoder_secondary_variable, false, false, 0);
+		hbox_combo_encoder_secondary_variable.ShowAll();
+		combo_encoder_secondary_variable.Sensitive = true;
+		//combo_encoder_secondary_variable.Changed += new EventHandler (on_combo_encoder_secondary_variable_changed);
 	}
 
-	private void comboEncoderMainVariableFill()
+	private void comboEncoderVariableFill(Gtk.ComboBox combo)
 	{
-		string [] values = { Constants.MeanSpeed, Constants.MaxSpeed, Constants.MeanForce, Constants.MaxForce, Constants.MeanPower, Constants.PeakPower };
+		string [] values = { Constants.RangeAbsolute, Constants.MeanSpeed, Constants.MaxSpeed, Constants.MeanForce, Constants.MaxForce, Constants.MeanPower, Constants.PeakPower };
 
-		UtilGtk.ComboUpdate(combo_encoder_main_variable, values, "");
+		UtilGtk.ComboUpdate(combo, values, "");
 	}
 
 	private void on_combo_encoder_main_variable_changed (object o, EventArgs args)
@@ -883,6 +900,9 @@ public class RepetitiveConditionsWindow
 
 	public string GetMainVariable {
 		get { return UtilGtk.ComboGetActive(combo_encoder_main_variable); }
+	}
+	public string GetSecondaryVariable {
+		get { return UtilGtk.ComboGetActive(combo_encoder_secondary_variable); }
 	}
 
 	public double GetMainVariableHigher(string mainVariable) 

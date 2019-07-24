@@ -900,13 +900,15 @@ public class Constants
 	public const string MeanPower = "Mean power";
 	public const string PeakPower = "Peak power";
 	public static string [] EncoderVariablesCaptureList = {
-		MeanSpeed, MaxSpeed, MeanForce, MaxForce, MeanPower, PeakPower
+		RangeAbsolute, MeanSpeed, MaxSpeed, MeanForce, MaxForce, MeanPower, PeakPower
 	};
 	public enum EncoderVariablesCapture {
-		MeanSpeed, MaxSpeed, MeanForce, MaxForce, MeanPower, PeakPower
+		RangeAbsolute, MeanSpeed, MaxSpeed, MeanForce, MaxForce, MeanPower, PeakPower
 	}
 	public static string GetEncoderVariablesCapture(EncoderVariablesCapture enumVariable) {
 		switch(enumVariable) {
+			case EncoderVariablesCapture.RangeAbsolute:
+				return RangeAbsolute;
 			case EncoderVariablesCapture.MeanSpeed:
 				return MeanSpeed;
 			case EncoderVariablesCapture.MaxSpeed:
@@ -924,6 +926,8 @@ public class Constants
 	}
 	public static EncoderVariablesCapture SetEncoderVariablesCapture(string v) {
 		switch(v) {
+			case RangeAbsolute:
+				return EncoderVariablesCapture.RangeAbsolute;
 			case MeanSpeed:
 				return EncoderVariablesCapture.MeanSpeed;
 			case MaxSpeed:

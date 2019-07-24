@@ -6938,12 +6938,12 @@ LogB.Debug("mc finished 5");
 		
 	private void on_button_rj_bells_clicked(object o, EventArgs args) {
 		repetitiveConditionsWin.View(Constants.BellModes.JUMPS, preferences.volumeOn, preferences.gstreamer,
-				preferences.encoderCaptureMainVariable, encoderRhythm);
+				preferences.encoderCaptureMainVariable, preferences.encoderCaptureSecondaryVariable, encoderRhythm);
 	}
 
 	private void on_button_time_bells_clicked(object o, EventArgs args) {
 		repetitiveConditionsWin.View(Constants.BellModes.RUNS, preferences.volumeOn, preferences.gstreamer,
-				preferences.encoderCaptureMainVariable, encoderRhythm);
+				preferences.encoderCaptureSecondaryVariable, preferences.encoderCaptureSecondaryVariable, encoderRhythm);
 	}
 	
 	private void on_repetitive_conditions_closed(object o, EventArgs args)
@@ -6982,6 +6982,7 @@ LogB.Debug("mc finished 5");
 
 			image_encoder_bell.Pixbuf = pixbuf;
 
+			//mainVariable
 			Constants.EncoderVariablesCapture mainVariable = Constants.SetEncoderVariablesCapture(
 					repetitiveConditionsWin.GetMainVariable);
 			if( preferences.encoderCaptureMainVariable != mainVariable ) {
@@ -6989,6 +6990,15 @@ LogB.Debug("mc finished 5");
 				preferences.encoderCaptureMainVariable = mainVariable;
 			}
 			string mainVariableStr = Constants.GetEncoderVariablesCapture(mainVariable);
+
+			//secondaryVariable
+			Constants.EncoderVariablesCapture secondaryVariable = Constants.SetEncoderVariablesCapture(
+					repetitiveConditionsWin.GetSecondaryVariable);
+			if( preferences.encoderCaptureSecondaryVariable != secondaryVariable ) {
+				SqlitePreferences.Update("encoderCaptureSecondaryVariable", secondaryVariable.ToString(), false);
+				preferences.encoderCaptureSecondaryVariable = secondaryVariable;
+			}
+			string secondaryVariableStr = Constants.GetEncoderVariablesCapture(secondaryVariable);
 
 			//treeview_encoder should be updated (to colorize some cells)
 			//only if there was data
@@ -7002,10 +7012,10 @@ LogB.Debug("mc finished 5");
 
 				//also update the bars plot (to show colors depending on bells changes)
 				if(captureCurvesBarsData.Count > 0) {
-//					string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
 					double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariableStr);
 					double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariableStr);
-					plotCurvesGraphDoPlot(mainVariableStr, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
+					plotCurvesGraphDoPlot(mainVariableStr, mainVariableHigher, mainVariableLower,
+							secondaryVariableStr, captureCurvesBarsData,
 							preferences.encoderCaptureInertialDiscardFirstN,
 							false);	//not capturing
 				} else
